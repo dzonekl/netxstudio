@@ -28,6 +28,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.URI;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.library.NodeType;
@@ -40,7 +41,7 @@ import com.netxforge.netxstudio.services.Service;
  * 
  * @author Christophe Bouhier
  */
-public abstract class OperatorReportingLogic extends BaseServiceReportingLogic {
+public abstract class OperatorReportingLogic extends BaseServiceReportingAdapterLogic {
 
 	private List<Service> services;
 
@@ -114,7 +115,6 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingLogic {
 		return null;
 	}
 
-	
 	public List<Service> getServices() {
 		return services;
 	}
@@ -127,21 +127,35 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingLogic {
 	protected List<NodeType> getNodeTypesToExecuteFor(RFSService service) {
 
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
+		
+		
+		// Filter the nodes. 
+		List<Node> acceptedNodes = Lists.newArrayList();
+		if (this.getNodeTypeAcceptor() != null) {
+			for (NodeType nt : this.getNodeTypeAcceptor()) {
+				acceptedNodes.addAll(this.getModelUtils().nodesForNodeType(
+						service.getNodes(), nt));
+			}
+		}else{
+			// All from the service. 
+			acceptedNodes  = service.getNodes();
+		}
 
 		// first go through the leave nodes
-		for (final Node node : service.getNodes()) {
+		for (final Node node :acceptedNodes) {
 			if (getModelUtils().isInService(node)
 					&& node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		// and then the other nodes
-		for (final Node node : service.getNodes()) {
+		for (final Node node : acceptedNodes) {
 			if (getModelUtils().isInService(node)
 					&& !node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
+
 
 		return nodeTypes;
 	}

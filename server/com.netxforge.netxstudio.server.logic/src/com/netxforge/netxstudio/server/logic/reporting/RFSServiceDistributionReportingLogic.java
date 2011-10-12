@@ -3,11 +3,7 @@ package com.netxforge.netxstudio.server.logic.reporting;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.services.Service;
-import com.netxforge.netxstudio.services.ServiceUser;
 
 public class RFSServiceDistributionReportingLogic extends OperatorReportingLogic {
 
@@ -32,29 +28,6 @@ public class RFSServiceDistributionReportingLogic extends OperatorReportingLogic
 	protected String calculateFileName() {
 		String baseName = super.calculateFileName();
 		return REPORT_PREFIX + "_" + REPORT_PREFIX_SM_MATRIX + "_" + baseName;
-	}
-
-
-
-	@Override
-	protected void writeContent(HSSFSheet sheet, Service service, Node node,
-			int rowIndex, int columnIndex) {
-		
-	}
-
-	@Override
-	protected void writeContent(HSSFSheet sheet, Service service,
-			ServiceUser serviceUser, int rowIndex, int columnIndex) {
-		
-	}
-
-	@Override
-	protected void writeContent(HSSFSheet sheet, Component component) {
-		
-	}
-
-	@Override
-	protected void processServiceUser(Service service, HSSFSheet sheet) {
 	}
 
 }

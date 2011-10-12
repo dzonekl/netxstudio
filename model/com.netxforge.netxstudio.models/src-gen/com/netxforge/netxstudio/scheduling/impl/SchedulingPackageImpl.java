@@ -540,6 +540,15 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getNodeTypeReporterJob_ScopeObject() {
+		return (EReference)nodeTypeReporterJobEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getOperatorReporterJob() {
 		return operatorReporterJobEClass;
 	}
@@ -796,6 +805,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 
 		nodeTypeReporterJobEClass = createEClass(NODE_TYPE_REPORTER_JOB);
 		createEReference(nodeTypeReporterJobEClass, NODE_TYPE_REPORTER_JOB__NODE_TYPE);
+		createEReference(nodeTypeReporterJobEClass, NODE_TYPE_REPORTER_JOB__SCOPE_OBJECT);
 
 		operatorReporterJobEClass = createEClass(OPERATOR_REPORTER_JOB);
 		createEReference(operatorReporterJobEClass, OPERATOR_REPORTER_JOB__OPERATOR);
@@ -915,7 +925,8 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		initEReference(getNodeReporterJob_Node(), theOperatorsPackage.getNode(), null, "node", null, 1, 1, NodeReporterJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nodeTypeReporterJobEClass, NodeTypeReporterJob.class, "NodeTypeReporterJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNodeTypeReporterJob_NodeType(), ecorePackage.getEObject(), null, "nodeType", null, 1, 1, NodeTypeReporterJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNodeTypeReporterJob_NodeType(), theLibraryPackage.getNodeType(), null, "nodeType", null, 1, 1, NodeTypeReporterJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNodeTypeReporterJob_ScopeObject(), ecorePackage.getEObject(), null, "scopeObject", null, 1, 1, NodeTypeReporterJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operatorReporterJobEClass, OperatorReporterJob.class, "OperatorReporterJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOperatorReporterJob_Operator(), theOperatorsPackage.getOperator(), null, "operator", null, 1, 1, OperatorReporterJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -980,7 +991,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																												
+		   });																																																																														
 	}
 
 	/**
@@ -1198,6 +1209,13 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		   new String[] {
 			 "kind", "element",
 			 "name", "NodeType"
+		   });			
+		addAnnotation
+		  (getNodeTypeReporterJob_ScopeObject(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ScopeObject"
 		   });			
 		addAnnotation
 		  (operatorReporterJobEClass, 

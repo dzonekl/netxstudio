@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.f4.support;
+package com.netxforge.netxstudio.common;
 
 public class Tuple {
 
@@ -21,6 +21,5 @@ public class Tuple {
 	}
 	protected Object key;
 	protected Object value;
-	
 	
 }

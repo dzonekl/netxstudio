@@ -66,6 +66,8 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 		return stream;
 	}
 
+	private List<NodeType> nodeTypeAcceptor;
+	
 	public void setStream(OutputStream stream) {
 		this.stream = stream;
 	}
@@ -108,6 +110,8 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 
 				// PROCESS NODES BY NODE TYPE.
 				processNodesByNodeType(service, sheet);
+				
+				writeFinal(sheet);
 			}
 
 		}
@@ -129,8 +133,10 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 			// TODO, Perhaps add another failure?
 		}
 
-		// dataProvider.commitTransaction();
+		 this.getDataProvider().commitTransaction();
 	}
+
+	public abstract void writeFinal(HSSFSheet sheet);
 
 	protected abstract void processServiceUser(Service service, HSSFSheet sheet);
 
@@ -365,6 +371,14 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 		sheet.addMergedRegion(new CellRangeAddress(2, 2, 0,
 				HEADER_CELL_SIZE - 1));
 
+	}
+
+	public List<NodeType> getNodeTypeAcceptor() {
+		return nodeTypeAcceptor;
+	}
+
+	public void setNodeTypeAcceptor(List<NodeType> nodeTypeAcceptor) {
+		this.nodeTypeAcceptor = nodeTypeAcceptor;
 	}
 
 }

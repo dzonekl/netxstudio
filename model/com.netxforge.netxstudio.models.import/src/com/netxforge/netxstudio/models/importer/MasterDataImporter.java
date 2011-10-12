@@ -219,10 +219,10 @@ public class MasterDataImporter {
 							if (objectIndex != null) {
 								rowResult.setIndex(objectIndex);
 							}
-							System.out.println("Creating: " + objectIndex);
+							System.out.println("Creating: " + objectIndex !=  null ? objectIndex : eObject);
 
 							sheetRowResults.add(rowResult);
-							eObject = processEReferences(
+							eObject = processEReferences(false,
 									rowResult.getEObject(), rowResult.getRow());
 						}
 					} else {
@@ -240,7 +240,7 @@ public class MasterDataImporter {
 							// rowResult.setEObject(eObject);
 							// sheetRowResults.add(rowResult);
 
-							eObject = processEReferences(eObject, row);
+							eObject = processEReferences(true,eObject, row);
 						}
 					}
 					if (eObject.eContainer() == null) {
@@ -356,10 +356,10 @@ public class MasterDataImporter {
 					} else if (type.getInstanceClass() == int.class) {
 						Integer iValue = new Integer(value);
 						result.eSet(eFeature, iValue);
-					} 
-					
-					/////// ENUMS WHICH ARE MODE SPECIFIC. 
- 					else if (type.getInstanceClass() == ObjectKindType.class) {
+					}
+
+					// ///// ENUMS WHICH ARE MODE SPECIFIC.
+					else if (type.getInstanceClass() == ObjectKindType.class) {
 						System.out.println("Objectkind found");
 						ObjectKindType ok = ObjectKindType.get(value);
 						result.eSet(eFeature, ok);
@@ -435,10 +435,14 @@ public class MasterDataImporter {
 		// return null;
 		// }
 
-		private EObject processEReferences(EObject target, HSSFRow row) {
+		private EObject processEReferences(boolean isMultiRef, EObject target, HSSFRow row) {
 			for (int i = 0; i < eFeatures.size(); i++) {
+				// Skip the first column.
+				int k = isMultiRef? i+1: i;
+
+				
 				final EStructuralFeature eFeature = eFeatures.get(i);
-				if (row.getCell(i + 1) == null) {
+				if (row.getCell(k) == null) {
 					continue;
 				}
 				if (eFeature instanceof EAttribute) {
@@ -446,7 +450,7 @@ public class MasterDataImporter {
 				}
 
 				// Skip the first column.
-				final String value = row.getCell(i + 1).getStringCellValue();
+				final String value = row.getCell(k).getStringCellValue();
 				if (value == null || value.trim().length() == 0) {
 					continue;
 				}
@@ -506,11 +510,13 @@ public class MasterDataImporter {
 						}
 						target.eSet(eReference, copyAll);
 
-					} else if (eReference.isContainment()) {
-						target.eSet(eFeature, objectToSet);
-						RemoveObject(objectToSet);
 					} else {
-						target.eSet(eFeature, objectToSet);
+						if (eReference.isContainment()) {
+							target.eSet(eFeature, objectToSet);
+							RemoveObject(objectToSet);
+						} else {
+							target.eSet(eFeature, objectToSet);
+						}
 					}
 				} else {
 					System.err.println("Could not resolve " + value

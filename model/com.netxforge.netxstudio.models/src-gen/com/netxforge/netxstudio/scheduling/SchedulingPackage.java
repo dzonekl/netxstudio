@@ -891,13 +891,22 @@ public interface SchedulingPackage extends EPackage {
 	int NODE_TYPE_REPORTER_JOB__NODE_TYPE = JOB_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Scope Object</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_TYPE_REPORTER_JOB__SCOPE_OBJECT = JOB_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Node Type Reporter Job</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_TYPE_REPORTER_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
+	int NODE_TYPE_REPORTER_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.OperatorReporterJobImpl <em>Operator Reporter Job</em>}' class.
@@ -1626,6 +1635,17 @@ public interface SchedulingPackage extends EPackage {
 	EReference getNodeTypeReporterJob_NodeType();
 
 	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.scheduling.NodeTypeReporterJob#getScopeObject <em>Scope Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Scope Object</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.NodeTypeReporterJob#getScopeObject()
+	 * @see #getNodeTypeReporterJob()
+	 * @generated
+	 */
+	EReference getNodeTypeReporterJob_ScopeObject();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.OperatorReporterJob <em>Operator Reporter Job</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2110,6 +2130,14 @@ public interface SchedulingPackage extends EPackage {
 		 * @generated
 		 */
 		EReference NODE_TYPE_REPORTER_JOB__NODE_TYPE = eINSTANCE.getNodeTypeReporterJob_NodeType();
+
+		/**
+		 * The meta object literal for the '<em><b>Scope Object</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NODE_TYPE_REPORTER_JOB__SCOPE_OBJECT = eINSTANCE.getNodeTypeReporterJob_ScopeObject();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.OperatorReporterJobImpl <em>Operator Reporter Job</em>}' class.

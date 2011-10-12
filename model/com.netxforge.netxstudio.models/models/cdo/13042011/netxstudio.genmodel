@@ -56,6 +56,7 @@
     </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//NodeTypeReporterJob">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//NodeTypeReporterJob/nodeType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//NodeTypeReporterJob/scopeObject"/>
     </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//OperatorReporterJob">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//OperatorReporterJob/operator"/>

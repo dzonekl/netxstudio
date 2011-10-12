@@ -31,6 +31,8 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
 
+import com.netxforge.netxstudio.common.Tuple;
+
 /**
  * Processes an .xls file, and returns as records for a viewer.
  */

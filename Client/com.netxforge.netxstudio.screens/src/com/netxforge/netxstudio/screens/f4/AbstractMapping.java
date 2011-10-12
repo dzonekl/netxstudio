@@ -11,10 +11,10 @@ import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
+import com.netxforge.netxstudio.common.Tuple;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.f4.support.CSVServiceJob;
-import com.netxforge.netxstudio.screens.f4.support.Tuple;
 import com.netxforge.netxstudio.screens.f4.support.XLSServiceJob;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 

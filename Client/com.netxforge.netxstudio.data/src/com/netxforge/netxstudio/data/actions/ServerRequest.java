@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -31,11 +32,17 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.Tuple;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 
 /**
+ * 
+ * This is our API to invoke jobs on the server.
+ * 
+ * 
  * Returns CDO Object ID, to follow the processing.
  * 
  * final String result = doRequest(url.toString()); final CDOID resultCDOID =
@@ -48,6 +55,8 @@ import com.netxforge.netxstudio.data.IDataProvider;
  * 
  */
 public class ServerRequest {
+
+	private static final String NETXFORGE_SERVICE = "/netxforge/service";
 
 	// final String IMPORT_REQUEST =
 	// "http://localhost:8080/netxforge/service?service=com.netxforge.netxstudio.server.metrics.MetricSourceImportService&metricSource=7246";
@@ -71,8 +80,8 @@ public class ServerRequest {
 	public static final String REPORTING_SERVICE = "com.netxforge.netxstudio.server.logic.reporting.ReportingService";
 
 	public static final String MS_PARAM = "metricSource";
-	public static final String OPERATOR_PARAM = "operator";
-	public static final String SERVICE_PARAM = "rfsService";
+	public static final String NETWORK_OPERATOR_PARAM = "operator";
+	public static final String NETWORK_SERVICE_PARAM = "rfsService";
 	public static final String NODE_PARAM = "node";
 	public static final String NODETYPE_PARAM = "nodeType";
 	public static final String START_TIME_PARAM = "startTime";
@@ -91,26 +100,70 @@ public class ServerRequest {
 
 	public String callMonitorAction(CDOObject cdoObject, Date fromDate,
 			Date toDate) throws Exception {
-		return callPeriodAction(MONITOR_SERVICE, SERVICE_PARAM,
-				cdoObject.cdoID(), fromDate, toDate);
+		Tuple[] params = new Tuple[] { new Tuple(NETWORK_SERVICE_PARAM,
+				modelUtils.cdoLongIDAsString(cdoObject)) };
+		return callPeriodAction(MONITOR_SERVICE, fromDate, toDate, params);
 	}
 
-	public String callReportingAction(CDOObject cdoObject, Date fromDate,
-			Date toDate) throws Exception {
-		return callPeriodAction(REPORTING_SERVICE, SERVICE_PARAM,
-				cdoObject.cdoID(), fromDate, toDate);
+	public String callServiceReportingAction(CDOObject cdoObject,
+			Date fromDate, Date toDate) throws Exception {
+		Tuple[] params = new Tuple[] { new Tuple(NETWORK_SERVICE_PARAM,
+				modelUtils.cdoLongIDAsString(cdoObject)) };
+		return callPeriodAction(REPORTING_SERVICE, fromDate, toDate, params);
 	}
 
 	public String callNodeReportingAction(CDOObject cdoObject, Date fromDate,
 			Date toDate) throws Exception {
-		return callPeriodAction(REPORTING_SERVICE, NODE_PARAM,
-				cdoObject.cdoID(), fromDate, toDate);
+		Tuple[] params = new Tuple[] { new Tuple(NODE_PARAM,
+				modelUtils.cdoLongIDAsString(cdoObject)) };
+
+		return callPeriodAction(REPORTING_SERVICE, fromDate, toDate, params);
+	}
+
+	/**
+	 * Call for a Node Type for a service.
+	 * 
+	 * @param nodeTypeObject
+	 * @param serviceObject
+	 * @param fromDate
+	 * @param toDate
+	 * @return
+	 * @throws Exception
+	 */
+	public String callNodeTypeReportingForServiceAction(CDOObject nodeTypeObject,
+			CDOObject serviceObject, Date fromDate, Date toDate)
+			throws Exception {
+
+		Tuple[] params = new Tuple[] {
+				new Tuple(NODETYPE_PARAM,
+						modelUtils.cdoLongIDAsString(nodeTypeObject)),
+				new Tuple(NETWORK_SERVICE_PARAM,
+						modelUtils.cdoLongIDAsString(serviceObject)) };
+
+		return callPeriodAction(REPORTING_SERVICE, fromDate, toDate, params);
+	}
+	
+	
+	public String callNodeTypeReportingForOperatorAction(CDOObject nodeTypeObject,
+			CDOObject operatorObject, Date fromDate, Date toDate)
+			throws Exception {
+
+		Tuple[] params = new Tuple[] {
+				new Tuple(NODETYPE_PARAM,
+						modelUtils.cdoLongIDAsString(nodeTypeObject)),
+				new Tuple(NETWORK_OPERATOR_PARAM,
+						modelUtils.cdoLongIDAsString(operatorObject)) };
+
+		return callPeriodAction(REPORTING_SERVICE, fromDate, toDate, params);
 	}
 
 	public String callOperatorReportingAction(CDOObject cdoObject,
 			Date fromDate, Date toDate) throws Exception {
-		return callPeriodAction(REPORTING_SERVICE, OPERATOR_PARAM,
-				cdoObject.cdoID(), fromDate, toDate);
+
+		Tuple[] params = new Tuple[] { new Tuple(NETWORK_OPERATOR_PARAM,
+				modelUtils.cdoLongIDAsString(cdoObject)) };
+
+		return callPeriodAction(REPORTING_SERVICE, fromDate, toDate, params);
 	}
 
 	public String callRetentionAction() throws Exception {
@@ -120,10 +173,10 @@ public class ServerRequest {
 	private String callMetricAction(String serviceName, String parameterName,
 			CDOID cdoId) throws Exception {
 
-		calcFromCDOServer();
+		setServer();
 
 		final StringBuilder url = new StringBuilder();
-		url.append(server + "/netxforge/service");
+		url.append(server + NETXFORGE_SERVICE);
 		url.append("?" + SERVICE_PARAM_NAME + "=" + serviceName);
 		url.append("&" + parameterName + "="
 				+ ((AbstractCDOIDLong) cdoId).getLongValue());
@@ -134,10 +187,10 @@ public class ServerRequest {
 		return result;
 	}
 
-	public String callPeriodAction(String serviceName, String parameterName,
-			CDOID cdoId, Date from, Date to) throws Exception {
+	public String callPeriodAction(String serviceName, Date from, Date to,
+			Tuple... params) throws Exception {
 
-		calcFromCDOServer();
+		setServer();
 
 		if (from == null) {
 			from = modelUtils.oneMonthAgo();
@@ -148,14 +201,14 @@ public class ServerRequest {
 		}
 
 		final StringBuilder url = new StringBuilder();
-		url.append(server + "/netxforge/service");
+		url.append(server + NETXFORGE_SERVICE);
 		url.append("?" + SERVICE_PARAM_NAME + "=" + serviceName);
 
-		url.append("&" + START_TIME_PARAM + "=" + getDateParamValue(from));
-		url.append("&" + END_TIME_PARAM + "=" + getDateParamValue(to));
-
-		url.append("&" + parameterName + "="
-				+ ((AbstractCDOIDLong) cdoId).getLongValue());
+		List<Tuple> paramsList = Lists.newArrayList(params);
+		paramsList.add(new Tuple(START_TIME_PARAM, getDateParamValue(from)));
+		paramsList.add(new Tuple(END_TIME_PARAM, getDateParamValue(to)));
+		
+		this.appendParams(url, paramsList);
 
 		System.err.println(url.toString());
 		final String result = doRequest(url.toString());
@@ -163,35 +216,12 @@ public class ServerRequest {
 		return result;
 	}
 
-	// Original with name etc....
-	// public String callRetentionAction(String serviceName, String
-	// parameterName,
-	// CDOID cdoId, Date from, Date to) throws Exception {
-	//
-	// calcFromCDOServer();
-	//
-	// final StringBuilder url = new StringBuilder();
-	// url.append(server + "/netxforge/service");
-	// url.append("?" + SERVICE_PARAM_NAME + "=" + serviceName);
-	//
-	// url.append("&" + START_TIME_PARAM + "=" + getDateParamValue(from));
-	// url.append("&" + END_TIME_PARAM + "=" + getDateParamValue(to));
-	//
-	// url.append("&" + parameterName + "="
-	// + ((AbstractCDOIDLong) cdoId).getLongValue());
-	//
-	// System.err.println(url.toString());
-	// final String result = doRequest(url.toString());
-	// System.err.println(result);
-	// return result;
-	// }
-
 	public String callRetentionAction(String serviceName) throws Exception {
 
-		calcFromCDOServer();
+		setServer();
 
 		final StringBuilder url = new StringBuilder();
-		url.append(server + "/netxforge/service");
+		url.append(server + NETXFORGE_SERVICE);
 		url.append("?" + SERVICE_PARAM_NAME + "=" + serviceName);
 
 		System.err.println(url.toString());
@@ -233,7 +263,7 @@ public class ServerRequest {
 		}
 	}
 
-	public String calcFromCDOServer() {
+	public String setServer() {
 		if (server == null) {
 			server = LOCAL_HTTP_SERVER;
 		} else {
@@ -254,6 +284,22 @@ public class ServerRequest {
 			}
 		}
 		return server;
+	}
+
+	private StringBuilder appendParams(StringBuilder url, List<Tuple> params) {
+
+		for (Tuple param : params) {
+			this.appendParam(url, (String) param.getKey(),
+					(String) param.getValue());
+		}
+		return url;
+	}
+
+	private StringBuilder appendParam(StringBuilder url, String parameterName,
+			String parameterValue) {
+
+		url.append("&" + parameterName + "=" + parameterValue);
+		return url;
 	}
 
 	private String getDateParamValue(Date d) {

@@ -37,6 +37,7 @@ public class PeriodDialog extends Dialog {
 	public PeriodDialog(Shell parentShell, ModelUtils modelUtils) {
 		super(parentShell);
 		setShellStyle(SWT.TITLE);
+//		parentShell.setText("Select a reporting Period");
 		this.modelUtils = modelUtils;
 	}
 
@@ -46,6 +47,8 @@ public class PeriodDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		
+		
 		Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
@@ -127,8 +130,8 @@ public class PeriodDialog extends Dialog {
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
 				true);
-//		createButton(parent, IDialogConstants.CANCEL_ID,
-//				IDialogConstants.CANCEL_LABEL, false);
+		createButton(parent, IDialogConstants.CANCEL_ID,
+				IDialogConstants.CANCEL_LABEL, false);
 	}
 
 	/**

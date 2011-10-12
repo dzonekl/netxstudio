@@ -8,7 +8,6 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.Service;
@@ -192,27 +191,12 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 
 	protected String calculateFileName() {
 		String baseName = super.calculateFileName();
-		
-		
 		return REPORT_PREFIX + "_" + REPORT_PREFIX_SM_DASH + "_" + baseName;
 	}
 
 	@Override
 	protected void writeContent(HSSFSheet sheet, Service service,
 			ServiceUser serviceUser, int rowIndex, int columnIndex) {
-	}
-
-	@Override
-	protected void writeContent(HSSFSheet sheet, Component component) {
-		
-	}
-
-	@Override
-	protected void processServiceUser(Service service, HSSFSheet sheet) {
-	}
-	
-	@Override
-	protected void processNode(HSSFSheet sheet, NodeType nodeType) {
 	}
 
 }

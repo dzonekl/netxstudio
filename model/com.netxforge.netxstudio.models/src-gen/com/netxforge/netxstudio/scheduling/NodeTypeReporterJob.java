@@ -20,6 +20,8 @@ package com.netxforge.netxstudio.scheduling;
 
 import org.eclipse.emf.ecore.EObject;
 
+import com.netxforge.netxstudio.library.NodeType;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Node Type Reporter Job</b></em>'.
@@ -35,6 +37,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.scheduling.NodeTypeReporterJob#getNodeType <em>Node Type</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.NodeTypeReporterJob#getScopeObject <em>Scope Object</em>}</li>
  * </ul>
  * </p>
  *
@@ -53,13 +56,13 @@ public interface NodeTypeReporterJob extends Job {
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Node Type</em>' reference.
-	 * @see #setNodeType(EObject)
+	 * @see #setNodeType(NodeType)
 	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getNodeTypeReporterJob_NodeType()
 	 * @model required="true"
 	 *        extendedMetaData="kind='element' name='NodeType'"
 	 * @generated
 	 */
-	EObject getNodeType();
+	NodeType getNodeType();
 
 	/**
 	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.NodeTypeReporterJob#getNodeType <em>Node Type</em>}' reference.
@@ -69,6 +72,33 @@ public interface NodeTypeReporterJob extends Job {
 	 * @see #getNodeType()
 	 * @generated
 	 */
-	void setNodeType(EObject value);
+	void setNodeType(NodeType value);
+
+	/**
+	 * Returns the value of the '<em><b>Scope Object</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Reference to an arbitrary Scope object. 
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Scope Object</em>' reference.
+	 * @see #setScopeObject(EObject)
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getNodeTypeReporterJob_ScopeObject()
+	 * @model required="true"
+	 *        extendedMetaData="kind='element' name='ScopeObject'"
+	 * @generated
+	 */
+	EObject getScopeObject();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.NodeTypeReporterJob#getScopeObject <em>Scope Object</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Scope Object</em>' reference.
+	 * @see #getScopeObject()
+	 * @generated
+	 */
+	void setScopeObject(EObject value);
 
 } // NodeTypeReporterJob

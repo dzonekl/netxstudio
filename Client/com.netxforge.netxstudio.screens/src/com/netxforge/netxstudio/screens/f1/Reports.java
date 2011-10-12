@@ -74,7 +74,7 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 		
 		String current = browser.getUrl();
 		
-		String serverPath = serverActions.calcFromCDOServer();
+		String serverPath = serverActions.setServer();
 		URI uri = URI.createURI(serverPath + "/reports/monitors/monitors.jsp");
 		if(uri.toString().equals(current)){
 			browser.refresh();

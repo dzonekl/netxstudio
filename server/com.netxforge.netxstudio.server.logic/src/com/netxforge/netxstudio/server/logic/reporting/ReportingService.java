@@ -37,6 +37,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -59,8 +60,8 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  */
 public class ReportingService implements NetxForgeService {
 
-	public static final String OPERATOR_PARAM = "operator";
-	public static final String SERVICE_PARAM = "rfsService";
+	public static final String NETWORK_OPERATOR_PARAM = "operator";
+	public static final String NETWORK_SERVICE_PARAM = "rfsService";
 	public static final String NODE_PARAM = "node";
 	public static final String NODETYPE_PARAM = "nodeType";
 	public static final String START_TIME_PARAM = "startTime";
@@ -83,46 +84,75 @@ public class ReportingService implements NetxForgeService {
 		private CDOID run() {
 
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
-			CDOID id = null;
-			if (parameters.containsKey(OPERATOR_PARAM)) {
-				id = getCDOID(parameters.get(OPERATOR_PARAM),
+			
+			
+			// For a node type in an Operator or Service. 
+			if (parameters.containsKey(NODETYPE_PARAM)) {
+
+				CDOID nodeTypeID = getCDOID(parameters.get(NODETYPE_PARAM),
+						LibraryPackage.Literals.NODE_TYPE);
+
+				if (parameters.containsKey(NETWORK_OPERATOR_PARAM)) {
+
+					CDOID operatorID = getCDOID(
+							parameters.get(NETWORK_OPERATOR_PARAM),
+							OperatorsPackage.Literals.OPERATOR);
+
+					runForOperator(monitor, operatorID, nodeTypeID,
+							getOperatorReportingLogos());
+				}
+
+				if (parameters.containsKey(NETWORK_SERVICE_PARAM)) {
+					CDOID serviceID = getCDOID(
+							parameters.get(NETWORK_SERVICE_PARAM),
+							LibraryPackage.Literals.NODE_TYPE);
+
+					runForService(monitor, serviceID, nodeTypeID,
+							getOperatorReportingLogos());
+				}
+
+			} else
+			// For all Services from an operator.
+			if (parameters.containsKey(NETWORK_OPERATOR_PARAM)) {
+				CDOID operatorID = getCDOID(
+						parameters.get(NETWORK_OPERATOR_PARAM),
 						OperatorsPackage.Literals.OPERATOR);
+				runForOperator(monitor, operatorID, getOperatorReportingLogos());
 
-				final CDOID finalID = id != null ? id : null;
-				runOperatorService(monitor, finalID,
-						getOperatorReportingLogos());
-
-			} else if (parameters.containsKey(SERVICE_PARAM)) {
-				id = getCDOID(parameters.get(SERVICE_PARAM),
+			}
+			// For a single Service.
+			else if (parameters.containsKey(NETWORK_SERVICE_PARAM)) {
+				CDOID serviceID = getCDOID(
+						parameters.get(NETWORK_SERVICE_PARAM),
 						ServicesPackage.Literals.RFS_SERVICE);
+				runForService(monitor, serviceID, getOperatorReportingLogos());
 
-				final CDOID finalID = id != null ? id : null;
-				runService(monitor, finalID, getOperatorReportingLogos());
-
-			} else if (parameters.containsKey(NODE_PARAM)) {
-				id = getCDOID(parameters.get(NODE_PARAM),
+			}
+			// For a Single Node.
+			else if (parameters.containsKey(NODE_PARAM)) {
+				CDOID nodeID = getCDOID(parameters.get(NODE_PARAM),
 						OperatorsPackage.Literals.NODE);
 				NodeResourceReportingLogic reportingLogic = LogicActivator
 						.getInstance().getInjector()
 						.getInstance(NodeResourceReportingLogic.class);
-				final CDOID finalID = id != null ? id : null;
-				runForNodeOrNodeType(monitor, finalID, reportingLogic);
-			} else if (parameters.containsKey(NODETYPE_PARAM)) {
-				 id = getCDOID(parameters.get(NODETYPE_PARAM),LibraryPackage.Literals.NODE_TYPE);
-				 NodeResourceReportingLogic reportingLogic = LogicActivator
-							.getInstance().getInjector()
-							.getInstance(NodeResourceReportingLogic.class);
-					final CDOID finalID = id != null ? id : null;
-					runForNodeOrNodeType(monitor, finalID, reportingLogic);
-			} else {
+				runForNodeOrNodeType(monitor, nodeID, reportingLogic);
+			}
+
+			else {
 				throw new IllegalArgumentException("No valid parameters found");
 			}
 
 			return monitor.getWorkFlowRunId();
 		}
 
-		private void runService(final ServerWorkFlowRunMonitor monitor,
-				final CDOID finalID, final List<? extends BaseLogic> logos) {
+		private void runForService(final ServerWorkFlowRunMonitor monitor,
+				final CDOID serviceID, final List<? extends BaseLogic> logos) {
+			this.runForService(monitor, serviceID, null, logos);
+		}
+
+		private void runForService(final ServerWorkFlowRunMonitor monitor,
+				final CDOID serviceID, final CDOID nodeTypeID,
+				final List<? extends BaseLogic> logos) {
 			// run in a separate thread
 			new Thread() {
 				@Override
@@ -152,9 +182,22 @@ public class ReportingService implements NetxForgeService {
 							}
 							Service service = (Service) reportingLogic
 									.getDataProvider().getTransaction()
-									.getObject(finalID);
+									.getObject(serviceID);
+
 							((OperatorReportingLogic) reportingLogic)
 									.setServices(Lists.newArrayList(service));
+
+							// Set an optional NodeType filter.
+							if (nodeTypeID != null) {
+								NodeType nt = (NodeType) reportingLogic
+										.getDataProvider().getTransaction()
+										.getObject(nodeTypeID);
+
+								((OperatorReportingLogic) reportingLogic)
+										.setNodeTypeAcceptor(Lists
+												.newArrayList(nt));
+							}
+
 							((OperatorReportingLogic) reportingLogic)
 									.initializeStream(path);
 						}
@@ -166,8 +209,8 @@ public class ReportingService implements NetxForgeService {
 			}.start();
 		}
 
-		private void runForNodeOrNodeType(final ServerWorkFlowRunMonitor monitor,
-				final CDOID finalID,
+		private void runForNodeOrNodeType(
+				final ServerWorkFlowRunMonitor monitor, final CDOID finalID,
 				final NodeResourceReportingLogic reportingLogic) {
 			// run in a separate thread
 			new Thread() {
@@ -187,13 +230,12 @@ public class ReportingService implements NetxForgeService {
 					if (reportingLogic instanceof BasePeriodLogic) {
 						setPeriod(reportingLogic);
 					}
-					
-					CDOObject o = reportingLogic
-							.getDataProvider().getTransaction()
-							.getObject(finalID);
-					
-					if( o instanceof Node){
-						List<Node> nodes = Lists.newArrayList((Node)o);
+
+					CDOObject o = reportingLogic.getDataProvider()
+							.getTransaction().getObject(finalID);
+
+					if (o instanceof Node) {
+						List<Node> nodes = Lists.newArrayList((Node) o);
 						reportingLogic.setNodes(nodes);
 					}
 
@@ -207,8 +249,14 @@ public class ReportingService implements NetxForgeService {
 			}.start();
 		}
 
-		private void runOperatorService(final ServerWorkFlowRunMonitor monitor,
+		private void runForOperator(final ServerWorkFlowRunMonitor monitor,
 				final CDOID finalID, final List<? extends BaseLogic> logos) {
+			this.runForOperator(monitor, finalID, null, logos);
+		}
+
+		private void runForOperator(final ServerWorkFlowRunMonitor monitor,
+				final CDOID operatorID, final CDOID nodeTypeID,
+				final List<? extends BaseLogic> logos) {
 			// run in a separate thread
 			new Thread() {
 				@Override
@@ -238,9 +286,21 @@ public class ReportingService implements NetxForgeService {
 
 							Operator operator = (Operator) reportingLogic
 									.getDataProvider().getTransaction()
-									.getObject(finalID);
+									.getObject(operatorID);
 							((OperatorReportingLogic) reportingLogic)
 									.setServices(operator.getServices());
+
+							// Set an optional NodeType filter.
+							if (nodeTypeID != null) {
+								NodeType nt = (NodeType) reportingLogic
+										.getDataProvider().getTransaction()
+										.getObject(nodeTypeID);
+
+								((OperatorReportingLogic) reportingLogic)
+										.setNodeTypeAcceptor(Lists
+												.newArrayList(nt));
+							}
+
 							((OperatorReportingLogic) reportingLogic)
 									.initializeStream(path);
 						}

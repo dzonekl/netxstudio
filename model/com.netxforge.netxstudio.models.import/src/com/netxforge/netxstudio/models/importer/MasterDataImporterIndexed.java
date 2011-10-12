@@ -150,7 +150,7 @@ public class MasterDataImporterIndexed {
 							rowResult.setRow(sheet.getRow(i));
 							rowResult.setEObject(eObject);
 							sheetRowResults.add(rowResult);
-							eObject = processEReferences(
+							eObject = processEReferences(false,
 									rowResult.getEObject(), rowResult.getRow());
 						}
 					} else {
@@ -161,7 +161,7 @@ public class MasterDataImporterIndexed {
 							rowResult.setRow(sheet.getRow(i));
 							rowResult.setEObject(eObject);
 							sheetRowResults.add(rowResult);
-							eObject = processEReferences(
+							eObject = processEReferences(true,
 									rowResult.getEObject(), rowResult.getRow());
 						}
 					}
@@ -319,19 +319,32 @@ public class MasterDataImporterIndexed {
 			}
 			return null;
 		}
-
-		private EObject processEReferences(EObject target, HSSFRow row) {
+		
+		
+		/**
+		 * Skip the first column when dealing with a Multiref sheet. 
+		 * 
+		 * 
+		 * @param target
+		 * @param row
+		 * @return
+		 */
+		private EObject processEReferences(boolean isMultiRef, EObject target, HSSFRow row) {
 			for (int i = 0; i < eFeatures.size(); i++) {
 				final EStructuralFeature eFeature = eFeatures.get(i);
-				if (row.getCell(i + 1) == null) {
+				
+				// Skip the first column.
+				int k = isMultiRef? i+1: i;
+				
+				if (row.getCell(k) == null) {
 					continue;
 				}
 				if (eFeature instanceof EAttribute) {
 					continue;
 				}
 
-				// Skip the first column.
-				final String value = row.getCell(i + 1).getStringCellValue();
+				
+				final String value = row.getCell(k).getStringCellValue();
 				if (value == null || value.trim().length() == 0) {
 					continue;
 				}

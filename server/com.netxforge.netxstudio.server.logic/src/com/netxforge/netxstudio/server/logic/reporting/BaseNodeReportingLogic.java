@@ -117,7 +117,7 @@ public abstract class BaseNodeReportingLogic extends BasePeriodLogic {
 			// TODO, Perhaps add another failure?
 		}
 
-		// dataProvider.commitTransaction();
+		 this.getDataProvider().commitTransaction();
 	}
 
 	protected abstract void processServiceUser(Service service, HSSFSheet sheet);

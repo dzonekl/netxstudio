@@ -23,6 +23,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
+import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -617,6 +618,14 @@ public class ModelUtils {
 		return uniques;
 	}
 
+	
+	public List<Node> nodesForNodeType(List<Node> nodes,
+			NodeType targetNodeType) {
+		Iterable<Node> filtered = Iterables.filter(nodes,
+				this.nodeOfType(targetNodeType));
+		return Lists.newArrayList(filtered);
+	}
+	
 	public List<Node> nodesForNodeType(RFSService service,
 			NodeType targetNodeType) {
 		Iterable<Node> filtered = Iterables.filter(service.getNodes(),
@@ -1965,6 +1974,17 @@ public class ModelUtils {
 
 		return refCal.compareTo(variantCal) < 0;
 
+	}
+	
+	/**
+	 * Casts to AbstractCDOIDLong and returns the long as value. 
+	 * 
+	 * @param cdoObject
+	 * @return
+	 */
+	public String cdoLongIDAsString(CDOObject cdoObject){
+		long lValue = ((AbstractCDOIDLong) cdoObject.cdoID()).getLongValue();
+		return new Long(lValue).toString();
 	}
 
 	public List<NodeType> transformNodeToNodeType(List<Node> nodes) {

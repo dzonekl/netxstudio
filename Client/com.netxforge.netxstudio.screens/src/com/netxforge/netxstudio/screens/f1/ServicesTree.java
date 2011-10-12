@@ -25,7 +25,6 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
@@ -46,6 +45,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
@@ -76,9 +76,7 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -87,17 +85,18 @@ import com.netxforge.netxstudio.screens.OperatorFilterDialog;
 import com.netxforge.netxstudio.screens.PeriodDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
+import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f1.details.NewEditServiceTree;
 import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeFactoryImpl;
 import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeLabelProvider;
+import com.netxforge.netxstudio.screens.f1.support.ScheduledReportSelectionWizard;
 import com.netxforge.netxstudio.screens.f4.NewEditJob;
 import com.netxforge.netxstudio.screens.f4.ServiceMonitors;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
-import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -191,7 +190,7 @@ public class ServicesTree extends AbstractScreen implements
 				| SWT.SEARCH | SWT.CANCEL);
 		GridData gd_txtFilterText = new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1);
-//		gd_txtFilterText.widthHint = 200;
+		// gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
 		txtFilterText.setSize(64, 81);
 		txtFilterText.setText("");
@@ -256,7 +255,7 @@ public class ServicesTree extends AbstractScreen implements
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
 						final ISelection s = event.getSelection();
-						// TODO, We coud even wait to see if we get another
+						// TODO, We could even wait to see if we get another
 						// update within 100ms.
 						// If we do, we would cancel.
 
@@ -348,9 +347,9 @@ public class ServicesTree extends AbstractScreen implements
 		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
 				: "Edit";
 
-//		actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
-//		actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
-//		actions.add(new SeparatorAction());
+		// actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
+		// actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
+		// actions.add(new SeparatorAction());
 		actions.add(new ServiceMonitoringAction("Monitor...", SWT.PUSH));
 
 		if (!readonly) {
@@ -590,81 +589,9 @@ public class ServicesTree extends AbstractScreen implements
 		public void run() {
 			ISelection selection = getViewer().getSelection();
 			if (selection instanceof IStructuredSelection) {
-				Object o = ((IStructuredSelection) selection).getFirstElement();
-				if (o instanceof Service || o instanceof Operator) {
-
-					CDOObject target = null;
-					String identifier = "";
-
-					if (o instanceof CDOObject) {
-						target = (CDOObject) o;
-
-					}
-					try {
-						serverActions.setCDOServer(editingService
-								.getDataService().getProvider().getServer());
-
-						PeriodDialog pr = new PeriodDialog(
-								ServicesTree.this.getShell(), modelUtils);
-						pr.open();
-						DateTimeRange dtr = pr.period();
-
-						Date fromDate = modelUtils.start(dtr);
-						Date toDate = modelUtils.end(dtr);
-
-						// TODO, We get the workflow run ID back, which
-						// could be used
-						// to link back to the screen showing the running
-						// workflows.
-
-						if (target instanceof Service) {
-
-							// Set the period to the last service monitor,
-							// if we don't have a manually entered period.
-							if (fromDate == null && toDate == null) {
-								ServiceMonitor sm = modelUtils
-										.lastServiceMonitor((Service) target);
-								if (sm != null) {
-									DateTimeRange period = sm.getPeriod();
-									fromDate = modelUtils.start(period);
-									toDate = modelUtils.end(period);
-								}
-							}
-
-							@SuppressWarnings("unused")
-							String result = serverActions.callReportingAction(
-									target, fromDate, toDate);
-							identifier = ((Service) target).getServiceName();
-						}
-						if (target instanceof Operator) {
-							@SuppressWarnings("unused")
-							String result = serverActions
-									.callOperatorReportingAction(target,
-											fromDate, toDate);
-							identifier = ((Operator) target).getName();
-						}
-
-						MessageDialog
-								.openInformation(
-										ServicesTree.this.getShell(),
-										"Reporting now succeeded:",
-										"Reporting for: "
-												+ identifier
-												+ "\n has been initiated on the server.");
-
-					} catch (Exception e1) {
-						e1.printStackTrace();
-						MessageDialog
-								.openError(
-										ServicesTree.this.getShell(),
-										"Reporting now failed:",
-										"Reporting for : "
-												+ identifier
-												+ "\n failed. Consult the log for information on the failure");
-
-					}
-
-				}
+				WizardUtil.openWizard(
+						"com.netxforge.netxstudio.screens.reporting",
+						(IStructuredSelection) selection);
 			}
 		}
 	}
@@ -750,87 +677,22 @@ public class ServicesTree extends AbstractScreen implements
 
 		@Override
 		public void run() {
-			if (screenService != null) {
-				ISelection selection = getViewer().getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-					if (o instanceof Service) {
 
-						int operation = -1;
+			Resource jobResource = editingService
+					.getData(SchedulingPackage.Literals.JOB);
 
-						List<Job> matchingJobs = editingService
-								.getDataService().getQueryService()
-								.getJobWithServiceReporting((Service) o);
+			ScheduledReportSelectionWizard wizard = new ScheduledReportSelectionWizard();
+			WizardDialog dialog = new WizardDialog(
+					ServicesTree.this.getShell(), wizard);
+			dialog.open();
+			Job j = wizard.getJob();
+			NewEditJob newEditJob = new NewEditJob(
+					screenService.getScreenContainer(), SWT.NONE);
+			newEditJob.setOperation(operation);
+			newEditJob.setScreenService(screenService);
+			newEditJob.injectData(jobResource, j);
+			screenService.setActiveScreen(newEditJob);
 
-						Resource jobResource = editingService
-								.getData(SchedulingPackage.Literals.JOB);
-						Job job = null;
-
-						// Edit or New if the Service has a job or not.
-						if (matchingJobs.size() == 1) {
-							operation = Screens.OPERATION_EDIT;
-							job = matchingJobs.get(0);
-						} else {
-							operation = Screens.OPERATION_NEW;
-							job = SchedulingFactory.eINSTANCE
-									.createRFSServiceReporterJob();
-							job.setName(((Service) o).getServiceName());
-							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-							job.setStartTime(modelUtils.toXMLDate(modelUtils
-									.todayAndNow()));
-							if (job instanceof RFSServiceReporterJob) {
-								((RFSServiceReporterJob) job)
-										.setRFSService((RFSService) o);
-							}
-						}
-
-						NewEditJob newEditJob = new NewEditJob(
-								screenService.getScreenContainer(), SWT.NONE);
-						newEditJob.setOperation(operation);
-						newEditJob.setScreenService(screenService);
-						newEditJob.injectData(jobResource, job);
-						screenService.setActiveScreen(newEditJob);
-					}
-					if (o instanceof Operator) {
-
-						int operation = -1;
-
-						List<Job> matchingJobs = editingService
-								.getDataService().getQueryService()
-								.getJobWithOperatorReporting((Operator) o);
-
-						Resource jobResource = editingService
-								.getData(SchedulingPackage.Literals.JOB);
-						Job job = null;
-
-						// Edit or New if the Service has a job or not.
-						if (matchingJobs.size() == 1) {
-							operation = Screens.OPERATION_EDIT;
-							job = matchingJobs.get(0);
-						} else {
-							operation = Screens.OPERATION_NEW;
-							job = SchedulingFactory.eINSTANCE
-									.createOperatorReporterJob();
-							job.setName(((Operator) o).getName());
-							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-							job.setStartTime(modelUtils.toXMLDate(modelUtils
-									.todayAndNow()));
-							if (job instanceof OperatorReporterJob) {
-								((OperatorReporterJob) job)
-										.setOperator((Operator) o);
-							}
-						}
-
-						NewEditJob newEditJob = new NewEditJob(
-								screenService.getScreenContainer(), SWT.NONE);
-						newEditJob.setOperation(operation);
-						newEditJob.setScreenService(screenService);
-						newEditJob.injectData(jobResource, job);
-						screenService.setActiveScreen(newEditJob);
-					}
-				}
-			}
 		}
 	}
 

@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.screens.f3;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -28,7 +27,6 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -44,7 +42,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -78,7 +75,6 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
-import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -100,7 +96,6 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.OperatorFilterDialog;
-import com.netxforge.netxstudio.screens.PeriodDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.WarehouseFilterDialog;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
@@ -408,63 +403,71 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		public void run() {
 			ISelection selection = getViewer().getSelection();
 			if (selection instanceof IStructuredSelection) {
-				Object o = ((IStructuredSelection) selection).getFirstElement();
-				if (o instanceof Node) {
-
-					CDOObject target = null;
-					String identifier = "";
-
-					if (o instanceof CDOObject) {
-						target = (CDOObject) o;
-
-					}
-					try {
-						serverActions.setCDOServer(editingService
-								.getDataService().getProvider().getServer());
-
-						PeriodDialog pr = new PeriodDialog(
-								Networks.this.getShell(), modelUtils);
-						pr.open();
-						DateTimeRange dtr = pr.period();
-
-						Date fromDate = modelUtils.start(dtr);
-						Date toDate = modelUtils.end(dtr);
-
-						// TODO, We get the workflow run ID back, which
-						// could be used
-						// to link back to the screen showing the running
-						// workflows.
-
-						if (target instanceof Node) {
-							@SuppressWarnings("unused")
-							String result = serverActions
-									.callNodeReportingAction(target, fromDate,
-											toDate);
-							identifier = ((Node) target).getNodeID();
-						}
-
-						MessageDialog
-								.openInformation(
-										Networks.this.getShell(),
-										"Reporting now succeeded:",
-										"Reporting for: "
-												+ identifier
-												+ "\n has been initiated on the server.");
-
-					} catch (Exception e1) {
-						e1.printStackTrace();
-						MessageDialog
-								.openError(
-										Networks.this.getShell(),
-										"Reporting now failed:",
-										"Reporting for : "
-												+ identifier
-												+ "\n failed. Consult the log for information on the failure");
-
-					}
-
-				}
-			}
+				
+				WizardUtil
+				.openWizard(
+						"com.netxforge.netxstudio.screens.reporting",
+						(IStructuredSelection) selection);
+			}	
+			
+			
+//				Object o = ((IStructuredSelection) selection).getFirstElement();
+//				if (o instanceof Node) {
+//
+//					CDOObject target = null;
+//					String identifier = "";
+//
+//					if (o instanceof CDOObject) {
+//						target = (CDOObject) o;
+//
+//					}
+//					try {
+//						serverActions.setCDOServer(editingService
+//								.getDataService().getProvider().getServer());
+//
+//						PeriodDialog pr = new PeriodDialog(
+//								Networks.this.getShell(), modelUtils);
+//						pr.open();
+//						DateTimeRange dtr = pr.period();
+//
+//						Date fromDate = modelUtils.start(dtr);
+//						Date toDate = modelUtils.end(dtr);
+//
+//						// TODO, We get the workflow run ID back, which
+//						// could be used
+//						// to link back to the screen showing the running
+//						// workflows.
+//
+//						if (target instanceof Node) {
+//							@SuppressWarnings("unused")
+//							String result = serverActions
+//									.callNodeReportingAction(target, fromDate,
+//											toDate);
+//							identifier = ((Node) target).getNodeID();
+//						}
+//
+//						MessageDialog
+//								.openInformation(
+//										Networks.this.getShell(),
+//										"Reporting now succeeded:",
+//										"Reporting for: "
+//												+ identifier
+//												+ "\n has been initiated on the server.");
+//
+//					} catch (Exception e1) {
+//						e1.printStackTrace();
+//						MessageDialog
+//								.openError(
+//										Networks.this.getShell(),
+//										"Reporting now failed:",
+//										"Reporting for : "
+//												+ identifier
+//												+ "\n failed. Consult the log for information on the failure");
+//
+//					}
+//
+//				}
+//			}
 		}
 	}
 

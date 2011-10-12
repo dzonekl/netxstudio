@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.scheduling.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
@@ -32,6 +33,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.scheduling.impl.NodeTypeReporterJobImpl#getNodeType <em>Node Type</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.NodeTypeReporterJobImpl#getScopeObject <em>Scope Object</em>}</li>
  * </ul>
  * </p>
  *
@@ -62,8 +64,8 @@ public class NodeTypeReporterJobImpl extends JobImpl implements NodeTypeReporter
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EObject getNodeType() {
-		return (EObject)eGet(SchedulingPackage.Literals.NODE_TYPE_REPORTER_JOB__NODE_TYPE, true);
+	public NodeType getNodeType() {
+		return (NodeType)eGet(SchedulingPackage.Literals.NODE_TYPE_REPORTER_JOB__NODE_TYPE, true);
 	}
 
 	/**
@@ -71,8 +73,26 @@ public class NodeTypeReporterJobImpl extends JobImpl implements NodeTypeReporter
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setNodeType(EObject newNodeType) {
+	public void setNodeType(NodeType newNodeType) {
 		eSet(SchedulingPackage.Literals.NODE_TYPE_REPORTER_JOB__NODE_TYPE, newNodeType);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EObject getScopeObject() {
+		return (EObject)eGet(SchedulingPackage.Literals.NODE_TYPE_REPORTER_JOB__SCOPE_OBJECT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setScopeObject(EObject newScopeObject) {
+		eSet(SchedulingPackage.Literals.NODE_TYPE_REPORTER_JOB__SCOPE_OBJECT, newScopeObject);
 	}
 
 } //NodeTypeReporterJobImpl

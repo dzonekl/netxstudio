@@ -32,4 +32,16 @@
            name="Design">
       </view>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.f1.support.ReportSelectionWizard"
+            hasPages="true"
+            id="com.netxforge.netxstudio.screens.reporting"
+            name="Reporting Wizard">
+      </wizard>
+         
+         
+         
+   </extension>
 </plugin>

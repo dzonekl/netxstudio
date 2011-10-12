@@ -233,7 +233,7 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 		}
 
 		tableViewer = new TableViewer(frmOperators.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION | widgetStyle);
+				| SWT.FULL_SELECTION | SWT.MULTI | widgetStyle);
 		tableViewer.setComparer(new CDOElementComparer());
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);

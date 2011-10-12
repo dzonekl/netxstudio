@@ -13,14 +13,10 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import com.netxforge.netxstudio.common.model.OperatorSummary;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
-import com.netxforge.netxstudio.services.ServiceUser;
 
 public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 
@@ -50,15 +46,6 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	protected String calculateFileName() {
 		String baseName = super.calculateFileName();
 		return REPORT_PREFIX + "_" + REPORT_PREFIX_SM_EXEC + "_" + baseName;
-	}
-
-	@Override
-	protected void writeContent(HSSFSheet sheet, NodeType nodeType) {
-	}
-
-	@Override
-	protected void writeContent(HSSFSheet sheet, Service service, Node node,
-			int index, int nodeTypeCount) {
 	}
 
 	protected void doRun() {
@@ -106,7 +93,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 			// TODO, Perhaps add another failure?
 		}
 
-		// dataProvider.commitTransaction();
+		 this.getDataProvider().commitTransaction();
 	}
 
 	private void writeSummary(HSSFSheet sheet) {
@@ -256,15 +243,6 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		}
 	}
 
-	@Override
-	protected void writeContent(HSSFSheet sheet, Service service,
-			ServiceUser serviceUser, int rowIndex, int columnIndex) {
-	}
-
-	@Override
-	protected void writeContent(HSSFSheet sheet, Component component) {
-	}
-
 	private RFSServiceSummary processService(Service service) {
 		// Build a service summary, to be passed to the engine.
 		RFSServiceSummary serviceSummary = this.getModelUtils()
@@ -282,10 +260,6 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 			this.getFailures().addAll(engine.getFailures());
 		}
 		return serviceSummary;
-	}
-
-	@Override
-	protected void processServiceUser(Service service, HSSFSheet sheet) {
 	}
 
 }

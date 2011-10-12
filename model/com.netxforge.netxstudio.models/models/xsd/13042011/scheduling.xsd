@@ -106,10 +106,17 @@
 			<xs:extension base="Job">
 				<xs:sequence>
 					<xs:element name="NodeType" type="xs:anyURI"
-						ecore:reference="library:NodeType" minOccurs="1">
+						ecore:reference="lib:NodeType" minOccurs="1">
 						<xs:annotation>
 							<xs:documentation>Reference to the NodeType for which the job
 								runs.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ScopeObject" type="xs:anyURI"
+						ecore:reference="ecore:EObject" minOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to an arbitrary Scope object. 
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>

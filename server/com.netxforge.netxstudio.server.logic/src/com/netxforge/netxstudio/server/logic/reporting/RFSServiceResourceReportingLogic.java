@@ -18,25 +18,29 @@ import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.services.Service;
-import com.netxforge.netxstudio.services.ServiceUser;
 
 public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 
-	private static final int NODE_COLUMN = 2;
+	
+	private static final int INFO_ROW = 6;
+	private static final int INFO_COLUMN = 2;
+	
 	private static final int NODE_ROW = 9;
+	private static final int NODE_COLUMN = 2;
+	
 	// private static final int RESOURCE_HEIGHT = 14;
 
 	// FIXME, This should be outputed somehow aswell.
 	private int nodesNotReported = 0;
 	private int componentsNotReported = 0;
 	private Map<NetXResource, List<Marker>> markersForNode;
-
+	
+	
 	@Override
 	protected void writeHeader(HSSFSheet sheet, DateTimeRange dtr) {
 		super.createHeaderStructure(sheet);
@@ -50,16 +54,35 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 							getModelUtils().fromXMLDate(dtr.getEnd())));
 		}
 	}
+	
+	
+	
+	
+	@Override
+	public void writeFinal(HSSFSheet sheet) {
+		
+		HSSFRow row = sheet.getRow(INFO_ROW);
+		if(row == null){
+			row = sheet.createRow(INFO_ROW);
+		}
+		HSSFCell nodeSkippedInfoCell = row.createCell(INFO_COLUMN);
+		nodeSkippedInfoCell.setCellValue("Number of not-reported nodes (RAG Appropriate):" + this.nodesNotReported);
+
+		HSSFRow componentsRow = sheet.getRow(INFO_ROW + 1);
+		if(componentsRow == null){
+			componentsRow = sheet.createRow(INFO_ROW + 1);
+		}
+		HSSFCell componentsSkippedInfoCell = componentsRow.createCell(INFO_COLUMN);
+		componentsSkippedInfoCell.setCellValue("Number of not-reported Components (RAG Appropriate):" + this.componentsNotReported);
+		
+	}
+
 
 	protected String calculateFileName() {
 		String baseName = super.calculateFileName();
 		return REPORT_PREFIX + "_" + REPORT_PREFIX_SM_RESOURCE + "_" + baseName;
 	}
 
-	@Override
-	protected void writeContent(HSSFSheet sheet, NodeType nodeType) {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
 	protected void writeContent(HSSFSheet sheet, Service service, Node node,
@@ -87,12 +110,6 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 
 			nodesNotReported++;
 		}
-	}
-
-	@Override
-	protected void writeContent(HSSFSheet sheet, Service service,
-			ServiceUser serviceUser, int rowIndex, int columnIndex) {
-
 	}
 
 	@Override
@@ -316,7 +333,4 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 		return resourceIndex;
 	}
 
-	@Override
-	protected void processServiceUser(Service service, HSSFSheet sheet) {
-	}
 }

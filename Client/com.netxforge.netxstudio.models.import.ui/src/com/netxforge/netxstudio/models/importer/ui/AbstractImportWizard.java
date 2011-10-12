@@ -161,7 +161,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 		List<EObject> listToStore = Lists.newArrayList();
 
 		// De-flat, by checking if an object is contained in another
-		// from the same list. This should never be the case. 
+		// from the same list.
 		for (Object o : originalList) {
 			if (o instanceof EClassImpl) {
 				listToStore.add((EObject) o);

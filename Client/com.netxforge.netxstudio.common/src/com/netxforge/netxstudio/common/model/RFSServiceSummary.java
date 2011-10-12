@@ -136,7 +136,10 @@ public class RFSServiceSummary {
 	private void countNodes(Service service) {
 		if(service instanceof RFSService){
 			for(Node n : ((RFSService) service).getNodes()){
-				nodeSummaries.add(new NodeTypeSummary(n.getNodeType()));
+				
+				if(n.getNodeType() != null){
+					nodeSummaries.add(new NodeTypeSummary(n.getNodeType()));
+				}
 			}
 		}
 	}

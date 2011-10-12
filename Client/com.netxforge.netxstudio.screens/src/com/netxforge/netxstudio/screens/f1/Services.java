@@ -279,7 +279,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 						Date toDate = null;
 
 						@SuppressWarnings("unused")
-						String result = serverActions.callReportingAction(
+						String result = serverActions.callServiceReportingAction(
 								service, fromDate, toDate);
 						// TODO, We get the workflow run ID back, which
 						// could be used

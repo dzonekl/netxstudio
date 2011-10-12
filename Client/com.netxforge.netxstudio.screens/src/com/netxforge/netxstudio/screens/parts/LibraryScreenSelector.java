@@ -30,6 +30,7 @@ import com.netxforge.netxstudio.screens.f2.Protocols;
 import com.netxforge.netxstudio.screens.f2.Tolerances;
 import com.netxforge.netxstudio.screens.f2.Units;
 import com.netxforge.netxstudio.screens.f2.Vendors;
+import com.netxforge.netxstudio.screens.f4.Metrics;
 
 public class LibraryScreenSelector extends AbstractScreenSelector {
 
@@ -59,11 +60,15 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 		result = screenFormService.addScreenSelector("NE Types",
 				"icons/full/obj16/Node_H.png", NodeTypes.class, 1,
 				Screens.OPERATION_EDIT);
-		
-		result = screenFormService.addScreenSelector(result, "Resource Definitions",
-				"icons/full/obj16/Resource_H.gif", NodeTypeResources.class,
+
+		result = screenFormService.addScreenSelector(result, "Metrics",
+				"icons/full/obj16/Metric_H.png", Metrics.class,
 				Screens.OPERATION_EDIT);
-		
+
+		result = screenFormService.addScreenSelector(result,
+				"Resource Definitions", "icons/full/obj16/Resource_H.gif",
+				NodeTypeResources.class, Screens.OPERATION_EDIT);
+
 		result = screenFormService.addScreenSelector(result, "Tolerances",
 				"icons/full/obj16/Tolerance_H.png", Tolerances.class,
 				Screens.OPERATION_EDIT);
@@ -72,7 +77,6 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 				"icons/full/obj16/Expression_H.png", Expressions.class,
 				Screens.OPERATION_EDIT);
 
-
 		result = screenFormService.addScreenSelector(result, "Vendors",
 				"icons/full/obj16/Company_H.gif", Vendors.class,
 				Screens.OPERATION_EDIT);
@@ -80,11 +84,10 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 		result = screenFormService.addScreenSelector(result, "Units",
 				"icons/full/obj16/Unit_H.png", Units.class,
 				Screens.OPERATION_EDIT);
-		
+
 		result = screenFormService.addScreenSelector(result, "Protocols",
 				"icons/full/obj16/Protocol_H.png", Protocols.class,
 				Screens.OPERATION_EDIT);
-
 
 	}
 

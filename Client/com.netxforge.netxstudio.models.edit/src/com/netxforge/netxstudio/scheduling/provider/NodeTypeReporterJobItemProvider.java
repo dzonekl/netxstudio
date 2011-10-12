@@ -71,6 +71,7 @@ public class NodeTypeReporterJobItemProvider
 			super.getPropertyDescriptors(object);
 
 			addNodeTypePropertyDescriptor(object);
+			addScopeObjectPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -89,6 +90,28 @@ public class NodeTypeReporterJobItemProvider
 				 getString("_UI_NodeTypeReporterJob_nodeType_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NodeTypeReporterJob_nodeType_feature", "_UI_NodeTypeReporterJob_type"),
 				 SchedulingPackage.Literals.NODE_TYPE_REPORTER_JOB__NODE_TYPE,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Scope Object feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addScopeObjectPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_NodeTypeReporterJob_scopeObject_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NodeTypeReporterJob_scopeObject_feature", "_UI_NodeTypeReporterJob_type"),
+				 SchedulingPackage.Literals.NODE_TYPE_REPORTER_JOB__SCOPE_OBJECT,
 				 true,
 				 false,
 				 true,

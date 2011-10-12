@@ -70,6 +70,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.common.collect.ImmutableMap;
+import com.netxforge.netxstudio.common.Tuple;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.MappingColumn;
@@ -86,7 +87,6 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu.MappingMenuListener;
-import com.netxforge.netxstudio.screens.f4.support.Tuple;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
 public class NewEditMappingXLS extends AbstractMapping implements

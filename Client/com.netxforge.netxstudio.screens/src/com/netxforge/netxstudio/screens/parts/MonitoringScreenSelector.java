@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.parts;
 
 import org.eclipse.swt.widgets.Composite;
@@ -26,7 +26,6 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f1.Reports;
 import com.netxforge.netxstudio.screens.f1.ServiceUsers;
 import com.netxforge.netxstudio.screens.f1.ServicesTree;
-import com.netxforge.netxstudio.screens.f4.Metrics;
 
 public class MonitoringScreenSelector extends AbstractScreenSelector {
 
@@ -38,8 +37,8 @@ public class MonitoringScreenSelector extends AbstractScreenSelector {
 	}
 
 	/**
-	 * A dynamic selector screen selector. 
-	 * Extends an Editor view part for dirtyness, editing domain, command stack etc...
+	 * A dynamic selector screen selector. Extends an Editor view part for
+	 * dirtyness, editing domain, command stack etc...
 	 * 
 	 * 
 	 * @param parent
@@ -50,15 +49,20 @@ public class MonitoringScreenSelector extends AbstractScreenSelector {
 		screenFormService.getSelectorForm().setText("Monitoring");
 	}
 
-	public void buildSelector(){
-		
+	public void buildSelector() {
+
 		Composite result;
-		result = screenFormService.addScreenSelector("Metrics","icons/full/obj16/Metric_H.png", Metrics.class, 1, Screens.OPERATION_EDIT);
-		result = screenFormService.addScreenSelector(result, "Services", "icons/full/obj16/Service_H.png",  ServicesTree.class, Screens.OPERATION_EDIT);
-		result = screenFormService.addScreenSelector(result, "Service Users", "icons/full/obj16/ServiceProfile_H.png",  ServiceUsers.class, Screens.OPERATION_EDIT);
-		result = screenFormService.addScreenSelector(result, "Reports", "icons/full/obj16/Reports_H.png",  Reports.class, Screens.OPERATION_READ_ONLY);
+		result = screenFormService.addScreenSelector("Services",
+				"icons/full/obj16/Service_H.png", ServicesTree.class, 1,
+				Screens.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Service Users",
+				"icons/full/obj16/ServiceProfile_H.png", ServiceUsers.class,
+				Screens.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Reports",
+				"icons/full/obj16/Reports_H.png", Reports.class,
+				Screens.OPERATION_READ_ONLY);
 	}
-	
+
 	public void dispose() {
 		toolkit.dispose();
 		super.dispose();
@@ -69,15 +73,19 @@ public class MonitoringScreenSelector extends AbstractScreenSelector {
 		// Set the focus
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart#initBindings()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart#initBindings
+	 * ()
 	 */
-	
+
 	@Override
 	protected void initBindings() {
 		// TODO Auto-generated method stub
-		// Static initialization of bindings. We need a dynamic form for this. 
-		// 
-		
+		// Static initialization of bindings. We need a dynamic form for this.
+		//
+
 	}
 }

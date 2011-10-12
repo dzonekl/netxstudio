@@ -10,9 +10,6 @@ import org.apache.poi.ss.usermodel.CreationHelper;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
-import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceUser;
@@ -40,15 +37,6 @@ public class RFSServiceUserReportingLogic extends OperatorReportingLogic {
 	protected String calculateFileName() {
 		String baseName = super.calculateFileName();
 		return REPORT_PREFIX + "_" + REPORT_PREFIX_SM_USER + "_" + baseName;
-	}
-
-	@Override
-	protected void writeContent(HSSFSheet sheet, NodeType nodeType) {
-	}
-
-	@Override
-	protected void writeContent(HSSFSheet sheet, Service service, Node node,
-			int index, int nodeTypeCount) {
 	}
 
 	@Override
@@ -106,10 +94,6 @@ public class RFSServiceUserReportingLogic extends OperatorReportingLogic {
 				}
 			}
 		}
-	}
-
-	@Override
-	protected void writeContent(HSSFSheet sheet, Component component) {
 	}
 
 	protected void processServiceUser(Service service, HSSFSheet sheet) {
