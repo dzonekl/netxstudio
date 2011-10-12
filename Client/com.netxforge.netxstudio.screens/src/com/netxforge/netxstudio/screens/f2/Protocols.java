@@ -331,5 +331,10 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		return new IAction[] { new EditProtocolAction(actionText + "...",
 				SWT.PUSH) };
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Protocols";
+	}
 
 }

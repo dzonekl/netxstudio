@@ -355,5 +355,11 @@ public class SitesTable extends AbstractScreen implements IDataServiceInjection 
 				: "Edit";
 		return new IAction[] { new EditSiteAction(actionText + "...", SWT.PUSH) };
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Sites";
+	}
+
 
 }

@@ -447,7 +447,12 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public void setOperation(int operation) {
 		this.operation = operation;
-
+	}
+	
+	@Override
+	public String getScreenName() {
+		return "Metric Sources";
 	}
 
+	
 }

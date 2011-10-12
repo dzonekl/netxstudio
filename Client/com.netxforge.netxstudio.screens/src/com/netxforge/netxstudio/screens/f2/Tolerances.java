@@ -317,5 +317,10 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View" : "Edit"; 
 		return new IAction[]{new EditToleranceAction(actionText + "...", SWT.PUSH)};
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Tolerances";
+	}
 
 }

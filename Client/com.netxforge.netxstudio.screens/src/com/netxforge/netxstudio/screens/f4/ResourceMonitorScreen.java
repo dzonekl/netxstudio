@@ -672,5 +672,11 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Resource graph";
+	}
 
+	
 }

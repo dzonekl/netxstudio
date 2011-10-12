@@ -325,5 +325,10 @@ public class Expressions extends AbstractScreen implements
 		return new IAction[] { new EditExpressionAction(actionText + "...",
 				SWT.PUSH) };
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Expressions";
+	}
 
 }

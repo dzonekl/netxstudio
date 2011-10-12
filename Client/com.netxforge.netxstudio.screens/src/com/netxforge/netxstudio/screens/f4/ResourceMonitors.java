@@ -334,5 +334,11 @@ public class ResourceMonitors extends AbstractScreen implements
 		return new IAction[] { new EditMonitorAction(actionText + "...",
 				SWT.PUSH) };
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Resource Monitors";
+	}
+
 
 }

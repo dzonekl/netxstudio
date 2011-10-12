@@ -310,5 +310,11 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Server Settings";
+	}
 
+	
 }

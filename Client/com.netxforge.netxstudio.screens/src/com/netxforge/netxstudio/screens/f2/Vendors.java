@@ -322,5 +322,10 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		return new IAction[] { new EditVendorAction(actionText + "...",
 				SWT.PUSH) };
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Vendors";
+	}
 
 }

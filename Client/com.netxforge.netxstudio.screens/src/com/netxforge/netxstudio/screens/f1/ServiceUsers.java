@@ -311,5 +311,10 @@ public class ServiceUsers extends AbstractScreen implements
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray);
 	}
-
+	
+	@Override
+	public String getScreenName() {
+		return "Service Users";
+	}
+	
 }

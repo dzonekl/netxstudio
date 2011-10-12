@@ -60,6 +60,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -677,23 +678,34 @@ public class ServicesTree extends AbstractScreen implements
 
 		@Override
 		public void run() {
-
+			ISelection selection = getViewer().getSelection();
+			
 			Resource jobResource = editingService
 					.getData(SchedulingPackage.Literals.JOB);
 
 			ScheduledReportSelectionWizard wizard = new ScheduledReportSelectionWizard();
+			wizard.init(PlatformUI.getWorkbench(), (IStructuredSelection) selection);
+			
 			WizardDialog dialog = new WizardDialog(
 					ServicesTree.this.getShell(), wizard);
 			dialog.open();
 			Job j = wizard.getJob();
-			NewEditJob newEditJob = new NewEditJob(
-					screenService.getScreenContainer(), SWT.NONE);
-			newEditJob.setOperation(operation);
-			newEditJob.setScreenService(screenService);
-			newEditJob.injectData(jobResource, j);
-			screenService.setActiveScreen(newEditJob);
+			
+			if( j != null){
+				NewEditJob newEditJob = new NewEditJob(
+						screenService.getScreenContainer(), SWT.NONE);
+				newEditJob.setOperation(operation);
+				newEditJob.setScreenService(screenService);
+				newEditJob.injectData(jobResource, j);
+				screenService.setActiveScreen(newEditJob);
+
+			}
 
 		}
 	}
-
+	
+	@Override
+	public String getScreenName() {
+		return "Services";
+	}
 }

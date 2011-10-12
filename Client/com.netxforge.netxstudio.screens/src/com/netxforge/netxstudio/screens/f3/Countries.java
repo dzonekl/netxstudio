@@ -314,5 +314,11 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 		return new IAction[] { new EditCountryAction(actionText + "...",
 				SWT.PUSH) };
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Countries";
+	}
 
+	
 }

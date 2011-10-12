@@ -487,5 +487,11 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "NE Types";
+	}
+
 
 }

@@ -312,5 +312,11 @@ public class ServiceMonitors extends AbstractScreen implements
 		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View" : "Edit"; 
 		return new IAction[]{new EditMonitorAction(actionText + "...", SWT.PUSH)};
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Service Monitors";
+	}
 
+	
 }

@@ -346,5 +346,11 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray); 
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Rooms";
+	}
 
+	
 }

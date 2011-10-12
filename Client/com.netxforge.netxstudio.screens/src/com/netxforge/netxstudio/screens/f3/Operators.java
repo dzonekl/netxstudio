@@ -322,5 +322,11 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 		return new IAction[] { new EditOperatorAction(actionText + "...",
 				SWT.PUSH) };
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Operators";
+	}
+
 
 }

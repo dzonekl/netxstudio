@@ -330,6 +330,13 @@ public class Units extends AbstractScreen implements IDataServiceInjection {
 //		return new EClass[]{GenericsPackage.Literals.mUNIT};
 		return null;
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Units";
+	}
+
+	
 }
 
 

@@ -141,10 +141,13 @@ public class ServiceHierarchy extends AbstractScreen implements
 		return actions.toArray(actionArray);
 	}
 
-	
 	public void addData() {
-		// TODO Auto-generated method stub
-		
+		// N/A
 	}
 
+	@Override
+	public String getScreenName() {
+		return "Service Hierarchy";
+	}
+	
 }

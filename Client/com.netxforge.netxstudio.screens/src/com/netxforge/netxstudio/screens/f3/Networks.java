@@ -50,6 +50,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
@@ -64,6 +65,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -73,7 +75,6 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.Equipment;
@@ -90,8 +91,6 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.operators.Warehouse;
 import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.NodeReporterJob;
-import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
@@ -102,6 +101,7 @@ import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f1.support.ScheduledReportSelectionWizard;
 import com.netxforge.netxstudio.screens.f2.NodeHistory;
 import com.netxforge.netxstudio.screens.f2.details.NewEditEquipmentLink;
 import com.netxforge.netxstudio.screens.f2.details.NewEditFunction;
@@ -348,47 +348,27 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			if (screenService != null) {
 				ISelection selection = getViewer().getSelection();
 				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-					if (o instanceof Node) {
+					Resource jobResource = editingService
+							.getData(SchedulingPackage.Literals.JOB);
 
-						Node n = (Node) o;
-
-						int operation = -1;
-
-						Resource jobResource = editingService
-								.getData(SchedulingPackage.Literals.JOB);
-
-						Job job = modelUtils
-								.jobForSingleObject(jobResource,
-										SchedulingPackage.Literals.NODE_REPORTER_JOB,
-										SchedulingPackage.Literals.NODE_REPORTER_JOB__NODE,
-										(Node) o);
-
-						// Edit or New if the Service has a job or not.
-						if (job != null) {
-							operation = Screens.OPERATION_EDIT;
-						} else {
-							operation = Screens.OPERATION_NEW;
-
-							job = SchedulingFactory.eINSTANCE
-									.createNodeReporterJob();
-							job.setName(((Node) o).getNodeID());
-							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-							job.setStartTime(modelUtils.toXMLDate(modelUtils
-									.todayAndNow()));
-							if (job instanceof NodeReporterJob) {
-								((NodeReporterJob) job).setNode(n);
-							}
-						}
-
+					ScheduledReportSelectionWizard wizard = new ScheduledReportSelectionWizard();
+					wizard.init(PlatformUI.getWorkbench(), (IStructuredSelection) selection);
+					
+					WizardDialog dialog = new WizardDialog(
+							Networks.this.getShell(), wizard);
+					dialog.open();
+					Job j = wizard.getJob();
+					
+					if( j != null){
 						NewEditJob newEditJob = new NewEditJob(
 								screenService.getScreenContainer(), SWT.NONE);
 						newEditJob.setOperation(operation);
 						newEditJob.setScreenService(screenService);
-						newEditJob.injectData(jobResource, job);
+						newEditJob.injectData(jobResource, j);
 						screenService.setActiveScreen(newEditJob);
+
 					}
+
 				}
 			}
 		}
@@ -877,5 +857,11 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Networks";
+	}
 
+	
 }
