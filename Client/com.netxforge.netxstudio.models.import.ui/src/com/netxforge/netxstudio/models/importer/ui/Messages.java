@@ -14,6 +14,7 @@ public class Messages extends NLS {
 	public static String ImportWizard_4;
 	public static String ImportWizard_5;
 	public static String ImportWizard_6;
+	public static String ImportResourceWizardPage_btnNewButton_text;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

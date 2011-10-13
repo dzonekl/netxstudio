@@ -75,6 +75,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 	public boolean performFinish() {
 
 		final IPath inFilePath = dbImportResourcePage.getPath();
+		boolean indexed = dbImportResourcePage.isIndexed();
 		// Implement the import.
 
 		final MasterDataImporterJob job = new MasterDataImporterJob(
@@ -115,7 +116,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 				});
 			}
 		});
-		job.setIndexed(this.useIndexed());
+		job.setIndexed(indexed);
 		job.setIPathToProcess(inFilePath);
 		job.go(); // Should spawn a job processing the import file.
 		return true;
@@ -295,6 +296,10 @@ public abstract class AbstractImportWizard extends Wizard implements
 		dbImportResourcePage.setDescription(Messages.ImportWizard_6);
 		dbImportResourcePage.init(selection);
 		this.addPage(dbImportResourcePage);
+		
+		
+		
+		
 	}
 
 	class ImportResultLabelProvider extends AdapterFactoryLabelProvider {

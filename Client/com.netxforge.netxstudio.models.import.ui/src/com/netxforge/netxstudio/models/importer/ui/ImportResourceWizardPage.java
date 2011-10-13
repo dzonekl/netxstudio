@@ -26,6 +26,7 @@ public class ImportResourceWizardPage extends WizardPage {
 	private FormToolkit toolkit;
 	private ScrolledForm form;
 	private IPath initSourcePath;
+	private boolean indexed;
 
 	protected ImportResourceWizardPage(String pageName) {
 		super(pageName);
@@ -34,15 +35,13 @@ public class ImportResourceWizardPage extends WizardPage {
 	public void createControl(Composite parent) {
 		toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
-//		form.setText(Messages.ImportResourceWizardPage_0);
+		// form.setText(Messages.ImportResourceWizardPage_0);
 
 		GridLayout layout = new GridLayout();
 		form.getBody().setLayout(layout);
 
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-
 		Composite sectionClient = toolkit.createComposite(form.getBody());
-		sectionClient.setLayoutData(data);
+		sectionClient.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		GridLayout layout1 = new GridLayout();
 		layout1.numColumns = 3;
 		sectionClient.setLayout(layout1);
@@ -57,10 +56,10 @@ public class ImportResourceWizardPage extends WizardPage {
 				Messages.ImportResourceWizardPage_2);
 		label2.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 
-		sourceFileField = toolkit.createText(sectionClient, ""); //$NON-NLS-1$
-		GridData data2 = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.FILL_HORIZONTAL);
-		sourceFileField.setLayoutData(data2);
+		sourceFileField = toolkit.createText(sectionClient, "");
+		sourceFileField
+				.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING
+						| GridData.FILL_HORIZONTAL));
 		sourceFileField.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				updatePageComplete();
@@ -69,6 +68,15 @@ public class ImportResourceWizardPage extends WizardPage {
 
 		Button button = toolkit.createButton(sectionClient,
 				Messages.ImportResourceWizardPage_4, SWT.PUSH);
+
+		final Button btnIndexedButton = toolkit.createButton(form.getBody(),
+				Messages.ImportResourceWizardPage_btnNewButton_text, SWT.CHECK);
+		btnIndexedButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				setIndexed(btnIndexedButton.getSelection());
+			}
+		});
 		button.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				browseForSourceFile();
@@ -116,13 +124,13 @@ public class ImportResourceWizardPage extends WizardPage {
 			setErrorMessage(Messages.ImportResourceWizardPage_5);
 			return;
 		}
-//		IFile file = WorkspaceUtil.INSTANCE.createFileHandle(srcPath);
-//		if (!file.exists()) {
-//			setMessage(null);
-//			setErrorMessage(Messages.ImportResourceWizardPage_5);
-//			return;
-//		}
-		
+		// IFile file = WorkspaceUtil.INSTANCE.createFileHandle(srcPath);
+		// if (!file.exists()) {
+		// setMessage(null);
+		// setErrorMessage(Messages.ImportResourceWizardPage_5);
+		// return;
+		// }
+
 		setErrorMessage(null);
 		setPageComplete(true);
 	}
@@ -133,11 +141,18 @@ public class ImportResourceWizardPage extends WizardPage {
 	 * @return
 	 */
 	public IPath getPath() {
-		
-		String text = sourceFileField
-				.getText();
+
+		String text = sourceFileField.getText();
 		IPath srcPath = WorkspaceUtil.INSTANCE.getLocation(text);
 		return srcPath;
+	}
+
+	public boolean isIndexed() {
+		return indexed;
+	}
+
+	public void setIndexed(boolean indexed) {
+		this.indexed = indexed;
 	}
 
 }

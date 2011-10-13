@@ -215,7 +215,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		mghprlnkNewMetric.setText("New");
 
 		metricsTreeViewer = new TreeViewer(frmMetrics.getBody(), SWT.BORDER
-				| SWT.VIRTUAL | SWT.MULTI  | SWT.FULL_SELECTION);
+				| SWT.VIRTUAL | SWT.MULTI  );
 		metricsTreeViewer.setUseHashlookup(true);
 		metricsTreeViewer.setComparer(new CDOElementComparer());
 		

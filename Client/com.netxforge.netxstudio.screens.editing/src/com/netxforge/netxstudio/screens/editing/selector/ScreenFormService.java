@@ -578,6 +578,8 @@ public class ScreenFormService implements IScreenFormService {
 						} else {
 							// Stay on this screen.
 						}
+					}else{
+						popScreen();
 					}
 				}
 			}
