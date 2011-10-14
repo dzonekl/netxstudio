@@ -16,7 +16,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.metrics;
+package com.netxforge.netxstudio.data.importer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,7 +32,7 @@ import com.netxforge.netxstudio.metrics.MappingXLS;
  * 
  * @author Martin Taal
  */
-public class XLSMetricValuesImporter extends MetricValuesImporter {
+public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	private HSSFSheet currentSheet;
 	

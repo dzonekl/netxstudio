@@ -105,7 +105,7 @@ public class ReportingService implements NetxForgeService {
 				if (parameters.containsKey(NETWORK_SERVICE_PARAM)) {
 					CDOID serviceID = getCDOID(
 							parameters.get(NETWORK_SERVICE_PARAM),
-							LibraryPackage.Literals.NODE_TYPE);
+							ServicesPackage.Literals.RFS_SERVICE);
 
 					runForService(monitor, serviceID, nodeTypeID,
 							getOperatorReportingLogos());

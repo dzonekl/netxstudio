@@ -18,12 +18,19 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.metrics;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.IImporterHelper;
+import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
 import com.netxforge.netxstudio.metrics.MappingCSV;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.server.job.JobImplementation;
+import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
 
 /**
  * Implements a job runner for a metric source.
@@ -34,22 +41,27 @@ public class MetricSourceJobImplementation extends JobImplementation {
 
 	public static final String ROOT_SYSTEM_PROPERTY = "metricSourceRoot";
 	
+	@Inject
+	private IImporterHelper importerHelper;
+	
 	@Override
 	public void run() {
 		// read a new metricsource so that it is part of this
 		// transaction/session
 		final MetricSource metricSource = getMetricSource();
-		final MetricValuesImporter metricsImporter;
+		final AbstractMetricValuesImporter metricsImporter;
 		if (metricSource.getMetricMapping() instanceof MappingXLS) {
-			metricsImporter = Activator.getInstance().getInjector().getInstance(XLSMetricValuesImporter.class);
+			metricsImporter = MetricsActivator.getInstance().getInjector().getInstance(XLSMetricValuesImporter.class);
 		} else if (metricSource.getMetricMapping() instanceof MappingCSV) {
-			metricsImporter = Activator.getInstance().getInjector().getInstance(CSVMetricValuesImporter.class);
+			metricsImporter = MetricsActivator.getInstance().getInjector().getInstance(CSVMetricValuesImporter.class);
 		} else if (metricSource.getMetricMapping() instanceof MappingRDBMS) {
-			metricsImporter = Activator.getInstance().getInjector().getInstance(RDBMSMetricValuesImporter.class);
+			metricsImporter = MetricsActivator.getInstance().getInjector().getInstance(RDBMSMetricValuesImporter.class);
 		} else {
 			throw new IllegalArgumentException("Mapping type not supported: " + metricSource.getMetricMapping());
 		}
 		
+		importerHelper.setImporter(metricsImporter);
+		metricsImporter.setImportHelper(importerHelper);
 		metricsImporter.setMetricSourceWithId(metricSource.cdoID());
 		metricsImporter.setJobMonitor(getRunMonitor());
 		metricsImporter.process();

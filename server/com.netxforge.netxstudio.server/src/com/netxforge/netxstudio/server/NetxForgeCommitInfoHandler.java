@@ -36,6 +36,8 @@ import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.ActionType;
 import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -48,7 +50,10 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
  * @author Martin Taal
  */
 public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
-
+	
+	@Inject
+	ModelUtils modelUtils;
+	
 	private static final int MAX_CHANGE_LENGTH = 2000;
 
 	public synchronized void handleCommitInfo(CDOCommitInfo commitInfo) {
@@ -69,8 +74,7 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 			}
 		}
 
-		final XMLGregorianCalendar commitTimeStamp = ServerUtils.getInstance()
-				.toXmlDate(
+		final XMLGregorianCalendar commitTimeStamp = modelUtils.toXMLDate(
 						new Date(commitInfo.getTimeStamp()));
 		final CDOSession session = ServerUtils.getInstance().openJVMSession();
 		final CDOTransaction transaction = session.openTransaction();

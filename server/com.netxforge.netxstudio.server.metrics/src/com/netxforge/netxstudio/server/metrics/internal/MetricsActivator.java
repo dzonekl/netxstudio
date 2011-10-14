@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.server.metrics;
+package com.netxforge.netxstudio.server.metrics.internal;
 
 import java.util.Hashtable;
 
@@ -10,24 +10,32 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
+import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.IImporterHelper;
+import com.netxforge.netxstudio.data.importer.NetworkElementLocator;
+import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
 import com.netxforge.netxstudio.server.job.JobModule;
+import com.netxforge.netxstudio.server.metrics.MetricSourceImportService;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService.ServiceRunner;
-import com.netxforge.netxstudio.server.metrics.MetricValuesImporter.LocalDataProviderProvider;
+import com.netxforge.netxstudio.server.metrics.MetricSourceJobImplementation;
+import com.netxforge.netxstudio.server.metrics.ServerImporterHelper;
+import com.netxforge.netxstudio.server.metrics.ServerImporterHelper.LocalDataProviderProvider;
 
-public class Activator implements BundleActivator {
+public class MetricsActivator implements BundleActivator {
 
 	private static BundleContext context;
-	private static Activator INSTANCE;
+	private static MetricsActivator INSTANCE;
 
 	static BundleContext getContext() {
 		return context;
 	}
 
-	public static Activator getInstance() {
+	public static MetricsActivator getInstance() {
 		return INSTANCE;
 	}
 
@@ -42,7 +50,7 @@ public class Activator implements BundleActivator {
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		INSTANCE = this;
-		Activator.context = bundleContext;
+		MetricsActivator.context = bundleContext;
 
 		Module om = new MetricModule();
 		om = Modules.override(om).with(ServerModule.getModule());
@@ -69,7 +77,7 @@ public class Activator implements BundleActivator {
 	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext bundleContext) throws Exception {
-		Activator.context = null;
+		MetricsActivator.context = null;
 	}
 
 	public Injector getInjector() {
@@ -88,6 +96,7 @@ public class Activator implements BundleActivator {
 			this.bind(RDBMSMetricValuesImporter.class);
 			this.bind(NetworkElementLocator.class);
 			this.bind(ServiceRunner.class);
+			this.bind(IImporterHelper.class).to(ServerImporterHelper.class);
 		}
 	}
 }

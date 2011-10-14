@@ -16,7 +16,7 @@
  * Contributors: 
  * 	Martin Taal - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.metrics;
+package com.netxforge.netxstudio.data.importer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -41,7 +40,6 @@ import com.netxforge.netxstudio.metrics.ObjectKindType;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.server.Server;
 
 /**
  * Is responsible for finding a network element using a set of IdentifierValues.
@@ -49,9 +47,12 @@ import com.netxforge.netxstudio.server.Server;
  * @author Martin Taal
  */
 public class NetworkElementLocator {
-
-	@Inject
-	@Server
+	
+	
+	
+	// TODO Check, the NEL is always initialized. 
+//	@Inject
+//	@Server
 	private IDataProvider dataProvider;
 
 	// cache the components by metric and node id
@@ -285,10 +286,11 @@ public class NetworkElementLocator {
 		}
 
 	}
-
-	public IDataProvider getDataProvider() {
-		return dataProvider;
-	}
+	
+	// Never used. 
+//	public IDataProvider getDataProvider() {
+//		return dataProvider;
+//	}
 
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;

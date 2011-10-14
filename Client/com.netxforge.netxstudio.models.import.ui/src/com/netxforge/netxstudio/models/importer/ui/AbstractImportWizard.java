@@ -60,10 +60,15 @@ public abstract class AbstractImportWizard extends Wizard implements
 	public AbstractImportWizard() {
 	}
 
+	
+	
 	@Inject
 	@NonStatic
 	private IDataProvider dataProvider;
-
+	
+	@Inject
+	private IDataProvider uiDataProvider;
+	
 	@Inject
 	private IEditingService editingService;
 
@@ -146,13 +151,20 @@ public abstract class AbstractImportWizard extends Wizard implements
 	 * @param selection
 	 */
 	@SuppressWarnings("unchecked")
-	private void storeForSameEClass(Object[] selection) {
 
-		dataProvider.setDoGetResourceFromOwnTransaction(false);
+	private void storeForSameEClass(Object[] selection) {
 		
+		String server ;
+		if(uiDataProvider != null){
+			server = uiDataProvider.getServer();
+		}else{
+			return;
+		}
+		
+		dataProvider.setDoGetResourceFromOwnTransaction(false);
 		// FIXME THIS WILL OPEN WITH CURRENT CREDENTIALS, 
 		// REGARDLESS ALL IS PERMITTED NOW. 
-		dataProvider.openSession("admin", "admin");
+		dataProvider.openSession("admin", "admin", server);
 		dataProvider.getTransaction();
 		
 		System.out

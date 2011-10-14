@@ -18,12 +18,9 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Map;
 
 import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.common.commit.handler.AsyncCommitInfoHandler;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
@@ -81,6 +78,9 @@ public class ServerUtils {
 
 	private static ServerUtils instance = new ServerUtils();
 
+	@Inject
+	private NetxForgeCommitInfoHandler commitInfoHandler;
+
 	public static ServerUtils getInstance() {
 		return instance;
 	}
@@ -101,6 +101,11 @@ public class ServerUtils {
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		}
+		
+		if (commitInfoHandler == null) {
+			ServerActivator.getInstance().getInjector().injectMembers(this);
+		}
+		
 	}
 
 	public Object runService(Map<String, String> parameters) {
@@ -113,8 +118,8 @@ public class ServerUtils {
 
 		String serviceKey = parameters.get(NetxForgeService.SERVICE_PARAM_NAME);
 
-		final ServiceReference<?> serviceReference = ServerActivator.getContext()
-				.getServiceReference(serviceKey);
+		final ServiceReference<?> serviceReference = ServerActivator
+				.getContext().getServiceReference(serviceKey);
 
 		if (serviceReference == null) {
 			throw new IllegalStateException(
@@ -192,26 +197,26 @@ public class ServerUtils {
 		return sessionConfiguration;
 	}
 
-	public XMLGregorianCalendar toXmlDate(Date date) {
-		final XMLGregorianCalendar gregCalendar = dataTypeFactory
-				.newXMLGregorianCalendar();
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-
-		gregCalendar.setYear(calendar.get(Calendar.YEAR));
-		gregCalendar.setMonth(calendar.get(Calendar.MONTH) + 1); // correct with
-																	// 1 on
-																	// purpose
-		gregCalendar.setDay(calendar.get(Calendar.DAY_OF_MONTH));
-
-		gregCalendar.setHour(calendar.get(Calendar.HOUR_OF_DAY));
-		gregCalendar.setMinute(calendar.get(Calendar.MINUTE));
-		gregCalendar.setSecond(calendar.get(Calendar.SECOND));
-		gregCalendar.setMillisecond(calendar.get(Calendar.MILLISECOND));
-		// gregCalendar.setTimezone(calendar.get(Calendar.ZONE_OFFSET));
-
-		return gregCalendar;
-	}
+	// public XMLGregorianCalendar toXmlDate(Date date) {
+	// final XMLGregorianCalendar gregCalendar = dataTypeFactory
+	// .newXMLGregorianCalendar();
+	// final Calendar calendar = Calendar.getInstance();
+	// calendar.setTime(date);
+	//
+	// gregCalendar.setYear(calendar.get(Calendar.YEAR));
+	// gregCalendar.setMonth(calendar.get(Calendar.MONTH) + 1); // correct with
+	// // 1 on
+	// // purpose
+	// gregCalendar.setDay(calendar.get(Calendar.DAY_OF_MONTH));
+	//
+	// gregCalendar.setHour(calendar.get(Calendar.HOUR_OF_DAY));
+	// gregCalendar.setMinute(calendar.get(Calendar.MINUTE));
+	// gregCalendar.setSecond(calendar.get(Calendar.SECOND));
+	// gregCalendar.setMillisecond(calendar.get(Calendar.MILLISECOND));
+	// // gregCalendar.setTimezone(calendar.get(Calendar.ZONE_OFFSET));
+	//
+	// return gregCalendar;
+	// }
 
 	public String getServerSideLogin() {
 		return serverSideLogin;
@@ -238,13 +243,14 @@ public class ServerUtils {
 			}
 		});
 
-		final ServerInitializer resourceInitializer = ServerActivator.getInstance()
-				.getInjector().getInstance(ServerInitializer.class);
+		final ServerInitializer resourceInitializer = ServerActivator
+				.getInstance().getInjector()
+				.getInstance(ServerInitializer.class);
 		resourceInitializer.initialize();
 
 		// must be done after initializing the resources etc.
 		final AsyncCommitInfoHandler asyncCommitInfoHandler = new AsyncCommitInfoHandler(
-				new NetxForgeCommitInfoHandler());
+				commitInfoHandler);
 		asyncCommitInfoHandler.activate();
 		repository.addCommitInfoHandler(asyncCommitInfoHandler);
 

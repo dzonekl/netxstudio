@@ -96,9 +96,7 @@
    </features>
 
    <configurations>
-      <plugin id="com.netxforge.netxstudio.data" autoStart="false" startLevel="0" />
-      <plugin id="com.netxforge.netxstudio.data.fixtures" autoStart="false" startLevel="3" />
-      <plugin id="com.netxforge.netxstudio.ui.activities" autoStart="false" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.client.product" autoStart="true" startLevel="0" />
    </configurations>
 
 </product>

@@ -16,7 +16,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.metrics;
+package com.netxforge.netxstudio.data.importer;
 
 import java.io.File;
 import java.sql.Connection;
@@ -43,7 +43,7 @@ import com.netxforge.netxstudio.scheduling.JobRunState;
  * 
  * @author Martin Taal
  */
-public class RDBMSMetricValuesImporter extends MetricValuesImporter {
+public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	private String[][] data = null;
 

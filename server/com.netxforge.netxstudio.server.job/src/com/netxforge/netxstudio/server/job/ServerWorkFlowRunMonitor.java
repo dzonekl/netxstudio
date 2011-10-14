@@ -25,11 +25,12 @@ import java.util.Date;
 import org.eclipse.emf.cdo.common.id.CDOID;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.job.WorkFlowRunMonitor;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.ServerUtils;
 
 /**
  * The work flow monitor used on the server side.
@@ -42,7 +43,11 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 	@Inject
 	@Server
 	private IDataProvider dataProvider;
-
+	
+	@Inject
+	private ModelUtils modelUtils;
+	
+	
 	@Override
 	public void update() {
 		dataProvider.openSession();
@@ -68,7 +73,7 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 		dataProvider.getTransaction();
 		final WorkFlowRun wfRun = (WorkFlowRun)dataProvider.getTransaction().getObject(workFlowRunId);
 		wfRun.setState(JobRunState.RUNNING);
-		wfRun.setStarted(ServerUtils.getInstance().toXmlDate(new Date()));
+		wfRun.setStarted(modelUtils.toXMLDate(new Date()));
 		wfRun.setProgress(0);
 		dataProvider.commitTransaction();
 		dataProvider.closeSession();
@@ -91,7 +96,7 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 			}
 			wfRun.setProgress(100);
 		}
-		wfRun.setEnded(ServerUtils.getInstance().toXmlDate(new Date()));
+		wfRun.setEnded(modelUtils.toXMLDate(new Date()));
 		dataProvider.commitTransaction();
 		dataProvider.closeSession();
 	}

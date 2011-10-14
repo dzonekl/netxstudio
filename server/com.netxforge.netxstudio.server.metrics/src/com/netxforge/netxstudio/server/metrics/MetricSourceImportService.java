@@ -28,6 +28,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.IImporterHelper;
+import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
 import com.netxforge.netxstudio.metrics.MappingCSV;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingXLS;
@@ -38,6 +43,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
+import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
 
 /**
@@ -47,10 +53,13 @@ import com.netxforge.netxstudio.server.service.NetxForgeService;
  */
 public class MetricSourceImportService implements NetxForgeService {
 
+	@Inject
+	static private IImporterHelper importerHelper;
+	
 	public static final String MS_PARAM = "metricSource";
 
 	public Object run(Map<String, String> parameters) {
-		final ServiceRunner runner = Activator.getInstance().getInjector()
+		final ServiceRunner runner = MetricsActivator.getInstance().getInjector()
 				.getInstance(ServiceRunner.class);
 		runner.setParameters(parameters);
 		return ((AbstractCDOIDLong) runner.run()).getLongValue();
@@ -61,7 +70,7 @@ public class MetricSourceImportService implements NetxForgeService {
 		@Server
 		private IDataProvider dataProvider;
 
-		private MetricValuesImporter importer;
+		private AbstractMetricValuesImporter importer;
 
 		private Map<String, String> parameters;
 
@@ -71,19 +80,21 @@ public class MetricSourceImportService implements NetxForgeService {
 			final MetricSource metricSource = (MetricSource) dataProvider
 					.getTransaction().getObject(msId);
 			if (metricSource.getMetricMapping() instanceof MappingXLS) {
-				importer = Activator.getInstance().getInjector()
+				importer = MetricsActivator.getInstance().getInjector()
 						.getInstance(XLSMetricValuesImporter.class);
 			} else if (metricSource.getMetricMapping() instanceof MappingCSV) {
-				importer = Activator.getInstance().getInjector()
+				importer = MetricsActivator.getInstance().getInjector()
 						.getInstance(CSVMetricValuesImporter.class);
 			} else if (metricSource.getMetricMapping() instanceof MappingRDBMS) {
-				importer = Activator.getInstance().getInjector()
+				importer = MetricsActivator.getInstance().getInjector()
 						.getInstance(RDBMSMetricValuesImporter.class);
 			} else {
 				throw new IllegalArgumentException(
 						"Mapping type not supported "
 								+ metricSource.getMetricMapping());
 			}
+			importerHelper.setImporter(importer);
+			importer.setImportHelper(importerHelper);
 			importer.setMetricSourceWithId(msId);
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
 			importer.setJobMonitor(monitor);
@@ -105,7 +116,7 @@ public class MetricSourceImportService implements NetxForgeService {
 		}
 
 		private ServerWorkFlowRunMonitor createMonitor() {
-			final ServerWorkFlowRunMonitor runMonitor = Activator.getInstance()
+			final ServerWorkFlowRunMonitor runMonitor = MetricsActivator.getInstance()
 					.getInjector().getInstance(ServerWorkFlowRunMonitor.class);
 			dataProvider.openSession();
 			dataProvider.getTransaction();

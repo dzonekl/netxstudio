@@ -16,7 +16,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.metrics;
+package com.netxforge.netxstudio.data.importer;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,7 +32,7 @@ import com.netxforge.netxstudio.metrics.MappingCSV;
  * 
  * @author Martin Taal
  */
-public class CSVMetricValuesImporter extends MetricValuesImporter {
+public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	private String[][] data = null;
 	

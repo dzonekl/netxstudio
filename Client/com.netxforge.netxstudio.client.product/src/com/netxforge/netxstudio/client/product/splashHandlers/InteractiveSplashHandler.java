@@ -15,12 +15,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.splash.AbstractSplashHandler;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.client.product.ProductActivator;
 import com.netxforge.netxstudio.common.CommonService;
 import com.netxforge.netxstudio.common.jca.JCAService;
 import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.data.internal.DataActivator;
 
 /**
  * @since 3.3
@@ -50,10 +48,9 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 
 	private boolean fAuthenticated;
 
-	@Inject
-	private IDataService dataService;
-
-	CommonService commonService = new CommonService(new JCAService());
+	// private IDataService dataService;
+	//
+	// private CommonService commonService;
 
 	/**
 	 * 
@@ -76,6 +73,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	public void init(final Shell splash) {
 		// Store the shell
 		super.init(splash);
+
 		// Configure the shell layout
 		configureUISplash();
 		// Create UI
@@ -91,6 +89,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		// Keep the splash screen visible and prevent the RCP application from
 		// loading until the close button is clicked.
 		doEventLoop();
+
 	}
 
 	private void setInitialValues() {
@@ -174,13 +173,15 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		// any password
 		if ((username.length() > 0) && (password.length() > 0)) {
 
-			DataActivator.getInjector().injectMembers(this);
-
 			// We will open a session here, this will be along running
 			// operation.
 
 			try {
 				if (!"admin".equals(username)) {
+
+					CommonService commonService = new CommonService(
+							new JCAService());
+
 					String digest = commonService.getJcasService().digest(
 							password);
 					if (digest != null && digest.length() > 0) {
@@ -190,8 +191,11 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 					}
 				}
 
+				IDataService dataService = new DataProviderHelper()
+						.getDataService();
 				dataService.getProvider().openSession(username, password,
 						server, true);
+
 				fAuthenticated = true;
 				// Store the last user value.
 				ProductActivator
@@ -257,7 +261,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		createUIButtonOK();
 		// Create the cancel button
 		createUIButtonCancel();
-		
+
 		this.getSplash().setDefaultButton(fButtonOK);
 	}
 
@@ -288,7 +292,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		data.verticalIndent = 10;
 		fButtonOK.setLayoutData(data);
 		// We explicity request focus.
-		
+
 	}
 
 	/**
