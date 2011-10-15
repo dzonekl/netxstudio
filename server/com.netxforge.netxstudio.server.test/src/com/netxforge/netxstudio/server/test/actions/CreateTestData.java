@@ -21,8 +21,8 @@ package com.netxforge.netxstudio.server.test.actions;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTest;
-import com.netxforge.netxstudio.server.test.dataprovider.NonStatic;
 
 /**
  * Creates test data. Steps:

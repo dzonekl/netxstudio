@@ -39,6 +39,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.Equipment;
@@ -79,7 +80,6 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.dataimport.MasterDataImporter;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
 import com.netxforge.netxstudio.server.test.base.TestModule;
-import com.netxforge.netxstudio.server.test.dataprovider.NonStatic;
 import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceProfile;
@@ -324,7 +324,7 @@ public class TestDataCreator implements NetxForgeService {
 		msJob.setName(MS_CSV_NAME);
 		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
-		msJob.setMetricSource(metricSource);
+		msJob.getMetricSources().add(metricSource);
 
 		// add to the job resource, that one is watched by the jobhandler
 		dataProvider.getResource(SchedulingPackage.Literals.JOB).getContents()
@@ -362,7 +362,7 @@ public class TestDataCreator implements NetxForgeService {
 		msJob.setName(MS_DB_PG_NAME);
 		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
-		msJob.setMetricSource(metricSource);
+		msJob.getMetricSources().add(metricSource);
 
 		// add to the job resource, that one is watched by the jobhandler
 		dataProvider.getResource(SchedulingPackage.Literals.JOB).getContents()
@@ -400,7 +400,7 @@ public class TestDataCreator implements NetxForgeService {
 		msJob.setName(MS_DB_ORACLE_NAME);
 		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
-		msJob.setMetricSource(metricSource);
+		msJob.getMetricSources().add(metricSource);
 
 		// add to the job resource, that one is watched by the jobhandler
 		dataProvider.getResource(SchedulingPackage.Literals.JOB).getContents()
@@ -432,7 +432,7 @@ public class TestDataCreator implements NetxForgeService {
 		msJob.setName(MS_XLS_NAME);
 		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
-		msJob.setMetricSource(metricSource);
+		msJob.getMetricSources().add(metricSource);
 
 		// add to the job resource, that one is watched by the jobhandler
 		dataProvider.getResource(SchedulingPackage.Literals.JOB).getContents()

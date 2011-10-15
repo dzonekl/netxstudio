@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -46,7 +47,6 @@ import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
 import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTest;
-import com.netxforge.netxstudio.server.test.dataprovider.NonStatic;
 
 /**
  * Calls the metric source import action.
