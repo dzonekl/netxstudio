@@ -120,5 +120,5 @@ public abstract class AbstractMapping extends AbstractScreen {
 	public abstract void fillGrid(List<Map<Integer, Tuple>> records);
 
 	public abstract void fillCSVGrid(String[][] records);
-
-}
+	
+	}

@@ -5,26 +5,17 @@ import java.util.Hashtable;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
-import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
-import com.netxforge.netxstudio.data.importer.IImporterHelper;
-import com.netxforge.netxstudio.data.importer.NetworkElementLocator;
-import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
-import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
 import com.netxforge.netxstudio.server.job.JobModule;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService;
-import com.netxforge.netxstudio.server.metrics.MetricSourceImportService.ServiceRunner;
 import com.netxforge.netxstudio.server.metrics.MetricSourceJobImplementation;
-import com.netxforge.netxstudio.server.metrics.ServerImporterHelper;
-import com.netxforge.netxstudio.server.metrics.ServerImporterHelper.LocalDataProviderProvider;
 
 public class MetricsActivator implements BundleActivator {
 
@@ -52,7 +43,8 @@ public class MetricsActivator implements BundleActivator {
 		INSTANCE = this;
 		MetricsActivator.context = bundleContext;
 
-		Module om = new MetricModule();
+		Module om = new MetricsModule();
+//		om = Modules.override(om).with(new MetricsModule());
 		om = Modules.override(om).with(ServerModule.getModule());
 		om = Modules.override(om).with(new JobModule());
 		injector = Guice.createInjector(om);
@@ -82,21 +74,5 @@ public class MetricsActivator implements BundleActivator {
 
 	public Injector getInjector() {
 		return injector;
-	}
-
-	public class MetricModule extends AbstractModule {
-
-		// Bind our expression engine.
-		@Override
-		protected void configure() {
-			this.bind(LocalDataProviderProvider.class);
-			this.bind(MetricSourceJobImplementation.class);
-			this.bind(XLSMetricValuesImporter.class);
-			this.bind(CSVMetricValuesImporter.class);
-			this.bind(RDBMSMetricValuesImporter.class);
-			this.bind(NetworkElementLocator.class);
-			this.bind(ServiceRunner.class);
-			this.bind(IImporterHelper.class).to(ServerImporterHelper.class);
-		}
 	}
 }

@@ -10,6 +10,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.netxforge.netxstudio.data.importer.ImporterModule;
 
 public class DataActivator implements BundleActivator {
 
@@ -31,6 +32,7 @@ public class DataActivator implements BundleActivator {
 		DataActivator.context = bundleContext;
 		Module om = new CDODataServiceModule();
 		om = override(om).with(new CommonModule());
+		om = override(om).with(new ImporterModule());
 		injector = Guice.createInjector(om);
 	}
 

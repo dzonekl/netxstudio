@@ -236,7 +236,7 @@ public class MasterDataImporter {
 							eObject = processEReferences(true, eObject, row);
 						}
 					}
-					if (eObject.eContainer() == null) {
+					if (eObject != null && eObject.eContainer() == null) {
 						lastRootObject = eObject;
 						System.out.println(" LAST ROOT: "
 								+ printObject(lastRootObject));
