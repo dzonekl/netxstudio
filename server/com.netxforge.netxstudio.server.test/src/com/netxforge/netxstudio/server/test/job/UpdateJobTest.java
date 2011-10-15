@@ -87,7 +87,7 @@ public class UpdateJobTest extends AbstractDataProviderTest {
 		msJob.setName(MSJOBNAME);
 		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
-		msJob.setMetricSource(createTestMetricSource(MSJOBNAME));
+		msJob.getMetricSources().add(createTestMetricSource(MSJOBNAME));
 		resource.getContents().add(msJob);
 		resource.save(Collections.emptyMap());
 		provider.commitTransaction();
