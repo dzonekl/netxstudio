@@ -28,7 +28,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * 
  */
 public interface IScreenFormService {
-	
+
 	public static final String ICON_PATH = "com.netxforge.netxstudio.models.edit";
 
 	/**
@@ -40,58 +40,56 @@ public interface IScreenFormService {
 
 	/**
 	 * Check if the proposed new screen is not the active screen already.
+	 * 
 	 * @param proposedScreen
 	 * @return
 	 */
 	public abstract boolean isActiveScreen(Class<?> proposedScreen);
 
-	
 	/**
-	 * Set the active screen to this composite.
-	 * Pushes the previous screen on a screen stack. 
-	 * It's best to clear the cache when switching a branch of 
-	 * screens. 
+	 * Set the active screen to this composite. Pushes the previous screen on a
+	 * screen stack. It's best to clear the cache when switching a branch of
+	 * screens.
 	 * 
 	 * 
 	 * @param control
 	 */
 	public abstract void setActiveScreen(Composite control);
-	
-	
+
 	/**
 	 * 
 	 * @param rn
 	 */
 	public abstract void activateInObservable(Runnable rn);
-	
+
 	/**
 	 * Check if there is a previous screen.
+	 * 
 	 * @return
 	 */
-//	public abstract boolean hasPreviousScreen();
-	
-	
+	// public abstract boolean hasPreviousScreen();
+
 	/**
 	 * Check if the proposed new screen is not the previous screen already.
+	 * 
 	 * @param proposedScreen
 	 * @return
 	 */
-//	public abstract boolean isPreviousScreen(Class<?> proposedScreen);
-	
+	// public abstract boolean isPreviousScreen(Class<?> proposedScreen);
+
 	/**
 	 * Initialize the service with the parent.
 	 * 
 	 * @param parent
 	 */
 	public abstract void initalize(Composite parent);
-	
-	
+
 	/**
 	 * @return
 	 */
 	public abstract Composite addScreenSelector(String name, String iconPath,
 			Class<?> screen, int position, int operation);
-	
+
 	/**
 	 * 
 	 * @param above
@@ -102,56 +100,71 @@ public interface IScreenFormService {
 	 */
 	public abstract Composite addScreenSelector(Composite above, String name,
 			String iconPath, Class<?> screen, int operation);
-	
+
 	/**
-	 * Add a screen selector (Hyperlink) to the selector form.  
+	 * Add a screen selector (Hyperlink) to the selector form.
 	 * 
-	 * @param above The screen which is above this selector.
-	 * @param name The name to appear on the selector. 
-	 * @param iconPath The icon path is appended to {@link ICON_PATH} to get the icon. 
-	 * @param screen The screen to add. 
-	 * @param position The position of the selector. 
+	 * @param above
+	 *            The screen which is above this selector.
+	 * @param name
+	 *            The name to appear on the selector.
+	 * @param iconPath
+	 *            The icon path is appended to {@link ICON_PATH} to get the
+	 *            icon.
+	 * @param screen
+	 *            The screen to add.
+	 * @param position
+	 *            The position of the selector.
 	 * @pparam operation The operation for this screen.
 	 * @return
 	 */
 	public abstract Composite addScreenSelector(Composite above, String name,
 			String iconPath, Class<?> screen, int position, int operation);
-	
-//	public abstract void restorePreviousScreen();
-	
+
+	// public abstract void restorePreviousScreen();
+
 	/**
-	 * Get the selector form. 
+	 * Get the selector form.
+	 * 
 	 * @return
 	 */
 	public abstract Form getSelectorForm();
-	
+
 	/**
-	 * Get the screen container. 
+	 * Get the screen container.
+	 * 
 	 * @return
 	 */
 	public abstract Composite getScreenContainer();
-	
+
 	/**
-	 * Get the screen action bar.  
+	 * Get the screen action bar.
+	 * 
 	 * @return
 	 */
 	public abstract Composite getScreenActionBar();
-	
-	
+
 	/**
-	 * Get the viewer of the screen providing the selection. 
+	 * Get the viewer of the screen providing the selection.
+	 * 
 	 * @return
 	 */
 	public abstract IEditingService getEditingService();
-	
-	
+
 	/**
-	 * Notify of an external screen change. 
-	 * (An IScreen not managed by our service, but wishes to use the
-	 * notification system).  
+	 * Notify of an external screen change. (An IScreen not managed by our
+	 * service, but wishes to use the notification system).
+	 * 
 	 * @return
 	 */
 	public abstract void fireScreenChangedExternal(IScreen screen);
-	
+
+	/**
+	 * A listener which is notified of screen changes. 
+	 * 
+	 * @param screenChangedListener
+	 */
+	public abstract void addScreenChangeListener(
+			ScreenChangeListener screenChangedListener);
 
 }

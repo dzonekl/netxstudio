@@ -93,6 +93,8 @@ public class MetricSourceImportService implements NetxForgeService {
 						"Mapping type not supported "
 								+ metricSource.getMetricMapping());
 			}
+			importerHelper  = MetricsActivator.getInstance().getInjector().getInstance(IImporterHelper.class);
+			
 			importerHelper.setImporter(importer);
 			importer.setImportHelper(importerHelper);
 			importer.setMetricSourceWithId(msId);

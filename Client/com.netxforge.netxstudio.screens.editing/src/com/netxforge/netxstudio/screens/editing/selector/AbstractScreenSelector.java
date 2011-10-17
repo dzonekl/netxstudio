@@ -48,7 +48,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.AbstractScreenSelectorII"; //$NON-NLS-1$
 
 	@Inject
-	protected ScreenFormService screenFormService;
+	protected IScreenFormService screenFormService;
 
 	private IScreen activeScreen;
 
@@ -60,7 +60,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		return activeScreen;
 	}
 
-	public ScreenFormService getScreenFormService() {
+	public IScreenFormService getScreenFormService() {
 		return screenFormService;
 	}
 

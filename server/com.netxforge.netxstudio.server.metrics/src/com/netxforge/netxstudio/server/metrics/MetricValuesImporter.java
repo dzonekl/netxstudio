@@ -16,7 +16,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.data.importer;
+package com.netxforge.netxstudio.server.metrics;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -39,7 +39,6 @@ import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.importer.NetworkElementLocator.IdentifierValue;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -52,7 +51,6 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
-import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MappingRecord;
@@ -64,30 +62,32 @@ import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.scheduling.JobRunState;
+import com.netxforge.netxstudio.server.CommonLogic;
+import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.ServerUtils;
+import com.netxforge.netxstudio.server.metrics.NetworkElementLocator.IdentifierValue;
+import com.netxforge.netxstudio.server.metrics.internal.Activator;
 
 /**
  * The main entry class for the Metrics importing.
  * 
  * @author Martin Taal
  */
-public abstract class AbstractMetricValuesImporter implements IImporterHelper {
+public abstract class MetricValuesImporter {
 
 	public static final String ROOT_SYSTEM_PROPERTY = "metricSourceRoot";
 
 	private MetricSource metricSource;
 
 	private IRunMonitor jobMonitor;
-	
-	
-	public void setImporter(AbstractMetricValuesImporter importer) {
-		// Ignore, should not be called here. 
-	}
 
-	// Note: Not injected, as we inject with a local provider. 
-	protected IDataProvider dataProvider;
+	private IDataProvider dataProvider;
 
 	@Inject
-	protected NetworkElementLocator networkElementLocator;
+	private NetworkElementLocator networkElementLocator;
+
+	@Inject
+	private CommonLogic commonLogic;
 
 	@Inject
 	private ModelUtils modelUtils;
@@ -104,19 +104,11 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	private DateTimeRange mappingPeriodEstimate = GenericsFactory.eINSTANCE
 			.createDateTimeRange();
 	private int intervalEstimate = -1;
-
+	
 	private List<IdentifierValue> headerIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
 
-	/**
-	 * The helper provides implementation of specialized methods depending on
-	 * the environmnet (Client or Server).
-	 * 
-	 */
-	private IImporterHelper helper;
-
 	public void process() {
-		
-		initializeProviders(networkElementLocator);
+		initialize();
 
 		final long startTime = System.currentTimeMillis();
 		long endTime = startTime;
@@ -128,25 +120,21 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 					+ metricSource.getName());
 
 			final String msLocation = metricSource.getMetricLocation();
-
+			
 			String rootUrl = System.getProperty(ROOT_SYSTEM_PROPERTY);
-			// CB 27-09-2011 ROOT_SYSTEM_PROPERTY as fallback, on the server
-			// setting.
-			Resource settingsResource = this.getDataProvider().getResource(
-					NetxstudioPackage.Literals.SERVER_SETTINGS);
-			if (settingsResource != null
-					&& settingsResource.getContents().size() == 1) {
-				ServerSettings settings = (ServerSettings) settingsResource
-						.getContents().get(0);
+			// CB 27-09-2011 ROOT_SYSTEM_PROPERTY as fallback, on the server setting. 
+			Resource settingsResource = this.getDataProvider().getResource(NetxstudioPackage.Literals.SERVER_SETTINGS);
+			if(settingsResource != null && settingsResource.getContents().size() == 1){
+				ServerSettings settings = (ServerSettings) settingsResource.getContents().get(0);
 				rootUrl = settings.getImportPath();
 			}
-
-			// CB 27-09-2011,
-			if (!rootUrl.endsWith(File.separator)
-					&& !msLocation.startsWith(File.separator)) {
+			
+			// CB 27-09-2011, 
+			if (!rootUrl.endsWith(File.separator) && !msLocation.startsWith(File.separator)) {
 				rootUrl += File.separator;
 			}
-
+			
+			
 			final String fileOrDirectory = rootUrl + msLocation;
 			int totalRows = 0;
 			boolean noFiles = true;
@@ -223,8 +211,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 			endTime = System.currentTimeMillis();
 			mappingStatistic = createMappingStatistics(startTime, endTime,
-					totalRows, null, mappingPeriodEstimate,
-					getMappingIntervalEstimate());
+					totalRows, null, mappingPeriodEstimate, getMappingIntervalEstimate());
 			if (noFiles) {
 				mappingStatistic.setMessage("No files processed");
 			} else {
@@ -239,10 +226,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
 			t.printStackTrace(System.err);
 			mappingStatistic = createMappingStatistics(startTime, endTime, 0,
-					t.getMessage(), mappingPeriodEstimate,
-					getMappingIntervalEstimate());
-			
-			
+					t.getMessage(), mappingPeriodEstimate, getMappingIntervalEstimate());
 		}
 		getMetricSource().getStatistics().add(mappingStatistic);
 		getDataProvider().commitTransaction();
@@ -263,8 +247,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 	}
 
-	public void setImportHelper(IImporterHelper helper) {
-		this.helper = helper;
+	public void initialize() {
+		commonLogic.setDataProvider(getDataProvider());
+
+		// force that the same dataprovider is used
+		// so that components retrieved by the networkElementLocator
+		// participate in the same transaction
+		networkElementLocator.setDataProvider(getDataProvider());
 	}
 
 	protected abstract int processFile(File file) throws Exception;
@@ -278,9 +267,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				.createMappingStatistic();
 		final DateTimeRange range = GenericsFactory.eINSTANCE
 				.createDateTimeRange();
-		range.setBegin(modelUtils.toXMLDate(new Date(startTime)));
-		range.setEnd(modelUtils.toXMLDate(new Date(endTime)));
-
+		range.setBegin(ServerUtils.getInstance().toXmlDate(new Date(startTime)));
+		range.setEnd(ServerUtils.getInstance().toXmlDate(new Date(endTime)));
 		statistic.setMappingDuration(range);
 		statistic.setTotalRecords(totalRows);
 		statistic.setMessage(message);
@@ -320,20 +308,15 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 						rowNum);
 
 				final int intervalHintFromRow = getIntervalHint(rowNum);
-				// give preference to the intervalhint from a row mapping.
+				// give preference to the intervalhint from a row mapping. 
 				this.intervalEstimate = intervalHintFromRow;
-
+				
 				for (final MappingColumn column : getMappingColumn()) {
 					if (isMetric(column)) {
 						final Component networkElement = getNetworkElementLocator()
 								.locateNetworkElement(
 										getValueDataKind(column).getMetricRef(),
 										elementIdentifiers);
-						
-						
-						// We haven't found the Component with identifiers and metric ref. 
-						// Consider creating the component. 
-						// CREATE HERE! 
 						if (networkElement == null) {
 							getFailedRecords().add(
 									createNotFoundNetworkElementMappingRecord(
@@ -437,10 +420,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		objects = emfNetxResource.getContents();
 
 		final Value value = GenericsFactory.eINSTANCE.createValue();
-		value.setTimeStamp(modelUtils.toXMLDate(timeStamp));
+		value.setTimeStamp(ServerUtils.getInstance().toXmlDate(timeStamp));
 		value.setValue(dblValue);
 
-		addToValueRange(foundNetXResource, periodHint,
+		commonLogic.addToValueRange(foundNetXResource, periodHint,
 				valueDataKind.getKindHint(), Collections.singletonList(value),
 				null, null);
 	}
@@ -751,52 +734,28 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		this.throwable = throwable;
 	}
 
-	public void setDataProvider(IDataProvider dataProvider) {
-		this.dataProvider = dataProvider;
-	}
-
-	/**
-	 * Delegate to the currently set helper.
-	 */
-	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
-			KindHintType kindHintType, List<Value> newValues, Date start,
-			Date end) {
-		if (helper != null) {
-			this.helper.addToValueRange(foundNetXResource, periodHint,
-					kindHintType, newValues, start, end);
-		} else {
-			throw new java.lang.IllegalStateException(
-					"AbstractMetricValueImporter: Import helper should be set");
-		}
-	}
-
-	/**
-	 * Delegate to the currently set helper.
-	 */
-	public void initializeProviders(NetworkElementLocator networkElementLocator) {
-		if (helper != null) {
-			helper.initializeProviders(networkElementLocator);
-		} else {
-			throw new java.lang.IllegalStateException(
-					"AbstractMetricValueImporter: Import helper should be set");
-		}
-	}
-
-	/**
-	 * Delegate to the currently set helper.
-	 */
 	public IDataProvider getDataProvider() {
-		
-		if(dataProvider == null){
-			if (helper != null) {
-				return helper.getDataProvider();
-			} else {
-				throw new java.lang.IllegalStateException(
-						"AbstractMetricValueImporter: Import helper should be set");
-			}
-		}else{
+		if (dataProvider == null) {
+			// get it from the serverside
+			dataProvider = Activator.getInstance().getInjector()
+					.getInstance(LocalDataProviderProvider.class)
+					.getDataProvider();
+		}
+		return dataProvider;
+	}
+
+	public static class LocalDataProviderProvider {
+
+		@Inject
+		@Server
+		private IDataProvider dataProvider;
+
+		public IDataProvider getDataProvider() {
 			return dataProvider;
 		}
 	}
 
+	public void setDataProvider(IDataProvider dataProvider) {
+		this.dataProvider = dataProvider;
+	}
 }

@@ -56,12 +56,12 @@ public class ServerImporterHelper implements IImporterHelper {
 	private CommonLogic commonLogic;
 
 	public void initializeProviders(NetworkElementLocator networkElementLocator) {
-		commonLogic.setDataProvider(getDataProvider());
+		commonLogic.setDataProvider(importer.getDataProvider());
 
 		// force that the same dataprovider is used
 		// so that components retrieved by the networkElementLocator
 		// participate in the same transaction
-		networkElementLocator.setDataProvider(getDataProvider());
+		networkElementLocator.setDataProvider(importer.getDataProvider());
 	}
 
 	public IDataProvider getDataProvider() {

@@ -38,6 +38,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.wb.swt.TableViewerColumnSorter;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -54,7 +55,8 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.ResourceMonitorScreen;
 
-public abstract class AbstractResources extends AbstractScreen implements IDataServiceInjection {
+public abstract class AbstractResources extends AbstractScreen implements
+		IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
@@ -62,7 +64,7 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 
 	private TableViewer resourcesTableViewer;
 	private Form frmResources;
-//	private Resource resourcesResource;
+	// private Resource resourcesResource;
 
 	private TableViewerColumn tbvcLongName;
 	protected List<Resource> resourcesList;
@@ -87,7 +89,10 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
+		buildResources();
+	}
 
+	private void buildResources() {
 		frmResources = toolkit.createForm(this);
 		frmResources.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmResources);
@@ -110,56 +115,58 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 		txtFilterText.setLayoutData(gd_txtFilterText);
 		new Label(frmResources.getBody(), SWT.NONE);
 
-		// ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-		// frmResources.getBody(), SWT.NONE);
-		// mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
-		// public void linkActivated(HyperlinkEvent e) {
-		// if (screenService != null) {
-		// NewEditResource resourceScreen = new NewEditResource(screenService
-		// .getScreenContainer(), SWT.NONE);
-		// resourceScreen.setOperation(Screens.OPERATION_NEW);
-		// resourceScreen.setScreenService(screenService);
-		// resourceScreen.injectData(resourcesResource,
-		// LibraryFactory.eINSTANCE.createNetXResource());
-		// screenService.setActiveScreen(resourceScreen);
-		// }
-		//
-		// }
-		//
-		// public void linkEntered(HyperlinkEvent e) {
-		// }
-		//
-		// public void linkExited(HyperlinkEvent e) {
-		// }
-		// });
-		// mghprlnkNew.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit",
-		// "icons/full/ctool16/Resource_E.png"));
-		// mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-		// false, 1, 1));
-		// toolkit.paintBordersFor(mghprlnkNew);
-		// mghprlnkNew.setText("New");
-
 		resourcesTableViewer = new TableViewer(frmResources.getBody(),
 				SWT.VIRTUAL | SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
 		table = resourcesTableViewer.getTable();
 		resourcesTableViewer.setUseHashlookup(true);
 		resourcesTableViewer.setComparer(new CDOElementComparer());
-		
+
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
 		toolkit.paintBordersFor(table);
 
+		TableViewerColumn tableViewerColumn = new TableViewerColumn(
+				resourcesTableViewer, SWT.NONE);
+		// tableViewerColumn.setLabelProvider(new ColumnLabelProvider() {
+		// public Image getImage(Object element) {
+		// // TODO Auto-generated method stub
+		// return null;
+		// }
+		// public String getText(Object element) {
+		// // TODO Auto-generated method stub
+		// return element == null ? "" : element.toString();
+		// }
+		// });
+		new TableViewerColumnSorter(tableViewerColumn) {
+			@Override
+			protected int doCompare(Viewer viewer, Object e1, Object e2) {
+				// TODO Remove this method, if your getValue(Object) returns
+				// Comparable.
+				// Typical Comparable are String, Integer, Double, etc.
+				return super.doCompare(viewer, e1, e2);
+			}
+
+			@Override
+			protected Object getValue(Object o) {
+				// TODO remove this method, if your EditingSupport returns value
+				return super.getValue(o);
+			}
+		};
+		TableColumn tblclmnNode = tableViewerColumn.getColumn();
+		tblclmnNode.setWidth(100);
+		tblclmnNode.setText("Node");
+
 		TableViewerColumn tbvcOwner = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
 		TableColumn tblclmnOwner = tbvcOwner.getColumn();
 		tblclmnOwner.setWidth(100);
-		tblclmnOwner.setText("Owner");
-		
+		tblclmnOwner.setText("Component");
+
 		TableViewerColumn tbvcMetric = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
 		TableColumn tblclmnMetric = tbvcMetric.getColumn();
-		tblclmnMetric.setWidth(200);
+		tblclmnMetric.setWidth(112);
 		tblclmnMetric.setText("Metric");
 
 		TableViewerColumn tbvcShortName = new TableViewerColumn(
@@ -174,8 +181,7 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 		tblclmnExpression.setWidth(104);
 		tblclmnExpression.setText("Expression Name");
 
-		tbvcLongName = new TableViewerColumn(resourcesTableViewer,
-				SWT.NONE);
+		tbvcLongName = new TableViewerColumn(resourcesTableViewer, SWT.NONE);
 		TableColumn tblclmnState = tbvcLongName.getColumn();
 		tblclmnState.setWidth(200);
 		tblclmnState.setText("Long Name");
@@ -202,9 +208,9 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 						screenService.getScreenContainer(), SWT.NONE);
 				resourceScreen.setOperation(Screens.OPERATION_EDIT);
 				resourceScreen.setScreenService(screenService);
-				
-				// CB, the parent is the container resource. 
-				if(o instanceof CDOObject){
+
+				// CB, the parent is the container resource.
+				if (o instanceof CDOObject) {
 					resourceScreen.injectData(((CDOObject) o).cdoResource(), o);
 					screenService.setActiveScreen(resourceScreen);
 				}
@@ -224,19 +230,24 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 			if (selection instanceof IStructuredSelection) {
 				Object o = ((IStructuredSelection) selection).getFirstElement();
 				if (o instanceof NetXResource) {
-					
-					// TODO, Ask for a time range. 
-					// TODO, Select the value range. 
-					MetricValueRange mvr =  ((NetXResource) o).getMetricValueRanges().get(0);
-					
-					XMLGregorianCalendar start = mvr.getMetricValues().get(0).getTimeStamp();
-					XMLGregorianCalendar end = mvr.getMetricValues().get(mvr.getMetricValues().size() -1 ).getTimeStamp();
-					
-					DateTimeRange timerange = GenericsFactory.eINSTANCE.createDateTimeRange();
-					
+
+					// TODO, Ask for a time range.
+					// TODO, Select the value range.
+					MetricValueRange mvr = ((NetXResource) o)
+							.getMetricValueRanges().get(0);
+
+					XMLGregorianCalendar start = mvr.getMetricValues().get(0)
+							.getTimeStamp();
+					XMLGregorianCalendar end = mvr.getMetricValues()
+							.get(mvr.getMetricValues().size() - 1)
+							.getTimeStamp();
+
+					DateTimeRange timerange = GenericsFactory.eINSTANCE
+							.createDateTimeRange();
+
 					timerange.setBegin(start);
 					timerange.setEnd(end);
-					
+
 					ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
 							screenService.getScreenContainer(), SWT.NONE);
 					monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
@@ -253,7 +264,6 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		resourcesTableViewer.setContentProvider(listContentProvider);
-
 
 		List<IObservableMap> observeMaps = Lists.newArrayList();
 		IObservableSet set = listContentProvider.getKnownElements();
@@ -289,27 +299,27 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 		resourcesTableViewer
 				.setLabelProvider(new NetXResourceObervableMapLabelProvider(map));
 
-//		IEMFListProperty resourcesProperties = EMFEditProperties
-//				.resource(editingService.getEditingDomain());
-		
-		
-//		IObservableList resourceList = resourcesProperties
-//				.observe(resourcesResource);
-		
+		// IEMFListProperty resourcesProperties = EMFEditProperties
+		// .resource(editingService.getEditingDomain());
+
+		// IObservableList resourceList = resourcesProperties
+		// .observe(resourcesResource);
+
 		final IEMFListProperty computedProperties = EMFProperties.resource();
 		ComputedList computedResourceList = new ComputedList() {
 			@SuppressWarnings("unchecked")
 			@Override
 			protected List<Object> calculate() {
 				List<Object> result = Lists.newArrayList();
-				for(Resource r : resourcesList){
-					IObservableList observableList = computedProperties.observe(r);
+				for (Resource r : resourcesList) {
+					IObservableList observableList = computedProperties
+							.observe(r);
 					result.addAll(observableList);
 				}
 				return result;
 			}
 		};
-		
+
 		resourcesTableViewer.setInput(computedResourceList);
 
 		return bindingContext;
@@ -333,32 +343,48 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 			if (element instanceof NetXResource) {
 
 				NetXResource resource = (NetXResource) element;
+				Component c = null;
+				if (resource
+						.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)) {
+
+					c = resource.getComponentRef();
+
+				}
+
 				switch (columnIndex) {
+
 				case 0: {
-					if (resource
-							.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)) {
-						
-						Component c = resource.getComponentRef(); 
-						if(c instanceof Function){
+					if (c != null) {
+						return modelUtils.resolveParentNode(c).getNodeID();
+					} else {
+						return "not connected";
+					}
+				}
+				case 1: {
+					if (c != null) {
+						if (c instanceof Function) {
 							return c.getName();
 						}
-						if(c instanceof Equipment){
+						if (c instanceof Equipment) {
 							return ((Equipment) c).getEquipmentCode();
 						}
 					} else {
 						return "not connected";
 					}
 				}
-				case 1: {
+				case 2:
 					if (resource
 							.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__METRIC_REF)) {
 						return resource.getMetricRef().getName();
 					} else {
 						return null;
 					}
-				}
-
 				case 5:
+					if (resource.getLongName() != null) {
+						return resource.getLongName();
+					}
+					break;
+				case 6:
 					if (resource.getUnitRef() != null) {
 						return resource.getUnitRef().getCode();
 					}
@@ -369,19 +395,18 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 		}
 	}
 
-		
 	public void injectData() {
-		
-		// CB 31-08-2011, NetXResource is now sliced in own CDO resource by 
-		// component Hierarchy. 
-//		resourcesResource = editingService
-//				.getData(LibraryPackage.Literals.NET_XRESOURCE);
+
+		// CB 31-08-2011, NetXResource is now sliced in own CDO resource by
+		// component Hierarchy.
+		// resourcesResource = editingService
+		// .getData(LibraryPackage.Literals.NET_XRESOURCE);
 		buildUI();
 		initDataBindings_();
 	}
 
 	public void disposeData() {
-//		editingService.disposeData(resourcesResource);
+		// editingService.disposeData(resourcesResource);
 	}
 
 	@Override
@@ -414,5 +439,4 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 		actionList.add(new MonitorResourceAction("Monitor...", SWT.PUSH));
 		return actionList.toArray(new IAction[actionList.size()]);
 	}
-
 }

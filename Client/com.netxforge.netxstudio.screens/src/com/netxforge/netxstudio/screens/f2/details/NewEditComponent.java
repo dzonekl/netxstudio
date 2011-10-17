@@ -517,7 +517,10 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 						final Resource resourcesResource = editingService
 								.getDataService().getProvider()
 								.getResource(modelUtils.getResourcePath(comp));
-
+						
+						System.out.println(resourcesResource.getURI().toString());
+						
+						
 						resourceScreen.injectData(resourcesResource, comp,
 								LibraryFactory.eINSTANCE.createNetXResource());
 						screenService.setActiveScreen(resourceScreen);

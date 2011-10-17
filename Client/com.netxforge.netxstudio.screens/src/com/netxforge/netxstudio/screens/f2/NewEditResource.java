@@ -29,6 +29,7 @@ import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -65,6 +66,7 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -84,7 +86,7 @@ public class NewEditResource extends AbstractScreen implements
 	private Text txtLongName;
 	private Text txtExpressionName;
 	private Text txtUnit;
-	private NetXResource netxResource;
+	private BaseResource res;
 	private Form frmResource;
 	private Resource owner;
 	private Object whoRefers;
@@ -219,8 +221,10 @@ public class NewEditResource extends AbstractScreen implements
 						NewEditResource.this.getShell(), unitResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					Unit u = (Unit) dialog.getFirstResult();
-					netxResource.setUnitRef(u); // Should now show with
-												// databinding.
+
+					// TODO, via editing domain!!!
+					res.setUnitRef(u); // Should now show with
+										// databinding.
 				}
 			}
 		});
@@ -239,7 +243,7 @@ public class NewEditResource extends AbstractScreen implements
 		// if( netxResource.getComponentRef() != null && (node =
 		// modelUtils.resolveParentNode(netxResource.getComponentRef())) !=
 		// null) {
-		
+
 		// }
 	}
 
@@ -398,7 +402,7 @@ public class NewEditResource extends AbstractScreen implements
 						targetInterval));
 		valuesTableViewer
 				.setLabelProvider(new NetXResourceValueLabelProvider());
-		valuesTableViewer.setInput(netxResource);
+		valuesTableViewer.setInput(res);
 
 	}
 
@@ -409,7 +413,7 @@ public class NewEditResource extends AbstractScreen implements
 						CAPACITIES));
 		valuesTableViewer
 				.setLabelProvider(new NetXResourceValueLabelProvider());
-		valuesTableViewer.setInput(netxResource);
+		valuesTableViewer.setInput(res);
 
 	}
 
@@ -420,7 +424,7 @@ public class NewEditResource extends AbstractScreen implements
 						UTILIZATION));
 		valuesTableViewer
 				.setLabelProvider(new NetXResourceValueLabelProvider());
-		valuesTableViewer.setInput(netxResource);
+		valuesTableViewer.setInput(res);
 
 	}
 
@@ -527,12 +531,17 @@ public class NewEditResource extends AbstractScreen implements
 		IObservableValue unitTargetObservable = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(this.txtUnit, SWT.Modify));
-		
-		
+
 		IEMFValueProperty componentProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(), FeaturePath.fromList(
 						LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
 						LibraryPackage.Literals.COMPONENT__NAME));
+
+		// IEMFValueProperty equipmentProperty = EMFEditProperties.value(
+		// editingService.getEditingDomain(), FeaturePath.fromList(
+		// LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
+		// LibraryPackage.Literals.COMPONENT__NAME));
+		//
 
 		IEMFValueProperty shortNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -550,16 +559,15 @@ public class NewEditResource extends AbstractScreen implements
 				LibraryPackage.Literals.UNIT__CODE));
 
 		context.bindValue(componentTargetObservable,
-				componentProperty.observe(netxResource), null, null);
-
+				componentProperty.observe(res), null, null);
 		context.bindValue(shortNameTargetObservable,
-				shortNameProperty.observe(netxResource), null, null);
+				shortNameProperty.observe(res), null, null);
 		context.bindValue(longNameTargetObservable,
-				longNameProperty.observe(netxResource), null, null);
+				longNameProperty.observe(res), null, null);
 		context.bindValue(expressionNameTargetObservable,
-				expressionNameProperty.observe(netxResource), null, null);
-		context.bindValue(unitTargetObservable,
-				unitProperty.observe(netxResource), null, null);
+				expressionNameProperty.observe(res), null, null);
+		context.bindValue(unitTargetObservable, unitProperty.observe(res),
+				null, null);
 
 		// Set enablement for interval links.
 
@@ -570,52 +578,56 @@ public class NewEditResource extends AbstractScreen implements
 		hprlnkCapcity.setEnabled(false);
 		hprlnkUtilization.setEnabled(false);
 
-		if (netxResource.getCapacityValues().size() > 0) {
-			hprlnkCapcity.setEnabled(true);
-			hprlnkCapcity.setText(hprlnkCapcity.getText() + " ("
-					+ netxResource.getCapacityValues().size() + ")");
-		}
+		if (res instanceof NetXResource) {
 
-		if (netxResource.getUtilizationValues().size() > 0) {
-			hprlnkUtilization.setEnabled(true);
-			hprlnkUtilization.setText(hprlnkUtilization.getText() + " ("
-					+ netxResource.getUtilizationValues().size() + ")");
-		}
+			NetXResource netxResource = (NetXResource) res;
+			if (netxResource.getCapacityValues().size() > 0) {
+				hprlnkCapcity.setEnabled(true);
+				hprlnkCapcity.setText(hprlnkCapcity.getText() + " ("
+						+ netxResource.getCapacityValues().size() + ")");
+			}
 
-		for (MetricValueRange mvr : netxResource.getMetricValueRanges()) {
-			switch (mvr.getIntervalHint()) {
+			if (netxResource.getUtilizationValues().size() > 0) {
+				hprlnkUtilization.setEnabled(true);
+				hprlnkUtilization.setText(hprlnkUtilization.getText() + " ("
+						+ netxResource.getUtilizationValues().size() + ")");
+			}
 
-			case 60: {
-				hprlnkHourly.setEnabled(true);
-				hprlnkHourly.setText(hprlnkHourly.getText() + " ("
-						+ mvr.getMetricValues().size() + ")");
-			}
-				break;
-			case 60 * 24: {
-				hprlnkDaily.setEnabled(true);
-				hprlnkDaily.setText(hprlnkDaily.getText() + " ("
-						+ mvr.getMetricValues().size() + ")");
-			}
-				break;
-			case 60 * 24 * 7: {
-				hprlnkWeekly.setEnabled(true);
-				hprlnkWeekly.setText(hprlnkWeekly.getText() + " ("
-						+ mvr.getMetricValues().size() + ")");
-			}
-				break;
-			case 60 * 24 * 30: {
-				hprlnkMonthly.setEnabled(true);
-				hprlnkMonthly.setText(hprlnkMonthly.getText() + " ("
-						+ mvr.getMetricValues().size() + ")");
-			}
-				break;
-			default: {
-				System.out.println("Unknown range found with interval: "
-						+ mvr.getIntervalHint());
-				// TODO, perhaps add other hyperlinks for non-predefined
-				// intervals???
+			for (MetricValueRange mvr : netxResource.getMetricValueRanges()) {
+				switch (mvr.getIntervalHint()) {
 
-			}
+				case 60: {
+					hprlnkHourly.setEnabled(true);
+					hprlnkHourly.setText(hprlnkHourly.getText() + " ("
+							+ mvr.getMetricValues().size() + ")");
+				}
+					break;
+				case 60 * 24: {
+					hprlnkDaily.setEnabled(true);
+					hprlnkDaily.setText(hprlnkDaily.getText() + " ("
+							+ mvr.getMetricValues().size() + ")");
+				}
+					break;
+				case 60 * 24 * 7: {
+					hprlnkWeekly.setEnabled(true);
+					hprlnkWeekly.setText(hprlnkWeekly.getText() + " ("
+							+ mvr.getMetricValues().size() + ")");
+				}
+					break;
+				case 60 * 24 * 30: {
+					hprlnkMonthly.setEnabled(true);
+					hprlnkMonthly.setText(hprlnkMonthly.getText() + " ("
+							+ mvr.getMetricValues().size() + ")");
+				}
+					break;
+				default: {
+					System.out.println("Unknown range found with interval: "
+							+ mvr.getIntervalHint());
+					// TODO, perhaps add other hyperlinks for non-predefined
+					// intervals???
+
+				}
+				}
 			}
 		}
 
@@ -634,8 +646,8 @@ public class NewEditResource extends AbstractScreen implements
 		if (owner instanceof Resource) {
 			this.owner = (Resource) owner;
 		}
-		if (object instanceof NetXResource) {
-			netxResource = (NetXResource) object;
+		if (object instanceof BaseResource) {
+			res = (BaseResource) object;
 		}
 		// Determine the ownership if not a resource.
 		if (whoRefers != null) {
@@ -655,13 +667,26 @@ public class NewEditResource extends AbstractScreen implements
 				// We also set the reference to this expression, we need to
 				// referee and a feature for this.
 				if (whoRefers instanceof Component) {
-					Command refCommand = new AddCommand(
-							editingService.getEditingDomain(),
-							((Component) whoRefers).getResourceRefs(),
-							this.netxResource);
-					c.append(refCommand);
-					c.append(new AddCommand(editingService.getEditingDomain(),
-							owner.getContents(), netxResource));
+					if (res instanceof NetXResource) {
+
+						Command refOneSideCommand = new AddCommand(
+								editingService.getEditingDomain(),
+								((Component) whoRefers).getResourceRefs(),
+								this.res);
+						c.append(refOneSideCommand);
+
+						Command refOtherSideCommand = new SetCommand(
+								editingService.getEditingDomain(),
+								((NetXResource) res).getComponentRef(),
+								LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
+								(Component)whoRefers);
+						c.append(refOtherSideCommand);
+
+					}
+					Command ac = new AddCommand(editingService.getEditingDomain(),
+							owner.getContents(), res);
+					
+					c.append(ac);
 
 					editingService.getEditingDomain().getCommandStack()
 							.execute(c);
@@ -676,15 +701,14 @@ public class NewEditResource extends AbstractScreen implements
 			// cause invalidity, so the action will not occure in case the
 			// original is
 			// invalid, and we should cancel the action and warn the user.
-			if (netxResource.cdoInvalid()) {
+			if (res.cdoInvalid()) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-			System.out.println(netxResource.cdoID() + ""
-					+ netxResource.cdoState());
+			System.out.println(res.cdoID() + "" + res.cdoState());
 
 		}
 		// After our edit, we shall be dirty
@@ -713,7 +737,7 @@ public class NewEditResource extends AbstractScreen implements
 	public Form getScreenForm() {
 		return this.frmResource;
 	}
-	
+
 	public String getScreenName() {
 		return "Resource";
 	}
