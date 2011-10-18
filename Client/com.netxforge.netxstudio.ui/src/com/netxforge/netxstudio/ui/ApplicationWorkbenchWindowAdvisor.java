@@ -94,7 +94,11 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		} else {
 			// Data corruption issue.
 		}
-
+		
+		// Close, used transactions. 
+		dService.getQueryService().close();
+		
+		
 		// Get the workbench and disable some actionsets:
 		// These will be added again for another perspective.
 
