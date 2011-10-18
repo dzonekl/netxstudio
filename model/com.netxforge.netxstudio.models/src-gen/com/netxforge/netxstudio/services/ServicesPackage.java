@@ -1064,13 +1064,22 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_USER__DELETED = GenericsPackage.BASE__DELETED;
 
 	/**
+	 * The feature id for the '<em><b>Service Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_USER__SERVICE_REF = GenericsPackage.BASE_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Service Profile</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_USER__SERVICE_PROFILE = GenericsPackage.BASE_FEATURE_COUNT + 0;
+	int SERVICE_USER__SERVICE_PROFILE = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Expression Ref</b></em>' reference.
@@ -1079,7 +1088,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_USER__EXPRESSION_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int SERVICE_USER__EXPRESSION_REF = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1088,7 +1097,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_USER__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int SERVICE_USER__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1097,7 +1106,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_USER__NAME = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int SERVICE_USER__NAME = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Service User</em>' class.
@@ -1106,7 +1115,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_USER_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int SERVICE_USER_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.ResourceOriginType <em>Resource Origin Type</em>}' enum.
@@ -1699,6 +1708,17 @@ public interface ServicesPackage extends EPackage {
 	EClass getServiceUser();
 
 	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.services.ServiceUser#getServiceRef <em>Service Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Service Ref</em>'.
+	 * @see com.netxforge.netxstudio.services.ServiceUser#getServiceRef()
+	 * @see #getServiceUser()
+	 * @generated
+	 */
+	EReference getServiceUser_ServiceRef();
+
+	/**
 	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.services.ServiceUser#getServiceProfile <em>Service Profile</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2239,6 +2259,14 @@ public interface ServicesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass SERVICE_USER = eINSTANCE.getServiceUser();
+
+		/**
+		 * The meta object literal for the '<em><b>Service Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERVICE_USER__SERVICE_REF = eINSTANCE.getServiceUser_ServiceRef();
 
 		/**
 		 * The meta object literal for the '<em><b>Service Profile</b></em>' containment reference feature.

@@ -43,6 +43,7 @@ import org.eclipse.wb.swt.TableViewerColumnSorter;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -68,6 +69,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 	private TableViewerColumn tbvcLongName;
 	protected List<Resource> resourcesList;
+	private TableViewerColumn tbvcCapacity;
 
 	/**
 	 * Create the composite.
@@ -153,39 +155,54 @@ public abstract class AbstractResources extends AbstractScreen implements
 				return super.getValue(o);
 			}
 		};
+		
+		// Column 0
 		TableColumn tblclmnNode = tableViewerColumn.getColumn();
 		tblclmnNode.setWidth(100);
 		tblclmnNode.setText("Node");
 
+		// Column 1
 		TableViewerColumn tbvcOwner = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
 		TableColumn tblclmnOwner = tbvcOwner.getColumn();
 		tblclmnOwner.setWidth(100);
 		tblclmnOwner.setText("Component");
-
+		
+		// Column 2
 		TableViewerColumn tbvcMetric = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
 		TableColumn tblclmnMetric = tbvcMetric.getColumn();
 		tblclmnMetric.setWidth(112);
 		tblclmnMetric.setText("Metric");
 
+		// Column 3
 		TableViewerColumn tbvcShortName = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
 		TableColumn tblclmnShortName = tbvcShortName.getColumn();
 		tblclmnShortName.setWidth(76);
 		tblclmnShortName.setText("Short Name");
 
+		// Column 4
 		TableViewerColumn tbvcExpressionName = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
 		TableColumn tblclmnExpression = tbvcExpressionName.getColumn();
 		tblclmnExpression.setWidth(104);
 		tblclmnExpression.setText("Expression Name");
-
+		
+		// Column 5
 		tbvcLongName = new TableViewerColumn(resourcesTableViewer, SWT.NONE);
 		TableColumn tblclmnState = tbvcLongName.getColumn();
 		tblclmnState.setWidth(200);
 		tblclmnState.setText("Long Name");
-
+		
+		// Column 6
+		// Set a fix capacity value. 
+		tbvcCapacity = new TableViewerColumn(resourcesTableViewer, SWT.NONE);
+		TableColumn tblclmnCapacity = tbvcCapacity.getColumn();
+		tblclmnCapacity.setWidth(60);
+		tblclmnCapacity.setText("Capacity");
+		
+		// Column 7
 		TableViewerColumn tbvcUnit = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
 		TableColumn tblclmnUnit = tbvcUnit.getColumn();
@@ -385,6 +402,13 @@ public abstract class AbstractResources extends AbstractScreen implements
 					}
 					break;
 				case 6:
+					Value v = modelUtils.lastCapacityValue(resource);
+					if( v != null){
+						return new Double(v.getValue()).toString();
+					}else{
+						return "<not set>";
+					}
+				case 7:
 					if (resource.getUnitRef() != null) {
 						return resource.getUnitRef().getCode();
 					}

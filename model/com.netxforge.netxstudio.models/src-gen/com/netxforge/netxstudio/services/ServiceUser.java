@@ -43,6 +43,7 @@ import com.netxforge.netxstudio.library.Expression;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.services.ServiceUser#getServiceRef <em>Service Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.ServiceUser#getServiceProfile <em>Service Profile</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.ServiceUser#getExpressionRef <em>Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.ServiceUser#getDescription <em>Description</em>}</li>
@@ -55,6 +56,35 @@ import com.netxforge.netxstudio.library.Expression;
  * @generated
  */
 public interface ServiceUser extends Base {
+	/**
+	 * Returns the value of the '<em><b>Service Ref</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link com.netxforge.netxstudio.services.Service#getServiceUserRefs <em>Service User Refs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Service Ref</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Service Ref</em>' reference.
+	 * @see #setServiceRef(Service)
+	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceUser_ServiceRef()
+	 * @see com.netxforge.netxstudio.services.Service#getServiceUserRefs
+	 * @model opposite="serviceUserRefs"
+	 *        extendedMetaData="kind='element' name='ServiceRef'"
+	 * @generated
+	 */
+	Service getServiceRef();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.services.ServiceUser#getServiceRef <em>Service Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Service Ref</em>' reference.
+	 * @see #getServiceRef()
+	 * @generated
+	 */
+	void setServiceRef(Service value);
+
 	/**
 	 * Returns the value of the '<em><b>Service Profile</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

@@ -168,6 +168,7 @@ public interface Service extends Base {
 	/**
 	 * Returns the value of the '<em><b>Service User Refs</b></em>' reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.services.ServiceUser}.
+	 * It is bidirectional and its opposite is '{@link com.netxforge.netxstudio.services.ServiceUser#getServiceRef <em>Service Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -178,7 +179,9 @@ public interface Service extends Base {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service User Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getService_ServiceUserRefs()
-	 * @model extendedMetaData="kind='element' name='ServiceUserRefs'"
+	 * @see com.netxforge.netxstudio.services.ServiceUser#getServiceRef
+	 * @model opposite="serviceRef"
+	 *        extendedMetaData="kind='element' name='ServiceUserRefs'"
 	 * @generated
 	 */
 	EList<ServiceUser> getServiceUserRefs();

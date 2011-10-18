@@ -101,6 +101,7 @@ public class NewEditResource extends AbstractScreen implements
 	private Hyperlink hprlnkCapcity;
 	private Hyperlink hprlnkUtilization;
 	private Text txtComponent;
+	private Hyperlink hprlnk15;
 
 	/**
 	 * Create the composite.
@@ -264,6 +265,20 @@ public class NewEditResource extends AbstractScreen implements
 		sctnContents.setClient(composite_2);
 		composite_2.setLayout(new GridLayout(7, false));
 
+		hprlnk15 = toolkit.createHyperlink(composite_2, "15 min", SWT.NONE);
+		hprlnk15.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				updateValues(15);
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		toolkit.paintBordersFor(hprlnk15);
+		
 		hprlnkHourly = toolkit.createHyperlink(composite_2, "Hourly", SWT.NONE);
 		hprlnkHourly.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
@@ -471,8 +486,6 @@ public class NewEditResource extends AbstractScreen implements
 		}
 
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-			// TODO Auto-generated method stub
-
 		}
 
 		public Object[] getElements(Object inputElement) {
@@ -575,6 +588,7 @@ public class NewEditResource extends AbstractScreen implements
 		hprlnkWeekly.setEnabled(false);
 		hprlnkMonthly.setEnabled(false);
 		hprlnkHourly.setEnabled(false);
+		hprlnk15.setEnabled(false);
 		hprlnkCapcity.setEnabled(false);
 		hprlnkUtilization.setEnabled(false);
 
@@ -595,7 +609,12 @@ public class NewEditResource extends AbstractScreen implements
 
 			for (MetricValueRange mvr : netxResource.getMetricValueRanges()) {
 				switch (mvr.getIntervalHint()) {
-
+				case 15: {
+					hprlnk15.setEnabled(true);
+					hprlnk15.setText(hprlnk15.getText() + " ("
+							+ mvr.getMetricValues().size() + ")");
+				}
+					break;
 				case 60: {
 					hprlnkHourly.setEnabled(true);
 					hprlnkHourly.setText(hprlnkHourly.getText() + " ("

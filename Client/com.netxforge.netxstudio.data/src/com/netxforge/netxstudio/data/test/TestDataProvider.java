@@ -46,14 +46,6 @@ public class TestDataProvider implements IDataProvider {
 		return null;
 	}
 	
-	public EObject getNetXScriptWrapper() {
-//		NetXScriptWrapper wrapper = XtextwrapperFactory.eINSTANCE.createNetXScriptWrapper();
-//		wrapper.setAsString("");
-//		wrapper.setXblock(XbaseFactory.eINSTANCE.createXBlockExpression());
-//		return wrapper;
-		return null;
-	}
-
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.data.IDataProvider#getNetXStudio()
 	 */
@@ -182,12 +174,16 @@ public class TestDataProvider implements IDataProvider {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	public List<Resource> getResources(String resourcePath) {
+	public List<Resource> getResources(ResourceSet set, String resourcePath) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
 	public void openSession(String username, String password, String server,
 			boolean reset) {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	public List<Resource> getResources(String resourcePath) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 

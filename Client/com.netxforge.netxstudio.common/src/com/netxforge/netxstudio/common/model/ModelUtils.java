@@ -197,6 +197,7 @@ public class ModelUtils {
 		}
 	}
 
+	
 	public ValuerInsideRange valueInsideRange(DateTimeRange dtr) {
 		return new ValuerInsideRange(dtr);
 	}
@@ -1252,7 +1253,23 @@ public class ModelUtils {
 		}
 		return newName;
 	}
-
+	
+	
+	/**
+	 * Iterate through the ranges, and find for this interval.
+	 * 
+	 * @param resource
+	 * @param targetInterval
+	 * @return
+	 */
+	public Value lastCapacityValue(NetXResource resource) {
+		List<Value> values = this.sortByTimeStampAndReverse(resource.getCapacityValues());
+		if( values.size() > 0){
+			return values.get(0);	
+		}
+		return null;
+	}
+	
 	/**
 	 * Iterate through the ranges, and find for this interval.
 	 * 

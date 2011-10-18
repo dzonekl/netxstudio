@@ -43,32 +43,34 @@ import com.netxforge.netxstudio.operators.Node;
 
 /**
  * Is responsible for finding a network element using a set of IdentifierValues.
+ * When the most deep component or relationship is not found, and the metric is
+ * actually on the parent, we create the component.
+ * 
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 public class NetworkElementLocator {
-	
-	
-	
-	// TODO Check, the NEL is always initialized. 
-//	@Inject
-//	@Server
+
+	// @Inject
+	// @Server
 	private IDataProvider dataProvider;
 
-	// cache the components by metric and node id
-	private Map<String, List<Component>> cachedObjects = new HashMap<String, List<Component>>();
+	// cache the components by metric and node identifier.
+	private Map<String, List<Component>> cachedComponentsForNodeID = new HashMap<String, List<Component>>();
 
-	// keeps track of the most successfull identifiers, can be used to provide more 
+	// keeps track of the most successfull identifiers, can be used to provide
+	// more
 	// information to the user on which columns failed
 	private List<IdentifierValue> successFullIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
-	
+
 	private List<IdentifierValue> failedIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
-	
+
 	public Component locateNetworkElement(Metric metric,
 			List<IdentifierValue> identifiers) {
 		successFullIdentifiers.clear();
 		failedIdentifiers.clear();
-		
+
 		final EReference sourceReference = LibraryPackage.eINSTANCE
 				.getComponent_MetricRefs();
 
@@ -80,7 +82,7 @@ public class NetworkElementLocator {
 			}
 		}
 
-		// find the node identifier
+		// find the node identifier otherwise bail out.
 		IdentifierValue nodeIdentifier = null;
 		for (final IdentifierValue identifierValue : identifiers) {
 			if (identifierValue.getKind().getObjectKind() == ObjectKindType.NODE) {
@@ -94,10 +96,12 @@ public class NetworkElementLocator {
 			return null;
 		}
 
+		// The list of resolved components, as a cross reference could
+		// have multiple.
 		List<Component> components = new ArrayList<Component>();
 		final String key = getKey(nodeIdentifier, metric);
-		if (cachedObjects.containsKey(key)) {
-			components = cachedObjects.get(key);
+		if (cachedComponentsForNodeID.containsKey(key)) {
+			components = cachedComponentsForNodeID.get(key);
 		} else {
 			// find the cross references to this metric
 			final List<CDOObjectReference> results = dataProvider
@@ -110,23 +114,33 @@ public class NetworkElementLocator {
 				if (source instanceof Equipment && !searchingForEquipment) {
 					continue;
 				}
+				// walk up the node hierarchy and end up with a Node object
+				// which should be equal
+				// to the node identifier, otherwise skip this component.
 				if (!hasValidNode(source, nodeIdentifier)) {
 					continue;
 				}
-
+				// also add the children of the component referencing the
+				// Metric.
+				// .. creating a flat list of a node-metric-
 				if (source instanceof Component && !components.contains(source)) {
 					components.add((Component) source);
 					addChildren((Component) source, components);
 				}
 			}
-			cachedObjects.put(key, components);
+			cachedComponentsForNodeID.put(key, components);
 		}
+
+		// Iterate through components and subiterate through the identifiers,
+		// having a full match of identifiers
+		// and components.
 		for (final Component source : components) {
 			boolean allFeaturesValid = true;
 			boolean atLeastOneFeatureChecked = false;
 			final List<IdentifierValue> localSuccessFullIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
 			localSuccessFullIdentifiers.add(nodeIdentifier);
 			for (final IdentifierValue identifierValue : identifiers) {
+				// Skip the Node identifier.
 				if (identifierValue.getKind().getObjectKind() != ObjectKindType.NODE) {
 					atLeastOneFeatureChecked = true;
 					if (!isValidObject(source, identifierValue)) {
@@ -137,20 +151,27 @@ public class NetworkElementLocator {
 					}
 				}
 			}
-			if (localSuccessFullIdentifiers.size() > successFullIdentifiers.size()) {
+			if (localSuccessFullIdentifiers.size() > successFullIdentifiers
+					.size()) {
 				successFullIdentifiers = localSuccessFullIdentifiers;
 			}
 			if (atLeastOneFeatureChecked && allFeaturesValid) {
 				return source;
 			}
+
+			// A component, with the correct node, correct metric but no
+			// identifier, return the first one 
+			return source;
+			
 		}
 
+		// report the failed ID's.
 		for (final IdentifierValue idValue : identifiers) {
 			if (!successFullIdentifiers.contains(idValue)) {
 				failedIdentifiers.add(idValue);
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -200,7 +221,8 @@ public class NetworkElementLocator {
 				for (final FunctionRelationship r : ((Function) eObject)
 						.getFunctionRelationshipRefs()) {
 					if (featureMatchesValue(r, identifierValue.getKind()
-							.getObjectProperty(), idValue, identifierValue.getKind().getPattern())) {
+							.getObjectProperty(), idValue, identifierValue
+							.getKind().getPattern())) {
 						return true;
 					}
 				}
@@ -208,7 +230,8 @@ public class NetworkElementLocator {
 				for (final EquipmentRelationship r : ((Equipment) eObject)
 						.getEquipmentRelationshipRefs()) {
 					if (featureMatchesValue(r, identifierValue.getKind()
-							.getObjectProperty(), idValue, identifierValue.getKind().getPattern())) {
+							.getObjectProperty(), idValue, identifierValue
+							.getKind().getPattern())) {
 						return true;
 					}
 				}
@@ -216,7 +239,8 @@ public class NetworkElementLocator {
 			return false;
 		} else {
 			return featureMatchesValue(eObject, identifierValue.getKind()
-					.getObjectProperty(), idValue, identifierValue.getKind().getPattern());
+					.getObjectProperty(), idValue, identifierValue.getKind()
+					.getPattern());
 		}
 	}
 
@@ -234,28 +258,34 @@ public class NetworkElementLocator {
 		eObject.eClass().getEStructuralFeature(eFeatureName);
 		if (eFeature != null) {
 			final Object componentFeatureValue = eObject.eGet(eFeature);
-			if (componentFeatureValue instanceof String && matches(idValue, (String)componentFeatureValue, extractionPattern)) {
+			if (componentFeatureValue instanceof String
+					&& matches(idValue, (String) componentFeatureValue,
+							extractionPattern)) {
 				return true;
 			}
 		}
 		// check if one of the parents has this one
 		if (eObject.eContainer() != null) {
-			return featureMatchesValue(eObject.eContainer(), eFeatureName, idValue, extractionPattern);
+			return featureMatchesValue(eObject.eContainer(), eFeatureName,
+					idValue, extractionPattern);
 		}
 		return false;
 	}
 
-	private boolean matches(String dataValue, String componentValue, String extractionPattern) {
-		// PATTERN: if extractionPattern != null then use it to extract the to-compare value
-		// from the componentValue or the dataValue, the dataValue is read from the excel
-		if(extractionPattern != null && extractionPattern.length() > 0){
+	private boolean matches(String dataValue, String componentValue,
+			String extractionPattern) {
+		// PATTERN: if extractionPattern != null then use it to extract the
+		// to-compare value
+		// from the componentValue or the dataValue, the dataValue is read from
+		// the excel
+		if (extractionPattern != null && extractionPattern.length() > 0) {
 			// TODO Implement.
 			return dataValue.equals(componentValue);
-		}else{
+		} else {
 			return dataValue.equals(componentValue);
 		}
 	}
-	
+
 	public static class IdentifierValue {
 		private IdentifierDataKind kind;
 		private String value;
@@ -286,11 +316,11 @@ public class NetworkElementLocator {
 		}
 
 	}
-	
-	// Never used. 
-//	public IDataProvider getDataProvider() {
-//		return dataProvider;
-//	}
+
+	// Never used.
+	// public IDataProvider getDataProvider() {
+	// return dataProvider;
+	// }
 
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;

@@ -129,7 +129,7 @@ public abstract class CDODataProvider implements IDataProvider {
 
 		connection.getConfig().getAuthenticator()
 				.setCredentialsProvider(credentialsProvider);
-		
+
 		try {
 			final CDOSession cdoSession = connection.getConfig().openSession();
 			((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession
@@ -195,6 +195,35 @@ public abstract class CDODataProvider implements IDataProvider {
 		return getResource(set, res);
 	}
 
+	public List<Resource> getResources(ResourceSet set, String resourcePath) {
+		// NOTE: We don't create resources for this function, as we assume the
+		// path is a folder.
+
+		final CDOView[] views = this.getSession().getViews();
+		for (int i = 0; i < views.length; i++) {
+			final CDOView view = views[i];
+			if (view.getResourceSet().equals(set)) {
+				if (view.hasResource(resourcePath)) {
+					CDOResourceNode node = view.getResourceNode(resourcePath);
+					if (node instanceof CDOResourceFolder) {
+						return getResourcesFromNode((CDOResourceFolder) node);
+					}
+				}
+			}
+		}
+		// create a transaction for all sub resources from this path.
+
+		final CDOTransaction transaction = getSession().openTransaction(set);
+
+		if (transaction.hasResource(resourcePath)) {
+			CDOResourceNode node = transaction.getResourceNode(resourcePath);
+			if (node instanceof CDOResourceFolder) {
+				return getResourcesFromNode((CDOResourceFolder) node);
+			}
+		}
+		return Collections.emptyList();
+	}
+
 	public List<Resource> getResources(String resourcePath) {
 		// NOTE: We don't create resources for this function, as we assume the
 		// path is a folder.
@@ -207,6 +236,16 @@ public abstract class CDODataProvider implements IDataProvider {
 				if (node instanceof CDOResourceFolder) {
 					return getResourcesFromNode((CDOResourceFolder) node);
 				}
+			}
+		}
+		// create a transaction for all sub resources from this path, let CDO
+		// specify the resource set.
+		final CDOTransaction transaction = getSession().openTransaction();
+
+		if (transaction.hasResource(resourcePath)) {
+			CDOResourceNode node = transaction.getResourceNode(resourcePath);
+			if (node instanceof CDOResourceFolder) {
+				return getResourcesFromNode((CDOResourceFolder) node);
 			}
 		}
 		return Collections.emptyList();
@@ -233,7 +272,7 @@ public abstract class CDODataProvider implements IDataProvider {
 		// in our session and resource set.
 		final CDOView[] views = this.getSession().getViews();
 
-		// FIXME, we seem to have multiple views????
+		//
 		// if(views.length > 1){
 		// // How can we have multiple views??
 		// throw new java.lang.IllegalArgumentException();
@@ -242,7 +281,7 @@ public abstract class CDODataProvider implements IDataProvider {
 		for (int i = 0; i < views.length; i++) {
 			final CDOView view = views[i];
 			if (view.getResourceSet().equals(set)) {
-				
+
 				if (view.hasResource(resourcePath)) {
 					final CDOResource resource = view.getResource(resourcePath);
 					return resource;

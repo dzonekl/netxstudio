@@ -59,7 +59,12 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	private void setData(FileReader fileReader) throws Exception {
 		final BufferedReader reader = new BufferedReader(fileReader);
-		final String delimiter = ((MappingCSV)getMapping()).getDelimiter();
+		String delimiter = ((MappingCSV)getMapping()).getDelimiter();
+		
+		if(delimiter == null){
+			delimiter = ",";
+		}
+		
 		final List<String[]> localData = new ArrayList<String[]>();
 		String line;
 		while ((line = reader.readLine()) != null) {

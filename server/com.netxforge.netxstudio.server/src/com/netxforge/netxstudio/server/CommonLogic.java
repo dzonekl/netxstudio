@@ -368,8 +368,16 @@ public class CommonLogic {
 	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
 			KindHintType kindHintType, List<Value> newValues, Date start,
 			Date end) {
+		
+		
+		// Default equals -1. 
+		if(periodHint == -1){
+			
+		}
+		
 		final MetricValueRange mvr = modelUtils.valueRangeForIntervalAndKind(
 				foundNetXResource, kindHintType, periodHint);
+		
 		if (start != null) {
 			removeValues(mvr.getMetricValues(), start, end);
 		}

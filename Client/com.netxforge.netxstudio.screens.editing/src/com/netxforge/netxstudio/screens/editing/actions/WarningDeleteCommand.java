@@ -98,7 +98,10 @@ public class WarningDeleteCommand extends CompoundCommand {
 		List<CDOObjectReference> xRefs = this.findReferencesGlobally(eObjects);
 
 		super.execute();
-
+		
+		// The domain, might not contain the referenced object. 
+		
+		
 		if (xRefs != null) {
 			for (CDOObjectReference xref : xRefs) {
 
@@ -108,9 +111,20 @@ public class WarningDeleteCommand extends CompoundCommand {
 					EStructuralFeature eStructuralFeature = xref
 							.getSourceFeature();
 					if (eStructuralFeature.isMany()) {
-						appendAndExecute(RemoveCommand
+						
+						
+						// Hack, has remove command doesn't work sometimes....
+						Command cmd = RemoveCommand
 								.create(domain, referencingEObject,
-										eStructuralFeature, eObject));
+										eStructuralFeature, eObject);
+						if(cmd.canExecute()){
+							appendAndExecute(cmd);
+						}else{
+							Object eGet = referencingEObject.eGet(eStructuralFeature);
+							if(eGet instanceof List<?>){
+								((List<?>)eGet).remove(eObject);
+							}
+						}
 
 					} else {
 						appendAndExecute(SetCommand.create(domain,
@@ -167,9 +181,10 @@ public class WarningDeleteCommand extends CompoundCommand {
 					for (CDOObjectReference runRef : runRefs) {
 						// Iterate through the already found queryRefs, compare
 						// source
-						if(!exists(queryXRefs, runRef)){
-							queryXRefs.add(runRef);
-						}
+//						if(!exists(queryXRefs, runRef)){
+//							queryXRefs.add(runRef);
+//						}
+						queryXRefs.add(runRef);
 					}
 
 				} catch (Exception e) {

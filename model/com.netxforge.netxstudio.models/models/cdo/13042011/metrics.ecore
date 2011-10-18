@@ -129,7 +129,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="intervalHint" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
-        unsettable="true">
+        defaultValueLiteral="60" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The IntervalHint attribute, holds a hint for the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;metric interval between each metric value in minutes.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>

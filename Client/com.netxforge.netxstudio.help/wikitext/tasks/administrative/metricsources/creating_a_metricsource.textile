@@ -10,6 +10,7 @@ The following data should be entered
 
 * The metric source name
 * The metric source location. 
+* The metric source file pattern. (For file based metric sources). 
 * The mapping definition
 
 
@@ -17,12 +18,14 @@ h2. Metric Source Location
 
 The metric source location depends on the type of metric source. 
 
+
 h3. File based metric sources. 
 
 This is a relative path to the directory which will contain the files to be processed. 
 This path is relative to the Server Import path. 
 
-Note: The Server Import path should be requested from the NetXStudio Administrator. 
+
+Note: The Server Import path is defined in Server Settings. 
 
 
 h3. RDBMS based metric sources. 
@@ -42,6 +45,12 @@ JDBC Connection to an Oracle RDBMS:
 JDBC Connection to a Postgres RDBMS
 
 @jdbc:postgresql://localhost:5432/DB_TM@
+
+h2. Metric Source file Pattern
+
+The metric source file pattern. Patterns are regular expressions, and can be found here. 
+
+"Regular Expression Patterns":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/regexpattern.html
 
 
 h2. Mapping

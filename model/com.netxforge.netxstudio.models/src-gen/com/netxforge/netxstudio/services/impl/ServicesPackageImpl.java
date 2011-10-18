@@ -732,7 +732,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getServiceUser_ServiceProfile() {
+	public EReference getServiceUser_ServiceRef() {
 		return (EReference)serviceUserEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -741,7 +741,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getServiceUser_ExpressionRef() {
+	public EReference getServiceUser_ServiceProfile() {
 		return (EReference)serviceUserEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -750,8 +750,17 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getServiceUser_ExpressionRef() {
+		return (EReference)serviceUserEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getServiceUser_Description() {
-		return (EAttribute)serviceUserEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)serviceUserEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -760,7 +769,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * @generated
 	 */
 	public EAttribute getServiceUser_Name() {
-		return (EAttribute)serviceUserEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)serviceUserEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -889,6 +898,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		createEAttribute(serviceProfileEClass, SERVICE_PROFILE__NAME);
 
 		serviceUserEClass = createEClass(SERVICE_USER);
+		createEReference(serviceUserEClass, SERVICE_USER__SERVICE_REF);
 		createEReference(serviceUserEClass, SERVICE_USER__SERVICE_PROFILE);
 		createEReference(serviceUserEClass, SERVICE_USER__EXPRESSION_REF);
 		createEAttribute(serviceUserEClass, SERVICE_USER__DESCRIPTION);
@@ -980,7 +990,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		initEReference(getService_Services(), this.getService(), null, "services", null, 0, -1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getService_ServiceForecasts(), this.getServiceForecast(), null, "serviceForecasts", null, 0, -1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getService_ServiceMonitors(), this.getServiceMonitor(), null, "serviceMonitors", null, 0, -1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getService_ServiceUserRefs(), this.getServiceUser(), null, "serviceUserRefs", null, 0, -1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getService_ServiceUserRefs(), this.getServiceUser(), this.getServiceUser_ServiceRef(), "serviceUserRefs", null, 0, -1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getService_ServiceDistribution(), this.getServiceDistribution(), null, "serviceDistribution", null, 0, 1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getService_ServiceCategory(), theGenericsPackage.getName255(), "serviceCategory", null, 0, 1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getService_ServiceClass(), this.getServiceClassType(), "serviceClass", null, 0, 1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1013,6 +1023,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		initEAttribute(getServiceProfile_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, ServiceProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serviceUserEClass, ServiceUser.class, "ServiceUser", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getServiceUser_ServiceRef(), this.getService(), this.getService_ServiceUserRefs(), "serviceRef", null, 0, 1, ServiceUser.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getServiceUser_ServiceProfile(), this.getServiceProfile(), null, "serviceProfile", null, 0, 1, ServiceUser.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getServiceUser_ExpressionRef(), theLibraryPackage.getExpression(), null, "expressionRef", null, 0, 1, ServiceUser.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getServiceUser_Description(), theGenericsPackage.getDescription2000(), "description", null, 0, 1, ServiceUser.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1058,7 +1069,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																																	
+		   });																																																																																																																		
 	}
 
 	/**
@@ -1451,6 +1462,13 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		   new String[] {
 			 "name", "ServiceUser",
 			 "kind", "elementOnly"
+		   });		
+		addAnnotation
+		  (getServiceUser_ServiceRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ServiceRef"
 		   });			
 		addAnnotation
 		  (getServiceUser_ServiceProfile(), 

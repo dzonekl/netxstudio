@@ -121,7 +121,18 @@ public interface IDataProvider {
 	 * 
 	 * @return a list of resources on the basis of a string path
 	 */
+	public List<Resource> getResources(ResourceSet set, String resourcePath);
+	
+	
+	/**
+	 * Implementers should consider parsing the path and look for 
+	 * folder structures.
+	 *   
+	 * @param resourcePath
+	 * @return
+	 */
 	public List<Resource> getResources(String resourcePath);
+	
 	
 	/**
 	 * Open a session, depending on the implementation will use default

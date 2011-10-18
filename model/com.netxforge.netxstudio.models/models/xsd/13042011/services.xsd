@@ -301,6 +301,13 @@
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
 				<xs:sequence>
+				
+				<!--  Just a test -->
+					<xs:element name="ServiceRef" type="xs:anyURI" ecore:reference="Service" ecore:opposite="ServiceUseRefs"
+						minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="ServiceProfile" type="ServiceProfile"
 						minOccurs="0" maxOccurs="1">
 						<xs:annotation>
@@ -399,7 +406,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element ecore:reference="ServiceUser" name="ServiceUserRefs"
-						type="xs:anyURI" maxOccurs="unbounded" minOccurs="0">
+						type="xs:anyURI" ecore:opposite="ServiceRef" maxOccurs="unbounded" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								The ServiceUserRefs reference, references 0 or

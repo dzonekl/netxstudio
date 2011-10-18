@@ -214,7 +214,11 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 	ScrollingGraphicalViewer graphicalViewer;
 	private Text txtName;
 
+	
+	
 	private void showHierachy(Composite c) {
+		
+		// As it is a fill layout, it will grab all of it. 
 		
 		// Do some gef here.
 		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();

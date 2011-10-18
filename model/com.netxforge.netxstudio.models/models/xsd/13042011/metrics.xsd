@@ -201,7 +201,7 @@
 						maxOccurs="unbounded" minOccurs="0">
 					</xs:element>
 				</xs:sequence>
-				<xs:attribute name="IntervalHint" type="xs:int">
+				<xs:attribute name="IntervalHint" type="xs:int" default="60">
 					<xs:annotation>
 						<xs:documentation>The IntervalHint attribute, holds a hint for the
 							metric interval between each metric value in minutes.

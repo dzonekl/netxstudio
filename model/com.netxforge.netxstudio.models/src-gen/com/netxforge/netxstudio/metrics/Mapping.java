@@ -196,6 +196,7 @@ public interface Mapping extends Base {
 
 	/**
 	 * Returns the value of the '<em><b>Interval Hint</b></em>' attribute.
+	 * The default value is <code>"60"</code>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -208,7 +209,7 @@ public interface Mapping extends Base {
 	 * @see #unsetIntervalHint()
 	 * @see #setIntervalHint(int)
 	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMapping_IntervalHint()
-	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+	 * @model default="60" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
 	 *        extendedMetaData="kind='attribute' name='IntervalHint'"
 	 * @generated
 	 */

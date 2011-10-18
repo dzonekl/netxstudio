@@ -144,6 +144,11 @@ public interface IQueryService {
 	 * @return
 	 */
 	public List<NetXResource> getResources(String nodeID, String expressionName);
+		
 	
+	/**
+	 * Close used transactions. 
+	 */
+	public void close();
 	
 }

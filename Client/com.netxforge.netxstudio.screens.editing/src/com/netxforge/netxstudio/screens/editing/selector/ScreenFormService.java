@@ -297,6 +297,9 @@ public class ScreenFormService implements IScreenFormService {
 			if (r.getName().equals(IFixtures.ROLE_READONLY)) {
 				operation = Screens.OPERATION_READ_ONLY;
 			}
+			
+			editingService.getDataService().getQueryService().close();
+			
 			final int finalOperation = operation;
 
 			ImageHyperlink lnk = formToolkit.createImageHyperlink(

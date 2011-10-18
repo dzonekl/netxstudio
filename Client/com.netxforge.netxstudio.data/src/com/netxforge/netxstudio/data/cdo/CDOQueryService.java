@@ -26,6 +26,7 @@ import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
@@ -51,7 +52,9 @@ public class CDOQueryService implements IQueryService {
 	private CDOQueryUtil queryService;
 	@SuppressWarnings("unused")
 	private ModelUtils modelUtils;
-
+	private List<CDOTransaction> usedTransactions = Lists.newArrayList();
+	
+	
 	@Inject
 	public CDOQueryService(IDataProvider dataProvider,
 			CDOQueryUtil queryService, ModelUtils modelUtils) {
@@ -59,7 +62,14 @@ public class CDOQueryService implements IQueryService {
 		this.queryService = queryService;
 		this.modelUtils = modelUtils;
 	}
-
+	
+	public void close(){
+		for(CDOTransaction t : usedTransactions){
+			t.close();
+		}
+	}
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -70,6 +80,11 @@ public class CDOQueryService implements IQueryService {
 	public List<Role> getRole(String userID) {
 
 		CDOTransaction t = provider.getSession().openTransaction();
+		
+		if( !usedTransactions.contains(t)){
+			usedTransactions.add(t);
+		}
+		
 		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_ROLES_FROM_PERSON);
 		q.setParameter("name", userID);
 		queryService.setCacheParameter(q);

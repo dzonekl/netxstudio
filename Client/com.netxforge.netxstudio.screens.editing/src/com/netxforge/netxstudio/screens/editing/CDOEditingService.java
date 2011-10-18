@@ -186,7 +186,8 @@ public class CDOEditingService extends EMFEditingService implements
 		if (this.getView() != null) {
 			// check if we can create the resource from the current view.
 		}
-		List<Resource> resources = dataService.getProvider().getResources(path);
+		List<Resource> resources = dataService.getProvider().getResources(
+				this.getEditingDomain().getResourceSet(), path);
 
 		if (resources != null && resources.size() > 0) {
 			dawnEditorSupport.setView(((CDOResource) resources.get(0))
@@ -369,6 +370,21 @@ public class CDOEditingService extends EMFEditingService implements
 				first = false;
 			}
 		}
+		
+		System.out.println("Numberof transactions:" + this.dataService.getProvider().getSession().getViews().length);
+		// Report the transactions on our session:
+		CDOView[] views = this.dataService.getProvider().getSession().getViews();
+		for(int i = 0; i < views.length; i++){
+			CDOView v = views[i];
+			System.out.println("view ID: " + v.getViewID() + " ResourceSet hashcode:" + v.getResourceSet().hashCode());
+			for(Resource res : v.getResourceSet().getResources()){
+				if(res instanceof CDOResource){
+					System.out.println( "  Resource for set = " + res.getURI());
+				}
+			}
+		}
+		
+		
 	}
 
 	private void saveHistory() {
