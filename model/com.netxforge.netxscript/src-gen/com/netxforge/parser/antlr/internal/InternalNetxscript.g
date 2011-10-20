@@ -2228,7 +2228,61 @@ ruleReference returns [EObject current=null]
         $current = $this_NodeTypeRef_1.current; 
         afterParserOrEnumRuleCall();
     }
+
+    |
+    { 
+        newCompositeNode(grammarAccess.getReferenceAccess().getParamRefParserRuleCall_2()); 
+    }
+    this_ParamRef_2=ruleParamRef
+    { 
+        $current = $this_ParamRef_2.current; 
+        afterParserOrEnumRuleCall();
+    }
 )
+;
+
+
+
+
+
+// Entry rule entryRuleParamRef
+entryRuleParamRef returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getParamRefRule()); }
+	 iv_ruleParamRef=ruleParamRef 
+	 { $current=$iv_ruleParamRef.current; } 
+	 EOF 
+;
+
+// Rule ParamRef
+ruleParamRef returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+    {
+        $current = forceCreateModelElement(
+            grammarAccess.getParamRefAccess().getParamRefAction_0(),
+            $current);
+    }
+)	otherlv_1='PARAM' 
+    {
+    	newLeafNode(otherlv_1, grammarAccess.getParamRefAccess().getPARAMKeyword_1());
+    }
+(
+(
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getParamRefRule());
+	        }
+        }
+	otherlv_2=RULE_ID
+	{
+		newLeafNode(otherlv_2, grammarAccess.getParamRefAccess().getParamParameterCrossReference_2_0()); 
+	}
+
+)
+))
 ;
 
 

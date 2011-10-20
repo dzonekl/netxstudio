@@ -46,6 +46,10 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 	protected IScope getScope(Resource resource, boolean ignoreCase,
 			EClass type, Predicate<IEObjectDescription> filter) {
 		
+		
+		System.out.println("Global scope provider invoked");
+		
+		
 //		final LinkedHashSet<URI> uniqueImportURIs = new LinkedHashSet<URI>(10);
 		
 		final LinkedHashSet<EClass> uniqueReferencesEClasses = new LinkedHashSet<EClass>(10);
@@ -53,6 +57,8 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 		uniqueReferencesEClasses.add(LibraryPackage.Literals.NODE_TYPE);
 		uniqueReferencesEClasses.add(LibraryPackage.Literals.EQUIPMENT);
 		uniqueReferencesEClasses.add(LibraryPackage.Literals.FUNCTION);
+		uniqueReferencesEClasses.add(LibraryPackage.Literals.PARAMETER);
+		
 		uniqueReferencesEClasses.add(ServicesPackage.Literals.SERVICE_USER);
 		
 		// CB NetXResource object, have their own CDO Resources, See ModelUtils for the naming convention. 

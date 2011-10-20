@@ -1427,12 +1427,13 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cContextRefParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cNodeTypeRefParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cParamRefParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
 		//Reference returns Expression:
-		//	ContextRef | NodeTypeRef;
+		//	ContextRef | NodeTypeRef | ParamRef;
 		public ParserRule getRule() { return rule; }
 
-		//ContextRef | NodeTypeRef
+		//ContextRef | NodeTypeRef | ParamRef
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//ContextRef
@@ -1440,6 +1441,41 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 		//NodeTypeRef
 		public RuleCall getNodeTypeRefParserRuleCall_1() { return cNodeTypeRefParserRuleCall_1; }
+
+		//ParamRef
+		public RuleCall getParamRefParserRuleCall_2() { return cParamRefParserRuleCall_2; }
+	}
+
+	public class ParamRefElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ParamRef");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cParamRefAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cPARAMKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cParamAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final CrossReference cParamParameterCrossReference_2_0 = (CrossReference)cParamAssignment_2.eContents().get(0);
+		private final RuleCall cParamParameterIDTerminalRuleCall_2_0_1 = (RuleCall)cParamParameterCrossReference_2_0.eContents().get(1);
+		
+		//ParamRef returns Reference:
+		//	{ParamRef} "PARAM" param=[library::Parameter];
+		public ParserRule getRule() { return rule; }
+
+		//{ParamRef} "PARAM" param=[library::Parameter]
+		public Group getGroup() { return cGroup; }
+
+		//{ParamRef}
+		public Action getParamRefAction_0() { return cParamRefAction_0; }
+
+		//"PARAM"
+		public Keyword getPARAMKeyword_1() { return cPARAMKeyword_1; }
+
+		//param=[library::Parameter]
+		public Assignment getParamAssignment_2() { return cParamAssignment_2; }
+
+		//[library::Parameter]
+		public CrossReference getParamParameterCrossReference_2_0() { return cParamParameterCrossReference_2_0; }
+
+		//ID
+		public RuleCall getParamParameterIDTerminalRuleCall_2_0_1() { return cParamParameterIDTerminalRuleCall_2_0_1; }
 	}
 
 	public class NodeTypeRefElements extends AbstractParserRuleElementFinder {
@@ -2149,6 +2185,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	private RangeLiteralElements pRangeLiteral;
 	private NativeFunctionElements unknownRuleNativeFunction;
 	private ReferenceElements pReference;
+	private ParamRefElements pParamRef;
 	private NodeTypeRefElements pNodeTypeRef;
 	private ContextRefElements pContextRef;
 	private PrimaryRefElements pPrimaryRef;
@@ -2548,13 +2585,23 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Reference returns Expression:
-	//	ContextRef | NodeTypeRef;
+	//	ContextRef | NodeTypeRef | ParamRef;
 	public ReferenceElements getReferenceAccess() {
 		return (pReference != null) ? pReference : (pReference = new ReferenceElements());
 	}
 	
 	public ParserRule getReferenceRule() {
 		return getReferenceAccess().getRule();
+	}
+
+	//ParamRef returns Reference:
+	//	{ParamRef} "PARAM" param=[library::Parameter];
+	public ParamRefElements getParamRefAccess() {
+		return (pParamRef != null) ? pParamRef : (pParamRef = new ParamRefElements());
+	}
+	
+	public ParserRule getParamRefRule() {
+		return getParamRefAccess().getRule();
 	}
 
 	/// **

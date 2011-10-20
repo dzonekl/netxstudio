@@ -110,6 +110,7 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.NATIVE_EXPRESSION: return createNativeExpression();
       case NetxscriptPackage.VAR_OR_ARGUMENT_CALL: return createVarOrArgumentCall();
       case NetxscriptPackage.RANGE_LITERAL: return createRangeLiteral();
+      case NetxscriptPackage.PARAM_REF: return createParamRef();
       case NetxscriptPackage.NODE_TYPE_REF: return createNodeTypeRef();
       case NetxscriptPackage.CONTEXT_REF: return createContextRef();
       case NetxscriptPackage.COMPONENT_REF: return createComponentRef();
@@ -631,6 +632,17 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
   {
     RangeLiteralImpl rangeLiteral = new RangeLiteralImpl();
     return rangeLiteral;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ParamRef createParamRef()
+  {
+    ParamRefImpl paramRef = new ParamRefImpl();
+    return paramRef;
   }
 
   /**

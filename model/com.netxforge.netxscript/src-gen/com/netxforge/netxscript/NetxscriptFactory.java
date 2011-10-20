@@ -404,6 +404,15 @@ public interface NetxscriptFactory extends EFactory
   RangeLiteral createRangeLiteral();
 
   /**
+   * Returns a new object of class '<em>Param Ref</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Param Ref</em>'.
+   * @generated
+   */
+  ParamRef createParamRef();
+
+  /**
    * Returns a new object of class '<em>Node Type Ref</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

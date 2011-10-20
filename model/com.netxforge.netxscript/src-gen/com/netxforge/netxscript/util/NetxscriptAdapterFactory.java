@@ -288,6 +288,11 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createRangeLiteralAdapter();
       }
       @Override
+      public Adapter caseParamRef(ParamRef object)
+      {
+        return createParamRefAdapter();
+      }
+      @Override
       public Adapter caseNodeTypeRef(NodeTypeRef object)
       {
         return createNodeTypeRefAdapter();
@@ -965,6 +970,21 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createRangeLiteralAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.ParamRef <em>Param Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.ParamRef
+   * @generated
+   */
+  public Adapter createParamRefAdapter()
   {
     return null;
   }

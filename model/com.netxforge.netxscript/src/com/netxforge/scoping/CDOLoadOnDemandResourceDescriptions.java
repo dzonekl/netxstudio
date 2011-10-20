@@ -37,9 +37,4 @@ public class CDOLoadOnDemandResourceDescriptions extends
 	protected IDataProvider getDataProvider() {
 		return dataProvider;
 	}
-
-	
-	
-	
-
 }

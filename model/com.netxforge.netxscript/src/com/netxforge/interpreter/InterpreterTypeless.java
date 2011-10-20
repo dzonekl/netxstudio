@@ -53,6 +53,7 @@ import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.NodeTypeRef;
 import com.netxforge.netxscript.NumberLiteral;
 import com.netxforge.netxscript.Or;
+import com.netxforge.netxscript.ParamRef;
 import com.netxforge.netxscript.Plus;
 import com.netxforge.netxscript.PlusAssignment;
 import com.netxforge.netxscript.RangeLiteral;
@@ -84,8 +85,10 @@ import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.LastEvaluationExpressionResult;
 import com.netxforge.netxstudio.library.LibraryFactory;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.library.RangeKind;
 import com.netxforge.netxstudio.library.impl.NetXResourceImpl;
 import com.netxforge.netxstudio.metrics.KindHintType;
@@ -623,9 +626,6 @@ public class InterpreterTypeless implements IInterpreter {
 
 	}
 
-	// TODO Not used for now.
-
-	@SuppressWarnings("unused")
 	private List<NetXResource> resourcesByName(Node n, ResourceRef resourceRef) {
 
 		List<NetXResource> resources = Lists.newArrayList();
@@ -1058,6 +1058,15 @@ public class InterpreterTypeless implements IInterpreter {
 		return eval;
 	}
 
+	protected BigDecimal internalEvaluate(ParamRef e,
+			ImmutableMap<String, Object> values) {
+		Parameter param = e.getParam();
+		if(param != null && param.eIsSet(LibraryPackage.Literals.PARAMETER__VALUE)){
+			return new BigDecimal(param.getValue());
+		}
+		return null;
+	}
+	
 	/*
 	 * Note: The NodeTypeRef is always in the context of a service. As from a
 	 * node type, we have multiple Node references, Components and resources,
@@ -1281,7 +1290,6 @@ public class InterpreterTypeless implements IInterpreter {
 				for (ServiceUser su : s.getServiceUserRefs()) {
 
 				}
-
 			}
 			if (resource != null) {
 

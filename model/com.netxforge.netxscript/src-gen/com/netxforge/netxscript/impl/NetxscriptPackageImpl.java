@@ -41,6 +41,7 @@ import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.NodeTypeRef;
 import com.netxforge.netxscript.NumberLiteral;
 import com.netxforge.netxscript.Or;
+import com.netxforge.netxscript.ParamRef;
 import com.netxforge.netxscript.Plus;
 import com.netxforge.netxscript.PlusAssignment;
 import com.netxforge.netxscript.Range;
@@ -384,6 +385,13 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * @generated
    */
   private EClass rangeLiteralEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass paramRefEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -1639,6 +1647,26 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getParamRef()
+  {
+    return paramRefEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getParamRef_Param()
+  {
+    return (EReference)paramRefEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getNodeTypeRef()
   {
     return nodeTypeRefEClass;
@@ -2026,6 +2054,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     rangeLiteralEClass = createEClass(RANGE_LITERAL);
     createEAttribute(rangeLiteralEClass, RANGE_LITERAL__VALUES);
 
+    paramRefEClass = createEClass(PARAM_REF);
+    createEReference(paramRefEClass, PARAM_REF__PARAM);
+
     nodeTypeRefEClass = createEClass(NODE_TYPE_REF);
     createEReference(nodeTypeRefEClass, NODE_TYPE_REF__NODETYPE);
     createEReference(nodeTypeRefEClass, NODE_TYPE_REF__PRIMARY_REF);
@@ -2123,6 +2154,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     nativeExpressionEClass.getESuperTypes().add(this.getExpression());
     varOrArgumentCallEClass.getESuperTypes().add(this.getExpression());
     rangeLiteralEClass.getESuperTypes().add(this.getRange());
+    paramRefEClass.getESuperTypes().add(this.getReference());
     nodeTypeRefEClass.getESuperTypes().add(this.getReference());
     contextRefEClass.getESuperTypes().add(this.getReference());
     componentRefEClass.getESuperTypes().add(this.getReference());
@@ -2282,6 +2314,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
 
     initEClass(rangeLiteralEClass, RangeLiteral.class, "RangeLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getRangeLiteral_Values(), ecorePackage.getEBigDecimal(), "values", null, 0, -1, RangeLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(paramRefEClass, ParamRef.class, "ParamRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getParamRef_Param(), theLibraryPackage.getParameter(), null, "param", null, 0, 1, ParamRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(nodeTypeRefEClass, NodeTypeRef.class, "NodeTypeRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getNodeTypeRef_Nodetype(), theLibraryPackage.getNodeType(), null, "nodetype", null, 0, 1, NodeTypeRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

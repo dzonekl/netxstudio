@@ -9,7 +9,14 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.library.Parameter;
 
+
+/**
+ * Names as they will appear in the editor. 
+ * @author dzonekl
+ *
+ */
 public class SimpleCDONameProvider extends SimpleNameProvider {
 
 	@Inject
@@ -17,11 +24,15 @@ public class SimpleCDONameProvider extends SimpleNameProvider {
 
 	@Override
 	public QualifiedName getFullyQualifiedName(EObject obj) {
-		
+
 		String name = null;
 
 		if (obj instanceof Equipment) {
-				name = ((Equipment)obj).getEquipmentCode();
+			name = ((Equipment) obj).getEquipmentCode();
+		}
+
+		if (obj instanceof Parameter) {
+			name = ((Parameter) obj).getExpressionName();
 		}
 
 		if (obj instanceof NodeType) {
@@ -37,12 +48,12 @@ public class SimpleCDONameProvider extends SimpleNameProvider {
 		if (name != null) {
 			return qualifiedNameConverter.toQualifiedName(name);
 		}
-		
+
 		final QualifiedName qName = super.getFullyQualifiedName(obj);
 		if (qName != null) {
 			return qName;
 		}
-		
+
 		return null;
 	}
 

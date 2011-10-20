@@ -192,6 +192,9 @@
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//RangeLiteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//RangeLiteral/values"/>
     </genClasses>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ParamRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ParamRef/param"/>
+    </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//NodeTypeRef">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//NodeTypeRef/nodetype"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//NodeTypeRef/primaryRef"/>

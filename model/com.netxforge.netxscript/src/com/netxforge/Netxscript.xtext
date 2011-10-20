@@ -43,7 +43,7 @@ Function:
 	'def' name=ID '(' (args+=Argument (',' args+=Argument)*)? ')' block=Block;
 
 Argument:
-	name=ID;
+	name=ID ;
 
 AbstractVarOrArgument:
 	VariableStatement | Argument;
@@ -120,6 +120,7 @@ UnaryOperator:
 PrimaryExpression returns Expression:
 	Literal | Range | NativeExpression | Reference | FunctionCall | IndexedCall | ParenthesizedExpression;
 
+
 Literal returns Expression:
 	 NumberLiteral | {BooleanLiteral} (condition?='true' | 'false');
 
@@ -140,8 +141,9 @@ IndexedCall returns Expression:
 NativeExpression returns Expression:
 	{NativeExpression} (range=RangeLiteral | ref=Reference | var=VarOrArgumentCall) '.' nativeFunction=NativeFunction;
 
+
 VarOrArgumentCall returns Expression:
-	{VarOrArgumentCall} call=[AbstractVarOrArgument] ;
+	{VarOrArgumentCall} call=[AbstractVarOrArgument];
 
 Range:
 	RangeLiteral;
@@ -153,7 +155,11 @@ enum NativeFunction:
 	COUNT='count()' | SUM='sum()' | MIN='min()' | MAX='max()' | MEAN='mean()' | DEVIATION='deviation()' | ERLANGB='erlangB()' | CLEAR ='clear()';
 
 Reference returns Expression:
-	ContextRef | NodeTypeRef
+	ContextRef | NodeTypeRef | ParamRef
+;
+
+ParamRef returns Reference:
+	{ParamRef} 'PARAM' param=[library::Parameter]
 ;
 
 /**

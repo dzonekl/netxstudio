@@ -1750,6 +1750,61 @@ public interface NetxscriptPackage extends EPackage
   int RANGE_LITERAL_FEATURE_COUNT = RANGE_FEATURE_COUNT + 1;
 
   /**
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.ParamRefImpl <em>Param Ref</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.impl.ParamRefImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getParamRef()
+   * @generated
+   */
+  int PARAM_REF = 42;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PARAM_REF__INDEX = REFERENCE__INDEX;
+
+  /**
+   * The feature id for the '<em><b>Components</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PARAM_REF__COMPONENTS = REFERENCE__COMPONENTS;
+
+  /**
+   * The feature id for the '<em><b>Leaf Ref</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PARAM_REF__LEAF_REF = REFERENCE__LEAF_REF;
+
+  /**
+   * The feature id for the '<em><b>Param</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PARAM_REF__PARAM = REFERENCE_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Param Ref</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PARAM_REF_FEATURE_COUNT = REFERENCE_FEATURE_COUNT + 1;
+
+  /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.NodeTypeRefImpl <em>Node Type Ref</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1757,7 +1812,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNodeTypeRef()
    * @generated
    */
-  int NODE_TYPE_REF = 42;
+  int NODE_TYPE_REF = 43;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1821,7 +1876,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getContextRef()
    * @generated
    */
-  int CONTEXT_REF = 43;
+  int CONTEXT_REF = 44;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1885,7 +1940,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getComponentRef()
    * @generated
    */
-  int COMPONENT_REF = 44;
+  int COMPONENT_REF = 45;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1949,7 +2004,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getResourceRef()
    * @generated
    */
-  int RESOURCE_REF = 45;
+  int RESOURCE_REF = 46;
 
   /**
    * The feature id for the '<em><b>Resource</b></em>' reference.
@@ -1986,7 +2041,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getStatusRef()
    * @generated
    */
-  int STATUS_REF = 46;
+  int STATUS_REF = 47;
 
   /**
    * The feature id for the '<em><b>Tolerancelevel</b></em>' attribute.
@@ -2014,7 +2069,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getLinkRef()
    * @generated
    */
-  int LINK_REF = 47;
+  int LINK_REF = 48;
 
   /**
    * The feature id for the '<em><b>Link</b></em>' reference.
@@ -2042,7 +2097,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNativeFunction()
    * @generated
    */
-  int NATIVE_FUNCTION = 48;
+  int NATIVE_FUNCTION = 49;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.IntervalKind <em>Interval Kind</em>}' enum.
@@ -2052,7 +2107,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getIntervalKind()
    * @generated
    */
-  int INTERVAL_KIND = 49;
+  int INTERVAL_KIND = 50;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.ToleranceLevel <em>Tolerance Level</em>}' enum.
@@ -2062,7 +2117,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getToleranceLevel()
    * @generated
    */
-  int TOLERANCE_LEVEL = 50;
+  int TOLERANCE_LEVEL = 51;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.ValueRange <em>Value Range</em>}' enum.
@@ -2072,7 +2127,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getValueRange()
    * @generated
    */
-  int VALUE_RANGE = 51;
+  int VALUE_RANGE = 52;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.ValueKind <em>Value Kind</em>}' enum.
@@ -2082,7 +2137,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getValueKind()
    * @generated
    */
-  int VALUE_KIND = 52;
+  int VALUE_KIND = 53;
 
 
   /**
@@ -3252,6 +3307,27 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   EAttribute getRangeLiteral_Values();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.netxscript.ParamRef <em>Param Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Param Ref</em>'.
+   * @see com.netxforge.netxscript.ParamRef
+   * @generated
+   */
+  EClass getParamRef();
+
+  /**
+   * Returns the meta object for the reference '{@link com.netxforge.netxscript.ParamRef#getParam <em>Param</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Param</em>'.
+   * @see com.netxforge.netxscript.ParamRef#getParam()
+   * @see #getParamRef()
+   * @generated
+   */
+  EReference getParamRef_Param();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.NodeTypeRef <em>Node Type Ref</em>}'.
@@ -4459,6 +4535,24 @@ public interface NetxscriptPackage extends EPackage
      * @generated
      */
     EAttribute RANGE_LITERAL__VALUES = eINSTANCE.getRangeLiteral_Values();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.ParamRefImpl <em>Param Ref</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.impl.ParamRefImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getParamRef()
+     * @generated
+     */
+    EClass PARAM_REF = eINSTANCE.getParamRef();
+
+    /**
+     * The meta object literal for the '<em><b>Param</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PARAM_REF__PARAM = eINSTANCE.getParamRef_Param();
 
     /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.NodeTypeRefImpl <em>Node Type Ref</em>}' class.

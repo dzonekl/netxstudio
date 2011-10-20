@@ -31,6 +31,7 @@ import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.NodeTypeRef;
 import com.netxforge.netxscript.NumberLiteral;
 import com.netxforge.netxscript.Or;
+import com.netxforge.netxscript.ParamRef;
 import com.netxforge.netxscript.Plus;
 import com.netxforge.netxscript.PlusAssignment;
 import com.netxforge.netxscript.RangeLiteral;
@@ -645,6 +646,35 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				   context == grammarAccess.getPrimaryExpressionRule() ||
 				   context == grammarAccess.getParenthesizedExpressionRule()) {
 					sequence_Logical_Or(context, (Or) semanticObject); 
+					return; 
+				}
+				else break;
+			case NetxscriptPackage.PARAM_REF:
+				if(context == grammarAccess.getExpressionRule() ||
+				   context == grammarAccess.getLogicalRule() ||
+				   context == grammarAccess.getLogicalAccess().getAndLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getLogicalAccess().getOrLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getEqualityRule() ||
+				   context == grammarAccess.getEqualityAccess().getEqualLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getEqualityAccess().getUnequalLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getComparisonRule() ||
+				   context == grammarAccess.getComparisonAccess().getLesserLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getComparisonAccess().getLesserEqualLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getComparisonAccess().getGreaterLeftAction_1_0_2_0() ||
+				   context == grammarAccess.getComparisonAccess().getGreaterEqualLeftAction_1_0_3_0() ||
+				   context == grammarAccess.getAdditionRule() ||
+				   context == grammarAccess.getAdditionAccess().getPlusLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getAdditionAccess().getMinusLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getMultiplicationRule() ||
+				   context == grammarAccess.getMultiplicationAccess().getMultiLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getMultiplicationAccess().getDivLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getMultiplicationAccess().getModuloLeftAction_1_0_2_0() ||
+				   context == grammarAccess.getUnaryRule() ||
+				   context == grammarAccess.getPrimaryExpressionRule() ||
+				   context == grammarAccess.getParenthesizedExpressionRule() ||
+				   context == grammarAccess.getReferenceRule() ||
+				   context == grammarAccess.getParamRefRule()) {
+					sequence_ParamRef_ParamRef(context, (ParamRef) semanticObject); 
 					return; 
 				}
 				else break;
@@ -1293,6 +1323,18 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	 *    value[1, 1]
 	 */
 	protected void sequence_NumberLiteral_NumberLiteral(EObject context, NumberLiteral semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     param=[Parameter|ID]
+	 *
+	 * Features:
+	 *    param[1, 1]
+	 */
+	protected void sequence_ParamRef_ParamRef(EObject context, ParamRef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

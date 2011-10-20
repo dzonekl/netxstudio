@@ -412,6 +412,15 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case NetxscriptPackage.PARAM_REF:
+      {
+        ParamRef paramRef = (ParamRef)theEObject;
+        T result = caseParamRef(paramRef);
+        if (result == null) result = caseReference(paramRef);
+        if (result == null) result = caseExpression(paramRef);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case NetxscriptPackage.NODE_TYPE_REF:
       {
         NodeTypeRef nodeTypeRef = (NodeTypeRef)theEObject;
@@ -1135,6 +1144,22 @@ public class NetxscriptSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseRangeLiteral(RangeLiteral object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Param Ref</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Param Ref</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseParamRef(ParamRef object)
   {
     return null;
   }
