@@ -58,9 +58,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.protocols.Protocol;
-import com.netxforge.netxstudio.protocols.ProtocolsFactory;
-import com.netxforge.netxstudio.protocols.ProtocolsPackage;
+import com.netxforge.netxstudio.library.LibraryFactory;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
@@ -71,7 +71,7 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class Protocols extends AbstractScreen implements IDataServiceInjection {
+public class Parameters extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
@@ -80,9 +80,9 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 	private TableViewer tableViewer;
 	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
-	private Form frmProtocols;
+	private Form frmParameters;
 	private ObservableListContentProvider listContentProvider;
-	private Resource protocolResource;
+	private Resource parametersResource;
 
 	/**
 	 * Create the composite.
@@ -90,7 +90,7 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 	 * @param parent
 	 * @param style
 	 */
-	public Protocols(Composite parent, int style) {
+	public Parameters(Composite parent, int style) {
 		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
@@ -100,31 +100,30 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		// buildUI();
 	}
 
-	private void buildUI() {
+	private void buildUI(){
 		setLayout(new FillLayout(SWT.HORIZONTAL));
-
+		
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View: " : "Edit: ";
+		boolean readonly = Screens.isReadOnlyOperation(this.getOperation()); 
+		String actionText = readonly ? "View: " : "Edit: "; 
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+		
+		frmParameters = toolkit.createForm(this);
+		frmParameters.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmParameters);
+		frmParameters.setText(actionText + "Parameters");
+		frmParameters.getBody().setLayout(new GridLayout(3, false));
 
-		frmProtocols = toolkit.createForm(this);
-		frmProtocols.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmProtocols);
-		frmProtocols.setText(actionText + "Protocols");
-		frmProtocols.getBody().setLayout(new GridLayout(3, false));
-
-		Label lblFilterLabel = toolkit.createLabel(frmProtocols.getBody(),
+		Label lblFilterLabel = toolkit.createLabel(frmParameters.getBody(),
 				"Filter:", SWT.NONE);
 		GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblFilterLabel.widthHint = 36;
 		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
 
-		txtFilterText = toolkit.createText(frmProtocols.getBody(), "New Text",
+		txtFilterText = toolkit.createText(frmParameters.getBody(), "New Text",
 				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.setText("");
 		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, true,
@@ -148,21 +147,18 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		// Conditional widget.
 		if (!readonly) {
 			ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-					frmProtocols.getBody(), SWT.NONE);
+					frmParameters.getBody(), SWT.NONE);
 			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
-
-					NewEditProtocol protocolScreen = new NewEditProtocol(
+					NewEditParameter parameterScreen = new NewEditParameter(
 							screenService.getScreenContainer(), SWT.NONE);
-					protocolScreen.setOperation(Screens.OPERATION_NEW);
-					protocolScreen.setScreenService(screenService);
-					Protocol protocol = ProtocolsFactory.eINSTANCE
-							.createProtocol();
-					protocolScreen.injectData(protocolResource, protocol);
-					screenService.setActiveScreen(protocolScreen);
-
+					parameterScreen.setOperation(Screens.OPERATION_NEW);
+					parameterScreen.setScreenService(screenService);
+					Parameter parameter = LibraryFactory.eINSTANCE
+							.createParameter();
+					parameterScreen.injectData(parametersResource, parameter);
+					screenService.setActiveScreen(parameterScreen);
 				}
-
 				public void linkEntered(HyperlinkEvent e) {
 				}
 
@@ -173,17 +169,15 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 					false, false, 1, 1));
 			mghprlnkNew.setImage(ResourceManager.getPluginImage(
 					"com.netxforge.netxstudio.models.edit",
-					"icons/full/ctool16/Protocol_E.png"));
+					"icons/full/ctool16/Parameter_E.png"));
 			mghprlnkNew.setBounds(0, 0, 114, 17);
 			toolkit.paintBordersFor(mghprlnkNew);
 			mghprlnkNew.setText("New");
 
 		}
-		
-//		new Label(frmProtocols.getBody(), SWT.NONE);
 
-		tableViewer = new TableViewer(frmProtocols.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION | widgetStyle);
+		tableViewer = new TableViewer(frmParameters.getBody(), SWT.BORDER
+				| SWT.FULL_SELECTION | SWT.MULTI | widgetStyle);
 		tableViewer.setComparer(new CDOElementComparer());
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
@@ -194,38 +188,39 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				tableViewer, SWT.NONE);
 		TableColumn tblclmnName = tableViewerColumn.getColumn();
-		tblclmnName.setWidth(111);
+		tblclmnName.setWidth(143);
 		tblclmnName.setText("Name");
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				tableViewer, SWT.NONE);
-		TableColumn tblclmnDescription = tableViewerColumn_1.getColumn();
-		tblclmnDescription.setWidth(214);
+		TableColumn tblclmnOwnedBy = tableViewerColumn_1.getColumn();
+		tblclmnOwnedBy.setWidth(100);
+		tblclmnOwnedBy.setText("Expression Name");
+		
+
+		TableViewerColumn tableViewerColumnDescription = new TableViewerColumn(
+				tableViewer, SWT.NONE);
+		TableColumn tblclmnDescription = tableViewerColumnDescription.getColumn();
+		tblclmnDescription.setWidth(200);
 		tblclmnDescription.setText("Description");
 
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
+		TableViewerColumn tableViewerColumnValue = new TableViewerColumn(
 				tableViewer, SWT.NONE);
-		TableColumn tblclmnOSI = tableViewerColumn_2.getColumn();
-		tblclmnOSI.setWidth(250);
-		tblclmnOSI.setText("OSI");
-
-		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
-		TableColumn tblclmnSpecification = tableViewerColumn_3.getColumn();
-		tblclmnSpecification.setWidth(100);
-		tblclmnSpecification.setText("Specification");
+		TableColumn tblclmnValue = tableViewerColumnValue.getColumn();
+		tblclmnValue.setWidth(40);
+		tblclmnValue.setText("Value");
 		tableViewer.addFilter(new SearchFilter(editingService));
 	}
-
+	
+	
 	/**
-	 * Wrap in an action, to contribute to a menu manager.
-	 * 
+	 * Wrap in an action, to contribute to a menu manager. 
 	 * @author dzonekl
-	 * 
+	 *
 	 */
-	class EditProtocolAction extends Action {
+	class EditParameterAction extends Action {
 
-		public EditProtocolAction(String text, int style) {
+		public EditParameterAction(String text, int style) {
 			super(text, style);
 		}
 
@@ -238,12 +233,12 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
 					if (o != null) {
-						NewEditProtocol protocolScreen = new NewEditProtocol(
+						NewEditParameter parameterScreen = new NewEditParameter(
 								screenService.getScreenContainer(), SWT.NONE);
-						protocolScreen.setOperation(getOperation());
-						protocolScreen.setScreenService(screenService);
-						protocolScreen.injectData(protocolResource, o);
-						screenService.setActiveScreen(protocolScreen);
+						parameterScreen.setOperation(getOperation());
+						parameterScreen.setScreenService(screenService);
+						parameterScreen.injectData(parametersResource, o);
+						screenService.setActiveScreen(parameterScreen);
 					}
 				}
 			}
@@ -260,8 +255,8 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
 	 */
 	public void injectData() {
-		protocolResource = editingService
-				.getData(ProtocolsPackage.Literals.PROTOCOL);
+		parametersResource = editingService
+				.getData(LibraryPackage.Literals.PARAMETER);
 		buildUI();
 		bindingContext = initDataBindings_();
 	}
@@ -276,23 +271,23 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
 				new EStructuralFeature[] {
-						ProtocolsPackage.Literals.PROTOCOL__NAME,
-						ProtocolsPackage.Literals.PROTOCOL__DESCRIPTION,
-						ProtocolsPackage.Literals.PROTOCOL__OSI,
-						ProtocolsPackage.Literals.PROTOCOL__SPECIFICATION });
+						LibraryPackage.Literals.PARAMETER__NAME,
+						LibraryPackage.Literals.PARAMETER__EXPRESSION_NAME,
+						LibraryPackage.Literals.PARAMETER__DESCRIPTION, 
+						LibraryPackage.Literals.PARAMETER__VALUE,		
+				});
 		tableViewer.setLabelProvider(new ObservableMapLabelProvider(
 				observeMaps));
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
-		IObservableList protocolObservableList = l.observe(protocolResource);
+		IObservableList parametersObservableList = l.observe(parametersResource);
 
-		// obm.addObservable(toleranceObservableList);
-		tableViewer.setInput(protocolObservableList);
+		tableViewer.setInput(parametersObservableList);
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		return bindingContext;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -313,25 +308,23 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 
 	@Override
 	public Form getScreenForm() {
-		return this.frmProtocols;
+		return this.frmParameters;
 	}
 
 	@Override
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-
+	
 	@Override
-	public IAction[] getActions() {
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
-				: "Edit";
-		return new IAction[] { new EditProtocolAction(actionText + "...",
-				SWT.PUSH) };
+	public IAction[] getActions(){
+		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View" : "Edit"; 
+		return new IAction[]{new EditParameterAction(actionText + "...", SWT.PUSH)};
 	}
 	
 	@Override
 	public String getScreenName() {
-		return "Protocols";
+		return "Parameters";
 	}
 
 }

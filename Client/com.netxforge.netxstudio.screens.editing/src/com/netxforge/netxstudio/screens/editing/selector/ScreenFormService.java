@@ -39,7 +39,7 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.forms.events.HyperlinkAdapter;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -707,15 +707,18 @@ public class ScreenFormService implements IScreenFormService {
 			entry = ((IScreen) composite).getScreenName();
 		}
 		
-		Hyperlink pathLink = formToolkit.createHyperlink(
-				this.screenBody.getScreenPath(), entry, SWT.NONE);
-		// formToolkit.adapt(pathLink);
-
-		pathLink.addHyperlinkListener(new HyperlinkAdapter() {
-			public void linkActivated(HyperlinkEvent e) {
-				System.err.println("TODO implement switch back ");
-			}
-		});
-		formToolkit.paintBordersFor(pathLink);
+		@SuppressWarnings("unused")
+		Label entryLabel = formToolkit.createLabel(this.screenBody.getScreenPath(), entry);
+		
+//		Hyperlink pathLink = formToolkit.createHyperlink(
+//				this.screenBody.getScreenPath(), entry, SWT.NONE);
+//		// formToolkit.adapt(pathLink);
+//
+//		pathLink.addHyperlinkListener(new HyperlinkAdapter() {
+//			public void linkActivated(HyperlinkEvent e) {
+//				System.err.println("TODO implement switch back ");
+//			}
+//		});
+//		formToolkit.paintBordersFor(entryLabel);
 	}
 }

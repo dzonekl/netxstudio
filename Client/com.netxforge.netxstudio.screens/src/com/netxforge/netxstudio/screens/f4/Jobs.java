@@ -55,7 +55,7 @@ import com.netxforge.netxstudio.scheduling.NodeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
@@ -365,7 +365,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 						// + ((RFSServiceJob) j).getRFSService()
 						// .getServiceName();
 					}
-					if (j instanceof RFSServiceRetentionJob) {
+					if (j instanceof RetentionJob) {
 						return "Data Retention";
 						// + ((RFSServiceRetentionJob) j).getRFSService()
 						// .getServiceName();

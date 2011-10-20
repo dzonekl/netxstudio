@@ -340,6 +340,29 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.RetentionJob} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected RetentionJobItemProvider retentionJobItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.RetentionJob}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createRetentionJobAdapter() {
+		if (retentionJobItemProvider == null) {
+			retentionJobItemProvider = new RetentionJobItemProvider(this);
+		}
+
+		return retentionJobItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -383,29 +406,6 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 		}
 
 		return rfsServiceReporterJobItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected RFSServiceRetentionJobItemProvider rfsServiceRetentionJobItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createRFSServiceRetentionJobAdapter() {
-		if (rfsServiceRetentionJobItemProvider == null) {
-			rfsServiceRetentionJobItemProvider = new RFSServiceRetentionJobItemProvider(this);
-		}
-
-		return rfsServiceRetentionJobItemProvider;
 	}
 
 	/**
@@ -564,9 +564,9 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 		if (nodeReporterJobItemProvider != null) nodeReporterJobItemProvider.dispose();
 		if (nodeTypeReporterJobItemProvider != null) nodeTypeReporterJobItemProvider.dispose();
 		if (operatorReporterJobItemProvider != null) operatorReporterJobItemProvider.dispose();
+		if (retentionJobItemProvider != null) retentionJobItemProvider.dispose();
 		if (rfsServiceMonitoringJobItemProvider != null) rfsServiceMonitoringJobItemProvider.dispose();
 		if (rfsServiceReporterJobItemProvider != null) rfsServiceReporterJobItemProvider.dispose();
-		if (rfsServiceRetentionJobItemProvider != null) rfsServiceRetentionJobItemProvider.dispose();
 		if (serviceUserFailureItemProvider != null) serviceUserFailureItemProvider.dispose();
 		if (workFlowRunItemProvider != null) workFlowRunItemProvider.dispose();
 	}

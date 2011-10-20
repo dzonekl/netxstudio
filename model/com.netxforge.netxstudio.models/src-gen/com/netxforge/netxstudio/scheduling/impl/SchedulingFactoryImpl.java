@@ -40,7 +40,7 @@ import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.ServiceUserFailure;
@@ -101,9 +101,9 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 			case SchedulingPackage.NODE_REPORTER_JOB: return (EObject)createNodeReporterJob();
 			case SchedulingPackage.NODE_TYPE_REPORTER_JOB: return (EObject)createNodeTypeReporterJob();
 			case SchedulingPackage.OPERATOR_REPORTER_JOB: return (EObject)createOperatorReporterJob();
+			case SchedulingPackage.RETENTION_JOB: return (EObject)createRetentionJob();
 			case SchedulingPackage.RFS_SERVICE_MONITORING_JOB: return (EObject)createRFSServiceMonitoringJob();
 			case SchedulingPackage.RFS_SERVICE_REPORTER_JOB: return (EObject)createRFSServiceReporterJob();
-			case SchedulingPackage.RFS_SERVICE_RETENTION_JOB: return (EObject)createRFSServiceRetentionJob();
 			case SchedulingPackage.SERVICE_USER_FAILURE: return (EObject)createServiceUserFailure();
 			case SchedulingPackage.WORK_FLOW_RUN: return (EObject)createWorkFlowRun();
 			default:
@@ -268,6 +268,16 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public RetentionJob createRetentionJob() {
+		RetentionJobImpl retentionJob = new RetentionJobImpl();
+		return retentionJob;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public RFSServiceMonitoringJob createRFSServiceMonitoringJob() {
 		RFSServiceMonitoringJobImpl rfsServiceMonitoringJob = new RFSServiceMonitoringJobImpl();
 		return rfsServiceMonitoringJob;
@@ -281,16 +291,6 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	public RFSServiceReporterJob createRFSServiceReporterJob() {
 		RFSServiceReporterJobImpl rfsServiceReporterJob = new RFSServiceReporterJobImpl();
 		return rfsServiceReporterJob;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public RFSServiceRetentionJob createRFSServiceRetentionJob() {
-		RFSServiceRetentionJobImpl rfsServiceRetentionJob = new RFSServiceRetentionJobImpl();
-		return rfsServiceRetentionJob;
 	}
 
 	/**

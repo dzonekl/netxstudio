@@ -16,7 +16,7 @@ import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
@@ -93,7 +93,7 @@ public class LogicActivator implements BundleActivator {
 			}
 		});
 		
-		JobImplementation.REGISTRY.register(RFSServiceRetentionJob.class, new JobImplementationFactory() {
+		JobImplementation.REGISTRY.register(RetentionJob.class, new JobImplementationFactory() {
 			@Override
 			public JobImplementation create() {
 				return injector.getInstance(RetentionJobImplementation.class);

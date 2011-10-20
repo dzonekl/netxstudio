@@ -18,10 +18,13 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -38,7 +41,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.wb.swt.TableViewerColumnSorter;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -50,6 +52,7 @@ import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -67,9 +70,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 	private Form frmResources;
 	// private Resource resourcesResource;
 
-	private TableViewerColumn tbvcLongName;
 	protected List<Resource> resourcesList;
-	private TableViewerColumn tbvcCapacity;
 
 	/**
 	 * Create the composite.
@@ -128,86 +129,102 @@ public abstract class AbstractResources extends AbstractScreen implements
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
 		toolkit.paintBordersFor(table);
 
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(
-				resourcesTableViewer, SWT.NONE);
-		// tableViewerColumn.setLabelProvider(new ColumnLabelProvider() {
-		// public Image getImage(Object element) {
-		// // TODO Auto-generated method stub
-		// return null;
+		// // tableViewerColumn.setLabelProvider(new ColumnLabelProvider() {
+		// // public Image getImage(Object element) {
+		// // // TODO Auto-generated method stub
+		// // return null;
+		// // }
+		// // public String getText(Object element) {
+		// // // TODO Auto-generated method stub
+		// // return element == null ? "" : element.toString();
+		// // }
+		// // });
+		// new TableViewerColumnSorter(tableViewerColumn) {
+		// @Override
+		// protected int doCompare(Viewer viewer, Object e1, Object e2) {
+		// // TODO Remove this method, if your getValue(Object) returns
+		// // Comparable.
+		// // Typical Comparable are String, Integer, Double, etc.
+		// return super.doCompare(viewer, e1, e2);
 		// }
-		// public String getText(Object element) {
-		// // TODO Auto-generated method stub
-		// return element == null ? "" : element.toString();
+		//
+		// @Override
+		// protected Object getValue(Object o) {
+		// // TODO remove this method, if your EditingSupport returns value
+		// return super.getValue(o);
 		// }
-		// });
-		new TableViewerColumnSorter(tableViewerColumn) {
-			@Override
-			protected int doCompare(Viewer viewer, Object e1, Object e2) {
-				// TODO Remove this method, if your getValue(Object) returns
-				// Comparable.
-				// Typical Comparable are String, Integer, Double, etc.
-				return super.doCompare(viewer, e1, e2);
+		// };
+
+		String[] properties = new String[] { "Node", "Component", "Metric",
+				"Short Name", "Expression Name", "Long Name", "Capacity",
+				"Unit" };
+
+		int[] columnWidths = new int[] { 100, 100, 112, 76, 104, 200, 60, 68 };
+
+		EditingSupport[] editingSupport = new EditingSupport[] { null, null,
+				null, null, null, null,
+				new CapacityEditingSupport(resourcesTableViewer), null };
+
+		buildTableColumns(properties, columnWidths, editingSupport);
+
+		// setCellEditors(properties);
+
+	}
+
+	class CapacityEditingSupport extends EditingSupport {
+
+		private TableViewer viewer;
+
+		public CapacityEditingSupport(TableViewer viewer) {
+			super(viewer);
+			this.viewer = viewer;
+		}
+
+		@Override
+		protected CellEditor getCellEditor(Object element) {
+			return new TextCellEditor(viewer.getTable());
+		}
+
+		@Override
+		protected boolean canEdit(Object element) {
+			return true;
+		}
+
+		@Override
+		protected Object getValue(Object element) {
+			if (element instanceof NetXResource) {
+				Value v = modelUtils.lastCapacityValue((NetXResource) element);
+				if (v != null) {
+					return new Double(v.getValue()).toString();
+				} else {
+					return "<not set>";
+				}
 			}
+			return null;
+		}
 
-			@Override
-			protected Object getValue(Object o) {
-				// TODO remove this method, if your EditingSupport returns value
-				return super.getValue(o);
+		@Override
+		protected void setValue(Object element, Object value) {
+			// TODO store new value
+
+		}
+
+	}
+
+	private void buildTableColumns(String[] properties, int[] columnWidths,
+			EditingSupport[] editingSupport) {
+
+		for (int i = 0; i < properties.length; i++) {
+			TableViewerColumn viewerColumn = new TableViewerColumn(
+					resourcesTableViewer, SWT.NONE);
+			EditingSupport sup;
+			if ((sup = editingSupport[i]) != null) {
+				viewerColumn.setEditingSupport(sup);
 			}
-		};
-		
-		// Column 0
-		TableColumn tblclmnNode = tableViewerColumn.getColumn();
-		tblclmnNode.setWidth(100);
-		tblclmnNode.setText("Node");
-
-		// Column 1
-		TableViewerColumn tbvcOwner = new TableViewerColumn(
-				resourcesTableViewer, SWT.NONE);
-		TableColumn tblclmnOwner = tbvcOwner.getColumn();
-		tblclmnOwner.setWidth(100);
-		tblclmnOwner.setText("Component");
-		
-		// Column 2
-		TableViewerColumn tbvcMetric = new TableViewerColumn(
-				resourcesTableViewer, SWT.NONE);
-		TableColumn tblclmnMetric = tbvcMetric.getColumn();
-		tblclmnMetric.setWidth(112);
-		tblclmnMetric.setText("Metric");
-
-		// Column 3
-		TableViewerColumn tbvcShortName = new TableViewerColumn(
-				resourcesTableViewer, SWT.NONE);
-		TableColumn tblclmnShortName = tbvcShortName.getColumn();
-		tblclmnShortName.setWidth(76);
-		tblclmnShortName.setText("Short Name");
-
-		// Column 4
-		TableViewerColumn tbvcExpressionName = new TableViewerColumn(
-				resourcesTableViewer, SWT.NONE);
-		TableColumn tblclmnExpression = tbvcExpressionName.getColumn();
-		tblclmnExpression.setWidth(104);
-		tblclmnExpression.setText("Expression Name");
-		
-		// Column 5
-		tbvcLongName = new TableViewerColumn(resourcesTableViewer, SWT.NONE);
-		TableColumn tblclmnState = tbvcLongName.getColumn();
-		tblclmnState.setWidth(200);
-		tblclmnState.setText("Long Name");
-		
-		// Column 6
-		// Set a fix capacity value. 
-		tbvcCapacity = new TableViewerColumn(resourcesTableViewer, SWT.NONE);
-		TableColumn tblclmnCapacity = tbvcCapacity.getColumn();
-		tblclmnCapacity.setWidth(60);
-		tblclmnCapacity.setText("Capacity");
-		
-		// Column 7
-		TableViewerColumn tbvcUnit = new TableViewerColumn(
-				resourcesTableViewer, SWT.NONE);
-		TableColumn tblclmnUnit = tbvcUnit.getColumn();
-		tblclmnUnit.setWidth(68);
-		tblclmnUnit.setText("Unit");
+			TableColumn tblColumn = viewerColumn.getColumn();
+			tblColumn.setText(properties[i]);
+			tblColumn.setWidth(columnWidths[i]);
+		}
 	}
 
 	class EditResourceAction extends Action {
@@ -371,11 +388,12 @@ public abstract class AbstractResources extends AbstractScreen implements
 				switch (columnIndex) {
 
 				case 0: {
-					if (c != null) {
-						return modelUtils.resolveParentNode(c).getNodeID();
-					} else {
-						return "not connected";
+					Node n;
+					if (c != null
+							&& (n = modelUtils.resolveParentNode(c)) != null) {
+						return n.getNodeID();
 					}
+					return "not connected";
 				}
 				case 1: {
 					if (c != null) {
@@ -396,6 +414,20 @@ public abstract class AbstractResources extends AbstractScreen implements
 					} else {
 						return null;
 					}
+				case 3:
+					if (resource
+							.eIsSet(LibraryPackage.Literals.BASE_RESOURCE__SHORT_NAME)) {
+						return resource.getMetricRef().getName();
+					} else {
+						return null;
+					}
+				case 4:
+					if (resource
+							.eIsSet(LibraryPackage.Literals.BASE_RESOURCE__EXPRESSION_NAME)) {
+						return resource.getExpressionName();
+					} else {
+						return null;
+					}
 				case 5:
 					if (resource.getLongName() != null) {
 						return resource.getLongName();
@@ -403,9 +435,9 @@ public abstract class AbstractResources extends AbstractScreen implements
 					break;
 				case 6:
 					Value v = modelUtils.lastCapacityValue(resource);
-					if( v != null){
+					if (v != null) {
 						return new Double(v.getValue()).toString();
-					}else{
+					} else {
 						return "<not set>";
 					}
 				case 7:

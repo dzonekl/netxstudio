@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceProfile;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -34,7 +33,6 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl#getServiceRef <em>Service Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl#getServiceProfile <em>Service Profile</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl#getExpressionRef <em>Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl#getDescription <em>Description</em>}</li>
@@ -62,24 +60,6 @@ public class ServiceUserImpl extends BaseImpl implements ServiceUser {
 	@Override
 	protected EClass eStaticClass() {
 		return ServicesPackage.Literals.SERVICE_USER;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Service getServiceRef() {
-		return (Service)eGet(ServicesPackage.Literals.SERVICE_USER__SERVICE_REF, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setServiceRef(Service newServiceRef) {
-		eSet(ServicesPackage.Literals.SERVICE_USER__SERVICE_REF, newServiceRef);
 	}
 
 	/**

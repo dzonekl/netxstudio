@@ -20,30 +20,25 @@ package com.netxforge.netxstudio.scheduling.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.services.RFSService;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>RFS Service Retention Job</b></em>'.
+ * An implementation of the model object '<em><b>Retention Job</b></em>'.
  * <!-- end-user-doc -->
  * <p>
- * The following features are implemented:
- * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceRetentionJobImpl#getRFSService <em>RFS Service</em>}</li>
- * </ul>
  * </p>
  *
  * @generated
  */
-public class RFSServiceRetentionJobImpl extends JobImpl implements RFSServiceRetentionJob {
+public class RetentionJobImpl extends JobImpl implements RetentionJob {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RFSServiceRetentionJobImpl() {
+	protected RetentionJobImpl() {
 		super();
 	}
 
@@ -54,25 +49,7 @@ public class RFSServiceRetentionJobImpl extends JobImpl implements RFSServiceRet
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SchedulingPackage.Literals.RFS_SERVICE_RETENTION_JOB;
+		return SchedulingPackage.Literals.RETENTION_JOB;
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public RFSService getRFSService() {
-		return (RFSService)eGet(SchedulingPackage.Literals.RFS_SERVICE_RETENTION_JOB__RFS_SERVICE, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRFSService(RFSService newRFSService) {
-		eSet(SchedulingPackage.Literals.RFS_SERVICE_RETENTION_JOB__RFS_SERVICE, newRFSService);
-	}
-
-} //RFSServiceRetentionJobImpl
+} //RetentionJobImpl

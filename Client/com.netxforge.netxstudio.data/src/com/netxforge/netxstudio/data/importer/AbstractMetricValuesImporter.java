@@ -21,7 +21,6 @@ package com.netxforge.netxstudio.data.importer;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -50,7 +49,6 @@ import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
-import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
@@ -93,7 +91,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	protected NetworkElementLocator networkElementLocator;
 
 	@Inject
-	private ModelUtils modelUtils;
+	protected ModelUtils modelUtils;
 
 	private List<MappingRecord> failedRecords = new ArrayList<MappingRecord>();
 
@@ -324,21 +322,18 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				totalRows++;
 
 				// We need at least a node and a component.
-				
-				
 				IdentifierValidator validator = new IdentifierValidator();
-				
+
 				final List<IdentifierValue> elementIdentifiers = getIdentifierValues(
 						getMappingColumn(), rowNum);
 				validator.validateIdentifiers(elementIdentifiers);
-				
+
 				if (!validator.hasNodeAndChild()) {
-					if( validator.hasNode()){
-						// Check for auto-create. 
-//						throw new java.lang.IllegalStateException(
-//								"At least one child of Node Identifier is required");
-						
-					}else{
+					if (validator.hasNode()) {
+						// Check for auto-create.
+						// throw new java.lang.IllegalStateException(
+						// "At least one child of Node Identifier is required");
+					} else {
 						// here we need to bail, not even a Node?
 						throw new java.lang.IllegalStateException(
 								"Node Identifier is required");
@@ -360,12 +355,16 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 							throw new java.lang.IllegalStateException(
 									"Metric reference not set");
 						}
-
+						
+						System.out.println("Before NE lookup row=" + rowNum);
+						
 						final Component networkElement = getNetworkElementLocator()
 								.locateNetworkElement(
 										getValueDataKind(column).getMetricRef(),
 										elementIdentifiers);
-
+						
+						System.out.println("After NE lookup row=" + rowNum);
+						
 						if (networkElement == null) {
 							getFailedRecords().add(
 									createNotFoundNetworkElementMappingRecord(
@@ -375,10 +374,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 													.getFailedIdentifiers()));
 							continue;
 						}
-
+						
 						final Double value = getNumericCellValue(rowNum,
 								column.getColumn());
-						
+
 						addMetricValue(column, rowTimeStamp, networkElement,
 								value, intervalHintFromRow);
 						this.updatePeriodEstimate(rowTimeStamp);
@@ -392,21 +391,18 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 		return totalRows;
 	}
-	
-	
+
 	/**
-	 * Validator for the mapping identifiers. 
+	 * Validator for the mapping identifiers.
 	 */
 	static class IdentifierValidator {
 
 		int countNode = 0;
 		int countComponent = 0;
 		int countRelationship = 0;
-		
-		public void validateIdentifiers(
-				List<IdentifierValue> elementIdentifiers) {
 
-			
+		public void validateIdentifiers(List<IdentifierValue> elementIdentifiers) {
+
 			for (IdentifierValue iv : elementIdentifiers) {
 				switch (iv.getKind().getObjectKind().getValue()) {
 				case ObjectKindType.EQUIPMENT_VALUE:
@@ -426,19 +422,19 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			}
 
 		}
-		
-		public boolean hasNodeAndChild(){
+
+		public boolean hasNodeAndChild() {
 			if (countNode > 0 && (countComponent > 0 || countRelationship > 0)) {
 				return true;
 			} else {
 				return false;
 			}
-		} 
-		
-		public boolean hasNode(){
+		}
+
+		public boolean hasNode() {
 			return countNode > 0;
-		} 
-		
+		}
+
 	}
 
 	public DateTimeRange getMappingPeriodEstimate() {
@@ -483,50 +479,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		this.updatePeriodEstimate(timeStamp);
 	}
 
-	private void addMetricValue(MappingColumn column, Date timeStamp,
-			Component networkElement, Double dblValue, int periodHint) {
-		final Resource emfNetxResource = getDataProvider().getResource(
-				modelUtils.getResourcePath(networkElement));
-
-		final ValueDataKind valueDataKind = getValueDataKind(column);
-		final Metric metric = valueDataKind.getMetricRef();
-		NetXResource foundNetXResource = null;
-		EList<EObject> objects = emfNetxResource.getContents();
-		for (final Object object : objects) {
-			final NetXResource netXResource = (NetXResource) object;
-			if (netXResource.getComponentRef().cdoID()
-					.equals(networkElement.cdoID())
-					&& netXResource.getMetricRef().cdoID() == metric.cdoID()) {
-				foundNetXResource = netXResource;
-				break;
-			}
-		}
-		if (foundNetXResource == null) {
-			foundNetXResource = LibraryFactory.eINSTANCE.createNetXResource();
-			foundNetXResource.setComponentRef(networkElement);
-			foundNetXResource.setMetricRef(metric);
-			foundNetXResource.setShortName(metric.getName());
-			foundNetXResource.setLongName(metric.getName());
-			foundNetXResource.setExpressionName(toValidExpressionName(metric
-					.getName()));
-			foundNetXResource.setUnitRef(metric.getUnitRef());
-			networkElement.getResourceRefs().add(foundNetXResource);
-			emfNetxResource.getContents().add(foundNetXResource);
-			addToNode(networkElement, networkElement, new ArrayList<Integer>(),
-					foundNetXResource);
-		}
-		objects = emfNetxResource.getContents();
-
-		final Value value = GenericsFactory.eINSTANCE.createValue();
-		value.setTimeStamp(modelUtils.toXMLDate(timeStamp));
-		value.setValue(dblValue);
-
-		addToValueRange(foundNetXResource, periodHint,
-				valueDataKind.getKindHint(), Collections.singletonList(value),
-				null, null);
-	}
-
-	private void addToNode(EObject originalEObject, EObject eObject,
+	public void addToNode(EObject originalEObject, EObject eObject,
 			List<Integer> path, NetXResource resource) {
 		final EObject container = eObject.eContainer();
 		if (container instanceof Node) {
@@ -540,15 +493,19 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			}
 			Object currentObject = null;
 			for (final Integer index : path) {
-				currentObject = componentObjects.get(index);
+				
+				if(componentObjects.size() > index){
+					currentObject = componentObjects.get(index);
 
-				if (originalEObject instanceof Equipment) {
-					componentObjects = ((Equipment) currentObject)
-							.getEquipments();
-				} else {
-					componentObjects = ((Function) currentObject)
-							.getFunctions();
+					if (originalEObject instanceof Equipment) {
+						componentObjects = ((Equipment) currentObject)
+								.getEquipments();
+					} else {
+						componentObjects = ((Function) currentObject)
+								.getFunctions();
+					}
 				}
+				
 			}
 			boolean found = false;
 			for (final NetXResource netxResource : ((Component) currentObject)
@@ -576,7 +533,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	}
 
-	private String toValidExpressionName(String value) {
+	public String toValidExpressionName(String value) {
 		final StringBuilder sb = new StringBuilder();
 		for (final char c : value.toCharArray()) {
 			boolean validChar = '0' <= c && c <= '9';
@@ -591,7 +548,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		return sb.toString();
 	}
 
-	private ValueDataKind getValueDataKind(MappingColumn column) {
+	public ValueDataKind getValueDataKind(MappingColumn column) {
 		return (ValueDataKind) column.getDataType();
 	}
 
@@ -851,6 +808,17 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		if (helper != null) {
 			this.helper.addToValueRange(foundNetXResource, periodHint,
 					kindHintType, newValues, start, end);
+		} else {
+			throw new java.lang.IllegalStateException(
+					"AbstractMetricValueImporter: Import helper should be set");
+		}
+	}
+
+	public void addMetricValue(MappingColumn column, Date timeStamp,
+			Component networkElement, Double dblValue, int periodHint) {
+		if (helper != null) {
+			this.helper.addMetricValue(column, timeStamp, networkElement,
+					dblValue, periodHint);
 		} else {
 			throw new java.lang.IllegalStateException(
 					"AbstractMetricValueImporter: Import helper should be set");

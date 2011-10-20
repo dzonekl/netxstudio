@@ -56,7 +56,7 @@ import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.ServiceUserFailure;
@@ -153,6 +153,13 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass retentionJobEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass rfsServiceMonitoringJobEClass = null;
 
 	/**
@@ -161,13 +168,6 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * @generated
 	 */
 	private EClass rfsServiceReporterJobEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass rfsServiceRetentionJobEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -567,6 +567,15 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getRetentionJob() {
+		return retentionJobEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRFSServiceMonitoringJob() {
 		return rfsServiceMonitoringJobEClass;
 	}
@@ -596,24 +605,6 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 */
 	public EReference getRFSServiceReporterJob_RFSService() {
 		return (EReference)rfsServiceReporterJobEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getRFSServiceRetentionJob() {
-		return rfsServiceRetentionJobEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getRFSServiceRetentionJob_RFSService() {
-		return (EReference)rfsServiceRetentionJobEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -810,14 +801,13 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		operatorReporterJobEClass = createEClass(OPERATOR_REPORTER_JOB);
 		createEReference(operatorReporterJobEClass, OPERATOR_REPORTER_JOB__OPERATOR);
 
+		retentionJobEClass = createEClass(RETENTION_JOB);
+
 		rfsServiceMonitoringJobEClass = createEClass(RFS_SERVICE_MONITORING_JOB);
 		createEReference(rfsServiceMonitoringJobEClass, RFS_SERVICE_MONITORING_JOB__RFS_SERVICE);
 
 		rfsServiceReporterJobEClass = createEClass(RFS_SERVICE_REPORTER_JOB);
 		createEReference(rfsServiceReporterJobEClass, RFS_SERVICE_REPORTER_JOB__RFS_SERVICE);
-
-		rfsServiceRetentionJobEClass = createEClass(RFS_SERVICE_RETENTION_JOB);
-		createEReference(rfsServiceRetentionJobEClass, RFS_SERVICE_RETENTION_JOB__RFS_SERVICE);
 
 		serviceUserFailureEClass = createEClass(SERVICE_USER_FAILURE);
 		createEReference(serviceUserFailureEClass, SERVICE_USER_FAILURE__SERVICE_USER_REF);
@@ -885,9 +875,9 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		nodeReporterJobEClass.getESuperTypes().add(this.getJob());
 		nodeTypeReporterJobEClass.getESuperTypes().add(this.getJob());
 		operatorReporterJobEClass.getESuperTypes().add(this.getJob());
+		retentionJobEClass.getESuperTypes().add(this.getJob());
 		rfsServiceMonitoringJobEClass.getESuperTypes().add(this.getJob());
 		rfsServiceReporterJobEClass.getESuperTypes().add(this.getJob());
-		rfsServiceRetentionJobEClass.getESuperTypes().add(this.getJob());
 		serviceUserFailureEClass.getESuperTypes().add(this.getExpressionFailure());
 
 		// Initialize classes and features; add operations and parameters
@@ -931,14 +921,13 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		initEClass(operatorReporterJobEClass, OperatorReporterJob.class, "OperatorReporterJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOperatorReporterJob_Operator(), theOperatorsPackage.getOperator(), null, "operator", null, 1, 1, OperatorReporterJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(retentionJobEClass, RetentionJob.class, "RetentionJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		initEClass(rfsServiceMonitoringJobEClass, RFSServiceMonitoringJob.class, "RFSServiceMonitoringJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRFSServiceMonitoringJob_RFSService(), theServicesPackage.getRFSService(), null, "rFSService", null, 1, 1, RFSServiceMonitoringJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rfsServiceReporterJobEClass, RFSServiceReporterJob.class, "RFSServiceReporterJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRFSServiceReporterJob_RFSService(), theServicesPackage.getRFSService(), null, "rFSService", null, 1, 1, RFSServiceReporterJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(rfsServiceRetentionJobEClass, RFSServiceRetentionJob.class, "RFSServiceRetentionJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRFSServiceRetentionJob_RFSService(), theServicesPackage.getRFSService(), null, "rFSService", null, 1, 1, RFSServiceRetentionJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serviceUserFailureEClass, ServiceUserFailure.class, "ServiceUserFailure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getServiceUserFailure_ServiceUserRef(), theServicesPackage.getServiceUser(), null, "serviceUserRef", null, 0, 1, ServiceUserFailure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -991,7 +980,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																														
+		   });																																																																												
 	}
 
 	/**
@@ -1232,6 +1221,13 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "name", "Operator"
 		   });			
 		addAnnotation
+		  (retentionJobEClass, 
+		   source, 
+		   new String[] {
+			 "name", "RetentionJob",
+			 "kind", "empty"
+		   });			
+		addAnnotation
 		  (rfsServiceMonitoringJobEClass, 
 		   source, 
 		   new String[] {
@@ -1254,20 +1250,6 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		   });			
 		addAnnotation
 		  (getRFSServiceReporterJob_RFSService(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "RFSService"
-		   });			
-		addAnnotation
-		  (rfsServiceRetentionJobEClass, 
-		   source, 
-		   new String[] {
-			 "name", "RFSServiceRetentionJob",
-			 "kind", "elementOnly"
-		   });			
-		addAnnotation
-		  (getRFSServiceRetentionJob_RFSService(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",

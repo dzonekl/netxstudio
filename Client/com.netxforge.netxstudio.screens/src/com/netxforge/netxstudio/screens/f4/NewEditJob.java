@@ -70,7 +70,7 @@ import com.netxforge.netxstudio.scheduling.NodeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDateTimeObservableValue;
@@ -960,7 +960,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		if (job instanceof RFSServiceMonitoringJob) {
 			type = 1;
 		}
-		if (job instanceof RFSServiceRetentionJob) {
+		if (job instanceof RetentionJob) {
 			type = 2;
 		}
 		if (job instanceof RFSServiceReporterJob) {

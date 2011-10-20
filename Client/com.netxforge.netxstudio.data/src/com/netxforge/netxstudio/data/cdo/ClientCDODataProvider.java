@@ -57,6 +57,10 @@ import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.scheduling.JobState;
+import com.netxforge.netxstudio.scheduling.RetentionJob;
+import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
  * A CDO Data provider, for single threaded clients. The session and transaction
@@ -115,7 +119,6 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 		ClientCDODataProvider.transaction = transaction;
 	}
 
-	// FIXME, move this to the test data.
 	public void loadFixtures() {
 		loadSettings();
 		loadRoles();
@@ -167,7 +170,7 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 		}
 
 		serverSettings.setExpansionDurationSettings(eds);
-		
+
 		try {
 			settingsResource.save(null);
 		} catch (final TransactionException e) {
@@ -181,6 +184,8 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 
 		Resource retentionRulesResource = getResource(MetricsPackage.Literals.METRIC_RETENTION_RULES);
 		Resource expressionResource = getResource(LibraryPackage.Literals.EXPRESSION);
+		// add to the job resource, that one is watched by the jobhandler
+		Resource retentionResource = getResource(SchedulingPackage.Literals.JOB);
 
 		EList<EObject> contents = retentionRulesResource.getContents();
 
@@ -280,10 +285,19 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 					r.setRetentionExpression(hourlyRetentionExpression);
 					rules.getMetricRetentionRules().add(r);
 				}
+
+				final RetentionJob retentionJob = SchedulingFactory.eINSTANCE
+						.createRetentionJob();
+				retentionJob.setJobState(JobState.IN_ACTIVE);
+				retentionJob.setStartTime(modelUtils.toXMLDate(modelUtils.tomorrow()));
+				retentionJob.setInterval(600);
+				retentionJob.setName("Data Retention");
+				retentionResource.getContents().add(retentionJob);
 			}
 			try {
 				expressionResource.save(null);
 				retentionRulesResource.save(null);
+				retentionResource.save(null);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -335,7 +349,6 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 		}
 	}
 
-	// FIXME Remove later, fixtures go elsewhere.
 	@SuppressWarnings("unused")
 	private void loadLibrary() {
 

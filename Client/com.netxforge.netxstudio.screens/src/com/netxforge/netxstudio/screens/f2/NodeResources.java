@@ -23,4 +23,10 @@ public class NodeResources extends AbstractResources {
 		}
 		super.injectData();
 	}
+
+	@Override
+	public String getScreenName() {
+		return "All Element Resources";
+	}
+	
 }

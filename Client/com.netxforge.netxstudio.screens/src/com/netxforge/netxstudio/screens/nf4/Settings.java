@@ -3,7 +3,6 @@ package com.netxforge.netxstudio.screens.nf4;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
@@ -64,7 +63,7 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 	}
 
 	public Viewer getViewer() {
@@ -134,7 +133,7 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 		Section sctnExpansionDuration = toolkit.createSection(
 				frmSettings.getBody(), Section.TITLE_BAR);
 		toolkit.paintBordersFor(sctnExpansionDuration);
-		sctnExpansionDuration.setText("Expansion Duration");
+		sctnExpansionDuration.setText("Expansion Duration (# of days)");
 
 		Composite expansionDurationComposite = toolkit.createComposite(
 				sctnExpansionDuration, SWT.NONE);
@@ -231,45 +230,72 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 						FeaturePath
 								.fromList(
 										NetxstudioPackage.Literals.SERVER_SETTINGS__EXPANSION_DURATION_SETTINGS,
-										GenericsPackage.Literals.EXPANSION_DURATION_SETTING__QUICK_DURATION));
+										GenericsPackage.Literals.EXPANSION_DURATION_SETTING__QUICK_DURATION,
+										GenericsPackage.Literals.EXPANSION_DURATION_VALUE__VALUE));
 
 		IEMFValueProperty shortDurationProperty = EMFEditProperties
 				.value(editingService.getEditingDomain(),
 						FeaturePath
 								.fromList(
 										NetxstudioPackage.Literals.SERVER_SETTINGS__EXPANSION_DURATION_SETTINGS,
-										GenericsPackage.Literals.EXPANSION_DURATION_SETTING__SHORT_DURATION));
-		
+										GenericsPackage.Literals.EXPANSION_DURATION_SETTING__SHORT_DURATION,
+										GenericsPackage.Literals.EXPANSION_DURATION_VALUE__VALUE));
+
 		IEMFValueProperty mediumDurationProperty = EMFEditProperties
 				.value(editingService.getEditingDomain(),
 						FeaturePath
 								.fromList(
 										NetxstudioPackage.Literals.SERVER_SETTINGS__EXPANSION_DURATION_SETTINGS,
-										GenericsPackage.Literals.EXPANSION_DURATION_SETTING__MEDIUM_DURATION));
-		
+										GenericsPackage.Literals.EXPANSION_DURATION_SETTING__MEDIUM_DURATION,
+										GenericsPackage.Literals.EXPANSION_DURATION_VALUE__VALUE));
+
 		IEMFValueProperty longDurationProperty = EMFEditProperties
 				.value(editingService.getEditingDomain(),
 						FeaturePath
 								.fromList(
 										NetxstudioPackage.Literals.SERVER_SETTINGS__EXPANSION_DURATION_SETTINGS,
-										GenericsPackage.Literals.EXPANSION_DURATION_SETTING__LONG_DURATION));
+										GenericsPackage.Literals.EXPANSION_DURATION_SETTING__LONG_DURATION,
+										GenericsPackage.Literals.EXPANSION_DURATION_VALUE__VALUE));
 
-		EMFUpdateValueStrategy dayToTargetStrategy = new EMFUpdateValueStrategy();
-		dayToTargetStrategy.setConverter(new DayToTargetConverter());
-		
-		
+//		EMFUpdateValueStrategy dayToTargetStrategy = new EMFUpdateValueStrategy();
+//		dayToTargetStrategy.setConverter(new DayToTargetConverter());
+
+//		bindingContext.bindValue(quickDurationObservable,
+//				quickDurationProperty.observe(settings), null,
+//				dayToTargetStrategy);
+
 		bindingContext.bindValue(quickDurationObservable,
-				quickDurationProperty.observe(settings), null, dayToTargetStrategy);
+				quickDurationProperty.observe(settings), null,
+				null);
+
+		
+//		bindingContext.bindValue(shortDurationObservable,
+//				shortDurationProperty.observe(settings), null,
+//				dayToTargetStrategy);
 
 		bindingContext.bindValue(shortDurationObservable,
-				shortDurationProperty.observe(settings), null, dayToTargetStrategy);
+				shortDurationProperty.observe(settings), null,
+				null);
+
+		
+//		bindingContext.bindValue(mediumDurationObservable,
+//				mediumDurationProperty.observe(settings), null,
+//				dayToTargetStrategy);
 
 		bindingContext.bindValue(mediumDurationObservable,
-				mediumDurationProperty.observe(settings), null, dayToTargetStrategy);
+		mediumDurationProperty.observe(settings), null,
+		null);
+
+		
+//		bindingContext.bindValue(longDurationObservable,
+//				longDurationProperty.observe(settings), null,
+//				dayToTargetStrategy);
 
 		bindingContext.bindValue(longDurationObservable,
-				longDurationProperty.observe(settings), null, dayToTargetStrategy);
+				longDurationProperty.observe(settings), null,
+				null);
 
+		
 		return bindingContext;
 	}
 
@@ -284,15 +310,14 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 		}
 
 		public Object convert(Object fromObject) {
-			if(fromObject instanceof Integer){
-				return fromObject.toString();	
+			if (fromObject instanceof Integer) {
+				return fromObject.toString();
 			}
 			return null;
 		}
-		
+
 	}
-	
-	
+
 	public void disposeData() {
 		// N/A
 	}
@@ -310,11 +335,10 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Server Settings";
 	}
 
-	
 }

@@ -137,6 +137,15 @@ public interface SchedulingFactory extends EFactory {
 	OperatorReporterJob createOperatorReporterJob();
 
 	/**
+	 * Returns a new object of class '<em>Retention Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Retention Job</em>'.
+	 * @generated
+	 */
+	RetentionJob createRetentionJob();
+
+	/**
 	 * Returns a new object of class '<em>RFS Service Monitoring Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -153,15 +162,6 @@ public interface SchedulingFactory extends EFactory {
 	 * @generated
 	 */
 	RFSServiceReporterJob createRFSServiceReporterJob();
-
-	/**
-	 * Returns a new object of class '<em>RFS Service Retention Job</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>RFS Service Retention Job</em>'.
-	 * @generated
-	 */
-	RFSServiceRetentionJob createRFSServiceRetentionJob();
 
 	/**
 	 * Returns a new object of class '<em>Service User Failure</em>'.

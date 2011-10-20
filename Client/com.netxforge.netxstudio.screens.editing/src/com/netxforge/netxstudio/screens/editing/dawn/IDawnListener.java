@@ -13,7 +13,6 @@ package com.netxforge.netxstudio.screens.editing.dawn;
 import org.eclipse.emf.cdo.transaction.CDOTransactionConflictEvent;
 import org.eclipse.emf.cdo.transaction.CDOTransactionHandler;
 import org.eclipse.emf.cdo.view.CDOViewInvalidationEvent;
-
 import org.eclipse.net4j.util.event.IListener;
 
 /**

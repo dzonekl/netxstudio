@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
-import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.ServerActivator;
@@ -40,19 +39,21 @@ public class RetentionJobImplementation extends JobImplementation {
 
 	@Override
 	public void run() {
-		Resource res = this.getDataProvider().getResource(MetricsPackage.Literals.METRIC_RETENTION_RULES);
-		if(res.getContents().size() == 1){
-			final RFSServiceRetentionJob retentionJob = (RFSServiceRetentionJob) getJob();
+		Resource res = this.getDataProvider().getResource(
+				MetricsPackage.Literals.METRIC_RETENTION_RULES);
+		if (res.getContents().size() == 1) {
+//			final RetentionJob retentionJob = (RetentionJob) getJob();
 			final RetentionLogic retentionLogic = ServerActivator.getInstance()
 					.getInjector().getInstance(RetentionLogic.class);
-			retentionLogic.setRfsService(retentionJob.getRFSService().cdoID());
+			// retentionLogic.setRfsService(retentionJob.getRFSService().cdoID());
 			retentionLogic.setJobMonitor(getRunMonitor());
-			MetricRetentionRules rules = (MetricRetentionRules) res.getContents().get(0);
+			MetricRetentionRules rules = (MetricRetentionRules) res
+					.getContents().get(0);
 			retentionLogic.setRules(rules);
 			retentionLogic.run();
 			getDataProvider().commitTransaction();
-		}else{
-			// No rules, data corruption...? 
+		} else {
+			// No rules, data corruption...?
 		}
 	}
 

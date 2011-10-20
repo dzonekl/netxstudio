@@ -61,14 +61,12 @@
     <genClasses ecoreClass="scheduling.ecore#//OperatorReporterJob">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//OperatorReporterJob/operator"/>
     </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//RetentionJob"/>
     <genClasses ecoreClass="scheduling.ecore#//RFSServiceMonitoringJob">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceMonitoringJob/rFSService"/>
     </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//RFSServiceReporterJob">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceReporterJob/rFSService"/>
-    </genClasses>
-    <genClasses ecoreClass="scheduling.ecore#//RFSServiceRetentionJob">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceRetentionJob/rFSService"/>
     </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//ServiceUserFailure">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ServiceUserFailure/serviceUserRef"/>
@@ -260,7 +258,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceProfile/name"/>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ServiceUser">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceUser/serviceRef"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceUser/serviceProfile"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceUser/expressionRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceUser/description"/>

@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -32,16 +31,15 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 
-import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
-import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.RetentionJob;
 
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob} object.
+ * This is the item provider adapter for a {@link com.netxforge.netxstudio.scheduling.RetentionJob} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class RFSServiceRetentionJobItemProvider
+public class RetentionJobItemProvider
 	extends JobItemProvider
 	implements
 		IEditingDomainItemProvider,
@@ -55,7 +53,7 @@ public class RFSServiceRetentionJobItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RFSServiceRetentionJobItemProvider(AdapterFactory adapterFactory) {
+	public RetentionJobItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -70,42 +68,19 @@ public class RFSServiceRetentionJobItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addRFSServicePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the RFS Service feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addRFSServicePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_RFSServiceRetentionJob_rFSService_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_RFSServiceRetentionJob_rFSService_feature", "_UI_RFSServiceRetentionJob_type"),
-				 SchedulingPackage.Literals.RFS_SERVICE_RETENTION_JOB__RFS_SERVICE,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This returns RFSServiceRetentionJob.gif.
+	 * This returns RetentionJob.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/RFSServiceRetentionJob"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/RetentionJob"));
 	}
 
 	/**
@@ -116,10 +91,10 @@ public class RFSServiceRetentionJobItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((RFSServiceRetentionJob)object).getName();
+		String label = ((RetentionJob)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_RFSServiceRetentionJob_type") :
-			getString("_UI_RFSServiceRetentionJob_type") + " " + label;
+			getString("_UI_RetentionJob_type") :
+			getString("_UI_RetentionJob_type") + " " + label;
 	}
 
 	/**

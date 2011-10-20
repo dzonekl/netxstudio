@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.data.importer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,10 +28,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Metric;
@@ -57,19 +59,24 @@ public class NetworkElementLocator {
 	private IDataProvider dataProvider;
 
 	// cache the components by metric and node identifier.
-	private Map<String, List<Component>> cachedComponentsForNodeID = new HashMap<String, List<Component>>();
+	private Map<String, List<Component>> cachedComponentsForNodeIDAndMetric = Maps.newHashMap();
+	private Map<String, List<Component>> cachedMetricComponentsForNodeIDAndMetric = Maps
+			.newHashMap();
 
 	// keeps track of the most successfull identifiers, can be used to provide
 	// more
 	// information to the user on which columns failed
-	private List<IdentifierValue> successFullIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
+	private List<IdentifierValue> successFullIdentifiers = Lists.newArrayList();
 
-	private List<IdentifierValue> failedIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
+	private List<IdentifierValue> failedIdentifiers = Lists.newArrayList();
+
+	private List<Component> successFullComponents = Lists.newArrayList();
 
 	public Component locateNetworkElement(Metric metric,
 			List<IdentifierValue> identifiers) {
 		successFullIdentifiers.clear();
 		failedIdentifiers.clear();
+		successFullComponents.clear();
 
 		final EReference sourceReference = LibraryPackage.eINSTANCE
 				.getComponent_MetricRefs();
@@ -98,10 +105,15 @@ public class NetworkElementLocator {
 
 		// The list of resolved components, as a cross reference could
 		// have multiple.
-		List<Component> components = new ArrayList<Component>();
+		List<Component> allComponents = new ArrayList<Component>();
+		// A subset, not containing the children.
+		List<Component> componentsMatchingMetric = Lists.newArrayList();
+
 		final String key = getKey(nodeIdentifier, metric);
-		if (cachedComponentsForNodeID.containsKey(key)) {
-			components = cachedComponentsForNodeID.get(key);
+		if (cachedComponentsForNodeIDAndMetric.containsKey(key)) {
+			allComponents = cachedComponentsForNodeIDAndMetric.get(key);
+			componentsMatchingMetric = cachedMetricComponentsForNodeIDAndMetric
+					.get(key);
 		} else {
 			// find the cross references to this metric
 			final List<CDOObjectReference> results = dataProvider
@@ -123,30 +135,50 @@ public class NetworkElementLocator {
 				// also add the children of the component referencing the
 				// Metric.
 				// .. creating a flat list of a node-metric-
-				if (source instanceof Component && !components.contains(source)) {
-					components.add((Component) source);
-					addChildren((Component) source, components);
+				if (source instanceof Component
+						&& !allComponents.contains(source)) {
+					componentsMatchingMetric.add((Component) source);
+					allComponents.add((Component) source);
+					addChildren((Component) source, allComponents);
 				}
 			}
-			cachedComponentsForNodeID.put(key, components);
+			cachedMetricComponentsForNodeIDAndMetric.put(key,
+					componentsMatchingMetric);
+			cachedComponentsForNodeIDAndMetric.put(key, allComponents);
 		}
 
 		// Iterate through components and subiterate through the identifiers,
 		// having a full match of identifiers
 		// and components.
-		for (final Component source : components) {
-			boolean allFeaturesValid = true;
-			boolean atLeastOneFeatureChecked = false;
-			final List<IdentifierValue> localSuccessFullIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
+		for (final Component source : allComponents) {
+
+			// All identifiers are valid (Excluding the Node identifier).
+			boolean allIdentifiersValid = true;
+
+			// At least one identifier has been verified.
+			boolean atLeastOneIdentifierChecked = false;
+
+			// Identifiers which have matched, The Node Identifier = 1.
+			final List<IdentifierValue> localSuccessFullIdentifiers = Lists
+					.newArrayList();
 			localSuccessFullIdentifiers.add(nodeIdentifier);
+
+			final List<Component> localSucssFullComponents = Lists
+					.newArrayList();
+
 			for (final IdentifierValue identifierValue : identifiers) {
 				// Skip the Node identifier.
 				if (identifierValue.getKind().getObjectKind() != ObjectKindType.NODE) {
-					atLeastOneFeatureChecked = true;
+					atLeastOneIdentifierChecked = true;
+					// Check if the identifier matches the component name.
 					if (!isValidObject(source, identifierValue)) {
-						allFeaturesValid = false;
+						allIdentifiersValid = false;
+						// The Component doesn't match the identifier.
 						break;
 					} else {
+						System.out.println("Matching identifier!:"
+								+ identifierValue.getValue());
+						localSucssFullComponents.add(source);
 						localSuccessFullIdentifiers.add(identifierValue);
 					}
 				}
@@ -154,15 +186,50 @@ public class NetworkElementLocator {
 			if (localSuccessFullIdentifiers.size() > successFullIdentifiers
 					.size()) {
 				successFullIdentifiers = localSuccessFullIdentifiers;
+				successFullComponents = localSucssFullComponents;
 			}
-			if (atLeastOneFeatureChecked && allFeaturesValid) {
+			if (atLeastOneIdentifierChecked && allIdentifiersValid) {
 				return source;
 			}
 
 			// A component, with the correct node, correct metric but no
-			// identifier, return the first one 
-			return source;
-			
+			// identifier , return the first one
+			if (atLeastOneIdentifierChecked == false) {
+				return source;
+			}
+
+		}
+
+		// All components checked, and we have identifiers pointing, so create a
+		// Component with the identifier name.
+		// TODO, if we have multiple sub-identifiers, we won't know which one to
+		// use.
+		// Consider using the successFullIdentifiers as a base, We will also
+		// need to know which Component succesfully matched.
+
+		// FIXME, Already created components won't be resolved with xref likely.
+		// Add these components to the cache, so we don't need to xref.
+
+		Component autoCreateComponent = null;
+		if (successFullComponents.size() > 0) {
+
+			autoCreateComponent = componentIdentifiers(successFullComponents,
+					successFullIdentifiers);
+		} else {
+			autoCreateComponent = componentIdentifiers(
+					componentsMatchingMetric, identifiers);
+
+		}
+
+		if (autoCreateComponent != null) {
+			allComponents.add(autoCreateComponent);
+			System.out.println("Adding auto create component: "
+					+ autoCreateComponent.getName() + " cache = "
+					+ allComponents.size() + " for key: " + key);
+			this.cachedComponentsForNodeIDAndMetric.put(key, allComponents);
+			return autoCreateComponent;
+		} else {
+			System.out.println("Auto created failed");
 		}
 
 		// report the failed ID's.
@@ -173,6 +240,69 @@ public class NetworkElementLocator {
 		}
 
 		return null;
+	}
+
+	private Component componentIdentifiers(List<Component> targetComponents,
+			List<IdentifierValue> identifiers) {
+
+		// The ultimate result.
+		Component newChildComponent = null;
+
+		List<IdentifierValue> componentIdentifiers = Lists.newArrayList();
+		for (IdentifierValue iv : identifiers) {
+			ObjectKindType objectKind = iv.getKind().getObjectKind();
+			if (objectKind == ObjectKindType.EQUIPMENT
+					|| objectKind == ObjectKindType.FUNCTION
+					|| objectKind == ObjectKindType.RELATIONSHIP) {
+				componentIdentifiers.add(iv);
+			}
+		}
+
+		if (componentIdentifiers.size() > 0) {
+			IdentifierValue identifierValue = componentIdentifiers
+					.get(componentIdentifiers.size() - 1);
+
+			String value = identifierValue.getValue();
+			identifierValue.getKind().getPattern();
+
+			// We can only auto-create on a single component in the Node, so get
+			// the
+			// first matching one.
+			if (targetComponents.size() > 0) {
+				Component target = targetComponents
+						.get(targetComponents.size() - 1);
+
+				if (identifierValue.getKind().getObjectKind() == ObjectKindType.FUNCTION) {
+					newChildComponent = LibraryFactory.eINSTANCE
+							.createFunction();
+					((Function) target).getFunctions().add(
+							(Function) newChildComponent);
+				} else if (identifierValue.getKind().getObjectKind() == ObjectKindType.EQUIPMENT) {
+					newChildComponent = LibraryFactory.eINSTANCE
+							.createEquipment();
+					((Equipment) target).getEquipments().add(
+							(Equipment) newChildComponent);
+				} else if (identifierValue.getKind().getObjectKind() == ObjectKindType.RELATIONSHIP) {
+					if (target instanceof Function) {
+						newChildComponent = LibraryFactory.eINSTANCE
+								.createFunction();
+						((Function) target).getFunctions().add(
+								(Function) newChildComponent);
+					} else if (target instanceof Equipment) {
+						newChildComponent = LibraryFactory.eINSTANCE
+								.createEquipment();
+						((Equipment) target).getEquipments().add(
+								(Equipment) newChildComponent);
+					}
+				}
+				if (newChildComponent != null) {
+					newChildComponent.setName(value);
+					// TODO, Also potentially add the relationship.
+				}
+			}
+		}
+
+		return newChildComponent;
 	}
 
 	private void addChildren(Component component, List<Component> components) {
@@ -255,9 +385,12 @@ public class NetworkElementLocator {
 			}
 		}
 
+		// CB IS THIS A BUG?????
 		eObject.eClass().getEStructuralFeature(eFeatureName);
 		if (eFeature != null) {
 			final Object componentFeatureValue = eObject.eGet(eFeature);
+
+			// TODO, Matching using the pattern.
 			if (componentFeatureValue instanceof String
 					&& matches(idValue, (String) componentFeatureValue,
 							extractionPattern)) {

@@ -19,7 +19,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -55,6 +54,7 @@ import com.netxforge.netxstudio.screens.LocationFilterDialog;
 import com.netxforge.netxstudio.screens.NodeTypeFilterDialog;
 import com.netxforge.netxstudio.screens.details.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -325,7 +325,7 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 				CompoundCommand cp = new CompoundCommand();
 				NodeType nt = node.getNodeType();
 				if (nt != null) {
-					Command dc = DeleteCommand.create(
+					Command dc = WarningDeleteCommand.create(
 							editingService.getEditingDomain(), nt);
 					cp.append(dc);
 				}

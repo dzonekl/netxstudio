@@ -25,7 +25,8 @@ package com.netxforge.netxstudio.library;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the result of th of an expression
+ * A type representing the result of th of an
+ * 				expression
  * 				run.
  * 			
  * <!-- end-model-doc -->

@@ -307,7 +307,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				
+
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -1365,7 +1365,8 @@
 
 	<xs:complexType name="LastEvaluationExpressionResult">
 		<xs:annotation>
-			<xs:documentation>A type representing the result of th of an expression
+			<xs:documentation>A type representing the result of th of an
+				expression
 				run.
 			</xs:documentation>
 			<!-- DISABLE, BUG https://bugs.eclipse.org/bugs/show_bug.cgi?id=356181 
@@ -1374,8 +1375,8 @@
 		<xs:complexContent>
 			<xs:extension base="BaseExpressionResult">
 				<xs:sequence>
-					<xs:element name="LastEvalResult"
-						type="xs:anySimpleType" maxOccurs="1" minOccurs="0" />
+					<xs:element name="LastEvalResult" type="xs:anySimpleType"
+						maxOccurs="1" minOccurs="0" />
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

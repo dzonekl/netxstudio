@@ -580,11 +580,19 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				GenericsPackage.Literals.COMPANY__NAME).observeDetail(set));
-
+		
+		observableMap.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				OperatorsPackage.Literals.OPERATOR__NETWORKS).observeDetail(set));
+		
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				OperatorsPackage.Literals.NETWORK__NAME).observeDetail(set));
 
+		observableMap.add(EMFEditProperties.value(editingService.getEditingDomain(),
+				OperatorsPackage.Literals.NETWORK__NODES).observeDetail(
+				set));
+		
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				OperatorsPackage.Literals.NODE__NODE_ID).observeDetail(set));

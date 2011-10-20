@@ -25,8 +25,10 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
+import com.netxforge.netxstudio.metrics.MappingColumn;
 
 /**
  * A Helper for the importer. Deals mainly with the dataprovider.
@@ -77,6 +79,11 @@ public class DefaultImporterHelper implements IImporterHelper {
 			KindHintType kindHintType, List<Value> newValues, Date start,
 			Date end) {
 		
+		// We don't write data in the default implementation....
+	}
+
+	public void addMetricValue(MappingColumn column, Date timeStamp,
+			Component networkElement, Double dblValue, int periodHint) {
 		// We don't write data in the default implementation....
 	}
 

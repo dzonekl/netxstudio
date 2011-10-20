@@ -27,10 +27,6 @@
       </topic>
    </topic> 
 	<topic href="html/tasks/library/library.html" label="Library">
-  <topic href="html/tasks/library/expressions/expressions.html" label="Expressions">
-     <topic href="html/tasks/library/expressions/creating_an_expression.html" label="Creating or modifying Expression">
-     </topic>
-  </topic>
   
 		<topic href="html/tasks/library/network_element_types/network_element_types.html" label="Network Element Types">
      <topic href="html/tasks/library/network_element_types/creating_a_network_element_type.html" label="Modifying a Network Element Type">
@@ -40,6 +36,10 @@
      <topic href="html/tasks/library/network_element_types/creating_an_equipment.html" label="Modifying an Equipment">
      </topic>
 		</topic>
+  <topic href="html/tasks/library/expressions/expressions.html" label="Expressions">
+     <topic href="html/tasks/library/expressions/creating_an_expression.html" label="Creating or modifying Expression">
+     </topic>
+  </topic>
 		<topic href="html/tasks/library/tolerances/tolerances.html" label="Tolerances">
 			<topic href="html/tasks/library/tolerances/creating_a_tolerance.html" label="Creating or Modifying a Tolerance">
 			</topic>
@@ -67,4 +67,10 @@
 	     	</topic>
 	  	</topic> 
 	</topic>
+ <topic href="html/tasks/design/" label="Design">
+    <topic href="html/tasks/design/operators" label="Operators">
+    </topic>
+    <topic href="html/tasks/design/networks" label="Networks">
+    </topic>
+ </topic>
 </toc>

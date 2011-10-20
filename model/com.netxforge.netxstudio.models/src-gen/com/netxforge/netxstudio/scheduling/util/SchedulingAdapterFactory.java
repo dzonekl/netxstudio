@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.ServiceUserFailure;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
@@ -143,16 +143,16 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 				return createOperatorReporterJobAdapter();
 			}
 			@Override
+			public Adapter caseRetentionJob(RetentionJob object) {
+				return createRetentionJobAdapter();
+			}
+			@Override
 			public Adapter caseRFSServiceMonitoringJob(RFSServiceMonitoringJob object) {
 				return createRFSServiceMonitoringJobAdapter();
 			}
 			@Override
 			public Adapter caseRFSServiceReporterJob(RFSServiceReporterJob object) {
 				return createRFSServiceReporterJobAdapter();
-			}
-			@Override
-			public Adapter caseRFSServiceRetentionJob(RFSServiceRetentionJob object) {
-				return createRFSServiceRetentionJobAdapter();
 			}
 			@Override
 			public Adapter caseServiceUserFailure(ServiceUserFailure object) {
@@ -341,6 +341,20 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.RetentionJob <em>Retention Job</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.RetentionJob
+	 * @generated
+	 */
+	public Adapter createRetentionJobAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob <em>RFS Service Monitoring Job</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -365,20 +379,6 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRFSServiceReporterJobAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob <em>RFS Service Retention Job</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob
-	 * @generated
-	 */
-	public Adapter createRFSServiceRetentionJobAdapter() {
 		return null;
 	}
 

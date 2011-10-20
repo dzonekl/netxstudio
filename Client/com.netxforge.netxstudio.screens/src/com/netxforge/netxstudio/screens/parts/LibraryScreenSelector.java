@@ -26,6 +26,7 @@ import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.NodeTypeResources;
 import com.netxforge.netxstudio.screens.f2.NodeTypes;
+import com.netxforge.netxstudio.screens.f2.Parameters;
 import com.netxforge.netxstudio.screens.f2.Protocols;
 import com.netxforge.netxstudio.screens.f2.Tolerances;
 import com.netxforge.netxstudio.screens.f2.Units;
@@ -76,6 +77,11 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 		result = screenFormService.addScreenSelector(result, "Expressions",
 				"icons/full/obj16/Expression_H.png", Expressions.class,
 				Screens.OPERATION_EDIT);
+		
+		result = screenFormService.addScreenSelector(result, "Parameters",
+				"icons/full/obj16/Parameter_H.png", Parameters.class,
+				Screens.OPERATION_EDIT);
+		
 
 		result = screenFormService.addScreenSelector(result, "Vendors",
 				"icons/full/obj16/Company_H.gif", Vendors.class,
