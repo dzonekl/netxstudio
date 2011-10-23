@@ -86,12 +86,27 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 	@Override
 	public CDOSession getSession() {
 		if (session == null) {
+			
+			
+			
 			// We can't get a session, which has not be opened and
 			// authenticated.
 			throw new java.lang.IllegalStateException();
 		} else {
-			// System.out.println("Currrent session instance:"
-			// + clientSession.toString());
+			
+			System.out.println("Numberof transactions:" + session.getViews().length);
+			// Report the transactions on our session:
+			CDOView[] views = session.getViews();
+			for(int i = 0; i < views.length; i++){
+				CDOView v = views[i];
+				System.out.println("view ID: " + v.getViewID() + " ResourceSet hashcode:" + v.getResourceSet().hashCode());
+				for(Resource res : v.getResourceSet().getResources()){
+					if(res instanceof CDOResource){
+						System.out.println( "  Resource for set = " + res.getURI());
+					}
+				}
+			}
+			System.out.println("Numberof transactions:" + session.getViews().length);
 			return session;
 		}
 	}
