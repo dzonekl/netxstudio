@@ -59,11 +59,19 @@ public abstract class AbstractFixedSetCDOResourceDescriptions extends
 								// here.
 								IDataProvider provider = getDataProvider();
 								if (provider instanceof CDODataProvider) {
-									final String fragment = '/' + uri
-											.lastSegment();
+									
+									String lookup;
+									if(uri.segmentCount() > 1 ){
+										lookup = uri.path();
+										
+									}else{
+										lookup = '/' + uri
+												.lastSegment();
+									}
+									
 									resource = ((CDODataProvider) provider)
 											.getResource((CDOView) transaction,
-													fragment);
+													lookup);
 									// System.out.println("--Done Scope builder Reading resource: "
 									// +
 									// uri.toString());

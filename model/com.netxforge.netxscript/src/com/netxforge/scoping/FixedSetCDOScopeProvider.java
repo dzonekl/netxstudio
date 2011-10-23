@@ -4,9 +4,10 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
 import org.eclipse.emf.cdo.eresource.CDOResourceNode;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -23,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -37,8 +39,10 @@ public class FixedSetCDOScopeProvider extends AbstractGlobalScopeProvider {
 
 	private static String REPO_NAME = "repo1";
 
-//	@Inject
+	// @Inject
 	private Provider<IResourceDescriptions> loadOnDemandDescriptions;
+
+	private ModelUtils modelUtils;
 
 	/*
 	 * Our single use transaction.
@@ -56,14 +60,16 @@ public class FixedSetCDOScopeProvider extends AbstractGlobalScopeProvider {
 	private IResourceDescriptions descriptions;
 
 	@Inject
-	public FixedSetCDOScopeProvider(Provider<IResourceDescriptions> descriptionsProvider) {
+	public FixedSetCDOScopeProvider(
+			Provider<IResourceDescriptions> descriptionsProvider, ModelUtils modelUtils) {
 		super();
-		
+
+		this.modelUtils = modelUtils;
 		this.loadOnDemandDescriptions = descriptionsProvider;
 
 		// Use a singleton transaction.
 		if (transaction == null) {
-			
+
 			descriptions = loadOnDemandDescriptions.get();
 			if (descriptions instanceof AbstractFixedSetCDOResourceDescriptions) {
 				transaction = ((AbstractFixedSetCDOResourceDescriptions) descriptions)
@@ -154,17 +160,15 @@ public class FixedSetCDOScopeProvider extends AbstractGlobalScopeProvider {
 		URI nodeURI = URI.createURI("cdo://" + REPO_NAME + "/Node_");
 		URI nodeTypeURI = URI.createURI("cdo://" + REPO_NAME + "/NodeType_");
 
-//		{
-//			List<URI> allNodeURIs = resolveAllURIs(nodeURI);
-//			urisAsList.addAll(allNodeURIs);
-//		}
-//
-//		{
-//			List<URI> allNodeURIs = resolveAllURIs(nodeURI);
-//			urisAsList.addAll(allNodeURIs);
-//		}
-//		urisAsList.add(nodeURI);
-//		urisAsList.add(nodeTypeURI);
+		{
+			List<URI> allNodeURIs = resolveAllURIs(nodeURI);
+			urisAsList.addAll(allNodeURIs);
+		}
+
+		{
+			List<URI> allNodeURIs = resolveAllURIs(nodeTypeURI);
+			urisAsList.addAll(allNodeURIs);
+		}
 
 		return ImmutableList.copyOf(urisAsList);
 	}
@@ -176,8 +180,10 @@ public class FixedSetCDOScopeProvider extends AbstractGlobalScopeProvider {
 	 * 
 	 * @return
 	 */
-	private List<URI> resolveAllURIs(URI nodeURI) {
-		String resourcePath = '/' + nodeURI.lastSegment();
+	private List<URI> resolveAllURIs(URI uri) {
+		String resourcePath = "/" + uri.lastSegment();
+		// return uriForPath(transaction.getRootResource().getFolder(),
+		// resourcePath);
 		return uriForPath(resourcePath);
 	}
 
@@ -185,20 +191,30 @@ public class FixedSetCDOScopeProvider extends AbstractGlobalScopeProvider {
 	 * Returns all URI as a child of the provided path. Consider moving this as
 	 * a DataProvider Interface.
 	 */
-	private List<URI> uriForPath(String resourcePath) {
+	private List<URI> uriForPath(String name) {
 		List<URI> childURIs = Lists.newArrayList();
-		if (transaction != null) {
-			List<CDOResourceNode> queryResourcesAsync = transaction
-					.queryResources(transaction.getRootResource().getFolder(),
-							resourcePath, false);
-
-			for (CDOResourceNode node : queryResourcesAsync) {
-				if (node instanceof CDOResource) {
-					childURIs.add(node.getURI());
-				}
+		if (transaction != null && transaction.hasResource(name)) {
+			CDOResourceNode resourceNode = transaction.getResourceNode(name);
+			if (resourceNode instanceof CDOResourceFolder) {
+				List<Resource> resources = this
+						.getResourcesFromNode((CDOResourceFolder) resourceNode);
+				childURIs.addAll(modelUtils.transformResourceToURI(resources));
 			}
 		}
 		return childURIs;
+	}
+
+	private List<Resource> getResourcesFromNode(CDOResourceFolder cdoFolder) {
+		List<Resource> resources = Lists.newArrayList();
+		EList<CDOResourceNode> nodes = cdoFolder.getNodes();
+		for (CDOResourceNode n : nodes) {
+			if (n instanceof CDOResourceFolder) {
+				resources.addAll(getResourcesFromNode((CDOResourceFolder) n));
+			} else {
+				resources.add((Resource) n);
+			}
+		}
+		return resources;
 	}
 
 }
