@@ -158,8 +158,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			if (filterPattern == null && getFileExtension() != null) {
 				// filterPattern = "([^\\s]+(\\.(?i)(" + getFileExtension() +
 				// "))$)";
-				filterPattern = ".*" + getFileExtension(); // TODO, narrow down
+				filterPattern = "[^\\s]+(\\.(?i)" + getFileExtension() + ")$";
 			} else {
+				// We concat the file name, to the pattern automaticly.  
+				filterPattern = filterPattern.concat("(\\.(?i)" + getFileExtension() + ")$");
 				Pattern.compile(filterPattern);
 			}
 
