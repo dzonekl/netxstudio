@@ -10,7 +10,7 @@ package com.netxforge.netxstudio.server.logic.netxscript;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.scoping.AbstractCDOLoadOnDemandResourceDescriptions;
+import com.netxforge.scoping.AbstractFixedSetCDOResourceDescriptions;
 
 /**
  * Customized version of LoadOnDemandDescriptions, the original version uses
@@ -28,18 +28,16 @@ import com.netxforge.scoping.AbstractCDOLoadOnDemandResourceDescriptions;
  * @author Sebastian Zarnekow - Initial contribution and API
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class CDOServerLoadOnDemandResourceDescriptions extends
-		AbstractCDOLoadOnDemandResourceDescriptions {
+public class FixedSetServerCDOResourceDescriptions extends
+		AbstractFixedSetCDOResourceDescriptions {
 
 	@Inject
 	@Server
 	private IDataProvider dataProvider;
-	
-	
+
 	@Override
 	protected IDataProvider getDataProvider() {
 		return dataProvider;
 	}
-	
 
 }
