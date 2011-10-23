@@ -1,6 +1,5 @@
 package com.netxforge.netxstudio.screens.f2.support;
 
-import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
@@ -16,8 +15,6 @@ import com.netxforge.netxstudio.library.NodeType;
 public class NodeTypeTreeFactoryImpl implements IObservableFactory {
 
 	EditingDomain domain;
-	@SuppressWarnings("unused")
-	private ObservablesManager obm;
 
 	private IEMFListProperty nodeTypeObservableProperty = EMFEditProperties
 			.multiList(domain,
