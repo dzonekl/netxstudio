@@ -26,10 +26,10 @@ import com.netxforge.netxstudio.data.IDataProvider;
  * @author Sebastian Zarnekow - Initial contribution and API
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class CDOLoadOnDemandResourceDescriptions extends
-		AbstractCDOLoadOnDemandResourceDescriptions {
+public class FixedSetCDOResourceDescriptions extends
+		AbstractFixedSetCDOResourceDescriptions {
 
-	public CDOLoadOnDemandResourceDescriptions() {
+	public FixedSetCDOResourceDescriptions() {
 		super();
 		System.out.println("Initialize ResourceDescriptions, we should be a singlton.");
 	}

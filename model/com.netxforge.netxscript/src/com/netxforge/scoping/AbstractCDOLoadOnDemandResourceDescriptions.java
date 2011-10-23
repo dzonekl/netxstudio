@@ -30,8 +30,8 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 	private Collection<URI> validUris;
 	@SuppressWarnings("unused")
 	private Resource context;
-
-	private Map<URI, IResourceDescription> cache;
+	private Map<URI, IResourceDescription> cache = Maps.newHashMap();
+	boolean initialized = false;
 	
 	
 	@Inject
@@ -39,10 +39,12 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 
 	public void initialize(IResourceDescriptions delegate,
 			Collection<URI> validUris, Resource context) {
-		this.delegate = delegate;
-		this.validUris = validUris;
-		this.context = context;
-		cache = Maps.newHashMap();
+		if(!initialized){
+			this.delegate = delegate;
+			this.validUris = validUris;
+			this.context = context;
+			initialized = true;
+		}
 	}
 
 	public Iterable<IResourceDescription> getAllResourceDescriptions() {
@@ -71,9 +73,7 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 	 */
 	public IResourceDescription getResourceDescription(URI uri) {
 		
-		
 		// FIXME, We don't delegate, as we override the provider, and will otherwise delegate to self. 
-		// 
 		// IResourceDescription result = delegate.getResourceDescription(uri);
 		// if (result == null) {
 		
@@ -100,17 +100,17 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 //					CDOResource cdoRes = (CDOResource)resource;
 //				}
 //				System.out.println("--Done Scope builder Reading resource: " + uri.toString());
-				getDescription(uri, resource);
+				IResourceDescription description = getDescription(uri, resource);
+				cache.put(uri, description);
+				return description;
+
 			} catch (IllegalStateException e) {
 				// No connection, abort global scoping!
 				e.printStackTrace();
 			}
-			return cache.get(uri);
 		}
 		
-		
 		return null;
-		
 		
 		// Customized, version which get the original CDO resource from the
 		// CDO URI through
@@ -121,16 +121,11 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 
 		// Resource resource = EcoreUtil2.getResource(context,
 		// uri.toString());
-
-		
-		
-		
 		// }
 		
 	}
 
 	private IResourceDescription getDescription(URI uri, Resource resource) {
-		IResourceDescription result;
 		if (resource != null) {
 			IResourceServiceProvider serviceProvider = serviceProviderRegistry
 					.getResourceServiceProvider(uri);
@@ -147,12 +142,9 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 			
 			// Do we cache our resource description? 
 //			System.out.println("---Building Description for resource: " + resource.getURI().toString());
-			result = resourceDescriptionManager
+			return resourceDescriptionManager
 					.getResourceDescription(resource);
 //			System.out.println("---Done building description for resource: " + resource.getURI().toString());
-			cache.put(uri, result);
-			
-			return result;
 		}
 		return null;
 	}

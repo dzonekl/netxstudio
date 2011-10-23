@@ -4,6 +4,7 @@
 package com.netxforge;
 
 import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 
 import com.google.inject.Scopes;
 import com.netxforge.interpreter.IInterpreter;
@@ -14,10 +15,10 @@ import com.netxforge.interpreter.InterpreterContextFactory;
 import com.netxforge.interpreter.InterpreterTypeless;
 import com.netxforge.interpreter.NativeFunctions;
 import com.netxforge.interpreter.PrettyLog;
-import com.netxforge.scoping.CDOLoadOnDemandResourceDescriptions;
 import com.netxforge.scoping.CDOResourceServiceProvider;
+import com.netxforge.scoping.FixedSetCDOResourceDescriptions;
+import com.netxforge.scoping.FixedSetCDOScopeProvider;
 import com.netxforge.scoping.SimpleCDONameProvider;
-import com.netxforge.scoping.SimpleCDOScopeProvider;
 
 /**
  * Use this class to register components to be used at runtime / without the
@@ -26,10 +27,6 @@ import com.netxforge.scoping.SimpleCDOScopeProvider;
 public class NetxscriptRuntimeModule extends
 		com.netxforge.AbstractNetxscriptRuntimeModule {
 
-	@Override
-	public Class<? extends org.eclipse.xtext.scoping.IGlobalScopeProvider> bindIGlobalScopeProvider() {
-		return SimpleCDOScopeProvider.class;
-	}
 
 	public Class<? extends IResourceServiceProvider> bindIResourceServiceProvider() {
 		return CDOResourceServiceProvider.class;
@@ -59,13 +56,16 @@ public class NetxscriptRuntimeModule extends
 	// Override generated, ResourceSet based.
 	public void configureIResourceDescriptions(com.google.inject.Binder binder) {
 		binder.bind(org.eclipse.xtext.resource.IResourceDescriptions.class).to(
-				CDOLoadOnDemandResourceDescriptions.class).in(Scopes.SINGLETON);
+				FixedSetCDOResourceDescriptions.class).in(Scopes.SINGLETON);
 	}
 
-	// @Provides
-	// IInterpreter provideInterpreter(){
-	// InterpreterTypeless interpreter = new InterpreterTypeless();
-	// return interpreter;
-	// }
+	public Class<? extends IGlobalScopeProvider> bindIGlobalScopeProvider() {
+		return null;
+	}
+	
+	public void configureIGlobalScopeProvider(com.google.inject.Binder binder) {
+		binder.bind(org.eclipse.xtext.scoping.IGlobalScopeProvider.class).to(
+				FixedSetCDOScopeProvider.class).in(Scopes.SINGLETON);
+	}
 
 }
