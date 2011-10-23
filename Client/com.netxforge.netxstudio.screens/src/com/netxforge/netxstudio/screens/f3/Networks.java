@@ -256,7 +256,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				| SWT.MULTI | widgetStyle);
 		networkTreeViewer.setUseHashlookup(true);
 		networkTreeViewer.setComparer(new CDOElementComparer());
-		
+
 		networkTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
@@ -305,8 +305,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		}
 		// actions.add(new ScheduleReportingJobAction(
 		// "Schedule Reporting Job...", SWT.PUSH));
-		actions.add(new ScheduleReportingJobAction(
-				"Schedule Reporting Job...", SWT.PUSH));
+		actions.add(new ScheduleReportingJobAction("Schedule Reporting Job...",
+				SWT.PUSH));
 		actions.add(new ReportNowAction("Report Now", SWT.PUSH));
 		actions.add(new SeparatorAction());
 		actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
@@ -352,14 +352,15 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 							.getData(SchedulingPackage.Literals.JOB);
 
 					ScheduledReportSelectionWizard wizard = new ScheduledReportSelectionWizard();
-					wizard.init(PlatformUI.getWorkbench(), (IStructuredSelection) selection);
-					
+					wizard.init(PlatformUI.getWorkbench(),
+							(IStructuredSelection) selection);
+
 					WizardDialog dialog = new WizardDialog(
 							Networks.this.getShell(), wizard);
 					dialog.open();
 					Job j = wizard.getJob();
-					
-					if( j != null){
+
+					if (j != null) {
 						NewEditJob newEditJob = new NewEditJob(
 								screenService.getScreenContainer(), SWT.NONE);
 						newEditJob.setOperation(operation);
@@ -383,71 +384,69 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		public void run() {
 			ISelection selection = getViewer().getSelection();
 			if (selection instanceof IStructuredSelection) {
-				
-				WizardUtil
-				.openWizard(
+
+				WizardUtil.openWizard(
 						"com.netxforge.netxstudio.screens.reporting",
 						(IStructuredSelection) selection);
-			}	
-			
-			
-//				Object o = ((IStructuredSelection) selection).getFirstElement();
-//				if (o instanceof Node) {
-//
-//					CDOObject target = null;
-//					String identifier = "";
-//
-//					if (o instanceof CDOObject) {
-//						target = (CDOObject) o;
-//
-//					}
-//					try {
-//						serverActions.setCDOServer(editingService
-//								.getDataService().getProvider().getServer());
-//
-//						PeriodDialog pr = new PeriodDialog(
-//								Networks.this.getShell(), modelUtils);
-//						pr.open();
-//						DateTimeRange dtr = pr.period();
-//
-//						Date fromDate = modelUtils.start(dtr);
-//						Date toDate = modelUtils.end(dtr);
-//
-//						// TODO, We get the workflow run ID back, which
-//						// could be used
-//						// to link back to the screen showing the running
-//						// workflows.
-//
-//						if (target instanceof Node) {
-//							@SuppressWarnings("unused")
-//							String result = serverActions
-//									.callNodeReportingAction(target, fromDate,
-//											toDate);
-//							identifier = ((Node) target).getNodeID();
-//						}
-//
-//						MessageDialog
-//								.openInformation(
-//										Networks.this.getShell(),
-//										"Reporting now succeeded:",
-//										"Reporting for: "
-//												+ identifier
-//												+ "\n has been initiated on the server.");
-//
-//					} catch (Exception e1) {
-//						e1.printStackTrace();
-//						MessageDialog
-//								.openError(
-//										Networks.this.getShell(),
-//										"Reporting now failed:",
-//										"Reporting for : "
-//												+ identifier
-//												+ "\n failed. Consult the log for information on the failure");
-//
-//					}
-//
-//				}
-//			}
+			}
+
+			// Object o = ((IStructuredSelection) selection).getFirstElement();
+			// if (o instanceof Node) {
+			//
+			// CDOObject target = null;
+			// String identifier = "";
+			//
+			// if (o instanceof CDOObject) {
+			// target = (CDOObject) o;
+			//
+			// }
+			// try {
+			// serverActions.setCDOServer(editingService
+			// .getDataService().getProvider().getServer());
+			//
+			// PeriodDialog pr = new PeriodDialog(
+			// Networks.this.getShell(), modelUtils);
+			// pr.open();
+			// DateTimeRange dtr = pr.period();
+			//
+			// Date fromDate = modelUtils.start(dtr);
+			// Date toDate = modelUtils.end(dtr);
+			//
+			// // TODO, We get the workflow run ID back, which
+			// // could be used
+			// // to link back to the screen showing the running
+			// // workflows.
+			//
+			// if (target instanceof Node) {
+			// @SuppressWarnings("unused")
+			// String result = serverActions
+			// .callNodeReportingAction(target, fromDate,
+			// toDate);
+			// identifier = ((Node) target).getNodeID();
+			// }
+			//
+			// MessageDialog
+			// .openInformation(
+			// Networks.this.getShell(),
+			// "Reporting now succeeded:",
+			// "Reporting for: "
+			// + identifier
+			// + "\n has been initiated on the server.");
+			//
+			// } catch (Exception e1) {
+			// e1.printStackTrace();
+			// MessageDialog
+			// .openError(
+			// Networks.this.getShell(),
+			// "Reporting now failed:",
+			// "Reporting for : "
+			// + identifier
+			// + "\n failed. Consult the log for information on the failure");
+			//
+			// }
+			//
+			// }
+			// }
 		}
 	}
 
@@ -580,19 +579,20 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				GenericsPackage.Literals.COMPANY__NAME).observeDetail(set));
-		
+
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
-				OperatorsPackage.Literals.OPERATOR__NETWORKS).observeDetail(set));
-		
+				OperatorsPackage.Literals.OPERATOR__NETWORKS)
+				.observeDetail(set));
+
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				OperatorsPackage.Literals.NETWORK__NAME).observeDetail(set));
 
-		observableMap.add(EMFEditProperties.value(editingService.getEditingDomain(),
-				OperatorsPackage.Literals.NETWORK__NODES).observeDetail(
-				set));
-		
+		observableMap.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				OperatorsPackage.Literals.NETWORK__NODES).observeDetail(set));
+
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				OperatorsPackage.Literals.NODE__NODE_ID).observeDetail(set));
@@ -734,14 +734,17 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			if (element instanceof Node) {
 				Node n = (Node) element;
 				if (n.getNodeType() != null) {
-					return Boolean.TRUE;
+					NodeType nt = n.getNodeType();
+					if (nt.getFunctions().size() > 0
+							|| nt.getEquipments().size() > 0) {
+						return Boolean.TRUE;
+					}
 				}
 			}
 
-			if (element instanceof NodeType
-					&& (((NodeType) element).getFunctions().size() > 0 || ((NodeType) element)
-							.getEquipments().size() > 0)) {
-				return Boolean.TRUE;
+			if (element instanceof NodeType) {
+				System.out
+						.println("Networks:Structure advise on NodeType should not occure");
 			}
 
 			if (element instanceof Function
@@ -865,11 +868,10 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Networks";
 	}
 
-	
 }
