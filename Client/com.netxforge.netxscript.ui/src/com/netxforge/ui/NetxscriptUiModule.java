@@ -5,8 +5,11 @@ package com.netxforge.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 
-import com.netxforge.scoping.CDOLoadOnDemandResourceDescriptions;
+import com.google.inject.Scopes;
+import com.netxforge.scoping.FixedSetCDOResourceDescriptions;
+import com.netxforge.scoping.FixedSetCDOScopeProvider;
 import com.netxforge.ui.scoping.UICDOResourceServiceProvider;
 
 /**
@@ -22,12 +25,21 @@ public class NetxscriptUiModule extends
 	// us.
 	// Override generated, ResourceSet based.
 	public void configureIResourceDescriptions(com.google.inject.Binder binder) {
-		binder.bind(org.eclipse.xtext.resource.IResourceDescriptions.class).to(
-				CDOLoadOnDemandResourceDescriptions.class);
+		binder.bind(org.eclipse.xtext.resource.IResourceDescriptions.class)
+				.to(FixedSetCDOResourceDescriptions.class).in(Scopes.SINGLETON);
 	}
 
 	public Class<? extends IResourceServiceProvider> bindIResourceServiceProvider() {
 		return UICDOResourceServiceProvider.class;
+	}
+	
+	public Class<? extends IGlobalScopeProvider> bindIGlobalScopeProvider() {
+		return null;
+	}
+	
+	public void configureIGlobalScopeProvider(com.google.inject.Binder binder) {
+		binder.bind(org.eclipse.xtext.scoping.IGlobalScopeProvider.class).to(
+				FixedSetCDOScopeProvider.class).in(Scopes.SINGLETON);
 	}
 
 }
