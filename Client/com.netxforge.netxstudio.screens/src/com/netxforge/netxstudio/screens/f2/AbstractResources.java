@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.screens.f2;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -26,9 +27,12 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -41,8 +45,11 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.wb.swt.TableViewerColumnSorter;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
@@ -55,10 +62,19 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
+import com.netxforge.netxstudio.screens.SearchFilter;
+import com.netxforge.netxstudio.screens.TableColumnFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.ResourceMonitorScreen;
 
+/**
+ * See this for filtering. 
+ * http://www.eclipsezone.com/eclipse/forums/t63214.html
+ * 
+ * @author dzonekl
+ *
+ */
 public abstract class AbstractResources extends AbstractScreen implements
 		IDataServiceInjection {
 
@@ -70,6 +86,9 @@ public abstract class AbstractResources extends AbstractScreen implements
 	private Form frmResources;
 	// private Resource resourcesResource;
 
+	@Inject
+	private SearchFilter searchFilter;
+	
 	protected List<Resource> resourcesList;
 
 	/**
@@ -112,12 +131,29 @@ public abstract class AbstractResources extends AbstractScreen implements
 		txtFilterText = toolkit.createText(frmResources.getBody(), "New Text",
 				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.setText("");
+		txtFilterText.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent ke) {
+				resourcesTableViewer.refresh();
+				ViewerFilter[] filters = resourcesTableViewer.getFilters();
+				for (ViewerFilter viewerFilter : filters) {
+					if (viewerFilter instanceof SearchFilter) {
+						((SearchFilter) viewerFilter)
+								.setSearchText(txtFilterText.getText());
+					}
+				}
+			}
+		});
+		
+		
+		
+		
 		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
 		new Label(frmResources.getBody(), SWT.NONE);
-
+		
+		
 		resourcesTableViewer = new TableViewer(frmResources.getBody(),
 				SWT.VIRTUAL | SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
 		table = resourcesTableViewer.getTable();
@@ -128,32 +164,6 @@ public abstract class AbstractResources extends AbstractScreen implements
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
 		toolkit.paintBordersFor(table);
-
-		// // tableViewerColumn.setLabelProvider(new ColumnLabelProvider() {
-		// // public Image getImage(Object element) {
-		// // // TODO Auto-generated method stub
-		// // return null;
-		// // }
-		// // public String getText(Object element) {
-		// // // TODO Auto-generated method stub
-		// // return element == null ? "" : element.toString();
-		// // }
-		// // });
-		// new TableViewerColumnSorter(tableViewerColumn) {
-		// @Override
-		// protected int doCompare(Viewer viewer, Object e1, Object e2) {
-		// // TODO Remove this method, if your getValue(Object) returns
-		// // Comparable.
-		// // Typical Comparable are String, Integer, Double, etc.
-		// return super.doCompare(viewer, e1, e2);
-		// }
-		//
-		// @Override
-		// protected Object getValue(Object o) {
-		// // TODO remove this method, if your EditingSupport returns value
-		// return super.getValue(o);
-		// }
-		// };
 
 		String[] properties = new String[] { "Node", "Component", "Metric",
 				"Short Name", "Expression Name", "Long Name", "Capacity",
@@ -166,7 +176,9 @@ public abstract class AbstractResources extends AbstractScreen implements
 				new CapacityEditingSupport(resourcesTableViewer), null };
 
 		buildTableColumns(properties, columnWidths, editingSupport);
-
+		
+		
+		resourcesTableViewer.addFilter(searchFilter);
 		// setCellEditors(properties);
 
 	}
@@ -211,10 +223,21 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 	}
 
+	/**
+	 * A Map of filters. 
+	 */
+	Map<String, TableColumnFilter> columnFilters = Maps.newHashMap();
+	
 	private void buildTableColumns(String[] properties, int[] columnWidths,
 			EditingSupport[] editingSupport) {
-
+		
+		
+//		final Menu headerMenu = new Menu(shell, SWT.POP_UP);
+		
 		for (int i = 0; i < properties.length; i++) {
+			
+			String property = properties[i];
+			
 			TableViewerColumn viewerColumn = new TableViewerColumn(
 					resourcesTableViewer, SWT.NONE);
 			EditingSupport sup;
@@ -222,8 +245,44 @@ public abstract class AbstractResources extends AbstractScreen implements
 				viewerColumn.setEditingSupport(sup);
 			}
 			TableColumn tblColumn = viewerColumn.getColumn();
-			tblColumn.setText(properties[i]);
+			tblColumn.setText(property);
 			tblColumn.setWidth(columnWidths[i]);
+			tblColumn.setMoveable(true);
+			
+			// Column filtering. 
+			TableColumnFilter tableColumnFilter = new TableColumnFilter(tblColumn);
+			columnFilters.put(property,tableColumnFilter);
+			resourcesTableViewer.addFilter(tableColumnFilter);
+			
+//			createMenuItem(headerMenu, tblColumn);
+			
+			if (properties[i].equals("Node")) {
+				new TableViewerColumnSorter(viewerColumn);
+			}
+
+			if (properties[i].equals("Component")) {
+				// Inline override the comparer based on the component, as this is a non-editable column. 
+				new TableViewerColumnSorter(viewerColumn) {
+					protected int doCompare(Viewer viewer, Object e1, Object e2) {
+						if (e1 instanceof NetXResource
+								&& e2 instanceof NetXResource) {
+
+							NetXResource re1 = (NetXResource) e1;
+							NetXResource re2 = (NetXResource) e2;
+
+							if (re1.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)
+									&& re2.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF))
+								return re1
+										.getComponentRef()
+										.getName()
+										.compareToIgnoreCase(
+												re2.getComponentRef().getName());
+						}
+						return 0;
+					}
+
+				};
+			}
 		}
 	}
 
