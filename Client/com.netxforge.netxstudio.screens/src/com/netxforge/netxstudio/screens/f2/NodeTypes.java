@@ -164,10 +164,10 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 				| SWT.SEARCH | SWT.CANCEL);
 		GridData gd_txtFilterText = new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1);
-//		gd_txtFilterText.widthHint = 200;
+		// gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
-//		txtFilterText.setSize(64, 81);
-//		txtFilterText.setText("");
+		// txtFilterText.setSize(64, 81);
+		txtFilterText.setText("");
 
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
@@ -194,6 +194,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 				newNodeType.setName("<new NE Type>");
 				Command add = new AddCommand(editingService.getEditingDomain(),
 						nodeTypeResource.getContents(), newNodeType);
+
 				editingService.getEditingDomain().getCommandStack()
 						.execute(add);
 			}
@@ -347,11 +348,13 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 				LibraryPackage.Literals.NODE_TYPE__NAME).observeDetail(set));
 
 		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
-				LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS).observeDetail(set));
-		
+				LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS).observeDetail(
+				set));
+
 		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
-				LibraryPackage.Literals.NODE_TYPE__FUNCTIONS).observeDetail(set));
-		
+				LibraryPackage.Literals.NODE_TYPE__FUNCTIONS)
+				.observeDetail(set));
+
 		mapList.add(EMFProperties
 				.value(LibraryPackage.Literals.COMPONENT__NAME).observeDetail(
 						set));
@@ -391,12 +394,13 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 		@Override
 		public Boolean hasChildren(Object element) {
-			if (element instanceof NodeType
-					&& (((NodeType) element).getFunctions().size() > 0 || ((NodeType) element)
-							.getEquipments().size() > 0)) {
-				return Boolean.TRUE;
+			if (element instanceof NodeType) {
+				NodeType nt = (NodeType) element;
+				if (nt.getFunctions().size() > 0
+						|| nt.getEquipments().size() > 0) {
+					return Boolean.TRUE;
+				}
 			}
-
 			if (element instanceof Function
 					&& ((Function) element).getFunctions().size() > 0) {
 				return Boolean.TRUE;
@@ -493,11 +497,10 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "NE Types";
 	}
-
 
 }
