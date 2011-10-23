@@ -108,6 +108,14 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	@Override
 	protected double getNumericCellValue(int row, int column) {
-		return Double.parseDouble(getStringCellValue(row, column));
+		String s = getStringCellValue(row, column);
+		if(s != null && s.length() > 0){
+			try {
+			return Double.parseDouble(s);
+			}catch(NumberFormatException nfe){
+				// Not parsable 
+			}
+		}
+		throw new IllegalStateException("No value");
 	}
 }
