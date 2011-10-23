@@ -79,6 +79,8 @@ public abstract class BaseNodeReportingLogic extends BasePeriodLogic {
 
 	protected abstract List<NodeType> getNodeTypesToExecuteFor();
 
+	
+	
 	protected void doRun() {
 
 		// start a transaction
@@ -99,6 +101,8 @@ public abstract class BaseNodeReportingLogic extends BasePeriodLogic {
 
 		// PROCESS NODES BY NODE TYPE.
 		processNodesByNodeType(sheet);
+		
+		writeFinal(sheet);
 
 		if (!getFailures().isEmpty()) {
 			final ComponentWorkFlowRun run = (ComponentWorkFlowRun) this
@@ -273,6 +277,8 @@ public abstract class BaseNodeReportingLogic extends BasePeriodLogic {
 
 	protected abstract void writeContent(HSSFSheet sheet, Component component);
 
+	public abstract void writeFinal(HSSFSheet sheet);
+	
 	protected HSSFSheet getSheet(String string) {
 		HSSFSheet sheet = this.getWorkBook().createSheet(string);
 		return sheet;
