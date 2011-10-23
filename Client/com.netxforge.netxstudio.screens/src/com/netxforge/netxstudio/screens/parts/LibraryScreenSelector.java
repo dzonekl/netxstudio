@@ -30,7 +30,6 @@ import com.netxforge.netxstudio.screens.f2.Parameters;
 import com.netxforge.netxstudio.screens.f2.Protocols;
 import com.netxforge.netxstudio.screens.f2.Tolerances;
 import com.netxforge.netxstudio.screens.f2.Units;
-import com.netxforge.netxstudio.screens.f2.Vendors;
 import com.netxforge.netxstudio.screens.f4.Metrics;
 
 public class LibraryScreenSelector extends AbstractScreenSelector {
@@ -82,10 +81,10 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 				"icons/full/obj16/Parameter_H.png", Parameters.class,
 				Screens.OPERATION_EDIT);
 		
-
-		result = screenFormService.addScreenSelector(result, "Vendors",
-				"icons/full/obj16/Company_H.gif", Vendors.class,
-				Screens.OPERATION_EDIT);
+// FIXME, The model doesn't allow to set the vendor on a component or equipment. 
+//		result = screenFormService.addScreenSelector(result, "Vendors",
+//				"icons/full/obj16/Company_H.gif", Vendors.class,
+//				Screens.OPERATION_EDIT);
 
 		result = screenFormService.addScreenSelector(result, "Units",
 				"icons/full/obj16/Unit_H.png", Units.class,
