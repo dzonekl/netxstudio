@@ -458,14 +458,9 @@ public class ModelUtils {
 	}
 
 	public List<Value> sortValuesByTimeStamp(List<Value> values) {
-		System.out.println("ResourceMonitor: sorting entries:" + values.size()
-				+ new Date(System.currentTimeMillis()));
-
 		List<Value> sortedCopy = Ordering.from(valueTimeStampCompare())
 				.sortedCopy(values);
 
-		System.out.println("ResourceMonitor: done sorting entries:"
-				+ new Date(System.currentTimeMillis()));
 		return sortedCopy;
 
 	}
