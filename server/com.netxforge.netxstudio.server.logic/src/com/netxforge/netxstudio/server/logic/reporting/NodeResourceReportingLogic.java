@@ -26,8 +26,10 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 
 	private static final int NODE_COLUMN = 2;
 	private static final int NODE_ROW = 9;
-	// private static final int RESOURCE_HEIGHT = 14;
 
+	private static final int INFO_ROW = 6;
+	private static final int INFO_COLUMN = 2;
+	
 	// FIXME, This should be outputed somehow aswell.
 	private int componentsNotReported = 0;
 	private Map<NetXResource, List<Marker>> markersForNode;
@@ -35,8 +37,8 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 	@Override
 	protected void writeHeader(HSSFSheet sheet, DateTimeRange dtr) {
 		super.createHeaderStructure(sheet);
-		super.typeCell.setCellValue("Node Monitoring");
-		super.titleCell.setCellValue("Node Resources");
+		super.typeCell.setCellValue("Network Element Monitoring");
+		super.titleCell.setCellValue("Resource");
 		if (dtr != null) {
 			super.periodCell.setCellValue(this.getModelUtils().date(
 					getModelUtils().fromXMLDate(dtr.getBegin()))
@@ -112,7 +114,7 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 			HSSFCell resourceCell = resourceRow.createCell(NODE_COLUMN + 2);
 			resourceCell.setCellValue(resource.getLongName());
 			
-			{ // Writing day reports.
+			{ // Writing hour reports.
 				MetricValueRange mvr = this.getModelUtils()
 						.valueRangeForInterval(resource,
 								ModelUtils.MINUTES_IN_AN_HOUR);
@@ -130,7 +132,6 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 					resourceIndex = writeRange(resource, sheet, resourceIndex,
 							ModelUtils.MINUTES_IN_A_DAY, mvr);
 				}
-
 			}
 
 			{ // Writing weekly values report.
@@ -281,4 +282,17 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 	@Override
 	protected void processServiceUser(Service service, HSSFSheet sheet) {
 	}
+	
+	@Override
+	public void writeFinal(HSSFSheet sheet) {
+		
+		HSSFRow row = sheet.getRow(INFO_ROW);
+		if(row == null){
+			row = sheet.createRow(INFO_ROW);
+		}
+		HSSFCell componentsSkippedInfoCell = row.createCell(INFO_COLUMN);
+		componentsSkippedInfoCell.setCellValue("Number of not-reported Components (RAG Appropriate):" + this.componentsNotReported);
+		
+	}
+	
 }

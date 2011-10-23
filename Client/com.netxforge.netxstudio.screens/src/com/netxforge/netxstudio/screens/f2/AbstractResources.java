@@ -3,8 +3,6 @@ package com.netxforge.netxstudio.screens.f2;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.eclipse.core.databinding.observable.list.ComputedList;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -50,15 +48,12 @@ import org.eclipse.wb.swt.TableViewerColumnSorter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
@@ -66,7 +61,6 @@ import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.TableColumnFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f4.ResourceMonitorScreen;
 
 /**
  * See this for filtering. 
@@ -311,46 +305,46 @@ public abstract class AbstractResources extends AbstractScreen implements
 		}
 	}
 
-	class MonitorResourceAction extends Action {
-
-		public MonitorResourceAction(String text, int style) {
-			super(text, style);
-		}
-
-		@Override
-		public void run() {
-			ISelection selection = getViewer().getSelection();
-			if (selection instanceof IStructuredSelection) {
-				Object o = ((IStructuredSelection) selection).getFirstElement();
-				if (o instanceof NetXResource) {
-
-					// TODO, Ask for a time range.
-					// TODO, Select the value range.
-					MetricValueRange mvr = ((NetXResource) o)
-							.getMetricValueRanges().get(0);
-
-					XMLGregorianCalendar start = mvr.getMetricValues().get(0)
-							.getTimeStamp();
-					XMLGregorianCalendar end = mvr.getMetricValues()
-							.get(mvr.getMetricValues().size() - 1)
-							.getTimeStamp();
-
-					DateTimeRange timerange = GenericsFactory.eINSTANCE
-							.createDateTimeRange();
-
-					timerange.setBegin(start);
-					timerange.setEnd(end);
-
-					ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
-							screenService.getScreenContainer(), SWT.NONE);
-					monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
-					monitorScreen.setScreenService(screenService);
-					monitorScreen.injectData(null, o, timerange);
-					screenService.setActiveScreen(monitorScreen);
-				}
-			}
-		}
-	}
+//	class MonitorResourceAction extends Action {
+//
+//		public MonitorResourceAction(String text, int style) {
+//			super(text, style);
+//		}
+//
+//		@Override
+//		public void run() {
+//			ISelection selection = getViewer().getSelection();
+//			if (selection instanceof IStructuredSelection) {
+//				Object o = ((IStructuredSelection) selection).getFirstElement();
+//				if (o instanceof NetXResource) {
+//
+//					// TODO, Ask for a time range.
+//					// TODO, Select the value range.
+//					MetricValueRange mvr = ((NetXResource) o)
+//							.getMetricValueRanges().get(0);
+//
+//					XMLGregorianCalendar start = mvr.getMetricValues().get(0)
+//							.getTimeStamp();
+//					XMLGregorianCalendar end = mvr.getMetricValues()
+//							.get(mvr.getMetricValues().size() - 1)
+//							.getTimeStamp();
+//
+//					DateTimeRange timerange = GenericsFactory.eINSTANCE
+//							.createDateTimeRange();
+//
+//					timerange.setBegin(start);
+//					timerange.setEnd(end);
+//
+//					ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
+//							screenService.getScreenContainer(), SWT.NONE);
+//					monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
+//					monitorScreen.setScreenService(screenService);
+//					monitorScreen.injectData(null, o, timerange);
+//					screenService.setActiveScreen(monitorScreen);
+//				}
+//			}
+//		}
+//	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
@@ -551,7 +545,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 		List<IAction> actionList = Lists.newArrayList();
 		actionList.add(new EditResourceAction(actionText, SWT.PUSH));
-		actionList.add(new MonitorResourceAction("Monitor...", SWT.PUSH));
+//		actionList.add(new MonitorResourceAction("Monitor...", SWT.PUSH));
 		return actionList.toArray(new IAction[actionList.size()]);
 	}
 }

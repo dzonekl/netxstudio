@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -52,6 +51,7 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
@@ -402,8 +402,9 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 	}
 
 	int expectedValueQuantity = -1;
+	private int interval;
 
-	public List<Value> createDateSeries(EList<Value> values) {
+	public List<Value> createDateSeries(List<Value> values) {
 		List<Value> sortedCopy = modelUtils.sortByTimeStampAndReverse(values);
 		return modelUtils.filterValueInRange(sortedCopy, dtr);
 	}
@@ -505,10 +506,7 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		
 	}
 
-	public void injectData(Object owner, Object object, DateTimeRange dtr) {
-		// if (owner instanceof Resource) {
-		// monitorResource = (Resource) owner;
-		// }
+	public void injectData(Object owner, Object object, DateTimeRange dtr, int interval) {
 		if (object != null && object instanceof NetXResource) {
 			netXResource = (NetXResource) object;
 		} else {
@@ -518,6 +516,10 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 
 		if (dtr != null) {
 			this.dtr = dtr;
+		}
+		
+		if(interval > 0){
+			this.interval = interval;
 		}
 
 		buildUI();
@@ -575,12 +577,22 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 
 	private void initChartBinding() {
 		
-		// Set the series from the resource.
-		// Re-use the TS range.
-		// TODO, select on the interval, hourly etc...
+		List<Value> values = null;
+		if( interval > 0 ){
+			MetricValueRange mvr = modelUtils.valueRangeForInterval(netXResource,interval);
+			values = mvr.getMetricValues();
+		}else{
+//			if(netXResource.getMetricValueRanges().size() > 0 ){
+//				values = netXResource.getMetricValueRanges().get(0);
+//			}
+			return;
+		}
 		
-		List<Value> values = this.createDateSeries(netXResource
-				.getMetricValueRanges().get(0).getMetricValues());
+		if(values == null){
+			return;
+		}else{
+			values = this.createDateSeries(values);
+		}
 
 		List<Date> dates = modelUtils.transformValueToDate(values);
 		Date[] dateArray = new Date[dates.size()];

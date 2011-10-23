@@ -1,5 +1,8 @@
 package com.netxforge.netxstudio.screens.f2;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -204,9 +207,12 @@ public class NewEditParameter extends AbstractScreen implements
 
 			public Object convert(Object fromObject) {
 				try {
-					Double d = new Double((String) fromObject);
-					return d;
+					
+					String s = (String) fromObject;
+					Number parse = DecimalFormat.getInstance().parse(s);
+					return parse.doubleValue();
 				} catch (NumberFormatException nfe) {
+				} catch (ParseException e) {
 				}
 				return null;
 			}

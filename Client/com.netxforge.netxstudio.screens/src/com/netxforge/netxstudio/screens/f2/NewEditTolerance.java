@@ -52,7 +52,7 @@ public class NewEditTolerance extends AbstractScreen implements
 	private EMFDataBindingContext m_bindingContext;
 	private ComboViewer cmbLevelViewer;
 //	private Text txtExpression;
-	private EmbeddedSelectionExpression exp;
+	private EmbeddedSelectionExpression embeddedExpression;
 
 	/**
 	 * Create the composite.
@@ -138,9 +138,9 @@ public class NewEditTolerance extends AbstractScreen implements
 //				false, 1, 1));
 		
 		
-		exp = new EmbeddedSelectionExpression(this.editingService,
+		embeddedExpression = new EmbeddedSelectionExpression(this.editingService,
 				frmNewTolerance.getBody(), null, getOperation());
-		exp.injectData("Tolerance", tolerance,
+		embeddedExpression.injectData("Tolerance", tolerance,
 				LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF);
 		
 //		txtExpression = toolkit.createText(composite_1, "New Text",
@@ -226,7 +226,7 @@ public class NewEditTolerance extends AbstractScreen implements
 //				expressionProperty.observe(tolerance), null, null);
 
 		// Also bind the embedded expression. 
-		exp.bind(context);
+		embeddedExpression.bind(context);
 		
 		
 		cmbLevelViewer.setContentProvider(new ArrayContentProvider());

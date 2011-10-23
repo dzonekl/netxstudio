@@ -73,7 +73,8 @@ public class EmbeddedSelectionExpression extends EmbeddedExpression {
 		this.identity = identity;
 		
 		buildUI();
-		
+		// Disable the editor. 
+		this.setEnabled(false);
 		if(owner.eIsSet(feature)){
 			this.injectData(owner.eGet(feature));
 		}

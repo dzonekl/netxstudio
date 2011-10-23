@@ -19,6 +19,8 @@ package com.netxforge.netxstudio.screens.f2;
 
 import java.util.Date;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
@@ -55,6 +57,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
@@ -65,6 +69,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
@@ -77,6 +83,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.UnitFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f4.ResourceMonitorScreen;
 
 public class NewEditResource extends AbstractScreen implements
 		IDataScreenInjection {
@@ -102,6 +109,8 @@ public class NewEditResource extends AbstractScreen implements
 	private Hyperlink hprlnkUtilization;
 	private Text txtComponent;
 	private Hyperlink hprlnk15;
+	private Text txtNode;
+	private int targetInterval;
 
 	/**
 	 * Create the composite.
@@ -118,7 +127,8 @@ public class NewEditResource extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		// buildUI();
+//		buildUI();
+//		buildValuesUI();
 	}
 
 	private void buildUI() {
@@ -150,6 +160,18 @@ public class NewEditResource extends AbstractScreen implements
 		toolkit.paintBordersFor(composite);
 		sctnInfo.setClient(composite);
 		composite.setLayout(new GridLayout(3, false));
+
+		Label lblNode = toolkit.createLabel(composite, "Node:", SWT.NONE);
+		lblNode.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
+				1, 1));
+
+		txtNode = toolkit.createText(composite, "New Text", SWT.READ_ONLY);
+		txtNode.setText("");
+		GridData gd_txtNode = new GridData(SWT.LEFT, SWT.CENTER, true, false,
+				1, 1);
+		gd_txtNode.widthHint = 300;
+		txtNode.setLayoutData(gd_txtNode);
+		new Label(composite, SWT.NONE);
 
 		Label lblComponent = toolkit.createLabel(composite, "Component:",
 				SWT.NONE);
@@ -263,7 +285,7 @@ public class NewEditResource extends AbstractScreen implements
 		Composite composite_2 = toolkit.createComposite(sctnContents, SWT.NONE);
 		toolkit.paintBordersFor(composite_2);
 		sctnContents.setClient(composite_2);
-		composite_2.setLayout(new GridLayout(7, false));
+		composite_2.setLayout(new GridLayout(8, false));
 
 		hprlnk15 = toolkit.createHyperlink(composite_2, "15 min", SWT.NONE);
 		hprlnk15.addHyperlinkListener(new IHyperlinkListener() {
@@ -278,7 +300,7 @@ public class NewEditResource extends AbstractScreen implements
 			}
 		});
 		toolkit.paintBordersFor(hprlnk15);
-		
+
 		hprlnkHourly = toolkit.createHyperlink(composite_2, "Hourly", SWT.NONE);
 		hprlnkHourly.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
@@ -378,7 +400,7 @@ public class NewEditResource extends AbstractScreen implements
 		table = valuesTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 7, 1);
+		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 8, 1);
 		gd_table.heightHint = 400;
 		table.setLayoutData(gd_table);
 		toolkit.paintBordersFor(table);
@@ -394,7 +416,43 @@ public class NewEditResource extends AbstractScreen implements
 		TableColumn tblclmnHourly = tableViewerColumn_1.getColumn();
 		tblclmnHourly.setWidth(88);
 		tblclmnHourly.setText("Metric");
-		new Label(composite_2, SWT.NONE);
+
+		Menu menu = new Menu(table);
+		table.setMenu(menu);
+
+		MenuItem mntmMonitor = new MenuItem(menu, SWT.NONE);
+		mntmMonitor.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				if (res instanceof NetXResource && targetInterval > 0) {
+					MetricValueRange mvr = modelUtils.valueRangeForInterval(
+							(NetXResource) res, targetInterval);
+					if (mvr != null) {
+						XMLGregorianCalendar start = mvr.getMetricValues()
+								.get(0).getTimeStamp();
+						XMLGregorianCalendar end = mvr.getMetricValues()
+								.get(mvr.getMetricValues().size() - 1)
+								.getTimeStamp();
+
+						DateTimeRange timerange = GenericsFactory.eINSTANCE
+								.createDateTimeRange();
+
+						timerange.setBegin(start);
+						timerange.setEnd(end);
+
+						ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
+								screenService.getScreenContainer(), SWT.NONE);
+						monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
+						monitorScreen.setScreenService(screenService);
+						monitorScreen.injectData(null, res, timerange, targetInterval);
+						screenService.setActiveScreen(monitorScreen);
+					}
+				}
+
+			}
+		});
+		mntmMonitor.setText("Monitor...");
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 
@@ -408,10 +466,12 @@ public class NewEditResource extends AbstractScreen implements
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
+		new Label(composite_2, SWT.NONE);
+		new Label(composite_2, SWT.NONE);
 	}
 
 	private void updateValues(int targetInterval) {
-
+		this.targetInterval = targetInterval;
 		valuesTableViewer
 				.setContentProvider(new NetXResourceValueContentProvider(
 						targetInterval));
@@ -550,12 +610,6 @@ public class NewEditResource extends AbstractScreen implements
 						LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
 						LibraryPackage.Literals.COMPONENT__NAME));
 
-		// IEMFValueProperty equipmentProperty = EMFEditProperties.value(
-		// editingService.getEditingDomain(), FeaturePath.fromList(
-		// LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
-		// LibraryPackage.Literals.COMPONENT__NAME));
-		//
-
 		IEMFValueProperty shortNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.BASE_RESOURCE__SHORT_NAME);
@@ -581,6 +635,16 @@ public class NewEditResource extends AbstractScreen implements
 				expressionNameProperty.observe(res), null, null);
 		context.bindValue(unitTargetObservable, unitProperty.observe(res),
 				null, null);
+
+		if (res instanceof NetXResource) {
+			if (res.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)) {
+				Component c = ((NetXResource) res).getComponentRef();
+				Node n = modelUtils.resolveParentNode(c);
+				if (n != null) {
+					this.txtNode.setText(n.getNodeID());
+				}
+			}
+		}
 
 		// Set enablement for interval links.
 
@@ -698,13 +762,14 @@ public class NewEditResource extends AbstractScreen implements
 								editingService.getEditingDomain(),
 								((NetXResource) res).getComponentRef(),
 								LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
-								(Component)whoRefers);
+								(Component) whoRefers);
 						c.append(refOtherSideCommand);
 
 					}
-					Command ac = new AddCommand(editingService.getEditingDomain(),
+					Command ac = new AddCommand(
+							editingService.getEditingDomain(),
 							owner.getContents(), res);
-					
+
 					c.append(ac);
 
 					editingService.getEditingDomain().getCommandStack()
@@ -760,5 +825,4 @@ public class NewEditResource extends AbstractScreen implements
 	public String getScreenName() {
 		return "Resource";
 	}
-
 }

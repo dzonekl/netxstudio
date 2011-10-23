@@ -27,6 +27,7 @@ import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -1998,6 +1999,22 @@ public class ModelUtils {
 		long lValue = ((AbstractCDOIDLong) cdoObject.cdoID()).getLongValue();
 		return new Long(lValue).toString();
 	}
+	
+	
+	/**
+	 * Transform a list of resources to a list of URI for the resource. 
+	 * 
+	 * @param resources
+	 * @return
+	 */
+	public List<URI> transformResourceToURI(List<Resource> resources) {
+		final Function<Resource, URI> resourceToURI = new Function<Resource, URI>() {
+			public URI apply(Resource from) {
+				return from.getURI();
+			}
+		};
+		return Lists.transform(resources, resourceToURI);
+	}
 
 	public List<NodeType> transformNodeToNodeType(List<Node> nodes) {
 		final Function<Node, NodeType> nodeTypeFromNode = new Function<Node, NodeType>() {
@@ -2080,7 +2097,8 @@ public class ModelUtils {
 		}
 		return doubles;
 	}
-
+	
+	
 	/**
 	 * look down the containment tree, and find the most recenrt date.
 	 * 

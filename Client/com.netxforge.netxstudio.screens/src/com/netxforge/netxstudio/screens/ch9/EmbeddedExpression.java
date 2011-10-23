@@ -85,7 +85,7 @@ public abstract class EmbeddedExpression {
 	ModelUtils modelUtils;
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private EmbeddedXtextEditor editor;
+	protected EmbeddedXtextEditor editor;
 
 	private Expression expression;
 	private EObject evaluationObject = NetxscriptFactory.eINSTANCE.createMod();
@@ -106,6 +106,8 @@ public abstract class EmbeddedExpression {
 
 	private Composite parent;
 
+	private Composite keyPadComposite;
+
 	/**
 	 * Create the composite.
 	 * 
@@ -119,15 +121,15 @@ public abstract class EmbeddedExpression {
 		this.fd = fd;
 		this.parent = parent;
 	}
-	
-	public void buildUI(){
+
+	public void buildUI() {
 		this.buildUI(parent, fd);
 	}
-	
-	
+
 	public abstract void buildUI(Composite parent, FormData fd);
 
-	public Composite buildSection(String sectionName, Composite parent, FormData fd) {
+	public Composite buildSection(String sectionName, Composite parent,
+			FormData fd) {
 		Section sctnNewSection = toolkit.createSection(parent, Section.TWISTIE
 				| Section.TITLE_BAR | Section.EXPANDED);
 
@@ -137,7 +139,8 @@ public abstract class EmbeddedExpression {
 		}
 
 		toolkit.paintBordersFor(sctnNewSection);
-		sctnNewSection.setText(sectionName != null ? sectionName : "NetXScript");
+		sctnNewSection
+				.setText(sectionName != null ? sectionName : "NetXScript");
 
 		Composite sectionClient = toolkit.createComposite(sctnNewSection);
 
@@ -181,8 +184,8 @@ public abstract class EmbeddedExpression {
 
 		txtExpressionName = toolkit.createText(selectionComposite, "New Text",
 				SWT.READ_ONLY);
-		GridData gd_txtCapExpression = new GridData(SWT.FILL, SWT.CENTER,
-				true, false, 1, 1);
+		GridData gd_txtCapExpression = new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1);
 		gd_txtCapExpression.widthHint = 150;
 		txtExpressionName.setLayoutData(gd_txtCapExpression);
 		txtExpressionName.setText("");
@@ -192,8 +195,9 @@ public abstract class EmbeddedExpression {
 		imageHyperlink.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				clearExpression(expression);
-				// Clear the editor as well and set inactive.
+				expression = null;
 				clearData();
+				setEnabled(false);
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -238,8 +242,6 @@ public abstract class EmbeddedExpression {
 		interpreterContextFactory = netxScriptInjector
 				.getInstance(IInterpreterContextFactory.class);
 
-		// Injector injector =
-		// ArithmeticsActivator.getInstance().getInjector("org.eclipse.xtext.example.arithmetics.Arithmetics");
 		Composite editorComposite = toolkit.createComposite(sectionClient,
 				SWT.BORDER);
 		GridLayout gl_editorComposite = new GridLayout();
@@ -250,11 +252,13 @@ public abstract class EmbeddedExpression {
 				SWT.BORDER | widgetStyle | SWT.WRAP);
 		editor.getDocument().addModelListener(new IXtextModelListener() {
 			public void modelChanged(XtextResource resource) {
-				evaluationObject = xtextService.reconcileChangedModel(
-						expression, editor);
+
+				if (expression != null) {
+					evaluationObject = xtextService.reconcileChangedModel(
+							expression, editor);
+				}
 			}
 		});
-//		
 		editorComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
 				true));
 		this.createKeyPad(sectionClient);
@@ -348,22 +352,19 @@ public abstract class EmbeddedExpression {
 			xtextService = new EmbeddedXtextService(editingService);
 		}
 
-		if (!editor.getViewer().isEditable()) {
-			editor.getViewer().setEditable(true);
-		}
-
 		if (object != null && object instanceof Expression) {
 			expression = (Expression) object;
 
 			String asString = xtextService.getAsString(expression);
+			setEnabled(true);
 			editor.update(this.evaluationObject, asString == null ? ""
 					: asString);
 		}
 	}
 
 	public void clearData() {
-		// Clear the editor.
-		editor.getViewer().setEditable(false);
+		// Set an empty string in the editor.
+		editor.update("");
 	}
 
 	/**
@@ -397,7 +398,8 @@ public abstract class EmbeddedExpression {
 	 */
 	private void createKeyPad(Composite parent) {
 
-		Composite keyPadComposite = toolkit.createComposite(parent, SWT.BORDER);
+		keyPadComposite = toolkit.createComposite(parent, SWT.BORDER);
+
 		keyPadComposite.setBackground(SWTResourceManager
 				.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 		GridLayout gl_composite_3 = new GridLayout(5, false);
@@ -708,6 +710,12 @@ public abstract class EmbeddedExpression {
 
 	public int getOperation() {
 		return this.operation;
+	}
+
+	public void setEnabled(boolean state) {
+		this.editor.getViewer().setEditable(state);
+		this.editor.getViewer().getControl().setEnabled(state);
+		this.keyPadComposite.setEnabled(state);
 	}
 
 }
