@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -92,7 +93,9 @@ public abstract class NodeReportingLogic extends BaseNodeReportingLogic {
 		}
 
 	}
-
+	
+	public abstract void writeFinal(HSSFSheet sheet);
+	
 	public URI folderURI() {
 
 		ServerSettings settings = getSettings();
