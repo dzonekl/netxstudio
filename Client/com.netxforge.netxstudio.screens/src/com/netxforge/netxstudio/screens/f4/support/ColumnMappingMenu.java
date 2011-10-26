@@ -397,7 +397,9 @@ public class ColumnMappingMenu {
 			mappingColumnScreen.setOperation(op);
 			mappingColumnScreen.setScreenService(screenService);
 			mappingColumnScreen.injectData(metricSource, showDataMapping, owner, target);
+			dialog.getShell().layout(true,true);
 			dialog.open();
+			
 			screenService.fireScreenChangedExternal((IScreen) screenService.getActiveScreen());
 		}
 		

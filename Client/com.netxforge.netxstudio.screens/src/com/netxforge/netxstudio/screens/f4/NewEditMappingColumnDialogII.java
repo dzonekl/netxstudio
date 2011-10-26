@@ -66,10 +66,6 @@ public class NewEditMappingColumnDialogII extends Dialog {
 			setMappingColumnScreen(new NewEditMappingColumn(container, SWT.NONE));
 			mappingColumnScreen.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 					true, true));
-
-			// super.getShell().pack();
-			// this.container.layout(true);
-			super.getShell().layout(true);
 		}
 		return mappingColumnScreen;
 	}
