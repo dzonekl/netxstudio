@@ -194,7 +194,7 @@ public abstract class AbstractScreenFormService implements IScreenFormService {
 	 * Warns if the current screen is dirty, if not saving, flush the command
 	 * stack. If saving, save depending on the screen type.
 	 */
-	protected void dirtyWarning() {
+	public void dirtyWarning() {
 		// Warn for unsaved changes.
 		if (editingService.isDirty()) {
 			boolean result = MessageDialog
@@ -222,7 +222,7 @@ public abstract class AbstractScreenFormService implements IScreenFormService {
 		return editingService;
 	}
 
-	private void undoAndFlush() {
+	public void undoAndFlush() {
 		// This will flush the stack, but not undo all the commands.
 		// We need to undo the executed editing commands.
 		while (editingService.getEditingDomain().getCommandStack().canUndo()) {

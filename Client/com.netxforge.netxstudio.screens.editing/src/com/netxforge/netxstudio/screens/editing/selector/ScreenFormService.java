@@ -27,6 +27,7 @@ import java.util.Stack;
 
 import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -53,6 +54,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.cdo.IFixtures;
 import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 /**
@@ -414,7 +416,7 @@ public class ScreenFormService implements IScreenFormService {
 	 * Warns if the current screen is dirty, if not saving, flush the command
 	 * stack. If saving, save depending on the screen type.
 	 */
-	private void dirtyWarning() {
+	public void dirtyWarning() {
 		// Warn for unsaved changes.
 		if (editingService.isDirty()) {
 			boolean result = MessageDialog
@@ -438,7 +440,7 @@ public class ScreenFormService implements IScreenFormService {
 		}
 	}
 
-	private void undoAndFlush() {
+	public void undoAndFlush() {
 		// This will flush the stack, but not undo all the commands.
 		// We need to undo the executed editing commands.
 		while (editingService.getEditingDomain().getCommandStack().canUndo()) {
@@ -446,6 +448,14 @@ public class ScreenFormService implements IScreenFormService {
 		}
 		editingService.getEditingDomain().getCommandStack().flush();
 		// The data should have been disposed by now.
+		
+		if(editingService instanceof CDOEditingService){
+			if( ((CDOEditingService) editingService).getView().isDirty()){
+				CDOTransaction transaction = (CDOTransaction) ((CDOEditingService) editingService).getView();
+				transaction.rollback();
+			}
+		}
+		
 	}
 
 	public void reset() {

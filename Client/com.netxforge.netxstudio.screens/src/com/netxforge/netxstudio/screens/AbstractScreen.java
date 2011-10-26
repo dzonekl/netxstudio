@@ -71,6 +71,12 @@ public abstract class AbstractScreen extends Composite implements IScreen,
 		this.editingService = screenService.getEditingService();
 	}
 
+	
+	public IScreenFormService getScreenService() {
+		return screenService;
+	}
+
+	
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
 		this.addDisposeListener(this);

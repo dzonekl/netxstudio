@@ -255,11 +255,17 @@ public abstract class CDODataProvider implements IDataProvider {
 		List<Resource> resources = Lists.newArrayList();
 		EList<CDOResourceNode> nodes = cdoFolder.getNodes();
 		for (CDOResourceNode n : nodes) {
+			
 			if (n instanceof CDOResourceFolder) {
+				System.out.println("CDOFolder uri: " + n.getURI());
 				resources.addAll(getResourcesFromNode((CDOResourceFolder) n));
-			} else {
+			} else if( n instanceof CDOResource){
+				
+				CDOResource res = (CDOResource) n;
+				System.out.println("CDOResource uri" + res.getURI() + " ResourceSet: " + res.getResourceSet().hashCode());
 				resources.add((Resource) n);
-			}
+				}
+			
 		}
 		return resources;
 	}

@@ -32,6 +32,13 @@ import com.google.common.collect.ImmutableList;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
 
 public class IdentifierDialog extends Dialog {
+
+	// Required to translate.
+	public static final String NETWORK_ELEMENT_ID = "Network Element ID";
+	public static final String NETWORK_ELEMENT = "Network Element";
+	public static final String NODE_ID = "NodeID";
+	public static final String NODE = "NODE";
+
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
 
@@ -80,10 +87,10 @@ public class IdentifierDialog extends Dialog {
 		sctnNewSection.setClient(composite_1);
 		composite_1.setLayout(new GridLayout(2, false));
 
-		
-		Button btnNode = formToolkit.createButton(composite_1, "NODE",
-				SWT.RADIO);
-		btnNode.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true, 1, 1));
+		Button btnNode = formToolkit.createButton(composite_1,
+				"NETWORK ELEMENT", SWT.RADIO);
+		btnNode.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true,
+				1, 1));
 		btnNode.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -91,7 +98,7 @@ public class IdentifierDialog extends Dialog {
 				updateAttributeView(objectKind);
 			}
 		});
-		
+
 		attributeListViewer = new ListViewer(composite_1, SWT.BORDER
 				| SWT.V_SCROLL);
 		List list = attributeListViewer.getList();
@@ -103,20 +110,23 @@ public class IdentifierDialog extends Dialog {
 				return (String) element;
 			}
 		});
-		attributeListViewer.addSelectionChangedListener(new ISelectionChangedListener(){
+		attributeListViewer
+				.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			public void selectionChanged(SelectionChangedEvent event) {
-				System.out.println(event);
-				ISelection sel = event.getSelection();
-				if(sel instanceof IStructuredSelection){
-					objectAttribute = (String) ((IStructuredSelection)sel).getFirstElement();
-				}
-			}
-		});
+					public void selectionChanged(SelectionChangedEvent event) {
+						System.out.println(event);
+						ISelection sel = event.getSelection();
+						if (sel instanceof IStructuredSelection) {
+							objectAttribute = (String) ((IStructuredSelection) sel)
+									.getFirstElement();
+						}
+					}
+				});
 
 		Button btnFunction = formToolkit.createButton(composite_1, "FUNCTION",
 				SWT.RADIO);
-		btnFunction.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true, 1, 1));
+		btnFunction.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
+				true, 1, 1));
 		btnFunction.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -124,38 +134,37 @@ public class IdentifierDialog extends Dialog {
 				updateAttributeView(objectKind);
 			}
 		});
-		
+
 		btnNode.setSelection(true);
-		
-		
-				Button btnEquipment = formToolkit.createButton(composite_1,
-						"EQUIPMENT", SWT.RADIO);
-				btnEquipment.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true, 1, 1));
-				btnEquipment.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						objectKind = ObjectKindType.EQUIPMENT_VALUE;
-						updateAttributeView(objectKind);
-					}
-				});
-		
-				Button btnRelationship = formToolkit.createButton(composite_1,
-						"RELATIONSHIP", SWT.RADIO);
-				btnRelationship.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						objectKind = ObjectKindType.RELATIONSHIP_VALUE;
-						updateAttributeView(objectKind);
-					}
-				});
-		
-		
+
+		Button btnEquipment = formToolkit.createButton(composite_1,
+				"EQUIPMENT", SWT.RADIO);
+		btnEquipment.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
+				true, 1, 1));
+		btnEquipment.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				objectKind = ObjectKindType.EQUIPMENT_VALUE;
+				updateAttributeView(objectKind);
+			}
+		});
+
+		Button btnRelationship = formToolkit.createButton(composite_1,
+				"RELATIONSHIP", SWT.RADIO);
+		btnRelationship.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				objectKind = ObjectKindType.RELATIONSHIP_VALUE;
+				updateAttributeView(objectKind);
+			}
+		});
+
 		updateAttributeView(objectKind);
 
 		return container;
 	}
 
-	Iterable<String> nodeAttributes = ImmutableList.of("NodeID");
+	Iterable<String> nodeAttributes = ImmutableList.of(NETWORK_ELEMENT_ID);
 	Iterable<String> relAttributes = ImmutableList.of("Name", "Protocol");
 	Iterable<String> functionAttributes = ImmutableList.of("Name");
 	Iterable<String> equipmentAttributes = ImmutableList.of("Name",
@@ -214,5 +223,5 @@ public class IdentifierDialog extends Dialog {
 	public void setObjectKind(int objectKind) {
 		this.objectKind = objectKind;
 	}
-	
+
 }

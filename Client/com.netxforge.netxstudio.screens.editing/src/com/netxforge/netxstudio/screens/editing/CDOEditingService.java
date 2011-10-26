@@ -25,17 +25,14 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
-import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
@@ -322,10 +319,11 @@ public class CDOEditingService extends EMFEditingService implements
 			public void run(IProgressMonitor monitor) {
 				// Save the resources to the file system.
 				try {
-					monitor.beginTask("Saving history", 100);
+					monitor.beginTask("Saving all Objects", 100);
+					monitor.subTask("Copy history");
 					saveHistory();
 					monitor.worked(50);
-					monitor.subTask("Saving regular");
+					monitor.subTask("Saving all");
 					saveRegular(saveOptions);
 					monitor.done();
 				} catch (Exception e) {
@@ -370,56 +368,65 @@ public class CDOEditingService extends EMFEditingService implements
 				first = false;
 			}
 		}
-		
-		System.out.println("Numberof transactions:" + this.dataService.getProvider().getSession().getViews().length);
+
+		System.out
+				.println("Numberof transactions:"
+						+ this.dataService.getProvider().getSession()
+								.getViews().length);
 		// Report the transactions on our session:
-		CDOView[] views = this.dataService.getProvider().getSession().getViews();
-		for(int i = 0; i < views.length; i++){
+		CDOView[] views = this.dataService.getProvider().getSession()
+				.getViews();
+		for (int i = 0; i < views.length; i++) {
 			CDOView v = views[i];
-			System.out.println("view ID: " + v.getViewID() + " ResourceSet hashcode:" + v.getResourceSet().hashCode());
-			for(Resource res : v.getResourceSet().getResources()){
-				if(res instanceof CDOResource){
-					System.out.println( "  Resource for set = " + res.getURI());
+			System.out.println("view ID: " + v.getViewID()
+					+ " ResourceSet hashcode:" + v.getResourceSet().hashCode());
+			for (Resource res : v.getResourceSet().getResources()) {
+				if (res instanceof CDOResource) {
+					System.out.println("  Resource for set = " + res.getURI());
 				}
 			}
 		}
-		
-		
+
 	}
 
 	private void saveHistory() {
 		ImmutableList<Resource> copyOf = ImmutableList
 				.copyOf(getEditingDomain().getResourceSet().getResources());
 		for (Resource resource : copyOf) {
-
 			// Walk through the objects in the resource.
 			if (resource instanceof CDOResource) {
-				EClass hint;
-				if ((hint = shouldHaveHistory(resource)) != null) {
-					// Find all our dirty objects.
-					TreeIterator<EObject> it = resource.getAllContents();
-					while (it.hasNext()) {
-						CDOObject cdoObject = (CDOObject) it.next();
-						CDOState state = cdoObject.cdoState();
-						// For State new, we won't be able to
-						// resolve the CDOID.
-						if (state.equals(CDOState.DIRTY)) {
-							if (hint == LibraryPackage.Literals.NODE_TYPE) {
-								doCopyNodeTypeToHistoryResource(cdoObject);
+				CDOResource cdoRes = (CDOResource) resource;
+				if (cdoRes.cdoView() instanceof CDOTransaction) {
+					CDOTransaction cdoTransaction = (CDOTransaction) cdoRes
+							.cdoView();
+					Map<CDOID, CDOObject> dirtyObjects = cdoTransaction
+							.getDirtyObjects();
+					if (dirtyObjects.size() > 0) {
+						ImmutableList<CDOObject> dirtyObjectsList = ImmutableList.copyOf(dirtyObjects.values());
+						EClass hint;
+						if ((hint = shouldHaveHistory(cdoRes)) != null) {
+							for (CDOObject cdoObject : dirtyObjectsList) {
+								// Find all our dirty resources.
+								if (hint == LibraryPackage.Literals.NODE_TYPE) {
+									doCopyNodeTypeToHistoryResource(cdoObject);
+								}
+								if (hint == OperatorsPackage.Literals.NODE) {
+									doCopyNodeToHistoryResource(cdoObject);
+								}
 							}
-							if (hint == OperatorsPackage.Literals.NODE) {
-								doCopyNodeToHistoryResource(cdoObject);
-							}
+
 						}
 
 					}
+
 				}
+
 			}
 		}
 	}
 
 	/**
-	 * Static acceptor for EClasses which should have a dirty.
+	 * Static acceptor for EClasses which should have a history.
 	 * 
 	 * @param resource
 	 * @return

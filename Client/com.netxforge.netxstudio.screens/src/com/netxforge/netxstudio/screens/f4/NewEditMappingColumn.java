@@ -158,9 +158,13 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		frmNewMappingColumn.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewMappingColumn);
 
-		frmNewMappingColumn.setText(actionText + "Mapping Column: " + this.source.getName());
+		frmNewMappingColumn.setText(actionText + "Mapping Column: "
+				+ this.source.getName());
 
-		frmNewMappingColumn.getBody().setLayout(new ColumnLayout());
+		
+		ColumnLayout cl = new ColumnLayout();
+		cl.maxNumColumns = 1;
+		frmNewMappingColumn.getBody().setLayout(cl);
 
 		Section sctnMappings = toolkit.createSection(
 				frmNewMappingColumn.getBody(), Section.EXPANDED
@@ -339,7 +343,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		new Label(parent, SWT.NONE);
 
 		txtIdentifierPattern = toolkit.createText(parent, "New Text", SWT.NONE);
-		GridData gd_txtIdentifierPattern = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		GridData gd_txtIdentifierPattern = new GridData(SWT.FILL, SWT.CENTER,
+				false, false, 1, 1);
 		gd_txtIdentifierPattern.widthHint = 100;
 		txtIdentifierPattern.setLayoutData(gd_txtIdentifierPattern);
 		txtIdentifierPattern.setText("");
@@ -367,11 +372,19 @@ public class NewEditMappingColumn extends AbstractScreen implements
 							cc.append(sc);
 						}
 						{
+
+							// Translate the literal "Network Element ID" to
+							// NodeID.
+							String objectAttribute = id.getObjectAttribute();
+							if (IdentifierDialog.NETWORK_ELEMENT_ID
+									.equals(objectAttribute)) {
+								objectAttribute = IdentifierDialog.NODE_ID;
+							}
 							SetCommand sc = new SetCommand(
 									editingService.getEditingDomain(),
 									idk,
 									MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY,
-									id.getObjectAttribute());
+									objectAttribute);
 							cc.append(sc);
 
 						}
@@ -403,7 +416,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		txtObjectAttribute = toolkit.createText(parent, "", SWT.BORDER);
 		GridData gd_txtObjectAttribute = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 1, 1);
-		gd_txtObjectAttribute.widthHint = 100;
+		gd_txtObjectAttribute.widthHint = 120;
 		txtObjectAttribute.setLayoutData(gd_txtObjectAttribute);
 		toolkit.adapt(txtObjectAttribute, true, true);
 
@@ -572,6 +585,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		IObservableValue objectObservable = SWTObservables.observeText(
 				this.txtObject, SWT.Modify);
 
+		// Need a translator, not to show the Object Kind as NODE and NODE ID.
+
 		IEMFEditValueProperty objectKindProperty = EMFEditProperties
 				.value(editingService.getEditingDomain(),
 						FeaturePath
@@ -586,11 +601,31 @@ public class NewEditMappingColumn extends AbstractScreen implements
 										MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
 										MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY));
 
+		EMFUpdateValueStrategy defaultStrategy = new EMFUpdateValueStrategy();
+		
+		EMFUpdateValueStrategy mttObjectKindStrategy = new EMFUpdateValueStrategy();
+		mttObjectKindStrategy.setConverter(new MTTObjectKindStrategy(defaultStrategy));
+
+		EMFUpdateValueStrategy ttmObjectKindStrategy = new EMFUpdateValueStrategy();
+		ttmObjectKindStrategy.setConverter(new TTMObjectKindStrategy(defaultStrategy));
+
 		context.bindValue(objectObservable,
-				objectKindProperty.observe(mxlsColumn), null, null);
+				objectKindProperty.observe(mxlsColumn), ttmObjectKindStrategy, mttObjectKindStrategy);
+		
+		/*
+		 * A default strategy to delegate to the default converter, for non specific cases. 
+		 */
+		EMFUpdateValueStrategy mttObjectAttributeStrategy = new EMFUpdateValueStrategy();
+		mttObjectAttributeStrategy
+				.setConverter(new MTTObjectAttributeStrategy());
+
+		EMFUpdateValueStrategy ttmObjectAttributeStrategy = new EMFUpdateValueStrategy();
+		ttmObjectAttributeStrategy
+				.setConverter(new TTMObjectAttributeConverter());
 
 		context.bindValue(objectAttributeObservable,
-				objectAttributeProperty.observe(mxlsColumn), null, null);
+				objectAttributeProperty.observe(mxlsColumn),
+				ttmObjectAttributeStrategy, mttObjectAttributeStrategy);
 
 	}
 
@@ -612,10 +647,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	}
 
 	private void enableDataAggregate(DatakindAggregate aggregate) {
-		// Kind observable. 
+		// Kind observable.
 		metricObservable.addValueChangeListener(aggregate);
-		
-		// Value observables. 
+
+		// Value observables.
 		valuePatternObservable.addValueChangeListener(aggregate);
 		metricKindHintObservable.addValueChangeListener(aggregate);
 	}
@@ -665,6 +700,92 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		metricKindHintObservable = ViewerProperties.singleSelection().observe(
 				comboViewerMetricKindHint);
 
+	}
+
+	private final class MTTObjectKindStrategy implements IConverter {
+
+		private EMFUpdateValueStrategy defaultStrategy;
+
+		public MTTObjectKindStrategy(EMFUpdateValueStrategy defaultStrategy) {
+			super();
+			this.defaultStrategy = defaultStrategy;
+		}
+
+		public Object getFromType() {
+			return ObjectKindType.class;
+		}
+
+		public Object getToType() {
+			return String.class;
+		}
+
+		public Object convert(Object fromObject) {
+			if (fromObject.equals(ObjectKindType.NODE)) {
+				return IdentifierDialog.NETWORK_ELEMENT;
+			} else {
+				return defaultStrategy.convert(fromObject);
+			}
+		}
+	}
+
+	private final class TTMObjectKindStrategy implements IConverter {
+
+		private EMFUpdateValueStrategy defaultStrategy;
+
+		public TTMObjectKindStrategy(EMFUpdateValueStrategy defaultStrategy) {
+			super();
+			this.defaultStrategy = defaultStrategy;
+		}
+
+		public Object getFromType() {
+			return String.class;
+		}
+
+		public Object getToType() {
+			return ObjectKindType.class;
+		}
+
+		public Object convert(Object fromObject) {
+			if (fromObject.equals(IdentifierDialog.NETWORK_ELEMENT)) {
+				return IdentifierDialog.NODE;
+			} else {
+				return defaultStrategy.convert(fromObject);
+			}
+		}
+	}
+
+	private final class MTTObjectAttributeStrategy implements IConverter {
+		public Object getFromType() {
+			return String.class;
+		}
+
+		public Object getToType() {
+			return String.class;
+		}
+
+		public Object convert(Object fromObject) {
+			if (fromObject.equals(IdentifierDialog.NODE_ID)) {
+				return IdentifierDialog.NETWORK_ELEMENT_ID;
+			}
+			return fromObject;
+		}
+	}
+
+	private final class TTMObjectAttributeConverter implements IConverter {
+		public Object getFromType() {
+			return String.class;
+		}
+
+		public Object getToType() {
+			return String.class;
+		}
+
+		public Object convert(Object fromObject) {
+			if (fromObject.equals(IdentifierDialog.NETWORK_ELEMENT_ID)) {
+				return IdentifierDialog.NODE_ID;
+			}
+			return fromObject;
+		}
 	}
 
 	abstract class DataKindModelToTargetConverter implements IConverter {
@@ -731,6 +852,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			if (idk.getPattern() != null) {
 				this.txtIdentifierPattern.setText(idk.getPattern());
 			}
+//			if(idk.eIsSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY)){
+//				this.txtObjectAttribute.setText(idk.getObjectProperty());
+//			}
+			
 		}
 	}
 
@@ -879,8 +1004,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			if (time) {
 				((ValueDataKind) dk).setValueKind(ValueKindType.TIME);
 			}
-			
-			// Write the DataKind with attributes. 
+
+			// Write the DataKind with attributes.
 
 			if (dk instanceof ValueDataKind) {
 				ValueDataKind vdk = (ValueDataKind) dk;
@@ -944,7 +1069,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		// N/A
 	}
 
-	public void injectData(MetricSource source, boolean showDataMapping, Object owner, Object object) {
+	public void injectData(MetricSource source, boolean showDataMapping,
+			Object owner, Object object) {
 		this.source = source;
 		this.showDataMapping = showDataMapping;
 		injectData(owner, object);
@@ -1021,7 +1147,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-	
+
 	public String getScreenName() {
 		return "Mapping Column";
 	}

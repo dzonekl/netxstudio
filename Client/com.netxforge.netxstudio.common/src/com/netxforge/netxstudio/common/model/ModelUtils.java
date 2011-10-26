@@ -108,9 +108,7 @@ public class ModelUtils {
 
 	// Note! For months, we better use a calendar function.
 	public static final int MINUTES_IN_A_MONTH = MINUTES_IN_A_DAY * 30;
-	
-	
-	
+
 	/**
 	 * Compare two dates.
 	 */
@@ -198,7 +196,6 @@ public class ModelUtils {
 		}
 	}
 
-	
 	public ValuerInsideRange valueInsideRange(DateTimeRange dtr) {
 		return new ValuerInsideRange(dtr);
 	}
@@ -494,6 +491,9 @@ public class ModelUtils {
 	 * @return
 	 */
 	public Node resolveParentNode(EObject target) {
+		if( target instanceof Node){
+			return (Node) target;
+		}
 		if (target != null && target.eContainer() != null) {
 			if (target.eContainer() instanceof Node) {
 				return (Node) target.eContainer();
@@ -513,7 +513,10 @@ public class ModelUtils {
 	 * @return
 	 */
 	public NodeType resolveParentNodeType(EObject target) {
-		if (target != null && target.eContainer() != null) {
+
+		if (target instanceof NodeType) {
+			return (NodeType) target;
+		} else if (target != null && target.eContainer() != null) {
 			if (target.eContainer() instanceof NodeType) {
 				return (NodeType) target.eContainer();
 			} else {
@@ -615,14 +618,12 @@ public class ModelUtils {
 		return uniques;
 	}
 
-	
-	public List<Node> nodesForNodeType(List<Node> nodes,
-			NodeType targetNodeType) {
+	public List<Node> nodesForNodeType(List<Node> nodes, NodeType targetNodeType) {
 		Iterable<Node> filtered = Iterables.filter(nodes,
 				this.nodeOfType(targetNodeType));
 		return Lists.newArrayList(filtered);
 	}
-	
+
 	public List<Node> nodesForNodeType(RFSService service,
 			NodeType targetNodeType) {
 		Iterable<Node> filtered = Iterables.filter(service.getNodes(),
@@ -993,7 +994,8 @@ public class ModelUtils {
 
 	/**
 	 * 
-	 * Get the Job of a certain type with a target collection contained in the collection of the target feature.
+	 * Get the Job of a certain type with a target collection contained in the
+	 * collection of the target feature.
 	 * 
 	 * @param jobResource
 	 * @param jobClass
@@ -1003,11 +1005,11 @@ public class ModelUtils {
 	 */
 	public Job jobForMultipleObjects(Resource jobResource, EClass jobClass,
 			EStructuralFeature feature, Collection<?> targetValues) {
-		
+
 		assert feature.isMany();
-		
+
 		int shouldMatch = targetValues.size();
-		
+
 		// The job Class should extend the Job EClass.
 		if (!jobClass.getESuperTypes().contains(SchedulingPackage.Literals.JOB)) {
 			return null;
@@ -1018,11 +1020,11 @@ public class ModelUtils {
 			if (eo.eClass() == jobClass) {
 				if (eo.eIsSet(feature)) {
 					Object v = eo.eGet(feature);
-					if(v instanceof List<?>){
-						for( Object listItem : (List<?>)v){
-							// Do we contain any of our objects? 
-							for(Object target :  targetValues){
-								if(listItem == target){
+					if (v instanceof List<?>) {
+						for (Object listItem : (List<?>) v) {
+							// Do we contain any of our objects?
+							for (Object target : targetValues) {
+								if (listItem == target) {
 									actuallyMatches++;
 								}
 							}
@@ -1030,14 +1032,14 @@ public class ModelUtils {
 					}
 				}
 			}
-			// Check if the number of entries are actually in the target job. 
-			if(actuallyMatches == shouldMatch){
+			// Check if the number of entries are actually in the target job.
+			if (actuallyMatches == shouldMatch) {
 				return (Job) eo;
 			}
 		}
 		return null;
 	}
-	
+
 	public DateTimeRange lastMonthPeriod() {
 		DateTimeRange dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
 		dtr.setBegin(this.toXMLDate(oneMonthAgo()));
@@ -1249,8 +1251,7 @@ public class ModelUtils {
 		}
 		return newName;
 	}
-	
-	
+
 	/**
 	 * Iterate through the ranges, and find for this interval.
 	 * 
@@ -1259,13 +1260,14 @@ public class ModelUtils {
 	 * @return
 	 */
 	public Value lastCapacityValue(NetXResource resource) {
-		List<Value> values = this.sortByTimeStampAndReverse(resource.getCapacityValues());
-		if( values.size() > 0){
-			return values.get(0);	
+		List<Value> values = this.sortByTimeStampAndReverse(resource
+				.getCapacityValues());
+		if (values.size() > 0) {
+			return values.get(0);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Iterate through the ranges, and find for this interval.
 	 * 
@@ -1988,21 +1990,20 @@ public class ModelUtils {
 		return refCal.compareTo(variantCal) < 0;
 
 	}
-	
+
 	/**
-	 * Casts to AbstractCDOIDLong and returns the long as value. 
+	 * Casts to AbstractCDOIDLong and returns the long as value.
 	 * 
 	 * @param cdoObject
 	 * @return
 	 */
-	public String cdoLongIDAsString(CDOObject cdoObject){
+	public String cdoLongIDAsString(CDOObject cdoObject) {
 		long lValue = ((AbstractCDOIDLong) cdoObject.cdoID()).getLongValue();
 		return new Long(lValue).toString();
 	}
-	
-	
+
 	/**
-	 * Transform a list of resources to a list of URI for the resource. 
+	 * Transform a list of resources to a list of URI for the resource.
 	 * 
 	 * @param resources
 	 * @return
@@ -2097,8 +2098,7 @@ public class ModelUtils {
 		}
 		return doubles;
 	}
-	
-	
+
 	/**
 	 * look down the containment tree, and find the most recenrt date.
 	 * 

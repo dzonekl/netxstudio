@@ -3,33 +3,21 @@ package com.netxforge.netxstudio.screens.f4;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFObservables;
-import org.eclipse.emf.databinding.EMFProperties;
-import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CellLabelProvider;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
@@ -47,9 +35,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -57,32 +42,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.events.IHyperlinkListener;
-import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import com.google.common.collect.ImmutableMap;
 import com.netxforge.netxstudio.common.Tuple;
-import com.netxforge.netxstudio.metrics.DataKind;
-import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.MappingColumn;
-import com.netxforge.netxstudio.metrics.MappingXLS;
-import com.netxforge.netxstudio.metrics.MetricSource;
-import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.metrics.ObjectKindType;
-import com.netxforge.netxstudio.metrics.ValueDataKind;
-import com.netxforge.netxstudio.metrics.ValueKindType;
-import com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl;
-import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu;
@@ -94,13 +61,9 @@ public class NewEditMappingXLS extends AbstractMapping implements
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtSheetNumber;
-	private Text txtDataRow;
-	private Table table;
+	// private Text txtDataRow;
 	private Text txtSelectedXLSPath;
-	private Form frmXLSMappingForm;
-	private MetricSource metricSource;
-	private MappingXLS mapping;
-	private TableViewer mappingColumnsTableViewer;
+	// private MetricSource metricSource;
 	private GridTableViewer gridTableViewer;
 	private Menu gridMenu;
 	private MappingMenuListener mmListener;
@@ -120,75 +83,170 @@ public class NewEditMappingXLS extends AbstractMapping implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 	}
 
-	private void buildUI() {
-		setLayout(new FillLayout(SWT.HORIZONTAL));
+	protected void buildUI() {
 
-		// New or Edit.
-		boolean edit = Screens.isEditOperation(getOperation());
-		String actionText = edit ? "Edit: " : "New: ";
+		buildSashComposites();
+		buildXLSSpecificSection(leftComposite);
+		buildGeneralSection(leftComposite);
+		buildHeaderMappingSection(leftComposite);
+		buildDataMappingSection(leftComposite);
+		buildInteractiveSection(rightComposite);
 
-		frmXLSMappingForm = toolkit.createForm(this);
-		frmXLSMappingForm.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmXLSMappingForm);
+		// setLayout(new FillLayout(SWT.HORIZONTAL));
+		//
+		// // New or Edit.
+		// boolean edit = Screens.isEditOperation(getOperation());
+		// String actionText = edit ? "Edit: " : "New: ";
+		//
+		// frmXLSMappingForm = toolkit.createForm(this);
+		// frmXLSMappingForm.setSeparatorVisible(true);
+		// toolkit.paintBordersFor(frmXLSMappingForm);
+		//
+		// frmXLSMappingForm.setText(actionText + " XLS Mapping: " +
+		// metricSource.getName());
+		// frmXLSMappingForm.getBody().setLayout(new FormLayout());
 
-		frmXLSMappingForm.setText(actionText + " XLS Mapping: " + metricSource.getName());
-		frmXLSMappingForm.getBody().setLayout(new FormLayout());
+		// TODO Remove later, pulled up to generic class.
+		// Section sctnMappingColumns = toolkit.createSection(
+		// frmXLSMappingForm.getBody(), Section.TITLE_BAR);
 
-		Section sctnSummary = toolkit.createSection(
-				frmXLSMappingForm.getBody(), Section.EXPANDED
-						| Section.TITLE_BAR);
-		FormData fd_sctnSummary = new FormData();
-		sctnSummary.setLayoutData(fd_sctnSummary);
-		toolkit.paintBordersFor(sctnSummary);
-		sctnSummary.setText("Basic");
-		sctnSummary.setExpanded(true);
+		// fd_sctnSummary.left = new FormAttachment(sctnMappingColumns, 0,
+		// SWT.LEFT);
+		// fd_sctnSummary.bottom = new FormAttachment(0, 120);
+		// FormData fd_sctnMappingColumns = new FormData();
+		// fd_sctnMappingColumns.top = new FormAttachment(sctnSummary, 12);
+		// fd_sctnMappingColumns.bottom = new FormAttachment(100, -12);
+		// fd_sctnMappingColumns.right = new FormAttachment(0, 355);
+		// fd_sctnMappingColumns.left = new FormAttachment(0, 12);
+		// sctnMappingColumns.setLayoutData(fd_sctnMappingColumns);
 
-		Composite composite_1 = toolkit.createComposite(sctnSummary, SWT.NONE);
-		toolkit.paintBordersFor(composite_1);
-		sctnSummary.setClient(composite_1);
-		composite_1.setLayout(new GridLayout(2, false));
+		// toolkit.paintBordersFor(sctnMappingColumns);
+		// sctnMappingColumns.setText("Mapping Columns");
 
-		Label lblSheetName = toolkit.createLabel(composite_1, "Sheet Index:",
-				SWT.NONE);
-		lblSheetName.setAlignment(SWT.RIGHT);
-		GridData gd_lblSheetName = new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_lblSheetName.widthHint = 70;
-		lblSheetName.setLayoutData(gd_lblSheetName);
+		// Composite composite_3 = toolkit.createComposite(sctnMappingColumns,
+		// SWT.NONE);
+		// toolkit.paintBordersFor(composite_3);
+		// sctnMappingColumns.setClient(composite_3);
+		// composite_3.setLayout(new GridLayout(1, false));
+		//
+		// ImageHyperlink mghprlnkNew =
+		// toolkit.createImageHyperlink(composite_3,
+		// SWT.NONE);
+		// mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
+		// public void linkActivated(HyperlinkEvent e) {
+		//
+		// NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
+		// screenService.getScreenContainer(), SWT.NONE);
+		// mappingColumnScreen.setOperation(Screens.OPERATION_NEW);
+		// mappingColumnScreen.setScreenService(screenService);
+		// mappingColumnScreen.injectData(metricSource, true,
+		// mapping.getDataMappingColumns(),
+		// MetricsFactory.eINSTANCE.createMappingColumn());
+		// screenService.setActiveScreen(mappingColumnScreen);
+		//
+		// }
+		//
+		// public void linkEntered(HyperlinkEvent e) {
+		// }
+		//
+		// public void linkExited(HyperlinkEvent e) {
+		// }
+		// });
+		// mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+		// false, 1, 1));
+		// toolkit.paintBordersFor(mghprlnkNew);
+		// mghprlnkNew.setText("New");
+		//
+		// mappingColumnsTableViewer = new TableViewer(composite_3, SWT.BORDER
+		// | SWT.FULL_SELECTION);
+		// table = mappingColumnsTableViewer.getTable();
+		// table.setLinesVisible(true);
+		// GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1,
+		// 4);
+		// gd_table.heightHint = 148;
+		// table.setLayoutData(gd_table);
+		// table.setHeaderVisible(true);
+		// toolkit.paintBordersFor(table);
+		//
+		// TableViewerColumn tableViewerColumn = new TableViewerColumn(
+		// mappingColumnsTableViewer, SWT.NONE);
+		// TableColumn tblclmnDatHeader = tableViewerColumn.getColumn();
+		// tblclmnDatHeader.setWidth(100);
+		// tblclmnDatHeader.setText("Type");
+		//
+		// TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
+		// mappingColumnsTableViewer, SWT.NONE);
+		// TableColumn tblclmnRowNum = tableViewerColumn_2.getColumn();
+		// tblclmnRowNum.setWidth(100);
+		// tblclmnRowNum.setText("Column Num");
+		//
+		// Menu menu = new Menu(table);
+		// table.setMenu(menu);
+		//
+		// MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
+		// mntmEdit.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		// ISelection selection = mappingColumnsTableViewer.getSelection();
+		// if (selection instanceof IStructuredSelection) {
+		// Object mappingColumn = ((IStructuredSelection) selection)
+		// .getFirstElement();
+		//
+		// NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
+		// screenService.getScreenContainer(), SWT.NONE);
+		// mappingColumnScreen.setOperation(Screens.OPERATION_EDIT);
+		// mappingColumnScreen.setScreenService(screenService);
+		// mappingColumnScreen.injectData(metricSource, true,
+		// mapping.getDataMappingColumns(), mappingColumn);
+		// screenService.setActiveScreen(mappingColumnScreen);
+		//
+		// }
+		// }
+		// });
+		// mntmEdit.setText("Edit...");
+		//
+		// MenuItem mntmRemove = new MenuItem(menu, SWT.NONE);
+		// mntmRemove.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		// ISelection selection = mappingColumnsTableViewer.getSelection();
+		// if (selection instanceof IStructuredSelection) {
+		// Object mappingColumn = ((IStructuredSelection) selection)
+		// .getFirstElement();
+		// RemoveCommand rc = new RemoveCommand(editingService
+		// .getEditingDomain(), mapping
+		// .getDataMappingColumns(), mappingColumn);
+		// editingService.getEditingDomain().getCommandStack().execute(rc);
+		// }
+		//
+		// }
+		// });
+		// mntmRemove.setText("Remove");
+		//
+		// TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+		// mappingColumnsTableViewer, SWT.NONE);
+		// TableColumn tblclmnValueType = tableViewerColumn_1.getColumn();
+		// tblclmnValueType.setWidth(100);
+		// tblclmnValueType.setText("Value Type");
+		//
+		//
+	}
 
-		txtSheetNumber = toolkit.createText(composite_1, "New Text", SWT.NONE);
-		txtSheetNumber.setText("");
-		GridData gd_txtSheetName = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_txtSheetName.widthHint = 20;
-		txtSheetNumber.setLayoutData(gd_txtSheetName);
-
-		Label lblstDataRow = toolkit.createLabel(composite_1, "Data row:",
-				SWT.NONE);
-		lblstDataRow.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-
-		txtDataRow = toolkit.createText(composite_1, "New Text", SWT.NONE);
-		GridData gd_txtFirstDataRow = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_txtFirstDataRow.widthHint = 20;
-		txtDataRow.setLayoutData(gd_txtFirstDataRow);
-		txtDataRow.setText("");
-
-		Section sctnXLSInteractive = toolkit.createSection(
-				frmXLSMappingForm.getBody(), Section.EXPANDED
-						| Section.TITLE_BAR);
-		fd_sctnSummary.top = new FormAttachment(sctnXLSInteractive, 0, SWT.TOP);
-		fd_sctnSummary.right = new FormAttachment(0, 355);
-		FormData fd_sctnXLSInteractive = new FormData();
-		fd_sctnXLSInteractive.top = new FormAttachment(0, 10);
-		fd_sctnXLSInteractive.bottom = new FormAttachment(100, -12);
-		fd_sctnXLSInteractive.left = new FormAttachment(0, 370);
-		fd_sctnXLSInteractive.right = new FormAttachment(100, -12);
-		sctnXLSInteractive.setLayoutData(fd_sctnXLSInteractive);
+	protected void buildInteractiveSection(Composite parentComposite) {
+		Section sctnXLSInteractive = toolkit.createSection(parentComposite,
+				Section.EXPANDED | Section.TITLE_BAR);
+		// fd_sctnSummary.top = new FormAttachment(sctnXLSInteractive, 0,
+		// SWT.TOP);
+		// fd_sctnSummary.right = new FormAttachment(0, 355);
+		// FormData fd_sctnXLSInteractive = new FormData();
+		// fd_sctnXLSInteractive.top = new FormAttachment(0, 10);
+		// fd_sctnXLSInteractive.bottom = new FormAttachment(100, -12);
+		// fd_sctnXLSInteractive.left = new FormAttachment(0, 370);
+		// fd_sctnXLSInteractive.right = new FormAttachment(100, -12);
+		// sctnXLSInteractive.setLayoutData(fd_sctnXLSInteractive);
 		toolkit.paintBordersFor(sctnXLSInteractive);
 
 		Composite composite_2 = toolkit.createComposite(sctnXLSInteractive,
@@ -208,12 +266,12 @@ public class NewEditMappingXLS extends AbstractMapping implements
 				if (paths == null || paths.length == 0)
 					return;
 				// We only process the first selection.
-				final IFile f = WorkspaceUtil.INSTANCE.createFileHandle(paths[0]);
+				final IFile f = WorkspaceUtil.INSTANCE
+						.createFileHandle(paths[0]);
 				txtSelectedXLSPath.setText(f.getName());
 				loadXLSSampleFile(metricSource, f);
 			}
 
-			
 		});
 
 		txtSelectedXLSPath = toolkit.createText(composite_2, "New Text",
@@ -252,136 +310,65 @@ public class NewEditMappingXLS extends AbstractMapping implements
 		grid.addSelectionListener(gridSelector);
 		buildFixedColumns(gridTableViewer);
 
-		Section sctnMappingColumns = toolkit.createSection(
-				frmXLSMappingForm.getBody(), Section.TITLE_BAR);
-		fd_sctnSummary.left = new FormAttachment(sctnMappingColumns, 0,
-				SWT.LEFT);
-		fd_sctnSummary.bottom = new FormAttachment(0, 120);
-		FormData fd_sctnMappingColumns = new FormData();
-		fd_sctnMappingColumns.top = new FormAttachment(sctnSummary, 12);
-		fd_sctnMappingColumns.bottom = new FormAttachment(100, -12);
-		fd_sctnMappingColumns.right = new FormAttachment(0, 355);
-		fd_sctnMappingColumns.left = new FormAttachment(0, 12);
-		sctnMappingColumns.setLayoutData(fd_sctnMappingColumns);
-		toolkit.paintBordersFor(sctnMappingColumns);
-		sctnMappingColumns.setText("Mapping Columns");
+		createGridMenu(grid);
+	}
 
-		Composite composite_3 = toolkit.createComposite(sctnMappingColumns,
-				SWT.NONE);
-		toolkit.paintBordersFor(composite_3);
-		sctnMappingColumns.setClient(composite_3);
-		composite_3.setLayout(new GridLayout(1, false));
-
-		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(composite_3,
-				SWT.NONE);
-		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-
-				NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
-						screenService.getScreenContainer(), SWT.NONE);
-				mappingColumnScreen.setOperation(Screens.OPERATION_NEW);
-				mappingColumnScreen.setScreenService(screenService);
-				mappingColumnScreen.injectData(metricSource, true,
-						mapping.getDataMappingColumns(),
-						MetricsFactory.eINSTANCE.createMappingColumn());
-				screenService.setActiveScreen(mappingColumnScreen);
-
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		toolkit.paintBordersFor(mghprlnkNew);
-		mghprlnkNew.setText("New");
-
-		mappingColumnsTableViewer = new TableViewer(composite_3, SWT.BORDER
-				| SWT.FULL_SELECTION);
-		table = mappingColumnsTableViewer.getTable();
-		table.setLinesVisible(true);
-		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4);
-		gd_table.heightHint = 148;
-		table.setLayoutData(gd_table);
-		table.setHeaderVisible(true);
-		toolkit.paintBordersFor(table);
-
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(
-				mappingColumnsTableViewer, SWT.NONE);
-		TableColumn tblclmnDatHeader = tableViewerColumn.getColumn();
-		tblclmnDatHeader.setWidth(100);
-		tblclmnDatHeader.setText("Type");
-
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
-				mappingColumnsTableViewer, SWT.NONE);
-		TableColumn tblclmnRowNum = tableViewerColumn_2.getColumn();
-		tblclmnRowNum.setWidth(100);
-		tblclmnRowNum.setText("Column Num");
-
-		Menu menu = new Menu(table);
-		table.setMenu(menu);
-
-		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
-		mntmEdit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ISelection selection = mappingColumnsTableViewer.getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object mappingColumn = ((IStructuredSelection) selection)
-							.getFirstElement();
-
-					NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
-							screenService.getScreenContainer(), SWT.NONE);
-					mappingColumnScreen.setOperation(Screens.OPERATION_EDIT);
-					mappingColumnScreen.setScreenService(screenService);
-					mappingColumnScreen.injectData(metricSource, true,
-							mapping.getDataMappingColumns(), mappingColumn);
-					screenService.setActiveScreen(mappingColumnScreen);
-
-				}
-			}
-		});
-		mntmEdit.setText("Edit...");
-
-		MenuItem mntmRemove = new MenuItem(menu, SWT.NONE);
-		mntmRemove.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ISelection selection = mappingColumnsTableViewer.getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object mappingColumn = ((IStructuredSelection) selection)
-							.getFirstElement();
-					RemoveCommand rc = new RemoveCommand(editingService
-							.getEditingDomain(), mapping
-							.getDataMappingColumns(), mappingColumn);
-					editingService.getEditingDomain().getCommandStack().execute(rc);
-				}
-
-			}
-		});
-		mntmRemove.setText("Remove");
-
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-				mappingColumnsTableViewer, SWT.NONE);
-		TableColumn tblclmnValueType = tableViewerColumn_1.getColumn();
-		tblclmnValueType.setWidth(100);
-		tblclmnValueType.setText("Value Type");
-
+	private void createGridMenu(Grid grid) {
 		gridMenu = new Menu(grid);
+		grid.setMenu(gridMenu);
 		// Delegate to a singleton holding the MappingMenuListener class.
 		mmListener = ColumnMappingMenu.getINSTANCE().new MappingMenuListener(
-				gridMenu, mapping, screenService, null, txtDataRow);
+				gridMenu, mapping, screenService, super.txtFirstHeaderRow,
+				super.txtFirstDataRow);
 		mmListener.setMetricSource(metricSource);
-		grid.setMenu(gridMenu);
+
 		gridMenu.addMenuListener(mmListener);
+	}
+
+	protected void buildXLSSpecificSection(Composite parentComposite) {
+
+		Section sctnSummary = toolkit.createSection(parentComposite,
+				Section.EXPANDED | Section.TITLE_BAR);
+		toolkit.paintBordersFor(sctnSummary);
+		sctnSummary.setText("Basic");
+		sctnSummary.setExpanded(true);
+
+		Composite composite_1 = toolkit.createComposite(sctnSummary, SWT.NONE);
+		toolkit.paintBordersFor(composite_1);
+		sctnSummary.setClient(composite_1);
+		composite_1.setLayout(new GridLayout(2, false));
+
+		Label lblSheetName = toolkit.createLabel(composite_1, "Sheet Index:",
+				SWT.NONE);
+		lblSheetName.setAlignment(SWT.RIGHT);
+		GridData gd_lblSheetName = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_lblSheetName.widthHint = 80;
+		lblSheetName.setLayoutData(gd_lblSheetName);
+
+		txtSheetNumber = toolkit.createText(composite_1, "New Text", SWT.NONE);
+		txtSheetNumber.setText("");
+		GridData gd_txtSheetName = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_txtSheetName.widthHint = 20;
+		txtSheetNumber.setLayoutData(gd_txtSheetName);
+
+		// TODO Remove later.
+		// Label lblstDataRow = toolkit.createLabel(composite_1, "Data row:",
+		// SWT.NONE);
+		// lblstDataRow.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+		// false, 1, 1));
+		//
+		// txtDataRow = toolkit.createText(composite_1, "New Text", SWT.NONE);
+		// GridData gd_txtFirstDataRow = new GridData(SWT.LEFT, SWT.CENTER,
+		// false,
+		// false, 1, 1);
+		// gd_txtFirstDataRow.widthHint = 20;
+		// txtDataRow.setLayoutData(gd_txtFirstDataRow);
+		// txtDataRow.setText("");
 
 	}
 
-	
-	
 	/**
 	 * Aggregates the selection in the grid, used by column and the grid.
 	 * 
@@ -461,59 +448,63 @@ public class NewEditMappingXLS extends AbstractMapping implements
 		}
 		return alphabet;
 	}
-	
 
 	public void fillGrid(List<Map<Integer, Tuple>> records) {
 		this.gridTableViewer.setInput(records);
 	}
 
-	public EMFDataBindingContext initDataBindings_() {
-
-		EMFDataBindingContext context = new EMFDataBindingContext();
-
+	public void initXLSSpecificDataBindings(EMFDataBindingContext context) {
 		// TODO, Validations and strategies.
-
 		IObservableValue sheetNumberObservableValue = SWTObservables
 				.observeText(txtSheetNumber, SWT.Modify);
-		IObservableValue firstDataRowObservableValue = SWTObservables
-				.observeText(txtDataRow, SWT.Modify);
+		IEMFValueProperty sheetNumberProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				MetricsPackage.Literals.MAPPING_XLS__SHEET_NUMBER);
+		context.bindValue(sheetNumberObservableValue,
+				sheetNumberProperty.observe(mapping), null, null);
+
+		// TODO Remove later.
+
+		// IObservableValue firstDataRowObservableValue = SWTObservables
+		// .observeText(txtDataRow, SWT.Modify);
 
 		// IObservableValue headerRowObservableValue =
 		// SWTObservables.observeText(
 		// txtFirstHeaderRow, SWT.Modify);
 
-		IEMFValueProperty sheetNumberProperty = EMFEditProperties
-				.value(editingService.getEditingDomain(), MetricsPackage.Literals.MAPPING_XLS__SHEET_NUMBER);
-		IEMFValueProperty firstDataRowProperty = EMFEditProperties
-				.value(editingService.getEditingDomain(), MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW);
+		// IEMFValueProperty firstDataRowProperty = EMFEditProperties
+		// .value(editingService.getEditingDomain(),
+		// MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW);
 
 		// IEMFValueProperty headerRowProperty = EMFProperties
 		// .value(MetricsPackage.Literals.MAPPING__HEADER_ROW);
 
-		context.bindValue(sheetNumberObservableValue,
-				sheetNumberProperty.observe(mapping), null, null);
-		context.bindValue(firstDataRowObservableValue,
-				firstDataRowProperty.observe(mapping), null, null);
+		// context.bindValue(firstDataRowObservableValue,
+		// firstDataRowProperty.observe(mapping), null, null);
 
 		// context.bindValue(headerRowObservableValue,
 		// headerRowProperty.observe(mapping), null, null);
 
-		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		this.mappingColumnsTableViewer.setContentProvider(listContentProvider);
+		// ObservableListContentProvider listContentProvider = new
+		// ObservableListContentProvider();
+		// this.mappingColumnsTableViewer.setContentProvider(listContentProvider);
+		//
+		// IObservableMap[] observeMaps = EMFObservables.observeMaps(
+		// listContentProvider.getKnownElements(),
+		// new EStructuralFeature[] {
+		// MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
+		// MetricsPackage.Literals.MAPPING_COLUMN__COLUMN });
+		//
+		// this.mappingColumnsTableViewer
+		// .setLabelProvider(new ColumnObservableMapLabelProvider(
+		// observeMaps));
+		// IEMFListProperty l = EMFProperties
+		// .list(MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS);
+		//
+		// this.mappingColumnsTableViewer.setInput(l.observe(mapping));
+	}
 
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] {
-						MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
-						MetricsPackage.Literals.MAPPING_COLUMN__COLUMN });
-
-		this.mappingColumnsTableViewer
-				.setLabelProvider(new ColumnObservableMapLabelProvider(
-						observeMaps));
-		IEMFListProperty l = EMFProperties
-				.list(MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS);
-
-		this.mappingColumnsTableViewer.setInput(l.observe(mapping));
+	private void initInteractiveBinding() {
 		this.gridTableViewer.setContentProvider(new XLSGridContentProvider());
 		gridTableViewer.setLabelProvider(new XLSGridLabelProvider());
 
@@ -527,8 +518,6 @@ public class NewEditMappingXLS extends AbstractMapping implements
 			}
 
 		});
-
-		return context;
 	}
 
 	class XLSGridLabelProvider extends LabelProvider implements
@@ -574,69 +563,60 @@ public class NewEditMappingXLS extends AbstractMapping implements
 		}
 	}
 
-	ImmutableMap<?, String> dataKindMap = ImmutableMap.of(
-			IdentifierDataKindImpl.class, "Identifier",
-			ValueDataKindImpl.class, "Value");
-
-	private class ColumnObservableMapLabelProvider extends
-			ObservableMapLabelProvider {
-
-		public ColumnObservableMapLabelProvider(IObservableMap attributeMap) {
-			super(attributeMap);
-		}
-
-		public ColumnObservableMapLabelProvider(IObservableMap[] observeMaps) {
-			super(observeMaps);
-		}
-
-		@Override
-		public String getColumnText(Object element, int columnIndex) {
-			MappingColumn c = (MappingColumn) element;
-			if (columnIndex == 0) {
-				// This is the type Column.
-				DataKind k = c.getDataType();
-				if (k != null) {
-					return dataKindMap.get(k.getClass());
-				}
-			}
-			if (columnIndex == 2) {
-				if (c.getDataType() instanceof ValueDataKind) {
-					ValueKindType vkt = ((ValueDataKind) c.getDataType())
-							.getValueKind();
-					return vkt.getName();
-				}
-				if (c.getDataType() instanceof IdentifierDataKind) {
-					IdentifierDataKind idk = (IdentifierDataKind) c
-							.getDataType();
-					ObjectKindType okt = idk.getObjectKind();
-					return okt.getName();
-				}
-
-			}
-
-			return super.getColumnText(element, columnIndex);
-		}
-	}
+	// ImmutableMap<?, String> dataKindMap = ImmutableMap.of(
+	// IdentifierDataKindImpl.class, "Identifier",
+	// ValueDataKindImpl.class, "Value");
+	//
+	// private class ColumnObservableMapLabelProvider extends
+	// ObservableMapLabelProvider {
+	//
+	// public ColumnObservableMapLabelProvider(IObservableMap attributeMap) {
+	// super(attributeMap);
+	// }
+	//
+	// public ColumnObservableMapLabelProvider(IObservableMap[] observeMaps) {
+	// super(observeMaps);
+	// }
+	//
+	// @Override
+	// public String getColumnText(Object element, int columnIndex) {
+	// MappingColumn c = (MappingColumn) element;
+	// if (columnIndex == 0) {
+	// // This is the type Column.
+	// DataKind k = c.getDataType();
+	// if (k != null) {
+	// return dataKindMap.get(k.getClass());
+	// }
+	// }
+	// if (columnIndex == 2) {
+	// if (c.getDataType() instanceof ValueDataKind) {
+	// ValueKindType vkt = ((ValueDataKind) c.getDataType())
+	// .getValueKind();
+	// return vkt.getName();
+	// }
+	// if (c.getDataType() instanceof IdentifierDataKind) {
+	// IdentifierDataKind idk = (IdentifierDataKind) c
+	// .getDataType();
+	// ObjectKindType okt = idk.getObjectKind();
+	// return okt.getName();
+	// }
+	//
+	// }
+	//
+	// return super.getColumnText(element, columnIndex);
+	// }
+	// }
 
 	public void injectData(Object owner, Object object) {
-		if (owner instanceof MetricSource) {
-			this.metricSource = (MetricSource) owner;
-		} else {
-			// We need the right type of object for this screen.
-			throw new java.lang.IllegalArgumentException();
-		}
+		super.injectData(owner, object);
 
-		if (object != null && object instanceof MappingXLS) {
-			mapping = (MappingXLS) object;
-		} else {
-			// We need the right type of object for this screen.
-			throw new java.lang.IllegalArgumentException();
-		}
-		buildUI();
-		initDataBindings_();
+		boolean edit = Screens.isEditOperation(getOperation());
+		String actionText = edit ? "Edit: " : "New: ";
+		frmMappings.setText(actionText + " XLS Mapping: "
+				+ metricSource.getName());
 		
 		IFile file = this.getMetricSourceSampleFile(metricSource);
-		if(file != null){
+		if (file != null) {
 			this.txtSelectedXLSPath.setText(file.getName());
 			this.loadXLSSampleFile(metricSource, file);
 		}
@@ -676,18 +656,13 @@ public class NewEditMappingXLS extends AbstractMapping implements
 
 	@Override
 	public Viewer getViewer() {
-//		return mappingColumnsTableViewer; // N/A
+		// return mappingColumnsTableViewer; // N/A
 		return null;
 	}
 
 	@Override
 	public boolean isValid() {
 		return true;
-	}
-
-	@Override
-	public Form getScreenForm() {
-		return frmXLSMappingForm;
 	}
 
 	public void disposeData() {
@@ -704,10 +679,27 @@ public class NewEditMappingXLS extends AbstractMapping implements
 	public void fillCSVGrid(String[][] records) {
 		// N/A
 	}
-	
+
 	public String getScreenName() {
 		return "Mapping XLS";
 	}
 
-	
+	@Override
+	protected void setGridSelection(MappingColumn mc, int row) {
+		int column = mc.getColumn();
+		if (this.gridTableViewer.getInput() != null) {
+			gridTableViewer.getGrid().setCellSelection(new Point(column, row));
+		}
+	}
+
+	public EMFDataBindingContext initDataBindings_() {
+		EMFDataBindingContext context = new EMFDataBindingContext();
+		// TODO, Validations and strategies.
+		initGeneralBinding(context);
+		initXLSSpecificDataBindings(context);
+		initHeaderMappingBinding(context);
+		initDataMappingBinding(context);
+		initInteractiveBinding();
+		return context;
+	}
 }

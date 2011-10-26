@@ -62,21 +62,10 @@ public interface IScreenFormService {
 	 */
 	public abstract void activateInObservable(Runnable rn);
 
-	/**
-	 * Check if there is a previous screen.
-	 * 
-	 * @return
-	 */
-	// public abstract boolean hasPreviousScreen();
-
-	/**
-	 * Check if the proposed new screen is not the previous screen already.
-	 * 
-	 * @param proposedScreen
-	 * @return
-	 */
-	// public abstract boolean isPreviousScreen(Class<?> proposedScreen);
-
+	public abstract void undoAndFlush();
+	
+	public abstract void dirtyWarning();
+	
 	/**
 	 * Initialize the service with the parent.
 	 * 

@@ -14,11 +14,14 @@ import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
+import com.netxforge.netxstudio.metrics.ObjectKindType;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.NewEditMappingColumn;
+import com.netxforge.netxstudio.screens.f4.NewEditMappingColumnDialogII;
 
 public class ColumnMappingMenu {
 	
@@ -302,13 +305,20 @@ public class ColumnMappingMenu {
 			case IDENTIFIER_VALUE: {
 				IdentifierDataKind idk = MetricsFactory.eINSTANCE
 						.createIdentifierDataKind();
+				// Set the default identifier. 
+				idk.setObjectKind(ObjectKindType.NODE);
+				idk.setObjectProperty(IdentifierDialog.NODE_ID);
 				mc.setDataType(idk);
 			}
 				break;
 			}
 
-			newColumnMappingScreen(false, Screens.OPERATION_NEW,
+//			newColumnMappingScreen(false, Screens.OPERATION_NEW,
+//					mapping.getHeaderMappingColumns(), mc);
+			
+			newColumnMappingScreenDialog(false, Screens.OPERATION_NEW,
 					mapping.getHeaderMappingColumns(), mc);
+
 		}
 
 		private void newDataColumnMapping(int col, int kind) {
@@ -344,6 +354,9 @@ public class ColumnMappingMenu {
 			case IDENTIFIER_VALUE: {
 				IdentifierDataKind idk = MetricsFactory.eINSTANCE
 						.createIdentifierDataKind();
+				// Set the default identifier. 
+				idk.setObjectKind(ObjectKindType.NODE);
+				idk.setObjectProperty(IdentifierDialog.NODE_ID);
 				mc.setDataType(idk);
 			}
 				break;
@@ -355,10 +368,16 @@ public class ColumnMappingMenu {
 			}
 				break;
 			}
-			newColumnMappingScreen(true, Screens.OPERATION_NEW,
+			
+//			newColumnMappingScreen(true, Screens.OPERATION_NEW,
+//					mapping.getDataMappingColumns(), mc);
+			
+			newColumnMappingScreenDialog(true, Screens.OPERATION_NEW,
 					mapping.getDataMappingColumns(), mc);
+
 		}
 		
+		@SuppressWarnings("unused")
 		private void newColumnMappingScreen(boolean showDataMapping, int op,
 				Object owner, Object target) {
 			NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
@@ -369,6 +388,18 @@ public class ColumnMappingMenu {
 			screenService.setActiveScreen(mappingColumnScreen);
 		}
 		
+		
+		private void newColumnMappingScreenDialog(boolean showDataMapping, int op,
+				Object owner, Object target) {
+			NewEditMappingColumnDialogII dialog = new NewEditMappingColumnDialogII(screenService.getActiveScreen().getShell());
+			dialog.create();
+			NewEditMappingColumn mappingColumnScreen = dialog.getMappingColumnScreen();
+			mappingColumnScreen.setOperation(op);
+			mappingColumnScreen.setScreenService(screenService);
+			mappingColumnScreen.injectData(metricSource, showDataMapping, owner, target);
+			dialog.open();
+			screenService.fireScreenChangedExternal((IScreen) screenService.getActiveScreen());
+		}
 		
 	}
 	

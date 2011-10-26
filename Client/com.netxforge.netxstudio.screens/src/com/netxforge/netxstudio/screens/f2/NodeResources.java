@@ -17,10 +17,12 @@ public class NodeResources extends AbstractResources {
 	public void injectData() {
 		resourcesList = Lists.newArrayList();
 		// Inject for Node resources.
+		System.out.println("Open NetXResource: " + modelUtils.todayAndNow());
 		List<Resource> nodeResources = editingService.getData("Node_");
 		if (nodeResources != null) {
 			resourcesList.addAll(nodeResources);
 		}
+		System.out.println("Done open NetXResource: " + modelUtils.todayAndNow());
 		super.injectData();
 	}
 
