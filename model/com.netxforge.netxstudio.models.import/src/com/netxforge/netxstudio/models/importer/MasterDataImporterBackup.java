@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -31,7 +30,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -40,13 +38,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -67,16 +62,22 @@ import com.netxforge.netxstudio.services.Service;
  * @author Martin Taal
  * @author Christophe Bouhier
  */
-public class MasterDataImporter {
+public class MasterDataImporterBackup {
 
 	private IDataProvider dataProvider;
 
 	private EClass eClassToImport;
 
-	private Map<String, EObject> globalIndex = Maps.newHashMap();
+	/*
+	 * Maintains the end result, contained objects are gradually removed and
+	 * placed in the copied list for reference.
+	 */
+	private List<IndexedObject> resultList = new ArrayList<IndexedObject>();
 
-	Resource resource = new ResourceSetImpl().createResource(URI
-			.createURI("temp"));
+	/*
+	 * A contained object is put in this list for reference by index.
+	 */
+	private List<IndexedObject> containedList = new ArrayList<IndexedObject>();
 
 	private List<String> unresolvedReferences = new ArrayList<String>();
 
@@ -92,31 +93,31 @@ public class MasterDataImporter {
 		this.indexSupport = indexSupport;
 	}
 
-//	class IndexedObject {
-//		public IndexedObject(String index, EObject eo) {
-//			this.eo = eo;
-//			this.index = index;
-//		}
-//
-//		private EObject eo;
-//		private String index;
-//
-//		public EObject getEObject() {
-//			return eo;
-//		}
-//
-//		public void setEObject(EObject eo) {
-//			this.eo = eo;
-//		}
-//
-//		public String getIndex() {
-//			return index;
-//		}
-//
-//		public void setIndex(String index) {
-//			this.index = index;
-//		}
-//	}
+	class IndexedObject {
+		public IndexedObject(String index, EObject eo) {
+			this.eo = eo;
+			this.index = index;
+		}
+
+		private EObject eo;
+		private String index;
+
+		public EObject getEObject() {
+			return eo;
+		}
+
+		public void setEObject(EObject eo) {
+			this.eo = eo;
+		}
+
+		public String getIndex() {
+			return index;
+		}
+
+		public void setIndex(String index) {
+			this.index = index;
+		}
+	}
 
 	public void process(InputStream is) {
 		HSSFWorkbook workBook;
@@ -129,11 +130,11 @@ public class MasterDataImporter {
 				List<RowResult> sheetResult = pw.getSheetResult();
 				if (!pw.isMultiRefSheet()) {
 					for (final RowResult rowResult : sheetResult) {
-						// EObject resultObject = EcoreUtil.copy(rowResult
-						// .getEObject());
-						globalIndex.put(rowResult.getIndex(),
-								rowResult.getEObject());
-						resource.getContents().add(rowResult.getEObject());
+						EObject resultObject = EcoreUtil.copy(rowResult
+								.getEObject());
+						IndexedObject io = new IndexedObject(
+								rowResult.getIndex(), resultObject);
+						resultList.add(io);
 					}
 				}
 			}
@@ -146,7 +147,13 @@ public class MasterDataImporter {
 	}
 
 	public List<EObject> getResolvedObjects() {
-		return resource.getContents();
+
+		List<EObject> result = Lists.newArrayList();
+
+		for (IndexedObject io : resultList) {
+			result.add(io.getEObject());
+		}
+		return result;
 	}
 
 	class ProcessWorkSheet {
@@ -428,16 +435,16 @@ public class MasterDataImporter {
 			EObject targetObject = getReferencedObject(parent, eClassToImport,
 					identifier);
 			if (targetObject == null) {
-				// targetObject = getReferencedObjectFromContainment(parent,
-				// eClassToImport, identifier);
-				// if (targetObject != null) {
-				// if (targetObject.eContainer() == null) {
-				// System.err
-				// .println("ERROR: Contained object has no container??");
-				// }
-				// } else {
-				notFound(eClassToImport, identifier);
-				// }
+				targetObject = getReferencedObjectFromContainment(parent,
+						eClassToImport, identifier);
+				if (targetObject != null) {
+					if (targetObject.eContainer() == null) {
+						System.err
+								.println("ERROR: Contained object has no container??");
+					}
+				} else {
+					notFound(eClassToImport, identifier);
+				}
 			}
 			return targetObject;
 		}
@@ -488,8 +495,17 @@ public class MasterDataImporter {
 					EObject objectToSet = getReferencedObject(null,
 							eReference.getEReferenceType(), indexValue);
 					if (objectToSet != null) {
-						storeReference(false, indexValue, targetObject,
+						storeReference(true, indexValue, targetObject,
 								eReference, objectToSet);
+					} else {
+						if ((objectToSet = getReferencedObjectFromContainment(
+								null, eReference.getEReferenceType(),
+								indexValue)) != null) {
+							storeReference(false, indexValue, targetObject,
+									eReference, objectToSet);
+						} else {
+							notFound(eClassToImport, indexValue);
+						}
 					}
 				}
 			}
@@ -527,14 +543,14 @@ public class MasterDataImporter {
 						+ eReference.getName() + " , on object:"
 						+ printObject(target));
 
-//				System.out.println("  MOVE from result set to contained set: "
-//						+ printObject(objectToSet));
+				System.out.println("  MOVE from result set to contained set: "
+						+ printObject(objectToSet));
 
 				if (copyObjectForContainment) {
 					EObject copyOfObjectToSet = EcoreUtil.copy(objectToSet);
 					copyAll.add(copyOfObjectToSet);
-					// removeObjectFromResultSet(objectToSet);
-					// addObjectToContainedSet(indexValue, copyOfObjectToSet);
+					removeObjectFromResultSet(objectToSet);
+					addObjectToContainedSet(indexValue, copyOfObjectToSet);
 				} else {
 					copyAll.add(objectToSet);
 				}
@@ -562,8 +578,8 @@ public class MasterDataImporter {
 				if (copyObjectForContainment) {
 					EObject copyOfObjectToSet = EcoreUtil.copy(objectToSet);
 					target.eSet(eReference, copyOfObjectToSet);
-					// removeObjectFromResultSet(objectToSet);
-					// addObjectToContainedSet(indexValue, copyOfObjectToSet);
+					removeObjectFromResultSet(objectToSet);
+					addObjectToContainedSet(indexValue, copyOfObjectToSet);
 				} else {
 					target.eSet(eReference, objectToSet);
 				}
@@ -669,44 +685,87 @@ public class MasterDataImporter {
 		// If we don't have a root object, we look in the full result set
 		// for the occurence. (the object will already have hierarchy).
 		//
-
+		IndexedObject indexedObject = null;
 		if (this.indexSupport) {
 			System.out.print("  , look in complete result set");
-			result = this.globalIndex.get(identifier);
-			if(result != null){
-				System.out.println(" FOUND REF :" + printObject(result));
-				
-			}
+			indexedObject = this.findObject(identifier, this.resultList);
+		} else {
+			indexedObject = this.findObject(eClass, identifier);
 		}
 
-		// FIXME NON indexed match on any attribute.
-		// else {
-		//
-		// IndexedObject indexedObject = this.findObject(eClass, identifier);
-		// if (indexedObject != null) {
-		// System.out.println(", found!=\""
-		// + printObject(indexedObject.getEObject()) + "\"");
-		// return indexedObject.getEObject();
-		// }
-		//
-		// }
+		if (indexedObject != null) {
+			System.out.println(", found!=\""
+					+ printObject(indexedObject.getEObject()) + "\"");
+			return indexedObject.getEObject();
+		}
 
-		if (result == null) {
-			notFound(eClass, identifier);
+		return result;
+	}
+
+	private EObject getReferencedObjectFromContainment(EObject root,
+			EClass eClass, String identifier) {
+
+		EObject result = null;
+		System.out.print("  RESOLVING: " + identifier);
+		if (root != null && root.eContainer() == null) {
+
+			System.out.print("  , in root: " + printObject(root));
+
+			// Is it a child in the result set?
+			Iterator<EObject> it = null;
+			it = root.eAllContents();
+			while (it.hasNext()) {
+				final EObject eObject = it.next();
+				if (isAnyOfTheSuperTypes(eObject, eClass)) {
+					if (matchesAnyAttribute(identifier, eObject)) {
+						System.out.print(", found!=" + printObject(eObject));
+						return eObject;
+					}
+				}
+			}
+			System.out.println(" , not (yet) found in root...");
+		}
+
+		// If we don't have a root object, we look in the full result set
+		// for the occurence. (the object will already have hierarchy).
+		//
+		IndexedObject indexedObject = null;
+		if (this.indexSupport) {
+			System.out.print(" look in in contained set");
+			indexedObject = this.findObject(identifier, this.containedList);
+		} else {
+			indexedObject = this.findObject(eClass, identifier);
+		}
+
+		if (indexedObject != null) {
+			System.out.println(", found!=\""
+					+ printObject(indexedObject.getEObject()) + "\"");
+			return indexedObject.getEObject();
 		}
 		return result;
 	}
 
+	/*
+	 * Find an object in a specified indexed object list.
+	 */
+	private IndexedObject findObject(String identifier,
+			List<IndexedObject> searchList) {
+		IndexedObject ioResult = null;
+		for (IndexedObject io : searchList) {
+			if (io.getIndex().equals(identifier)) {
+				ioResult = io;
+				break;
+			}
+		}
+		return ioResult;
+	}
 
 	public void notFound(EClass eClass, String identifier) {
 		System.err
 				.print(", NOT found!, Check the sheet, Is the order of the sheets correct?, ");
 		unresolvedReferences.add(eClass.getName() + " using " + identifier);
 	}
-	
-	
-	
-	// FIXME, find on  attribute. 
+
 	/**
 	 * Find using any of the attributes from the class and the identifier.
 	 * 
@@ -714,44 +773,45 @@ public class MasterDataImporter {
 	 * @param identifier
 	 * @return
 	 */
-	// private IndexedObject findObject(EClass eClass, String identifier) {
-	// IndexedObject ioResult = null;
-	// for (IndexedObject io : this.resultList) {
-	// EObject eObject = io.getEObject();
-	// if (isAnyOfTheSuperTypes(eObject, eClass)) {
-	// if (matchesAnyAttribute(identifier, eObject)) {
-	// return io;
-	// }
-	// }
-	// }
-	// return ioResult;
-	// }
+	private IndexedObject findObject(EClass eClass, String identifier) {
+		IndexedObject ioResult = null;
+		for (IndexedObject io : this.resultList) {
+			EObject eObject = io.getEObject();
+			if (isAnyOfTheSuperTypes(eObject, eClass)) {
+				if (matchesAnyAttribute(identifier, eObject)) {
+					return io;
+				}
+			}
+		}
+		return ioResult;
+	}
 
-	// private void removeObjectFromResultSet(EObject eo) {
-	// int index = -1;
-	// for (IndexedObject io : this.resultList) {
-	// if (io.getEObject() == eo) {
-	// index = this.resultList.indexOf(io);
-	// }
-	// }
-	// if (index != -1) {
-	// resultList.get(index);
-	// resultList.remove(index);
-	// } else {
-	// System.out
-	// .println("ERROR, Moving object from result set to contained set, the object to move doesn't exist in the result set!");
-	// }
-	// }
+	private void removeObjectFromResultSet(EObject eo) {
+		int index = -1;
+		for (IndexedObject io : this.resultList) {
+			if (io.getEObject() == eo) {
+				index = this.resultList.indexOf(io);
+			}
+		}
+		if (index != -1) {
+			resultList.get(index);
+			resultList.remove(index);
+		} else {
+			System.out
+					.println("ERROR, Moving object from result set to contained set, the object to move doesn't exist in the result set!");
+		}
 
-	// private void addObjectToContainedSet(String indexValue, EObject eo) {
-	// IndexedObject findObject = this.findObject(indexValue,
-	// this.containedList);
-	// if (findObject == null) {
-	// eo.hashCode();
-	// findObject = new IndexedObject(indexValue, eo);
-	// this.containedList.add(findObject);
-	// }
-	// }
+	}
+
+	private void addObjectToContainedSet(String indexValue, EObject eo) {
+		IndexedObject findObject = this.findObject(indexValue,
+				this.containedList);
+		if (findObject == null) {
+			eo.hashCode();
+			findObject = new IndexedObject(indexValue, eo);
+			this.containedList.add(findObject);
+		}
+	}
 
 	private boolean isAnyOfTheSuperTypes(EObject eObject, EClass eClass) {
 
