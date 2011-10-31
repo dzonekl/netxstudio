@@ -159,7 +159,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
 		toolkit.paintBordersFor(table);
 
-		String[] properties = new String[] { "Node", "Component", "Metric",
+		String[] properties = new String[] { "Network Element", "Component", "Metric",
 				"Short Name", "Expression Name", "Long Name", "Capacity",
 				"Unit" };
 
