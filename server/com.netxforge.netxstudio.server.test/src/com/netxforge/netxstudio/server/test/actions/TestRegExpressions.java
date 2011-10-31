@@ -21,29 +21,75 @@ package com.netxforge.netxstudio.server.test.actions;
 import org.junit.Assert;
 import org.junit.Test;
 
-
 /**
  * Test regular expressions.
- * 
+ * http://www.regular-expressions.info/java.html
  * @author Martin Taal
  */
 public class TestRegExpressions {
-	
+
+	// @Test
+	// public void testRegExp1() {
+	// doTestRegExp("([^\\s]+(\\.(?i)(csv))$)");
+	// }
+	//
+
 	@Test
-	public void testRegExp1() {
-		doTestRegExp("([^\\s]+(\\.(?i)(csv))$)");
+	// any file name ending on .csv
+	public void testRegExp() {
+		doTestReg("[^\\s]+(\\.(?i)(csv))$");
 	}
-	
+
 	@Test
+	// file name with _fix_ in the middle ending on .csv
 	public void testRegExp2() {
-		doTestRegExp(".+\\.(?i)(csv)");
+		doTestRegExp2("[^\\s]+(_fix_)[^\\s]+(\\.(?i)(csv))$");
 	}
-	
-	private void doTestRegExp(String regExp) {
+
+	@Test
+	// file name with _fix- (Dash) in the middle ending on .csv
+	public void testRegExp3() {
+		doTestRegExp3("[^\\s]+(_fix-)[^\\s]+(\\.(?i)(csv))$");
+
+	}
+
+	@Test
+	// file name with _fix- (Dash) in the middle ending on .csv
+	public void testRegExp4() {
+		// Alternative allowing only numbers and characters in the file name.
+		doTestRegExp4("[a-zA-Z0-9_-]+(_fix-)[a-zA-Z0-9_-]+(\\.(?i)(csv))$");
+	}
+
+	private void doTestReg(String regExp) {
 		Assert.assertTrue("test.csv".matches(regExp));
 		Assert.assertTrue("test.CSV".matches(regExp));
+		Assert.assertFalse(" test.xsl".matches(regExp));
 		Assert.assertFalse("test.xsl".matches(regExp));
-		Assert.assertFalse("test.CSA".matches(regExp));		
-		Assert.assertFalse("test.cvs.A".matches(regExp));		
+		Assert.assertFalse("test.CSA".matches(regExp));
+		Assert.assertFalse("test.cvs.done".matches(regExp));
 	}
+
+	private void doTestRegExp2(String regExp) {
+		Assert.assertTrue("stp01_fix_01012011.csv".matches(regExp));
+		Assert.assertFalse("stp01_fix_01012011.csa".matches(regExp));
+		Assert.assertFalse("stp01_fix01012011.csv".matches(regExp));
+		Assert.assertFalse("stp01_fix-01012011.csv".matches(regExp));
+	}
+
+	private void doTestRegExp3(String regExp) {
+		Assert.assertTrue("stp01_fix-01012011.csv".matches(regExp));
+		Assert.assertFalse("stp01_fix-01012011.csa".matches(regExp));
+		Assert.assertFalse("stp01_fix01012011.csv".matches(regExp));
+		Assert.assertFalse("stp01_fix_01012011.csv".matches(regExp));
+	}
+	
+	private void doTestRegExp4(String regExp) {
+		Assert.assertTrue("stp01_fix-01012011.csv".matches(regExp)); 
+		Assert.assertTrue("stp01-_fix-01012011.csv".matches(regExp)); 
+		Assert.assertFalse("stp01_fix-01012011.csa".matches(regExp)); // doesn't match _fix-
+		Assert.assertFalse("stp01_fix01012011.csv".matches(regExp)); // doesn't match _fix-
+		Assert.assertFalse("stp01_fix_01012011.csv".matches(regExp)); // doesn't match _fix-
+		Assert.assertFalse("stp01_fix 01012011.csv".matches(regExp)); // As a whitespace.
+	}
+	
 }

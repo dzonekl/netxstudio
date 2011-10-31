@@ -74,7 +74,7 @@ import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.dataimport.MasterDataImporter;
@@ -120,9 +120,8 @@ public class TestDataCreator implements NetxForgeService {
 	private Expression utilizationExpression = null;
 	private Expression capacityExpression = null;
 	private Expression serviceUserExpression = null;
-	
+
 	private List<FunctionRelationship> functionRelationships = new ArrayList<FunctionRelationship>();
-	
 
 	public Object run(Map<String, String> parameters) {
 		try {
@@ -146,7 +145,7 @@ public class TestDataCreator implements NetxForgeService {
 		// clearData();
 
 		dataProvider.getTransaction();
-//		importMetrics();
+		// importMetrics();
 		createRFSService();
 		createXLSMetricSource();
 		createCVSMetricSource();
@@ -181,12 +180,12 @@ public class TestDataCreator implements NetxForgeService {
 	}
 
 	private void createRFSService() {
-		// OPERATOR, NODE and SERVICE definitions. 
+		// OPERATOR, NODE and SERVICE definitions.
 		Operator tmnl = OperatorsFactory.eINSTANCE.createOperator();
 		tmnl.setName("T-Mobile Netherlands");
 		tmnl.setWebsite("http://www.t-mobile.nl");
 		addToResource(tmnl);
-		
+
 		final Network network = OperatorsFactory.eINSTANCE.createNetwork();
 		network.setName("Core Network");
 		tmnl.getNetworks().add(network);
@@ -195,33 +194,33 @@ public class TestDataCreator implements NetxForgeService {
 				.createRFSService();
 		rfsService.setServiceName(RFS_NAME);
 		tmnl.getServices().add(rfsService);
-		
+
 		rfsService.getNodes().add(createNode("YPSGSN3"));
 		rfsService.getNodes().add(createNode("RTSGSN3"));
 		rfsService.getNodes().add(createARNSTPNode());
-		
-		rfsService.getToleranceRefs().addAll(this.createOrGetServicesTolerances());
-		
-		
-		// SERVICE USER AND PROFILE DEFINITION. 
+
+		rfsService.getToleranceRefs().addAll(
+				this.createOrGetServicesTolerances());
+
+		// SERVICE USER AND PROFILE DEFINITION.
 		ServiceUser su = ServicesFactory.eINSTANCE.createServiceUser();
 		su.setName("Mobile Internet User");
 		ServiceProfile sp = ServicesFactory.eINSTANCE.createServiceProfile();
 		DerivedResource dr = ServicesFactory.eINSTANCE.createDerivedResource();
-		
+
 		dr.setExpressionName("mob_internet_user");
 		dr.setShortName("mob_internet_user");
 		dr.setLongName("mob_internet_user");
-		
+
 		sp.getProfileResources().add(dr);
 		su.setServiceProfile(sp);
-		
+
 		Expression serviceProfileExpression = createOrGetProfileExpression();
 		su.setExpressionRef(serviceProfileExpression);
-		
+
 		rfsService.getServiceUserRefs().add(su);
 		addToResource(su);
-		
+
 		network.getNodes().addAll(rfsService.getNodes());
 		network.getFunctionRelationships().addAll(functionRelationships);
 
@@ -238,12 +237,8 @@ public class TestDataCreator implements NetxForgeService {
 		dataProvider.getResource(SchedulingPackage.Literals.JOB).getContents()
 				.add(job);
 
-		
-		
-		
-		final RFSServiceRetentionJob retentionJob = SchedulingFactory.eINSTANCE
-				.createRFSServiceRetentionJob();
-		retentionJob.setRFSService(rfsService);
+		final RetentionJob retentionJob = SchedulingFactory.eINSTANCE
+				.createRetentionJob();
 		retentionJob.setJobState(JobState.IN_ACTIVE);
 		retentionJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
@@ -758,7 +753,6 @@ public class TestDataCreator implements NetxForgeService {
 		return functions;
 	}
 
-	
 	/**
 	 * Create various tolerance levels, with each an own expression.
 	 * 
@@ -819,8 +813,9 @@ public class TestDataCreator implements NetxForgeService {
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
 			te.setName("Service Tolerance Green");
-			
-			// TODO, the expression for green should be relative to the number of nodes. 
+
+			// TODO, the expression for green should be relative to the number
+			// of nodes.
 			final String eAsString = "this.STATUS -> GREEN.count() >= 0;";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 
@@ -849,7 +844,7 @@ public class TestDataCreator implements NetxForgeService {
 		}
 		return serviceTolerances;
 	}
-	
+
 	/**
 	 * Create various tolerance levels, with each an own expression.
 	 * 
@@ -944,25 +939,86 @@ public class TestDataCreator implements NetxForgeService {
 		final String[] relationShips = new String[] { "tmscnlna0",
 				"sgrroamna0", "tmscnlna0s", "acr01na0s", "thlrnlna0",
 				"sgc01na0", "thlrnlna0s", "sgrstpin0", "sgrstpin0", "lsm3ua2",
-				"tbmscukin0", "arm04na0", "arm04na0", "acr01na0s", "acr01na0s",
-				"lsm3ua", "lsm3ua2", "drin01na0", "drin01na0", "kpnamin0",
-				"kpnrtin0", "kpnrtna1", "btfrastp", "kpnutna1", "sgrstpin0",
-				"sgrstpin0", "lsm3ua", "kpnrtin0", "lsm3ua", "lsm3ua2",
-				"kpnrtna1", "lsm3ua", "lsm3ua2", "tmscnlna0", "tmscnlna0s",
-				"acr01na0s", "thlrnlna0", "sgc01na0", "thlrnlna0s",
-				"sgrstpna0", "sgrstpna0", "tbmscukin0", "arm04na0", "arm04na0",
-				"acr01na0s", "acr01na0s", "drin01na0", "drin01na0", "kpnamin0",
-				"kpnrtin0", "tele2rosgw", "tele2rosgw", "sgrstpna0",
-				"sgrstpna0", "acr01na0s", "acr01na0s", "sgm01na0", "sgm01na0",
-				"kpnamin0", "kpnrtin0", "sgrstpna0s", "sgrstpna0s",
-				"tmscukna1", "arm04na0", "arm04na0", "kpnamin0", "kpnrtin0",
-				"drin01na0", "drin01na0", "kpnamin0", "kpnrtin0", "onlinemgw3",
-				"sgrstpna0s", "sgrstpna0s", "sgc01na0", "sgc01na0",
-				"sgc01na0s", "sgc01na0s", "tbmscnlin0", "tbmscnlin0",
-				"sgm01na0", "sgm01na0", "kpnamin0", "kpnrtin0", "sgrstpna1",
-				"sgrstpna1", "arm04na0", "arm04na0", "kpnamin0", "kpnrtin0",
+				"tbmscukin0", "arm04na0", "arm04na0",
+				"acr01na0s",
+				"acr01na0s",
+				"lsm3ua",
+				"lsm3ua2",
+				"drin01na0",
+				"drin01na0",
+				"kpnamin0",
+				"kpnrtin0",
+				"kpnrtna1",
+				"btfrastp",
+				"kpnutna1",
+				"sgrstpin0",
+				"sgrstpin0",
+				"lsm3ua",
+				"kpnrtin0",
+				"lsm3ua",
+				"lsm3ua2",
+				"kpnrtna1",
+				"lsm3ua",
+				"lsm3ua2",
+				"tmscnlna0",
+				"tmscnlna0s",
+				"acr01na0s",
+				"thlrnlna0",
+				"sgc01na0",
+				"thlrnlna0s",
+				"sgrstpna0",
+				"sgrstpna0",
+				"tbmscukin0",
+				"arm04na0",
+				"arm04na0",
+				"acr01na0s",
+				"acr01na0s",
+				"drin01na0",
+				"drin01na0",
+				"kpnamin0",
+				"kpnrtin0",
+				"tele2rosgw",
+				"tele2rosgw",
+				"sgrstpna0",
+				"sgrstpna0",
+				"acr01na0s",
+				"acr01na0s",
+				"sgm01na0",
+				"sgm01na0",
+				"kpnamin0",
+				"kpnrtin0",
+				"sgrstpna0s",
+				"sgrstpna0s",
+				"tmscukna1",
+				"arm04na0",
+				"arm04na0",
+				"kpnamin0",
+				"kpnrtin0",
+				"drin01na0",
+				"drin01na0",
+				"kpnamin0",
+				"kpnrtin0",
+				"onlinemgw3",
+				"sgrstpna0s",
+				"sgrstpna0s",
+				"sgc01na0",
+				"sgc01na0",
+				"sgc01na0s",
+				"sgc01na0s",
+				"tbmscnlin0",
+				"tbmscnlin0",
+				"sgm01na0",
+				"sgm01na0",
+				"kpnamin0",
+				"kpnrtin0",
+				"sgrstpna1",
+				"sgrstpna1",
+				"arm04na0",
+				"arm04na0",
+				"kpnamin0",
+				"kpnrtin0",
 				// on purpose commented out to create mapping errors
-//				"drin01na0", "drin01na0", "etes01", "acr01na0", "bruhin0",
+				// "drin01na0", "drin01na0", "etes01", "acr01na0", "bruhin0",
 				"bruiin0", "tele2amstp", "sgrstpna1", "sgrstpna1", "sgc01na0",
 				"sgc01na0", "sgc01na0s", "sgc01na0s", "drin01na0", "drin01na0",
 				"sgm01na0", "sgm01na0", "bruhin0", "bruiin0", "arm04na0",
