@@ -291,7 +291,7 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 		scnInfo.setClient(composite);
 		composite.setLayout(new GridLayout(4, false));
 
-		Label lblName = toolkit.createLabel(composite, "Node ID:", SWT.NONE);
+		Label lblName = toolkit.createLabel(composite, "NE ID:", SWT.NONE);
 		lblName.setAlignment(SWT.RIGHT);
 		GridData gd_lblName = new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1);
