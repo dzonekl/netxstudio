@@ -73,7 +73,6 @@ public interface IScreen extends IViewerProvider {
 	 */
 	public abstract EMFDataBindingContext initDataBindings_();
 	
-//	public abstract void disposeData();
 	
 	/**
 	 * 
