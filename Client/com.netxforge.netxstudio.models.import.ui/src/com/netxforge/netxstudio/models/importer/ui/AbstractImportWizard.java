@@ -1,20 +1,18 @@
 package com.netxforge.netxstudio.models.importer.ui;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.EClassImpl;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -30,7 +28,6 @@ import org.eclipse.ui.dialogs.CheckedTreeSelectionDialog;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
@@ -40,11 +37,13 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.models.importer.MasterDataImporterJob;
 import com.netxforge.netxstudio.operators.Network;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
@@ -60,20 +59,18 @@ public abstract class AbstractImportWizard extends Wizard implements
 	public AbstractImportWizard() {
 	}
 
-	
-	
 	@Inject
 	@NonStatic
 	private IDataProvider dataProvider;
-	
+
 	@Inject
 	private IDataProvider uiDataProvider;
-	
+
 	@Inject
 	private IEditingService editingService;
 
 	abstract EPackage[] getEPackages();
-	
+
 	abstract boolean useIndexed();
 
 	@Override
@@ -112,7 +109,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 								Object[] selections = dialog.getResult();
 								// Write the result, in a single command, per
 								// resource.
-								storeForSameEClass(selections);
+								storeForSameEClass(results, selections);
 							}
 						} else {
 							System.out.println("No import results");
@@ -141,112 +138,110 @@ public abstract class AbstractImportWizard extends Wizard implements
 		}
 	}
 
-	
-	
 	/**
-	 * Store the selection of items. 
-	 * As each root object will be of type EClass, we deflat the 
+	 * Store the selection of items. As each root object will be of type EClass,
+	 * we deflat the
+	 * 
+	 * @param results
 	 * 
 	 * 
 	 * @param selection
 	 */
 	@SuppressWarnings("unchecked")
+	private void storeForSameEClass(List<EObject> results, Object[] selection) {
 
-	private void storeForSameEClass(Object[] selection) {
-		
-		String server ;
-		if(uiDataProvider != null){
+		String server;
+		if (uiDataProvider != null) {
 			server = uiDataProvider.getServer();
-		}else{
+		} else {
 			return;
 		}
-		
+
 		dataProvider.setDoGetResourceFromOwnTransaction(false);
-		// FIXME THIS WILL OPEN WITH CURRENT CREDENTIALS, 
-		// REGARDLESS ALL IS PERMITTED NOW. 
+		// FIXME THIS WILL OPEN WITH CURRENT CREDENTIALS,
+		// REGARDLESS ALL IS PERMITTED NOW.
 		dataProvider.openSession("admin", "admin", server);
 		dataProvider.getTransaction();
-		
+
 		System.out
 				.println("Storing objects, check if contained in the set to store. ");
 
-		List<Object> originalList = ImmutableList.of(selection);
-		List<EObject> listToStore = Lists.newArrayList();
+		List<Object> selectionList = ImmutableList.of(selection);
+		List<EObject> listOfObjectsToStore = Lists.newArrayList();
 
-		// De-flat, by checking if an object is contained in another
-		// from the same list.
-		for (Object o : originalList) {
-			if (o instanceof EClassImpl) {
-				listToStore.add((EObject) o);
-				continue;
-			}
-
-			boolean contained = false;
-			for (Object original : originalList) {
-				if (original.equals(o)) {
-					continue;
+		// Get the result object tree, matching the selection.
+		for (Object sel : selectionList) {
+			if (sel instanceof EClass) {
+				for (EObject rootObject : results) {
+					if (rootObject.eClass().getName()
+							.equalsIgnoreCase(((EClass) sel).getName())) {
+						listOfObjectsToStore.add(rootObject);
+					}
 				}
-				if (contains(o, original)) {
-					contained = true;
-					break;
-				}
-			}
-			if (!contained) {
-				listToStore.add((EObject) o);
 			}
 		}
+
+		for (EObject object : listOfObjectsToStore) {
+			EList<EObject> parentList = (EList<EObject>) getParentList(object.eClass());
+			parentList.add(object);
+			
+		}
+			
 		
-
-		// Create a map from the tree, with the class name as a key. and a list
-		// of objects as the content for each key.
-		Map<EClass, List<EObject>> map = Maps.newHashMap();
-		for (EObject current : listToStore) {
-			if (current instanceof EClassImpl) {
-				continue;
-			}
-			List<EObject> currentList = map.get(current.eClass());
-			if (currentList == null) {
-				currentList = Lists.newArrayList();
-				map.put(current.eClass(), currentList);
-			}
-			currentList.add(current);
-		}
-
-		// Store in the EClass CDO store, minding exceptions...
-		Iterator<EClass> keys = map.keySet().iterator();
-		while (keys.hasNext()) {
-			EClass key = keys.next();
-			List<EObject> listOfObjectsToStore = map.get(key);
-			EList<EObject> parentList = null;
-			// CompoundCommand c = new CompoundCommand();
-			for (EObject object : listOfObjectsToStore) {
-				if (parentList == null) {
-					parentList = (EList<EObject>) getParentList(object.eClass());
+		// Check dangling. 
+		for (EObject object : listOfObjectsToStore) {
+			TreeIterator<EObject> eAllContents = object.eAllContents();
+			while(eAllContents.hasNext()){
+				EObject next = eAllContents.next();
+				EList<EReference> eAllReferences = next.eClass().getEAllReferences();
+				for( EReference eRef : eAllReferences){
+					Object eGet = next.eGet(eRef);
+					if(eGet == null){
+						// continue, only filled ERefs. 
+						continue;
+					}
+					if(eRef.isMany()){
+						List<? extends EObject> collection = (List<? extends EObject>) eGet;
+						for(EObject eo : collection ){
+							if(isDangling(eo, eRef)){
+								int index = collection.indexOf(eo);
+								collection.remove(index);	
+							}
+						}
+					}else{
+						EObject eo = (EObject) eGet;
+						if(isDangling(eo, eRef)){
+							this.unsetDangling(eo, eRef);
+						}
+					}
 				}
-				// Store when not equal. 
-//				if( !equalObject(parentList, object) ){
-//					
-//				}else{
-//					System.out.println("Skipping, already stored: " + object);
-//				}
-				
-				parentList.add(object);
 			}
 		}
-		
 		dataProvider.commitTransaction();
 		dataProvider.setDoGetResourceFromOwnTransaction(true);
-		
+
+	}
+	
+	public boolean isDangling(EObject eo, EReference eRef){
+		if(eo.eResource() == null ){
+			System.out.println("Dangling object: " + eo.eClass() + " from ref: " + eRef);
+			return true;
+		}
+		return false;
+	}
+	
+	public void unsetDangling(EObject eo, EReference eRef){
+		if(eo.eIsSet(eRef)){
+			eo.eUnset(eRef);
+		}
 	}
 
-	
-	
 	@SuppressWarnings("unused")
 	private boolean equalObject(EList<EObject> parentList, EObject targetObject) {
-		
+
 		boolean already = false;
-		for(EObject object : parentList){
-			if(EcoreUtil.equals(object, targetObject)){
+		for (EObject object : parentList) {
+			if (EcoreUtil.equals(object, targetObject)) {
 				already = true;
 				break;
 			}
@@ -258,10 +253,11 @@ public abstract class AbstractImportWizard extends Wizard implements
 
 		Resource res = getResource(key);
 
-		ResourceSet set = res.getResourceSet();
-		if (set != null) {
-			System.out.println("importing in set" + set.toString());
-		}
+//		ResourceSet set = res.getResourceSet();
+//		if (set != null) {
+//			System.out.println("importing in set: " + set.toString());
+//			
+//		}
 
 		// RFSService objects are stored in an Operator.
 		if (key.equals(ServicesPackage.eINSTANCE.getRFSService())) {
@@ -271,23 +267,25 @@ public abstract class AbstractImportWizard extends Wizard implements
 				return op.getServices();
 			}
 		}
-
 		return res.getContents();
 	}
 
 	private Resource getResource(EClass eClass) {
 		if (eClass.equals(ServicesPackage.eINSTANCE.getRFSService())) {
-			
-//			return dataProvider.getTransaction().createResource("/" + OperatorsPackage.eINSTANCE
-//					.getOperator().getName());
+
+			// return dataProvider.getTransaction().createResource("/" +
+			// OperatorsPackage.eINSTANCE
+			// .getOperator().getName());
 			return dataProvider.getResource(OperatorsPackage.eINSTANCE
 					.getOperator());
 		}
-		
-//		return dataProvider.getTransaction().createResource("/" + eClass.getName());
+
+		// return dataProvider.getTransaction().createResource("/" +
+		// eClass.getName());
 		return dataProvider.getResource(eClass);
 	}
 
+	@SuppressWarnings("unused")
 	private boolean contains(Object targetObject, Object original) {
 		return EcoreUtil.isAncestor((EObject) original, (EObject) targetObject);
 	}
@@ -308,10 +306,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 		dbImportResourcePage.setDescription(Messages.ImportWizard_6);
 		dbImportResourcePage.init(selection);
 		this.addPage(dbImportResourcePage);
-		
-		
-		
-		
+
 	}
 
 	class ImportResultLabelProvider extends AdapterFactoryLabelProvider {
@@ -325,13 +320,12 @@ public abstract class AbstractImportWizard extends Wizard implements
 		}
 	}
 
-	
 	/**
-	 * A tree content provider, which creates a root object of type EClass 
-	 * and places items under it having this EClass. 
+	 * A tree content provider, which creates a root object of type EClass and
+	 * places items under it having this EClass.
 	 * 
 	 * @author dzonekl
-	 *
+	 * 
 	 */
 	class ImportResultTreeContentProvider implements ITreeContentProvider {
 
@@ -401,7 +395,13 @@ public abstract class AbstractImportWizard extends Wizard implements
 						.getEquipmentRelationships());
 				children.addAll(((Network) parentElement)
 						.getFunctionRelationships());
-			} else if (parentElement instanceof NodeType) {
+			} else if (parentElement instanceof Node) {
+				NodeType nodeType = ((Node) parentElement).getNodeType();
+				if(nodeType != null){
+					children.add(nodeType);
+				}
+			}
+			if (parentElement instanceof NodeType) {
 				children.addAll(((NodeType) parentElement).getFunctions());
 				children.addAll(((NodeType) parentElement).getEquipments());
 			} else if (parentElement instanceof Function) {
@@ -410,15 +410,28 @@ public abstract class AbstractImportWizard extends Wizard implements
 				children.addAll(((Equipment) parentElement).getEquipments());
 			} else if (parentElement instanceof Component) {
 				children.addAll(((Component) parentElement).getResourceRefs());
-			} else if (parentElement instanceof MetricSource){
-				children.add(((MetricSource) parentElement).getMetricMapping());
-			} else if( parentElement instanceof Mapping){
-				children.addAll(((Mapping) parentElement).getHeaderMappingColumns());
-				children.addAll(((Mapping) parentElement).getDataMappingColumns());
-			}else if( parentElement instanceof MappingColumn){
-				children.add(((MappingColumn) parentElement).getDataType());
+			} else if (parentElement instanceof MetricSource) {
+
+				Mapping metricMapping = ((MetricSource) parentElement)
+						.getMetricMapping();
+				if (metricMapping != null) {
+					children.add(metricMapping);
+				}
+			} else if (parentElement instanceof Mapping) {
+				children.addAll(((Mapping) parentElement)
+						.getHeaderMappingColumns());
+				children.addAll(((Mapping) parentElement)
+						.getDataMappingColumns());
+			} else if (parentElement instanceof MappingColumn) {
+
+				DataKind dataType = ((MappingColumn) parentElement)
+						.getDataType();
+				if (dataType != null) {
+					children.add(dataType);
+				}
+
 			}
-			
+
 			return children.toArray();
 		}
 	}

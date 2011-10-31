@@ -33,5 +33,11 @@
               id="com.netxforge.netxstudio.models.import.services"
               name="Import Services objects">
         </wizard>
+        <wizard
+              category="com.netxforge.netxstudio.ui.category.import"
+              class="com.netxforge.netxstudio.models.importer.ui.internal.ImportEExtensionFactory:com.netxforge.netxstudio.models.importer.ui.ImportAllWizard"
+              id="com.netxforge.netxstudio.models.import.all"
+              name="Import All objects">
+        </wizard>
  </extension>
  </plugin>
