@@ -5,6 +5,7 @@ import org.eclipse.swt.events.MenuEvent;
 import org.eclipse.swt.events.MenuListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
@@ -17,33 +18,29 @@ import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f4.AbstractMapping;
 import com.netxforge.netxstudio.screens.f4.NewEditMappingColumn;
-import com.netxforge.netxstudio.screens.f4.NewEditMappingColumnDialogII;
 
 public class ColumnMappingMenu {
-	
-	
+
 	private static final ColumnMappingMenu INSTANCE = new ColumnMappingMenu();
-	
-	public static ColumnMappingMenu getINSTANCE(){
+
+	public static ColumnMappingMenu getINSTANCE() {
 		return INSTANCE;
 	}
-	
+
 	public class MappingMenuListener implements MenuListener {
-		
+
 		private static final int IDENTIFIER_VALUE = 100;
-		
-		
-		/* The current row index*/
+
+		/* The current row index */
 		private int currentRowIndex = -1;
-		
-		/* The current colomn index*/
+
+		/* The current colomn index */
 		private int currentColumnIndex = -1;
-		
-		
+
 		public void setCurrentRowIndex(int currentRowIndex) {
 			this.currentRowIndex = currentRowIndex;
 		}
@@ -51,12 +48,12 @@ public class ColumnMappingMenu {
 		public void setCurrentColumnIndex(int currentColumnIndex) {
 			this.currentColumnIndex = currentColumnIndex;
 		}
-		
+
 		private Menu gridMenu;
 		private Mapping mapping;
 
 		private IScreenFormService screenService;
-		
+
 		private Text txtFirstHeaderRow;
 		private Text txtFirstDataRow;
 
@@ -73,11 +70,10 @@ public class ColumnMappingMenu {
 			this.txtFirstDataRow = txtFirstDataRow;
 		}
 
-		public void setMetricSource(MetricSource metricSource){
+		public void setMetricSource(MetricSource metricSource) {
 			this.metricSource = metricSource;
 		}
 
-		
 		public void menuHidden(MenuEvent e) {
 			System.out.println(e);
 		}
@@ -94,10 +90,9 @@ public class ColumnMappingMenu {
 			if (currentRowIndex != -1) {
 
 				// Row Mappings
-				if( txtFirstHeaderRow != null){
+				if (txtFirstHeaderRow != null) {
 					MenuItem mi = new MenuItem(gridMenu, SWT.PUSH);
-					mi.setText("Set Header row index (" + currentRowIndex
-							+ ")");
+					mi.setText("Set Header row index (" + currentRowIndex + ")");
 					mi.addSelectionListener(new SelectionAdapter() {
 						@Override
 						public void widgetSelected(SelectionEvent e) {
@@ -108,8 +103,7 @@ public class ColumnMappingMenu {
 				}
 
 				// Header Column Mappings.
-				MenuItem colHeaderMenuItem = new MenuItem(gridMenu,
-						SWT.CASCADE);
+				MenuItem colHeaderMenuItem = new MenuItem(gridMenu, SWT.CASCADE);
 				colHeaderMenuItem.setText("Header Column Mapping index=("
 						+ currentColumnIndex + ")");
 				{
@@ -118,24 +112,22 @@ public class ColumnMappingMenu {
 					colHeaderMenuItem.setMenu(colMenu);
 				}
 
-				if( txtFirstDataRow != null){
+				if (txtFirstDataRow != null) {
 					MenuItem mi = new MenuItem(gridMenu, SWT.PUSH);
-					mi.setText("Set Data row index (" + currentRowIndex
-							+ ")");
+					mi.setText("Set Data row index (" + currentRowIndex + ")");
 					mi.addSelectionListener(new SelectionAdapter() {
-						
 
 						@Override
 						public void widgetSelected(SelectionEvent e) {
-							txtFirstDataRow.setText(new Integer(
-									currentRowIndex).toString());
+							txtFirstDataRow
+									.setText(new Integer(currentRowIndex)
+											.toString());
 						}
 					});
 				}
 
 				// Data Column Mappings.
-				MenuItem colDataMenuItem = new MenuItem(gridMenu,
-						SWT.CASCADE);
+				MenuItem colDataMenuItem = new MenuItem(gridMenu, SWT.CASCADE);
 				colDataMenuItem.setText("Data Column Mapping index=("
 						+ currentColumnIndex + ")");
 				{
@@ -146,7 +138,7 @@ public class ColumnMappingMenu {
 
 			}
 		}
-		
+
 		private void newHeaderMenus(Menu colMenu) {
 			{
 				MenuItem mi = new MenuItem(colMenu, SWT.PUSH);
@@ -187,7 +179,8 @@ public class ColumnMappingMenu {
 				mi.addSelectionListener(new SelectionAdapter() {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
-						newHeaderColumnMapping(currentColumnIndex, IDENTIFIER_VALUE);
+						newHeaderColumnMapping(currentColumnIndex,
+								IDENTIFIER_VALUE);
 					}
 				});
 			}
@@ -244,7 +237,8 @@ public class ColumnMappingMenu {
 				mi.addSelectionListener(new SelectionAdapter() {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
-						newDataColumnMapping(currentColumnIndex, IDENTIFIER_VALUE);
+						newDataColumnMapping(currentColumnIndex,
+								IDENTIFIER_VALUE);
 					}
 				});
 			}
@@ -279,25 +273,29 @@ public class ColumnMappingMenu {
 
 			switch (kind) {
 			case ValueKindType.DATE_VALUE: {
-				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+				ValueDataKind vdk = MetricsFactory.eINSTANCE
+						.createValueDataKind();
 				vdk.setValueKind(ValueKindType.DATE);
 				mc.setDataType(vdk);
 			}
 				break;
 			case ValueKindType.DATETIME_VALUE: {
-				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+				ValueDataKind vdk = MetricsFactory.eINSTANCE
+						.createValueDataKind();
 				vdk.setValueKind(ValueKindType.DATETIME);
 				mc.setDataType(vdk);
 			}
 				break;
 			case ValueKindType.TIME_VALUE: {
-				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+				ValueDataKind vdk = MetricsFactory.eINSTANCE
+						.createValueDataKind();
 				vdk.setValueKind(ValueKindType.TIME);
 				mc.setDataType(vdk);
 			}
 				break;
 			case ValueKindType.INTERVAL_VALUE: {
-				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+				ValueDataKind vdk = MetricsFactory.eINSTANCE
+						.createValueDataKind();
 				vdk.setValueKind(ValueKindType.INTERVAL);
 				mc.setDataType(vdk);
 			}
@@ -305,7 +303,7 @@ public class ColumnMappingMenu {
 			case IDENTIFIER_VALUE: {
 				IdentifierDataKind idk = MetricsFactory.eINSTANCE
 						.createIdentifierDataKind();
-				// Set the default identifier. 
+				// Set the default identifier.
 				idk.setObjectKind(ObjectKindType.NODE);
 				idk.setObjectProperty(IdentifierDialog.NODE_ID);
 				mc.setDataType(idk);
@@ -313,11 +311,16 @@ public class ColumnMappingMenu {
 				break;
 			}
 
-//			newColumnMappingScreen(false, Screens.OPERATION_NEW,
+			Composite activeScreen = screenService.getActiveScreen();
+			if (activeScreen instanceof AbstractMapping) {
+				((AbstractMapping) activeScreen).newColumnMappingScreenDialog(false, Screens.OPERATION_NEW,
+				 mapping.getHeaderMappingColumns(), mc);
+			}
+			
+//			newColumnMappingScreen(false,
+//					Screens.OPERATION_NEW,
 //					mapping.getHeaderMappingColumns(), mc);
 			
-			newColumnMappingScreenDialog(false, Screens.OPERATION_NEW,
-					mapping.getHeaderMappingColumns(), mc);
 
 		}
 
@@ -328,25 +331,29 @@ public class ColumnMappingMenu {
 
 			switch (kind) {
 			case ValueKindType.DATE_VALUE: {
-				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+				ValueDataKind vdk = MetricsFactory.eINSTANCE
+						.createValueDataKind();
 				vdk.setValueKind(ValueKindType.DATE);
 				mc.setDataType(vdk);
 			}
 				break;
 			case ValueKindType.DATETIME_VALUE: {
-				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+				ValueDataKind vdk = MetricsFactory.eINSTANCE
+						.createValueDataKind();
 				vdk.setValueKind(ValueKindType.DATETIME);
 				mc.setDataType(vdk);
 			}
 				break;
 			case ValueKindType.TIME_VALUE: {
-				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+				ValueDataKind vdk = MetricsFactory.eINSTANCE
+						.createValueDataKind();
 				vdk.setValueKind(ValueKindType.TIME);
 				mc.setDataType(vdk);
 			}
 				break;
 			case ValueKindType.INTERVAL_VALUE: {
-				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+				ValueDataKind vdk = MetricsFactory.eINSTANCE
+						.createValueDataKind();
 				vdk.setValueKind(ValueKindType.INTERVAL);
 				mc.setDataType(vdk);
 			}
@@ -354,29 +361,32 @@ public class ColumnMappingMenu {
 			case IDENTIFIER_VALUE: {
 				IdentifierDataKind idk = MetricsFactory.eINSTANCE
 						.createIdentifierDataKind();
-				// Set the default identifier. 
+				// Set the default identifier.
 				idk.setObjectKind(ObjectKindType.NODE);
 				idk.setObjectProperty(IdentifierDialog.NODE_ID);
 				mc.setDataType(idk);
 			}
 				break;
 			case ValueKindType.METRIC_VALUE: {
-				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+				ValueDataKind vdk = MetricsFactory.eINSTANCE
+						.createValueDataKind();
 				vdk.setValueKind(ValueKindType.METRIC);
 				mc.setDataType(vdk);
 
 			}
 				break;
 			}
-			
-//			newColumnMappingScreen(true, Screens.OPERATION_NEW,
-//					mapping.getDataMappingColumns(), mc);
-			
-			newColumnMappingScreenDialog(true, Screens.OPERATION_NEW,
-					mapping.getDataMappingColumns(), mc);
 
+			// newColumnMappingScreen(true, Screens.OPERATION_NEW,
+			// mapping.getDataMappingColumns(), mc);
+
+			Composite activeScreen = screenService.getActiveScreen();
+			if (activeScreen instanceof AbstractMapping) {
+				((AbstractMapping) activeScreen).newColumnMappingScreenDialog(false, Screens.OPERATION_NEW,
+				 mapping.getHeaderMappingColumns(), mc);
+			}
 		}
-		
+
 		@SuppressWarnings("unused")
 		private void newColumnMappingScreen(boolean showDataMapping, int op,
 				Object owner, Object target) {
@@ -384,29 +394,10 @@ public class ColumnMappingMenu {
 					screenService.getScreenContainer(), SWT.NONE);
 			mappingColumnScreen.setOperation(op);
 			mappingColumnScreen.setScreenService(screenService);
-			mappingColumnScreen.injectData(metricSource, showDataMapping, owner, target);
+			mappingColumnScreen.injectData(metricSource, showDataMapping,
+					owner, target);
 			screenService.setActiveScreen(mappingColumnScreen);
 		}
-		
-		
-		private void newColumnMappingScreenDialog(boolean showDataMapping, int op,
-				Object owner, Object target) {
-			NewEditMappingColumnDialogII dialog = new NewEditMappingColumnDialogII(screenService.getActiveScreen().getShell());
-			dialog.create();
-			NewEditMappingColumn mappingColumnScreen = dialog.getMappingColumnScreen();
-			mappingColumnScreen.setOperation(op);
-			mappingColumnScreen.setScreenService(screenService);
-			mappingColumnScreen.injectData(metricSource, showDataMapping, owner, target);
-			dialog.getShell().layout(true,true);
-			dialog.open();
-			
-			screenService.fireScreenChangedExternal((IScreen) screenService.getActiveScreen());
-		}
-		
 	}
-	
 
-	
 }
-
-

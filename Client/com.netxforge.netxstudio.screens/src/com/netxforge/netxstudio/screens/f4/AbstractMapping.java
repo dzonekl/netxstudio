@@ -7,6 +7,7 @@ import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
@@ -14,11 +15,10 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFObservables;
+import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
@@ -54,6 +54,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.common.Tuple;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
@@ -268,7 +269,8 @@ public abstract class AbstractMapping extends AbstractScreen {
 		mghprlnkNewHeaderMappingColumn
 				.addHyperlinkListener(new IHyperlinkListener() {
 					public void linkActivated(HyperlinkEvent e) {
-						newColumnMappingScreenDialog(false, Screens.OPERATION_NEW,
+						newColumnMappingScreenDialog(false,
+								Screens.OPERATION_NEW,
 								mapping.getHeaderMappingColumns(),
 								MetricsFactory.eINSTANCE.createMappingColumn());
 					}
@@ -338,7 +340,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
 				tblViewerHeaderColumnMapping, SWT.NONE);
 		TableColumn tblclmnType = tableViewerColumn_3.getColumn();
-		tblclmnType.setWidth(90);
+		tblclmnType.setWidth(80);
 		tblclmnType.setText("Type");
 
 		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(
@@ -477,7 +479,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				tblViewerDataColumnMapping, SWT.NONE);
 		TableColumn tblclmnDatHeader = tableViewerColumn.getColumn();
-		tblclmnDatHeader.setWidth(90);
+		tblclmnDatHeader.setWidth(80);
 		tblclmnDatHeader.setText("Type");
 
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
@@ -576,15 +578,51 @@ public abstract class AbstractMapping extends AbstractScreen {
 			this.tblViewerHeaderColumnMapping
 					.setContentProvider(listContentProvider);
 
-			IObservableMap[] observeMaps = EMFObservables.observeMaps(
-					listContentProvider.getKnownElements(),
-					new EStructuralFeature[] {
+			IObservableSet set = listContentProvider.getKnownElements();
+
+			List<IObservableMap> mapList = Lists.newArrayList();
+
+			mapList.add(EMFEditProperties
+					.value(editingService.getEditingDomain(),
+							FeaturePath
+									.fromList(
+											MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
+											MetricsPackage.Literals.VALUE_DATA_KIND__METRIC_REF))
+					.observeDetail(set));
+
+			mapList.add(EMFEditProperties
+					.value(editingService.getEditingDomain(),
+							FeaturePath
+									.fromList(
+											MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
+											MetricsPackage.Literals.VALUE_DATA_KIND__VALUE_KIND))
+					.observeDetail(set));
+
+			mapList.add(EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					FeaturePath.fromList(
 							MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
-							MetricsPackage.Literals.MAPPING_COLUMN__COLUMN });
+							MetricsPackage.Literals.VALUE_DATA_KIND__FORMAT))
+					.observeDetail(set));
+
+			mapList.add(EMFEditProperties
+					.value(editingService.getEditingDomain(),
+							FeaturePath
+									.fromList(
+											MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
+											MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY))
+					.observeDetail(set));
+
+			mapList.add(EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					MetricsPackage.Literals.MAPPING_COLUMN__COLUMN)
+					.observeDetail(set));
+
+			IObservableMap[] map = new IObservableMap[mapList.size()];
+			mapList.toArray(map);
 
 			tblViewerHeaderColumnMapping
-					.setLabelProvider(new ColumnObservableMapLabelProvider(
-							observeMaps));
+					.setLabelProvider(new ColumnObservableMapLabelProvider(map));
 			IEMFListProperty l = EMFEditProperties.list(
 					editingService.getEditingDomain(),
 					MetricsPackage.Literals.MAPPING__HEADER_MAPPING_COLUMNS);
@@ -660,22 +698,57 @@ public abstract class AbstractMapping extends AbstractScreen {
 			this.tblViewerDataColumnMapping
 					.setContentProvider(listContentProvider);
 
-			IObservableMap[] observeMaps = EMFObservables.observeMaps(
-					listContentProvider.getKnownElements(),
-					new EStructuralFeature[] {
+			IObservableSet set = listContentProvider.getKnownElements();
+
+			List<IObservableMap> mapList = Lists.newArrayList();
+
+			mapList.add(EMFEditProperties
+					.value(editingService.getEditingDomain(),
+							FeaturePath
+									.fromList(
+											MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
+											MetricsPackage.Literals.VALUE_DATA_KIND__METRIC_REF))
+					.observeDetail(set));
+
+			mapList.add(EMFEditProperties
+					.value(editingService.getEditingDomain(),
+							FeaturePath
+									.fromList(
+											MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
+											MetricsPackage.Literals.VALUE_DATA_KIND__VALUE_KIND))
+					.observeDetail(set));
+
+			mapList.add(EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					FeaturePath.fromList(
 							MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
-							MetricsPackage.Literals.MAPPING_COLUMN__COLUMN });
+							MetricsPackage.Literals.VALUE_DATA_KIND__FORMAT))
+					.observeDetail(set));
+
+			mapList.add(EMFEditProperties
+					.value(editingService.getEditingDomain(),
+							FeaturePath
+									.fromList(
+											MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
+											MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY))
+					.observeDetail(set));
+
+			mapList.add(EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					MetricsPackage.Literals.MAPPING_COLUMN__COLUMN)
+					.observeDetail(set));
+
+			IObservableMap[] map = new IObservableMap[mapList.size()];
+			mapList.toArray(map);
 
 			this.tblViewerDataColumnMapping
-					.setLabelProvider(new ColumnObservableMapLabelProvider(
-							observeMaps));
+					.setLabelProvider(new ColumnObservableMapLabelProvider(map));
 			IEMFListProperty l = EMFEditProperties.list(
 					editingService.getEditingDomain(),
 					MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS);
 
 			IObservableList dataColumnMappingObservableList = l
 					.observe(mapping);
-			// obm.addObservable(dataColumnMappingObservableList);
 			this.tblViewerDataColumnMapping
 					.setInput(dataColumnMappingObservableList);
 		}
@@ -698,13 +771,18 @@ public abstract class AbstractMapping extends AbstractScreen {
 			MappingColumn c = (MappingColumn) element;
 			DataKind k = c.getDataType();
 
-			if (columnIndex == 0) {
+			switch (columnIndex) {
+			case 0: {
 				// This is the type Column.
 				if (k != null) {
 					return dataKindMap.get(k.getClass());
 				}
 			}
-			if (columnIndex == 2) {
+				break;
+			case 1: {
+				return new Integer(c.getColumn()).toString();
+			}
+			case 2: {
 				if (k instanceof ValueDataKind) {
 					ValueKindType vkt = ((ValueDataKind) k).getValueKind();
 					return vkt.getName();
@@ -720,7 +798,8 @@ public abstract class AbstractMapping extends AbstractScreen {
 					}
 				}
 			}
-			if (columnIndex == 3) {
+				break;
+			case 3: {
 				if (k instanceof ValueDataKind) {
 					ValueKindType vkt = ((ValueDataKind) k).getValueKind();
 					switch (vkt.getValue()) {
@@ -744,10 +823,10 @@ public abstract class AbstractMapping extends AbstractScreen {
 				}
 				if (k instanceof IdentifierDataKind) {
 					if (k.eIsSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY)) {
-						
-						String property = ((IdentifierDataKind) k).getObjectProperty();  
-						
-						if(IdentifierDialog.NODE_ID.equals(property)){
+						String property = ((IdentifierDataKind) k)
+								.getObjectProperty();
+
+						if (IdentifierDialog.NODE_ID.equals(property)) {
 							return IdentifierDialog.NETWORK_ELEMENT_ID;
 						}
 						return property;
@@ -755,6 +834,8 @@ public abstract class AbstractMapping extends AbstractScreen {
 				} else {
 					return "<not set>!!";
 				}
+			}
+
 			}
 
 			return super.getColumnText(element, columnIndex);
@@ -772,18 +853,24 @@ public abstract class AbstractMapping extends AbstractScreen {
 		screenService.setActiveScreen(mappingColumnScreen);
 	}
 
-	private void newColumnMappingScreenDialog(boolean showDataMapping, int op,
+	public void newColumnMappingScreenDialog(boolean showDataMapping, int op,
 			Object owner, Object target) {
-		NewEditMappingColumnDialogII dialog = new NewEditMappingColumnDialogII(screenService.getActiveScreen().getShell());
+		NewEditMappingColumnDialogII dialog = new NewEditMappingColumnDialogII(
+				screenService.getActiveScreen().getShell());
 		dialog.create();
-		NewEditMappingColumn mappingColumnScreen = dialog.getMappingColumnScreen();
+		NewEditMappingColumn mappingColumnScreen = dialog
+				.getMappingColumnScreen();
 		mappingColumnScreen.setOperation(op);
 		mappingColumnScreen.setScreenService(screenService);
-		mappingColumnScreen.injectData(metricSource, showDataMapping, owner, target);
+		mappingColumnScreen.injectData(metricSource, showDataMapping, owner,
+				target);
+		dialog.getShell().layout(true, true);
 		dialog.open();
-		screenService.fireScreenChangedExternal((IScreen) screenService.getActiveScreen());
+
+		screenService.fireScreenChangedExternal((IScreen) screenService
+				.getActiveScreen());
 	}
-	
+
 	@Override
 	public Form getScreenForm() {
 		return frmMappings;
@@ -881,5 +968,13 @@ public abstract class AbstractMapping extends AbstractScreen {
 	public abstract void fillGrid(List<Map<Integer, Tuple>> records);
 
 	public abstract void fillCSVGrid(String[][] records);
+
+	/*
+	 * Update UI Widgets.
+	 */
+	// public void updateUI(){
+	// this.tblViewerDataColumnMapping.refresh();
+	// this.tblViewerHeaderColumnMapping.refresh();
+	// }
 
 }
