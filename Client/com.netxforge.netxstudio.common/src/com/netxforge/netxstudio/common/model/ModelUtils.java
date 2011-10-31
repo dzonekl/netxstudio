@@ -1316,12 +1316,14 @@ public class ModelUtils {
 	 */
 	public MetricValueRange valueRangeForIntervalAndKind(
 			NetXResource foundNetXResource, KindHintType kindHintType,
-			int periodHint) {
+			int intervalHint) {
 		MetricValueRange foundMvr = null;
 		for (final MetricValueRange mvr : foundNetXResource
 				.getMetricValueRanges()) {
+			
+			// A succesfull match on Kind and Interval. 
 			if (mvr.getKindHint() == kindHintType
-					&& mvr.getIntervalHint() == periodHint) {
+					&& mvr.getIntervalHint() == intervalHint) {
 				foundMvr = mvr;
 				break;
 			}
@@ -1330,7 +1332,7 @@ public class ModelUtils {
 		if (foundMvr == null) {
 			foundMvr = MetricsFactory.eINSTANCE.createMetricValueRange();
 			foundMvr.setKindHint(kindHintType);
-			foundMvr.setIntervalHint(periodHint);
+			foundMvr.setIntervalHint(intervalHint);
 			foundNetXResource.getMetricValueRanges().add(foundMvr);
 		}
 		return foundMvr;
