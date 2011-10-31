@@ -32,6 +32,7 @@ import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
 import com.netxforge.netxstudio.data.importer.NetworkElementLocator;
+import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
@@ -52,21 +53,21 @@ import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
  * @author Martin Taal
  */
 public class ServerImporterHelper implements IImporterHelper {
-	
+
 	/* We need the importer to set the data provider */
 	private AbstractMetricValuesImporter importer;
 
 	public ServerImporterHelper() {
 	}
-	
-	public void setImporter(AbstractMetricValuesImporter importer){
+
+	public void setImporter(AbstractMetricValuesImporter importer) {
 		this.importer = importer;
 	}
 
 	@Inject
 	private CommonLogic commonLogic;
-	
-	@Inject 
+
+	@Inject
 	private ModelUtils modelUtils;
 
 	public void initializeProviders(NetworkElementLocator networkElementLocator) {
@@ -83,7 +84,7 @@ public class ServerImporterHelper implements IImporterHelper {
 		IDataProvider dataProvider = MetricsActivator.getInstance()
 				.getInjector().getInstance(LocalDataProviderProvider.class)
 				.getDataProvider();
-		// Set in the importer so we are called only once. 
+		// Set in the importer so we are called only once.
 		importer.setDataProvider(dataProvider);
 		return dataProvider;
 	}
@@ -105,57 +106,77 @@ public class ServerImporterHelper implements IImporterHelper {
 		commonLogic.addToValueRange(foundNetXResource, periodHint,
 				kindHintType, newValues, start, end);
 	}
-	
-	
+
 	public void addMetricValue(MappingColumn column, Date timeStamp,
-			Component networkElement, Double dblValue, int periodHint) {
-		
-		final Resource emfNetxResource = importer.getDataProvider().getResource(
-				modelUtils.getResourcePath(networkElement));
+			Component locatedComponent, Double dblValue, int intervalHint) {
+
+		final Resource emfNetxResource = importer.getDataProvider()
+				.getResource(modelUtils.getResourcePath(locatedComponent));
 
 		final ValueDataKind valueDataKind = importer.getValueDataKind(column);
 		final Metric metric = valueDataKind.getMetricRef();
-		
+
 		NetXResource foundNetXResource = null;
 		EList<EObject> objects = emfNetxResource.getContents();
 		for (final Object object : objects) {
 			final NetXResource netXResource = (NetXResource) object;
 			if (netXResource.getComponentRef().cdoID()
-					.equals(networkElement.cdoID())
+					.equals(locatedComponent.cdoID())
 					&& netXResource.getMetricRef().cdoID() == metric.cdoID()) {
 				foundNetXResource = netXResource;
+				if (DataActivator.DEBUG) {
+					System.out.println("IMPORTER: Matching resource: "
+							+ foundNetXResource.getShortName()
+							+ " , for component: " + locatedComponent.getName()
+							+ ", on metric: " + metric.getName());
+				}
 				break;
 			}
 		}
 		if (foundNetXResource == null) {
+
+			if (DataActivator.DEBUG) {
+				System.out.println("IMPORTER: No Matching resource for: "
+						+ locatedComponent.getName() + ", on metric: "
+						+ metric.getName() + " creating resource:");
+			}
 			foundNetXResource = LibraryFactory.eINSTANCE.createNetXResource();
-			foundNetXResource.setComponentRef(networkElement);
+			foundNetXResource.setComponentRef(locatedComponent);
 			foundNetXResource.setMetricRef(metric);
-			
+
 			foundNetXResource.setShortName(metric.getName());
-			if(metric.eIsSet(MetricsPackage.Literals.METRIC__DESCRIPTION)){
+			if (metric.eIsSet(MetricsPackage.Literals.METRIC__DESCRIPTION)) {
 				foundNetXResource.setLongName(metric.getDescription());
-			}else{
+			} else {
 				foundNetXResource.setLongName(metric.getName());
 			}
-			foundNetXResource.setExpressionName(importer.toValidExpressionName(metric
-					.getName()));
+			foundNetXResource.setExpressionName(importer
+					.toValidExpressionName(metric.getName()));
 			foundNetXResource.setUnitRef(metric.getUnitRef());
-			networkElement.getResourceRefs().add(foundNetXResource);
+			locatedComponent.getResourceRefs().add(foundNetXResource);
 			emfNetxResource.getContents().add(foundNetXResource);
-			
-			
-			// DISABLE, DOESN'T WORK FOR AUTO-CREATED COMPONENTS> 
-//			importer.addToNode(networkElement, networkElement, new ArrayList<Integer>(),
-//					foundNetXResource);
+
+			// DISABLE, DOESN'T WORK FOR AUTO-CREATED COMPONENTS>
+			// importer.addToNode(networkElement, networkElement, new
+			// ArrayList<Integer>(),
+			// foundNetXResource);
 		}
-//		objects = emfNetxResource.getContents();
+		// objects = emfNetxResource.getContents();
 
 		final Value value = GenericsFactory.eINSTANCE.createValue();
 		value.setTimeStamp(modelUtils.toXMLDate(timeStamp));
 		value.setValue(dblValue);
 
-		addToValueRange(foundNetXResource, periodHint,
+		if (DataActivator.DEBUG) {
+			System.out.println("IMPORTER: Try to add value to resource : "
+					+ foundNetXResource.getShortName() + " , value ="
+					+ value.getValue() + " timestamp="
+					+ modelUtils.dateAndTime(value.getTimeStamp()) + ", kind="
+					+ valueDataKind.getKindHint().getName() + " , interval ="
+					+ intervalHint);
+		}
+
+		addToValueRange(foundNetXResource, intervalHint,
 				valueDataKind.getKindHint(), Collections.singletonList(value),
 				null, null);
 	}
