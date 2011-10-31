@@ -72,7 +72,7 @@ public class NetworkElementLocator {
 
 	private List<Component> successFullComponents = Lists.newArrayList();
 
-	public Component locateNetworkElement(Metric metric,
+	public Component locateComponent(Metric metric,
 			List<IdentifierValue> identifiers) {
 		successFullIdentifiers.clear();
 		failedIdentifiers.clear();

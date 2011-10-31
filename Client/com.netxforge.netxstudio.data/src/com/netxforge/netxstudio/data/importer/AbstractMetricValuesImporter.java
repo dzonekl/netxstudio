@@ -41,6 +41,7 @@ import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.NetworkElementLocator.IdentifierValue;
+import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -100,7 +101,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	private Throwable throwable;
 
 	private int intervalHint = 60;
-	private Date timeStamp = null;
+	private Date headerTimeStamp = null;
 
 	private DateTimeRange mappingPeriodEstimate = GenericsFactory.eINSTANCE
 			.createDateTimeRange();
@@ -116,6 +117,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	private IImporterHelper helper;
 
 	public void process() {
+
+		if (DataActivator.DEBUG) {
+			DataActivator.TRACE.traceEntry("/trace", "entering importer");
+		}
 
 		initializeProviders(networkElementLocator);
 
@@ -160,8 +165,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				// "))$)";
 				filterPattern = "[^\\s]+(\\.(?i)" + getFileExtension() + ")$";
 			} else {
-				// We concat the file name, to the pattern automaticly.  
-				filterPattern = filterPattern.concat("(\\.(?i)" + getFileExtension() + ")$");
+				// We concat the file name, to the pattern automaticly.
+				filterPattern = filterPattern.concat("(\\.(?i)"
+						+ getFileExtension() + ")$");
 				Pattern.compile(filterPattern);
 			}
 
@@ -213,6 +219,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 							jobMonitor.appendToLog("Error (" + t.getMessage()
 									+ ") while processing file "
 									+ file.getAbsolutePath());
+							if (DataActivator.DEBUG) {
+								DataActivator.TRACE.trace("/trace",
+										"Error processing file", t);
+							}
 						}
 					}
 				}
@@ -232,7 +242,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			if (noFiles) {
 				mappingStatistic.setMessage("No files processed");
 			} else {
-				mappingStatistic.setMessage(fileList.toString());
+
+				String message = fileList.toString();
+				if (message.length() > 254) {
+					System.err.println("Message too long for stats");
+				}
+				mappingStatistic.setMessage("Message too long for stats");
 			}
 			if (errorOccurred || getFailedRecords().size() > 0) {
 				jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);
@@ -318,6 +333,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		jobMonitor.setTotalWork(getTotalRows() - getMapping().getFirstDataRow()
 				+ 10);
 		for (int rowNum = getMapping().getFirstDataRow(); rowNum < getTotalRows(); rowNum++) {
+
+			if (DataActivator.DEBUG) {
+				System.out.println("");
+				System.out.println("IMPORTER: new row=" + rowNum);
+
+			}
+
 			jobMonitor.setMsg("Processing row " + rowNum);
 			jobMonitor.incrementProgress(1, (rowNum % 10) == 0);
 			try {
@@ -343,7 +365,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				}
 
 				final Date rowTimeStamp = getTimeStampValue(getMappingColumn(),
-						rowNum);
+						rowNum, false);
 
 				final int intervalHintFromRow = getIntervalHint(rowNum);
 				// give preference to the intervalhint from a row mapping.
@@ -357,30 +379,37 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 							throw new java.lang.IllegalStateException(
 									"Metric reference not set");
 						}
-						
-						System.out.println("Before NE lookup row=" + rowNum);
-						
-						final Component networkElement = getNetworkElementLocator()
-								.locateNetworkElement(
+
+						final Component locatedComponent = getComponentLocator()
+								.locateComponent(
 										getValueDataKind(column).getMetricRef(),
 										elementIdentifiers);
-						
-						System.out.println("After NE lookup row=" + rowNum);
-						
-						if (networkElement == null) {
+
+						if (locatedComponent == null) {
 							getFailedRecords().add(
 									createNotFoundNetworkElementMappingRecord(
 											getValueDataKind(column)
 													.getMetricRef(), rowNum,
-											getNetworkElementLocator()
+											getComponentLocator()
 													.getFailedIdentifiers()));
 							continue;
+						} else {
+							if (DataActivator.DEBUG) {
+								DataActivator.TRACE.trace("/trace",
+										"Component located for mapping: "
+												+ locatedComponent.getName());
+							}
 						}
-						
+
 						final Double value = getNumericCellValue(rowNum,
 								column.getColumn());
 
-						addMetricValue(column, rowTimeStamp, networkElement,
+						if (DataActivator.DEBUG) {
+							DataActivator.TRACE.trace("/trace",
+									"Storing value: " + value);
+						}
+
+						addMetricValue(column, rowTimeStamp, locatedComponent,
 								value, intervalHintFromRow);
 						this.updatePeriodEstimate(rowTimeStamp);
 					}
@@ -476,9 +505,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 		headerIdentifiers = getIdentifierValues(getMapping()
 				.getHeaderMappingColumns(), headerRow);
-		timeStamp = getTimeStampValue(getMapping().getHeaderMappingColumns(),
-				headerRow);
-		this.updatePeriodEstimate(timeStamp);
+		headerTimeStamp = getTimeStampValue(getMapping().getHeaderMappingColumns(),
+				headerRow, true);
+		this.updatePeriodEstimate(headerTimeStamp);
 	}
 
 	public void addToNode(EObject originalEObject, EObject eObject,
@@ -495,8 +524,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			}
 			Object currentObject = null;
 			for (final Integer index : path) {
-				
-				if(componentObjects.size() > index){
+
+				if (componentObjects.size() > index) {
 					currentObject = componentObjects.get(index);
 
 					if (originalEObject instanceof Equipment) {
@@ -507,7 +536,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 								.getFunctions();
 					}
 				}
-				
+
 			}
 			boolean found = false;
 			for (final NetXResource netxResource : ((Component) currentObject)
@@ -588,9 +617,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	}
 
 	private Date getTimeStampValue(List<MappingColumn> mappingColumns,
-			int rowNum) {
-		if (timeStamp != null) {
-			return timeStamp;
+			int rowNum, boolean reset) {
+		if (!reset && headerTimeStamp != null) {
+			return headerTimeStamp;
 		}
 		try {
 
@@ -608,8 +637,11 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 								ModelUtils.DEFAULT_DATE_TIME_PATTERN);
 					}
 
-					return dateFormat.parse(getStringCellValue(rowNum,
-							column.getColumn()));
+					String dateStringValue = getStringCellValue(rowNum,
+							column.getColumn());
+
+					Date date = dateFormat.parse(dateStringValue);
+					return date;
 				}
 			}
 
@@ -634,6 +666,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				}
 			}
 			if (dateValue != null && timeValue != null) {
+
+				if (DataActivator.DEBUG) {
+					System.out
+							.println("IMPORTER: resolved timestamp for row, date="
+									+ dateValue + " , time=" + timeValue);
+				}
+
 				String pattern = ModelUtils.DEFAULT_DATE_TIME_PATTERN;
 				if (datePattern != null && timePattern != null) {
 					pattern = datePattern + " " + timePattern;
@@ -759,7 +798,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		this.warnings = warnings;
 	}
 
-	public NetworkElementLocator getNetworkElementLocator() {
+	public NetworkElementLocator getComponentLocator() {
 		return networkElementLocator;
 	}
 

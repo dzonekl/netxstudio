@@ -61,7 +61,7 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 		// force that the same dataprovider is used
 		// so that components retrieved by the networkElementLocator
 		// participate in the same transaction
-		getNetworkElementLocator().setDataProvider(getDataProvider());
+		getComponentLocator().setDataProvider(getDataProvider());
 
 		final long startTime = System.currentTimeMillis();
 		long endTime = startTime;
