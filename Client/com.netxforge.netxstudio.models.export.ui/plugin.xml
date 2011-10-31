@@ -110,5 +110,15 @@
          Export Metrics Data to XLS
        </description>
     </wizard>
+     <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.poi.AllXLSPOIWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.ui.all.xls"
+          name="Export All Data to XLS">
+       <description>
+         Export All Data to XLS
+       </description>
+    </wizard>
  </extension>
 </plugin>

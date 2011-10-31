@@ -1,19 +1,21 @@
 package com.netxforge.netxstudio.models.export.ui.poi;
 
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
 
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 
-public class MetricsXLSPOIWizard extends AbstractExportPOIWizard {
+public class AllXLSPOIWizard extends AbstractExportPOIRevengeWizard {
 
 	@SuppressWarnings("unused")
 	private IStructuredSelection selection;
 
 	EPackage[] getEPackages() {
-		return new EPackage[] { MetricsPackage.eINSTANCE };
+		return new EPackage[] { MetricsPackage.eINSTANCE,
+				LibraryPackage.eINSTANCE, OperatorsPackage.eINSTANCE};
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -22,11 +24,11 @@ public class MetricsXLSPOIWizard extends AbstractExportPOIWizard {
 		setNeedsProgressMonitor(true);
 	}
 
-	@Override
-	Object[] getTargetObjects() {
-		Resource metricsourceResource = super.dataProvider
-				.getResource(MetricsPackage.Literals.METRIC_SOURCE);
-		return metricsourceResource.getContents().toArray();
-	}
+//	@Override
+//	Object[] getTargetObjects() {
+//		Resource metricsourceResource = super.dataProvider
+//				.getResource(MetricsPackage.Literals.METRIC_SOURCE);
+//		return metricsourceResource.getContents().toArray();
+//	}
 
 }
