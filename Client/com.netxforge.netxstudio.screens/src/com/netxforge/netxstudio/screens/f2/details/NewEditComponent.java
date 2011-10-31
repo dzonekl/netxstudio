@@ -420,7 +420,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
 				metricsTableViewer, SWT.NONE);
 		TableColumn tblclmnExpression = tableViewerColumn_2.getColumn();
-		tblclmnExpression.setWidth(30);
+		tblclmnExpression.setWidth(60);
 		tblclmnExpression.setText("Unit");
 
 		Menu menu = new Menu(metricsTable);
