@@ -1,7 +1,26 @@
+/*******************************************************************************
+ * Copyright (c) Oct 27, 2011 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.models.export;
 
 import java.io.FileOutputStream;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -21,21 +40,26 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.data.IDataProvider;
 
-public class MasterDataExporter {
+public class MasterDataExporterRevenge {
 
-	@SuppressWarnings("unused")
 	private IDataProvider dataProvider;
 	private EPackage[] ePackages;
+	@SuppressWarnings("unused")
 	private Object[] exportObjects = null;
 	@SuppressWarnings("unused")
 	private EStructuralFeature[] featureFilter;
+
 	@SuppressWarnings("unused")
 	private EClass[] classFilter;
+
+	private Map<EClass, List<EObject>> cache = Maps.newHashMap();
 
 	HSSFWorkbook workBook;
 
@@ -51,21 +75,76 @@ public class MasterDataExporter {
 	}
 
 	private void processPackages(EPackage[] ePackages) {
-		ImmutableList<EPackage> of = ImmutableList.of(ePackages);
-		for (EPackage ePackage : of) {
-			this.processPackage(ePackage);
+
+		// ImmutableList<EPackage> of = ImmutableList.of(ePackages);
+		// for (EPackage ePackage : of) {
+		// this.processPackage(ePackage);
+		// }
+
+		List<EClassifier> alphabetOrderedClassesFor = ExportFilter
+				.alphabetOrderedClassesFor(ePackages);
+
+		buildCache(alphabetOrderedClassesFor);
+
+		for (EClassifier eClassifier : alphabetOrderedClassesFor) {
+			processAttributeClassifier(eClassifier);
+		}
+
+		for (EClassifier eClassifier : alphabetOrderedClassesFor) {
+			processMultiRefClassifier(eClassifier);
 		}
 	}
 
-	private void processPackage(EPackage ePackage) {
-		for (EClassifier eClassifier : ePackage.getEClassifiers()) {
-			processClassifier(eClassifier);
+	/*
+	 * Doesn't work for Non-Direct Resources. (Resources with a path in CDO).
+	 */
+	private void buildCache(List<EClassifier> alphabetOrderedClassesFor) {
+
+		for (EClassifier eClassifier : alphabetOrderedClassesFor) {
+
+			if (eClassifier instanceof EClass) {
+				EClass eClass = (EClass) eClassifier;
+				Resource resource = dataProvider.getResource(eClass);
+				if (resource.getContents().size() > 0) {
+					TreeIterator<EObject> allContents = resource
+							.getAllContents();
+					List<EObject> closure = ImmutableList.copyOf(allContents);
+					for (EObject closureObject : closure) {
+						EClass objectClass = closureObject.eClass();
+						if (cache.containsKey(objectClass)) {
+							List<EObject> currentForClass = Lists
+									.newArrayList(cache.get(objectClass));
+							currentForClass.add(closureObject);
+							cache.put(objectClass, currentForClass);
+						} else {
+							List<EObject> currentForClass = Lists
+									.newArrayList();
+							currentForClass.add(closureObject);
+							cache.put(objectClass, currentForClass);
+						}
+					}
+				}
+			}
 		}
 	}
 
-	private void processClassifier(EClassifier eClassifier) {
+	// private void processPackage(EPackage ePackage) {
+	// // Consider ordering the list of EClassifiers
+	// List<EClassifier> filteredClassesFor =
+	// ExportFilter.nonFilteredClassesFor(ePackage);
+	// for (EClassifier eClassifier : filteredClassesFor) {
+	// processClassifier(eClassifier);
+	// }
+	// }
+
+	private void processAttributeClassifier(EClassifier eClassifier) {
 		if (eClassifier instanceof EClass) {
 			processAttributesClass((EClass) eClassifier);
+		}
+	}
+
+	private void processMultiRefClassifier(EClassifier eClassifier) {
+		if (eClassifier instanceof EClass) {
 			processMultiRefClass((EClass) eClassifier);
 		}
 	}
@@ -75,7 +154,6 @@ public class MasterDataExporter {
 		_generateID(sheet);
 		for (EAttribute eAttribute : filterAttributes(eClass)) {
 			processAttribute(eAttribute, sheet);
-
 		}
 		for (EReference eReference : eClass.getEAllReferences()) {
 			if (!eReference.isMany()) {
@@ -121,9 +199,9 @@ public class MasterDataExporter {
 		// We assume the attribute order for each data object.
 		int objectCount = 2;
 		for (EObject dataObject : data) {
-			// Generate the Identifier. 
+			// Generate the Identifier.
 			_generateIDCell(dataObject, objectCount, 0, sheet);
-			
+
 			int attributeCount = 1;
 			for (EAttribute eAttribute : this.filterAttributes(dataObject
 					.eClass())) {
@@ -138,30 +216,32 @@ public class MasterDataExporter {
 					Object refObject = dataObject.eGet(eReference);
 					String identifier = "";
 					if (refObject != null) {
-						identifier = this.contextObjectsIdentifier((EObject) refObject);
-						
-						// FIXME Don not use an identifier which is calculated from an attribute. 
-//						EAttribute idAttribute = contextObjectsIdentifier(((EObject) refObject)
-//								.eClass());
-//						// We always expect our id feature to be a String.
-//						if (idAttribute != null) {
-//							value = (String) ((EObject) refObject)
-//									.eGet(idAttribute);
-//							if (value == null || value.isEmpty()) {
-//								value = "?";
-//							}
-//						}
-						
-						
+						identifier = this
+								.contextObjectsIdentifier((EObject) refObject);
+
+						// FIXME Don not use an identifier which is calculated
+						// from an attribute.
+						// EAttribute idAttribute =
+						// contextObjectsIdentifier(((EObject) refObject)
+						// .eClass());
+						// // We always expect our id feature to be a String.
+						// if (idAttribute != null) {
+						// value = (String) ((EObject) refObject)
+						// .eGet(idAttribute);
+						// if (value == null || value.isEmpty()) {
+						// value = "?";
+						// }
+						// }
+
 					}
-					_generateDataCell(identifier, objectCount, attributeCount, sheet);
+					_generateDataCell(identifier, objectCount, attributeCount,
+							sheet);
 					attributeCount++;
 				}
 			}
 			objectCount++;
 		}
 	}
-
 
 	private void processMultiRefData(List<EObject> data, Sheet sheet) {
 		// We assume the attribute order for each data object.
@@ -180,49 +260,49 @@ public class MasterDataExporter {
 						// 1. Write the identifier Note: This could be a
 						// substitute.
 						// /////////////////
-						
-						
-						
-						
+
 						// If we return an attribute from another EClass (As we
 						// might not have
 						// an identifier, we should also switch the object.
-//						EAttribute idDataObjectAttribute = contextObjectsIdentifier(dataObject
-//								.eClass());
-//						// We always expect our id feature to be a String.
-//						String dataObjectValue = "";
-//						if (idDataObjectAttribute != null) {
-//							dataObjectValue = (String) dataObject
-//									.eGet(idDataObjectAttribute);
-//
-//							if (dataObjectValue == null
-//									|| dataObjectValue.isEmpty()) {
-//								dataObjectValue = "?";
-//							}
-//						}
-						
-						String identifier = this.contextObjectsIdentifier(dataObject);
-						
-						_generateDataCell(identifier, rowCount, 0,
-								sheet);
+						// EAttribute idDataObjectAttribute =
+						// contextObjectsIdentifier(dataObject
+						// .eClass());
+						// // We always expect our id feature to be a String.
+						// String dataObjectValue = "";
+						// if (idDataObjectAttribute != null) {
+						// dataObjectValue = (String) dataObject
+						// .eGet(idDataObjectAttribute);
+						//
+						// if (dataObjectValue == null
+						// || dataObjectValue.isEmpty()) {
+						// dataObjectValue = "?";
+						// }
+						// }
+
+						String identifier = this
+								.contextObjectsIdentifier(dataObject);
+
+						_generateDataCell(identifier, rowCount, 0, sheet);
 
 						// ///////////////////////
 						// 2. write the reference.
 						// ///////////////////////
-//						EAttribute idAttribute = contextObjectsIdentifier(((EObject) refObject)
-//								.eClass());
-//						// We always expect our id feature to be a String.
-//						String value = "";
-//						if (idAttribute != null) {
-//							value = (String) ((EObject) refObject)
-//									.eGet(idAttribute);
-//							if (value == null || value.isEmpty()) {
-//								value = "?";
-//							}
-//						}
-						String refIdentifier = this.contextObjectsIdentifier((EObject) refObject);
-						_generateDataCell(refIdentifier, rowCount, referenceCount,
-								sheet);
+						// EAttribute idAttribute =
+						// contextObjectsIdentifier(((EObject) refObject)
+						// .eClass());
+						// // We always expect our id feature to be a String.
+						// String value = "";
+						// if (idAttribute != null) {
+						// value = (String) ((EObject) refObject)
+						// .eGet(idAttribute);
+						// if (value == null || value.isEmpty()) {
+						// value = "?";
+						// }
+						// }
+						String refIdentifier = this
+								.contextObjectsIdentifier((EObject) refObject);
+						_generateDataCell(refIdentifier, rowCount,
+								referenceCount, sheet);
 						rowCount++;
 					}
 				}
@@ -246,67 +326,74 @@ public class MasterDataExporter {
 	}
 
 	private List<EObject> contextObjectsForClass(EClass eClass) {
-		
-		// TODO previous based on a fixed set of objects. 
-//		// We not only get the selected objects, but also their containments.
-		ImmutableList<Object> of = ImmutableList.of(exportObjects);
-		List<EObject> result = Lists.newArrayList();
-		for (Object o : of) {
-			EObject eo = (EObject) o;
-			if (eo.eClass() == eClass) {
-				result.add(eo);
-			}
-			// Also add all closure contents.
-			TreeIterator<EObject> ti = eo.eAllContents();
-			List<EObject> closure = ImmutableList.copyOf(ti);
-			for (EObject closureObject : closure) {
-				if (closureObject.eClass() == eClass) {
-					result.add(closureObject);
-				}
-			}
-		}
-		return result;
+
+		List<EObject> allObjectsForClass = fromCache(eClass);
+
+		// TODO previous based on a fixed set of objects.
+		// // We not only get the selected objects, but also their containments.
+		// for (Object o : of) {
+		// EObject eo = (EObject) o;
+		// if (eo.eClass() == eClass) {
+		// result.add(eo);
+		// }
+		// // Also add all closure contents.
+		// TreeIterator<EObject> ti = eo.eAllContents();
+		// List<EObject> closure = ImmutableList.copyOf(ti);
+		// for (EObject closureObject : closure) {
+		// if (closureObject.eClass() == eClass) {
+		// result.add(closureObject);
+		// }
+		// }
+		// }
+		return allObjectsForClass;
 	}
 
-	
+	private List<EObject> fromCache(EClass eClass) {
+		if (cache.containsKey(eClass)) {
+			return cache.get(eClass);
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
 	private String contextObjectsIdentifier(EObject eo) {
-		if(eo instanceof CDOObject){
+		if (eo instanceof CDOObject) {
 			return ((CDOObject) eo).cdoID().toString();
 		}
 		return null;
 	}
-//	private EAttribute contextObjectsIdentifier(EClass eClass) {
-//
-//		if (eClass == LibraryPackage.Literals.EQUIPMENT) {
-//			return LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE;
-//		}
-//		if (eClass == LibraryPackage.Literals.FUNCTION) {
-//			return LibraryPackage.Literals.COMPONENT__NAME;
-//		}
-//
-//		if (eClass == LibraryPackage.Literals.NODE_TYPE) {
-//			return LibraryPackage.Literals.NODE_TYPE__NAME;
-//		}
-//		if (eClass == LibraryPackage.Literals.TOLERANCE) {
-//			return LibraryPackage.Literals.TOLERANCE__NAME;
-//		}
-//		if (eClass == LibraryPackage.Literals.EXPRESSION) {
-//			return LibraryPackage.Literals.EXPRESSION__NAME;
-//		}
-//
-//		if (eClass == MetricsPackage.Literals.METRIC_SOURCE) {
-//			return MetricsPackage.Literals.METRIC_SOURCE__NAME;
-//		}
-//
-//		// Mapping has no identifier, export the metric_source name.
-////		if (eClass == MetricsPackage.Literals.MAPPING_XLS) {
-////			return MetricsPackage.Literals.METRIC_SOURCE__NAME;
-////		}
-//
-//		return null;
-//	}
-	
-	
+
+	// private EAttribute contextObjectsIdentifier(EClass eClass) {
+	//
+	// if (eClass == LibraryPackage.Literals.EQUIPMENT) {
+	// return LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE;
+	// }
+	// if (eClass == LibraryPackage.Literals.FUNCTION) {
+	// return LibraryPackage.Literals.COMPONENT__NAME;
+	// }
+	//
+	// if (eClass == LibraryPackage.Literals.NODE_TYPE) {
+	// return LibraryPackage.Literals.NODE_TYPE__NAME;
+	// }
+	// if (eClass == LibraryPackage.Literals.TOLERANCE) {
+	// return LibraryPackage.Literals.TOLERANCE__NAME;
+	// }
+	// if (eClass == LibraryPackage.Literals.EXPRESSION) {
+	// return LibraryPackage.Literals.EXPRESSION__NAME;
+	// }
+	//
+	// if (eClass == MetricsPackage.Literals.METRIC_SOURCE) {
+	// return MetricsPackage.Literals.METRIC_SOURCE__NAME;
+	// }
+	//
+	// // Mapping has no identifier, export the metric_source name.
+	// // if (eClass == MetricsPackage.Literals.MAPPING_XLS) {
+	// // return MetricsPackage.Literals.METRIC_SOURCE__NAME;
+	// // }
+	//
+	// return null;
+	// }
+
 	private void _generateID(Sheet sheet) {
 		// Generate name.
 		{
@@ -355,7 +442,6 @@ public class MasterDataExporter {
 			cell.setCellStyle(typeStyle);
 		}
 	}
-
 
 	// POI SECTION.
 	private Sheet _generateAttributeWorksheet(EClass eClass) {
@@ -568,19 +654,18 @@ public class MasterDataExporter {
 		}
 	}
 
-	private void _generateIDCell(EObject dataObject, int rowCount, int cellCount,
-			Sheet sheet) {
+	private void _generateIDCell(EObject dataObject, int rowCount,
+			int cellCount, Sheet sheet) {
 		Row row = sheet.getRow(rowCount);
 		if (row == null) {
 			row = sheet.createRow(rowCount);
 		}
 		Cell cell = row.createCell(cellCount);
 		if (dataObject != null && dataObject instanceof CDOObject) {
-			cell.setCellValue(((CDOObject)dataObject).cdoID().toString());
+			cell.setCellValue(((CDOObject) dataObject).cdoID().toString());
 		}
 	}
 
-	
 	private void _generateDataCell(Object value, int rowCount, int cellCount,
 			Sheet sheet) {
 		Row row = sheet.getRow(rowCount);
