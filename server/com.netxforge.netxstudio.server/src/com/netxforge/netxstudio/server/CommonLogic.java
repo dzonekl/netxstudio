@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EObject;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
@@ -365,23 +366,34 @@ public class CommonLogic {
 		return values;
 	}
 
-	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
-			KindHintType kindHintType, List<Value> newValues, Date start,
-			Date end) {
-		
-		
-		// Default equals -1. 
-		if(periodHint == -1){
-			
+	public void addToValueRange(NetXResource foundNetXResource,
+			int intervalHint, KindHintType kindHintType, List<Value> newValues,
+			Date start, Date end) {
+
+		// Default equals -1.
+		if (intervalHint == -1) {
+
 		}
-		
+
 		final MetricValueRange mvr = modelUtils.valueRangeForIntervalAndKind(
-				foundNetXResource, kindHintType, periodHint);
-		
+				foundNetXResource, kindHintType, intervalHint);
+
+		if (DataActivator.DEBUG) {
+			System.out
+					.println("IMPORTER: Located/create value range for resource : "
+							+ foundNetXResource.getShortName()
+							+ " range size = " + mvr.getMetricValues().size());
+		}
+
 		if (start != null) {
+			if (DataActivator.DEBUG) {
+				System.out.println("IMPORTER: removing values from start="
+						+ modelUtils.dateAndTime(start) + " , end="
+						+ modelUtils.dateAndTime(end));
+			}
 			removeValues(mvr.getMetricValues(), start, end);
 		}
-		addToValues(mvr.getMetricValues(), newValues, periodHint);
+		addToValues(mvr.getMetricValues(), newValues, intervalHint);
 	}
 
 	public void addToValues(EList<Value> values, List<Value> newValues,
@@ -394,22 +406,39 @@ public class CommonLogic {
 	/*
 	 * If this method is used to
 	 */
-
-	public void addToValues(EList<Value> values, Value value, int intervalHint) {
+	public void addToValues(EList<Value> currentValues, Value value,
+			int intervalHint) {
 
 		final long timeInMillis = value.getTimeStamp().toGregorianCalendar()
 				.getTimeInMillis();
 		Value foundValue = null;
-		for (final Value lookValue : values) {
+		for (final Value lookValue : currentValues) {
 			if (isSameTime(intervalHint, timeInMillis, lookValue.getTimeStamp())) {
 				foundValue = lookValue;
+
 				break;
 			}
 		}
 		if (foundValue != null) {
+			if (DataActivator.DEBUG) {
+				System.out
+						.println("IMPORTER: found similar value while storing value="
+								+ foundValue.getValue()
+								+ " , timestamp="
+								+ modelUtils.dateAndTime(foundValue
+										.getTimeStamp()) );
+			}
 			foundValue.setValue(value.getValue());
 		} else {
-			values.add(value);
+			if (DataActivator.DEBUG) {
+				System.out
+						.println("IMPORTER:no similar value, store now value="
+								+ value.getValue()
+								+ " , timestamp="
+								+ modelUtils.dateAndTime(value
+										.getTimeStamp()) );
+			}
+			currentValues.add(value);
 		}
 	}
 
