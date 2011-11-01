@@ -138,7 +138,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-
+//		buildUI();
 	}
 
 	private void buildUI() {
@@ -222,8 +222,8 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		lblAt.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));
 
-		cdateTimeStartTime = new CDateTime(compositeRecurrence, CDT.BORDER
-				| CDT.CLOCK_24_HOUR | CDT.DROP_DOWN | CDT.TIME_SHORT);
+		cdateTimeStartTime = new CDateTime(compositeRecurrence, CDT.BORDER | CDT.CLOCK_24_HOUR | CDT.DROP_DOWN );
+		cdateTimeStartTime.setPattern("HH:mm");
 		toolkit.adapt(cdateTimeStartTime);
 		toolkit.paintBordersFor(cdateTimeStartTime);
 

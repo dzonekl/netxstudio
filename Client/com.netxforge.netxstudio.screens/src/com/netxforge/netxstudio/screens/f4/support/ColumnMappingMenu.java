@@ -383,7 +383,7 @@ public class ColumnMappingMenu {
 			Composite activeScreen = screenService.getActiveScreen();
 			if (activeScreen instanceof AbstractMapping) {
 				((AbstractMapping) activeScreen).newColumnMappingScreenDialog(false, Screens.OPERATION_NEW,
-				 mapping.getHeaderMappingColumns(), mc);
+				 mapping.getDataMappingColumns(), mc);
 			}
 		}
 

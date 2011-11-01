@@ -163,7 +163,6 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				metricsTreeViewer.refresh();
 				ViewerFilter[] filters = metricsTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof SearchFilter) {
@@ -171,6 +170,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 								.setSearchText(txtFilterText.getText());
 					}
 				}
+				metricsTreeViewer.refresh();
 			}
 		});
 		txtFilterText.setText("");

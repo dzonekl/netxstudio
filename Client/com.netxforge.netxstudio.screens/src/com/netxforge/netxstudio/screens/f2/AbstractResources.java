@@ -138,9 +138,6 @@ public abstract class AbstractResources extends AbstractScreen implements
 			}
 		});
 		
-		
-		
-		
 		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
@@ -470,7 +467,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 				case 3:
 					if (resource
 							.eIsSet(LibraryPackage.Literals.BASE_RESOURCE__SHORT_NAME)) {
-						return resource.getMetricRef().getName();
+						return resource.getShortName();
 					} else {
 						return null;
 					}

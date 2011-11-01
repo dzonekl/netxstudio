@@ -103,7 +103,7 @@ public class ServiceHierarchy extends AbstractScreen implements
 	}
 
 	public void disposeData() {
-		editingService.disposeData(operatorsResource);
+		// N/A
 	}
 
 	@Override

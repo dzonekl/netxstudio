@@ -15,6 +15,8 @@ public class NodeResources extends AbstractResources {
 
 	@Override
 	public void injectData() {
+		
+		
 		resourcesList = Lists.newArrayList();
 		// Inject for Node resources.
 		System.out.println("Open NetXResource: " + modelUtils.todayAndNow());

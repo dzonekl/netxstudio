@@ -75,7 +75,9 @@ public class PeriodDialog extends Dialog {
 		gd_lblAt.widthHint = 70;
 		lblAt.setLayoutData(gd_lblAt);
 		
-		startTime = new CDateTime(frmPeriod.getBody(), CDT.BORDER | CDT.CLOCK_24_HOUR | CDT.DROP_DOWN | CDT.TIME_MEDIUM);
+		startTime = new CDateTime(frmPeriod.getBody(), CDT.BORDER | CDT.CLOCK_24_HOUR | CDT.DROP_DOWN );
+		startTime.setPattern("HH:mm");
+		
 		startTime.setSelection(modelUtils.oneMonthAgo());
 		formToolkit.adapt(startTime);
 		formToolkit.paintBordersFor(startTime);
@@ -97,7 +99,10 @@ public class PeriodDialog extends Dialog {
 		lblAt_1.setAlignment(SWT.RIGHT);
 		lblAt_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
-		endTime = new CDateTime(frmPeriod.getBody(), CDT.BORDER | CDT.CLOCK_24_HOUR | CDT.DROP_DOWN | CDT.TIME_MEDIUM);
+		endTime = new CDateTime(frmPeriod.getBody(), CDT.BORDER | CDT.CLOCK_24_HOUR | CDT.DROP_DOWN);
+		endTime.setPattern("HH:mm");
+		
+		
 		endTime.setSelection(modelUtils.todayAndNow());
 		formToolkit.adapt(endTime);
 		formToolkit.paintBordersFor(endTime);

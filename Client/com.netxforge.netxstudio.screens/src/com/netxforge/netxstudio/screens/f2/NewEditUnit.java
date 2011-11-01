@@ -62,6 +62,7 @@ public class NewEditUnit extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+		buildUI();
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -160,6 +161,9 @@ public class NewEditUnit extends AbstractScreen implements
 				1, 1));
 		
 		txtCode = toolkit.createText(composite_1, "New Text", widgetStyle);
+		GridData gd_txtCode = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_txtCode.widthHint = 30;
+		txtCode.setLayoutData(gd_txtCode);
 		txtCode.setText("");
 		
 		Label lblDescription = toolkit.createLabel(composite_1, "Description:", SWT.NONE);

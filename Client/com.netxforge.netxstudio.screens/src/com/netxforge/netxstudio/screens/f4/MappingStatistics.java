@@ -1,5 +1,8 @@
 package com.netxforge.netxstudio.screens.f4;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.Date;
 import java.util.List;
 
@@ -22,18 +25,25 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.ViewerProperties;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -42,6 +52,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -69,7 +80,7 @@ public class MappingStatistics extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Table table;
+	private Table recordsTable;
 	private Form frmMappingStatistics;
 	private MetricSource metricSource;
 	private ListViewer statisticsListViewer;
@@ -167,19 +178,23 @@ public class MappingStatistics extends AbstractScreen implements
 
 						DateTimeRange dtr = mappingStatistics
 								.getPeriodEstimate();
-						
+
 						System.out.println("VALUES FOR PERIOD:");
-						
-						System.out.println("FROM="+ modelUtils.dateAndTime(dtr.getBegin()));
-						System.out.println("TO="+ modelUtils.dateAndTime(dtr.getEnd()));
-						
+
+						System.out.println("FROM="
+								+ modelUtils.dateAndTime(dtr.getBegin()));
+						System.out.println("TO="
+								+ modelUtils.dateAndTime(dtr.getEnd()));
+
 						int valueCount = 0;
 						for (NetXResource res : resourcesInMetricSource) {
 							System.out.println("values for resource: "
-									+ res.getShortName() + "on Component" + res.getComponentRef().getName());
+									+ res.getShortName() + "on Component"
+									+ res.getComponentRef().getName());
 
-							List<Value> values = modelUtils.metricValuesInRange(res,
-									targetIntervalHint, null, dtr);
+							List<Value> values = modelUtils
+									.metricValuesInRange(res,
+											targetIntervalHint, null, dtr);
 							if (values.size() > 0) {
 								valueCount += values.size();
 								System.out.println("number of values "
@@ -192,8 +207,9 @@ public class MappingStatistics extends AbstractScreen implements
 								}
 							}
 						}
-						System.out.println("total values for this import = " + valueCount);
-						
+						System.out.println("total values for this import = "
+								+ valueCount);
+
 					}
 				}
 			}
@@ -223,11 +239,15 @@ public class MappingStatistics extends AbstractScreen implements
 								.getPeriodEstimate();
 
 						for (NetXResource res : resourcesInMetricSource) {
-							List<Value> values = modelUtils.metricValuesInRange(res,
-									targetIntervalHint, null, dtr);
+							List<Value> values = modelUtils
+									.metricValuesInRange(res,
+											targetIntervalHint, null, dtr);
 							if (values.size() > 0) {
-								WarningDeleteCommand dc = new WarningDeleteCommand(editingService.getEditingDomain(), values);
-								editingService.getEditingDomain().getCommandStack().execute(dc);
+								WarningDeleteCommand dc = new WarningDeleteCommand(
+										editingService.getEditingDomain(),
+										values);
+								editingService.getEditingDomain()
+										.getCommandStack().execute(dc);
 							}
 						}
 					}
@@ -288,11 +308,15 @@ public class MappingStatistics extends AbstractScreen implements
 
 		tblViewerRecords = new TableViewer(composite, SWT.BORDER
 				| SWT.FULL_SELECTION);
-		table = tblViewerRecords.getTable();
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 1));
-		table.setLinesVisible(true);
-		table.setHeaderVisible(true);
-		toolkit.paintBordersFor(table);
+		recordsTable = tblViewerRecords.getTable();
+		recordsTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false,
+				true, 2, 1));
+		recordsTable.setLinesVisible(true);
+		recordsTable.setHeaderVisible(true);
+		toolkit.paintBordersFor(recordsTable);
+
+		MappingRecordErrorToolTipSupport.enableFor(tblViewerRecords,
+				ToolTip.NO_RECREATE);
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				tblViewerRecords, SWT.NONE);
@@ -312,6 +336,7 @@ public class MappingStatistics extends AbstractScreen implements
 		tblclmnMessage.setWidth(100);
 		tblclmnMessage.setText("Message");
 		sashForm.setWeights(new int[] { 1, 1 });
+
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -378,15 +403,15 @@ public class MappingStatistics extends AbstractScreen implements
 		ObservableListContentProvider recordsContentProvider = new ObservableListContentProvider();
 		tblViewerRecords.setContentProvider(recordsContentProvider);
 
-		IObservableMap[] recordsObserveMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] {
-						MetricsPackage.Literals.MAPPING_RECORD__ROW,
-						MetricsPackage.Literals.MAPPING_RECORD__COLUMN,
-						MetricsPackage.Literals.MAPPING_RECORD__MESSAGE, });
+		// IObservableMap[] recordsObserveMaps = EMFObservables.observeMaps(
+		// listContentProvider.getKnownElements(),
+		// new EStructuralFeature[] {
+		// MetricsPackage.Literals.MAPPING_RECORD__ROW,
+		// MetricsPackage.Literals.MAPPING_RECORD__COLUMN,
+		// MetricsPackage.Literals.MAPPING_RECORD__MESSAGE, });
 		tblViewerRecords
-				.setLabelProvider(new RecordsObservableMapLabelProvider(
-						recordsObserveMaps));
+				.setLabelProvider(new RecordsObservableMapLabelProvider());
+
 		IEMFListProperty recordsProperty = EMFProperties
 				.list(MetricsPackage.Literals.MAPPING_STATISTIC__FAILED_RECORDS);
 
@@ -417,46 +442,150 @@ public class MappingStatistics extends AbstractScreen implements
 		}
 	}
 
-	class RecordsObservableMapLabelProvider extends ObservableMapLabelProvider {
+	class RecordsObservableMapLabelProvider extends CellLabelProvider {
 
-		public RecordsObservableMapLabelProvider(IObservableMap[] attributeMaps) {
-			super(attributeMaps);
+		public String getToolTipText(Object element) {
+
+			if (element instanceof MappingRecord) {
+				MappingRecord mr = (MappingRecord) element;
+
+				StringBuilder sb = new StringBuilder();
+				sb.append("<html><body>");
+				StringReader stringReader = new StringReader(mr.getMessage());
+				BufferedReader bufferedReader = new BufferedReader(stringReader);
+				String line;
+				try {
+					while ((line = bufferedReader.readLine()) != null) {
+						sb.append("line: " + line);
+					}
+				} catch (IOException e) {
+				}
+				sb.append("</body></html>");
+
+				return sb.toString();
+			} else {
+				return null;
+			}
+
+		}
+
+		public Point getToolTipShift(Object object) {
+			return new Point(5, 5);
+		}
+
+		public int getToolTipDisplayDelayTime(Object object) {
+			return 500;
+		}
+
+		public int getToolTipTimeDisplayed(Object object) {
+			return 5000;
 		}
 
 		@Override
-		public String getColumnText(Object element, int columnIndex) {
+		public void update(ViewerCell cell) {
+
+			int columnIndex = cell.getColumnIndex();
+			Object element = cell.getElement();
 
 			if (element instanceof MappingRecord) {
 
 				MappingRecord mr = (MappingRecord) element;
 				switch (columnIndex) {
 				case 0: {
-					return mr.getRow();
+					String row = mr.getRow();
+					cell.setText(row);
 				}
+					break;
 				case 1: {
-					return mr.getColumn();
+					cell.setText(mr.getColumn());
 				}
+					break;
 				case 2: {
-					return mr.getMessage();
+					cell.setText(mr.getMessage());
 				}
+					break;
 				}
 			}
+		}
+	}
 
-			return super.getColumnText(element, columnIndex);
+	private static class MappingRecordErrorToolTipSupport extends
+			ColumnViewerToolTipSupport {
+
+		protected MappingRecordErrorToolTipSupport(ColumnViewer viewer,
+				int style, boolean manualActivation) {
+			super(viewer, style, manualActivation);
 		}
 
+		protected Composite createToolTipContentArea(Event event,
+				Composite parent) {
+			Composite comp = new Composite(parent, SWT.NONE);
+			GridLayout l = new GridLayout(1, false);
+			l.horizontalSpacing = 0;
+			l.marginWidth = 0;
+			l.marginHeight = 0;
+			l.verticalSpacing = 0;
+
+			comp.setLayout(l);
+			Browser browser = new Browser(comp, SWT.BORDER);
+			browser.setText(getText(event));
+			browser.setLayoutData(new GridData(200, 150));
+
+			return comp;
+		}
+
+		public boolean isHideOnMouseDown() {
+			return false;
+		}
+
+		public static final void enableFor(ColumnViewer viewer, int style) {
+			new MappingRecordErrorToolTipSupport(viewer, style, false);
+		}
 	}
 
 	class StatisticObservableMapLabelProvider extends
 			ObservableMapLabelProvider {
 
+		// public StatisticObservableMapLabelProvider(
+		// IObservableMap[] attributeMaps) {
+		// super(attributeMaps);
+		// }
+		//
+		// public StatisticObservableMapLabelProvider(IObservableMap
+		// attributeMap) {
+		// super(attributeMap);
+		// }
+		//
+		// public String getToolTipText(Object element) {
+		// return "<html><body>Tooltip (" + element + ")</body></html>";
+		// }
+		//
+		// public Point getToolTipShift(Object object) {
+		// return new Point(5, 5);
+		// }
+		//
+		// public int getToolTipDisplayDelayTime(Object object) {
+		// return 2000;
+		// }
+		//
+		// public int getToolTipTimeDisplayed(Object object) {
+		// return 5000;
+		// }
+		//
+		// public void update(ViewerCell cell) {
+		//
+		// Object element = cell.getElement();
+		//
+		// if (element instanceof MappingStatistic) {
+		// MappingStatistic s = (MappingStatistic) element;
+		// cell.setText(s.getMessage() + "[" + s.getTotalRecords() + "]");
+		// }
+		// }
+
 		public StatisticObservableMapLabelProvider(
 				IObservableMap[] attributeMaps) {
 			super(attributeMaps);
-		}
-
-		public StatisticObservableMapLabelProvider(IObservableMap attributeMap) {
-			super(attributeMap);
+			// TODO Auto-generated constructor stub
 		}
 
 		@Override
@@ -508,7 +637,7 @@ public class MappingStatistics extends AbstractScreen implements
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-	
+
 	public String getScreenName() {
 		return "Mapping Statistics";
 	}

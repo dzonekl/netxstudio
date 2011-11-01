@@ -142,9 +142,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		toolkit.paintBordersFor(this);
 
 		// Remove when runtime,.
-//		 buildUI();
-//		 buildHeaderMappingOptions(cmpColumnMapping);
-//		 buildDataMappingOptions(cmpColumnMapping);
+		// buildUI();
+		// buildHeaderMappingOptions(cmpColumnMapping);
+		// buildDataMappingOptions(cmpColumnMapping);
 	}
 
 	private void buildUI() {
@@ -161,7 +161,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		frmNewMappingColumn.setText(actionText + "Mapping Column: "
 				+ this.source.getName());
 
-		
 		ColumnLayout cl = new ColumnLayout();
 		cl.maxNumColumns = 1;
 		frmNewMappingColumn.getBody().setLayout(cl);
@@ -601,31 +600,33 @@ public class NewEditMappingColumn extends AbstractScreen implements
 										MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
 										MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY));
 
-		EMFUpdateValueStrategy defaultStrategy = new EMFUpdateValueStrategy();
-		
 		EMFUpdateValueStrategy mttObjectKindStrategy = new EMFUpdateValueStrategy();
-		mttObjectKindStrategy.setConverter(new MTTObjectKindStrategy(defaultStrategy));
+		mttObjectKindStrategy.setConverter(new MTTObjectKindStrategy());
 
-		EMFUpdateValueStrategy ttmObjectKindStrategy = new EMFUpdateValueStrategy();
-		ttmObjectKindStrategy.setConverter(new TTMObjectKindStrategy(defaultStrategy));
+		// EMFUpdateValueStrategy ttmObjectKindStrategy = new
+		// EMFUpdateValueStrategy();
+		// ttmObjectKindStrategy.setConverter(new TTMObjectKindStrategy());
 
 		context.bindValue(objectObservable,
-				objectKindProperty.observe(mxlsColumn), ttmObjectKindStrategy, mttObjectKindStrategy);
-		
+				objectKindProperty.observe(mxlsColumn), null,
+				mttObjectKindStrategy);
+
 		/*
-		 * A default strategy to delegate to the default converter, for non specific cases. 
+		 * A default strategy to delegate to the default converter, for non
+		 * specific cases.
 		 */
 		EMFUpdateValueStrategy mttObjectAttributeStrategy = new EMFUpdateValueStrategy();
 		mttObjectAttributeStrategy
 				.setConverter(new MTTObjectAttributeStrategy());
 
-		EMFUpdateValueStrategy ttmObjectAttributeStrategy = new EMFUpdateValueStrategy();
-		ttmObjectAttributeStrategy
-				.setConverter(new TTMObjectAttributeConverter());
+		// EMFUpdateValueStrategy ttmObjectAttributeStrategy = new
+		// EMFUpdateValueStrategy();
+		// ttmObjectAttributeStrategy
+		// .setConverter(new TTMObjectAttributeConverter());
 
 		context.bindValue(objectAttributeObservable,
-				objectAttributeProperty.observe(mxlsColumn),
-				ttmObjectAttributeStrategy, mttObjectAttributeStrategy);
+				objectAttributeProperty.observe(mxlsColumn), null,
+				mttObjectAttributeStrategy);
 
 	}
 
@@ -704,13 +705,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 	private final class MTTObjectKindStrategy implements IConverter {
 
-		private EMFUpdateValueStrategy defaultStrategy;
-
-		public MTTObjectKindStrategy(EMFUpdateValueStrategy defaultStrategy) {
-			super();
-			this.defaultStrategy = defaultStrategy;
-		}
-
 		public Object getFromType() {
 			return ObjectKindType.class;
 		}
@@ -720,39 +714,47 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		}
 
 		public Object convert(Object fromObject) {
-			if (fromObject.equals(ObjectKindType.NODE)) {
-				return IdentifierDialog.NETWORK_ELEMENT;
-			} else {
-				return defaultStrategy.convert(fromObject);
+			if (fromObject instanceof ObjectKindType) {
+
+				ObjectKindType okt = (ObjectKindType) fromObject;
+				switch (okt.getValue()) {
+				case ObjectKindType.NODE_VALUE: {
+					return IdentifierDialog.NETWORK_ELEMENT;
+				}
+				default: {
+					return okt.getName();
+				}
+				}
 			}
+			return fromObject;
 		}
 	}
 
-	private final class TTMObjectKindStrategy implements IConverter {
-
-		private EMFUpdateValueStrategy defaultStrategy;
-
-		public TTMObjectKindStrategy(EMFUpdateValueStrategy defaultStrategy) {
-			super();
-			this.defaultStrategy = defaultStrategy;
-		}
-
-		public Object getFromType() {
-			return String.class;
-		}
-
-		public Object getToType() {
-			return ObjectKindType.class;
-		}
-
-		public Object convert(Object fromObject) {
-			if (fromObject.equals(IdentifierDialog.NETWORK_ELEMENT)) {
-				return IdentifierDialog.NODE;
-			} else {
-				return defaultStrategy.convert(fromObject);
-			}
-		}
-	}
+	// private final class TTMObjectKindStrategy implements IConverter {
+	//
+	// private EMFUpdateValueStrategy defaultStrategy;
+	//
+	// public TTMObjectKindStrategy(EMFUpdateValueStrategy defaultStrategy) {
+	// super();
+	// this.defaultStrategy = defaultStrategy;
+	// }
+	//
+	// public Object getFromType() {
+	// return String.class;
+	// }
+	//
+	// public Object getToType() {
+	// return ObjectKindType.class;
+	// }
+	//
+	// public Object convert(Object fromObject) {
+	// if (fromObject.equals(IdentifierDialog.NETWORK_ELEMENT)) {
+	// return IdentifierDialog.NODE;
+	// } else {
+	// return defaultStrategy.convert(fromObject);
+	// }
+	// }
+	// }
 
 	private final class MTTObjectAttributeStrategy implements IConverter {
 		public Object getFromType() {
@@ -771,22 +773,22 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		}
 	}
 
-	private final class TTMObjectAttributeConverter implements IConverter {
-		public Object getFromType() {
-			return String.class;
-		}
-
-		public Object getToType() {
-			return String.class;
-		}
-
-		public Object convert(Object fromObject) {
-			if (fromObject.equals(IdentifierDialog.NETWORK_ELEMENT_ID)) {
-				return IdentifierDialog.NODE_ID;
-			}
-			return fromObject;
-		}
-	}
+	// private final class TTMObjectAttributeConverter implements IConverter {
+	// public Object getFromType() {
+	// return String.class;
+	// }
+	//
+	// public Object getToType() {
+	// return String.class;
+	// }
+	//
+	// public Object convert(Object fromObject) {
+	// if (fromObject.equals(IdentifierDialog.NETWORK_ELEMENT_ID)) {
+	// return IdentifierDialog.NODE_ID;
+	// }
+	// return fromObject;
+	// }
+	// }
 
 	abstract class DataKindModelToTargetConverter implements IConverter {
 		public Object getFromType() {
@@ -852,10 +854,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			if (idk.getPattern() != null) {
 				this.txtIdentifierPattern.setText(idk.getPattern());
 			}
-//			if(idk.eIsSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY)){
-//				this.txtObjectAttribute.setText(idk.getObjectProperty());
-//			}
-			
+			// if(idk.eIsSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY)){
+			// this.txtObjectAttribute.setText(idk.getObjectProperty());
+			// }
+
 		}
 	}
 
@@ -1035,12 +1037,22 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 			}
 			if (dk instanceof IdentifierDataKind) {
+				{
+					SetCommand sc = new SetCommand(
+							editingService.getEditingDomain(),
+							dk,
+							MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN,
+							pattern);
+					cc.append(sc);
+				}
+
+				{
 				SetCommand sc = new SetCommand(
 						editingService.getEditingDomain(), dk,
-						MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN,
-						pattern);
+						MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY,
+						IdentifierDialog.NETWORK_ELEMENT_ID);
 				cc.append(sc);
-				// ((IdentifierDataKind) dk).setPattern(pattern);
+				}
 			}
 			editingService.getEditingDomain().getCommandStack().execute(cc);
 			dataKindObservable.setValue(dk);

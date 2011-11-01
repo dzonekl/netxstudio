@@ -351,20 +351,26 @@ public class ServicesTree extends AbstractScreen implements
 		// actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
 		// actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
 		// actions.add(new SeparatorAction());
-		actions.add(new ServiceMonitoringAction("Monitor...", SWT.PUSH));
+		
 
 		if (!readonly) {
 			actions.add(new ScheduleMonitorJobAction(
 					"Schedule Monitoring Job...", SWT.PUSH));
 			actions.add(new MonitorNowAction("Monitor Now", SWT.PUSH));
+		}
+		actions.add(new ServiceMonitoringAction("Monitoring Result...", SWT.PUSH));
+		actions.add(new SeparatorAction());
 
+		
+		if(!readonly){
 			actions.add(new SeparatorAction());
 			actions.add(new ScheduleReportingJobAction(
 					"Schedule Reporting Job...", SWT.PUSH));
 			actions.add(new ReportNowAction("Report Now", SWT.PUSH));
 			actions.add(new SeparatorAction());
 		}
-
+		
+		
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray);
 	}
