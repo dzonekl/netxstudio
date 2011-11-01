@@ -31,9 +31,9 @@ import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 
 /**
- * A Helper for the importer. Deals mainly with the dataprovider.
- * Clients should have their own implementation as the default implementation 
- * doesn't store the imported data. 
+ * A Helper for the importer. Deals mainly with the dataprovider. Clients should
+ * have their own implementation as the default implementation doesn't store the
+ * imported data.
  * 
  * @author Christophe Bouhier
  */
@@ -78,12 +78,13 @@ public class DefaultImporterHelper implements IImporterHelper {
 	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
 			KindHintType kindHintType, List<Value> newValues, Date start,
 			Date end) {
-		
+
 		// We don't write data in the default implementation....
 	}
 
 	public void addMetricValue(MappingColumn column, Date timeStamp,
-			Component networkElement, Double dblValue, int periodHint) {
+			Component networkElement, Double dblValue, int periodHint,
+			NetworkElementLocator.IdentifierDescriptor lastIdentifier) {
 		// We don't write data in the default implementation....
 	}
 
