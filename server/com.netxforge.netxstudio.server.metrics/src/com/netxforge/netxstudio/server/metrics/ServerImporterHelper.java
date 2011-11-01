@@ -108,7 +108,8 @@ public class ServerImporterHelper implements IImporterHelper {
 	}
 
 	public void addMetricValue(MappingColumn column, Date timeStamp,
-			Component locatedComponent, Double dblValue, int intervalHint) {
+			Component locatedComponent, Double dblValue, int intervalHint,
+			NetworkElementLocator.IdentifierDescriptor lastDescriptor) {
 
 		final Resource emfNetxResource = importer.getDataProvider()
 				.getResource(modelUtils.getResourcePath(locatedComponent));
@@ -120,9 +121,20 @@ public class ServerImporterHelper implements IImporterHelper {
 		EList<EObject> objects = emfNetxResource.getContents();
 		for (final Object object : objects) {
 			final NetXResource netXResource = (NetXResource) object;
+
+			// Match the resource on component, metric and also the name as per
+			// last identifier value.
 			if (netXResource.getComponentRef().cdoID()
 					.equals(locatedComponent.cdoID())
 					&& netXResource.getMetricRef().cdoID() == metric.cdoID()) {
+				if (lastDescriptor != null) {
+					if (!netXResource.getShortName().equals(
+							lastDescriptor.getValue())) {
+						// Try the next one, we have a descriptor, but no
+						// matching value.
+						continue;
+					}
+				}
 				foundNetXResource = netXResource;
 				if (DataActivator.DEBUG) {
 					System.out.println("IMPORTER: Matching resource: "
@@ -144,14 +156,26 @@ public class ServerImporterHelper implements IImporterHelper {
 			foundNetXResource.setComponentRef(locatedComponent);
 			foundNetXResource.setMetricRef(metric);
 
-			foundNetXResource.setShortName(metric.getName());
-			if (metric.eIsSet(MetricsPackage.Literals.METRIC__DESCRIPTION)) {
-				foundNetXResource.setLongName(metric.getDescription());
+			if (lastDescriptor != null) {
+				foundNetXResource.setShortName(lastDescriptor.getValue());
+				foundNetXResource
+						.setLongName(" Auto created resource from identifier with value "
+								+ lastDescriptor.getValue());
+				foundNetXResource.setExpressionName(importer
+						.toValidExpressionName(lastDescriptor.getValue()));
 			} else {
-				foundNetXResource.setLongName(metric.getName());
+				foundNetXResource.setShortName(metric.getName());
+				if (metric.eIsSet(MetricsPackage.Literals.METRIC__DESCRIPTION)) {
+					foundNetXResource.setLongName(metric.getDescription());
+				} else {
+					foundNetXResource.setLongName(metric.getName());
+				}
+
+				foundNetXResource.setExpressionName(importer
+						.toValidExpressionName(metric.getName()));
+
 			}
-			foundNetXResource.setExpressionName(importer
-					.toValidExpressionName(metric.getName()));
+
 			foundNetXResource.setUnitRef(metric.getUnitRef());
 			locatedComponent.getResourceRefs().add(foundNetXResource);
 			emfNetxResource.getContents().add(foundNetXResource);
