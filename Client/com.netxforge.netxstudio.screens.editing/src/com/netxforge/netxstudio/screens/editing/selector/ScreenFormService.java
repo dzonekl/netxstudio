@@ -169,10 +169,12 @@ public class ScreenFormService implements IScreenFormService {
 	private void popScreen() {
 
 		if (!screenStack.empty()) {
-			// if (activeScreen != null) {
-			// activeScreen.dispose();
-			// activeScreen = null;
-			// }
+			
+			Composite activeScreen = this.getActiveScreen();
+			if (activeScreen != null) {
+				activeScreen.dispose();
+			}
+			
 			Composite popScreen = screenStack.pop();
 			popScreen.setVisible(true);
 			screenBody.getScreenDeck().topControl = popScreen;
