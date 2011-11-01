@@ -84,26 +84,25 @@ public class NetworkElementLocator {
 	private List<IdentifierDescriptor> failedIdentifiers = Lists.newArrayList();
 
 	private List<Component> successFullComponents = Lists.newArrayList();
-	
-	private IdentifierDescriptor lastMatchingIdentifier = null;	
-	
-	
+
+	private IdentifierDescriptor lastMatchingIdentifier = null;
+
 	public IdentifierDescriptor getLastMatchingIdentifier() {
 		return lastMatchingIdentifier;
 	}
 
-	public void setLastMatchingIdentifier(IdentifierDescriptor lastMatchingIdentifier) {
+	public void setLastMatchingIdentifier(
+			IdentifierDescriptor lastMatchingIdentifier) {
 		this.lastMatchingIdentifier = lastMatchingIdentifier;
 	}
-	
-	
+
 	public Component locateComponent(Metric metric,
 			List<IdentifierDescriptor> identifiers) {
 		successFullIdentifiers.clear();
 		failedIdentifiers.clear();
 		successFullComponents.clear();
 		setLastMatchingIdentifier(null);
-		
+
 		if (DataActivator.DEBUG) {
 			System.out.print("IMPORTER:LOCATOR Start locator , # idenfifiers ="
 					+ identifiers.size() + " id's are: ");
@@ -154,7 +153,7 @@ public class NetworkElementLocator {
 					.get(key);
 			if (DataActivator.DEBUG) {
 				System.out.println("IMPORTER:LOCATOR key exists for node="
-						+ nodeIdentifier + " , with metric=" + metric.getName()
+						+ nodeIdentifier.getValue() + " , with metric=" + metric.getName()
 						+ " , locate from cache # of components="
 						+ allComponents.size());
 			}
@@ -198,7 +197,7 @@ public class NetworkElementLocator {
 			if (DataActivator.DEBUG) {
 				System.out
 						.println("IMPORTER:LOCATOR populate cache for for node="
-								+ nodeIdentifier
+								+ nodeIdentifier.value
 								+ " , with metric="
 								+ metric.getName()
 								+ " new cache size="
@@ -297,7 +296,7 @@ public class NetworkElementLocator {
 		// for now.
 
 		List<IdentifierDescriptor> componentIdentifiers = Lists.newArrayList();
-		Component autoCreateComponent = null;
+		Component resultComponent= null;
 		if (successFullIdentifiers.size() > 0) {
 			// Iterators.filter(successFullIdentifiers, notNodeIdentifier());
 			for (IdentifierDescriptor iv : successFullIdentifiers) {
@@ -309,63 +308,84 @@ public class NetworkElementLocator {
 				}
 			}
 
-			lastMatchingIdentifier = componentIdentifiers
-					.get(componentIdentifiers.size() - 1);
-			
-			if (DataActivator.DEBUG) {
-				System.out
-						.println("IMPORTER:CREATOR from identifiers size="
-								+ componentIdentifiers.size()
-								+ ", create for id object="
-								+ lastMatchingIdentifier.getKind().getObjectKind()
-										.getName() + " , property="
-								+ lastMatchingIdentifier.getKind().getObjectProperty()
-								+ " (skipping #="
-								+ (componentIdentifiers.size() - 1) + ")");
-			}
+			if (componentIdentifiers.size() > 0) {
+				lastMatchingIdentifier = componentIdentifiers
+						.get(componentIdentifiers.size() - 1);
 
-			autoCreateComponent = createIdentified(successFullComponents,
-					lastMatchingIdentifier);
-		} else {
-			for (IdentifierDescriptor iv : identifiers) {
-				ObjectKindType objectKind = iv.getKind().getObjectKind();
-				if (objectKind == ObjectKindType.EQUIPMENT
-						|| objectKind == ObjectKindType.FUNCTION
-						|| objectKind == ObjectKindType.RELATIONSHIP) {
-					componentIdentifiers.add(iv);
+				if (DataActivator.DEBUG) {
+					System.out
+							.println("IMPORTER:CREATOR from identifiers size="
+									+ componentIdentifiers.size()
+									+ ", create for id object="
+									+ lastMatchingIdentifier.getKind()
+											.getObjectKind().getName()
+									+ " , property="
+									+ lastMatchingIdentifier.getKind()
+											.getObjectProperty()
+									+ " (skipping #="
+									+ (componentIdentifiers.size() - 1) + ")");
+				}
+				resultComponent = createIdentified(successFullComponents,
+						lastMatchingIdentifier);
+			} else {
+				componentIdentifiers.clear();
+				for (IdentifierDescriptor iv : identifiers) {
+					ObjectKindType objectKind = iv.getKind().getObjectKind();
+					if (objectKind == ObjectKindType.EQUIPMENT
+							|| objectKind == ObjectKindType.FUNCTION
+							|| objectKind == ObjectKindType.RELATIONSHIP) {
+						componentIdentifiers.add(iv);
+					}
+				}
+
+				if (componentIdentifiers.size() > 0) {
+
+					lastMatchingIdentifier = componentIdentifiers
+							.get(componentIdentifiers.size() - 1);
+					if (DataActivator.DEBUG) {
+						System.out
+								.println("IMPORTER:CREATOR from identifiers size="
+										+ componentIdentifiers.size()
+										+ ", create for id object="
+										+ lastMatchingIdentifier.getKind()
+												.getObjectKind().getName()
+										+ " , property="
+										+ lastMatchingIdentifier.getKind()
+												.getObjectProperty()
+										+ " (skipping #="
+										+ (componentIdentifiers.size() - 1)
+										+ ")");
+					}
+
+					resultComponent = createIdentified(
+							componentsMatchingMetric, lastMatchingIdentifier);
 				}
 			}
-
-			lastMatchingIdentifier = componentIdentifiers
-					.get(componentIdentifiers.size() - 1);
-			if (DataActivator.DEBUG) {
-				System.out
-						.println("IMPORTER:CREATOR from identifiers size="
-								+ componentIdentifiers.size()
-								+ ", create for id object="
-								+ lastMatchingIdentifier.getKind().getObjectKind()
-										.getName() + " , property="
-								+ lastMatchingIdentifier.getKind().getObjectProperty()
-								+ " (skipping #="
-								+ (componentIdentifiers.size() - 1) + ")");
-			}
-		
-			autoCreateComponent = createIdentified(componentsMatchingMetric,
-					lastMatchingIdentifier);
 		}
 
-		if (autoCreateComponent != null) {
-			
-			allComponents.add(autoCreateComponent);
-			this.cachedAllComponentsForNodeIDAndMetric.put(key, allComponents);
-			if (DataActivator.DEBUG) {
-				System.out
-						.println("IMPORTER:LOCATOR Auto created component name="
-								+ autoCreateComponent.getName()
-								+ " # components in cache  = "
-								+ allComponents.size() + " for key: " + key);
+		if (resultComponent != null) {
+
+			if(!cachedAllComponentsForNodeIDAndMetric.get(key).contains(resultComponent)){
+				allComponents.add(resultComponent);
+				this.cachedAllComponentsForNodeIDAndMetric.put(key, allComponents);
+				if (DataActivator.DEBUG) {
+					System.out
+							.println("IMPORTER:LOCATOR Auto created component name="
+									+ resultComponent.getName()
+									+ " # components in cache  = "
+									+ allComponents.size() + " for key: " + key);
+				}
+				
+			}else{
+				if (DataActivator.DEBUG) {
+					System.out
+							.println("IMPORTER:LOCATOR Decision return component name="
+									+ resultComponent.getName()
+									+ " # components in cache  = "
+									+ allComponents.size() + " for key: " + key);
+				}
 			}
-			return autoCreateComponent;
+			return resultComponent;
 		} else {
 			if (DataActivator.DEBUG) {
 				System.out.println("IMPORTER:LOCATOR Auto create failed");
@@ -650,26 +670,25 @@ public class NetworkElementLocator {
 		return failedIdentifiers;
 	}
 
-	
-	// FIXME Predicate not working! 
-//	public class NotNodeIdentifier implements
-//			Predicate<NetworkElementLocator.IdentifierDescriptor> {
-//
-//		public NotNodeIdentifier() {
-//
-//		}
-//
-//		public boolean apply(NetworkElementLocator.IdentifierDescriptor input) {
-//			if (input.getKind().getObjectKind().equals(ObjectKindType.NODE)) {
-//				return false;
-//			} else {
-//				return true;
-//			}
-//		}
-//	}
-//
-//	private NotNodeIdentifier notNodeIdentifier() {
-//		return new NotNodeIdentifier();
-//	}
+	// FIXME Predicate not working!
+	// public class NotNodeIdentifier implements
+	// Predicate<NetworkElementLocator.IdentifierDescriptor> {
+	//
+	// public NotNodeIdentifier() {
+	//
+	// }
+	//
+	// public boolean apply(NetworkElementLocator.IdentifierDescriptor input) {
+	// if (input.getKind().getObjectKind().equals(ObjectKindType.NODE)) {
+	// return false;
+	// } else {
+	// return true;
+	// }
+	// }
+	// }
+	//
+	// private NotNodeIdentifier notNodeIdentifier() {
+	// return new NotNodeIdentifier();
+	// }
 
 }

@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
@@ -242,9 +243,11 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			} else {
 				String message = fileList.toString();
 				if (message.length() > 254) {
+					mappingStatistic.setMessage(message.substring(0, 254));
 					System.err.println("Message too long for stats");
+				}else{
+					mappingStatistic.setMessage(message);
 				}
-				mappingStatistic.setMessage(message.substring(0, 254));
 			}
 			if (errorOccurred || getFailedRecords().size() > 0) {
 				jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);
@@ -345,7 +348,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				IdentifierValidator validator = new IdentifierValidator();
 
 				final List<IdentifierDescriptor> elementIdentifiers = getIdentifierValues(
-						getMappingColumn(), rowNum);
+						getMappingColumn(), rowNum, false);
 				
 				validator.validateIdentifiers(elementIdentifiers);
 
@@ -509,7 +512,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 
 		headerIdentifiers = getIdentifierValues(getMapping()
-				.getHeaderMappingColumns(), headerRow);
+				.getHeaderMappingColumns(), headerRow, true);
 		headerTimeStamp = getTimeStampValue(getMapping().getHeaderMappingColumns(),
 				headerRow, true);
 		this.updatePeriodEstimate(headerTimeStamp);
@@ -617,7 +620,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				.createMappingRecord();
 		record.setColumn(column + "");
 		record.setRow(row + "");
+		
+		if(message.length() > 254){
+			message = message.substring(0, 254);
+		}
 		record.setMessage(message);
+		
 		return record;
 	}
 
@@ -716,12 +724,17 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	 * 
 	 * @param mappingColumns
 	 * @param row
+	 * @param reset 
 	 * @return
 	 */
 	private List<IdentifierDescriptor> getIdentifierValues(
-			List<MappingColumn> mappingColumns, int row) {
-		final List<IdentifierDescriptor> result = new ArrayList<NetworkElementLocator.IdentifierDescriptor>(
-				headerIdentifiers);
+			List<MappingColumn> mappingColumns, int row, boolean reset) {
+		
+		final List<IdentifierDescriptor> result = Lists.newArrayList();
+		if(!reset){
+			 result.addAll(headerIdentifiers);
+		}
+		
 		for (final MappingColumn column : mappingColumns) {
 			if (column.getDataType() instanceof IdentifierDataKind) {
 				final IdentifierDataKind identifierDataKind = (IdentifierDataKind) column
