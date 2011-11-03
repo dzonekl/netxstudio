@@ -92,36 +92,19 @@ public class MasterDataImporter {
 		this.indexSupport = indexSupport;
 	}
 
-//	class IndexedObject {
-//		public IndexedObject(String index, EObject eo) {
-//			this.eo = eo;
-//			this.index = index;
-//		}
-//
-//		private EObject eo;
-//		private String index;
-//
-//		public EObject getEObject() {
-//			return eo;
-//		}
-//
-//		public void setEObject(EObject eo) {
-//			this.eo = eo;
-//		}
-//
-//		public String getIndex() {
-//			return index;
-//		}
-//
-//		public void setIndex(String index) {
-//			this.index = index;
-//		}
-//	}
-
 	public void process(InputStream is) {
 		HSSFWorkbook workBook;
 		try {
 			workBook = new HSSFWorkbook(is);
+
+			// Multi pass the worksheets, do not add objects after the first
+			// pass.
+			// int passes = 2;
+
+			// for (int k = 1; k <= passes; k++) {
+
+			System.out.println("DATA IMPORTER:");
+
 			for (int i = 0; i < workBook.getNumberOfSheets(); i++) {
 
 				ProcessWorkSheet pw = new ProcessWorkSheet(i,
@@ -131,15 +114,29 @@ public class MasterDataImporter {
 					for (final RowResult rowResult : sheetResult) {
 						// EObject resultObject = EcoreUtil.copy(rowResult
 						// .getEObject());
+
+						// We only add object on the first pass
 						globalIndex.put(rowResult.getIndex(),
 								rowResult.getEObject());
 						resource.getContents().add(rowResult.getEObject());
+
+						// if (k == 1
+						// && !globalIndex.containsKey(rowResult
+						// .getIndex())) {
+						// globalIndex.put(rowResult.getIndex(),
+						// rowResult.getEObject());
+						// resource.getContents().add(
+						// rowResult.getEObject());
+						// } else {
+						//
+						// }
+
 					}
 				}
 			}
 
 			printResult();
-
+			// }
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		}
@@ -205,6 +202,10 @@ public class MasterDataImporter {
 						String objectIndex = null;
 						if (indexSupport) {
 							objectIndex = this.processIndex(row);
+						} else {
+							// An arbitrary number.
+							objectIndex = new Long(System.nanoTime())
+									.toString();
 						}
 						eObject = processAttributes(row);
 						if (eObject != null) {
@@ -527,8 +528,8 @@ public class MasterDataImporter {
 						+ eReference.getName() + " , on object:"
 						+ printObject(target));
 
-//				System.out.println("  MOVE from result set to contained set: "
-//						+ printObject(objectToSet));
+				// System.out.println("  MOVE from result set to contained set: "
+				// + printObject(objectToSet));
 
 				if (copyObjectForContainment) {
 					EObject copyOfObjectToSet = EcoreUtil.copy(objectToSet);
@@ -673,23 +674,17 @@ public class MasterDataImporter {
 		if (this.indexSupport) {
 			System.out.print("  , look in complete result set");
 			result = this.globalIndex.get(identifier);
-			if(result != null){
+			if (result != null) {
 				System.out.println(" FOUND REF :" + printObject(result));
-				
+
+			}
+		} else {
+
+			result = this.findObject(eClass, identifier);
+			if (result != null) {
+				System.out.println(", found!=\"" + printObject(result) + "\"");
 			}
 		}
-
-		// FIXME NON indexed match on any attribute.
-		// else {
-		//
-		// IndexedObject indexedObject = this.findObject(eClass, identifier);
-		// if (indexedObject != null) {
-		// System.out.println(", found!=\""
-		// + printObject(indexedObject.getEObject()) + "\"");
-		// return indexedObject.getEObject();
-		// }
-		//
-		// }
 
 		if (result == null) {
 			notFound(eClass, identifier);
@@ -697,16 +692,12 @@ public class MasterDataImporter {
 		return result;
 	}
 
-
 	public void notFound(EClass eClass, String identifier) {
 		System.err
 				.print(", NOT found!, Check the sheet, Is the order of the sheets correct?, ");
 		unresolvedReferences.add(eClass.getName() + " using " + identifier);
 	}
-	
-	
-	
-	// FIXME, find on  attribute. 
+
 	/**
 	 * Find using any of the attributes from the class and the identifier.
 	 * 
@@ -714,18 +705,17 @@ public class MasterDataImporter {
 	 * @param identifier
 	 * @return
 	 */
-	// private IndexedObject findObject(EClass eClass, String identifier) {
-	// IndexedObject ioResult = null;
-	// for (IndexedObject io : this.resultList) {
-	// EObject eObject = io.getEObject();
-	// if (isAnyOfTheSuperTypes(eObject, eClass)) {
-	// if (matchesAnyAttribute(identifier, eObject)) {
-	// return io;
-	// }
-	// }
-	// }
-	// return ioResult;
-	// }
+	private EObject findObject(EClass eClass, String identifier) {
+		for (String key : globalIndex.keySet()) {
+			EObject eObject = globalIndex.get(key);
+			if (isAnyOfTheSuperTypes(eObject, eClass)) {
+				if (matchesAnyAttribute(identifier, eObject)) {
+					return eObject;
+				}
+			}
+		}
+		return null;
+	}
 
 	// private void removeObjectFromResultSet(EObject eo) {
 	// int index = -1;
@@ -816,10 +806,11 @@ public class MasterDataImporter {
 		// String print = this.printObject(0, io.getEObject());
 		// System.out.println(print);
 		// }
-		System.out.println("The UNRESOLVED references ");
 		for (String s : unresolvedReferences) {
 			System.out.println(" Unresolved identifier : " + s);
 		}
+		System.out.println("The UNRESOLVED references ="
+				+ unresolvedReferences.size());
 	}
 
 	private String printObject(EObject o) {
