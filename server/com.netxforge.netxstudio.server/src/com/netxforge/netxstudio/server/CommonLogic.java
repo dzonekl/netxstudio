@@ -64,6 +64,7 @@ public class CommonLogic {
 	private ModelUtils modelUtils;
 
 	// on purpose not injected
+	@SuppressWarnings("unused")
 	private IDataProvider dataProvider;
 
 	private ResourceMonitor resourceMonitor;
