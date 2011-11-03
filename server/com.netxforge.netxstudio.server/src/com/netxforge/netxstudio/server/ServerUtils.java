@@ -74,6 +74,7 @@ public class ServerUtils {
 
 	private static final String REPO_NAME = "repo1";
 
+	@SuppressWarnings("unused")
 	private DatatypeFactory dataTypeFactory;
 
 	private static ServerUtils instance = new ServerUtils();
