@@ -21,6 +21,9 @@ package com.netxforge.netxstudio.data.importer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
@@ -40,6 +43,7 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
@@ -112,11 +116,22 @@ public class NetworkElementLocator {
 			}
 		}
 
+		/*
+		 * flag for limiting the search scope and bail on references which are
+		 * not in the identifier scope. When no scope is defined, all matching
+		 * references will be evaluated.
+		 */
+		boolean searchingForAll = true;
 		boolean searchingForEquipment = false;
+		boolean searchingForFunction = false;
 		for (final IdentifierDescriptor idValue : identifiers) {
 			if (idValue.getKind().getObjectKind() == ObjectKindType.EQUIPMENT) {
 				searchingForEquipment = true;
+				searchingForAll = false;
 				break;
+			} else if (idValue.getKind().getObjectKind() == ObjectKindType.FUNCTION) {
+				searchingForFunction = true;
+				searchingForAll = false;
 			}
 		}
 
@@ -153,7 +168,8 @@ public class NetworkElementLocator {
 					.get(key);
 			if (DataActivator.DEBUG) {
 				System.out.println("IMPORTER:LOCATOR key exists for node="
-						+ nodeIdentifier.getValue() + " , with metric=" + metric.getName()
+						+ nodeIdentifier.getValue() + " , with metric="
+						+ metric.getName()
 						+ " , locate from cache # of components="
 						+ allComponents.size());
 			}
@@ -167,12 +183,16 @@ public class NetworkElementLocator {
 			for (final CDOObjectReference objectReference : results) {
 				final CDOObject referingObject = objectReference
 						.getSourceObject();
-				if (referingObject instanceof Function && searchingForEquipment) {
-					continue;
-				}
-				if (referingObject instanceof Equipment
-						&& !searchingForEquipment) {
-					continue;
+
+				if (!searchingForAll) {
+					if (referingObject instanceof Function
+							&& !searchingForFunction) {
+						continue;
+					}
+					if (referingObject instanceof Equipment
+							&& !searchingForEquipment) {
+						continue;
+					}
 				}
 				// walk up the node hierarchy and end up with a Node object
 				// which should be equal
@@ -296,7 +316,7 @@ public class NetworkElementLocator {
 		// for now.
 
 		List<IdentifierDescriptor> componentIdentifiers = Lists.newArrayList();
-		Component resultComponent= null;
+		Component resultComponent = null;
 		if (successFullIdentifiers.size() > 0) {
 			// Iterators.filter(successFullIdentifiers, notNodeIdentifier());
 			for (IdentifierDescriptor iv : successFullIdentifiers) {
@@ -365,9 +385,11 @@ public class NetworkElementLocator {
 
 		if (resultComponent != null) {
 
-			if(!cachedAllComponentsForNodeIDAndMetric.get(key).contains(resultComponent)){
+			if (!cachedAllComponentsForNodeIDAndMetric.get(key).contains(
+					resultComponent)) {
 				allComponents.add(resultComponent);
-				this.cachedAllComponentsForNodeIDAndMetric.put(key, allComponents);
+				this.cachedAllComponentsForNodeIDAndMetric.put(key,
+						allComponents);
 				if (DataActivator.DEBUG) {
 					System.out
 							.println("IMPORTER:LOCATOR Auto created component name="
@@ -375,8 +397,8 @@ public class NetworkElementLocator {
 									+ " # components in cache  = "
 									+ allComponents.size() + " for key: " + key);
 				}
-				
-			}else{
+
+			} else {
 				if (DataActivator.DEBUG) {
 					System.out
 							.println("IMPORTER:LOCATOR Decision return component name="
@@ -451,10 +473,14 @@ public class NetworkElementLocator {
 								Network net = (Network) node.eContainer();
 								FunctionRelationship link = OperatorsFactory.eINSTANCE
 										.createFunctionRelationship();
+
+								// CB 02-11-2011 Model could use a bidi here
+
 								link.setFunction1Ref(function);
 								link.setName(value);
 								link.setNodeID1Ref(node);
-
+								function.getFunctionRelationshipRefs()
+										.add(link);
 								net.getFunctionRelationships().add(link);
 							}
 						}
@@ -478,6 +504,8 @@ public class NetworkElementLocator {
 								link.setEquipment1Ref(equipment);
 								link.setName(value);
 								link.setNodeID1Ref(node);
+								equipment.getEquipmentRelationshipRefs().add(
+										link);
 								net.getEquipmentRelationships().add(link);
 							}
 						}
@@ -583,12 +611,8 @@ public class NetworkElementLocator {
 			}
 		}
 
-		// eObject.eClass().getEStructuralFeature(eFeatureName);
-
 		if (eFeature != null) {
 			final Object componentFeatureValue = eObject.eGet(eFeature);
-
-			// TODO, Matching using the pattern.
 			if (componentFeatureValue instanceof String
 					&& matches(idValue, (String) componentFeatureValue,
 							extractionPattern)) {
@@ -605,13 +629,33 @@ public class NetworkElementLocator {
 
 	private boolean matches(String dataValue, String componentValue,
 			String extractionPattern) {
+
 		// PATTERN: if extractionPattern != null then use it to extract the
 		// to-compare value
 		// from the componentValue or the dataValue, the dataValue is read from
 		// the excel
 		if (extractionPattern != null && extractionPattern.length() > 0) {
-			// TODO Implement.
-			return dataValue.equals(componentValue);
+
+			try {
+				Pattern pattern = Pattern.compile(extractionPattern);
+				Matcher matcher = pattern.matcher(dataValue);
+				String extract = null;
+				if (matcher.lookingAt()) {
+					int gc = matcher.groupCount();
+					// Check for a single match, the pattern should extract a
+					// single value
+					// which is not the 0 group, but the first one.
+					if (gc == 1) {
+						extract = matcher.group(1);
+					}
+				}
+				return extract != null && extract.length() > 0 ? componentValue
+						.equals(extract) : false;
+
+			} catch (PatternSyntaxException pse) {
+				// ignore the pattern.
+				return dataValue.equals(componentValue);
+			}
 		} else {
 			return dataValue.equals(componentValue);
 		}
@@ -658,8 +702,42 @@ public class NetworkElementLocator {
 	}
 
 	private String getKey(IdentifierDescriptor nodeValue, Metric metric) {
-		return nodeValue.getKind().getObjectProperty() + "_"
-				+ nodeValue.getValue() + "_" + metric.cdoID().toString();
+
+		String value = null;
+		if (nodeValue.getKind().eIsSet(
+				MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN)) {
+			String extractionPattern = nodeValue.getKind().getPattern();
+			if (extractionPattern != null && extractionPattern.length() > 0) {
+
+				try {
+					Pattern pattern = Pattern.compile(extractionPattern);
+					Matcher matcher = pattern.matcher(nodeValue.getValue());
+					String extract = null;
+					if (matcher.lookingAt()) {
+						int gc = matcher.groupCount();
+						// Check for a single match, the pattern should extract
+						// a
+						// single value
+						// which is not the 0 group, but the first one.
+						if (gc == 1) {
+							extract = matcher.group(1);
+						}
+					}
+					if (extract != null) {
+						value = extract;
+					}
+
+				} catch (PatternSyntaxException pse) {
+					// ignore the pattern, value will be picked up later on. 
+				}
+			}
+		}
+
+		if (value == null) {
+			value = nodeValue.getValue();
+		}
+		return nodeValue.getKind().getObjectProperty() + "_" + value + "_"
+				+ metric.cdoID().toString();
 	}
 
 	public List<IdentifierDescriptor> getSuccessFullIdentifiers() {
