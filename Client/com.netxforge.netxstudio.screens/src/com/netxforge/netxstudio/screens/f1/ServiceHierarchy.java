@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.action.IAction;
@@ -33,7 +32,6 @@ public class ServiceHierarchy extends AbstractScreen implements
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Form frmServices;
-	private Resource operatorsResource;
 
 	@Inject
 	ServerRequest serverActions;
