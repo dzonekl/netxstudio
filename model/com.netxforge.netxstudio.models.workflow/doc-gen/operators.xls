@@ -388,181 +388,6 @@ Protocol
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
    			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
- 	 			<Data ss:Type="String">ExpansionExperience</Data>
- 			</Cell>
-    	</Row>
-    	<Row >
-    		<Cell ss:StyleID="s18"/>
-    		<Cell ss:StyleID="s24">
- 	 			<Data ss:Type="String">Description:</Data>
- 			</Cell>			
- 	 		<Cell ss:StyleID="s20"/>
-    		<Cell ss:StyleID="s20"/>
-    		<Cell ss:StyleID="s28"/>
- 	 	</Row>
-    	<Row ss:Height="50">
-    		<Cell ss:StyleID="s18"/>
-			<Cell ss:StyleID="s25"/>
-    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
- 	 			<Data ss:Type="String">A type representing the gained experience on&#13;				expending an equipment.&#13;			
-</Data>
- 	 		</Cell>
- 	 		<Cell ss:StyleID="s28"/>
- 	 	</Row>
-		
-		<Row>
-			<Cell ss:StyleID="s18"/>
-    		<Cell ss:StyleID="s24">
- 	 			<Data ss:Type="String">Super Types:</Data>
- 			</Cell>			
-    		<Cell ss:StyleID="s20"/>
-    		<Cell ss:StyleID="s20"/>
-    		<Cell ss:StyleID="s28"/>
- 	 	</Row>
- 		
- 	 		
-	<Row>
-		<Cell ss:StyleID="s18" ss:Index="1"/>
-		<Cell ss:StyleID="s25" ss:Index="2"/>
-	 	 <Cell ss:StyleID="s201" ss:Index="3">
-	 	 	<Data ss:Type="String">Base</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s20"/>
-	 	 <Cell ss:StyleID="s28"/>
- 	</Row> 	
- 	 	
-		
-    	<Row>
-    		<Cell ss:StyleID="s18"/>
-    		<Cell ss:StyleID="s24">
- 	 			<Data ss:Type="String">Attributes:</Data>
- 			</Cell>
- 			<Cell ss:StyleID="s20"/>
- 			<Cell ss:StyleID="s20"/>
- 			<Cell ss:StyleID="s28"/>
- 	 	</Row>
- 	 	    <Row>
-    		<Cell ss:StyleID="s18" ss:Index="1"/>
-    		<Cell ss:StyleID="s25" ss:Index="2"/>
-    		<Cell ss:StyleID="s21" ss:Index="3">
- 	 			<Data ss:Type="String">Attribute</Data>
- 			</Cell>
-    		<Cell ss:StyleID="s21">
- 	 			<Data ss:Type="String">Description</Data>
- 			</Cell>
-    		<Cell ss:StyleID="s211">
- 	 			<Data ss:Type="String">Type</Data>
- 			</Cell>
-    		</Row>
- 	 		
-	<Row>
-		<Cell ss:StyleID="s18" ss:Index="1"/>
-		<Cell ss:StyleID="s25" ss:Index="2"/>
-	 	 <Cell ss:StyleID="s23" ss:Index="3">
-	 	 	<Data ss:Type="String">Duration</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">The Duration attribute, holds the typical&#13;							duration&#13;							for the expansion of an Equipment.&#13;						
-</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s27">
-	 	 	<Data ss:Type="String">
-ExpansionDuration
-</Data>
-	 	 </Cell>
- 	</Row> 
-
-	<Row>
-		<Cell ss:StyleID="s18" ss:Index="1"/>
-		<Cell ss:StyleID="s25" ss:Index="2"/>
-	 	 <Cell ss:StyleID="s23" ss:Index="3">
-	 	 	<Data ss:Type="String">Deleted</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String"></Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s27">
-	 	 	<Data ss:Type="String">
-Boolean
-</Data>
-	 	 </Cell>
- 	</Row> 
- 	 	
-		
-   		<Row>
-    		<Cell ss:StyleID="s18"/>
-    		<Cell ss:StyleID="s24">
- 	 			<Data ss:Type="String">Single References:</Data>
- 			</Cell>
- 			<Cell ss:StyleID="s20"/>
- 			<Cell ss:StyleID="s20"/>
- 			<Cell ss:StyleID="s28"/>
- 	 	</Row>
-	   		<Row>
-	   			<Cell ss:StyleID="s18" ss:Index="1"/>
-	   			<Cell ss:StyleID="s25" ss:Index="2"/>
-	    		<Cell ss:StyleID="s21" ss:Index="3">
-	 	 			<Data ss:Type="String">Reference</Data>
-	 			</Cell>
-	    		<Cell ss:StyleID="s21">
-	 	 			<Data ss:Type="String">Description</Data>
-	 			</Cell>
-	    		<Cell ss:StyleID="s211">
-	 	 			<Data ss:Type="String">To Type</Data>
-	 			</Cell>
-	    	</Row>
-   			
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-			<Cell ss:StyleID="s25" ss:Index="2"/>
-			
-				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">EquipmentRef</Data></Cell>
-			
-			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The EquipmentRef reference, references the 0 or&#13;								1&#13;								Equipment type, for which this duration applies.&#13;							
-</Data>
-	 	 	</Cell>
-	 	 	 <Cell ss:StyleID="s27">
-	 	 		<Data ss:Type="String">
-Equipment
-</Data>
-	 	 	</Cell>
-		</Row>
-   		
-		
-   		<Row>
-    		<Cell ss:StyleID="s18"/>
-    		<Cell ss:StyleID="s24">
- 	 			<Data ss:Type="String">Multi References</Data>
- 			</Cell>
- 			<Cell ss:StyleID="s20"/>
- 			<Cell ss:StyleID="s20"/>
- 			<Cell ss:StyleID="s28"/>
- 	 	</Row>
- 	 	
- 	 		<Row>
-				<Cell ss:StyleID="s18" ss:Index="1"/>
-				<Cell ss:StyleID="s25" ss:Index="2"/>
-	 	 		<Cell ss:StyleID="s26" ss:Index="3">
-	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
-	 	 		</Cell>
-	 	 		<Cell ss:StyleID="s20"/>
-	 	 		<Cell ss:StyleID="s28"/>
- 			</Row> 
-		
-		
-		<Row>
-		<Cell ss:StyleID="s18" ss:Index="1"/>
-   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
-    	</Row>
-
-		
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-		</Row>
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
  	 			<Data ss:Type="String">FunctionRelationship</Data>
  			</Cell>
     	</Row>
@@ -931,23 +756,6 @@ Boolean
 	 			</Cell>
 	    	</Row>
    			
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-			<Cell ss:StyleID="s25" ss:Index="2"/>
-			
-				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ComponentRef</Data></Cell>
-			
-			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The ComponentRef reference, references 0 or 1&#13;								Equipment/Function types.&#13;							
-</Data>
-	 	 	</Cell>
-	 	 	 <Cell ss:StyleID="s27">
-	 	 		<Data ss:Type="String">
-Component
-</Data>
-	 	 	</Cell>
-		</Row>
-
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
@@ -1477,6 +1285,23 @@ Person
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">LocationRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The RoomRef reference, refers to a Room type.&#13;						
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Location
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
 				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">OriginalNodeTypeRef</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
@@ -1486,23 +1311,6 @@ Person
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
 NodeType
-</Data>
-	 	 	</Cell>
-		</Row>
-
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-			<Cell ss:StyleID="s25" ss:Index="2"/>
-			
-				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">RoomRef</Data></Cell>
-			
-			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The RoomRef reference, refers to a Room type.&#13;						
-</Data>
-	 	 	</Cell>
-	 	 	 <Cell ss:StyleID="s27">
-	 	 		<Data ss:Type="String">
-Room
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -1873,23 +1681,6 @@ ServiceUser
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
 ResourceExpansion
-</Data>
-	 	 	</Cell>
-		</Row>
-
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-			<Cell ss:StyleID="s25" ss:Index="2"/>
-			
-				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">ExpansionExperiences</Data></Cell>
-			
-			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The ExpansionExperiences reference, contains 0&#13;								or more ExpansionExperience type.&#13;							
-</Data>
-	 	 	</Cell>
-	 	 	 <Cell ss:StyleID="s27">
-	 	 		<Data ss:Type="String">
-ExpansionExperience
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -2597,12 +2388,29 @@ Node
 				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ResourceRef</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The Resource reference, references 1&#13;								Resource type.&#13;							
+	 	 		<Data ss:Type="String">The Resource reference, references 1&#13;								Resource&#13;								type.&#13;							
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
 NetXResource
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Period</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The Period reference, contains 0 or 1&#13;								DatetimeRange types.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+DateTimeRange
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -2653,6 +2461,235 @@ Marker
 		<Cell ss:StyleID="s18" ss:Index="1"/>
    		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
     	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">ToleranceMarker</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">&#13;				A marker which specifically marks tolerance&#13;				treshold crossings.&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">Marker</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	    <Row>
+    		<Cell ss:StyleID="s18" ss:Index="1"/>
+    		<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">Attribute</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">Type</Data>
+ 			</Cell>
+    		</Row>
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Level</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The level of the treshold which is crossed.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+LevelKind
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Direction</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">In which direction the marker is crossed,&#13;							up or down.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+ToleranceMarkerDirectionKind
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Description</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The Description attribute holds the description&#13;							for this marker.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Description2000
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Kind</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The Kind attribute holds the kind of Marker this&#13;							Marker is. (See MarkerKind).&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+MarkerKind
+</Data>
+	 	 </Cell>
+ 	</Row> 
+ 	 	
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+	   		<Row>
+	   			<Cell ss:StyleID="s18" ss:Index="1"/>
+	   			<Cell ss:StyleID="s25" ss:Index="2"/>
+	    		<Cell ss:StyleID="s21" ss:Index="3">
+	 	 			<Data ss:Type="String">Reference</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s21">
+	 	 			<Data ss:Type="String">Description</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s211">
+	 	 			<Data ss:Type="String">To Type</Data>
+	 			</Cell>
+	    	</Row>
+   			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ValueRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The ValueRef reference, references 0 or 1&#13;								Values.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Value
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">MarkerResourceRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The MarkerResource reference, references 0 or 1&#13;								Resource type&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+NetXResource
+</Data>
+	 	 	</Cell>
+		</Row>
+   		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+
 
 		
 		<Row>
@@ -2766,23 +2803,6 @@ Name255
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s23" ss:Index="3">
-	 	 	<Data ss:Type="String">Equipments</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">The Equipments reference, contains 0 or more&#13;								Equipment types.&#13;							
-</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s27">
-	 	 	<Data ss:Type="String">
-String
-</Data>
-	 	 </Cell>
- 	</Row> 
-
-	<Row>
-		<Cell ss:StyleID="s18" ss:Index="1"/>
-		<Cell ss:StyleID="s25" ss:Index="2"/>
-	 	 <Cell ss:StyleID="s23" ss:Index="3">
 	 	 	<Data ss:Type="String">Deleted</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
@@ -2856,6 +2876,23 @@ Node
 </Data>
 	 	 	</Cell>
 		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Equipments</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The Equipments reference, contains 0 or more&#13;								Equipment types.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Equipment
+</Data>
+	 	 	</Cell>
+		</Row>
     	
 		
 		<Row>
@@ -2863,7 +2900,6 @@ Node
    		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
     	</Row>
 	 		
-
 
 
 
@@ -2921,7 +2957,7 @@ Node
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 		 	<Cell ss:StyleID="s23" ss:Index="3"  ss:MergeAcross="1">
-	 			<Data ss:Type="String">THRESHOLDREACHED</Data>
+	 			<Data ss:Type="String">TOLERANCECROSSED</Data>
 	 		</Cell>
 	 		 <Cell ss:StyleID="s27"/>
  		</Row> 
@@ -2937,6 +2973,56 @@ Node
 
 
 
+
+
+
+	<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">Enum Type: ToleranceMarkerDirectionKind</Data>
+ 			</Cell>
+    	</Row>
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Values:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+		 	<Cell ss:StyleID="s23" ss:Index="3"  ss:MergeAcross="1">
+	 			<Data ss:Type="String">START</Data>
+	 		</Cell>
+	 		 <Cell ss:StyleID="s27"/>
+ 		</Row> 
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+		 	<Cell ss:StyleID="s23" ss:Index="3"  ss:MergeAcross="1">
+	 			<Data ss:Type="String">UP</Data>
+	 		</Cell>
+	 		 <Cell ss:StyleID="s27"/>
+ 		</Row> 
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+		 	<Cell ss:StyleID="s23" ss:Index="3"  ss:MergeAcross="1">
+	 			<Data ss:Type="String">DOWN</Data>
+	 		</Cell>
+	 		 <Cell ss:StyleID="s27"/>
+ 		</Row> 
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 			</Cell>			
+    	</Row>
 
 
  		</Table>

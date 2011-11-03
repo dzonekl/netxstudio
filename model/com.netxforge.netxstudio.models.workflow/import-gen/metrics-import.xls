@@ -534,22 +534,6 @@
  	 </Cell>
 
  	 <Cell ss:StyleID="s20">
- 	 	<Data ss:Type="String">MetricCalculation</Data>
-		
- 	 
-		<Comment><Data>
-        The MetricCalculation references, contains 0 or
-							1
-							ExpressionLine type.
-						</Data>
-        </Comment>		
- 	 
-
- 	 
-			 	 	
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s20">
  	 	<Data ss:Type="String">Name</Data>
 		
  	 
@@ -589,6 +573,10 @@
  	 </Cell>
    		
 		
+			<Cell ss:StyleID="s22"><Data ss:Type="String">expressionRef</Data></Cell>
+		
+
+		
 			<Cell ss:StyleID="s22"><Data ss:Type="String">metricSourceRef</Data></Cell>
 		
 
@@ -609,10 +597,6 @@
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">ExpressionLine</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">Name255</Data>
  	 </Cell>
 
@@ -624,6 +608,10 @@
  	 	<Data ss:Type="String">Boolean</Data>
  	 </Cell>
    		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Expression</Data>
+ 	 </Cell>
+
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">MetricSource</Data>
  	 </Cell>
@@ -680,6 +668,21 @@
  	 </Cell>
 
  	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">FilterPattern</Data>
+		
+ 	 
+		<Comment><Data>
+        A regexp which is used to filter files present
+						at the location defined by the MetricLocation.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
  	 	<Data ss:Type="String">Deleted</Data>
 		
  	 
@@ -700,6 +703,10 @@
 
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">Name255</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">

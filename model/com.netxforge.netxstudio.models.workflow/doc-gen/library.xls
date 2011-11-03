@@ -161,6 +161,367 @@
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
    			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">BaseExpressionResult</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">A type representing the base results of an&#13;				expression&#13;				run.&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">BaseResource</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">Base</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	    <Row>
+    		<Cell ss:StyleID="s18" ss:Index="1"/>
+    		<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">Attribute</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">Type</Data>
+ 			</Cell>
+    		</Row>
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">DetailDisplay</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The DetailDisplay attribute is a flag specifiy&#13;							if&#13;							the resource should be displayed in a detailed presentation.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Boolean
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">SummaryDisplay</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The SummaryDisplay attribute is a flag specifiy&#13;							if&#13;							the resource should be displayed in a summary presentation.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Boolean
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">LongName</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The LongName attribute holds a long name which&#13;							is&#13;							used for presentation of the resource.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Description2000
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">ExpressionName</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The ExpressionName attribute holds a name which&#13;							is&#13;							used in the expressions referencing&#13;							the resource.&#13;&#13;							See: The&#13;							NetXScript&#13;							specification.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Name255
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">ShortName</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The ShortName attribute holds a short name which&#13;							is used for presentation of the resource.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Name255
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Deleted</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Boolean
+</Data>
+	 	 </Cell>
+ 	</Row> 
+ 	 	
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+	   		<Row>
+	   			<Cell ss:StyleID="s18" ss:Index="1"/>
+	   			<Cell ss:StyleID="s25" ss:Index="2"/>
+	    		<Cell ss:StyleID="s21" ss:Index="3">
+	 	 			<Data ss:Type="String">Reference</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s21">
+	 	 			<Data ss:Type="String">Description</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s211">
+	 	 			<Data ss:Type="String">To Type</Data>
+	 			</Cell>
+	    	</Row>
+   			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">UnitRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The UnitRef reference, refers to 0 or 1 Unit&#13;							type.&#13;						
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Unit
+</Data>
+	 	 	</Cell>
+		</Row>
+   		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
  	 			<Data ss:Type="String">Component</Data>
  			</Cell>
     	</Row>
@@ -241,6 +602,23 @@
 	 	 <Cell ss:StyleID="s27">
 	 	 	<Data ss:Type="String">
 Description2000
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Duration</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The Duration attribute, holds the typical&#13;							duration&#13;							for the expansion of an Equipment.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+ExpansionDuration
 </Data>
 	 	 </Cell>
  	</Row> 
@@ -340,15 +718,15 @@ Expression
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 			
-				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">RetentionExpressionRef</Data></Cell>
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Lifecycle</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The RetentionExpressionRef reference, used to&#13;								perform the retention computation.&#13;							
+	 	 		<Data ss:Type="String">The Lifecycle reference, contains 0 or 1&#13;								Lifecycle types.&#13;							
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
-Expression
+Lifecycle
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -394,6 +772,23 @@ MultiImage
  			</Cell>
     	</Row>
     	
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ResourceRefs</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The EquipmentResources reference, contains 0 or&#13;								more EquipmentResource types.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+NetXResource
+</Data>
+	 	 	</Cell>
+		</Row>
+
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
@@ -466,23 +861,6 @@ Parameter
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 			
-				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Resources</Data></Cell>
-			
-			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The EquipmentResources reference, contains 0 or&#13;								more EquipmentResource types.&#13;							
-</Data>
-	 	 	</Cell>
-	 	 	 <Cell ss:StyleID="s27">
-	 	 		<Data ss:Type="String">
-NetXResource
-</Data>
-	 	 	</Cell>
-		</Row>
-
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-			<Cell ss:StyleID="s25" ss:Index="2"/>
-			
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Diagrams</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
@@ -525,7 +903,7 @@ DiagramInfo
     		<Cell ss:StyleID="s18"/>
 			<Cell ss:StyleID="s25"/>
     		<Cell ss:StyleID="s201" ss:MergeAcross="1">
- 	 			<Data ss:Type="String">A type representing the basic information points of&#13;				a real telecommunications equipment part.&#13;				Specifically it represents&#13;				the Hardware portion. (The Software or logic is&#13;				represented by the&#13;				Function type).&#13;				Equipment types can be nested to form a hiarchical&#13;				structure in similar&#13;				fashion to a real HW equipment.&#13;&#13;				The Equipment&#13;				type (and/or it's children) is first part of the Library&#13;				type, and&#13;				then copied into a Node type when&#13;				created.&#13;&#13;				Examples:&#13;				1. The Equipment&#13;				type typical structure is: Cabinets -&gt; Rack -&gt; Slots&#13;				-&gt; Boards -&gt;&#13;				Ports -&gt; Cabling&#13;				2. The Equipment type can be constructed with a&#13;				specif UI widget like&#13;				a Node Editor.&#13;			
+ 	 			<Data ss:Type="String">A type representing the basic information points of&#13;				a real telecommunications equipment part.&#13;				Specifically it represents&#13;				the Hardware portion. (The Software or logic is&#13;				represented by the&#13;				Function type).&#13;				Equipment types can be nested to form a hiarchical&#13;				structure in similar&#13;				fashion to a real HW equipment.&#13;&#13;				The Equipment&#13;				type (and/or it's children) is first part of the Library&#13;				type, and&#13;				then copied into a Node type when&#13;				created.&#13;&#13;				Examples:&#13;				1. The Equipment&#13;				type typical structure is: Cabinets -&gt; Rack -&gt; Slots&#13;				-&gt;&#13;				Boards -&gt;&#13;				Ports -&gt; Cabling&#13;				2. The Equipment type can be&#13;				constructed with a&#13;				specif UI widget like&#13;				a Node Editor.&#13;			
 </Data>
  	 		</Cell>
  	 		<Cell ss:StyleID="s28"/>
@@ -617,7 +995,7 @@ Name255
 	 	 	<Data ss:Type="String">Redundancy</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">The Redundancy attribute holds the expected&#13;							redundancy schema of an equipment.&#13;							An equipment is Active,&#13;							Stand-by,&#13;							Idle or Defect.&#13;&#13;							The following options are possible:&#13;&#13;							n =&gt;&#13;							The&#13;							equipment is not operating in any redundancy schema&#13;							n+1 =&gt; The&#13;							equipment is part of an n+1 schema. (1 stand-by for n&#13;							number of&#13;							active equipment).&#13;							1+1 =&gt; The equipment is paired with another&#13;							equipment.&#13;&#13;							It should be considered, that the permitted load and&#13;							consequently the&#13;							Tolerance will depend on the&#13;							redundancy schema.&#13;							Closely related to the Redundancy schema is the Load&#13;							Distribution.&#13;&#13;							Examples&#13;							1. A schema of n, means a failure of this&#13;							equipment will&#13;							not be&#13;							covered by another equipment.&#13;							2. A Schema of&#13;							n+1, means a&#13;							failure of the equipment will be covered&#13;							by another&#13;							equipment,&#13;							unless the stand-by equipment, is already&#13;							active.&#13;							3. A&#13;							schema of 1+1,&#13;							means the load on this equipment will be covered&#13;							by&#13;							another&#13;							equipment.&#13;						
+	 	 	<Data ss:Type="String">The Redundancy attribute holds the expected&#13;							redundancy schema of an equipment.&#13;							An equipment is Active,&#13;							Stand-by,&#13;							Idle or Defect.&#13;&#13;							The following options are possible:&#13;&#13;							n&#13;							=&gt;&#13;							The&#13;							equipment is not operating in any redundancy schema&#13;							n+1&#13;							=&gt; The&#13;							equipment is part of an n+1 schema. (1 stand-by for n&#13;							number of&#13;							active equipment).&#13;							1+1 =&gt; The equipment is paired with&#13;							another&#13;							equipment.&#13;&#13;							It should be considered, that the permitted load&#13;							and&#13;							consequently the&#13;							Tolerance will depend on the&#13;							redundancy schema.&#13;							Closely related to the Redundancy schema is the Load&#13;							Distribution.&#13;&#13;							Examples&#13;							1. A schema of n, means a failure of this&#13;							equipment will&#13;							not be&#13;							covered by another equipment.&#13;							2. A Schema of&#13;							n+1, means a&#13;							failure of the equipment will be covered&#13;							by another&#13;							equipment,&#13;							unless the stand-by equipment, is already&#13;							active.&#13;							3. A&#13;							schema of 1+1,&#13;							means the load on this equipment will be covered&#13;							by&#13;							another&#13;							equipment.&#13;						
 </Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
@@ -634,7 +1012,7 @@ RedundancyType
 	 	 	<Data ss:Type="String">State</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">The State attribute holds the life status of an&#13;							equipment.&#13;&#13;							The following options are possible:&#13;&#13;							Active =&gt; The&#13;							equipment is operating.&#13;							Stand-by =&gt; The equipment is Stand-by.&#13;							Idle&#13;							=&gt; The equipment is not configured and does not participate&#13;							in&#13;							Active nor Stand-by and there for in the redudancy schema. An&#13;							Idle&#13;							e&#13;							Equipment can however be reserved.&#13;							Defect =&gt; The equipment is&#13;							defect and does not participate in Active nor&#13;							Stand-by and there&#13;							for&#13;							in the redudancy schema.&#13;							Reserved =&gt; The equipment is reserved&#13;							for&#13;							future use.&#13;&#13;							Examples&#13;							1. The state of the equipment could be&#13;							considered to corelate with a&#13;							Metric of the Equipment. A Stand-by&#13;							equipment should not be considered when calculating the average&#13;							load for a&#13;							group of equipments. It will however depend&#13;							on the&#13;							Equipment Manufacturer if measurements are reported for&#13;							non-Active&#13;							equipments.&#13;						
+	 	 	<Data ss:Type="String">The State attribute holds the life status of an&#13;							equipment.&#13;&#13;							The following options are possible:&#13;&#13;							Active =&gt; The&#13;							equipment is operating.&#13;							Stand-by =&gt; The equipment is Stand-by.&#13;							Idle&#13;							=&gt; The equipment is not configured and does not&#13;							participate&#13;							in&#13;							Active nor Stand-by and there for in the redudancy&#13;							schema. An&#13;							Idle&#13;							e&#13;							Equipment can however be reserved.&#13;							Defect =&gt; The&#13;							equipment is&#13;							defect and does not participate in Active nor&#13;							Stand-by and there&#13;							for&#13;							in the redudancy schema.&#13;							Reserved =&gt; The&#13;							equipment is reserved&#13;							for&#13;							future use.&#13;&#13;							Examples&#13;							1. The state of the&#13;							equipment could be&#13;							considered to corelate with a&#13;							Metric of the&#13;							Equipment. A Stand-by&#13;							equipment should not be considered when&#13;							calculating the average&#13;							load for a&#13;							group of equipments. It will&#13;							however depend&#13;							on the&#13;							Equipment Manufacturer if measurements are&#13;							reported for&#13;							non-Active&#13;							equipments.&#13;						
 </Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
@@ -657,6 +1035,23 @@ StateType
 	 	 <Cell ss:StyleID="s27">
 	 	 	<Data ss:Type="String">
 Description2000
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Duration</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The Duration attribute, holds the typical&#13;							duration&#13;							for the expansion of an Equipment.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+ExpansionDuration
 </Data>
 	 	 </Cell>
  	</Row> 
@@ -740,23 +1135,6 @@ Expression
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 			
-				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">RetentionExpressionRef</Data></Cell>
-			
-			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The RetentionExpressionRef reference, used to&#13;								perform the retention computation.&#13;							
-</Data>
-	 	 	</Cell>
-	 	 	 <Cell ss:StyleID="s27">
-	 	 		<Data ss:Type="String">
-Expression
-</Data>
-	 	 	</Cell>
-		</Row>
-
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-			<Cell ss:StyleID="s25" ss:Index="2"/>
-			
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Lifecycle</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
@@ -824,6 +1202,23 @@ MultiImage
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
 EquipmentRelationship
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ResourceRefs</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The EquipmentResources reference, contains 0 or&#13;								more EquipmentResource types.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+NetXResource
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -926,23 +1321,6 @@ Equipment
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
 EquipmentGroup
-</Data>
-	 	 	</Cell>
-		</Row>
-
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-			<Cell ss:StyleID="s25" ss:Index="2"/>
-			
-				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Resources</Data></Cell>
-			
-			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The EquipmentResources reference, contains 0 or&#13;								more EquipmentResource types.&#13;							
-</Data>
-	 	 	</Cell>
-	 	 	 <Cell ss:StyleID="s27">
-	 	 		<Data ss:Type="String">
-NetXResource
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -1405,54 +1783,17 @@ EObject
  			<Cell ss:StyleID="s20"/>
  			<Cell ss:StyleID="s28"/>
  	 	</Row>
-   		<Row>
-   			<Cell ss:StyleID="s18" ss:Index="1"/>
-   			<Cell ss:StyleID="s25" ss:Index="2"/>
-    		<Cell ss:StyleID="s21" ss:Index="3">
- 	 			<Data ss:Type="String">MultiReference</Data>
- 			</Cell>
-    		<Cell ss:StyleID="s21">
- 	 			<Data ss:Type="String">Description</Data>
- 			</Cell>
-    		<Cell ss:StyleID="s211">
- 	 			<Data ss:Type="String">To Type</Data>
- 			</Cell>
-    	</Row>
-    	
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-			<Cell ss:StyleID="s25" ss:Index="2"/>
-			
-				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">EquipmentGroupRefs</Data></Cell>
-			
-			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The EquipmentGroupExpressionRefs reference,&#13;								references 0 or more EquipmentGroup types.&#13;							
-</Data>
-	 	 	</Cell>
-	 	 	 <Cell ss:StyleID="s27">
-	 	 		<Data ss:Type="String">
-EquipmentGroup
-</Data>
-	 	 	</Cell>
-		</Row>
-
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-			<Cell ss:StyleID="s25" ss:Index="2"/>
-			
-				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ServiceProfileRefs</Data></Cell>
-			
-			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The ServiceProfileExpressionRefs reference,&#13;								references 0 or more ServiceProfile types.&#13;							
-</Data>
-	 	 	</Cell>
-	 	 	 <Cell ss:StyleID="s27">
-	 	 		<Data ss:Type="String">
-ServiceProfile
-</Data>
-	 	 	</Cell>
-		</Row>
-    	
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
 		
 		<Row>
 		<Cell ss:StyleID="s18" ss:Index="1"/>
@@ -1498,16 +1839,17 @@ ServiceProfile
     		<Cell ss:StyleID="s28"/>
  	 	</Row>
  		
- 	 		<Row>
-				<Cell ss:StyleID="s18" ss:Index="1"/>
-				<Cell ss:StyleID="s25" ss:Index="2"/>
-	 	 		<Cell ss:StyleID="s26" ss:Index="3">
-	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
-	 	 		</Cell>
-	 	 		<Cell ss:StyleID="s20"/>
-	 	 		<Cell ss:StyleID="s28"/>
- 			</Row> 
-		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">BaseExpressionResult</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
 		
     	<Row>
     		<Cell ss:StyleID="s18"/>
@@ -1615,7 +1957,7 @@ RangeKind
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
-NetXResource
+BaseResource
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -1689,7 +2031,7 @@ Value
     		<Cell ss:StyleID="s18"/>
 			<Cell ss:StyleID="s25"/>
     		<Cell ss:StyleID="s201" ss:MergeAcross="1">
- 	 			<Data ss:Type="String">A type representing a function in an a telecom&#13;				equipment. This is often also referred to as a Application,&#13;				or a&#13;				Logical Function&#13;				Specifically it represents the Software portion.&#13;				(The Hardware is represented by&#13;				the Equipment type).&#13;				Function types&#13;				can be nested to form a hiarchical structure in similar&#13;				fashion to a&#13;				real Software anatomy.&#13;&#13;				The Function type (and/or it's children) is&#13;				first part of the Library&#13;				type, and then copied into a Node type when&#13;				created.&#13;&#13;				Examples:&#13;				1. The Function type typical structure is: System&#13;				-&gt; Subsystem -&gt;&#13;				Module etc..&#13;				2. The Function type can be &quot;Mobility&#13;				Management&quot;.&#13;			
+ 	 			<Data ss:Type="String">A type representing a function in an a telecom&#13;				equipment. This is often also referred to as a Application,&#13;				or a&#13;				Logical Function&#13;				Specifically it represents the Software portion.&#13;				(The Hardware is represented by&#13;				the Equipment type).&#13;				Function types&#13;				can be nested to form a hiarchical structure in similar&#13;				fashion to a&#13;				real Software anatomy.&#13;&#13;				The Function type (and/or it's children) is&#13;				first part of the Library&#13;				type, and then copied into a Node type when&#13;				created.&#13;&#13;				Examples:&#13;				1. The Function type typical structure is: System&#13;				-&gt; Subsystem -&gt;&#13;				Module etc..&#13;				2. The Function type can be&#13;				&quot;Mobility&#13;				Management&quot;.&#13;			
 </Data>
  	 		</Cell>
  	 		<Cell ss:StyleID="s28"/>
@@ -1753,6 +2095,23 @@ Value
 	 	 <Cell ss:StyleID="s27">
 	 	 	<Data ss:Type="String">
 Description2000
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Duration</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The Duration attribute, holds the typical&#13;							duration&#13;							for the expansion of an Equipment.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+ExpansionDuration
 </Data>
 	 	 </Cell>
  	</Row> 
@@ -1836,15 +2195,15 @@ Expression
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 			
-				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">RetentionExpressionRef</Data></Cell>
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Lifecycle</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The RetentionExpressionRef reference, used to&#13;								perform the retention computation.&#13;							
+	 	 		<Data ss:Type="String">The Lifecycle reference, contains 0 or 1&#13;								Lifecycle types.&#13;							
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
-Expression
+Lifecycle
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -1903,6 +2262,23 @@ MultiImage
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
 FunctionRelationship
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ResourceRefs</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The EquipmentResources reference, contains 0 or&#13;								more EquipmentResource types.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+NetXResource
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -1996,23 +2372,6 @@ Function
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 			
-				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Resources</Data></Cell>
-			
-			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The EquipmentResources reference, contains 0 or&#13;								more EquipmentResource types.&#13;							
-</Data>
-	 	 	</Cell>
-	 	 	 <Cell ss:StyleID="s27">
-	 	 		<Data ss:Type="String">
-NetXResource
-</Data>
-	 	 	</Cell>
-		</Row>
-
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-			<Cell ss:StyleID="s25" ss:Index="2"/>
-			
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Diagrams</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
@@ -2026,6 +2385,144 @@ DiagramInfo
 	 	 	</Cell>
 		</Row>
     	
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">LastEvaluationExpressionResult</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">A type representing the result of th of an&#13;				expression&#13;				run.&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">BaseExpressionResult</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	    <Row>
+    		<Cell ss:StyleID="s18" ss:Index="1"/>
+    		<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">Attribute</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">Type</Data>
+ 			</Cell>
+    		</Row>
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">LastEvalResult</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+AnySimpleType
+</Data>
+	 	 </Cell>
+ 	</Row> 
+ 	 	
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
 		
 		<Row>
 		<Cell ss:StyleID="s18" ss:Index="1"/>
@@ -2409,7 +2906,7 @@ Unit
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s201" ss:Index="3">
-	 	 	<Data ss:Type="String">Base</Data>
+	 	 	<Data ss:Type="String">BaseResource</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s20"/>
 	 	 <Cell ss:StyleID="s28"/>
@@ -2523,22 +3020,6 @@ Name255
 </Data>
 	 	 </Cell>
  	</Row> 
-
-	<Row>
-		<Cell ss:StyleID="s18" ss:Index="1"/>
-		<Cell ss:StyleID="s25" ss:Index="2"/>
-	 	 <Cell ss:StyleID="s23" ss:Index="3">
-	 	 	<Data ss:Type="String">Deleted</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String"></Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s27">
-	 	 	<Data ss:Type="String">
-Boolean
-</Data>
-	 	 </Cell>
- 	</Row> 
  	 	
 		
    		<Row>
@@ -2564,6 +3045,23 @@ Boolean
 	 			</Cell>
 	    	</Row>
    			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ComponentRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">Reference to the component for which this netx&#13;								resource was created.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Component
+</Data>
+	 	 	</Cell>
+		</Row>
+
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
@@ -2817,6 +3315,22 @@ Value
 	 	 <Cell ss:StyleID="s27">
 	 	 	<Data ss:Type="String">
 Boolean
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Name</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Name255
 </Data>
 	 	 </Cell>
  	</Row> 
@@ -3531,7 +4045,7 @@ NodeType
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
 	 	 	<Data ss:Type="String">
-LevelType
+LevelKind
 </Data>
 	 	 </Cell>
  	</Row> 
@@ -4099,13 +4613,16 @@ ProductInfo
 
 
 
+
+
+
 	<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 		</Row>
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
    			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
- 	 			<Data ss:Type="String">Enum Type: LevelType</Data>
+ 	 			<Data ss:Type="String">Enum Type: LevelKind</Data>
  			</Cell>
     	</Row>
     	<Row>
@@ -4200,6 +4717,14 @@ ProductInfo
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 		 	<Cell ss:StyleID="s23" ss:Index="3"  ss:MergeAcross="1">
 	 			<Data ss:Type="String">CAP</Data>
+	 		</Cell>
+	 		 <Cell ss:StyleID="s27"/>
+ 		</Row> 
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+		 	<Cell ss:StyleID="s23" ss:Index="3"  ss:MergeAcross="1">
+	 			<Data ss:Type="String">DERIVED</Data>
 	 		</Cell>
 	 		 <Cell ss:StyleID="s27"/>
  		</Row> 

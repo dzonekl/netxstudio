@@ -358,6 +358,23 @@ ServiceClassType
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 			
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Lifecycle</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The Lifecycle reference, contains 0 or 1&#13;								Lifecycle types.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Lifecycle
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">ServiceDistribution</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
@@ -665,6 +682,480 @@ Boolean
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
    			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">DerivedResource</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">&#13;				TODO&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">BaseResource</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	    <Row>
+    		<Cell ss:StyleID="s18" ss:Index="1"/>
+    		<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">Attribute</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">Type</Data>
+ 			</Cell>
+    		</Row>
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">DetailDisplay</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The DetailDisplay attribute is a flag specifiy&#13;							if&#13;							the resource should be displayed in a detailed presentation.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Boolean
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">SummaryDisplay</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The SummaryDisplay attribute is a flag specifiy&#13;							if&#13;							the resource should be displayed in a summary presentation.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Boolean
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">LongName</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The LongName attribute holds a long name which&#13;							is&#13;							used for presentation of the resource.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Description2000
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">ExpressionName</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The ExpressionName attribute holds a name which&#13;							is&#13;							used in the expressions referencing&#13;							the resource.&#13;&#13;							See: The&#13;							NetXScript&#13;							specification.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Name255
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">ShortName</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The ShortName attribute holds a short name which&#13;							is used for presentation of the resource.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Name255
+</Data>
+	 	 </Cell>
+ 	</Row> 
+ 	 	
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+	   		<Row>
+	   			<Cell ss:StyleID="s18" ss:Index="1"/>
+	   			<Cell ss:StyleID="s25" ss:Index="2"/>
+	    		<Cell ss:StyleID="s21" ss:Index="3">
+	 	 			<Data ss:Type="String">Reference</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s21">
+	 	 			<Data ss:Type="String">Description</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s211">
+	 	 			<Data ss:Type="String">To Type</Data>
+	 			</Cell>
+	    	</Row>
+   			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">UnitRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The UnitRef reference, refers to 0 or 1 Unit&#13;							type.&#13;						
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Unit
+</Data>
+	 	 	</Cell>
+		</Row>
+   		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+   		<Row>
+   			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">MultiReference</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">To Type</Data>
+ 			</Cell>
+    	</Row>
+    	
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Values</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The ProfileValues reference, contains&#13;								profile&#13;								values. Profile values are populated with expressions.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Value
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">ForecastValues</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The ForecastValues reference, contains forecast&#13;								values. Forecast values are populated with&#13;								expressions, imported&#13;								or&#13;								entered manually.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Value
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">TrendedValues</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The TrendedValues reference, contains trended&#13;								values. Trended values are populated with&#13;								expressions.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Value
+</Data>
+	 	 	</Cell>
+		</Row>
+    	
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">DistributionEntry</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">Base</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	    <Row>
+    		<Cell ss:StyleID="s18" ss:Index="1"/>
+    		<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">Attribute</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">Type</Data>
+ 			</Cell>
+    		</Row>
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">ResourceOrigin</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+ResourceOriginType
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Deleted</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Boolean
+</Data>
+	 	 </Cell>
+ 	</Row> 
+ 	 	
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+	   		<Row>
+	   			<Cell ss:StyleID="s18" ss:Index="1"/>
+	   			<Cell ss:StyleID="s25" ss:Index="2"/>
+	    		<Cell ss:StyleID="s21" ss:Index="3">
+	 	 			<Data ss:Type="String">Reference</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s21">
+	 	 			<Data ss:Type="String">Description</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s211">
+	 	 			<Data ss:Type="String">To Type</Data>
+	 			</Cell>
+	    	</Row>
+   			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ResourceRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The ServiceResource reference, contains 0 or 1&#13;								Resource type.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+NetXResource
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Distribution</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The ServiceResource reference, contains 0 or&#13;								more DerivedResource type.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+DerivedResource
+</Data>
+	 	 	</Cell>
+		</Row>
+   		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
  	 			<Data ss:Type="String">RFSService</Data>
  			</Cell>
     	</Row>
@@ -841,6 +1332,23 @@ ServiceClassType
 	 			</Cell>
 	    	</Row>
    			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Lifecycle</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The Lifecycle reference, contains 0 or 1&#13;								Lifecycle types.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Lifecycle
+</Data>
+	 	 	</Cell>
+		</Row>
+
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
@@ -1193,6 +1701,23 @@ Boolean
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 			
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Lifecycle</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The Lifecycle reference, contains 0 or 1&#13;								Lifecycle types.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Lifecycle
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">ServiceDistribution</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
@@ -1479,15 +2004,15 @@ Expression
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 			
-				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">ServiceResources</Data></Cell>
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">DistributionEntries</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The ServiceResource reference, contains 0 or&#13;								more&#13;								Resource types.&#13;							
+	 	 		<Data ss:Type="String">The DistributionEntries reference, contains 0 or&#13;								more Entries.&#13;							
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
-NetXResource
+DistributionEntry
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -2281,7 +2806,7 @@ Boolean
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
-NetXResource
+DerivedResource
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -2370,6 +2895,23 @@ NetXResource
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Description</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The Description attribute, holds the&#13;							Description of the service User.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Description2000
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
 	 	 	<Data ss:Type="String">Name</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
@@ -2427,6 +2969,23 @@ Boolean
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ExpressionRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The ExpressionRef reference, refers to 0 or&#13;								1&#13;								Expression types.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Expression
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">ServiceProfile</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
@@ -2450,43 +3009,74 @@ ServiceProfile
  			<Cell ss:StyleID="s20"/>
  			<Cell ss:StyleID="s28"/>
  	 	</Row>
-   		<Row>
-   			<Cell ss:StyleID="s18" ss:Index="1"/>
-   			<Cell ss:StyleID="s25" ss:Index="2"/>
-    		<Cell ss:StyleID="s21" ss:Index="3">
- 	 			<Data ss:Type="String">MultiReference</Data>
- 			</Cell>
-    		<Cell ss:StyleID="s21">
- 	 			<Data ss:Type="String">Description</Data>
- 			</Cell>
-    		<Cell ss:StyleID="s211">
- 	 			<Data ss:Type="String">To Type</Data>
- 			</Cell>
-    	</Row>
-    	
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-			<Cell ss:StyleID="s25" ss:Index="2"/>
-			
-				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ExpressionRefs</Data></Cell>
-			
-			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The ExpressionRefs reference, refers to 0 or&#13;								more&#13;								Expression types.&#13;							
-</Data>
-	 	 	</Cell>
-	 	 	 <Cell ss:StyleID="s27">
-	 	 		<Data ss:Type="String">
-Expression
-</Data>
-	 	 	</Cell>
-		</Row>
-    	
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
 		
 		<Row>
 		<Cell ss:StyleID="s18" ss:Index="1"/>
    		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
     	</Row>
 	 		
+
+
+
+
+	<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">Enum Type: ResourceOriginType</Data>
+ 			</Cell>
+    	</Row>
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Values:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+		 	<Cell ss:StyleID="s23" ss:Index="3"  ss:MergeAcross="1">
+	 			<Data ss:Type="String">InBound</Data>
+	 		</Cell>
+	 		 <Cell ss:StyleID="s27"/>
+ 		</Row> 
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+		 	<Cell ss:StyleID="s23" ss:Index="3"  ss:MergeAcross="1">
+	 			<Data ss:Type="String">OutBound</Data>
+	 		</Cell>
+	 		 <Cell ss:StyleID="s27"/>
+ 		</Row> 
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+		 	<Cell ss:StyleID="s23" ss:Index="3"  ss:MergeAcross="1">
+	 			<Data ss:Type="String">Internal</Data>
+	 		</Cell>
+	 		 <Cell ss:StyleID="s27"/>
+ 		</Row> 
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 			</Cell>			
+    	</Row>
 
 
 

@@ -198,7 +198,7 @@
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s201" ss:Index="3">
-	 	 	<Data ss:Type="String">Base</Data>
+	 	 	<Data ss:Type="String">Location</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s20"/>
 	 	 <Cell ss:StyleID="s28"/>
@@ -232,23 +232,6 @@
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s23" ss:Index="3">
-	 	 	<Data ss:Type="String">Name</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">The Name attribute should be according to ISO&#13;							definitions in:&#13;&#13;&#13;							http://www.iso.org/iso/english_country_names_and_code_elements&#13;						
-</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s27">
-	 	 	<Data ss:Type="String">
-Name255
-</Data>
-	 	 </Cell>
- 	</Row> 
-
-	<Row>
-		<Cell ss:StyleID="s18" ss:Index="1"/>
-		<Cell ss:StyleID="s25" ss:Index="2"/>
-	 	 <Cell ss:StyleID="s23" ss:Index="3">
 	 	 	<Data ss:Type="String">CountryCode</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
@@ -266,14 +249,15 @@ String
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s23" ss:Index="3">
-	 	 	<Data ss:Type="String">Deleted</Data>
+	 	 	<Data ss:Type="String">Name</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String"></Data>
+	 	 	<Data ss:Type="String">For countries, the Name attribute should be according to ISO&#13;							definitions in:&#13;							http://www.iso.org/iso/english_country_names_and_code_elements&#13;						
+</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
 	 	 	<Data ss:Type="String">
-Boolean
+Name255
 </Data>
 	 	 </Cell>
  	</Row> 
@@ -373,7 +357,7 @@ Site
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
    			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
- 	 			<Data ss:Type="String">Room</Data>
+ 	 			<Data ss:Type="String">Location</Data>
  			</Cell>
     	</Row>
     	<Row >
@@ -389,7 +373,7 @@ Site
     		<Cell ss:StyleID="s18"/>
 			<Cell ss:StyleID="s25"/>
     		<Cell ss:StyleID="s201" ss:MergeAcross="1">
- 	 			<Data ss:Type="String">A type representing the basic information points of&#13;				a real physical room. A room is part of a Site.&#13;			
+ 	 			<Data ss:Type="String">A abstract type representing a location.&#13;			
 </Data>
  	 		</Cell>
  	 		<Cell ss:StyleID="s28"/>
@@ -447,7 +431,7 @@ Site
 	 	 	<Data ss:Type="String">Name</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">The Name attribute holds a name used for&#13;							presentation.&#13;						
+	 	 	<Data ss:Type="String">For countries, the Name attribute should be according to ISO&#13;							definitions in:&#13;							http://www.iso.org/iso/english_country_names_and_code_elements&#13;						
 </Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
@@ -457,6 +441,144 @@ Name255
 	 	 </Cell>
  	</Row> 
 
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Deleted</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Boolean
+</Data>
+	 	 </Cell>
+ 	</Row> 
+ 	 	
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">Room</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">A type representing the basic information points of&#13;				a real physical room. A room is part of a Site.&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">Location</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	    <Row>
+    		<Cell ss:StyleID="s18" ss:Index="1"/>
+    		<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">Attribute</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">Type</Data>
+ 			</Cell>
+    		</Row>
+ 	 		
 	<Row>
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
@@ -478,14 +600,15 @@ String
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s23" ss:Index="3">
-	 	 	<Data ss:Type="String">Deleted</Data>
+	 	 	<Data ss:Type="String">Name</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String"></Data>
+	 	 	<Data ss:Type="String">For countries, the Name attribute should be according to ISO&#13;							definitions in:&#13;							http://www.iso.org/iso/english_country_names_and_code_elements&#13;						
+</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
 	 	 	<Data ss:Type="String">
-Boolean
+Name255
 </Data>
 	 	 </Cell>
  	</Row> 
@@ -582,7 +705,7 @@ Boolean
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s201" ss:Index="3">
-	 	 	<Data ss:Type="String">Base</Data>
+	 	 	<Data ss:Type="String">Location</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s20"/>
 	 	 <Cell ss:StyleID="s28"/>
@@ -612,23 +735,6 @@ Boolean
  			</Cell>
     		</Row>
  	 		
-	<Row>
-		<Cell ss:StyleID="s18" ss:Index="1"/>
-		<Cell ss:StyleID="s25" ss:Index="2"/>
-	 	 <Cell ss:StyleID="s23" ss:Index="3">
-	 	 	<Data ss:Type="String">Name</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">The Name attribute holds a name used for&#13;							presentation.&#13;						
-</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s27">
-	 	 	<Data ss:Type="String">
-Name255
-</Data>
-	 	 </Cell>
- 	</Row> 
-
 	<Row>
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
@@ -769,14 +875,15 @@ String
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s23" ss:Index="3">
-	 	 	<Data ss:Type="String">Deleted</Data>
+	 	 	<Data ss:Type="String">Name</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String"></Data>
+	 	 	<Data ss:Type="String">For countries, the Name attribute should be according to ISO&#13;							definitions in:&#13;							http://www.iso.org/iso/english_country_names_and_code_elements&#13;						
+</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
 	 	 	<Data ss:Type="String">
-Boolean
+Name255
 </Data>
 	 	 </Cell>
  	</Row> 
@@ -849,6 +956,7 @@ Room
    		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
     	</Row>
 	 		
+
 
 
  		</Table>

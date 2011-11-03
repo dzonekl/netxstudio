@@ -1665,6 +1665,23 @@ Boolean
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">IntervalEstimate</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The IntervalEstimate attribute contains a number in minutes for &#13;						the mapping run. It also corresponds the MetricValueRange for the mapping run. &#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Int
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
 	 	 	<Data ss:Type="String">TotalRecords</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
@@ -1743,6 +1760,23 @@ Boolean
 			
 			<Cell ss:StyleID="s23">
 	 	 		<Data ss:Type="String">The MappingDuration reference, refers to a&#13;								DateTimeRange type.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+DateTimeRange
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">PeriodEstimate</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The PeriodEstimate reference, refers to a&#13;								DateTimeRange type. It contains an estimate of the start till end date and time &#13;								for a single mapping run.  &#13;							
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -2136,23 +2170,6 @@ Description2000
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s23" ss:Index="3">
-	 	 	<Data ss:Type="String">MetricCalculation</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">The MetricCalculation references, contains 0 or&#13;							1&#13;							ExpressionLine type.&#13;						
-</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s27">
-	 	 	<Data ss:Type="String">
-ExpressionLine
-</Data>
-	 	 </Cell>
- 	</Row> 
-
-	<Row>
-		<Cell ss:StyleID="s18" ss:Index="1"/>
-		<Cell ss:StyleID="s25" ss:Index="2"/>
-	 	 <Cell ss:StyleID="s23" ss:Index="3">
 	 	 	<Data ss:Type="String">Name</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
@@ -2223,6 +2240,23 @@ Boolean
 	 			</Cell>
 	    	</Row>
    			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ExpressionRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The ExpressionRef reference, references 0 or&#13;							1 Expression type.&#13;						
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Expression
+</Data>
+	 	 	</Cell>
+		</Row>
+
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
@@ -2738,6 +2772,23 @@ AnyURI
 	 	 <Cell ss:StyleID="s27">
 	 	 	<Data ss:Type="String">
 Name255
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">FilterPattern</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">A regexp which is used to filter files present&#13;						at the location defined by the MetricLocation.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+String
 </Data>
 	 	 </Cell>
  	</Row> 

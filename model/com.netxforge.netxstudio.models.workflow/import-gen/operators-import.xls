@@ -120,57 +120,6 @@
 	 </Table>
     </Worksheet>
 
-	 <Worksheet ss:Name="ExpansionExperience">
-	 <Table>
-	 	<Column/>
-   		<Row>
-   		
- 	 <Cell ss:StyleID="s20">
- 	 	<Data ss:Type="String">Duration</Data>
-		
- 	 
-		<Comment><Data>
-        The Duration attribute, holds the typical
-							duration
-							for the expansion of an Equipment.
-						</Data>
-        </Comment>		
- 	 
-
- 	 
-			 	 	
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s20">
- 	 	<Data ss:Type="String">Deleted</Data>
-		
- 	 
-			 	 	
- 	 </Cell>
-   		
-		
-			<Cell ss:StyleID="s22"><Data ss:Type="String">equipmentRef</Data></Cell>
-		
-   		
-	<Cell ss:StyleID="s21"><Data ss:Type="String">Base</Data></Cell>
-	 	</Row>
-   		<Row>
-   		
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">ExpansionDuration</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Boolean</Data>
- 	 </Cell>
-   		
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Equipment</Data>
- 	 </Cell>
-	 	</Row>
-	 </Table>
-    </Worksheet>
-
 	 <Worksheet ss:Name="FunctionRelationship">
 	 <Table>
 	 	<Column/>
@@ -285,10 +234,6 @@
  	 </Cell>
    		
 		
-			<Cell ss:StyleID="s22"><Data ss:Type="String">componentRef</Data></Cell>
-		
-
-		
 			<Cell ss:StyleID="s22"><Data ss:Type="String">valueRef</Data></Cell>
 		
 
@@ -312,10 +257,6 @@
  	 	<Data ss:Type="String">Boolean</Data>
  	 </Cell>
    		
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Component</Data>
- 	 </Cell>
-
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">Value</Data>
  	 </Cell>
@@ -455,11 +396,11 @@
 		
 
 		
-			<Cell ss:StyleID="s22"><Data ss:Type="String">originalNodeTypeRef</Data></Cell>
+			<Cell ss:StyleID="s22"><Data ss:Type="String">locationRef</Data></Cell>
 		
 
 		
-			<Cell ss:StyleID="s22"><Data ss:Type="String">roomRef</Data></Cell>
+			<Cell ss:StyleID="s22"><Data ss:Type="String">originalNodeTypeRef</Data></Cell>
 		
 
 		
@@ -487,11 +428,11 @@
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">NodeType</Data>
+ 	 	<Data ss:Type="String">Location</Data>
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Room</Data>
+ 	 	<Data ss:Type="String">NodeType</Data>
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
@@ -669,8 +610,6 @@
 
     	
 
-    	
-
     
     
     <Worksheet ss:Name="Network_refs">
@@ -772,10 +711,6 @@
 			<Cell ss:StyleID="s21"><Data ss:Type="String">resourceExpansions</Data></Cell>
 		
 
-		
-			<Cell ss:StyleID="s21"><Data ss:Type="String">expansionExperiences</Data></Cell>
-		
-
     	</Row>
    		<Row>
    			<Cell ss:StyleID="s23">
@@ -800,10 +735,6 @@
 
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">ResourceExpansion</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">ExpansionExperience</Data>
  	 </Cell>
 
    		</Row>

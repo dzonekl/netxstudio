@@ -161,7 +161,7 @@
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
    			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
- 	 			<Data ss:Type="String">ExpressionFailure</Data>
+ 	 			<Data ss:Type="String">AnalyzerJob</Data>
  			</Cell>
     	</Row>
     	<Row >
@@ -177,7 +177,7 @@
     		<Cell ss:StyleID="s18"/>
 			<Cell ss:StyleID="s25"/>
     		<Cell ss:StyleID="s201" ss:MergeAcross="1">
- 	 			<Data ss:Type="String">Gives information about a failed expression
+ 	 			<Data ss:Type="String">A job performing post analysis for a service.&#13;			
 </Data>
  	 		</Cell>
  	 		<Cell ss:StyleID="s28"/>
@@ -193,16 +193,17 @@
     		<Cell ss:StyleID="s28"/>
  	 	</Row>
  		
- 	 		<Row>
-				<Cell ss:StyleID="s18" ss:Index="1"/>
-				<Cell ss:StyleID="s25" ss:Index="2"/>
-	 	 		<Cell ss:StyleID="s26" ss:Index="3">
-	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
-	 	 		</Cell>
-	 	 		<Cell ss:StyleID="s20"/>
-	 	 		<Cell ss:StyleID="s28"/>
- 			</Row> 
-		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">Job</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
 		
     	<Row>
     		<Cell ss:StyleID="s18"/>
@@ -231,11 +232,90 @@
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s23" ss:Index="3">
-	 	 	<Data ss:Type="String">Message</Data>
+	 	 	<Data ss:Type="String">EndTime</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">Message giving some extra information on the failure
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+DateTime
 </Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">StartTime</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+DateTime
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Interval</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Int
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Repeat</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Int
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">JobState</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+JobState
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Name</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
 	 	 	<Data ss:Type="String">
@@ -272,32 +352,15 @@ String
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 			
-				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ExpressionRef</Data></Cell>
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">RFSService</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The expression which failed.
+	 	 		<Data ss:Type="String">Reference to the RFSService for which the job&#13;								runs.&#13;							
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
-EObject
-</Data>
-	 	 	</Cell>
-		</Row>
-
-		<Row>
-			<Cell ss:StyleID="s18" ss:Index="1"/>
-			<Cell ss:StyleID="s25" ss:Index="2"/>
-			
-				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ComponentRef</Data></Cell>
-			
-			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">Reference to the component for which the computation failed.
-</Data>
-	 	 	</Cell>
-	 	 	 <Cell ss:StyleID="s27">
-	 	 		<Data ss:Type="String">
-Component
+RFSService
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -336,7 +399,7 @@ Component
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
    			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
- 	 			<Data ss:Type="String">ExpressionWorkFlowRun</Data>
+ 	 			<Data ss:Type="String">ComponentFailure</Data>
  			</Cell>
     	</Row>
     	<Row >
@@ -352,7 +415,163 @@ Component
     		<Cell ss:StyleID="s18"/>
 			<Cell ss:StyleID="s25"/>
     		<Cell ss:StyleID="s201" ss:MergeAcross="1">
- 	 			<Data ss:Type="String">A job run result with RFSService specific data.
+ 	 			<Data ss:Type="String">Gives information about a failed component&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">ExpressionFailure</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+	   		<Row>
+	   			<Cell ss:StyleID="s18" ss:Index="1"/>
+	   			<Cell ss:StyleID="s25" ss:Index="2"/>
+	    		<Cell ss:StyleID="s21" ss:Index="3">
+	 	 			<Data ss:Type="String">Reference</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s21">
+	 	 			<Data ss:Type="String">Description</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s211">
+	 	 			<Data ss:Type="String">To Type</Data>
+	 			</Cell>
+	    	</Row>
+   			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ComponentRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">Reference to the component for which the&#13;								computation failed.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Component
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ExpressionRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The expression which failed.
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Expression
+</Data>
+	 	 	</Cell>
+		</Row>
+   		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">ComponentWorkFlowRun</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">A job run result with RFSService specific data.&#13;			
 </Data>
  	 		</Cell>
  	 		<Cell ss:StyleID="s28"/>
@@ -567,16 +786,313 @@ String
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">FailureRefs</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">Reference to information about failed expressions
+	 	 		<Data ss:Type="String">Reference to information about failed&#13;								expressions&#13;							
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
-ExpressionFailure
+Failure
 </Data>
 	 	 	</Cell>
 		</Row>
     	
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">ExpressionFailure</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">Gives information about a failed expression&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">Failure</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	    <Row>
+    		<Cell ss:StyleID="s18" ss:Index="1"/>
+    		<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">Attribute</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">Type</Data>
+ 			</Cell>
+    		</Row>
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Message</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">Message giving some extra information on the&#13;						failure&#13;					
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+String
+</Data>
+	 	 </Cell>
+ 	</Row> 
+ 	 	
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+	   		<Row>
+	   			<Cell ss:StyleID="s18" ss:Index="1"/>
+	   			<Cell ss:StyleID="s25" ss:Index="2"/>
+	    		<Cell ss:StyleID="s21" ss:Index="3">
+	 	 			<Data ss:Type="String">Reference</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s21">
+	 	 			<Data ss:Type="String">Description</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s211">
+	 	 			<Data ss:Type="String">To Type</Data>
+	 			</Cell>
+	    	</Row>
+   			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ExpressionRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The expression which failed.
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Expression
+</Data>
+	 	 	</Cell>
+		</Row>
+   		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">Failure</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">Gives information about a failure&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	    <Row>
+    		<Cell ss:StyleID="s18" ss:Index="1"/>
+    		<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">Attribute</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">Type</Data>
+ 			</Cell>
+    		</Row>
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Message</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">Message giving some extra information on the&#13;						failure&#13;					
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+String
+</Data>
+	 	 </Cell>
+ 	</Row> 
+ 	 	
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
 		
 		<Row>
 		<Cell ss:StyleID="s18" ss:Index="1"/>
@@ -1155,28 +1671,49 @@ String
  			<Cell ss:StyleID="s20"/>
  			<Cell ss:StyleID="s28"/>
  	 	</Row>
-	   		<Row>
-	   			<Cell ss:StyleID="s18" ss:Index="1"/>
-	   			<Cell ss:StyleID="s25" ss:Index="2"/>
-	    		<Cell ss:StyleID="s21" ss:Index="3">
-	 	 			<Data ss:Type="String">Reference</Data>
-	 			</Cell>
-	    		<Cell ss:StyleID="s21">
-	 	 			<Data ss:Type="String">Description</Data>
-	 			</Cell>
-	    		<Cell ss:StyleID="s211">
-	 	 			<Data ss:Type="String">To Type</Data>
-	 			</Cell>
-	    	</Row>
-   			
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+   		<Row>
+   			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">MultiReference</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">To Type</Data>
+ 			</Cell>
+    	</Row>
+    	
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 			<Cell ss:StyleID="s25" ss:Index="2"/>
 			
-				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">MetricSource</Data></Cell>
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">MetricSources</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">Reference to the metric source being imported
+	 	 		<Data ss:Type="String">Reference to the metric source being imported&#13;							
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -1185,6 +1722,223 @@ MetricSource
 </Data>
 	 	 	</Cell>
 		</Row>
+    	
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">NodeReporterJob</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">A job producing external format reports for a&#13;				service.&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">Job</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	    <Row>
+    		<Cell ss:StyleID="s18" ss:Index="1"/>
+    		<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">Attribute</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">Type</Data>
+ 			</Cell>
+    		</Row>
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">EndTime</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+DateTime
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">StartTime</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+DateTime
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Interval</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Int
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Repeat</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Int
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">JobState</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+JobState
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Name</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+String
+</Data>
+	 	 </Cell>
+ 	</Row> 
+ 	 	
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+	   		<Row>
+	   			<Cell ss:StyleID="s18" ss:Index="1"/>
+	   			<Cell ss:StyleID="s25" ss:Index="2"/>
+	    		<Cell ss:StyleID="s21" ss:Index="3">
+	 	 			<Data ss:Type="String">Reference</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s21">
+	 	 			<Data ss:Type="String">Description</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s211">
+	 	 			<Data ss:Type="String">To Type</Data>
+	 			</Cell>
+	    	</Row>
+   			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">Node</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">Reference to the Node for which the job&#13;								runs.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Node
+</Data>
+	 	 	</Cell>
+		</Row>
    		
 		
    		<Row>
@@ -1220,7 +1974,7 @@ MetricSource
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
    			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
- 	 			<Data ss:Type="String">RFSServiceJob</Data>
+ 	 			<Data ss:Type="String">NodeTypeReporterJob</Data>
  			</Cell>
     	</Row>
     	<Row >
@@ -1236,7 +1990,718 @@ MetricSource
     		<Cell ss:StyleID="s18"/>
 			<Cell ss:StyleID="s25"/>
     		<Cell ss:StyleID="s201" ss:MergeAcross="1">
- 	 			<Data ss:Type="String">A job computing capacity and utilization for a service.
+ 	 			<Data ss:Type="String">A job producing external format reports for a&#13;				service.&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">Job</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	    <Row>
+    		<Cell ss:StyleID="s18" ss:Index="1"/>
+    		<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">Attribute</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">Type</Data>
+ 			</Cell>
+    		</Row>
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">EndTime</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+DateTime
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">StartTime</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+DateTime
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Interval</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Int
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Repeat</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Int
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">JobState</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+JobState
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Name</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+String
+</Data>
+	 	 </Cell>
+ 	</Row> 
+ 	 	
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+	   		<Row>
+	   			<Cell ss:StyleID="s18" ss:Index="1"/>
+	   			<Cell ss:StyleID="s25" ss:Index="2"/>
+	    		<Cell ss:StyleID="s21" ss:Index="3">
+	 	 			<Data ss:Type="String">Reference</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s21">
+	 	 			<Data ss:Type="String">Description</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s211">
+	 	 			<Data ss:Type="String">To Type</Data>
+	 			</Cell>
+	    	</Row>
+   			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">NodeType</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">Reference to the NodeType for which the job&#13;								runs.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+NodeType
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ScopeObject</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">Reference to an arbitrary Scope object. &#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+EObject
+</Data>
+	 	 	</Cell>
+		</Row>
+   		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">OperatorReporterJob</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">A job producing external format reports for a&#13;				service.&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">Job</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	    <Row>
+    		<Cell ss:StyleID="s18" ss:Index="1"/>
+    		<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">Attribute</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">Type</Data>
+ 			</Cell>
+    		</Row>
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">EndTime</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+DateTime
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">StartTime</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+DateTime
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Interval</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Int
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Repeat</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Int
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">JobState</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+JobState
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Name</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+String
+</Data>
+	 	 </Cell>
+ 	</Row> 
+ 	 	
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+	   		<Row>
+	   			<Cell ss:StyleID="s18" ss:Index="1"/>
+	   			<Cell ss:StyleID="s25" ss:Index="2"/>
+	    		<Cell ss:StyleID="s21" ss:Index="3">
+	 	 			<Data ss:Type="String">Reference</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s21">
+	 	 			<Data ss:Type="String">Description</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s211">
+	 	 			<Data ss:Type="String">To Type</Data>
+	 			</Cell>
+	    	</Row>
+   			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">Operator</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">Reference to the Operator for which the job&#13;								runs.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Operator
+</Data>
+	 	 	</Cell>
+		</Row>
+   		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">RetentionJob</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">A job performing retention for a certain rfs&#13;				service.&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">Job</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	    <Row>
+    		<Cell ss:StyleID="s18" ss:Index="1"/>
+    		<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">Attribute</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">Type</Data>
+ 			</Cell>
+    		</Row>
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">EndTime</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+DateTime
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">StartTime</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+DateTime
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Interval</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Int
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Repeat</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Int
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">JobState</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+JobState
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Name</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+String
+</Data>
+	 	 </Cell>
+ 	</Row> 
+ 	 	
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">RFSServiceMonitoringJob</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">A job computing capacity and utilization for a&#13;				service.&#13;			
 </Data>
  	 		</Cell>
  	 		<Cell ss:StyleID="s28"/>
@@ -1414,7 +2879,7 @@ String
 				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">RFSService</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">Reference to the RFSService for which the job runs.
+	 	 		<Data ss:Type="String">Reference to the RFSService for which the job&#13;								runs.&#13;							
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -1458,7 +2923,7 @@ RFSService
 		<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
    			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
- 	 			<Data ss:Type="String">RFSServiceRetentionJob</Data>
+ 	 			<Data ss:Type="String">RFSServiceReporterJob</Data>
  			</Cell>
     	</Row>
     	<Row >
@@ -1474,7 +2939,7 @@ RFSService
     		<Cell ss:StyleID="s18"/>
 			<Cell ss:StyleID="s25"/>
     		<Cell ss:StyleID="s201" ss:MergeAcross="1">
- 	 			<Data ss:Type="String">A job performing retention for a certain rfs service.
+ 	 			<Data ss:Type="String">A job producing external format reports for a&#13;				service.&#13;			
 </Data>
  	 		</Cell>
  	 		<Cell ss:StyleID="s28"/>
@@ -1652,12 +3117,168 @@ String
 				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">RFSService</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">Reference to the RFSService for which the job runs.
+	 	 		<Data ss:Type="String">Reference to the RFSService for which the job&#13;								runs.&#13;							
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
 RFSService
+</Data>
+	 	 	</Cell>
+		</Row>
+   		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">ServiceUserFailure</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">Gives information about a failed component&#13;			
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s201" ss:Index="3">
+	 	 	<Data ss:Type="String">ExpressionFailure</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s20"/>
+	 	 <Cell ss:StyleID="s28"/>
+ 	</Row> 	
+ 	 	
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+	   		<Row>
+	   			<Cell ss:StyleID="s18" ss:Index="1"/>
+	   			<Cell ss:StyleID="s25" ss:Index="2"/>
+	    		<Cell ss:StyleID="s21" ss:Index="3">
+	 	 			<Data ss:Type="String">Reference</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s21">
+	 	 			<Data ss:Type="String">Description</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s211">
+	 	 			<Data ss:Type="String">To Type</Data>
+	 			</Cell>
+	    	</Row>
+   			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ServiceUserRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">Reference to the ServiceUser for which the&#13;								computation failed.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+ServiceUser
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ExpressionRef</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The expression which failed.
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+Expression
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -1925,6 +3546,9 @@ String
 
 
 
+
+
+
 	<Row>
 			<Cell ss:StyleID="s18" ss:Index="1"/>
 		</Row>
@@ -2013,6 +3637,11 @@ String
    			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
  			</Cell>			
     	</Row>
+
+
+
+
+
 
 
 

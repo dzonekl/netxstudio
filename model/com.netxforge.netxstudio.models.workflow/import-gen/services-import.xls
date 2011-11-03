@@ -160,6 +160,10 @@
  	 </Cell>
    		
 		
+			<Cell ss:StyleID="s21"><Data ss:Type="String">lifecycle</Data></Cell>
+		
+
+		
 			<Cell ss:StyleID="s21"><Data ss:Type="String">serviceDistribution</Data></Cell>
 		
    		
@@ -191,6 +195,10 @@
  	 	<Data ss:Type="String">ServiceClassType</Data>
  	 </Cell>
    		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Lifecycle</Data>
+ 	 </Cell>
+
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">ServiceDistribution</Data>
  	 </Cell>
@@ -353,6 +361,10 @@
  	 </Cell>
    		
 		
+			<Cell ss:StyleID="s21"><Data ss:Type="String">lifecycle</Data></Cell>
+		
+
+		
 			<Cell ss:StyleID="s21"><Data ss:Type="String">serviceDistribution</Data></Cell>
 		
    		
@@ -380,6 +392,10 @@
  	 	<Data ss:Type="String">ServiceClassType</Data>
  	 </Cell>
    		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Lifecycle</Data>
+ 	 </Cell>
+
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">ServiceDistribution</Data>
  	 </Cell>
@@ -536,6 +552,21 @@
    		<Row>
    		
  	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Description</Data>
+		
+ 	 
+		<Comment><Data>
+        The Description attribute, holds the
+							Description of the service User.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
  	 	<Data ss:Type="String">Name</Data>
 		
  	 
@@ -558,6 +589,10 @@
  	 </Cell>
    		
 		
+			<Cell ss:StyleID="s22"><Data ss:Type="String">expressionRef</Data></Cell>
+		
+
+		
 			<Cell ss:StyleID="s21"><Data ss:Type="String">serviceProfile</Data></Cell>
 		
    		
@@ -566,6 +601,10 @@
    		<Row>
    		
  	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Description2000</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">Name255</Data>
  	 </Cell>
 
@@ -573,6 +612,10 @@
  	 	<Data ss:Type="String">Boolean</Data>
  	 </Cell>
    		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Expression</Data>
+ 	 </Cell>
+
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">ServiceProfile</Data>
  	 </Cell>
@@ -807,7 +850,7 @@
  		 	</Cell>
    			
  	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">NetXResource</Data>
+ 	 	<Data ss:Type="String">DerivedResource</Data>
  	 </Cell>
 
    		</Row>
@@ -815,33 +858,6 @@
    </Worksheet>
    	
 
-    
-    
-    <Worksheet ss:Name="ServiceUser_refs">
-	 <Table>
-	 	<Column/>
-   		<Row>
-   			<Cell ss:StyleID="s20">
- 	 		<Data ss:Type="String">ServiceUser</Data>
- 		 	</Cell>
-    		
-		
-			<Cell ss:StyleID="s22"><Data ss:Type="String">expressionRefs</Data></Cell>
-		
-
-    	</Row>
-   		<Row>
-   			<Cell ss:StyleID="s23">
- 	 		<Data ss:Type="String">[]</Data>
- 		 	</Cell>
-   			
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Expression</Data>
- 	 </Cell>
-
-   		</Row>
-	 </Table>
-   </Worksheet>
-   	
+    	
 	</Workbook>
    

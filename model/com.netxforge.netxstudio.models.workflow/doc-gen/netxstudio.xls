@@ -177,7 +177,7 @@
     		<Cell ss:StyleID="s18"/>
 			<Cell ss:StyleID="s25"/>
     		<Cell ss:StyleID="s201" ss:MergeAcross="1">
- 	 			<Data ss:Type="String">Netxstudio is a container which groups all main other types. It is the root object.
+ 	 			<Data ss:Type="String">Netxstudio is a container which groups all main&#13;				other types. It is the root object.&#13;			
 </Data>
  	 		</Cell>
  	 		<Cell ss:StyleID="s28"/>
@@ -276,7 +276,7 @@
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Operators</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The Operators reference, contains 0 or more Operator type.
+	 	 		<Data ss:Type="String">The Operators reference, contains 0 or more&#13;						Operator type.&#13;					
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -293,7 +293,7 @@ Operator
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Libraries</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The Libraries reference, contains 0 or more Library type.
+	 	 		<Data ss:Type="String">The Libraries reference, contains 0 or more&#13;						Library type.&#13;					
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -310,7 +310,7 @@ Library
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Companies</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The Companies reference, contains 0 or more Company type.
+	 	 		<Data ss:Type="String">The Companies reference, contains 0 or more&#13;						Company type.&#13;					
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -327,7 +327,7 @@ Company
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Vendors</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The Companies reference, contains 0 or more Company type.
+	 	 		<Data ss:Type="String">The Companies reference, contains 0 or more&#13;						Company type.&#13;					
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -344,7 +344,7 @@ Vendor
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Users</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The Users reference, contains 0 or more User type.
+	 	 		<Data ss:Type="String">The Users reference, contains 0 or more User&#13;						type.&#13;					
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -361,7 +361,7 @@ Person
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Roles</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The Roles reference, contains 0 or more Role type.
+	 	 		<Data ss:Type="String">The Roles reference, contains 0 or more Role&#13;						type.&#13;					
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -378,7 +378,7 @@ Role
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Countries</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The Countries reference, contains 0 or more Country type.
+	 	 		<Data ss:Type="String">The Countries reference, contains 0 or more&#13;						Country type.&#13;					
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -395,7 +395,7 @@ Country
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">Jobs</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The Jobs reference, contains 0 or more Job type.
+	 	 		<Data ss:Type="String">The Jobs reference, contains 0 or more Job type.&#13;					
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -410,7 +410,180 @@ Job
 		<Cell ss:StyleID="s18" ss:Index="1"/>
    		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
     	</Row>
+
+		
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+		</Row>
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+   			<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3">
+ 	 			<Data ss:Type="String">ServerSettings</Data>
+ 			</Cell>
+    	</Row>
+    	<Row >
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Description:</Data>
+ 			</Cell>			
+ 	 		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+    	<Row ss:Height="50">
+    		<Cell ss:StyleID="s18"/>
+			<Cell ss:StyleID="s25"/>
+    		<Cell ss:StyleID="s201" ss:MergeAcross="1">
+ 	 			<Data ss:Type="String">Contains Settings on the server
+</Data>
+ 	 		</Cell>
+ 	 		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+		
+		<Row>
+			<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Super Types:</Data>
+ 			</Cell>			
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s20"/>
+    		<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 		
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+    	<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Attributes:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	    <Row>
+    		<Cell ss:StyleID="s18" ss:Index="1"/>
+    		<Cell ss:StyleID="s25" ss:Index="2"/>
+    		<Cell ss:StyleID="s21" ss:Index="3">
+ 	 			<Data ss:Type="String">Attribute</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s21">
+ 	 			<Data ss:Type="String">Description</Data>
+ 			</Cell>
+    		<Cell ss:StyleID="s211">
+ 	 			<Data ss:Type="String">Type</Data>
+ 			</Cell>
+    		</Row>
+ 	 		
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">ExportPath</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+String
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">ImportPath</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String"></Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+String
+</Data>
+	 	 </Cell>
+ 	</Row> 
+ 	 	
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Single References:</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+	   		<Row>
+	   			<Cell ss:StyleID="s18" ss:Index="1"/>
+	   			<Cell ss:StyleID="s25" ss:Index="2"/>
+	    		<Cell ss:StyleID="s21" ss:Index="3">
+	 	 			<Data ss:Type="String">Reference</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s21">
+	 	 			<Data ss:Type="String">Description</Data>
+	 			</Cell>
+	    		<Cell ss:StyleID="s211">
+	 	 			<Data ss:Type="String">To Type</Data>
+	 			</Cell>
+	    	</Row>
+   			
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">ExpansionDurationSettings</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String"></Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+ExpansionDurationSetting
+</Data>
+	 	 	</Cell>
+		</Row>
+   		
+		
+   		<Row>
+    		<Cell ss:StyleID="s18"/>
+    		<Cell ss:StyleID="s24">
+ 	 			<Data ss:Type="String">Multi References</Data>
+ 			</Cell>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s20"/>
+ 			<Cell ss:StyleID="s28"/>
+ 	 	</Row>
+ 	 	
+ 	 		<Row>
+				<Cell ss:StyleID="s18" ss:Index="1"/>
+				<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 		<Cell ss:StyleID="s26" ss:Index="3">
+	 	 			<Data ss:Type="String"><html:I>None</html:I></Data>
+	 	 		</Cell>
+	 	 		<Cell ss:StyleID="s20"/>
+	 	 		<Cell ss:StyleID="s28"/>
+ 			</Row> 
+		
+		
+		<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+   		<Cell ss:StyleID="s19" ss:Index="2" ss:MergeAcross="3"/>
+    	</Row>
 	 		
+
  		</Table>
  	</Worksheet>
  	</Workbook>

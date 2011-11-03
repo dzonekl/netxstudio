@@ -109,17 +109,21 @@
 
 							The following options are possible:
 
-							n =>
+							n
+							=>
 							The
 							equipment is not operating in any redundancy schema
-							n+1 => The
+							n+1
+							=> The
 							equipment is part of an n+1 schema. (1 stand-by for n
 							number of
 							active equipment).
-							1+1 => The equipment is paired with another
+							1+1 => The equipment is paired with
+							another
 							equipment.
 
-							It should be considered, that the permitted load and
+							It should be considered, that the permitted load
+							and
 							consequently the
 							Tolerance will depend on the
 							redundancy schema.
@@ -166,30 +170,39 @@
 							equipment is operating.
 							Stand-by => The equipment is Stand-by.
 							Idle
-							=> The equipment is not configured and does not participate
+							=> The equipment is not configured and does not
+							participate
 							in
-							Active nor Stand-by and there for in the redudancy schema. An
+							Active nor Stand-by and there for in the redudancy
+							schema. An
 							Idle
 							e
 							Equipment can however be reserved.
-							Defect => The equipment is
+							Defect => The
+							equipment is
 							defect and does not participate in Active nor
 							Stand-by and there
 							for
 							in the redudancy schema.
-							Reserved => The equipment is reserved
+							Reserved => The
+							equipment is reserved
 							for
 							future use.
 
 							Examples
-							1. The state of the equipment could be
+							1. The state of the
+							equipment could be
 							considered to corelate with a
-							Metric of the Equipment. A Stand-by
-							equipment should not be considered when calculating the average
+							Metric of the
+							Equipment. A Stand-by
+							equipment should not be considered when
+							calculating the average
 							load for a
-							group of equipments. It will however depend
+							group of equipments. It will
+							however depend
 							on the
-							Equipment Manufacturer if measurements are reported for
+							Equipment Manufacturer if measurements are
+							reported for
 							non-Active
 							equipments.
 						</Data>
@@ -208,6 +221,22 @@
         The Description attribute holds the description
 							of
 							the equipment
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Duration</Data>
+		
+ 	 
+		<Comment><Data>
+        The Duration attribute, holds the typical
+							duration
+							for the expansion of an Equipment.
 						</Data>
         </Comment>		
  	 
@@ -238,10 +267,6 @@
 
 		
 			<Cell ss:StyleID="s22"><Data ss:Type="String">utilizationExpressionRef</Data></Cell>
-		
-
-		
-			<Cell ss:StyleID="s22"><Data ss:Type="String">retentionExpressionRef</Data></Cell>
 		
 
 		
@@ -277,13 +302,13 @@
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">ExpansionDuration</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">Name255</Data>
  	 </Cell>
    		
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Expression</Data>
- 	 </Cell>
-
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">Expression</Data>
  	 </Cell>
@@ -458,6 +483,22 @@
  	 </Cell>
 
  	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Duration</Data>
+		
+ 	 
+		<Comment><Data>
+        The Duration attribute, holds the typical
+							duration
+							for the expansion of an Equipment.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
  	 	<Data ss:Type="String">Name</Data>
 		
  	 
@@ -482,7 +523,7 @@
 		
 
 		
-			<Cell ss:StyleID="s22"><Data ss:Type="String">retentionExpressionRef</Data></Cell>
+			<Cell ss:StyleID="s21"><Data ss:Type="String">lifecycle</Data></Cell>
 		
 
 		
@@ -498,6 +539,10 @@
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">ExpansionDuration</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">Name255</Data>
  	 </Cell>
    		
@@ -510,7 +555,7 @@
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Expression</Data>
+ 	 	<Data ss:Type="String">Lifecycle</Data>
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
@@ -663,14 +708,11 @@
  	 
 			 	 	
  	 </Cell>
-
- 	 <Cell ss:StyleID="s20">
- 	 	<Data ss:Type="String">Deleted</Data>
-		
- 	 
-			 	 	
- 	 </Cell>
    		
+		
+			<Cell ss:StyleID="s22"><Data ss:Type="String">componentRef</Data></Cell>
+		
+
 		
 			<Cell ss:StyleID="s22"><Data ss:Type="String">metricRef</Data></Cell>
 		
@@ -679,7 +721,7 @@
 			<Cell ss:StyleID="s22"><Data ss:Type="String">unitRef</Data></Cell>
 		
    		
-	<Cell ss:StyleID="s21"><Data ss:Type="String">Base</Data></Cell>
+	<Cell ss:StyleID="s21"><Data ss:Type="String">BaseResource</Data></Cell>
 	 	</Row>
    		<Row>
    		
@@ -702,11 +744,11 @@
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">Name255</Data>
  	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Boolean</Data>
- 	 </Cell>
    		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Component</Data>
+ 	 </Cell>
+
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">Metric</Data>
  	 </Cell>
@@ -945,7 +987,7 @@
    		<Row>
    		
  	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">LevelType</Data>
+ 	 	<Data ss:Type="String">LevelKind</Data>
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
@@ -1201,6 +1243,10 @@
 		
 
 		
+			<Cell ss:StyleID="s22"><Data ss:Type="String">resourceRefs</Data></Cell>
+		
+
+		
 			<Cell ss:StyleID="s22"><Data ss:Type="String">metricRefs</Data></Cell>
 		
 
@@ -1225,10 +1271,6 @@
 		
 
 		
-			<Cell ss:StyleID="s21"><Data ss:Type="String">resources</Data></Cell>
-		
-
-		
 			<Cell ss:StyleID="s21"><Data ss:Type="String">diagrams</Data></Cell>
 		
 
@@ -1240,6 +1282,10 @@
    			
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">EquipmentRelationship</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">NetXResource</Data>
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
@@ -1264,10 +1310,6 @@
 
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">EquipmentGroup</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">NetXResource</Data>
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
@@ -1340,42 +1382,7 @@
    </Worksheet>
    	
 
-    
-    
-    <Worksheet ss:Name="Expression_refs">
-	 <Table>
-	 	<Column/>
-   		<Row>
-   			<Cell ss:StyleID="s20">
- 	 		<Data ss:Type="String">Expression</Data>
- 		 	</Cell>
-    		
-		
-			<Cell ss:StyleID="s22"><Data ss:Type="String">equipmentGroupRefs</Data></Cell>
-		
-
-		
-			<Cell ss:StyleID="s22"><Data ss:Type="String">serviceProfileRefs</Data></Cell>
-		
-
-    	</Row>
-   		<Row>
-   			<Cell ss:StyleID="s23">
- 	 		<Data ss:Type="String">[]</Data>
- 		 	</Cell>
-   			
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">EquipmentGroup</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">ServiceProfile</Data>
- 	 </Cell>
-
-   		</Row>
-	 </Table>
-   </Worksheet>
-   	
+    	
 
     
     
@@ -1389,6 +1396,10 @@
     		
 		
 			<Cell ss:StyleID="s22"><Data ss:Type="String">functionRelationshipRefs</Data></Cell>
+		
+
+		
+			<Cell ss:StyleID="s22"><Data ss:Type="String">resourceRefs</Data></Cell>
 		
 
 		
@@ -1412,10 +1423,6 @@
 		
 
 		
-			<Cell ss:StyleID="s21"><Data ss:Type="String">resources</Data></Cell>
-		
-
-		
 			<Cell ss:StyleID="s21"><Data ss:Type="String">diagrams</Data></Cell>
 		
 
@@ -1427,6 +1434,10 @@
    			
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">FunctionRelationship</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">NetXResource</Data>
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
@@ -1447,10 +1458,6 @@
 
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">Function</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">NetXResource</Data>
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">

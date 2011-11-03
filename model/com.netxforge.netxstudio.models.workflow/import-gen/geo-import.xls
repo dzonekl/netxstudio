@@ -55,24 +55,6 @@
    		<Row>
    		
  	 <Cell ss:StyleID="s20">
- 	 	<Data ss:Type="String">Name</Data>
-		
- 	 
-		<Comment><Data>
-        The Name attribute should be according to ISO
-							definitions in:
-
-
-							http://www.iso.org/iso/english_country_names_and_code_elements
-						</Data>
-        </Comment>		
- 	 
-
- 	 
-			 	 	
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s20">
  	 	<Data ss:Type="String">CountryCode</Data>
 		
  	 
@@ -92,8 +74,17 @@
  	 </Cell>
 
  	 <Cell ss:StyleID="s20">
- 	 	<Data ss:Type="String">Deleted</Data>
+ 	 	<Data ss:Type="String">Name</Data>
 		
+ 	 
+		<Comment><Data>
+        For countries, the Name attribute should be according to ISO
+							definitions in:
+							http://www.iso.org/iso/english_country_names_and_code_elements
+						</Data>
+        </Comment>		
+ 	 
+
  	 
 			 	 	
  	 </Cell>
@@ -102,20 +93,16 @@
 			<Cell ss:StyleID="s21"><Data ss:Type="String">icons</Data></Cell>
 		
    		
-	<Cell ss:StyleID="s21"><Data ss:Type="String">Base</Data></Cell>
+	<Cell ss:StyleID="s21"><Data ss:Type="String">Location</Data></Cell>
 	 	</Row>
    		<Row>
    		
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Name255</Data>
- 	 </Cell>
-
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">String</Data>
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Boolean</Data>
+ 	 	<Data ss:Type="String">Name255</Data>
  	 </Cell>
    		
  	 <Cell ss:StyleID="s23">
@@ -131,21 +118,6 @@
    		<Row>
    		
  	 <Cell ss:StyleID="s20">
- 	 	<Data ss:Type="String">Name</Data>
-		
- 	 
-		<Comment><Data>
-        The Name attribute holds a name used for
-							presentation.
-						</Data>
-        </Comment>		
- 	 
-
- 	 
-			 	 	
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s20">
  	 	<Data ss:Type="String">Shape</Data>
 		
  	 
@@ -160,26 +132,31 @@
  	 </Cell>
 
  	 <Cell ss:StyleID="s20">
- 	 	<Data ss:Type="String">Deleted</Data>
+ 	 	<Data ss:Type="String">Name</Data>
 		
+ 	 
+		<Comment><Data>
+        For countries, the Name attribute should be according to ISO
+							definitions in:
+							http://www.iso.org/iso/english_country_names_and_code_elements
+						</Data>
+        </Comment>		
+ 	 
+
  	 
 			 	 	
  	 </Cell>
    		
-	<Cell ss:StyleID="s21"><Data ss:Type="String">Base</Data></Cell>
+	<Cell ss:StyleID="s21"><Data ss:Type="String">Location</Data></Cell>
 	 	</Row>
    		<Row>
    		
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Name255</Data>
- 	 </Cell>
-
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">String</Data>
  	 </Cell>
 
  	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Boolean</Data>
+ 	 	<Data ss:Type="String">Name255</Data>
  	 </Cell>
 	 	</Row>
 	 </Table>
@@ -190,21 +167,6 @@
 	 	<Column/>
    		<Row>
    		
- 	 <Cell ss:StyleID="s20">
- 	 	<Data ss:Type="String">Name</Data>
-		
- 	 
-		<Comment><Data>
-        The Name attribute holds a name used for
-							presentation.
-						</Data>
-        </Comment>		
- 	 
-
- 	 
-			 	 	
- 	 </Cell>
-
  	 <Cell ss:StyleID="s20">
  	 	<Data ss:Type="String">Area</Data>
 		
@@ -336,54 +298,59 @@
  	 </Cell>
 
  	 <Cell ss:StyleID="s20">
- 	 	<Data ss:Type="String">Deleted</Data>
+ 	 	<Data ss:Type="String">Name</Data>
 		
+ 	 
+		<Comment><Data>
+        For countries, the Name attribute should be according to ISO
+							definitions in:
+							http://www.iso.org/iso/english_country_names_and_code_elements
+						</Data>
+        </Comment>		
+ 	 
+
  	 
 			 	 	
  	 </Cell>
    		
-	<Cell ss:StyleID="s21"><Data ss:Type="String">Base</Data></Cell>
+	<Cell ss:StyleID="s21"><Data ss:Type="String">Location</Data></Cell>
 	 	</Row>
    		<Row>
    		
  	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">Name255</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">String</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">String</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">String</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">String</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">String</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">String</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">String</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">String</Data>
- 	 </Cell>
-
- 	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Boolean</Data>
  	 </Cell>
 	 	</Row>
 	 </Table>
