@@ -48,6 +48,7 @@ import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.services.Service;
+import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 public abstract class AbstractImportWizard extends Wizard implements
@@ -379,7 +380,11 @@ public abstract class AbstractImportWizard extends Wizard implements
 				}
 			} else if (parentElement instanceof Service) {
 				children.addAll(((Service) parentElement).getServices());
-			} else if (parentElement instanceof Country) {
+			} else if (parentElement instanceof ServiceUser) {
+				if(((ServiceUser) parentElement).getServiceProfile() != null){
+					children.add(((ServiceUser) parentElement).getServiceProfile());
+				}
+			}else if (parentElement instanceof Country) {
 				children.addAll(((Country) parentElement).getSites());
 			} else if (parentElement instanceof Site) {
 				children.addAll(((Site) parentElement).getRooms());
