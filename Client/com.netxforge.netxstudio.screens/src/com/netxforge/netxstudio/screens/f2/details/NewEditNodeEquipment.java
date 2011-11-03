@@ -177,10 +177,10 @@ public class NewEditNodeEquipment extends NewEditComponent implements
 		context.bindValue(nameObservable, componentNameProperty.observe(comp),
 				null, null);
 		
-		context.bindValue(positionObservable,
+		context.bindValue(descriptionObservable,
 				componentDescriptionProperty.observe(comp), null, null);
 		
-		context.bindValue(descriptionObservable,
+		context.bindValue(positionObservable,
 				positionProperty.observe(comp), null, null);
 		
 	}

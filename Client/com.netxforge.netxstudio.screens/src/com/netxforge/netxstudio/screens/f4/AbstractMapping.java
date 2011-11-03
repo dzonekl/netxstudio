@@ -815,6 +815,9 @@ public abstract class AbstractMapping extends AbstractScreen {
 							return ((ValueDataKind) k).getFormat();
 						}
 					}
+					case ValueKindType.INTERVAL_VALUE:{
+						return "";
+					}
 					default: {
 						return "<not set>!!";
 					}

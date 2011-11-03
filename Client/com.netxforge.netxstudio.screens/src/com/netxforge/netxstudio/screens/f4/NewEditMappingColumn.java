@@ -81,34 +81,37 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Combo cmbDatePattern;
+
+	private Text txtColumn;
+	
+	private Button btnDate;
+	private Button btnIdentifier;
+	private Button btnMetricValue;
+	private Button btnInterval;
+	private Button btnTime;
+	private Button btnDatetime;
+	
+	// Mapping column widgets. 
+	private Text txtObjectAttribute;
 	private Text txtIdentifierPattern;
 	private Text txtMetricValuePattern;
 	private Text txtObject;
 	private Text txtMetric;
-	private EList<?> mappingColumns;
-	private MappingColumn mxlsColumn;
-	private Text txtColumn;
-	private Button btnDate;
-	private Button btnIdentifier;
-	private Button btnMetricValue;
-	// private Text txtIntervalPattern;
-	private Button btnInterval;
+	private Combo cmbTimePattern;
+	private Combo cmbDateTimePattern;
+	private Combo cmbDatePattern;
+	private Combo cmbMetricHint;
+	private ComboViewer comboViewerMetricKindHint;
+		
+	// Writable kind state. 
 	private WritableValue btnIdentifierWritableValue;
 	private WritableValue btnDateWritableValue;
 	private WritableValue btnMetricWritableValue;
 	private WritableValue btnIntervalWritableValue;
-	private Combo cmbTimePattern;
-	private Combo cmbDateTimePattern;
-	private Button btnTime;
-	private Button btnDatetime;
 	private WritableValue btnDateTimeWritableValue;
 	private WritableValue btnTimeWritableValue;
-	private Text txtObjectAttribute;
-	private EMFDataBindingContext context;
-	private boolean showDataMapping;
-	private Form frmNewMappingColumn;
-	private Composite cmpColumnMapping;
+	
+	// Widget observables. 
 	private ISWTObservableValue identifierObservable;
 	private ISWTObservableValue dateTimeObservable;
 	private ISWTObservableValue dateObservable;
@@ -120,9 +123,22 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private ISWTObservableValue identifierPatternObservable;
 	private ISWTObservableValue metricObservable;
 	private ISWTObservableValue valuePatternObservable;
-	private Combo combo;
-	private ComboViewer comboViewerMetricKindHint;
 	private IViewerObservableValue metricKindHintObservable;
+
+	
+
+
+
+	private EMFDataBindingContext context;
+	private boolean showDataMapping;
+	
+	private Form frmNewMappingColumn;
+	private Composite cmpColumnMapping;
+	
+	
+	// Model objects. 
+	private EList<?> mappingColumns;
+	private MappingColumn mxlsColumn;
 	private MetricSource source;
 
 	/**
@@ -135,6 +151,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
+				validationService.dispose();
+				validationService
+						.removeValidationListener(NewEditMappingColumn.this);
 				toolkit.dispose();
 			}
 		});
@@ -279,10 +298,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				false, 1, 1));
 
 		comboViewerMetricKindHint = new ComboViewer(cmpColumnMapping, SWT.NONE);
-		combo = comboViewerMetricKindHint.getCombo();
-		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
+		cmbMetricHint = comboViewerMetricKindHint.getCombo();
+		cmbMetricHint.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
 				1));
-		toolkit.paintBordersFor(combo);
+		toolkit.paintBordersFor(cmbMetricHint);
 
 	}
 
@@ -505,29 +524,53 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		// AGGREGATOR
 		// ///////////////////////////////////////////////////////////
 		IObservableValue dataKindWritableValue = new WritableValue();
-		DatakindAggregate aggregate = new DatakindAggregate(
-				dataKindWritableValue);
-
 		IEMFValueProperty dataKindProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE);
+		// Should occure before the aggregator is created.
+		IObservableValue dataKindObservable = dataKindProperty
+				.observe(mxlsColumn);
+
+		// Validation Strategies
+		EMFUpdateValueStrategy dataKindStrategy = new EMFUpdateValueStrategy();
+		dataKindStrategy.setBeforeSetValidator(new IValidator() {
+			public IStatus validate(Object value) {
+				boolean isInvalid = false;
+				if (value == null) {
+					isInvalid = true;
+				} else {
+					// Always valid here....
+				}
+				if (isInvalid) {
+					return new Status(IStatus.WARNING,
+							ScreensActivator.PLUGIN_ID, "Mapping Issue:");
+				}
+				return Status.OK_STATUS;
+			}
+		});
+
+		context.bindValue(dataKindWritableValue, dataKindObservable,
+				dataKindStrategy, null);
+
+		// Aggregates all mutations on the current DataKind.
+		// If none exists, a new one will be created based on the selected
+		// button.
+		DatakindAggregate aggregate = new DatakindAggregate(
+				dataKindWritableValue);
 
 		initDataBindingHeaderMappingColumn(context);
 		if (showDataMapping) {
 			initDataBindingDataMappingColumn(context, dataKindProperty);
 		}
 
-		// Should occure before the aggregator is enabled.
-		IObservableValue dataKindObservable = dataKindProperty
-				.observe(mxlsColumn);
 		setInitialHeaderMapping(dataKindObservable.getValue());
+
 		this.enableHeaderAggregate(aggregate);
 		if (showDataMapping) {
 			setInitialDataMapping(dataKindObservable.getValue());
 			this.enableDataAggregate(aggregate);
 		}
 
-		context.bindValue(dataKindWritableValue, dataKindObservable);
 		context.updateTargets();
 
 		return context;
@@ -571,6 +614,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				.observeText(this.cmbDateTimePattern);
 		datePatternObservable = SWTObservables.observeText(this.cmbDatePattern);
 		timePatternObservable = SWTObservables.observeText(this.cmbTimePattern);
+
 		identifierPatternObservable = SWTObservables.observeText(
 				this.txtIdentifierPattern, SWT.Modify);
 
@@ -702,6 +746,17 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				comboViewerMetricKindHint);
 
 	}
+
+	// private void enableValueDataKindWidgets(boolean enableState){
+	//
+	//
+	//
+	// }
+	//
+	// private void enableIdentifierDataKindWidgets(boolean enableState){
+	//
+	//
+	// }
 
 	private final class MTTObjectKindStrategy implements IConverter {
 
@@ -896,6 +951,32 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 		DatakindAggregate(IObservableValue dataKindObservable) {
 			this.dataKindObservable = dataKindObservable;
+			Object value2 = this.dataKindObservable.getValue();
+			DataKind dk = null;
+			if (value2 != null) {
+				dk = (DataKind) value2;
+				if (dk instanceof ValueDataKind) {
+					switch (((ValueDataKind) dk).getValueKind().getValue()) {
+					case ValueKindType.DATE_VALUE:
+						date = true;
+						break;
+					case ValueKindType.DATETIME_VALUE:
+						datetime = true;
+						break;
+					case ValueKindType.TIME_VALUE:
+						time = true;
+						break;
+					case ValueKindType.INTERVAL_VALUE:
+						interval = true;
+						break;
+					case ValueKindType.METRIC_VALUE:
+						value = true;
+						break;
+					}
+				} else if (dk instanceof IdentifierDataKind) {
+					identifier = true;
+				}
+			}
 		}
 
 		/*
@@ -942,10 +1023,17 @@ public class NewEditMappingColumn extends AbstractScreen implements
 					this.interval = (Boolean) newValue;
 					modelUpdate();
 				}
+
+				// Patterns of SimpleFormat.
 				if (control.equals(cmbDatePattern)
 						|| control.equals(cmbDateTimePattern)
-						|| control.equals(cmbTimePattern)
-						|| control.equals(txtIdentifierPattern)
+						|| control.equals(cmbTimePattern)) {
+					this.pattern = (String) newValue;
+					modelUpdate();
+				}
+
+				// Regular expression patterns.
+				if (control.equals(txtIdentifierPattern)
 						|| control.equals(txtMetricValuePattern)) {
 					this.pattern = (String) newValue;
 					modelUpdate();
@@ -962,57 +1050,40 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		}
 
 		private boolean modelUpdate() {
-			// Create the DataKindObject, actually only on save.
+			
+			// TODO Remov later. 
 			System.out.println("I DT T D V P=" + identifier + datetime + date
 					+ time + value + interval);
 
 			CompoundCommand cc = new CompoundCommand();
 
-			// TODO, We can't switch the type, as an object would have been
-			// created
 			DataKind dk = null;
-			if (mxlsColumn.getDataType() != null) {
-				dk = mxlsColumn.getDataType();
-				// Check for type switching.
-				if (identifier && (dk instanceof ValueDataKind)) {
-					dk = null;
-				}
-				if (!identifier && (dk instanceof IdentifierDataKind)) {
-					dk = null;
-				}
-			}
-
-			if (dk == null) {
-				if (interval || value || datetime || date || time) {
-					dk = MetricsFactory.eINSTANCE.createValueDataKind();
-				}
-				if (identifier) {
-					dk = MetricsFactory.eINSTANCE.createIdentifierDataKind();
-				}
-			}
-
-			if (interval) {
-				((ValueDataKind) dk).setValueKind(ValueKindType.INTERVAL);
-			}
-			if (value) {
-				((ValueDataKind) dk).setValueKind(ValueKindType.METRIC);
-			}
-			if (datetime) {
-				((ValueDataKind) dk).setValueKind(ValueKindType.DATETIME);
-			}
-			if (date) {
-				((ValueDataKind) dk).setValueKind(ValueKindType.DATE);
-			}
-			if (time) {
-				((ValueDataKind) dk).setValueKind(ValueKindType.TIME);
+			if (interval || value || datetime || date || time) {
+				dk = MetricsFactory.eINSTANCE.createValueDataKind();
+			} else if (identifier) {
+				dk = MetricsFactory.eINSTANCE.createIdentifierDataKind();
 			}
 
 			// Write the DataKind with attributes.
-
 			if (dk instanceof ValueDataKind) {
 				ValueDataKind vdk = (ValueDataKind) dk;
-				{
+				if (interval) {
+					vdk.setValueKind(ValueKindType.INTERVAL);
+				}
+				if (value) {
+					vdk.setValueKind(ValueKindType.METRIC);
+				}
+				if (datetime) {
+					vdk.setValueKind(ValueKindType.DATETIME);
+				}
+				if (date) {
+					vdk.setValueKind(ValueKindType.DATE);
+				}
+				if (time) {
+					vdk.setValueKind(ValueKindType.TIME);
+				}
 
+				{
 					// Note: Interval don't have patterns.
 					// ((ValueDataKind) dk).setFormat(pattern);
 
@@ -1047,11 +1118,12 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				}
 
 				{
-				SetCommand sc = new SetCommand(
-						editingService.getEditingDomain(), dk,
-						MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY,
-						IdentifierDialog.NETWORK_ELEMENT_ID);
-				cc.append(sc);
+					SetCommand sc = new SetCommand(
+							editingService.getEditingDomain(),
+							dk,
+							MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY,
+							IdentifierDialog.NETWORK_ELEMENT_ID);
+					cc.append(sc);
 				}
 			}
 			editingService.getEditingDomain().getCommandStack().execute(cc);
@@ -1109,6 +1181,11 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		populatePatterns();
 
 		context = this.initDataBindings_();
+
+		if (!Screens.isReadOnlyOperation(getOperation())) {
+			validationService.registerBindingContext(context);
+			validationService.addValidationListener(this);
+		}
 	}
 
 	public void addData() {
@@ -1163,5 +1240,14 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	public String getScreenName() {
 		return "Mapping Column";
 	}
-
+	
+	
+	
+	
+	@SuppressWarnings("unused")
+	private void enableOption(){
+	}
+	
+	
+	
 }

@@ -27,15 +27,20 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
 
+import com.netxforge.netxstudio.metrics.MappingCSV;
+
 /**
  * Processes an .csv file, and returns as records for a viewer.
  */
 public class CSVServiceJob implements IJobChangeListener {
 
-//	public static final XLSServiceJob INSTANCE = new XLSServiceJob();
 	private IFile res;
 	private String[][] records;
 	private ScanningJob j =  new ScanningJob("Reading file...");
+	
+	// Set the corresponding mapping, to retrieve the delimiter. 
+	private MappingCSV mapping;
+	
 
 	public void go() {
 		j.addJobChangeListener(this);
@@ -60,6 +65,8 @@ public class CSVServiceJob implements IJobChangeListener {
 
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
+			
+			
 			processReadingInternal(monitor);
 			return Status.OK_STATUS;
 		}
@@ -116,6 +123,14 @@ public class CSVServiceJob implements IJobChangeListener {
 
 	public void setRecords(String[][] records) {
 		this.records = records;
+	}
+
+	public MappingCSV getMapping() {
+		return mapping;
+	}
+
+	public void setMapping(MappingCSV mapping) {
+		this.mapping = mapping;
 	}
 
 }

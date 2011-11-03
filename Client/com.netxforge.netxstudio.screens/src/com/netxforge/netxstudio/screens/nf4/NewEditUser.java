@@ -329,7 +329,7 @@ public class NewEditUser extends AbstractScreen implements
 						if (value instanceof Boolean) {
 							if (!((Boolean) value).booleanValue()) {
 								// Not active, issue warning.
-								return new Status(IStatus.WARNING,
+								return new Status(IStatus.OK,
 										ScreensActivator.PLUGIN_ID,
 										"Person not active, are you sure");
 							} else {
