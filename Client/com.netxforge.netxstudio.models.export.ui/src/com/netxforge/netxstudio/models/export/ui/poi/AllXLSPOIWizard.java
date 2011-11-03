@@ -4,9 +4,11 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
 
+import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 public class AllXLSPOIWizard extends AbstractExportPOIRevengeWizard {
 
@@ -14,8 +16,8 @@ public class AllXLSPOIWizard extends AbstractExportPOIRevengeWizard {
 	private IStructuredSelection selection;
 
 	EPackage[] getEPackages() {
-		return new EPackage[] { MetricsPackage.eINSTANCE,
-				LibraryPackage.eINSTANCE, OperatorsPackage.eINSTANCE};
+		return new EPackage[] { ServicesPackage.eINSTANCE, MetricsPackage.eINSTANCE,
+				LibraryPackage.eINSTANCE, OperatorsPackage.eINSTANCE, GenericsPackage.eINSTANCE };
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {

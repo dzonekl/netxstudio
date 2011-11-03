@@ -38,6 +38,7 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * Maintains a table of EPackages's EClasses which are not to be exported.
@@ -102,6 +103,42 @@ public class ExportFilter {
 			filteredNonMasterClasses.put(OperatorsPackage.eINSTANCE,
 					filteredClasses);
 		}
+		
+		{
+			List<EClass> filteredClasses = Lists.newArrayList();
+
+			filteredClasses.add(ServicesPackage.Literals.CFS_SERVICE);
+			filteredClasses.add(ServicesPackage.Literals.SERVICE);
+			filteredClasses.add(ServicesPackage.Literals.SERVICE_DISTRIBUTION);
+			filteredClasses.add(ServicesPackage.Literals.SERVICE_FORECAST);
+			filteredClasses.add(ServicesPackage.Literals.SERVICE_MONITOR);
+			filteredClasses.add(ServicesPackage.Literals.CIID);
+			filteredClasses.add(ServicesPackage.Literals.DERIVED_RESOURCE);
+			filteredClasses.add(ServicesPackage.Literals.DISTRIBUTION_ENTRY);
+			
+			filteredNonMasterClasses.put(ServicesPackage.eINSTANCE,
+					filteredClasses);
+		}
+		
+		{
+			List<EClass> filteredClasses = Lists.newArrayList();
+
+			filteredClasses.add(GenericsPackage.Literals.DIAGRAM_INFO);
+			filteredClasses.add(GenericsPackage.Literals.BASE);
+			filteredClasses.add(GenericsPackage.Literals.COMMIT_LOG_ENTRY);
+			filteredClasses.add(GenericsPackage.Literals.COMPANY);
+			filteredClasses.add(GenericsPackage.Literals.DATE_TIME_RANGE);
+			filteredClasses.add(GenericsPackage.Literals.EXPANSION_DURATION_SETTING);
+			filteredClasses.add(GenericsPackage.Literals.EXPANSION_DURATION_VALUE);
+			filteredClasses.add(GenericsPackage.Literals.MULTI_IMAGE);
+			filteredClasses.add(GenericsPackage.Literals.META);
+			filteredClasses.add(GenericsPackage.Literals.VALUE);
+			filteredClasses.add(GenericsPackage.Literals.ROLE);
+			
+			filteredNonMasterClasses.put(GenericsPackage.eINSTANCE,
+					filteredClasses);
+		}
+		
 	}
 
 	static {
