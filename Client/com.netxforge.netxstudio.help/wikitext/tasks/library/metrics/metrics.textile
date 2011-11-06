@@ -1,0 +1,16 @@
+h1. Metrics
+
+The Metrics screen provides access to Metrics definitions
+
+* "Create or Modifying a Metric":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/metrics/creating_a_metric.html
+
+The Metrics screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/metrics/metrics.png!
+
+*New* => Click on the upright link to create a new Metric
+
+_Note:_ As metrics can be nested, the metric is create below the selected metric. There should be no selection when the metric needs to be at the top level.  
+
+*Edit* => Right-click on a Metric in the table and select edit. 
+*Filter* => Type text to filter Metrics containing the text

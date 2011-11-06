@@ -1,0 +1,266 @@
+h1. Expressions
+
+The Expressions screen provides access to all expressions used by the system. 
+Expressions can be created and attached to various to objects. From the expressions screen the following activities can be performed
+
+* "Create or Modify an Expression":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/expressions/creating_an_expression.html
+
+
+The Expressions screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/expressions/expressions.png!
+
+*New* => Click on the upright link to create a new expression
+*Edit* => Right-click on an expression in the table and select edit. 
+*Filter* => Type text to filter expressions containing the text
+
+h2. Types of expressions
+
+Expressions are evaluated by the expression engine depending on the job being performed. 
+
+* Service Monitoring
+* Resource Monitoring
+* Data retention
+
+h2. Expressions in Service Monitoring
+
+* Service Tolerance Expressions
+* Service Profile Expressions
+
+h2. Expressions in Resource Monitoring
+
+In resource monitoring expressions are applied at various stages. Some expressions are always applied, and some are applied depending on if an object has an expression 'attached'. Attaching an expression simply means telling an object it has an expression. 
+
+The following expressions exist
+
+* Metric Expressions
+* Capacity Expressions
+* Utilization Expressions
+* Tolerance Expressions
+
+
+h2. Expressions in Data Retention 
+
+In data retention, the expression is applied when the retention job, executes the extension rules. and attached expression 
+
+
+h2. Applicable objects
+
+The following objects use expressions in resource monitoring: 
+
+* Function/Equipment Resources
+
+Calculate Function and Equipment resource capacities using an expression
+
+* Metric
+
+Calculate and derive resource values from raw metrics
+
+* Function/Equipment Thresholds
+
+Calculate and derive threshold values.
+
+h2. The resource monitoring job
+
+The resource monitoring job executes the expressions in the following sequence
+
+* Execution of the Capacity Expressions for all Nodes. 
+* Execution of the Utilization Expressions for all Resources in all Nodes. 
+* Execution of the Tolerance Expressions for all Nodes. 
+
+Capacity Expressions 
+
+A capacity expression, is an expression which will populate the capacity values of a resource. 
+It is typically using the specification of the vendor to calculate the value of the capacity of a resource. 
+
+Example: 
+
+this.FUNCTION -> RESOURCE sgsn_attached_users CAP = this.EQUIPMENT BOARD.count * 5; 
+
+In this example for the current node the capacity values of the resource "sgsn_attached_users" will be the total of equipments with code "BOARD" multiplied by 5. In other words we count the boards of a specific type, 
+multiply them by 5 and store the result in the capacity. 
+
+
+h2. Expression Syntax
+
+The expression engine scripting grammar specification has been carefully designed to support the following facilities. 
+
+* Type (less) grammar.
+
+* Contextual grammar. (Acts in the context of an object and period). 
+* Data Model entity access.
+
+* Scoping and nesting of expressions. 
+
+* Statements
+** Expression Statements
+** Assignment Statements
+** Compound Statements
+
+* Operators
+** Arithmetic Operations. 
+** Logical Operations. 
+** Binary Operations
+
+* Functions
+** Native Functions
+* Defined functions
+
+h3. Formatting Conventions
+
+For better readability of the grammar, the following conventions are followed throughout this chapter.  
+
+* Model types are written in capital letters i.e. NODE. 
+* Variable or function definitions are plain text i.e. erlang() 
+* Keywords are non-capital letter with bold face. For example if
+References to parts of the grammar, like an Expression Statement is enclosed with chevrons, i.e. < Expression Statement> or …
+
+h3. Type (less) grammar
+
+The grammar is a type less or dynamically typed grammar. This means that, when working with variables or function arguments, specification of the type is not needed. The type however is interpreted based on the value of the variable or argument.
+
+The following type values are defined: 
+
+|_. Type |_.Description|_.Possible values|
+| Boolean | A Boolean value| true or false|
+| Numeric | A numeric value | -1, 0.3, 5000000|
+| Range | A collection of values| [4,5,6] or [NODE1, NODE2, etc..]|
+| Object | An object | Boolean, Numeric, Binary, Range, Timestamp or any of the Data Model Entities accessible in the grammar|
+
+To find out the type of an object, the following syntax is used:
+[TODO, Not implemented.]
+
+
+h3. Contextual grammar 
+
+* The grammar acts in the context of an object, which has to be set before a script is executed. The context Object is named Syntax: this
+
+* The grammar acts in the context of a period, which has to be set before a script is executed. All values within this period will be within context when executing the script. The context period is not accessible from with the script, but used when needed by the expression interpreter. 
+
+
+h3. Data Model entity Access
+
+The most common objective is to store/retrieve values from resources. Resources are part of EQUIPMENT and FUNCTION.  Model access, permits the access to entities in the Data Model.
+
+The entities which are set as context.  
+
+* NODE
+* RESOURCE
+
+The following entities are accessed indirectly (See the examples further on). 
+
+* METRIC
+* LINK
+* EQUIPMENT
+* FUNCTION
+
+PARAMETER
+
+[TODO, To be further considered]
+
+* SERVICE
+* SERVICEPROFILE
+* SERVICEDISTRIBUTION
+* RFSSERVICE
+
+Model navigation permits, the access to some of the relevant Data Model entities. The result of model navigation can be used in statements (i.e. Expression, Assignment and Compound), where relevant.  
+
+h4. Context access
+
+*Description:* To access the current context object.
+*Syntax:* this ...;
+*Returns:* The current context object. (Either NODE or RESOURCE). 
+
+h4. Access to a Function or Equipment
+
+*Description:* To access a function or equipment. 
+*Syntax:* this.FUNCTION _functionname_ / this.EQUIPMENT _equipmentcode_ ;
+*Returns:* The current context, and from this a function or equipment. 
+
+h4. Access to a Resource
+
+*Description:* To access a resource. 
+*Syntax:* this.FUNCTION _functionname_ -> RESOURCE _expressionname_  / this.EQUIPMENT _equipmentcode_ -> RESOURCE _expressionname_;
+*Returns:* The current context, and from this a function or equipment. 
+
+h4. Access to a Resource value range from a NODE context.
+
+As described in the "Data Structure":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/getting_started/data_structure.html , a Resource has multiple value ranges. Value ranges
+can be directly addressed by the NetXScript grammar.  
+
+*Description:* To access a value range with metric values 
+*Syntax:* this.FUNCTION _functionname_ -> RESOURCE _expression_name_ METRIC [AVG/BH] _interval_
+*Returns:* The current context, and from this a function or equipment, then a resource and then the metric range. 
+*options:* The type of value range either AVG (Average) or BH (Busy Hour). 
+
+*Description:* To access a value range with capacity values
+*Syntax:* this.FUNCTION _functionname_ -> RESOURCE _expression_name_ CAP _interval_
+*Returns:* The current context, and from this a function or equipment, then a resource and then the capacity range. 
+
+*Description:* To access a value range with utilization values
+*Syntax:* this.FUNCTION _functionname_ -> RESOURCE _expression_name_ UTILIZATION _interval_ 
+*Returns:* The current context, and from this a function or equipment, then a resource and then the utilization range. 
+
+
+h4. Access to a Resource value range from a RESOURCE context.
+
+If the context is a RESOURCE, we have direct access to each of the value ranges: 
+
+*Description:* To access a value range with metric values 
+*Syntax:* this METRIC [AVG/BH] _interval_
+*Returns:* The current context (The resource) , then the metric range followed by the interval 
+*options:* The type of value range either AVG (Average) or BH (Busy Hour). 
+
+
+h3. Scoping and nesting of expressions
+
+h4. Scoping 
+
+A scope, is a partition in the grammar, which is self-contained, in practice defined variables can overlap variables in the outer scope.  
+*Description:* Scoping is achieved by putting expressions and assignments in brackets {} variables defined with this scope, are only visible within that scope. 
+*Syntax:* {...}
+
+h4. Nesting
+
+*Description:* Nested scopes are achieved by nesting the curly brackets. 
+Syntax: {…{…}}
+
+h3. Statements
+
+Statements can be:
+
+Expression statements
+Assignment statements
+Compound statements
+
+h4. Expression Statement
+
+*Description:* Expression results are Numeric, Boolean, Range or Object. The types of operations and operands used in an expression, will determine if the expression return type.
+
+h4. Assignment Statement
+
+*Description:* Assignment statements assign a value to a variable or entity attribute or reference. Type conformance is implied. 
+*Syntax:* =   +=   [NOT implemented -=   *=   /=   %=] 
+
+h4. Compound Statements
+
+*Description:* the if … else…. Compound statement 
+Syntax: 
+
+if( <Boolean expression> ){
+…
+} else {
+…
+}
+
+Description of the while Compound statement
+Syntax:
+
+while( <Boolean expression> ) {
+…
+}
+
+
+
+
+

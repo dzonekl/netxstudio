@@ -1,0 +1,31 @@
+h1. Data retention
+
+Data management consists of rules regarding the retention of value data. 
+
+The Data Retention screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/administrative/dataretention/dataretention.png!
+
+h2. Control
+
+The action *Invoke Data Retention Now* executes the data retention rules. 
+
+_Note:_ The data retention rules are also scheduled jobs which are by default not active. 
+
+h2. Data retention rules
+
+A data retention rules specifies: 
+
+*Data Range* The applicable aggregate data range or metric data range.  
+
+_Note:_ As the metric ranges can be based on any arbitrary interval (i.e. Hourly, 15 minutes, 5 minutes etc...), the retention rule for metric ranges will apply to all 
+imported metric ranges.
+
+*Retention Period* How long to keep the data for the selected range. 
+
+The options are: 
+
+* Always => Never purge data for this data range. 
+* One year => Keep data for one year. 
+* One month => Keep data for one month. 
+* One week => Keep data for one week

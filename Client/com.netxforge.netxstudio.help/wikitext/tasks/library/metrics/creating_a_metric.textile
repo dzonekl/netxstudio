@@ -1,0 +1,23 @@
+h1. Creating or Editing a Metric
+
+When creating or editing a Metric the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/metrics/creating_a_metric.png!
+
+The following data should be entered 
+
+* The Metric name
+* The Metric Description
+* The Metric Unit
+
+Additional information can be entered
+
+* The Metric Measurement Point => Provides normally additional information on which protocol message a measurement is stepped. This information is normally provided by the vendor. 
+
+* The Metric Measurement Kind => Can be filled with additional information, like 
+the source system report name. 
+
+* A Metric Expression => An expression to calculate the metric value from nested metrics.  
+
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.

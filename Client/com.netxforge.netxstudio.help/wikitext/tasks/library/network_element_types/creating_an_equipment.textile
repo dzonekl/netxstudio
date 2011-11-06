@@ -1,0 +1,29 @@
+h1. Modifying an Equipment
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/network_element_types/creating_an_equipment.png!
+
+The following data should be entered 
+
+*Info*
+
+* The Equipment name
+* The Equipment Description 
+* The Equipment Expansion duration. (Quick, Short, Medium, Long) 
+
+*Resources*
+
+* "Create or Modifying a Resource Definition":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/resource_definitions/creating_a_resource_definition.html
+
+* Select the Capacity Expression for all Resources in this Equipment. 
+* Select the Utilization Expression for all Resources in this Equipment.
+
+*Metrics*
+
+* Create or add Metrics to the Equipment
+
+*Tolerances*
+
+* Create or add Tolerances to the Equipment
+
+*Save* => Menu -> File -> Save
+*Cancel* => The editing can be undone by Menu-> Edit -> Undo

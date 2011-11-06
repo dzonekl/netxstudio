@@ -1,0 +1,11 @@
+h1. Administrative Task
+
+The Administrative task provides access to administrative activities: 
+
+* "Users":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/users/users.html
+* "Jobs":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/jobs/jobs.html
+* "Metric Sources"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/metricsources.html
+* "Data retention"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/dataretention/dataretention.html
+* "Settings"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/settings/settings.html
+
+

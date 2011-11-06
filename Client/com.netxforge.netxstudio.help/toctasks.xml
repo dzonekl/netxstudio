@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Tasks" link_to="toc.xml#tasks" topic="html/tasks/tasks.html">
+   <topic href="html/tasks/administrative/administrative.html" label="Administrative">
+      <topic href="html/tasks/administrative/jobs/jobs.html" label="Jobs">
+         <topic href="html/tasks/administrative/jobs/creating_a_job.html" label="Create or modify a Job">
+         </topic>
+      </topic>
+      <topic href="html/tasks/administrative/metricsources/metricsources.html" label="Metric Sources">
+         <topic href="html/tasks/administrative/metricsources/creating_a_metricsource.html" label="Create or modify a Metric Source">
+         </topic>
+         <topic href="html/tasks/administrative/metricsources/creating_an_xlsmapping.html" label="Create or modify an XLS Mapping">
+         </topic>
+         <topic href="html/tasks/administrative/metricsources/creating_a_csvmapping.html" label="Create or modify a CSV Mapping">
+         </topic>
+         <topic href="html/tasks/administrative/metricsources/creating_an_rdbmsmapping.html" label="Create or modify an RDBMS Mapping">
+         </topic>
+         <topic href="html/tasks/administrative/metricsources/creating_a_columnmapping.html" label="Create or modify a Column Mapping">
+         </topic>
+         <topic label="View Mapping Statistics">
+         </topic>
+      </topic>
+      <topic href="html/tasks/administrative/users/users.html" label="Users">
+         <topic href="html/tasks/administrative/users/creating_a_user.html" label="Creating or modify a User">
+         </topic>
+      </topic>
+      <topic href="html/tasks/administrative/dataretention/dataretention.html" label="Data Retention">
+      </topic>
+      <topic href="html/tasks/administrative/settings/settings.html" label="Settings">
+      </topic>
+   </topic> 
+	<topic href="html/tasks/library/library.html" label="Library">
+  
+		<topic href="html/tasks/library/network_element_types/network_element_types.html" label="Network Element Types">
+     <topic href="html/tasks/library/network_element_types/creating_a_network_element_type.html" label="Create or modify a Network Element Type">
+     </topic>
+     <topic href="html/tasks/library/network_element_types/creating_a_function.html" label="Create or modify a Function">
+     </topic>
+     <topic href="html/tasks/library/network_element_types/creating_an_equipment.html" label="Create or modify an Equipment">
+     </topic>
+     <topic href="html/tasks/library/resource_definitions/creating_a_resource_definition.html" label="Create or modify a Resource Definition">
+     </topic>
+		</topic>
+  <topic href="html/tasks/library/metrics/metrics.html" label="Metrics">
+     <topic href="html/tasks/library/metrics/creating_a_metric.html" label="Create or modify a Metric">
+     </topic>
+  </topic>
+  <topic href="html/tasks/library/resource_definitions/resource_definitions.html" label="Resource Definitions">
+  </topic>
+		<topic href="html/tasks/library/tolerances/tolerances.html" label="Tolerances">
+			<topic href="html/tasks/library/tolerances/creating_a_tolerance.html" label="Create or modify a Tolerance">
+			</topic>
+		</topic>
+  <topic href="html/tasks/library/expressions/expressions.html" label="Expressions">
+     <topic href="html/tasks/library/expressions/creating_an_expression.html" label="Creating or modifying Expression">
+     </topic>
+  </topic>
+  <topic href="html/tasks/library/parameters/parameters.html" label="Parameters">
+     <topic href="html/tasks/library/parameters/creating_a_parameter.html" label="Create or modify a Parameter">
+     </topic>
+  </topic>
+		<topic href="html/tasks/library/units/units.html" label="Units">
+			<topic href="html/tasks/library/units/creating_a_unit.html" label="Creating or Modifying a Unit">
+			</topic>
+		</topic>
+  <topic href="html/tasks/library/protocols/protocols.html" label="Protocols">
+     <topic href="html/tasks/library/protocols/creating_a_protocol.html" label="Create or modify a Protocol">
+     </topic>
+  </topic>
+		<topic href="html/tasks/library/library_model/working_with_library_model.html" label="Working with the Library model">
+			<topic href="html/tasks/library/library_model/importing/importing.html" label="Importing">	
+				<topic href="html/tasks/library/library_model/importing/generate_excel.html" label="Generate an Excel Template">
+				</topic>
+				<topic href="html/tasks/library/library_model/importing/fill_excel.html" label="Filling the Excel Template"/>
+				<topic href="html/tasks/library/library_model/importing/import_excel.html" label="Importing the Excel Template"/>
+			</topic>
+			<topic href="html/tasks/library/library_model/exporting/exporting.html" label="Exporting">
+	     		<topic href="html/tasks/library/library_model/exporting/exporting_formats.html" label="Exporting Formats">
+	     		</topic>
+	  		</topic>
+			<topic href="html/tasks/library/library_model/merging_models.html" label="Merging Models">
+	     	</topic>
+	  	</topic> 
+	</topic>
+ <topic href="html/tasks/design/" label="Design">
+    <topic href="html/tasks/design/operators" label="Operators">
+    </topic>
+    <topic href="html/tasks/design/networks" label="Networks">
+    </topic>
+ </topic>
+</toc>

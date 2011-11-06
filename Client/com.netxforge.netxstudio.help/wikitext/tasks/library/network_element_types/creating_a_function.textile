@@ -1,0 +1,31 @@
+h1. Modifying a Function
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/network_element_types/creating_a_function.png!
+
+The following data should be entered 
+
+*Info*
+
+* The Function name
+* The Function Description 
+* The Function Expansion duration. (Quick, Short, Medium, Long) 
+
+*Resources*
+
+* "Create or Modifying a Resource Definition":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/resource_definitions/creating_a_resource_definition.html
+
+* Select the Capacity Expression for all Resources in this Function. 
+* Select the Utilization Expression for all Resources in this Function.
+
+
+
+*Metrics*
+
+* Create or add Metrics to the Function
+
+*Tolerances*
+
+* Create or add Tolerances to the Function
+
+*Save* => Menu -> File -> Save
+*Cancel* => The editing can be undone by Menu-> Edit -> Undo

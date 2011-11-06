@@ -1,0 +1,113 @@
+h1. Metric Sources
+
+Metric Sources management consists of viewing, creating and modifying metric sources for collecting metric information. 
+
+The Metric Sources screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/administrative/metricsources/metricsources.png!
+
+
+*New* => Click on the upright link to create a new Metric Source
+*Edit* => Right-click on a Metric Source in the table and select edit.
+*Filter* => Type text to filter Metric Sources containing the text
+
+_See_ "Create or Modify a MetricSource":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/creating_a_metricsource.html
+
+
+h2. Metric Source types.
+
+There are two type of collections: 
+
+* File based metric collections
+* DB based metric collection.
+
+h3. File based
+
+For file based collections, the Metric Source will contain a path on the file system of the server, which is 
+scanned for files. 
+
+h3. Database based. 
+
+For DB based collections, the Metric Source will contain Database connection information and a query
+to be executed.
+
+h2. Metric Source Job
+
+A metric source can be scheduled for collection or it can be collected immediately. 
+
+*Schedule Collection Job* => Right-click on a Metric Source in the table and select *Schedule Collection Job...*
+
+_See_ "Create or Modify a a collection job":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/jobs/mapping_statistics.html
+
+
+*Collect Now* => Right-click on a Metric Source in the table and select *Collect Now...*
+
+NOTE: for a DB connection, we will by default collect the last 7 days. 
+
+*Statistics* => Right-click a Metric Source in the table and select  *Statistics...*
+
+_See_ "View Mapping statistics":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/mapping_statistics.html
+
+h2. Mapping
+
+Mapping is the process of identifying information from a data source which contains metrics, and how this maps into the structure of a Network Element instance. A successful mapping will result in a Resource being created at the position of the Network Element Structure as pointed out by the identifiers. 
+
+Mapping works by setting a mapping parameter on the information contained in which row and column.
+The source is interpreted with a starting data row where the data occurs. For file based metric sources an 
+optional single header row which can be at the top of the file can also be processed.. 
+
+The mapping parameters for a column can be: 
+
+* DateTime - Date and time of the measurement
+* Date  - Date of the measurement
+* Time - Time of the measurement
+* Interval - The applicable measurement interval for the metric
+* Metric - The actual metric we are trying to map. (Note: The metric must have been defined). 
+* Identifier - The identifier which should be used to map the metric.  
+
+
+Mappings can be made to collect metrics from the following types: 
+
+* XLS Mapping - Map metric information from an Excel spreadsheet file . 
+* CSV Mapping - Map metric information from a Comma Separated Value file.
+* DB Mapping - Map metric information from a Database 
+
+Typically a mapping will contain one of the Date / Time parameters, one or several metrics and several identifiers. 
+
+If the mapping is successful a Resource will be created and populated with the metric values.
+
+h3. Mapping Identifiers
+
+Mapping identifiers are needed to map the information from the imported file into the target 
+Network Element structure. A mapping needs at least one Network Element Identifier, and one Function or Equipment identifier as a target place-holder for creating the resource.  
+ 
+The following identifiers are defined, and the attribute on which mapping of text can occur. 
+
+* Network Element 
+** Network Element ID
+* EQUIPMENT
+** Name
+** Equipment Code
+** Position
+* FUNCTION
+** Name
+* RELATIONSHIP
+** Name
+** Protocol
+
+When the target identifier is contained in a string with more than only the identifier, it is necessary 
+to define a pattern to extract the identifier from the string. 
+
+Identifier patterns, are regular expressions, the syntax is described here. 
+
+"Regular Expression Patterns":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/regexpattern.html
+
+*Example* One typical regular expression to extract text is: 
+
+bq. Process type=(LIP|LLP|CDP|SGP)
+
+With this expression, we look for the string "Process type=" followed with either "LIP", "LLP", 
+"CDP" or "SGP".
+  
+
+

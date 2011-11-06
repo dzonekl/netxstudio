@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Getting Started" link_to="toc.xml#gettingstarted" topic="html/getting_started/getting_started.html"> 
+	<topic label="The TMNL Capacity Management Process"  href="html/getting_started/TMNL_Capacity_Management_Process.html"> 
+	</topic>
+ <topic href="html/getting_started/data_structure.html" label="Data Structure">
+ </topic>
+ <topic href="html/getting_started/workbench/netxstudio_workbench.html" label="NetXStudio Workbench">
+ </topic>
+</toc>

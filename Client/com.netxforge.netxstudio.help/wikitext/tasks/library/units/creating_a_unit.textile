@@ -1,0 +1,14 @@
+h1. Creating or Editing a Unit
+
+When creating a Unit the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/units/creating_a_unit.png!
+
+The following data should be entered 
+
+* The Unit name
+* The Unit code ( A two letter code i.e. EL for Erlang)
+* The Unit description. 
+
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.

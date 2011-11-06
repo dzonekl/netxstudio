@@ -1,0 +1,10 @@
+h1. Library task
+
+The Library task provides access to the activities concerning the library. 
+
+* "Network Element Types"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/network_element_types/network_element_types.html
+* "Expression"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/metricsources.html
+
+* Tolerances
+* Units
+* Vendors

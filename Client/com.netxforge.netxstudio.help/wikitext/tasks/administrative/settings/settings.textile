@@ -1,0 +1,24 @@
+h1. Server Settings
+
+Server settings provide access to several settings related to the Server side.
+
+The Server Settings screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/administrative/settings/settings.png!
+
+h2. Server Directories
+
+*Metric Sources Directories* => The relative path on the server where metric source files can be found. 
+
+_Note:_ The Metric Source location completes the full path from where files will be scanned and mapped. 
+
+*Reports Directory* => The absolute path to where the reports will be stored. 
+
+_Note:_ Reports on the server can be browsed in the Monitoring Task. 
+
+
+h2. Expansion Duration
+
+Definition for the number of days, an expansion takes. 
+
+_Note:_ The expansion duration is set on Functions and Equipments.

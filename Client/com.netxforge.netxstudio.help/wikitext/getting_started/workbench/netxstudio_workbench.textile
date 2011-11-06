@@ -1,0 +1,128 @@
+h1. NetXStudio Workbench
+
+The NetXStudio workbench is a rich application which needs to be installed on an Operating System like Windows, Linux of MacOSX. 
+
+In the diagram below, we highlight the various sections of the workbench: 
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/getting_started/workbench/workbench.png!
+
+
+(Note: On MacOSX, the menu is not shown, as it always on top of the Operating System screen). 
+
+The workbench is context sensitive to the task at hand. In other words, it will adapt menus, toolbars, views etc.. to the task which needs to be performed.
+
+
+The main components of the workbench are: 
+
+* Menu
+** File
+** Edit
+** Window
+** Help
+* Tasks shortcuts
+** Library
+** Design
+** Monitoring
+** Administrative
+* NetXStudio Explorer 
+** Editors
+* Supporting Views
+** Console View
+** Progress View
+** Error View
+** Problem View
+** [TODO] filter uneeded views. 
+* Status bar
+* Progress bar
+
+h2. Menu
+
+* File 
+** New => Create a new object.
+** Save => Save the current open editor. 
+** Save As...=> Save the current open editor as ... (Depends on editor capabilities). 
+** Save All => Save all unsaved open editors. 
+** Close => Close the current open editor 
+** Close All = Close all open editors. 
+** Import... => Provides access to import wizards. 
+** Export... => Provides access to export wizards. 
+
+* Edit
+** Undo => Undo the last editing action. 
+** Redo => Redo the previous editing action
+** Cut => Cut the selection
+** Copy => Copy the selection
+** Paste => Paste the selection
+** Delete => Delete the selection
+** Select All => Select all in the open editor
+
+Editing options are task or editor targeted. In case of a table, the cut , copy and paste actions will
+apply to the selection in the table. When in a text-based editor the editing functions will apply to the 
+text. 
+
+* Window
+** Task => Provides access to the tasks for depending on the role of the user. 
+** Views => Provides access to supporting views. 
+** Preference (Win32 platforms) => Provides access to the preference system. 
+
+* Help
+** Welcome => [TBD Welcome intro is currently disabled]
+** Help => Launches a webbrowser to show the help
+** About => Shows the about screen and current installation of plugins. 
+
+h2. Tasks shortcuts 
+
+Below the menu is the tasks bar. It provides tasks shortcut icons to quickly open a task.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/getting_started/workbench/tasks_dropdown.png!
+
+The following tasks are defined
+
+* Administrative
+* Monitoring
+* Design
+* Library (Default)
+* ... [TBD extend on subsequent iterations]
+
+h2. NetXStudio Explorer
+
+The NetXStudio Explorer is an internal file system. Files from the Operating System can be dragged and dropped to the internal file system. By default a standard directory structure will be created. 
+
+From the explorer activities can be performed on the files in the explorer. These can be triggered through 
+the menu or by right-clicking on an item. 
+
+[TBD, not much use in Iteration #1, will be used extensively for import and exporting of data from the system, and 
+generating reports]
+
+h2. Supporting Views
+
+NetXStudio comes with many supporting views, which provide additional information. for the task at hand. When necessary the task will show the supporting view. Views can be freely moved around and placed in the wished position which is any place around the editor section. To move a supporting view, simply drag the title bar to the desired location. 
+
+View to the right of the task. 
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/getting_started/workbench/view_right.png!
+
+View to at the bottom below the task.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/getting_started/workbench/view_bottom.png!
+
+View to at the left of the task.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/getting_started/workbench/view_left.png!
+
+
+Some key supporting views. 
+
+* Console => Shows Software errors when they occure, normally it should not provide information which is not displayed otherwise. 
+
+* Properties => Shows additional information for a task or editor. 
+
+* Progress => Shows the progress of long running operation, when operations are executed in the background. 
+
+[TBD, some views are not relevant and should be filtered from the views menu]
+
+h2. Status and Progress bar
+
+The status bar is located at the left bottom section of the workbench. It shows the selected object, or any additional relevant information. 
+
+The Progress bar shows progress of long running operations. 

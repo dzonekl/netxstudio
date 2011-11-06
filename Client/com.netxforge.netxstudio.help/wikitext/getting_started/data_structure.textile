@@ -1,0 +1,126 @@
+h1. Data Structure
+
+The system data structure consists of the following items: 
+
+* Library
+* Operator(s)
+* Services
+* Metrics
+* Geo
+
+h2. Library
+
+The resource library is the base data of the system. It defines the Telecommunications representation of system and it's characteristics. 
+
+It is the primary starting point to use NetXStudio and is populated in the tasks: [TODO, reference to these tasks. ]
+
+The following objects are defined in the Library.  
+
+* Function
+* Equipment
+* Company
+* Tolerance
+* Unit
+* Expression
+* Resource
+
+In the diagram below, as an example we provide a definition of a system named as  MSC-S. 
+
+# The objects highlighted in Yellow, represent objects in the Network
+# The objects highlighted in Purple, represent objects in the Library
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/getting_started/library_structure.png!
+
+The following objects can be nested to provide the needed representation of a Telecommunications System. 
+
+* Function
+* Equipment
+* Metric
+
+h3. Metric
+
+A metric is an identifier with a name which refers to a statistics counter produced by a telecommunication equipment 
+vendor. Metrics should be defined for each relevant capacity metric required to be monitored. A Metric is referenced by 
+a metric source. 
+
+h3. Resource
+
+Resource contain various so-called ranges, which store information about the resource. 
+These are: 
+
+* Multiple Metric Ranges
+
+* Capacity Range
+
+* Utilization Range
+
+* Multiple Tolerance Ranges
+
+[TODO diagram showing the various ranges. ]
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/getting_started/resource_structure.png!
+
+[TBD various other ranges related to trending, forecasting etc...]
+
+Metric ranges are created when reading metrics from the defined sources. A metric source 
+will tell for each metric and corresponding resource the characteristics of the metric being stored in the resource. 
+The characteristics are: 
+
+- Are these Average or Busy Hour values, identified as AVG and BH
+- What is the interval of measurement in minutes. I.e an interval of '60' means an interval of one hour between each measurement. 
+
+Example: 
+
+For a metric which produces hourly busy hour value, the following metric range will be created in the resource. 
+
+METRIC BH 60 (This is actually the syntax used by the NetXScript expression grammar).
+
+h3. Metric vs Resource what is the difference? 
+
+It can be confusing the see the difference between a metric and a resource. 
+The difference should be become clear considering the following. 
+
+A Resource is holding the values of a metric, but also the results of calculations like the utilization or the tolerance values. In contrary a metric, is specified by the vendor of the telecommunications equipment.
+
+A Resource is created when reading-in metric values, The name of the resource is giben the name of the metric.
+A resource can however also be created manually and populated with the results from expressions. This is also referred
+to as a derived resource.   
+
+
+h2. Operator
+
+The operator, is the actual model of the Operator
+
+The following objects are defined in the Network.  
+
+* Network
+* Node
+* Functional Relationship 
+* Physical Relationship
+* [TBD update with the latest model details]
+
+The Node object is the instance of a Library Function and Equipment. (Each Node, has a root Function and root Equipment).
+It also holds the Functional and Physical relationships. 
+
+The following objects can be nested to provide the needed representation of a Telecommunications System. 
+
+* Network
+
+
+
+h2. Geographical
+
+The following objects are currently also defined for the network, but not in use. 
+
+* Country
+* Site
+* Room
+
+
+h2. Other Data (File based) 
+
+
+* NetXStudio Excel template (.xml or .xls Excel Spreadsheet). 
+* NetXStudio model files. (.netxstudio)
+* NetXStudio model transformations (.qvto)
+* NetXStudio model reports (.html)

@@ -1,0 +1,15 @@
+h1. Creating or Editing a Resource Definition
+
+When creating a Resource Definition the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/resource_definitions/creating_a_resource_definition.png!
+
+The following data should be entered 
+
+* The Resource name
+
+
+
+
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.

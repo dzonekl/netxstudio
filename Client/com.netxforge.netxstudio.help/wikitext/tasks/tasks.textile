@@ -1,0 +1,12 @@
+h1. Tasks
+
+The following Capacity Management tasks exist
+
+* "Administrative"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/administrative.html
+* "Library Task"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/library.html
+* "Design Task"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/design.html
+* "Monitoring Task"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/monitoring/monitoring.html
+
+
+ 
+

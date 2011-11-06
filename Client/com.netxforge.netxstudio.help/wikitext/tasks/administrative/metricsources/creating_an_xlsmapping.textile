@@ -1,0 +1,61 @@
+h1. Creating an XLS Mapping. 
+
+When creating an XLS Mapping the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/administrative/metricsources/creating_an_xlsmapping.png!
+
+The following data should be entered 
+
+*Basic*
+
+* The XLS Mapping sheet index. 
+
+Note: 
+
+* The first sheet starts with 0
+
+*General*
+
+* The metric interval in minutes. (Note the interval can also be retrieved from a mapping column if specified). 
+* Enable header mapping. When checked gives the option to use a header mapping. 
+
+*Header Mapping* (Optional)
+
+The Header mapping section starts at a certain row. 
+*Header row* The starting row for the header mapping section
+
+*New* => Click on the upper right link to create a new Column mapping. 
+*Edit* => Right-Click on a column mapping row and select Edit...
+
+_See_ "Create or Modifying a Column Mapping":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/creating_a_columnmapping.html
+
+*Data Mapping*
+
+The Data mapping section starts at a certain row. 
+*Data row* The starting row for the data mapping section
+
+
+*New* => Click on the upper right link to create a new Column mapping. 
+*Edit* => Right-Click on a column mapping row and select Edit...
+
+_See_ "Create or Modifying a Column Mapping":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/creating_a_columnmapping.html
+
+h2. Interactive Mapping
+
+In order to support the mapping of Columns, the mapping XLS file can be loaded on the right part of the screen.
+this will load the file in a grid, and from this actions can be invoked to populate the mapping. 
+
+To open a mapping XLS file:
+
+*Select XLS* => Opens a dialog which allows the selection of a file to be loaded into the grid. 
+
+To use the interactive mapper, select the cell which should be mapped and right-click on the grid 
+to bring up a menu with the following actions:  
+
+*Set Header Row index (@selection@)* => Sets the header row field. 
+*Header Column Mapping with index (@selection@)* => Opens the Column Mapping Dialog. 
+*Set Data Row index (@selection@)* => Sets the Data row field.
+*Data Column Mapping with index (@selection@)* => Opens the Column Mapping Dialog. 
+
+
+Note: Currently, only the selected XLS sheet (From Excel) can be loaded in the interactive mapper.

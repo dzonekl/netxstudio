@@ -1,0 +1,89 @@
+h1. Creating or Editing a Metric Source. 
+
+When creating or editing a Metric Source the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/administrative/metricsources/creating_a_metricsource.png!
+
+The following data should be entered 
+
+*General Information*
+
+* The metric source name
+* The metric source location. 
+* The metric source file pattern. (For file based metric sources only!). 
+* The mapping definition
+
+
+h2. Metric Source Location
+
+The metric source location depends on the type of metric source. 
+
+h3. File based metric sources. 
+
+This is a relative path to the directory which will contain the files to be processed. 
+This path is relative to the Server Import path. 
+
+
+Note: The Server Import path is defined in Server Settings. 
+
+
+h3. RDBMS based metric sources. 
+
+This is the so-called JDBC URL to the RDBMS, which is general conforms to the following syntax:
+
+@jdbc: [subprotocol]: [subname]@
+
+Note: It is recommended to consult with the RDBMS administrator what the correct URL should be. 
+
+Examples: 
+
+JDBC Connection to an Oracle RDBMS: 
+
+@jdbc:oracle:thin:@192.168.22.33:1521:oss@
+
+JDBC Connection to a Postgres RDBMS
+
+@jdbc:postgresql://localhost:5432/DB_TM@
+
+h2. Metric Source file Pattern
+
+The metric source file pattern. Patterns are regular expressions, and can be found here. 
+
+"Regular Expression Patterns":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/regexpattern.html
+
+
+*Example*  A typical regular expression to identify a file.  
+
+bq. [a-zA-Z0-9_-]+(CM_SGSN process occupation)
+
+Explanation: 
+
+bq. [a-zA-Z0-9_-]+ 
+
+All alpha characters ignoring case, numerical 0 to 9 and _ and -. The + means the characters occur 1 or more times. 
+
+bq. (CM_SGSN process occupation) 
+
+..followed by the string "CM_SGSN process occupation". 
+ 
+
+h2. Mapping
+
+*Mapping* => Click on link to create a new Mapping Definition
+
+When creating a Mapping definition for the first time, the following dialog will appear. 
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/administrative/metricsources/mapping_selection_dialog.png!
+
+Select the appropriate dialog here. 
+
+
+* "Create or Modifying an XLS Mapping":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/creating_an_xlsmapping.html
+
+* "Create or Modifying a CSV Mapping":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/creating_a_csvmapping.html
+
+* "Create or Modifying an RDBMS Mapping":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/creating_an_rdbmsmapping.html
+
+
+*Note:* _The type of mapping definition can't be changed once selected_ 
+

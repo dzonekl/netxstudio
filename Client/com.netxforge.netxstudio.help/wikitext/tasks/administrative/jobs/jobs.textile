@@ -1,0 +1,50 @@
+h1. Jobs
+
+Jobs management consists of viewing, creating and modifying server Jobs. 
+
+* "Create or Modifying a Job":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/jobs/creating_a_job.html
+
+
+The Jobs screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/administrative/jobs/jobs.png!
+
+
+*New* => Click on the upright link to create a new Job
+*Edit* => Right-click on a Job in the table and select edit. 
+*Runs* => Right-click on a Job in the table and select runs. 
+*Filter* => Type text to filter Jobs containing the text
+
+h2. What are jobs. 
+
+Jobs are various kind of activities which are performed on the server. 
+Jobs run automatically on the server triggered by the scheduler. It's also possible to trigger 
+a one of job run. 
+
+
+h2. Job Types
+
+The following jobs are defined: 
+
+* Metric collection jobs 
+
+* Monitoring jobs
+
+* Data retention jobs
+
+For Metric collection and monitoring, the jobs have to be either created and scheduled, or the job can be 
+triggered as a one of. These actions are available from the respective screens for Metric Sources and Services. 
+
+
+h2. Job Scheduler
+
+The job scheduler runs on the server permanently. A scheduled job can be configured to execute at a certain time with criteria for repetitions.
+
+h2. Job Runs
+
+Each time a scheduled Job has run, a Job Run entry is created. 
+The job entry screen looks like this. 
+
+
+
+ 

@@ -1,0 +1,14 @@
+h1. Resource Definitions
+
+The Resource Definitions screen provides access to Resource Definitions definitions
+
+The Resource Definitions screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/resource_definitions/resource_definitions.png!
+
+*Edit* => Right-click on a Resource Definition in the table and select edit. 
+*Filter* => Type text to filter Resource Definitions containing the text
+
+_Note:_ Resource definitions are created from the Network Element Types screen, where a resource is associated with a Function or an Equipment. 
+
+_Note II:_ Resource definitions for metrics are auto-created from the mapping definitions. 

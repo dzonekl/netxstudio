@@ -1,0 +1,25 @@
+h1. Modifying an Element Type
+
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/network_element_types/creating_a_network_element_type.png!
+
+
+The following data should be entered or is presented.
+
+*Info*
+
+* The Network Element Type name
+
+* The Network Element Type service chain position. When checked the NE Type is expected to 
+be at the end / beginning of the service chain. (I.e. a NodeB, BTS or Point of Interconnect). 
+
+*Totals*
+ 
+* The Network Element Type  totals. This shows the number of Functions, Equipments and Resources in the Network Element Type.
+
+*Hierarchy*
+
+* The Network Element Type  Hierarchy. This is diagram of the Network Element Type hierarchy. 
+
+*Save* => Menu -> File -> Save
+*Cancel* => The editing can be undone by Menu-> Edit -> Undo
