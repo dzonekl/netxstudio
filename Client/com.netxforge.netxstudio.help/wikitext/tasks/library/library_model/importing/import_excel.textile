@@ -1,4 +1,0 @@
-h1. Importing an Excel template
-
-To import an excel template: 
-

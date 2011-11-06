@@ -1,7 +1,0 @@
-h1. Getting Started
-
-The Getting started guide Covers general topics about NetXStudio
-
-* "TMNL Capacity Management Process":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/getting_started/TMNL_Capacity_Management_Process.html
-* "Data Structure":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/getting_started/data_structure.html
-* "NetXStudio Workbench":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/getting_started/workbench/netxstudio_workbench.html

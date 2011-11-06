@@ -1,9 +1,0 @@
-h1. Library task
-
-The Library task provides access to the activities concerning the library. 
-
-* Expressions
-* Network Element Types
-* Tolerances
-* Units
-* Vendors
