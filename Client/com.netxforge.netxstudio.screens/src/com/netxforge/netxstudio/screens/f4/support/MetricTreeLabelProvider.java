@@ -43,6 +43,7 @@ public class MetricTreeLabelProvider extends StyledCellLabelProvider {
 	};
 
 	public MetricTreeLabelProvider(IObservableMap... attributeMaps) {
+//		super(StyledCellLabelProvider.COLORS_ON_SELECTION);
 		for (int i = 0; i < attributeMaps.length; i++) {
 			attributeMaps[i].addMapChangeListener(mapChangeListener);
 		}
@@ -70,7 +71,6 @@ public class MetricTreeLabelProvider extends StyledCellLabelProvider {
 						: "";
 			}
 				break;
-
 			case 2: {
 				txt = metric.getUnitRef() != null ? metric.getUnitRef()
 						.getName() : "";

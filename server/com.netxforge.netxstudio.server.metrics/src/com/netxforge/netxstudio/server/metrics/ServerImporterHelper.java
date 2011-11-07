@@ -110,9 +110,22 @@ public class ServerImporterHelper implements IImporterHelper {
 	public void addMetricValue(MappingColumn column, Date timeStamp,
 			Component locatedComponent, Double dblValue, int intervalHint,
 			NetworkElementLocator.IdentifierDescriptor lastDescriptor) {
-
+		
+		String path = modelUtils.cdoCalculatedResourcePath(locatedComponent);
+		
+		if(path == null){
+			if(DataActivator.DEBUG){
+				System.out.println("Invalid CDO Resource path, component name likely not set");
+			}
+			throw new java.lang.IllegalStateException("Invalid CDO Resource path, component name likely not set");
+		}
+		
+		if(DataActivator.DEBUG){
+			System.out.println("IMPORTER looking for CDO resource path:" + path);
+			
+		}
 		final Resource emfNetxResource = importer.getDataProvider()
-				.getResource(modelUtils.getResourcePath(locatedComponent));
+				.getResource(path);
 
 		final ValueDataKind valueDataKind = importer.getValueDataKind(column);
 		final Metric metric = valueDataKind.getMetricRef();

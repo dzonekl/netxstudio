@@ -94,14 +94,14 @@ public class NewEditLink extends AbstractDetailsScreen implements IScreen,
 		Section sctnNode = toolkit.createSection(this, Section.TITLE_BAR
 				| Section.TWISTIE);
 		toolkit.paintBordersFor(sctnNode);
-		sctnNode.setText("Node Link");
+		sctnNode.setText("Network Element Link");
 
 		Composite cmpTolerances = toolkit.createComposite(sctnNode, SWT.NONE);
 		toolkit.paintBordersFor(cmpTolerances);
 		sctnNode.setClient(cmpTolerances);
 		cmpTolerances.setLayout(new GridLayout(4, false));
 
-		Label lblRoomsite = toolkit.createLabel(cmpTolerances, "Node #1:",
+		Label lblRoomsite = toolkit.createLabel(cmpTolerances, "NE #1:",
 				SWT.NONE);
 		lblRoomsite.setAlignment(SWT.RIGHT);
 		GridData gd_lblRoomsite = new GridData(SWT.RIGHT, SWT.CENTER, false,
@@ -163,7 +163,7 @@ public class NewEditLink extends AbstractDetailsScreen implements IScreen,
 		});
 
 		Label lblNode = toolkit
-				.createLabel(cmpTolerances, "Node #2:", SWT.NONE);
+				.createLabel(cmpTolerances, "NE #2:", SWT.NONE);
 		lblNode.setAlignment(SWT.RIGHT);
 		lblNode.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));

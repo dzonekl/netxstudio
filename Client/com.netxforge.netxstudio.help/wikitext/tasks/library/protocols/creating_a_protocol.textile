@@ -1,0 +1,18 @@
+h1. Creating or Editing a Protocol
+
+When creating a Protocol the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/protocols/creating_a_protocol.png!
+
+The following data should be entered 
+
+* The Protocol name
+* The Protocol Description
+
+Additional information about the protocol
+
+* The Protocol OSI layer level.
+* A Reference to the protocol specification. 
+
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.

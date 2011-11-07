@@ -50,7 +50,11 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 
 	protected String calculateFileName() {
 		String baseName = super.calculateFileName();
-		return REPORT_PREFIX + "_" + REPORT_PREFIX_RM_RESOURCE + "_" + baseName;
+		
+		// We could be dealing with Nodes or Node Types. 
+		
+		
+		return REPORT_PREFIX + "_" +  "TODO_NODEID" + REPORT_PREFIX_RM_RESOURCE + "_" + baseName;
 	}
 
 	@Override

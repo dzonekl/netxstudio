@@ -39,7 +39,7 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	private String[][] data = null;
 	private static final String DEFAULT_DELIMITER = ",";
-	
+
 	@Override
 	protected int processFile(File file) throws Exception {
 		final FileReader reader = new FileReader(file);
@@ -47,9 +47,7 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 
 		if (getTotalRows() < getMapping().getFirstDataRow()) {
 			getFailedRecords().add(
-					createMappingRecord(
-							-1,
-							-1,
+					createMappingRecord(-1, -1,
 							"There is no data in the sheet, first data row is "
 									+ getMapping().getFirstDataRow()
 									+ " but the sheet has only "
@@ -62,24 +60,22 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 	}
 
 	private void setData(FileReader fileReader) throws Exception {
-		
+
 		final BufferedReader reader = new BufferedReader(fileReader);
-		
-		if(!(getMapping() instanceof MappingCSV)){
+
+		if (!(getMapping() instanceof MappingCSV)) {
 			return;
 		}
-		
+
 		MappingCSV mapping = (MappingCSV) this.getMapping();
 		final String delimiter = mapping != null
 				&& mapping
 						.eIsSet(MetricsPackage.Literals.MAPPING_CSV__DELIMITER) ? mapping
 				.getDelimiter() : DEFAULT_DELIMITER;
-
-		// Pattern p = Pattern.compile("^" + QUOTED_OR_NOT + "?" + delimiter
-		// + QUOTED_OR_NOT + delimiter + QUOTED_OR_NOT + "?");
-
-		Pattern p = Pattern.compile("(\".*?\"|.*?)" + delimiter);
-
+				
+				
+		// Regex, splits quoted fragements separated by delimiter.	
+		Pattern p = Pattern.compile("(\".*?\"|[^" + delimiter + "]++)");
 		final List<String[]> localData = new ArrayList<String[]>();
 		String line;
 		while ((line = reader.readLine()) != null) {
@@ -87,8 +83,6 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 			// Split (by default) for encapsulated by quote char...
 			// CB: http://work.netxforge.com/issues/159
 			// See also: http://mindprod.com/jgloss/regex.html
-			if (line.isEmpty())
-				continue;
 			ArrayList<String> matchingList = Lists.newArrayList();
 			Matcher matcher = p.matcher(line);
 			while (matcher.find()) {
@@ -114,30 +108,8 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 			localData.add(lineData.toArray(new String[lineData.size()]));
 		}
 		data = localData.toArray(new String[localData.size()][]);
-		
-//		String delimiter = ((MappingCSV)getMapping()).getDelimiter();
-//		
-//		if(delimiter == null){
-//			delimiter = ",";
-//		}
-//		
-//		final List<String[]> localData = new ArrayList<String[]>();
-//		String line;
-//		while ((line = reader.readLine()) != null) {
-//			
-//			// FIXME, Double tokenizer...
-//			
-//			
-//			final StringTokenizer tokenizer = new StringTokenizer(line, delimiter);
-//			final List<String> lineData = new ArrayList<String>();
-//			while (tokenizer.hasMoreElements()) {
-//				lineData.add(convert(tokenizer.nextToken()));
-//			}
-//			localData.add(lineData.toArray(new String[lineData.size()]));
-//		}
-//		data = localData.toArray(new String[localData.size()][]);
 	}
-	
+
 	private String convert(String value) {
 		if (value == null) {
 			return value;
@@ -169,11 +141,11 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 	@Override
 	protected double getNumericCellValue(int row, int column) {
 		String s = getStringCellValue(row, column);
-		if(s != null && s.length() > 0){
+		if (s != null && s.length() > 0) {
 			try {
-			return Double.parseDouble(s);
-			}catch(NumberFormatException nfe){
-				// Not parsable 
+				return Double.parseDouble(s);
+			} catch (NumberFormatException nfe) {
+				// Not parsable
 			}
 		}
 		throw new IllegalStateException("No value");

@@ -389,4 +389,8 @@ public class CreationActionsHandler implements IActionHandler,
 		this.setActivePart(part);
 	}
 
+	public void deactivate() {
+		// nothing to deactivate. 
+	}
+
 }

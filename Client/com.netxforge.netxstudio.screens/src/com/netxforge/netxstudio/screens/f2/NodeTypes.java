@@ -72,7 +72,8 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
-import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
+import com.netxforge.netxstudio.screens.actions.ExportHTMLAction;
+import com.netxforge.netxstudio.screens.actions.ExportXLSAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -250,48 +251,6 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		cmpDetails.setLayout(new FillLayout());
 		sashForm.setWeights(new int[] { 3, 7 });
 
-	}
-
-	/**
-	 * @author dzonekl
-	 */
-	class ExportHTMLAction extends Action {
-
-		public ExportHTMLAction(String text, int style) {
-			super(text, style);
-		}
-
-		@Override
-		public void run() {
-			ISelection s = nodeTypeTreeViewer.getSelection();
-			if (s instanceof IStructuredSelection) {
-				WizardUtil
-						.openWizard(
-								"com.netxforge.netxstudio.models.export.wizard.ui.nodetype.html",
-								(IStructuredSelection) s);
-			}
-		}
-	}
-
-	/**
-	 * @author dzonekl
-	 */
-	class ExportXLSAction extends Action {
-
-		public ExportXLSAction(String text, int style) {
-			super(text, style);
-		}
-
-		@Override
-		public void run() {
-			ISelection s = nodeTypeTreeViewer.getSelection();
-			if (s instanceof IStructuredSelection) {
-				WizardUtil
-						.openWizard(
-								"com.netxforge.netxstudio.models.export.wizard.ui.nodetype.xls",
-								(IStructuredSelection) s);
-			}
-		}
 	}
 
 	class HistoryAction extends Action {

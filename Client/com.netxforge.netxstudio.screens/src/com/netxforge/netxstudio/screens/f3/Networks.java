@@ -48,6 +48,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -66,6 +67,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.BaseSelectionListenerAction;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -97,6 +99,8 @@ import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.OperatorFilterDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.WarehouseFilterDialog;
+import com.netxforge.netxstudio.screens.actions.ExportHTMLAction;
+import com.netxforge.netxstudio.screens.actions.ExportXLSAction;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -257,6 +261,54 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		networkTreeViewer.setUseHashlookup(true);
 		networkTreeViewer.setComparer(new CDOElementComparer());
 
+		// Set a default sorter.
+		networkTreeViewer.setComparator(new ViewerComparator() {
+
+			@Override
+			public int category(Object element) {
+				if (element instanceof Operator)
+					return 1;
+				if (element instanceof Network)
+					return 2;
+				if (element instanceof Relationship)
+					return 3;
+				if (element instanceof Node)
+					return 4;
+				if (element instanceof Function)
+					return 5;
+				if (element instanceof Equipment)
+					return 6;
+
+				return super.category(element);
+			}
+
+			// We can't delegate to the ILabelProvider, as we use a
+			// StyledCellLabelProvider.
+			@Override
+			public int compare(Viewer viewer, Object e1, Object e2) {
+				int cat1 = category(e1);
+				int cat2 = category(e2);
+
+				if (cat1 != cat2) {
+					return cat1 - cat2;
+				}
+
+				if (e1 instanceof Equipment && e2 instanceof Equipment) {
+					Equipment eq1 = (Equipment) e1;
+					Equipment eq2 = (Equipment) e2;
+
+					if (eq1.getEquipmentCode() != null
+							&& eq2.getEquipmentCode() != null) {
+						return eq1.getEquipmentCode().compareTo(
+								eq2.getEquipmentCode());
+					}
+				}
+
+				return super.compare(viewer, e1, e2);
+			}
+
+		});
+
 		networkTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
@@ -315,25 +367,31 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		return actions.toArray(actionArray);
 	}
 
-	class HistoryAction extends Action {
+	class HistoryAction extends BaseSelectionListenerAction {
 
 		public HistoryAction(String text, int style) {
-			super(text, style);
+			super(text);
+		}
+
+		@Override
+		protected boolean updateSelection(IStructuredSelection selection) {
+			// boolean superResult = super.updateSelection(selection);
+			Object firstElement = selection.getFirstElement();
+			return firstElement instanceof Node;
 		}
 
 		@Override
 		public void run() {
-			ISelection s = networkTreeViewer.getSelection();
-			if (s instanceof IStructuredSelection) {
-				Object object = ((IStructuredSelection) s).getFirstElement();
-				if (object instanceof Node) {
-					NodeHistory nodeHistoryScreen = new NodeHistory(
-							screenService.getScreenContainer(), SWT.NONE);
-					nodeHistoryScreen.setScreenService(screenService);
-					nodeHistoryScreen.setOperation(Screens.OPERATION_READ_ONLY);
-					nodeHistoryScreen.injectData(null, object);
-					screenService.setActiveScreen(nodeHistoryScreen);
-				}
+			IStructuredSelection structuredSelection = this
+					.getStructuredSelection();
+			Object object = structuredSelection.getFirstElement();
+			if (object instanceof Node) {
+				NodeHistory nodeHistoryScreen = new NodeHistory(
+						screenService.getScreenContainer(), SWT.NONE);
+				nodeHistoryScreen.setScreenService(screenService);
+				nodeHistoryScreen.setOperation(Screens.OPERATION_READ_ONLY);
+				nodeHistoryScreen.injectData(null, object);
+				screenService.setActiveScreen(nodeHistoryScreen);
 			}
 		}
 	}
@@ -451,107 +509,74 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	/**
-	 * @author dzonekl
-	 */
-	class ExportHTMLAction extends Action {
-
-		public ExportHTMLAction(String text, int style) {
-			super(text, style);
-		}
-
-		@Override
-		public void run() {
-			ISelection s = networkTreeViewer.getSelection();
-			if (s instanceof IStructuredSelection) {
-				WizardUtil
-						.openWizard(
-								"com.netxforge.netxstudio.models.export.wizard.ui.node.html",
-								(IStructuredSelection) s);
-			}
-		}
-	}
-
-	/**
-	 * @author dzonekl
-	 */
-	class ExportXLSAction extends Action {
-
-		public ExportXLSAction(String text, int style) {
-			super(text, style);
-		}
-
-		@Override
-		public void run() {
-			ISelection s = networkTreeViewer.getSelection();
-			if (s instanceof IStructuredSelection) {
-				WizardUtil
-						.openWizard(
-								"com.netxforge.netxstudio.models.export.wizard.ui.node.xls",
-								(IStructuredSelection) s);
-			}
-		}
-	}
-
-	/**
 	 * Action to move objects to the ware house.
 	 * 
 	 * @author dzonekl
 	 * 
 	 */
-	class MoveToWarehouseAction extends Action {
+	class MoveToWarehouseAction extends BaseSelectionListenerAction {
 
 		public MoveToWarehouseAction(String text, int style) {
-			super(text, style);
+			super(text);
+		}
+
+		@Override
+		protected boolean updateSelection(IStructuredSelection selection) {
+			@SuppressWarnings("rawtypes")
+			List list = selection.toList();
+			boolean result = true;
+			for (Object o : list) {
+				if (!(o instanceof Node) && !(o instanceof Equipment)) {
+					result = false;
+				}
+			}
+			return result;
 		}
 
 		@Override
 		public void run() {
-			ISelection s = networkTreeViewer.getSelection();
-			if (s instanceof IStructuredSelection) {
-				@SuppressWarnings("unchecked")
-				List<Object> selectionList = ((IStructuredSelection) s)
-						.toList();
-				Collection<Node> nodeToDecommission = Lists.newArrayList();
-				Collection<Equipment> equipmentToDecommission = Lists
-						.newArrayList();
-				for (Object o : selectionList) {
-					if (o instanceof Node) {
-						nodeToDecommission.add((Node) o);
-					}
-					if (o instanceof Equipment) {
-						equipmentToDecommission.add((Equipment) o);
-					}
+			IStructuredSelection s = this.getStructuredSelection();
+			@SuppressWarnings("unchecked")
+			List<Object> selectionList = s.toList();
+			Collection<Node> nodeToDecommission = Lists.newArrayList();
+			Collection<Equipment> equipmentToDecommission = Lists
+					.newArrayList();
+			for (Object o : selectionList) {
+				if (o instanceof Node) {
+					nodeToDecommission.add((Node) o);
 				}
-				if (nodeToDecommission.size() > 0
-						|| equipmentToDecommission.size() > 0) {
-					Resource warehouseResource = editingService
-							.getData(OperatorsPackage.Literals.WAREHOUSE);
-					WarehouseFilterDialog dialog = new WarehouseFilterDialog(
-							Networks.this.getShell(), warehouseResource);
-					if (dialog.open() == IDialogConstants.OK_ID) {
-						Warehouse warehouse = (Warehouse) dialog
-								.getFirstResult();
+				if (o instanceof Equipment) {
+					equipmentToDecommission.add((Equipment) o);
+				}
+			}
+			if (nodeToDecommission.size() > 0
+					|| equipmentToDecommission.size() > 0) {
+				Resource warehouseResource = editingService
+						.getData(OperatorsPackage.Literals.WAREHOUSE);
+				WarehouseFilterDialog dialog = new WarehouseFilterDialog(
+						Networks.this.getShell(), warehouseResource);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					Warehouse warehouse = (Warehouse) dialog.getFirstResult();
 
-						// Loop through the node and find cross references.
+					// Loop through the node and find cross references.
 
-						CompoundCommand cc = new CompoundCommand();
-						if (nodeToDecommission.size() > 0) {
-							Command c = new AddCommand(
-									editingService.getEditingDomain(),
-									warehouse.getNodes(), nodeToDecommission);
-							cc.append(c);
-						}
-						if (equipmentToDecommission.size() > 0) {
-							Command c = new AddCommand(
-									editingService.getEditingDomain(),
-									warehouse.getEquipments(),
-									equipmentToDecommission);
-							cc.append(c);
-						}
-
-						editingService.getEditingDomain().getCommandStack()
-								.execute(cc);
+					CompoundCommand cc = new CompoundCommand();
+					if (nodeToDecommission.size() > 0) {
+						Command c = new AddCommand(
+								editingService.getEditingDomain(),
+								warehouse.getNodes(), nodeToDecommission);
+						cc.append(c);
 					}
+					if (equipmentToDecommission.size() > 0) {
+						Command c = new AddCommand(
+								editingService.getEditingDomain(),
+								warehouse.getEquipments(),
+								equipmentToDecommission);
+						cc.append(c);
+					}
+
+					editingService.getEditingDomain().getCommandStack()
+							.execute(cc);
 				}
 			}
 		}

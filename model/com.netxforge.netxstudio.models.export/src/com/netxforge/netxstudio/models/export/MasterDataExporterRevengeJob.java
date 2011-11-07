@@ -19,6 +19,7 @@ package com.netxforge.netxstudio.models.export;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
@@ -109,10 +110,12 @@ public class MasterDataExporterRevengeJob implements IJobChangeListener {
 			masterDataExporter.setPackagesToExport(ePackages);
 			masterDataExporter.setExportObjects(targetObjects);
 			masterDataExporter.process(fileOut);
-
+			fileOut.close();
 			// setResults(masterDataImporter.getResolvedObjects());
 
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 

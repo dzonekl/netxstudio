@@ -23,6 +23,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
+import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
@@ -345,18 +347,28 @@ public class ModelUtils {
 	/**
 	 * Compute a resource path on the basis of an instance. Components generate
 	 * a specific path based on their location in the node/nodetype tree.
+	 * 
+	 * Note that Components with an empty name are not allowed. Also, the depth
+	 * is limited to 5 as CDO folders, so we create a resource separated by an
+	 * underscore instead of a forward slash.
+	 * 
 	 */
-	public String getResourcePath(EObject eObject) {
+	public String cdoCalculatedResourcePath(EObject eObject) {
 		if (eObject instanceof Component) {
+
 			final Component component = (Component) eObject;
-			return getResourcePath(component.eContainer()) + "/"
+			if (!component.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)
+					|| component.getName().length() == 0) {
+				return null;
+			}
+			return cdoCalculatedResourcePath(component.eContainer()) + "_"
 					+ component.getName();
 		} else if (eObject instanceof Node) {
 			return "/Node_/" + ((Node) eObject).getNodeID();
 		} else if (eObject instanceof NodeType) {
 			final NodeType nodeType = (NodeType) eObject;
 			if (nodeType.eContainer() instanceof Node) {
-				return getResourcePath(nodeType.eContainer());
+				return cdoCalculatedResourcePath(nodeType.eContainer());
 			}
 			return "/NodeType_/" + ((NodeType) eObject).getName();
 		} else {
@@ -491,7 +503,7 @@ public class ModelUtils {
 	 * @return
 	 */
 	public Node resolveParentNode(EObject target) {
-		if( target instanceof Node){
+		if (target instanceof Node) {
 			return (Node) target;
 		}
 		if (target != null && target.eContainer() != null) {
@@ -1320,8 +1332,8 @@ public class ModelUtils {
 		MetricValueRange foundMvr = null;
 		for (final MetricValueRange mvr : foundNetXResource
 				.getMetricValueRanges()) {
-			
-			// A succesfull match on Kind and Interval. 
+
+			// A succesfull match on Kind and Interval.
 			if (mvr.getKindHint() == kindHintType
 					&& mvr.getIntervalHint() == intervalHint) {
 				foundMvr = mvr;
@@ -2002,6 +2014,86 @@ public class ModelUtils {
 	public String cdoLongIDAsString(CDOObject cdoObject) {
 		long lValue = ((AbstractCDOIDLong) cdoObject.cdoID()).getLongValue();
 		return new Long(lValue).toString();
+	}
+
+	public String cdoResourcePath(CDOObject cdoObject) {
+		if (cdoObject.eResource() != null) {
+			Resource eResource = cdoObject.eResource();
+			if (eResource instanceof CDOResource) {
+				CDOResource cdoR = (CDOResource) eResource;
+				return cdoR.getPath();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Appends the cdo Object ID to the actual object resource name.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public String resolveHistoricalResourceName(Object object) {
+
+		if (!(object instanceof CDOObject)) {
+			return null;
+		}
+
+		// TODO, keep a cache of CDOObject ID, and resource path.
+		String affectedPath = this.cdoResourcePath((CDOObject) object);
+
+		// The object needs to be in the correct state, if not persisted (CLEAN,
+		// DIRTY etc..),
+		// no cdoID will be present.
+		CDOID id = ((CDOObject) object).cdoID();
+		if (id != null) {
+			URI idURI = URI.createURI(id.toURIFragment());
+			String fragment = idURI.fragment();
+			if (fragment != null) {
+				String[] fragments = fragment.split("#");
+				affectedPath = affectedPath + "_"
+						+ fragments[fragments.length - 1];
+			}
+			return affectedPath;
+		} else
+			return null;
+	}
+
+	/*
+	 * Historical components can exist in a Node or NodeType. when checking the
+	 * path, we check both the Node and NodeType. (Both could be historical
+	 * elements).
+	 */
+	public boolean isHistoricalComponent(Component c) {
+
+		if (c instanceof CDOObject) {
+			String path = this.cdoResourcePath(c);
+
+			// Check for Node first.
+			Node node = this.resolveParentNode(c);
+			if (node != null) {
+				String nodeHistoricalPath = this
+						.resolveHistoricalResourceName(node);
+				if (path.equals(nodeHistoricalPath)) {
+					return true;
+				}
+				return false;
+			}
+
+			// Check for Node type.
+			NodeType nt = this.resolveParentNodeType(c);
+			if (nt != null) {
+				String nodeTypeHistoricalPath = this
+						.resolveHistoricalResourceName(nt);
+				if (path.equals(nodeTypeHistoricalPath)) {
+					return true;
+				}
+
+			}
+
+		}
+
+		return false;
 	}
 
 	/**

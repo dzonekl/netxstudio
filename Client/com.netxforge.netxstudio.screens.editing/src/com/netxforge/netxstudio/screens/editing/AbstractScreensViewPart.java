@@ -175,9 +175,13 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		}
 		this.addPropertyListener(this);
 		site.getPage().addPartListener(this);
+		// Set the current editor as selection provider.
 		site.setSelectionProvider(this);
 
-		// Set the current editor as selection provider.
+
+		// Note add some static action handlers which are updated by the selection 
+		// provider of the active part. which is this. We can also add 
+		// dynamic action handlers. 
 		actionHandlerDescriptor = new ActionHandlerDescriptor();
 		actionHandlerDescriptor.addHandler(new EditingActionsHandler(getEditingService()));
 		actionHandlerDescriptor.addHandler(new CreationActionsHandler());

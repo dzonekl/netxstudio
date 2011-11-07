@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
@@ -36,7 +35,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
-import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
+import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHandler;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -184,27 +183,44 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 			descriptor.setEnableChildCreationActions(false);
 			descriptor.setEnableSiblingCreationActions(false);
 		}
-
-		descriptor.showMenu();
-
+		
+		descriptor.clearDynamicHandlers();
+		
+		DynamicScreensActionHandler dynamicScreensActionHandler;
+		
 		if (this.getCurrentScreen() != null
 				&& this.getCurrentScreen().getActions() != null) {
-			// Reverse the order, to make the appear in the correct order.
-			Object[] actions = reverse(this.getCurrentScreen().getActions());
-			for (int i = 0; i < actions.length; i++) {
-				IAction a = (IAction) actions[i];
-				if (a instanceof SeparatorAction) {
-					menuManager.insertAfter("screen", new Separator());
-				} else {
-					menuManager.insertAfter("screen", a);
-				}
-			}
+			List<IAction> actions = reverse(this.getCurrentScreen().getActions());
+			dynamicScreensActionHandler = new DynamicScreensActionHandler();
+			dynamicScreensActionHandler.addActions(actions);
+			descriptor.addHandler(dynamicScreensActionHandler);
 		}
+//			// Reverse the order, to make the appear in the correct order.
+		
+//		if (this.getCurrentScreen() != null
+//				&& this.getCurrentScreen().getActions() != null) {
+//			// Reverse the order, to make the appear in the correct order.
+//			Object[] actions = reverse(this.getCurrentScreen().getActions());
+//			for (int i = 0; i < actions.length; i++) {
+//				IAction a = (IAction) actions[i];
+//				if (a instanceof SeparatorAction) {
+//					menuManager.insertAfter("screen", new Separator());
+//				} else {
+//					menuManager.insertAfter("screen", a);
+//				}
+//			}
+//		}
+		
+		descriptor.showMenu();
+		
+		System.out.println("show meny ended. ");
+		
 	}
 
-	public static Object[] reverse(Object[] arr) {
-		List<Object> list = Arrays.asList(arr);
+	public static List<IAction> reverse(IAction[] arr) {
+		
+		List<IAction> list = Arrays.asList(arr);
 		Collections.reverse(list);
-		return list.toArray();
+		return list;
 	}
 }

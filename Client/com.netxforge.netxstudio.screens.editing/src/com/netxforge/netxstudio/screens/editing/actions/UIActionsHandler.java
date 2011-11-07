@@ -193,4 +193,8 @@ public class UIActionsHandler implements IActionHandler,
 		this.setActivePart(part);
 	}
 
+	public void deactivate() {
+		// Ignore, nothing to deactivate.  
+	}
+
 }

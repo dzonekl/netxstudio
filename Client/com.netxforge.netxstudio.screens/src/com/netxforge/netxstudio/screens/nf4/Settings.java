@@ -105,7 +105,7 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 		composite.setLayout(new GridLayout(2, false));
 
 		Label lblImportDirectory = toolkit.createLabel(composite,
-				"Import Directory:", SWT.NONE);
+				"Metric Sources Directory:", SWT.NONE);
 		lblImportDirectory.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
 				false, false, 1, 1));
 
@@ -118,7 +118,7 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 		txtImportDirectory.setLayoutData(gd_txtImportDirectory);
 
 		Label lblExportDirectory = toolkit.createLabel(composite,
-				"Export Directory:", SWT.NONE);
+				"Reports Directory:", SWT.NONE);
 		lblExportDirectory.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
 				false, false, 1, 1));
 

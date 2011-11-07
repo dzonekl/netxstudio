@@ -22,7 +22,7 @@ public class CSVService {
 
 	public static int ABORTED = 0;
 	public static int OK = 1;
-
+	
 	private MappingCSV mapping;
 
 	public int go(FileReader fr) throws Exception {
@@ -37,10 +37,7 @@ public class CSVService {
 						.eIsSet(MetricsPackage.Literals.MAPPING_CSV__DELIMITER) ? mapping
 				.getDelimiter() : DEFAULT_DELIMITER;
 
-		// Pattern p = Pattern.compile("^" + QUOTED_OR_NOT + "?" + delimiter
-		// + QUOTED_OR_NOT + delimiter + QUOTED_OR_NOT + "?");
-
-		Pattern p = Pattern.compile("(\".*?\"|.*?)" + delimiter + "| (\".*?\"|.*?)$");
+		Pattern p = Pattern.compile("(\".*?\"|[^"+ delimiter+"]++)");
 
 		final List<String[]> localData = new ArrayList<String[]>();
 		String line;
@@ -49,8 +46,6 @@ public class CSVService {
 			// Split (by default) for encapsulated by quote char...
 			// CB: http://work.netxforge.com/issues/159
 			// See also: http://mindprod.com/jgloss/regex.html
-			if (line.isEmpty())
-				continue;
 			ArrayList<String> matchingList = Lists.newArrayList();
 			Matcher matcher = p.matcher(line);
 			while (matcher.find()) {
@@ -60,7 +55,6 @@ public class CSVService {
 				// traditional.
 				for (int i = 0; i <= gc; i++) {
 					String match = matcher.group(i);
-					System.out.println(i + " : " + match);
 					if (i > 0 && (match != null)) { // Skip the outer group.
 						matchingList.add(match);
 					}

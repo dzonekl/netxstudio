@@ -111,6 +111,7 @@ public class ExportFilter {
 			filteredClasses.add(ServicesPackage.Literals.SERVICE);
 			filteredClasses.add(ServicesPackage.Literals.SERVICE_DISTRIBUTION);
 			filteredClasses.add(ServicesPackage.Literals.SERVICE_FORECAST);
+			filteredClasses.add(ServicesPackage.Literals.SERVICE_FORECAST_USERS);
 			filteredClasses.add(ServicesPackage.Literals.SERVICE_MONITOR);
 			filteredClasses.add(ServicesPackage.Literals.CIID);
 			filteredClasses.add(ServicesPackage.Literals.DERIVED_RESOURCE);

@@ -1,4 +1,4 @@
-#Sun Nov 06 15:47:58 CET 2011
+#Sun Nov 06 16:40:43 CET 2011
 eclipse.preferences.version=1
 encoding//html/getting_started/TMNL_Capacity_Management_Process.html=utf-8
 encoding//html/getting_started/data_structure.html=utf-8
@@ -36,6 +36,10 @@ encoding//html/tasks/library/network_element_types/creating_a_function.html=utf-
 encoding//html/tasks/library/network_element_types/creating_a_network_element_type.html=utf-8
 encoding//html/tasks/library/network_element_types/creating_an_equipment.html=utf-8
 encoding//html/tasks/library/network_element_types/network_element_types.html=utf-8
+encoding//html/tasks/library/protocols/creating_a_protocol.html=utf-8
+encoding//html/tasks/library/protocols/protocols.html=utf-8
+encoding//html/tasks/library/resource_definitions/creating_a_resource_definition.html=utf-8
+encoding//html/tasks/library/resource_definitions/resource_definitions.html=utf-8
 encoding//html/tasks/library/tolerances/creating_a_tolerance.html=utf-8
 encoding//html/tasks/library/tolerances/tolerances.html=utf-8
 encoding//html/tasks/library/units/creating_a_unit.html=utf-8

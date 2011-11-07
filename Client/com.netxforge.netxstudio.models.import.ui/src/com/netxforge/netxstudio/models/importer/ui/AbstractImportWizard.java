@@ -203,12 +203,18 @@ public abstract class AbstractImportWizard extends Wizard implements
 					}
 					if(eRef.isMany()){
 						List<? extends EObject> collection = (List<? extends EObject>) eGet;
+						List<EObject> toRemove = Lists.newArrayList();
 						for(EObject eo : collection ){
 							if(isDangling(eo, eRef)){
 								int index = collection.indexOf(eo);
-								collection.remove(index);	
+								toRemove.add(collection.get(index));
 							}
 						}
+						
+						for(EObject eo : toRemove){
+							collection.remove(eo);
+						}
+						
 					}else{
 						EObject eo = (EObject) eGet;
 						if(isDangling(eo, eRef)){

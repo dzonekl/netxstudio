@@ -494,31 +494,14 @@ public class CDOEditingService extends EMFEditingService implements
 		}
 	}
 
-	/**
-	 * Appends the cdo Object ID to the actual object resource name.
-	 * 
-	 * @param object
-	 * @return
+	/*
+	 * Delegate to ModelUtils.
+	 * (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#resolveHistoricalResourceName(java.lang.Object)
 	 */
 	public String resolveHistoricalResourceName(Object object) {
-
-		// TODO, keep a cache of CDOObject ID, and resource path.
-		CDOResource affectedResource = ((CDOObject) object).cdoResource();
-		String affectedPath = affectedResource.getPath();
-
-		// The object needs to be in the correct state.
-		CDOID id = ((CDOObject) object).cdoID();
-		if (id != null) {
-			URI idURI = URI.createURI(id.toURIFragment());
-			String fragment = idURI.fragment();
-			if (fragment != null) {
-				String[] fragments = fragment.split("#");
-				affectedPath = affectedPath + "_"
-						+ fragments[fragments.length - 1];
-			}
-			return affectedPath;
-		} else
-			return null;
+		return modelUtils.resolveHistoricalResourceName(object);
 	}
 
+	
 }

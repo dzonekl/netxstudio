@@ -17,17 +17,14 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.actions;
 
-import java.util.Collection;
+import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IActionBars;
-
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.operators.OperatorsPackage;
+import org.eclipse.ui.actions.BaseSelectionListenerAction;
 
 /**
  * An action handler which accepts non-predefined actions.
@@ -36,36 +33,50 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  * 
  * 
  */
-public class NodeActionHandler extends AbstractActionHandler {
+public class DynamicScreensActionHandler extends AbstractActionHandler {
 
 	@SuppressWarnings("unused")
 	private IStructuredSelection selection;
 
-	@Inject
-	IDataService dataservice;
-	
-	Collection<EObject> warehouses;
-	
+	private List<IAction> actions;
+
 	public void initActions(IActionBars actionBars) {
-		Resource res = dataservice.getProvider().getResource(OperatorsPackage.Literals.WAREHOUSE);
-		warehouses = res.getContents();
+		// Ignore for dynamic screen actions, as we would ....
 	}
 
 	public void showMenu(ActionHandlerDescriptor descriptor) {
 		IMenuManager menuManager = descriptor.getMenuManager();
 		this.addActions(menuManager);
-		
+
+	}
+
+	public void addActions(List<IAction> actions) {
+		this.actions = actions;
 	}
 
 	private void addActions(IMenuManager menuManager) {
-//		MoveToWarehouseAction mtwa = new MoveToWarehouseAction(warehouses, this.domain);
+		for (IAction action : actions) {
+			if (action instanceof SeparatorAction) {
+				menuManager.insertAfter("screen", new Separator());
+			} else {
+				menuManager.insertAfter("screen", action);
+			}
+		}
 	}
 
 	@Override
 	public void handleSelection(IStructuredSelection ss) {
 		this.selection = ss;
-		
+		for (IAction action : actions) {
+			if (action instanceof BaseSelectionListenerAction) {
+				BaseSelectionListenerAction bsla = (BaseSelectionListenerAction) action;
+				bsla.selectionChanged(ss);
+			}
+		}
 	}
 
+	public void deactivate() {
+		// N/A
+	}
 
 }

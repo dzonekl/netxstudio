@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.cdo.common.util.CDOException;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
 import org.eclipse.emf.cdo.eresource.CDOResourceNode;
@@ -255,17 +256,18 @@ public abstract class CDODataProvider implements IDataProvider {
 		List<Resource> resources = Lists.newArrayList();
 		EList<CDOResourceNode> nodes = cdoFolder.getNodes();
 		for (CDOResourceNode n : nodes) {
-			
+
 			if (n instanceof CDOResourceFolder) {
 				System.out.println("CDOFolder uri: " + n.getURI());
 				resources.addAll(getResourcesFromNode((CDOResourceFolder) n));
-			} else if( n instanceof CDOResource){
-				
+			} else if (n instanceof CDOResource) {
+
 				CDOResource res = (CDOResource) n;
-				System.out.println("CDOResource uri" + res.getURI() + " ResourceSet: " + res.getResourceSet().hashCode());
+				System.out.println("CDOResource uri" + res.getURI()
+						+ " ResourceSet: " + res.getResourceSet().hashCode());
 				resources.add((Resource) n);
-				}
-			
+			}
+
 		}
 		return resources;
 	}
@@ -425,21 +427,81 @@ public abstract class CDODataProvider implements IDataProvider {
 		return this.getResource(set, fragment);
 	}
 
-	public Resource getResource(String resourceName) {
+	public Resource getResource(String resourcePath) {
 		if (doGetResourceFromOwnTransaction()) {
-			final CDOResource resource = resolveInCurrentView(resourceName);
+			final CDOResource resource = resolveInCurrentView(resourcePath);
 
 			if (resource == null) {
 				final CDOTransaction transaction = getSession()
 						.openTransaction();
-				return transaction.getOrCreateResource(resourceName);
+				return transaction.getOrCreateResource(resourcePath);
 			}
 			return resource;
 		} else {
-			return getTransaction().getOrCreateResource(resourceName);
+			
+			try {
+				
+				return getTransaction().getOrCreateResource(resourcePath);
+				
+			} catch (CDOException ce) {
+				System.out.println("DATAPROVIDER: error creating resource: " + resourcePath);
+				ce.printStackTrace();
+				return this.createResourceWithFolderFirst(resourcePath);
+//				return null;
+			}
 		}
 	}
 
+	
+	/**
+	 * To avoid the CDO Exception "Not a resource folder" when creating a long path resource. 
+	 * @param path
+	 * @return
+	 */
+	private Resource createResourceWithFolderFirst(String path){
+		
+		CDOResourceNode resolveLastExistingNode = this.resolveLastExistingNode(path);
+		
+		if(resolveLastExistingNode instanceof CDOResourceFolder){
+			String existsPath = ((CDOResourceFolder) resolveLastExistingNode).getPath();
+			int lastIndexOf = path.lastIndexOf(existsPath);
+			String substring = path.substring(lastIndexOf);
+			return ((CDOResourceFolder) resolveLastExistingNode).addResource(substring);
+		}else if( resolveLastExistingNode instanceof CDOResourceNode){
+			// not sure.
+			CDOResource orCreateResource = this.getTransaction().getOrCreateResource(path);
+			return orCreateResource;
+
+		}
+		return null;
+	}
+	
+	
+	private CDOResourceNode resolveLastExistingNode(String path){
+			
+		CDOResourceNode lastExistingNode = null;
+		
+		URI pathURI = URI.createURI(path);
+		List<String> segmentsList = pathURI.segmentsList();
+		String incrementalSegment = "";
+		for(String segment : segmentsList){
+			incrementalSegment = incrementalSegment.concat("/" + segment);
+			CDOResourceNode resourceNode = this.getTransaction().getResourceNode(incrementalSegment);
+			if(resourceNode != null){
+				lastExistingNode = resourceNode;
+				
+			}else{
+				// We failed return last valid.
+				break;
+			}
+			
+		}
+		
+		return lastExistingNode;
+		
+	}
+	
+	
 	protected boolean doGetResourceFromOwnTransaction() {
 		return doGetResourceFromOwnTransaction;
 	}

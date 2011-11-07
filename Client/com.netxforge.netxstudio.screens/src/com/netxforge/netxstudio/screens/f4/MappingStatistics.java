@@ -12,6 +12,7 @@ import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.EMFProperties;
@@ -21,10 +22,12 @@ import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.ViewerProperties;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
@@ -89,6 +92,7 @@ public class MappingStatistics extends AbstractScreen implements
 	private Text txtEndDateTime;
 
 	private TableViewer tblViewerRecords;
+	private Text txtMessage;
 
 	/**
 	 * Create the composite.
@@ -105,7 +109,7 @@ public class MappingStatistics extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		// buildUI();
+//		buildUI();
 	}
 
 	private void buildUI() {
@@ -117,6 +121,9 @@ public class MappingStatistics extends AbstractScreen implements
 		frmMappingStatistics.setText("Mapping Statistics: "
 				+ metricSource.getName());
 		frmMappingStatistics.getBody().setLayout(new FormLayout());
+
+		frmMappingStatistics.getMenuManager().add(
+				new CleanStatsAction("Clean up..."));
 
 		SashForm sashForm = new SashForm(frmMappingStatistics.getBody(),
 				SWT.NONE);
@@ -266,8 +273,20 @@ public class MappingStatistics extends AbstractScreen implements
 		sctnSummary.setClient(composite);
 		composite.setLayout(new GridLayout(2, false));
 
+		Label lblStatus = toolkit.createLabel(composite, "Status:", SWT.NONE);
+		lblStatus.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false,
+				1, 1));
+
+		txtMessage = toolkit.createText(composite, "New Text", SWT.READ_ONLY
+				| SWT.WRAP | SWT.MULTI);
+		txtMessage.setText("");
+		GridData gd_txtMessage = new GridData(SWT.FILL, SWT.TOP, true, false,
+				1, 1);
+		gd_txtMessage.heightHint = 93;
+		txtMessage.setLayoutData(gd_txtMessage);
+
 		Label lblTotalRecordsProcessed = toolkit.createLabel(composite,
-				"Total records processed: ", SWT.NONE);
+				"Total rows processed: ", SWT.NONE);
 		lblTotalRecordsProcessed.setLayoutData(new GridData(SWT.RIGHT,
 				SWT.CENTER, false, false, 1, 1));
 
@@ -336,6 +355,32 @@ public class MappingStatistics extends AbstractScreen implements
 		tblclmnMessage.setWidth(100);
 		tblclmnMessage.setText("Message");
 		sashForm.setWeights(new int[] { 1, 1 });
+	}
+
+	class CleanStatsAction extends Action {
+
+		public CleanStatsAction(String text) {
+			super(text);
+		}
+
+		@Override
+		public void run() {
+			boolean openQuestion = MessageDialog
+					.openQuestion(
+							MappingStatistics.this.getShell(),
+							"Clean previous statistics",
+							"When pressing OK, the statistics for this metric source will be cleared\nThis action can not be reverted");
+
+			if (openQuestion) {
+				// yes selected.
+				// Should also delete all contained objects like
+				// MappingRecord etc..
+				metricSource.getStatistics().clear();
+				if (editingService.isDirty()) {
+					editingService.doSave(new NullProgressMonitor());
+				}
+			}
+		}
 
 	}
 
@@ -365,12 +410,17 @@ public class MappingStatistics extends AbstractScreen implements
 		IObservableValue selectionObservable = ViewerProperties
 				.singleSelection().observe(statisticsListViewer);
 
+		IObservableValue messageObservable = SWTObservables.observeText(
+				this.txtMessage, SWT.Modify);
 		IObservableValue totalRecordsObservable = SWTObservables.observeText(
 				this.txtTotalRecords, SWT.Modify);
 		IObservableValue startTimeObservable = SWTObservables.observeText(
 				this.txtStartDateTime, SWT.Modify);
 		IObservableValue endTimeObservable = SWTObservables.observeText(
 				this.txtEndDateTime, SWT.Modify);
+
+		IEMFValueProperty messageProperty = EMFProperties
+				.value(MetricsPackage.Literals.MAPPING_STATISTIC__MESSAGE);
 
 		IEMFValueProperty totalRecordsProperty = EMFProperties
 				.value(MetricsPackage.Literals.MAPPING_STATISTIC__TOTAL_RECORDS);
@@ -389,6 +439,10 @@ public class MappingStatistics extends AbstractScreen implements
 
 		EMFUpdateValueStrategy modelToTargetStrategy = new EMFUpdateValueStrategy();
 		modelToTargetStrategy.setConverter(new ModelDateConverter());
+
+		bindingContext.bindValue(messageObservable,
+				messageProperty.observeDetail(selectionObservable));
+
 		bindingContext.bindValue(totalRecordsObservable,
 				totalRecordsProperty.observeDetail(selectionObservable));
 
@@ -497,7 +551,12 @@ public class MappingStatistics extends AbstractScreen implements
 				}
 					break;
 				case 1: {
-					cell.setText(mr.getColumn());
+					String column = mr.getColumn();
+					if (column.equals("-1")) {
+						cell.setText("N/A");
+					} else {
+						cell.setText(column);
+					}
 				}
 					break;
 				case 2: {
@@ -585,7 +644,6 @@ public class MappingStatistics extends AbstractScreen implements
 		public StatisticObservableMapLabelProvider(
 				IObservableMap[] attributeMaps) {
 			super(attributeMaps);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
@@ -594,7 +652,21 @@ public class MappingStatistics extends AbstractScreen implements
 			if (element instanceof MappingStatistic) {
 				MappingStatistic s = (MappingStatistic) element;
 
-				return s.getMessage() + "[" + s.getTotalRecords() + "]";
+				StringBuilder sb = new StringBuilder();
+
+				if (s.eIsSet(MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION)) {
+					DateTimeRange durationEstimate = s.getMappingDuration();
+					if (durationEstimate.getEnd() != null) {
+						Date end = modelUtils.end(durationEstimate);
+
+						sb.append("Scan ended on: " + modelUtils.date(end)
+								+ " @ " + modelUtils.time(end));
+					}
+				} else {
+					sb.append(s.getMessage());
+				}
+				sb.append(" , Total records=[" + s.getTotalRecords() + "]");
+				return sb.toString();
 			}
 			return super.getText(element);
 		}
@@ -641,5 +713,4 @@ public class MappingStatistics extends AbstractScreen implements
 	public String getScreenName() {
 		return "Mapping Statistics";
 	}
-
 }

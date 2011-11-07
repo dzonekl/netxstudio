@@ -21,9 +21,6 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -33,7 +30,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
+import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
@@ -97,17 +94,19 @@ public class NewEditMetric extends AbstractScreen implements
 				: "Edit: ";
 
 		frmNewEditMetric.setText(title + "Metric");
-		frmNewEditMetric.getBody().setLayout(new FormLayout());
+		ColumnLayout columnLayout = new ColumnLayout();
+		columnLayout.maxNumColumns = 1;
+		frmNewEditMetric.getBody().setLayout(columnLayout);
 
 		Section sctnMappings = toolkit.createSection(
 				frmNewEditMetric.getBody(), Section.EXPANDED
 						| Section.TITLE_BAR);
-		FormData fd_sctnMappings = new FormData();
-		fd_sctnMappings.bottom = new FormAttachment(100, -10);
-		fd_sctnMappings.left = new FormAttachment(0, 10);
-		fd_sctnMappings.top = new FormAttachment(0, 10);
-		fd_sctnMappings.right = new FormAttachment(100, -14);
-		sctnMappings.setLayoutData(fd_sctnMappings);
+//		FormData fd_sctnMappings = new FormData();
+//		fd_sctnMappings.bottom = new FormAttachment(100, -10);
+//		fd_sctnMappings.left = new FormAttachment(0, 10);
+//		fd_sctnMappings.top = new FormAttachment(0, 10);
+//		fd_sctnMappings.right = new FormAttachment(100, -14);
+//		sctnMappings.setLayoutData(fd_sctnMappings);
 		toolkit.paintBordersFor(sctnMappings);
 		sctnMappings.setText("Info");
 
@@ -150,9 +149,9 @@ public class NewEditMetric extends AbstractScreen implements
 
 		txtUnit = toolkit.createText(composite_1, "New Text", SWT.READ_ONLY);
 		txtUnit.setText("");
-		GridData gd_txtUnit = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+		GridData gd_txtUnit = new GridData(SWT.FILL, SWT.CENTER, true, false,
 				1, 1);
-		gd_txtUnit.widthHint = 50;
+//		gd_txtUnit.widthHint = 50;
 		txtUnit.setLayoutData(gd_txtUnit);
 
 		ImageHyperlink imageHyperlink_1 = toolkit.createImageHyperlink(
@@ -198,20 +197,33 @@ public class NewEditMetric extends AbstractScreen implements
 				}
 			}
 		});
+		
+		
+		Section sctnMore = toolkit.createSection(
+				frmNewEditMetric.getBody(), Section.EXPANDED
+						| Section.TITLE_BAR | Section.TWISTIE);
+//		FormData fd_sctnMappings = new FormData();
+//		fd_sctnMappings.bottom = new FormAttachment(100, -10);
+//		fd_sctnMappings.left = new FormAttachment(0, 10);
+//		fd_sctnMappings.top = new FormAttachment(0, 10);
+//		fd_sctnMappings.right = new FormAttachment(100, -14);
+//		sctnMappings.setLayoutData(fd_sctnMappings);
+		toolkit.paintBordersFor(sctnMore);
+		sctnMore.setText("More");
 
-		ExpandableComposite xpndblcmpstMore = toolkit
-				.createExpandableComposite(composite_1,
-						ExpandableComposite.TREE_NODE);
-		xpndblcmpstMore.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false,
-				false, 4, 1));
-		toolkit.paintBordersFor(xpndblcmpstMore);
-		xpndblcmpstMore.setText("more...");
-		xpndblcmpstMore.setExpanded(true);
+//		ExpandableComposite xpndblcmpstMore = toolkit
+//				.createExpandableComposite(frmNewEditMetric.getBody(),
+//						ExpandableComposite.TWISTIE);
+//		xpndblcmpstMore.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+//				true, 4, 1));
+//		toolkit.paintBordersFor(xpndblcmpstMore);
+//		xpndblcmpstMore.setText("more...");
+		sctnMore.setExpanded(false);
 
-		Composite composite_3 = toolkit.createComposite(xpndblcmpstMore,
+		Composite composite_3 = toolkit.createComposite(sctnMore,
 				SWT.NONE);
 		toolkit.paintBordersFor(composite_3);
-		xpndblcmpstMore.setClient(composite_3);
+		sctnMore.setClient(composite_3);
 		composite_3.setLayout(new GridLayout(4, false));
 
 		Label lblMeasurementPoint = toolkit.createLabel(composite_3,
@@ -251,9 +263,8 @@ public class NewEditMetric extends AbstractScreen implements
 
 		txtMetricExpression = toolkit.createText(composite_3, "New Text",
 				SWT.READ_ONLY);
-		GridData gd_txtMetricExpression = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
-		gd_txtMetricExpression.widthHint = 150;
+		GridData gd_txtMetricExpression = new GridData(SWT.FILL, SWT.CENTER,
+				true, false, 1, 1);
 		txtMetricExpression.setLayoutData(gd_txtMetricExpression);
 		txtMetricExpression.setText("");
 

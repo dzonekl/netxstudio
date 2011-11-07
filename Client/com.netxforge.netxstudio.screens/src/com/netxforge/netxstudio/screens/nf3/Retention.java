@@ -17,9 +17,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -28,6 +25,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
+import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -82,15 +80,17 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		frmDataRetention.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmDataRetention);
 		frmDataRetention.setText("Data Retention");
-		frmDataRetention.getBody().setLayout(new FormLayout());
+		ColumnLayout columnLayout = new ColumnLayout();
+		columnLayout.maxNumColumns = 1;
+		frmDataRetention.getBody().setLayout(columnLayout);
 
 		Section sctnControl = toolkit.createSection(frmDataRetention.getBody(),
 				Section.TITLE_BAR);
 		sctnControl.setText("Control");
-		FormData fd_sctnControl = new FormData();
-		fd_sctnControl.top = new FormAttachment(0, 10);
-		fd_sctnControl.left = new FormAttachment(0, 10);
-		sctnControl.setLayoutData(fd_sctnControl);
+//		FormData fd_sctnControl = new FormData();
+//		fd_sctnControl.top = new FormAttachment(0, 10);
+//		fd_sctnControl.left = new FormAttachment(0, 10);
+//		sctnControl.setLayoutData(fd_sctnControl);
 		toolkit.paintBordersFor(sctnControl);
 
 		Composite composite = toolkit.createComposite(sctnControl, SWT.NONE);
@@ -139,16 +139,16 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 
 		Section sctnRules = toolkit.createSection(frmDataRetention.getBody(),
 				Section.TITLE_BAR);
-		fd_sctnControl.right = new FormAttachment(sctnRules, 0, SWT.RIGHT);
-		fd_sctnControl.bottom = new FormAttachment(sctnRules, -6);
-		FormData fd_sctnRules = new FormData();
-		fd_sctnRules.bottom = new FormAttachment(100, -10);
-		fd_sctnRules.top = new FormAttachment(0, 120);
-		fd_sctnRules.left = new FormAttachment(0, 10);
-		fd_sctnRules.right = new FormAttachment(100, -10);
-		sctnRules.setLayoutData(fd_sctnRules);
+//		fd_sctnControl.right = new FormAttachment(sctnRules, 0, SWT.RIGHT);
+//		fd_sctnControl.bottom = new FormAttachment(sctnRules, -6);
+//		FormData fd_sctnRules = new FormData();
+//		fd_sctnRules.bottom = new FormAttachment(100, -10);
+//		fd_sctnRules.top = new FormAttachment(0, 120);
+//		fd_sctnRules.left = new FormAttachment(0, 10);
+//		fd_sctnRules.right = new FormAttachment(100, -10);
+//		sctnRules.setLayoutData(fd_sctnRules);
 		toolkit.paintBordersFor(sctnRules);
-		sctnRules.setText("Metric data retention rules");
+		sctnRules.setText("Data retention rules");
 
 		cmpRules = toolkit.createComposite(sctnRules, SWT.NONE);
 		toolkit.paintBordersFor(cmpRules);
@@ -165,7 +165,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		toolkit.paintBordersFor(ftMetricDataRetentionInstruction);
 		ftMetricDataRetentionInstruction
 				.setText(
-						"<form><p>Settings for data retention, keep metric value data for:</p>\n<p/></form>",
+						"<form><p>Settings for data retention, keep value data for:</p>\n<p/></form>",
 						true, false);
 	}
 

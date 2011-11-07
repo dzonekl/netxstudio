@@ -48,6 +48,7 @@ public class WarehouseFilterDialog extends FilteredItemsSelectionDialog {
 	 */
 	public WarehouseFilterDialog(Shell shell, Resource resource) {
 		super(shell);
+		super.setTitle("Select an existing Warehouse");
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {

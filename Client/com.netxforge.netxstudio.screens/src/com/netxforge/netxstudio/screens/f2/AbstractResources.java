@@ -295,7 +295,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 				// CB, the parent is the container resource.
 				if (o instanceof CDOObject) {
-					resourceScreen.injectData(((CDOObject) o).cdoResource(), o);
+					resourceScreen.injectData(null, o);
 					screenService.setActiveScreen(resourceScreen);
 				}
 			}

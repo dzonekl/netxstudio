@@ -231,7 +231,6 @@ public class EditingActionsHandler implements IActionHandler {
 			if (part instanceof IEditingDomainProvider) {
 				activePart = part;
 				activate();
-
 			}
 		}
 	}

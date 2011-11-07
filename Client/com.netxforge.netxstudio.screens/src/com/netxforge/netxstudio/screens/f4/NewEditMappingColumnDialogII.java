@@ -58,7 +58,7 @@ public class NewEditMappingColumnDialogII extends Dialog {
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(750, 380);
+		return new Point(750, 420);
 	}
 
 	public NewEditMappingColumn getMappingColumnScreen() {

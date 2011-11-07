@@ -615,8 +615,11 @@ public class NewEditResource extends AbstractScreen implements
 			res = (BaseResource) object;
 		}
 		// Determine the ownership if not a resource.
-		if (whoRefers != null) {
+		if (whoRefers != null && whoRefers instanceof Component) {
 			this.whoRefers = whoRefers;
+			if(res instanceof NetXResource){
+				((NetXResource) res).setComponentRef((Component) whoRefers);
+			}
 		}
 
 		buildUI();
@@ -628,10 +631,7 @@ public class NewEditResource extends AbstractScreen implements
 		if (Screens.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			CompoundCommand c = new CompoundCommand();
-			if (whoRefers != null) {
-				// We also set the reference to this expression, we need to
-				// referee and a feature for this.
-				if (whoRefers instanceof Component) {
+			if (whoRefers != null&& whoRefers instanceof Component) {
 					if (res instanceof NetXResource) {
 
 						Command refOneSideCommand = new AddCommand(
@@ -640,12 +640,12 @@ public class NewEditResource extends AbstractScreen implements
 								this.res);
 						c.append(refOneSideCommand);
 
-						Command refOtherSideCommand = new SetCommand(
-								editingService.getEditingDomain(),
-								((NetXResource) res).getComponentRef(),
-								LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
-								(Component) whoRefers);
-						c.append(refOtherSideCommand);
+//						Command refOtherSideCommand = new SetCommand(
+//								editingService.getEditingDomain(),
+//								((NetXResource) res).getComponentRef(),
+//								LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
+//								(Component) whoRefers);
+//						c.append(refOtherSideCommand);
 
 					}
 					Command ac = new AddCommand(
@@ -657,7 +657,6 @@ public class NewEditResource extends AbstractScreen implements
 					editingService.getEditingDomain().getCommandStack()
 							.execute(c);
 				}
-			}
 
 			// We can't add this resource now, we need a referee.
 		} else if (Screens.isEditOperation(getOperation())) {

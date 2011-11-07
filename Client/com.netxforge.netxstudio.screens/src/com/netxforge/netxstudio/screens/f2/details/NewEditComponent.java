@@ -407,21 +407,21 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				metricsTableViewer, SWT.NONE);
-		TableColumn tblclmnNewColumn = tableViewerColumn.getColumn();
-		tblclmnNewColumn.setWidth(100);
-		tblclmnNewColumn.setText("Name");
+		TableColumn tblclmnNewName = tableViewerColumn.getColumn();
+		tblclmnNewName.setWidth(150);
+		tblclmnNewName.setText("Name");
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				metricsTableViewer, SWT.NONE);
-		TableColumn tblclmnLevel = tableViewerColumn_1.getColumn();
-		tblclmnLevel.setWidth(150);
-		tblclmnLevel.setText("Description");
+		TableColumn tblclmnDescription = tableViewerColumn_1.getColumn();
+		tblclmnDescription.setWidth(250);
+		tblclmnDescription.setText("Description");
 
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
 				metricsTableViewer, SWT.NONE);
-		TableColumn tblclmnExpression = tableViewerColumn_2.getColumn();
-		tblclmnExpression.setWidth(60);
-		tblclmnExpression.setText("Unit");
+		TableColumn tblclmnUnit = tableViewerColumn_2.getColumn();
+		tblclmnUnit.setWidth(90);
+		tblclmnUnit.setText("Unit");
 
 		Menu menu = new Menu(metricsTable);
 		metricsTable.setMenu(menu);
@@ -514,9 +514,15 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 						resourceScreen.setScreenService(screenService);
 
 						// The CDO Resource, will depend on the component path.
+						String cdoResourcePath = modelUtils.cdoCalculatedResourcePath(comp);
+						
+						if(cdoResourcePath == null){
+							System.out.println("Can't calculate path for empty names");
+							return; // Can't calculate path for empty names.
+						}
 						final Resource resourcesResource = editingService
 								.getDataService().getProvider()
-								.getResource(modelUtils.getResourcePath(comp));
+								.getResource(cdoResourcePath);
 						
 						System.out.println(resourcesResource.getURI().toString());
 						

@@ -7,6 +7,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /**
@@ -59,6 +60,10 @@ public class ActionHandlerDescriptor implements IActionHandler {
 
 	List<IActionHandler> handlers = Lists.newArrayList();
 
+	private IWorkbenchPart part;
+
+	private IActionBars actionBars;
+
 	/**
 	 * Returns a singleton.
 	 * 
@@ -101,15 +106,34 @@ public class ActionHandlerDescriptor implements IActionHandler {
 		this.enableEditActions = enableEditActions;
 	}
 
+public void clearDynamicHandlers(){
+	
+	ImmutableList<IActionHandler> copyOfHandlers = ImmutableList.copyOf(handlers);
+	for(IActionHandler handler : copyOfHandlers){
+		if(handler instanceof DynamicScreensActionHandler){
+			handlers.remove(handler);
+		}
+	}
+}
+	
 	public void addHandler(IActionHandler handler) {
 		if (!handlers.contains(handler)) {
 			handlers.add(handler);
+			// Try to initialize and activate the handler. 
+			if(actionBars != null){
+				handler.initActions(actionBars);
+			}
+			if(part != null){
+				handler.setActivePart(part);
+			}
 		}
 	}
 
 	public void removeHandler(IActionHandler handler) {
 		if (handlers.contains(handler)) {
 			handlers.remove(handler);
+			handler.deactivate();
+			
 		}
 	}
 	
@@ -126,12 +150,14 @@ public class ActionHandlerDescriptor implements IActionHandler {
 	}
 
 	public void initActions(IActionBars actionBars) {
+		this.actionBars = actionBars; 
 		for (IActionHandler handler : handlers) {
 			handler.initActions(actionBars);
 		}
 	}
 
 	public void setActivePart(IWorkbenchPart part) {
+		this.part = part;
 		for (IActionHandler handler : handlers) {
 			handler.setActivePart(part);
 		}
@@ -164,6 +190,10 @@ public class ActionHandlerDescriptor implements IActionHandler {
 			sb.append(h.toString() + "\n");
 		}
 		return sb.toString();
+	}
+
+	public void deactivate() {
+		// Ignore, we de-activate when removing handlers. 
 	}
 
 }

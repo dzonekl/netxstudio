@@ -6,7 +6,8 @@ When creating a Resource Definition the following screen will appear.
 
 The following data should be entered 
 
-* The Resource name
+* The Resource Short Name
+* 
 
 
 

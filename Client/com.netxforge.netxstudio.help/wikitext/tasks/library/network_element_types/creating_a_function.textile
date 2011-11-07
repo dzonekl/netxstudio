@@ -6,7 +6,7 @@ The following data should be entered
 
 *Info*
 
-* The Function name
+* The Function Name
 * The Function Description 
 * The Function Expansion duration. (Quick, Short, Medium, Long) 
 
@@ -16,8 +16,6 @@ The following data should be entered
 
 * Select the Capacity Expression for all Resources in this Function. 
 * Select the Utilization Expression for all Resources in this Function.
-
-
 
 *Metrics*
 

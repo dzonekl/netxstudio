@@ -31,22 +31,21 @@ import org.junit.Test;
  */
 public class TestSplitter {
 
-	String testString = "Result Time,Granularity Period,Object Name,Reliability,\"Absolutely Average CPU occupation ratio\",\"Absolutely maximum CPU occupation ratio\","
-			+ "\"Process CPU congestion duration\",\"Process CPU overload duration\"";
+	
+	String testString = "Result Time,Granularity Period,Object Name,Reliability,\"Absolutely Average CPU occupation ratio\",\"Absolutely maximum CPU occupation ratio\",\"Process CPU congestion duration\",\"Process CPU overload duration\"";
+	
 	String testString2 = "2011-10-18 12:00,60,\"RTSGSN1/Process:Process No.=0, Process type=LIP, Slot No.=8, " +
 			"Subrack No.=1\",Reliable,12,16,0,0a";
+	
 	String testString3 = "\",A,B,C\",\"E\",D";
 
 	String testString4 = "RTSGSN1/Process:Process No.=0, Process type=LIP, Slot No.=8, Subrack No.=1";
 	
 	String QUOTED_OR_NOT = "(\".*?\"|.*?)";
 
-	Pattern csvMatcher = Pattern.compile( "(\".*?\"|.*?)," , Pattern.MULTILINE | Pattern.DOTALL);
+	Pattern csvMatcher = Pattern.compile( "(\".*?\"|[^,]++)" , Pattern.MULTILINE | Pattern.DOTALL);
 
 	Pattern csvSplitter = Pattern.compile( "[,(\".*?\")]++");
-	
-	
-	
 	
 	@Test
 	public void testCSVQuoted() {
@@ -64,9 +63,6 @@ public class TestSplitter {
 
 	}
 	
-	
-	
-	
 	@Test
 	public void testCSVQuoted2() {
 
@@ -82,6 +78,23 @@ public class TestSplitter {
 		}
 	}
 
+	
+	@Test
+	public void testCSVQuoted3() {
+
+		System.out.println("------- Quoted CSV, multiline");
+		Matcher matcher = csvMatcher.matcher(testString3);
+		while (matcher.find()) {
+			final int gc = matcher.groupCount();
+			// group 0 is the whole pattern matched,
+			// loops runs from from 0 to gc, not 0 to gc-1 as is traditional.
+			for (int i = 0; i <= gc; i++) {
+				System.out.println(i + " : " + matcher.group(i));
+			}
+		}
+	}
+
+	
 	@Test
 	public void testCSVSplitter() {
 		System.out.println("-------");
