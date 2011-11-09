@@ -29,6 +29,7 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
@@ -42,6 +43,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.nebula.widgets.cdatetime.CDT;
+import org.eclipse.nebula.widgets.cdatetime.CDateTime;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -72,6 +75,7 @@ import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
@@ -93,7 +97,7 @@ public class NewEditResource extends AbstractScreen implements
 	private BaseResource res;
 	private Form frmResource;
 	private Resource owner;
-	private Object whoRefers;
+	private Component whoRefers;
 	private Table table;
 	private TableViewer valuesTableViewer;
 
@@ -104,6 +108,9 @@ public class NewEditResource extends AbstractScreen implements
 	private Text txtNode;
 	private int targetInterval;
 	private CTabFolder tabFolder;
+	private CDateTime dateTimeFrom;
+	private CDateTime dateTimeTo;
+	private Label lblNode;
 
 	/**
 	 * Create the composite.
@@ -120,8 +127,8 @@ public class NewEditResource extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		 buildUI();
-//		 buildValuesUI();
+		// buildUI();
+		// buildValuesUI();
 	}
 
 	private void buildUI() {
@@ -142,12 +149,12 @@ public class NewEditResource extends AbstractScreen implements
 	}
 
 	private void buildInfoSection(boolean readonly, int widgetStyle) {
-		frmResource.getBody().setLayout(new GridLayout(1, false));
+		frmResource.getBody().setLayout(new GridLayout(3, false));
 
 		Section sctnInfo = toolkit.createSection(frmResource.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		sctnInfo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
-				1, 1));
+				3, 1));
 		// FormData fd_sctnInfo = new FormData();
 		// fd_sctnInfo.right = new FormAttachment(100, -10);
 		// fd_sctnInfo.top = new FormAttachment(0, 10);
@@ -161,7 +168,7 @@ public class NewEditResource extends AbstractScreen implements
 		sctnInfo.setClient(composite);
 		composite.setLayout(new GridLayout(3, false));
 
-		Label lblNode = toolkit.createLabel(composite, "Node:", SWT.NONE);
+		lblNode = toolkit.createLabel(composite, "<Dynamic>:", SWT.NONE);
 		lblNode.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));
 
@@ -267,6 +274,7 @@ public class NewEditResource extends AbstractScreen implements
 		tabFolder.setMRUVisible(true);
 		toolkit.adapt(tabFolder, true, true);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 3;
 		gd.heightHint = 0;
 		tabFolder.setLayoutData(gd);
 		toolkit.paintBordersFor(tabFolder);
@@ -286,12 +294,48 @@ public class NewEditResource extends AbstractScreen implements
 
 		});
 
+		Label lblStart = toolkit.createLabel(frmResource.getBody(), "From:",
+				SWT.NONE);
+		GridData gd_lblStart = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
+		gd_lblStart.widthHint = 70;
+		lblStart.setLayoutData(gd_lblStart);
+		lblStart.setAlignment(SWT.RIGHT);
+
+		dateTimeFrom = new CDateTime(frmResource.getBody(), CDT.BORDER
+				| CDT.DROP_DOWN | CDT.DATE_MEDIUM);
+		GridData gd_dateTimeFrom = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_dateTimeFrom.widthHint = 100;
+		dateTimeFrom.setLayoutData(gd_dateTimeFrom);
+		toolkit.adapt(dateTimeFrom);
+		toolkit.paintBordersFor(dateTimeFrom);
+		new Label(frmResource.getBody(), SWT.NONE);
+
+		Label lblTo = toolkit.createLabel(frmResource.getBody(), "To:",
+				SWT.NONE);
+		lblTo.setAlignment(SWT.RIGHT);
+		GridData gd_lblTo = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1,
+				1);
+		gd_lblTo.widthHint = 70;
+		lblTo.setLayoutData(gd_lblTo);
+
+		dateTimeTo = new CDateTime(frmResource.getBody(), CDT.BORDER
+				| CDT.DROP_DOWN | CDT.DATE_MEDIUM);
+		GridData gd_dateTimeTo = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_dateTimeTo.widthHint = 100;
+		dateTimeTo.setLayoutData(gd_dateTimeTo);
+		toolkit.adapt(dateTimeTo);
+		toolkit.paintBordersFor(dateTimeTo);
+		new Label(frmResource.getBody(), SWT.NONE);
+
 		valuesTableViewer = new TableViewer(frmResource.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.VIRTUAL);
 		valuesTableViewer.setUseHashlookup(true);
 
 		table = valuesTableViewer.getTable();
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		// tabItem.setControl(table);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -335,6 +379,9 @@ public class NewEditResource extends AbstractScreen implements
 					MetricValueRange mvr = modelUtils.valueRangeForInterval(
 							(NetXResource) res, targetInterval);
 					if (mvr != null) {
+
+						// TODO, get from the dtr window.
+
 						XMLGregorianCalendar start = mvr.getMetricValues()
 								.get(0).getTimeStamp();
 						XMLGregorianCalendar end = mvr.getMetricValues()
@@ -370,11 +417,13 @@ public class NewEditResource extends AbstractScreen implements
 
 	private void updateValues(int targetInterval) {
 		this.targetInterval = targetInterval;
+
 		valuesTableViewer
 				.setContentProvider(new NetXResourceValueContentProvider(
 						targetInterval));
 		valuesTableViewer
 				.setLabelProvider(new NetXResourceValueLabelProvider());
+
 		valuesTableViewer.setInput(res);
 
 	}
@@ -462,8 +511,10 @@ public class NewEditResource extends AbstractScreen implements
 
 					if (mvr.getIntervalHint() == this.targetRange) {
 						// ! Match.
-						// Apply a window.
-						return mvr.getMetricValues().toArray();
+						// TODO Apply a window,
+
+						return modelUtils.sortByTimeStampAndReverse(
+								mvr.getMetricValues()).toArray();
 					}
 				}
 				// DEBUG.
@@ -534,20 +585,29 @@ public class NewEditResource extends AbstractScreen implements
 		context.bindValue(unitTargetObservable, unitProperty.observe(res),
 				null, null);
 
-		if (res instanceof NetXResource) {
-			if (res.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)) {
-				Component c = ((NetXResource) res).getComponentRef();
-				Node n = modelUtils.resolveParentNode(c);
-				if (n != null) {
+		if (whoRefers != null && whoRefers != null) {
+			NodeType nt = modelUtils.resolveParentNodeType((EObject) whoRefers);
+			if (nt != null) {
+				Node n = null;
+				if ((n = modelUtils.resolveParentNode(n)) != null) {
+					this.lblNode.setText("NE Instance:");
 					this.txtNode.setText(n.getNodeID());
+				} else {
+					this.lblNode.setText("NE Type:");
+					this.txtNode.setText(nt.getName());
 				}
 			}
-			createTabs(toolkit);
-			tabFolder.setSelection(0);
-			updateSelection();
 		}
-
 		return context;
+	}
+
+	private void bindValues() {
+
+		this.dateTimeTo.setSelection(modelUtils.todayAndNow());
+
+		createTabs(toolkit);
+		tabFolder.setSelection(0);
+		updateSelection();
 	}
 
 	private void createTab(int interval, KindHintType kh) {
@@ -557,7 +617,7 @@ public class NewEditResource extends AbstractScreen implements
 	private void createTab(int interval, String text) {
 		createTab(interval, null, text);
 	}
-	
+
 	private void createTab(int interval, KindHintType kh, String text) {
 		CTabItem item = new CTabItem(tabFolder, SWT.NULL);
 
@@ -614,51 +674,60 @@ public class NewEditResource extends AbstractScreen implements
 		if (object instanceof BaseResource) {
 			res = (BaseResource) object;
 		}
-		// Determine the ownership if not a resource.
-		if (whoRefers != null && whoRefers instanceof Component) {
-			this.whoRefers = whoRefers;
-			if(res instanceof NetXResource){
-				((NetXResource) res).setComponentRef((Component) whoRefers);
+
+		if (res instanceof NetXResource
+				&& res.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)) {
+			whoRefers = ((NetXResource) res).getComponentRef();
+		} else {
+			// Determine the ownership if not a resource.
+			if (whoRefers != null && whoRefers instanceof Component) {
+				this.whoRefers = (Component) whoRefers;
 			}
 		}
 
 		buildUI();
-		buildValuesUI();
 		this.initDataBindings_();
+		if (whoRefers != null
+				&& modelUtils.resolveParentNode((EObject) whoRefers) != null) {
+			buildValuesUI();
+			bindValues();
+		}
 	}
 
 	public void addData() {
 		if (Screens.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			CompoundCommand c = new CompoundCommand();
-			if (whoRefers != null&& whoRefers instanceof Component) {
-					if (res instanceof NetXResource) {
+			if (whoRefers != null ) {
+				if (res instanceof NetXResource) {
+					
+//					NetXResource netxRes = (NetXResource) res;
+//					netxRes.setComponentRef(whoRefers);
+//					whoRefers.getResourceRefs().add(netxRes);
+//					owner.getContents().add(netxRes);
+//					
+					Command addResource = new AddCommand(editingService.getEditingDomain(),
+							owner.getContents(), (NetXResource)res);
+//					
+					c.append(addResource);
+					
+					Command refBidiCommand = new AddCommand(
+					editingService.getEditingDomain(),
+					((Component) whoRefers).getResourceRefs(), (NetXResource)res);
 
-						Command refOneSideCommand = new AddCommand(
-								editingService.getEditingDomain(),
-								((Component) whoRefers).getResourceRefs(),
-								this.res);
-						c.append(refOneSideCommand);
+					c.append(refBidiCommand);
+					
+//					Command refBidiCommand = new SetCommand(
+//							editingService.getEditingDomain(),
+//							((NetXResource) res).getComponentRef(),
+//							LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
+//							(Component) whoRefers);
 
-//						Command refOtherSideCommand = new SetCommand(
-//								editingService.getEditingDomain(),
-//								((NetXResource) res).getComponentRef(),
-//								LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
-//								(Component) whoRefers);
-//						c.append(refOtherSideCommand);
-
-					}
-					Command ac = new AddCommand(
-							editingService.getEditingDomain(),
-							owner.getContents(), res);
-
-					c.append(ac);
-
-					editingService.getEditingDomain().getCommandStack()
-							.execute(c);
 				}
+				editingService.getEditingDomain().getCommandStack().execute(c);
+				
+			}
 
-			// We can't add this resource now, we need a referee.
 		} else if (Screens.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have to replace. However if our original object is invalid, this

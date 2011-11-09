@@ -62,7 +62,7 @@ public class NewEditUnit extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		buildUI();
+//		buildUI();
 	}
 
 	public EMFDataBindingContext initDataBindings_() {

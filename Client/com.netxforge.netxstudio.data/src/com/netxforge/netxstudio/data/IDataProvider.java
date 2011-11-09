@@ -55,6 +55,14 @@ public interface IDataProvider {
 	 * @return
 	 */
 	public Resource getResource(ResourceSet set, EClass clazz);
+	
+	/**
+	 * The resource path. 
+	 * @param set
+	 * @param resourcePath
+	 * @return
+	 */
+	public Resource getResource(ResourceSet set, String resourcePath);
 
 	/**
 	 * Get a resource with a given resource set.

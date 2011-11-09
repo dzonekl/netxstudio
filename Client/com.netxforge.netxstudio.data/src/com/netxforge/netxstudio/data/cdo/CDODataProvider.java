@@ -272,7 +272,7 @@ public abstract class CDODataProvider implements IDataProvider {
 		return resources;
 	}
 
-	private Resource getResource(ResourceSet set, String resourcePath) {
+	public Resource getResource(ResourceSet set, String resourcePath) {
 		assert resourcePath != null && resourcePath.length() > 0;
 
 		// Before attempting to open a new CDOView, we want to know what is

@@ -208,8 +208,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 		@Override
 		protected void setValue(Object element, Object value) {
-			// TODO store new value
-
+			System.out.println("trying to store");
 		}
 
 	}

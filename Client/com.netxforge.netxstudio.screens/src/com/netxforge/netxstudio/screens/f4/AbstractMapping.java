@@ -910,7 +910,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 			@Override
 			public void done(IJobChangeEvent event) {
 				super.done(event);
-				List<Map<Integer, Tuple>> records = job.getRecords();
+				List<List<Map<Integer, Tuple>>> records = job.getRecords();
 				if (records != null) {
 					Display.getDefault().asyncExec(new Runnable() {
 						public void run() {
@@ -923,7 +923,10 @@ public abstract class AbstractMapping extends AbstractScreen {
 										.println("failed to store the sample file : "
 												+ f.toString());
 							}
-							fillGrid(job.getRecords());
+							
+							if(job.getRecords().size() > 0){
+								fillGrid(job.getRecords().get(0));
+							}
 						}
 
 					});

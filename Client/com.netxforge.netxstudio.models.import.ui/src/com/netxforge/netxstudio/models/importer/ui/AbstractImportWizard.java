@@ -189,6 +189,9 @@ public abstract class AbstractImportWizard extends Wizard implements
 		}
 			
 		
+		@SuppressWarnings("unused")
+		List<EObject> danglingList = Lists.newArrayList();
+		
 		// Check dangling. 
 		for (EObject object : listOfObjectsToStore) {
 			TreeIterator<EObject> eAllContents = object.eAllContents();

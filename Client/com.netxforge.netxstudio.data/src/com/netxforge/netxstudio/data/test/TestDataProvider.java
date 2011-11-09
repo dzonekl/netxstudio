@@ -187,4 +187,8 @@ public class TestDataProvider implements IDataProvider {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
+	public Resource getResource(ResourceSet set, String resourcePath) {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
 }

@@ -40,7 +40,7 @@ public class XLSServiceJob implements IJobChangeListener {
 
 //	public static final XLSServiceJob INSTANCE = new XLSServiceJob();
 	private IFile res;
-	private List<Map<Integer, Tuple>> records;
+	private List<List<Map<Integer, Tuple>>> records;
 	private ScanningJob j =  new ScanningJob("Reading file...");
 
 	public void go() {
@@ -118,11 +118,11 @@ public class XLSServiceJob implements IJobChangeListener {
 		System.out.println("Job zzzzzz: " + event.getJob().getName()); //$NON-NLS-1$
 	}
 
-	public List<Map<Integer, Tuple>> getRecords() {
+	public List<List<Map<Integer, Tuple>>> getRecords() {
 		return records;
 	}
 
-	public void setRecords(List<Map<Integer, Tuple>> records) {
+	public void setRecords(List<List<Map<Integer, Tuple>>> records) {
 		this.records = records;
 	}
 

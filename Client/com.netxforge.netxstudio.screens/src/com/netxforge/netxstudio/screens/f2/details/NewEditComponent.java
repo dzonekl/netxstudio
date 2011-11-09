@@ -521,11 +521,9 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 							return; // Can't calculate path for empty names.
 						}
 						final Resource resourcesResource = editingService
-								.getDataService().getProvider()
-								.getResource(cdoResourcePath);
+								.getDataService().getProvider().getResource(editingService.getEditingDomain().getResourceSet(), cdoResourcePath);
 						
 						System.out.println(resourcesResource.getURI().toString());
-						
 						
 						resourceScreen.injectData(resourcesResource, comp,
 								LibraryFactory.eINSTANCE.createNetXResource());

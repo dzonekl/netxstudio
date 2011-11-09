@@ -62,8 +62,14 @@ public class XLSService extends AbortableHSSFListener {
 	// Current POI record.
 	private SSTRecord currentSStrec = null;
 	private int currentReturnCode = -1;
+	
+	// A map of row number and Tuple, Tuple contains Column Index and value. 
 	private Map<Integer, Tuple> currentRow;
-	private List<Map<Integer, Tuple>> currentRecordMap = Lists.newArrayList();
+	
+	//  A list of maps representing one single sheet.  
+	private List<Map<Integer, Tuple>> currentRecordMap;
+	private List<List<Map<Integer, Tuple>>> sheets = Lists.newArrayList();
+	
 	private IProgressMonitor currentMonitor = null;
 
 	// Limit the number of rows we process.
@@ -74,14 +80,14 @@ public class XLSService extends AbortableHSSFListener {
 		currentSStrec = null;
 		currentMonitor = null;
 		currentReturnCode = -1;
-		currentRecordMap.clear();
+		sheets.clear();
 	}
 
 	public XLSService() {
 	}
 
-	public List<Map<Integer, Tuple>> getRecords() {
-		return currentRecordMap;
+	public List<List<Map<Integer, Tuple>>> getRecords() {
+		return sheets;
 	}
 
 	public int go(FileInputStream fin) throws IOException {
@@ -152,23 +158,26 @@ public class XLSService extends AbortableHSSFListener {
 				System.out.println("Encountered workbook");
 				// assigned to the class level member
 			} else if (bof.getType() == BOFRecord.TYPE_WORKSHEET) {
-				System.out.println("Encountered sheet reference");
+				
+				 currentRecordMap = Lists.newArrayList();
+				 sheets.add(currentRecordMap);
+				System.out.println("Encountered sheet reference, changing sheet...");
 			}
 			break;
 		case BoundSheetRecord.sid:
 			BoundSheetRecord bsr = (BoundSheetRecord) record;
 			System.out.println("New sheet named: " + bsr.getSheetname());
-			// TODO, Consider also putting sheet references in the model. 
-			
 			
 			break;
 
 		// Row records come in batch (32) before the actual cell records.
 
 		case RowRecord.sid:
+			
 			RowRecord rowrec = (RowRecord) record;
 			// Look for our header row, when found we have to interpret the
 			// values.
+			
 			System.out.println("Row found" + rowrec.getRowNumber()
 					+ ", first column at " + rowrec.getFirstCol()
 					+ " last column at " + rowrec.getLastCol());
@@ -191,6 +200,7 @@ public class XLSService extends AbortableHSSFListener {
 			break;
 		case NumberRecord.sid:
 		case LabelSSTRecord.sid:
+			
 			int column = -1;
 			int row = -1;
 			Object value = null;
@@ -200,7 +210,6 @@ public class XLSService extends AbortableHSSFListener {
 				value = numrec.getValue();
 				column = numrec.getColumn();
 				row = numrec.getRow();
-
 				// DEBUG
 				System.out.println("Number:Cell found with value " + value
 						+ " at: [" + row + "," + column + "]");
@@ -263,7 +272,6 @@ public class XLSService extends AbortableHSSFListener {
 
 		if (processedRows == 20) {
 			throw new HSSFUserException();
-
 		}
 		return 0;
 	}

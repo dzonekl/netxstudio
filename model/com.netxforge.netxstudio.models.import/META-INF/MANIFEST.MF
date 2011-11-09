@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: NetXStudio Importer
 Bundle-SymbolicName: com.netxforge.netxstudio.models.import
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.netxforge.netxstudio.models.importer.internal.Activator
+Bundle-Activator: com.netxforge.netxstudio.models.importer.internal.ImportActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;bundle-version="2.7.0";visibility:=reexport,

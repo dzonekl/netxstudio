@@ -5,11 +5,16 @@ When creating a Resource Definition the following screen will appear.
 !PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/resource_definitions/creating_a_resource_definition.png!
 
 The following data should be entered 
+	
+_Note:_ The NodeType and Component are set automatically  when creating a new resource. 
+		
+* The Short Name => A short name used to show a brief name of the resource. 
+* The Long Name => An elaborate name describing the resource. 
+* The Expression Name => The name to refer to the resource in an expression. 
 
-* The Resource Short Name
-* 
+_Note:_ Expression names can not have white spaces. 
 
-
+* The Unit of the resource => The resource unit selected from the pre-defined list of units. 
 
 
 *Cancel* => Click on the 'Back' link at the bottom of the screen.
