@@ -21,7 +21,11 @@ package com.netxforge.netxstudio.data.importer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.text.NumberFormat;
+import java.util.Date;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
@@ -35,12 +39,12 @@ import com.netxforge.netxstudio.metrics.MappingXLS;
 public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	private HSSFSheet currentSheet;
-	
+
 	@Override
 	protected int processFile(File file) throws Exception {
 		final InputStream is = new FileInputStream(file);
 		final HSSFWorkbook workBook = new HSSFWorkbook(is);
-		final HSSFSheet sheet = workBook.getSheetAt(((MappingXLS)getMapping())
+		final HSSFSheet sheet = workBook.getSheetAt(((MappingXLS) getMapping())
 				.getSheetNumber());
 		currentSheet = sheet;
 
@@ -65,7 +69,7 @@ public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 	protected int getTotalRows() {
 		return currentSheet.getLastRowNum();
 	}
-	
+
 	@Override
 	protected String getFileExtension() {
 		return "xls";
@@ -73,13 +77,43 @@ public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	@Override
 	protected String getStringCellValue(int row, int column) {
-		return currentSheet.getRow(row)
-		.getCell(column).getStringCellValue();
+		return this.getCellValue(currentSheet.getRow(row).getCell(column));
 	}
 
 	@Override
 	protected double getNumericCellValue(int row, int column) {
-		return currentSheet.getRow(row)
-		.getCell(column).getNumericCellValue();
+		return currentSheet.getRow(row).getCell(column).getNumericCellValue();
 	}
+
+	protected String getCellValue(HSSFCell cell) {
+		String value = null;
+		// Get the value.
+		int cellType = cell.getCellType();
+
+		if (cellType == HSSFCell.CELL_TYPE_NUMERIC) {
+			double numericCellValue = cell.getNumericCellValue();
+			NumberFormat nf = NumberFormat.getInstance();
+			nf.setMaximumFractionDigits(0);// set as you need
+			value = nf.format(numericCellValue);
+
+		} else if (cellType == HSSFCell.CELL_TYPE_STRING) {
+			value = cell.getStringCellValue();
+		}
+		return value;
+	}
+
+	@Override
+	protected Date getDateCellValue(int rowNum, int column) {
+		Date value = null;
+		HSSFCell cell = currentSheet.getRow(rowNum).getCell(column);
+		int cellType = cell.getCellType();
+		if (cellType == HSSFCell.CELL_TYPE_NUMERIC) {
+			if(HSSFDateUtil.isCellDateFormatted(cell)){
+				double cellValue = cell.getNumericCellValue();
+				value = HSSFDateUtil.getJavaDate(cellValue);
+			}
+		}
+		return value;
+	}
+
 }

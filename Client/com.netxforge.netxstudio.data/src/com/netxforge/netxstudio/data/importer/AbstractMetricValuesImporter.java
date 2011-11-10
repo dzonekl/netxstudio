@@ -576,11 +576,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 					emfNetxResource.getContents().add(copiedNetXResource);
 					((Component) currentObject).getResourceRefs().add(
 							copiedNetXResource);
-				}else{
-					if(DataActivator.DEBUG){
-						System.out.println("Invalid CDO Resource path, component name likely not set");
+				} else {
+					if (DataActivator.DEBUG) {
+						System.out
+								.println("Invalid CDO Resource path, component name likely not set");
 					}
-					return; 
+					return;
 				}
 			}
 		} else {
@@ -661,20 +662,24 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				if (column.getDataType() instanceof ValueDataKind
 						&& ((ValueDataKind) column.getDataType())
 								.getValueKind() == ValueKindType.DATETIME) {
-					final ValueDataKind value = (ValueDataKind) column
-							.getDataType();
-					final SimpleDateFormat dateFormat;
-					if (value.getFormat() != null) {
-						dateFormat = new SimpleDateFormat(value.getFormat());
-					} else {
-						dateFormat = new SimpleDateFormat(
-								ModelUtils.DEFAULT_DATE_TIME_PATTERN);
+
+					Date date = getDateCellValue(rowNum, column.getColumn());
+
+					if (date == null) {
+						final ValueDataKind value = (ValueDataKind) column
+								.getDataType();
+						final SimpleDateFormat dateFormat;
+						if (value.getFormat() != null) {
+							dateFormat = new SimpleDateFormat(value.getFormat());
+						} else {
+							dateFormat = new SimpleDateFormat(
+									ModelUtils.DEFAULT_DATE_TIME_PATTERN);
+						}
+
+						String dateStringValue = getStringCellValue(rowNum,
+								column.getColumn());
+						date = dateFormat.parse(dateStringValue);
 					}
-
-					String dateStringValue = getStringCellValue(rowNum,
-							column.getColumn());
-
-					Date date = dateFormat.parse(dateStringValue);
 					return date;
 				}
 			}
@@ -721,6 +726,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 		return new Date();
 	}
+
+	protected abstract Date getDateCellValue(int rowNum, int column);
 
 	private int getIntervalHint(int rowNum) {
 		for (final MappingColumn column : getMappingColumn()) {

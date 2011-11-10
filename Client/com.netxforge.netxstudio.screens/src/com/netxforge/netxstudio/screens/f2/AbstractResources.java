@@ -450,7 +450,14 @@ public abstract class AbstractResources extends AbstractScreen implements
 							return c.getName();
 						}
 						if (c instanceof Equipment) {
-							return ((Equipment) c).getEquipmentCode();
+							Equipment eq = (Equipment) c;
+							StringBuffer buf = new StringBuffer();
+							buf.append(eq.getEquipmentCode() != null ? eq.getEquipmentCode()
+									: "?");
+							if(eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)){
+								buf.append(" : " + eq.getName());
+							}
+							return buf.toString();
 						}
 					} else {
 						return "not connected";

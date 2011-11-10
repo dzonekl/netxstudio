@@ -59,6 +59,13 @@ public class TestRegExpressions {
 		// Alternative allowing only numbers and characters in the file name.
 		doTestRegExp4("[a-zA-Z0-9_-]+(_fix-)[a-zA-Z0-9_-]+(\\.(?i)(csv))$");
 	}
+	
+	@Test
+	// file name with _fix- (Dash) in the middle ending on .csv
+	public void testRegExp5() {
+		// Alternative allowing only numbers and characters in the file name.
+		doTestRegExp5("(_fix_)[a-zA-Z0-9_-]+(\\.(?i)(xls))$");
+	}
 
 	private void doTestReg(String regExp) {
 		Assert.assertTrue("test.csv".matches(regExp));
@@ -92,4 +99,7 @@ public class TestRegExpressions {
 		Assert.assertFalse("stp01_fix 01012011.csv".matches(regExp)); // As a whitespace.
 	}
 	
+	private void doTestRegExp5(String regExp) {
+		Assert.assertTrue("_fix_01012011.xls".matches(regExp)); 
+	}
 }

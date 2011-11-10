@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -149,5 +150,11 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 			}
 		}
 		throw new IllegalStateException("No value");
+	}
+
+	@Override
+	protected Date getDateCellValue(int rowNum, int column) {
+		//  Not applicable for the CSV format.
+		return null;
 	}
 }

@@ -397,7 +397,7 @@ public class NewEditMappingXLS extends AbstractMapping implements
 
 	private void buildFixedColumns(GridTableViewer v) {
 		int i = 0;
-		for (; i < 70; i++) {
+		for (; i < 100; i++) {
 			GridViewerColumn gvc = new GridViewerColumn(gridTableViewer,
 					SWT.NONE);
 			GridColumn newGridColumn = gvc.getColumn();

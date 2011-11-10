@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.models.importer;
 
 import java.io.InputStream;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -437,15 +438,7 @@ public class MasterDataImporter {
 					EAttribute eAttrib = (EAttribute) eFeature;
 					EDataType type = eAttrib.getEAttributeType();
 
-					String value = null;
-					// Get the value.
-					int cellType = cell.getCellType();
-					if (cellType == HSSFCell.CELL_TYPE_NUMERIC) {
-						double numericCellValue = cell.getNumericCellValue();
-						value = new Double(numericCellValue).toString();
-					} else if (cellType == HSSFCell.CELL_TYPE_STRING) {
-						value = cell.getStringCellValue();
-					}
+					String value = this.getCellValue(cell);
 
 					if (value == null || value.trim().length() == 0) {
 
@@ -502,6 +495,22 @@ public class MasterDataImporter {
 				}
 			}
 			return result;
+		}
+
+		private String getCellValue(HSSFCell cell) {
+			String value = null;
+			// Get the value.
+			int cellType = cell.getCellType();
+			if (cellType == HSSFCell.CELL_TYPE_NUMERIC) {
+				double numericCellValue = cell.getNumericCellValue();
+				NumberFormat nf = NumberFormat.getInstance();
+				nf.setMaximumFractionDigits(0);// set as you need
+				value = nf.format(numericCellValue);
+
+			} else if (cellType == HSSFCell.CELL_TYPE_STRING) {
+				value = cell.getStringCellValue();
+			}
+			return value;
 		}
 
 		/**
@@ -591,8 +600,9 @@ public class MasterDataImporter {
 					}
 
 					// Get the value.
-					final String indexValue = row.getCell(index)
-							.getStringCellValue();
+
+					final String indexValue = this.getCellValue(row
+							.getCell(index));
 
 					if (indexValue == null || indexValue.trim().length() == 0) {
 
@@ -732,6 +742,11 @@ public class MasterDataImporter {
 
 		} else {
 			if (eReference.isContainment()) {
+
+				if (eReference == OperatorsPackage.Literals.NODE__NODE_TYPE
+						&& objectToSet.eClass() == LibraryPackage.Literals.NODE_TYPE) {
+					objectToSet = EcoreUtil.copy(objectToSet);
+				}
 
 				if (ImportActivator.DEBUG) {
 					System.out.println("  SET REF SINGLE(Containment): "

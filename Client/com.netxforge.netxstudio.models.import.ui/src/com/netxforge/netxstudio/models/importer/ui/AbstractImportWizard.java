@@ -182,10 +182,10 @@ public abstract class AbstractImportWizard extends Wizard implements
 			}
 		}
 
+			
 		for (EObject object : listOfObjectsToStore) {
 			EList<EObject> parentList = (EList<EObject>) getParentList(object.eClass());
 			parentList.add(object);
-			
 		}
 			
 		
@@ -199,12 +199,12 @@ public abstract class AbstractImportWizard extends Wizard implements
 				EObject next = eAllContents.next();
 				EList<EReference> eAllReferences = next.eClass().getEAllReferences();
 				for( EReference eRef : eAllReferences){
-					Object eGet = next.eGet(eRef);
-					if(eGet == null){
+					if(!next.eIsSet(eRef)){
 						// continue, only filled ERefs. 
 						continue;
 					}
 					if(eRef.isMany()){
+						Object eGet = next.eGet(eRef);
 						List<? extends EObject> collection = (List<? extends EObject>) eGet;
 						List<EObject> toRemove = Lists.newArrayList();
 						for(EObject eo : collection ){
@@ -219,14 +219,17 @@ public abstract class AbstractImportWizard extends Wizard implements
 						}
 						
 					}else{
+						Object eGet = next.eGet(eRef);
 						EObject eo = (EObject) eGet;
 						if(isDangling(eo, eRef)){
-							this.unsetDangling(eo, eRef);
+							this.unsetDangling(next, eRef);
 						}
 					}
 				}
 			}
 		}
+		
+		
 		dataProvider.commitTransaction();
 		dataProvider.setDoGetResourceFromOwnTransaction(true);
 
@@ -281,7 +284,8 @@ public abstract class AbstractImportWizard extends Wizard implements
 	}
 
 	private Resource getResource(EClass eClass) {
-		if (eClass.equals(ServicesPackage.eINSTANCE.getRFSService())) {
+		
+		if (eClass.equals(ServicesPackage.Literals.RFS_SERVICE)) {
 
 			// return dataProvider.getTransaction().createResource("/" +
 			// OperatorsPackage.eINSTANCE
@@ -290,8 +294,6 @@ public abstract class AbstractImportWizard extends Wizard implements
 					.getOperator());
 		}
 
-		// return dataProvider.getTransaction().createResource("/" +
-		// eClass.getName());
 		return dataProvider.getResource(eClass);
 	}
 

@@ -235,4 +235,10 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 	protected MappingRDBMS getMapping() {
 		return (MappingRDBMS) super.getMapping();
 	}
+
+	@Override
+	protected Date getDateCellValue(int rowNum, int column) {
+		// N/A for the RDBMS format. 
+		return null;
+	}
 }
