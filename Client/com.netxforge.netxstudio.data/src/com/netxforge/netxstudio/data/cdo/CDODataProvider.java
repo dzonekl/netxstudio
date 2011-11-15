@@ -279,13 +279,6 @@ public abstract class CDODataProvider implements IDataProvider {
 		// already
 		// in our session and resource set.
 		final CDOView[] views = this.getSession().getViews();
-
-		//
-		// if(views.length > 1){
-		// // How can we have multiple views??
-		// throw new java.lang.IllegalArgumentException();
-		// }
-
 		for (int i = 0; i < views.length; i++) {
 			final CDOView view = views[i];
 			if (view.getResourceSet().equals(set)) {

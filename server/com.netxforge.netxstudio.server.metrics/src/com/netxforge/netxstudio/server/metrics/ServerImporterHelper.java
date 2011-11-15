@@ -110,19 +110,22 @@ public class ServerImporterHelper implements IImporterHelper {
 	public void addMetricValue(MappingColumn column, Date timeStamp,
 			Component locatedComponent, Double dblValue, int intervalHint,
 			NetworkElementLocator.IdentifierDescriptor lastDescriptor) {
-		
+
 		String path = modelUtils.cdoCalculatedResourcePath(locatedComponent);
-		
-		if(path == null){
-			if(DataActivator.DEBUG){
-				System.out.println("Invalid CDO Resource path, component name likely not set");
+
+		if (path == null) {
+			if (DataActivator.DEBUG) {
+				System.out
+						.println("Invalid CDO Resource path, component name likely not set");
 			}
-			throw new java.lang.IllegalStateException("Invalid CDO Resource path, component name likely not set");
+			throw new java.lang.IllegalStateException(
+					"Invalid CDO Resource path, component name likely not set");
 		}
-		
-		if(DataActivator.DEBUG){
-			System.out.println("IMPORTER looking for CDO resource path:" + path);
-			
+
+		if (DataActivator.DEBUG) {
+			System.out
+					.println("IMPORTER looking for CDO resource path:" + path);
+
 		}
 		final Resource emfNetxResource = importer.getDataProvider()
 				.getResource(path);
@@ -137,8 +140,9 @@ public class ServerImporterHelper implements IImporterHelper {
 
 			// Match the resource on component, metric and also the name as per
 			// last identifier value.
-			if (netXResource.getComponentRef().cdoID()
-					.equals(locatedComponent.cdoID())
+			if (netXResource.getComponentRef() != null
+					&& netXResource.getComponentRef().cdoID()
+							.equals(locatedComponent.cdoID())
 					&& netXResource.getMetricRef().cdoID() == metric.cdoID()) {
 				if (lastDescriptor != null) {
 					if (!netXResource.getShortName().equals(

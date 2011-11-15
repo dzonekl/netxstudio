@@ -80,7 +80,9 @@ public class MasterDataImporter {
 
 	private EClass eClassToImport;
 
-	private Map<String, EObject> globalIndex = Maps.newHashMap();
+	// private Map<String, EObject> globalIndex = Maps.newHashMap();
+
+	private Map<String, EObject> globalIndexURI = Maps.newHashMap();
 
 	Resource resource = new ResourceSetImpl().createResource(URI
 			.createURI("temp"));
@@ -95,6 +97,49 @@ public class MasterDataImporter {
 
 	public boolean isIndexSupport() {
 		return indexSupport;
+	}
+
+	/*
+	 * Use an EObject path as a global index pointer into the Resource.
+	 */
+	private void addToGlobalIndex(String index, EObject object) {
+
+		// int hashcode = object.hashCode();
+		globalIndexURI.put(index, object);
+		if (ImportActivator.DEBUG) {
+			System.out.println("INDEX: Added index=" + index + ", object="
+					+ printObject(object));
+		}
+	}
+
+	/*
+	 * Use an EObject path as a global index pointer into the Resource.
+	 */
+	private EObject getFromGlobalIndex(String index) {
+
+		EObject object = null;
+		if (globalIndexURI.containsKey(index)) {
+			object = globalIndexURI.get(index);
+
+			// TreeIterator<EObject> allContents = resource.getAllContents();
+			// while (allContents.hasNext()) {
+			// EObject next = allContents.next();
+			// if (next.hashCode() == hashcode) {
+			// object = next;
+			// }
+			// }
+			if (ImportActivator.DEBUG) {
+				System.out.println("INDEX: Resolved index=" + index
+						+ ", object=" + printObject(object));
+			}
+			return object;
+		} else {
+			if (ImportActivator.DEBUG) {
+				System.err.println("INDEX: Error index=" + index
+						+ " doesn't exist!");
+			}
+		}
+		return object;
 	}
 
 	public void setIndexSupport(boolean indexSupport) {
@@ -129,23 +174,9 @@ public class MasterDataImporter {
 					List<RowResult> sheetResult = pw.getSheetResult();
 					if (!pw.isMultiRefSheet() && passIndex == 1) {
 						for (final RowResult rowResult : sheetResult) {
-							// EObject resultObject = EcoreUtil.copy(rowResult
-							// .getEObject());
-							globalIndex.put(rowResult.getIndex(),
-									rowResult.getEObject());
 							resource.getContents().add(rowResult.getEObject());
-
-							// if (k == 1
-							// && !globalIndex.containsKey(rowResult
-							// .getIndex())) {
-							// globalIndex.put(rowResult.getIndex(),
-							// rowResult.getEObject());
-							// resource.getContents().add(
-							// rowResult.getEObject());
-							// } else {
-							//
-							// }
-
+							this.addToGlobalIndex(rowResult.getIndex(),
+									rowResult.getEObject());
 						}
 					}
 				}
@@ -239,6 +270,9 @@ public class MasterDataImporter {
 
 					// Create an object with attributes only on the first pass.
 					if (passIndex == 1) {
+						if(objectIndex.equals("OID:http://www.netxforge.com/13042011/metrics#Metric#5603")){
+							System.err.println("stop here");
+						}
 						eObject = processAttributes(row);
 						if (eObject != null) {
 
@@ -260,7 +294,7 @@ public class MasterDataImporter {
 						}
 
 						if (indexSupport) {
-							eObject = globalIndex.get(objectIndex);
+							eObject = getFromGlobalIndex(objectIndex);
 						} else {
 							eObject = getSingleRefRowObject(row);
 						}
@@ -518,17 +552,19 @@ public class MasterDataImporter {
 		 * @param row
 		 * @return
 		 */
-		private EObject getMultiRefRowObject(EObject parent, HSSFRow row) {
+		private EObject getMultiRefRowObject(EObject lastRoot, HSSFRow row) {
 			if (row == null) {
 				return null;
 			}
 			if (isEmptyRow(row)) {
 				return null;
 			}
+
 			// The identifier is the first column for a MultiRef row.
 			String identifier = row.getCell(0).getStringCellValue();
-			EObject targetObject = getReferencedObject(parent, eClassToImport,
-					identifier);
+
+			EObject targetObject = getReferencedObject(lastRoot,
+					eClassToImport, identifier);
 			if (targetObject == null) {
 				notFound(eClassToImport, identifier);
 			}
@@ -542,9 +578,11 @@ public class MasterDataImporter {
 			if (isEmptyRow(row)) {
 				return null;
 			}
+
 			// The identifier can be anywhere, look for a match.
 			if (row.getCell(0) != null) {
 				String identifier = row.getCell(0).getStringCellValue();
+
 				EObject targetObject = getReferencedObject(null,
 						eClassToImport, identifier);
 				if (targetObject == null) {
@@ -618,6 +656,7 @@ public class MasterDataImporter {
 
 					// Get the referenced object.
 					final EReference eReference = (EReference) eFeature;
+					
 					EObject objectToSet = getReferencedObject(null,
 							eReference.getEReferenceType(), indexValue);
 
@@ -665,8 +704,12 @@ public class MasterDataImporter {
 				if (isAnyOfTheSuperTypes(eObject, eClass)) {
 					if (matchesAnyAttribute(identifier, eObject)) {
 						if (ImportActivator.DEBUG) {
-							System.out.print(", found! object="
-									+ printObject(eObject));
+							System.out
+									.print(", found! object="
+											+ printObject(eObject)
+											+ " parent ="
+											+ eObject.eContainer() != null ? printObject(eObject
+											.eContainer()) : "No Parent (yet)");
 						}
 						return eObject;
 					}
@@ -683,20 +726,15 @@ public class MasterDataImporter {
 		// for the occurence. (the object will already have hierarchy).
 		//
 		if (this.indexSupport) {
-
-			result = this.globalIndex.get(identifier);
-			if (result != null) {
-				if (ImportActivator.DEBUG) {
-					System.out.println(" -> Found ref=" + identifier
-							+ ", object=" + printObject(result));
-				}
-			}
+			result = this.getFromGlobalIndex(identifier);
 		} else {
 			result = this.findObject(eClass, identifier);
 			if (result != null) {
 				if (ImportActivator.DEBUG) {
 					System.out.println(", found ref, object="
-							+ printObject(result) + "");
+							+ printObject(result) + " parent ="
+							+ result.eContainer() != null ? printObject(result
+							.eContainer()) : "No Parent (yet)");
 				}
 			}
 		}
@@ -707,17 +745,16 @@ public class MasterDataImporter {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void storeReference(EObject target, final EReference eReference,
 			EObject objectToSet) {
 
 		if (eReference.isMany()) {
 			// Process many values
 
-			@SuppressWarnings("unchecked")
-			EList<EObject> manyReference = (EList<EObject>) target
+			EList<EObject> manyReferenceCollection = (EList<EObject>) target
 					.eGet(eReference);
-			Collection<EObject> copyAll = EcoreUtil.copyAll(manyReference);
-
+			
 			if (eReference.isContainment()) {
 
 				if (ImportActivator.DEBUG) {
@@ -726,7 +763,7 @@ public class MasterDataImporter {
 							+ eReference.getName() + " , on object:"
 							+ printObject(target));
 				}
-				copyAll.add(objectToSet);
+				manyReferenceCollection.add(objectToSet);
 
 			} else {
 
@@ -736,17 +773,17 @@ public class MasterDataImporter {
 							+ eReference.getName() + " , on object:"
 							+ printObject(target));
 				}
-				copyAll.add(objectToSet);
+				manyReferenceCollection.add(objectToSet);
 			}
-			target.eSet(eReference, copyAll);
-
 		} else {
 			if (eReference.isContainment()) {
 
-				if (eReference == OperatorsPackage.Literals.NODE__NODE_TYPE
-						&& objectToSet.eClass() == LibraryPackage.Literals.NODE_TYPE) {
-					objectToSet = EcoreUtil.copy(objectToSet);
-				}
+				// DO NOT USE COPIES, AS REFERENCE BREAK.
+				// if (eReference == OperatorsPackage.Literals.NODE__NODE_TYPE
+				// && objectToSet.eClass() == LibraryPackage.Literals.NODE_TYPE)
+				// {
+				// objectToSet = EcoreUtil.copy(objectToSet);
+				// }
 
 				if (ImportActivator.DEBUG) {
 					System.out.println("  SET REF SINGLE(Containment): "
@@ -767,6 +804,7 @@ public class MasterDataImporter {
 				target.eSet(eReference, objectToSet);
 			}
 		}
+		// printIndex();
 	}
 
 	/*
@@ -847,8 +885,8 @@ public class MasterDataImporter {
 	 * @return
 	 */
 	private EObject findObject(EClass eClass, String identifier) {
-		for (String key : globalIndex.keySet()) {
-			EObject eObject = globalIndex.get(key);
+		for (String key : globalIndexURI.keySet()) {
+			EObject eObject = getFromGlobalIndex(key);
 			if (isAnyOfTheSuperTypes(eObject, eClass)) {
 				if (matchesAnyAttribute(identifier, eObject)) {
 					return eObject;
@@ -912,15 +950,9 @@ public class MasterDataImporter {
 	}
 
 	private void printIndex() {
-		for (String key : globalIndex.keySet()) {
-			EObject eObject = globalIndex.get(key);
-			System.out.println(" index="
-					+ key
-					+ " object="
-					+ printObject(eObject)
-					+ " parent="
-					+ (eObject.eContainer() != null ? printObject(eObject
-							.eContainer()) : " NO PARENT"));
+		for (String key : globalIndexURI.keySet()) {
+			// print in get call.
+			getFromGlobalIndex(key);
 		}
 	}
 
@@ -1011,7 +1043,13 @@ public class MasterDataImporter {
 			}
 		}
 
-		result.append(" class=" + o.eClass().getName());
+		// if( ECoreUtil.geto.getClass() != null){
+		// result.append(" class=" + o.eClass().getName());
+		// }else if(o.eResource() != null){
+		// result.append(" resource=" + o.eResource().getURI().toString());
+		// }
+		result.append("object=" + o);
+
 		return result.toString();
 	}
 
@@ -1022,5 +1060,43 @@ public class MasterDataImporter {
 		}
 		return chars.toString();
 	}
+
+	void updateIndex(Collection<EObject> oldCollection, Collection<EObject> newCollection){
+		for(EObject eEO : oldCollection){
+			
+			// 1. get it from the index;
+			String keyToSet = null;
+			for(String index : globalIndexURI.keySet()){
+				EObject eEI = this.globalIndexURI.get(index);
+				if(EcoreUtil.equals(eEO, eEI)){
+					keyToSet = index;
+					break;
+				}
+			}
+			
+			// 2. get if from the new collection
+			EObject eObjectToSet = null;
+			for(EObject eEN : newCollection){
+				if(EcoreUtil.equals(eEO, eEN)){
+					eObjectToSet = eEN;
+					break;
+				}
+			}
+			globalIndexURI.put(keyToSet,eObjectToSet);
+//			if(ImportActivator.DEBUG){
+//				System.out.println("INDEX: index=" + keyToSet +" replaced object=" + eEO.hashCode() + " , with=" + eObjectToSet.hashCode()) ;
+//			}
+		}
+	}
+
+	// void printAllHashCodes() {
+	// TreeIterator<EObject> allContents = resource.getAllContents();
+	// while (allContents.hasNext()) {
+	// EObject next = allContents.next();
+	// System.err.println("RESOURCE: hashcode=" + next.hashCode()
+	// + " , object=" + printObject(next));
+	// }
+	//
+	// }
 
 }

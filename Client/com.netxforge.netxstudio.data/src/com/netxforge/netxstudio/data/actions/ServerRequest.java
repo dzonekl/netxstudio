@@ -29,6 +29,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.id.CDOIDUtil;
+import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
@@ -37,6 +39,8 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.Tuple;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 
 /**
  * 
@@ -48,8 +52,8 @@ import com.netxforge.netxstudio.data.IDataProvider;
  * final String result = doRequest(url.toString()); final CDOID resultCDOID =
  * CDOIDUtil.createLongWithClassifier( new
  * CDOClassifierRef(SchedulingPackage.Literals.WORK_FLOW_RUN),
- * Long.parseLong(result)); return (WorkFlowRun)
- * dataProvider.getTransaction().getObject( resultCDOID);
+ * Long.parseLong(result)); return
+ * (WorkFlowRun)dataProvider.getTransaction().getObject( resultCDOID);
  * 
  * @author dzonekl
  * 
@@ -93,6 +97,22 @@ public class ServerRequest {
 		server = provider.getServer();
 	}
 
+	public WorkflowRunJob jobFromRequest(String result) {
+		final CDOID resultCDOID = CDOIDUtil.createLongWithClassifier(
+				new CDOClassifierRef(SchedulingPackage.Literals.WORK_FLOW_RUN),
+				Long.parseLong(result));
+
+		WorkFlowRun wfr = (WorkFlowRun) provider.getTransaction().getObject(
+				resultCDOID);
+		
+		if(wfr != null){
+			WorkflowRunJob workflowRunJob = new WorkflowRunJob();
+			workflowRunJob.setWorkFlowRun(wfr);
+			return workflowRunJob;
+		}
+		return null;
+	}
+
 	public String callMetricImportAction(CDOObject cdoObject) throws Exception {
 		return callMetricAction(METRIC_IMPORT_SERVICE, MS_PARAM,
 				cdoObject.cdoID());
@@ -130,9 +150,9 @@ public class ServerRequest {
 	 * @return
 	 * @throws Exception
 	 */
-	public String callNodeTypeReportingForServiceAction(CDOObject nodeTypeObject,
-			CDOObject serviceObject, Date fromDate, Date toDate)
-			throws Exception {
+	public String callNodeTypeReportingForServiceAction(
+			CDOObject nodeTypeObject, CDOObject serviceObject, Date fromDate,
+			Date toDate) throws Exception {
 
 		Tuple[] params = new Tuple[] {
 				new Tuple(NODETYPE_PARAM,
@@ -142,11 +162,10 @@ public class ServerRequest {
 
 		return callPeriodAction(REPORTING_SERVICE, fromDate, toDate, params);
 	}
-	
-	
-	public String callNodeTypeReportingForOperatorAction(CDOObject nodeTypeObject,
-			CDOObject operatorObject, Date fromDate, Date toDate)
-			throws Exception {
+
+	public String callNodeTypeReportingForOperatorAction(
+			CDOObject nodeTypeObject, CDOObject operatorObject, Date fromDate,
+			Date toDate) throws Exception {
 
 		Tuple[] params = new Tuple[] {
 				new Tuple(NODETYPE_PARAM,
@@ -207,7 +226,7 @@ public class ServerRequest {
 		List<Tuple> paramsList = Lists.newArrayList(params);
 		paramsList.add(new Tuple(START_TIME_PARAM, getDateParamValue(from)));
 		paramsList.add(new Tuple(END_TIME_PARAM, getDateParamValue(to)));
-		
+
 		this.appendParams(url, paramsList);
 
 		System.err.println(url.toString());

@@ -64,7 +64,7 @@ public class RFSServiceUserReportingLogic extends OperatorReportingLogic {
 						.createCell(SERVICEUSER_COLUMN + 1);
 				resourceCell.setCellValue(dr.getLongName());
 				
-				List<Value> range = getModelUtils().sortValuesByTimeStamp(
+				List<Value> range = getModelUtils().sortByTimeStamp(
 						dr.getValues());
 				range = getModelUtils().filterValueInRange(range,
 						this.getPeriod());

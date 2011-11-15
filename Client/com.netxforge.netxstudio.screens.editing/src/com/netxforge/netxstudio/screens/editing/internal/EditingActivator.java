@@ -17,6 +17,12 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.internal;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+
+import org.eclipse.osgi.service.debug.DebugOptions;
+import org.eclipse.osgi.service.debug.DebugOptionsListener;
+import org.eclipse.osgi.service.debug.DebugTrace;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -28,7 +34,7 @@ import com.netxforge.netxstudio.common.CommonModule;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class EditingActivator extends AbstractUIPlugin {
+public class EditingActivator extends AbstractUIPlugin implements DebugOptionsListener {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.netxforge.netxstudio.screens.editing"; //$NON-NLS-1$
@@ -37,11 +43,20 @@ public class EditingActivator extends AbstractUIPlugin {
 	private static EditingActivator plugin;
 
 	private Injector injector;
-
+	
+	// fields to cache the debug flags
+	public static boolean DEBUG = false;
+	public static DebugTrace TRACE = null;
+	
 	public Injector getInjector() {
 		return injector;
 	}
 
+	public void optionsChanged(DebugOptions options) {
+		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);
+		TRACE = options.newDebugTrace(PLUGIN_ID);
+	}
+	
 	/**
 	 * The constructor
 	 */
@@ -63,6 +78,10 @@ public class EditingActivator extends AbstractUIPlugin {
 		Module om = new CommonModule();
 		injector = Guice.createInjector(om);
 
+		Dictionary<String, String> props = new Hashtable<String,String>(4);
+		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
+	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
+		
 	}
 
 	/*

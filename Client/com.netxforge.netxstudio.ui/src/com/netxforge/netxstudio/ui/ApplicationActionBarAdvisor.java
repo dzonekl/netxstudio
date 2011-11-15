@@ -74,7 +74,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		register(ActionFactory.PASTE.create(window));
 		register(ActionFactory.DELETE.create(window));
 		register(ActionFactory.SELECT_ALL.create(window));
-		register(ActionFactory.PRINT.create(window));
+//		register(ActionFactory.PRINT.create(window));
 		register(ActionFactory.IMPORT.create(window));
 		register(ActionFactory.EXPORT.create(window));
 		register(ActionFactory.CLOSE.create(window));
@@ -144,8 +144,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 			menuX.add(getAction(ActionFactory.IMPORT.getId()));
 			menuX.add(getAction(ActionFactory.EXPORT.getId()));
 			menuX.add(new Separator());
-			menuX.add(getAction(ActionFactory.PRINT.getId()));
-			menuX.add(new Separator());
+//			menuX.add(getAction(ActionFactory.PRINT.getId()));
+//			menuX.add(new Separator());
 			menuX.add(getAction(ActionFactory.QUIT.getId()));
 			menuX.add(new GroupMarker(IWorkbenchActionConstants.FILE_END));
 			menu.add(menuX);

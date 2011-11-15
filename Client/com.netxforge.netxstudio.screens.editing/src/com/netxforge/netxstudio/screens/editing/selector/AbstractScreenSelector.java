@@ -195,26 +195,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 			dynamicScreensActionHandler.addActions(actions);
 			descriptor.addHandler(dynamicScreensActionHandler);
 		}
-//			// Reverse the order, to make the appear in the correct order.
-		
-//		if (this.getCurrentScreen() != null
-//				&& this.getCurrentScreen().getActions() != null) {
-//			// Reverse the order, to make the appear in the correct order.
-//			Object[] actions = reverse(this.getCurrentScreen().getActions());
-//			for (int i = 0; i < actions.length; i++) {
-//				IAction a = (IAction) actions[i];
-//				if (a instanceof SeparatorAction) {
-//					menuManager.insertAfter("screen", new Separator());
-//				} else {
-//					menuManager.insertAfter("screen", a);
-//				}
-//			}
-//		}
-		
 		descriptor.showMenu();
-		
-		System.out.println("show meny ended. ");
-		
 	}
 
 	public static List<IAction> reverse(IAction[] arr) {

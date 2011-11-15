@@ -51,6 +51,7 @@ import com.netxforge.netxstudio.common.Tuple;
  */
 public class XLSService extends AbortableHSSFListener {
 
+	private static final int MAX_VISIBLE_ROWS = 20;
 	public static int ABORTED = 0;
 	public static int OK = 1;
 	public static int PARSING_ERROR = 2;
@@ -62,14 +63,13 @@ public class XLSService extends AbortableHSSFListener {
 	// Current POI record.
 	private SSTRecord currentSStrec = null;
 	private int currentReturnCode = -1;
-	
-	// A map of row number and Tuple, Tuple contains Column Index and value. 
-	private Map<Integer, Tuple> currentRow;
-	
-	//  A list of maps representing one single sheet.  
+
+	// A map of row number and Tuple, Tuple contains Column Index and value.
+
+	// A list of maps representing one single sheet.
 	private List<Map<Integer, Tuple>> currentRecordMap;
 	private List<List<Map<Integer, Tuple>>> sheets = Lists.newArrayList();
-	
+
 	private IProgressMonitor currentMonitor = null;
 
 	// Limit the number of rows we process.
@@ -158,36 +158,36 @@ public class XLSService extends AbortableHSSFListener {
 				System.out.println("Encountered workbook");
 				// assigned to the class level member
 			} else if (bof.getType() == BOFRecord.TYPE_WORKSHEET) {
+
+				currentRecordMap = Lists.newArrayListWithExpectedSize(32);
+				// fill the list with at least x map entries. 
+				for( int i = 0; i < MAX_VISIBLE_ROWS; i++){
+					Map<Integer, Tuple> map = Maps.newHashMap();
+					currentRecordMap.add(map);
+				}
 				
-				 currentRecordMap = Lists.newArrayList();
-				 sheets.add(currentRecordMap);
-				System.out.println("Encountered sheet reference, changing sheet...");
+				sheets.add(currentRecordMap);
+				System.out
+						.println("Encountered sheet reference, changing sheet...");
 			}
 			break;
 		case BoundSheetRecord.sid:
 			BoundSheetRecord bsr = (BoundSheetRecord) record;
 			System.out.println("New sheet named: " + bsr.getSheetname());
-			
+
 			break;
 
 		// Row records come in batch (32) before the actual cell records.
 
 		case RowRecord.sid:
-			
+
 			RowRecord rowrec = (RowRecord) record;
 			// Look for our header row, when found we have to interpret the
 			// values.
-			
+
 			System.out.println("Row found" + rowrec.getRowNumber()
 					+ ", first column at " + rowrec.getFirstCol()
 					+ " last column at " + rowrec.getLastCol());
-
-//			if (!rowrec.isEmpty()) {
-				this.currentRow = Maps.newHashMap();
-				this.currentRecordMap.add(currentRow);
-
-//			}
-			// Should do a lazy create of the row.
 			break;
 
 		// SSTRecords store a array of unique strings used in Excel.
@@ -200,7 +200,7 @@ public class XLSService extends AbortableHSSFListener {
 			break;
 		case NumberRecord.sid:
 		case LabelSSTRecord.sid:
-			
+
 			int column = -1;
 			int row = -1;
 			Object value = null;
@@ -226,13 +226,18 @@ public class XLSService extends AbortableHSSFListener {
 						+ " at: [" + row + "," + column + "]");
 			}
 
-			
 			if (value != null && row != -1 && column != -1) {
 				Tuple t = new Tuple(column, value);
+
+				if (currentRecordMap.size() < row) {
+					Map<Integer, Tuple> map = Maps.newHashMap();
+					currentRecordMap.add(map);
+				}
 				currentRecordMap.get(row).put(column, t);
+
 			} else {
-				System.err.println("Incomplete cell encountered" + "v="
-						+ value + " r=" + row + " c=" + column);
+				System.err.println("Incomplete cell encountered" + "v=" + value
+						+ " r=" + row + " c=" + column);
 			}
 			// TODO, do a more gracefull check with a switch break to proceed,
 			// or other strategy if this fails.
@@ -253,7 +258,7 @@ public class XLSService extends AbortableHSSFListener {
 				this.currentRowProgress = false;
 
 			}
-		
+
 			break;
 		}
 		return OK;
@@ -270,7 +275,7 @@ public class XLSService extends AbortableHSSFListener {
 			throw new HSSFUserException();
 		}
 
-		if (processedRows == 20) {
+		if (processedRows == MAX_VISIBLE_ROWS) {
 			throw new HSSFUserException();
 		}
 		return 0;

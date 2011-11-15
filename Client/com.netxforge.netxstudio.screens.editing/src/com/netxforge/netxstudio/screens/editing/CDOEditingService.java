@@ -25,14 +25,17 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
@@ -44,6 +47,7 @@ import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.swt.widgets.Display;
 
 import com.google.common.collect.ImmutableList;
+import com.netxforge.netxstudio.data.cdo.ClientCDODataProvider;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -51,6 +55,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.editing.dawn.DawnEMFEditorSupport;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditorSupport;
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
  * For the lifetime of this service, we keep various editing facilities. We also
@@ -94,7 +99,6 @@ public class CDOEditingService extends EMFEditingService implements
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		CDOView view = dawnEditorSupport.getView();
-		System.out.println("View ID when saving:" + view.getViewID());
 		if (view instanceof CDOTransaction) {
 			if (((CDOTransaction) view).hasConflict()) {
 				MessageDialog dialog = new MessageDialog(
@@ -153,8 +157,6 @@ public class CDOEditingService extends EMFEditingService implements
 
 		if (res instanceof CDOResource) {
 			dawnEditorSupport.setView(((CDOResource) res).cdoView());
-
-			// TODO, should deregister!!
 			dawnEditorSupport.registerListeners();
 		}
 		return res;
@@ -172,9 +174,11 @@ public class CDOEditingService extends EMFEditingService implements
 		if (res instanceof CDOResource) {
 			dawnEditorSupport.setView(((CDOResource) res).cdoView());
 
-			// TODO, should deregister!!
 			dawnEditorSupport.registerListeners();
 		}
+
+		((ClientCDODataProvider) dataService.getProvider()).printSession();
+
 		return res;
 	}
 
@@ -190,7 +194,6 @@ public class CDOEditingService extends EMFEditingService implements
 			dawnEditorSupport.setView(((CDOResource) resources.get(0))
 					.cdoView());
 
-			// TODO, should deregister!!
 			dawnEditorSupport.registerListeners();
 		}
 		return resources;
@@ -218,28 +221,33 @@ public class CDOEditingService extends EMFEditingService implements
 
 		if (res instanceof CDOResource) {
 			CDOView v = dawnEditorSupport.getView();
-			dawnEditorSupport.close(); // Closes the view.
+			
 			CDOResource cdoRes = (CDOResource) res;
 			if (cdoRes.cdoView().equals(v)) {
-				if (res.isModified()) {
-					System.out.println("unloading a modified resource!");
-				}
+				// Unload has no effect. 
 				if (cdoRes.isLoaded()) {
 					cdoRes.unload();
 				}
-
-				if (!cdoRes.cdoView().isClosed()) {
-					System.out.println("Unloaded resource, has an open view!");
-				}
-
+				
+				// Clean up listeners. 
 				IListener[] listeners = cdoRes.cdoView().getListeners();
-				if (listeners.length > 0) {
-					System.out.println("Still listeners on our CDO view!");
+				for(IListener l: listeners ){
+					cdoRes.cdoView().removeListener(l);
+				}
+				
+				if (EditingActivator.DEBUG) {
+					if (res.isModified()) {
+						System.out.println("unloading a modified resource!");
+					}
+
+					if (!cdoRes.cdoView().isClosed()) {
+						System.out.println("Unloaded resource, has an open view!");
+					}
 				}
 			}
-
+			
+			dawnEditorSupport.close(); // Closes the view.
 		}
-		// Close the view, but does it close the transaction?
 	}
 
 	/*
@@ -323,8 +331,8 @@ public class CDOEditingService extends EMFEditingService implements
 					monitor.subTask("Copy history");
 					saveHistory();
 					monitor.worked(50);
-					monitor.subTask("Saving all");
-					saveRegular(saveOptions);
+					monitor.subTask("Committing");
+					saveRegular(monitor, saveOptions);
 					monitor.done();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -333,8 +341,10 @@ public class CDOEditingService extends EMFEditingService implements
 					// MessageDialog.openError(Display.getDefault()
 					// .getActiveShell(), "Error saving object",
 					// "Error saving, rolling back. ");
-
-					System.out.println("Can't save, rolling back");
+					if (EditingActivator.DEBUG) {
+						System.out.println("Can't save, rolling back");
+					}
+					
 					((IDawnEditor) CDOEditingService.this)
 							.getDawnEditorSupport().rollback();
 				}
@@ -344,49 +354,60 @@ public class CDOEditingService extends EMFEditingService implements
 		return operation;
 	}
 
-	// TODO Remove later.
-	// public IRunnableWithProgress doGetSaveHistoryOperation(
-	// IProgressMonitor monitor) {
-	// // Do the work within an operation because this is a long running
-	// IRunnableWithProgress operation = new IRunnableWithProgress() {
-	// // This is the method that gets invoked when the operation runs.
-	// public void run(IProgressMonitor monitor) {
-	// saveHistory();
-	// }
-	// };
-	// return operation;
-	// }
-
-	private void saveRegular(final Map<Object, Object> saveOptions)
-			throws IOException {
+	private void saveRegular(IProgressMonitor monitor,
+			final Map<Object, Object> saveOptions) throws IOException {
 		boolean first = true;
 		for (Resource resource : getEditingDomain().getResourceSet()
 				.getResources()) {
+
 			if ((first || !resource.getContents().isEmpty())
 					&& !getEditingDomain().isReadOnly(resource)) {
+
+				if (resource instanceof CDOResource) {
+					CDOResource cdoRes = (CDOResource) resource;
+					CDOState cdoState = cdoRes.cdoState();
+					CDOView cdoView = cdoRes.cdoView();
+
+					if (EditingActivator.DEBUG) {
+
+						System.out.println("Saving resource: "
+								+ cdoRes.getURI().toString() + ", state="
+								+ cdoState.name());
+						if (cdoState == CDOState.DIRTY) {
+							Map<CDOID, CDOObject> dirtyObjects = ((CDOTransaction) cdoView)
+									.getDirtyObjects();
+							for (CDOID id : dirtyObjects.keySet()) {
+								CDOObject cdoObject = dirtyObjects.get(id);
+								TreeIterator<EObject> eAllContents = cdoObject
+										.eAllContents();
+								while (eAllContents.hasNext()) {
+									CDOObject next = (CDOObject) eAllContents
+											.next();
+									System.out.println("-- Dirty object="
+											+ next.cdoID().toURIFragment()
+											+ ", rev=" + next.cdoRevision()
+											+ " , dangling state="
+											+ next.cdoID().isDangling());
+								}
+							}
+						}
+
+					}
+
+					if (cdoView instanceof CDOTransaction) {
+						Map<CDOID, CDOObject> dirtyObjects = ((CDOTransaction) cdoView)
+								.getDirtyObjects();
+						String subMsg = "Saving resource: " + cdoRes.getPath()
+								+ " object count=" + dirtyObjects.size();
+						monitor.subTask(subMsg);
+					}
+
+				}
+
 				resource.save(saveOptions);
 				first = false;
 			}
 		}
-
-		System.out
-				.println("Numberof transactions:"
-						+ this.dataService.getProvider().getSession()
-								.getViews().length);
-		// Report the transactions on our session:
-		CDOView[] views = this.dataService.getProvider().getSession()
-				.getViews();
-		for (int i = 0; i < views.length; i++) {
-			CDOView v = views[i];
-			System.out.println("view ID: " + v.getViewID()
-					+ " ResourceSet hashcode:" + v.getResourceSet().hashCode());
-			for (Resource res : v.getResourceSet().getResources()) {
-				if (res instanceof CDOResource) {
-					System.out.println("  Resource for set = " + res.getURI());
-				}
-			}
-		}
-
 	}
 
 	private void saveHistory() {
@@ -402,7 +423,8 @@ public class CDOEditingService extends EMFEditingService implements
 					Map<CDOID, CDOObject> dirtyObjects = cdoTransaction
 							.getDirtyObjects();
 					if (dirtyObjects.size() > 0) {
-						ImmutableList<CDOObject> dirtyObjectsList = ImmutableList.copyOf(dirtyObjects.values());
+						ImmutableList<CDOObject> dirtyObjectsList = ImmutableList
+								.copyOf(dirtyObjects.values());
 						EClass hint;
 						if ((hint = shouldHaveHistory(cdoRes)) != null) {
 							for (CDOObject cdoObject : dirtyObjectsList) {
@@ -495,13 +517,13 @@ public class CDOEditingService extends EMFEditingService implements
 	}
 
 	/*
-	 * Delegate to ModelUtils.
-	 * (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#resolveHistoricalResourceName(java.lang.Object)
+	 * Delegate to ModelUtils. (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#
+	 * resolveHistoricalResourceName(java.lang.Object)
 	 */
 	public String resolveHistoricalResourceName(Object object) {
 		return modelUtils.resolveHistoricalResourceName(object);
 	}
 
-	
 }

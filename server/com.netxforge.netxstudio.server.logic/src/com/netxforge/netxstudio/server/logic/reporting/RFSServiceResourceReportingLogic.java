@@ -203,7 +203,7 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 
 	private int writeCapacity(HSSFSheet sheet, int resourceIndex,
 			NetXResource resource) {
-		List<Value> capRange = getModelUtils().sortValuesByTimeStamp(
+		List<Value> capRange = getModelUtils().sortByTimeStamp(
 				resource.getCapacityValues());
 		capRange = getModelUtils().filterValueInRange(capRange,
 				this.getPeriod());
@@ -239,7 +239,7 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 
 	private int writeUtilization(HSSFSheet sheet, int resourceIndex,
 			NetXResource resource) {
-		List<Value> capRange = getModelUtils().sortValuesByTimeStamp(
+		List<Value> capRange = getModelUtils().sortByTimeStamp(
 				resource.getUtilizationValues());
 		capRange = getModelUtils().filterValueInRange(capRange,
 				this.getPeriod());
@@ -279,7 +279,7 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 			int resourceIndex, int interval, MetricValueRange mvr) {
 
 		// !Potentially long operation, as we sort of the whole rang.e
-		List<Value> range = getModelUtils().sortValuesByTimeStamp(
+		List<Value> range = getModelUtils().sortByTimeStamp(
 				mvr.getMetricValues());
 		range = getModelUtils().filterValueInRange(range, this.getPeriod());
 

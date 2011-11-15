@@ -213,17 +213,17 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 
 		// Expansion duration settings.
 
-		IObservableValue quickDurationObservable = SWTObservables.observeText(
-				this.txtQuick, SWT.Modify);
+		IObservableValue quickDurationObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(
+				this.txtQuick, SWT.Modify));
 
-		IObservableValue shortDurationObservable = SWTObservables.observeText(
-				this.txtShort, SWT.Modify);
+		IObservableValue shortDurationObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(
+				this.txtShort, SWT.Modify));
 
-		IObservableValue mediumDurationObservable = SWTObservables.observeText(
-				this.txtMedium, SWT.Modify);
+		IObservableValue mediumDurationObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(
+				this.txtMedium, SWT.Modify));
 
-		IObservableValue longDurationObservable = SWTObservables.observeText(
-				this.txtLong, SWT.Modify);
+		IObservableValue longDurationObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(
+				this.txtLong, SWT.Modify));
 
 		IEMFValueProperty quickDurationProperty = EMFEditProperties
 				.value(editingService.getEditingDomain(),

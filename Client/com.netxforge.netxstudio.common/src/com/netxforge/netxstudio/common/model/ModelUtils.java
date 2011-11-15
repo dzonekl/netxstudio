@@ -467,7 +467,7 @@ public class ModelUtils {
 
 	}
 
-	public List<Value> sortValuesByTimeStamp(List<Value> values) {
+	public List<Value> sortByTimeStamp(List<Value> values) {
 		List<Value> sortedCopy = Ordering.from(valueTimeStampCompare())
 				.sortedCopy(values);
 
@@ -1264,6 +1264,22 @@ public class ModelUtils {
 		return newName;
 	}
 
+	public Value mostRecentValue(List<Value> rawListOfValues) {
+		List<Value> values = this.sortByTimeStampAndReverse(rawListOfValues);
+		if (values.size() > 0) {
+			return values.get(0);
+		}
+		return null;
+	}
+	
+	public Value oldestValue(List<Value> rawListOfValues) {
+		List<Value> values = this.sortByTimeStamp(rawListOfValues);
+		if (values.size() > 0) {
+			return values.get(0);
+		}
+		return null;
+	}
+	
 	/**
 	 * Iterate through the ranges, and find for this interval.
 	 * 
@@ -1271,13 +1287,9 @@ public class ModelUtils {
 	 * @param targetInterval
 	 * @return
 	 */
-	public Value lastCapacityValue(NetXResource resource) {
-		List<Value> values = this.sortByTimeStampAndReverse(resource
+	public Value mostRecentCapacityValue(NetXResource resource) {
+		return mostRecentValue(resource
 				.getCapacityValues());
-		if (values.size() > 0) {
-			return values.get(0);
-		}
-		return null;
 	}
 
 	/**
@@ -1856,6 +1868,18 @@ public class ModelUtils {
 				if (from.equals("Quarter")) {
 					return ModelUtils.SECONDS_IN_A_QUARTER;
 				}
+				
+				if( from.endsWith("min") ){
+					// Strip the minutes
+					int indexOfMin = from.indexOf("min");
+					from = from.substring(0, indexOfMin).trim();
+					try {
+						return new Integer(from) * 60;
+					} catch (final NumberFormatException nfe) {
+						nfe.printStackTrace();
+					}
+				}
+				
 				try {
 					return new Integer(from);
 				} catch (final NumberFormatException nfe) {
@@ -1884,9 +1908,19 @@ public class ModelUtils {
 				if (from.equals(ModelUtils.SECONDS_IN_AN_HOUR)) {
 					return "Hour";
 				}
-				if (from.equals(ModelUtils.SECONDS_IN_A_QUARTER)) {
-					return "Quarter";
+				
+//				if (from.equals(ModelUtils.SECONDS_IN_A_QUARTER)) {
+//					return "Quarter";
+//				}
+				
+				// Do also multiples intepretation in minutes. 
+				if(from.intValue() % 60 == 0){
+					int minutes = from.intValue() / 60; 
+					return new Integer(minutes).toString() + " min";
 				}
+				
+				
+				
 				return new Integer(from).toString();
 			}
 		};

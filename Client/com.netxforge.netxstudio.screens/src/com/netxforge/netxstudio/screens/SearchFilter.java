@@ -48,9 +48,9 @@ public class SearchFilter extends ViewerFilter {
 					editingService.getAdapterFactory()).getText(element);
 			try {
 				result = match.matches(searchString);
-				if(result){
-				System.out.println("Searchsstring: match for: " + searchString + " on: " + match);
-				}
+//				if(result){
+//				System.out.println("Searchsstring: match for: " + searchString + " on: " + match);
+//				}
 			} catch (PatternSyntaxException pse) {
 				pse.printStackTrace();
 			}

@@ -122,6 +122,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 		if (DataActivator.DEBUG) {
 			DataActivator.TRACE.traceEntry("/trace", "entering importer");
+			System.out.println("Start importing process");
 		}
 
 		initializeProviders(networkElementLocator);
@@ -134,6 +135,11 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		try {
 			jobMonitor.setTask("Processing metricsource "
 					+ metricSource.getName());
+
+			if (DataActivator.DEBUG) {
+				System.out.println("IMPORTER Processing metricsource "
+						+ metricSource.getName());
+			}
 
 			final String msLocation = metricSource.getMetricLocation();
 
@@ -156,6 +162,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			}
 
 			final String fileOrDirectory = rootUrl + msLocation;
+
+			if (DataActivator.DEBUG) {
+				System.out.println("IMPORTER Calculated import directory for "
+						+ metricSource.getName() + " =" + fileOrDirectory);
+			}
+
 			int totalRows = 0;
 			boolean noFiles = true;
 			final StringBuilder fileList = new StringBuilder();
@@ -197,9 +209,20 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			} else {
 				for (final File file : rootFile.listFiles()) {
 					final String fileName = file.getName();
+
+					if (DataActivator.DEBUG) {
+						System.out
+								.println("IMPORTER Checking file=" + fileName);
+					}
 					if (filterPattern == null
 							|| fileName.matches(filterPattern)) {
 						try {
+
+							if (DataActivator.DEBUG) {
+								System.out.println("IMPORTER Checking file="
+										+ fileName);
+							}
+
 							final int beforeFailedSize = getFailedRecords()
 									.size();
 							noFiles = false;
@@ -211,9 +234,15 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 							jobMonitor.appendToLog("Processing file "
 									+ file.getAbsolutePath());
 							totalRows += processFile(file);
+
+							if (DataActivator.DEBUG) {
+								System.out.println("IMPORTER renaming file="
+										+ fileName);
+							}
 							moveFile(
 									file,
 									getFailedRecords().size() > beforeFailedSize);
+
 						} catch (final Throwable t) {
 							errorOccurred = true;
 							jobMonitor.appendToLog("Error (" + t.getMessage()
@@ -222,6 +251,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 							if (DataActivator.DEBUG) {
 								DataActivator.TRACE.trace("/trace",
 										"Error processing file", t);
+								System.out.println("IMPORTER ERROR: processing file=" + fileName);
+								t.printStackTrace();
 							}
 						}
 					}
@@ -230,6 +261,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 			if (noFiles) {
 				jobMonitor.appendToLog("No files found for processing");
+				if (DataActivator.DEBUG) {
+					System.out.println("No files found for processing");
+				}
 			}
 
 			jobMonitor.setMsg("Creating mappingstatistics");
@@ -255,6 +289,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			} else {
 				jobMonitor.setFinished(JobRunState.FINISHED_SUCCESSFULLY, null);
 			}
+			
+
+			if (DataActivator.DEBUG) {
+				System.err.println("IMPORTER SUCCESS Processing metricsource "
+						+ metricSource.getName() + " files evaluated =" + fileList.toString());
+			}
+			
 		} catch (final Throwable t) {
 			String message = t.getMessage();
 			if (t instanceof PatternSyntaxException) {
@@ -262,14 +303,23 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			}
 
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
-			t.printStackTrace(System.err);
+			
 			mappingStatistic = createMappingStatistics(startTime, endTime, 0,
 					message, mappingPeriodEstimate,
 					getMappingIntervalEstimate());
+			
+			if (DataActivator.DEBUG) {
+				System.err.println("IMPORTER ERROR Processing metricsource "
+						+ metricSource.getName() );
+				t.printStackTrace(System.err);	
+			}
 
 		}
 		getMetricSource().getStatistics().add(mappingStatistic);
 		getDataProvider().commitTransaction();
+		if (DataActivator.DEBUG) {
+			System.err.println("IMPORTER COMMIT SUCCESS");
+		}
 	}
 
 	protected int getMappingIntervalEstimate() {

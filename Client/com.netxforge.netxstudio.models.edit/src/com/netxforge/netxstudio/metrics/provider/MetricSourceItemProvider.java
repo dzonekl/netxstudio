@@ -51,6 +51,8 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 public class MetricSourceItemProvider extends BaseItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider,
 		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+	
+
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -273,5 +275,5 @@ public class MetricSourceItemProvider extends BaseItemProvider implements
 	public ResourceLocator getResourceLocator() {
 		return NetxstudioEditPlugin.INSTANCE;
 	}
-
+	
 }

@@ -595,6 +595,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(
 				new NetworkTreeFactoryImpl(editingService.getEditingDomain()),
 				new NetworkTreeStructureAdvisorImpl());
+		
 		networkTreeViewer.setContentProvider(cp);
 
 		IObservableSet set = cp.getKnownElements();
@@ -614,9 +615,9 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				editingService.getEditingDomain(),
 				OperatorsPackage.Literals.NETWORK__NAME).observeDetail(set));
 
-		observableMap.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				OperatorsPackage.Literals.NETWORK__NODES).observeDetail(set));
+//		observableMap.add(EMFEditProperties.value(
+//				editingService.getEditingDomain(),
+//				OperatorsPackage.Literals.NETWORK__NODES).observeDetail(set));
 
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -674,6 +675,9 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		EditingDomain domain;
 
+		private IEMFListProperty resourcerObservableProperty = EMFEditProperties
+				.resource(domain);
+		
 		private IEMFListProperty operatorObservableProperty = EMFEditProperties
 				.list(domain, OperatorsPackage.Literals.OPERATOR__NETWORKS);
 
@@ -697,10 +701,10 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 								LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS));
 
 		private IEMFListProperty functionsObservableProperty = EMFEditProperties
-				.multiList(domain, LibraryPackage.Literals.FUNCTION__FUNCTIONS);
+				.list(domain, LibraryPackage.Literals.FUNCTION__FUNCTIONS);
 
 		private IEMFListProperty equipmentsObservableProperty = EMFEditProperties
-				.multiList(domain,
+				.list(domain,
 						LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS);
 
 		NetworkTreeFactoryImpl(EditingDomain domain) {
@@ -713,6 +717,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 			if (target instanceof IObservableList) {
 				ol = (IObservable) target;
+			} else if( target instanceof Resource){
+				ol = resourcerObservableProperty.observe(target);
 			} else if (target instanceof Operator) {
 				ol = operatorObservableProperty.observe(target);
 			} else if (target instanceof Network) {
@@ -744,16 +750,17 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		public Boolean hasChildren(Object element) {
 
 			if (element instanceof Operator) {
-				return ((Operator) element).getNetworks().size() > 0 ? Boolean.TRUE
-						: Boolean.FALSE;
+				return Boolean.TRUE;
+//				return ((Operator) element).getNetworks().size() > 0 ? Boolean.TRUE
+//						: Boolean.FALSE;
 			}
 			if (element instanceof Network) {
-				Network net = (Network) element;
-				if (net.getNetworks().size() > 0 || net.getNodes().size() > 0
-						|| net.getEquipmentRelationships().size() > 0
-						|| net.getFunctionRelationships().size() > 0) {
+//				Network net = (Network) element;
+//				if (net.getNetworks().size() > 0 || net.getNodes().size() > 0
+//						|| net.getEquipmentRelationships().size() > 0
+//						|| net.getFunctionRelationships().size() > 0) {
 					return Boolean.TRUE;
-				}
+//				}
 			}
 
 			if (element instanceof Node) {

@@ -22,7 +22,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 /**
@@ -84,7 +83,6 @@ public class EditingActionsHandler implements IActionHandler {
 
 	private IEditingService editingService;
 
-	@Inject
 	public EditingActionsHandler(IEditingService editingService) {
 		this.style = ADDITIONS_LAST_STYLE;
 		this.editingService = editingService;

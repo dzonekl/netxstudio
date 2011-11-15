@@ -1,5 +1,6 @@
 package com.netxforge.netxstudio.screens.f2;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -18,14 +19,15 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -36,6 +38,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
@@ -63,11 +66,10 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
 /**
- * See this for filtering. 
- * http://www.eclipsezone.com/eclipse/forums/t63214.html
+ * See this for filtering. http://www.eclipsezone.com/eclipse/forums/t63214.html
  * 
  * @author dzonekl
- *
+ * 
  */
 public abstract class AbstractResources extends AbstractScreen implements
 		IDataServiceInjection {
@@ -82,7 +84,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 	@Inject
 	private SearchFilter searchFilter;
-	
+
 	protected List<Resource> resourcesList;
 
 	/**
@@ -127,7 +129,6 @@ public abstract class AbstractResources extends AbstractScreen implements
 		txtFilterText.setText("");
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				resourcesTableViewer.refresh();
 				ViewerFilter[] filters = resourcesTableViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof SearchFilter) {
@@ -135,16 +136,16 @@ public abstract class AbstractResources extends AbstractScreen implements
 								.setSearchText(txtFilterText.getText());
 					}
 				}
+				resourcesTableViewer.refresh();
 			}
 		});
-		
+
 		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
 		new Label(frmResources.getBody(), SWT.NONE);
-		
-		
+
 		resourcesTableViewer = new TableViewer(frmResources.getBody(),
 				SWT.VIRTUAL | SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
 		table = resourcesTableViewer.getTable();
@@ -156,19 +157,18 @@ public abstract class AbstractResources extends AbstractScreen implements
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
 		toolkit.paintBordersFor(table);
 
-		String[] properties = new String[] { "Network Element", "Component", "Metric",
-				"Short Name", "Expression Name", "Long Name", "Capacity",
-				"Unit" };
+		String[] properties = new String[] { "Network Element", "Component",
+				"Metric", "Short Name", "Expression Name", "Long Name",
+				"Capacity", "Unit" };
 
-		int[] columnWidths = new int[] { 100, 100, 112, 76, 104, 200, 60, 68 };
+		int[] columnWidths = new int[] { 100, 100, 112, 76, 104, 200, 100, 68 };
 
 		EditingSupport[] editingSupport = new EditingSupport[] { null, null,
 				null, null, null, null,
 				new CapacityEditingSupport(resourcesTableViewer), null };
 
 		buildTableColumns(properties, columnWidths, editingSupport);
-		
-		
+
 		resourcesTableViewer.addFilter(searchFilter);
 		// setCellEditors(properties);
 
@@ -185,7 +185,10 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 		@Override
 		protected CellEditor getCellEditor(Object element) {
-			return new TextCellEditor(viewer.getTable());
+			EnterCapacityCellEditor enterCapacityCellEditor = new EnterCapacityCellEditor(
+					viewer.getTable());
+			enterCapacityCellEditor.setResource((NetXResource) element);
+			return enterCapacityCellEditor;
 		}
 
 		@Override
@@ -196,9 +199,13 @@ public abstract class AbstractResources extends AbstractScreen implements
 		@Override
 		protected Object getValue(Object element) {
 			if (element instanceof NetXResource) {
-				Value v = modelUtils.lastCapacityValue((NetXResource) element);
+				Value v = modelUtils.mostRecentCapacityValue((NetXResource) element);
+
 				if (v != null) {
-					return new Double(v.getValue()).toString();
+					DecimalFormat numberFormatter = new DecimalFormat(
+							"###,###,##0.00");
+					numberFormatter.setDecimalSeparatorAlwaysShown(true);
+					return numberFormatter.format(v.getValue());
 				} else {
 					return "<not set>";
 				}
@@ -208,26 +215,60 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 		@Override
 		protected void setValue(Object element, Object value) {
-			System.out.println("trying to store");
+				viewer.update(element, null);
+		}
+
+	}
+
+	class EnterCapacityCellEditor extends DialogCellEditor {
+
+		// The last capacity value.
+		private NetXResource resource;
+
+		public EnterCapacityCellEditor(Composite parent) {
+			super(parent);
+		}
+
+		public NetXResource getResource() {
+			return resource;
+		}
+
+		public void setResource(NetXResource resource) {
+			this.resource = resource;
+		}
+
+		@Override
+		protected Object openDialogBox(Control cellEditorWindow) {
+
+			CapacityEditingDialog capacityEditingDialog = new CapacityEditingDialog(
+					cellEditorWindow.getShell(), editingService, modelUtils);
+			capacityEditingDialog.setBlockOnOpen(true);
+			capacityEditingDialog.injectData(resource.getCapacityValues());
+			int open = capacityEditingDialog.open();
+			List<Value> result = capacityEditingDialog.getResult();
+			if (open == Window.OK) {
+				return result;
+			} else {
+				return null;
+			}
 		}
 
 	}
 
 	/**
-	 * A Map of filters. 
+	 * A Map of filters.
 	 */
 	Map<String, TableColumnFilter> columnFilters = Maps.newHashMap();
-	
+
 	private void buildTableColumns(String[] properties, int[] columnWidths,
 			EditingSupport[] editingSupport) {
-		
-		
-//		final Menu headerMenu = new Menu(shell, SWT.POP_UP);
-		
+
+		// final Menu headerMenu = new Menu(shell, SWT.POP_UP);
+
 		for (int i = 0; i < properties.length; i++) {
-			
+
 			String property = properties[i];
-			
+
 			TableViewerColumn viewerColumn = new TableViewerColumn(
 					resourcesTableViewer, SWT.NONE);
 			EditingSupport sup;
@@ -238,20 +279,25 @@ public abstract class AbstractResources extends AbstractScreen implements
 			tblColumn.setText(property);
 			tblColumn.setWidth(columnWidths[i]);
 			tblColumn.setMoveable(true);
-			
-			// Column filtering. 
-			TableColumnFilter tableColumnFilter = new TableColumnFilter(tblColumn);
-			columnFilters.put(property,tableColumnFilter);
+
+			// Column filtering.
+			TableColumnFilter tableColumnFilter = new TableColumnFilter(
+					tblColumn);
+			columnFilters.put(property, tableColumnFilter);
 			resourcesTableViewer.addFilter(tableColumnFilter);
-			
-//			createMenuItem(headerMenu, tblColumn);
-			
-			if (properties[i].equals("Node")) {
+
+			// Specializations:
+
+			if (property.equals("Capacity")) {
+				tblColumn.setAlignment(SWT.RIGHT);
+			}
+			if (property.equals("Node")) {
 				new TableViewerColumnSorter(viewerColumn);
 			}
 
 			if (properties[i].equals("Component")) {
-				// Inline override the comparer based on the component, as this is a non-editable column. 
+				// Inline override the comparer based on the component, as this
+				// is a non-editable column.
 				new TableViewerColumnSorter(viewerColumn) {
 					protected int doCompare(Viewer viewer, Object e1, Object e2) {
 						if (e1 instanceof NetXResource
@@ -301,46 +347,46 @@ public abstract class AbstractResources extends AbstractScreen implements
 		}
 	}
 
-//	class MonitorResourceAction extends Action {
-//
-//		public MonitorResourceAction(String text, int style) {
-//			super(text, style);
-//		}
-//
-//		@Override
-//		public void run() {
-//			ISelection selection = getViewer().getSelection();
-//			if (selection instanceof IStructuredSelection) {
-//				Object o = ((IStructuredSelection) selection).getFirstElement();
-//				if (o instanceof NetXResource) {
-//
-//					// TODO, Ask for a time range.
-//					// TODO, Select the value range.
-//					MetricValueRange mvr = ((NetXResource) o)
-//							.getMetricValueRanges().get(0);
-//
-//					XMLGregorianCalendar start = mvr.getMetricValues().get(0)
-//							.getTimeStamp();
-//					XMLGregorianCalendar end = mvr.getMetricValues()
-//							.get(mvr.getMetricValues().size() - 1)
-//							.getTimeStamp();
-//
-//					DateTimeRange timerange = GenericsFactory.eINSTANCE
-//							.createDateTimeRange();
-//
-//					timerange.setBegin(start);
-//					timerange.setEnd(end);
-//
-//					ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
-//							screenService.getScreenContainer(), SWT.NONE);
-//					monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
-//					monitorScreen.setScreenService(screenService);
-//					monitorScreen.injectData(null, o, timerange);
-//					screenService.setActiveScreen(monitorScreen);
-//				}
-//			}
-//		}
-//	}
+	// class MonitorResourceAction extends Action {
+	//
+	// public MonitorResourceAction(String text, int style) {
+	// super(text, style);
+	// }
+	//
+	// @Override
+	// public void run() {
+	// ISelection selection = getViewer().getSelection();
+	// if (selection instanceof IStructuredSelection) {
+	// Object o = ((IStructuredSelection) selection).getFirstElement();
+	// if (o instanceof NetXResource) {
+	//
+	// // TODO, Ask for a time range.
+	// // TODO, Select the value range.
+	// MetricValueRange mvr = ((NetXResource) o)
+	// .getMetricValueRanges().get(0);
+	//
+	// XMLGregorianCalendar start = mvr.getMetricValues().get(0)
+	// .getTimeStamp();
+	// XMLGregorianCalendar end = mvr.getMetricValues()
+	// .get(mvr.getMetricValues().size() - 1)
+	// .getTimeStamp();
+	//
+	// DateTimeRange timerange = GenericsFactory.eINSTANCE
+	// .createDateTimeRange();
+	//
+	// timerange.setBegin(start);
+	// timerange.setEnd(end);
+	//
+	// ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
+	// screenService.getScreenContainer(), SWT.NONE);
+	// monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
+	// monitorScreen.setScreenService(screenService);
+	// monitorScreen.injectData(null, o, timerange);
+	// screenService.setActiveScreen(monitorScreen);
+	// }
+	// }
+	// }
+	// }
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
@@ -452,9 +498,9 @@ public abstract class AbstractResources extends AbstractScreen implements
 						if (c instanceof Equipment) {
 							Equipment eq = (Equipment) c;
 							StringBuffer buf = new StringBuffer();
-							buf.append(eq.getEquipmentCode() != null ? eq.getEquipmentCode()
-									: "?");
-							if(eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)){
+							buf.append(eq.getEquipmentCode() != null ? eq
+									.getEquipmentCode() : "?");
+							if (eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)) {
 								buf.append(" : " + eq.getName());
 							}
 							return buf.toString();
@@ -490,9 +536,12 @@ public abstract class AbstractResources extends AbstractScreen implements
 					}
 					break;
 				case 6:
-					Value v = modelUtils.lastCapacityValue(resource);
+					Value v = modelUtils.mostRecentCapacityValue(resource);
 					if (v != null) {
-						return new Double(v.getValue()).toString();
+						DecimalFormat numberFormatter = new DecimalFormat(
+								"###,###,##0.00");
+						numberFormatter.setDecimalSeparatorAlwaysShown(true);
+						return numberFormatter.format(v.getValue());
 					} else {
 						return "<not set>";
 					}
@@ -548,7 +597,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 		List<IAction> actionList = Lists.newArrayList();
 		actionList.add(new EditResourceAction(actionText, SWT.PUSH));
-//		actionList.add(new MonitorResourceAction("Monitor...", SWT.PUSH));
+		// actionList.add(new MonitorResourceAction("Monitor...", SWT.PUSH));
 		return actionList.toArray(new IAction[actionList.size()]);
 	}
 }

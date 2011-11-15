@@ -107,6 +107,8 @@ public class WarningDeleteCommand extends CompoundCommand {
 
 				EObject referencingEObject = xref.getSourceObject();
 				EObject eObject = xref.getTargetObject();
+				
+				// Do not delete referring objects which are scheduled for deletion themselves.  
 				if (!eObjects.contains(referencingEObject)) {
 					EStructuralFeature eStructuralFeature = xref
 							.getSourceFeature();
@@ -145,6 +147,7 @@ public class WarningDeleteCommand extends CompoundCommand {
 	 * @return
 	 */
 	public Collection<EObject> getObjects() {
+		
 		Collection<EObject> eObjects = new LinkedHashSet<EObject>();
 		for (Object wrappedObject : collection) {
 			Object object = AdapterFactoryEditingDomain.unwrap(wrappedObject);

@@ -86,27 +86,11 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 	@Override
 	public CDOSession getSession() {
 		if (session == null) {
-			
-			
-			
 			// We can't get a session, which has not be opened and
 			// authenticated.
 			throw new java.lang.IllegalStateException();
 		} else {
-			
-			System.out.println("Numberof transactions:" + session.getViews().length);
-			// Report the transactions on our session:
-			CDOView[] views = session.getViews();
-			for(int i = 0; i < views.length; i++){
-				CDOView v = views[i];
-				System.out.println("view ID: " + v.getViewID() + " ResourceSet hashcode:" + v.getResourceSet().hashCode());
-				for(Resource res : v.getResourceSet().getResources()){
-					if(res instanceof CDOResource){
-						System.out.println( "  Resource for set = " + res.getURI());
-					}
-				}
-			}
-			System.out.println("Numberof transactions:" + session.getViews().length);
+			this.printSession();
 			return session;
 		}
 	}
@@ -134,6 +118,34 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 		ClientCDODataProvider.transaction = transaction;
 	}
 
+	
+	public void printSession(){
+		System.out.println("Numberof views:" + session.getViews().length);
+		// Report the transactions on our session:
+		CDOView[] views = session.getElements();
+		for (int i = 0; i < views.length; i++) {
+			CDOView v = views[i];
+			if (v instanceof CDOTransaction) {
+				CDOTransaction t = (CDOTransaction) v;
+				System.out.println("transaction ID: " + t.getViewID()
+						+ " ResourceSet hashcode:"
+						+ v.getResourceSet().hashCode());
+			} else {
+				System.out.println("view ID: " + v.getViewID()
+						+ " ResourceSet hashcode:"
+						+ v.getResourceSet().hashCode());
+			}
+			for (Resource res : v.getResourceSet().getResources()) {
+				if (res instanceof CDOResource) {
+					System.out.println("  Resource for set = "
+							+ res.getURI());
+				}
+			}
+		}
+		System.out
+				.println("Numberof views:" + session.getElements().length);
+	}
+	
 	public void loadFixtures() {
 		loadSettings();
 		loadRoles();
@@ -141,282 +153,322 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 	}
 
 	private void loadSettings() {
-		final CDOResource settingsResource = (CDOResource) getResource(NetxstudioPackage.Literals.SERVER_SETTINGS);
-		if (settingsResource.getContents().size() > 0) {
-			return;
-		}
-		ServerSettings serverSettings = NetxstudioFactory.eINSTANCE
-				.createServerSettings();
-		serverSettings
-				.setExportPath("/Users/dzonekl/Documents/Projects/NetXStudio/Reports");
-		serverSettings
-				.setImportPath("/Users/dzonekl/Documents/Projects/NetXStudio/TestData");
-		settingsResource.getContents().add(serverSettings);
 
-		ExpansionDurationSetting eds = GenericsFactory.eINSTANCE
-				.createExpansionDurationSetting();
-		{
-			ExpansionDurationValue edv = GenericsFactory.eINSTANCE
-					.createExpansionDurationValue();
-			edv.setExpansionDuration(ExpansionDuration.QUICK);
-			edv.setValue(7);
-			eds.setQuickDuration(edv);
-		}
-		{
-			ExpansionDurationValue edv = GenericsFactory.eINSTANCE
-					.createExpansionDurationValue();
-			edv.setExpansionDuration(ExpansionDuration.SHORT);
-			edv.setValue(30);
-			eds.setShortDuration(edv);
-		}
-		{
-			ExpansionDurationValue edv = GenericsFactory.eINSTANCE
-					.createExpansionDurationValue();
-			edv.setExpansionDuration(ExpansionDuration.MEDIUM);
-			edv.setValue(90);
-			eds.setMediumDuration(edv);
-		}
-		{
-			ExpansionDurationValue edv = GenericsFactory.eINSTANCE
-					.createExpansionDurationValue();
-			edv.setExpansionDuration(ExpansionDuration.LONG);
-			edv.setValue(180);
-			eds.setLongDuration(edv);
-		}
+		CDOTransaction transaction = this.getTransaction();
 
-		serverSettings.setExpansionDurationSettings(eds);
-
+		final CDOResource settingsResource = (CDOResource) getResource(
+				transaction, NetxstudioPackage.Literals.SERVER_SETTINGS);
 		try {
+
+			if (settingsResource.getContents().size() > 0) {
+				return;
+			}
+			ServerSettings serverSettings = NetxstudioFactory.eINSTANCE
+					.createServerSettings();
+			serverSettings
+					.setExportPath("/Users/dzonekl/Documents/Projects/NetXStudio/Reports");
+			serverSettings
+					.setImportPath("/Users/dzonekl/Documents/Projects/NetXStudio/TestData");
+			settingsResource.getContents().add(serverSettings);
+
+			ExpansionDurationSetting eds = GenericsFactory.eINSTANCE
+					.createExpansionDurationSetting();
+			{
+				ExpansionDurationValue edv = GenericsFactory.eINSTANCE
+						.createExpansionDurationValue();
+				edv.setExpansionDuration(ExpansionDuration.QUICK);
+				edv.setValue(7);
+				eds.setQuickDuration(edv);
+			}
+			{
+				ExpansionDurationValue edv = GenericsFactory.eINSTANCE
+						.createExpansionDurationValue();
+				edv.setExpansionDuration(ExpansionDuration.SHORT);
+				edv.setValue(30);
+				eds.setShortDuration(edv);
+			}
+			{
+				ExpansionDurationValue edv = GenericsFactory.eINSTANCE
+						.createExpansionDurationValue();
+				edv.setExpansionDuration(ExpansionDuration.MEDIUM);
+				edv.setValue(90);
+				eds.setMediumDuration(edv);
+			}
+			{
+				ExpansionDurationValue edv = GenericsFactory.eINSTANCE
+						.createExpansionDurationValue();
+				edv.setExpansionDuration(ExpansionDuration.LONG);
+				edv.setValue(180);
+				eds.setLongDuration(edv);
+			}
+
+			serverSettings.setExpansionDurationSettings(eds);
+
 			settingsResource.save(null);
+
 		} catch (final TransactionException e) {
 			e.printStackTrace();
 		} catch (final IOException e) {
 			e.printStackTrace();
+		} finally {
+			this.commitTransaction();
 		}
 	}
 
 	private void loadRetentionRules() {
 
-		Resource retentionRulesResource = getResource(MetricsPackage.Literals.METRIC_RETENTION_RULES);
-		Resource expressionResource = getResource(LibraryPackage.Literals.EXPRESSION);
+		CDOTransaction transaction = this.getTransaction();
+
+		Resource retentionRulesResource = getResource(transaction,
+				MetricsPackage.Literals.METRIC_RETENTION_RULES);
+		Resource expressionResource = getResource(transaction,
+				LibraryPackage.Literals.EXPRESSION);
 		// add to the job resource, that one is watched by the jobhandler
-		Resource retentionResource = getResource(SchedulingPackage.Literals.JOB);
+		Resource retentionResource = getResource(transaction,
+				SchedulingPackage.Literals.JOB);
 
-		EList<EObject> contents = retentionRulesResource.getContents();
+		try {
 
-		Expression weeklyRetentionExpression;
-		Expression dailyRetentionExpression;
-		Expression hourlyRetentionExpression;
+			EList<EObject> contents = retentionRulesResource.getContents();
 
-		if (contents.size() == 1) {
-			return;
-		} else {
-			MetricRetentionRules rules = MetricsFactory.eINSTANCE
-					.createMetricRetentionRules();
-			contents.add(rules);
-			{
-				// Add all expressions.
+			Expression weeklyRetentionExpression;
+			Expression dailyRetentionExpression;
+			Expression hourlyRetentionExpression;
+
+			if (contents.size() == 1) {
+				return;
+			} else {
+				MetricRetentionRules rules = MetricsFactory.eINSTANCE
+						.createMetricRetentionRules();
+				contents.add(rules);
 				{
-					// Monthly expression
-					weeklyRetentionExpression = LibraryFactory.eINSTANCE
-							.createExpression();
-					weeklyRetentionExpression.setName("Weekly retention rule");
+					// Add all expressions.
+					{
+						// Monthly expression
+						weeklyRetentionExpression = LibraryFactory.eINSTANCE
+								.createExpression();
+						weeklyRetentionExpression
+								.setName("Weekly retention rule");
 
-					// Gets the max value from a range and assigns it to another
-					// range, clears the original range.
-					final String eAsString = "this METRIC "
-							+ ModelUtils.MINUTES_IN_A_MONTH + " = this METRIC "
-							+ ModelUtils.MINUTES_IN_A_WEEK
-							+ " .max();this METRIC "
-							+ ModelUtils.MINUTES_IN_A_WEEK + " .clear();";
-					weeklyRetentionExpression.getExpressionLines().addAll(
-							modelUtils.expressionLines(eAsString));
-					expressionResource.getContents().add(
-							weeklyRetentionExpression);
+						// Gets the max value from a range and assigns it to
+						// another
+						// range, clears the original range.
+						final String eAsString = "this METRIC "
+								+ ModelUtils.MINUTES_IN_A_MONTH
+								+ " = this METRIC "
+								+ ModelUtils.MINUTES_IN_A_WEEK
+								+ " .max();this METRIC "
+								+ ModelUtils.MINUTES_IN_A_WEEK + " .clear();";
+						weeklyRetentionExpression.getExpressionLines().addAll(
+								modelUtils.expressionLines(eAsString));
+						expressionResource.getContents().add(
+								weeklyRetentionExpression);
+					}
+					{
+						dailyRetentionExpression = LibraryFactory.eINSTANCE
+								.createExpression();
+						dailyRetentionExpression
+								.setName("Daily retention rule");
+
+						// Gets the max value from a range and assigns it to
+						// another
+						// range, clears the original range.
+						final String eAsString = "this METRIC "
+								+ ModelUtils.MINUTES_IN_A_WEEK
+								+ " = this METRIC "
+								+ ModelUtils.MINUTES_IN_A_DAY
+								+ " .max();this METRIC "
+								+ ModelUtils.MINUTES_IN_A_DAY + " .clear();";
+						dailyRetentionExpression.getExpressionLines().addAll(
+								modelUtils.expressionLines(eAsString));
+						expressionResource.getContents().add(
+								dailyRetentionExpression);
+					}
+
+					{
+						hourlyRetentionExpression = LibraryFactory.eINSTANCE
+								.createExpression();
+						hourlyRetentionExpression
+								.setName("Hourly retention rule");
+
+						// Gets the max value from a range and assigns it to
+						// another
+						// range, clears the original range.
+						final String eAsString = "this METRIC DAY = this METRIC HOUR .max();\nthis METRIC HOUR .clear();";
+						hourlyRetentionExpression.getExpressionLines().addAll(
+								modelUtils.expressionLines(eAsString));
+						expressionResource.getContents().add(
+								hourlyRetentionExpression);
+					}
 				}
-				{
-					dailyRetentionExpression = LibraryFactory.eINSTANCE
-							.createExpression();
-					dailyRetentionExpression.setName("Daily retention rule");
 
-					// Gets the max value from a range and assigns it to another
-					// range, clears the original range.
-					final String eAsString = "this METRIC "
-							+ ModelUtils.MINUTES_IN_A_WEEK + " = this METRIC "
-							+ ModelUtils.MINUTES_IN_A_DAY
-							+ " .max();this METRIC "
-							+ ModelUtils.MINUTES_IN_A_DAY + " .clear();";
-					dailyRetentionExpression.getExpressionLines().addAll(
-							modelUtils.expressionLines(eAsString));
-					expressionResource.getContents().add(
-							dailyRetentionExpression);
+				if (rules.getMetricRetentionRules().size() == 0) {
+					{
+						MetricRetentionRule r = MetricsFactory.eINSTANCE
+								.createMetricRetentionRule();
+						r.setName("Monthly values");
+						r.setPeriod(MetricRetentionPeriod.ALWAYS);
+						rules.getMetricRetentionRules().add(r);
+					}
+					{
+						MetricRetentionRule r = MetricsFactory.eINSTANCE
+								.createMetricRetentionRule();
+						r.setName("Weekly values");
+						r.setPeriod(MetricRetentionPeriod.ALWAYS);
+						r.setRetentionExpression(weeklyRetentionExpression);
+						rules.getMetricRetentionRules().add(r);
+					}
+					{
+						MetricRetentionRule r = MetricsFactory.eINSTANCE
+								.createMetricRetentionRule();
+						r.setName("Daily values");
+						r.setPeriod(MetricRetentionPeriod.ONE_MONTH);
+						r.setRetentionExpression(dailyRetentionExpression);
+						rules.getMetricRetentionRules().add(r);
+
+					}
+					{
+						MetricRetentionRule r = MetricsFactory.eINSTANCE
+								.createMetricRetentionRule();
+						r.setName("Hourly values");
+						r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
+						r.setRetentionExpression(hourlyRetentionExpression);
+						rules.getMetricRetentionRules().add(r);
+					}
+
+					final RetentionJob retentionJob = SchedulingFactory.eINSTANCE
+							.createRetentionJob();
+					retentionJob.setJobState(JobState.IN_ACTIVE);
+					retentionJob.setStartTime(modelUtils.toXMLDate(modelUtils
+							.tomorrow()));
+					retentionJob.setInterval(600);
+					retentionJob.setName("Data Retention");
+					retentionResource.getContents().add(retentionJob);
 				}
 
-				{
-					hourlyRetentionExpression = LibraryFactory.eINSTANCE
-							.createExpression();
-					hourlyRetentionExpression.setName("Hourly retention rule");
-
-					// Gets the max value from a range and assigns it to another
-					// range, clears the original range.
-					final String eAsString = "this METRIC DAY = this METRIC HOUR .max();\nthis METRIC HOUR .clear();";
-					hourlyRetentionExpression.getExpressionLines().addAll(
-							modelUtils.expressionLines(eAsString));
-					expressionResource.getContents().add(
-							hourlyRetentionExpression);
-				}
 			}
-
-			if (rules.getMetricRetentionRules().size() == 0) {
-				{
-					MetricRetentionRule r = MetricsFactory.eINSTANCE
-							.createMetricRetentionRule();
-					r.setName("Monthly values");
-					r.setPeriod(MetricRetentionPeriod.ALWAYS);
-					rules.getMetricRetentionRules().add(r);
-				}
-				{
-					MetricRetentionRule r = MetricsFactory.eINSTANCE
-							.createMetricRetentionRule();
-					r.setName("Weekly values");
-					r.setPeriod(MetricRetentionPeriod.ALWAYS);
-					r.setRetentionExpression(weeklyRetentionExpression);
-					rules.getMetricRetentionRules().add(r);
-				}
-				{
-					MetricRetentionRule r = MetricsFactory.eINSTANCE
-							.createMetricRetentionRule();
-					r.setName("Daily values");
-					r.setPeriod(MetricRetentionPeriod.ONE_MONTH);
-					r.setRetentionExpression(dailyRetentionExpression);
-					rules.getMetricRetentionRules().add(r);
-
-				}
-				{
-					MetricRetentionRule r = MetricsFactory.eINSTANCE
-							.createMetricRetentionRule();
-					r.setName("Hourly values");
-					r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
-					r.setRetentionExpression(hourlyRetentionExpression);
-					rules.getMetricRetentionRules().add(r);
-				}
-
-				final RetentionJob retentionJob = SchedulingFactory.eINSTANCE
-						.createRetentionJob();
-				retentionJob.setJobState(JobState.IN_ACTIVE);
-				retentionJob.setStartTime(modelUtils.toXMLDate(modelUtils.tomorrow()));
-				retentionJob.setInterval(600);
-				retentionJob.setName("Data Retention");
-				retentionResource.getContents().add(retentionJob);
-			}
-			try {
-				expressionResource.save(null);
-				retentionRulesResource.save(null);
-				retentionResource.save(null);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			expressionResource.save(null);
+			retentionRulesResource.save(null);
+			retentionResource.save(null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			this.commitTransaction();
 		}
 	}
 
 	private void loadRoles() {
-		final CDOResource rolesResource = (CDOResource) getResource(GenericsPackage.Literals.ROLE);
-		if (rolesResource.getContents().size() > 0) {
-			return;
-		}
 
-		final CDOResource userResource = (CDOResource) getResource(GenericsPackage.Literals.PERSON);
-		// Add the fixture roles.
-		{
-			final Role r = GenericsFactory.eINSTANCE.createRole();
-			r.setName(ROLE_ADMIN);
-			rolesResource.getContents().add(r);
+		CDOTransaction transaction = this.getTransaction();
 
-			// FIXME, the admin user is hard coded for now.
-			{
-				final Person p = GenericsFactory.eINSTANCE.createPerson();
-				p.setLogin("admin");
-				p.setFirstName("admin");
-				p.setLastName("admin");
-				// p.setPassword("admin");
-				p.setActive(true);
-				p.setRoles(r);
-				userResource.getContents().add(p);
-			}
-		}
-		{
-			final Role r = GenericsFactory.eINSTANCE.createRole();
-			r.setName(ROLE_PLANNER);
-			rolesResource.getContents().add(r);
-		}
-		{
-			final Role r = GenericsFactory.eINSTANCE.createRole();
-			r.setName(ROLE_READONLY);
-			rolesResource.getContents().add(r);
-		}
+		final CDOResource rolesResource = (CDOResource) getResource(
+				transaction, GenericsPackage.Literals.ROLE);
 
 		try {
+
+			if (rolesResource.getContents().size() > 0) {
+				return;
+			}
+
+			final CDOResource userResource = (CDOResource) getResource(GenericsPackage.Literals.PERSON);
+			// Add the fixture roles.
+			{
+				final Role r = GenericsFactory.eINSTANCE.createRole();
+				r.setName(ROLE_ADMIN);
+				rolesResource.getContents().add(r);
+
+				// FIXME, the admin user is hard coded for now.
+				{
+					final Person p = GenericsFactory.eINSTANCE.createPerson();
+					p.setLogin("admin");
+					p.setFirstName("admin");
+					p.setLastName("admin");
+					// p.setPassword("admin");
+					p.setActive(true);
+					p.setRoles(r);
+					userResource.getContents().add(p);
+				}
+			}
+			{
+				final Role r = GenericsFactory.eINSTANCE.createRole();
+				r.setName(ROLE_PLANNER);
+				rolesResource.getContents().add(r);
+			}
+			{
+				final Role r = GenericsFactory.eINSTANCE.createRole();
+				r.setName(ROLE_READONLY);
+				rolesResource.getContents().add(r);
+			}
+
 			userResource.save(null);
 		} catch (final TransactionException e) {
 			e.printStackTrace();
 		} catch (final IOException e) {
 			e.printStackTrace();
+		} finally {
+			commitTransaction();
 		}
 	}
 
 	@SuppressWarnings("unused")
 	private void loadLibrary() {
 
+		CDOTransaction transaction = this.getTransaction();
+
 		final CDOResource res = (CDOResource) getResource(LibraryPackage.Literals.LIBRARY);
-		final CDOView view = res.cdoView();
-
-		Library lib = null;
-		// Should do some basic import data validation.
-		if (res.getContents() != null && (res.getContents().size() > 0)) {
-			if (res.getContents().get(0) instanceof Library) {
-				// Ok, proceed.
-				lib = (Library) res.getContents().get(0);
-			}
-		} else {
-			lib = LibraryFactory.eINSTANCE.createLibrary();
-			res.getContents().add(lib);
-		}
-
-		final NodeType sgsnType = LibraryFactory.eINSTANCE.createNodeType();
-		final Function sgsnFunction = LibraryFactory.eINSTANCE.createFunction();
-		sgsnFunction.setName("SGSN");
-		sgsnType.getFunctions().add(sgsnFunction);
-
-		lib.getNodeTypes().add(sgsnType);
-
-		final NetXResource sgsnRes = LibraryFactory.eINSTANCE
-				.createNetXResource();
-		final MetricValueRange range = MetricsFactory.eINSTANCE
-				.createMetricValueRange();
-		sgsnRes.getMetricValueRanges().add(range);
-
-		sgsnFunction.getResourceRefs().add(sgsnRes);
-
-		final Value v = GenericsFactory.eINSTANCE.createValue();
-		v.setValue(2.0);
-		v.setTimeStamp(modelUtils.toXMLDate(modelUtils.yesterday()));
-
-		final Value v1 = GenericsFactory.eINSTANCE.createValue();
-		v1.setValue(2.1);
-		v1.setTimeStamp(modelUtils.toXMLDate(modelUtils.twoDaysAgo()));
-
-		final Value v2 = GenericsFactory.eINSTANCE.createValue();
-		v2.setValue(2.1);
-		v2.setTimeStamp(modelUtils.toXMLDate(modelUtils.threeDaysAgo()));
-
-		range.getMetricValues().addAll(ImmutableList.of(v, v1, v2));
 
 		try {
+
+			Library lib = null;
+
+			// Should do some basic import data validation.
+			if (res.getContents() != null && (res.getContents().size() > 0)) {
+				if (res.getContents().get(0) instanceof Library) {
+					// Ok, proceed.
+					lib = (Library) res.getContents().get(0);
+				}
+			} else {
+				lib = LibraryFactory.eINSTANCE.createLibrary();
+				res.getContents().add(lib);
+			}
+
+			final NodeType sgsnType = LibraryFactory.eINSTANCE.createNodeType();
+			final Function sgsnFunction = LibraryFactory.eINSTANCE
+					.createFunction();
+			sgsnFunction.setName("SGSN");
+			sgsnType.getFunctions().add(sgsnFunction);
+
+			lib.getNodeTypes().add(sgsnType);
+
+			final NetXResource sgsnRes = LibraryFactory.eINSTANCE
+					.createNetXResource();
+			final MetricValueRange range = MetricsFactory.eINSTANCE
+					.createMetricValueRange();
+			sgsnRes.getMetricValueRanges().add(range);
+
+			sgsnFunction.getResourceRefs().add(sgsnRes);
+
+			final Value v = GenericsFactory.eINSTANCE.createValue();
+			v.setValue(2.0);
+			v.setTimeStamp(modelUtils.toXMLDate(modelUtils.yesterday()));
+
+			final Value v1 = GenericsFactory.eINSTANCE.createValue();
+			v1.setValue(2.1);
+			v1.setTimeStamp(modelUtils.toXMLDate(modelUtils.twoDaysAgo()));
+
+			final Value v2 = GenericsFactory.eINSTANCE.createValue();
+			v2.setValue(2.1);
+			v2.setTimeStamp(modelUtils.toXMLDate(modelUtils.threeDaysAgo()));
+
+			range.getMetricValues().addAll(ImmutableList.of(v, v1, v2));
+
 			res.save(null);
 		} catch (final TransactionException e) {
-			((CDOTransaction) view).rollback();
+			e.printStackTrace();
 		} catch (final IOException e) {
 			e.printStackTrace();
+		} finally {
+			commitTransaction();
 		}
 
 	}

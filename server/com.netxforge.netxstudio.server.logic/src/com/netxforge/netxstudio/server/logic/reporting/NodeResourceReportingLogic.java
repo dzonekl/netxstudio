@@ -50,11 +50,17 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 
 	protected String calculateFileName() {
 		String baseName = super.calculateFileName();
-		
-		// We could be dealing with Nodes or Node Types. 
-		
-		
-		return REPORT_PREFIX + "_" +  "TODO_NODEID" + REPORT_PREFIX_RM_RESOURCE + "_" + baseName;
+		StringBuilder builder = new StringBuilder();
+		builder.append(REPORT_PREFIX);
+		builder.append("_" + REPORT_PREFIX_RM_RESOURCE);
+		List<Node> nodes = this.getNodes();
+		if(nodes.size() == 1){
+			// We insert the node ID, if we have a single NODE. 
+			Node node = nodes.get(0);
+			builder.append("_" + node.getNodeID() + "_");
+		}
+		builder.append(baseName);
+		return builder.toString();
 	}
 
 	@Override
@@ -175,7 +181,7 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 
 	private int writeCapacity(HSSFSheet sheet, int resourceIndex,
 			NetXResource resource) {
-		List<Value> capRange = getModelUtils().sortValuesByTimeStamp(
+		List<Value> capRange = getModelUtils().sortByTimeStamp(
 				resource.getCapacityValues());
 		capRange = getModelUtils().filterValueInRange(capRange,
 				this.getPeriod());
@@ -212,7 +218,7 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 	
 	private int writeUtilization(HSSFSheet sheet, int resourceIndex,
 			NetXResource resource) {
-		List<Value> capRange = getModelUtils().sortValuesByTimeStamp(
+		List<Value> capRange = getModelUtils().sortByTimeStamp(
 				resource.getUtilizationValues());
 		capRange = getModelUtils().filterValueInRange(capRange,
 				this.getPeriod());
@@ -253,7 +259,7 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 			MetricValueRange mvr) {
 
 		// !Potentially long operation, as we sort of the whole rang.e
-		List<Value> range = getModelUtils().sortValuesByTimeStamp(
+		List<Value> range = getModelUtils().sortByTimeStamp(
 				mvr.getMetricValues());
 		range = getModelUtils().filterValueInRange(range, this.getPeriod());
 

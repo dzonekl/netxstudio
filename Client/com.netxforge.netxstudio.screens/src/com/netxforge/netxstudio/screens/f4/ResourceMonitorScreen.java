@@ -17,7 +17,8 @@ import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.nebula.widgets.datechooser.DateChooserCombo;
+import org.eclipse.nebula.widgets.cdatetime.CDT;
+import org.eclipse.nebula.widgets.cdatetime.CDateTime;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -25,9 +26,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -36,6 +34,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -69,8 +68,8 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 	private NetXResource netXResource;
 	private DateTimeRange dtr;
 	private TableViewer markersTableViewer;
-	private DateChooserCombo dccFrom;
-	private DateChooserCombo dccTo;
+	private CDateTime dateTimeFrom;
+	private CDateTime dateTimeTo;
 
 	public ResourceMonitorScreen(Composite parent, int style) {
 		super(parent, style);
@@ -82,8 +81,7 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-
-		// buildUI();
+//		 buildUI();
 
 	}
 
@@ -95,7 +93,7 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		frmFunction.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmFunction);
 
-		frmFunction.getBody().setLayout(new FormLayout());
+		frmFunction.getBody().setLayout(new ColumnLayout());
 
 //		FormText formText = toolkit
 //				.createFormText(frmFunction.getBody(), false);
@@ -111,13 +109,17 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 //				true, false);
 
 		Section sctnPeriod = toolkit.createSection(frmFunction.getBody(),
-				Section.EXPANDED | Section.TREE_NODE | Section.TITLE_BAR);
-		FormData fd_sctnPeriod = new FormData();
-		fd_sctnPeriod.bottom = new FormAttachment(100, -165);
-		fd_sctnPeriod.right = new FormAttachment(100, -12);
-		fd_sctnPeriod.top = new FormAttachment(0, 12);
-		fd_sctnPeriod.left = new FormAttachment(0, 12);
-		sctnPeriod.setLayoutData(fd_sctnPeriod);
+				Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR);
+		
+		
+//		FormData fd_sctnPeriod = new FormData();
+//		fd_sctnPeriod.bottom = new FormAttachment(100, -165);
+//		fd_sctnPeriod.right = new FormAttachment(100, -12);
+//		fd_sctnPeriod.top = new FormAttachment(0, 12);
+//		fd_sctnPeriod.left = new FormAttachment(0, 12);
+//		sctnPeriod.setLayoutData(fd_sctnPeriod);
+		
+		
 		toolkit.paintBordersFor(sctnPeriod);
 		sctnPeriod.setText("Monitor Period");
 
@@ -129,16 +131,18 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		@SuppressWarnings("unused")
 		Label lblFromDate = toolkit.createLabel(composite_2, "From:", SWT.NONE);
 
-		dccFrom = new DateChooserCombo(composite_2,
-				SWT.BORDER | SWT.FLAT | SWT.READ_ONLY);
-		dccFrom.setWeeksVisible(true);
-		GridData gd_dateChooserCombo = new GridData(SWT.LEFT, SWT.CENTER,
+		dateTimeFrom = new CDateTime(composite_2, CDT.BORDER
+				| CDT.DROP_DOWN | CDT.DATE_MEDIUM);
+		
+		GridData gdDateTimeFrom = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 1, 1);
-		gd_dateChooserCombo.heightHint = 19;
-		dccFrom.setLayoutData(gd_dateChooserCombo);
-		toolkit.adapt(dccFrom);
-		toolkit.paintBordersFor(dccFrom);
-
+		gdDateTimeFrom.heightHint = 19;
+		gdDateTimeFrom.widthHint = 100;
+		dateTimeFrom.setLayoutData(gdDateTimeFrom);
+		toolkit.adapt(dateTimeFrom);
+		toolkit.paintBordersFor(dateTimeFrom);
+		
+		
 		Composite compositeScrollStick = toolkit.createComposite(composite_2,
 				SWT.NO_BACKGROUND);
 		compositeScrollStick.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
@@ -200,16 +204,16 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		lblToDate.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
-		dccTo = new DateChooserCombo(composite_2,
-				SWT.BORDER | SWT.FLAT | SWT.READ_ONLY);
-		dccTo.setWeeksVisible(true);
+		dateTimeTo = new CDateTime(composite_2, CDT.BORDER
+				| CDT.DROP_DOWN | CDT.DATE_MEDIUM);
 		GridData gd_dateChooserCombo_1 = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 1, 1);
 		gd_dateChooserCombo_1.heightHint = 19;
-		dccTo.setLayoutData(gd_dateChooserCombo_1);
+		gd_dateChooserCombo_1.widthHint = 100;
+		dateTimeTo.setLayoutData(gd_dateChooserCombo_1);
 		
-		toolkit.adapt(dccTo);
-		toolkit.paintBordersFor(dccTo);
+		toolkit.adapt(dateTimeTo);
+		toolkit.paintBordersFor(dateTimeTo);
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
@@ -218,7 +222,9 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 
 		// CHART
 		chart = new Chart(composite_2, SWT.NONE);
-		chart.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
+		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4);
+		gridData.heightHint = 350;
+		chart.setLayoutData(gridData);
 		chart.setBackground(Display.getDefault()
 				.getSystemColor(SWT.COLOR_WHITE));
 
@@ -289,17 +295,11 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		new Label(composite_2, SWT.NONE);
 
 		Section sctnMarkers = toolkit.createSection(frmFunction.getBody(),
-				Section.TREE_NODE | Section.TITLE_BAR);
+				Section.TWISTIE | Section.TITLE_BAR);
 		
-		FormData fd_sctnMarkers = new FormData();
-		fd_sctnMarkers.top = new FormAttachment(sctnPeriod, 12);
-		fd_sctnMarkers.bottom = new FormAttachment(100, -12);
-		fd_sctnMarkers.right = new FormAttachment(100, -12);
-		fd_sctnMarkers.left = new FormAttachment(0, 12);
-		sctnMarkers.setLayoutData(fd_sctnMarkers);
 		toolkit.paintBordersFor(sctnMarkers);
 		sctnMarkers.setText("Markers");
-		sctnMarkers.setExpanded(true);
+		sctnMarkers.setExpanded(false);
 
 		Composite composite = toolkit.createComposite(sctnMarkers, SWT.NONE);
 		toolkit.paintBordersFor(composite);
@@ -312,7 +312,9 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		table = markersTableViewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		GridData gdMarkers = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		gdMarkers.heightHint = 250;
+		table.setLayoutData(gdMarkers);
 		toolkit.paintBordersFor(table);
 
 		
@@ -523,8 +525,6 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		}
 
 		buildUI();
-
-		
 		initDataBindings_();
 	}
 
@@ -541,9 +541,13 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		EMFDataBindingContext context = new EMFDataBindingContext();
 		
 		if(dtr != null){
-			dccFrom.setValue(modelUtils.start(dtr));
-			dccTo.setValue(modelUtils.end(dtr));
+			dateTimeFrom.setSelection(modelUtils.start(dtr));
+			dateTimeTo.setSelection(modelUtils.end(dtr));
+			
+			dateTimeFrom.setEditable(false);
+			dateTimeTo.setEditable(false);
 		}
+		
 		
 		initChartBinding();
 
@@ -592,6 +596,9 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 			return;
 		}else{
 			values = this.createDateSeries(values);
+			if(values.size() == 0){
+				return; // Nothing to show. 
+			}
 		}
 
 		List<Date> dates = modelUtils.transformValueToDate(values);

@@ -20,9 +20,12 @@ package com.netxforge.netxstudio.screens.editing.actions;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
+import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.ui.action.DeleteAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -32,6 +35,10 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ListDialog;
 
+import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.JobRunContainer;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 public class WarningDeleteAction extends DeleteAction {
@@ -59,8 +66,18 @@ public class WarningDeleteAction extends DeleteAction {
 							+ "\". Related objects ("
 							+ (eObjects.size() - 1) + ")");
 			if(questionResult){
+					
+				
+//				// Assume similar objects, skip cross-referencing for NetXResource. 
+//				if(first instanceof NetXResource){
+//					super.run();
+//					return;
+//				}
+				
 				List<CDOObjectReference> xRefs = ((WarningDeleteCommand) command)
 						.getUsage(eObjects);
+				
+				
 				// Issue warning here.
 				if (xRefs != null && xRefs.size() > 0) {
 						
@@ -99,7 +116,45 @@ public class WarningDeleteAction extends DeleteAction {
 
 	@Override
 	public Command createCommand(Collection<?> selection) {
+			
+		
+		// Increment the target selection for certain objects. 
+		Collection<Object> newSelection = Lists.newArrayList();
+		
+		for(Object o : selection){
+			
+			// For jobs, we also need to delete the job container. 
+			// ..this will also delete the workflow runs...
+			if(o instanceof Job){
+				Job job = (Job) o;
+				Resource jobRunContainerResource = editingService
+						.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+				// find our jobcontainer .
+				for (final EObject eObject : jobRunContainerResource.getContents()) {
+					final JobRunContainer container = (JobRunContainer) eObject;
+					final Job containerJob = container.getJob();
+					final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
+					if (job.cdoID().equals(containerJobId)) {
+//						newSelection.add(job);
+						newSelection.add(container);
+						break;
+					}
+				}
+			}
+		}
+		
+		if(newSelection.size() == 0 && selection.size() > 0 ){
+			newSelection.addAll(selection);
+		}
+		
+		for( Object o : newSelection){
+			System.out.println("delete selection=" + o);
+		}
+		
+		
+		// check the objects, is a NetXResource, create dummy command, 
+		// not executed on the command stack. 
 		return removeAllReferences ? WarningDeleteCommand.create(domain,
-				selection) : RemoveCommand.create(domain, selection);
+				newSelection) : RemoveCommand.create(domain, newSelection);
 	}
 }

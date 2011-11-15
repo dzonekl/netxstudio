@@ -93,7 +93,6 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 				// traditional.
 				for (int i = 0; i <= gc; i++) {
 					String match = matcher.group(i);
-					System.out.println(i + " : " + match);
 					if (i > 0) { // Skip the outer group.
 						matchingList.add(match);
 					}
