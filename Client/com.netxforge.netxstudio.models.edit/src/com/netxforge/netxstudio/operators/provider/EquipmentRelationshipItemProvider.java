@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.operators.provider;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -36,23 +35,19 @@ import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.operators.EquipmentRelationship} object.
- * <!-- begin-user-doc -->
- * <!-- end-user-doc -->
+ * This is the item provider adapter for a
+ * {@link com.netxforge.netxstudio.operators.EquipmentRelationship} object. <!--
+ * begin-user-doc --> <!-- end-user-doc -->
+ * 
  * @generated
  */
-public class EquipmentRelationshipItemProvider
-	extends RelationshipItemProvider
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+public class EquipmentRelationshipItemProvider extends RelationshipItemProvider
+		implements IEditingDomainItemProvider, IStructuredItemContentProvider,
+		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	/**
-	 * This constructs an instance from a factory and a notifier.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This constructs an instance from a factory and a notifier. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EquipmentRelationshipItemProvider(AdapterFactory adapterFactory) {
@@ -60,9 +55,9 @@ public class EquipmentRelationshipItemProvider
 	}
 
 	/**
-	 * This returns the property descriptors for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This returns the property descriptors for the adapted class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -77,79 +72,79 @@ public class EquipmentRelationshipItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Equipment1 Ref feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds a property descriptor for the Equipment1 Ref feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addEquipment1RefPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_EquipmentRelationship_equipment1Ref_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_EquipmentRelationship_equipment1Ref_feature", "_UI_EquipmentRelationship_type"),
-				 OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		itemPropertyDescriptors
+				.add(createItemPropertyDescriptor(
+						((ComposeableAdapterFactory) adapterFactory)
+								.getRootAdapterFactory(),
+						getResourceLocator(),
+						getString("_UI_EquipmentRelationship_equipment1Ref_feature"),
+						getString(
+								"_UI_PropertyDescriptor_description",
+								"_UI_EquipmentRelationship_equipment1Ref_feature",
+								"_UI_EquipmentRelationship_type"),
+						OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF,
+						true, false, true, null, null, null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Equipment2 Ref feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds a property descriptor for the Equipment2 Ref feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addEquipment2RefPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_EquipmentRelationship_equipment2Ref_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_EquipmentRelationship_equipment2Ref_feature", "_UI_EquipmentRelationship_type"),
-				 OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		itemPropertyDescriptors
+				.add(createItemPropertyDescriptor(
+						((ComposeableAdapterFactory) adapterFactory)
+								.getRootAdapterFactory(),
+						getResourceLocator(),
+						getString("_UI_EquipmentRelationship_equipment2Ref_feature"),
+						getString(
+								"_UI_PropertyDescriptor_description",
+								"_UI_EquipmentRelationship_equipment2Ref_feature",
+								"_UI_EquipmentRelationship_type"),
+						OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF,
+						true, false, true, null, null, null));
 	}
 
 	/**
-	 * This returns EquipmentRelationship.gif.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This returns EquipmentRelationship.gif. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/EquipmentRelationship"));
+		return overlayImage(
+				object,
+				getResourceLocator().getImage(
+						"full/obj16/EquipmentRelationship"));
 	}
 
 	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((EquipmentRelationship)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_EquipmentRelationship_type") :
-			getString("_UI_EquipmentRelationship_type") + " " + label;
+		String label = ((EquipmentRelationship) object).getName();
+		return label == null || label.length() == 0 ? "<not set>" : label;
 	}
 
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to update any cached
-	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This handles model notifications by calling {@link #updateChildren} to
+	 * update any cached children and by creating a viewer notification, which
+	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -159,14 +154,15 @@ public class EquipmentRelationshipItemProvider
 	}
 
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
-	 * that can be created under this object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
+	 * describing the children that can be created under this object. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
+	protected void collectNewChildDescriptors(
+			Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 	}
 

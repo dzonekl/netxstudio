@@ -7,7 +7,7 @@
    </configIni>
 
    <launcherArgs>
-      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -clean --launcher.XXMaxPermSize 128M</programArgs>
+      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -clean -console 8811 -noExit -consoleLog --launcher.XXMaxPermSize 128M</programArgs>
       <vmArgs>-Xms40m
 -Xmx1024m
 -Ddebug=false

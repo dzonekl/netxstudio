@@ -163,17 +163,13 @@ public class CDOEditingService extends EMFEditingService implements
 	}
 
 	public Resource getData(EClass clazz) {
-		// Check if we have a view already.
-		if (this.getView() != null) {
-			// check if we can create the resource from the current view.
-		}
 
+		sessionStillValid();
 		Resource res = dataService.getProvider().getResource(
 				this.getEditingDomain().getResourceSet(), clazz);
 
 		if (res instanceof CDOResource) {
 			dawnEditorSupport.setView(((CDOResource) res).cdoView());
-
 			dawnEditorSupport.registerListeners();
 		}
 
@@ -184,9 +180,7 @@ public class CDOEditingService extends EMFEditingService implements
 
 	public List<Resource> getData(String path) {
 		// Check if we have a view already.
-		if (this.getView() != null) {
-			// check if we can create the resource from the current view.
-		}
+		sessionStillValid();
 		List<Resource> resources = dataService.getProvider().getResources(
 				this.getEditingDomain().getResourceSet(), path);
 
@@ -221,31 +215,34 @@ public class CDOEditingService extends EMFEditingService implements
 
 		if (res instanceof CDOResource) {
 			CDOView v = dawnEditorSupport.getView();
-			
+
 			CDOResource cdoRes = (CDOResource) res;
 			if (cdoRes.cdoView().equals(v)) {
-				// Unload has no effect. 
+				// Unload has no effect.
 				if (cdoRes.isLoaded()) {
 					cdoRes.unload();
 				}
-				
-				// Clean up listeners. 
+
+				// Clean up listeners.
 				IListener[] listeners = cdoRes.cdoView().getListeners();
-				for(IListener l: listeners ){
-					cdoRes.cdoView().removeListener(l);
+				if (listeners != null) {
+					for (IListener l : listeners) {
+						cdoRes.cdoView().removeListener(l);
+					}
 				}
-				
+
 				if (EditingActivator.DEBUG) {
 					if (res.isModified()) {
 						System.out.println("unloading a modified resource!");
 					}
 
 					if (!cdoRes.cdoView().isClosed()) {
-						System.out.println("Unloaded resource, has an open view!");
+						System.out
+								.println("Unloaded resource, has an open view!");
 					}
 				}
 			}
-			
+
 			dawnEditorSupport.close(); // Closes the view.
 		}
 	}
@@ -285,29 +282,6 @@ public class CDOEditingService extends EMFEditingService implements
 		dawnEditorSupport.setDirty(true);
 	}
 
-	// CB Remove later 6-10-2011
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#doSave()
-	 */
-	// public void doSaveHistory(IProgressMonitor monitor) {
-	// IRunnableWithProgress operation = doGetSaveHistoryOperation(monitor);
-	// if (operation == null)
-	// return;
-	// try {
-	// // This runs the options, and shows progress.
-	// new ProgressMonitorDialog(Display.getDefault().getActiveShell())
-	// .run(true, false, operation);
-	//
-	// // Refresh the necessary state.
-	// ((BasicCommandStack) getEditingDomain().getCommandStack())
-	// .saveIsDone();
-	// } catch (Exception exception) {
-	// exception.printStackTrace();
-	// }
-	// }
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -344,7 +318,7 @@ public class CDOEditingService extends EMFEditingService implements
 					if (EditingActivator.DEBUG) {
 						System.out.println("Can't save, rolling back");
 					}
-					
+
 					((IDawnEditor) CDOEditingService.this)
 							.getDawnEditorSupport().rollback();
 				}
@@ -526,4 +500,25 @@ public class CDOEditingService extends EMFEditingService implements
 		return modelUtils.resolveHistoricalResourceName(object);
 	}
 
+	public void sessionStillValid() {
+		try {
+			this.dataService.getProvider().getSession();
+		} catch (final IllegalStateException ise) {
+
+			Display.getDefault().asyncExec(new Runnable() {
+
+				public void run() {
+					// Session is dead, we should close.
+					MessageDialog
+							.openError(
+									Display.getDefault().getActiveShell(),
+									"Connection to server lost",
+									"There is currently no connection with the Server"
+											+ "\nPlease exit and try to login again to re-establish the connection");
+					throw ise;
+				}
+
+			});
+		}
+	}
 }

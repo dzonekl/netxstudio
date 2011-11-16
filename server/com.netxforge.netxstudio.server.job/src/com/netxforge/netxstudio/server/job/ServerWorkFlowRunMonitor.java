@@ -92,7 +92,14 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 		} else {
 			wfRun.setState(state);
 			if (getLog().length() > 0) {
-				wfRun.setLog(getLog().toString());				
+				
+				String string = getLog().toString();
+				if(string.length() > 20000){
+					System.out.println("log overrun!");
+					wfRun.setLog("log overrun! > 20k characters");
+				}else{
+					wfRun.setLog(string);
+				}
 			}
 			wfRun.setProgress(100);
 		}

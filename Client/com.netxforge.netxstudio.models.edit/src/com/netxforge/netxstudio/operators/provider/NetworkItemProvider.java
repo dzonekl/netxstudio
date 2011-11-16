@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.operators.provider;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -43,23 +42,19 @@ import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.operators.Network} object.
- * <!-- begin-user-doc -->
- * <!-- end-user-doc -->
+ * This is the item provider adapter for a
+ * {@link com.netxforge.netxstudio.operators.Network} object. <!--
+ * begin-user-doc --> <!-- end-user-doc -->
+ * 
  * @generated
  */
-public class NetworkItemProvider
-	extends BaseItemProvider
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+public class NetworkItemProvider extends BaseItemProvider implements
+		IEditingDomainItemProvider, IStructuredItemContentProvider,
+		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	/**
-	 * This constructs an instance from a factory and a notifier.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This constructs an instance from a factory and a notifier. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NetworkItemProvider(AdapterFactory adapterFactory) {
@@ -67,9 +62,9 @@ public class NetworkItemProvider
 	}
 
 	/**
-	 * This returns the property descriptors for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This returns the property descriptors for the adapted class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -86,158 +81,150 @@ public class NetworkItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Created By Ref feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds a property descriptor for the Created By Ref feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addCreatedByRefPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Network_createdByRef_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Network_createdByRef_feature", "_UI_Network_type"),
-				 OperatorsPackage.Literals.NETWORK__CREATED_BY_REF,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		itemPropertyDescriptors
+				.add(createItemPropertyDescriptor(
+						((ComposeableAdapterFactory) adapterFactory)
+								.getRootAdapterFactory(),
+						getResourceLocator(),
+						getString("_UI_Network_createdByRef_feature"),
+						getString("_UI_PropertyDescriptor_description",
+								"_UI_Network_createdByRef_feature",
+								"_UI_Network_type"),
+						OperatorsPackage.Literals.NETWORK__CREATED_BY_REF,
+						true, false, true, null, null, null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Created Date feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds a property descriptor for the Created Date feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addCreatedDatePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Network_createdDate_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Network_createdDate_feature", "_UI_Network_type"),
-				 OperatorsPackage.Literals.NETWORK__CREATED_DATE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_Network_createdDate_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_Network_createdDate_feature", "_UI_Network_type"),
+				OperatorsPackage.Literals.NETWORK__CREATED_DATE, true, false,
+				false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Description feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds a property descriptor for the Description feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addDescriptionPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Network_description_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Network_description_feature", "_UI_Network_type"),
-				 OperatorsPackage.Literals.NETWORK__DESCRIPTION,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_Network_description_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_Network_description_feature", "_UI_Network_type"),
+				OperatorsPackage.Literals.NETWORK__DESCRIPTION, true, false,
+				false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds a property descriptor for the Name feature. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Network_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Network_name_feature", "_UI_Network_type"),
-				 OperatorsPackage.Literals.NETWORK__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_Network_name_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_Network_name_feature", "_UI_Network_type"),
+				OperatorsPackage.Literals.NETWORK__NAME, true, false, false,
+				ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This specifies how to implement {@link #getChildren} and is used to
+	 * deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand},
+	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
+	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(
+			Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(OperatorsPackage.Literals.NETWORK__DIAGRAMS);
 			childrenFeatures.add(OperatorsPackage.Literals.NETWORK__NODES);
 			childrenFeatures.add(OperatorsPackage.Literals.NETWORK__NETWORKS);
-			childrenFeatures.add(OperatorsPackage.Literals.NETWORK__FUNCTION_RELATIONSHIPS);
-			childrenFeatures.add(OperatorsPackage.Literals.NETWORK__EQUIPMENT_RELATIONSHIPS);
-			childrenFeatures.add(OperatorsPackage.Literals.NETWORK__METRIC_SOURCES);
+			childrenFeatures
+					.add(OperatorsPackage.Literals.NETWORK__FUNCTION_RELATIONSHIPS);
+			childrenFeatures
+					.add(OperatorsPackage.Literals.NETWORK__EQUIPMENT_RELATIONSHIPS);
+			childrenFeatures
+					.add(OperatorsPackage.Literals.NETWORK__METRIC_SOURCES);
 		}
 		return childrenFeatures;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
+		// Check the type of the specified child object and return the proper
+		// feature to use for
 		// adding (see {@link AddCommand}) it as a child.
 
 		return super.getChildFeature(object, child);
 	}
 
 	/**
-	 * This returns Network.gif.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This returns Network.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Network"));
+		return overlayImage(object,
+				getResourceLocator().getImage("full/obj16/Network"));
 	}
 
 	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Network)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Network_type") :
-			getString("_UI_Network_type") + " " + label;
+		String label = ((Network) object).getName();
+		return label == null || label.length() == 0 ? "<not set>" : label;
 	}
 
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to update any cached
-	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This handles model notifications by calling {@link #updateChildren} to
+	 * update any cached children and by creating a viewer notification, which
+	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -245,76 +232,75 @@ public class NetworkItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Network.class)) {
-			case OperatorsPackage.NETWORK__CREATED_DATE:
-			case OperatorsPackage.NETWORK__DESCRIPTION:
-			case OperatorsPackage.NETWORK__NAME:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case OperatorsPackage.NETWORK__DIAGRAMS:
-			case OperatorsPackage.NETWORK__NODES:
-			case OperatorsPackage.NETWORK__NETWORKS:
-			case OperatorsPackage.NETWORK__FUNCTION_RELATIONSHIPS:
-			case OperatorsPackage.NETWORK__EQUIPMENT_RELATIONSHIPS:
-			case OperatorsPackage.NETWORK__METRIC_SOURCES:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
-				return;
+		case OperatorsPackage.NETWORK__CREATED_DATE:
+		case OperatorsPackage.NETWORK__DESCRIPTION:
+		case OperatorsPackage.NETWORK__NAME:
+			fireNotifyChanged(new ViewerNotification(notification,
+					notification.getNotifier(), false, true));
+			return;
+		case OperatorsPackage.NETWORK__DIAGRAMS:
+		case OperatorsPackage.NETWORK__NODES:
+		case OperatorsPackage.NETWORK__NETWORKS:
+		case OperatorsPackage.NETWORK__FUNCTION_RELATIONSHIPS:
+		case OperatorsPackage.NETWORK__EQUIPMENT_RELATIONSHIPS:
+		case OperatorsPackage.NETWORK__METRIC_SOURCES:
+			fireNotifyChanged(new ViewerNotification(notification,
+					notification.getNotifier(), true, false));
+			return;
 		}
 		super.notifyChanged(notification);
 	}
 
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
-	 * that can be created under this object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
+	 * describing the children that can be created under this object. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
 	@Override
-	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
+	protected void collectNewChildDescriptors(
+			Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-//		newChildDescriptors.add
-//			(createChildParameter
-//				(OperatorsPackage.Literals.NETWORK__DIAGRAMS,
-//				 GenericsFactory.eINSTANCE.createDiagramInfo()));
+		// newChildDescriptors.add
+		// (createChildParameter
+		// (OperatorsPackage.Literals.NETWORK__DIAGRAMS,
+		// GenericsFactory.eINSTANCE.createDiagramInfo()));
 
-		
-		// SPECIALIZED SEE OperatorChildCreationExtender. 
-//		newChildDescriptors.add
-//			(createChildParameter
-//				(OperatorsPackage.Literals.NETWORK__NODES,
-//				 OperatorsFactory.eINSTANCE.createNode()));
+		// SPECIALIZED SEE OperatorChildCreationExtender.
+		// newChildDescriptors.add
+		// (createChildParameter
+		// (OperatorsPackage.Literals.NETWORK__NODES,
+		// OperatorsFactory.eINSTANCE.createNode()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.NETWORK__NETWORKS,
-				 OperatorsFactory.eINSTANCE.createNetwork()));
+		newChildDescriptors.add(createChildParameter(
+				OperatorsPackage.Literals.NETWORK__NETWORKS,
+				OperatorsFactory.eINSTANCE.createNetwork()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.NETWORK__FUNCTION_RELATIONSHIPS,
-				 OperatorsFactory.eINSTANCE.createFunctionRelationship()));
+		newChildDescriptors.add(createChildParameter(
+				OperatorsPackage.Literals.NETWORK__FUNCTION_RELATIONSHIPS,
+				OperatorsFactory.eINSTANCE.createFunctionRelationship()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.NETWORK__EQUIPMENT_RELATIONSHIPS,
-				 OperatorsFactory.eINSTANCE.createEquipmentRelationship()));
+		newChildDescriptors.add(createChildParameter(
+				OperatorsPackage.Literals.NETWORK__EQUIPMENT_RELATIONSHIPS,
+				OperatorsFactory.eINSTANCE.createEquipmentRelationship()));
 
-//		newChildDescriptors.add
-//			(createChildParameter
-//				(OperatorsPackage.Literals.NETWORK__METRIC_SOURCES,
-//				 MetricsFactory.eINSTANCE.createMetricSource()));
+		// newChildDescriptors.add
+		// (createChildParameter
+		// (OperatorsPackage.Literals.NETWORK__METRIC_SOURCES,
+		// MetricsFactory.eINSTANCE.createMetricSource()));
 	}
 
 	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Return the resource locator for this item provider's resources. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return ((IChildCreationExtender)adapterFactory).getResourceLocator();
+		return ((IChildCreationExtender) adapterFactory).getResourceLocator();
 	}
 
 }

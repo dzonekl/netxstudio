@@ -85,10 +85,11 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 
 	@Override
 	public CDOSession getSession() {
-		if (session == null) {
+		if (session == null || session.isClosed()) {
 			// We can't get a session, which has not be opened and
 			// authenticated.
-			throw new java.lang.IllegalStateException();
+			
+			throw new java.lang.IllegalStateException(session.isClosed() ? "Session closed" : "Session not set");
 		} else {
 			this.printSession();
 			return session;
@@ -118,8 +119,13 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 		ClientCDODataProvider.transaction = transaction;
 	}
 
-	
-	public void printSession(){
+	public void printSession() {
+		
+		if(session.isClosed()){
+			System.out.println("Session closed!, can not provide views or transactions");
+			return;
+		}
+		
 		System.out.println("Numberof views:" + session.getViews().length);
 		// Report the transactions on our session:
 		CDOView[] views = session.getElements();
@@ -137,15 +143,13 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 			}
 			for (Resource res : v.getResourceSet().getResources()) {
 				if (res instanceof CDOResource) {
-					System.out.println("  Resource for set = "
-							+ res.getURI());
+					System.out.println("  Resource for set = " + res.getURI());
 				}
 			}
 		}
-		System.out
-				.println("Numberof views:" + session.getElements().length);
+		System.out.println("Numberof views:" + session.getElements().length);
 	}
-	
+
 	public void loadFixtures() {
 		loadSettings();
 		loadRoles();
@@ -363,6 +367,7 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 
 		final CDOResource rolesResource = (CDOResource) getResource(
 				transaction, GenericsPackage.Literals.ROLE);
+		final CDOResource userResource = (CDOResource) getResource(GenericsPackage.Literals.PERSON);
 
 		try {
 
@@ -370,7 +375,6 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 				return;
 			}
 
-			final CDOResource userResource = (CDOResource) getResource(GenericsPackage.Literals.PERSON);
 			// Add the fixture roles.
 			{
 				final Role r = GenericsFactory.eINSTANCE.createRole();
@@ -399,11 +403,7 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 				r.setName(ROLE_READONLY);
 				rolesResource.getContents().add(r);
 			}
-
-			userResource.save(null);
 		} catch (final TransactionException e) {
-			e.printStackTrace();
-		} catch (final IOException e) {
 			e.printStackTrace();
 		} finally {
 			commitTransaction();

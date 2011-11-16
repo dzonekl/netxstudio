@@ -100,10 +100,7 @@ public class LibraryChildCreationExtender extends
 								LibraryFactory.eINSTANCE.createFunction()));
 					}
 				}
-			} else {
-				System.out
-						.println("CreateChildExtender: no parent Node object found");
-			}
+			} 
 		}
 
 		return newChildDescriptors;

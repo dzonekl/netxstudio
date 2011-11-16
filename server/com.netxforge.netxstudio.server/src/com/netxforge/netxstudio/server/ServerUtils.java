@@ -53,8 +53,10 @@ import org.osgi.framework.ServiceReference;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.CDODataProvider;
+import com.netxforge.netxstudio.data.fixtures.Fixtures;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -81,7 +83,7 @@ public class ServerUtils {
 
 	@Inject
 	private NetxForgeCommitInfoHandler commitInfoHandler;
-
+	
 	public static ServerUtils getInstance() {
 		return instance;
 	}
@@ -264,10 +266,14 @@ public class ServerUtils {
 	}
 
 	static class ServerInitializer {
+		
 		@Inject
 		@Server
 		private IDataProvider dataProvider;
 
+		@Inject 
+		private ModelUtils modelUtils;
+		
 		private void initialize() {
 			initResources();
 		}
@@ -284,7 +290,14 @@ public class ServerUtils {
 			initResourcesForEPackage(ProtocolsPackage.eINSTANCE);
 			initResourcesForEPackage(SchedulingPackage.eINSTANCE);
 			initResourcesForEPackage(ServicesPackage.eINSTANCE);
+			loadFixtureData(dataProvider, modelUtils);
 			dataProvider.commitTransaction();
+		}
+
+		private void loadFixtureData(IDataProvider dataProvider, ModelUtils modelUtils) {
+			Fixtures fixtures = new Fixtures(dataProvider, modelUtils);
+			fixtures.loadFixtures();
+			
 		}
 
 		private void initResourcesForEPackage(EPackage ePackage) {

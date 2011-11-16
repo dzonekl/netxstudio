@@ -170,22 +170,12 @@ public class ServiceUsers extends AbstractScreen implements
 				if (selection instanceof IStructuredSelection) {
 					final Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-					
-					
-					Runnable activate = new Runnable() {
-						public void run() {
-							NewEditServiceUser smScreen = new NewEditServiceUser(
-									screenService.getScreenContainer(),
-									SWT.NONE);
-							smScreen.setOperation(getOperation());
-							smScreen.setScreenService(screenService);
-							smScreen.injectData(serviceUserResource, o);
-							screenService.setActiveScreen(smScreen);
-						}
-					};
-					
-					screenService.activateInObservable(activate);
-					
+					NewEditServiceUser smScreen = new NewEditServiceUser(
+							screenService.getScreenContainer(), SWT.NONE);
+					smScreen.setOperation(getOperation());
+					smScreen.setScreenService(screenService);
+					smScreen.injectData(serviceUserResource, o);
+					screenService.setActiveScreen(smScreen);
 				}
 			}
 		}
@@ -311,10 +301,10 @@ public class ServiceUsers extends AbstractScreen implements
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Service Users";
 	}
-	
+
 }

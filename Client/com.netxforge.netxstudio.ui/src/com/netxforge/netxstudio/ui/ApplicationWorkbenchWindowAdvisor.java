@@ -32,7 +32,6 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.console.ConsoleService;
 import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.data.cdo.IFixtures;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.ui.activities.IActivityAndRoleService;
 import com.netxforge.netxstudio.ui.activities.internal.ActivitiesActivator;
@@ -80,9 +79,12 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		// Kick of activities.
 		// Inject the data service.
 		ActivitiesActivator.getInjector().injectMembers(this);
-		if( dService.getProvider() instanceof IFixtures){
-			((IFixtures)dService.getProvider()).loadFixtures();
-		}
+		
+		
+		// 15-11-2011 fixtures moved server side. 
+//		if( dService.getProvider() instanceof IFixtures){
+//			((IFixtures)dService.getProvider()).loadFixtures();
+//		}
 		
 		String currentUser = dService.getProvider().getSessionUserID();
 		

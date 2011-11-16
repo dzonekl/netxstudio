@@ -31,6 +31,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 public class CapacityEditingDialog extends Dialog {
@@ -44,6 +45,7 @@ public class CapacityEditingDialog extends Dialog {
 	private List<Value> values;
 	private FormattedText formattedText;
 	private IEditingService editingService;
+	private NetXResource res;
 
 	/**
 	 * 
@@ -106,6 +108,9 @@ public class CapacityEditingDialog extends Dialog {
 
 		dateTimeFrom = new CDateTime(frmCapacityValue.getBody(), CDT.BORDER
 				| CDT.DROP_DOWN | CDT.DATE_MEDIUM);
+		GridData gd_dateTimeFrom = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_dateTimeFrom.widthHint = 100;
+		dateTimeFrom.setLayoutData(gd_dateTimeFrom);
 		formToolkit.adapt(dateTimeFrom);
 		formToolkit.paintBordersFor(dateTimeFrom);
 		dateTimeFrom.setSelection(modelUtils.oneMonthAgo());
@@ -118,6 +123,9 @@ public class CapacityEditingDialog extends Dialog {
 
 		dateTimeTo = new CDateTime(frmCapacityValue.getBody(), CDT.BORDER
 				| CDT.DROP_DOWN | CDT.DATE_MEDIUM);
+		GridData gd_dateTimeTo = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_dateTimeTo.widthHint = 100;
+		dateTimeTo.setLayoutData(gd_dateTimeTo);
 		formToolkit.adapt(dateTimeTo);
 		formToolkit.paintBordersFor(dateTimeTo);
 		dateTimeTo.setSelection(modelUtils.todayAndNow());
@@ -162,7 +170,9 @@ public class CapacityEditingDialog extends Dialog {
 		});
 	}
 
-	public void injectData(List<Value> values) {
+	public void injectData(NetXResource resource) {
+		this.res = resource;
+		values = resource.getCapacityValues();
 		this.values = modelUtils.sortByTimeStamp(values);
 	}
 
@@ -218,6 +228,10 @@ public class CapacityEditingDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		// Commit. 
+		
+		res.getCapacityValues().clear();
+		res.getCapacityValues().addAll(values);
+		
 		if(editingService != null && editingService.isDirty()){
 			editingService.doSave(new NullProgressMonitor());
 		}

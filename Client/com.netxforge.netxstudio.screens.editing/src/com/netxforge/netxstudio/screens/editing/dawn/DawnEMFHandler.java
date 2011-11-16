@@ -17,6 +17,8 @@ import org.eclipse.emf.cdo.transaction.CDOTransactionConflictEvent;
 import org.eclipse.emf.cdo.view.CDOViewInvalidationEvent;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
+import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -51,6 +53,13 @@ public class DawnEMFHandler extends BasicDawnListener {
 			System.out.println("Invalid object" + o);
 		}
 		refreshEditor();
+	}
+	
+	
+	@Override
+	protected void handleLifeCycleEvent(ILifecycleEvent event) {
+		Kind kind = event.getKind();
+		System.out.println("Lifecycle event: " + kind.name());
 	}
 
 	private void refreshEditor() {

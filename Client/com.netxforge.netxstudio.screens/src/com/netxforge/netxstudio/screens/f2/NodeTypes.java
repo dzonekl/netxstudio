@@ -71,7 +71,7 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
-import com.netxforge.netxstudio.screens.SearchFilter;
+import com.netxforge.netxstudio.screens.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.actions.ExportHTMLAction;
 import com.netxforge.netxstudio.screens.actions.ExportXLSAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -172,14 +172,14 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				nodeTypeTreeViewer.refresh();
 				ViewerFilter[] filters = nodeTypeTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
-								.setSearchText(txtFilterText.getText());
+					if (viewerFilter instanceof TreeSearchFilter) {
+						((TreeSearchFilter) viewerFilter).setSearchText(txtFilterText.getText());
 					}
 				}
+				nodeTypeTreeViewer.refresh();
+				nodeTypeTreeViewer.expandAll();
 			}
 		});
 
@@ -215,7 +215,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 				| SWT.VIRTUAL | widgetStyle);
 		nodeTypeTreeViewer.setUseHashlookup(true);
 		nodeTypeTreeViewer.setComparer(new CDOElementComparer());
-
+		nodeTypeTreeViewer.addFilter(new TreeSearchFilter(editingService));
+		
 		nodeTypeTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {

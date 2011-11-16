@@ -243,7 +243,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 			CapacityEditingDialog capacityEditingDialog = new CapacityEditingDialog(
 					cellEditorWindow.getShell(), editingService, modelUtils);
 			capacityEditingDialog.setBlockOnOpen(true);
-			capacityEditingDialog.injectData(resource.getCapacityValues());
+			capacityEditingDialog.injectData(resource);
 			int open = capacityEditingDialog.open();
 			List<Value> result = capacityEditingDialog.getResult();
 			if (open == Window.OK) {

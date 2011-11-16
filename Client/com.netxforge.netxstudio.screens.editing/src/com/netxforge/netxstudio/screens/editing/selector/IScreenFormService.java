@@ -56,12 +56,6 @@ public interface IScreenFormService {
 	 */
 	public abstract void setActiveScreen(Composite control);
 
-	/**
-	 * 
-	 * @param rn
-	 */
-	public abstract void activateInObservable(Runnable rn);
-
 	public abstract void undoAndFlush();
 	
 	public abstract void dirtyWarning();
@@ -155,5 +149,11 @@ public interface IScreenFormService {
 	 */
 	public abstract void addScreenChangeListener(
 			ScreenChangeListener screenChangedListener);
+	
+	/**
+	 * Implementations are expected to reset the screen to the initial state and disable 
+	 * all potential actions. 
+	 */
+	public abstract void disable();
 
 }

@@ -73,6 +73,7 @@ public class OperatorChildCreationExtender extends
 				Node n = OperatorsFactory.eINSTANCE.createNode();
 				Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
 				newLC.setProposed(modelUtils.toXMLDate(modelUtils.todayAndNow()));
+				n.setNodeID("<new network element>");
 				n.setLifecycle(newLC);
 				
 				newChildDescriptors.add

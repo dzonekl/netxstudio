@@ -214,6 +214,7 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 		mghprlnkNewImagehyperlink.setText("New");
 
 		warehouseTreeViewer = new TreeViewer(composite, SWT.BORDER | widgetStyle);
+		warehouseTreeViewer.setUseHashlookup(true);
 		warehouseTreeViewer.setComparer(new CDOElementComparer());
 		warehouseTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {

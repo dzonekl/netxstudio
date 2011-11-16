@@ -17,116 +17,133 @@ import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.transaction.CDOTransactionConflictEvent;
 import org.eclipse.emf.cdo.view.CDOViewInvalidationEvent;
 import org.eclipse.net4j.util.event.IEvent;
+import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import org.eclipse.net4j.util.om.trace.ContextTracer;
 
 /**
  * @author Martin Fluegge
  */
-public abstract class BasicDawnListener implements IDawnListener// implements IListener
+public abstract class BasicDawnListener implements IDawnListener// implements
+																// IListener
 {
-  private static final ContextTracer TRACER = new ContextTracer(OM.DEBUG, BasicDawnListener.class);
+	private static final ContextTracer TRACER = new ContextTracer(OM.DEBUG,
+			BasicDawnListener.class);
 
-  protected IDawnEditor editor;
+	protected IDawnEditor editor;
 
-  /**
-   * @since 1.0
-   */
-  public void setEditor(IDawnEditor editor)
-  {
-    this.editor = editor;
-  }
+	/**
+	 * @since 1.0
+	 */
+	public void setEditor(IDawnEditor editor) {
+		this.editor = editor;
+	}
 
-  /**
-   * @since 1.0
-   */
-  public BasicDawnListener()
-  {
-  }
+	/**
+	 * @since 1.0
+	 */
+	public BasicDawnListener() {
+	}
 
-  /**
-   * @since 1.0
-   */
-  public BasicDawnListener(IDawnEditor editor)
-  {
-    this.editor = editor;
-  }
+	/**
+	 * @since 1.0
+	 */
+	public BasicDawnListener(IDawnEditor editor) {
+		this.editor = editor;
+	}
 
-  public void notifyEvent(IEvent event)
-  {
-    if (event instanceof CDOViewInvalidationEvent)
-    {
-      handleViewInvalidationEvent((CDOViewInvalidationEvent)event);
-    }
-    else if (event instanceof CDOTransactionConflictEvent)
-    {
-      handleTransactionConflictEvent((CDOTransactionConflictEvent)event);
-    }
-  }
+	public void notifyEvent(IEvent event) {
+		if (event instanceof CDOViewInvalidationEvent) {
+			handleViewInvalidationEvent((CDOViewInvalidationEvent) event);
+		} else if (event instanceof CDOTransactionConflictEvent) {
+			handleTransactionConflictEvent((CDOTransactionConflictEvent) event);
+		} else if (event instanceof ILifecycleEvent) {
+			this.handleLifeCycleEvent((ILifecycleEvent) event);
+		}
 
-  /**
-   * @since 1.0
-   */
-  public void attachingObject(CDOTransaction transaction, CDOObject object)
-  {
-    if (TRACER.isEnabled())
-    {
-      TRACER.format("attachingObject {0}", object); //$NON-NLS-1$
-    }
-    editor.setDirty();
-  }
+	}
 
-  /**
-   * @since 1.0
-   */
-  public void detachingObject(CDOTransaction transaction, CDOObject object)
-  {
-    if (TRACER.isEnabled())
-    {
-      TRACER.format("detachingObject {0}", object); //$NON-NLS-1$
-    }
+	// Override. 
+	protected void handleLifeCycleEvent(ILifecycleEvent event) {
 
-    editor.setDirty();
-  }
+	}
 
-  /**
-   * @since 1.0
-   */
-  public void modifyingObject(CDOTransaction transaction, CDOObject object, CDOFeatureDelta featureDelta)
-  { // This method can be overwritten be subclasses
-  }
+	/**
+	 * @since 1.0
+	 */
+	public void attachingObject(CDOTransaction transaction, CDOObject object) {
+		if (TRACER.isEnabled()) {
+			TRACER.format("attachingObject {0}", object); //$NON-NLS-1$
+		}
+		editor.setDirty();
+	}
 
-  /**
-   * @since 1.0
-   */
-  public void committingTransaction(CDOTransaction transaction, CDOCommitContext commitContext)
-  { // This method can be overwritten be subclasses
-  }
+	/**
+	 * @since 1.0
+	 */
+	public void detachingObject(CDOTransaction transaction, CDOObject object) {
+		if (TRACER.isEnabled()) {
+			TRACER.format("detachingObject {0}", object); //$NON-NLS-1$
+		}
 
-  /**
-   * @since 1.0
-   */
-  public void committedTransaction(CDOTransaction transaction, CDOCommitContext commitContext)
-  { // This method can be overwritten be subclasses
-  }
+		editor.setDirty();
+	}
 
-  /**
-   * @since 1.0
-   */
-  public void rolledBackTransaction(CDOTransaction transaction)
-  { // This method can be overwritten be subclasses
-  }
+	/**
+	 * @since 1.0
+	 */
+	public void modifyingObject(CDOTransaction transaction, CDOObject object,
+			CDOFeatureDelta featureDelta) { // This method can be overwritten be
+											// subclasses
+	}
 
-  /**
-   * @since 1.0
-   */
-  public void handleViewInvalidationEvent(CDOViewInvalidationEvent event)
-  { // This method can be overwritten be subclasses
-  }
+	/**
+	 * @since 1.0
+	 */
+	public void committingTransaction(CDOTransaction transaction,
+			CDOCommitContext commitContext) { // This method can be overwritten
+												// be subclasses
+	}
 
-  /**
-   * @since 1.0
-   */
-  public void handleTransactionConflictEvent(CDOTransactionConflictEvent event)
-  { // This method can be overwritten be subclasses
-  }
+	/**
+	 * @since 1.0
+	 */
+	public void committedTransaction(CDOTransaction transaction,
+			CDOCommitContext commitContext) { // This method can be overwritten
+												// be subclasses
+	}
+
+	/**
+	 * @since 1.0
+	 */
+	public void rolledBackTransaction(CDOTransaction transaction) { // This
+																	// method
+																	// can be
+																	// overwritten
+																	// be
+																	// subclasses
+	}
+
+	/**
+	 * @since 1.0
+	 */
+	public void handleViewInvalidationEvent(CDOViewInvalidationEvent event) { // This
+																				// method
+																				// can
+																				// be
+																				// overwritten
+																				// be
+																				// subclasses
+	}
+
+	/**
+	 * @since 1.0
+	 */
+	public void handleTransactionConflictEvent(CDOTransactionConflictEvent event) { // This
+																					// method
+																					// can
+																					// be
+																					// overwritten
+																					// be
+																					// subclasses
+	}
 }

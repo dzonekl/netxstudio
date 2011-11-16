@@ -67,7 +67,12 @@ public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	@Override
 	protected int getTotalRows() {
-		return currentSheet.getLastRowNum();
+		
+//		int lastRow = currentSheet.getLastRowNum();
+		int physicalNumberOfRows = currentSheet.getPhysicalNumberOfRows();
+//		int totalRows = currentSheet.getLastRowNum();
+		// POI reports wrong number of rows as the last row number.  
+		return physicalNumberOfRows; 
 	}
 
 	@Override

@@ -50,6 +50,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.cdo.IFixtures;
@@ -92,6 +93,8 @@ public class ScreenFormService implements IScreenFormService {
 
 	private Stack<Composite> screenStack = new Stack<Composite>();
 
+	private List<ImageHyperlink> screenSelectors = Lists.newArrayList();
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -104,6 +107,7 @@ public class ScreenFormService implements IScreenFormService {
 		if (c != null && c instanceof Composite) {
 			return (Composite) c;
 		}
+
 		return null;
 	}
 
@@ -138,11 +142,6 @@ public class ScreenFormService implements IScreenFormService {
 		formToolkit.adapt(activeScreen);
 		formToolkit.paintBordersFor(activeScreen);
 
-		// CB useless code.
-		// Control current = screenBody.getScreenDeck().topControl;
-		// if (current != null && current.isDisposed()) {
-		// current = null;
-		// }
 		screenBody.getScreenDeck().topControl = activeScreen;
 
 		// screenBody.pack();
@@ -169,12 +168,12 @@ public class ScreenFormService implements IScreenFormService {
 	private void popScreen() {
 
 		if (!screenStack.empty()) {
-			
+
 			Composite activeScreen = this.getActiveScreen();
 			if (activeScreen != null) {
 				activeScreen.dispose();
 			}
-			
+
 			Composite popScreen = screenStack.pop();
 			popScreen.setVisible(true);
 			screenBody.getScreenDeck().topControl = popScreen;
@@ -194,9 +193,9 @@ public class ScreenFormService implements IScreenFormService {
 			// Nothing to pop.
 			screenBody.setScreenBarOff();
 		}
-		
+
 		this.updateScreenPath();
-		
+
 	}
 
 	/*
@@ -301,14 +300,16 @@ public class ScreenFormService implements IScreenFormService {
 			if (r.getName().equals(IFixtures.ROLE_READONLY)) {
 				operation = Screens.OPERATION_READ_ONLY;
 			}
-			
+
 			editingService.getDataService().getQueryService().close();
-			
+
 			final int finalOperation = operation;
 
 			ImageHyperlink lnk = formToolkit.createImageHyperlink(
 					getSelectorForm().getBody(), SWT.NONE);
-
+			
+			screenSelectors.add(lnk);
+			
 			lnk.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
 					doSetScreen(finalScreen, finalScreenConstructor,
@@ -348,13 +349,6 @@ public class ScreenFormService implements IScreenFormService {
 
 	ObservablesManager obm = null;
 
-	public void activateInObservable(Runnable rn) {
-		if (obm == null) {
-			obm = new ObservablesManager("screenformservice");
-		}
-		obm.runAndCollect(rn);
-	}
-
 	private void doSetScreen(final Class<?> finalScreen,
 			final Constructor<?> finalScreenConstructor,
 			final int finalOperation) {
@@ -365,18 +359,7 @@ public class ScreenFormService implements IScreenFormService {
 		// Warn for dirtyness.
 		dirtyWarning();
 
-		// Reset the screen memory.
-		reset();
-
-		// Dispose all previous observables.
-		// we can then safely dispose the widget.
-		if (obm != null) {
-			obm.dispose();
-			obm = null;
-		}
-
-		// Now unload the data.
-		editingService.disposeData();
+		doReset();
 
 		obm = new ObservablesManager("screenformservice");
 		obm.runAndCollect(new Runnable() {
@@ -412,6 +395,21 @@ public class ScreenFormService implements IScreenFormService {
 			}
 		});
 
+	}
+
+	private void doReset() {
+		// Reset the screen memory.
+		reset();
+
+		// Dispose all previous observables.
+		// we can then safely dispose the widget.
+		if (obm != null) {
+			obm.dispose();
+			obm = null;
+		}
+
+		// Now unload the data.
+		editingService.disposeData();
 	}
 
 	/**
@@ -450,14 +448,15 @@ public class ScreenFormService implements IScreenFormService {
 		}
 		editingService.getEditingDomain().getCommandStack().flush();
 		// The data should have been disposed by now.
-		
-		if(editingService instanceof CDOEditingService){
-			if( ((CDOEditingService) editingService).getView().isDirty()){
-				CDOTransaction transaction = (CDOTransaction) ((CDOEditingService) editingService).getView();
+
+		if (editingService instanceof CDOEditingService) {
+			if (((CDOEditingService) editingService).getView().isDirty()) {
+				CDOTransaction transaction = (CDOTransaction) ((CDOEditingService) editingService)
+						.getView();
 				transaction.rollback();
 			}
 		}
-		
+
 	}
 
 	public void reset() {
@@ -465,55 +464,18 @@ public class ScreenFormService implements IScreenFormService {
 		// but it's better to dispose the complete list and restart.
 		while (!screenStack.empty()) {
 			Composite c = screenStack.pop();
-//			try {
-				System.out.println("About to dispose : "
-						+ c.getClass().getSimpleName());
+			System.out.println("About to dispose : "
+					+ c.getClass().getSimpleName());
 
-				c.dispose();
-//			} catch (Exception e) {
-//				if (e instanceof IllegalStateException) {
-//					System.out.println("observable exception" + e.getMessage());
-//					// widget is disposed, but not properly unset from the
-//					// parent.
-//					c.setParent(null);
-//				}
-//				if (e instanceof AssertionFailedException) {
-//					System.out.println("observable exception" + e.getMessage());
-//				} else {
-//					e.printStackTrace();
-//				}
-//			}
-			// FIXME, disposing previous composite through a CDO exception.
-			// as observables are being updated when disposed and ask for model
-			// data.
-			// If we don't dispose. we have a memory leak.
-			// Add all observables to the ObservablesManager.
+			c.dispose();
 		}
 
 		Control c = screenBody.getScreenDeck().topControl;
 		if (c instanceof IScreen) {
-//			try {
-				System.out.println("About to dispose : "
-						+ c.getClass().getSimpleName());
-				c.dispose();
-//			} catch (Exception e) {
-//				if (e instanceof IllegalStateException) {
-//					System.out.println("observable exception: "
-//							+ e.getMessage());
-//					// widget is disposed, but not properly unset from the
-//					// parent.
-//					// c.setParent(null);
-//				} else if (e instanceof AssertionFailedException) {
-//					System.out.println("observable exception: "
-//							+ e.getMessage());
-//					e.printStackTrace();
-//				} else {
-//					e.printStackTrace();
-//				}
-//
-//			}
+			System.out.println("About to dispose : "
+					+ c.getClass().getSimpleName());
+			c.dispose();
 		}
-
 	}
 
 	/*
@@ -593,7 +555,7 @@ public class ScreenFormService implements IScreenFormService {
 						} else {
 							// Stay on this screen.
 						}
-					}else{
+					} else {
 						popScreen();
 					}
 				}
@@ -618,7 +580,7 @@ public class ScreenFormService implements IScreenFormService {
 						((IDataScreenInjection) getActiveScreen()).addData();
 						popScreen();
 					} else {
-						// The screen is not valid, save is not allowed. 
+						// The screen is not valid, save is not allowed.
 					}
 				} else {
 					// Should not occure as the save lnk is not show, for
@@ -677,17 +639,16 @@ public class ScreenFormService implements IScreenFormService {
 	public IEditingService getEditingService() {
 		return editingService;
 	}
-	
-	
+
 	/**
-	 * Runs through the list of screens on the stack and adds
-	 * an entry on the screenpath composite. 
+	 * Runs through the list of screens on the stack and adds an entry on the
+	 * screenpath composite.
 	 */
 	private void updateScreenPath() {
 
 		Iterator<Composite> elements = screenStack.iterator();
 		int count = Iterators.size(elements);
-		elements  = screenStack.iterator();
+		elements = screenStack.iterator();
 		this.screenBody.clearScreenPath();
 		if (count > 0) {
 			this.screenBody.setScreenPathOn();
@@ -707,30 +668,25 @@ public class ScreenFormService implements IScreenFormService {
 			this.createPathEntry(this.getActiveScreen());
 
 			this.screenBody.getScreenPath().layout();
-		}else{
+		} else {
 			this.screenBody.setScreenPathOff();
 		}
 	}
 
 	private void createPathEntry(Composite composite) {
 		String entry = composite.getClass().getSimpleName();
-		
-		if(composite instanceof IScreen){
+
+		if (composite instanceof IScreen) {
 			entry = ((IScreen) composite).getScreenName();
 		}
-		
 		@SuppressWarnings("unused")
-		Label entryLabel = formToolkit.createLabel(this.screenBody.getScreenPath(), entry);
-		
-//		Hyperlink pathLink = formToolkit.createHyperlink(
-//				this.screenBody.getScreenPath(), entry, SWT.NONE);
-//		// formToolkit.adapt(pathLink);
-//
-//		pathLink.addHyperlinkListener(new HyperlinkAdapter() {
-//			public void linkActivated(HyperlinkEvent e) {
-//				System.err.println("TODO implement switch back ");
-//			}
-//		});
-//		formToolkit.paintBordersFor(entryLabel);
+		Label entryLabel = formToolkit.createLabel(
+				this.screenBody.getScreenPath(), entry);
+	}
+
+	public void disable() {
+		for(ImageHyperlink lnk : this.screenSelectors){
+			lnk.setEnabled(false);
+		}
 	}
 }

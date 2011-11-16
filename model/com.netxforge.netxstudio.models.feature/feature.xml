@@ -24,13 +24,6 @@
    </requires>
 
    <plugin
-         id="com.netxforge.netxstudio.model.fixtures"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="com.netxforge.netxstudio.models"
          download-size="0"
          install-size="0"

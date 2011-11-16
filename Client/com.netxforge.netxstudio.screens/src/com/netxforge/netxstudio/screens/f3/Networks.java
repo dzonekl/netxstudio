@@ -34,6 +34,7 @@ import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -97,7 +98,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.OperatorFilterDialog;
-import com.netxforge.netxstudio.screens.SearchFilter;
+import com.netxforge.netxstudio.screens.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.WarehouseFilterDialog;
 import com.netxforge.netxstudio.screens.actions.ExportHTMLAction;
 import com.netxforge.netxstudio.screens.actions.ExportXLSAction;
@@ -208,14 +209,14 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				networkTreeViewer.refresh();
 				ViewerFilter[] filters = networkTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
-								.setSearchText(txtFilterText.getText());
+					if (viewerFilter instanceof TreeSearchFilter) {
+						((TreeSearchFilter) viewerFilter).setSearchText(txtFilterText.getText());
 					}
 				}
+				networkTreeViewer.refresh();
+				networkTreeViewer.expandAll();
 			}
 		});
 
@@ -260,7 +261,9 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				| SWT.MULTI | widgetStyle);
 		networkTreeViewer.setUseHashlookup(true);
 		networkTreeViewer.setComparer(new CDOElementComparer());
-
+		networkTreeViewer.addFilter(new TreeSearchFilter(editingService));
+		
+		
 		// Set a default sorter.
 		networkTreeViewer.setComparator(new ViewerComparator() {
 
@@ -538,19 +541,19 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			IStructuredSelection s = this.getStructuredSelection();
 			@SuppressWarnings("unchecked")
 			List<Object> selectionList = s.toList();
-			Collection<Node> nodeToDecommission = Lists.newArrayList();
-			Collection<Equipment> equipmentToDecommission = Lists
+			Collection<Node> nodesToDecommission = Lists.newArrayList();
+			Collection<Equipment> equipmentsToDecommission = Lists
 					.newArrayList();
 			for (Object o : selectionList) {
 				if (o instanceof Node) {
-					nodeToDecommission.add((Node) o);
+					nodesToDecommission.add((Node) o);
 				}
 				if (o instanceof Equipment) {
-					equipmentToDecommission.add((Equipment) o);
+					equipmentsToDecommission.add((Equipment) o);
 				}
 			}
-			if (nodeToDecommission.size() > 0
-					|| equipmentToDecommission.size() > 0) {
+			if (nodesToDecommission.size() > 0
+					|| equipmentsToDecommission.size() > 0) {
 				Resource warehouseResource = editingService
 						.getData(OperatorsPackage.Literals.WAREHOUSE);
 				WarehouseFilterDialog dialog = new WarehouseFilterDialog(
@@ -561,17 +564,17 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 					// Loop through the node and find cross references.
 
 					CompoundCommand cc = new CompoundCommand();
-					if (nodeToDecommission.size() > 0) {
+					if (nodesToDecommission.size() > 0) {
 						Command c = new AddCommand(
 								editingService.getEditingDomain(),
-								warehouse.getNodes(), nodeToDecommission);
+								warehouse.getNodes(), nodesToDecommission);
 						cc.append(c);
 					}
-					if (equipmentToDecommission.size() > 0) {
+					if (equipmentsToDecommission.size() > 0) {
 						Command c = new AddCommand(
 								editingService.getEditingDomain(),
 								warehouse.getEquipments(),
-								equipmentToDecommission);
+								equipmentsToDecommission);
 						cc.append(c);
 					}
 
@@ -595,7 +598,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(
 				new NetworkTreeFactoryImpl(editingService.getEditingDomain()),
 				new NetworkTreeStructureAdvisorImpl());
-		
+
 		networkTreeViewer.setContentProvider(cp);
 
 		IObservableSet set = cp.getKnownElements();
@@ -615,9 +618,9 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				editingService.getEditingDomain(),
 				OperatorsPackage.Literals.NETWORK__NAME).observeDetail(set));
 
-//		observableMap.add(EMFEditProperties.value(
-//				editingService.getEditingDomain(),
-//				OperatorsPackage.Literals.NETWORK__NODES).observeDetail(set));
+		// observableMap.add(EMFEditProperties.value(
+		// editingService.getEditingDomain(),
+		// OperatorsPackage.Literals.NETWORK__NODES).observeDetail(set));
 
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -675,9 +678,6 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		EditingDomain domain;
 
-		private IEMFListProperty resourcerObservableProperty = EMFEditProperties
-				.resource(domain);
-		
 		private IEMFListProperty operatorObservableProperty = EMFEditProperties
 				.list(domain, OperatorsPackage.Literals.OPERATOR__NETWORKS);
 
@@ -704,8 +704,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				.list(domain, LibraryPackage.Literals.FUNCTION__FUNCTIONS);
 
 		private IEMFListProperty equipmentsObservableProperty = EMFEditProperties
-				.list(domain,
-						LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS);
+				.list(domain, LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS);
 
 		NetworkTreeFactoryImpl(EditingDomain domain) {
 			this.domain = domain;
@@ -717,8 +716,6 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 			if (target instanceof IObservableList) {
 				ol = (IObservable) target;
-			} else if( target instanceof Resource){
-				ol = resourcerObservableProperty.observe(target);
 			} else if (target instanceof Operator) {
 				ol = operatorObservableProperty.observe(target);
 			} else if (target instanceof Network) {
@@ -743,6 +740,13 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	class NetworkTreeStructureAdvisorImpl extends TreeStructureAdvisor {
 		@Override
 		public Object getParent(Object element) {
+			
+			if(element instanceof EObject){
+				EObject eo = (EObject) element;
+				if(eo.eContainer() != null ){
+					return eo.eContainer();	
+				}
+			}
 			return null;
 		}
 
@@ -750,17 +754,18 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		public Boolean hasChildren(Object element) {
 
 			if (element instanceof Operator) {
-				return Boolean.TRUE;
-//				return ((Operator) element).getNetworks().size() > 0 ? Boolean.TRUE
-//						: Boolean.FALSE;
+				return ((Operator) element).getNetworks().size() > 0 ? Boolean.TRUE
+						: null;
 			}
 			if (element instanceof Network) {
-//				Network net = (Network) element;
-//				if (net.getNetworks().size() > 0 || net.getNodes().size() > 0
-//						|| net.getEquipmentRelationships().size() > 0
-//						|| net.getFunctionRelationships().size() > 0) {
+				Network net = (Network) element;
+				if (net.getNetworks().size() > 0 || net.getNodes().size() > 0
+						|| net.getEquipmentRelationships().size() > 0
+						|| net.getFunctionRelationships().size() > 0) {
 					return Boolean.TRUE;
-//				}
+				} else{
+					return null;
+				}
 			}
 
 			if (element instanceof Node) {
@@ -771,21 +776,28 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 							|| nt.getEquipments().size() > 0) {
 						return Boolean.TRUE;
 					}
+				}else{
+					return null;
 				}
 			}
 
 			if (element instanceof NodeType) {
-				System.out
-						.println("Networks:Structure advise on NodeType should not occure");
+				return null;
 			}
 
-			if (element instanceof Function
-					&& ((Function) element).getFunctions().size() > 0) {
-				return Boolean.TRUE;
+			if (element instanceof Function) {
+				if (((Function) element).getFunctions().size() > 0) {
+					return Boolean.TRUE;
+				} else {
+					return null;
+				}
 			}
-			if (element instanceof Equipment
-					&& ((Equipment) element).getEquipments().size() > 0) {
-				return Boolean.TRUE;
+			if (element instanceof Equipment) {
+				if (((Equipment) element).getEquipments().size() > 0) {
+					return Boolean.TRUE;
+				} else {
+					return null;
+				}
 			}
 			return super.hasChildren(element);
 		}

@@ -380,6 +380,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		processHeaderRow();
 
 		jobMonitor.setMsg("Processing rows");
+		
+		if(DataActivator.DEBUG){
+			System.out.println("Report POI total rows=" + getTotalRows());
+		}
+		
+		
 		int totalRows = 0;
 		jobMonitor.setTotalWork(getTotalRows() - getMapping().getFirstDataRow()
 				+ 10);

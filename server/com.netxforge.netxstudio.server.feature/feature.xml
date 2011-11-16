@@ -150,13 +150,6 @@
          unpack="false"/>
 
    <plugin
-         id="com.netxforge.netxstudio.log4j"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"/>
-
-   <plugin
          id="org.eclipse.equinox.jsp.jasper"
          download-size="0"
          install-size="0"
@@ -175,6 +168,14 @@
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.netxforge.netxstudio.server.log4j"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
 </feature>

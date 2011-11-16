@@ -207,20 +207,14 @@ public class NewEditServiceUser extends AbstractScreen implements
 				if (s instanceof IStructuredSelection) {
 					final Object object = ((IStructuredSelection) s)
 							.getFirstElement();
-					Runnable activate = new Runnable() {
-						public void run() {
-							NewEditDerivedResource editResourceScreen = new NewEditDerivedResource(
-									screenService.getScreenContainer(),
-									SWT.NONE);
-							editResourceScreen.setScreenService(screenService);
-							editResourceScreen.setOperation(getOperation());
-							// We can probably get away without the resource....
-							editResourceScreen.injectData(
-									serviceUser.getServiceProfile(), object);
-							screenService.setActiveScreen(editResourceScreen);
-						}
-					};
-					screenService.activateInObservable(activate);
+					NewEditDerivedResource editResourceScreen = new NewEditDerivedResource(
+							screenService.getScreenContainer(), SWT.NONE);
+					editResourceScreen.setScreenService(screenService);
+					editResourceScreen.setOperation(getOperation());
+					// We can probably get away without the resource....
+					editResourceScreen.injectData(
+							serviceUser.getServiceProfile(), object);
+					screenService.setActiveScreen(editResourceScreen);
 
 				}
 			}
@@ -256,7 +250,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 				frmServiceUser.getBody(), null, getOperation());
 		exp.injectData("Profile", serviceUser,
 				ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF);
-		
+
 		if (readonly) {
 			// TODO, add other actions here.
 		}
@@ -268,10 +262,10 @@ public class NewEditServiceUser extends AbstractScreen implements
 
 		bindInfoSection(context);
 		bindResourcesSection(context);
-		
-		// Also bind the embedded expression. 
+
+		// Also bind the embedded expression.
 		exp.bind(context);
-		
+
 		return context;
 	}
 
@@ -390,18 +384,20 @@ public class NewEditServiceUser extends AbstractScreen implements
 		buildUI();
 
 		// FIXME also set the name when we have the name of the Service User.
-		// Note, creating the expression here, leads to other problems, don't do 
-		// for now. 
-//		if (!serviceUser
-//				.eIsSet(ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF)) {
-//			Expression expression = LibraryFactory.eINSTANCE.createExpression();
-//			expression.setName("Service User Profile" + modelUtils.dateAndTime(modelUtils.todayAndNow()));
-//			
-//			Resource expressionResource = editingService.getData(LibraryPackage.Literals.EXPRESSION);
-//			expressionResource.getContents().add(expression);
-//			serviceUser.setExpressionRef(expression);
-//		}
-//		exp.injectData(serviceUser.getExpressionRef());
+		// Note, creating the expression here, leads to other problems, don't do
+		// for now.
+		// if (!serviceUser
+		// .eIsSet(ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF)) {
+		// Expression expression = LibraryFactory.eINSTANCE.createExpression();
+		// expression.setName("Service User Profile" +
+		// modelUtils.dateAndTime(modelUtils.todayAndNow()));
+		//
+		// Resource expressionResource =
+		// editingService.getData(LibraryPackage.Literals.EXPRESSION);
+		// expressionResource.getContents().add(expression);
+		// serviceUser.setExpressionRef(expression);
+		// }
+		// exp.injectData(serviceUser.getExpressionRef());
 		this.initDataBindings_();
 
 	}
@@ -438,7 +434,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 			editingService.doSave(new NullProgressMonitor());
 		}
 	}
-	
+
 	public String getScreenName() {
 		return "Service User";
 	}

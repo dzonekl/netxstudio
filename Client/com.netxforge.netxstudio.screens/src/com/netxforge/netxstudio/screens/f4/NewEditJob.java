@@ -92,7 +92,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 	private ComboViewer comboViewerEvery;
 
 	private static final Object[] ComboStartInput = new Object[] { "Week",
-			"Day", "Hour", "Quarter" };
+			"Day", "Hour" };
 
 	private CDateTime cdateTimeStartTime;
 	private DateChooserCombo dateChooserStartsOn;

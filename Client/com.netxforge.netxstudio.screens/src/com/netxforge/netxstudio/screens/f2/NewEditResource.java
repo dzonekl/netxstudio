@@ -39,9 +39,13 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -115,6 +119,8 @@ public class NewEditResource extends AbstractScreen implements
 	private CDateTime dateTimeFrom;
 	private CDateTime dateTimeTo;
 	private Label lblNode;
+	private MenuItem mntmMonitor;
+	private List<Value> currentValues;
 
 	/**
 	 * Create the composite.
@@ -287,11 +293,6 @@ public class NewEditResource extends AbstractScreen implements
 		tabFolder.setLayoutData(gd);
 		toolkit.paintBordersFor(tabFolder);
 
-		// Color selectedColor =
-		// toolkit.getColors().getColor(FormColors.SEPARATOR);
-		// tabFolder.setSelectionBackground(new Color[] {selectedColor,
-		// toolkit.getColors().getBackground()}, new int[] {50});
-
 		tabFolder.setSelectionBackground(Display.getCurrent().getSystemColor(
 				SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 
@@ -299,7 +300,6 @@ public class NewEditResource extends AbstractScreen implements
 			public void widgetSelected(SelectionEvent e) {
 				updateSelection();
 			}
-
 		});
 
 		Label lblStart = toolkit.createLabel(frmResource.getBody(), "From:",
@@ -359,9 +359,26 @@ public class NewEditResource extends AbstractScreen implements
 		valuesTableViewer = new TableViewer(frmResource.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.VIRTUAL);
 		valuesTableViewer.setUseHashlookup(true);
-		
+		valuesTableViewer
+				.addSelectionChangedListener(new ISelectionChangedListener() {
+					public void selectionChanged(SelectionChangedEvent event) {
+						ISelection selection = event.getSelection();
+						if (selection instanceof IStructuredSelection) {
+							if (targetInterval == CAPACITIES
+									|| targetInterval == UTILIZATION) {
+								mntmMonitor.setEnabled(false);
+							} else if (currentValues == null
+									| currentValues.size() == 0) {
+								mntmMonitor.setEnabled(false);
+							} else{
+								mntmMonitor.setEnabled(true);
+							}	
+						}
+					}
+
+				});
 		valuesTableViewer.addFilter(new ValueFilter());
-		
+
 		table = valuesTableViewer.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		// tabItem.setControl(table);
@@ -399,7 +416,8 @@ public class NewEditResource extends AbstractScreen implements
 		Menu menu = new Menu(table);
 		table.setMenu(menu);
 
-		MenuItem mntmMonitor = new MenuItem(menu, SWT.NONE);
+		mntmMonitor = new MenuItem(menu, SWT.NONE);
+		mntmMonitor.setEnabled(false);
 		mntmMonitor.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -409,15 +427,17 @@ public class NewEditResource extends AbstractScreen implements
 							(NetXResource) res, targetInterval);
 					if (mvr != null) {
 
-//						XMLGregorianCalendar start = mvr.getMetricValues()
-//								.get(0).getTimeStamp();
-//						XMLGregorianCalendar end = mvr.getMetricValues()
-//								.get(mvr.getMetricValues().size() - 1)
-//								.getTimeStamp();
-						
-						XMLGregorianCalendar to = modelUtils.toXMLDate(dateTimeTo.getSelection());
-						XMLGregorianCalendar from = modelUtils.toXMLDate(dateTimeFrom.getSelection());
-						
+						// XMLGregorianCalendar start = mvr.getMetricValues()
+						// .get(0).getTimeStamp();
+						// XMLGregorianCalendar end = mvr.getMetricValues()
+						// .get(mvr.getMetricValues().size() - 1)
+						// .getTimeStamp();
+
+						XMLGregorianCalendar to = modelUtils
+								.toXMLDate(dateTimeTo.getSelection());
+						XMLGregorianCalendar from = modelUtils
+								.toXMLDate(dateTimeFrom.getSelection());
+
 						DateTimeRange timerange = GenericsFactory.eINSTANCE
 								.createDateTimeRange();
 
@@ -452,18 +472,19 @@ public class NewEditResource extends AbstractScreen implements
 
 		// Update "from" based on the oldest value:
 		this.targetInterval = targetInterval;
-		List<Value> values = this.values(targetInterval);
-		if (values.size() > 0) {
-			Value oldestValue = modelUtils.oldestValue(values);
+		valuesTableViewer
+				.setContentProvider(new NetXResourceValueContentProvider());
+		valuesTableViewer
+				.setLabelProvider(new NetXResourceValueLabelProvider());
+		currentValues = this.values(targetInterval);
+		if (currentValues.size() > 0) {
+			Value oldestValue = modelUtils.oldestValue(currentValues);
 			this.dateTimeFrom.setSelection(oldestValue.getTimeStamp()
 					.toGregorianCalendar().getTime());
 			this.updateFilter();
-			valuesTableViewer
-			.setContentProvider(new NetXResourceValueContentProvider());
-			valuesTableViewer
-			.setLabelProvider(new NetXResourceValueLabelProvider());
-			valuesTableViewer.setInput(values.toArray());
-		}else{
+			valuesTableViewer.setInput(currentValues.toArray());
+		} else {
+
 			valuesTableViewer.setInput(Collections.EMPTY_LIST.toArray());
 		}
 	}
@@ -563,7 +584,7 @@ public class NewEditResource extends AbstractScreen implements
 		}
 
 		public Object[] getElements(Object inputElement) {
-			if(inputElement instanceof Object[]){
+			if (inputElement instanceof Object[]) {
 				return (Object[]) inputElement;
 			}
 			return null;
@@ -671,9 +692,7 @@ public class NewEditResource extends AbstractScreen implements
 	}
 
 	private void bindValues() {
-
 		this.dateTimeTo.setSelection(modelUtils.todayAndNow());
-
 		createTabs(toolkit);
 		tabFolder.setSelection(0);
 		updateSelection();

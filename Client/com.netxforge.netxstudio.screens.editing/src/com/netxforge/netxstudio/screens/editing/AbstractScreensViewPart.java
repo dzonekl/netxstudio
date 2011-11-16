@@ -58,6 +58,7 @@ import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
 import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.EditingActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
@@ -282,6 +283,18 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		// Register selection listeners.
 		if (part instanceof AbstractScreensViewPart) {
 			// Activate our global actions.
+			
+			ISelection selection = this.getSelection();
+			if(selection instanceof IStructuredSelection){
+				IStructuredSelection ss = (IStructuredSelection) selection;
+				
+				
+			}
+			if (EditingActivator.DEBUG) {
+				
+			}
+			
+			
 			this.getActionHandlerDescriptor().setActivePart(part);
 		}
 	}

@@ -32,7 +32,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
+import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.Location;
+import com.netxforge.netxstudio.geo.Room;
+import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class LocationFilterDialog extends FilteredItemsSelectionDialog {
@@ -73,7 +76,30 @@ public class LocationFilterDialog extends FilteredItemsSelectionDialog {
 	}
 
 	private String getText(Location p) {
-		return p.getName() ;
+		
+		StringBuilder sb = new StringBuilder();
+		if(p instanceof Country){
+			
+			sb.append("Country: " + p.getName());
+		}else if( p instanceof Site){
+			if(p.eContainer() instanceof Country){
+				Country c = (Country) p.eContainer();
+				sb.append("Country: " + c.getName());
+			}
+			sb.append(" --> Site: " + p.getName());
+		}else if( p instanceof Room){
+			if(p.eContainer() instanceof Site){
+				Site s = (Site) p.eContainer();
+				if(s.eContainer() instanceof Country){
+					Country c = (Country) s.eContainer();
+					sb.append("Country: " + c.getName());
+				}
+				sb.append(" --> Site: " + s.getName());
+			}
+			sb.append(" --> Room: " + p.getName());
+		}
+		
+		return sb.toString();
 	}
 
 	@Override

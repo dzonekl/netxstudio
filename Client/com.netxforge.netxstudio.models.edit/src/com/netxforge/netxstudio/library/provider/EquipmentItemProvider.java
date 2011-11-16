@@ -280,10 +280,17 @@ public class EquipmentItemProvider extends ComponentItemProvider implements
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Equipment) object).getEquipmentCode();
-
-		return label == null || label.length() == 0 ? getString("_UI_Equipment_type")
-				: getString("_UI_Equipment_type") + " " + label;
+		
+		String code = ((Equipment) object).getEquipmentCode();
+		String name = ((Equipment) object).getName();
+		StringBuilder sb = new StringBuilder();
+		if( code != null && code.length() > 0){
+			sb.append(code + " ");
+		}
+		if( name != null && name.length() > 0){
+			sb.append(name);
+		}
+		return sb.toString();
 	}
 
 	/**

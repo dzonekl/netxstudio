@@ -35,10 +35,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.security.IPasswordCredentialsProvider;
 import org.eclipse.net4j.util.security.PasswordCredentials;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
@@ -133,6 +135,7 @@ public abstract class CDODataProvider implements IDataProvider {
 
 		try {
 			final CDOSession cdoSession = connection.getConfig().openSession();
+
 			((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession
 					.options()).setCommitTimeout(COMMIT_TIMEOUT);
 			setSession(cdoSession);
@@ -158,12 +161,23 @@ public abstract class CDODataProvider implements IDataProvider {
 	 * Close the session.
 	 */
 	public void closeSession() {
-		if (getSession() != null) {
-			if (!getSession().isClosed()) {
-				getSession().close();
+		if (getSession() != null && !getSession().isClosed()) {
+			// Remove all listeners, before closing
+			CDOView[] views = this.getSession().getViews();
+			for (int i = 0; i < views.length; i++) {
+				CDOView cdoView = views[i];
+				if (cdoView.hasListeners()) {
+					ImmutableList<IListener> of = ImmutableList.of(cdoView
+							.getListeners());
+					for (IListener iListener : of) {
+						cdoView.removeListener(iListener);
+					}
+				}
 			}
-			setSession(null);
+
+			getSession().close();
 		}
+		setSession(null);
 	}
 
 	/**
@@ -431,70 +445,75 @@ public abstract class CDODataProvider implements IDataProvider {
 			}
 			return resource;
 		} else {
-			
+
 			try {
-				
+
 				return getTransaction().getOrCreateResource(resourcePath);
-				
+
 			} catch (CDOException ce) {
-				System.out.println("DATAPROVIDER: error creating resource: " + resourcePath);
+				System.out.println("DATAPROVIDER: error creating resource: "
+						+ resourcePath);
 				ce.printStackTrace();
 				return this.createResourceWithFolderFirst(resourcePath);
-//				return null;
+				// return null;
 			}
 		}
 	}
 
-	
 	/**
-	 * To avoid the CDO Exception "Not a resource folder" when creating a long path resource. 
+	 * To avoid the CDO Exception "Not a resource folder" when creating a long
+	 * path resource.
+	 * 
 	 * @param path
 	 * @return
 	 */
-	private Resource createResourceWithFolderFirst(String path){
-		
-		CDOResourceNode resolveLastExistingNode = this.resolveLastExistingNode(path);
-		
-		if(resolveLastExistingNode instanceof CDOResourceFolder){
-			String existsPath = ((CDOResourceFolder) resolveLastExistingNode).getPath();
+	private Resource createResourceWithFolderFirst(String path) {
+
+		CDOResourceNode resolveLastExistingNode = this
+				.resolveLastExistingNode(path);
+
+		if (resolveLastExistingNode instanceof CDOResourceFolder) {
+			String existsPath = ((CDOResourceFolder) resolveLastExistingNode)
+					.getPath();
 			int lastIndexOf = path.lastIndexOf(existsPath);
 			String substring = path.substring(lastIndexOf);
-			return ((CDOResourceFolder) resolveLastExistingNode).addResource(substring);
-		}else if( resolveLastExistingNode instanceof CDOResourceNode){
+			return ((CDOResourceFolder) resolveLastExistingNode)
+					.addResource(substring);
+		} else if (resolveLastExistingNode instanceof CDOResourceNode) {
 			// not sure.
-			CDOResource orCreateResource = this.getTransaction().getOrCreateResource(path);
+			CDOResource orCreateResource = this.getTransaction()
+					.getOrCreateResource(path);
 			return orCreateResource;
 
 		}
 		return null;
 	}
-	
-	
-	private CDOResourceNode resolveLastExistingNode(String path){
-			
+
+	private CDOResourceNode resolveLastExistingNode(String path) {
+
 		CDOResourceNode lastExistingNode = null;
-		
+
 		URI pathURI = URI.createURI(path);
 		List<String> segmentsList = pathURI.segmentsList();
 		String incrementalSegment = "";
-		for(String segment : segmentsList){
+		for (String segment : segmentsList) {
 			incrementalSegment = incrementalSegment.concat("/" + segment);
-			CDOResourceNode resourceNode = this.getTransaction().getResourceNode(incrementalSegment);
-			if(resourceNode != null){
+			CDOResourceNode resourceNode = this.getTransaction()
+					.getResourceNode(incrementalSegment);
+			if (resourceNode != null) {
 				lastExistingNode = resourceNode;
-				
-			}else{
+
+			} else {
 				// We failed return last valid.
 				break;
 			}
-			
+
 		}
-		
+
 		return lastExistingNode;
-		
+
 	}
-	
-	
+
 	protected boolean doGetResourceFromOwnTransaction() {
 		return doGetResourceFromOwnTransaction;
 	}
