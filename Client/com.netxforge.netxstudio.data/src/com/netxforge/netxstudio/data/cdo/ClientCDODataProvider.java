@@ -122,22 +122,21 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 	public void printSession() {
 		
 		if(session.isClosed()){
-			System.out.println("Session closed!, can not provide views or transactions");
+			System.out.println("ClientCDODataProvider: Session closed!, can not provide views or transactions");
 			return;
 		}
 		
-		System.out.println("Numberof views:" + session.getViews().length);
 		// Report the transactions on our session:
 		CDOView[] views = session.getElements();
 		for (int i = 0; i < views.length; i++) {
 			CDOView v = views[i];
 			if (v instanceof CDOTransaction) {
 				CDOTransaction t = (CDOTransaction) v;
-				System.out.println("transaction ID: " + t.getViewID()
+				System.out.println("ClientCDODataProvider: transaction ID: " + t.getViewID()
 						+ " ResourceSet hashcode:"
 						+ v.getResourceSet().hashCode());
 			} else {
-				System.out.println("view ID: " + v.getViewID()
+				System.out.println("ClientCDODataProvider: view ID: " + v.getViewID()
 						+ " ResourceSet hashcode:"
 						+ v.getResourceSet().hashCode());
 			}
@@ -147,7 +146,9 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 				}
 			}
 		}
-		System.out.println("Numberof views:" + session.getElements().length);
+		if(views.length > 0 ){
+			System.out.println("ClientCDODataProvider: Number of views/transactions:" + session.getElements().length);
+		}
 	}
 
 	public void loadFixtures() {

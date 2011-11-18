@@ -11,6 +11,7 @@ import org.eclipse.gef.LayerConstants;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.screens.f1.model.WrappedRFSService;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.Service;
 
 public class CanvasEditPart extends AbstractEditPart {
 
@@ -57,25 +58,22 @@ public class CanvasEditPart extends AbstractEditPart {
 
 	@Override
 	protected List<Object> getModelChildren() {
-		List<Object> result = Lists.newArrayList();
 		WrappedRFSService wnt = (WrappedRFSService) this.getModel();
 		RFSService service = wnt.getService();
+		return this.walker(service);
+	}
+	
+	private List<Object> walker(RFSService service){
+		List<Object> result = Lists.newArrayList();
 		result.add(service);
-		result.addAll(service.getServices());
 		result.addAll(service.getNodes());
-		// We need to iterate through the hiarchy to get all objects.
-//		TreeIterator<EObject> ti = nt.eAllContents();
-//		while (ti.hasNext()) {
-//			EObject next = ti.next();
-//			if (next instanceof RFSService) {
-//				result.add(next);
-//			}
-//			if (next instanceof Node) {
-//				result.add(next);
-//			}
-//
-//		}
+		
+		for(Service childService : service.getServices()){
+			result.addAll(walker((RFSService) childService));
+		}
 		return result;
 	}
+	
+	
 	
 }

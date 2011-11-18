@@ -263,7 +263,6 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		networkTreeViewer.setComparer(new CDOElementComparer());
 		networkTreeViewer.addFilter(new TreeSearchFilter(editingService));
 		
-		
 		// Set a default sorter.
 		networkTreeViewer.setComparator(new ViewerComparator() {
 

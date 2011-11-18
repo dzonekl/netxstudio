@@ -532,6 +532,18 @@ public class ModelUtils {
 			return null;
 		}
 	}
+	
+	
+	public Service resolveRootService(EObject target) {
+		if (target instanceof Service) {
+			if (target.eContainer() instanceof Service) {
+				return resolveRootService(target.eContainer());
+			} else {
+				return (Service) target;
+			}
+		}
+		return null;
+	}
 
 	public ServiceMonitor lastServiceMonitor(Service service) {
 		if (service.getServiceMonitors().isEmpty()) {
@@ -2254,21 +2266,21 @@ public class ModelUtils {
 			if (eo instanceof Operator) {
 				Operator op = (Operator) eo;
 				for (Service service : op.getServices()) {
-					nodeTypes.addAll(nodesForService(service));
+					nodeTypes.addAll(nodeTypeForService(service));
 				}
 			}
 		}
 		return nodeTypes;
 	}
 
-	public List<NodeType> nodesForService(Service service) {
+	public List<NodeType> nodeTypeForService(Service service) {
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 		if (service instanceof RFSService) {
 			for (Node n : ((RFSService) service).getNodes()) {
 				nodeTypes.add(n.getNodeType());
 			}
 			for (Service subService : service.getServices()) {
-				nodeTypes.addAll(nodesForService(subService));
+				nodeTypes.addAll(nodeTypeForService(subService));
 			}
 		}
 		return nodeTypes;

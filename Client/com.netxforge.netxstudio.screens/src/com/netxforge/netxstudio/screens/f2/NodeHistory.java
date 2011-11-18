@@ -185,6 +185,11 @@ public class NodeHistory extends AbstractScreen implements
 				.resolveHistoricalResourceName(node);
 		if (historicalResourceName != null) {
 			URI uri = URI.createURI(historicalResourceName);
+
+			
+			
+			// ERROR 
+			// FIXME, THis will force a creation of a resource, this should never happen in this screen !!!!!
 			// Write a new version.
 			Resource historyResource = editingService
 					.getDataService()

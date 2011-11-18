@@ -221,9 +221,9 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 		txtRoom = toolkit.createText(cmpTolerances, "New Text", SWT.NONE
 				| SWT.READ_ONLY);
 		txtRoom.setText("");
-		GridData gd_txtRoom = new GridData(SWT.FILL, SWT.CENTER, false, false,
+		GridData gd_txtRoom = new GridData(SWT.FILL, SWT.CENTER, true, false,
 				1, 1);
-		gd_txtRoom.widthHint = 150;
+		// gd_txtRoom.widthHint = 150;
 		txtRoom.setLayoutData(gd_txtRoom);
 
 		roomRefHyperlink = toolkit
@@ -259,9 +259,6 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 		btnSelectRoom.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-
-				// TODO tricky, this is a multistage selection from
-				// Country->Site->Room.
 
 				Resource nodeTypeResource = editingService
 						.getData(GeoPackage.Literals.COUNTRY);
@@ -478,41 +475,73 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		// Binding of name and Description
-
 		IObservableValue nameObservable = SWTObservables.observeDelayedValue(
 				400, SWTObservables.observeText(txtName, SWT.Modify));
-
-		IObservableValue nodeTypeObservable = SWTObservables
-				.observeDelayedValue(400,
-						SWTObservables.observeText(txtNodeType, SWT.Modify));
-
-		IObservableValue roomObservable = SWTObservables.observeDelayedValue(
-				400, SWTObservables.observeText(txtRoom, SWT.Modify));
 
 		IEMFValueProperty nodeIDProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				OperatorsPackage.Literals.NODE__NODE_ID);
 
+		context.bindValue(nameObservable, nodeIDProperty.observe(node), null,
+				null);
+		IObservableValue nodeTypeObservable = SWTObservables
+				.observeDelayedValue(400,
+						SWTObservables.observeText(txtNodeType, SWT.Modify));
 		IEMFValueProperty nodetypeProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(), FeaturePath.fromList(
 						OperatorsPackage.Literals.NODE__NODE_TYPE,
 						LibraryPackage.Literals.NODE_TYPE__NAME));
 
-		IEMFValueProperty roomProperty = EMFEditProperties.value(editingService
-				.getEditingDomain(), FeaturePath.fromList(
-				OperatorsPackage.Literals.NODE__LOCATION_REF,
-				GeoPackage.Literals.LOCATION__NAME));
-
-		context.bindValue(nameObservable, nodeIDProperty.observe(node), null,
-				null);
 		context.bindValue(nodeTypeObservable, nodetypeProperty.observe(node),
 				null, null);
+
+		IObservableValue roomObservable = SWTObservables.observeDelayedValue(
+				400, SWTObservables.observeText(txtRoom, SWT.Modify));
+
+		IEMFValueProperty roomProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				OperatorsPackage.Literals.NODE__LOCATION_REF);
+
+		EMFUpdateValueStrategy modelToTargetLocationStrategy = new EMFUpdateValueStrategy();
+		modelToTargetLocationStrategy.setConverter(new IConverter() {
+
+			public Object getFromType() {
+				return Location.class;
+			}
+
+			public Object getToType() {
+				return String.class;
+			}
+
+			public Object convert(Object fromObject) {
+				if (fromObject instanceof Location) {
+					return locationName((EObject) fromObject);
+				}
+				return null;
+			}
+
+			String locationName(EObject locationObject) {
+				String location = "";
+				if (locationObject.eContainer() instanceof Location
+						&& locationObject instanceof Location) {
+					String parentLocationName = this
+							.locationName(locationObject.eContainer());
+					return location = parentLocationName + "-->"
+							+ ((Location) locationObject).getName();
+				}
+
+				if (locationObject instanceof Location) {
+					location += ((Location) locationObject).getName();
+				}
+				return location;
+			}
+
+		});
+
 		context.bindValue(roomObservable, roomProperty.observe(node), null,
-				null);
+				modelToTargetLocationStrategy);
 
 		// Lifecycle properties.
-
 		IObservableValue dcProposedObservable = new DateChooserComboObservableValue(
 				dcProposed, SWT.Modify);
 

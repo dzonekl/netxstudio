@@ -40,8 +40,6 @@ import com.google.inject.Singleton;
 @Singleton
 public class CDODataConnection implements ICDOConnection {
 
-	// TODO, Migrate the Data Store UI.
-
 	protected static final String REPO_NAME = "repo1"; //$NON-NLS-1$
 
 	protected static final String CONNECTION_ADDRESS = "localhost:2036"; //$NON-NLS-1$

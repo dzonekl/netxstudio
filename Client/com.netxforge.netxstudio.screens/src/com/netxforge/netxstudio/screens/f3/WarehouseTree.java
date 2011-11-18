@@ -19,7 +19,6 @@ package com.netxforge.netxstudio.screens.f3;
 
 import java.util.List;
 
-import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -65,6 +64,7 @@ import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Warehouse;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -131,11 +131,10 @@ public class WarehouseTree extends AbstractScreen implements
 		warehouseTreeViewer.setLabelProvider(new ObservableMapLabelProvider(
 				observeMaps));
 
-		IEMFListProperty countryResourceProperty = EMFEditProperties
+		IEMFListProperty warehouseResourceProperty = EMFEditProperties
 				.resource(editingService.getEditingDomain());
-		IObservableList countryObservableList = countryResourceProperty
-				.observe(warehouseResource);
-		warehouseTreeViewer.setInput(countryObservableList);
+		warehouseTreeViewer.setInput(warehouseResourceProperty
+				.observe(warehouseResource));
 		EMFDataBindingContext context = new EMFDataBindingContext();
 		return context;
 	}
@@ -168,7 +167,6 @@ public class WarehouseTree extends AbstractScreen implements
 				"New Text", SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				warehouseTreeViewer.refresh();
 				ViewerFilter[] filters = warehouseTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof SearchFilter) {
@@ -176,6 +174,7 @@ public class WarehouseTree extends AbstractScreen implements
 								.setSearchText(txtFilterText.getText());
 					}
 				}
+				warehouseTreeViewer.refresh();
 			}
 		});
 		txtFilterText.setText("");
@@ -215,6 +214,8 @@ public class WarehouseTree extends AbstractScreen implements
 		warehouseTreeViewer = new TreeViewer(frmWarehouseTree.getBody(),
 				SWT.BORDER | SWT.VIRTUAL);
 		warehouseTreeViewer.setUseHashlookup(true);
+		warehouseTreeViewer.setComparer(new CDOElementComparer());
+		
 		Tree tree = warehouseTreeViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);

@@ -227,12 +227,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 									.size();
 							noFiles = false;
 							fileList.append((fileList.length() > 0 ? "\n" : "")
-									+ file.getAbsolutePath());
+									+ fileName);
 
 							jobMonitor.setMsg("Processing file "
 									+ file.getAbsolutePath());
 							jobMonitor.appendToLog("Processing file "
-									+ file.getAbsolutePath());
+									+ fileName);
 							totalRows += processFile(file);
 
 							if (DataActivator.DEBUG) {

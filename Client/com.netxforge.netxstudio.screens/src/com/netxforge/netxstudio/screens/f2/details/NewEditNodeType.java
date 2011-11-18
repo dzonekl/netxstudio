@@ -1,12 +1,9 @@
 package com.netxforge.netxstudio.screens.f2.details;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.gef.SnapToGrid;
-import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
@@ -18,9 +15,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.ColumnLayoutData;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
@@ -31,11 +31,10 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f2.model.WrappedNodeType;
-import com.netxforge.netxstudio.screens.f2.parts.NodeTypeEditPartsFactory;
+import com.netxforge.netxstudio.screens.f2.NodeTypeHierarchy;
 
-public class NewEditNodeType extends AbstractDetailsScreen implements
-		IScreen, IDataScreenInjection {
+public class NewEditNodeType extends AbstractDetailsScreen implements IScreen,
+		IDataScreenInjection {
 
 	private NodeType nodeType;
 	private FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -52,9 +51,9 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		this.editingService = editingService;
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		this.buildUI();
-//		this.showHierachy(cmpHierachy);
-//		cmpHierachy.setLayout(null);
+		// this.buildUI();
+		// this.showHierachy(cmpHierachy);
+		// cmpHierachy.setLayout(null);
 	}
 
 	public void injectData(Object owner, Object object) {
@@ -65,7 +64,8 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		}
 		this.buildUI();
 		this.initDataBindings_();
-		this.showHierachy(cmpHierachy);
+
+		// this.showHierachy(cmpHierachy);
 	}
 
 	public boolean isValid() {
@@ -102,12 +102,14 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		txtName.setLayoutData(gd_txtName);
 		txtName.setText("");
 
-		btnLeafNode = toolkit.createButton(cmpInfo,
-				"Check if this Element Type will be deployed at the end of a service chain",
-				SWT.CHECK );
+		btnLeafNode = toolkit
+				.createButton(
+						cmpInfo,
+						"Check if this Element Type will be deployed at the end of a service chain",
+						SWT.CHECK);
 		btnLeafNode.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 2, 1));
-		
+
 		Section scnTotals = toolkit.createSection(this, Section.EXPANDED
 				| Section.TITLE_BAR);
 		toolkit.paintBordersFor(scnTotals);
@@ -159,25 +161,48 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		frmTextNumberOfResources.setText("", false, false);
 
 		Section sctnHierachy = toolkit.createSection(this, Section.TWISTIE
-				| Section.TITLE_BAR | Section.COMPACT );
+				| Section.TITLE_BAR | Section.EXPANDED);
 		ColumnLayoutData cld_sctnHierachy = new ColumnLayoutData();
-		cld_sctnHierachy.heightHint = 100;
 		sctnHierachy.setLayoutData(cld_sctnHierachy);
-		
-		toolkit.paintBordersFor(sctnHierachy);
-		sctnHierachy.setText("Hierachy");
-		sctnHierachy.setExpanded(false);
 
-		cmpHierachy = new Composite(sctnHierachy, SWT.BORDER);
+		toolkit.paintBordersFor(sctnHierachy);
+		sctnHierachy.setText("Structure");
+//		sctnHierachy.setExpanded(false);
+
+		cmpHierachy = new Composite(sctnHierachy, SWT.NONE);
 		toolkit.adapt(cmpHierachy);
 		toolkit.paintBordersFor(cmpHierachy);
 		sctnHierachy.setClient(cmpHierachy);
 		cmpHierachy.setLayout(new FillLayout());
-		
-		if(readonly){
+
+		cmpHierachy.setLayout(new GridLayout(1, false));
+
+		ImageHyperlink mghprlnkShowHiararchy = toolkit.createImageHyperlink(
+				cmpHierachy, SWT.NONE);
+		mghprlnkShowHiararchy.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+
+				NodeTypeHierarchy sh = new NodeTypeHierarchy(screenService
+						.getScreenContainer(), SWT.NONE);
+				sh.setScreenService(screenService);
+				sh.setOperation(Screens.OPERATION_READ_ONLY);
+				sh.injectData(null, nodeType);
+				screenService.setActiveScreen(sh);
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		toolkit.paintBordersFor(mghprlnkShowHiararchy);
+		mghprlnkShowHiararchy.setText("Show Structure");
+
+		if (readonly) {
 			btnLeafNode.setEnabled(false);
 		}
-		
+
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -202,10 +227,10 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 				null);
 
 		NodeTypeSummary totals = new NodeTypeSummary(nodeType);
-		this.frmTextNumberOfFunctions.setText(totals.getFunctionCountAsString(),
-				false, false);
-		this.frmTextNumberOfEquipments.setText(totals.getEquipmentCountAsString(),
-				false, false);
+		this.frmTextNumberOfFunctions.setText(
+				totals.getFunctionCountAsString(), false, false);
+		this.frmTextNumberOfEquipments.setText(
+				totals.getEquipmentCountAsString(), false, false);
 		this.frmTextNumberOfResources.setText(totals.getResourCountAsString(),
 				false, false);
 		return context;
@@ -214,22 +239,4 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 	ScrollingGraphicalViewer graphicalViewer;
 	private Text txtName;
 
-	
-	
-	private void showHierachy(Composite c) {
-		
-		// As it is a fill layout, it will grab all of it. 
-		
-		// Do some gef here.
-		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
-		graphicalViewer = new ScrollingGraphicalViewer();
-		graphicalViewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
-		graphicalViewer.createControl(c);
-		graphicalViewer.getControl().setBackground(
-				ColorConstants.listBackground);
-		graphicalViewer.setRootEditPart(rootEditPart);
-		graphicalViewer.setEditPartFactory(new NodeTypeEditPartsFactory());
-		graphicalViewer.setContents(new WrappedNodeType(nodeType));
-		rootEditPart.refresh();
-	}
 }

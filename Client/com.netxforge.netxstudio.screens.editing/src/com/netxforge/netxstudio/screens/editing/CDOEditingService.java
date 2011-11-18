@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.screens.editing;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
@@ -51,6 +53,7 @@ import com.netxforge.netxstudio.data.cdo.ClientCDODataProvider;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.editing.dawn.DawnEMFEditorSupport;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor;
@@ -306,7 +309,10 @@ public class CDOEditingService extends EMFEditingService implements
 					saveHistory();
 					monitor.worked(50);
 					monitor.subTask("Committing");
-					saveRegular(monitor, saveOptions);
+					CDOTransaction transaction = getView() instanceof CDOTransaction ? (CDOTransaction) getView() : null;
+					if(transaction != null){
+						commitRegular(monitor, transaction);
+					}
 					monitor.done();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -328,6 +334,7 @@ public class CDOEditingService extends EMFEditingService implements
 		return operation;
 	}
 
+	@SuppressWarnings("unused")
 	private void saveRegular(IProgressMonitor monitor,
 			final Map<Object, Object> saveOptions) throws IOException {
 		boolean first = true;
@@ -384,6 +391,54 @@ public class CDOEditingService extends EMFEditingService implements
 		}
 	}
 
+	private void commitRegular(IProgressMonitor monitor,
+			CDOTransaction transaction) throws CommitException {
+
+		if (EditingActivator.DEBUG) {
+
+			System.out.println("Commit transaction: " + transaction.getViewID()
+					+ " last time update"
+					+ new Date(transaction.getLastUpdateTime()));
+
+			if (transaction.isDirty()) {
+				Map<CDOID, CDOObject> dirtyObjects = transaction
+						.getDirtyObjects();
+
+				for (CDOID id : dirtyObjects.keySet()) {
+					CDOObject cdoObject = dirtyObjects.get(id);
+					System.out.println("-- dirty object="
+							+ cdoObject.cdoID().toURIFragment() + " , state=" + cdoObject.cdoState() +", rev="
+							+ cdoObject.cdoRevision() + " , dangling state="
+							+ cdoObject.cdoID().isDangling() );
+
+					
+					// CB, this forces all CDO Objects to be read, as our cdoObject could be the root resource. 
+					// "/" when a child resource is created!  
+//					TreeIterator<EObject> eAllContents = cdoObject
+//							.eAllContents();
+//					while (eAllContents.hasNext()) {
+//						CDOObject next = (CDOObject) eAllContents.next();
+//						System.out.println("-- content object="
+//								+ next.cdoID().toURIFragment() + " , state=" + next.cdoState() +", rev="
+//								+ next.cdoRevision() + " , dangling state="
+//								+ next.cdoID().isDangling() );
+//					}
+				}
+			}
+		}
+
+		if (monitor != null) {
+			Map<CDOID, CDOObject> dirtyObjects = transaction.getDirtyObjects();
+			String subMsg = "Committing transaction: "
+					+ transaction.getViewID() + " object count="
+					+ dirtyObjects.size();
+			monitor.subTask(subMsg);
+
+		}
+		transaction.commit();
+
+	}
+
 	private void saveHistory() {
 		ImmutableList<Resource> copyOf = ImmutableList
 				.copyOf(getEditingDomain().getResourceSet().getResources());
@@ -397,8 +452,11 @@ public class CDOEditingService extends EMFEditingService implements
 					Map<CDOID, CDOObject> dirtyObjects = cdoTransaction
 							.getDirtyObjects();
 					if (dirtyObjects.size() > 0) {
+						
+						// Create a copy, to avoid concurrency issues. 
 						ImmutableList<CDOObject> dirtyObjectsList = ImmutableList
 								.copyOf(dirtyObjects.values());
+						
 						EClass hint;
 						if ((hint = shouldHaveHistory(cdoRes)) != null) {
 							for (CDOObject cdoObject : dirtyObjectsList) {
@@ -407,7 +465,26 @@ public class CDOEditingService extends EMFEditingService implements
 									doCopyNodeTypeToHistoryResource(cdoObject);
 								}
 								if (hint == OperatorsPackage.Literals.NODE) {
-									doCopyNodeToHistoryResource(cdoObject);
+									
+									// FIXME, DOESN'T WORK THE dirty list doens't include the children. 
+									// the cdoObject doesn't become the proper target Node or NodeType.
+									// do not recommend to walk the hieraarchy  
+									// Perhaps find Node objects in the hierarchy with state NEW, CLEAN etc.. 
+									if(cdoObject instanceof Node){
+										doCopyNodeToHistoryResource(cdoObject);
+									}
+											
+									if(cdoObject instanceof Operator){
+										TreeIterator<EObject> eAllContents = cdoObject.eAllContents();
+										while(eAllContents.hasNext()){
+											CDOObject next = (CDOObject) eAllContents.next();
+											if(next instanceof Node && ( next.cdoState() == CDOState.NEW || next.cdoState() == CDOState.DIRTY) ){
+												doCopyNodeToHistoryResource(next);
+											}
+										}
+									}
+									
+									
 								}
 							}
 
@@ -466,11 +543,6 @@ public class CDOEditingService extends EMFEditingService implements
 	 * @param target
 	 */
 	public void doCopyNodeToHistoryResource(CDOObject target) {
-
-		target = modelUtils.resolveParentNode(target);
-		if (target == null || !(target instanceof Node)) {
-			return;
-		}
 		this.doCopyTarget(target);
 	}
 

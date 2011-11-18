@@ -80,7 +80,7 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 			if (data.length > 0) {
 				processRows();
 			} else {
-				getJobMonitor().appendToLog("No files found for processing");
+				getJobMonitor().appendToLog("No data found for processing");
 			}
 
 			getJobMonitor().setMsg("Creating mappingstatistics");
@@ -91,7 +91,7 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 					totalRows, null, getMappingPeriodEstimate(),
 					getMappingIntervalEstimate());
 			if (noData) {
-				mappingStatistic.setMessage("No files processed");
+				mappingStatistic.setMessage("No data processed");
 			} else {
 				mappingStatistic.setMessage("Data processed from  "
 						+ getMetricSource().getMetricLocation());

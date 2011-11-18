@@ -23,6 +23,10 @@ import com.netxforge.netxstudio.library.NodeType;
 public class NodeTypeLayout extends AbstractLayout {
 	
 	Map<IFigure, EObject> constraints = Maps.newHashMap();
+	private static int X_OFFSET = 20;
+	private static int Y_OFFSET = 20;
+	
+	
 	
 	public void layout(IFigure container) {
 		System.err.println("layout request" + container);
@@ -39,8 +43,8 @@ public class NodeTypeLayout extends AbstractLayout {
 
 			EObject c = constraints.get(f);
 			int depth = depth(c, 0);
-			int x = widthDistance * depth; 
-			int y = childCount * heightDistance;
+			int x = widthDistance * depth + X_OFFSET; 
+			int y = childCount * heightDistance + Y_OFFSET;
 			
 			Rectangle constraint = new Rectangle(x, y, bounds.width, bounds.height);
 			f.setBounds(constraint);

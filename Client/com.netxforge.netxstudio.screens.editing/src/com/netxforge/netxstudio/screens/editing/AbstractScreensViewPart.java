@@ -58,7 +58,6 @@ import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
 import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.EditingActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
-import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
@@ -109,9 +108,9 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	protected abstract void initBindings();
 
 	public void dispose() {
+		
+		this.getEditingService().disposeData();
 		super.dispose();
-		// TODO Remove later. 
-//		this.getSite().getPage().removeSelectionListener(pageSelectionListener);
 	}
 
 	
@@ -284,17 +283,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		if (part instanceof AbstractScreensViewPart) {
 			// Activate our global actions.
 			
-			ISelection selection = this.getSelection();
-			if(selection instanceof IStructuredSelection){
-				IStructuredSelection ss = (IStructuredSelection) selection;
-				
-				
-			}
-			if (EditingActivator.DEBUG) {
-				
-			}
-			
-			
 			this.getActionHandlerDescriptor().setActivePart(part);
 		}
 	}
@@ -309,9 +297,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	public void partDeactivated(IWorkbenchPart part) {
 		if (part instanceof AbstractScreensViewPart) {
-			// globActionsHandler.deactivate(part);
-		} else {
-		}
+			
+		} 
 	}
 
 	public void partOpened(IWorkbenchPart part) {

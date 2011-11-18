@@ -1,9 +1,10 @@
-package com.netxforge.netxstudio.screens.f1;
+package com.netxforge.netxstudio.screens.f2;
 
 import java.util.List;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.action.IAction;
@@ -18,21 +19,21 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f1.model.WrappedRFSService;
-import com.netxforge.netxstudio.screens.f1.parts.ServiceEditPartFactory;
-import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.screens.f2.model.WrappedNodeType;
+import com.netxforge.netxstudio.screens.f2.parts.NodeTypeEditPartsFactory;
 
-public class ServiceHierarchy extends AbstractScreen implements
+public class NodeTypeHierarchy extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Form frmServices;
+	private Form frmNodeTypeHierarchy;
 
 	private ScrollingGraphicalViewer graphicalViewer;
-	private RFSService service;
+	private NodeType nodeType;
 
 	/**
 	 * Create the composite.
@@ -40,7 +41,7 @@ public class ServiceHierarchy extends AbstractScreen implements
 	 * @param parent
 	 * @param style
 	 */
-	public ServiceHierarchy(Composite parent, int style) {
+	public NodeTypeHierarchy(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -55,24 +56,23 @@ public class ServiceHierarchy extends AbstractScreen implements
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		frmServices = toolkit.createForm(this);
-		frmServices.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmServices);
-		frmServices.setText("Hierarchy");
+		frmNodeTypeHierarchy = toolkit.createForm(this);
+//		frmNodeTypeHierarchy.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmNodeTypeHierarchy);
+		frmNodeTypeHierarchy.setText( nodeType.getName() + " structure");
 		FillLayout fl = new FillLayout(SWT.HORIZONTAL);
 		fl.marginHeight = 20;
 		
-		frmServices.getBody().setLayout(fl);
+		frmNodeTypeHierarchy.getBody().setLayout(fl);
 
-		// Do some gef here.
 		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
 		graphicalViewer = new ScrollingGraphicalViewer();
-//		graphicalViewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
-		graphicalViewer.createControl(frmServices.getBody());
+		graphicalViewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
+		graphicalViewer.createControl(frmNodeTypeHierarchy.getBody());
 		graphicalViewer.getControl().setBackground(
 				ColorConstants.listBackground);
 		graphicalViewer.setRootEditPart(rootEditPart);
-		graphicalViewer.setEditPartFactory(new ServiceEditPartFactory());
+		graphicalViewer.setEditPartFactory(new NodeTypeEditPartsFactory());
 		
 		rootEditPart.refresh();
 
@@ -81,17 +81,15 @@ public class ServiceHierarchy extends AbstractScreen implements
 	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-		graphicalViewer.setContents(new WrappedRFSService(service));
+		graphicalViewer.setContents(new WrappedNodeType(nodeType));
 		return bindingContext;
 	}
 
 	public void injectData(Object owner, Object object) {
 
 		if (object != null
-				&& object instanceof RFSService) {
-			service = (RFSService)object;
-			// Always present the root service. 
-			service = (RFSService) modelUtils.resolveRootService(service);
+				&& object instanceof NodeType) {
+			nodeType = (NodeType)object;
 		}
 
 		buildUI();
@@ -114,7 +112,7 @@ public class ServiceHierarchy extends AbstractScreen implements
 
 	@Override
 	public Form getScreenForm() {
-		return frmServices;
+		return frmNodeTypeHierarchy;
 	}
 
 	@Override
@@ -143,7 +141,7 @@ public class ServiceHierarchy extends AbstractScreen implements
 
 	@Override
 	public String getScreenName() {
-		return "Service Hierarchy";
+		return "Network Element Type Structure";
 	}
 	
 }

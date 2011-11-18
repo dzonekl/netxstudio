@@ -396,7 +396,8 @@ public class MetricSources extends AbstractScreen implements
 		mghprlnkNewImagehyperlink.setText("New");
 
 		metricSourceTableViewer = new TableViewer(frmMetricSources.getBody(),
-				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.VIRTUAL );
+		metricSourceTableViewer.setUseHashlookup(true);
 		metricSourceTableViewer.setComparer(new CDOElementComparer());
 
 		table = metricSourceTableViewer.getTable();

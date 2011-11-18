@@ -16,10 +16,15 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.transaction.CDOTransactionConflictEvent;
 import org.eclipse.emf.cdo.view.CDOViewInvalidationEvent;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
 import org.eclipse.swt.widgets.Display;
+
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
  * @author Martin Fluegge
@@ -31,49 +36,91 @@ public class DawnEMFHandler extends BasicDawnListener {
 	public DawnEMFHandler(IDawnEditor editor) {
 		super(editor);
 	}
-	
-	// For both view invalidation and Transaction conflict, we 
-	// refresh the editor. However in a form view, there is no editor to 
-	// refresh, so we would need to provide another mechanism. 
-	
+
+	// For both view invalidation and Transaction conflict, we
+	// refresh the editor. However in a form view, there is no editor to
+	// refresh, so we would need to provide another mechanism.
+
 	@Override
 	public void handleTransactionConflictEvent(CDOTransactionConflictEvent event) {
 		super.handleTransactionConflictEvent(event);
-		System.out.println("transaction conflict");
-		refreshEditor();
+
+		if (EditingActivator.DEBUG) {
+			System.out.println("CDOEditingService: transaction conflict");
+		}
+
+		refreshEditor(null);
 	}
 
 	@Override
 	public void handleViewInvalidationEvent(CDOViewInvalidationEvent event) {
 		super.handleViewInvalidationEvent(event);
-		String invalidBy = event.getSource().getSession().getUserID();
-		System.out.println("Invalid objects by:" + invalidBy);
+
 		Set<CDOObject> dos = event.getDirtyObjects();
-		for(CDOObject o : dos){
-			System.out.println("Invalid object" + o);
+		if (EditingActivator.DEBUG) {
+			String invalidBy = event.getSource().getSession().getUserID();
+			System.out.println("CDOEditingService: Invalid objects by="
+					+ invalidBy);
+			for (CDOObject o : dos) {
+				System.out.println("CDOEditingService: Invalid object" + o
+						+ " state=" + o.cdoState());
+
+			}
 		}
-		refreshEditor();
+
+		refreshEditor(dos);
 	}
-	
-	
+
 	@Override
 	protected void handleLifeCycleEvent(ILifecycleEvent event) {
 		Kind kind = event.getKind();
-		System.out.println("Lifecycle event: " + kind.name());
+		if (EditingActivator.DEBUG) {
+			System.out.println("CDOEditingService: Lifecycle event "
+					+ kind.name());
+		}
 	}
 
-	private void refreshEditor() {
+	private void refreshEditor(final Set<CDOObject> dos) {
 
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				Viewer v = ((IViewerProvider) editor).getViewer();
-				System.out.println("Dawn: updating viewer");
-				System.out.println(v);
-				if (v != null) {
-					v.refresh();
+				if (EditingActivator.DEBUG) {
+					if (v == null) {
+						System.out
+								.println("CDOEditingService: No viewer registered for this screen");
+					} else {
+						System.out
+								.println("CDOEditingService: updating viewer");
+					}
+
 				}
-				// No viewer to update, if we are in a form screen, 
-				// this could be a conflict. 
+				if (v != null) {
+					if (v instanceof StructuredViewer) {
+						v.refresh();
+						// Show the state of the objects after a refresh.
+
+						if (EditingActivator.DEBUG) {
+							for (CDOObject cdoObject : dos) {
+								System.out.println("CDOEditingService: root: object="
+										+ cdoObject.cdoID() + " , state="
+										+ cdoObject.cdoState());
+								
+								// Print the state of the children.
+								TreeIterator<EObject> eAllContents = cdoObject.eAllContents();
+								while(eAllContents.hasNext()){
+									CDOObject next = (CDOObject) eAllContents.next();
+									System.out.println("CDOEditingService: child: object="
+											+ next.cdoID() + " , state="
+											+ next.cdoState());
+								}
+							}
+						}
+
+					}
+				}
+				// No viewer to update, if we are in a form screen,
+				// this could be a conflict.
 			}
 		});
 	}

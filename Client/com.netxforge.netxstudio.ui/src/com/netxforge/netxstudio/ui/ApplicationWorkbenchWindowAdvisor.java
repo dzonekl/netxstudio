@@ -38,15 +38,13 @@ import com.netxforge.netxstudio.ui.activities.internal.ActivitiesActivator;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
-	
-	
-	
+
 	@Inject
 	private IDataService dService;
-	
+
 	@Inject
 	private IActivityAndRoleService aService;
-	
+
 	public ApplicationWorkbenchWindowAdvisor(
 			IWorkbenchWindowConfigurer configurer) {
 		super(configurer);
@@ -74,33 +72,31 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		super.postWindowOpen();
 
 		WorkspaceUtil.INSTANCE.initDefaultProject();
-//		WorkspaceUtil.INSTANCE.extractFixturePlugin();
+		// WorkspaceUtil.INSTANCE.extractFixturePlugin();
 
 		// Kick of activities.
 		// Inject the data service.
 		ActivitiesActivator.getInjector().injectMembers(this);
-		
-		
-		// 15-11-2011 fixtures moved server side. 
-//		if( dService.getProvider() instanceof IFixtures){
-//			((IFixtures)dService.getProvider()).loadFixtures();
-//		}
-		
+
+		// 15-11-2011 fixtures moved server side.
+		// if( dService.getProvider() instanceof IFixtures){
+		// ((IFixtures)dService.getProvider()).loadFixtures();
+		// }
+
 		String currentUser = dService.getProvider().getSessionUserID();
-		
+
 		List<Role> roles = dService.getQueryService().getRole(currentUser);
-		
+
 		// Extract the first role.
 		if (roles.size() == 1) {
 			aService.enableActivity(roles.get(0));
 		} else {
 			// Data corruption issue.
 		}
-		
-		// Close, used transactions. 
+
+		// Close, used transactions.
 		dService.getQueryService().close();
-		
-		
+
 		// Get the workbench and disable some actionsets:
 		// These will be added again for another perspective.
 
@@ -115,11 +111,14 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 					public void perspectiveActivated(IWorkbenchPage page,
 							IPerspectiveDescriptor perspective) {
 						page.closeAllEditors(true);
+						
 						hideActionSets(page);
 					}
 
 					public void perspectiveChanged(IWorkbenchPage page,
 							IPerspectiveDescriptor perspective, String changeId) {
+						
+						
 					}
 
 				});
@@ -148,14 +147,13 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	@Override
 	public void postWindowClose() {
 		super.postWindowClose();
-		
-		// Close our session. 
+
+		// Close our session.
 		dService.getProvider().closeSession();
-		
-		// Save our workspace. 
+
+		// Save our workspace.
 		WorkspaceUtil.INSTANCE.saveChanges();
-		
-		
+
 	}
 
 }

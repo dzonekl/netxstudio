@@ -12,10 +12,13 @@ public class WarehouseTreeStructureAdvisor extends TreeStructureAdvisor {
 
 	@Override
 	public Boolean hasChildren(Object element) {
-		if (element instanceof Warehouse
-				&& (((Warehouse) element).getEquipments().size() > 0 || ((Warehouse) element)
-						.getNodes().size() > 0)) {
-			return Boolean.TRUE;
+		if (element instanceof Warehouse) {
+			Warehouse wh = (Warehouse) element;
+			if (wh.getEquipments().size() > 0 || wh.getNodes().size() > 0) {
+				return Boolean.TRUE;
+			}else{
+				return null;
+			}
 		}
 		return false;
 	}
