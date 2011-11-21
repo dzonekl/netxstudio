@@ -161,7 +161,6 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				roomsTreeViewer.refresh();
 				ViewerFilter[] filters = roomsTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof SearchFilter) {
@@ -169,6 +168,7 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 								.setSearchText(txtFilterText.getText());
 					}
 				}
+				roomsTreeViewer.refresh();
 			}
 		});
 		txtFilterText.setText("");

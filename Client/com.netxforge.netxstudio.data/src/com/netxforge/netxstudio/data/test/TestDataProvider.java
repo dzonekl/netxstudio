@@ -29,11 +29,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
-import com.netxforge.netxstudio.Netxstudio;
-import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.generics.GenericsFactory;
-import com.netxforge.netxstudio.generics.Person;
 
 /**
  * A test provider which creates dummy objects. 
@@ -46,34 +42,6 @@ public class TestDataProvider implements IDataProvider {
 		return null;
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.data.IDataProvider#getNetXStudio()
-	 */
-	public Netxstudio getNetXStudio() {
-		final Netxstudio studio = NetxstudioFactory.eINSTANCE.createNetxstudio();
-		studio.getUsers().add(getPerson());
-		studio.getUsers().add(getPerson("Eric", "Meijer", "eric.meijer","Eric@vdvl.nl"));
-		return studio;
-	}
-	
-	public Person getPerson() {
-		final Person p = GenericsFactory.eINSTANCE.createPerson();
-		p.setFirstName("Christophe");
-		p.setLastName("Bouhier");
-		p.setLogin("christophe.bouhier");
-		p.setEmail("christophe.bouhier@netxforge.com");
-		return p;
-	}
-	
-	public Person getPerson(String first, String last, String login, String email) {
-		final Person p = GenericsFactory.eINSTANCE.createPerson();
-		p.setFirstName(first);
-		p.setLastName(last);
-		p.setLogin(login);
-		p.setEmail(email);
-		return p;
-	}
-
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.data.IDataProvider#getResource(org.eclipse.emf.ecore.resource.ResourceSet, int)
 	 */
@@ -188,6 +156,14 @@ public class TestDataProvider implements IDataProvider {
 	}
 
 	public Resource getResource(ResourceSet set, String resourcePath) {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	public boolean hasResource(String resourcePath) {
+		throw new java.lang.UnsupportedOperationException();	
+	}
+
+	public boolean hasResource(URI resourceURI) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 

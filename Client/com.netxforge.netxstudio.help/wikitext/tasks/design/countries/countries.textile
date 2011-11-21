@@ -1,0 +1,13 @@
+h1. Countries
+
+The Countries screen provides access to Countries definitions
+
+* "Create or Modifying an Country":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/countries/creating_an_country.html
+
+The Countries screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/countries/countries.png!
+
+*New* => Click on the upright link to create a new Country
+*Edit* => Right-click on a Country in the table and select edit. 
+*Filter* => Type text to filter Country containing the text

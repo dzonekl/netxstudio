@@ -94,6 +94,22 @@ public interface IDataProvider {
 	@Deprecated
 	public Resource getResource(int feature);
 
+	
+	/**
+	 * If the repository has a resource with this URI. 
+	 * @param resourcePath
+	 * @return
+	 */
+	public boolean hasResource(URI resourceURI);
+
+	
+	/**
+	 * If the repository has a resource with this path. 
+	 * @param resourcePath
+	 * @return
+	 */
+	public boolean hasResource(String resourcePath);
+	
 	/**
 	 * Get the resource for a specific EClass.
 	 * 

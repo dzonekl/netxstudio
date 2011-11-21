@@ -51,9 +51,7 @@ Additional editing actions.
 
 h2. History 
 
-For each editing action, a copy is made of the actual structure and stored in a history with a time stamp. The history can be browsed, showing when modifications where made. 
-
-[TODO] Define other activities for the history, we could compare and restore a Network Element type. 
+For each editing action, a copy is made of the actual structure and stored in a history with a time stamp. The history can be browsed, showing when modifications where made.
 
 *History* => Right-Click on a Network Element Type and select History.
 

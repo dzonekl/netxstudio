@@ -1,0 +1,26 @@
+h1. Creating or Editing a Site
+
+When creating or editing a Site the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/sites/creating_a_site.png!
+
+The following data should be entered 
+
+*General Information*
+
+* The Site Name
+* The Site Region
+* The Site Area
+* The Site City
+* The Site Street
+* The Site Building Nr
+
+*Geo Spatial Information*
+
+*The Site longitude
+*The Site latitude
+
+"According to the Geographic Coordinate System":http://en.wikipedia.org/wiki/Geographic_coordinate_system
+
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.

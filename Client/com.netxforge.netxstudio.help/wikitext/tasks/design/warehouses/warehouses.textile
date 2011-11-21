@@ -1,0 +1,13 @@
+h1. Warehouses
+
+The Warehouses screen provides access to Warehouse definitions
+
+* "Create or Modifying an Operator":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/warehouses/creating_a_warehouse.html
+
+The Warehouses screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/warehouses/warehouses.png!
+
+*New* => Click on the upright link to create a new Warehouse
+*Edit* => Right-click on a Warehouse in the table and select edit. 
+*Filter* => Type text to filter Warehouse containing the text

@@ -1,0 +1,14 @@
+h1. Creating or Editing a Operator
+
+When creating or editing a Operator the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/operators/creating_an_operator.png!
+
+The following data should be entered 
+
+* The Operator Name
+* The Operator Short Name
+* The Operator Website URL
+
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.

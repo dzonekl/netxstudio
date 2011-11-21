@@ -1,0 +1,13 @@
+h1. Resources
+
+The Resources screen provides access to Resources
+
+* "Create or Modifying an Resource":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/resources/creating_a_resource.html
+
+The Resources screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/resources/resources.png!
+
+*New* => Click on the upright link to create a new Resource
+*Edit* => Right-click on a Resource in the table and select edit. 
+*Filter* => Type text to filter Resource containing the text

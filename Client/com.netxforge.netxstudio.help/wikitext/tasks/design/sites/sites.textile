@@ -1,0 +1,13 @@
+h1. Sites
+
+The Sites screen provides access to Sites definitions
+
+* "Create or Modifying an Site":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/sites/creating_a_site.html
+
+The Sites screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/sites/sites.png!
+
+*New* => Select a Country and click on the upright link to create a new Site
+*Edit* => Right-click on a Site in the table and select edit. 
+*Filter* => Type text to filter Site containing the text

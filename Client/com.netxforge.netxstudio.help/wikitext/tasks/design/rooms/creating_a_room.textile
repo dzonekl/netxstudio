@@ -1,0 +1,12 @@
+h1. Creating or Editing a Room
+
+When creating or editing a Room the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/rooms/creating_a_room.png!
+
+The following data should be entered 
+
+* The Room Name
+
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.

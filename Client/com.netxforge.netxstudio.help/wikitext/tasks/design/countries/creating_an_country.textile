@@ -1,0 +1,14 @@
+h1. Creating or Editing a Country
+
+When creating or editing a Country the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/countries/creating_a_country.png!
+
+The following data should be entered 
+
+* The Country Name
+* The Country Code  complying to "ISO 2 character country code":http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+
+
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.

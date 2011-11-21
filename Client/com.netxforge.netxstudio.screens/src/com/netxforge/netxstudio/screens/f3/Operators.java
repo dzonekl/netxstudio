@@ -188,7 +188,6 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				tableViewer.refresh();
 				ViewerFilter[] filters = tableViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof SearchFilter) {
@@ -196,6 +195,7 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 								.setSearchText(txtFilterText.getText());
 					}
 				}
+				tableViewer.refresh();
 			}
 		});
 

@@ -49,11 +49,11 @@ import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.swt.widgets.Display;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.data.cdo.ClientCDODataProvider;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.editing.dawn.DawnEMFEditorSupport;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor;
@@ -309,8 +309,9 @@ public class CDOEditingService extends EMFEditingService implements
 					saveHistory();
 					monitor.worked(50);
 					monitor.subTask("Committing");
-					CDOTransaction transaction = getView() instanceof CDOTransaction ? (CDOTransaction) getView() : null;
-					if(transaction != null){
+					CDOTransaction transaction = getView() instanceof CDOTransaction ? (CDOTransaction) getView()
+							: null;
+					if (transaction != null) {
 						commitRegular(monitor, transaction);
 					}
 					monitor.done();
@@ -407,22 +408,24 @@ public class CDOEditingService extends EMFEditingService implements
 				for (CDOID id : dirtyObjects.keySet()) {
 					CDOObject cdoObject = dirtyObjects.get(id);
 					System.out.println("-- dirty object="
-							+ cdoObject.cdoID().toURIFragment() + " , state=" + cdoObject.cdoState() +", rev="
+							+ cdoObject.cdoID().toURIFragment() + " , state="
+							+ cdoObject.cdoState() + ", rev="
 							+ cdoObject.cdoRevision() + " , dangling state="
-							+ cdoObject.cdoID().isDangling() );
+							+ cdoObject.cdoID().isDangling());
 
-					
-					// CB, this forces all CDO Objects to be read, as our cdoObject could be the root resource. 
-					// "/" when a child resource is created!  
-//					TreeIterator<EObject> eAllContents = cdoObject
-//							.eAllContents();
-//					while (eAllContents.hasNext()) {
-//						CDOObject next = (CDOObject) eAllContents.next();
-//						System.out.println("-- content object="
-//								+ next.cdoID().toURIFragment() + " , state=" + next.cdoState() +", rev="
-//								+ next.cdoRevision() + " , dangling state="
-//								+ next.cdoID().isDangling() );
-//					}
+					// CB, this forces all CDO Objects to be read, as our
+					// cdoObject could be the root resource.
+					// "/" when a child resource is created!
+					// TreeIterator<EObject> eAllContents = cdoObject
+					// .eAllContents();
+					// while (eAllContents.hasNext()) {
+					// CDOObject next = (CDOObject) eAllContents.next();
+					// System.out.println("-- content object="
+					// + next.cdoID().toURIFragment() + " , state=" +
+					// next.cdoState() +", rev="
+					// + next.cdoRevision() + " , dangling state="
+					// + next.cdoID().isDangling() );
+					// }
 				}
 			}
 		}
@@ -439,6 +442,12 @@ public class CDOEditingService extends EMFEditingService implements
 
 	}
 
+	/**
+	 * Save a history of objects of type Node or NodeType We can't save an
+	 * initial copy when the state is NEW, as no CDOID will exist yet, and this
+	 * is what we base the Resource Name on. (We append the CDOID to the default
+	 * object resource name).
+	 */
 	private void saveHistory() {
 		ImmutableList<Resource> copyOf = ImmutableList
 				.copyOf(getEditingDomain().getResourceSet().getResources());
@@ -451,49 +460,58 @@ public class CDOEditingService extends EMFEditingService implements
 							.cdoView();
 					Map<CDOID, CDOObject> dirtyObjects = cdoTransaction
 							.getDirtyObjects();
+
+					cdoTransaction.getNewObjects();
+
 					if (dirtyObjects.size() > 0) {
-						
-						// Create a copy, to avoid concurrency issues. 
+
+						// Create a copy, to avoid concurrency issues.
 						ImmutableList<CDOObject> dirtyObjectsList = ImmutableList
 								.copyOf(dirtyObjects.values());
-						
+
 						EClass hint;
 						if ((hint = shouldHaveHistory(cdoRes)) != null) {
+							
+							
+							// Build a cache of unique nodetypes. 
+							// Use the node type as the point of reference. 
+							// the copy will resolve either NodeType or Node depending 
+							// on the hint. 
+							List<NodeType> uniqueNodeTypes = Lists
+									.newArrayList();
+
 							for (CDOObject cdoObject : dirtyObjectsList) {
-								// Find all our dirty resources.
+
+								NodeType resolveNodeType = null;
 								if (hint == LibraryPackage.Literals.NODE_TYPE) {
-									doCopyNodeTypeToHistoryResource(cdoObject);
+									resolveNodeType = modelUtils
+											.resolveParentNodeType(cdoObject);
+								} else if (hint == OperatorsPackage.Literals.NODE) {
+									if (cdoObject.eClass() == OperatorsPackage.Literals.NODE) {
+										resolveNodeType = ((Node) cdoObject)
+												.getNodeType();
+									} else {
+										resolveNodeType = modelUtils
+												.resolveParentNodeType(cdoObject);
+									}
 								}
-								if (hint == OperatorsPackage.Literals.NODE) {
-									
-									// FIXME, DOESN'T WORK THE dirty list doens't include the children. 
-									// the cdoObject doesn't become the proper target Node or NodeType.
-									// do not recommend to walk the hieraarchy  
-									// Perhaps find Node objects in the hierarchy with state NEW, CLEAN etc.. 
-									if(cdoObject instanceof Node){
-										doCopyNodeToHistoryResource(cdoObject);
-									}
-											
-									if(cdoObject instanceof Operator){
-										TreeIterator<EObject> eAllContents = cdoObject.eAllContents();
-										while(eAllContents.hasNext()){
-											CDOObject next = (CDOObject) eAllContents.next();
-											if(next instanceof Node && ( next.cdoState() == CDOState.NEW || next.cdoState() == CDOState.DIRTY) ){
-												doCopyNodeToHistoryResource(next);
-											}
-										}
-									}
-									
-									
+								if (resolveNodeType != null
+										&& !uniqueNodeTypes
+												.contains(resolveNodeType)) {
+									uniqueNodeTypes.add(resolveNodeType);
 								}
 							}
 
+							for (CDOObject cdoObject : uniqueNodeTypes) {
+								if (hint == LibraryPackage.Literals.NODE_TYPE) {
+									doCopyNodeTypeToHistoryResource(cdoObject);
+								} else if (hint == OperatorsPackage.Literals.NODE) {
+									doCopyNodeToHistoryResource(cdoObject);
+								}
+							}
 						}
-
 					}
-
 				}
-
 			}
 		}
 	}
@@ -543,6 +561,10 @@ public class CDOEditingService extends EMFEditingService implements
 	 * @param target
 	 */
 	public void doCopyNodeToHistoryResource(CDOObject target) {
+		target = modelUtils.resolveParentNode(target);
+		if (target == null || !(target instanceof Node)) {
+			return;
+		}
 		this.doCopyTarget(target);
 	}
 

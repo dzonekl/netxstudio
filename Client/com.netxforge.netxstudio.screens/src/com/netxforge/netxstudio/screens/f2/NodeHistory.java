@@ -60,8 +60,7 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class NodeHistory extends AbstractScreen implements
-		IDataScreenInjection {
+public class NodeHistory extends AbstractScreen implements IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
@@ -178,45 +177,42 @@ public class NodeHistory extends AbstractScreen implements
 	public EMFDataBindingContext initDataBindings_() {
 
 		tableViewer.setContentProvider(new ArrayContentProvider());
-		tableViewer
-				.setLabelProvider(new NodeHistoryLabelProvider(node));
+		tableViewer.setLabelProvider(new NodeHistoryLabelProvider(node));
 
 		String historicalResourceName = editingService
 				.resolveHistoricalResourceName(node);
+
 		if (historicalResourceName != null) {
 			URI uri = URI.createURI(historicalResourceName);
+			// Do we have an existing resource for this historical node.
+			// If not we add at least the node. 
+			List<HistoricNode> histNodes = Lists.newArrayList();
+			if (editingService.getDataService().getProvider().hasResource(uri)) {
 
-			
-			
-			// ERROR 
-			// FIXME, THis will force a creation of a resource, this should never happen in this screen !!!!!
-			// Write a new version.
-			Resource historyResource = editingService
-					.getDataService()
-					.getProvider()
-					.getResource(
-							editingService.getEditingDomain().getResourceSet(),
-							uri);
+				Resource historyResource = editingService
+						.getDataService()
+						.getProvider()
+						.getResource(
+								editingService.getEditingDomain()
+										.getResourceSet(), uri);
+				
+				int entryCount = historyResource.getContents().size();
+				
+				// Don't add the current node, it will already be in the resource (If saved). 
+//				histNodes.add(new HistoricNode(entryCount, node));
+//				entryCount--;
 
-			// We keep our own revision count, based on the number of entries in
-			// the historic resource.
-			// The version of the NodeType will only be incremented if this
-			// actual object changes.
-			// int version = nodeType.cdoRevision().getVersion();
-
-			List<HistoricNode> histNodeTypes = Lists.newArrayList();
-			int entryCount = historyResource.getContents().size();
-			histNodeTypes.add(new HistoricNode(entryCount, node));
-			entryCount--;
-			
-			// We need the resource list backwards.
-			for (EObject object : Iterables.reverse(historyResource
-					.getContents())) {
-				histNodeTypes.add(new HistoricNode(entryCount,
-						(Node) object));
-				entryCount--;
+				// We need the resource list backwards.
+				for (EObject object : Iterables.reverse(historyResource
+						.getContents())) {
+					histNodes.add(new HistoricNode(entryCount,
+							(Node) object));
+					entryCount--;
+				}
+			}else{
+				histNodes.add(new HistoricNode(1, node));
 			}
-			tableViewer.setInput(histNodeTypes.toArray());
+			tableViewer.setInput(histNodes.toArray());
 		}
 		return null;
 	}
@@ -277,8 +273,7 @@ public class NodeHistory extends AbstractScreen implements
 				switch (columnIndex) {
 				case 0: {
 					String revision = new Integer(
-							((HistoricNode) element).getRevision())
-							.toString();
+							((HistoricNode) element).getRevision()).toString();
 					if (((HistoricNode) element).getNode().equals(current)) {
 						revision += " (current)";
 					}
@@ -287,7 +282,7 @@ public class NodeHistory extends AbstractScreen implements
 				case 1: {
 					Date d = new Date(((HistoricNode) element).getNode()
 							.cdoRevision().getTimeStamp());
-					return modelUtils.time(d) + " " + modelUtils.date(d);
+					return modelUtils.date(d) + " @ "+modelUtils.time(d);
 				}
 				case 2: {
 					Node nt = ((HistoricNode) element).getNode();
@@ -335,10 +330,9 @@ public class NodeHistory extends AbstractScreen implements
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-	
+
 	public String getScreenName() {
 		return "Node History";
 	}
-
 
 }

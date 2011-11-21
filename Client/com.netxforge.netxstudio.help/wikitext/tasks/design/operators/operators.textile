@@ -1,0 +1,13 @@
+h1. Operators
+
+The Operators screen provides access to Operators definitions
+
+* "Create or Modifying an Operator":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/operators/creating_an_operator.html
+
+The Operators screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/operators/operators.png!
+
+*New* => Click on the upright link to create a new Operator
+*Edit* => Right-click on a Operator in the table and select edit. 
+*Filter* => Type text to filter Operator containing the text

@@ -1,0 +1,13 @@
+h1. Rooms
+
+The Rooms screen provides access to Rooms definitions
+
+* "Create or Modifying an Room":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/rooms/creating_a_room.html
+
+The Rooms screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/rooms/rooms.png!
+
+*New* => Select a Site and click on the upright link to create a new Room
+*Edit* => Right-click on a Room in the table and select edit. 
+*Filter* => Type text to filter Room containing the text

@@ -84,9 +84,43 @@
 	  	</topic> 
 	</topic>
  <topic href="html/tasks/design/" label="Design">
-    <topic href="html/tasks/design/operators" label="Operators">
+    <topic href="html/tasks/design/operators/operators.html" label="Operators">
+       <topic href="html/tasks/design/operators/creating_an_operator.html" label="Create or Modify an Operator">
+       </topic>
     </topic>
-    <topic href="html/tasks/design/networks" label="Networks">
+    <topic href="html/tasks/design/networks/networks.html" label="Networks">
+       <topic href="html/tasks/design/networks/creating_a_network.html" label="Create or modify a Network">
+       </topic>
+       <topic href="html/tasks/design/networks/creating_a_link.html" label="Create or modify a Link">
+       </topic>
+       <topic href="html/tasks/design/networks/creating_a_network_element.html" label="Create or modify a Network Element">
+       </topic>
+       <topic href="html/tasks/design/networks/creating_an_equipment.html" label="Create or modify an Equipment">
+       </topic>
+       <topic href="html/tasks/design/networks/creating_a_function.html" label="Create or modify a Function">
+       </topic>
+    </topic>
+    <topic href="html/tasks/design/resources/resources.html" label="Resources">
+       <topic label="Resource chart">
+       </topic>
+       <topic href="html/tasks/design/resources/resource_values.html" label="Resource values">
+       </topic>
+    </topic>
+    <topic href="html/tasks/design/warehouses/warehouses.html" label="Warehouses">
+       <topic href="html/tasks/design/warehouses/creating_a_warehouse.html" label="Create or modify a Warehouse">
+       </topic>
+    </topic>
+    <topic href="html/tasks/design/countries/countries" label="Countries">
+       <topic href="html/tasks/design/countries/creating_a_country.html" label="Create or modify a Country">
+       </topic>
+    </topic>
+    <topic href="html/tasks/design/sites/sites.html" label="Sites">
+       <topic href="html/tasks/design/sites/creating_a_site.html" label="Create or modify a Site">
+       </topic>
+    </topic>
+    <topic href="html/tasks/design/rooms/rooms.html" label="Rooms">
+       <topic href="html/tasks/design/rooms/creating_a_room.html" label="Create or modify a Room">
+       </topic>
     </topic>
  </topic>
 </toc>

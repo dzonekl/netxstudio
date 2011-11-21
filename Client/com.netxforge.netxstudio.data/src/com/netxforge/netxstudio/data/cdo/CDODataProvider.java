@@ -286,12 +286,35 @@ public abstract class CDODataProvider implements IDataProvider {
 		return resources;
 	}
 
+	/*
+	 * If any of the views has this resource.
+	 */
+	public boolean hasResource(URI uri) {
+		final String fragment = '/' + uri.lastSegment();
+		return hasResource(fragment);
+	}
+	
+	/*
+	 * If any of the views has this resource.
+	 */
+	public boolean hasResource(String resourcePath) {
+		final CDOView[] views = this.getSession().getViews();
+		for (int i = 0; i < views.length; i++) {
+			final CDOView view = views[i];
+			if (view.hasResource(resourcePath)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public Resource getResource(ResourceSet set, String resourcePath) {
 		assert resourcePath != null && resourcePath.length() > 0;
 
 		// Before attempting to open a new CDOView, we want to know what is
 		// already
 		// in our session and resource set.
+
 		final CDOView[] views = this.getSession().getViews();
 		for (int i = 0; i < views.length; i++) {
 			final CDOView view = views[i];

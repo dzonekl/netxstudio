@@ -185,33 +185,29 @@ public class NodeTypeHistory extends AbstractScreen implements
 
 		String historicalResourceName = editingService
 				.resolveHistoricalResourceName(nodeType);
+
+		List<HistoricNodeType> histNodeTypes = Lists.newArrayList();
 		if (historicalResourceName != null) {
 			URI uri = URI.createURI(historicalResourceName);
-			// Write a new version.
-			Resource historyResource = editingService
-					.getDataService()
-					.getProvider()
-					.getResource(
-							editingService.getEditingDomain().getResourceSet(),
-							uri);
 
-			// We keep our own revision count, based on the number of entries in
-			// the historic resource.
-			// The version of the NodeType will only be incremented if this
-			// actual object changes.
-			// int version = nodeType.cdoRevision().getVersion();
+			if (editingService.getDataService().getProvider().hasResource(uri)) {
 
-			List<HistoricNodeType> histNodeTypes = Lists.newArrayList();
-			int entryCount = historyResource.getContents().size();
-			histNodeTypes.add(new HistoricNodeType(entryCount, nodeType));
-			entryCount--;
-			
-			// We need the resource list backwards.
-			for (EObject object : Iterables.reverse(historyResource
-					.getContents())) {
-				histNodeTypes.add(new HistoricNodeType(entryCount,
-						(NodeType) object));
-				entryCount--;
+				Resource historyResource = editingService
+						.getDataService()
+						.getProvider()
+						.getResource(
+								editingService.getEditingDomain()
+										.getResourceSet(), uri);
+				int entryCount = historyResource.getContents().size();
+				// We need the resource list backwards.
+				for (EObject object : Iterables.reverse(historyResource
+						.getContents())) {
+					histNodeTypes.add(new HistoricNodeType(entryCount,
+							(NodeType) object));
+					entryCount--;
+				}
+			} else {
+				histNodeTypes.add(new HistoricNodeType(1, nodeType));
 			}
 			tableViewer.setInput(histNodeTypes.toArray());
 		}
@@ -270,28 +266,24 @@ public class NodeTypeHistory extends AbstractScreen implements
 		public String getColumnText(Object element, int columnIndex) {
 
 			if (element instanceof HistoricNodeType) {
-
+				HistoricNodeType histNodeType = (HistoricNodeType) element;
 				switch (columnIndex) {
 				case 0: {
-					String revision = new Integer(
-							((HistoricNodeType) element).getRevision())
+					String revision = new Integer(histNodeType.getRevision())
 							.toString();
-					if (((HistoricNodeType) element).getNt().equals(current)) {
+					if (histNodeType.getNt().equals(current)) {
 						revision += " (current)";
 					}
 					return revision;
 				}
 				case 1: {
-					
-					
-					
-					
-					Date d = new Date(((HistoricNodeType) element).getNt()
-							.cdoRevision().getTimeStamp());
-					return modelUtils.time(d) + " " + modelUtils.date(d);
+
+					Date d = new Date(histNodeType.getNt().cdoRevision()
+							.getTimeStamp());
+					return modelUtils.date(d) + " @ " + modelUtils.time(d);
 				}
 				case 2: {
-					NodeType nt = ((HistoricNodeType) element).getNt();
+					NodeType nt = histNodeType.getNt();
 					return nt.getName();
 				}
 				}
@@ -336,7 +328,7 @@ public class NodeTypeHistory extends AbstractScreen implements
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-	
+
 	public String getScreenName() {
 		return "Node Type History";
 	}

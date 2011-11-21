@@ -1,0 +1,13 @@
+h1. Creating or Editing a Warehouse
+
+When creating or editing a Warehouse the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/warehouses/creating_a_warehouse.png!
+
+The following data should be entered 
+
+* The Warehouse Name
+* The Warehouse Description
+
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.
