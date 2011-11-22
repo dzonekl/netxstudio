@@ -1,4 +1,4 @@
-h1. Modifying a Function
+h1. Creating or Editing a Function
 
 !PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/network_element_types/creating_a_function.png!
 
@@ -6,24 +6,30 @@ The following data should be entered
 
 *Info*
 
-* The Function Name
+* *%{color:green}MAPPING ID%* The Function Name
 * The Function Description 
 * The Function Expansion duration. (Quick, Short, Medium, Long) 
 
 *Resources*
 
-* "Create or Modifying a Resource Definition":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/resource_definitions/creating_a_resource_definition.html
+* Click "New" to create a Resource for this Function
+* Right-Click on a Resource to either edit or remove a Resource for the Function.   
 
-* Select the Capacity Expression for all Resources in this Function. 
-* Select the Utilization Expression for all Resources in this Function.
+See also: 
+* "Create or Modifying a Resource":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/resources/resource_values.html
+
+* Select the Capacity Expression for +all+ Resources in this Function. 
+* Select the Utilization Expression for +all+ Resources in this Function.
 
 *Metrics*
 
-* Create or add Metrics to the Function
+* Click "Add" to add an existing Metric to the Function.
+* Right-Click on a Metric to remove a Metric from the Function.   
 
 *Tolerances*
 
-* Create or add Tolerances to the Function
+* Click "Add" to add an existing Tolerance to the Function
+* Right-Click on a Tolerance to remove a Tolerance from the Function.
 
 *Save* => Menu -> File -> Save
 *Cancel* => The editing can be undone by Menu-> Edit -> Undo

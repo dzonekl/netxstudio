@@ -49,6 +49,10 @@ public class MetricSourceJobImplementation extends JobImplementation {
 		// read a new metricsource so that it is part of this
 		// transaction/session
 		final MetricSource metricSource = getMetricSource();
+		if(metricSource == null){
+			// We need a populated list. 
+			return; 
+		}
 		final AbstractMetricValuesImporter metricsImporter;
 		if (metricSource.getMetricMapping() instanceof MappingXLS) {
 			metricsImporter = MetricsActivator.getInstance().getInjector().getInstance(XLSMetricValuesImporter.class);
@@ -68,7 +72,11 @@ public class MetricSourceJobImplementation extends JobImplementation {
 	}
 
 	private MetricSource getMetricSource() {
-		return ((MetricSourceJob) getJob()).getMetricSources().get(0);
+		if( ((MetricSourceJob) getJob()).getMetricSources().size() > 0){
+			return ((MetricSourceJob) getJob()).getMetricSources().get(0);	
+		}else{
+			return null;
+		}
 	}
 
 }

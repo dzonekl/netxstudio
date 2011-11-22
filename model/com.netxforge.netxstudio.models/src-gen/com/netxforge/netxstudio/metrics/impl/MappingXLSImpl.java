@@ -30,6 +30,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl#getFilterPattern <em>Filter Pattern</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl#getSheetNumber <em>Sheet Number</em>}</li>
  * </ul>
  * </p>
@@ -54,6 +55,24 @@ public class MappingXLSImpl extends MappingImpl implements MappingXLS {
 	@Override
 	protected EClass eStaticClass() {
 		return MetricsPackage.Literals.MAPPING_XLS;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getFilterPattern() {
+		return (String)eGet(MetricsPackage.Literals.MAPPING_XLS__FILTER_PATTERN, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFilterPattern(String newFilterPattern) {
+		eSet(MetricsPackage.Literals.MAPPING_XLS__FILTER_PATTERN, newFilterPattern);
 	}
 
 	/**

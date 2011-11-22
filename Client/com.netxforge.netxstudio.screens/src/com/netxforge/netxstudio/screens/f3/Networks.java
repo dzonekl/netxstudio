@@ -423,11 +423,10 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 					if (j != null) {
 						NewEditJob newEditJob = new NewEditJob(
 								screenService.getScreenContainer(), SWT.NONE);
-						newEditJob.setOperation(operation);
+						newEditJob.setOperation(Screens.OPERATION_NEW);
 						newEditJob.setScreenService(screenService);
 						newEditJob.injectData(jobResource, j);
 						screenService.setActiveScreen(newEditJob);
-
 					}
 
 				}

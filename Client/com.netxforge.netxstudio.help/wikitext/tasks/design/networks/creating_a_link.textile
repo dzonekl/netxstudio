@@ -1,0 +1,31 @@
+h1. Creating or Editing a Function or Equipment Relationship
+
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/networks/creating_a_link.png!
+
+The following data should be entered 
+
+*Info*
+
+* *%{color:green}MAPPING ID%* The Relationship Name
+
+*Protocol*
+
+* *%{color:green}MAPPING ID%* The Protocol. Select from a predefined Protocol.  
+
+*Network Element Link*
+
+* NE #1. Select a predefined Network Element for one end of the relationship. 
+* NE #2. Select a predefined Network Element for the other end of the relationship. 
+
+
+*Function or Equipment Link*
+
+* Function/Equipment #1. Select a predefined Function or Equipment for one end of the relationship. 
+* Function/Equipment #2. Select a predefined Function or Equipment for the other end of the relationship. 
+
+
+*Save* => Menu -> File -> Save
+*Cancel* => The editing can be undone by Menu-> Edit -> Undo
+
+

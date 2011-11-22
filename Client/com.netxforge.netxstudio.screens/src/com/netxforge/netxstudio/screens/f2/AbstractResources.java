@@ -57,6 +57,7 @@ import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
@@ -78,7 +79,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 	private Table table;
 	private Text txtFilterText;
 
-	private TableViewer resourcesTableViewer;
+	protected TableViewer resourcesTableViewer;
 	private Form frmResources;
 	// private Resource resourcesResource;
 
@@ -151,28 +152,16 @@ public abstract class AbstractResources extends AbstractScreen implements
 		table = resourcesTableViewer.getTable();
 		resourcesTableViewer.setUseHashlookup(true);
 		resourcesTableViewer.setComparer(new CDOElementComparer());
-
+		resourcesTableViewer.addFilter(searchFilter);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
 		toolkit.paintBordersFor(table);
 
-		String[] properties = new String[] { "Network Element", "Component",
-				"Metric", "Short Name", "Expression Name", "Long Name",
-				"Capacity", "Unit" };
-
-		int[] columnWidths = new int[] { 100, 100, 112, 76, 104, 200, 100, 68 };
-
-		EditingSupport[] editingSupport = new EditingSupport[] { null, null,
-				null, null, null, null,
-				new CapacityEditingSupport(resourcesTableViewer), null };
-
-		buildTableColumns(properties, columnWidths, editingSupport);
-
-		resourcesTableViewer.addFilter(searchFilter);
-		// setCellEditors(properties);
-
+		buildColumns();
 	}
+
+	public abstract void buildColumns();
 
 	class CapacityEditingSupport extends EditingSupport {
 
@@ -199,7 +188,8 @@ public abstract class AbstractResources extends AbstractScreen implements
 		@Override
 		protected Object getValue(Object element) {
 			if (element instanceof NetXResource) {
-				Value v = modelUtils.mostRecentCapacityValue((NetXResource) element);
+				Value v = modelUtils
+						.mostRecentCapacityValue((NetXResource) element);
 
 				if (v != null) {
 					DecimalFormat numberFormatter = new DecimalFormat(
@@ -215,7 +205,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 		@Override
 		protected void setValue(Object element, Object value) {
-				viewer.update(element, null);
+			viewer.update(element, null);
 		}
 
 	}
@@ -260,7 +250,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 	 */
 	Map<String, TableColumnFilter> columnFilters = Maps.newHashMap();
 
-	private void buildTableColumns(String[] properties, int[] columnWidths,
+	protected void buildTableColumns(String[] properties, int[] columnWidths,
 			EditingSupport[] editingSupport) {
 
 		// final Menu headerMenu = new Menu(shell, SWT.POP_UP);
@@ -483,10 +473,14 @@ public abstract class AbstractResources extends AbstractScreen implements
 				switch (columnIndex) {
 
 				case 0: {
-					Node n;
-					if (c != null
-							&& (n = modelUtils.resolveParentNode(c)) != null) {
-						return n.getNodeID();
+					NodeType nt = modelUtils.resolveParentNodeType(c);
+					if (nt != null) {
+						Node n = null;
+						if ((n = modelUtils.resolveParentNode(nt)) != null) {
+							return n.getNodeID();
+						} else {
+							return nt.getName();
+						}
 					}
 					return "not connected";
 				}

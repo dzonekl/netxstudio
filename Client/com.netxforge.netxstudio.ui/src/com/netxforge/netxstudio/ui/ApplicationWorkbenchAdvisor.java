@@ -17,11 +17,6 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.ui;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.DefaultScope;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.IScopeContext;
-import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
@@ -46,14 +41,13 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 	}
 		
 	private void configPluginPreferences(){
-		
+
+		// DOESN'T WORK.
 //		DISABLE_OPEN_EDITOR_IN_PLACE
-		
-		boolean currentValue = Platform.getPreferencesService().getBoolean("org.eclipse.ui", IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE, true, null);
-		
-		IScopeContext scopeContext = DefaultScope.INSTANCE;
-		IEclipsePreferences node = scopeContext.getNode("org.eclipse.ui");
-		node.putBoolean(IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE, true);
+//		boolean currentValue = Platform.getPreferencesService().getBoolean("org.eclipse.ui", IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE, true, null);
+//		IScopeContext scopeContext = DefaultScope.INSTANCE;
+//		IEclipsePreferences node = scopeContext.getNode("org.eclipse.ui");
+//		node.putBoolean(IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE, true);
 	}
 	
 }

@@ -1,0 +1,119 @@
+h1. Networks
+
+The Networks screen provides access to Networks definitions.
+
+The Networks screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/networks/networks.png!
+
+A Network is represented as a tree structure, with the Operator to which the Network belongs as the root of the tree, Network Elements, Functions and Equipments as branches. Networks can be nested as well as Functions and Equipments to model a Telecommunications Network including the Network Elements and Links between them. 
+
+Selecting a tree node, will give show the details on the right side for either:
+
+* Network 
+* Network Element
+* Function
+* Equipment
+* Function Links (Relationships between Network Elements). 
+* Equipment Links
+
+_Note:_ The available Functions and Equipments to be added to a Network Element, are limited to the Network Element Type selected for the Network Element. 
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/networks/selected_network_element_type.png! 
+
+_Warning:_ Disconnecting the Network Element type, will result in the removal of all underlying functions and equipments for that Network Element.  
+
+h3. Mapping Identifiers
+
+Whenever a mapping identifier is applicable for one of the objects Network, Function, Equipment, 
+Function Relationship or Equipment Relationship , the help will explicitly state this with:
+
+	*%{color:green}MAPPING ID%*
+
+
+h2. Editing 
+
+Create or Modify a Network 
+
+*New* => Click on the upright link of the tree to create a new Network. A dialog window
+will be presented, asking the user to which Operator the Network belongs. 
+*Edit* => Click on a Network in the tree, the details will appear on the right side. 
+
+* "Modify a Network":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/networks/creating_a_network.html
+
+Create or Modify a Network Element
+
+*New* => Right-Click on Network and select New -> Network Element
+*Edit* => Click on a Network Element in the tree, the details will appear on the right side.
+
+* "Modify a Network Element":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/networks/creating_a_network_element.html
+
+Create or Modify a Function Relationship
+
+*New* => Right-Click on Network and select New -> Function Relationship
+*Edit* => Click on a Function Relationship in the tree, the details will appear on the right side.
+
+* "Modify a Link":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/networks/creating_a_link.html
+
+
+Create or Modify an Equipment Relationship
+
+*New* => Right-Click on Network and select New -> Equipment Relationship
+*Edit* => Click on a Equipment Relationship in the tree, the details will appear on the right side.
+
+* "Modify a Link":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/networks/creating_a_link.html
+
+Create or Modify a Function
+
+*New* => Right-Click on Network Element or a Function and select New -> Function
+*Edit* => Click on a Function in the tree, the details will appear on the right side.
+
+* "Modify a Function":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/networks/creating_a_function.html
+
+Create or Modify an Equipment
+
+*New* => Right-Click on Network Element Type or an Equipment and select New -> Equipment
+*Edit* => Click on an Equipment in the tree, the details will appear on the right side.
+
+* "Modify an Equipment":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/networks/creating_an_equipment.html
+
+
+Additional editing actions. 
+
+*Undo/Redo* => Right-Click on any of the nodes in the tree and select the Undo or Redo Action. 
+
+*Copy/Cut* => Right-Click on any of the nodes in the tree and select the Copy or Cut Action. 
+*Paste* => Right-Click on any of the destination node in the tree and select the Paste Action. Note: For a root node paste, Right-Click any other root node.
+
+*Delete* => Right-Click on any of the nodes in the tree and select the Delete Action.
+
+*Filter* => Type text to filter Network Element Type containing the text
+
+h2. History 
+
+For each editing action, a copy is made of the actual structure and stored in a history with a time stamp. The history can be browsed, showing when modifications where made.
+
+*History* => Right-Click on a Network Element Type and select History.
+
+
+h2. Decommission
+
+A Network Element can be moved to a Warehouse. 
+
+*Decommission* => Right-Click on a Network Element or Equipment and select Decommission... 
+
+h2. Reporting
+
+The creation of a report can be created instantly, or scheduled to be created as a repeating job. 
+
+A Network Element type definition can be exported to various file formats.
+
+*Schedule Reporting Job...* => Right-Click on a Network Element and select "Schedule Reporting Job..." This will open the New Job screen. 
+
+*Report Now...* => Right-Click on a Network Element and select "Report Now..." This will initiate the creation of a resource report for this Network Element. The report can then be viewed and downloaded from the Monitoring task. 
+
+h2. Exporting
+
+A Network Element type definition can be exported to various file formats.
+
+*Export* => Right-Click on a Network Element Type and select Export 

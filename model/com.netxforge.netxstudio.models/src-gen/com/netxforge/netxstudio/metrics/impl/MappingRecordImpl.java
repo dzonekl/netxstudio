@@ -32,8 +32,8 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRecordImpl#getColumn <em>Column</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRecordImpl#getCount <em>Count</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRecordImpl#getMessage <em>Message</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRecordImpl#getRow <em>Row</em>}</li>
  * </ul>
  * </p>
  *
@@ -82,6 +82,42 @@ public class MappingRecordImpl extends BaseImpl implements MappingRecord {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public long getCount() {
+		return (Long)eGet(MetricsPackage.Literals.MAPPING_RECORD__COUNT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCount(long newCount) {
+		eSet(MetricsPackage.Literals.MAPPING_RECORD__COUNT, newCount);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetCount() {
+		eUnset(MetricsPackage.Literals.MAPPING_RECORD__COUNT);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetCount() {
+		return eIsSet(MetricsPackage.Literals.MAPPING_RECORD__COUNT);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getMessage() {
 		return (String)eGet(MetricsPackage.Literals.MAPPING_RECORD__MESSAGE, true);
 	}
@@ -93,24 +129,6 @@ public class MappingRecordImpl extends BaseImpl implements MappingRecord {
 	 */
 	public void setMessage(String newMessage) {
 		eSet(MetricsPackage.Literals.MAPPING_RECORD__MESSAGE, newMessage);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getRow() {
-		return (String)eGet(MetricsPackage.Literals.MAPPING_RECORD__ROW, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRow(String newRow) {
-		eSet(MetricsPackage.Literals.MAPPING_RECORD__ROW, newRow);
 	}
 
 } //MappingRecordImpl

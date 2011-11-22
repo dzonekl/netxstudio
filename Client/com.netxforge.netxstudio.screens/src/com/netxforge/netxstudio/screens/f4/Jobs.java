@@ -31,9 +31,12 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -59,6 +62,7 @@ import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
+import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
@@ -72,10 +76,11 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	private Form frmScheduledJobs;
 
 	private Resource jobsResource;
-//	private Resource jobContainerResource;
+	// private Resource jobContainerResource;
 
 	private TableViewerColumn tblViewerClmnState;
-//	private ArrayList<Object> uniqueJobList;
+
+	// private ArrayList<Object> uniqueJobList;
 
 	/**
 	 * Create the composite.
@@ -119,6 +124,18 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
+		txtFilterText.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent ke) {
+				ViewerFilter[] filters = jobsTableViewer.getFilters();
+				for (ViewerFilter viewerFilter : filters) {
+					if (viewerFilter instanceof SearchFilter) {
+						((SearchFilter) viewerFilter)
+								.setSearchText(txtFilterText.getText());
+					}
+				}
+				jobsTableViewer.refresh();
+			}
+		});
 
 		// CB 06-09-2011, We can't create any arbitrary job from the JOB UI.
 		// ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
@@ -158,9 +175,8 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		jobsTableViewer = new TableViewer(frmScheduledJobs.getBody(),
 				SWT.BORDER | SWT.FULL_SELECTION);
 		jobsTableViewer.setComparer(new CDOElementComparer());
-		
-//		jobsTableViewer.addFilter(new JobFilter());
-		
+		jobsTableViewer.addFilter(new SearchFilter(editingService));
+
 		table = jobsTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -208,30 +224,30 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		tblclmnInterval.setWidth(100);
 		tblclmnInterval.setText("Interval");
 	}
-	
-//	
-//	public class JobFilter extends ViewerFilter {
-//		
-//		@Override
-//		public boolean select(Viewer viewer, Object parentElement,
-//				Object element) {
-//				
-//			Job job = (Job) element;
-//			if(jobContainerResource.getContents().contains(job)){
-//				uniqueJobList.add(job.cdoID());
-//				return true;
-//			}else{
-//				// Add jobs from the non container resource as well.
-//				if(!uniqueJobList.contains(job.cdoID())){
-//					uniqueJobList.add(job.cdoID());
-//					return true;
-//				}else{
-//					return false;
-//				}
-//			}
-//		}
-//	}
-	
+
+	//
+	// public class JobFilter extends ViewerFilter {
+	//
+	// @Override
+	// public boolean select(Viewer viewer, Object parentElement,
+	// Object element) {
+	//
+	// Job job = (Job) element;
+	// if(jobContainerResource.getContents().contains(job)){
+	// uniqueJobList.add(job.cdoID());
+	// return true;
+	// }else{
+	// // Add jobs from the non container resource as well.
+	// if(!uniqueJobList.contains(job.cdoID())){
+	// uniqueJobList.add(job.cdoID());
+	// return true;
+	// }else{
+	// return false;
+	// }
+	// }
+	// }
+	// }
+
 	@Override
 	public IAction[] getActions() {
 
@@ -355,49 +371,49 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		jobsTableViewer.setLabelProvider(new JobsObervableMapLabelProvider(
 				observeMaps));
 
-		 IEMFListProperty jobsProperties = EMFEditProperties
-		 .resource(editingService.getEditingDomain());
+		IEMFListProperty jobsProperties = EMFEditProperties
+				.resource(editingService.getEditingDomain());
 
-		 IObservableList jobsList = jobsProperties.observe(jobsResource);
+		IObservableList jobsList = jobsProperties.observe(jobsResource);
 		// obm.addObservable(jobsList);
-		
-		
-		
-		// Note: We get double entries as we add from both job and job container resource. 
-		// The filter will remove the doubles. 
-//		final IEMFListProperty computedProperties = EMFEditProperties
-//				.resource(editingService.getEditingDomain());
-//		final IEMFListProperty computedContainerProperties = EMFEditProperties
-//				.list(editingService.getEditingDomain(),
-//						SchedulingPackage.Literals.JOB_RUN_CONTAINER__JOB);
-//
-//		uniqueJobList = Lists.newArrayList();
-//		
-//		ComputedList computedList = new ComputedList() {
-//			@SuppressWarnings("unchecked")
-//			@Override
-//			protected List<Object> calculate() {
-//				List<Object> result = Lists.newArrayList();
-//
-//				// Build a container list, and keep track of ID's of added jobs.
-//				for (EObject r : jobContainerResource.getContents()) {
-//					if (r instanceof JobRunContainer) {
-//						JobRunContainer jrc = (JobRunContainer) r;
-//						IObservableList observableList = computedContainerProperties
-//								.observe(jrc);
-//						result.addAll(observableList);
-//					}
-//				}
-//				
-//				{
-//					IObservableList observableList = computedProperties
-//							.observe(jobsResource);
-//					result.addAll(observableList);
-//
-//				}
-//				return result;
-//			}
-//		};
+
+		// Note: We get double entries as we add from both job and job container
+		// resource.
+		// The filter will remove the doubles.
+		// final IEMFListProperty computedProperties = EMFEditProperties
+		// .resource(editingService.getEditingDomain());
+		// final IEMFListProperty computedContainerProperties =
+		// EMFEditProperties
+		// .list(editingService.getEditingDomain(),
+		// SchedulingPackage.Literals.JOB_RUN_CONTAINER__JOB);
+		//
+		// uniqueJobList = Lists.newArrayList();
+		//
+		// ComputedList computedList = new ComputedList() {
+		// @SuppressWarnings("unchecked")
+		// @Override
+		// protected List<Object> calculate() {
+		// List<Object> result = Lists.newArrayList();
+		//
+		// // Build a container list, and keep track of ID's of added jobs.
+		// for (EObject r : jobContainerResource.getContents()) {
+		// if (r instanceof JobRunContainer) {
+		// JobRunContainer jrc = (JobRunContainer) r;
+		// IObservableList observableList = computedContainerProperties
+		// .observe(jrc);
+		// result.addAll(observableList);
+		// }
+		// }
+		//
+		// {
+		// IObservableList observableList = computedProperties
+		// .observe(jobsResource);
+		// result.addAll(observableList);
+		//
+		// }
+		// return result;
+		// }
+		// };
 
 		jobsTableViewer.setInput(jobsList);
 
@@ -490,8 +506,8 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	public void injectData() {
 
 		jobsResource = editingService.getData(SchedulingPackage.Literals.JOB);
-//		jobContainerResource = editingService
-//				.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+		// jobContainerResource = editingService
+		// .getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
 
 		buildUI();
 		initDataBindings_();

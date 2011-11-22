@@ -275,5 +275,4 @@ public class MetricSourceItemProvider extends BaseItemProvider implements
 	public ResourceLocator getResourceLocator() {
 		return NetxstudioEditPlugin.INSTANCE;
 	}
-	
-}
+}	

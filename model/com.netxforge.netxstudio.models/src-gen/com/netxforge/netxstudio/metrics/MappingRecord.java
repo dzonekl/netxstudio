@@ -35,8 +35,8 @@ import com.netxforge.netxstudio.generics.Base;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingRecord#getColumn <em>Column</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MappingRecord#getCount <em>Count</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingRecord#getMessage <em>Message</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.MappingRecord#getRow <em>Row</em>}</li>
  * </ul>
  * </p>
  *
@@ -74,6 +74,61 @@ public interface MappingRecord extends Base {
 	void setColumn(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Count</b></em>' attribute.
+	 * The default value is <code>"1"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The Row attribute holds the row identifier.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Count</em>' attribute.
+	 * @see #isSetCount()
+	 * @see #unsetCount()
+	 * @see #setCount(long)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingRecord_Count()
+	 * @model default="1" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Long"
+	 *        extendedMetaData="kind='attribute' name='Count'"
+	 * @generated
+	 */
+	long getCount();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingRecord#getCount <em>Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Count</em>' attribute.
+	 * @see #isSetCount()
+	 * @see #unsetCount()
+	 * @see #getCount()
+	 * @generated
+	 */
+	void setCount(long value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.metrics.MappingRecord#getCount <em>Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetCount()
+	 * @see #getCount()
+	 * @see #setCount(long)
+	 * @generated
+	 */
+	void unsetCount();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.metrics.MappingRecord#getCount <em>Count</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Count</em>' attribute is set.
+	 * @see #unsetCount()
+	 * @see #getCount()
+	 * @see #setCount(long)
+	 * @generated
+	 */
+	boolean isSetCount();
+
+	/**
 	 * Returns the value of the '<em><b>Message</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -100,31 +155,4 @@ public interface MappingRecord extends Base {
 	 * @generated
 	 */
 	void setMessage(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Row</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The Row attribute holds the row identifier.
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Row</em>' attribute.
-	 * @see #setRow(String)
-	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingRecord_Row()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
-	 *        extendedMetaData="kind='attribute' name='Row'"
-	 * @generated
-	 */
-	String getRow();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingRecord#getRow <em>Row</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Row</em>' attribute.
-	 * @see #getRow()
-	 * @generated
-	 */
-	void setRow(String value);
 } // MappingRecord

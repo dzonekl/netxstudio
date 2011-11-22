@@ -106,6 +106,22 @@ The following objects can be nested to provide the needed representation of a Te
 
 * Network
 
+h3. Lifecycle 
+
+Network Elements, Equipments and Functions all have a lifecycle represented by various dates. 
+
+* Proposed => The object creation date in the system. 
+* Planned => The expected planning date, meaning confirmation that the object will be actually introduced into the network.  
+* Construction => The date the object is actually constructed in reality. 
+* In Service => The date the object is brought into service. 
+* Out of Service => The date the object is no more in service. 
+
+Lifecycle rules. 
+
+The Lifecycle dates are relevant to various processes. 
+
+* Objects have to be "In Service" to be included in the monitoring cycle.  
+
 
 
 h2. Geographical

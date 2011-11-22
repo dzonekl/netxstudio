@@ -278,7 +278,7 @@ public class MappingStatistics extends AbstractScreen implements
 				1, 1));
 
 		txtMessage = toolkit.createText(composite, "New Text", SWT.READ_ONLY
-				| SWT.WRAP | SWT.MULTI);
+				| SWT.WRAP | SWT.MULTI | SWT.V_SCROLL);
 		txtMessage.setText("");
 		GridData gd_txtMessage = new GridData(SWT.FILL, SWT.TOP, true, false,
 				1, 1);
@@ -341,7 +341,7 @@ public class MappingStatistics extends AbstractScreen implements
 				tblViewerRecords, SWT.NONE);
 		TableColumn tblclmnNewColumn = tableViewerColumn.getColumn();
 		tblclmnNewColumn.setWidth(100);
-		tblclmnNewColumn.setText("Row");
+		tblclmnNewColumn.setText("Count");
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				tblViewerRecords, SWT.NONE);
@@ -546,8 +546,8 @@ public class MappingStatistics extends AbstractScreen implements
 				MappingRecord mr = (MappingRecord) element;
 				switch (columnIndex) {
 				case 0: {
-					String row = mr.getRow();
-					cell.setText(row);
+					String count = new Long(mr.getCount()).toString();
+					cell.setText(count);
 				}
 					break;
 				case 1: {

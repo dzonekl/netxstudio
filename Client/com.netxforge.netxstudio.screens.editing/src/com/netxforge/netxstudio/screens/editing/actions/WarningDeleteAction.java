@@ -41,6 +41,14 @@ import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
+
+/**
+ * 
+ * Action gives user feedback on what will be deleted. 
+ * 
+ * @author dzonekl
+ *
+ */
 public class WarningDeleteAction extends DeleteAction {
 
 	private IEditingService editingService;
@@ -119,7 +127,8 @@ public class WarningDeleteAction extends DeleteAction {
 			
 		
 		// Increment the target selection for certain objects. 
-		Collection<Object> newSelection = Lists.newArrayList();
+		// Make sure we keep the order. 
+		Collection<Object> newSelection = Lists.newLinkedList();
 		
 		for(Object o : selection){
 			
@@ -135,8 +144,8 @@ public class WarningDeleteAction extends DeleteAction {
 					final Job containerJob = container.getJob();
 					final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
 					if (job.cdoID().equals(containerJobId)) {
-//						newSelection.add(job);
 						newSelection.add(container);
+//						newSelection.add(job);
 						break;
 					}
 				}

@@ -109,7 +109,6 @@ public class UsersAndRoles extends AbstractScreen implements
 
 		txtTableFilter.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				tableViewer.refresh();
 				ViewerFilter[] filters = tableViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof SearchFilter) {
@@ -117,6 +116,7 @@ public class UsersAndRoles extends AbstractScreen implements
 								.setSearchText(txtTableFilter.getText());
 					}
 				}
+				tableViewer.refresh();
 			}
 		});
 

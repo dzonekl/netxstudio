@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.core.runtime,
  com.google.inject;bundle-version="2.0.0",
  com.netxforge.netxstudio.data;bundle-version="1.0.0",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
- org.aopalliance;bundle-version="1.0.0"
+ org.aopalliance;bundle-version="1.0.0",
+ com.google.collect;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.screens.editing.test.internal

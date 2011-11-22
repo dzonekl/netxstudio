@@ -22,6 +22,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -251,7 +252,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 							if (DataActivator.DEBUG) {
 								DataActivator.TRACE.trace("/trace",
 										"Error processing file", t);
-								System.out.println("IMPORTER ERROR: processing file=" + fileName);
+								System.out
+										.println("IMPORTER ERROR: processing file="
+												+ fileName);
 								t.printStackTrace();
 							}
 						}
@@ -277,8 +280,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				mappingStatistic.setMessage("No files processed");
 			} else {
 				String message = fileList.toString();
-				if (message.length() > 254) {
-					mappingStatistic.setMessage(message.substring(0, 254));
+				if (message.length() > 2000) {
+					mappingStatistic.setMessage(message.substring(0, 2000));
 					System.err.println("Message too long for stats");
 				} else {
 					mappingStatistic.setMessage(message);
@@ -289,13 +292,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			} else {
 				jobMonitor.setFinished(JobRunState.FINISHED_SUCCESSFULLY, null);
 			}
-			
 
 			if (DataActivator.DEBUG) {
 				System.err.println("IMPORTER SUCCESS Processing metricsource "
-						+ metricSource.getName() + " files evaluated =" + fileList.toString());
+						+ metricSource.getName() + " files evaluated ="
+						+ fileList.toString());
 			}
-			
+
 		} catch (final Throwable t) {
 			String message = t.getMessage();
 			if (t instanceof PatternSyntaxException) {
@@ -303,15 +306,15 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			}
 
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
-			
+
 			mappingStatistic = createMappingStatistics(startTime, endTime, 0,
 					message, mappingPeriodEstimate,
 					getMappingIntervalEstimate());
-			
+
 			if (DataActivator.DEBUG) {
 				System.err.println("IMPORTER ERROR Processing metricsource "
-						+ metricSource.getName() );
-				t.printStackTrace(System.err);	
+						+ metricSource.getName());
+				t.printStackTrace(System.err);
 			}
 
 		}
@@ -380,12 +383,11 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		processHeaderRow();
 
 		jobMonitor.setMsg("Processing rows");
-		
-		if(DataActivator.DEBUG){
+
+		if (DataActivator.DEBUG) {
 			System.out.println("Report POI total rows=" + getTotalRows());
 		}
-		
-		
+
 		int totalRows = 0;
 		jobMonitor.setTotalWork(getTotalRows() - getMapping().getFirstDataRow()
 				+ 10);
@@ -443,12 +445,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 										elementIdentifiers);
 
 						if (locatedComponent == null) {
-							getFailedRecords().add(
-									createNotFoundNetworkElementMappingRecord(
-											getValueDataKind(column)
-													.getMetricRef(), rowNum,
-											getComponentLocator()
-													.getFailedIdentifiers()));
+
+							createNotFoundNetworkElementMappingRecord(
+									getValueDataKind(column).getMetricRef(),
+									rowNum, getComponentLocator()
+											.getFailedIdentifiers(),
+									getFailedRecords());
 							continue;
 						} else {
 							if (DataActivator.DEBUG) {
@@ -676,9 +678,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		return valueDataKind.getValueKind() == ValueKindType.METRIC;
 	}
 
-	protected MappingRecord createNotFoundNetworkElementMappingRecord(
-			Metric metric, int rowNum,
-			List<IdentifierDescriptor> failedIdentifiers) {
+	protected void createNotFoundNetworkElementMappingRecord(Metric metric,
+			int rowNum, List<IdentifierDescriptor> failedIdentifiers,
+			List<MappingRecord> records) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("Could not locate networkElement for metric "
 				+ metric.getName());
@@ -689,7 +691,17 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 		final int failedColumn = failedIdentifiers.size() > 0 ? failedIdentifiers
 				.get(0).getColumn() : -1;
-		return createMappingRecord(rowNum, failedColumn, sb.toString());
+
+		MappingRecord record;
+		if ((record = this.hasMappingRecord(rowNum, failedColumn,
+				sb.toString(), records)) != null) {
+			long count = record.getCount() + 1;
+			record.setCount(count);
+		} else {
+			record = createMappingRecord(rowNum, failedColumn, sb.toString());
+			records.add(record);
+		}
+
 	}
 
 	protected MappingRecord createMappingRecord(int row, int column,
@@ -697,7 +709,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		final MappingRecord record = MetricsFactory.eINSTANCE
 				.createMappingRecord();
 		record.setColumn(column + "");
-		record.setRow(row + "");
+		// record.setRow(row + "");
 
 		if (message.length() > 254) {
 			message = message.substring(0, 254);
@@ -705,6 +717,20 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		record.setMessage(message);
 
 		return record;
+	}
+
+	protected MappingRecord hasMappingRecord(int rowNum, int column, String s,
+			List<MappingRecord> records) {
+
+		for (Iterator<MappingRecord> it = records.iterator(); it.hasNext();) {
+			MappingRecord next = it.next();
+			if (next.getColumn().trim().equals(new Integer(column).toString())
+					&& next.getMessage().equals(s)) {
+				// This is the same Failure record.
+				return next;
+			}
+		}
+		return null;
 	}
 
 	private Date getTimeStampValue(List<MappingColumn> mappingColumns,

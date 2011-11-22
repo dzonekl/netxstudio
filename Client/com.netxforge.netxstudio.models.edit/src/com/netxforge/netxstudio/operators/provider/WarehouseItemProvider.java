@@ -38,6 +38,7 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
+import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Warehouse;
 
@@ -239,10 +240,10 @@ public class WarehouseItemProvider
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-//		newChildDescriptors.add
-//			(createChildParameter
-//				(OperatorsPackage.Literals.WAREHOUSE__NODES,
-//				 OperatorsFactory.eINSTANCE.createNode()));
+		newChildDescriptors.add
+			(createChildParameter
+				(OperatorsPackage.Literals.WAREHOUSE__NODES,
+				 OperatorsFactory.eINSTANCE.createNode()));
 	}
 
 	/**

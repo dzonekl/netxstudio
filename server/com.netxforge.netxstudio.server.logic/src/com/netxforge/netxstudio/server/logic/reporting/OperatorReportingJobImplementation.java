@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.server.logic.reporting;
 
 import org.eclipse.emf.common.util.URI;
 
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -42,6 +43,12 @@ public class OperatorReportingJobImplementation extends JobImplementation {
 
 		URI folderURI = null;
 		final OperatorReporterJob reporterJob = (OperatorReporterJob) getJob();
+		Operator operator = reporterJob.getOperator();
+		if(operator == null){
+			return; // return silently. 
+		}
+		
+		
 		for (final BaseLogic reportingLogic : ReportingService
 				.getOperatorReportingLogos()) {
 
@@ -58,9 +65,9 @@ public class OperatorReportingJobImplementation extends JobImplementation {
 				// Based on discussion with Willem, we should use the expansion time 
 				// of the resources to determine the period. 
 				
-				if (reporterJob.getOperator().getServices().size() > 0) {
+				if (operator.getServices().size() > 0) {
 					((BasePeriodLogic) reportingLogic)
-							.calculatePeriod(reporterJob.getOperator()
+							.calculatePeriod(operator
 									.getServices().get(0));
 				}
 			}
@@ -72,7 +79,7 @@ public class OperatorReportingJobImplementation extends JobImplementation {
 							.folderURI();
 				}
 				((OperatorReportingLogic) reportingLogic)
-						.setServices(reporterJob.getOperator().getServices());
+						.setServices(operator.getServices());
 				((OperatorReportingLogic) reportingLogic)
 						.initializeStream(folderURI);
 			}

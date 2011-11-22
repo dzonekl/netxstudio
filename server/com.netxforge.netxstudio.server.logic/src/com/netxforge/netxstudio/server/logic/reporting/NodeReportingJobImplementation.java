@@ -46,6 +46,10 @@ public class NodeReportingJobImplementation extends JobImplementation {
 	public void run() {
 
 		final NodeReporterJob reporterJob = (NodeReporterJob) getJob();
+		Node node = reporterJob.getNode();
+		if(node == null){
+			return; // silent return. 
+		}
 		NodeResourceReportingLogic reportingLogic = LogicActivator
 				.getInstance().getInjector()
 				.getInstance(NodeResourceReportingLogic.class);
@@ -53,13 +57,13 @@ public class NodeReportingJobImplementation extends JobImplementation {
 		URI path = null;
 
 		reportingLogic.setJobMonitor(getRunMonitor());
-		
-		// For automatic reports, we use a medium period. 
+
+		// For automatic reports, we use a medium period.
 		if (reportingLogic instanceof BasePeriodLogic) {
 			reportingLogic.setPeriod(ExpansionDuration.MEDIUM);
 		}
 
-		List<Node> nodes = Lists.newArrayList((Node) reporterJob.getNode());
+		List<Node> nodes = Lists.newArrayList(node);
 		reportingLogic.setNodes(nodes);
 
 		// Set Operator specific.

@@ -37,10 +37,9 @@ import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 
 /**
- * This is the item provider adapter for a
- * {@link com.netxforge.netxstudio.library.Function} object. <!-- begin-user-doc
+ * This is the item provider adapter for a {@link com.netxforge.netxstudio.library.Function} object.
+ * <!-- begin-user-doc
  * --> <!-- end-user-doc -->
- * 
  * @generated
  */
 public class FunctionItemProvider extends ComponentItemProvider implements
@@ -74,22 +73,24 @@ public class FunctionItemProvider extends ComponentItemProvider implements
 	}
 
 	/**
-	 * This adds a property descriptor for the Function Relationship Refs
-	 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Function Relationship Refs feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addFunctionRelationshipRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_Function_functionRelationshipRefs_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_Function_functionRelationshipRefs_feature",
-						"_UI_Function_type"),
-				LibraryPackage.Literals.FUNCTION__FUNCTION_RELATIONSHIP_REFS,
-				true, false, true, null, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Function_functionRelationshipRefs_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Function_functionRelationshipRefs_feature", "_UI_Function_type"),
+				 LibraryPackage.Literals.FUNCTION__FUNCTION_RELATIONSHIP_REFS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -99,26 +100,26 @@ public class FunctionItemProvider extends ComponentItemProvider implements
 	 * @generated
 	 */
 	protected void addAllFunctionsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_Function_allFunctions_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_Function_allFunctions_feature",
-						"_UI_Function_type"),
-				LibraryPackage.Literals.FUNCTION__ALL_FUNCTIONS, true, false,
-				true, null, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Function_allFunctions_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Function_allFunctions_feature", "_UI_Function_type"),
+				 LibraryPackage.Literals.FUNCTION__ALL_FUNCTIONS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -133,48 +134,45 @@ public class FunctionItemProvider extends ComponentItemProvider implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
 
 		return super.getChildFeature(object, child);
 	}
 
 	/**
-	 * This returns Function.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns Function.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/Function"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Function"));
 	}
 
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Function) object).getName();
-		return label == null || label.length() == 0 ? "<not set>"
-				: label;
+		String label = ((Function)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_Function_type") :
+			getString("_UI_Function_type") + " " + label;
 	}
 
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -182,10 +180,9 @@ public class FunctionItemProvider extends ComponentItemProvider implements
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Function.class)) {
-		case LibraryPackage.FUNCTION__FUNCTIONS:
-			fireNotifyChanged(new ViewerNotification(notification,
-					notification.getNotifier(), true, false));
-			return;
+			case LibraryPackage.FUNCTION__FUNCTIONS:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				return;
 		}
 		super.notifyChanged(notification);
 	}

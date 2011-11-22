@@ -34,6 +34,7 @@ package com.netxforge.netxstudio.metrics;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingCSV#getDelimiter <em>Delimiter</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MappingCSV#getFilterPattern <em>Filter Pattern</em>}</li>
  * </ul>
  * </p>
  *
@@ -69,4 +70,32 @@ public interface MappingCSV extends Mapping {
 	 * @generated
 	 */
 	void setDelimiter(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Filter Pattern</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * A regexp which is used to filter files present
+	 * 						at the location defined by the MetricLocation.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Filter Pattern</em>' attribute.
+	 * @see #setFilterPattern(String)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingCSV_FilterPattern()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='FilterPattern'"
+	 * @generated
+	 */
+	String getFilterPattern();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingCSV#getFilterPattern <em>Filter Pattern</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Filter Pattern</em>' attribute.
+	 * @see #getFilterPattern()
+	 * @generated
+	 */
+	void setFilterPattern(String value);
 } // MappingCSV

@@ -8,6 +8,7 @@ import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
@@ -56,6 +57,7 @@ import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -514,17 +516,25 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 						resourceScreen.setScreenService(screenService);
 
 						// The CDO Resource, will depend on the component path.
-						String cdoResourcePath = modelUtils.cdoCalculatedResourcePath(comp);
-						
-						if(cdoResourcePath == null){
-							System.out.println("Can't calculate path for empty names");
+						String cdoResourcePath = modelUtils
+								.cdoCalculatedResourcePath(comp);
+
+						if (cdoResourcePath == null) {
+							System.out
+									.println("Can't calculate path for empty names");
 							return; // Can't calculate path for empty names.
 						}
 						final Resource resourcesResource = editingService
-								.getDataService().getProvider().getResource(editingService.getEditingDomain().getResourceSet(), cdoResourcePath);
-						
-						System.out.println(resourcesResource.getURI().toString());
-						
+								.getDataService()
+								.getProvider()
+								.getResource(
+										editingService.getEditingDomain()
+												.getResourceSet(),
+										cdoResourcePath);
+
+						System.out.println(resourcesResource.getURI()
+								.toString());
+
 						resourceScreen.injectData(resourcesResource, comp,
 								LibraryFactory.eINSTANCE.createNetXResource());
 						screenService.setActiveScreen(resourceScreen);
@@ -593,6 +603,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				ISelection s = resourceTableViewer.getSelection();
 				if (s instanceof IStructuredSelection) {
 
+					CompoundCommand cc = new CompoundCommand();
 					// Object o = ((IStructuredSelection) s).getFirstElement();
 					// Command rc =
 					// DeleteCommand.create(editingService.getEditingDomain(),
@@ -600,10 +611,28 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 					// editingService.getEditingDomain().getCommandStack().execute(rc);
 
 					Object o = ((IStructuredSelection) s).getFirstElement();
-					Command rc = new RemoveCommand(editingService
-							.getEditingDomain(), comp.getResourceRefs(), o);
+					{
+
+						Command rc = new RemoveCommand(editingService
+								.getEditingDomain(), comp.getResourceRefs(), o);
+
+						cc.append(rc);
+					}
+					if (o instanceof NetXResource) {
+
+						NetXResource res = (NetXResource) o;
+						
+						Resource resource = res.eResource(); 
+						if ( resource != null) {
+							Command rc = new RemoveCommand(editingService
+									.getEditingDomain(), res.eResource()
+									.getContents(), o);
+							cc.append(rc);
+						}
+					}
 					editingService.getEditingDomain().getCommandStack()
-							.execute(rc);
+							.execute(cc);
+
 				}
 			}
 		});
@@ -838,7 +867,6 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		resourceTableViewer.setInput(resourcesListProperty.observe(comp));
 	}
 
-	
 	public void bindToleranceSection() {
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		tolerancesTableViewer.setContentProvider(listContentProvider);

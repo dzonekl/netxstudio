@@ -8,6 +8,16 @@ The Resources screen
 
 !PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/resources/resources.png!
 
-*New* => Click on the upright link to create a new Resource
+h2. Direct capacity editing
+
+Instead of calculating the capacity of a resource, it's also possible to add a Capacity value manually.
+Click on the capacity column for the intended Resource, which will present the following dialog:
+ 
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/resources/add_capacity.png!
+
+* This is the most recent capacity, the value will overwrite the most recent existing capacity values.  
+* The entered capacity applies for a period (Applies from/to). 
+
 *Edit* => Right-click on a Resource in the table and select edit. 
 *Filter* => Type text to filter Resource containing the text

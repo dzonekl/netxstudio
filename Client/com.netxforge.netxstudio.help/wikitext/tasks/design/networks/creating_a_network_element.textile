@@ -1,0 +1,25 @@
+h1. Creating or Editing a Network Element
+
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/networks/creating_a_network_element.png!
+
+
+The following data should be entered or is presented.
+
+*Info*
+
+* *%{color:green}MAPPING ID%* The Network Element ID. The identifier for the Network Element. 
+
+* The Network Element Type. Select the Network Element type from the predefined Network Element types in the library.
+
+*Geo*
+
+* A geographical location of the Network Element. Select from the pre-defined geographical locations.
+
+*Lifecycle*
+
+* Proposed. The Network Element "Proposed" date.
+* Planned. The Network Element "Planned" date.
+* Construction. The Network Element "Construction" date.
+* In Service. The Network Element "In Service" date.
+* Out of Service. The Network Element "Out of Service" date.

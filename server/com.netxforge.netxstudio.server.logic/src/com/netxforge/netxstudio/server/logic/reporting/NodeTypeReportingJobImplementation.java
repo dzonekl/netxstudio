@@ -45,6 +45,11 @@ public class NodeTypeReportingJobImplementation extends JobImplementation {
 
 		URI folderURI = null;
 		final NodeTypeReporterJob reporterJob = (NodeTypeReporterJob) getJob();
+		
+		if(reporterJob.getScopeObject() == null){
+			return; // return silently. 
+		}
+		
 
 		for (final BaseLogic reportingLogic : ReportingService
 				.getOperatorReportingLogos()) {

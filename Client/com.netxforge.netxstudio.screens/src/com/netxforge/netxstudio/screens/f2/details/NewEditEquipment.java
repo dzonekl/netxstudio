@@ -111,22 +111,26 @@ public class NewEditEquipment extends NewEditComponent implements
 		
 		IObservableValue codeObservable = SWTObservables.observeDelayedValue(
 				400, SWTObservables.observeText(txtCode, SWT.Modify));
+		
+		IEMFValueProperty codeProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE);
 
+		context.bindValue(codeObservable, codeProperty.observe(comp), null,
+				null);
+		
 		IObservableValue descriptionObservable = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(txtDescription, SWT.Modify));
 
 
-		IEMFValueProperty codeProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE);
+		
 
 		IEMFValueProperty componentDescriptionProperty = EMFEditProperties
 				.value(editingService.getEditingDomain(),
 						LibraryPackage.Literals.COMPONENT__DESCRIPTION);
 
-		context.bindValue(codeObservable, codeProperty.observe(comp), null,
-				null);
+		
 		context.bindValue(descriptionObservable,
 				componentDescriptionProperty.observe(comp), null, null);
 

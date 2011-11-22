@@ -73,6 +73,7 @@ public class MappingCSVItemProvider
 			super.getPropertyDescriptors(object);
 
 			addDelimiterPropertyDescriptor(object);
+			addFilterPatternPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -91,6 +92,28 @@ public class MappingCSVItemProvider
 				 getString("_UI_MappingCSV_delimiter_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_MappingCSV_delimiter_feature", "_UI_MappingCSV_type"),
 				 MetricsPackage.Literals.MAPPING_CSV__DELIMITER,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Filter Pattern feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addFilterPatternPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingCSV_filterPattern_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingCSV_filterPattern_feature", "_UI_MappingCSV_type"),
+				 MetricsPackage.Literals.MAPPING_CSV__FILTER_PATTERN,
 				 true,
 				 false,
 				 false,
@@ -135,6 +158,7 @@ public class MappingCSVItemProvider
 
 		switch (notification.getFeatureID(MappingCSV.class)) {
 			case MetricsPackage.MAPPING_CSV__DELIMITER:
+			case MetricsPackage.MAPPING_CSV__FILTER_PATTERN:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

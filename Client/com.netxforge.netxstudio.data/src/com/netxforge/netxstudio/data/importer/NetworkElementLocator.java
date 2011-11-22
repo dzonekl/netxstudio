@@ -50,6 +50,7 @@ import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
+import com.netxforge.netxstudio.operators.Warehouse;
 
 /**
  * Is responsible for finding a network element using a set of IdentifierValues.
@@ -466,11 +467,12 @@ public class NetworkElementLocator {
 				((Function) target).getFunctions().add(
 						(Function) resultComponent);
 				resultComponent.setName(value);
-				EStructuralFeature eFeature = this.featureForName(target, identifierDescriptor.getKind().getObjectProperty());
-				if(eFeature != null){
+				EStructuralFeature eFeature = this.featureForName(target,
+						identifierDescriptor.getKind().getObjectProperty());
+				if (eFeature != null) {
 					target.eSet(eFeature, value);
 				}
-				
+
 			} else if (identifierDescriptor.getKind().getObjectKind() == ObjectKindType.EQUIPMENT) {
 				resultComponent = LibraryFactory.eINSTANCE.createEquipment();
 				((Equipment) target).getEquipments().add(
@@ -479,9 +481,10 @@ public class NetworkElementLocator {
 				// Set the attribute based on the identifier, note that a
 				// Component should always have a name.
 				resultComponent.setName(value);
-				
-				EStructuralFeature eFeature = this.featureForName(target, identifierDescriptor.getKind().getObjectProperty());
-				if(eFeature != null){
+
+				EStructuralFeature eFeature = this.featureForName(target,
+						identifierDescriptor.getKind().getObjectProperty());
+				if (eFeature != null) {
 					target.eSet(eFeature, value);
 				}
 
@@ -585,6 +588,12 @@ public class NetworkElementLocator {
 			return false;
 		}
 		if (eObject instanceof Node && isValidObject(eObject, identifierValue)) {
+			// Bug Should not add metrics to a Network Element in the Warehouse.
+			Node n = (Node) eObject;
+			if (n.eContainer() != null && n.eContainer() instanceof Warehouse) {
+				return false;
+			}
+			// valid parents are of eClass Network.
 			return true;
 		}
 		return hasValidNode(eObject.eContainer(), identifierValue);

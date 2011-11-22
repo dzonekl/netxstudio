@@ -572,6 +572,7 @@
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingCSV">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingCSV/delimiter"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingCSV/filterPattern"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingRDBMS">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/databaseType"/>
@@ -584,8 +585,8 @@
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingRecord">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecord/column"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecord/count"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecord/message"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecord/row"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingStatistic">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingStatistic/failedRecords"/>
@@ -596,6 +597,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingStatistic/totalRecords"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingXLS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLS/filterPattern"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLS/sheetNumber"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//Metric">

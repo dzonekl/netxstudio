@@ -1,0 +1,43 @@
+h1. Creating or Editing an Equipment Instance
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/networks/creating_an_equipment.png!
+
+The following data should be entered or is presented.
+
+*Info*
+* *%{color:green}MAPPING ID%* The Equipment code (Read-only, definition in Library)
+* *%{color:green}MAPPING ID%* The Equipment name
+* The Equipment Description 
+* *%{color:green}MAPPING ID%* The Equipment Position
+
+*Lifecycle*
+
+* Proposed. The Network Element "Proposed" date.
+* Planned. The Network Element "Planned" date.
+* Construction. The Network Element "Construction" date.
+* In Service. The Network Element "In Service" date.
+* Out of Service. The Network Element "Out of Service" date.
+
+*Resources*
+
+* Click "New" to create a Resource for this Function
+* Right-Click on a Resource to either edit or remove a Resource for the Function.   
+
+See also: 
+* "Create or Modifying a Resource":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/resources/resource_values.html
+
+* Select the Capacity Expression for +all+ Resources in this Function. 
+* Select the Utilization Expression for +all+ Resources in this Function.
+
+*Metrics*
+
+* Click "Add" to add an existing Metric to the Function.
+* Right-Click on a Metric to remove a Metric from the Function.   
+
+*Tolerances*
+
+* Click "Add" to add an existing Tolerance to the Function
+* Right-Click on a Tolerance to remove a Tolerance from the Function.
+
+*Save* => Menu -> File -> Save
+*Cancel* => The editing can be undone by Menu-> Edit -> Undo

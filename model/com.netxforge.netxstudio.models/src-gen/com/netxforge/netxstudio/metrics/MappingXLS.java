@@ -45,6 +45,7 @@ package com.netxforge.netxstudio.metrics;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MappingXLS#getFilterPattern <em>Filter Pattern</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingXLS#getSheetNumber <em>Sheet Number</em>}</li>
  * </ul>
  * </p>
@@ -54,6 +55,34 @@ package com.netxforge.netxstudio.metrics;
  * @generated
  */
 public interface MappingXLS extends Mapping {
+	/**
+	 * Returns the value of the '<em><b>Filter Pattern</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * A regexp which is used to filter files present
+	 * 						at the location defined by the MetricLocation.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Filter Pattern</em>' attribute.
+	 * @see #setFilterPattern(String)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingXLS_FilterPattern()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='FilterPattern'"
+	 * @generated
+	 */
+	String getFilterPattern();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingXLS#getFilterPattern <em>Filter Pattern</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Filter Pattern</em>' attribute.
+	 * @see #getFilterPattern()
+	 * @generated
+	 */
+	void setFilterPattern(String value);
+
 	/**
 	 * Returns the value of the '<em><b>Sheet Number</b></em>' attribute.
 	 * <!-- begin-user-doc -->

@@ -72,9 +72,32 @@ public class MappingXLSItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addFilterPatternPropertyDescriptor(object);
 			addSheetNumberPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Filter Pattern feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addFilterPatternPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingXLS_filterPattern_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingXLS_filterPattern_feature", "_UI_MappingXLS_type"),
+				 MetricsPackage.Literals.MAPPING_XLS__FILTER_PATTERN,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -134,6 +157,7 @@ public class MappingXLSItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(MappingXLS.class)) {
+			case MetricsPackage.MAPPING_XLS__FILTER_PATTERN:
 			case MetricsPackage.MAPPING_XLS__SHEET_NUMBER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

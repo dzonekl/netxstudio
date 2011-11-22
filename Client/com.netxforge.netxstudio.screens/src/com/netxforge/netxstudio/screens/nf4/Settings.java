@@ -1,8 +1,16 @@
 package com.netxforge.netxstudio.screens.nf4;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.util.IllegalFormatException;
+
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.validation.IValidator;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
@@ -46,6 +54,13 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 	private Text txtShort;
 	private Text txtMedium;
 	private Text txtLong;
+	private DecimalFormat df = new DecimalFormat("###,##0");
+
+	// private FormattedText quickFormatedText;
+	// private NumberFormatter numberFormatter;
+	// private FormattedText shortFormatedText;
+	// private FormattedText mediumFormatedText;
+	// private FormattedText longFormatedText;
 
 	/**
 	 * Create the composite.
@@ -146,6 +161,14 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 		lblQuick.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
+		// numberFormatter = new NumberFormatter("###,##0");
+		// numberFormatter.setDecimalSeparatorAlwaysShown(false);
+		//
+		// quickFormatedText = new FormattedText(expansionDurationComposite,
+		// SWT.BORDER | SWT.RIGHT);
+		// quickFormatedText.setFormatter(numberFormatter);
+		// txtQuick = quickFormatedText.getControl();
+
 		txtQuick = toolkit.createText(expansionDurationComposite, "New Text",
 				SWT.NONE);
 		txtQuick.setText("");
@@ -156,6 +179,11 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 				"SHORT:", SWT.NONE);
 		lblShort.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
+
+		// shortFormatedText = new FormattedText(expansionDurationComposite,
+		// SWT.BORDER | SWT.RIGHT);
+		// shortFormatedText.setFormatter(numberFormatter);
+		// txtShort = shortFormatedText.getControl();
 
 		txtShort = toolkit.createText(expansionDurationComposite, "New Text",
 				SWT.NONE);
@@ -168,6 +196,11 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 		lblMedium.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
+		// mediumFormatedText = new FormattedText(expansionDurationComposite,
+		// SWT.BORDER | SWT.RIGHT);
+		// mediumFormatedText.setFormatter(numberFormatter);
+		// txtMedium = mediumFormatedText.getControl();
+
 		txtMedium = toolkit.createText(expansionDurationComposite, "New Text",
 				SWT.NONE);
 		txtMedium.setText("");
@@ -178,6 +211,11 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 				"LONG:", SWT.NONE);
 		lblLong.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));
+
+		// longFormatedText = new FormattedText(expansionDurationComposite,
+		// SWT.BORDER | SWT.RIGHT);
+		// longFormatedText.setFormatter(numberFormatter);
+		// txtLong = longFormatedText.getControl();
 
 		txtLong = toolkit.createText(expansionDurationComposite, "New Text",
 				SWT.NONE);
@@ -213,17 +251,21 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 
 		// Expansion duration settings.
 
-		IObservableValue quickDurationObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(
-				this.txtQuick, SWT.Modify));
+		IObservableValue quickDurationObservable = SWTObservables
+				.observeDelayedValue(400,
+						SWTObservables.observeText(this.txtQuick, SWT.Modify));
 
-		IObservableValue shortDurationObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(
-				this.txtShort, SWT.Modify));
+		IObservableValue shortDurationObservable = SWTObservables
+				.observeDelayedValue(400,
+						SWTObservables.observeText(this.txtShort, SWT.Modify));
 
-		IObservableValue mediumDurationObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(
-				this.txtMedium, SWT.Modify));
+		IObservableValue mediumDurationObservable = SWTObservables
+				.observeDelayedValue(400,
+						SWTObservables.observeText(this.txtMedium, SWT.Modify));
 
-		IObservableValue longDurationObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(
-				this.txtLong, SWT.Modify));
+		IObservableValue longDurationObservable = SWTObservables
+				.observeDelayedValue(400,
+						SWTObservables.observeText(this.txtLong, SWT.Modify));
 
 		IEMFValueProperty quickDurationProperty = EMFEditProperties
 				.value(editingService.getEditingDomain(),
@@ -257,52 +299,70 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 										GenericsPackage.Literals.EXPANSION_DURATION_SETTING__LONG_DURATION,
 										GenericsPackage.Literals.EXPANSION_DURATION_VALUE__VALUE));
 
-//		EMFUpdateValueStrategy dayToTargetStrategy = new EMFUpdateValueStrategy();
-//		dayToTargetStrategy.setConverter(new DayToTargetConverter());
+		EMFUpdateValueStrategy targetToDayStrategy = new EMFUpdateValueStrategy();
+		targetToDayStrategy.setConverter(new TargetToDayConverter());
+		targetToDayStrategy.setBeforeSetValidator(new TargetToDayValidator());
 
-//		bindingContext.bindValue(quickDurationObservable,
-//				quickDurationProperty.observe(settings), null,
-//				dayToTargetStrategy);
+		EMFUpdateValueStrategy dayToTargetStrategy = new EMFUpdateValueStrategy();
+		dayToTargetStrategy.setConverter(new DayToTargetConverter());
+
+		// bindingContext.bindValue(quickDurationObservable,
+		// quickDurationProperty.observe(settings), null,
+		// dayToTargetStrategy);
 
 		bindingContext.bindValue(quickDurationObservable,
-				quickDurationProperty.observe(settings), null,
-				null);
+				quickDurationProperty.observe(settings), targetToDayStrategy,
+				dayToTargetStrategy);
 
-		
-//		bindingContext.bindValue(shortDurationObservable,
-//				shortDurationProperty.observe(settings), null,
-//				dayToTargetStrategy);
+		// bindingContext.bindValue(shortDurationObservable,
+		// shortDurationProperty.observe(settings), null,
+		// dayToTargetStrategy);
 
 		bindingContext.bindValue(shortDurationObservable,
-				shortDurationProperty.observe(settings), null,
-				null);
+				shortDurationProperty.observe(settings), targetToDayStrategy,
+				dayToTargetStrategy);
 
-		
-//		bindingContext.bindValue(mediumDurationObservable,
-//				mediumDurationProperty.observe(settings), null,
-//				dayToTargetStrategy);
+		// bindingContext.bindValue(mediumDurationObservable,
+		// mediumDurationProperty.observe(settings), null,
+		// dayToTargetStrategy);
 
 		bindingContext.bindValue(mediumDurationObservable,
-		mediumDurationProperty.observe(settings), null,
-		null);
+				mediumDurationProperty.observe(settings), targetToDayStrategy,
+				dayToTargetStrategy);
 
-		
-//		bindingContext.bindValue(longDurationObservable,
-//				longDurationProperty.observe(settings), null,
-//				dayToTargetStrategy);
+		// bindingContext.bindValue(longDurationObservable,
+		// longDurationProperty.observe(settings), null,
+		// dayToTargetStrategy);
 
 		bindingContext.bindValue(longDurationObservable,
-				longDurationProperty.observe(settings), null,
-				null);
+				longDurationProperty.observe(settings), targetToDayStrategy,
+				dayToTargetStrategy);
 
-		
 		return bindingContext;
+	}
+
+	class TargetToDayValidator implements IValidator {
+
+		public IStatus validate(Object value) {
+
+			if(value == null){
+				return Status.CANCEL_STATUS;
+			}
+			if (value instanceof String) {
+				String s = (String) value;
+				if (s.isEmpty()) {
+					return Status.CANCEL_STATUS;
+				}
+			}
+			return Status.OK_STATUS;
+		}
+
 	}
 
 	class DayToTargetConverter implements IConverter {
 
 		public Object getFromType() {
-			return Integer.class;
+			return int.class;
 		}
 
 		public Object getToType() {
@@ -310,12 +370,37 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 		}
 
 		public Object convert(Object fromObject) {
-			if (fromObject instanceof Integer) {
-				return fromObject.toString();
+			try {
+				return df.format(fromObject);
+			} catch (IllegalFormatException ife) {
 			}
 			return null;
 		}
+	}
 
+	class TargetToDayConverter implements IConverter {
+
+		public Object getFromType() {
+			return String.class;
+		}
+
+		public Object getToType() {
+			return int.class;
+		}
+
+		public Object convert(Object fromObject) {
+			if (fromObject instanceof String) {
+				String s = (String) fromObject;
+				if (s.isEmpty())
+					return null;
+				try {
+					Number parse = df.parse((String) fromObject);
+					return parse.intValue();
+				} catch (ParseException e) {
+				}
+			}
+			return null;
+		}
 	}
 
 	public void disposeData() {

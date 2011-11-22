@@ -31,6 +31,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingCSVImpl#getDelimiter <em>Delimiter</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingCSVImpl#getFilterPattern <em>Filter Pattern</em>}</li>
  * </ul>
  * </p>
  *
@@ -72,6 +73,24 @@ public class MappingCSVImpl extends MappingImpl implements MappingCSV {
 	 */
 	public void setDelimiter(String newDelimiter) {
 		eSet(MetricsPackage.Literals.MAPPING_CSV__DELIMITER, newDelimiter);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getFilterPattern() {
+		return (String)eGet(MetricsPackage.Literals.MAPPING_CSV__FILTER_PATTERN, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFilterPattern(String newFilterPattern) {
+		eSet(MetricsPackage.Literals.MAPPING_CSV__FILTER_PATTERN, newFilterPattern);
 	}
 
 } //MappingCSVImpl

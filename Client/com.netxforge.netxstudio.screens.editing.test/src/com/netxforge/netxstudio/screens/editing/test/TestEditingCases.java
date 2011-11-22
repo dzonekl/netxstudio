@@ -1,11 +1,13 @@
 package com.netxforge.netxstudio.screens.editing.test;
 
 import java.util.Collection;
+import java.util.List;
 
 import junit.framework.Assert;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOState;
+import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -15,20 +17,32 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Warehouse;
+import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.JobRunContainer;
+import com.netxforge.netxstudio.scheduling.JobState;
+import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.test.internal.TestInjector;
 
 public class TestEditingCases {
 
 	private static final String OPERATION_DECOMMISSION = "Decommission";
+
+	private static final String METRICSOURCE_TEST = "MetricSource Test";
 
 	private static final String NETWORK_TEST = "Network Test";
 	private static final String OPERATOR_TEST = "Operator Test";
@@ -37,6 +51,7 @@ public class TestEditingCases {
 	private static final String WAREHOUSE_TEST = "Warehouse Test";
 
 	IEditingService editingService;
+	ModelUtils modelUtils;
 
 	private Node greenNode;
 
@@ -45,6 +60,8 @@ public class TestEditingCases {
 		TestInjector testInjector = new TestInjector();
 		editingService = testInjector.getInjector().getInstance(
 				IEditingService.class);
+
+		modelUtils = testInjector.getInjector().getInstance(ModelUtils.class);
 	}
 
 	@After
@@ -58,16 +75,36 @@ public class TestEditingCases {
 	}
 
 	@Test
-	public void testOperations() {
-		
-		// Create the test model and commit. 
-		testModelSetup();
-		
-		// Decommission a node and commit.  
+	public void testAdminOperations() {
+
+		connect();
+		this.buildSampleMetricSourceAndJob();
+		commit();
+
+		this.removeSampleMetricSourceAndJob();
+		commit();
+		close();
+	}
+
+	// @Test
+	public void testDesignOperations() {
+
+		// Create the test model and commit.
+		connect();
+		// Simulate creation.
+		this.buildSampleOperator();
+		this.buildSampleWarehouse();
+		commit();
+
+		// Decommission a node and commit.
 		this.simulateOperation(OPERATION_DECOMMISSION);
-		
-		// Tear down the test model and commit. 
-		testModelTearDown();
+
+		// Simulate deletion.
+		this.removeSampleOperator();
+		this.removeSampleWarehouse();
+		commit();
+		close();
+
 	}
 
 	private void simulateOperation(String operation) {
@@ -91,39 +128,28 @@ public class TestEditingCases {
 				if (eo instanceof Warehouse
 						&& ((Warehouse) eo).getName().equals(WAREHOUSE_TEST)) {
 					Warehouse wh = (Warehouse) eo;
-					wh.getNodes().add(greenNode); // Should move it away from the containment elsewhere. 
+					wh.getNodes().add(greenNode); // Should move it away from
+													// the containment
+													// elsewhere.
 				}
 			}
-			if (editingService.isDirty()) {
-				editingService.doSave(null);
-			}
+			commit();
 		}
 	}
 
-	private void testModelSetup() {
+	private void connect() {
 		editingService.getDataService().getProvider()
 				.openSession("admin", "admin");
+	}
 
-		// Simulate creation.
-		this.buildSampleOperator();
-		this.buildSampleWarehouse();
-
+	private void commit() {
 		// Simulate save.
 		if (editingService.isDirty()) {
 			editingService.doSave(null);
 		}
 	}
 
-	private void testModelTearDown() {
-		// Simulate deletion.
-		this.removeSampleOperator();
-		this.removeSampleWarehouse();
-
-		// Simulate save
-		if (editingService.isDirty()) {
-			editingService.doSave(null);
-		}
-
+	private void close() {
 		// Dispose (Close the transaction and the session).
 		editingService.disposeData();
 		editingService.getDataService().getProvider().closeSession();
@@ -151,6 +177,105 @@ public class TestEditingCases {
 		{
 			greenNode = this.createNode(createNetwork);
 			greenNode.setNodeID(NODE_TEST + " green");
+		}
+	}
+
+	/**
+	 * 
+	 * JobContainer -> Job -> MetricSource. Deleting MetricSource, should ask to
+	 * delete the Job as well....
+	 * 
+	 */
+	private void buildSampleMetricSourceAndJob() {
+
+		Resource metricSourceRes = editingService
+				.getData(MetricsPackage.Literals.METRIC_SOURCE);
+
+		MetricSource createMetricSource = this
+				.createMetricSource(metricSourceRes);
+		createMetricSource.setName(METRICSOURCE_TEST);
+
+		Resource jobResource = editingService
+				.getData(SchedulingPackage.Literals.JOB);
+
+		// Do we have this job?
+		Job job = modelUtils.jobForMultipleObjects(jobResource,
+				SchedulingPackage.Literals.METRIC_SOURCE_JOB,
+				SchedulingPackage.Literals.METRIC_SOURCE_JOB__METRIC_SOURCES,
+				Lists.newArrayList(createMetricSource));
+
+		if (job == null) {
+			// Create the job and add the metric source.
+			job = SchedulingFactory.eINSTANCE.createMetricSourceJob();
+			job.setName(METRICSOURCE_TEST);
+			job.setJobState(JobState.IN_ACTIVE);
+			job.setStartTime(modelUtils.toXMLDate(modelUtils.tomorrow()));
+			((MetricSourceJob) job).getMetricSources().addAll(
+					Lists.newArrayList(createMetricSource));
+			jobResource.getContents().add(job);
+		}
+
+		// Simulate a JobContainer for this job.
+		Resource jrcResource = editingService
+				.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+
+		JobRunContainer container = SchedulingFactory.eINSTANCE
+				.createJobRunContainer();
+		container.setJob(job);
+		jrcResource.getContents().add(container);
+
+		// Potentially add some workflow runs to the container.
+	}
+
+	private void removeSampleMetricSourceAndJob() {
+
+		Resource jobResource = editingService
+				.getData(SchedulingPackage.Literals.JOB);
+		Resource jobRunContainerResource = editingService
+				.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+		
+		List<Job> jobsToDelete = Lists.newArrayList();
+		List<JobRunContainer> jobRunContainersToDelete = Lists.newArrayList();
+		for (Object o : jobResource.getContents()) {
+			if (o instanceof Job
+					&& ((Job) o).getName().equals(METRICSOURCE_TEST)) {
+				
+				Job job = (Job) o;
+				// find our jobcontainer .
+				for (final EObject eObject : jobRunContainerResource
+						.getContents()) {
+					final JobRunContainer container = (JobRunContainer) eObject;
+					final Job containerJob = container.getJob();
+					final CDOID containerJobId = ((CDOObject) containerJob)
+							.cdoID();
+					if (job.cdoID().equals(containerJobId)) {
+						jobRunContainersToDelete.add(container);
+						break;
+					}
+				}
+				jobsToDelete.add((Job) o);
+			}
+		}
+
+		for (JobRunContainer j : jobRunContainersToDelete) {
+			jobRunContainerResource.getContents().remove(j);
+		}
+		
+		for (Job j : jobsToDelete) {
+			jobResource.getContents().remove(j);
+		}
+		
+		Resource metricSourceRes = editingService
+				.getData(MetricsPackage.Literals.METRIC_SOURCE);
+		List<MetricSource> metricsourcesToDelete = Lists.newArrayList();
+		for (Object o : metricSourceRes.getContents()) {
+			if (o instanceof MetricSource
+					&& ((MetricSource) o).getName().equals(METRICSOURCE_TEST)) {
+				metricsourcesToDelete.add((MetricSource) o);
+			}
+		}
+		for (MetricSource ms : metricsourcesToDelete) {
+			metricSourceRes.getContents().remove(ms);
 		}
 	}
 
@@ -200,6 +325,15 @@ public class TestEditingCases {
 			contents.remove(toRemove);
 		}
 	}
+
+	// / ADMIN
+
+	private MetricSource createMetricSource(Resource res) {
+		return (MetricSource) this.createObjectAddToParentList(
+				res.getContents(), MetricsPackage.Literals.METRIC_SOURCE);
+	}
+
+	// / DESIGN
 
 	private Operator createOperator(Resource res) {
 		return (Operator) this.createObjectAddToParentList(res.getContents(),

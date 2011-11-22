@@ -28,6 +28,7 @@ import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.logic.BaseLogic;
 import com.netxforge.netxstudio.server.logic.BasePeriodLogic;
+import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 
 /**
@@ -45,6 +46,11 @@ public class RFSServiceReportingJobImplementation extends JobImplementation {
 		
 		URI folderURI = null;
 		final RFSServiceReporterJob reporterJob = (RFSServiceReporterJob) getJob();
+		RFSService rfsService = reporterJob.getRFSService();
+		if(rfsService == null){
+			return;
+		}
+		
 		for (final BaseLogic reportingLogic : ReportingService.getOperatorReportingLogos()) {
 			if(folderURI == null){
 				folderURI = ((OperatorReportingLogic) reportingLogic).folderURI();
@@ -52,13 +58,13 @@ public class RFSServiceReportingJobImplementation extends JobImplementation {
 			reportingLogic.setJobMonitor(getRunMonitor());
 
 			if (reportingLogic instanceof BasePeriodLogic) {
-				((BasePeriodLogic) reportingLogic).calculatePeriod(reporterJob.getRFSService());
+				((BasePeriodLogic) reportingLogic).calculatePeriod(rfsService);
 			}
 
 			// Set Operator specific.
 			if (reportingLogic instanceof OperatorReportingLogic) {
 				((OperatorReportingLogic) reportingLogic)
-						.setServices(Lists.newArrayList((Service)reporterJob.getRFSService()));
+						.setServices(Lists.newArrayList((Service)rfsService));
 				((OperatorReportingLogic) reportingLogic)
 						.initializeStream(folderURI);
 			}

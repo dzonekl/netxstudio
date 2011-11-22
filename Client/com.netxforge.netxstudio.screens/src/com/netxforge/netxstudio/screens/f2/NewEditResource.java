@@ -679,7 +679,7 @@ public class NewEditResource extends AbstractScreen implements
 			NodeType nt = modelUtils.resolveParentNodeType((EObject) whoRefers);
 			if (nt != null) {
 				Node n = null;
-				if ((n = modelUtils.resolveParentNode(n)) != null) {
+				if ((n = modelUtils.resolveParentNode(nt)) != null) {
 					this.lblNode.setText("NE Instance:");
 					this.txtNode.setText(n.getNodeID());
 				} else {

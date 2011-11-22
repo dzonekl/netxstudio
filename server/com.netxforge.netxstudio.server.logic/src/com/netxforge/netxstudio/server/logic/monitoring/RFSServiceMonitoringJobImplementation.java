@@ -25,6 +25,7 @@ import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.ServerActivator;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.logic.profile.RFSServiceProfileLogic;
+import com.netxforge.netxstudio.services.RFSService;
 
 /**
  * Implements a job runner for a metric source.
@@ -38,7 +39,10 @@ public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 	@Override
 	public void run() {
 		final RFSServiceMonitoringJob serviceJob = (RFSServiceMonitoringJob) getJob();
-			
+		RFSService rfsService = serviceJob.getRFSService();
+		if(rfsService == null){
+			return; // return silently. 
+		}
 		
 		// Iterates over Nodes (By NodeType). 
 		final RFSServiceMonitoringLogic resourceMonitoringLogic = ServerActivator.getInstance()
@@ -51,7 +55,7 @@ public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 		// Iterates over Service Users 
 		final RFSServiceProfileLogic resourceProfileLogic = ServerActivator.getInstance()
 				.getInjector().getInstance(RFSServiceProfileLogic.class);
-		resourceProfileLogic.setRfsService(serviceJob.getRFSService().cdoID());
+		resourceProfileLogic.setRfsService(rfsService.cdoID());
 		resourceProfileLogic.setJobMonitor(getRunMonitor());
 		resourceProfileLogic.initializeProfileLogic();
 		resourceProfileLogic.run();

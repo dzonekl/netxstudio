@@ -192,7 +192,7 @@ public interface MappingStatistic extends Base {
 	 * @return the value of the '<em>Message</em>' attribute.
 	 * @see #setMessage(String)
 	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingStatistic_Message()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 * @model dataType="com.netxforge.netxstudio.generics.Description2000"
 	 *        extendedMetaData="kind='attribute' name='Message'"
 	 * @generated
 	 */

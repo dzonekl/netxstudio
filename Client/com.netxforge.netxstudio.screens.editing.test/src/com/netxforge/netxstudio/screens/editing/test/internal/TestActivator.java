@@ -27,9 +27,7 @@ public class TestActivator implements BundleActivator {
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		TestActivator.context = bundleContext;
-		this.plugin = this;
-		
-		
+		plugin = this;
 	}
 
 	/*

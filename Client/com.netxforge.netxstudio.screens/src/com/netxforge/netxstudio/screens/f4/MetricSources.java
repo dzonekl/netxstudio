@@ -399,7 +399,8 @@ public class MetricSources extends AbstractScreen implements
 				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.VIRTUAL );
 		metricSourceTableViewer.setUseHashlookup(true);
 		metricSourceTableViewer.setComparer(new CDOElementComparer());
-
+		metricSourceTableViewer.addFilter(new SearchFilter(editingService));
+		
 		table = metricSourceTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -433,7 +434,8 @@ public class MetricSources extends AbstractScreen implements
 		TableColumn tblclmnLocationUrl = tableViewerColumn_1.getColumn();
 		tblclmnLocationUrl.setWidth(300);
 		tblclmnLocationUrl.setText("Location URL");
-		metricSourceTableViewer.addFilter(new SearchFilter(editingService));
+		
+		
 
 		TableViewerColumn tableViewerColumnLastUpdate = new TableViewerColumn(
 				metricSourceTableViewer, SWT.NONE);
@@ -441,9 +443,6 @@ public class MetricSources extends AbstractScreen implements
 				.getColumn();
 		tblclmnLocationLastUpdate.setWidth(300);
 		tblclmnLocationLastUpdate.setText("Last update");
-
-		// Filter.
-		metricSourceTableViewer.addFilter(new SearchFilter(editingService));
 	}
 
 	public EMFDataBindingContext initDataBindings_() {

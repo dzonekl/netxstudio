@@ -19,6 +19,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
+import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -26,6 +27,7 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -67,6 +69,7 @@ import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.NodeReporterJob;
+import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
@@ -125,6 +128,8 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 	private ISWTObservableValue endOccurencesObservable;
 	private ISWTObservableValue endNeverObservable;
 	private ISWTObservableValue occurenceObservable;
+	private Table tableJobObjects;
+	private TableViewer tableViewerJobObjects;
 
 	public NewEditJob(Composite parent, int style) {
 		super(parent, style);
@@ -138,7 +143,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+//		 buildUI();
 	}
 
 	private void buildUI() {
@@ -153,7 +158,6 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnDetails = new FormData();
 		fd_sctnDetails.top = new FormAttachment(0, 12);
-		fd_sctnDetails.right = new FormAttachment(0, 201);
 		fd_sctnDetails.left = new FormAttachment(0, 12);
 		sctnDetails.setLayoutData(fd_sctnDetails);
 		toolkit.paintBordersFor(sctnDetails);
@@ -186,11 +190,10 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 
 		Section sctnRecurrence = toolkit.createSection(frmNewJob.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
-		fd_sctnDetails.bottom = new FormAttachment(sctnRecurrence, 0,
-				SWT.BOTTOM);
+		fd_sctnDetails.right = new FormAttachment(sctnRecurrence, -6);
 		FormData fd_sctnRecurrence = new FormData();
 		fd_sctnRecurrence.right = new FormAttachment(100, -12);
-		fd_sctnRecurrence.left = new FormAttachment(sctnDetails, 6);
+		fd_sctnRecurrence.left = new FormAttachment(0, 295);
 		fd_sctnRecurrence.bottom = new FormAttachment(0, 129);
 		fd_sctnRecurrence.top = new FormAttachment(0, 12);
 		sctnRecurrence.setLayoutData(fd_sctnRecurrence);
@@ -222,7 +225,8 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		lblAt.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));
 
-		cdateTimeStartTime = new CDateTime(compositeRecurrence, CDT.BORDER | CDT.CLOCK_24_HOUR | CDT.DROP_DOWN );
+		cdateTimeStartTime = new CDateTime(compositeRecurrence, CDT.BORDER
+				| CDT.CLOCK_24_HOUR | CDT.DROP_DOWN);
 		cdateTimeStartTime.setPattern("HH:mm");
 		toolkit.adapt(cdateTimeStartTime);
 		toolkit.paintBordersFor(cdateTimeStartTime);
@@ -267,9 +271,9 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		Section sctnJobEnd = toolkit.createSection(frmNewJob.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnJobEnd = new FormData();
-		fd_sctnJobEnd.left = new FormAttachment(0, 207);
-		fd_sctnJobEnd.right = new FormAttachment(100, -12);
 		fd_sctnJobEnd.top = new FormAttachment(sctnRecurrence, 12);
+		fd_sctnJobEnd.left = new FormAttachment(0, 295);
+		fd_sctnJobEnd.right = new FormAttachment(100, -12);
 		sctnJobEnd.setLayoutData(fd_sctnJobEnd);
 		toolkit.paintBordersFor(sctnJobEnd);
 		sctnJobEnd.setText("End");
@@ -325,6 +329,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 
 		Section sctnSummary = toolkit.createSection(frmNewJob.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
+		fd_sctnDetails.bottom = new FormAttachment(sctnSummary, -12);
 		fd_sctnJobEnd.bottom = new FormAttachment(sctnSummary, -12);
 		FormData fd_sctnSummary = new FormData();
 		fd_sctnSummary.top = new FormAttachment(0, 260);
@@ -364,6 +369,27 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		occurencesTableViewer.setLabelProvider(new OccurenceLabelProvider());
 
 		validationService.registerAllDecorators(txtJobName, lblJobName);
+
+		tableViewerJobObjects = new TableViewer(compositeDetails, SWT.BORDER
+				| SWT.FULL_SELECTION);
+		tableJobObjects = tableViewerJobObjects.getTable();
+		tableJobObjects.setHeaderVisible(true);
+		tableJobObjects.setLinesVisible(true);
+		tableJobObjects.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				true, 2, 1));
+		toolkit.paintBordersFor(tableJobObjects);
+
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
+				tableViewerJobObjects, SWT.NONE);
+		TableColumn tblclmnObject = tableViewerColumn_2.getColumn();
+		tblclmnObject.setWidth(135);
+		tblclmnObject.setText("Object");
+
+		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
+				tableViewerJobObjects, SWT.NONE);
+		TableColumn tblclmnId = tableViewerColumn_3.getColumn();
+		tblclmnId.setWidth(120);
+		tblclmnId.setText("ID");
 	}
 
 	/**
@@ -645,19 +671,55 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		bindingContext.bindValue(repeatWritableValue, repeatObservableValue,
 				targetToModelStrategy, null);
 
-		// Set initial values of the widgets. , without having the aggregator activated yet.
+		// Set initial values of the widgets. , without having the aggregator
+		// activated yet.
 		this.setInitial(startTimeObservableValue.getValue(),
 				endTimeObservableValue.getValue(),
 				repeatObservableValue.getValue(),
 				intervalObservableValue.getValue());
-		
+
 		// Set the initial values of the aggregator.
 		aggregate.setInitialValues(job);
 		this.enableAggregate(aggregate);
-		
+
 		// bindingContext.updateTargets();
 
 		return bindingContext;
+	}
+
+	private void bindJobObjects() {
+
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		tableViewerJobObjects.setContentProvider(listContentProvider);
+
+		tableViewerJobObjects.setLabelProvider(new JobObjectsLabelProvider());
+
+		IEMFListProperty list = null;
+
+		if (job instanceof MetricSourceJob) {
+			list = EMFProperties
+					.list(SchedulingPackage.Literals.METRIC_SOURCE_JOB__METRIC_SOURCES);
+		} else if (job instanceof NodeReporterJob) {
+			list = EMFProperties
+					.list(SchedulingPackage.Literals.NODE_REPORTER_JOB__NODE);
+		} else if (job instanceof NodeTypeReporterJob) {
+			list = EMFProperties
+					.list(SchedulingPackage.Literals.NODE_TYPE_REPORTER_JOB__NODE_TYPE);
+		} else if (job instanceof OperatorReporterJob) {
+			list = EMFProperties
+					.list(SchedulingPackage.Literals.OPERATOR_REPORTER_JOB__OPERATOR);
+		} else if (job instanceof RFSServiceMonitoringJob) {
+			list = EMFProperties
+					.list(SchedulingPackage.Literals.RFS_SERVICE_MONITORING_JOB__RFS_SERVICE);
+		} else if (job instanceof RFSServiceReporterJob) {
+			list = EMFProperties
+					.list(SchedulingPackage.Literals.RFS_SERVICE_REPORTER_JOB__RFS_SERVICE);
+		}
+
+		if (list != null) {
+			tableViewerJobObjects.setInput(list.observe(job));
+		}
+
 	}
 
 	private void enableAggregate(JobInfoAggregate aggregate) {
@@ -886,14 +948,14 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			}
 
 			if (interval != null) {
-				
+
 				int inSeconds = modelUtils.inSeconds(interval);
 				System.out.println(" Second interpreter = " + inSeconds);
-				// refuse to set a -1 value, as the string could be unvalid. 
-				if(inSeconds != -1){
+				// refuse to set a -1 value, as the string could be unvalid.
+				if (inSeconds != -1) {
 					intervalObservable.setValue(inSeconds);
 				}
-				
+
 			}
 
 			if (repeat != -1) {
@@ -959,7 +1021,8 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		bindingContext = initDataBindings_();
 
 		jobTypes = new String[] { "Metric Import", "Monitoring",
-				"Data retention", "Service Reporting", "Operator Reporting", "Node Reporting"};
+				"Data retention", "Service Reporting", "Operator Reporting",
+				"Node Reporting" };
 		int type = 0;
 		if (job instanceof MetricSourceJob) {
 			type = 0;
@@ -979,6 +1042,9 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		if (job instanceof NodeReporterJob) {
 			type = 5;
 		}
+
+		// Doesn't apply to all jobs..
+		this.bindJobObjects();
 
 		String title = "";
 		if (Screens.isNewOperation(getOperation())) {
@@ -1069,7 +1135,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-	
+
 	public String getScreenName() {
 		return "Expression";
 	}

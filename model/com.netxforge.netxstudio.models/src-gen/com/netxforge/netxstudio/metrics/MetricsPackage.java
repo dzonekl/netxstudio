@@ -392,13 +392,22 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_CSV__DELIMITER = MAPPING_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Filter Pattern</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_CSV__FILTER_PATTERN = MAPPING_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Mapping CSV</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_CSV_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 1;
+	int MAPPING_CSV_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl <em>Mapping RDBMS</em>}' class.
@@ -565,22 +574,22 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_RECORD__COLUMN = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RECORD__COUNT = GenericsPackage.BASE_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Message</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RECORD__MESSAGE = GenericsPackage.BASE_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Row</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_RECORD__ROW = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int MAPPING_RECORD__MESSAGE = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Mapping Record</em>' class.
@@ -738,13 +747,22 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_XLS__INTERVAL_HINT = MAPPING__INTERVAL_HINT;
 
 	/**
+	 * The feature id for the '<em><b>Filter Pattern</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_XLS__FILTER_PATTERN = MAPPING_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Sheet Number</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS__SHEET_NUMBER = MAPPING_FEATURE_COUNT + 0;
+	int MAPPING_XLS__SHEET_NUMBER = MAPPING_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Mapping XLS</em>' class.
@@ -753,7 +771,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 1;
+	int MAPPING_XLS_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MetricImpl <em>Metric</em>}' class.
@@ -1385,6 +1403,17 @@ public interface MetricsPackage extends EPackage {
 	EAttribute getMappingCSV_Delimiter();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingCSV#getFilterPattern <em>Filter Pattern</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Filter Pattern</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingCSV#getFilterPattern()
+	 * @see #getMappingCSV()
+	 * @generated
+	 */
+	EAttribute getMappingCSV_FilterPattern();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MappingRDBMS <em>Mapping RDBMS</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1493,6 +1522,17 @@ public interface MetricsPackage extends EPackage {
 	EAttribute getMappingRecord_Column();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRecord#getCount <em>Count</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Count</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingRecord#getCount()
+	 * @see #getMappingRecord()
+	 * @generated
+	 */
+	EAttribute getMappingRecord_Count();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRecord#getMessage <em>Message</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1502,17 +1542,6 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMappingRecord_Message();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRecord#getRow <em>Row</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Row</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingRecord#getRow()
-	 * @see #getMappingRecord()
-	 * @generated
-	 */
-	EAttribute getMappingRecord_Row();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MappingStatistic <em>Mapping Statistic</em>}'.
@@ -1599,6 +1628,17 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getMappingXLS();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLS#getFilterPattern <em>Filter Pattern</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Filter Pattern</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingXLS#getFilterPattern()
+	 * @see #getMappingXLS()
+	 * @generated
+	 */
+	EAttribute getMappingXLS_FilterPattern();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLS#getSheetNumber <em>Sheet Number</em>}'.
@@ -2217,6 +2257,14 @@ public interface MetricsPackage extends EPackage {
 		EAttribute MAPPING_CSV__DELIMITER = eINSTANCE.getMappingCSV_Delimiter();
 
 		/**
+		 * The meta object literal for the '<em><b>Filter Pattern</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_CSV__FILTER_PATTERN = eINSTANCE.getMappingCSV_FilterPattern();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl <em>Mapping RDBMS</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2301,20 +2349,20 @@ public interface MetricsPackage extends EPackage {
 		EAttribute MAPPING_RECORD__COLUMN = eINSTANCE.getMappingRecord_Column();
 
 		/**
+		 * The meta object literal for the '<em><b>Count</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_RECORD__COUNT = eINSTANCE.getMappingRecord_Count();
+
+		/**
 		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute MAPPING_RECORD__MESSAGE = eINSTANCE.getMappingRecord_Message();
-
-		/**
-		 * The meta object literal for the '<em><b>Row</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MAPPING_RECORD__ROW = eINSTANCE.getMappingRecord_Row();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl <em>Mapping Statistic</em>}' class.
@@ -2383,6 +2431,14 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass MAPPING_XLS = eINSTANCE.getMappingXLS();
+
+		/**
+		 * The meta object literal for the '<em><b>Filter Pattern</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_XLS__FILTER_PATTERN = eINSTANCE.getMappingXLS_FilterPattern();
 
 		/**
 		 * The meta object literal for the '<em><b>Sheet Number</b></em>' attribute feature.
