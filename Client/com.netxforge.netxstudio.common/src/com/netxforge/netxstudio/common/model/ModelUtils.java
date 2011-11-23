@@ -67,6 +67,7 @@ import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.operators.Marker;
+import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -408,7 +409,7 @@ public class ModelUtils {
 		return collection;
 	}
 
-	public List<NetXResource> allResources(Node node) {
+	public List<NetXResource> resourcesFor(Node node) {
 		List<NetXResource> resources = Lists.newArrayList();
 		TreeIterator<EObject> iterator = node.eAllContents();
 		while (iterator.hasNext()) {
@@ -510,6 +511,14 @@ public class ModelUtils {
 			return null;
 		}
 	}
+	
+	public int depthToResource(int initialDepth, EObject eObject){
+		if(eObject.eContainer() != null){
+			return depthToResource(++initialDepth, eObject.eContainer());
+		}
+		return initialDepth;
+	}
+	
 
 	/**
 	 * Return the Node or null if the target object, has a NodeType somewhere
@@ -2260,7 +2269,26 @@ public class ModelUtils {
 		return ts;
 	}
 
-	public List<NodeType> allNodeTypes(Resource operatorsResource) {
+	/**
+	 * All closure nodes. 
+	 * @param network
+	 * @return
+	 */
+	public List<Node> nodesForNetwork(Network network) {
+		final List<Node> nodes = new ArrayList<Node>();
+		
+		TreeIterator<EObject> eAllContents = network.eAllContents();
+		while(eAllContents.hasNext()){
+			EObject eo = eAllContents.next();
+			if(eo instanceof Node){
+				nodes.add((Node) eo);
+			}
+		}
+		return nodes;
+	}
+	
+	
+	public List<NodeType> nodeTypesForResource(Resource operatorsResource) {
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 		for (EObject eo : operatorsResource.getContents()) {
 			if (eo instanceof Operator) {

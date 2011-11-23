@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.IDialogSettings;
@@ -30,15 +31,17 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class NodeOrNetworkFilterDialog extends FilteredItemsSelectionDialog {
+public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDialog {
 	private final Resource resource;
+	private ModelUtils modelUtils;
 
 	/**
 	 * Create a new dialog
@@ -48,10 +51,14 @@ public class NodeOrNetworkFilterDialog extends FilteredItemsSelectionDialog {
 	 * @param resource
 	 *            the model resource
 	 */
-	public NodeOrNetworkFilterDialog(Shell shell, Resource resource) {
-		super(shell);
+	public NodeOrNetworkFilterDialog(Shell shell, Resource resource,
+			ModelUtils modelUtils) {
+		
+		super(shell, true);
 		super.setTitle("Select a Node or Network");
+		
 		this.resource = resource;
+		this.modelUtils = modelUtils;
 
 		setListLabelProvider(new LabelProvider() {
 			@Override
@@ -75,11 +82,22 @@ public class NodeOrNetworkFilterDialog extends FilteredItemsSelectionDialog {
 	}
 
 	private String getText(Object e) {
+		
+		if( e instanceof String){
+			return (String) e;
+		}
+		
+		String indent = "";
+		int depth = modelUtils.depthToResource(0, (EObject) e);
+		for (int i = 0; i < depth; i++) {
+			indent += "   ";
+		}
+
 		if (e instanceof Node) {
-			return "  " + ((Node) e).getNodeID();
+			return indent + "NE: " + ((Node) e).getNodeID();
 		}
 		if (e instanceof Network) {
-			return ((Network) e).getName();
+			return indent + "Network: " + ((Network) e).getName();
 		}
 		return "invalid object";
 	}
@@ -93,7 +111,13 @@ public class NodeOrNetworkFilterDialog extends FilteredItemsSelectionDialog {
 	protected Comparator<?> getItemsComparator() {
 		return new Comparator<Object>() {
 			public int compare(Object o1, Object o2) {
-				return getText(o1).compareTo(getText(o2));
+
+				// Do not sort by name, but by hierarchy
+				return 1;
+				// if(o1 instanceof Network && o2 instanceof Node){
+				// return 1;
+				// }
+				// return getText(o1).compareTo(getText(o2));
 			}
 		};
 	}
@@ -119,25 +143,32 @@ public class NodeOrNetworkFilterDialog extends FilteredItemsSelectionDialog {
 	protected void fillContentProvider(AbstractContentProvider contentProvider,
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
+		
 
-		org.eclipse.emf.common.util.TreeIterator<EObject> ti = resource
-				.getAllContents();
+		this.populateContent(contentProvider, itemsFilter, resource.getContents());
 		
-		while (ti.hasNext()) {
-			EObject p = ti.next();
-			if (p.eClass().equals(OperatorsPackage.Literals.NETWORK)) {
-				contentProvider.add(p, itemsFilter);
+	}
+
+	private void populateContent(AbstractContentProvider contentProvider,
+			ItemsFilter itemsFilter, EList<?> list) {
+		for (Object o : list) {
+			EObject eo = (EObject) o;
+			if (eo.eClass().equals(OperatorsPackage.Literals.OPERATOR)) {
+//				contentProvider.add(eo, itemsFilter);
+				Operator op = (Operator) eo;
+				populateContent( contentProvider, itemsFilter, op.getNetworks());
+			}
+			if (eo.eClass().equals(OperatorsPackage.Literals.NETWORK)) {
+				contentProvider.add(eo, itemsFilter);
+				Network net = (Network) eo;
+				populateContent( contentProvider, itemsFilter, net.getNodes());
+				populateContent( contentProvider, itemsFilter, net.getNetworks());
+			}
+			if (eo.eClass().equals(OperatorsPackage.Literals.NODE)) {
+				contentProvider.add(eo, itemsFilter);
 			}
 		}
-		
-		ti = resource.getAllContents();
-		
-		while (ti.hasNext()) {
-			EObject p = ti.next();
-			if (p.eClass().equals(OperatorsPackage.Literals.NODE)) {
-				contentProvider.add(p, itemsFilter);
-			}
-		}
+
 	}
 
 	@Override

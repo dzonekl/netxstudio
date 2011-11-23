@@ -519,7 +519,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 						NodeOrNetworkFilterDialog dialog = new NodeOrNetworkFilterDialog(
 								NewEditServiceTree.this.getShell(),
-								operatorResource);
+								operatorResource, modelUtils);
 
 						if (dialog.open() == IDialogConstants.OK_ID) {
 							Object o = dialog.getFirstResult();
@@ -530,7 +530,8 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 								nodesToAdd.add((Node) o);
 							}
 							if (o instanceof Network) {
-								nodesToAdd.addAll(((Network) o).getNodes());
+								// Adds all closure nodes. 
+								nodesToAdd.addAll(modelUtils.nodesForNetwork((Network) o));
 							}
 
 							Iterable<Node> filter = Iterables.filter(
@@ -580,8 +581,8 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		TableViewerColumn tbvClmnNodeID = new TableViewerColumn(
 				networkElementsTableViewer, SWT.NONE);
 		TableColumn tblclmnNewColumn_1 = tbvClmnNodeID.getColumn();
-		tblclmnNewColumn_1.setWidth(64);
-		tblclmnNewColumn_1.setText("Node ID");
+		tblclmnNewColumn_1.setWidth(120);
+		tblclmnNewColumn_1.setText("ID");
 
 		Menu menu_2 = new Menu(tblNetworkElements);
 		tblNetworkElements.setMenu(menu_2);
