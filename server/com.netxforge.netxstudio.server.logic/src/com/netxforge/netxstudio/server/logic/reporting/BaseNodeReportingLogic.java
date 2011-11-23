@@ -122,6 +122,7 @@ public abstract class BaseNodeReportingLogic extends BasePeriodLogic {
 		}
 
 		 this.getDataProvider().commitTransaction();
+		 this.getDataProvider().closeSession();
 	}
 
 	protected abstract void processServiceUser(Service service, HSSFSheet sheet);

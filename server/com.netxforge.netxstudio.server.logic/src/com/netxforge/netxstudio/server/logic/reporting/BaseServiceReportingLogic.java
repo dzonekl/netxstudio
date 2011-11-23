@@ -134,6 +134,7 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 		}
 
 		 this.getDataProvider().commitTransaction();
+		 this.getDataProvider().closeSession();
 	}
 
 	public abstract void writeFinal(HSSFSheet sheet);

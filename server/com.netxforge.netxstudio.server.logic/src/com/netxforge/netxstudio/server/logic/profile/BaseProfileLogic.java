@@ -92,6 +92,7 @@ public abstract class BaseProfileLogic extends BasePeriodLogic {
 
 		}
 		this.getDataProvider().commitTransaction();
+		this.getDataProvider().closeSession();
 	}
 
 	protected abstract List<ServiceUser> getServiceUsersToExecuteFor();

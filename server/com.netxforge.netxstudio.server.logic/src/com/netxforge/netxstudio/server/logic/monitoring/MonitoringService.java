@@ -154,6 +154,7 @@ public class MonitoringService implements NetxForgeService {
 		private ServerWorkFlowRunMonitor createMonitor() {
 			final ServerWorkFlowRunMonitor runMonitor = LogicActivator.getInstance()
 					.getInjector().getInstance(ServerWorkFlowRunMonitor.class);
+			
 			dataProvider.openSession();
 			dataProvider.getTransaction();
 			final Resource res = dataProvider

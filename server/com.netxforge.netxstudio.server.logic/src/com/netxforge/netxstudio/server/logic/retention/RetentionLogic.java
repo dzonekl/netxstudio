@@ -75,7 +75,7 @@ public class RetentionLogic extends BaseComponentLogic {
 	
 	private List<NodeType> allNodes(){
 		Resource operatorResources = this.getDataProvider().getResource(OperatorsPackage.Literals.OPERATOR);
-		return this.getModelUtils().allNodeTypes(operatorResources);
+		return this.getModelUtils().nodeTypesForResource(operatorResources);
 	}
 	
 	

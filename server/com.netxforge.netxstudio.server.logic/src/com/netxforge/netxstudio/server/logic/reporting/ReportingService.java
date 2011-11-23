@@ -340,6 +340,7 @@ public class ReportingService implements NetxForgeService {
 			final ServerWorkFlowRunMonitor runMonitor = LogicActivator
 					.getInstance().getInjector()
 					.getInstance(ServerWorkFlowRunMonitor.class);
+			
 			dataProvider.openSession();
 			dataProvider.getTransaction();
 			final Resource res = dataProvider

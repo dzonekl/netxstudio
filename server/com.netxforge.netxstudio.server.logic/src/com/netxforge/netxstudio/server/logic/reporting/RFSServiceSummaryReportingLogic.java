@@ -94,6 +94,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		}
 
 		 this.getDataProvider().commitTransaction();
+		 this.getDataProvider().closeSession();
 	}
 
 	private void writeSummary(HSSFSheet sheet) {
