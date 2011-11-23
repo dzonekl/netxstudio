@@ -109,12 +109,12 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f1.support.ScheduledReportSelectionWizard;
 import com.netxforge.netxstudio.screens.f2.NodeHistory;
 import com.netxforge.netxstudio.screens.f2.details.NewEditEquipmentLink;
-import com.netxforge.netxstudio.screens.f2.details.NewEditFunction;
 import com.netxforge.netxstudio.screens.f2.details.NewEditFunctionLink;
 import com.netxforge.netxstudio.screens.f2.details.NewEditLink;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNetwork;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNode;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNodeEquipment;
+import com.netxforge.netxstudio.screens.f2.details.NewEditNodeFunction;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNodeType;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 import com.netxforge.netxstudio.screens.f4.NewEditJob;
@@ -212,7 +212,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				ViewerFilter[] filters = networkTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof TreeSearchFilter) {
-						((TreeSearchFilter) viewerFilter).setSearchText(txtFilterText.getText());
+						((TreeSearchFilter) viewerFilter)
+								.setSearchText(txtFilterText.getText());
 					}
 				}
 				networkTreeViewer.refresh();
@@ -262,7 +263,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		networkTreeViewer.setUseHashlookup(true);
 		networkTreeViewer.setComparer(new CDOElementComparer());
 		networkTreeViewer.addFilter(new TreeSearchFilter(editingService));
-		
+
 		// Set a default sorter.
 		networkTreeViewer.setComparator(new ViewerComparator() {
 
@@ -738,11 +739,11 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	class NetworkTreeStructureAdvisorImpl extends TreeStructureAdvisor {
 		@Override
 		public Object getParent(Object element) {
-			
-			if(element instanceof EObject){
+
+			if (element instanceof EObject) {
 				EObject eo = (EObject) element;
-				if(eo.eContainer() != null ){
-					return eo.eContainer();	
+				if (eo.eContainer() != null) {
+					return eo.eContainer();
 				}
 			}
 			return null;
@@ -761,7 +762,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 						|| net.getEquipmentRelationships().size() > 0
 						|| net.getFunctionRelationships().size() > 0) {
 					return Boolean.TRUE;
-				} else{
+				} else {
 					return null;
 				}
 			}
@@ -774,7 +775,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 							|| nt.getEquipments().size() > 0) {
 						return Boolean.TRUE;
 					}
-				}else{
+				} else {
 					return null;
 				}
 			}
@@ -829,9 +830,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		}
 
 		if (o instanceof Function) {
-			NewEditFunction screen = null;
-			screen = new NewEditFunction(this.cmpDetails, SWT.NONE,
-					editingService);
+			NewEditNodeFunction screen = new NewEditNodeFunction(
+					this.cmpDetails, SWT.NONE, editingService);
 			screen.setScreenService(screenService);
 			screen.injectData(null, o);
 			this.currentDetails = screen;

@@ -50,6 +50,7 @@ public class NewEditFunction extends NewEditComponent implements
 
 		buildInfoSection(widgetStyle);
 		buildResourceSection( readonly);
+		
 		buildMetricSection(readonly);
 		buildToleranceSection( readonly);
 	}
@@ -142,6 +143,10 @@ public class NewEditFunction extends NewEditComponent implements
 		return context;
 	}
 	
+	
+	
+	
+	
 	protected void bindDurationSection(EMFDataBindingContext context) {
 		// Expansion duration binding.
 		cmbViewerExpansionDuration
@@ -158,5 +163,4 @@ public class NewEditFunction extends NewEditComponent implements
 		context.bindValue(expansionDurationObservable,
 				durationProperty.observe(comp), null, null);
 	}
-	
 }

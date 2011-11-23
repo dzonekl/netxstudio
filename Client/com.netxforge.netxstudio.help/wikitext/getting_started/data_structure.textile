@@ -1,4 +1,4 @@
-h1. Data Structure
+h1. Data Structure and principles
 
 The system data structure consists of the following items: 
 
@@ -12,10 +12,11 @@ h2. Library
 
 The resource library is the base data of the system. It defines the Telecommunications representation of system and it's characteristics. 
 
-It is the primary starting point to use NetXStudio and is populated in the tasks: [TODO, reference to these tasks. ]
+It is the primary starting point to use NetXStudio and is populated in the Library Task.
 
 The following objects are defined in the Library.  
 
+* Network Element Type
 * Function
 * Equipment
 * Company
@@ -23,6 +24,7 @@ The following objects are defined in the Library.
 * Unit
 * Expression
 * Resource
+* Metric
 
 In the diagram below, as an example we provide a definition of a system named as  MSC-S. 
 
@@ -35,7 +37,7 @@ The following objects can be nested to provide the needed representation of a Te
 
 * Function
 * Equipment
-* Metric
+
 
 h3. Metric
 
@@ -54,13 +56,7 @@ These are:
 
 * Utilization Range
 
-* Multiple Tolerance Ranges
-
-[TODO diagram showing the various ranges. ]
-
 !PLUGINS_ROOT/com.netxforge.netxstudio.help/img/getting_started/resource_structure.png!
-
-[TBD various other ranges related to trending, forecasting etc...]
 
 Metric ranges are created when reading metrics from the defined sources. A metric source 
 will tell for each metric and corresponding resource the characteristics of the metric being stored in the resource. 
@@ -87,24 +83,34 @@ A resource can however also be created manually and populated with the results f
 to as a derived resource.   
 
 
-h2. Operator
+h2. Design Task
 
-The operator, is the actual model of the Operator
-
-The following objects are defined in the Network.  
+The following objects are defined in the Design Task.  
 
 * Network
-* Node
+* Network Element
 * Functional Relationship 
 * Physical Relationship
-* [TBD update with the latest model details]
 
-The Node object is the instance of a Library Function and Equipment. (Each Node, has a root Function and root Equipment).
-It also holds the Functional and Physical relationships. 
+h3. Operator
+
+The operator, is the actual model of the Operator
+ 
+h3. Network
 
 The following objects can be nested to provide the needed representation of a Telecommunications System. 
 
 * Network
+* Function
+* Equipment
+
+It also holds the Functional and Physical relationships. 
+
+h3. Network Element
+
+The Network Element object is the instance of a Library Network Element Type.
+
+
 
 h3. Lifecycle 
 
@@ -123,7 +129,6 @@ The Lifecycle dates are relevant to various processes.
 * Objects have to be "In Service" to be included in the monitoring cycle.  
 
 
-
 h2. Geographical
 
 The following objects are currently also defined for the network, but not in use. 
@@ -131,12 +136,3 @@ The following objects are currently also defined for the network, but not in use
 * Country
 * Site
 * Room
-
-
-h2. Other Data (File based) 
-
-
-* NetXStudio Excel template (.xml or .xls Excel Spreadsheet). 
-* NetXStudio model files. (.netxstudio)
-* NetXStudio model transformations (.qvto)
-* NetXStudio model reports (.html)

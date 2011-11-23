@@ -101,6 +101,7 @@ public class NetworkElementLocator {
 		this.lastMatchingIdentifier = lastMatchingIdentifier;
 	}
 
+	@SuppressWarnings("unused")
 	public Component locateComponent(Metric metric,
 			List<IdentifierDescriptor> identifiers) {
 		successFullIdentifiers.clear();
@@ -357,20 +358,23 @@ public class NetworkElementLocator {
 		}
 
 		List<Component> resultComponents = null;
-		if (failedIdentifiers.size() > 0) {
-			Component createOnComponent = null;
-			if (successFullComponents.size() > 0) {
-				createOnComponent = successFullComponents
-						.get(successFullComponents.size() - 1);
-			} else if (componentsMatchingMetric.size() > 0) {
-				createOnComponent = componentsMatchingMetric
-						.get(componentsMatchingMetric.size() - 1);
-			}
-			if (createOnComponent != null) {
-				resultComponents = createForIdentifiers(failedIdentifiers,
-						createOnComponent);
-			}
-		}
+		
+		
+		// Disable auto creation. 
+//		if (failedIdentifiers.size() > 0) {
+//			Component createOnComponent = null;
+//			if (successFullComponents.size() > 0) {
+//				createOnComponent = successFullComponents
+//						.get(successFullComponents.size() - 1);
+//			} else if (componentsMatchingMetric.size() > 0) {
+//				createOnComponent = componentsMatchingMetric
+//						.get(componentsMatchingMetric.size() - 1);
+//			}
+//			if (createOnComponent != null) {
+//				resultComponents = createForIdentifiers(failedIdentifiers,
+//						createOnComponent);
+//			}
+//		}
 
 		if (resultComponents != null && !resultComponents.isEmpty()) {
 			for (Component resultComponent : resultComponents) {

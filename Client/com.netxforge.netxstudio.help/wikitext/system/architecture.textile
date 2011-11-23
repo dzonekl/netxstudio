@@ -1,0 +1,42 @@
+h1. System Architecture
+
+The NetXStudio system is a multi-tier Client / Server system. 
+
+The Architecture of the system: 
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/system/architecture.png!
+
+
+h2. Functional Components
+
+The functional components are best explained by the various tasks which are supported. 
+
+h2. Technical Components
+
+h3. OSGI
+
+The building blocks are OSGI bundles (plugins) which are grouped together in features to 
+form the Client and the Server. Some of the plugins are both on the client and server making functionality available on both. OSGI allows bundles to be loaded when needed and can be replaced, even at runtime. OSGI also provides
+the mechanism to define services which are also used in the NetXStudio system. I.e. we have service for handling
+HTTP requests from the client. 
+
+
+h3. Eclipse Platform
+
+The Client application is a so-called Rich Client Platform (RCP) application build on top of some of the 
+plugins from the Eclipse Platform. An Eclipse RCP application comes with many features like a workbench where windows can be placed at will, as well as many other features, like background job processing and a preference system. Last but not least it can be deployed on many of the popular Operating Systems like Windows, Mac OSX and Linux.
+
+
+h3. CDO and EMF
+
+CDO stands for Connected Data Objects, it's a runtime object repository system. It's capabilities are various but most important is that's is a concurrent (Multi-user) , object system storage and state system. It can be populated with pre-defined EMF model Packages and will automatically provision the persistence layer like a Database. 
+
+
+h3. Hibernate & RDBMS System
+
+Hibernate is an Object Relation Mapping system, so it maps Objects (Java classes) into an RDBMS system. 
+We make use of a specialized implementation of a CDO Store which deals with an hibernate system.
+
+h3. Jasper Server and .jsp pages
+
+We also bundle an HTTP server (Jetty) and JSP capabilities. This is used to server HTTP requests and present directory listings on the server for the Reporting function. 

@@ -1,0 +1,11 @@
+h1. Design task
+
+The design task provides access to the activities concerning the design. 
+
+* "Operators"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/operators/operators.html
+* "Networks"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/networks/networks.html
+* "Resources"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/resources/resources.html
+* "Warehouses"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/warehouses/warehouses.html
+* "Countries"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/countries/countries.html
+* "Sites"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/sites/sites.html
+* "Rooms"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/rooms/rooms.html

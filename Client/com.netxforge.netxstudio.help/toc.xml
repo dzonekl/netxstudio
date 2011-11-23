@@ -8,4 +8,6 @@
    <topic href="html/tasks/tasks.html" label="Tasks">
       <anchor id="tasks"/>
    </topic>
+   <topic href="html/system/architecture.html" label="System">
+   </topic>
 </toc>

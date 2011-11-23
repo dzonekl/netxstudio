@@ -1,0 +1,15 @@
+h1. Creating or Editing a Parameter
+
+When creating a Parameter the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/parameters/creating_a_parameter.png!
+
+The following data should be entered 
+
+* The Parameter name
+* The Parameter expression name. A name with no spaces in it.
+* The Parameter value. A decimal value
+* The Parameter description. 
+
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.

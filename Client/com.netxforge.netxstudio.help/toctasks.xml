@@ -47,6 +47,8 @@
      </topic>
   </topic>
   <topic href="html/tasks/library/resource_definitions/resource_definitions.html" label="Resource Definitions">
+     <topic href="html/tasks/library/resource_definitions/creating_a_resource_definition.html" label="Create or Modify a Resource Definition">
+     </topic>
   </topic>
 		<topic href="html/tasks/library/tolerances/tolerances.html" label="Tolerances">
 			<topic href="html/tasks/library/tolerances/creating_a_tolerance.html" label="Create or modify a Tolerance">
@@ -83,7 +85,7 @@
 	     	</topic>
 	  	</topic> 
 	</topic>
- <topic href="html/tasks/design/" label="Design">
+ <topic href="html/tasks/design/design.html" label="Design">
     <topic href="html/tasks/design/operators/operators.html" label="Operators">
        <topic href="html/tasks/design/operators/creating_an_operator.html" label="Create or Modify an Operator">
        </topic>
@@ -91,13 +93,13 @@
     <topic href="html/tasks/design/networks/networks.html" label="Networks">
        <topic href="html/tasks/design/networks/creating_a_network.html" label="Create or modify a Network">
        </topic>
-       <topic href="html/tasks/design/networks/creating_a_link.html" label="Create or modify a Link">
-       </topic>
        <topic href="html/tasks/design/networks/creating_a_network_element.html" label="Create or modify a Network Element">
        </topic>
-       <topic href="html/tasks/design/networks/creating_an_equipment.html" label="Create or modify an Equipment">
+       <topic href="html/tasks/design/networks/creating_a_link.html" label="Create or modify a Link">
        </topic>
        <topic href="html/tasks/design/networks/creating_a_function.html" label="Create or modify a Function">
+       </topic>
+       <topic href="html/tasks/design/networks/creating_an_equipment.html" label="Create or modify an Equipment">
        </topic>
     </topic>
     <topic href="html/tasks/design/resources/resources.html" label="Resources">
@@ -110,7 +112,7 @@
        <topic href="html/tasks/design/warehouses/creating_a_warehouse.html" label="Create or modify a Warehouse">
        </topic>
     </topic>
-    <topic href="html/tasks/design/countries/countries" label="Countries">
+    <topic href="html/tasks/design/countries/countries.html" label="Countries">
        <topic href="html/tasks/design/countries/creating_a_country.html" label="Create or modify a Country">
        </topic>
     </topic>

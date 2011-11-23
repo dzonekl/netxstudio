@@ -16,8 +16,6 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.transaction.CDOTransactionConflictEvent;
 import org.eclipse.emf.cdo.view.CDOViewInvalidationEvent;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
@@ -107,13 +105,15 @@ public class DawnEMFHandler extends BasicDawnListener {
 										+ cdoObject.cdoState());
 								
 								// Print the state of the children.
-								TreeIterator<EObject> eAllContents = cdoObject.eAllContents();
-								while(eAllContents.hasNext()){
-									CDOObject next = (CDOObject) eAllContents.next();
-									System.out.println("CDOEditingService: child: object="
-											+ next.cdoID() + " , state="
-											+ next.cdoState());
-								}
+								// CB, Do not print, as this could be the root resource, so all objects in the
+								// DB! 
+//								TreeIterator<EObject> eAllContents = cdoObject.eAllContents();
+//								while(eAllContents.hasNext()){
+//									CDOObject next = (CDOObject) eAllContents.next();
+//									System.out.println("CDOEditingService: child: object="
+//											+ next.cdoID() + " , state="
+//											+ next.cdoState());
+//								}
 							}
 						}
 

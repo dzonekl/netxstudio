@@ -10,6 +10,10 @@ The following data should be entered
 * The Function Description 
 * The Function Expansion duration. (Quick, Short, Medium, Long)
 
+*Links*
+
+* Shows a list of links connected to this function.
+
 *Resources*
 
 * Click "New" to create a Resource for this Function

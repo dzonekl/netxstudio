@@ -1,0 +1,16 @@
+h1. Parameters
+
+The Parameters screen provides access to Parameter definitions
+Parameter definitions are fixed values which can be used in Expressions.
+
+* "Create or Modifying a Parameter":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/parameters/creating_a_parameter.html
+
+The Parameters screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/parameters/parameters.png!
+
+*New* => Click on the upright link to create a new Parameter
+*Edit* => Right-click on a Parameter in the table and select edit. 
+*Filter* => Type text to filter Parameters containing the text
+
+

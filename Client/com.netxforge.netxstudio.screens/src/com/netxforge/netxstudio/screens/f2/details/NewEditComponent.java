@@ -53,7 +53,6 @@ import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -964,9 +963,9 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		});
 
 		// Create a new lifecycle if non-existent.
-		if (((Equipment) comp).getLifecycle() == null) {
+		if (comp.getLifecycle() == null) {
 			Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
-			((Equipment) comp).setLifecycle(newLC);
+			comp.setLifecycle(newLC);
 		}
 
 		context.bindValue(dcProposedObservable, proposedProperty.observe(comp),

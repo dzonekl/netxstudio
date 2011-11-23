@@ -1,7 +1,7 @@
 h1. Creating or editing a Network
 
 
-!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/network/creating_a_network.png!
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/networks/creating_a_network.png!
 
 
 The following data should be entered or is presented.

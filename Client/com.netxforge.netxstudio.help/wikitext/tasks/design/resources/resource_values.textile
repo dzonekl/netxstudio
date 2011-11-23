@@ -1,14 +1,44 @@
 h1. Resource values
 
-When creating or editing a Operator the following screen will appear.
+When creating or editing a Resource the following screen will appear.
 
-!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/operators/creating_an_operator.png!
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/resources/creating_a_resource.png!
 
-The following data should be entered 
+The following data should be entered or is presented
 
-* The Operator Name
-* The Operator Short Name
-* The Operator Website URL
+*Info*
+
+* The Network Element ID, this resource belongs to.  
+* The Component, this resource belongs to. (A Component being a Function or an Equipment). 
+* The Short name. A short  name for the resource.
+* The Long name. A longer name which is more descriptive. 
+* The Expression name. Usually the same as the short name, but should not contain any white spaces. 
+* The Unit
+
+_Note:_ Resources are often auto-created when importing metrics. The Resource name will be the same as the metric. Changing the name, will cause the Mapping to fail in such case. We recommend not to change the name
+of a resource if it was auto-created.  
+
+*Value tabs*
+
+For each of the value ranges of the resource, a tab is presented containing the values. 
+
+* For values stored in a specific interval range, a tab will be added. 
+* The Capacity and Utilization tabs are always present. 
+
+h2. Selecting a value period
+
+With the Date selectors From and To, a period can be selected to show the corresponding values. 
+
+
+h2. Showing a graph of the values. 
+
+The selected values can be presented in a graph by right clicking on a value and selecting the action 
+"Monitor..."
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/resources/resource_chart.png!
+
+The chart also shows the markers for a resource.
+
 
 *Cancel* => Click on the 'Back' link at the bottom of the screen.
 *Save* => Click on the 'Save link at the bottom of the screen.
