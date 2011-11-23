@@ -93,6 +93,7 @@ public class NetxForgeJob implements org.quartz.Job {
 				jobImplementation.run();
 				runMonitor
 						.setFinished(jobImplementation.getJobRunState(), null);
+				jobImplementation.finish();
 			} catch (final Throwable t) {
 				runMonitor.setFinished(jobImplementation.getJobRunState(), t);
 			}

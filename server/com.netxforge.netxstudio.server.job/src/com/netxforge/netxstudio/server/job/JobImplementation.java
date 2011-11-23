@@ -73,6 +73,11 @@ public abstract class JobImplementation {
 		return JobRunState.FINISHED_SUCCESSFULLY;
 	}
 
+	public void finish() {
+		getDataProvider().commitTransaction();
+		getDataProvider().closeSession();
+	}
+	
 	public static abstract class JobImplementationFactory {
 		public abstract JobImplementation create();
 	}
