@@ -320,6 +320,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 		getMetricSource().getStatistics().add(mappingStatistic);
 		getDataProvider().commitTransaction();
+		getDataProvider().closeSession();
 		if (DataActivator.DEBUG) {
 			System.err.println("IMPORTER COMMIT SUCCESS");
 		}

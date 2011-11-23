@@ -56,6 +56,7 @@ public class ServerCDODataProvider extends CDODataProvider {
 	public CDOSession getSession() {
 		if (session == null) {
 			this.openSession();
+			System.out.println("DATA Server: Creating session ID=" + session.getSessionID() + " , Updated last on:" + session.getLastUpdateTime());
 		}
 		return session;
 	}
@@ -75,6 +76,10 @@ public class ServerCDODataProvider extends CDODataProvider {
 
 	@Override
 	protected void setSession(CDOSession session) {
+		if(this.session != null && !session.isClosed()){
+			// We obviously don't need it anymore??
+			this.session.close();
+		}
 		this.session = session;
 	}
 
@@ -83,4 +88,12 @@ public class ServerCDODataProvider extends CDODataProvider {
 		this.transaction = transaction;
 	}
 
+	@Override
+	public void closeSession() {
+		if(session != null){
+			System.out.println("DATA Server: Closing session ID=" + session.getSessionID() + " , Updated last on:" + session.getLastUpdateTime());
+			session.close();
+		}
+	}
+	
 }

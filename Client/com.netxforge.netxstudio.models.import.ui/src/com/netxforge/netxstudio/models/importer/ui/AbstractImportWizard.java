@@ -232,7 +232,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 		
 		dataProvider.commitTransaction();
 		dataProvider.setDoGetResourceFromOwnTransaction(true);
-
+		dataProvider.closeSession();
 	}
 	
 	public boolean isDangling(EObject eo, EReference eRef){

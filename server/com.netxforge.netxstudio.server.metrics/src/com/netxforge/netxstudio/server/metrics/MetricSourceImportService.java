@@ -98,6 +98,9 @@ public class MetricSourceImportService implements NetxForgeService {
 			importerHelper.setImporter(importer);
 			importer.setImportHelper(importerHelper);
 			importer.setMetricSourceWithId(msId);
+			
+//			dataProvider.closeSession();
+			
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
 			importer.setJobMonitor(monitor);
 			// run in a separate thread
@@ -114,14 +117,17 @@ public class MetricSourceImportService implements NetxForgeService {
 					importer.process();
 				};
 			}.start();
+			
 			return monitor.getWorkFlowRunId();
 		}
 
 		private ServerWorkFlowRunMonitor createMonitor() {
 			final ServerWorkFlowRunMonitor runMonitor = MetricsActivator.getInstance()
 					.getInjector().getInstance(ServerWorkFlowRunMonitor.class);
-			dataProvider.openSession();
-			dataProvider.getTransaction();
+
+// CB 22-11-2011 This is done earlier, or use another instance of the sessions! 			
+//			dataProvider.openSession();
+//			dataProvider.getTransaction();
 			final Resource res = dataProvider
 					.getResource(SchedulingPackage.Literals.WORK_FLOW_RUN);
 
