@@ -18,6 +18,8 @@
 package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +37,7 @@ import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -121,6 +124,7 @@ public class NewEditResource extends AbstractScreen implements
 	private Label lblNode;
 	private MenuItem mntmMonitor;
 	private List<Value> currentValues;
+	private MenuItem mntmRemove;
 
 	/**
 	 * Create the composite.
@@ -357,22 +361,27 @@ public class NewEditResource extends AbstractScreen implements
 		new Label(frmResource.getBody(), SWT.NONE);
 
 		valuesTableViewer = new TableViewer(frmResource.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION | SWT.VIRTUAL);
+				| SWT.FULL_SELECTION | SWT.VIRTUAL | SWT.MULTI);
 		valuesTableViewer.setUseHashlookup(true);
 		valuesTableViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
 						ISelection selection = event.getSelection();
 						if (selection instanceof IStructuredSelection) {
+							
+							if(currentValues == null || currentValues.size() == 0){
+								mntmMonitor.setEnabled(false);
+								mntmRemove.setEnabled(false);
+								return;
+							}
+							// Don't allow monitoring for 
 							if (targetInterval == CAPACITIES
 									|| targetInterval == UTILIZATION) {
 								mntmMonitor.setEnabled(false);
-							} else if (currentValues == null
-									| currentValues.size() == 0) {
-								mntmMonitor.setEnabled(false);
-							} else{
+							} else {
 								mntmMonitor.setEnabled(true);
-							}	
+							}
+							mntmRemove.setEnabled(true);
 						}
 					}
 
@@ -460,6 +469,23 @@ public class NewEditResource extends AbstractScreen implements
 			}
 		});
 		mntmMonitor.setText("Monitor...");
+
+		mntmRemove = new MenuItem(menu, SWT.NONE);
+		mntmRemove.setEnabled(false);
+		mntmRemove.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection s = valuesTableViewer.getSelection();
+				if (s instanceof IStructuredSelection) {
+					List<?> list = ((IStructuredSelection) s).toList();
+				    Collection<Object> collection = new ArrayList<Object>(list);
+				    Command removeCommand = RemoveCommand.create(editingService.getEditingDomain(), collection);
+				    editingService.getEditingDomain().getCommandStack().execute(removeCommand);
+				    updateSelection();
+				}
+			}
+		});
+		mntmRemove.setText("Remove...");
 	}
 
 	private void updateSelection() {
@@ -597,11 +623,13 @@ public class NewEditResource extends AbstractScreen implements
 			NetXResource resource = (NetXResource) res;
 
 			if (targetInterval == CAPACITIES) {
-				return resource.getCapacityValues();
+				return modelUtils.sortByTimeStampAndReverse(resource
+						.getCapacityValues());
 			}
 
 			if (targetInterval == UTILIZATION) {
-				return resource.getUtilizationValues();
+				return modelUtils.sortByTimeStampAndReverse(resource
+						.getUtilizationValues());
 			}
 
 			for (MetricValueRange mvr : resource.getMetricValueRanges()) {

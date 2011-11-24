@@ -203,7 +203,7 @@ public class ReportingService implements NetxForgeService {
 						}
 
 						reportingLogic.run();
-
+						
 					}
 				};
 			}.start();

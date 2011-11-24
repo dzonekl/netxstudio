@@ -110,7 +110,11 @@ A Network Element type definition can be exported to various file formats.
 
 *Schedule Reporting Job...* => Right-Click on a Network Element and select "Schedule Reporting Job..." This will open the New Job screen. 
 
-*Report Now...* => Right-Click on a Network Element and select "Report Now..." This will initiate the creation of a resource report for this Network Element. The report can then be viewed and downloaded from the Monitoring task. 
+*Report Now...* => Right-Click on a Network Element and select "Report Now..." This will initiate a wizard which will lead to the creation of a resource report for this Network Element. For a manually created report the wizard will request the wished reporting period. 
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/networks/select_period.png!
+
+Once ready, the report can then be downloaded from the Monitoring task. 
 
 h2. Exporting
 

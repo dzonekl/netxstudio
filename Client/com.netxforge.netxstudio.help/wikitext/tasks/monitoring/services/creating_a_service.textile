@@ -1,0 +1,15 @@
+h1. Creating or Service
+
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/monitoring/services/creating_a_service.png!
+
+
+The following data should be entered or is presented.
+
+*Info*
+
+[TODO]
+
+
+*Save* => Menu -> File -> Save
+*Cancel* => The editing can be undone by Menu-> Edit -> Undo

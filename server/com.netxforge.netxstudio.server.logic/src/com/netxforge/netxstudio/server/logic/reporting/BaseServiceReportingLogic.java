@@ -88,7 +88,7 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 
 	protected void doRun() {
 
-		// start a transaction
+		// start a transaction. 
 		this.getDataProvider().getTransaction();
 
 		final List<Service> allServices = this.getServicesToExecuteFor();

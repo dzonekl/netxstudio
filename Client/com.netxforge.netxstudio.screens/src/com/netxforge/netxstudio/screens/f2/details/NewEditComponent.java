@@ -434,8 +434,6 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				ISelection s = metricsTableViewer.getSelection();
 				if (s instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) s).getFirstElement();
-					// FIXME, we can' delete a child metric.
-
 					Command rc = new RemoveCommand(editingService
 							.getEditingDomain(), comp.getMetricRefs(), o);
 					editingService.getEditingDomain().getCommandStack()

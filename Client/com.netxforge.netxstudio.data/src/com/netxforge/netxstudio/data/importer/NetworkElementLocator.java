@@ -415,6 +415,7 @@ public class NetworkElementLocator {
 		return null;
 	}
 
+	@SuppressWarnings("unused")
 	private List<Component> createForIdentifiers(
 			List<IdentifierDescriptor> targetIdentifiers,
 			Component targetComponent) {

@@ -125,4 +125,12 @@
        </topic>
     </topic>
  </topic>
+ <topic href="html/tasks/monitoring/monitoring.html" label="Monitoring">
+    <topic href="html/tasks/monitoring/services/services.html" label="Services">
+    </topic>
+    <topic href="html/tasks/monitoring/service_users/service_users.html" label="Service Users">
+    </topic>
+    <topic href="html/tasks/monitoring/reports/reports.html" label="Reports">
+    </topic>
+ </topic>
 </toc>

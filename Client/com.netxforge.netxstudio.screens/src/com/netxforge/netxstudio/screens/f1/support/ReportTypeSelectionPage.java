@@ -49,7 +49,7 @@ public class ReportTypeSelectionPage extends WizardPage {
 	/**
 	 * The current selection.
 	 */
-	private int reportSelection;
+	private int reportSelection = 0;
 	private Button btnSelect;
 	@SuppressWarnings("unused")
 	private Label lblYourCurrentSelection;
@@ -289,18 +289,19 @@ public class ReportTypeSelectionPage extends WizardPage {
 	public void setSelection(Object o) {
 		this.selectedObject = o;
 
+		if (o == null) {
+			this.setPageComplete(false);
+			return;
+		}
+
 		if (o instanceof Operator) {
 			this.reportSelection = REPORT_ON_OPERATOR;
 		} else if (o instanceof Service) {
 			this.reportSelection = REPORT_ON_SERVICE;
-		}
-		if (o instanceof Node) {
+		} else if (o instanceof Node) {
 			this.reportSelection = REPORT_ON_NODE;
-		}
+		} 
 
-		if (o == null) {
-			this.setPageComplete(false);
-		}
 
 	}
 
@@ -309,13 +310,14 @@ public class ReportTypeSelectionPage extends WizardPage {
 
 		// if (getErrorMessage() != null) return false;
 
-		if (selectedObject == null) {
+		if (selectedObject == null || reportSelection == 0) {
+			this.setErrorMessage("The Object to report on is not set or is not supported");
 			return false;
 		}
 
 		switch (reportSelection) {
 		case REPORT_ON_SERVICE_NODETYPE:
-		case REPORT_ON_OPERATOR_NODETYPE:
+		case REPORT_ON_OPERATOR_NODETYPE: {
 
 			if (getNodeType() != null) {
 				this.setErrorMessage(null);
@@ -326,13 +328,14 @@ public class ReportTypeSelectionPage extends WizardPage {
 			}
 		}
 
+		}
+
 		this.setErrorMessage(null);
 		return super.canFlipToNextPage();
 	}
-	
-	
-	public String getIdentifier(){
+
+	public String getIdentifier() {
 		return this.txtSelectedObject.getText();
 	}
-	
+
 }

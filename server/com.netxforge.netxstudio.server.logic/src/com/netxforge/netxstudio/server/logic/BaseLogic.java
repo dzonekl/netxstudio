@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.server.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
@@ -62,6 +63,12 @@ public abstract class BaseLogic {
 			}
 		} catch (final Throwable t) {
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
+		}finally{
+			
+			CDOSession session = this.getDataProvider().getSession(); 
+			if(!session.isClosed()){
+				session.close();
+			}
 		}
 	}
 	

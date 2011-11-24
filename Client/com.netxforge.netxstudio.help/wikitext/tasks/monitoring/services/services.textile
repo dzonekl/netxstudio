@@ -1,0 +1,62 @@
+h1. Services
+
+The Services screen provides access to Service definitions.
+
+The Services screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/monitoring/services/services.png!
+
+Services are presented as a tree structure, with the Operator to which the Services belong as the root of the tree.
+
+Selecting a service, will give show the details on the right side for a Service:
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/monitoring/services/services.png! 
+
+
+h2. Editing 
+
+Create or Modify a Service 
+
+*New* => 
+
+Option 1: Click on the upright link of the tree to create a new Service. A dialog window
+will be presented, asking the user to which Operator the Service belongs.
+
+Option 2: Right-click on an existing Operator or Service, and select "New Service".
+ 
+*Edit* => Click on a Network in the tree, the details will appear on the right side. 
+
+* "Modify a Network":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/design/networks/creating_a_network.html
+
+
+h2. Monitoring
+
+Monitoring is the process of calculating resource capacity, utilization and tolerance markers.   
+Monitoring can be executed instantly, or scheduled to be executed as a repeating job. 
+
+*Schedule Monitoring Job...* => Right-Click on a Service and select "Schedule Monitoring Job..." This will open the New Job screen. 
+
+*Monitor Now...* => Right-Click on a Service and select "Monitor Now..." This will initiate the monitoring process for the selected Service. For a manually initiated monitoring, a monitoring period will need to be entered.
+
+*Monitoring Result...*
+
+[TODO]
+
+
+h2. Reporting
+
+The creation of a report can be created instantly, or scheduled to be created as a repeating job. 
+
+A Network Element type definition can be exported to various file formats.
+
+*Schedule Reporting Job...* => Right-Click on a Network Element and select "Schedule Reporting Job..." This will open the New Job screen. 
+
+*Report Now...* => Right-Click on a Network Element and select  "Report Now..." This will initiate a wizard which will lead to the creation of a various reports for this Service. For a manually created report the wizard will request the reporting scope and the wished reporting period. 
+
+_Reporting Scope_
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/monitoring/services/service_report_scope.png!
+
+_Reporting Period_
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/design/networks/select_period.png!

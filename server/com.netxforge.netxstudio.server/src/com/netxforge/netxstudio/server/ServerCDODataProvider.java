@@ -18,13 +18,14 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.server;
 
+import java.util.Date;
+
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.cdo.CDODataProvider;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
-import com.netxforge.netxstudio.server.Server;
 
 /**
  * Uses a jvm connection to connect to the repository.
@@ -40,7 +41,9 @@ public class ServerCDODataProvider extends CDODataProvider {
 
 	@Override
 	public void openSession(String uid, String passwd) throws SecurityException {
-		this.openSession();
+		if(session == null){
+			this.openSession();
+		}
 	}
 
 	@Override
@@ -56,7 +59,7 @@ public class ServerCDODataProvider extends CDODataProvider {
 	public CDOSession getSession() {
 		if (session == null) {
 			this.openSession();
-			System.out.println("DATA Server: Creating session ID=" + session.getSessionID() + " , Updated last on:" + session.getLastUpdateTime());
+			System.out.println("DATA Server: Creating session ID=" + session.getSessionID() + " , Updated last on:" + new Date(session.getLastUpdateTime()));
 		}
 		return session;
 	}
@@ -76,8 +79,12 @@ public class ServerCDODataProvider extends CDODataProvider {
 
 	@Override
 	protected void setSession(CDOSession session) {
-		if(this.session != null && !session.isClosed()){
+		if(session == null){
+			this.session = session;
+		}
+		if(this.session != null && !this.session.isClosed()){
 			// We obviously don't need it anymore??
+			System.out.println("DATA Server: attempt to Closing a session ID=" + session.getSessionID());
 			this.session.close();
 		}
 		this.session = session;
@@ -91,7 +98,7 @@ public class ServerCDODataProvider extends CDODataProvider {
 	@Override
 	public void closeSession() {
 		if(session != null){
-			System.out.println("DATA Server: Closing session ID=" + session.getSessionID() + " , Updated last on:" + session.getLastUpdateTime());
+			System.out.println("DATA Server: Closing session ID=" + session.getSessionID() + " , Updated last on:" + new Date(session.getLastUpdateTime()));
 			session.close();
 		}
 	}

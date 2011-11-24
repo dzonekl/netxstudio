@@ -60,9 +60,6 @@ public class ReportSelectionWizard extends Wizard implements INewWizard {
 		}
 		try {
 
-			serverActions.setCDOServer(editingService.getDataService()
-					.getProvider().getServer());
-
 			DateTimeRange dtr = this.reportSelectionPeriod.period();
 
 			Date fromDate = modelUtils.start(dtr);
@@ -70,7 +67,11 @@ public class ReportSelectionWizard extends Wizard implements INewWizard {
 			@SuppressWarnings("unused")
 			String result = null;
 
-			switch (reportSelectionType.getReportSelection()) {
+			int reportSelection = reportSelectionType.getReportSelection();
+			serverActions.setCDOServer(editingService.getDataService()
+					.getProvider().getServer());
+			
+			switch (reportSelection) {
 			case ReportTypeSelectionPage.REPORT_ON_SERVICE_NODETYPE: {
 				NodeType nodeType = reportSelectionType.getNodeType();
 				result = serverActions.callNodeTypeReportingForServiceAction(
