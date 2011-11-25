@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2011 NetXForge&#xA;&#xA;This program is free software: you can redistribute it and/or modify&#xA;it under the terms of the GNU Lesser General Public License as published by&#xA;the Free Software Foundation, either version 3 of the License, or&#xA;(at your option) any later version.&#xA;&#xA;This program is distributed in the hope that it will be useful,&#xA;but WITHOUT ANY WARRANTY; without even the implied warranty of&#xA;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#xA;GNU General Public License for more details.&#xA;You should have received a copy of the GNU Lesser General Public License&#xA;along with this program.  If not, see &lt;http://www.gnu.org/licenses/>&#xA;&#xA;Contributors:&#xA;Christophe Bouhier - initial API and implementation and/or initial documentation"
+    modelDirectory="/com.netxforge.netxstudio.models/src-gen" modelPluginID="com.netxforge.netxstudio.models"
+    modelName="Netxstudio" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl"
+    reflectiveDelegation="true" importerID="org.eclipse.xsd.ecore.importer" featureDelegation="Reflective"
+    complianceLevel="6.0" copyrightFields="false" providerRootExtendsClass="com.netxforge.netxstudio.edit.MotherOfAllItemProvider">
+  <foreignModel>../../xsd/13042011/netxstudio.xsd</foreignModel>
+  <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
+  <genPackages prefix="Scheduling" basePackage="com.netxforge.netxstudio" resource="XML"
+      disposableProviderFactory="true" ecorePackage="scheduling.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduling.ecore#//JobRunState">
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobRunState/Running"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobRunState/FinishedSuccessfully"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobRunState/FinishedWithError"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduling.ecore#//JobState">
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobState/Active"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobState/InActive"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="scheduling.ecore#//JobRunStateObject"/>
+    <genDataTypes ecoreDataType="scheduling.ecore#//JobStateObject"/>
+    <genClasses ecoreClass="scheduling.ecore#//AnalyzerJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//AnalyzerJob/rFSService"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//ComponentFailure">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ComponentFailure/componentRef"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//ComponentWorkFlowRun">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduling.ecore#//ComponentWorkFlowRun/failureRefs"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//ExpressionFailure">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ExpressionFailure/expressionRef"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//Failure">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Failure/message"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//Job">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/endTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/interval"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/jobState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/repeat"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/startTime"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//JobRunContainer">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//JobRunContainer/job"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduling.ecore#//JobRunContainer/workFlowRuns"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//MetricSourceJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//MetricSourceJob/metricSources"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//NodeReporterJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//NodeReporterJob/node"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//NodeTypeReporterJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//NodeTypeReporterJob/nodeType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//NodeTypeReporterJob/scopeObject"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//OperatorReporterJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//OperatorReporterJob/operator"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//RetentionJob"/>
+    <genClasses ecoreClass="scheduling.ecore#//RFSServiceMonitoringJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceMonitoringJob/rFSService"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//RFSServiceReporterJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceReporterJob/rFSService"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//ServiceUserFailure">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ServiceUserFailure/serviceUserRef"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//WorkFlowRun">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/ended"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/log"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/progress"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/progressMessage"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/progressTask"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/started"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/state"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Generics" basePackage="com.netxforge.netxstudio" resource="XML"
+      disposableProviderFactory="true" ecorePackage="generics.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="generics.ecore#//ActionType">
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//ActionType/UPDATE"/>
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//ActionType/ADD"/>
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//ActionType/DELETE"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="generics.ecore#//DiagramKindType">
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//DiagramKindType/NETWORK"/>
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//DiagramKindType/FUNCTION"/>
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//DiagramKindType/EQUIPMENT"/>
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//DiagramKindType/NODE"/>
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//DiagramKindType/WIRING"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="generics.ecore#//ExpansionDuration">
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//ExpansionDuration/QUICK"/>
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//ExpansionDuration/SHORT"/>
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//ExpansionDuration/MEDIUM"/>
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//ExpansionDuration/LONG"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="generics.ecore#//ActionTypeObject"/>
+    <genDataTypes ecoreDataType="generics.ecore#//Description2000"/>
+    <genDataTypes ecoreDataType="generics.ecore#//DiagramKindTypeObject"/>
+    <genDataTypes ecoreDataType="generics.ecore#//ExpansionDurationObject"/>
+    <genDataTypes ecoreDataType="generics.ecore#//ExpressionLine"/>
+    <genDataTypes ecoreDataType="generics.ecore#//LongText"/>
+    <genDataTypes ecoreDataType="generics.ecore#//Name255"/>
+    <genDataTypes ecoreDataType="generics.ecore#//UnitCode"/>
+    <genClasses ecoreClass="generics.ecore#//Base">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Base/deleted"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//CommitLogEntry">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//CommitLogEntry/action"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//CommitLogEntry/change"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//CommitLogEntry/objectId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//CommitLogEntry/timeStamp"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//CommitLogEntry/user"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//Company">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference generics.ecore#//Company/icons"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Company/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Company/rSSurl"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Company/shortName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Company/symbol"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Company/website"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//DateTimeRange">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//DateTimeRange/begin"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//DateTimeRange/end"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//DiagramInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//DiagramInfo/diagramKind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//DiagramInfo/location"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//ExpansionDurationSetting">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference generics.ecore#//ExpansionDurationSetting/quickDuration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference generics.ecore#//ExpansionDurationSetting/shortDuration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference generics.ecore#//ExpansionDurationSetting/mediumDuration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference generics.ecore#//ExpansionDurationSetting/longDuration"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//ExpansionDurationValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//ExpansionDurationValue/expansionDuration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//ExpansionDurationValue/value"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//Lifecycle">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Lifecycle/constructionDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Lifecycle/inServiceDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Lifecycle/outOfServiceDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Lifecycle/plannedDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Lifecycle/proposed"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//Meta">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference generics.ecore#//Meta/author"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Meta/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Meta/version"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//MultiImage">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//MultiImage/obj16"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//MultiImage/obj32"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//MultiImage/obj48"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//MultiImage/obj96"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//MultiImage/obj128"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//Person">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference generics.ecore#//Person/roles"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Person/active"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference generics.ecore#//Person/companyRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Person/email"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Person/firstName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Person/lastName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Person/login"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Person/password"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//Role">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Role/name"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//Value">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Value/timeStamp"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Value/value"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Services" basePackage="com.netxforge.netxstudio" resource="XML"
+      disposableProviderFactory="true" ecorePackage="services.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="services.ecore#//ResourceOriginType">
+      <genEnumLiterals ecoreEnumLiteral="services.ecore#//ResourceOriginType/InBound"/>
+      <genEnumLiterals ecoreEnumLiteral="services.ecore#//ResourceOriginType/OutBound"/>
+      <genEnumLiterals ecoreEnumLiteral="services.ecore#//ResourceOriginType/Internal"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="services.ecore#//ServiceClassType">
+      <genEnumLiterals ecoreEnumLiteral="services.ecore#//ServiceClassType/Gold"/>
+      <genEnumLiterals ecoreEnumLiteral="services.ecore#//ServiceClassType/Silver"/>
+      <genEnumLiterals ecoreEnumLiteral="services.ecore#//ServiceClassType/Bronze"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="services.ecore#//ResourceOriginTypeObject"/>
+    <genDataTypes ecoreDataType="services.ecore#//ServiceClassTypeObject"/>
+    <genClasses ecoreClass="services.ecore#//CFSService">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CFSService/provider"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CFSService/scenario"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//CIID">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CIID/commonCIID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CIID/localCIID"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//DerivedResource">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//DerivedResource/values"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//DerivedResource/forecastValues"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//DerivedResource/trendedValues"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//DistributionEntry">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//DistributionEntry/resourceRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//DistributionEntry/distribution"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//DistributionEntry/resourceOrigin"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//RFSService">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//RFSService/nodes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//RFSService/toleranceRefs"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//RFSService/functionalCategory"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//Service">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//Service/cIID"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//Service/lifecycle"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//Service/services"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//Service/serviceForecasts"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//Service/serviceMonitors"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//Service/serviceUserRefs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//Service/serviceDistribution"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//Service/serviceCategory"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//Service/serviceClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//Service/serviceDescription"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//Service/serviceName"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//ServiceDistribution">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceDistribution/distributionEntries"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceDistribution/expressionRefs"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//ServiceForecast">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceForecast/period"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceForecast/serviceForecastUsers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceForecast/resourceForecasts"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceForecast/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceForecast/revision"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//ServiceForecastUsers">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceForecastUsers/userValues"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceForecastUsers/serviceUserRef"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//ServiceMonitor">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceMonitor/period"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceMonitor/resourceMonitors"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceMonitor/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceMonitor/revision"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//ServiceProfile">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceProfile/profileResources"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceProfile/name"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//ServiceUser">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceUser/serviceProfile"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceUser/expressionRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceUser/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceUser/name"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Library" basePackage="com.netxforge.netxstudio" resource="XML"
+      disposableProviderFactory="true" extensibleProviderFactory="true" ecorePackage="library.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//LevelKind">
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelKind/RED"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelKind/AMBER"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelKind/GREEN"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelKind/YELLOW"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//RangeKind">
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/METRIC"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/METRICREMOVE"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/CAP"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/DERIVED"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/FORECAST"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/FORECASTCAP"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/TRENDED"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/UTILIZATION"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/TOLERANCE"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//RedundancyType">
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RedundancyType/n"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RedundancyType/n1"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RedundancyType/_11"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//StateType">
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//StateType/ACTIVE"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//StateType/STANDBY"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//StateType/IDLE"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//StateType/DEFECT"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//StateType/RESERVED"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="library.ecore#//LevelKindObject"/>
+    <genDataTypes ecoreDataType="library.ecore#//RangeKindObject"/>
+    <genDataTypes ecoreDataType="library.ecore#//RedundancyTypeObject"/>
+    <genDataTypes ecoreDataType="library.ecore#//StateTypeObject"/>
+    <genClasses ecoreClass="library.ecore#//BaseExpressionResult"/>
+    <genClasses ecoreClass="library.ecore#//BaseResource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//BaseResource/detailDisplay"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//BaseResource/expressionName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//BaseResource/longName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//BaseResource/shortName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//BaseResource/summaryDisplay"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//BaseResource/unitRef"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Component">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Component/lifecycle"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/resourceRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/metricRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/capacityExpressionRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/utilizationExpressionRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/toleranceRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/protocolRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/parameterRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/allResources"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Component/diagrams"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Component/icons"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Component/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Component/duration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Component/name"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Equipment">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipments"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipmentGroups"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipmentRelationshipRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/allEquipments"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/count"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/equipmentCode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/position"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/redundancy"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/state"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//EquipmentGroup">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//EquipmentGroup/diagrams"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//EquipmentGroup/equipmentGroupResources"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//EquipmentGroup/expressionRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//EquipmentGroup/equipmentRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//EquipmentGroup/parameterRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//EquipmentGroup/allEquipmentResources"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//EquipmentGroup/allEquipments"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//EquipmentGroup/count"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//EquipmentGroup/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//EquipmentGroup/name"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Expression">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Expression/expressionLines"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Expression/evaluationObject"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Expression/name"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//ExpressionResult">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//ExpressionResult/targetResource"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ExpressionResult/targetRange"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//ExpressionResult/targetValues"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ExpressionResult/targetIntervalHint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ExpressionResult/targetKindHint"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Function">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Function/functions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/functionRelationshipRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/allFunctions"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//LastEvaluationExpressionResult">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//LastEvaluationExpressionResult/lastEvalResult"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Library">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/functions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/nodeTypes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/equipments"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/metrics"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/metricSources"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/parameters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/protocols"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/tolerances"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/expressions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/units"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/version"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/name"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//NetXResource">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/componentRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/metricRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/metricValueRanges"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/capacityValues"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/utilizationValues"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/forecastCapacityValues"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/forecastValues"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/trendedValues"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//NodeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NodeType/functions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NodeType/equipments"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//NodeType/leafNode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//NodeType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Parameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Parameter/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Parameter/expressionName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Parameter/modifiable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Parameter/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Parameter/value"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//ProductInfo">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//ProductInfo/equipmentRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//ProductInfo/licensedFunctionRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//ProductInfo/nodeTypeRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ProductInfo/availableDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ProductInfo/endOfSalesDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ProductInfo/endOfSupportDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ProductInfo/productCode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ProductInfo/salesCode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ProductInfo/underDevelopmentDate"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Tolerance">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Tolerance/expressionRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Tolerance/level"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Tolerance/name"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Unit">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Unit/icons"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Unit/code"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Unit/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Unit/name"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Vendor">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Vendor/products"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Operators" basePackage="com.netxforge.netxstudio" resource="XML"
+      disposableProviderFactory="true" extensibleProviderFactory="true" ecorePackage="operators.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="operators.ecore#//MarkerKind">
+      <genEnumLiterals ecoreEnumLiteral="operators.ecore#//MarkerKind/value"/>
+      <genEnumLiterals ecoreEnumLiteral="operators.ecore#//MarkerKind/INTERNALEVENT"/>
+      <genEnumLiterals ecoreEnumLiteral="operators.ecore#//MarkerKind/EXTERNALEVENT"/>
+      <genEnumLiterals ecoreEnumLiteral="operators.ecore#//MarkerKind/ACTIONNEEDED"/>
+      <genEnumLiterals ecoreEnumLiteral="operators.ecore#//MarkerKind/TOLERANCECROSSED"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="operators.ecore#//ToleranceMarkerDirectionKind">
+      <genEnumLiterals ecoreEnumLiteral="operators.ecore#//ToleranceMarkerDirectionKind/START"/>
+      <genEnumLiterals ecoreEnumLiteral="operators.ecore#//ToleranceMarkerDirectionKind/UP"/>
+      <genEnumLiterals ecoreEnumLiteral="operators.ecore#//ToleranceMarkerDirectionKind/DOWN"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="operators.ecore#//MarkerKindObject"/>
+    <genDataTypes ecoreDataType="operators.ecore#//ToleranceMarkerDirectionKindObject"/>
+    <genClasses ecoreClass="operators.ecore#//EquipmentRelationship">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//EquipmentRelationship/equipment1Ref"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//EquipmentRelationship/equipment2Ref"/>
+    </genClasses>
+    <genClasses ecoreClass="operators.ecore#//FunctionRelationship">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//FunctionRelationship/function1Ref"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//FunctionRelationship/function2Ref"/>
+    </genClasses>
+    <genClasses ecoreClass="operators.ecore#//Marker">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Marker/valueRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Marker/markerResourceRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Marker/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Marker/kind"/>
+    </genClasses>
+    <genClasses ecoreClass="operators.ecore#//Network">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Network/diagrams"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Network/nodes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Network/networks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Network/functionRelationships"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Network/equipmentRelationships"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Network/metricSources"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Network/createdByRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Network/createdDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Network/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Network/name"/>
+    </genClasses>
+    <genClasses ecoreClass="operators.ecore#//Node">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Node/lifecycle"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Node/nodeType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/createdByRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/locationRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Node/nodeID"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/originalNodeTypeRef"/>
+    </genClasses>
+    <genClasses ecoreClass="operators.ecore#//Operator">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Operator/networks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Operator/warehouses"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Operator/services"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Operator/serviceUsers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Operator/resourceExpansions"/>
+    </genClasses>
+    <genClasses ecoreClass="operators.ecore#//Relationship">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Relationship/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Relationship/nodeID1Ref"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Relationship/nodeID2Ref"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Relationship/protocolRef"/>
+    </genClasses>
+    <genClasses ecoreClass="operators.ecore#//ResourceExpansion">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceExpansion/nodeRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceExpansion/equipmentRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceExpansion/functionRefs"/>
+    </genClasses>
+    <genClasses ecoreClass="operators.ecore#//ResourceForecast">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceForecast/markers"/>
+    </genClasses>
+    <genClasses ecoreClass="operators.ecore#//ResourceMonitor">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/markers"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/nodeRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/resourceRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/period"/>
+    </genClasses>
+    <genClasses ecoreClass="operators.ecore#//ToleranceMarker">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//ToleranceMarker/direction"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//ToleranceMarker/level"/>
+    </genClasses>
+    <genClasses ecoreClass="operators.ecore#//Warehouse">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Warehouse/nodes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference operators.ecore#//Warehouse/equipments"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Warehouse/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Warehouse/name"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Metrics" basePackage="com.netxforge.netxstudio" resource="XML"
+      disposableProviderFactory="true" ecorePackage="metrics.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//DatabaseTypeType">
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//DatabaseTypeType/Oracle"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//DatabaseTypeType/Postgres"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//KindHintType">
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//KindHintType/BH"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//KindHintType/AVG"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//MetricRetentionPeriod">
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//MetricRetentionPeriod/Always"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//MetricRetentionPeriod/OneYear"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//MetricRetentionPeriod/OneMonth"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//MetricRetentionPeriod/OneWeek"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//ObjectKindType">
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectKindType/NODE"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectKindType/EQUIPMENT"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectKindType/FUNCTION"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectKindType/RELATIONSHIP"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//ValueKindType">
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/INTERVAL"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/DATE"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/TIME"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/DATETIME"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/NULL"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/METRIC"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="metrics.ecore#//DatabaseTypeTypeObject"/>
+    <genDataTypes ecoreDataType="metrics.ecore#//KindHintTypeObject"/>
+    <genDataTypes ecoreDataType="metrics.ecore#//MetricRetentionPeriodObject"/>
+    <genDataTypes ecoreDataType="metrics.ecore#//ObjectKindTypeObject"/>
+    <genDataTypes ecoreDataType="metrics.ecore#//ValueKindTypeObject"/>
+    <genClasses ecoreClass="metrics.ecore#//DataKind"/>
+    <genClasses ecoreClass="metrics.ecore#//IdentifierDataKind">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//IdentifierDataKind/objectKind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//IdentifierDataKind/objectProperty"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//IdentifierDataKind/pattern"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//Mapping">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Mapping/headerMappingColumns"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Mapping/dataMappingColumns"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/firstDataRow"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/headerRow"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/intervalHint"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MappingColumn">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingColumn/dataType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingColumn/column"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MappingCSV">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingCSV/delimiter"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingCSV/filterPattern"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MappingRDBMS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/databaseType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/dateFormat"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/dateTimeFormat"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/password"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/query"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/timeFormat"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/user"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MappingRecord">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecord/column"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecord/count"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecord/message"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MappingStatistic">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingStatistic/failedRecords"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingStatistic/mappingDuration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingStatistic/periodEstimate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingStatistic/intervalEstimate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingStatistic/message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingStatistic/totalRecords"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MappingXLS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLS/filterPattern"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLS/sheetNumber"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//Metric">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Metric/metrics"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Metric/expressionRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Metric/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Metric/measurementKind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Metric/measurementPoint"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//Metric/metricSourceRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Metric/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference metrics.ecore#//Metric/unitRef"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MetricRetentionRule">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricRetentionRule/retentionExpression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricRetentionRule/intervalHint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricRetentionRule/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricRetentionRule/period"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MetricRetentionRules">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricRetentionRules/metricRetentionRules"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MetricSource">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricSource/metricMapping"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricSource/statistics"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricSource/filterPattern"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricSource/metricLocation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricSource/name"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MetricValueRange">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricValueRange/metricValues"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricValueRange/intervalHint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricValueRange/kindHint"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//ValueDataKind">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//ValueDataKind/metricRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//ValueDataKind/format"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//ValueDataKind/kindHint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//ValueDataKind/valueKind"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Protocols" basePackage="com.netxforge.netxstudio" resource="XML"
+      disposableProviderFactory="true" ecorePackage="protocols.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="protocols.ecore#//OSIType">
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Application"/>
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Presentation"/>
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Session"/>
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Transport"/>
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Network"/>
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/DataLink"/>
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Physiscal"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="protocols.ecore#//OSITypeObject"/>
+    <genClasses ecoreClass="protocols.ecore#//Message">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Message/name"/>
+    </genClasses>
+    <genClasses ecoreClass="protocols.ecore#//Procedure">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference protocols.ecore#//Procedure/messages"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Procedure/name"/>
+    </genClasses>
+    <genClasses ecoreClass="protocols.ecore#//Protocol">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference protocols.ecore#//Protocol/procedures"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference protocols.ecore#//Protocol/bodyRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/oSI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/specification"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Geo" basePackage="com.netxforge.netxstudio" resource="XML"
+      disposableProviderFactory="true" ecorePackage="geo.ecore#/">
+    <genClasses ecoreClass="geo.ecore#//Country">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geo.ecore#//Country/sites"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geo.ecore#//Country/icons"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Country/countryCode"/>
+    </genClasses>
+    <genClasses ecoreClass="geo.ecore#//Location">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Location/name"/>
+    </genClasses>
+    <genClasses ecoreClass="geo.ecore#//Room">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Room/shape"/>
+    </genClasses>
+    <genClasses ecoreClass="geo.ecore#//Site">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geo.ecore#//Site/rooms"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/area"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/city"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/housenumber"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/latitude"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/longitude"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/postalcode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/region"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/sreet"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Netxstudio" basePackage="com.netxforge" resource="XML" disposableProviderFactory="true"
+      ecorePackage="netxstudio.ecore#/">
+    <genClasses ecoreClass="netxstudio.ecore#//Netxstudio">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/operators"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/libraries"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/companies"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/vendors"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/users"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/roles"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/countries"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/jobs"/>
+    </genClasses>
+    <genClasses ecoreClass="netxstudio.ecore#//ServerSettings">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//ServerSettings/expansionDurationSettings"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute netxstudio.ecore#//ServerSettings/exportPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute netxstudio.ecore#//ServerSettings/importPath"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
