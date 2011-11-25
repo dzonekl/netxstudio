@@ -1,5 +1,6 @@
 package com.netxforge.netxstudio.screens.editing.test;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -20,7 +21,9 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -49,6 +52,7 @@ public class TestEditingCases {
 	private static final String NODE_TEST = "Node Test";
 	private static final String NODETYPE_TEST = "NodeType Test";
 	private static final String WAREHOUSE_TEST = "Warehouse Test";
+	private static final String NETXRESOURCE_TEST = "RESTest";
 
 	IEditingService editingService;
 	ModelUtils modelUtils;
@@ -74,7 +78,7 @@ public class TestEditingCases {
 		Assert.assertNotNull(editingService != null);
 	}
 
-	@Test
+//	@Test
 	public void testAdminOperations() {
 
 		connect();
@@ -84,6 +88,47 @@ public class TestEditingCases {
 		this.removeSampleMetricSourceAndJob();
 		commit();
 		close();
+	}
+	
+	@Test
+	public void testNetXResource() {
+
+		connect();
+		this.buildSampleNetXResource();
+		commit();
+
+		this.removeSamplNetXResource();
+		commit();
+		close();
+	}
+	
+	
+	
+	private void removeSamplNetXResource() {
+		
+		Resource resource = editingService.getDataService().getProvider().getResource(editingService.getEditingDomain()
+								.getResourceSet(), "/Node_/netxresource_test");
+		try {
+			resource.delete(null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void buildSampleNetXResource() {
+		NetXResource createNetXResource = LibraryFactory.eINSTANCE.createNetXResource();
+		createNetXResource.setShortName(NETXRESOURCE_TEST);
+		createNetXResource.setExpressionName(NETXRESOURCE_TEST);
+		createNetXResource.setLongName(NETXRESOURCE_TEST);
+		
+		final Resource resourcesResource = editingService
+				.getDataService()
+				.getProvider()
+				.getResource(
+						editingService.getEditingDomain()
+								.getResourceSet(),
+						"/Node_/netxresource_test");
+		resourcesResource.getContents().add(createNetXResource);
 	}
 
 	// @Test

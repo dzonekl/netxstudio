@@ -19,21 +19,27 @@ package com.netxforge.netxstudio.screens.f4.support;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.hssf.eventusermodel.AbortableHSSFListener;
+import org.apache.poi.hssf.eventusermodel.FormatTrackingHSSFListener;
 import org.apache.poi.hssf.eventusermodel.HSSFEventFactory;
+import org.apache.poi.hssf.eventusermodel.HSSFListener;
 import org.apache.poi.hssf.eventusermodel.HSSFRequest;
-import org.apache.poi.hssf.eventusermodel.HSSFUserException;
 import org.apache.poi.hssf.record.BOFRecord;
 import org.apache.poi.hssf.record.BoundSheetRecord;
+import org.apache.poi.hssf.record.CellValueRecordInterface;
+import org.apache.poi.hssf.record.DateWindow1904Record;
 import org.apache.poi.hssf.record.LabelSSTRecord;
 import org.apache.poi.hssf.record.NumberRecord;
 import org.apache.poi.hssf.record.Record;
 import org.apache.poi.hssf.record.RowRecord;
 import org.apache.poi.hssf.record.SSTRecord;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -49,7 +55,7 @@ import com.netxforge.netxstudio.common.Tuple;
  * ongoing process is not synchronized.
  * 
  */
-public class XLSService extends AbortableHSSFListener {
+public class XLSService implements HSSFListener {
 
 	private static final int MAX_VISIBLE_ROWS = 20;
 	public static int ABORTED = 0;
@@ -74,6 +80,7 @@ public class XLSService extends AbortableHSSFListener {
 
 	// Limit the number of rows we process.
 	int processedRows = 0;
+	private FormatTrackingHSSFListener formatTrackingListener;
 
 	private void reset() {
 		currentRowProgress = true;
@@ -104,30 +111,33 @@ public class XLSService extends AbortableHSSFListener {
 		// an idea of the amount of work we can expect here.
 		// For now increment worked, for each single row.
 
+		formatTrackingListener = new FormatTrackingHSSFListener(this);
+
 		// create a new file input stream with the input file specified
 		// at the command line
 		// create a new org.apache.poi.poifs.filesystem.Filesystem
 		POIFSFileSystem poifs = new POIFSFileSystem(fin);
+
 		// get the Workbook (excel part) stream in a InputStream
-		InputStream din = poifs.createDocumentInputStream("Workbook");
+		// InputStream din = poifs.createDocumentInputStream("Workbook");
+
 		// construct out HSSFRequest object
 		HSSFRequest req = new HSSFRequest();
 		// lazy listen for ALL records with the listener shown above
-		req.addListenerForAllRecords(this);
+		req.addListenerForAllRecords(formatTrackingListener);
 		// create our event factory
 		HSSFEventFactory factory = new HSSFEventFactory();
 		// process our events based on the document input stream
 		try {
-			factory.abortableProcessEvents(req, din);
-		} catch (HSSFUserException e) {
+			factory.abortableProcessWorkbookEvents(req, poifs);
+		} catch (Exception e) {
 			// We have an issue or cancel.
 			System.out.println(e.getMessage());
-			e.printStackTrace();
 		} finally {
 			// once all the events are processed close our file input stream
 			fin.close();
 			// and our document input stream (don't want to leak these!)
-			din.close();
+			// din.close();
 		}
 		// TODO, silent return, could also be an exception with information on
 		// what went wrong.
@@ -160,12 +170,12 @@ public class XLSService extends AbortableHSSFListener {
 			} else if (bof.getType() == BOFRecord.TYPE_WORKSHEET) {
 
 				currentRecordMap = Lists.newArrayListWithExpectedSize(32);
-				// fill the list with at least x map entries. 
-				for( int i = 0; i < MAX_VISIBLE_ROWS; i++){
+				// fill the list with at least x map entries.
+				for (int i = 0; i < MAX_VISIBLE_ROWS; i++) {
 					Map<Integer, Tuple> map = Maps.newHashMap();
 					currentRecordMap.add(map);
 				}
-				
+
 				sheets.add(currentRecordMap);
 				System.out
 						.println("Encountered sheet reference, changing sheet...");
@@ -198,6 +208,11 @@ public class XLSService extends AbortableHSSFListener {
 			// + currentSStrec.getString(k));
 			// }
 			break;
+		case DateWindow1904Record.sid: {
+			System.out.println("Hitting Date record. ");
+
+		}
+			break;
 		case NumberRecord.sid:
 		case LabelSSTRecord.sid:
 
@@ -206,10 +221,17 @@ public class XLSService extends AbortableHSSFListener {
 			Object value = null;
 
 			if (record.getSid() == NumberRecord.sid) {
+
+			}
+			if (record.getSid() == NumberRecord.sid) {
 				NumberRecord numrec = (NumberRecord) record;
-				value = numrec.getValue();
+
+				double numValue = numrec.getValue();
 				column = numrec.getColumn();
 				row = numrec.getRow();
+
+				value = this.formatNumberDateCell(numrec, numValue);
+
 				// DEBUG
 				System.out.println("Number:Cell found with value " + value
 						+ " at: [" + row + "," + column + "]");
@@ -264,21 +286,80 @@ public class XLSService extends AbortableHSSFListener {
 		return OK;
 	}
 
-	@Override
-	public short abortableProcessRecord(Record rec) throws HSSFUserException {
-		if ((currentReturnCode = processRecordInternal(rec)) != OK) {
-			// We are aborted or a failure.
-			throw new HSSFUserException();
+	// @Override
+	// public short abortableProcessRecord(Record rec) throws HSSFUserException
+	// {
+	// if ((currentReturnCode = processRecordInternal(rec)) != OK) {
+	// // We are aborted or a failure.
+	// throw new HSSFUserException();
+	// }
+	//
+	// if (currentMonitor.isCanceled()) {
+	// throw new HSSFUserException();
+	// }
+	//
+	// // if (processedRows == MAX_VISIBLE_ROWS) {
+	// // throw new HSSFUserException();
+	// // }
+	// return 0;
+	// }
+
+	private String formatNumberDateCell(CellValueRecordInterface cell,
+			double value) {
+		// Get the built in format, if there is one
+		int formatIndex = formatTrackingListener.getFormatIndex(cell);
+		String formatString = formatTrackingListener.getFormatString(cell);
+
+		if (formatString == null) {
+			return Double.toString(value);
+		}
+		// Is it a date?
+		if (HSSFDateUtil.isADateFormat(formatIndex, formatString)
+				&& HSSFDateUtil.isValidExcelDate(value)) {
+			// Format as a date
+			Date d = HSSFDateUtil.getJavaDate(value, false);
+			// split into two strings.
+			String[] split = formatString.split(" ");
+			if (split.length == 2) {
+
+				String formatString1 = split[0].replace('m', 'M');
+				// Java wants M not m for month (But not for minutes!).
+				// Change \ into , if it's there
+				formatString1 = formatString1.replaceAll("\\\\", "");
+
+				String formatString2 = split[1].replace("h", "H");
+				
+				DateFormat df = new SimpleDateFormat(formatString1 + " " + formatString2);
+				return df.format(d);
+			} else {
+				DateFormat df = new SimpleDateFormat();
+				return df.format("mm.dd.yyyy HH:mm:ss");
+
+			}
+		}
+		if (formatString == "General") {
+			// Some sort of wierd default
+			return Double.toString(value);
 		}
 
+		// Format as a number
+		DecimalFormat df = new DecimalFormat(formatString);
+		return df.format(value);
+	}
+
+	public void processRecord(Record rec) {
+		if ((currentReturnCode = processRecordInternal(rec)) != OK) {
+			// We are aborted or a failure.
+			// throw new HSSFUserException();
+		}
 		if (currentMonitor.isCanceled()) {
-			throw new HSSFUserException();
+			// throw new HSSFUserException();
 		}
 
 		if (processedRows == MAX_VISIBLE_ROWS) {
-			throw new HSSFUserException();
+			throw new java.lang.IllegalStateException("Max rows exceeded.");
 		}
-		return 0;
+
 	}
 
 }

@@ -16,6 +16,7 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
+import com.netxforge.netxstudio.screens.editing.actions.WarningNWBDeleteCommand;
 
 /**
  * Customized version of the standard af editing domain. The principle use case,
@@ -41,13 +42,17 @@ public class ScreensAdapterFactoryEditingDomain extends
 
 		Object owner = commandParameter.getOwner();
 
-		
-		// SPECIALIZED WARNING COMMAND. 
+		// SPECIALIZED WARNING COMMAND.
 		if (commandClass == WarningDeleteCommand.class) {
 			return new WarningDeleteCommand(this,
 					commandParameter.getCollection());
 		}
-		// SPECIALIED POOL COMMAND. (NOT USED). 
+		// SPECIALIZED WARNING DELETE WITH NO UNDO, DOMAIN is DISCARDED IN THIS COMMAND. 
+		if (commandClass == WarningNWBDeleteCommand.class) {
+			return new WarningNWBDeleteCommand(commandParameter.getCollection());
+		}
+
+		// SPECIALIED POOL COMMAND. (NOT USED).
 		else if (owner != null
 				&& commandClass == CreateChildFromPoolCommand.class) {
 			// If there is an adapter of the correct type...
@@ -60,7 +65,8 @@ public class ScreensAdapterFactoryEditingDomain extends
 					: new ItemProviderAdapter(null).createCommand(owner, this,
 							commandClass, commandParameter);
 		}
-		// SPECIALIZED CREATION OF EQUIPMENT UNDER A NODE WHICH IS ADDED TO A NODETYPE. 
+		// SPECIALIZED CREATION OF EQUIPMENT UNDER A NODE WHICH IS ADDED TO A
+		// NODETYPE.
 		else if (owner != null && owner instanceof Node
 				&& commandClass == CreateChildCommand.class) {
 
@@ -83,9 +89,8 @@ public class ScreensAdapterFactoryEditingDomain extends
 
 		Command nativeCommand = super.createCommand(commandClass,
 				commandParameter);
-		
-		
-		// SPECIALED PASTE COMMAND TO PASTE INTO TABLES. 
+
+		// SPECIALED PASTE COMMAND TO PASTE INTO TABLES.
 		// For the paste command, we like to paste into the parent resource for
 		// flat views
 		// like tables.

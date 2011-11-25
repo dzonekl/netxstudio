@@ -537,8 +537,15 @@ public class MasterDataImporter {
 			int cellType = cell.getCellType();
 			if (cellType == HSSFCell.CELL_TYPE_NUMERIC) {
 				double numericCellValue = cell.getNumericCellValue();
+//				value = new Double(numericCellValue).toString();
+				
+//				DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance();
+//				decimalFormat.setDecimalSeparatorAlwaysShown(false);
+//				decimalFormat.setMaximumFractionDigits(0);
+//				value = decimalFormat.format(numericCellValue);
 				NumberFormat nf = NumberFormat.getInstance();
 				nf.setMaximumFractionDigits(0);// set as you need
+				nf.setGroupingUsed(false);
 				value = nf.format(numericCellValue);
 
 			} else if (cellType == HSSFCell.CELL_TYPE_STRING) {

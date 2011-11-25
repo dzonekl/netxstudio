@@ -99,6 +99,14 @@ public class WarningDeleteCommand extends CompoundCommand {
 
 		super.execute();
 		
+		// For the objects, also delete the corresponding resource if a 1:1 CDOResource::Object.
+		// Note: This also means, it can't be undone! 
+		for(EObject eo : eObjects){
+			
+			
+			
+		}
+		
 		// The domain, might not contain the referenced object. 
 		
 		

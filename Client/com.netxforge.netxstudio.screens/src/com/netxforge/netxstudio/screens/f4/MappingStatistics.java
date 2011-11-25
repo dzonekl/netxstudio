@@ -665,7 +665,7 @@ public class MappingStatistics extends AbstractScreen implements
 				} else {
 					sb.append(s.getMessage());
 				}
-				sb.append(" , Total records=[" + s.getTotalRecords() + "]");
+				sb.append(" , Total rows=[" + s.getTotalRecords() + "]");
 				return sb.toString();
 			}
 			return super.getText(element);

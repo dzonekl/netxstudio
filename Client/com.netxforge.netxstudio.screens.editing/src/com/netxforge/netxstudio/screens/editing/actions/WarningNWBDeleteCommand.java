@@ -1,5 +1,6 @@
 package com.netxforge.netxstudio.screens.editing.actions;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -8,18 +9,24 @@ import java.util.List;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.library.NetXResource;
 
 public class WarningNWBDeleteCommand extends NoWayBackCommand {
 
@@ -81,18 +88,43 @@ public class WarningNWBDeleteCommand extends NoWayBackCommand {
 	public void execute() {
 		Collection<EObject> eObjects = getObjects();
 
-		List<CDOObjectReference> xRefs = this.findReferencesGlobally(eObjects);
-			
-		// FIXME, inferring the Owner and Feature for each object is embedded in the 
-		// AdapterFactoryEditingDomain (createCommand) and the IEditingDomainItemProvider (createCommand)
-		// It's a lot of work to reproduce this functionality. 
 		
-		
-//		AbstractOverrideableCommand.getOwnerList(owner, feature)
-//		((EList)((EObject)owner).eGet((EStructuralFeature)feature)).removeAll(collection);
-		
-		// The domain, might not contain the referenced object.
 
+		// Note, inferring the Owner and Feature for each object is embedded in
+		// the
+		// AdapterFactoryEditingDomain (createCommand) and the
+		// IEditingDomainItemProvider (createCommand)
+		// It's a lot of work to reproduce this functionality.
+		// As an alternative, we simply use a hard delete method, not emulating
+		// the low-level RemoveCommand.
+
+		for (EObject eo : eObjects) {
+			// Also delete the resource for certain types of objects, like
+			// NetXResource.
+//			EcoreUtil.remove(eo);
+			if (eo instanceof NetXResource) {
+				
+				this.removeWithParentResource(eo);
+			} else {
+				EcoreUtil.remove(eo);
+			}
+			if(eo instanceof CDOObject){
+				CDOObject cdoObject = (CDOObject) eo;
+				System.out.println("Object: " + cdoObject +"State after delete:" + cdoObject.cdoState() );
+				// Will be null in state TRANSIENT.
+				if(cdoObject.cdoID() != null){
+					
+				}
+				if( cdoObject.eResource() == null){
+					// the object is dangling here. 
+					System.out.println("Object: " + cdoObject +" is dangling after being delete "  );
+				}
+				
+			}
+		}
+
+		// The domain, might not contain the referenced object.
+		List<CDOObjectReference> xRefs = this.findReferencesGlobally(eObjects);
 		if (xRefs != null) {
 			for (CDOObjectReference xref : xRefs) {
 
@@ -155,6 +187,10 @@ public class WarningNWBDeleteCommand extends NoWayBackCommand {
 		for (EObject o : eObjects) {
 			if (o instanceof CDOObject) {
 				CDOView cdoView = ((CDOObject) o).cdoView();
+				if(cdoView == null){
+					// continue;
+					continue;
+				}
 				try {
 					List<CDOObjectReference> runRefs = cdoView.queryXRefs(
 							(CDOObject) o, new EReference[] {});
@@ -193,4 +229,51 @@ public class WarningNWBDeleteCommand extends NoWayBackCommand {
 		return found;
 	}
 
+	public void removeWithParentResource(EObject eObject) {
+		InternalEObject internalEObject = (InternalEObject) eObject;
+		EObject container = internalEObject.eInternalContainer();
+		if (container != null) {
+			EReference feature = eObject.eContainmentFeature();
+			if (FeatureMapUtil.isMany(container, feature)) {
+				((EList<?>) container.eGet(feature)).remove(eObject);
+			} else {
+				container.eUnset(feature);
+			}
+		}
+
+		Resource resource = eObject.eResource();
+		if (resource != null) {
+			if (resource instanceof CDOResource) {
+				CDOResource cdoRes = (CDOResource) resource;
+				EList<EObject> contents = cdoRes.getContents();
+				
+				try {
+					cdoRes.delete(null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
+	/**
+	 * From Remove command...
+	 * @param collection
+	 * @param target
+	 * @return
+	 */
+	protected boolean removeExact(Collection<?> collection, Object target)
+	  {
+	    for (Iterator<?> i = collection.iterator(); i.hasNext(); )
+	    {
+	      if (i.next() == target)
+	      {
+	        i.remove();
+	        return true;
+	      }
+	    }
+	    return false;
+	  }
+	
 }

@@ -36,6 +36,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ListDialog;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -60,7 +61,24 @@ public class WarningDeleteAction extends DeleteAction {
 
 	@Override
 	public void run() {
+		
+		if( command instanceof WarningNWBDeleteCommand){
+			
+			Collection<EObject> eObjects = ((WarningNWBDeleteCommand) command)
+					.getObjects();
 
+			EObject first = eObjects.iterator().next();
+			boolean questionResult = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+					"Delete object of type: " + first.eClass().getName(), "Are you sure you want to delete \""
+							+ editingService.getDelegator().getText(first) 
+							+ "\". Related objects ("
+							+ (eObjects.size() - 1) + "), this operation can not be undone");
+			if(questionResult){
+				super.run();
+			}
+			
+		}
+		
 		if (command instanceof WarningDeleteCommand) {
 
 			Collection<EObject> eObjects = ((WarningDeleteCommand) command)
@@ -130,6 +148,16 @@ public class WarningDeleteAction extends DeleteAction {
 		// Make sure we keep the order. 
 		Collection<Object> newSelection = Lists.newLinkedList();
 		
+		// Specialize the handling of NetXResource deletion. 
+		// These are deleted with a NWB command, as the resource is also deleted, 
+		// and the reference handling is somewhat special.
+		
+		// Warning: We assume the whole selection is of this type. 
+//		if( selection.size() > 0 && selection.iterator().next() instanceof NetXResource){
+//			return createNWBCommand(selection);
+//		}
+
+		
 		for(Object o : selection){
 			
 			// For jobs, we also need to delete the job container. 
@@ -150,6 +178,7 @@ public class WarningDeleteAction extends DeleteAction {
 					}
 				}
 			}
+			
 		}
 		
 		if(newSelection.size() == 0 && selection.size() > 0 ){
@@ -165,5 +194,10 @@ public class WarningDeleteAction extends DeleteAction {
 		// not executed on the command stack. 
 		return removeAllReferences ? WarningDeleteCommand.create(domain,
 				newSelection) : RemoveCommand.create(domain, newSelection);
+	}
+
+	private Command createNWBCommand(Collection<?> selection) {
+		
+		return  WarningNWBDeleteCommand.create(domain, selection);
 	}
 }

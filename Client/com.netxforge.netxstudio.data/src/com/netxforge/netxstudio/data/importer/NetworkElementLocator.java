@@ -119,6 +119,10 @@ public class NetworkElementLocator {
 			}
 		}
 
+
+		///////////////////////////////////////////////////////
+		//SEARCH SCOPE
+		///////////////////////////////////////////////////////
 		/*
 		 * flag for limiting the search scope and bail on references which are
 		 * not in the identifier scope. When no scope is defined, all matching
@@ -180,7 +184,11 @@ public class NetworkElementLocator {
 						+ allComponents.size());
 			}
 		} else {
-
+			
+			///////////////////////////////////////////////////////
+			// CALL REFERENCER ON COMPONENT_METRIC FEATURE
+			///////////////////////////////////////////////////////
+			
 			// find the cross references to this metric, Note this could be a
 			// component which is a NodeType Component.
 			final List<CDOObjectReference> results = dataProvider
@@ -252,7 +260,12 @@ public class NetworkElementLocator {
 			System.out.println("IMPORTER:LOCATOR start matching components");
 		}
 
-		// Iterate through components and subiterate through the identifiers,
+		
+		///////////////////////////////////////////////////////
+		//SEARCH
+		///////////////////////////////////////////////////////
+		
+		// Iterate through components and sub iterate through the identifiers,
 		// having a full match of identifiers
 		// and components.
 		for (final Component componentToVerify : allComponents) {
@@ -341,6 +354,12 @@ public class NetworkElementLocator {
 			}
 		}
 
+		
+		///////////////////////////////////////////////////////
+		//SEARCH FAILED 
+		///////////////////////////////////////////////////////
+
+		
 		if (DataActivator.DEBUG) {
 			System.out
 					.println("IMPORTER:LOCATOR  end matching component, no result, proceed to auto-create");
@@ -673,7 +692,7 @@ public class NetworkElementLocator {
 	}
 
 	private boolean matches(String dataValue, String componentValue) {
-		return dataValue.equals(componentValue);
+		return dataValue.trim().equals(componentValue.trim());
 	}
 
 	public static class IdentifierDescriptor {

@@ -520,6 +520,9 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 							System.out
 									.println("Can't calculate path for empty names");
 							return; // Can't calculate path for empty names.
+						}else{
+							System.out
+							.println("Creating CDO Resource " + cdoResourcePath);
 						}
 						final Resource resourcesResource = editingService
 								.getDataService()

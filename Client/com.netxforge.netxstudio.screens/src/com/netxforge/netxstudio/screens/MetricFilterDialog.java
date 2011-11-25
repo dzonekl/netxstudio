@@ -48,8 +48,9 @@ public class MetricFilterDialog extends FilteredItemsSelectionDialog {
 	 *            the model resource
 	 */
 	public MetricFilterDialog(Shell shell, Resource resource) {
-		super(shell);
+		super(shell, true);
 		super.setTitle("Select an existing Metric");
+		
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {
