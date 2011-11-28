@@ -17,6 +17,11 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.ui;
 
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.DefaultScope;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
@@ -44,10 +49,12 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
 		// DOESN'T WORK.
 //		DISABLE_OPEN_EDITOR_IN_PLACE
-//		boolean currentValue = Platform.getPreferencesService().getBoolean("org.eclipse.ui", IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE, true, null);
-//		IScopeContext scopeContext = DefaultScope.INSTANCE;
-//		IEclipsePreferences node = scopeContext.getNode("org.eclipse.ui");
-//		node.putBoolean(IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE, true);
+		boolean currentValue = Platform.getPreferencesService().getBoolean("org.eclipse.ui.workbench", IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE, true, null);
+		IScopeContext scopeContext = DefaultScope.INSTANCE;
+		IEclipsePreferences node = scopeContext.getNode("org.eclipse.ui.workbench");
+		node.putBoolean(IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE, true);
+		currentValue = Platform.getPreferencesService().getBoolean("org.eclipse.ui.workbench", IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE, true, null);
+		System.out.println(currentValue ? "inplace editing disabled" : " coudn't change preference for inplace editing");
 	}
 	
 }

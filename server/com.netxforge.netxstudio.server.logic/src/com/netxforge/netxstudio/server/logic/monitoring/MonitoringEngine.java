@@ -43,6 +43,7 @@ import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.server.logic.LogicActivator;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 
 /**
@@ -58,20 +59,29 @@ public class MonitoringEngine extends BaseComponentEngine {
 	public void doExecute() {
 
 		if (this.getComponent() instanceof Equipment) {
-			System.out.println("Start Monitoring for Equipment: "
-					+ ((Equipment) this.getComponent()).getEquipmentCode()
-					+ " Name=" + this.getComponent().getName());
-		}else if( this.getComponent() instanceof Function){
-			System.out.println("Start Monitoring for Function: "
-					+ " Name=" + this.getComponent().getName());
+
+			if (LogicActivator.DEBUG) {
+				System.out
+						.println("MONITORING ENGINE: Start Monitoring for Equipment: "
+								+ ((Equipment) this.getComponent())
+										.getEquipmentCode()
+								+ " Name="
+								+ this.getComponent().getName());
+			}
+		} else if (this.getComponent() instanceof Function) {
+			if (LogicActivator.DEBUG) {
+				System.out
+						.println("MONITORING ENGINE: Start Monitoring for Function: "
+								+ " Name=" + this.getComponent().getName());
+			}
 		}
 
-		
 		// Clear the context first.
 		getExpressionEngine().getContext().clear();
 		getExpressionEngine().getContext().add(getPeriod());
 		final Node node = getCommonLogic().getNode(getComponent());
 		getExpressionEngine().getContext().add(node);
+
 		setEngineContextInfo("Node: " + node.getNodeID() + ", Comp: "
 				+ getComponent().getName() + " - capacity expression -");
 
@@ -102,21 +112,33 @@ public class MonitoringEngine extends BaseComponentEngine {
 			getExpressionEngine().getContext().add(netXResource);
 			setEngineContextInfo("NetXResource: " + netXResource.getShortName()
 					+ " - utilization expression -");
-			System.err.println("Run util expression for resource: "
-					+ netXResource.getShortName());
+
+			if (LogicActivator.DEBUG) {
+				System.err
+						.println("MONITORING ENGINE: Run util expression for resource: "
+								+ netXResource.getShortName());
+			}
 
 			Expression runUtilExpression = this
 					.getExpression(LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF);
 			runForExpression(runUtilExpression);
 
-			System.err.println("Done util expression for resource: "
-					+ netXResource.getShortName());
+			if (LogicActivator.DEBUG) {
+				System.err
+						.println("MONITORING ENGINE: Done util expression for resource: "
+								+ netXResource.getShortName());
+			}
 			if (getFailures().size() > 0) {
 				return;
 			}
-			System.err.println("Run tolerance expression(s) for resource: "
-					+ netXResource.getShortName());
-
+			if (LogicActivator.DEBUG) {
+				System.err
+						.println("MONITORING ENGINE: Run tolerance expression(s) for resource: "
+								+ netXResource.getShortName());
+			}
+			
+			
+			// RESOURCE MONITOR CREATION. 
 			final ResourceMonitor resourceMonitor = OperatorsFactory.eINSTANCE
 					.createResourceMonitor();
 			resourceMonitor.setNodeRef(node);
@@ -124,10 +146,20 @@ public class MonitoringEngine extends BaseComponentEngine {
 			// CB 21-09 make a copy of the DTR.
 			DateTimeRange dtr = EcoreUtil.copy(getPeriod());
 			resourceMonitor.setPeriod(dtr);
+			
+			if (LogicActivator.DEBUG) {
+				System.err
+						.println("MONITORING ENGINE: Creating a new resource monitor for: "
+								+ netXResource.getShortName());
+			}
+			
+			
 			if (getServiceMonitor() == null) {
 				final Resource emfResource = getDataProvider().getResource(
 						OperatorsPackage.eINSTANCE.getResourceMonitor());
 				emfResource.getContents().add(resourceMonitor);
+				
+				
 			} else {
 				serviceMonitor.getResourceMonitors().add(resourceMonitor);
 			}
@@ -155,9 +187,9 @@ public class MonitoringEngine extends BaseComponentEngine {
 			System.out.println("Done Monitoring for Equipment: "
 					+ ((Equipment) this.getComponent()).getEquipmentCode()
 					+ " Name=" + this.getComponent().getName());
-		}else if( this.getComponent() instanceof Function){
-			System.out.println("Done Monitoring for Function: "
-					+ " Name=" + this.getComponent().getName());
+		} else if (this.getComponent() instanceof Function) {
+			System.out.println("Done Monitoring for Function: " + " Name="
+					+ this.getComponent().getName());
 		}
 
 	}
@@ -167,12 +199,19 @@ public class MonitoringEngine extends BaseComponentEngine {
 		if (getComponent().eIsSet(ref)) {
 			runCapExpression = (Expression) getComponent().eGet(ref);
 		} else {
+			if (LogicActivator.DEBUG) {
+				System.out.println("MONITORING ENGINE: Expression not set for component" + getComponent().getName() + " try expression from parent Component");
+			}
 			// walk up the parent cap expression, just one level.
 			EObject parent = getComponent().eContainer();
 			if (parent != null && parent instanceof Component) {
 				Component parentComponent = (Component) parent;
 				if (parentComponent.eIsSet(ref)) {
 					runCapExpression = (Expression) parentComponent.eGet(ref);
+				}else{
+					if (LogicActivator.DEBUG) {
+						System.out.println("MONITORING ENGINE: Expression not set for parent component :-(" + getComponent().getName());
+					}
 				}
 			}
 		}

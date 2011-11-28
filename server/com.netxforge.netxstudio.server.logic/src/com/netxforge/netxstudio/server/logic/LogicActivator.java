@@ -3,8 +3,12 @@ package com.netxforge.netxstudio.server.logic;
 import static com.google.inject.Guice.createInjector;
 import static com.google.inject.util.Modules.override;
 
+import java.util.Dictionary;
 import java.util.Hashtable;
 
+import org.eclipse.osgi.service.debug.DebugOptions;
+import org.eclipse.osgi.service.debug.DebugOptionsListener;
+import org.eclipse.osgi.service.debug.DebugTrace;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
@@ -31,11 +35,20 @@ import com.netxforge.netxstudio.server.logic.reporting.ReportingService;
 import com.netxforge.netxstudio.server.logic.retention.RetentionJobImplementation;
 import com.netxforge.netxstudio.server.logic.retention.RetentionService;
 
-public class LogicActivator implements BundleActivator {
+public class LogicActivator implements BundleActivator, DebugOptionsListener {
 
 	private static BundleContext context;
-
+	private static final String PLUGIN_ID = "com.netxforge.netxstudio.server.logic";
 	private static LogicActivator INSTANCE;
+
+	// fields to cache the debug flags
+	public static boolean DEBUG = false;
+	public static DebugTrace TRACE = null;
+
+	public void optionsChanged(DebugOptions options) {
+		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);
+		TRACE = options.newDebugTrace(PLUGIN_ID);
+	}
 
 	static BundleContext getContext() {
 		return context;
@@ -57,61 +70,79 @@ public class LogicActivator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		INSTANCE = this;
 		LogicActivator.context = bundleContext;
-		
-		JobImplementation.REGISTRY.register(RFSServiceMonitoringJob.class, new JobImplementationFactory() {
-			@Override
-			public JobImplementation create() {
-				return injector.getInstance(RFSServiceMonitoringJobImplementation.class);
-			}
-		});
-		
-		JobImplementation.REGISTRY.register(RFSServiceReporterJob.class, new JobImplementationFactory() {
-			@Override
-			public JobImplementation create() {
-				return injector.getInstance(RFSServiceReportingJobImplementation.class);
-			}
-		});
-		
-		JobImplementation.REGISTRY.register(NodeReporterJob.class, new JobImplementationFactory() {
-			@Override
-			public JobImplementation create() {
-				return injector.getInstance(NodeReportingJobImplementation.class);
-			}
-		});
-		
-		JobImplementation.REGISTRY.register(NodeTypeReporterJob.class, new JobImplementationFactory() {
-			@Override
-			public JobImplementation create() {
-				return injector.getInstance(OperatorReportingJobImplementation.class);
-			}
-		});
-		
-		JobImplementation.REGISTRY.register(OperatorReporterJob.class, new JobImplementationFactory() {
-			@Override
-			public JobImplementation create() {
-				return injector.getInstance(OperatorReportingJobImplementation.class);
-			}
-		});
-		
-		JobImplementation.REGISTRY.register(RetentionJob.class, new JobImplementationFactory() {
-			@Override
-			public JobImplementation create() {
-				return injector.getInstance(RetentionJobImplementation.class);
-			}
-		});
-		
-		
-		
 
-		Module om = override(new NetxscriptServerModule()).with(ServerModule.getModule());
+		JobImplementation.REGISTRY.register(RFSServiceMonitoringJob.class,
+				new JobImplementationFactory() {
+					@Override
+					public JobImplementation create() {
+						return injector
+								.getInstance(RFSServiceMonitoringJobImplementation.class);
+					}
+				});
+
+		JobImplementation.REGISTRY.register(RFSServiceReporterJob.class,
+				new JobImplementationFactory() {
+					@Override
+					public JobImplementation create() {
+						return injector
+								.getInstance(RFSServiceReportingJobImplementation.class);
+					}
+				});
+
+		JobImplementation.REGISTRY.register(NodeReporterJob.class,
+				new JobImplementationFactory() {
+					@Override
+					public JobImplementation create() {
+						return injector
+								.getInstance(NodeReportingJobImplementation.class);
+					}
+				});
+
+		JobImplementation.REGISTRY.register(NodeTypeReporterJob.class,
+				new JobImplementationFactory() {
+					@Override
+					public JobImplementation create() {
+						return injector
+								.getInstance(OperatorReportingJobImplementation.class);
+					}
+				});
+
+		JobImplementation.REGISTRY.register(OperatorReporterJob.class,
+				new JobImplementationFactory() {
+					@Override
+					public JobImplementation create() {
+						return injector
+								.getInstance(OperatorReportingJobImplementation.class);
+					}
+				});
+
+		JobImplementation.REGISTRY.register(RetentionJob.class,
+				new JobImplementationFactory() {
+					@Override
+					public JobImplementation create() {
+						return injector
+								.getInstance(RetentionJobImplementation.class);
+					}
+				});
+
+		Module om = override(new NetxscriptServerModule()).with(
+				ServerModule.getModule());
 		om = override(om).with(new JobModule());
 		om = override(om).with(new LogicModule());
 		om = override(om).with(new CommonModule());
 		injector = createInjector(om);
 
-		bundleContext.registerService(MonitoringService.class, new MonitoringService(), new Hashtable<String, String>());
-		bundleContext.registerService(RetentionService.class, new RetentionService(), new Hashtable<String, String>());
-		bundleContext.registerService(ReportingService.class, new ReportingService(), new Hashtable<String, String>());
+		bundleContext.registerService(MonitoringService.class,
+				new MonitoringService(), new Hashtable<String, String>());
+		bundleContext.registerService(RetentionService.class,
+				new RetentionService(), new Hashtable<String, String>());
+		bundleContext.registerService(ReportingService.class,
+				new ReportingService(), new Hashtable<String, String>());
+		
+		Dictionary<String, String> props = new Hashtable<String,String>(4);
+		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
+	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
+		
 	}
 
 	/*

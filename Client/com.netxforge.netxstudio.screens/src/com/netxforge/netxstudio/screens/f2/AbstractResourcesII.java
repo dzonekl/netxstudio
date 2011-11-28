@@ -65,6 +65,7 @@ import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.TableColumnFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import org.eclipse.swt.custom.CCombo;
 
 /**
  * See this for filtering. http://www.eclipsezone.com/eclipse/forums/t63214.html
@@ -72,15 +73,15 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
  * @author dzonekl
  * 
  */
-public abstract class AbstractResources extends AbstractScreen implements
+public abstract class AbstractResourcesII extends AbstractScreen implements
 		IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
-	private Text txtFilterText;
 
 	protected TableViewer resourcesTableViewer;
 	private Form frmResources;
+	private CCombo nodeSelectionCombo;
 	// private Resource resourcesResource;
 
 	@Inject
@@ -94,7 +95,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 	 * @param parent
 	 * @param style
 	 */
-	public AbstractResources(Composite parent, int style) {
+	public AbstractResourcesII(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -103,7 +104,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		buildUI();
 	}
 
 	private void buildUI() {
@@ -116,36 +117,15 @@ public abstract class AbstractResources extends AbstractScreen implements
 		frmResources.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmResources);
 		frmResources.setText("Resources");
-		frmResources.getBody().setLayout(new GridLayout(3, false));
+		frmResources.getBody().setLayout(new GridLayout(4, false));
 
-		Label lblFilterLabel = toolkit.createLabel(frmResources.getBody(),
-				"Filter:", SWT.NONE);
-		GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_lblFilterLabel.widthHint = 44;
-		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
-
-		txtFilterText = toolkit.createText(frmResources.getBody(), "New Text",
-				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
-		txtFilterText.setText("");
-		txtFilterText.addKeyListener(new KeyAdapter() {
-			public void keyReleased(KeyEvent ke) {
-				ViewerFilter[] filters = resourcesTableViewer.getFilters();
-				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
-								.setSearchText(txtFilterText.getText());
-					}
-				}
-				resourcesTableViewer.refresh();
-			}
-		});
-
-		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_txtFilterText.widthHint = 200;
-		txtFilterText.setLayoutData(gd_txtFilterText);
-		new Label(frmResources.getBody(), SWT.NONE);
+		nodeSelectionCombo = new CCombo(frmResources.getBody(), SWT.BORDER);
+		GridData gd_combo = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1,
+				1);
+		gd_combo.widthHint = 100;
+		nodeSelectionCombo.setLayoutData(gd_combo);
+		toolkit.adapt(nodeSelectionCombo);
+		toolkit.paintBordersFor(nodeSelectionCombo);
 
 		resourcesTableViewer = new TableViewer(frmResources.getBody(),
 				SWT.VIRTUAL | SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
@@ -155,8 +135,12 @@ public abstract class AbstractResources extends AbstractScreen implements
 		resourcesTableViewer.addFilter(searchFilter);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 5));
 		toolkit.paintBordersFor(table);
+		new Label(frmResources.getBody(), SWT.NONE);
+		new Label(frmResources.getBody(), SWT.NONE);
+		new Label(frmResources.getBody(), SWT.NONE);
+		new Label(frmResources.getBody(), SWT.NONE);
 
 		buildColumns();
 	}
@@ -249,6 +233,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 	 * A Map of filters.
 	 */
 	Map<String, TableColumnFilter> columnFilters = Maps.newHashMap();
+	
 
 	protected void buildTableColumns(String[] properties, int[] columnWidths,
 			EditingSupport[] editingSupport) {
@@ -380,7 +365,14 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-
+		
+		
+		
+		// 
+		this.nodeSelectionCombo.setItems(items);
+		
+		// Binding of the table. 
+		
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		resourcesTableViewer.setContentProvider(listContentProvider);
 
@@ -418,26 +410,29 @@ public abstract class AbstractResources extends AbstractScreen implements
 		resourcesTableViewer
 				.setLabelProvider(new NetXResourceObervableMapLabelProvider(map));
 
-		// IEMFListProperty resourcesProperties = EMFEditProperties
-		// .resource(editingService.getEditingDomain());
+		
+	
+		 IEMFListProperty resourcesProperties = EMFProperties
+		 .list(LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
+		 
+		 
+		 // TODO, set the master.
+		 IObservableList resourceList = resourcesProperties.observeDetail(master);
 
-		// IObservableList resourceList = resourcesProperties
-		// .observe(resourcesResource);
-
-		final IEMFListProperty computedProperties = EMFProperties.resource();
-		ComputedList computedResourceList = new ComputedList() {
-			@SuppressWarnings("unchecked")
-			@Override
-			protected List<Object> calculate() {
-				List<Object> result = Lists.newArrayList();
-				for (Resource r : resourcesList) {
-					IObservableList observableList = computedProperties
-							.observe(r);
-					result.addAll(observableList);
-				}
-				return result;
-			}
-		};
+//		final IEMFListProperty computedProperties = EMFProperties.resource();
+//		ComputedList computedResourceList = new ComputedList() {
+//			@SuppressWarnings("unchecked")
+//			@Override
+//			protected List<Object> calculate() {
+//				List<Object> result = Lists.newArrayList();
+//				for (Resource r : resourcesList) {
+//					IObservableList observableList = computedProperties
+//							.observe(r);
+//					result.addAll(observableList);
+//				}
+//				return result;
+//			}
+//		};
 
 		resourcesTableViewer.setInput(computedResourceList);
 

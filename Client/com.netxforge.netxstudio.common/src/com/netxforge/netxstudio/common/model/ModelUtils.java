@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -41,6 +42,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
@@ -2169,6 +2171,15 @@ public class ModelUtils {
 		return Lists.transform(nodes, nodeTypeFromNode);
 	}
 
+	public Iterator<CDOObject> transformEObjectToCDOObjects(Iterator<EObject> eObjects) {
+		final Function<EObject, CDOObject> cdoObjectFromEObject = new Function<EObject, CDOObject>() {
+			public CDOObject apply(EObject from) {
+				return (CDOObject) from;
+			}
+		};
+		return Iterators.transform(eObjects, cdoObjectFromEObject);
+	}
+	
 	/**
 	 * Transform a list of Value object, to only the value part of the Value
 	 * Object.
