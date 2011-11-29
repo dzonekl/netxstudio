@@ -38,6 +38,16 @@ public interface IDataProvider {
 	public static final long SIGNAL_TIME_OUT = 60 * 1000;
 	
 	/**
+	 * Comment set on a server side CDO Transaction when committing. 
+	 */
+	public static final String SERVER_COMMIT_COMMENT = "servercommit";
+	
+	/**
+	 * Comment set on a client side CDO Transaction when committing.
+	 */
+	public static final String CLIENT_COMMIT_COMMENT = "clientcommit";
+	
+	/**
 	 * Get the server as a String.
 	 * 
 	 * @param set

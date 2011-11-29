@@ -34,6 +34,13 @@ import com.netxforge.netxstudio.data.cdo.ICDOConnection;
  */
 public class ServerCDODataProvider extends CDODataProvider {
 
+	
+
+	@Override
+	public void commitTransaction() {
+		super.commitTransaction(SERVER_COMMIT_COMMENT);
+	}
+
 	@Inject
 	public ServerCDODataProvider(@Server ICDOConnection conn) {
 		super(conn);

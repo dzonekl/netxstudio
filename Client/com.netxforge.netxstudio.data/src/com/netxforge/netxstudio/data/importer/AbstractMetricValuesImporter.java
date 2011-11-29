@@ -319,10 +319,20 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 		}
 		getMetricSource().getStatistics().add(mappingStatistic);
-		getDataProvider().commitTransaction();
-		getDataProvider().closeSession();
-		if (DataActivator.DEBUG) {
-			System.err.println("IMPORTER COMMIT SUCCESS");
+
+		// Commit in a throwable, otherwise the session woudn't be closed.
+		try {
+			getDataProvider().commitTransaction();
+			if (DataActivator.DEBUG) {
+				System.err.println("IMPORTER COMMIT SUCCESS");
+			}
+		} catch (final Throwable t) {
+			if (DataActivator.DEBUG) {
+				System.err.println("IMPORTER COMMIT FAILED");
+				t.printStackTrace();
+			}
+		} finally {
+			getDataProvider().closeSession();
 		}
 	}
 
@@ -334,8 +344,18 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	private void moveFile(File file, boolean error) {
 		if (error) {
-			file.renameTo(new File(file.getAbsolutePath()
+			boolean renameTo = file.renameTo(new File(file.getAbsolutePath()
 					+ ".done_with_failures"));
+			if (DataActivator.DEBUG) {
+				if (renameTo) {
+					System.out.println("IMPORTER: rename successed for file="
+							+ file.getName());
+				} else {
+					System.out.println("IMPORTER: rename failed for file="
+							+ file.getName());
+				}
+			}
+
 		} else {
 			file.renameTo(new File(file.getAbsolutePath() + ".done"));
 		}

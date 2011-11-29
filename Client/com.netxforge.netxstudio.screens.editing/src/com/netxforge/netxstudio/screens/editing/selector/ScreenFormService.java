@@ -361,7 +361,7 @@ public class ScreenFormService implements IScreenFormService {
 
 		doReset();
 
-		obm = new ObservablesManager("screenformservice");
+		obm = new ObservablesManager();
 		obm.runAndCollect(new Runnable() {
 			public void run() {
 				// We are a new screen, instantiate and set active.

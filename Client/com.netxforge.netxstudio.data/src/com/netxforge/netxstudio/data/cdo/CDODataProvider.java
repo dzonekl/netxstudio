@@ -556,16 +556,7 @@ public abstract class CDODataProvider implements IDataProvider {
 	}
 
 	public void commitTransaction() {
-		try {
-			if (isTransactionSet()) {
-				getTransaction().commit();
-			}
-		} catch (final Exception e) {
-			throw new IllegalStateException(e);
-		} finally {
-			getTransaction().close();
-			setTransaction(null);
-		}
+		commitTransaction(CLIENT_COMMIT_COMMENT);	
 	}
 
 	public void rollbackTransaction() {
@@ -584,6 +575,22 @@ public abstract class CDODataProvider implements IDataProvider {
 	public void setDoGetResourceFromOwnTransaction(
 			boolean doGetResourceFromOwnTransaction) {
 		this.doGetResourceFromOwnTransaction = doGetResourceFromOwnTransaction;
+	}
+
+	public void commitTransaction(String commitComment) {
+		try {
+			if (isTransactionSet()) {
+				if( commitComment != null && commitComment.length() > 0){
+					this.getTransaction().setCommitComment(commitComment);
+					getTransaction().commit();	
+				}
+			}
+		} catch (final Exception e) {
+			throw new IllegalStateException(e);
+		} finally {
+			getTransaction().close();
+			setTransaction(null);
+		}
 	}
 
 }

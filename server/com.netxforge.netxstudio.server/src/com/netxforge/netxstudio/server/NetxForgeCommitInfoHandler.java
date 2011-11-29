@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.ActionType;
 import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -62,6 +63,13 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 			return;
 		}
 		
+		// skip server side committing. 
+		if(commitInfo.getComment().equals(IDataProvider.SERVER_COMMIT_COMMENT)){
+			// do not log server side handling. 
+			return; 
+		}
+		
+		
 		// don't save commit info
 		// check if we are saving the commit info resource
 		// if so bail
@@ -78,6 +86,7 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 						new Date(commitInfo.getTimeStamp()));
 		final CDOSession session = ServerUtils.getInstance().openJVMSession();
 		final CDOTransaction transaction = session.openTransaction();
+		
 		final Resource resource = transaction
 				.getOrCreateResource("/CDOCommitInfo_" + commitInfo.getUserID());
 		for (final CDOIDAndVersion cdoIdAndVersion : commitInfo

@@ -87,7 +87,12 @@ public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	@Override
 	protected double getNumericCellValue(int row, int column) {
-		return currentSheet.getRow(row).getCell(column).getNumericCellValue();
+		HSSFCell cell = currentSheet.getRow(row).getCell(column);
+		if(cell != null){
+			return cell.getNumericCellValue();	
+		}else{
+			return 0.0;
+		}
 	}
 
 	protected String getCellValue(HSSFCell cell) {
