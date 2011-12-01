@@ -88,6 +88,11 @@ public class FixedSetCDOScopeProvider extends AbstractGlobalScopeProvider {
 		System.err.println(new Date(System.currentTimeMillis()));
 
 		IScope scope = IScope.NULLSCOPE;
+		
+		
+		// Builds the scope for all registered URI's, while the type is Equipment. 
+		// Iterate through the fixed of URI's. Perhaps we can map the EClass type to a
+		// URI. 
 		for (URI uri : fixedURIs) {
 			scope = createLazyResourceScope(scope, uri, descriptions, type,
 					filter, ignoreCase);
