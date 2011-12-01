@@ -51,10 +51,10 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
  * @author Martin Taal
  */
 public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
-	
+
 	@Inject
 	ModelUtils modelUtils;
-	
+
 	private static final int MAX_CHANGE_LENGTH = 2000;
 
 	public synchronized void handleCommitInfo(CDOCommitInfo commitInfo) {
@@ -62,14 +62,24 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 		if (ServerUtils.getInstance().isInitializing()) {
 			return;
 		}
-		
-		// skip server side committing. 
-		if(commitInfo.getComment().equals(IDataProvider.SERVER_COMMIT_COMMENT)){
-			// do not log server side handling. 
-			return; 
+
+		if (commitInfo.getComment() == null) {
+			if (ServerActivator.DEBUG) {
+				System.out
+						.println("COMMIT HANDLER: transaction source unknown (comment not set) for transaction for commit="
+								+ commitInfo.toString());
+			}
+			return;
 		}
-		
-		
+
+		// skip server side committing.
+		if (commitInfo.getComment() != null
+				&& commitInfo.getComment().equals(
+						IDataProvider.SERVER_COMMIT_COMMENT)) {
+			// do not log server side handling.
+			return;
+		}
+
 		// don't save commit info
 		// check if we are saving the commit info resource
 		// if so bail
@@ -82,11 +92,11 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 			}
 		}
 
-		final XMLGregorianCalendar commitTimeStamp = modelUtils.toXMLDate(
-						new Date(commitInfo.getTimeStamp()));
+		final XMLGregorianCalendar commitTimeStamp = modelUtils
+				.toXMLDate(new Date(commitInfo.getTimeStamp()));
 		final CDOSession session = ServerUtils.getInstance().openJVMSession();
 		final CDOTransaction transaction = session.openTransaction();
-		
+
 		final Resource resource = transaction
 				.getOrCreateResource("/CDOCommitInfo_" + commitInfo.getUserID());
 		for (final CDOIDAndVersion cdoIdAndVersion : commitInfo
@@ -169,18 +179,17 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 		addNewLine(sb);
 		sb.append(feature.getName() + " = " + printCDOFeatureDelta(value));
 	}
-	
+
 	private String printCDOFeatureDelta(CDOFeatureDelta delta) {
 		String str = delta.toString();
 		if (str.indexOf(",") != -1) {
 			// do + 2 to get of one space
-			str= str.substring(str.indexOf(",") + 2);
+			str = str.substring(str.indexOf(",") + 2);
 		}
 		// and get rid of the ] at the end
 		return str.substring(0, str.length() - 1);
 	}
-	
-	
+
 	private void addNewLine(StringBuilder sb) {
 		if (sb.length() > 0) {
 			sb.append("\n");

@@ -18,20 +18,36 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.Locale;
 
+import org.eclipse.osgi.service.debug.DebugOptions;
+import org.eclipse.osgi.service.debug.DebugOptionsListener;
+import org.eclipse.osgi.service.debug.DebugTrace;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-public class ServerActivator implements BundleActivator {
+public class ServerActivator implements BundleActivator, DebugOptionsListener {
 
 	private static BundleContext context;
 
 	private static ServerActivator INSTANCE;
 	
+	private static final String PLUGIN_ID = "com.netxforge.netxstudio.server";
+	
+	// fields to cache the debug flags
+	public static boolean DEBUG = false;
+	public static DebugTrace TRACE = null;
+
+	public void optionsChanged(DebugOptions options) {
+		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);
+		TRACE = options.newDebugTrace(PLUGIN_ID);
+	}
+
 	static BundleContext getContext() {
 		return context;
 	}
@@ -39,28 +55,42 @@ public class ServerActivator implements BundleActivator {
 	public static ServerActivator getInstance() {
 		return INSTANCE;
 	}
-	
+
 	private Injector injector;
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		INSTANCE = this;
 		ServerActivator.context = bundleContext;
 		injector = Guice.createInjector(ServerModule.getModule());
-		
+
 		Locale currentLocal = Locale.getDefault();
-		System.out.println("CURRENT Locale: country = " + currentLocal.getDisplayCountry() + "language = " + currentLocal.getDisplayLanguage());
+		System.out.println("CURRENT Locale: country = "
+				+ currentLocal.getDisplayCountry() + "language = "
+				+ currentLocal.getDisplayLanguage());
 		Locale.setDefault(Locale.UK);
 		currentLocal = Locale.getDefault();
-		System.out.println("NEW Locale: country = "  + currentLocal.getDisplayCountry() + "language = " + currentLocal.getDisplayLanguage());
+		System.out.println("NEW Locale: country = "
+				+ currentLocal.getDisplayCountry() + "language = "
+				+ currentLocal.getDisplayLanguage());
+		
+		Dictionary<String, String> props = new Hashtable<String,String>(4);
+		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
+	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
+		
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext bundleContext) throws Exception {
 		ServerActivator.context = null;
