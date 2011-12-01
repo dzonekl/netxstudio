@@ -20,14 +20,16 @@ package com.netxforge.netxstudio.server;
 
 import java.util.List;
 
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.spi.server.RepositoryUserManager;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.net4j.util.factory.ProductCreationException;
 import org.eclipse.net4j.util.security.UserManager;
 
+import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
 
 /**
@@ -54,38 +56,45 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 	}
 
 	private static NetxForgeUserManager instance = null;
-	
+
 	public static NetxForgeUserManager getInstance() {
 		return instance;
 	}
-	
+
 	public NetxForgeUserManager() {
 		instance = this;
 	}
-	
+
 	@Override
 	protected char[] getPassword(IRepository repository, String userID) {
 		ServerUtils.getInstance().checkRepositorySupported(repository);
-		
+
 		if (userID.equals("admin")) {
 			return "admin".toCharArray();
 		}
-		
+
 		if (userID.equals(ServerUtils.getInstance().getServerSideLogin())) {
 			return ServerUtils.getInstance().getServerSideLogin().toCharArray();
 		}
-		
+
 		final CDOSession session = ServerUtils.getInstance().openJVMSession();
 		final CDOTransaction transaction = session.openTransaction();
 		try {
-			final CDOQuery cdoQuery = transaction.createQuery("hql",
-					"select p from Person p where login=:login");
-			cdoQuery.setParameter("login", userID);
-			final List<Person> persons = cdoQuery.getResult(Person.class);
-			if (persons.size() != 1) {
+
+			// final CDOQuery cdoQuery = transaction.createQuery("hql",
+			// "select p from Person p where login=:login");
+			// cdoQuery.setParameter("login", userID);
+
+			CDOResource resource = transaction.getResource("/"
+					+ GenericsPackage.Literals.PERSON);
+
+			List<Person> people = new ModelUtils.CollectionForObjects<Person>()
+					.collectionForObjects(resource.getContents());
+
+			if (people.size() != 1) {
 				return null;
 			}
-			final String pwd = persons.get(0).getPassword();
+			final String pwd = people.get(0).getPassword();
 			if (pwd == null) {
 				return null;
 			}

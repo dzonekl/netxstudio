@@ -41,6 +41,9 @@ public class TestSplitter {
 
 	String testString4 = "RTSGSN1/Process:Process No.=0, Process type=LIP, Slot No.=8, Subrack No.=1";
 	
+	String testString5 = "RTSGSN1/RNCInfo:Label=AHMRNC03, RNCX=19";
+	
+	
 	String QUOTED_OR_NOT = "(\".*?\"|.*?)";
 
 	Pattern csvMatcher = Pattern.compile( "(\".*?\"|[^,]++)" , Pattern.MULTILINE | Pattern.DOTALL);
@@ -166,6 +169,26 @@ public class TestSplitter {
 			}
 		}
 	}
+	
+	/*
+	 * 
+	 */
+	Pattern RNCExtractor = Pattern.compile("Label=([a-zA-Z0-9]++),");
+	
+	@Test
+	public void testValueExtractor_RNC() {
+		System.out.println("-------RNC Extractor: ");
+		
+		Matcher matcher = RNCExtractor.matcher(testString5);
+		if(matcher.find()) {
+			int gc = matcher.groupCount();
+			for (int i = 0; i <= gc; i++) {
+				// Skip group 0 as usual. 
+				System.out.println(i + " : " + matcher.group(i));
+			}
+		}
+	}
+	
 	
 	
 }

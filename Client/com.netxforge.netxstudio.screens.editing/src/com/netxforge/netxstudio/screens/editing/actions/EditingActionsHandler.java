@@ -22,6 +22,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
+import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 /**
@@ -274,6 +275,12 @@ public class EditingActionsHandler implements IActionHandler {
 			IStructuredSelection structuredSelection = selection instanceof IStructuredSelection ? (IStructuredSelection) selection
 					: StructuredSelection.EMPTY;
 
+			// Why not provide the transaction here? 
+			if(part instanceof AbstractScreensViewPart){
+				((AbstractScreensViewPart) part).getEditingService().getDataService().getProvider();
+				
+			}
+		
 			deleteAction.updateSelection(structuredSelection);
 			cutAction.updateSelection(structuredSelection);
 			copyAction.updateSelection(structuredSelection);

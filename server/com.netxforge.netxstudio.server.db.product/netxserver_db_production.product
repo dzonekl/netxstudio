@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Netxserver" uid="com.netxforge.netxstudio.netxserver" id="com.netxforge.netxstudio.server.product" application="org.eclipse.emf.cdo.server.app" version="1.0.0" useFeatures="true" includeLaunchers="true">
+<product name="Netxserver DBStore" uid="com.netxforge.netxstudio.netxserver.product" id="com.netxforge.netxstudio.server.db.product.NetXServer" application="org.eclipse.emf.cdo.server.app" version="1.0.0" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -12,7 +12,7 @@
 -Xmx1024m
 -Ddebug=false
 -Dlog4j.debug=false
--Dnet4j.config=&quot;${resource_loc:/com.netxforge.netxstudio.server/config}&quot;
+-Dnet4j.config=&quot;${resource_loc:/com.netxforge.netxstudio.server.db.product/config}&quot;
 -Dorg.osgi.service.http.port=8080
 -DmetricSourceRoot=/Users/dzonekl/Documents/Projects/NetXStudio/TestData</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
@@ -32,18 +32,17 @@
    </plugins>
 
    <features>
-      <feature id="com.netxforge.netxstudio.server.feature"/>
-      <feature id="com.netxforge.netxstudio.server.test.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.server.db.product.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.server.db.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.data.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxscript.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.common.feature" version="1.0.0.qualifier"/>
       <feature id="com.google.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.apache.poi.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.emf.cdo.server.artifacts.feature"/>
-      <feature id="org.eclipse.emf.teneo.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="javax.servlet.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.mortbay.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.emf.cdo.server.db.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.emf.ecore"/>
       <feature id="org.dom4j" version="1.6.1"/>
@@ -51,10 +50,10 @@
       <feature id="org.antlr.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.xtext.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.quartz.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.hibernate"/>
       <feature id="org.apache.artifacts.server.feature" version="1.0.0.qualifier"/>
       <feature id="oracle.jdbc.driver" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.equinox.jsp.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.postgresql.jdbc.driver.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>

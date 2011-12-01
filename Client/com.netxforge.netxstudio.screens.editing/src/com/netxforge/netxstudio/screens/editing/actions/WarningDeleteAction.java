@@ -36,99 +36,113 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ListDialog;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
  * 
- * Action gives user feedback on what will be deleted. 
+ * Action gives user feedback on what will be deleted.
  * 
  * @author dzonekl
- *
+ * 
  */
 public class WarningDeleteAction extends DeleteAction {
 
 	private IEditingService editingService;
+	public static final int UNDO_LIMIT = 1;
 
-	public WarningDeleteAction(boolean removeAllReferences, IEditingService editingService) {
+	public WarningDeleteAction(boolean removeAllReferences,
+			IEditingService editingService) {
 		super(removeAllReferences);
 		this.editingService = editingService;
 	}
 
 	@Override
 	public void run() {
-		
-		if( command instanceof WarningNWBDeleteCommand){
-			
+
+		if (command instanceof WarningNWBDeleteCommand) {
+
 			Collection<EObject> eObjects = ((WarningNWBDeleteCommand) command)
 					.getObjects();
 
 			EObject first = eObjects.iterator().next();
-			boolean questionResult = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
-					"Delete object of type: " + first.eClass().getName(), "Are you sure you want to delete \""
-							+ editingService.getDelegator().getText(first) 
-							+ "\". Related objects ("
-							+ (eObjects.size() - 1) + "), this operation can not be undone");
-			if(questionResult){
+			boolean questionResult = MessageDialog
+					.openQuestion(
+							Display.getCurrent().getActiveShell(),
+							"Delete object of type (first object) : "
+									+ first.eClass().getName(),
+							"Are you sure you want to delete \""
+									+ editingService.getDelegator().getText(
+											first)
+									+ "\". Related objects ("
+									+ (eObjects.size() - 1)
+									+ "), this operation can not be undone as the default undo limit("
+									+ UNDO_LIMIT + ") is exceeded");
+			if (questionResult) {
 				super.run();
 			}
-			
-		}
-		
-		if (command instanceof WarningDeleteCommand) {
+
+		} else if (command instanceof WarningDeleteCommand) {
 
 			Collection<EObject> eObjects = ((WarningDeleteCommand) command)
 					.getObjects();
 
 			EObject first = eObjects.iterator().next();
-			
-			boolean questionResult = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
-					"Delete object of type: " + first.eClass().getName(), "Are you sure you want to delete \""
-							+ editingService.getDelegator().getText(first) 
-							+ "\". Related objects ("
-							+ (eObjects.size() - 1) + ")");
-			if(questionResult){
-					
-				
-//				// Assume similar objects, skip cross-referencing for NetXResource. 
-//				if(first instanceof NetXResource){
-//					super.run();
-//					return;
-//				}
-				
+
+			boolean questionResult = MessageDialog.openQuestion(Display
+					.getCurrent().getActiveShell(), "Delete object of type: "
+					+ first.eClass().getName(),
+					"Are you sure you want to delete \""
+							+ editingService.getDelegator().getText(first)
+							+ "\". Related objects (" + (eObjects.size() - 1)
+							+ ")");
+			if (questionResult) {
+
+				// // Assume similar objects, skip cross-referencing for
+				// NetXResource.
+				// if(first instanceof NetXResource){
+				// super.run();
+				// return;
+				// }
+
 				List<CDOObjectReference> xRefs = ((WarningDeleteCommand) command)
 						.getUsage(eObjects);
-				
-				
+
 				// Issue warning here.
 				if (xRefs != null && xRefs.size() > 0) {
-						
+
 					ListDialog ld = new ListDialog(Display.getCurrent()
 							.getActiveShell());
 					ld.setContentProvider(new ArrayContentProvider());
-					ld.setLabelProvider(new LabelProvider(){
+					ld.setLabelProvider(new LabelProvider() {
 						@Override
 						public String getText(Object element) {
-							
-							if(element instanceof CDOObjectReference){
-								EObject source = ((CDOObjectReference) element).getSourceObject();
-								EObject target = ((CDOObjectReference) element).getTargetObject();
-								return editingService.getDelegator().getText(source) + " --> " + editingService.getDelegator().getText(target);
+
+							if (element instanceof CDOObjectReference) {
+								EObject source = ((CDOObjectReference) element)
+										.getSourceObject();
+								EObject target = ((CDOObjectReference) element)
+										.getTargetObject();
+								return editingService.getDelegator().getText(
+										source)
+										+ " --> "
+										+ editingService.getDelegator()
+												.getText(target);
 							}
 							return null;
 						}
-						
+
 					});
 					ld.setTitle("Object references :");
 					ld.setInput(xRefs);
 					ld.setBlockOnOpen(true);
 					int result = ld.open();
 					if (result == Window.CANCEL) {
-						System.err.println("WarningDeleteCommand: delete canceled");
+						System.err
+								.println("WarningDeleteCommand: delete canceled");
 						// Should actually clean the command stack.....
 						return;
 					}
@@ -136,68 +150,75 @@ public class WarningDeleteAction extends DeleteAction {
 				super.run();
 			}
 		}
-		
 
 	}
 
 	@Override
 	public Command createCommand(Collection<?> selection) {
-			
-		
-		// Increment the target selection for certain objects. 
-		// Make sure we keep the order. 
-		Collection<Object> newSelection = Lists.newLinkedList();
-		
-		// Specialize the handling of NetXResource deletion. 
-		// These are deleted with a NWB command, as the resource is also deleted, 
-		// and the reference handling is somewhat special.
-		
-		// Warning: We assume the whole selection is of this type. 
-//		if( selection.size() > 0 && selection.iterator().next() instanceof NetXResource){
-//			return createNWBCommand(selection);
-//		}
 
-		
-		for(Object o : selection){
-			
-			// For jobs, we also need to delete the job container. 
+		// Increment the target selection for certain objects.
+		// Make sure we keep the order.
+		Collection<Object> newSelection = Lists.newLinkedList();
+
+		for (Object o : selection) {
+
+			// For jobs, we also need to delete the job container.
 			// ..this will also delete the workflow runs...
-			if(o instanceof Job){
+			if (o instanceof Job) {
 				Job job = (Job) o;
 				Resource jobRunContainerResource = editingService
 						.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
 				// find our jobcontainer .
-				for (final EObject eObject : jobRunContainerResource.getContents()) {
+				for (final EObject eObject : jobRunContainerResource
+						.getContents()) {
 					final JobRunContainer container = (JobRunContainer) eObject;
 					final Job containerJob = container.getJob();
-					final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
+					final CDOID containerJobId = ((CDOObject) containerJob)
+							.cdoID();
 					if (job.cdoID().equals(containerJobId)) {
 						newSelection.add(container);
-//						newSelection.add(job);
+						// newSelection.add(job);
 						break;
 					}
 				}
 			}
-			
 		}
-		
-		if(newSelection.size() == 0 && selection.size() > 0 ){
+
+		if (newSelection.size() == 0 && selection.size() > 0) {
 			newSelection.addAll(selection);
 		}
-		
-		for( Object o : newSelection){
-			System.out.println("delete selection=" + o);
+
+		if (EditingActivator.DEBUG) {
+			for (Object o : newSelection) {
+				CDOObject cdoObject = (CDOObject) o;
+				System.out.println("delete selection=" + cdoObject.eClass()
+						+ " state=" + cdoObject.cdoState());
+			}
 		}
-		
-		
-		// check the objects, is a NetXResource, create dummy command, 
-		// not executed on the command stack. 
-		return removeAllReferences ? WarningDeleteCommand.create(domain,
-				newSelection) : RemoveCommand.create(domain, newSelection);
+
+		Command c;
+
+//		// Specialize deletion of large amount of objects.
+//		if (newSelection.size() >= UNDO_LIMIT) {
+//			if (EditingActivator.DEBUG) {
+//				System.out
+//						.println("Undo limit reached, "
+//								+ newSelection.size()
+//								+ " objects selected for deletion (Excluding children)");
+//			}
+//			c = createNWBCommand(newSelection);
+//		} else {
+
+			// check the objects, is a NetXResource, create dummy command,
+			// not executed on the command stack.
+			c = removeAllReferences ? WarningDeleteCommand.create(domain,
+					newSelection) : RemoveCommand.create(domain, newSelection);
+//		}
+		return c;
 	}
 
 	private Command createNWBCommand(Collection<?> selection) {
-		
-		return  WarningNWBDeleteCommand.create(domain, selection);
+
+		return WarningNWBDeleteCommand.create(domain, selection);
 	}
 }

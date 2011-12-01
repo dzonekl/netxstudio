@@ -351,26 +351,24 @@ public class ServicesTree extends AbstractScreen implements
 		// actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
 		// actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
 		// actions.add(new SeparatorAction());
-		
 
 		if (!readonly) {
 			actions.add(new ScheduleMonitorJobAction(
 					"Schedule Monitoring Job...", SWT.PUSH));
 			actions.add(new MonitorNowAction("Monitor Now", SWT.PUSH));
 		}
-		actions.add(new ServiceMonitoringAction("Monitoring Result...", SWT.PUSH));
+		actions.add(new ServiceMonitoringAction("Monitoring Result...",
+				SWT.PUSH));
 		actions.add(new SeparatorAction());
 
-		
-		if(!readonly){
+		if (!readonly) {
 			actions.add(new SeparatorAction());
 			actions.add(new ScheduleReportingJobAction(
 					"Schedule Reporting Job...", SWT.PUSH));
 			actions.add(new ReportNowAction("Report Now", SWT.PUSH));
 			actions.add(new SeparatorAction());
 		}
-		
-		
+
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray);
 	}
@@ -639,17 +637,23 @@ public class ServicesTree extends AbstractScreen implements
 
 						int operation = -1;
 
-						List<Job> matchingJobs = editingService
-								.getDataService().getQueryService()
-								.getJobWithService((Service) o);
 						Resource jobResource = editingService
 								.getData(SchedulingPackage.Literals.JOB);
-						Job job = null;
+
+						Job job = modelUtils
+								.jobForSingleObject(
+										jobResource,
+										SchedulingPackage.Literals.RFS_SERVICE_MONITORING_JOB,
+										SchedulingPackage.Literals.RFS_SERVICE_MONITORING_JOB__RFS_SERVICE,
+										(Service) o);
+
+						// List<Job> matchingJobs = editingService
+						// .getDataService().getQueryService()
+						// .getJobWithService((Service) o);
 
 						// Edit or New if the Service has a job or not.
-						if (matchingJobs.size() == 1) {
+						if (job != null) {
 							operation = Screens.OPERATION_EDIT;
-							job = matchingJobs.get(0);
 						} else {
 							operation = Screens.OPERATION_NEW;
 							job = SchedulingFactory.eINSTANCE
@@ -685,19 +689,20 @@ public class ServicesTree extends AbstractScreen implements
 		@Override
 		public void run() {
 			ISelection selection = getViewer().getSelection();
-			
+
 			Resource jobResource = editingService
 					.getData(SchedulingPackage.Literals.JOB);
 
 			ScheduledReportSelectionWizard wizard = new ScheduledReportSelectionWizard();
-			wizard.init(PlatformUI.getWorkbench(), (IStructuredSelection) selection);
-			
+			wizard.init(PlatformUI.getWorkbench(),
+					(IStructuredSelection) selection);
+
 			WizardDialog dialog = new WizardDialog(
 					ServicesTree.this.getShell(), wizard);
 			dialog.open();
 			Job j = wizard.getJob();
-			
-			if( j != null){
+
+			if (j != null) {
 				NewEditJob newEditJob = new NewEditJob(
 						screenService.getScreenContainer(), SWT.NONE);
 				newEditJob.setOperation(operation);
@@ -709,7 +714,7 @@ public class ServicesTree extends AbstractScreen implements
 
 		}
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Services";

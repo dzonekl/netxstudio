@@ -10,23 +10,27 @@ import java.util.List;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
 import org.eclipse.emf.cdo.eresource.CDOResource;
-import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 public class WarningNWBDeleteCommand extends NoWayBackCommand {
 
@@ -86,9 +90,42 @@ public class WarningNWBDeleteCommand extends NoWayBackCommand {
 	}
 
 	public void execute() {
+		
+		
 		Collection<EObject> eObjects = getObjects();
 
 		
+		CDOTransaction cdoTransaction = null;
+		// All modfications are commited with the first transaction we
+		// encounter.
+		for (EObject eo : eObjects) {
+			if (eo instanceof CDOObject) {
+				CDOObject cdoO = (CDOObject) eo;
+				if (cdoO.cdoView() != null) {
+					cdoTransaction = (CDOTransaction) cdoO.cdoView();
+					break;
+				}
+			}
+		}
+		
+		
+		// QUERY INCOMING REFS.
+		long nanoTime = System.nanoTime();
+		List<CDOObjectReference> xRefs = ReferenceHelper
+				.findReferencesGlobally(eObjects);
+		long queryTime = (System.nanoTime() - nanoTime) / 1000000; // Should be
+																	// mili
+																	// seconds??
+
+		if (EditingActivator.DEBUG) {
+			System.out.println(" WarningCommand: time to query references ="
+					+ queryTime + " (ms)");
+		}
+
+		
+		
+		
+		// REMOVE OBJECTS.
 
 		// Note, inferring the Owner and Feature for each object is embedded in
 		// the
@@ -99,45 +136,51 @@ public class WarningNWBDeleteCommand extends NoWayBackCommand {
 		// the low-level RemoveCommand.
 
 		for (EObject eo : eObjects) {
-			// Also delete the resource for certain types of objects, like
 			// NetXResource.
-//			EcoreUtil.remove(eo);
-			if (eo instanceof NetXResource) {
-				
-				this.removeWithParentResource(eo);
-			} else {
-				EcoreUtil.remove(eo);
-			}
-			if(eo instanceof CDOObject){
-				CDOObject cdoObject = (CDOObject) eo;
-				System.out.println("Object: " + cdoObject +"State after delete:" + cdoObject.cdoState() );
-				// Will be null in state TRANSIENT.
-				if(cdoObject.cdoID() != null){
-					
+			EcoreUtil.remove(eo);
+			// if (eo instanceof NetXResource) {
+			// this.removeWithParentResource(eo);
+			// } else {
+			// EcoreUtil.remove(eo);
+			// }
+
+			if (EditingActivator.DEBUG) {
+				if (eo instanceof CDOObject) {
+					CDOObject cdoObject = (CDOObject) eo;
+					System.out.println("Object: " + cdoObject
+							+ "State after delete:" + cdoObject.cdoState());
+					if (cdoObject.eResource() == null
+							|| cdoObject.eContainer() == null) {
+						System.out.println("Object: " + cdoObject
+								+ " is not in a resource or container");
+					}
 				}
-				if( cdoObject.eResource() == null){
-					// the object is dangling here. 
-					System.out.println("Object: " + cdoObject +" is dangling after being delete "  );
-				}
-				
 			}
 		}
 
-		// The domain, might not contain the referenced object.
-		List<CDOObjectReference> xRefs = this.findReferencesGlobally(eObjects);
 		if (xRefs != null) {
-			for (CDOObjectReference xref : xRefs) {
 
+			if (EditingActivator.DEBUG) {
+				System.out.println("WarningCommand: found references:"
+						+ xRefs.size());
+			}
+
+			for (CDOObjectReference xref : xRefs) {
 				EObject referencingEObject = xref.getSourceObject();
 				EObject eObject = xref.getTargetObject();
 				if (!eObjects.contains(referencingEObject)) {
 					EStructuralFeature eStructuralFeature = xref
 							.getSourceFeature();
 
+					if (EditingActivator.DEBUG) {
+						System.out.println("Removing reference:"
+								+ eStructuralFeature + " for object "
+								+ referencingEObject);
+					}
+
 					if (eStructuralFeature.isMany()) {
 						Object eGet = referencingEObject
 								.eGet(eStructuralFeature);
-
 						if (eGet instanceof List<?>) {
 							((List<?>) eGet).remove(eObject);
 						}
@@ -145,10 +188,57 @@ public class WarningNWBDeleteCommand extends NoWayBackCommand {
 						referencingEObject.eSet(eStructuralFeature, null);
 					}
 				}
-
+			}
+		} else {
+			if (EditingActivator.DEBUG) {
+				System.out.println(" No references detected");
 			}
 		}
-		// TODO, also delete the historical nodes for Node and NodeType objects.
+
+		if(cdoTransaction != null && cdoTransaction.isDirty()){
+			try {
+				cdoTransaction.commit();
+			} catch (CommitException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+
+		// Commit and remove the resource if needed.
+		for (EObject eo : eObjects) {
+
+			// NetXResource.
+			if (eo instanceof NetXResource) {
+				this.removeCDOResource(eo);
+			}
+			if (EditingActivator.DEBUG) {
+				if (eo instanceof CDOObject) {
+					CDOObject cdoObject = (CDOObject) eo;
+					System.out.println("Object: " + cdoObject
+							+ "State after delete:" + cdoObject.cdoState());
+					if (cdoObject.eResource() == null
+							|| cdoObject.eContainer() == null) {
+						System.out.println("Object: " + cdoObject
+								+ " is not in a resource or container");
+					}
+				}
+			}
+		}
+		
+		// Commit another time for deleting the resource. 
+		
+		if(cdoTransaction != null && cdoTransaction.isDirty()){
+			try {
+				cdoTransaction.commit();
+			} catch (CommitException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
 
 	}
 
@@ -178,75 +268,17 @@ public class WarningNWBDeleteCommand extends NoWayBackCommand {
 	}
 
 	public List<CDOObjectReference> getUsage(Collection<EObject> eObjects) {
-		return findReferencesGlobally(eObjects);
+		return ReferenceHelper.findReferencesGlobally(eObjects,
+				incomingReferences());
 	}
 
-	private List<CDOObjectReference> findReferencesGlobally(
-			Collection<EObject> eObjects) {
-		List<CDOObjectReference> queryXRefs = Lists.newArrayList();
-		for (EObject o : eObjects) {
-			if (o instanceof CDOObject) {
-				CDOView cdoView = ((CDOObject) o).cdoView();
-				if(cdoView == null){
-					// continue;
-					continue;
-				}
-				try {
-					List<CDOObjectReference> runRefs = cdoView.queryXRefs(
-							(CDOObject) o, new EReference[] {});
-
-					for (CDOObjectReference runRef : runRefs) {
-						// Iterate through the already found queryRefs, compare
-						// source
-						// if(!exists(queryXRefs, runRef)){
-						// queryXRefs.add(runRef);
-						// }
-						queryXRefs.add(runRef);
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-					// The query sometimes throws exeception, if i.e an entity
-					// can't be found..
-					// EClass ExpressionResult does not have an entity name, has
-					// it been mapped to Hibernate?
-				}
-			}
-		}
-		return queryXRefs;
-	}
-
-	boolean exists(List<CDOObjectReference> refList, CDOObjectReference ref) {
-		boolean found = false;
-		// and target.
-		for (CDOObjectReference qRef : refList) {
-			if ((ref.getSourceObject() == qRef.getSourceObject())
-					&& (ref.getTargetObject() == qRef.getTargetObject())) {
-				found = true;
-				break;
-			}
-		}
-		return found;
-	}
-
-	public void removeWithParentResource(EObject eObject) {
-		InternalEObject internalEObject = (InternalEObject) eObject;
-		EObject container = internalEObject.eInternalContainer();
-		if (container != null) {
-			EReference feature = eObject.eContainmentFeature();
-			if (FeatureMapUtil.isMany(container, feature)) {
-				((EList<?>) container.eGet(feature)).remove(eObject);
-			} else {
-				container.eUnset(feature);
-			}
-		}
-
+	public void removeCDOResource(EObject eObject) {
 		Resource resource = eObject.eResource();
 		if (resource != null) {
 			if (resource instanceof CDOResource) {
 				CDOResource cdoRes = (CDOResource) resource;
-				EList<EObject> contents = cdoRes.getContents();
-				
+				// EList<EObject> contents = cdoRes.getContents();
+				// contents.remove(eObject);
 				try {
 					cdoRes.delete(null);
 				} catch (IOException e) {
@@ -254,26 +286,45 @@ public class WarningNWBDeleteCommand extends NoWayBackCommand {
 				}
 			}
 		}
-		
 	}
-	
+
 	/**
 	 * From Remove command...
+	 * 
 	 * @param collection
 	 * @param target
 	 * @return
 	 */
-	protected boolean removeExact(Collection<?> collection, Object target)
-	  {
-	    for (Iterator<?> i = collection.iterator(); i.hasNext(); )
-	    {
-	      if (i.next() == target)
-	      {
-	        i.remove();
-	        return true;
-	      }
-	    }
-	    return false;
-	  }
-	
+	protected boolean removeExact(Collection<?> collection, Object target) {
+		for (Iterator<?> i = collection.iterator(); i.hasNext();) {
+			if (i.next() == target) {
+				i.remove();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private EReference[] incomingReferences() {
+		// We need ERefs for all objects including the children.
+		List<EReference> eRefs = Lists.newArrayList();
+		Collection<EObject> objects = this.getObjects();
+		for (Iterator<EObject> j = objects.iterator(); j.hasNext();) {
+			EObject eo = j.next();
+			if (eo instanceof NetXResource) {
+				eRefs.add(LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
+			}
+			if (eo instanceof Value) {
+				eRefs.add(LibraryPackage.Literals.NET_XRESOURCE__CAPACITY_VALUES);
+				eRefs.add(LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES);
+				// Some other values ranges are not in use yet.
+
+				eRefs.add(OperatorsPackage.Literals.MARKER__VALUE_REF);
+				eRefs.add(MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES);
+			}
+		}
+		return Iterators.toArray(eRefs.iterator(), EReference.class);
+
+	}
+
 }

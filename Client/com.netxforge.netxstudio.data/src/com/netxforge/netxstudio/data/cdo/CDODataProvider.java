@@ -139,9 +139,9 @@ public abstract class CDODataProvider implements IDataProvider {
 			((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession
 					.options()).setCommitTimeout(COMMIT_TIMEOUT);
 			setSession(cdoSession);
-			for (final EPackage ePackage : ePackages) {
-				getSession().getPackageRegistry().putEPackage(ePackage);
-			}
+//			for (final EPackage ePackage : ePackages) {
+//				getSession().getPackageRegistry().putEPackage(ePackage);
+//			}
 		} catch (final SecurityException se) {
 			throw new SecurityException(se);
 		}

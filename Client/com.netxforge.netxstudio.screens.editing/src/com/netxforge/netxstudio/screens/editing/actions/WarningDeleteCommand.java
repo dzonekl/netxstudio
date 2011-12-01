@@ -19,18 +19,14 @@ package com.netxforge.netxstudio.screens.editing.actions;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
-import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.EMFEditPlugin;
@@ -39,11 +35,6 @@ import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
-
-import com.google.common.base.Function;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 public class WarningDeleteCommand extends CompoundCommand {
 
@@ -115,8 +106,7 @@ public class WarningDeleteCommand extends CompoundCommand {
 	@Override
 	public void execute() {
 		Collection<EObject> eObjects = getObjects();
-
-		List<CDOObjectReference> xRefs = this.findReferencesGlobally(eObjects);
+		List<CDOObjectReference> xRefs = ReferenceHelper.findReferencesGlobally(eObjects);
 
 		super.execute();
 
@@ -185,89 +175,7 @@ public class WarningDeleteCommand extends CompoundCommand {
 	}
 
 	public List<CDOObjectReference> getUsage(Collection<EObject> eObjects) {
-		return findReferencesGlobally(eObjects);
-	}
-
-	private List<CDOObjectReference> findReferencesGlobally(
-			Collection<EObject> eObjects) {
-		List<CDOObjectReference> queryXRefs = Lists.newArrayList();
-
-		// Query on the whole set in one go, we assume all objects have the same CDOView. 
-		if (eObjects.size() > 0) {
-			EObject next = eObjects.iterator().next();
-			CDOView cdoView = ((CDOObject) next).cdoView();
-			HashSet<CDOObject> objectSet = Sets.newHashSet(transEObjectToCDOObjects(eObjects.iterator()));
-			queryXRefs = cdoView.queryXRefs(
-				objectSet, new EReference[] {});
-		}
-
-//		for (EObject o : eObjects) {
-//			if (o instanceof CDOObject) {
-//				CDOView cdoView = ((CDOObject) o).cdoView();
-//				try {
-//					// EReference[] incomingRefs = this.incomingReferences(o);
-//					List<CDOObjectReference> runRefs = cdoView.queryXRefs(
-//							(CDOObject) o, new EReference[] {});
-//
-//					for (CDOObjectReference runRef : runRefs) {
-//						// Iterate through the already found queryRefs, compare
-//						// source to look for double entries.
-//						// if(!exists(queryXRefs, runRef)){
-//						// queryXRefs.add(runRef);
-//						// }
-//						queryXRefs.add(runRef);
-//					}
-//
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//					// The query sometimes throws exeception, if i.e an entity
-//					// can't be found..
-//					// EClass ExpressionResult does not have an entity name, has
-//					// it been mapped to Hibernate?
-//				}
-//			}
-//		}
-		return queryXRefs;
-	}
-
-	boolean exists(List<CDOObjectReference> refList, CDOObjectReference ref) {
-		boolean found = false;
-		// and target.
-		for (CDOObjectReference qRef : refList) {
-			if ((ref.getSourceObject() == qRef.getSourceObject())
-					&& (ref.getTargetObject() == qRef.getTargetObject())) {
-				found = true;
-				break;
-			}
-		}
-		return found;
-	}
-
-	// private EReference[] incomingReferences(EObject eo) {
-	// ArrayList<EReference> incomingRefs = Lists.newArrayList();
-	// // if (eo instanceof NetXResource) {
-	// // incomingRefs.add(LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
-	// // }
-	// for (@SuppressWarnings("rawtypes")
-	// EContentsEList.FeatureIterator featureIterator =
-	// (EContentsEList.FeatureIterator) eo
-	// .eCrossReferences().iterator(); featureIterator.hasNext();) {
-	// // EObject eObject = (EObject) featureIterator.next();
-	// EReference eReference = (EReference) featureIterator.feature();
-	// incomingRefs.add(eReference);
-	// }
-	// return Iterables.toArray(incomingRefs, EReference.class);
-	// }
-	
-	
-
-	public Iterator<CDOObject> transEObjectToCDOObjects(Iterator<EObject> eObjects) {
-		final Function<EObject, CDOObject> cdoObjectFromEObject = new Function<EObject, CDOObject>() {
-			public CDOObject apply(EObject from) {
-				return (CDOObject) from;
-			}
-		};
-		return Iterators.transform(eObjects, cdoObjectFromEObject);
+		return ReferenceHelper.findReferencesGlobally(eObjects);
 	}
 	
 }

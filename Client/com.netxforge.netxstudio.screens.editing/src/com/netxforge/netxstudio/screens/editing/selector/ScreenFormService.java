@@ -28,6 +28,7 @@ import java.util.Stack;
 import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -52,8 +53,11 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.cdo.IFixtures;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
@@ -295,13 +299,32 @@ public class ScreenFormService implements IScreenFormService {
 			final Class<?> finalScreen = screen;
 
 			// We operride the operation, depending on the user role.
-			Role r = editingService.getDataService().getQueryService()
-					.getCurrentRole();
+			
+			String currentUser = editingService.getDataService().getProvider().getSessionUserID();
+			Resource resource = editingService.getDataService().getProvider().getResource(
+					GenericsPackage.Literals.PERSON);
+			List<Person> people = new ModelUtils.CollectionForObjects<Person>().collectionForObjects(resource.getContents());
+			
+//			List<Person> people = Lists.transform(resource.getContents(),
+//					new Function<EObject, Person>() {
+//
+//						public Person apply(EObject from) {
+//							if (from instanceof Person)
+//								return (Person) from;
+//							else
+//								return null;
+//						}
+//					});
+
+			final Role r = modelUtils.roleForUserWithName(currentUser, people);
 			if (r.getName().equals(IFixtures.ROLE_READONLY)) {
 				operation = Screens.OPERATION_READ_ONLY;
 			}
-
-			editingService.getDataService().getQueryService().close();
+			
+			editingService.getDataService().getProvider().commitTransaction();
+			
+			
+//			editingService.getDataService().getQueryService().close();
 
 			final int finalOperation = operation;
 
@@ -600,6 +623,9 @@ public class ScreenFormService implements IScreenFormService {
 
 	@Inject
 	IEditingService editingService;
+	
+	@Inject
+	private ModelUtils modelUtils;
 
 	// Notification of screen changing.
 

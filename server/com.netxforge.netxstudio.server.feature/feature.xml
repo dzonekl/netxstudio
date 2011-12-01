@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.netxstudio.server.feature"
+      id="com.netxforge.netxstudio.server.hibernate.feature"
       label="%featureName"
       version="1.0.0.qualifier"
       provider-name="%providerName">
@@ -116,19 +116,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.postgresql"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.hsqldb"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="com.netxforge.netxstudio.server.logic"
          download-size="0"
          install-size="0"
@@ -172,6 +159,14 @@
 
    <plugin
          id="com.netxforge.netxstudio.log4j"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="com.netxforge.netxstudio.server.hibernate"
          download-size="0"
          install-size="0"
          version="0.0.0"

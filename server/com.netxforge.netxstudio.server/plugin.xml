@@ -31,7 +31,13 @@
     </extension>
 -->    
     <extension
-          id="product"
+          point="org.eclipse.net4j.util.elementProcessors">
+       <elementProcessor
+             class="com.netxforge.netxstudio.server.ServerUtils$ServerElementProcessor">
+       </elementProcessor>
+    </extension>
+    <extension
+          id="NetXServer"
           point="org.eclipse.core.runtime.products">
        <product
              application="org.eclipse.emf.cdo.server.app"
@@ -41,12 +47,6 @@
                 value="Netxserver">
           </property>
        </product>
-    </extension>
-    <extension
-          point="org.eclipse.net4j.util.elementProcessors">
-       <elementProcessor
-             class="com.netxforge.netxstudio.server.ServerUtils$ServerElementProcessor">
-       </elementProcessor>
     </extension>
 
 </plugin>

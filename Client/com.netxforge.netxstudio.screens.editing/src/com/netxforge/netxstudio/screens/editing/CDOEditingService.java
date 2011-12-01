@@ -270,6 +270,26 @@ public class CDOEditingService extends EMFEditingService implements
 
 		if (this.getView() != null) {
 			boolean viewDirty = this.getView().isDirty();
+			if( EditingActivator.DEBUG){
+				if(viewDirty){
+					System.out.println(" Dirty object:");
+					CDOView view = this.getView();
+					if(view instanceof CDOTransaction){
+						CDOTransaction transaction = (CDOTransaction) view;
+						Map<CDOID, CDOObject> dirtyObjects = transaction.getDirtyObjects();
+						for(CDOID id : dirtyObjects.keySet()){
+							CDOObject cdoObject = dirtyObjects.get(id);
+							System.out.println("-- dirty object="
+									+ cdoObject.cdoID().toURIFragment() + " , state="
+									+ cdoObject.cdoState() + ", rev="
+									+ cdoObject.cdoRevision() + " , dangling state="
+									+ cdoObject.cdoID().isDangling());
+							
+						}
+					}
+				}
+				
+			}
 			return viewDirty || result;
 		}
 

@@ -52,6 +52,8 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
+import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -513,14 +515,13 @@ public class ModelUtils {
 			return null;
 		}
 	}
-	
-	public int depthToResource(int initialDepth, EObject eObject){
-		if(eObject.eContainer() != null){
+
+	public int depthToResource(int initialDepth, EObject eObject) {
+		if (eObject.eContainer() != null) {
 			return depthToResource(++initialDepth, eObject.eContainer());
 		}
 		return initialDepth;
 	}
-	
 
 	/**
 	 * Return the Node or null if the target object, has a NodeType somewhere
@@ -543,8 +544,7 @@ public class ModelUtils {
 			return null;
 		}
 	}
-	
-	
+
 	public Service resolveRootService(EObject target) {
 		if (target instanceof Service) {
 			if (target.eContainer() instanceof Service) {
@@ -1210,6 +1210,27 @@ public class ModelUtils {
 	}
 
 	/**
+	 * This User's role.
+	 * 
+	 * @param users
+	 * @return
+	 */
+	public Role roleForUserWithName(String loginName, List<Person> users) {
+		Person result = null;
+		for (Person p : users) {
+			if (p.eIsSet(GenericsPackage.Literals.PERSON__LOGIN)) {
+				if (p.getLogin().equals(loginName))
+					result = p;
+				break;
+			}
+		}
+		if (result != null) {
+			return result.getRoles();
+		}
+		return null;
+	}
+
+	/**
 	 * Get a collection from a target object, use the last occurrence in the
 	 * collection, to get an attribute value. return the attribute value
 	 * incremented by 1.
@@ -1288,7 +1309,7 @@ public class ModelUtils {
 		}
 		return null;
 	}
-	
+
 	public Value oldestValue(List<Value> rawListOfValues) {
 		List<Value> values = this.sortByTimeStamp(rawListOfValues);
 		if (values.size() > 0) {
@@ -1296,7 +1317,7 @@ public class ModelUtils {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Iterate through the ranges, and find for this interval.
 	 * 
@@ -1305,8 +1326,7 @@ public class ModelUtils {
 	 * @return
 	 */
 	public Value mostRecentCapacityValue(NetXResource resource) {
-		return mostRecentValue(resource
-				.getCapacityValues());
+		return mostRecentValue(resource.getCapacityValues());
 	}
 
 	/**
@@ -1885,8 +1905,8 @@ public class ModelUtils {
 				if (from.equals("Quarter")) {
 					return ModelUtils.SECONDS_IN_A_QUARTER;
 				}
-				
-				if( from.endsWith("min") ){
+
+				if (from.endsWith("min")) {
 					// Strip the minutes
 					int indexOfMin = from.indexOf("min");
 					from = from.substring(0, indexOfMin).trim();
@@ -1896,7 +1916,7 @@ public class ModelUtils {
 						nfe.printStackTrace();
 					}
 				}
-				
+
 				try {
 					return new Integer(from);
 				} catch (final NumberFormatException nfe) {
@@ -1925,19 +1945,17 @@ public class ModelUtils {
 				if (from.equals(ModelUtils.SECONDS_IN_AN_HOUR)) {
 					return "Hour";
 				}
-				
-//				if (from.equals(ModelUtils.SECONDS_IN_A_QUARTER)) {
-//					return "Quarter";
-//				}
-				
-				// Do also multiples intepretation in minutes. 
-				if(from.intValue() % 60 == 0){
-					int minutes = from.intValue() / 60; 
+
+				// if (from.equals(ModelUtils.SECONDS_IN_A_QUARTER)) {
+				// return "Quarter";
+				// }
+
+				// Do also multiples intepretation in minutes.
+				if (from.intValue() % 60 == 0) {
+					int minutes = from.intValue() / 60;
 					return new Integer(minutes).toString() + " min";
 				}
-				
-				
-				
+
 				return new Integer(from).toString();
 			}
 		};
@@ -2171,7 +2189,8 @@ public class ModelUtils {
 		return Lists.transform(nodes, nodeTypeFromNode);
 	}
 
-	public Iterator<CDOObject> transformEObjectToCDOObjects(Iterator<EObject> eObjects) {
+	public Iterator<CDOObject> transformEObjectToCDOObjects(
+			Iterator<EObject> eObjects) {
 		final Function<EObject, CDOObject> cdoObjectFromEObject = new Function<EObject, CDOObject>() {
 			public CDOObject apply(EObject from) {
 				return (CDOObject) from;
@@ -2179,7 +2198,7 @@ public class ModelUtils {
 		};
 		return Iterators.transform(eObjects, cdoObjectFromEObject);
 	}
-	
+
 	/**
 	 * Transform a list of Value object, to only the value part of the Value
 	 * Object.
@@ -2281,24 +2300,24 @@ public class ModelUtils {
 	}
 
 	/**
-	 * All closure nodes. 
+	 * All closure nodes.
+	 * 
 	 * @param network
 	 * @return
 	 */
 	public List<Node> nodesForNetwork(Network network) {
 		final List<Node> nodes = new ArrayList<Node>();
-		
+
 		TreeIterator<EObject> eAllContents = network.eAllContents();
-		while(eAllContents.hasNext()){
+		while (eAllContents.hasNext()) {
 			EObject eo = eAllContents.next();
-			if(eo instanceof Node){
+			if (eo instanceof Node) {
 				nodes.add((Node) eo);
 			}
 		}
 		return nodes;
 	}
-	
-	
+
 	public List<NodeType> nodeTypesForResource(Resource operatorsResource) {
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 		for (EObject eo : operatorsResource.getContents()) {
@@ -2323,6 +2342,24 @@ public class ModelUtils {
 			}
 		}
 		return nodeTypes;
+	}
+
+	public static class CollectionForObjects<T> {
+
+		public List<T> collectionForObjects(List<EObject> objects) {
+
+			List<T> typedList = Lists.transform(objects,
+					new Function<EObject, T>() {
+
+						@SuppressWarnings("unchecked")
+						public T apply(EObject from) {
+							return (T) from;
+						}
+					});
+
+			return typedList;
+		}
+
 	}
 
 }

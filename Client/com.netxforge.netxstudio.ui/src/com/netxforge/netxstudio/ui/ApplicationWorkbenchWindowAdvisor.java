@@ -19,6 +19,7 @@ package com.netxforge.netxstudio.ui;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IPerspectiveListener;
@@ -30,8 +31,11 @@ import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.console.ConsoleService;
 import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.ui.activities.IActivityAndRoleService;
 import com.netxforge.netxstudio.ui.activities.internal.ActivitiesActivator;
@@ -41,6 +45,9 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 	@Inject
 	private IDataService dService;
+
+	@Inject
+	private ModelUtils modelUtils;
 
 	@Inject
 	private IActivityAndRoleService aService;
@@ -85,17 +92,26 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 		String currentUser = dService.getProvider().getSessionUserID();
 
-		List<Role> roles = dService.getQueryService().getRole(currentUser);
+		Resource resource = dService.getProvider().getResource(
+				GenericsPackage.Literals.PERSON);
+		List<Person> people = new ModelUtils.CollectionForObjects<Person>().collectionForObjects(resource.getContents());
+		Role r = modelUtils.roleForUserWithName(currentUser, people);
+		
+		// List<Role> roles = dService.getQueryService().getRole(currentUser);
+		
+		
+		// Close, used transactions.
+		// dService.getQueryService().close();
 
-		// Extract the first role.
-		if (roles.size() == 1) {
-			aService.enableActivity(roles.get(0));
+		
+		if (r != null) {
+			aService.enableActivity(r);
 		} else {
 			// Data corruption issue.
 		}
+		
+		dService.getProvider().commitTransaction();
 
-		// Close, used transactions.
-		dService.getQueryService().close();
 
 		// Get the workbench and disable some actionsets:
 		// These will be added again for another perspective.
@@ -111,14 +127,13 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 					public void perspectiveActivated(IWorkbenchPage page,
 							IPerspectiveDescriptor perspective) {
 						page.closeAllEditors(true);
-						
+
 						hideActionSets(page);
 					}
 
 					public void perspectiveChanged(IWorkbenchPage page,
 							IPerspectiveDescriptor perspective, String changeId) {
-						
-						
+
 					}
 
 				});
