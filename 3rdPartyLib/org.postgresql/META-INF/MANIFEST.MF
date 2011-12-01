@@ -5,13 +5,13 @@ Bundle-SymbolicName: org.postgresql
 Bundle-Version: 9.0.0.801
 Bundle-ClassPath: postgresql-9.0-801.jdbc4.jar
 Bundle-Vendor: postgresql.org
-Export-Package: org.postgresql,
+Export-Package: org.postgresql;version="8.9.9",
  org.postgresql.copy,
  org.postgresql.core,
  org.postgresql.core.types,
  org.postgresql.core.v2,
  org.postgresql.core.v3,
- org.postgresql.ds,
+ org.postgresql.ds;version="8.9.9",
  org.postgresql.ds.common,
  org.postgresql.ds.jdbc23,
  org.postgresql.ds.jdbc4,
