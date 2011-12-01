@@ -25,6 +25,7 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -520,9 +521,9 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 							System.out
 									.println("Can't calculate path for empty names");
 							return; // Can't calculate path for empty names.
-						}else{
-							System.out
-							.println("Creating CDO Resource " + cdoResourcePath);
+						} else {
+							System.out.println("Creating CDO Resource "
+									+ cdoResourcePath);
 						}
 						final Resource resourcesResource = editingService
 								.getDataService()
@@ -621,9 +622,9 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 					if (o instanceof NetXResource) {
 
 						NetXResource res = (NetXResource) o;
-						
-						Resource resource = res.eResource(); 
-						if ( resource != null) {
+
+						Resource resource = res.eResource();
+						if (resource != null) {
 							Command rc = new RemoveCommand(editingService
 									.getEditingDomain(), res.eResource()
 									.getContents(), o);
@@ -964,9 +965,22 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		});
 
 		// Create a new lifecycle if non-existent.
+		// Note this will make the function dirty.
 		if (comp.getLifecycle() == null) {
 			Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
-			comp.setLifecycle(newLC);
+
+			SetCommand setCommand = new SetCommand(
+					editingService.getEditingDomain(), comp,
+					LibraryPackage.Literals.COMPONENT__LIFECYCLE, newLC);
+			if (setCommand.canExecute()) {
+				editingService.getEditingDomain().getCommandStack()
+						.execute(setCommand);
+
+				MessageDialog.openInformation(NewEditComponent.this.getShell(),
+						"Created lifecycle entry",
+						"Created a lifecycle entry for: \"" + comp.getName()
+								+ "\"\n Please save (File->Save)");
+			}
 		}
 
 		context.bindValue(dcProposedObservable, proposedProperty.observe(comp),

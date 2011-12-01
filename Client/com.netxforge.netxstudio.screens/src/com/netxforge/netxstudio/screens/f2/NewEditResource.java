@@ -31,6 +31,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
@@ -672,8 +673,8 @@ public class NewEditResource extends AbstractScreen implements
 				.observeDelayedValue(400,
 						SWTObservables.observeText(this.txtUnit, SWT.Modify));
 
-		IEMFValueProperty componentProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(), FeaturePath.fromList(
+		IEMFValueProperty componentProperty = EMFProperties.value(
+				FeaturePath.fromList(
 						LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
 						LibraryPackage.Literals.COMPONENT__NAME));
 

@@ -319,23 +319,9 @@ public class XLSService implements HSSFListener {
 			// Format as a date
 			Date d = HSSFDateUtil.getJavaDate(value, false);
 			// split into two strings.
-			String[] split = formatString.split(" ");
-			if (split.length == 2) {
-
-				String formatString1 = split[0].replace('m', 'M');
-				// Java wants M not m for month (But not for minutes!).
-				// Change \ into , if it's there
-				formatString1 = formatString1.replaceAll("\\\\", "");
-
-				String formatString2 = split[1].replace("h", "H");
-				
-				DateFormat df = new SimpleDateFormat(formatString1 + " " + formatString2);
-				return df.format(d);
-			} else {
-				DateFormat df = new SimpleDateFormat();
-				return df.format("mm.dd.yyyy HH:mm:ss");
-
-			}
+			String convertXLSDateFormat = this.convertXLSDateFormat(formatString);
+			DateFormat df = new SimpleDateFormat(convertXLSDateFormat);
+			return df.format(d);
 		}
 		if (formatString == "General") {
 			// Some sort of wierd default
@@ -346,7 +332,34 @@ public class XLSService implements HSSFListener {
 		DecimalFormat df = new DecimalFormat(formatString);
 		return df.format(value);
 	}
-
+	
+	
+	/**
+	 * Simple format converter, is not capable to all possible conversions. 
+	 * from .xls to java.   
+	 *  
+	 * @param formatString
+	 * @return
+	 */
+	private String convertXLSDateFormat(String formatString){
+		String[] split = formatString.split(" ");
+		if (split.length == 2) {
+			String formatString1 = split[0].replace('m', 'M');
+			// Change \ into , if it's there
+			formatString1 = formatString1.replaceAll("\\\\", "");
+			String formatString2 = split[1].replace("h", "H");
+			return formatString1 + " " + formatString2;
+		} else {
+			// It's a single string, we assume it's a date (Not time). 
+			String formatString1 = split[0].replace('m', 'M');
+			// Change \ into , if it's there
+			formatString1 = formatString1.replaceAll("\\\\", "");
+			return formatString1;
+		}
+	}
+	
+	
+	
 	public void processRecord(Record rec) {
 		if ((currentReturnCode = processRecordInternal(rec)) != OK) {
 			// We are aborted or a failure.
