@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceDescription;
-import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 
 import com.netxforge.netxstudio.data.IDataService;
 
