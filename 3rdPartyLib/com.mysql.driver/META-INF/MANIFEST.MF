@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MySql Connector Driver
+Bundle-SymbolicName: com.mysql.driver
+Bundle-Version: 5.1.18
+Export-Package: com.mysql.jdbc;version="5.1.18",
+ com.mysql.jdbc.exceptions;version="5.1.18",
+ com.mysql.jdbc.exceptions.jdbc4;version="5.1.18",
+ com.mysql.jdbc.integration.c3p0;version="5.1.18",
+ com.mysql.jdbc.integration.jboss;version="5.1.18",
+ com.mysql.jdbc.interceptors;version="5.1.18",
+ com.mysql.jdbc.jdbc2.optional;version="5.1.18",
+ com.mysql.jdbc.jmx;version="5.1.18",
+ com.mysql.jdbc.log;version="5.1.18",
+ com.mysql.jdbc.profiler;version="5.1.18",
+ com.mysql.jdbc.util;version="5.1.18",
+ org.gjt.mm.mysql
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
