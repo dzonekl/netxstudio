@@ -6,6 +6,13 @@ import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.id.CDOIDUtil;
+import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
+import org.eclipse.emf.cdo.common.revision.CDORevision;
+import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -50,7 +57,6 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
-import com.netxforge.netxstudio.data.actions.WorkflowRunJob;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -230,6 +236,11 @@ public class MetricSources extends AbstractScreen implements
 			ISelection selection = getViewer().getSelection();
 			if (selection instanceof IStructuredSelection) {
 				Object o = ((IStructuredSelection) selection).getFirstElement();
+				
+				// Reading the stats to update? 
+				if (o instanceof MetricSource) {
+					System.out.println( "stats size = " + ((MetricSource) o).getStatistics().size());
+				}
 
 				MappingStatistics stats = new MappingStatistics(
 						screenService.getScreenContainer(), SWT.NONE);
@@ -256,34 +267,38 @@ public class MetricSources extends AbstractScreen implements
 					try {
 						serverActions.setCDOServer(editingService
 								.getDataService().getProvider().getServer());
+
+						@SuppressWarnings("unused")
 						String result = serverActions
 								.callMetricImportAction(ms);
-						
-						@SuppressWarnings("unused")
-						WorkflowRunJob workflowRunJob = serverActions
-								.jobFromRequest(result);
 
-						MessageDialog.openInformation(
-								MetricSources.this.getShell(),
-								"Collect now succeeded:",
-								"Collection of data from metric source: "
-										+ ms.getName()
-										+ "\n has been initiated on the server.");
+//						@SuppressWarnings("unused")
+//						WorkflowRunJob workflowRunJob = serverActions
+//								.jobFromRequest(result);
+
+						MessageDialog
+								.openInformation(
+										MetricSources.this.getShell(),
+										"Collect now succeeded:",
+										"Collection of data from metric source: "
+												+ ms.getName()
+												+ "\n has been initiated on the server.");
 						
-						// TODO, Disable for now, requires more testing. 
-//						workflowRunJob.addNotifier(new JobChangeAdapter() {
-//
-//							@Override
-//							public void done(IJobChangeEvent event) {
-//								MessageDialog.openInformation(
-//										MetricSources.this.getShell(),
-//										"Collect now completed:",
-//										"Collection of data from metric source: "
-//												+ ms.getName()
-//												+ "\n has been initiated on the server.");
-//							}
-//						});
-//						workflowRunJob.go();
+						
+						// TODO, Disable for now, requires more testing.
+						// workflowRunJob.addNotifier(new JobChangeAdapter() {
+						//
+						// @Override
+						// public void done(IJobChangeEvent event) {
+						// MessageDialog.openInformation(
+						// MetricSources.this.getShell(),
+						// "Collect now completed:",
+						// "Collection of data from metric source: "
+						// + ms.getName()
+						// + "\n has been initiated on the server.");
+						// }
+						// });
+						// workflowRunJob.go();
 
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -396,11 +411,11 @@ public class MetricSources extends AbstractScreen implements
 		mghprlnkNewImagehyperlink.setText("New");
 
 		metricSourceTableViewer = new TableViewer(frmMetricSources.getBody(),
-				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.VIRTUAL );
+				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.VIRTUAL);
 		metricSourceTableViewer.setUseHashlookup(true);
 		metricSourceTableViewer.setComparer(new CDOElementComparer());
 		metricSourceTableViewer.addFilter(new SearchFilter(editingService));
-		
+
 		table = metricSourceTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -414,11 +429,30 @@ public class MetricSources extends AbstractScreen implements
 				if (o instanceof MetricSource) {
 					MetricSource ms = (MetricSource) o;
 					System.out.println(ms.getName() + "--" + ms.cdoState());
-
+					CDORevision cdoRevision = ms.cdoRevision();
+					if(cdoRevision != null){
+						if( ms.cdoInvalid()){
+							System.out.println("object not locally valid ");
+//							CDOSession session = editingService.getDataService().getProvider().getSession();
+//							session.getRevisionManager().getRevisions(ids, ms.cdoRevision().getBranch()., referenceChunk, CDORevision.DEPTH_INFINITE, true);
+						}
+						System.out.println(" version =" +  cdoRevision.getVersion() + " timestamp=" + new Date(cdoRevision.getTimeStamp()));
+						CDOID cdoID = ms.cdoID();
+						long longValue = ((AbstractCDOIDLong) cdoID).getLongValue();
+						
+						CDOID createLongWithClassifier = CDOIDUtil.createLongWithClassifier(new CDOClassifierRef(
+								MetricsPackage.Literals.METRIC_SOURCE), longValue);
+						
+						CDOTransaction transaction = editingService.getDataService().getProvider().getTransaction();
+						CDOObject object = transaction.getObject(createLongWithClassifier);
+						System.out.println(" reloaded object =" +  object.cdoRevision().getVersion() + " timestamp=" + new Date(object.cdoRevision().getTimeStamp()));
+						editingService.getDataService().getProvider().commitTransaction();
+//						metricSourceTableViewer.refresh(true);
+//						CDOResource cdoResource = ms.cdoResource();
+//						cdoResource.cdoReload();
+					}
 				}
-
 			}
-
 		});
 
 		toolkit.paintBordersFor(table);
@@ -434,8 +468,6 @@ public class MetricSources extends AbstractScreen implements
 		TableColumn tblclmnLocationUrl = tableViewerColumn_1.getColumn();
 		tblclmnLocationUrl.setWidth(300);
 		tblclmnLocationUrl.setText("Location URL");
-		
-		
 
 		TableViewerColumn tableViewerColumnLastUpdate = new TableViewerColumn(
 				metricSourceTableViewer, SWT.NONE);
@@ -539,7 +571,9 @@ public class MetricSources extends AbstractScreen implements
 
 			actions.add(new ScheduleCollectionJobAction(
 					"Schedule Collection Job...", SWT.PUSH));
-			actions.add(new CollectNowAction("Collect Now...", SWT.PUSH));
+			CollectNowAction collectNowAction = new CollectNowAction("Collect Now (sorry disabled)...", SWT.PUSH);
+			collectNowAction.setEnabled(false);
+			actions.add(collectNowAction);
 
 		}
 		actions.add(new StatisticsAction("Statistics...", SWT.PUSH));

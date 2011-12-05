@@ -1219,9 +1219,11 @@ public class ModelUtils {
 		Person result = null;
 		for (Person p : users) {
 			if (p.eIsSet(GenericsPackage.Literals.PERSON__LOGIN)) {
-				if (p.getLogin().equals(loginName))
+				if (p.getLogin().equals(loginName)) {
 					result = p;
-				break;
+					break;
+
+				}
 			}
 		}
 		if (result != null) {

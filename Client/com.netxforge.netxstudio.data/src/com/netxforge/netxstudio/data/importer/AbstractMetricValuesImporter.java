@@ -30,12 +30,16 @@ import java.util.regex.PatternSyntaxException;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.revision.CDORevision;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.net4j.util.concurrent.IRWLockManager.LockType;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -119,6 +123,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	 */
 	private IImporterHelper helper;
 
+	private CDOID cdoID;
+
 	public void process() {
 
 		if (DataActivator.DEBUG) {
@@ -135,14 +141,14 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		MappingStatistic mappingStatistic = null;
 		try {
 			jobMonitor.setTask("Processing metricsource "
-					+ metricSource.getName());
+					+ getMetricSource().getName());
 
 			if (DataActivator.DEBUG) {
 				System.out.println("IMPORTER Processing metricsource "
-						+ metricSource.getName());
+						+ getMetricSource().getName());
 			}
 
-			final String msLocation = metricSource.getMetricLocation();
+			final String msLocation = getMetricSource().getMetricLocation();
 
 			String rootUrl = System.getProperty(ROOT_SYSTEM_PROPERTY);
 			// CB 27-09-2011 ROOT_SYSTEM_PROPERTY as fallback, on the server
@@ -166,7 +172,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 			if (DataActivator.DEBUG) {
 				System.out.println("IMPORTER Calculated import directory for "
-						+ metricSource.getName() + " =" + fileOrDirectory);
+						+ getMetricSource().getName() + " =" + fileOrDirectory);
 			}
 
 			int totalRows = 0;
@@ -174,7 +180,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			final StringBuilder fileList = new StringBuilder();
 			final File rootFile = new File(fileOrDirectory);
 
-			String filterPattern = metricSource.getFilterPattern();
+			String filterPattern = getMetricSource().getFilterPattern();
 			if (filterPattern == null && getFileExtension() != null) {
 				filterPattern = "[^\\s]+(\\.(?i)" + getFileExtension() + ")$";
 			} else {
@@ -295,7 +301,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 			if (DataActivator.DEBUG) {
 				System.err.println("IMPORTER SUCCESS Processing metricsource "
-						+ metricSource.getName() + " files evaluated ="
+						+ getMetricSource().getName() + " files evaluated ="
 						+ fileList.toString());
 			}
 
@@ -313,18 +319,39 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 			if (DataActivator.DEBUG) {
 				System.err.println("IMPORTER ERROR Processing metricsource "
-						+ metricSource.getName());
+						+ getMetricSource().getName());
 				t.printStackTrace(System.err);
 			}
 
 		}
-		getMetricSource().getStatistics().add(mappingStatistic);
+
+		MetricSource src = getMetricSource();
+
+		CDOTransaction cdoTransaction = this.getDataProvider().getTransaction();
+		List<? extends CDOObject> newArrayList = Lists.newArrayList(src);
+		try {
+			cdoTransaction.lockObjects(newArrayList, LockType.WRITE, 1000);
+			CDORevision cdoRevision = src.cdoRevision();
+			if (cdoRevision != null) {
+				System.out.println("IMPORTER: object revision="
+						+ cdoRevision.getVersion());
+			}
+
+			// Make sure we get the latest index.
+			EList<MappingStatistic> statistics = src.getStatistics();
+			statistics.add(mappingStatistic);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			cdoTransaction.unlockObjects(newArrayList, LockType.WRITE);
+		}
 
 		// Commit in a throwable, otherwise the session woudn't be closed.
 		try {
 			getDataProvider().commitTransaction();
 			if (DataActivator.DEBUG) {
 				System.err.println("IMPORTER COMMIT SUCCESS");
+				
 			}
 		} catch (final Throwable t) {
 			if (DataActivator.DEBUG) {
@@ -925,6 +952,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	}
 
 	public MetricSource getMetricSource() {
+		if(metricSource == null){
+			metricSource = (MetricSource) getDataProvider().getTransaction()
+					.getObject(cdoID);
+		}
 		return metricSource;
 	}
 
@@ -1008,8 +1039,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	}
 
 	public void setMetricSourceWithId(CDOID cdoID) {
-		metricSource = (MetricSource) getDataProvider().getTransaction()
-				.getObject(cdoID);
+		this.cdoID = cdoID;
 	}
 
 	public Throwable getThrowable() {
@@ -1070,14 +1100,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 		if (dataProvider == null) {
 			if (helper != null) {
-				return helper.getDataProvider();
+				dataProvider = helper.getDataProvider();
 			} else {
 				throw new java.lang.IllegalStateException(
 						"AbstractMetricValueImporter: Import helper should be set");
 			}
-		} else {
-			return dataProvider;
 		}
+		return dataProvider;
 	}
 
 }

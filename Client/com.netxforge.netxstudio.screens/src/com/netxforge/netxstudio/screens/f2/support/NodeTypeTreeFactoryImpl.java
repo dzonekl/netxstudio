@@ -17,17 +17,15 @@ public class NodeTypeTreeFactoryImpl implements IObservableFactory {
 	EditingDomain domain;
 
 	private IEMFListProperty nodeTypeObservableProperty = EMFEditProperties
-			.multiList(domain,
-					LibraryPackage.Literals.NODE_TYPE__FUNCTIONS,
+			.multiList(domain, LibraryPackage.Literals.NODE_TYPE__FUNCTIONS,
 					LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS);
 
-	// TMNL 04082011, remove resources from tree view. 
+	// TMNL 04082011, remove resources from tree view.
 	private IEMFListProperty functionsObservableProperty = EMFEditProperties
 			.list(domain, LibraryPackage.Literals.FUNCTION__FUNCTIONS);
 
 	private IEMFListProperty equipmentsObservableProperty = EMFEditProperties
-			.list(domain,
-					LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS);
+			.list(domain, LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS);
 
 	public NodeTypeTreeFactoryImpl(EditingDomain domain) {
 		this.domain = domain;
@@ -41,9 +39,7 @@ public class NodeTypeTreeFactoryImpl implements IObservableFactory {
 			ol = (IObservable) target;
 		} else if (target instanceof NodeType) {
 			ol = nodeTypeObservableProperty.observe(target);
-		} 
-
-		else if (target instanceof Function) {
+		} else if (target instanceof Function) {
 			ol = functionsObservableProperty.observe(target);
 		} else if (target instanceof Equipment) {
 			ol = equipmentsObservableProperty.observe(target);

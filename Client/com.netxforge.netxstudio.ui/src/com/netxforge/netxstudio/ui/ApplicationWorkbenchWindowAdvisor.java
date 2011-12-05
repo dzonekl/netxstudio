@@ -47,10 +47,10 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	private IDataService dService;
 
 	@Inject
-	private ModelUtils modelUtils;
-
-	@Inject
 	private IActivityAndRoleService aService;
+	
+	@Inject
+	private ModelUtils modelUtils;
 
 	public ApplicationWorkbenchWindowAdvisor(
 			IWorkbenchWindowConfigurer configurer) {
@@ -111,7 +111,20 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		}
 		
 		dService.getProvider().commitTransaction();
-
+//
+//		
+//		
+//		List<Role> roles = dService.getQueryService().getRole(currentUser);
+//
+//		// Extract the first role.
+//		if (roles.size() == 1) {
+//			aService.enableActivity(roles.get(0));
+//		} else {
+//			// Data corruption issue.
+//		}
+//
+//		// Close, used transactions.
+//		dService.getQueryService().close();
 
 		// Get the workbench and disable some actionsets:
 		// These will be added again for another perspective.
@@ -127,13 +140,14 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 					public void perspectiveActivated(IWorkbenchPage page,
 							IPerspectiveDescriptor perspective) {
 						page.closeAllEditors(true);
-
+						
 						hideActionSets(page);
 					}
 
 					public void perspectiveChanged(IWorkbenchPage page,
 							IPerspectiveDescriptor perspective, String changeId) {
-
+						
+						
 					}
 
 				});

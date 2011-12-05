@@ -183,10 +183,22 @@ public class NodeTypeHistory extends AbstractScreen implements
 		tableViewer
 				.setLabelProvider(new NodeTypeHistoryLabelProvider(nodeType));
 
+		List<HistoricNodeType> histNodeTypes = Lists.newArrayList();
+		
+		// use for non CDORevision supporting. 
+				// how to check supported features? 
+//		historicalNodeTypes(histNodeTypes);
+		
+		tableViewer.setInput(histNodeTypes.toArray());
+		return null;
+	}
+
+	@SuppressWarnings("unused")
+	private void historicalNodeTypes(List<HistoricNodeType> histNodeTypes) {
 		String historicalResourceName = editingService
 				.resolveHistoricalResourceName(nodeType);
 
-		List<HistoricNodeType> histNodeTypes = Lists.newArrayList();
+		
 		if (historicalResourceName != null) {
 			URI uri = URI.createURI(historicalResourceName);
 
@@ -209,9 +221,7 @@ public class NodeTypeHistory extends AbstractScreen implements
 			} else {
 				histNodeTypes.add(new HistoricNodeType(1, nodeType));
 			}
-			tableViewer.setInput(histNodeTypes.toArray());
 		}
-		return null;
 	}
 
 	/**

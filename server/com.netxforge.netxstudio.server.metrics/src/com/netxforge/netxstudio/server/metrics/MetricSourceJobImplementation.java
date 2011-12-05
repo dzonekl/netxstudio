@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.metrics;
 
+import org.eclipse.emf.cdo.common.revision.CDORevision;
+
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
@@ -52,7 +54,13 @@ public class MetricSourceJobImplementation extends JobImplementation {
 		if(metricSource == null){
 			// We need a populated list. 
 			return; 
+		}else{
+			// make sure we have the latest revision for this object 
+			metricSource.cdoReload();
+			System.out.println("Revision after reload = " + 	metricSource.cdoRevision());
 		}
+		
+		
 		final AbstractMetricValuesImporter metricsImporter;
 		if (metricSource.getMetricMapping() instanceof MappingXLS) {
 			metricsImporter = MetricsActivator.getInstance().getInjector().getInstance(XLSMetricValuesImporter.class);
@@ -73,7 +81,13 @@ public class MetricSourceJobImplementation extends JobImplementation {
 
 	private MetricSource getMetricSource() {
 		if( ((MetricSourceJob) getJob()).getMetricSources().size() > 0){
-			return ((MetricSourceJob) getJob()).getMetricSources().get(0);	
+			MetricSource ms = ((MetricSourceJob) getJob()).getMetricSources().get(0);
+			ms.cdoPrefetch(CDORevision.DEPTH_INFINITE);
+			
+			if(MetricsActivator.DEBUG){
+				System.out.println("IMPORTER JOB metric source=" + ms.cdoRevision());
+			}
+			return ms;
 		}else{
 			return null;
 		}

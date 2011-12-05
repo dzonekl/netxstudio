@@ -81,7 +81,7 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		 buildUI();
+		// buildUI();
 
 	}
 
@@ -95,31 +95,29 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 
 		frmFunction.getBody().setLayout(new ColumnLayout());
 
-//		FormText formText = toolkit
-//				.createFormText(frmFunction.getBody(), false);
-//		FormData fd_formText = new FormData();
-//		fd_formText.bottom = new FormAttachment(0, 50);
-//		fd_formText.right = new FormAttachment(100, -12);
-//		fd_formText.top = new FormAttachment(0, 12);
-//		fd_formText.left = new FormAttachment(0, 12);
-//		formText.setLayoutData(fd_formText);
-//		toolkit.paintBordersFor(formText);
-//		formText.setText(
-//				"<form><p>A Resource Monitor maps, capacity with utilization from metrics, and applies markers where needed.</p></form>",
-//				true, false);
+		// FormText formText = toolkit
+		// .createFormText(frmFunction.getBody(), false);
+		// FormData fd_formText = new FormData();
+		// fd_formText.bottom = new FormAttachment(0, 50);
+		// fd_formText.right = new FormAttachment(100, -12);
+		// fd_formText.top = new FormAttachment(0, 12);
+		// fd_formText.left = new FormAttachment(0, 12);
+		// formText.setLayoutData(fd_formText);
+		// toolkit.paintBordersFor(formText);
+		// formText.setText(
+		// "<form><p>A Resource Monitor maps, capacity with utilization from metrics, and applies markers where needed.</p></form>",
+		// true, false);
 
 		Section sctnPeriod = toolkit.createSection(frmFunction.getBody(),
 				Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR);
-		
-		
-//		FormData fd_sctnPeriod = new FormData();
-//		fd_sctnPeriod.bottom = new FormAttachment(100, -165);
-//		fd_sctnPeriod.right = new FormAttachment(100, -12);
-//		fd_sctnPeriod.top = new FormAttachment(0, 12);
-//		fd_sctnPeriod.left = new FormAttachment(0, 12);
-//		sctnPeriod.setLayoutData(fd_sctnPeriod);
-		
-		
+
+		// FormData fd_sctnPeriod = new FormData();
+		// fd_sctnPeriod.bottom = new FormAttachment(100, -165);
+		// fd_sctnPeriod.right = new FormAttachment(100, -12);
+		// fd_sctnPeriod.top = new FormAttachment(0, 12);
+		// fd_sctnPeriod.left = new FormAttachment(0, 12);
+		// sctnPeriod.setLayoutData(fd_sctnPeriod);
+
 		toolkit.paintBordersFor(sctnPeriod);
 		sctnPeriod.setText("Monitor Period");
 
@@ -131,18 +129,17 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		@SuppressWarnings("unused")
 		Label lblFromDate = toolkit.createLabel(composite_2, "From:", SWT.NONE);
 
-		dateTimeFrom = new CDateTime(composite_2, CDT.BORDER
-				| CDT.DROP_DOWN | CDT.DATE_MEDIUM);
-		
-		GridData gdDateTimeFrom = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
+		dateTimeFrom = new CDateTime(composite_2, CDT.BORDER | CDT.DROP_DOWN
+				| CDT.DATE_MEDIUM);
+
+		GridData gdDateTimeFrom = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
 		gdDateTimeFrom.heightHint = 19;
 		gdDateTimeFrom.widthHint = 100;
 		dateTimeFrom.setLayoutData(gdDateTimeFrom);
 		toolkit.adapt(dateTimeFrom);
 		toolkit.paintBordersFor(dateTimeFrom);
-		
-		
+
 		Composite compositeScrollStick = toolkit.createComposite(composite_2,
 				SWT.NO_BACKGROUND);
 		compositeScrollStick.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
@@ -204,14 +201,14 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		lblToDate.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
-		dateTimeTo = new CDateTime(composite_2, CDT.BORDER
-				| CDT.DROP_DOWN | CDT.DATE_MEDIUM);
+		dateTimeTo = new CDateTime(composite_2, CDT.BORDER | CDT.DROP_DOWN
+				| CDT.DATE_MEDIUM);
 		GridData gd_dateChooserCombo_1 = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 1, 1);
 		gd_dateChooserCombo_1.heightHint = 19;
 		gd_dateChooserCombo_1.widthHint = 100;
 		dateTimeTo.setLayoutData(gd_dateChooserCombo_1);
-		
+
 		toolkit.adapt(dateTimeTo);
 		toolkit.paintBordersFor(dateTimeTo);
 		new Label(composite_2, SWT.NONE);
@@ -296,7 +293,7 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 
 		Section sctnMarkers = toolkit.createSection(frmFunction.getBody(),
 				Section.TWISTIE | Section.TITLE_BAR);
-		
+
 		toolkit.paintBordersFor(sctnMarkers);
 		sctnMarkers.setText("Markers");
 		sctnMarkers.setExpanded(false);
@@ -317,7 +314,6 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		table.setLayoutData(gdMarkers);
 		toolkit.paintBordersFor(table);
 
-		
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				markersTableViewer, SWT.NONE);
 		TableColumn tblclmnType = tableViewerColumn.getColumn();
@@ -330,11 +326,12 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		tblclmnDescription.setWidth(200);
 		tblclmnDescription.setText("Description");
 
-//		TableItem tableItem = new TableItem(table, SWT.NONE);
-//		tableItem
-//				.setText(new String[] {
-//						"Threshold Breached,",
-//						"The Threshold for this resource has been crossed. The resource is not within tolerance. " });
+		// TableItem tableItem = new TableItem(table, SWT.NONE);
+		// tableItem
+		// .setText(new String[] {
+		// "Threshold Breached,",
+		// "The Threshold for this resource has been crossed. The resource is not within tolerance. "
+		// });
 
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
 				markersTableViewer, SWT.NONE);
@@ -347,19 +344,19 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		TableColumn tblclmnValue = tableViewerColumn_2.getColumn();
 		tblclmnValue.setWidth(100);
 		tblclmnValue.setText("Value");
-		
+
 		TableViewerColumn tableViewerColumnDirection = new TableViewerColumn(
 				markersTableViewer, SWT.NONE);
 		TableColumn tblclmnDirection = tableViewerColumnDirection.getColumn();
 		tblclmnDirection.setWidth(100);
 		tblclmnDirection.setText("Direction");
-		
+
 		TableViewerColumn tableViewerColumnLevel = new TableViewerColumn(
 				markersTableViewer, SWT.NONE);
 		TableColumn tblclmnLevel = tableViewerColumnLevel.getColumn();
 		tblclmnLevel.setWidth(100);
 		tblclmnLevel.setText("Level");
-		
+
 	}
 
 	public void loadDummyData() {
@@ -406,7 +403,7 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 	int expectedValueQuantity = -1;
 	private int interval;
 
-	public List<Value> createDateSeries(List<Value> values) {
+	public List<Value> sortAndApplyPeriod(List<Value> values) {
 		List<Value> sortedCopy = modelUtils.sortByTimeStampAndReverse(values);
 		return modelUtils.filterValueInRange(sortedCopy, dtr);
 	}
@@ -495,20 +492,22 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 	 * Use with additional parameter DateTimeRange.
 	 */
 	public void injectData(Object owner, Object object) {
-		
-		if( object != null && object instanceof ResourceMonitor){
+
+		if (object != null && object instanceof ResourceMonitor) {
 			resMonitor = (ResourceMonitor) object;
 			netXResource = resMonitor.getResourceRef();
 			dtr = resMonitor.getPeriod();
 			buildUI();
 
-			frmFunction.setText("Resource Monitor " + netXResource.getShortName());
+			frmFunction.setText("Resource Monitor "
+					+ netXResource.getShortName());
 			initDataBindings_();
 		}
-		
+
 	}
 
-	public void injectData(Object owner, Object object, DateTimeRange dtr, int interval) {
+	public void injectData(Object owner, Object object, DateTimeRange dtr,
+			int interval) {
 		if (object != null && object instanceof NetXResource) {
 			netXResource = (NetXResource) object;
 		} else {
@@ -519,8 +518,8 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		if (dtr != null) {
 			this.dtr = dtr;
 		}
-		
-		if(interval > 0){
+
+		if (interval > 0) {
 			this.interval = interval;
 		}
 
@@ -539,16 +538,15 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
-		
-		if(dtr != null){
+
+		if (dtr != null) {
 			dateTimeFrom.setSelection(modelUtils.start(dtr));
 			dateTimeTo.setSelection(modelUtils.end(dtr));
-			
+
 			dateTimeFrom.setEditable(false);
 			dateTimeTo.setEditable(false);
 		}
-		
-		
+
 		initChartBinding();
 
 		if (resMonitor != null) {
@@ -563,54 +561,56 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 									OperatorsPackage.Literals.MARKER__KIND,
 									OperatorsPackage.Literals.MARKER__DESCRIPTION,
 									OperatorsPackage.Literals.MARKER__VALUE_REF,
-									OperatorsPackage.Literals.TOLERANCE_MARKER__DIRECTION, 
-									OperatorsPackage.Literals.TOLERANCE_MARKER__LEVEL});
-			
+									OperatorsPackage.Literals.TOLERANCE_MARKER__DIRECTION,
+									OperatorsPackage.Literals.TOLERANCE_MARKER__LEVEL });
+
 			markersTableViewer
 					.setLabelProvider(new MarkersObervableMapLabelProvider(
 							observeMaps));
-			
+
 			IEMFListProperty resourceMonitorObservableList = EMFEditProperties
 					.list(editingService.getEditingDomain(),
 							OperatorsPackage.Literals.RESOURCE_MONITOR__MARKERS);
 
-			markersTableViewer.setInput(resourceMonitorObservableList.observe(resMonitor));
+			markersTableViewer.setInput(resourceMonitorObservableList
+					.observe(resMonitor));
 		}
 		return context;
 	}
 
 	private void initChartBinding() {
-		
-		List<Value> values = null;
-		if( interval > 0 ){
-			MetricValueRange mvr = modelUtils.valueRangeForInterval(netXResource,interval);
-			values = mvr.getMetricValues();
-		}else{
-//			if(netXResource.getMetricValueRanges().size() > 0 ){
-//				values = netXResource.getMetricValueRanges().get(0);
-//			}
-			return;
-		}
-		
-		if(values == null){
-			return;
-		}else{
-			values = this.createDateSeries(values);
-			if(values.size() == 0){
-				return; // Nothing to show. 
+
+		// METRIC VALUES....
+		List<Value> metricValues = null;
+		if (interval > 0) {
+			MetricValueRange mvr = modelUtils.valueRangeForInterval(
+					netXResource, interval);
+			metricValues = mvr.getMetricValues();
+			if (metricValues == null || metricValues.size() == 0) {
+				return;
+			} else {
+				metricValues = this.sortAndApplyPeriod(metricValues);
 			}
+		} else {
+			// if(netXResource.getMetricValueRanges().size() > 0 ){
+			// values = netXResource.getMetricValueRanges().get(0);
+			// }
+			return;
 		}
 
-		List<Date> dates = modelUtils.transformValueToDate(values);
+		// DATE RANGE FROM METRIC VALUES
+		List<Date> dates = modelUtils.transformValueToDate(metricValues);
 		Date[] dateArray = new Date[dates.size()];
 		dates.toArray(dateArray);
 
-		double[] metricValues = modelUtils.transformValueToDoubleArray(values);
-		this.seriesFromMetric(dateArray, metricValues, chart, netXResource);
-		
-		
+		double[] metricDoubleValues = modelUtils
+				.transformValueToDoubleArray(metricValues);
+		this.seriesFromMetric(dateArray, metricDoubleValues, chart,
+				netXResource);
+
 		// TODO, Apply Period Filter.
 
+		// CAP VALUES......
 		List<Value> capacities = netXResource.getCapacityValues();
 		List<Value> capMatchingDates = Lists.newArrayList(capacities);
 		int capSize = capMatchingDates.size();
@@ -620,18 +620,20 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 			for (int i = capSize; i < dates.size(); i++) {
 				capMatchingDates.add(i, lastVal);
 			}
-			double[] capValues = modelUtils
-					.transformValueToDoubleArray(capMatchingDates);
-			this.seriesFromCapacity(dateArray, capValues, chart);
 		}
-
+		double[] capValues = modelUtils
+				.transformValueToDoubleArray(capMatchingDates);
+		this.seriesFromCapacity(dateArray, capValues, chart);
 		
 		
-		double[] utilValues = modelUtils
-				.transformValueToDoubleArray(netXResource
-						.getUtilizationValues());
-		this.seriesFromUtilization(dateArray, utilValues, chart, 1);
+		// UTIL VALUES.
+		List<Value> utilValues = sortAndApplyPeriod(netXResource.getUtilizationValues());
+		double[] utilDoubleValues = modelUtils.transformValueToDoubleArray(utilValues);
+		this.seriesFromUtilization(dateArray, utilDoubleValues, chart, 1);
 
+		
+		// TOL VALUES
+		
 		// Tolerances are not stored.....
 		// this.seriesFromTolerance(chart, 1);
 
@@ -640,13 +642,10 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		chart.getAxisSet().adjustRange();
 	}
 
-	
-
 	public class MarkersObervableMapLabelProvider extends
 			ObservableMapLabelProvider {
 
-		public MarkersObervableMapLabelProvider(
-				IObservableMap[] attributeMaps) {
+		public MarkersObervableMapLabelProvider(IObservableMap[] attributeMaps) {
 			super(attributeMaps);
 		}
 
@@ -665,9 +664,12 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 				case 1:
 					return rm.getDescription();
 				case 2:
-					
-					return modelUtils.date(modelUtils.fromXMLDate(rm.getValueRef().getTimeStamp())) + "@" + 
-					 modelUtils.time(modelUtils.fromXMLDate(rm.getValueRef().getTimeStamp()));
+
+					return modelUtils.date(modelUtils.fromXMLDate(rm
+							.getValueRef().getTimeStamp()))
+							+ "@"
+							+ modelUtils.time(modelUtils.fromXMLDate(rm
+									.getValueRef().getTimeStamp()));
 				case 3:
 					return new Double(rm.getValueRef().getValue()).toString();
 				case 4:
@@ -679,7 +681,7 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 			return super.getColumnText(element, columnIndex);
 		}
 	}
-	
+
 	@Override
 	public Form getScreenForm() {
 		return this.frmFunction;
@@ -691,11 +693,10 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Resource graph";
 	}
 
-	
 }

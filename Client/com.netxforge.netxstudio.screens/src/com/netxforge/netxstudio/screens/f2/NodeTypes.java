@@ -29,6 +29,7 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.action.Action;
@@ -175,7 +176,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 				ViewerFilter[] filters = nodeTypeTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof TreeSearchFilter) {
-						((TreeSearchFilter) viewerFilter).setSearchText(txtFilterText.getText());
+						((TreeSearchFilter) viewerFilter)
+								.setSearchText(txtFilterText.getText());
 					}
 				}
 				nodeTypeTreeViewer.refresh();
@@ -216,7 +218,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		nodeTypeTreeViewer.setUseHashlookup(true);
 		nodeTypeTreeViewer.setComparer(new CDOElementComparer());
 		nodeTypeTreeViewer.addFilter(new TreeSearchFilter(editingService));
-		
+
 		nodeTypeTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
@@ -344,32 +346,41 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	class NodeTypeTreeStructureAdvisorImpl extends TreeStructureAdvisor {
 		@Override
 		public Object getParent(Object element) {
-			// Can't determine parent.
-			// if (element instanceof Project)
-			// {
-			// return ((Project)element).getParent();
-			// }
+			if (element instanceof EObject) {
+				EObject eo = (EObject) element;
+				if (eo.eContainer() != null) {
+					return eo.eContainer();
+				}
+			}
 			return null;
 		}
 
 		@Override
 		public Boolean hasChildren(Object element) {
+
+			// Important to return null if no children, otherwise child
+			// observables won;t be created.
 			if (element instanceof NodeType) {
 				NodeType nt = (NodeType) element;
 				if (nt.getFunctions().size() > 0
 						|| nt.getEquipments().size() > 0) {
 					return Boolean.TRUE;
+				} else {
+					return null;
+				}
+			} else if (element instanceof Function) {
+				if (((Function) element).getFunctions().size() > 0) {
+					return Boolean.TRUE;
+				} else {
+					return null;
+				}
+			} else if (element instanceof Equipment) {
+				if (((Equipment) element).getEquipments().size() > 0) {
+					return Boolean.TRUE;
+				} else {
+					return null;
 				}
 			}
-			if (element instanceof Function
-					&& ((Function) element).getFunctions().size() > 0) {
-				return Boolean.TRUE;
-			}
-			if (element instanceof Equipment
-					&& ((Equipment) element).getEquipments().size() > 0) {
-				return Boolean.TRUE;
-			}
-
 			// TMNL 04082011, don't show resources in tree.
 			// if (element instanceof Component
 			// && ((Component) element).getResourceRefs().size() > 0) {

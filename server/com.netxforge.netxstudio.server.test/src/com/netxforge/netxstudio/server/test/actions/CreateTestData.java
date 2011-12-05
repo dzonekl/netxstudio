@@ -43,6 +43,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 	@NonStatic
 	private IDataProvider dataProvider;
 	
+	@SuppressWarnings("unused")
 	@Inject
 	private ModelUtils modelUtils;
 

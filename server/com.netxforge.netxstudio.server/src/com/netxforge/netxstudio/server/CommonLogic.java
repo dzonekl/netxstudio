@@ -32,7 +32,6 @@ import org.eclipse.emf.ecore.EObject;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
@@ -124,26 +123,31 @@ public class CommonLogic {
 	private void processMonitoringExpressionResult(Date start, Date end,
 			final ExpressionResult expressionResult) {
 
-		System.out.println("--Writing expression result: resource="
-				+ expressionResult.getTargetResource().getShortName()
-				+ " target=" + expressionResult.getTargetRange().getName()
-				+ " values=" + expressionResult.getTargetValues().size());
-
+		if (ServerActivator.DEBUG) {
+			System.out.println("--Writing expression result: resource="
+					+ expressionResult.getTargetResource().getShortName()
+					+ " target=" + expressionResult.getTargetRange().getName()
+					+ " values=" + expressionResult.getTargetValues().size());
+		}
+		
 		// FIXME: We could want to write to a resource, where the node
-		// doesn't match the context.
+		// doesn't match the context. The original context Node is not known here. 
 		final BaseResource baseResource = expressionResult.getTargetResource();
 
 		// Process a NetXResource
 		if (baseResource instanceof NetXResource) {
 			NetXResource resource = (NetXResource) baseResource;
 			final Node n = this.getNode(resource.getComponentRef());
-			if (n != null) {
-				System.out.println("--Writing to resource in Node: "
-						+ n.getNodeID());
-				// for (final Object context : currentContext) {
-				// IInterpreterContext c = (IInterpreterContext)context;
-				// }
-				// System.out.println("--Current context =: ");
+			
+			if(ServerActivator.DEBUG){
+				if (n != null) {
+					System.out.println("--Writing to resource in Node: "
+							+ n.getNodeID());
+					// for (final Object context : currentContext) {
+					// IInterpreterContext c = (IInterpreterContext)context;
+					// }
+					// System.out.println("--Current context =: ");
+				}
 			}
 
 			switch (expressionResult.getTargetRange().getValue()) {
@@ -379,16 +383,16 @@ public class CommonLogic {
 		final MetricValueRange mvr = modelUtils.valueRangeForIntervalAndKind(
 				foundNetXResource, kindHintType, intervalHint);
 
-		if (DataActivator.DEBUG) {
+		if (ServerActivator.DEBUG) {
 			System.out
-					.println("IMPORTER: Located/create value range for resource : "
+					.println("SERVER: Located/create value range for resource : "
 							+ foundNetXResource.getShortName()
 							+ " range size = " + mvr.getMetricValues().size());
 		}
 
 		if (start != null) {
-			if (DataActivator.DEBUG) {
-				System.out.println("IMPORTER: removing values from start="
+			if (ServerActivator.DEBUG) {
+				System.out.println("SERVER: removing values from start="
 						+ modelUtils.dateAndTime(start) + " , end="
 						+ modelUtils.dateAndTime(end));
 			}
@@ -421,23 +425,21 @@ public class CommonLogic {
 			}
 		}
 		if (foundValue != null) {
-			if (DataActivator.DEBUG) {
+			if (ServerActivator.DEBUG) {
 				System.out
-						.println("IMPORTER: found similar value while storing value="
+						.println("SERVER: found similar value while storing value="
 								+ foundValue.getValue()
 								+ " , timestamp="
 								+ modelUtils.dateAndTime(foundValue
-										.getTimeStamp()) );
+										.getTimeStamp()));
 			}
 			foundValue.setValue(value.getValue());
 		} else {
-			if (DataActivator.DEBUG) {
+			if (ServerActivator.DEBUG) {
 				System.out
-						.println("IMPORTER:no similar value, store now value="
-								+ value.getValue()
-								+ " , timestamp="
-								+ modelUtils.dateAndTime(value
-										.getTimeStamp()) );
+						.println("SERVER: similar value, store now value="
+								+ value.getValue() + " , timestamp="
+								+ modelUtils.dateAndTime(value.getTimeStamp()));
 			}
 			currentValues.add(value);
 		}

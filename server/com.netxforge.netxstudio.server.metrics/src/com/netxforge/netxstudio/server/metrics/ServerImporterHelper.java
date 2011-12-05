@@ -85,7 +85,7 @@ public class ServerImporterHelper implements IImporterHelper {
 				.getInjector().getInstance(LocalDataProviderProvider.class)
 				.getDataProvider();
 		// Set in the importer so we are called only once.
-		importer.setDataProvider(dataProvider);
+//		importer.setDataProvider(dataProvider);
 		return dataProvider;
 	}
 

@@ -178,7 +178,18 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 
 		tableViewer.setContentProvider(new ArrayContentProvider());
 		tableViewer.setLabelProvider(new NodeHistoryLabelProvider(node));
+		List<HistoricNode> histNodes = Lists.newArrayList();
+		
+		// use for non CDORevision supporting. 
+		// how to check supported features? 
+//		historicalNodes(histNodes);
+		
+		tableViewer.setInput(histNodes.toArray());
+		return null;
+	}
 
+	@SuppressWarnings("unused")
+	private void historicalNodes(List<HistoricNode> histNodes) {
 		String historicalResourceName = editingService
 				.resolveHistoricalResourceName(node);
 
@@ -186,7 +197,7 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 			URI uri = URI.createURI(historicalResourceName);
 			// Do we have an existing resource for this historical node.
 			// If not we add at least the node. 
-			List<HistoricNode> histNodes = Lists.newArrayList();
+			
 			if (editingService.getDataService().getProvider().hasResource(uri)) {
 
 				Resource historyResource = editingService
@@ -212,9 +223,8 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 			}else{
 				histNodes.add(new HistoricNode(1, node));
 			}
-			tableViewer.setInput(histNodes.toArray());
+			
 		}
-		return null;
 	}
 
 	/**

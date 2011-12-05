@@ -154,6 +154,7 @@ public class TestDataCreator implements NetxForgeService {
 		dataProvider.commitTransaction();
 	}
 
+	@SuppressWarnings("unused")
 	private void clearData() {
 		dataProvider.getTransaction();
 		// note order of clearing is important because of

@@ -22,6 +22,7 @@ import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
@@ -93,6 +94,7 @@ public class MappingStatistics extends AbstractScreen implements
 
 	private TableViewer tblViewerRecords;
 	private Text txtMessage;
+	private CleanStatsAction cleanStatsAction;
 
 	/**
 	 * Create the composite.
@@ -109,7 +111,7 @@ public class MappingStatistics extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 	}
 
 	private void buildUI() {
@@ -122,8 +124,9 @@ public class MappingStatistics extends AbstractScreen implements
 				+ metricSource.getName());
 		frmMappingStatistics.getBody().setLayout(new FormLayout());
 
-		frmMappingStatistics.getMenuManager().add(
-				new CleanStatsAction("Clean up..."));
+		cleanStatsAction = new CleanStatsAction("Clean up...");
+		
+		frmMappingStatistics.getMenuManager().add(cleanStatsAction);
 
 		SashForm sashForm = new SashForm(frmMappingStatistics.getBody(),
 				SWT.NONE);
@@ -365,6 +368,11 @@ public class MappingStatistics extends AbstractScreen implements
 
 		@Override
 		public void run() {
+
+			if (metricSource.getStatistics().isEmpty()) {
+				return;
+			}
+
 			boolean openQuestion = MessageDialog
 					.openQuestion(
 							MappingStatistics.this.getShell(),
@@ -375,13 +383,15 @@ public class MappingStatistics extends AbstractScreen implements
 				// yes selected.
 				// Should also delete all contained objects like
 				// MappingRecord etc..
-				metricSource.getStatistics().clear();
+				
+				DeleteCommand dc = new DeleteCommand(editingService.getEditingDomain(), metricSource.getStatistics());
+				editingService.getEditingDomain().getCommandStack().execute(dc);
+				
 				if (editingService.isDirty()) {
 					editingService.doSave(new NullProgressMonitor());
 				}
 			}
 		}
-
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -409,7 +419,7 @@ public class MappingStatistics extends AbstractScreen implements
 
 		IObservableValue selectionObservable = ViewerProperties
 				.singleSelection().observe(statisticsListViewer);
-
+		
 		IObservableValue messageObservable = SWTObservables.observeText(
 				this.txtMessage, SWT.Modify);
 		IObservableValue totalRecordsObservable = SWTObservables.observeText(
@@ -692,7 +702,7 @@ public class MappingStatistics extends AbstractScreen implements
 
 	@Override
 	public Viewer getViewer() {
-		return null;
+		return this.statisticsListViewer;
 	}
 
 	@Override

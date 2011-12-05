@@ -20,10 +20,13 @@ package com.netxforge.netxstudio.server.metrics;
 
 import java.util.Map;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
@@ -77,8 +80,20 @@ public class MetricSourceImportService implements NetxForgeService {
 		private CDOID run() {
 			final CDOID msId = getCDOID(parameters.get(MS_PARAM),
 					MetricsPackage.Literals.METRIC_SOURCE);
+			
+			if(MetricsActivator.DEBUG){
+				System.out.println("IMPORT SERVICE  Metric source ID=" + msId);
+			}
+			
 			final MetricSource metricSource = (MetricSource) dataProvider
 					.getTransaction().getObject(msId);
+			
+			
+			if(MetricsActivator.DEBUG){
+				System.out.println("IMPORT SERVICE  Metric source revision=" + metricSource.cdoRevision());
+			}
+			
+			
 			if (metricSource.getMetricMapping() instanceof MappingXLS) {
 				importer = MetricsActivator.getInstance().getInjector()
 						.getInstance(XLSMetricValuesImporter.class);
@@ -119,6 +134,21 @@ public class MetricSourceImportService implements NetxForgeService {
 			}.start();
 			
 			return monitor.getWorkFlowRunId();
+		}
+		
+		
+		/* Test to get the metric source differently */
+		@SuppressWarnings("unused")
+		private MetricSource getMetricSource(CDOID msId) {
+			CDOResource resource = dataProvider.getTransaction().getResource("/" + MetricsPackage.Literals.METRIC_SOURCE.getName());
+			// find our metric source. 
+			for(EObject eoObject : resource.getContents()){
+				CDOObject cdoObject = (CDOObject) eoObject;
+				if( cdoObject.cdoID().compareTo(msId) == 0){
+					return (MetricSource) cdoObject;
+				}
+			}
+			return null;
 		}
 
 		private ServerWorkFlowRunMonitor createMonitor() {

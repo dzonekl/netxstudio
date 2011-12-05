@@ -193,7 +193,8 @@ public class ServerUtils {
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 		
 		
-		// Do not cache on the server. 
+		// Note: Option to disable caching, this was of for Hibernate store, but back on for the DB Store.
+		
 		sessionConfiguration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
 
 		final IPasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(

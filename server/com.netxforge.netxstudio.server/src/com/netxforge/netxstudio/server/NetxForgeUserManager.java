@@ -86,15 +86,17 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 			// cdoQuery.setParameter("login", userID);
 
 			CDOResource resource = transaction.getResource("/"
-					+ GenericsPackage.Literals.PERSON);
+					+ GenericsPackage.Literals.PERSON.getName());
 
 			List<Person> people = new ModelUtils.CollectionForObjects<Person>()
-					.collectionForObjects(resource.getContents());
-
-			if (people.size() != 1) {
-				return null;
+					.collectionForObjects(resource.getContents());	
+			String pwd = null;
+			// find the user. 
+			for(Person p : people){
+				if(userID.equals(p.getLogin())){
+					pwd = p.getPassword();
+				}
 			}
-			final String pwd = people.get(0).getPassword();
 			if (pwd == null) {
 				return null;
 			}

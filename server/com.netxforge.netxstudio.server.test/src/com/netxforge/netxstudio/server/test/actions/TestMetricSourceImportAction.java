@@ -171,6 +171,7 @@ public class TestMetricSourceImportAction extends AbstractDataProviderTest {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private String getDateParamValue(long offset) {
 		final XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(new Date(
 				System.currentTimeMillis() + offset));

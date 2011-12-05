@@ -50,6 +50,7 @@ import org.eclipse.swt.widgets.Display;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.ClientCDODataProvider;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
@@ -325,8 +326,11 @@ public class CDOEditingService extends EMFEditingService implements
 				// Save the resources to the file system.
 				try {
 					monitor.beginTask("Saving all Objects", 100);
-					monitor.subTask("Copy history");
-					saveHistory();
+					
+					
+					// FIXME, REVISION HANDLING WITH NEW STORE. 
+//					monitor.subTask("Copy history");
+//					saveHistory();
 					monitor.worked(50);
 					monitor.subTask("Committing");
 					CDOTransaction transaction = getView() instanceof CDOTransaction ? (CDOTransaction) getView()
@@ -458,6 +462,7 @@ public class CDOEditingService extends EMFEditingService implements
 			monitor.subTask(subMsg);
 
 		}
+		transaction.setCommitComment(IDataProvider.CLIENT_COMMIT_COMMENT);
 		transaction.commit();
 
 	}
@@ -468,6 +473,7 @@ public class CDOEditingService extends EMFEditingService implements
 	 * is what we base the Resource Name on. (We append the CDOID to the default
 	 * object resource name).
 	 */
+	@SuppressWarnings("unused")
 	private void saveHistory() {
 		ImmutableList<Resource> copyOf = ImmutableList
 				.copyOf(getEditingDomain().getResourceSet().getResources());

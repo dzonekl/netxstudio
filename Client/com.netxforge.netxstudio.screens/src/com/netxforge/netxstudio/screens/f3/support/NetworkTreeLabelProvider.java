@@ -32,7 +32,6 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Network;
@@ -119,22 +118,22 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 			cell.setStyleRanges(styledString.getStyleRanges());
 		}
 
-		if (element instanceof NodeType) {
-
-			NodeType nt = (NodeType) element;
-
-			StyledString styledString = new StyledString(
-					nt.getName() != null ? nt.getName() : "?", null);
-			String decoration = " (" + nt.getFunctions().size() + " Functions)"
-					+ " (" + nt.getFunctions().size() + " Equipments)";
-			styledString.append(decoration, StyledString.COUNTER_STYLER);
-			cell.setText(styledString.getString());
-			Image img = ResourceManager.getPluginImage(
-					"com.netxforge.netxstudio.models.edit",
-					"icons/full/obj16/Node_H.png");
-			cell.setImage(img);
-			cell.setStyleRanges(styledString.getStyleRanges());
-		}
+//		if (element instanceof NodeType) {
+//
+//			NodeType nt = (NodeType) element;
+//
+//			StyledString styledString = new StyledString(
+//					nt.getName() != null ? nt.getName() : "?", null);
+//			String decoration = " (" + nt.getFunctions().size() + " Functions)"
+//					+ " (" + nt.getFunctions().size() + " Equipments)";
+//			styledString.append(decoration, StyledString.COUNTER_STYLER);
+//			cell.setText(styledString.getString());
+//			Image img = ResourceManager.getPluginImage(
+//					"com.netxforge.netxstudio.models.edit",
+//					"icons/full/obj16/Node_H.png");
+//			cell.setImage(img);
+//			cell.setStyleRanges(styledString.getStyleRanges());
+//		}
 
 		if (element instanceof Function) {
 			Function fc = (Function) element;

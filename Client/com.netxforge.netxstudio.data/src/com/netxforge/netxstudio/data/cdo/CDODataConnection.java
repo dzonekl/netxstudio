@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
+import org.eclipse.emf.cdo.common.revision.CDORevisionCache;
+import org.eclipse.emf.cdo.common.revision.CDORevisionUtil;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.net4j.Net4jUtil;
@@ -88,6 +90,7 @@ public class CDODataConnection implements ICDOConnection {
 				server);
 		// Create configuration
 		sessionConfiguration = CDONet4jUtil.createSessionConfiguration();
+		sessionConfiguration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 	}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.netxstudio.server.db.product.feature"
-      label="Product DB Feature"
+      id="com.netxforge.netxstudio.server.db.mysql.product.feature"
+      label="Product DB MySQL Feature"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
 
@@ -18,7 +18,7 @@
    </license>
 
    <plugin
-         id="com.netxforge.netxstudio.server.db.product"
+         id="com.netxforge.netxstudio.server.db.mysql.product"
          download-size="0"
          install-size="0"
          version="0.0.0"

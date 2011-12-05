@@ -13,6 +13,7 @@ package com.netxforge.netxstudio.screens.editing.dawn;
 import java.util.Set;
 
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.transaction.CDOTransactionConflictEvent;
 import org.eclipse.emf.cdo.view.CDOViewInvalidationEvent;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
@@ -54,14 +55,42 @@ public class DawnEMFHandler extends BasicDawnListener {
 	public void handleViewInvalidationEvent(CDOViewInvalidationEvent event) {
 		super.handleViewInvalidationEvent(event);
 
+		if (EditingActivator.DEBUG) {
+			String invalidBy = event.getSource().getSession().getUserID();
+			System.out.println("CDOEditingService: Event Invalid objects by="
+					+ invalidBy + "  event=");
+		}
+
+//		Map<CDOObject, CDORevisionDelta> revisionDeltas = event
+//				.getRevisionDeltas();
+//		for (CDOObject key = revisionDeltas.keySet().iterator().next(); revisionDeltas
+//				.keySet().iterator().hasNext();) {
+//			CDORevisionDelta cdoRevisionDelta = revisionDeltas.get(key);
+//			if (cdoRevisionDelta != null) {
+//				CDOID id = cdoRevisionDelta.getID();
+//				System.out.println(" Revision delta for event, cdoID=" + id);
+//			}
+//
+//		}
+
 		Set<CDOObject> dos = event.getDirtyObjects();
 		if (EditingActivator.DEBUG) {
 			String invalidBy = event.getSource().getSession().getUserID();
 			System.out.println("CDOEditingService: Invalid objects by="
 					+ invalidBy);
 			for (CDOObject o : dos) {
+
+				CDORevision rev = o.cdoRevision();
 				System.out.println("CDOEditingService: Invalid object" + o
-						+ " state=" + o.cdoState());
+						+ " state=" + o.cdoState() + " ,version="
+						+ (rev != null ? rev.getVersion() : "?"));
+				// CDOSession session = CDOUtil.getSession(o);
+				// session.refresh();
+				// Check the state after a refresh
+				// rev = o.cdoRevision();
+				// System.out.println("CDOEditingService: refresh object" + o
+				// + " state=" + o.cdoState() + " ,version=" + (rev != null ?
+				// rev.getVersion() : "?"));
 
 			}
 		}
@@ -100,20 +129,25 @@ public class DawnEMFHandler extends BasicDawnListener {
 
 						if (EditingActivator.DEBUG) {
 							for (CDOObject cdoObject : dos) {
-								System.out.println("CDOEditingService: root: object="
-										+ cdoObject.cdoID() + " , state="
-										+ cdoObject.cdoState());
-								
+								System.out
+										.println("CDOEditingService: root: object="
+												+ cdoObject.cdoID()
+												+ " , state="
+												+ cdoObject.cdoState());
+
 								// Print the state of the children.
-								// CB, Do not print, as this could be the root resource, so all objects in the
-								// DB! 
-//								TreeIterator<EObject> eAllContents = cdoObject.eAllContents();
-//								while(eAllContents.hasNext()){
-//									CDOObject next = (CDOObject) eAllContents.next();
-//									System.out.println("CDOEditingService: child: object="
-//											+ next.cdoID() + " , state="
-//											+ next.cdoState());
-//								}
+								// CB, Do not print, as this could be the root
+								// resource, so all objects in the
+								// DB!
+								// TreeIterator<EObject> eAllContents =
+								// cdoObject.eAllContents();
+								// while(eAllContents.hasNext()){
+								// CDOObject next = (CDOObject)
+								// eAllContents.next();
+								// System.out.println("CDOEditingService: child: object="
+								// + next.cdoID() + " , state="
+								// + next.cdoState());
+								// }
 							}
 						}
 

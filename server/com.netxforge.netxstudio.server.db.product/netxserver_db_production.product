@@ -42,7 +42,7 @@
       <feature id="org.apache.poi.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="javax.servlet.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.mortbay.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.emf.cdo.server.db.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.emf.cdo.server.db.postgres.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.emf.ecore"/>
       <feature id="org.dom4j" version="1.6.1"/>

@@ -7,6 +7,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -530,8 +531,9 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 								nodesToAdd.add((Node) o);
 							}
 							if (o instanceof Network) {
-								// Adds all closure nodes. 
-								nodesToAdd.addAll(modelUtils.nodesForNetwork((Network) o));
+								// Adds all closure nodes.
+								nodesToAdd.addAll(modelUtils
+										.nodesForNetwork((Network) o));
 							}
 
 							Iterable<Node> filter = Iterables.filter(
@@ -837,14 +839,28 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		networkElementsTableViewer.setContentProvider(listContentProvider);
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] {
-						OperatorsPackage.Literals.NODE__NODE_TYPE,
-						OperatorsPackage.Literals.NODE__NODE_ID });
+		IObservableSet set = listContentProvider.getKnownElements();
+
+		List<IObservableMap> mapList = Lists.newArrayList();
+
+		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
+				ServicesPackage.Literals.RFS_SERVICE__NODES).observeDetail(set));
+		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
+				OperatorsPackage.Literals.NODE__NODE_TYPE).observeDetail(set));
+		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
+				OperatorsPackage.Literals.NODE__NODE_ID).observeDetail(set));
+
+		// IObservableMap[] observeMaps = EMFObservables.observeMaps(
+		// listContentProvider.getKnownElements(),
+		// new EStructuralFeature[] {,});
+
+		IObservableMap[] map = new IObservableMap[mapList.size()];
+		mapList.toArray(map);
+
 		networkElementsTableViewer
 				.setLabelProvider(new NodeInServiceObservableMapLabelProvider(
-						observeMaps));
+						map));
+
 		IEMFListProperty l = EMFEditProperties.list(
 				editingService.getEditingDomain(),
 				ServicesPackage.Literals.RFS_SERVICE__NODES);

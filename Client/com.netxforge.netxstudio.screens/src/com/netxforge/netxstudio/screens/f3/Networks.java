@@ -96,7 +96,6 @@ import com.netxforge.netxstudio.operators.Warehouse;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.OperatorFilterDialog;
 import com.netxforge.netxstudio.screens.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.WarehouseFilterDialog;
@@ -260,8 +259,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		networkTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.VIRTUAL
 				| SWT.MULTI | widgetStyle);
-		networkTreeViewer.setUseHashlookup(true);
-		networkTreeViewer.setComparer(new CDOElementComparer());
+//		networkTreeViewer.setUseHashlookup(true);
+//		networkTreeViewer.setComparer(new CDOElementComparer());
 		networkTreeViewer.addFilter(new TreeSearchFilter(editingService));
 
 		// Set a default sorter.
@@ -755,8 +754,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			if (element instanceof Operator) {
 				return ((Operator) element).getNetworks().size() > 0 ? Boolean.TRUE
 						: null;
-			}
-			if (element instanceof Network) {
+			} else if (element instanceof Network) {
 				Network net = (Network) element;
 				if (net.getNetworks().size() > 0 || net.getNodes().size() > 0
 						|| net.getEquipmentRelationships().size() > 0
@@ -765,33 +763,28 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				} else {
 					return null;
 				}
-			}
-
-			if (element instanceof Node) {
+			} else if (element instanceof Node) {
 				Node n = (Node) element;
 				if (n.getNodeType() != null) {
-					NodeType nt = n.getNodeType();
-					if (nt.getFunctions().size() > 0
-							|| nt.getEquipments().size() > 0) {
-						return Boolean.TRUE;
-					}
+					return Boolean.TRUE;
 				} else {
 					return null;
 				}
-			}
+			} else
 
 			if (element instanceof NodeType) {
-				return null;
-			}
-
-			if (element instanceof Function) {
+				if (((NodeType) element).getFunctions().size() > 0
+						|| ((NodeType) element).getEquipments().size() > 0) {
+					return Boolean.TRUE;
+				}
+				return Boolean.FALSE;
+			} else if (element instanceof Function) {
 				if (((Function) element).getFunctions().size() > 0) {
 					return Boolean.TRUE;
 				} else {
 					return null;
 				}
-			}
-			if (element instanceof Equipment) {
+			} else if (element instanceof Equipment) {
 				if (((Equipment) element).getEquipments().size() > 0) {
 					return Boolean.TRUE;
 				} else {

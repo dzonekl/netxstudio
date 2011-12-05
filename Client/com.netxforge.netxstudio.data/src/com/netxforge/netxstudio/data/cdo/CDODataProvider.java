@@ -28,6 +28,7 @@ import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
 import org.eclipse.emf.cdo.eresource.CDOResourceNode;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.view.CDOInvalidationPolicy;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -60,6 +61,11 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * Note: One single data provider, is associated with one single user/session.
  * The session is static.
+ *
+ * Typical usage is to get a CDOResource using a Resourceset (Which will have a CDOView
+ * associated). The provider can also use a one of transaction which is not associated with
+ * a resource set.
+ * 
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
@@ -122,6 +128,12 @@ public abstract class CDODataProvider implements IDataProvider {
 		// user and
 		// this very same config.
 		if (connection.getConfig().isSessionOpen()) {
+			
+			
+			// note: 
+			// Passive updates are enabled by default, invalidations could 
+			// be turned off to have finer control. 
+			
 			final CDOSession openSession = connection.getConfig().openSession();
 			setSession(openSession);
 			return;
@@ -139,6 +151,9 @@ public abstract class CDODataProvider implements IDataProvider {
 			((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession
 					.options()).setCommitTimeout(COMMIT_TIMEOUT);
 			setSession(cdoSession);
+			
+			
+			// 
 //			for (final EPackage ePackage : ePackages) {
 //				getSession().getPackageRegistry().putEPackage(ePackage);
 //			}
@@ -227,9 +242,8 @@ public abstract class CDODataProvider implements IDataProvider {
 			}
 		}
 		// create a transaction for all sub resources from this path.
-
 		final CDOTransaction transaction = getSession().openTransaction(set);
-
+		
 		if (transaction.hasResource(resourcePath)) {
 			CDOResourceNode node = transaction.getResourceNode(resourcePath);
 			if (node instanceof CDOResourceFolder) {
@@ -331,6 +345,7 @@ public abstract class CDODataProvider implements IDataProvider {
 				// the CDOView has a getTransaction().
 				if (view instanceof CDOTransaction) {
 					final CDOTransaction transaction = (CDOTransaction) view;
+					view.options().setInvalidationPolicy(CDOInvalidationPolicy.RELAXED);
 					final CDOResource resource = transaction
 							.getOrCreateResource(resourcePath);
 					return resource;

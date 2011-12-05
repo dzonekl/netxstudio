@@ -40,7 +40,6 @@ import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
  * 
@@ -100,13 +99,6 @@ public class WarningDeleteAction extends DeleteAction {
 							+ "\". Related objects (" + (eObjects.size() - 1)
 							+ ")");
 			if (questionResult) {
-
-				// // Assume similar objects, skip cross-referencing for
-				// NetXResource.
-				// if(first instanceof NetXResource){
-				// super.run();
-				// return;
-				// }
 
 				List<CDOObjectReference> xRefs = ((WarningDeleteCommand) command)
 						.getUsage(eObjects);
@@ -188,13 +180,13 @@ public class WarningDeleteAction extends DeleteAction {
 			newSelection.addAll(selection);
 		}
 
-		if (EditingActivator.DEBUG) {
-			for (Object o : newSelection) {
-				CDOObject cdoObject = (CDOObject) o;
-				System.out.println("delete selection=" + cdoObject.eClass()
-						+ " state=" + cdoObject.cdoState());
-			}
-		}
+//		if (EditingActivator.DEBUG) {
+//			for (Object o : newSelection) {
+//				CDOObject cdoObject = (CDOObject) o;
+//				System.out.println("delete selection=" + cdoObject.eClass()
+//						+ " state=" + cdoObject.cdoState());
+//			}
+//		}
 
 		Command c;
 
@@ -217,6 +209,7 @@ public class WarningDeleteAction extends DeleteAction {
 		return c;
 	}
 
+	@SuppressWarnings("unused")
 	private Command createNWBCommand(Collection<?> selection) {
 
 		return WarningNWBDeleteCommand.create(domain, selection);
