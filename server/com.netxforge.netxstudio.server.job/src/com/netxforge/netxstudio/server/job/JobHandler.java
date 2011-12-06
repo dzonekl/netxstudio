@@ -223,9 +223,12 @@ public class JobHandler {
 		for (final EObject eObject : resource.getContents()) {
 			final JobRunContainer container = (JobRunContainer) eObject;
 			final Job containerJob = container.getJob();
-			final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
-			if (cdoId.equals(containerJobId)) {
-				return container.getWorkFlowRuns().size();
+			// sometimes container doesn't have a job??
+			if( containerJob != null){
+				final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
+				if (cdoId.equals(containerJobId)) {
+					return container.getWorkFlowRuns().size();
+				}
 			}
 		}
 		return 0;

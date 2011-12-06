@@ -46,11 +46,17 @@ public class ReferenceHelper {
 			try {
 				queryXRefs = cdoView.queryXRefs(objectSet, refs);
 			} catch (Exception e) {
-				e.printStackTrace();
-				// The query sometimes throws exeception, if i.e an entity
+//				e.printStackTrace();
+				// 1. The query sometimes throws exeception, if i.e an entity
 				// can't be found..
 				// EClass ExpressionResult does not have an entity name, has
 				// it been mapped to Hibernate?
+				// 2. 
+				if(EditingActivator.DEBUG){
+					System.out.println(" xref on delete failed:");
+					e.printStackTrace();
+				}
+				
 			}
 		}
 

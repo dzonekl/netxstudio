@@ -95,9 +95,9 @@ public class ValidationService implements IValidationService {
 				if (currentStatus != null) {
 					
 					// FIXME, we fire error status, if the validation is not set on an widget. 
-					if( currentStatus.getMessage().length() > 0 ){
+//					if( currentStatus.getMessage().length() > 0 ){
 						notifyFormEvent(currentStatus, ctx);
-					} 
+//					} 
 					
 				}
 			}
@@ -149,6 +149,8 @@ public class ValidationService implements IValidationService {
 		// We notify for forms.
 		int type = convertType(currentStatus.getSeverity());
 		List<IMessage> messages = getMessages(ctx);
+		
+		// Filter 
 		fireFormValidationEvent(type, messages);
 	}
 

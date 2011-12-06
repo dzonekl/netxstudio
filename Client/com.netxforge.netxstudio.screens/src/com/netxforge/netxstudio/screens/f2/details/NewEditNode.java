@@ -7,6 +7,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.validation.IValidator;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -22,8 +25,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.nebula.widgets.datechooser.DateChooserCombo;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -35,6 +41,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
+import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
@@ -58,6 +65,7 @@ import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 		IDataScreenInjection {
@@ -77,11 +85,22 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 	private ImageHyperlink roomRefHyperlink;
 
 	private ImageHyperlink nodeTypeHyperlink;
+	private Form parentForm;
 
-	public NewEditNode(Composite parent, int style,
+	public NewEditNode(Form form, Composite cmpDetails, int style,
 			final IEditingService editingService) {
-		super(parent, style);
+		super(cmpDetails, style);
+
+		this.parentForm = form;
 		this.editingService = editingService;
+		addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent e) {
+				validationService.dispose();
+				validationService.removeValidationListener(NewEditNode.this);
+				toolkit.dispose();
+
+			}
+		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 	}
@@ -93,7 +112,16 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 			return;
 		}
 		this.buildUI();
-		this.initDataBindings_();
+
+		@SuppressWarnings("unused")
+		EMFDataBindingContext m_bindingContext = this.initDataBindings_();
+		
+		// TODO, disable for now. 
+//		if (!Screens.isReadOnlyOperation(getOperation())) {
+//			validationService.registerBindingContext(m_bindingContext);
+//			validationService.addValidationListener(this);
+//		}
+
 	}
 
 	public boolean isValid() {
@@ -326,6 +354,15 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 							editingService.getEditingDomain(), nt);
 					cp.append(dc);
 				}
+				if (node.eIsSet(OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF)) {
+					SetCommand sc = new SetCommand(
+							editingService.getEditingDomain(),
+							node,
+							OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
+							null);
+					cp.append(sc);
+				}
+
 				// We can't really do this, as our object will be dangling.
 				// Command c = new SetCommand(editingService.getEditingDomain(),
 				// node, OperatorsPackage.Literals.NODE__NODE_TYPE, null);
@@ -358,8 +395,31 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 						NewEditNode.this.getShell(), nodeTypeResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					NodeType nt = (NodeType) dialog.getFirstResult();
-					handleNodeTypeCopy(nt);
+					// Ask the user if the node should be replaced,
+					// or simply set as the original node type.
+					boolean copyStructure = MessageDialog.openQuestion(
+							NewEditNode.this.getShell(),
+							"For Network Element: " + node.getNodeID(),
+							" Replace the structure with Network Element Type: "
+									+ nt.getName()
+									+ " ?, If not, the orignal Network Element Type will be set to be add parts from type: "
+									+ nt.getName() + " to: " + node.getNodeID());
+					if (copyStructure) {
+						handleNodeTypeCopy(nt);
+					} else {
+						handleSetOriginalNodeType(nt);
+					}
 				}
+			}
+
+			private void handleSetOriginalNodeType(NodeType nt) {
+
+				Command setOriginalNodeTypeRef = new SetCommand(editingService
+						.getEditingDomain(), node,
+						OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
+						nt);
+				editingService.getEditingDomain().getCommandStack()
+						.execute(setOriginalNodeTypeRef);
 			}
 
 			private void handleNodeTypeCopy(NodeType nt) {
@@ -475,6 +535,23 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
+		// The Node valiation
+		EMFUpdateValueStrategy nodeTypeStrategy = validationService
+				.getUpdateValueStrategyAfterGet(new IValidator() {
+					public IStatus validate(Object value) {
+						if (value instanceof String) {
+							return new Status(IStatus.OK,
+									ScreensActivator.PLUGIN_ID, "Hello node");
+							// return Status.OK_STATUS;
+						} else {
+							return new Status(IStatus.WARNING,
+									ScreensActivator.PLUGIN_ID,
+									"Original Network Element type is not set, can't add parts");
+						}
+					}
+
+				});
+
 		IObservableValue nameObservable = SWTObservables.observeDelayedValue(
 				400, SWTObservables.observeText(txtName, SWT.Modify));
 
@@ -484,16 +561,18 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 
 		context.bindValue(nameObservable, nodeIDProperty.observe(node), null,
 				null);
+
 		IObservableValue nodeTypeObservable = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(txtNodeType, SWT.Modify));
-		IEMFValueProperty nodetypeProperty = EMFEditProperties.value(
+
+		IEMFValueProperty originalNodeTypeProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(), FeaturePath.fromList(
-						OperatorsPackage.Literals.NODE__NODE_TYPE,
+						OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
 						LibraryPackage.Literals.NODE_TYPE__NAME));
 
-		context.bindValue(nodeTypeObservable, nodetypeProperty.observe(node),
-				null, null);
+		context.bindValue(nodeTypeObservable,
+				originalNodeTypeProperty.observe(node), null, nodeTypeStrategy);
 
 		IObservableValue roomObservable = SWTObservables.observeDelayedValue(
 				400, SWTObservables.observeText(txtRoom, SWT.Modify));
@@ -644,4 +723,10 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 
 		return context;
 	}
+
+	@Override
+	public Form getScreenForm() {
+		return this.parentForm;
+	}
+
 }

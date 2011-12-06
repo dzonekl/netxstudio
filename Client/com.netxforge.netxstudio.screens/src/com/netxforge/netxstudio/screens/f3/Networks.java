@@ -815,7 +815,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		if (o instanceof Node) {
 			NewEditNode node = null;
-			node = new NewEditNode(this.cmpDetails, SWT.NONE, editingService);
+			node = new NewEditNode(this.getScreenForm(), this.cmpDetails, SWT.NONE, editingService);
 			node.setScreenService(screenService);
 			node.injectData(null, o);
 			this.currentDetails = node;

@@ -297,12 +297,14 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			for (final EObject eObject : jobRunContainerResource.getContents()) {
 				final JobRunContainer container = (JobRunContainer) eObject;
 				final Job containerJob = container.getJob();
-				final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
-				if (job.cdoID().equals(containerJobId)) {
-					// Container found.
-					currentJobContainer = container;
-					this.initDataBindings_();
-					break;
+				if(containerJob != null){
+					final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
+					if (job.cdoID().equals(containerJobId)) {
+						// Container found.
+						currentJobContainer = container;
+						this.initDataBindings_();
+						break;
+					}
 				}
 			}
 

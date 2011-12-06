@@ -150,10 +150,25 @@ public class WarningDeleteAction extends DeleteAction {
 
 		// Increment the target selection for certain objects.
 		// Make sure we keep the order.
+		Collection<Object> newSelection = incrementSelection(selection);
+
+		if (newSelection.size() == 0 && selection.size() > 0) {
+			newSelection.addAll(selection);
+		}
+		Command c;
+
+		// check the objects, is a NetXResource, create dummy command,
+		// not executed on the command stack.
+		c = removeAllReferences ? WarningDeleteCommand.create(domain,
+				newSelection) : RemoveCommand.create(domain, newSelection);
+		// }
+		return c;
+	}
+
+	private Collection<Object> incrementSelection(Collection<?> selection) {
 		Collection<Object> newSelection = Lists.newLinkedList();
 
 		for (Object o : selection) {
-
 			// For jobs, we also need to delete the job container.
 			// ..this will also delete the workflow runs...
 			if (o instanceof Job) {
@@ -169,44 +184,13 @@ public class WarningDeleteAction extends DeleteAction {
 							.cdoID();
 					if (job.cdoID().equals(containerJobId)) {
 						newSelection.add(container);
-						// newSelection.add(job);
+						newSelection.add(job);
 						break;
 					}
 				}
 			}
 		}
-
-		if (newSelection.size() == 0 && selection.size() > 0) {
-			newSelection.addAll(selection);
-		}
-
-//		if (EditingActivator.DEBUG) {
-//			for (Object o : newSelection) {
-//				CDOObject cdoObject = (CDOObject) o;
-//				System.out.println("delete selection=" + cdoObject.eClass()
-//						+ " state=" + cdoObject.cdoState());
-//			}
-//		}
-
-		Command c;
-
-//		// Specialize deletion of large amount of objects.
-//		if (newSelection.size() >= UNDO_LIMIT) {
-//			if (EditingActivator.DEBUG) {
-//				System.out
-//						.println("Undo limit reached, "
-//								+ newSelection.size()
-//								+ " objects selected for deletion (Excluding children)");
-//			}
-//			c = createNWBCommand(newSelection);
-//		} else {
-
-			// check the objects, is a NetXResource, create dummy command,
-			// not executed on the command stack.
-			c = removeAllReferences ? WarningDeleteCommand.create(domain,
-					newSelection) : RemoveCommand.create(domain, newSelection);
-//		}
-		return c;
+		return newSelection;
 	}
 
 	@SuppressWarnings("unused")

@@ -51,6 +51,9 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Lifecycle;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -270,7 +273,8 @@ public class MasterDataImporter {
 
 					// Create an object with attributes only on the first pass.
 					if (passIndex == 1) {
-						if(objectIndex.equals("OID:http://www.netxforge.com/13042011/metrics#Metric#5603")){
+						if (objectIndex
+								.equals("OID:http://www.netxforge.com/13042011/metrics#Metric#5603")) {
 							System.err.println("stop here");
 						}
 						eObject = processAttributes(row);
@@ -430,6 +434,12 @@ public class MasterDataImporter {
 			}
 
 			final EObject result = EcoreUtil.create(eClassToImport);
+			if (result instanceof Component) {
+				Component c = (Component) result;
+				EObject lc = EcoreUtil
+						.create(GenericsPackage.Literals.LIFECYCLE);
+				c.setLifecycle((Lifecycle) lc);
+			}
 			for (int i = 0; i < eFeatures.size(); i++) {
 				final EStructuralFeature eFeature = eFeatures.get(i);
 
@@ -537,12 +547,13 @@ public class MasterDataImporter {
 			int cellType = cell.getCellType();
 			if (cellType == HSSFCell.CELL_TYPE_NUMERIC) {
 				double numericCellValue = cell.getNumericCellValue();
-//				value = new Double(numericCellValue).toString();
-				
-//				DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance();
-//				decimalFormat.setDecimalSeparatorAlwaysShown(false);
-//				decimalFormat.setMaximumFractionDigits(0);
-//				value = decimalFormat.format(numericCellValue);
+				// value = new Double(numericCellValue).toString();
+
+				// DecimalFormat decimalFormat = (DecimalFormat)
+				// DecimalFormat.getInstance();
+				// decimalFormat.setDecimalSeparatorAlwaysShown(false);
+				// decimalFormat.setMaximumFractionDigits(0);
+				// value = decimalFormat.format(numericCellValue);
 				NumberFormat nf = NumberFormat.getInstance();
 				nf.setMaximumFractionDigits(0);// set as you need
 				nf.setGroupingUsed(false);
@@ -663,7 +674,7 @@ public class MasterDataImporter {
 
 					// Get the referenced object.
 					final EReference eReference = (EReference) eFeature;
-					
+
 					EObject objectToSet = getReferencedObject(null,
 							eReference.getEReferenceType(), indexValue);
 
@@ -761,7 +772,7 @@ public class MasterDataImporter {
 
 			EList<EObject> manyReferenceCollection = (EList<EObject>) target
 					.eGet(eReference);
-			
+
 			if (eReference.isContainment()) {
 
 				if (ImportActivator.DEBUG) {
@@ -1068,31 +1079,34 @@ public class MasterDataImporter {
 		return chars.toString();
 	}
 
-	void updateIndex(Collection<EObject> oldCollection, Collection<EObject> newCollection){
-		for(EObject eEO : oldCollection){
-			
+	void updateIndex(Collection<EObject> oldCollection,
+			Collection<EObject> newCollection) {
+		for (EObject eEO : oldCollection) {
+
 			// 1. get it from the index;
 			String keyToSet = null;
-			for(String index : globalIndexURI.keySet()){
+			for (String index : globalIndexURI.keySet()) {
 				EObject eEI = this.globalIndexURI.get(index);
-				if(EcoreUtil.equals(eEO, eEI)){
+				if (EcoreUtil.equals(eEO, eEI)) {
 					keyToSet = index;
 					break;
 				}
 			}
-			
+
 			// 2. get if from the new collection
 			EObject eObjectToSet = null;
-			for(EObject eEN : newCollection){
-				if(EcoreUtil.equals(eEO, eEN)){
+			for (EObject eEN : newCollection) {
+				if (EcoreUtil.equals(eEO, eEN)) {
 					eObjectToSet = eEN;
 					break;
 				}
 			}
-			globalIndexURI.put(keyToSet,eObjectToSet);
-//			if(ImportActivator.DEBUG){
-//				System.out.println("INDEX: index=" + keyToSet +" replaced object=" + eEO.hashCode() + " , with=" + eObjectToSet.hashCode()) ;
-//			}
+			globalIndexURI.put(keyToSet, eObjectToSet);
+			// if(ImportActivator.DEBUG){
+			// System.out.println("INDEX: index=" + keyToSet
+			// +" replaced object=" + eEO.hashCode() + " , with=" +
+			// eObjectToSet.hashCode()) ;
+			// }
 		}
 	}
 
