@@ -20,10 +20,15 @@ package com.netxforge.internal;
 import static com.google.inject.Guice.createInjector;
 import static com.google.inject.util.Modules.override;
 
+import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.eclipse.osgi.service.debug.DebugOptions;
+import org.eclipse.osgi.service.debug.DebugOptionsListener;
+import org.eclipse.osgi.service.debug.DebugTrace;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -33,12 +38,20 @@ import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
 
-public class RuntimeActivator implements BundleActivator {
+public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 
 	private static RuntimeActivator INSTANCE;
 	private BundleContext context;
 	private Map<String, Injector> injectors = new HashMap<String, Injector>();
+	
+//	The plug-in ID
+	public static final String PLUGIN_ID = "com.netxforge.netxscript"; //$NON-NLS-1$
+	
 
+	// fields to cache the debug flags
+	public static boolean DEBUG = false;
+	public static DebugTrace TRACE = null;
+	
 	public void start(BundleContext context) throws Exception {
 		INSTANCE = this;
 		this.context = context;
@@ -53,11 +66,22 @@ public class RuntimeActivator implements BundleActivator {
 			Logger.getLogger(getClass()).error(e.getMessage(), e);
 			throw e;
 		}
+		
+		Dictionary<String, String> props = new Hashtable<String,String>(4);
+		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
+	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
+		
 	}
 
 	public void stop(BundleContext context) throws Exception {
 
 	}
+	
+	public void optionsChanged(DebugOptions options) {
+		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);
+		TRACE = options.newDebugTrace(PLUGIN_ID);
+	}
+	
 
 	public static RuntimeActivator getInstance() {
 		return INSTANCE;

@@ -2,7 +2,6 @@ package com.netxforge.scoping;
 
 import java.util.Collection;
 
-import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -37,7 +36,7 @@ public abstract class AbstractFixedSetCDOResourceDescriptions extends
 
 
 	public void initialize(Collection<URI> validUris,
-			final CDOTransaction transaction) {
+			final CDOView view) {
 		if (!initialized) {
 			this.validUris = validUris;
 			initialized = true;
@@ -69,9 +68,12 @@ public abstract class AbstractFixedSetCDOResourceDescriptions extends
 												.lastSegment();
 									}
 									
+									
+									// This should attach our listener to the resources. 
 									resource = ((CDODataProvider) provider)
-											.getResource((CDOView) transaction,
+											.getResource(view,
 													lookup);
+									
 									// System.out.println("--Done Scope builder Reading resource: "
 									// +
 									// uri.toString());
@@ -142,4 +144,11 @@ public abstract class AbstractFixedSetCDOResourceDescriptions extends
 		}
 		return null;
 	}
+	
+	public void registerListeners(CDOView view){
+		
+		
+	}
+	
+	
 }
