@@ -1,4 +1,4 @@
-package com.netxforge.scoping;
+package com.netxforge.scoping.old;
 
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -28,6 +28,7 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
+import com.netxforge.scoping.AbstractDynamixCDOResourceDescriptions;
 
 /**
  * A simple CDOScope provider, which returns all potential references. (Without
@@ -71,11 +72,11 @@ public class FixedSetCDOScopeProvider extends AbstractGlobalScopeProvider {
 		if (transaction == null) {
 
 			descriptions = loadOnDemandDescriptions.get();
-			if (descriptions instanceof AbstractFixedSetCDOResourceDescriptions) {
-				transaction = ((AbstractFixedSetCDOResourceDescriptions) descriptions)
+			if (descriptions instanceof AbstractDynamixCDOResourceDescriptions) {
+				transaction = ((AbstractDynamixCDOResourceDescriptions) descriptions)
 						.getDataProvider().getTransaction();
 				fixedURIs = this.getFixedURIs();
-				((AbstractFixedSetCDOResourceDescriptions) descriptions)
+				((AbstractDynamixCDOResourceDescriptions) descriptions)
 						.initialize(fixedURIs, transaction);
 			}
 		}

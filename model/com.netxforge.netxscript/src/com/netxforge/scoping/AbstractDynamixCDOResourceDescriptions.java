@@ -1,6 +1,7 @@
 package com.netxforge.scoping;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.URI;
@@ -17,16 +18,17 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
+import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.CDODataProvider;
 
-public abstract class AbstractFixedSetCDOResourceDescriptions extends
+public abstract class AbstractDynamixCDOResourceDescriptions extends
 		AbstractCompoundSelectable implements IResourceDescriptions {
 
-	protected abstract IDataProvider getDataProvider();
+	public abstract IDataProvider getDataProvider();
 
-	private Collection<URI> validUris;
-	
+	private Collection<URI> currentScopedURI;
+
 	boolean initialized = false;
 
 	@Inject
@@ -34,11 +36,10 @@ public abstract class AbstractFixedSetCDOResourceDescriptions extends
 
 	private SimpleCache<URI, IResourceDescription> resourceDescriptionCache;
 
+	public void initialize(Collection<URI> scopedURIs, final CDOView view) {
 
-	public void initialize(Collection<URI> validUris,
-			final CDOView view) {
 		if (!initialized) {
-			this.validUris = validUris;
+			this.currentScopedURI = scopedURIs;
 			initialized = true;
 
 			resourceDescriptionCache = new SimpleCache<URI, IResourceDescription>(
@@ -58,22 +59,20 @@ public abstract class AbstractFixedSetCDOResourceDescriptions extends
 								// here.
 								IDataProvider provider = getDataProvider();
 								if (provider instanceof CDODataProvider) {
-									
+
 									String lookup;
-									if(uri.segmentCount() > 1 ){
+									if (uri.segmentCount() > 1) {
 										lookup = uri.path();
-										
-									}else{
-										lookup = '/' + uri
-												.lastSegment();
+
+									} else {
+										lookup = '/' + uri.lastSegment();
 									}
-									
-									
-									// This should attach our listener to the resources. 
+
+									// This should attach our listener to the
+									// resources.
 									resource = ((CDODataProvider) provider)
-											.getResource(view,
-													lookup);
-									
+											.getResource(view, lookup);
+
 									// System.out.println("--Done Scope builder Reading resource: "
 									// +
 									// uri.toString());
@@ -93,7 +92,7 @@ public abstract class AbstractFixedSetCDOResourceDescriptions extends
 	}
 
 	public Iterable<IResourceDescription> getAllResourceDescriptions() {
-		return Iterables.filter(Iterables.transform(validUris,
+		return Iterables.filter(Iterables.transform(currentScopedURI,
 				new Function<URI, IResourceDescription>() {
 					public IResourceDescription apply(URI from) {
 						return getResourceDescription(from);
@@ -103,7 +102,7 @@ public abstract class AbstractFixedSetCDOResourceDescriptions extends
 
 	@Override
 	public boolean isEmpty() {
-		return validUris.isEmpty();
+		return currentScopedURI.isEmpty();
 	}
 
 	@Override
@@ -117,6 +116,13 @@ public abstract class AbstractFixedSetCDOResourceDescriptions extends
 	 * 
 	 */
 	public IResourceDescription getResourceDescription(URI uri) {
+
+		assert resourceDescriptionCache != null : "--- NETXSCRIPT: cache not initialized";
+
+		if (RuntimeActivator.DEBUG) {
+			System.out.println("--- NETXSCRIPT: Get description for URI: "
+					+ uri.toString());
+		}
 		return resourceDescriptionCache.get(uri);
 	}
 
@@ -136,19 +142,34 @@ public abstract class AbstractFixedSetCDOResourceDescriptions extends
 						+ " provided by service provider for URI " + uri);
 
 			// Do we cache our resource description?
-			// System.out.println("---Building Description for resource: " +
-			// resource.getURI().toString());
+			System.out
+					.println("--- NETXSCRIPT: Building Description for resource: "
+							+ resource.getURI().toString());
 			return resourceDescriptionManager.getResourceDescription(resource);
-			// System.out.println("---Done building description for resource: "
-			// + resource.getURI().toString());
 		}
 		return null;
 	}
-	
-	public void registerListeners(CDOView view){
-		
-		
+
+	public void update(List<URI> dirtyURIs) {
+
+		for (URI dirtyURI : dirtyURIs) {
+			if (resourceDescriptionCache.hasCachedValue(dirtyURI)) {
+				resourceDescriptionCache.discard(dirtyURI);
+				resourceDescriptionCache.get(dirtyURI); // should force an
+														// apply() and reload.
+			}
+		}
 	}
-	
-	
+
+	public void add(URI addScopedURI) {
+		if (!resourceDescriptionCache.hasCachedValue(addScopedURI)) {
+
+			resourceDescriptionCache.get(addScopedURI);
+		}
+	}
+
+	public void remove(URI removeScopedURI) {
+
+	}
+
 }

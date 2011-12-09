@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.netxforge.scoping;
 
+import java.util.Set;
+
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.revision.delta.CDOFeatureDelta;
 import org.eclipse.emf.cdo.transaction.CDOCommitContext;
@@ -25,13 +27,12 @@ import com.netxforge.internal.RuntimeActivator;
  * @author Martin Fluegge
  * @author Christophe Bouhier
  */
-public class CDOScopeListener implements ICDOScopeListener// implements
-// IListener
+public class DynamixCDOScopeListener implements ICDOScopeListener// implements
 {
-	/**
-	 * @since 1.0
-	 */
-	public CDOScopeListener() {
+	private DynamixCDOScopeProvider provider;
+
+	public DynamixCDOScopeListener(DynamixCDOScopeProvider provider) {
+		this.provider = provider;
 	}
 
 	public void notifyEvent(IEvent event) {
@@ -42,7 +43,6 @@ public class CDOScopeListener implements ICDOScopeListener// implements
 		} else if (event instanceof ILifecycleEvent) {
 			this.handleLifeCycleEvent((ILifecycleEvent) event);
 		}
-
 	}
 
 	// Override.
@@ -120,18 +120,23 @@ public class CDOScopeListener implements ICDOScopeListener// implements
 	}
 
 	/**
-	 * @since 1.0
+	 * Invalidation could be on the CDOResource or any of the objects.  
+	 * 
 	 */
-	public void handleViewInvalidationEvent(CDOViewInvalidationEvent event) { // This
-																				// method
-																				// can
-																				// be
-																				// overwritten
-																				// be
-																				// subclasses
+	public void handleViewInvalidationEvent(CDOViewInvalidationEvent event) { 
 		if (RuntimeActivator.DEBUG) {
 			System.out.println("CDOSCOPE invalidation event");
+			Set<CDOObject> dirtyObjects = event.getDirtyObjects();
+			for(CDOObject cdoO : dirtyObjects){
+				System.out.println(" CDOSCOPE invalid = " + cdoO);
+			}
 		}
+		
+		// update our scope provider.
+		if(provider != null){
+			provider.updateURIMap(event.getDirtyObjects());
+		}
+		
 
 	}
 

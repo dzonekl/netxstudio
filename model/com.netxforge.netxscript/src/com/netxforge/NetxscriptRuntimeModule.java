@@ -16,9 +16,9 @@ import com.netxforge.interpreter.InterpreterTypeless;
 import com.netxforge.interpreter.NativeFunctions;
 import com.netxforge.interpreter.PrettyLog;
 import com.netxforge.scoping.CDOResourceServiceProvider;
-import com.netxforge.scoping.FixedSetCDOResourceDescriptions;
-import com.netxforge.scoping.FixedSetCDOScopeProvider;
-import com.netxforge.scoping.SimpleCDONameProvider;
+import com.netxforge.scoping.DynamixCDOScopeProvider;
+import com.netxforge.scoping.DynamixCDOResourceDescriptions;
+import com.netxforge.scoping.DynamixCDONameProvider;
 
 /**
  * Use this class to register components to be used at runtime / without the
@@ -34,7 +34,7 @@ public class NetxscriptRuntimeModule extends
 
 	@Override
 	public Class<? extends org.eclipse.xtext.naming.IQualifiedNameProvider> bindIQualifiedNameProvider() {
-		return SimpleCDONameProvider.class;
+		return DynamixCDONameProvider.class;
 	}
 
 	public Class<? extends INativeFunctions> bindMathFunctions() {
@@ -56,7 +56,7 @@ public class NetxscriptRuntimeModule extends
 	// Override generated, ResourceSet based.
 	public void configureIResourceDescriptions(com.google.inject.Binder binder) {
 		binder.bind(org.eclipse.xtext.resource.IResourceDescriptions.class).to(
-				FixedSetCDOResourceDescriptions.class).in(Scopes.SINGLETON);
+				DynamixCDOResourceDescriptions.class).in(Scopes.SINGLETON);
 	}
 
 	public Class<? extends IGlobalScopeProvider> bindIGlobalScopeProvider() {
@@ -65,7 +65,7 @@ public class NetxscriptRuntimeModule extends
 	
 	public void configureIGlobalScopeProvider(com.google.inject.Binder binder) {
 		binder.bind(org.eclipse.xtext.scoping.IGlobalScopeProvider.class).to(
-				FixedSetCDOScopeProvider.class).in(Scopes.SINGLETON);
+				DynamixCDOScopeProvider.class).in(Scopes.SINGLETON);
 	}
 
 }

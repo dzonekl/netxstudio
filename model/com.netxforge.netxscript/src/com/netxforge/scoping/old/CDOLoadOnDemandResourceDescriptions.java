@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-package com.netxforge.scoping;
+package com.netxforge.scoping.old;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
@@ -26,10 +26,10 @@ import com.netxforge.netxstudio.data.IDataProvider;
  * @author Sebastian Zarnekow - Initial contribution and API
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class FixedSetCDOResourceDescriptions extends
-		AbstractFixedSetCDOResourceDescriptions {
+public class CDOLoadOnDemandResourceDescriptions extends
+		AbstractCDOLoadOnDemandResourceDescriptions {
 
-	public FixedSetCDOResourceDescriptions() {
+	public CDOLoadOnDemandResourceDescriptions() {
 		super();
 		System.out.println("Initialize ResourceDescriptions, we should be a singlton.");
 	}

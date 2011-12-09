@@ -17,7 +17,7 @@ import com.netxforge.netxstudio.library.Parameter;
  * @author dzonekl
  *
  */
-public class SimpleCDONameProvider extends SimpleNameProvider {
+public class DynamixCDONameProvider extends SimpleNameProvider {
 
 	@Inject
 	private IQualifiedNameConverter qualifiedNameConverter;

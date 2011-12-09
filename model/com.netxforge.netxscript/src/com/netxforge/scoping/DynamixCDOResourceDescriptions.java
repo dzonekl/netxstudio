@@ -26,10 +26,10 @@ import com.netxforge.netxstudio.data.IDataProvider;
  * @author Sebastian Zarnekow - Initial contribution and API
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class CDOLoadOnDemandResourceDescriptions extends
-		AbstractCDOLoadOnDemandResourceDescriptions {
+public class DynamixCDOResourceDescriptions extends
+		AbstractDynamixCDOResourceDescriptions {
 
-	public CDOLoadOnDemandResourceDescriptions() {
+	public DynamixCDOResourceDescriptions() {
 		super();
 		System.out.println("Initialize ResourceDescriptions, we should be a singlton.");
 	}
@@ -38,9 +38,9 @@ public class CDOLoadOnDemandResourceDescriptions extends
 	@Inject
 	private IDataProvider dataProvider;
 	
-	
 	@Override
-	protected IDataProvider getDataProvider() {
+	public
+	IDataProvider getDataProvider() {
 		return dataProvider;
 	}
 }
