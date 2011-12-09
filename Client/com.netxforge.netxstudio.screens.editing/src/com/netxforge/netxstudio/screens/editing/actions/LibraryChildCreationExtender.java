@@ -18,11 +18,14 @@
 package com.netxforge.netxstudio.screens.editing.actions;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 import com.google.common.collect.Lists;
@@ -73,20 +76,29 @@ public class LibraryChildCreationExtender extends
 						// not visible in the Design view.
 					} else if (target.eClass() == LibraryPackage.Literals.EQUIPMENT) {
 						Equipment targetEq = (Equipment) target;
+
+						Lifecycle newLC = GenericsFactory.eINSTANCE
+								.createLifecycle();
+						newLC.setProposed(modelUtils.toXMLDate(modelUtils
+								.todayAndNow()));
+						targetEq.setLifecycle(newLC);
+
 						newChildDescriptors = newEquimentDescriptorsForTargetNodeType(
 								ntRef, targetEq);
+
 					} else if (target.eClass() == LibraryPackage.Literals.FUNCTION) {
-						Function function = LibraryFactory.eINSTANCE.createFunction();
-						
+						Function function = LibraryFactory.eINSTANCE
+								.createFunction();
+
 						Lifecycle newLC = GenericsFactory.eINSTANCE
 								.createLifecycle();
 						newLC.setProposed(modelUtils.toXMLDate(modelUtils
 								.todayAndNow()));
 						function.setLifecycle(newLC);
-						
+
 						newChildDescriptors.add(createChildParameter(
-								LibraryPackage.Literals.FUNCTION__FUNCTIONS,function
-								));
+								LibraryPackage.Literals.FUNCTION__FUNCTIONS,
+								function));
 					}
 				} else {
 					if (target instanceof Equipment) {
@@ -100,7 +112,7 @@ public class LibraryChildCreationExtender extends
 								LibraryFactory.eINSTANCE.createFunction()));
 					}
 				}
-			} 
+			}
 		}
 
 		return newChildDescriptors;
@@ -122,15 +134,16 @@ public class LibraryChildCreationExtender extends
 				// Match on equipmentcode.
 				Equipment eq = (Equipment) next;
 				if (eq.getEquipmentCode().equals(targetEq.getEquipmentCode())) {
-					System.out.println("CreateChildExtender:  target found");
 					// get children and build descriptors.
 					EList<EObject> directContent = next.eContents();
 					for (EObject targetChild : directContent) {
 						System.out.println("CreateChildExtender:  add child"
 								+ targetChild);
 						if (targetChild instanceof Equipment) {
+							
 							Equipment eqCopy = (Equipment) EcoreUtil
 									.copy(targetChild);
+							
 							// Set the name as a sequence.
 							String newSequenceNumber = modelUtils
 									.getSequenceNumber(
@@ -157,6 +170,115 @@ public class LibraryChildCreationExtender extends
 
 		return newChildDescriptors;
 
+	}
+
+	
+	/**
+	 * It copies the component, for the referenced resources we create a copy of the resource 
+	 * and store it in it's own CDOResource. For this we open a transaction.  
+	 * 
+	 * @param resourceSet
+	 * @param component
+	 * @return
+	 */
+	public Component copyComponentWithResources(Component component) {
+
+		@SuppressWarnings("serial")
+		EcoreUtil.Copier nodeTypeCopier = new EcoreUtil.Copier() {
+
+			/**
+			 * Our version of copy reference has a special treatment for
+			 * NetXResource object.
+			 */
+			@Override
+			protected void copyReference(EReference eReference,
+					EObject eObject, EObject copyEObject) {
+
+				if (eReference == LibraryPackage.Literals.COMPONENT__RESOURCE_REFS) {
+					copyResourceReference(eReference, eObject, copyEObject);
+				} else {
+					super.copyReference(eReference, eObject, copyEObject);
+				}
+			}
+
+			protected void copyResourceReference(EReference eReference,
+					EObject eObject, EObject copyEObject) {
+				if (eObject.eIsSet(eReference) && eReference.isMany()) {
+					@SuppressWarnings("unchecked")
+					InternalEList<EObject> source = (InternalEList<EObject>) eObject
+							.eGet(eReference);
+					@SuppressWarnings("unchecked")
+					InternalEList<EObject> target = (InternalEList<EObject>) copyEObject
+							.eGet(getTarget(eReference));
+					if (source.isEmpty()) {
+						target.clear();
+					} else {
+						boolean isBidirectional = eReference.getEOpposite() != null;
+						int index = 0;
+						for (Iterator<EObject> k = resolveProxies ? source
+								.iterator() : source.basicIterator(); k
+								.hasNext();) {
+							EObject referencedEObject = k.next();
+							EObject copyReferencedEObject = get(referencedEObject);
+							if (copyReferencedEObject == null) {
+								if (useOriginalReferences) {
+									// NetXResource is a bidi link, so
+									// make an actual copy (A copier
+									// within a copier... auch).
+									if (isBidirectional) {
+										EcoreUtil.Copier defaultCopier = new EcoreUtil.Copier();
+										EObject newEObject = defaultCopier
+												.copy(referencedEObject);
+
+										if (copyEObject instanceof Component) {
+											// bug 235, component name must
+											// exist.
+											if (copyEObject instanceof Equipment) {
+												((Component) copyEObject)
+														.setName("<name>");
+											}
+											
+											// FIXME.
+											// we don't know where to store this non-contained reference????
+
+										}
+
+										target.addUnique(index, newEObject);
+										index++;
+									} else {
+										target.addUnique(index,
+												referencedEObject);
+										++index;
+									}
+								}
+							} else {
+
+								// This would actually do what?
+								if (isBidirectional) {
+									int position = target
+											.indexOf(copyReferencedEObject);
+									if (position == -1) {
+										target.addUnique(index,
+												copyReferencedEObject);
+									} else if (index != position) {
+										target.move(index,
+												copyReferencedEObject);
+									}
+								} else {
+									target.addUnique(index,
+											copyReferencedEObject);
+								}
+								++index;
+							}
+						}
+					}
+				}
+			}
+		};
+
+		Component copyOfComponent = (Component) nodeTypeCopier.copy(component);
+		nodeTypeCopier.copyReferences();
+		return copyOfComponent;
 	}
 
 }

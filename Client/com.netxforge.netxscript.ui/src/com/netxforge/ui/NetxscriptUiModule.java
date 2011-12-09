@@ -8,8 +8,8 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 
 import com.google.inject.Scopes;
+import com.netxforge.scoping.DynamixCDOScopeProvider;
 import com.netxforge.scoping.FixedSetCDOResourceDescriptions;
-import com.netxforge.scoping.FixedSetCDOScopeProvider;
 import com.netxforge.ui.scoping.UICDOResourceServiceProvider;
 
 /**
@@ -39,7 +39,7 @@ public class NetxscriptUiModule extends
 	
 	public void configureIGlobalScopeProvider(com.google.inject.Binder binder) {
 		binder.bind(org.eclipse.xtext.scoping.IGlobalScopeProvider.class).to(
-				FixedSetCDOScopeProvider.class).in(Scopes.SINGLETON);
+				DynamixCDOScopeProvider.class).in(Scopes.SINGLETON);
 	}
 
 }

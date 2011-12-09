@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.data.cdo;
 
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.view.CDOView;
 
 import com.google.inject.Inject;
 
@@ -39,7 +40,9 @@ public class NonStaticCDODataProvider extends CDODataProvider {
 	private CDOSession session = null;
 
 	private CDOTransaction transaction = null;
-
+	
+	private CDOView view = null;
+	
 	@Override
 	public CDOSession getSession() {
 		if (session == null) {
@@ -74,6 +77,14 @@ public class NonStaticCDODataProvider extends CDODataProvider {
 	@Override
 	protected boolean doGetResourceFromOwnTransaction() {
 		return false;
+	}
+
+	@Override
+	public CDOView getView() {
+		if( view == null){
+			view = this.getSession().openView();
+		}
+		return view;
 	}
 
 }

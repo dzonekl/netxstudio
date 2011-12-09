@@ -9,6 +9,7 @@ import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
@@ -1040,6 +1041,10 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 					"Data injection for screen invalid");
 		}
 
+		// Hack to clean a stale reference, which was not removed when deleting an object.
+		CDOUtil.cleanStaleReference(service, ServicesPackage.Literals.RFS_SERVICE__NODES);
+		
+		
 		buildUI();
 		this.initDataBindings_();
 

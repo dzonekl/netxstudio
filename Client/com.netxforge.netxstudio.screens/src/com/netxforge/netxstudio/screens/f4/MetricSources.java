@@ -62,6 +62,7 @@ import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -201,7 +202,7 @@ public class MetricSources extends AbstractScreen implements
 								job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
 								job.setStartTime(modelUtils
 										.toXMLDate(modelUtils.todayAndNow()));
-
+								job.setJobState(JobState.IN_ACTIVE);
 								if (job instanceof MetricSourceJob) {
 									((MetricSourceJob) job).getMetricSources()
 											.addAll(metricSources);

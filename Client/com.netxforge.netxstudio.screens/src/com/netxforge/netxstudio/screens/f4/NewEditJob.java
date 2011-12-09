@@ -228,6 +228,10 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		cdateTimeStartTime = new CDateTime(compositeRecurrence, CDT.BORDER
 				| CDT.CLOCK_24_HOUR | CDT.DROP_DOWN);
 		cdateTimeStartTime.setPattern("HH:mm");
+		
+		
+		
+		
 		toolkit.adapt(cdateTimeStartTime);
 		toolkit.paintBordersFor(cdateTimeStartTime);
 
@@ -1137,7 +1141,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 	}
 
 	public String getScreenName() {
-		return "Expression";
+		return "Job";
 	}
 
 }

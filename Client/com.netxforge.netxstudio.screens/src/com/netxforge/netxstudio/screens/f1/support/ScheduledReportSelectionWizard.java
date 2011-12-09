@@ -13,6 +13,7 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.NodeReporterJob;
 import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
@@ -111,6 +112,7 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 		} else {
 			setOperation(Screens.OPERATION_NEW);
 			job = SchedulingFactory.eINSTANCE.createRFSServiceReporterJob();
+			job.setJobState(JobState.IN_ACTIVE);
 			job.setName(((Service) o).getServiceName());
 			job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
 			job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
@@ -136,6 +138,7 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 			setOperation(Screens.OPERATION_NEW);
 			job = SchedulingFactory.eINSTANCE.createOperatorReporterJob();
 			job.setName(((Operator) o).getName());
+			job.setJobState(JobState.IN_ACTIVE);
 			job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
 			job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
 			if (job instanceof OperatorReporterJob) {
@@ -161,6 +164,7 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 
 			job = SchedulingFactory.eINSTANCE.createNodeReporterJob();
 			job.setName(((Node) o).getNodeID());
+			job.setJobState(JobState.IN_ACTIVE);
 			job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
 			job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
 			if (job instanceof NodeReporterJob) {
@@ -184,6 +188,7 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 			setOperation(Screens.OPERATION_NEW);
 			job = SchedulingFactory.eINSTANCE.createNodeTypeReporterJob();
 			job.setName(((Operator) o).getName());
+			job.setJobState(JobState.IN_ACTIVE);
 			job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
 			job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
 			if (job instanceof NodeTypeReporterJob) {

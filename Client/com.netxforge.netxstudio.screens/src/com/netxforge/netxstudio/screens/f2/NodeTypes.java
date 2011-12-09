@@ -73,8 +73,8 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.TreeSearchFilter;
-import com.netxforge.netxstudio.screens.actions.ExportHTMLAction;
-import com.netxforge.netxstudio.screens.actions.ExportXLSAction;
+import com.netxforge.netxstudio.screens.actions.NodeTypeExportHTMLAction;
+import com.netxforge.netxstudio.screens.actions.NodeTypeExportXLSAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -283,8 +283,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public IAction[] getActions() {
 		return new IAction[] {
-				new ExportHTMLAction("Export to HTML", SWT.PUSH),
-				new ExportXLSAction("Export to XLS", SWT.PUSH),
+				new NodeTypeExportHTMLAction("Export to HTML", SWT.PUSH),
+				new NodeTypeExportXLSAction("Export to XLS", SWT.PUSH),
 				new HistoryAction("History...", SWT.PUSH) };
 	}
 

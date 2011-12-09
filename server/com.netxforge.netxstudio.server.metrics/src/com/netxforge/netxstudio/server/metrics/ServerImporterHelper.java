@@ -111,15 +111,16 @@ public class ServerImporterHelper implements IImporterHelper {
 			Component locatedComponent, Double dblValue, int intervalHint,
 			NetworkElementLocator.IdentifierDescriptor lastDescriptor) {
 
-		String path = modelUtils.cdoCalculatedResourcePath(locatedComponent);
+		
+		String path = modelUtils.cdoCalculateResourcePathII(locatedComponent);
 
 		if (path == null) {
 			if (DataActivator.DEBUG) {
 				System.out
-						.println("Invalid CDO Resource path, component name likely not set");
+						.println("Invalid CDO Resource path, should not happen.");
 			}
 			throw new java.lang.IllegalStateException(
-					"Invalid CDO Resource path, component name likely not set");
+					"Invalid CDO Resource path, should not happen.");
 		}
 
 		if (DataActivator.DEBUG) {

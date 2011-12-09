@@ -64,6 +64,7 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 	public NetxForgeUserManager() {
 		instance = this;
 	}
+	
 
 	@Override
 	protected char[] getPassword(IRepository repository, String userID) {
@@ -94,9 +95,16 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 			// find the user. 
 			for(Person p : people){
 				if(userID.equals(p.getLogin())){
+					if(!p.isActive()){
+						return null; // will not authenticate 
+					}
 					pwd = p.getPassword();
+					
 				}
 			}
+//			if(pwd == null && userID.equals("admin")){
+//				return "admin".toCharArray();
+//			}
 			if (pwd == null) {
 				return null;
 			}

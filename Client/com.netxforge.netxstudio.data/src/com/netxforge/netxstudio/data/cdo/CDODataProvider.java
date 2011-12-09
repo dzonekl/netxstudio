@@ -165,6 +165,8 @@ public abstract class CDODataProvider implements IDataProvider {
 	public abstract CDOSession getSession();
 
 	public abstract CDOTransaction getTransaction();
+	
+	public abstract CDOView getView();
 
 	protected abstract boolean isTransactionSet();
 

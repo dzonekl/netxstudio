@@ -52,6 +52,8 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Location;
+import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -115,12 +117,12 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 
 		@SuppressWarnings("unused")
 		EMFDataBindingContext m_bindingContext = this.initDataBindings_();
-		
-		// TODO, disable for now. 
-//		if (!Screens.isReadOnlyOperation(getOperation())) {
-//			validationService.registerBindingContext(m_bindingContext);
-//			validationService.addValidationListener(this);
-//		}
+
+		// TODO, disable for now.
+		// if (!Screens.isReadOnlyOperation(getOperation())) {
+		// validationService.registerBindingContext(m_bindingContext);
+		// validationService.addValidationListener(this);
+		// }
 
 	}
 
@@ -473,12 +475,41 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 												EcoreUtil.Copier defaultCopier = new EcoreUtil.Copier();
 												EObject newEObject = defaultCopier
 														.copy(referencedEObject);
-												// It's not contained, so add it
-												// to the NetXResource resource.
-												Resource resourcesResource = editingService
-														.getData(LibraryPackage.Literals.NET_XRESOURCE);
-												resourcesResource.getContents()
-														.add(newEObject);
+
+												if (copyEObject instanceof Component) {
+													if (copyEObject instanceof Equipment) {
+														((Component) copyEObject)
+																.setName("<name>");
+													}
+
+													String cdoResourcePath = modelUtils
+															.cdoCalculateResourcePathII(node);
+													if (cdoResourcePath == null) {
+														System.out
+																.println("Error, CDO resource can't be determoned, should not occur!");
+
+														return; // Can't
+																// calculate
+																// path for
+																// empty names.
+													} else {
+														System.out
+																.println("Creating CDO Resource "
+																		+ cdoResourcePath);
+													}
+													Resource resourcesResource = editingService
+															.getDataService()
+															.getProvider()
+															.getResource(
+																	editingService
+																			.getEditingDomain()
+																			.getResourceSet(),
+																	cdoResourcePath);
+													resourcesResource
+															.getContents().add(
+																	newEObject);
+												}
+
 												target.addUnique(index,
 														newEObject);
 												index++;
@@ -512,6 +543,7 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 						}
 					}
 				};
+
 				NodeType copyOf = (NodeType) nodeTypeCopier.copy(nt);
 				nodeTypeCopier.copyReferences();
 

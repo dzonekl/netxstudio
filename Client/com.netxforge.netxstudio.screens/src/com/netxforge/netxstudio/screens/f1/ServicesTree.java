@@ -77,6 +77,7 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -152,6 +153,7 @@ public class ServicesTree extends AbstractScreen implements
 				.getData(OperatorsPackage.Literals.OPERATOR);
 		// rfsServiceResource = editingService
 		// .getData(ServicesPackage.Literals.RFS_SERVICE);
+
 		buildUI();
 		initDataBindings_();
 	}
@@ -662,7 +664,7 @@ public class ServicesTree extends AbstractScreen implements
 							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
 							job.setStartTime(modelUtils.toXMLDate(modelUtils
 									.todayAndNow()));
-
+							job.setJobState(JobState.IN_ACTIVE);
 							if (job instanceof RFSServiceMonitoringJob) {
 								((RFSServiceMonitoringJob) job)
 										.setRFSService((RFSService) o);
@@ -700,18 +702,14 @@ public class ServicesTree extends AbstractScreen implements
 			WizardDialog dialog = new WizardDialog(
 					ServicesTree.this.getShell(), wizard);
 			dialog.open();
-			Job j = wizard.getJob();
+			Job job = wizard.getJob();
 
-			if (j != null) {
-				NewEditJob newEditJob = new NewEditJob(
-						screenService.getScreenContainer(), SWT.NONE);
-				newEditJob.setOperation(operation);
-				newEditJob.setScreenService(screenService);
-				newEditJob.injectData(jobResource, j);
-				screenService.setActiveScreen(newEditJob);
-
-			}
-
+			NewEditJob newEditJob = new NewEditJob(
+					screenService.getScreenContainer(), SWT.NONE);
+			newEditJob.setOperation(operation);
+			newEditJob.setScreenService(screenService);
+			newEditJob.injectData(jobResource, job);
+			screenService.setActiveScreen(newEditJob);
 		}
 	}
 

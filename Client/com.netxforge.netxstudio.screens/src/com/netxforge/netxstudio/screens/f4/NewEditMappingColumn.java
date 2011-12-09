@@ -1056,12 +1056,14 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 		private boolean modelUpdate() {
 
-			// TODO Remove later.
 			System.out.println("I DT T D V P=" + identifier + datetime + date
 					+ time + value + interval);
 
 			CompoundCommand cc = new CompoundCommand();
-
+			
+			
+			// As we have an existing type, we loose all settings from that
+			// 
 //			DataKind dk = (DataKind) this.dataKindObservable.getValue();
 			DataKind dk = null;
 //			if (dk == null) {
@@ -1189,11 +1191,13 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		populatePatterns();
 
 		context = this.initDataBindings_();
-
-		if (!Screens.isReadOnlyOperation(getOperation())) {
-			validationService.registerBindingContext(context);
-			validationService.addValidationListener(this);
-		}
+		
+		
+		// Disable for now. 
+//		if (!Screens.isReadOnlyOperation(getOperation())) {
+//			validationService.registerBindingContext(context);
+//			validationService.addValidationListener(this);
+//		}
 	}
 
 	public void addData() {

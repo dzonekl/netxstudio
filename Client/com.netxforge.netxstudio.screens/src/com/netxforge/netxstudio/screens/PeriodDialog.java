@@ -77,7 +77,6 @@ public class PeriodDialog extends Dialog {
 		
 		startTime = new CDateTime(frmPeriod.getBody(), CDT.BORDER | CDT.CLOCK_24_HOUR | CDT.DROP_DOWN );
 		startTime.setPattern("HH:mm");
-		
 		startTime.setSelection(modelUtils.oneMonthAgo());
 		formToolkit.adapt(startTime);
 		formToolkit.paintBordersFor(startTime);
@@ -101,8 +100,6 @@ public class PeriodDialog extends Dialog {
 		
 		endTime = new CDateTime(frmPeriod.getBody(), CDT.BORDER | CDT.CLOCK_24_HOUR | CDT.DROP_DOWN);
 		endTime.setPattern("HH:mm");
-		
-		
 		endTime.setSelection(modelUtils.todayAndNow());
 		formToolkit.adapt(endTime);
 		formToolkit.paintBordersFor(endTime);

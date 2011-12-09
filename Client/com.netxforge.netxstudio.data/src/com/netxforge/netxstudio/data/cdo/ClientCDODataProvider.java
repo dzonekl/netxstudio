@@ -66,6 +66,8 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  * A CDO Data provider, for single threaded clients. The session and transaction
  * are stored in a static member and this object is a singleton.
  * 
+ * CB TODO If a singleton, why a static session, we will always return the same session?  
+ * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 @Singleton
@@ -82,6 +84,9 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 	private static CDOSession session = null;
 
 	private static CDOTransaction transaction = null;
+	
+	private CDOView view = null;
+	
 
 	@Override
 	public CDOSession getSession() {
@@ -472,6 +477,14 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 			commitTransaction();
 		}
 
+	}
+
+	@Override
+	public CDOView getView() {
+		if(view == null){
+			view = this.getSession().openView();
+		}
+		return view;
 	}
 
 }

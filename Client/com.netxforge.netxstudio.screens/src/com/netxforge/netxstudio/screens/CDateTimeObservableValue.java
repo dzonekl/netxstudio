@@ -73,6 +73,7 @@ public class CDateTimeObservableValue extends AbstractObservableValue {
 	}
 
 	protected Object doGetValue() {
+		// CB 07122011 removed dispose check.
 		if(!dateTime.isDisposed()) {
 			return dateTime.getSelection();
 		}
@@ -80,7 +81,10 @@ public class CDateTimeObservableValue extends AbstractObservableValue {
 	}
 	
 	protected void doSetValue(Object value) {
+		
+		// CB 07122011 removed dispose check. 
 		if(value instanceof Date && !dateTime.isDisposed()) {
+//		if(value instanceof Date ) {
 			Date oldValue;
 			Date newValue;
 			try {

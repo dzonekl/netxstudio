@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -164,6 +165,10 @@ public class TestDataProvider implements IDataProvider {
 	}
 
 	public boolean hasResource(URI resourceURI) {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	public CDOView getView() {
 		throw new java.lang.UnsupportedOperationException();
 	}
 

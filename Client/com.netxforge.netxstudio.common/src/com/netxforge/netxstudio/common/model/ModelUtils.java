@@ -357,8 +357,12 @@ public class ModelUtils {
 	 * is limited to 5 as CDO folders, so we create a resource separated by an
 	 * underscore instead of a forward slash.
 	 * 
+	 * Note: if the name changes, we won't be able to retrieve the resource.
+	 * 
+	 * @deprecated
+	 * 
 	 */
-	public String cdoCalculatedResourcePath(EObject eObject) {
+	public String cdoCalculateResourcePath(EObject eObject) {
 		if (eObject instanceof Component) {
 
 			final Component component = (Component) eObject;
@@ -366,18 +370,60 @@ public class ModelUtils {
 					|| component.getName().length() == 0) {
 				return null;
 			}
-			return cdoCalculatedResourcePath(component.eContainer()) + "_"
+
+			return cdoCalculateResourcePath(component.eContainer()) + "_"
 					+ component.getName();
 		} else if (eObject instanceof Node) {
 			return "/Node_/" + ((Node) eObject).getNodeID();
 		} else if (eObject instanceof NodeType) {
 			final NodeType nodeType = (NodeType) eObject;
 			if (nodeType.eContainer() instanceof Node) {
-				return cdoCalculatedResourcePath(nodeType.eContainer());
+				return cdoCalculateResourcePath(nodeType.eContainer());
 			}
 			return "/NodeType_/" + ((NodeType) eObject).getName();
 		} else {
 			return eObject.eClass().getName();
+		}
+	}
+	
+	/*
+	 * Construct a path name specific to holde NetXResource objects. 
+	 */
+	public String cdoCalculateResourcePathII(EObject eObject) {
+		if (eObject instanceof Component) {
+			final Component component = (Component) eObject;
+//			if (!component.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)
+//					|| component.getName().length() == 0) {
+//				return null;
+//			}
+			return cdoCalculateResourcePathII(component.eContainer());
+		} else if (eObject instanceof Node) {
+			Node n = (Node) eObject;
+			if (n.eIsSet(OperatorsPackage.Literals.NODE__NODE_ID)) {
+				return "/Node_/"
+						+ LibraryPackage.Literals.NET_XRESOURCE.getName()
+						+ "_" + ((Node) eObject).getNodeID();
+			} else {
+				return "/Node_/"
+						+ LibraryPackage.Literals.NET_XRESOURCE.getName();
+			}
+
+		} else if (eObject instanceof NodeType) {
+			final NodeType nodeType = (NodeType) eObject;
+			if (nodeType.eContainer() instanceof Node) {
+				return cdoCalculateResourcePathII(nodeType.eContainer());
+			} else {
+				if (nodeType.eIsSet(LibraryPackage.Literals.NODE_TYPE__NAME)) {
+					return "/NodeType_/"
+							+ LibraryPackage.Literals.NET_XRESOURCE.getName()
+							+ "_" + ((NodeType) eObject).getName();
+				} else {
+					return "/NodeType_/"
+							+ LibraryPackage.Literals.NET_XRESOURCE.getName();
+				}
+			}
+		} else {
+			return LibraryPackage.Literals.NET_XRESOURCE.getName();
 		}
 	}
 

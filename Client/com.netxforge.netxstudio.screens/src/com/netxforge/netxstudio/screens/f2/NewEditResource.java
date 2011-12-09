@@ -26,12 +26,14 @@ import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
@@ -85,6 +87,8 @@ import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
@@ -316,10 +320,10 @@ public class NewEditResource extends AbstractScreen implements
 		lblStart.setAlignment(SWT.RIGHT);
 
 		dateTimeFrom = new CDateTime(frmResource.getBody(), CDT.BORDER
-				| CDT.DROP_DOWN | CDT.DATE_MEDIUM);
-		GridData gd_dateTimeFrom = new GridData(SWT.LEFT, SWT.CENTER, false,
+				| CDT.DROP_DOWN | CDT.DATE_SHORT);
+		GridData gd_dateTimeFrom = new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1);
-		gd_dateTimeFrom.widthHint = 100;
+		gd_dateTimeFrom.widthHint = 120;
 		dateTimeFrom.setLayoutData(gd_dateTimeFrom);
 		dateTimeFrom.addSelectionListener(new SelectionAdapter() {
 
@@ -343,10 +347,10 @@ public class NewEditResource extends AbstractScreen implements
 		lblTo.setLayoutData(gd_lblTo);
 
 		dateTimeTo = new CDateTime(frmResource.getBody(), CDT.BORDER
-				| CDT.DROP_DOWN | CDT.DATE_MEDIUM);
-		GridData gd_dateTimeTo = new GridData(SWT.LEFT, SWT.CENTER, false,
+				| CDT.DROP_DOWN | CDT.DATE_SHORT);
+		GridData gd_dateTimeTo = new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1);
-		gd_dateTimeTo.widthHint = 100;
+		gd_dateTimeTo.widthHint = 120;
 		dateTimeTo.setLayoutData(gd_dateTimeTo);
 		dateTimeTo.addSelectionListener(new SelectionAdapter() {
 
@@ -369,13 +373,14 @@ public class NewEditResource extends AbstractScreen implements
 					public void selectionChanged(SelectionChangedEvent event) {
 						ISelection selection = event.getSelection();
 						if (selection instanceof IStructuredSelection) {
-							
-							if(currentValues == null || currentValues.size() == 0){
+
+							if (currentValues == null
+									|| currentValues.size() == 0) {
 								mntmMonitor.setEnabled(false);
 								mntmRemove.setEnabled(false);
 								return;
 							}
-							// Don't allow monitoring for 
+							// Don't allow monitoring for
 							if (targetInterval == CAPACITIES
 									|| targetInterval == UTILIZATION) {
 								mntmMonitor.setEnabled(false);
@@ -479,10 +484,12 @@ public class NewEditResource extends AbstractScreen implements
 				ISelection s = valuesTableViewer.getSelection();
 				if (s instanceof IStructuredSelection) {
 					List<?> list = ((IStructuredSelection) s).toList();
-				    Collection<Object> collection = new ArrayList<Object>(list);
-				    Command removeCommand = RemoveCommand.create(editingService.getEditingDomain(), collection);
-				    editingService.getEditingDomain().getCommandStack().execute(removeCommand);
-				    updateSelection();
+					Collection<Object> collection = new ArrayList<Object>(list);
+					Command removeCommand = RemoveCommand.create(
+							editingService.getEditingDomain(), collection);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(removeCommand);
+					updateSelection();
 				}
 			}
 		});
@@ -673,10 +680,8 @@ public class NewEditResource extends AbstractScreen implements
 				.observeDelayedValue(400,
 						SWTObservables.observeText(this.txtUnit, SWT.Modify));
 
-		IEMFValueProperty componentProperty = EMFProperties.value(
-				FeaturePath.fromList(
-						LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
-						LibraryPackage.Literals.COMPONENT__NAME));
+		IEMFValueProperty componentProperty = EMFProperties
+				.value(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF);
 
 		IEMFValueProperty shortNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -693,8 +698,40 @@ public class NewEditResource extends AbstractScreen implements
 				LibraryPackage.Literals.BASE_RESOURCE__UNIT_REF,
 				LibraryPackage.Literals.UNIT__CODE));
 
+		EMFUpdateValueStrategy componentToTargetStrategy = new EMFUpdateValueStrategy();
+		componentToTargetStrategy.setConverter(new IConverter() {
+
+			public Object getFromType() {
+				return Component.class;
+			}
+
+			public Object getToType() {
+				return String.class;
+			}
+
+			public Object convert(Object fromObject) {
+				if (fromObject instanceof Equipment) {
+					String code = ((Equipment) fromObject).getEquipmentCode();
+					String name = ((Equipment) fromObject).getName();
+					StringBuilder sb = new StringBuilder();
+					if (code != null && code.length() > 0) {
+						sb.append(code + " ");
+					}
+					if (name != null && name.length() > 0) {
+						sb.append(name);
+					}
+					return sb.toString();
+
+				} else if (fromObject instanceof Function) {
+					return ((Function) fromObject).getName();
+				}
+				return null;
+			}
+
+		});
+
 		context.bindValue(componentTargetObservable,
-				componentProperty.observe(res), null, null);
+				componentProperty.observe(res), null, componentToTargetStrategy);
 		context.bindValue(shortNameTargetObservable,
 				shortNameProperty.observe(res), null, null);
 		context.bindValue(longNameTargetObservable,
@@ -836,11 +873,13 @@ public class NewEditResource extends AbstractScreen implements
 
 					c.append(refBidiCommand);
 
-					// Command refBidiCommand = new SetCommand(
+					// Command refBidiResourceCommand = new SetCommand(
 					// editingService.getEditingDomain(),
 					// ((NetXResource) res).getComponentRef(),
 					// LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
 					// (Component) whoRefers);
+					//
+					// c.append(refBidiResourceCommand);
 
 				}
 				editingService.getEditingDomain().getCommandStack().execute(c);

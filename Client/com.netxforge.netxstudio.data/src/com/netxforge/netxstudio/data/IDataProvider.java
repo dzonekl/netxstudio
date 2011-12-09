@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -206,6 +207,14 @@ public interface IDataProvider {
 	 * will be opened.
 	 */
 	public CDOTransaction getTransaction();
+	
+	
+	/**
+	 * Gets the current view if no current view then a new one
+	 * will be opened.
+	 */
+	public CDOView getView();
+	
 
 	/**
 	 * Commit the current transaction if there is any.

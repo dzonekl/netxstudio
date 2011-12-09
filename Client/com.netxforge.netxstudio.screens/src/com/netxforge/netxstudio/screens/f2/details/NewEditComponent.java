@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.screens.f2.details;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -50,6 +51,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
@@ -101,6 +103,12 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 	private DateChooserCombo dcConstruction;
 	private DateChooserCombo dcInService;
 	private DateChooserCombo dcOutOfService;
+
+	// private CDateTime cdProposed;
+	// private CDateTime cdPlanned;
+	// private CDateTime cdConstruction;
+	// private CDateTime cdInService;
+	// private CDateTime cdOutOfService;
 
 	protected Component comp;
 
@@ -282,6 +290,17 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				false, 1, 1);
 		gd_lblProposed.widthHint = 70;
 		lblProposed.setLayoutData(gd_lblProposed);
+		//
+		// cdProposed = new CDateTime(cmpLifeCycle, CDT.BORDER | CDT.DROP_DOWN
+		// | CDT.DATE_MEDIUM);
+		// GridData gd_Proposed = new GridData(SWT.FILL, SWT.CENTER, false,
+		// false,
+		// 1, 1);
+		// // gd_Proposed.widthHint = 100;
+		// cdProposed.setLayoutData(gd_Proposed);
+		//
+		// toolkit.adapt(cdProposed);
+		// toolkit.paintBordersFor(cdProposed);
 
 		dcProposed = new DateChooserCombo(cmpLifeCycle, SWT.BORDER | SWT.FLAT);
 		GridData gd_dcProposed = new GridData(SWT.LEFT, SWT.CENTER, false,
@@ -297,6 +316,17 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				false, 1, 1));
 		lblPlanned.setAlignment(SWT.RIGHT);
 
+		// cdPlanned = new CDateTime(cmpLifeCycle, CDT.BORDER | CDT.DROP_DOWN
+		// | CDT.DATE_MEDIUM);
+		// GridData gd_Planned = new GridData(SWT.FILL, SWT.CENTER, false,
+		// false,
+		// 1, 1);
+		// // gd_Planned.widthHint = 100;
+		// cdPlanned.setLayoutData(gd_Planned);
+		//
+		// toolkit.adapt(cdPlanned);
+		// toolkit.paintBordersFor(cdPlanned);
+
 		dcPlanned = new DateChooserCombo(cmpLifeCycle, SWT.BORDER | SWT.FLAT);
 		GridData gd_dcPlanned = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
@@ -309,6 +339,17 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				"Construction:", SWT.NONE);
 		lblConstruction.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
 				false, false, 1, 1));
+
+		// cdConstruction = new CDateTime(cmpLifeCycle, CDT.BORDER |
+		// CDT.DROP_DOWN
+		// | CDT.DATE_MEDIUM);
+		// GridData gd_Construction = new GridData(SWT.FILL, SWT.CENTER, false,
+		// false, 1, 1);
+		// // gd_Construction.widthHint = 100;
+		// cdConstruction.setLayoutData(gd_Construction);
+		//
+		// toolkit.adapt(cdConstruction);
+		// toolkit.paintBordersFor(cdConstruction);
 
 		dcConstruction = new DateChooserCombo(cmpLifeCycle, SWT.BORDER
 				| SWT.FLAT);
@@ -325,6 +366,16 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				false, 1, 1));
 		lblInService.setAlignment(SWT.RIGHT);
 
+		// cdInService = new CDateTime(cmpLifeCycle, CDT.BORDER | CDT.DROP_DOWN
+		// | CDT.DATE_MEDIUM);
+		// GridData gd_InService = new GridData(SWT.FILL, SWT.CENTER, false,
+		// false, 1, 1);
+		// // gd_InService.widthHint = 100;
+		// cdInService.setLayoutData(gd_InService);
+		//
+		// toolkit.adapt(cdInService);
+		// toolkit.paintBordersFor(cdInService);
+
 		dcInService = new DateChooserCombo(cmpLifeCycle, SWT.BORDER | SWT.FLAT);
 		GridData gd_dcInService = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
@@ -339,6 +390,17 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				false, false, 1, 1);
 		gd_lblOutOfService.widthHint = 80;
 		lblOutOfService.setLayoutData(gd_lblOutOfService);
+
+		// cdOutOfService = new CDateTime(cmpLifeCycle, CDT.BORDER |
+		// CDT.DROP_DOWN
+		// | CDT.DATE_MEDIUM);
+		// GridData gd_OutOfService = new GridData(SWT.FILL, SWT.CENTER, false,
+		// false, 1, 1);
+		// // gd_OutOfService.widthHint = 100;
+		// cdOutOfService.setLayoutData(gd_OutOfService);
+		//
+		// toolkit.adapt(cdOutOfService);
+		// toolkit.paintBordersFor(cdOutOfService);
 
 		dcOutOfService = new DateChooserCombo(cmpLifeCycle, SWT.BORDER
 				| SWT.FLAT);
@@ -375,13 +437,28 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				MetricFilterDialog dialog = new MetricFilterDialog(
 						NewEditComponent.this.getShell(), metriceResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
-					Metric u = (Metric) dialog.getFirstResult();
-					if (!comp.getMetricRefs().contains(u)) {
-						Command c = new AddCommand(editingService
-								.getEditingDomain(), comp.getMetricRefs(), u);
-						editingService.getEditingDomain().getCommandStack()
-								.execute(c);
+					Object[] metricResult = dialog.getResult();
+					List<Object> metricResultList = Lists
+							.newArrayList(metricResult);
+					// only add the delta of selected and already set metrics.
+					List<Metric> deltaMetrics = Lists.newArrayList();
+					for (Object ro : metricResultList) {
+						boolean found = false;
+						for (Metric m : comp.getMetricRefs()) {
+							if (m.equals(ro)) {
+								found = true;
+								break;
+							}
+						}
+						if (!found) {
+							deltaMetrics.add((Metric) ro);
+						}
 					}
+					Command c = new AddCommand(editingService
+							.getEditingDomain(), comp.getMetricRefs(),
+							deltaMetrics);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(c);
 				}
 			}
 
@@ -513,28 +590,27 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 						resourceScreen.setOperation(Screens.OPERATION_NEW);
 						resourceScreen.setScreenService(screenService);
 
-						// The CDO Resource, will depend on the component path.
 						String cdoResourcePath = modelUtils
-								.cdoCalculatedResourcePath(comp);
-
+								.cdoCalculateResourcePathII(comp);
 						if (cdoResourcePath == null) {
-							System.out
-									.println("Can't calculate path for empty names");
+							System.out.println("Should not occur!");
+							MessageDialog.openError(
+									NewEditComponent.this.getShell(),
+									"Part name should be set",
+									"Resources can only be created on fully specified parts. Please specify the name");
+
 							return; // Can't calculate path for empty names.
 						} else {
 							System.out.println("Creating CDO Resource "
 									+ cdoResourcePath);
 						}
-						final Resource resourcesResource = editingService
+						Resource resourcesResource = editingService
 								.getDataService()
 								.getProvider()
 								.getResource(
 										editingService.getEditingDomain()
 												.getResourceSet(),
 										cdoResourcePath);
-
-						System.out.println(resourcesResource.getURI()
-								.toString());
 
 						resourceScreen.injectData(resourcesResource, comp,
 								LibraryFactory.eINSTANCE.createNetXResource());
@@ -888,6 +964,24 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 	}
 
 	protected void bindLifeCycle(EMFDataBindingContext context) {
+
+		// CDatetime migration.
+		// CDateTimeObservableValue dcProposedObservable = new
+		// CDateTimeObservableValue(
+		// this.cdProposed);
+		// CDateTimeObservableValue dcPlannedObservable = new
+		// CDateTimeObservableValue(
+		// this.cdPlanned);
+		// CDateTimeObservableValue dcConstructionObservable = new
+		// CDateTimeObservableValue(
+		// this.cdConstruction);
+		// CDateTimeObservableValue dcInServiceObservable = new
+		// CDateTimeObservableValue(
+		// this.cdInService);
+		// CDateTimeObservableValue dcOutOfServiceObservable = new
+		// CDateTimeObservableValue(
+		// this.cdOutOfService);
+
 		IObservableValue dcProposedObservable = new DateChooserComboObservableValue(
 				dcProposed, SWT.Modify);
 
@@ -955,7 +1049,6 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 			}
 
 			public Object getToType() {
-
 				return XMLGregorianCalendar.class;
 			}
 

@@ -25,6 +25,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.common.commit.CDOCommitInfo;
 import org.eclipse.emf.cdo.common.commit.CDOCommitInfoHandler;
+import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDOIDAndVersion;
 import org.eclipse.emf.cdo.common.revision.CDORevisionKey;
 import org.eclipse.emf.cdo.common.revision.delta.CDOFeatureDelta;
@@ -99,6 +100,9 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 
 		final Resource resource = transaction
 				.getOrCreateResource("/CDOCommitInfo_" + commitInfo.getUserID());
+		
+		
+		// DELETE
 		for (final CDOIDAndVersion cdoIdAndVersion : commitInfo
 				.getDetachedObjects()) {
 			final CommitLogEntry logEntry = GenericsFactory.eINSTANCE
@@ -109,7 +113,8 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 			logEntry.setObjectId(cdoIdAndVersion.toString());
 			resource.getContents().add(logEntry);
 		}
-
+		
+		// ADD
 		for (final CDOIDAndVersion cdoIdAndVersion : commitInfo.getNewObjects()) {
 			final CommitLogEntry logEntry = GenericsFactory.eINSTANCE
 					.createCommitLogEntry();
@@ -122,7 +127,8 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 			}
 			resource.getContents().add(logEntry);
 		}
-
+		
+		// UPDATE
 		for (final CDORevisionKey key : commitInfo.getChangedObjects()) {
 			final CDORevisionDelta delta = (CDORevisionDelta) key;
 			final CommitLogEntry logEntry = GenericsFactory.eINSTANCE
@@ -130,9 +136,15 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 			logEntry.setUser(commitInfo.getUserID());
 			logEntry.setTimeStamp(commitTimeStamp);
 			logEntry.setAction(ActionType.UPDATE);
-			logEntry.setObjectId(trunc(key.toString()));
+			
+			CDOID id = delta.getID();
+			
+			logEntry.setObjectId(trunc(id.toString()));
+			
 			final StringBuilder sb = new StringBuilder();
 			dumpFeatureDeltas(sb, delta.getFeatureDeltas());
+			
+			
 			logEntry.setChange(trunc(sb.toString()));
 			resource.getContents().add(logEntry);
 		}

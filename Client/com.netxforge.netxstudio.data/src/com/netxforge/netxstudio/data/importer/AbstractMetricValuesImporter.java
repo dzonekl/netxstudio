@@ -351,7 +351,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			getDataProvider().commitTransaction();
 			if (DataActivator.DEBUG) {
 				System.err.println("IMPORTER COMMIT SUCCESS");
-				
+
 			}
 		} catch (final Throwable t) {
 			if (DataActivator.DEBUG) {
@@ -675,7 +675,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 						.copy(resource);
 
 				String cdoResourcePath = modelUtils
-						.cdoCalculatedResourcePath((EObject) currentObject);
+						.cdoCalculateResourcePathII((EObject) currentObject);
+
 				if (cdoResourcePath != null) {
 					final Resource emfNetxResource = getDataProvider()
 							.getResource(cdoResourcePath);
@@ -952,7 +953,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	}
 
 	public MetricSource getMetricSource() {
-		if(metricSource == null){
+		if (metricSource == null) {
 			metricSource = (MetricSource) getDataProvider().getTransaction()
 					.getObject(cdoID);
 		}

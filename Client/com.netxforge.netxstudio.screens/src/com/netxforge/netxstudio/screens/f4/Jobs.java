@@ -539,7 +539,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
 	@Override
 	public String getScreenName() {
-		return "Metric Sources";
+		return "Jobs";
 	}
 
 }

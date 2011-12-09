@@ -15,8 +15,10 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.nf4;
+
+import java.util.Date;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -47,7 +49,9 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.wb.swt.TableViewerColumnSorter;
 
+import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -57,16 +61,17 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
+ * 
  */
-public class UserActivity extends AbstractScreen implements IDataScreenInjection {
+public class UserActivity extends AbstractScreen implements
+		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
-	
+
 	public UserActivity(Composite parent, int style) {
 		super(parent, style);
-		
+
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
@@ -74,7 +79,7 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		
+
 	}
 
 	private void buildUI() {
@@ -84,9 +89,9 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 		frmActivities.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmActivities);
 
-		frmActivities.setText("User : Peter de Graaff");
+		frmActivities.setText("");
 		frmActivities.getBody().setLayout(new FormLayout());
-		
+
 		Section sctnInfo = toolkit.createSection(frmActivities.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnInfo = new FormData();
@@ -104,8 +109,9 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 		GridLayout gl_composite_1 = new GridLayout(1, false);
 		gl_composite_1.horizontalSpacing = 8;
 		composite_1.setLayout(gl_composite_1);
-		
-		tableViewer = new TableViewer(composite_1, SWT.BORDER | SWT.VIRTUAL | SWT.FULL_SELECTION);
+
+		tableViewer = new TableViewer(composite_1, SWT.BORDER | SWT.VIRTUAL
+				| SWT.FULL_SELECTION);
 		tableViewer.setUseHashlookup(true);
 		tableViewer.setComparer(new CDOElementComparer());
 		table = tableViewer.getTable();
@@ -113,65 +119,102 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		toolkit.paintBordersFor(table);
-		
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn = new TableViewerColumn(
+				tableViewer, SWT.NONE);
 		TableColumn tblclmnNewColumn = tableViewerColumn.getColumn();
-		tblclmnNewColumn.setWidth(97);
+		tblclmnNewColumn.setWidth(150);
 		tblclmnNewColumn.setText("Date / Time");
-		
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
+
+		TableViewerColumnSorter dateTimeColumnSorter = new TableViewerColumnSorter(tableViewerColumn) {
+			protected int doCompare(Viewer viewer, Object e1, Object e2) {
+				if (e1 instanceof CommitLogEntry
+						&& e2 instanceof CommitLogEntry) {
+
+					CommitLogEntry re1 = (CommitLogEntry) e1;
+					CommitLogEntry re2 = (CommitLogEntry) e2;
+
+					if (re1.eIsSet(GenericsPackage.Literals.COMMIT_LOG_ENTRY__TIME_STAMP)
+							&& re2.eIsSet(GenericsPackage.Literals.COMMIT_LOG_ENTRY__ACTION))
+
+						return Long.valueOf(
+								re2.getTimeStamp().toGregorianCalendar()
+										.getTimeInMillis()).compareTo(
+								Long.valueOf(re1.getTimeStamp()
+										.toGregorianCalendar()
+										.getTimeInMillis()));
+				}
+				return 0;
+			}
+
+		};
+		dateTimeColumnSorter.setSorter(TableViewerColumnSorter.ASC);
+
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
 		TableColumn tblclmnObject = tableViewerColumn_1.getColumn();
-		tblclmnObject.setWidth(116);
+		tblclmnObject.setWidth(200);
 		tblclmnObject.setText("Object");
-		
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
 		TableColumn tblclmnActivity = tableViewerColumn_2.getColumn();
 		tblclmnActivity.setWidth(114);
 		tblclmnActivity.setText("Activity");
-		
-		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(tableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
 		TableColumn tblclmnData = tableViewerColumn_3.getColumn();
 		tblclmnData.setWidth(100);
 		tblclmnData.setText("Data");
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#getOperation()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.selector.IScreen#getOperation()
 	 */
 	public int getOperation() {
 		return Screens.OPERATION_READ_ONLY;
 	}
-	
-	private Resource commitEntries; 
+
+	private Resource commitEntries;
 	private TableViewer tableViewer;
 	private Form frmActivities;
-	
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.data.IDataScreenInjection#injectData(java.lang.Object, java.lang.Object)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.IDataScreenInjection#injectData(java.lang
+	 * .Object, java.lang.Object)
 	 */
 	public void injectData(Object owner, Object object) {
-		if(object instanceof Person){
-			Person user = (Person)object;
+		if (object instanceof Person) {
+			Person user = (Person) object;
 			String userID = user.getLogin();
 			buildUI();
 			getScreenForm().setText("User: " + userID);
-			commitEntries = this.editingService.getDataService().getProvider().getCommitInfoResource(userID);
-		}else{
+			commitEntries = this.editingService.getDataService().getProvider()
+					.getCommitInfoResource(userID);
+		} else {
 			throw new java.lang.IllegalArgumentException();
 		}
-		
+
 		this.initDataBindings_();
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.data.IDataScreenInjection#addData()
 	 */
 	public void addData() {
 		throw new java.lang.UnsupportedOperationException();
 	}
-	
-	
+
 	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
@@ -179,20 +222,21 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 		tableViewer.setContentProvider(listContentProvider);
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] { GenericsPackage.Literals.COMMIT_LOG_ENTRY__TIME_STAMP,
-					GenericsPackage.Literals.COMMIT_LOG_ENTRY__OBJECT_ID,GenericsPackage.Literals.COMMIT_LOG_ENTRY__ACTION,
-					GenericsPackage.Literals.COMMIT_LOG_ENTRY__CHANGE});
-		tableViewer
-				.setLabelProvider(new CommitObservableMapLabelProvider(observeMaps));
-		
-		// Cool, observer the whole resource. 
+				new EStructuralFeature[] {
+						GenericsPackage.Literals.COMMIT_LOG_ENTRY__TIME_STAMP,
+						GenericsPackage.Literals.COMMIT_LOG_ENTRY__OBJECT_ID,
+						GenericsPackage.Literals.COMMIT_LOG_ENTRY__ACTION,
+						GenericsPackage.Literals.COMMIT_LOG_ENTRY__CHANGE });
+		tableViewer.setLabelProvider(new CommitObservableMapLabelProvider(
+				observeMaps));
+
+		// Cool, observer the whole resource.
 		IEMFListProperty l = EMFProperties.resource();
 		tableViewer.setInput(l.observe(commitEntries));
 		return bindingContext;
 	}
-	
-	
-	class CommitObservableMapLabelProvider extends ObservableMapLabelProvider{
+
+	class CommitObservableMapLabelProvider extends ObservableMapLabelProvider {
 
 		public CommitObservableMapLabelProvider(IObservableMap[] attributeMaps) {
 			super(attributeMaps);
@@ -204,36 +248,58 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 
 		@Override
 		public String getText(Object element) {
-			
-			((EObject)element).eContainmentFeature();
-			
+
+			((EObject) element).eContainmentFeature();
+
 			return super.getText(element);
 		}
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
+			if (element instanceof CommitLogEntry) {
+				CommitLogEntry cle = (CommitLogEntry) element;
+				switch (columnIndex) {
+				case 0: {
+					if (cle.eIsSet(GenericsPackage.Literals.COMMIT_LOG_ENTRY__TIME_STAMP)) {
+						Date d = modelUtils.fromXMLDate(cle.getTimeStamp());
+						return modelUtils.date(d) + " @ " + modelUtils.time(d);
+					}
+				}
+				case 1: {
+
+				}
+					break;
+
+				}
+
+			}
+
 			return super.getColumnText(element, columnIndex);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
 	 */
 	public Viewer getViewer() {
 		return this.getTableViewerWidget();
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#isValid()
 	 */
 	public boolean isValid() {
 		return true;
 	}
+
 	public TableViewer getTableViewerWidget() {
 		return tableViewer;
 	}
-	
+
 	@Override
 	public Form getScreenForm() {
 		return frmActivities;
@@ -242,7 +308,7 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 	public void disposeData() {
 		// N/A
 	}
-	
+
 	@Override
 	public void setOperation(int operation) {
 		this.operation = operation;
@@ -252,5 +318,4 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 		return "Activity";
 	}
 
-	
 }

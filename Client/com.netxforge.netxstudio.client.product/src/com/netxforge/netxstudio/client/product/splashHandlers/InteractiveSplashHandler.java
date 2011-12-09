@@ -217,7 +217,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 							.equals(SecurityException.class)) {
 						MessageDialog.openError(getSplash(),
 								"Authentication Failed",
-								"The user ID and/or password is wrong");
+								"The user ID and/or password is wrong, or the user is disabled.");
 
 					}
 				} else {

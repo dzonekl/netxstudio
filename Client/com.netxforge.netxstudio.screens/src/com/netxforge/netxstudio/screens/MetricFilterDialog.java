@@ -50,7 +50,7 @@ public class MetricFilterDialog extends FilteredItemsSelectionDialog {
 	public MetricFilterDialog(Shell shell, Resource resource) {
 		super(shell, true);
 		super.setTitle("Select an existing Metric");
-		
+
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {
@@ -72,17 +72,23 @@ public class MetricFilterDialog extends FilteredItemsSelectionDialog {
 			public String getText(Object element) {
 				if (element == null) {
 					return "";
+				} else if (element instanceof Metric) {
+					return MetricFilterDialog.this.getText((Metric) element);
+				}else if( element instanceof String){
+					return (String) element;
 				}
-				return MetricFilterDialog.this.getText((Metric) element);
+				return "";
 			}
 		});
 	}
 
 	private String getText(Metric p) {
 		StringBuffer buf = new StringBuffer();
-		buf.append(p.eIsSet(MetricsPackage.Literals.METRIC__NAME) ? p.getName() : "?");
+		buf.append(p.eIsSet(MetricsPackage.Literals.METRIC__NAME) ? p.getName()
+				: "?");
 		buf.append(" - ");
-		buf.append(p.eIsSet(MetricsPackage.Literals.METRIC__DESCRIPTION) ? p.getDescription() : "?");
+		buf.append(p.eIsSet(MetricsPackage.Literals.METRIC__DESCRIPTION) ? p
+				.getDescription() : "?");
 		return buf.toString();
 	}
 
@@ -123,7 +129,7 @@ public class MetricFilterDialog extends FilteredItemsSelectionDialog {
 	protected void fillContentProvider(AbstractContentProvider contentProvider,
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
-		
+
 		for (EObject p : resource.getContents()) {
 			if (progressMonitor.isCanceled()) {
 				return;
@@ -145,7 +151,7 @@ public class MetricFilterDialog extends FilteredItemsSelectionDialog {
 			@Override
 			public boolean matchItem(Object item) {
 				Metric p = (Metric) item;
-				return matches(p.getName()  + p.getDescription());
+				return matches(p.getName() + p.getDescription());
 			}
 
 		};

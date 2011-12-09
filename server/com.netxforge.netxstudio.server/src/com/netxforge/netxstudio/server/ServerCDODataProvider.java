@@ -22,6 +22,7 @@ import java.util.Date;
 
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.view.CDOView;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.cdo.CDODataProvider;
@@ -61,6 +62,8 @@ public class ServerCDODataProvider extends CDODataProvider {
 	private CDOSession session = null;
 
 	private CDOTransaction transaction = null;
+
+	private CDOView view;
 
 	@Override
 	public CDOSession getSession() {
@@ -108,6 +111,14 @@ public class ServerCDODataProvider extends CDODataProvider {
 			System.out.println("DATA Server: Closing session ID=" + session.getSessionID() + " , Updated last on:" + new Date(session.getLastUpdateTime()));
 			session.close();
 		}
+	}
+
+	@Override
+	public CDOView getView() {
+		if(view == null){
+			this.view = this.getSession().openView();
+		}
+		return view;
 	}
 	
 }
