@@ -195,9 +195,20 @@ public class InterpreterTypeless implements IInterpreter {
 	}
 
 	private Node getContextualNode() {
-		IInterpreterContext periodContext = getContextFor(NodeImpl.class);
-		if (periodContext != null) {
-			return (Node) periodContext.getContext();
+			
+		DateTimeRange contextualPeriod = this.getContextualPeriod();
+		
+		
+		// TODO, experiment with this. 
+		@SuppressWarnings("unused")
+		long beginContext =contextualPeriod.getBegin().toGregorianCalendar().getTimeInMillis();
+		
+		
+		IInterpreterContext nodeContext = getContextFor(NodeImpl.class);
+		if (nodeContext != null) {
+			Node n = (Node) nodeContext.getContext();
+			
+			return n;
 		}
 		return null;
 	}
@@ -1141,7 +1152,9 @@ public class InterpreterTypeless implements IInterpreter {
 			Reference primaryRef = contextReference.getPrimaryRef();
 
 			Node node = this.getContextualNode();
-
+			// TODO, need some additional logic, to consider the historical state of the node. 
+			
+			
 			if (primaryRef.getLeafRef() == null
 					&& primaryRef.getComponents() != null && node != null) {
 
@@ -1287,8 +1300,10 @@ public class InterpreterTypeless implements IInterpreter {
 						: null;
 			}
 			if (s != null) {
-				for (ServiceUser su : s.getServiceUserRefs()) {
-
+				
+				// TODO, What should happen here? 
+				for (@SuppressWarnings("unused") ServiceUser su : s.getServiceUserRefs()) {
+					
 				}
 			}
 			if (resource != null) {

@@ -5,20 +5,17 @@
  */
 package com.netxforge.netxscript.impl;
 
-import com.netxforge.netxscript.NetxscriptPackage;
-import com.netxforge.netxscript.NodeTypeRef;
-import com.netxforge.netxscript.Reference;
-
-import com.netxforge.netxstudio.library.NodeType;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import com.netxforge.netxscript.NetxscriptPackage;
+import com.netxforge.netxscript.NodeTypeRef;
+import com.netxforge.netxscript.Reference;
+import com.netxforge.netxstudio.library.NodeType;
 
 /**
  * <!-- begin-user-doc -->

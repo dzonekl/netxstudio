@@ -12,7 +12,6 @@ import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.resource.ISelectable;
 import org.eclipse.xtext.resource.impl.AbstractCompoundSelectable;
-import org.eclipse.xtext.util.SimpleCache;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicates;
@@ -27,22 +26,19 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 
 	public abstract IDataProvider getDataProvider();
 
-	private Collection<URI> currentScopedURI;
-
 	boolean initialized = false;
 
 	@Inject
 	private IResourceServiceProvider.Registry serviceProviderRegistry;
 
-	private SimpleCache<URI, IResourceDescription> resourceDescriptionCache;
+	private DynamixCache<URI, IResourceDescription> resourceDescriptionCache;
 
 	public void initialize(Collection<URI> scopedURIs, final CDOView view) {
 
 		if (!initialized) {
-			this.currentScopedURI = scopedURIs;
 			initialized = true;
 
-			resourceDescriptionCache = new SimpleCache<URI, IResourceDescription>(
+			resourceDescriptionCache = new DynamixCache<URI, IResourceDescription>(
 					new Function<URI, IResourceDescription>() {
 						public IResourceDescription apply(URI uri) {
 
@@ -90,9 +86,15 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 					});
 		}
 	}
-
+	
+	
+	/**
+	 * Note as our cache will be initially empty, this will not return anything unless
+	 */
 	public Iterable<IResourceDescription> getAllResourceDescriptions() {
-		return Iterables.filter(Iterables.transform(currentScopedURI,
+		
+		List<URI> uris = this.resourceDescriptionCache.getKeys();
+		return Iterables.filter(Iterables.transform(uris,
 				new Function<URI, IResourceDescription>() {
 					public IResourceDescription apply(URI from) {
 						return getResourceDescription(from);
@@ -102,7 +104,7 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 
 	@Override
 	public boolean isEmpty() {
-		return currentScopedURI.isEmpty();
+		return this.resourceDescriptionCache.isEmpty();
 	}
 
 	@Override
@@ -163,13 +165,16 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 
 	public void add(URI addScopedURI) {
 		if (!resourceDescriptionCache.hasCachedValue(addScopedURI)) {
-
-			resourceDescriptionCache.get(addScopedURI);
+			resourceDescriptionCache.get(addScopedURI); // should force an
+														// apply() and initial
+														// load.
 		}
 	}
 
 	public void remove(URI removeScopedURI) {
-
+		if (resourceDescriptionCache.hasCachedValue(removeScopedURI)) {
+			resourceDescriptionCache.discard(removeScopedURI);
+		}
 	}
 
 }

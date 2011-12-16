@@ -5,6 +5,13 @@
  */
 package com.netxforge.netxscript.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import com.netxforge.netxscript.AbstractFunction;
 import com.netxforge.netxscript.AbstractVarOrArgument;
 import com.netxforge.netxscript.And;
@@ -61,28 +68,13 @@ import com.netxforge.netxscript.ValueRange;
 import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
-
 import com.netxforge.netxstudio.generics.GenericsPackage;
-
 import com.netxforge.netxstudio.geo.GeoPackage;
-
 import com.netxforge.netxstudio.library.LibraryPackage;
-
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-
 import com.netxforge.netxstudio.services.ServicesPackage;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-
-import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
  * <!-- begin-user-doc -->

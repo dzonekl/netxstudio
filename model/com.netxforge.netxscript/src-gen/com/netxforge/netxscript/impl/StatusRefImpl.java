@@ -5,15 +5,13 @@
  */
 package com.netxforge.netxscript.impl;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.StatusRef;
 import com.netxforge.netxscript.ToleranceLevel;
-
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->

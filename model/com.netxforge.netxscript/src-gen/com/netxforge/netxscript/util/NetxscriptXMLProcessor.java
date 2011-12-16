@@ -5,15 +5,13 @@
  */
 package com.netxforge.netxscript.util;
 
-import com.netxforge.netxscript.NetxscriptPackage;
-
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.resource.Resource;
-
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
+
+import com.netxforge.netxscript.NetxscriptPackage;
 
 /**
  * This class contains helper methods to serialize and deserialize XML documents

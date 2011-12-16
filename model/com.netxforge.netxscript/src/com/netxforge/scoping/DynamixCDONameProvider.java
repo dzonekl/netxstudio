@@ -29,6 +29,9 @@ public class DynamixCDONameProvider extends SimpleNameProvider {
 
 		if (obj instanceof Equipment) {
 			name = ((Equipment) obj).getEquipmentCode();
+			// TODO, replace 
+			
+			
 		}
 
 		if (obj instanceof Parameter) {

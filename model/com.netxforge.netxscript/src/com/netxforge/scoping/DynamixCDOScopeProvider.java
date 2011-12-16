@@ -76,6 +76,10 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 		this.modelUtils = modelUtils;
 		this.loadOnDemandDescriptions = descriptionsProvider;
 
+		initialize();
+	}
+
+	private void initialize() {
 		// Use a singleton transaction.
 		if (view == null) {
 			descriptions = loadOnDemandDescriptions.get();
@@ -142,7 +146,13 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 	private List<URI> urisForClass(EClass eClass) {
 
 		List<EClass> classesToCheck = Lists.newArrayList();
-		classesToCheck.add(eClass);
+		
+		if(eClass == LibraryPackage.Literals.BASE_RESOURCE){
+			classesToCheck.add(LibraryPackage.Literals.NET_XRESOURCE);
+		}else{
+			classesToCheck.add(eClass);
+		}
+		
 		classesToCheck.addAll(eClass.getEAllSuperTypes());
 
 		for (EClass eC : classesToCheck) {

@@ -5,12 +5,11 @@
  */
 package com.netxforge.netxscript.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import com.netxforge.netxscript.AbstractFunction;
 import com.netxforge.netxscript.NetxscriptPackage;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

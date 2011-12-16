@@ -5,16 +5,69 @@
  */
 package com.netxforge.netxscript.impl;
 
-import com.netxforge.netxscript.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.netxforge.netxscript.AbstractFunction;
+import com.netxforge.netxscript.AbstractVarOrArgument;
+import com.netxforge.netxscript.And;
+import com.netxforge.netxscript.Argument;
+import com.netxforge.netxscript.Assignment;
+import com.netxforge.netxscript.Block;
+import com.netxforge.netxscript.BooleanLiteral;
+import com.netxforge.netxscript.ComponentRef;
+import com.netxforge.netxscript.ContextRef;
+import com.netxforge.netxscript.Div;
+import com.netxforge.netxscript.Equal;
+import com.netxforge.netxscript.Expression;
+import com.netxforge.netxscript.Function;
+import com.netxforge.netxscript.FunctionCall;
+import com.netxforge.netxscript.Greater;
+import com.netxforge.netxscript.GreaterEqual;
+import com.netxforge.netxscript.If;
+import com.netxforge.netxscript.Import;
+import com.netxforge.netxscript.Interval;
+import com.netxforge.netxscript.IntervalKind;
+import com.netxforge.netxscript.LeafReference;
+import com.netxforge.netxscript.Lesser;
+import com.netxforge.netxscript.LesserEqual;
+import com.netxforge.netxscript.LinkRef;
+import com.netxforge.netxscript.Minus;
+import com.netxforge.netxscript.Mod;
+import com.netxforge.netxscript.Modulo;
+import com.netxforge.netxscript.Multi;
+import com.netxforge.netxscript.NativeExpression;
+import com.netxforge.netxscript.NativeFunction;
+import com.netxforge.netxscript.Negation;
+import com.netxforge.netxscript.NetxscriptFactory;
+import com.netxforge.netxscript.NetxscriptPackage;
+import com.netxforge.netxscript.NodeTypeRef;
+import com.netxforge.netxscript.NumberLiteral;
+import com.netxforge.netxscript.Or;
+import com.netxforge.netxscript.ParamRef;
+import com.netxforge.netxscript.Plus;
+import com.netxforge.netxscript.PlusAssignment;
+import com.netxforge.netxscript.Range;
+import com.netxforge.netxscript.RangeLiteral;
+import com.netxforge.netxscript.RangeRef;
+import com.netxforge.netxscript.RefAssignment;
+import com.netxforge.netxscript.Reference;
+import com.netxforge.netxscript.ResourceRef;
+import com.netxforge.netxscript.Return;
+import com.netxforge.netxscript.Statement;
+import com.netxforge.netxscript.StatusRef;
+import com.netxforge.netxscript.ToleranceLevel;
+import com.netxforge.netxscript.UnaryPlusMinus;
+import com.netxforge.netxscript.Unequal;
+import com.netxforge.netxscript.ValueKind;
+import com.netxforge.netxscript.ValueRange;
+import com.netxforge.netxscript.VarOrArgumentCall;
+import com.netxforge.netxscript.Variable;
+import com.netxforge.netxscript.While;
 
 /**
  * <!-- begin-user-doc -->

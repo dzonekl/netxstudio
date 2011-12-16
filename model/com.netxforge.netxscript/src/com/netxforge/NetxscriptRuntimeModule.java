@@ -16,9 +16,9 @@ import com.netxforge.interpreter.InterpreterTypeless;
 import com.netxforge.interpreter.NativeFunctions;
 import com.netxforge.interpreter.PrettyLog;
 import com.netxforge.scoping.CDOResourceServiceProvider;
-import com.netxforge.scoping.DynamixCDOScopeProvider;
-import com.netxforge.scoping.DynamixCDOResourceDescriptions;
 import com.netxforge.scoping.DynamixCDONameProvider;
+import com.netxforge.scoping.DynamixCDOResourceDescriptions;
+import com.netxforge.scoping.DynamixCDOScopeProvider;
 
 /**
  * Use this class to register components to be used at runtime / without the
