@@ -9,7 +9,7 @@ import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 
 import com.google.inject.Scopes;
 import com.netxforge.scoping.DynamixCDOScopeProvider;
-import com.netxforge.scoping.FixedSetCDOResourceDescriptions;
+import com.netxforge.scoping.DynamixCDOResourceDescriptions;
 import com.netxforge.ui.scoping.UICDOResourceServiceProvider;
 
 /**
@@ -26,7 +26,7 @@ public class NetxscriptUiModule extends
 	// Override generated, ResourceSet based.
 	public void configureIResourceDescriptions(com.google.inject.Binder binder) {
 		binder.bind(org.eclipse.xtext.resource.IResourceDescriptions.class)
-				.to(FixedSetCDOResourceDescriptions.class).in(Scopes.SINGLETON);
+				.to(DynamixCDOResourceDescriptions.class).in(Scopes.SINGLETON);
 	}
 
 	public Class<? extends IResourceServiceProvider> bindIResourceServiceProvider() {
