@@ -131,7 +131,7 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 		final Mod model = this.getMod("def main(){var a = 0;}");
 
 		final IScope scope = scopeProvider.getScope(model,
-				NetxscriptPackage.Literals.COMPONENT_REF__FUNCTION);
+				NetxscriptPackage.Literals.OPERATOR_REF__FUNCTION);
 		assertNotNull(scope);
 
 		final Iterable<IEObjectDescription> candidates = scope.getAllElements();

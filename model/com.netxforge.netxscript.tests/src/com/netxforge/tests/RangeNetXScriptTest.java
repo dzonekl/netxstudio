@@ -23,10 +23,9 @@ public class RangeNetXScriptTest extends AbstractNetXScriptTest {
 		super.setUp();
 		// Inject whatever we need.
 		dataService = get(IDataService.class);
-
 		// As we have no global scoping in these tests,
 		// CDO connection is not required.
-		// dataService.getProvider().openSession("admin", "admin");
+		 dataService.getProvider().openSession("admin", "admin");
 	}
 
 	@Override
