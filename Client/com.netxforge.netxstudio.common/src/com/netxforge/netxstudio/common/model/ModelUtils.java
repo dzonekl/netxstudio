@@ -24,7 +24,17 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
+import org.eclipse.emf.cdo.common.branch.CDOBranchVersion;
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.revision.CDORevision;
+import org.eclipse.emf.cdo.common.revision.delta.CDOAddFeatureDelta;
+import org.eclipse.emf.cdo.common.revision.delta.CDOContainerFeatureDelta;
+import org.eclipse.emf.cdo.common.revision.delta.CDOFeatureDelta;
+import org.eclipse.emf.cdo.common.revision.delta.CDOListFeatureDelta;
+import org.eclipse.emf.cdo.common.revision.delta.CDOMoveFeatureDelta;
+import org.eclipse.emf.cdo.common.revision.delta.CDORemoveFeatureDelta;
+import org.eclipse.emf.cdo.common.revision.delta.CDORevisionDelta;
+import org.eclipse.emf.cdo.common.revision.delta.CDOSetFeatureDelta;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.view.CDOView;
@@ -62,7 +72,9 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.DataKind;
+import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.KindHintType;
+import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricSource;
@@ -385,24 +397,24 @@ public class ModelUtils {
 			return eObject.eClass().getName();
 		}
 	}
-	
+
 	/*
-	 * Construct a path name specific to holde NetXResource objects. 
+	 * Construct a path name specific to holde NetXResource objects.
 	 */
 	public String cdoCalculateResourcePathII(EObject eObject) {
 		if (eObject instanceof Component) {
 			final Component component = (Component) eObject;
-//			if (!component.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)
-//					|| component.getName().length() == 0) {
-//				return null;
-//			}
+			// if (!component.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)
+			// || component.getName().length() == 0) {
+			// return null;
+			// }
 			return cdoCalculateResourcePathII(component.eContainer());
 		} else if (eObject instanceof Node) {
 			Node n = (Node) eObject;
 			if (n.eIsSet(OperatorsPackage.Literals.NODE__NODE_ID)) {
 				return "/Node_/"
-						+ LibraryPackage.Literals.NET_XRESOURCE.getName()
-						+ "_" + ((Node) eObject).getNodeID();
+						+ LibraryPackage.Literals.NET_XRESOURCE.getName() + "_"
+						+ ((Node) eObject).getNodeID();
 			} else {
 				return "/Node_/"
 						+ LibraryPackage.Literals.NET_XRESOURCE.getName();
@@ -1279,22 +1291,25 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Get a collection from a target object, use the last occurrence in the
+	 * Get a collection from a target object by collection feature., use the last occurrence in the
 	 * collection, to get an attribute value. return the attribute value
-	 * incremented by 1.
+	 * incremented by 1. 
+	 * <p>If this is the first occurence the name will be. 
+	 * <pre> &ltnew [target Object name] 1&gt</pre>
+	 * </p>
 	 * 
 	 * 
-	 * @param targetObject
+	 * @param targetParentObject
 	 * @param collectionFeature
 	 * @param identityFeature
 	 *            An identity attribute which should be of type String.
 	 * @return A String incremented by 1.
 	 */
-	public String getSequenceNumber(EObject targetObject,
-			EStructuralFeature collectionFeature, EAttribute identityFeature) {
+	public String getSequenceNumber(EObject targetParentObject,
+			EReference collectionFeature, EAttribute identityFeature) {
 		String newName = null;
 		if (collectionFeature.isMany()) {
-			final List<?> collection = (List<?>) targetObject
+			final List<?> collection = (List<?>) targetParentObject
 					.eGet(collectionFeature);
 			final int size = collection.size();
 			if (size > 0) {
@@ -1306,7 +1321,7 @@ public class ModelUtils {
 				}
 			}
 			if (newName == null) {
-				newName = "1";
+				newName = "<new " + collectionFeature.getEReferenceType().getName() +" 1>";
 			}
 		}
 
@@ -1492,6 +1507,106 @@ public class ModelUtils {
 			}
 			System.out.println("\n");
 		}
+	}
+
+	public String printNodeStructure(Node node) {
+		StringBuilder result = new StringBuilder();
+		result.append("-" + printModelObject(node) + "\n");
+		if (node.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
+			NodeType nt = node.getNodeType();
+			result.append("-" + printModelObject(nt) + "\n");
+			result.append(this.printComponents("--",
+					transformToComponents(nt.getFunctions())));
+			result.append(this.printComponents("--",
+					transformToComponents(nt.getEquipments())));
+		}
+		return result.toString();
+	}
+
+	public String printComponents(String prefix, List<Component> components) {
+		StringBuilder result = new StringBuilder();
+		for (Component c : components) {
+			result.append(prefix + printModelObject(c) + "\n");
+
+			if (c instanceof Equipment) {
+				result.append(printComponents("--" + prefix,
+						transformToComponents(((Equipment) c).getEquipments())));
+			} else if (c instanceof com.netxforge.netxstudio.library.Function) {
+				result.append(printComponents(
+						"--" + prefix,
+						transformToComponents(((com.netxforge.netxstudio.library.Function) c)
+								.getFunctions())));
+			}
+
+		}
+		return result.toString();
+	}
+
+	public String printModelObject(EObject o) {
+		StringBuilder result = new StringBuilder();
+
+		if (o instanceof Network) {
+			Network net = (Network) o;
+			result.append("Network: name=" + net.getName());
+		}
+
+		if (o instanceof Node) {
+			Node n = (Node) o;
+			result.append("Node: name=" + n.getNodeID());
+		}
+
+		if (o instanceof Equipment) {
+			result.append("Equipment: code="
+					+ ((Equipment) o).getEquipmentCode());
+		}
+		if (o instanceof com.netxforge.netxstudio.library.Function) {
+			result.append("Function: name="
+					+ ((com.netxforge.netxstudio.library.Function) o).getName());
+		}
+		if (o instanceof NodeType) {
+			NodeType nt = (NodeType) o;
+			result.append("NodeType: name=" + nt.getName());
+		}
+		if (o instanceof Service) {
+			Service nt = (Service) o;
+			result.append("Service: name=" + nt.getServiceName());
+		}
+
+		if (o instanceof MetricSource) {
+			MetricSource ms = (MetricSource) o;
+			result.append("Metric Source: name=" + ms.getName());
+		}
+		if (o instanceof Mapping) {
+			Mapping mapping = (Mapping) o;
+			result.append("Mapping: datarow=" + mapping.getFirstDataRow()
+					+ "interval=" + mapping.getIntervalHint() + ",colums="
+					+ mapping.getDataMappingColumns().size());
+		}
+		if (o instanceof MappingColumn) {
+			MappingColumn mc = (MappingColumn) o;
+			result.append("mapping column: " + mc.getColumn());
+		}
+		if (o instanceof DataKind) {
+			DataKind dk = (DataKind) o;
+			if (dk instanceof IdentifierDataKind) {
+				result.append("Identifier Datakind: "
+						+ ((IdentifierDataKind) dk).getObjectKind());
+			}
+			if (dk instanceof ValueDataKind) {
+				result.append("Value Datakind: "
+						+ ((ValueDataKind) dk).getValueKind());
+			}
+		}
+
+		// if( ECoreUtil.geto.getClass() != null){
+		// result.append(" class=" + o.eClass().getName());
+		// }else if(o.eResource() != null){
+		// result.append(" resource=" + o.eResource().getURI().toString());
+		// }
+		result.append(" ( CDO Info object=" + ((CDOObject) o).cdoRevision()
+				+ " )");
+
+		return result.toString();
 	}
 
 	public Node[][] matrix(List<Node> nodes) {
@@ -1932,6 +2047,13 @@ public class ModelUtils {
 		return cal.getTime();
 	}
 
+	public Date sixMonthsAgo() {
+		final Calendar cal = GregorianCalendar.getInstance();
+		cal.setTime(new Date(System.currentTimeMillis()));
+		cal.add(Calendar.MONTH, -6);
+		return cal.getTime();
+	}
+
 	public Date todayAndNow() {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
@@ -2145,6 +2267,154 @@ public class ModelUtils {
 	}
 
 	/**
+	 * Get all revisions from this object.
+	 * 
+	 * @param cdoObject
+	 * @return
+	 */
+	public Iterator<CDORevision> cdoRevisions(CDOObject cdoObject) {
+
+		List<CDORevision> revisions = Lists.newArrayList();
+
+		CDORevision cdoRevision = cdoObject.cdoRevision();
+		// get the previous.
+		for (int version = cdoRevision.getVersion(); version > 0; version--) {
+
+			CDOBranchVersion branchVersion = cdoRevision.getBranch()
+					.getVersion(version);
+
+			CDORevision revision = cdoObject
+					.cdoView()
+					.getSession()
+					.getRevisionManager()
+					.getRevisionByVersion(cdoObject.cdoID(), branchVersion, 0,
+							true);
+			revisions.add(revision);
+		}
+		return revisions.iterator();
+	}
+
+	public CDOObject cdoObject(CDOObject currentObject, CDORevision cdoRevision) {
+		CDOView revView = currentObject.cdoView().getSession().openView();
+		boolean revViewOk = revView.setTimeStamp(cdoRevision.getTimeStamp());
+		if (revViewOk) {
+			CDOObject object = revView.getObject(cdoRevision.getID());
+			return object;
+		}
+		return null;
+	}
+
+	public void cdoPrintDelta(CDORevisionDelta delta) {
+		for (CDOFeatureDelta fd : delta.getFeatureDeltas()) {
+			System.out.println("-- delta=" + fd);
+		}
+	}
+
+	/**
+	 * Intended for use together with an ITableLabelProvider
+	 * <ul>
+	 * <li>Index = 0, returns a literal string of the feature for this delta.</li>
+	 * <li>Index = 1, returns a literal string of the delta type. (Add, Remove
+	 * etc..). {@link CDOFeatureDelta.Type}</li>
+	 * <li>Index = 2, returns the new value if any for this type, if an object
+	 * {@link #printModelObject(EObject)}</li>
+	 * <li>Index = 3, returns the old value if any for this type, if an object
+	 * {@link #printModelObject(EObject)}</li>
+	 * </ul>
+	 * 
+	 * @see CDOFeatureDelta
+	 * @param cdoFeatureDelta
+	 */
+	public String cdoFeatureDeltaIndex(CDOFeatureDelta cdoFeatureDelta,
+			int index) {
+
+		// Only support index in a range.
+		assert index >= 0 && index <= 3;
+
+		Object newValue = null;
+		Object oldValue = null;
+
+		// if index = 0, we simp
+		if (index == 0) {
+			return cdoFeatureDelta.getFeature().getName();
+		} else if (index == 1) {
+			return cdoFeatureDelta.getType().name();
+		} else if (index == 2 || index == 3) {
+			switch (cdoFeatureDelta.getType()) {
+			case ADD: {
+				CDOAddFeatureDelta fdType = (CDOAddFeatureDelta) cdoFeatureDelta;
+				newValue = fdType.getValue();
+			}
+				break;
+			case REMOVE: {
+				CDORemoveFeatureDelta fdType = (CDORemoveFeatureDelta) cdoFeatureDelta;
+				newValue = fdType.getValue();
+			}
+				break;
+			case CLEAR: {
+				// CDOClearFeatureDelta fdType = (CDOClearFeatureDelta) delta;
+				// has no value.
+			}
+				break;
+			case MOVE: {
+				CDOMoveFeatureDelta fdType = (CDOMoveFeatureDelta) cdoFeatureDelta;
+				newValue = fdType.getValue();
+
+				// A list position move.
+				fdType.getNewPosition();
+				fdType.getOldPosition();
+			}
+				break;
+			case SET: {
+				CDOSetFeatureDelta fdType = (CDOSetFeatureDelta) cdoFeatureDelta;
+				newValue = fdType.getValue();
+				oldValue = fdType.getOldValue();
+
+			}
+				break;
+			case UNSET: {
+				// CDOUnsetFeatureDelta fdType = (CDOUnsetFeatureDelta) delta;
+				// has no value.
+			}
+				break;
+			case LIST: {
+				CDOListFeatureDelta fdType = (CDOListFeatureDelta) cdoFeatureDelta;
+
+				@SuppressWarnings("unused")
+				List<CDOFeatureDelta> listChanges = fdType.getListChanges();
+				// What to do with this???
+			}
+				break;
+			case CONTAINER: {
+				CDOContainerFeatureDelta fdType = (CDOContainerFeatureDelta) cdoFeatureDelta;
+
+				// Assume one of the two...
+				fdType.getContainerID(); // The container ID.
+				fdType.getResourceID(); // The resource ID.
+			}
+				break;
+			}
+
+			if (index == 2 && newValue != null) {
+				if (newValue instanceof String) {
+					return (String) newValue;
+				} else if (newValue instanceof EObject) {
+					printModelObject((EObject) newValue).toString();
+				} else if (newValue instanceof CDOID) {
+					// It would be nice for references, to get the mutated CDOID and present it as a link 
+					// to the object. 
+					CDOID cdoID = (CDOID) newValue;
+					return "Object ID =" +  cdoID.toString();
+				}
+			} else if (index == 3 && oldValue != null) {
+				return oldValue instanceof String ? (String) oldValue
+						: printModelObject((EObject) oldValue).toString();
+			}
+		}
+		return "";
+	}
+
+	/**
 	 * Appends the cdo Object ID to the actual object resource name.
 	 * 
 	 * @param object
@@ -2276,6 +2546,34 @@ public class ModelUtils {
 		final Function<Value, Double> valueToDouble = new Function<Value, Double>() {
 			public Double apply(Value from) {
 				return from.getValue();
+			}
+		};
+		List<Double> doubles = Lists.transform(values, valueToDouble);
+		double[] doubleArray = new double[doubles.size()];
+		for (int i = 0; i < doubles.size(); i++) {
+			doubleArray[i] = doubles.get(i).doubleValue();
+		}
+		return doubleArray;
+	}
+
+	public List<Component> transformToComponents(
+			List<? extends EObject> components) {
+		final Function<EObject, Component> valueToDouble = new Function<EObject, Component>() {
+			public Component apply(EObject from) {
+				if (from instanceof Component) {
+					return (Component) from;
+				}
+				return null;
+			}
+		};
+		List<Component> result = Lists.transform(components, valueToDouble);
+		return result;
+	}
+
+	public double[] multiplyByHundredAndToArray(List<Double> values) {
+		final Function<Double, Double> valueToDouble = new Function<Double, Double>() {
+			public Double apply(Double from) {
+				return from * 100;
 			}
 		};
 		List<Double> doubles = Lists.transform(values, valueToDouble);
