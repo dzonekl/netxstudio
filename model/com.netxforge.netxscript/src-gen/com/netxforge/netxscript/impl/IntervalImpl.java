@@ -5,16 +5,18 @@
  */
 package com.netxforge.netxscript.impl;
 
-import java.math.BigDecimal;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import com.netxforge.netxscript.Interval;
 import com.netxforge.netxscript.IntervalKind;
 import com.netxforge.netxscript.NetxscriptPackage;
+
+import java.math.BigDecimal;
+
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

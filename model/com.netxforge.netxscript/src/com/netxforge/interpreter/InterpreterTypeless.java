@@ -25,7 +25,6 @@ import com.netxforge.netxscript.Argument;
 import com.netxforge.netxscript.Assignment;
 import com.netxforge.netxscript.Block;
 import com.netxforge.netxscript.BooleanLiteral;
-import com.netxforge.netxscript.ComponentRef;
 import com.netxforge.netxscript.ContextRef;
 import com.netxforge.netxscript.Div;
 import com.netxforge.netxscript.Equal;
@@ -50,8 +49,10 @@ import com.netxforge.netxscript.NativeFunction;
 import com.netxforge.netxscript.Negation;
 import com.netxforge.netxscript.NetxscriptFactory;
 import com.netxforge.netxscript.NetxscriptPackage;
+import com.netxforge.netxscript.NodeRef;
 import com.netxforge.netxscript.NodeTypeRef;
 import com.netxforge.netxscript.NumberLiteral;
+import com.netxforge.netxscript.OperatorRef;
 import com.netxforge.netxscript.Or;
 import com.netxforge.netxscript.ParamRef;
 import com.netxforge.netxscript.Plus;
@@ -113,9 +114,9 @@ import com.netxforge.netxstudio.services.impl.ServiceUserImpl;
  * Has a context index, used by the eval-snippets.
  * 
  * Note: All external references, are to be referenced by name and not use the
- * actual reference object. The AST is constructed with an arbitrary reference
+ * actual reference object. The AST is constructed with an arbitrary (actually
+ * the first occurence) reference, according the xtext ResourceDescription )
  * when writing the expression.
- * 
  * 
  * 
  * @author Sven Efftinge - initial contribution and API
@@ -195,25 +196,24 @@ public class InterpreterTypeless implements IInterpreter {
 	}
 
 	private Node getContextualNode() {
-			
+
 		DateTimeRange contextualPeriod = this.getContextualPeriod();
-		
-		
-		// TODO, experiment with this. 
+
+		// TODO, experiment with this.
 		@SuppressWarnings("unused")
-		long beginContext =contextualPeriod.getBegin().toGregorianCalendar().getTimeInMillis();
-		
-		
+		long beginContext = contextualPeriod.getBegin().toGregorianCalendar()
+				.getTimeInMillis();
+
 		IInterpreterContext nodeContext = getContextFor(NodeImpl.class);
 		if (nodeContext != null) {
 			Node n = (Node) nodeContext.getContext();
-			
+
 			return n;
 		}
 		return null;
 	}
 
-	private NetXResource getContextualResource() {
+	private NetXResource getContextualNetXResource() {
 		IInterpreterContext resourceContext = getContextFor(NetXResourceImpl.class);
 		if (resourceContext != null) {
 			return (NetXResource) resourceContext.getContext();
@@ -510,11 +510,11 @@ public class InterpreterTypeless implements IInterpreter {
 							localVarsAndArguments.put(s, innerValue);
 						}
 					}
-				}else{
+				} else {
 					// The evaluation is likely a non-assigned value
 					// add it to the map with an arbitrary name.
 					Random r = new Random();
-					String randomName =new Long(r.nextLong()).toString();
+					String randomName = new Long(r.nextLong()).toString();
 					localVarsAndArguments.put(randomName, eval);
 				}
 			}
@@ -556,9 +556,19 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 			if (assignmentReference instanceof ContextRef) {
 
+				NetXResource netxRes = this.getContextualNetXResource();
 				ContextRef cRef = (ContextRef) assignmentReference;
-				if (cRef.getPrimaryRef() != null) {
+				if (netxRes != null) {
+					// When the target netxresource is set, we can skip
+					// evaluating
+					// the primary ref.
+					targetResource = netxRes;
 
+				} else if (cRef.getPrimaryRef() != null) {
+					// evaluate the potential override of the target resource.
+					// if there is some sort of navigation.
+					// in case of duplicates we take the first occurence of a
+					// BaseResource.
 					LeafReference leafReference = cRef.getPrimaryRef()
 							.getLeafRef();
 
@@ -568,6 +578,7 @@ public class InterpreterTypeless implements IInterpreter {
 						if (resourceRef.getResource() instanceof NetXResource) {
 							Node n = this.getContextualNode();
 							if (n != null) {
+
 								List<NetXResource> netxResources = this
 										.resourcesByName(n, resourceRef);
 
@@ -597,10 +608,10 @@ public class InterpreterTypeless implements IInterpreter {
 					}
 
 				}
+
 				// Here we assume the context is a ..Resource as there is no
 				// leaf.
 				if (cRef.getRangeRef() != null) {
-					targetResource = this.getContextualResource();
 					targetRangeReference = cRef.getRangeRef();
 				}
 			}
@@ -626,7 +637,7 @@ public class InterpreterTypeless implements IInterpreter {
 		// Here we assume the context is a ..Resource as there is no
 		// leaf.
 		if (cRef.getRangeRef() != null) {
-			targetResource = this.getContextualResource();
+			targetResource = this.getContextualNetXResource();
 			targetRangeReference = cRef.getRangeRef();
 		}
 
@@ -1072,12 +1083,21 @@ public class InterpreterTypeless implements IInterpreter {
 	protected BigDecimal internalEvaluate(ParamRef e,
 			ImmutableMap<String, Object> values) {
 		Parameter param = e.getParam();
-		if(param != null && param.eIsSet(LibraryPackage.Literals.PARAMETER__VALUE)){
+		if (param != null
+				&& param.eIsSet(LibraryPackage.Literals.PARAMETER__VALUE)) {
 			return new BigDecimal(param.getValue());
 		}
 		return null;
 	}
-	
+
+	protected Object internalEvaluate(NodeRef nodeReference,
+			ImmutableMap<String, Object> params) {
+
+		// Not implemented yet.
+
+		return null;
+	}
+
 	/*
 	 * Note: The NodeTypeRef is always in the context of a service. As from a
 	 * node type, we have multiple Node references, Components and resources,
@@ -1094,7 +1114,7 @@ public class InterpreterTypeless implements IInterpreter {
 			NodeType nt = nodeTypeReference.getNodetype();
 			List<Node> nodes = modelUtils.nodesForNodeType(
 					(RFSService) service, nt);
-			
+
 			List<Component> components = Lists.newArrayList();
 			for (Node n : nodes) {
 				Object result = extractLastComponent(primaryRef, n);
@@ -1118,9 +1138,9 @@ public class InterpreterTypeless implements IInterpreter {
 
 					Object eval = dispatcher.invoke(primaryRef,
 							ImmutableMap.copyOf(localVarsAndArguments));
-					if(eval instanceof List<?>){
+					if (eval instanceof List<?>) {
 						objects.addAll((List<?>) eval);
-					}else{
+					} else {
 						objects.add(eval);
 					}
 				}
@@ -1152,15 +1172,31 @@ public class InterpreterTypeless implements IInterpreter {
 			Reference primaryRef = contextReference.getPrimaryRef();
 
 			Node node = this.getContextualNode();
-			// TODO, need some additional logic, to consider the historical state of the node. 
-			
-			
+
+			// Check if there is no leaf ref, and it has components and a node
+			// context.
+			// to get the last referenced component for this node.
 			if (primaryRef.getLeafRef() == null
 					&& primaryRef.getComponents() != null && node != null) {
 
+				// CB 16-12-2011, changed capacity expression context to be the
+				// resource.
+				//
+				// Node extractNode = this.extractNode(primaryRef);
+				// if(extractNode != null){
+				// node = extractNode;
+				// }
+
 				return extractLastComponent(primaryRef, node);
 			} else {
-
+				// If we have a node or a service, set as a param and dispatch
+				// for the leaf reference. (As primary ref is not evaluated),
+				// the component is ignored!
+				
+				// FIXME, this doesn't work, the range ref expects a resource, 
+				// which should have been set from component evaluation, but that's not done here. 
+				
+				
 				if (node != null) {
 					// Evaluate for a Node.
 					localVarsAndArguments.put("node", node);
@@ -1169,20 +1205,21 @@ public class InterpreterTypeless implements IInterpreter {
 					Service service = this.getContextualService();
 					localVarsAndArguments.put("service", service);
 				}
+				
 				eval = dispatcher.invoke(primaryRef,
 						ImmutableMap.copyOf(localVarsAndArguments));
-			}
 
+			}
 		}
-		
 
 		// We have a range set, so the context should be a resource.
 		if (contextReference.getRangeRef() != null) {
-			NetXResource resource = getContextualResource();
-
-			localVarsAndArguments.put("resource", resource);
-			return dispatcher.invoke(contextReference.getRangeRef(),
-					ImmutableMap.copyOf(localVarsAndArguments));
+			NetXResource resource = getContextualNetXResource();
+			if(resource != null){
+				localVarsAndArguments.put("resource", resource);
+				return dispatcher.invoke(contextReference.getRangeRef(),
+						ImmutableMap.copyOf(localVarsAndArguments));
+			}
 		}
 		return eval;
 
@@ -1199,9 +1236,9 @@ public class InterpreterTypeless implements IInterpreter {
 		Reference lastRef = primaryRef.getComponents().get(
 				primaryRef.getComponents().size() - 1);
 
-		if (lastRef instanceof ComponentRef) {
+		if (lastRef instanceof OperatorRef) {
 			// return either the functions or equipments.
-			ComponentRef cr = (ComponentRef) lastRef;
+			OperatorRef cr = (OperatorRef) lastRef;
 
 			if (cr.getEquipment() != null) {
 
@@ -1300,10 +1337,11 @@ public class InterpreterTypeless implements IInterpreter {
 						: null;
 			}
 			if (s != null) {
-				
-				// TODO, What should happen here? 
-				for (@SuppressWarnings("unused") ServiceUser su : s.getServiceUserRefs()) {
-					
+
+				// TODO, What should happen here?
+				for (@SuppressWarnings("unused")
+				ServiceUser su : s.getServiceUserRefs()) {
+
 				}
 			}
 			if (resource != null) {
@@ -1665,12 +1703,11 @@ public class InterpreterTypeless implements IInterpreter {
 				// assert ((List<?>) leftEval).size() == ((List<?>) rightEval)
 				// .size() : new UnsupportedOperationException(
 				// "Dividing computation error, left and right range are not equal size");
-				
-				if(((List<?>) rightEval).isEmpty() ){
+
+				if (((List<?>) rightEval).isEmpty()) {
 					return Lists.newArrayList();
 				}
-				
-				
+
 				// Use the left as the iterator, so make sure we never retrieve
 				// more than size from right,
 				// If we are over, take the last value.
@@ -1704,7 +1741,7 @@ public class InterpreterTypeless implements IInterpreter {
 				return ImmutableList.copyOf(resultList);
 			}
 		}
-		
+
 		throw new UnsupportedOperationException(
 				"Div expression for invalid types, i.e. This could be dividing a Number by a Range.");
 	}

@@ -5,61 +5,14 @@
  */
 package com.netxforge.netxscript.util;
 
+import com.netxforge.netxscript.*;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-import org.eclipse.emf.ecore.EObject;
 
-import com.netxforge.netxscript.AbstractFunction;
-import com.netxforge.netxscript.AbstractVarOrArgument;
-import com.netxforge.netxscript.And;
-import com.netxforge.netxscript.Argument;
-import com.netxforge.netxscript.Assignment;
-import com.netxforge.netxscript.Block;
-import com.netxforge.netxscript.BooleanLiteral;
-import com.netxforge.netxscript.ComponentRef;
-import com.netxforge.netxscript.ContextRef;
-import com.netxforge.netxscript.Div;
-import com.netxforge.netxscript.Equal;
-import com.netxforge.netxscript.Expression;
-import com.netxforge.netxscript.Function;
-import com.netxforge.netxscript.FunctionCall;
-import com.netxforge.netxscript.Greater;
-import com.netxforge.netxscript.GreaterEqual;
-import com.netxforge.netxscript.If;
-import com.netxforge.netxscript.Import;
-import com.netxforge.netxscript.Interval;
-import com.netxforge.netxscript.LeafReference;
-import com.netxforge.netxscript.Lesser;
-import com.netxforge.netxscript.LesserEqual;
-import com.netxforge.netxscript.LinkRef;
-import com.netxforge.netxscript.Minus;
-import com.netxforge.netxscript.Mod;
-import com.netxforge.netxscript.Modulo;
-import com.netxforge.netxscript.Multi;
-import com.netxforge.netxscript.NativeExpression;
-import com.netxforge.netxscript.Negation;
-import com.netxforge.netxscript.NetxscriptPackage;
-import com.netxforge.netxscript.NodeTypeRef;
-import com.netxforge.netxscript.NumberLiteral;
-import com.netxforge.netxscript.Or;
-import com.netxforge.netxscript.ParamRef;
-import com.netxforge.netxscript.Plus;
-import com.netxforge.netxscript.PlusAssignment;
-import com.netxforge.netxscript.Range;
-import com.netxforge.netxscript.RangeLiteral;
-import com.netxforge.netxscript.RangeRef;
-import com.netxforge.netxscript.RefAssignment;
-import com.netxforge.netxscript.Reference;
-import com.netxforge.netxscript.ResourceRef;
-import com.netxforge.netxscript.Return;
-import com.netxforge.netxscript.Statement;
-import com.netxforge.netxscript.StatusRef;
-import com.netxforge.netxscript.UnaryPlusMinus;
-import com.netxforge.netxscript.Unequal;
-import com.netxforge.netxscript.VarOrArgumentCall;
-import com.netxforge.netxscript.Variable;
-import com.netxforge.netxscript.While;
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -345,14 +298,19 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createNodeTypeRefAdapter();
       }
       @Override
+      public Adapter caseNodeRef(NodeRef object)
+      {
+        return createNodeRefAdapter();
+      }
+      @Override
       public Adapter caseContextRef(ContextRef object)
       {
         return createContextRefAdapter();
       }
       @Override
-      public Adapter caseComponentRef(ComponentRef object)
+      public Adapter caseOperatorRef(OperatorRef object)
       {
-        return createComponentRefAdapter();
+        return createOperatorRefAdapter();
       }
       @Override
       public Adapter caseResourceRef(ResourceRef object)
@@ -1052,6 +1010,21 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.NodeRef <em>Node Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.NodeRef
+   * @generated
+   */
+  public Adapter createNodeRefAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.ContextRef <em>Context Ref</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -1067,16 +1040,16 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.ComponentRef <em>Component Ref</em>}'.
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.OperatorRef <em>Operator Ref</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see com.netxforge.netxscript.ComponentRef
+   * @see com.netxforge.netxscript.OperatorRef
    * @generated
    */
-  public Adapter createComponentRefAdapter()
+  public Adapter createOperatorRefAdapter()
   {
     return null;
   }

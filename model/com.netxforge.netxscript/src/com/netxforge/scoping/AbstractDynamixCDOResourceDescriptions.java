@@ -86,13 +86,13 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 					});
 		}
 	}
-	
-	
+
 	/**
-	 * Note as our cache will be initially empty, this will not return anything unless
+	 * Note as our cache will be initially empty, this will not return anything
+	 * unless
 	 */
 	public Iterable<IResourceDescription> getAllResourceDescriptions() {
-		
+
 		List<URI> uris = this.resourceDescriptionCache.getKeys();
 		return Iterables.filter(Iterables.transform(uris,
 				new Function<URI, IResourceDescription>() {
@@ -153,7 +153,6 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 	}
 
 	public void update(List<URI> dirtyURIs) {
-
 		for (URI dirtyURI : dirtyURIs) {
 			if (resourceDescriptionCache.hasCachedValue(dirtyURI)) {
 				resourceDescriptionCache.discard(dirtyURI);
@@ -163,11 +162,14 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 		}
 	}
 
-	public void add(URI addScopedURI) {
-		if (!resourceDescriptionCache.hasCachedValue(addScopedURI)) {
-			resourceDescriptionCache.get(addScopedURI); // should force an
-														// apply() and initial
+	public void add(List<URI> addScopedURI) {
+		for (URI addURI : addScopedURI) {
+			if (!resourceDescriptionCache.hasCachedValue(addURI)) {
+				resourceDescriptionCache.get(addURI); // should force an
+														// apply() and
+														// initial
 														// load.
+			}
 		}
 	}
 

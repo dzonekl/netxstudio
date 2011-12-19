@@ -5,15 +5,18 @@
  */
 package com.netxforge.netxscript.impl;
 
+import com.netxforge.netxscript.NetxscriptPackage;
+import com.netxforge.netxscript.RangeLiteral;
+
 import java.math.BigDecimal;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
-import com.netxforge.netxscript.NetxscriptPackage;
-import com.netxforge.netxscript.RangeLiteral;
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->

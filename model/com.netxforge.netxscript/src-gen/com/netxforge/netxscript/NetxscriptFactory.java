@@ -422,6 +422,15 @@ public interface NetxscriptFactory extends EFactory
   NodeTypeRef createNodeTypeRef();
 
   /**
+   * Returns a new object of class '<em>Node Ref</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Node Ref</em>'.
+   * @generated
+   */
+  NodeRef createNodeRef();
+
+  /**
    * Returns a new object of class '<em>Context Ref</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -431,13 +440,13 @@ public interface NetxscriptFactory extends EFactory
   ContextRef createContextRef();
 
   /**
-   * Returns a new object of class '<em>Component Ref</em>'.
+   * Returns a new object of class '<em>Operator Ref</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Component Ref</em>'.
+   * @return a new object of class '<em>Operator Ref</em>'.
    * @generated
    */
-  ComponentRef createComponentRef();
+  OperatorRef createOperatorRef();
 
   /**
    * Returns a new object of class '<em>Resource Ref</em>'.

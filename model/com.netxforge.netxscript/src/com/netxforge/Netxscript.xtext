@@ -155,7 +155,7 @@ enum NativeFunction:
 	COUNT='count()' | SUM='sum()' | MIN='min()' | MAX='max()' | MEAN='mean()' | DEVIATION='deviation()' | ERLANGB='erlangB()' | CLEAR ='clear()';
 
 Reference returns Expression:
-	ContextRef | NodeTypeRef | ParamRef
+	ContextRef | NodeTypeRef | NodeRef | ParamRef
 ;
 
 ParamRef returns Reference:
@@ -166,7 +166,11 @@ ParamRef returns Reference:
  * The Node context can be found with NODE if available.
  */
 NodeTypeRef returns Reference:
-	{NodeTypeRef} 'NODETYPE' nodetype=[library::NodeType] primaryRef=PrimaryRef
+	{NodeTypeRef} 'NETYPE' nodetype=[library::NodeType] primaryRef=PrimaryRef
+;
+
+NodeRef returns Reference:
+	{NodeRef} 'NE' node=[operator::Node] primaryRef=PrimaryRef
 ;
 
 /**
@@ -183,10 +187,10 @@ ContextRef returns Reference:
  */
  
 PrimaryRef returns Reference:
-	(components+=ComponentRef)+ ('->' leafRef=LeafReference)?;
+	(components+=OperatorRef)+ ('->' leafRef=LeafReference)?;
 
-ComponentRef returns Reference:
-	{ComponentRef} '.' ( 'FUNCTION' function=[library::Function] | 'EQUIPMENT' equipment=[library::Equipment] | 'PROFILE' | 'STATUS')
+OperatorRef returns Reference:
+	{OperatorRef} '.' ( 'FUNCTION' function=[library::Function] | 'EQUIPMENT' equipment=[library::Equipment] | 'PROFILE' | 'STATUS')
 ;
 
 //ServiceRef returns Reference:

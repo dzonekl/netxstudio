@@ -2231,11 +2231,21 @@ ruleReference returns [EObject current=null]
 
     |
     { 
-        newCompositeNode(grammarAccess.getReferenceAccess().getParamRefParserRuleCall_2()); 
+        newCompositeNode(grammarAccess.getReferenceAccess().getNodeRefParserRuleCall_2()); 
     }
-    this_ParamRef_2=ruleParamRef
+    this_NodeRef_2=ruleNodeRef
     { 
-        $current = $this_ParamRef_2.current; 
+        $current = $this_NodeRef_2.current; 
+        afterParserOrEnumRuleCall();
+    }
+
+    |
+    { 
+        newCompositeNode(grammarAccess.getReferenceAccess().getParamRefParserRuleCall_3()); 
+    }
+    this_ParamRef_3=ruleParamRef
+    { 
+        $current = $this_ParamRef_3.current; 
         afterParserOrEnumRuleCall();
     }
 )
@@ -2309,9 +2319,9 @@ ruleNodeTypeRef returns [EObject current=null]
             grammarAccess.getNodeTypeRefAccess().getNodeTypeRefAction_0(),
             $current);
     }
-)	otherlv_1='NODETYPE' 
+)	otherlv_1='NETYPE' 
     {
-    	newLeafNode(otherlv_1, grammarAccess.getNodeTypeRefAccess().getNODETYPEKeyword_1());
+    	newLeafNode(otherlv_1, grammarAccess.getNodeTypeRefAccess().getNETYPEKeyword_1());
     }
 (
 (
@@ -2334,6 +2344,68 @@ ruleNodeTypeRef returns [EObject current=null]
 		lv_primaryRef_3_0=rulePrimaryRef		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getNodeTypeRefRule());
+	        }
+       		set(
+       			$current, 
+       			"primaryRef",
+        		lv_primaryRef_3_0, 
+        		"PrimaryRef");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+))
+;
+
+
+
+
+
+// Entry rule entryRuleNodeRef
+entryRuleNodeRef returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getNodeRefRule()); }
+	 iv_ruleNodeRef=ruleNodeRef 
+	 { $current=$iv_ruleNodeRef.current; } 
+	 EOF 
+;
+
+// Rule NodeRef
+ruleNodeRef returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+    {
+        $current = forceCreateModelElement(
+            grammarAccess.getNodeRefAccess().getNodeRefAction_0(),
+            $current);
+    }
+)	otherlv_1='NE' 
+    {
+    	newLeafNode(otherlv_1, grammarAccess.getNodeRefAccess().getNEKeyword_1());
+    }
+(
+(
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getNodeRefRule());
+	        }
+        }
+	otherlv_2=RULE_ID
+	{
+		newLeafNode(otherlv_2, grammarAccess.getNodeRefAccess().getNodeNodeCrossReference_2_0()); 
+	}
+
+)
+)(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getNodeRefAccess().getPrimaryRefPrimaryRefParserRuleCall_3_0()); 
+	    }
+		lv_primaryRef_3_0=rulePrimaryRef		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getNodeRefRule());
 	        }
        		set(
        			$current, 
@@ -2436,9 +2508,9 @@ rulePrimaryRef returns [EObject current=null]
 ((
 (
 		{ 
-	        newCompositeNode(grammarAccess.getPrimaryRefAccess().getComponentsComponentRefParserRuleCall_0_0()); 
+	        newCompositeNode(grammarAccess.getPrimaryRefAccess().getComponentsOperatorRefParserRuleCall_0_0()); 
 	    }
-		lv_components_0_0=ruleComponentRef		{
+		lv_components_0_0=ruleOperatorRef		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getPrimaryRefRule());
 	        }
@@ -2446,7 +2518,7 @@ rulePrimaryRef returns [EObject current=null]
        			$current, 
        			"components",
         		lv_components_0_0, 
-        		"ComponentRef");
+        		"OperatorRef");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2480,74 +2552,74 @@ rulePrimaryRef returns [EObject current=null]
 
 
 
-// Entry rule entryRuleComponentRef
-entryRuleComponentRef returns [EObject current=null] 
+// Entry rule entryRuleOperatorRef
+entryRuleOperatorRef returns [EObject current=null] 
 	:
-	{ newCompositeNode(grammarAccess.getComponentRefRule()); }
-	 iv_ruleComponentRef=ruleComponentRef 
-	 { $current=$iv_ruleComponentRef.current; } 
+	{ newCompositeNode(grammarAccess.getOperatorRefRule()); }
+	 iv_ruleOperatorRef=ruleOperatorRef 
+	 { $current=$iv_ruleOperatorRef.current; } 
 	 EOF 
 ;
 
-// Rule ComponentRef
-ruleComponentRef returns [EObject current=null] 
+// Rule OperatorRef
+ruleOperatorRef returns [EObject current=null] 
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
 ((
     {
         $current = forceCreateModelElement(
-            grammarAccess.getComponentRefAccess().getComponentRefAction_0(),
+            grammarAccess.getOperatorRefAccess().getOperatorRefAction_0(),
             $current);
     }
 )	otherlv_1='.' 
     {
-    	newLeafNode(otherlv_1, grammarAccess.getComponentRefAccess().getFullStopKeyword_1());
+    	newLeafNode(otherlv_1, grammarAccess.getOperatorRefAccess().getFullStopKeyword_1());
     }
 ((	otherlv_2='FUNCTION' 
     {
-    	newLeafNode(otherlv_2, grammarAccess.getComponentRefAccess().getFUNCTIONKeyword_2_0_0());
+    	newLeafNode(otherlv_2, grammarAccess.getOperatorRefAccess().getFUNCTIONKeyword_2_0_0());
     }
 (
 (
 		{
 			if ($current==null) {
-	            $current = createModelElement(grammarAccess.getComponentRefRule());
+	            $current = createModelElement(grammarAccess.getOperatorRefRule());
 	        }
         }
 	otherlv_3=RULE_ID
 	{
-		newLeafNode(otherlv_3, grammarAccess.getComponentRefAccess().getFunctionFunctionCrossReference_2_0_1_0()); 
+		newLeafNode(otherlv_3, grammarAccess.getOperatorRefAccess().getFunctionFunctionCrossReference_2_0_1_0()); 
 	}
 
 )
 ))
     |(	otherlv_4='EQUIPMENT' 
     {
-    	newLeafNode(otherlv_4, grammarAccess.getComponentRefAccess().getEQUIPMENTKeyword_2_1_0());
+    	newLeafNode(otherlv_4, grammarAccess.getOperatorRefAccess().getEQUIPMENTKeyword_2_1_0());
     }
 (
 (
 		{
 			if ($current==null) {
-	            $current = createModelElement(grammarAccess.getComponentRefRule());
+	            $current = createModelElement(grammarAccess.getOperatorRefRule());
 	        }
         }
 	otherlv_5=RULE_ID
 	{
-		newLeafNode(otherlv_5, grammarAccess.getComponentRefAccess().getEquipmentEquipmentCrossReference_2_1_1_0()); 
+		newLeafNode(otherlv_5, grammarAccess.getOperatorRefAccess().getEquipmentEquipmentCrossReference_2_1_1_0()); 
 	}
 
 )
 ))
     |	otherlv_6='PROFILE' 
     {
-    	newLeafNode(otherlv_6, grammarAccess.getComponentRefAccess().getPROFILEKeyword_2_2());
+    	newLeafNode(otherlv_6, grammarAccess.getOperatorRefAccess().getPROFILEKeyword_2_2());
     }
 
     |	otherlv_7='STATUS' 
     {
-    	newLeafNode(otherlv_7, grammarAccess.getComponentRefAccess().getSTATUSKeyword_2_3());
+    	newLeafNode(otherlv_7, grammarAccess.getOperatorRefAccess().getSTATUSKeyword_2_3());
     }
 ))
 ;

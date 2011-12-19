@@ -5,60 +5,12 @@
  */
 package com.netxforge.netxscript.util;
 
+import com.netxforge.netxscript.*;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.Switch;
 
-import com.netxforge.netxscript.AbstractFunction;
-import com.netxforge.netxscript.AbstractVarOrArgument;
-import com.netxforge.netxscript.And;
-import com.netxforge.netxscript.Argument;
-import com.netxforge.netxscript.Assignment;
-import com.netxforge.netxscript.Block;
-import com.netxforge.netxscript.BooleanLiteral;
-import com.netxforge.netxscript.ComponentRef;
-import com.netxforge.netxscript.ContextRef;
-import com.netxforge.netxscript.Div;
-import com.netxforge.netxscript.Equal;
-import com.netxforge.netxscript.Expression;
-import com.netxforge.netxscript.Function;
-import com.netxforge.netxscript.FunctionCall;
-import com.netxforge.netxscript.Greater;
-import com.netxforge.netxscript.GreaterEqual;
-import com.netxforge.netxscript.If;
-import com.netxforge.netxscript.Import;
-import com.netxforge.netxscript.Interval;
-import com.netxforge.netxscript.LeafReference;
-import com.netxforge.netxscript.Lesser;
-import com.netxforge.netxscript.LesserEqual;
-import com.netxforge.netxscript.LinkRef;
-import com.netxforge.netxscript.Minus;
-import com.netxforge.netxscript.Mod;
-import com.netxforge.netxscript.Modulo;
-import com.netxforge.netxscript.Multi;
-import com.netxforge.netxscript.NativeExpression;
-import com.netxforge.netxscript.Negation;
-import com.netxforge.netxscript.NetxscriptPackage;
-import com.netxforge.netxscript.NodeTypeRef;
-import com.netxforge.netxscript.NumberLiteral;
-import com.netxforge.netxscript.Or;
-import com.netxforge.netxscript.ParamRef;
-import com.netxforge.netxscript.Plus;
-import com.netxforge.netxscript.PlusAssignment;
-import com.netxforge.netxscript.Range;
-import com.netxforge.netxscript.RangeLiteral;
-import com.netxforge.netxscript.RangeRef;
-import com.netxforge.netxscript.RefAssignment;
-import com.netxforge.netxscript.Reference;
-import com.netxforge.netxscript.ResourceRef;
-import com.netxforge.netxscript.Return;
-import com.netxforge.netxscript.Statement;
-import com.netxforge.netxscript.StatusRef;
-import com.netxforge.netxscript.UnaryPlusMinus;
-import com.netxforge.netxscript.Unequal;
-import com.netxforge.netxscript.VarOrArgumentCall;
-import com.netxforge.netxscript.Variable;
-import com.netxforge.netxscript.While;
+import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc -->
@@ -478,6 +430,15 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case NetxscriptPackage.NODE_REF:
+      {
+        NodeRef nodeRef = (NodeRef)theEObject;
+        T result = caseNodeRef(nodeRef);
+        if (result == null) result = caseReference(nodeRef);
+        if (result == null) result = caseExpression(nodeRef);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case NetxscriptPackage.CONTEXT_REF:
       {
         ContextRef contextRef = (ContextRef)theEObject;
@@ -487,12 +448,12 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case NetxscriptPackage.COMPONENT_REF:
+      case NetxscriptPackage.OPERATOR_REF:
       {
-        ComponentRef componentRef = (ComponentRef)theEObject;
-        T result = caseComponentRef(componentRef);
-        if (result == null) result = caseReference(componentRef);
-        if (result == null) result = caseExpression(componentRef);
+        OperatorRef operatorRef = (OperatorRef)theEObject;
+        T result = caseOperatorRef(operatorRef);
+        if (result == null) result = caseReference(operatorRef);
+        if (result == null) result = caseExpression(operatorRef);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -1229,6 +1190,22 @@ public class NetxscriptSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Node Ref</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Node Ref</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNodeRef(NodeRef object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Context Ref</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1245,17 +1222,17 @@ public class NetxscriptSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Component Ref</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Operator Ref</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Component Ref</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Operator Ref</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseComponentRef(ComponentRef object)
+  public T caseOperatorRef(OperatorRef object)
   {
     return null;
   }

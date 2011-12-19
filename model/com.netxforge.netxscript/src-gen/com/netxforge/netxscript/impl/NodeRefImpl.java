@@ -6,10 +6,10 @@
 package com.netxforge.netxscript.impl;
 
 import com.netxforge.netxscript.NetxscriptPackage;
-import com.netxforge.netxscript.NodeTypeRef;
+import com.netxforge.netxscript.NodeRef;
 import com.netxforge.netxscript.Reference;
 
-import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.Node;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -22,29 +22,29 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Node Type Ref</b></em>'.
+ * An implementation of the model object '<em><b>Node Ref</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.impl.NodeTypeRefImpl#getNodetype <em>Nodetype</em>}</li>
- *   <li>{@link com.netxforge.netxscript.impl.NodeTypeRefImpl#getPrimaryRef <em>Primary Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.NodeRefImpl#getNode <em>Node</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.NodeRefImpl#getPrimaryRef <em>Primary Ref</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
+public class NodeRefImpl extends ReferenceImpl implements NodeRef
 {
   /**
-   * The cached value of the '{@link #getNodetype() <em>Nodetype</em>}' reference.
+   * The cached value of the '{@link #getNode() <em>Node</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getNodetype()
+   * @see #getNode()
    * @generated
    * @ordered
    */
-  protected NodeType nodetype;
+  protected Node node;
 
   /**
    * The cached value of the '{@link #getPrimaryRef() <em>Primary Ref</em>}' containment reference.
@@ -61,7 +61,7 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
    * <!-- end-user-doc -->
    * @generated
    */
-  protected NodeTypeRefImpl()
+  protected NodeRefImpl()
   {
     super();
   }
@@ -74,7 +74,7 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
   @Override
   protected EClass eStaticClass()
   {
-    return NetxscriptPackage.Literals.NODE_TYPE_REF;
+    return NetxscriptPackage.Literals.NODE_REF;
   }
 
   /**
@@ -82,19 +82,19 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public NodeType getNodetype()
+  public Node getNode()
   {
-    if (nodetype != null && ((EObject)nodetype).eIsProxy())
+    if (node != null && ((EObject)node).eIsProxy())
     {
-      InternalEObject oldNodetype = (InternalEObject)nodetype;
-      nodetype = (NodeType)eResolveProxy(oldNodetype);
-      if (nodetype != oldNodetype)
+      InternalEObject oldNode = (InternalEObject)node;
+      node = (Node)eResolveProxy(oldNode);
+      if (node != oldNode)
       {
         if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetxscriptPackage.NODE_TYPE_REF__NODETYPE, oldNodetype, nodetype));
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetxscriptPackage.NODE_REF__NODE, oldNode, node));
       }
     }
-    return nodetype;
+    return node;
   }
 
   /**
@@ -102,9 +102,9 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public NodeType basicGetNodetype()
+  public Node basicGetNode()
   {
-    return nodetype;
+    return node;
   }
 
   /**
@@ -112,12 +112,12 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setNodetype(NodeType newNodetype)
+  public void setNode(Node newNode)
   {
-    NodeType oldNodetype = nodetype;
-    nodetype = newNodetype;
+    Node oldNode = node;
+    node = newNode;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.NODE_TYPE_REF__NODETYPE, oldNodetype, nodetype));
+      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.NODE_REF__NODE, oldNode, node));
   }
 
   /**
@@ -141,7 +141,7 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
     primaryRef = newPrimaryRef;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NetxscriptPackage.NODE_TYPE_REF__PRIMARY_REF, oldPrimaryRef, newPrimaryRef);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NetxscriptPackage.NODE_REF__PRIMARY_REF, oldPrimaryRef, newPrimaryRef);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -158,14 +158,14 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
     {
       NotificationChain msgs = null;
       if (primaryRef != null)
-        msgs = ((InternalEObject)primaryRef).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.NODE_TYPE_REF__PRIMARY_REF, null, msgs);
+        msgs = ((InternalEObject)primaryRef).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.NODE_REF__PRIMARY_REF, null, msgs);
       if (newPrimaryRef != null)
-        msgs = ((InternalEObject)newPrimaryRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.NODE_TYPE_REF__PRIMARY_REF, null, msgs);
+        msgs = ((InternalEObject)newPrimaryRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.NODE_REF__PRIMARY_REF, null, msgs);
       msgs = basicSetPrimaryRef(newPrimaryRef, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.NODE_TYPE_REF__PRIMARY_REF, newPrimaryRef, newPrimaryRef));
+      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.NODE_REF__PRIMARY_REF, newPrimaryRef, newPrimaryRef));
   }
 
   /**
@@ -178,7 +178,7 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.NODE_TYPE_REF__PRIMARY_REF:
+      case NetxscriptPackage.NODE_REF__PRIMARY_REF:
         return basicSetPrimaryRef(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -194,10 +194,10 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.NODE_TYPE_REF__NODETYPE:
-        if (resolve) return getNodetype();
-        return basicGetNodetype();
-      case NetxscriptPackage.NODE_TYPE_REF__PRIMARY_REF:
+      case NetxscriptPackage.NODE_REF__NODE:
+        if (resolve) return getNode();
+        return basicGetNode();
+      case NetxscriptPackage.NODE_REF__PRIMARY_REF:
         return getPrimaryRef();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -213,10 +213,10 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.NODE_TYPE_REF__NODETYPE:
-        setNodetype((NodeType)newValue);
+      case NetxscriptPackage.NODE_REF__NODE:
+        setNode((Node)newValue);
         return;
-      case NetxscriptPackage.NODE_TYPE_REF__PRIMARY_REF:
+      case NetxscriptPackage.NODE_REF__PRIMARY_REF:
         setPrimaryRef((Reference)newValue);
         return;
     }
@@ -233,10 +233,10 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.NODE_TYPE_REF__NODETYPE:
-        setNodetype((NodeType)null);
+      case NetxscriptPackage.NODE_REF__NODE:
+        setNode((Node)null);
         return;
-      case NetxscriptPackage.NODE_TYPE_REF__PRIMARY_REF:
+      case NetxscriptPackage.NODE_REF__PRIMARY_REF:
         setPrimaryRef((Reference)null);
         return;
     }
@@ -253,12 +253,12 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.NODE_TYPE_REF__NODETYPE:
-        return nodetype != null;
-      case NetxscriptPackage.NODE_TYPE_REF__PRIMARY_REF:
+      case NetxscriptPackage.NODE_REF__NODE:
+        return node != null;
+      case NetxscriptPackage.NODE_REF__PRIMARY_REF:
         return primaryRef != null;
     }
     return super.eIsSet(featureID);
   }
 
-} //NodeTypeRefImpl
+} //NodeRefImpl

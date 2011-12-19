@@ -1,17 +1,5 @@
 package com.netxforge.serializer;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.serializer.acceptor.ISemanticSequenceAcceptor;
-import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
-import org.eclipse.xtext.serializer.diagnostic.ISemanticSequencerDiagnosticProvider;
-import org.eclipse.xtext.serializer.diagnostic.ISerializationDiagnostic.Acceptor;
-import org.eclipse.xtext.serializer.sequencer.AbstractSemanticSequencer;
-import org.eclipse.xtext.serializer.sequencer.GenericSequencer;
-import org.eclipse.xtext.serializer.sequencer.ISemanticNodeProvider.INodesForEObjectProvider;
-import org.eclipse.xtext.serializer.sequencer.ISemanticSequencer;
-import org.eclipse.xtext.serializer.sequencer.ITransientValueService;
-import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.netxforge.netxscript.And;
@@ -19,7 +7,6 @@ import com.netxforge.netxscript.Argument;
 import com.netxforge.netxscript.Assignment;
 import com.netxforge.netxscript.Block;
 import com.netxforge.netxscript.BooleanLiteral;
-import com.netxforge.netxscript.ComponentRef;
 import com.netxforge.netxscript.ContextRef;
 import com.netxforge.netxscript.Div;
 import com.netxforge.netxscript.Equal;
@@ -40,8 +27,10 @@ import com.netxforge.netxscript.Multi;
 import com.netxforge.netxscript.NativeExpression;
 import com.netxforge.netxscript.Negation;
 import com.netxforge.netxscript.NetxscriptPackage;
+import com.netxforge.netxscript.NodeRef;
 import com.netxforge.netxscript.NodeTypeRef;
 import com.netxforge.netxscript.NumberLiteral;
+import com.netxforge.netxscript.OperatorRef;
 import com.netxforge.netxscript.Or;
 import com.netxforge.netxscript.ParamRef;
 import com.netxforge.netxscript.Plus;
@@ -60,6 +49,17 @@ import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
 import com.netxforge.services.NetxscriptGrammarAccess;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.serializer.acceptor.ISemanticSequenceAcceptor;
+import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
+import org.eclipse.xtext.serializer.diagnostic.ISemanticSequencerDiagnosticProvider;
+import org.eclipse.xtext.serializer.diagnostic.ISerializationDiagnostic.Acceptor;
+import org.eclipse.xtext.serializer.sequencer.AbstractSemanticSequencer;
+import org.eclipse.xtext.serializer.sequencer.GenericSequencer;
+import org.eclipse.xtext.serializer.sequencer.ISemanticNodeProvider.INodesForEObjectProvider;
+import org.eclipse.xtext.serializer.sequencer.ISemanticSequencer;
+import org.eclipse.xtext.serializer.sequencer.ITransientValueService;
+import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
 
 @SuppressWarnings("restriction")
 public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequencer {
@@ -162,12 +162,6 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				   context == grammarAccess.getLiteralRule() ||
 				   context == grammarAccess.getParenthesizedExpressionRule()) {
 					sequence_Literal_BooleanLiteral(context, (BooleanLiteral) semanticObject); 
-					return; 
-				}
-				else break;
-			case NetxscriptPackage.COMPONENT_REF:
-				if(context == grammarAccess.getComponentRefRule()) {
-					sequence_ComponentRef_ComponentRef(context, (ComponentRef) semanticObject); 
 					return; 
 				}
 				else break;
@@ -565,6 +559,35 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 					return; 
 				}
 				else break;
+			case NetxscriptPackage.NODE_REF:
+				if(context == grammarAccess.getExpressionRule() ||
+				   context == grammarAccess.getLogicalRule() ||
+				   context == grammarAccess.getLogicalAccess().getAndLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getLogicalAccess().getOrLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getEqualityRule() ||
+				   context == grammarAccess.getEqualityAccess().getEqualLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getEqualityAccess().getUnequalLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getComparisonRule() ||
+				   context == grammarAccess.getComparisonAccess().getLesserLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getComparisonAccess().getLesserEqualLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getComparisonAccess().getGreaterLeftAction_1_0_2_0() ||
+				   context == grammarAccess.getComparisonAccess().getGreaterEqualLeftAction_1_0_3_0() ||
+				   context == grammarAccess.getAdditionRule() ||
+				   context == grammarAccess.getAdditionAccess().getPlusLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getAdditionAccess().getMinusLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getMultiplicationRule() ||
+				   context == grammarAccess.getMultiplicationAccess().getMultiLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getMultiplicationAccess().getDivLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getMultiplicationAccess().getModuloLeftAction_1_0_2_0() ||
+				   context == grammarAccess.getUnaryRule() ||
+				   context == grammarAccess.getPrimaryExpressionRule() ||
+				   context == grammarAccess.getParenthesizedExpressionRule() ||
+				   context == grammarAccess.getReferenceRule() ||
+				   context == grammarAccess.getNodeRefRule()) {
+					sequence_NodeRef_NodeRef(context, (NodeRef) semanticObject); 
+					return; 
+				}
+				else break;
 			case NetxscriptPackage.NODE_TYPE_REF:
 				if(context == grammarAccess.getExpressionRule() ||
 				   context == grammarAccess.getLogicalRule() ||
@@ -620,6 +643,12 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				   context == grammarAccess.getNumberLiteralRule() ||
 				   context == grammarAccess.getParenthesizedExpressionRule()) {
 					sequence_NumberLiteral_NumberLiteral(context, (NumberLiteral) semanticObject); 
+					return; 
+				}
+				else break;
+			case NetxscriptPackage.OPERATOR_REF:
+				if(context == grammarAccess.getOperatorRefRule()) {
+					sequence_OperatorRef_OperatorRef(context, (OperatorRef) semanticObject); 
 					return; 
 				}
 				else break;
@@ -843,7 +872,11 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				}
 				else break;
 			case NetxscriptPackage.VAR_OR_ARGUMENT_CALL:
-				if(context == grammarAccess.getExpressionRule() ||
+				if(context == grammarAccess.getVarOrArgumentCallRule()) {
+					sequence_VarOrArgumentCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
+					return; 
+				}
+				else if(context == grammarAccess.getExpressionRule() ||
 				   context == grammarAccess.getLogicalRule() ||
 				   context == grammarAccess.getLogicalAccess().getAndLeftAction_1_0_0_0() ||
 				   context == grammarAccess.getLogicalAccess().getOrLeftAction_1_0_1_0() ||
@@ -867,10 +900,6 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				   context == grammarAccess.getParenthesizedExpressionRule() ||
 				   context == grammarAccess.getIndexedCallRule()) {
 					sequence_IndexedCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
-					return; 
-				}
-				else if(context == grammarAccess.getVarOrArgumentCallRule()) {
-					sequence_VarOrArgumentCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
 					return; 
 				}
 				else break;
@@ -1021,21 +1050,6 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	 *    right[1, 1]
 	 */
 	protected void sequence_Comparison_LesserEqual(EObject context, LesserEqual semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Constraint:
-	 *     ((function=[Function|ID] | equipment=[Equipment|ID])?)
-	 *
-	 * Features:
-	 *    function[0, 1]
-	 *         EXCLUDE_IF_SET equipment
-	 *    equipment[0, 1]
-	 *         EXCLUDE_IF_SET function
-	 */
-	protected void sequence_ComponentRef_ComponentRef(EObject context, ComponentRef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -1305,6 +1319,19 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
+	 *     (node=[Node|ID] primaryRef=PrimaryRef)
+	 *
+	 * Features:
+	 *    node[1, 1]
+	 *    primaryRef[1, 1]
+	 */
+	protected void sequence_NodeRef_NodeRef(EObject context, NodeRef semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     (nodetype=[NodeType|ID] primaryRef=PrimaryRef)
 	 *
 	 * Features:
@@ -1324,6 +1351,21 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	 *    value[1, 1]
 	 */
 	protected void sequence_NumberLiteral_NumberLiteral(EObject context, NumberLiteral semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     ((function=[Function|ID] | equipment=[Equipment|ID])?)
+	 *
+	 * Features:
+	 *    function[0, 1]
+	 *         EXCLUDE_IF_SET equipment
+	 *    equipment[0, 1]
+	 *         EXCLUDE_IF_SET function
+	 */
+	protected void sequence_OperatorRef_OperatorRef(EObject context, OperatorRef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -1365,7 +1407,7 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     (components+=ComponentRef+ leafRef=LeafReference?)
+	 *     (components+=OperatorRef+ leafRef=LeafReference?)
 	 *
 	 * Features:
 	 *    components[1, *]

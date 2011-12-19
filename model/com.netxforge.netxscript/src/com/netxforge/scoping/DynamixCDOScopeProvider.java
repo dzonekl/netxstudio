@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.cdo.CDOObject;
@@ -24,7 +25,6 @@ import org.eclipse.xtext.scoping.impl.SelectableBasedScope;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -56,9 +56,10 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 	private CDOView view;
 
 	/*
-	 * Our fixed list of URI's for which we should resolve.
+	 * Our dynamic map of EClass and URIs for NetXResource object, we expect the
+	 * list of URI's to grow.
 	 */
-	private ImmutableMap<EClass, List<URI>> eClassToURIMap;
+	private Map<EClass, List<URI>> eClassToURIMap;
 
 	/*
 	 * 
@@ -109,7 +110,7 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 		}
 		IScope scope = IScope.NULLSCOPE;
 		List<URI> urisForClass = urisForClass(type);
-		if (urisForClass != null) {
+		if (urisForClass != null && urisForClass.size() > 0) {
 			for (URI uri : urisForClass) {
 
 				if (RuntimeActivator.DEBUG) {
@@ -146,13 +147,13 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 	private List<URI> urisForClass(EClass eClass) {
 
 		List<EClass> classesToCheck = Lists.newArrayList();
-		
-		if(eClass == LibraryPackage.Literals.BASE_RESOURCE){
+
+		if (eClass == LibraryPackage.Literals.BASE_RESOURCE) {
 			classesToCheck.add(LibraryPackage.Literals.NET_XRESOURCE);
-		}else{
+		} else {
 			classesToCheck.add(eClass);
 		}
-		
+
 		classesToCheck.addAll(eClass.getEAllSuperTypes());
 
 		for (EClass eC : classesToCheck) {
@@ -189,7 +190,7 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 	/*
 	 * See NetXScript grammar for all possible model referenced objects.
 	 */
-	public ImmutableMap<EClass, List<URI>> getClassToURIMap() {
+	public Map<EClass, List<URI>> getClassToURIMap() {
 
 		final LinkedHashMap<EClass, List<URI>> classURIMap = Maps
 				.newLinkedHashMap();
@@ -208,8 +209,10 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 
 		classURIMap.put(OperatorsPackage.Literals.OPERATOR,
 				ImmutableList.of(operatorURI));
-		classURIMap.put(OperatorsPackage.Literals.NETWORK,
-				ImmutableList.of(operatorURI));
+
+		// CB don't need network (yet??)
+		// classURIMap.put(OperatorsPackage.Literals.NETWORK,
+		// ImmutableList.of(operatorURI));
 		classURIMap.put(OperatorsPackage.Literals.NODE,
 				ImmutableList.of(operatorURI));
 
@@ -240,8 +243,8 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 
 		// first type init.
 		classURIMap.put(LibraryPackage.Literals.NET_XRESOURCE, urisAsList);
-
-		return ImmutableMap.copyOf(classURIMap);
+		return classURIMap;
+		// return ImmutableMap.copyOf(classURIMap);
 
 	}
 
@@ -304,50 +307,125 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 		return ImmutableList.copyOf(flattenURIList);
 	}
 
+	/**
+	 * An updated URI could be of a CDO Folder, a CDO Resource or an object. For
+	 * any the URI would either exist in the existing map or might be new.
+	 * <ul>
+	 * <li>CDO Folder updates occur for /Node_ and /NodeType_ CDO folders
+	 * containing NetXResource objects.</li>
+	 * <li>CDO Resource updates occur for any of the CDO Resources adding or
+	 * deleting objects to their contents</li>
+	 * <li>Individual object updates occur for single object mutations</li>
+	 * </ul>
+	 * We first check if the update is a CDOResource Folder update, we look for
+	 * new URI's which are not in our map, add them and also add them to the
+	 * cached so a ResourceDecription is produced in the cache.
+	 * 
+	 * For regular object we update the object URI .
+	 * 
+	 * @param dirtyDozen
+	 */
 	public void updateURIMap(Set<CDOObject> dirtyDozen) {
 		// tada our dirty objects, update the URI map, and instruct the cache to
 		// invalid the current URI's.
 
 		List<URI> urisToUpdate = Lists.newArrayList();
-		for (CDOObject cdoO : dirtyDozen) {
+		List<URI> urisToAdd = Lists.newArrayList();
 
-			if (cdoO instanceof CDOResource) {
-				CDOResource cdoRes = (CDOResource) cdoO;
-				urisToUpdate.add(cdoRes.getURI());
-			} else if (cdoO instanceof CDOObject) {
-				EClass eClass = cdoO.eClass();
-				if (RuntimeActivator.DEBUG) {
-					System.out
-							.println("NETXSCRIPT, updating descriptions for + "
-									+ eClass.getName());
-				}
-				List<URI> list = this.getClassToURIMap().get(eClass);
-				
-				if(list != null){
-					for (URI uri : list) {
-						if (!urisToUpdate.contains(uri)) {
-							urisToUpdate.add(uri);
+		for (CDOObject cdoO : dirtyDozen) {
+			if (cdoO instanceof CDOResourceFolder) {
+				// Get the uri from children.
+				CDOResourceFolder cdoFolder = (CDOResourceFolder) cdoO;
+				List<Resource> resourcesFromNode = this
+						.getResourcesFromNode(cdoFolder);
+				List<URI> dirtyURIS = Lists.newArrayList();
+				dirtyURIS.addAll(modelUtils
+						.transformResourceToURI(resourcesFromNode));
+
+				if (cdoFolder.getName().equals("Node_")
+						|| cdoFolder.getName().equals("NodeType_")) {
+					List<URI> existingNetXResourceURIS = this.eClassToURIMap
+							.get(LibraryPackage.Literals.NET_XRESOURCE);
+					for (URI dirtyURI : dirtyURIS) {
+						if (existingNetXResourceURIS.contains(dirtyURI)) {
+							// update it.
+							urisToUpdate.add(dirtyURI);
+						} else {
+							urisToAdd.add(dirtyURI);
 						}
 					}
-				}else{
-					// it could be that we are not interested in this class. 
+					if (!urisToAdd.isEmpty()) {
+						existingNetXResourceURIS.addAll(urisToAdd);
+						this.eClassToURIMap.put(
+								LibraryPackage.Literals.NET_XRESOURCE,
+								existingNetXResourceURIS);
+
+						if (RuntimeActivator.DEBUG) {
+
+							for (URI uri : urisToAdd) {
+								System.out
+										.println("NETXSCRIPT, adding descriptions for URI "
+												+ uri.toString());
+							}
+						}
+
+						((AbstractDynamixCDOResourceDescriptions) descriptions)
+								.add(urisToAdd);
+
+					}
+					if (!urisToUpdate.isEmpty()) {
+
+						if (RuntimeActivator.DEBUG) {
+
+							for (URI uri : urisToUpdate) {
+								System.out
+										.println("NETXSCRIPT, updating descriptions for URI "
+												+ uri.toString());
+							}
+						}
+						((AbstractDynamixCDOResourceDescriptions) descriptions)
+								.update(urisToUpdate);
+					}
+				}
+
+			} else if (cdoO instanceof CDOResource) {
+				CDOResource cdoRes = (CDOResource) cdoO;
+
+				if (flattenMap().contains(cdoRes.getURI())) {
+					urisToUpdate.add(cdoRes.getURI());
+					if (RuntimeActivator.DEBUG) {
+
+						for (URI uri : urisToUpdate) {
+							System.out
+									.println("NETXSCRIPT, updating descriptions for URI "
+											+ uri.toString());
+						}
+					}
+
+					((AbstractDynamixCDOResourceDescriptions) descriptions)
+							.update(urisToUpdate);
+				} else {
+					// We are not interrested in this resource.
+				}
+
+			} else if (cdoO instanceof CDOObject) {
+				EClass eClass = cdoO.eClass();
+
+				// Force a rebuild of the uri list.
+				List<URI> existingURIs = this.eClassToURIMap.get(eClass);
+				if (existingURIs != null) {
+					if (RuntimeActivator.DEBUG) {
+						for (URI uri : existingURIs) {
+							System.out
+									.println("NETXSCRIPT, updating descriptions for URI "
+											+ uri.toString());
+						}
+					}
+
+					((AbstractDynamixCDOResourceDescriptions) descriptions)
+							.update(existingURIs);
 				}
 			}
-
-			if (RuntimeActivator.DEBUG) {
-
-				for (URI uri : urisToUpdate) {
-					System.out
-							.println("NETXSCRIPT, updating descriptions for URI "
-									+ uri.toString());
-				}
-			}
-
-			((AbstractDynamixCDOResourceDescriptions) descriptions)
-					.update(urisToUpdate);
-
 		}
-
 	}
-
 }

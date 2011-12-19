@@ -4,25 +4,14 @@
 
 package com.netxforge.services;
 
-import org.eclipse.xtext.Action;
-import org.eclipse.xtext.Alternatives;
-import org.eclipse.xtext.Assignment;
-import org.eclipse.xtext.CrossReference;
-import org.eclipse.xtext.EnumLiteralDeclaration;
-import org.eclipse.xtext.EnumRule;
-import org.eclipse.xtext.Grammar;
-import org.eclipse.xtext.GrammarUtil;
-import org.eclipse.xtext.Group;
-import org.eclipse.xtext.Keyword;
-import org.eclipse.xtext.ParserRule;
-import org.eclipse.xtext.RuleCall;
-import org.eclipse.xtext.TerminalRule;
-import org.eclipse.xtext.common.services.TerminalsGrammarAccess;
-import org.eclipse.xtext.service.AbstractElementFinder.AbstractGrammarElementFinder;
-import org.eclipse.xtext.service.GrammarProvider;
-
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.Inject;
+
+import org.eclipse.xtext.*;
+import org.eclipse.xtext.service.GrammarProvider;
+import org.eclipse.xtext.service.AbstractElementFinder.*;
+
+import org.eclipse.xtext.common.services.TerminalsGrammarAccess;
 
 @Singleton
 public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
@@ -1438,13 +1427,14 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cContextRefParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cNodeTypeRefParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
-		private final RuleCall cParamRefParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cNodeRefParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cParamRefParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		//Reference returns Expression:
-		//	ContextRef | NodeTypeRef | ParamRef;
+		//	ContextRef | NodeTypeRef | NodeRef | ParamRef;
 		public ParserRule getRule() { return rule; }
 
-		//ContextRef | NodeTypeRef | ParamRef
+		//ContextRef | NodeTypeRef | NodeRef | ParamRef
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//ContextRef
@@ -1453,8 +1443,11 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//NodeTypeRef
 		public RuleCall getNodeTypeRefParserRuleCall_1() { return cNodeTypeRefParserRuleCall_1; }
 
+		//NodeRef
+		public RuleCall getNodeRefParserRuleCall_2() { return cNodeRefParserRuleCall_2; }
+
 		//ParamRef
-		public RuleCall getParamRefParserRuleCall_2() { return cParamRefParserRuleCall_2; }
+		public RuleCall getParamRefParserRuleCall_3() { return cParamRefParserRuleCall_3; }
 	}
 
 	public class ParamRefElements extends AbstractParserRuleElementFinder {
@@ -1493,7 +1486,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "NodeTypeRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cNodeTypeRefAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cNODETYPEKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Keyword cNETYPEKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cNodetypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final CrossReference cNodetypeNodeTypeCrossReference_2_0 = (CrossReference)cNodetypeAssignment_2.eContents().get(0);
 		private final RuleCall cNodetypeNodeTypeIDTerminalRuleCall_2_0_1 = (RuleCall)cNodetypeNodeTypeCrossReference_2_0.eContents().get(1);
@@ -1503,17 +1496,17 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		/// **
 		// * The Node context can be found with NODE if available.
 		// * / NodeTypeRef returns Reference:
-		//	{NodeTypeRef} "NODETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef;
+		//	{NodeTypeRef} "NETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef;
 		public ParserRule getRule() { return rule; }
 
-		//{NodeTypeRef} "NODETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef
+		//{NodeTypeRef} "NETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef
 		public Group getGroup() { return cGroup; }
 
 		//{NodeTypeRef}
 		public Action getNodeTypeRefAction_0() { return cNodeTypeRefAction_0; }
 
-		//"NODETYPE"
-		public Keyword getNODETYPEKeyword_1() { return cNODETYPEKeyword_1; }
+		//"NETYPE"
+		public Keyword getNETYPEKeyword_1() { return cNETYPEKeyword_1; }
 
 		//nodetype=[library::NodeType]
 		public Assignment getNodetypeAssignment_2() { return cNodetypeAssignment_2; }
@@ -1523,6 +1516,46 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 		//ID
 		public RuleCall getNodetypeNodeTypeIDTerminalRuleCall_2_0_1() { return cNodetypeNodeTypeIDTerminalRuleCall_2_0_1; }
+
+		//primaryRef=PrimaryRef
+		public Assignment getPrimaryRefAssignment_3() { return cPrimaryRefAssignment_3; }
+
+		//PrimaryRef
+		public RuleCall getPrimaryRefPrimaryRefParserRuleCall_3_0() { return cPrimaryRefPrimaryRefParserRuleCall_3_0; }
+	}
+
+	public class NodeRefElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "NodeRef");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cNodeRefAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cNEKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cNodeAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final CrossReference cNodeNodeCrossReference_2_0 = (CrossReference)cNodeAssignment_2.eContents().get(0);
+		private final RuleCall cNodeNodeIDTerminalRuleCall_2_0_1 = (RuleCall)cNodeNodeCrossReference_2_0.eContents().get(1);
+		private final Assignment cPrimaryRefAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cPrimaryRefPrimaryRefParserRuleCall_3_0 = (RuleCall)cPrimaryRefAssignment_3.eContents().get(0);
+		
+		//NodeRef returns Reference:
+		//	{NodeRef} "NE" node=[operator::Node] primaryRef=PrimaryRef;
+		public ParserRule getRule() { return rule; }
+
+		//{NodeRef} "NE" node=[operator::Node] primaryRef=PrimaryRef
+		public Group getGroup() { return cGroup; }
+
+		//{NodeRef}
+		public Action getNodeRefAction_0() { return cNodeRefAction_0; }
+
+		//"NE"
+		public Keyword getNEKeyword_1() { return cNEKeyword_1; }
+
+		//node=[operator::Node]
+		public Assignment getNodeAssignment_2() { return cNodeAssignment_2; }
+
+		//[operator::Node]
+		public CrossReference getNodeNodeCrossReference_2_0() { return cNodeNodeCrossReference_2_0; }
+
+		//ID
+		public RuleCall getNodeNodeIDTerminalRuleCall_2_0_1() { return cNodeNodeIDTerminalRuleCall_2_0_1; }
 
 		//primaryRef=PrimaryRef
 		public Assignment getPrimaryRefAssignment_3() { return cPrimaryRefAssignment_3; }
@@ -1579,7 +1612,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "PrimaryRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cComponentsAssignment_0 = (Assignment)cGroup.eContents().get(0);
-		private final RuleCall cComponentsComponentRefParserRuleCall_0_0 = (RuleCall)cComponentsAssignment_0.eContents().get(0);
+		private final RuleCall cComponentsOperatorRefParserRuleCall_0_0 = (RuleCall)cComponentsAssignment_0.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
 		private final Keyword cHyphenMinusGreaterThanSignKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
 		private final Assignment cLeafRefAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
@@ -1588,17 +1621,17 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		/// **
 		// * Exteral Node references, these can be nested and finish with a resource reference.
 		// * / PrimaryRef returns Reference:
-		//	components+=ComponentRef+ ("->" leafRef=LeafReference)?;
+		//	components+=OperatorRef+ ("->" leafRef=LeafReference)?;
 		public ParserRule getRule() { return rule; }
 
-		//components+=ComponentRef+ ("->" leafRef=LeafReference)?
+		//components+=OperatorRef+ ("->" leafRef=LeafReference)?
 		public Group getGroup() { return cGroup; }
 
-		//components+=ComponentRef+
+		//components+=OperatorRef+
 		public Assignment getComponentsAssignment_0() { return cComponentsAssignment_0; }
 
-		//ComponentRef
-		public RuleCall getComponentsComponentRefParserRuleCall_0_0() { return cComponentsComponentRefParserRuleCall_0_0; }
+		//OperatorRef
+		public RuleCall getComponentsOperatorRefParserRuleCall_0_0() { return cComponentsOperatorRefParserRuleCall_0_0; }
 
 		//("->" leafRef=LeafReference)?
 		public Group getGroup_1() { return cGroup_1; }
@@ -1613,10 +1646,10 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getLeafRefLeafReferenceParserRuleCall_1_1_0() { return cLeafRefLeafReferenceParserRuleCall_1_1_0; }
 	}
 
-	public class ComponentRefElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ComponentRef");
+	public class OperatorRefElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "OperatorRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Action cComponentRefAction_0 = (Action)cGroup.eContents().get(0);
+		private final Action cOperatorRefAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cFullStopKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
 		private final Group cGroup_2_0 = (Group)cAlternatives_2.eContents().get(0);
@@ -1632,17 +1665,17 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cPROFILEKeyword_2_2 = (Keyword)cAlternatives_2.eContents().get(2);
 		private final Keyword cSTATUSKeyword_2_3 = (Keyword)cAlternatives_2.eContents().get(3);
 		
-		//ComponentRef returns Reference:
-		//	{ComponentRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" |
+		//OperatorRef returns Reference:
+		//	{OperatorRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" |
 		//	"STATUS");
 		public ParserRule getRule() { return rule; }
 
-		//{ComponentRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" |
+		//{OperatorRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" |
 		//"STATUS")
 		public Group getGroup() { return cGroup; }
 
-		//{ComponentRef}
-		public Action getComponentRefAction_0() { return cComponentRefAction_0; }
+		//{OperatorRef}
+		public Action getOperatorRefAction_0() { return cOperatorRefAction_0; }
 
 		//"."
 		public Keyword getFullStopKeyword_1() { return cFullStopKeyword_1; }
@@ -2198,9 +2231,10 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	private ReferenceElements pReference;
 	private ParamRefElements pParamRef;
 	private NodeTypeRefElements pNodeTypeRef;
+	private NodeRefElements pNodeRef;
 	private ContextRefElements pContextRef;
 	private PrimaryRefElements pPrimaryRef;
-	private ComponentRefElements pComponentRef;
+	private OperatorRefElements pOperatorRef;
 	private LeafReferenceElements pLeafReference;
 	private ResourceRefElements pResourceRef;
 	private StatusRefElements pStatusRef;
@@ -2596,7 +2630,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Reference returns Expression:
-	//	ContextRef | NodeTypeRef | ParamRef;
+	//	ContextRef | NodeTypeRef | NodeRef | ParamRef;
 	public ReferenceElements getReferenceAccess() {
 		return (pReference != null) ? pReference : (pReference = new ReferenceElements());
 	}
@@ -2618,13 +2652,23 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	/// **
 	// * The Node context can be found with NODE if available.
 	// * / NodeTypeRef returns Reference:
-	//	{NodeTypeRef} "NODETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef;
+	//	{NodeTypeRef} "NETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef;
 	public NodeTypeRefElements getNodeTypeRefAccess() {
 		return (pNodeTypeRef != null) ? pNodeTypeRef : (pNodeTypeRef = new NodeTypeRefElements());
 	}
 	
 	public ParserRule getNodeTypeRefRule() {
 		return getNodeTypeRefAccess().getRule();
+	}
+
+	//NodeRef returns Reference:
+	//	{NodeRef} "NE" node=[operator::Node] primaryRef=PrimaryRef;
+	public NodeRefElements getNodeRefAccess() {
+		return (pNodeRef != null) ? pNodeRef : (pNodeRef = new NodeRefElements());
+	}
+	
+	public ParserRule getNodeRefRule() {
+		return getNodeRefAccess().getRule();
 	}
 
 	/// **
@@ -2644,7 +2688,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	/// **
 	// * Exteral Node references, these can be nested and finish with a resource reference.
 	// * / PrimaryRef returns Reference:
-	//	components+=ComponentRef+ ("->" leafRef=LeafReference)?;
+	//	components+=OperatorRef+ ("->" leafRef=LeafReference)?;
 	public PrimaryRefElements getPrimaryRefAccess() {
 		return (pPrimaryRef != null) ? pPrimaryRef : (pPrimaryRef = new PrimaryRefElements());
 	}
@@ -2653,15 +2697,15 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getPrimaryRefAccess().getRule();
 	}
 
-	//ComponentRef returns Reference:
-	//	{ComponentRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" |
+	//OperatorRef returns Reference:
+	//	{OperatorRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" |
 	//	"STATUS");
-	public ComponentRefElements getComponentRefAccess() {
-		return (pComponentRef != null) ? pComponentRef : (pComponentRef = new ComponentRefElements());
+	public OperatorRefElements getOperatorRefAccess() {
+		return (pOperatorRef != null) ? pOperatorRef : (pOperatorRef = new OperatorRefElements());
 	}
 	
-	public ParserRule getComponentRefRule() {
-		return getComponentRefAccess().getRule();
+	public ParserRule getOperatorRefRule() {
+		return getOperatorRefAccess().getRule();
 	}
 
 	////ServiceRef returns Reference:

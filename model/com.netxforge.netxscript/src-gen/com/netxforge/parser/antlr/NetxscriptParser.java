@@ -3,9 +3,9 @@
 */
 package com.netxforge.parser.antlr;
 
-import org.eclipse.xtext.parser.antlr.XtextTokenStream;
-
 import com.google.inject.Inject;
+
+import org.eclipse.xtext.parser.antlr.XtextTokenStream;
 import com.netxforge.services.NetxscriptGrammarAccess;
 
 public class NetxscriptParser extends org.eclipse.xtext.parser.antlr.AbstractAntlrParser {

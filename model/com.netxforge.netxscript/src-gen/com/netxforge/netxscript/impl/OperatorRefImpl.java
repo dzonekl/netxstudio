@@ -5,32 +5,35 @@
  */
 package com.netxforge.netxscript.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import com.netxforge.netxscript.ComponentRef;
 import com.netxforge.netxscript.NetxscriptPackage;
+import com.netxforge.netxscript.OperatorRef;
+
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Component Ref</b></em>'.
+ * An implementation of the model object '<em><b>Operator Ref</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.impl.ComponentRefImpl#getFunction <em>Function</em>}</li>
- *   <li>{@link com.netxforge.netxscript.impl.ComponentRefImpl#getEquipment <em>Equipment</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.OperatorRefImpl#getFunction <em>Function</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.OperatorRefImpl#getEquipment <em>Equipment</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ComponentRefImpl extends ReferenceImpl implements ComponentRef
+public class OperatorRefImpl extends ReferenceImpl implements OperatorRef
 {
   /**
    * The cached value of the '{@link #getFunction() <em>Function</em>}' reference.
@@ -57,7 +60,7 @@ public class ComponentRefImpl extends ReferenceImpl implements ComponentRef
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ComponentRefImpl()
+  protected OperatorRefImpl()
   {
     super();
   }
@@ -70,7 +73,7 @@ public class ComponentRefImpl extends ReferenceImpl implements ComponentRef
   @Override
   protected EClass eStaticClass()
   {
-    return NetxscriptPackage.Literals.COMPONENT_REF;
+    return NetxscriptPackage.Literals.OPERATOR_REF;
   }
 
   /**
@@ -87,7 +90,7 @@ public class ComponentRefImpl extends ReferenceImpl implements ComponentRef
       if (function != oldFunction)
       {
         if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetxscriptPackage.COMPONENT_REF__FUNCTION, oldFunction, function));
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetxscriptPackage.OPERATOR_REF__FUNCTION, oldFunction, function));
       }
     }
     return function;
@@ -113,7 +116,7 @@ public class ComponentRefImpl extends ReferenceImpl implements ComponentRef
     Function oldFunction = function;
     function = newFunction;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.COMPONENT_REF__FUNCTION, oldFunction, function));
+      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.OPERATOR_REF__FUNCTION, oldFunction, function));
   }
 
   /**
@@ -130,7 +133,7 @@ public class ComponentRefImpl extends ReferenceImpl implements ComponentRef
       if (equipment != oldEquipment)
       {
         if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetxscriptPackage.COMPONENT_REF__EQUIPMENT, oldEquipment, equipment));
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetxscriptPackage.OPERATOR_REF__EQUIPMENT, oldEquipment, equipment));
       }
     }
     return equipment;
@@ -156,7 +159,7 @@ public class ComponentRefImpl extends ReferenceImpl implements ComponentRef
     Equipment oldEquipment = equipment;
     equipment = newEquipment;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.COMPONENT_REF__EQUIPMENT, oldEquipment, equipment));
+      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.OPERATOR_REF__EQUIPMENT, oldEquipment, equipment));
   }
 
   /**
@@ -169,10 +172,10 @@ public class ComponentRefImpl extends ReferenceImpl implements ComponentRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.COMPONENT_REF__FUNCTION:
+      case NetxscriptPackage.OPERATOR_REF__FUNCTION:
         if (resolve) return getFunction();
         return basicGetFunction();
-      case NetxscriptPackage.COMPONENT_REF__EQUIPMENT:
+      case NetxscriptPackage.OPERATOR_REF__EQUIPMENT:
         if (resolve) return getEquipment();
         return basicGetEquipment();
     }
@@ -189,10 +192,10 @@ public class ComponentRefImpl extends ReferenceImpl implements ComponentRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.COMPONENT_REF__FUNCTION:
+      case NetxscriptPackage.OPERATOR_REF__FUNCTION:
         setFunction((Function)newValue);
         return;
-      case NetxscriptPackage.COMPONENT_REF__EQUIPMENT:
+      case NetxscriptPackage.OPERATOR_REF__EQUIPMENT:
         setEquipment((Equipment)newValue);
         return;
     }
@@ -209,10 +212,10 @@ public class ComponentRefImpl extends ReferenceImpl implements ComponentRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.COMPONENT_REF__FUNCTION:
+      case NetxscriptPackage.OPERATOR_REF__FUNCTION:
         setFunction((Function)null);
         return;
-      case NetxscriptPackage.COMPONENT_REF__EQUIPMENT:
+      case NetxscriptPackage.OPERATOR_REF__EQUIPMENT:
         setEquipment((Equipment)null);
         return;
     }
@@ -229,12 +232,12 @@ public class ComponentRefImpl extends ReferenceImpl implements ComponentRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.COMPONENT_REF__FUNCTION:
+      case NetxscriptPackage.OPERATOR_REF__FUNCTION:
         return function != null;
-      case NetxscriptPackage.COMPONENT_REF__EQUIPMENT:
+      case NetxscriptPackage.OPERATOR_REF__EQUIPMENT:
         return equipment != null;
     }
     return super.eIsSet(featureID);
   }
 
-} //ComponentRefImpl
+} //OperatorRefImpl

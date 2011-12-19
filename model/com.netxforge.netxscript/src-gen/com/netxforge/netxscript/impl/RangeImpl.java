@@ -5,10 +5,10 @@
  */
 package com.netxforge.netxscript.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.Range;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

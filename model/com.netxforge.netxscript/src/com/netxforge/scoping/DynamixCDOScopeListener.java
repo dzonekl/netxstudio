@@ -124,6 +124,7 @@ public class DynamixCDOScopeListener implements ICDOScopeListener// implements
 	 * 
 	 */
 	public void handleViewInvalidationEvent(CDOViewInvalidationEvent event) { 
+		
 		if (RuntimeActivator.DEBUG) {
 			System.out.println("CDOSCOPE invalidation event");
 			Set<CDOObject> dirtyObjects = event.getDirtyObjects();
@@ -131,7 +132,6 @@ public class DynamixCDOScopeListener implements ICDOScopeListener// implements
 				System.out.println(" CDOSCOPE invalid = " + cdoO);
 			}
 		}
-		
 		// update our scope provider.
 		if(provider != null){
 			provider.updateURIMap(event.getDirtyObjects());
