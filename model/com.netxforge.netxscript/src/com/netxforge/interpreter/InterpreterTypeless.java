@@ -91,6 +91,8 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.library.RangeKind;
+import com.netxforge.netxstudio.library.impl.EquipmentImpl;
+import com.netxforge.netxstudio.library.impl.FunctionImpl;
 import com.netxforge.netxstudio.library.impl.NetXResourceImpl;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.operators.Node;
@@ -193,6 +195,18 @@ public class InterpreterTypeless implements IInterpreter {
 			throw new java.lang.UnsupportedOperationException(
 					"Period context unset, it is always required");
 		}
+	}
+
+	private Component getContextualComponent() {
+		IInterpreterContext componentContext = getContextFor(FunctionImpl.class);
+		if(componentContext == null){
+			componentContext = getContextFor(EquipmentImpl.class);
+		}
+		if (componentContext != null) {
+			Component c = (Component) componentContext.getContext();
+			return c;
+		}
+		return null;
 	}
 
 	private Node getContextualNode() {
@@ -556,62 +570,57 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 			if (assignmentReference instanceof ContextRef) {
 
-				NetXResource netxRes = this.getContextualNetXResource();
 				ContextRef cRef = (ContextRef) assignmentReference;
-				if (netxRes != null) {
-					// When the target netxresource is set, we can skip
-					// evaluating
-					// the primary ref.
-					targetResource = netxRes;
-
-				} else if (cRef.getPrimaryRef() != null) {
+				if (cRef.getPrimaryRef() != null
+						&& cRef.getPrimaryRef().getLeafRef() instanceof ResourceRef) {
 					// evaluate the potential override of the target resource.
 					// if there is some sort of navigation.
 					// in case of duplicates we take the first occurence of a
 					// BaseResource.
-					LeafReference leafReference = cRef.getPrimaryRef()
-							.getLeafRef();
 
-					if (leafReference instanceof ResourceRef) {
+					ResourceRef resourceRef = (ResourceRef) cRef
+							.getPrimaryRef().getLeafRef();
+					if (resourceRef.getResource() instanceof NetXResource) {
 
-						ResourceRef resourceRef = (ResourceRef) leafReference;
-						if (resourceRef.getResource() instanceof NetXResource) {
-							Node n = this.getContextualNode();
-							if (n != null) {
+						// Node n = this.getContextualNode();
+						Component c = this.getContextualComponent();
+						if (c != null) {
 
-								List<NetXResource> netxResources = this
-										.resourcesByName(n, resourceRef);
+							List<NetXResource> netxResources = this
+									.resourcesByName(c, resourceRef);
+							targetResource = netxResources.size() > 0 ? netxResources
+									.get(0) : null;
 
-								targetResource = netxResources.size() > 0 ? netxResources
-										.get(0) : null;
-							}
-						} else if (resourceRef.getResource() instanceof DerivedResource) {
-							ServiceUser su = this.getContextualServiceUser();
-							if (su != null) {
-								for (DerivedResource dr : su
-										.getServiceProfile()
-										.getProfileResources()) {
-									if (dr.getExpressionName().equals(
-											resourceRef.getResource()
-													.getExpressionName())) {
-										targetResource = dr;
-									}
+						}
+					} else if (resourceRef.getResource() instanceof DerivedResource) {
+						ServiceUser su = this.getContextualServiceUser();
+						if (su != null) {
+							for (DerivedResource dr : su.getServiceProfile()
+									.getProfileResources()) {
+								if (dr.getExpressionName().equals(
+										resourceRef.getResource()
+												.getExpressionName())) {
+									targetResource = dr;
 								}
 							}
 						}
-
-						targetRangeReference = resourceRef.getRangeRef();
 					}
 
-					if (leafReference instanceof StatusRef) {
-						// Can we assign a status?
-					}
+					targetRangeReference = resourceRef.getRangeRef();
 
+					// if (leafReference instanceof StatusRef) {
+					// // Can we assign a status?
+					// }
+
+				}else{
+					// there is no navigation, so we simply set the context resource.
+					NetXResource netxRes = this.getContextualNetXResource();
+					if(netxRes != null){
+						targetResource = netxRes;
+					}
 				}
-
-				// Here we assume the context is a ..Resource as there is no
-				// leaf.
-				if (cRef.getRangeRef() != null) {
+				
+				if (cRef.getRangeRef() != null ) {
 					targetRangeReference = cRef.getRangeRef();
 				}
 			}
@@ -657,6 +666,20 @@ public class InterpreterTypeless implements IInterpreter {
 			// name.
 			resources = modelUtils.resourcesWithExpressionName(n,
 					tmpResource.getExpressionName());
+		}
+		return resources;
+	}
+
+	private List<NetXResource> resourcesByName(Component c,
+			ResourceRef resourceRef) {
+
+		List<NetXResource> resources = Lists.newArrayList();
+		BaseResource tmpResource = resourceRef.getResource();
+		if (tmpResource.getExpressionName() != null) {
+			// Find matching resources with this
+			// name.
+			resources = modelUtils.resourcesWithExpressionName(
+					ImmutableList.of(c), tmpResource.getExpressionName());
 		}
 		return resources;
 	}
@@ -1192,11 +1215,11 @@ public class InterpreterTypeless implements IInterpreter {
 				// If we have a node or a service, set as a param and dispatch
 				// for the leaf reference. (As primary ref is not evaluated),
 				// the component is ignored!
-				
-				// FIXME, this doesn't work, the range ref expects a resource, 
-				// which should have been set from component evaluation, but that's not done here. 
-				
-				
+
+				// FIXME, this doesn't work, the range ref expects a resource,
+				// which should have been set from component evaluation, but
+				// that's not done here.
+
 				if (node != null) {
 					// Evaluate for a Node.
 					localVarsAndArguments.put("node", node);
@@ -1205,7 +1228,7 @@ public class InterpreterTypeless implements IInterpreter {
 					Service service = this.getContextualService();
 					localVarsAndArguments.put("service", service);
 				}
-				
+
 				eval = dispatcher.invoke(primaryRef,
 						ImmutableMap.copyOf(localVarsAndArguments));
 
@@ -1215,7 +1238,7 @@ public class InterpreterTypeless implements IInterpreter {
 		// We have a range set, so the context should be a resource.
 		if (contextReference.getRangeRef() != null) {
 			NetXResource resource = getContextualNetXResource();
-			if(resource != null){
+			if (resource != null) {
 				localVarsAndArguments.put("resource", resource);
 				return dispatcher.invoke(contextReference.getRangeRef(),
 						ImmutableMap.copyOf(localVarsAndArguments));
