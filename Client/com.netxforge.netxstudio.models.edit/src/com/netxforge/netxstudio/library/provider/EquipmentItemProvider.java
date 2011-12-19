@@ -347,21 +347,5 @@ public class EquipmentItemProvider extends ComponentItemProvider implements
 		// LibraryFactory.eINSTANCE.createEquipmentGroup()));
 
 	}
-	
-
-	@Override
-	public String getCreateChildText(Object owner, Object feature,
-			Object child, Collection<?> selection) {
-		StringBuffer buf = new StringBuffer();
-		buf.append(
-				super.getCreateChildText(owner, feature, child, selection));
-		if(child instanceof Equipment){
-			Equipment eq = (Equipment) child;
-			if(eq.getEquipmentCode() != null){
-				buf.append(" : " + eq.getEquipmentCode());
-			}
-		}
-		return buf.toString();
-	}
 
 }

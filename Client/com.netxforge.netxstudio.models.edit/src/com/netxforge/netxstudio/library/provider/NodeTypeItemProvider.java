@@ -38,8 +38,6 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 
@@ -146,20 +144,6 @@ public class NodeTypeItemProvider
 		return childrenFeatures;
 	}
 	
-	@Override
-	public String getCreateChildText(Object owner, Object feature,
-			Object child, Collection<?> selection) {
-		StringBuffer buf = new StringBuffer();
-		buf.append(
-				super.getCreateChildText(owner, feature, child, selection));
-		if(child instanceof Equipment){
-			Equipment eq = (Equipment) child;
-			if(eq.getEquipmentCode() != null){
-				buf.append(" : " + eq.getEquipmentCode());
-			}
-		}
-		return buf.toString();
-	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -234,15 +218,15 @@ public class NodeTypeItemProvider
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.NODE_TYPE__FUNCTIONS,
-				 LibraryFactory.eINSTANCE.createFunction()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS,
-				 LibraryFactory.eINSTANCE.createEquipment()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(LibraryPackage.Literals.NODE_TYPE__FUNCTIONS,
+//				 LibraryFactory.eINSTANCE.createFunction()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS,
+//				 LibraryFactory.eINSTANCE.createEquipment()));
 	}
 
 	/**

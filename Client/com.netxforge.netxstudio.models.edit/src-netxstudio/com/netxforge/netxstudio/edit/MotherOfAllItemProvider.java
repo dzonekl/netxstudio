@@ -10,6 +10,9 @@ import org.eclipse.emf.edit.command.CopyCommand.Helper;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
@@ -48,6 +51,29 @@ public class MotherOfAllItemProvider extends ItemProviderAdapter {
 		Object result = super.getCreateChildImage(owner, feature, child,
 				selection);
 		return result;
+	}
+
+	@Override
+	public String getCreateChildText(Object owner, Object feature,
+			Object child, Collection<?> selection) {
+		StringBuffer buf = new StringBuffer();
+		buf.append(super.getCreateChildText(owner, feature, child, selection));
+		if (child instanceof Equipment
+				&& ((Equipment) child)
+						.eIsSet(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE)) {
+			Equipment eq = (Equipment) child;
+			if (eq.getEquipmentCode() != null) {
+				buf.append(" : " + eq.getEquipmentCode());
+			}
+		} else if (child instanceof Function
+				&& ((EObject) child)
+						.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)) {
+
+			Function fc = (Function) child;
+			buf.append(" : " + fc.getName());
+		}
+
+		return buf.toString();
 	}
 
 	/**
