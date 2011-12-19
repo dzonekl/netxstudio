@@ -26,6 +26,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.edit.EditUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.library.Equipment;
@@ -66,35 +67,41 @@ public class OperatorChildCreationExtender extends
 				Node node = (Node) target;
 				if (node != null && node.getOriginalNodeTypeRef() != null) {
 					NodeType ntRef = node.getOriginalNodeTypeRef();
-					newChildDescriptors = newEquimentDescriptorsForTargetNodeType(ntRef);
+					newChildDescriptors = newEquimentDescriptorsForTargetNodeType(
+							editingDomain, ntRef);
 				}
-			}else if( target instanceof Network){
-				
+			} else if (target instanceof Network) {
+
 				Node n = OperatorsFactory.eINSTANCE.createNode();
 				Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
 				newLC.setProposed(modelUtils.toXMLDate(modelUtils.todayAndNow()));
-				n.setNodeID("<new network element>");
 				n.setLifecycle(newLC);
-				
-				newChildDescriptors.add
-				(createChildParameter
-					(OperatorsPackage.Literals.NETWORK__NODES,
-					 n));
-			} 
-			
+
+				String newSequenceNumber = EditUtils.INSTANCE
+						.nextSequenceNumber(editingDomain, target,
+								OperatorsPackage.Literals.NETWORK__NODES,
+								OperatorsPackage.Literals.NODE__NODE_ID);
+
+				n.setNodeID(newSequenceNumber);
+
+				newChildDescriptors.add(createChildParameter(
+						OperatorsPackage.Literals.NETWORK__NODES, n));
+			}
+
 		}
 
 		return newChildDescriptors;
 	}
 
 	private Collection<Object> newEquimentDescriptorsForTargetNodeType(
-			NodeType nodeType) {
+			EditingDomain domain, NodeType nodeType) {
 		Collection<Object> newChildDescriptors = Lists.newArrayList();
 		for (Equipment eq : nodeType.getEquipments()) {
 			Equipment eqCopy = (Equipment) EcoreUtil.copy(eq);
 
 			// Set the name as a sequence.
-			String newSequenceNumber = modelUtils.getSequenceNumber(nodeType,
+			String newSequenceNumber = EditUtils.INSTANCE.nextSequenceNumber(
+					domain, nodeType,
 					LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS,
 					LibraryPackage.Literals.COMPONENT__NAME);
 			eqCopy.setName(newSequenceNumber);

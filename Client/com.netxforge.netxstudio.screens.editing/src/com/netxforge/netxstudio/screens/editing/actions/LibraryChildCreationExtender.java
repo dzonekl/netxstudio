@@ -31,6 +31,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.edit.EditUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.library.Component;
@@ -80,7 +81,7 @@ public class LibraryChildCreationExtender extends
 					} else if (target.eClass() == LibraryPackage.Literals.EQUIPMENT) {
 						Equipment targetEq = (Equipment) target;
 						newChildDescriptors = newEquimentDescriptorsForTargetNodeType(
-								ntRef, targetEq);
+								editingDomain, ntRef, targetEq);
 
 					} else if (target.eClass() == LibraryPackage.Literals.FUNCTION) {
 
@@ -102,10 +103,12 @@ public class LibraryChildCreationExtender extends
 				} else {
 
 					if (target instanceof NodeType) {
-						Function createFunction = newLibraryFunction(target,
+						Function createFunction = newLibraryFunction(
+								editingDomain, target,
 								LibraryPackage.Literals.NODE_TYPE__FUNCTIONS);
-						
-						Equipment createEquipment = newLibraryEquipment(target,
+
+						Equipment createEquipment = newLibraryEquipment(
+								editingDomain, target,
 								LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS);
 
 						newChildDescriptors.add(createChildParameter(
@@ -116,7 +119,8 @@ public class LibraryChildCreationExtender extends
 								createEquipment));
 					} else if (target instanceof Equipment) {
 
-						Equipment createEquipment = newLibraryEquipment(target,
+						Equipment createEquipment = newLibraryEquipment(
+								editingDomain, target,
 								LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS);
 
 						newChildDescriptors.add(createChildParameter(
@@ -124,7 +128,8 @@ public class LibraryChildCreationExtender extends
 								createEquipment));
 
 					} else if (target instanceof Function) {
-						Function createFunction = newLibraryFunction(target,
+						Function createFunction = newLibraryFunction(
+								editingDomain, target,
 								LibraryPackage.Literals.FUNCTION__FUNCTIONS);
 
 						newChildDescriptors.add(createChildParameter(
@@ -145,11 +150,12 @@ public class LibraryChildCreationExtender extends
 	 * @param collectionFeature
 	 * @return
 	 */
-	private Function newLibraryFunction(EObject target,
+	private Function newLibraryFunction(EditingDomain domain, EObject target,
 			EReference collectionFeature) {
 		Function createFunction = LibraryFactory.eINSTANCE.createFunction();
-		String newSequenceNumber = modelUtils.getSequenceNumber(target,
-				collectionFeature, LibraryPackage.Literals.COMPONENT__NAME);
+		String newSequenceNumber = EditUtils.INSTANCE.nextSequenceNumber(
+				domain, target, collectionFeature,
+				LibraryPackage.Literals.COMPONENT__NAME);
 
 		createFunction.setName(newSequenceNumber);
 		return createFunction;
@@ -162,18 +168,18 @@ public class LibraryChildCreationExtender extends
 	 * @param collectionFeature
 	 * @return
 	 */
-	private Equipment newLibraryEquipment(EObject target,
+	private Equipment newLibraryEquipment(EditingDomain domain, EObject target,
 			EReference collectionFeature) {
 		Equipment createEquipment = LibraryFactory.eINSTANCE.createEquipment();
-		String newSequenceNumber = modelUtils.getSequenceNumber(target,
-				collectionFeature,
+		String newSequenceNumber = EditUtils.INSTANCE.nextSequenceNumber(
+				domain, target, collectionFeature,
 				LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE);
 		createEquipment.setEquipmentCode(newSequenceNumber);
 		return createEquipment;
 	}
 
 	private Collection<Object> newEquimentDescriptorsForTargetNodeType(
-			NodeType nodeType, Equipment targetEq) {
+			EditingDomain domain, NodeType nodeType, Equipment targetEq) {
 		// find the object from the ref and return all possible
 		// creation references.
 		// TODO, possibly optimize, by filtering non Equipments.
@@ -197,8 +203,9 @@ public class LibraryChildCreationExtender extends
 									.copy(targetChild);
 
 							// Set the name as a sequence.
-							String newSequenceNumber = modelUtils
-									.getSequenceNumber(
+							String newSequenceNumber = EditUtils.INSTANCE
+									.nextSequenceNumber(
+											domain,
 											targetEq,
 											LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
 											LibraryPackage.Literals.COMPONENT__NAME);
