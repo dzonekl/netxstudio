@@ -25,7 +25,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -79,14 +78,13 @@ public class NewEditParameter extends AbstractScreen implements
 
 		// Readonlyness.
 		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmParameter = toolkit.createForm(this);
 		frmParameter.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmParameter);
 
-		frmParameter.setText(actionText + "Expression Parameter");
+		frmParameter.setText(getOperationText() + "Expression Parameter");
 		ColumnLayout cl = new ColumnLayout();
 		cl.maxNumColumns = 1;
 		frmParameter.getBody().setLayout(cl);
@@ -122,7 +120,7 @@ public class NewEditParameter extends AbstractScreen implements
 		lblExpressionName.setAlignment(SWT.RIGHT);
 
 		txtExpressionName = toolkit.createText(composite_1, "New Text",
-				SWT.NONE | widgetStyle);
+				widgetStyle);
 		txtExpressionName.setText("");
 		GridData gd_txtExpressionName = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 1, 1);
@@ -156,7 +154,9 @@ public class NewEditParameter extends AbstractScreen implements
 				false, 1, 1);
 		gd_txtNewText.heightHint = 89;
 		txtDescription.setLayoutData(gd_txtNewText);
-		composite_1.setTabList(new Control[] { txtName, txtDescription });
+		
+		// bug 248, tab order. not sure why this is here??
+//		composite_1.setTabList(new Control[] { txtName, txtDescription });
 	}
 
 	public EMFDataBindingContext initDataBindings_() {

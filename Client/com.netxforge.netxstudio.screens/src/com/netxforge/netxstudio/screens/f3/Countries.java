@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f3;
 
+import java.util.List;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -58,6 +60,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoFactory;
 import com.netxforge.netxstudio.geo.GeoPackage;
@@ -125,13 +128,12 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
 					if (o != null) {
-						 NewEditCountry countryScreen = new
-						 NewEditCountry(
-						 screenService.getScreenContainer(), SWT.NONE);
-						 countryScreen.setOperation(getOperation());
-						 countryScreen.setScreenService(screenService);
-						 countryScreen.injectData(countryResource, o);
-						 screenService.setActiveScreen(countryScreen);
+						NewEditCountry countryScreen = new NewEditCountry(
+								screenService.getScreenContainer(), SWT.NONE);
+						countryScreen.setOperation(getOperation());
+						countryScreen.setScreenService(screenService);
+						countryScreen.injectData(countryResource, o);
+						screenService.setActiveScreen(countryScreen);
 					}
 				}
 			}
@@ -205,8 +207,7 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 							screenService.getScreenContainer(), SWT.NONE);
 					countryScreen.setOperation(Screens.OPERATION_NEW);
 					countryScreen.setScreenService(screenService);
-					Country newCountry = GeoFactory.eINSTANCE
-							.createCountry();
+					Country newCountry = GeoFactory.eINSTANCE.createCountry();
 					countryScreen.injectData(countryResource, newCountry);
 					screenService.setActiveScreen(countryScreen);
 				}
@@ -231,7 +232,7 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 		tableViewer = new TableViewer(frmCountries.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION | widgetStyle);
 		tableViewer.setComparer(new CDOElementComparer());
-		
+
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -263,15 +264,14 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 		tableViewer.setContentProvider(listContentProvider);
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] {
-						GeoPackage.Literals.LOCATION__NAME,
-						GeoPackage.Literals.COUNTRY__COUNTRY_CODE,
-						 });
-		tableViewer.setLabelProvider(new ObservableMapLabelProvider(
-				observeMaps));
-		IEMFListProperty resourceProperty = EMFEditProperties.resource(editingService
-				.getEditingDomain());
-		IObservableList operatorsObservableList = resourceProperty.observe(countryResource);
+				new EStructuralFeature[] { GeoPackage.Literals.LOCATION__NAME,
+						GeoPackage.Literals.COUNTRY__COUNTRY_CODE, });
+		tableViewer
+				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		IEMFListProperty resourceProperty = EMFEditProperties
+				.resource(editingService.getEditingDomain());
+		IObservableList operatorsObservableList = resourceProperty
+				.observe(countryResource);
 
 		tableViewer.setInput(operatorsObservableList);
 
@@ -307,18 +307,24 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 		this.operation = operation;
 	}
 
+	private final List<IAction> actionList = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
-				: "Edit";
-		return new IAction[] { new EditCountryAction(actionText + "...",
-				SWT.PUSH) };
+		
+		// lazy init the action list.
+		if (actionList.isEmpty()) {
+			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+					: "Edit";
+			new EditCountryAction(actionText + "...", SWT.PUSH);
+		}
+
+		return actionList.toArray(new IAction[actionList.size()]);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Countries";
 	}
 
-	
 }

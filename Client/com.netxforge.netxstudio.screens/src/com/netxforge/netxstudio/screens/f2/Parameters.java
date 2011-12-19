@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2;
 
+import java.util.List;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -58,6 +60,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Parameter;
@@ -102,14 +105,14 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 		toolkit.paintBordersFor(this);
 	}
 
-	private void buildUI(){
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
-		
+
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation()); 
-		String actionText = readonly ? "View: " : "Edit: "; 
+		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
-		
+
 		frmParameters = toolkit.createForm(this);
 		frmParameters.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmParameters);
@@ -159,6 +162,7 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 					parameterScreen.injectData(parametersResource, parameter);
 					screenService.setActiveScreen(parameterScreen);
 				}
+
 				public void linkEntered(HyperlinkEvent e) {
 				}
 
@@ -196,11 +200,11 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 		TableColumn tblclmnOwnedBy = tableViewerColumn_1.getColumn();
 		tblclmnOwnedBy.setWidth(100);
 		tblclmnOwnedBy.setText("Expression Name");
-		
 
 		TableViewerColumn tableViewerColumnDescription = new TableViewerColumn(
 				tableViewer, SWT.NONE);
-		TableColumn tblclmnDescription = tableViewerColumnDescription.getColumn();
+		TableColumn tblclmnDescription = tableViewerColumnDescription
+				.getColumn();
 		tblclmnDescription.setWidth(200);
 		tblclmnDescription.setText("Description");
 
@@ -211,12 +215,12 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 		tblclmnValue.setText("Value");
 		tableViewer.addFilter(new SearchFilter(editingService));
 	}
-	
-	
+
 	/**
-	 * Wrap in an action, to contribute to a menu manager. 
+	 * Wrap in an action, to contribute to a menu manager.
+	 * 
 	 * @author dzonekl
-	 *
+	 * 
 	 */
 	class EditParameterAction extends Action {
 
@@ -273,21 +277,21 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 				new EStructuralFeature[] {
 						LibraryPackage.Literals.PARAMETER__NAME,
 						LibraryPackage.Literals.PARAMETER__EXPRESSION_NAME,
-						LibraryPackage.Literals.PARAMETER__DESCRIPTION, 
-						LibraryPackage.Literals.PARAMETER__VALUE,		
-				});
-		tableViewer.setLabelProvider(new ObservableMapLabelProvider(
-				observeMaps));
+						LibraryPackage.Literals.PARAMETER__DESCRIPTION,
+						LibraryPackage.Literals.PARAMETER__VALUE, });
+		tableViewer
+				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
-		IObservableList parametersObservableList = l.observe(parametersResource);
+		IObservableList parametersObservableList = l
+				.observe(parametersResource);
 
 		tableViewer.setInput(parametersObservableList);
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		return bindingContext;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -315,13 +319,20 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-	
+
+	private final List<IAction> actions = Lists.newArrayList();
+
 	@Override
-	public IAction[] getActions(){
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View" : "Edit"; 
-		return new IAction[]{new EditParameterAction(actionText + "...", SWT.PUSH)};
+	public IAction[] getActions() {
+		// Lazy init actions.
+		if (actions.isEmpty()) {
+			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+					: "Edit";
+			actions.add(new EditParameterAction(actionText + "...", SWT.PUSH));
+		}
+		return actions.toArray(new IAction[actions.size()]);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Parameters";

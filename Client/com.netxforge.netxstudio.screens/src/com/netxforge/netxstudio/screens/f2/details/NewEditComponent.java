@@ -1058,7 +1058,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		});
 
 		// Create a new lifecycle if non-existent.
-		// Note this will make the function dirty.
+		// Note this will make the function dirty, we should never really get here, as our creators should create an lc. 
 		if (comp.getLifecycle() == null) {
 			Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
 

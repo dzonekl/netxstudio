@@ -339,40 +339,37 @@ public class ServicesTree extends AbstractScreen implements
 		}
 	}
 
+	private final List<IAction> actions = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
 
-		boolean readonly = Screens.isReadOnlyOperation(getOperation());
+		if (actions.isEmpty()) {
+			boolean readonly = Screens.isReadOnlyOperation(getOperation());
 
-		List<IAction> actions = Lists.newArrayList();
+			// actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
+			// actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
+			// actions.add(new SeparatorAction());
 
-		@SuppressWarnings("unused")
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
-				: "Edit";
-
-		// actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
-		// actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
-		// actions.add(new SeparatorAction());
-
-		if (!readonly) {
-			actions.add(new ScheduleMonitorJobAction(
-					"Schedule Monitoring Job...", SWT.PUSH));
-			actions.add(new MonitorNowAction("Monitor Now", SWT.PUSH));
-		}
-		actions.add(new ServiceMonitoringAction("Monitoring Result...",
-				SWT.PUSH));
-		actions.add(new SeparatorAction());
-
-		if (!readonly) {
+			if (!readonly) {
+				actions.add(new ScheduleMonitorJobAction(
+						"Schedule Monitoring Job...", SWT.PUSH));
+				actions.add(new MonitorNowAction("Monitor Now", SWT.PUSH));
+			}
+			actions.add(new ServiceMonitoringAction("Monitoring Result...",
+					SWT.PUSH));
 			actions.add(new SeparatorAction());
-			actions.add(new ScheduleReportingJobAction(
-					"Schedule Reporting Job...", SWT.PUSH));
-			actions.add(new ReportNowAction("Report Now", SWT.PUSH));
-			actions.add(new SeparatorAction());
+
+			if (!readonly) {
+				actions.add(new SeparatorAction());
+				actions.add(new ScheduleReportingJobAction(
+						"Schedule Reporting Job...", SWT.PUSH));
+				actions.add(new ReportNowAction("Report Now", SWT.PUSH));
+				actions.add(new SeparatorAction());
+			}
 		}
 
-		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray);
+		return actions.toArray(new IAction[actions.size()]);
 	}
 
 	public void disposeData() {
@@ -706,7 +703,7 @@ public class ServicesTree extends AbstractScreen implements
 
 			NewEditJob newEditJob = new NewEditJob(
 					screenService.getScreenContainer(), SWT.NONE);
-			newEditJob.setOperation(operation);
+			newEditJob.setOperation(wizard.getOperation());
 			newEditJob.setScreenService(screenService);
 			newEditJob.injectData(jobResource, job);
 			screenService.setActiveScreen(newEditJob);

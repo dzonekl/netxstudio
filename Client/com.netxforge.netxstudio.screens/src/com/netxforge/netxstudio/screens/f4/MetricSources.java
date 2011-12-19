@@ -237,10 +237,11 @@ public class MetricSources extends AbstractScreen implements
 			ISelection selection = getViewer().getSelection();
 			if (selection instanceof IStructuredSelection) {
 				Object o = ((IStructuredSelection) selection).getFirstElement();
-				
-				// Reading the stats to update? 
+
+				// Reading the stats to update?
 				if (o instanceof MetricSource) {
-					System.out.println( "stats size = " + ((MetricSource) o).getStatistics().size());
+					System.out.println("stats size = "
+							+ ((MetricSource) o).getStatistics().size());
 				}
 
 				MappingStatistics stats = new MappingStatistics(
@@ -273,9 +274,9 @@ public class MetricSources extends AbstractScreen implements
 						String result = serverActions
 								.callMetricImportAction(ms);
 
-//						@SuppressWarnings("unused")
-//						WorkflowRunJob workflowRunJob = serverActions
-//								.jobFromRequest(result);
+						// @SuppressWarnings("unused")
+						// WorkflowRunJob workflowRunJob = serverActions
+						// .jobFromRequest(result);
 
 						MessageDialog
 								.openInformation(
@@ -284,8 +285,7 @@ public class MetricSources extends AbstractScreen implements
 										"Collection of data from metric source: "
 												+ ms.getName()
 												+ "\n has been initiated on the server.");
-						
-						
+
 						// TODO, Disable for now, requires more testing.
 						// workflowRunJob.addNotifier(new JobChangeAdapter() {
 						//
@@ -431,26 +431,43 @@ public class MetricSources extends AbstractScreen implements
 					MetricSource ms = (MetricSource) o;
 					System.out.println(ms.getName() + "--" + ms.cdoState());
 					CDORevision cdoRevision = ms.cdoRevision();
-					if(cdoRevision != null){
-						if( ms.cdoInvalid()){
+					if (cdoRevision != null) {
+						if (ms.cdoInvalid()) {
 							System.out.println("object not locally valid ");
-//							CDOSession session = editingService.getDataService().getProvider().getSession();
-//							session.getRevisionManager().getRevisions(ids, ms.cdoRevision().getBranch()., referenceChunk, CDORevision.DEPTH_INFINITE, true);
+							// CDOSession session =
+							// editingService.getDataService().getProvider().getSession();
+							// session.getRevisionManager().getRevisions(ids,
+							// ms.cdoRevision().getBranch()., referenceChunk,
+							// CDORevision.DEPTH_INFINITE, true);
 						}
-						System.out.println(" version =" +  cdoRevision.getVersion() + " timestamp=" + new Date(cdoRevision.getTimeStamp()));
+						System.out.println(" version ="
+								+ cdoRevision.getVersion() + " timestamp="
+								+ new Date(cdoRevision.getTimeStamp()));
 						CDOID cdoID = ms.cdoID();
-						long longValue = ((AbstractCDOIDLong) cdoID).getLongValue();
-						
-						CDOID createLongWithClassifier = CDOIDUtil.createLongWithClassifier(new CDOClassifierRef(
-								MetricsPackage.Literals.METRIC_SOURCE), longValue);
-						
-						CDOTransaction transaction = editingService.getDataService().getProvider().getTransaction();
-						CDOObject object = transaction.getObject(createLongWithClassifier);
-						System.out.println(" reloaded object =" +  object.cdoRevision().getVersion() + " timestamp=" + new Date(object.cdoRevision().getTimeStamp()));
-						editingService.getDataService().getProvider().commitTransaction();
-//						metricSourceTableViewer.refresh(true);
-//						CDOResource cdoResource = ms.cdoResource();
-//						cdoResource.cdoReload();
+						long longValue = ((AbstractCDOIDLong) cdoID)
+								.getLongValue();
+
+						CDOID createLongWithClassifier = CDOIDUtil
+								.createLongWithClassifier(new CDOClassifierRef(
+										MetricsPackage.Literals.METRIC_SOURCE),
+										longValue);
+
+						CDOTransaction transaction = editingService
+								.getDataService().getProvider()
+								.getTransaction();
+						CDOObject object = transaction
+								.getObject(createLongWithClassifier);
+						System.out
+								.println(" reloaded object ="
+										+ object.cdoRevision().getVersion()
+										+ " timestamp="
+										+ new Date(object.cdoRevision()
+												.getTimeStamp()));
+						editingService.getDataService().getProvider()
+								.commitTransaction();
+						// metricSourceTableViewer.refresh(true);
+						// CDOResource cdoResource = ms.cdoResource();
+						// cdoResource.cdoReload();
 					}
 				}
 			}
@@ -560,28 +577,34 @@ public class MetricSources extends AbstractScreen implements
 		this.operation = operation;
 	}
 
+	private final List<IAction> actions = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
+		
+		// lazy init actions.
+		if (actions.isEmpty()) {
+			boolean readonly = Screens.isReadOnlyOperation(getOperation());
+			String actionText = readonly ? "View" : "Edit";
+			actions.add(new EditMetricSourceAction(actionText + "...", SWT.PUSH));
+			actions.add(new SeparatorAction());
+			if (!readonly) {
 
-		List<IAction> actions = Lists.newArrayList();
-		boolean readonly = Screens.isReadOnlyOperation(getOperation());
-		String actionText = readonly ? "View" : "Edit";
-		actions.add(new EditMetricSourceAction(actionText + "...", SWT.PUSH));
-		actions.add(new SeparatorAction());
-		if (!readonly) {
+				actions.add(new ScheduleCollectionJobAction(
+						"Schedule Collection Job...", SWT.PUSH));
+				CollectNowAction collectNowAction = new CollectNowAction(
+						"Collect Now (sorry disabled)...", SWT.PUSH);
+				collectNowAction.setEnabled(false);
+				actions.add(collectNowAction);
 
-			actions.add(new ScheduleCollectionJobAction(
-					"Schedule Collection Job...", SWT.PUSH));
-			CollectNowAction collectNowAction = new CollectNowAction("Collect Now (sorry disabled)...", SWT.PUSH);
-			collectNowAction.setEnabled(false);
-			actions.add(collectNowAction);
-
+			}
+			actions.add(new StatisticsAction("Statistics...", SWT.PUSH));
+			actions.add(new SeparatorAction());
+			// actions.add(new FindResourcesAction("Resources for...",
+			// SWT.PUSH));
 		}
-		actions.add(new StatisticsAction("Statistics...", SWT.PUSH));
-		actions.add(new SeparatorAction());
-		// actions.add(new FindResourcesAction("Resources for...", SWT.PUSH));
-		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray);
+		
+		return actions.toArray(new IAction[actions.size()]);
 	}
 
 	@Override

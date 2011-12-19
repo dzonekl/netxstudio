@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f3;
 
+import java.util.List;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -57,6 +59,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
@@ -129,13 +132,12 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
 					if (o != null) {
-						 NewEditOperator vendorScreen = new
-						 NewEditOperator(
-						 screenService.getScreenContainer(), SWT.NONE);
-						 vendorScreen.setOperation(getOperation());
-						 vendorScreen.setScreenService(screenService);
-						 vendorScreen.injectData(operatorResource, o);
-						 screenService.setActiveScreen(vendorScreen);
+						NewEditOperator vendorScreen = new NewEditOperator(
+								screenService.getScreenContainer(), SWT.NONE);
+						vendorScreen.setOperation(getOperation());
+						vendorScreen.setScreenService(screenService);
+						vendorScreen.injectData(operatorResource, o);
+						screenService.setActiveScreen(vendorScreen);
 					}
 				}
 			}
@@ -152,7 +154,8 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
 	 */
 	public void injectData() {
-		operatorResource = editingService.getData(OperatorsPackage.Literals.OPERATOR);
+		operatorResource = editingService
+				.getData(OperatorsPackage.Literals.OPERATOR);
 		buildUI();
 		bindingContext = initDataBindings_();
 	}
@@ -277,9 +280,10 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 						GenericsPackage.Literals.COMPANY__WEBSITE });
 		tableViewer.setLabelProvider(new ToleranceObservableMapLabelProvider(
 				observeMaps));
-		IEMFListProperty resourceProperty = EMFEditProperties.resource(editingService
-				.getEditingDomain());
-		IObservableList operatorsObservableList = resourceProperty.observe(operatorResource);
+		IEMFListProperty resourceProperty = EMFEditProperties
+				.resource(editingService.getEditingDomain());
+		IObservableList operatorsObservableList = resourceProperty
+				.observe(operatorResource);
 
 		tableViewer.setInput(operatorsObservableList);
 
@@ -315,18 +319,23 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 		this.operation = operation;
 	}
 
+	private final List<IAction> actions = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
-				: "Edit";
-		return new IAction[] { new EditOperatorAction(actionText + "...",
-				SWT.PUSH) };
+		
+		// Lazy init. 
+		if (actions.isEmpty()) {
+			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+					: "Edit";
+			actions.add(new EditOperatorAction(actionText + "...", SWT.PUSH));
+		}
+		return actions.toArray(new IAction[actions.size()]);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Operators";
 	}
-
 
 }

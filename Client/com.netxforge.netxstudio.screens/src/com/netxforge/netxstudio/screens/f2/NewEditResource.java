@@ -18,8 +18,6 @@
 package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +25,10 @@ import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.core.databinding.conversion.IConverter;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.list.WritableList;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
@@ -38,20 +40,20 @@ import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -73,17 +75,19 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.actions.BaseSelectionListenerAction;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.wb.swt.TableViewerColumnSorter;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
@@ -95,8 +99,10 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.UnitFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -111,6 +117,7 @@ public class NewEditResource extends AbstractScreen implements
 	private Text txtExpressionName;
 	private Text txtUnit;
 	private BaseResource res;
+
 	private Form frmResource;
 	private Resource owner;
 	private Component whoRefers;
@@ -127,9 +134,10 @@ public class NewEditResource extends AbstractScreen implements
 	private CDateTime dateTimeFrom;
 	private CDateTime dateTimeTo;
 	private Label lblNode;
-	private MenuItem mntmMonitor;
+	// private MenuItem mntmMonitor;
 	private List<Value> currentValues;
-	private MenuItem mntmRemove;
+	// private MenuItem mntmRemove;
+	private boolean valuesVisible = false;
 
 	/**
 	 * Create the composite.
@@ -368,30 +376,31 @@ public class NewEditResource extends AbstractScreen implements
 		valuesTableViewer = new TableViewer(frmResource.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.VIRTUAL | SWT.MULTI);
 		valuesTableViewer.setUseHashlookup(true);
-		valuesTableViewer
-				.addSelectionChangedListener(new ISelectionChangedListener() {
-					public void selectionChanged(SelectionChangedEvent event) {
-						ISelection selection = event.getSelection();
-						if (selection instanceof IStructuredSelection) {
-
-							if (currentValues == null
-									|| currentValues.size() == 0) {
-								mntmMonitor.setEnabled(false);
-								mntmRemove.setEnabled(false);
-								return;
-							}
-							// Don't allow monitoring for
-							if (targetInterval == CAPACITIES
-									|| targetInterval == UTILIZATION) {
-								mntmMonitor.setEnabled(false);
-							} else {
-								mntmMonitor.setEnabled(true);
-							}
-							mntmRemove.setEnabled(true);
-						}
-					}
-
-				});
+		valuesTableViewer.setComparer(new CDOElementComparer());
+		// valuesTableViewer
+		// .addSelectionChangedListener(new ISelectionChangedListener() {
+		// public void selectionChanged(SelectionChangedEvent event) {
+		// ISelection selection = event.getSelection();
+		// if (selection instanceof IStructuredSelection) {
+		//
+		// if (currentValues == null
+		// || currentValues.size() == 0) {
+		// mntmMonitor.setEnabled(false);
+		// mntmRemove.setEnabled(false);
+		// return;
+		// }
+		// // Don't allow monitoring for
+		// if (targetInterval == CAPACITIES
+		// || targetInterval == UTILIZATION) {
+		// mntmMonitor.setEnabled(false);
+		// } else {
+		// mntmMonitor.setEnabled(true);
+		// }
+		// mntmRemove.setEnabled(true);
+		// }
+		// }
+		//
+		// });
 		valuesTableViewer.addFilter(new ValueFilter());
 
 		table = valuesTableViewer.getTable();
@@ -406,6 +415,30 @@ public class NewEditResource extends AbstractScreen implements
 		TableColumn tblclmnTimeStamp = tableViewerColumn.getColumn();
 		tblclmnTimeStamp.setWidth(185);
 		tblclmnTimeStamp.setText("Time Stamp");
+
+		TableViewerColumnSorter dateTimeColumnSorter = new TableViewerColumnSorter(
+				tableViewerColumn) {
+			protected int doCompare(Viewer viewer, Object e1, Object e2) {
+				if (e1 instanceof Value && e2 instanceof Value) {
+
+					Value re1 = (Value) e1;
+					Value re2 = (Value) e2;
+
+					if (re1.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)
+							&& re2.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP))
+
+						return Long.valueOf(
+								re2.getTimeStamp().toGregorianCalendar()
+										.getTimeInMillis()).compareTo(
+								Long.valueOf(re1.getTimeStamp()
+										.toGregorianCalendar()
+										.getTimeInMillis()));
+				}
+				return 0;
+			}
+
+		};
+		dateTimeColumnSorter.setSorter(TableViewerColumnSorter.ASC);
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				valuesTableViewer, SWT.NONE);
@@ -428,80 +461,85 @@ public class NewEditResource extends AbstractScreen implements
 		// tblclmnUtilization.setWidth(88);
 		// tblclmnUtilization.setText("Utilization");
 
-		Menu menu = new Menu(table);
-		table.setMenu(menu);
+		// Menu menu = new Menu(table);
+		// table.setMenu(menu);
+		//
+		// mntmMonitor = new MenuItem(menu, SWT.NONE);
+		// mntmMonitor.setEnabled(false);
+		// mntmMonitor.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		//
+		// if (res instanceof NetXResource && targetInterval > 0) {
+		// MetricValueRange mvr = modelUtils.valueRangeForInterval(
+		// (NetXResource) res, targetInterval);
+		// if (mvr != null) {
+		//
+		// // XMLGregorianCalendar start = mvr.getMetricValues()
+		// // .get(0).getTimeStamp();
+		// // XMLGregorianCalendar end = mvr.getMetricValues()
+		// // .get(mvr.getMetricValues().size() - 1)
+		// // .getTimeStamp();
+		//
+		// XMLGregorianCalendar to = modelUtils
+		// .toXMLDate(dateTimeTo.getSelection());
+		// XMLGregorianCalendar from = modelUtils
+		// .toXMLDate(dateTimeFrom.getSelection());
+		//
+		// DateTimeRange timerange = GenericsFactory.eINSTANCE
+		// .createDateTimeRange();
+		//
+		// timerange.setBegin(from);
+		// timerange.setEnd(to);
+		//
+		// ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
+		// screenService.getScreenContainer(), SWT.NONE);
+		// monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
+		// monitorScreen.setScreenService(screenService);
+		// monitorScreen.injectData(null, res, timerange,
+		// targetInterval);
+		// screenService.setActiveScreen(monitorScreen);
+		// }
+		// } else {
+		// System.out
+		// .println("Invalid target interval <= 0, perhaps the interval was not set properly in the mapping");
+		// }
+		//
+		// }
+		// });
+		// mntmMonitor.setText("Monitor...");
 
-		mntmMonitor = new MenuItem(menu, SWT.NONE);
-		mntmMonitor.setEnabled(false);
-		mntmMonitor.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				if (res instanceof NetXResource && targetInterval > 0) {
-					MetricValueRange mvr = modelUtils.valueRangeForInterval(
-							(NetXResource) res, targetInterval);
-					if (mvr != null) {
-
-						// XMLGregorianCalendar start = mvr.getMetricValues()
-						// .get(0).getTimeStamp();
-						// XMLGregorianCalendar end = mvr.getMetricValues()
-						// .get(mvr.getMetricValues().size() - 1)
-						// .getTimeStamp();
-
-						XMLGregorianCalendar to = modelUtils
-								.toXMLDate(dateTimeTo.getSelection());
-						XMLGregorianCalendar from = modelUtils
-								.toXMLDate(dateTimeFrom.getSelection());
-
-						DateTimeRange timerange = GenericsFactory.eINSTANCE
-								.createDateTimeRange();
-
-						timerange.setBegin(from);
-						timerange.setEnd(to);
-
-						ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
-								screenService.getScreenContainer(), SWT.NONE);
-						monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
-						monitorScreen.setScreenService(screenService);
-						monitorScreen.injectData(null, res, timerange,
-								targetInterval);
-						screenService.setActiveScreen(monitorScreen);
-					}
-				} else {
-					System.out
-							.println("Invalid target interval <= 0, perhaps the interval was not set properly in the mapping");
-				}
-
-			}
-		});
-		mntmMonitor.setText("Monitor...");
-
-		mntmRemove = new MenuItem(menu, SWT.NONE);
-		mntmRemove.setEnabled(false);
-		mntmRemove.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ISelection s = valuesTableViewer.getSelection();
-				if (s instanceof IStructuredSelection) {
-					List<?> list = ((IStructuredSelection) s).toList();
-					Collection<Object> collection = new ArrayList<Object>(list);
-					Command removeCommand = RemoveCommand.create(
-							editingService.getEditingDomain(), collection);
-					editingService.getEditingDomain().getCommandStack()
-							.execute(removeCommand);
-					updateSelection();
-				}
-			}
-		});
-		mntmRemove.setText("Remove...");
+		// mntmRemove = new MenuItem(menu, SWT.NONE);
+		// mntmRemove.setEnabled(false);
+		// mntmRemove.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		// ISelection s = valuesTableViewer.getSelection();
+		// if (s instanceof IStructuredSelection) {
+		// List<?> list = ((IStructuredSelection) s).toList();
+		// Collection<Object> collection = new ArrayList<Object>(list);
+		// Command deleteCommand = DeleteCommand.create(
+		// editingService.getEditingDomain(), collection);
+		// editingService.getEditingDomain().getCommandStack()
+		// .execute(deleteCommand);
+		// updateSelection();
+		// }
+		// }
+		// });
+		// mntmRemove.setText("Delete...");
 	}
 
 	private void updateSelection() {
 		CTabItem item = tabFolder.getSelection();
 		RangeSection section = (RangeSection) item.getData();
-		this.updateValues(section.interval);
+		this.updateValuesII(section.interval);
 	}
 
+	/*
+	 * As the values are not binded to the model, the editing actions won't
+	 * update the UI.
+	 */
+	@SuppressWarnings("unused")
 	private void updateValues(int targetInterval) {
 
 		// Update "from" based on the oldest value:
@@ -521,6 +559,14 @@ public class NewEditResource extends AbstractScreen implements
 
 			valuesTableViewer.setInput(Collections.EMPTY_LIST.toArray());
 		}
+	}
+
+	private void updateValuesII(int targetInterval) {
+
+		// Update "from" based on the oldest value:
+		this.targetInterval = targetInterval;
+		IObservableList l = this.valuesII(targetInterval);
+		valuesTableViewer.setInput(l);
 	}
 
 	private void updateFilter() {
@@ -575,6 +621,41 @@ public class NewEditResource extends AbstractScreen implements
 			return false;
 		}
 
+	}
+
+	class NetXResourceValueLabelProviderII extends ObservableMapLabelProvider
+			implements ITableLabelProvider {
+
+		public NetXResourceValueLabelProviderII(IObservableMap[] attributeMaps) {
+			super(attributeMaps);
+		}
+
+		public Image getColumnImage(Object element, int columnIndex) {
+			return null;
+		}
+
+		public String getColumnText(Object element, int columnIndex) {
+			if (element instanceof Value) {
+				Value v = (Value) element;
+				switch (columnIndex) {
+				case 0: {
+					Date d = modelUtils.fromXMLDate(v.getTimeStamp());
+					String ts = new String(modelUtils.date(d) + " @ "
+							+ modelUtils.time(d));
+					return ts;
+				}
+				case 1: {
+					double value = v.getValue();
+					DecimalFormat numberFormatter = new DecimalFormat(
+							"###,###,##0.00");
+					numberFormatter.setDecimalSeparatorAlwaysShown(true);
+					return numberFormatter.format(value);
+				}
+
+				}
+			}
+			return null;
+		}
 	}
 
 	class NetXResourceValueLabelProvider extends LabelProvider implements
@@ -656,6 +737,65 @@ public class NewEditResource extends AbstractScreen implements
 					"Expected a NetXResource");
 		}
 		return null;
+	}
+
+	private IObservableList valuesII(int targetInterval) {
+
+		Object elementType = null;
+		currentValues = null;
+		EStructuralFeature feature = null;
+
+		if (res instanceof NetXResource) {
+			NetXResource resource = (NetXResource) res;
+
+			if (targetInterval == CAPACITIES) {
+				currentValues = modelUtils.sortByTimeStampAndReverse(resource
+						.getCapacityValues());
+				elementType = res;
+				feature = LibraryPackage.Literals.NET_XRESOURCE__CAPACITY_VALUES;
+
+			}
+
+			if (targetInterval == UTILIZATION) {
+				currentValues = modelUtils.sortByTimeStampAndReverse(resource
+						.getUtilizationValues());
+				elementType = res;
+				feature = LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES;
+			}
+
+			for (MetricValueRange mvr : resource.getMetricValueRanges()) {
+
+				if (mvr.getIntervalHint() == targetInterval) {
+					currentValues = modelUtils.sortByTimeStampAndReverse(mvr
+							.getMetricValues());
+					elementType = mvr;
+					feature = MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES;
+					break;
+				}
+			}
+
+			if (currentValues != null && elementType != null) {
+				if (currentValues.size() > 0) {
+					Value oldestValue = modelUtils.oldestValue(currentValues);
+					this.dateTimeFrom.setSelection(oldestValue.getTimeStamp()
+							.toGregorianCalendar().getTime());
+					this.updateFilter();
+				}
+
+				// Unsorted..., delegate to the viewer.
+				return EMFEditProperties.list(editingService.getEditingDomain(), feature).observe(elementType);
+//				 return new WritableList(currentValues, elementType);
+			}
+
+			// DEBUG.
+			System.out.println("Target interval: " + targetInterval
+					+ " not found for resource: " + resource.getShortName());
+
+		} else {
+			throw new java.lang.IllegalArgumentException(
+					"Expected a NetXResource");
+		}
+		return new WritableList();
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -754,6 +894,7 @@ public class NewEditResource extends AbstractScreen implements
 				}
 			}
 		}
+
 		return context;
 	}
 
@@ -761,6 +902,35 @@ public class NewEditResource extends AbstractScreen implements
 		this.dateTimeTo.setSelection(modelUtils.todayAndNow());
 		createTabs(toolkit);
 		tabFolder.setSelection(0);
+
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		valuesTableViewer.setContentProvider(listContentProvider);
+
+		List<IObservableMap> observeMaps = Lists.newArrayList();
+		IObservableSet set = listContentProvider.getKnownElements();
+		observeMaps.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.NET_XRESOURCE__CAPACITY_VALUES)
+				.observeDetail(set));
+
+		observeMaps.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES)
+				.observeDetail(set));
+
+		observeMaps.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES)
+				.observeDetail(set));
+
+		IObservableMap[] map = new IObservableMap[observeMaps.size()];
+		observeMaps.toArray(map);
+
+		valuesTableViewer
+				.setLabelProvider(new NetXResourceValueLabelProviderII(map));
+
+		// Don't set the input
+
 		updateSelection();
 	}
 
@@ -843,6 +1013,7 @@ public class NewEditResource extends AbstractScreen implements
 		this.initDataBindings_();
 		if (this.whoRefers != null
 				&& modelUtils.resolveParentNode((EObject) this.whoRefers) != null) {
+			valuesVisible = true;
 			buildValuesUI();
 			bindValues();
 		}
@@ -910,9 +1081,72 @@ public class NewEditResource extends AbstractScreen implements
 
 	}
 
+	public class MonitorAction extends BaseSelectionListenerAction {
+
+		public MonitorAction(String text, int style) {
+			super(text);
+		}
+
+		@Override
+		protected boolean updateSelection(IStructuredSelection selection) {
+
+			if (currentValues == null || currentValues.size() == 0) {
+				return false;
+			}
+			// Don't allow monitoring for
+			if (targetInterval == CAPACITIES || targetInterval == UTILIZATION) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		@Override
+		public void run() {
+			if (res instanceof NetXResource && targetInterval > 0) {
+				MetricValueRange mvr = modelUtils.valueRangeForInterval(
+						(NetXResource) res, targetInterval);
+				if (mvr != null) {
+
+					// XMLGregorianCalendar start = mvr.getMetricValues()
+					// .get(0).getTimeStamp();
+					// XMLGregorianCalendar end = mvr.getMetricValues()
+					// .get(mvr.getMetricValues().size() - 1)
+					// .getTimeStamp();
+
+					XMLGregorianCalendar to = modelUtils.toXMLDate(dateTimeTo
+							.getSelection());
+					XMLGregorianCalendar from = modelUtils
+							.toXMLDate(dateTimeFrom.getSelection());
+
+					DateTimeRange timerange = GenericsFactory.eINSTANCE
+							.createDateTimeRange();
+
+					timerange.setBegin(from);
+					timerange.setEnd(to);
+
+					ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
+							screenService.getScreenContainer(), SWT.NONE);
+					monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
+					monitorScreen.setScreenService(screenService);
+					monitorScreen.injectData(null, res, timerange,
+							targetInterval);
+					screenService.setActiveScreen(monitorScreen);
+				}
+			} else {
+				System.out
+						.println("Invalid target interval <= 0, perhaps the interval was not set properly in the mapping");
+			}
+		}
+	}
+
 	@Override
 	public Viewer getViewer() {
-		return null;
+		if (valuesVisible) {
+			return valuesTableViewer;
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -933,4 +1167,17 @@ public class NewEditResource extends AbstractScreen implements
 	public String getScreenName() {
 		return "Resource";
 	}
+	
+	private final List<IAction> actions = Lists.newArrayList();
+
+	@Override
+	public IAction[] getActions() {
+		// Lazy init actions. 
+		if(actions.isEmpty()){
+			actions.add(new MonitorAction("Monitoring Chart...",
+					SWT.PUSH) );
+		}
+		return actions.toArray(new IAction[actions.size()]);
+	}
+
 }

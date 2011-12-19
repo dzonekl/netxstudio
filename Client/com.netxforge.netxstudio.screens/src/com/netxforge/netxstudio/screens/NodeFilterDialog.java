@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.IDialogSettings;
@@ -32,7 +33,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
+import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
@@ -115,16 +118,29 @@ public class NodeFilterDialog extends FilteredItemsSelectionDialog {
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
 		
-		
-		org.eclipse.emf.common.util.TreeIterator<EObject> ti = resource.getAllContents();
-		while(ti.hasNext()){
-			EObject p = ti.next();
-			if(p.eClass().equals(OperatorsPackage.Literals.NODE)){
-				contentProvider.add(p, itemsFilter);	
-			}
-		}
+		this.populateContent(contentProvider, itemsFilter, resource.getContents());
 	}
 
+	private void populateContent(AbstractContentProvider contentProvider,
+			ItemsFilter itemsFilter, EList<?> list) {
+		for (Object o : list) {
+			EObject eo = (EObject) o;
+			if (eo.eClass().equals(OperatorsPackage.Literals.OPERATOR)) {
+				Operator op = (Operator) eo;
+				populateContent( contentProvider, itemsFilter, op.getNetworks());
+			}
+			if (eo.eClass().equals(OperatorsPackage.Literals.NETWORK)) {
+				Network net = (Network) eo;
+				populateContent( contentProvider, itemsFilter, net.getNodes());
+				populateContent( contentProvider, itemsFilter, net.getNetworks());
+			}
+			if (eo.eClass().equals(OperatorsPackage.Literals.NODE)) {
+				contentProvider.add(eo, itemsFilter);
+			}
+		}
+
+	}
+	
 	@Override
 	protected ItemsFilter createFilter() {
 		return new ItemsFilter() {

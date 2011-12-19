@@ -21,10 +21,12 @@ package com.netxforge.netxstudio.screens.f2;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -53,6 +55,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.actions.CompareAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
@@ -86,7 +89,7 @@ public class NodeTypeHistory extends AbstractScreen implements
 		frmNTHistory.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNTHistory);
 
-		frmNTHistory.setText("Network Element Type History");
+		frmNTHistory.setText("Network Element Type editing History:" + nodeType.getName());
 		frmNTHistory.getBody().setLayout(new FormLayout());
 
 		Section sctnInfo = toolkit.createSection(frmNTHistory.getBody(),
@@ -108,7 +111,7 @@ public class NodeTypeHistory extends AbstractScreen implements
 		composite_1.setLayout(gl_composite_1);
 
 		tableViewer = new TableViewer(composite_1, SWT.BORDER | SWT.VIRTUAL
-				| SWT.FULL_SELECTION);
+				| SWT.FULL_SELECTION | SWT.MULTI);
 		tableViewer.setUseHashlookup(true);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
@@ -127,12 +130,6 @@ public class NodeTypeHistory extends AbstractScreen implements
 		TableColumn tblclmnDateTime = tableViewerColumn.getColumn();
 		tblclmnDateTime.setWidth(150);
 		tblclmnDateTime.setText("Date / Time");
-
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
-		TableColumn tblclmnActivity = tableViewerColumn_2.getColumn();
-		tblclmnActivity.setWidth(114);
-		tblclmnActivity.setText("Data");
 	}
 
 	/*
@@ -182,14 +179,13 @@ public class NodeTypeHistory extends AbstractScreen implements
 		tableViewer.setContentProvider(new ArrayContentProvider());
 		tableViewer
 				.setLabelProvider(new NodeTypeHistoryLabelProvider(nodeType));
-
-		List<HistoricNodeType> histNodeTypes = Lists.newArrayList();
+		tableViewer.setInput(Lists.newArrayList(modelUtils.cdoRevisions(nodeType)));
 		
+//		List<HistoricNodeType> histNodeTypes = Lists.newArrayList();
 		// use for non CDORevision supporting. 
 				// how to check supported features? 
 //		historicalNodeTypes(histNodeTypes);
-		
-		tableViewer.setInput(histNodeTypes.toArray());
+//		tableViewer.setInput(histNodeTypes.toArray());
 		return null;
 	}
 
@@ -298,6 +294,20 @@ public class NodeTypeHistory extends AbstractScreen implements
 				}
 				}
 			}
+			
+			if (element instanceof CDORevision) {
+				CDORevision rev = (CDORevision) element;
+				switch (columnIndex) {
+				case 0: {
+					return new Integer(rev.getVersion()).toString();
+				}
+				case 1: {
+					Date d = new Date(rev.getTimeStamp());
+					return modelUtils.date(d) + " @ " + modelUtils.time(d);
+				}
+				}
+			}
+			
 			return null;
 		}
 
@@ -340,7 +350,19 @@ public class NodeTypeHistory extends AbstractScreen implements
 	}
 
 	public String getScreenName() {
-		return "Node Type History";
+		return "Network Element Type editing sHistory";
 	}
 
-}
+	private final List<IAction> actions = Lists.newArrayList();
+
+	@Override
+	public IAction[] getActions() {
+		// Lazy init actions. 
+		if(actions.isEmpty()){
+			actions.add(new CompareAction(modelUtils, "Compare...") );
+		}
+		return actions.toArray(new IAction[actions.size()]);
+	}
+
+	
+}	

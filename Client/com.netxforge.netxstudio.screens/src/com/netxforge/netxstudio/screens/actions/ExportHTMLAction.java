@@ -14,7 +14,8 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ package com.netxforge.netxstudio.screens.actions;
+ *******************************************************************************/
+package com.netxforge.netxstudio.screens.actions;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
@@ -41,9 +42,8 @@ public class ExportHTMLAction extends BaseSelectionListenerAction {
 	public void run() {
 		IStructuredSelection structuredSelection = this
 				.getStructuredSelection();
-		WizardUtil
-				.openWizard(
-						"com.netxforge.netxstudio.models.export.wizard.ui.node.html",
-						(IStructuredSelection) structuredSelection);
+		WizardUtil.openWizard(
+				"com.netxforge.netxstudio.models.export.wizard.ui.node.html",
+				structuredSelection);
 	}
 }

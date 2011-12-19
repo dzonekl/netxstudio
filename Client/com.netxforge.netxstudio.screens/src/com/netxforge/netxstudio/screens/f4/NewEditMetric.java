@@ -343,7 +343,7 @@ public class NewEditMetric extends AbstractScreen implements
 		IEMFValueProperty descriptionProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				MetricsPackage.Literals.METRIC__DESCRIPTION);
-		IEMFValueProperty unitProperty = EMFProperties.value(FeaturePath
+		IEMFValueProperty unitProperty = EMFEditProperties.value(editingService.getEditingDomain(), FeaturePath
 				.fromList(MetricsPackage.Literals.METRIC__UNIT_REF,
 						LibraryPackage.Literals.UNIT__NAME));
 

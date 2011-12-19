@@ -215,10 +215,10 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		mghprlnkNewMetric.setText("New");
 
 		metricsTreeViewer = new TreeViewer(frmMetrics.getBody(), SWT.BORDER
-				| SWT.VIRTUAL | SWT.MULTI  | SWT.FULL_SELECTION);
+				| SWT.VIRTUAL | SWT.MULTI | SWT.FULL_SELECTION);
 		metricsTreeViewer.setUseHashlookup(true);
 		metricsTreeViewer.setComparer(new CDOElementComparer());
-		
+
 		Tree tree = metricsTreeViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
@@ -282,10 +282,10 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
+	 * 
 	 * @author dzonekl
 	 * 
 	 */
@@ -302,47 +302,51 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 			if (screenService != null) {
 				ISelection selection = getViewer().getSelection();
 				if (selection instanceof IStructuredSelection) {
-					
-					List<Metric> metrics = Lists.newArrayList(((IStructuredSelection) selection).iterator());
-					List<NetXResource> resources = modelUtils.resourcesForMetrics(metrics);
-					
-					
-					// TODO, Invoke a dialog to select a DTR and Interval. 
-					
-					DateTimeRange dtr  = GenericsFactory.eINSTANCE.createDateTimeRange();
-					int targetIntervalHint = ModelUtils.MINUTES_IN_AN_HOUR; 
-							
+
+					List<Metric> metrics = Lists
+							.newArrayList(((IStructuredSelection) selection)
+									.iterator());
+					List<NetXResource> resources = modelUtils
+							.resourcesForMetrics(metrics);
+
+					// TODO, Invoke a dialog to select a DTR and Interval.
+
+					DateTimeRange dtr = GenericsFactory.eINSTANCE
+							.createDateTimeRange();
+					int targetIntervalHint = ModelUtils.MINUTES_IN_AN_HOUR;
+
 					System.out.println("VALUES FOR PERIOD:");
-					
-					System.out.println("FROM="+ modelUtils.dateAndTime(dtr.getBegin()));
-					System.out.println("TO="+ modelUtils.dateAndTime(dtr.getEnd()));
-					
+
+					System.out.println("FROM="
+							+ modelUtils.dateAndTime(dtr.getBegin()));
+					System.out.println("TO="
+							+ modelUtils.dateAndTime(dtr.getEnd()));
+
 					int valueCount = 0;
 					for (NetXResource res : resources) {
 						System.out.println("values for resource: "
-								+ res.getShortName() + "on Component" + res.getComponentRef().getName());
+								+ res.getShortName() + "on Component"
+								+ res.getComponentRef().getName());
 
-						List<Value> values = modelUtils.metricValuesInRange(res,
-								targetIntervalHint, null, dtr);
+						List<Value> values = modelUtils.metricValuesInRange(
+								res, targetIntervalHint, null, dtr);
 						if (values.size() > 0) {
 							valueCount += values.size();
 							System.out.println("number of values "
 									+ Iterables.size(values));
 							for (Value v : values) {
 								System.out.println(modelUtils.fromXMLDate(v
-										.getTimeStamp())
-										+ ":"
-										+ v.getValue());
+										.getTimeStamp()) + ":" + v.getValue());
 							}
 						}
 					}
-					System.out.println("total values for this import = " + valueCount);
+					System.out.println("total values for this import = "
+							+ valueCount);
 				}
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
 	 * 
@@ -400,28 +404,28 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		this.operation = operation;
 	}
 
+	private final List<IAction> actions = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
+		
+		// lazy init actions. 
+		if (actions.isEmpty()) {
+			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+					: "Edit";
+			actions.add(new EditMetricAction(actionText + "...", SWT.PUSH));
+			// if(!Screens.isReadOnlyOperation(getOperation())){
+			// actions.add(new NewMetricAction("New...",
+			// SWT.PUSH));
+			// }
 
-		List<IAction> actions = Lists.newArrayList();
-
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
-				: "Edit";
-		actions.add(new EditMetricAction(actionText + "...", SWT.PUSH));
-
-		// if(!Screens.isReadOnlyOperation(getOperation())){
-		// actions.add(new NewMetricAction("New...",
-		// SWT.PUSH));
-		// }
-
-		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray);
+		}
+		return actions.toArray(new IAction[actions.size()]);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Metrics";
 	}
 
-	
 }

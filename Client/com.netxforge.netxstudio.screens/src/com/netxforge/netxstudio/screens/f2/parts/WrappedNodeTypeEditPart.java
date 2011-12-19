@@ -15,9 +15,9 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.f2.model.WrappedNodeType;
 
-public class LibraryEditPart extends AbstractLibraryEditPart {
+public class WrappedNodeTypeEditPart extends AbstractLibraryEditPart {
 
-	public LibraryEditPart(WrappedNodeType resource) {
+	public WrappedNodeTypeEditPart(WrappedNodeType resource) {
 		this.setModel(resource);
 	}
 

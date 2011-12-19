@@ -1,11 +1,8 @@
 package com.netxforge.netxstudio.screens.f1;
 
-import java.util.List;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -17,7 +14,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
@@ -25,7 +21,6 @@ import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
 public class Reports extends AbstractScreen implements IDataServiceInjection {
 
@@ -132,20 +127,6 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 	public void setOperation(int operation) {
 		this.operation = operation;
 
-	}
-
-	@Override
-	public IAction[] getActions() {
-
-		@SuppressWarnings("unused")
-		boolean readonly = Screens.isReadOnlyOperation(getOperation());
-		@SuppressWarnings("unused")
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
-				: "Edit";
-
-		List<IAction> actions = Lists.newArrayList();
-		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray);
 	}
 	
 	@Override

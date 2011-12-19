@@ -68,6 +68,7 @@ import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.xtext.EmbeddedXtextService;
 import com.netxforge.netxstudio.screens.xtext.InjectorProxy;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
@@ -158,6 +159,8 @@ public abstract class EmbeddedExpression {
 
 	public void buildExpressionSelector(int widgetStyle, Composite sectionClient) {
 
+		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+
 		Composite selectionComposite = toolkit.createComposite(sectionClient);
 		selectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 2, 1));
@@ -190,45 +193,49 @@ public abstract class EmbeddedExpression {
 		txtExpressionName.setLayoutData(gd_txtCapExpression);
 		txtExpressionName.setText("");
 
-		ImageHyperlink imageHyperlink = toolkit.createImageHyperlink(
-				selectionComposite, SWT.NONE);
-		imageHyperlink.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				clearExpression(expression);
-				expression = null;
-				clearData();
-				setEnabled(false);
-			}
+		if (!readonly) {
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		imageHyperlink.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-		toolkit.paintBordersFor(imageHyperlink);
-		imageHyperlink.setText("");
-
-		Button btnSelectCapExpression = toolkit.createButton(
-				selectionComposite, "Select", SWT.NONE);
-		btnSelectCapExpression.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Resource expressionResource = editingService
-						.getData(LibraryPackage.Literals.EXPRESSION);
-				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
-						Display.getDefault().getActiveShell(),
-						expressionResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					Expression expression = (Expression) dialog
-							.getFirstResult();
-					setExpression(expression);
-					injectData(expression);
+			ImageHyperlink imageHyperlink = toolkit.createImageHyperlink(
+					selectionComposite, SWT.NONE);
+			imageHyperlink.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					clearExpression(expression);
+					expression = null;
+					clearData();
+					setEnabled(false);
 				}
-			}
-		});
+
+				public void linkEntered(HyperlinkEvent e) {
+				}
+
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			imageHyperlink.setImage(ResourceManager.getPluginImage(
+					"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+			toolkit.paintBordersFor(imageHyperlink);
+			imageHyperlink.setText("");
+
+			Button btnSelectCapExpression = toolkit.createButton(
+					selectionComposite, "Select", SWT.NONE);
+			btnSelectCapExpression.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					Resource expressionResource = editingService
+							.getData(LibraryPackage.Literals.EXPRESSION);
+					ExpressionFilterDialog dialog = new ExpressionFilterDialog(
+							Display.getDefault().getActiveShell(),
+							expressionResource);
+					if (dialog.open() == IDialogConstants.OK_ID) {
+						Expression expression = (Expression) dialog
+								.getFirstResult();
+						setExpression(expression);
+						injectData(expression);
+					}
+				}
+			});
+		}
+
 	}
 
 	protected abstract void setExpression(Expression exp);

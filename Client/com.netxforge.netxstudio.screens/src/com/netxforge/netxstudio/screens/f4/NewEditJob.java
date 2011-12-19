@@ -143,7 +143,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		 buildUI();
+//		buildUI();
 	}
 
 	private void buildUI() {
@@ -227,11 +227,12 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 
 		cdateTimeStartTime = new CDateTime(compositeRecurrence, CDT.BORDER
 				| CDT.CLOCK_24_HOUR | CDT.DROP_DOWN);
+		GridData gd_cdateTimeStartTime = new GridData(SWT.FILL, SWT.CENTER,
+				false, false, 1, 1);
+		gd_cdateTimeStartTime.widthHint = 150;
+		cdateTimeStartTime.setLayoutData(gd_cdateTimeStartTime);
 		cdateTimeStartTime.setPattern("HH:mm");
-		
-		
-		
-		
+
 		toolkit.adapt(cdateTimeStartTime);
 		toolkit.paintBordersFor(cdateTimeStartTime);
 
@@ -264,6 +265,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		GridData gd_dateChooserStartsOn = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 3, 1);
 		gd_dateChooserStartsOn.heightHint = 19;
+		gd_dateChooserStartsOn.widthHint = 150;
 		dateChooserStartsOn.setLayoutData(gd_dateChooserStartsOn);
 		toolkit.adapt(dateChooserStartsOn);
 		toolkit.paintBordersFor(dateChooserStartsOn);
@@ -307,6 +309,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		GridData gd_dateChooserEndsOn = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 2, 1);
 		gd_dateChooserEndsOn.heightHint = 19;
+		gd_dateChooserEndsOn.widthHint = 150;
 		dateChooserEndsOn.setLayoutData(gd_dateChooserEndsOn);
 		toolkit.adapt(dateChooserEndsOn);
 		toolkit.paintBordersFor(dateChooserEndsOn);
@@ -1050,15 +1053,8 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		// Doesn't apply to all jobs..
 		this.bindJobObjects();
 
-		String title = "";
-		if (Screens.isNewOperation(getOperation())) {
-			title = "New: ";
-		} else {
-			if (Screens.isEditOperation(getOperation())) {
-				title = "Edit: ";
-			}
-		}
-		frmNewJob.setText(title + jobTypes[type] + " Job");
+		
+		frmNewJob.setText(this.getOperationText() + jobTypes[type] + " Job");
 
 		if (!Screens.isReadOnlyOperation(getOperation())) {
 			validationService.registerBindingContext(bindingContext);

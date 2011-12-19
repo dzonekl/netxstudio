@@ -43,6 +43,7 @@ import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
+import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
@@ -194,5 +195,15 @@ public abstract class AbstractScreen extends Composite implements IScreen,
 	public String getScreenName() {
 		return "<TODO: Provide screenname>";
 	}
-
+	
+	public String getOperationText(){
+		if(Screens.isReadOnlyOperation(this.getOperation())){
+			return "View: ";
+		}else if(Screens.isNewOperation(this.getOperation()) ){
+			return "New: ";
+		}else {
+			return "Edit: ";
+		}
+	}
+	
 }

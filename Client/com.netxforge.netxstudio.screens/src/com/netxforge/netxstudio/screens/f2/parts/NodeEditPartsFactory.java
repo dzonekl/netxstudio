@@ -6,15 +6,19 @@ import org.eclipse.gef.EditPartFactory;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.f2.model.ComponentToComponent;
 import com.netxforge.netxstudio.screens.f2.model.NodeTypeToComponent;
-import com.netxforge.netxstudio.screens.f2.model.WrappedNodeType;
+import com.netxforge.netxstudio.screens.f2.model.WrappedNode;
 
-public class NodeTypeEditPartsFactory implements EditPartFactory {
+public class NodeEditPartsFactory implements EditPartFactory {
 
 	public EditPart createEditPart(EditPart context, Object model) {
-		if(model instanceof WrappedNodeType){
-			return new WrappedNodeTypeEditPart((WrappedNodeType) model);
+		if(model instanceof WrappedNode){
+			return new WrappedNodeEditPart((WrappedNode) model);
+		}
+		if(model instanceof Node){
+			return new NodeEditPart((Node) model);
 		}
 		if(model instanceof NodeType){
 			return new NodeTypeEditPart((NodeType) model);

@@ -77,14 +77,13 @@ public class NewEditTolerance extends AbstractScreen implements
 
 		// Readonlyness.
 		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmNewTolerance = toolkit.createForm(this);
 		frmNewTolerance.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewTolerance);
 
-		frmNewTolerance.setText(actionText + " Tolerance");
+		frmNewTolerance.setText(this.getOperationText() + " Tolerance");
 		frmNewTolerance.getBody().setLayout(new ColumnLayout());
 
 		Section sctnMappings = toolkit.createSection(frmNewTolerance.getBody(),
@@ -124,13 +123,16 @@ public class NewEditTolerance extends AbstractScreen implements
 				1, 1));
 
 		cmbLevelViewer = new ComboViewer(composite_1, widgetStyle);
-		Combo combo = cmbLevelViewer.getCombo();
-		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
+		Combo cmbToleranceLevel = cmbLevelViewer.getCombo();
+		cmbToleranceLevel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
 				1));
-		toolkit.paintBordersFor(combo);
+		toolkit.paintBordersFor(cmbToleranceLevel);
 		new Label(composite_1, SWT.NONE);
 		new Label(composite_1, SWT.NONE);
-
+		
+	
+		
+		
 //		Label lblExpression = toolkit.createLabel(composite_1, "Expression:",
 //				SWT.NONE);
 //		lblExpression.setAlignment(SWT.RIGHT);
@@ -199,6 +201,13 @@ public class NewEditTolerance extends AbstractScreen implements
 //				}
 //			}
 //		});
+		
+		
+		if(readonly){
+			cmbToleranceLevel.setEnabled(false);
+		}
+		
+		
 	}
 
 	public EMFDataBindingContext initDataBindings_() {

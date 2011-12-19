@@ -76,14 +76,13 @@ public class NewEditProtocol extends AbstractScreen implements
 
 		// Readonlyness.
 		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmNewProtocol = toolkit.createForm(this);
 		frmNewProtocol.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewProtocol);
 
-		frmNewProtocol.setText(actionText + "Protocol");
+		frmNewProtocol.setText(this.getOperationText() + "Protocol");
 		ColumnLayout cl = new ColumnLayout();
 		cl.maxNumColumns =1 ;
 		frmNewProtocol.getBody().setLayout(cl);
@@ -121,7 +120,7 @@ public class NewEditProtocol extends AbstractScreen implements
 		lblDescription.setAlignment(SWT.RIGHT);
 
 		txtDescription = toolkit.createText(composite_1, "New Text", SWT.WRAP
-				| SWT.MULTI);
+				| SWT.MULTI | widgetStyle);
 		txtDescription.setText("");
 		GridData gd_txtNewText = new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 3, 1);
@@ -153,12 +152,16 @@ public class NewEditProtocol extends AbstractScreen implements
 		gd_cmbOSI.widthHint = 200;
 		cmbOSI.setLayoutData(gd_cmbOSI);
 		toolkit.paintBordersFor(cmbOSI);
+		
+		if(readonly){
+			cmbOSI.setEnabled(false);
+		}
 
 		Label lblSpecification = toolkit.createLabel(composite,
 				"Specification:", SWT.NONE);
 		lblSpecification.setAlignment(SWT.RIGHT);
 
-		txtSpecification = toolkit.createText(composite, "New Text", SWT.NONE);
+		txtSpecification = toolkit.createText(composite, "New Text", widgetStyle);
 		txtSpecification.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
 		txtSpecification.setText("");

@@ -248,17 +248,20 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	// }
 	// }
 
+	private final List<IAction> actions = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
+		// lazy init.
+		if (actions.isEmpty()) {
+			String actionText = Screens
+					.isReadOnlyOperation(this.getOperation()) ? "View..."
+					: "Edit...";
 
-		String actionText = Screens.isReadOnlyOperation(this.getOperation()) ? "View..."
-				: "Edit...";
-		List<IAction> actions = Lists.newArrayList();
-		actions.add(new EditJobAction(actionText, SWT.PUSH));
-		actions.add(new JobRunsAction("Runs...", SWT.PUSH));
-
-		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray);
+			actions.add(new EditJobAction(actionText, SWT.PUSH));
+			actions.add(new JobRunsAction("Runs...", SWT.PUSH));
+		}
+		return actions.toArray(new IAction[actions.size()]);
 
 	}
 

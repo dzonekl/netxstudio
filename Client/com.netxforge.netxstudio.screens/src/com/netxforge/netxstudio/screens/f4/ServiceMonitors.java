@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
+import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -36,6 +37,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
@@ -306,11 +308,17 @@ public class ServiceMonitors extends AbstractScreen implements
 		this.operation = operation;
 
 	}
-
+	
+	private final List<IAction> actions = Lists.newArrayList();
+	
 	@Override
 	public IAction[] getActions(){
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View" : "Edit"; 
-		return new IAction[]{new EditMonitorAction(actionText + "...", SWT.PUSH)};
+		// lazy initialize. 
+		if(actions.isEmpty()){
+			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View" : "Edit";
+			actions.add(new EditMonitorAction(actionText + "...", SWT.PUSH));
+		}
+		return actions.toArray(new IAction[actions.size()]);
 	}
 	
 	@Override

@@ -135,7 +135,7 @@ public class UserActivity extends AbstractScreen implements
 					CommitLogEntry re2 = (CommitLogEntry) e2;
 
 					if (re1.eIsSet(GenericsPackage.Literals.COMMIT_LOG_ENTRY__TIME_STAMP)
-							&& re2.eIsSet(GenericsPackage.Literals.COMMIT_LOG_ENTRY__ACTION))
+							&& re2.eIsSet(GenericsPackage.Literals.COMMIT_LOG_ENTRY__TIME_STAMP))
 
 						return Long.valueOf(
 								re2.getTimeStamp().toGregorianCalendar()

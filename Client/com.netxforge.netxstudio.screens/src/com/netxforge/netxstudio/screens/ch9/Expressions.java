@@ -19,6 +19,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.ch9;
 
+import java.util.List;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -59,6 +61,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -98,7 +101,7 @@ public class Expressions extends AbstractScreen implements
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-//				obm.dispose();
+				// obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -251,17 +254,16 @@ public class Expressions extends AbstractScreen implements
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				tableViewer, SWT.NONE);
 		TableColumn tblclmnName = tableViewerColumn.getColumn();
-		tblclmnName.setWidth(143);
+		tblclmnName.setWidth(400);
 		tblclmnName.setText("Name");
-		
-		
-		// CB Removed "Owned by", no special use. 30-08-2011. 
-//		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-//				tableViewer, SWT.NONE);
-//		TableColumn tblclmnOwnedBy = tableViewerColumn_1.getColumn();
-//		tblclmnOwnedBy.setWidth(100);
-//		tblclmnOwnedBy.setText("Owned by");
-//		tableViewer.addFilter(new SearchFilter(editingService));
+
+		// CB Removed "Owned by", no special use. 30-08-2011.
+		// TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+		// tableViewer, SWT.NONE);
+		// TableColumn tblclmnOwnedBy = tableViewerColumn_1.getColumn();
+		// tblclmnOwnedBy.setWidth(100);
+		// tblclmnOwnedBy.setText("Owned by");
+		// tableViewer.addFilter(new SearchFilter(editingService));
 	}
 
 	public void disposeData() {
@@ -283,7 +285,7 @@ public class Expressions extends AbstractScreen implements
 				.getEditingDomain());
 		IObservableList expressionsObservableList = l
 				.observe(this.expressionsResource);
-//		obm.addObservable(expressionsObservableList);
+		// obm.addObservable(expressionsObservableList);
 
 		tableViewer.setInput(expressionsObservableList);
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
@@ -318,14 +320,22 @@ public class Expressions extends AbstractScreen implements
 		this.operation = operation;
 	}
 
+	private final List<IAction> actionList = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
-				: "Edit";
-		return new IAction[] { new EditExpressionAction(actionText + "...",
-				SWT.PUSH) };
+		
+		// lazy init the actions. 
+		if (actionList.isEmpty()) {
+			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+					: "Edit";
+			actionList.add(new EditExpressionAction(actionText + "...",
+					SWT.PUSH));
+		}
+
+		return actionList.toArray(new IAction[actionList.size()]);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Expressions";

@@ -107,9 +107,8 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f1.support.ScheduledReportSelectionWizard;
 import com.netxforge.netxstudio.screens.f2.NodeHistory;
-import com.netxforge.netxstudio.screens.f2.details.NewEditEquipmentLink;
-import com.netxforge.netxstudio.screens.f2.details.NewEditFunctionLink;
-import com.netxforge.netxstudio.screens.f2.details.NewEditLink;
+import com.netxforge.netxstudio.screens.f2.details.NewEditEquipmentLinkII;
+import com.netxforge.netxstudio.screens.f2.details.NewEditFunctionLinkII;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNetwork;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNode;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNodeEquipment;
@@ -259,8 +258,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		networkTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.VIRTUAL
 				| SWT.MULTI | widgetStyle);
-//		networkTreeViewer.setUseHashlookup(true);
-//		networkTreeViewer.setComparer(new CDOElementComparer());
+		// networkTreeViewer.setUseHashlookup(true);
+		// networkTreeViewer.setComparer(new CDOElementComparer());
 		networkTreeViewer.addFilter(new TreeSearchFilter(editingService));
 
 		// Set a default sorter.
@@ -323,10 +322,44 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 										public void run() {
 											try {
 												handleDetailsSelection(o);
+												// testRevisionHandling(o);
 											} catch (Exception e) {
 												e.printStackTrace();
 											}
 										}
+										// CB TODO Remove later.
+										// private void testRevisionHandling(
+										// Object o) {
+										// CDOObject cdoObject = (CDOObject) o;
+										//
+										// System.out.println("");
+										// System.out.println("Object= "
+										// + cdoObject);
+										// Iterator<CDORevision> cdoRevisions =
+										// modelUtils
+										// .cdoRevisions(cdoObject);
+										//
+										// while (cdoRevisions.hasNext()) {
+										// CDORevision rev = cdoRevisions
+										// .next();
+										// System.out.println("Revision= " + rev
+										// + " @ "
+										// + new Date(rev.getTimeStamp()));
+										//
+										// CDOObject object = modelUtils
+										// .cdoObject(cdoObject,
+										// rev);
+										// if (object != null
+										// && object instanceof Node) {
+										// String printNodeStructure =
+										// modelUtils
+										// .printNodeStructure((Node) object);
+										// System.out
+										// .println(printNodeStructure);
+										// object.cdoView().close();
+										// }
+										// }
+										// }
 									});
 						}
 					}
@@ -345,28 +378,31 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 	}
 
+	private final List<IAction> actions = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
+		
+		// Lazy init actions. 
+		if (actions.isEmpty()) {
+			boolean readonly = Screens.isReadOnlyOperation(getOperation());
 
-		boolean readonly = Screens.isReadOnlyOperation(getOperation());
-
-		List<IAction> actions = Lists.newArrayList();
-		actions.add(new HistoryAction("History...", SWT.PUSH));
-		actions.add(new SeparatorAction());
-		if (!readonly) {
-			actions.add(new MoveToWarehouseAction("Decommission", SWT.PUSH));
+			actions.add(new HistoryAction("History...", SWT.PUSH));
 			actions.add(new SeparatorAction());
+			if (!readonly) {
+				actions.add(new MoveToWarehouseAction("Decommission", SWT.PUSH));
+				actions.add(new SeparatorAction());
+			}
+			// actions.add(new ScheduleReportingJobAction(
+			// "Schedule Reporting Job...", SWT.PUSH));
+			actions.add(new ScheduleReportingJobAction(
+					"Schedule Reporting Job...", SWT.PUSH));
+			actions.add(new ReportNowAction("Report Now", SWT.PUSH));
+			actions.add(new SeparatorAction());
+			actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
+			actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
 		}
-		// actions.add(new ScheduleReportingJobAction(
-		// "Schedule Reporting Job...", SWT.PUSH));
-		actions.add(new ScheduleReportingJobAction("Schedule Reporting Job...",
-				SWT.PUSH));
-		actions.add(new ReportNowAction("Report Now", SWT.PUSH));
-		actions.add(new SeparatorAction());
-		actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
-		actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
-		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray);
+		return actions.toArray(new IAction[actions.size()]);
 	}
 
 	class HistoryAction extends BaseSelectionListenerAction {
@@ -420,14 +456,12 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 					dialog.open();
 					Job j = wizard.getJob();
 
-					if (j != null) {
-						NewEditJob newEditJob = new NewEditJob(
-								screenService.getScreenContainer(), SWT.NONE);
-						newEditJob.setOperation(Screens.OPERATION_NEW);
-						newEditJob.setScreenService(screenService);
-						newEditJob.injectData(jobResource, j);
-						screenService.setActiveScreen(newEditJob);
-					}
+					NewEditJob newEditJob = new NewEditJob(
+							screenService.getScreenContainer(), SWT.NONE);
+					newEditJob.setOperation(wizard.getOperation());
+					newEditJob.setScreenService(screenService);
+					newEditJob.injectData(jobResource, j);
+					screenService.setActiveScreen(newEditJob);
 
 				}
 			}
@@ -655,7 +689,13 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		observableMap.add(EMFProperties.value(
 				LibraryPackage.Literals.COMPONENT__NAME).observeDetail(set));
+		
+		observableMap.add(EMFProperties.value(
+				LibraryPackage.Literals.COMPONENT__METRIC_REFS).observeDetail(set));
+		observableMap.add(EMFProperties.value(
+				LibraryPackage.Literals.COMPONENT__RESOURCE_REFS).observeDetail(set));
 
+		
 		IObservableMap[] map = new IObservableMap[observableMap.size()];
 		observableMap.toArray(map);
 
@@ -815,7 +855,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		if (o instanceof Node) {
 			NewEditNode node = null;
-			node = new NewEditNode(this.getScreenForm(), this.cmpDetails, SWT.NONE, editingService);
+			node = new NewEditNode(this.getScreenForm(), this.cmpDetails,
+					SWT.NONE, editingService);
 			node.setScreenService(screenService);
 			node.injectData(null, o);
 			this.currentDetails = node;
@@ -831,6 +872,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			sashForm.layout(true, true);
 		}
 		if (o instanceof Equipment) {
+			
 			NewEditNodeEquipment screen = null;
 			screen = new NewEditNodeEquipment(this.cmpDetails, SWT.NONE,
 					editingService);
@@ -849,7 +891,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		}
 
 		if (o instanceof FunctionRelationship) {
-			NewEditFunctionLink linkScreen = new NewEditFunctionLink(
+			NewEditFunctionLinkII linkScreen = new NewEditFunctionLinkII(
 					this.cmpDetails, SWT.NONE, editingService);
 			linkScreen.injectData(null, o);
 			this.currentDetails = linkScreen;
@@ -858,7 +900,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		}
 
 		if (o instanceof EquipmentRelationship) {
-			NewEditEquipmentLink linkScreen = new NewEditEquipmentLink(
+			NewEditEquipmentLinkII linkScreen = new NewEditEquipmentLinkII(
 					this.cmpDetails, SWT.NONE, editingService);
 			linkScreen.injectData(null, o);
 			this.currentDetails = linkScreen;
@@ -866,13 +908,14 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			return;
 		}
 
-		if (o instanceof Relationship) {
-			NewEditLink linkScreen = new NewEditLink(this.cmpDetails, SWT.NONE,
-					editingService);
-			linkScreen.injectData(null, o);
-			this.currentDetails = linkScreen;
-			sashForm.layout(true, true);
-		}
+		// CB Remove later.
+		// if (o instanceof Relationship) {
+		// NewEditLink linkScreen = new NewEditLink(this.cmpDetails, SWT.NONE,
+		// editingService);
+		// linkScreen.injectData(null, o);
+		// this.currentDetails = linkScreen;
+		// sashForm.layout(true, true);
+		// }
 
 	}
 

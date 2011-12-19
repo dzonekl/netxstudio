@@ -628,8 +628,13 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		
 		// UTIL VALUES.
 		List<Value> utilValues = sortAndApplyPeriod(netXResource.getUtilizationValues());
-		double[] utilDoubleValues = modelUtils.transformValueToDoubleArray(utilValues);
-		this.seriesFromUtilization(dateArray, utilDoubleValues, chart, 1);
+		
+		List<Double> utilDoubleValues = modelUtils.transformValueToDouble(utilValues);
+
+		// Multiply by 100 
+		double[] utilDoubleArray = modelUtils.multiplyByHundredAndToArray(utilDoubleValues);
+		
+		this.seriesFromUtilization(dateArray, utilDoubleArray, chart, 1);
 
 		
 		// TOL VALUES

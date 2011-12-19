@@ -21,11 +21,19 @@ package com.netxforge.netxstudio.screens.f2;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.gef.SnapToGrid;
+import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
+import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -34,6 +42,8 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -51,10 +61,15 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.actions.CompareAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f2.model.WrappedNode;
+import com.netxforge.netxstudio.screens.f2.model.WrappedNodeType;
+import com.netxforge.netxstudio.screens.f2.parts.NodeEditPartsFactory;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -65,11 +80,17 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
 
+	// CB 15-12-2011 disable for now.
+	private ScrollingGraphicalViewer graphicalViewer;
+
 	public NodeHistory(Composite parent, int style) {
 		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
+
+				// CB 15-12-2011 disable for now.
+				// disposeCDOViewForGraphicalViewer();
 				toolkit.dispose();
 			}
 		});
@@ -78,20 +99,26 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 		// buildUI();
 	}
 
+
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		frmNTHistory = toolkit.createForm(this);
-		frmNTHistory.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmNTHistory);
+		// SashForm sashForm = new SashForm(this, SWT.VERTICAL);
+		// sashForm.setSashWidth(5);
+		// toolkit.adapt(sashForm);
+		// toolkit.paintBordersFor(sashForm);
 
-		frmNTHistory.setText("Network Element Type History");
-		frmNTHistory.getBody().setLayout(new FormLayout());
+		frmHistory = toolkit.createForm(this);
+		frmHistory.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmHistory);
 
-		Section sctnInfo = toolkit.createSection(frmNTHistory.getBody(),
+		frmHistory.setText("Network Element Editing History: " + node.getNodeID());
+		frmHistory.getBody().setLayout(new FormLayout());
+
+		Section sctnInfo = toolkit.createSection(frmHistory.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnInfo = new FormData();
-		fd_sctnInfo.top = new FormAttachment(frmNTHistory.getBody(), 12);
+		fd_sctnInfo.top = new FormAttachment(frmHistory.getBody(), 12);
 		fd_sctnInfo.bottom = new FormAttachment(100, -12);
 		fd_sctnInfo.right = new FormAttachment(100, -12);
 		fd_sctnInfo.left = new FormAttachment(0, 12);
@@ -106,32 +133,103 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 		gl_composite_1.horizontalSpacing = 8;
 		composite_1.setLayout(gl_composite_1);
 
-		tableViewer = new TableViewer(composite_1, SWT.BORDER | SWT.VIRTUAL
-				| SWT.FULL_SELECTION);
-		tableViewer.setUseHashlookup(true);
-		table = tableViewer.getTable();
+		tableViewerRevisions = new TableViewer(composite_1, SWT.BORDER
+				| SWT.VIRTUAL | SWT.FULL_SELECTION | SWT.MULTI);
+		tableViewerRevisions.setUseHashlookup(true);
+		table = tableViewerRevisions.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		table.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// CB 15-12 -2011 Disable for now.
+				@SuppressWarnings("unused")
+				IStructuredSelection selection = (IStructuredSelection) tableViewerRevisions
+						.getSelection();
+				// updateSelection(selection.getFirstElement());
+			}
+
+		});
 		toolkit.paintBordersFor(table);
 
 		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
+				tableViewerRevisions, SWT.NONE);
 		TableColumn tblclmnVersion = tableViewerColumn_4.getColumn();
 		tblclmnVersion.setWidth(100);
 		tblclmnVersion.setText("Version");
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
-				tableViewer, SWT.NONE);
+				tableViewerRevisions, SWT.NONE);
 		TableColumn tblclmnDateTime = tableViewerColumn.getColumn();
 		tblclmnDateTime.setWidth(150);
 		tblclmnDateTime.setText("Date / Time");
 
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
-		TableColumn tblclmnActivity = tableViewerColumn_2.getColumn();
-		tblclmnActivity.setWidth(114);
-		tblclmnActivity.setText("Data");
+		// CB 15-12-2011 Disable the graphical viewer, as the layout is way to
+		// slow for large structures.
+		// Composite structureComposite = new Composite(sashForm, SWT.NONE);
+		// toolkit.adapt(structureComposite);
+		// toolkit.paintBordersFor(structureComposite);
+		// buildStructure(structureComposite);
+		//
+		// sashForm.setWeights(new int[] { 1, 1 });
+	}
+
+	// CB 15-12-2011 disabled for now.
+	@SuppressWarnings("unused")
+	private void updateSelection(Object firstElement) {
+
+		// Clear the previous session.
+		disposeCDOViewForGraphicalViewer();
+
+		if (firstElement instanceof CDORevision) {
+			CDORevision rev = (CDORevision) firstElement;
+			CDOObject cdoObject = null;
+			cdoObject = modelUtils.cdoObject(node, rev);
+			if (cdoObject instanceof Node) {
+				Node n = (Node) cdoObject;
+				graphicalViewer.setContents(new WrappedNode(n));
+				return;
+			}
+
+		}
+		graphicalViewer.setContents(null);
+	}
+
+	private void disposeCDOViewForGraphicalViewer() {
+		if (graphicalViewer.getContents() != null) {
+			Object model = graphicalViewer.getContents().getModel();
+			if (model instanceof WrappedNodeType) {
+				NodeType nodeType = ((WrappedNodeType) model).getNodeType();
+				if (nodeType.eContainer() != null
+						&& nodeType.eContainer() instanceof Node) {
+					Node n = (Node) nodeType.eContainer();
+					n.cdoView().close();
+
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private void buildStructure(Composite structureComposite) {
+		FillLayout fl = new FillLayout(SWT.HORIZONTAL);
+		fl.marginHeight = 20;
+		fl.marginWidth = 20;
+		structureComposite.setLayout(fl);
+
+		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
+		graphicalViewer = new ScrollingGraphicalViewer();
+		graphicalViewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
+		graphicalViewer.createControl(structureComposite);
+		graphicalViewer.getControl().setBackground(
+				ColorConstants.listBackground);
+		graphicalViewer.setRootEditPart(rootEditPart);
+		graphicalViewer.setEditPartFactory(new NodeEditPartsFactory());
+
+		rootEditPart.refresh();
+
 	}
 
 	/*
@@ -144,8 +242,8 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 		return Screens.OPERATION_READ_ONLY;
 	}
 
-	private TableViewer tableViewer;
-	private Form frmNTHistory;
+	private TableViewer tableViewerRevisions;
+	private Form frmHistory;
 	private Node node;
 
 	/*
@@ -176,15 +274,12 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 
 	public EMFDataBindingContext initDataBindings_() {
 
-		tableViewer.setContentProvider(new ArrayContentProvider());
-		tableViewer.setLabelProvider(new NodeHistoryLabelProvider(node));
-		List<HistoricNode> histNodes = Lists.newArrayList();
-		
-		// use for non CDORevision supporting. 
-		// how to check supported features? 
-//		historicalNodes(histNodes);
-		
-		tableViewer.setInput(histNodes.toArray());
+		tableViewerRevisions.setContentProvider(new ArrayContentProvider());
+		tableViewerRevisions
+				.setLabelProvider(new NodeHistoryLabelProvider(node));
+		List<CDORevision> newArrayList = Lists.newArrayList();
+		newArrayList.addAll(Lists.newArrayList(modelUtils.cdoRevisions(node)));
+		tableViewerRevisions.setInput(newArrayList);
 		return null;
 	}
 
@@ -196,8 +291,8 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 		if (historicalResourceName != null) {
 			URI uri = URI.createURI(historicalResourceName);
 			// Do we have an existing resource for this historical node.
-			// If not we add at least the node. 
-			
+			// If not we add at least the node.
+
 			if (editingService.getDataService().getProvider().hasResource(uri)) {
 
 				Resource historyResource = editingService
@@ -206,24 +301,24 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 						.getResource(
 								editingService.getEditingDomain()
 										.getResourceSet(), uri);
-				
+
 				int entryCount = historyResource.getContents().size();
-				
-				// Don't add the current node, it will already be in the resource (If saved). 
-//				histNodes.add(new HistoricNode(entryCount, node));
-//				entryCount--;
+
+				// Don't add the current node, it will already be in the
+				// resource (If saved).
+				// histNodes.add(new HistoricNode(entryCount, node));
+				// entryCount--;
 
 				// We need the resource list backwards.
 				for (EObject object : Iterables.reverse(historyResource
 						.getContents())) {
-					histNodes.add(new HistoricNode(entryCount,
-							(Node) object));
+					histNodes.add(new HistoricNode(entryCount, (Node) object));
 					entryCount--;
 				}
-			}else{
+			} else {
 				histNodes.add(new HistoricNode(1, node));
 			}
-			
+
 		}
 	}
 
@@ -231,7 +326,7 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 	 * Holds the Node and a revision for presentation.
 	 * 
 	 * @author dzonekl
-	 * 
+	 * @deprecated
 	 */
 	class HistoricNode {
 
@@ -292,7 +387,7 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 				case 1: {
 					Date d = new Date(((HistoricNode) element).getNode()
 							.cdoRevision().getTimeStamp());
-					return modelUtils.date(d) + " @ "+modelUtils.time(d);
+					return modelUtils.date(d) + " @ " + modelUtils.time(d);
 				}
 				case 2: {
 					Node nt = ((HistoricNode) element).getNode();
@@ -300,9 +395,37 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 				}
 				}
 			}
+
+			if (element instanceof CDORevision) {
+				CDORevision rev = (CDORevision) element;
+				switch (columnIndex) {
+				case 0: {
+					return new Integer(rev.getVersion()).toString();
+				}
+				case 1: {
+					Date d = new Date(rev.getTimeStamp());
+					return modelUtils.date(d) + " @ " + modelUtils.time(d);
+				}
+				case 2: {
+					return "perhaps remove this.";
+				}
+				}
+			}
+
 			return null;
 		}
 
+	}
+	
+	private final List<IAction> actions = Lists.newArrayList();
+
+	@Override
+	public IAction[] getActions() {
+		// Lazy init actions. 
+		if(actions.isEmpty()){
+			actions.add(new CompareAction(modelUtils, "Compare...") );
+		}
+		return actions.toArray(new IAction[actions.size()]);
 	}
 
 	/*
@@ -324,12 +447,12 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 	}
 
 	public TableViewer getTableViewerWidget() {
-		return tableViewer;
+		return tableViewerRevisions;
 	}
 
 	@Override
 	public Form getScreenForm() {
-		return frmNTHistory;
+		return frmHistory;
 	}
 
 	public void disposeData() {
@@ -342,7 +465,6 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 	}
 
 	public String getScreenName() {
-		return "Node History";
+		return "Network Element Editing History";
 	}
-
 }

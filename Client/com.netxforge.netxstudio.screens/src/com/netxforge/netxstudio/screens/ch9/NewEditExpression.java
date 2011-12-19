@@ -118,14 +118,13 @@ public class NewEditExpression extends AbstractScreen implements
 		
 		// Readonlyness.
 		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmExpression = toolkit.createForm(this);
 		frmExpression.setSeparatorVisible(true);
-		frmExpression.setText(actionText + "Expression");
+		frmExpression.setText(this.getOperationText() + "Expression");
 		
 		toolkit.paintBordersFor(frmExpression);
 

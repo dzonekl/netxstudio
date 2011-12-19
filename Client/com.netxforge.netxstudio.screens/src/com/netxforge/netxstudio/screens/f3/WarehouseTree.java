@@ -294,18 +294,17 @@ public class WarehouseTree extends AbstractScreen implements
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-
+	
+	private final List<IAction> actions = Lists.newArrayList();
+	
 	@Override
 	public IAction[] getActions() {
-
-		List<IAction> actions = Lists.newArrayList();
-
-		boolean readonly = Screens.isReadOnlyOperation(getOperation());
-		String actionText = readonly ? "View" : "Edit";
-		actions.add(new EditWarehouseItemAction(actionText + "...", SWT.PUSH));
-
-		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray);
+		if(actions.isEmpty()){
+			boolean readonly = Screens.isReadOnlyOperation(getOperation());
+			String actionText = readonly ? "View" : "Edit";
+			actions.add(new EditWarehouseItemAction(actionText + "...", SWT.PUSH));
+		}
+		return actions.toArray(new IAction[actions.size()]);
 	}
 	
 	@Override

@@ -55,7 +55,7 @@ public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDi
 			ModelUtils modelUtils) {
 		
 		super(shell, true);
-		super.setTitle("Select a Node or Network");
+		super.setTitle("Select a Network Element or Network");
 		
 		this.resource = resource;
 		this.modelUtils = modelUtils;

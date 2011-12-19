@@ -53,7 +53,6 @@ import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Location;
 import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -428,6 +427,22 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 
 				@SuppressWarnings("serial")
 				EcoreUtil.Copier nodeTypeCopier = new EcoreUtil.Copier() {
+					
+					
+					
+					@Override
+					protected EObject createCopy(EObject eObject) {
+						EObject createCopy = super.createCopy(eObject);
+						if(createCopy instanceof Component){
+								
+							Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
+							newLC.setProposed(modelUtils.toXMLDate(modelUtils
+									.todayAndNow()));
+							((Component) createCopy).setLifecycle(newLC);
+							
+						}
+						return createCopy;
+					}
 
 					/**
 					 * Our version of copy reference has a special treatment for
@@ -477,10 +492,11 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 														.copy(referencedEObject);
 
 												if (copyEObject instanceof Component) {
-													if (copyEObject instanceof Equipment) {
-														((Component) copyEObject)
-																.setName("<name>");
-													}
+													
+//													if (copyEObject instanceof Equipment) {
+//														((Component) copyEObject)
+//																.setName("<name>");
+//													}
 
 													String cdoResourcePath = modelUtils
 															.cdoCalculateResourcePathII(node);

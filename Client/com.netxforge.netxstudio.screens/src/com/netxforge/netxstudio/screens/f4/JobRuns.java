@@ -77,7 +77,6 @@ import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.support.LogDialog;
 
 /**
@@ -297,8 +296,9 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			for (final EObject eObject : jobRunContainerResource.getContents()) {
 				final JobRunContainer container = (JobRunContainer) eObject;
 				final Job containerJob = container.getJob();
-				if(containerJob != null){
-					final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
+				if (containerJob != null) {
+					final CDOID containerJobId = ((CDOObject) containerJob)
+							.cdoID();
 					if (job.cdoID().equals(containerJobId)) {
 						// Container found.
 						currentJobContainer = container;
@@ -359,19 +359,25 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 				mntmExpressions.setText("Expressions...");
 			}
 		}
+
 	}
+
+	private final List<IAction> actions = Lists.newArrayList();
 
 	@Override
 	public IAction[] getActions() {
-		@SuppressWarnings("unused")
-		String actionText = Screens.isReadOnlyOperation(this.getOperation()) ? "View..."
-				: "Edit...";
-		List<IAction> actions = Lists.newArrayList();
-		actions.add(new ShowLogAction("Show Log...", SWT.PUSH));
-		actions.add(new ShowFailuresAction("Show Failures...", SWT.PUSH));
+		
+		// lazy init actions. 
+		if (actions.isEmpty()) {
+//			String actionText = Screens
+//					.isReadOnlyOperation(this.getOperation()) ? "View..."
+//					: "Edit...";
+			List<IAction> actions = Lists.newArrayList();
+			actions.add(new ShowLogAction("Show Log...", SWT.PUSH));
+			actions.add(new ShowFailuresAction("Show Failures...", SWT.PUSH));
+		}
 
-		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray);
+		return actions.toArray(new IAction[actions.size()]);
 
 	}
 
@@ -505,7 +511,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-	
+
 	public String getScreenName() {
 		return "Runs";
 	}

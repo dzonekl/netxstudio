@@ -1,13 +1,10 @@
 package com.netxforge.netxstudio.screens.f2;
 
-import java.util.List;
-
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -18,11 +15,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.model.WrappedNodeType;
 import com.netxforge.netxstudio.screens.f2.parts.NodeTypeEditPartsFactory;
 
@@ -120,21 +115,7 @@ public class NodeTypeHierarchy extends AbstractScreen implements
 		this.operation = operation;
 
 	}
-
-	@Override
-	public IAction[] getActions() {
-
-		@SuppressWarnings("unused")
-		boolean readonly = Screens.isReadOnlyOperation(getOperation());
-		@SuppressWarnings("unused")
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
-				: "Edit";
-
-		List<IAction> actions = Lists.newArrayList();
-		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray);
-	}
-
+	
 	public void addData() {
 		// N/A
 	}

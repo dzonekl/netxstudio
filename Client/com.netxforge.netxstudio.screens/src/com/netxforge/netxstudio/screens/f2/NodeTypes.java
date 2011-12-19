@@ -26,7 +26,6 @@ import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
@@ -280,12 +279,16 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		}
 	}
 
+	private final List<IAction> actions = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
-		return new IAction[] {
-				new NodeTypeExportHTMLAction("Export to HTML", SWT.PUSH),
-				new NodeTypeExportXLSAction("Export to XLS", SWT.PUSH),
-				new HistoryAction("History...", SWT.PUSH) };
+		if (actions.isEmpty()) {
+			actions.add(new NodeTypeExportHTMLAction("Export to HTML", SWT.PUSH));
+			actions.add(new NodeTypeExportXLSAction("Export to XLS", SWT.PUSH));
+			actions.add(new HistoryAction("History...", SWT.PUSH));
+		}
+		return actions.toArray(new IAction[actions.size()]);
 	}
 
 	public void disposeData() {
@@ -310,21 +313,24 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 				LibraryPackage.Literals.NODE_TYPE__NAME).observeDetail(set));
 
 		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
+				LibraryPackage.Literals.NODE_TYPE__FUNCTIONS)
+				.observeDetail(set));
+
+		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
 				LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS).observeDetail(
 				set));
 
 		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
-				LibraryPackage.Literals.NODE_TYPE__FUNCTIONS)
-				.observeDetail(set));
+				LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS).observeDetail(
+				set));
 
-		mapList.add(EMFProperties
-				.value(LibraryPackage.Literals.COMPONENT__NAME).observeDetail(
-						set));
-		// mapList.add(EMFProperties.value(
-		// LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME)
-		// .observeDetail(set));
+		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
+				LibraryPackage.Literals.FUNCTION__FUNCTIONS).observeDetail(set));
 
-		mapList.add(EMFProperties.value(
+		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
+				LibraryPackage.Literals.COMPONENT__NAME).observeDetail(set));
+
+		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
 				LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE)
 				.observeDetail(set));
 
@@ -410,6 +416,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 			sashForm.layout(true, true);
 		}
 		if (o instanceof Equipment) {
+
 			NewEditEquipment screen = null;
 			screen = new NewEditEquipment(this.cmpDetails, SWT.NONE,
 					editingService);

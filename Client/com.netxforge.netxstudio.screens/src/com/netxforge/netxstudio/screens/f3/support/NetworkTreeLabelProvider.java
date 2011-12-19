@@ -22,11 +22,15 @@ import java.util.Set;
 import org.eclipse.core.databinding.observable.map.IMapChangeListener;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.map.MapChangeEvent;
+import org.eclipse.jface.resource.ColorRegistry;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
+import org.eclipse.jface.viewers.StyledString.Styler;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.netxforge.netxstudio.library.Equipment;
@@ -40,6 +44,16 @@ import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.Relationship;
 
 public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
+
+	private static final String REL_NOTCONNECTED_COLOR_STYLER = "X_COLOR_STYLER";
+	private static final String METRIC_COLOR_STYLER = "METRIC_COLOR_STYLER";
+
+	static {
+		ColorRegistry colorRegistry = JFaceResources.getColorRegistry();
+		colorRegistry.put(REL_NOTCONNECTED_COLOR_STYLER, new RGB(255, 0, 0));
+		colorRegistry.put(METRIC_COLOR_STYLER, new RGB(0xBD, 0xB7, 0x6B));
+	}
+
 	private IMapChangeListener mapChangeListener = new IMapChangeListener() {
 		public void handleMapChange(MapChangeEvent event) {
 			Set<?> affectedElements = event.diff.getChangedKeys();
@@ -81,7 +95,7 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 			cell.setImage(img);
 			cell.setStyleRanges(styledString.getStyleRanges());
 		}
-		
+
 		if (element instanceof Network) {
 
 			Network network = (Network) element;
@@ -118,32 +132,46 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 			cell.setStyleRanges(styledString.getStyleRanges());
 		}
 
-//		if (element instanceof NodeType) {
-//
-//			NodeType nt = (NodeType) element;
-//
-//			StyledString styledString = new StyledString(
-//					nt.getName() != null ? nt.getName() : "?", null);
-//			String decoration = " (" + nt.getFunctions().size() + " Functions)"
-//					+ " (" + nt.getFunctions().size() + " Equipments)";
-//			styledString.append(decoration, StyledString.COUNTER_STYLER);
-//			cell.setText(styledString.getString());
-//			Image img = ResourceManager.getPluginImage(
-//					"com.netxforge.netxstudio.models.edit",
-//					"icons/full/obj16/Node_H.png");
-//			cell.setImage(img);
-//			cell.setStyleRanges(styledString.getStyleRanges());
-//		}
+		// if (element instanceof NodeType) {
+		//
+		// NodeType nt = (NodeType) element;
+		//
+		// StyledString styledString = new StyledString(
+		// nt.getName() != null ? nt.getName() : "?", null);
+		// String decoration = " (" + nt.getFunctions().size() + " Functions)"
+		// + " (" + nt.getFunctions().size() + " Equipments)";
+		// styledString.append(decoration, StyledString.COUNTER_STYLER);
+		// cell.setText(styledString.getString());
+		// Image img = ResourceManager.getPluginImage(
+		// "com.netxforge.netxstudio.models.edit",
+		// "icons/full/obj16/Node_H.png");
+		// cell.setImage(img);
+		// cell.setStyleRanges(styledString.getStyleRanges());
+		// }
 
 		if (element instanceof Function) {
+
+			Styler metricColorStyler = StyledString.createColorRegistryStyler(
+					METRIC_COLOR_STYLER, null);
+
 			Function fc = (Function) element;
 
 			StyledString styledString = new StyledString(
 					fc.getName() != null ? fc.getName() : "?", null);
-			String decoration = " (" + fc.getResourceRefs().size()
-					+ " Resources)";
-			styledString.append(decoration, StyledString.COUNTER_STYLER);
+
+			if (!fc.getResourceRefs().isEmpty()) {
+				String decoration = " (" + fc.getResourceRefs().size()
+						+ " Res.)";
+				styledString.append(decoration, StyledString.COUNTER_STYLER);
+			}
+			if (!fc.getMetricRefs().isEmpty()) {
+				String decoration = " (" + fc.getMetricRefs().size()
+						+ " Metrics)";
+				styledString.append(decoration, metricColorStyler);
+			}
+
 			cell.setText(styledString.getString());
+
 			Image img = ResourceManager.getPluginImage(
 					"com.netxforge.netxstudio.models.edit",
 					"icons/full/obj16/Function_H.png");
@@ -151,20 +179,31 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 			cell.setStyleRanges(styledString.getStyleRanges());
 		}
 		if (element instanceof Equipment) {
+			Styler metricColorStyler = StyledString.createColorRegistryStyler(
+					METRIC_COLOR_STYLER, null);
 
 			Equipment eq = (Equipment) element;
 
 			StringBuffer buf = new StringBuffer();
 			buf.append(eq.getEquipmentCode() != null ? eq.getEquipmentCode()
 					: "?");
-			if(eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)){
+			if (eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)) {
 				buf.append(" : " + eq.getName());
 			}
 			StyledString styledString = new StyledString(buf.toString(), null);
 
-			String decoration = " (" + eq.getResourceRefs().size()
-					+ " Resources)";
-			styledString.append(decoration, StyledString.COUNTER_STYLER);
+			if (!eq.getResourceRefs().isEmpty()) {
+				String decoration = " (" + eq.getResourceRefs().size()
+						+ " Resources)";
+				styledString.append(decoration, StyledString.COUNTER_STYLER);
+			}
+
+			if (!eq.getMetricRefs().isEmpty()) {
+				String decoration = " (" + eq.getMetricRefs().size()
+						+ " Metrics)";
+				styledString.append(decoration, metricColorStyler);
+			}
+
 			cell.setText(styledString.getString());
 			Image img = ResourceManager.getPluginImage(
 					"com.netxforge.netxstudio.models.edit",
@@ -175,6 +214,9 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 
 		if (element instanceof Relationship) {
 
+			Styler xColorStyler = StyledString.createColorRegistryStyler(
+					REL_NOTCONNECTED_COLOR_STYLER, null);
+
 			Relationship rel = (Relationship) element;
 			StyledString styledString = new StyledString(
 					rel.getName() != null ? rel.getName() : "?", null);
@@ -183,13 +225,30 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 			decoration.append(" (");
 			if (rel.getNodeID1Ref() != null) {
 				decoration.append(rel.getNodeID1Ref().getNodeID());
+				styledString.append(decoration.toString(),
+						StyledString.COUNTER_STYLER);
+			} else {
+				styledString.append(decoration.toString(),
+						StyledString.COUNTER_STYLER);
+				styledString.append(" x", xColorStyler);
 			}
+
+			decoration = new StringBuffer();
 			decoration.append(" <--> ");
 
 			if (rel.getNodeID2Ref() != null) {
 				decoration.append(rel.getNodeID2Ref().getNodeID());
+				styledString.append(decoration.toString(),
+						StyledString.COUNTER_STYLER);
+			} else {
+				styledString.append(decoration.toString(),
+						StyledString.COUNTER_STYLER);
+				styledString.append("x", xColorStyler);
+
 			}
+			decoration = new StringBuffer();
 			decoration.append(" )");
+
 			styledString.append(decoration.toString(),
 					StyledString.COUNTER_STYLER);
 
@@ -212,7 +271,6 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 			cell.setStyleRanges(styledString.getStyleRanges());
 		}
 	}
-
 	// @Override
 	// public void dispose() {
 	// super.dispose();

@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2;
 
+import java.util.List;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -58,6 +60,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.protocols.ProtocolsFactory;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
@@ -179,8 +182,8 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 			mghprlnkNew.setText("New");
 
 		}
-		
-//		new Label(frmProtocols.getBody(), SWT.NONE);
+
+		// new Label(frmProtocols.getBody(), SWT.NONE);
 
 		tableViewer = new TableViewer(frmProtocols.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION | widgetStyle);
@@ -280,8 +283,8 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 						ProtocolsPackage.Literals.PROTOCOL__DESCRIPTION,
 						ProtocolsPackage.Literals.PROTOCOL__OSI,
 						ProtocolsPackage.Literals.PROTOCOL__SPECIFICATION });
-		tableViewer.setLabelProvider(new ObservableMapLabelProvider(
-				observeMaps));
+		tableViewer
+				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
 		IObservableList protocolObservableList = l.observe(protocolResource);
@@ -321,14 +324,19 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		this.operation = operation;
 	}
 
+	private final List<IAction> actions = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
-				: "Edit";
-		return new IAction[] { new EditProtocolAction(actionText + "...",
-				SWT.PUSH) };
+		// Lazy init actions.
+		if (actions.isEmpty()) {
+			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+					: "Edit";
+			actions.add(new EditProtocolAction(actionText + "...", SWT.PUSH));
+		}
+		return actions.toArray(new IAction[actions.size()]);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Protocols";

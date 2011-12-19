@@ -75,14 +75,12 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.details.NewEditFunction;
-import com.netxforge.netxstudio.screens.f2.details.NewEditLink;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNetwork;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNode;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNodeEquipment;
@@ -456,13 +454,7 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 			this.currentDetails = nnt;
 			sashForm.layout(true, true);
 		}
-		if (o instanceof Relationship) {
-			NewEditLink linkScreen = new NewEditLink(this.cmpDetails,
-					SWT.NONE, editingService);
-			linkScreen.injectData(null, o);
-			this.currentDetails = linkScreen;
-			sashForm.layout(true, true);
-		}
+		
 	}
 
 	/*

@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
+import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -35,6 +36,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -194,7 +196,7 @@ public class ResourceMonitors extends AbstractScreen implements
 								screenService.getScreenContainer(), SWT.NONE);
 						rmScreen.setScreenService(screenService);
 						rmScreen.setOperation(getOperation());
-						rmScreen.injectData(null,o);
+						rmScreen.injectData(null, o);
 						screenService.setActiveScreen(rmScreen);
 					}
 				}
@@ -270,14 +272,16 @@ public class ResourceMonitors extends AbstractScreen implements
 					if (rm.getPeriod() != null) {
 						Date begin = modelUtils.fromXMLDate(rm.getPeriod()
 								.getBegin());
-						return modelUtils.date(begin) + " @ " + modelUtils.time(begin);
+						return modelUtils.date(begin) + " @ "
+								+ modelUtils.time(begin);
 					}
 					break;
 				case 4:
 					if (rm.getPeriod() != null) {
 						Date end = modelUtils.fromXMLDate(rm.getPeriod()
 								.getEnd());
-						return modelUtils.date(end)  + " @ " +  modelUtils.time(end);
+						return modelUtils.date(end) + " @ "
+								+ modelUtils.time(end);
 					}
 					break;
 				}
@@ -324,21 +328,23 @@ public class ResourceMonitors extends AbstractScreen implements
 
 	public void addData() {
 		// TODO Auto-generated method stub
-
 	}
+
+	private final List<IAction> actions = Lists.newArrayList();
 
 	@Override
 	public IAction[] getActions() {
 		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
 				: "Edit";
-		return new IAction[] { new EditMonitorAction(actionText + "...",
-				SWT.PUSH) };
+		if (actions.isEmpty()) {
+			actions.add(new EditMonitorAction(actionText + "...", SWT.PUSH));
+		}
+		return actions.toArray(new IAction[actions.size()]);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Resource Monitors";
 	}
-
 
 }

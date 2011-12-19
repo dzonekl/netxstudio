@@ -103,7 +103,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 	}
 
 	private void buildUI() {
@@ -584,13 +584,17 @@ public abstract class AbstractResources extends AbstractScreen implements
 		this.operation = operation;
 	}
 
+	private final List<IAction> actionList = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View..." : "Edit...";
+		
+		// lazy init the aciton list. 
+		if (actionList.isEmpty()) {
+			String actionText = Screens.isReadOnlyOperation(this.getOperation()) ? "View..." : "Edit...";
+			actionList.add(new EditResourceAction(actionText, SWT.PUSH));
+		}
 
-		List<IAction> actionList = Lists.newArrayList();
-		actionList.add(new EditResourceAction(actionText, SWT.PUSH));
 		// actionList.add(new MonitorResourceAction("Monitor...", SWT.PUSH));
 		return actionList.toArray(new IAction[actionList.size()]);
 	}

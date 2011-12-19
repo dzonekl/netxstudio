@@ -158,7 +158,7 @@ public class UsersAndRoles extends AbstractScreen implements
 		tableViewer = new TableViewer(frmUsersAndRoles.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION);
 		tableViewer.setComparer(new CDOElementComparer());
-		
+
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -324,21 +324,23 @@ public class UsersAndRoles extends AbstractScreen implements
 
 	}
 
+	private final List<IAction> actions = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
-		List<IAction> actions = Lists.newArrayList();
-		boolean readonly = Screens.isReadOnlyOperation(getOperation());
-		String actionText = readonly ? "View" : "Edit";
-		actions.add(new EditAction(actionText + "...", SWT.PUSH));
-		actions.add(new HistoryAction("History...", SWT.PUSH));
-		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray);
+		if (actions.isEmpty()) {
+			boolean readonly = Screens.isReadOnlyOperation(getOperation());
+			String actionText = readonly ? "View" : "Edit";
+			actions.add(new EditAction(actionText + "...", SWT.PUSH));
+			actions.add(new HistoryAction("History...", SWT.PUSH));
+		}
+
+		return actions.toArray(new IAction[actions.size()]);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Users and Roles";
 	}
 
-	
 }
