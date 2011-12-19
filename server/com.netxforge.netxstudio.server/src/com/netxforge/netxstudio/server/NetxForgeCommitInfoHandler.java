@@ -65,6 +65,18 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 			return;
 		}
 
+		// don't save commit info
+		// check if we are saving the commit info resource
+		// if so bail
+		for (final CDOIDAndVersion cdoIdAndVersion : commitInfo.getNewObjects()) {
+			if (cdoIdAndVersion instanceof InternalCDORevision) {
+				if (((InternalCDORevision) cdoIdAndVersion).getEClass() == GenericsPackage.eINSTANCE
+						.getCommitLogEntry()) {
+					return;
+				}
+			}
+		}
+		
 		if (commitInfo.getComment() == null) {
 			if (ServerActivator.DEBUG) {
 				System.out
@@ -82,17 +94,7 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 			return;
 		}
 
-		// don't save commit info
-		// check if we are saving the commit info resource
-		// if so bail
-		for (final CDOIDAndVersion cdoIdAndVersion : commitInfo.getNewObjects()) {
-			if (cdoIdAndVersion instanceof InternalCDORevision) {
-				if (((InternalCDORevision) cdoIdAndVersion).getEClass() == GenericsPackage.eINSTANCE
-						.getCommitLogEntry()) {
-					return;
-				}
-			}
-		}
+
 
 		final XMLGregorianCalendar commitTimeStamp = modelUtils
 				.toXMLDate(new Date(commitInfo.getTimeStamp()));
