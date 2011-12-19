@@ -79,7 +79,7 @@ public class MonitoringEngine extends BaseComponentEngine {
 		// Clear the context first.
 		getExpressionEngine().getContext().clear();
 		getExpressionEngine().getContext().add(getPeriod());
-		
+		getExpressionEngine().getContext().add(getComponent());
 		final Node node = getCommonLogic().getNode(getComponent());
 		getExpressionEngine().getContext().add(node);
 		
