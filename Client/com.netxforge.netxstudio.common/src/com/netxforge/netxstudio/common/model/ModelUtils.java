@@ -2,7 +2,6 @@ package com.netxforge.netxstudio.common.model;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,9 +14,6 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -41,7 +37,6 @@ import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -1290,80 +1285,7 @@ public class ModelUtils {
 		return null;
 	}
 
-	/**
-	 * Get a collection from a target object by collection feature., use the last occurrence in the
-	 * collection, to get an attribute value. return the attribute value
-	 * incremented by 1. 
-	 * <p>If this is the first occurence the name will be. 
-	 * <pre> &ltnew [target Object name] 1&gt</pre>
-	 * </p>
-	 * 
-	 * 
-	 * @param targetParentObject
-	 * @param collectionFeature
-	 * @param identityFeature
-	 *            An identity attribute which should be of type String.
-	 * @return A String incremented by 1.
-	 */
-	public String getSequenceNumber(EObject targetParentObject,
-			EReference collectionFeature, EAttribute identityFeature) {
-		String newName = null;
-		if (collectionFeature.isMany()) {
-			final List<?> collection = (List<?>) targetParentObject
-					.eGet(collectionFeature);
-			final int size = collection.size();
-			if (size > 0) {
-				final EObject lastChild = (EObject) collection.get(size - 1);
-				if (lastChild.eIsSet(identityFeature)) {
-					final String lastName = (String) lastChild
-							.eGet(identityFeature);
-					newName = nextIdentity(lastName);
-				}
-			}
-			if (newName == null) {
-				newName = "<new " + collectionFeature.getEReferenceType().getName() +" 1>";
-			}
-		}
-
-		return newName;
-	}
-
-	public String nextIdentity(final String lastName) {
-		String newName = new String();
-		// See if the last 2 chars are a digit.
-		try {
-
-			final Pattern MY_PATTERN = Pattern.compile("[0-9]*");
-			final Matcher m = MY_PATTERN.matcher(lastName);
-			String lastDigits = null;
-			while (m.find()) {
-				final String match = m.group();
-				if (!match.isEmpty())
-					lastDigits = match;
-			}
-			if (lastDigits != null) {
-				final String nameWithNoDigits = lastName.substring(0,
-						lastName.indexOf(lastDigits));
-				try {
-					Integer ld = new Integer(lastDigits);
-					ld++;
-					// Perhaps format with 0...
-
-					// Do a simple text format.
-					final DecimalFormat format = new DecimalFormat();
-					format.applyPattern("###");
-					newName = nameWithNoDigits + format.format(ld);
-
-				} catch (final NumberFormatException nfe) {
-					System.err
-							.println("ModelUtils: Can't formart" + lastDigits);
-				}
-			}
-		} catch (final PatternSyntaxException pse) {
-			System.err.println("ModelUtils: Wrong syntax");
-		}
-		return newName;
-	}
+	
 
 	public Value mostRecentValue(List<Value> rawListOfValues) {
 		List<Value> values = this.sortByTimeStampAndReverse(rawListOfValues);
@@ -2401,10 +2323,11 @@ public class ModelUtils {
 				} else if (newValue instanceof EObject) {
 					printModelObject((EObject) newValue).toString();
 				} else if (newValue instanceof CDOID) {
-					// It would be nice for references, to get the mutated CDOID and present it as a link 
-					// to the object. 
+					// It would be nice for references, to get the mutated CDOID
+					// and present it as a link
+					// to the object.
 					CDOID cdoID = (CDOID) newValue;
-					return "Object ID =" +  cdoID.toString();
+					return "Object ID =" + cdoID.toString();
 				}
 			} else if (index == 3 && oldValue != null) {
 				return oldValue instanceof String ? (String) oldValue
