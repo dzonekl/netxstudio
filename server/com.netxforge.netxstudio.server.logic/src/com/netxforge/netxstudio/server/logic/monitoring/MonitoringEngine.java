@@ -79,25 +79,25 @@ public class MonitoringEngine extends BaseComponentEngine {
 		// Clear the context first.
 		getExpressionEngine().getContext().clear();
 		getExpressionEngine().getContext().add(getPeriod());
+		
 		final Node node = getCommonLogic().getNode(getComponent());
 		getExpressionEngine().getContext().add(node);
+		
+		// CB 16-12-2011, moved capacity expression content, to be the resource. 
+		// use capacity expressions, with NODE. 
+		
+//		setEngineContextInfo("Node: " + node.getNodeID() + ", Comp: "
+//				+ getComponent().getName() + " - capacity expression -");
 
-		setEngineContextInfo("Node: " + node.getNodeID() + ", Comp: "
-				+ getComponent().getName() + " - capacity expression -");
-
-		// System.err.println("Run capacity expression for Node: "
-		// + this.getCommonLogic().getNode(getComponent()).getNodeID()
-		// + " with component " + this.getComponent().getName());
-
-		Expression runCapExpression = getExpression(LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF);
-		runForExpression(runCapExpression);
-		// System.err.println("Done capacity expression for Node: "
-		// + this.getCommonLogic().getNode(getComponent()).getNodeID());
+//		Expression runCapExpression = getExpression(LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF);
+//		runForExpression(runCapExpression);
+		
 		if (getFailures().size() > 0) {
 			return;
 		}
 
 		for (final NetXResource netXResource : getComponent().getResourceRefs()) {
+			
 			// remove the last entry, (Keep the date time and node context).
 
 			// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -109,16 +109,31 @@ public class MonitoringEngine extends BaseComponentEngine {
 				getExpressionEngine().getContext().remove(
 						getExpressionEngine().getContext().size() - 1);
 			}
+			
 			getExpressionEngine().getContext().add(netXResource);
+			
+			if (LogicActivator.DEBUG) {
+				System.err
+						.println("MONITORING ENGINE: Run capacity expression for resource: "
+								+ netXResource.getShortName());
+			}
+			
 			setEngineContextInfo("NetXResource: " + netXResource.getShortName()
-					+ " - utilization expression -");
+					+ " - capacity expression -");
+			
+			Expression runCapExpression = getExpression(LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF);
+			runForExpression(runCapExpression);
 
+			
 			if (LogicActivator.DEBUG) {
 				System.err
 						.println("MONITORING ENGINE: Run util expression for resource: "
 								+ netXResource.getShortName());
 			}
 
+			setEngineContextInfo("NetXResource: " + netXResource.getShortName()
+					+ " - utilization expression -");
+			
 			Expression runUtilExpression = this
 					.getExpression(LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF);
 			runForExpression(runUtilExpression);
@@ -128,9 +143,11 @@ public class MonitoringEngine extends BaseComponentEngine {
 						.println("MONITORING ENGINE: Done util expression for resource: "
 								+ netXResource.getShortName());
 			}
+			
 			if (getFailures().size() > 0) {
 				return;
 			}
+			
 			if (LogicActivator.DEBUG) {
 				System.err
 						.println("MONITORING ENGINE: Run tolerance expression(s) for resource: "
