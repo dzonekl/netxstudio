@@ -745,12 +745,6 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 			}
 		});
 
-		// Create a new lifecycle if non-existent.
-		if (node.getLifecycle() == null) {
-			Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
-			node.setLifecycle(newLC);
-		}
-
 		context.bindValue(dcProposedObservable, proposedProperty.observe(node),
 				targetToModelUpdateStrategy, modelToTargetUpdateStrategy);
 
