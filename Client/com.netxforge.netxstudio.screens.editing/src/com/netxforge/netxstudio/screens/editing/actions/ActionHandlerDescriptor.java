@@ -2,13 +2,13 @@ package com.netxforge.netxstudio.screens.editing.actions;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
  * A context menu descriptor which can turn on and of menu sections.
@@ -19,8 +19,8 @@ import com.google.common.collect.Lists;
  * <li>etc..</li>
  * </ul>
  * 
- * It also acts as a repository or all Handlers and dispatches API calls to 
- * all registered IActionHandler implementations. 
+ * It also acts as a repository or all Handlers and dispatches API calls to all
+ * registered IActionHandler implementations.
  * 
  * @author dzonekl
  */
@@ -33,28 +33,32 @@ public class ActionHandlerDescriptor implements IActionHandler {
 	boolean enableSiblingCreationActions = false;
 
 	boolean enableEditActions = false;
+		
+	private IScreen screen; 
 	
-	EStructuralFeature[] permittedChildCreationFeatures = null;
-	public EStructuralFeature[] getPermittedChildCreationFeatures() {
-		return permittedChildCreationFeatures;
-	}
-
-	public void setPermittedChildCreationFeatures(
-			EStructuralFeature[] permittedChildCreationFeatures) {
-		this.permittedChildCreationFeatures = permittedChildCreationFeatures;
-	}
-
-	public EStructuralFeature[] getPermittedChildrenCreationFeatures() {
-		return permittedChildrenCreationFeatures;
-	}
-
-	public void setPermittedChildrenCreationFeatures(
-			EStructuralFeature[] permittedChildrenCreationFeatures) {
-		this.permittedChildrenCreationFeatures = permittedChildrenCreationFeatures;
-	}
-
-	EStructuralFeature[] permittedChildrenCreationFeatures = null;
-	
+	// Not used. 
+//
+//	EStructuralFeature[] permittedChildCreationFeatures = null;
+//
+//	public EStructuralFeature[] getPermittedChildCreationFeatures() {
+//		return permittedChildCreationFeatures;
+//	}
+//
+//	public void setPermittedChildCreationFeatures(
+//			EStructuralFeature[] permittedChildCreationFeatures) {
+//		this.permittedChildCreationFeatures = permittedChildCreationFeatures;
+//	}
+//
+//	public EStructuralFeature[] getPermittedChildrenCreationFeatures() {
+//		return permittedChildrenCreationFeatures;
+//	}
+//
+//	public void setPermittedChildrenCreationFeatures(
+//			EStructuralFeature[] permittedChildrenCreationFeatures) {
+//		this.permittedChildrenCreationFeatures = permittedChildrenCreationFeatures;
+//	}
+//
+//	EStructuralFeature[] permittedChildrenCreationFeatures = null;
 
 	IMenuManager menuManager;
 
@@ -106,24 +110,26 @@ public class ActionHandlerDescriptor implements IActionHandler {
 		this.enableEditActions = enableEditActions;
 	}
 
-public void clearDynamicHandlers(){
-	
-	ImmutableList<IActionHandler> copyOfHandlers = ImmutableList.copyOf(handlers);
-	for(IActionHandler handler : copyOfHandlers){
-		if(handler instanceof DynamicScreensActionHandler){
-			handlers.remove(handler);
+	public void clearDynamicHandlers() {
+		
+		ImmutableList<IActionHandler> copyOfHandlers = ImmutableList
+				.copyOf(handlers);
+		for (IActionHandler handler : copyOfHandlers) {
+			if (handler instanceof DynamicScreensActionHandler) {
+				handler.deactivate();
+				handlers.remove(handler);
+			}
 		}
 	}
-}
-	
+
 	public void addHandler(IActionHandler handler) {
 		if (!handlers.contains(handler)) {
 			handlers.add(handler);
-			// Try to initialize and activate the handler. 
-			if(actionBars != null){
+			// Try to initialize and activate the handler.
+			if (actionBars != null) {
 				handler.initActions(actionBars);
 			}
-			if(part != null){
+			if (part != null) {
 				handler.setActivePart(part);
 			}
 		}
@@ -133,12 +139,11 @@ public void clearDynamicHandlers(){
 		if (handlers.contains(handler)) {
 			handlers.remove(handler);
 			handler.deactivate();
-			
+
 		}
 	}
-	
-	
-	public boolean hasHandler(IActionHandler handler){
+
+	public boolean hasHandler(IActionHandler handler) {
 		return handlers.contains(handler);
 	}
 
@@ -150,7 +155,7 @@ public void clearDynamicHandlers(){
 	}
 
 	public void initActions(IActionBars actionBars) {
-		this.actionBars = actionBars; 
+		this.actionBars = actionBars;
 		for (IActionHandler handler : handlers) {
 			handler.initActions(actionBars);
 		}
@@ -169,7 +174,7 @@ public void clearDynamicHandlers(){
 			handler.showMenu(this);
 		}
 	}
-	
+
 	public void showMenu(ActionHandlerDescriptor descriptor) {
 		for (IActionHandler handler : handlers) {
 			handler.showMenu(descriptor);
@@ -181,19 +186,30 @@ public void clearDynamicHandlers(){
 			handler.update(part);
 		}
 	}
-
+	
+	
+	
+	
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Registered handlers: ");
-		for( IActionHandler h : this.handlers){
+		for (IActionHandler h : this.handlers) {
 			sb.append(h.toString() + "\n");
 		}
 		return sb.toString();
 	}
 
 	public void deactivate() {
-		// Ignore, we de-activate when removing handlers. 
+		// Ignore, we de-activate when removing handlers.
+	}
+
+	public IScreen getScreen() {
+		return screen;
+	}
+
+	public void setScreen(IScreen screen) {
+		this.screen = screen;
 	}
 
 }

@@ -124,17 +124,22 @@ public class WarningDeleteCommand extends CompoundCommand {
 					if (eStructuralFeature.isMany()) {
 
 						// Hack, has remove command doesn't work sometimes....
+						// See forum: 
+						
+						// http://www.eclipse.org/forums/index.php/t/249409/
+						// https://bugs.eclipse.org/bugs/show_bug.cgi?id=316273
+							
 						Command cmd = RemoveCommand
 								.create(domain, referencingEObject,
 										eStructuralFeature, eObject);
 						if (cmd.canExecute()) {
 							appendAndExecute(cmd);
 						} else {
-							Object eGet = referencingEObject
-									.eGet(eStructuralFeature);
-							if (eGet instanceof List<?>) {
-								((List<?>) eGet).remove(eObject);
-							}
+//							Object eGet = referencingEObject
+//									.eGet(eStructuralFeature);
+//							if (eGet instanceof List<?>) {
+//								((List<?>) eGet).remove(eObject);
+//							}
 						}
 
 					} else {

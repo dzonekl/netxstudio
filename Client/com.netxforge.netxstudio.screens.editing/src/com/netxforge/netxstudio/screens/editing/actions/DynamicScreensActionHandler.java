@@ -26,12 +26,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
 
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
+
 /**
  * An action handler which accepts non-predefined actions.
- * 
- * CURRENTLY NOT USED
- * 
- * 
  */
 public class DynamicScreensActionHandler extends AbstractActionHandler {
 
@@ -67,16 +65,18 @@ public class DynamicScreensActionHandler extends AbstractActionHandler {
 	@Override
 	public void handleSelection(IStructuredSelection ss) {
 		this.selection = ss;
+		if(EditingActivator.DEBUG){
+			System.out.println("EDITING: updating selection for # actions=" + actions.size());
+		}
 		for (IAction action : actions) {
+			if(EditingActivator.DEBUG){
+				System.out.println(action.getText());
+			}
 			if (action instanceof BaseSelectionListenerAction) {
 				BaseSelectionListenerAction bsla = (BaseSelectionListenerAction) action;
 				bsla.selectionChanged(ss);
 			}
 		}
-	}
-
-	public void deactivate() {
-		// N/A
 	}
 
 }

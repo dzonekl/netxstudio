@@ -28,6 +28,9 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
+import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
+import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -41,14 +44,16 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.ISaveablePart2;
-import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
@@ -58,6 +63,7 @@ import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
 import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.EditingActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
@@ -70,9 +76,8 @@ import com.netxforge.netxstudio.screens.editing.selector.IScreen;
  * @author dzonekl
  */
 public abstract class AbstractScreensViewPart extends ViewPart implements
-		ISaveablePart2, IPartListener, ISelectionListener,
-		IEditingDomainProvider, ISelectionProvider, IMenuListener,
-		IViewerProvider, IPropertyListener {
+		ISaveablePart2, IPartListener, IEditingDomainProvider,
+		ISelectionProvider, IMenuListener, IViewerProvider, IPropertyListener {
 
 	//	public static final String ID = "com.netxforge.netxstudio.ui.forms.EquipmentsViewPart"; //$NON-NLS-1$
 
@@ -108,14 +113,13 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	protected abstract void initBindings();
 
 	public void dispose() {
-		
+
 		this.getEditingService().disposeData();
 		super.dispose();
 	}
 
-	
-	// TODO Remove later. 
-//	private ISelectionListener pageSelectionListener;
+	// TODO Remove later.
+	// private ISelectionListener pageSelectionListener;
 
 	// private void hookPageSelection() {
 	// pageSelectionListener = new ISelectionListener() {
@@ -178,12 +182,13 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		// Set the current editor as selection provider.
 		site.setSelectionProvider(this);
 
-
-		// Note add some static action handlers which are updated by the selection 
-		// provider of the active part. which is this. We can also add 
-		// dynamic action handlers. 
+		// Note add some static action handlers which are updated by the
+		// selection
+		// provider of the active part. which is this. We can also add
+		// dynamic action handlers.
 		actionHandlerDescriptor = new ActionHandlerDescriptor();
-		actionHandlerDescriptor.addHandler(new EditingActionsHandler(getEditingService()));
+		actionHandlerDescriptor.addHandler(new EditingActionsHandler(
+				getEditingService()));
 		actionHandlerDescriptor.addHandler(new CreationActionsHandler());
 		actionHandlerDescriptor.addHandler(new UIActionsHandler());
 
@@ -255,10 +260,10 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		IScreen screen = getActiveScreen();
 
 		String newTitle = "";
-		if( screen.getScreenForm() == null){
+		if (screen.getScreenForm() == null) {
 			return;
 		}
-		
+
 		String currentTitle = screen.getScreenForm().getText();
 
 		if (getEditingService().isDirty()) {
@@ -282,7 +287,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		// Register selection listeners.
 		if (part instanceof AbstractScreensViewPart) {
 			// Activate our global actions.
-			
+
 			this.getActionHandlerDescriptor().setActivePart(part);
 		}
 	}
@@ -297,8 +302,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	public void partDeactivated(IWorkbenchPart part) {
 		if (part instanceof AbstractScreensViewPart) {
-			
-		} 
+
+		}
 	}
 
 	public void partOpened(IWorkbenchPart part) {
@@ -307,10 +312,11 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	// ISelectionListener API
 
 	@SuppressWarnings("unused")
-	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		Object o = this.firstFromSelection(selection);
-	}
-
+	// public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+	// System.out.println("AbstractScreensViewPart#selectionChanged " +
+	// selection);
+	// Object o = this.firstFromSelection(selection);
+	// }
 	/**
 	 * Get the first object from the selection.
 	 * 
@@ -351,6 +357,14 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 									firePropertyChange(ISaveablePart2.PROP_DIRTY);
 									getEditingService().setDirty();
 
+									// FIXME Some views don't have data binding,
+									// so we need to refresh the input.
+									// currentViewer.refresh();
+									if (EditingActivator.DEBUG) {
+										System.out
+												.println("Command stack, fire command stack changed, source="
+														+ event.getSource());
+									}
 								}
 							});
 				}
@@ -368,7 +382,10 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
 
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		selectionChangedListeners.add(listener);
+		if (!selectionChangedListeners.contains(listener)) {
+			selectionChangedListeners.add(listener);
+		}
+
 	}
 
 	public ISelection getSelection() {
@@ -382,6 +399,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	public void setSelection(ISelection selection) {
 		this.viewSelection = selection;
+		System.out.println("AbstractScreensViewPart#setSelection " + selection);
 		for (ISelectionChangedListener listener : selectionChangedListeners) {
 			listener.selectionChanged(new SelectionChangedEvent(this, selection));
 		}
@@ -406,16 +424,15 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		getSite().registerContextMenu(contextMenu,
 				new UnwrappingSelectionProvider(viewer));
 
-		// if (viewer instanceof TreeViewer) {
-		// int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
-		// Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance()
-		// };
-		// viewer.addDragSupport(dndOperations, transfers,
-		// new ViewerDragAdapter(viewer));
-		// viewer.addDropSupport(dndOperations, transfers,
-		// new EditingDomainViewerDropAdapter(this.getEditingDomain(),
-		// viewer));
-		// }
+		if (viewer instanceof TreeViewer) {
+			int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
+			Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
+			viewer.addDragSupport(dndOperations, transfers,
+					new ViewerDragAdapter(viewer));
+			viewer.addDropSupport(dndOperations, transfers,
+					new EditingDomainViewerDropAdapter(this.getEditingDomain(),
+							viewer));
+		}
 	}
 
 	public void menuAboutToShow(IMenuManager manager) {

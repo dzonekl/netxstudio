@@ -42,7 +42,6 @@ public interface IActionHandler extends IPropertyListener {
 	 */
 	public abstract void showMenu(ActionHandlerDescriptor descriptor);
 
-	
 	/**
 	 * Required to update the menu's on a workbench part change. 
 	 * 

@@ -68,6 +68,9 @@ public class LibraryChildCreationExtender extends
 			EObject target = (EObject) object;
 
 			if (target instanceof Component || target instanceof NodeType) {
+
+				// Are we in the design view? (The target must have a parent
+				// Node).
 				Node node = modelUtils.resolveParentNode(target);
 				if (node != null && node.getOriginalNodeTypeRef() != null) {
 					NodeType ntRef = node.getOriginalNodeTypeRef();
@@ -76,17 +79,13 @@ public class LibraryChildCreationExtender extends
 						// not visible in the Design view.
 					} else if (target.eClass() == LibraryPackage.Literals.EQUIPMENT) {
 						Equipment targetEq = (Equipment) target;
-
-						Lifecycle newLC = GenericsFactory.eINSTANCE
-								.createLifecycle();
-						newLC.setProposed(modelUtils.toXMLDate(modelUtils
-								.todayAndNow()));
-						targetEq.setLifecycle(newLC);
-
 						newChildDescriptors = newEquimentDescriptorsForTargetNodeType(
 								ntRef, targetEq);
 
 					} else if (target.eClass() == LibraryPackage.Literals.FUNCTION) {
+
+						// Allow creation of Function object, not from the
+						// original type.
 						Function function = LibraryFactory.eINSTANCE
 								.createFunction();
 
@@ -101,21 +100,76 @@ public class LibraryChildCreationExtender extends
 								function));
 					}
 				} else {
-					if (target instanceof Equipment) {
+
+					if (target instanceof NodeType) {
+						Function createFunction = newLibraryFunction(target,
+								LibraryPackage.Literals.NODE_TYPE__FUNCTIONS);
+						
+						Equipment createEquipment = newLibraryEquipment(target,
+								LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS);
+
+						newChildDescriptors.add(createChildParameter(
+								LibraryPackage.Literals.NODE_TYPE__FUNCTIONS,
+								createFunction));
+						newChildDescriptors.add(createChildParameter(
+								LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS,
+								createEquipment));
+					} else if (target instanceof Equipment) {
+
+						Equipment createEquipment = newLibraryEquipment(target,
+								LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS);
+
 						newChildDescriptors.add(createChildParameter(
 								LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
-								LibraryFactory.eINSTANCE.createEquipment()));
+								createEquipment));
 
 					} else if (target instanceof Function) {
+						Function createFunction = newLibraryFunction(target,
+								LibraryPackage.Literals.FUNCTION__FUNCTIONS);
+
 						newChildDescriptors.add(createChildParameter(
 								LibraryPackage.Literals.FUNCTION__FUNCTIONS,
-								LibraryFactory.eINSTANCE.createFunction()));
+								createFunction));
 					}
 				}
 			}
 		}
 
 		return newChildDescriptors;
+	}
+
+	/**
+	 * A new function with a calculated name.
+	 * 
+	 * @param target
+	 * @param collectionFeature
+	 * @return
+	 */
+	private Function newLibraryFunction(EObject target,
+			EReference collectionFeature) {
+		Function createFunction = LibraryFactory.eINSTANCE.createFunction();
+		String newSequenceNumber = modelUtils.getSequenceNumber(target,
+				collectionFeature, LibraryPackage.Literals.COMPONENT__NAME);
+
+		createFunction.setName(newSequenceNumber);
+		return createFunction;
+	}
+
+	/**
+	 * A new Equipment with a calculated code.
+	 * 
+	 * @param target
+	 * @param collectionFeature
+	 * @return
+	 */
+	private Equipment newLibraryEquipment(EObject target,
+			EReference collectionFeature) {
+		Equipment createEquipment = LibraryFactory.eINSTANCE.createEquipment();
+		String newSequenceNumber = modelUtils.getSequenceNumber(target,
+				collectionFeature,
+				LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE);
+		createEquipment.setEquipmentCode(newSequenceNumber);
+		return createEquipment;
 	}
 
 	private Collection<Object> newEquimentDescriptorsForTargetNodeType(
@@ -137,13 +191,11 @@ public class LibraryChildCreationExtender extends
 					// get children and build descriptors.
 					EList<EObject> directContent = next.eContents();
 					for (EObject targetChild : directContent) {
-						System.out.println("CreateChildExtender:  add child"
-								+ targetChild);
 						if (targetChild instanceof Equipment) {
-							
+
 							Equipment eqCopy = (Equipment) EcoreUtil
 									.copy(targetChild);
-							
+
 							// Set the name as a sequence.
 							String newSequenceNumber = modelUtils
 									.getSequenceNumber(
@@ -172,16 +224,17 @@ public class LibraryChildCreationExtender extends
 
 	}
 
-	
 	/**
-	 * It copies the component, for the referenced resources we create a copy of the resource 
-	 * and store it in it's own CDOResource. For this we open a transaction.  
+	 * It copies the component, for the referenced resources we create a copy of
+	 * the resource and store it in it's own CDOResource. For this we open a
+	 * transaction.
 	 * 
 	 * @param resourceSet
 	 * @param component
 	 * @return
 	 */
-	public Component copyComponentWithResources(Component component) {
+	@SuppressWarnings("unused")
+	private Component copyComponentWithResources(Component component) {
 
 		@SuppressWarnings("serial")
 		EcoreUtil.Copier nodeTypeCopier = new EcoreUtil.Copier() {
@@ -237,9 +290,10 @@ public class LibraryChildCreationExtender extends
 												((Component) copyEObject)
 														.setName("<name>");
 											}
-											
+
 											// FIXME.
-											// we don't know where to store this non-contained reference????
+											// we don't know where to store this
+											// non-contained reference????
 
 										}
 

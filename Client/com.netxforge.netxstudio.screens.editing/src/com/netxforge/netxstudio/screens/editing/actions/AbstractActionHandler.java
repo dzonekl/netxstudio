@@ -89,7 +89,7 @@ public abstract class AbstractActionHandler implements IActionHandler, ISelectio
 	 */
 	public void selectionChanged(SelectionChangedEvent event) {
 		ISelection selection = event.getSelection();
-		if (selection instanceof IStructuredSelection && ((IStructuredSelection)selection).size() == 1) {
+		if (selection instanceof IStructuredSelection ) {
 			IStructuredSelection ss = (IStructuredSelection)selection;
 			handleSelection(ss);
 		}
@@ -112,5 +112,15 @@ public abstract class AbstractActionHandler implements IActionHandler, ISelectio
 	public void update(IWorkbenchPart part) {
 		setActivePart(part);
 	}
+
+	public void deactivate() {
+		ISelectionProvider selectionProvider = activePart instanceof ISelectionProvider ? (ISelectionProvider) activePart
+				: activePart.getSite().getSelectionProvider();
+
+		if (selectionProvider != null) {
+			selectionProvider.removeSelectionChangedListener(this);
+		}
+	}
+	
 
 }

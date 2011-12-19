@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -149,6 +148,11 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	public void screenChanged(IScreen screen) {
 		// Some screens won't have a viewer, in this case
 		// the current viewer will be null, and an empty selection will be set.
+		
+		
+		// FIXME, clearing the descriptor is not sufficient, we should also update 
+		this.getActionHandlerDescriptor().clearDynamicHandlers();
+		
 		if (screen != null) {
 			activeScreen = screen;
 			Viewer viewer = screen.getViewer();
@@ -164,6 +168,8 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		// Customize the descriptor based on the
 		ActionHandlerDescriptor descriptor = this.getActionHandlerDescriptor();
 		descriptor.setMenuManager(menuManager);
+		descriptor.setScreen(activeScreen);
+		
 		if (!Screens.isReadOnlyOperation(getCurrentScreen().getOperation())) {
 			descriptor.setEnableEditActions(true);
 
@@ -173,11 +179,10 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 				descriptor.setEnableChildCreationActions(false);
 			}
 
-			// FIXME, Siblings need more work, disable for now.
-			descriptor.setEnableSiblingCreationActions(false);
-			EStructuralFeature[] features = getCurrentScreen()
-					.permittedCreationFeatures();
-			descriptor.setPermittedChildCreationFeatures(features);
+//			descriptor.setEnableSiblingCreationActions(false);
+//			EStructuralFeature[] features = getCurrentScreen()
+//					.permittedCreationFeatures();
+//			descriptor.setPermittedChildCreationFeatures(features);
 		} else {
 			descriptor.setEnableEditActions(false);
 			descriptor.setEnableChildCreationActions(false);
@@ -187,6 +192,9 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		descriptor.clearDynamicHandlers();
 		
 		DynamicScreensActionHandler dynamicScreensActionHandler;
+			
+		
+		// !!!! actions would be created dynamicly.....
 		
 		if (this.getCurrentScreen() != null
 				&& this.getCurrentScreen().getActions() != null) {

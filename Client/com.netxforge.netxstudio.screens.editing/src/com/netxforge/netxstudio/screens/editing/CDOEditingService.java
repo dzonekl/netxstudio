@@ -102,6 +102,11 @@ public class CDOEditingService extends EMFEditingService implements
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
+		
+		// save could be triggered from 
+		
+		
+		
 		CDOView view = dawnEditorSupport.getView();
 		if (view instanceof CDOTransaction) {
 			if (((CDOTransaction) view).hasConflict()) {
