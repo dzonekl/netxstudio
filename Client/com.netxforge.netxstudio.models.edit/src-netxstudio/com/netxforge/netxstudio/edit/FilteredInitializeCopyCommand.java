@@ -1,3 +1,4 @@
+
 package com.netxforge.netxstudio.edit;
 
 import java.util.List;
@@ -12,7 +13,10 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import com.google.common.collect.Lists;
 
 
-
+/**
+ * 
+ * @author Christophe Bouhier
+ */
 public class FilteredInitializeCopyCommand extends NameSequenceInitializeCopyCommand {
 
 	private EStructuralFeature[] filtered = null;

@@ -12,14 +12,16 @@ import org.eclipse.emf.edit.command.CopyCommand.Helper;
 import org.eclipse.emf.edit.command.InitializeCopyCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
+/**
+ * 
+ * @author Christophe
+ *
+ */
 public class NameSequenceInitializeCopyCommand extends InitializeCopyCommand {
-
-	ModelUtils utils = new ModelUtils();
 
 	public NameSequenceInitializeCopyCommand(EditingDomain domain,
 			EObject owner, Helper copyHelper) {
@@ -110,7 +112,7 @@ public class NameSequenceInitializeCopyCommand extends InitializeCopyCommand {
 	}
 
 	public String nextIdentitySequence(String value) {
-		String identity = utils.nextIdentity(value);
+		String identity = EditUtils.INSTANCE.nextIdentity(value);
 		if(!identity.isEmpty()){
 			return identity;
 		}else{
