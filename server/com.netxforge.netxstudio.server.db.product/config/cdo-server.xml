@@ -16,7 +16,8 @@
 		<!-- userManager type="file" description="/temp/users.db"/-->  
 	
 		<property name="overrideUUID" value=""/>
-		<property name="supportingAudits" value="false"/>
+		<property name="supportingBranches" value="true"/>
+		<property name="supportingAudits" value="true"/>
 		
 
 		<initialPackage nsURI="http://www.netxforge.com/13042011/geo"/>
