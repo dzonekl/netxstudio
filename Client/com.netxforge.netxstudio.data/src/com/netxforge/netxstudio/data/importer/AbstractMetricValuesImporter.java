@@ -448,7 +448,11 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 			jobMonitor.setMsg("Processing row " + rowNum);
 			jobMonitor.incrementProgress(1, (rowNum % 10) == 0);
+			
+			int columnBeingProcessed = -1;
 			try {
+				
+				this.getMappingColumn();
 				totalRows++;
 
 				// We need at least a node and a component.
@@ -467,7 +471,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 					} else {
 						// here we need to bail, not even a Node?
 						throw new java.lang.IllegalStateException(
-								"Node Identifier is required");
+								"Network ELement Identifier is required");
 					}
 				}
 
@@ -479,6 +483,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				this.intervalEstimate = intervalHintFromRow;
 
 				for (final MappingColumn column : getMappingColumn()) {
+					
+					columnBeingProcessed = column.getColumn();
+					
 					if (isMetric(column)) {
 						// Check that the metric ref is set, other wise bail.
 						if (!getValueDataKind(column)
@@ -531,8 +538,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				}
 			} catch (final Exception e) {
 				e.printStackTrace(System.err);
-				getFailedRecords().add(
-						createMappingRecord(rowNum, -1, e.getMessage()));
+				
+//				getFailedRecords().add(
+//						createMappingRecord(rowNum, -1, e.getMessage()));
+				
+				this.createExceptionMappingRecord(e, rowNum, columnBeingProcessed, this.getFailedRecords());
+				
 			}
 		}
 		return totalRows;
@@ -750,8 +761,26 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			record = createMappingRecord(rowNum, failedColumn, sb.toString());
 			records.add(record);
 		}
-
 	}
+	
+	/*
+	 * Exception mapping records.  
+	 * 
+	 */
+	protected void createExceptionMappingRecord(Exception exception, int rowNum, int colNum, List<MappingRecord> records){
+		final StringBuilder sb = new StringBuilder();
+		sb.append(exception.getMessage());
+		MappingRecord record;
+		if ((record = this.hasMappingRecord(rowNum, colNum,
+				sb.toString(), records)) != null) {
+			long count = record.getCount() + 1;
+			record.setCount(count);
+		} else {
+			record = createMappingRecord(rowNum, colNum, sb.toString());
+			records.add(record);
+		}
+	}
+	
 
 	protected MappingRecord createMappingRecord(int row, int column,
 			String message) {

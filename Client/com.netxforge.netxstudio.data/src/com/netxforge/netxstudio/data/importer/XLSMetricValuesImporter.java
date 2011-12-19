@@ -51,7 +51,7 @@ public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 		if (sheet.getLastRowNum() < getMapping().getFirstDataRow()) {
 			getFailedRecords().add(
 					createMappingRecord(
-							-1,
+							getMapping().getFirstDataRow(),
 							-1,
 							"There is no data in the sheet, first data row is "
 									+ getMapping().getFirstDataRow()
@@ -67,12 +67,12 @@ public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	@Override
 	protected int getTotalRows() {
-		
-//		int lastRow = currentSheet.getLastRowNum();
+
+		// int lastRow = currentSheet.getLastRowNum();
 		int physicalNumberOfRows = currentSheet.getPhysicalNumberOfRows();
-//		int totalRows = currentSheet.getLastRowNum();
-		// POI reports wrong number of rows as the last row number.  
-		return physicalNumberOfRows; 
+		// int totalRows = currentSheet.getLastRowNum();
+		// POI reports wrong number of rows as the last row number.
+		return physicalNumberOfRows;
 	}
 
 	@Override
@@ -88,9 +88,9 @@ public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 	@Override
 	protected double getNumericCellValue(int row, int column) {
 		HSSFCell cell = currentSheet.getRow(row).getCell(column);
-		if(cell != null){
-			return cell.getNumericCellValue();	
-		}else{
+		if (cell != null) {
+			return cell.getNumericCellValue();
+		} else {
 			return 0.0;
 		}
 	}
@@ -118,7 +118,7 @@ public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 		HSSFCell cell = currentSheet.getRow(rowNum).getCell(column);
 		int cellType = cell.getCellType();
 		if (cellType == HSSFCell.CELL_TYPE_NUMERIC) {
-			if(HSSFDateUtil.isCellDateFormatted(cell)){
+			if (HSSFDateUtil.isCellDateFormatted(cell)) {
 				double cellValue = cell.getNumericCellValue();
 				value = HSSFDateUtil.getJavaDate(cellValue);
 			}

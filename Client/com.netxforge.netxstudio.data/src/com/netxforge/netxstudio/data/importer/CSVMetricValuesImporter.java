@@ -48,7 +48,7 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 
 		if (getTotalRows() < getMapping().getFirstDataRow()) {
 			getFailedRecords().add(
-					createMappingRecord(-1, -1,
+					createMappingRecord(getMapping().getFirstDataRow(), -1,
 							"There is no data in the sheet, first data row is "
 									+ getMapping().getFirstDataRow()
 									+ " but the sheet has only "
@@ -73,9 +73,8 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 				&& mapping
 						.eIsSet(MetricsPackage.Literals.MAPPING_CSV__DELIMITER) ? mapping
 				.getDelimiter() : DEFAULT_DELIMITER;
-				
-				
-		// Regex, splits quoted fragements separated by delimiter.	
+
+		// Regex, splits quoted fragements separated by delimiter.
 		Pattern p = Pattern.compile("(\".*?\"|[^" + delimiter + "]++)");
 		final List<String[]> localData = new ArrayList<String[]>();
 		String line;
@@ -148,12 +147,14 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 				// Not parsable
 			}
 		}
-		throw new IllegalStateException("No value");
+		throw new IllegalStateException(
+				"Expecting a numeric value, but the position (" + row + ","
+						+ column + ") is empty");
 	}
 
 	@Override
 	protected Date getDateCellValue(int rowNum, int column) {
-		//  Not applicable for the CSV format.
+		// Not applicable for the CSV format.
 		return null;
 	}
 }
