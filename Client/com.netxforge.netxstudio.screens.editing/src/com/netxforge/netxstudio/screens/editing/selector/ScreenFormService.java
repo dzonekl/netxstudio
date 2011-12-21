@@ -299,40 +299,41 @@ public class ScreenFormService implements IScreenFormService {
 			final Class<?> finalScreen = screen;
 
 			// We operride the operation, depending on the user role.
-			
-			String currentUser = editingService.getDataService().getProvider().getSessionUserID();
-			Resource resource = editingService.getDataService().getProvider().getResource(
-					GenericsPackage.Literals.PERSON);
-			List<Person> people = new ModelUtils.CollectionForObjects<Person>().collectionForObjects(resource.getContents());
-			
-//			List<Person> people = Lists.transform(resource.getContents(),
-//					new Function<EObject, Person>() {
-//
-//						public Person apply(EObject from) {
-//							if (from instanceof Person)
-//								return (Person) from;
-//							else
-//								return null;
-//						}
-//					});
+
+			String currentUser = editingService.getDataService().getProvider()
+					.getSessionUserID();
+			Resource resource = editingService.getDataService().getProvider()
+					.getResource(GenericsPackage.Literals.PERSON);
+			List<Person> people = new ModelUtils.CollectionForObjects<Person>()
+					.collectionForObjects(resource.getContents());
+
+			// List<Person> people = Lists.transform(resource.getContents(),
+			// new Function<EObject, Person>() {
+			//
+			// public Person apply(EObject from) {
+			// if (from instanceof Person)
+			// return (Person) from;
+			// else
+			// return null;
+			// }
+			// });
 
 			final Role r = modelUtils.roleForUserWithName(currentUser, people);
 			if (r.getName().equals(IFixtures.ROLE_READONLY)) {
 				operation = Screens.OPERATION_READ_ONLY;
 			}
-			
+
 			editingService.getDataService().getProvider().commitTransaction();
-			
-			
-//			editingService.getDataService().getQueryService().close();
+
+			// editingService.getDataService().getQueryService().close();
 
 			final int finalOperation = operation;
 
 			ImageHyperlink lnk = formToolkit.createImageHyperlink(
 					getSelectorForm().getBody(), SWT.NONE);
-			
+
 			screenSelectors.add(lnk);
-			
+
 			lnk.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
 					doSetScreen(finalScreen, finalScreenConstructor,
@@ -623,7 +624,7 @@ public class ScreenFormService implements IScreenFormService {
 
 	@Inject
 	IEditingService editingService;
-	
+
 	@Inject
 	private ModelUtils modelUtils;
 
@@ -711,7 +712,7 @@ public class ScreenFormService implements IScreenFormService {
 	}
 
 	public void disable() {
-		for(ImageHyperlink lnk : this.screenSelectors){
+		for (ImageHyperlink lnk : this.screenSelectors) {
 			lnk.setEnabled(false);
 		}
 	}
