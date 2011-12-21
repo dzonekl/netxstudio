@@ -149,8 +149,6 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		// Some screens won't have a viewer, in this case
 		// the current viewer will be null, and an empty selection will be set.
 		
-		
-		// FIXME, clearing the descriptor is not sufficient, we should also update 
 		this.getActionHandlerDescriptor().clearDynamicHandlers();
 		
 		if (screen != null) {
