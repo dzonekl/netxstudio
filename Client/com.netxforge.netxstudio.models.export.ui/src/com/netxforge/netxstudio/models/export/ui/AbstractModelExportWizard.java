@@ -139,11 +139,12 @@ public abstract class AbstractModelExportWizard extends Wizard implements IExpor
 
 		// The extension will be set by other wizard pages depending on the wizard flow. 
 		xpandExportFilePage = new ExportNewFileWizardPage(Messages.XPandExportWizard_9,
-				selection, "*"); //$NON-NLS-1$
+				selection, this.getTargetTemplate().getExtension()); //$NON-NLS-1$
 		xpandExportFilePage.setTitle(Messages.XPandExportWizard_11);
 		xpandExportFilePage.setDescription(Messages.XPandExportWizard_12);
 		xpandExportFilePage.setContainerFullPath(WorkspaceUtil.INSTANCE
 				.getExportsPath());
+		
 		addPage(xpandExportFilePage);
 	}
 

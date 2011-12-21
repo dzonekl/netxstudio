@@ -77,7 +77,7 @@
          Export a Network Element instance to HTML
        </description>
        <selection
-             class="com.netxforge.netxstudio.library.NodeType">
+             class="com.netxforge.netxstudio.library.Node">
        </selection>
     </wizard>
     <wizard
