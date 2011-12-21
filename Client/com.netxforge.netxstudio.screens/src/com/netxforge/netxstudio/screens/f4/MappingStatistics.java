@@ -343,21 +343,21 @@ public class MappingStatistics extends AbstractScreen implements
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				tblViewerRecords, SWT.NONE);
 		TableColumn tblclmnNewColumn = tableViewerColumn.getColumn();
-		tblclmnNewColumn.setWidth(100);
+		tblclmnNewColumn.setWidth(40);
 		tblclmnNewColumn.setText("Count");
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				tblViewerRecords, SWT.NONE);
 		TableColumn tblclmnColumn = tableViewerColumn_1.getColumn();
-		tblclmnColumn.setWidth(100);
+		tblclmnColumn.setWidth(40);
 		tblclmnColumn.setText("Column");
 
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
 				tblViewerRecords, SWT.NONE);
 		TableColumn tblclmnMessage = tableViewerColumn_2.getColumn();
-		tblclmnMessage.setWidth(100);
+		tblclmnMessage.setWidth(400);
 		tblclmnMessage.setText("Message");
-		sashForm.setWeights(new int[] { 1, 1 });
+		sashForm.setWeights(new int[] { 3, 7 });
 	}
 
 	class CleanStatsAction extends Action {

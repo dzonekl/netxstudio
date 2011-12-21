@@ -194,7 +194,7 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 
 			if (!eq.getResourceRefs().isEmpty()) {
 				String decoration = " (" + eq.getResourceRefs().size()
-						+ " Resources)";
+						+ " Res.)";
 				styledString.append(decoration, StyledString.COUNTER_STYLER);
 			}
 

@@ -17,9 +17,9 @@
  *******************************************************************************/ package com.netxforge.netxstudio.screens.actions;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.actions.BaseSelectionListenerAction;
 
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 
 /**
@@ -43,7 +43,7 @@ public class NodeTypeExportHTMLAction extends BaseSelectionListenerAction {
 				.getStructuredSelection();
 		WizardUtil
 				.openWizard(
-						"com.netxforge.netxstudio.models.export.wizard.ui.node.html",
+						"com.netxforge.netxstudio.models.export.wizard.ui.nodetype.html",
 						(IStructuredSelection) structuredSelection);
 	}
 }

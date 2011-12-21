@@ -30,7 +30,6 @@ import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
@@ -68,7 +67,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.BaseSelectionListenerAction;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -101,6 +99,7 @@ import com.netxforge.netxstudio.screens.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.WarehouseFilterDialog;
 import com.netxforge.netxstudio.screens.actions.ExportHTMLAction;
 import com.netxforge.netxstudio.screens.actions.ExportXLSAction;
+import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -641,10 +640,11 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				editingService.getEditingDomain(),
 				GenericsPackage.Literals.COMPANY__NAME).observeDetail(set));
 
-		observableMap.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				OperatorsPackage.Literals.OPERATOR__NETWORKS)
-				.observeDetail(set));
+		// CB propably not needed, as the factory will take care. 
+//		observableMap.add(EMFEditProperties.value(
+//				editingService.getEditingDomain(),
+//				OperatorsPackage.Literals.OPERATOR__NETWORKS)
+//				.observeDetail(set));
 
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -687,13 +687,16 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.NODE_TYPE__NAME).observeDetail(set));
 
-		observableMap.add(EMFProperties.value(
+		observableMap.add(EMFEditProperties.value(editingService.getEditingDomain(), 
 				LibraryPackage.Literals.COMPONENT__NAME).observeDetail(set));
 		
-		observableMap.add(EMFProperties.value(
-				LibraryPackage.Literals.COMPONENT__METRIC_REFS).observeDetail(set));
-		observableMap.add(EMFProperties.value(
-				LibraryPackage.Literals.COMPONENT__RESOURCE_REFS).observeDetail(set));
+		
+		// FIXME, doesn't work. 
+//		observableMap.add(EMFEditProperties.value(editingService.getEditingDomain(), 
+//				LibraryPackage.Literals.COMPONENT__METRIC_REFS).observeDetail(set));
+//		
+//		observableMap.add(EMFEditProperties.value(editingService.getEditingDomain(), 
+//				LibraryPackage.Literals.COMPONENT__RESOURCE_REFS).observeDetail(set));
 
 		
 		IObservableMap[] map = new IObservableMap[observableMap.size()];

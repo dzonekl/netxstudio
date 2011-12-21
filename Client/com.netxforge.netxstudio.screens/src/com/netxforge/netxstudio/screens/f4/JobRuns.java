@@ -369,10 +369,6 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		
 		// lazy init actions. 
 		if (actions.isEmpty()) {
-//			String actionText = Screens
-//					.isReadOnlyOperation(this.getOperation()) ? "View..."
-//					: "Edit...";
-			List<IAction> actions = Lists.newArrayList();
 			actions.add(new ShowLogAction("Show Log...", SWT.PUSH));
 			actions.add(new ShowFailuresAction("Show Failures...", SWT.PUSH));
 		}

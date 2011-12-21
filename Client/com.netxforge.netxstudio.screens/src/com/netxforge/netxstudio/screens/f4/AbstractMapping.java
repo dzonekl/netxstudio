@@ -187,19 +187,19 @@ public abstract class AbstractMapping extends AbstractScreen {
 
 	protected void buildGeneralSection(Composite leftComposite) {
 
-		Section sctnIntervalSection = toolkit.createSection(leftComposite,
-				Section.TITLE_BAR);
-		sctnIntervalSection.setLayoutData(new ColumnLayoutData());
-		toolkit.paintBordersFor(sctnIntervalSection);
-		sctnIntervalSection.setText("General");
+		Section sctnGeneral = toolkit.createSection(leftComposite,
+				Section.TWISTIE | Section.TITLE_BAR | Section.COMPACT);
+		sctnGeneral.setLayoutData(new ColumnLayoutData());
+		toolkit.paintBordersFor(sctnGeneral);
+		sctnGeneral.setText("General");
 
-		Composite intervalComposite = toolkit.createComposite(
-				sctnIntervalSection, SWT.NONE);
-		toolkit.paintBordersFor(intervalComposite);
-		sctnIntervalSection.setClient(intervalComposite);
-		intervalComposite.setLayout(new GridLayout(2, false));
+		Composite generalComposite = toolkit.createComposite(
+				sctnGeneral, SWT.NONE);
+		toolkit.paintBordersFor(generalComposite);
+		sctnGeneral.setClient(generalComposite);
+		generalComposite.setLayout(new GridLayout(2, false));
 
-		Label lblIntervalHint = toolkit.createLabel(intervalComposite,
+		Label lblIntervalHint = toolkit.createLabel(generalComposite,
 				"Interval (min):", SWT.NONE);
 		GridData gd_lblIntervalHint = new GridData(SWT.RIGHT, SWT.CENTER,
 				false, false, 1, 1);
@@ -207,14 +207,14 @@ public abstract class AbstractMapping extends AbstractScreen {
 		lblIntervalHint.setLayoutData(gd_lblIntervalHint);
 		lblIntervalHint.setAlignment(SWT.RIGHT);
 
-		txtInterval = toolkit.createText(intervalComposite, "New Text",
+		txtInterval = toolkit.createText(generalComposite, "New Text",
 				SWT.NONE);
 		GridData gd_text = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
 		gd_text.widthHint = 60;
 		txtInterval.setLayoutData(gd_text);
 		txtInterval.setText("");
 
-		btnEnableHeaderMapping = toolkit.createButton(intervalComposite,
+		btnEnableHeaderMapping = toolkit.createButton(generalComposite,
 				"Enable Header Mapping", SWT.CHECK);
 		btnEnableHeaderMapping.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -225,7 +225,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 		btnEnableHeaderMapping.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 2, 1));
 
-		FormText formText = toolkit.createFormText(intervalComposite, false);
+		FormText formText = toolkit.createFormText(generalComposite, false);
 		formText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2,
 				1));
 		toolkit.paintBordersFor(formText);

@@ -6,11 +6,11 @@ import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.common.revision.delta.CDORevisionDelta;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.actions.BaseSelectionListenerAction;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.FeatureDeltaDialog;
+import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 
 public class CompareAction extends BaseSelectionListenerAction {
 
