@@ -503,7 +503,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 							createNotFoundNetworkElementMappingRecord(
 									getValueDataKind(column).getMetricRef(),
-									rowNum, getComponentLocator()
+									rowNum, elementIdentifiers, getComponentLocator()
 											.getFailedIdentifiers(),
 									getFailedRecords());
 							continue;
@@ -739,12 +739,19 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	}
 
 	protected void createNotFoundNetworkElementMappingRecord(Metric metric,
-			int rowNum, List<IdentifierDescriptor> failedIdentifiers,
+			int rowNum, List<IdentifierDescriptor> allIdentifiers, List<IdentifierDescriptor> failedIdentifiers,
 			List<MappingRecord> records) {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("Could not locate networkElement for metric "
+		sb.append("Could not locate identifier for metric "
 				+ metric.getName());
-		sb.append(". Failed on identifiers: ");
+		
+		sb.append(". For identifiers: " );
+		for (final IdentifierDescriptor idValue : allIdentifiers) {
+			sb.append(" - " + idValue.getKind().getObjectKind().getName()
+					+ ": " + idValue.getValue());
+		}
+		
+		sb.append(", Failed on : ");
 		for (final IdentifierDescriptor idValue : failedIdentifiers) {
 			sb.append(" - " + idValue.getKind().getObjectKind().getName()
 					+ ": " + idValue.getValue());
