@@ -178,17 +178,17 @@
 «ENDREM» 
 «DEFINE Content FOR library::Function -»
 	<tr><td class="title">«this.name» -(«this.description»)</td></tr>
-	«IF ! this.functions.isEmpty »
-	<tr>
-		<td><table class="indent">«EXPAND Content FOREACH this.functions -»</table></td>
-	</tr>
- 	«ENDIF»
  	«IF ! this.metricRefs.isEmpty »	
  	<tr class="section"><td>Metrics</td></tr>	
 	<tr>
 		<td><table class="metric">«EXPAND Content FOREACH this.metricRefs -»</table></td>
 	</tr>
 	«ENDIF»
+	«IF ! this.functions.isEmpty »
+	<tr>
+		<td><table class="indent">«EXPAND Content FOREACH this.functions -»</table></td>
+	</tr>
+ 	«ENDIF»
 «ENDDEFINE»
 
 «REM»
@@ -196,15 +196,15 @@
 «ENDREM»  
 «DEFINE Content FOR library::Equipment -»
 	<tr><td class="title">«this.equipmentCode» -(«this.description»)</td></tr>
-	«IF ! this.equipments.isEmpty »		
-	<tr>
-		<td><table class="indent">«EXPAND Content FOREACH this.equipments -»</table></td>
-	</tr>
-	«ENDIF»
 	«IF ! this.metricRefs.isEmpty »	
 	<tr class="section"><td>Metrics</td></tr>	
 	<tr>
 		<td><table class="metric">«EXPAND Content FOREACH this.metricRefs -»</table></td>
+	</tr>
+	«ENDIF»
+	«IF ! this.equipments.isEmpty »		
+	<tr>
+		<td><table class="indent">«EXPAND Content FOREACH this.equipments -»</table></td>
 	</tr>
 	«ENDIF»
 «ENDDEFINE»
