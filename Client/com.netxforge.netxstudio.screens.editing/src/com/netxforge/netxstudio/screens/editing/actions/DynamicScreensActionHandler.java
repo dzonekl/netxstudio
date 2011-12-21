@@ -24,7 +24,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.actions.BaseSelectionListenerAction;
 
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
