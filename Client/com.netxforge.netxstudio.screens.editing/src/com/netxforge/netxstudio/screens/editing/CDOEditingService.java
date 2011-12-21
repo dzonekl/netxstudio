@@ -271,8 +271,16 @@ public class CDOEditingService extends EMFEditingService implements
 	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#isDirty()
 	 */
 	public boolean isDirty() {
-		boolean result = ((BasicCommandStack) getEditingDomain()
-				.getCommandStack()).isSaveNeeded();
+		
+		boolean result = false;
+		
+		
+		// CB 19-12-2011, disable dirty state for the editing domain, this will force usage of 
+		// save link, when we deal with a detached object. (As a operations on a detached object are not marked dirty in 
+		// in the CDO View). 
+		
+//		boolean result = ((BasicCommandStack) getEditingDomain()
+//				.getCommandStack()).isSaveNeeded();
 
 		if (this.getView() != null) {
 			boolean viewDirty = this.getView().isDirty();
