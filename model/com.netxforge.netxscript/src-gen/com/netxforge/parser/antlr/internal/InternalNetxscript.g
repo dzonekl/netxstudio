@@ -2286,10 +2286,12 @@ ruleParamRef returns [EObject current=null]
 	            $current = createModelElement(grammarAccess.getParamRefRule());
 	        }
         }
-	otherlv_2=RULE_ID
-	{
-		newLeafNode(otherlv_2, grammarAccess.getParamRefAccess().getParamParameterCrossReference_2_0()); 
-	}
+		{ 
+	        newCompositeNode(grammarAccess.getParamRefAccess().getParamParameterCrossReference_2_0()); 
+	    }
+		ruleSpacedID		{ 
+	        afterParserOrEnumRuleCall();
+	    }
 
 )
 ))
@@ -2587,10 +2589,12 @@ ruleOperatorRef returns [EObject current=null]
 	            $current = createModelElement(grammarAccess.getOperatorRefRule());
 	        }
         }
-	otherlv_3=RULE_ID
-	{
-		newLeafNode(otherlv_3, grammarAccess.getOperatorRefAccess().getFunctionFunctionCrossReference_2_0_1_0()); 
-	}
+		{ 
+	        newCompositeNode(grammarAccess.getOperatorRefAccess().getFunctionFunctionCrossReference_2_0_1_0()); 
+	    }
+		ruleSpacedID		{ 
+	        afterParserOrEnumRuleCall();
+	    }
 
 )
 ))
@@ -2605,10 +2609,12 @@ ruleOperatorRef returns [EObject current=null]
 	            $current = createModelElement(grammarAccess.getOperatorRefRule());
 	        }
         }
-	otherlv_5=RULE_ID
-	{
-		newLeafNode(otherlv_5, grammarAccess.getOperatorRefAccess().getEquipmentEquipmentCrossReference_2_1_1_0()); 
-	}
+		{ 
+	        newCompositeNode(grammarAccess.getOperatorRefAccess().getEquipmentEquipmentCrossReference_2_1_1_0()); 
+	    }
+		ruleSpacedID		{ 
+	        afterParserOrEnumRuleCall();
+	    }
 
 )
 ))
@@ -2709,10 +2715,12 @@ ruleResourceRef returns [EObject current=null]
 	            $current = createModelElement(grammarAccess.getResourceRefRule());
 	        }
         }
-	otherlv_2=RULE_ID
-	{
-		newLeafNode(otherlv_2, grammarAccess.getResourceRefAccess().getResourceBaseResourceCrossReference_2_0_0()); 
-	}
+		{ 
+	        newCompositeNode(grammarAccess.getResourceRefAccess().getResourceBaseResourceCrossReference_2_0_0()); 
+	    }
+		ruleSpacedID		{ 
+	        afterParserOrEnumRuleCall();
+	    }
 
 )
 )
@@ -2962,6 +2970,41 @@ ruleLinkRef returns [EObject current=null]
 )
 ))
 ;
+
+
+
+
+
+// Entry rule entryRuleSpacedID
+entryRuleSpacedID returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getSpacedIDRule()); } 
+	 iv_ruleSpacedID=ruleSpacedID 
+	 { $current=$iv_ruleSpacedID.current.getText(); }  
+	 EOF 
+;
+
+// Rule SpacedID
+ruleSpacedID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(    this_ID_0=RULE_ID    {
+		$current.merge(this_ID_0);
+    }
+
+    { 
+    newLeafNode(this_ID_0, grammarAccess.getSpacedIDAccess().getIDTerminalRuleCall_0()); 
+    }
+(    this_ID_1=RULE_ID    {
+		$current.merge(this_ID_1);
+    }
+
+    { 
+    newLeafNode(this_ID_1, grammarAccess.getSpacedIDAccess().getIDTerminalRuleCall_1()); 
+    }
+)*)
+    ;
 
 
 

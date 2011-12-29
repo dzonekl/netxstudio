@@ -572,7 +572,7 @@
           </type>
         </elements>
         <elements xsi:type="xtext:Assignment" feature="value" operator="=">
-          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.51"/>
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.52"/>
         </elements>
       </alternatives>
     </rules>
@@ -700,12 +700,12 @@
         <elements xsi:type="xtext:Keyword" value="["/>
         <elements xsi:type="xtext:Group" cardinality="?">
           <elements xsi:type="xtext:Assignment" feature="values" operator="+=">
-            <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.51"/>
+            <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.52"/>
           </elements>
           <elements xsi:type="xtext:Group" cardinality="*">
             <elements xsi:type="xtext:Keyword" value=","/>
             <elements xsi:type="xtext:Assignment" feature="values" operator="+=">
-              <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.51"/>
+              <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.52"/>
             </elements>
           </elements>
         </elements>
@@ -778,7 +778,7 @@
             <type metamodel="/0/@metamodelDeclarations.2">
               <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/13042011/library#//Parameter"/>
             </type>
-            <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.0"/>
+            <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.51"/>
           </terminal>
         </elements>
       </alternatives>
@@ -887,7 +887,7 @@
                 <type metamodel="/0/@metamodelDeclarations.2">
                   <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/13042011/library#//Function"/>
                 </type>
-                <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.0"/>
+                <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.51"/>
               </terminal>
             </elements>
           </elements>
@@ -898,7 +898,7 @@
                 <type metamodel="/0/@metamodelDeclarations.2">
                   <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/13042011/library#//Equipment"/>
                 </type>
-                <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.0"/>
+                <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.51"/>
               </terminal>
             </elements>
           </elements>
@@ -934,7 +934,7 @@
               <type metamodel="/0/@metamodelDeclarations.2">
                 <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/13042011/library#//BaseResource"/>
               </type>
-              <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.0"/>
+              <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.51"/>
             </terminal>
           </elements>
           <elements xsi:type="xtext:Keyword" value="ALL"/>
@@ -981,7 +981,7 @@
       </type>
       <alternatives xsi:type="xtext:Alternatives">
         <elements xsi:type="xtext:Assignment" feature="interval" operator="=">
-          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.51"/>
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.52"/>
         </elements>
         <elements xsi:type="xtext:Assignment" feature="kind" operator="=">
           <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.46"/>
@@ -1107,6 +1107,15 @@
             <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.0"/>
           </terminal>
         </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="SpacedID">
+      <type metamodel="/0/@metamodelDeclarations.1">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:RuleCall" rule="/1/@rules.0"/>
+        <elements xsi:type="xtext:RuleCall" cardinality="*" rule="/1/@rules.0"/>
       </alternatives>
     </rules>
     <rules xsi:type="xtext:TerminalRule" name="NUMBER">

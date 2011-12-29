@@ -582,8 +582,15 @@ public class InterpreterTypeless implements IInterpreter {
 							.getPrimaryRef().getLeafRef();
 					if (resourceRef.getResource() instanceof NetXResource) {
 
-						// Node n = this.getContextualNode();
+						 Node n = this.getContextualNode();
 						Component c = this.getContextualComponent();
+
+						// How about using the navigation component? 
+						Object extractLastComponent = this.extractLastComponent(cRef.getPrimaryRef(), n);
+						if(extractLastComponent != null){
+							//FIXME 
+						}
+						
 						if (c != null) {
 
 							List<NetXResource> netxResources = this

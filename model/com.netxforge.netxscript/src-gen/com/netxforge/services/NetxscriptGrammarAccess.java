@@ -1457,13 +1457,13 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cPARAMKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cParamAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final CrossReference cParamParameterCrossReference_2_0 = (CrossReference)cParamAssignment_2.eContents().get(0);
-		private final RuleCall cParamParameterIDTerminalRuleCall_2_0_1 = (RuleCall)cParamParameterCrossReference_2_0.eContents().get(1);
+		private final RuleCall cParamParameterSpacedIDParserRuleCall_2_0_1 = (RuleCall)cParamParameterCrossReference_2_0.eContents().get(1);
 		
 		//ParamRef returns Reference:
-		//	{ParamRef} "PARAM" param=[library::Parameter];
+		//	{ParamRef} "PARAM" param=[library::Parameter|SpacedID];
 		public ParserRule getRule() { return rule; }
 
-		//{ParamRef} "PARAM" param=[library::Parameter]
+		//{ParamRef} "PARAM" param=[library::Parameter|SpacedID]
 		public Group getGroup() { return cGroup; }
 
 		//{ParamRef}
@@ -1472,14 +1472,14 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//"PARAM"
 		public Keyword getPARAMKeyword_1() { return cPARAMKeyword_1; }
 
-		//param=[library::Parameter]
+		//param=[library::Parameter|SpacedID]
 		public Assignment getParamAssignment_2() { return cParamAssignment_2; }
 
-		//[library::Parameter]
+		//[library::Parameter|SpacedID]
 		public CrossReference getParamParameterCrossReference_2_0() { return cParamParameterCrossReference_2_0; }
 
-		//ID
-		public RuleCall getParamParameterIDTerminalRuleCall_2_0_1() { return cParamParameterIDTerminalRuleCall_2_0_1; }
+		//SpacedID
+		public RuleCall getParamParameterSpacedIDParserRuleCall_2_0_1() { return cParamParameterSpacedIDParserRuleCall_2_0_1; }
 	}
 
 	public class NodeTypeRefElements extends AbstractParserRuleElementFinder {
@@ -1656,22 +1656,22 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cFUNCTIONKeyword_2_0_0 = (Keyword)cGroup_2_0.eContents().get(0);
 		private final Assignment cFunctionAssignment_2_0_1 = (Assignment)cGroup_2_0.eContents().get(1);
 		private final CrossReference cFunctionFunctionCrossReference_2_0_1_0 = (CrossReference)cFunctionAssignment_2_0_1.eContents().get(0);
-		private final RuleCall cFunctionFunctionIDTerminalRuleCall_2_0_1_0_1 = (RuleCall)cFunctionFunctionCrossReference_2_0_1_0.eContents().get(1);
+		private final RuleCall cFunctionFunctionSpacedIDParserRuleCall_2_0_1_0_1 = (RuleCall)cFunctionFunctionCrossReference_2_0_1_0.eContents().get(1);
 		private final Group cGroup_2_1 = (Group)cAlternatives_2.eContents().get(1);
 		private final Keyword cEQUIPMENTKeyword_2_1_0 = (Keyword)cGroup_2_1.eContents().get(0);
 		private final Assignment cEquipmentAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
 		private final CrossReference cEquipmentEquipmentCrossReference_2_1_1_0 = (CrossReference)cEquipmentAssignment_2_1_1.eContents().get(0);
-		private final RuleCall cEquipmentEquipmentIDTerminalRuleCall_2_1_1_0_1 = (RuleCall)cEquipmentEquipmentCrossReference_2_1_1_0.eContents().get(1);
+		private final RuleCall cEquipmentEquipmentSpacedIDParserRuleCall_2_1_1_0_1 = (RuleCall)cEquipmentEquipmentCrossReference_2_1_1_0.eContents().get(1);
 		private final Keyword cPROFILEKeyword_2_2 = (Keyword)cAlternatives_2.eContents().get(2);
 		private final Keyword cSTATUSKeyword_2_3 = (Keyword)cAlternatives_2.eContents().get(3);
 		
 		//OperatorRef returns Reference:
-		//	{OperatorRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" |
-		//	"STATUS");
+		//	{OperatorRef} "." ("FUNCTION" function=[library::Function|SpacedID] | "EQUIPMENT"
+		//	equipment=[library::Equipment|SpacedID] | "PROFILE" | "STATUS");
 		public ParserRule getRule() { return rule; }
 
-		//{OperatorRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" |
-		//"STATUS")
+		//{OperatorRef} "." ("FUNCTION" function=[library::Function|SpacedID] | "EQUIPMENT"
+		//equipment=[library::Equipment|SpacedID] | "PROFILE" | "STATUS")
 		public Group getGroup() { return cGroup; }
 
 		//{OperatorRef}
@@ -1680,38 +1680,39 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//"."
 		public Keyword getFullStopKeyword_1() { return cFullStopKeyword_1; }
 
-		//"FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" | "STATUS"
+		//"FUNCTION" function=[library::Function|SpacedID] | "EQUIPMENT" equipment=[library::Equipment|SpacedID] | "PROFILE" |
+		//"STATUS"
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 
-		//"FUNCTION" function=[library::Function]
+		//"FUNCTION" function=[library::Function|SpacedID]
 		public Group getGroup_2_0() { return cGroup_2_0; }
 
 		//"FUNCTION"
 		public Keyword getFUNCTIONKeyword_2_0_0() { return cFUNCTIONKeyword_2_0_0; }
 
-		//function=[library::Function]
+		//function=[library::Function|SpacedID]
 		public Assignment getFunctionAssignment_2_0_1() { return cFunctionAssignment_2_0_1; }
 
-		//[library::Function]
+		//[library::Function|SpacedID]
 		public CrossReference getFunctionFunctionCrossReference_2_0_1_0() { return cFunctionFunctionCrossReference_2_0_1_0; }
 
-		//ID
-		public RuleCall getFunctionFunctionIDTerminalRuleCall_2_0_1_0_1() { return cFunctionFunctionIDTerminalRuleCall_2_0_1_0_1; }
+		//SpacedID
+		public RuleCall getFunctionFunctionSpacedIDParserRuleCall_2_0_1_0_1() { return cFunctionFunctionSpacedIDParserRuleCall_2_0_1_0_1; }
 
-		//"EQUIPMENT" equipment=[library::Equipment]
+		//"EQUIPMENT" equipment=[library::Equipment|SpacedID]
 		public Group getGroup_2_1() { return cGroup_2_1; }
 
 		//"EQUIPMENT"
 		public Keyword getEQUIPMENTKeyword_2_1_0() { return cEQUIPMENTKeyword_2_1_0; }
 
-		//equipment=[library::Equipment]
+		//equipment=[library::Equipment|SpacedID]
 		public Assignment getEquipmentAssignment_2_1_1() { return cEquipmentAssignment_2_1_1; }
 
-		//[library::Equipment]
+		//[library::Equipment|SpacedID]
 		public CrossReference getEquipmentEquipmentCrossReference_2_1_1_0() { return cEquipmentEquipmentCrossReference_2_1_1_0; }
 
-		//ID
-		public RuleCall getEquipmentEquipmentIDTerminalRuleCall_2_1_1_0_1() { return cEquipmentEquipmentIDTerminalRuleCall_2_1_1_0_1; }
+		//SpacedID
+		public RuleCall getEquipmentEquipmentSpacedIDParserRuleCall_2_1_1_0_1() { return cEquipmentEquipmentSpacedIDParserRuleCall_2_1_1_0_1; }
 
 		//"PROFILE"
 		public Keyword getPROFILEKeyword_2_2() { return cPROFILEKeyword_2_2; }
@@ -1755,16 +1756,16 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
 		private final Assignment cResourceAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
 		private final CrossReference cResourceBaseResourceCrossReference_2_0_0 = (CrossReference)cResourceAssignment_2_0.eContents().get(0);
-		private final RuleCall cResourceBaseResourceIDTerminalRuleCall_2_0_0_1 = (RuleCall)cResourceBaseResourceCrossReference_2_0_0.eContents().get(1);
+		private final RuleCall cResourceBaseResourceSpacedIDParserRuleCall_2_0_0_1 = (RuleCall)cResourceBaseResourceCrossReference_2_0_0.eContents().get(1);
 		private final Keyword cALLKeyword_2_1 = (Keyword)cAlternatives_2.eContents().get(1);
 		private final Assignment cRangeRefAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cRangeRefRangeRefParserRuleCall_3_0 = (RuleCall)cRangeRefAssignment_3.eContents().get(0);
 		
 		//ResourceRef returns LeafReference:
-		//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource] | "ALL") rangeRef=RangeRef;
+		//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource|SpacedID] | "ALL") rangeRef=RangeRef;
 		public ParserRule getRule() { return rule; }
 
-		//{ResourceRef} "RESOURCE" (resource=[library::BaseResource] | "ALL") rangeRef=RangeRef
+		//{ResourceRef} "RESOURCE" (resource=[library::BaseResource|SpacedID] | "ALL") rangeRef=RangeRef
 		public Group getGroup() { return cGroup; }
 
 		//{ResourceRef}
@@ -1773,17 +1774,17 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//"RESOURCE"
 		public Keyword getRESOURCEKeyword_1() { return cRESOURCEKeyword_1; }
 
-		//resource=[library::BaseResource] | "ALL"
+		//resource=[library::BaseResource|SpacedID] | "ALL"
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 
-		//resource=[library::BaseResource]
+		//resource=[library::BaseResource|SpacedID]
 		public Assignment getResourceAssignment_2_0() { return cResourceAssignment_2_0; }
 
-		//[library::BaseResource]
+		//[library::BaseResource|SpacedID]
 		public CrossReference getResourceBaseResourceCrossReference_2_0_0() { return cResourceBaseResourceCrossReference_2_0_0; }
 
-		//ID
-		public RuleCall getResourceBaseResourceIDTerminalRuleCall_2_0_0_1() { return cResourceBaseResourceIDTerminalRuleCall_2_0_0_1; }
+		//SpacedID
+		public RuleCall getResourceBaseResourceSpacedIDParserRuleCall_2_0_0_1() { return cResourceBaseResourceSpacedIDParserRuleCall_2_0_0_1; }
 
 		//"ALL"
 		public Keyword getALLKeyword_2_1() { return cALLKeyword_2_1; }
@@ -1921,6 +1922,26 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 		//ID
 		public RuleCall getLinkRelationshipIDTerminalRuleCall_2_0_1() { return cLinkRelationshipIDTerminalRuleCall_2_0_1; }
+	}
+
+	public class SpacedIDElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "SpacedID");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cIDTerminalRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final RuleCall cIDTerminalRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		
+		//SpacedID returns ecore::EString:
+		//	ID ID*;
+		public ParserRule getRule() { return rule; }
+
+		//ID ID*
+		public Group getGroup() { return cGroup; }
+
+		//ID
+		public RuleCall getIDTerminalRuleCall_0() { return cIDTerminalRuleCall_0; }
+
+		//ID*
+		public RuleCall getIDTerminalRuleCall_1() { return cIDTerminalRuleCall_1; }
 	}
 	
 	
@@ -2245,6 +2266,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	private ValueRangeElements unknownRuleValueRange;
 	private ValueKindElements unknownRuleValueKind;
 	private LinkRefElements pLinkRef;
+	private SpacedIDElements pSpacedID;
 	private TerminalRule tNUMBER;
 	private TerminalRule tINT;
 	
@@ -2640,7 +2662,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ParamRef returns Reference:
-	//	{ParamRef} "PARAM" param=[library::Parameter];
+	//	{ParamRef} "PARAM" param=[library::Parameter|SpacedID];
 	public ParamRefElements getParamRefAccess() {
 		return (pParamRef != null) ? pParamRef : (pParamRef = new ParamRefElements());
 	}
@@ -2698,8 +2720,8 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//OperatorRef returns Reference:
-	//	{OperatorRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" |
-	//	"STATUS");
+	//	{OperatorRef} "." ("FUNCTION" function=[library::Function|SpacedID] | "EQUIPMENT"
+	//	equipment=[library::Equipment|SpacedID] | "PROFILE" | "STATUS");
 	public OperatorRefElements getOperatorRefAccess() {
 		return (pOperatorRef != null) ? pOperatorRef : (pOperatorRef = new OperatorRefElements());
 	}
@@ -2722,7 +2744,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ResourceRef returns LeafReference:
-	//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource] | "ALL") rangeRef=RangeRef;
+	//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource|SpacedID] | "ALL") rangeRef=RangeRef;
 	public ResourceRefElements getResourceRefAccess() {
 		return (pResourceRef != null) ? pResourceRef : (pResourceRef = new ResourceRefElements());
 	}
@@ -2817,6 +2839,16 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getLinkRefRule() {
 		return getLinkRefAccess().getRule();
+	}
+
+	//SpacedID returns ecore::EString:
+	//	ID ID*;
+	public SpacedIDElements getSpacedIDAccess() {
+		return (pSpacedID != null) ? pSpacedID : (pSpacedID = new SpacedIDElements());
+	}
+	
+	public ParserRule getSpacedIDRule() {
+		return getSpacedIDAccess().getRule();
 	}
 
 	//terminal NUMBER returns ecore::EBigDecimal:

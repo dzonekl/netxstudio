@@ -159,7 +159,7 @@ Reference returns Expression:
 ;
 
 ParamRef returns Reference:
-	{ParamRef} 'PARAM' param=[library::Parameter]
+	{ParamRef} 'PARAM' param=[library::Parameter | SpacedID]
 ;
 
 /**
@@ -190,7 +190,7 @@ PrimaryRef returns Reference:
 	(components+=OperatorRef)+ ('->' leafRef=LeafReference)?;
 
 OperatorRef returns Reference:
-	{OperatorRef} '.' ( 'FUNCTION' function=[library::Function] | 'EQUIPMENT' equipment=[library::Equipment] | 'PROFILE' | 'STATUS')
+	{OperatorRef} '.' ( 'FUNCTION' function=[library::Function | SpacedID] | 'EQUIPMENT' equipment=[library::Equipment | SpacedID] | 'PROFILE' | 'STATUS')
 ;
 
 //ServiceRef returns Reference:
@@ -202,7 +202,7 @@ LeafReference returns LeafReference:
 	ResourceRef | LinkRef | StatusRef;
 
 ResourceRef returns LeafReference:
-	{ResourceRef} 'RESOURCE' (resource=[library::BaseResource] | 'ALL') rangeRef=RangeRef;
+	{ResourceRef} 'RESOURCE' (resource=[library::BaseResource | SpacedID] | 'ALL') rangeRef=RangeRef;
 
 StatusRef returns LeafReference:
 	{StatusRef} tolerancelevel=ToleranceLevel;
@@ -237,13 +237,19 @@ enum ValueKind:
 	AVG='AVG' | BH='BH'
 ;
 
+
 /**
  * TODO, through a link, we should be able to access, the opposite node and 
  * resources. 
  * 
  */
 LinkRef returns LeafReference:
-	{LinkRef} 'LINK' link=[operator::Relationship];
+	{LinkRef} 'LINK' link=[operator::Relationship]
+;
+
+SpacedID returns ecore::EString:
+	ID (ID)* 
+;
 
 terminal NUMBER returns ecore::EBigDecimal:
 	('0'..'9')* ('.' ('0'..'9')+)?;
