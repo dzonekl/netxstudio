@@ -1,4 +1,4 @@
-#Wed Nov 23 20:20:29 CET 2011
+#Thu Dec 29 13:37:34 CET 2011
 eclipse.preferences.version=1
 encoding//html/getting_started/TMNL_Capacity_Management_Process.html=utf-8
 encoding//html/getting_started/data_structure.html=utf-8
@@ -67,5 +67,7 @@ encoding//html/tasks/library/units/creating_a_unit.html=utf-8
 encoding//html/tasks/library/units/units.html=utf-8
 encoding//html/tasks/library/vendors/creating_a_vendor.html=utf-8
 encoding//html/tasks/library/vendors/vendors.html=utf-8
+encoding//html/tasks/monitoring/monitoring.html=utf-8
 encoding//html/tasks/tasks.html=utf-8
 encoding//html/toc.html=utf-8
+encoding//wikitext/tasks/monitoring/services/services.html=utf-8

@@ -1,15 +1,53 @@
-h1. Creating or Service
-
+h1. Creating or Editing Service
 
 !PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/monitoring/services/creating_a_service.png!
-
 
 The following data should be entered or is presented.
 
 *Info*
 
-[TODO]
+* The Service Name. The name of the Service.   
+* The Service Description. The description of the Service. 
 
+*Summary*
+
+* Last Monitor. The last monitoring period for this Service. 
+* # of monitored NE's. The number of monitored Network Elements for this Service. 
+* # of monitored RES's. The number of monitored Resources for this Service. 
+* RAG Status. The Red, Amber and Green resources in this service. 
+
+*Network Elements*
+
+The network elements which deliver this service. 
+
+* Click "Add" to add a Network Element for this Service
+* Right-Click on a Network Element to remove a Network Element for the Service.   
+
+*Service Users*
+
+The Service Users for this service.  
+
+* Click "Add" to add a Service User
+* Right-Click on a Service User to remove it from the service.
+ 
+*Lifecycle*
+
+* Proposed. The Service "Proposed" date.
+* Planned. The Service "Planned" date.
+* Construction. The Service "Construction" date.
+* In Service. The Service "In Service" date.
+* Out of Service. The Service "Out of Service" date.
+
+*Hierarchy*
+
+* Show Hierarchy. This is diagram of the Service hierarchy. For a nested service, the full hierarchy will be depicted.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/monitoring/services/service_hierarchy.png!
+
+*Tolerances*
+
+* Click "Add" to add an existing Tolerance to the Service
+* Right-Click on a Tolerance to remove a Tolerance from the Service.
 
 *Save* => Menu -> File -> Save
 *Cancel* => The editing can be undone by Menu-> Edit -> Undo

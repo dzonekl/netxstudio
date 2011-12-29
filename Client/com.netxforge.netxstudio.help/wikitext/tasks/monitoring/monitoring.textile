@@ -5,7 +5,3 @@ The Monitoring task provides access to the activities concerning the monitoring 
 * "Services"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/monitoring/services/services.html
 * "Service Users"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/monitoring/service_users/service_users.html
 * "Reports"::PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/monitoring/reports/reports.html
-
-* Services
-* Service Users
-* Reports

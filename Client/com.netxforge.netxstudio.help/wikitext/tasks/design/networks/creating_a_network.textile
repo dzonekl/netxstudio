@@ -8,8 +8,7 @@ The following data should be entered or is presented.
 
 *Info*
 
-* The Network Name. The name of the Network.  
- 
+* The Network Name. The name of the Network.
 * The Network Description. The description of the network. 
 
 *Save* => Menu -> File -> Save

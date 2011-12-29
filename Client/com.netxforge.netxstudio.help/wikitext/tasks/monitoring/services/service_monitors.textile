@@ -1,0 +1,8 @@
+h1. Service Monitors
+
+Service Monitors shows the service monitoring runs with the corresponding period. 
+It provides access to the resource monitors.  
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/monitoring/services/service_monitors.png!
+
+*Resource Monitors...* => Right-Click on a Service Monitor and select "Resource Monitors..." This will open the Resource Monitoring screen.

@@ -1,0 +1,7 @@
+h1. Reports
+
+The Reports screen provides access to reports stored on the server. 
+
+The Reports screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/monitoring/reports/reports.png!

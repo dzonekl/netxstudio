@@ -127,6 +127,12 @@
  </topic>
  <topic href="html/tasks/monitoring/monitoring.html" label="Monitoring">
     <topic href="html/tasks/monitoring/services/services.html" label="Services">
+       <topic href="html/tasks/monitoring/services/creating_a_service.html" label="Creating or Modifying a Service">
+       </topic>
+       <topic href="html/tasks/monitoring/services/service_monitors.html" label="Service Monitors">
+       </topic>
+       <topic href="html/tasks/monitoring/services/resource_monitors.html" label="Resource Monitors">
+       </topic>
     </topic>
     <topic href="html/tasks/monitoring/service_users/service_users.html" label="Service Users">
     </topic>

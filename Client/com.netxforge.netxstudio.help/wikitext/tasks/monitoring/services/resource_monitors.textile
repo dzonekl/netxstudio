@@ -1,0 +1,5 @@
+h1. Resource Monitors
+
+Resource Monitors shows the resource monitoring objects created for the corresponding service monitor.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/monitoring/services/resource_monitors.png!

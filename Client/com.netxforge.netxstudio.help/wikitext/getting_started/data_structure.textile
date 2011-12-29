@@ -110,8 +110,6 @@ h3. Network Element
 
 The Network Element object is the instance of a Library Network Element Type.
 
-
-
 h3. Lifecycle 
 
 Network Elements, Equipments and Functions all have a lifecycle represented by various dates. 
@@ -129,10 +127,74 @@ The Lifecycle dates are relevant to various processes.
 * Objects have to be "In Service" to be included in the monitoring cycle.  
 
 
-h2. Geographical
-
-The following objects are currently also defined for the network, but not in use. 
+h3. Geographical 
 
 * Country
 * Site
 * Room
+
+
+h2. Services and Monitoring
+
+A Service consists of a Network elements, service users and Tolerance expressions determining the RAG status of a service. 
+Service can be nested, so can consist of other services. 
+
+Monitoring is executed on two levels, first on resource level and then on service level.
+Resource Monitoring is the process of calculating resource capacity, utilization and tolerance markers over a certain period. 
+
+For each monitoring period, a Service Monitoring object is created which consists of one or more Resource Monitors. 
+Resource Monitors refer to a single resource. 
+
+A Marker is a reference to a value in one of the Metric ranges, and of a certain type of event. 
+The following event types exist: 
+
+* Tolerance Crossed
+* Internal Event
+* External Event
+* Action Needed. 
+
+_Note:_ In the monitoring phase, only tolerance crossed markers are supported. Other markers are intended for the forecasting
+and expansion process. 
+
+h3. Tolerance-crossed event. 
+
+In the monitoring process, the Tolerance levels for each resource are calculated with the tolerance expressions. 
+From this tolerance crossed markers are determined. A Tolerance marker is one of the following: 
+
+* Start => A marker indicating the start of a monitoring period. 
+* Up => A tolerance is crossed going up. 
+* Down => A tolerance is crossed going down. 
+
+A tolerance-crossed marker also contains a reference to the tolerance level for which the marker applied. 
+The result of this analysis is a list of markers as depicted in the diagram here: 
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/getting_started/monitoring_markers.png!
+
+h3. Red, Amber & Green (RAG) status 
+
+The RAG status is the status of a service and corresponding Network Elements and resources in a certain period.
+
+For a resource, we have seen that a list of markers is produced for a certain period. The RAG status of a resource there for reflects the markers for this period. The current rule is that a resource is: 
+
+* RED => the resource started or crossed the RED tolerance level during the period.
+* AMBER => the resource started or crossed the AMBER tolerance level during the period. 
+* GREEN => the resource doesn't start or crosses the AMBER or RED level during the period. 
+
+
+_Note:_ The RAG status of a network element corresponds to the RAG status of it's resources. i.e. if one of it's resources is RED, the NE will be RED as well.  (It's currently not possible to define specific rules for the RAG status of a Network Element).  
+
+
+For a service, the RAG status can be determined by applying a specific rule. 
+The rule can be i.e. the number of Network Elements in status AMBER can't be > 3. 
+Service Tolerance rules are defined as Tolerance expressions and attached to a Service. 
+
+h3. The monitoring period rules. 
+
+The monitoring period is automatically calculated when a monitoring job is scheduled to run at a certain date and time. 
+the period starts at the point of the last monitoring period and ends at the point in time when the monitoring period is initiated. 
+When the monitoring for a service runs for the first time, the period goes back 6 months. 
+
+ 
+
+
+
