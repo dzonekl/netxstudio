@@ -18,14 +18,18 @@
 package util;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+import com.google.common.collect.UnmodifiableIterator;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.jsp.JSPActivator;
@@ -36,6 +40,9 @@ public final class ListFolder {
 	@Server
 	IDataProvider dataProvider;
 
+	@Inject
+	private ModelUtils modelUtils;
+	
 	private ServerSettings settings;
 
 	private static final ListFolder INSTANCE = new ListFolder();
@@ -70,7 +77,10 @@ public final class ListFolder {
 		File path = new File(exportPath);
 		if (path.exists() && path.isDirectory()) {
 			File[] files = path.listFiles();
-			return Lists.newArrayList(files);
+			List<File> filesList = Lists.newArrayList(files);
+			Collections.sort(filesList, modelUtils.fileLastModifiedComparator());
+			UnmodifiableIterator<File> filter = Iterators.filter(filesList.iterator(), modelUtils.nonHiddenFile());
+			return Lists.newArrayList(filter);
 		}
 		return Lists.newArrayList();
 	}
