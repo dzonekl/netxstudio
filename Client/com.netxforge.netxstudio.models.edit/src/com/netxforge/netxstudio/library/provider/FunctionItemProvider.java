@@ -147,11 +147,11 @@ public class FunctionItemProvider extends ComponentItemProvider implements
 	/**
 	 * This returns Function.gif.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Function"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Function_H.png"));
 	}
 
 	/**

@@ -265,11 +265,11 @@ public class EquipmentItemProvider extends ComponentItemProvider implements
 	/**
 	 * This returns Equipment.gif.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Equipment"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Equipment_H.png"));
 	}
 
 	/**
