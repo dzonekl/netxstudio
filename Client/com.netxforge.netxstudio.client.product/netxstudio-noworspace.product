@@ -15,7 +15,7 @@
 
    <launcherArgs>
       <programArgs>-data @noDefault -nl en_NL</programArgs>
-      <vmArgs>-Xms512m -Xmx1024m</vmArgs>
+      <vmArgs>-Xms512m -Xmx1024m -XX:MaxPermSize=128m</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
