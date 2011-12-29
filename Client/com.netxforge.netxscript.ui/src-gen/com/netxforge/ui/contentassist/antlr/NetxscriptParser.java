@@ -134,6 +134,7 @@ public class NetxscriptParser extends AbstractContentAssistParser {
 					put(grammarAccess.getStatusRefAccess().getGroup(), "rule__StatusRef__Group__0");
 					put(grammarAccess.getRangeRefAccess().getGroup(), "rule__RangeRef__Group__0");
 					put(grammarAccess.getLinkRefAccess().getGroup(), "rule__LinkRef__Group__0");
+					put(grammarAccess.getSpacedIDAccess().getGroup(), "rule__SpacedID__Group__0");
 					put(grammarAccess.getModAccess().getNameAssignment_0_1(), "rule__Mod__NameAssignment_0_1");
 					put(grammarAccess.getModAccess().getImportsAssignment_1(), "rule__Mod__ImportsAssignment_1");
 					put(grammarAccess.getModAccess().getFunctionsAssignment_2_0(), "rule__Mod__FunctionsAssignment_2_0");
