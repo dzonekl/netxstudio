@@ -315,8 +315,8 @@ public class ServiceMonitors extends AbstractScreen implements
 	public IAction[] getActions(){
 		// lazy initialize. 
 		if(actions.isEmpty()){
-			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View" : "Edit";
-			actions.add(new EditMonitorAction(actionText + "...", SWT.PUSH));
+//			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View" : "Edit";
+			actions.add(new EditMonitorAction("Resource Monitors...", SWT.PUSH));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}

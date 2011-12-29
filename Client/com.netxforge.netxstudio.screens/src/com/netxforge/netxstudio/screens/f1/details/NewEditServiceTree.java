@@ -338,7 +338,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 				Section.TWISTIE | Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnDistribution);
 		sctnDistribution.setText("Distribution");
-		sctnDistribution.setExpanded(true);
+		sctnDistribution.setExpanded(false);
 
 		Composite composite_4 = formToolkit.createComposite(sctnDistribution,
 				SWT.NONE);
@@ -697,7 +697,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		formToolkit.paintBordersFor(cmpGreen);
 
 		Label lblRagStatus = formToolkit.createLabel(composite_2,
-				"RAG Status:", SWT.NONE);
+				"RAG Status RES's:", SWT.NONE);
 		lblRagStatus.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 

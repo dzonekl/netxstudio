@@ -518,7 +518,7 @@ public class ServicesTree extends AbstractScreen implements
 							.getFirstElement();
 					ServiceMonitors smScreen = new ServiceMonitors(
 							screenService.getScreenContainer(), SWT.NONE);
-					smScreen.setOperation(Screens.OPERATION_EDIT);
+					smScreen.setOperation(Screens.OPERATION_READ_ONLY);
 					smScreen.setScreenService(screenService);
 					smScreen.injectData(null, o);
 					screenService.setActiveScreen(smScreen);

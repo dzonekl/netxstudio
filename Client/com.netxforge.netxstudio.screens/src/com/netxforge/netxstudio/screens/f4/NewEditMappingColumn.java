@@ -138,6 +138,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private FormText formText_4;
 	private FormText formText_5;
 
+	private ISWTObservableValue metricValueObservable;
+
 	/**
 	 * Create the composite.
 	 * 
@@ -706,11 +708,14 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	}
 
 	private void enableDataAggregate(DatakindAggregate aggregate) {
-		// Kind observable.
+
+		// metric selection
 		metricObservable.addValueChangeListener(aggregate);
 
 		// Value observables.
-		// valuePatternObservable.addValueChangeListener(aggregate);
+		// metricValueObservable.addValueChangeListener(aggregate);
+
+		// Kind observable.
 		metricKindHintObservable.addValueChangeListener(aggregate);
 	}
 
@@ -720,12 +725,14 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private void initDataBindingDataMappingColumn(
 			EMFDataBindingContext context, IEMFValueProperty dataKindProperty) {
 
+		// Metric option selected.
 		btnMetricWritableValue = new WritableValue();
-
 		metricObservable = SWTObservables.observeSelection(btnMetricValue);
+		context.bindValue(metricObservable, btnMetricWritableValue, null, null);
 
-		IObservableValue metricValueObservable = SWTObservables.observeText(
-				txtMetric, SWT.Modify);
+		// We should really observe the button.
+		metricValueObservable = SWTObservables.observeText(txtMetric,
+				SWT.Modify);
 
 		// valuePatternObservable = SWTObservables.observeText(
 		// this.txtMetricValuePattern, SWT.Modify);
@@ -748,8 +755,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		context.bindValue(metricValueObservable,
 				dataKindProperty.observe(mxlsColumn), null,
 				metricModelToTargetStrategy);
-
-		context.bindValue(metricObservable, btnMetricWritableValue, null, null);
 
 		comboViewerMetricKindHint
 				.setContentProvider(new ArrayContentProvider());
@@ -1060,19 +1065,25 @@ public class NewEditMappingColumn extends AbstractScreen implements
 					+ time + value + interval);
 
 			CompoundCommand cc = new CompoundCommand();
-			
-			
+
 			// As we have an existing type, we loose all settings from that
-			// 
-//			DataKind dk = (DataKind) this.dataKindObservable.getValue();
+			// in herit what we need.
+			DataKind currentDk = (DataKind) this.dataKindObservable.getValue();
 			DataKind dk = null;
-//			if (dk == null) {
-				if (interval || value || datetime || date || time) {
+			if (interval || value || datetime || date || time) {
+				if (currentDk instanceof ValueDataKind) {
+					dk = currentDk;
+				} else {
 					dk = MetricsFactory.eINSTANCE.createValueDataKind();
-				} else if (identifier) {
+				}
+			} else if (identifier) {
+				if (currentDk instanceof IdentifierDataKind) {
+					// keep the metirc if set.
+					dk = currentDk;
+				} else {
 					dk = MetricsFactory.eINSTANCE.createIdentifierDataKind();
 				}
-//			}
+			}
 
 			// Write the DataKind with attributes.
 			if (dk instanceof ValueDataKind) {
@@ -1191,13 +1202,12 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		populatePatterns();
 
 		context = this.initDataBindings_();
-		
-		
-		// Disable for now. 
-//		if (!Screens.isReadOnlyOperation(getOperation())) {
-//			validationService.registerBindingContext(context);
-//			validationService.addValidationListener(this);
-//		}
+
+		// Disable for now.
+		// if (!Screens.isReadOnlyOperation(getOperation())) {
+		// validationService.registerBindingContext(context);
+		// validationService.addValidationListener(this);
+		// }
 	}
 
 	public void addData() {
