@@ -1,5 +1,6 @@
 package com.netxforge.netxstudio.common.model;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -170,6 +171,16 @@ public class ModelUtils {
 
 	}
 
+	public FileLastModifiedComparator fileLastModifiedComparator() {
+		return new FileLastModifiedComparator();
+	}
+
+	public class FileLastModifiedComparator implements Comparator<File> {
+		public int compare(final File f1, File f2) {
+			return new Long(f1.lastModified()).compareTo(f2.lastModified());
+		}
+	};
+
 	public ServiceMonitorComparator serviceMonitorCompare() {
 		return new ServiceMonitorComparator();
 	}
@@ -214,6 +225,17 @@ public class ModelUtils {
 		return new ValuerInsideRange(dtr);
 	}
 
+
+	public class NonHiddenFile implements Predicate<File> {
+		public boolean apply(final File f) {
+			return !f.isHidden();
+		}
+	}
+
+	public NonHiddenFile nonHiddenFile(){
+		return new NonHiddenFile();
+	}
+	
 	public class NodeOfType implements Predicate<Node> {
 		private final NodeType nt;
 
@@ -232,6 +254,7 @@ public class ModelUtils {
 		}
 	}
 
+	
 	public NodeOfType nodeOfType(NodeType nodeType) {
 		return new NodeOfType(nodeType);
 	}
@@ -954,6 +977,14 @@ public class ModelUtils {
 		return new int[] { red, amber, green };
 	}
 
+	/**
+	 * For a collection of marker determine the rag status. Higher levels take
+	 * precedence over lower levels. Lower levels are in case preceded by a
+	 * Higher level, cleared.
+	 * 
+	 * @param markersForNodeList
+	 * @return
+	 */
 	public int[] ragForMarkers(List<Marker> markersForNodeList) {
 
 		int red = 0, amber = 0, green = 0;
@@ -981,6 +1012,9 @@ public class ModelUtils {
 					if (isStartOrUp(tm)) {
 						green++;
 					}
+				}
+				case LevelKind.YELLOW_VALUE: {
+					// what to do with yellow??
 				}
 					break;
 				}
@@ -1284,8 +1318,6 @@ public class ModelUtils {
 		}
 		return null;
 	}
-
-	
 
 	public Value mostRecentValue(List<Value> rawListOfValues) {
 		List<Value> values = this.sortByTimeStampAndReverse(rawListOfValues);
