@@ -7,6 +7,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.library.Parameter;
 
 /**
  * Provides labels for a EObjects.
@@ -20,13 +21,14 @@ public class NetxscriptLabelProvider extends DefaultEObjectLabelProvider {
 		super(delegate);
 	}
 
-/*
 	//Labels and icons can be computed like this:
 	
-	String text(MyModel ele) {
-	  return "my "+ele.getName();
+	String text(Parameter ele) {
+	  return ele.getName() +
+	  		"\n" +
+	  		"\n value = " + ele.getValue();
 	}
-	 
+/*	 
     String image(MyModel ele) {
       return "MyModel.gif";
     }

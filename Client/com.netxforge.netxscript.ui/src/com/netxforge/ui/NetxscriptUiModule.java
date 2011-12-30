@@ -6,10 +6,16 @@ package com.netxforge.ui;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
+import org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper;
+import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
+import org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator;
 
 import com.google.inject.Scopes;
-import com.netxforge.scoping.DynamixCDOScopeProvider;
 import com.netxforge.scoping.DynamixCDOResourceDescriptions;
+import com.netxforge.scoping.DynamixCDOScopeProvider;
+import com.netxforge.ui.highlighting.NetxscriptAntlrTokenToAttributeIdMapper;
+import com.netxforge.ui.highlighting.NetxscriptHighlightingConfiguration;
+import com.netxforge.ui.highlighting.NetxscriptSemanticHighlightingCalculator;
 import com.netxforge.ui.scoping.UICDOResourceServiceProvider;
 
 /**
@@ -20,7 +26,23 @@ public class NetxscriptUiModule extends
 	public NetxscriptUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
 	}
-
+	
+	// Customized highlighting styles. 
+	public Class<? extends IHighlightingConfiguration> bindIHighlightingConfiguration() {
+		return NetxscriptHighlightingConfiguration.class;
+	}
+	
+	// Custom implement the tokenizer for NUMBER rule (Default impl, looks for the INT rule.  
+	public Class<? extends AbstractAntlrTokenToAttributeIdMapper> bindAbstractAntlrTokenToAttributeIdMapper() {
+		return NetxscriptAntlrTokenToAttributeIdMapper.class;
+	}
+	
+	// Semantic highlighting for our grammar 
+	public Class<? extends ISemanticHighlightingCalculator> bindISemanticHighlightingCalculator(){
+		return NetxscriptSemanticHighlightingCalculator.class;
+	}
+	
+	
 	// Also override the IResourceDescriptions, as the shared state overrides
 	// us.
 	// Override generated, ResourceSet based.
@@ -32,14 +54,14 @@ public class NetxscriptUiModule extends
 	public Class<? extends IResourceServiceProvider> bindIResourceServiceProvider() {
 		return UICDOResourceServiceProvider.class;
 	}
-	
+
 	public Class<? extends IGlobalScopeProvider> bindIGlobalScopeProvider() {
 		return null;
 	}
-	
+
 	public void configureIGlobalScopeProvider(com.google.inject.Binder binder) {
-		binder.bind(org.eclipse.xtext.scoping.IGlobalScopeProvider.class).to(
-				DynamixCDOScopeProvider.class).in(Scopes.SINGLETON);
+		binder.bind(org.eclipse.xtext.scoping.IGlobalScopeProvider.class)
+				.to(DynamixCDOScopeProvider.class).in(Scopes.SINGLETON);
 	}
 
 }
