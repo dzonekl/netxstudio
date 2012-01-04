@@ -189,6 +189,23 @@ public class TestSplitter {
 		}
 	}
 	
+	// Netxscript keyword patterns used for syntax highlighting. 
+	
+	Pattern NATIVE_EXPRESSION = Pattern.compile("(?:^'\\w*\\(\\)'$)");
+	String testStringNativeExpression = "'nativeFunction()'";
+
+	@Test
+	public void testNetXScript_NativeFunction() {
+		System.out.println("-------NetXScript native function: ");
+		
+		Matcher matcher = NATIVE_EXPRESSION.matcher(testStringNativeExpression);
+		if(matcher.matches()) {
+				System.out.println("matching OK");
+		}else {
+			System.out.println("matching NOK");
+		}
+	}
+	
 	
 	
 }
