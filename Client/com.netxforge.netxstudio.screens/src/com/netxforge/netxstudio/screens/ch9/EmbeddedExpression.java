@@ -27,6 +27,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.FontMetrics;
@@ -124,6 +126,14 @@ public abstract class EmbeddedExpression {
 	}
 
 	public void buildUI() {
+		parent.addDisposeListener(new DisposeListener(){
+
+			public void widgetDisposed(DisposeEvent e) {
+				// dispose prior to disposing the widget. 
+				editor.getSourceViewerDecorationSupport(editor.getViewer()).dispose();
+			}
+			
+		});
 		this.buildUI(parent, fd);
 	}
 
@@ -256,10 +266,9 @@ public abstract class EmbeddedExpression {
 		gl_editorComposite.marginWidth = 0;
 		editorComposite.setLayout(gl_editorComposite);
 		editor = new EmbeddedXtextEditor(editorComposite, netxScriptInjector,
-				SWT.BORDER | widgetStyle | SWT.WRAP);
+				SWT.BORDER | widgetStyle | SWT.WRAP | SWT.V_SCROLL);
 		editor.getDocument().addModelListener(new IXtextModelListener() {
 			public void modelChanged(XtextResource resource) {
-
 				if (expression != null) {
 					evaluationObject = xtextService.reconcileChangedModel(
 							expression, editor);
