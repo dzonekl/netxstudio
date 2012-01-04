@@ -50,6 +50,7 @@ public class TestEditingCases {
 	private static final String NETWORK_TEST = "Network Test";
 	private static final String OPERATOR_TEST = "Operator Test";
 	private static final String NODE_TEST = "Node Test";
+	@SuppressWarnings("unused")
 	private static final String NODETYPE_TEST = "NodeType Test";
 	private static final String WAREHOUSE_TEST = "Warehouse Test";
 	private static final String NETXRESOURCE_TEST = "RESTest";
@@ -400,11 +401,13 @@ public class TestEditingCases {
 				OperatorsPackage.Literals.NODE);
 	}
 
+	@SuppressWarnings("unused")
 	private NodeType createNodeType(Resource res) {
 		return (NodeType) this.createObjectAddToParentList(res.getContents(),
 				LibraryPackage.Literals.NODE_TYPE);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unused" })
 	private Function createFunction(Collection collection) {
 		return (Function) this.createObjectAddToParentList(collection,
 				LibraryPackage.Literals.FUNCTION);
