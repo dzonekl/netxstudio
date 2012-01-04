@@ -6,9 +6,13 @@ package com.netxforge.ui;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
+import org.eclipse.xtext.ui.editor.model.IResourceForEditorInputFactory;
+import org.eclipse.xtext.ui.editor.model.ResourceForIEditorInputFactory;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator;
+import org.eclipse.xtext.ui.resource.IResourceSetProvider;
+import org.eclipse.xtext.ui.resource.SimpleResourceSetProvider;
 
 import com.google.inject.Scopes;
 import com.netxforge.scoping.DynamixCDOResourceDescriptions;
@@ -26,23 +30,23 @@ public class NetxscriptUiModule extends
 	public NetxscriptUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
 	}
-	
-	// Customized highlighting styles. 
+
+	// Customized highlighting styles.
 	public Class<? extends IHighlightingConfiguration> bindIHighlightingConfiguration() {
 		return NetxscriptHighlightingConfiguration.class;
 	}
-	
-	// Custom implement the tokenizer for NUMBER rule (Default impl, looks for the INT rule.  
+
+	// Custom implement the tokenizer for NUMBER rule (Default impl, looks for
+	// the INT rule.
 	public Class<? extends AbstractAntlrTokenToAttributeIdMapper> bindAbstractAntlrTokenToAttributeIdMapper() {
 		return NetxscriptAntlrTokenToAttributeIdMapper.class;
 	}
-	
-	// Semantic highlighting for our grammar 
-	public Class<? extends ISemanticHighlightingCalculator> bindISemanticHighlightingCalculator(){
+
+	// Semantic highlighting for our grammar
+	public Class<? extends ISemanticHighlightingCalculator> bindISemanticHighlightingCalculator() {
 		return NetxscriptSemanticHighlightingCalculator.class;
 	}
-	
-	
+
 	// Also override the IResourceDescriptions, as the shared state overrides
 	// us.
 	// Override generated, ResourceSet based.
@@ -62,6 +66,23 @@ public class NetxscriptUiModule extends
 	public void configureIGlobalScopeProvider(com.google.inject.Binder binder) {
 		binder.bind(org.eclipse.xtext.scoping.IGlobalScopeProvider.class)
 				.to(DynamixCDOScopeProvider.class).in(Scopes.SINGLETON);
+	}
+	
+	// Override these bindings to remove depedency to JDT. 
+	
+	@Override
+	public Class<? extends IResourceForEditorInputFactory> bindIResourceForEditorInputFactory() {
+		return ResourceForIEditorInputFactory.class;
+	}
+
+	@Override
+	public Class<? extends IResourceSetProvider> bindIResourceSetProvider() {
+		return SimpleResourceSetProvider.class;
+	}
+
+	@Override
+	public com.google.inject.Provider<org.eclipse.xtext.resource.containers.IAllContainersState> provideIAllContainersState() {
+		return org.eclipse.xtext.ui.shared.Access.getWorkspaceProjectsState();
 	}
 
 }
