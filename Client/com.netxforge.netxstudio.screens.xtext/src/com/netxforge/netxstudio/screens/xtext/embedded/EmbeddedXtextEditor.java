@@ -93,6 +93,7 @@ import org.eclipse.ui.texteditor.MarkerAnnotationPreferences;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.IGrammarAccess;
+import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.ui.editor.XtextSourceViewer;
@@ -383,11 +384,15 @@ public class EmbeddedXtextEditor {
 
 		fSourceViewerDecorationSupport.install(fPreferenceStoreAccess
 				.getPreferenceStore());
-		parent.addDisposeListener(new DisposeListener() {
-			public void widgetDisposed(DisposeEvent e) {
-				fSourceViewerDecorationSupport.dispose();
-			}
-		});
+		
+		// CB As we dispose the parent widget, disposing this SourceViewerDecorationSupport
+		// fails as it wants to update the widget. 
+		
+//		parent.addDisposeListener(new DisposeListener() {
+//			public void widgetDisposed(DisposeEvent e) {
+//				fSourceViewerDecorationSupport.dispose();
+//			}
+//		});
 		fDocument = fDocumentProvider.get();
 
 		if (fDocument != null) {
@@ -468,7 +473,7 @@ public class EmbeddedXtextEditor {
 	 *            the viewer for which to return a decoration support
 	 * @return the source viewer decoration support
 	 */
-	private SourceViewerDecorationSupport getSourceViewerDecorationSupport(
+	public SourceViewerDecorationSupport getSourceViewerDecorationSupport(
 			ISourceViewer viewer) {
 		if (fSourceViewerDecorationSupport == null) {
 			fSourceViewerDecorationSupport = new SourceViewerDecorationSupport(
@@ -685,17 +690,19 @@ public class EmbeddedXtextEditor {
 										EcoreUtil.resolveAll(copyResource);
 										if (!EmbeddedXtextEditor.equals(
 												copyEObject, asStringEObject)) {
-											// String model =
-											// getResource().getSerializer().serialize(copyEObject,
-											// SaveOptions.newBuilder().noValidation().format().getOptions());
-											update(job.getAsString()); // FIXME:
-																		// should
-																		// update
-																		// with
-																		// the
-											// serialized form of the
-											// copyEObject but throw
-											// RuntimeException!!!
+											// Note CB 03012012 do not invoke
+											// the formatter as this gives
+											// a RuntimeException, fix the
+											// formatter first.
+											String model = getResource()
+													.getSerializer()
+													.serialize(
+															copyEObject,
+															SaveOptions
+																	.newBuilder()
+																	.noValidation()
+																	.getOptions());
+											update(model);
 										} else {
 											// if there is no error and the
 											// content are equals,
