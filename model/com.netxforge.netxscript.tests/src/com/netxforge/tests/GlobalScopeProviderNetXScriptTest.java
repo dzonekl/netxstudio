@@ -12,7 +12,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceDescription;
+import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.scoping.IScopeProvider;
 
+import com.netxforge.netxscript.Mod;
+import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxstudio.data.IDataService;
 
 /**
@@ -31,20 +35,40 @@ public class GlobalScopeProviderNetXScriptTest extends AbstractNetXScriptTest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		
+
 		// Inject whatever we need.
 		dataService = get(IDataService.class);
 		dataService.getProvider().openSession("admin", "admin");
 	}
-	
+
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		dataService.getProvider().closeSession();
 	}
 
+	/**
+	 * Visual inspection, all object descriptions from the current resource. the
+	 * resource is created from a simple NetXScript.
+	 * 
+	 * @throws Exception
+	 */
+	public void testScopingContext() throws Exception {
 
+		// Now invoke the scope provider to find the added reference.
+		final IScopeProvider scopeProvider = this.getInjector().getInstance(
+				IScopeProvider.class);
 
+		final Mod model = this
+				.getMod("this.FUNCTION System -> RESOURCE STP_ORIGMSUS;");
+
+		final IScope scope = scopeProvider.getScope(model,
+				NetxscriptPackage.Literals.RESOURCE_REF__RESOURCE);
+			
+		for (IEObjectDescription ieo: scope.getAllElements()) {
+			System.out.println(ieo);
+		} 
+	}
 
 	/**
 	 * Visual inspection, all object descriptions from the current resource. the
@@ -57,11 +81,11 @@ public class GlobalScopeProviderNetXScriptTest extends AbstractNetXScriptTest {
 		final Resource resource = this
 				.getResourceFromString("this.FUNCTION Sigtran;");
 
-		final IQualifiedNameConverter converter = this.getInjector().getInstance(
-				IQualifiedNameConverter.class);
-		
+		final IQualifiedNameConverter converter = this.getInjector()
+				.getInstance(IQualifiedNameConverter.class);
+
 		resourceDescriptionManager = get(IResourceDescription.Manager.class);
-		
+
 		final IResourceDescription description = resourceDescriptionManager
 				.getResourceDescription(resource);
 		for (final IEObjectDescription eod : description.getExportedObjects()) {
@@ -69,6 +93,5 @@ public class GlobalScopeProviderNetXScriptTest extends AbstractNetXScriptTest {
 		}
 
 	}
-
 
 }
