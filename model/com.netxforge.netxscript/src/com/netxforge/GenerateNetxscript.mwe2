@@ -113,12 +113,14 @@ Workflow {
             // }
 
             // provides the necessary bindings for java types integration
+            // JDT Dependent. 
             fragment = types.TypesGeneratorFragment {}
 
-            // generates the required bindings only if the grammar inherits from Xbase
-            fragment = xbase.XbaseGeneratorFragment {}
+            // JDT Dependent. generates the required bindings only if the grammar inherits from Xbase
+//            fragment = xbase.XbaseGeneratorFragment {}
 
             // provides a preference page for template proposals
+            // JDT Dependent. 
             fragment = templates.CodetemplatesGeneratorFragment {}
 
             // rename refactoring

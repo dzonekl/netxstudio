@@ -202,7 +202,7 @@ LeafReference returns LeafReference:
 	ResourceRef | LinkRef | StatusRef;
 
 ResourceRef returns LeafReference:
-	{ResourceRef} 'RESOURCE' (resource=[library::BaseResource | SpacedID] | 'ALL') rangeRef=RangeRef;
+	{ResourceRef} 'RESOURCE' (resource=[library::BaseResource | SpacedID] | all?='ALL') rangeRef=RangeRef;
 
 StatusRef returns LeafReference:
 	{StatusRef} tolerancelevel=ToleranceLevel;
