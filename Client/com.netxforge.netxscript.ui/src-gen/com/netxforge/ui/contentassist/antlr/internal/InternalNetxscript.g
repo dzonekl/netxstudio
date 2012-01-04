@@ -2014,11 +2014,9 @@ rule__ResourceRef__Alternatives_2
 )
 
     |(
-{ before(grammarAccess.getResourceRefAccess().getALLKeyword_2_1()); }
-
-	'ALL' 
-
-{ after(grammarAccess.getResourceRefAccess().getALLKeyword_2_1()); }
+{ before(grammarAccess.getResourceRefAccess().getAllAssignment_2_1()); }
+(rule__ResourceRef__AllAssignment_2_1)
+{ after(grammarAccess.getResourceRefAccess().getAllAssignment_2_1()); }
 )
 
 ;
@@ -9076,6 +9074,29 @@ rule__ResourceRef__ResourceAssignment_2_0
 	ruleSpacedID{ after(grammarAccess.getResourceRefAccess().getResourceBaseResourceSpacedIDParserRuleCall_2_0_0_1()); }
 )
 { after(grammarAccess.getResourceRefAccess().getResourceBaseResourceCrossReference_2_0_0()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__ResourceRef__AllAssignment_2_1
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+(
+{ before(grammarAccess.getResourceRefAccess().getAllALLKeyword_2_1_0()); }
+(
+{ before(grammarAccess.getResourceRefAccess().getAllALLKeyword_2_1_0()); }
+
+	'ALL' 
+
+{ after(grammarAccess.getResourceRefAccess().getAllALLKeyword_2_1_0()); }
+)
+
+{ after(grammarAccess.getResourceRefAccess().getAllALLKeyword_2_1_0()); }
 )
 
 ;
