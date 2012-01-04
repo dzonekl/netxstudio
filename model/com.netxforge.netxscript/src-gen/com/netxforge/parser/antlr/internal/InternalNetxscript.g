@@ -2724,11 +2724,22 @@ ruleResourceRef returns [EObject current=null]
 
 )
 )
-    |	otherlv_3='ALL' 
+    |(
+(
+		lv_all_3_0=	'ALL' 
     {
-    	newLeafNode(otherlv_3, grammarAccess.getResourceRefAccess().getALLKeyword_2_1());
+        newLeafNode(lv_all_3_0, grammarAccess.getResourceRefAccess().getAllALLKeyword_2_1_0());
     }
-)(
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getResourceRefRule());
+	        }
+       		setWithLastConsumed($current, "all", true, "ALL");
+	    }
+
+)
+))(
 (
 		{ 
 	        newCompositeNode(grammarAccess.getResourceRefAccess().getRangeRefRangeRefParserRuleCall_3_0()); 

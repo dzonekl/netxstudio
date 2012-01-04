@@ -2080,13 +2080,22 @@ public interface NetxscriptPackage extends EPackage
   int RESOURCE_REF__RESOURCE = LEAF_REFERENCE_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>All</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RESOURCE_REF__ALL = LEAF_REFERENCE_FEATURE_COUNT + 1;
+
+  /**
    * The feature id for the '<em><b>Range Ref</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int RESOURCE_REF__RANGE_REF = LEAF_REFERENCE_FEATURE_COUNT + 1;
+  int RESOURCE_REF__RANGE_REF = LEAF_REFERENCE_FEATURE_COUNT + 2;
 
   /**
    * The number of structural features of the '<em>Resource Ref</em>' class.
@@ -2095,7 +2104,7 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    * @ordered
    */
-  int RESOURCE_REF_FEATURE_COUNT = LEAF_REFERENCE_FEATURE_COUNT + 2;
+  int RESOURCE_REF_FEATURE_COUNT = LEAF_REFERENCE_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.StatusRefImpl <em>Status Ref</em>}' class.
@@ -3543,6 +3552,17 @@ public interface NetxscriptPackage extends EPackage
   EReference getResourceRef_Resource();
 
   /**
+   * Returns the meta object for the attribute '{@link com.netxforge.netxscript.ResourceRef#isAll <em>All</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>All</em>'.
+   * @see com.netxforge.netxscript.ResourceRef#isAll()
+   * @see #getResourceRef()
+   * @generated
+   */
+  EAttribute getResourceRef_All();
+
+  /**
    * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.ResourceRef#getRangeRef <em>Range Ref</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4771,6 +4791,14 @@ public interface NetxscriptPackage extends EPackage
      * @generated
      */
     EReference RESOURCE_REF__RESOURCE = eINSTANCE.getResourceRef_Resource();
+
+    /**
+     * The meta object literal for the '<em><b>All</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RESOURCE_REF__ALL = eINSTANCE.getResourceRef_All();
 
     /**
      * The meta object literal for the '<em><b>Range Ref</b></em>' containment reference feature.

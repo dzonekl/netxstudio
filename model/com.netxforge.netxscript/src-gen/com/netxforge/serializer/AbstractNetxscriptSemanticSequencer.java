@@ -1459,10 +1459,13 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     (resource=[BaseResource|SpacedID]? rangeRef=RangeRef)
+	 *     ((resource=[BaseResource|SpacedID] | all?='ALL') rangeRef=RangeRef)
 	 *
 	 * Features:
 	 *    resource[0, 1]
+	 *         EXCLUDE_IF_SET all
+	 *    all[0, 1]
+	 *         EXCLUDE_IF_SET resource
 	 *    rangeRef[1, 1]
 	 */
 	protected void sequence_ResourceRef_ResourceRef(EObject context, ResourceRef semanticObject) {

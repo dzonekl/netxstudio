@@ -1815,9 +1815,19 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getResourceRef_All()
+  {
+    return (EAttribute)resourceRefEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getResourceRef_RangeRef()
   {
-    return (EReference)resourceRefEClass.getEStructuralFeatures().get(1);
+    return (EReference)resourceRefEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -2113,6 +2123,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
 
     resourceRefEClass = createEClass(RESOURCE_REF);
     createEReference(resourceRefEClass, RESOURCE_REF__RESOURCE);
+    createEAttribute(resourceRefEClass, RESOURCE_REF__ALL);
     createEReference(resourceRefEClass, RESOURCE_REF__RANGE_REF);
 
     statusRefEClass = createEClass(STATUS_REF);
@@ -2379,6 +2390,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
 
     initEClass(resourceRefEClass, ResourceRef.class, "ResourceRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getResourceRef_Resource(), theLibraryPackage.getBaseResource(), null, "resource", null, 0, 1, ResourceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getResourceRef_All(), ecorePackage.getEBoolean(), "all", null, 0, 1, ResourceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getResourceRef_RangeRef(), this.getRangeRef(), null, "rangeRef", null, 0, 1, ResourceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(statusRefEClass, StatusRef.class, "StatusRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

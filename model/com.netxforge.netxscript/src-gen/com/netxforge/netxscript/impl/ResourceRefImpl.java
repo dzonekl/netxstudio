@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxscript.impl.ResourceRefImpl#getResource <em>Resource</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.ResourceRefImpl#isAll <em>All</em>}</li>
  *   <li>{@link com.netxforge.netxscript.impl.ResourceRefImpl#getRangeRef <em>Range Ref</em>}</li>
  * </ul>
  * </p>
@@ -45,6 +46,26 @@ public class ResourceRefImpl extends LeafReferenceImpl implements ResourceRef
    * @ordered
    */
   protected BaseResource resource;
+
+  /**
+   * The default value of the '{@link #isAll() <em>All</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isAll()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean ALL_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isAll() <em>All</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isAll()
+   * @generated
+   * @ordered
+   */
+  protected boolean all = ALL_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getRangeRef() <em>Range Ref</em>}' containment reference.
@@ -125,6 +146,29 @@ public class ResourceRefImpl extends LeafReferenceImpl implements ResourceRef
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isAll()
+  {
+    return all;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setAll(boolean newAll)
+  {
+    boolean oldAll = all;
+    all = newAll;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.RESOURCE_REF__ALL, oldAll, all));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public RangeRef getRangeRef()
   {
     return rangeRef;
@@ -197,6 +241,8 @@ public class ResourceRefImpl extends LeafReferenceImpl implements ResourceRef
       case NetxscriptPackage.RESOURCE_REF__RESOURCE:
         if (resolve) return getResource();
         return basicGetResource();
+      case NetxscriptPackage.RESOURCE_REF__ALL:
+        return isAll();
       case NetxscriptPackage.RESOURCE_REF__RANGE_REF:
         return getRangeRef();
     }
@@ -215,6 +261,9 @@ public class ResourceRefImpl extends LeafReferenceImpl implements ResourceRef
     {
       case NetxscriptPackage.RESOURCE_REF__RESOURCE:
         setResource((BaseResource)newValue);
+        return;
+      case NetxscriptPackage.RESOURCE_REF__ALL:
+        setAll((Boolean)newValue);
         return;
       case NetxscriptPackage.RESOURCE_REF__RANGE_REF:
         setRangeRef((RangeRef)newValue);
@@ -236,6 +285,9 @@ public class ResourceRefImpl extends LeafReferenceImpl implements ResourceRef
       case NetxscriptPackage.RESOURCE_REF__RESOURCE:
         setResource((BaseResource)null);
         return;
+      case NetxscriptPackage.RESOURCE_REF__ALL:
+        setAll(ALL_EDEFAULT);
+        return;
       case NetxscriptPackage.RESOURCE_REF__RANGE_REF:
         setRangeRef((RangeRef)null);
         return;
@@ -255,10 +307,29 @@ public class ResourceRefImpl extends LeafReferenceImpl implements ResourceRef
     {
       case NetxscriptPackage.RESOURCE_REF__RESOURCE:
         return resource != null;
+      case NetxscriptPackage.RESOURCE_REF__ALL:
+        return all != ALL_EDEFAULT;
       case NetxscriptPackage.RESOURCE_REF__RANGE_REF:
         return rangeRef != null;
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (all: ");
+    result.append(all);
+    result.append(')');
+    return result.toString();
   }
 
 } //ResourceRefImpl

@@ -1757,15 +1757,16 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cResourceAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
 		private final CrossReference cResourceBaseResourceCrossReference_2_0_0 = (CrossReference)cResourceAssignment_2_0.eContents().get(0);
 		private final RuleCall cResourceBaseResourceSpacedIDParserRuleCall_2_0_0_1 = (RuleCall)cResourceBaseResourceCrossReference_2_0_0.eContents().get(1);
-		private final Keyword cALLKeyword_2_1 = (Keyword)cAlternatives_2.eContents().get(1);
+		private final Assignment cAllAssignment_2_1 = (Assignment)cAlternatives_2.eContents().get(1);
+		private final Keyword cAllALLKeyword_2_1_0 = (Keyword)cAllAssignment_2_1.eContents().get(0);
 		private final Assignment cRangeRefAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cRangeRefRangeRefParserRuleCall_3_0 = (RuleCall)cRangeRefAssignment_3.eContents().get(0);
 		
 		//ResourceRef returns LeafReference:
-		//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource|SpacedID] | "ALL") rangeRef=RangeRef;
+		//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource|SpacedID] | all?="ALL") rangeRef=RangeRef;
 		public ParserRule getRule() { return rule; }
 
-		//{ResourceRef} "RESOURCE" (resource=[library::BaseResource|SpacedID] | "ALL") rangeRef=RangeRef
+		//{ResourceRef} "RESOURCE" (resource=[library::BaseResource|SpacedID] | all?="ALL") rangeRef=RangeRef
 		public Group getGroup() { return cGroup; }
 
 		//{ResourceRef}
@@ -1774,7 +1775,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//"RESOURCE"
 		public Keyword getRESOURCEKeyword_1() { return cRESOURCEKeyword_1; }
 
-		//resource=[library::BaseResource|SpacedID] | "ALL"
+		//resource=[library::BaseResource|SpacedID] | all?="ALL"
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 
 		//resource=[library::BaseResource|SpacedID]
@@ -1786,8 +1787,11 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//SpacedID
 		public RuleCall getResourceBaseResourceSpacedIDParserRuleCall_2_0_0_1() { return cResourceBaseResourceSpacedIDParserRuleCall_2_0_0_1; }
 
+		//all?="ALL"
+		public Assignment getAllAssignment_2_1() { return cAllAssignment_2_1; }
+
 		//"ALL"
-		public Keyword getALLKeyword_2_1() { return cALLKeyword_2_1; }
+		public Keyword getAllALLKeyword_2_1_0() { return cAllALLKeyword_2_1_0; }
 
 		//rangeRef=RangeRef
 		public Assignment getRangeRefAssignment_3() { return cRangeRefAssignment_3; }
@@ -2744,7 +2748,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ResourceRef returns LeafReference:
-	//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource|SpacedID] | "ALL") rangeRef=RangeRef;
+	//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource|SpacedID] | all?="ALL") rangeRef=RangeRef;
 	public ResourceRefElements getResourceRefAccess() {
 		return (pResourceRef != null) ? pResourceRef : (pResourceRef = new ResourceRefElements());
 	}
