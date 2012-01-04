@@ -39,6 +39,5 @@ public class NetxscriptStandaloneSetupGenerated implements ISetup {
 
 
 
-
 	}
 }

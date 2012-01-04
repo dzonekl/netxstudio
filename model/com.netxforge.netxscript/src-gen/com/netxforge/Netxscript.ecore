@@ -266,6 +266,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ResourceRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//LeafReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="resource" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/cdo/13042011/library.ecore#//BaseResource"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="all" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rangeRef" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//RangeRef"
         containment="true"/>
   </eClassifiers>
