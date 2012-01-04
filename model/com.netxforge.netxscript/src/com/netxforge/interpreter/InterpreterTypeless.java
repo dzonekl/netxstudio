@@ -199,7 +199,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 	private Component getContextualComponent() {
 		IInterpreterContext componentContext = getContextFor(FunctionImpl.class);
-		if(componentContext == null){
+		if (componentContext == null) {
 			componentContext = getContextFor(EquipmentImpl.class);
 		}
 		if (componentContext != null) {
@@ -548,7 +548,7 @@ public class InterpreterTypeless implements IInterpreter {
 			// the
 			// leaf reference, so we use a recursive way to get it.
 			Reference assignmentReference = refa.getAssignmentRef();
-			BaseResource targetResource = null;
+			List<BaseResource> targetResources = Lists.newArrayList();
 			RangeRef targetRangeReference = null;
 
 			if (assignmentReference instanceof NodeTypeRef) {
@@ -561,8 +561,9 @@ public class InterpreterTypeless implements IInterpreter {
 						ResourceRef resourceRef = (ResourceRef) leafReference;
 						List<NetXResource> netxResources = this
 								.resourcesByName(n, resourceRef);
-						targetResource = netxResources.size() > 0 ? netxResources
-								.get(0) : null;
+						targetResources
+								.add(netxResources.size() > 0 ? netxResources
+										.get(0) : null);
 						targetRangeReference = resourceRef.getRangeRef();
 					}
 
@@ -582,21 +583,28 @@ public class InterpreterTypeless implements IInterpreter {
 							.getPrimaryRef().getLeafRef();
 					if (resourceRef.getResource() instanceof NetXResource) {
 
-						 Node n = this.getContextualNode();
+						Node n = this.getContextualNode();
 						Component c = this.getContextualComponent();
 
-						// How about using the navigation component? 
-						Object extractLastComponent = this.extractLastComponent(cRef.getPrimaryRef(), n);
-						if(extractLastComponent != null){
-							//FIXME 
+						// How about using the navigation component?
+						Object extractLastComponent = this
+								.extractLastComponent(cRef.getPrimaryRef(), n);
+						if (extractLastComponent != null) {
+							// FIXME
 						}
-						
+
 						if (c != null) {
 
-							List<NetXResource> netxResources = this
-									.resourcesByName(c, resourceRef);
-							targetResource = netxResources.size() > 0 ? netxResources
-									.get(0) : null;
+							// Rule: Apply to all resources?
+							if (resourceRef.isAll()) {
+								targetResources.addAll(c.getResourceRefs());
+							} else {
+
+								List<NetXResource> netxResources = this
+										.resourcesByName(c, resourceRef);
+								targetResources.add(netxResources.size() > 0 ? netxResources
+										.get(0) : null);
+							}
 
 						}
 					} else if (resourceRef.getResource() instanceof DerivedResource) {
@@ -607,7 +615,7 @@ public class InterpreterTypeless implements IInterpreter {
 								if (dr.getExpressionName().equals(
 										resourceRef.getResource()
 												.getExpressionName())) {
-									targetResource = dr;
+									targetResources.add(dr);
 								}
 							}
 						}
@@ -619,19 +627,20 @@ public class InterpreterTypeless implements IInterpreter {
 					// // Can we assign a status?
 					// }
 
-				}else{
-					// there is no navigation, so we simply set the context resource.
+				} else {
+					// there is no navigation, so we simply set the context
+					// resource.
 					NetXResource netxRes = this.getContextualNetXResource();
-					if(netxRes != null){
-						targetResource = netxRes;
+					if (netxRes != null) {
+						targetResources.add(netxRes);
 					}
 				}
-				
-				if (cRef.getRangeRef() != null ) {
+
+				if (cRef.getRangeRef() != null) {
 					targetRangeReference = cRef.getRangeRef();
 				}
 			}
-			processExpressionResult(varEval, targetResource,
+			processExpressionResult(varEval, targetResources,
 					targetRangeReference);
 
 		}
@@ -720,104 +729,108 @@ public class InterpreterTypeless implements IInterpreter {
 	}
 
 	private void processExpressionResult(Object varEval,
-			BaseResource targetResource, RangeRef targetRangeReference) {
-		if (targetResource != null && targetRangeReference != null) {
+			Collection<? extends BaseResource> collection,
+			RangeRef targetRangeReference) {
 
-			// Create the new result for this assignment.
-			ExpressionResult er = LibraryFactory.eINSTANCE
-					.createExpressionResult();
+		if (targetRangeReference != null) {
+			for (BaseResource br : collection) {
 
-			// Set the target resource to write.
-			er.setTargetResource(targetResource);
+				// Create the new result for this assignment.
+				ExpressionResult er = LibraryFactory.eINSTANCE
+						.createExpressionResult();
 
-			// Note these are two optional paramters.
-			int targetInterval = this.extractInterval(targetRangeReference);
-			KindHintType type = this.extractKindHint(targetRangeReference);
+				// Set the target resource to write.
+				er.setTargetResource(br);
 
-			if (targetInterval != -1) {
-				// Will return 60, if not specified.
-				er.setTargetIntervalHint(targetInterval);
-			}
+				// Note these are two optional paramters.
+				int targetInterval = this.extractInterval(targetRangeReference);
+				KindHintType type = this.extractKindHint(targetRangeReference);
 
-			if (type != null) {
-				er.setTargetKindHint(type);
-			}
+				if (targetInterval != -1) {
+					// Will return 60, if not specified.
+					er.setTargetIntervalHint(targetInterval);
+				}
 
-			// Set the target range.
-			ValueRange range = targetRangeReference.getValuerange();
-			switch (range.getValue()) {
-			case ValueRange.METRIC_VALUE: {
-				er.setTargetRange(RangeKind.METRIC);
-			}
-				break;
-			case ValueRange.TOLERANCE_VALUE: {
-				er.setTargetRange(RangeKind.TOLERANCE);
-			}
-				break;
-			case ValueRange.CAP_VALUE: {
-				er.setTargetRange(RangeKind.CAP);
-			}
-				break;
-			case ValueRange.FORECAST_VALUE: {
-				er.setTargetRange(RangeKind.FORECAST);
-			}
-				break;
-			case ValueRange.FORECAST_CAP_VALUE: {
-				er.setTargetRange(RangeKind.FORECASTCAP);
-			}
-				break;
-			case ValueRange.UTILIZATION_VALUE: {
-				er.setTargetRange(RangeKind.UTILIZATION);
-			}
-				break;
-			case ValueRange.DERIVED_VALUE: {
-				er.setTargetRange(RangeKind.DERIVED);
-			}
-				break;
+				if (type != null) {
+					er.setTargetKindHint(type);
+				}
 
-			}
-
-			if (varEval instanceof BigDecimal) {
-				// We return a single value.
-
-				// Get the period context, and use the start
-				// and end date.
-				DateTimeRange dtr = this.getContextualPeriod();
-				Value beginValue = GenericsFactory.eINSTANCE.createValue();
-				// Set the ts/value.
-				beginValue.setTimeStamp(dtr.getBegin());
-				beginValue.setValue(((BigDecimal) varEval).doubleValue());
-
-				Value endValue = GenericsFactory.eINSTANCE.createValue();
-
-				// Set the ts/value.
-				endValue.setTimeStamp(dtr.getEnd());
-				endValue.setValue(((BigDecimal) varEval).doubleValue());
-
-				er.getTargetValues().add(endValue);
-				er.getTargetValues().add(beginValue);
-				expressionResults.add(er);
-			}
-			if (varEval instanceof List<?>) {
-				// We return a list of values.
-				List<?> resultValues = (List<?>) varEval;
-				for (Object entry : resultValues) {
-					if (entry instanceof Value) {
-						er.getTargetValues().add((Value) entry);
-					} else if (entry instanceof BigDecimal) {
-						Value v = GenericsFactory.eINSTANCE.createValue();
-						v.setValue(((BigDecimal) entry).doubleValue());
-						// FIXME, We don't set a timestamp!
-						er.getTargetValues().add(v);
-					}
+				// Set the target range.
+				ValueRange range = targetRangeReference.getValuerange();
+				switch (range.getValue()) {
+				case ValueRange.METRIC_VALUE: {
+					er.setTargetRange(RangeKind.METRIC);
+				}
+					break;
+				case ValueRange.TOLERANCE_VALUE: {
+					er.setTargetRange(RangeKind.TOLERANCE);
+				}
+					break;
+				case ValueRange.CAP_VALUE: {
+					er.setTargetRange(RangeKind.CAP);
+				}
+					break;
+				case ValueRange.FORECAST_VALUE: {
+					er.setTargetRange(RangeKind.FORECAST);
+				}
+					break;
+				case ValueRange.FORECAST_CAP_VALUE: {
+					er.setTargetRange(RangeKind.FORECASTCAP);
+				}
+					break;
+				case ValueRange.UTILIZATION_VALUE: {
+					er.setTargetRange(RangeKind.UTILIZATION);
+				}
+					break;
+				case ValueRange.DERIVED_VALUE: {
+					er.setTargetRange(RangeKind.DERIVED);
+				}
+					break;
 
 				}
-				expressionResults.add(er);
+
+				if (varEval instanceof BigDecimal) {
+					// We return a single value.
+
+					// Get the period context, and use the start
+					// and end date.
+					DateTimeRange dtr = this.getContextualPeriod();
+					Value beginValue = GenericsFactory.eINSTANCE.createValue();
+					// Set the ts/value.
+					beginValue.setTimeStamp(dtr.getBegin());
+					beginValue.setValue(((BigDecimal) varEval).doubleValue());
+
+					Value endValue = GenericsFactory.eINSTANCE.createValue();
+
+					// Set the ts/value.
+					endValue.setTimeStamp(dtr.getEnd());
+					endValue.setValue(((BigDecimal) varEval).doubleValue());
+
+					er.getTargetValues().add(endValue);
+					er.getTargetValues().add(beginValue);
+					expressionResults.add(er);
+				}
+				if (varEval instanceof List<?>) {
+					// We return a list of values.
+					List<?> resultValues = (List<?>) varEval;
+					for (Object entry : resultValues) {
+						if (entry instanceof Value) {
+							er.getTargetValues().add((Value) entry);
+						} else if (entry instanceof BigDecimal) {
+							Value v = GenericsFactory.eINSTANCE.createValue();
+							v.setValue(((BigDecimal) entry).doubleValue());
+							// FIXME, We don't set a timestamp!
+							er.getTargetValues().add(v);
+						}
+
+					}
+					expressionResults.add(er);
+				}
+				// Whatever was evaluated and should be assigned to
+				// a
+				// resource.
+				// is stored in an Expression result.
 			}
-			// Whatever was evaluated and should be assigned to
-			// a
-			// resource.
-			// is stored in an Expression result.
 		}
 	}
 
@@ -1343,6 +1356,7 @@ public class InterpreterTypeless implements IInterpreter {
 	protected Object internalEvaluate(ResourceRef resourceRef,
 			ImmutableMap<String, Object> params) {
 
+		// copy the parameters.
 		Map<String, Object> localVarsAndArguments = Maps.newHashMap();
 		localVarsAndArguments.putAll(ImmutableMap.copyOf(params));
 
