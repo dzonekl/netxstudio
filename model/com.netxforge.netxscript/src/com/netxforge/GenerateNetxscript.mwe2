@@ -79,10 +79,11 @@ Workflow {
             fragment = builder.BuilderIntegrationFragment {}
 
             // generator API
-            fragment = generator.GeneratorFragment {
-                generateMwe = true
-                generateJavaMain = true
-            }
+            // CB JDT dependency: https://bugs.eclipse.org/bugs/show_bug.cgi?id=336217
+//            fragment = generator.GeneratorFragment {
+//                generateMwe = true
+//                generateJavaMain = true
+//            }
 
             // formatter API
             fragment = formatting.FormatterFragment {}
@@ -113,23 +114,25 @@ Workflow {
             // }
 
             // provides the necessary bindings for java types integration
-            // JDT Dependent. 
-            fragment = types.TypesGeneratorFragment {}
+            // CB JDT Dependent. 
+//            fragment = types.TypesGeneratorFragment {}
 
-            // JDT Dependent. generates the required bindings only if the grammar inherits from Xbase
+            //CB  JDT Dependent. generates the required bindings only if the grammar inherits from Xbase
 //            fragment = xbase.XbaseGeneratorFragment {}
 
             // provides a preference page for template proposals
-            // JDT Dependent. 
+            // CB JDT Dependent, but not with custom version, also not after 2.1
             fragment = templates.CodetemplatesGeneratorFragment {}
 
             // rename refactoring
-            fragment = refactoring.RefactorElementNameFragment {}
+            // CB Not required. 
+//            fragment = refactoring.RefactorElementNameFragment {}
 
             // provides a compare view
-            fragment = compare.CompareFragment {
-                 fileExtensions = file.extensions
-            }
+            //  CB Not required. 
+//            fragment = compare.CompareFragment {
+//                 fileExtensions = file.extensions
+//            }
 
         }
     }

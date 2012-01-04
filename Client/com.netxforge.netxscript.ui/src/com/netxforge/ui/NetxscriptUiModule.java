@@ -69,7 +69,6 @@ public class NetxscriptUiModule extends
 	}
 	
 	// Override these bindings to remove depedency to JDT. 
-	
 	@Override
 	public Class<? extends IResourceForEditorInputFactory> bindIResourceForEditorInputFactory() {
 		return ResourceForIEditorInputFactory.class;

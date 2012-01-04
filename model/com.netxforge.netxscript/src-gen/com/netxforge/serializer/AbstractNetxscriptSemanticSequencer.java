@@ -872,7 +872,11 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				}
 				else break;
 			case NetxscriptPackage.VAR_OR_ARGUMENT_CALL:
-				if(context == grammarAccess.getExpressionRule() ||
+				if(context == grammarAccess.getVarOrArgumentCallRule()) {
+					sequence_VarOrArgumentCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
+					return; 
+				}
+				else if(context == grammarAccess.getExpressionRule() ||
 				   context == grammarAccess.getLogicalRule() ||
 				   context == grammarAccess.getLogicalAccess().getAndLeftAction_1_0_0_0() ||
 				   context == grammarAccess.getLogicalAccess().getOrLeftAction_1_0_1_0() ||
@@ -896,10 +900,6 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				   context == grammarAccess.getParenthesizedExpressionRule() ||
 				   context == grammarAccess.getIndexedCallRule()) {
 					sequence_IndexedCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
-					return; 
-				}
-				else if(context == grammarAccess.getVarOrArgumentCallRule()) {
-					sequence_VarOrArgumentCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
 					return; 
 				}
 				else break;

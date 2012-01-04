@@ -87,7 +87,6 @@
       <feature id="org.eclipse.xtext.ui.artifacts.feature"/>
       <feature id="org.eclipse.xtend.artifacts.feature"/>
       <feature id="org.eclipse.emf.cdo.client.artifacts.feature"/>
-      <feature id="org.eclipse.jdt.artifacts.feature"/>
       <feature id="org.apache.poi.artifacts.feature"/>
       <feature id="org.eclipse.gef"/>
       <feature id="org.eclipse.draw2d"/>
