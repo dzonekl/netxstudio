@@ -25,7 +25,6 @@ import org.eclipse.xtext.scoping.impl.SelectableBasedScope;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
@@ -100,10 +99,18 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 		cdoScopeListener = new DynamixCDOScopeListener(this);
 		view.addListener(cdoScopeListener);
 	}
-
+	
+	
+	
+	
 	@Override
 	protected IScope getScope(Resource resource, boolean ignoreCase,
 			EClass type, Predicate<IEObjectDescription> filter) {
+		
+		if(filter != null){
+				System.err.println("NETXSCRIPT: filter=" + filter);
+		}
+		
 		if (RuntimeActivator.DEBUG) {
 			System.err
 					.println("NETXSCRIPT: Dynamix Global scope provider invoked");
@@ -122,10 +129,10 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 				scope = createLazyResourceScope(scope, uri, descriptions, type,
 						filter, ignoreCase);
 				if (RuntimeActivator.DEBUG) {
-					int size = Iterables.size(scope.getAllElements());
-					System.err.println("NETXSCRIPT: last scope = "
-							+ scope.toString() + " , number of descriptions = "
-							+ size);
+//					int size = Iterables.size(scope.getAllElements());
+//					System.err.println("NETXSCRIPT: last scope = "
+//							+ scope.toString() + " , number of descriptions = "
+//							+ size);
 				}
 
 			}
