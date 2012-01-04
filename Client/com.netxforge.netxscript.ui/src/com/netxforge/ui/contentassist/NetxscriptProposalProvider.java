@@ -3,10 +3,50 @@
 */
 package com.netxforge.ui.contentassist;
 
-import com.netxforge.ui.contentassist.AbstractNetxscriptProposalProvider;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.Assignment;
+import org.eclipse.xtext.CrossReference;
+import org.eclipse.xtext.resource.IEObjectDescription;
+import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
+import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
+
+import com.google.common.base.Predicate;
+import com.netxforge.netxstudio.library.Component;
+
+
+
 /**
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#contentAssist on how to customize content assistant
+ * 
+ * Customize to use our own predicate filter pending on previously entered references to narrow the scope. 
+ * 
  */
 public class NetxscriptProposalProvider extends AbstractNetxscriptProposalProvider {
+
+	public void completeResourceRef_Resource(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		
+		@SuppressWarnings("unused")
+		Component parent = findParentComponent(context);
+		
+		lookupCrossReference(((CrossReference)assignment.getTerminal()), context, acceptor,
+				new Filter());
+		
+	}
+	
+	private Component findParentComponent(ContentAssistContext context) {
+		return null;
+	}
+
+	public class Filter implements Predicate<IEObjectDescription> {
+
+		public boolean apply(final IEObjectDescription ieod) {
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "custom object filter";
+		}
+	}
 
 }
