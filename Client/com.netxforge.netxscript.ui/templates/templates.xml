@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<templates>
+<template id="CO_CAPACITY" autoinsert="true" context="com.netxforge.Netxscript.Mod" deleted="false" description="Standard Comment for capacity Expression" enabled="true" name="CO_CAPACITY">/**
+CAPACITY EXPRESSION
+This expression is intended to calculate the capacity of a one or more resources. 
+*/</template>
+<template id="CO_UTILIZATION" autoinsert="true" context="com.netxforge.Netxscript.Mod" deleted="false" description="Standard Comment for utilization Expression" enabled="true" name="CO_UTILIZATION">/**
+UTILIZATION EXPRESSION
+This expression is intended to calculate the utilization of a one or more resources. 
+*/</template>
+</templates>
