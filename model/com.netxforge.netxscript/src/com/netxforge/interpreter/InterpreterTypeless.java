@@ -553,7 +553,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 			if (assignmentReference instanceof NodeTypeRef) {
 				NodeTypeRef nodeTypeRef = (NodeTypeRef) assignmentReference;
-				if (nodeTypeRef.getLeafRef() != null) {
+				if (nodeTypeRef.getPrimaryRef().getLeafRef() != null) {
 					LeafReference leafReference = nodeTypeRef.getPrimaryRef()
 							.getLeafRef();
 					if (leafReference instanceof ResourceRef) {

@@ -27,18 +27,9 @@ Mod:
 	((functions+=Function)+ |
 	(statements+=Statement)+);
 
-// TODO, DO WE NEED A CONTEXT HINT?
-//Context:
-//	'context' context=[ecore::EObject];
-
 Import:
 	'import' importURI=STRING;
 
-	//ImportName:
-//	ID ('.' '*')?;
-
-
-// TODO, we can't have mandatory brackets, as this would conflict with our PrimaryExpression. 
 Function:
 	'def' name=ID '(' (args+=Argument (',' args+=Argument)*)? ')' block=Block;
 
@@ -82,7 +73,7 @@ PlusAssignmentStatement returns Statement:
 ReferenceAssignmentStatement returns Statement:
 	{RefAssignment} assignmentRef=(ContextRef | NodeTypeRef ) '=' expression=Expression;
 
-	// Expression, all operators extend this class. 
+// Expression, all operators extend this class. 
 Expression:
 	Logical;
 
@@ -111,10 +102,6 @@ Unary returns Expression:
 
 UnaryOperator:
 	'-' | '+';
-
-	// TODO, a functionCall is not necessarly an abstract definition in this grammar, but could 
-// be an internal function call. For this we could mixin, a grammar which contains
-// all internal calls.
 
 // The FunctionCall and potential parameters, shoul be checked as reference priot to a regular Assignment call. 
 PrimaryExpression returns Expression:
@@ -159,7 +146,7 @@ Reference returns Expression:
 ;
 
 ParamRef returns Reference:
-	{ParamRef} 'PARAM' param=[library::Parameter | SpacedID]
+	{ParamRef} 'PARAM' param=[library::Parameter | FQN]
 ;
 
 /**
@@ -185,24 +172,18 @@ ContextRef returns Reference:
 /**
  * Exteral Node references, these can be nested and finish with a resource reference.
  */
- 
 PrimaryRef returns Reference:
 	(components+=OperatorRef)+ ('->' leafRef=LeafReference)?;
 
 OperatorRef returns Reference:
-	{OperatorRef} '.' ( 'FUNCTION' function=[library::Function | SpacedID] | 'EQUIPMENT' equipment=[library::Equipment | SpacedID] | 'PROFILE' | 'STATUS')
+	{OperatorRef} '/' ( 'FUNCTION' function=[library::Function | FQN] | 'EQUIPMENT' equipment=[library::Equipment | FQN] | 'PROFILE' | 'STATUS')
 ;
 
-//ServiceRef returns Reference:
-//	{ServiceRef} () 
-//;
-
-
-LeafReference returns LeafReference:
+LeafReference :
 	ResourceRef | LinkRef | StatusRef;
 
 ResourceRef returns LeafReference:
-	{ResourceRef} 'RESOURCE' (resource=[library::BaseResource | SpacedID] | all?='ALL') rangeRef=RangeRef;
+	{ResourceRef} 'RESOURCE' (resource=[library::BaseResource | FQN] | all?='ALL') rangeRef=RangeRef;
 
 StatusRef returns LeafReference:
 	{StatusRef} tolerancelevel=ToleranceLevel;
@@ -247,12 +228,24 @@ LinkRef returns LeafReference:
 	{LinkRef} 'LINK' link=[operator::Relationship]
 ;
 
-SpacedID returns ecore::EString:
-	ID (ID)* 
+FQN :
+	SPACED_ID ('::' SPACED_ID)*
 ;
+
+SPACED_ID returns ecore::EString:
+	(ID | NUMBER) (ID | NUMBER )*
+;  
+
 
 terminal NUMBER returns ecore::EBigDecimal:
 	('0'..'9')* ('.' ('0'..'9')+)?;
 
 terminal INT returns ecore::EInt:
 	'zzzzzzzzz';
+	
+/*
+ * - Can have quotes and dash. 
+ */
+terminal ID : '^'?('a'..'z'|'A'..'Z'|'_'|'-'|'('| ')') ('a'..'z'|'A'..'Z'|'_'|'0'..'9'|'-'|'('| ')')*;
+	
+	

@@ -24,12 +24,25 @@ public class NetxscriptScopeProvider extends AbstractDeclarativeScopeProvider {
 		System.out.println("SCOPING: looking for scope on " + context + " with reference" + reference);
 		return super.getScope(context, reference);
 	}
-
+	
+	IScope scope_OperatorRef_function(final EObject context, EReference reference){
+		System.out.println("SCOPING: custom scoping called, for scope_OperatorRef_function");
+		return null;
+	}
+	
+	
 	/*
 	 * NetxscriptPackage.Literals.RESOURCE_REF__RESOURCE
 	 */
-	IScope scope_ResourceRef_resource(Mod mod, EReference ref){
-		System.out.println("SCOPING: custom scoping called. ");
+	IScope scope_ResourceRef_resource(final EObject context, EReference reference){
+		
+		if( context instanceof Mod){
+			((Mod)context).getStatements();
+		}
+		
+		
+		System.out.println("SCOPING: custom scoping called for scope_ResourceRef_resource" );
+//		System.out.println("SCOPING: parent = " + context.eContainer().eClass().getName() );
 		return null;
 	}
 	

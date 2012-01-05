@@ -1357,7 +1357,7 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     ((function=[Function|SpacedID] | equipment=[Equipment|SpacedID])?)
+	 *     ((function=[Function|FQN] | equipment=[Equipment|FQN])?)
 	 *
 	 * Features:
 	 *    function[0, 1]
@@ -1372,7 +1372,7 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     param=[Parameter|SpacedID]
+	 *     param=[Parameter|FQN]
 	 *
 	 * Features:
 	 *    param[1, 1]
@@ -1459,7 +1459,7 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     ((resource=[BaseResource|SpacedID] | all?='ALL') rangeRef=RangeRef)
+	 *     ((resource=[BaseResource|FQN] | all?='ALL') rangeRef=RangeRef)
 	 *
 	 * Features:
 	 *    resource[0, 1]

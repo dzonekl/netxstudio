@@ -80,9 +80,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cImportURIAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cImportURISTRINGTerminalRuleCall_1_0 = (RuleCall)cImportURIAssignment_1.eContents().get(0);
 		
-		//// TODO, DO WE NEED A CONTEXT HINT?
-		////Context:
-		////	'context' context=[ecore::EObject];
 		//Import:
 		//	"import" importURI=STRING;
 		public ParserRule getRule() { return rule; }
@@ -118,9 +115,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cBlockAssignment_5 = (Assignment)cGroup.eContents().get(5);
 		private final RuleCall cBlockBlockParserRuleCall_5_0 = (RuleCall)cBlockAssignment_5.eContents().get(0);
 		
-		////ImportName:
-		////	ID ('.' '*')?;
-		//// TODO, we can't have mandatory brackets, as this would conflict with our PrimaryExpression. 
 		//Function:
 		//	"def" name=ID "(" (args+=Argument ("," args+=Argument)*)? ")" block=Block;
 		public ParserRule getRule() { return rule; }
@@ -1053,9 +1047,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cIndexedCallParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
 		private final RuleCall cParenthesizedExpressionParserRuleCall_6 = (RuleCall)cAlternatives.eContents().get(6);
 		
-		//// TODO, a functionCall is not necessarly an abstract definition in this grammar, but could 
-		//// be an internal function call. For this we could mixin, a grammar which contains
-		//// all internal calls.
 		//// The FunctionCall and potential parameters, shoul be checked as reference priot to a regular Assignment call. 
 		//PrimaryExpression returns Expression:
 		//	Literal | Range | NativeExpression | Reference | FunctionCall | IndexedCall | ParenthesizedExpression;
@@ -1457,13 +1448,13 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cPARAMKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cParamAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final CrossReference cParamParameterCrossReference_2_0 = (CrossReference)cParamAssignment_2.eContents().get(0);
-		private final RuleCall cParamParameterSpacedIDParserRuleCall_2_0_1 = (RuleCall)cParamParameterCrossReference_2_0.eContents().get(1);
+		private final RuleCall cParamParameterFQNParserRuleCall_2_0_1 = (RuleCall)cParamParameterCrossReference_2_0.eContents().get(1);
 		
 		//ParamRef returns Reference:
-		//	{ParamRef} "PARAM" param=[library::Parameter|SpacedID];
+		//	{ParamRef} "PARAM" param=[library::Parameter|FQN];
 		public ParserRule getRule() { return rule; }
 
-		//{ParamRef} "PARAM" param=[library::Parameter|SpacedID]
+		//{ParamRef} "PARAM" param=[library::Parameter|FQN]
 		public Group getGroup() { return cGroup; }
 
 		//{ParamRef}
@@ -1472,14 +1463,14 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//"PARAM"
 		public Keyword getPARAMKeyword_1() { return cPARAMKeyword_1; }
 
-		//param=[library::Parameter|SpacedID]
+		//param=[library::Parameter|FQN]
 		public Assignment getParamAssignment_2() { return cParamAssignment_2; }
 
-		//[library::Parameter|SpacedID]
+		//[library::Parameter|FQN]
 		public CrossReference getParamParameterCrossReference_2_0() { return cParamParameterCrossReference_2_0; }
 
-		//SpacedID
-		public RuleCall getParamParameterSpacedIDParserRuleCall_2_0_1() { return cParamParameterSpacedIDParserRuleCall_2_0_1; }
+		//FQN
+		public RuleCall getParamParameterFQNParserRuleCall_2_0_1() { return cParamParameterFQNParserRuleCall_2_0_1; }
 	}
 
 	public class NodeTypeRefElements extends AbstractParserRuleElementFinder {
@@ -1650,69 +1641,68 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "OperatorRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cOperatorRefAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cFullStopKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Keyword cSolidusKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
 		private final Group cGroup_2_0 = (Group)cAlternatives_2.eContents().get(0);
 		private final Keyword cFUNCTIONKeyword_2_0_0 = (Keyword)cGroup_2_0.eContents().get(0);
 		private final Assignment cFunctionAssignment_2_0_1 = (Assignment)cGroup_2_0.eContents().get(1);
 		private final CrossReference cFunctionFunctionCrossReference_2_0_1_0 = (CrossReference)cFunctionAssignment_2_0_1.eContents().get(0);
-		private final RuleCall cFunctionFunctionSpacedIDParserRuleCall_2_0_1_0_1 = (RuleCall)cFunctionFunctionCrossReference_2_0_1_0.eContents().get(1);
+		private final RuleCall cFunctionFunctionFQNParserRuleCall_2_0_1_0_1 = (RuleCall)cFunctionFunctionCrossReference_2_0_1_0.eContents().get(1);
 		private final Group cGroup_2_1 = (Group)cAlternatives_2.eContents().get(1);
 		private final Keyword cEQUIPMENTKeyword_2_1_0 = (Keyword)cGroup_2_1.eContents().get(0);
 		private final Assignment cEquipmentAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
 		private final CrossReference cEquipmentEquipmentCrossReference_2_1_1_0 = (CrossReference)cEquipmentAssignment_2_1_1.eContents().get(0);
-		private final RuleCall cEquipmentEquipmentSpacedIDParserRuleCall_2_1_1_0_1 = (RuleCall)cEquipmentEquipmentCrossReference_2_1_1_0.eContents().get(1);
+		private final RuleCall cEquipmentEquipmentFQNParserRuleCall_2_1_1_0_1 = (RuleCall)cEquipmentEquipmentCrossReference_2_1_1_0.eContents().get(1);
 		private final Keyword cPROFILEKeyword_2_2 = (Keyword)cAlternatives_2.eContents().get(2);
 		private final Keyword cSTATUSKeyword_2_3 = (Keyword)cAlternatives_2.eContents().get(3);
 		
 		//OperatorRef returns Reference:
-		//	{OperatorRef} "." ("FUNCTION" function=[library::Function|SpacedID] | "EQUIPMENT"
-		//	equipment=[library::Equipment|SpacedID] | "PROFILE" | "STATUS");
+		//	{OperatorRef} "/" ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
+		//	"PROFILE" | "STATUS");
 		public ParserRule getRule() { return rule; }
 
-		//{OperatorRef} "." ("FUNCTION" function=[library::Function|SpacedID] | "EQUIPMENT"
-		//equipment=[library::Equipment|SpacedID] | "PROFILE" | "STATUS")
+		//{OperatorRef} "/" ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
+		//"PROFILE" | "STATUS")
 		public Group getGroup() { return cGroup; }
 
 		//{OperatorRef}
 		public Action getOperatorRefAction_0() { return cOperatorRefAction_0; }
 
-		//"."
-		public Keyword getFullStopKeyword_1() { return cFullStopKeyword_1; }
+		//"/"
+		public Keyword getSolidusKeyword_1() { return cSolidusKeyword_1; }
 
-		//"FUNCTION" function=[library::Function|SpacedID] | "EQUIPMENT" equipment=[library::Equipment|SpacedID] | "PROFILE" |
-		//"STATUS"
+		//"FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] | "PROFILE" | "STATUS"
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 
-		//"FUNCTION" function=[library::Function|SpacedID]
+		//"FUNCTION" function=[library::Function|FQN]
 		public Group getGroup_2_0() { return cGroup_2_0; }
 
 		//"FUNCTION"
 		public Keyword getFUNCTIONKeyword_2_0_0() { return cFUNCTIONKeyword_2_0_0; }
 
-		//function=[library::Function|SpacedID]
+		//function=[library::Function|FQN]
 		public Assignment getFunctionAssignment_2_0_1() { return cFunctionAssignment_2_0_1; }
 
-		//[library::Function|SpacedID]
+		//[library::Function|FQN]
 		public CrossReference getFunctionFunctionCrossReference_2_0_1_0() { return cFunctionFunctionCrossReference_2_0_1_0; }
 
-		//SpacedID
-		public RuleCall getFunctionFunctionSpacedIDParserRuleCall_2_0_1_0_1() { return cFunctionFunctionSpacedIDParserRuleCall_2_0_1_0_1; }
+		//FQN
+		public RuleCall getFunctionFunctionFQNParserRuleCall_2_0_1_0_1() { return cFunctionFunctionFQNParserRuleCall_2_0_1_0_1; }
 
-		//"EQUIPMENT" equipment=[library::Equipment|SpacedID]
+		//"EQUIPMENT" equipment=[library::Equipment|FQN]
 		public Group getGroup_2_1() { return cGroup_2_1; }
 
 		//"EQUIPMENT"
 		public Keyword getEQUIPMENTKeyword_2_1_0() { return cEQUIPMENTKeyword_2_1_0; }
 
-		//equipment=[library::Equipment|SpacedID]
+		//equipment=[library::Equipment|FQN]
 		public Assignment getEquipmentAssignment_2_1_1() { return cEquipmentAssignment_2_1_1; }
 
-		//[library::Equipment|SpacedID]
+		//[library::Equipment|FQN]
 		public CrossReference getEquipmentEquipmentCrossReference_2_1_1_0() { return cEquipmentEquipmentCrossReference_2_1_1_0; }
 
-		//SpacedID
-		public RuleCall getEquipmentEquipmentSpacedIDParserRuleCall_2_1_1_0_1() { return cEquipmentEquipmentSpacedIDParserRuleCall_2_1_1_0_1; }
+		//FQN
+		public RuleCall getEquipmentEquipmentFQNParserRuleCall_2_1_1_0_1() { return cEquipmentEquipmentFQNParserRuleCall_2_1_1_0_1; }
 
 		//"PROFILE"
 		public Keyword getPROFILEKeyword_2_2() { return cPROFILEKeyword_2_2; }
@@ -1728,9 +1718,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cLinkRefParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cStatusRefParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
-		////ServiceRef returns Reference:
-		////	{ServiceRef} () 
-		////;
 		//LeafReference:
 		//	ResourceRef | LinkRef | StatusRef;
 		public ParserRule getRule() { return rule; }
@@ -1756,17 +1743,17 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
 		private final Assignment cResourceAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
 		private final CrossReference cResourceBaseResourceCrossReference_2_0_0 = (CrossReference)cResourceAssignment_2_0.eContents().get(0);
-		private final RuleCall cResourceBaseResourceSpacedIDParserRuleCall_2_0_0_1 = (RuleCall)cResourceBaseResourceCrossReference_2_0_0.eContents().get(1);
+		private final RuleCall cResourceBaseResourceFQNParserRuleCall_2_0_0_1 = (RuleCall)cResourceBaseResourceCrossReference_2_0_0.eContents().get(1);
 		private final Assignment cAllAssignment_2_1 = (Assignment)cAlternatives_2.eContents().get(1);
 		private final Keyword cAllALLKeyword_2_1_0 = (Keyword)cAllAssignment_2_1.eContents().get(0);
 		private final Assignment cRangeRefAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cRangeRefRangeRefParserRuleCall_3_0 = (RuleCall)cRangeRefAssignment_3.eContents().get(0);
 		
 		//ResourceRef returns LeafReference:
-		//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource|SpacedID] | all?="ALL") rangeRef=RangeRef;
+		//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource|FQN] | all?="ALL") rangeRef=RangeRef;
 		public ParserRule getRule() { return rule; }
 
-		//{ResourceRef} "RESOURCE" (resource=[library::BaseResource|SpacedID] | all?="ALL") rangeRef=RangeRef
+		//{ResourceRef} "RESOURCE" (resource=[library::BaseResource|FQN] | all?="ALL") rangeRef=RangeRef
 		public Group getGroup() { return cGroup; }
 
 		//{ResourceRef}
@@ -1775,17 +1762,17 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//"RESOURCE"
 		public Keyword getRESOURCEKeyword_1() { return cRESOURCEKeyword_1; }
 
-		//resource=[library::BaseResource|SpacedID] | all?="ALL"
+		//resource=[library::BaseResource|FQN] | all?="ALL"
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 
-		//resource=[library::BaseResource|SpacedID]
+		//resource=[library::BaseResource|FQN]
 		public Assignment getResourceAssignment_2_0() { return cResourceAssignment_2_0; }
 
-		//[library::BaseResource|SpacedID]
+		//[library::BaseResource|FQN]
 		public CrossReference getResourceBaseResourceCrossReference_2_0_0() { return cResourceBaseResourceCrossReference_2_0_0; }
 
-		//SpacedID
-		public RuleCall getResourceBaseResourceSpacedIDParserRuleCall_2_0_0_1() { return cResourceBaseResourceSpacedIDParserRuleCall_2_0_0_1; }
+		//FQN
+		public RuleCall getResourceBaseResourceFQNParserRuleCall_2_0_0_1() { return cResourceBaseResourceFQNParserRuleCall_2_0_0_1; }
 
 		//all?="ALL"
 		public Assignment getAllAssignment_2_1() { return cAllAssignment_2_1; }
@@ -1928,24 +1915,68 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getLinkRelationshipIDTerminalRuleCall_2_0_1() { return cLinkRelationshipIDTerminalRuleCall_2_0_1; }
 	}
 
-	public class SpacedIDElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "SpacedID");
+	public class FQNElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "FQN");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final RuleCall cIDTerminalRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
-		private final RuleCall cIDTerminalRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		private final RuleCall cSPACED_IDParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Keyword cColonColonKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final RuleCall cSPACED_IDParserRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
 		
-		//SpacedID returns ecore::EString:
-		//	ID ID*;
+		//FQN:
+		//	SPACED_ID ("::" SPACED_ID)*;
 		public ParserRule getRule() { return rule; }
 
-		//ID ID*
+		//SPACED_ID ("::" SPACED_ID)*
 		public Group getGroup() { return cGroup; }
 
-		//ID
-		public RuleCall getIDTerminalRuleCall_0() { return cIDTerminalRuleCall_0; }
+		//SPACED_ID
+		public RuleCall getSPACED_IDParserRuleCall_0() { return cSPACED_IDParserRuleCall_0; }
 
-		//ID*
-		public RuleCall getIDTerminalRuleCall_1() { return cIDTerminalRuleCall_1; }
+		//("::" SPACED_ID)*
+		public Group getGroup_1() { return cGroup_1; }
+
+		//"::"
+		public Keyword getColonColonKeyword_1_0() { return cColonColonKeyword_1_0; }
+
+		//SPACED_ID
+		public RuleCall getSPACED_IDParserRuleCall_1_1() { return cSPACED_IDParserRuleCall_1_1; }
+	}
+
+	public class SPACED_IDElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "SPACED_ID");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
+		private final RuleCall cIDTerminalRuleCall_0_0 = (RuleCall)cAlternatives_0.eContents().get(0);
+		private final RuleCall cNUMBERTerminalRuleCall_0_1 = (RuleCall)cAlternatives_0.eContents().get(1);
+		private final Alternatives cAlternatives_1 = (Alternatives)cGroup.eContents().get(1);
+		private final RuleCall cIDTerminalRuleCall_1_0 = (RuleCall)cAlternatives_1.eContents().get(0);
+		private final RuleCall cNUMBERTerminalRuleCall_1_1 = (RuleCall)cAlternatives_1.eContents().get(1);
+		
+		//SPACED_ID returns ecore::EString:
+		//	(ID | NUMBER) (ID | NUMBER)*;
+		public ParserRule getRule() { return rule; }
+
+		//(ID | NUMBER) (ID | NUMBER)*
+		public Group getGroup() { return cGroup; }
+
+		//ID | NUMBER
+		public Alternatives getAlternatives_0() { return cAlternatives_0; }
+
+		//ID
+		public RuleCall getIDTerminalRuleCall_0_0() { return cIDTerminalRuleCall_0_0; }
+
+		//NUMBER
+		public RuleCall getNUMBERTerminalRuleCall_0_1() { return cNUMBERTerminalRuleCall_0_1; }
+
+		//(ID | NUMBER)*
+		public Alternatives getAlternatives_1() { return cAlternatives_1; }
+
+		//ID
+		public RuleCall getIDTerminalRuleCall_1_0() { return cIDTerminalRuleCall_1_0; }
+
+		//NUMBER
+		public RuleCall getNUMBERTerminalRuleCall_1_1() { return cNUMBERTerminalRuleCall_1_1; }
 	}
 	
 	
@@ -2270,9 +2301,11 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	private ValueRangeElements unknownRuleValueRange;
 	private ValueKindElements unknownRuleValueKind;
 	private LinkRefElements pLinkRef;
-	private SpacedIDElements pSpacedID;
+	private FQNElements pFQN;
+	private SPACED_IDElements pSPACED_ID;
 	private TerminalRule tNUMBER;
 	private TerminalRule tINT;
+	private TerminalRule tID;
 	
 	private final GrammarProvider grammarProvider;
 
@@ -2305,9 +2338,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getModAccess().getRule();
 	}
 
-	//// TODO, DO WE NEED A CONTEXT HINT?
-	////Context:
-	////	'context' context=[ecore::EObject];
 	//Import:
 	//	"import" importURI=STRING;
 	public ImportElements getImportAccess() {
@@ -2318,9 +2348,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getImportAccess().getRule();
 	}
 
-	////ImportName:
-	////	ID ('.' '*')?;
-	//// TODO, we can't have mandatory brackets, as this would conflict with our PrimaryExpression. 
 	//Function:
 	//	"def" name=ID "(" (args+=Argument ("," args+=Argument)*)? ")" block=Block;
 	public FunctionElements getFunctionAccess() {
@@ -2540,9 +2567,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getUnaryOperatorAccess().getRule();
 	}
 
-	//// TODO, a functionCall is not necessarly an abstract definition in this grammar, but could 
-	//// be an internal function call. For this we could mixin, a grammar which contains
-	//// all internal calls.
 	//// The FunctionCall and potential parameters, shoul be checked as reference priot to a regular Assignment call. 
 	//PrimaryExpression returns Expression:
 	//	Literal | Range | NativeExpression | Reference | FunctionCall | IndexedCall | ParenthesizedExpression;
@@ -2666,7 +2690,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ParamRef returns Reference:
-	//	{ParamRef} "PARAM" param=[library::Parameter|SpacedID];
+	//	{ParamRef} "PARAM" param=[library::Parameter|FQN];
 	public ParamRefElements getParamRefAccess() {
 		return (pParamRef != null) ? pParamRef : (pParamRef = new ParamRefElements());
 	}
@@ -2724,8 +2748,8 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//OperatorRef returns Reference:
-	//	{OperatorRef} "." ("FUNCTION" function=[library::Function|SpacedID] | "EQUIPMENT"
-	//	equipment=[library::Equipment|SpacedID] | "PROFILE" | "STATUS");
+	//	{OperatorRef} "/" ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
+	//	"PROFILE" | "STATUS");
 	public OperatorRefElements getOperatorRefAccess() {
 		return (pOperatorRef != null) ? pOperatorRef : (pOperatorRef = new OperatorRefElements());
 	}
@@ -2734,9 +2758,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getOperatorRefAccess().getRule();
 	}
 
-	////ServiceRef returns Reference:
-	////	{ServiceRef} () 
-	////;
 	//LeafReference:
 	//	ResourceRef | LinkRef | StatusRef;
 	public LeafReferenceElements getLeafReferenceAccess() {
@@ -2748,7 +2769,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ResourceRef returns LeafReference:
-	//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource|SpacedID] | all?="ALL") rangeRef=RangeRef;
+	//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource|FQN] | all?="ALL") rangeRef=RangeRef;
 	public ResourceRefElements getResourceRefAccess() {
 		return (pResourceRef != null) ? pResourceRef : (pResourceRef = new ResourceRefElements());
 	}
@@ -2845,14 +2866,24 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getLinkRefAccess().getRule();
 	}
 
-	//SpacedID returns ecore::EString:
-	//	ID ID*;
-	public SpacedIDElements getSpacedIDAccess() {
-		return (pSpacedID != null) ? pSpacedID : (pSpacedID = new SpacedIDElements());
+	//FQN:
+	//	SPACED_ID ("::" SPACED_ID)*;
+	public FQNElements getFQNAccess() {
+		return (pFQN != null) ? pFQN : (pFQN = new FQNElements());
 	}
 	
-	public ParserRule getSpacedIDRule() {
-		return getSpacedIDAccess().getRule();
+	public ParserRule getFQNRule() {
+		return getFQNAccess().getRule();
+	}
+
+	//SPACED_ID returns ecore::EString:
+	//	(ID | NUMBER) (ID | NUMBER)*;
+	public SPACED_IDElements getSPACED_IDAccess() {
+		return (pSPACED_ID != null) ? pSPACED_ID : (pSPACED_ID = new SPACED_IDElements());
+	}
+	
+	public ParserRule getSPACED_IDRule() {
+		return getSPACED_IDAccess().getRule();
 	}
 
 	//terminal NUMBER returns ecore::EBigDecimal:
@@ -2867,10 +2898,12 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return (tINT != null) ? tINT : (tINT = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "INT"));
 	} 
 
-	//terminal ID:
-	//	"^"? ("a".."z" | "A".."Z" | "_") ("a".."z" | "A".."Z" | "_" | "0".."9")*;
+	/// *
+	// * - Can have quotes and dash. 
+	// * / terminal ID:
+	//	"^"? ("a".."z" | "A".."Z" | "_" | "-" | "(" | ")") ("a".."z" | "A".."Z" | "_" | "0".."9" | "-" | "(" | ")")*;
 	public TerminalRule getIDRule() {
-		return gaTerminals.getIDRule();
+		return (tID != null) ? tID : (tID = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "ID"));
 	} 
 
 	//terminal STRING:

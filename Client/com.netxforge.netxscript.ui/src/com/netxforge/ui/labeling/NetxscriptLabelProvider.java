@@ -4,10 +4,15 @@
 package com.netxforge.ui.labeling;
 
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.Parameter;
+import com.netxforge.scoping.QualifiedDynamixCDONameProvider;
 
 /**
  * Provides labels for a EObjects.
@@ -15,7 +20,11 @@ import com.netxforge.netxstudio.library.Parameter;
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#labelProvider
  */
 public class NetxscriptLabelProvider extends DefaultEObjectLabelProvider {
-
+	
+	@Inject
+	@Named(QualifiedDynamixCDONameProvider.NAMED_QUALIFIED_DYNAMIX_CDO_NAME_PROVIDER)
+	private IQualifiedNameProvider qualifiedNameProvider;
+	
 	@Inject
 	public NetxscriptLabelProvider(AdapterFactoryLabelProvider delegate) {
 		super(delegate);
@@ -28,9 +37,15 @@ public class NetxscriptLabelProvider extends DefaultEObjectLabelProvider {
 	  		"\n" +
 	  		"\n value = " + ele.getValue();
 	}
+	
+	String text(Function ele){
+		QualifiedName qualifiedName = qualifiedNameProvider.getFullyQualifiedName(ele);
+		return ele.getDescription() + "\n" + qualifiedName != null ? qualifiedName.toString() : "";
+	}
 /*	 
     String image(MyModel ele) {
       return "MyModel.gif";
     }
 */
+
 }

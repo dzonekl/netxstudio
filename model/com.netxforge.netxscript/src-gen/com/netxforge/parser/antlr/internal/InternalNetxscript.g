@@ -2289,7 +2289,7 @@ ruleParamRef returns [EObject current=null]
 		{ 
 	        newCompositeNode(grammarAccess.getParamRefAccess().getParamParameterCrossReference_2_0()); 
 	    }
-		ruleSpacedID		{ 
+		ruleFQN		{ 
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2574,9 +2574,9 @@ ruleOperatorRef returns [EObject current=null]
             grammarAccess.getOperatorRefAccess().getOperatorRefAction_0(),
             $current);
     }
-)	otherlv_1='.' 
+)	otherlv_1='/' 
     {
-    	newLeafNode(otherlv_1, grammarAccess.getOperatorRefAccess().getFullStopKeyword_1());
+    	newLeafNode(otherlv_1, grammarAccess.getOperatorRefAccess().getSolidusKeyword_1());
     }
 ((	otherlv_2='FUNCTION' 
     {
@@ -2592,7 +2592,7 @@ ruleOperatorRef returns [EObject current=null]
 		{ 
 	        newCompositeNode(grammarAccess.getOperatorRefAccess().getFunctionFunctionCrossReference_2_0_1_0()); 
 	    }
-		ruleSpacedID		{ 
+		ruleFQN		{ 
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2612,7 +2612,7 @@ ruleOperatorRef returns [EObject current=null]
 		{ 
 	        newCompositeNode(grammarAccess.getOperatorRefAccess().getEquipmentEquipmentCrossReference_2_1_1_0()); 
 	    }
-		ruleSpacedID		{ 
+		ruleFQN		{ 
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2718,7 +2718,7 @@ ruleResourceRef returns [EObject current=null]
 		{ 
 	        newCompositeNode(grammarAccess.getResourceRefAccess().getResourceBaseResourceCrossReference_2_0_0()); 
 	    }
-		ruleSpacedID		{ 
+		ruleFQN		{ 
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2986,33 +2986,98 @@ ruleLinkRef returns [EObject current=null]
 
 
 
-// Entry rule entryRuleSpacedID
-entryRuleSpacedID returns [String current=null] 
+// Entry rule entryRuleFQN
+entryRuleFQN returns [String current=null] 
 	:
-	{ newCompositeNode(grammarAccess.getSpacedIDRule()); } 
-	 iv_ruleSpacedID=ruleSpacedID 
-	 { $current=$iv_ruleSpacedID.current.getText(); }  
+	{ newCompositeNode(grammarAccess.getFQNRule()); } 
+	 iv_ruleFQN=ruleFQN 
+	 { $current=$iv_ruleFQN.current.getText(); }  
 	 EOF 
 ;
 
-// Rule SpacedID
-ruleSpacedID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+// Rule FQN
+ruleFQN returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
-(    this_ID_0=RULE_ID    {
+(
+    { 
+        newCompositeNode(grammarAccess.getFQNAccess().getSPACED_IDParserRuleCall_0()); 
+    }
+    this_SPACED_ID_0=ruleSPACED_ID    {
+		$current.merge(this_SPACED_ID_0);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+(
+	kw='::' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getFQNAccess().getColonColonKeyword_1_0()); 
+    }
+
+    { 
+        newCompositeNode(grammarAccess.getFQNAccess().getSPACED_IDParserRuleCall_1_1()); 
+    }
+    this_SPACED_ID_2=ruleSPACED_ID    {
+		$current.merge(this_SPACED_ID_2);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+)*)
+    ;
+
+
+
+
+
+// Entry rule entryRuleSPACED_ID
+entryRuleSPACED_ID returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getSPACED_IDRule()); } 
+	 iv_ruleSPACED_ID=ruleSPACED_ID 
+	 { $current=$iv_ruleSPACED_ID.current.getText(); }  
+	 EOF 
+;
+
+// Rule SPACED_ID
+ruleSPACED_ID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((    this_ID_0=RULE_ID    {
 		$current.merge(this_ID_0);
     }
 
     { 
-    newLeafNode(this_ID_0, grammarAccess.getSpacedIDAccess().getIDTerminalRuleCall_0()); 
+    newLeafNode(this_ID_0, grammarAccess.getSPACED_IDAccess().getIDTerminalRuleCall_0_0()); 
     }
-(    this_ID_1=RULE_ID    {
-		$current.merge(this_ID_1);
+
+    |    this_NUMBER_1=RULE_NUMBER    {
+		$current.merge(this_NUMBER_1);
     }
 
     { 
-    newLeafNode(this_ID_1, grammarAccess.getSpacedIDAccess().getIDTerminalRuleCall_1()); 
+    newLeafNode(this_NUMBER_1, grammarAccess.getSPACED_IDAccess().getNUMBERTerminalRuleCall_0_1()); 
+    }
+)(    this_ID_2=RULE_ID    {
+		$current.merge(this_ID_2);
+    }
+
+    { 
+    newLeafNode(this_ID_2, grammarAccess.getSPACED_IDAccess().getIDTerminalRuleCall_1_0()); 
+    }
+
+    |    this_NUMBER_3=RULE_NUMBER    {
+		$current.merge(this_NUMBER_3);
+    }
+
+    { 
+    newLeafNode(this_NUMBER_3, grammarAccess.getSPACED_IDAccess().getNUMBERTerminalRuleCall_1_1()); 
     }
 )*)
     ;
@@ -3216,7 +3281,7 @@ RULE_NUMBER : ('0'..'9')* ('.' ('0'..'9')+)?;
 
 RULE_INT : 'zzzzzzzzz';
 
-RULE_ID : '^'? ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+RULE_ID : '^'? ('a'..'z'|'A'..'Z'|'_'|'-'|'('|')') ('a'..'z'|'A'..'Z'|'_'|'0'..'9'|'-'|'('|')')*;
 
 RULE_STRING : ('"' ('\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|'\''|'\\')|~(('\\'|'"')))* '"'|'\'' ('\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|'\''|'\\')|~(('\\'|'\'')))* '\'');
 

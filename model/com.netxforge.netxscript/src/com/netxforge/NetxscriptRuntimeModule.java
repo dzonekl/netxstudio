@@ -19,6 +19,7 @@ import com.netxforge.scoping.CDOResourceServiceProvider;
 import com.netxforge.scoping.DynamixCDONameProvider;
 import com.netxforge.scoping.DynamixCDOResourceDescriptions;
 import com.netxforge.scoping.DynamixCDOScopeProvider;
+import com.netxforge.scoping.QualifiedDynamixCDONameProvider;
 
 /**
  * Use this class to register components to be used at runtime / without the
@@ -27,7 +28,6 @@ import com.netxforge.scoping.DynamixCDOScopeProvider;
 public class NetxscriptRuntimeModule extends
 		com.netxforge.AbstractNetxscriptRuntimeModule {
 
-
 	public Class<? extends IResourceServiceProvider> bindIResourceServiceProvider() {
 		return CDOResourceServiceProvider.class;
 	}
@@ -35,6 +35,16 @@ public class NetxscriptRuntimeModule extends
 	@Override
 	public Class<? extends org.eclipse.xtext.naming.IQualifiedNameProvider> bindIQualifiedNameProvider() {
 		return DynamixCDONameProvider.class;
+	}
+
+	// contributed by
+	// org.eclipse.xtext.generator.builder.BuilderIntegrationFragment
+	public void configureIQualifiedNameProvider(com.google.inject.Binder binder) {
+		binder.bind(org.eclipse.xtext.naming.IQualifiedNameProvider.class)
+				.annotatedWith(
+						com.google.inject.name.Names
+								.named(com.netxforge.scoping.QualifiedDynamixCDONameProvider.NAMED_QUALIFIED_DYNAMIX_CDO_NAME_PROVIDER))
+				.to(QualifiedDynamixCDONameProvider.class);
 	}
 
 	public Class<? extends INativeFunctions> bindMathFunctions() {
@@ -55,17 +65,17 @@ public class NetxscriptRuntimeModule extends
 
 	// Override generated, ResourceSet based.
 	public void configureIResourceDescriptions(com.google.inject.Binder binder) {
-		binder.bind(org.eclipse.xtext.resource.IResourceDescriptions.class).to(
-				DynamixCDOResourceDescriptions.class).in(Scopes.SINGLETON);
+		binder.bind(org.eclipse.xtext.resource.IResourceDescriptions.class)
+				.to(DynamixCDOResourceDescriptions.class).in(Scopes.SINGLETON);
 	}
 
 	public Class<? extends IGlobalScopeProvider> bindIGlobalScopeProvider() {
 		return null;
 	}
-	
+
 	public void configureIGlobalScopeProvider(com.google.inject.Binder binder) {
-		binder.bind(org.eclipse.xtext.scoping.IGlobalScopeProvider.class).to(
-				DynamixCDOScopeProvider.class).in(Scopes.SINGLETON);
+		binder.bind(org.eclipse.xtext.scoping.IGlobalScopeProvider.class)
+				.to(DynamixCDOScopeProvider.class).in(Scopes.SINGLETON);
 	}
 
 }

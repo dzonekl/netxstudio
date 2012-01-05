@@ -60,6 +60,8 @@ public class NetxscriptParser extends AbstractContentAssistParser {
 					put(grammarAccess.getLeafReferenceAccess().getAlternatives(), "rule__LeafReference__Alternatives");
 					put(grammarAccess.getResourceRefAccess().getAlternatives_2(), "rule__ResourceRef__Alternatives_2");
 					put(grammarAccess.getIntervalAccess().getAlternatives(), "rule__Interval__Alternatives");
+					put(grammarAccess.getSPACED_IDAccess().getAlternatives_0(), "rule__SPACED_ID__Alternatives_0");
+					put(grammarAccess.getSPACED_IDAccess().getAlternatives_1(), "rule__SPACED_ID__Alternatives_1");
 					put(grammarAccess.getNativeFunctionAccess().getAlternatives(), "rule__NativeFunction__Alternatives");
 					put(grammarAccess.getIntervalKindAccess().getAlternatives(), "rule__IntervalKind__Alternatives");
 					put(grammarAccess.getToleranceLevelAccess().getAlternatives(), "rule__ToleranceLevel__Alternatives");
@@ -134,7 +136,9 @@ public class NetxscriptParser extends AbstractContentAssistParser {
 					put(grammarAccess.getStatusRefAccess().getGroup(), "rule__StatusRef__Group__0");
 					put(grammarAccess.getRangeRefAccess().getGroup(), "rule__RangeRef__Group__0");
 					put(grammarAccess.getLinkRefAccess().getGroup(), "rule__LinkRef__Group__0");
-					put(grammarAccess.getSpacedIDAccess().getGroup(), "rule__SpacedID__Group__0");
+					put(grammarAccess.getFQNAccess().getGroup(), "rule__FQN__Group__0");
+					put(grammarAccess.getFQNAccess().getGroup_1(), "rule__FQN__Group_1__0");
+					put(grammarAccess.getSPACED_IDAccess().getGroup(), "rule__SPACED_ID__Group__0");
 					put(grammarAccess.getModAccess().getNameAssignment_0_1(), "rule__Mod__NameAssignment_0_1");
 					put(grammarAccess.getModAccess().getImportsAssignment_1(), "rule__Mod__ImportsAssignment_1");
 					put(grammarAccess.getModAccess().getFunctionsAssignment_2_0(), "rule__Mod__FunctionsAssignment_2_0");
