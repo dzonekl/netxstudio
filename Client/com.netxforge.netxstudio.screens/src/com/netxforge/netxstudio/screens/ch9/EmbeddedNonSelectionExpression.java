@@ -10,11 +10,10 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * Concrete implementation which can set and clear the expression from an owner.
- * i
  * 
  * @author dzonekl
  */
@@ -33,12 +32,11 @@ public class EmbeddedNonSelectionExpression extends EmbeddedExpression {
 	public void buildUI(Composite parent, FormData fd) {
 
 		int widgetStyle = SWT.None;
-		if (Screens.isReadOnlyOperation(getOperation())) {
+		if (ScreenUtil.isReadOnlyOperation(getOperation())) {
 			widgetStyle |= SWT.READ_ONLY;
 		}
 
 		Composite sectionClient = buildSection(identity, parent, fd);
-//		buildExpressionSelector(widgetStyle, sectionClient);
 		buildExpression(widgetStyle, sectionClient);
 	}
 
@@ -57,27 +55,5 @@ public class EmbeddedNonSelectionExpression extends EmbeddedExpression {
 			editingService.getEditingDomain().getCommandStack().execute(c);
 		}
 	}
-
-	/**
-	 * Inject the expression to work with.
-	 */
-//	public void injectData(String identity, EObject owner, EStructuralFeature feature) {
-//		this.expressionFeature = feature;
-//		this.owner = owner;
-//		this.identity = identity; 
-//	}
-
-//	public void bind(EMFDataBindingContext context) {
-//		IObservableValue capExpressionObservable = SWTObservables.observeText(
-//				this.getTxtExpressionName(), SWT.Modify);
-//
-//		IEMFValueProperty profileExpressionProperty = EMFEditProperties.value(
-//				editingService.getEditingDomain(), FeaturePath.fromList(
-//						expressionFeature,
-//						LibraryPackage.Literals.EXPRESSION__NAME));
-//
-//		context.bindValue(capExpressionObservable,
-//				profileExpressionProperty.observe(owner), null, null);
-//	}
 
 }

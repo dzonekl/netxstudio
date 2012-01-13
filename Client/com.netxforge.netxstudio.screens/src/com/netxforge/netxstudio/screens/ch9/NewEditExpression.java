@@ -65,7 +65,7 @@ import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -117,7 +117,7 @@ public class NewEditExpression extends AbstractScreen implements
 	private void buildUI() {
 		
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -181,7 +181,7 @@ public class NewEditExpression extends AbstractScreen implements
 	 * com.netxforge.netxstudio.data.IDataScreenInjection#injectData(java.lang
 	 * .Object, java.lang.Object)
 	 */
-	public void injectData(Object owner, Object whoRefers,
+	private void injectData(Object owner, Object whoRefers,
 			EStructuralFeature f, Object object) {
 
 		if (owner != null && owner instanceof Resource) {
@@ -208,7 +208,7 @@ public class NewEditExpression extends AbstractScreen implements
 		validationService.addValidationListener(this);
 		exp.injectData(expression);
 
-		if (!Screens.isReadOnlyOperation(getOperation())) {
+		if (!ScreenUtil.isReadOnlyOperation(getOperation())) {
 			validationService.registerAllDecorators(txtExpressionName,
 					lblExpressionName);
 		}
@@ -220,7 +220,7 @@ public class NewEditExpression extends AbstractScreen implements
 	 * @see com.netxforge.netxstudio.data.IDataScreenInjection#addData()
 	 */
 	public void addData() {
-		if (Screens.isNewOperation(getOperation()) && owner != null) {
+		if (ScreenUtil.isNewOperation(getOperation()) && owner != null) {
 			Command c = new AddCommand(editingService.getEditingDomain(),
 					owner.getContents(), expression);
 			editingService.getEditingDomain().getCommandStack().execute(c);
@@ -237,7 +237,7 @@ public class NewEditExpression extends AbstractScreen implements
 							.execute(cSetRef);
 				}
 			}
-		} else if (Screens.isEditOperation(getOperation())) {
+		} else if (ScreenUtil.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have
 			// to replace.

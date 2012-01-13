@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * Concrete implementation which can set and clear the expression from an owner.
@@ -39,7 +39,7 @@ public class EmbeddedSelectionExpression extends EmbeddedExpression {
 	public void buildUI(Composite parent, FormData fd) {
 
 		int widgetStyle = SWT.None;
-		if (Screens.isReadOnlyOperation(getOperation())) {
+		if (ScreenUtil.isReadOnlyOperation(getOperation())) {
 			widgetStyle |= SWT.READ_ONLY;
 		}
 

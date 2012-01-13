@@ -28,7 +28,8 @@ Require-Bundle: org.eclipse.ui,
  org.postgresql;bundle-version="9.0.0",
  oracle.jdbc.driver.10_2_0_4;bundle-version="10.2.0",
  org.eclipse.gef;bundle-version="3.7.0",
- org.eclipse.core.expressions;bundle-version="3.4.300"
+ org.eclipse.core.expressions;bundle-version="3.4.300",
+ com.google.collect;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
@@ -64,7 +65,6 @@ Export-Package: com.netxforge.netxstudio.screens;
    com.netxforge.netxstudio.common.model,
    org.eclipse.ui.forms.widgets",
  com.netxforge.netxstudio.screens.demo;uses:="org.eclipse.ui.part,org.eclipse.swt.widgets,org.eclipse.swt.layout",
- com.netxforge.netxstudio.screens.details,
  com.netxforge.netxstudio.screens.f1,
  com.netxforge.netxstudio.screens.f1.details,
  com.netxforge.netxstudio.screens.f1.model,

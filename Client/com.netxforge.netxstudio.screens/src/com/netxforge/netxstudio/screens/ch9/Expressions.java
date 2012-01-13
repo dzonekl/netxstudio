@@ -70,7 +70,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -161,7 +161,7 @@ public class Expressions extends AbstractScreen implements
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
@@ -208,7 +208,7 @@ public class Expressions extends AbstractScreen implements
 					if (screenService != null) {
 						NewEditExpression expressionScreen = new NewEditExpression(
 								screenService.getScreenContainer(), SWT.NONE);
-						expressionScreen.setOperation(Screens.OPERATION_NEW);
+						expressionScreen.setOperation(ScreenUtil.OPERATION_NEW);
 						expressionScreen.setScreenService(screenService);
 						Expression exp = LibraryFactory.eINSTANCE
 								.createExpression();
@@ -327,7 +327,7 @@ public class Expressions extends AbstractScreen implements
 		
 		// lazy init the actions. 
 		if (actionList.isEmpty()) {
-			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
 			actionList.add(new EditExpressionAction(actionText + "...",
 					SWT.PUSH));

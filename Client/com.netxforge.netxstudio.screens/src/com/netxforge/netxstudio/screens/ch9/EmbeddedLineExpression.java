@@ -31,7 +31,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -43,7 +42,6 @@ import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
-import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.xtext.parser.IParseResult;
@@ -76,7 +74,7 @@ import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public abstract class EmbeddedExpression {
+public class EmbeddedLineExpression {
 
 	IInterpreterContextFactory interpreterContextFactory;
 
@@ -99,11 +97,6 @@ public abstract class EmbeddedExpression {
 	private int operation;
 
 	protected IEditingService editingService;
-
-	private FormData fd;
-
-	private Composite parent;
-
 	private Composite keyPadComposite;
 
 	/**
@@ -112,62 +105,20 @@ public abstract class EmbeddedExpression {
 	 * @param parent
 	 * @param style
 	 */
-	public EmbeddedExpression(IEditingService editingService, Composite parent,
-			FormData fd, int operation) {
+	public EmbeddedLineExpression() {
+	}
+
+	public void configure(IEditingService editingService, int operation) {
 		this.editingService = editingService;
 		this.operation = operation;
-		this.fd = fd;
-		this.parent = parent;
 	}
 
-	public void buildUI() {
-		parent.addDisposeListener(new DisposeListener() {
-
-			public void widgetDisposed(DisposeEvent e) {
-				// dispose prior to disposing the widget.
-				editor.getSourceViewerDecorationSupport(editor.getViewer())
-						.dispose();
-			}
-
-		});
-		this.buildUI(parent, fd);
-	}
-
-	public abstract void buildUI(Composite parent, FormData fd);
-
-	public Composite buildSection(String sectionName, Composite parent,
-			FormData fd) {
-		Section sctnNewSection = toolkit.createSection(parent, Section.TWISTIE
-				| Section.TITLE_BAR | Section.EXPANDED);
-
-		// Could be null for columnlayout.
-		if (fd != null) {
-			sctnNewSection.setLayoutData(fd);
-		}
-
-		toolkit.paintBordersFor(sctnNewSection);
-		sctnNewSection
-				.setText(sectionName != null ? sectionName : "NetXScript");
-
-		Composite sectionClient = toolkit.createComposite(sctnNewSection);
-
-		GridLayout editorLayout = new GridLayout();
-		editorLayout.marginHeight = 0;
-		editorLayout.marginWidth = 0;
-		editorLayout.numColumns = 2;
-		editorLayout.marginLeft = 0;
-		editorLayout.marginRight = 0;
-
-		sectionClient.setLayout(editorLayout);
-		sctnNewSection.setClient(sectionClient);
-		return sectionClient;
-	}
-
-	public void buildExpressionSelector(int widgetStyle, Composite sectionClient) {
+	public void buildExpressionSelector(int widgetStyle, Composite parent,
+			Object layoutData) {
 
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 
-		Composite selectionComposite = toolkit.createComposite(sectionClient);
+		Composite selectionComposite = toolkit.createComposite(parent);
 		selectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 2, 1));
 		toolkit.adapt(selectionComposite);
@@ -205,10 +156,13 @@ public abstract class EmbeddedExpression {
 					selectionComposite, SWT.NONE);
 			imageHyperlink.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
-					clearExpression(expression);
-					expression = null;
-					clearData();
-					setEnabled(false);
+
+					// TODO moigrate.
+					// clearExpression(expression);
+					// expression = null;
+					// clearData();
+					// setEnabled(false);
+
 				}
 
 				public void linkEntered(HyperlinkEvent e) {
@@ -233,10 +187,12 @@ public abstract class EmbeddedExpression {
 							Display.getDefault().getActiveShell(),
 							expressionResource);
 					if (dialog.open() == IDialogConstants.OK_ID) {
-						Expression expression = (Expression) dialog
-								.getFirstResult();
-						setExpression(expression);
-						injectData(expression);
+
+						// TODO moigrate.
+						// Expression expression = (Expression) dialog
+						// .getFirstResult();
+						// setExpression(expression);
+						// injectData(expression);
 					}
 				}
 			});
@@ -244,25 +200,36 @@ public abstract class EmbeddedExpression {
 
 	}
 
-	protected abstract void setExpression(Expression exp);
+	public void buildExpression(int widgetStyle, Composite parent,
+			Object layoutData) {
 
-	protected abstract void clearExpression(Expression exp);
+		parent.addDisposeListener(new DisposeListener() {
 
-	public void buildExpression(int widgetStyle, Composite sectionClient) {
+			public void widgetDisposed(DisposeEvent e) {
+				// dispose prior to disposing the widget.
+				editor.getSourceViewerDecorationSupport(editor.getViewer())
+						.dispose();
+			}
+
+		});
+
 		netxScriptInjector = InjectorProxy
 				.getInjector("com.netxforge.Netxscript");
 
 		interpreterContextFactory = netxScriptInjector
 				.getInstance(IInterpreterContextFactory.class);
 
-		Composite editorComposite = toolkit.createComposite(sectionClient,
-				SWT.BORDER);
-		GridLayout gl_editorComposite = new GridLayout();
-		gl_editorComposite.marginHeight = 0;
-		gl_editorComposite.marginWidth = 0;
-		editorComposite.setLayout(gl_editorComposite);
-		editor = new EmbeddedXtextEditor(editorComposite, netxScriptInjector,
-				SWT.BORDER | widgetStyle | SWT.WRAP | SWT.V_SCROLL);
+		// Composite editorComposite = toolkit.createComposite(parent,
+		// SWT.BORDER);
+		// editorComposite.setLayoutData(layoutData);
+		//
+		// GridLayout gl_editorComposite = new GridLayout();
+		// gl_editorComposite.marginHeight = 0;
+		// gl_editorComposite.marginWidth = 0;
+		// editorComposite.setLayout(gl_editorComposite);
+
+		editor = new EmbeddedXtextEditor(parent, netxScriptInjector, SWT.BORDER
+				| widgetStyle | SWT.SINGLE);
 		editor.getDocument().addModelListener(new IXtextModelListener() {
 			public void modelChanged(XtextResource resource) {
 				if (expression != null) {
@@ -270,32 +237,9 @@ public abstract class EmbeddedExpression {
 				}
 			}
 		});
-		editorComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-				true));
-		this.createKeyPad(sectionClient);
-	}
 
-	// public void buildExpressionTester(Section sctnNewSection) {
-	//
-	// ImageHyperlink mghprlnkTest = toolkit.createImageHyperlink(
-	// sctnNewSection, SWT.NONE);
-	// mghprlnkTest.addHyperlinkListener(new IHyperlinkListener() {
-	//
-	// public void linkActivated(HyperlinkEvent e) {
-	// // Launch the interpreter, with a given context.
-	//
-	// }
-	//
-	// public void linkEntered(HyperlinkEvent e) {
-	// }
-	//
-	// public void linkExited(HyperlinkEvent e) {
-	// }
-	// });
-	// toolkit.paintBordersFor(mghprlnkTest);
-	// sctnNewSection.setTextClient(mghprlnkTest);
-	// mghprlnkTest.setText("Test Run");
-	// }
+		// this.createKeyPad(parent);
+	}
 
 	public List<BaseExpressionResult> testExpression(DateTimeRange timeRange,
 			Object... objects) {
@@ -381,6 +325,10 @@ public abstract class EmbeddedExpression {
 			// the editor will process either one....
 			editor.update(expression, asString == null ? "" : asString);
 		}
+
+		if (object == null) {
+			editor.update("");
+		}
 	}
 
 	public void clearData() {
@@ -417,7 +365,7 @@ public abstract class EmbeddedExpression {
 	 * 
 	 * @param parent
 	 */
-	private void createKeyPad(Composite parent) {
+	public void createKeyPad(Composite parent) {
 
 		keyPadComposite = toolkit.createComposite(parent, SWT.BORDER);
 
@@ -736,7 +684,9 @@ public abstract class EmbeddedExpression {
 	public void setEnabled(boolean state) {
 		this.editor.getViewer().setEditable(state);
 		this.editor.getViewer().getControl().setEnabled(state);
-		this.keyPadComposite.setEnabled(state);
+		if (keyPadComposite != null) {
+			this.keyPadComposite.setEnabled(state);
+		}
 	}
 
 }
