@@ -9,6 +9,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -189,6 +190,11 @@ public class IdentifierDialog extends Dialog {
 		}
 			break;
 		}
+		if (this.attributeListViewer.getList().getItemCount() > 0) {
+			attributeListViewer.setSelection(new StructuredSelection(
+					attributeListViewer.getList().getItem(0)));
+		}
+
 	}
 
 	/**
@@ -222,6 +228,11 @@ public class IdentifierDialog extends Dialog {
 
 	public void setObjectKind(int objectKind) {
 		this.objectKind = objectKind;
+	}
+
+	protected void configureShell(Shell shell) {
+		super.configureShell(shell);
+		shell.setText("Select the identifier type and attribute");
 	}
 
 }

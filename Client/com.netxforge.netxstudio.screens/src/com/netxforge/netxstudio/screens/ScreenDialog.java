@@ -35,14 +35,14 @@ import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
- * Wraps an IScreen in a dialog.
- * Don't forget to configure the screen.
+ * Wraps an IScreen in a dialog. Don't forget to configure the screen.
  * 
- * FIXME, Delegate the editing action like save, dirtywarning etc... to the editing service.   
- *   
- *   
+ * FIXME, Delegate the editing action like save, dirtywarning etc... to the
+ * editing service.
+ * 
+ * 
  * @author Christophe Bouhier
- *
+ * 
  */
 public class ScreenDialog extends Dialog {
 
@@ -95,9 +95,8 @@ public class ScreenDialog extends Dialog {
 	}
 
 	/**
-	 * Initialize the screen from a class. 
-	 * Note: Important to further configure the screen with the screen
-	 * service, operation etc...   
+	 * Initialize the screen from a class. Note: Important to further configure
+	 * the screen with the screen service, operation etc...
 	 * 
 	 * 
 	 * @param screenClass
@@ -129,19 +128,18 @@ public class ScreenDialog extends Dialog {
 			e.printStackTrace();
 		}
 	}
-	
-	public IScreen screen(){
+
+	public IScreen screen() {
 		return this.screen;
 	}
-	
+
 	@Override
 	protected void cancelPressed() {
 		if (screen.isValid()) {
 			dirtyWarning();
 			super.cancelPressed();
 		} else {
-			if (screen.getScreenService().getEditingService()
-					.isDirty()) {
+			if (screen.getScreenService().getEditingService().isDirty()) {
 				boolean result = MessageDialog
 						.openQuestion(this.getShell(),
 								"Save needed, but entry not valid",
@@ -164,8 +162,7 @@ public class ScreenDialog extends Dialog {
 		if (screen.isValid()) {
 			if (ScreenUtil.isNewOperation(screen.getOperation())) {
 				if (ScreenUtil.isDataScreenInjection(screen)) {
-					ScreenUtil.dataScreenInjectionFor(screen)
-							.addData();
+					ScreenUtil.dataScreenInjectionFor(screen).addData();
 				} else {
 					// TODO, dirty warning?
 				}
@@ -179,21 +176,25 @@ public class ScreenDialog extends Dialog {
 
 	public void dirtyWarning() {
 		// Warn for unsaved changes.
-		if (screen.getScreenService().getEditingService()
-				.isDirty()) {
+		if (screen.getScreenService().getEditingService().isDirty()) {
 			boolean result = MessageDialog
 					.openQuestion(this.getShell(), "Save needed",
 							"You have unsaved changes, which will be discarded when not saved, save?");
 			if (result && ScreenUtil.isDataScreenInjection(screen)) {
-				ScreenUtil.dataScreenInjectionFor(screen)
-						.addData();
+				ScreenUtil.dataScreenInjectionFor(screen).addData();
 			} else {
 				screen.getScreenService().undoAndFlush();
 			}
 		} else {
 			// Flush the stack anyway.
-			screen.getScreenService().getEditingService()
-					.getEditingDomain().getCommandStack().flush();
+			screen.getScreenService().getEditingService().getEditingDomain()
+					.getCommandStack().flush();
+		}
+	}
+	protected void configureShell(Shell shell) {
+		super.configureShell(shell);
+		if (screen != null) {
+			shell.setText(screen.getScreenName());
 		}
 	}
 }

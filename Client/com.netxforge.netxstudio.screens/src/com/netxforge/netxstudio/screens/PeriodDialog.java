@@ -37,7 +37,6 @@ public class PeriodDialog extends Dialog {
 	public PeriodDialog(Shell parentShell, ModelUtils modelUtils) {
 		super(parentShell);
 		setShellStyle(SWT.TITLE);
-//		parentShell.setText("Select a reporting Period");
 		this.modelUtils = modelUtils;
 	}
 

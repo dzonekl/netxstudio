@@ -11,6 +11,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+
 public class NewEditMappingColumnDialogII extends Dialog {
 
 	private NewEditMappingColumn mappingColumnScreen;
@@ -37,7 +39,6 @@ public class NewEditMappingColumnDialogII extends Dialog {
 		GridLayout gridLayout = (GridLayout) container.getLayout();
 		gridLayout.marginWidth = 0;
 		gridLayout.marginHeight = 0;
-
 		return container;
 	}
 
@@ -128,4 +129,17 @@ public class NewEditMappingColumnDialogII extends Dialog {
 					.getEditingDomain().getCommandStack().flush();
 		}
 	}
+
+	protected void configureShell(Shell shell) {
+		super.configureShell(shell);
+
+		if (mappingColumnScreen != null) {
+			shell.setText(ScreenUtil.isEditOperation(mappingColumnScreen
+					.getOperation()) ? "Edit" : "New" + " Mapping Column");
+		}else{
+			shell.setText("Mapping column");
+			
+		}
+	}
+
 }

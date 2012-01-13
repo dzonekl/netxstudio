@@ -32,7 +32,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -83,7 +82,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
 	private Text txtColumn;
-
+	
+	// Datakind selectors. 
 	private Button btnDate;
 	private Button btnIdentifier;
 	private Button btnMetricValue;
@@ -96,12 +96,22 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private Text txtIdentifierPattern;
 	private Text txtObject;
 	private Text txtMetric;
+	
 	private Combo cmbTimePattern;
 	private Combo cmbDateTimePattern;
 	private Combo cmbDatePattern;
 	private Combo cmbMetricHint;
-	private ComboViewer comboViewerMetricKindHint;
-
+	private ComboViewer cmbViewrMetricKindHint;
+	
+	// text decorations. 
+	private FormText formTextIdentifierMetric;
+	private FormText formTextPattern;
+	private FormText formTextInterval;
+		
+	// hyper links. 
+	private Hyperlink hprlnkSelectMetric;
+	private Hyperlink hprlnkSelectIdentifier;
+	
 	// Writable kind state.
 	private WritableValue btnIdentifierWritableValue;
 	private WritableValue btnDateWritableValue;
@@ -119,11 +129,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private ISWTObservableValue dateTimePatternObservable;
 	private ISWTObservableValue datePatternObservable;
 	private ISWTObservableValue timePatternObservable;
-	// private ISWTObservableValue identifierPatternObservable;
 	private ISWTObservableValue metricObservable;
-	// private ISWTObservableValue valuePatternObservable;
+	private ISWTObservableValue metricValueObservable;
 	private IViewerObservableValue metricKindHintObservable;
-
+	
 	private EMFDataBindingContext context;
 	private boolean showDataMapping;
 
@@ -134,12 +143,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private EList<?> mappingColumns;
 	private MappingColumn mxlsColumn;
 	private MetricSource source;
-	private FormText formText_3;
-	private FormText formText_4;
-	private FormText formText_5;
 
-	private ISWTObservableValue metricValueObservable;
-
+	
 	/**
 	 * Create the composite.
 	 * 
@@ -187,11 +192,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		Section sctnMappings = toolkit.createSection(
 				frmNewMappingColumn.getBody(), Section.EXPANDED
 						| Section.TITLE_BAR);
-		// FormData fd_sctnMappings = new FormData();
-		// fd_sctnMappings.top = new FormAttachment(0, 10);
-		// fd_sctnMappings.right = new FormAttachment(100, -12);
-		// fd_sctnMappings.left = new FormAttachment(0, 12);
-		// sctnMappings.setLayoutData(fd_sctnMappings);
 		toolkit.paintBordersFor(sctnMappings);
 		sctnMappings.setText("Info");
 
@@ -214,13 +214,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		Section sctnDataKind = toolkit.createSection(
 				frmNewMappingColumn.getBody(), Section.EXPANDED
 						| Section.TITLE_BAR);
-		// fd_sctnMappings.bottom = new FormAttachment(sctnDataKind, -6);
-		// FormData fd_sctnNewSection = new FormData();
-		// fd_sctnNewSection.bottom = new FormAttachment(100, -12);
-		// fd_sctnNewSection.top = new FormAttachment(0, 88);
-		// fd_sctnNewSection.left = new FormAttachment(0, 12);
-		// fd_sctnNewSection.right = new FormAttachment(100, -12);
-		// sctnDataKind.setLayoutData(fd_sctnNewSection);
 		toolkit.paintBordersFor(sctnDataKind);
 		sctnDataKind.setText("Mapping");
 		sctnDataKind.setExpanded(true);
@@ -239,7 +232,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				SWT.RADIO);
 		new Label(cmpColumnMapping, SWT.NONE);
 
-		Hyperlink hprlnkSelectMetric = toolkit.createHyperlink(
+		hprlnkSelectMetric = toolkit.createHyperlink(
 				cmpColumnMapping, "Select Metric", SWT.NONE);
 		hprlnkSelectMetric.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
@@ -273,8 +266,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		txtMetric.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1));
 
-		comboViewerMetricKindHint = new ComboViewer(cmpColumnMapping, SWT.NONE);
-		cmbMetricHint = comboViewerMetricKindHint.getCombo();
+		cmbViewrMetricKindHint = new ComboViewer(cmpColumnMapping, SWT.NONE);
+		cmbMetricHint = cmbViewrMetricKindHint.getCombo();
 		cmbMetricHint.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1));
 		toolkit.paintBordersFor(cmbMetricHint);
@@ -282,9 +275,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 	private void buildHeaderMappingOptions(Composite parent) {
 
-		formText_5 = toolkit.createFormText(cmpColumnMapping, false);
-		toolkit.paintBordersFor(formText_5);
-		formText_5.setText("<form><p><b>Interval</b></p></form>", true, false);
+		formTextInterval = toolkit.createFormText(cmpColumnMapping, false);
+		toolkit.paintBordersFor(formTextInterval);
+		formTextInterval.setText("<form><p><b>Interval</b></p></form>", true, false);
 		new Label(cmpColumnMapping, SWT.NONE);
 		new Label(cmpColumnMapping, SWT.NONE);
 		new Label(cmpColumnMapping, SWT.NONE);
@@ -305,11 +298,11 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		toolkit.paintBordersFor(formText_2);
 		formText_2.setText("<form><p><b>Timestamp</b></p></form>", true, false);
 
-		formText_4 = toolkit.createFormText(cmpColumnMapping, false);
-		formText_4.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
+		formTextPattern = toolkit.createFormText(cmpColumnMapping, false);
+		formTextPattern.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 2, 1));
-		toolkit.paintBordersFor(formText_4);
-		formText_4.setText("<form><p><b>Pattern</b></p></form>", true, false);
+		toolkit.paintBordersFor(formTextPattern);
+		formTextPattern.setText("<form><p><b>Pattern</b></p></form>", true, false);
 		new Label(cmpColumnMapping, SWT.NONE);
 		new Label(cmpColumnMapping, SWT.NONE);
 
@@ -361,9 +354,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		new Label(parent, SWT.NONE);
 		new Label(cmpColumnMapping, SWT.NONE);
 
-		formText_3 = toolkit.createFormText(cmpColumnMapping, false);
-		toolkit.paintBordersFor(formText_3);
-		formText_3.setText("<form><p><b>Identifier/Metric</b></p></form>",
+		formTextIdentifierMetric = toolkit.createFormText(cmpColumnMapping, false);
+		toolkit.paintBordersFor(formTextIdentifierMetric);
+		formTextIdentifierMetric.setText("<form><p><b>Identifier/Metric</b></p></form>",
 				true, false);
 
 		FormText formText = toolkit.createFormText(cmpColumnMapping, false);
@@ -389,7 +382,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		txtIdentifierPattern.setLayoutData(gd_txtIdentifierPattern);
 		txtIdentifierPattern.setText("");
 
-		Hyperlink hprlnkSelectIdentifier = toolkit.createHyperlink(parent,
+		hprlnkSelectIdentifier = toolkit.createHyperlink(parent,
 				"Select Identifier", SWT.NONE);
 		hprlnkSelectIdentifier.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
@@ -539,6 +532,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				editingService.getEditingDomain(),
 				MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE);
 		// Should occure before the aggregator is created.
+		
 		IObservableValue dataKindObservable = dataKindProperty
 				.observe(mxlsColumn);
 
@@ -586,7 +580,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 		return context;
 	}
-
+	
 	/*
 	 * bind the part of the UI which deals with header mapping.
 	 */
@@ -634,12 +628,12 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				.observeDelayedValue(400, SWTObservables.observeText(
 						this.txtIdentifierPattern, SWT.Modify));
 
-		IObservableValue objectAttributeObservable = SWTObservables
-				.observeText(this.txtObjectAttribute, SWT.Modify);
-
-		IObservableValue objectObservable = SWTObservables.observeText(
+		IObservableValue objectKindObservable = SWTObservables.observeText(
 				this.txtObject, SWT.Modify);
 
+		IObservableValue objectAttributeObservable = SWTObservables
+				.observeText(this.txtObjectAttribute, SWT.Modify);
+		
 		IEMFEditValueProperty objectPatternProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(), FeaturePath.fromList(
 						MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
@@ -668,7 +662,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		EMFUpdateValueStrategy ttmObjectKindStrategy = new EMFUpdateValueStrategy();
 		ttmObjectKindStrategy.setConverter(new TTMObjectKindStrategy());
 
-		context.bindValue(objectObservable,
+		context.bindValue(objectKindObservable,
 				objectKindProperty.observe(mxlsColumn), ttmObjectKindStrategy,
 				mttObjectKindStrategy);
 
@@ -756,13 +750,23 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				dataKindProperty.observe(mxlsColumn), null,
 				metricModelToTargetStrategy);
 
-		comboViewerMetricKindHint
+		cmbViewrMetricKindHint
 				.setContentProvider(new ArrayContentProvider());
-		comboViewerMetricKindHint.setLabelProvider(new LabelProvider());
-		comboViewerMetricKindHint.setInput(KindHintType.VALUES);
+		cmbViewrMetricKindHint.setLabelProvider(new LabelProvider());
+		cmbViewrMetricKindHint.setInput(KindHintType.VALUES);
 
 		metricKindHintObservable = ViewerProperties.singleSelection().observe(
-				comboViewerMetricKindHint);
+				cmbViewrMetricKindHint);
+		
+		
+		IEMFEditValueProperty KindHintProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(), FeaturePath.fromList(
+						MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
+						MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT));
+		
+		context.bindValue(metricKindHintObservable,
+				KindHintProperty.observe(mxlsColumn), null,
+				null);
 
 	}
 
@@ -815,7 +819,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		}
 
 		public Object convert(Object fromObject) {
-			if (fromObject.equals(IdentifierDialog.NETWORK_ELEMENT)) {
+			if (fromObject != null && fromObject.equals(IdentifierDialog.NETWORK_ELEMENT)) {
 				return IdentifierDialog.NODE;
 			} else {
 				return fromObject;
@@ -833,7 +837,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		}
 
 		public Object convert(Object fromObject) {
-			if (fromObject.equals(IdentifierDialog.NODE_ID)) {
+			if (fromObject != null && fromObject.equals(IdentifierDialog.NODE_ID)) {
 				return IdentifierDialog.NETWORK_ELEMENT_ID;
 			}
 			return fromObject;
@@ -850,7 +854,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		}
 
 		public Object convert(Object fromObject) {
-			if (fromObject.equals(IdentifierDialog.NETWORK_ELEMENT_ID)) {
+			if (fromObject != null && fromObject.equals(IdentifierDialog.NETWORK_ELEMENT_ID)) {
 				return IdentifierDialog.NODE_ID;
 			}
 			return fromObject;
@@ -883,15 +887,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			ValueKindType vkt = vdk.getValueKind();
 			if (vkt == ValueKindType.INTERVAL) {
 				btnIntervalWritableValue.setValue(true);
-				// TODO, Remove later no pattern for interval.
-				// if (vdk.getFormat() != null) {
-				// txtIntervalPattern.setText(vdk.getFormat());
-				// }
 			}
 			if (vkt == ValueKindType.DATETIME) {
 				btnDateTimeWritableValue.setValue(true);
 				String pattern = vdk.getFormat();
-
 				if (pattern != null) {
 					cmbDateTimePattern.setText(vdk.getFormat());
 				}
@@ -933,17 +932,16 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		if (value instanceof ValueDataKind) {
 			ValueDataKind vdk = (ValueDataKind) value;
 			ValueKindType vkt = vdk.getValueKind();
-
 			if (vkt == ValueKindType.METRIC) {
 				this.btnMetricWritableValue.setValue(true);
 				// if (vdk.getFormat() != null) {
 				// this.txtMetricValuePattern.setText(vdk.getFormat());
 				// }
-				if (vdk.eIsSet(MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT)) {
-					KindHintType kindHint = vdk.getKindHint();
-					comboViewerMetricKindHint
-							.setSelection(new StructuredSelection(kindHint));
-				}
+//				if (vdk.eIsSet(MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT)) {
+//					KindHintType kindHint = vdk.getKindHint();
+//					cmbViewrMetricKindHint
+//							.setSelection(new StructuredSelection(kindHint));
+//				}
 			}
 		}
 	}
@@ -953,41 +951,12 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		private IObservableValue dataKindObservable;
 
 		private String pattern; // stores the pattern for the datakind.
-		private int metricKindHint = -1;
+//		private int metricKindHint = -1;
 
-		boolean datetime = false;
-		boolean date = false;
-		boolean time = false;
-		boolean identifier = false;
-		boolean value = false;
-		boolean interval = false;
+		private DataKindStateMachine dksm = new DataKindStateMachine();
 
 		DatakindAggregate(IObservableValue dataKindObservable) {
 			this.dataKindObservable = dataKindObservable;
-			Object value2 = this.dataKindObservable.getValue();
-			DataKind dk = null;
-			if (value2 != null) {
-				dk = (DataKind) value2;
-				if (dk instanceof ValueDataKind) {
-					switch (((ValueDataKind) dk).getValueKind().getValue()) {
-					case ValueKindType.DATE_VALUE:
-						date = true;
-						break;
-					case ValueKindType.DATETIME_VALUE:
-						datetime = true;
-						break;
-					case ValueKindType.TIME_VALUE:
-						time = true;
-						break;
-					case ValueKindType.INTERVAL_VALUE:
-						interval = true;
-						break;
-					case ValueKindType.METRIC_VALUE:
-						value = true;
-						break;
-					}
-				}
-			}
 		}
 
 		/*
@@ -1005,149 +974,238 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 			System.out.println("New Value:" + event.diff.getNewValue());
 
+			// DISPATCH ON OBSERVABLE TYPE.
 			if (event.getObservable() instanceof ISWTObservableValue) {
 				Control control = (Control) ((ISWTObservableValue) event
 						.getObservable()).getWidget();
 				System.out.println(control);
+				
+				// Also clear the non-bind UI widgets. these are: 
+				// cmbDatePattern
+				// cmbTime
+				
 				if (control.equals(btnIdentifier)) {
-					this.identifier = (Boolean) newValue;
-					modelUpdate();
-				}
-				if (control.equals(btnDatetime)) {
-					this.datetime = (Boolean) newValue;
-					modelUpdate();
-				}
-				if (control.equals(btnDate)) {
-					this.date = (Boolean) newValue;
-					modelUpdate();
-				}
-				if (control.equals(btnTime)) {
-					this.time = (Boolean) newValue;
-					modelUpdate();
-				}
+					
+					// Clear and disable anything else. 
+					cmbDatePattern.setText("");
+					cmbDatePattern.setEnabled(false);
+					cmbDateTimePattern.setText("");
+					cmbDateTimePattern.setEnabled(false);
+					cmbTimePattern.setText("");
+					cmbTimePattern.setEnabled(false);
+//					txtIdentifierPattern.setText("");
+					txtIdentifierPattern.setEnabled(true);
+					cmbMetricHint.setText("");
+					cmbMetricHint.setEnabled(false);
+					txtMetric.setText("");
+					txtMetric.setEnabled(false);
+					hprlnkSelectMetric.setEnabled(false);
+					hprlnkSelectIdentifier.setEnabled(true);
+					
+					dksm.setIdentifier((Boolean) newValue);
+				} else if (control.equals(btnDatetime)) {
+					// Clear and disable anything else. 
+					cmbDatePattern.setText("");
+					cmbDatePattern.setEnabled(false);
+//					cmbDateTimePattern.setText("");
+					cmbDateTimePattern.setEnabled(true);
+					cmbTimePattern.setText("");
+					cmbTimePattern.setEnabled(false);
+					txtIdentifierPattern.setText("");
+					txtIdentifierPattern.setEnabled(false);
+					txtMetric.setText("");
+					txtMetric.setEnabled(false);
+					cmbMetricHint.setText("");
+					cmbMetricHint.setEnabled(false);
+					hprlnkSelectMetric.setEnabled(false);
+					hprlnkSelectIdentifier.setEnabled(false);
+					
+					dksm.setDatetime((Boolean) newValue);
+				} else if (control.equals(btnDate)) {
+					// Clear and disable anything else. 
+//					cmbDatePattern.setText("");
+					cmbDatePattern.setEnabled(true);
+					cmbDateTimePattern.setText("");
+					cmbDateTimePattern.setEnabled(false);
+					cmbTimePattern.setText("");
+					cmbTimePattern.setEnabled(false);
+					txtIdentifierPattern.setText("");
+					txtIdentifierPattern.setEnabled(false);
+					txtMetric.setText("");
+					txtMetric.setEnabled(false);
+					cmbMetricHint.setText("");
+					cmbMetricHint.setEnabled(false);
+					hprlnkSelectMetric.setEnabled(false);
+					hprlnkSelectIdentifier.setEnabled(false);
 
-				if (btnMetricValue != null & control.equals(btnMetricValue)) {
-					this.value = (Boolean) newValue;
-					modelUpdate();
-				}
-				if (control.equals(btnInterval)) {
-					this.interval = (Boolean) newValue;
-					modelUpdate();
-				}
+					dksm.setDate((Boolean) newValue);
+				} else if (control.equals(btnTime)) {
+					// Clear and disable anything else. 
+					cmbDatePattern.setText("");
+					cmbDatePattern.setEnabled(false);
+					cmbDateTimePattern.setText("");
+					cmbDateTimePattern.setEnabled(true);
+//					cmbTimePattern.setText("");
+					cmbTimePattern.setEnabled(true);
+					txtIdentifierPattern.setText("");
+					txtIdentifierPattern.setEnabled(false);
+					txtMetric.setText("");
+					txtMetric.setEnabled(false);
+					cmbMetricHint.setText("");
+					cmbMetricHint.setEnabled(false);
+					hprlnkSelectMetric.setEnabled(false);
+					hprlnkSelectIdentifier.setEnabled(false);
 
-				// Patterns of SimpleFormat.
-				if (control.equals(cmbDatePattern)
+					dksm.setTime((Boolean) newValue);
+				} else if (btnMetricValue != null
+						& control.equals(btnMetricValue)) {
+					// Clear and disable anything else. 
+					cmbDatePattern.setText("");
+					cmbDatePattern.setEnabled(false);
+					cmbDateTimePattern.setText("");
+					cmbDateTimePattern.setEnabled(false);
+					cmbTimePattern.setText("");
+					cmbTimePattern.setEnabled(false);
+					txtIdentifierPattern.setText("");
+					txtIdentifierPattern.setEnabled(false);
+//					txtMetric.setText("");
+					txtMetric.setEnabled(true);
+//					cmbMetricHint.setText("");
+					cmbMetricHint.setEnabled(true);
+					dksm.setValue((Boolean) newValue);
+					hprlnkSelectMetric.setEnabled(true);
+					hprlnkSelectIdentifier.setEnabled(false);
+
+				} else if (control.equals(btnInterval)) {
+					// Clear and disable anything else. 
+					cmbDatePattern.setText("");
+					cmbDatePattern.setEnabled(false);
+					cmbDateTimePattern.setText("");
+					cmbDateTimePattern.setEnabled(false);
+					cmbTimePattern.setText("");
+					cmbTimePattern.setEnabled(false);
+					txtIdentifierPattern.setText("");
+					txtIdentifierPattern.setEnabled(false);
+					txtMetric.setText("");
+					txtMetric.setEnabled(false);
+					cmbMetricHint.setText("");
+					cmbMetricHint.setEnabled(false);
+					hprlnkSelectMetric.setEnabled(false);
+					hprlnkSelectIdentifier.setEnabled(false);
+
+
+					dksm.setInterval((Boolean) newValue);
+				} else if (control.equals(cmbDatePattern)
 						|| control.equals(cmbDateTimePattern)
 						|| control.equals(cmbTimePattern)) {
 					this.pattern = (String) newValue;
-					modelUpdate();
-				}
-
-				// Regular expression patterns.
-				if (control.equals(txtIdentifierPattern)) {
+					attributeUpdate();
+					return;
+				} else if (control.equals(txtIdentifierPattern)) {
+					// Regular expression patterns
 					this.pattern = (String) newValue;
+					attributeUpdate();
+					return;
+				}
+				// We are only interrested in button selection (not
+				// un-selection).
+				if (newValue instanceof Boolean && (Boolean) newValue) {
 					modelUpdate();
 				}
 			}
+			
+			// bind directly. 
 
-			if (event.getObservable() instanceof IViewerObservableValue) {
-				if (newValue instanceof KindHintType) {
-					metricKindHint = ((KindHintType) newValue).getValue();
-					modelUpdate();
-				}
-			}
+//			if (event.getObservable() instanceof IViewerObservableValue) {
+//				Viewer viewer = (Viewer) ((IViewerObservableValue) event
+//						.getObservable()).getViewer();
+//				System.out.println(viewer.getControl());
+//				if (newValue instanceof KindHintType) {
+//					metricKindHint = ((KindHintType) newValue).getValue();
+//					attributeUpdate();
+//				}
+//			}
 
 		}
-
+		
+		/*
+		 * Switches between objects if the dk state changed. tries to re-use existing
+		 */
 		private boolean modelUpdate() {
 
-			System.out.println("I DT T D V P=" + identifier + datetime + date
-					+ time + value + interval);
-
-			CompoundCommand cc = new CompoundCommand();
-
-			// As we have an existing type, we loose all settings from that
-			// in herit what we need.
-			DataKind currentDk = (DataKind) this.dataKindObservable.getValue();
 			DataKind dk = null;
-			if (interval || value || datetime || date || time) {
-				if (currentDk instanceof ValueDataKind) {
-					dk = currentDk;
+			DataKind currentDk = (DataKind) this.dataKindObservable.getValue();
+			// Check we switched, from the stated, we could still have a valid
+			// object.
+			if (currentDk != null) {
+				if (dksm.isDataKindSwitched()) {
+					// Clear the attributes, which will be reset:
+					pattern = "";
+					dksm.setDataKindSwitched(false);
+					// create a new one.
+					if (dksm.isValueDataKind()) {
+						if (currentDk instanceof ValueDataKind) {
+							((ValueDataKind) currentDk).setMetricRef(null);
+							dk = currentDk;
+						} else {
+							dk = MetricsFactory.eINSTANCE.createValueDataKind();
+						}
+					} else if (dksm.isIdentifierDataKind()) {
+						if (currentDk instanceof IdentifierDataKind) {
+							// keep the metrc if set.
+							dk = currentDk;
+						} else {
+							dk = MetricsFactory.eINSTANCE
+									.createIdentifierDataKind();
+						}
+					}
 				} else {
-					dk = MetricsFactory.eINSTANCE.createValueDataKind();
+					dk = currentDk;
 				}
-			} else if (identifier) {
-				if (currentDk instanceof IdentifierDataKind) {
-					// keep the metirc if set.
-					dk = currentDk;
-				} else {
-					dk = MetricsFactory.eINSTANCE.createIdentifierDataKind();
+			} else {
+				// This is a new mapping, create a new DK if the state is valid.
+				if (dksm.isValidState()) {
+					dk = dksm.isValueDataKind() ? MetricsFactory.eINSTANCE
+							.createValueDataKind() : MetricsFactory.eINSTANCE
+							.createIdentifierDataKind();
 				}
 			}
+			if (dk instanceof ValueDataKind) {
+				((ValueDataKind) dk).setValueKind(dksm.valueDataKindForState());
+			}	
+			dataKindObservable.setValue(dk);
+			return true;
+		}
+		
+		
+		private boolean attributeUpdate() {
 
-			// Write the DataKind with attributes.
+			DataKind dk = (DataKind) this.dataKindObservable.getValue();
+			
+			// Write the DataKind with attributes, note: some attributes are
+			// directly bound, so we have
+			// to re-use the existing object if any (This is why these are not
+			// set here).
 			if (dk instanceof ValueDataKind) {
 				ValueDataKind vdk = (ValueDataKind) dk;
-				if (interval) {
-					vdk.setValueKind(ValueKindType.INTERVAL);
-				}
-				if (value) {
-					vdk.setValueKind(ValueKindType.METRIC);
-				}
-				if (datetime) {
-					vdk.setValueKind(ValueKindType.DATETIME);
-				}
-				if (date) {
-					vdk.setValueKind(ValueKindType.DATE);
-				}
-				if (time) {
-					vdk.setValueKind(ValueKindType.TIME);
-				}
+				vdk.setFormat(pattern);
+				// SetCommand sc = new SetCommand(
+				// editingService.getEditingDomain(), vdk,
+				// MetricsPackage.Literals.VALUE_DATA_KIND__FORMAT,
+				// pattern);
+				//
+				// editingService.getEditingDomain().getCommandStack().execute(sc);
 
-				{
-					// Note: Interval don't have patterns.
-					// ((ValueDataKind) dk).setFormat(pattern);
-
-					SetCommand sc = new SetCommand(
-							editingService.getEditingDomain(), dk,
-							MetricsPackage.Literals.VALUE_DATA_KIND__FORMAT,
-							pattern);
-					cc.append(sc);
-				}
-				{
-					if (metricKindHint != -1
-							&& vdk.getValueKind() == ValueKindType.METRIC) {
-						SetCommand sc = new SetCommand(
-								editingService.getEditingDomain(),
-								dk,
-								MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT,
-								KindHintType.get(metricKindHint));
-						cc.append(sc);
-					}
-
-				}
-
+//				if (metricKindHint != -1
+//						&& vdk.getValueKind() == ValueKindType.METRIC) {
+//					vdk.setKindHint(KindHintType.get(metricKindHint));
+//				}else{
+//					// clear the metric attributes. 
+////					vdk.setMetricRef(null);
+//					vdk.setKindHint(null);
+//				}
 			}
-			// if (dk instanceof IdentifierDataKind) {
-			// {
-			// SetCommand sc = new SetCommand(
-			// editingService.getEditingDomain(),
-			// dk,
-			// MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN,
-			// pattern);
-			// cc.append(sc);
-			// }
-			//
-			// {
-			// SetCommand sc = new SetCommand(
-			// editingService.getEditingDomain(),
-			// dk,
-			// MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY,
-			// IdentifierDialog.NETWORK_ELEMENT_ID);
-			// cc.append(sc);
-			// }
-			// }
-			editingService.getEditingDomain().getCommandStack().execute(cc);
+
 			dataKindObservable.setValue(dk);
 			return true;
 		}
@@ -1167,6 +1225,122 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			}
 			return new Status(IStatus.WARNING, ScreensActivator.PLUGIN_ID,
 					"Please enter correct job scheduling data");
+		}
+
+		/*
+		 * State machine for which Datakind is selected in the screen. Operats
+		 * parallel to the widget.
+		 */
+		class DataKindStateMachine {
+
+			boolean date = false;
+			boolean time = false;
+			boolean identifier = false;
+			boolean value = false;
+			boolean interval = false;
+			boolean datetime = false;
+
+			// Keeps state if we switched the DataKind.
+			boolean dataKindSwitched = false;
+
+			public boolean isDataKindSwitched() {
+				return dataKindSwitched;
+			}
+
+			public void setDataKindSwitched(boolean dataKindSwitched) {
+				this.dataKindSwitched = dataKindSwitched;
+			}
+
+			private void invalidateState() {
+				date = time = identifier = value = interval = datetime = false;
+			}
+
+			public boolean isValueDataKind() {
+				return interval || value || datetime || date || time;
+			}
+
+			public ValueKindType valueDataKindForState() {
+				if (interval) {
+					return ValueKindType.INTERVAL;
+				} else if (value) {
+					return ValueKindType.METRIC;
+				} else if (datetime) {
+					return ValueKindType.DATETIME;
+				} else if (date) {
+					return ValueKindType.DATE;
+				} else if (time) {
+					return ValueKindType.TIME;
+				}
+				return null;
+			}
+
+			public boolean isIdentifierDataKind() {
+				return identifier;
+			}
+
+			public boolean isValidState() {
+				return interval || value || datetime || date || time
+						|| identifier;
+			}
+
+			// Setters.
+			public void setDate(boolean date) {
+				invalidateState();
+				this.date = date;
+				if (!this.date) {
+					setDataKindSwitched(true);
+				}
+			}
+
+			public void setDatetime(boolean datetime) {
+				invalidateState();
+				this.datetime = datetime;
+				if (!this.datetime) {
+					setDataKindSwitched(true);
+				}
+			}
+
+			public void setTime(boolean time) {
+				invalidateState();
+				this.time = time;
+				if (!this.time) {
+					setDataKindSwitched(true);
+				}
+
+			}
+
+			public void setValue(boolean value) {
+				invalidateState();
+				this.value = value;
+				if (!value) {
+					setDataKindSwitched(true);
+				}
+
+			}
+
+			public void setInterval(boolean interval) {
+				invalidateState();
+				this.interval = interval;
+				if (!interval) {
+					setDataKindSwitched(true);
+				}
+
+			}
+
+			public void setIdentifier(boolean identifier) {
+				invalidateState();
+				this.identifier = identifier;
+
+				if (!identifier) {
+					setDataKindSwitched(true);
+				}
+			}
+
+			public String toString() {
+				return "I DT T D V P=" + identifier + datetime + date + time
+						+ value + interval + "";
+			}
+
 		}
 	}
 

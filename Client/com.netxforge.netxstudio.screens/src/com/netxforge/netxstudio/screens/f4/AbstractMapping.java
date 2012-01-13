@@ -717,6 +717,14 @@ public abstract class AbstractMapping extends AbstractScreen {
 							FeaturePath
 									.fromList(
 											MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
+											MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT))
+					.observeDetail(set));
+
+			mapList.add(EMFEditProperties
+					.value(editingService.getEditingDomain(),
+							FeaturePath
+									.fromList(
+											MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
 											MetricsPackage.Literals.VALUE_DATA_KIND__VALUE_KIND))
 					.observeDetail(set));
 
@@ -806,9 +814,16 @@ public abstract class AbstractMapping extends AbstractScreen {
 					ValueKindType vkt = ((ValueDataKind) k).getValueKind();
 					switch (vkt.getValue()) {
 					case ValueKindType.METRIC_VALUE: {
+
+						StringBuilder sb = new StringBuilder();
 						if (k.eIsSet(MetricsPackage.Literals.VALUE_DATA_KIND__METRIC_REF)) {
-							return ((ValueDataKind) k).getMetricRef().getName();
+							sb.append(((ValueDataKind) k).getMetricRef()
+									.getName());
 						}
+						sb.append(" : "
+								+ ((ValueDataKind) k).getKindHint().getName());
+
+						return sb.toString();
 					}
 					case ValueKindType.DATE_VALUE:
 					case ValueKindType.DATETIME_VALUE:
