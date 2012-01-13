@@ -71,7 +71,7 @@ import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 public class MetricSources extends AbstractScreen implements
 		IDataServiceInjection {
@@ -129,7 +129,7 @@ public class MetricSources extends AbstractScreen implements
 							.getFirstElement();
 					NewEditMetricSource editMetricSourceScreen = new NewEditMetricSource(
 							screenService.getScreenContainer(), SWT.NONE);
-					editMetricSourceScreen.setOperation(Screens.OPERATION_EDIT);
+					editMetricSourceScreen.setOperation(ScreenUtil.OPERATION_EDIT);
 					editMetricSourceScreen.setScreenService(screenService);
 					editMetricSourceScreen.injectData(msResource, o);
 					screenService.setActiveScreen(editMetricSourceScreen);
@@ -178,7 +178,7 @@ public class MetricSources extends AbstractScreen implements
 
 						// Edit or New if the MetricSource has a job or not.
 						if (job != null) {
-							operation = Screens.OPERATION_EDIT;
+							operation = ScreenUtil.OPERATION_EDIT;
 							showJobScreen = true;
 						} else {
 							// We could be dealing with a partial match.
@@ -190,7 +190,7 @@ public class MetricSources extends AbstractScreen implements
 													+ "Do you wish to create a new job for these sources?");
 
 							if (yes) {
-								operation = Screens.OPERATION_NEW;
+								operation = ScreenUtil.OPERATION_NEW;
 								job = SchedulingFactory.eINSTANCE
 										.createMetricSourceJob();
 
@@ -246,7 +246,7 @@ public class MetricSources extends AbstractScreen implements
 
 				MappingStatistics stats = new MappingStatistics(
 						screenService.getScreenContainer(), SWT.NONE);
-				stats.setOperation(Screens.OPERATION_READ_ONLY);
+				stats.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 				stats.setScreenService(screenService);
 				stats.injectData(null, o);
 				screenService.setActiveScreen(stats);
@@ -388,7 +388,7 @@ public class MetricSources extends AbstractScreen implements
 					public void linkActivated(HyperlinkEvent e) {
 						NewEditMetricSource msScreen = new NewEditMetricSource(
 								screenService.getScreenContainer(), SWT.NONE);
-						msScreen.setOperation(Screens.OPERATION_NEW);
+						msScreen.setOperation(ScreenUtil.OPERATION_NEW);
 						msScreen.setScreenService(screenService);
 
 						msScreen.injectData(msResource,
@@ -584,7 +584,7 @@ public class MetricSources extends AbstractScreen implements
 		
 		// lazy init actions.
 		if (actions.isEmpty()) {
-			boolean readonly = Screens.isReadOnlyOperation(getOperation());
+			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
 			String actionText = readonly ? "View" : "Edit";
 			actions.add(new EditMetricSourceAction(actionText + "...", SWT.PUSH));
 			actions.add(new SeparatorAction());

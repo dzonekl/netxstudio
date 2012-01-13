@@ -70,7 +70,7 @@ import com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl;
 import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.CSVServiceJob;
 import com.netxforge.netxstudio.screens.f4.support.IdentifierDialog;
 import com.netxforge.netxstudio.screens.f4.support.XLSServiceJob;
@@ -151,7 +151,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// New or Edit.
-		boolean edit = Screens.isEditOperation(getOperation());
+		boolean edit = ScreenUtil.isEditOperation(getOperation());
 		String actionText = edit ? "Edit: " : "New: ";
 
 		frmMappings = toolkit.createForm(this);
@@ -193,8 +193,8 @@ public abstract class AbstractMapping extends AbstractScreen {
 		toolkit.paintBordersFor(sctnGeneral);
 		sctnGeneral.setText("General");
 
-		Composite generalComposite = toolkit.createComposite(
-				sctnGeneral, SWT.NONE);
+		Composite generalComposite = toolkit.createComposite(sctnGeneral,
+				SWT.NONE);
 		toolkit.paintBordersFor(generalComposite);
 		sctnGeneral.setClient(generalComposite);
 		generalComposite.setLayout(new GridLayout(2, false));
@@ -207,8 +207,8 @@ public abstract class AbstractMapping extends AbstractScreen {
 		lblIntervalHint.setLayoutData(gd_lblIntervalHint);
 		lblIntervalHint.setAlignment(SWT.RIGHT);
 
-		txtInterval = toolkit.createText(generalComposite, "New Text",
-				SWT.NONE);
+		txtInterval = toolkit
+				.createText(generalComposite, "New Text", SWT.NONE);
 		GridData gd_text = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
 		gd_text.widthHint = 60;
 		txtInterval.setLayoutData(gd_text);
@@ -270,7 +270,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 				.addHyperlinkListener(new IHyperlinkListener() {
 					public void linkActivated(HyperlinkEvent e) {
 						newColumnMappingScreenDialog(false,
-								Screens.OPERATION_NEW,
+								ScreenUtil.OPERATION_NEW,
 								mapping.getHeaderMappingColumns(),
 								MetricsFactory.eINSTANCE.createMappingColumn());
 					}
@@ -373,7 +373,8 @@ public abstract class AbstractMapping extends AbstractScreen {
 				if (selection instanceof IStructuredSelection) {
 					Object mappingColumn = ((IStructuredSelection) selection)
 							.getFirstElement();
-					newColumnMappingScreenDialog(false, Screens.OPERATION_EDIT,
+					newColumnMappingScreenDialog(false,
+							ScreenUtil.OPERATION_EDIT,
 							mapping.getHeaderMappingColumns(), mappingColumn);
 				}
 
@@ -436,7 +437,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 				SWT.NONE);
 		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				newColumnMappingScreenDialog(true, Screens.OPERATION_NEW,
+				newColumnMappingScreenDialog(true, ScreenUtil.OPERATION_NEW,
 						mapping.getDataMappingColumns(),
 						MetricsFactory.eINSTANCE.createMappingColumn());
 			}
@@ -512,7 +513,8 @@ public abstract class AbstractMapping extends AbstractScreen {
 				if (selection instanceof IStructuredSelection) {
 					Object mappingColumn = ((IStructuredSelection) selection)
 							.getFirstElement();
-					newColumnMappingScreenDialog(true, Screens.OPERATION_EDIT,
+					newColumnMappingScreenDialog(true,
+							ScreenUtil.OPERATION_EDIT,
 							mapping.getDataMappingColumns(), mappingColumn);
 				}
 			}
@@ -815,7 +817,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 							return ((ValueDataKind) k).getFormat();
 						}
 					}
-					case ValueKindType.INTERVAL_VALUE:{
+					case ValueKindType.INTERVAL_VALUE: {
 						return "";
 					}
 					default: {
@@ -859,7 +861,8 @@ public abstract class AbstractMapping extends AbstractScreen {
 	public void newColumnMappingScreenDialog(boolean showDataMapping, int op,
 			Object owner, Object target) {
 		NewEditMappingColumnDialogII dialog = new NewEditMappingColumnDialogII(
-				screenService.getActiveScreen().getShell());
+				ScreenUtil.compositeFor(screenService.getActiveScreen())
+						.getShell());
 		dialog.create();
 		NewEditMappingColumn mappingColumnScreen = dialog
 				.getMappingColumnScreen();
@@ -923,8 +926,8 @@ public abstract class AbstractMapping extends AbstractScreen {
 										.println("failed to store the sample file : "
 												+ f.toString());
 							}
-							
-							if(job.getRecords().size() > 0){
+
+							if (job.getRecords().size() > 0) {
 								fillGrid(job.getRecords().get(0));
 							}
 						}

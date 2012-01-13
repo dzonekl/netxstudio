@@ -79,7 +79,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.details.NewEditFunction;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNetwork;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNode;
@@ -145,7 +145,7 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 

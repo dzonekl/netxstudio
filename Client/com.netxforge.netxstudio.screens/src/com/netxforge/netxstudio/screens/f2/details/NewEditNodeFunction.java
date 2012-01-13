@@ -28,7 +28,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 public class NewEditNodeFunction extends NewEditComponent implements IScreen {
 
@@ -49,7 +49,7 @@ public class NewEditNodeFunction extends NewEditComponent implements IScreen {
 	public void buildUI() {
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		buildInfoSection(widgetStyle);

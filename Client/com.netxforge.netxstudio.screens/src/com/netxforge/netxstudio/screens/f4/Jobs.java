@@ -64,7 +64,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
@@ -254,7 +254,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	public IAction[] getActions() {
 		// lazy init.
 		if (actions.isEmpty()) {
-			String actionText = Screens
+			String actionText = ScreenUtil
 					.isReadOnlyOperation(this.getOperation()) ? "View..."
 					: "Edit...";
 
@@ -279,7 +279,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 				NewEditJob job = new NewEditJob(
 						screenService.getScreenContainer(), SWT.NONE);
 				job.setScreenService(screenService);
-				job.setOperation(Screens.OPERATION_EDIT);
+				job.setOperation(ScreenUtil.OPERATION_EDIT);
 				job.injectData(jobsResource, o);
 				screenService.setActiveScreen(job);
 			}
@@ -301,7 +301,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 				JobRuns jobRunsScreen = new JobRuns(
 						screenService.getScreenContainer(), SWT.NONE);
 				jobRunsScreen.setScreenService(screenService);
-				jobRunsScreen.setOperation(Screens.OPERATION_READ_ONLY);
+				jobRunsScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 				jobRunsScreen.injectData(jobsResource, o);
 				screenService.setActiveScreen(jobRunsScreen);
 			}

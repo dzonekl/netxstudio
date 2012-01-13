@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f1.Reports;
 import com.netxforge.netxstudio.screens.f1.ServiceUsers;
 import com.netxforge.netxstudio.screens.f1.ServicesTree;
@@ -54,13 +54,13 @@ public class MonitoringScreenSelector extends AbstractScreenSelector {
 		Composite result;
 		result = screenFormService.addScreenSelector("Services",
 				"icons/full/obj16/Service_H.png", ServicesTree.class, 1,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Service Users",
 				"icons/full/obj16/ServiceProfile_H.png", ServiceUsers.class,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Reports",
 				"icons/full/obj16/Reports_H.png", Reports.class,
-				Screens.OPERATION_READ_ONLY);
+				ScreenUtil.OPERATION_READ_ONLY);
 	}
 
 	public void dispose() {

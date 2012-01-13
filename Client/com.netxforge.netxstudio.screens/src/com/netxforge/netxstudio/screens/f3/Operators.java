@@ -68,7 +68,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 
 /**
@@ -164,7 +164,7 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
@@ -210,7 +210,7 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 				public void linkActivated(HyperlinkEvent e) {
 					NewEditOperator operatorScreen = new NewEditOperator(
 							screenService.getScreenContainer(), SWT.NONE);
-					operatorScreen.setOperation(Screens.OPERATION_NEW);
+					operatorScreen.setOperation(ScreenUtil.OPERATION_NEW);
 					operatorScreen.setScreenService(screenService);
 					Operator newOperator = OperatorsFactory.eINSTANCE
 							.createOperator();
@@ -326,7 +326,7 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 		
 		// Lazy init. 
 		if (actions.isEmpty()) {
-			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
 			actions.add(new EditOperatorAction(actionText + "...", SWT.PUSH));
 		}

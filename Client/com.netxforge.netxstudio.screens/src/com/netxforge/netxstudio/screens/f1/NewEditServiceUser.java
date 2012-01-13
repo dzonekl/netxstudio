@@ -54,7 +54,7 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.ch9.EmbeddedSelectionExpression;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -90,7 +90,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
@@ -168,7 +168,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 			public void linkActivated(HyperlinkEvent e) {
 				NewEditDerivedResource resourceScreen = new NewEditDerivedResource(
 						screenService.getScreenContainer(), SWT.NONE);
-				resourceScreen.setOperation(Screens.OPERATION_NEW);
+				resourceScreen.setOperation(ScreenUtil.OPERATION_NEW);
 				resourceScreen.setScreenService(screenService);
 				resourceScreen.injectData(serviceUser.getServiceProfile(),
 						ServicesFactory.eINSTANCE.createDerivedResource());
@@ -403,7 +403,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 	}
 
 	public void addData() {
-		if (Screens.isNewOperation(getOperation()) && owner != null) {
+		if (ScreenUtil.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 
 			AddCommand ac = new AddCommand(editingService.getEditingDomain(),
@@ -411,7 +411,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 			editingService.getEditingDomain().getCommandStack().execute(ac);
 
 			// We can't add this resource now, we need a referee.
-		} else if (Screens.isEditOperation(getOperation())) {
+		} else if (ScreenUtil.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have to replace. However if our original object is invalid, this
 			// will

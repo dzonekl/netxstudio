@@ -76,7 +76,7 @@ import com.netxforge.netxstudio.screens.actions.NodeTypeExportHTMLAction;
 import com.netxforge.netxstudio.screens.actions.NodeTypeExportXLSAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.details.NewEditEquipment;
 import com.netxforge.netxstudio.screens.f2.details.NewEditFunction;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNodeType;
@@ -136,7 +136,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
@@ -271,7 +271,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 							screenService.getScreenContainer(), SWT.NONE);
 					nodeTypeHistoryScreen.setScreenService(screenService);
 					nodeTypeHistoryScreen
-							.setOperation(Screens.OPERATION_READ_ONLY);
+							.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 					nodeTypeHistoryScreen.injectData(null, object);
 					screenService.setActiveScreen(nodeTypeHistoryScreen);
 				}

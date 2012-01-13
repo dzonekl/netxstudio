@@ -68,7 +68,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -109,7 +109,7 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
@@ -155,7 +155,7 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 				public void linkActivated(HyperlinkEvent e) {
 					NewEditParameter parameterScreen = new NewEditParameter(
 							screenService.getScreenContainer(), SWT.NONE);
-					parameterScreen.setOperation(Screens.OPERATION_NEW);
+					parameterScreen.setOperation(ScreenUtil.OPERATION_NEW);
 					parameterScreen.setScreenService(screenService);
 					Parameter parameter = LibraryFactory.eINSTANCE
 							.createParameter();
@@ -326,7 +326,7 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 	public IAction[] getActions() {
 		// Lazy init actions.
 		if (actions.isEmpty()) {
-			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
 			actions.add(new EditParameterAction(actionText + "...", SWT.PUSH));
 		}

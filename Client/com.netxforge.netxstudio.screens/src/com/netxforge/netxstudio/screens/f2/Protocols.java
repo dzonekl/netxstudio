@@ -68,7 +68,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -110,7 +110,7 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
@@ -157,7 +157,7 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 
 					NewEditProtocol protocolScreen = new NewEditProtocol(
 							screenService.getScreenContainer(), SWT.NONE);
-					protocolScreen.setOperation(Screens.OPERATION_NEW);
+					protocolScreen.setOperation(ScreenUtil.OPERATION_NEW);
 					protocolScreen.setScreenService(screenService);
 					Protocol protocol = ProtocolsFactory.eINSTANCE
 							.createProtocol();
@@ -330,7 +330,7 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 	public IAction[] getActions() {
 		// Lazy init actions.
 		if (actions.isEmpty()) {
-			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
 			actions.add(new EditProtocolAction(actionText + "...", SWT.PUSH));
 		}

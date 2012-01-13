@@ -79,7 +79,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDateTimeObservableValue;
 import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
@@ -1015,11 +1015,11 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			this.owner = (Resource) owner;
 		}
 		if (object != null && object instanceof Job) {
-			if (Screens.isEditOperation(this.getOperation())) {
+			if (ScreenUtil.isEditOperation(this.getOperation())) {
 				// Job copy = EcoreUtil.copy((Job) object);
 				// job = copy;
 				job = (Job) object;
-			} else if (Screens.isNewOperation(getOperation())) {
+			} else if (ScreenUtil.isNewOperation(getOperation())) {
 				job = (Job) object;
 			}
 		}
@@ -1056,7 +1056,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		
 		frmNewJob.setText(this.getOperationText() + jobTypes[type] + " Job");
 
-		if (!Screens.isReadOnlyOperation(getOperation())) {
+		if (!ScreenUtil.isReadOnlyOperation(getOperation())) {
 			validationService.registerBindingContext(bindingContext);
 			validationService.addValidationListener(this);
 		}
@@ -1067,12 +1067,12 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 	}
 
 	public void addData() {
-		if (Screens.isNewOperation(getOperation()) && owner != null) {
+		if (ScreenUtil.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new AddCommand(editingService.getEditingDomain(),
 					owner.getContents(), job);
 			editingService.getEditingDomain().getCommandStack().execute(c);
-		} else if (Screens.isEditOperation(getOperation())) {
+		} else if (ScreenUtil.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have to replace. However if our original object is invalid, this
 			// will

@@ -58,7 +58,7 @@ import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class NewEditUser extends AbstractScreen implements
@@ -119,7 +119,7 @@ public class NewEditUser extends AbstractScreen implements
 		frmNewEditUser.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewEditUser);
 
-		String title = Screens.isNewOperation(getOperation()) ? "New: " : "Edit: ";
+		String title = ScreenUtil.isNewOperation(getOperation()) ? "New: " : "Edit: ";
 
 		frmNewEditUser.setText(title + "User");
 		frmNewEditUser.addMessageHyperlinkListener(new HyperlinkAdapter());
@@ -624,7 +624,7 @@ public class NewEditUser extends AbstractScreen implements
 		buildUI();
 		m_bindingContext = initDataBindings_();
 
-		if (!Screens.isReadOnlyOperation(getOperation())) {
+		if (!ScreenUtil.isReadOnlyOperation(getOperation())) {
 			validationService.registerBindingContext(m_bindingContext);
 			validationService.addValidationListener(this);
 		}
@@ -638,12 +638,12 @@ public class NewEditUser extends AbstractScreen implements
 	 * Object)
 	 */
 	public void addData() {
-		if (Screens.isNewOperation(getOperation()) && owner != null) {
+		if (ScreenUtil.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new AddCommand(editingService.getEditingDomain(),
 					owner.getContents(), user);
 			editingService.getEditingDomain().getCommandStack().execute(c);
-		} else if (Screens.isEditOperation(getOperation())) {
+		} else if (ScreenUtil.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have to replace. However if our original object is invalid, this
 			// will

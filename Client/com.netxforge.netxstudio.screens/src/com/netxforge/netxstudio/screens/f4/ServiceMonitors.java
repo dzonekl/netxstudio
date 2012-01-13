@@ -41,7 +41,7 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -182,7 +182,7 @@ public class ServiceMonitors extends AbstractScreen implements
 							.getFirstElement();
 						ResourceMonitors rmScreen = new ResourceMonitors(
 								screenService.getScreenContainer(), SWT.NONE);
-						rmScreen.setOperation(Screens.OPERATION_READ_ONLY);
+						rmScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 						rmScreen.setScreenService(screenService);
 						rmScreen.injectData(null,o);
 						screenService.setActiveScreen(rmScreen);

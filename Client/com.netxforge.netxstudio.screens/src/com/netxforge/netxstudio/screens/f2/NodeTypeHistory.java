@@ -57,7 +57,7 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.actions.CompareAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -139,7 +139,7 @@ public class NodeTypeHistory extends AbstractScreen implements
 	 * com.netxforge.netxstudio.screens.editing.selector.IScreen#getOperation()
 	 */
 	public int getOperation() {
-		return Screens.OPERATION_READ_ONLY;
+		return ScreenUtil.OPERATION_READ_ONLY;
 	}
 
 	private TableViewer tableViewer;

@@ -49,7 +49,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 public class UsersAndRoles extends AbstractScreen implements
 		IDataServiceInjection {
@@ -121,7 +121,7 @@ public class UsersAndRoles extends AbstractScreen implements
 		});
 
 		// Conditional widget.
-		if (!Screens.isReadOnlyOperation(this.getOperation())) {
+		if (!ScreenUtil.isReadOnlyOperation(this.getOperation())) {
 			ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
 					frmUsersAndRoles.getBody(), SWT.NONE);
 			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
@@ -129,7 +129,7 @@ public class UsersAndRoles extends AbstractScreen implements
 					if (screenService != null) {
 						NewEditUser user = new NewEditUser(screenService
 								.getScreenContainer(), SWT.NONE);
-						user.setOperation(Screens.OPERATION_NEW);
+						user.setOperation(ScreenUtil.OPERATION_NEW);
 						user.setScreenService(screenService);
 						user.injectData(personsResource,
 								GenericsFactory.eINSTANCE.createPerson());
@@ -207,7 +207,7 @@ public class UsersAndRoles extends AbstractScreen implements
 							.getFirstElement();
 					UserActivity activityScreen = new UserActivity(
 							screenService.getScreenContainer(), SWT.NONE);
-					activityScreen.setOperation(Screens.OPERATION_READ_ONLY);
+					activityScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 					activityScreen.setScreenService(screenService);
 					activityScreen.injectData(personsResource, o);
 					screenService.setActiveScreen(activityScreen);
@@ -232,7 +232,7 @@ public class UsersAndRoles extends AbstractScreen implements
 							.getFirstElement();
 					NewEditUser userScreen = new NewEditUser(
 							screenService.getScreenContainer(), SWT.NONE);
-					userScreen.setOperation(Screens.OPERATION_EDIT);
+					userScreen.setOperation(ScreenUtil.OPERATION_EDIT);
 					userScreen.setScreenService(screenService);
 					userScreen.injectData(personsResource, o);
 					screenService.setActiveScreen(userScreen);
@@ -329,7 +329,7 @@ public class UsersAndRoles extends AbstractScreen implements
 	@Override
 	public IAction[] getActions() {
 		if (actions.isEmpty()) {
-			boolean readonly = Screens.isReadOnlyOperation(getOperation());
+			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
 			String actionText = readonly ? "View" : "Edit";
 			actions.add(new EditAction(actionText + "...", SWT.PUSH));
 			actions.add(new HistoryAction("History...", SWT.PUSH));

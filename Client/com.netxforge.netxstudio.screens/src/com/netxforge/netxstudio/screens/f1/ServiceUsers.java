@@ -42,7 +42,7 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -108,7 +108,7 @@ public class ServiceUsers extends AbstractScreen implements
 				if (screenService != null) {
 					NewEditServiceUser smScreen = new NewEditServiceUser(
 							screenService.getScreenContainer(), SWT.NONE);
-					smScreen.setOperation(Screens.OPERATION_NEW);
+					smScreen.setOperation(ScreenUtil.OPERATION_NEW);
 					smScreen.setScreenService(screenService);
 					ServiceUser su = ServicesFactory.eINSTANCE
 							.createServiceUser();
@@ -291,7 +291,7 @@ public class ServiceUsers extends AbstractScreen implements
 
 		List<IAction> actions = Lists.newArrayList();
 
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+		String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 				: "Edit";
 
 		actions.add(new EditServiceAction(actionText + "...", SWT.PUSH));

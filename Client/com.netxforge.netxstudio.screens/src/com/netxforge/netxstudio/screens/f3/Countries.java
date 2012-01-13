@@ -68,7 +68,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -159,7 +159,7 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
@@ -205,7 +205,7 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 				public void linkActivated(HyperlinkEvent e) {
 					NewEditCountry countryScreen = new NewEditCountry(
 							screenService.getScreenContainer(), SWT.NONE);
-					countryScreen.setOperation(Screens.OPERATION_NEW);
+					countryScreen.setOperation(ScreenUtil.OPERATION_NEW);
 					countryScreen.setScreenService(screenService);
 					Country newCountry = GeoFactory.eINSTANCE.createCountry();
 					countryScreen.injectData(countryResource, newCountry);
@@ -314,7 +314,7 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 		
 		// lazy init the action list.
 		if (actionList.isEmpty()) {
-			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
 			new EditCountryAction(actionText + "...", SWT.PUSH);
 		}

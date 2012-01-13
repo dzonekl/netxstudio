@@ -181,8 +181,14 @@ public class JobFailures extends Dialog implements IDataScreenInjection {
 			workflowRun = (WorkFlowRun) object;
 		}
 	}
+	public void injectData() {
+	}
 
+	public void injectData(Object... params) {
+	}
 	public void addData() {
 		// N/A, This is a view.
 	}
+
+	
 }

@@ -72,7 +72,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeFactory;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeLabelProvider;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeStructureAdvisor;
@@ -191,7 +191,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 								.getFirstElement();
 						NewEditMetric metricScreen = new NewEditMetric(
 								screenService.getScreenContainer(), SWT.NONE);
-						metricScreen.setOperation(Screens.OPERATION_NEW);
+						metricScreen.setOperation(ScreenUtil.OPERATION_NEW);
 						metricScreen.setScreenService(screenService);
 						Metric metric = MetricsFactory.eINSTANCE.createMetric();
 						// metricScreen.injectData(metricResource, metric);
@@ -269,7 +269,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 					NewEditMetric metricScreen = new NewEditMetric(
 							screenService.getScreenContainer(), SWT.NONE);
 					metricScreen.setScreenService(screenService);
-					metricScreen.setOperation(Screens.OPERATION_EDIT);
+					metricScreen.setOperation(ScreenUtil.OPERATION_EDIT);
 					Object subowner = null;
 					if (o instanceof Metric) {
 						if (((Metric) o).eContainer() instanceof Metric) {
@@ -370,7 +370,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 
 					NewEditMetric metricScreen = new NewEditMetric(
 							screenService.getScreenContainer(), SWT.NONE);
-					metricScreen.setOperation(Screens.OPERATION_NEW);
+					metricScreen.setOperation(ScreenUtil.OPERATION_NEW);
 					metricScreen.setScreenService(screenService);
 					Metric metric = MetricsFactory.eINSTANCE.createMetric();
 					metricScreen.injectData(metricResource, subowner, metric);
@@ -411,7 +411,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		
 		// lazy init actions. 
 		if (actions.isEmpty()) {
-			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
 			actions.add(new EditMetricAction(actionText + "...", SWT.PUSH));
 			// if(!Screens.isReadOnlyOperation(getOperation())){

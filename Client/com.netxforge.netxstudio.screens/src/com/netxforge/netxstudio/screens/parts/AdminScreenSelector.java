@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.Jobs;
 import com.netxforge.netxstudio.screens.f4.MetricSources;
 import com.netxforge.netxstudio.screens.nf3.Retention;
@@ -53,11 +53,11 @@ public class AdminScreenSelector extends AbstractScreenSelector {
 
 	public void buildSelector(){
 		Composite result;
-		result = screenFormService.addScreenSelector("Users","icons/full/obj16/User_H.png", UsersAndRoles.class, 1, Screens.OPERATION_EDIT);
-		result = screenFormService.addScreenSelector(result, "Jobs", "icons/full/obj16/Function_H.png",  Jobs.class, Screens.OPERATION_EDIT);
-		result = screenFormService.addScreenSelector(result, "Metric Sources", "icons/full/obj16/Metricsource_H.png",  MetricSources.class, Screens.OPERATION_EDIT);
-		result = screenFormService.addScreenSelector(result, "Data retention", "icons/full/obj16/Retention_H.png",  Retention.class, Screens.OPERATION_EDIT);
-		result = screenFormService.addScreenSelector(result, "Settings", "icons/full/obj16/Settings_H.png",  Settings.class, Screens.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector("Users","icons/full/obj16/User_H.png", UsersAndRoles.class, 1, ScreenUtil.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Jobs", "icons/full/obj16/Function_H.png",  Jobs.class, ScreenUtil.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Metric Sources", "icons/full/obj16/Metricsource_H.png",  MetricSources.class, ScreenUtil.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Data retention", "icons/full/obj16/Retention_H.png",  Retention.class, ScreenUtil.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Settings", "icons/full/obj16/Settings_H.png",  Settings.class, ScreenUtil.OPERATION_EDIT);
 	}
 	
 	public void dispose() {

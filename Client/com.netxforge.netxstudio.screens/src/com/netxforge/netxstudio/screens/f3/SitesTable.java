@@ -67,7 +67,7 @@ import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -164,7 +164,7 @@ public class SitesTable extends AbstractScreen implements IDataServiceInjection 
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
@@ -210,7 +210,7 @@ public class SitesTable extends AbstractScreen implements IDataServiceInjection 
 				public void linkActivated(HyperlinkEvent e) {
 					NewEditSite countryScreen = new NewEditSite(screenService
 							.getScreenContainer(), SWT.NONE);
-					countryScreen.setOperation(Screens.OPERATION_NEW);
+					countryScreen.setOperation(ScreenUtil.OPERATION_NEW);
 					countryScreen.setScreenService(screenService);
 					Site newCountry = GeoFactory.eINSTANCE.createSite();
 					countryScreen.injectData(countryResource, newCountry);
@@ -351,7 +351,7 @@ public class SitesTable extends AbstractScreen implements IDataServiceInjection 
 
 	@Override
 	public IAction[] getActions() {
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+		String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 				: "Edit";
 		return new IAction[] { new EditSiteAction(actionText + "...", SWT.PUSH) };
 	}

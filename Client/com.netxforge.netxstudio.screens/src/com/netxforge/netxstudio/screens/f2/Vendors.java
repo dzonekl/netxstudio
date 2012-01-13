@@ -67,7 +67,7 @@ import com.netxforge.netxstudio.library.Vendor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 
 /**
@@ -164,7 +164,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
@@ -210,7 +210,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 				public void linkActivated(HyperlinkEvent e) {
 					NewEditVendor vendorScreen = new NewEditVendor(
 							screenService.getScreenContainer(), SWT.NONE);
-					vendorScreen.setOperation(Screens.OPERATION_NEW);
+					vendorScreen.setOperation(ScreenUtil.OPERATION_NEW);
 					vendorScreen.setScreenService(screenService);
 					Vendor newVendor = LibraryFactory.eINSTANCE
 							.createVendor();
@@ -323,7 +323,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public IAction[] getActions() {
 		if(actions.isEmpty()){
-			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
 			actions.add(new EditVendorAction(actionText + "...",
 					SWT.PUSH));

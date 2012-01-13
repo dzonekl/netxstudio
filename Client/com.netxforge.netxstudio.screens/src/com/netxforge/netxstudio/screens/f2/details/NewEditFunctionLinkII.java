@@ -38,14 +38,14 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
+import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.FunctionFilterDialog;
 import com.netxforge.netxstudio.screens.NodeFilterDialog;
 import com.netxforge.netxstudio.screens.ProtocolFilterDialog;
-import com.netxforge.netxstudio.screens.details.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 		IScreen, IDataScreenInjection {
@@ -90,7 +90,7 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 	protected void buildUI() {
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		buildInfoSection(widgetStyle);

@@ -46,7 +46,7 @@ import com.netxforge.netxstudio.common.Tuple;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu.MappingMenuListener;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
@@ -293,7 +293,7 @@ public class NewEditMappingCSV extends AbstractMapping implements
 	public void injectData(Object owner, Object object) {
 		super.injectData(owner, object);
 
-		boolean edit = Screens.isEditOperation(getOperation());
+		boolean edit = ScreenUtil.isEditOperation(getOperation());
 		String actionText = edit ? "Edit: " : "New: ";
 		frmMappings.setText(actionText + " CSV Mapping: "
 				+ metricSource.getName());
@@ -308,14 +308,14 @@ public class NewEditMappingCSV extends AbstractMapping implements
 	}
 
 	public void addData() {
-		if (Screens.isNewOperation(getOperation()) && metricSource != null) {
+		if (ScreenUtil.isNewOperation(getOperation()) && metricSource != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new SetCommand(editingService.getEditingDomain(),
 					metricSource,
 					MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING,
 					mapping);
 			editingService.getEditingDomain().getCommandStack().execute(c);
-		} else if (Screens.isEditOperation(getOperation())) {
+		} else if (ScreenUtil.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have to replace. However if our original object is invalid, this
 			// will

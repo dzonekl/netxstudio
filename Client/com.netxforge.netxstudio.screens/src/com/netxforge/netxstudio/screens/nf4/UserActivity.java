@@ -57,7 +57,7 @@ import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -176,7 +176,7 @@ public class UserActivity extends AbstractScreen implements
 	 * com.netxforge.netxstudio.screens.editing.selector.IScreen#getOperation()
 	 */
 	public int getOperation() {
-		return Screens.OPERATION_READ_ONLY;
+		return ScreenUtil.OPERATION_READ_ONLY;
 	}
 
 	private Resource commitEntries;

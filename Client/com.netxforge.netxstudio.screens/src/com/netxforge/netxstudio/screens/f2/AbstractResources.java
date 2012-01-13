@@ -64,7 +64,7 @@ import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.TableColumnFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * See this for filtering. http://www.eclipsezone.com/eclipse/forums/t63214.html
@@ -325,7 +325,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 				Object o = ((IStructuredSelection) selection).getFirstElement();
 				NewEditResource resourceScreen = new NewEditResource(
 						screenService.getScreenContainer(), SWT.NONE);
-				resourceScreen.setOperation(Screens.OPERATION_EDIT);
+				resourceScreen.setOperation(ScreenUtil.OPERATION_EDIT);
 				resourceScreen.setScreenService(screenService);
 
 				// CB, the parent is the container resource.
@@ -591,7 +591,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 		
 		// lazy init the aciton list. 
 		if (actionList.isEmpty()) {
-			String actionText = Screens.isReadOnlyOperation(this.getOperation()) ? "View..." : "Edit...";
+			String actionText = ScreenUtil.isReadOnlyOperation(this.getOperation()) ? "View..." : "Edit...";
 			actionList.add(new EditResourceAction(actionText, SWT.PUSH));
 		}
 

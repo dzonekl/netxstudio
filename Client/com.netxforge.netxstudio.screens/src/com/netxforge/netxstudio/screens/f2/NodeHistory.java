@@ -66,7 +66,7 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.actions.CompareAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.model.WrappedNode;
 import com.netxforge.netxstudio.screens.f2.model.WrappedNodeType;
 import com.netxforge.netxstudio.screens.f2.parts.NodeEditPartsFactory;
@@ -239,7 +239,7 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 	 * com.netxforge.netxstudio.screens.editing.selector.IScreen#getOperation()
 	 */
 	public int getOperation() {
-		return Screens.OPERATION_READ_ONLY;
+		return ScreenUtil.OPERATION_READ_ONLY;
 	}
 
 	private TableViewer tableViewerRevisions;

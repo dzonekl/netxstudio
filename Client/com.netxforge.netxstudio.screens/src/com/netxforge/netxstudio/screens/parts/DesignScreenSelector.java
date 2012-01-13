@@ -24,8 +24,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.NodeResources;
+import com.netxforge.netxstudio.screens.f2.NodeResourcesAdvanced;
 import com.netxforge.netxstudio.screens.f3.Countries;
 import com.netxforge.netxstudio.screens.f3.Networks;
 import com.netxforge.netxstudio.screens.f3.Operators;
@@ -62,14 +63,18 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 
 		result = screenFormService.addScreenSelector("Operators",
 				"icons/full/obj16/Company_H.gif", Operators.class, 1,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Networks",
 				"icons/full/obj16/Network_H.png", Networks.class, 1,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 
 		result = screenFormService.addScreenSelector(result, "Resources",
 				"icons/full/obj16/Resource_H.gif", NodeResources.class,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
+
+		result = screenFormService.addScreenSelector(result, "Resources (New*)",
+				"icons/full/obj16/Resource_H.gif", NodeResourcesAdvanced.class,
+				ScreenUtil.OPERATION_EDIT);
 
 //		result = screenFormService.addScreenSelector(result, "Resources+",
 //				"icons/full/obj16/Resource_H.gif", AllResources.class,
@@ -77,16 +82,16 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 		
 		result = screenFormService.addScreenSelector(result, "Warehouses",
 				"icons/full/obj16/Warehouse_H.png", WarehouseTree.class, 1,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Countries",
 				"icons/full/obj16/Country_H.png", Countries.class, 1,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Sites",
 				"icons/full/obj16/Site_H.png", SitesTree.class, 1,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Rooms",
 				"icons/full/obj16/Room_H.png", RoomsTree.class, 1,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 	}
 	
 	public void dispose() {

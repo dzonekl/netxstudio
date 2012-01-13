@@ -67,7 +67,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f3.support.WarehouseTreeFactory;
 import com.netxforge.netxstudio.screens.f3.support.WarehouseTreeStructureAdvisor;
 
@@ -190,7 +190,7 @@ public class WarehouseTree extends AbstractScreen implements
 			public void linkActivated(HyperlinkEvent e) {
 				NewEditWarehouse warehouseScreen = new NewEditWarehouse(
 						screenService.getScreenContainer(), SWT.NONE);
-				warehouseScreen.setOperation(Screens.OPERATION_NEW);
+				warehouseScreen.setOperation(ScreenUtil.OPERATION_NEW);
 				warehouseScreen.setScreenService(screenService);
 				Warehouse newWarehouse = OperatorsFactory.eINSTANCE
 						.createWarehouse();
@@ -260,7 +260,7 @@ public class WarehouseTree extends AbstractScreen implements
 					if (o instanceof Warehouse) {
 						NewEditWarehouse warehouseScreen = new NewEditWarehouse(
 								screenService.getScreenContainer(), SWT.NONE);
-						warehouseScreen.setOperation(Screens.OPERATION_NEW);
+						warehouseScreen.setOperation(ScreenUtil.OPERATION_NEW);
 						warehouseScreen.setScreenService(screenService);
 						warehouseScreen.injectData(warehouseResource,
 								o);
@@ -300,7 +300,7 @@ public class WarehouseTree extends AbstractScreen implements
 	@Override
 	public IAction[] getActions() {
 		if(actions.isEmpty()){
-			boolean readonly = Screens.isReadOnlyOperation(getOperation());
+			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
 			String actionText = readonly ? "View" : "Edit";
 			actions.add(new EditWarehouseItemAction(actionText + "...", SWT.PUSH));
 		}

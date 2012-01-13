@@ -68,14 +68,14 @@ import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.NodeOrNetworkFilterDialog;
 import com.netxforge.netxstudio.screens.ServiceUserFilterDialog;
 import com.netxforge.netxstudio.screens.ToleranceFilterDialog;
-import com.netxforge.netxstudio.screens.details.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f1.ServiceDistributionScreen;
 import com.netxforge.netxstudio.screens.f1.ServiceHierarchy;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
@@ -127,7 +127,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	private void buildUI() {
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		buildInfoSection(widgetStyle);
@@ -391,7 +391,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 				ServiceHierarchy sh = new ServiceHierarchy(screenService
 						.getScreenContainer(), SWT.NONE);
 				sh.setScreenService(screenService);
-				sh.setOperation(Screens.OPERATION_READ_ONLY);
+				sh.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 				sh.injectData(null, service);
 				screenService.setActiveScreen(sh);
 			}

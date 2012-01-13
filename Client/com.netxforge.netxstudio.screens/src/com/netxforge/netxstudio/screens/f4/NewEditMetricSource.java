@@ -42,7 +42,7 @@ import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.MappingTypeDialog;
 
 public class NewEditMetricSource extends AbstractScreen implements
@@ -83,7 +83,7 @@ public class NewEditMetricSource extends AbstractScreen implements
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		
 		@SuppressWarnings("unused")
@@ -159,7 +159,7 @@ public class NewEditMetricSource extends AbstractScreen implements
 				}
 				
 				Mapping mapping = null;
-				int operation = Screens.OPERATION_NEW;
+				int operation = ScreenUtil.OPERATION_NEW;
 				if (metricSource.getMetricMapping() == null) {
 
 					MappingTypeDialog mdg = new MappingTypeDialog(
@@ -188,7 +188,7 @@ public class NewEditMetricSource extends AbstractScreen implements
 					}
 				} else {
 					mapping = metricSource.getMetricMapping();
-					operation = Screens.OPERATION_EDIT;
+					operation = ScreenUtil.OPERATION_EDIT;
 				}
 
 				if (mapping instanceof MappingXLS) {
@@ -304,12 +304,12 @@ public class NewEditMetricSource extends AbstractScreen implements
 	}
 
 	public void addData() {
-		if (Screens.isNewOperation(getOperation()) && owner != null) {
+		if (ScreenUtil.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new AddCommand(editingService.getEditingDomain(),
 					owner.getContents(), metricSource);
 			editingService.getEditingDomain().getCommandStack().execute(c);
-		} else if (Screens.isEditOperation(getOperation())) {
+		} else if (ScreenUtil.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have to replace. However if our original object is invalid, this
 			// will

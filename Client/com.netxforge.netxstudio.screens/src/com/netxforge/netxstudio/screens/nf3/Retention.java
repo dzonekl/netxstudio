@@ -43,7 +43,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 public class Retention extends AbstractScreen implements IDataServiceInjection {
 
@@ -176,10 +176,10 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 			Expression expression = null;
 			if (retention.getRetentionExpression() == null) {
 				expression = LibraryFactory.eINSTANCE.createExpression();
-				expressionScreen.setOperation(Screens.OPERATION_NEW);
+				expressionScreen.setOperation(ScreenUtil.OPERATION_NEW);
 			} else {
 				expression = retention.getRetentionExpression();
-				expressionScreen.setOperation(Screens.OPERATION_EDIT);
+				expressionScreen.setOperation(ScreenUtil.OPERATION_EDIT);
 			}
 			expressionScreen.setScreenService(screenService);
 			expressionScreen

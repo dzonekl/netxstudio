@@ -69,7 +69,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.NetXResourceFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.DistributionEntry;
 import com.netxforge.netxstudio.services.RFSService;
@@ -107,7 +107,7 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 
 		@SuppressWarnings("unused")
 		String actionText = readonly ? "View: " : "Edit: ";
@@ -493,7 +493,7 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 	}
 
 	public void addData() {
-		if (Screens.isEditOperation(getOperation())) {
+		if (ScreenUtil.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have to replace. However if our original object is invalid, this
 			// will

@@ -99,11 +99,12 @@ import com.netxforge.netxstudio.screens.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.WarehouseFilterDialog;
 import com.netxforge.netxstudio.screens.actions.ExportHTMLAction;
 import com.netxforge.netxstudio.screens.actions.ExportXLSAction;
+import com.netxforge.netxstudio.screens.actions.ExpressionsAction;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f1.support.ScheduledReportSelectionWizard;
 import com.netxforge.netxstudio.screens.f2.NodeHistory;
 import com.netxforge.netxstudio.screens.f2.details.NewEditEquipmentLinkII;
@@ -170,7 +171,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
@@ -384,7 +385,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		
 		// Lazy init actions. 
 		if (actions.isEmpty()) {
-			boolean readonly = Screens.isReadOnlyOperation(getOperation());
+			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
 
 			actions.add(new HistoryAction("History...", SWT.PUSH));
 			actions.add(new SeparatorAction());
@@ -400,6 +401,9 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			actions.add(new SeparatorAction());
 			actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
 			actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
+			actions.add(new SeparatorAction());
+			actions.add(new ExpressionsAction(this.getScreenService(), "Expressions for",SWT.PUSH));
+			
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}
@@ -426,7 +430,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				NodeHistory nodeHistoryScreen = new NodeHistory(
 						screenService.getScreenContainer(), SWT.NONE);
 				nodeHistoryScreen.setScreenService(screenService);
-				nodeHistoryScreen.setOperation(Screens.OPERATION_READ_ONLY);
+				nodeHistoryScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 				nodeHistoryScreen.injectData(null, object);
 				screenService.setActiveScreen(nodeHistoryScreen);
 			}

@@ -69,7 +69,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f3.support.SiteTreeFactory;
 import com.netxforge.netxstudio.screens.f3.support.SiteTreeStructureAdvisor;
 
@@ -198,7 +198,7 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 							NewEditSite siteScreen = new NewEditSite(
 									screenService.getScreenContainer(), SWT.NONE);
 							siteScreen.setScreenService(screenService);
-							siteScreen.setOperation(Screens.OPERATION_NEW);
+							siteScreen.setOperation(ScreenUtil.OPERATION_NEW);
 							siteScreen.injectData(o, GeoFactory.eINSTANCE.createSite());
 							screenService.setActiveScreen(siteScreen);
 						}
@@ -318,7 +318,7 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 						NewEditSite siteScreen = new NewEditSite(
 								screenService.getScreenContainer(), SWT.NONE);
 						siteScreen.setScreenService(screenService);
-						siteScreen.setOperation(Screens.OPERATION_NEW);
+						siteScreen.setOperation(ScreenUtil.OPERATION_NEW);
 						siteScreen.injectData(o, GeoFactory.eINSTANCE.createSite());
 						screenService.setActiveScreen(siteScreen);
 					}
@@ -356,7 +356,7 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		
 		List<IAction> actions = Lists.newArrayList();
 		
-		boolean readonly =  Screens.isReadOnlyOperation(getOperation());
+		boolean readonly =  ScreenUtil.isReadOnlyOperation(getOperation());
 		String actionText = readonly? "View" : "Edit";
 		actions.add(new EditSiteAction(actionText + "...",
 				SWT.PUSH));

@@ -90,7 +90,7 @@ import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f1.details.NewEditServiceTree;
 import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeFactoryImpl;
 import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeLabelProvider;
@@ -164,7 +164,7 @@ public class ServicesTree extends AbstractScreen implements
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
@@ -345,7 +345,7 @@ public class ServicesTree extends AbstractScreen implements
 	public IAction[] getActions() {
 
 		if (actions.isEmpty()) {
-			boolean readonly = Screens.isReadOnlyOperation(getOperation());
+			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
 
 			// actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
 			// actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
@@ -518,7 +518,7 @@ public class ServicesTree extends AbstractScreen implements
 							.getFirstElement();
 					ServiceMonitors smScreen = new ServiceMonitors(
 							screenService.getScreenContainer(), SWT.NONE);
-					smScreen.setOperation(Screens.OPERATION_READ_ONLY);
+					smScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 					smScreen.setScreenService(screenService);
 					smScreen.injectData(null, o);
 					screenService.setActiveScreen(smScreen);
@@ -652,9 +652,9 @@ public class ServicesTree extends AbstractScreen implements
 
 						// Edit or New if the Service has a job or not.
 						if (job != null) {
-							operation = Screens.OPERATION_EDIT;
+							operation = ScreenUtil.OPERATION_EDIT;
 						} else {
-							operation = Screens.OPERATION_NEW;
+							operation = ScreenUtil.OPERATION_NEW;
 							job = SchedulingFactory.eINSTANCE
 									.createRFSServiceMonitoringJob();
 							job.setName(((Service) o).getServiceName());

@@ -23,7 +23,7 @@ import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 public class NewEditEquipment extends NewEditComponent implements
 		IScreen {
@@ -45,7 +45,7 @@ public class NewEditEquipment extends NewEditComponent implements
 	public void buildUI() {
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		buildInfoSection(widgetStyle);
@@ -156,4 +156,5 @@ public class NewEditEquipment extends NewEditComponent implements
 		context.bindValue(expansionDurationObservable,
 				durationProperty.observe(comp), null, null);
 	}
+
 }

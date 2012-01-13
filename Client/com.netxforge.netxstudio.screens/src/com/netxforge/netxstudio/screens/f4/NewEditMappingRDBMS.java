@@ -88,7 +88,7 @@ import com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl;
 import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu.MappingMenuListener;
 import com.netxforge.netxstudio.screens.f4.support.RDBMSServiceJob;
@@ -132,7 +132,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// New or Edit.
-		boolean edit = Screens.isEditOperation(getOperation());
+		boolean edit = ScreenUtil.isEditOperation(getOperation());
 		String actionText = edit ? "Edit: " : "New: ";
 
 		frmCSVMappingForm = toolkit.createForm(this);
@@ -305,7 +305,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 
 				NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
 						screenService.getScreenContainer(), SWT.NONE);
-				mappingColumnScreen.setOperation(Screens.OPERATION_NEW);
+				mappingColumnScreen.setOperation(ScreenUtil.OPERATION_NEW);
 				mappingColumnScreen.setScreenService(screenService);
 				mappingColumnScreen.injectData(mapping.getDataMappingColumns(),
 						MetricsFactory.eINSTANCE.createMappingColumn());
@@ -360,7 +360,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 
 					NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
 							screenService.getScreenContainer(), SWT.NONE);
-					mappingColumnScreen.setOperation(Screens.OPERATION_EDIT);
+					mappingColumnScreen.setOperation(ScreenUtil.OPERATION_EDIT);
 					mappingColumnScreen.setScreenService(screenService);
 					mappingColumnScreen.injectData(metricSource, true, mapping.getDataMappingColumns(), mappingColumn);
 					screenService.setActiveScreen(mappingColumnScreen);
@@ -677,14 +677,14 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 	}
 
 	public void addData() {
-		if (Screens.isNewOperation(getOperation()) && metricSource != null) {
+		if (ScreenUtil.isNewOperation(getOperation()) && metricSource != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new SetCommand(editingService.getEditingDomain(),
 					metricSource,
 					MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING,
 					mapping);
 			editingService.getEditingDomain().getCommandStack().execute(c);
-		} else if (Screens.isEditOperation(getOperation())) {
+		} else if (ScreenUtil.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have to replace. However if our original object is invalid, this
 			// will

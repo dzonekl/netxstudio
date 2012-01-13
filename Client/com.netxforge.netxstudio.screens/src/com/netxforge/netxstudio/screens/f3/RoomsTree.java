@@ -69,7 +69,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f3.support.RoomTreeFactory;
 import com.netxforge.netxstudio.screens.f3.support.RoomTreeStructureAdvisor;
 
@@ -189,7 +189,7 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 						NewEditRoom roomScreen = new NewEditRoom(
 								screenService.getScreenContainer(), SWT.NONE);
 						roomScreen.setScreenService(screenService);
-						roomScreen.setOperation(Screens.OPERATION_NEW);
+						roomScreen.setOperation(ScreenUtil.OPERATION_NEW);
 						roomScreen.injectData(o, GeoFactory.eINSTANCE.createRoom());
 						screenService.setActiveScreen(roomScreen);
 					}
@@ -297,7 +297,7 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 						NewEditRoom roomScreen = new NewEditRoom(
 								screenService.getScreenContainer(), SWT.NONE);
 						roomScreen.setScreenService(screenService);
-						roomScreen.setOperation(Screens.OPERATION_NEW);
+						roomScreen.setOperation(ScreenUtil.OPERATION_NEW);
 						roomScreen.injectData(o, GeoFactory.eINSTANCE.createRoom());
 						screenService.setActiveScreen(roomScreen);
 					}
@@ -337,7 +337,7 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 	public IAction[] getActions() {
 		
 		if(actions.isEmpty()){
-			boolean readonly =  Screens.isReadOnlyOperation(getOperation());
+			boolean readonly =  ScreenUtil.isReadOnlyOperation(getOperation());
 			String actionText = readonly? "View" : "Edit";
 			actions.add(new EditRoomAction(actionText + "...",
 					SWT.PUSH));

@@ -73,7 +73,7 @@ import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.MetricFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.IdentifierDialog;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
@@ -170,7 +170,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// New or Edit.
-		boolean edit = Screens.isEditOperation(getOperation());
+		boolean edit = ScreenUtil.isEditOperation(getOperation());
 		String actionText = edit ? "Edit: " : "New: ";
 
 		frmNewMappingColumn = toolkit.createForm(this);
@@ -1211,13 +1211,13 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	}
 
 	public void addData() {
-		if (Screens.isNewOperation(getOperation()) && mappingColumns != null) {
+		if (ScreenUtil.isNewOperation(getOperation()) && mappingColumns != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new AddCommand(editingService.getEditingDomain(),
 					mappingColumns, mxlsColumn);
 
 			editingService.getEditingDomain().getCommandStack().execute(c);
-		} else if (Screens.isEditOperation(getOperation())) {
+		} else if (ScreenUtil.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have to replace. However if our original object is invalid, this
 			// will

@@ -18,17 +18,10 @@
 package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.eclipse.core.databinding.conversion.IConverter;
-import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.core.databinding.observable.list.WritableList;
-import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
@@ -40,29 +33,18 @@ import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.nebula.widgets.cdatetime.CDT;
-import org.eclipse.nebula.widgets.cdatetime.CDateTime;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -75,18 +57,13 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.wb.swt.TableViewerColumnSorter;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.generics.GenericsFactory;
-import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
@@ -96,17 +73,11 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Unit;
-import com.netxforge.netxstudio.metrics.KindHintType;
-import com.netxforge.netxstudio.metrics.MetricValueRange;
-import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.UnitFilterDialog;
-import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f4.ResourceMonitorScreen;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 public class NewEditResource extends AbstractScreen implements
 		IDataScreenInjection {
@@ -121,23 +92,15 @@ public class NewEditResource extends AbstractScreen implements
 	private Form frmResource;
 	private Resource owner;
 	private Component whoRefers;
-	private Table table;
-	private TableViewer valuesTableViewer;
 
-	private static final int CAPACITIES = -100;
-	private static final int UTILIZATION = -200;
 	private Text txtComponent;
 
 	private Text txtNode;
-	private int targetInterval;
-	private CTabFolder tabFolder;
-	private CDateTime dateTimeFrom;
-	private CDateTime dateTimeTo;
 	private Label lblNode;
-	// private MenuItem mntmMonitor;
-	private List<Value> currentValues;
-	// private MenuItem mntmRemove;
 	private boolean valuesVisible = false;
+
+	@Inject
+	private ValueComponent valueComponent;
 
 	/**
 	 * Create the composite.
@@ -161,7 +124,7 @@ public class NewEditResource extends AbstractScreen implements
 	private void buildUI() {
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
@@ -171,22 +134,18 @@ public class NewEditResource extends AbstractScreen implements
 		frmResource.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmResource);
 		frmResource.setText(actionText + "Resource");
+		frmResource.getBody().setLayout(new GridLayout(1, false));
+		
 		buildInfoSection(readonly, widgetStyle);
 
 	}
 
 	private void buildInfoSection(boolean readonly, int widgetStyle) {
-		frmResource.getBody().setLayout(new GridLayout(3, false));
-
+		
 		Section sctnInfo = toolkit.createSection(frmResource.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
-		sctnInfo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
-				3, 1));
-		// FormData fd_sctnInfo = new FormData();
-		// fd_sctnInfo.right = new FormAttachment(100, -10);
-		// fd_sctnInfo.top = new FormAttachment(0, 10);
-		// fd_sctnInfo.left = new FormAttachment(0, 5);
-		// sctnInfo.setLayoutData(fd_sctnInfo);
+		sctnInfo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+				1, 1));
 		toolkit.paintBordersFor(sctnInfo);
 		sctnInfo.setText("Info");
 
@@ -299,365 +258,6 @@ public class NewEditResource extends AbstractScreen implements
 		}
 	}
 
-	private void buildValuesUI() {
-
-		tabFolder = new CTabFolder(frmResource.getBody(), SWT.FLAT);
-		tabFolder.setMRUVisible(true);
-		toolkit.adapt(tabFolder, true, true);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 3;
-		gd.heightHint = 0;
-		tabFolder.setLayoutData(gd);
-		toolkit.paintBordersFor(tabFolder);
-
-		tabFolder.setSelectionBackground(Display.getCurrent().getSystemColor(
-				SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
-
-		tabFolder.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				updateSelection();
-			}
-		});
-
-		Label lblStart = toolkit.createLabel(frmResource.getBody(), "From:",
-				SWT.NONE);
-		GridData gd_lblStart = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
-		gd_lblStart.widthHint = 70;
-		lblStart.setLayoutData(gd_lblStart);
-		lblStart.setAlignment(SWT.RIGHT);
-
-		dateTimeFrom = new CDateTime(frmResource.getBody(), CDT.BORDER
-				| CDT.DROP_DOWN | CDT.DATE_SHORT);
-		GridData gd_dateTimeFrom = new GridData(SWT.FILL, SWT.CENTER, false,
-				false, 1, 1);
-		gd_dateTimeFrom.widthHint = 120;
-		dateTimeFrom.setLayoutData(gd_dateTimeFrom);
-		dateTimeFrom.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				updateFilter();
-			}
-
-		});
-
-		toolkit.adapt(dateTimeFrom);
-		toolkit.paintBordersFor(dateTimeFrom);
-		new Label(frmResource.getBody(), SWT.NONE);
-
-		Label lblTo = toolkit.createLabel(frmResource.getBody(), "To:",
-				SWT.NONE);
-		lblTo.setAlignment(SWT.RIGHT);
-		GridData gd_lblTo = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1,
-				1);
-		gd_lblTo.widthHint = 70;
-		lblTo.setLayoutData(gd_lblTo);
-
-		dateTimeTo = new CDateTime(frmResource.getBody(), CDT.BORDER
-				| CDT.DROP_DOWN | CDT.DATE_SHORT);
-		GridData gd_dateTimeTo = new GridData(SWT.FILL, SWT.CENTER, false,
-				false, 1, 1);
-		gd_dateTimeTo.widthHint = 120;
-		dateTimeTo.setLayoutData(gd_dateTimeTo);
-		dateTimeTo.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				updateFilter();
-			}
-
-		});
-
-		toolkit.adapt(dateTimeTo);
-		toolkit.paintBordersFor(dateTimeTo);
-		new Label(frmResource.getBody(), SWT.NONE);
-
-		valuesTableViewer = new TableViewer(frmResource.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION | SWT.VIRTUAL | SWT.MULTI);
-		valuesTableViewer.setUseHashlookup(true);
-		valuesTableViewer.setComparer(new CDOElementComparer());
-		// valuesTableViewer
-		// .addSelectionChangedListener(new ISelectionChangedListener() {
-		// public void selectionChanged(SelectionChangedEvent event) {
-		// ISelection selection = event.getSelection();
-		// if (selection instanceof IStructuredSelection) {
-		//
-		// if (currentValues == null
-		// || currentValues.size() == 0) {
-		// mntmMonitor.setEnabled(false);
-		// mntmRemove.setEnabled(false);
-		// return;
-		// }
-		// // Don't allow monitoring for
-		// if (targetInterval == CAPACITIES
-		// || targetInterval == UTILIZATION) {
-		// mntmMonitor.setEnabled(false);
-		// } else {
-		// mntmMonitor.setEnabled(true);
-		// }
-		// mntmRemove.setEnabled(true);
-		// }
-		// }
-		//
-		// });
-		valuesTableViewer.addFilter(new ValueFilter());
-
-		table = valuesTableViewer.getTable();
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
-		// tabItem.setControl(table);
-		table.setLinesVisible(true);
-		table.setHeaderVisible(true);
-		toolkit.paintBordersFor(table);
-
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(
-				valuesTableViewer, SWT.NONE);
-		TableColumn tblclmnTimeStamp = tableViewerColumn.getColumn();
-		tblclmnTimeStamp.setWidth(185);
-		tblclmnTimeStamp.setText("Time Stamp");
-
-		TableViewerColumnSorter dateTimeColumnSorter = new TableViewerColumnSorter(
-				tableViewerColumn) {
-			protected int doCompare(Viewer viewer, Object e1, Object e2) {
-				if (e1 instanceof Value && e2 instanceof Value) {
-
-					Value re1 = (Value) e1;
-					Value re2 = (Value) e2;
-
-					if (re1.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)
-							&& re2.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP))
-
-						return Long.valueOf(
-								re2.getTimeStamp().toGregorianCalendar()
-										.getTimeInMillis()).compareTo(
-								Long.valueOf(re1.getTimeStamp()
-										.toGregorianCalendar()
-										.getTimeInMillis()));
-				}
-				return 0;
-			}
-
-		};
-		dateTimeColumnSorter.setSorter(TableViewerColumnSorter.ASC);
-
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-				valuesTableViewer, SWT.NONE);
-		TableColumn tblclmnValue = tableViewerColumn_1.getColumn();
-		tblclmnValue.setWidth(88);
-		tblclmnValue.setText("Value");
-		tblclmnValue.setAlignment(SWT.RIGHT);
-
-		// TableViewerColumn tableViewerColumnCapacity = new TableViewerColumn(
-		// valuesTableViewer, SWT.NONE);
-		// TableColumn tblclmnCapacity = tableViewerColumnCapacity.getColumn();
-		// tblclmnCapacity.setWidth(88);
-		// tblclmnCapacity.setText("Capacity");
-		//
-		// TableViewerColumn tableViewerColumnUtilization = new
-		// TableViewerColumn(
-		// valuesTableViewer, SWT.NONE);
-		// TableColumn tblclmnUtilization = tableViewerColumnUtilization
-		// .getColumn();
-		// tblclmnUtilization.setWidth(88);
-		// tblclmnUtilization.setText("Utilization");
-
-		// Menu menu = new Menu(table);
-		// table.setMenu(menu);
-		//
-		// mntmMonitor = new MenuItem(menu, SWT.NONE);
-		// mntmMonitor.setEnabled(false);
-		// mntmMonitor.addSelectionListener(new SelectionAdapter() {
-		// @Override
-		// public void widgetSelected(SelectionEvent e) {
-		//
-		// if (res instanceof NetXResource && targetInterval > 0) {
-		// MetricValueRange mvr = modelUtils.valueRangeForInterval(
-		// (NetXResource) res, targetInterval);
-		// if (mvr != null) {
-		//
-		// // XMLGregorianCalendar start = mvr.getMetricValues()
-		// // .get(0).getTimeStamp();
-		// // XMLGregorianCalendar end = mvr.getMetricValues()
-		// // .get(mvr.getMetricValues().size() - 1)
-		// // .getTimeStamp();
-		//
-		// XMLGregorianCalendar to = modelUtils
-		// .toXMLDate(dateTimeTo.getSelection());
-		// XMLGregorianCalendar from = modelUtils
-		// .toXMLDate(dateTimeFrom.getSelection());
-		//
-		// DateTimeRange timerange = GenericsFactory.eINSTANCE
-		// .createDateTimeRange();
-		//
-		// timerange.setBegin(from);
-		// timerange.setEnd(to);
-		//
-		// ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
-		// screenService.getScreenContainer(), SWT.NONE);
-		// monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
-		// monitorScreen.setScreenService(screenService);
-		// monitorScreen.injectData(null, res, timerange,
-		// targetInterval);
-		// screenService.setActiveScreen(monitorScreen);
-		// }
-		// } else {
-		// System.out
-		// .println("Invalid target interval <= 0, perhaps the interval was not set properly in the mapping");
-		// }
-		//
-		// }
-		// });
-		// mntmMonitor.setText("Monitor...");
-
-		// mntmRemove = new MenuItem(menu, SWT.NONE);
-		// mntmRemove.setEnabled(false);
-		// mntmRemove.addSelectionListener(new SelectionAdapter() {
-		// @Override
-		// public void widgetSelected(SelectionEvent e) {
-		// ISelection s = valuesTableViewer.getSelection();
-		// if (s instanceof IStructuredSelection) {
-		// List<?> list = ((IStructuredSelection) s).toList();
-		// Collection<Object> collection = new ArrayList<Object>(list);
-		// Command deleteCommand = DeleteCommand.create(
-		// editingService.getEditingDomain(), collection);
-		// editingService.getEditingDomain().getCommandStack()
-		// .execute(deleteCommand);
-		// updateSelection();
-		// }
-		// }
-		// });
-		// mntmRemove.setText("Delete...");
-	}
-
-	private void updateSelection() {
-		CTabItem item = tabFolder.getSelection();
-		RangeSection section = (RangeSection) item.getData();
-		this.updateValuesII(section.interval);
-	}
-
-	/*
-	 * As the values are not binded to the model, the editing actions won't
-	 * update the UI.
-	 */
-	@SuppressWarnings("unused")
-	private void updateValues(int targetInterval) {
-
-		// Update "from" based on the oldest value:
-		this.targetInterval = targetInterval;
-		valuesTableViewer
-				.setContentProvider(new NetXResourceValueContentProvider());
-		valuesTableViewer
-				.setLabelProvider(new NetXResourceValueLabelProvider());
-		currentValues = this.values(targetInterval);
-		if (currentValues.size() > 0) {
-			Value oldestValue = modelUtils.oldestValue(currentValues);
-			this.dateTimeFrom.setSelection(oldestValue.getTimeStamp()
-					.toGregorianCalendar().getTime());
-			this.updateFilter();
-			valuesTableViewer.setInput(currentValues.toArray());
-		} else {
-
-			valuesTableViewer.setInput(Collections.EMPTY_LIST.toArray());
-		}
-	}
-
-	private void updateValuesII(int targetInterval) {
-
-		// Update "from" based on the oldest value:
-		this.targetInterval = targetInterval;
-		IObservableList l = this.valuesII(targetInterval);
-		valuesTableViewer.setInput(l);
-	}
-
-	private void updateFilter() {
-
-		Date from = dateTimeFrom.getSelection();
-		Date to = dateTimeTo.getSelection();
-
-		// Do not update on empty date selectors.
-		if (from == null || to == null) {
-			return;
-		}
-
-		ViewerFilter[] filters = valuesTableViewer.getFilters();
-		for (ViewerFilter viewerFilter : filters) {
-			if (viewerFilter instanceof ValueFilter) {
-				((ValueFilter) viewerFilter).updateDates(from, to);
-			}
-		}
-		valuesTableViewer.refresh();
-	}
-
-	/*
-	 * A table filter which can be update with a from/to date.
-	 */
-	public class ValueFilter extends ViewerFilter {
-
-		private long from = -1;
-		private long to = -1;
-
-		public void updateDates(Date from, Date to) {
-			assert from != null && to != null;
-			this.from = from.getTime();
-			this.to = to.getTime();
-		}
-
-		@Override
-		public boolean select(Viewer viewer, Object parentElement,
-				Object element) {
-
-			if (from <= 0 && to <= 0) {
-				return true;
-			}
-
-			System.out.println("Updating filter with from=" + from + ", to="
-					+ to);
-
-			if (element instanceof Value) {
-				long target = ((Value) element).getTimeStamp()
-						.toGregorianCalendar().getTimeInMillis();
-				return from <= target && to >= target;
-			}
-			return false;
-		}
-
-	}
-
-	class NetXResourceValueLabelProviderII extends ObservableMapLabelProvider
-			implements ITableLabelProvider {
-
-		public NetXResourceValueLabelProviderII(IObservableMap[] attributeMaps) {
-			super(attributeMaps);
-		}
-
-		public Image getColumnImage(Object element, int columnIndex) {
-			return null;
-		}
-
-		public String getColumnText(Object element, int columnIndex) {
-			if (element instanceof Value) {
-				Value v = (Value) element;
-				switch (columnIndex) {
-				case 0: {
-					Date d = modelUtils.fromXMLDate(v.getTimeStamp());
-					String ts = new String(modelUtils.date(d) + " @ "
-							+ modelUtils.time(d));
-					return ts;
-				}
-				case 1: {
-					double value = v.getValue();
-					DecimalFormat numberFormatter = new DecimalFormat(
-							"###,###,##0.00");
-					numberFormatter.setDecimalSeparatorAlwaysShown(true);
-					return numberFormatter.format(value);
-				}
-
-				}
-			}
-			return null;
-		}
-	}
-
 	class NetXResourceValueLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 
@@ -707,96 +307,37 @@ public class NewEditResource extends AbstractScreen implements
 
 	}
 
-	private List<Value> values(int targetInterval) {
-		if (res instanceof NetXResource) {
-			NetXResource resource = (NetXResource) res;
-
-			if (targetInterval == CAPACITIES) {
-				return modelUtils.sortByTimeStampAndReverse(resource
-						.getCapacityValues());
-			}
-
-			if (targetInterval == UTILIZATION) {
-				return modelUtils.sortByTimeStampAndReverse(resource
-						.getUtilizationValues());
-			}
-
-			for (MetricValueRange mvr : resource.getMetricValueRanges()) {
-
-				if (mvr.getIntervalHint() == targetInterval) {
-					return modelUtils.sortByTimeStampAndReverse(mvr
-							.getMetricValues());
-				}
-			}
-			// DEBUG.
-			System.out.println("Target interval: " + targetInterval
-					+ " not found for resource: " + resource.getShortName());
-
-		} else {
-			throw new java.lang.IllegalArgumentException(
-					"Expected a NetXResource");
-		}
-		return null;
-	}
-
-	private IObservableList valuesII(int targetInterval) {
-
-		Object elementType = null;
-		currentValues = null;
-		EStructuralFeature feature = null;
-
-		if (res instanceof NetXResource) {
-			NetXResource resource = (NetXResource) res;
-
-			if (targetInterval == CAPACITIES) {
-				currentValues = modelUtils.sortByTimeStampAndReverse(resource
-						.getCapacityValues());
-				elementType = res;
-				feature = LibraryPackage.Literals.NET_XRESOURCE__CAPACITY_VALUES;
-
-			}
-
-			if (targetInterval == UTILIZATION) {
-				currentValues = modelUtils.sortByTimeStampAndReverse(resource
-						.getUtilizationValues());
-				elementType = res;
-				feature = LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES;
-			}
-
-			for (MetricValueRange mvr : resource.getMetricValueRanges()) {
-
-				if (mvr.getIntervalHint() == targetInterval) {
-					currentValues = modelUtils.sortByTimeStampAndReverse(mvr
-							.getMetricValues());
-					elementType = mvr;
-					feature = MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES;
-					break;
-				}
-			}
-
-			if (currentValues != null && elementType != null) {
-				if (currentValues.size() > 0) {
-					Value oldestValue = modelUtils.oldestValue(currentValues);
-					this.dateTimeFrom.setSelection(oldestValue.getTimeStamp()
-							.toGregorianCalendar().getTime());
-					this.updateFilter();
-				}
-
-				// Unsorted..., delegate to the viewer.
-				return EMFEditProperties.list(editingService.getEditingDomain(), feature).observe(elementType);
-//				 return new WritableList(currentValues, elementType);
-			}
-
-			// DEBUG.
-			System.out.println("Target interval: " + targetInterval
-					+ " not found for resource: " + resource.getShortName());
-
-		} else {
-			throw new java.lang.IllegalArgumentException(
-					"Expected a NetXResource");
-		}
-		return new WritableList();
-	}
+	// private List<Value> values(int targetInterval) {
+	// if (res instanceof NetXResource) {
+	// NetXResource resource = (NetXResource) res;
+	//
+	// if (targetInterval == CAPACITIES) {
+	// return modelUtils.sortByTimeStampAndReverse(resource
+	// .getCapacityValues());
+	// }
+	//
+	// if (targetInterval == UTILIZATION) {
+	// return modelUtils.sortByTimeStampAndReverse(resource
+	// .getUtilizationValues());
+	// }
+	//
+	// for (MetricValueRange mvr : resource.getMetricValueRanges()) {
+	//
+	// if (mvr.getIntervalHint() == targetInterval) {
+	// return modelUtils.sortByTimeStampAndReverse(mvr
+	// .getMetricValues());
+	// }
+	// }
+	// // DEBUG.
+	// System.out.println("Target interval: " + targetInterval
+	// + " not found for resource: " + resource.getShortName());
+	//
+	// } else {
+	// throw new java.lang.IllegalArgumentException(
+	// "Expected a NetXResource");
+	// }
+	// return null;
+	// }
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
@@ -898,91 +439,6 @@ public class NewEditResource extends AbstractScreen implements
 		return context;
 	}
 
-	private void bindValues() {
-		this.dateTimeTo.setSelection(modelUtils.todayAndNow());
-		createTabs(toolkit);
-		tabFolder.setSelection(0);
-
-		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		valuesTableViewer.setContentProvider(listContentProvider);
-
-		List<IObservableMap> observeMaps = Lists.newArrayList();
-		IObservableSet set = listContentProvider.getKnownElements();
-		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.NET_XRESOURCE__CAPACITY_VALUES)
-				.observeDetail(set));
-
-		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES)
-				.observeDetail(set));
-
-		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES)
-				.observeDetail(set));
-
-		IObservableMap[] map = new IObservableMap[observeMaps.size()];
-		observeMaps.toArray(map);
-
-		valuesTableViewer
-				.setLabelProvider(new NetXResourceValueLabelProviderII(map));
-
-		// Don't set the input
-
-		updateSelection();
-	}
-
-	private void createTab(int interval, KindHintType kh) {
-		createTab(interval, kh, null);
-	}
-
-	private void createTab(int interval, String text) {
-		createTab(interval, null, text);
-	}
-
-	private void createTab(int interval, KindHintType kh, String text) {
-		CTabItem item = new CTabItem(tabFolder, SWT.NULL);
-
-		StringBuilder sb = new StringBuilder();
-		if (text != null) {
-			sb.append(text);
-		} else if (interval > 0) {
-			String fromMinutes = modelUtils.fromMinutes(interval);
-			sb.append(fromMinutes);
-			item.setText(fromMinutes);
-		}
-		if (kh != null) {
-			sb.append(" (" + kh.getName() + ")");
-		}
-
-		item.setText(sb.toString());
-		item.setData(new RangeSection(interval));
-	}
-
-	class RangeSection {
-
-		int interval;
-
-		public RangeSection(int interval) {
-			this.interval = interval;
-		}
-
-	}
-
-	private void createTabs(FormToolkit toolkit2) {
-		if (res instanceof NetXResource) {
-			NetXResource netxResource = (NetXResource) res;
-			for (MetricValueRange mvr : netxResource.getMetricValueRanges()) {
-				createTab(mvr.getIntervalHint(), mvr.getKindHint());
-			}
-
-			createTab(CAPACITIES, "Capacity");
-			createTab(UTILIZATION, "Utilization");
-		}
-	}
-
 	public void disposeData() {
 		// N/A
 	}
@@ -1014,13 +470,18 @@ public class NewEditResource extends AbstractScreen implements
 		if (this.whoRefers != null
 				&& modelUtils.resolveParentNode((EObject) this.whoRefers) != null) {
 			valuesVisible = true;
-			buildValuesUI();
-			bindValues();
+			
+			valueComponent.configure(screenService);
+			
+			valueComponent.buildValuesUI(frmResource.getBody(), new GridData(SWT.FILL, SWT.CENTER, true, false,
+					1, 1));
+			valueComponent.bindValues();
+			valueComponent.injectData(res);
 		}
 	}
 
 	public void addData() {
-		if (Screens.isNewOperation(getOperation()) && owner != null) {
+		if (ScreenUtil.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			CompoundCommand c = new CompoundCommand();
 			if (whoRefers != null) {
@@ -1057,7 +518,7 @@ public class NewEditResource extends AbstractScreen implements
 
 			}
 
-		} else if (Screens.isEditOperation(getOperation())) {
+		} else if (ScreenUtil.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have to replace. However if our original object is invalid, this
 			// will
@@ -1081,69 +542,10 @@ public class NewEditResource extends AbstractScreen implements
 
 	}
 
-	public class MonitorAction extends BaseSelectionListenerAction {
-
-		public MonitorAction(String text, int style) {
-			super(text);
-		}
-
-		@Override
-		protected boolean updateSelection(IStructuredSelection selection) {
-
-			if (currentValues == null || currentValues.size() == 0) {
-				return false;
-			}
-			// Don't allow monitoring for
-			if (targetInterval == CAPACITIES || targetInterval == UTILIZATION) {
-				return false;
-			} else {
-				return true;
-			}
-		}
-
-		@Override
-		public void run() {
-			if (res instanceof NetXResource && targetInterval > 0) {
-				MetricValueRange mvr = modelUtils.valueRangeForInterval(
-						(NetXResource) res, targetInterval);
-				if (mvr != null) {
-
-					// XMLGregorianCalendar start = mvr.getMetricValues()
-					// .get(0).getTimeStamp();
-					// XMLGregorianCalendar end = mvr.getMetricValues()
-					// .get(mvr.getMetricValues().size() - 1)
-					// .getTimeStamp();
-
-					XMLGregorianCalendar to = modelUtils.toXMLDate(dateTimeTo
-							.getSelection());
-					XMLGregorianCalendar from = modelUtils
-							.toXMLDate(dateTimeFrom.getSelection());
-
-					DateTimeRange timerange = GenericsFactory.eINSTANCE
-							.createDateTimeRange();
-
-					timerange.setBegin(from);
-					timerange.setEnd(to);
-
-					ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
-							screenService.getScreenContainer(), SWT.NONE);
-					monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
-					monitorScreen.setScreenService(screenService);
-					monitorScreen.injectData(null, res, timerange,
-							targetInterval);
-					screenService.setActiveScreen(monitorScreen);
-				}
-			} else {
-				System.out
-						.println("Invalid target interval <= 0, perhaps the interval was not set properly in the mapping");
-			}
-		}
-	}
-
 	@Override
 	public Viewer getViewer() {
 		if (valuesVisible) {
-			return valuesTableViewer;
+			return valueComponent.getValuesTableViewer();
 		} else {
 			return null;
 		}
@@ -1167,15 +569,15 @@ public class NewEditResource extends AbstractScreen implements
 	public String getScreenName() {
 		return "Resource";
 	}
-	
+
 	private final List<IAction> actions = Lists.newArrayList();
 
 	@Override
 	public IAction[] getActions() {
-		// Lazy init actions. 
-		if(actions.isEmpty()){
-			actions.add(new MonitorAction("Monitoring Chart...",
-					SWT.PUSH) );
+		// Lazy init actions.
+		if (actions.isEmpty()) {
+			actions.add(valueComponent.new MonitorAction("Monitoring Chart...",
+					SWT.PUSH));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}

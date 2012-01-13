@@ -63,15 +63,15 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.MetricFilterDialog;
 import com.netxforge.netxstudio.screens.ToleranceFilterDialog;
 import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
-import com.netxforge.netxstudio.screens.details.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.NewEditResource;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeLabelProvider;
@@ -126,7 +126,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		expressionScreen.setScreenService(screenService);
 		Expression expression = comp.getUtilizationExpressionRef();
 		if (expression != null) {
-			expressionScreen.setOperation(Screens.OPERATION_EDIT);
+			expressionScreen.setOperation(ScreenUtil.OPERATION_EDIT);
 			expressionScreen
 					.injectData(
 							null,
@@ -136,7 +136,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		} else {
 			Resource expressionResource = editingService
 					.getData(LibraryPackage.Literals.EXPRESSION);
-			expressionScreen.setOperation(Screens.OPERATION_NEW);
+			expressionScreen.setOperation(ScreenUtil.OPERATION_NEW);
 			expressionScreen
 					.injectData(
 							expressionResource,
@@ -154,14 +154,16 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		expressionScreen.setScreenService(screenService);
 		Expression expression = comp.getCapacityExpressionRef();
 		if (expression != null) {
-			expressionScreen.setOperation(Screens.OPERATION_EDIT);
-			expressionScreen.injectData(null, comp,
-					LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
-					expression);
+			expressionScreen.setOperation(ScreenUtil.OPERATION_EDIT);
+			
+			// CB, can't create expressions from here.... Should be supported with adaption on IDataScreenInjection
+//			expressionScreen.injectData(null, comp,
+//					LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
+//					expression);
 		} else {
 			Resource expressionResource = editingService
 					.getData(LibraryPackage.Literals.EXPRESSION);
-			expressionScreen.setOperation(Screens.OPERATION_NEW);
+			expressionScreen.setOperation(ScreenUtil.OPERATION_NEW);
 			expressionScreen.injectData(expressionResource, comp,
 					LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
 					LibraryFactory.eINSTANCE.createExpression());
@@ -587,7 +589,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 					public void linkActivated(HyperlinkEvent e) {
 						NewEditResource resourceScreen = new NewEditResource(
 								screenService.getScreenContainer(), SWT.NONE);
-						resourceScreen.setOperation(Screens.OPERATION_NEW);
+						resourceScreen.setOperation(ScreenUtil.OPERATION_NEW);
 						resourceScreen.setScreenService(screenService);
 
 						String cdoResourcePath = modelUtils

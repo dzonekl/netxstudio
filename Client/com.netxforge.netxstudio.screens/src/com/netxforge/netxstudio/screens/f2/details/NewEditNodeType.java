@@ -26,11 +26,11 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.screens.details.AbstractDetailsScreen;
+import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.NodeTypeHierarchy;
 
 public class NewEditNodeType extends AbstractDetailsScreen implements IScreen,
@@ -75,7 +75,7 @@ public class NewEditNodeType extends AbstractDetailsScreen implements IScreen,
 	private void buildUI() {
 
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		Section sctnInfo = toolkit.createSection(this, Section.TITLE_BAR);
@@ -185,7 +185,7 @@ public class NewEditNodeType extends AbstractDetailsScreen implements IScreen,
 				NodeTypeHierarchy sh = new NodeTypeHierarchy(screenService
 						.getScreenContainer(), SWT.NONE);
 				sh.setScreenService(screenService);
-				sh.setOperation(Screens.OPERATION_READ_ONLY);
+				sh.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 				sh.injectData(null, nodeType);
 				screenService.setActiveScreen(sh);
 			}

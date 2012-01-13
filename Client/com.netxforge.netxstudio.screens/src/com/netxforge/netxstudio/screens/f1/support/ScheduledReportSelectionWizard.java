@@ -21,7 +21,7 @@ import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
@@ -108,9 +108,9 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 
 		// Edit or New if the Service has a job or not.
 		if (job != null) {
-			setOperation(Screens.OPERATION_EDIT);
+			setOperation(ScreenUtil.OPERATION_EDIT);
 		} else {
-			setOperation(Screens.OPERATION_NEW);
+			setOperation(ScreenUtil.OPERATION_NEW);
 			job = SchedulingFactory.eINSTANCE.createRFSServiceReporterJob();
 			job.setJobState(JobState.IN_ACTIVE);
 			job.setName(((Service) o).getServiceName());
@@ -133,9 +133,9 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 
 		// Edit or New if the Service has a job or not.
 		if (job != null) {
-			setOperation(Screens.OPERATION_EDIT);
+			setOperation(ScreenUtil.OPERATION_EDIT);
 		} else {
-			setOperation(Screens.OPERATION_NEW);
+			setOperation(ScreenUtil.OPERATION_NEW);
 			job = SchedulingFactory.eINSTANCE.createOperatorReporterJob();
 			job.setName(((Operator) o).getName());
 			job.setJobState(JobState.IN_ACTIVE);
@@ -158,9 +158,9 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 
 		// Edit or New if the Service has a job or not.
 		if (job != null) {
-			setOperation(Screens.OPERATION_EDIT);
+			setOperation(ScreenUtil.OPERATION_EDIT);
 		} else {
-			setOperation(Screens.OPERATION_NEW);
+			setOperation(ScreenUtil.OPERATION_NEW);
 
 			job = SchedulingFactory.eINSTANCE.createNodeReporterJob();
 			job.setName(((Node) o).getNodeID());
@@ -183,9 +183,9 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 
 		// Edit or New if the Service has a job or not.
 		if (job != null) {
-			setOperation(Screens.OPERATION_EDIT);
+			setOperation(ScreenUtil.OPERATION_EDIT);
 		} else {
-			setOperation(Screens.OPERATION_NEW);
+			setOperation(ScreenUtil.OPERATION_NEW);
 			job = SchedulingFactory.eINSTANCE.createNodeTypeReporterJob();
 			job.setName(((Operator) o).getName());
 			job.setJobState(JobState.IN_ACTIVE);

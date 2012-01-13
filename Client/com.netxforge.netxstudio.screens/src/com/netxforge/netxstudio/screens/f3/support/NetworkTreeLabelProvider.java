@@ -66,6 +66,10 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 		}
 	};
 
+	public NetworkTreeLabelProvider() {
+		super();
+	}
+	
 	public NetworkTreeLabelProvider(IObservableMap... attributeMaps) {
 		for (int i = 0; i < attributeMaps.length; i++) {
 			attributeMaps[i].addMapChangeListener(mapChangeListener);

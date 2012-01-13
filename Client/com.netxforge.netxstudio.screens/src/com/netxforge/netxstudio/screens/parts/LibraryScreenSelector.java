@@ -23,7 +23,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.screens.ch9.Expressions;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.NodeTypeResources;
 import com.netxforge.netxstudio.screens.f2.NodeTypes;
 import com.netxforge.netxstudio.screens.f2.Parameters;
@@ -59,27 +59,27 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 
 		result = screenFormService.addScreenSelector("NE Types",
 				"icons/full/obj16/Node_H.png", NodeTypes.class, 1,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 
 		result = screenFormService.addScreenSelector(result, "Metrics",
 				"icons/full/obj16/Metric_H.png", Metrics.class,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 
 		result = screenFormService.addScreenSelector(result,
 				"Resource Definitions", "icons/full/obj16/Resource_H.gif",
-				NodeTypeResources.class, Screens.OPERATION_EDIT);
+				NodeTypeResources.class, ScreenUtil.OPERATION_EDIT);
 
 		result = screenFormService.addScreenSelector(result, "Tolerances",
 				"icons/full/obj16/Tolerance_H.png", Tolerances.class,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 
 		result = screenFormService.addScreenSelector(result, "Expressions",
 				"icons/full/obj16/Expression_H.png", Expressions.class,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 		
 		result = screenFormService.addScreenSelector(result, "Parameters",
 				"icons/full/obj16/Parameter_H.png", Parameters.class,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 		
 // FIXME, The model doesn't allow to set the vendor on a component or equipment. 
 //		result = screenFormService.addScreenSelector(result, "Vendors",
@@ -88,11 +88,11 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 
 		result = screenFormService.addScreenSelector(result, "Units",
 				"icons/full/obj16/Unit_H.png", Units.class,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 
 		result = screenFormService.addScreenSelector(result, "Protocols",
 				"icons/full/obj16/Protocol_H.png", Protocols.class,
-				Screens.OPERATION_EDIT);
+				ScreenUtil.OPERATION_EDIT);
 
 	}
 

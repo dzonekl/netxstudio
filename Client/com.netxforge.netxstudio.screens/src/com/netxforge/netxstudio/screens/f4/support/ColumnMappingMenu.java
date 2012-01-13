@@ -5,7 +5,6 @@ import org.eclipse.swt.events.MenuEvent;
 import org.eclipse.swt.events.MenuListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
@@ -18,8 +17,9 @@ import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.AbstractMapping;
 import com.netxforge.netxstudio.screens.f4.NewEditMappingColumn;
 
@@ -311,9 +311,9 @@ public class ColumnMappingMenu {
 				break;
 			}
 
-			Composite activeScreen = screenService.getActiveScreen();
+			IScreen activeScreen = screenService.getActiveScreen();
 			if (activeScreen instanceof AbstractMapping) {
-				((AbstractMapping) activeScreen).newColumnMappingScreenDialog(false, Screens.OPERATION_NEW,
+				((AbstractMapping) activeScreen).newColumnMappingScreenDialog(false, ScreenUtil.OPERATION_NEW,
 				 mapping.getHeaderMappingColumns(), mc);
 			}
 			
@@ -380,9 +380,9 @@ public class ColumnMappingMenu {
 			// newColumnMappingScreen(true, Screens.OPERATION_NEW,
 			// mapping.getDataMappingColumns(), mc);
 
-			Composite activeScreen = screenService.getActiveScreen();
+			IScreen activeScreen = screenService.getActiveScreen();
 			if (activeScreen instanceof AbstractMapping) {
-				((AbstractMapping) activeScreen).newColumnMappingScreenDialog(true, Screens.OPERATION_NEW,
+				((AbstractMapping) activeScreen).newColumnMappingScreenDialog(true, ScreenUtil.OPERATION_NEW,
 				 mapping.getDataMappingColumns(), mc);
 			}
 		}
