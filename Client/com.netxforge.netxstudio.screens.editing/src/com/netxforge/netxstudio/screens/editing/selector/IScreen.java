@@ -23,6 +23,8 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.forms.widgets.Form;
 
+import com.netxforge.netxstudio.screens.editing.IEditingService;
+
 
 /**
  * Screens participating in the screen service, should implement. 
@@ -33,7 +35,7 @@ public interface IScreen extends IViewerProvider {
 
 	/**
 	 * Screens should implement, and tell us what kind of operation they should perform. 
-	 * {@link Screens}
+	 * {@link ScreenUtil}
 	 * @return
 	 */
 	public abstract int getOperation();
@@ -59,12 +61,28 @@ public interface IScreen extends IViewerProvider {
 	 */
 	public abstract String getScreenName();
 
+		
+	/**
+	 * Get the screen service for this screen. 
+	 * @return
+	 */
+	public abstract IScreenFormService getScreenService();
+
+	
+	
+	/**
+	 * Convenience, should delegate to the IScreenFormService
+	 * @return
+	 */
+	public abstract IEditingService getEditingService();
+
 	
 	/**
 	 * Set the screen service for this screen. 
 	 * @param screenService
 	 */
 	public abstract void setScreenService(IScreenFormService screenService);
+	
 	
 	/**
 	 * 

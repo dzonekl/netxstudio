@@ -36,7 +36,7 @@ public interface IScreenFormService {
 	 * 
 	 * @return
 	 */
-	public abstract Composite getActiveScreen();
+	public abstract IScreen getActiveScreen();
 
 	/**
 	 * Check if the proposed new screen is not the active screen already.
@@ -54,7 +54,7 @@ public interface IScreenFormService {
 	 * 
 	 * @param control
 	 */
-	public abstract void setActiveScreen(Composite control);
+	public abstract void setActiveScreen(IScreen screen);
 
 	public abstract void undoAndFlush();
 	

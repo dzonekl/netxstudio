@@ -47,11 +47,6 @@ public abstract class BasePeriodEngine {
 	// as used in the job implementation
 	private IDataProvider dataProvider;
 
-//	private Component component;
-
-//	@Inject
-//	private IExpressionEngine expressionEngine;
-
 	@Inject
 	private CommonLogic commonLogic;
 
@@ -65,46 +60,10 @@ public abstract class BasePeriodEngine {
 	private List<Failure> failures = new ArrayList<Failure>();
 	
 	public void execute() {
-//		failures.clear();
 		doExecute();
 	}
 	
 	public abstract void doExecute();
-
-//	protected void runForExpression(Expression expression) {
-//		try {
-//			if (expression == null) {
-//				return;
-//			}
-//			expressionEngine.setExpression(expression);
-//			
-//			expressionEngine.run();
-//			if (expressionEngine.errorOccurred()) {
-//				// stop here will be logged
-//				throw new IllegalStateException(expressionEngine.getThrowable());
-//			}
-//			final List<ExpressionResult> result = expressionEngine
-//					.getExpressionResult();
-//			
-//			if (result.isEmpty() && jobMonitor != null) {
-//				throw new IllegalStateException(engineContextInfo
-//						+ " expression returns no results for expression " + expression.getName());
-//			} else {
-//				final List<Object> currentContext = expressionEngine
-//						.getContext();
-//
-//				// process the result
-//				commonLogic.processResult(currentContext, result, start, end);
-//			}
-//		} catch (final Throwable t) {
-//			t.printStackTrace(System.err);
-//			final ExpressionFailure failure = SchedulingFactory.eINSTANCE.createExpressionFailure();
-//			failure.setExpressionRef(expression);
-//			failure.setMessage(t.getMessage());
-//			failure.setComponentRef(component);
-//			failures.add(failure);
-//		}
-//	}
 
 	public IDataProvider getDataProvider() {
 		return dataProvider;
@@ -127,21 +86,9 @@ public abstract class BasePeriodEngine {
 		commonLogic.setEnd(end);
 	}
 
-//	public Component getComponent() {
-//		return component;
-//	}
-
-//	public void setComponent(Component component) {
-//		this.component = component;
-//	}
-
 	public List<Failure> getFailures() {
 		return failures;
 	}
-
-//	public IExpressionEngine getExpressionEngine() {
-//		return expressionEngine;
-//	}
 
 	public CommonLogic getCommonLogic() {
 		return commonLogic;

@@ -100,30 +100,16 @@ public class EmbeddedXtextService {
 	public EObject reconcileChangedModel(final Expression expression,
 			EmbeddedXtextEditor editor) {
 
-		// A compound command.
-//		CompoundCommand compoundCommand = new CompoundCommand() {
-//			@Override
-//			public Collection<?> getAffectedObjects() {
-//				return Collections.singletonList(expression);
-//			}
-//		};
-
 		EditingDomain editingDomain = editingService.getEditingDomain();
 
-		// 1) we will update the string representation first.
-
+		// check for equality of the string in the model and our expression,
+		// if unequal, update the model.
 		boolean updateEditedEObject = !editor.getViewer().getDocument().get()
 				.equals(getAsString(expression));
-
 		if (updateEditedEObject) {
-
-			// // remove all previous elements in the edited object
-
-//			Command dc = DeleteCommand.create(editingDomain,
-//					expression.getExpressionLines());
-//			editingDomain.getCommandStack().execute(dc);
-
-			 expression.getExpressionLines().clear();
+			// remove all previous elements in the edited object
+			// Can't be undone.
+			expression.getExpressionLines().clear();
 
 			IDocument doc = editor.getViewer().getDocument();
 			int lines = doc.getNumberOfLines();
@@ -148,10 +134,13 @@ public class EmbeddedXtextService {
 				e.printStackTrace();
 			}
 		}
-
-		// 2) we will additionally check for errors, and based on this, update
-		// the evaluation object
-		// as well.
+		
+		
+		// NOTE: CB The root evaluation object has not use really, as we store the expression 
+		// as strings in our model ! 
+		
+		// We will additionally check for errors, and based on this, update
+		// the evaluation object as well.
 		if (editor.getDocument() != null) {
 			if (documentHasErrors(editor.getDocument())) {
 				// Parsing error, we don't do aything
@@ -163,46 +152,14 @@ public class EmbeddedXtextService {
 		}
 
 		if (updateEditedEObject) {
-
-//			EObject astRootElement = expression.getEvaluationObject();
-
-			// if (!astRootElement.eContents().isEmpty()) {
-			// // remove all previous elements in the edited object
-			// compoundCommand.append(DeleteCommand.create(editingDomain,
-			// astRootElement.eContents()));
-			// }
-
 			EObject rootASTElement = editor.getResource().getParseResult()
 					.getRootASTElement();
 			if (rootASTElement != null) {
 				EObject copyOfRootASTElement = EcoreUtil.copy(rootASTElement);
-
-//				compoundCommand.append(SetCommand.create(editingDomain,
-//						expression, null, copyOfRootASTElement));
-				
-				
 				return copyOfRootASTElement;
-				
-				
-				// EStructuralFeature eContainingFeature = astRootElement
-				// .eContainingFeature();
-
-				// if (eContainingFeature.isMany()) {
-				// compoundCommand.append(AddCommand.create(editingDomain,
-				// astRootElement.eContainer(), eContainingFeature,
-				// Collections.singletonList(copyOfRootASTElement)));
-				// } else {
-				// compoundCommand.append(SetCommand.create(editingDomain,
-				// astRootElement.eContainer(), eContainingFeature,
-				// copyOfRootASTElement));
-				// }
 			}
 		}
-
-//		editingDomain.getCommandStack().execute(compoundCommand);
-//		printExpression(expression);
 		return null;
-		
 	}
 
 	public boolean documentHasErrors(final IXtextDocument xtextDocument) {

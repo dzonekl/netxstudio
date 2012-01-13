@@ -18,19 +18,11 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.editing.selector;
 
-
-
 /**
  * Screens for which data is injected by the data service should implement. 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public interface IDataServiceInjection {
-	
-	/**
-	 * Inject required data. 
-	 */
-	public abstract void injectData();
-	
+public interface IDataServiceInjection extends IDataInjection {
 	
 	/**
 	 * Dispose any used data or Session. 

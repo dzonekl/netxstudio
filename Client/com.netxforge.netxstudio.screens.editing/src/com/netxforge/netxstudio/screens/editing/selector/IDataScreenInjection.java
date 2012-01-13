@@ -18,19 +18,11 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.editing.selector;
 
-
-
-
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public interface IDataScreenInjection {
-	
-	/**
-	 * Screens for which data is injected by another screen should implement. 
-	 */
-	public abstract void injectData(Object owner, Object object);
+public interface IDataScreenInjection extends IDataInjection {
 	
 	/**
 	 * Add the data.

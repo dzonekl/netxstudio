@@ -41,7 +41,6 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -106,10 +105,11 @@ public class ScreenFormService implements IScreenFormService {
 	 * com.netxforge.netxstudio.screens.selector.ISelectorService#getActiveScreen
 	 * ()
 	 */
-	public Composite getActiveScreen() {
+	public IScreen getActiveScreen() {
 		Control c = screenBody.getScreenDeck().topControl;
-		if (c != null && c instanceof Composite) {
-			return (Composite) c;
+		if (c != null && c instanceof Composite
+				&& ScreenUtil.isScreen((Composite) c)) {
+			return ScreenUtil.screenFor((Composite) c);
 		}
 
 		return null;
@@ -127,22 +127,20 @@ public class ScreenFormService implements IScreenFormService {
 		}
 	}
 
-	public void setActiveScreen(Composite screen) {
+	public void setActiveScreen(IScreen screen) {
 		pushCurrentScreen();
 		doSetActiveScreen(screen);
 	}
 
-	private void doSetActiveScreen(Composite screen) {
+	private void doSetActiveScreen(IScreen screen) {
 		// We need a copy of the composite, so it can work.
-
-		if (screen.isDisposed()) {
+		Composite activeScreen = ScreenUtil.compositeFor(screen);
+		if (activeScreen.isDisposed()) {
 			System.out.println("Attempt to set a disposed screen");
 			screenBody.getScreenDeck().topControl = null;
 			return; // can't set this screen sorry.
-
 		}
 
-		Composite activeScreen = screen;
 		formToolkit.adapt(activeScreen);
 		formToolkit.paintBordersFor(activeScreen);
 
@@ -173,7 +171,7 @@ public class ScreenFormService implements IScreenFormService {
 
 		if (!screenStack.empty()) {
 
-			Composite activeScreen = this.getActiveScreen();
+			Composite activeScreen = ScreenUtil.compositeFor(getActiveScreen());
 			if (activeScreen != null) {
 				activeScreen.dispose();
 			}
@@ -320,7 +318,7 @@ public class ScreenFormService implements IScreenFormService {
 
 			final Role r = modelUtils.roleForUserWithName(currentUser, people);
 			if (r.getName().equals(IFixtures.ROLE_READONLY)) {
-				operation = Screens.OPERATION_READ_ONLY;
+				operation = ScreenUtil.OPERATION_READ_ONLY;
 			}
 
 			editingService.getDataService().getProvider().commitTransaction();
@@ -391,19 +389,13 @@ public class ScreenFormService implements IScreenFormService {
 				// We are a new screen, instantiate and set active.
 				try {
 
-					Composite target = (Composite) finalScreenConstructor
+					IScreen target = (IScreen) finalScreenConstructor
 							.newInstance(getScreenContainer(), SWT.NONE);
-
-					if (target instanceof IScreen) {
-						((IScreen) target).setOperation(finalOperation);
-						((IScreen) target)
-								.setScreenService(ScreenFormService.this);
-					}
+					((IScreen) target).setOperation(finalOperation);
+					((IScreen) target).setScreenService(ScreenFormService.this);
 					if (target instanceof IDataServiceInjection) {
 						((IDataServiceInjection) target).injectData();
 					}
-
-					// target.addDisposeListener(new ScreenDisposer());
 
 					doSetActiveScreen(target);
 
@@ -543,7 +535,7 @@ public class ScreenFormService implements IScreenFormService {
 		if (activeScreen instanceof IDataScreenInjection) {
 			bckLnk.setVisible(true);
 			IScreen screen = (IScreen) activeScreen;
-			if (!Screens.isReadOnlyOperation(screen.getOperation())) {
+			if (!ScreenUtil.isReadOnlyOperation(screen.getOperation())) {
 				saveLnk.setVisible(true);
 			}
 		}
@@ -562,7 +554,7 @@ public class ScreenFormService implements IScreenFormService {
 		formToolkit.adapt(bckLnk);
 		bckLnk.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				if (((IScreen) getActiveScreen()).isValid()) {
+				if (getActiveScreen().isValid()) {
 					dirtyWarning();
 					popScreen();
 				} else {
@@ -681,9 +673,9 @@ public class ScreenFormService implements IScreenFormService {
 			this.screenBody.setScreenPathOn();
 			while (elements.hasNext()) {
 				Composite composite = elements.next();
-				if (composite instanceof IScreen) {
+				if (ScreenUtil.isScreen(composite)) {
+					createPathEntry(ScreenUtil.screenFor(composite));
 				}
-				createPathEntry(composite);
 				if (elements.hasNext()) {
 					formToolkit.createLabel(this.screenBody.getScreenPath(),
 							"->");
@@ -700,15 +692,9 @@ public class ScreenFormService implements IScreenFormService {
 		}
 	}
 
-	private void createPathEntry(Composite composite) {
-		String entry = composite.getClass().getSimpleName();
-
-		if (composite instanceof IScreen) {
-			entry = ((IScreen) composite).getScreenName();
-		}
-		@SuppressWarnings("unused")
-		Label entryLabel = formToolkit.createLabel(
-				this.screenBody.getScreenPath(), entry);
+	private void createPathEntry(IScreen screen) {
+		String entry = screen.getScreenName();
+		formToolkit.createLabel(this.screenBody.getScreenPath(), entry);
 	}
 
 	public void disable() {
@@ -716,4 +702,5 @@ public class ScreenFormService implements IScreenFormService {
 			lnk.setEnabled(false);
 		}
 	}
+
 }

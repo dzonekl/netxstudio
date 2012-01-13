@@ -48,14 +48,14 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	@Inject
 	protected IScreenFormService screenFormService;
 
-	private IScreen activeScreen;
+//	private IScreen activeScreen;
 
 	public AbstractScreenSelector() {
 	}
 
 	@Override
 	public IScreen getActiveScreen() {
-		return activeScreen;
+		return screenFormService.getActiveScreen();
 	}
 
 	public IScreenFormService getScreenFormService() {
@@ -86,10 +86,6 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	}
 
 	public abstract void buildSelector();
-
-	public IScreen getCurrentScreen() {
-		return activeScreen;
-	}
 
 	/**
 	 * Create the actions.
@@ -152,7 +148,6 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		this.getActionHandlerDescriptor().clearDynamicHandlers();
 		
 		if (screen != null) {
-			activeScreen = screen;
 			Viewer viewer = screen.getViewer();
 			setCurrentViewer(viewer);
 			// Make sure we update the dirty state, when changing screen.
@@ -163,15 +158,14 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	@Override
 	public void contributeMenuAboutToShow(IMenuManager menuManager) {
 
-		// Customize the descriptor based on the
 		ActionHandlerDescriptor descriptor = this.getActionHandlerDescriptor();
 		descriptor.setMenuManager(menuManager);
-		descriptor.setScreen(activeScreen);
+		descriptor.setScreen(this.getActiveScreen());
 		
-		if (!Screens.isReadOnlyOperation(getCurrentScreen().getOperation())) {
+		if (!ScreenUtil.isReadOnlyOperation(getActiveScreen().getOperation())) {
 			descriptor.setEnableEditActions(true);
 
-			if (this.getCurrentScreen().getViewer() instanceof TreeViewer) {
+			if (this.getActiveScreen().getViewer() instanceof TreeViewer) {
 				descriptor.setEnableChildCreationActions(true);
 			} else {
 				descriptor.setEnableChildCreationActions(false);
@@ -194,9 +188,9 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		
 		// !!!! actions would be created dynamicly.....
 		
-		if (this.getCurrentScreen() != null
-				&& this.getCurrentScreen().getActions() != null) {
-			List<IAction> actions = reverse(this.getCurrentScreen().getActions());
+		if (this.getActiveScreen() != null
+				&& this.getActiveScreen().getActions() != null) {
+			List<IAction> actions = reverse(this.getActiveScreen().getActions());
 			dynamicScreensActionHandler = new DynamicScreensActionHandler();
 			dynamicScreensActionHandler.addActions(actions);
 			descriptor.addHandler(dynamicScreensActionHandler);

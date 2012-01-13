@@ -607,25 +607,17 @@ public class EmbeddedXtextEditor {
 	 */
 	public void update(final EObject eObject, String asString) {
 
-		fResource.setParentResource(eObject.eResource());
 		if (eObject != null) {
-			// XtextResource asStringResource = (XtextResource)
-			// fResourceSetProvider.get(null).createResource(URI.createURI("asStringResource."
-			// + fFileExtension));
-
-			// CB We skip the set provider, and get the set directly from the
-			// wrapped set provider. (Which has the same name!).
+			
+			fResource.setParentResource(eObject.eResource());
 			XtextResourceSet set = resourceSetProvider.get();
 			ResourceSet resourceSet = set;
-
 			EmbeddedXtextResource asStringResource = (EmbeddedXtextResource) fEmbeddedXtextResourceProvider
 					.get();
 			resourceSet.getResources().add(asStringResource);
-			// EmbeddedXtextResource asStringResource = new
-			// EmbeddedXtextResource();
 			asStringResource.setURI(URI.createURI("asStringResource."
 					+ fFileExtension));
-			asStringResource.setParentResource(eObject.eResource());
+//			asStringResource.setParentResource(eObject.eResource());
 
 			// try {
 			// asStringResource.load(new StringInputStream(asString),

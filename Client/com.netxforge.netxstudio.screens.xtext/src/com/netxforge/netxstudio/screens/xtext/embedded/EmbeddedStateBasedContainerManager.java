@@ -20,6 +20,11 @@ import org.eclipse.xtext.resource.impl.DefaultResourceDescription;
 
 import com.google.inject.Inject;
 
+/**
+ * Used to get a description from the parent resource. 
+ * @author Christophe
+ *
+ */
 public class EmbeddedStateBasedContainerManager extends
 		StateBasedContainerManager {
 

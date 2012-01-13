@@ -85,7 +85,7 @@ public class ServerImporterHelper implements IImporterHelper {
 				.getInjector().getInstance(LocalDataProviderProvider.class)
 				.getDataProvider();
 		// Set in the importer so we are called only once.
-//		importer.setDataProvider(dataProvider);
+		// importer.setDataProvider(dataProvider);
 		return dataProvider;
 	}
 
@@ -111,7 +111,6 @@ public class ServerImporterHelper implements IImporterHelper {
 			Component locatedComponent, Double dblValue, int intervalHint,
 			NetworkElementLocator.IdentifierDescriptor lastDescriptor) {
 
-		
 		String path = modelUtils.cdoCalculateResourcePathII(locatedComponent);
 
 		if (path == null) {
@@ -140,10 +139,13 @@ public class ServerImporterHelper implements IImporterHelper {
 			final NetXResource netXResource = (NetXResource) object;
 
 			// Match the resource on component, metric and also the name as per
-			// last identifier value.
+			// last identifier value.  
+			// Note, manually created resources, do not necessarly have a metric reference: 
+			// see http://work.netxforge.com/issues/264
 			if (netXResource.getComponentRef() != null
 					&& netXResource.getComponentRef().cdoID()
 							.equals(locatedComponent.cdoID())
+					&& netXResource.getMetricRef() != null
 					&& netXResource.getMetricRef().cdoID() == metric.cdoID()) {
 				if (lastDescriptor != null) {
 					if (!netXResource.getShortName().equals(

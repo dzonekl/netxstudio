@@ -35,40 +35,13 @@ import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
  */
 public abstract class BaseExpressionEngine extends BasePeriodEngine {
 
-	// private ServerWorkFlowRunMonitor jobMonitor;
-
-	// contains context information to use when adding an error message to the
-	// log
-	// private String engineContextInfo = "";
-
-	// on purpose no @Inject as we need the same instance
-	// as used in the job implementation
-	// private IDataProvider dataProvider;
-
-	// private Component component;
-
 	@Inject
 	private IExpressionEngine expressionEngine;
-
-	// @Inject
-	// private CommonLogic commonLogic;
-
-	// @Inject
-	// private ModelUtils modelUtils;
-
-	// private DateTimeRange range;
-	// private Date start;
-	// private Date end;
-
-	// private List<ExpressionFailure> failures = new
-	// ArrayList<ExpressionFailure>();
 
 	public void execute() {
 		this.getFailures().clear();
 		doExecute();
 	}
-
-	// public abstract void doExecute();
 
 	protected abstract void processResult(List<Object> currentContext,
 			List<BaseExpressionResult> expressionResults, Date start, Date end);
@@ -123,73 +96,7 @@ public abstract class BaseExpressionEngine extends BasePeriodEngine {
 
 	public abstract Failure getFailure();
 
-	// public IDataProvider getDataProvider() {
-	// return dataProvider;
-	// }
-
-	// public void setDataProvider(IDataProvider dataProvider) {
-	// this.dataProvider = dataProvider;
-	// commonLogic.setDataProvider(dataProvider);
-	// }
-
-	// public DateTimeRange getRange() {
-	// return range;
-	// }
-
-	// public void setRange(DateTimeRange range) {
-	// this.range = range;
-	// start = modelUtils.fromXMLDate(range.getBegin());
-	// end = modelUtils.fromXMLDate(range.getEnd());
-	// commonLogic.setStart(start);
-	// commonLogic.setEnd(end);
-	// }
-
-	// public Component getComponent() {
-	// return component;
-	// }
-
-	// public void setComponent(Component component) {
-	// this.component = component;
-	// }
-
-	// public List<ExpressionFailure> getFailures() {
-	// return failures;
-	// }
-
 	public IExpressionEngine getExpressionEngine() {
 		return expressionEngine;
 	}
-
-	// public CommonLogic getCommonLogic() {
-	// return commonLogic;
-	// }
-
-	// public ModelUtils getModelUtils() {
-	// return modelUtils;
-	// }
-
-	// public Date getStart() {
-	// return start;
-	// }
-
-	// public Date getEnd() {
-	// return end;
-	// }
-	//
-	// public ServerWorkFlowRunMonitor getJobMonitor() {
-	// return jobMonitor;
-	// }
-	//
-	// public void setJobMonitor(ServerWorkFlowRunMonitor jobMonitor) {
-	// this.jobMonitor = jobMonitor;
-	// }
-	//
-	// public String getEngineContextInfo() {
-	// return engineContextInfo;
-	// }
-	//
-	// public void setEngineContextInfo(String engineContextInfo) {
-	// this.engineContextInfo = engineContextInfo;
-	// }
-
 }

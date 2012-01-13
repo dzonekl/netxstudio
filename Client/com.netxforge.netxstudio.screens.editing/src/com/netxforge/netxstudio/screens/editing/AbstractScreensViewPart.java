@@ -249,7 +249,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	}
 
 	public abstract IScreen getActiveScreen();
-
+	
 	public void updateActiveScreenDirtyNess() {
 		if (this.getActiveScreen() == null) {
 			return;

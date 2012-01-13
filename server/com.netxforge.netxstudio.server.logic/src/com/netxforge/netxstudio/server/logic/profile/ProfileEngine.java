@@ -86,8 +86,4 @@ public class ProfileEngine extends BaseExpressionEngine {
 	public void setService(RFSService service) {
 		this.service = service;
 	}
-	
-	
-	
-	
 }
