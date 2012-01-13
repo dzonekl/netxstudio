@@ -901,7 +901,10 @@ public class InterpreterTypeless implements IInterpreter {
 		ie.setFailedWhileEvaluationMe(expressionObject);
 		return ie;
 	}
-
+	
+	
+	
+	// CB 06-01-2012 Removed, expression can't be a statement.  
 	/**
 	 * Root class, which contains an expression, evaluate on the expression, or
 	 * threat as a blank.
@@ -910,15 +913,15 @@ public class InterpreterTypeless implements IInterpreter {
 	 * @param values
 	 * @return
 	 */
-	protected Object internalEvaluate(Statement statement,
-			ImmutableMap<String, Object> values) {
-
-		if (statement.getExpression() != null) {
-			return evaluate((Expression) statement.getExpression(), values);
-		} else {
-			return null;
-		}
-	}
+//	protected Object internalEvaluate(Statement statement,
+//			ImmutableMap<String, Object> values) {
+//
+//		if (statement.getExpression() != null) {
+//			return evaluate((Expression) statement.getExpression(), values);
+//		} else {
+//			return null;
+//		}
+//	}
 
 	/**
 	 * If statement.
@@ -1167,7 +1170,7 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 
 			if (primaryRef.getLeafRef() == null
-					&& primaryRef.getComponents() != null) {
+					&& primaryRef.getComponent() != null) {
 				return components;
 			} else if (primaryRef.getLeafRef() != null) {
 
@@ -1220,7 +1223,7 @@ public class InterpreterTypeless implements IInterpreter {
 			// context.
 			// to get the last referenced component for this node.
 			if (primaryRef.getLeafRef() == null
-					&& primaryRef.getComponents() != null && node != null) {
+					&& primaryRef.getComponent() != null && node != null) {
 
 				// CB 16-12-2011, changed capacity expression context to be the
 				// resource.
@@ -1276,9 +1279,13 @@ public class InterpreterTypeless implements IInterpreter {
 		// We need to find the components referenced by their name in
 		// the context "Node",
 		// Let's get the last component referenced.
-		Reference lastRef = primaryRef.getComponents().get(
-				primaryRef.getComponents().size() - 1);
 
+		Reference lastRef = primaryRef.getComponent();
+
+		// CB O6-01-2012 only one component exists. 
+//		Reference lastRef = primaryRef.getComponents().get(
+//				primaryRef.getComponents().size() - 1);
+//
 		if (lastRef instanceof OperatorRef) {
 			// return either the functions or equipments.
 			OperatorRef cr = (OperatorRef) lastRef;

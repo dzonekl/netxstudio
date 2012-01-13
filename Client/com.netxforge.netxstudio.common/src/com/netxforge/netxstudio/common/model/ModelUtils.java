@@ -129,12 +129,62 @@ public class ModelUtils {
 	 */
 	public class ValueTimeStampComparator implements Comparator<Value> {
 		public int compare(final Value v1, final Value v2) {
-			return v1.getTimeStamp().compare(v2.getTimeStamp());
+
+			// check if set.
+			if (v1.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)
+					&& v2.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)) {
+				return v1.getTimeStamp().compare(v2.getTimeStamp());
+			}
+			return 0;
 		}
 	};
 
 	public ValueTimeStampComparator valueTimeStampCompare() {
 		return new ValueTimeStampComparator();
+	}
+
+	/**
+	 * Compare two values
+	 */
+	public class ValueValueComparator implements Comparator<Value> {
+		public int compare(final Value v1, final Value v2) {
+			// check if set.
+			if (v1.eIsSet(GenericsPackage.Literals.VALUE__VALUE)
+					&& v2.eIsSet(GenericsPackage.Literals.VALUE__VALUE)) {
+				return Double.compare(v1.getValue(), v2.getValue());
+			}
+			return 0;
+		}
+	};
+
+	public ValueValueComparator valueValueCompare() {
+		return new ValueValueComparator();
+	}
+
+	/**
+	 * Compare two values
+	 */
+	public class DateComparator implements Comparator<Date> {
+		public int compare(final Date v1, final Date v2) {
+			return v1.compareTo(v2);
+		}
+	};
+
+	public DateComparator dateComparator() {
+		return new DateComparator();
+	}
+
+	/**
+	 * Compare two values
+	 */
+	public class DoubleComparator implements Comparator<Double> {
+		public int compare(final Double v1, final Double v2) {
+			return Double.compare(v1, v2);
+		}
+	};
+
+	public DoubleComparator doubleCompare() {
+		return new DoubleComparator();
 	}
 
 	public class MarkerTimeStampComparator implements Comparator<Marker> {
@@ -225,17 +275,16 @@ public class ModelUtils {
 		return new ValuerInsideRange(dtr);
 	}
 
-
 	public class NonHiddenFile implements Predicate<File> {
 		public boolean apply(final File f) {
 			return !f.isHidden();
 		}
 	}
 
-	public NonHiddenFile nonHiddenFile(){
+	public NonHiddenFile nonHiddenFile() {
 		return new NonHiddenFile();
 	}
-	
+
 	public class NodeOfType implements Predicate<Node> {
 		private final NodeType nt;
 
@@ -254,7 +303,6 @@ public class ModelUtils {
 		}
 	}
 
-	
 	public NodeOfType nodeOfType(NodeType nodeType) {
 		return new NodeOfType(nodeType);
 	}
@@ -1346,23 +1394,6 @@ public class ModelUtils {
 		return mostRecentValue(resource.getCapacityValues());
 	}
 
-	/**
-	 * Iterate through the ranges, and find for this interval.
-	 * 
-	 * @param resource
-	 * @param targetInterval
-	 * @return
-	 */
-	public MetricValueRange valueRangeForInterval(NetXResource resource,
-			int targetInterval) {
-		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
-			if (mvr.getIntervalHint() == targetInterval) {
-				return mvr;
-			}
-		}
-		return null;
-	}
-
 	public List<Value> valuesInRange(Iterable<Value> unfiltered,
 			DateTimeRange dtr) {
 
@@ -1389,7 +1420,24 @@ public class ModelUtils {
 		return Lists.newArrayList();
 	}
 
-	/*
+	/**
+	 * Iterate through the ranges, and find for this interval.
+	 * 
+	 * @param resource
+	 * @param targetInterval
+	 * @return
+	 */
+	public MetricValueRange valueRangeForInterval(NetXResource resource,
+			int targetInterval) {
+		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
+			if (mvr.getIntervalHint() == targetInterval) {
+				return mvr;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Note, side effect of creating the value range if the range doesn't exist.
 	 */
 	public MetricValueRange valueRangeForIntervalAndKind(
@@ -2265,6 +2313,20 @@ public class ModelUtils {
 	}
 
 	/**
+	 * Extract the EReference's with referen type is Expression from a target
+	 * object.
+	 */
+	public List<EReference> expressionEReferences(EObject target) {
+		final List<EReference> expRefs = Lists.newArrayList();
+		for (EReference eref : target.eClass().getEAllReferences()) {
+			if (eref.getEReferenceType() == LibraryPackage.Literals.EXPRESSION) {
+				expRefs.add(eref);
+			}
+		}
+		return expRefs;
+	}
+
+	/**
 	 * Intended for use together with an ITableLabelProvider
 	 * <ul>
 	 * <li>Index = 0, returns a literal string of the feature for this delta.</li>
@@ -2557,6 +2619,51 @@ public class ModelUtils {
 		return Lists.transform(values, valueToDouble);
 	}
 
+	public Date[] transformValueToDateArray(List<Value> values) {
+		final Function<Value, Date> valueToDouble = new Function<Value, Date>() {
+			public Date apply(Value from) {
+				return fromXMLDate(from.getTimeStamp());
+			}
+		};
+		List<Date> transform = Lists.transform(values, valueToDouble);
+		return transform.toArray(new Date[transform.size()]);
+	}
+
+	/**
+	 * Separate and Merge the date and value from a value collection into two
+	 * separate collections. if the Date is already in the date collection, we
+	 * re-use that index.
+	 * 
+	 * @param dates
+	 */
+	public List<Double> merge(List<Date> dates, List<Value> valuesToMerge) {
+
+		// should from with the dates list.
+		List<Double> doubles = Lists.newArrayListWithCapacity(dates.size());
+		for (int i = 0; i < dates.size(); i++) {
+			doubles.add(new Double(-1));
+		}
+
+		for (Value v : valuesToMerge) {
+			Date dateToMergeOrAdd = fromXMLDate(v.getTimeStamp());
+			int positionOf = positionOf(dates, dateToMergeOrAdd);
+			if (positionOf != -1) {
+				// store in the same position, the initial size should allow
+				// this.
+				doubles.add(positionOf, v.getValue());
+			} else {
+				dates.add(dateToMergeOrAdd);
+				doubles.add(v.getValue());
+			}
+		}
+		return doubles;
+	}
+
+	public int positionOf(List<Date> dates, Date toCheckDate) {
+		int indexOf = dates.indexOf(toCheckDate);
+		return indexOf;
+	}
+
 	/**
 	 * FIXME, No other way that iterator through.
 	 * 
@@ -2601,22 +2708,77 @@ public class ModelUtils {
 	}
 
 	/**
+	 * All closure networks.
+	 * 
+	 * @param network
+	 * @return
+	 */
+	public List<Network> networksForOperator(Operator operator) {
+		final List<Network> networks = new ArrayList<Network>();
+
+		for (Network n : operator.getNetworks()) {
+			networks.addAll(networksForNetwork(n));
+		}
+		return networks;
+	}
+
+	public List<Network> networksForNetwork(Network network) {
+		final List<Network> networks = new ArrayList<Network>();
+		networks.add(network);
+		for (Network child : network.getNetworks()) {
+			networks.addAll(networksForNetwork(child));
+		}
+		return networks;
+	}
+
+	/**
 	 * All closure nodes.
 	 * 
 	 * @param network
 	 * @return
 	 */
 	public List<Node> nodesForNetwork(Network network) {
-		final List<Node> nodes = new ArrayList<Node>();
+		return network.getNodes();
+	}
 
-		TreeIterator<EObject> eAllContents = network.eAllContents();
-		while (eAllContents.hasNext()) {
-			EObject eo = eAllContents.next();
-			if (eo instanceof Node) {
-				nodes.add((Node) eo);
+	/**
+	 * All closure components.
+	 * 
+	 * @param n
+	 * @return
+	 */
+	public List<Component> componentsForNode(Node n) {
+		final List<Component> components = new ArrayList<Component>();
+
+		if (n.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
+			for (Component c : n.getNodeType().getFunctions()) {
+				components.addAll(componentsForComponent(c));
+			}
+			for (Component c : n.getNodeType().getEquipments()) {
+				components.addAll(componentsForComponent(c));
 			}
 		}
-		return nodes;
+		return components;
+	}
+
+	public List<Component> componentsForComponent(Component c) {
+		final List<Component> components = new ArrayList<Component>();
+		components.add(c);
+		if (c instanceof com.netxforge.netxstudio.library.Function) {
+			com.netxforge.netxstudio.library.Function f = (com.netxforge.netxstudio.library.Function) c;
+			for (Component child : f.getFunctions()) {
+				components.addAll(componentsForComponent(child));
+			}
+		}
+
+		if (c instanceof Equipment) {
+			Equipment eq = (Equipment) c;
+			for (Component child : eq.getEquipments()) {
+				components.addAll(componentsForComponent(child));
+			}
+		}
+
+		return components;
 	}
 
 	public List<NodeType> nodeTypesForResource(Resource operatorsResource) {

@@ -5,7 +5,6 @@
  */
 package com.netxforge.netxscript;
 
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -15,7 +14,7 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.Reference#getComponents <em>Components</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.Reference#getComponent <em>Component</em>}</li>
  *   <li>{@link com.netxforge.netxscript.Reference#getLeafRef <em>Leaf Ref</em>}</li>
  * </ul>
  * </p>
@@ -27,20 +26,30 @@ import org.eclipse.emf.common.util.EList;
 public interface Reference extends Expression
 {
   /**
-   * Returns the value of the '<em><b>Components</b></em>' containment reference list.
-   * The list contents are of type {@link com.netxforge.netxscript.Reference}.
+   * Returns the value of the '<em><b>Component</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Components</em>' containment reference list isn't clear,
+   * If the meaning of the '<em>Component</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Components</em>' containment reference list.
-   * @see com.netxforge.netxscript.NetxscriptPackage#getReference_Components()
+   * @return the value of the '<em>Component</em>' containment reference.
+   * @see #setComponent(Reference)
+   * @see com.netxforge.netxscript.NetxscriptPackage#getReference_Component()
    * @model containment="true"
    * @generated
    */
-  EList<Reference> getComponents();
+  Reference getComponent();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.netxscript.Reference#getComponent <em>Component</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Component</em>' containment reference.
+   * @see #getComponent()
+   * @generated
+   */
+  void setComponent(Reference value);
 
   /**
    * Returns the value of the '<em><b>Leaf Ref</b></em>' containment reference.

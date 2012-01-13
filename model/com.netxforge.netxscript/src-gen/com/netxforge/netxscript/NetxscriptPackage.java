@@ -266,22 +266,13 @@ public interface NetxscriptPackage extends EPackage
   int STATEMENT = 7;
 
   /**
-   * The feature id for the '<em><b>Expression</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int STATEMENT__EXPRESSION = ABSTRACT_VAR_OR_ARGUMENT_FEATURE_COUNT + 0;
-
-  /**
    * The number of structural features of the '<em>Statement</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int STATEMENT_FEATURE_COUNT = ABSTRACT_VAR_OR_ARGUMENT_FEATURE_COUNT + 1;
+  int STATEMENT_FEATURE_COUNT = ABSTRACT_VAR_OR_ARGUMENT_FEATURE_COUNT + 0;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.BlockImpl <em>Block</em>}' class.
@@ -292,15 +283,6 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int BLOCK = 6;
-
-  /**
-   * The feature id for the '<em><b>Expression</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int BLOCK__EXPRESSION = STATEMENT__EXPRESSION;
 
   /**
    * The feature id for the '<em><b>Statements</b></em>' containment reference list.
@@ -396,13 +378,13 @@ public interface NetxscriptPackage extends EPackage
   int REFERENCE__INDEX = EXPRESSION__INDEX;
 
   /**
-   * The feature id for the '<em><b>Components</b></em>' containment reference list.
+   * The feature id for the '<em><b>Component</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int REFERENCE__COMPONENTS = EXPRESSION_FEATURE_COUNT + 0;
+  int REFERENCE__COMPONENT = EXPRESSION_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Leaf Ref</b></em>' containment reference.
@@ -541,7 +523,7 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    * @ordered
    */
-  int RETURN__EXPRESSION = STATEMENT__EXPRESSION;
+  int RETURN__EXPRESSION = STATEMENT_FEATURE_COUNT + 0;
 
   /**
    * The number of structural features of the '<em>Return</em>' class.
@@ -550,7 +532,7 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    * @ordered
    */
-  int RETURN_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 0;
+  int RETURN_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.IfImpl <em>If</em>}' class.
@@ -561,15 +543,6 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int IF = 15;
-
-  /**
-   * The feature id for the '<em><b>Expression</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int IF__EXPRESSION = STATEMENT__EXPRESSION;
 
   /**
    * The feature id for the '<em><b>If</b></em>' containment reference.
@@ -618,15 +591,6 @@ public interface NetxscriptPackage extends EPackage
   int WHILE = 16;
 
   /**
-   * The feature id for the '<em><b>Expression</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int WHILE__EXPRESSION = STATEMENT__EXPRESSION;
-
-  /**
    * The feature id for the '<em><b>Predicate</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -664,15 +628,6 @@ public interface NetxscriptPackage extends EPackage
   int VARIABLE = 17;
 
   /**
-   * The feature id for the '<em><b>Expression</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int VARIABLE__EXPRESSION = STATEMENT__EXPRESSION;
-
-  /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -682,13 +637,22 @@ public interface NetxscriptPackage extends EPackage
   int VARIABLE__NAME = STATEMENT_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int VARIABLE__EXPRESSION = STATEMENT_FEATURE_COUNT + 1;
+
+  /**
    * The number of structural features of the '<em>Variable</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int VARIABLE_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 1;
+  int VARIABLE_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.AssignmentImpl <em>Assignment</em>}' class.
@@ -701,15 +665,6 @@ public interface NetxscriptPackage extends EPackage
   int ASSIGNMENT = 18;
 
   /**
-   * The feature id for the '<em><b>Expression</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ASSIGNMENT__EXPRESSION = STATEMENT__EXPRESSION;
-
-  /**
    * The feature id for the '<em><b>Var</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -719,13 +674,22 @@ public interface NetxscriptPackage extends EPackage
   int ASSIGNMENT__VAR = STATEMENT_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ASSIGNMENT__EXPRESSION = STATEMENT_FEATURE_COUNT + 1;
+
+  /**
    * The number of structural features of the '<em>Assignment</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ASSIGNMENT_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 1;
+  int ASSIGNMENT_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.PlusAssignmentImpl <em>Plus Assignment</em>}' class.
@@ -738,15 +702,6 @@ public interface NetxscriptPackage extends EPackage
   int PLUS_ASSIGNMENT = 19;
 
   /**
-   * The feature id for the '<em><b>Expression</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int PLUS_ASSIGNMENT__EXPRESSION = STATEMENT__EXPRESSION;
-
-  /**
    * The feature id for the '<em><b>Var</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -756,13 +711,22 @@ public interface NetxscriptPackage extends EPackage
   int PLUS_ASSIGNMENT__VAR = STATEMENT_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PLUS_ASSIGNMENT__EXPRESSION = STATEMENT_FEATURE_COUNT + 1;
+
+  /**
    * The number of structural features of the '<em>Plus Assignment</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PLUS_ASSIGNMENT_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 1;
+  int PLUS_ASSIGNMENT_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.RefAssignmentImpl <em>Ref Assignment</em>}' class.
@@ -775,15 +739,6 @@ public interface NetxscriptPackage extends EPackage
   int REF_ASSIGNMENT = 20;
 
   /**
-   * The feature id for the '<em><b>Expression</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int REF_ASSIGNMENT__EXPRESSION = STATEMENT__EXPRESSION;
-
-  /**
    * The feature id for the '<em><b>Assignment Ref</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -793,13 +748,22 @@ public interface NetxscriptPackage extends EPackage
   int REF_ASSIGNMENT__ASSIGNMENT_REF = STATEMENT_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REF_ASSIGNMENT__EXPRESSION = STATEMENT_FEATURE_COUNT + 1;
+
+  /**
    * The number of structural features of the '<em>Ref Assignment</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int REF_ASSIGNMENT_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 1;
+  int REF_ASSIGNMENT_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.AndImpl <em>And</em>}' class.
@@ -1769,13 +1733,13 @@ public interface NetxscriptPackage extends EPackage
   int PARAM_REF__INDEX = REFERENCE__INDEX;
 
   /**
-   * The feature id for the '<em><b>Components</b></em>' containment reference list.
+   * The feature id for the '<em><b>Component</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PARAM_REF__COMPONENTS = REFERENCE__COMPONENTS;
+  int PARAM_REF__COMPONENT = REFERENCE__COMPONENT;
 
   /**
    * The feature id for the '<em><b>Leaf Ref</b></em>' containment reference.
@@ -1824,13 +1788,13 @@ public interface NetxscriptPackage extends EPackage
   int NODE_TYPE_REF__INDEX = REFERENCE__INDEX;
 
   /**
-   * The feature id for the '<em><b>Components</b></em>' containment reference list.
+   * The feature id for the '<em><b>Component</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int NODE_TYPE_REF__COMPONENTS = REFERENCE__COMPONENTS;
+  int NODE_TYPE_REF__COMPONENT = REFERENCE__COMPONENT;
 
   /**
    * The feature id for the '<em><b>Leaf Ref</b></em>' containment reference.
@@ -1888,13 +1852,13 @@ public interface NetxscriptPackage extends EPackage
   int NODE_REF__INDEX = REFERENCE__INDEX;
 
   /**
-   * The feature id for the '<em><b>Components</b></em>' containment reference list.
+   * The feature id for the '<em><b>Component</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int NODE_REF__COMPONENTS = REFERENCE__COMPONENTS;
+  int NODE_REF__COMPONENT = REFERENCE__COMPONENT;
 
   /**
    * The feature id for the '<em><b>Leaf Ref</b></em>' containment reference.
@@ -1952,13 +1916,13 @@ public interface NetxscriptPackage extends EPackage
   int CONTEXT_REF__INDEX = REFERENCE__INDEX;
 
   /**
-   * The feature id for the '<em><b>Components</b></em>' containment reference list.
+   * The feature id for the '<em><b>Component</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int CONTEXT_REF__COMPONENTS = REFERENCE__COMPONENTS;
+  int CONTEXT_REF__COMPONENT = REFERENCE__COMPONENT;
 
   /**
    * The feature id for the '<em><b>Leaf Ref</b></em>' containment reference.
@@ -2016,13 +1980,13 @@ public interface NetxscriptPackage extends EPackage
   int OPERATOR_REF__INDEX = REFERENCE__INDEX;
 
   /**
-   * The feature id for the '<em><b>Components</b></em>' containment reference list.
+   * The feature id for the '<em><b>Component</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int OPERATOR_REF__COMPONENTS = REFERENCE__COMPONENTS;
+  int OPERATOR_REF__COMPONENT = REFERENCE__COMPONENT;
 
   /**
    * The feature id for the '<em><b>Leaf Ref</b></em>' containment reference.
@@ -2404,17 +2368,6 @@ public interface NetxscriptPackage extends EPackage
   EClass getStatement();
 
   /**
-   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.Statement#getExpression <em>Expression</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Expression</em>'.
-   * @see com.netxforge.netxscript.Statement#getExpression()
-   * @see #getStatement()
-   * @generated
-   */
-  EReference getStatement_Expression();
-
-  /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.Expression <em>Expression</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2456,15 +2409,15 @@ public interface NetxscriptPackage extends EPackage
   EClass getReference();
 
   /**
-   * Returns the meta object for the containment reference list '{@link com.netxforge.netxscript.Reference#getComponents <em>Components</em>}'.
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.Reference#getComponent <em>Component</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Components</em>'.
-   * @see com.netxforge.netxscript.Reference#getComponents()
+   * @return the meta object for the containment reference '<em>Component</em>'.
+   * @see com.netxforge.netxscript.Reference#getComponent()
    * @see #getReference()
    * @generated
    */
-  EReference getReference_Components();
+  EReference getReference_Component();
 
   /**
    * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.Reference#getLeafRef <em>Leaf Ref</em>}'.
@@ -2573,6 +2526,17 @@ public interface NetxscriptPackage extends EPackage
   EClass getReturn();
 
   /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.Return#getExpression <em>Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Expression</em>'.
+   * @see com.netxforge.netxscript.Return#getExpression()
+   * @see #getReturn()
+   * @generated
+   */
+  EReference getReturn_Expression();
+
+  /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.If <em>If</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2669,6 +2633,17 @@ public interface NetxscriptPackage extends EPackage
   EAttribute getVariable_Name();
 
   /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.Variable#getExpression <em>Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Expression</em>'.
+   * @see com.netxforge.netxscript.Variable#getExpression()
+   * @see #getVariable()
+   * @generated
+   */
+  EReference getVariable_Expression();
+
+  /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.Assignment <em>Assignment</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2688,6 +2663,17 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   EReference getAssignment_Var();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.Assignment#getExpression <em>Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Expression</em>'.
+   * @see com.netxforge.netxscript.Assignment#getExpression()
+   * @see #getAssignment()
+   * @generated
+   */
+  EReference getAssignment_Expression();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.PlusAssignment <em>Plus Assignment</em>}'.
@@ -2711,6 +2697,17 @@ public interface NetxscriptPackage extends EPackage
   EReference getPlusAssignment_Var();
 
   /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.PlusAssignment#getExpression <em>Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Expression</em>'.
+   * @see com.netxforge.netxscript.PlusAssignment#getExpression()
+   * @see #getPlusAssignment()
+   * @generated
+   */
+  EReference getPlusAssignment_Expression();
+
+  /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.RefAssignment <em>Ref Assignment</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2730,6 +2727,17 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   EReference getRefAssignment_AssignmentRef();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.RefAssignment#getExpression <em>Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Expression</em>'.
+   * @see com.netxforge.netxscript.RefAssignment#getExpression()
+   * @see #getRefAssignment()
+   * @generated
+   */
+  EReference getRefAssignment_Expression();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.And <em>And</em>}'.
@@ -3849,14 +3857,6 @@ public interface NetxscriptPackage extends EPackage
     EClass STATEMENT = eINSTANCE.getStatement();
 
     /**
-     * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference STATEMENT__EXPRESSION = eINSTANCE.getStatement_Expression();
-
-    /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.ExpressionImpl <em>Expression</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3895,12 +3895,12 @@ public interface NetxscriptPackage extends EPackage
     EClass REFERENCE = eINSTANCE.getReference();
 
     /**
-     * The meta object literal for the '<em><b>Components</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Component</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference REFERENCE__COMPONENTS = eINSTANCE.getReference_Components();
+    EReference REFERENCE__COMPONENT = eINSTANCE.getReference_Component();
 
     /**
      * The meta object literal for the '<em><b>Leaf Ref</b></em>' containment reference feature.
@@ -3991,6 +3991,14 @@ public interface NetxscriptPackage extends EPackage
     EClass RETURN = eINSTANCE.getReturn();
 
     /**
+     * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference RETURN__EXPRESSION = eINSTANCE.getReturn_Expression();
+
+    /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.IfImpl <em>If</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4069,6 +4077,14 @@ public interface NetxscriptPackage extends EPackage
     EAttribute VARIABLE__NAME = eINSTANCE.getVariable_Name();
 
     /**
+     * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference VARIABLE__EXPRESSION = eINSTANCE.getVariable_Expression();
+
+    /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.AssignmentImpl <em>Assignment</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4085,6 +4101,14 @@ public interface NetxscriptPackage extends EPackage
      * @generated
      */
     EReference ASSIGNMENT__VAR = eINSTANCE.getAssignment_Var();
+
+    /**
+     * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ASSIGNMENT__EXPRESSION = eINSTANCE.getAssignment_Expression();
 
     /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.PlusAssignmentImpl <em>Plus Assignment</em>}' class.
@@ -4105,6 +4129,14 @@ public interface NetxscriptPackage extends EPackage
     EReference PLUS_ASSIGNMENT__VAR = eINSTANCE.getPlusAssignment_Var();
 
     /**
+     * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PLUS_ASSIGNMENT__EXPRESSION = eINSTANCE.getPlusAssignment_Expression();
+
+    /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.RefAssignmentImpl <em>Ref Assignment</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4121,6 +4153,14 @@ public interface NetxscriptPackage extends EPackage
      * @generated
      */
     EReference REF_ASSIGNMENT__ASSIGNMENT_REF = eINSTANCE.getRefAssignment_AssignmentRef();
+
+    /**
+     * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference REF_ASSIGNMENT__EXPRESSION = eINSTANCE.getRefAssignment_Expression();
 
     /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.AndImpl <em>And</em>}' class.

@@ -254,29 +254,25 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cAssignmentStatementParserRuleCall_0_0_1 = (RuleCall)cAlternatives_0_0.eContents().get(1);
 		private final RuleCall cPlusAssignmentStatementParserRuleCall_0_0_2 = (RuleCall)cAlternatives_0_0.eContents().get(2);
 		private final RuleCall cReferenceAssignmentStatementParserRuleCall_0_0_3 = (RuleCall)cAlternatives_0_0.eContents().get(3);
-		private final Assignment cExpressionAssignment_0_0_4 = (Assignment)cAlternatives_0_0.eContents().get(4);
-		private final RuleCall cExpressionExpressionParserRuleCall_0_0_4_0 = (RuleCall)cExpressionAssignment_0_0_4.eContents().get(0);
-		private final RuleCall cReturnStatementParserRuleCall_0_0_5 = (RuleCall)cAlternatives_0_0.eContents().get(5);
+		private final RuleCall cReturnStatementParserRuleCall_0_0_4 = (RuleCall)cAlternatives_0_0.eContents().get(4);
 		private final Keyword cSemicolonKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
 		private final RuleCall cIfStatementParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cWhileStatementParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		private final RuleCall cBlockParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		//Statement:
-		//	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement |
-		//	expression=Expression | ReturnStatement) ";" | IfStatement | WhileStatement | Block;
+		//	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement)
+		//	";" | IfStatement | WhileStatement | Block;
 		public ParserRule getRule() { return rule; }
 
-		//(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement |
-		//expression=Expression | ReturnStatement) ";" | IfStatement | WhileStatement | Block
+		//(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement) ";"
+		//| IfStatement | WhileStatement | Block
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement |
-		//expression=Expression | ReturnStatement) ";"
+		//(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement) ";"
 		public Group getGroup_0() { return cGroup_0; }
 
-		//VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | expression=Expression
-		//| ReturnStatement
+		//VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement
 		public Alternatives getAlternatives_0_0() { return cAlternatives_0_0; }
 
 		//VariableStatement
@@ -291,14 +287,8 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//ReferenceAssignmentStatement
 		public RuleCall getReferenceAssignmentStatementParserRuleCall_0_0_3() { return cReferenceAssignmentStatementParserRuleCall_0_0_3; }
 
-		//expression=Expression
-		public Assignment getExpressionAssignment_0_0_4() { return cExpressionAssignment_0_0_4; }
-
-		//Expression
-		public RuleCall getExpressionExpressionParserRuleCall_0_0_4_0() { return cExpressionExpressionParserRuleCall_0_0_4_0; }
-
 		//ReturnStatement
-		public RuleCall getReturnStatementParserRuleCall_0_0_5() { return cReturnStatementParserRuleCall_0_0_5; }
+		public RuleCall getReturnStatementParserRuleCall_0_0_4() { return cReturnStatementParserRuleCall_0_0_4; }
 
 		//";"
 		public Keyword getSemicolonKeyword_0_1() { return cSemicolonKeyword_0_1; }
@@ -581,8 +571,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cExpressionAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cExpressionExpressionParserRuleCall_3_0 = (RuleCall)cExpressionAssignment_3.eContents().get(0);
 		
-		////AssignmentStatement returns Statement:
-		////	VarOrArgumentCall ({IndexedAssignment.assignment=current})?  '=' expression=Expression;
 		//ReferenceAssignmentStatement returns Statement:
 		//	{RefAssignment} assignmentRef=(ContextRef | NodeTypeRef) "=" expression=Expression;
 		public ParserRule getRule() { return rule; }
@@ -1602,8 +1590,8 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	public class PrimaryRefElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "PrimaryRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Assignment cComponentsAssignment_0 = (Assignment)cGroup.eContents().get(0);
-		private final RuleCall cComponentsOperatorRefParserRuleCall_0_0 = (RuleCall)cComponentsAssignment_0.eContents().get(0);
+		private final Assignment cComponentAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cComponentOperatorRefParserRuleCall_0_0 = (RuleCall)cComponentAssignment_0.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
 		private final Keyword cHyphenMinusGreaterThanSignKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
 		private final Assignment cLeafRefAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
@@ -1612,17 +1600,17 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		/// **
 		// * Exteral Node references, these can be nested and finish with a resource reference.
 		// * / PrimaryRef returns Reference:
-		//	components+=OperatorRef+ ("->" leafRef=LeafReference)?;
+		//	component=OperatorRef ("->" leafRef=LeafReference)?;
 		public ParserRule getRule() { return rule; }
 
-		//components+=OperatorRef+ ("->" leafRef=LeafReference)?
+		//component=OperatorRef ("->" leafRef=LeafReference)?
 		public Group getGroup() { return cGroup; }
 
-		//components+=OperatorRef+
-		public Assignment getComponentsAssignment_0() { return cComponentsAssignment_0; }
+		//component=OperatorRef
+		public Assignment getComponentAssignment_0() { return cComponentAssignment_0; }
 
 		//OperatorRef
-		public RuleCall getComponentsOperatorRefParserRuleCall_0_0() { return cComponentsOperatorRefParserRuleCall_0_0; }
+		public RuleCall getComponentOperatorRefParserRuleCall_0_0() { return cComponentOperatorRefParserRuleCall_0_0; }
 
 		//("->" leafRef=LeafReference)?
 		public Group getGroup_1() { return cGroup_1; }
@@ -1641,7 +1629,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "OperatorRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cOperatorRefAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cSolidusKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Keyword cFullStopKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
 		private final Group cGroup_2_0 = (Group)cAlternatives_2.eContents().get(0);
 		private final Keyword cFUNCTIONKeyword_2_0_0 = (Keyword)cGroup_2_0.eContents().get(0);
@@ -1657,19 +1645,19 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cSTATUSKeyword_2_3 = (Keyword)cAlternatives_2.eContents().get(3);
 		
 		//OperatorRef returns Reference:
-		//	{OperatorRef} "/" ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
+		//	{OperatorRef} "." ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
 		//	"PROFILE" | "STATUS");
 		public ParserRule getRule() { return rule; }
 
-		//{OperatorRef} "/" ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
+		//{OperatorRef} "." ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
 		//"PROFILE" | "STATUS")
 		public Group getGroup() { return cGroup; }
 
 		//{OperatorRef}
 		public Action getOperatorRefAction_0() { return cOperatorRefAction_0; }
 
-		//"/"
-		public Keyword getSolidusKeyword_1() { return cSolidusKeyword_1; }
+		//"."
+		public Keyword getFullStopKeyword_1() { return cFullStopKeyword_1; }
 
 		//"FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] | "PROFILE" | "STATUS"
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
@@ -2399,8 +2387,8 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Statement:
-	//	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement |
-	//	expression=Expression | ReturnStatement) ";" | IfStatement | WhileStatement | Block;
+	//	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement)
+	//	";" | IfStatement | WhileStatement | Block;
 	public StatementElements getStatementAccess() {
 		return (pStatement != null) ? pStatement : (pStatement = new StatementElements());
 	}
@@ -2469,8 +2457,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getPlusAssignmentStatementAccess().getRule();
 	}
 
-	////AssignmentStatement returns Statement:
-	////	VarOrArgumentCall ({IndexedAssignment.assignment=current})?  '=' expression=Expression;
 	//ReferenceAssignmentStatement returns Statement:
 	//	{RefAssignment} assignmentRef=(ContextRef | NodeTypeRef) "=" expression=Expression;
 	public ReferenceAssignmentStatementElements getReferenceAssignmentStatementAccess() {
@@ -2738,7 +2724,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	/// **
 	// * Exteral Node references, these can be nested and finish with a resource reference.
 	// * / PrimaryRef returns Reference:
-	//	components+=OperatorRef+ ("->" leafRef=LeafReference)?;
+	//	component=OperatorRef ("->" leafRef=LeafReference)?;
 	public PrimaryRefElements getPrimaryRefAccess() {
 		return (pPrimaryRef != null) ? pPrimaryRef : (pPrimaryRef = new PrimaryRefElements());
 	}
@@ -2748,7 +2734,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//OperatorRef returns Reference:
-	//	{OperatorRef} "/" ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
+	//	{OperatorRef} "." ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
 	//	"PROFILE" | "STATUS");
 	public OperatorRefElements getOperatorRefAccess() {
 		return (pOperatorRef != null) ? pOperatorRef : (pOperatorRef = new OperatorRefElements());

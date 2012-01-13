@@ -41,7 +41,7 @@ public class NetxscriptScopeProvider extends AbstractDeclarativeScopeProvider {
 		}
 		
 		
-		System.out.println("SCOPING: custom scoping called for scope_ResourceRef_resource" );
+		System.out.println("SCOPING: custom scoping called for scope_ResourceRef_resource with context type=" + context.eClass().getName() );
 //		System.out.println("SCOPING: parent = " + context.eContainer().eClass().getName() );
 		return null;
 	}

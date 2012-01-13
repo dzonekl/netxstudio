@@ -41,7 +41,6 @@ import com.netxforge.netxscript.RefAssignment;
 import com.netxforge.netxscript.Reference;
 import com.netxforge.netxscript.ResourceRef;
 import com.netxforge.netxscript.Return;
-import com.netxforge.netxscript.Statement;
 import com.netxforge.netxscript.StatusRef;
 import com.netxforge.netxscript.UnaryPlusMinus;
 import com.netxforge.netxscript.Unequal;
@@ -804,12 +803,6 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 					return; 
 				}
 				else break;
-			case NetxscriptPackage.STATEMENT:
-				if(context == grammarAccess.getStatementRule()) {
-					sequence_Statement_Statement(context, (Statement) semanticObject); 
-					return; 
-				}
-				else break;
 			case NetxscriptPackage.STATUS_REF:
 				if(context == grammarAccess.getLeafReferenceRule() ||
 				   context == grammarAccess.getStatusRefRule()) {
@@ -872,11 +865,7 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				}
 				else break;
 			case NetxscriptPackage.VAR_OR_ARGUMENT_CALL:
-				if(context == grammarAccess.getVarOrArgumentCallRule()) {
-					sequence_VarOrArgumentCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
-					return; 
-				}
-				else if(context == grammarAccess.getExpressionRule() ||
+				if(context == grammarAccess.getExpressionRule() ||
 				   context == grammarAccess.getLogicalRule() ||
 				   context == grammarAccess.getLogicalAccess().getAndLeftAction_1_0_0_0() ||
 				   context == grammarAccess.getLogicalAccess().getOrLeftAction_1_0_1_0() ||
@@ -900,6 +889,10 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				   context == grammarAccess.getParenthesizedExpressionRule() ||
 				   context == grammarAccess.getIndexedCallRule()) {
 					sequence_IndexedCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
+					return; 
+				}
+				else if(context == grammarAccess.getVarOrArgumentCallRule()) {
+					sequence_VarOrArgumentCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
 					return; 
 				}
 				else break;
@@ -972,15 +965,15 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	 *     (var=[AbstractVarOrArgument|ID] expression=Expression)
 	 *
 	 * Features:
-	 *    expression[1, 1]
 	 *    var[1, 1]
+	 *    expression[1, 1]
 	 */
 	protected void sequence_AssignmentStatement_Assignment(EObject context, Assignment semanticObject) {
 		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.STATEMENT__EXPRESSION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.STATEMENT__EXPRESSION));
 			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.ASSIGNMENT__VAR) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.ASSIGNMENT__VAR));
+			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.ASSIGNMENT__EXPRESSION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.ASSIGNMENT__EXPRESSION));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
@@ -1387,15 +1380,15 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	 *     (var=[AbstractVarOrArgument|ID] expression=Expression)
 	 *
 	 * Features:
-	 *    expression[1, 1]
 	 *    var[1, 1]
+	 *    expression[1, 1]
 	 */
 	protected void sequence_PlusAssignmentStatement_PlusAssignment(EObject context, PlusAssignment semanticObject) {
 		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.STATEMENT__EXPRESSION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.STATEMENT__EXPRESSION));
 			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.PLUS_ASSIGNMENT__VAR) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.PLUS_ASSIGNMENT__VAR));
+			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.PLUS_ASSIGNMENT__EXPRESSION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.PLUS_ASSIGNMENT__EXPRESSION));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
@@ -1407,10 +1400,10 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     (components+=OperatorRef+ leafRef=LeafReference?)
+	 *     (component=OperatorRef leafRef=LeafReference?)
 	 *
 	 * Features:
-	 *    components[1, *]
+	 *    component[1, 1]
 	 *    leafRef[0, 1]
 	 */
 	protected void sequence_PrimaryRef_Reference(EObject context, Reference semanticObject) {
@@ -1449,8 +1442,8 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	 *     ((assignmentRef=ContextRef | assignmentRef=NodeTypeRef) expression=Expression)
 	 *
 	 * Features:
-	 *    expression[1, 1]
 	 *    assignmentRef[0, 2]
+	 *    expression[1, 1]
 	 */
 	protected void sequence_ReferenceAssignmentStatement_RefAssignment(EObject context, RefAssignment semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1482,25 +1475,6 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	 */
 	protected void sequence_ReturnStatement_Return(EObject context, Return semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Constraint:
-	 *     expression=Expression
-	 *
-	 * Features:
-	 *    expression[1, 1]
-	 */
-	protected void sequence_Statement_Statement(EObject context, Statement semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.STATEMENT__EXPRESSION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.STATEMENT__EXPRESSION));
-		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getStatementAccess().getExpressionExpressionParserRuleCall_0_0_4_0(), semanticObject.getExpression());
-		feeder.finish();
 	}
 	
 	
@@ -1566,8 +1540,8 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	 *     (name=ID expression=Expression?)
 	 *
 	 * Features:
-	 *    expression[0, 1]
 	 *    name[1, 1]
+	 *    expression[0, 1]
 	 */
 	protected void sequence_VariableStatement_Variable(EObject context, Variable semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1583,6 +1557,16 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	 *    body[1, 1]
 	 */
 	protected void sequence_WhileStatement_While(EObject context, While semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.WHILE__PREDICATE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.WHILE__PREDICATE));
+			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.WHILE__BODY) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.WHILE__BODY));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getWhileStatementAccess().getPredicateLogicalParserRuleCall_3_0(), semanticObject.getPredicate());
+		feeder.accept(grammarAccess.getWhileStatementAccess().getBodyBlockParserRuleCall_5_0(), semanticObject.getBody());
+		feeder.finish();
 	}
 }

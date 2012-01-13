@@ -46,7 +46,7 @@ Block:
 	{Block} '{' statements+=Statement* '}';
 
 Statement:
-	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | expression=Expression | ReturnStatement) ';'
+	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement) ';'
 	| IfStatement | WhileStatement | Block;
 
 ReturnStatement returns Statement:
@@ -66,9 +66,6 @@ AssignmentStatement returns Statement:
 
 PlusAssignmentStatement returns Statement:
 	{PlusAssignment} var=[AbstractVarOrArgument]  '+='  expression=Expression;
-
-//AssignmentStatement returns Statement:
-//	VarOrArgumentCall ({IndexedAssignment.assignment=current})?  '=' expression=Expression;
 
 ReferenceAssignmentStatement returns Statement:
 	{RefAssignment} assignmentRef=(ContextRef | NodeTypeRef ) '=' expression=Expression;
@@ -173,10 +170,10 @@ ContextRef returns Reference:
  * Exteral Node references, these can be nested and finish with a resource reference.
  */
 PrimaryRef returns Reference:
-	(components+=OperatorRef)+ ('->' leafRef=LeafReference)?;
+	component=OperatorRef ('->' leafRef=LeafReference)?;
 
 OperatorRef returns Reference:
-	{OperatorRef} '/' ( 'FUNCTION' function=[library::Function | FQN] | 'EQUIPMENT' equipment=[library::Equipment | FQN] | 'PROFILE' | 'STATUS')
+	{OperatorRef} '.' ( 'FUNCTION' function=[library::Function | FQN] | 'EQUIPMENT' equipment=[library::Equipment | FQN] | 'PROFILE' | 'STATUS')
 ;
 
 LeafReference :

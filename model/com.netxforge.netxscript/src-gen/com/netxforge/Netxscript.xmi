@@ -129,9 +129,6 @@
             <elements xsi:type="xtext:RuleCall" rule="/0/@rules.12"/>
             <elements xsi:type="xtext:RuleCall" rule="/0/@rules.13"/>
             <elements xsi:type="xtext:RuleCall" rule="/0/@rules.14"/>
-            <elements xsi:type="xtext:Assignment" feature="expression" operator="=">
-              <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.15"/>
-            </elements>
             <elements xsi:type="xtext:RuleCall" rule="/0/@rules.8"/>
           </elements>
           <elements xsi:type="xtext:Keyword" value=";"/>
@@ -857,7 +854,7 @@
         <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Netxscript#//Reference"/>
       </type>
       <alternatives xsi:type="xtext:Group">
-        <elements xsi:type="xtext:Assignment" cardinality="+" feature="components" operator="+=">
+        <elements xsi:type="xtext:Assignment" feature="component" operator="=">
           <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.40"/>
         </elements>
         <elements xsi:type="xtext:Group" cardinality="?">
@@ -878,7 +875,7 @@
             <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Netxscript#//OperatorRef"/>
           </type>
         </elements>
-        <elements xsi:type="xtext:Keyword" value="/"/>
+        <elements xsi:type="xtext:Keyword" value="."/>
         <elements xsi:type="xtext:Alternatives">
           <elements xsi:type="xtext:Group">
             <elements xsi:type="xtext:Keyword" value="FUNCTION"/>

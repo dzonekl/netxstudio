@@ -9,20 +9,13 @@ import com.netxforge.netxscript.LeafReference;
 import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.Reference;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,7 +24,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.impl.ReferenceImpl#getComponents <em>Components</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.ReferenceImpl#getComponent <em>Component</em>}</li>
  *   <li>{@link com.netxforge.netxscript.impl.ReferenceImpl#getLeafRef <em>Leaf Ref</em>}</li>
  * </ul>
  * </p>
@@ -41,14 +34,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class ReferenceImpl extends ExpressionImpl implements Reference
 {
   /**
-   * The cached value of the '{@link #getComponents() <em>Components</em>}' containment reference list.
+   * The cached value of the '{@link #getComponent() <em>Component</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getComponents()
+   * @see #getComponent()
    * @generated
    * @ordered
    */
-  protected EList<Reference> components;
+  protected Reference component;
 
   /**
    * The cached value of the '{@link #getLeafRef() <em>Leaf Ref</em>}' containment reference.
@@ -86,13 +79,47 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<Reference> getComponents()
+  public Reference getComponent()
   {
-    if (components == null)
+    return component;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetComponent(Reference newComponent, NotificationChain msgs)
+  {
+    Reference oldComponent = component;
+    component = newComponent;
+    if (eNotificationRequired())
     {
-      components = new EObjectContainmentEList<Reference>(Reference.class, this, NetxscriptPackage.REFERENCE__COMPONENTS);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NetxscriptPackage.REFERENCE__COMPONENT, oldComponent, newComponent);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
     }
-    return components;
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setComponent(Reference newComponent)
+  {
+    if (newComponent != component)
+    {
+      NotificationChain msgs = null;
+      if (component != null)
+        msgs = ((InternalEObject)component).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.REFERENCE__COMPONENT, null, msgs);
+      if (newComponent != null)
+        msgs = ((InternalEObject)newComponent).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.REFERENCE__COMPONENT, null, msgs);
+      msgs = basicSetComponent(newComponent, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.REFERENCE__COMPONENT, newComponent, newComponent));
   }
 
   /**
@@ -153,8 +180,8 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__COMPONENTS:
-        return ((InternalEList<?>)getComponents()).basicRemove(otherEnd, msgs);
+      case NetxscriptPackage.REFERENCE__COMPONENT:
+        return basicSetComponent(null, msgs);
       case NetxscriptPackage.REFERENCE__LEAF_REF:
         return basicSetLeafRef(null, msgs);
     }
@@ -171,8 +198,8 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__COMPONENTS:
-        return getComponents();
+      case NetxscriptPackage.REFERENCE__COMPONENT:
+        return getComponent();
       case NetxscriptPackage.REFERENCE__LEAF_REF:
         return getLeafRef();
     }
@@ -184,15 +211,13 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__COMPONENTS:
-        getComponents().clear();
-        getComponents().addAll((Collection<? extends Reference>)newValue);
+      case NetxscriptPackage.REFERENCE__COMPONENT:
+        setComponent((Reference)newValue);
         return;
       case NetxscriptPackage.REFERENCE__LEAF_REF:
         setLeafRef((LeafReference)newValue);
@@ -211,8 +236,8 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__COMPONENTS:
-        getComponents().clear();
+      case NetxscriptPackage.REFERENCE__COMPONENT:
+        setComponent((Reference)null);
         return;
       case NetxscriptPackage.REFERENCE__LEAF_REF:
         setLeafRef((LeafReference)null);
@@ -231,8 +256,8 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__COMPONENTS:
-        return components != null && !components.isEmpty();
+      case NetxscriptPackage.REFERENCE__COMPONENT:
+        return component != null;
       case NetxscriptPackage.REFERENCE__LEAF_REF:
         return leafRef != null;
     }

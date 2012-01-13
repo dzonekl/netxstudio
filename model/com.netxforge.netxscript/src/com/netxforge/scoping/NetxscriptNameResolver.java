@@ -58,7 +58,6 @@ public class NetxscriptNameResolver<K extends EObject, T> implements
 			final String attributeName) {
 		this.attributeName = attributeName;
 
-		// TODO, not sure this would work for remote invalidations by CDO.
 		this.discardingAdapter = new DiscardingAdapter();
 		attributeCache = new SimpleCache<EClass, EAttribute>(
 				new Function<EClass, EAttribute>() {
