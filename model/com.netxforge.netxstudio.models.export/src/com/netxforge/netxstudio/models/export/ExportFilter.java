@@ -66,7 +66,8 @@ public class ExportFilter {
 
 			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULE);
 			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULES);
-			filteredClasses.add(MetricsPackage.Literals.METRIC_VALUE_RANGE);
+			// Keep the resource ranges. CB 16-01-2012
+//			filteredClasses.add(MetricsPackage.Literals.METRIC_VALUE_RANGE);
 			filteredClasses.add(MetricsPackage.Literals.MAPPING_STATISTIC);
 			filteredClasses.add(MetricsPackage.Literals.DATA_KIND);
 			filteredClasses.add(MetricsPackage.Literals.MAPPING_RECORD);
@@ -84,7 +85,8 @@ public class ExportFilter {
 			filteredClasses.add(LibraryPackage.Literals.EXPRESSION_RESULT);
 			filteredClasses
 					.add(LibraryPackage.Literals.LAST_EVALUATION_EXPRESSION_RESULT);
-			filteredClasses.add(LibraryPackage.Literals.NET_XRESOURCE);
+			// Keep the resources. CB 16-01-2012
+//			filteredClasses.add(LibraryPackage.Literals.NET_XRESOURCE);
 			filteredClasses.add(LibraryPackage.Literals.LIBRARY);
 			filteredClasses.add(LibraryPackage.Literals.PRODUCT_INFO);
 			filteredNonMasterClasses.put(LibraryPackage.eINSTANCE,
@@ -98,7 +100,8 @@ public class ExportFilter {
 			filteredClasses.add(OperatorsPackage.Literals.RESOURCE_EXPANSION);
 			filteredClasses.add(OperatorsPackage.Literals.RESOURCE_FORECAST);
 			filteredClasses.add(OperatorsPackage.Literals.RESOURCE_MONITOR);
-			filteredClasses.add(OperatorsPackage.Literals.TOLERANCE_MARKER);
+			// Keep the markers. CB 16-01-2012
+//			filteredClasses.add(OperatorsPackage.Literals.TOLERANCE_MARKER);
 			filteredClasses.add(OperatorsPackage.Literals.WAREHOUSE);
 			filteredNonMasterClasses.put(OperatorsPackage.eINSTANCE,
 					filteredClasses);
@@ -114,7 +117,8 @@ public class ExportFilter {
 			filteredClasses.add(ServicesPackage.Literals.SERVICE_FORECAST_USERS);
 			filteredClasses.add(ServicesPackage.Literals.SERVICE_MONITOR);
 			filteredClasses.add(ServicesPackage.Literals.CIID);
-			filteredClasses.add(ServicesPackage.Literals.DERIVED_RESOURCE);
+			// Keep the derived resources. 
+//			filteredClasses.add(ServicesPackage.Literals.DERIVED_RESOURCE);
 			filteredClasses.add(ServicesPackage.Literals.DISTRIBUTION_ENTRY);
 			
 			filteredNonMasterClasses.put(ServicesPackage.eINSTANCE,
@@ -133,7 +137,8 @@ public class ExportFilter {
 			filteredClasses.add(GenericsPackage.Literals.EXPANSION_DURATION_VALUE);
 			filteredClasses.add(GenericsPackage.Literals.MULTI_IMAGE);
 			filteredClasses.add(GenericsPackage.Literals.META);
-			filteredClasses.add(GenericsPackage.Literals.VALUE);
+			// Keep the values. 
+//			filteredClasses.add(GenericsPackage.Literals.VALUE);
 			filteredClasses.add(GenericsPackage.Literals.ROLE);
 			
 			filteredNonMasterClasses.put(GenericsPackage.eINSTANCE,

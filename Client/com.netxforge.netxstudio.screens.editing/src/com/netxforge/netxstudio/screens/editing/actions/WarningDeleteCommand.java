@@ -135,11 +135,11 @@ public class WarningDeleteCommand extends CompoundCommand {
 						if (cmd.canExecute()) {
 							appendAndExecute(cmd);
 						} else {
-//							Object eGet = referencingEObject
-//									.eGet(eStructuralFeature);
-//							if (eGet instanceof List<?>) {
-//								((List<?>) eGet).remove(eObject);
-//							}
+							Object eGet = referencingEObject
+									.eGet(eStructuralFeature);
+							if (eGet instanceof List<?>) {
+								((List<?>) eGet).remove(eObject);
+							}
 						}
 
 					} else {

@@ -59,6 +59,7 @@ import com.netxforge.netxstudio.screens.editing.actions.EditingActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * A ViewPart which acts as an editor.
@@ -204,12 +205,11 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 * We deal with objects in resources outside our own editing domain.
 	 */
 	public void doSave(IProgressMonitor monitor) {
-		
-		
+
 		// Delegate to a pluggable service.
 		//
 		getEditingService().doSave(monitor);
-		
+
 		firePropertyChange(ISaveablePart2.PROP_DIRTY);
 	}
 
@@ -249,9 +249,9 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	}
 
 	public abstract IScreen getActiveScreen();
-	
+
 	public void updateActiveScreenDirtyNess() {
-		if (this.getActiveScreen() == null) {
+		if (this.getActiveScreen() == null || ScreenUtil.compositeFor(this.getActiveScreen()).isDisposed() ) {
 			return;
 		}
 
@@ -261,7 +261,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		if (screen.getScreenForm() == null) {
 			return;
 		}
-
 		String currentTitle = screen.getScreenForm().getText();
 
 		if (getEditingService().isDirty()) {
@@ -422,15 +421,16 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		getSite().registerContextMenu(contextMenu,
 				new UnwrappingSelectionProvider(viewer));
 
-//		if (viewer instanceof TreeViewer) {
-//			int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
-//			Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
-//			viewer.addDragSupport(dndOperations, transfers,
-//					new ViewerDragAdapter(viewer));
-//			viewer.addDropSupport(dndOperations, transfers,
-//					new EditingDomainViewerDropAdapter(this.getEditingDomain(),
-//							viewer));
-//		}
+		// if (viewer instanceof TreeViewer) {
+		// int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
+		// Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance()
+		// };
+		// viewer.addDragSupport(dndOperations, transfers,
+		// new ViewerDragAdapter(viewer));
+		// viewer.addDropSupport(dndOperations, transfers,
+		// new EditingDomainViewerDropAdapter(this.getEditingDomain(),
+		// viewer));
+		// }
 	}
 
 	public void menuAboutToShow(IMenuManager manager) {

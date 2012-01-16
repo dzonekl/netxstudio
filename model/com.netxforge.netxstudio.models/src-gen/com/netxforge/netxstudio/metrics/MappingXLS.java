@@ -61,7 +61,7 @@ public interface MappingXLS extends Mapping {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * A regexp which is used to filter files present
-	 * 						at the location defined by the MetricLocation.
+	 * 							at the location defined by the MetricLocation.
 	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Filter Pattern</em>' attribute.

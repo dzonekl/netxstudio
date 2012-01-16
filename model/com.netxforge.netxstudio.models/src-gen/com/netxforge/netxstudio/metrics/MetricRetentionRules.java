@@ -27,7 +27,7 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * The metric retention rules. 
+ * The metric retention rules.
  * 			
  * <!-- end-model-doc -->
  *

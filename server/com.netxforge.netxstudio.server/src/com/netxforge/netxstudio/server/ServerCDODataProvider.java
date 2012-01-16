@@ -15,7 +15,7 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.server;
 
 import java.util.Date;
@@ -30,12 +30,10 @@ import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 
 /**
  * Uses a jvm connection to connect to the repository.
- *  
+ * 
  * @author Martin Taal
  */
 public class ServerCDODataProvider extends CDODataProvider {
-
-	
 
 	@Override
 	public void commitTransaction() {
@@ -45,11 +43,11 @@ public class ServerCDODataProvider extends CDODataProvider {
 	@Inject
 	public ServerCDODataProvider(@Server ICDOConnection conn) {
 		super(conn);
-	}	
+	}
 
 	@Override
 	public void openSession(String uid, String passwd) throws SecurityException {
-		if(session == null){
+		if (session == null) {
 			this.openSession();
 		}
 	}
@@ -69,7 +67,11 @@ public class ServerCDODataProvider extends CDODataProvider {
 	public CDOSession getSession() {
 		if (session == null) {
 			this.openSession();
-			System.out.println("DATA Server: Creating session ID=" + session.getSessionID() + " , Updated last on:" + new Date(session.getLastUpdateTime()));
+			if (ServerActivator.DEBUG) {
+				System.out.println("DATA Server: Creating session ID="
+						+ session.getSessionID() + " , Updated last on:"
+						+ new Date(session.getLastUpdateTime()));
+			}
 		}
 		return session;
 	}
@@ -89,12 +91,15 @@ public class ServerCDODataProvider extends CDODataProvider {
 
 	@Override
 	protected void setSession(CDOSession session) {
-		if(session == null){
+		if (session == null) {
 			this.session = session;
 		}
-		if(this.session != null && !this.session.isClosed()){
-			// We obviously don't need it anymore??
-			System.out.println("DATA Server: attempt to Closing a session ID=" + session.getSessionID());
+		if (this.session != null && !this.session.isClosed()) {
+			if (ServerActivator.DEBUG) {
+				System.out
+						.println("DATA Server: attempt to Closing a session ID="
+								+ session.getSessionID());
+			}
 			this.session.close();
 		}
 		this.session = session;
@@ -107,18 +112,22 @@ public class ServerCDODataProvider extends CDODataProvider {
 
 	@Override
 	public void closeSession() {
-		if(session != null){
-			System.out.println("DATA Server: Closing session ID=" + session.getSessionID() + " , Updated last on:" + new Date(session.getLastUpdateTime()));
+		if (session != null) {
+			if (ServerActivator.DEBUG) {
+				System.out.println("DATA Server: Closing session ID="
+						+ session.getSessionID() + " , Updated last on:"
+						+ new Date(session.getLastUpdateTime()));
+			}
 			session.close();
 		}
 	}
 
 	@Override
 	public CDOView getView() {
-		if(view == null){
+		if (view == null) {
 			this.view = this.getSession().openView();
 		}
 		return view;
 	}
-	
+
 }

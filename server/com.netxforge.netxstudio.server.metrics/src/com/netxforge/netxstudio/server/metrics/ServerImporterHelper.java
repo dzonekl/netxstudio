@@ -31,7 +31,7 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
-import com.netxforge.netxstudio.data.importer.NetworkElementLocator;
+import com.netxforge.netxstudio.data.importer.ComponentLocator;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
@@ -70,7 +70,7 @@ public class ServerImporterHelper implements IImporterHelper {
 	@Inject
 	private ModelUtils modelUtils;
 
-	public void initializeProviders(NetworkElementLocator networkElementLocator) {
+	public void initializeProviders(ComponentLocator networkElementLocator) {
 		commonLogic.setDataProvider(importer.getDataProvider());
 
 		// force that the same dataprovider is used
@@ -109,7 +109,7 @@ public class ServerImporterHelper implements IImporterHelper {
 
 	public void addMetricValue(MappingColumn column, Date timeStamp,
 			Component locatedComponent, Double dblValue, int intervalHint,
-			NetworkElementLocator.IdentifierDescriptor lastDescriptor) {
+			ComponentLocator.IdentifierDescriptor lastDescriptor) {
 
 		String path = modelUtils.cdoCalculateResourcePathII(locatedComponent);
 

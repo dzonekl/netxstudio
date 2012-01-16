@@ -89,7 +89,7 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 			endTime = System.currentTimeMillis();
 			mappingStatistic = createMappingStatistics(startTime, endTime,
 					totalRows, null, getMappingPeriodEstimate(),
-					getMappingIntervalEstimate());
+					getMappingIntervalEstimate(), getFailedRecords());
 			if (noData) {
 				mappingStatistic.setMessage("No data processed");
 			} else {
@@ -108,7 +108,7 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 			t.printStackTrace(System.err);
 			mappingStatistic = createMappingStatistics(startTime, endTime, 0,
 					t.getMessage(), getMappingPeriodEstimate(),
-					getMappingIntervalEstimate());
+					getMappingIntervalEstimate(), getFailedRecords());
 		}
 		getMetricSource().getStatistics().add(mappingStatistic);
 		getDataProvider().commitTransaction();
@@ -238,7 +238,7 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	@Override
 	protected Date getDateCellValue(int rowNum, int column) {
-		// N/A for the RDBMS format. 
+		// N/A for the RDBMS format.
 		return null;
 	}
 }

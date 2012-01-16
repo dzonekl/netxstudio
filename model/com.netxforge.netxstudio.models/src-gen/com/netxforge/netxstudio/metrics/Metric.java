@@ -93,8 +93,8 @@ public interface Metric extends Base {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The ExpressionRef reference, references 0 or
-	 * 							1 Expression type.
-	 * 						
+	 * 								1 Expression type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Expression Ref</em>' reference.
 	 * @see #setExpressionRef(Expression)

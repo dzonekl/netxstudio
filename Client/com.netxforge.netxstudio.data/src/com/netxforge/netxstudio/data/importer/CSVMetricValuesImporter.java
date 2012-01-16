@@ -116,7 +116,8 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 		if (value.trim().length() == 0) {
 			return null;
 		}
-		if (value.startsWith("\"") && value.endsWith("\"")) {
+		// CB, this rule should check the size is at least two chars. 
+		if (value.length() >= 2 && value.startsWith("\"") && value.endsWith("\"")) {
 			return value.substring(1, value.length() - 1);
 		}
 		return value;

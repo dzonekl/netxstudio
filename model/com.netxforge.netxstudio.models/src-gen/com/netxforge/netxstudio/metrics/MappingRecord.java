@@ -51,7 +51,8 @@ public interface MappingRecord extends Base {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Column attribute holds the column identifier.
+	 * The Column attribute holds the column
+	 * 							identifier.
 	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Column</em>' attribute.

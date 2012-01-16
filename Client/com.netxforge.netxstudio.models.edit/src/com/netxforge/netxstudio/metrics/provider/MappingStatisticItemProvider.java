@@ -166,6 +166,7 @@ public class MappingStatisticItemProvider
 			childrenFeatures.add(MetricsPackage.Literals.MAPPING_STATISTIC__FAILED_RECORDS);
 			childrenFeatures.add(MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION);
 			childrenFeatures.add(MetricsPackage.Literals.MAPPING_STATISTIC__PERIOD_ESTIMATE);
+			childrenFeatures.add(MetricsPackage.Literals.MAPPING_STATISTIC__SUB_STATISTICS);
 		}
 		return childrenFeatures;
 	}
@@ -226,6 +227,7 @@ public class MappingStatisticItemProvider
 			case MetricsPackage.MAPPING_STATISTIC__FAILED_RECORDS:
 			case MetricsPackage.MAPPING_STATISTIC__MAPPING_DURATION:
 			case MetricsPackage.MAPPING_STATISTIC__PERIOD_ESTIMATE:
+			case MetricsPackage.MAPPING_STATISTIC__SUB_STATISTICS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -257,6 +259,11 @@ public class MappingStatisticItemProvider
 			(createChildParameter
 				(MetricsPackage.Literals.MAPPING_STATISTIC__PERIOD_ESTIMATE,
 				 GenericsFactory.eINSTANCE.createDateTimeRange()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(MetricsPackage.Literals.MAPPING_STATISTIC__SUB_STATISTICS,
+				 MetricsFactory.eINSTANCE.createMappingStatistic()));
 	}
 
 	/**

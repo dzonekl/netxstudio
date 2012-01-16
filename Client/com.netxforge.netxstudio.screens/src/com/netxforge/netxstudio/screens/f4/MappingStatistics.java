@@ -9,8 +9,10 @@ import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.core.databinding.conversion.IConverter;
+import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -20,13 +22,17 @@ import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CellLabelProvider;
@@ -34,9 +40,9 @@ import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.window.ToolTip;
@@ -63,6 +69,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -87,7 +94,7 @@ public class MappingStatistics extends AbstractScreen implements
 	private Table recordsTable;
 	private Form frmMappingStatistics;
 	private MetricSource metricSource;
-	private ListViewer statisticsListViewer;
+	// private ListViewer statisticsListViewer;
 	private Text txtTotalRecords;
 	private Text txtStartDateTime;
 	private Text txtEndDateTime;
@@ -95,6 +102,7 @@ public class MappingStatistics extends AbstractScreen implements
 	private TableViewer tblViewerRecords;
 	private Text txtMessage;
 	private CleanStatsAction cleanStatsAction;
+	private TreeViewer statisticsTreeViewer;
 
 	/**
 	 * Create the composite.
@@ -125,7 +133,7 @@ public class MappingStatistics extends AbstractScreen implements
 		frmMappingStatistics.getBody().setLayout(new FormLayout());
 
 		cleanStatsAction = new CleanStatsAction("Clean up...");
-		
+
 		frmMappingStatistics.getMenuManager().add(cleanStatsAction);
 
 		SashForm sashForm = new SashForm(frmMappingStatistics.getBody(),
@@ -144,24 +152,30 @@ public class MappingStatistics extends AbstractScreen implements
 		toolkit.paintBordersFor(sctnStatistics);
 		sctnStatistics.setText("Statistics");
 
-		Composite composite_2 = toolkit.createComposite(sctnStatistics,
+		Composite cmpSelector = toolkit.createComposite(sctnStatistics,
 				SWT.NONE);
-		toolkit.paintBordersFor(composite_2);
-		sctnStatistics.setClient(composite_2);
-		composite_2.setLayout(new FillLayout(SWT.HORIZONTAL));
+		toolkit.paintBordersFor(cmpSelector);
+		sctnStatistics.setClient(cmpSelector);
+		cmpSelector.setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		statisticsListViewer = new ListViewer(composite_2, SWT.BORDER
-				| SWT.V_SCROLL);
+		statisticsTreeViewer = new TreeViewer(cmpSelector, SWT.BORDER
+				| SWT.MULTI);
+		Tree tree = statisticsTreeViewer.getTree();
+		toolkit.paintBordersFor(tree);
 
-		Menu menu = new Menu(statisticsListViewer.getList());
-		statisticsListViewer.getList().setMenu(menu);
+		// statisticsListViewer = new ListViewer(cmpSelector, SWT.BORDER
+		// | SWT.V_SCROLL);
+
+		// TODO, convert to an action.
+		Menu menu = new Menu(statisticsTreeViewer.getTree());
+		statisticsTreeViewer.getTree().setMenu(menu);
 
 		MenuItem mntmMore = new MenuItem(menu, SWT.NONE);
 		mntmMore.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// Show the period etc..
-				ISelection selection = statisticsListViewer.getSelection();
+				ISelection selection = statisticsTreeViewer.getSelection();
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
@@ -231,7 +245,7 @@ public class MappingStatistics extends AbstractScreen implements
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// Show the period etc..
-				ISelection selection = statisticsListViewer.getSelection();
+				ISelection selection = statisticsTreeViewer.getSelection();
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
@@ -383,10 +397,12 @@ public class MappingStatistics extends AbstractScreen implements
 				// yes selected.
 				// Should also delete all contained objects like
 				// MappingRecord etc..
-				
-				DeleteCommand dc = new DeleteCommand(editingService.getEditingDomain(), metricSource.getStatistics());
+
+				DeleteCommand dc = new DeleteCommand(
+						editingService.getEditingDomain(),
+						metricSource.getStatistics());
 				editingService.getEditingDomain().getCommandStack().execute(dc);
-				
+
 				if (editingService.isDirty()) {
 					editingService.doSave(new NullProgressMonitor());
 				}
@@ -398,14 +414,63 @@ public class MappingStatistics extends AbstractScreen implements
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
-		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		statisticsListViewer.setContentProvider(listContentProvider);
+		ObservableListTreeContentProvider treeContentProvider = new ObservableListTreeContentProvider(
+				new IObservableFactory() {
+
+					private IEMFListProperty subStatisticsObservableProperty = EMFEditProperties
+							.list(editingService.getEditingDomain(),
+									MetricsPackage.Literals.MAPPING_STATISTIC__SUB_STATISTICS);
+
+					public IObservable createObservable(Object target) {
+						IObservable ol = null;
+
+						if (target instanceof IObservableList) {
+							ol = (IObservable) target;
+						} else if (target instanceof MappingStatistic) {
+							ol = subStatisticsObservableProperty
+									.observe(target);
+						}
+						return ol;
+					}
+
+				}, new TreeStructureAdvisor() {
+					@Override
+					public Object getParent(Object element) {
+
+						if (element instanceof EObject) {
+							EObject eo = (EObject) element;
+							if (eo.eContainer() != null) {
+								return eo.eContainer();
+							}
+						}
+						return null;
+					}
+
+					@Override
+					public Boolean hasChildren(Object element) {
+
+						if (element instanceof MappingStatistic) {
+							// TODO.
+							return ((MappingStatistic) element)
+									.getSubStatistics().size() > 0 ? Boolean.TRUE
+									: null;
+
+						}
+						return super.hasChildren(element);
+					}
+				});
+
+		statisticsTreeViewer.setContentProvider(treeContentProvider);
+
+		// ObservableListContentProvider listContentProvider = new
+		// ObservableListContentProvider();
+		// statisticsListViewer.setContentProvider(listContentProvider);
 
 		IObservableMap[] observeMaps = EMFObservables
 				.observeMaps(
-						listContentProvider.getKnownElements(),
+						treeContentProvider.getKnownElements(),
 						new EStructuralFeature[] { MetricsPackage.Literals.MAPPING_STATISTIC__MESSAGE });
-		statisticsListViewer
+		statisticsTreeViewer
 				.setLabelProvider(new StatisticObservableMapLabelProvider(
 						observeMaps));
 
@@ -415,11 +480,13 @@ public class MappingStatistics extends AbstractScreen implements
 
 		IObservableList metricSourceObservableList = l.observe(metricSource);
 
-		statisticsListViewer.setInput(metricSourceObservableList);
+		statisticsTreeViewer.setInput(metricSourceObservableList);
 
 		IObservableValue selectionObservable = ViewerProperties
-				.singleSelection().observe(statisticsListViewer);
-		
+				.singleSelection().observe(statisticsTreeViewer);
+
+		// Observables for a single selection.
+
 		IObservableValue messageObservable = SWTObservables.observeText(
 				this.txtMessage, SWT.Modify);
 		IObservableValue totalRecordsObservable = SWTObservables.observeText(
@@ -666,11 +733,23 @@ public class MappingStatistics extends AbstractScreen implements
 
 				if (s.eIsSet(MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION)) {
 					DateTimeRange durationEstimate = s.getMappingDuration();
-					if (durationEstimate.getEnd() != null) {
+					if (durationEstimate.getBegin() != null
+							&& durationEstimate.getEnd() != null) {
+						Date start = modelUtils.start(durationEstimate);
 						Date end = modelUtils.end(durationEstimate);
 
-						sb.append("Scan ended on: " + modelUtils.date(end)
-								+ " @ " + modelUtils.time(end));
+						if (s.eContainer() != null
+								&& !(s.eContainer() instanceof MappingStatistic)) {
+							// we are the parent.
+							sb.append("Scan started on: "
+									+ modelUtils.date(start) + " @ "
+									+ modelUtils.time(start));
+						} else {
+							
+							long seconds = (end.getTime() - start.getTime())  / 1000 ;
+							sb.append("Duration : " + seconds 
+									+ " (sec) ended on " + modelUtils.date(start) + " @ " + modelUtils.timeAndSeconds(end) );
+						}
 					}
 				} else {
 					sb.append(s.getMessage());
@@ -702,7 +781,8 @@ public class MappingStatistics extends AbstractScreen implements
 
 	@Override
 	public Viewer getViewer() {
-		return this.statisticsListViewer;
+		// return this.statisticsListViewer;
+		return this.statisticsTreeViewer;
 	}
 
 	@Override

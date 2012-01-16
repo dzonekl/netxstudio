@@ -29,7 +29,7 @@ import com.netxforge.netxstudio.library.Expression;
  *
  * <!-- begin-model-doc -->
  * A type with settings on retention of metric values
- * 			corresponding to the metric value range intervalhint.
+ * 				corresponding to the metric value range intervalhint.
  * 			
  * <!-- end-model-doc -->
  *

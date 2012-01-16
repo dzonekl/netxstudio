@@ -88,7 +88,8 @@ public interface ValueDataKind extends DataKind {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Defines the format to parse the date, time or datetime values
+	 * Defines the format to parse the date, time or
+	 * 							datetime values
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Format</em>' attribute.
 	 * @see #setFormat(String)

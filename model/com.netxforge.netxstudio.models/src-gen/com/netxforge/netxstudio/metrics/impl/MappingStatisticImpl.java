@@ -37,6 +37,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getFailedRecords <em>Failed Records</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getMappingDuration <em>Mapping Duration</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getPeriodEstimate <em>Period Estimate</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getSubStatistics <em>Sub Statistics</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getIntervalEstimate <em>Interval Estimate</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getMessage <em>Message</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getTotalRecords <em>Total Records</em>}</li>
@@ -109,6 +110,16 @@ public class MappingStatisticImpl extends BaseImpl implements MappingStatistic {
 	 */
 	public void setPeriodEstimate(DateTimeRange newPeriodEstimate) {
 		eSet(MetricsPackage.Literals.MAPPING_STATISTIC__PERIOD_ESTIMATE, newPeriodEstimate);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<MappingStatistic> getSubStatistics() {
+		return (EList<MappingStatistic>)eGet(MetricsPackage.Literals.MAPPING_STATISTIC__SUB_STATISTICS, true);
 	}
 
 	/**

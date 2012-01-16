@@ -38,6 +38,7 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
+import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 
@@ -218,15 +219,15 @@ public class NodeTypeItemProvider
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-//		newChildDescriptors.add
-//			(createChildParameter
-//				(LibraryPackage.Literals.NODE_TYPE__FUNCTIONS,
-//				 LibraryFactory.eINSTANCE.createFunction()));
-//
-//		newChildDescriptors.add
-//			(createChildParameter
-//				(LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS,
-//				 LibraryFactory.eINSTANCE.createEquipment()));
+		newChildDescriptors.add
+			(createChildParameter
+				(LibraryPackage.Literals.NODE_TYPE__FUNCTIONS,
+				 LibraryFactory.eINSTANCE.createFunction()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS,
+				 LibraryFactory.eINSTANCE.createEquipment()));
 	}
 
 	/**

@@ -31,26 +31,25 @@ import org.junit.Test;
  */
 public class TestSplitter {
 
-	
 	String testString = "Result Time,Granularity Period,Object Name,Reliability,\"Absolutely Average CPU occupation ratio\",\"Absolutely maximum CPU occupation ratio\",\"Process CPU congestion duration\",\"Process CPU overload duration\"";
-	
-	String testString2 = "2011-10-18 12:00,60,\"RTSGSN1/Process:Process No.=0, Process type=LIP, Slot No.=8, " +
-			"Subrack No.=1\",Reliable,12,16,0,0a";
-	
+
+	String testString2 = "2011-10-18 12:00,60,\"RTSGSN1/Process:Process No.=0, Process type=LIP, Slot No.=8, "
+			+ "Subrack No.=1\",Reliable,12,16,0,0a";
+
 	String testString3 = "\",A,B,C\",\"E\",D";
 
 	String testString4 = "RTSGSN1/Process:Process No.=0, Process type=LIP, Slot No.=8, Subrack No.=1";
-	
+
 	String testString5 = "RTSGSN1/RNCInfo:Label=AHMRNC03, RNCX=19";
-	
-	
+
 	String QUOTED_OR_NOT = "(\".*?\"|.*?)";
 
-	Pattern csvMatcher = Pattern.compile( "(\".*?\"|[^,]++)" , Pattern.MULTILINE | Pattern.DOTALL);
+	Pattern csvMatcher = Pattern.compile("(\".*?\"|[^,]++)", Pattern.MULTILINE
+			| Pattern.DOTALL);
 
-	Pattern csvSplitter = Pattern.compile( "[,(\".*?\")]++");
-	
-	@Test
+	Pattern csvSplitter = Pattern.compile("[,(\".*?\")]++");
+
+//	@Test
 	public void testCSVQuoted() {
 		System.out.println("-------");
 		testString = testString.trim();
@@ -65,8 +64,8 @@ public class TestSplitter {
 		}
 
 	}
-	
-	@Test
+
+//	@Test
 	public void testCSVQuoted2() {
 
 		System.out.println("-------");
@@ -81,8 +80,7 @@ public class TestSplitter {
 		}
 	}
 
-	
-	@Test
+//	@Test
 	public void testCSVQuoted3() {
 
 		System.out.println("------- Quoted CSV, multiline");
@@ -97,115 +95,125 @@ public class TestSplitter {
 		}
 	}
 
-	
-	@Test
+//	@Test
 	public void testCSVSplitter() {
 		System.out.println("-------");
-		
+
 		String[] split = csvSplitter.split(testString2);
-		for(int i = 0; i < split.length ; i++){
-			System.out.println(i + ": "+ split[i]);
+		for (int i = 0; i < split.length; i++) {
+			System.out.println(i + ": " + split[i]);
 		}
 	}
-	
+
 	/*
-	 * Extracts RTSGSN1 in: 
-	 * RTSGSN1/Process:Process No.=0, Process type=LIP, Slot No.=8, Subrack No.=1
+	 * Extracts RTSGSN1 in: RTSGSN1/Process:Process No.=0, Process type=LIP,
+	 * Slot No.=8, Subrack No.=1
 	 */
 	Pattern nodeIDExtractor = Pattern.compile("^(\\w+)");
-	
-	@Test
+
+//	@Test
 	public void testValueExtractor_NodeID() {
 		System.out.println("------- Node ID Extractor:");
-		
+
 		int index = -1;
 		Matcher matcher = nodeIDExtractor.matcher(testString4);
-		if(matcher.find()) {
+		if (matcher.find()) {
 			index = matcher.end();
 		}
 
-		if(index != -1){
-			System.out.println(testString4.substring(0,index));
+		if (index != -1) {
+			System.out.println(testString4.substring(0, index));
 		}
 	}
-	
+
 	/*
-	 * Extracts LIP in: 
-	 * RTSGSN1/Process:Process No.=0, Process type=LIP, Slot No.=8, Subrack No.=1
+	 * Extracts LIP in: RTSGSN1/Process:Process No.=0, Process type=LIP, Slot
+	 * No.=8, Subrack No.=1
 	 */
-	Pattern procesTypeExtractor = Pattern.compile("Process type=(LIP|LLP|SGP|GBP)");
-	
-	@Test
+	Pattern procesTypeExtractor = Pattern
+			.compile("Process type=(LIP|LLP|SGP|GBP)");
+
+//	@Test
 	public void testValueExtractor_ProcessType() {
 		System.out.println("------- Process Type Extractor: ");
-		
+
 		Matcher matcher = procesTypeExtractor.matcher(testString4);
-		if(matcher.find()) {
+		if (matcher.find()) {
 			int gc = matcher.groupCount();
 			for (int i = 0; i <= gc; i++) {
-				// Skip group 0 as usual. 
+				// Skip group 0 as usual.
 				System.out.println(i + " : " + matcher.group(i));
 			}
 		}
 	}
-	
-	
+
 	/*
-	 * Extracts LIP in: 
-	 * RTSGSN1/Process:Process No.=0, Process type=LIP, Slot No.=8, Subrack No.=1
+	 * Extracts LIP in: RTSGSN1/Process:Process No.=0, Process type=LIP, Slot
+	 * No.=8, Subrack No.=1
 	 */
 	Pattern SlotNoExtractor = Pattern.compile("Slot No\\.=(\\d++)");
-	
-	@Test
+
+//	@Test
 	public void testValueExtractor_Slot() {
 		System.out.println("------- Process Slot Extractor: ");
-		
+
 		Matcher matcher = SlotNoExtractor.matcher(testString4);
-		if(matcher.find()) {
+		if (matcher.find()) {
 			int gc = matcher.groupCount();
 			for (int i = 0; i <= gc; i++) {
-				// Skip group 0 as usual. 
+				// Skip group 0 as usual.
 				System.out.println(i + " : " + matcher.group(i));
 			}
 		}
 	}
-	
+
 	/*
 	 * 
 	 */
 	Pattern RNCExtractor = Pattern.compile("Label=([a-zA-Z0-9]++),");
-	
-	@Test
+
+//	@Test
 	public void testValueExtractor_RNC() {
 		System.out.println("-------RNC Extractor: ");
-		
+
 		Matcher matcher = RNCExtractor.matcher(testString5);
-		if(matcher.find()) {
+		if (matcher.find()) {
 			int gc = matcher.groupCount();
 			for (int i = 0; i <= gc; i++) {
-				// Skip group 0 as usual. 
+				// Skip group 0 as usual.
 				System.out.println(i + " : " + matcher.group(i));
 			}
 		}
 	}
-	
-	// Netxscript keyword patterns used for syntax highlighting. 
-	
+
+	// Netxscript keyword patterns used for syntax highlighting.
+
 	Pattern NATIVE_EXPRESSION = Pattern.compile("(?:^'\\w*\\(\\)'$)");
 	String testStringNativeExpression = "'nativeFunction()'";
 
-	@Test
+//	@Test
 	public void testNetXScript_NativeFunction() {
 		System.out.println("-------NetXScript native function: ");
-		
+
 		Matcher matcher = NATIVE_EXPRESSION.matcher(testStringNativeExpression);
-		if(matcher.matches()) {
-				System.out.println("matching OK");
-		}else {
+		if (matcher.matches()) {
+			System.out.println("matching OK");
+		} else {
 			System.out.println("matching NOK");
 		}
 	}
-	
-	
-	
+
+	@Test
+	public void testStringConverter() {
+		String value = "\"";
+		if (value.startsWith("\"") && value.endsWith("\"")) {
+			try {
+				value = value.substring(1, value.length() - 1);
+			} catch (StringIndexOutOfBoundsException sioobe) {
+				// correct should fail.
+				System.out.println("can substring an empty string");
+			}
+		}
+	}
+
 }

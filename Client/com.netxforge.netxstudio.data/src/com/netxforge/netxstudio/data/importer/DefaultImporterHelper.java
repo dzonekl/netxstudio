@@ -49,7 +49,7 @@ public class DefaultImporterHelper implements IImporterHelper {
 		this.importer = importer;
 	}
 
-	public void initializeProviders(NetworkElementLocator networkElementLocator) {
+	public void initializeProviders(ComponentLocator networkElementLocator) {
 		// force that the same dataprovider is used
 		// so that components retrieved by the networkElementLocator
 		// participate in the same transaction
@@ -84,7 +84,7 @@ public class DefaultImporterHelper implements IImporterHelper {
 
 	public void addMetricValue(MappingColumn column, Date timeStamp,
 			Component networkElement, Double dblValue, int periodHint,
-			NetworkElementLocator.IdentifierDescriptor lastIdentifier) {
+			ComponentLocator.IdentifierDescriptor lastIdentifier) {
 		// We don't write data in the default implementation....
 	}
 

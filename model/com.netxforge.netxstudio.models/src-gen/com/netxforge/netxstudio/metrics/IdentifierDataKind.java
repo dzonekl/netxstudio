@@ -156,7 +156,9 @@ public interface IdentifierDataKind extends DataKind {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * A pattern to convert the information in the data source to an identifier which can be used to select a network element
+	 * A pattern to convert the information in the data
+	 * 							source to an identifier which can be used to select a network
+	 * 							element
 	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Pattern</em>' attribute.

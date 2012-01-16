@@ -3,7 +3,7 @@ package com.netxforge.netxstudio.server.metrics.internal;
 import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
-import com.netxforge.netxstudio.data.importer.NetworkElementLocator;
+import com.netxforge.netxstudio.data.importer.ComponentLocator;
 import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService.ServiceRunner;
@@ -21,7 +21,7 @@ public class MetricsModule extends AbstractModule {
 		this.bind(XLSMetricValuesImporter.class);
 		this.bind(CSVMetricValuesImporter.class);
 		this.bind(RDBMSMetricValuesImporter.class);
-		this.bind(NetworkElementLocator.class);
+		this.bind(ComponentLocator.class);
 		this.bind(ServiceRunner.class);
 		this.bind(IImporterHelper.class).to(ServerImporterHelper.class);
 	}

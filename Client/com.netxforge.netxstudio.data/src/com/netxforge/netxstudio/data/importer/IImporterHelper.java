@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.importer.NetworkElementLocator.IdentifierDescriptor;
+import com.netxforge.netxstudio.data.importer.ComponentLocator.IdentifierDescriptor;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -34,7 +34,7 @@ public interface IImporterHelper {
 	 * The sub engines like the element locator and other logics, needing a
 	 * dataprovider.
 	 */
-	public abstract void initializeProviders(NetworkElementLocator locator);
+	public abstract void initializeProviders(ComponentLocator locator);
 
 	/**
 	 * A potential local dataprovider.

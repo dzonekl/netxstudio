@@ -62,7 +62,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="A pattern to convert the information in the data source to an identifier which can be used to select a network element&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="A pattern to convert the information in the data&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;source to an identifier which can be used to select a network&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;element&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -181,7 +181,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="filterPattern" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="A regexp which is used to filter files present&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;at the location defined by the MetricLocation.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="A regexp which is used to filter files present&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;at the location defined by the MetricLocation.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -272,7 +272,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Column attribute holds the column identifier.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The Column attribute holds the column&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;identifier.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -320,7 +320,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="mappingDuration" lowerBound="1"
         eType="ecore:EClass generics.ecore#//DateTimeRange" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The MappingDuration reference, refers to a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;DateTimeRange type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The MappingDuration is a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;DateTimeRange type, it&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;is the begin and end time of the actual mapping.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -330,17 +330,27 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="periodEstimate" lowerBound="1"
         eType="ecore:EClass generics.ecore#//DateTimeRange" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The PeriodEstimate reference, refers to a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;DateTimeRange type. It contains an estimate of the start till end date and time &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for a single mapping run.  &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The PeriodEstimate is a DateTimeRange type. It&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;is an estimate of begin and end time stamps&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for the processed metric source.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="PeriodEstimate"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subStatistics" upperBound="-1"
+        eType="#//MappingStatistic" containment="true" resolveProxies="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The SubStatistics contain 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;MappingStatisic object. When importing multiple&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;sources in a single job run, there is an option to produce&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;sub-statistics for each processed source object. i.e. for each&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;File.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="SubStatistics"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="intervalEstimate" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The IntervalEstimate attribute contains a number in minutes for &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the mapping run. It also corresponds the MetricValueRange for the mapping run. &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The IntervalEstimate attribute contains a number&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;in minutes for&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the mapping run. It also corresponds the MetricValueRange for the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;mapping run.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -377,7 +387,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="filterPattern" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="A regexp which is used to filter files present&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;at the location defined by the MetricLocation.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="A regexp which is used to filter files present&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;at the location defined by the MetricLocation.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -415,7 +425,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="expressionRef" eType="ecore:EClass library.ecore#//Expression">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The ExpressionRef reference, references 0 or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1 Expression type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The ExpressionRef reference, references 0 or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1 Expression type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -494,7 +504,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MetricRetentionRule">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type with settings on retention of metric values&#xA;&#x9;&#x9;&#x9;corresponding to the metric value range intervalhint.&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type with settings on retention of metric values&#xA;&#x9;&#x9;&#x9;&#x9;corresponding to the metric value range intervalhint.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MetricRetentionRule"/>
@@ -538,7 +548,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MetricRetentionRules">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="The metric retention rules. &#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="The metric retention rules.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MetricRetentionRules"/>
@@ -582,7 +592,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="filterPattern" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="A regexp which is used to filter files present&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;at the location defined by the MetricLocation.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="A regexp which is used to filter files present&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;at the location defined by the MetricLocation.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -678,7 +688,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="format" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Defines the format to parse the date, time or datetime values"/>
+        <details key="documentation" value="Defines the format to parse the date, time or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;datetime values"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>

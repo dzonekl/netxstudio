@@ -57,7 +57,6 @@ public class MetricSourceJobImplementation extends JobImplementation {
 		}else{
 			// make sure we have the latest revision for this object 
 			metricSource.cdoReload();
-			System.out.println("Revision after reload = " + 	metricSource.cdoRevision());
 		}
 		
 		

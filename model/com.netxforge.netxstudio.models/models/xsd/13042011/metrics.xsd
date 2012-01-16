@@ -45,12 +45,13 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ExpressionRef" ecore:reference="library:Expression" type="xs:anyURI" maxOccurs="1" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>The ExpressionRef reference, references 0 or
-							1 Expression type.
-						</xs:documentation>
-					</xs:annotation>
+					<xs:element name="ExpressionRef" ecore:reference="library:Expression"
+						type="xs:anyURI" maxOccurs="1" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The ExpressionRef reference, references 0 or
+								1 Expression type.
+							</xs:documentation>
+						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
 
@@ -173,7 +174,7 @@
 				<xs:attribute name="FilterPattern" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>A regexp which is used to filter files present
-						at the location defined by the MetricLocation.
+							at the location defined by the MetricLocation.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
@@ -201,7 +202,8 @@
 						maxOccurs="unbounded" minOccurs="0">
 					</xs:element>
 				</xs:sequence>
-				<xs:attribute name="IntervalHint" type="xs:int" default="60">
+				<xs:attribute name="IntervalHint" type="xs:int"
+					default="60">
 					<xs:annotation>
 						<xs:documentation>The IntervalHint attribute, holds a hint for the
 							metric interval between each metric value in minutes.
@@ -279,7 +281,7 @@
 				<xs:attribute name="FilterPattern" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>A regexp which is used to filter files present
-						at the location defined by the MetricLocation.
+							at the location defined by the MetricLocation.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
@@ -308,7 +310,7 @@
 				<xs:attribute name="FilterPattern" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>A regexp which is used to filter files present
-						at the location defined by the MetricLocation.
+							at the location defined by the MetricLocation.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
@@ -371,8 +373,8 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
-							<xs:enumeration value="Oracle"/>
-							<xs:enumeration value="Postgres"/>
+							<xs:enumeration value="Oracle" />
+							<xs:enumeration value="Postgres" />
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:attribute>
@@ -448,7 +450,9 @@
 				</xs:attribute>
 				<xs:attribute name="Pattern" type="xs:string">
 					<xs:annotation>
-						<xs:documentation>A pattern to convert the information in the data source to an identifier which can be used to select a network element
+						<xs:documentation>A pattern to convert the information in the data
+							source to an identifier which can be used to select a network
+							element
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
@@ -507,7 +511,8 @@
 				</xs:attribute>
 				<xs:attribute name="Format" type="xs:string" use="optional">
 					<xs:annotation>
-						<xs:documentation>Defines the format to parse the date, time or datetime values</xs:documentation>
+						<xs:documentation>Defines the format to parse the date, time or
+							datetime values</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="KindHint" type="KindHintType" use="optional" />
@@ -545,16 +550,27 @@
 					</xs:element>
 					<xs:element name="MappingDuration" type="gen:DateTimeRange">
 						<xs:annotation>
-							<xs:documentation>The MappingDuration reference, refers to a
-								DateTimeRange type.
+							<xs:documentation>The MappingDuration is a
+								DateTimeRange type, it
+								is the begin and end time of the actual mapping.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PeriodEstimate" type="gen:DateTimeRange">
 						<xs:annotation>
-							<xs:documentation>The PeriodEstimate reference, refers to a
-								DateTimeRange type. It contains an estimate of the start till end date and time 
-								for a single mapping run.  
+							<xs:documentation>The PeriodEstimate is a DateTimeRange type. It
+								is an estimate of begin and end time stamps
+								for the processed metric source.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SubStatistics" type="MappingStatistic" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The SubStatistics contain 0 or more
+								MappingStatisic object. When importing multiple
+								sources in a single job run, there is an option to produce
+								sub-statistics for each processed source object. i.e. for each
+								File.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -574,8 +590,10 @@
 				</xs:attribute>
 				<xs:attribute name="IntervalEstimate" type="xs:int">
 					<xs:annotation>
-						<xs:documentation>The IntervalEstimate attribute contains a number in minutes for 
-						the mapping run. It also corresponds the MetricValueRange for the mapping run. 
+						<xs:documentation>The IntervalEstimate attribute contains a number
+							in minutes for
+							the mapping run. It also corresponds the MetricValueRange for the
+							mapping run.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
@@ -610,24 +628,26 @@
 				</xs:attribute>
 				<xs:attribute name="Column" type="xs:string">
 					<xs:annotation>
-						<xs:documentation>The Column attribute holds the column identifier.
+						<xs:documentation>The Column attribute holds the column
+							identifier.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
+
 	<!--_______________________ -->
 	<!-- METRICRETENTIONRULES -->
 	<!--_______________________ -->
 	<xs:complexType name="MetricRetentionRules">
 		<xs:annotation>
-			<xs:documentation>The metric retention rules. 
+			<xs:documentation>The metric retention rules.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element  name="MetricRetentionRules" type="MetricRetentionRule" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="MetricRetentionRules" type="MetricRetentionRule"
+				minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -637,12 +657,12 @@
 	<xs:complexType name="MetricRetentionRule">
 		<xs:annotation>
 			<xs:documentation>A type with settings on retention of metric values
-			corresponding to the metric value range intervalhint.
+				corresponding to the metric value range intervalhint.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element  ecore:reference="library:Expression" name="RetentionExpression" type="xs:anyURI"
-				minOccurs="0" maxOccurs="1">
+			<xs:element ecore:reference="library:Expression" name="RetentionExpression"
+				type="xs:anyURI" minOccurs="0" maxOccurs="1">
 			</xs:element>
 		</xs:sequence>
 		<xs:attribute name="Name" type="gen:Name255">
@@ -665,16 +685,16 @@
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
-	
+
 	<!--_______________________ -->
 	<!-- METRICRETENTIONPERIOD -->
 	<!--_______________________ -->
-	<xs:simpleType  name="MetricRetentionPeriod">
+	<xs:simpleType name="MetricRetentionPeriod">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="Always"/>
-			<xs:enumeration value="One Year"/>
-			<xs:enumeration value="One Month"/>
-			<xs:enumeration value="One Week"/>
+			<xs:enumeration value="Always" />
+			<xs:enumeration value="One Year" />
+			<xs:enumeration value="One Month" />
+			<xs:enumeration value="One Week" />
 		</xs:restriction>
 	</xs:simpleType>
 

@@ -47,7 +47,7 @@ import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.importer.NetworkElementLocator.IdentifierDescriptor;
+import com.netxforge.netxstudio.data.importer.ComponentLocator.IdentifierDescriptor;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -96,7 +96,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	protected IDataProvider dataProvider;
 
 	@Inject
-	protected NetworkElementLocator networkElementLocator;
+	protected ComponentLocator componentLocator;
 
 	@Inject
 	protected ModelUtils modelUtils;
@@ -110,11 +110,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	private int intervalHint = 60;
 	private Date headerTimeStamp = null;
 
-	private DateTimeRange mappingPeriodEstimate = GenericsFactory.eINSTANCE
+	// Kept for each file.
+	private DateTimeRange metricPeriodEstimate = GenericsFactory.eINSTANCE
 			.createDateTimeRange();
 	private int intervalEstimate = -1;
 
-	private List<IdentifierDescriptor> headerIdentifiers = new ArrayList<NetworkElementLocator.IdentifierDescriptor>();
+	private List<IdentifierDescriptor> headerIdentifiers = new ArrayList<ComponentLocator.IdentifierDescriptor>();
 
 	/**
 	 * The helper provides implementation of specialized methods depending on
@@ -132,13 +133,43 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			System.out.println("Start importing process");
 		}
 
-		initializeProviders(networkElementLocator);
+		initializeProviders(componentLocator);
 
 		final long startTime = System.currentTimeMillis();
 		long endTime = startTime;
-
 		boolean errorOccurred = false;
-		MappingStatistic mappingStatistic = null;
+		int totalRows = 0;
+
+		// The parent mapping statistic, later rewrite the end time, total rows
+		// etc...
+		final MappingStatistic mappingStatistic = createMappingStatistics(
+				startTime, endTime, 0, null, metricPeriodEstimate,
+				getMappingIntervalEstimate(), null);
+
+		MetricSource src = getMetricSource();
+		CDOTransaction cdoTransaction = this.getDataProvider().getTransaction();
+		List<? extends CDOObject> newArrayList = Lists.newArrayList(src);
+		try {
+			cdoTransaction.lockObjects(newArrayList, LockType.WRITE, 1000);
+
+			if (DataActivator.DEBUG) {
+				CDORevision cdoRevision = src.cdoRevision();
+				if (cdoRevision != null) {
+					System.out.println("IMPORTER: object revision="
+							+ cdoRevision.getVersion());
+				}
+			}
+			// Make sure we get the latest index.
+			EList<MappingStatistic> statistics = src.getStatistics();
+			statistics.add(mappingStatistic);
+
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			cdoTransaction.unlockObjects(newArrayList, LockType.WRITE);
+		}
+		commitTransactionWithoutClosing();
+
 		try {
 			jobMonitor.setTask("Processing metricsource "
 					+ getMetricSource().getName());
@@ -175,7 +206,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 						+ getMetricSource().getName() + " =" + fileOrDirectory);
 			}
 
-			int totalRows = 0;
 			boolean noFiles = true;
 			final StringBuilder fileList = new StringBuilder();
 			final File rootFile = new File(fileOrDirectory);
@@ -197,16 +227,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				errorOccurred = true;
 			} else if (rootFile.isFile()) {
 				try {
-					final int beforeFailedSize = getFailedRecords().size();
 					noFiles = false;
 					fileList.append(rootFile.getAbsolutePath());
-					jobMonitor.setMsg("Processing file "
-							+ rootFile.getAbsolutePath());
-					jobMonitor.appendToLog("Processing file "
-							+ rootFile.getAbsolutePath());
-					totalRows += processFile(rootFile);
-					moveFile(rootFile,
-							getFailedRecords().size() > beforeFailedSize);
+					totalRows += doProcessFile(rootFile, mappingStatistic);
 				} catch (final Throwable t) {
 					errorOccurred = true;
 					jobMonitor.appendToLog("Error (" + t.getMessage()
@@ -224,31 +247,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 					if (filterPattern == null
 							|| fileName.matches(filterPattern)) {
 						try {
-
-							if (DataActivator.DEBUG) {
-								System.out.println("IMPORTER Checking file="
-										+ fileName);
-							}
-
-							final int beforeFailedSize = getFailedRecords()
-									.size();
-							noFiles = false;
 							fileList.append((fileList.length() > 0 ? "\n" : "")
 									+ fileName);
-
-							jobMonitor.setMsg("Processing file "
-									+ file.getAbsolutePath());
-							jobMonitor.appendToLog("Processing file "
-									+ fileName);
-							totalRows += processFile(file);
-
-							if (DataActivator.DEBUG) {
-								System.out.println("IMPORTER renaming file="
-										+ fileName);
-							}
-							moveFile(
-									file,
-									getFailedRecords().size() > beforeFailedSize);
+							noFiles = false;
+							totalRows += doProcessFile(file, mappingStatistic);
 
 						} catch (final Throwable t) {
 							errorOccurred = true;
@@ -275,13 +277,22 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				}
 			}
 
+			jobMonitor.setTask("Processing metricsource "
+					+ getMetricSource().getName());
 			jobMonitor.setMsg("Creating mappingstatistics");
 			jobMonitor.incrementProgress(1, true);
 
+			// Set the end time on the mapping stats.
 			endTime = System.currentTimeMillis();
-			mappingStatistic = createMappingStatistics(startTime, endTime,
-					totalRows, null, mappingPeriodEstimate,
-					getMappingIntervalEstimate());
+			mappingStatistic.getMappingDuration().setEnd(
+					modelUtils.toXMLDate(new Date(endTime)));
+			mappingStatistic.setPeriodEstimate(metricPeriodEstimate);
+			mappingStatistic.setIntervalEstimate(intervalEstimate);
+			mappingStatistic.setTotalRecords(totalRows);
+
+			// Moves the records from the subprocesses....
+			// mappingStatistic.geecords().addAll(getFailedRecords());
+
 			if (noFiles) {
 				mappingStatistic.setMessage("No files processed");
 			} else {
@@ -313,9 +324,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
 
-			mappingStatistic = createMappingStatistics(startTime, endTime, 0,
-					message, mappingPeriodEstimate,
-					getMappingIntervalEstimate());
+			// finalize with a mapping statistic.
+			mappingStatistic.setMessage(message);
+			mappingStatistic.setPeriodEstimate(metricPeriodEstimate);
+			mappingStatistic.setTotalRecords(totalRows);
+			// Moves the records to the parent.
+			// mappingStatistic.getFailedRecords().addAll(getFailedRecords());
 
 			if (DataActivator.DEBUG) {
 				System.err.println("IMPORTER ERROR Processing metricsource "
@@ -325,28 +339,32 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 		}
 
-		MetricSource src = getMetricSource();
+		commitTransactionAndClose();
 
-		CDOTransaction cdoTransaction = this.getDataProvider().getTransaction();
-		List<? extends CDOObject> newArrayList = Lists.newArrayList(src);
-		try {
-			cdoTransaction.lockObjects(newArrayList, LockType.WRITE, 1000);
-			CDORevision cdoRevision = src.cdoRevision();
-			if (cdoRevision != null) {
-				System.out.println("IMPORTER: object revision="
-						+ cdoRevision.getVersion());
-			}
+	}
 
-			// Make sure we get the latest index.
-			EList<MappingStatistic> statistics = src.getStatistics();
-			statistics.add(mappingStatistic);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} finally {
-			cdoTransaction.unlockObjects(newArrayList, LockType.WRITE);
-		}
-
+	/*
+	 * Commits, but doesn't close the transaction nor the session.
+	 */
+	private void commitTransactionWithoutClosing() {
 		// Commit in a throwable, otherwise the session woudn't be closed.
+		try {
+			CDOTransaction transaction = getDataProvider().getTransaction();
+			transaction.setCommitComment(IDataProvider.SERVER_COMMIT_COMMENT);
+			transaction.commit();
+			if (DataActivator.DEBUG) {
+				System.err.println("IMPORTER COMMIT SUCCESS");
+
+			}
+		} catch (final Throwable t) {
+			if (DataActivator.DEBUG) {
+				System.err.println("IMPORTER COMMIT FAILED");
+				t.printStackTrace();
+			}
+		}
+	}
+
+	private void commitTransactionAndClose() {
 		try {
 			getDataProvider().commitTransaction();
 			if (DataActivator.DEBUG) {
@@ -361,6 +379,54 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		} finally {
 			getDataProvider().closeSession();
 		}
+	}
+
+	private int doProcessFile(File file, MappingStatistic parentStatistic)
+			throws Throwable {
+		int rows = 0;
+		String fileName = file.getName();
+
+		this.getFailedRecords().clear();
+		final int beforeFailedSize = getFailedRecords().size();
+
+		long startTime = System.currentTimeMillis();
+		long endTime = startTime;
+
+		// CB 13-01, changed to task, as msg, will be overwritten quickly.
+		jobMonitor.setTask("Processing file " + fileName);
+		jobMonitor.appendToLog("Processing file " + fileName);
+		rows = processFile(file);
+
+		int afterFailedSize = getFailedRecords().size();
+		List<MappingRecord> fileFailedRecords = null;
+		if (afterFailedSize > beforeFailedSize) {
+			fileFailedRecords = this.getFailedRecords().subList(
+					beforeFailedSize == 0 ? 0 : beforeFailedSize - 1,
+					afterFailedSize - 1);
+		}
+
+		endTime = System.currentTimeMillis();
+
+		final MappingStatistic fileMappingStatistics = this
+				.createMappingStatistics(startTime, endTime, rows, fileName,
+						metricPeriodEstimate, intervalEstimate,
+						fileFailedRecords);
+
+		parentStatistic.getSubStatistics().add(fileMappingStatistics);
+
+		// commit everything sofar in this transaction....
+		commitTransactionWithoutClosing();
+
+		// CB 13-01 Commit per file now.
+		// commitTransaction();
+		if (DataActivator.DEBUG) {
+			System.out.println("IMPORTER renaming file=" + fileName);
+		}
+
+		moveFile(file, afterFailedSize > beforeFailedSize);
+
+		return rows;
+
 	}
 
 	protected int getMappingIntervalEstimate() {
@@ -398,7 +464,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	// warnings
 	protected MappingStatistic createMappingStatistics(long startTime,
 			long endTime, int totalRows, String message,
-			DateTimeRange periodEstimate, int intervalEstimate) {
+			DateTimeRange periodEstimate, int intervalEstimate,
+			List<MappingRecord> failedRecords) {
 		final MappingStatistic statistic = MetricsFactory.eINSTANCE
 				.createMappingStatistic();
 		final DateTimeRange range = GenericsFactory.eINSTANCE
@@ -412,8 +479,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		statistic.setPeriodEstimate(periodEstimate);
 		statistic.setIntervalEstimate(intervalEstimate);
 
-		// now add the failed records
-		statistic.getFailedRecords().addAll(getFailedRecords());
+		// now add the failed records.
+		if (failedRecords != null) {
+			statistic.getFailedRecords().addAll(failedRecords);
+		}
 
 		return statistic;
 	}
@@ -439,6 +508,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		int totalRows = 0;
 		jobMonitor.setTotalWork(getTotalRows() - getMapping().getFirstDataRow()
 				+ 10);
+		jobMonitor.setWorkDone(0); // reset the work done.
 		for (int rowNum = getMapping().getFirstDataRow(); rowNum < getTotalRows(); rowNum++) {
 
 			if (DataActivator.DEBUG) {
@@ -448,10 +518,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 			jobMonitor.setMsg("Processing row " + rowNum);
 			jobMonitor.incrementProgress(1, (rowNum % 10) == 0);
-			
+
 			int columnBeingProcessed = -1;
 			try {
-				
+
 				this.getMappingColumn();
 				totalRows++;
 
@@ -483,9 +553,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				this.intervalEstimate = intervalHintFromRow;
 
 				for (final MappingColumn column : getMappingColumn()) {
-					
+
 					columnBeingProcessed = column.getColumn();
-					
+
 					if (isMetric(column)) {
 						// Check that the metric ref is set, other wise bail.
 						if (!getValueDataKind(column)
@@ -503,7 +573,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 							createNotFoundNetworkElementMappingRecord(
 									getValueDataKind(column).getMetricRef(),
-									rowNum, elementIdentifiers, getComponentLocator()
+									rowNum, elementIdentifiers,
+									getComponentLocator()
 											.getFailedIdentifiers(),
 									getFailedRecords());
 							continue;
@@ -537,13 +608,14 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 					}
 				}
 			} catch (final Exception e) {
-				e.printStackTrace(System.err);
-				
-//				getFailedRecords().add(
-//						createMappingRecord(rowNum, -1, e.getMessage()));
-				
-				this.createExceptionMappingRecord(e, rowNum, columnBeingProcessed, this.getFailedRecords());
-				
+				// e.printStackTrace(System.err);
+
+				// getFailedRecords().add(
+				// createMappingRecord(rowNum, -1, e.getMessage()));
+
+				this.createExceptionMappingRecord(e, rowNum,
+						columnBeingProcessed, this.getFailedRecords());
+
 			}
 		}
 		return totalRows;
@@ -596,18 +668,18 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	}
 
 	public DateTimeRange getMappingPeriodEstimate() {
-		return mappingPeriodEstimate;
+		return metricPeriodEstimate;
 	}
 
 	private void updatePeriodEstimate(Date timestamp) {
 
 		// Assume chronological order of timestamps. Will fail otherwise.
 		XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(timestamp);
-		if (!mappingPeriodEstimate
+		if (!metricPeriodEstimate
 				.eIsSet(GenericsPackage.Literals.DATE_TIME_RANGE__BEGIN)) {
-			mappingPeriodEstimate.setBegin(xmlDate);
+			metricPeriodEstimate.setBegin(xmlDate);
 		}
-		mappingPeriodEstimate.setEnd(xmlDate);
+		metricPeriodEstimate.setEnd(xmlDate);
 	}
 
 	@SuppressWarnings("unused")
@@ -739,18 +811,18 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	}
 
 	protected void createNotFoundNetworkElementMappingRecord(Metric metric,
-			int rowNum, List<IdentifierDescriptor> allIdentifiers, List<IdentifierDescriptor> failedIdentifiers,
+			int rowNum, List<IdentifierDescriptor> allIdentifiers,
+			List<IdentifierDescriptor> failedIdentifiers,
 			List<MappingRecord> records) {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("Could not locate identifier for metric "
-				+ metric.getName());
-		
-		sb.append(". For identifiers: " );
+		sb.append("Could not locate identifier for metric " + metric.getName());
+
+		sb.append(". For identifiers: ");
 		for (final IdentifierDescriptor idValue : allIdentifiers) {
 			sb.append(" - " + idValue.getKind().getObjectKind().getName()
 					+ ": " + idValue.getValue());
 		}
-		
+
 		sb.append(", Failed on : ");
 		for (final IdentifierDescriptor idValue : failedIdentifiers) {
 			sb.append(" - " + idValue.getKind().getObjectKind().getName()
@@ -769,17 +841,17 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			records.add(record);
 		}
 	}
-	
+
 	/*
-	 * Exception mapping records.  
-	 * 
+	 * Exception mapping records.
 	 */
-	protected void createExceptionMappingRecord(Exception exception, int rowNum, int colNum, List<MappingRecord> records){
+	protected void createExceptionMappingRecord(Exception exception,
+			int rowNum, int colNum, List<MappingRecord> records) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(exception.getMessage());
 		MappingRecord record;
-		if ((record = this.hasMappingRecord(rowNum, colNum,
-				sb.toString(), records)) != null) {
+		if ((record = this.hasMappingRecord(rowNum, colNum, sb.toString(),
+				records)) != null) {
 			long count = record.getCount() + 1;
 			record.setCount(count);
 		} else {
@@ -787,7 +859,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			records.add(record);
 		}
 	}
-	
 
 	protected MappingRecord createMappingRecord(int row, int column,
 			String message) {
@@ -1050,13 +1121,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		this.warnings = warnings;
 	}
 
-	public NetworkElementLocator getComponentLocator() {
-		return networkElementLocator;
+	public ComponentLocator getComponentLocator() {
+		return componentLocator;
 	}
 
-	public void setNetworkElementLocator(
-			NetworkElementLocator networkElementLocator) {
-		this.networkElementLocator = networkElementLocator;
+	public void setComponentLocator(ComponentLocator networkElementLocator) {
+		this.componentLocator = networkElementLocator;
 	}
 
 	public List<MappingRecord> getFailedRecords() {
@@ -1121,7 +1191,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	/**
 	 * Delegate to the currently set helper.
 	 */
-	public void initializeProviders(NetworkElementLocator networkElementLocator) {
+	public void initializeProviders(ComponentLocator networkElementLocator) {
 		if (helper != null) {
 			helper.initializeProviders(networkElementLocator);
 		} else {

@@ -1817,6 +1817,17 @@ public class ModelUtils {
 		return getDateString.apply(d);
 	}
 
+	public String timeAndSeconds(Date d) {
+		final Function<Date, String> getDateString = new Function<Date, String>() {
+			public String apply(Date from) {
+				final SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+				return df.format(from);
+			}
+		};
+		return getDateString.apply(d);
+	}
+
+	
 	public String dateAndTime(XMLGregorianCalendar d) {
 		Date date = fromXMLDate(d);
 		return dateAndTime(date);

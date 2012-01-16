@@ -78,12 +78,15 @@ public class CommonLogic {
 			if (baseExpressionResult instanceof ExpressionResult) {
 				ExpressionResult expressionResult = (ExpressionResult) baseExpressionResult;
 
-				System.out.println("--Writing expression result: resource="
-						+ expressionResult.getTargetResource().getShortName()
-						+ " target="
-						+ expressionResult.getTargetRange().getName()
-						+ " values="
-						+ expressionResult.getTargetValues().size());
+				if (ServerActivator.DEBUG) {
+
+					System.out.println("--Writing expression result: resource="
+							+ expressionResult.getTargetResource()
+									.getShortName() + " target="
+							+ expressionResult.getTargetRange().getName()
+							+ " values="
+							+ expressionResult.getTargetValues().size());
+				}
 
 				// FIXME: We could want to write to a resource, where the node
 				// doesn't match the context.
@@ -129,17 +132,18 @@ public class CommonLogic {
 					+ " target=" + expressionResult.getTargetRange().getName()
 					+ " values=" + expressionResult.getTargetValues().size());
 		}
-		
+
 		// FIXME: We could want to write to a resource, where the node
-		// doesn't match the context. The original context Node is not known here. 
+		// doesn't match the context. The original context Node is not known
+		// here.
 		final BaseResource baseResource = expressionResult.getTargetResource();
 
 		// Process a NetXResource
 		if (baseResource instanceof NetXResource) {
 			NetXResource resource = (NetXResource) baseResource;
 			final Node n = this.getNode(resource.getComponentRef());
-			
-			if(ServerActivator.DEBUG){
+
+			if (ServerActivator.DEBUG) {
 				if (n != null) {
 					System.out.println("--Writing to resource in Node: "
 							+ n.getNodeID());
@@ -187,7 +191,9 @@ public class CommonLogic {
 						+ expressionResult.getTargetRange() + " not supported");
 			}
 		}
-		System.out.println("--Done processing monitoring result");
+		if (ServerActivator.DEBUG) {
+			System.out.println("--Done processing monitoring result");
+		}
 	}
 
 	private void createMarkers(ExpressionResult expressionResult, Date start,
@@ -209,7 +215,6 @@ public class CommonLogic {
 		// get rid of everything before and after start time
 		final List<Value> toRemoveUsageValues = new ArrayList<Value>();
 		for (final Value usageValue : usageValues) {
-			// System.err.println("CommonLogic" + usageValue.getTimeStamp());
 			final long timeMillis = usageValue.getTimeStamp()
 					.toGregorianCalendar().getTimeInMillis();
 			if (timeMillis < start.getTime() || timeMillis > end.getTime()) {
@@ -436,10 +441,9 @@ public class CommonLogic {
 			foundValue.setValue(value.getValue());
 		} else {
 			if (ServerActivator.DEBUG) {
-				System.out
-						.println("SERVER: similar value, store now value="
-								+ value.getValue() + " , timestamp="
-								+ modelUtils.dateAndTime(value.getTimeStamp()));
+				System.out.println("SERVER: similar value, store now value="
+						+ value.getValue() + " , timestamp="
+						+ modelUtils.dateAndTime(value.getTimeStamp()));
 			}
 			currentValues.add(value);
 		}

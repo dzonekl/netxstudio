@@ -29,7 +29,7 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	public static DebugTrace TRACE = null;
 	 
 	public void optionsChanged(DebugOptions options) {
-		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);
+		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
 	

@@ -46,6 +46,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.library.LibraryPackage;
 
 public class MasterDataExporterRevenge {
 
@@ -96,7 +97,7 @@ public class MasterDataExporterRevenge {
 	}
 
 	/*
-	 * Doesn't work for Non-Direct Resources. (Resources with a path in CDO).
+	 * Populate a cache.
 	 */
 	private void buildCache(List<EClassifier> alphabetOrderedClassesFor) {
 
@@ -104,25 +105,48 @@ public class MasterDataExporterRevenge {
 
 			if (eClassifier instanceof EClass) {
 				EClass eClass = (EClass) eClassifier;
-				Resource resource = dataProvider.getResource(eClass);
-				if (resource.getContents().size() > 0) {
-					TreeIterator<EObject> allContents = resource
-							.getAllContents();
-					List<EObject> closure = ImmutableList.copyOf(allContents);
-					for (EObject closureObject : closure) {
-						EClass objectClass = closureObject.eClass();
-						if (cache.containsKey(objectClass)) {
-							List<EObject> currentForClass = Lists
-									.newArrayList(cache.get(objectClass));
-							currentForClass.add(closureObject);
-							cache.put(objectClass, currentForClass);
-						} else {
-							List<EObject> currentForClass = Lists
-									.newArrayList();
-							currentForClass.add(closureObject);
-							cache.put(objectClass, currentForClass);
+
+				// Handle - Non-direct resources in the export properly.
+				if (eClassifier == LibraryPackage.Literals.NET_XRESOURCE) {
+					// all resources for
+					{
+						List<Resource> resources = dataProvider
+								.getResources("/Node_");
+						for (Resource r : resources) {
+							cacheForResource(r);
 						}
 					}
+					{
+						List<Resource> resources = dataProvider
+								.getResources("/NodeType_");
+						for (Resource r : resources) {
+							cacheForResource(r);
+						}
+					}
+
+				} else {
+					Resource resource = dataProvider.getResource(eClass);
+					cacheForResource(resource);
+				}
+			}
+		}
+	}
+
+	private void cacheForResource(Resource resource) {
+		if (resource != null && resource.getContents().size() > 0) {
+			TreeIterator<EObject> allContents = resource.getAllContents();
+			List<EObject> closure = ImmutableList.copyOf(allContents);
+			for (EObject closureObject : closure) {
+				EClass objectClass = closureObject.eClass();
+				if (cache.containsKey(objectClass)) {
+					List<EObject> currentForClass = Lists.newArrayList(cache
+							.get(objectClass));
+					currentForClass.add(closureObject);
+					cache.put(objectClass, currentForClass);
+				} else {
+					List<EObject> currentForClass = Lists.newArrayList();
+					currentForClass.add(closureObject);
+					cache.put(objectClass, currentForClass);
 				}
 			}
 		}

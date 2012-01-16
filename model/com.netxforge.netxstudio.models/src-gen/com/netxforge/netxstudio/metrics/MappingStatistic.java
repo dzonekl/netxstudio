@@ -40,6 +40,7 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getFailedRecords <em>Failed Records</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getMappingDuration <em>Mapping Duration</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getPeriodEstimate <em>Period Estimate</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getSubStatistics <em>Sub Statistics</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getIntervalEstimate <em>Interval Estimate</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getMessage <em>Message</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getTotalRecords <em>Total Records</em>}</li>
@@ -74,8 +75,9 @@ public interface MappingStatistic extends Base {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MappingDuration reference, refers to a
-	 * 								DateTimeRange type.
+	 * The MappingDuration is a
+	 * 								DateTimeRange type, it
+	 * 								is the begin and end time of the actual mapping.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Mapping Duration</em>' containment reference.
@@ -102,9 +104,9 @@ public interface MappingStatistic extends Base {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The PeriodEstimate reference, refers to a
-	 * 								DateTimeRange type. It contains an estimate of the start till end date and time 
-	 * 								for a single mapping run.  
+	 * The PeriodEstimate is a DateTimeRange type. It
+	 * 								is an estimate of begin and end time stamps
+	 * 								for the processed metric source.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Period Estimate</em>' containment reference.
@@ -127,12 +129,35 @@ public interface MappingStatistic extends Base {
 	void setPeriodEstimate(DateTimeRange value);
 
 	/**
+	 * Returns the value of the '<em><b>Sub Statistics</b></em>' containment reference list.
+	 * The list contents are of type {@link com.netxforge.netxstudio.metrics.MappingStatistic}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The SubStatistics contain 0 or more
+	 * 								MappingStatisic object. When importing multiple
+	 * 								sources in a single job run, there is an option to produce
+	 * 								sub-statistics for each processed source object. i.e. for each
+	 * 								File.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Sub Statistics</em>' containment reference list.
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingStatistic_SubStatistics()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='SubStatistics'"
+	 * @generated
+	 */
+	EList<MappingStatistic> getSubStatistics();
+
+	/**
 	 * Returns the value of the '<em><b>Interval Estimate</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The IntervalEstimate attribute contains a number in minutes for 
-	 * 						the mapping run. It also corresponds the MetricValueRange for the mapping run. 
+	 * The IntervalEstimate attribute contains a number
+	 * 							in minutes for
+	 * 							the mapping run. It also corresponds the MetricValueRange for the
+	 * 							mapping run.
 	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Interval Estimate</em>' attribute.
