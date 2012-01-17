@@ -53,6 +53,9 @@ public class DynamicScreensActionHandler extends AbstractActionHandler {
 
 	private void addActions(IMenuManager menuManager) {
 		for (IAction action : actions) {
+			if(EditingActivator.DEBUG){
+				System.out.println("EDITING: update action=" + action.getText());
+			}
 			if (action instanceof SeparatorAction) {
 				menuManager.insertAfter("screen", new Separator());
 			} else {

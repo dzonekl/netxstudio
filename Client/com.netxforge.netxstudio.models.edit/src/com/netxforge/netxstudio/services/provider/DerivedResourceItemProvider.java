@@ -124,6 +124,7 @@ public class DerivedResourceItemProvider
 
 	/**
 	 * This returns the label text for the adapted class.
+	 * CB Adapted 17-01-2012, to show the calculated label between quotes. 
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -133,7 +134,7 @@ public class DerivedResourceItemProvider
 		String label = ((DerivedResource)object).getExpressionName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_DerivedResource_type") :
-			getString("_UI_DerivedResource_type") + " " + label;
+			getString("_UI_DerivedResource_type") + " \"" + label + "\"";
 	}
 
 	/**

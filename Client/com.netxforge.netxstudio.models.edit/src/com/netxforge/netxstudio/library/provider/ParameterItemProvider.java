@@ -207,6 +207,7 @@ public class ParameterItemProvider
 
 	/**
 	 * This returns the label text for the adapted class.
+	 * CB Adapted 17-01-2012, to show the calculated label between quotes. 
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -216,7 +217,7 @@ public class ParameterItemProvider
 		String label = ((Parameter)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Parameter_type") :
-			getString("_UI_Parameter_type") + " " + label;
+			getString("_UI_Parameter_type") + " \"" + label + "\"";
 	}
 
 	/**

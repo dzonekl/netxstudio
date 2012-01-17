@@ -204,6 +204,7 @@ public class LifecycleItemProvider
 
 	/**
 	 * This returns the label text for the adapted class.
+	 * CB Adapted 17-01-2012, to show the calculated label between quotes. 
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

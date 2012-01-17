@@ -164,7 +164,11 @@ public class WarningDeleteAction extends DeleteAction {
 		// }
 		return c;
 	}
-
+	
+	/*
+	 * Facility to update the selection (the target deletion objects), for specific cases. 
+	 * The default handling, will not know which objects belong together. 
+	 */
 	private Collection<Object> incrementSelection(Collection<?> selection) {
 		Collection<Object> newSelection = Lists.newLinkedList();
 

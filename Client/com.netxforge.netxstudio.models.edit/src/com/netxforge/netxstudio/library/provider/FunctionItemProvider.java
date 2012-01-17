@@ -156,6 +156,7 @@ public class FunctionItemProvider extends ComponentItemProvider implements
 
 	/**
 	 * This returns the label text for the adapted class.
+	 * CB Adapted 17-01-2012, to show the calculated label between quotes. 
 	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 * @generated
@@ -165,7 +166,7 @@ public class FunctionItemProvider extends ComponentItemProvider implements
 		String label = ((Function)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Function_type") :
-			getString("_UI_Function_type") + " " + label;
+			getString("_UI_Function_type") + " \"" + label + "\"";
 	}
 
 	/**

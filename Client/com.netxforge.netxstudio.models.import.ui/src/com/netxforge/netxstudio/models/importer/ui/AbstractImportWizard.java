@@ -29,6 +29,7 @@ import org.eclipse.ui.dialogs.CheckedTreeSelectionDialog;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.geo.Country;
@@ -36,11 +37,13 @@ import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.models.importer.MasterDataImporterJob;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
@@ -69,7 +72,10 @@ public abstract class AbstractImportWizard extends Wizard implements
 
 	@Inject
 	private IEditingService editingService;
-
+	
+	@Inject 
+	private ModelUtils modelUtils;
+	
 	abstract EPackage[] getEPackages();
 
 	abstract boolean useIndexed();
@@ -182,69 +188,81 @@ public abstract class AbstractImportWizard extends Wizard implements
 			}
 		}
 
-			
 		for (EObject object : listOfObjectsToStore) {
-			EList<EObject> parentList = (EList<EObject>) getParentList(object.eClass());
+			
+			if(object instanceof NetXResource){
+				NetXResource res = (NetXResource) object;
+				Component componentRef = res.getComponentRef();
+				if(componentRef != null){
+					String cdoResourcePath = modelUtils.cdoCalculateResourcePathII(componentRef);
+					Resource resource = dataProvider.getResource(cdoResourcePath);
+					if(resource != null ){
+						resource.getContents().add(res);
+					}
+				}
+			}
+			EList<EObject> parentList = (EList<EObject>) getParentList(object
+					.eClass());
 			parentList.add(object);
 		}
-			
-		
+
 		@SuppressWarnings("unused")
 		List<EObject> danglingList = Lists.newArrayList();
-		
-		// Check dangling. 
+
+		// Check dangling.
 		for (EObject object : listOfObjectsToStore) {
 			TreeIterator<EObject> eAllContents = object.eAllContents();
-			while(eAllContents.hasNext()){
+			while (eAllContents.hasNext()) {
 				EObject next = eAllContents.next();
-				EList<EReference> eAllReferences = next.eClass().getEAllReferences();
-				for( EReference eRef : eAllReferences){
-					if(!next.eIsSet(eRef)){
-						// continue, only filled ERefs. 
+				EList<EReference> eAllReferences = next.eClass()
+						.getEAllReferences();
+				for (EReference eRef : eAllReferences) {
+					if (!next.eIsSet(eRef)) {
+						// continue, only filled ERefs.
 						continue;
 					}
-					if(eRef.isMany()){
+					if (eRef.isMany()) {
 						Object eGet = next.eGet(eRef);
 						List<? extends EObject> collection = (List<? extends EObject>) eGet;
 						List<EObject> toRemove = Lists.newArrayList();
-						for(EObject eo : collection ){
-							if(isDangling(eo, eRef)){
+						for (EObject eo : collection) {
+							if (isDangling(eo, eRef)) {
 								int index = collection.indexOf(eo);
 								toRemove.add(collection.get(index));
 							}
 						}
-						
-						for(EObject eo : toRemove){
+
+						for (EObject eo : toRemove) {
 							collection.remove(eo);
 						}
-						
-					}else{
+
+					} else {
 						Object eGet = next.eGet(eRef);
 						EObject eo = (EObject) eGet;
-						if(isDangling(eo, eRef)){
+						if (isDangling(eo, eRef)) {
 							this.unsetDangling(next, eRef);
 						}
 					}
 				}
 			}
 		}
-		
-		
+
 		dataProvider.commitTransaction();
 		dataProvider.setDoGetResourceFromOwnTransaction(true);
 		dataProvider.closeSession();
 	}
-	
-	public boolean isDangling(EObject eo, EReference eRef){
-		if(eo.eResource() == null ){
-			System.out.println("Dangling object: " + eo.eClass() + " from ref: " + eRef);
+
+	public boolean isDangling(EObject eo, EReference eRef) {
+		if (eo.eResource() == null) {
+			System.out.println("Dangling object: " + eo.eClass()
+					+ " from ref: " + eRef);
 			return true;
 		}
 		return false;
 	}
-	
-	public void unsetDangling(EObject eo, EReference eRef){
-		if(eo.eIsSet(eRef)){
+
+	public void unsetDangling(EObject eo, EReference eRef) {
+		if (eo.eIsSet(eRef)) {
 			eo.eUnset(eRef);
 		}
 	}
@@ -266,11 +284,11 @@ public abstract class AbstractImportWizard extends Wizard implements
 
 		Resource res = getResource(key);
 
-//		ResourceSet set = res.getResourceSet();
-//		if (set != null) {
-//			System.out.println("importing in set: " + set.toString());
-//			
-//		}
+		// ResourceSet set = res.getResourceSet();
+		// if (set != null) {
+		// System.out.println("importing in set: " + set.toString());
+		//
+		// }
 
 		// RFSService objects are stored in an Operator.
 		if (key.equals(ServicesPackage.eINSTANCE.getRFSService())) {
@@ -284,7 +302,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 	}
 
 	private Resource getResource(EClass eClass) {
-		
+
 		if (eClass.equals(ServicesPackage.Literals.RFS_SERVICE)) {
 
 			// return dataProvider.getTransaction().createResource("/" +
@@ -392,10 +410,11 @@ public abstract class AbstractImportWizard extends Wizard implements
 			} else if (parentElement instanceof Service) {
 				children.addAll(((Service) parentElement).getServices());
 			} else if (parentElement instanceof ServiceUser) {
-				if(((ServiceUser) parentElement).getServiceProfile() != null){
-					children.add(((ServiceUser) parentElement).getServiceProfile());
+				if (((ServiceUser) parentElement).getServiceProfile() != null) {
+					children.add(((ServiceUser) parentElement)
+							.getServiceProfile());
 				}
-			}else if (parentElement instanceof Country) {
+			} else if (parentElement instanceof Country) {
 				children.addAll(((Country) parentElement).getSites());
 			} else if (parentElement instanceof Site) {
 				children.addAll(((Site) parentElement).getRooms());
@@ -413,11 +432,15 @@ public abstract class AbstractImportWizard extends Wizard implements
 						.getFunctionRelationships());
 			} else if (parentElement instanceof Node) {
 				NodeType nodeType = ((Node) parentElement).getNodeType();
-				if(nodeType != null){
+				if (nodeType != null) {
 					children.add(nodeType);
 				}
-			}
-			if (parentElement instanceof NodeType) {
+			} else if (parentElement instanceof NetXResource) {
+				NetXResource res = (NetXResource) parentElement;
+				children.addAll(res.getMetricValueRanges());
+			} else if ( parentElement instanceof MetricValueRange) {
+				children.addAll(((MetricValueRange) parentElement).getMetricValues());
+			}else if (parentElement instanceof NodeType) {
 				children.addAll(((NodeType) parentElement).getFunctions());
 				children.addAll(((NodeType) parentElement).getEquipments());
 			} else if (parentElement instanceof Function) {

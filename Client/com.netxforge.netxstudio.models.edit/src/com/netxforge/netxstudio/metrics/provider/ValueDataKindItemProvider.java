@@ -181,6 +181,7 @@ public class ValueDataKindItemProvider
 
 	/**
 	 * This returns the label text for the adapted class.
+	 * CB Adapted 17-01-2012, to show the calculated label between quotes. 
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -190,7 +191,7 @@ public class ValueDataKindItemProvider
 		String label = ((ValueDataKind)object).getFormat();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ValueDataKind_type") :
-			getString("_UI_ValueDataKind_type") + " " + label;
+			getString("_UI_ValueDataKind_type") + " \"" + label + "\"";
 	}
 
 	/**

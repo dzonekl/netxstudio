@@ -114,6 +114,7 @@ public class FailureItemProvider
 
 	/**
 	 * This returns the label text for the adapted class.
+	 * CB Adapted 17-01-2012, to show the calculated label between quotes. 
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -123,7 +124,7 @@ public class FailureItemProvider
 		String label = ((Failure)object).getMessage();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Failure_type") :
-			getString("_UI_Failure_type") + " " + label;
+			getString("_UI_Failure_type") + " \"" + label + "\"";
 	}
 
 	/**

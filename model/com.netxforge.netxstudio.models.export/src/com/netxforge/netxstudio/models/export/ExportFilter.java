@@ -38,6 +38,7 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
@@ -142,6 +143,26 @@ public class ExportFilter {
 			filteredClasses.add(GenericsPackage.Literals.ROLE);
 			
 			filteredNonMasterClasses.put(GenericsPackage.eINSTANCE,
+					filteredClasses);
+		}
+		
+		{
+			List<EClass> filteredClasses = Lists.newArrayList();
+
+			filteredClasses.add(SchedulingPackage.Literals.JOB);
+			filteredClasses.add(SchedulingPackage.Literals.COMPONENT_FAILURE);
+			filteredClasses.add(SchedulingPackage.Literals.COMPONENT_WORK_FLOW_RUN);
+			filteredClasses.add(SchedulingPackage.Literals.FAILURE);
+			filteredClasses.add(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+			filteredClasses.add(SchedulingPackage.Literals.SERVICE_USER_FAILURE);
+			filteredClasses.add(SchedulingPackage.Literals.WORK_FLOW_RUN);
+			
+//			filteredClasses.add(SchedulingPackage.Literals.METRIC_SOURCE_JOB);
+//			filteredClasses.add(SchedulingPackage.Literals.NODE_REPORTER_JOB);
+//			filteredClasses.add(SchedulingPackage.Literals.NODE_TYPE_REPORTER_JOB);
+//			filteredClasses.add(SchedulingPackage.Literals.OPERATOR_REPORTER_JOB);
+			
+			filteredNonMasterClasses.put(SchedulingPackage.eINSTANCE,
 					filteredClasses);
 		}
 		

@@ -174,6 +174,7 @@ public class ServiceForecastItemProvider
 
 	/**
 	 * This returns the label text for the adapted class.
+	 * CB Adapted 17-01-2012, to show the calculated label between quotes. 
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -183,7 +184,7 @@ public class ServiceForecastItemProvider
 		String label = ((ServiceForecast)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ServiceForecast_type") :
-			getString("_UI_ServiceForecast_type") + " " + label;
+			getString("_UI_ServiceForecast_type") + " \"" + label + "\"";
 	}
 
 	/**

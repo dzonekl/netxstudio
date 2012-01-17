@@ -214,6 +214,7 @@ public class NetworkItemProvider extends BaseItemProvider implements
 
 	/**
 	 * This returns the label text for the adapted class.
+	 * CB Adapted 17-01-2012, to show the calculated label between quotes. 
 	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 * @generated
@@ -223,7 +224,7 @@ public class NetworkItemProvider extends BaseItemProvider implements
 		String label = ((Network)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Network_type") :
-			getString("_UI_Network_type") + " " + label;
+			getString("_UI_Network_type") + " \"" + label + "\"";
 	}
 
 	/**

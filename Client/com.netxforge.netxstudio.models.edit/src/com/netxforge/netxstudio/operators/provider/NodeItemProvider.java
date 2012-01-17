@@ -214,9 +214,10 @@ public class NodeItemProvider extends BaseItemProvider implements
 	@Override
 	public String getText(Object object) {
 		Node node = (Node) object;
-		return node.getNodeID() == null || node.getNodeID().length() == 0 ? "<not set>" : node.getNodeID();
+		return "Network Element" + "\"" + node.getNodeID() == null || node.getNodeID().length() == 0 ? "<not set>" : node.getNodeID() + "\"";
 	}
-
+	
+	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.

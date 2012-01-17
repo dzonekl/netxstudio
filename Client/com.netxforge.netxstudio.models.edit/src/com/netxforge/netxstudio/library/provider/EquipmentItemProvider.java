@@ -284,12 +284,14 @@ public class EquipmentItemProvider extends ComponentItemProvider implements
 		String code = ((Equipment) object).getEquipmentCode();
 		String name = ((Equipment) object).getName();
 		StringBuilder sb = new StringBuilder();
+		sb.append("\"");
 		if( code != null && code.length() > 0){
 			sb.append(code + " ");
 		}
 		if( name != null && name.length() > 0){
 			sb.append(name);
 		}
+		sb.append("\"");
 		return sb.toString();
 	}
 

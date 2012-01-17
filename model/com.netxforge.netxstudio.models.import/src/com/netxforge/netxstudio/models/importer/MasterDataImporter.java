@@ -512,7 +512,16 @@ public class MasterDataImporter {
 					} else if (type.getInstanceClass() == int.class) {
 						Integer iValue = new Integer(value);
 						result.eSet(eFeature, iValue);
-					}
+					} 
+					
+					// Park for now.
+//					else if( type.getInstanceClass() == double.class){
+//						Double dbValue = new Double(value);
+//						result.eSet(eFeature, dbValue);
+//					}else if( type.getInstanceClass() == XMLGregorianCalendar.class){
+//						new XMLGregorianCalendar(value);
+//						
+//					}
 
 					// ///// ENUMS WHICH ARE MODE SPECIFIC.
 					else if (type.getInstanceClass() == ObjectKindType.class) {

@@ -42,7 +42,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.data.IDataProvider;
@@ -135,8 +134,9 @@ public class MasterDataExporterRevenge {
 	private void cacheForResource(Resource resource) {
 		if (resource != null && resource.getContents().size() > 0) {
 			TreeIterator<EObject> allContents = resource.getAllContents();
-			List<EObject> closure = ImmutableList.copyOf(allContents);
-			for (EObject closureObject : closure) {
+//			List<EObject> closure = ImmutableList.copyOf(allContents);
+			while (allContents.hasNext()) {
+				EObject closureObject = allContents.next();
 				EClass objectClass = closureObject.eClass();
 				if (cache.containsKey(objectClass)) {
 					List<EObject> currentForClass = Lists.newArrayList(cache

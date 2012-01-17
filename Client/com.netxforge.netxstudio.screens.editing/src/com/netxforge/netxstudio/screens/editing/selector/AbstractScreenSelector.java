@@ -48,14 +48,14 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	@Inject
 	protected IScreenFormService screenFormService;
 
-//	private IScreen activeScreen;
+	 private IScreen activeScreen;
 
 	public AbstractScreenSelector() {
 	}
 
 	@Override
 	public IScreen getActiveScreen() {
-		return screenFormService.getActiveScreen();
+		return activeScreen;
 	}
 
 	public IScreenFormService getScreenFormService() {
@@ -131,7 +131,6 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	@Override
 	public void dispose() {
 		super.dispose();
-		// TODO Dispose used images.
 	}
 
 	/*
@@ -144,9 +143,10 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	public void screenChanged(IScreen screen) {
 		// Some screens won't have a viewer, in this case
 		// the current viewer will be null, and an empty selection will be set.
+		this.activeScreen = screen;
 		
 		this.getActionHandlerDescriptor().clearDynamicHandlers();
-		
+
 		if (screen != null) {
 			Viewer viewer = screen.getViewer();
 			setCurrentViewer(viewer);
@@ -161,7 +161,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		ActionHandlerDescriptor descriptor = this.getActionHandlerDescriptor();
 		descriptor.setMenuManager(menuManager);
 		descriptor.setScreen(this.getActiveScreen());
-		
+
 		if (!ScreenUtil.isReadOnlyOperation(getActiveScreen().getOperation())) {
 			descriptor.setEnableEditActions(true);
 
@@ -171,25 +171,23 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 				descriptor.setEnableChildCreationActions(false);
 			}
 
-//			descriptor.setEnableSiblingCreationActions(false);
-//			EStructuralFeature[] features = getCurrentScreen()
-//					.permittedCreationFeatures();
-//			descriptor.setPermittedChildCreationFeatures(features);
+			// descriptor.setEnableSiblingCreationActions(false);
+			// EStructuralFeature[] features = getCurrentScreen()
+			// .permittedCreationFeatures();
+			// descriptor.setPermittedChildCreationFeatures(features);
 		} else {
 			descriptor.setEnableEditActions(false);
 			descriptor.setEnableChildCreationActions(false);
 			descriptor.setEnableSiblingCreationActions(false);
 		}
-		
+
 		descriptor.clearDynamicHandlers();
-		
+
 		DynamicScreensActionHandler dynamicScreensActionHandler;
-			
-		
+
 		// !!!! actions would be created dynamicly.....
-		
-		if (this.getActiveScreen() != null
-				&& this.getActiveScreen().getActions() != null) {
+		IScreen screen = getActiveScreen();
+		if (screen != null && screen.getActions() != null) {
 			List<IAction> actions = reverse(this.getActiveScreen().getActions());
 			dynamicScreensActionHandler = new DynamicScreensActionHandler();
 			dynamicScreensActionHandler.addActions(actions);
@@ -199,7 +197,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	}
 
 	public static List<IAction> reverse(IAction[] arr) {
-		
+
 		List<IAction> list = Arrays.asList(arr);
 		Collections.reverse(list);
 		return list;

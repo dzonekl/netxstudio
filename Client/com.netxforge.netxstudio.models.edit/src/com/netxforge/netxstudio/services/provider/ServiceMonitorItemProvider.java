@@ -172,6 +172,7 @@ public class ServiceMonitorItemProvider
 
 	/**
 	 * This returns the label text for the adapted class.
+	 * CB Adapted 17-01-2012, to show the calculated label between quotes. 
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -181,7 +182,7 @@ public class ServiceMonitorItemProvider
 		String label = ((ServiceMonitor)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ServiceMonitor_type") :
-			getString("_UI_ServiceMonitor_type") + " " + label;
+			getString("_UI_ServiceMonitor_type") + " \"" + label + "\"";
 	}
 
 	/**

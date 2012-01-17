@@ -8,6 +8,7 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 public class AllXLSPOIWizard extends AbstractExportPOIRevengeWizard {
@@ -17,7 +18,7 @@ public class AllXLSPOIWizard extends AbstractExportPOIRevengeWizard {
 
 	EPackage[] getEPackages() {
 		return new EPackage[] { ServicesPackage.eINSTANCE, MetricsPackage.eINSTANCE,
-				LibraryPackage.eINSTANCE, OperatorsPackage.eINSTANCE, GenericsPackage.eINSTANCE };
+				LibraryPackage.eINSTANCE, OperatorsPackage.eINSTANCE, GenericsPackage.eINSTANCE , SchedulingPackage.eINSTANCE};
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
