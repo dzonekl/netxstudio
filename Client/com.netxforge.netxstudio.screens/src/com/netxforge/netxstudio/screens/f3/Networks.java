@@ -396,13 +396,13 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			// actions.add(new ScheduleReportingJobAction(
 			// "Schedule Reporting Job...", SWT.PUSH));
 			actions.add(new ScheduleReportingJobAction(
-					"Schedule Reporting Job...", SWT.PUSH));
-			actions.add(new ReportNowAction("Report Now", SWT.PUSH));
+					"Schedule Reporting Job..."));
+			actions.add(new ReportNowAction("Report Now"));
 			actions.add(new SeparatorAction());
-			actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
-			actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
+			actions.add(new ExportHTMLAction("Export to HTML"));
+			actions.add(new ExportXLSAction("Export to XLS"));
 			actions.add(new SeparatorAction());
-			actions.add(new ExpressionsAction(this.getScreenService(), "Expressions for",SWT.PUSH));
+			actions.add(new ExpressionsAction(this.getScreenService(), "Expressions for"));
 			
 		}
 		return actions.toArray(new IAction[actions.size()]);
@@ -438,8 +438,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	class ScheduleReportingJobAction extends Action {
-		public ScheduleReportingJobAction(String text, int style) {
-			super(text, style);
+		public ScheduleReportingJobAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -472,8 +472,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	class ReportNowAction extends Action {
-		public ReportNowAction(String text, int style) {
-			super(text, style);
+		public ReportNowAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -485,64 +485,6 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 						"com.netxforge.netxstudio.screens.reporting",
 						(IStructuredSelection) selection);
 			}
-
-			// Object o = ((IStructuredSelection) selection).getFirstElement();
-			// if (o instanceof Node) {
-			//
-			// CDOObject target = null;
-			// String identifier = "";
-			//
-			// if (o instanceof CDOObject) {
-			// target = (CDOObject) o;
-			//
-			// }
-			// try {
-			// serverActions.setCDOServer(editingService
-			// .getDataService().getProvider().getServer());
-			//
-			// PeriodDialog pr = new PeriodDialog(
-			// Networks.this.getShell(), modelUtils);
-			// pr.open();
-			// DateTimeRange dtr = pr.period();
-			//
-			// Date fromDate = modelUtils.start(dtr);
-			// Date toDate = modelUtils.end(dtr);
-			//
-			// // TODO, We get the workflow run ID back, which
-			// // could be used
-			// // to link back to the screen showing the running
-			// // workflows.
-			//
-			// if (target instanceof Node) {
-			// @SuppressWarnings("unused")
-			// String result = serverActions
-			// .callNodeReportingAction(target, fromDate,
-			// toDate);
-			// identifier = ((Node) target).getNodeID();
-			// }
-			//
-			// MessageDialog
-			// .openInformation(
-			// Networks.this.getShell(),
-			// "Reporting now succeeded:",
-			// "Reporting for: "
-			// + identifier
-			// + "\n has been initiated on the server.");
-			//
-			// } catch (Exception e1) {
-			// e1.printStackTrace();
-			// MessageDialog
-			// .openError(
-			// Networks.this.getShell(),
-			// "Reporting now failed:",
-			// "Reporting for : "
-			// + identifier
-			// + "\n failed. Consult the log for information on the failure");
-			//
-			// }
-			//
-			// }
-			// }
 		}
 	}
 

@@ -258,8 +258,8 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 					.isReadOnlyOperation(this.getOperation()) ? "View..."
 					: "Edit...";
 
-			actions.add(new EditJobAction(actionText, SWT.PUSH));
-			actions.add(new JobRunsAction("Runs...", SWT.PUSH));
+			actions.add(new EditJobAction(actionText));
+			actions.add(new JobRunsAction("Runs..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 
@@ -267,8 +267,8 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
 	class EditJobAction extends Action {
 
-		public EditJobAction(String text, int style) {
-			super(text, style);
+		public EditJobAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -289,8 +289,8 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
 	class JobRunsAction extends Action {
 
-		public JobRunsAction(String text, int style) {
-			super(text, style);
+		public JobRunsAction(String text) {
+			super(text);
 		}
 
 		@Override

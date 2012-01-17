@@ -119,8 +119,8 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 	 */
 	class EditOperatorAction extends Action {
 
-		public EditOperatorAction(String text, int style) {
-			super(text, style);
+		public EditOperatorAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -328,7 +328,7 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 		if (actions.isEmpty()) {
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
-			actions.add(new EditOperatorAction(actionText + "...", SWT.PUSH));
+			actions.add(new EditOperatorAction(actionText + "..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}

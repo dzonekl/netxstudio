@@ -876,8 +876,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 	public void newColumnMappingScreenDialog(boolean showDataMapping, int op,
 			Object owner, Object target) {
 		NewEditMappingColumnDialogII dialog = new NewEditMappingColumnDialogII(
-				ScreenUtil.compositeFor(screenService.getActiveScreen())
-						.getShell());
+				screenService.getActiveComposite().getShell());
 		dialog.create();
 		NewEditMappingColumn mappingColumnScreen = dialog
 				.getMappingColumnScreen();

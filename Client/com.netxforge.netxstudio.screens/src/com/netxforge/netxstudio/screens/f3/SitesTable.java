@@ -120,8 +120,8 @@ public class SitesTable extends AbstractScreen implements IDataServiceInjection 
 	 */
 	class EditSiteAction extends Action {
 
-		public EditSiteAction(String text, int style) {
-			super(text, style);
+		public EditSiteAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -353,7 +353,7 @@ public class SitesTable extends AbstractScreen implements IDataServiceInjection 
 	public IAction[] getActions() {
 		String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 				: "Edit";
-		return new IAction[] { new EditSiteAction(actionText + "...", SWT.PUSH) };
+		return new IAction[] { new EditSiteAction(actionText + "...") };
 	}
 	
 	@Override

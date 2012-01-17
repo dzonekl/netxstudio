@@ -245,8 +245,8 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 	 */
 	class EditRoomAction extends Action {
 
-		public EditRoomAction(String text, int style) {
-			super(text, style);
+		public EditRoomAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -279,8 +279,8 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 	 */
 	class NewRoomAction extends Action {
 
-		public NewRoomAction(String text, int style) {
-			super(text, style);
+		public NewRoomAction(String text) {
+			super(text);
 			ImageDescriptor descriptor = ResourceManager.getPluginImageDescriptor("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Room_E.png");
 			setImageDescriptor(descriptor);
 		}
@@ -339,8 +339,7 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 		if(actions.isEmpty()){
 			boolean readonly =  ScreenUtil.isReadOnlyOperation(getOperation());
 			String actionText = readonly? "View" : "Edit";
-			actions.add(new EditRoomAction(actionText + "...",
-					SWT.PUSH));
+			actions.add(new EditRoomAction(actionText + "..."));
 		}
 		return actions.toArray(new IAction[actions.size()]); 
 	}

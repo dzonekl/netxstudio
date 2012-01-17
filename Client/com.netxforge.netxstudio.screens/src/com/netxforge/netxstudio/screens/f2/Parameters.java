@@ -224,8 +224,8 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 	 */
 	class EditParameterAction extends Action {
 
-		public EditParameterAction(String text, int style) {
-			super(text, style);
+		public EditParameterAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -328,7 +328,7 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 		if (actions.isEmpty()) {
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
-			actions.add(new EditParameterAction(actionText + "...", SWT.PUSH));
+			actions.add(new EditParameterAction(actionText + "..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}

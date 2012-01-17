@@ -117,8 +117,8 @@ public class Units extends AbstractScreen implements IDataServiceInjection {
 	 */
 	class EditUnitAction extends Action {
 
-		public EditUnitAction(String text, int style) {
-			super(text, style);
+		public EditUnitAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -327,8 +327,7 @@ public class Units extends AbstractScreen implements IDataServiceInjection {
 		if(actions.isEmpty()){
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
-			actions.add(new EditUnitAction(actionText + "...",
-					SWT.PUSH));
+			actions.add(new EditUnitAction(actionText + "..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}

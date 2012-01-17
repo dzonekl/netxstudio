@@ -228,8 +228,8 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 	 */
 	class EditProtocolAction extends Action {
 
-		public EditProtocolAction(String text, int style) {
-			super(text, style);
+		public EditProtocolAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -332,7 +332,7 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		if (actions.isEmpty()) {
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
-			actions.add(new EditProtocolAction(actionText + "...", SWT.PUSH));
+			actions.add(new EditProtocolAction(actionText + "..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}

@@ -177,8 +177,8 @@ public class ResourceMonitors extends AbstractScreen implements
 	 */
 	class EditMonitorAction extends Action {
 
-		public EditMonitorAction(String text, int style) {
-			super(text, style);
+		public EditMonitorAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -337,7 +337,7 @@ public class ResourceMonitors extends AbstractScreen implements
 		String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 				: "Edit";
 		if (actions.isEmpty()) {
-			actions.add(new EditMonitorAction(actionText + "...", SWT.PUSH));
+			actions.add(new EditMonitorAction(actionText + "..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}

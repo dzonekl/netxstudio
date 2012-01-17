@@ -266,8 +266,8 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 	 */
 	class EditSiteAction extends Action {
 
-		public EditSiteAction(String text, int style) {
-			super(text, style);
+		public EditSiteAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -299,8 +299,8 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 	 */
 	class NewSiteAction extends Action {
 
-		public NewSiteAction(String text, int style) {
-			super(text, style);
+		public NewSiteAction(String text) {
+			super(text);
 			ImageDescriptor descriptor = ResourceManager.getPluginImageDescriptor("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Site_E.png");
 			setImageDescriptor(descriptor);
 
@@ -358,8 +358,7 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		
 		boolean readonly =  ScreenUtil.isReadOnlyOperation(getOperation());
 		String actionText = readonly? "View" : "Edit";
-		actions.add(new EditSiteAction(actionText + "...",
-				SWT.PUSH));
+		actions.add(new EditSiteAction(actionText + "..."));
 		
 //		if(!readonly){
 //			actions.add(new NewSiteAction("New...", SWT.PUSH));

@@ -198,8 +198,8 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 	class ShowLogAction extends Action {
 
-		public ShowLogAction(String text, int style) {
-			super(text, style);
+		public ShowLogAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -224,8 +224,8 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 	class ShowFailuresAction extends Action {
 
-		public ShowFailuresAction(String text, int style) {
-			super(text, style);
+		public ShowFailuresAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -241,32 +241,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 					jf.setBlockOnOpen(true);
 					int result = jf.open(o);
 					if (result == Window.OK) {
-
 					}
-
-					// ComponentWorkFlowRun wfRun = (ComponentWorkFlowRun) o;
-					// List<Failure> failures = wfRun.getFailureRefs();
-					// int failurecount = 0;
-					// for (Failure f : failures) {
-					// failurecount++;
-					// if (f instanceof ExpressionFailure) {
-					// // TODO, show in some sort of dialog with links to
-					// // expressions.
-					// ExpressionFailure ef = (ExpressionFailure) f;
-					// System.out.println(failurecount
-					// + ": Expression failed: "
-					// + ef.getExpressionRef().getName());
-					// System.out.println("Msg: " + f.getMessage());
-					// }
-					//
-					// if (f instanceof ComponentFailure) {
-					// System.out.println("Component: "
-					// + ((ComponentFailure) f).getComponentRef()
-					// .getName());
-					//
-					// }
-					//
-					// }
 				}
 			}
 		}
@@ -369,8 +344,8 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		
 		// lazy init actions. 
 		if (actions.isEmpty()) {
-			actions.add(new ShowLogAction("Show Log...", SWT.PUSH));
-			actions.add(new ShowFailuresAction("Show Failures...", SWT.PUSH));
+			actions.add(new ShowLogAction("Show Log..."));
+			actions.add(new ShowFailuresAction("Show Failures..."));
 		}
 
 		return actions.toArray(new IAction[actions.size()]);

@@ -80,6 +80,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 * This keeps track of the selection of the view as a whole.
 	 */
 	protected ISelection viewSelection = StructuredSelection.EMPTY;
+	private MenuManager contextMenu;
 
 	public abstract IEditingService getEditingService();
 
@@ -150,10 +151,17 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 * Initialize the menu.
 	 */
 	private void initializeMenu() {
-		IMenuManager manager = getViewSite().getActionBars().getMenuManager();
-		IMenuManager x = new MenuManager("Test",
-				"com.netxforge.netxstudio.test");
-		manager.add(x);
+		// IMenuManager manager =
+		// getViewSite().getActionBars().getMenuManager();
+		// IMenuManager x = new MenuManager("Test",
+		// "com.netxforge.netxstudio.test");
+		// manager.add(x);
+
+		contextMenu = new MenuManager("#PopUp");
+		contextMenu.add(new Separator("additions"));
+		contextMenu.setRemoveAllWhenShown(true);
+		contextMenu.addMenuListener(this);
+
 	}
 
 	@Override
@@ -189,6 +197,9 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 		actionHandlerDescriptor.initActions(site.getActionBars());
 		// hookPageSelection();
+
+		this.initializeMenu();
+
 	}
 
 	public ActionHandlerDescriptor getActionHandlerDescriptor() {
@@ -251,7 +262,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	public abstract IScreen getActiveScreen();
 
 	public void updateActiveScreenDirtyNess() {
-		if (this.getActiveScreen() == null || ScreenUtil.compositeFor(this.getActiveScreen()).isDisposed() ) {
+		if (this.getActiveScreen() == null
+				|| ScreenUtil.compositeFor(this.getActiveScreen()).isDisposed()) {
 			return;
 		}
 
@@ -411,15 +423,16 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 */
 	protected void augmentContextMenuFor(StructuredViewer viewer) {
 
-		MenuManager contextMenu = new MenuManager("#PopUp");
-		contextMenu.add(new Separator("additions"));
-		contextMenu.setRemoveAllWhenShown(true);
-		contextMenu.addMenuListener(this);
-		Menu menu = contextMenu.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
+		Menu currentMenu = viewer.getControl().getMenu();
 
-		getSite().registerContextMenu(contextMenu,
-				new UnwrappingSelectionProvider(viewer));
+		if (currentMenu == null) {
+			Menu menu = contextMenu.createContextMenu(viewer.getControl());
+			viewer.getControl().setMenu(menu);
+
+			getSite().registerContextMenu(contextMenu,
+					new UnwrappingSelectionProvider(viewer));
+
+		}
 
 		// if (viewer instanceof TreeViewer) {
 		// int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;

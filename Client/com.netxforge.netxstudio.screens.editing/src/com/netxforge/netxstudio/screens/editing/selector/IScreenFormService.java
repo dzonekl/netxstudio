@@ -38,6 +38,13 @@ public interface IScreenFormService {
 	 */
 	public abstract IScreen getActiveScreen();
 
+	
+	/**
+	 * Get the current Composite
+	 * @return
+	 */
+	public abstract Composite getActiveComposite();
+	
 	/**
 	 * Check if the proposed new screen is not the active screen already.
 	 * 

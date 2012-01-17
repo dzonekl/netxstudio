@@ -116,8 +116,8 @@ public class MetricSources extends AbstractScreen implements
 	}
 
 	class EditMetricSourceAction extends Action {
-		public EditMetricSourceAction(String text, int style) {
-			super(text, style);
+		public EditMetricSourceAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -139,8 +139,8 @@ public class MetricSources extends AbstractScreen implements
 	}
 
 	class ScheduleCollectionJobAction extends Action {
-		public ScheduleCollectionJobAction(String text, int style) {
-			super(text, style);
+		public ScheduleCollectionJobAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -228,8 +228,8 @@ public class MetricSources extends AbstractScreen implements
 	}
 
 	class StatisticsAction extends Action {
-		public StatisticsAction(String text, int style) {
-			super(text, style);
+		public StatisticsAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -255,8 +255,8 @@ public class MetricSources extends AbstractScreen implements
 	}
 
 	class CollectNowAction extends Action {
-		public CollectNowAction(String text, int style) {
-			super(text, style);
+		public CollectNowAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -319,8 +319,8 @@ public class MetricSources extends AbstractScreen implements
 	}
 
 	class FindResourcesAction extends Action {
-		public FindResourcesAction(String text, int style) {
-			super(text, style);
+		public FindResourcesAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -586,19 +586,19 @@ public class MetricSources extends AbstractScreen implements
 		if (actions.isEmpty()) {
 			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
 			String actionText = readonly ? "View" : "Edit";
-			actions.add(new EditMetricSourceAction(actionText + "...", SWT.PUSH));
+			actions.add(new EditMetricSourceAction(actionText + "..."));
 			actions.add(new SeparatorAction());
 			if (!readonly) {
 
 				actions.add(new ScheduleCollectionJobAction(
-						"Schedule Collection Job...", SWT.PUSH));
+						"Schedule Collection Job..."));
 				CollectNowAction collectNowAction = new CollectNowAction(
-						"Collect Now (sorry disabled)...", SWT.PUSH);
+						"Collect Now (sorry disabled)...");
 				collectNowAction.setEnabled(false);
 				actions.add(collectNowAction);
 
 			}
-			actions.add(new StatisticsAction("Statistics...", SWT.PUSH));
+			actions.add(new StatisticsAction("Statistics..."));
 			actions.add(new SeparatorAction());
 			// actions.add(new FindResourcesAction("Resources for...",
 			// SWT.PUSH));

@@ -194,8 +194,8 @@ public class UsersAndRoles extends AbstractScreen implements
 
 	class HistoryAction extends Action {
 
-		public HistoryAction(String text, int style) {
-			super(text, style);
+		public HistoryAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -219,8 +219,8 @@ public class UsersAndRoles extends AbstractScreen implements
 
 	class EditAction extends Action {
 
-		public EditAction(String text, int style) {
-			super(text, style);
+		public EditAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -331,8 +331,8 @@ public class UsersAndRoles extends AbstractScreen implements
 		if (actions.isEmpty()) {
 			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
 			String actionText = readonly ? "View" : "Edit";
-			actions.add(new EditAction(actionText + "...", SWT.PUSH));
-			actions.add(new HistoryAction("History...", SWT.PUSH));
+			actions.add(new EditAction(actionText + "..."));
+			actions.add(new HistoryAction("History..."));
 		}
 
 		return actions.toArray(new IAction[actions.size()]);

@@ -536,8 +536,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 	class EditResourceAction extends Action {
 
-		public EditResourceAction(String text, int style) {
-			super(text, style);
+		public EditResourceAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -1043,7 +1043,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		String actionText = readonly ? "View..." : "Edit...";
 
 		List<IAction> actionList = Lists.newArrayList();
-		actionList.add(new EditResourceAction(actionText, SWT.PUSH));
+		actionList.add(new EditResourceAction(actionText));
 		// actionList.add(new MonitorResourceAction("Monitor...", SWT.PUSH));
 		return actionList.toArray(new IAction[actionList.size()]);
 	}

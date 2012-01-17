@@ -116,8 +116,8 @@ public class Expressions extends AbstractScreen implements
 	 */
 	class EditExpressionAction extends Action {
 
-		public EditExpressionAction(String text, int style) {
-			super(text, style);
+		public EditExpressionAction(String string) {
+			super(string);
 		}
 
 		@Override
@@ -329,8 +329,7 @@ public class Expressions extends AbstractScreen implements
 		if (actionList.isEmpty()) {
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
-			actionList.add(new EditExpressionAction(actionText + "...",
-					SWT.PUSH));
+			actionList.add(new EditExpressionAction(actionText + "..."));
 		}
 
 		return actionList.toArray(new IAction[actionList.size()]);

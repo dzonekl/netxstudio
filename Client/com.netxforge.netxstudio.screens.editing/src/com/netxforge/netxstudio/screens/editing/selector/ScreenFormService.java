@@ -94,6 +94,8 @@ public class ScreenFormService implements IScreenFormService {
 
 	private ScreenBody screenBody;
 
+	private Composite rootComposite;
+
 	private Stack<Composite> screenStack = new Stack<Composite>();
 
 	private List<ImageHyperlink> screenSelectors = Lists.newArrayList();
@@ -107,16 +109,16 @@ public class ScreenFormService implements IScreenFormService {
 	 */
 	public IScreen getActiveScreen() {
 		Control c = screenBody.getScreenDeck().topControl;
-		if (c != null && c instanceof Composite
-				&& ScreenUtil.isScreen((Composite) c)) {
+		if (c instanceof Composite && ScreenUtil.isScreen((Composite) c)) {
 			return ScreenUtil.screenFor((Composite) c);
 		}
-
 		return null;
 	}
 
-	Composite tmpScreen;
-	private Composite rootComposite;
+	public Composite getActiveComposite() {
+		Control c = screenBody.getScreenDeck().topControl;
+		return c instanceof Composite ? (Composite) c : null;
+	}
 
 	private void pushCurrentScreen() {
 		Control c = screenBody.getScreenDeck().topControl;
@@ -134,7 +136,7 @@ public class ScreenFormService implements IScreenFormService {
 
 	private void doSetActiveScreen(IScreen screen) {
 		// We need a copy of the composite, so it can work.
-		Composite activeScreen = ScreenUtil.compositeFor(screen);
+		final Composite activeScreen = ScreenUtil.compositeFor(screen);
 		if (activeScreen.isDisposed()) {
 			System.out.println("Attempt to set a disposed screen");
 			screenBody.getScreenDeck().topControl = null;
@@ -171,7 +173,7 @@ public class ScreenFormService implements IScreenFormService {
 
 		if (!screenStack.empty()) {
 
-			Composite activeScreen = ScreenUtil.compositeFor(getActiveScreen());
+			Composite activeScreen = getActiveComposite();
 			if (activeScreen != null) {
 				activeScreen.dispose();
 			}

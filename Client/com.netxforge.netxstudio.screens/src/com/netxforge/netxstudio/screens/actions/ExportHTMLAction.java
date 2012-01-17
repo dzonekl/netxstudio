@@ -28,7 +28,7 @@ import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
  */
 public class ExportHTMLAction extends BaseSelectionListenerAction {
 
-	public ExportHTMLAction(String text, int style) {
+	public ExportHTMLAction(String text) {
 		super(text);
 	}
 

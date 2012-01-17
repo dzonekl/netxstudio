@@ -254,8 +254,8 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	 */
 	class EditMetricAction extends Action {
 
-		public EditMetricAction(String text, int style) {
-			super(text, style);
+		public EditMetricAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -291,8 +291,8 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	 */
 	class ValuesForMetricAction extends Action {
 
-		public ValuesForMetricAction(String text, int style) {
-			super(text, style);
+		public ValuesForMetricAction(String text) {
+			super(text);
 		}
 
 		@SuppressWarnings("unchecked")
@@ -355,8 +355,8 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	 */
 	class NewMetricAction extends Action {
 
-		public NewMetricAction(String text, int style) {
-			super(text, style);
+		public NewMetricAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -413,7 +413,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		if (actions.isEmpty()) {
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
-			actions.add(new EditMetricAction(actionText + "...", SWT.PUSH));
+			actions.add(new EditMetricAction(actionText + "..."));
 			// if(!Screens.isReadOnlyOperation(getOperation())){
 			// actions.add(new NewMetricAction("New...",
 			// SWT.PUSH));

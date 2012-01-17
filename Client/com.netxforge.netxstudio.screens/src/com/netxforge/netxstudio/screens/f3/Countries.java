@@ -115,8 +115,8 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 	 */
 	class EditCountryAction extends Action {
 
-		public EditCountryAction(String text, int style) {
-			super(text, style);
+		public EditCountryAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -316,7 +316,7 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 		if (actionList.isEmpty()) {
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
-			new EditCountryAction(actionText + "...", SWT.PUSH);
+			new EditCountryAction(actionText + "...");
 		}
 
 		return actionList.toArray(new IAction[actionList.size()]);

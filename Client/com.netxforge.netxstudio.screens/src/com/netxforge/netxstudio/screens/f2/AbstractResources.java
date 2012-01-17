@@ -314,8 +314,8 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 	class EditResourceAction extends Action {
 
-		public EditResourceAction(String text, int style) {
-			super(text, style);
+		public EditResourceAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -592,7 +592,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 		// lazy init the aciton list. 
 		if (actionList.isEmpty()) {
 			String actionText = ScreenUtil.isReadOnlyOperation(this.getOperation()) ? "View..." : "Edit...";
-			actionList.add(new EditResourceAction(actionText, SWT.PUSH));
+			actionList.add(new EditResourceAction(actionText));
 		}
 
 		// actionList.add(new MonitorResourceAction("Monitor...", SWT.PUSH));

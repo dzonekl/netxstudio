@@ -245,8 +245,8 @@ public class WarehouseTree extends AbstractScreen implements
 	 */
 	class EditWarehouseItemAction extends Action {
 
-		public EditWarehouseItemAction(String text, int style) {
-			super(text, style);
+		public EditWarehouseItemAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -302,7 +302,7 @@ public class WarehouseTree extends AbstractScreen implements
 		if(actions.isEmpty()){
 			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
 			String actionText = readonly ? "View" : "Edit";
-			actions.add(new EditWarehouseItemAction(actionText + "...", SWT.PUSH));
+			actions.add(new EditWarehouseItemAction(actionText + "..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}

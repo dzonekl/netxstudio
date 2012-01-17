@@ -48,7 +48,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	@Inject
 	protected IScreenFormService screenFormService;
 
-	 private IScreen activeScreen;
+	private IScreen activeScreen;
 
 	public AbstractScreenSelector() {
 	}
@@ -143,11 +143,9 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	public void screenChanged(IScreen screen) {
 		// Some screens won't have a viewer, in this case
 		// the current viewer will be null, and an empty selection will be set.
-		this.activeScreen = screen;
-		
 		this.getActionHandlerDescriptor().clearDynamicHandlers();
-
 		if (screen != null) {
+			this.activeScreen = screen;
 			Viewer viewer = screen.getViewer();
 			setCurrentViewer(viewer);
 			// Make sure we update the dirty state, when changing screen.
@@ -157,7 +155,11 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 
 	@Override
 	public void contributeMenuAboutToShow(IMenuManager menuManager) {
-
+		
+		// Clear the menu manager. 
+		menuManager.removeAll();
+		
+		
 		ActionHandlerDescriptor descriptor = this.getActionHandlerDescriptor();
 		descriptor.setMenuManager(menuManager);
 		descriptor.setScreen(this.getActiveScreen());
@@ -193,6 +195,8 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 			dynamicScreensActionHandler.addActions(actions);
 			descriptor.addHandler(dynamicScreensActionHandler);
 		}
+		
+		
 		descriptor.showMenu();
 	}
 

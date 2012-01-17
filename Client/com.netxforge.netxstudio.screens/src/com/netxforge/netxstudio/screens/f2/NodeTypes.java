@@ -257,8 +257,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 	class HistoryAction extends Action {
 
-		public HistoryAction(String text, int style) {
-			super(text, style);
+		public HistoryAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -286,7 +286,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		if (actions.isEmpty()) {
 			actions.add(new NodeTypeExportHTMLAction("Export to HTML", SWT.PUSH));
 			actions.add(new NodeTypeExportXLSAction("Export to XLS", SWT.PUSH));
-			actions.add(new HistoryAction("History...", SWT.PUSH));
+			actions.add(new HistoryAction("History..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}

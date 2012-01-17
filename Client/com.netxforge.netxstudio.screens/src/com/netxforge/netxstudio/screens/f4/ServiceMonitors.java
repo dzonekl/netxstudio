@@ -168,8 +168,8 @@ public class ServiceMonitors extends AbstractScreen implements
 	 */
 	class EditMonitorAction extends Action {
 
-		public EditMonitorAction(String text, int style) {
-			super(text, style);
+		public EditMonitorAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -316,7 +316,7 @@ public class ServiceMonitors extends AbstractScreen implements
 		// lazy initialize. 
 		if(actions.isEmpty()){
 //			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View" : "Edit";
-			actions.add(new EditMonitorAction("Resource Monitors...", SWT.PUSH));
+			actions.add(new EditMonitorAction("Resource Monitors..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}

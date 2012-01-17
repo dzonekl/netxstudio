@@ -44,7 +44,6 @@ public class DynamicScreensActionHandler extends AbstractActionHandler {
 	public void showMenu(ActionHandlerDescriptor descriptor) {
 		IMenuManager menuManager = descriptor.getMenuManager();
 		this.addActions(menuManager);
-
 	}
 
 	public void addActions(List<IAction> actions) {
@@ -52,6 +51,7 @@ public class DynamicScreensActionHandler extends AbstractActionHandler {
 	}
 
 	private void addActions(IMenuManager menuManager) {
+		
 		for (IAction action : actions) {
 			if(EditingActivator.DEBUG){
 				System.out.println("EDITING: update action=" + action.getText());

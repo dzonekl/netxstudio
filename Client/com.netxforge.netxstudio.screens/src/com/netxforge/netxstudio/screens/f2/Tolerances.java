@@ -217,8 +217,8 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 	 */
 	class EditToleranceAction extends Action {
 
-		public EditToleranceAction(String text, int style) {
-			super(text, style);
+		public EditToleranceAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -321,7 +321,7 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 	public IAction[] getActions(){
 		if(actions.isEmpty()){
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View" : "Edit";
-			actions.add(new EditToleranceAction(actionText + "...", SWT.PUSH));
+			actions.add(new EditToleranceAction(actionText + "..."));
 		}
 		 
 		return actions.toArray(new IAction[actions.size()]);

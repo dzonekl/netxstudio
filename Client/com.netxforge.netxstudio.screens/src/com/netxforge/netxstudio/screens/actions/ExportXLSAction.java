@@ -27,7 +27,7 @@ import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
  */
 public class ExportXLSAction extends BaseSelectionListenerAction {
 
-	public ExportXLSAction(String text, int style) {
+	public ExportXLSAction(String text) {
 		super(text);
 	}
 

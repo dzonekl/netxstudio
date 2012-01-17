@@ -35,7 +35,7 @@ public class ExpressionsAction extends BaseSelectionListenerAction {
 
 	private IScreenFormService screenService;
 
-	public ExpressionsAction(IScreenFormService screenService, String text, int style) {
+	public ExpressionsAction(IScreenFormService screenService, String text) {
 		super(text);
 		this.screenService = screenService;
 	}

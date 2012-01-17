@@ -297,8 +297,8 @@ public class ServicesTree extends AbstractScreen implements
 	 */
 	class ExportHTMLAction extends Action {
 
-		public ExportHTMLAction(String text, int style) {
-			super(text, style);
+		public ExportHTMLAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -353,8 +353,8 @@ public class ServicesTree extends AbstractScreen implements
 
 			if (!readonly) {
 				actions.add(new ScheduleMonitorJobAction(
-						"Schedule Monitoring Job...", SWT.PUSH));
-				actions.add(new MonitorNowAction("Monitor Now", SWT.PUSH));
+						"Schedule Monitoring Job..."));
+				actions.add(new MonitorNowAction("Monitor Now"));
 			}
 			actions.add(new ServiceMonitoringAction("Monitoring Result...",
 					SWT.PUSH));
@@ -363,8 +363,8 @@ public class ServicesTree extends AbstractScreen implements
 			if (!readonly) {
 				actions.add(new SeparatorAction());
 				actions.add(new ScheduleReportingJobAction(
-						"Schedule Reporting Job...", SWT.PUSH));
-				actions.add(new ReportNowAction("Report Now", SWT.PUSH));
+						"Schedule Reporting Job..."));
+				actions.add(new ReportNowAction("Report Now"));
 				actions.add(new SeparatorAction());
 			}
 		}
@@ -528,8 +528,8 @@ public class ServicesTree extends AbstractScreen implements
 	}
 
 	class MonitorNowAction extends Action {
-		public MonitorNowAction(String text, int style) {
-			super(text, style);
+		public MonitorNowAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -585,8 +585,8 @@ public class ServicesTree extends AbstractScreen implements
 	}
 
 	class ReportNowAction extends Action {
-		public ReportNowAction(String text, int style) {
-			super(text, style);
+		public ReportNowAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -621,8 +621,8 @@ public class ServicesTree extends AbstractScreen implements
 	}
 
 	class ScheduleMonitorJobAction extends Action {
-		public ScheduleMonitorJobAction(String text, int style) {
-			super(text, style);
+		public ScheduleMonitorJobAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -681,8 +681,8 @@ public class ServicesTree extends AbstractScreen implements
 	}
 
 	class ScheduleReportingJobAction extends Action {
-		public ScheduleReportingJobAction(String text, int style) {
-			super(text, style);
+		public ScheduleReportingJobAction(String text) {
+			super(text);
 		}
 
 		@Override

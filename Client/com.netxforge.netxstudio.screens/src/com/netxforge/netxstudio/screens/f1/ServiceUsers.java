@@ -158,8 +158,8 @@ public class ServiceUsers extends AbstractScreen implements
 	 */
 	class EditServiceAction extends Action {
 
-		public EditServiceAction(String text, int style) {
-			super(text, style);
+		public EditServiceAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -294,7 +294,7 @@ public class ServiceUsers extends AbstractScreen implements
 		String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 				: "Edit";
 
-		actions.add(new EditServiceAction(actionText + "...", SWT.PUSH));
+		actions.add(new EditServiceAction(actionText + "..."));
 
 		// actions.add(new ServiceMonitoringAction("Monitor...", SWT.PUSH));
 

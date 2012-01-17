@@ -119,8 +119,8 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 	 */
 	class EditVendorAction extends Action {
 
-		public EditVendorAction(String text, int style) {
-			super(text, style);
+		public EditVendorAction(String text) {
+			super(text);
 		}
 
 		@Override
@@ -325,8 +325,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		if(actions.isEmpty()){
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
-			actions.add(new EditVendorAction(actionText + "...",
-					SWT.PUSH));
+			actions.add(new EditVendorAction(actionText + "..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}
