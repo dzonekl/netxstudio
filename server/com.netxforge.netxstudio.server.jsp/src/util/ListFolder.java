@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
@@ -42,7 +43,7 @@ public final class ListFolder {
 
 	@Inject
 	private ModelUtils modelUtils;
-	
+
 	private ServerSettings settings;
 
 	private static final ListFolder INSTANCE = new ListFolder();
@@ -72,17 +73,78 @@ public final class ListFolder {
 		int index = contextPath.indexOf(JSPActivator.CONTEXT_PATH, 0);
 		String exportPath = settings.getExportPath();
 		if (index == 0) {
-			exportPath += contextPath.substring(JSPActivator.CONTEXT_PATH.length());
+			exportPath += contextPath.substring(JSPActivator.CONTEXT_PATH
+					.length());
 		}
 		File path = new File(exportPath);
 		if (path.exists() && path.isDirectory()) {
 			File[] files = path.listFiles();
 			List<File> filesList = Lists.newArrayList(files);
-			Collections.sort(filesList, modelUtils.fileLastModifiedComparator());
-			UnmodifiableIterator<File> filter = Iterators.filter(filesList.iterator(), modelUtils.nonHiddenFile());
+			Collections
+					.sort(filesList, modelUtils.fileLastModifiedComparator());
+			UnmodifiableIterator<File> filter = Iterators.filter(
+					filesList.iterator(), modelUtils.nonHiddenFile());
 			return Lists.newArrayList(filter);
 		}
 		return Lists.newArrayList();
+	}
+
+	public static final int NOT_PROCESSED = 0; // NOT DONE FILES.
+	public static final int DONE = 1; // NOT DONE FILES.
+	public static final int DONE_WITH_FAILURE = 2; // NOT DONE FILES.
+
+	public List<File> getSourceFiles(String contextPath, int type) {
+
+		List<File> result = Lists.newArrayList();
+
+		// Compare to base context path.
+		int index = contextPath.indexOf(JSPActivator.CONTEXT_PATH, 0);
+		String importPath = settings.getImportPath();
+		if (index == 0) {
+			importPath += contextPath.substring(JSPActivator.CONTEXT_PATH
+					.length());
+		}
+		File path = new File(importPath);
+		if (path.exists() && path.isDirectory()) {
+			File[] files = path.listFiles();
+			List<File> filesList = Lists.newArrayList(files);
+			Collections
+					.sort(filesList, modelUtils.fileLastModifiedComparator());
+
+			Predicate<File> fileExtensionPredicate = null;
+			switch (type) {
+			
+			case NOT_PROCESSED: {
+				// All non DONE, and non DONE_WITH_FAILURES. 
+				fileExtensionPredicate = modelUtils.extensionFile(true,
+						ModelUtils.EXTENSION_DONE,
+						ModelUtils.EXTENSION_DONE_WITH_FAILURES);
+			}
+				break;
+			case DONE: {
+				fileExtensionPredicate = modelUtils
+						.extensionFile(ModelUtils.EXTENSION_DONE);
+			}
+				break;
+
+			case DONE_WITH_FAILURE: {
+				fileExtensionPredicate = modelUtils
+						.extensionFile(ModelUtils.EXTENSION_DONE_WITH_FAILURES);
+			}
+				break;
+			}
+
+			UnmodifiableIterator<File> filter = Iterators.filter(
+					filesList.iterator(), modelUtils.nonHiddenFile());
+			// Check to see, if we have a predicate to filter. 
+			if (fileExtensionPredicate != null) {
+				filter = Iterators.filter(filter, fileExtensionPredicate);
+			}
+
+			result = Lists.newArrayList(filter);
+		}
+
+		return result;
 	}
 
 }

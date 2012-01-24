@@ -93,7 +93,7 @@
             }
         </style>
 <body>
-<a href="/reports/monitors/monitors.jsp">Home</a>
+<a href="/remote/monitors/monitors.jsp">Home</a>
 <table>
 <%
 	ListFolder lf = new util.ListFolder();
@@ -107,7 +107,7 @@
         <tr>
         	<td><%= f.isDirectory() ? "Service Run" : "Report" %></td>
         	<td>
-        	<a href=<%=  f.isDirectory() ? "/reports/monitors/monitors.jsp?" + f.getName(): 
+        	<a href=<%=  f.isDirectory() ? "/remote/monitors/monitors.jsp?" + f.getName(): 
         		"/netxforge/files/" + ( request.getQueryString() == null ? "" : request.getQueryString() + "/")  + f.getName() %>>
         		<%= f.getName() %>
         	</a></td>

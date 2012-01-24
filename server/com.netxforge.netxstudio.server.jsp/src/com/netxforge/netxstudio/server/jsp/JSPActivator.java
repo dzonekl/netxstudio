@@ -27,7 +27,7 @@ public class JSPActivator implements BundleActivator {
 	private Injector injector;
 	private static JSPActivator INSTANCE;
 		
-	public static final String CONTEXT_PATH = "/reports";
+	public static final String CONTEXT_PATH = "/remote";
 	
 	public static JSPActivator getInstance(){
 		return INSTANCE;
@@ -54,7 +54,7 @@ public class JSPActivator implements BundleActivator {
 	
 	
 	public void stop(BundleContext context) throws Exception {
-		httpServiceTracker.open();
+		httpServiceTracker.close();
 	}
 
 	@SuppressWarnings("rawtypes")
