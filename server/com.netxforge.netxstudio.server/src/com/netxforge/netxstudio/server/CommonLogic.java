@@ -27,7 +27,6 @@ import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -141,7 +140,7 @@ public class CommonLogic {
 		// Process a NetXResource
 		if (baseResource instanceof NetXResource) {
 			NetXResource resource = (NetXResource) baseResource;
-			final Node n = this.getNode(resource.getComponentRef());
+			final Node n = modelUtils.nodeFor(resource.getComponentRef());
 
 			if (ServerActivator.DEBUG) {
 				if (n != null) {
@@ -467,15 +466,15 @@ public class CommonLogic {
 		return diff < (intervalHint * 60 * 1000 - 1);
 	}
 
-	public Node getNode(EObject eObject) {
-		if (eObject == null) {
-			throw new IllegalStateException("No node found");
-		}
-		if (eObject.eContainer() instanceof Node) {
-			return (Node) eObject.eContainer();
-		}
-		return getNode(eObject.eContainer());
-	}
+//	public Node getNode(EObject eObject) {
+//		if (eObject == null) {
+//			throw new IllegalStateException("No node found");
+//		}
+//		if (eObject.eContainer() instanceof Node) {
+//			return (Node) eObject.eContainer();
+//		}
+//		return getNode(eObject.eContainer());
+//	}
 
 	private class ValueTimeComparator implements Comparator<Value> {
 
