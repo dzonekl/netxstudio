@@ -9,16 +9,15 @@
             type="NetxForgeUserManager">
       </factory>
    </extension>
-    <extension
-          point="org.eclipse.equinox.http.registry.servlets">
-          <servlet
-      alias="/netxforge"
-      class="com.netxforge.netxstudio.server.servlet.NetxForgeServiceServlet"/>
-          <servlet
-                alias="/netxforge/files"
-                class="com.netxforge.netxstudio.server.servlet.DirectWriteServlet"
-                load-on-startup="true">
-          </servlet>
+    <extension point="org.eclipse.equinox.http.registry.servlets">
+      <servlet 
+      		alias="/netxforge"
+      		class="com.netxforge.netxstudio.server.servlet.NetxForgeServiceServlet"/>
+      <servlet 
+      		alias="/netxforge/files" 
+      		class="com.netxforge.netxstudio.server.servlet.DirectWriteServlet"
+            load-on-startup="true">
+      </servlet>
     </extension>
     
     
