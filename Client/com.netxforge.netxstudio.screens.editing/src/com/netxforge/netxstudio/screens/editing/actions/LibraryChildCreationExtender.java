@@ -72,7 +72,7 @@ public class LibraryChildCreationExtender extends
 
 				// Are we in the design view? (The target must have a parent
 				// Node).
-				Node node = modelUtils.resolveParentNode(target);
+				Node node = modelUtils.nodeFor(target);
 				if (node != null && node.getOriginalNodeTypeRef() != null) {
 					NodeType ntRef = node.getOriginalNodeTypeRef();
 					if (target.eClass() == LibraryPackage.Literals.NODE_TYPE) {

@@ -53,7 +53,7 @@ public class FunctionChildCreationExtender extends AbstractConditionalChildCreat
 
 		if (object instanceof EObject) {
 			EObject target = (EObject) object;
-			Node node = modelUtils.resolveParentNode(target);
+			Node node = modelUtils.nodeFor(target);
 			if (node != null && node.getOriginalNodeTypeRef() != null) {
 				// Do nothing, we don't allow adding on Functions which have a parent node. 
 			} else {
