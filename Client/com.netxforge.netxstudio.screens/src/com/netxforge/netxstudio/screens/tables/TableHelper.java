@@ -4,6 +4,9 @@ import java.util.Comparator;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.IBaseLabelProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -69,7 +72,7 @@ public class TableHelper {
 		// The default column width.
 		private static final int DEFAULT_WIDTH = 150;
 
-		private CellLabelProvider labelProvider;
+		private CellLabelProvider labelProvider = null;
 
 		public TableViewerColumn tbvcFor(TableViewer tblViewer,
 				String columnName, int width) {
@@ -78,10 +81,10 @@ public class TableHelper {
 
 		public TableViewerColumn tbvcFor(TableViewer tblViewer,
 				String columnName, String toolTip, int width) {
-			return tbvcFor(tblViewer, columnName, toolTip, width, -1, null, null, -1);
+			return tbvcFor(tblViewer, columnName, toolTip, width, -1, null,
+					null, -1);
 		}
 
-		
 		public TableViewerColumn tbvcFor(TableViewer tblViewer,
 				String columnName, int width, Comparator<T> comparator) {
 			return tbvcFor(tblViewer, columnName, "", width, -1, null,
@@ -96,6 +99,20 @@ public class TableHelper {
 		}
 
 		public TableViewerColumn tbvcFor(TableViewer tblViewer,
+				String columnName, String toolTip, int width,
+				EditingSupport editingSupport) {
+			return tbvcFor(tblViewer, columnName, toolTip, width, -1, null,
+					null, -1);
+		}
+
+		public TableViewerColumn tbvcFor(TableViewer tblViewer,
+				String columnName, String toolTip, int width,
+				EditingSupport editingSupport, Comparator<T> comparator) {
+			return tbvcFor(tblViewer, columnName, toolTip, width, -1, null,
+					comparator, -1);
+		}
+
+		public TableViewerColumn tbvcFor(TableViewer tblViewer,
 				String columnName, String toolTip, int width, int allignment,
 				EditingSupport editingSupport, Comparator<T> comparator,
 				int sortingDirection) {
@@ -104,11 +121,13 @@ public class TableHelper {
 					allignment, true, editingSupport, comparator, -1);
 		}
 
+		public TBVC() {
+		}
+
 		public TBVC(CellLabelProvider labelProvider) {
 			this.labelProvider = labelProvider;
 		}
-		
-		
+
 		// BUILDERS
 		private TableViewerColumn buildColumn(TableViewer tblViewer,
 				String columnName, String toolTip, int width, int allignment,
@@ -131,7 +150,12 @@ public class TableHelper {
 				TBVCSorter<T> sorterFor = sorterFor(tblvc, comparator);
 				// sorterFor.setSorter(sortingDirection != -1 ? sortingDirection
 				// : TBVCSorter.ASC);
-			}
+			} 
+//			else {
+				// Assume the objects implement comparable by default.
+//				@SuppressWarnings("unused")
+//				TBVCSorter<T> sorterFor = sorterFor(tblvc);
+//			}
 
 			// Column builder, set parameter or default properties.
 			TableColumn tblc = tblvc.getColumn();
@@ -139,15 +163,19 @@ public class TableHelper {
 			tblc.setWidth(width != -1 ? width : DEFAULT_WIDTH);
 			tblc.setText(columnName != null ? columnName : DEFAULT_COLUMN_NAME);
 			tblc.setToolTipText(toolTip != null ? columnName : "");
-			tblc.setAlignment(allignment != -1 ? allignment : SWT.RIGHT);
+			tblc.setAlignment(allignment != -1 ? allignment : SWT.LEFT);
 			tblc.setMoveable(moveable);
 
-			if(labelProvider != null){
+			if (labelProvider != null) {
 				tblvc.setLabelProvider(labelProvider);
 			}
-			
+
 			return tblvc;
 		}
+
+//		private TBVCSorter<T> sorterFor(TableViewerColumn column) {
+//			return new TBVCSorter<T>(column);
+//		}
 
 		private TBVCSorter<T> sorterFor(TableViewerColumn column,
 				Comparator<T> comparator) {
@@ -156,9 +184,9 @@ public class TableHelper {
 
 	}
 
-	
 	/**
-	 * Column sorter, which delegates to a comparator if any provided.
+	 * Column sorter, which delegates to a comparator if any provided. The value
+	 * is obtained from editing support, if installed.
 	 * 
 	 * @author Christophe
 	 * 
@@ -166,37 +194,90 @@ public class TableHelper {
 	 */
 	public class TBVCSorter<T> extends TableViewerColumnSorter {
 
-		private Comparator<T> delegateComparator;
+		private Comparator<T> delegateComparator = null;
+		private TableViewerColumn column = null;
+
+		public TBVCSorter(TableViewerColumn column) {
+			this(column, null);
+		}
 
 		public TBVCSorter(TableViewerColumn column, Comparator<T> comparator) {
 			super(column);
+			this.column = column;
 			this.delegateComparator = comparator;
-			
 		}
-		
-		@SuppressWarnings("unchecked")
+
+		@SuppressWarnings({ "unchecked" })
 		@Override
 		protected int doCompare(Viewer viewer, Object e1, Object e2) {
-			if (delegateComparator != null) {
-				return delegateComparator.compare((T)e1, (T)e2);
+
+			int cIndex = -1;
+			if (viewer instanceof TableViewer) {
+				cIndex = ((TableViewer) viewer).getTable().indexOf(
+						column.getColumn());
 			}
-			return super.doCompare(viewer, e1, e2);
+			if (cIndex == -1) {
+				return 0; // Can't compare without an index.
+			}
+
+			T value1 = (T) getValue(viewer, e1, cIndex);
+			T value2 = (T) getValue(viewer, e2, cIndex);
+
+			if (delegateComparator != null) {
+				return delegateComparator.compare(value1, value2);
+			}
+			
+//			if (value1 instanceof Comparable && value2 instanceof Comparable) {
+//				return ((Comparable) value1).compareTo(value2);
+//			}
+			return 0;
 		}
-		
+
+		protected Object getValue(Viewer v, Object o, int index) {
+			Object value = super.getValue(o);
+			if (value == null) {
+				if (v instanceof StructuredViewer) {
+					IBaseLabelProvider labelProvider = ((StructuredViewer) v)
+							.getLabelProvider();
+					if (labelProvider instanceof ITableLabelProvider) {
+						ITableLabelProvider lp = (ITableLabelProvider) labelProvider;
+						value = lp.getColumnText(o, index);
+					}
+				}
+			}
+			return value;
+		}
 	}
-	
+
 	public interface TBVCSorterValueProvider {
-		
+
 		/**
-		 * should provide the value of the row Object, supported by the columnIndex.
+		 * should provide the value of the row Object, supported by the
+		 * columnIndex.
+		 * 
 		 * @param rowObject
 		 * @param columnIndex
 		 * @return
 		 */
-		public Object valueOf(Object rowObject, int columnIndex );
+		public Object valueOf(Object rowObject, int columnIndex);
 	}
 	
+		
 	
-	
+	/**
+	 * A comparator which checks if the types are Comparables. 
+	 * @author Christophe
+	 * @param <K>
+	 *
+	 */
+	public static class ComparableComparator<K> implements Comparator<K>{
 
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		public int compare(K o1, K o2) {
+			if(o1 instanceof Comparable && o2 instanceof Comparable){
+				return ((Comparable) o1).compareTo(o2);
+			}
+			return 0;
+		}
+	}
 }

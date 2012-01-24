@@ -56,6 +56,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.common.Tuple;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Mapping;
@@ -72,7 +73,6 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.CSVServiceJob;
-import com.netxforge.netxstudio.screens.f4.support.IdentifierDialog;
 import com.netxforge.netxstudio.screens.f4.support.XLSServiceJob;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
@@ -846,8 +846,8 @@ public abstract class AbstractMapping extends AbstractScreen {
 						String property = ((IdentifierDataKind) k)
 								.getObjectProperty();
 
-						if (IdentifierDialog.NODE_ID.equals(property)) {
-							return IdentifierDialog.NETWORK_ELEMENT_ID;
+						if (ModelUtils.NODE_ID.equals(property)) {
+							return ModelUtils.NETWORK_ELEMENT_ID;
 						}
 						return property;
 					}

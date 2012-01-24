@@ -540,7 +540,7 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
 		if (dtr != null) {
-			dateTimeFrom.setSelection(modelUtils.start(dtr));
+			dateTimeFrom.setSelection(modelUtils.begin(dtr));
 			dateTimeTo.setSelection(modelUtils.end(dtr));
 
 			dateTimeFrom.setEditable(false);

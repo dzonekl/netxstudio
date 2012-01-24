@@ -23,6 +23,7 @@ import org.eclipse.wb.swt.TableViewerColumnSorter;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
@@ -77,7 +78,7 @@ public class ValueComponentII {
 				| SWT.FULL_SELECTION | SWT.VIRTUAL | SWT.MULTI);
 		valuesTableViewer.setUseHashlookup(true);
 		valuesTableViewer.setComparer(new CDOElementComparer());
-		 valuesTableViewer.addFilter(new ValueFilter());
+		valuesTableViewer.addFilter(new PeriodFilter());
 
 		table = valuesTableViewer.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
@@ -98,9 +99,11 @@ public class ValueComponentII {
 		if (res instanceof NetXResource) {
 
 			// timestamp column
-			TableViewerColumn tbvcFor = tableHelper.new TBVC<Date>(new NetXResourceValueLabelProvider())
-					.tbvcFor(valuesTableViewer, "Time Stamp", 185);
-			new ObjectArraySorter(tbvcFor);
+			TableViewerColumn tbvcFor = tableHelper.new TBVC<Date>(
+					new NetXResourceValueLabelProvider()).tbvcFor(
+					valuesTableViewer, "Time Stamp", 185);
+			ObjectArraySorter objectArraySorter = new ObjectArraySorter(tbvcFor);
+			objectArraySorter.setSorter(TableViewerColumnSorter.DESC);
 
 			// metric value ranges....
 			NetXResource resource = (NetXResource) res;
@@ -115,8 +118,6 @@ public class ValueComponentII {
 						100);
 			}
 
-			// TODO, other aggregate ranges...
-
 			tableHelper.new TBVC<Double>(new NetXResourceValueLabelProvider())
 					.tbvcFor(valuesTableViewer, "Capacity",
 							"Capacity value range", 100);
@@ -128,7 +129,7 @@ public class ValueComponentII {
 		}
 		table.setRedraw(true);
 	}
-
+	
 	public void injectData(BaseResource object) {
 		res = object;
 		try {
@@ -148,7 +149,6 @@ public class ValueComponentII {
 			TBVCSorterValueProvider {
 
 		private TableViewerColumn column;
-		private int cIndex;
 
 		public ObjectArraySorter(TableViewerColumn column) {
 			super(column);
@@ -157,10 +157,14 @@ public class ValueComponentII {
 
 		@Override
 		protected int doCompare(Viewer viewer, Object e1, Object e2) {
+			int cIndex = -1;
 			if (viewer instanceof TableViewer) {
 				cIndex = ((TableViewer) viewer).getTable().indexOf(
 						column.getColumn());
+			} else {
+				return 0;
 			}
+
 			Object value1 = valueOf((Object[]) e1, cIndex);
 			Object value2 = valueOf((Object[]) e2, cIndex);
 			if (value1 != null && value2 != null) {
@@ -174,23 +178,23 @@ public class ValueComponentII {
 		public Object valueOf(Object rowObject, int columnIndex) {
 			assert rowObject instanceof Object[];
 			Object[] array = (Object[]) rowObject;
-			assert cIndex >= 0 && cIndex < array.length;
-			return array[cIndex];
+			assert columnIndex >= 0 && columnIndex < array.length;
+			return array[columnIndex];
 		}
 	}
 
 	public void bindValues() {
-		
-		
+
 		/*
-		 * Builds an Object[] array, the first column is the NetXResource Time Stamps.  
-		 * the remaining are the NetXResource ranges. (Metric, Capacity, Utilization). 
+		 * Builds an Object[] array, the first column is the NetXResource Time
+		 * Stamps. the remaining are the NetXResource ranges. (Metric, Capacity,
+		 * Utilization).
 		 */
 		valuesTableViewer.setContentProvider(new ArrayContentProvider() {
-			
+
 			@Override
 			public Object[] getElements(Object inputElement) {
-				
+
 				if (inputElement instanceof NetXResource) {
 
 					NetXResource res = (NetXResource) inputElement;
@@ -266,7 +270,7 @@ public class ValueComponentII {
 	/*
 	 * A table filter which can be update with a from/to date.
 	 */
-	public class ValueFilter extends ViewerFilter {
+	public class PeriodFilter extends ViewerFilter {
 
 		private long from = -1;
 		private long to = -1;
@@ -291,7 +295,7 @@ public class ValueComponentII {
 			if (element instanceof Object[]) {
 				Object[] array = (Object[]) element;
 				Date ts = (Date) array[0];
-				// date is the first column. 
+				// date is the first column.
 				long target = ts != null ? ts.getTime() : 0;
 				return from <= target && to >= target;
 			}
@@ -299,16 +303,32 @@ public class ValueComponentII {
 		}
 	}
 
+	
+	public void applyDateFilter(DateTimeRange dtr) {
+		// Do not update on empty date selectors.
+		if (dtr == null) {
+			return;
+		}
+		;
+		this.applyDateFilter(modelUtils.begin(dtr), modelUtils.end(dtr));
+	}
+	
+	/**
+	 * call to apply the period filter on the table viewer.
+	 * 
+	 * @param from
+	 * @param to
+	 */
 	public void applyDateFilter(Date from, Date to) {
 		// Do not update on empty date selectors.
 		if (from == null || to == null) {
 			return;
 		}
-		
+
 		ViewerFilter[] filters = valuesTableViewer.getFilters();
 		for (ViewerFilter viewerFilter : filters) {
-			if (viewerFilter instanceof ValueFilter) {
-				((ValueFilter) viewerFilter).updateDates(from, to);
+			if (viewerFilter instanceof PeriodFilter) {
+				((PeriodFilter) viewerFilter).updateDates(from, to);
 			}
 		}
 		valuesTableViewer.refresh();

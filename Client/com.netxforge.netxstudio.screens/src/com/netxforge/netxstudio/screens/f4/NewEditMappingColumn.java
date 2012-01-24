@@ -82,8 +82,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
 	private Text txtColumn;
-	
-	// Datakind selectors. 
+
+	// Datakind selectors.
 	private Button btnDate;
 	private Button btnIdentifier;
 	private Button btnMetricValue;
@@ -96,22 +96,22 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private Text txtIdentifierPattern;
 	private Text txtObject;
 	private Text txtMetric;
-	
+
 	private Combo cmbTimePattern;
 	private Combo cmbDateTimePattern;
 	private Combo cmbDatePattern;
 	private Combo cmbMetricHint;
 	private ComboViewer cmbViewrMetricKindHint;
-	
-	// text decorations. 
+
+	// text decorations.
 	private FormText formTextIdentifierMetric;
 	private FormText formTextPattern;
 	private FormText formTextInterval;
-		
-	// hyper links. 
+
+	// hyper links.
 	private Hyperlink hprlnkSelectMetric;
 	private Hyperlink hprlnkSelectIdentifier;
-	
+
 	// Writable kind state.
 	private WritableValue btnIdentifierWritableValue;
 	private WritableValue btnDateWritableValue;
@@ -132,7 +132,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private ISWTObservableValue metricObservable;
 	private ISWTObservableValue metricValueObservable;
 	private IViewerObservableValue metricKindHintObservable;
-	
+
 	private EMFDataBindingContext context;
 	private boolean showDataMapping;
 
@@ -144,7 +144,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private MappingColumn mxlsColumn;
 	private MetricSource source;
 
-	
 	/**
 	 * Create the composite.
 	 * 
@@ -232,8 +231,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				SWT.RADIO);
 		new Label(cmpColumnMapping, SWT.NONE);
 
-		hprlnkSelectMetric = toolkit.createHyperlink(
-				cmpColumnMapping, "Select Metric", SWT.NONE);
+		hprlnkSelectMetric = toolkit.createHyperlink(cmpColumnMapping,
+				"Select Metric", SWT.NONE);
 		hprlnkSelectMetric.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 
@@ -277,7 +276,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 		formTextInterval = toolkit.createFormText(cmpColumnMapping, false);
 		toolkit.paintBordersFor(formTextInterval);
-		formTextInterval.setText("<form><p><b>Interval</b></p></form>", true, false);
+		formTextInterval.setText("<form><p><b>Interval</b></p></form>", true,
+				false);
 		new Label(cmpColumnMapping, SWT.NONE);
 		new Label(cmpColumnMapping, SWT.NONE);
 		new Label(cmpColumnMapping, SWT.NONE);
@@ -302,7 +302,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		formTextPattern.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 2, 1));
 		toolkit.paintBordersFor(formTextPattern);
-		formTextPattern.setText("<form><p><b>Pattern</b></p></form>", true, false);
+		formTextPattern.setText("<form><p><b>Pattern</b></p></form>", true,
+				false);
 		new Label(cmpColumnMapping, SWT.NONE);
 		new Label(cmpColumnMapping, SWT.NONE);
 
@@ -354,10 +355,11 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		new Label(parent, SWT.NONE);
 		new Label(cmpColumnMapping, SWT.NONE);
 
-		formTextIdentifierMetric = toolkit.createFormText(cmpColumnMapping, false);
+		formTextIdentifierMetric = toolkit.createFormText(cmpColumnMapping,
+				false);
 		toolkit.paintBordersFor(formTextIdentifierMetric);
-		formTextIdentifierMetric.setText("<form><p><b>Identifier/Metric</b></p></form>",
-				true, false);
+		formTextIdentifierMetric.setText(
+				"<form><p><b>Identifier/Metric</b></p></form>", true, false);
 
 		FormText formText = toolkit.createFormText(cmpColumnMapping, false);
 		formText.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1,
@@ -409,9 +411,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 							// Translate the literal "Network Element ID" to
 							// NodeID.
 							String objectAttribute = id.getObjectAttribute();
-							if (IdentifierDialog.NETWORK_ELEMENT_ID
+							if (ModelUtils.NETWORK_ELEMENT_ID
 									.equals(objectAttribute)) {
-								objectAttribute = IdentifierDialog.NODE_ID;
+								objectAttribute = ModelUtils.NODE_ID;
 							}
 							SetCommand sc = new SetCommand(
 									editingService.getEditingDomain(),
@@ -532,7 +534,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				editingService.getEditingDomain(),
 				MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE);
 		// Should occure before the aggregator is created.
-		
+
 		IObservableValue dataKindObservable = dataKindProperty
 				.observe(mxlsColumn);
 
@@ -580,7 +582,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 		return context;
 	}
-	
+
 	/*
 	 * bind the part of the UI which deals with header mapping.
 	 */
@@ -633,7 +635,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 		IObservableValue objectAttributeObservable = SWTObservables
 				.observeText(this.txtObjectAttribute, SWT.Modify);
-		
+
 		IEMFEditValueProperty objectPatternProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(), FeaturePath.fromList(
 						MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
@@ -750,23 +752,20 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				dataKindProperty.observe(mxlsColumn), null,
 				metricModelToTargetStrategy);
 
-		cmbViewrMetricKindHint
-				.setContentProvider(new ArrayContentProvider());
+		cmbViewrMetricKindHint.setContentProvider(new ArrayContentProvider());
 		cmbViewrMetricKindHint.setLabelProvider(new LabelProvider());
 		cmbViewrMetricKindHint.setInput(KindHintType.VALUES);
 
 		metricKindHintObservable = ViewerProperties.singleSelection().observe(
 				cmbViewrMetricKindHint);
-		
-		
+
 		IEMFEditValueProperty KindHintProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(), FeaturePath.fromList(
 						MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
 						MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT));
-		
+
 		context.bindValue(metricKindHintObservable,
-				KindHintProperty.observe(mxlsColumn), null,
-				null);
+				KindHintProperty.observe(mxlsColumn), null, null);
 
 	}
 
@@ -797,7 +796,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				ObjectKindType okt = (ObjectKindType) fromObject;
 				switch (okt.getValue()) {
 				case ObjectKindType.NODE_VALUE: {
-					return IdentifierDialog.NETWORK_ELEMENT;
+					return ModelUtils.NETWORK_ELEMENT;
 				}
 				default: {
 					return okt.getName();
@@ -819,8 +818,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		}
 
 		public Object convert(Object fromObject) {
-			if (fromObject != null && fromObject.equals(IdentifierDialog.NETWORK_ELEMENT)) {
-				return IdentifierDialog.NODE;
+			if (fromObject != null
+					&& fromObject.equals(ModelUtils.NETWORK_ELEMENT)) {
+				return ModelUtils.NODE;
 			} else {
 				return fromObject;
 			}
@@ -837,8 +837,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		}
 
 		public Object convert(Object fromObject) {
-			if (fromObject != null && fromObject.equals(IdentifierDialog.NODE_ID)) {
-				return IdentifierDialog.NETWORK_ELEMENT_ID;
+			if (fromObject != null && fromObject.equals(ModelUtils.NODE_ID)) {
+				return ModelUtils.NETWORK_ELEMENT_ID;
 			}
 			return fromObject;
 		}
@@ -854,8 +854,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		}
 
 		public Object convert(Object fromObject) {
-			if (fromObject != null && fromObject.equals(IdentifierDialog.NETWORK_ELEMENT_ID)) {
-				return IdentifierDialog.NODE_ID;
+			if (fromObject != null
+					&& fromObject.equals(ModelUtils.NETWORK_ELEMENT_ID)) {
+				return ModelUtils.NODE_ID;
 			}
 			return fromObject;
 		}
@@ -937,11 +938,13 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				// if (vdk.getFormat() != null) {
 				// this.txtMetricValuePattern.setText(vdk.getFormat());
 				// }
-//				if (vdk.eIsSet(MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT)) {
-//					KindHintType kindHint = vdk.getKindHint();
-//					cmbViewrMetricKindHint
-//							.setSelection(new StructuredSelection(kindHint));
-//				}
+				// if
+				// (vdk.eIsSet(MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT))
+				// {
+				// KindHintType kindHint = vdk.getKindHint();
+				// cmbViewrMetricKindHint
+				// .setSelection(new StructuredSelection(kindHint));
+				// }
 			}
 		}
 	}
@@ -951,7 +954,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		private IObservableValue dataKindObservable;
 
 		private String pattern; // stores the pattern for the datakind.
-//		private int metricKindHint = -1;
+		// private int metricKindHint = -1;
 
 		private DataKindStateMachine dksm = new DataKindStateMachine();
 
@@ -979,21 +982,21 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				Control control = (Control) ((ISWTObservableValue) event
 						.getObservable()).getWidget();
 				System.out.println(control);
-				
-				// Also clear the non-bind UI widgets. these are: 
+
+				// Also clear the non-bind UI widgets. these are:
 				// cmbDatePattern
 				// cmbTime
-				
+
 				if (control.equals(btnIdentifier)) {
-					
-					// Clear and disable anything else. 
+
+					// Clear and disable anything else.
 					cmbDatePattern.setText("");
 					cmbDatePattern.setEnabled(false);
 					cmbDateTimePattern.setText("");
 					cmbDateTimePattern.setEnabled(false);
 					cmbTimePattern.setText("");
 					cmbTimePattern.setEnabled(false);
-//					txtIdentifierPattern.setText("");
+					// txtIdentifierPattern.setText("");
 					txtIdentifierPattern.setEnabled(true);
 					cmbMetricHint.setText("");
 					cmbMetricHint.setEnabled(false);
@@ -1001,13 +1004,13 @@ public class NewEditMappingColumn extends AbstractScreen implements
 					txtMetric.setEnabled(false);
 					hprlnkSelectMetric.setEnabled(false);
 					hprlnkSelectIdentifier.setEnabled(true);
-					
+
 					dksm.setIdentifier((Boolean) newValue);
 				} else if (control.equals(btnDatetime)) {
-					// Clear and disable anything else. 
+					// Clear and disable anything else.
 					cmbDatePattern.setText("");
 					cmbDatePattern.setEnabled(false);
-//					cmbDateTimePattern.setText("");
+					// cmbDateTimePattern.setText("");
 					cmbDateTimePattern.setEnabled(true);
 					cmbTimePattern.setText("");
 					cmbTimePattern.setEnabled(false);
@@ -1019,11 +1022,11 @@ public class NewEditMappingColumn extends AbstractScreen implements
 					cmbMetricHint.setEnabled(false);
 					hprlnkSelectMetric.setEnabled(false);
 					hprlnkSelectIdentifier.setEnabled(false);
-					
+
 					dksm.setDatetime((Boolean) newValue);
 				} else if (control.equals(btnDate)) {
-					// Clear and disable anything else. 
-//					cmbDatePattern.setText("");
+					// Clear and disable anything else.
+					// cmbDatePattern.setText("");
 					cmbDatePattern.setEnabled(true);
 					cmbDateTimePattern.setText("");
 					cmbDateTimePattern.setEnabled(false);
@@ -1040,12 +1043,12 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 					dksm.setDate((Boolean) newValue);
 				} else if (control.equals(btnTime)) {
-					// Clear and disable anything else. 
+					// Clear and disable anything else.
 					cmbDatePattern.setText("");
 					cmbDatePattern.setEnabled(false);
 					cmbDateTimePattern.setText("");
 					cmbDateTimePattern.setEnabled(true);
-//					cmbTimePattern.setText("");
+					// cmbTimePattern.setText("");
 					cmbTimePattern.setEnabled(true);
 					txtIdentifierPattern.setText("");
 					txtIdentifierPattern.setEnabled(false);
@@ -1059,7 +1062,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 					dksm.setTime((Boolean) newValue);
 				} else if (btnMetricValue != null
 						& control.equals(btnMetricValue)) {
-					// Clear and disable anything else. 
+					// Clear and disable anything else.
 					cmbDatePattern.setText("");
 					cmbDatePattern.setEnabled(false);
 					cmbDateTimePattern.setText("");
@@ -1068,16 +1071,16 @@ public class NewEditMappingColumn extends AbstractScreen implements
 					cmbTimePattern.setEnabled(false);
 					txtIdentifierPattern.setText("");
 					txtIdentifierPattern.setEnabled(false);
-//					txtMetric.setText("");
+					// txtMetric.setText("");
 					txtMetric.setEnabled(true);
-//					cmbMetricHint.setText("");
+					// cmbMetricHint.setText("");
 					cmbMetricHint.setEnabled(true);
 					dksm.setValue((Boolean) newValue);
 					hprlnkSelectMetric.setEnabled(true);
 					hprlnkSelectIdentifier.setEnabled(false);
 
 				} else if (control.equals(btnInterval)) {
-					// Clear and disable anything else. 
+					// Clear and disable anything else.
 					cmbDatePattern.setText("");
 					cmbDatePattern.setEnabled(false);
 					cmbDateTimePattern.setText("");
@@ -1092,7 +1095,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 					cmbMetricHint.setEnabled(false);
 					hprlnkSelectMetric.setEnabled(false);
 					hprlnkSelectIdentifier.setEnabled(false);
-
 
 					dksm.setInterval((Boolean) newValue);
 				} else if (control.equals(cmbDatePattern)
@@ -1113,23 +1115,24 @@ public class NewEditMappingColumn extends AbstractScreen implements
 					modelUpdate();
 				}
 			}
-			
-			// bind directly. 
 
-//			if (event.getObservable() instanceof IViewerObservableValue) {
-//				Viewer viewer = (Viewer) ((IViewerObservableValue) event
-//						.getObservable()).getViewer();
-//				System.out.println(viewer.getControl());
-//				if (newValue instanceof KindHintType) {
-//					metricKindHint = ((KindHintType) newValue).getValue();
-//					attributeUpdate();
-//				}
-//			}
+			// bind directly.
+
+			// if (event.getObservable() instanceof IViewerObservableValue) {
+			// Viewer viewer = (Viewer) ((IViewerObservableValue) event
+			// .getObservable()).getViewer();
+			// System.out.println(viewer.getControl());
+			// if (newValue instanceof KindHintType) {
+			// metricKindHint = ((KindHintType) newValue).getValue();
+			// attributeUpdate();
+			// }
+			// }
 
 		}
-		
+
 		/*
-		 * Switches between objects if the dk state changed. tries to re-use existing
+		 * Switches between objects if the dk state changed. tries to re-use
+		 * existing
 		 */
 		private boolean modelUpdate() {
 
@@ -1172,16 +1175,15 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			}
 			if (dk instanceof ValueDataKind) {
 				((ValueDataKind) dk).setValueKind(dksm.valueDataKindForState());
-			}	
+			}
 			dataKindObservable.setValue(dk);
 			return true;
 		}
-		
-		
+
 		private boolean attributeUpdate() {
 
 			DataKind dk = (DataKind) this.dataKindObservable.getValue();
-			
+
 			// Write the DataKind with attributes, note: some attributes are
 			// directly bound, so we have
 			// to re-use the existing object if any (This is why these are not
@@ -1196,14 +1198,14 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				//
 				// editingService.getEditingDomain().getCommandStack().execute(sc);
 
-//				if (metricKindHint != -1
-//						&& vdk.getValueKind() == ValueKindType.METRIC) {
-//					vdk.setKindHint(KindHintType.get(metricKindHint));
-//				}else{
-//					// clear the metric attributes. 
-////					vdk.setMetricRef(null);
-//					vdk.setKindHint(null);
-//				}
+				// if (metricKindHint != -1
+				// && vdk.getValueKind() == ValueKindType.METRIC) {
+				// vdk.setKindHint(KindHintType.get(metricKindHint));
+				// }else{
+				// // clear the metric attributes.
+				// // vdk.setMetricRef(null);
+				// vdk.setKindHint(null);
+				// }
 			}
 
 			dataKindObservable.setValue(dk);

@@ -548,7 +548,7 @@ public class ServicesTree extends AbstractScreen implements
 						pr.open();
 						DateTimeRange dtr = pr.period();
 
-						Date fromDate = modelUtils.start(dtr);
+						Date fromDate = modelUtils.begin(dtr);
 						Date toDate = modelUtils.end(dtr);
 
 						@SuppressWarnings("unused")

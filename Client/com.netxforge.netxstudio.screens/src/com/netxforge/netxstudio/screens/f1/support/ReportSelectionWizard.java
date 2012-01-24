@@ -62,7 +62,7 @@ public class ReportSelectionWizard extends Wizard implements INewWizard {
 
 			DateTimeRange dtr = this.reportSelectionPeriod.period();
 
-			Date fromDate = modelUtils.start(dtr);
+			Date fromDate = modelUtils.begin(dtr);
 			Date toDate = modelUtils.end(dtr);
 			@SuppressWarnings("unused")
 			String result = null;

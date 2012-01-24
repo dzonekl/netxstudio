@@ -735,7 +735,7 @@ public class MappingStatistics extends AbstractScreen implements
 					DateTimeRange durationEstimate = s.getMappingDuration();
 					if (durationEstimate.getBegin() != null
 							&& durationEstimate.getEnd() != null) {
-						Date start = modelUtils.start(durationEstimate);
+						Date start = modelUtils.begin(durationEstimate);
 						Date end = modelUtils.end(durationEstimate);
 
 						if (s.eContainer() != null
@@ -745,10 +745,14 @@ public class MappingStatistics extends AbstractScreen implements
 									+ modelUtils.date(start) + " @ "
 									+ modelUtils.time(start));
 						} else {
-							
-							long seconds = (end.getTime() - start.getTime())  / 1000 ;
-							sb.append("Duration : " + seconds 
-									+ " (sec) ended on " + modelUtils.date(start) + " @ " + modelUtils.timeAndSeconds(end) );
+
+							long ms = (end.getTime() - start.getTime());
+
+							sb.append("Duration : "
+									+ (ms > 1000 ? (ms / 1000 + " (sec) : ")
+											: ms + " (ms) ") + "ended on "
+									+ modelUtils.date(start) + " @ "
+									+ modelUtils.timeAndSeconds(end));
 						}
 					}
 				} else {

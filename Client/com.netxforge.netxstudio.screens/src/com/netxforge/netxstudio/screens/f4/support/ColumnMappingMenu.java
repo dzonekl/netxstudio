@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
 
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingColumn;
@@ -305,7 +306,7 @@ public class ColumnMappingMenu {
 						.createIdentifierDataKind();
 				// Set the default identifier.
 				idk.setObjectKind(ObjectKindType.NODE);
-				idk.setObjectProperty(IdentifierDialog.NODE_ID);
+				idk.setObjectProperty(ModelUtils.NODE_ID);
 				mc.setDataType(idk);
 			}
 				break;
@@ -363,7 +364,7 @@ public class ColumnMappingMenu {
 						.createIdentifierDataKind();
 				// Set the default identifier.
 				idk.setObjectKind(ObjectKindType.NODE);
-				idk.setObjectProperty(IdentifierDialog.NODE_ID);
+				idk.setObjectProperty(ModelUtils.NODE_ID);
 				mc.setDataType(idk);
 			}
 				break;

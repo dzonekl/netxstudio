@@ -50,6 +50,7 @@ import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.model.IXtextModelListener;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -60,8 +61,11 @@ import com.netxforge.netxscript.Mod;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
@@ -241,10 +245,33 @@ public class EmbeddedLineExpression {
 		// this.createKeyPad(parent);
 	}
 
-	public List<BaseExpressionResult> testExpression(DateTimeRange timeRange,
-			Object... objects) {
+	/**
+	 * infer the Node and the Component from the NetXResource and set as
+	 * context.
+	 * 
+	 * @param timeRange
+	 * @param component
+	 * @return
+	 */
+	public ImmutableList<IInterpreterContext> buildContext(
+			DateTimeRange timeRange, Component component) {
+		Node node = modelUtils.nodeFor(component);
+		return buildContext(timeRange, new Object[] { node, component });
+	}
 
-		List<BaseExpressionResult> result = null;
+	public ImmutableList<IInterpreterContext> buildContext(
+			DateTimeRange timeRange, NetXResource resource) {
+		Component component = resource.getComponentRef();
+		if (component != null) {
+			Node node = modelUtils.nodeFor(component);
+			return buildContext(timeRange, new Object[] { node, component,
+					resource });
+		}
+		return null;
+	}
+
+	public ImmutableList<IInterpreterContext> buildContext(
+			DateTimeRange timeRange, Object... objects) {
 
 		if (timeRange == null)
 			throw new IllegalArgumentException("Should set a period context");
@@ -254,10 +281,6 @@ public class EmbeddedLineExpression {
 					"Should have one or more context objects");
 
 		assert interpreterContextFactory != null : "Context factory is not initialized (check guice binding)";
-
-		final IXtextDocument doc = editor.getDocument();
-		assert !documentHasErrors(doc) : "Intepreter cancelled, as errors exist in script: "
-				+ doc.get();
 
 		// Context initialization.
 		final IInterpreterContext periodContext = interpreterContextFactory
@@ -271,12 +294,23 @@ public class EmbeddedLineExpression {
 			contextList.add(objectContext);
 		}
 
-		final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
-				.size()];
+		return ImmutableList.copyOf(contextList);
+	}
+
+	public List<BaseExpressionResult> testExpression(
+			ImmutableList<IInterpreterContext> contextList) {
+
+		List<BaseExpressionResult> result = null;
+
+		final IXtextDocument doc = editor.getDocument();
+		assert !documentHasErrors(doc) : "Intepreter cancelled, as errors exist in script: "
+				+ doc.get();
 
 		final IInterpreter i = netxScriptInjector
 				.getInstance(IInterpreter.class);
 
+		final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
+				.size()];
 		i.setContext(contextList.toArray(contextArray));
 
 		result = doc

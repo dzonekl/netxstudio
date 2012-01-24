@@ -426,7 +426,7 @@ public class NewEditResource extends AbstractScreen implements
 			NodeType nt = modelUtils.resolveParentNodeType((EObject) whoRefers);
 			if (nt != null) {
 				Node n = null;
-				if ((n = modelUtils.resolveParentNode(nt)) != null) {
+				if ((n = modelUtils.nodeFor(nt)) != null) {
 					this.lblNode.setText("NE Instance:");
 					this.txtNode.setText(n.getNodeID());
 				} else {
@@ -468,7 +468,7 @@ public class NewEditResource extends AbstractScreen implements
 		buildUI();
 		this.initDataBindings_();
 		if (this.whoRefers != null
-				&& modelUtils.resolveParentNode((EObject) this.whoRefers) != null) {
+				&& modelUtils.nodeFor((EObject) this.whoRefers) != null) {
 			valuesVisible = true;
 			
 			valueComponent.configure(screenService);

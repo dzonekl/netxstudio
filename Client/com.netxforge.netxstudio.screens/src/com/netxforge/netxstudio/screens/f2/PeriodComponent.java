@@ -1,5 +1,7 @@
 package com.netxforge.netxstudio.screens.f2;
 
+import java.util.Date;
+
 import org.eclipse.nebula.widgets.cdatetime.CDT;
 import org.eclipse.nebula.widgets.cdatetime.CDateTime;
 import org.eclipse.swt.SWT;
@@ -29,6 +31,8 @@ public class PeriodComponent {
 
 	private CDateTime dateTimeTo;
 	private CDateTime dateTimeFrom;
+	
+	
 	private final DateTimeRange period = GenericsFactory.eINSTANCE
 			.createDateTimeRange();
 
@@ -42,7 +46,8 @@ public class PeriodComponent {
 
 	public void buildUI(Composite parent, Object layoutData) {
 
-		Composite cmpPeriod = toolkit.createComposite(parent, SWT.NONE);
+		Composite cmpPeriod = toolkit.createComposite(parent, SWT.BORDER);
+		
 		toolkit.adapt(cmpPeriod);
 		cmpPeriod.setLayoutData(layoutData);
 		
@@ -99,7 +104,16 @@ public class PeriodComponent {
 		toolkit.adapt(dateTimeTo);
 		toolkit.paintBordersFor(dateTimeTo);
 	}
+	
 
+	public CDateTime getDateTimeTo() {
+		return dateTimeTo;
+	}
+
+	public CDateTime getDateTimeFrom() {
+		return dateTimeFrom;
+	}
+	
 	protected void updatePeriod() {
 		period.setBegin(modelUtils.toXMLDate(this.dateTimeFrom
 				.getSelection()));
@@ -110,5 +124,35 @@ public class PeriodComponent {
 	public DateTimeRange getPeriod() {
 		return period;
 	}
+	
+	public void updatePeriod(Date from, Date to){
+		
+		if(from == null || to == null ){
+			return;
+		}
+		
+		// will this fire selection listeners? 
+		dateTimeFrom.setSelection(from);
+		dateTimeTo.setSelection(to);
+		period.setBegin(modelUtils.toXMLDate(from));
+		period.setEnd(modelUtils.toXMLDate(to));
+		
+	}
+	
+	public void presetYesterday(){
+		this.updatePeriod(modelUtils.yesterday(), modelUtils.todayAndNow());
+	}
+	
+	public void presetLastWeek(){
+		this.updatePeriod(modelUtils.oneWeekAgo(), modelUtils.todayAndNow());
+	}
+	
+	public void presetLastMonth(){
+		this.updatePeriod(modelUtils.oneMonthAgo(), modelUtils.todayAndNow());
+	}
 
+	public void presetLastQuarter(){
+		this.updatePeriod(modelUtils.threeMonthsAgo(), modelUtils.todayAndNow());
+	}
+	
 }

@@ -38,7 +38,7 @@ public class CDateTimeObservableValue extends AbstractObservableValue {
 	 * Flag to prevent infinite recursion in {@link #doSetValue(Object)}.
 	 */
 	protected boolean updating = false;
-	
+		
 	/**
 	 * The "old" selection before a selection event is fired.
 	 */
@@ -102,6 +102,10 @@ public class CDateTimeObservableValue extends AbstractObservableValue {
 
 	public Object getValueType() {
 		return Date.class;
+	}
+	
+	public CDateTime getDateTime() {
+		return dateTime;
 	}
 	
 }

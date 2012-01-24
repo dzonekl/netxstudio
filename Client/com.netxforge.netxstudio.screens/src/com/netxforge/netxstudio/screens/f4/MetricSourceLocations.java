@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.f1;
+package com.netxforge.netxstudio.screens.f4;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -21,11 +21,9 @@ import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 
-public class Reports extends AbstractScreen implements IDataServiceInjection {
+public class MetricSourceLocations extends AbstractScreen implements IDataServiceInjection {
 
-	// URL fragment for the JSP page showing the reports.  
-	public static final String REPORTS_MONITORS_MONITORS_JSP = "/remote/monitors/monitors.jsp";
-	
+	private static final String REPORTS_MONITORS_MONITORS_JSP = "/reports/monitors/monitors.jsp";
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Form frmServices;
 
@@ -39,7 +37,7 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 	 * @param parent
 	 * @param style
 	 */
-	public Reports(Composite parent, int style) {
+	public MetricSourceLocations(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -103,7 +101,6 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	public void disposeData() {
-		// N/A do nothing.
 	}
 
 	@Override

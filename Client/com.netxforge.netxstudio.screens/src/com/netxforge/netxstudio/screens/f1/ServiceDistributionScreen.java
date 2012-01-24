@@ -414,7 +414,7 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 					if (entry
 							.eIsSet(ServicesPackage.Literals.DISTRIBUTION_ENTRY__RESOURCE_REF)) {
 						NetXResource resource = entry.getResourceRef();
-						Node node = modelUtils.resolveParentNode(resource
+						Node node = modelUtils.nodeFor(resource
 								.getComponentRef());
 						if (node != null) {
 							return node.getNodeType().getName();

@@ -476,7 +476,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 					NodeType nt = modelUtils.resolveParentNodeType(c);
 					if (nt != null) {
 						Node n = null;
-						if ((n = modelUtils.resolveParentNode(nt)) != null) {
+						if ((n = modelUtils.nodeFor(nt)) != null) {
 							return n.getNodeID();
 						} else {
 							return nt.getName();

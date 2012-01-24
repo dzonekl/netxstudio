@@ -29,16 +29,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.google.common.collect.ImmutableList;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
 
 public class IdentifierDialog extends Dialog {
-
-	// Required to translate.
-	public static final String NETWORK_ELEMENT_ID = "Network Element ID";
-	public static final String NETWORK_ELEMENT = "Network Element";
-	public static final String NODE_ID = "NodeID";
-	public static final String NODE = "NODE";
 
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
@@ -164,29 +158,24 @@ public class IdentifierDialog extends Dialog {
 
 		return container;
 	}
-
-	Iterable<String> nodeAttributes = ImmutableList.of(NETWORK_ELEMENT_ID);
-	Iterable<String> relAttributes = ImmutableList.of("Name", "Protocol");
-	Iterable<String> functionAttributes = ImmutableList.of("Name");
-	Iterable<String> equipmentAttributes = ImmutableList.of("Name",
-			"EquipmentCode", "Position");
+	
 
 	public void updateAttributeView(int master) {
 		switch (master) {
 		case ObjectKindType.NODE_VALUE: {
-			this.attributeListViewer.setInput(nodeAttributes);
+			this.attributeListViewer.setInput(ModelUtils.MAPPING_NODE_ATTRIBUTES);
 		}
 			break;
 		case ObjectKindType.EQUIPMENT_VALUE: {
-			this.attributeListViewer.setInput(equipmentAttributes);
+			this.attributeListViewer.setInput(ModelUtils.MAPPING_EQUIPMENT_ATTRIBUTES);
 		}
 			break;
 		case ObjectKindType.FUNCTION_VALUE: {
-			this.attributeListViewer.setInput(functionAttributes);
+			this.attributeListViewer.setInput(ModelUtils.MAPPING_FUNCTION_ATTRIBUTES);
 		}
 			break;
 		case ObjectKindType.RELATIONSHIP_VALUE: {
-			this.attributeListViewer.setInput(relAttributes);
+			this.attributeListViewer.setInput(ModelUtils.MAPPING_REL_ATTRIBUTES);
 		}
 			break;
 		}
