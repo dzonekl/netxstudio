@@ -2,16 +2,18 @@ package com.netxforge.netxstudio.common;
 
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 public class AllPurposeCache<Key, Value> {
 
+	// CB 18-01-2012 Replaced with a regular Map, as a WeakHashMap would be
+	// clear at each GC, defeating the purpose of a cache :-).
 	private final Map<Key, Value> content;
 	private final ReentrantReadWriteLock readWriteLock;
 	private final ReadLock readLock;
@@ -26,13 +28,13 @@ public class AllPurposeCache<Key, Value> {
 		this.readLock = readWriteLock.readLock();
 		this.writeLock = readWriteLock.writeLock();
 		this.f = f;
-		this.content = new WeakHashMap<Key, Value>();
+		this.content = Maps.newHashMap();
 	}
-	
-	public List<Key> getKeys(){
+
+	public List<Key> getKeys() {
 		return Lists.newArrayList(content.keySet());
 	}
-	
+
 	public Value get(Key k) {
 		Value result = null;
 		try {
@@ -74,9 +76,9 @@ public class AllPurposeCache<Key, Value> {
 			writeLock.unlock();
 		}
 	}
-	
+
 	// for testing purpose
-	
+
 	public boolean hasCachedValue(Key key) {
 		try {
 			readLock.lock();
@@ -85,7 +87,7 @@ public class AllPurposeCache<Key, Value> {
 			readLock.unlock();
 		}
 	}
-	
+
 	public int getSize() {
 		try {
 			readLock.lock();
