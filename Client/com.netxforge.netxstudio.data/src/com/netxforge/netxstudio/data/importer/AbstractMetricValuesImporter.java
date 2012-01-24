@@ -438,7 +438,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	private void moveFile(File file, boolean error) {
 		if (error) {
 			boolean renameTo = file.renameTo(new File(file.getAbsolutePath()
-					+ ".done_with_failures"));
+					+ ModelUtils.EXTENSION_DONE_WITH_FAILURES));
 			if (DataActivator.DEBUG) {
 				if (renameTo) {
 					System.out.println("IMPORTER: rename successed for file="
@@ -450,7 +450,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			}
 
 		} else {
-			file.renameTo(new File(file.getAbsolutePath() + ".done"));
+			file.renameTo(new File(file.getAbsolutePath()
+					+ ModelUtils.EXTENSION_DONE));
 		}
 	}
 
@@ -522,6 +523,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			int columnBeingProcessed = -1;
 			try {
 
+				// CB 180122012, why is this here, for a read and open a
+				// transaction?
 				this.getMappingColumn();
 				totalRows++;
 
@@ -1006,7 +1009,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 				final IdentifierDataKind identifierDataKind = (IdentifierDataKind) column
 						.getDataType();
-				String dataValue = getStringCellValue(row, column.getColumn());
+				String dataValue = getStringCellValue(row, column.getColumn()).trim();
 				if (identifierDataKind
 						.eIsSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN)) {
 					String extractionPattern = identifierDataKind.getPattern();
@@ -1041,10 +1044,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 					}
 				}
 
-				final IdentifierDescriptor identifierValue = new IdentifierDescriptor();
-				identifierValue.setColumn(column.getColumn());
-				identifierValue.setKind(identifierDataKind);
-				identifierValue.setValue(dataValue);
+				final IdentifierDescriptor identifierValue = IdentifierDescriptor
+						.valueFor(identifierDataKind, dataValue,
+								column.getColumn());
 				result.add(identifierValue);
 			}
 		}
