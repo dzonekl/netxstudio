@@ -44,25 +44,13 @@ public class NetxForgeServiceServlet extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		String pathInfo = req.getPathInfo();
-		if (pathInfo.equals("/reports/")) {
-			writeReports(resp);
-		} else {
-
-			final Map<String, String> parameters = new HashMap<String, String>();
-			final Enumeration<?> enumeration = req.getParameterNames();
-			while (enumeration.hasMoreElements()) {
-				final String name = (String) enumeration.nextElement();
-				parameters.put(name, req.getParameter(name));
-			}
-			final Object ret = ServerUtils.getInstance().runService(parameters);
-			resp.getWriter().write(ret.toString());
+		final Map<String, String> parameters = new HashMap<String, String>();
+		final Enumeration<?> enumeration = req.getParameterNames();
+		while (enumeration.hasMoreElements()) {
+			final String name = (String) enumeration.nextElement();
+			parameters.put(name, req.getParameter(name));
 		}
+		final Object ret = ServerUtils.getInstance().runService(parameters);
+		resp.getWriter().write(ret.toString());
 	}
-
-	private void writeReports(HttpServletResponse resp) throws IOException {
-		resp.getWriter().write(
-				"<html><body><h1>Reports Dude!</h1></body></html>");
-	}
-
 }
