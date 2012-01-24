@@ -600,7 +600,7 @@ public class CDOEditingService extends EMFEditingService implements
 	 * @param target
 	 */
 	public void doCopyNodeToHistoryResource(CDOObject target) {
-		target = modelUtils.resolveParentNode(target);
+		target = modelUtils.nodeFor(target);
 		if (target == null || !(target instanceof Node)) {
 			return;
 		}
