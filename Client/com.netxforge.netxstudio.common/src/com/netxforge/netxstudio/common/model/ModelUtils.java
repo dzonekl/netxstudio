@@ -124,6 +124,22 @@ public class ModelUtils {
 	// Note! For months, we better use a calendar function.
 	public static final int MINUTES_IN_A_MONTH = MINUTES_IN_A_DAY * 30;
 
+	public static final String EXTENSION_DONE = ".done";
+	public static final String EXTENSION_DONE_WITH_FAILURES = ".done_with_failures";
+	
+	
+	// Required to translate.
+	public static final String NETWORK_ELEMENT_ID = "Network Element ID";
+	public static final String NETWORK_ELEMENT = "Network Element";
+	public static final String NODE_ID = "NodeID";
+	public static final String NODE = "NODE";
+	
+	public static final Iterable<String> MAPPING_NODE_ATTRIBUTES = ImmutableList.of(NETWORK_ELEMENT_ID);
+	public static final Iterable<String> MAPPING_REL_ATTRIBUTES = ImmutableList.of("Name", "Protocol");
+	public static final Iterable<String> MAPPING_FUNCTION_ATTRIBUTES = ImmutableList.of("Name");
+	public static final Iterable<String> MAPPING_EQUIPMENT_ATTRIBUTES = ImmutableList.of("Name",
+			"EquipmentCode", "Position");
+	
 	/**
 	 * Compare two dates.
 	 */
@@ -283,6 +299,56 @@ public class ModelUtils {
 
 	public NonHiddenFile nonHiddenFile() {
 		return new NonHiddenFile();
+	}
+	
+	/**
+	 * A Predicate which can filter files based on one or more file extensions
+	 * including the '.' separator, when the negate paramter is provided the reverse predicate
+	 * is applied. 
+	 * 
+	 * @author Christophe
+	 *
+	 */
+	public class ExtensionFile implements Predicate<File> {
+
+		private String[] extensions;
+		private boolean negate = false;
+
+		public ExtensionFile(String... extensions) {
+			this.extensions = extensions;
+		}
+
+		public ExtensionFile(boolean negate, String... extensions) {
+			this.extensions = extensions;
+			this.negate = negate;
+		}
+
+		public boolean apply(final File f) {
+			String fileName = f.getName();
+			if(f.isDirectory()) return false;
+			
+			int dotIndex = fileName.lastIndexOf('.');
+			
+			if(dotIndex == -1 ){
+				return false;
+			}
+			String extension = fileName.substring(dotIndex, fileName.length());
+
+			for (String ext : this.extensions) {
+				if (ext.equals(extension)) {
+					return negate ? true : !true;
+				}
+			}
+			return false;
+		}
+	}
+
+	public ExtensionFile extensionFile(String... extension) {
+		return new ExtensionFile(extension);
+	}
+
+	public ExtensionFile extensionFile(boolean negate, String... extensions) {
+		return new ExtensionFile(negate, extensions);
 	}
 
 	public class NodeOfType implements Predicate<Node> {
@@ -548,6 +614,15 @@ public class ModelUtils {
 		}
 		return resources;
 	}
+	
+	public List<NetXResource> resourcesForComponent(Component component ) {
+		List<NetXResource> resources = Lists.newArrayList();
+		List<Component> componentsForComponent = this.componentsForComponent(component);
+		for(Component c : componentsForComponent){
+			resources.addAll(c.getResourceRefs());
+		}
+		return resources;
+	}
 
 	public List<DerivedResource> derivedResourcesWithName(Service s,
 			String expressionName) {
@@ -625,7 +700,7 @@ public class ModelUtils {
 	 * @param target
 	 * @return
 	 */
-	public Node resolveParentNode(EObject target) {
+	public Node nodeFor(EObject target) {
 		if (target instanceof Node) {
 			return (Node) target;
 		}
@@ -633,7 +708,7 @@ public class ModelUtils {
 			if (target.eContainer() instanceof Node) {
 				return (Node) target.eContainer();
 			} else {
-				return resolveParentNode(target.eContainer());
+				return nodeFor(target.eContainer());
 			}
 		} else {
 			return null;
@@ -1211,7 +1286,7 @@ public class ModelUtils {
 		return dtr;
 	}
 
-	public Date start(DateTimeRange dtr) {
+	public Date begin(DateTimeRange dtr) {
 		return this.fromXMLDate(dtr.getBegin());
 	}
 
@@ -1320,7 +1395,7 @@ public class ModelUtils {
 							// Gather all metrics from the target source.
 							if (referencingEObject instanceof NetXResource) {
 								NetXResource res = (NetXResource) referencingEObject;
-								Node n = this.resolveParentNode(res
+								Node n = this.nodeFor(res
 										.getComponentRef());
 								if (n != null) {
 									targetListNetXResources
@@ -1827,7 +1902,6 @@ public class ModelUtils {
 		return getDateString.apply(d);
 	}
 
-	
 	public String dateAndTime(XMLGregorianCalendar d) {
 		Date date = fromXMLDate(d);
 		return dateAndTime(date);
@@ -2485,7 +2559,7 @@ public class ModelUtils {
 			String path = this.cdoResourcePath(c);
 
 			// Check for Node first.
-			Node node = this.resolveParentNode(c);
+			Node node = this.nodeFor(c);
 			if (node != null) {
 				String nodeHistoricalPath = this
 						.resolveHistoricalResourceName(node);
@@ -2749,7 +2823,13 @@ public class ModelUtils {
 	 * @return
 	 */
 	public List<Node> nodesForNetwork(Network network) {
-		return network.getNodes();
+		
+		List<Node> nodes = Lists.newArrayList();
+		nodes.addAll(network.getNodes());
+		for(Network n : network.getNetworks()){
+			nodes.addAll(nodesForNetwork(n));
+		}
+		return nodes;
 	}
 
 	/**
