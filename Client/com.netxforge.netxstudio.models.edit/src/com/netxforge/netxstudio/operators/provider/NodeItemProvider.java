@@ -214,7 +214,7 @@ public class NodeItemProvider extends BaseItemProvider implements
 	@Override
 	public String getText(Object object) {
 		Node node = (Node) object;
-		return "Network Element" + "\"" + node.getNodeID() == null || node.getNodeID().length() == 0 ? "<not set>" : node.getNodeID() + "\"";
+		return "Network Element" + node.getNodeID() == null || node.getNodeID().length() == 0 ? "<not set>" : "\"" + node.getNodeID() + "\"";
 	}
 	
 	
