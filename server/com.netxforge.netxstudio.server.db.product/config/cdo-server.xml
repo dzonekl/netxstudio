@@ -17,9 +17,11 @@
 	
 		<property name="overrideUUID" value=""/>
 		
-		<!--  Disable auditing. 
-		<property name="supportingBranches" value="true"/>
-		<property name="supportingAudits" value="true"/>
+		 
+		<property name="supportingBranches" value="false"/>
+		<property name="supportingAudits" value="false"/>
+		<!--  Disable auditing.
+		
 		--> 
 
 		<initialPackage nsURI="http://www.netxforge.com/13042011/geo"/>
