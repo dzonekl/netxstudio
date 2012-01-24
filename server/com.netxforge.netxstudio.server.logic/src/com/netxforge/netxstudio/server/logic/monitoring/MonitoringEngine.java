@@ -80,7 +80,7 @@ public class MonitoringEngine extends BaseComponentEngine {
 		getExpressionEngine().getContext().clear();
 		getExpressionEngine().getContext().add(getPeriod());
 		getExpressionEngine().getContext().add(getComponent());
-		final Node node = getCommonLogic().getNode(getComponent());
+		final Node node = getModelUtils().nodeFor(getComponent());
 		getExpressionEngine().getContext().add(node);
 		
 		// CB 16-12-2011, moved capacity expression content, to be the resource. 

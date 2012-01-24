@@ -75,8 +75,7 @@ public class RetentionEngine extends BaseComponentEngine {
 				if(dtr != null && expression != null){
 					getExpressionEngine().getContext().clear();
 					getExpressionEngine().getContext().add(getPeriod());
-					getExpressionEngine().getContext().add(
-							getCommonLogic().getNode(getComponent()));
+					getExpressionEngine().getContext().add(this.getModelUtils().nodeFor(getComponent()));
 					getExpressionEngine().getContext().add(netXResource);
 
 					runForExpression(expression);
