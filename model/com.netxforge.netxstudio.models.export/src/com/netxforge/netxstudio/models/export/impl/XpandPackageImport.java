@@ -9,7 +9,7 @@ import org.eclipse.xpand2.output.Output;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.models.export.internal.Activator;
+import com.netxforge.netxstudio.models.export.internal.ExportActivator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -42,7 +42,7 @@ public class XpandPackageImport extends XpandTemplateImpl {
 		Output output = XpandCallerService.defineOutput(res, true);
 		XpandFacade facade = XpandCallerService.createXpandFacade(getEmfMetaModels(), getGlobalVarsMap(),  output);
 		XpandCallerService.evaluate(facade, getTemplateCall(), target);
-		Activator.logInfo(XpandCallerService.getOutput(output));
+		ExportActivator.logInfo(XpandCallerService.getOutput(output));
 	}
 
 	public boolean isMetaTarget() {

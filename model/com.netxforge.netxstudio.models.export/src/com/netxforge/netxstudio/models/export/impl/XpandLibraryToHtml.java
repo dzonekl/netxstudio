@@ -7,7 +7,7 @@ import org.eclipse.xpand2.XpandFacade;
 import org.eclipse.xpand2.output.Output;
 
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.models.export.internal.Activator;
+import com.netxforge.netxstudio.models.export.internal.ExportActivator;
 
 public class XpandLibraryToHtml extends XpandTemplateImpl {
 
@@ -36,7 +36,7 @@ public class XpandLibraryToHtml extends XpandTemplateImpl {
 		Output output = XpandCallerService.defineOutput(res, true);
 		XpandFacade facade = XpandCallerService.createXpandFacade(getEmfMetaModels(), getGlobalVarsMap(),  output);
 		XpandCallerService.evaluate(facade, getTemplateCall(), target);
-		Activator.logInfo(XpandCallerService.getOutput(output));
+		ExportActivator.logInfo(XpandCallerService.getOutput(output));
 	}
 
 	public boolean isMetaTarget() {
