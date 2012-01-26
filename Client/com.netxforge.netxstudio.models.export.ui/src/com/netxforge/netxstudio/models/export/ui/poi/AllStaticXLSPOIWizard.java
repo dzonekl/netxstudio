@@ -7,18 +7,22 @@ import org.eclipse.ui.IWorkbench;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.models.export.IExportFilter;
+import com.netxforge.netxstudio.models.export.StaticExportFilter;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
-public class AllXLSPOIWizard extends AbstractExportPOIRevengeWizard {
+public class AllStaticXLSPOIWizard extends AbstractExportPOIRevengeWizard {
 
 	@SuppressWarnings("unused")
 	private IStructuredSelection selection;
 
 	EPackage[] getEPackages() {
-		return new EPackage[] { ServicesPackage.eINSTANCE, MetricsPackage.eINSTANCE,
-				LibraryPackage.eINSTANCE, OperatorsPackage.eINSTANCE, GenericsPackage.eINSTANCE , SchedulingPackage.eINSTANCE};
+		return new EPackage[] { ServicesPackage.eINSTANCE,
+				MetricsPackage.eINSTANCE, LibraryPackage.eINSTANCE,
+				OperatorsPackage.eINSTANCE, GenericsPackage.eINSTANCE,
+				SchedulingPackage.eINSTANCE };
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -27,11 +31,16 @@ public class AllXLSPOIWizard extends AbstractExportPOIRevengeWizard {
 		setNeedsProgressMonitor(true);
 	}
 
-//	@Override
-//	Object[] getTargetObjects() {
-//		Resource metricsourceResource = super.dataProvider
-//				.getResource(MetricsPackage.Literals.METRIC_SOURCE);
-//		return metricsourceResource.getContents().toArray();
-//	}
+	@Override
+	IExportFilter getExportFilter() {
+		return new StaticExportFilter();
+	}
+
+	// @Override
+	// Object[] getTargetObjects() {
+	// Resource metricsourceResource = super.dataProvider
+	// .getResource(MetricsPackage.Literals.METRIC_SOURCE);
+	// return metricsourceResource.getContents().toArray();
+	// }
 
 }

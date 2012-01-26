@@ -13,6 +13,7 @@ import org.eclipse.ui.IWorkbench;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.models.export.IExportFilter;
 import com.netxforge.netxstudio.models.export.MasterDataExporterRevengeJob;
 import com.netxforge.netxstudio.models.export.ui.pages.ExportNewFileWizardPage;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
@@ -32,8 +33,8 @@ public abstract class AbstractExportPOIRevengeWizard extends Wizard implements
 
 	abstract EPackage[] getEPackages();
 	
-//	abstract Object[] getTargetObjects();
-
+	abstract IExportFilter getExportFilter();
+	
 	@Override
 	public boolean performFinish() {
 
@@ -53,6 +54,7 @@ public abstract class AbstractExportPOIRevengeWizard extends Wizard implements
 				dataProvider, getEPackages());
 		
 //		job.setTargetObjects(this.getTargetObjects());
+		job.setExportFilter(this.getExportFilter());
 		job.addNotifier(new JobChangeAdapter() {
 			@Override
 			public void done(IJobChangeEvent event) {

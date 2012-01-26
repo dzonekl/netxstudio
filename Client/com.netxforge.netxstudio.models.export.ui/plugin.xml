@@ -114,13 +114,23 @@
 -->     
      <wizard
           category="com.netxforge.netxstudio.ui.category.export"
-          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.poi.AllXLSPOIWizard"
+          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.poi.AllStaticXLSPOIWizard"
           icon="icons/full/wizban/export_wiz.png"
           id="com.netxforge.netxstudio.models.export.wizard.ui.all.xls"
-          name="Export All Data to XLS">
+          name="Export All Static Data to XLS">
        <description>
          Export All Data to XLS
        </description>
     </wizard>
+     <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.poi.AllDynamicXLSPOIWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.ui.all.xls"
+          name="Export All Dynamic Data to XLS">
+       <description>
+         Export All Data to XLS
+       </description>
+    </wizard>    
  </extension>
 </plugin>
