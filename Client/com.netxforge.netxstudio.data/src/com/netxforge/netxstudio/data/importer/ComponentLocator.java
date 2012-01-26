@@ -310,7 +310,7 @@ public class ComponentLocator {
 //		Collections.copy(lookupList, descriptors);
 //		lookupList.remove(indexOfNodeDescriptor);
 
-		Component result = matchIdentifiersAdvanced(descriptors,
+		Component result = matchIdentifiers(descriptors,
 				nodeDescriptor, allComponentsMatchingMetric);
 
 		if (result != null) {
@@ -406,8 +406,6 @@ public class ComponentLocator {
 	}
 	
 	
-	// CB Early version, remove later. 
-	@SuppressWarnings("unused")
 	private Component matchIdentifiers(List<IdentifierDescriptor> identifiers,
 			IdentifierDescriptor nodeIdentifier,
 			List<Component> allComponentsMatchingMetrics) {
@@ -506,6 +504,9 @@ public class ComponentLocator {
 		return null;
 	}
 
+	
+	// DO NOT USE, DOESN"T WORK. 
+	@SuppressWarnings("unused")
 	private Component matchIdentifiersAdvanced(
 			List<IdentifierDescriptor> identifiers,
 			IdentifierDescriptor nodeIdentifier,
@@ -528,6 +529,7 @@ public class ComponentLocator {
 			atLeastOneIdentifierChecked = true;
 
 			if(idDescriptor.getKind().getObjectKind() == ObjectKindType.NODE ){
+				// If no other identifiers, this should still work. 
 				continue; // skip node descriptor
 			}else if (idDescriptor.getKind().getObjectKind() == ObjectKindType.RELATIONSHIP) {
 				// TODO, predicate for relationships.
