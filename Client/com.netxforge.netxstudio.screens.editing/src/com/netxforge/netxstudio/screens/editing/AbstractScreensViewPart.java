@@ -59,7 +59,6 @@ import com.netxforge.netxstudio.screens.editing.actions.EditingActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * A ViewPart which acts as an editor.
@@ -263,7 +262,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	public void updateActiveScreenDirtyNess() {
 		if (this.getActiveScreen() == null
-				|| ScreenUtil.compositeFor(this.getActiveScreen()).isDisposed()) {
+				|| this.getActiveScreen().getScreenForm().isDisposed()) {
 			return;
 		}
 
@@ -357,6 +356,10 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			// Add a listener to set the viewer dirty state.
 			CommandStackListener cmdStackListener = new CommandStackListener() {
 				public void commandStackChanged(final EventObject event) {
+
+					// Note this also fires when flushing the command stack, as
+					// this is executed async,
+					// the widget is disposed.
 					getViewSite().getShell().getDisplay()
 							.asyncExec(new Runnable() {
 								public void run() {
