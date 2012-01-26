@@ -35,11 +35,7 @@ import org.eclipse.emf.ecore.EPackage;
 
 import com.netxforge.netxstudio.data.IDataProvider;
 
-/**
- * Processes an .csv file, and returns as records for a viewer.
- */
 public class MasterDataExporterRevengeJob implements IJobChangeListener {
-	// public static final XLSServiceJob INSTANCE = new XLSServiceJob();
 	private IPath res;
 	private ScanningJob j = new ScanningJob("Writing file...");
 
@@ -53,7 +49,7 @@ public class MasterDataExporterRevengeJob implements IJobChangeListener {
 	}
 
 	private List<EObject> results;
-	private Object[] targetObjects;
+	private IExportFilter exportFilter;
 
 	public List<EObject> getResults() {
 		return results;
@@ -74,11 +70,6 @@ public class MasterDataExporterRevengeJob implements IJobChangeListener {
 
 	public void setIPathToProcess(IPath res) {
 		this.res = res;
-	}
-	
-
-	public void setTargetObjects(Object... targetObjects) {
-		this.targetObjects = targetObjects;
 	}
 
 	protected class ScanningJob extends Job {
@@ -108,7 +99,7 @@ public class MasterDataExporterRevengeJob implements IJobChangeListener {
 			final MasterDataExporterRevenge masterDataExporter = new MasterDataExporterRevenge();
 			masterDataExporter.setDataProvider(dataProvider);
 			masterDataExporter.setPackagesToExport(ePackages);
-			masterDataExporter.setExportObjects(targetObjects);
+			masterDataExporter.setExportFilter(exportFilter);
 			masterDataExporter.process(fileOut);
 			fileOut.close();
 			// setResults(masterDataImporter.getResolvedObjects());
@@ -143,6 +134,10 @@ public class MasterDataExporterRevengeJob implements IJobChangeListener {
 
 	public void sleeping(IJobChangeEvent event) {
 		System.out.println("Job zzzzzz: " + event.getJob().getName()); //$NON-NLS-1$
+	}
+
+	public void setExportFilter(IExportFilter exportFilter) {
+		this.exportFilter = exportFilter;
 	}
 
 }

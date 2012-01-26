@@ -32,6 +32,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -39,29 +40,23 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 public class MasterDataExporterRevenge {
 
 	private IDataProvider dataProvider;
 	private EPackage[] ePackages;
-	@SuppressWarnings("unused")
-	private Object[] exportObjects = null;
-	@SuppressWarnings("unused")
-	private EStructuralFeature[] featureFilter;
-
-	@SuppressWarnings("unused")
-	private EClass[] classFilter;
 
 	private Map<EClass, List<EObject>> cache = Maps.newHashMap();
 
 	HSSFWorkbook workBook;
+	private IExportFilter exportFilter;
 
 	public void process(FileOutputStream fileOut) {
 
@@ -76,14 +71,13 @@ public class MasterDataExporterRevenge {
 
 	private void processPackages(EPackage[] ePackages) {
 
-		// ImmutableList<EPackage> of = ImmutableList.of(ePackages);
-		// for (EPackage ePackage : of) {
-		// this.processPackage(ePackage);
-		// }
+		if (exportFilter == null) {
+			// bail it's mandatory for now.
+			return;
+		}
 
-		List<EClassifier> alphabetOrderedClassesFor = ExportFilter
+		List<EClassifier> alphabetOrderedClassesFor = exportFilter
 				.alphabetOrderedClassesFor(ePackages);
-
 		buildCache(alphabetOrderedClassesFor);
 
 		for (EClassifier eClassifier : alphabetOrderedClassesFor) {
@@ -124,8 +118,26 @@ public class MasterDataExporterRevenge {
 					}
 
 				} else {
-					Resource resource = dataProvider.getResource(eClass);
-					cacheForResource(resource);
+
+					Resource resource = null;
+					;
+
+					// For some classes we should use the super type to get the
+					// resource.
+					EList<EClass> eAllSuperTypes = eClass.getEAllSuperTypes();
+					if (eAllSuperTypes.contains(SchedulingPackage.Literals.JOB)) {
+						int indexOf = eAllSuperTypes
+								.indexOf(SchedulingPackage.Literals.JOB);
+						EClass eClassJob = eAllSuperTypes.get(indexOf);
+						resource = dataProvider.getResource(eClassJob);
+
+					} else {
+						resource = dataProvider.getResource(eClass);
+					}
+
+					if (resource != null) {
+						cacheForResource(resource);
+					}
 				}
 			}
 		}
@@ -134,15 +146,19 @@ public class MasterDataExporterRevenge {
 	private void cacheForResource(Resource resource) {
 		if (resource != null && resource.getContents().size() > 0) {
 			TreeIterator<EObject> allContents = resource.getAllContents();
-//			List<EObject> closure = ImmutableList.copyOf(allContents);
+			// List<EObject> closure = ImmutableList.copyOf(allContents);
 			while (allContents.hasNext()) {
 				EObject closureObject = allContents.next();
 				EClass objectClass = closureObject.eClass();
 				if (cache.containsKey(objectClass)) {
 					List<EObject> currentForClass = Lists.newArrayList(cache
 							.get(objectClass));
-					currentForClass.add(closureObject);
-					cache.put(objectClass, currentForClass);
+					// We could have duplicates, if the resource holds all
+					// objects from a super class. I.e. Job EClass. 
+					if (!currentForClass.contains(closureObject)) {
+						currentForClass.add(closureObject);
+						cache.put(objectClass, currentForClass);
+					}
 				} else {
 					List<EObject> currentForClass = Lists.newArrayList();
 					currentForClass.add(closureObject);
@@ -345,9 +361,9 @@ public class MasterDataExporterRevenge {
 		this.ePackages = ePackages;
 	}
 
-	public void setExportObjects(Object... contextObjects) {
-		this.exportObjects = contextObjects;
-	}
+	// public void setExportObjects(Object... contextObjects) {
+	// this.exportObjects = contextObjects;
+	// }
 
 	private List<EObject> contextObjectsForClass(EClass eClass) {
 
@@ -703,14 +719,6 @@ public class MasterDataExporterRevenge {
 
 	}
 
-	public void setFeatureFilter(EStructuralFeature[] featureFilter) {
-		this.featureFilter = featureFilter;
-	}
-
-	public void setClassFilter(EClass[] classFilter) {
-		this.classFilter = classFilter;
-	}
-
 	public List<EReference> filterMultiRefs(EClass eClass) {
 		List<EReference> multiRefs = Lists.newArrayList();
 		for (EReference eReference : eClass.getEAllReferences()) {
@@ -729,6 +737,10 @@ public class MasterDataExporterRevenge {
 			}
 		}
 		return nonDerivedAttributes;
+	}
+
+	public void setExportFilter(IExportFilter exportFilter) {
+		this.exportFilter = exportFilter;
 	}
 
 }
