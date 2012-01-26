@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: NetXStudio Model Exporter
 Bundle-SymbolicName: com.netxforge.netxstudio.models.export
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.netxforge.netxstudio.models.export.internal.Activator
+Bundle-Activator: com.netxforge.netxstudio.models.export.internal.ExportActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
