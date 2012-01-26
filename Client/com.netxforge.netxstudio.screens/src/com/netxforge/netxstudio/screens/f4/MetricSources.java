@@ -541,12 +541,13 @@ public class MetricSources extends AbstractScreen implements
 				}
 				case 2: {
 
-					long ts = modelUtils.mostRecentContainedDated(ms);
-					if (ts == 0) {
-						return "<unknown>";
-					}
-					Date d = new Date(ts);
-					return modelUtils.date(d) + " @ " + modelUtils.time(d);
+//					long ts = modelUtils.mostRecentContainedDated(ms);
+//					if (ts == 0) {
+//						return "<unknown>";
+//					}
+//					Date d = new Date(ts);
+//					return modelUtils.date(d) + " @ " + modelUtils.time(d);
+					return "";
 				}
 
 				}
