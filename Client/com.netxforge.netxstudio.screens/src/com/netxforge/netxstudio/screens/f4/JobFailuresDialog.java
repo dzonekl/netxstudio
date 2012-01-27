@@ -34,7 +34,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 
-public class JobFailures extends Dialog implements IDataScreenInjection {
+public class JobFailuresDialog extends Dialog implements IDataScreenInjection {
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
 	private WorkFlowRun workflowRun;
@@ -46,7 +46,7 @@ public class JobFailures extends Dialog implements IDataScreenInjection {
 	 * 
 	 * @param parentShell
 	 */
-	public JobFailures(Shell parentShell) {
+	public JobFailuresDialog(Shell parentShell) {
 		super(parentShell);
 		setShellStyle(SWT.RESIZE);
 	}
@@ -87,7 +87,7 @@ public class JobFailures extends Dialog implements IDataScreenInjection {
 		mntmNewItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				JobFailures.this.close();
+				JobFailuresDialog.this.close();
 				ISelection sel = listViewer.getSelection();
 				if (sel instanceof IStructuredSelection) {
 					Object first = ((IStructuredSelection) sel)

@@ -33,12 +33,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -47,8 +45,6 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -58,7 +54,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.Form;
@@ -66,16 +61,16 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
-import com.netxforge.netxstudio.scheduling.ExpressionFailure;
-import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
+import com.netxforge.netxstudio.scheduling.JobRunState;
+import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
+import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.f4.support.LogDialog;
 
@@ -196,52 +191,80 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 	private Job job;
 	private JobRunContainer currentJobContainer;
 
-	class ShowLogAction extends Action {
+	class ShowLogAction extends BaseSelectionListenerAction {
 
 		public ShowLogAction(String text) {
 			super(text);
 		}
 
 		@Override
-		public void run() {
-			ISelection selection = jobRunsTableViewer.getSelection();
-			if (selection instanceof IStructuredSelection) {
-				IStructuredSelection ss = (IStructuredSelection) selection;
-				Object o = ss.getFirstElement();
-				if (o instanceof WorkFlowRun) {
-					String log = ((WorkFlowRun) o).getLog();
-					if (log != null) {
-						LogDialog ld = new LogDialog(JobRuns.this.getShell());
-						ld.InjectData(log);
-						ld.open();
-					} else {
-						// TODO, no log available user feedback.
-					}
-				}
-			}
+		protected boolean updateSelection(IStructuredSelection selection) {
+			return assertHasLog(selection.getFirstElement());
 		}
+
+		@Override
+		public void run() {
+
+			WorkFlowRun wfr = (WorkFlowRun) getStructuredSelection()
+					.getFirstElement();
+			String log = wfr.getLog();
+			LogDialog ld = new LogDialog(JobRuns.this.getShell());
+			ld.InjectData(log);
+			ld.open();
+
+		}
+
+		private boolean assertHasLog(Object selectedObject) {
+			return selectedObject instanceof WorkFlowRun
+					&& ((WorkFlowRun) selectedObject)
+							.eIsSet(SchedulingPackage.Literals.WORK_FLOW_RUN__LOG);
+
+		}
+
 	}
 
-	class ShowFailuresAction extends Action {
+	class ShowFailuresAction extends BaseSelectionListenerAction {
 
 		public ShowFailuresAction(String text) {
 			super(text);
 		}
 
 		@Override
+		protected boolean updateSelection(IStructuredSelection selection) {
+			return assertHasFailures(selection.getFirstElement())
+					|| isMetricSourceJob(selection.getFirstElement());
+		}
+
+		private boolean assertHasFailures(Object selectedObject) {
+			return selectedObject instanceof ComponentWorkFlowRun
+					&& ((ComponentWorkFlowRun) selectedObject).getFailureRefs()
+							.size() > 0;
+		}
+
+		private boolean isMetricSourceJob(Object selectedObject) {
+			return job instanceof MetricSourceJob;
+		}
+
+		@Override
 		public void run() {
-			ISelection selection = jobRunsTableViewer.getSelection();
-			if (selection instanceof IStructuredSelection) {
 
-				IStructuredSelection ss = (IStructuredSelection) selection;
-				Object o = ss.getFirstElement();
-				if (o instanceof ComponentWorkFlowRun) {
+			if (job instanceof MetricSourceJob) {
+				MessageDialog
+						.openInformation(
+								Display.getDefault().getActiveShell(),
+								"Metric Source",
+								"Failures for job: "
+										+ job.getName()
+										+ ", can be obtained from the mapping statistics for the corresponding Metric source(s)");
+			} else {
 
-					JobFailures jf = new JobFailures(JobRuns.this.getShell());
-					jf.setBlockOnOpen(true);
-					int result = jf.open(o);
-					if (result == Window.OK) {
-					}
+				ComponentWorkFlowRun cwfr = (ComponentWorkFlowRun) this
+						.getStructuredSelection().getFirstElement();
+				JobFailuresDialog jf = new JobFailuresDialog(
+						JobRuns.this.getShell());
+				jf.setBlockOnOpen(true);
+				int result = jf.open(cwfr);
+				if (result == Window.OK) {
 				}
 			}
 		}
@@ -298,40 +321,42 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 					&& currentJobContainer.getWorkFlowRuns().get(0) instanceof ComponentWorkFlowRun) {
 				// This is a conditional menu, if the workflowrun is an
 				// ExpressionWorkflowrun.
-				MenuItem mntmExpressions = new MenuItem(jobRunMenu, SWT.NONE);
-				mntmExpressions.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						ISelection selection = jobRunsTableViewer
-								.getSelection();
-						if (selection instanceof IStructuredSelection) {
-							IStructuredSelection ss = (IStructuredSelection) selection;
-							Object o = ss.getFirstElement();
-							if (o instanceof ComponentWorkFlowRun) {
-								ComponentWorkFlowRun wfRun = (ComponentWorkFlowRun) o;
-								List<Failure> failures = wfRun.getFailureRefs();
-								for (Failure f : failures) {
-									if (f instanceof ExpressionFailure) {
-										ExpressionFailure ef = (ExpressionFailure) f;
-										System.out
-												.println("Expression failed: "
-														+ ef.getExpressionRef()
-																.getName());
-										System.out.println("Msg: "
-												+ f.getMessage());
-									}
-									if (f instanceof ComponentFailure) {
-										System.out.println("Component: "
-												+ ((ComponentFailure) f)
-														.getComponentRef()
-														.getName());
-									}
-								}
-							}
-						}
-					}
-				});
-				mntmExpressions.setText("Expressions...");
+				
+				// TODO Remove, with actions this doens't work, besides we have another dialog for this. 
+//				MenuItem mntmExpressions = new MenuItem(jobRunMenu, SWT.NONE);
+//				mntmExpressions.addSelectionListener(new SelectionAdapter() {
+//					@Override
+//					public void widgetSelected(SelectionEvent e) {
+//						ISelection selection = jobRunsTableViewer
+//								.getSelection();
+//						if (selection instanceof IStructuredSelection) {
+//							IStructuredSelection ss = (IStructuredSelection) selection;
+//							Object o = ss.getFirstElement();
+//							if (o instanceof ComponentWorkFlowRun) {
+//								ComponentWorkFlowRun wfRun = (ComponentWorkFlowRun) o;
+//								List<Failure> failures = wfRun.getFailureRefs();
+//								for (Failure f : failures) {
+//									if (f instanceof ExpressionFailure) {
+//										ExpressionFailure ef = (ExpressionFailure) f;
+//										System.out
+//												.println("Expression failed: "
+//														+ ef.getExpressionRef()
+//																.getName());
+//										System.out.println("Msg: "
+//												+ f.getMessage());
+//									}
+//									if (f instanceof ComponentFailure) {
+//										System.out.println("Component: "
+//												+ ((ComponentFailure) f)
+//														.getComponentRef()
+//														.getName());
+//									}
+//								}
+//							}
+//						}
+//					}
+//				});
+//				mntmExpressions.setText("Expressions...");
 			}
 		}
 
@@ -341,8 +366,8 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 	@Override
 	public IAction[] getActions() {
-		
-		// lazy init actions. 
+
+		// lazy init actions.
 		if (actions.isEmpty()) {
 			actions.add(new ShowLogAction("Show Log..."));
 			actions.add(new ShowFailuresAction("Show Failures..."));
@@ -420,13 +445,25 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof WorkFlowRun) {
 				WorkFlowRun j = (WorkFlowRun) element;
-
 				switch (columnIndex) {
 				case 0: {
 					if (j instanceof ComponentWorkFlowRun) {
 						return "Expression run";
 					} else {
 						return "Workflow run";
+					}
+				}
+				case 1: {
+					switch (j.getState().getValue()) {
+					case JobRunState.RUNNING_VALUE: {
+						return "Running...";
+					}
+					case JobRunState.FINISHED_WITH_ERROR_VALUE: {
+						return "Done, errors occured";
+					}
+					case JobRunState.FINISHED_SUCCESSFULLY_VALUE: {
+						return "Done";
+					}
 					}
 				}
 				case 5: {

@@ -56,7 +56,9 @@ public class NewEditMetricSource extends AbstractScreen implements
 	private Form frmNewEditMetricSource;
 
 	private EMFDataBindingContext context;
-	private Text txtFilePattern;
+	
+	// CB, 26012012, moved to AbstractFileBasedMapping. 
+//	private Text txtFilePattern;
 
 	/**
 	 * Create the composite.
@@ -136,12 +138,14 @@ public class NewEditMetricSource extends AbstractScreen implements
 		txtLocationUrl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
 		
-		Label lblFilePattern = toolkit.createLabel(composite_1, "File Pattern:", SWT.NONE);
-		lblFilePattern.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
-		txtFilePattern = toolkit.createText(composite_1, "New Text", SWT.NONE);
-		txtFilePattern.setText("");
-		txtFilePattern.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		// CB 26012012, moved to AbstractFileBasedMapping.
+//		Label lblFilePattern = toolkit.createLabel(composite_1, "File Pattern:", SWT.NONE);
+//		lblFilePattern.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+//		
+//		txtFilePattern = toolkit.createText(composite_1, "New Text", SWT.NONE);
+//		txtFilePattern.setText("");
+//		txtFilePattern.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		Label lblNewEditMapping = toolkit.createLabel(composite_1, "Mapping:",
 				SWT.NONE);
@@ -250,9 +254,10 @@ public class NewEditMetricSource extends AbstractScreen implements
 		
 		IObservableValue locationObservable = SWTObservables.observeText(
 				this.txtLocationUrl, SWT.Modify);
-
-		IObservableValue filePatternObservable = SWTObservables.observeText(
-				this.txtFilePattern, SWT.Modify);
+		
+		// CB 26012012, moved to AbstractFileBasedMapping.
+//		IObservableValue filePatternObservable = SWTObservables.observeText(
+//				this.txtFilePattern, SWT.Modify);
 
 		
 		IEMFValueProperty nameProperty = EMFEditProperties.value(
@@ -263,9 +268,9 @@ public class NewEditMetricSource extends AbstractScreen implements
 				editingService.getEditingDomain(),
 				MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION);
 
-		IEMFValueProperty filePatternProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				MetricsPackage.Literals.METRIC_SOURCE__FILTER_PATTERN);
+//		IEMFValueProperty filePatternProperty = EMFEditProperties.value(
+//				editingService.getEditingDomain(),
+//				MetricsPackage.Literals.METRIC_SOURCE__FILTER_PATTERN);
 
 		
 		context.bindValue(nameObservable, nameProperty.observe(metricSource),
@@ -274,8 +279,8 @@ public class NewEditMetricSource extends AbstractScreen implements
 		context.bindValue(locationObservable,
 				locationProperty.observe(metricSource), locationStrategy, null);
 		
-		context.bindValue(filePatternObservable,
-				filePatternProperty.observe(metricSource), null, null);
+//		context.bindValue(filePatternObservable,
+//				filePatternProperty.observe(metricSource), null, null);
 
 		
 		return context;

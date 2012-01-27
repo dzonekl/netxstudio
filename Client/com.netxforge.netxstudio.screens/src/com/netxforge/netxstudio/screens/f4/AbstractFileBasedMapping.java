@@ -76,7 +76,7 @@ import com.netxforge.netxstudio.screens.f4.support.CSVServiceJob;
 import com.netxforge.netxstudio.screens.f4.support.XLSServiceJob;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
-public abstract class AbstractMapping extends AbstractScreen {
+public abstract class AbstractFileBasedMapping extends AbstractScreen {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	protected MetricSource metricSource;
@@ -109,6 +109,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 			ValueDataKindImpl.class, "Value");
 	private Section sctnHeaderMapping;
 	private Button btnEnableHeaderMapping;
+	private Text txtFilePattern;
 
 	/**
 	 * Create the composite.
@@ -116,7 +117,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 	 * @param parent
 	 * @param style
 	 */
-	public AbstractMapping(Composite parent, int style) {
+	public AbstractFileBasedMapping(Composite parent, int style) {
 		super(parent, style);
 
 		// this.buildSashComposites();
@@ -198,7 +199,14 @@ public abstract class AbstractMapping extends AbstractScreen {
 		toolkit.paintBordersFor(generalComposite);
 		sctnGeneral.setClient(generalComposite);
 		generalComposite.setLayout(new GridLayout(2, false));
+		
+		Label lblFilePattern = toolkit.createLabel(generalComposite, "File Pattern:", SWT.NONE);
+		lblFilePattern.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		
+		txtFilePattern = toolkit.createText(generalComposite, "New Text", SWT.NONE);
+		txtFilePattern.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
+		
 		Label lblIntervalHint = toolkit.createLabel(generalComposite,
 				"Interval (min):", SWT.NONE);
 		GridData gd_lblIntervalHint = new GridData(SWT.RIGHT, SWT.CENTER,
@@ -552,8 +560,20 @@ public abstract class AbstractMapping extends AbstractScreen {
 				MetricsPackage.Literals.MAPPING__INTERVAL_HINT);
 
 		context.bindValue(intervalObservableValue,
-				intervalHintProperty.observe(mapping), null, null);
+				intervalHintProperty.observe(mapping));
+		
+		
+		
+		IObservableValue filePatternObservable = SWTObservables.observeText(
+				this.txtFilePattern, SWT.Modify);
+			
+		IEMFValueProperty filePatternProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				MetricsPackage.Literals.METRIC_SOURCE__FILTER_PATTERN);
+		
+		context.bindValue(filePatternObservable,filePatternProperty.observe(metricSource));
 
+		
 	}
 
 	protected void initHeaderMappingBinding(EMFDataBindingContext context) {
@@ -675,7 +695,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 		} else {
 			sctnHeaderMapping.setVisible(selection);
 			sctnHeaderMapping.setExpanded(selection);
-			AbstractMapping.this.leftComposite.layout(true);
+			AbstractFileBasedMapping.this.leftComposite.layout(true);
 
 		}
 	}
@@ -931,7 +951,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 				if (records != null) {
 					Display.getDefault().asyncExec(new Runnable() {
 						public void run() {
-							if (AbstractMapping.this
+							if (AbstractFileBasedMapping.this
 									.storeMetricSourceSampleFile(metricSource,
 											f)) {
 								// Succesfully storing.
@@ -966,7 +986,7 @@ public abstract class AbstractMapping extends AbstractScreen {
 				if (records != null) {
 					Display.getDefault().asyncExec(new Runnable() {
 						public void run() {
-							if (AbstractMapping.this
+							if (AbstractFileBasedMapping.this
 									.storeMetricSourceSampleFile(metricSource,
 											f)) {
 								// Succesfully storing.

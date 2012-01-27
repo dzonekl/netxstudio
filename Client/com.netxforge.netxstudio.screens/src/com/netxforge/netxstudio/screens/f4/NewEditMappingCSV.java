@@ -51,7 +51,7 @@ import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu.MappingMenuListener;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
-public class NewEditMappingCSV extends AbstractMapping implements
+public class NewEditMappingCSV extends AbstractFileBasedMapping implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
