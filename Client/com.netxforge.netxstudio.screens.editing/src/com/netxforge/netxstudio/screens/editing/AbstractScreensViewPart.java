@@ -79,7 +79,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 * This keeps track of the selection of the view as a whole.
 	 */
 	protected ISelection viewSelection = StructuredSelection.EMPTY;
-	private MenuManager contextMenu;
+//	private MenuManager contextMenu;
 
 	public abstract IEditingService getEditingService();
 
@@ -101,7 +101,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	@Override
 	public void createPartControl(Composite parent) {
 		initializeToolBar();
-		initializeMenu();
 	}
 
 	// Databinding API
@@ -146,23 +145,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		IToolBarManager tbm = getViewSite().getActionBars().getToolBarManager();
 	}
 
-	/**
-	 * Initialize the menu.
-	 */
-	private void initializeMenu() {
-		// IMenuManager manager =
-		// getViewSite().getActionBars().getMenuManager();
-		// IMenuManager x = new MenuManager("Test",
-		// "com.netxforge.netxstudio.test");
-		// manager.add(x);
-
-		contextMenu = new MenuManager("#PopUp");
-		contextMenu.add(new Separator("additions"));
-		contextMenu.setRemoveAllWhenShown(true);
-		contextMenu.addMenuListener(this);
-
-	}
-
 	@Override
 	public void setFocus() {
 		// Set the focus
@@ -196,8 +178,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 		actionHandlerDescriptor.initActions(site.getActionBars());
 		// hookPageSelection();
-
-		this.initializeMenu();
 
 	}
 
@@ -426,16 +406,15 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 */
 	protected void augmentContextMenuFor(StructuredViewer viewer) {
 
-		Menu currentMenu = viewer.getControl().getMenu();
+		MenuManager contextMenu = new MenuManager("#PopUp");
+		contextMenu.add(new Separator("additions"));
+		contextMenu.setRemoveAllWhenShown(true);
+		contextMenu.addMenuListener(this);
+		Menu menu = contextMenu.createContextMenu(viewer.getControl());
+		viewer.getControl().setMenu(menu);
 
-		if (currentMenu == null) {
-			Menu menu = contextMenu.createContextMenu(viewer.getControl());
-			viewer.getControl().setMenu(menu);
-
-			getSite().registerContextMenu(contextMenu,
-					new UnwrappingSelectionProvider(viewer));
-
-		}
+		getSite().registerContextMenu(contextMenu,
+				new UnwrappingSelectionProvider(viewer));
 
 		// if (viewer instanceof TreeViewer) {
 		// int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
