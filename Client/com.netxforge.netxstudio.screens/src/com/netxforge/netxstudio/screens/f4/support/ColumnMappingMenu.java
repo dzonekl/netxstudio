@@ -21,7 +21,7 @@ import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.f4.AbstractMapping;
+import com.netxforge.netxstudio.screens.f4.AbstractFileBasedMapping;
 import com.netxforge.netxstudio.screens.f4.NewEditMappingColumn;
 
 public class ColumnMappingMenu {
@@ -313,8 +313,8 @@ public class ColumnMappingMenu {
 			}
 
 			IScreen activeScreen = screenService.getActiveScreen();
-			if (activeScreen instanceof AbstractMapping) {
-				((AbstractMapping) activeScreen).newColumnMappingScreenDialog(false, ScreenUtil.OPERATION_NEW,
+			if (activeScreen instanceof AbstractFileBasedMapping) {
+				((AbstractFileBasedMapping) activeScreen).newColumnMappingScreenDialog(false, ScreenUtil.OPERATION_NEW,
 				 mapping.getHeaderMappingColumns(), mc);
 			}
 			
@@ -382,8 +382,8 @@ public class ColumnMappingMenu {
 			// mapping.getDataMappingColumns(), mc);
 
 			IScreen activeScreen = screenService.getActiveScreen();
-			if (activeScreen instanceof AbstractMapping) {
-				((AbstractMapping) activeScreen).newColumnMappingScreenDialog(true, ScreenUtil.OPERATION_NEW,
+			if (activeScreen instanceof AbstractFileBasedMapping) {
+				((AbstractFileBasedMapping) activeScreen).newColumnMappingScreenDialog(true, ScreenUtil.OPERATION_NEW,
 				 mapping.getDataMappingColumns(), mc);
 			}
 		}
