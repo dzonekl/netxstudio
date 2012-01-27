@@ -18,6 +18,8 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.data;
 
+import com.netxforge.netxstudio.generics.Role;
+
 /**
  * Provides various services. 
  * 
@@ -37,4 +39,12 @@ public interface IDataService {
 	 */
 	public IQueryService getQueryService();
 
+	
+	/**
+	 * get the current user role. 
+	 * @return
+	 */
+	public Role getCurrentRole();
+	
+	
 }

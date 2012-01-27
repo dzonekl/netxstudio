@@ -15,37 +15,61 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.data;
+
+import java.util.List;
+
+import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.Role;
 
 /**
- * A data service implementation. 
+ * A data service implementation.
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 @Singleton
 public class DataService implements IDataService {
-	
+
 	private final IDataProvider provider;
 	private final IQueryService queryService;
-	
+	private ModelUtils modelUtils;
+
 	@Inject
-	public DataService(IDataProvider provider, IQueryService queryService) {
+	public DataService(IDataProvider provider, IQueryService queryService,
+			ModelUtils modelUtils) {
 		this.provider = provider;
 		this.queryService = queryService;
+		this.modelUtils = modelUtils;
 	}
-	
-	public IDataProvider getProvider(){
+
+	public IDataProvider getProvider() {
 		return provider;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.data.IDataService#getRoleHandler()
 	 */
 	public IQueryService getQueryService() {
 		return queryService;
 	}
+
+	public Role getCurrentRole() {
+		String currentUser = provider.getSessionUserID();
+		Resource resource = provider
+				.getResource(GenericsPackage.Literals.PERSON);
+		List<Person> people = new ModelUtils.CollectionForObjects<Person>()
+				.collectionForObjects(resource.getContents());
+		Role r = modelUtils.roleForUserWithName(currentUser, people);
+		return r;
+	}
+
 }
