@@ -65,4 +65,9 @@ public class LogDialog extends Dialog {
 	public Text getTxtLog() {
 		return txtLog;
 	}
+	
+	protected void configureShell(Shell shell) {
+		super.configureShell(shell);
+		shell.setText("Job run log");
+	}
 }
