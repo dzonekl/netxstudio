@@ -6,7 +6,7 @@
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-               class="com.netxforge.netxstudio.ui.Application">
+              class="com.netxforge.netxstudio.ui.Application">
          </run>
       </application>
    </extension>

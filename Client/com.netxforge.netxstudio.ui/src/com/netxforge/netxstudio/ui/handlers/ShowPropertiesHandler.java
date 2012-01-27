@@ -24,7 +24,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.netxforge.netxstudio.ui.internal.Activator;
+import com.netxforge.netxstudio.ui.internal.UIActivator;
 
 
 public class ShowPropertiesHandler extends AbstractHandler {
@@ -35,7 +35,7 @@ public class ShowPropertiesHandler extends AbstractHandler {
 			page.showView("org.eclipse.ui.views.PropertySheet");
 		}
 		catch (PartInitException exception) {
-			Activator.logError("Error open property", exception);
+			UIActivator.logError("Error open property", exception);
 		}
 		return null;
 	}

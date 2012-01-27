@@ -17,9 +17,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.ui;
 
-import java.util.List;
-
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IPerspectiveListener;
@@ -31,11 +28,8 @@ import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.console.ConsoleService;
 import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.generics.GenericsPackage;
-import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.ui.activities.IActivityAndRoleService;
 import com.netxforge.netxstudio.ui.activities.internal.ActivitiesActivator;
@@ -47,10 +41,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	private IDataService dService;
 
 	@Inject
-	private IActivityAndRoleService aService;
-	
-	@Inject
-	private ModelUtils modelUtils;
+	private IActivityAndRoleService activityService;
 
 	public ApplicationWorkbenchWindowAdvisor(
 			IWorkbenchWindowConfigurer configurer) {
@@ -79,52 +70,24 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		super.postWindowOpen();
 
 		WorkspaceUtil.INSTANCE.initDefaultProject();
-		// WorkspaceUtil.INSTANCE.extractFixturePlugin();
 
 		// Kick of activities.
 		// Inject the data service.
-		ActivitiesActivator.getInjector().injectMembers(this);
+		ActivitiesActivator.getDefault().getInjector().injectMembers(this);
 
 		// 15-11-2011 fixtures moved server side.
-		// if( dService.getProvider() instanceof IFixtures){
-		// ((IFixtures)dService.getProvider()).loadFixtures();
-		// }
 
-		String currentUser = dService.getProvider().getSessionUserID();
+		Role r = dService.getCurrentRole();
 
-		Resource resource = dService.getProvider().getResource(
-				GenericsPackage.Literals.PERSON);
-		List<Person> people = new ModelUtils.CollectionForObjects<Person>().collectionForObjects(resource.getContents());
-		Role r = modelUtils.roleForUserWithName(currentUser, people);
-		
-		// List<Role> roles = dService.getQueryService().getRole(currentUser);
-		
-		
-		// Close, used transactions.
-		// dService.getQueryService().close();
-
-		
 		if (r != null) {
-			aService.enableActivity(r);
+			activityService.enableActivity(r);
 		} else {
 			// Data corruption issue.
 		}
-		
+
 		dService.getProvider().commitTransaction();
-//
-//		
-//		
-//		List<Role> roles = dService.getQueryService().getRole(currentUser);
-//
-//		// Extract the first role.
-//		if (roles.size() == 1) {
-//			aService.enableActivity(roles.get(0));
-//		} else {
-//			// Data corruption issue.
-//		}
-//
-//		// Close, used transactions.
-//		dService.getQueryService().close();
+
+		// dService.getQueryService().close();
 
 		// Get the workbench and disable some actionsets:
 		// These will be added again for another perspective.
@@ -140,14 +103,13 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 					public void perspectiveActivated(IWorkbenchPage page,
 							IPerspectiveDescriptor perspective) {
 						page.closeAllEditors(true);
-						
+
 						hideActionSets(page);
 					}
 
 					public void perspectiveChanged(IWorkbenchPage page,
 							IPerspectiveDescriptor perspective, String changeId) {
-						
-						
+
 					}
 
 				});

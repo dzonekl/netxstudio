@@ -27,6 +27,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
+import com.netxforge.netxstudio.generics.Role;
+
 /**
  * Dialog that lets/forces a user to enter/select a workspace that will be used
  * when saving all configuration files and settings. This dialog is shown at
@@ -42,9 +44,10 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
 
 	// you would probably normally define these somewhere in your Preference
 	// Constants
-	private static final String _KeyWorkspaceRootDir = "wsRootDir";
-	private static final String _KeyRememberWorkspace = "wsRemember";
-	private static final String _KeyLastUsedWorkspaces = "wsLastUsedWorkspaces";
+	private static final String KEY_WORKSPACE_ROOT_DIR = "wsRootDir";
+	private static final String KEY_REMEMBER_WORKSPACE = "wsRemember";
+	private static final String KEY_LAST_USED_WORKSPACE = "wsLastUsedWorkspaces";
+	private static final String KEY_LAST_USED_ROLE = "wsLastRole";
 
 	// this are our preferences we will be using as the IPreferenceStore is not
 	// available yet
@@ -100,14 +103,37 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
 			newShell.setText("Workspace Selection");
 		}
 	}
-
+	
+	/**
+	 * As side effect, of remembering the role, if it was not remembered before. 
+	 * @param r
+	 * @return false, if the role was not remembered before. 
+	 */
+	public static boolean roleChanged(Role r){
+		
+		String lastUsed = _preferences.get(KEY_LAST_USED_ROLE, "");
+		if( lastUsed == null || lastUsed.isEmpty()){
+			rememberLastUsedRole(r);
+			return false;
+		}
+		if( r == null){
+			return false;
+		}
+		String name = r.getName();
+		return !name.equalsIgnoreCase(lastUsed);
+	}
+	
+	public static void rememberLastUsedRole(Role r){
+		_preferences.put(KEY_LAST_USED_ROLE,r.getName());
+	}
+	
 	/**
 	 * Returns whether the user selected "remember workspace" in the preferences
 	 * 
 	 * @return
 	 */
 	public static boolean isRememberWorkspace() {
-		return _preferences.getBoolean(_KeyRememberWorkspace, false);
+		return _preferences.getBoolean(KEY_REMEMBER_WORKSPACE, false);
 	}
 
 	/**
@@ -116,7 +142,7 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
 	 * @return null if none
 	 */
 	public static String getLastSetWorkspaceDirectory() {
-		return _preferences.get(_KeyWorkspaceRootDir, null);
+		return _preferences.get(KEY_WORKSPACE_ROOT_DIR, null);
 	}
 
 	@Override
@@ -149,7 +175,7 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
 			_workspacePathCombo.setLayoutData(new GridData(SWT.FILL,
 					SWT.CENTER, true, false, 1, 1));
 			// _workspacePathCombo.setLayoutData(new LatticeData("3, 1"));
-			String wsRoot = _preferences.get(_KeyWorkspaceRootDir, "");
+			String wsRoot = _preferences.get(KEY_WORKSPACE_ROOT_DIR, "");
 			if (wsRoot == null || wsRoot.length() == 0) {
 				wsRoot = getWorkspacePathSuggestion();
 			}
@@ -161,9 +187,9 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
 			// _RememberWorkspaceButton.setLayoutData(new
 			// LatticeData("3, 3, 5, 3"));
 			_RememberWorkspaceButton.setSelection(_preferences.getBoolean(
-					_KeyRememberWorkspace, false));
+					KEY_REMEMBER_WORKSPACE, false));
 
-			String lastUsed = _preferences.get(_KeyLastUsedWorkspaces, "");
+			String lastUsed = _preferences.get(KEY_LAST_USED_WORKSPACE, "");
 			_lastUsedWorkspaces = new ArrayList<String>();
 			if (lastUsed != null) {
 				String[] all = lastUsed.split(_SplitChar);
@@ -466,9 +492,9 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
 		}
 
 		// save them onto our preferences
-		_preferences.putBoolean(_KeyRememberWorkspace,
+		_preferences.putBoolean(KEY_REMEMBER_WORKSPACE,
 				_RememberWorkspaceButton.getSelection());
-		_preferences.put(_KeyLastUsedWorkspaces, buf.toString());
+		_preferences.put(KEY_LAST_USED_WORKSPACE, buf.toString());
 
 		// now create it
 		boolean ok = checkAndCreateWorkspaceRoot(str);
@@ -481,7 +507,7 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
 		_selectedWorkspaceRootLocation = str;
 
 		// and on our preferences as well
-		_preferences.put(_KeyWorkspaceRootDir, str);
+		_preferences.put(KEY_WORKSPACE_ROOT_DIR, str);
 
 		super.okPressed();
 	}

@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.ui;
 
 import java.io.IOException;
@@ -38,21 +38,24 @@ import com.netxforge.netxstudio.workspace.IWorkspaceUtil;
  * This class controls all aspects of the application's execution
  */
 public class Application implements IApplication {
-	
+
 	IWorkspaceUtil util;
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.equinox.app.IApplication#start(org.eclipse.equinox.app.IApplicationContext)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.equinox.app.IApplication#start(org.eclipse.equinox.app.
+	 * IApplicationContext)
 	 */
 	public Object start(IApplicationContext context) {
 		
 		Display display = PlatformUI.createDisplay();
-		
-		// Immidiatly set the workspace location. 
+
+		// Immidiatly set the workspace location.
 		this.setWorkspaceLocation(display.getActiveShell());
-		
 		try {
-			int returnCode = PlatformUI.createAndRunWorkbench(display, new ApplicationWorkbenchAdvisor());
+			int returnCode = PlatformUI.createAndRunWorkbench(display,
+					new ApplicationWorkbenchAdvisor());
 			if (returnCode == PlatformUI.RETURN_RESTART) {
 				return IApplication.EXIT_RESTART;
 			}
@@ -62,7 +65,9 @@ public class Application implements IApplication {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.equinox.app.IApplication#stop()
 	 */
 	public void stop() {
@@ -77,22 +82,20 @@ public class Application implements IApplication {
 			}
 		});
 	}
-	
-	
-	//// DS Actication/Deactivation
-	public void startup(){
+
+	// // DS Actication/Deactivation
+	public void startup() {
 		util.initProjectCreationWizard();
 	}
-	
-	public void shutdown(){
+
+	public void shutdown() {
 		// No specific shutdown.
 	}
-	
-	public void setWorkspaceUtil(IWorkspaceUtil util ){
+
+	public void setWorkspaceUtil(IWorkspaceUtil util) {
 		this.util = util;
 	}
-	
-	
+
 	public void setWorkspaceLocation(Shell splash) {
 		// set location to c:\temp
 
@@ -129,8 +132,7 @@ public class Application implements IApplication {
 				// if there's any problem whatsoever with the workspace, force a
 				// dialog which in its turn will tell them what's bad
 				String ret = PickWorkspaceDialog.checkWorkspaceDirectory(
-						splash, lastUsedWs,
-						false, false);
+						splash, lastUsedWs, false, false);
 				if (ret != null) {
 					remember = false;
 				}
@@ -174,5 +176,5 @@ public class Application implements IApplication {
 			e.printStackTrace();
 		}
 	}
-	
+
 }
