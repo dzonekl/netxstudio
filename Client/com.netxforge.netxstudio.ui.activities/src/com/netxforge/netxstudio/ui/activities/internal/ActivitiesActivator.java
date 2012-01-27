@@ -23,7 +23,7 @@ public class ActivitiesActivator extends AbstractUIPlugin {
 	// The shared instance
 	private static ActivitiesActivator plugin;
 
-	private static Injector injector;
+	private Injector injector;
 	
 	/**
 	 * The constructor
@@ -63,7 +63,7 @@ public class ActivitiesActivator extends AbstractUIPlugin {
 		return plugin;
 	}
 	
-	public static Injector getInjector() {
+	public Injector getInjector() {
 		return injector;
 	}
 
