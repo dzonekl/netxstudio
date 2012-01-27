@@ -56,22 +56,21 @@ public class ActivityAndRoleService implements IActivityAndRoleService {
 	 * Creates a map of activities versus roles. 
 	 * @param role
 	 */
-	protected Set<String> mapRole(Role role){
-		Set<String> enabledActivities = new HashSet<String>();
+	protected Set<String> activitiesForRole(Role role){
+		Set<String> activities = new HashSet<String>();
 		
 		if( role.getName().equals(IFixtures.ROLE_ADMIN)){
-			enabledActivities.add(ACTIVITY_ADMIN);
-			enabledActivities.add(ACTIVITY_MONITORING);
-			return enabledActivities;
+			activities.add(ACTIVITY_ADMIN);
+			activities.add(ACTIVITY_MONITORING);
+			return activities;
+		} else if( role.getName().equals(IFixtures.ROLE_PLANNER)){
+			activities.add(ACTIVITY_MONITORING);
+		} else if( role.getName().equals((IFixtures.ROLE_READONLY))){
+			activities.add(ACTIVITY_MONITORING);
 		}
-		if( role.getName().equals(IFixtures.ROLE_PLANNER)){
-//			enabledActivities.add(ACTIVITY_ADMIN);
-			enabledActivities.add(ACTIVITY_MONITORING);
-		}
 		
 		
-		
-		return enabledActivities;
+		return activities;
 	}
 	
 	/* (non-Javadoc)
@@ -81,7 +80,7 @@ public class ActivityAndRoleService implements IActivityAndRoleService {
 		if(role == null){
 			return;
 		}
-		Set<String> enabledActivities = mapRole(role);
+		Set<String> enabledActivities = activitiesForRole(role);
 		if(assertDefinedActivities(enabledActivities)){
 			PlatformUI.getWorkbench().getActivitySupport().setEnabledActivityIds(enabledActivities);
 		}
