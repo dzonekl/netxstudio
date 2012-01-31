@@ -43,7 +43,7 @@ public class ExpressionsAction extends BaseSelectionListenerAction {
 	@Override
 	protected boolean updateSelection(IStructuredSelection selection) {
 		Object firstElement = selection.getFirstElement();
-		if( firstElement instanceof Component){
+		if (firstElement instanceof Component) {
 			Component c = (Component) firstElement;
 			return c.eIsSet(LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF);
 		}
@@ -54,37 +54,24 @@ public class ExpressionsAction extends BaseSelectionListenerAction {
 	public void run() {
 		IStructuredSelection structuredSelection = this
 				.getStructuredSelection();
-			
-		Object firstElement = structuredSelection.getFirstElement();
-		if(firstElement instanceof Component){
-			
-			Component comp = (Component) firstElement;
-			
-			
-			// For the capacity expression........
-//			Expression expression = comp.getCapacityExpressionRef();
-//			if (expression != null) {
-				ScreenDialog dialog = new ScreenDialog(Display.getDefault().getActiveShell());
-				dialog.create();
-				dialog.inializeScreenFor(ObjectExpressions.class);
-				dialog.screen().setScreenService(screenService);
-				dialog.screen().setOperation(ScreenUtil.OPERATION_EDIT);
-				ScreenUtil.dataScreenInjectionFor(dialog.screen()).injectData(comp.eResource(),
-						comp);
 
-				dialog.getShell().layout(true, true);
-				dialog.open();
-//			} 
-			
-//			else {
-//				Resource expressionResource = screenService.getEditingService()
-//						.getData(LibraryPackage.Literals.EXPRESSION);
-//				dialog.screen().setOperation(ScreenUtil.OPERATION_NEW);
-//				ScreenUtil.dataScreenInjectionFor(dialog.screen()).injectData(expressionResource,
-//						LibraryFactory.eINSTANCE.createExpression());
-//
-//			}
-			
+		Object firstElement = structuredSelection.getFirstElement();
+		if (firstElement instanceof Component) {
+
+			Component comp = (Component) firstElement;
+
+			ScreenDialog dialog = new ScreenDialog(Display.getDefault()
+					.getActiveShell());
+			dialog.create();
+			dialog.inializeScreenFor(ObjectExpressions.class);
+			dialog.screen().setScreenService(screenService);
+			dialog.screen().setOperation(ScreenUtil.OPERATION_EDIT);
+			ScreenUtil.dataScreenInjectionFor(dialog.screen()).injectData(
+					comp.eResource(), comp);
+
+			dialog.getShell().layout(true, true);
+			dialog.open();
 		}
 	}
+
 }

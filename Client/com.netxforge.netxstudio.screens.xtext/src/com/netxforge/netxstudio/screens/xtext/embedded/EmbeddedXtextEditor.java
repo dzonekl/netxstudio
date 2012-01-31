@@ -15,6 +15,7 @@
  */
 package com.netxforge.netxstudio.screens.xtext.embedded;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -22,8 +23,11 @@ import java.util.Map;
 
 import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.core.runtime.jobs.IJobChangeListener;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
@@ -384,15 +388,16 @@ public class EmbeddedXtextEditor {
 
 		fSourceViewerDecorationSupport.install(fPreferenceStoreAccess
 				.getPreferenceStore());
-		
-		// CB As we dispose the parent widget, disposing this SourceViewerDecorationSupport
-		// fails as it wants to update the widget. 
-		
-//		parent.addDisposeListener(new DisposeListener() {
-//			public void widgetDisposed(DisposeEvent e) {
-//				fSourceViewerDecorationSupport.dispose();
-//			}
-//		});
+
+		// CB As we dispose the parent widget, disposing this
+		// SourceViewerDecorationSupport
+		// fails as it wants to update the widget.
+
+		// parent.addDisposeListener(new DisposeListener() {
+		// public void widgetDisposed(DisposeEvent e) {
+		// fSourceViewerDecorationSupport.dispose();
+		// }
+		// });
 		fDocument = fDocumentProvider.get();
 
 		if (fDocument != null) {
@@ -605,126 +610,210 @@ public class EmbeddedXtextEditor {
 	 * @param eObject
 	 * @param asString
 	 */
-	public void update(final EObject eObject, String asString) {
+	public ExpressionLoadingJob update(final EObject eObject, String asString) {
 
-		if (eObject != null) {
-			
-			fResource.setParentResource(eObject.eResource());
-			XtextResourceSet set = resourceSetProvider.get();
-			ResourceSet resourceSet = set;
-			EmbeddedXtextResource asStringResource = (EmbeddedXtextResource) fEmbeddedXtextResourceProvider
-					.get();
-			resourceSet.getResources().add(asStringResource);
-			asStringResource.setURI(URI.createURI("asStringResource."
-					+ fFileExtension));
-//			asStringResource.setParentResource(eObject.eResource());
+		final ExpressionLoadingJob job = new ExpressionLoadingJob();
+		job.setParameters(eObject, asString);
+		job.go(); // Should spawn a job processing the xls.
+		return job;
+	}
 
-			// try {
-			// asStringResource.load(new StringInputStream(asString),
-			// Collections.emptyMap());
-			// if (!asStringResource.getContents().isEmpty()) {
-			// asStringEObject = asStringResource.getContents().get(0);
-			// }
-			// } catch (IOException e) {
-			// // ignore, will set the string to the serialization of the given
-			// // eObject
-			// }
+	/**
+	 * 
+	 * Considers both parameters to be the same entity, serialized and not.
+	 * 
+	 * <ul>
+	 * <li>1. Put the string in a new XText Resource.</li>
+	 * <li>2. Load the resource. (This will force some XText specific stuff ).</li>
+	 * <li>3. Get the model root object from the resource.</li>
+	 * <li>4. Check for resource errors,</li>
+	 * <li>5 - if errors load the editor with the string blank.</li>
+	 * <li>6 - if no errors, copy the resource and Expression to a new resource
+	 * and Expression, than compare with the loaded root-object, if unequal.
+	 * (This avoid to load the same object....).</li>
+	 * <li>7 - Serialize the object and load it invoking validation and
+	 * formatting.</li>
+	 * <li>8 - unload the copy resource</li>
+	 * <li>9 Unload the first resource and remove it from the resource set. As
+	 * while executing, we could be called with another Expression, as the work
+	 * is done in a job and async, when done loading, the newly set expression
+	 * could be fooled to have a string, which is the previous being loaded. to
+	 * solve this:</li>
+	 * <li>1) refuse to set a new expression => Not good, as the current</li>
+	 * selection will not be the current expression.
+	 * <li>2) abort the current loading.</li>
+	 * <li>3) Only set the new expression, when loading is finished.</li>
+	 * </ul>
+	 * 
+	 * @author Christophe
+	 */
+	public class ExpressionLoadingJob implements IJobChangeListener {
 
-			final ExpressionLoadingJob job = new ExpressionLoadingJob();
+		private LoadingJob j = new LoadingJob("Reading expression ...");
+		private EObject asStringEObject;
+		private String asString;
+		private EObject asObject;
 
-			job.addNotifier(new JobChangeAdapter() {
-				@Override
-				public void done(IJobChangeEvent event) {
-					super.done(event);
+		public ExpressionLoadingJob() {
+			super();
+		}
 
-					Display.getDefault().asyncExec(new Runnable() {
-						public void run() {
-							EObject asStringEObject = job.getAsStringObject();
-							try {
-								EcoreUtil.resolveAll(job.getXtextResource());
-							} catch (Exception e) {
-								// ignore
-							}
+		public void go() {
+			j.addJobChangeListener(this);
+			j.schedule(1000);
+		}
 
-							// CB Change.
-							if (!job.getXtextResource().getErrors().isEmpty()
-									|| (job.getXtextResource().getParseResult() != null && job
-											.getXtextResource()
-											.getParseResult().getSyntaxErrors()
-											.iterator().hasNext())) {
-								// if there are parsing errors in the saved
-								// string, then we
-								// update with it
-								update(job.getAsString());
-							} else if (asStringEObject != null) {
-								try {
-									// Resource copyResource = (XtextResource)
-									// fResourceSetProvider.get(null).createResource(URI.createURI("copyResource."
-									// + fFileExtension));
-									// EmbeddedXtextResource copyResource =
-									// (EmbeddedXtextResource)
-									// fResourceSetProvider.get(null).createResource(URI.createURI("copyResource."
-									// + fFileExtension));
-									EmbeddedXtextResource copyResource = (EmbeddedXtextResource) fEmbeddedXtextResourceProvider
-											.get();
-									// EmbeddedXtextResource copyResource = new
-									// EmbeddedXtextResource();
-									copyResource.setURI(URI
-											.createURI("copyResource."
-													+ fFileExtension));
-									copyResource.setParentResource(eObject
-											.eResource());
-									try {
-										EObject copyEObject = EcoreUtil
-												.copy(eObject);
-										copyResource.getContents().add(
-												copyEObject);
-										EcoreUtil.resolveAll(copyResource);
-										if (!EmbeddedXtextEditor.equals(
-												copyEObject, asStringEObject)) {
-											// Note CB 03012012 do not invoke
-											// the formatter as this gives
-											// a RuntimeException, fix the
-											// formatter first.
-											String model = getResource()
-													.getSerializer()
-													.serialize(
-															copyEObject,
-															SaveOptions
-																	.newBuilder()
-																	.noValidation()
-																	.getOptions());
-											update(model);
-										} else {
-											// if there is no error and the
-											// content are equals,
-											// then we also update with the
-											// string
-											update(job.getAsString());
-										}
-									} catch (Exception e) {
-										update(job.getAsString());
-									}
+		public void addNotifier(IJobChangeListener notifier) {
+			j.addJobChangeListener(notifier);
+		}
 
-									copyResource.unload();
-								} catch (Exception e) {
-									update(job.getAsString());
-								}
-							} else {
-								update("");
-							}
-							job.getXtextResource().unload();
-							job.getXtextResource().getResourceSet()
-									.getResources()
-									.remove(job.getXtextResource());
+		public void setParameters(EObject eObject, String asString) {
+			this.asString = asString;
+			this.asObject = eObject;
+		}
 
-						}
-					});
+		public String getAsString() {
+			return this.asString;
+		}
+
+		public EObject getAsStringObject() {
+			return this.asStringEObject;
+		}
+
+		protected class LoadingJob extends Job {
+
+			public LoadingJob(String name) {
+				super(name);
+				super.setUser(true);
+			}
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				processReadingInternal(monitor);
+				return Status.OK_STATUS;
+			}
+		}
+
+		private void updateAsync(final String s) {
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					EmbeddedXtextEditor.this.update(s);
 				}
 			});
-			job.setParameters(asStringResource, asString);
-			job.go(); // Should spawn a job processing the xls.
+		}
 
+		protected void processReadingInternal(final IProgressMonitor monitor) {
+
+			// Only if we have the equivalent object.
+			if (asObject != null) {
+				// could be re-entrant, so should sync.
+				synchronized (this) {
+					fResource.setParentResource(asObject.eResource());
+				}
+			}
+
+			XtextResourceSet set = resourceSetProvider.get();
+			ResourceSet resourceSet = set;
+			EmbeddedXtextResource xtextResource = (EmbeddedXtextResource) fEmbeddedXtextResourceProvider
+					.get();
+			resourceSet.getResources().add(xtextResource);
+			xtextResource.setURI(URI.createURI("asStringResource."
+					+ fFileExtension));
+
+			try {
+				xtextResource.load(new StringInputStream(asString),
+						Collections.emptyMap());
+				if (!xtextResource.getContents().isEmpty()) {
+					asStringEObject = xtextResource.getContents().get(0);
+				}
+				try {
+					EcoreUtil.resolveAll(xtextResource);
+				} catch (Exception e) {
+					// ignore
+				}
+				// if there are parsing errors in the loaded string, we simply
+				// set it in the editor.
+				if (!xtextResource.getErrors().isEmpty()
+						|| (xtextResource.getParseResult() != null && xtextResource
+								.getParseResult().getSyntaxErrors().iterator()
+								.hasNext())) {
+					updateAsync(asString);
+				} else if (asStringEObject != null) {
+					try {
+						// Do not compare, if the equivalent object is not set.
+						if (asObject != null) {
+							compareAndLoadIfEqual();
+						} else {
+							updateAsync(asString);
+						}
+					} catch (Exception e) {
+						updateAsync(asString);
+					}
+				} else {
+					updateAsync("");
+				}
+				xtextResource.unload();
+				xtextResource.getResourceSet().getResources()
+						.remove(xtextResource);
+
+			} catch (IOException e) {
+				// ignore, will set the string to the serialization of the given
+				// eObject
+			}
+		}
+
+		private void compareAndLoadIfEqual() {
+			EmbeddedXtextResource copyResource = (EmbeddedXtextResource) fEmbeddedXtextResourceProvider
+					.get();
+			copyResource
+					.setURI(URI.createURI("copyResource." + fFileExtension));
+			copyResource.setParentResource(asObject.eResource());
+
+			try {
+				EObject copyEObject = EcoreUtil.copy(asObject);
+				copyResource.getContents().add(copyEObject);
+				EcoreUtil.resolveAll(copyResource);
+				if (!EmbeddedXtextEditor.equals(copyEObject, asStringEObject)) {
+					// Note CB 03012012 do not invoke
+					// the formatter as this gives
+					// a RuntimeException, fix the
+					// formatter first.
+					String model = getResource().getSerializer().serialize(
+							copyEObject,
+							SaveOptions.newBuilder().noValidation()
+									.getOptions());
+					updateAsync(model);
+				} else {
+					updateAsync(asString);
+				}
+			} catch (Exception e) {
+				updateAsync(asString);
+			}
+			copyResource.unload();
+		}
+
+		public void aboutToRun(IJobChangeEvent event) {
+			// System.out
+			//					.println("Job about to get busy: " + event.getJob().getName()); //$NON-NLS-1$
+		}
+
+		public void awake(IJobChangeEvent event) {
+		}
+
+		public void done(IJobChangeEvent event) {
+			//			System.out.println("Job done: " + event.getJob().getName()); //$NON-NLS-1$
+		}
+
+		public void running(IJobChangeEvent event) {
+			//			System.out.println("Job running: " + event.getJob().getName()); //$NON-NLS-1$
+		}
+
+		public void scheduled(IJobChangeEvent event) {
+			//			System.out.println("Job scheduled: " + event.getJob().getName()); //$NON-NLS-1$
+		}
+
+		public void sleeping(IJobChangeEvent event) {
+			//			System.out.println("Job zzzzzz: " + event.getJob().getName()); //$NON-NLS-1$
 		}
 	}
 

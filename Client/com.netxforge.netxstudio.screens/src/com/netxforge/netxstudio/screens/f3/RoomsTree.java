@@ -116,11 +116,11 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
 				.observeDetail(set));
 
-		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
-				.observeDetail(set));
-
-		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
-				.observeDetail(set));
+//		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
+//				.observeDetail(set));
+//
+//		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
+//				.observeDetail(set));
 
 		IObservableMap[] observeMaps = new IObservableMap[mapList.size()];
 		mapList.toArray(observeMaps);

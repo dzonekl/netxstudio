@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.IObservable;
@@ -25,6 +27,7 @@ import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -38,6 +41,9 @@ import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerEditor;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
@@ -45,17 +51,21 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.jface.viewers.TreeViewerEditor;
+import org.eclipse.jface.viewers.TreeViewerFocusCellManager;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.window.Window;
-import org.eclipse.nebula.widgets.cdatetime.CDateTime;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -69,10 +79,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.wb.swt.ResourceManager;
-import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -88,6 +98,7 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
@@ -98,10 +109,11 @@ import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
-import com.netxforge.netxstudio.screens.CDateTimeObservableValue;
+import com.netxforge.netxstudio.screens.ScreenDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.TableColumnFilter;
 import com.netxforge.netxstudio.screens.ch9.EmbeddedLineExpression;
+import com.netxforge.netxstudio.screens.ch9.ObjectExpressions;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
@@ -139,7 +151,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	 */
 	Map<String, TableColumnFilter> columnFilters = Maps.newHashMap();
 
-	private Composite cmpExpressionHead;
+	private Composite cmpExpressionEditor;
 
 	private ComboViewer cmbViewerNetwork;
 	private ComboViewer cmbViewerNode;
@@ -154,31 +166,37 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private Label lblOperator;
 	private Label lblNetwork;
 	private Label lblComponent;
-	private Label lblExpression;
+
+	private Resource operatorResource;
+	private NetXResourceObervableMapLabelProvider netXResourceObervableMapLabelProvider;
+
+	private Button btnExpression;
 
 	protected TableViewer resourcesTableViewer;
 	private Table resourcesTable;
 
-	private Resource operatorResource;
-	private NetXResourceObervableMapLabelProvider netXResourceObervableMapLabelProvider;
-	private ComputedList computedResourcesList;
-	private Button btnExpression;
-	private TreeViewer componentsTreeViewer;
-	// private ComputedList computedComponentsList;
-	private Composite cmpExpressionSelector;
+	private AccessToRowsTreeViewer componentsTreeViewer;
 	private Composite cmpExpressionContext;
-	private Table table;
+
 	private TableViewer tblViewerContext;
 	private TableColumn tblclmnType;
 	private TableViewerColumn tblViewerClmnType;
 	private TableColumn tblclmnValue;
 	private TableViewerColumn tblViewerClmnValue;
+
+	private ComputedList computedResourcesList;
 	private ComputedList computedExpressionFeaturesList;
+
 	private ExpressionAggregate expressionAggregate;
 	private ContextAggregate contextAggregate;
-	
-//	private CDateTimeObservableValue fromTimeObservableValue;
-//	private CDateTimeObservableValue toTimeObservableValue;
+
+	private IViewerObservableValue observeSingleComponentSelection;
+	private IViewerObservableValue observeResourceSingleSelection;
+	private WritableValue periodBeginWritableValue;
+	private WritableValue periodEndWritableValue;
+
+	// private CDateTimeObservableValue fromTimeObservableValue;
+	// private CDateTimeObservableValue toTimeObservableValue;
 
 	/**
 	 * Create the composite.
@@ -195,15 +213,11 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 	}
 
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
-		doBuildUI();
-	}
-
-	private void doBuildUI() {
 
 		int widgetStyle = SWT.None;
 		if (ScreenUtil.isReadOnlyOperation(getOperation())) {
@@ -220,137 +234,268 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		FillLayout fl = new FillLayout();
 		frmResources.getBody().setLayout(fl);
 
-		SashForm sashComponentsValues = new SashForm(frmResources.getBody(),
-				SWT.HORIZONTAL);
-		sashComponentsValues.setLocation(0, 0);
-		toolkit.adapt(sashComponentsValues);
-		toolkit.paintBordersFor(sashComponentsValues);
+		SashForm sashRoot = new SashForm(frmResources.getBody(), SWT.HORIZONTAL
+				| SWT.SMOOTH);
+		sashRoot.setLocation(0, 0);
+		toolkit.adapt(sashRoot);
+		toolkit.paintBordersFor(sashRoot);
 
-		// A selection mechanism which allows
-		// Shows a closure of all belong resources.
+		Composite cmpLeft = toolkit.createComposite(sashRoot, SWT.NONE);
+		GridLayout gl_cmpLeft = new GridLayout(1, false);
+		gl_cmpLeft.marginLeft = 10;
+		gl_cmpLeft.marginHeight = 10;
+		gl_cmpLeft.marginRight = 0;
+		cmpLeft.setLayout(gl_cmpLeft);
+
+		buildComponentSelector(cmpLeft, new GridData(SWT.FILL, SWT.TOP, true,
+				false, 1, 1), widgetStyle);
+		buildComponentViewer(cmpLeft, new GridData(SWT.FILL, SWT.FILL, true,
+				true, 1, 1), widgetStyle);
+
+		Composite cmpRight = toolkit.createComposite(sashRoot, SWT.NONE);
+		GridLayout gl_cmpRight = new GridLayout(1, false);
+		gl_cmpRight.marginRight = 10;
+		gl_cmpRight.marginHeight = 10;
+		gl_cmpRight.marginLeft = 0;
+
+		cmpRight.setLayout(gl_cmpRight);
+		toolkit.adapt(cmpRight);
+		toolkit.paintBordersFor(cmpRight);
+
+		sashRoot.setWeights(new int[] { 2, 8 });
+
+		buildExpressionSelector(cmpRight, new GridData(SWT.FILL, SWT.FILL,
+				true, false, 1, 1), widgetStyle);
+
+		SashForm sashComponentResources = new SashForm(cmpRight, SWT.HORIZONTAL);
+
+		sashComponentResources.setLocation(0, 0);
+		sashComponentResources.setSashWidth(1);
+		toolkit.adapt(sashComponentResources);
+		toolkit.paintBordersFor(sashComponentResources);
+
+		sashComponentResources.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
+				true, true, 1, 1));
+
+		buildResourceViewer(sashComponentResources, widgetStyle);
+		buildValues(sashComponentResources);
+
+		// WEIGHTDS FOR SASH.
+		sashComponentResources.setWeights(new int[] { 5, 5 });
+	}
+
+	private void buildResourceViewer(SashForm sashComponentResources,
+			int widgetStyle) {
+		resourcesTableViewer = new TableViewer(sashComponentResources,
+				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+		resourcesTable = resourcesTableViewer.getTable();
+		// Bug having virtual with hashlookup etc...
+		// resourcesTableViewer.setUseHashlookup(true);
+		// resourcesTableViewer.setComparer(new CDOElementComparer());
+		resourcesTableViewer.addFilter(searchFilter);
+		resourcesTable.setLinesVisible(true);
+		resourcesTable.setHeaderVisible(true);
+		toolkit.paintBordersFor(resourcesTable);
+
+		buildResourcesColumns();
+	}
+
+	private void buildComponentViewer(Composite parent,
+			GridData gd_componentsTreeViewer, int widgetStyle) {
+		// COMPONENTS TREEVIEWER.
+
+		componentsTreeViewer = new AccessToRowsTreeViewer(parent, SWT.BORDER
+				| SWT.MULTI | widgetStyle);
+		componentsTreeViewer.setUseHashlookup(true);
+		componentsTreeViewer.setComparer(new CDOElementComparer());
+		Tree tree = componentsTreeViewer.getTree();
+		tree.setHeaderVisible(true);
+		tree.setLinesVisible(true);
+		tree.setLayoutData(gd_componentsTreeViewer);
+		toolkit.paintBordersFor(tree);
+
+		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(
+				componentsTreeViewer, SWT.NONE);
+		TreeColumn trclmnCountry = treeViewerColumn.getColumn();
+		trclmnCountry.setWidth(200);
+		trclmnCountry.setText("Component");
+
+		// TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
+		// componentsTreeViewer, SWT.NONE);
+		// TreeColumn trclmnSite = treeViewerColumn_2.getColumn();
+		// trclmnSite.setWidth(100);
+		// trclmnSite.setText("Resource");
+
+		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(
+				componentsTreeViewer, SWT.NONE);
+		TreeColumn trclmnName = treeViewerColumn_1.getColumn();
+		trclmnName.setWidth(30);
+		trclmnName.setText("Cap.");
+
+		TreeViewerColumn treeViewerUtilization = new TreeViewerColumn(
+				componentsTreeViewer, SWT.NONE);
+		TreeColumn trclmnUtilization = treeViewerUtilization.getColumn();
+		trclmnUtilization.setWidth(30);
+		trclmnUtilization.setText("Util.");
+
+		// Cell navigation.
+
+		// CB Remove later, default cell navigation works ok.
+		// CellNavigationStrategy navigationStrategy = new
+		// CellNavigationStrategy() {
+		// public ViewerCell findSelectedCell(ColumnViewer viewer,
+		// ViewerCell currentSelectedCell, Event event) {
+		// ViewerCell cell = super.findSelectedCell(viewer,
+		// currentSelectedCell, event);
 		//
-		// 1. primary the operator.
-		// 2. the network
-		// 3.
+		// if (cell != null) {
+		// componentsTreeViewer.getTree().showColumn(
+		// componentsTreeViewer.getTree().getColumn(
+		// cell.getColumnIndex()));
+		// }
+		// return cell;
+		// }
+		//
+		// // TODO, decide how to expand and collapse, the default
+		// // strategy will not allow expand and collapse using Arrow Right and
+		// Left.
+		//
+		// @Override
+		// public boolean isCollapseEvent(ColumnViewer viewer,
+		// ViewerCell cellToCollapse, Event event) {
+		// return super.isCollapseEvent(viewer, cellToCollapse, event);
+		// }
+		//
+		// @Override
+		// public boolean isExpandEvent(ColumnViewer viewer,
+		// ViewerCell cellToExpand, Event event) {
+		// return super.isExpandEvent(viewer, cellToExpand, event);
+		// }
+		//
+		//
+		//
+		// };
 
-		buildSelector(widgetStyle, sashComponentsValues);
-		buildValues(sashComponentsValues);
+		// Could potentially use a custom FocusCellOwnerDrawHighlighter which
+		// could show a handle.
+		TreeViewerFocusCellManager componentsFocusCellManager = new TreeViewerFocusCellManager(
+				componentsTreeViewer,
+				new FocusCellOwnerDrawHighlighterForMultiselection(
+						componentsTreeViewer));
 
-		sashComponentsValues.setWeights(new int[] { 7, 3 });
+		ColumnViewerEditorActivationStrategy actSupport = new ColumnViewerEditorActivationStrategy(
+				componentsTreeViewer) {
+			protected boolean isEditorActivationEvent(
+					ColumnViewerEditorActivationEvent event) {
+				// return false;
+
+				return event.eventType == ColumnViewerEditorActivationEvent.TRAVERSAL
+						|| event.eventType == ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION
+						|| (event.eventType == ColumnViewerEditorActivationEvent.KEY_PRESSED && event.keyCode == SWT.CR)
+						|| event.eventType == ColumnViewerEditorActivationEvent.PROGRAMMATIC;
+			}
+		};
+
+		TreeViewerEditor.create(componentsTreeViewer,
+				componentsFocusCellManager, actSupport,
+				ColumnViewerEditor.TABBING_HORIZONTAL
+						| ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR
+						| ColumnViewerEditor.TABBING_VERTICAL
+						| ColumnViewerEditor.KEYBOARD_ACTIVATION);
+
+		// componentsTreeViewer.getColumnViewerEditor()
+		// .addEditorActivationListener(
+		// new ColumnViewerEditorActivationListener() {
+		// public void afterEditorActivated(
+		// ColumnViewerEditorActivationEvent event) {
+		// }
+		//
+		// public void afterEditorDeactivated(
+		// ColumnViewerEditorDeactivationEvent event) {
+		// }
+		//
+		// public void beforeEditorActivated(
+		// ColumnViewerEditorActivationEvent event) {
+		// ViewerCell cell = (ViewerCell) event
+		// .getSource();
+		// componentsTreeViewer.getTree().showColumn(
+		// componentsTreeViewer.getTree()
+		// .getColumn(
+		// cell.getColumnIndex()));
+		// }
+		//
+		// public void beforeEditorDeactivated(
+		// ColumnViewerEditorDeactivationEvent event) {
+		// }
+		// });
 
 	}
 
-	private void buildSelector(int widgetStyle, Composite parent) {
-
-		Composite cmpComponents = toolkit.createComposite(parent, SWT.NONE);
-		GridLayout gl_cmpComponents = new GridLayout(2, false);
-		gl_cmpComponents.marginWidth = 10;
-		gl_cmpComponents.marginHeight = 2;
-		gl_cmpComponents.verticalSpacing = 2;
-		cmpComponents.setLayout(gl_cmpComponents);
-
+	private void buildComponentSelector(Composite parent, GridData gridData,
+			int widgetStyle) {
 		// Selector.
-		Composite cmpSelector = toolkit.createComposite(cmpComponents,
-				SWT.BORDER);
-		cmpSelector.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false,
-				1, 1));
-		GridLayout gl_cmpSelector = new GridLayout(4, false);
+		Composite cmpComponentSelector = toolkit.createComposite(parent,
+				SWT.NONE);
+		cmpComponentSelector.setLayoutData(gridData);
+		GridLayout gl_cmpSelector = new GridLayout(2, false);
 		gl_cmpSelector.verticalSpacing = 0;
 		gl_cmpSelector.marginWidth = 0;
-		gl_cmpSelector.marginHeight = 10;
-		cmpSelector.setLayout(gl_cmpSelector);
+		gl_cmpSelector.marginHeight = 0;
+		cmpComponentSelector.setLayout(gl_cmpSelector);
 
-		lblOperator = toolkit.createLabel(cmpSelector, "Operator:", SWT.NONE);
+		lblOperator = toolkit.createLabel(cmpComponentSelector, "Operator:",
+				SWT.NONE);
 		lblOperator.setAlignment(SWT.RIGHT);
 		GridData gd_lblOperator = new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblOperator.widthHint = 70;
 		lblOperator.setLayoutData(gd_lblOperator);
 
-		cmbViewerOperator = new ComboViewer(cmpSelector, SWT.NONE);
-		cmbOperator = cmbViewerOperator.getCombo();
-		GridData gd_cmbOperator = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_cmbOperator.widthHint = 200;
-		cmbOperator.setLayoutData(gd_cmbOperator);
-		cmbOperator.setBounds(0, 0, 26, 22);
-		toolkit.paintBordersFor(cmbOperator);
-		new Label(cmpSelector, SWT.NONE);
-		toolkit.createLabel(cmpSelector, "");
+		cmbOperator = new Combo(cmpComponentSelector, SWT.READ_ONLY);
+		cmbViewerOperator = new ComboViewer(cmbOperator);
 
-		lblNetwork = toolkit.createLabel(cmpSelector, "Network:", SWT.NONE);
+		cmbOperator.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
+		toolkit.paintBordersFor(cmbOperator);
+
+		lblNetwork = toolkit.createLabel(cmpComponentSelector, "Network:",
+				SWT.NONE);
 		lblNetwork.setAlignment(SWT.RIGHT);
 		GridData gd_lblNetwork = new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblNetwork.widthHint = 70;
 		lblNetwork.setLayoutData(gd_lblNetwork);
 
-		cmbViewerNetwork = new ComboViewer(cmpSelector, SWT.NONE);
-		cmbNetwork = cmbViewerNetwork.getCombo();
-		GridData gd_cmbNetwork = new GridData(SWT.FILL, SWT.CENTER, false,
-				false, 1, 1);
-		gd_cmbNetwork.widthHint = 200;
-		cmbNetwork.setLayoutData(gd_cmbNetwork);
+		cmbNetwork = new Combo(cmpComponentSelector, SWT.READ_ONLY);
+		cmbViewerNetwork = new ComboViewer(cmbNetwork);
+
+		cmbNetwork.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
 		toolkit.paintBordersFor(cmbNetwork);
 		cmbNetwork.setEnabled(false);
-		new Label(cmpSelector, SWT.NONE);
-		toolkit.createLabel(cmpSelector, "");
 
-		lblComponent = toolkit
-				.createLabel(cmpSelector, "N. Element:", SWT.NONE);
+		lblComponent = toolkit.createLabel(cmpComponentSelector, "N. Element:",
+				SWT.NONE);
 		lblComponent.setAlignment(SWT.RIGHT);
-		GridData gd_lblComponent = new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_lblComponent.widthHint = 70;
-		lblComponent.setLayoutData(gd_lblComponent);
 
-		cmbViewerNode = new ComboViewer(cmpSelector, SWT.NONE);
-		cmbNode = cmbViewerNode.getCombo();
-		GridData gd_cmbNode = new GridData(SWT.FILL, SWT.CENTER, false, false,
-				1, 1);
-		gd_cmbNode.widthHint = 200;
-		cmbNode.setLayoutData(gd_cmbNode);
+		cmbNode = new Combo(cmpComponentSelector, SWT.READ_ONLY);
+		cmbViewerNode = new ComboViewer(cmbNode);
+		cmbNode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+				1, 1));
 		toolkit.paintBordersFor(cmbNode);
-		// cmbNode.setEnabled(false);
-		new Label(cmpSelector, SWT.NONE);
-		toolkit.createLabel(cmpSelector, "");
+	}
 
-		// EXPRESSION SELECTOR, EDITOR and CONTEXT.
+	private void buildExpressionSelector(Composite cmpComponents,
+			GridData gridData, int widgetStyle) {
 
 		Composite cmpExpression = toolkit.createComposite(cmpComponents,
-				SWT.BORDER);
-		GridLayout gl_cmpExpression = new GridLayout(2, false);
-		// gl_cmpExpression.marginWidth = 10;
-		// gl_cmpExpression.marginHeight = 2;
-		// gl_cmpExpression.verticalSpacing = 2;
+				SWT.NONE);
+
+		cmpExpression.setLayoutData(gridData);
+		GridLayout gl_cmpExpression = new GridLayout(3, false);
+		gl_cmpExpression.marginHeight = 0;
+		gl_cmpExpression.marginWidth = 0;
 		cmpExpression.setLayout(gl_cmpExpression);
-		cmpExpression.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-				true, 1, 1));
-
-		cmpExpressionSelector = new Composite(cmpExpression, SWT.NONE);
-		cmpExpressionSelector.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
-				false, false, 2, 1));
-		toolkit.adapt(cmpExpressionSelector);
-		toolkit.paintBordersFor(cmpExpressionSelector);
-		GridLayout gl_cmpExpressionSelector = new GridLayout(3, false);
-		gl_cmpExpressionSelector.marginHeight = 10;
-		gl_cmpExpressionSelector.marginWidth = 20;
-		cmpExpressionSelector.setLayout(gl_cmpExpressionSelector);
-
-		lblExpression = toolkit.createLabel(cmpExpressionSelector,
-				"Expression: ", SWT.NONE);
-		lblExpression.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		lblExpression.setAlignment(SWT.RIGHT);
-
-		cmbViewerExpression = new ComboViewer(cmpExpressionSelector, SWT.NONE);
-		cmbExpression = cmbViewerExpression.getCombo();
-		GridData gd_cmbExpression = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 2, 1);
-		gd_cmbExpression.widthHint = 200;
-		cmbExpression.setLayoutData(gd_cmbExpression);
-
-		toolkit.paintBordersFor(cmbExpression);
 
 		btnExpression = new Button(cmpExpression, SWT.FLAT);
 		btnExpression.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
@@ -361,71 +506,83 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		btnExpression.setAlignment(SWT.RIGHT);
 		toolkit.adapt(btnExpression, true, true);
+		btnExpression.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection selection = componentsTreeViewer.getSelection();
+				if (selection instanceof IStructuredSelection) {
+					IStructuredSelection ss = (IStructuredSelection) selection;
+					Object firstElement = ss.getFirstElement();
+					if (firstElement instanceof Component) {
+						Component comp = (Component) firstElement;
+						ScreenDialog dialog = new ScreenDialog(Display
+								.getDefault().getActiveShell());
+						dialog.create();
+						dialog.inializeScreenFor(ObjectExpressions.class);
+						dialog.screen().setScreenService(screenService);
+						dialog.screen().setOperation(ScreenUtil.OPERATION_EDIT);
+						ScreenUtil.dataScreenInjectionFor(dialog.screen())
+								.injectData(comp.eResource(), comp);
+						dialog.getShell().layout(true, true);
+						dialog.open();
+					}
+				}
+			}
+		});
 
-		cmpExpressionHead = toolkit.createComposite(cmpExpression, SWT.BORDER);
-		cmpExpressionHead.setBackground(SWTResourceManager
-				.getColor(SWT.COLOR_GRAY));
+		cmbExpression = new Combo(cmpExpression, SWT.READ_ONLY);
+		cmbViewerExpression = new ComboViewer(cmbExpression);
+		GridData gd_cmbExpression = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_cmbExpression.widthHint = 145;
+		cmbExpression.setLayoutData(gd_cmbExpression);
+
+		toolkit.paintBordersFor(cmbExpression);
+
+		cmpExpressionEditor = toolkit
+				.createComposite(cmpExpression, SWT.BORDER);
 		GridData gd_cmpExpressionHead = new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 1, 1);
 		gd_cmpExpressionHead.heightHint = 16;
-		cmpExpressionHead.setLayoutData(gd_cmpExpressionHead);
+		cmpExpressionEditor.setLayoutData(gd_cmpExpressionHead);
 
-		toolkit.paintBordersFor(cmpExpressionHead);
+		toolkit.paintBordersFor(cmpExpressionEditor);
 
 		GridLayout gl_cmpExpressionHead = new GridLayout(1, false);
 		gl_cmpExpressionHead.verticalSpacing = 0;
 		gl_cmpExpressionHead.marginWidth = 0;
 		gl_cmpExpressionHead.marginHeight = 0;
-		cmpExpressionHead.setLayout(gl_cmpExpressionHead);
+		cmpExpressionEditor.setLayout(gl_cmpExpressionHead);
 
-		expressionComponent.buildExpression(widgetStyle, cmpExpressionHead,
+		expressionComponent.buildExpression(widgetStyle, cmpExpressionEditor,
 				new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		expressionComponent.configure(editingService, this.getOperation());
 
 		cmpExpressionContext = new Composite(cmpExpression, SWT.NONE);
 		cmpExpressionContext.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
-				false, false, 2, 1));
+				false, false, 4, 1));
 		toolkit.adapt(cmpExpressionContext);
 		toolkit.paintBordersFor(cmpExpressionContext);
-		GridLayout gl_cmpExpressionContext = new GridLayout(3, false);
-		// gl_cmpExpressionSelector.marginHeight = 10;
-		// gl_cmpExpressionSelector.marginWidth = 20;
+		GridLayout gl_cmpExpressionContext = new GridLayout(2, false);
+		gl_cmpExpressionContext.marginHeight = 0;
+		gl_cmpExpressionContext.marginWidth = 0;
 		cmpExpressionContext.setLayout(gl_cmpExpressionContext);
 
-		periodComponent.buildUI(cmpExpressionContext, new GridData(SWT.LEFT,
-				SWT.CENTER, false, false, 1, 1));
-
-//		periodComponent.getDateTimeFrom().addSelectionListener(
-//				new SelectionAdapter() {
-//					@Override
-//					public void widgetSelected(SelectionEvent e) {
-//						valueComponent.applyDateFilter(periodComponent
-//								.getPeriod());
-//					}
-//				});
-
-//		periodComponent.getDateTimeTo().addSelectionListener(
-//				new SelectionAdapter() {
-//					@Override
-//					public void widgetSelected(SelectionEvent e) {
-//						valueComponent.applyDateFilter(periodComponent
-//								.getPeriod());
-//					}
-//				});
-
-		@SuppressWarnings("unused")
-		Label lblNewLabel = toolkit.createLabel(cmpExpressionContext,
-				"Context Objects:", SWT.NONE);
+		GridData gd_periodContext = new GridData(SWT.LEFT, SWT.TOP, false,
+				false, 1, 1);
+		gd_periodContext.heightHint = 80;
+		gd_periodContext.widthHint = 170;
+		periodComponent.buildUI(cmpExpressionContext, gd_periodContext);
 
 		tblViewerContext = new TableViewer(cmpExpressionContext, SWT.BORDER
 				| SWT.FULL_SELECTION);
-		table = tblViewerContext.getTable();
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
-		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-		gd_table.heightHint = 60;
-		table.setLayoutData(gd_table);
-		toolkit.paintBordersFor(table);
+		Table tblContext = tblViewerContext.getTable();
+		tblContext.setHeaderVisible(true);
+		tblContext.setLinesVisible(true);
+		// gd_table.heightHint = 100;
+		tblContext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
+				1, 1));
+		toolkit.paintBordersFor(tblContext);
 
 		tblViewerClmnType = new TableViewerColumn(tblViewerContext, SWT.NONE);
 		tblclmnType = tblViewerClmnType.getColumn();
@@ -436,45 +593,6 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		tblclmnValue = tblViewerClmnValue.getColumn();
 		tblclmnValue.setWidth(250);
 		tblclmnValue.setText("Value");
-
-		// SASHFORM FOR COMPONENTS (Left) AND RESOURCES (Right).
-
-		SashForm sashComponentResources = new SashForm(cmpComponents,
-				SWT.HORIZONTAL);
-		sashComponentResources.setLocation(0, 0);
-		toolkit.adapt(sashComponentResources);
-		toolkit.paintBordersFor(sashComponentResources);
-
-		sashComponentResources.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
-				true, true, 2, 1));
-
-		// COMPONENTS TREEVIEWER.
-
-		componentsTreeViewer = new TreeViewer(sashComponentResources,
-				SWT.BORDER | SWT.MULTI | widgetStyle);
-		componentsTreeViewer.setUseHashlookup(true);
-		componentsTreeViewer.setComparer(new CDOElementComparer());
-		Tree tree = componentsTreeViewer.getTree();
-		toolkit.paintBordersFor(tree);
-
-		// RESOURCE TABLEVIEWER.
-
-		// Bug having virtual with hashlookup etc...
-		resourcesTableViewer = new TableViewer(sashComponentResources,
-				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
-		resourcesTable = resourcesTableViewer.getTable();
-		// resourcesTableViewer.setUseHashlookup(true);
-		// resourcesTableViewer.setComparer(new CDOElementComparer());
-		resourcesTableViewer.addFilter(searchFilter);
-		resourcesTable.setLinesVisible(true);
-		resourcesTable.setHeaderVisible(true);
-
-		// resourcesTable.setLayoutData();
-		toolkit.paintBordersFor(resourcesTable);
-
-		// WEIGHTDS FOR SASH.
-		sashComponentResources.setWeights(new int[] { 2, 8 });
-
 	}
 
 	private void buildValues(SashForm sashForm) {
@@ -484,18 +602,18 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				true, true, 1, 1));
 	}
 
-	public void buildColumns() {
+	public void buildResourcesColumns() {
 
 		String[] properties = new String[] { "Component", "Long Name",
-				"Metric", "Expression Name", "Unit" };
+				"Metric", "Expression Name", "Unit", "Cap. Expression" };
 
 		String[] toolTips = new String[] { "Component holding resource",
 				"The long name of the resource",
 				"Metric used to create the resource",
 				"The expression Name of the resource",
-				"The unit of the resource" };
+				"The unit of the resource", "Capacity Expression" };
 
-		int[] columnWidths = new int[] { 100, 200, 120, 120, 104, 68 };
+		int[] columnWidths = new int[] { 100, 200, 120, 120, 104, 68, 100 };
 
 		// Enable editing support.
 		EditingSupport[] editingSupport = new EditingSupport[] { null, null,
@@ -559,7 +677,16 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					new TableHelper.ComparableComparator<String>());
 		}
 
-		// buildTableColumns(properties, columnWidths, editingSupport);
+		// {
+		// int column = 5;
+		// @SuppressWarnings("unused")
+		// TableViewerColumn tbvcFor = tableHelper.new TBVC<String>(
+		// netXResourceObervableMapLabelProvider).tbvcFor(
+		// resourcesTableViewer, properties[column], toolTips[column],
+		// columnWidths[column], editingSupport[column],
+		// new TableHelper.ComparableComparator<String>());
+		// }
+
 	}
 
 	/*
@@ -569,19 +696,26 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		private Component currentComponent;
 		private EReference expressionFeature;
-		private WritableValue expressionWritable = new WritableValue(null,
-				EReference.class);
 
+		private WritableValue exprFeatureWritable = new WritableValue(null,
+				EReference.class);
+		
+		private WritableValue exprWritable = new WritableValue(null,
+				Expression.class);
+
+		
 		public void handleValueChange(ValueChangeEvent event) {
 
 			IObservable observable = event.getObservable();
 
+			System.out.println("Observable called for = "
+					+ event.getObservableValue().getValue());
 			if (observable instanceof IViewerObservableValue) {
 				IViewerObservableValue ivov = (IViewerObservableValue) observable;
 				if (ivov.getViewer() == cmbViewerExpression) {
 					expressionFeature = processExpressionChange(event
 							.getObservableValue());
-					expressionWritable.setValue(expressionFeature);
+					exprFeatureWritable.setValue(expressionFeature);
 				} else if (ivov.getViewer() == componentsTreeViewer) {
 					currentComponent = processComponentChange(event
 							.getObservableValue());
@@ -590,7 +724,6 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 			// After a change, we inject the new expression.
 			handleChange();
-
 		}
 
 		private void handleChange() {
@@ -615,10 +748,36 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				}
 			}
 
-			if (expr != null) {
-				expressionComponent.injectData(expr);
+			if (expr == null) {
+				if (currentComponent != null && expressionFeature != null) {
+					expr = createExpression(currentComponent, expressionFeature);
+					Resource expressionsResource = editingService
+							.getData(LibraryPackage.Literals.EXPRESSION);
+					expressionComponent.injectData(expressionsResource, expr,
+							currentComponent, expressionFeature);
+					return;
+				} else {
+					return;
+				}
 			}
+			expressionComponent.injectData(expr.eResource(), expr);
 
+		}
+
+		private Expression createExpression(EObject target,
+				EStructuralFeature feature) {
+
+			Expression expression = LibraryFactory.eINSTANCE.createExpression();
+
+			String cName = target instanceof Function ? ((Function) target)
+					.getName()
+					: target instanceof Equipment ? ((Equipment) target)
+							.getEquipmentCode() : "Unkwnown";
+
+			String name = " Generated_" + cName + "_" + feature.getName();
+			expression.setName(name);
+
+			return expression;
 		}
 
 		private Component processComponentChange(IObservableValue ob) {
@@ -640,10 +799,14 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			return eRef;
 		}
 
-		public WritableValue getExpressionObservable() {
-			return expressionWritable;
+		WritableValue getExpressionFeatureObservable() {
+			return exprFeatureWritable;
 		}
-
+		
+		WritableValue getExpressionObservable() {
+			return exprWritable;
+		}
+		
 	}
 
 	/*
@@ -658,10 +821,11 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		private EReference currentExpressionFeature = null;
 
 		private WritableList contextWritableList = new WritableList();
+		private Expression currentExpression;
 
-//		public void initialize(DateTimeRange dtr) {
-//			this.dtr = dtr;
-//		}
+		// public void initialize(DateTimeRange dtr) {
+		// this.dtr = dtr;
+		// }
 
 		public void handleValueChange(ValueChangeEvent event) {
 
@@ -669,15 +833,16 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			// + event.getObservableValue().getValue());
 
 			IObservable observable = event.getObservable();
-			if (observable instanceof CDateTimeObservableValue) {
-				CDateTime dateTime = ((CDateTimeObservableValue) observable)
-						.getDateTime();
-				if (dateTime == periodComponent.getDateTimeFrom()) {
-					dtr.setBegin(modelUtils.toXMLDate(dateTime.getSelection()));
-				} else if (dateTime == periodComponent.getDateTimeTo()) {
-					dtr.setEnd(modelUtils.toXMLDate(dateTime.getSelection()));
-				}
-			} else if (observable instanceof IViewerObservableValue) {
+			// if (observable instanceof CDateTimeObservableValue) {
+			// CDateTime dateTime = ((CDateTimeObservableValue) observable)
+			// .getDateTime();
+			// if (dateTime == periodComponent.getDateTimeFrom()) {
+			// dtr.setBegin(modelUtils.toXMLDate(dateTime.getSelection()));
+			// } else if (dateTime == periodComponent.getDateTimeTo()) {
+			// dtr.setEnd(modelUtils.toXMLDate(dateTime.getSelection()));
+			// }
+			// } else
+			if (observable instanceof IViewerObservableValue) {
 				IViewerObservableValue ivov = (IViewerObservableValue) observable;
 				if (ivov.getViewer() == componentsTreeViewer) {
 					currentComponent = processComponentChange(event
@@ -688,8 +853,14 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				}
 			} else if (observable instanceof WritableValue) {
 				Object value = ((WritableValue) observable).getValue();
-				if (value instanceof EReference) {
+				if (observable == periodBeginWritableValue) {
+					this.dtr.setBegin((XMLGregorianCalendar) value);
+				} else if (observable == periodEndWritableValue) {
+					this.dtr.setEnd((XMLGregorianCalendar) value);
+				} else if (value instanceof EReference) {
 					this.currentExpressionFeature = (EReference) value;
+				} else if (value instanceof Expression){
+					this.currentExpression = (Expression) value;
 				}
 			}
 
@@ -706,11 +877,21 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					contextList = expressionComponent.buildContext(dtr,
 							currentComponent);
 				}
+			} else if (currentExpressionFeature == LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF) {
+				if (currentNetXResource != null) {
+					contextList = expressionComponent.buildContext(dtr,
+							currentNetXResource);
+				}
 			}
 
 			if (contextList != null) {
 				contextWritableList.clear();
 				contextWritableList.addAll(contextList);
+			}
+			
+			// execute the expression in the background. 
+			if(currentExpression != null && contextList != null){
+//				expressionComponent.testExpression(contextList);
 			}
 		}
 
@@ -865,14 +1046,16 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
-		bindSelector(bindingContext);
+		bindComponentSelector(bindingContext);
+
+		bindExpressionSelector(bindingContext);
+
 		valueComponent.bindValues();
 
-		buildColumns();
 		return bindingContext;
 	}
 
-	private void bindSelector(EMFDataBindingContext bindingContext) {
+	private void bindComponentSelector(EMFDataBindingContext bindingContext) {
 
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		cmbViewerOperator.setContentProvider(listContentProvider);
@@ -881,6 +1064,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		IEMFListProperty operatorResourceProperties = EMFProperties.resource();
 		cmbViewerOperator.setInput(operatorResourceProperties
 				.observe(operatorResource));
+		if (cmbViewerOperator.getCombo().getItemCount() > 0) {
+			cmbViewerOperator.getCombo().select(0);
+		}
 
 		final IViewerObservableValue observeOperatorSelection = ViewersObservables
 				.observeSingleSelection(cmbViewerOperator);
@@ -912,6 +1098,10 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		cmbViewerNetwork.setLabelProvider(new AdapterFactoryLabelProvider(
 				editingService.getAdapterFactory()));
 		cmbViewerNetwork.setInput(operatorsList);
+
+		if (cmbViewerNetwork.getCombo().getItemCount() > 0) {
+			cmbViewerNetwork.getCombo().select(0);
+		}
 
 		// Compute the closure of all nodes for the selected network.
 		final IViewerObservableValue observeNetworkSelection = ViewersObservables
@@ -952,13 +1142,27 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				new ComponentTreeStructureAdvisorImpl());
 		componentsTreeViewer.setContentProvider(cp);
 
+		{
+			IObservableSet set = cp.getKnownElements();
+			List<IObservableMap> observeMaps = Lists.newArrayList();
+
+			observeMaps.add(EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF)
+					.observeDetail(set));
+
+			IObservableMap[] map = new IObservableMap[observeMaps.size()];
+			observeMaps.toArray(map);
+
+			componentsTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(
+					map));
+		}
+
 		IEMFListProperty nodeTypeList = EMFProperties.multiList(FeaturePath
 				.fromList(OperatorsPackage.Literals.NODE__NODE_TYPE,
 						LibraryPackage.Literals.NODE_TYPE__FUNCTIONS),
 				FeaturePath.fromList(OperatorsPackage.Literals.NODE__NODE_TYPE,
 						LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS));
-
-		componentsTreeViewer.setLabelProvider(new NetworkTreeLabelProvider());
 		componentsTreeViewer.setInput(nodeTypeList
 				.observeDetail(observeNodeSelection));
 
@@ -968,7 +1172,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				.observeMultiSelection(componentsTreeViewer);
 
 		// COMPONENT SINGLE SELECTION OBSERVABLE
-		final IViewerObservableValue observeSingleComponentSelection = ViewersObservables
+		observeSingleComponentSelection = ViewersObservables
 				.observeSingleSelection(componentsTreeViewer);
 
 		computedResourcesList = new ComputedList() {
@@ -983,9 +1187,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 								.resourcesForComponent((Component) value));
 					}
 				}
-				if (result.isEmpty()) {
-					System.out.println("no result");
-				}
+				// if (result.isEmpty()) {
+				// System.out.println("no result");
+				// }
 				return result;
 			}
 		};
@@ -995,45 +1199,47 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		ObservableListContentProvider componentsListContentProvider = new ObservableListContentProvider();
 		resourcesTableViewer.setContentProvider(componentsListContentProvider);
 
-		List<IObservableMap> observeMaps = Lists.newArrayList();
-		IObservableSet set = listContentProvider.getKnownElements();
-		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)
-				.observeDetail(set));
+		{
+			List<IObservableMap> observeMaps = Lists.newArrayList();
+			IObservableSet set = listContentProvider.getKnownElements();
+			observeMaps.add(EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)
+					.observeDetail(set));
 
-		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.NET_XRESOURCE__METRIC_REF)
-				.observeDetail(set));
+			observeMaps.add(EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					LibraryPackage.Literals.NET_XRESOURCE__METRIC_REF)
+					.observeDetail(set));
 
-		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.BASE_RESOURCE__SHORT_NAME)
-				.observeDetail(set));
-		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.BASE_RESOURCE__EXPRESSION_NAME)
-				.observeDetail(set));
-		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.BASE_RESOURCE__LONG_NAME)
-				.observeDetail(set));
-		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.BASE_RESOURCE__UNIT_REF).observeDetail(
-				set));
+			observeMaps.add(EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					LibraryPackage.Literals.BASE_RESOURCE__SHORT_NAME)
+					.observeDetail(set));
+			observeMaps.add(EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					LibraryPackage.Literals.BASE_RESOURCE__EXPRESSION_NAME)
+					.observeDetail(set));
+			observeMaps.add(EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					LibraryPackage.Literals.BASE_RESOURCE__LONG_NAME)
+					.observeDetail(set));
+			observeMaps.add(EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					LibraryPackage.Literals.BASE_RESOURCE__UNIT_REF)
+					.observeDetail(set));
 
-		IObservableMap[] map = new IObservableMap[observeMaps.size()];
-		observeMaps.toArray(map);
-		netXResourceObervableMapLabelProvider = new NetXResourceObervableMapLabelProvider(
-				map);
+			IObservableMap[] map = new IObservableMap[observeMaps.size()];
+			observeMaps.toArray(map);
+			netXResourceObervableMapLabelProvider = new NetXResourceObervableMapLabelProvider(
+					map);
+		}
 		resourcesTableViewer
 				.setLabelProvider(netXResourceObervableMapLabelProvider);
 
 		resourcesTableViewer.setInput(computedResourcesList);
 
-		final IViewerObservableValue observeResourceSelection = ViewersObservables
+		observeResourceSingleSelection = ViewersObservables
 				.observeSingleSelection(resourcesTableViewer);
 
 		// TODO Consider, binding the resourceSelectionObservable directly with
@@ -1056,9 +1262,12 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			}
 		});
 
-		bindingContext.bindValue(observeResourceSelection,
+		bindingContext.bindValue(observeResourceSingleSelection,
 				valueWritableObservable);
 
+	}
+
+	private void bindExpressionSelector(EMFDataBindingContext bindingContext) {
 		computedExpressionFeaturesList = new ComputedList() {
 			@Override
 			protected List<Object> calculate() {
@@ -1122,33 +1331,62 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		contextAggregate = new ContextAggregate();
 
-//		fromTimeObservableValue = new CDateTimeObservableValue(
-//				periodComponent.getDateTimeFrom());
-//		fromTimeObservableValue.addValueChangeListener(contextAggregate);
+		periodBeginWritableValue = new WritableValue();
+		periodEndWritableValue = new WritableValue();
 
-//		toTimeObservableValue = new CDateTimeObservableValue(
-//				periodComponent.getDateTimeTo());
-//		toTimeObservableValue.addValueChangeListener(contextAggregate);
-		
-		WritableValue fromTimeWritable = new WritableValue();
-		WritableValue toTimeWritable = new WritableValue();
-		
-//		bindingContext.bindValue(fromTimeObservableValue,fromTimeWritable);
-//		bindingContext.bindValue(toTimeObservableValue,toTimeWritable);
-		
+		periodBeginWritableValue.addValueChangeListener(contextAggregate);
+		periodEndWritableValue.addValueChangeListener(contextAggregate);
+
+		periodComponent.getDateTimeFrom().addSelectionListener(
+				new SelectionAdapter() {
+
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						periodBeginWritableValue.setValue(periodComponent
+								.getPeriod().getBegin());
+						valueComponent.applyDateFilter(periodComponent.getPeriod());
+					}
+				});
+
+		periodComponent.getDateTimeTo().addSelectionListener(
+				new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						periodEndWritableValue.setValue(periodComponent
+								.getPeriod().getEnd());
+						valueComponent.applyDateFilter(periodComponent.getPeriod());
+					}
+
+				});
+
+		// fromTimeObservableValue = new CDateTimeObservableValue(
+		// periodComponent.getDateTimeFrom());
+		// fromTimeObservableValue.addValueChangeListener(contextAggregate);
+
+		// toTimeObservableValue = new CDateTimeObservableValue(
+		// periodComponent.getDateTimeTo());
+		// toTimeObservableValue.addValueChangeListener(contextAggregate);
+
+		// bindingContext.bindValue(fromTimeObservableValue,fromTimeWritable);
+		// bindingContext.bindValue(toTimeObservableValue,toTimeWritable);
+
 		// defaults to last month, note: this will not be picked up by the
 		// observables,
 		// so set the observable value manually.
+
 		periodComponent.presetLastMonth();
-		fromTimeWritable.setValue(modelUtils.fromXMLDate(periodComponent.getPeriod().getBegin()));
-		toTimeWritable.setValue(modelUtils.fromXMLDate(periodComponent.getPeriod().getEnd()));
-		
-//		contextAggregate.initialize(periodComponent.getPeriod());
+		periodBeginWritableValue.setValue(periodComponent.getPeriod()
+				.getBegin());
+		periodEndWritableValue.setValue(periodComponent.getPeriod().getEnd());
 
 		observerExpressionFeature.addValueChangeListener(contextAggregate);
 		observeSingleComponentSelection
 				.addValueChangeListener(contextAggregate);
-		observeResourceSelection.addValueChangeListener(contextAggregate);
+		observeResourceSingleSelection.addValueChangeListener(contextAggregate);
+
+		expressionAggregate.getExpressionFeatureObservable().addValueChangeListener(
+				contextAggregate);
+		
 		expressionAggregate.getExpressionObservable().addValueChangeListener(
 				contextAggregate);
 
@@ -1162,27 +1400,53 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				Object element = cell.getElement();
 
 				if (element instanceof IInterpreterContext) {
-
 					IInterpreterContext context = (IInterpreterContext) element;
-					int columnIndex = cell.getColumnIndex();
-					switch (columnIndex) {
-					case 0: {
-						cell.setText("type "
-								+ context.getClass().getSimpleName());
-					}
-						break;
-					case 1: {
-						cell.setText("value "
-								+ modelUtils.printModelObject((EObject) context
-										.getContext()));
-					}
-						break;
+					Object contextObject = context.getContext();
+					if (contextObject != null) {
+						int columnIndex = cell.getColumnIndex();
+						switch (columnIndex) {
+						case 0: {
+							cell.setText(" "
+									+ contextObject.getClass().getSimpleName());
+						}
+							break;
+						case 1: {
+
+							String text = "";
+
+							if (contextObject instanceof Function) {
+								text = ((Function) contextObject).getName();
+							} else if (contextObject instanceof Equipment) {
+								text = ((Equipment) contextObject)
+										.getEquipmentCode();
+							} else if (contextObject instanceof Node) {
+								text = ((Node) contextObject).getNodeID();
+							} else if (contextObject instanceof NetXResource) {
+								text = ((NetXResource) contextObject)
+										.getShortName();
+							} else if (contextObject instanceof DateTimeRange) {
+								DateTimeRange dtr = (DateTimeRange) contextObject;
+								text = modelUtils.date(modelUtils
+										.fromXMLDate(dtr.getBegin()))
+										+ " --> "
+										+ modelUtils.date(modelUtils
+												.fromXMLDate(dtr.getEnd()));
+							}
+							cell.setText(text);
+						}
+							break;
+						}
+					} else {
+						cell.setText("Error, context object not set");
 					}
 				}
 			}
 
 		});
 		tblViewerContext.setInput(contextAggregate.getContextWritableList());
+
+		cmbViewerExpression.setSelection(new StructuredSelection(
+				LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF));
 	}
 
 	class ComponentTreeFactoryImpl implements IObservableFactory {
@@ -1410,6 +1674,14 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 						result = resource.getUnitRef().getCode();
 					}
 					break;
+				// case 5:
+				// if (c != null
+				// &&
+				// c.eIsSet(LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF))
+				// {
+				// return c.getCapacityExpressionRef().getName();
+				// }
+				// break;
 				}
 			}
 			return result;

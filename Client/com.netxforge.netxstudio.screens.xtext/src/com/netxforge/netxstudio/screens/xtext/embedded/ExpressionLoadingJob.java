@@ -31,7 +31,7 @@ import org.eclipse.xtext.util.StringInputStream;
 
 
 /**
- * Processes an .xls file, and returns as records for a viewer.
+ *
  */
 public class ExpressionLoadingJob implements IJobChangeListener {
 	
@@ -94,6 +94,12 @@ public class ExpressionLoadingJob implements IJobChangeListener {
 			if (!res.getContents().isEmpty()) {
 				asStringEObject = res.getContents().get(0);
 			}
+			
+			
+			
+			
+			
+			
 		} catch (IOException e) {
 			// ignore, will set the string to the serialization of the given
 			// eObject

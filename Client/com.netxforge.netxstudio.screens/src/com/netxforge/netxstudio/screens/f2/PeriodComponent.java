@@ -60,7 +60,7 @@ public class PeriodComponent {
 				SWT.NONE);
 		GridData gd_lblStart = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
-		gd_lblStart.widthHint = 70;
+//		gd_lblStart.widthHint = 70;
 		lblStart.setLayoutData(gd_lblStart);
 		lblStart.setAlignment(SWT.RIGHT);
 
@@ -84,7 +84,7 @@ public class PeriodComponent {
 		lblTo.setAlignment(SWT.RIGHT);
 		GridData gd_lblTo = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1,
 				1);
-		gd_lblTo.widthHint = 70;
+//		gd_lblTo.widthHint = 70;
 		lblTo.setLayoutData(gd_lblTo);
 
 		dateTimeTo = new CDateTime(cmpPeriod, CDT.BORDER | CDT.DROP_DOWN

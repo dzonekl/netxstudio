@@ -33,6 +33,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -47,11 +48,14 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 
 	private static final String REL_NOTCONNECTED_COLOR_STYLER = "X_COLOR_STYLER";
 	private static final String METRIC_COLOR_STYLER = "METRIC_COLOR_STYLER";
+	private static final String EXPRESSION_COLOR_STYLER = "EXPRESSION_COLOR_STYLER";
 
 	static {
 		ColorRegistry colorRegistry = JFaceResources.getColorRegistry();
 		colorRegistry.put(REL_NOTCONNECTED_COLOR_STYLER, new RGB(255, 0, 0));
-		colorRegistry.put(METRIC_COLOR_STYLER, new RGB(0xBD, 0xB7, 0x6B));
+		colorRegistry.put(METRIC_COLOR_STYLER, new RGB(0xBD, 0xB7, 0x6B)); // yellowish
+		colorRegistry.put(EXPRESSION_COLOR_STYLER, new RGB(235, 80, 75)); // cherry
+																			// red.
 	}
 
 	private IMapChangeListener mapChangeListener = new IMapChangeListener() {
@@ -69,7 +73,7 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 	public NetworkTreeLabelProvider() {
 		super();
 	}
-	
+
 	public NetworkTreeLabelProvider(IObservableMap... attributeMaps) {
 		for (int i = 0; i < attributeMaps.length; i++) {
 			attributeMaps[i].addMapChangeListener(mapChangeListener);
@@ -84,8 +88,77 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 	@Override
 	public void update(ViewerCell cell) {
 
+		// We potentially support multiple columns.
 		Object element = cell.getElement();
+		int columnIndex = cell.getColumnIndex();
 
+		switch (columnIndex) {
+		case 0: {
+			updateColumn0(cell, element);
+		}
+			break;
+		case 1: {
+			updateColumn1(cell, element);
+		}
+		case 2: {
+			updateColumn2(cell, element);
+		}
+		}
+
+	}
+
+	// @Override
+	// public void dispose() {
+	// super.dispose();
+	//
+	// // Dispose the images.
+	// ResourceManager.dispose();
+	// }
+
+	private void updateColumn1(ViewerCell cell, Object element) {
+
+		StyledString styledString = new StyledString();
+//		Styler expressionColorStyle = StyledString.createColorRegistryStyler(
+//				EXPRESSION_COLOR_STYLER, null);
+		Image img = null;
+		if (element instanceof Component) {
+			Component c = (Component) element;
+			if (c.eIsSet(LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF)) {
+//				styledString.append(" C ", expressionColorStyle);
+//				cell.setText(styledString.getString());
+				img = ResourceManager.getPluginImage(
+						"com.netxforge.netxstudio.models.edit",
+						"icons/full/obj16/Expression_H.png");
+				cell.setImage(img);
+				cell.setStyleRanges(styledString.getStyleRanges());
+			}
+		}
+
+	}
+
+	private void updateColumn2(ViewerCell cell, Object element) {
+
+		StyledString styledString = new StyledString();
+//		Styler expressionColorStyle = StyledString.createColorRegistryStyler(
+//				EXPRESSION_COLOR_STYLER, null);
+		Image img = null;
+
+		if (element instanceof Component) {
+			Component c = (Component) element;
+
+			if (c.eIsSet(LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF)) {
+//				styledString.append(" ,U ", expressionColorStyle);
+//				cell.setText(styledString.getString());
+				img = ResourceManager.getPluginImage(
+						"com.netxforge.netxstudio.models.edit",
+						"icons/full/obj16/Expression_H.png");
+				cell.setImage(img);
+				cell.setStyleRanges(styledString.getStyleRanges());
+			}
+		}
+	}
+
+	private void updateColumn0(ViewerCell cell, Object element) {
 		if (element instanceof Operator) {
 
 			Operator operator = (Operator) element;
@@ -124,10 +197,6 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 
 			StyledString styledString = new StyledString(
 					node.getNodeID() != null ? node.getNodeID() : "?", null);
-			// String decoration = " (" + network.getFunctions().size() +
-			// " Functions)"
-			// + " (" + network.getFunctions().size() + " Equipments)";
-			// styledString.append(decoration, StyledString.COUNTER_STYLER);
 			cell.setText(styledString.getString());
 			Image img = ResourceManager.getPluginImage(
 					"com.netxforge.netxstudio.models.edit",
@@ -136,84 +205,52 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 			cell.setStyleRanges(styledString.getStyleRanges());
 		}
 
-		// if (element instanceof NodeType) {
-		//
-		// NodeType nt = (NodeType) element;
-		//
-		// StyledString styledString = new StyledString(
-		// nt.getName() != null ? nt.getName() : "?", null);
-		// String decoration = " (" + nt.getFunctions().size() + " Functions)"
-		// + " (" + nt.getFunctions().size() + " Equipments)";
-		// styledString.append(decoration, StyledString.COUNTER_STYLER);
-		// cell.setText(styledString.getString());
-		// Image img = ResourceManager.getPluginImage(
-		// "com.netxforge.netxstudio.models.edit",
-		// "icons/full/obj16/Node_H.png");
-		// cell.setImage(img);
-		// cell.setStyleRanges(styledString.getStyleRanges());
-		// }
+		if (element instanceof Component) {
+			Component c = (Component) element;
+			StyledString styledString = new StyledString();
 
-		if (element instanceof Function) {
+			if (element instanceof Function) {
+
+				Function fc = (Function) element;
+				styledString.append(fc.getName() != null ? fc.getName() : "?");
+				cell.setImage(ResourceManager.getPluginImage(
+						"com.netxforge.netxstudio.models.edit",
+						"icons/full/obj16/Function_H.png"));
+			}
+			if (element instanceof Equipment) {
+
+				Equipment eq = (Equipment) element;
+
+				StringBuffer buf = new StringBuffer();
+				buf.append(eq.getEquipmentCode() != null ? eq
+						.getEquipmentCode() : "?");
+				if (eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)) {
+					buf.append(" : " + eq.getName());
+				}
+				styledString.append(buf.toString());
+				cell.setImage(ResourceManager.getPluginImage(
+						"com.netxforge.netxstudio.models.edit",
+						"icons/full/obj16/Equipment_H.png"));
+
+			}
 
 			Styler metricColorStyler = StyledString.createColorRegistryStyler(
 					METRIC_COLOR_STYLER, null);
 
-			Function fc = (Function) element;
-
-			StyledString styledString = new StyledString(
-					fc.getName() != null ? fc.getName() : "?", null);
-
-			if (!fc.getResourceRefs().isEmpty()) {
-				String decoration = " (" + fc.getResourceRefs().size()
+			if (!c.getResourceRefs().isEmpty()) {
+				String decoration = " (" + c.getResourceRefs().size()
 						+ " Res.)";
 				styledString.append(decoration, StyledString.COUNTER_STYLER);
 			}
-			if (!fc.getMetricRefs().isEmpty()) {
-				String decoration = " (" + fc.getMetricRefs().size()
+			if (!c.getMetricRefs().isEmpty()) {
+				String decoration = " (" + c.getMetricRefs().size()
 						+ " Metrics)";
 				styledString.append(decoration, metricColorStyler);
 			}
 
 			cell.setText(styledString.getString());
-
-			Image img = ResourceManager.getPluginImage(
-					"com.netxforge.netxstudio.models.edit",
-					"icons/full/obj16/Function_H.png");
-			cell.setImage(img);
 			cell.setStyleRanges(styledString.getStyleRanges());
-		}
-		if (element instanceof Equipment) {
-			Styler metricColorStyler = StyledString.createColorRegistryStyler(
-					METRIC_COLOR_STYLER, null);
 
-			Equipment eq = (Equipment) element;
-
-			StringBuffer buf = new StringBuffer();
-			buf.append(eq.getEquipmentCode() != null ? eq.getEquipmentCode()
-					: "?");
-			if (eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)) {
-				buf.append(" : " + eq.getName());
-			}
-			StyledString styledString = new StyledString(buf.toString(), null);
-
-			if (!eq.getResourceRefs().isEmpty()) {
-				String decoration = " (" + eq.getResourceRefs().size()
-						+ " Res.)";
-				styledString.append(decoration, StyledString.COUNTER_STYLER);
-			}
-
-			if (!eq.getMetricRefs().isEmpty()) {
-				String decoration = " (" + eq.getMetricRefs().size()
-						+ " Metrics)";
-				styledString.append(decoration, metricColorStyler);
-			}
-
-			cell.setText(styledString.getString());
-			Image img = ResourceManager.getPluginImage(
-					"com.netxforge.netxstudio.models.edit",
-					"icons/full/obj16/Equipment_H.png");
-			cell.setImage(img);
-			cell.setStyleRanges(styledString.getStyleRanges());
 		}
 
 		if (element instanceof Relationship) {
@@ -275,12 +312,5 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 			cell.setStyleRanges(styledString.getStyleRanges());
 		}
 	}
-	// @Override
-	// public void dispose() {
-	// super.dispose();
-	//
-	// // Dispose the images.
-	// ResourceManager.dispose();
-	// }
 
 }

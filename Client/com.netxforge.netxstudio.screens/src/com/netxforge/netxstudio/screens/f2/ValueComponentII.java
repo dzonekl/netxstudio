@@ -12,8 +12,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
@@ -68,20 +66,21 @@ public class ValueComponentII {
 
 	public void buildValuesUI(Composite parent, Object layoutData) {
 
-		Composite valuesComposite = toolkit.createComposite(parent, SWT.NONE);
-		valuesComposite.setLayoutData(layoutData);
-		toolkit.adapt(valuesComposite);
+//		Composite valuesComposite = toolkit.createComposite(parent, SWT.NONE);
+//		valuesComposite.setLayoutData(layoutData);
+//		toolkit.adapt(valuesComposite);
+//		GridLayout gridLayout = new GridLayout(3, false);
+//		
+//		valuesComposite.setLayout(gridLayout);
 
-		valuesComposite.setLayout(new GridLayout(3, false));
-
-		valuesTableViewer = new TableViewer(valuesComposite, SWT.BORDER
+		valuesTableViewer = new TableViewer(parent, SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.VIRTUAL | SWT.MULTI);
 		valuesTableViewer.setUseHashlookup(true);
 		valuesTableViewer.setComparer(new CDOElementComparer());
 		valuesTableViewer.addFilter(new PeriodFilter());
 
 		table = valuesTableViewer.getTable();
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+		table.setLayoutData(layoutData);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		toolkit.paintBordersFor(table);

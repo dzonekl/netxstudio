@@ -99,7 +99,6 @@ import com.netxforge.netxstudio.screens.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.WarehouseFilterDialog;
 import com.netxforge.netxstudio.screens.actions.ExportHTMLAction;
 import com.netxforge.netxstudio.screens.actions.ExportXLSAction;
-import com.netxforge.netxstudio.screens.actions.ExpressionsAction;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
@@ -402,7 +401,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			actions.add(new ExportHTMLAction("Export to HTML"));
 			actions.add(new ExportXLSAction("Export to XLS"));
 			actions.add(new SeparatorAction());
-			actions.add(new ExpressionsAction(this.getScreenService(), "Expressions for"));
+//			actions.add(new ExpressionsAction(this.getScreenService(), "Expressions for"));
 			
 		}
 		return actions.toArray(new IAction[actions.size()]);

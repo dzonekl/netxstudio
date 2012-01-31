@@ -1,8 +1,6 @@
 package com.netxforge.netxstudio.server.logic;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.server.logic.expression.ExpressionEngine;
-import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringEngine;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService.ResourceMonitoringRunner;
 import com.netxforge.netxstudio.server.logic.monitoring.NodeMonitoringLogic;
@@ -25,7 +23,7 @@ public class LogicModule extends AbstractModule {
 	// Bind our expression engine. 
 	@Override
 	protected void configure() {
-		this.bind(IExpressionEngine.class).to(ExpressionEngine.class);
+//		this.bind(IExpressionEngine.class).to(ExpressionEngine.class);
 		
 		this.bind(RFSServiceMonitoringLogic.class);
 		this.bind(RFSServiceMonitoringJobImplementation.class);

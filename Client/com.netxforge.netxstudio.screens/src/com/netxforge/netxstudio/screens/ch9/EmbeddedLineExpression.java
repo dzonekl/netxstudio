@@ -20,8 +20,15 @@ package com.netxforge.netxstudio.screens.ch9;
 
 import java.util.List;
 
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.emf.cdo.CDOState;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.swt.SWT;
@@ -68,17 +75,19 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.xtext.EmbeddedXtextService;
 import com.netxforge.netxstudio.screens.xtext.InjectorProxy;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
+import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor.ExpressionLoadingJob;
 
 /**
  * 
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class EmbeddedLineExpression {
+public class EmbeddedLineExpression implements IDataScreenInjection {
 
 	IInterpreterContextFactory interpreterContextFactory;
 
@@ -86,7 +95,7 @@ public class EmbeddedLineExpression {
 	ModelUtils modelUtils;
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	protected EmbeddedXtextEditor editor;
+	protected EmbeddedXtextEditor xtextEditor;
 
 	private Expression expression;
 	private EmbeddedXtextService xtextService;
@@ -102,6 +111,12 @@ public class EmbeddedLineExpression {
 
 	protected IEditingService editingService;
 	private Composite keyPadComposite;
+
+	private Resource expressionsResource;
+
+	private EObject target;
+
+	private EReference feature;
 
 	/**
 	 * Create the composite.
@@ -211,7 +226,7 @@ public class EmbeddedLineExpression {
 
 			public void widgetDisposed(DisposeEvent e) {
 				// dispose prior to disposing the widget.
-				editor.getSourceViewerDecorationSupport(editor.getViewer())
+				xtextEditor.getSourceViewerDecorationSupport(xtextEditor.getViewer())
 						.dispose();
 			}
 
@@ -232,12 +247,17 @@ public class EmbeddedLineExpression {
 		// gl_editorComposite.marginWidth = 0;
 		// editorComposite.setLayout(gl_editorComposite);
 
-		editor = new EmbeddedXtextEditor(parent, netxScriptInjector, SWT.BORDER
+		xtextEditor = new EmbeddedXtextEditor(parent, netxScriptInjector, SWT.BORDER
 				| widgetStyle | SWT.SINGLE);
-		editor.getDocument().addModelListener(new IXtextModelListener() {
+		xtextEditor.getDocument().addModelListener(new IXtextModelListener() {
 			public void modelChanged(XtextResource resource) {
 				if (expression != null) {
-					xtextService.reconcileChangedModel(expression, editor);
+					xtextService.reconcileChangedModel(expression, xtextEditor);
+					System.out.println("Xtext editor: model changed Expr=" + expression.getName());
+					if (xtextEditor.getDocument().getLength() > 0
+							&& expression.cdoState() == CDOState.TRANSIENT) {
+						addData();
+					}
 				}
 			}
 		});
@@ -297,12 +317,12 @@ public class EmbeddedLineExpression {
 		return ImmutableList.copyOf(contextList);
 	}
 
-	public List<BaseExpressionResult> testExpression(
+	public List<BaseExpressionResult> testExpression(Expression expression, 
 			ImmutableList<IInterpreterContext> contextList) {
 
 		List<BaseExpressionResult> result = null;
 
-		final IXtextDocument doc = editor.getDocument();
+		final IXtextDocument doc = xtextEditor.getDocument();
 		assert !documentHasErrors(doc) : "Intepreter cancelled, as errors exist in script: "
 				+ doc.get();
 
@@ -340,34 +360,68 @@ public class EmbeddedLineExpression {
 		return result;
 	}
 
+	public void injectData(Object... params) {
+		// optional params;
+		// 0 = Resource
+		// 1 = Expression
+		// 2 = target reference object
+		// 3 = target EReference
+		
+		if (xtextService == null) {
+			xtextService = new EmbeddedXtextService(editingService);
+		}
+		
+		if (params[0] instanceof Resource) {
+			expressionsResource = (Resource) params[0];
+		}
+
+		if (params.length >= 2 && params[1] instanceof Expression) {
+			final Expression tmpExpression = (Expression) params[1];
+
+			String asString = xtextService.getAsString(tmpExpression);
+			System.out.println("Xtext editor: start loading, Expr=" + tmpExpression.getName());
+			
+			// add a call back, to know when the expression for this screen can be set. 
+			ExpressionLoadingJob job = xtextEditor.update(null, asString == null ? "" : asString);
+			job.addNotifier(new JobChangeAdapter() {
+				@Override
+				public void done(IJobChangeEvent event) {
+					super.done(event);
+					EmbeddedLineExpression.this.expression = tmpExpression;
+					System.out.println("Xtext editor: done loading, Expr=" + expression.getName());
+				}
+			});
+		}
+
+		if (params.length >= 3 && params[2] instanceof EObject) {
+			target = (EObject) params[2];
+		}
+		if (params.length == 4 && params[3] instanceof EReference) {
+			feature = (EReference) params[3];
+		}
+		
+	}
+
+	
+	
+	
+	
+	
+	public void injectData() {
+
+	}
+
 	/**
 	 * Inject the expression to work with. Do not use when enabling the
 	 * selector.
 	 */
-	public void injectData(Object object) {
-
-		if (xtextService == null) {
-			xtextService = new EmbeddedXtextService(editingService);
-		}
-
-		if (object != null && object instanceof Expression) {
-			expression = (Expression) object;
-
-			String asString = xtextService.getAsString(expression);
-			setEnabled(true);
-			// Update with both the eval. object as a well as the string,
-			// the editor will process either one....
-			editor.update(expression, asString == null ? "" : asString);
-		}
-
-		if (object == null) {
-			editor.update("");
-		}
+	public void injectData(Object parent, Object object) {
+		injectData(new Object[] { parent, object });
 	}
 
 	public void clearData() {
 		// Set an empty string in the editor.
-		editor.update("");
+		xtextEditor.update("");
 	}
 
 	/**
@@ -379,7 +433,7 @@ public class EmbeddedLineExpression {
 	public int convertHeightInCharsToPixels(int i) {
 		// Create a GC to calculate font's dimensions
 		GC gc = new GC(Display.getDefault());
-		gc.setFont(editor.getViewer().getTextWidget().getFont());
+		gc.setFont(xtextEditor.getViewer().getTextWidget().getFont());
 
 		// Determine string's dimensions
 		FontMetrics fontMetrics = gc.getFontMetrics();
@@ -680,7 +734,7 @@ public class EmbeddedLineExpression {
 	}
 
 	private void insertKeyPadText(String toInsert) {
-		IXtextDocument doc = editor.getDocument();
+		IXtextDocument doc = xtextEditor.getDocument();
 		int len = doc.getLength();
 		try {
 			doc.replace(len, 0, toInsert);
@@ -715,12 +769,31 @@ public class EmbeddedLineExpression {
 		return this.operation;
 	}
 
-	public void setEnabled(boolean state) {
-		this.editor.getViewer().setEditable(state);
-		this.editor.getViewer().getControl().setEnabled(state);
+	public void setEnabled(boolean enable) {
+		this.xtextEditor.getViewer().setEditable(enable);
+		this.xtextEditor.getViewer().getControl().setEnabled(enable);
+
 		if (keyPadComposite != null) {
-			this.keyPadComposite.setEnabled(state);
+			this.keyPadComposite.setEnabled(enable);
 		}
 	}
 
+	public void addData() {
+
+		Command c = new AddCommand(editingService.getEditingDomain(),
+				expressionsResource.getContents(), expression);
+		editingService.getEditingDomain().getCommandStack().execute(c);
+
+		if (target != null && feature != null) {
+			// We also set the reference to this expression, we need to
+			// referee and a feature for this.
+			Command cSetRef = null;
+			cSetRef = new SetCommand(editingService.getEditingDomain(), target,
+					feature, expression);
+			if (cSetRef != null) {
+				editingService.getEditingDomain().getCommandStack()
+						.execute(cSetRef);
+			}
+		}
+	}
 }

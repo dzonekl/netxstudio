@@ -15,6 +15,9 @@ package com.netxforge.netxstudio.screens.xtext.embedded;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 
+/** 
+ * A resource which holds a parent resource.  
+ */
 public class EmbeddedXtextResource extends LazyLinkingResource {
 
 	private Resource parentResource = null;

@@ -391,7 +391,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	public void setSelection(ISelection selection) {
 		this.viewSelection = selection;
-		System.out.println("AbstractScreensViewPart#setSelection " + selection);
+//		System.out.println("AbstractScreensViewPart#setSelection " + selection);
 		for (ISelectionChangedListener listener : selectionChangedListeners) {
 			listener.selectionChanged(new SelectionChangedEvent(this, selection));
 		}

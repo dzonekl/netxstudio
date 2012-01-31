@@ -22,11 +22,11 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.inject.Inject;
+import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
-import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
 
 /**
  * Common code for the engine implementations.
