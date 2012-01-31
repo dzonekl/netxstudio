@@ -7,6 +7,8 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 
 import com.google.inject.Scopes;
+import com.netxforge.engine.ExpressionEngine;
+import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContextFactory;
 import com.netxforge.interpreter.INativeFunctions;
@@ -61,6 +63,10 @@ public class NetxscriptRuntimeModule extends
 
 	public Class<? extends IInterpreter> bindInterpreter() {
 		return InterpreterTypeless.class;
+	}
+
+	public Class<? extends IExpressionEngine> bindExpressionEngine() {
+		return (Class<? extends IExpressionEngine>) ExpressionEngine.class;
 	}
 
 	// Override generated, ResourceSet based.
