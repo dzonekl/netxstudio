@@ -142,7 +142,7 @@ public class BasicNetXScriptTest extends AbstractNetXScriptTest {
 		try {
 			checkModule("var a;a = a + 3;a;", testMap("a", new BigDecimal(6)));
 		} catch (java.lang.UnsupportedOperationException e) {
-			// Unassigned variable declaration, throws expression
+			// Unassigned variable declaration, throws exception
 		}
 	}
 

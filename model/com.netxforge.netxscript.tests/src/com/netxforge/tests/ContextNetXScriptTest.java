@@ -294,7 +294,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			cl.addAll(node.getNodeType().getEquipments());
 			cl.addAll(node.getNodeType().getFunctions());
 			List<NetXResource> allResources = modelUtils
-					.resourcesWithExpressionName(cl, ".*"); // All resources.
+					.resourcesWithExpressionName(cl, ".*", true); // All resources.
 			for (NetXResource r : allResources) {
 				contextList.clear();
 				contextList.add(periodContext);
@@ -330,7 +330,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			cl.addAll(node.getNodeType().getEquipments());
 			cl.addAll(node.getNodeType().getFunctions());
 			List<NetXResource> allResources = modelUtils
-					.resourcesWithExpressionName(cl, ".*"); // All resources.
+					.resourcesWithExpressionName(cl, ".*", true); // All resources.
 			for (NetXResource r : allResources) {
 				contextList.clear();
 				contextList.add(periodContext);
