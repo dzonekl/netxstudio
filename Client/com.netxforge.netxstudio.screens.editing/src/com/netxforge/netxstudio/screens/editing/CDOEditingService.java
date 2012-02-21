@@ -69,7 +69,6 @@ import com.netxforge.netxstudio.screens.editing.selector.IScreen;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-// @Singleton
 public class CDOEditingService extends EMFEditingService implements
 		IDawnEditor, IViewerProvider, IScreenProvider {
 
@@ -219,7 +218,7 @@ public class CDOEditingService extends EMFEditingService implements
 	 * com.netxforge.netxstudio.screens.editing.IEditingService#tearDownScreen
 	 * (int)
 	 */
-	public void disposeData(Resource res) {
+	private void disposeData(Resource res) {
 
 		if (res instanceof CDOResource) {
 			CDOView v = dawnEditorSupport.getView();

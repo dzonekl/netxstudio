@@ -252,11 +252,6 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 		tableViewer.addFilter(new SearchFilter(editingService));
 	}
 
-	public void disposeData() {
-		if (editingService != null) {
-			editingService.disposeData(countryResource);
-		}
-	}
 
 	public EMFDataBindingContext initDataBindings_() {
 

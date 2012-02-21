@@ -263,12 +263,6 @@ public class Units extends AbstractScreen implements IDataServiceInjection {
 		tableViewer.addFilter(new SearchFilter(editingService));
 	}
 
-	public void disposeData() {
-		if (editingService != null) {
-			editingService.disposeData(unitResource);
-		}
-	}
-
 	public EMFDataBindingContext initDataBindings_() {
 
 		listContentProvider = new ObservableListContentProvider();

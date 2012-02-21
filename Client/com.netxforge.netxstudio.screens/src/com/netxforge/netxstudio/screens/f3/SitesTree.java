@@ -327,10 +327,6 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		}
 	}
 	
-	public void disposeData() {
-		editingService.disposeData(countryResource);
-	}
-
 	public Viewer getViewer() {
 		return sitesTreeViewer;
 	}

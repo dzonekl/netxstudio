@@ -380,10 +380,6 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		}
 	}
 
-	public void disposeData() {
-		editingService.disposeData(metricResource);
-	}
-
 	public Viewer getViewer() {
 		return metricsTreeViewer;
 	}

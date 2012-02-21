@@ -558,12 +558,6 @@ public class MetricSources extends AbstractScreen implements
 
 	}
 
-	public void disposeData() {
-		if (editingService != null) {
-			editingService.disposeData(msResource);
-		}
-	}
-
 	public boolean isValid() {
 		return false;
 	}

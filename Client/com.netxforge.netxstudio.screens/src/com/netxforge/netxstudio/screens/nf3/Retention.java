@@ -266,10 +266,6 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		}
 	}
 
-	public void disposeData() {
-		editingService.disposeData(retentionRulesResource);
-	}
-
 	public Viewer getViewer() {
 		return null;
 	}

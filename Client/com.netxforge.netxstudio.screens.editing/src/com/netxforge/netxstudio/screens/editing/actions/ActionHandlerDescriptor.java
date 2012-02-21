@@ -8,7 +8,6 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
  * A context menu descriptor which can turn on and of menu sections.
@@ -34,7 +33,7 @@ public class ActionHandlerDescriptor implements IActionHandler {
 
 	boolean enableEditActions = false;
 
-	private IScreen screen;
+//	private IScreen screen;
 
 	// Not used.
 	//
@@ -209,14 +208,6 @@ public class ActionHandlerDescriptor implements IActionHandler {
 
 	public void deactivate() {
 		// Ignore, we de-activate when removing handlers.
-	}
-
-	public IScreen getScreen() {
-		return screen;
-	}
-
-	public void setScreen(IScreen screen) {
-		this.screen = screen;
 	}
 
 }

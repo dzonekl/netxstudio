@@ -261,12 +261,6 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		tableViewer.addFilter(new SearchFilter(editingService));
 	}
 
-	public void disposeData() {
-		if (editingService != null) {
-			editingService.disposeData(vendorResource);
-		}
-	}
-
 	public EMFDataBindingContext initDataBindings_() {
 
 		listContentProvider = new ObservableListContentProvider();

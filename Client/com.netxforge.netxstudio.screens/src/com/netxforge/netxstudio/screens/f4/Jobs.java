@@ -516,9 +516,6 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		initDataBindings_();
 	}
 
-	public void disposeData() {
-		editingService.disposeData(jobsResource);
-	}
 
 	public Viewer getViewer() {
 		return jobsTableViewer;

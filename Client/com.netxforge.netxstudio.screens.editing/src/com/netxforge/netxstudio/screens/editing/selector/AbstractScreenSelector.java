@@ -33,10 +33,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
-import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHandler;
-import com.netxforge.netxstudio.screens.editing.actions.EditingActionsHandler;
-import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -44,7 +41,6 @@ import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
  */
 public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		implements ScreenChangeListener {
-
 
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.AbstractScreenSelectorII"; //$NON-NLS-1$
 
@@ -143,47 +139,49 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	public void screenChanged(IScreen screen) {
 		// Some screens won't have a viewer, in this case
 		// the current viewer will be null, and an empty selection will be set.
-		this.getActionHandlerDescriptor().clearDynamicHandlers();
 		if (screen != null) {
 			
-			// before activating the screen, set the selection providerts. 
+			getActionHandlerDescriptor().clearDynamicHandlers();
+
+//			if (getSite() instanceof IViewSite) {
+//				IViewSite site = (IViewSite) getSite();
+//				getActionHandlerDescriptor().initActions(site.getActionBars());
+//			}
+//			
+//			if (!ScreenUtil.isReadOnlyOperation(screen.getOperation())) {
+//				getActionHandlerDescriptor().addHandler(
+//						new EditingActionsHandler(getEditingService()));
+//				getActionHandlerDescriptor().addHandler(
+//						new CreationActionsHandler());
+//			}
+//
+//			// Enabled for all screen modes.
+//			getActionHandlerDescriptor().addHandler(new UIActionsHandler());
+			
+			// before activating the screen, set the selection providerts.
 			this.setCurrentScreen(screen);
 			this.activeScreen = screen;
-			
-			// CB deprecated remove later. 
-//			Viewer viewer = screen.getViewer();
-//			setCurrentViewer(viewer);
-			
-			
 			// Make sure we update the dirty state, when changing screen.
 			firePropertyChange(ISaveablePart2.PROP_DIRTY);
 		}
 	}
-	
+
 	public IScreen getScreen() {
 		return this.activeScreen;
 	}
-	
-	
+
 	@Override
 	public void contributeMenuAboutToShow(IMenuManager menuManager) {
-		
-		// Clear the menu manager. 
-		menuManager.removeAll();
-		
-		
-		ActionHandlerDescriptor actionHandlerDescriptor = this.getActionHandlerDescriptor();
-		actionHandlerDescriptor.clearHandlers();
-		actionHandlerDescriptor.setMenuManager(menuManager);
-		actionHandlerDescriptor.setScreen(this.getScreen());
-		
-		
-		if (!ScreenUtil.isReadOnlyOperation(getScreen().getOperation())) {
-			actionHandlerDescriptor.addHandler(new EditingActionsHandler(
-					getEditingService()));
-			actionHandlerDescriptor.addHandler(new CreationActionsHandler());
-			actionHandlerDescriptor.setEnableEditActions(true);
 
+		// Clear the menu manager.
+		menuManager.removeAll();
+
+		ActionHandlerDescriptor actionHandlerDescriptor = this
+				.getActionHandlerDescriptor();
+		actionHandlerDescriptor.setMenuManager(menuManager);
+
+		if (!ScreenUtil.isReadOnlyOperation(getScreen().getOperation())) {
+			actionHandlerDescriptor.setEnableEditActions(true);
 			if (this.getScreen().getViewer() instanceof TreeViewer) {
 				actionHandlerDescriptor.setEnableChildCreationActions(true);
 			} else {
@@ -194,10 +192,8 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 			actionHandlerDescriptor.setEnableChildCreationActions(false);
 			actionHandlerDescriptor.setEnableSiblingCreationActions(false);
 		}
+		actionHandlerDescriptor.clearDynamicHandlers();
 
-		// Enabled for all screen modes. 
-		actionHandlerDescriptor.addHandler(new UIActionsHandler());
-		
 		DynamicScreensActionHandler dynamicScreensActionHandler;
 
 		// !!!! actions would be created dynamicly.....

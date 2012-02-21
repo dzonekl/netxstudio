@@ -239,12 +239,6 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 
 	}
 
-	public void disposeData() {
-		if (editingService != null) {
-			editingService.disposeData(operatorsResource);
-		}
-	}
-
 	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();

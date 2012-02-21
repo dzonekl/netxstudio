@@ -271,10 +271,6 @@ public class WarehouseTree extends AbstractScreen implements
 		}
 	}
 
-	public void disposeData() {
-		editingService.disposeData(warehouseResource);
-	}
-
 	public Viewer getViewer() {
 		return warehouseTreeViewer;
 	}

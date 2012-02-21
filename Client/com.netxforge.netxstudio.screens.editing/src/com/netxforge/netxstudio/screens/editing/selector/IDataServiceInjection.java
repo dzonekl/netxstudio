@@ -24,9 +24,4 @@ package com.netxforge.netxstudio.screens.editing.selector;
  */
 public interface IDataServiceInjection extends IDataInjection {
 	
-	/**
-	 * Dispose any used data or Session. 
-	 */
-	public abstract void disposeData();
-	
 }

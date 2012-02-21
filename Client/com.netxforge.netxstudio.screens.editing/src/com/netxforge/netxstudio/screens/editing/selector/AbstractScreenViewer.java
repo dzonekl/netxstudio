@@ -33,13 +33,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.IShowInTarget;
 import org.eclipse.ui.part.ShowInContext;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
-import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHandler;
-import com.netxforge.netxstudio.screens.editing.actions.EditingActionsHandler;
-import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
 
 /**
  * Shows an IScreen standalone. 
@@ -49,11 +47,13 @@ import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
 public abstract class AbstractScreenViewer extends AbstractScreensViewPart implements IShowInTarget {
 
 
-	
-
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.AbstractScreenViewer"; //$NON-NLS-1$
+	
+	@Inject
+	private IEditingService editingService;
 
 	public AbstractScreenViewer() {
+		
 	}
 
 	/**
@@ -70,6 +70,7 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 		
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 		initScreen(parent);
+		
 		
 		// Our service.
 //		getEditingService().setViewerProvider(this);
@@ -134,17 +135,10 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 		// Clear the menu manager. 
 		menuManager.removeAll();
 		
-		
 		ActionHandlerDescriptor descriptor = this.getActionHandlerDescriptor();
-		descriptor.clearHandlers();
 		descriptor.setMenuManager(menuManager);
-		descriptor.setScreen(this.getScreen());
 
 		if (!ScreenUtil.isReadOnlyOperation(getScreen().getOperation())) {
-			
-			descriptor.addHandler(new EditingActionsHandler(
-					getEditingService()));
-			descriptor.addHandler(new CreationActionsHandler());
 			
 			descriptor.setEnableEditActions(true);
 
@@ -159,11 +153,6 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 			descriptor.setEnableSiblingCreationActions(false);
 		}
 		
-
-		// Enabled for all screen modes. 
-		descriptor.addHandler(new UIActionsHandler());
-
-
 		DynamicScreensActionHandler dynamicScreensActionHandler;
 
 		// !!!! actions would be created dynamicly.....
@@ -188,7 +177,7 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 	@Override
 	public IEditingService getEditingService() {
 		// Do we need a service, here as we are injected by selection. 
-		return null;
+		return editingService;
 	}
 	
 	public boolean show(ShowInContext context) {

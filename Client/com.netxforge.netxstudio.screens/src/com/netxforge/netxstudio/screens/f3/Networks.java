@@ -561,11 +561,6 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		}
 	}
 
-	public void disposeData() {
-		if (editingService != null) {
-			editingService.disposeData(operatorsResource);
-		}
-	}
 
 	public EMFDataBindingContext initDataBindings_() {
 

@@ -290,11 +290,11 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		return actions.toArray(new IAction[actions.size()]);
 	}
 
-	public void disposeData() {
-		if (editingService != null) {
-			editingService.disposeData(nodeTypeResource);
-		}
-	}
+//	public void disposeData() {
+//		if (editingService != null) {
+//			editingService.disposeData(nodeTypeResource);
+//		}
+//	}
 
 	public EMFDataBindingContext initDataBindings_() {
 

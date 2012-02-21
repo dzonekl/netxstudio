@@ -692,10 +692,6 @@ public class NewEditUser extends AbstractScreen implements
 		return this.frmNewEditUser;
 	}
 
-	public void disposeData() {
-		editingService.disposeData(rolesResource);
-	}
-	
 	public String getScreenName() {
 		return "User";
 	}

@@ -57,7 +57,6 @@ import com.netxforge.netxstudio.services.provider.ServicesItemProviderAdapterFac
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-// @Singleton
 public abstract class EMFEditingService implements IEditingService {
 
 	@Inject

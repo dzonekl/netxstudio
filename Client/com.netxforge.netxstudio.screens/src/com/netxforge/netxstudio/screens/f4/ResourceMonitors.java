@@ -54,6 +54,9 @@ public class ResourceMonitors extends AbstractScreen implements
 
 	private TableViewer resourceMonitorsTableViewer;
 	private Form frmResourceMonitors;
+	
+	
+	@SuppressWarnings("unused")
 	private Resource rfsServiceResource;
 
 	private TableViewerColumn tblViewerClmnState;
@@ -300,11 +303,6 @@ public class ResourceMonitors extends AbstractScreen implements
 			initDataBindings_();
 		}
 	}
-
-	public void disposeData() {
-		editingService.disposeData(rfsServiceResource);
-	}
-
 	public Viewer getViewer() {
 		return resourceMonitorsTableViewer;
 	}

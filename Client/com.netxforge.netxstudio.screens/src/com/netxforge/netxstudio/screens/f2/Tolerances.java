@@ -258,12 +258,6 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 		bindingContext = initDataBindings_();
 	}
 
-	public void disposeData() {
-		if (editingService != null) {
-			editingService.disposeData(toleranceResource);
-		}
-	}
-
 	public EMFDataBindingContext initDataBindings_() {
 
 		listContentProvider = new ObservableListContentProvider();

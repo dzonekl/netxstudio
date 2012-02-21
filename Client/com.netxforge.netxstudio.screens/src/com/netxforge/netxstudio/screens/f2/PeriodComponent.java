@@ -38,6 +38,8 @@ public class PeriodComponent {
 
 	private ModelUtils modelUtils;
 
+	private Composite cmpPeriod;
+
 	@Inject
 	public PeriodComponent(ModelUtils modelUtils) {
 		super();
@@ -46,13 +48,16 @@ public class PeriodComponent {
 
 	public void buildUI(Composite parent, Object layoutData) {
 
-		Composite cmpPeriod = toolkit.createComposite(parent, SWT.BORDER);
+		cmpPeriod = toolkit.createComposite(parent, SWT.BORDER);
 
 		toolkit.adapt(cmpPeriod);
-		cmpPeriod.setLayoutData(layoutData);
+
+		if (layoutData != null) {
+			cmpPeriod.setLayoutData(layoutData);
+		}
 
 		GridLayout periodGridLayout = new GridLayout();
-		periodGridLayout.numColumns = 2;
+		periodGridLayout.numColumns = 4;
 		cmpPeriod.setLayout(periodGridLayout);
 
 		Label lblStart = toolkit.createLabel(cmpPeriod, "From:", SWT.NONE);
@@ -104,6 +109,10 @@ public class PeriodComponent {
 		toolkit.paintBordersFor(dateTimeTo);
 	}
 
+	public Composite getCmpPeriod() {
+		return cmpPeriod;
+	}
+
 	public CDateTime getDateTimeTo() {
 		return dateTimeTo;
 	}
@@ -122,7 +131,7 @@ public class PeriodComponent {
 
 		Date to = this.dateTimeTo.getSelection();
 		modelUtils.setToDayEnd(to);
-		
+
 		period.setBegin(modelUtils.toXMLDate(from));
 		period.setEnd(modelUtils.toXMLDate(to));
 	}

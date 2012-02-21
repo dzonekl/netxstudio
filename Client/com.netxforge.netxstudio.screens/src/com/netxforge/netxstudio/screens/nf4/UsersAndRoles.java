@@ -296,17 +296,6 @@ public class UsersAndRoles extends AbstractScreen implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#disposeData()
-	 */
-	public void disposeData() {
-		if (editingService != null) {
-			editingService.disposeData(personsResource);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#isValid()
 	 */
 	public boolean isValid() {

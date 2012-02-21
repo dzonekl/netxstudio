@@ -25,7 +25,6 @@ import java.util.EventObject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
@@ -56,6 +55,9 @@ import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.part.ViewPart;
 
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
+import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
+import com.netxforge.netxstudio.screens.editing.actions.EditingActionsHandler;
+import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
@@ -75,7 +77,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		ISaveablePart2, IPartListener, IEditingDomainProvider,
 		ISelectionProvider, IMenuListener, IViewerProvider, IPropertyListener,
 		IScreenProvider, IShowInSource {
-
 
 	/**
 	 * This keeps track of the selection of the view as a whole.
@@ -172,11 +173,16 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		// selection
 		// provider of the active part. which is this. We can also add
 		// dynamic action handlers.
-
 		actionHandlerDescriptor = new ActionHandlerDescriptor();
+		actionHandlerDescriptor.addHandler(new EditingActionsHandler(
+				getEditingService()));
+		actionHandlerDescriptor.addHandler(new CreationActionsHandler());
+		actionHandlerDescriptor.addHandler(new UIActionsHandler());
 		actionHandlerDescriptor.initActions(site.getActionBars());
 		// hookPageSelection();
 
+		this.getEditingService().getEditingDomain().getCommandStack()
+				.addCommandStackListener(cmdStackListener);
 	}
 
 	public ActionHandlerDescriptor getActionHandlerDescriptor() {
@@ -327,51 +333,45 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		return super.getAdapter(adapter);
 	}
-	
+
 	public ShowInContext getShowInContext() {
-			return new ShowInContext(null, this.getSelection());		
+		return new ShowInContext(null, this.getSelection());
 	}
 
+	// BasicCommandStack commandStack = new BasicCommandStack();
+	// Add a listener to set the viewer dirty state.
+	final CommandStackListener cmdStackListener = new CommandStackListener() {
+		public void commandStackChanged(final EventObject event) {
+
+			// Note this also fires when flushing the command stack, as
+			// this is executed async,
+			// the widget is disposed.
+			getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
+				public void run() {
+
+					// We should not dirty mark, while editing
+					// or new a single object.
+					firePropertyChange(ISaveablePart2.PROP_DIRTY);
+					getEditingService().setDirty();
+
+					// FIXME Some views don't have data binding,
+					// so we need to refresh the input.
+					// currentViewer.refresh();
+					if (EditingActivator.DEBUG) {
+						System.out
+								.println("Command stack, fire command stack changed, source="
+										+ event.getSource());
+					}
+				}
+			});
+		}
+	};
+
 	// IEditingDomainProvider API.
-	AdapterFactoryEditingDomain domain = null;
+	// AdapterFactoryEditingDomain domain = null;
 
 	public EditingDomain getEditingDomain() {
-
-		if (domain == null) {
-			domain = (AdapterFactoryEditingDomain) getEditingService()
-					.getEditingDomain();
-			// BasicCommandStack commandStack = new BasicCommandStack();
-			// Add a listener to set the viewer dirty state.
-			CommandStackListener cmdStackListener = new CommandStackListener() {
-				public void commandStackChanged(final EventObject event) {
-
-					// Note this also fires when flushing the command stack, as
-					// this is executed async,
-					// the widget is disposed.
-					getViewSite().getShell().getDisplay()
-							.asyncExec(new Runnable() {
-								public void run() {
-
-									// We should not dirty mark, while editing
-									// or new a single object.
-									firePropertyChange(ISaveablePart2.PROP_DIRTY);
-									getEditingService().setDirty();
-
-									// FIXME Some views don't have data binding,
-									// so we need to refresh the input.
-									// currentViewer.refresh();
-									if (EditingActivator.DEBUG) {
-										System.out
-												.println("Command stack, fire command stack changed, source="
-														+ event.getSource());
-									}
-								}
-							});
-				}
-			};
-			domain.getCommandStack().addCommandStackListener(cmdStackListener);
-		}
-		return domain;
+		return getEditingService().getEditingDomain();
 	}
 
 	public void publicFirePropertyChange(int propertyId) {

@@ -21,6 +21,7 @@ import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
@@ -30,6 +31,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.action.Action;
@@ -40,6 +42,7 @@ import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
@@ -65,6 +68,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.DragDetectEvent;
+import org.eclipse.swt.events.DragDetectListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -78,12 +83,14 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.ISaveablePart2;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.ImmutableList;
@@ -107,6 +114,7 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
@@ -117,6 +125,7 @@ import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.ScreenDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.TableColumnFilter;
+import com.netxforge.netxstudio.screens.ToleranceFilterDialog;
 import com.netxforge.netxstudio.screens.ch9.EmbeddedLineExpression;
 import com.netxforge.netxstudio.screens.ch9.ObjectExpressions;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -187,13 +196,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private Table resourcesTable;
 
 	private AccessToRowsTreeViewer componentsTreeViewer;
-	private Composite cmpExpressionContext;
-
-	private TableViewer tblViewerContext;
-	private TableColumn tblclmnType;
-	private TableViewerColumn tblViewerClmnType;
-	private TableColumn tblclmnValue;
-	private TableViewerColumn tblViewerClmnValue;
+	// private Composite cmpExpressionContext;
 
 	private ComputedList computedResourcesList;
 	private ComputedList computedExpressionFeaturesList;
@@ -205,6 +208,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private IViewerObservableValue observeResourceSingleSelection;
 	private WritableValue periodBeginWritableValue;
 	private WritableValue periodEndWritableValue;
+	private Composite cmpExpression;
+	private Composite cmpSubSelector;
 
 	// private CDateTimeObservableValue fromTimeObservableValue;
 	// private CDateTimeObservableValue toTimeObservableValue;
@@ -238,61 +243,90 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		// Create the form.
 		frmResources = toolkit.createForm(this);
 		frmResources.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmResources);
+
 		frmResources.setText("Resources");
+		frmResources.getToolBarManager().add(new showContextAction("Context"));
+		frmResources.getToolBarManager().update(true);
+		frmResources.setToolBarVerticalAlignment(SWT.TOP);
+
+		periodComponent.buildUI(frmResources.getHead(), null);
+
+		frmResources.setHeadClient(periodComponent.getCmpPeriod());
+
+		toolkit.decorateFormHeading(frmResources);
+		toolkit.paintBordersFor(frmResources);
 
 		// Body of the form.
 		FillLayout fl = new FillLayout();
 		frmResources.getBody().setLayout(fl);
 
-		SashForm sashRoot = new SashForm(frmResources.getBody(), SWT.HORIZONTAL
-				| SWT.SMOOTH);
-		sashRoot.setLocation(0, 0);
-		toolkit.adapt(sashRoot);
-		toolkit.paintBordersFor(sashRoot);
+		final SashForm sashVertical = new SashForm(frmResources.getBody(),
+				SWT.VERTICAL);
+		sashVertical.setSashWidth(3);
+		toolkit.adapt(sashVertical);
+		toolkit.paintBordersFor(sashVertical);
 
-		Composite cmpLeft = toolkit.createComposite(sashRoot, SWT.NONE);
-		GridLayout gl_cmpLeft = new GridLayout(1, false);
-		gl_cmpLeft.marginLeft = 10;
-		gl_cmpLeft.marginHeight = 10;
-		gl_cmpLeft.marginRight = 0;
-		cmpLeft.setLayout(gl_cmpLeft);
+		// Demo code constraint for minimum.
+		// Control[] comps = sashVertical.getChildren();
+		// for (Control comp : comps) {
+		// if (comp instanceof Sash) {
+		//
+		// final int SASH_LIMIT = 200;
+		// final Sash sash = (Sash)comp;
+		//
+		// sash.addSelectionListener(new SelectionAdapter() {
+		// public void widgetSelected(SelectionEvent event) {
+		// Rectangle rect = sash.getParent().getClientArea();
+		// event.x = Math.min(Math.max(event.x, SASH_LIMIT),
+		// rect.width - SASH_LIMIT);
+		// if (event.detail != SWT.DRAG) {
+		// sash.setBounds(event.x, event.y, event.width,
+		// event.height);
+		// sashVertical.layout();
+		// }
+		// }
+		// });
+		// }
+		// }
 
-		buildComponentSelector(cmpLeft, new GridData(SWT.FILL, SWT.TOP, true,
-				false, 1, 1), widgetStyle);
-		buildComponentViewer(cmpLeft, new GridData(SWT.FILL, SWT.FILL, true,
-				true, 1, 1), widgetStyle);
+		sashVertical.addDragDetectListener(new DragDetectListener() {
 
-		Composite cmpRight = toolkit.createComposite(sashRoot, SWT.NONE);
-		GridLayout gl_cmpRight = new GridLayout(1, false);
-		gl_cmpRight.marginRight = 10;
-		gl_cmpRight.marginHeight = 10;
-		gl_cmpRight.marginLeft = 0;
+			public void dragDetected(DragDetectEvent e) {
+				System.out.println(e.x + e.y);
+			}
 
-		cmpRight.setLayout(gl_cmpRight);
-		toolkit.adapt(cmpRight);
-		toolkit.paintBordersFor(cmpRight);
+		});
 
-		sashRoot.setWeights(new int[] { 2, 8 });
+		Composite cmpRoot = toolkit.createComposite(sashVertical, SWT.NONE);
+		GridLayout gl_cmpRoot = new GridLayout(2, false);
+		gl_cmpRoot.marginLeft = 10;
+		gl_cmpRoot.marginHeight = 5;
+		gl_cmpRoot.marginRight = 5;
+		// gl_cmpRoot.verticalSpacing = 10;
+		cmpRoot.setLayout(gl_cmpRoot);
 
-		buildExpressionSelector(cmpRight, new GridData(SWT.FILL, SWT.FILL,
-				true, false, 1, 1), widgetStyle);
+		GridData gdCompSelector = new GridData(SWT.LEFT, SWT.TOP, false, false,
+				1, 1);
+		buildComponentSelector(cmpRoot, gdCompSelector, widgetStyle);
+		buildExpressionSelector(cmpRoot, new GridData(SWT.FILL, SWT.FILL, true,
+				true), widgetStyle);
 
-		SashForm sashComponentResources = new SashForm(cmpRight, SWT.HORIZONTAL);
+		SashForm sashData = new SashForm(sashVertical, SWT.HORIZONTAL);
+		sashData.setSashWidth(5);
+		toolkit.adapt(sashData);
+		toolkit.paintBordersFor(sashData);
 
-		sashComponentResources.setLocation(0, 0);
-		sashComponentResources.setSashWidth(1);
-		toolkit.adapt(sashComponentResources);
-		toolkit.paintBordersFor(sashComponentResources);
+		sashData.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2,
+				1));
 
-		sashComponentResources.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
-				true, true, 1, 1));
-
-		buildResourceViewer(sashComponentResources, widgetStyle);
-		buildValues(sashComponentResources);
+		buildComponentViewer(sashData, null, widgetStyle);
+		buildResourceViewer(sashData, widgetStyle);
+		buildValues(sashData);
 
 		// WEIGHTDS FOR SASH.
-		sashComponentResources.setWeights(new int[] { 5, 5 });
+		sashData.setWeights(new int[] { 3, 5, 5 });
+
+		sashVertical.setWeights(new int[] { 1, 9 });
 	}
 
 	private void buildResourceViewer(SashForm sashComponentResources,
@@ -311,7 +345,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		buildResourcesColumns();
 	}
 
-	private void buildComponentViewer(Composite parent,
+	private void buildComponentViewer(SashForm parent,
 			GridData gd_componentsTreeViewer, int widgetStyle) {
 		// COMPONENTS TREEVIEWER.
 
@@ -322,7 +356,11 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		Tree tree = componentsTreeViewer.getTree();
 		tree.setHeaderVisible(true);
 		tree.setLinesVisible(true);
-		tree.setLayoutData(gd_componentsTreeViewer);
+
+		if (gd_componentsTreeViewer != null) {
+			tree.setLayoutData(gd_componentsTreeViewer);
+		}
+
 		toolkit.paintBordersFor(tree);
 
 		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(
@@ -439,7 +477,6 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		// ColumnViewerEditorDeactivationEvent event) {
 		// }
 		// });
-
 	}
 
 	private void buildComponentSelector(Composite parent, GridData gridData,
@@ -447,6 +484,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		// Selector.
 		Composite cmpComponentSelector = toolkit.createComposite(parent,
 				SWT.NONE);
+
 		cmpComponentSelector.setLayoutData(gridData);
 		GridLayout gl_cmpSelector = new GridLayout(2, false);
 		gl_cmpSelector.verticalSpacing = 0;
@@ -499,18 +537,28 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private void buildExpressionSelector(Composite cmpComponents,
 			GridData gridData, int widgetStyle) {
 
-		Composite cmpExpression = toolkit.createComposite(cmpComponents,
-				SWT.NONE);
+		cmpExpression = toolkit.createComposite(cmpComponents, SWT.NONE);
 
 		cmpExpression.setLayoutData(gridData);
+
+		// a grid layout with 3 columns.
 		GridLayout gl_cmpExpression = new GridLayout(3, false);
 		gl_cmpExpression.marginHeight = 0;
 		gl_cmpExpression.marginWidth = 0;
 		cmpExpression.setLayout(gl_cmpExpression);
 
+		cmbExpression = new Combo(cmpExpression, SWT.READ_ONLY);
+		cmbViewerExpression = new ComboViewer(cmbExpression);
+		GridData gd_cmbExpression = new GridData(SWT.LEFT, SWT.TOP, false,
+				false, 1, 1);
+		gd_cmbExpression.widthHint = 145;
+		cmbExpression.setLayoutData(gd_cmbExpression);
+
+		toolkit.paintBordersFor(cmbExpression);
+
 		btnExpressionTest = new Button(cmpExpression, SWT.FLAT);
-		btnExpressionTest.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
+		btnExpressionTest.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false,
+				false, 1, 1));
 		btnExpressionTest.setImage(ResourceManager.getPluginImage(
 				"com.netxforge.netxstudio.models.edit",
 				"icons/full/obj16/Expression_H.png"));
@@ -555,13 +603,14 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 							expressionEngine.getContext(), result, start, end);
 
 					cmpValues.getValuesTableViewer().refresh(true);
-					
-					// update our view part dirty state, as we don't use the editing domain. 
-					screenService.getAbsViewPart().publicFirePropertyChange(ISaveablePart2.PROP_DIRTY);
+
+					// update our view part dirty state, as we don't use the
+					// editing domain.
+					screenService.getAbsViewPart().publicFirePropertyChange(
+							ISaveablePart2.PROP_DIRTY);
 				}
 			}
 
-			
 			@SuppressWarnings("unused")
 			private void showExpressionsDialog(ISelection selection) {
 				IStructuredSelection ss = (IStructuredSelection) selection;
@@ -582,20 +631,11 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			}
 		});
 
-		cmbExpression = new Combo(cmpExpression, SWT.READ_ONLY);
-		cmbViewerExpression = new ComboViewer(cmbExpression);
-		GridData gd_cmbExpression = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_cmbExpression.widthHint = 145;
-		cmbExpression.setLayoutData(gd_cmbExpression);
-
-		toolkit.paintBordersFor(cmbExpression);
-
 		cmpExpressionEditor = toolkit
 				.createComposite(cmpExpression, SWT.BORDER);
-		GridData gd_cmpExpressionHead = new GridData(SWT.FILL, SWT.CENTER,
-				true, false, 1, 1);
-		gd_cmpExpressionHead.heightHint = 16;
+		GridData gd_cmpExpressionHead = new GridData(SWT.FILL, SWT.FILL, true,
+				true, 1, 2);
+		// gd_cmpExpressionHead.heightHint = 16;
 		cmpExpressionEditor.setLayoutData(gd_cmpExpressionHead);
 
 		toolkit.paintBordersFor(cmpExpressionEditor);
@@ -610,42 +650,48 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		expressionComponent.configure(editingService, this.getOperation());
 
-		cmpExpressionContext = new Composite(cmpExpression, SWT.NONE);
-		cmpExpressionContext.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
-				false, false, 4, 1));
-		toolkit.adapt(cmpExpressionContext);
-		toolkit.paintBordersFor(cmpExpressionContext);
-		GridLayout gl_cmpExpressionContext = new GridLayout(2, false);
-		gl_cmpExpressionContext.marginHeight = 0;
-		gl_cmpExpressionContext.marginWidth = 0;
-		cmpExpressionContext.setLayout(gl_cmpExpressionContext);
+		// Label fillerLabel = new Label(cmpExpressionContext, SWT.NONE);
+		// GridData gd_filler = new GridData(SWT.LEFT, SWT.CENTER, false,
+		// false, 1, 1);
+		// gd_filler.widthHint = 145;
+		// fillerLabel.setLayoutData(gd_filler);
 
-		GridData gd_periodContext = new GridData(SWT.LEFT, SWT.TOP, false,
-				false, 1, 1);
-		gd_periodContext.heightHint = 80;
-		gd_periodContext.widthHint = 170;
-		periodComponent.buildUI(cmpExpressionContext, gd_periodContext);
-		
-		// Remove the context 
-		tblViewerContext = new TableViewer(cmpExpressionContext, SWT.BORDER
-				| SWT.FULL_SELECTION);
-		Table tblContext = tblViewerContext.getTable();
-		tblContext.setHeaderVisible(true);
-		tblContext.setLinesVisible(true);
-		// gd_table.heightHint = 100;
-		tblContext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
-				1, 1));
-		toolkit.paintBordersFor(tblContext);
+		// GridData gd_periodContext = new GridData(SWT.RIGHT, SWT.TOP, false,
+		// false, 1, 1);
+		// gd_periodContext.heightHint = 80;
+		// gd_periodContext.widthHint = 170;
+		// periodComponent.buildUI(cmpExpressionContext, gd_periodContext);
 
-		tblViewerClmnType = new TableViewerColumn(tblViewerContext, SWT.NONE);
-		tblclmnType = tblViewerClmnType.getColumn();
-		tblclmnType.setWidth(150);
-		tblclmnType.setText("Type");
+		cmpSubSelector = new Composite(cmpExpression, SWT.NONE);
+		cmpSubSelector.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false,
+				false, 2, 1));
+		toolkit.adapt(cmpSubSelector);
+		toolkit.paintBordersFor(cmpSubSelector);
+		GridLayout gl_cmpSubSelector = new GridLayout(2, false);
+		gl_cmpSubSelector.marginHeight = 0;
+		gl_cmpSubSelector.marginWidth = 0;
+		cmpSubSelector.setLayout(gl_cmpSubSelector);
+		cmpSubSelector.setVisible(false);
+	}
 
-		tblViewerClmnValue = new TableViewerColumn(tblViewerContext, SWT.NONE);
-		tblclmnValue = tblViewerClmnValue.getColumn();
-		tblclmnValue.setWidth(250);
-		tblclmnValue.setText("Value");
+	class showContextAction extends Action {
+
+		public showContextAction(String text) {
+			super(text);
+		}
+
+		@Override
+		public void run() {
+
+			WritableList contextWritableList = contextAggregate
+					.getContextWritableList();
+			ExpressionContextDialog expressionContextDialog = new ExpressionContextDialog(
+					NodeResourcesAdvanced.this.getShell(), editingService,
+					modelUtils);
+			expressionContextDialog.setBlockOnOpen(false);
+			expressionContextDialog.open();
+			expressionContextDialog.injectData(contextWritableList);
+		}
 	}
 
 	private void buildValues(SashForm sashForm) {
@@ -743,18 +789,102 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	}
 
 	/*
-	 * Maintains the state of an expression.
+	 * Maintains the state of an expression selector and sub-selector.
 	 */
 	private final class ExpressionAggregate implements IValueChangeListener {
 
+		/*
+		 * The currently selected component.
+		 */
 		private Component currentComponent;
-		private EReference expressionFeature;
 
+		/*
+		 * Writable observable others can listen to.
+		 */
 		private WritableValue exprFeatureWritable = new WritableValue(null,
 				EReference.class);
 
+		/*
+		 * Writable observable others can listen to.
+		 */
 		private WritableValue exprWritable = new WritableValue(null,
 				Expression.class);
+
+		/*
+		 * A composite holding the subselector which is dynamically animated.
+		 */
+		private ComboViewer cmbViewerSubSelector;
+
+		/*
+		 * The currently selected sub selection object.
+		 */
+		private Object currentSubSelection;
+
+		private EReference expressionFeature;
+
+		public ExpressionAggregate(Composite subSelectorParent) {
+			initSubSelector(subSelectorParent);
+		}
+
+		private void initSubSelector(Composite subSelectorParent) {
+
+			Combo cmbSubSelector = new Combo(cmpSubSelector, SWT.READ_ONLY);
+			cmbViewerSubSelector = new ComboViewer(cmbSubSelector);
+			GridData gd_cmbExpression = new GridData(SWT.LEFT, SWT.CENTER,
+					false, false, 1, 1);
+			gd_cmbExpression.widthHint = 145;
+			cmbSubSelector.setLayoutData(gd_cmbExpression);
+
+			toolkit.paintBordersFor(cmbExpression);
+
+			ObservableListContentProvider expressionFeaturesListContentProvider = new ObservableListContentProvider();
+			cmbViewerSubSelector
+					.setContentProvider(expressionFeaturesListContentProvider);
+
+			cmbViewerSubSelector
+					.setLabelProvider(new AdapterFactoryLabelProvider(
+							editingService.getAdapterFactory()));
+
+			ImageHyperlink hypLnkAddTolerance = toolkit.createImageHyperlink(
+					subSelectorParent, SWT.NONE);
+			hypLnkAddTolerance.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					Resource toleranceResource = editingService
+							.getData(LibraryPackage.Literals.TOLERANCE);
+					ToleranceFilterDialog dialog = new ToleranceFilterDialog(
+							NodeResourcesAdvanced.this.getShell(),
+							toleranceResource);
+					if (dialog.open() == IDialogConstants.OK_ID) {
+						Tolerance tolerance = (Tolerance) dialog
+								.getFirstResult();
+						if (!currentComponent.getToleranceRefs().contains(
+								tolerance)) {
+							Command c = new AddCommand(editingService
+									.getEditingDomain(), currentComponent
+									.getToleranceRefs(), tolerance);
+							editingService.getEditingDomain().getCommandStack()
+									.execute(c);
+						}
+					}
+				}
+
+				public void linkEntered(HyperlinkEvent e) {
+				}
+
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			hypLnkAddTolerance.setLayoutData(new GridData(SWT.RIGHT,
+					SWT.CENTER, false, false, 1, 1));
+			toolkit.paintBordersFor(hypLnkAddTolerance);
+			hypLnkAddTolerance.setText("Add");
+
+			// observe the sub selector, and handle change with this class.
+			IViewerObservableValue observerSubSelection = ViewersObservables
+					.observeSingleSelection(cmbViewerSubSelector);
+
+			observerSubSelection.addValueChangeListener(this);
+		}
 
 		public void handleValueChange(ValueChangeEvent event) {
 
@@ -765,59 +895,105 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			if (observable instanceof IViewerObservableValue) {
 				IViewerObservableValue ivov = (IViewerObservableValue) observable;
 				if (ivov.getViewer() == cmbViewerExpression) {
-					expressionFeature = processExpressionChange(event
+					expressionFeature = processExpressionFeatureChange(event
 							.getObservableValue());
 					exprFeatureWritable.setValue(expressionFeature);
+					if (currentComponent != null) {
+						updateSubSelection();
+						loadExpression();
+					}
+
+					// After a change, we inject the new expression.
 				} else if (ivov.getViewer() == componentsTreeViewer) {
 					currentComponent = processComponentChange(event
 							.getObservableValue());
+					updateSubSelection();
+					loadExpression();
+
+				} else if (ivov.getViewer() == cmbViewerSubSelector) {
+					processSubSelectionChange(event.getObservableValue());
+					loadExpression();
 				}
 			}
 
-			// After a change, we inject the new expression.
-			handleChange();
+			// handleComponentChange();
 		}
 
-		private void handleChange() {
-
-			Expression expr = null;
-
-			if (expressionFeature != null
-					&& expressionFeature.getEReferenceType() == LibraryPackage.Literals.EXPRESSION) {
-
-				if (expressionFeature.getEContainingClass() == LibraryPackage.Literals.TOLERANCE) {
-					// TODO, get applicable tolerances first, need a
-					// selector for this....
-				} else if (expressionFeature.getEContainingClass() == LibraryPackage.Literals.COMPONENT) {
-					if (currentComponent != null
-							&& currentComponent.eIsSet(expressionFeature)) {
-						expr = (Expression) currentComponent
-								.eGet(expressionFeature);
-					}
-				} else if (expressionFeature.getEContainingClass() == MetricsPackage.Literals.METRIC_RETENTION_RULE) {
-					// TODO, get applicable retention type first, need a
-					// selector for this.
+		private void updateSubSelection() {
+			if (expressionFeature.getEContainingClass() == LibraryPackage.Literals.TOLERANCE) {
+				if (!cmpSubSelector.isVisible()) {
+					cmpSubSelector.setVisible(true);
 				}
+				IEMFListProperty list = EMFProperties
+						.list(LibraryPackage.Literals.COMPONENT__TOLERANCE_REFS);
+				cmbViewerSubSelector.setInput(list.observe(currentComponent));
+				
+			} else {
+				cmpSubSelector.setVisible(false);
 			}
+			currentSubSelection = null;
+		}
 
-			if (expr == null) {
-				if (currentComponent != null && expressionFeature != null) {
-					expr = createExpression(currentComponent, expressionFeature);
+		/*
+		 * Get the expression based on the feature from the current component
+		 * and sub selection.
+		 */
+		private Expression loadExpression() {
+			Expression expr = null;
+			
+			if (expressionFeature == null
+					|| expressionFeature.getEReferenceType() != LibraryPackage.Literals.EXPRESSION) {
+				return expr;
+			}
+			
+			if (expressionFeature.getEContainingClass() == LibraryPackage.Literals.TOLERANCE) {
+				// If we have a sub-selection, otherwise show the
+				// sub-selection menu.
+				if (currentSubSelection instanceof Tolerance) {
+					if (((Tolerance) currentSubSelection)
+							.eIsSet(LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF)) {
+						expr = ((Tolerance) currentSubSelection)
+								.getExpressionRef();
+						expressionComponent.injectData(expr.eResource(), expr);
+
+					} else {
+						expr = createToleranceExpression(
+								(Tolerance) currentSubSelection,
+								expressionFeature);
+						Resource expressionsResource = editingService
+								.getData(LibraryPackage.Literals.EXPRESSION);
+						expressionComponent.injectData(expressionsResource,
+								expr, currentSubSelection, expressionFeature);
+					}
+				}else{
+					// do nothing. 
+					// well clean the expression editor, as no...
+				}
+			} else if (expressionFeature.getEContainingClass() == LibraryPackage.Literals.COMPONENT) {
+				if (currentComponent.eIsSet(expressionFeature)) {
+					expr = (Expression) currentComponent
+							.eGet(expressionFeature);
+					expressionComponent.injectData(expr.eResource(), expr);
+				} else {
+					expr = createComponentExpression(currentComponent,
+							expressionFeature);
 					Resource expressionsResource = editingService
 							.getData(LibraryPackage.Literals.EXPRESSION);
 					expressionComponent.injectData(expressionsResource, expr,
 							currentComponent, expressionFeature);
-					return;
-				} else {
-					return;
 				}
+			} else if (expressionFeature.getEContainingClass() == MetricsPackage.Literals.METRIC_RETENTION_RULE) {
+				// TODO, get applicable retention type first, need a
+				// selector for this.
 			}
-			exprWritable.setValue(expr);
-			expressionComponent.injectData(expr.eResource(), expr);
 
+			if (expr != null) {
+				exprWritable.setValue(expr);
+			}
+			return expr;
 		}
 
-		private Expression createExpression(EObject target,
+		private Expression createComponentExpression(Component target,
 				EStructuralFeature feature) {
 
 			Expression expression = LibraryFactory.eINSTANCE.createExpression();
@@ -825,9 +1001,23 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			String cName = target instanceof Function ? ((Function) target)
 					.getName()
 					: target instanceof Equipment ? ((Equipment) target)
-							.getEquipmentCode() : "Unkwnown";
+							.getEquipmentCode() : "Unknown";
 
-			String name = " Generated_" + cName + "_" + feature.getName();
+			String name = " Generated_comp_" + cName + "_" + feature.getName();
+			expression.setName(name);
+
+			return expression;
+		}
+
+		private Expression createToleranceExpression(Tolerance target,
+				EStructuralFeature feature) {
+
+			Expression expression = LibraryFactory.eINSTANCE.createExpression();
+
+			String tName = target.getName();
+
+			String name = " Generated_tolerance_" + tName + "_"
+					+ feature.getName();
 			expression.setName(name);
 
 			return expression;
@@ -842,7 +1032,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			return c;
 		}
 
-		private EReference processExpressionChange(IObservableValue ob) {
+		private EReference processExpressionFeatureChange(IObservableValue ob) {
 			EReference eRef = null;
 			Object value = ob.getValue();
 			// Expecting an ERef with target EType Expression.
@@ -850,6 +1040,13 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				eRef = (EReference) value;
 			}
 			return eRef;
+		}
+
+		private void processSubSelectionChange(IObservableValue ob) {
+			Object value = ob.getValue();
+			if (value instanceof Tolerance) {
+				currentSubSelection = value;
+			}
 		}
 
 		WritableValue getExpressionFeatureObservable() {
@@ -881,20 +1078,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		}
 
 		public void handleValueChange(ValueChangeEvent event) {
-
-			// System.out.println("context aggregate value="
-			// + event.getObservableValue().getValue());
-
 			IObservable observable = event.getObservable();
-			// if (observable instanceof CDateTimeObservableValue) {
-			// CDateTime dateTime = ((CDateTimeObservableValue) observable)
-			// .getDateTime();
-			// if (dateTime == periodComponent.getDateTimeFrom()) {
-			// dtr.setBegin(modelUtils.toXMLDate(dateTime.getSelection()));
-			// } else if (dateTime == periodComponent.getDateTimeTo()) {
-			// dtr.setEnd(modelUtils.toXMLDate(dateTime.getSelection()));
-			// }
-			// } else
 			if (observable instanceof IViewerObservableValue) {
 				IViewerObservableValue ivov = (IViewerObservableValue) observable;
 				if (ivov.getViewer() == componentsTreeViewer) {
@@ -1397,7 +1581,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		// EXPRESSION EDITOR BINDING
 		// Put Component and Expression observables in an aggregate.
-		expressionAggregate = new ExpressionAggregate();
+		expressionAggregate = new ExpressionAggregate(cmpSubSelector);
 
 		observerExpressionFeature.addValueChangeListener(expressionAggregate);
 		observeSingleComponentSelection
@@ -1450,64 +1634,6 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		expressionAggregate.getExpressionObservable().addValueChangeListener(
 				contextAggregate);
-
-		// bind the result to a Writable value.
-		ObservableListContentProvider contextListContentProvider = new ObservableListContentProvider();
-		tblViewerContext.setContentProvider(contextListContentProvider);
-		tblViewerContext.setLabelProvider(new CellLabelProvider() {
-
-			@Override
-			public void update(ViewerCell cell) {
-				Object element = cell.getElement();
-
-				if (element instanceof IInterpreterContext) {
-					IInterpreterContext context = (IInterpreterContext) element;
-					Object contextObject = context.getContext();
-					if (contextObject != null) {
-						int columnIndex = cell.getColumnIndex();
-						switch (columnIndex) {
-						case 0: {
-							cell.setText(" "
-									+ contextObject.getClass().getSimpleName());
-						}
-							break;
-						case 1: {
-
-							String text = "";
-
-							if (contextObject instanceof Function) {
-								text = ((Function) contextObject).getName();
-							} else if (contextObject instanceof Equipment) {
-								text = ((Equipment) contextObject)
-										.getEquipmentCode();
-							} else if (contextObject instanceof Node) {
-								text = ((Node) contextObject).getNodeID();
-							} else if (contextObject instanceof NetXResource) {
-								text = ((NetXResource) contextObject)
-										.getShortName();
-							} else if (contextObject instanceof DateTimeRange) {
-								DateTimeRange dtr = (DateTimeRange) contextObject;
-								Date start = modelUtils.fromXMLDate(dtr
-										.getBegin());
-								Date end = modelUtils.fromXMLDate(dtr.getEnd());
-
-								text = modelUtils.date(start) + " ("
-										+ modelUtils.time(start) + ")"
-										+ " --> " + modelUtils.date(end) + " ("
-										+ modelUtils.time(end) + ")";
-							}
-							cell.setText(text);
-						}
-							break;
-						}
-					} else {
-						cell.setText("Error, context object not set");
-					}
-				}
-			}
-
-		});
-		tblViewerContext.setInput(contextAggregate.getContextWritableList());
 
 		cmbViewerExpression.setSelection(new StructuredSelection(
 				LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF));

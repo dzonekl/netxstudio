@@ -253,7 +253,8 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 		// editorComposite.setLayout(gl_editorComposite);
 
 		xtextEditor = new EmbeddedXtextEditor(parent, netxScriptInjector,
-				SWT.BORDER | widgetStyle | SWT.SINGLE);
+				SWT.BORDER | widgetStyle | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
+		 
 		xtextEditor.getDocument().addModelListener(new IXtextModelListener() {
 			public void modelChanged(XtextResource resource) {
 				if (expression != null) {
@@ -403,6 +404,9 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 				@Override
 				public void done(IJobChangeEvent event) {
 					super.done(event);
+					
+					// CB We might have switched screen, for all we know.
+					// which will dispose the transaction. 
 					EmbeddedLineExpression.this.expression = tmpExpression;
 					System.out.println("Xtext editor: done loading, Expr="
 							+ expression.getName());

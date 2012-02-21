@@ -269,9 +269,6 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		bindingContext = initDataBindings_();
 	}
 
-	public void disposeData() {
-	}
-
 	public EMFDataBindingContext initDataBindings_() {
 
 		listContentProvider = new ObservableListContentProvider();

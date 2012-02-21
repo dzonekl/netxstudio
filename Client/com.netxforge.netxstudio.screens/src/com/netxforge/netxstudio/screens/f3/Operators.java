@@ -262,12 +262,6 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 		tableViewer.addFilter(new SearchFilter(editingService));
 	}
 
-	public void disposeData() {
-		if (editingService != null) {
-			editingService.disposeData(operatorResource);
-		}
-	}
-
 	public EMFDataBindingContext initDataBindings_() {
 
 		listContentProvider = new ObservableListContentProvider();

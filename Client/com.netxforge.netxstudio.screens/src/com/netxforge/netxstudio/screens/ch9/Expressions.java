@@ -266,12 +266,6 @@ public class Expressions extends AbstractScreen implements
 		// tableViewer.addFilter(new SearchFilter(editingService));
 	}
 
-	public void disposeData() {
-		if (editingService != null) {
-			editingService.disposeData(expressionsResource);
-		}
-	}
-
 	public EMFDataBindingContext initDataBindings_() {
 		listContentProvider = new ObservableListContentProvider();
 		tableViewer.setContentProvider(listContentProvider);
