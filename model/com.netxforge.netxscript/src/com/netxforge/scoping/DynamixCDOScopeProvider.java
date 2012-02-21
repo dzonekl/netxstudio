@@ -29,6 +29,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -43,17 +44,17 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * @author dzonekl
  */
+@Singleton
 public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 
 	private static String REPO_NAME = "repo1";
 
-	// @Inject
 	private Provider<IResourceDescriptions> loadOnDemandDescriptions;
 
 	private ModelUtils modelUtils;
 
 	private CDOView view;
-
+	
 	/*
 	 * Our dynamic map of EClass and URIs for NetXResource object, we expect the
 	 * list of URI's to grow.
@@ -79,6 +80,9 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 		initialize();
 	}
 
+	/*
+	 * Will not initialize if the view is already set.
+	 */
 	private void initialize() {
 		// Use a singleton transaction.
 		if (view == null) {
@@ -92,25 +96,41 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 				((AbstractDynamixCDOResourceDescriptions) descriptions)
 						.initialize(flattenMap(), view);
 			}
+		} else {
+			throw new IllegalStateException(
+					"Can't initialize the Global Scope Provider, as the CDO View is already set, this is an illegal state of the application. ");
 		}
+	}
+
+	/**
+	 * Tell us we are running on the Server.
+	 * 
+	 * @return
+	 */
+	public boolean isServer() {
+
+		// We can tell if we are on the server, bind the instantiated
+		// xxxDescriptions, which varies depending
+		// Server or Client.
+		if (descriptions instanceof DynamixCDOResourceDescriptions) {
+			return false;
+		}
+		return true;
 	}
 
 	private void registerURIs() {
 		cdoScopeListener = new DynamixCDOScopeListener(this);
 		view.addListener(cdoScopeListener);
 	}
-	
-	
-	
-	
+
 	@Override
 	protected IScope getScope(Resource resource, boolean ignoreCase,
 			EClass type, Predicate<IEObjectDescription> filter) {
-		
-		if(filter != null){
-				System.err.println("NETXSCRIPT: filter=" + filter);
+
+		if (filter != null) {
+			System.err.println("NETXSCRIPT: filter=" + filter);
 		}
-		
+
 		if (RuntimeActivator.DEBUG) {
 			System.err
 					.println("NETXSCRIPT: Dynamix Global scope provider invoked");
@@ -129,10 +149,10 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 				scope = createLazyResourceScope(scope, uri, descriptions, type,
 						filter, ignoreCase);
 				if (RuntimeActivator.DEBUG) {
-//					int size = Iterables.size(scope.getAllElements());
-//					System.err.println("NETXSCRIPT: last scope = "
-//							+ scope.toString() + " , number of descriptions = "
-//							+ size);
+					// int size = Iterables.size(scope.getAllElements());
+					// System.err.println("NETXSCRIPT: last scope = "
+					// + scope.toString() + " , number of descriptions = "
+					// + size);
 				}
 
 			}
@@ -192,6 +212,23 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 
 		return SelectableBasedScope.createScope(parent, description, filter,
 				type, ignoreCase);
+	}
+
+	/**
+	 * Initialize for all URI's representing CDO Resources. this will populate
+	 * the cache and speed up usage of an Expression editor
+	 */
+	public void initDescriptions() {
+		
+		// TODO, We need a monitor for accessing the descriptions. 
+		
+		for (EClass eClass : eClassToURIMap.keySet()) {
+			List<URI> urisForClass = eClassToURIMap.get(eClass);
+			for (URI uri : urisForClass) {
+				// Call to populate the cache.
+				descriptions.getResourceDescription(uri);
+			}
+		}
 	}
 
 	/*

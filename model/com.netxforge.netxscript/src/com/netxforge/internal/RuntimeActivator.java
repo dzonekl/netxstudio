@@ -61,7 +61,6 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 		// it on the server side). 
 		try {
 			registerInjectorFor("com.netxforge.Netxscript");
-			
 		} catch (Exception e) {
 			Logger.getLogger(getClass()).error(e.getMessage(), e);
 			throw e;
@@ -70,6 +69,9 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 		Dictionary<String, String> props = new Hashtable<String,String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
 	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
+	 	
+	 	
+	 	
 		
 	}
 
@@ -104,6 +106,7 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 		om = override(om).with(new CommonModule());
 		// ... add next module here.
 		injectors.put(language, createInjector(om));
+		
 	}
 
 	protected Module getRuntimeModule(String grammar) {

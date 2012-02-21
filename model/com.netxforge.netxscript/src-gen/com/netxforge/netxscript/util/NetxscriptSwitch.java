@@ -143,11 +143,19 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case NetxscriptPackage.RANGE:
+      case NetxscriptPackage.NUMBER_LITERAL:
       {
-        Range range = (Range)theEObject;
-        T result = caseRange(range);
-        if (result == null) result = caseExpression(range);
+        NumberLiteral numberLiteral = (NumberLiteral)theEObject;
+        T result = caseNumberLiteral(numberLiteral);
+        if (result == null) result = caseExpression(numberLiteral);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case NetxscriptPackage.RANGE_LITERAL:
+      {
+        RangeLiteral rangeLiteral = (RangeLiteral)theEObject;
+        T result = caseRangeLiteral(rangeLiteral);
+        if (result == null) result = caseExpression(rangeLiteral);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -156,6 +164,20 @@ public class NetxscriptSwitch<T> extends Switch<T>
         Reference reference = (Reference)theEObject;
         T result = caseReference(reference);
         if (result == null) result = caseExpression(reference);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case NetxscriptPackage.PRIMARY_REF:
+      {
+        PrimaryRef primaryRef = (PrimaryRef)theEObject;
+        T result = casePrimaryRef(primaryRef);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case NetxscriptPackage.NAVIGATION:
+      {
+        Navigation navigation = (Navigation)theEObject;
+        T result = caseNavigation(navigation);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -363,19 +385,19 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case NetxscriptPackage.NATIVE_EXPRESSION:
+      {
+        NativeExpression nativeExpression = (NativeExpression)theEObject;
+        T result = caseNativeExpression(nativeExpression);
+        if (result == null) result = caseExpression(nativeExpression);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case NetxscriptPackage.BOOLEAN_LITERAL:
       {
         BooleanLiteral booleanLiteral = (BooleanLiteral)theEObject;
         T result = caseBooleanLiteral(booleanLiteral);
         if (result == null) result = caseExpression(booleanLiteral);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case NetxscriptPackage.NUMBER_LITERAL:
-      {
-        NumberLiteral numberLiteral = (NumberLiteral)theEObject;
-        T result = caseNumberLiteral(numberLiteral);
-        if (result == null) result = caseExpression(numberLiteral);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -387,28 +409,11 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case NetxscriptPackage.NATIVE_EXPRESSION:
-      {
-        NativeExpression nativeExpression = (NativeExpression)theEObject;
-        T result = caseNativeExpression(nativeExpression);
-        if (result == null) result = caseExpression(nativeExpression);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case NetxscriptPackage.VAR_OR_ARGUMENT_CALL:
       {
         VarOrArgumentCall varOrArgumentCall = (VarOrArgumentCall)theEObject;
         T result = caseVarOrArgumentCall(varOrArgumentCall);
         if (result == null) result = caseExpression(varOrArgumentCall);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case NetxscriptPackage.RANGE_LITERAL:
-      {
-        RangeLiteral rangeLiteral = (RangeLiteral)theEObject;
-        T result = caseRangeLiteral(rangeLiteral);
-        if (result == null) result = caseRange(rangeLiteral);
-        if (result == null) result = caseExpression(rangeLiteral);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -445,15 +450,6 @@ public class NetxscriptSwitch<T> extends Switch<T>
         T result = caseContextRef(contextRef);
         if (result == null) result = caseReference(contextRef);
         if (result == null) result = caseExpression(contextRef);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case NetxscriptPackage.OPERATOR_REF:
-      {
-        OperatorRef operatorRef = (OperatorRef)theEObject;
-        T result = caseOperatorRef(operatorRef);
-        if (result == null) result = caseReference(operatorRef);
-        if (result == null) result = caseExpression(operatorRef);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -630,17 +626,33 @@ public class NetxscriptSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Range</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Number Literal</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Range</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Number Literal</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseRange(Range object)
+  public T caseNumberLiteral(NumberLiteral object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Range Literal</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Range Literal</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseRangeLiteral(RangeLiteral object)
   {
     return null;
   }
@@ -657,6 +669,38 @@ public class NetxscriptSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseReference(Reference object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Primary Ref</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Primary Ref</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T casePrimaryRef(PrimaryRef object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Navigation</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Navigation</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNavigation(Navigation object)
   {
     return null;
   }
@@ -1062,6 +1106,22 @@ public class NetxscriptSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Native Expression</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Native Expression</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNativeExpression(NativeExpression object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Boolean Literal</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1073,22 +1133,6 @@ public class NetxscriptSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseBooleanLiteral(BooleanLiteral object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Number Literal</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Number Literal</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseNumberLiteral(NumberLiteral object)
   {
     return null;
   }
@@ -1110,22 +1154,6 @@ public class NetxscriptSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Native Expression</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Native Expression</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseNativeExpression(NativeExpression object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>Var Or Argument Call</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1137,22 +1165,6 @@ public class NetxscriptSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseVarOrArgumentCall(VarOrArgumentCall object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Range Literal</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Range Literal</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseRangeLiteral(RangeLiteral object)
   {
     return null;
   }
@@ -1217,22 +1229,6 @@ public class NetxscriptSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseContextRef(ContextRef object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Operator Ref</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Operator Ref</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseOperatorRef(OperatorRef object)
   {
     return null;
   }

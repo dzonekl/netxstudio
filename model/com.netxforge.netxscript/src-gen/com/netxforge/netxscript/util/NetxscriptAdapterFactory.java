@@ -123,14 +123,29 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createExpressionAdapter();
       }
       @Override
-      public Adapter caseRange(Range object)
+      public Adapter caseNumberLiteral(NumberLiteral object)
       {
-        return createRangeAdapter();
+        return createNumberLiteralAdapter();
+      }
+      @Override
+      public Adapter caseRangeLiteral(RangeLiteral object)
+      {
+        return createRangeLiteralAdapter();
       }
       @Override
       public Adapter caseReference(Reference object)
       {
         return createReferenceAdapter();
+      }
+      @Override
+      public Adapter casePrimaryRef(PrimaryRef object)
+      {
+        return createPrimaryRefAdapter();
+      }
+      @Override
+      public Adapter caseNavigation(Navigation object)
+      {
+        return createNavigationAdapter();
       }
       @Override
       public Adapter caseLeafReference(LeafReference object)
@@ -258,14 +273,14 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createUnaryPlusMinusAdapter();
       }
       @Override
+      public Adapter caseNativeExpression(NativeExpression object)
+      {
+        return createNativeExpressionAdapter();
+      }
+      @Override
       public Adapter caseBooleanLiteral(BooleanLiteral object)
       {
         return createBooleanLiteralAdapter();
-      }
-      @Override
-      public Adapter caseNumberLiteral(NumberLiteral object)
-      {
-        return createNumberLiteralAdapter();
       }
       @Override
       public Adapter caseFunctionCall(FunctionCall object)
@@ -273,19 +288,9 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createFunctionCallAdapter();
       }
       @Override
-      public Adapter caseNativeExpression(NativeExpression object)
-      {
-        return createNativeExpressionAdapter();
-      }
-      @Override
       public Adapter caseVarOrArgumentCall(VarOrArgumentCall object)
       {
         return createVarOrArgumentCallAdapter();
-      }
-      @Override
-      public Adapter caseRangeLiteral(RangeLiteral object)
-      {
-        return createRangeLiteralAdapter();
       }
       @Override
       public Adapter caseParamRef(ParamRef object)
@@ -306,11 +311,6 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
       public Adapter caseContextRef(ContextRef object)
       {
         return createContextRefAdapter();
-      }
-      @Override
-      public Adapter caseOperatorRef(OperatorRef object)
-      {
-        return createOperatorRefAdapter();
       }
       @Override
       public Adapter caseResourceRef(ResourceRef object)
@@ -485,16 +485,31 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.Range <em>Range</em>}'.
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.NumberLiteral <em>Number Literal</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see com.netxforge.netxscript.Range
+   * @see com.netxforge.netxscript.NumberLiteral
    * @generated
    */
-  public Adapter createRangeAdapter()
+  public Adapter createNumberLiteralAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.RangeLiteral <em>Range Literal</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.RangeLiteral
+   * @generated
+   */
+  public Adapter createRangeLiteralAdapter()
   {
     return null;
   }
@@ -510,6 +525,36 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createReferenceAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.PrimaryRef <em>Primary Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.PrimaryRef
+   * @generated
+   */
+  public Adapter createPrimaryRefAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.Navigation <em>Navigation</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.Navigation
+   * @generated
+   */
+  public Adapter createNavigationAdapter()
   {
     return null;
   }
@@ -890,6 +935,21 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.NativeExpression <em>Native Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.NativeExpression
+   * @generated
+   */
+  public Adapter createNativeExpressionAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.BooleanLiteral <em>Boolean Literal</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -900,21 +960,6 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createBooleanLiteralAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.NumberLiteral <em>Number Literal</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.netxscript.NumberLiteral
-   * @generated
-   */
-  public Adapter createNumberLiteralAdapter()
   {
     return null;
   }
@@ -935,21 +980,6 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.NativeExpression <em>Native Expression</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.netxscript.NativeExpression
-   * @generated
-   */
-  public Adapter createNativeExpressionAdapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.VarOrArgumentCall <em>Var Or Argument Call</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -960,21 +990,6 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createVarOrArgumentCallAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.RangeLiteral <em>Range Literal</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.netxscript.RangeLiteral
-   * @generated
-   */
-  public Adapter createRangeLiteralAdapter()
   {
     return null;
   }
@@ -1035,21 +1050,6 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createContextRefAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.OperatorRef <em>Operator Ref</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.netxscript.OperatorRef
-   * @generated
-   */
-  public Adapter createOperatorRefAdapter()
   {
     return null;
   }

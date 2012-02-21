@@ -107,13 +107,22 @@ public interface NetxscriptFactory extends EFactory
   Expression createExpression();
 
   /**
-   * Returns a new object of class '<em>Range</em>'.
+   * Returns a new object of class '<em>Number Literal</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Range</em>'.
+   * @return a new object of class '<em>Number Literal</em>'.
    * @generated
    */
-  Range createRange();
+  NumberLiteral createNumberLiteral();
+
+  /**
+   * Returns a new object of class '<em>Range Literal</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Range Literal</em>'.
+   * @generated
+   */
+  RangeLiteral createRangeLiteral();
 
   /**
    * Returns a new object of class '<em>Reference</em>'.
@@ -123,6 +132,24 @@ public interface NetxscriptFactory extends EFactory
    * @generated
    */
   Reference createReference();
+
+  /**
+   * Returns a new object of class '<em>Primary Ref</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Primary Ref</em>'.
+   * @generated
+   */
+  PrimaryRef createPrimaryRef();
+
+  /**
+   * Returns a new object of class '<em>Navigation</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Navigation</em>'.
+   * @generated
+   */
+  Navigation createNavigation();
 
   /**
    * Returns a new object of class '<em>Leaf Reference</em>'.
@@ -350,6 +377,15 @@ public interface NetxscriptFactory extends EFactory
   UnaryPlusMinus createUnaryPlusMinus();
 
   /**
+   * Returns a new object of class '<em>Native Expression</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Native Expression</em>'.
+   * @generated
+   */
+  NativeExpression createNativeExpression();
+
+  /**
    * Returns a new object of class '<em>Boolean Literal</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -357,15 +393,6 @@ public interface NetxscriptFactory extends EFactory
    * @generated
    */
   BooleanLiteral createBooleanLiteral();
-
-  /**
-   * Returns a new object of class '<em>Number Literal</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Number Literal</em>'.
-   * @generated
-   */
-  NumberLiteral createNumberLiteral();
 
   /**
    * Returns a new object of class '<em>Function Call</em>'.
@@ -377,15 +404,6 @@ public interface NetxscriptFactory extends EFactory
   FunctionCall createFunctionCall();
 
   /**
-   * Returns a new object of class '<em>Native Expression</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Native Expression</em>'.
-   * @generated
-   */
-  NativeExpression createNativeExpression();
-
-  /**
    * Returns a new object of class '<em>Var Or Argument Call</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -393,15 +411,6 @@ public interface NetxscriptFactory extends EFactory
    * @generated
    */
   VarOrArgumentCall createVarOrArgumentCall();
-
-  /**
-   * Returns a new object of class '<em>Range Literal</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Range Literal</em>'.
-   * @generated
-   */
-  RangeLiteral createRangeLiteral();
 
   /**
    * Returns a new object of class '<em>Param Ref</em>'.
@@ -438,15 +447,6 @@ public interface NetxscriptFactory extends EFactory
    * @generated
    */
   ContextRef createContextRef();
-
-  /**
-   * Returns a new object of class '<em>Operator Ref</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Operator Ref</em>'.
-   * @generated
-   */
-  OperatorRef createOperatorRef();
 
   /**
    * Returns a new object of class '<em>Resource Ref</em>'.

@@ -7,6 +7,15 @@ public interface INativeFunctions {
 	
 	
 	/**
+	 * The Erlang B formula. 
+	 * @param range
+	 * @param gradeOfService
+	 * @return
+	 */
+	public abstract BigDecimal erlangB(List<?> range, float gradeOfService);
+	
+	
+	/**
 	 * Count the range.
 	 * @param range
 	 * @return

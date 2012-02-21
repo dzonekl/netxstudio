@@ -3,6 +3,8 @@
  */
 package com.netxforge;
 
+import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
+import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 
@@ -17,7 +19,10 @@ import com.netxforge.interpreter.InterpreterContextFactory;
 import com.netxforge.interpreter.InterpreterTypeless;
 import com.netxforge.interpreter.NativeFunctions;
 import com.netxforge.interpreter.PrettyLog;
+import com.netxforge.scoping.CDOResourceDescriptionManager;
+import com.netxforge.scoping.CDOResourceDescriptionsStrategy;
 import com.netxforge.scoping.CDOResourceServiceProvider;
+import com.netxforge.scoping.CDOScopeScheduler;
 import com.netxforge.scoping.DynamixCDONameProvider;
 import com.netxforge.scoping.DynamixCDOResourceDescriptions;
 import com.netxforge.scoping.DynamixCDOScopeProvider;
@@ -26,6 +31,8 @@ import com.netxforge.scoping.QualifiedDynamixCDONameProvider;
 /**
  * Use this class to register components to be used at runtime / without the
  * Equinox extension registry.
+ * 
+ * 
  */
 public class NetxscriptRuntimeModule extends
 		com.netxforge.AbstractNetxscriptRuntimeModule {
@@ -34,9 +41,21 @@ public class NetxscriptRuntimeModule extends
 		return CDOResourceServiceProvider.class;
 	}
 
+	public Class<? extends IDefaultResourceDescriptionStrategy> bindIDefaultResourceDescriptionsStrategy() {
+		return CDOResourceDescriptionsStrategy.class;
+	}
+
+	public Class<? extends IResourceDescription.Manager> bindIResourceDescriptionManager() {
+		return CDOResourceDescriptionManager.class;
+	}
+
 	@Override
 	public Class<? extends org.eclipse.xtext.naming.IQualifiedNameProvider> bindIQualifiedNameProvider() {
 		return DynamixCDONameProvider.class;
+	}
+
+	public Class<? extends CDOScopeScheduler> bindCDOScopeScheduler() {
+		return CDOScopeScheduler.class;
 	}
 
 	// contributed by
@@ -68,6 +87,11 @@ public class NetxscriptRuntimeModule extends
 	public Class<? extends IExpressionEngine> bindExpressionEngine() {
 		return (Class<? extends IExpressionEngine>) ExpressionEngine.class;
 	}
+
+	// CB 10-02-2012, moved to data plugin.
+	// public void configureResultProcessor(com.google.inject.Binder binder) {
+	// binder.bind(ResultProcessor.class).in(Scopes.SINGLETON);
+	// }
 
 	// Override generated, ResourceSet based.
 	public void configureIResourceDescriptions(com.google.inject.Binder binder) {

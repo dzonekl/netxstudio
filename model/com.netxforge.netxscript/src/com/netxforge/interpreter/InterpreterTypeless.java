@@ -46,17 +46,18 @@ import com.netxforge.netxscript.Modulo;
 import com.netxforge.netxscript.Multi;
 import com.netxforge.netxscript.NativeExpression;
 import com.netxforge.netxscript.NativeFunction;
+import com.netxforge.netxscript.Navigation;
 import com.netxforge.netxscript.Negation;
 import com.netxforge.netxscript.NetxscriptFactory;
 import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.NodeRef;
 import com.netxforge.netxscript.NodeTypeRef;
 import com.netxforge.netxscript.NumberLiteral;
-import com.netxforge.netxscript.OperatorRef;
 import com.netxforge.netxscript.Or;
 import com.netxforge.netxscript.ParamRef;
 import com.netxforge.netxscript.Plus;
 import com.netxforge.netxscript.PlusAssignment;
+import com.netxforge.netxscript.PrimaryRef;
 import com.netxforge.netxscript.RangeLiteral;
 import com.netxforge.netxscript.RangeRef;
 import com.netxforge.netxscript.RefAssignment;
@@ -134,9 +135,6 @@ public class InterpreterTypeless implements IInterpreter {
 
 	@Inject
 	ModelUtils modelUtils;// = new ModelUtils();
-
-	// @Inject
-	// IDataService dataService;
 
 	private PolymorphicDispatcher<BigDecimal> dispatcher = PolymorphicDispatcher
 			.createForSingleTarget("internalEvaluate", 2, 2, this);
@@ -547,16 +545,19 @@ public class InterpreterTypeless implements IInterpreter {
 			// We unfortunately, can't use the dispatched to get to
 			// the
 			// leaf reference, so we use a recursive way to get it.
-			Reference assignmentReference = refa.getAssignmentRef();
-			List<BaseResource> targetResources = Lists.newArrayList();
+			final Reference assignmentReference = refa.getAssignmentRef();
+			final List<BaseResource> targetResources = Lists.newArrayList();
 			RangeRef targetRangeReference = null;
 
 			if (assignmentReference instanceof NodeTypeRef) {
 				NodeTypeRef nodeTypeRef = (NodeTypeRef) assignmentReference;
+
 				if (nodeTypeRef.getPrimaryRef().getLeafRef() != null) {
 					LeafReference leafReference = nodeTypeRef.getPrimaryRef()
 							.getLeafRef();
 					if (leafReference instanceof ResourceRef) {
+
+						// ???? This is not a context ref???
 						Node n = this.getContextualNode();
 						ResourceRef resourceRef = (ResourceRef) leafReference;
 						List<NetXResource> netxResources = this
@@ -565,8 +566,8 @@ public class InterpreterTypeless implements IInterpreter {
 								.add(netxResources.size() > 0 ? netxResources
 										.get(0) : null);
 						targetRangeReference = resourceRef.getRangeRef();
-					}
 
+					}
 				}
 			}
 			if (assignmentReference instanceof ContextRef) {
@@ -574,59 +575,13 @@ public class InterpreterTypeless implements IInterpreter {
 				ContextRef cRef = (ContextRef) assignmentReference;
 				if (cRef.getPrimaryRef() != null
 						&& cRef.getPrimaryRef().getLeafRef() instanceof ResourceRef) {
-					// evaluate the potential override of the target resource.
-					// if there is some sort of navigation.
-					// in case of duplicates we take the first occurence of a
-					// BaseResource.
-
 					ResourceRef resourceRef = (ResourceRef) cRef
 							.getPrimaryRef().getLeafRef();
-					if (resourceRef.getResource() instanceof NetXResource) {
-
-						Node n = this.getContextualNode();
-						Component c = this.getContextualComponent();
-
-						// How about using the navigation component?
-						Object extractLastComponent = this
-								.extractLastComponent(cRef.getPrimaryRef(), n);
-						if (extractLastComponent != null) {
-							// FIXME
-						}
-
-						if (c != null) {
-
-							// Rule: Apply to all resources?
-							if (resourceRef.isAll()) {
-								targetResources.addAll(c.getResourceRefs());
-							} else {
-
-								List<NetXResource> netxResources = this
-										.resourcesByName(c, resourceRef);
-								targetResources.add(netxResources.size() > 0 ? netxResources
-										.get(0) : null);
-							}
-
-						}
-					} else if (resourceRef.getResource() instanceof DerivedResource) {
-						ServiceUser su = this.getContextualServiceUser();
-						if (su != null) {
-							for (DerivedResource dr : su.getServiceProfile()
-									.getProfileResources()) {
-								if (dr.getExpressionName().equals(
-										resourceRef.getResource()
-												.getExpressionName())) {
-									targetResources.add(dr);
-								}
-							}
-						}
-					}
-
+					targetResources.addAll(resources(cRef));
 					targetRangeReference = resourceRef.getRangeRef();
-
 					// if (leafReference instanceof StatusRef) {
 					// // Can we assign a status?
 					// }
-
 				} else {
 					// there is no navigation, so we simply set the context
 					// resource.
@@ -646,7 +601,58 @@ public class InterpreterTypeless implements IInterpreter {
 		}
 	}
 
-	private void processContextRef(ContextRef cRef) {
+	private List<BaseResource> resources(ContextRef cRef) {
+
+		final List<BaseResource> resources = Lists.newArrayList();
+		if (!(cRef.getPrimaryRef().getLeafRef() instanceof ResourceRef)) {
+			// there are no resources.
+			return resources;
+		}
+
+		ResourceRef resourceRef = (ResourceRef) cRef.getPrimaryRef()
+				.getLeafRef();
+
+		Node ctxNode = this.getContextualNode();
+		Component ctxComponent = this.getContextualComponent();
+		 
+			
+		if (resourceRef.getResource() instanceof NetXResource) {
+
+			// CB 07-02-2012, the navigation component is optional
+			// in the syntax now.
+			// most example expressions, will not include
+			// navigation.
+			List<? extends Component> navComponents = this.components(
+					cRef.getPrimaryRef(), ctxNode);
+			if (navComponents != null && navComponents.size() > 0) {
+				// ignore the context Component, and look for the
+				// resource in the explicit component.
+				Component navComponent = navComponents.get(0);
+				List<NetXResource> netxResources = this.resourcesByName(
+						navComponent, resourceRef);
+				resources.addAll(netxResources);
+			} else if (ctxComponent != null) {
+				List<NetXResource> netxResources = this.resourcesByName(
+						ctxComponent, resourceRef);
+				resources.addAll(netxResources);
+			}
+		} else if (resourceRef.getResource() instanceof DerivedResource) {
+			ServiceUser su = this.getContextualServiceUser();
+			if (su != null) {
+				for (DerivedResource dr : su.getServiceProfile()
+						.getProfileResources()) {
+					if (dr.getExpressionName().equals(
+							resourceRef.getResource().getExpressionName())) {
+						resources.add(dr);
+					}
+				}
+			}
+		}
+		return resources;
+	}
+
+	@SuppressWarnings("unused")
+	private void removeFromContextRef(ContextRef cRef) {
 		BaseResource targetResource = null;
 		RangeRef targetRangeReference = null;
 
@@ -695,7 +701,7 @@ public class InterpreterTypeless implements IInterpreter {
 			// Find matching resources with this
 			// name.
 			resources = modelUtils.resourcesWithExpressionName(
-					ImmutableList.of(c), tmpResource.getExpressionName());
+					ImmutableList.of(c), tmpResource.getExpressionName(), resourceRef.isAll());
 		}
 		return resources;
 	}
@@ -742,7 +748,8 @@ public class InterpreterTypeless implements IInterpreter {
 				// Set the target resource to write.
 				er.setTargetResource(br);
 
-				// Note these are two optional paramters.
+				// Note these are two optional parameters, and not relevant for
+				// Util, Cap.
 				int targetInterval = this.extractInterval(targetRangeReference);
 				KindHintType type = this.extractKindHint(targetRangeReference);
 
@@ -794,6 +801,11 @@ public class InterpreterTypeless implements IInterpreter {
 
 					// Get the period context, and use the start
 					// and end date.
+
+					// CB 06-02-2012, A better alternative, would be to find
+					// metric values within the context,
+					// and use the first and last of these values.
+
 					DateTimeRange dtr = this.getContextualPeriod();
 					Value beginValue = GenericsFactory.eINSTANCE.createValue();
 					// Set the ts/value.
@@ -811,15 +823,28 @@ public class InterpreterTypeless implements IInterpreter {
 					expressionResults.add(er);
 				}
 				if (varEval instanceof List<?>) {
-					// We return a list of values.
+					// We return a list of values, note values are contained, so
+					// we should
+					// make a copy, in an assignment.
 					List<?> resultValues = (List<?>) varEval;
 					for (Object entry : resultValues) {
 						if (entry instanceof Value) {
-							er.getTargetValues().add((Value) entry);
+
+							// The only place a Value object could have come
+							// from, is from another range,
+							// so we need to make a copy to avoid, the contained
+							// value object from being "moved"
+							// out of the source range.
+							Value copy = EcoreUtil.copy((Value) entry);
+							er.getTargetValues().add(copy);
 						} else if (entry instanceof BigDecimal) {
 							Value v = GenericsFactory.eINSTANCE.createValue();
 							v.setValue(((BigDecimal) entry).doubleValue());
 							// FIXME, We don't set a timestamp!
+							// values without a timestamp, will not be visible
+							// because
+							// of UI filters.
+
 							er.getTargetValues().add(v);
 						}
 
@@ -888,6 +913,7 @@ public class InterpreterTypeless implements IInterpreter {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private InterpreterException processException(Exception e,
 			EObject expressionObject) {
 
@@ -901,10 +927,8 @@ public class InterpreterTypeless implements IInterpreter {
 		ie.setFailedWhileEvaluationMe(expressionObject);
 		return ie;
 	}
-	
-	
-	
-	// CB 06-01-2012 Removed, expression can't be a statement.  
+
+	// CB 06-01-2012 Removed, expression can't be a statement.
 	/**
 	 * Root class, which contains an expression, evaluate on the expression, or
 	 * threat as a blank.
@@ -913,15 +937,15 @@ public class InterpreterTypeless implements IInterpreter {
 	 * @param values
 	 * @return
 	 */
-//	protected Object internalEvaluate(Statement statement,
-//			ImmutableMap<String, Object> values) {
-//
-//		if (statement.getExpression() != null) {
-//			return evaluate((Expression) statement.getExpression(), values);
-//		} else {
-//			return null;
-//		}
-//	}
+	// protected Object internalEvaluate(Statement statement,
+	// ImmutableMap<String, Object> values) {
+	//
+	// if (statement.getExpression() != null) {
+	// return evaluate((Expression) statement.getExpression(), values);
+	// } else {
+	// return null;
+	// }
+	// }
 
 	/**
 	 * If statement.
@@ -1113,7 +1137,12 @@ public class InterpreterTypeless implements IInterpreter {
 		return null;
 	}
 
-	protected Object internalEvaluate(Reference e,
+	protected void internalEvaluate(Reference e,
+			ImmutableMap<String, Object> params) {
+		pLog.log("TODO, implement evaluation rule for expression type: ", e);
+	}
+
+	protected Object internalEvaluate(PrimaryRef e,
 			ImmutableMap<String, Object> params) {
 
 		Object eval = null;
@@ -1155,7 +1184,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 		Service service = this.getContextualService();
 		if (service != null) {
-			Reference primaryRef = nodeTypeReference.getPrimaryRef();
+			PrimaryRef primaryRef = nodeTypeReference.getPrimaryRef();
 
 			NodeType nt = nodeTypeReference.getNodetype();
 			List<Node> nodes = modelUtils.nodesForNodeType(
@@ -1163,14 +1192,14 @@ public class InterpreterTypeless implements IInterpreter {
 
 			List<Component> components = Lists.newArrayList();
 			for (Node n : nodes) {
-				Object result = extractLastComponent(primaryRef, n);
+				Object result = components(primaryRef, n);
 				if (result != null && (result instanceof List<?>)) {
 					components.addAll((Collection<? extends Component>) result);
 				}
 			}
 
 			if (primaryRef.getLeafRef() == null
-					&& primaryRef.getComponent() != null) {
+					&& primaryRef.getNavigation() != null) {
 				return components;
 			} else if (primaryRef.getLeafRef() != null) {
 
@@ -1215,15 +1244,13 @@ public class InterpreterTypeless implements IInterpreter {
 		localVarsAndArguments.putAll(ImmutableMap.copyOf(params));
 
 		if (contextReference.getPrimaryRef() != null) {
-			Reference primaryRef = contextReference.getPrimaryRef();
-
 			Node node = this.getContextualNode();
-
 			// Check if there is no leaf ref, and it has components and a node
 			// context.
 			// to get the last referenced component for this node.
-			if (primaryRef.getLeafRef() == null
-					&& primaryRef.getComponent() != null && node != null) {
+			if (contextReference.getPrimaryRef().getLeafRef() == null
+					&& contextReference.getPrimaryRef().getNavigation() != null
+					&& node != null) {
 
 				// CB 16-12-2011, changed capacity expression context to be the
 				// resource.
@@ -1233,28 +1260,38 @@ public class InterpreterTypeless implements IInterpreter {
 				// node = extractNode;
 				// }
 
-				return extractLastComponent(primaryRef, node);
+				return components(contextReference.getPrimaryRef(), node);
 			} else {
-				// If we have a node or a service, set as a param and dispatch
-				// for the leaf reference. (As primary ref is not evaluated),
-				// the component is ignored!
 
-				// FIXME, this doesn't work, the range ref expects a resource,
-				// which should have been set from component evaluation, but
-				// that's not done here.
+				if (contextReference.getPrimaryRef().getLeafRef() instanceof ResourceRef) {
+					// Will evaluate and get the resources.
+					List<BaseResource> resources = this
+							.resources(contextReference);
 
-				if (node != null) {
-					// Evaluate for a Node.
-					localVarsAndArguments.put("node", node);
-				} else if (this.getContextualService() != null) {
-					// Applies to STATUS and PROFILE keywords.
-					Service service = this.getContextualService();
-					localVarsAndArguments.put("service", service);
+					ResourceRef resourceRef = (ResourceRef) contextReference
+							.getPrimaryRef().getLeafRef();
+
+					List<Object> evals = Lists.newArrayList();
+
+					for (BaseResource res : resources) {
+						localVarsAndArguments.put("resource", res);
+						Object subEval = dispatcher.invoke(
+								resourceRef.getRangeRef(),
+								ImmutableMap.copyOf(localVarsAndArguments));
+						evals.add(subEval);
+					}
+					eval = evals;
+
+				} else if (contextReference.getPrimaryRef().getLeafRef() instanceof StatusRef) {
+					if (this.getContextualService() != null) {
+						// Applies to STATUS and PROFILE keywords.
+						Service service = this.getContextualService();
+						localVarsAndArguments.put("service", service);
+						eval = dispatcher.invoke(
+								contextReference.getPrimaryRef(),
+								ImmutableMap.copyOf(localVarsAndArguments));
+					}
 				}
-
-				eval = dispatcher.invoke(primaryRef,
-						ImmutableMap.copyOf(localVarsAndArguments));
-
 			}
 		}
 
@@ -1271,24 +1308,23 @@ public class InterpreterTypeless implements IInterpreter {
 
 	}
 
-	private Object extractLastComponent(Reference primaryRef, Node node) {
+	/*
+	 * Returns a collection of components, with the same name as found in the
+	 * Navigation AST node.
+	 */
+	private List<? extends Component> components(PrimaryRef primaryRef,
+			Node node) {
 
-		Object result = null;
+		List<? extends Component> result = null;
+		Navigation lastRef = primaryRef.getNavigation();
 
-		// There is no leaf in this context reference,
-		// We need to find the components referenced by their name in
-		// the context "Node",
-		// Let's get the last component referenced.
-
-		Reference lastRef = primaryRef.getComponent();
-
-		// CB O6-01-2012 only one component exists. 
-//		Reference lastRef = primaryRef.getComponents().get(
-//				primaryRef.getComponents().size() - 1);
-//
-		if (lastRef instanceof OperatorRef) {
+		// CB O6-01-2012 only one component exists.
+		// Reference lastRef = primaryRef.getComponents().get(
+		// primaryRef.getComponents().size() - 1);
+		//
+		if (lastRef instanceof Navigation) {
 			// return either the functions or equipments.
-			OperatorRef cr = (OperatorRef) lastRef;
+			Navigation cr = (Navigation) lastRef;
 
 			if (cr.getEquipment() != null) {
 
@@ -1360,54 +1396,66 @@ public class InterpreterTypeless implements IInterpreter {
 		return null;
 	}
 
-	protected Object internalEvaluate(ResourceRef resourceRef,
+	protected void internalEvaluate(ResourceRef resourceRef,
 			ImmutableMap<String, Object> params) {
 
-		// copy the parameters.
-		Map<String, Object> localVarsAndArguments = Maps.newHashMap();
-		localVarsAndArguments.putAll(ImmutableMap.copyOf(params));
+		throw new UnsupportedOperationException(
+				"ResourceRef AST node should not be evaluated.");
 
-		Node n = null;
-		if (params.containsKey("node")) {
-			n = (Node) params.get("node");
-		}
-
-		Service s = null;
-		if (params.containsKey("service")) {
-			s = (Service) params.get("service");
-		}
-
-		try {
-
-			BaseResource resource = null;
-
-			if (n != null) {
-				List<NetXResource> netxResources = this.resourcesByName(n,
-						resourceRef);
-				resource = netxResources.size() > 0 ? netxResources.get(0)
-						: null;
-			}
-			if (s != null) {
-
-				// TODO, What should happen here?
-				for (@SuppressWarnings("unused")
-				ServiceUser su : s.getServiceUserRefs()) {
-
-				}
-			}
-			if (resource != null) {
-
-				localVarsAndArguments.put("resource", resource);
-				return dispatcher.invoke(resourceRef.getRangeRef(),
-						ImmutableMap.copyOf(localVarsAndArguments));
-			}
-
-		} catch (Exception exception) {
-			throw new IllegalStateException(processException(exception,
-					resourceRef));
-		}
-
-		return null;
+		// // copy the parameters.
+		// Map<String, Object> localVarsAndArguments = Maps.newHashMap();
+		// localVarsAndArguments.putAll(ImmutableMap.copyOf(params));
+		//
+		// Node n = null;
+		// if (params.containsKey("node")) {
+		// n = (Node) params.get("node");
+		// }
+		//
+		// Component component = null;
+		// if (params.containsKey("component")) {
+		// component = (Component) params.get("component");
+		// }
+		//
+		// Service s = null;
+		// if (params.containsKey("service")) {
+		// s = (Service) params.get("service");
+		// }
+		//
+		// try {
+		//
+		// BaseResource resource = null;
+		// if (component != null) {
+		// List<NetXResource> netxResources = this.resourcesByName(
+		// component, resourceRef);
+		// resource = netxResources.size() > 0 ? netxResources.get(0)
+		// : null;
+		// } else if (n != null) {
+		// List<NetXResource> netxResources = this.resourcesByName(n,
+		// resourceRef);
+		// resource = netxResources.size() > 0 ? netxResources.get(0)
+		// : null;
+		// } else if (s != null) {
+		//
+		// // TODO, What should happen here?
+		// for (@SuppressWarnings("unused")
+		// ServiceUser su : s.getServiceUserRefs()) {
+		//
+		// }
+		// }
+		//
+		// if (resource != null) {
+		//
+		// localVarsAndArguments.put("resource", resource);
+		// return dispatcher.invoke(resourceRef.getRangeRef(),
+		// ImmutableMap.copyOf(localVarsAndArguments));
+		// }
+		//
+		// } catch (Exception exception) {
+		// throw new IllegalStateException(processException(exception,
+		// resourceRef));
+		// }
+		//
+		// return null;
 
 	}
 
@@ -1435,27 +1483,6 @@ public class InterpreterTypeless implements IInterpreter {
 
 				v = modelUtils.metricValuesInRange((NetXResource) resource,
 						targetInterval, targetKind, dtr);
-
-				// Loop the metric ranges, to find the correct range, doesn't
-				// apply
-				// to
-				// any other range
-				// than the CAP range.
-				// for (MetricValueRange mvr : ((NetXResource) resource)
-				// .getMetricValueRanges()) {
-				// int interval = mvr.getIntervalHint();
-				// if (interval == targetInterval) {
-				//
-				// v = qService.getMetricsFromResource(
-				// resource.getExpressionName(), dtr.getBegin(),
-				// dtr.getEnd(), targetInterval, targetKind);
-				// // FIXME, Ignore the Kind hint, as we are not sure it's
-				// // always set
-				// // when creating the resource in import.
-				// @SuppressWarnings("unused")
-				// KindHintType kht = mvr.getKindHint();
-				// }
-				// }
 			}
 				break;
 			case ValueRange.CAP_VALUE: {
@@ -1546,67 +1573,159 @@ public class InterpreterTypeless implements IInterpreter {
 	// NATIVE FUNCTIONS
 	// //////////////////////////////////////
 
+	@SuppressWarnings("unused")
 	protected Object internalEvaluate(NativeExpression ne,
 			ImmutableMap<String, Object> values) {
 
-		// Invocations on a RangeLiteral or Reference.
-		List<?> range = null;
-		if (ne.getRange() != null) {
-			range = (List<?>) dispatcher.invoke(ne.getRange(),
-					ImmutableMap.copyOf(values));
-		}
-		// Invocation on a reference.
-		if (ne.getRef() != null) {
-			Object eval = dispatcher.invoke(ne.getRef(),
-					ImmutableMap.copyOf(values));
-			if (eval instanceof List<?>) {
+		Object eval = dispatcher.invoke(ne.getLeft(),
+				ImmutableMap.copyOf(values));
+
+		// Ignore if no function
+		if (ne.getNativeFunction() != null) {
+			List<?> range = null;
+			if (assertCollection(eval)) {
 				range = (List<?>) eval;
-			}
-		}
-		// Invocation on a variable.
-		if (ne.getVar() != null) {
-			// Lookup the variable, by it's expression.
-			if (ne.getVar() != null) {
-				Object eval = dispatcher.invoke(ne.getVar(),
-						ImmutableMap.copyOf(values));
-				if (eval instanceof List<?>) {
-					range = (List<?>) eval;
+				if (assertCollectionContentNotCollection(range)) {
+					
+					// Note; the timestamp is lost here. 
+					eval = processNativeFunction(ne, range);
+				} else {
+
+					// process a matrix of values, either horizontal or vertical
+					// FIXME, We need a way to differentiate, either through
+					// syntax, by grouping
+					// or by configuration, or implicity.....
+
+					// /////////////////////////////////////////////
+					// 1. Process the ranges horizontally, function is applied
+					// to the values of the range.
+					// walk through the list twice, to swap the array.
+
+					List<Object> evalResult = Lists.newArrayList();
+					if (true) {
+
+						// use the first subrange as the reference list.
+						if (range.size() > 0 && range.get(0) instanceof List<?>) {
+							ImmutableList<?> refRange = ImmutableList
+									.copyOf((List<?>) range.get(0));
+							for (Object indexValue : refRange) {
+								List<Value> sameTimestamps = Lists
+										.newArrayList();
+								Value tsValue = null;
+								if (indexValue instanceof Value) {
+									tsValue = (Value) indexValue;
+								}
+								for (Object rangeItem : range) {
+
+									// Collections should be passed to the
+									// evaluation,
+									// and
+									// returned as a range.
+									if (assertCollection(rangeItem)) {
+										for (Object ri : (List<?>) rangeItem) {
+
+											if (ri instanceof Value
+													&& modelUtils
+															.valueTimeStampCompare()
+															.compare(
+																	(Value) ri,
+																	tsValue) == 0) {
+
+												sameTimestamps.add((Value) ri);
+											}
+										}
+
+									} else {
+
+										// this value gets lost...
+										continue;
+									}
+								}
+
+								Value processedValue = EcoreUtil.copy(tsValue);
+								Object processNativeFunction = processNativeFunction(
+										ne, sameTimestamps);
+								if (processNativeFunction instanceof BigDecimal) {
+									BigDecimal bdValue = (BigDecimal) processNativeFunction;
+									processedValue.setValue(bdValue
+											.doubleValue());
+								}
+
+								evalResult.add(processedValue);
+							}
+
+						}
+
+					} else {
+						// 2. Process the ranges vertically, function is applied
+						// to all similar timestamps of the ranges.
+						for (Object rangeItem : range) {
+							// Collections should be passed to the evaluation,
+							// and
+							// returned as a range.
+							if (assertCollection(rangeItem)) {
+								
+								
+								// perform the native function here.
+								evalResult.add(processNativeFunction(ne,
+										(List<?>) rangeItem));
+							} else {
+
+								// this value gets lost...
+								continue;
+							}
+						}
+					}
+					eval = evalResult;
 				}
 			}
 		}
+		return eval;
+	}
 
-		if (range != null && ne.getNativeFunction() != null) {
-			NativeFunction nf = ne.getNativeFunction();
-			switch (nf.getValue()) {
-			case NativeFunction.SUM_VALUE: {
-				return nativeFunctions.sum(range);
-			}
-			case NativeFunction.COUNT_VALUE: {
-				return nativeFunctions.count(range);
-			}
-			case NativeFunction.MAX_VALUE: {
-				return nativeFunctions.max(range);
-			}
-			case NativeFunction.MIN_VALUE: {
-				return nativeFunctions.min(range);
-			}
-			case NativeFunction.MEAN_VALUE: {
-				return nativeFunctions.mean(range);
-			}
-			case NativeFunction.ERLANGB_VALUE: {
-				// TODO, Erlang B implementation.
-			}
-			case NativeFunction.DEVIATION_VALUE: {
-				return nativeFunctions.standardDeviation(range);
-			}
-			case NativeFunction.CLEAR_VALUE: {
-				// To a metric value range.
-				if (ne.getRef() instanceof ContextRef) {
-					this.processContextRef((ContextRef) ne.getRef());
-				}
-			}
+	/**
+	 * Execute the Native function in the Native expression on the specified
+	 * range.
+	 * 
+	 * @param ne
+	 * @param range
+	 * @return
+	 */
+	private Object processNativeFunction(NativeExpression ne, List<?> range) {
+		// Result could be an array, so aggregate...
+		NativeFunction nf = ne.getNativeFunction();
+		switch (nf.getValue()) {
+		case NativeFunction.SUM_VALUE: {
+			return nativeFunctions.sum(range);
+		}
+		case NativeFunction.COUNT_VALUE: {
+			return nativeFunctions.count(range);
+		}
+		case NativeFunction.MAX_VALUE: {
+			return nativeFunctions.max(range);
+		}
+		case NativeFunction.MIN_VALUE: {
+			return nativeFunctions.min(range);
+		}
+		case NativeFunction.MEAN_VALUE: {
+			return nativeFunctions.mean(range);
+		}
+		case NativeFunction.ERLANGB_VALUE: {
+			// GoS is hardcoded.
+			return nativeFunctions.erlangB(range, 0.01f);
+		}
+		case NativeFunction.DEVIATION_VALUE: {
+			return nativeFunctions.standardDeviation(range);
+		}
+		case NativeFunction.CLEAR_VALUE: {
 
-			}
+			// TODO, FIX THIS.
+			// To a metric value range.
+			// if (ne.getRef() instanceof ContextRef) {
+			// this.removeFromContextRef((ContextRef) ne.getRef());
+			// }
+		}
+
 		}
 		return range;
 	}
@@ -1679,6 +1798,9 @@ public class InterpreterTypeless implements IInterpreter {
 				evaluateNumeric(minus.getRight(), values));
 	}
 
+	/*
+	 * Capable to evaluate ranges on left and right side.
+	 */
 	protected Object internalEvaluate(Div div,
 			ImmutableMap<String, Object> values) {
 
@@ -1710,6 +1832,7 @@ public class InterpreterTypeless implements IInterpreter {
 						BigDecimal d = dValue.divide((BigDecimal) rightEval,
 								20, RoundingMode.HALF_UP);
 						Value copy = EcoreUtil.copy(v);
+
 						copy.setValue(d.doubleValue());
 						resultList.add(copy);
 						continue;
@@ -1755,6 +1878,7 @@ public class InterpreterTypeless implements IInterpreter {
 				// .size() : new UnsupportedOperationException(
 				// "Dividing computation error, left and right range are not equal size");
 
+				// Divide error, really dividing by zero, return nothing.
 				if (((List<?>) rightEval).isEmpty()) {
 					return Lists.newArrayList();
 				}
@@ -2067,6 +2191,15 @@ public class InterpreterTypeless implements IInterpreter {
 
 	protected boolean assertCollection(Object eval) {
 		return (eval instanceof List<?>);
+	}
+
+	protected boolean assertCollectionContentNotCollection(List<?> collection) {
+		for (Object o : collection) {
+			if (assertCollection(o)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override

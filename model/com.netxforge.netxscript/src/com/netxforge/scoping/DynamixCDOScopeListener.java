@@ -120,23 +120,28 @@ public class DynamixCDOScopeListener implements ICDOScopeListener// implements
 	}
 
 	/**
-	 * Invalidation could be on the CDOResource or any of the objects.  
+	 * Invalidation could be on the CDOResource or any of the objects.
 	 * 
 	 */
-	public void handleViewInvalidationEvent(CDOViewInvalidationEvent event) { 
-		
+	public void handleViewInvalidationEvent(CDOViewInvalidationEvent event) {
+
 		if (RuntimeActivator.DEBUG) {
 			System.out.println("CDOSCOPE invalidation event");
 			Set<CDOObject> dirtyObjects = event.getDirtyObjects();
-			for(CDOObject cdoO : dirtyObjects){
+			for (CDOObject cdoO : dirtyObjects) {
 				System.out.println(" CDOSCOPE invalid = " + cdoO);
 			}
 		}
 		// update our scope provider.
-		if(provider != null){
-			provider.updateURIMap(event.getDirtyObjects());
+		if (provider != null) {
+
+			try {
+				provider.updateURIMap(event.getDirtyObjects());
+			} catch (Exception e) {
+				System.out.println("CDO Scope Update Failed :-(");
+				e.printStackTrace();
+			}
 		}
-		
 
 	}
 

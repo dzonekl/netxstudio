@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  *
  * @generated
  */
-public class RangeLiteralImpl extends RangeImpl implements RangeLiteral
+public class RangeLiteralImpl extends ExpressionImpl implements RangeLiteral
 {
   /**
    * The cached value of the '{@link #getValues() <em>Values</em>}' attribute list.

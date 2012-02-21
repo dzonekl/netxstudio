@@ -27,7 +27,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.diagnostics.ExceptionDiagnostic;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 import org.eclipse.xtext.resource.IResourceFactory;
@@ -38,9 +37,6 @@ import org.eclipse.xtext.util.StringInputStream;
 
 import com.google.common.base.Joiner;
 import com.google.inject.Inject;
-import com.google.inject.Key;
-import com.google.inject.name.Names;
-import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.interpreter.IInterpreterContextFactory;

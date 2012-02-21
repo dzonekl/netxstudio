@@ -34,18 +34,18 @@ import com.netxforge.netxscript.Modulo;
 import com.netxforge.netxscript.Multi;
 import com.netxforge.netxscript.NativeExpression;
 import com.netxforge.netxscript.NativeFunction;
+import com.netxforge.netxscript.Navigation;
 import com.netxforge.netxscript.Negation;
 import com.netxforge.netxscript.NetxscriptFactory;
 import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.NodeRef;
 import com.netxforge.netxscript.NodeTypeRef;
 import com.netxforge.netxscript.NumberLiteral;
-import com.netxforge.netxscript.OperatorRef;
 import com.netxforge.netxscript.Or;
 import com.netxforge.netxscript.ParamRef;
 import com.netxforge.netxscript.Plus;
 import com.netxforge.netxscript.PlusAssignment;
-import com.netxforge.netxscript.Range;
+import com.netxforge.netxscript.PrimaryRef;
 import com.netxforge.netxscript.RangeLiteral;
 import com.netxforge.netxscript.RangeRef;
 import com.netxforge.netxscript.RefAssignment;
@@ -161,7 +161,14 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass rangeEClass = null;
+  private EClass numberLiteralEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass rangeLiteralEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -169,6 +176,20 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * @generated
    */
   private EClass referenceEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass primaryRefEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass navigationEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -350,14 +371,14 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass booleanLiteralEClass = null;
+  private EClass nativeExpressionEClass = null;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass numberLiteralEClass = null;
+  private EClass booleanLiteralEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -371,21 +392,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass nativeExpressionEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   private EClass varOrArgumentCallEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass rangeLiteralEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -414,13 +421,6 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * @generated
    */
   private EClass contextRefEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass operatorRefEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -755,9 +755,39 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getRange()
+  public EClass getNumberLiteral()
   {
-    return rangeEClass;
+    return numberLiteralEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getNumberLiteral_Value()
+  {
+    return (EAttribute)numberLiteralEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getRangeLiteral()
+  {
+    return rangeLiteralEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getRangeLiteral_Values()
+  {
+    return (EAttribute)rangeLiteralEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -775,9 +805,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getReference_Component()
+  public EClass getPrimaryRef()
   {
-    return (EReference)referenceEClass.getEStructuralFeatures().get(0);
+    return primaryRefEClass;
   }
 
   /**
@@ -785,9 +815,49 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getReference_LeafRef()
+  public EReference getPrimaryRef_Navigation()
   {
-    return (EReference)referenceEClass.getEStructuralFeatures().get(1);
+    return (EReference)primaryRefEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getPrimaryRef_LeafRef()
+  {
+    return (EReference)primaryRefEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getNavigation()
+  {
+    return navigationEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getNavigation_Function()
+  {
+    return (EReference)navigationEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getNavigation_Equipment()
+  {
+    return (EReference)navigationEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -1535,6 +1605,36 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getNativeExpression()
+  {
+    return nativeExpressionEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getNativeExpression_Left()
+  {
+    return (EReference)nativeExpressionEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getNativeExpression_NativeFunction()
+  {
+    return (EAttribute)nativeExpressionEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getBooleanLiteral()
   {
     return booleanLiteralEClass;
@@ -1548,26 +1648,6 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
   public EAttribute getBooleanLiteral_Condition()
   {
     return (EAttribute)booleanLiteralEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EClass getNumberLiteral()
-  {
-    return numberLiteralEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getNumberLiteral_Value()
-  {
-    return (EAttribute)numberLiteralEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1605,56 +1685,6 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getNativeExpression()
-  {
-    return nativeExpressionEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getNativeExpression_Range()
-  {
-    return (EReference)nativeExpressionEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getNativeExpression_Ref()
-  {
-    return (EReference)nativeExpressionEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getNativeExpression_Var()
-  {
-    return (EReference)nativeExpressionEClass.getEStructuralFeatures().get(2);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getNativeExpression_NativeFunction()
-  {
-    return (EAttribute)nativeExpressionEClass.getEStructuralFeatures().get(3);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EClass getVarOrArgumentCall()
   {
     return varOrArgumentCallEClass;
@@ -1668,26 +1698,6 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
   public EReference getVarOrArgumentCall_Call()
   {
     return (EReference)varOrArgumentCallEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EClass getRangeLiteral()
-  {
-    return rangeLiteralEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getRangeLiteral_Values()
-  {
-    return (EAttribute)rangeLiteralEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1798,36 +1808,6 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
   public EReference getContextRef_RangeRef()
   {
     return (EReference)contextRefEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EClass getOperatorRef()
-  {
-    return operatorRefEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getOperatorRef_Function()
-  {
-    return (EReference)operatorRefEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getOperatorRef_Equipment()
-  {
-    return (EReference)operatorRefEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -2019,11 +1999,21 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     expressionEClass = createEClass(EXPRESSION);
     createEReference(expressionEClass, EXPRESSION__INDEX);
 
-    rangeEClass = createEClass(RANGE);
+    numberLiteralEClass = createEClass(NUMBER_LITERAL);
+    createEAttribute(numberLiteralEClass, NUMBER_LITERAL__VALUE);
+
+    rangeLiteralEClass = createEClass(RANGE_LITERAL);
+    createEAttribute(rangeLiteralEClass, RANGE_LITERAL__VALUES);
 
     referenceEClass = createEClass(REFERENCE);
-    createEReference(referenceEClass, REFERENCE__COMPONENT);
-    createEReference(referenceEClass, REFERENCE__LEAF_REF);
+
+    primaryRefEClass = createEClass(PRIMARY_REF);
+    createEReference(primaryRefEClass, PRIMARY_REF__NAVIGATION);
+    createEReference(primaryRefEClass, PRIMARY_REF__LEAF_REF);
+
+    navigationEClass = createEClass(NAVIGATION);
+    createEReference(navigationEClass, NAVIGATION__FUNCTION);
+    createEReference(navigationEClass, NAVIGATION__EQUIPMENT);
 
     leafReferenceEClass = createEClass(LEAF_REFERENCE);
 
@@ -2124,27 +2114,19 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     createEAttribute(unaryPlusMinusEClass, UNARY_PLUS_MINUS__OP);
     createEReference(unaryPlusMinusEClass, UNARY_PLUS_MINUS__RIGHT);
 
+    nativeExpressionEClass = createEClass(NATIVE_EXPRESSION);
+    createEReference(nativeExpressionEClass, NATIVE_EXPRESSION__LEFT);
+    createEAttribute(nativeExpressionEClass, NATIVE_EXPRESSION__NATIVE_FUNCTION);
+
     booleanLiteralEClass = createEClass(BOOLEAN_LITERAL);
     createEAttribute(booleanLiteralEClass, BOOLEAN_LITERAL__CONDITION);
-
-    numberLiteralEClass = createEClass(NUMBER_LITERAL);
-    createEAttribute(numberLiteralEClass, NUMBER_LITERAL__VALUE);
 
     functionCallEClass = createEClass(FUNCTION_CALL);
     createEReference(functionCallEClass, FUNCTION_CALL__FUNC);
     createEReference(functionCallEClass, FUNCTION_CALL__ARGS);
 
-    nativeExpressionEClass = createEClass(NATIVE_EXPRESSION);
-    createEReference(nativeExpressionEClass, NATIVE_EXPRESSION__RANGE);
-    createEReference(nativeExpressionEClass, NATIVE_EXPRESSION__REF);
-    createEReference(nativeExpressionEClass, NATIVE_EXPRESSION__VAR);
-    createEAttribute(nativeExpressionEClass, NATIVE_EXPRESSION__NATIVE_FUNCTION);
-
     varOrArgumentCallEClass = createEClass(VAR_OR_ARGUMENT_CALL);
     createEReference(varOrArgumentCallEClass, VAR_OR_ARGUMENT_CALL__CALL);
-
-    rangeLiteralEClass = createEClass(RANGE_LITERAL);
-    createEAttribute(rangeLiteralEClass, RANGE_LITERAL__VALUES);
 
     paramRefEClass = createEClass(PARAM_REF);
     createEReference(paramRefEClass, PARAM_REF__PARAM);
@@ -2160,10 +2142,6 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     contextRefEClass = createEClass(CONTEXT_REF);
     createEReference(contextRefEClass, CONTEXT_REF__PRIMARY_REF);
     createEReference(contextRefEClass, CONTEXT_REF__RANGE_REF);
-
-    operatorRefEClass = createEClass(OPERATOR_REF);
-    createEReference(operatorRefEClass, OPERATOR_REF__FUNCTION);
-    createEReference(operatorRefEClass, OPERATOR_REF__EQUIPMENT);
 
     resourceRefEClass = createEClass(RESOURCE_REF);
     createEReference(resourceRefEClass, RESOURCE_REF__RESOURCE);
@@ -2221,7 +2199,8 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     argumentEClass.getESuperTypes().add(this.getAbstractVarOrArgument());
     blockEClass.getESuperTypes().add(this.getStatement());
     statementEClass.getESuperTypes().add(this.getAbstractVarOrArgument());
-    rangeEClass.getESuperTypes().add(this.getExpression());
+    numberLiteralEClass.getESuperTypes().add(this.getExpression());
+    rangeLiteralEClass.getESuperTypes().add(this.getExpression());
     referenceEClass.getESuperTypes().add(this.getExpression());
     returnEClass.getESuperTypes().add(this.getStatement());
     ifEClass.getESuperTypes().add(this.getStatement());
@@ -2245,17 +2224,14 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     moduloEClass.getESuperTypes().add(this.getExpression());
     negationEClass.getESuperTypes().add(this.getExpression());
     unaryPlusMinusEClass.getESuperTypes().add(this.getExpression());
-    booleanLiteralEClass.getESuperTypes().add(this.getExpression());
-    numberLiteralEClass.getESuperTypes().add(this.getExpression());
-    functionCallEClass.getESuperTypes().add(this.getExpression());
     nativeExpressionEClass.getESuperTypes().add(this.getExpression());
+    booleanLiteralEClass.getESuperTypes().add(this.getExpression());
+    functionCallEClass.getESuperTypes().add(this.getExpression());
     varOrArgumentCallEClass.getESuperTypes().add(this.getExpression());
-    rangeLiteralEClass.getESuperTypes().add(this.getRange());
     paramRefEClass.getESuperTypes().add(this.getReference());
     nodeTypeRefEClass.getESuperTypes().add(this.getReference());
     nodeRefEClass.getESuperTypes().add(this.getReference());
     contextRefEClass.getESuperTypes().add(this.getReference());
-    operatorRefEClass.getESuperTypes().add(this.getReference());
     resourceRefEClass.getESuperTypes().add(this.getLeafReference());
     statusRefEClass.getESuperTypes().add(this.getLeafReference());
     linkRefEClass.getESuperTypes().add(this.getLeafReference());
@@ -2290,11 +2266,21 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEClass(expressionEClass, Expression.class, "Expression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getExpression_Index(), this.getExpression(), null, "index", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(rangeEClass, Range.class, "Range", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEClass(numberLiteralEClass, NumberLiteral.class, "NumberLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getNumberLiteral_Value(), ecorePackage.getEBigDecimal(), "value", null, 0, 1, NumberLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(rangeLiteralEClass, RangeLiteral.class, "RangeLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getRangeLiteral_Values(), ecorePackage.getEBigDecimal(), "values", null, 0, -1, RangeLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(referenceEClass, Reference.class, "Reference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getReference_Component(), this.getReference(), null, "component", null, 0, 1, Reference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getReference_LeafRef(), this.getLeafReference(), null, "leafRef", null, 0, 1, Reference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(primaryRefEClass, PrimaryRef.class, "PrimaryRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getPrimaryRef_Navigation(), this.getNavigation(), null, "navigation", null, 0, 1, PrimaryRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getPrimaryRef_LeafRef(), this.getLeafReference(), null, "leafRef", null, 0, 1, PrimaryRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(navigationEClass, Navigation.class, "Navigation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getNavigation_Function(), theLibraryPackage.getFunction(), null, "function", null, 0, 1, Navigation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getNavigation_Equipment(), theLibraryPackage.getEquipment(), null, "equipment", null, 0, 1, Navigation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(leafReferenceEClass, LeafReference.class, "LeafReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2395,46 +2381,34 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEAttribute(getUnaryPlusMinus_Op(), ecorePackage.getEString(), "op", null, 0, 1, UnaryPlusMinus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getUnaryPlusMinus_Right(), this.getExpression(), null, "right", null, 0, 1, UnaryPlusMinus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(nativeExpressionEClass, NativeExpression.class, "NativeExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getNativeExpression_Left(), this.getExpression(), null, "left", null, 0, 1, NativeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getNativeExpression_NativeFunction(), this.getNativeFunction(), "nativeFunction", null, 0, 1, NativeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
     initEClass(booleanLiteralEClass, BooleanLiteral.class, "BooleanLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getBooleanLiteral_Condition(), ecorePackage.getEBoolean(), "condition", null, 0, 1, BooleanLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(numberLiteralEClass, NumberLiteral.class, "NumberLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getNumberLiteral_Value(), ecorePackage.getEBigDecimal(), "value", null, 0, 1, NumberLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(functionCallEClass, FunctionCall.class, "FunctionCall", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getFunctionCall_Func(), this.getAbstractFunction(), null, "func", null, 0, 1, FunctionCall.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getFunctionCall_Args(), this.getExpression(), null, "args", null, 0, -1, FunctionCall.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(nativeExpressionEClass, NativeExpression.class, "NativeExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getNativeExpression_Range(), this.getRange(), null, "range", null, 0, 1, NativeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getNativeExpression_Ref(), this.getExpression(), null, "ref", null, 0, 1, NativeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getNativeExpression_Var(), this.getExpression(), null, "var", null, 0, 1, NativeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getNativeExpression_NativeFunction(), this.getNativeFunction(), "nativeFunction", null, 0, 1, NativeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
     initEClass(varOrArgumentCallEClass, VarOrArgumentCall.class, "VarOrArgumentCall", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getVarOrArgumentCall_Call(), this.getAbstractVarOrArgument(), null, "call", null, 0, 1, VarOrArgumentCall.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(rangeLiteralEClass, RangeLiteral.class, "RangeLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getRangeLiteral_Values(), ecorePackage.getEBigDecimal(), "values", null, 0, -1, RangeLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(paramRefEClass, ParamRef.class, "ParamRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getParamRef_Param(), theLibraryPackage.getParameter(), null, "param", null, 0, 1, ParamRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(nodeTypeRefEClass, NodeTypeRef.class, "NodeTypeRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getNodeTypeRef_Nodetype(), theLibraryPackage.getNodeType(), null, "nodetype", null, 0, 1, NodeTypeRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getNodeTypeRef_PrimaryRef(), this.getReference(), null, "primaryRef", null, 0, 1, NodeTypeRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getNodeTypeRef_PrimaryRef(), this.getPrimaryRef(), null, "primaryRef", null, 0, 1, NodeTypeRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(nodeRefEClass, NodeRef.class, "NodeRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getNodeRef_Node(), theOperatorsPackage.getNode(), null, "node", null, 0, 1, NodeRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getNodeRef_PrimaryRef(), this.getReference(), null, "primaryRef", null, 0, 1, NodeRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getNodeRef_PrimaryRef(), this.getPrimaryRef(), null, "primaryRef", null, 0, 1, NodeRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(contextRefEClass, ContextRef.class, "ContextRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getContextRef_PrimaryRef(), this.getReference(), null, "primaryRef", null, 0, 1, ContextRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getContextRef_PrimaryRef(), this.getPrimaryRef(), null, "primaryRef", null, 0, 1, ContextRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getContextRef_RangeRef(), this.getRangeRef(), null, "rangeRef", null, 0, 1, ContextRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(operatorRefEClass, OperatorRef.class, "OperatorRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getOperatorRef_Function(), theLibraryPackage.getFunction(), null, "function", null, 0, 1, OperatorRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getOperatorRef_Equipment(), theLibraryPackage.getEquipment(), null, "equipment", null, 0, 1, OperatorRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(resourceRefEClass, ResourceRef.class, "ResourceRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getResourceRef_Resource(), theLibraryPackage.getBaseResource(), null, "resource", null, 0, 1, ResourceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

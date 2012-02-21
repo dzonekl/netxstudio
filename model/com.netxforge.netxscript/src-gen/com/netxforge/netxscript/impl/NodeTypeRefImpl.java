@@ -7,7 +7,7 @@ package com.netxforge.netxscript.impl;
 
 import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.NodeTypeRef;
-import com.netxforge.netxscript.Reference;
+import com.netxforge.netxscript.PrimaryRef;
 
 import com.netxforge.netxstudio.library.NodeType;
 
@@ -54,7 +54,7 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
    * @generated
    * @ordered
    */
-  protected Reference primaryRef;
+  protected PrimaryRef primaryRef;
 
   /**
    * <!-- begin-user-doc -->
@@ -125,7 +125,7 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public Reference getPrimaryRef()
+  public PrimaryRef getPrimaryRef()
   {
     return primaryRef;
   }
@@ -135,9 +135,9 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetPrimaryRef(Reference newPrimaryRef, NotificationChain msgs)
+  public NotificationChain basicSetPrimaryRef(PrimaryRef newPrimaryRef, NotificationChain msgs)
   {
-    Reference oldPrimaryRef = primaryRef;
+    PrimaryRef oldPrimaryRef = primaryRef;
     primaryRef = newPrimaryRef;
     if (eNotificationRequired())
     {
@@ -152,7 +152,7 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setPrimaryRef(Reference newPrimaryRef)
+  public void setPrimaryRef(PrimaryRef newPrimaryRef)
   {
     if (newPrimaryRef != primaryRef)
     {
@@ -217,7 +217,7 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
         setNodetype((NodeType)newValue);
         return;
       case NetxscriptPackage.NODE_TYPE_REF__PRIMARY_REF:
-        setPrimaryRef((Reference)newValue);
+        setPrimaryRef((PrimaryRef)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -237,7 +237,7 @@ public class NodeTypeRefImpl extends ReferenceImpl implements NodeTypeRef
         setNodetype((NodeType)null);
         return;
       case NetxscriptPackage.NODE_TYPE_REF__PRIMARY_REF:
-        setPrimaryRef((Reference)null);
+        setPrimaryRef((PrimaryRef)null);
         return;
     }
     super.eUnset(featureID);

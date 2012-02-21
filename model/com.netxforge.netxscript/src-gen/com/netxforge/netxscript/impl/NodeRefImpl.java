@@ -7,7 +7,7 @@ package com.netxforge.netxscript.impl;
 
 import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.NodeRef;
-import com.netxforge.netxscript.Reference;
+import com.netxforge.netxscript.PrimaryRef;
 
 import com.netxforge.netxstudio.operators.Node;
 
@@ -54,7 +54,7 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
    * @generated
    * @ordered
    */
-  protected Reference primaryRef;
+  protected PrimaryRef primaryRef;
 
   /**
    * <!-- begin-user-doc -->
@@ -125,7 +125,7 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public Reference getPrimaryRef()
+  public PrimaryRef getPrimaryRef()
   {
     return primaryRef;
   }
@@ -135,9 +135,9 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetPrimaryRef(Reference newPrimaryRef, NotificationChain msgs)
+  public NotificationChain basicSetPrimaryRef(PrimaryRef newPrimaryRef, NotificationChain msgs)
   {
-    Reference oldPrimaryRef = primaryRef;
+    PrimaryRef oldPrimaryRef = primaryRef;
     primaryRef = newPrimaryRef;
     if (eNotificationRequired())
     {
@@ -152,7 +152,7 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setPrimaryRef(Reference newPrimaryRef)
+  public void setPrimaryRef(PrimaryRef newPrimaryRef)
   {
     if (newPrimaryRef != primaryRef)
     {
@@ -217,7 +217,7 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
         setNode((Node)newValue);
         return;
       case NetxscriptPackage.NODE_REF__PRIMARY_REF:
-        setPrimaryRef((Reference)newValue);
+        setPrimaryRef((PrimaryRef)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -237,7 +237,7 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
         setNode((Node)null);
         return;
       case NetxscriptPackage.NODE_REF__PRIMARY_REF:
-        setPrimaryRef((Reference)null);
+        setPrimaryRef((PrimaryRef)null);
         return;
     }
     super.eUnset(featureID);

@@ -942,7 +942,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	public class UnaryElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Unary");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cPrimaryExpressionParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cNativeExpressionParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
 		private final Alternatives cAlternatives_1_0 = (Alternatives)cGroup_1.eContents().get(0);
 		private final Group cGroup_1_0_0 = (Group)cAlternatives_1_0.eContents().get(0);
@@ -958,14 +958,14 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//// Unaries are return type specific. The type on the right should be checked.  
 		//Unary returns Expression:
-		//	PrimaryExpression | ({Negation} op="!" | {UnaryPlusMinus} op=UnaryOperator) right=Unary;
+		//	NativeExpression | ({Negation} op="!" | {UnaryPlusMinus} op=UnaryOperator) right=Unary;
 		public ParserRule getRule() { return rule; }
 
-		//PrimaryExpression | ({Negation} op="!" | {UnaryPlusMinus} op=UnaryOperator) right=Unary
+		//NativeExpression | ({Negation} op="!" | {UnaryPlusMinus} op=UnaryOperator) right=Unary
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//PrimaryExpression
-		public RuleCall getPrimaryExpressionParserRuleCall_0() { return cPrimaryExpressionParserRuleCall_0; }
+		//NativeExpression
+		public RuleCall getNativeExpressionParserRuleCall_0() { return cNativeExpressionParserRuleCall_0; }
 
 		//({Negation} op="!" | {UnaryPlusMinus} op=UnaryOperator) right=Unary
 		public Group getGroup_1() { return cGroup_1; }
@@ -1024,45 +1024,79 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		public Keyword getPlusSignKeyword_1() { return cPlusSignKeyword_1; }
 	}
 
+	public class NativeExpressionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "NativeExpression");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cPrimaryExpressionParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Action cNativeExpressionLeftAction_1_0 = (Action)cGroup_1.eContents().get(0);
+		private final Keyword cFullStopKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cNativeFunctionAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
+		private final RuleCall cNativeFunctionNativeFunctionEnumRuleCall_1_2_0 = (RuleCall)cNativeFunctionAssignment_1_2.eContents().get(0);
+		
+		/// *
+		// *  Nested native functions. 
+		// * / NativeExpression returns Expression:
+		//	PrimaryExpression ({NativeExpression.left=current} "." nativeFunction=NativeFunction)*;
+		public ParserRule getRule() { return rule; }
+
+		//PrimaryExpression ({NativeExpression.left=current} "." nativeFunction=NativeFunction)*
+		public Group getGroup() { return cGroup; }
+
+		//PrimaryExpression
+		public RuleCall getPrimaryExpressionParserRuleCall_0() { return cPrimaryExpressionParserRuleCall_0; }
+
+		//({NativeExpression.left=current} "." nativeFunction=NativeFunction)*
+		public Group getGroup_1() { return cGroup_1; }
+
+		//{NativeExpression.left=current}
+		public Action getNativeExpressionLeftAction_1_0() { return cNativeExpressionLeftAction_1_0; }
+
+		//"."
+		public Keyword getFullStopKeyword_1_1() { return cFullStopKeyword_1_1; }
+
+		//nativeFunction=NativeFunction
+		public Assignment getNativeFunctionAssignment_1_2() { return cNativeFunctionAssignment_1_2; }
+
+		//NativeFunction
+		public RuleCall getNativeFunctionNativeFunctionEnumRuleCall_1_2_0() { return cNativeFunctionNativeFunctionEnumRuleCall_1_2_0; }
+	}
+
 	public class PrimaryExpressionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "PrimaryExpression");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cLiteralParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final RuleCall cRangeParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
-		private final RuleCall cNativeExpressionParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
-		private final RuleCall cReferenceParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
-		private final RuleCall cFunctionCallParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
-		private final RuleCall cIndexedCallParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
-		private final RuleCall cParenthesizedExpressionParserRuleCall_6 = (RuleCall)cAlternatives.eContents().get(6);
+		private final RuleCall cRangeLiteralParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cReferenceParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cFunctionCallParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
+		private final RuleCall cIndexedCallParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
+		private final RuleCall cParenthesizedExpressionParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
 		
 		//// The FunctionCall and potential parameters, shoul be checked as reference priot to a regular Assignment call. 
 		//PrimaryExpression returns Expression:
-		//	Literal | Range | NativeExpression | Reference | FunctionCall | IndexedCall | ParenthesizedExpression;
+		//	Literal | RangeLiteral | Reference | FunctionCall | IndexedCall | ParenthesizedExpression;
 		public ParserRule getRule() { return rule; }
 
-		//Literal | Range | NativeExpression | Reference | FunctionCall | IndexedCall | ParenthesizedExpression
+		//Literal | RangeLiteral | Reference | FunctionCall | IndexedCall | ParenthesizedExpression
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//Literal
 		public RuleCall getLiteralParserRuleCall_0() { return cLiteralParserRuleCall_0; }
 
-		//Range
-		public RuleCall getRangeParserRuleCall_1() { return cRangeParserRuleCall_1; }
-
-		//NativeExpression
-		public RuleCall getNativeExpressionParserRuleCall_2() { return cNativeExpressionParserRuleCall_2; }
+		//RangeLiteral
+		public RuleCall getRangeLiteralParserRuleCall_1() { return cRangeLiteralParserRuleCall_1; }
 
 		//Reference
-		public RuleCall getReferenceParserRuleCall_3() { return cReferenceParserRuleCall_3; }
+		public RuleCall getReferenceParserRuleCall_2() { return cReferenceParserRuleCall_2; }
 
 		//FunctionCall
-		public RuleCall getFunctionCallParserRuleCall_4() { return cFunctionCallParserRuleCall_4; }
+		public RuleCall getFunctionCallParserRuleCall_3() { return cFunctionCallParserRuleCall_3; }
 
 		//IndexedCall
-		public RuleCall getIndexedCallParserRuleCall_5() { return cIndexedCallParserRuleCall_5; }
+		public RuleCall getIndexedCallParserRuleCall_4() { return cIndexedCallParserRuleCall_4; }
 
 		//ParenthesizedExpression
-		public RuleCall getParenthesizedExpressionParserRuleCall_6() { return cParenthesizedExpressionParserRuleCall_6; }
+		public RuleCall getParenthesizedExpressionParserRuleCall_5() { return cParenthesizedExpressionParserRuleCall_5; }
 	}
 
 	public class LiteralElements extends AbstractParserRuleElementFinder {
@@ -1112,7 +1146,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cValueAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cValueNUMBERTerminalRuleCall_1_0 = (RuleCall)cValueAssignment_1.eContents().get(0);
 		
-		//NumberLiteral returns Expression:
+		//NumberLiteral:
 		//	{NumberLiteral} value=NUMBER;
 		public ParserRule getRule() { return rule; }
 
@@ -1129,28 +1163,58 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getValueNUMBERTerminalRuleCall_1_0() { return cValueNUMBERTerminalRuleCall_1_0; }
 	}
 
-	public class ParenthesizedExpressionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ParenthesizedExpression");
+	public class RangeLiteralElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "RangeLiteral");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cLeftParenthesisKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final RuleCall cExpressionParserRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
-		private final Keyword cRightParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Action cRangeLiteralAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cLeftSquareBracketKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
+		private final Assignment cValuesAssignment_2_0 = (Assignment)cGroup_2.eContents().get(0);
+		private final RuleCall cValuesNUMBERTerminalRuleCall_2_0_0 = (RuleCall)cValuesAssignment_2_0.eContents().get(0);
+		private final Group cGroup_2_1 = (Group)cGroup_2.eContents().get(1);
+		private final Keyword cCommaKeyword_2_1_0 = (Keyword)cGroup_2_1.eContents().get(0);
+		private final Assignment cValuesAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
+		private final RuleCall cValuesNUMBERTerminalRuleCall_2_1_1_0 = (RuleCall)cValuesAssignment_2_1_1.eContents().get(0);
+		private final Keyword cRightSquareBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		
-		//ParenthesizedExpression returns Expression:
-		//	"(" Expression ")";
+		////RangeExpression returns Expression:
+		////	'['  Expression ']';
+		//RangeLiteral:
+		//	{RangeLiteral} "[" (values+=NUMBER ("," values+=NUMBER)*)? "]";
 		public ParserRule getRule() { return rule; }
 
-		//"(" Expression ")"
+		//{RangeLiteral} "[" (values+=NUMBER ("," values+=NUMBER)*)? "]"
 		public Group getGroup() { return cGroup; }
 
-		//"("
-		public Keyword getLeftParenthesisKeyword_0() { return cLeftParenthesisKeyword_0; }
+		//{RangeLiteral}
+		public Action getRangeLiteralAction_0() { return cRangeLiteralAction_0; }
 
-		//Expression
-		public RuleCall getExpressionParserRuleCall_1() { return cExpressionParserRuleCall_1; }
+		//"["
+		public Keyword getLeftSquareBracketKeyword_1() { return cLeftSquareBracketKeyword_1; }
 
-		//")"
-		public Keyword getRightParenthesisKeyword_2() { return cRightParenthesisKeyword_2; }
+		//(values+=NUMBER ("," values+=NUMBER)*)?
+		public Group getGroup_2() { return cGroup_2; }
+
+		//values+=NUMBER
+		public Assignment getValuesAssignment_2_0() { return cValuesAssignment_2_0; }
+
+		//NUMBER
+		public RuleCall getValuesNUMBERTerminalRuleCall_2_0_0() { return cValuesNUMBERTerminalRuleCall_2_0_0; }
+
+		//("," values+=NUMBER)*
+		public Group getGroup_2_1() { return cGroup_2_1; }
+
+		//","
+		public Keyword getCommaKeyword_2_1_0() { return cCommaKeyword_2_1_0; }
+
+		//values+=NUMBER
+		public Assignment getValuesAssignment_2_1_1() { return cValuesAssignment_2_1_1; }
+
+		//NUMBER
+		public RuleCall getValuesNUMBERTerminalRuleCall_2_1_1_0() { return cValuesNUMBERTerminalRuleCall_2_1_1_0; }
+
+		//"]"
+		public Keyword getRightSquareBracketKeyword_3() { return cRightSquareBracketKeyword_3; }
 	}
 
 	public class FunctionCallElements extends AbstractParserRuleElementFinder {
@@ -1253,62 +1317,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		public Keyword getRightSquareBracketKeyword_1_2() { return cRightSquareBracketKeyword_1_2; }
 	}
 
-	public class NativeExpressionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "NativeExpression");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Action cNativeExpressionAction_0 = (Action)cGroup.eContents().get(0);
-		private final Alternatives cAlternatives_1 = (Alternatives)cGroup.eContents().get(1);
-		private final Assignment cRangeAssignment_1_0 = (Assignment)cAlternatives_1.eContents().get(0);
-		private final RuleCall cRangeRangeLiteralParserRuleCall_1_0_0 = (RuleCall)cRangeAssignment_1_0.eContents().get(0);
-		private final Assignment cRefAssignment_1_1 = (Assignment)cAlternatives_1.eContents().get(1);
-		private final RuleCall cRefReferenceParserRuleCall_1_1_0 = (RuleCall)cRefAssignment_1_1.eContents().get(0);
-		private final Assignment cVarAssignment_1_2 = (Assignment)cAlternatives_1.eContents().get(2);
-		private final RuleCall cVarVarOrArgumentCallParserRuleCall_1_2_0 = (RuleCall)cVarAssignment_1_2.eContents().get(0);
-		private final Keyword cFullStopKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cNativeFunctionAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cNativeFunctionNativeFunctionEnumRuleCall_3_0 = (RuleCall)cNativeFunctionAssignment_3.eContents().get(0);
-		
-		//NativeExpression returns Expression:
-		//	{NativeExpression} (range=RangeLiteral | ref=Reference | var=VarOrArgumentCall) "." nativeFunction=NativeFunction;
-		public ParserRule getRule() { return rule; }
-
-		//{NativeExpression} (range=RangeLiteral | ref=Reference | var=VarOrArgumentCall) "." nativeFunction=NativeFunction
-		public Group getGroup() { return cGroup; }
-
-		//{NativeExpression}
-		public Action getNativeExpressionAction_0() { return cNativeExpressionAction_0; }
-
-		//range=RangeLiteral | ref=Reference | var=VarOrArgumentCall
-		public Alternatives getAlternatives_1() { return cAlternatives_1; }
-
-		//range=RangeLiteral
-		public Assignment getRangeAssignment_1_0() { return cRangeAssignment_1_0; }
-
-		//RangeLiteral
-		public RuleCall getRangeRangeLiteralParserRuleCall_1_0_0() { return cRangeRangeLiteralParserRuleCall_1_0_0; }
-
-		//ref=Reference
-		public Assignment getRefAssignment_1_1() { return cRefAssignment_1_1; }
-
-		//Reference
-		public RuleCall getRefReferenceParserRuleCall_1_1_0() { return cRefReferenceParserRuleCall_1_1_0; }
-
-		//var=VarOrArgumentCall
-		public Assignment getVarAssignment_1_2() { return cVarAssignment_1_2; }
-
-		//VarOrArgumentCall
-		public RuleCall getVarVarOrArgumentCallParserRuleCall_1_2_0() { return cVarVarOrArgumentCallParserRuleCall_1_2_0; }
-
-		//"."
-		public Keyword getFullStopKeyword_2() { return cFullStopKeyword_2; }
-
-		//nativeFunction=NativeFunction
-		public Assignment getNativeFunctionAssignment_3() { return cNativeFunctionAssignment_3; }
-
-		//NativeFunction
-		public RuleCall getNativeFunctionNativeFunctionEnumRuleCall_3_0() { return cNativeFunctionNativeFunctionEnumRuleCall_3_0; }
-	}
-
 	public class VarOrArgumentCallElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "VarOrArgumentCall");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -1337,68 +1345,28 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getCallAbstractVarOrArgumentIDTerminalRuleCall_1_0_1() { return cCallAbstractVarOrArgumentIDTerminalRuleCall_1_0_1; }
 	}
 
-	public class RangeElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Range");
-		private final RuleCall cRangeLiteralParserRuleCall = (RuleCall)rule.eContents().get(1);
-		
-		//Range:
-		//	RangeLiteral;
-		public ParserRule getRule() { return rule; }
-
-		//RangeLiteral
-		public RuleCall getRangeLiteralParserRuleCall() { return cRangeLiteralParserRuleCall; }
-	}
-
-	public class RangeLiteralElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "RangeLiteral");
+	public class ParenthesizedExpressionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ParenthesizedExpression");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Action cRangeLiteralAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cLeftSquareBracketKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
-		private final Assignment cValuesAssignment_2_0 = (Assignment)cGroup_2.eContents().get(0);
-		private final RuleCall cValuesNUMBERTerminalRuleCall_2_0_0 = (RuleCall)cValuesAssignment_2_0.eContents().get(0);
-		private final Group cGroup_2_1 = (Group)cGroup_2.eContents().get(1);
-		private final Keyword cCommaKeyword_2_1_0 = (Keyword)cGroup_2_1.eContents().get(0);
-		private final Assignment cValuesAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
-		private final RuleCall cValuesNUMBERTerminalRuleCall_2_1_1_0 = (RuleCall)cValuesAssignment_2_1_1.eContents().get(0);
-		private final Keyword cRightSquareBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Keyword cLeftParenthesisKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final RuleCall cExpressionParserRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		private final Keyword cRightParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		
-		//RangeLiteral returns Range:
-		//	{RangeLiteral} "[" (values+=NUMBER ("," values+=NUMBER)*)? "]";
+		//ParenthesizedExpression returns Expression:
+		//	"(" Expression ")";
 		public ParserRule getRule() { return rule; }
 
-		//{RangeLiteral} "[" (values+=NUMBER ("," values+=NUMBER)*)? "]"
+		//"(" Expression ")"
 		public Group getGroup() { return cGroup; }
 
-		//{RangeLiteral}
-		public Action getRangeLiteralAction_0() { return cRangeLiteralAction_0; }
+		//"("
+		public Keyword getLeftParenthesisKeyword_0() { return cLeftParenthesisKeyword_0; }
 
-		//"["
-		public Keyword getLeftSquareBracketKeyword_1() { return cLeftSquareBracketKeyword_1; }
+		//Expression
+		public RuleCall getExpressionParserRuleCall_1() { return cExpressionParserRuleCall_1; }
 
-		//(values+=NUMBER ("," values+=NUMBER)*)?
-		public Group getGroup_2() { return cGroup_2; }
-
-		//values+=NUMBER
-		public Assignment getValuesAssignment_2_0() { return cValuesAssignment_2_0; }
-
-		//NUMBER
-		public RuleCall getValuesNUMBERTerminalRuleCall_2_0_0() { return cValuesNUMBERTerminalRuleCall_2_0_0; }
-
-		//("," values+=NUMBER)*
-		public Group getGroup_2_1() { return cGroup_2_1; }
-
-		//","
-		public Keyword getCommaKeyword_2_1_0() { return cCommaKeyword_2_1_0; }
-
-		//values+=NUMBER
-		public Assignment getValuesAssignment_2_1_1() { return cValuesAssignment_2_1_1; }
-
-		//NUMBER
-		public RuleCall getValuesNUMBERTerminalRuleCall_2_1_1_0() { return cValuesNUMBERTerminalRuleCall_2_1_1_0; }
-
-		//"]"
-		public Keyword getRightSquareBracketKeyword_3() { return cRightSquareBracketKeyword_3; }
+		//")"
+		public Keyword getRightParenthesisKeyword_2() { return cRightParenthesisKeyword_2; }
 	}
 
 	public class ReferenceElements extends AbstractParserRuleElementFinder {
@@ -1409,7 +1377,12 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNodeRefParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		private final RuleCall cParamRefParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
-		//Reference returns Expression:
+		/// *
+		// * References return values by references to our external model. 
+		// * This can be single or ranges of values. The types returned will be limited
+		// * to single numerical or ranges of Value types. A Reference extends an Expression
+		// * so can participate in statements having expressions. 
+		// * / Reference returns Expression:
 		//	ContextRef | NodeTypeRef | NodeRef | ParamRef;
 		public ParserRule getRule() { return rule; }
 
@@ -1438,7 +1411,9 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final CrossReference cParamParameterCrossReference_2_0 = (CrossReference)cParamAssignment_2.eContents().get(0);
 		private final RuleCall cParamParameterFQNParserRuleCall_2_0_1 = (RuleCall)cParamParameterCrossReference_2_0.eContents().get(1);
 		
-		//ParamRef returns Reference:
+		/// **
+		// * Single numerical value reference. 
+		// * / ParamRef returns Reference:
 		//	{ParamRef} "PARAM" param=[library::Parameter|FQN];
 		public ParserRule getRule() { return rule; }
 
@@ -1590,45 +1565,49 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	public class PrimaryRefElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "PrimaryRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Assignment cComponentAssignment_0 = (Assignment)cGroup.eContents().get(0);
-		private final RuleCall cComponentOperatorRefParserRuleCall_0_0 = (RuleCall)cComponentAssignment_0.eContents().get(0);
-		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Keyword cHyphenMinusGreaterThanSignKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
-		private final Assignment cLeafRefAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
-		private final RuleCall cLeafRefLeafReferenceParserRuleCall_1_1_0 = (RuleCall)cLeafRefAssignment_1_1.eContents().get(0);
+		private final Action cPrimaryRefAction_0 = (Action)cGroup.eContents().get(0);
+		private final Assignment cNavigationAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNavigationNavigationParserRuleCall_1_0 = (RuleCall)cNavigationAssignment_1.eContents().get(0);
+		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
+		private final Keyword cHyphenMinusGreaterThanSignKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
+		private final Assignment cLeafRefAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
+		private final RuleCall cLeafRefLeafReferenceParserRuleCall_2_1_0 = (RuleCall)cLeafRefAssignment_2_1.eContents().get(0);
 		
 		/// **
-		// * Exteral Node references, these can be nested and finish with a resource reference.
-		// * / PrimaryRef returns Reference:
-		//	component=OperatorRef ("->" leafRef=LeafReference)?;
+		// * Navigation is optional, this provides additional context to be used by the interpreter.
+		// * / PrimaryRef:
+		//	{PrimaryRef} navigation=Navigation? ("->" leafRef=LeafReference)?;
 		public ParserRule getRule() { return rule; }
 
-		//component=OperatorRef ("->" leafRef=LeafReference)?
+		//{PrimaryRef} navigation=Navigation? ("->" leafRef=LeafReference)?
 		public Group getGroup() { return cGroup; }
 
-		//component=OperatorRef
-		public Assignment getComponentAssignment_0() { return cComponentAssignment_0; }
+		//{PrimaryRef}
+		public Action getPrimaryRefAction_0() { return cPrimaryRefAction_0; }
 
-		//OperatorRef
-		public RuleCall getComponentOperatorRefParserRuleCall_0_0() { return cComponentOperatorRefParserRuleCall_0_0; }
+		//navigation=Navigation?
+		public Assignment getNavigationAssignment_1() { return cNavigationAssignment_1; }
+
+		//Navigation
+		public RuleCall getNavigationNavigationParserRuleCall_1_0() { return cNavigationNavigationParserRuleCall_1_0; }
 
 		//("->" leafRef=LeafReference)?
-		public Group getGroup_1() { return cGroup_1; }
+		public Group getGroup_2() { return cGroup_2; }
 
 		//"->"
-		public Keyword getHyphenMinusGreaterThanSignKeyword_1_0() { return cHyphenMinusGreaterThanSignKeyword_1_0; }
+		public Keyword getHyphenMinusGreaterThanSignKeyword_2_0() { return cHyphenMinusGreaterThanSignKeyword_2_0; }
 
 		//leafRef=LeafReference
-		public Assignment getLeafRefAssignment_1_1() { return cLeafRefAssignment_1_1; }
+		public Assignment getLeafRefAssignment_2_1() { return cLeafRefAssignment_2_1; }
 
 		//LeafReference
-		public RuleCall getLeafRefLeafReferenceParserRuleCall_1_1_0() { return cLeafRefLeafReferenceParserRuleCall_1_1_0; }
+		public RuleCall getLeafRefLeafReferenceParserRuleCall_2_1_0() { return cLeafRefLeafReferenceParserRuleCall_2_1_0; }
 	}
 
-	public class OperatorRefElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "OperatorRef");
+	public class NavigationElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Navigation");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Action cOperatorRefAction_0 = (Action)cGroup.eContents().get(0);
+		private final Action cNavigationAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cFullStopKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
 		private final Group cGroup_2_0 = (Group)cAlternatives_2.eContents().get(0);
@@ -1644,17 +1623,19 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cPROFILEKeyword_2_2 = (Keyword)cAlternatives_2.eContents().get(2);
 		private final Keyword cSTATUSKeyword_2_3 = (Keyword)cAlternatives_2.eContents().get(3);
 		
-		//OperatorRef returns Reference:
-		//	{OperatorRef} "." ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
+		/// **
+		// * Navigation to set explicitly the Component, or to set a Profile or a Status.
+		// * / Navigation:
+		//	{Navigation} "." ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
 		//	"PROFILE" | "STATUS");
 		public ParserRule getRule() { return rule; }
 
-		//{OperatorRef} "." ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
+		//{Navigation} "." ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
 		//"PROFILE" | "STATUS")
 		public Group getGroup() { return cGroup; }
 
-		//{OperatorRef}
-		public Action getOperatorRefAction_0() { return cOperatorRefAction_0; }
+		//{Navigation}
+		public Action getNavigationAction_0() { return cNavigationAction_0; }
 
 		//"."
 		public Keyword getFullStopKeyword_1() { return cFullStopKeyword_1; }
@@ -1728,20 +1709,19 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cResourceRefAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cRESOURCEKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
-		private final Assignment cResourceAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
-		private final CrossReference cResourceBaseResourceCrossReference_2_0_0 = (CrossReference)cResourceAssignment_2_0.eContents().get(0);
-		private final RuleCall cResourceBaseResourceFQNParserRuleCall_2_0_0_1 = (RuleCall)cResourceBaseResourceCrossReference_2_0_0.eContents().get(1);
-		private final Assignment cAllAssignment_2_1 = (Assignment)cAlternatives_2.eContents().get(1);
-		private final Keyword cAllALLKeyword_2_1_0 = (Keyword)cAllAssignment_2_1.eContents().get(0);
-		private final Assignment cRangeRefAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cRangeRefRangeRefParserRuleCall_3_0 = (RuleCall)cRangeRefAssignment_3.eContents().get(0);
+		private final Assignment cResourceAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final CrossReference cResourceBaseResourceCrossReference_2_0 = (CrossReference)cResourceAssignment_2.eContents().get(0);
+		private final RuleCall cResourceBaseResourceFQNParserRuleCall_2_0_1 = (RuleCall)cResourceBaseResourceCrossReference_2_0.eContents().get(1);
+		private final Assignment cAllAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final Keyword cAllALLKeyword_3_0 = (Keyword)cAllAssignment_3.eContents().get(0);
+		private final Assignment cRangeRefAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cRangeRefRangeRefParserRuleCall_4_0 = (RuleCall)cRangeRefAssignment_4.eContents().get(0);
 		
 		//ResourceRef returns LeafReference:
-		//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource|FQN] | all?="ALL") rangeRef=RangeRef;
+		//	{ResourceRef} "RESOURCE" resource=[library::BaseResource|FQN] all?="ALL"? rangeRef=RangeRef;
 		public ParserRule getRule() { return rule; }
 
-		//{ResourceRef} "RESOURCE" (resource=[library::BaseResource|FQN] | all?="ALL") rangeRef=RangeRef
+		//{ResourceRef} "RESOURCE" resource=[library::BaseResource|FQN] all?="ALL"? rangeRef=RangeRef
 		public Group getGroup() { return cGroup; }
 
 		//{ResourceRef}
@@ -1750,29 +1730,26 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//"RESOURCE"
 		public Keyword getRESOURCEKeyword_1() { return cRESOURCEKeyword_1; }
 
-		//resource=[library::BaseResource|FQN] | all?="ALL"
-		public Alternatives getAlternatives_2() { return cAlternatives_2; }
-
 		//resource=[library::BaseResource|FQN]
-		public Assignment getResourceAssignment_2_0() { return cResourceAssignment_2_0; }
+		public Assignment getResourceAssignment_2() { return cResourceAssignment_2; }
 
 		//[library::BaseResource|FQN]
-		public CrossReference getResourceBaseResourceCrossReference_2_0_0() { return cResourceBaseResourceCrossReference_2_0_0; }
+		public CrossReference getResourceBaseResourceCrossReference_2_0() { return cResourceBaseResourceCrossReference_2_0; }
 
 		//FQN
-		public RuleCall getResourceBaseResourceFQNParserRuleCall_2_0_0_1() { return cResourceBaseResourceFQNParserRuleCall_2_0_0_1; }
+		public RuleCall getResourceBaseResourceFQNParserRuleCall_2_0_1() { return cResourceBaseResourceFQNParserRuleCall_2_0_1; }
 
-		//all?="ALL"
-		public Assignment getAllAssignment_2_1() { return cAllAssignment_2_1; }
+		//all?="ALL"?
+		public Assignment getAllAssignment_3() { return cAllAssignment_3; }
 
 		//"ALL"
-		public Keyword getAllALLKeyword_2_1_0() { return cAllALLKeyword_2_1_0; }
+		public Keyword getAllALLKeyword_3_0() { return cAllALLKeyword_3_0; }
 
 		//rangeRef=RangeRef
-		public Assignment getRangeRefAssignment_3() { return cRangeRefAssignment_3; }
+		public Assignment getRangeRefAssignment_4() { return cRangeRefAssignment_4; }
 
 		//RangeRef
-		public RuleCall getRangeRefRangeRefParserRuleCall_3_0() { return cRangeRefRangeRefParserRuleCall_3_0; }
+		public RuleCall getRangeRefRangeRefParserRuleCall_4_0() { return cRangeRefRangeRefParserRuleCall_4_0; }
 	}
 
 	public class StatusRefElements extends AbstractParserRuleElementFinder {
@@ -1812,7 +1789,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		/// **
 		// * Optional value kind AVG / BH
 		// * Optional Number value (In minutes like 60, etc..)
-		// * 
 		// * / RangeRef:
 		//	valuerange=ValueRange kind=ValueKind? interval=Interval?;
 		public ParserRule getRule() { return rule; }
@@ -2261,16 +2237,15 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	private MultiplicationElements pMultiplication;
 	private UnaryElements pUnary;
 	private UnaryOperatorElements pUnaryOperator;
+	private NativeExpressionElements pNativeExpression;
 	private PrimaryExpressionElements pPrimaryExpression;
 	private LiteralElements pLiteral;
 	private NumberLiteralElements pNumberLiteral;
-	private ParenthesizedExpressionElements pParenthesizedExpression;
+	private RangeLiteralElements pRangeLiteral;
 	private FunctionCallElements pFunctionCall;
 	private IndexedCallElements pIndexedCall;
-	private NativeExpressionElements pNativeExpression;
 	private VarOrArgumentCallElements pVarOrArgumentCall;
-	private RangeElements pRange;
-	private RangeLiteralElements pRangeLiteral;
+	private ParenthesizedExpressionElements pParenthesizedExpression;
 	private NativeFunctionElements unknownRuleNativeFunction;
 	private ReferenceElements pReference;
 	private ParamRefElements pParamRef;
@@ -2278,7 +2253,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	private NodeRefElements pNodeRef;
 	private ContextRefElements pContextRef;
 	private PrimaryRefElements pPrimaryRef;
-	private OperatorRefElements pOperatorRef;
+	private NavigationElements pNavigation;
 	private LeafReferenceElements pLeafReference;
 	private ResourceRefElements pResourceRef;
 	private StatusRefElements pStatusRef;
@@ -2534,7 +2509,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 	//// Unaries are return type specific. The type on the right should be checked.  
 	//Unary returns Expression:
-	//	PrimaryExpression | ({Negation} op="!" | {UnaryPlusMinus} op=UnaryOperator) right=Unary;
+	//	NativeExpression | ({Negation} op="!" | {UnaryPlusMinus} op=UnaryOperator) right=Unary;
 	public UnaryElements getUnaryAccess() {
 		return (pUnary != null) ? pUnary : (pUnary = new UnaryElements());
 	}
@@ -2553,9 +2528,21 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getUnaryOperatorAccess().getRule();
 	}
 
+	/// *
+	// *  Nested native functions. 
+	// * / NativeExpression returns Expression:
+	//	PrimaryExpression ({NativeExpression.left=current} "." nativeFunction=NativeFunction)*;
+	public NativeExpressionElements getNativeExpressionAccess() {
+		return (pNativeExpression != null) ? pNativeExpression : (pNativeExpression = new NativeExpressionElements());
+	}
+	
+	public ParserRule getNativeExpressionRule() {
+		return getNativeExpressionAccess().getRule();
+	}
+
 	//// The FunctionCall and potential parameters, shoul be checked as reference priot to a regular Assignment call. 
 	//PrimaryExpression returns Expression:
-	//	Literal | Range | NativeExpression | Reference | FunctionCall | IndexedCall | ParenthesizedExpression;
+	//	Literal | RangeLiteral | Reference | FunctionCall | IndexedCall | ParenthesizedExpression;
 	public PrimaryExpressionElements getPrimaryExpressionAccess() {
 		return (pPrimaryExpression != null) ? pPrimaryExpression : (pPrimaryExpression = new PrimaryExpressionElements());
 	}
@@ -2574,7 +2561,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getLiteralAccess().getRule();
 	}
 
-	//NumberLiteral returns Expression:
+	//NumberLiteral:
 	//	{NumberLiteral} value=NUMBER;
 	public NumberLiteralElements getNumberLiteralAccess() {
 		return (pNumberLiteral != null) ? pNumberLiteral : (pNumberLiteral = new NumberLiteralElements());
@@ -2584,14 +2571,16 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getNumberLiteralAccess().getRule();
 	}
 
-	//ParenthesizedExpression returns Expression:
-	//	"(" Expression ")";
-	public ParenthesizedExpressionElements getParenthesizedExpressionAccess() {
-		return (pParenthesizedExpression != null) ? pParenthesizedExpression : (pParenthesizedExpression = new ParenthesizedExpressionElements());
+	////RangeExpression returns Expression:
+	////	'['  Expression ']';
+	//RangeLiteral:
+	//	{RangeLiteral} "[" (values+=NUMBER ("," values+=NUMBER)*)? "]";
+	public RangeLiteralElements getRangeLiteralAccess() {
+		return (pRangeLiteral != null) ? pRangeLiteral : (pRangeLiteral = new RangeLiteralElements());
 	}
 	
-	public ParserRule getParenthesizedExpressionRule() {
-		return getParenthesizedExpressionAccess().getRule();
+	public ParserRule getRangeLiteralRule() {
+		return getRangeLiteralAccess().getRule();
 	}
 
 	//FunctionCall returns Expression:
@@ -2614,16 +2603,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getIndexedCallAccess().getRule();
 	}
 
-	//NativeExpression returns Expression:
-	//	{NativeExpression} (range=RangeLiteral | ref=Reference | var=VarOrArgumentCall) "." nativeFunction=NativeFunction;
-	public NativeExpressionElements getNativeExpressionAccess() {
-		return (pNativeExpression != null) ? pNativeExpression : (pNativeExpression = new NativeExpressionElements());
-	}
-	
-	public ParserRule getNativeExpressionRule() {
-		return getNativeExpressionAccess().getRule();
-	}
-
 	//VarOrArgumentCall returns Expression:
 	//	{VarOrArgumentCall} call=[AbstractVarOrArgument];
 	public VarOrArgumentCallElements getVarOrArgumentCallAccess() {
@@ -2634,24 +2613,14 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getVarOrArgumentCallAccess().getRule();
 	}
 
-	//Range:
-	//	RangeLiteral;
-	public RangeElements getRangeAccess() {
-		return (pRange != null) ? pRange : (pRange = new RangeElements());
+	//ParenthesizedExpression returns Expression:
+	//	"(" Expression ")";
+	public ParenthesizedExpressionElements getParenthesizedExpressionAccess() {
+		return (pParenthesizedExpression != null) ? pParenthesizedExpression : (pParenthesizedExpression = new ParenthesizedExpressionElements());
 	}
 	
-	public ParserRule getRangeRule() {
-		return getRangeAccess().getRule();
-	}
-
-	//RangeLiteral returns Range:
-	//	{RangeLiteral} "[" (values+=NUMBER ("," values+=NUMBER)*)? "]";
-	public RangeLiteralElements getRangeLiteralAccess() {
-		return (pRangeLiteral != null) ? pRangeLiteral : (pRangeLiteral = new RangeLiteralElements());
-	}
-	
-	public ParserRule getRangeLiteralRule() {
-		return getRangeLiteralAccess().getRule();
+	public ParserRule getParenthesizedExpressionRule() {
+		return getParenthesizedExpressionAccess().getRule();
 	}
 
 	//enum NativeFunction:
@@ -2665,7 +2634,12 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getNativeFunctionAccess().getRule();
 	}
 
-	//Reference returns Expression:
+	/// *
+	// * References return values by references to our external model. 
+	// * This can be single or ranges of values. The types returned will be limited
+	// * to single numerical or ranges of Value types. A Reference extends an Expression
+	// * so can participate in statements having expressions. 
+	// * / Reference returns Expression:
 	//	ContextRef | NodeTypeRef | NodeRef | ParamRef;
 	public ReferenceElements getReferenceAccess() {
 		return (pReference != null) ? pReference : (pReference = new ReferenceElements());
@@ -2675,7 +2649,9 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getReferenceAccess().getRule();
 	}
 
-	//ParamRef returns Reference:
+	/// **
+	// * Single numerical value reference. 
+	// * / ParamRef returns Reference:
 	//	{ParamRef} "PARAM" param=[library::Parameter|FQN];
 	public ParamRefElements getParamRefAccess() {
 		return (pParamRef != null) ? pParamRef : (pParamRef = new ParamRefElements());
@@ -2722,9 +2698,9 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	/// **
-	// * Exteral Node references, these can be nested and finish with a resource reference.
-	// * / PrimaryRef returns Reference:
-	//	component=OperatorRef ("->" leafRef=LeafReference)?;
+	// * Navigation is optional, this provides additional context to be used by the interpreter.
+	// * / PrimaryRef:
+	//	{PrimaryRef} navigation=Navigation? ("->" leafRef=LeafReference)?;
 	public PrimaryRefElements getPrimaryRefAccess() {
 		return (pPrimaryRef != null) ? pPrimaryRef : (pPrimaryRef = new PrimaryRefElements());
 	}
@@ -2733,15 +2709,17 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getPrimaryRefAccess().getRule();
 	}
 
-	//OperatorRef returns Reference:
-	//	{OperatorRef} "." ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
+	/// **
+	// * Navigation to set explicitly the Component, or to set a Profile or a Status.
+	// * / Navigation:
+	//	{Navigation} "." ("FUNCTION" function=[library::Function|FQN] | "EQUIPMENT" equipment=[library::Equipment|FQN] |
 	//	"PROFILE" | "STATUS");
-	public OperatorRefElements getOperatorRefAccess() {
-		return (pOperatorRef != null) ? pOperatorRef : (pOperatorRef = new OperatorRefElements());
+	public NavigationElements getNavigationAccess() {
+		return (pNavigation != null) ? pNavigation : (pNavigation = new NavigationElements());
 	}
 	
-	public ParserRule getOperatorRefRule() {
-		return getOperatorRefAccess().getRule();
+	public ParserRule getNavigationRule() {
+		return getNavigationAccess().getRule();
 	}
 
 	//LeafReference:
@@ -2755,7 +2733,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ResourceRef returns LeafReference:
-	//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource|FQN] | all?="ALL") rangeRef=RangeRef;
+	//	{ResourceRef} "RESOURCE" resource=[library::BaseResource|FQN] all?="ALL"? rangeRef=RangeRef;
 	public ResourceRefElements getResourceRefAccess() {
 		return (pResourceRef != null) ? pResourceRef : (pResourceRef = new ResourceRefElements());
 	}
@@ -2777,7 +2755,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	/// **
 	// * Optional value kind AVG / BH
 	// * Optional Number value (In minutes like 60, etc..)
-	// * 
 	// * / RangeRef:
 	//	valuerange=ValueRange kind=ValueKind? interval=Interval?;
 	public RangeRefElements getRangeRefAccess() {

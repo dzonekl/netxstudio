@@ -27,4 +27,8 @@ public class CDOResourceServiceProvider extends DefaultResourceServiceProvider
 			return false;
 		}
 	}
+	
+	
+	
+	
 }

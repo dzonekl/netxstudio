@@ -61,12 +61,12 @@ public interface NodeTypeRef extends Reference
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Primary Ref</em>' containment reference.
-   * @see #setPrimaryRef(Reference)
+   * @see #setPrimaryRef(PrimaryRef)
    * @see com.netxforge.netxscript.NetxscriptPackage#getNodeTypeRef_PrimaryRef()
    * @model containment="true"
    * @generated
    */
-  Reference getPrimaryRef();
+  PrimaryRef getPrimaryRef();
 
   /**
    * Sets the value of the '{@link com.netxforge.netxscript.NodeTypeRef#getPrimaryRef <em>Primary Ref</em>}' containment reference.
@@ -76,6 +76,6 @@ public interface NodeTypeRef extends Reference
    * @see #getPrimaryRef()
    * @generated
    */
-  void setPrimaryRef(Reference value);
+  void setPrimaryRef(PrimaryRef value);
 
 } // NodeTypeRef

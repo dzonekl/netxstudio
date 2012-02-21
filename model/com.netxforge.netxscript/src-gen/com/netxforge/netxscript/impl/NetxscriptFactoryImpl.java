@@ -77,8 +77,11 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.BLOCK: return createBlock();
       case NetxscriptPackage.STATEMENT: return createStatement();
       case NetxscriptPackage.EXPRESSION: return createExpression();
-      case NetxscriptPackage.RANGE: return createRange();
+      case NetxscriptPackage.NUMBER_LITERAL: return createNumberLiteral();
+      case NetxscriptPackage.RANGE_LITERAL: return createRangeLiteral();
       case NetxscriptPackage.REFERENCE: return createReference();
+      case NetxscriptPackage.PRIMARY_REF: return createPrimaryRef();
+      case NetxscriptPackage.NAVIGATION: return createNavigation();
       case NetxscriptPackage.LEAF_REFERENCE: return createLeafReference();
       case NetxscriptPackage.RANGE_REF: return createRangeRef();
       case NetxscriptPackage.INTERVAL: return createInterval();
@@ -104,17 +107,14 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.MODULO: return createModulo();
       case NetxscriptPackage.NEGATION: return createNegation();
       case NetxscriptPackage.UNARY_PLUS_MINUS: return createUnaryPlusMinus();
-      case NetxscriptPackage.BOOLEAN_LITERAL: return createBooleanLiteral();
-      case NetxscriptPackage.NUMBER_LITERAL: return createNumberLiteral();
-      case NetxscriptPackage.FUNCTION_CALL: return createFunctionCall();
       case NetxscriptPackage.NATIVE_EXPRESSION: return createNativeExpression();
+      case NetxscriptPackage.BOOLEAN_LITERAL: return createBooleanLiteral();
+      case NetxscriptPackage.FUNCTION_CALL: return createFunctionCall();
       case NetxscriptPackage.VAR_OR_ARGUMENT_CALL: return createVarOrArgumentCall();
-      case NetxscriptPackage.RANGE_LITERAL: return createRangeLiteral();
       case NetxscriptPackage.PARAM_REF: return createParamRef();
       case NetxscriptPackage.NODE_TYPE_REF: return createNodeTypeRef();
       case NetxscriptPackage.NODE_REF: return createNodeRef();
       case NetxscriptPackage.CONTEXT_REF: return createContextRef();
-      case NetxscriptPackage.OPERATOR_REF: return createOperatorRef();
       case NetxscriptPackage.RESOURCE_REF: return createResourceRef();
       case NetxscriptPackage.STATUS_REF: return createStatusRef();
       case NetxscriptPackage.LINK_REF: return createLinkRef();
@@ -277,10 +277,21 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public Range createRange()
+  public NumberLiteral createNumberLiteral()
   {
-    RangeImpl range = new RangeImpl();
-    return range;
+    NumberLiteralImpl numberLiteral = new NumberLiteralImpl();
+    return numberLiteral;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public RangeLiteral createRangeLiteral()
+  {
+    RangeLiteralImpl rangeLiteral = new RangeLiteralImpl();
+    return rangeLiteral;
   }
 
   /**
@@ -292,6 +303,28 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
   {
     ReferenceImpl reference = new ReferenceImpl();
     return reference;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public PrimaryRef createPrimaryRef()
+  {
+    PrimaryRefImpl primaryRef = new PrimaryRefImpl();
+    return primaryRef;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Navigation createNavigation()
+  {
+    NavigationImpl navigation = new NavigationImpl();
+    return navigation;
   }
 
   /**
@@ -574,10 +607,10 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public BooleanLiteral createBooleanLiteral()
+  public NativeExpression createNativeExpression()
   {
-    BooleanLiteralImpl booleanLiteral = new BooleanLiteralImpl();
-    return booleanLiteral;
+    NativeExpressionImpl nativeExpression = new NativeExpressionImpl();
+    return nativeExpression;
   }
 
   /**
@@ -585,10 +618,10 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public NumberLiteral createNumberLiteral()
+  public BooleanLiteral createBooleanLiteral()
   {
-    NumberLiteralImpl numberLiteral = new NumberLiteralImpl();
-    return numberLiteral;
+    BooleanLiteralImpl booleanLiteral = new BooleanLiteralImpl();
+    return booleanLiteral;
   }
 
   /**
@@ -607,32 +640,10 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public NativeExpression createNativeExpression()
-  {
-    NativeExpressionImpl nativeExpression = new NativeExpressionImpl();
-    return nativeExpression;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public VarOrArgumentCall createVarOrArgumentCall()
   {
     VarOrArgumentCallImpl varOrArgumentCall = new VarOrArgumentCallImpl();
     return varOrArgumentCall;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public RangeLiteral createRangeLiteral()
-  {
-    RangeLiteralImpl rangeLiteral = new RangeLiteralImpl();
-    return rangeLiteral;
   }
 
   /**
@@ -677,17 +688,6 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
   {
     ContextRefImpl contextRef = new ContextRefImpl();
     return contextRef;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public OperatorRef createOperatorRef()
-  {
-    OperatorRefImpl operatorRef = new OperatorRefImpl();
-    return operatorRef;
   }
 
   /**

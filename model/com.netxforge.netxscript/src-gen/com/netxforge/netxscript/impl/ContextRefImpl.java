@@ -7,8 +7,8 @@ package com.netxforge.netxscript.impl;
 
 import com.netxforge.netxscript.ContextRef;
 import com.netxforge.netxscript.NetxscriptPackage;
+import com.netxforge.netxscript.PrimaryRef;
 import com.netxforge.netxscript.RangeRef;
-import com.netxforge.netxscript.Reference;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -42,7 +42,7 @@ public class ContextRefImpl extends ReferenceImpl implements ContextRef
    * @generated
    * @ordered
    */
-  protected Reference primaryRef;
+  protected PrimaryRef primaryRef;
 
   /**
    * The cached value of the '{@link #getRangeRef() <em>Range Ref</em>}' containment reference.
@@ -80,7 +80,7 @@ public class ContextRefImpl extends ReferenceImpl implements ContextRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public Reference getPrimaryRef()
+  public PrimaryRef getPrimaryRef()
   {
     return primaryRef;
   }
@@ -90,9 +90,9 @@ public class ContextRefImpl extends ReferenceImpl implements ContextRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetPrimaryRef(Reference newPrimaryRef, NotificationChain msgs)
+  public NotificationChain basicSetPrimaryRef(PrimaryRef newPrimaryRef, NotificationChain msgs)
   {
-    Reference oldPrimaryRef = primaryRef;
+    PrimaryRef oldPrimaryRef = primaryRef;
     primaryRef = newPrimaryRef;
     if (eNotificationRequired())
     {
@@ -107,7 +107,7 @@ public class ContextRefImpl extends ReferenceImpl implements ContextRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setPrimaryRef(Reference newPrimaryRef)
+  public void setPrimaryRef(PrimaryRef newPrimaryRef)
   {
     if (newPrimaryRef != primaryRef)
     {
@@ -218,7 +218,7 @@ public class ContextRefImpl extends ReferenceImpl implements ContextRef
     switch (featureID)
     {
       case NetxscriptPackage.CONTEXT_REF__PRIMARY_REF:
-        setPrimaryRef((Reference)newValue);
+        setPrimaryRef((PrimaryRef)newValue);
         return;
       case NetxscriptPackage.CONTEXT_REF__RANGE_REF:
         setRangeRef((RangeRef)newValue);
@@ -238,7 +238,7 @@ public class ContextRefImpl extends ReferenceImpl implements ContextRef
     switch (featureID)
     {
       case NetxscriptPackage.CONTEXT_REF__PRIMARY_REF:
-        setPrimaryRef((Reference)null);
+        setPrimaryRef((PrimaryRef)null);
         return;
       case NetxscriptPackage.CONTEXT_REF__RANGE_REF:
         setRangeRef((RangeRef)null);

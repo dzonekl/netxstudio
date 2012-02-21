@@ -28,6 +28,7 @@ Import-Package: org.apache.commons.logging,
  org.eclipse.xtext.xtend2.lib;resolution:=optional
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: com.netxforge,
+ com.netxforge.engine,
  com.netxforge.internal,
  com.netxforge.interpreter,
  com.netxforge.netxscript,

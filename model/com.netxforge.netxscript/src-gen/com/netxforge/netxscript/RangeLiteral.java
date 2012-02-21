@@ -25,7 +25,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface RangeLiteral extends Range
+public interface RangeLiteral extends Expression
 {
   /**
    * Returns the value of the '<em><b>Values</b></em>' attribute list.

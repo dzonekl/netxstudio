@@ -34,7 +34,7 @@ Function:
 	'def' name=ID '(' (args+=Argument (',' args+=Argument)*)? ')' block=Block;
 
 Argument:
-	name=ID ;
+	name=ID;
 
 AbstractVarOrArgument:
 	VariableStatement | Argument;
@@ -46,7 +46,8 @@ Block:
 	{Block} '{' statements+=Statement* '}';
 
 Statement:
-	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement) ';'
+	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement)
+	';'
 	| IfStatement | WhileStatement | Block;
 
 ReturnStatement returns Statement:
@@ -62,15 +63,15 @@ VariableStatement returns Statement:
 	{Variable} 'var' name=ID (('=') expression=Expression)?;
 
 AssignmentStatement returns Statement:
-	{Assignment} var=[AbstractVarOrArgument]  '='  expression=Expression;
+	{Assignment} var=[AbstractVarOrArgument] '=' expression=Expression;
 
 PlusAssignmentStatement returns Statement:
-	{PlusAssignment} var=[AbstractVarOrArgument]  '+='  expression=Expression;
+	{PlusAssignment} var=[AbstractVarOrArgument] '+=' expression=Expression;
 
 ReferenceAssignmentStatement returns Statement:
-	{RefAssignment} assignmentRef=(ContextRef | NodeTypeRef ) '=' expression=Expression;
+	{RefAssignment} assignmentRef=(ContextRef | NodeTypeRef) '=' expression=Expression;
 
-// Expression, all operators extend this class. 
+	// Expression, all operators extend this class. 
 Expression:
 	Logical;
 
@@ -95,154 +96,150 @@ Multiplication returns Expression:
 
 	// Unaries are return type specific. The type on the right should be checked.  
 Unary returns Expression:
-	PrimaryExpression | ({Negation} op='!' | {UnaryPlusMinus} op=UnaryOperator) right=Unary;
+	NativeExpression | ({Negation} op='!' | {UnaryPlusMinus} op=UnaryOperator) right=Unary;
 
 UnaryOperator:
 	'-' | '+';
 
-// The FunctionCall and potential parameters, shoul be checked as reference priot to a regular Assignment call. 
-PrimaryExpression returns Expression:
-	Literal | Range | NativeExpression | Reference | FunctionCall | IndexedCall | ParenthesizedExpression;
+/*
+ *  Nested native functions. 
+ */
+NativeExpression returns Expression:
+	PrimaryExpression ( {NativeExpression.left=current} '.' nativeFunction=NativeFunction )* ;
 
+	// The FunctionCall and potential parameters, shoul be checked as reference priot to a regular Assignment call. 
+PrimaryExpression returns Expression:
+	Literal | RangeLiteral | Reference | FunctionCall | IndexedCall |
+	ParenthesizedExpression;
 
 Literal returns Expression:
-	 NumberLiteral | {BooleanLiteral} (condition?='true' | 'false');
+	NumberLiteral | {BooleanLiteral} (condition?='true' | 'false');
 
-NumberLiteral returns Expression:
-	{NumberLiteral} value=NUMBER
-;
+NumberLiteral:
+	{NumberLiteral} value=NUMBER;
 
-ParenthesizedExpression returns Expression:
-	'(' Expression ')';
+	//RangeExpression returns Expression:
+//	'['  Expression ']';
+RangeLiteral:
+	{RangeLiteral} '[' (values+=NUMBER (',' values+=NUMBER)*)? ']';
 
 FunctionCall returns Expression:
 	{FunctionCall} func=[AbstractFunction] '(' (args+=Expression (',' args+=Expression)*)? ')';
 
 IndexedCall returns Expression:
-	VarOrArgumentCall ('[' index=Expression ']')?
-;
-
-NativeExpression returns Expression:
-	{NativeExpression} (range=RangeLiteral | ref=Reference | var=VarOrArgumentCall) '.' nativeFunction=NativeFunction;
-
+	VarOrArgumentCall ('[' index=Expression ']')?;
 
 VarOrArgumentCall returns Expression:
 	{VarOrArgumentCall} call=[AbstractVarOrArgument];
 
-Range:
-	RangeLiteral;
-
-RangeLiteral returns Range:
-	{RangeLiteral} '[' (values+=NUMBER (',' values+=NUMBER)*)? ']';
+ParenthesizedExpression returns Expression:
+	'(' Expression ')';
 
 enum NativeFunction:
-	COUNT='count()' | SUM='sum()' | MIN='min()' | MAX='max()' | MEAN='mean()' | DEVIATION='deviation()' | ERLANGB='erlangB()' | CLEAR ='clear()';
+	COUNT='count()' | SUM='sum()' | MIN='min()' | MAX='max()' | MEAN='mean()' | DEVIATION='deviation()' |
+	ERLANGB='erlangB()' | CLEAR='clear()';
 
+/*
+ * References return values by references to our external model. 
+ * This can be single or ranges of values. The types returned will be limited
+ * to single numerical or ranges of Value types. A Reference extends an Expression
+ * so can participate in statements having expressions. 
+ */
 Reference returns Expression:
-	ContextRef | NodeTypeRef | NodeRef | ParamRef
-;
-
-ParamRef returns Reference:
-	{ParamRef} 'PARAM' param=[library::Parameter | FQN]
-;
+	ContextRef | NodeTypeRef | NodeRef | ParamRef;
 
 /**
+ * Single numerical value reference. 
+ */
+ParamRef returns Reference:
+	{ParamRef} 'PARAM' param=[library::Parameter|FQN];
+
+	/**
  * The Node context can be found with NODE if available.
  */
 NodeTypeRef returns Reference:
-	{NodeTypeRef} 'NETYPE' nodetype=[library::NodeType] primaryRef=PrimaryRef
-;
+	{NodeTypeRef} 'NETYPE' nodetype=[library::NodeType] primaryRef=PrimaryRef;
 
 NodeRef returns Reference:
-	{NodeRef} 'NE' node=[operator::Node] primaryRef=PrimaryRef
-;
+	{NodeRef} 'NE' node=[operator::Node] primaryRef=PrimaryRef;
 
-/**
+	/**
  * Contextual reference will be restricted by a container in the scope provider
  * depending on the object representation of 'this', until implemented, all possible 
  * references will be visible.  
  */
-
 ContextRef returns Reference:
 	{ContextRef} 'this' (primaryRef=PrimaryRef | rangeRef=RangeRef);
 
-/**
- * Exteral Node references, these can be nested and finish with a resource reference.
+	/**
+ * Navigation is optional, this provides additional context to be used by the interpreter.
  */
-PrimaryRef returns Reference:
-	component=OperatorRef ('->' leafRef=LeafReference)?;
+PrimaryRef:
+	{PrimaryRef} (navigation=Navigation)? ('->' leafRef=LeafReference)?;
 
-OperatorRef returns Reference:
-	{OperatorRef} '.' ( 'FUNCTION' function=[library::Function | FQN] | 'EQUIPMENT' equipment=[library::Equipment | FQN] | 'PROFILE' | 'STATUS')
-;
+	/**
+ * Navigation to set explicitly the Component, or to set a Profile or a Status.
+ */
+Navigation:
+	{Navigation} '.' ('FUNCTION' function=[library::Function|FQN] | 'EQUIPMENT' equipment=[library::Equipment|FQN] |
+	'PROFILE' | 'STATUS');
 
-LeafReference :
+LeafReference:
 	ResourceRef | LinkRef | StatusRef;
 
 ResourceRef returns LeafReference:
-	{ResourceRef} 'RESOURCE' (resource=[library::BaseResource | FQN] | all?='ALL') rangeRef=RangeRef;
+	{ResourceRef} 'RESOURCE' resource=[library::BaseResource|FQN] all?='ALL'? rangeRef=RangeRef;
 
 StatusRef returns LeafReference:
 	{StatusRef} tolerancelevel=ToleranceLevel;
 
-/**
+	/**
  * Optional value kind AVG / BH
  * Optional Number value (In minutes like 60, etc..)
- * 
  */
 RangeRef:
-	valuerange=ValueRange (kind=ValueKind)? (interval = Interval)?
-;
+	valuerange=ValueRange (kind=ValueKind)? (interval=Interval)?;
 
-Interval: 
-	interval=NUMBER | kind=IntervalKind
-	; 
+Interval:
+	interval=NUMBER | kind=IntervalKind;
 
 enum IntervalKind:
-	MONTH="MONTH" | WEEK="WEEK" |  DAY="DAY" | HOUR="HOUR"   
-;
+	MONTH="MONTH" | WEEK="WEEK" | DAY="DAY" | HOUR="HOUR";
 
 enum ToleranceLevel:
-	RED='RED' | AMBER='AMBER' | GREEN='GREEN' | YELLOW='YELLOW'
-;
+	RED='RED' | AMBER='AMBER' | GREEN='GREEN' | YELLOW='YELLOW';
 
+enum ValueRange:
+	METRIC='METRIC' | CAP='CAP' | FORECAST='FORECAST' | FORECAST_CAP='FORECAST_CAP' | TRENDED='TRENDED' |
+	UTILIZATION='UTILIZATION' | TOLERANCE='TOLERANCE' | DERIVED="DERIVED";
 
-enum ValueRange: 
-	METRIC='METRIC' | CAP='CAP' | FORECAST='FORECAST' | FORECAST_CAP='FORECAST_CAP' | TRENDED='TRENDED' | UTILIZATION='UTILIZATION'	| TOLERANCE='TOLERANCE' | DERIVED="DERIVED"
-;
+enum ValueKind:
+	AVG='AVG' | BH='BH';
 
-enum ValueKind: 
-	AVG='AVG' | BH='BH'
-;
-
-
-/**
+	/**
  * TODO, through a link, we should be able to access, the opposite node and 
  * resources. 
  * 
  */
 LinkRef returns LeafReference:
-	{LinkRef} 'LINK' link=[operator::Relationship]
-;
+	{LinkRef} 'LINK' link=[operator::Relationship];
 
-FQN :
-	SPACED_ID ('::' SPACED_ID)*
-;
+FQN:
+	SPACED_ID ('::' SPACED_ID)*;
 
 SPACED_ID returns ecore::EString:
-	(ID | NUMBER) (ID | NUMBER )*
-;  
-
+	(ID | NUMBER) (ID | NUMBER)*;
 
 terminal NUMBER returns ecore::EBigDecimal:
 	('0'..'9')* ('.' ('0'..'9')+)?;
 
 terminal INT returns ecore::EInt:
 	'zzzzzzzzz';
-	
-/*
+
+	/*
  * - Can have quotes and dash. 
  */
-terminal ID : '^'?('a'..'z'|'A'..'Z'|'_'|'-'|'('| ')') ('a'..'z'|'A'..'Z'|'_'|'0'..'9'|'-'|'('| ')')*;
+terminal ID:
+	'^'? ('a'..'z' | 'A'..'Z' | '_' | '-' | '(' | ')') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9' | '-' | '(' | ')')*;
 	
 	
