@@ -288,27 +288,18 @@ public class ServiceMonitors extends AbstractScreen implements
 		// N/A
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return serviceMonitorsTableViewer;
 	}
 
-	@Override
 	public boolean isValid() {
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmServiceMonitors;
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-
-	}
-	
 	private final List<IAction> actions = Lists.newArrayList();
 	
 	@Override

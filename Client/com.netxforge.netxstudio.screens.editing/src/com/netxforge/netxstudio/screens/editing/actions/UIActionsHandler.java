@@ -29,6 +29,8 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ContributionItemFactory;
 
 /**
  * This is the action bar contributor for the Netxstudio model editor. <!--
@@ -178,7 +180,13 @@ public class UIActionsHandler implements IActionHandler,
 
 		refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());
 		menuManager.insertAfter("ui-actions", refreshViewerAction);
-
+		
+		
+		
+		menuManager.add(ContributionItemFactory.VIEWS_SHOW_IN.create(PlatformUI.getWorkbench().getActiveWorkbenchWindow()));
+		
+		
+		
 		// super.addGlobalActions(menuManager);
 	}
 

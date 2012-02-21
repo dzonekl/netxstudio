@@ -192,7 +192,7 @@ public class ResourceMonitors extends AbstractScreen implements
 
 					if (o instanceof ResourceMonitor) {
 
-						ResourceMonitorScreen rmScreen = new ResourceMonitorScreen(
+						ResourceChartScreen rmScreen = new ResourceChartScreen(
 								screenService.getScreenContainer(), SWT.NONE);
 						rmScreen.setScreenService(screenService);
 						rmScreen.setOperation(getOperation());
@@ -305,7 +305,6 @@ public class ResourceMonitors extends AbstractScreen implements
 		editingService.disposeData(rfsServiceResource);
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return resourceMonitorsTableViewer;
 	}
@@ -315,19 +314,12 @@ public class ResourceMonitors extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmResourceMonitors;
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-
-	}
-
 	public void addData() {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();

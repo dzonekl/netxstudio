@@ -124,9 +124,15 @@ public interface IEditingService {
 	/**
 	 * Set the provider for the active viewer. 
 	 * @param provider
+	 * @deprecated Use setScreenProvider instead. 
 	 */
 	public abstract void setViewerProvider(IViewerProvider provider);
 	
+	/**
+	 * Set the provider for the active screen. 
+	 * @param provider
+	 */
+	public abstract void setScreenProvider(IScreenProvider provider);
 	
 	/**
 	 * Get a data service.

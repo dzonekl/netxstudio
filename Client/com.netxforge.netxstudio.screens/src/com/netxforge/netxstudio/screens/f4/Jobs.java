@@ -520,7 +520,6 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		editingService.disposeData(jobsResource);
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return jobsTableViewer;
 	}
@@ -530,14 +529,8 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		return false;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmScheduledJobs;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	@Override

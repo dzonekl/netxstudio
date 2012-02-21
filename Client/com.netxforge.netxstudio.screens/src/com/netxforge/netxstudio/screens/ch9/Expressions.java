@@ -310,14 +310,8 @@ public class Expressions extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmExpressions;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	private final List<IAction> actionList = Lists.newArrayList();

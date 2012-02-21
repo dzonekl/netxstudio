@@ -411,14 +411,8 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 		return false;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmSettings;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	@Override

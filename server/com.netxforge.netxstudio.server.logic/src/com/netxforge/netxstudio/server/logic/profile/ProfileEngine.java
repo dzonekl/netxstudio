@@ -21,6 +21,8 @@ package com.netxforge.netxstudio.server.logic.profile;
 import java.util.Date;
 import java.util.List;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -41,6 +43,10 @@ public class ProfileEngine extends BaseExpressionEngine {
 
 	private ServiceUser serviceUser;
 	private RFSService service;
+	
+	@Inject
+	private ResultProcessor resultProcessor;
+	
 
 	@Override
 	public void doExecute() {
@@ -75,7 +81,7 @@ public class ProfileEngine extends BaseExpressionEngine {
 	@Override
 	protected void processResult(List<Object> currentContext,
 			List<BaseExpressionResult> expressionResults, Date start, Date end) {
-		this.getCommonLogic().processServiceProfileResult(currentContext,
+		resultProcessor.processServiceProfileResult(currentContext,
 				expressionResults, start, end);
 	}
 

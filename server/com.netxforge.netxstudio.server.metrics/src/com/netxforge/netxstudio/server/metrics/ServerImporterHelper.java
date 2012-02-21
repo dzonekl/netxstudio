@@ -30,8 +30,9 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
-import com.netxforge.netxstudio.data.importer.IImporterHelper;
 import com.netxforge.netxstudio.data.importer.ComponentLocator;
+import com.netxforge.netxstudio.data.importer.IImporterHelper;
+import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
@@ -43,7 +44,6 @@ import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
-import com.netxforge.netxstudio.server.CommonLogic;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
 
@@ -56,7 +56,11 @@ public class ServerImporterHelper implements IImporterHelper {
 
 	/* We need the importer to set the data provider */
 	private AbstractMetricValuesImporter importer;
-
+	
+	@Inject
+	private ResultProcessor resultProcessor;
+	
+	
 	public ServerImporterHelper() {
 	}
 
@@ -65,14 +69,9 @@ public class ServerImporterHelper implements IImporterHelper {
 	}
 
 	@Inject
-	private CommonLogic commonLogic;
-
-	@Inject
 	private ModelUtils modelUtils;
 
 	public void initializeProviders(ComponentLocator networkElementLocator) {
-		commonLogic.setDataProvider(importer.getDataProvider());
-
 		// force that the same dataprovider is used
 		// so that components retrieved by the networkElementLocator
 		// participate in the same transaction
@@ -103,7 +102,7 @@ public class ServerImporterHelper implements IImporterHelper {
 	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
 			KindHintType kindHintType, List<Value> newValues, Date start,
 			Date end) {
-		commonLogic.addToValueRange(foundNetXResource, periodHint,
+		resultProcessor.addToValueRange(foundNetXResource, periodHint,
 				kindHintType, newValues, start, end);
 	}
 

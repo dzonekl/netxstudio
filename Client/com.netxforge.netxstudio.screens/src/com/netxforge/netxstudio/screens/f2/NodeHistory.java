@@ -450,18 +450,12 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 		return tableViewerRevisions;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmHistory;
 	}
 
 	public void disposeData() {
 		// N/A
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	public String getScreenName() {

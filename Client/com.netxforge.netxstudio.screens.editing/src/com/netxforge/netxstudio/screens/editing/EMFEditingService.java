@@ -226,12 +226,18 @@ public abstract class EMFEditingService implements IEditingService {
 		}
 	}
 
-	IViewerProvider delegateViewerProvider;
-
+	protected IViewerProvider delegateViewerProvider;
+	
 	public void setViewerProvider(IViewerProvider viewerProvider) {
 		this.delegateViewerProvider = viewerProvider;
 	}
-
+	
+	protected IScreenProvider delegateScreenProvider;
+	
+	public void setScreenProvider(IScreenProvider screenProvider) {
+		this.delegateScreenProvider = screenProvider;
+	}
+	
 	public IDataService getDataService() {
 		return this.dataService;
 	}

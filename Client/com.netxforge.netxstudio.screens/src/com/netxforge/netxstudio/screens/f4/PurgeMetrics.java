@@ -124,39 +124,28 @@ public class PurgeMetrics extends AbstractScreen implements IDataScreenInjection
 		
 		Button btnTestPurging = toolkit.createButton(composite_2, "Test purging", SWT.NONE);
 		new Label(composite_2, SWT.NONE);
-		
 
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public void disposeData() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void injectData(Object owner, Object object) {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
 		
 	}
 
 	public void addData() {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException();
 	}
 
-	@Override
 	public Viewer getViewer() {
-		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	@Override
@@ -164,7 +153,6 @@ public class PurgeMetrics extends AbstractScreen implements IDataScreenInjection
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return null;
 	}

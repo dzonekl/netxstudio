@@ -564,7 +564,6 @@ public abstract class AbstractResources extends AbstractScreen implements
 		// editingService.disposeData(resourcesResource);
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return resourcesTableViewer;
 	}
@@ -574,14 +573,8 @@ public abstract class AbstractResources extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmResources;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	private final List<IAction> actionList = Lists.newArrayList();

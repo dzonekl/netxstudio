@@ -24,9 +24,6 @@ import com.netxforge.ui.internal.override.OverrideNetxscriptActivator;
  * Proxies to whatever Activator can return the injector. 
  * FIXME The worst hack in history of Java!
  * Consider, some other options to access injectors?? Pearberry???
- * 
- * 
- * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */

@@ -57,7 +57,7 @@ import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 
-public class ResourceMonitorScreen extends AbstractScreen implements
+public class ResourceChartScreen extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -71,7 +71,7 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 	private CDateTime dateTimeFrom;
 	private CDateTime dateTimeTo;
 
-	public ResourceMonitorScreen(Composite parent, int style) {
+	public ResourceChartScreen(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -85,11 +85,12 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 
 	}
 
-	private void buildUI() {
+	public void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmFunction = toolkit.createForm(this);
-		frmFunction.setText("Resource Monitor " + netXResource.getShortName());
+//		frmFunction.setText("Resource Monitor " + netXResource.getShortName());
+		frmFunction.setText("Resource charts");		
 		frmFunction.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmFunction);
 
@@ -687,7 +688,6 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		}
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmFunction;
 	}
@@ -695,11 +695,6 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 	public void disposeData() {
 	}
 
-	public void setOperation(int operation) {
-		this.operation = operation;
-	}
-
-	@Override
 	public String getScreenName() {
 		return "Resource graph";
 	}

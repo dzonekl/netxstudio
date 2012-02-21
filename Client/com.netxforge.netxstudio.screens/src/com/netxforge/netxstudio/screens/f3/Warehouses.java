@@ -475,16 +475,10 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmNodeTypes;
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-	}
-	
 	@Override
 	public String getScreenName() {
 		return "Warehouses";

@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.internal;
 
 import static com.google.inject.Guice.createInjector;
 import static com.google.inject.util.Modules.override;
@@ -15,6 +15,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
+import com.netxforge.netxstudio.data.importer.ImporterModule;
 import com.netxforge.netxstudio.scheduling.NodeReporterJob;
 import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
@@ -42,7 +43,7 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 	private static LogicActivator INSTANCE;
 
 	// fields to cache the debug flags
-	public static boolean DEBUG = false;
+	public static boolean DEBUG = true;
 	public static DebugTrace TRACE = null;
 
 	public void optionsChanged(DebugOptions options) {
@@ -127,6 +128,7 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 
 		Module om = override(new NetxscriptServerModule()).with(
 				ServerModule.getModule());
+		om = override(om).with(new ImporterModule());
 		om = override(om).with(new JobModule());
 		om = override(om).with(new LogicModule());
 		om = override(om).with(new CommonModule());

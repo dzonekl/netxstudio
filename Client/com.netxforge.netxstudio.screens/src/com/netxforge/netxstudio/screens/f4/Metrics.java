@@ -384,7 +384,6 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		editingService.disposeData(metricResource);
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return metricsTreeViewer;
 	}
@@ -394,14 +393,8 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		return false;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmMetrics;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();

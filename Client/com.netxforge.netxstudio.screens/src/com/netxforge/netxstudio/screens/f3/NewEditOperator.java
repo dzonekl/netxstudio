@@ -205,7 +205,6 @@ public class NewEditOperator extends AbstractScreen implements
 		}
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return null;
 	}
@@ -215,7 +214,6 @@ public class NewEditOperator extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmNewOperator;
 	}
@@ -224,11 +222,6 @@ public class NewEditOperator extends AbstractScreen implements
 		// N/A
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-	}
-	
 	public String getScreenName() {
 		return "Operator";
 	}

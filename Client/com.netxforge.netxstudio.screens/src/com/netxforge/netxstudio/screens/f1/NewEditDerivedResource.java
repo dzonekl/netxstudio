@@ -603,14 +603,8 @@ public class NewEditDerivedResource extends AbstractScreen implements
 
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return null;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	@Override
@@ -618,7 +612,6 @@ public class NewEditDerivedResource extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmResource;
 	}

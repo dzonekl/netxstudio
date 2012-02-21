@@ -265,7 +265,6 @@ public class ServiceUsers extends AbstractScreen implements
 	public void disposeData() {
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return serviceUsers;
 	}
@@ -275,15 +274,8 @@ public class ServiceUsers extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmServiceUsers;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-
 	}
 
 	@Override

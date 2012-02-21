@@ -339,14 +339,8 @@ public class SitesTable extends AbstractScreen implements IDataServiceInjection 
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmSites;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	@Override

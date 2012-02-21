@@ -60,6 +60,7 @@ import com.netxforge.netxstudio.screens.editing.dawn.DawnEMFEditorSupport;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditorSupport;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
  * For the lifetime of this service, we keep various editing facilities. We also
@@ -70,12 +71,13 @@ import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
  */
 // @Singleton
 public class CDOEditingService extends EMFEditingService implements
-		IDawnEditor, IViewerProvider {
+		IDawnEditor, IViewerProvider, IScreenProvider {
 
 	/**
 	 * Our editor support for Dawn.
 	 */
 	private DawnEMFEditorSupport dawnEditorSupport;
+	
 
 	public CDOEditingService() {
 		dawnEditorSupport = new DawnEMFEditorSupport(this);
@@ -104,9 +106,6 @@ public class CDOEditingService extends EMFEditingService implements
 	public void doSave(IProgressMonitor monitor) {
 		
 		// save could be triggered from 
-		
-		
-		
 		CDOView view = dawnEditorSupport.getView();
 		if (view instanceof CDOTransaction) {
 			if (((CDOTransaction) view).hasConflict()) {
@@ -264,7 +263,12 @@ public class CDOEditingService extends EMFEditingService implements
 	public Viewer getViewer() {
 		return this.delegateViewerProvider.getViewer();
 	}
+	
 
+	public IScreen getScreen() {
+		return this.delegateScreenProvider.getScreen();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

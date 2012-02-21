@@ -11,6 +11,7 @@ import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.scoping.QualifiedDynamixCDONameProvider;
 
@@ -42,6 +43,12 @@ public class NetxscriptLabelProvider extends DefaultEObjectLabelProvider {
 		QualifiedName qualifiedName = qualifiedNameProvider.getFullyQualifiedName(ele);
 		return ele.getDescription() + "\n" + qualifiedName != null ? qualifiedName.toString() : "";
 	}
+	
+	String text(NetXResource res){
+		return res.getShortName() + "\n : " + res.getLongName();  
+	}
+	
+	
 /*	 
     String image(MyModel ele) {
       return "MyModel.gif";

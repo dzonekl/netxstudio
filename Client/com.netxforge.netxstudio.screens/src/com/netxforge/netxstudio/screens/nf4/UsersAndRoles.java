@@ -313,15 +313,8 @@ public class UsersAndRoles extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmUsersAndRoles;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();

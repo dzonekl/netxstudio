@@ -103,7 +103,6 @@ public class MetricSourceLocations extends AbstractScreen implements IDataServic
 	public void disposeData() {
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return null;
 	}
@@ -113,17 +112,10 @@ public class MetricSourceLocations extends AbstractScreen implements IDataServic
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmServices;
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-
-	}
-	
 	@Override
 	public String getScreenName() {
 		return "Reports";

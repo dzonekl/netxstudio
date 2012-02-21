@@ -20,7 +20,8 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 
 /**
- * An injectable component showing a from and to Date layed out above each other. 
+ * An injectable component showing a from and to Date layed out above each
+ * other.
  * 
  * @author Christophe
  * 
@@ -31,8 +32,7 @@ public class PeriodComponent {
 
 	private CDateTime dateTimeTo;
 	private CDateTime dateTimeFrom;
-	
-	
+
 	private final DateTimeRange period = GenericsFactory.eINSTANCE
 			.createDateTimeRange();
 
@@ -47,30 +47,29 @@ public class PeriodComponent {
 	public void buildUI(Composite parent, Object layoutData) {
 
 		Composite cmpPeriod = toolkit.createComposite(parent, SWT.BORDER);
-		
+
 		toolkit.adapt(cmpPeriod);
 		cmpPeriod.setLayoutData(layoutData);
-		
+
 		GridLayout periodGridLayout = new GridLayout();
 		periodGridLayout.numColumns = 2;
 		cmpPeriod.setLayout(periodGridLayout);
-		
-		
-		Label lblStart = toolkit.createLabel(cmpPeriod, "From:",
-				SWT.NONE);
+
+		Label lblStart = toolkit.createLabel(cmpPeriod, "From:", SWT.NONE);
 		GridData gd_lblStart = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
-//		gd_lblStart.widthHint = 70;
+		// gd_lblStart.widthHint = 70;
 		lblStart.setLayoutData(gd_lblStart);
 		lblStart.setAlignment(SWT.RIGHT);
 
-		dateTimeFrom = new CDateTime(cmpPeriod, CDT.BORDER
-				| CDT.DROP_DOWN | CDT.DATE_SHORT);
+		dateTimeFrom = new CDateTime(cmpPeriod, CDT.BORDER | CDT.DROP_DOWN
+				| CDT.DATE_MEDIUM);
 		GridData gd_dateTimeFrom = new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1);
 		gd_dateTimeFrom.widthHint = 120;
 		dateTimeFrom.setLayoutData(gd_dateTimeFrom);
 		dateTimeFrom.addSelectionListener(new SelectionAdapter() {
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updatePeriod();
@@ -84,11 +83,11 @@ public class PeriodComponent {
 		lblTo.setAlignment(SWT.RIGHT);
 		GridData gd_lblTo = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1,
 				1);
-//		gd_lblTo.widthHint = 70;
+		// gd_lblTo.widthHint = 70;
 		lblTo.setLayoutData(gd_lblTo);
 
 		dateTimeTo = new CDateTime(cmpPeriod, CDT.BORDER | CDT.DROP_DOWN
-				| CDT.DATE_SHORT);
+				| CDT.DATE_MEDIUM);
 		GridData gd_dateTimeTo = new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1);
 		gd_dateTimeTo.widthHint = 120;
@@ -104,7 +103,6 @@ public class PeriodComponent {
 		toolkit.adapt(dateTimeTo);
 		toolkit.paintBordersFor(dateTimeTo);
 	}
-	
 
 	public CDateTime getDateTimeTo() {
 		return dateTimeTo;
@@ -113,46 +111,62 @@ public class PeriodComponent {
 	public CDateTime getDateTimeFrom() {
 		return dateTimeFrom;
 	}
-	
+
+	/**
+	 * Revises the date to midnight.
+	 */
 	protected void updatePeriod() {
-		period.setBegin(modelUtils.toXMLDate(this.dateTimeFrom
-				.getSelection()));
-		period.setEnd(modelUtils.toXMLDate(this.dateTimeTo
-				.getSelection()));
+
+		Date from = this.dateTimeFrom.getSelection();
+		modelUtils.setToDayStart(from);
+
+		Date to = this.dateTimeTo.getSelection();
+		modelUtils.setToDayEnd(to);
+		
+		period.setBegin(modelUtils.toXMLDate(from));
+		period.setEnd(modelUtils.toXMLDate(to));
 	}
 
 	public DateTimeRange getPeriod() {
 		return period;
 	}
-	
-	public void updatePeriod(Date from, Date to){
-		
-		if(from == null || to == null ){
+
+	public void updatePeriod(Date from, Date to) {
+
+		if (from == null || to == null) {
 			return;
 		}
-		
-		// will this fire selection listeners? 
+
+		// will this fire selection listeners?
 		dateTimeFrom.setSelection(from);
 		dateTimeTo.setSelection(to);
 		period.setBegin(modelUtils.toXMLDate(from));
 		period.setEnd(modelUtils.toXMLDate(to));
-		
-	}
-	
-	public void presetYesterday(){
-		this.updatePeriod(modelUtils.yesterday(), modelUtils.todayAndNow());
-	}
-	
-	public void presetLastWeek(){
-		this.updatePeriod(modelUtils.oneWeekAgo(), modelUtils.todayAndNow());
-	}
-	
-	public void presetLastMonth(){
-		this.updatePeriod(modelUtils.oneMonthAgo(), modelUtils.todayAndNow());
+
 	}
 
-	public void presetLastQuarter(){
-		this.updatePeriod(modelUtils.threeMonthsAgo(), modelUtils.todayAndNow());
+	public void presetYesterday() {
+		Date yesterday = modelUtils.yesterday();
+		yesterday = modelUtils.setToDayStart(yesterday);
+		this.updatePeriod(yesterday, modelUtils.todayAtDayEnd());
 	}
-	
+
+	public void presetLastWeek() {
+		Date oneWeekAgo = modelUtils.oneWeekAgo();
+		oneWeekAgo = modelUtils.setToDayStart(oneWeekAgo);
+		this.updatePeriod(oneWeekAgo, modelUtils.todayAtDayEnd());
+	}
+
+	public void presetLastMonth() {
+		Date oneMonthAgo = modelUtils.oneMonthAgo();
+		oneMonthAgo = modelUtils.setToDayStart(oneMonthAgo);
+		this.updatePeriod(oneMonthAgo, modelUtils.todayAtDayEnd());
+	}
+
+	public void presetLastQuarter() {
+		Date threeMonthsAgo = modelUtils.threeMonthsAgo();
+		threeMonthsAgo = modelUtils.setToDayStart(threeMonthsAgo);
+		this.updatePeriod(threeMonthsAgo, modelUtils.todayAtDayEnd());
+	}
+
 }

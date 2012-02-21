@@ -709,7 +709,6 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return null; // N/A
 	}
@@ -719,7 +718,6 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmCSVMappingForm;
 	}
@@ -729,11 +727,6 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-	}
-	
 	public String getScreenName() {
 		return "Mapping RDBMS";
 	}

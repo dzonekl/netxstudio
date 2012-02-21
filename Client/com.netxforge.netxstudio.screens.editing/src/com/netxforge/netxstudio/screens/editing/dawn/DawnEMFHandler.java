@@ -16,14 +16,15 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.transaction.CDOTransactionConflictEvent;
 import org.eclipse.emf.cdo.view.CDOViewInvalidationEvent;
-import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
 import org.eclipse.swt.widgets.Display;
 
+import com.netxforge.netxstudio.screens.editing.IScreenProvider;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
  * @author Martin Fluegge
@@ -111,50 +112,62 @@ public class DawnEMFHandler extends BasicDawnListener {
 
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				Viewer v = ((IViewerProvider) editor).getViewer();
-				if (EditingActivator.DEBUG) {
-					if (v == null) {
-						System.out
-								.println("CDOEditingService: No viewer registered for this screen");
-					} else {
-						System.out
-								.println("CDOEditingService: updating viewer");
-					}
-
+				
+				IScreen screen = ((IScreenProvider)editor).getScreen();
+				if(screen == null){
+					return;
 				}
-				if (v != null) {
-					if (v instanceof StructuredViewer) {
-						v.refresh();
-						// Show the state of the objects after a refresh.
-
-						if (EditingActivator.DEBUG) {
-							for (CDOObject cdoObject : dos) {
-								System.out
-										.println("CDOEditingService: root: object="
-												+ cdoObject.cdoID()
-												+ " , state="
-												+ cdoObject.cdoState());
-
-								// Print the state of the children.
-								// CB, Do not print, as this could be the root
-								// resource, so all objects in the
-								// DB!
-								// TreeIterator<EObject> eAllContents =
-								// cdoObject.eAllContents();
-								// while(eAllContents.hasNext()){
-								// CDOObject next = (CDOObject)
-								// eAllContents.next();
-								// System.out.println("CDOEditingService: child: object="
-								// + next.cdoID() + " , state="
-								// + next.cdoState());
-								// }
-							}
+				
+				for( Viewer v : screen.getViewers()){
+					if (EditingActivator.DEBUG) {
+						if (v == null) {
+							System.out
+									.println("CDOEditingService: No viewer registered for this screen");
+						} else {
+							System.out
+									.println("CDOEditingService: updating viewer");
 						}
 
 					}
+					if (v != null) {
+						if (v instanceof StructuredViewer) {
+							v.refresh();
+							// Show the state of the objects after a refresh.
+
+							if (EditingActivator.DEBUG) {
+								for (CDOObject cdoObject : dos) {
+									System.out
+											.println("CDOEditingService: root: object="
+													+ cdoObject.cdoID()
+													+ " , state="
+													+ cdoObject.cdoState());
+
+									// Print the state of the children.
+									// CB, Do not print, as this could be the root
+									// resource, so all objects in the
+									// DB!
+									// TreeIterator<EObject> eAllContents =
+									// cdoObject.eAllContents();
+									// while(eAllContents.hasNext()){
+									// CDOObject next = (CDOObject)
+									// eAllContents.next();
+									// System.out.println("CDOEditingService: child: object="
+									// + next.cdoID() + " , state="
+									// + next.cdoState());
+									// }
+								}
+							}
+
+						}
+					}
+					// No viewer to update, if we are in a form screen,
+					// this could be a conflict.
 				}
-				// No viewer to update, if we are in a form screen,
-				// this could be a conflict.
+				
+				
+				// CB, TODO Remove later. Depracated, multiple viewer support. 
+//				Viewer v = ((IViewerProvider) editor).getViewer();
+
 			}
 		});
 	}

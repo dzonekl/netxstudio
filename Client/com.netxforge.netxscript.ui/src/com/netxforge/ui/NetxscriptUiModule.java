@@ -24,6 +24,11 @@ import com.netxforge.ui.scoping.UICDOResourceServiceProvider;
 
 /**
  * Use this class to register components to be used within the IDE.
+ * 
+ * FIXME, We seem to add bindings, which belong to the runtime????
+ * 
+ * 
+ * 
  */
 public class NetxscriptUiModule extends
 		com.netxforge.ui.AbstractNetxscriptUiModule {

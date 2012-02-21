@@ -911,7 +911,6 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 				.getActiveScreen());
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmMappings;
 	}

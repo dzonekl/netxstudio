@@ -21,6 +21,8 @@ package com.netxforge.netxstudio.screens.editing.selector;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.forms.widgets.Form;
 
 import com.netxforge.netxstudio.screens.editing.IEditingService;
@@ -31,7 +33,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public interface IScreen extends IViewerProvider {
+public interface IScreen extends IViewerProvider, ISelectionProvider {
 
 	/**
 	 * Screens should implement, and tell us what kind of operation they should perform. 
@@ -96,7 +98,14 @@ public interface IScreen extends IViewerProvider {
 	 * @return
 	 */
 	public abstract IAction[] getActions();
+		
 	
-
+	/**
+	 * The viewers which are supported by this screen. 
+	 * The 
+	 * 
+	 * @return
+	 */
+	public Viewer[] getViewers();
 	
 }

@@ -38,39 +38,6 @@ import com.netxforge.netxstudio.server.logic.BasePeriodLogic;
  */
 public abstract class BaseComponentLogic extends BasePeriodLogic {
 
-	// private ServerWorkFlowRunMonitor jobMonitor;
-
-	// @Inject
-	// @Server
-	// private IDataProvider dataProvider;
-
-	// private Date startTime;
-	// private Date endTime;
-
-	// @Inject
-	// private ModelUtils modelUtils;
-	//
-	// private DateTimeRange timeRange;
-	//
-	// private List<ComponentFailure> failures = new
-	// ArrayList<ComponentFailure>();
-
-//	public void run() {
-//		try {
-//			doRun();
-//			if (getFailures().isEmpty()) {
-//				this.getJobMonitor().setFinished(
-//						JobRunState.FINISHED_SUCCESSFULLY, null);
-//			} else {
-//				this.getJobMonitor().setFinished(
-//						JobRunState.FINISHED_WITH_ERROR, null);
-//			}
-//		} catch (final Throwable t) {
-//			this.getJobMonitor()
-//					.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
-//		}
-//	}
-
 	protected void doRun() {
 		// start a transaction
 		this.getDataProvider().getTransaction();
@@ -104,15 +71,6 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 
 	protected abstract List<NodeType> getNodeTypesToExecuteFor();
 
-	// protected DateTimeRange getTimeRange() {
-	// if (this.getTimeRange() != null) {
-	// return getTimeRange();
-	// }
-	// timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
-	// timeRange.setBegin(getModelUtils().toXMLDate(getStartTime()));
-	// timeRange.setEnd(getModelUtils().toXMLDate(getEndTime()));
-	// return timeRange;
-	// }
 
 	protected int countComponents(List<NodeType> nodeTypes) {
 		int cnt = 0;
@@ -143,50 +101,6 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 
 	protected abstract void processNode(NodeType nodeType);
 
-	// public ServerWorkFlowRunMonitor getJobMonitor() {
-	// return jobMonitor;
-	// }
-	//
-	// public void setJobMonitor(ServerWorkFlowRunMonitor jobMonitor) {
-	// this.jobMonitor = jobMonitor;
-	// }
-	//
-	// public IDataProvider getDataProvider() {
-	// return dataProvider;
-	// }
-	//
-	// public void setDataProvider(IDataProvider dataProvider) {
-	// this.dataProvider = dataProvider;
-	// }
-
-	// public Date getStartTime() {
-	// return startTime;
-	// }
-	//
-	// public void setStartTime(Date startTime) {
-	// this.startTime = startTime;
-	// }
-	//
-	// public Date getEndTime() {
-	// return endTime;
-	// }
-	//
-	// public void setEndTime(Date endTime) {
-	// this.endTime = endTime;
-	// }
-	//
-	// public List<ComponentFailure> getFailures() {
-	// return failures;
-	// }
-	//
-	// public ModelUtils getModelUtils() {
-	// return modelUtils;
-	// }
-
-	// public void setModelUtils(ModelUtils modelUtils) {
-	// this.modelUtils = modelUtils;
-	// }
-
 	
 	protected List<Component> getComponents(NodeType nodeType) {
 		final List<Component> result = new ArrayList<Component>();
@@ -213,15 +127,4 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		}
 	}
 
-//	public ServerSettings getSettings() {
-//		// This piece goes in commons somewhere.
-//		Resource settingsResource = this.getDataProvider().getResource(
-//				NetxstudioPackage.Literals.SERVER_SETTINGS);
-//		ServerSettings settings = null;
-//		if (settingsResource != null
-//				&& settingsResource.getContents().size() == 1) {
-//			settings = (ServerSettings) settingsResource.getContents().get(0);
-//		}
-//		return settings;
-//	}
 }

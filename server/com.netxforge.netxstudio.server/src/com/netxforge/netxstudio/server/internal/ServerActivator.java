@@ -16,7 +16,7 @@
  * Contributors: 
  * 	Martin Taal - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server;
+package com.netxforge.netxstudio.server.internal;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -30,6 +30,8 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.netxforge.netxstudio.server.ServerModule;
+import com.netxforge.netxstudio.server.ServerUtils;
 
 public class ServerActivator implements BundleActivator, DebugOptionsListener {
 
@@ -48,7 +50,7 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener {
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
 
-	static BundleContext getContext() {
+	public static BundleContext getContext() {
 		return context;
 	}
 

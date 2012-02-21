@@ -885,14 +885,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmNetworks;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	@Override

@@ -27,7 +27,6 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.scheduling.Failure;
-import com.netxforge.netxstudio.server.CommonLogic;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 
 /**
@@ -46,9 +45,6 @@ public abstract class BasePeriodEngine {
 	// on purpose no @Inject as we need the same instance
 	// as used in the job implementation
 	private IDataProvider dataProvider;
-
-	@Inject
-	private CommonLogic commonLogic;
 
 	@Inject
 	private ModelUtils modelUtils;
@@ -71,7 +67,7 @@ public abstract class BasePeriodEngine {
 
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;
-		commonLogic.setDataProvider(dataProvider);		
+//		commonLogic.setDataProvider(dataProvider);		
 	}
 
 	public DateTimeRange getPeriod() {
@@ -82,17 +78,17 @@ public abstract class BasePeriodEngine {
 		this.period = range;
 		start = modelUtils.fromXMLDate(range.getBegin());
 		end = modelUtils.fromXMLDate(range.getEnd());
-		commonLogic.setStart(start);
-		commonLogic.setEnd(end);
+//		commonLogic.setStart(start);
+//		commonLogic.setEnd(end);
 	}
 
 	public List<Failure> getFailures() {
 		return failures;
 	}
 
-	public CommonLogic getCommonLogic() {
-		return commonLogic;
-	}
+//	public CommonLogic getCommonLogic() {
+//		return commonLogic;
+//	}
 
 	public ModelUtils getModelUtils() {
 		return modelUtils;

@@ -91,8 +91,8 @@ public class FocusCellOwnerDrawHighlighterForMultiselection extends
 				if ((event.detail & SWT.SELECTED) > 0) {
 					ViewerCell focusCell = getFocusCell();
 
-					System.out.println("focus cell="
-							+ focusCell.getColumnIndex());
+//					System.out.println("focus cell="
+//							+ focusCell.getColumnIndex());
 
 					// try {
 					//
@@ -104,8 +104,8 @@ public class FocusCellOwnerDrawHighlighterForMultiselection extends
 								"Internal structure invalid. Item without associated row is not possible."); //$NON-NLS-1$
 
 						ViewerCell cell = row.getCell(event.index);
-						System.out.println("Event cell="
-								+ cell.getColumnIndex());
+//						System.out.println("Event cell="
+//								+ cell.getColumnIndex());
 						// if (focusCell != null && cell.equals(focusCell)) {
 						// markFocusedCell(event, cell);
 						// }else{

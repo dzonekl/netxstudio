@@ -95,7 +95,6 @@ public class NodeTypeHierarchy extends AbstractScreen implements
 		// N/A
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return null;
 	}
@@ -105,17 +104,10 @@ public class NodeTypeHierarchy extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmNodeTypeHierarchy;
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-
-	}
-	
 	public void addData() {
 		// N/A
 	}

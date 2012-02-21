@@ -33,32 +33,33 @@ public class ActionHandlerDescriptor implements IActionHandler {
 	boolean enableSiblingCreationActions = false;
 
 	boolean enableEditActions = false;
-		
-	private IScreen screen; 
-	
-	// Not used. 
-//
-//	EStructuralFeature[] permittedChildCreationFeatures = null;
-//
-//	public EStructuralFeature[] getPermittedChildCreationFeatures() {
-//		return permittedChildCreationFeatures;
-//	}
-//
-//	public void setPermittedChildCreationFeatures(
-//			EStructuralFeature[] permittedChildCreationFeatures) {
-//		this.permittedChildCreationFeatures = permittedChildCreationFeatures;
-//	}
-//
-//	public EStructuralFeature[] getPermittedChildrenCreationFeatures() {
-//		return permittedChildrenCreationFeatures;
-//	}
-//
-//	public void setPermittedChildrenCreationFeatures(
-//			EStructuralFeature[] permittedChildrenCreationFeatures) {
-//		this.permittedChildrenCreationFeatures = permittedChildrenCreationFeatures;
-//	}
-//
-//	EStructuralFeature[] permittedChildrenCreationFeatures = null;
+
+	private IScreen screen;
+
+	// Not used.
+	//
+	// EStructuralFeature[] permittedChildCreationFeatures = null;
+	//
+	// public EStructuralFeature[] getPermittedChildCreationFeatures() {
+	// return permittedChildCreationFeatures;
+	// }
+	//
+	// public void setPermittedChildCreationFeatures(
+	// EStructuralFeature[] permittedChildCreationFeatures) {
+	// this.permittedChildCreationFeatures = permittedChildCreationFeatures;
+	// }
+	//
+	// public EStructuralFeature[] getPermittedChildrenCreationFeatures() {
+	// return permittedChildrenCreationFeatures;
+	// }
+	//
+	// public void setPermittedChildrenCreationFeatures(
+	// EStructuralFeature[] permittedChildrenCreationFeatures) {
+	// this.permittedChildrenCreationFeatures =
+	// permittedChildrenCreationFeatures;
+	// }
+	//
+	// EStructuralFeature[] permittedChildrenCreationFeatures = null;
 
 	IMenuManager menuManager;
 
@@ -111,7 +112,7 @@ public class ActionHandlerDescriptor implements IActionHandler {
 	}
 
 	public void clearDynamicHandlers() {
-		
+
 		ImmutableList<IActionHandler> copyOfHandlers = ImmutableList
 				.copyOf(handlers);
 		for (IActionHandler handler : copyOfHandlers) {
@@ -119,6 +120,15 @@ public class ActionHandlerDescriptor implements IActionHandler {
 				handler.deactivate();
 				handlers.remove(handler);
 			}
+		}
+	}
+
+	public void clearHandlers() {
+		ImmutableList<IActionHandler> copyOfHandlers = ImmutableList
+				.copyOf(handlers);
+		for (IActionHandler handler : copyOfHandlers) {
+			handler.deactivate();
+			handlers.remove(handler);
 		}
 	}
 
@@ -186,10 +196,7 @@ public class ActionHandlerDescriptor implements IActionHandler {
 			handler.update(part);
 		}
 	}
-	
-	
-	
-	
+
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();

@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -80,6 +81,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.ui.ISaveablePart2;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.wb.swt.ResourceManager;
@@ -88,11 +90,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.interpreter.IInterpreterContext;
+import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -138,13 +143,19 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private SearchFilter searchFilter;
 
 	@Inject
-	private ValueComponentII valueComponent;
+	private ValueComponentII cmpValues;
 
 	@Inject
 	private PeriodComponent periodComponent;
 
 	@Inject
 	private EmbeddedLineExpression expressionComponent;
+
+	private IExpressionEngine expressionEngine = expressionComponent
+			.getNetxScriptInjector().getInstance(IExpressionEngine.class);
+
+	private ResultProcessor resultProcessor = expressionComponent
+			.getNetxScriptInjector().getInstance(ResultProcessor.class);
 
 	/**
 	 * A Map of filters.
@@ -170,7 +181,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private Resource operatorResource;
 	private NetXResourceObervableMapLabelProvider netXResourceObervableMapLabelProvider;
 
-	private Button btnExpression;
+	private Button btnExpressionTest;
 
 	protected TableViewer resourcesTableViewer;
 	private Table resourcesTable;
@@ -497,35 +508,76 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		gl_cmpExpression.marginWidth = 0;
 		cmpExpression.setLayout(gl_cmpExpression);
 
-		btnExpression = new Button(cmpExpression, SWT.FLAT);
-		btnExpression.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		btnExpression.setImage(ResourceManager.getPluginImage(
+		btnExpressionTest = new Button(cmpExpression, SWT.FLAT);
+		btnExpressionTest.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1));
+		btnExpressionTest.setImage(ResourceManager.getPluginImage(
 				"com.netxforge.netxstudio.models.edit",
 				"icons/full/obj16/Expression_H.png"));
+		btnExpressionTest.setEnabled(false);
 
-		btnExpression.setAlignment(SWT.RIGHT);
-		toolkit.adapt(btnExpression, true, true);
-		btnExpression.addSelectionListener(new SelectionAdapter() {
+		btnExpressionTest.setAlignment(SWT.RIGHT);
+		toolkit.adapt(btnExpressionTest, true, true);
+		btnExpressionTest.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				testExpression();
 				ISelection selection = componentsTreeViewer.getSelection();
 				if (selection instanceof IStructuredSelection) {
-					IStructuredSelection ss = (IStructuredSelection) selection;
-					Object firstElement = ss.getFirstElement();
-					if (firstElement instanceof Component) {
-						Component comp = (Component) firstElement;
-						ScreenDialog dialog = new ScreenDialog(Display
-								.getDefault().getActiveShell());
-						dialog.create();
-						dialog.inializeScreenFor(ObjectExpressions.class);
-						dialog.screen().setScreenService(screenService);
-						dialog.screen().setOperation(ScreenUtil.OPERATION_EDIT);
-						ScreenUtil.dataScreenInjectionFor(dialog.screen())
-								.injectData(comp.eResource(), comp);
-						dialog.getShell().layout(true, true);
-						dialog.open();
+				}
+			}
+
+			private void testExpression() {
+				Expression expression = (Expression) expressionAggregate
+						.getExpressionObservable().getValue();
+
+				if (expression != null) {
+					expressionEngine.getContext().clear();
+					expressionEngine.getContext().addAll(
+							contextAggregate.getContextObjects());
+					expressionEngine.setExpression(expression);
+					expressionEngine.run();
+					if (expressionEngine.errorOccurred()) {
+						// stop here will be logged
+						throw new IllegalStateException(expressionEngine
+								.getThrowable());
 					}
+					final List<BaseExpressionResult> result = expressionEngine
+							.getExpressionResult();
+
+					DateTimeRange period = contextAggregate.getPeriod();
+					Date start = modelUtils.fromXMLDate(period.getBegin());
+					Date end = modelUtils.fromXMLDate(period.getEnd());
+
+					// TODO Annoying to have to provide the start and end date,
+					// as this is already in the context.
+					resultProcessor.processMonitoringResult(
+							expressionEngine.getContext(), result, start, end);
+
+					cmpValues.getValuesTableViewer().refresh(true);
+					
+					// update our view part dirty state, as we don't use the editing domain. 
+					screenService.getAbsViewPart().publicFirePropertyChange(ISaveablePart2.PROP_DIRTY);
+				}
+			}
+
+			
+			@SuppressWarnings("unused")
+			private void showExpressionsDialog(ISelection selection) {
+				IStructuredSelection ss = (IStructuredSelection) selection;
+				Object firstElement = ss.getFirstElement();
+				if (firstElement instanceof Component) {
+					Component comp = (Component) firstElement;
+					ScreenDialog dialog = new ScreenDialog(Display.getDefault()
+							.getActiveShell());
+					dialog.create();
+					dialog.inializeScreenFor(ObjectExpressions.class);
+					dialog.screen().setScreenService(screenService);
+					dialog.screen().setOperation(ScreenUtil.OPERATION_EDIT);
+					ScreenUtil.dataScreenInjectionFor(dialog.screen())
+							.injectData(comp.eResource(), comp);
+					dialog.getShell().layout(true, true);
+					dialog.open();
 				}
 			}
 		});
@@ -573,7 +625,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		gd_periodContext.heightHint = 80;
 		gd_periodContext.widthHint = 170;
 		periodComponent.buildUI(cmpExpressionContext, gd_periodContext);
-
+		
+		// Remove the context 
 		tblViewerContext = new TableViewer(cmpExpressionContext, SWT.BORDER
 				| SWT.FULL_SELECTION);
 		Table tblContext = tblViewerContext.getTable();
@@ -597,8 +650,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 	private void buildValues(SashForm sashForm) {
 
-		valueComponent.configure(screenService);
-		valueComponent.buildValuesUI(sashForm, new GridData(SWT.FILL, SWT.FILL,
+		cmpValues.configure(screenService);
+		cmpValues.buildValuesUI(sashForm, new GridData(SWT.FILL, SWT.FILL,
 				true, true, 1, 1));
 	}
 
@@ -699,11 +752,10 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		private WritableValue exprFeatureWritable = new WritableValue(null,
 				EReference.class);
-		
+
 		private WritableValue exprWritable = new WritableValue(null,
 				Expression.class);
 
-		
 		public void handleValueChange(ValueChangeEvent event) {
 
 			IObservable observable = event.getObservable();
@@ -760,6 +812,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					return;
 				}
 			}
+			exprWritable.setValue(expr);
 			expressionComponent.injectData(expr.eResource(), expr);
 
 		}
@@ -802,11 +855,11 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		WritableValue getExpressionFeatureObservable() {
 			return exprFeatureWritable;
 		}
-		
+
 		WritableValue getExpressionObservable() {
 			return exprWritable;
 		}
-		
+
 	}
 
 	/*
@@ -823,9 +876,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		private WritableList contextWritableList = new WritableList();
 		private Expression currentExpression;
 
-		// public void initialize(DateTimeRange dtr) {
-		// this.dtr = dtr;
-		// }
+		public DateTimeRange getPeriod() {
+			return dtr;
+		}
 
 		public void handleValueChange(ValueChangeEvent event) {
 
@@ -859,7 +912,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					this.dtr.setEnd((XMLGregorianCalendar) value);
 				} else if (value instanceof EReference) {
 					this.currentExpressionFeature = (EReference) value;
-				} else if (value instanceof Expression){
+				} else if (value instanceof Expression) {
 					this.currentExpression = (Expression) value;
 				}
 			}
@@ -869,7 +922,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		}
 
 		private void handleChange() {
-			printData();
+			// printData();
 			// build the context.
 			ImmutableList<IInterpreterContext> contextList = null;
 			if (currentExpressionFeature == LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF) {
@@ -884,14 +937,17 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				}
 			}
 
+			contextWritableList.clear();
 			if (contextList != null) {
-				contextWritableList.clear();
 				contextWritableList.addAll(contextList);
 			}
-			
-			// execute the expression in the background. 
-			if(currentExpression != null && contextList != null){
-//				expressionComponent.testExpression(contextList);
+
+			// execute the expression in the background.
+			if (currentExpression != null && contextList != null
+					&& contextList.size() > 0) {
+				btnExpressionTest.setEnabled(true);
+			} else {
+				btnExpressionTest.setEnabled(false);
 			}
 		}
 
@@ -899,6 +955,18 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			return contextWritableList;
 		}
 
+		public List<Object> getContextObjects() {
+			List<Object> contextObjects = Lists.newArrayList();
+			for (Object o : contextWritableList) {
+				if (o instanceof IInterpreterContext) {
+					IInterpreterContext ic = (IInterpreterContext) o;
+					contextObjects.add(ic.getContext());
+				}
+			}
+			return contextObjects;
+		}
+
+		@SuppressWarnings("unused")
 		private void printData() {
 			System.out
 					.println("period start="
@@ -932,6 +1000,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			Object value = ob.getValue();
 			if (value instanceof Component) {
 				c = (Component) value;
+				currentNetXResource = null;
 			}
 			return c;
 		}
@@ -1050,7 +1119,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		bindExpressionSelector(bindingContext);
 
-		valueComponent.bindValues();
+		cmpValues.bindValues();
 
 		return bindingContext;
 	}
@@ -1150,6 +1219,12 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					editingService.getEditingDomain(),
 					LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF)
 					.observeDetail(set));
+
+			observeMaps
+					.add(EMFEditProperties
+							.value(editingService.getEditingDomain(),
+									LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF)
+							.observeDetail(set));
 
 			IObservableMap[] map = new IObservableMap[observeMaps.size()];
 			observeMaps.toArray(map);
@@ -1254,9 +1329,10 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					WritableValue v = (WritableValue) event.getSource();
 					Object value = v.getValue();
 					if (value instanceof NetXResource) {
-						valueComponent.injectData((BaseResource) value);
+						cmpValues.injectData((BaseResource) value);
+						cmpValues.applyDateFilter(periodComponent.getPeriod());
 					} else {
-						valueComponent.injectData(null);
+						cmpValues.clearData();
 					}
 				}
 			}
@@ -1344,7 +1420,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					public void widgetSelected(SelectionEvent e) {
 						periodBeginWritableValue.setValue(periodComponent
 								.getPeriod().getBegin());
-						valueComponent.applyDateFilter(periodComponent.getPeriod());
+						cmpValues.applyDateFilter(periodComponent.getPeriod());
 					}
 				});
 
@@ -1354,25 +1430,10 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					public void widgetSelected(SelectionEvent e) {
 						periodEndWritableValue.setValue(periodComponent
 								.getPeriod().getEnd());
-						valueComponent.applyDateFilter(periodComponent.getPeriod());
+						cmpValues.applyDateFilter(periodComponent.getPeriod());
 					}
 
 				});
-
-		// fromTimeObservableValue = new CDateTimeObservableValue(
-		// periodComponent.getDateTimeFrom());
-		// fromTimeObservableValue.addValueChangeListener(contextAggregate);
-
-		// toTimeObservableValue = new CDateTimeObservableValue(
-		// periodComponent.getDateTimeTo());
-		// toTimeObservableValue.addValueChangeListener(contextAggregate);
-
-		// bindingContext.bindValue(fromTimeObservableValue,fromTimeWritable);
-		// bindingContext.bindValue(toTimeObservableValue,toTimeWritable);
-
-		// defaults to last month, note: this will not be picked up by the
-		// observables,
-		// so set the observable value manually.
 
 		periodComponent.presetLastMonth();
 		periodBeginWritableValue.setValue(periodComponent.getPeriod()
@@ -1384,9 +1445,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				.addValueChangeListener(contextAggregate);
 		observeResourceSingleSelection.addValueChangeListener(contextAggregate);
 
-		expressionAggregate.getExpressionFeatureObservable().addValueChangeListener(
-				contextAggregate);
-		
+		expressionAggregate.getExpressionFeatureObservable()
+				.addValueChangeListener(contextAggregate);
+
 		expressionAggregate.getExpressionObservable().addValueChangeListener(
 				contextAggregate);
 
@@ -1426,11 +1487,14 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 										.getShortName();
 							} else if (contextObject instanceof DateTimeRange) {
 								DateTimeRange dtr = (DateTimeRange) contextObject;
-								text = modelUtils.date(modelUtils
-										.fromXMLDate(dtr.getBegin()))
-										+ " --> "
-										+ modelUtils.date(modelUtils
-												.fromXMLDate(dtr.getEnd()));
+								Date start = modelUtils.fromXMLDate(dtr
+										.getBegin());
+								Date end = modelUtils.fromXMLDate(dtr.getEnd());
+
+								text = modelUtils.date(start) + " ("
+										+ modelUtils.time(start) + ")"
+										+ " --> " + modelUtils.date(end) + " ("
+										+ modelUtils.time(end) + ")";
 							}
 							cell.setText(text);
 						}
@@ -1698,12 +1762,15 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	}
 
 	public void disposeData() {
-		// editingService.disposeData(resourcesResource);
+	}
+
+	public Viewer getViewer() {
+		return resourcesTableViewer;
 	}
 
 	@Override
-	public Viewer getViewer() {
-		return resourcesTableViewer;
+	public Viewer[] getViewers() {
+		return new Viewer[] { resourcesTableViewer };
 	}
 
 	@Override
@@ -1711,14 +1778,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmResources;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	@Override

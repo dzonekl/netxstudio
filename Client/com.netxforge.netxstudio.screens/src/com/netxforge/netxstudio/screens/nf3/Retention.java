@@ -270,22 +270,14 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		editingService.disposeData(retentionRulesResource);
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return null;
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-	}
-
-	@Override
 	public boolean isValid() {
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmDataRetention;
 	}

@@ -31,7 +31,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.logic.BasePeriodLogic;
-import com.netxforge.netxstudio.server.logic.LogicActivator;
+import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 
 /**
  * Implements a job runner for a metric source.

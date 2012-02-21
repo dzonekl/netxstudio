@@ -282,7 +282,6 @@ public class ServicesTree extends AbstractScreen implements
 		Tree tree = serviceTreeViewer.getTree();
 		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 2));
 		tree.setSize(74, 81);
-		tree.addSelectionListener(this);
 		toolkit.paintBordersFor(tree);
 
 		cmpDetails = toolkit.createComposite(sashForm, SWT.NONE);
@@ -356,8 +355,7 @@ public class ServicesTree extends AbstractScreen implements
 						"Schedule Monitoring Job..."));
 				actions.add(new MonitorNowAction("Monitor Now"));
 			}
-			actions.add(new ServiceMonitoringAction("Monitoring Result...",
-					SWT.PUSH));
+			actions.add(new ServiceMonitoringAction("Monitoring Result..."));
 			actions.add(new SeparatorAction());
 
 			if (!readonly) {
@@ -486,14 +484,8 @@ public class ServicesTree extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmServices;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	/**
@@ -504,8 +496,8 @@ public class ServicesTree extends AbstractScreen implements
 	 */
 	class ServiceMonitoringAction extends Action {
 
-		public ServiceMonitoringAction(String text, int style) {
-			super(text, style);
+		public ServiceMonitoringAction(String text) {
+			super(text);
 		}
 
 		@Override

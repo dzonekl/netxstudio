@@ -506,18 +506,12 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		return jobRunsTableViewer;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmJobRuns;
 	}
 
 	public void disposeData() {
 		// N/A
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	public String getScreenName() {

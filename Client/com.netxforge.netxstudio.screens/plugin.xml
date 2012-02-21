@@ -31,6 +31,13 @@
            id="com.netxforge.netxstudio.screens.selector.design"
            name="Design">
       </view>
+       <view
+           category="com.netxforge.netxstudio.ui"
+           class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.parts.ChartScreenViewer"
+           icon="icons/view16/chart_viewer.png"
+           id="com.netxforge.netxstudio.screens.viewer.chart"
+           name="Charts">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
@@ -40,8 +47,12 @@
             id="com.netxforge.netxstudio.screens.reporting"
             name="Reporting Wizard">
       </wizard>
-         
-         
-         
+   </extension>
+   <extension
+      point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID = 
+        "com.netxforge.netxstudio.ui.perspective.design">
+      <showInPart id = "com.netxforge.netxstudio.screens.viewer.chart"/>
+      </perspectiveExtension>
    </extension>
 </plugin>

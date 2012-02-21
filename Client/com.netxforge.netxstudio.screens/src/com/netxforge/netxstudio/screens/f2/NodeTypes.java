@@ -245,7 +245,6 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		Tree tree = nodeTypeTreeViewer.getTree();
 		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 2));
 		tree.setSize(74, 81);
-		tree.addSelectionListener(this);
 		toolkit.paintBordersFor(tree);
 
 		cmpDetails = toolkit.createComposite(sashForm, SWT.NONE);
@@ -466,14 +465,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmNodeTypes;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	@Override

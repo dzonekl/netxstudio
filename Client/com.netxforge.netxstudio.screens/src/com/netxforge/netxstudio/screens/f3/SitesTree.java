@@ -331,7 +331,6 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		editingService.disposeData(countryResource);
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return sitesTreeViewer;
 	}
@@ -341,14 +340,8 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		return false;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmSites;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	@Override

@@ -568,14 +568,8 @@ public class MetricSources extends AbstractScreen implements
 		return false;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmMetricSources;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();

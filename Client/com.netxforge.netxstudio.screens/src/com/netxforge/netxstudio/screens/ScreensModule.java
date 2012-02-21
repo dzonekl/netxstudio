@@ -16,8 +16,6 @@ public class ScreensModule extends AbstractModule {
 		// Binding util.
 		this.bind(TableHelper.class);
 
-		
-		
 		// Binding of components.
 		this.bind(ValueComponent.class);
 		this.bind(EmbeddedLineExpression.class);

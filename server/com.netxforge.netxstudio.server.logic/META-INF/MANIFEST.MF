@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: NetXStudio Server Logic
 Bundle-SymbolicName: com.netxforge.netxstudio.server.logic
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.netxforge.netxstudio.server.logic.LogicActivator
+Bundle-Activator: com.netxforge.netxstudio.server.logic.internal.LogicActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.core.runtime,
  com.netxforge.netxstudio.models;bundle-version="1.0.0",
@@ -18,7 +18,6 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.server.logic,
- com.netxforge.netxstudio.server.logic.expression,
  com.netxforge.netxstudio.server.logic.monitoring,
  com.netxforge.netxstudio.server.logic.netxscript,
  com.netxforge.netxstudio.server.logic.profile,

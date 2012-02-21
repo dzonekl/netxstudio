@@ -298,29 +298,21 @@ public class NewEditParameter extends AbstractScreen implements
 		}
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return null;
 	}
 
 	@Override
 	public boolean isValid() {
-		// TODO, Validation
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmParameter;
 	}
 
 	public void disposeData() {
 		// N/A
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	public String getScreenName() {

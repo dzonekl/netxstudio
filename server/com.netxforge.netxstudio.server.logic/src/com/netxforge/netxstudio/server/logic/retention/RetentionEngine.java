@@ -21,6 +21,8 @@ package com.netxforge.netxstudio.server.logic.retention;
 import java.util.Date;
 import java.util.List;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
@@ -42,7 +44,11 @@ import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentEngine;
 public class RetentionEngine extends BaseComponentEngine {
 
 	private MetricRetentionRules rules;
-
+	
+	@Inject
+	private ResultProcessor resultProcessor;
+	
+	
 	@Override
 	public void doExecute() {
 		// Run for each resource, each retention rule. 
@@ -103,7 +109,7 @@ public class RetentionEngine extends BaseComponentEngine {
 		// result is processed,
 		// is relevant, as data is deleted after a while.
 
-		this.getCommonLogic().processMonitoringResult(currentContext,
+		resultProcessor.processMonitoringResult(currentContext,
 				expressionResults, start, end);
 
 	}

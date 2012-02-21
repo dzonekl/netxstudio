@@ -32,7 +32,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.server.logic.BaseExpressionEngine;
-import com.netxforge.netxstudio.server.logic.LogicActivator;
+import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentEngine;
 import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentLogic;
 import com.netxforge.netxstudio.services.RFSService;

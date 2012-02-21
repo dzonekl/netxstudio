@@ -35,18 +35,11 @@ public abstract class AbstractDetailsScreen extends AbstractScreenImpl {
 		//N/A
 	}
 
-	@Override
 	public Viewer getViewer() {
 		//N/A
 		return null;
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		//N/A
-	}
-
-	@Override
 	public Form getScreenForm() {
 		//N/A
 		return null;

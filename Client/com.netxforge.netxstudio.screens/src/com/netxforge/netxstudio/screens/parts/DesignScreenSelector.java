@@ -25,7 +25,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.f2.NodeResources;
 import com.netxforge.netxstudio.screens.f2.NodeResourcesAdvanced;
 import com.netxforge.netxstudio.screens.f3.Countries;
 import com.netxforge.netxstudio.screens.f3.Networks;
@@ -68,11 +67,11 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 				"icons/full/obj16/Network_H.png", Networks.class, 1,
 				ScreenUtil.OPERATION_EDIT);
 
-		result = screenFormService.addScreenSelector(result, "Resources",
-				"icons/full/obj16/Resource_H.gif", NodeResources.class,
-				ScreenUtil.OPERATION_EDIT);
+//		result = screenFormService.addScreenSelector(result, "Resources",
+//				"icons/full/obj16/Resource_H.gif", NodeResources.class,
+//				ScreenUtil.OPERATION_EDIT);
 
-		result = screenFormService.addScreenSelector(result, "Resources (New*)",
+		result = screenFormService.addScreenSelector(result, "Resources",
 				"icons/full/obj16/Resource_H.gif", NodeResourcesAdvanced.class,
 				ScreenUtil.OPERATION_EDIT);
 

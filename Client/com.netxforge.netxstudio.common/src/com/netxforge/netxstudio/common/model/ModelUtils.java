@@ -126,20 +126,22 @@ public class ModelUtils {
 
 	public static final String EXTENSION_DONE = ".done";
 	public static final String EXTENSION_DONE_WITH_FAILURES = ".done_with_failures";
-	
-	
+
 	// Required to translate.
 	public static final String NETWORK_ELEMENT_ID = "Network Element ID";
 	public static final String NETWORK_ELEMENT = "Network Element";
 	public static final String NODE_ID = "NodeID";
 	public static final String NODE = "NODE";
-	
-	public static final Iterable<String> MAPPING_NODE_ATTRIBUTES = ImmutableList.of(NETWORK_ELEMENT_ID);
-	public static final Iterable<String> MAPPING_REL_ATTRIBUTES = ImmutableList.of("Name", "Protocol");
-	public static final Iterable<String> MAPPING_FUNCTION_ATTRIBUTES = ImmutableList.of("Name");
-	public static final Iterable<String> MAPPING_EQUIPMENT_ATTRIBUTES = ImmutableList.of("Name",
-			"EquipmentCode", "Position");
-	
+
+	public static final Iterable<String> MAPPING_NODE_ATTRIBUTES = ImmutableList
+			.of(NETWORK_ELEMENT_ID);
+	public static final Iterable<String> MAPPING_REL_ATTRIBUTES = ImmutableList
+			.of("Name", "Protocol");
+	public static final Iterable<String> MAPPING_FUNCTION_ATTRIBUTES = ImmutableList
+			.of("Name");
+	public static final Iterable<String> MAPPING_EQUIPMENT_ATTRIBUTES = ImmutableList
+			.of("Name", "EquipmentCode", "Position");
+
 	/**
 	 * Compare two dates.
 	 */
@@ -300,14 +302,14 @@ public class ModelUtils {
 	public NonHiddenFile nonHiddenFile() {
 		return new NonHiddenFile();
 	}
-	
+
 	/**
 	 * A Predicate which can filter files based on one or more file extensions
-	 * including the '.' separator, when the negate paramter is provided the reverse predicate
-	 * is applied. 
+	 * including the '.' separator, when the negate paramter is provided the
+	 * reverse predicate is applied.
 	 * 
 	 * @author Christophe
-	 *
+	 * 
 	 */
 	public class ExtensionFile implements Predicate<File> {
 
@@ -325,11 +327,12 @@ public class ModelUtils {
 
 		public boolean apply(final File f) {
 			String fileName = f.getName();
-			if(f.isDirectory()) return false;
-			
+			if (f.isDirectory())
+				return false;
+
 			int dotIndex = fileName.lastIndexOf('.');
-			
-			if(dotIndex == -1 ){
+
+			if (dotIndex == -1) {
 				return false;
 			}
 			String extension = fileName.substring(dotIndex, fileName.length());
@@ -614,11 +617,12 @@ public class ModelUtils {
 		}
 		return resources;
 	}
-	
-	public List<NetXResource> resourcesForComponent(Component component ) {
+
+	public List<NetXResource> resourcesForComponent(Component component) {
 		List<NetXResource> resources = Lists.newArrayList();
-		List<Component> componentsForComponent = this.componentsForComponent(component);
-		for(Component c : componentsForComponent){
+		List<Component> componentsForComponent = this
+				.componentsForComponent(component);
+		for (Component c : componentsForComponent) {
 			resources.addAll(c.getResourceRefs());
 		}
 		return resources;
@@ -647,7 +651,7 @@ public class ModelUtils {
 		final List<Component> cl = Lists.newArrayList();
 		cl.addAll(nt.getEquipments());
 		cl.addAll(nt.getFunctions());
-		return this.resourcesWithExpressionName(cl, expressionName);
+		return this.resourcesWithExpressionName(cl, expressionName, true);
 	}
 
 	public List<NetXResource> resourcesWithExpressionName(Node n,
@@ -655,7 +659,7 @@ public class ModelUtils {
 		final List<Component> cl = Lists.newArrayList();
 		cl.addAll(n.getNodeType().getEquipments());
 		cl.addAll(n.getNodeType().getFunctions());
-		return this.resourcesWithExpressionName(cl, expressionName);
+		return this.resourcesWithExpressionName(cl, expressionName, true);
 	}
 
 	public List<Value> sortByTimeStampAndReverse(List<Value> values) {
@@ -1395,8 +1399,7 @@ public class ModelUtils {
 							// Gather all metrics from the target source.
 							if (referencingEObject instanceof NetXResource) {
 								NetXResource res = (NetXResource) referencingEObject;
-								Node n = this.nodeFor(res
-										.getComponentRef());
+								Node n = this.nodeFor(res.getComponentRef());
 								if (n != null) {
 									targetListNetXResources
 											.add((NetXResource) referencingEObject);
@@ -1477,6 +1480,16 @@ public class ModelUtils {
 		return Lists.newArrayList(filterValues);
 	}
 
+	/**
+	 * Will return an empty list, if no range is found with the provided
+	 * parameters.
+	 * 
+	 * @param res
+	 * @param intervalHint
+	 * @param kh
+	 * @param dtr
+	 * @return
+	 */
 	public List<Value> metricValuesInRange(NetXResource res, int intervalHint,
 			KindHintType kh, DateTimeRange dtr) {
 
@@ -1516,6 +1529,26 @@ public class ModelUtils {
 	 * Note, side effect of creating the value range if the range doesn't exist.
 	 */
 	public MetricValueRange valueRangeForIntervalAndKind(
+			NetXResource foundNetXResource, KindHintType kindHintType,
+			int intervalHint) {
+		MetricValueRange foundMvr = null;
+		for (final MetricValueRange mvr : foundNetXResource
+				.getMetricValueRanges()) {
+
+			// A succesfull match on Kind and Interval.
+			if (mvr.getKindHint() == kindHintType
+					&& mvr.getIntervalHint() == intervalHint) {
+				foundMvr = mvr;
+				break;
+			}
+		}
+		return foundMvr;
+	}
+
+	/**
+	 * Note, side effect of creating the value range if the range doesn't exist.
+	 */
+	public MetricValueRange valueRangeForIntervalAndKindGetOrCreate(
 			NetXResource foundNetXResource, KindHintType kindHintType,
 			int intervalHint) {
 		MetricValueRange foundMvr = null;
@@ -1782,28 +1815,35 @@ public class ModelUtils {
 	 * Resources with this name. Notice: Matching is on regular expression, i.e.
 	 * name = .* is all resources.
 	 * 
+	 * Very slow approach.
+	 * 
 	 * @param components
 	 * @param name
+	 * @param closure decend the child hierarchy and look for resources when <code>true</code>
 	 * @return
 	 */
 	public List<NetXResource> resourcesWithExpressionName(
-			List<Component> components, String name) {
+			List<Component> components, String name, boolean closure) {
 		final List<NetXResource> rl = Lists.newArrayList();
-		final List<Component> cl = Lists.newArrayList();
+
 		for (final Component c : components) {
 			for (final NetXResource r : c.getResourceRefs()) {
 				if (r.getExpressionName().matches(name)) {
 					rl.add(r);
 				}
 			}
-			if (c instanceof Equipment) {
-				cl.addAll(((Equipment) c).getEquipments());
+			
+			if (closure) {
+				final List<Component> cl = Lists.newArrayList();
+				if (c instanceof Equipment) {
+					cl.addAll(((Equipment) c).getEquipments());
+				}
+				if (c instanceof com.netxforge.netxstudio.library.Function) {
+					cl.addAll(((com.netxforge.netxstudio.library.Function) c)
+							.getFunctions());
+				}
+				rl.addAll(this.resourcesWithExpressionName(cl, name, closure));
 			}
-			if (c instanceof com.netxforge.netxstudio.library.Function) {
-				cl.addAll(((com.netxforge.netxstudio.library.Function) c)
-						.getFunctions());
-			}
-			rl.addAll(this.resourcesWithExpressionName(cl, name));
 		}
 		return rl;
 	}
@@ -2144,6 +2184,59 @@ public class ModelUtils {
 	public Date todayAndNow() {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
+		return cal.getTime();
+	}
+
+	public Date todayAtDayEnd() {
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date(System.currentTimeMillis()));
+		setToDayEnd(cal);
+		return cal.getTime();
+	}
+
+	/**
+	 * Set the hour, minutes, seconds and milliseconds so the calendar
+	 * represents midnight, which is the start of the day.
+	 * 
+	 * @param cal
+	 */
+	public void setToDayStart(Calendar cal) {
+		// When doing this, we push it forward one day, so if the day is 7 Jan
+		// at 11:50:27h,
+		// it will become 8 Jan at 00:00:00h, so we substract one day.
+		cal.add(Calendar.DAY_OF_MONTH, -1);
+		cal.set(Calendar.HOUR_OF_DAY, 24);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+
+	}
+
+	public Date setToDayStart(Date d) {
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(d);
+		this.setToDayStart(cal);
+		return cal.getTime();
+	}
+
+	/**
+	 * Set the hours, minutes, seconds and milliseconds so the calendar
+	 * represents midnight minus one milli-second.
+	 * 
+	 * @param cal
+	 */
+	public void setToDayEnd(Calendar cal) {
+		cal.set(Calendar.HOUR_OF_DAY, 23);
+		cal.set(Calendar.MINUTE, 59);
+		cal.set(Calendar.SECOND, 59);
+		cal.set(Calendar.MILLISECOND, 999);
+
+	}
+
+	public Date setToDayEnd(Date d) {
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(d);
+		this.setToDayEnd(cal);
 		return cal.getTime();
 	}
 
@@ -2823,13 +2916,26 @@ public class ModelUtils {
 	 * @return
 	 */
 	public List<Node> nodesForNetwork(Network network) {
-		
+
 		List<Node> nodes = Lists.newArrayList();
 		nodes.addAll(network.getNodes());
-		for(Network n : network.getNetworks()){
+		for (Network n : network.getNetworks()) {
 			nodes.addAll(nodesForNetwork(n));
 		}
 		return nodes;
+	}
+
+	public List<Component> componentsForOperator(Operator op) {
+
+		List<Component> components = Lists.newArrayList();
+		for (Network net : op.getNetworks()) {
+			List<Node> nodesForNetwork = this.nodesForNetwork(net);
+			for (Node n : nodesForNetwork) {
+				List<Component> componentsForNode = this.componentsForNode(n);
+				components.addAll(componentsForNode);
+			}
+		}
+		return components;
 	}
 
 	/**

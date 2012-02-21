@@ -1110,7 +1110,6 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 						.getRepeat()));
 	}
 
-	@Override
 	public Viewer getViewer() {
 		// We don't have a specific viewer.
 		return null;
@@ -1121,7 +1120,6 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		return validationService.isValid();
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmNewJob;
 	}
@@ -1129,11 +1127,6 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 	public void disposeData() {
 		// N/A
 
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	public String getScreenName() {

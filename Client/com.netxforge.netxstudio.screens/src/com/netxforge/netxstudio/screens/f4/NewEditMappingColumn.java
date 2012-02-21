@@ -1415,7 +1415,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return null; // N/A
 	}
@@ -1425,14 +1424,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmNewMappingColumn;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	public String getScreenName() {

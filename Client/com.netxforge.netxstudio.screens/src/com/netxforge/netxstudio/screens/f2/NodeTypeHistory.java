@@ -335,18 +335,12 @@ public class NodeTypeHistory extends AbstractScreen implements
 		return tableViewer;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmNTHistory;
 	}
 
 	public void disposeData() {
 		// N/A
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	public String getScreenName() {

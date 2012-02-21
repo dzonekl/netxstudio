@@ -308,16 +308,10 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmVendors;
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-	}
-	
 	List<IAction> actions = Lists.newArrayList();
 
 	@Override

@@ -31,6 +31,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.netxforge.scoping.CDOScopeScheduler;
 
 /**
  * Override from generated xtext activator. 
@@ -50,7 +51,9 @@ public class OverrideNetxscriptActivator extends AbstractUIPlugin {
 		INSTANCE = this;
 		try {
 			registerInjectorFor("com.netxforge.Netxscript");
-			
+			CDOScopeScheduler schedule = injectors.get("com.netxforge.Netxscript").getInstance(CDOScopeScheduler.class);
+			schedule.scheduleInitialLoading();
+
 		} catch (Exception e) {
 			Logger.getLogger(getClass()).error(e.getMessage(), e);
 			throw e;
@@ -62,7 +65,7 @@ public class OverrideNetxscriptActivator extends AbstractUIPlugin {
 		Module om = getRuntimeModule(language);
 	    om = override(om).with(getSharedStateModule()); 
 		om = override(om).with(getUiModule(language));
-		om = override(om).with(getDataProviderModule());
+		om = override(om).with(getDataServiceModule());
 		om = override(om).with(new CommonModule());
 		// ... add next module here. 
 		injectors.put(language, createInjector(om));
@@ -100,7 +103,7 @@ public class OverrideNetxscriptActivator extends AbstractUIPlugin {
 	}
 	
 	
-	protected Module getDataProviderModule() {
+	protected Module getDataServiceModule() {
 		return new CDODataServiceModule();
 	}
 	

@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.internal;
 
 import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringEngine;

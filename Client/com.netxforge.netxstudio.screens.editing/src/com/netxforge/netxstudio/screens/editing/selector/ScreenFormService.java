@@ -58,6 +58,7 @@ import com.netxforge.netxstudio.data.cdo.IFixtures;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
@@ -99,6 +100,12 @@ public class ScreenFormService implements IScreenFormService {
 	private Stack<Composite> screenStack = new Stack<Composite>();
 
 	private List<ImageHyperlink> screenSelectors = Lists.newArrayList();
+	
+	
+	/*
+	 * The associated AbstractScreensViewPart for this screen manager. 
+	 */
+	private AbstractScreensViewPart absViewPart;
 
 	/*
 	 * (non-Javadoc)
@@ -226,8 +233,10 @@ public class ScreenFormService implements IScreenFormService {
 	 * com.netxforge.netxstudio.screens.selector.ISelectorService#initalize(
 	 * org.eclipse.swt.widgets.Composite)
 	 */
-	public void initalize(Composite parent) {
-
+	public void initalize(AbstractScreensViewPart absViewPart, Composite parent) {
+		
+		this.absViewPart = absViewPart;
+		
 		rootComposite = new Composite(parent, SWT.NONE);
 		rootComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		{
@@ -648,6 +657,10 @@ public class ScreenFormService implements IScreenFormService {
 		for (ScreenChangeListener l : screenChangedListeners) {
 			l.screenChanged(screen);
 		}
+	}
+
+	public AbstractScreensViewPart getAbsViewPart() {
+		return absViewPart;
 	}
 
 	/**

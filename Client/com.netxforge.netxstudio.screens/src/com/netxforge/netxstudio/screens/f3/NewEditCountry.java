@@ -188,7 +188,6 @@ public class NewEditCountry extends AbstractScreen implements
 		}
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return null;
 	}
@@ -198,7 +197,6 @@ public class NewEditCountry extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmNewOperator;
 	}

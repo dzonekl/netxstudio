@@ -30,7 +30,6 @@ import org.eclipse.emf.common.util.EList;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
@@ -62,8 +61,8 @@ public class CommonLogic {
 	private ModelUtils modelUtils;
 
 	// on purpose not injected
-	@SuppressWarnings("unused")
-	private IDataProvider dataProvider;
+//	@SuppressWarnings("unused")
+//	private IDataProvider dataProvider;
 
 	private ResourceMonitor resourceMonitor;
 	private Tolerance tolerance;
@@ -178,7 +177,7 @@ public class CommonLogic {
 				break;
 			case RangeKind.METRICREMOVE_VALUE:
 				final MetricValueRange mvr = modelUtils
-						.valueRangeForIntervalAndKind(resource,
+						.valueRangeForIntervalAndKindGetOrCreate(resource,
 								expressionResult.getTargetKindHint(),
 								expressionResult.getTargetIntervalHint());
 				if (start != null) {
@@ -384,7 +383,7 @@ public class CommonLogic {
 
 		}
 
-		final MetricValueRange mvr = modelUtils.valueRangeForIntervalAndKind(
+		final MetricValueRange mvr = modelUtils.valueRangeForIntervalAndKindGetOrCreate(
 				foundNetXResource, kindHintType, intervalHint);
 
 		if (ServerActivator.DEBUG) {
@@ -483,9 +482,9 @@ public class CommonLogic {
 		}
 	}
 
-	public void setDataProvider(IDataProvider dataProvider) {
-		this.dataProvider = dataProvider;
-	}
+//	public void setDataProvider(IDataProvider dataProvider) {
+//		this.dataProvider = dataProvider;
+//	}
 
 	public Date getStart() {
 		return start;

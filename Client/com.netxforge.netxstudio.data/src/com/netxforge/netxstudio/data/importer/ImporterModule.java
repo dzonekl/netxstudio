@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.data.importer;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 
 public class ImporterModule extends AbstractModule {
 
@@ -12,5 +13,6 @@ public class ImporterModule extends AbstractModule {
 		this.bind(RDBMSMetricValuesImporter.class);
 		this.bind(ComponentLocator.class);
 		this.bind(IImporterHelper.class).to(DefaultImporterHelper.class);
+		this.bind(ResultProcessor.class).in(Singleton.class);
 	}
 }

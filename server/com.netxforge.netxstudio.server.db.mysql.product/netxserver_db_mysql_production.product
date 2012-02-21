@@ -9,13 +9,21 @@
    <launcherArgs>
       <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -clean -console 8811 -noExit -consoleLog --launcher.XXMaxPermSize 128M</programArgs>
       <vmArgs>-Xms40m
--Xmx1024m
+-XX:+HeapDumpOnOutOfMemoryError
 -Ddebug=false
 -Dlog4j.debug=false
--Dnet4j.config=&quot;${resource_loc:/com.netxforge.netxstudio.server.db.mysql.product/config}&quot;
 -Dorg.osgi.service.http.port=8080
 -DmetricSourceRoot=/Users/dzonekl/Documents/Projects/NetXStudio/TestData</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+      <vmArgsWin>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+-server
+-d32
+-Xmx1024m
+-Xss512k
+-Dnet4j.config=config
+-Dcom.sun.management.jmxremote.port=8812
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false</vmArgsWin>
    </launcherArgs>
 
    <launcher>

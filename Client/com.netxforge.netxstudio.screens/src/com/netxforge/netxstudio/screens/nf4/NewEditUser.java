@@ -688,18 +688,12 @@ public class NewEditUser extends AbstractScreen implements
 		return validationService.isValid();
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmNewEditUser;
 	}
 
 	public void disposeData() {
 		editingService.disposeData(rolesResource);
-		// N/A
-	}
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 	
 	public String getScreenName() {

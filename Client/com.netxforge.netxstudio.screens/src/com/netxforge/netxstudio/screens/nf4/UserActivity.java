@@ -300,18 +300,8 @@ public class UserActivity extends AbstractScreen implements
 		return tableViewer;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmActivities;
-	}
-
-	public void disposeData() {
-		// N/A
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	public String getScreenName() {

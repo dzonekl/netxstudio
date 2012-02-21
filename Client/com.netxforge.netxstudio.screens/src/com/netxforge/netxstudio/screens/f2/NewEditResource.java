@@ -19,7 +19,6 @@ package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
 import java.util.Date;
-import java.util.List;
 
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -36,7 +35,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -62,8 +60,6 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
@@ -97,11 +93,13 @@ public class NewEditResource extends AbstractScreen implements
 
 	private Text txtNode;
 	private Label lblNode;
-	private boolean valuesVisible = false;
+	
 
-	@Inject
-	private ValueComponent valueComponent;
-
+	// CB 20-02-2012 disable viewing values in this screen. 
+//	@Inject
+//	private ValueComponent valueComponent;
+//	private boolean valuesVisible = false;
+	
 	/**
 	 * Create the composite.
 	 * 
@@ -467,17 +465,19 @@ public class NewEditResource extends AbstractScreen implements
 
 		buildUI();
 		this.initDataBindings_();
-		if (this.whoRefers != null
-				&& modelUtils.nodeFor((EObject) this.whoRefers) != null) {
-			valuesVisible = true;
-			
-			valueComponent.configure(screenService);
-			
-			valueComponent.buildValuesUI(frmResource.getBody(), new GridData(SWT.FILL, SWT.CENTER, true, false,
-					1, 1));
-			valueComponent.bindValues();
-			valueComponent.injectData(res);
-		}
+		
+		// CB disable viewing resources. 
+//		if (this.whoRefers != null
+//				&& modelUtils.nodeFor((EObject) this.whoRefers) != null) {
+//			valuesVisible = true;
+//			
+//			valueComponent.configure(screenService);
+//			
+//			valueComponent.buildValuesUI(frmResource.getBody(), new GridData(SWT.FILL, SWT.CENTER, true, false,
+//					1, 1));
+//			valueComponent.bindValues();
+//			valueComponent.injectData(res);
+//		}
 	}
 
 	public void addData() {
@@ -542,26 +542,22 @@ public class NewEditResource extends AbstractScreen implements
 
 	}
 
-	@Override
 	public Viewer getViewer() {
-		if (valuesVisible) {
-			return valueComponent.getValuesTableViewer();
-		} else {
-			return null;
-		}
+		return null;
+		// CB disable viewing values. 20-02-2012. 
+//		if (valuesVisible) {
+//			return valueComponent.getValuesTableViewer();
+//		} else {
+//			return null;
+//		}
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-	}
 
 	@Override
 	public boolean isValid() {
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmResource;
 	}
@@ -570,16 +566,16 @@ public class NewEditResource extends AbstractScreen implements
 		return "Resource";
 	}
 
-	private final List<IAction> actions = Lists.newArrayList();
-
-	@Override
-	public IAction[] getActions() {
-		// Lazy init actions.
-		if (actions.isEmpty()) {
-			actions.add(valueComponent.new MonitorAction("Monitoring Chart...",
-					SWT.PUSH));
-		}
-		return actions.toArray(new IAction[actions.size()]);
-	}
+	// CB Disable viewing values. 20-02-2012
+//	private final List<IAction> actions = Lists.newArrayList();
+//	@Override
+//	public IAction[] getActions() {
+//		// Lazy init actions.
+//		if (actions.isEmpty()) {
+//			actions.add(valueComponent.new MonitorAction("Monitoring Chart...",
+//					SWT.PUSH));
+//		}
+//		return actions.toArray(new IAction[actions.size()]);
+//	}
 
 }

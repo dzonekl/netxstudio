@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
-import com.netxforge.netxstudio.server.logic.LogicActivator;
+import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
 
 /**

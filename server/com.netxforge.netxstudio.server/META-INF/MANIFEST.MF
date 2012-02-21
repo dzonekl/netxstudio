@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: NetXStudio Server
 Bundle-SymbolicName: com.netxforge.netxstudio.server;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.netxforge.netxstudio.server.ServerActivator
+Bundle-Activator: com.netxforge.netxstudio.server.internal.ServerActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;bundle-version="2.7.0",
@@ -28,5 +28,6 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.server,
  com.netxforge.netxstudio.server.dataimport,
+ com.netxforge.netxstudio.server.internal,
  com.netxforge.netxstudio.server.service,
  com.netxforge.netxstudio.server.servlet

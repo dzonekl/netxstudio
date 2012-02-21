@@ -149,6 +149,9 @@ public class Fixtures implements IFixtures {
 					.createMetricRetentionRules();
 			contents.add(rules);
 			{
+				
+				// TODO, Adapt to context. 
+				
 				// Add all expressions.
 				{
 					// Monthly expression

@@ -45,6 +45,7 @@ import com.netxforge.netxstudio.generics.ActionType;
 import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.server.internal.ServerActivator;
 
 /**
  * Implements the CDO {@link CDOCommitInfoHandler} which stores commit info in

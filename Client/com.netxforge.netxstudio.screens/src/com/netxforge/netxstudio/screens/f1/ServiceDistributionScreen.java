@@ -446,15 +446,8 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 	public void disposeData() {
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return null;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-
 	}
 
 	@Override
@@ -462,7 +455,6 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmServiceDistribution;
 	}

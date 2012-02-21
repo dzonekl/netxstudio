@@ -97,7 +97,6 @@ public class ServiceHierarchy extends AbstractScreen implements
 		// N/A
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return null;
 	}
@@ -107,17 +106,10 @@ public class ServiceHierarchy extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmServices;
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-
-	}
-	
 	public void addData() {
 		// N/A
 	}

@@ -26,7 +26,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISaveablePart2;
 
@@ -34,7 +33,10 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
+import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHandler;
+import com.netxforge.netxstudio.screens.editing.actions.EditingActionsHandler;
+import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -42,6 +44,7 @@ import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHand
  */
 public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		implements ScreenChangeListener {
+
 
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.AbstractScreenSelectorII"; //$NON-NLS-1$
 
@@ -51,11 +54,6 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	private IScreen activeScreen;
 
 	public AbstractScreenSelector() {
-	}
-
-	@Override
-	public IScreen getActiveScreen() {
-		return activeScreen;
 	}
 
 	public IScreenFormService getScreenFormService() {
@@ -71,6 +69,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	 * 
 	 * @param parent
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public void createPartControl(Composite parent) {
 
@@ -79,8 +78,9 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		initializeMenu();
 
 		// Our service.
-		screenFormService.initalize(parent);
+		screenFormService.initalize(this, parent);
 		getEditingService().setViewerProvider(this);
+		getEditingService().setScreenProvider(this);
 		screenFormService.addScreenChangeListener(this);
 		buildSelector();
 	}
@@ -145,14 +145,26 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		// the current viewer will be null, and an empty selection will be set.
 		this.getActionHandlerDescriptor().clearDynamicHandlers();
 		if (screen != null) {
+			
+			// before activating the screen, set the selection providerts. 
+			this.setCurrentScreen(screen);
 			this.activeScreen = screen;
-			Viewer viewer = screen.getViewer();
-			setCurrentViewer(viewer);
+			
+			// CB deprecated remove later. 
+//			Viewer viewer = screen.getViewer();
+//			setCurrentViewer(viewer);
+			
+			
 			// Make sure we update the dirty state, when changing screen.
 			firePropertyChange(ISaveablePart2.PROP_DIRTY);
 		}
 	}
-
+	
+	public IScreen getScreen() {
+		return this.activeScreen;
+	}
+	
+	
 	@Override
 	public void contributeMenuAboutToShow(IMenuManager menuManager) {
 		
@@ -160,44 +172,43 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		menuManager.removeAll();
 		
 		
-		ActionHandlerDescriptor descriptor = this.getActionHandlerDescriptor();
-		descriptor.setMenuManager(menuManager);
-		descriptor.setScreen(this.getActiveScreen());
+		ActionHandlerDescriptor actionHandlerDescriptor = this.getActionHandlerDescriptor();
+		actionHandlerDescriptor.clearHandlers();
+		actionHandlerDescriptor.setMenuManager(menuManager);
+		actionHandlerDescriptor.setScreen(this.getScreen());
+		
+		
+		if (!ScreenUtil.isReadOnlyOperation(getScreen().getOperation())) {
+			actionHandlerDescriptor.addHandler(new EditingActionsHandler(
+					getEditingService()));
+			actionHandlerDescriptor.addHandler(new CreationActionsHandler());
+			actionHandlerDescriptor.setEnableEditActions(true);
 
-		if (!ScreenUtil.isReadOnlyOperation(getActiveScreen().getOperation())) {
-			descriptor.setEnableEditActions(true);
-
-			if (this.getActiveScreen().getViewer() instanceof TreeViewer) {
-				descriptor.setEnableChildCreationActions(true);
+			if (this.getScreen().getViewer() instanceof TreeViewer) {
+				actionHandlerDescriptor.setEnableChildCreationActions(true);
 			} else {
-				descriptor.setEnableChildCreationActions(false);
+				actionHandlerDescriptor.setEnableChildCreationActions(false);
 			}
-
-			// descriptor.setEnableSiblingCreationActions(false);
-			// EStructuralFeature[] features = getCurrentScreen()
-			// .permittedCreationFeatures();
-			// descriptor.setPermittedChildCreationFeatures(features);
 		} else {
-			descriptor.setEnableEditActions(false);
-			descriptor.setEnableChildCreationActions(false);
-			descriptor.setEnableSiblingCreationActions(false);
+			actionHandlerDescriptor.setEnableEditActions(false);
+			actionHandlerDescriptor.setEnableChildCreationActions(false);
+			actionHandlerDescriptor.setEnableSiblingCreationActions(false);
 		}
 
-		descriptor.clearDynamicHandlers();
-
+		// Enabled for all screen modes. 
+		actionHandlerDescriptor.addHandler(new UIActionsHandler());
+		
 		DynamicScreensActionHandler dynamicScreensActionHandler;
 
 		// !!!! actions would be created dynamicly.....
-		IScreen screen = getActiveScreen();
+		IScreen screen = getScreen();
 		if (screen != null && screen.getActions() != null) {
-			List<IAction> actions = reverse(this.getActiveScreen().getActions());
+			List<IAction> actions = reverse(this.getScreen().getActions());
 			dynamicScreensActionHandler = new DynamicScreensActionHandler();
 			dynamicScreensActionHandler.addActions(actions);
-			descriptor.addHandler(dynamicScreensActionHandler);
+			actionHandlerDescriptor.addHandler(dynamicScreensActionHandler);
 		}
-		
-		
-		descriptor.showMenu();
+		actionHandlerDescriptor.showMenu();
 	}
 
 	public static List<IAction> reverse(IAction[] arr) {

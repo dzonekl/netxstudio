@@ -339,7 +339,6 @@ public class NewEditMetricSource extends AbstractScreen implements
 		}
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return null; // N/A
 	}
@@ -349,7 +348,6 @@ public class NewEditMetricSource extends AbstractScreen implements
 		return validationService.isValid();
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmNewEditMetricSource;
 	}
@@ -358,11 +356,6 @@ public class NewEditMetricSource extends AbstractScreen implements
 		// N/A
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-	}
-	
 	public String getScreenName() {
 		return "Metric Source";
 	}

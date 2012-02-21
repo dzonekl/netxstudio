@@ -17,21 +17,18 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IMessage;
-import org.eclipse.ui.forms.widgets.Form;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -53,8 +50,8 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  * 
  * @author dzonekl
  */
-public abstract class AbstractScreenImpl extends Composite implements IScreen, IDataInjection, 
-		IValidationListener, DisposeListener, SelectionListener {
+public abstract class AbstractScreenImpl extends Composite implements IScreen,
+		IDataInjection, IValidationListener, DisposeListener {
 
 	protected int operation;
 
@@ -65,46 +62,42 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen, I
 	public boolean isValid() {
 		return false;
 	}
-	
-	
 
 	@Inject
 	protected ModelUtils modelUtils;
 
 	@Inject
 	protected IValidationService validationService;
-	
+
 	public AbstractScreenImpl(Composite parent, int style) {
 		super(parent, style);
 		this.addDisposeListener(this);
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
 	}
 
-	public abstract Viewer getViewer();
+	// public abstract Viewer getViewer();
 
 	public int getOperation() {
 		return operation;
 	}
 
-	public abstract void setOperation(int operation);
-
-	public abstract Form getScreenForm();
+	public void setOperation(int operation) {
+		this.operation = operation;
+	}
 
 	public void setScreenService(IScreenFormService screenService) {
 		this.screenService = screenService;
 		this.editingService = screenService.getEditingService();
 	}
 
-	
 	public IScreenFormService getScreenService() {
 		return screenService;
 	}
-	
+
 	public IEditingService getEditingService() {
 		return screenService.getEditingService();
 	}
 
-	
 	/**
 	 * @param currentStatus
 	 * @param ctx
@@ -152,31 +145,6 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen, I
 		}
 	}
 
-	protected Collection<Object> selectedElements;
-
-	@SuppressWarnings("unchecked")
-	public void widgetSelected(SelectionEvent e) {
-		ISelection selection = this.getViewer().getSelection();
-		if (selection instanceof IStructuredSelection) {
-			selectedElements = ((IStructuredSelection) selection).toList();
-			this.doSetSelection(selectedElements);
-		}
-	}
-
-	public void widgetDefaultSelected(SelectionEvent e) {
-	}
-
-	// public abstract void doSetSelection(Collection<Object> selectedElements);
-
-	/**
-	 * Clients should override.
-	 * 
-	 * @param selectedElements
-	 */
-	protected void doSetSelection(Collection<Object> selectedElements) {
-		// do nothing.
-	}
-
 	/**
 	 * Store the provided
 	 * 
@@ -198,33 +166,74 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen, I
 		}
 		return null;
 	}
-	
+
 	/* Clients should override */
 	public String getScreenName() {
 		return "<TODO: Provide screenname>";
 	}
-	
-	public String getOperationText(){
-		if(ScreenUtil.isReadOnlyOperation(this.getOperation())){
+
+	public String getOperationText() {
+		if (ScreenUtil.isReadOnlyOperation(this.getOperation())) {
 			return "View: ";
-		}else if(ScreenUtil.isNewOperation(this.getOperation()) ){
+		} else if (ScreenUtil.isNewOperation(this.getOperation())) {
 			return "New: ";
-		}else {
+		} else {
 			return "Edit: ";
 		}
 	}
-	
-	public void injectData(Object... params){
+
+	public void injectData(Object... params) {
 		// do nothing.
 	}
-	
-	
-	public void injectData(){
+
+	public void injectData() {
 		// do nothing.
 	}
-	
-	public void injectData(Object owner, Object object){
+
+	public void injectData(Object owner, Object object) {
 		// do nothing.
 	}
-	
+
+	// ISelectionProvider - Composition.
+	public void addSelectionChangedListener(ISelectionChangedListener listener) {
+		for (Viewer v : this.getViewers()) {
+			if (v != null) {
+				v.addSelectionChangedListener(listener);
+			}
+		}
+	}
+
+	public ISelection getSelection() {
+		// return the selection from the first viewer with focus.
+		for (Viewer v : this.getViewers()) {
+			if (v != null && v.getControl().isFocusControl()) {
+				return v.getSelection();
+			}
+		}
+		return StructuredSelection.EMPTY;
+	}
+
+	public void removeSelectionChangedListener(
+			ISelectionChangedListener listener) {
+
+		for (Viewer v : this.getViewers()) {
+			if (v != null) {
+				v.removeSelectionChangedListener(listener);
+			}
+		}
+	}
+
+	public void setSelection(ISelection selection) {
+		for (Viewer v : this.getViewers()) {
+			if (v != null && v.getSelection() != null) {
+				v.setSelection(selection);
+			}
+		}
+	}
+
+	public Viewer[] getViewers() {
+		// defaults to the IViewerProvider single viewer, note could be null.
+		return new Viewer[] { this.getViewer() };
+	}
+
 }

@@ -64,18 +64,18 @@ h2. The resource monitoring job
 
 The resource monitoring job executes the expressions in the following sequence
 
-* Execution of the Capacity Expressions for all Nodes. 
-* Execution of the Utilization Expressions for all Resources in all Nodes. 
-* Execution of the Tolerance Expressions for all Nodes. 
+* Execution of the Capacity Expressions for all Network Elements. 
+* Execution of the Utilization Expressions for all Resources in all Network Elements. 
+* Execution of the Tolerance Expressions for all Network Elements. 
 
-Capacity Expressions 
+h3. Capacity Expressions 
 
 A capacity expression, is an expression which will populate the capacity values of a resource. 
 It is typically using the specification of the vendor to calculate the value of the capacity of a resource. 
 
 Example: 
 
-this.FUNCTION -> RESOURCE sgsn_attached_users CAP = this.EQUIPMENT BOARD.count * 5; 
+this -> RESOURCE sgsn_attached_users CAP = this.EQUIPMENT BOARD.count * 5; 
 
 In this example for the current node the capacity values of the resource "sgsn_attached_users" will be the total of equipments with code "BOARD" multiplied by 5. In other words we count the boards of a specific type, 
 multiply them by 5 and store the result in the capacity. 
@@ -88,7 +88,7 @@ The expression engine scripting grammar specification has been carefully designe
 * Type (less) grammar.
 
 * Contextual grammar. (Acts in the context of an object and period). 
-* Data Model entity access.
+* Data Model entity access (References).
 
 * Scoping and nesting of expressions. 
 
@@ -104,28 +104,29 @@ The expression engine scripting grammar specification has been carefully designe
 
 * Functions
 ** Native Functions
-* Defined functions
+** Defined functions
 
 h3. Formatting Conventions
 
 For better readability of the grammar, the following conventions are followed throughout this chapter.  
 
-* Model types are written in capital letters i.e. NODE. 
+* Model types are written in capital letters i.e. NE. 
 * Variable or function definitions are plain text i.e. erlang() 
 * Keywords are non-capital letter with bold face. For example if
 References to parts of the grammar, like an Expression Statement is enclosed with chevrons, i.e. < Expression Statement> or É
 
 h3. Type (less) grammar
 
-The grammar is a type less or dynamically typed grammar. This means that, when working with variables or function arguments, specification of the type is not needed. The type however is interpreted based on the value of the variable or argument.
+The grammar is a type less or dynamically typed grammar. This means that, when working with variables, references or function arguments, specification of the type is not needed. The type however is inferred from the value(s) of the variable or argument.
 
-The following type values are defined: 
+The following types are defined: 
 
 |_. Type |_.Description|_.Possible values|
 | Boolean | A Boolean value| true or false|
 | Numeric | A numeric value | -1, 0.3, 5000000|
-| Range | A collection of values| [4,5,6] or [NODE1, NODE2, etc..]|
-| Object | An object | Boolean, Numeric, Binary, Range, Timestamp or any of the Data Model Entities accessible in the grammar|
+| Numeric_TS | A tuple of a numeric value with a time stamp | (153.67 , 16-01-2012 @ 01:00h) |
+| Range | A collection of types | [4,5,6] or [NE1, NE2, etc..] or [V1, V2, V3]|
+| Matrix | Multiple collections of types | [[V1, V2, V3], [V1,V2,V3] |
 
 To find out the type of an object, the following syntax is used:
 [TODO, Not implemented.]
@@ -133,9 +134,9 @@ To find out the type of an object, the following syntax is used:
 
 h3. Contextual grammar 
 
-* The grammar acts in the context of an object, which has to be set before a script is executed. The context Object is named Syntax: this
+* The grammar acts in the context of an object, which has to be set before a script is executed. The context Object is named: _this_
 
-* The grammar acts in the context of a period, which has to be set before a script is executed. All values within this period will be within context when executing the script. The context period is not accessible from with the script, but used when needed by the expression interpreter. 
+* The grammar acts in the context of a period, which has to be set before a script is executed. All values within this period will be within context when executing the script. The context period is not accessible from with the script, but used when needed by the expression interpreter. The interpreter will try to keep time stamps for values when possible, but will also determine the time stamp when a new value is calculated. i.e. simply assigning a numeric value to a resource, will require the interpreter to give this numeric value a time stamp. 
 
 
 h3. Data Model entity Access
@@ -144,7 +145,7 @@ The most common objective is to store/retrieve values from resources. Resources 
 
 The entities which are set as context.  
 
-* NODE
+* NETWORK ELEMENT
 * RESOURCE
 
 The following entities are accessed indirectly (See the examples further on). 
@@ -153,8 +154,7 @@ The following entities are accessed indirectly (See the examples further on).
 * LINK
 * EQUIPMENT
 * FUNCTION
-
-PARAMETER
+* PARAMETER
 
 [TODO, To be further considered]
 
@@ -169,37 +169,46 @@ h4. Context access
 
 *Description:* To access the current context object.
 *Syntax:* this ...;
-*Returns:* The current context object. (Either NODE or RESOURCE). 
+*Returns:* The current context object. (Either NETWORK ELEMENT, FUNCTION/EQUIPMENT and/or RESOURCE). 
 
 h4. Access to a Function or Equipment
 
 *Description:* To access a function or equipment. 
 *Syntax:* this.FUNCTION _functionname_ / this.EQUIPMENT _equipmentcode_ ;
-*Returns:* The current context, and from this a function or equipment. 
+*Returns:* Range => The current context, and from this a function or equipment. 
 
 h4. Access to a Resource
 
-*Description:* To access a resource. 
-*Syntax:* this.FUNCTION _functionname_ -> RESOURCE _expressionname_  / this.EQUIPMENT _equipmentcode_ -> RESOURCE _expressionname_;
-*Returns:* The current context, and from this a function or equipment. 
+Resources can be accessed implicitly from the current context. 
 
-h4. Access to a Resource value range from a NODE context.
+*Description:* To access one or more resources from the implicit context.
+*Syntax:* this -> RESOURCE _expressionname_ [ALL] _range_;
+*Returns:* Range or Matrix => The current context, and from this one or more resource ranges. 
 
-As described in the "Data Structure":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/getting_started/data_structure.html , a Resource has multiple value ranges. Value ranges
-can be directly addressed by the NetXScript grammar.  
+*Description:* To access one or more resources explicitly by navigation
+*Syntax:* this.FUNCTION _functionname_ -> RESOURCE _expressionname_ [ALL] _range_ / this.EQUIPMENT _equipmentcode_ -> RESOURCE _expressionname_ [ALL] _range_; 
+*Returns:* Range or Matrix => The current context, and from this one or more resource ranges.  
 
-*Description:* To access a value range with metric values 
-*Syntax:* this.FUNCTION _functionname_ -> RESOURCE _expression_name_ METRIC [AVG/BH] _interval_
-*Returns:* The current context, and from this a function or equipment, then a resource and then the metric range. 
-*options:* The type of value range either AVG (Average) or BH (Busy Hour). 
+*Options:* [ALL] => Instructs the interpreter to get all resources, also the resources with the specified _expressionname_ which could be nested beneath. 
 
-*Description:* To access a value range with capacity values
-*Syntax:* this.FUNCTION _functionname_ -> RESOURCE _expression_name_ CAP _interval_
-*Returns:* The current context, and from this a function or equipment, then a resource and then the capacity range. 
+h4. Access to a Resource value range from a NETWORK ELEMENT context.
 
-*Description:* To access a value range with utilization values
-*Syntax:* this.FUNCTION _functionname_ -> RESOURCE _expression_name_ UTILIZATION _interval_ 
-*Returns:* The current context, and from this a function or equipment, then a resource and then the utilization range. 
+As described in the "Data Structure":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/getting_started/data_structure.html , a Resource has multiple value ranges. Value ranges can be directly addressed by the NetXScript grammar.  
+
+*Description:* To access one or more value ranges with metric values 
+*Syntax:* this -> RESOURCE _expression_name_ [ALL] METRIC [AVG/BH] _interval_
+*Returns:* Range or Matrix => The current context, and then one or resources and then the metric range(s). 
+ 
+
+*Description:* To access one or more value ranges with capacity values
+*Syntax:* this -> RESOURCE _expression_name_ [ALL] CAP _interval_
+*Returns:* Range or Matrix => The current context, and then a resource and then the capacity range(s). 
+
+*Description:* To access one or value ranges with utilization values
+*Syntax:* this -> RESOURCE _expression_name_ [ALL] UTILIZATION _interval_ 
+*Returns:* Range or Matrix => The current context, and then a resource and then the utilization range(s). 
+
+*options:* [AVG/BH] => The type of value range either AVG (Average) or BH (Busy Hour).
 
 
 h4. Access to a Resource value range from a RESOURCE context.
@@ -209,7 +218,8 @@ If the context is a RESOURCE, we have direct access to each of the value ranges:
 *Description:* To access a value range with metric values 
 *Syntax:* this METRIC [AVG/BH] _interval_
 *Returns:* The current context (The resource) , then the metric range followed by the interval 
-*options:* The type of value range either AVG (Average) or BH (Busy Hour). 
+
+*options:* [AVG/BH] => The type of value range either AVG (Average) or BH (Busy Hour).
 
 
 h3. Scoping and nesting of expressions
@@ -260,7 +270,74 @@ while( <Boolean expression> ) {
 É
 }
 
+h3. Operators
+
+h4. Arithmetic Operations. 
 
 
+h4. Logical Operations.
+
+[TBD]
+ 
+h4. Binary Operations
+
+h3. Functions
+
+h4. Native Functions
+
+Native functions, are embedded in NetXScript and readily usable in expressions. Native function are applied 
+to the expression preceding the native function. Native functions can be chained, feeding the next native function
+with the result of the preceding one. Most functions apply to a range (or at least make sense to multiple values).
+
+
+When applying native functions to a Matrix, (Multiple ranges), the function can be either applied horizontally or vertically. 
+
+Vertically (Default). 
+
+Ranges are grouped by time stamp first, and the native function is applied to each time stamp group and the result is returned. 
+
+
+Horizontally (Currently not supported). 
+
+Native function is applied to each range and the result is returned. 
+
+
+*Syntax:* ._nativefunction_
+
+The following native functions are available: 
+
+*Description:* Count the number of items in the range or matrix.
+*Syntax:* .count()
+ 
+*Description:* Sum the value(s) in the range or matrix. 
+*Syntax:* .sum() 
+ 
+*Description:* The minimum value(s) in the range or matrix.
+*Syntax:* .min()
+
+*Description:* The maximum value(s) in the range or matrix.
+*Syntax:* .max()
+
+*Description:* The maximum value(s) in the range or matrix.
+*Syntax:* .mean()
+
+*Description:* The standard deviation value(s) in the range or matrix.
+*Syntax:* .deviation()
+
+*Description:* The Erlang B value(s) in the range or matrix. 
+*Syntax:* erlangB()
+
+*Description:* Clear the values in the range or matrix. 
+*Syntax:* clear()';
+
+*Returns:* Either a single value or a range of values preserving the time stamps.
+
+
+h4. Defined functions
+
+NetXScript also supports the definition of own functions. 
+
+*Description:* Defined a function with 0 or more arguments. 
+*Syntax:* def _functionName_( _argument [,argument] ) 
 
 

@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.text.BadLocationException;
@@ -125,6 +126,13 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 	 * @param style
 	 */
 	public EmbeddedLineExpression() {
+		netxScriptInjector = InjectorProxy
+				.getInjector("com.netxforge.Netxscript");
+
+	}
+	
+	public Injector getNetxScriptInjector() {
+		return netxScriptInjector;
 	}
 
 	public void configure(IEditingService editingService, int operation) {
@@ -226,14 +234,11 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 
 			public void widgetDisposed(DisposeEvent e) {
 				// dispose prior to disposing the widget.
-				xtextEditor.getSourceViewerDecorationSupport(xtextEditor.getViewer())
-						.dispose();
+				xtextEditor.getSourceViewerDecorationSupport(
+						xtextEditor.getViewer()).dispose();
 			}
 
 		});
-
-		netxScriptInjector = InjectorProxy
-				.getInjector("com.netxforge.Netxscript");
 
 		interpreterContextFactory = netxScriptInjector
 				.getInstance(IInterpreterContextFactory.class);
@@ -247,16 +252,24 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 		// gl_editorComposite.marginWidth = 0;
 		// editorComposite.setLayout(gl_editorComposite);
 
-		xtextEditor = new EmbeddedXtextEditor(parent, netxScriptInjector, SWT.BORDER
-				| widgetStyle | SWT.SINGLE);
+		xtextEditor = new EmbeddedXtextEditor(parent, netxScriptInjector,
+				SWT.BORDER | widgetStyle | SWT.SINGLE);
 		xtextEditor.getDocument().addModelListener(new IXtextModelListener() {
 			public void modelChanged(XtextResource resource) {
 				if (expression != null) {
 					xtextService.reconcileChangedModel(expression, xtextEditor);
-					System.out.println("Xtext editor: model changed Expr=" + expression.getName());
+					System.out.println("Xtext editor: model changed Expr="
+							+ expression.getName());
 					if (xtextEditor.getDocument().getLength() > 0
 							&& expression.cdoState() == CDOState.TRANSIENT) {
 						addData();
+					} else if (xtextEditor.getDocument().getLength() == 0) {
+						// We can remove, only in state CLEAN or DIRTY.
+						if (expression.cdoState() == CDOState.CLEAN
+								|| expression.cdoState() == CDOState.DIRTY) {
+
+//							removeData();
+						}
 					}
 				}
 			}
@@ -317,7 +330,7 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 		return ImmutableList.copyOf(contextList);
 	}
 
-	public List<BaseExpressionResult> testExpression(Expression expression, 
+	public List<BaseExpressionResult> testExpression(Expression expression,
 			ImmutableList<IInterpreterContext> contextList) {
 
 		List<BaseExpressionResult> result = null;
@@ -366,11 +379,11 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 		// 1 = Expression
 		// 2 = target reference object
 		// 3 = target EReference
-		
+
 		if (xtextService == null) {
 			xtextService = new EmbeddedXtextService(editingService);
 		}
-		
+
 		if (params[0] instanceof Resource) {
 			expressionsResource = (Resource) params[0];
 		}
@@ -379,16 +392,20 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 			final Expression tmpExpression = (Expression) params[1];
 
 			String asString = xtextService.getAsString(tmpExpression);
-			System.out.println("Xtext editor: start loading, Expr=" + tmpExpression.getName());
-			
-			// add a call back, to know when the expression for this screen can be set. 
-			ExpressionLoadingJob job = xtextEditor.update(null, asString == null ? "" : asString);
+			System.out.println("Xtext editor: start loading, Expr="
+					+ tmpExpression.getName());
+
+			// add a call back, to know when the expression for this screen can
+			// be set.
+			ExpressionLoadingJob job = xtextEditor.update(null,
+					asString == null ? "" : asString);
 			job.addNotifier(new JobChangeAdapter() {
 				@Override
 				public void done(IJobChangeEvent event) {
 					super.done(event);
 					EmbeddedLineExpression.this.expression = tmpExpression;
-					System.out.println("Xtext editor: done loading, Expr=" + expression.getName());
+					System.out.println("Xtext editor: done loading, Expr="
+							+ expression.getName());
 				}
 			});
 		}
@@ -399,14 +416,9 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 		if (params.length == 4 && params[3] instanceof EReference) {
 			feature = (EReference) params[3];
 		}
-		
+
 	}
 
-	
-	
-	
-	
-	
 	public void injectData() {
 
 	}
@@ -795,5 +807,25 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 						.execute(cSetRef);
 			}
 		}
+	}
+
+	public void removeData() {
+
+		if (target != null && feature != null) {
+			// We also remove the reference to this expression, we need to
+			// referee and a feature for this.
+			Command cSetRef = null;
+			cSetRef = new SetCommand(editingService.getEditingDomain(), target,
+					feature, null);
+			if (cSetRef != null) {
+				editingService.getEditingDomain().getCommandStack()
+						.execute(cSetRef);
+			}
+		}
+
+		Command c = new RemoveCommand(editingService.getEditingDomain(),
+				expressionsResource.getContents(), expression);
+		editingService.getEditingDomain().getCommandStack().execute(c);
+
 	}
 }

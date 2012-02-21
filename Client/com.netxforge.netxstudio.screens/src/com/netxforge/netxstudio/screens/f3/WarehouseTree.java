@@ -275,7 +275,6 @@ public class WarehouseTree extends AbstractScreen implements
 		editingService.disposeData(warehouseResource);
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return warehouseTreeViewer;
 	}
@@ -285,16 +284,10 @@ public class WarehouseTree extends AbstractScreen implements
 		return false;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmWarehouseTree;
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-	}
-	
 	private final List<IAction> actions = Lists.newArrayList();
 	
 	@Override

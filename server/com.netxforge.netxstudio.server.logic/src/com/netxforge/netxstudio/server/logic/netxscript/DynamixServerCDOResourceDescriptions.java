@@ -28,7 +28,7 @@ import com.netxforge.scoping.AbstractDynamixCDOResourceDescriptions;
  * @author Sebastian Zarnekow - Initial contribution and API
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class FixedSetServerCDOResourceDescriptions extends
+public class DynamixServerCDOResourceDescriptions extends
 		AbstractDynamixCDOResourceDescriptions {
 
 	@Inject

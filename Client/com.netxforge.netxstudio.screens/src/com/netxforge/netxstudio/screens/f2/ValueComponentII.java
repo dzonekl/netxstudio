@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.wb.swt.TableViewerColumnSorter;
 
@@ -66,12 +68,13 @@ public class ValueComponentII {
 
 	public void buildValuesUI(Composite parent, Object layoutData) {
 
-//		Composite valuesComposite = toolkit.createComposite(parent, SWT.NONE);
-//		valuesComposite.setLayoutData(layoutData);
-//		toolkit.adapt(valuesComposite);
-//		GridLayout gridLayout = new GridLayout(3, false);
-//		
-//		valuesComposite.setLayout(gridLayout);
+		// Composite valuesComposite = toolkit.createComposite(parent,
+		// SWT.NONE);
+		// valuesComposite.setLayoutData(layoutData);
+		// toolkit.adapt(valuesComposite);
+		// GridLayout gridLayout = new GridLayout(3, false);
+		//
+		// valuesComposite.setLayout(gridLayout);
 
 		valuesTableViewer = new TableViewer(parent, SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.VIRTUAL | SWT.MULTI);
@@ -91,8 +94,8 @@ public class ValueComponentII {
 
 		table.setRedraw(false);
 
-		while (table.getColumnCount() > 0) {
-			table.getColumns()[0].dispose();
+		for (TableColumn tc : table.getColumns()) {
+			tc.dispose();
 		}
 
 		if (res instanceof NetXResource) {
@@ -109,7 +112,7 @@ public class ValueComponentII {
 			for (MetricValueRange mvr : resource.getMetricValueRanges()) {
 				int intervalHint = mvr.getIntervalHint();
 				String columnName = new Integer(intervalHint).toString()
-						+ " (min)";
+						+ " (min), " + mvr.getKindHint().getName();
 				tableHelper.new TBVC<Double>(
 						new NetXResourceValueLabelProvider()).tbvcFor(
 						valuesTableViewer, columnName,
@@ -128,12 +131,15 @@ public class ValueComponentII {
 		}
 		table.setRedraw(true);
 	}
-	
+
 	public void injectData(BaseResource object) {
 		res = object;
 		try {
 			buildColumns();
 			valuesTableViewer.setInput(res);
+			if (!valuesTableViewer.getTable().isVisible()) {
+				valuesTableViewer.getTable().setVisible(true);
+			}
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -193,6 +199,10 @@ public class ValueComponentII {
 
 			@Override
 			public Object[] getElements(Object inputElement) {
+
+				if (inputElement == Collections.EMPTY_LIST) {
+					return new Object[] {};
+				}
 
 				if (inputElement instanceof NetXResource) {
 
@@ -260,6 +270,12 @@ public class ValueComponentII {
 				return null;
 			}
 
+			@Override
+			public void inputChanged(Viewer viewer, Object oldInput,
+					Object newInput) {
+				super.inputChanged(viewer, oldInput, newInput);
+			}
+
 		});
 
 		valuesTableViewer
@@ -288,8 +304,8 @@ public class ValueComponentII {
 				return true;
 			}
 
-			System.out.println("Updating filter with from=" + from + ", to="
-					+ to);
+			// System.out.println("Updating filter with from=" + from + ", to="
+			// + to);
 
 			if (element instanceof Object[]) {
 				Object[] array = (Object[]) element;
@@ -302,7 +318,6 @@ public class ValueComponentII {
 		}
 	}
 
-	
 	public void applyDateFilter(DateTimeRange dtr) {
 		// Do not update on empty date selectors.
 		if (dtr == null) {
@@ -311,7 +326,7 @@ public class ValueComponentII {
 		;
 		this.applyDateFilter(modelUtils.begin(dtr), modelUtils.end(dtr));
 	}
-	
+
 	/**
 	 * call to apply the period filter on the table viewer.
 	 * 
@@ -382,7 +397,81 @@ public class ValueComponentII {
 	}
 
 	public void clearData() {
-
+		// Leaves behind an empty table with no columns etc..
+		this.valuesTableViewer.setInput(Collections.EMPTY_LIST);
+		res = null;
+		buildColumns();
+//		valuesTableViewer.getTable().setVisible(false);
 	}
+	
+	
+//	public class MonitorAction extends BaseSelectionListenerAction {
+//
+//		public MonitorAction(String text, int style) {
+//			super(text);
+//		}
+//
+//		@Override
+//		protected boolean updateSelection(IStructuredSelection selection) {
+//
+////			if (currentValues == null || currentValues.size() == 0) {
+////				return false;
+////			}
+////			// Don't allow monitoring for
+////			if (targetInterval == CAPACITIES || targetInterval == UTILIZATION) {
+////				return false;
+////			} else {
+////				return true;
+////			}
+//			
+//			return true;
+//			
+//		}
+//
+//		@Override
+//		public void run() {
+//			
+//			
+//			
+//			if (res instanceof NetXResource && targetInterval > 0) {
+//				MetricValueRange mvr = modelUtils.valueRangeForInterval(
+//						(NetXResource) res, targetInterval);
+//				if (mvr != null) {
+//
+//					// XMLGregorianCalendar start = mvr.getMetricValues()
+//					// .get(0).getTimeStamp();
+//					// XMLGregorianCalendar end = mvr.getMetricValues()
+//					// .get(mvr.getMetricValues().size() - 1)
+//					// .getTimeStamp();
+//
+//					XMLGregorianCalendar to = modelUtils.toXMLDate(dateTimeTo
+//							.getSelection());
+//					XMLGregorianCalendar from = modelUtils
+//							.toXMLDate(dateTimeFrom.getSelection());
+//
+//					DateTimeRange timerange = GenericsFactory.eINSTANCE
+//							.createDateTimeRange();
+//
+//					timerange.setBegin(from);
+//					timerange.setEnd(to);
+//
+//					ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
+//							screenService.getScreenContainer(), SWT.NONE);
+//					monitorScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
+//					monitorScreen.setScreenService(screenService);
+//					monitorScreen.injectData(null, res, timerange,
+//							targetInterval);
+//					screenService.setActiveScreen(monitorScreen);
+//				}
+//			} else {
+//				System.out
+//						.println("Invalid target interval <= 0, perhaps the interval was not set properly in the mapping");
+//			}
+//		}
+//	}
+	
+	
+	
+	
 
 }

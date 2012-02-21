@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.session.CDOSession;
-import org.eclipse.emf.cdo.util.CDOUtil;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NodeType;
@@ -49,19 +47,11 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 	}
 	
 	public void initServiceMonitor(DateTimeRange dtr){
-		
-		CDOSession session = CDOUtil.getSession(rfsService);
-		System.out.println(session.getSessionID());
-		
-		
+				
 		serviceMonitor = ServicesFactory.eINSTANCE.createServiceMonitor();
 		// what name should a servicemonitor have?
 		serviceMonitor.setName(rfsService.getServiceName());
 		serviceMonitor.setPeriod(dtr);
-		
-		
-		
-		
 		rfsService.getServiceMonitors().add(serviceMonitor);
 		getEngine().setServiceMonitor(serviceMonitor);
 	}

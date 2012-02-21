@@ -39,7 +39,7 @@ import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.ServerActivator;
+import com.netxforge.netxstudio.server.internal.ServerActivator;
 
 public class DirectWriteServlet implements Servlet {
 

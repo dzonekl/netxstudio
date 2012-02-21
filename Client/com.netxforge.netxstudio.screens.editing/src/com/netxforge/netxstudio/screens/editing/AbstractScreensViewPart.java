@@ -51,14 +51,14 @@ import org.eclipse.ui.ISaveablePart2;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.IShowInSource;
+import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.part.ViewPart;
 
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
-import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
-import com.netxforge.netxstudio.screens.editing.actions.EditingActionsHandler;
-import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * A ViewPart which acts as an editor.
@@ -67,19 +67,22 @@ import com.netxforge.netxstudio.screens.editing.selector.IScreen;
  * dirty/save cycle. We are an editing domain providers. (Not shared).
  * 
  * 
+ * TODO Consider deprecate the IViewerProvider, replace by IScreenProvider.
+ * 
  * @author dzonekl
  */
 public abstract class AbstractScreensViewPart extends ViewPart implements
 		ISaveablePart2, IPartListener, IEditingDomainProvider,
-		ISelectionProvider, IMenuListener, IViewerProvider, IPropertyListener {
+		ISelectionProvider, IMenuListener, IViewerProvider, IPropertyListener,
+		IScreenProvider, IShowInSource {
 
-	//	public static final String ID = "com.netxforge.netxstudio.ui.forms.EquipmentsViewPart"; //$NON-NLS-1$
 
 	/**
 	 * This keeps track of the selection of the view as a whole.
 	 */
 	protected ISelection viewSelection = StructuredSelection.EMPTY;
-//	private MenuManager contextMenu;
+
+	// private MenuManager contextMenu;
 
 	public abstract IEditingService getEditingService();
 
@@ -134,7 +137,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	// return;
 	// }
 	// Object sel = this.firstFromSelection(selection);
-	// // TODO, do something with the selection.
 	// }
 
 	/**
@@ -170,12 +172,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		// selection
 		// provider of the active part. which is this. We can also add
 		// dynamic action handlers.
-		actionHandlerDescriptor = new ActionHandlerDescriptor();
-		actionHandlerDescriptor.addHandler(new EditingActionsHandler(
-				getEditingService()));
-		actionHandlerDescriptor.addHandler(new CreationActionsHandler());
-		actionHandlerDescriptor.addHandler(new UIActionsHandler());
 
+		actionHandlerDescriptor = new ActionHandlerDescriptor();
 		actionHandlerDescriptor.initActions(site.getActionBars());
 		// hookPageSelection();
 
@@ -204,7 +202,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	}
 
 	public void doSaveAs() {
-		// TODO, do something.
+		throw new UnsupportedOperationException("Save As, not supported");
 	}
 
 	// @Override
@@ -219,7 +217,15 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 * Based on the command stack statues.
 	 */
 	public boolean isDirty() {
-		return getEditingService().isDirty();
+		// Should know about the type of screen, so read-only, is not asked for
+		// dirtynes..
+		if (this.getScreen() != null
+				&& !ScreenUtil.isReadOnlyOperation(this.getScreen()
+						.getOperation())) {
+			return getEditingService().isDirty();
+		} else {
+			return false;
+		}
 	}
 
 	public boolean isSaveAsAllowed() {
@@ -238,15 +244,13 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		this.updateActiveScreenDirtyNess();
 	}
 
-	public abstract IScreen getActiveScreen();
-
 	public void updateActiveScreenDirtyNess() {
-		if (this.getActiveScreen() == null
-				|| this.getActiveScreen().getScreenForm().isDisposed()) {
+		if (this.getScreen() == null
+				|| this.getScreen().getScreenForm().isDisposed()) {
 			return;
 		}
 
-		IScreen screen = getActiveScreen();
+		IScreen screen = getScreen();
 
 		String newTitle = "";
 		if (screen.getScreenForm() == null) {
@@ -273,9 +277,9 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	// IPartListner API.
 	public void partActivated(IWorkbenchPart part) {
 		// Register selection listeners.
-		if (part instanceof AbstractScreensViewPart) {
+		if (part == this) {
 			// Activate our global actions.
-
+			System.out.println(part.getClass().getSimpleName());
 			this.getActionHandlerDescriptor().setActivePart(part);
 		}
 	}
@@ -320,8 +324,12 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	}
 
 	@Override
-	public Object getAdapter(@SuppressWarnings("rawtypes") Class key) {
-		return super.getAdapter(key);
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
+		return super.getAdapter(adapter);
+	}
+	
+	public ShowInContext getShowInContext() {
+			return new ShowInContext(null, this.getSelection());		
 	}
 
 	// IEditingDomainProvider API.
@@ -366,6 +374,11 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		return domain;
 	}
 
+	public void publicFirePropertyChange(int propertyId) {
+		this.firePropertyChange(propertyId);
+
+	}
+
 	// ISelectionProvider API.
 	// In our case, our globalActionsHnadler actions listen to our selection
 	// provider when
@@ -391,7 +404,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	public void setSelection(ISelection selection) {
 		this.viewSelection = selection;
-//		System.out.println("AbstractScreensViewPart#setSelection " + selection);
+		// System.out.println("AbstractScreensViewPart#setSelection " +
+		// selection);
 		for (ISelectionChangedListener listener : selectionChangedListeners) {
 			listener.selectionChanged(new SelectionChangedEvent(this, selection));
 		}
@@ -448,10 +462,64 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	protected Viewer currentViewer;
 
 	/**
+	 * Call from which ever screen with multiple viewers which can/should
+	 * provide selection.
+	 * 
+	 * @param viewer
+	 */
+	public void setCurrentScreen(IScreen screen) {
+
+		if (selectionChangedListener == null) {
+			// Create the listener on demand.
+			//
+			selectionChangedListener = new ISelectionChangedListener() {
+				// This just notifies those things that are affected by the
+				// section.
+				//
+				public void selectionChanged(
+						SelectionChangedEvent selectionChangedEvent) {
+					setSelection(selectionChangedEvent.getSelection());
+				}
+			};
+		}
+
+		// Stop listening to the old one.
+		//
+		if (getScreen() != null) {
+			getScreen()
+					.removeSelectionChangedListener(selectionChangedListener);
+		}
+
+		// Start listening to the new one.
+		//
+		if (screen != null) {
+			screen.addSelectionChangedListener(selectionChangedListener);
+		}
+
+		// Set the editors selection based on the current viewer's
+		// selection.
+		//
+		setSelection(screen == null ? StructuredSelection.EMPTY : screen
+				.getSelection());
+
+		for (Viewer v : screen.getViewers()) {
+			// Install a context menu, for all possible viewers, note
+			// all actions will be installed, we don't differentiate which
+			// actions are added to which viewer.
+			if (v instanceof StructuredViewer) {
+				// Don't do that yet, as we have no facility to learn the
+				// existing menu items.
+				augmentContextMenuFor((StructuredViewer) v);
+			}
+		}
+	}
+
+	/**
 	 * Call from which ever screen with a view which can/should provide
 	 * selection.
 	 * 
 	 * @param viewer
+	 * @deprecated Use setCurrentScreen instead.
 	 */
 	public void setCurrentViewer(Viewer viewer) {
 		if (currentViewer != viewer) {

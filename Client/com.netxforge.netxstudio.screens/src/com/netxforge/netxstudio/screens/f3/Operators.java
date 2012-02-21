@@ -309,14 +309,8 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmOperators;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();

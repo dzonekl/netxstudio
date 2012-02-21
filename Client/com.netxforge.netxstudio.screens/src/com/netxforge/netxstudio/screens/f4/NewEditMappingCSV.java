@@ -340,7 +340,6 @@ public class NewEditMappingCSV extends AbstractFileBasedMapping implements
 
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return null; // N/A
 	}
@@ -354,11 +353,6 @@ public class NewEditMappingCSV extends AbstractFileBasedMapping implements
 	public void disposeData() {
 		// N/A
 
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	@Override

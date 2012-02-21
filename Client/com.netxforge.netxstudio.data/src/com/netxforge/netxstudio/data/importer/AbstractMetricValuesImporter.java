@@ -30,16 +30,13 @@ import java.util.regex.PatternSyntaxException;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.net4j.util.concurrent.IRWLockManager.LockType;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -147,27 +144,33 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				getMappingIntervalEstimate(), null);
 
 		MetricSource src = getMetricSource();
-		CDOTransaction cdoTransaction = this.getDataProvider().getTransaction();
-		List<? extends CDOObject> newArrayList = Lists.newArrayList(src);
-		try {
-			cdoTransaction.lockObjects(newArrayList, LockType.WRITE, 1000);
 
-			if (DataActivator.DEBUG) {
-				CDORevision cdoRevision = src.cdoRevision();
-				if (cdoRevision != null) {
-					System.out.println("IMPORTER: object revision="
-							+ cdoRevision.getVersion());
-				}
-			}
+		EList<MappingStatistic> statistics = src.getStatistics();
+		statistics.add(mappingStatistic);
+		
+		
+		// CB 7-02-2012, disable locking we get unlock exception, related? 
+		// at org.eclipse.net4j.util.concurrent.RWLockManager.unlock(RWLockManager.java:284)
+		
+//		CDOTransaction cdoTransaction = this.getDataProvider().getTransaction();		
+//		List<? extends CDOObject> newArrayList = Lists.newArrayList(src);
+//		try {
+//			cdoTransaction.lockObjects(src.getStatistics(), LockType.WRITE, 1000);
+//
+//			if (DataActivator.DEBUG) {
+//				CDORevision cdoRevision = src.cdoRevision();
+//				if (cdoRevision != null) {
+//					System.out.println("IMPORTER: object revision="
+//							+ cdoRevision.getVersion());
+//				}
+//			}
 			// Make sure we get the latest index.
-			EList<MappingStatistic> statistics = src.getStatistics();
-			statistics.add(mappingStatistic);
-
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} finally {
-			cdoTransaction.unlockObjects(newArrayList, LockType.WRITE);
-		}
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		} finally {
+//			cdoTransaction.unlockObjects(src.getStatistics(), LockType.WRITE);
+//		}
+		
 		commitTransactionWithoutClosing();
 
 		try {

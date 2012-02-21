@@ -41,6 +41,7 @@ public class ResourceReportingEngine {
 
 	
 	public void writeComponentLine(int newRow, HSSFSheet sheet, Component component){
+		
 		HSSFRow componentRow = sheet.createRow(newRow);
 		HSSFCell componentCell = componentRow.createCell(NODE_COLUMN + 1);
 		
@@ -49,7 +50,11 @@ public class ResourceReportingEngine {
 
 		if (component instanceof Function) {
 			builder.append(component.getName());
-
+			
+			// DEBUG CODE. 
+//			if(component.getName().equals("amm02in0assoc0")){
+//				System.out.println("DEBUG this comp" + component.getName());
+//			}
 		} else if (component instanceof Equipment) {
 			builder.append(((Equipment) component).getEquipmentCode());
 
@@ -78,47 +83,11 @@ public class ResourceReportingEngine {
 
 			HSSFCell resourceCell = resourceRow.createCell(NODE_COLUMN + 2);
 			resourceCell.setCellValue(resource.getLongName());
-
+			
 			for(MetricValueRange mvr : resource.getMetricValueRanges()){
 				resourceIndex = writeRange(sheet, resourceIndex, resource,
-						markersForResource, mvr.getIntervalHint());
+						markersForResource, mvr);
 			}
-			
-
-			// { // Writing day reports.
-			// MetricValueRange mvr = this.getModelUtils()
-			// .valueRangeForInterval(resource,
-			// ModelUtils.MINUTES_IN_A_DAY);
-			// if (mvr != null) {
-			// resourceIndex = writeRange(markersForResource, sheet,
-			// resourceIndex,
-			// ModelUtils.MINUTES_IN_A_DAY, mvr);
-			// }
-			// }
-			//
-			// { // Writing weekly values report.
-			// MetricValueRange mvr = this.getModelUtils()
-			// .valueRangeForInterval(resource,
-			// ModelUtils.MINUTES_IN_A_WEEK);
-			// if (mvr != null) {
-			// resourceIndex = writeRange(markersForResource, sheet,
-			// resourceIndex,
-			// ModelUtils.MINUTES_IN_A_WEEK, mvr);
-			// }
-			//
-			// }
-			// { // Writing monthly values report. (TODO, Should not be a fixed
-			// // value.
-			// MetricValueRange mvr = this.getModelUtils()
-			// .valueRangeForInterval(resource,
-			// ModelUtils.MINUTES_IN_A_MONTH);
-			// if (mvr != null) {
-			// resourceIndex = writeRange(markersForResource, sheet,
-			// resourceIndex,
-			// ModelUtils.MINUTES_IN_A_MONTH, mvr);
-			// }
-			//
-			// }
 
 			{ // Write the capacity.
 				// !Potentially long operation, as we sort of the whole rang.e
@@ -134,12 +103,10 @@ public class ResourceReportingEngine {
 	}
 
 	public int writeRange(HSSFSheet sheet, int resourceIndex,
-			NetXResource resource, List<Marker> markersForResource, int interval) {
-		MetricValueRange mvr = this.getModelUtils().valueRangeForInterval(
-				resource, interval);
+			NetXResource resource, List<Marker> markersForResource, MetricValueRange mvr) {
 		if (mvr != null) {
 			resourceIndex = writeRange(markersForResource, sheet,
-					resourceIndex, interval, mvr);
+					resourceIndex, mvr);
 		}
 		return resourceIndex;
 	}
@@ -219,7 +186,7 @@ public class ResourceReportingEngine {
 	}
 
 	public int writeRange(List<Marker> markers, HSSFSheet sheet,
-			int resourceIndex, int interval, MetricValueRange mvr) {
+			int resourceIndex, MetricValueRange mvr) {
 
 		// !Potentially long operation, as we sort of the whole rang.e
 		List<Value> range = getModelUtils().sortByTimeStamp(
@@ -229,8 +196,11 @@ public class ResourceReportingEngine {
 		HSSFRow resourceRow = sheet.createRow(resourceIndex++);
 
 		HSSFCell mvrCell = resourceRow.createCell(NODE_COLUMN + 3);
-		String fromMinutes = this.getModelUtils().fromMinutes(interval);
-		mvrCell.setCellValue(fromMinutes);
+		String fromMinutes = this.getModelUtils().fromMinutes(mvr.getIntervalHint());
+		
+		String rangeKind = mvr.getKindHint().getName();
+		// CB, Also add the range type. 
+		mvrCell.setCellValue(fromMinutes + " (" + rangeKind + ")");
 
 		HSSFRow tsRow = sheet.createRow(resourceIndex++);
 		HSSFRow valueRow = sheet.createRow(resourceIndex++);

@@ -310,7 +310,6 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 		editingService.disposeData(countryResource);
 	}
 
-	@Override
 	public Viewer getViewer() {
 		return roomsTreeViewer;
 	}
@@ -320,17 +319,10 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 		return false;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmSites;
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-	}
-
-	
 	private final List<IAction> actions = Lists.newArrayList();
 	
 	@Override

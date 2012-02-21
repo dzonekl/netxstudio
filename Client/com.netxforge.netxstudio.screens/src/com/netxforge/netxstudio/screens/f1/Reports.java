@@ -105,8 +105,7 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 	public void disposeData() {
 		// N/A do nothing.
 	}
-
-	@Override
+	
 	public Viewer getViewer() {
 		return null;
 	}
@@ -116,17 +115,10 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmServices;
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-
-	}
-	
 	@Override
 	public String getScreenName() {
 		return "Reports";

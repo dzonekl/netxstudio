@@ -276,9 +276,9 @@ public class ObjectExpressions extends AbstractScreen implements
 		txtExpressionName = toolkit.createText(cmpInfo, "New Text", SWT.NONE
 				| widgetStyle);
 		txtExpressionName.setText("");
-		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, true, false,
+		GridData gd_txtName = new GridData(SWT.FILL, SWT.CENTER, true, false,
 				1, 1);
-		gd_txtName.widthHint = 200;
+//		gd_txtName.widthHint = 200;
 		txtExpressionName.setLayoutData(gd_txtName);
 
 		// FORM DATA FOR EXPRESSION EDITOR
@@ -302,7 +302,8 @@ public class ObjectExpressions extends AbstractScreen implements
 		cmpSashLowerPart.setLayout(fl_cmpSashLowerPart);
 
 		Section sctnTesting = toolkit.createSection(cmpSashLowerPart,
-				Section.TITLE_BAR);
+				Section.TITLE_BAR | Section.TWISTIE);
+		 
 		toolkit.paintBordersFor(sctnTesting);
 		sctnTesting.setText("Test");
 
@@ -519,7 +520,7 @@ public class ObjectExpressions extends AbstractScreen implements
 		
 	}
 
-	private void bindPeriodContext(EMFDataBindingContext bindingContext2) {
+	private void bindPeriodContext(EMFDataBindingContext bindingContext) {
 		// no real databinding here.
 		this.dateTimeFrom.setSelection(modelUtils.twoMonthsAgo());
 		this.dateTimeTo.setSelection(modelUtils.todayAndNow());
@@ -597,7 +598,6 @@ public class ObjectExpressions extends AbstractScreen implements
 		}
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmExpressionTester;
 	}
@@ -617,11 +617,6 @@ public class ObjectExpressions extends AbstractScreen implements
 
 	public void disposeData() {
 		// N/A
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	public String getScreenName() {

@@ -336,7 +336,6 @@ public class NewEditExpression extends AbstractScreen implements
 		}
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return frmExpression;
 	}
@@ -359,11 +358,6 @@ public class NewEditExpression extends AbstractScreen implements
 		// N/A
 	}
 
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
-	}
-	
 	public String getScreenName() {
 		return "Expression";
 	}

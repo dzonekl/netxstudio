@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.screens.editing.selector;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.Form;
 
+import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 /**
@@ -72,8 +73,15 @@ public interface IScreenFormService {
 	 * 
 	 * @param parent
 	 */
-	public abstract void initalize(Composite parent);
+	public abstract void initalize(AbstractScreensViewPart absViewPart, Composite parent);
 
+	
+	/**
+	 * Get the abstract screen view part. 
+	 * @return
+	 */
+	public abstract AbstractScreensViewPart getAbsViewPart();
+	
 	/**
 	 * @return
 	 */

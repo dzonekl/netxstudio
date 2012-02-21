@@ -25,16 +25,30 @@ This expression is intended to calculate the tolerance of a one or more resource
 		context="com.netxforge.Netxscript.Expression" deleted="false"
 		description="Reference to a Parameter"
 		enabled="true" name="REF_PARAM">PARAM ${param:CrossReference(ParamRef.param)}</template>
-	<template id="REF_FUNCTION_CAP" autoinsert="true"
+		
+	<template id="REF_RESOURCE_CAP" autoinsert="true"
 		context="com.netxforge.Netxscript.Expression" deleted="false"
-		description="Reference to a Resource Capacity Range in a FUNCTION component"
-		enabled="true" name="REF_FUNCTION">this.FUNCTION ${function:CrossReference(OperatorRef.function)} -> RESOURCE ${resource:CrossReference(ResourceRef.resource)} CAP</template>
-	<template id="REF_EQUIPMENT_CAP" autoinsert="true"
+		description="Reference to a Resource Capacity Range in current context (Equipment or Function)"
+		enabled="true" name="REF_RESOURCE_CAP">this -> RESOURCE ${resource:CrossReference(ResourceRef.resource)} CAP</template>
+
+	<template id="REF_RESOURCE_METRIC" autoinsert="true"
 		context="com.netxforge.Netxscript.Expression" deleted="false"
-		description="Reference to a Resource Capacity Range in a EQUIPMENT component"
-		enabled="true" name="REF_EQUIPMENT">this.EQUIPMENT ${equipment:CrossReference(OperatorRef.equipment)} -> RESOURCE ${resource:CrossReference(ResourceRef.resource)} CAP</template>
+		description="Reference to a Resource Metric Range in current context (Equipment or Function)"
+		enabled="true" name="REF_RESOURCE_METRIC">this -> RESOURCE ${resource:CrossReference(ResourceRef.resource)} METRIC ${ValueKind} ${interval};</template>
+		
+	<template id="REF_RESOURCE_FUNCTION_CAP" autoinsert="true"
+		context="com.netxforge.Netxscript.Expression" deleted="false"
+		description="Reference to a Resource Capacity Range in a FUNCTION component with explicit Navigation"
+		enabled="true" name="REF_RESOURCE_FUNCTION_CAP">this.FUNCTION ${function:CrossReference(OperatorRef.function)} -> RESOURCE ${resource:CrossReference(ResourceRef.resource)} CAP</template>
+	
+	<template id="REF_RESOURCE_EQUIPMENT_CAP" autoinsert="true"
+		context="com.netxforge.Netxscript.Expression" deleted="false"
+		description="Reference to a Resource Capacity Range in a EQUIPMENT component with explicit Navigation"
+		enabled="true" name="REF_RESOURCE_EQUIPMENT_CAP">this.EQUIPMENT ${equipment:CrossReference(OperatorRef.equipment)} -> RESOURCE ${resource:CrossReference(ResourceRef.resource)} CAP</template>
+	
 	<template id="UTILIZATION_EXPRESSION" autoinsert="true"
 		context="com.netxforge.Netxscript.Mod" deleted="false"
 		description="Generic Utilization Expression"
 		enabled="true" name="UTILIZATION_EXPRESSION">this UTILIZATION ${interval} = this METRIC ${interval} / this CAP;</template>
+		
 </templates>

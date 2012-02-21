@@ -783,7 +783,6 @@ public class MappingStatistics extends AbstractScreen implements
 
 	}
 
-	@Override
 	public Viewer getViewer() {
 		// return this.statisticsListViewer;
 		return this.statisticsTreeViewer;
@@ -794,14 +793,8 @@ public class MappingStatistics extends AbstractScreen implements
 		return true;
 	}
 
-	@Override
 	public Form getScreenForm() {
 		return this.frmMappingStatistics;
-	}
-
-	@Override
-	public void setOperation(int operation) {
-		this.operation = operation;
 	}
 
 	public String getScreenName() {
