@@ -147,30 +147,32 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 		EList<MappingStatistic> statistics = src.getStatistics();
 		statistics.add(mappingStatistic);
-		
-		
-		// CB 7-02-2012, disable locking we get unlock exception, related? 
-		// at org.eclipse.net4j.util.concurrent.RWLockManager.unlock(RWLockManager.java:284)
-		
-//		CDOTransaction cdoTransaction = this.getDataProvider().getTransaction();		
-//		List<? extends CDOObject> newArrayList = Lists.newArrayList(src);
-//		try {
-//			cdoTransaction.lockObjects(src.getStatistics(), LockType.WRITE, 1000);
-//
-//			if (DataActivator.DEBUG) {
-//				CDORevision cdoRevision = src.cdoRevision();
-//				if (cdoRevision != null) {
-//					System.out.println("IMPORTER: object revision="
-//							+ cdoRevision.getVersion());
-//				}
-//			}
-			// Make sure we get the latest index.
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		} finally {
-//			cdoTransaction.unlockObjects(src.getStatistics(), LockType.WRITE);
-//		}
-		
+
+		// CB 7-02-2012, disable locking we get unlock exception, related?
+		// at
+		// org.eclipse.net4j.util.concurrent.RWLockManager.unlock(RWLockManager.java:284)
+
+		// CDOTransaction cdoTransaction =
+		// this.getDataProvider().getTransaction();
+		// List<? extends CDOObject> newArrayList = Lists.newArrayList(src);
+		// try {
+		// cdoTransaction.lockObjects(src.getStatistics(), LockType.WRITE,
+		// 1000);
+		//
+		// if (DataActivator.DEBUG) {
+		// CDORevision cdoRevision = src.cdoRevision();
+		// if (cdoRevision != null) {
+		// System.out.println("IMPORTER: object revision="
+		// + cdoRevision.getVersion());
+		// }
+		// }
+		// Make sure we get the latest index.
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// } finally {
+		// cdoTransaction.unlockObjects(src.getStatistics(), LockType.WRITE);
+		// }
+
 		commitTransactionWithoutClosing();
 
 		try {
@@ -426,7 +428,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			System.out.println("IMPORTER renaming file=" + fileName);
 		}
 
-		moveFile(file, afterFailedSize > beforeFailedSize);
+		postProcessFile(file, afterFailedSize > beforeFailedSize);
 
 		return rows;
 
@@ -438,24 +440,29 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	protected abstract String getFileExtension();
 
-	private void moveFile(File file, boolean error) {
+	private void postProcessFile(File file, boolean error) {
 		if (error) {
-			boolean renameTo = file.renameTo(new File(file.getAbsolutePath()
+			renameFile(new File(file.getAbsolutePath()
 					+ ModelUtils.EXTENSION_DONE_WITH_FAILURES));
-			if (DataActivator.DEBUG) {
-				if (renameTo) {
-					System.out.println("IMPORTER: rename successed for file="
-							+ file.getName());
-				} else {
-					System.out.println("IMPORTER: rename failed for file="
-							+ file.getName());
-				}
-			}
-
 		} else {
-			file.renameTo(new File(file.getAbsolutePath()
+			renameFile(new File(file.getAbsolutePath()
 					+ ModelUtils.EXTENSION_DONE));
 		}
+	}
+
+	private void renameFile(File file) {
+		
+		boolean renameTo = file.renameTo(file);
+		if (DataActivator.DEBUG) {
+			if (renameTo) {
+				System.out.println("IMPORTER: rename successed for file="
+						+ file.getName());
+			} else {
+				System.out.println("IMPORTER: rename failed for file="
+						+ file.getName() + ", the file is likely still open");
+			}
+		}
+
 	}
 
 	public void setImportHelper(IImporterHelper helper) {
@@ -1012,7 +1019,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 				final IdentifierDataKind identifierDataKind = (IdentifierDataKind) column
 						.getDataType();
-				String dataValue = getStringCellValue(row, column.getColumn()).trim();
+				String dataValue = getStringCellValue(row, column.getColumn())
+						.trim();
 				if (identifierDataKind
 						.eIsSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN)) {
 					String extractionPattern = identifierDataKind.getPattern();

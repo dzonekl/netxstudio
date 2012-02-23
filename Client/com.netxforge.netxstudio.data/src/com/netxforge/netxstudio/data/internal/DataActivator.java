@@ -25,7 +25,7 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	private static Injector injector;
 	
 	// fields to cache the debug flags
-	public static boolean DEBUG = false;
+	public static boolean DEBUG = true;
 	public static DebugTrace TRACE = null;
 	 
 	public void optionsChanged(DebugOptions options) {

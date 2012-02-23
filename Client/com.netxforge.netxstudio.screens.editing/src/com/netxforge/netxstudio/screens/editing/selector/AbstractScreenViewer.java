@@ -24,8 +24,6 @@ import java.util.List;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -51,6 +49,9 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 	
 	@Inject
 	private IEditingService editingService;
+	
+//	@Inject
+//	private ModelUtils modelUtils;
 
 	public AbstractScreenViewer() {
 		
@@ -181,17 +182,28 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 	}
 	
 	public boolean show(ShowInContext context) {
-		if( ScreenUtil.isDataScreenInjection(getScreen())) {
-			ISelection selection = context.getSelection();
-			if(selection instanceof IStructuredSelection){
-				
-				//
-				@SuppressWarnings("unused")
-				Object firstElement = ((IStructuredSelection) selection).getFirstElement();
-				
-			}
-		}
-		return true;
+		
+		// delegate to the screen. 
+		return getScreen().handleShowIn(context);
+//		
+//		if( ScreenUtil.isDataScreenInjection(getScreen())) {
+//			ISelection selection = context.getSelection();
+//			if(selection instanceof IStructuredSelection){
+//				
+//				// TODO ... HACK.....
+//				Object firstElement = ((IStructuredSelection) selection).getFirstElement();
+//				System.out.println(" show-in" + firstElement.getClass().getSimpleName());
+//				
+//				if(firstElement instanceof NetXResource){
+//					
+//					MetricValueRange mvr = modelUtils.valueRangeForInterval((NetXResource) firstElement, 60);
+//					if(ScreenUtil.isDataScreenInjection(getScreen())){
+//						ScreenUtil.dataScreenInjectionFor(getScreen()).injectData(firstElement, mvr.getMetricValues());
+//					}
+//				}
+//			}
+//			
+//		}
 	}
 	
 }

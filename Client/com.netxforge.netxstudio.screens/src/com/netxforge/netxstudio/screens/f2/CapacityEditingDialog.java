@@ -173,7 +173,7 @@ public class CapacityEditingDialog extends Dialog {
 	public void injectData(NetXResource resource) {
 		this.res = resource;
 		values = resource.getCapacityValues();
-		this.values = modelUtils.sortByTimeStamp(values);
+		this.values = modelUtils.sortValuesByTimeStamp(values);
 	}
 
 	public List<Value> getResult() {

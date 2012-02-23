@@ -21,9 +21,11 @@ package com.netxforge.netxstudio.screens.editing.selector;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.part.ShowInContext;
 
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
@@ -62,7 +64,20 @@ public interface IScreen extends IViewerProvider, ISelectionProvider {
 	 * the name of the screen. 
 	 */
 	public abstract String getScreenName();
-
+	
+	/**
+	 * update the screen with a show in context.
+	 * @return 
+	 */
+	public abstract boolean handleShowIn(ShowInContext context);
+	
+	/**
+	 * update the screen with a show in context.
+	 * @return 
+	 */
+	public abstract ShowInContext getShowIn(ISelection selection);
+	
+	
 		
 	/**
 	 * Get the screen service for this screen. 
@@ -85,6 +100,12 @@ public interface IScreen extends IViewerProvider, ISelectionProvider {
 	 */
 	public abstract void setScreenService(IScreenFormService screenService);
 	
+	
+	/**
+	 * Set the editing service for this screen. 
+	 * @param screenService
+	 */
+	public abstract void setEditingService(IEditingService editingService);
 	
 	/**
 	 * 

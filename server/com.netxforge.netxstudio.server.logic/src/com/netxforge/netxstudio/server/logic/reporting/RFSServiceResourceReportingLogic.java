@@ -91,7 +91,7 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 			HSSFCell nodeCell = nodeRow.createCell(NODE_COLUMN);
 			nodeCell.setCellValue(node.getNodeID());
 
-			markersForNode = this.getModelUtils().markersForNode(service, node,
+			markersForNode = this.getModelUtils().toleranceMarkerMapPerResourceForServiceAndNodeAndPeriod(service, node,
 					this.getPeriod());
 
 //		} else {

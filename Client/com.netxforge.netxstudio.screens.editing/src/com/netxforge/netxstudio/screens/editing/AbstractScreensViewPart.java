@@ -50,8 +50,6 @@ import org.eclipse.ui.ISaveablePart2;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.part.IShowInSource;
-import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.part.ViewPart;
 
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
@@ -76,7 +74,7 @@ import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 public abstract class AbstractScreensViewPart extends ViewPart implements
 		ISaveablePart2, IPartListener, IEditingDomainProvider,
 		ISelectionProvider, IMenuListener, IViewerProvider, IPropertyListener,
-		IScreenProvider, IShowInSource {
+		IScreenProvider {
 
 	/**
 	 * This keeps track of the selection of the view as a whole.
@@ -332,10 +330,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		return super.getAdapter(adapter);
-	}
-
-	public ShowInContext getShowInContext() {
-		return new ShowInContext(null, this.getSelection());
 	}
 
 	// BasicCommandStack commandStack = new BasicCommandStack();

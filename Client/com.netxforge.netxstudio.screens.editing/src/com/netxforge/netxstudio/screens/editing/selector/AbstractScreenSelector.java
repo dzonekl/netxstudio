@@ -28,6 +28,8 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISaveablePart2;
+import org.eclipse.ui.part.IShowInSource;
+import org.eclipse.ui.part.ShowInContext;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
@@ -40,7 +42,7 @@ import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHand
  * 
  */
 public abstract class AbstractScreenSelector extends AbstractScreensViewPart
-		implements ScreenChangeListener {
+		implements ScreenChangeListener, IShowInSource {
 
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.AbstractScreenSelectorII"; //$NON-NLS-1$
 
@@ -213,4 +215,13 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		Collections.reverse(list);
 		return list;
 	}
+	
+	public ShowInContext getShowInContext() {
+		if(this.getScreen() != null){
+			return this.getScreen().getShowIn(this.getSelection());
+		}
+		return new ShowInContext(null, this.getSelection());
+	}
+	
+	
 }

@@ -19,8 +19,6 @@
 package com.netxforge.netxstudio.data.importer;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +26,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.common.util.EList;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.internal.DataActivator;
@@ -65,9 +64,6 @@ public class ResultProcessor {
 
 	private ResourceMonitor resourceMonitor;
 	private Tolerance tolerance;
-
-	// private Date start;
-	// private Date end;
 
 	public void processServiceProfileResult(List<Object> currentContext,
 			List<BaseExpressionResult> expressionResults, Date start, Date end) {
@@ -161,16 +157,16 @@ public class ResultProcessor {
 				// TODO, Apply a value filler as the interpreter will only
 				// return two values
 				// with Timestamps matching start and end of the period.
-				
-				// Disable the filler values. 
-//				@SuppressWarnings("unused")
-//				List<Value> createValues = getCreateValues(expressionResult, start, end);
-				
+
+				// Disable the filler values.
+				// @SuppressWarnings("unused")
+				// List<Value> createValues = getCreateValues(expressionResult,
+				// start, end);
+
 				addToValueRange(resource,
 						expressionResult.getTargetIntervalHint(),
-						expressionResult.getTargetKindHint(),expressionResult.getTargetValues()
-						, start,
-						end);
+						expressionResult.getTargetKindHint(),
+						expressionResult.getTargetValues(), start, end);
 
 				break;
 			case RangeKind.TOLERANCE_VALUE:
@@ -208,15 +204,13 @@ public class ResultProcessor {
 				.getTargetResource();
 
 		// now compute the capacity in order
-		final List<Value> usageValues = new ArrayList<Value>();
+		List<Value> usageValues = new ArrayList<Value>();
 
 		for (final MetricValueRange mvr : resource.getMetricValueRanges()) {
 			usageValues.addAll(mvr.getMetricValues());
 		}
 
-		// TODO, replace with ModelUtils function
-		// modelUtils.filterValueInRange(unfiltered, this.ge)
-
+		// FIXME, a monitor should not remove values???????
 		// get rid of everything before and after start time
 		final List<Value> toRemoveUsageValues = new ArrayList<Value>();
 		for (final Value usageValue : usageValues) {
@@ -226,38 +220,39 @@ public class ResultProcessor {
 				toRemoveUsageValues.add(usageValue);
 			}
 		}
-		usageValues.removeAll(toRemoveUsageValues);
-		Collections.sort(usageValues, new ValueTimeComparator());
+
+		// usageValues.removeAll(toRemoveUsageValues);
+
+		usageValues = modelUtils.sortValuesByTimeStamp(usageValues);
 
 		// now get the tolerance computation
-		final List<Value> toleranceValues = expressionResult.getTargetValues();
-
-		// Potential duplicates error.
-		// java.lang.IllegalArgumentException: The 'no duplicates' constraint is
-		// violated
-		Collections.sort(toleranceValues, new ValueTimeComparator());
+		final List<Value> toleranceValues = modelUtils
+				.sortValuesByTimeStamp(expressionResult.getTargetValues());
 
 		// now walk through the lists and find the occurences of overrides
-		Value currentTolerance = null;
+		Value currentToleranceValue = null;
 		int index = 0;
 		boolean isOver = false;
 		boolean startMarkerGenerated = false;
 
 		final List<Marker> newMarkers = new ArrayList<Marker>();
 		for (final Value toleranceValue : toleranceValues) {
+
+			// check all values between the current tolerance and the previous,
+			// skip in between values.
 			long toTime = end.getTime();
 			long fromTime = start.getTime();
 			if (index < (toleranceValues.size() - 1)) {
 				toTime = toleranceValues.get(index + 1).getTimeStamp()
 						.toGregorianCalendar().getTimeInMillis();
 			}
-			if (currentTolerance == null) {
-				currentTolerance = toleranceValue;
+			if (currentToleranceValue == null) {
+				currentToleranceValue = toleranceValue;
 			} else {
-				fromTime = currentTolerance.getTimeStamp()
+				fromTime = currentToleranceValue.getTimeStamp()
 						.toGregorianCalendar().getTimeInMillis();
 			}
-			final List<Value> checkValues = new ArrayList<Value>();
+			final List<Value> checkValues = Lists.newArrayList();
 			for (final Value usageValue : usageValues) {
 				final long time = usageValue.getTimeStamp()
 						.toGregorianCalendar().getTimeInMillis();
@@ -265,21 +260,30 @@ public class ResultProcessor {
 					checkValues.add(usageValue);
 				}
 			}
+
+			double tDouble = currentToleranceValue.getValue();
+
 			// check if they are over or under
 			for (final Value checkValue : checkValues) {
+
+				double cDouble = checkValue.getValue();
+				
 				ToleranceMarkerDirectionKind direction = null;
+				
+				// Generate a start marker only if the the level type is YELLOW, 
+				// if not specified, this would not be relevant. 
+				// It means the markers will only be complete, if all tolerance levels are
+				// specified. 
+				
 				if (getTolerance().getLevel() == LevelKind.YELLOW
-						&& checkValue.getValue() < currentTolerance.getValue()
-						&& !startMarkerGenerated) {
+						&& cDouble < tDouble && !startMarkerGenerated) {
 					// generate a start marker
 					isOver = false;
 					direction = ToleranceMarkerDirectionKind.DOWN;
-				} else if (checkValue.getValue() < currentTolerance.getValue()
-						&& isOver) {
+				} else if (cDouble < tDouble && isOver) {
 					isOver = false;
 					direction = ToleranceMarkerDirectionKind.DOWN;
-				} else if (checkValue.getValue() > currentTolerance.getValue()
-						&& !isOver) {
+				} else if (cDouble > tDouble && !isOver) {
 					// generate a marker
 					isOver = true;
 					direction = ToleranceMarkerDirectionKind.UP;
@@ -357,8 +361,8 @@ public class ResultProcessor {
 	private List<Value> getCreateValues(ExpressionResult result, Date start,
 			Date end) {
 
-		List<Value> resultValues = modelUtils.sortByTimeStampAndReverse(result
-				.getTargetValues());
+		List<Value> resultValues = modelUtils
+				.sortValuesByTimeStampAndReverse(result.getTargetValues());
 
 		final List<Value> values = new ArrayList<Value>();
 		Date previousTime = start;
@@ -523,41 +527,17 @@ public class ResultProcessor {
 		if (diff < 0) {
 			diff = diff * -1;
 		}
-		// Substract one second, to make sure we really do not skip closely related entries.
+		// Substract one second, to make sure we really do not skip closely
+		// related entries.
 		return diff < ((intervalHint * 60 * 1000) - 1000);
 	}
 
-	// public Node getNode(EObject eObject) {
-	// if (eObject == null) {
-	// throw new IllegalStateException("No node found");
+	// from ModelUtils.
+	// private class ValueTimeComparator implements Comparator<Value> {
+	//
+	// public int compare(Value arg0, Value arg1) {
+	// return arg0.getTimeStamp().compare(arg1.getTimeStamp());
 	// }
-	// if (eObject.eContainer() instanceof Node) {
-	// return (Node) eObject.eContainer();
-	// }
-	// return getNode(eObject.eContainer());
-	// }
-
-	private class ValueTimeComparator implements Comparator<Value> {
-
-		public int compare(Value arg0, Value arg1) {
-			return arg0.getTimeStamp().compare(arg1.getTimeStamp());
-		}
-	}
-
-	// public Date getStart() {
-	// return start;
-	// }
-
-	// public void setStart(Date start) {
-	// this.start = start;
-	// }
-
-	// public Date getEnd() {
-	// return end;
-	// }
-
-	// public void setEnd(Date end) {
-	// this.end = end;
 	// }
 
 	public ResourceMonitor getResourceMonitor() {

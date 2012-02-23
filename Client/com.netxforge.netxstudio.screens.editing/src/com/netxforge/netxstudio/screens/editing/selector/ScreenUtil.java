@@ -18,6 +18,9 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.selector;
 
+import org.eclipse.jface.resource.ColorRegistry;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -30,6 +33,17 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 public class ScreenUtil {
+	
+	public static final String RED_MARKER = "RED";
+	public static final String AMBER_MARKER = "AMBER";
+	public static final String YELLOW_MARKER = "YELLOW";
+
+	static {
+		ColorRegistry colorRegistry = JFaceResources.getColorRegistry();
+		colorRegistry.put(AMBER_MARKER, new RGB(252, 200, 58));
+		colorRegistry.put(YELLOW_MARKER, new RGB(252, 242, 92)); // yellowish
+		colorRegistry.put(RED_MARKER, new RGB(235, 80, 75)); // cherry
+	}
 
 	public static final int OPERATION_EDIT = 0x0100;
 	public static final int OPERATION_NEW = 0x0200;

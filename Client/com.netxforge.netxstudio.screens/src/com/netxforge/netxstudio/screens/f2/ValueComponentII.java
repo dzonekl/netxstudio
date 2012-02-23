@@ -4,9 +4,12 @@ import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
+import org.eclipse.jface.viewers.StyledString;
+import org.eclipse.jface.viewers.StyledString.Styler;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -20,15 +23,20 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.wb.swt.TableViewerColumnSorter;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseResource;
+import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.operators.Marker;
+import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.tables.TableHelper;
 import com.netxforge.netxstudio.screens.tables.TableHelper.TBVCSorterValueProvider;
 
@@ -57,6 +65,7 @@ public class ValueComponentII {
 
 	@SuppressWarnings("unused")
 	private IScreenFormService screenService;
+	private List<Marker> markers;
 
 	public void configure(IScreenFormService screenService) {
 		this.screenService = screenService;
@@ -133,7 +142,9 @@ public class ValueComponentII {
 	}
 
 	public void injectData(BaseResource object) {
+
 		res = object;
+		markers = null; // reset the markers. 
 		try {
 			buildColumns();
 			valuesTableViewer.setInput(res);
@@ -143,6 +154,14 @@ public class ValueComponentII {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+	}
+
+	/**
+	 * The Value component as the option to show the markers. We will apply only
+	 * markers, as per
+	 */
+	public void applyMarkers(List<Marker> markers) {
+		this.markers = markers;
 	}
 
 	/*
@@ -348,6 +367,21 @@ public class ValueComponentII {
 		valuesTableViewer.refresh();
 	}
 
+	/**
+	 * 
+	 * Refer to the content provider, we assume an array of Objects with defined
+	 * object types for each index.
+	 * 
+	 * <ul>
+	 * <li>Column 0 => should be a a Date object</li>
+	 * <li>Column > 0 => should be a a Double object</li>
+	 * </ul>
+	 * 
+	 * If we have a marker for the date, we will style the cell according to the
+	 * marker type.
+	 * 
+	 * @author Christophe
+	 */
 	public class NetXResourceValueLabelProvider extends StyledCellLabelProvider {
 
 		public NetXResourceValueLabelProvider() {
@@ -369,7 +403,54 @@ public class ValueComponentII {
 							Date d = (Date) object;
 							String ts = new String(modelUtils.date(d) + " @ "
 									+ modelUtils.time(d));
-							cell.setText(ts);
+							// find a marker for this date.
+							Styler markerStyle = null;
+							if (d != null && markers != null
+									&& markers.size() > 0) {
+
+								try {
+									Marker marker = Iterables.find(markers,
+											modelUtils.markerForDate(d));
+
+									if (marker != null
+											&& marker instanceof ToleranceMarker) {
+										ToleranceMarker tm = (ToleranceMarker) marker;
+										LevelKind level = tm.getLevel();
+										switch (level.getValue()) {
+										case LevelKind.RED_VALUE: {
+											markerStyle = StyledString
+													.createColorRegistryStyler(
+															ScreenUtil.RED_MARKER,
+															null);
+										}
+											break;
+										case LevelKind.AMBER_VALUE: {
+											markerStyle = StyledString
+													.createColorRegistryStyler(
+															ScreenUtil.AMBER_MARKER,
+															null);
+										}
+											break;
+										case LevelKind.YELLOW_VALUE: {
+											markerStyle = StyledString
+													.createColorRegistryStyler(
+															ScreenUtil.YELLOW_MARKER,
+															null);
+										}
+										}
+									}
+								} catch (NoSuchElementException nsee) {
+									// interresting API, from Iterables.find @!@##
+								}
+							}
+							StyledString styledString = new StyledString();
+							if (markerStyle != null) {
+								styledString.append(ts, markerStyle);
+							} else {
+								styledString.append(ts);
+							}
+							cell.setText(styledString.getString());
+							cell.setStyleRanges(styledString.getStyleRanges());
 						}
 					}
 						break;
@@ -401,77 +482,72 @@ public class ValueComponentII {
 		this.valuesTableViewer.setInput(Collections.EMPTY_LIST);
 		res = null;
 		buildColumns();
-//		valuesTableViewer.getTable().setVisible(false);
+		// valuesTableViewer.getTable().setVisible(false);
 	}
-	
-	
-//	public class MonitorAction extends BaseSelectionListenerAction {
-//
-//		public MonitorAction(String text, int style) {
-//			super(text);
-//		}
-//
-//		@Override
-//		protected boolean updateSelection(IStructuredSelection selection) {
-//
-////			if (currentValues == null || currentValues.size() == 0) {
-////				return false;
-////			}
-////			// Don't allow monitoring for
-////			if (targetInterval == CAPACITIES || targetInterval == UTILIZATION) {
-////				return false;
-////			} else {
-////				return true;
-////			}
-//			
-//			return true;
-//			
-//		}
-//
-//		@Override
-//		public void run() {
-//			
-//			
-//			
-//			if (res instanceof NetXResource && targetInterval > 0) {
-//				MetricValueRange mvr = modelUtils.valueRangeForInterval(
-//						(NetXResource) res, targetInterval);
-//				if (mvr != null) {
-//
-//					// XMLGregorianCalendar start = mvr.getMetricValues()
-//					// .get(0).getTimeStamp();
-//					// XMLGregorianCalendar end = mvr.getMetricValues()
-//					// .get(mvr.getMetricValues().size() - 1)
-//					// .getTimeStamp();
-//
-//					XMLGregorianCalendar to = modelUtils.toXMLDate(dateTimeTo
-//							.getSelection());
-//					XMLGregorianCalendar from = modelUtils
-//							.toXMLDate(dateTimeFrom.getSelection());
-//
-//					DateTimeRange timerange = GenericsFactory.eINSTANCE
-//							.createDateTimeRange();
-//
-//					timerange.setBegin(from);
-//					timerange.setEnd(to);
-//
-//					ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
-//							screenService.getScreenContainer(), SWT.NONE);
-//					monitorScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
-//					monitorScreen.setScreenService(screenService);
-//					monitorScreen.injectData(null, res, timerange,
-//							targetInterval);
-//					screenService.setActiveScreen(monitorScreen);
-//				}
-//			} else {
-//				System.out
-//						.println("Invalid target interval <= 0, perhaps the interval was not set properly in the mapping");
-//			}
-//		}
-//	}
-	
-	
-	
-	
+
+	// public class MonitorAction extends BaseSelectionListenerAction {
+	//
+	// public MonitorAction(String text, int style) {
+	// super(text);
+	// }
+	//
+	// @Override
+	// protected boolean updateSelection(IStructuredSelection selection) {
+	//
+	// // if (currentValues == null || currentValues.size() == 0) {
+	// // return false;
+	// // }
+	// // // Don't allow monitoring for
+	// // if (targetInterval == CAPACITIES || targetInterval == UTILIZATION) {
+	// // return false;
+	// // } else {
+	// // return true;
+	// // }
+	//
+	// return true;
+	//
+	// }
+	//
+	// @Override
+	// public void run() {
+	//
+	//
+	//
+	// if (res instanceof NetXResource && targetInterval > 0) {
+	// MetricValueRange mvr = modelUtils.valueRangeForInterval(
+	// (NetXResource) res, targetInterval);
+	// if (mvr != null) {
+	//
+	// // XMLGregorianCalendar start = mvr.getMetricValues()
+	// // .get(0).getTimeStamp();
+	// // XMLGregorianCalendar end = mvr.getMetricValues()
+	// // .get(mvr.getMetricValues().size() - 1)
+	// // .getTimeStamp();
+	//
+	// XMLGregorianCalendar to = modelUtils.toXMLDate(dateTimeTo
+	// .getSelection());
+	// XMLGregorianCalendar from = modelUtils
+	// .toXMLDate(dateTimeFrom.getSelection());
+	//
+	// DateTimeRange timerange = GenericsFactory.eINSTANCE
+	// .createDateTimeRange();
+	//
+	// timerange.setBegin(from);
+	// timerange.setEnd(to);
+	//
+	// ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
+	// screenService.getScreenContainer(), SWT.NONE);
+	// monitorScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
+	// monitorScreen.setScreenService(screenService);
+	// monitorScreen.injectData(null, res, timerange,
+	// targetInterval);
+	// screenService.setActiveScreen(monitorScreen);
+	// }
+	// } else {
+	// System.out
+	// .println("Invalid target interval <= 0, perhaps the interval was not set properly in the mapping");
+	// }
+	// }
+	// }
 
 }

@@ -55,7 +55,7 @@ import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.f4.ResourceChartScreen;
+import com.netxforge.netxstudio.screens.f4.ChartScreen;
 
 /**
  * Holds all needed to build a component showing NetXResource values.
@@ -441,7 +441,7 @@ public class ValueComponent {
 					timerange.setBegin(from);
 					timerange.setEnd(to);
 
-					ResourceChartScreen monitorScreen = new ResourceChartScreen(
+					ChartScreen monitorScreen = new ChartScreen(
 							screenService.getScreenContainer(), SWT.NONE);
 					monitorScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 					monitorScreen.setScreenService(screenService);

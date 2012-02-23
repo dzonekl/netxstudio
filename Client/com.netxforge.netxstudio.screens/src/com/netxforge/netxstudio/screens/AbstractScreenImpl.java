@@ -29,6 +29,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IMessage;
+import org.eclipse.ui.part.ShowInContext;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -75,8 +76,6 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
 	}
 
-	// public abstract Viewer getViewer();
-
 	public int getOperation() {
 		return operation;
 	}
@@ -94,8 +93,23 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		return screenService;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.selector.IScreen#setEditingService
+	 * (com.netxforge.netxstudio.screens.editing.IEditingService)
+	 */
+	public void setEditingService(IEditingService editingService) {
+		this.editingService = editingService;
+	}
+
 	public IEditingService getEditingService() {
-		return screenService.getEditingService();
+		if (screenService != null) {
+			return screenService.getEditingService();
+		}else{
+			return editingService;
+		}
 	}
 
 	/**
@@ -146,20 +160,23 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	}
 
 	/**
-	 * Store the provided
+	 * Store a preference, merely delegate to the Activator.
 	 * 
 	 * @param key
 	 * @param value
 	 * @return
 	 */
 	protected boolean storePreference(String key, String value) {
-		// if (!ScreensActivator.doGetPreferenceStore().contains(key)) {
 		ScreensActivator.doGetPreferenceStore().setValue(key, value);
 		return true;
-		// }
-		// return false;
 	}
 
+	/**
+	 * Find a preference, delegate to the Activator.
+	 * 
+	 * @param key
+	 * @return
+	 */
 	protected String findPreference(String key) {
 		if (ScreensActivator.doGetPreferenceStore().contains(key)) {
 			return ScreensActivator.doGetPreferenceStore().getString(key);
@@ -236,4 +253,28 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		return new Viewer[] { this.getViewer() };
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.selector.IScreen#getShowIn(org
+	 * .eclipse.ui.part.ShowInContext)
+	 */
+	public ShowInContext getShowIn(ISelection selection) {
+		return new ShowInContext(null, selection);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.selector.IScreen#handleShowIn
+	 * (org.eclipse.ui.part.ShowInContext)
+	 */
+	public boolean handleShowIn(ShowInContext context) {
+		if (this instanceof IDataInjection) {
+			// inject the context.
+		}
+		return false;
+	}
 }

@@ -91,6 +91,7 @@ import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.ImmutableList;
@@ -99,6 +100,7 @@ import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.interpreter.IInterpreterContext;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -119,7 +121,9 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.ScreenDialog;
@@ -131,6 +135,7 @@ import com.netxforge.netxstudio.screens.ch9.ObjectExpressions;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
+import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 import com.netxforge.netxstudio.screens.tables.TableHelper;
 
 /**
@@ -210,6 +215,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private WritableValue periodEndWritableValue;
 	private Composite cmpExpression;
 	private Composite cmpSubSelector;
+	private IViewerObservableValue observeNodeSelection;
 
 	// private CDateTimeObservableValue fromTimeObservableValue;
 	// private CDateTimeObservableValue toTimeObservableValue;
@@ -576,6 +582,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			}
 
 			private void testExpression() {
+
 				Expression expression = (Expression) expressionAggregate
 						.getExpressionObservable().getValue();
 
@@ -583,6 +590,34 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					expressionEngine.getContext().clear();
 					expressionEngine.getContext().addAll(
 							contextAggregate.getContextObjects());
+
+					// If the expression is a tolerance expression, we have to
+					// provide
+					// a resource monitor...
+					DateTimeRange period = contextAggregate.getPeriod();
+					Date start = modelUtils.fromXMLDate(period.getBegin());
+					Date end = modelUtils.fromXMLDate(period.getEnd());
+					ResourceMonitor resourceMonitor = null;
+					if (contextAggregate.getCurrentExpressionType() == ContextAggregate.TOL_EXPRESSION_CONTEXT
+							&& expressionAggregate.getCurrentSubSelection() instanceof Tolerance) {
+						resultProcessor
+								.setTolerance((Tolerance) expressionAggregate
+										.getCurrentSubSelection());
+
+						// RESOURCE MONITOR CREATION
+						resourceMonitor = OperatorsFactory.eINSTANCE
+								.createResourceMonitor();
+						resourceMonitor.setNodeRef(contextAggregate
+								.getCurrentNode());
+						resourceMonitor.setResourceRef(contextAggregate
+								.getCurrentNetXResource());
+						// CB 22-02, we don't need a copy, we are not contained.
+						resourceMonitor.setPeriod(period);
+
+						resultProcessor.setResourceMonitor(resourceMonitor);
+
+					}
+
 					expressionEngine.setExpression(expression);
 					expressionEngine.run();
 					if (expressionEngine.errorOccurred()) {
@@ -593,14 +628,16 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					final List<BaseExpressionResult> result = expressionEngine
 							.getExpressionResult();
 
-					DateTimeRange period = contextAggregate.getPeriod();
-					Date start = modelUtils.fromXMLDate(period.getBegin());
-					Date end = modelUtils.fromXMLDate(period.getEnd());
-
 					// TODO Annoying to have to provide the start and end date,
 					// as this is already in the context.
 					resultProcessor.processMonitoringResult(
 							expressionEngine.getContext(), result, start, end);
+
+					// Apply the markers to the value viewer.
+					if (resourceMonitor != null) {
+						cmpValues.applyMarkers(modelUtils
+								.toleranceMarkersForResourceMonitor(resourceMonitor));
+					}
 
 					cmpValues.getValuesTableViewer().refresh(true);
 
@@ -879,11 +916,6 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			toolkit.paintBordersFor(hypLnkAddTolerance);
 			hypLnkAddTolerance.setText("Add");
 
-			// observe the sub selector, and handle change with this class.
-			IViewerObservableValue observerSubSelection = ViewersObservables
-					.observeSingleSelection(cmbViewerSubSelector);
-
-			observerSubSelection.addValueChangeListener(this);
 		}
 
 		public void handleValueChange(ValueChangeEvent event) {
@@ -907,12 +939,16 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				} else if (ivov.getViewer() == componentsTreeViewer) {
 					currentComponent = processComponentChange(event
 							.getObservableValue());
-					updateSubSelection();
-					loadExpression();
+					if (currentComponent != null) {
+						updateSubSelection();
+						loadExpression();
+					}
 
 				} else if (ivov.getViewer() == cmbViewerSubSelector) {
 					processSubSelectionChange(event.getObservableValue());
-					loadExpression();
+					if (currentComponent != null) {
+						loadExpression();
+					}
 				}
 			}
 
@@ -927,7 +963,12 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				IEMFListProperty list = EMFProperties
 						.list(LibraryPackage.Literals.COMPONENT__TOLERANCE_REFS);
 				cmbViewerSubSelector.setInput(list.observe(currentComponent));
-				
+				// observe the sub selector, and handle change with this class.
+				IViewerObservableValue observerSubSelection = ViewersObservables
+						.observeSingleSelection(cmbViewerSubSelector);
+
+				observerSubSelection.addValueChangeListener(this);
+
 			} else {
 				cmpSubSelector.setVisible(false);
 			}
@@ -940,12 +981,12 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		 */
 		private Expression loadExpression() {
 			Expression expr = null;
-			
+
 			if (expressionFeature == null
 					|| expressionFeature.getEReferenceType() != LibraryPackage.Literals.EXPRESSION) {
 				return expr;
 			}
-			
+
 			if (expressionFeature.getEContainingClass() == LibraryPackage.Literals.TOLERANCE) {
 				// If we have a sub-selection, otherwise show the
 				// sub-selection menu.
@@ -965,8 +1006,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 						expressionComponent.injectData(expressionsResource,
 								expr, currentSubSelection, expressionFeature);
 					}
-				}else{
-					// do nothing. 
+				} else {
+					// do nothing.
 					// well clean the expression editor, as no...
 				}
 			} else if (expressionFeature.getEContainingClass() == LibraryPackage.Literals.COMPONENT) {
@@ -1057,6 +1098,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			return exprWritable;
 		}
 
+		Object getCurrentSubSelection() {
+			return this.currentSubSelection;
+		}
 	}
 
 	/*
@@ -1066,21 +1110,30 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		private DateTimeRange dtr = GenericsFactory.eINSTANCE
 				.createDateTimeRange();
+
+		private Node currentNode = null;
 		private Component currentComponent = null;
 		private NetXResource currentNetXResource = null;
 		private EReference currentExpressionFeature = null;
-
 		private WritableList contextWritableList = new WritableList();
 		private Expression currentExpression;
 
-		public DateTimeRange getPeriod() {
-			return dtr;
-		}
+		// Our model doesn't differential the expression types, but we need this
+		// for testing , so define them here.
+		static final int NOTSET_EXPRESSION_CONTEXT = -1;
+		static final int CAP_EXPRESSION_CONTEXT = 1;
+		static final int UTIL_EXPRESSION_CONTEXT = 2;
+		static final int TOL_EXPRESSION_CONTEXT = 3;
+
+		private int currentExpressionType = NOTSET_EXPRESSION_CONTEXT;
 
 		public void handleValueChange(ValueChangeEvent event) {
 			IObservable observable = event.getObservable();
 			if (observable instanceof IViewerObservableValue) {
 				IViewerObservableValue ivov = (IViewerObservableValue) observable;
+				if (ivov.getViewer() == cmbViewerNode) {
+					currentNode = processNodeChange(event.getObservableValue());
+				}
 				if (ivov.getViewer() == componentsTreeViewer) {
 					currentComponent = processComponentChange(event
 							.getObservableValue());
@@ -1108,16 +1161,28 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		private void handleChange() {
 			// printData();
 			// build the context.
+
+			// reset the expression type.
+			currentExpressionType = NOTSET_EXPRESSION_CONTEXT;
+
 			ImmutableList<IInterpreterContext> contextList = null;
 			if (currentExpressionFeature == LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF) {
 				if (currentComponent != null) {
 					contextList = expressionComponent.buildContext(dtr,
 							currentComponent);
+					currentExpressionType = CAP_EXPRESSION_CONTEXT;
 				}
 			} else if (currentExpressionFeature == LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF) {
 				if (currentNetXResource != null) {
 					contextList = expressionComponent.buildContext(dtr,
 							currentNetXResource);
+					currentExpressionType = UTIL_EXPRESSION_CONTEXT;
+				}
+			} else if (currentExpressionFeature == LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF) {
+				if (currentNetXResource != null) {
+					contextList = expressionComponent.buildContext(dtr,
+							currentNetXResource);
+					currentExpressionType = TOL_EXPRESSION_CONTEXT;
 				}
 			}
 
@@ -1150,6 +1215,27 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			return contextObjects;
 		}
 
+		Node getCurrentNode() {
+			return currentNode;
+		}
+
+		@SuppressWarnings("unused")
+		Component getCurrentComponent() {
+			return currentComponent;
+		}
+
+		NetXResource getCurrentNetXResource() {
+			return currentNetXResource;
+		}
+
+		public int getCurrentExpressionType() {
+			return currentExpressionType;
+		}
+
+		public DateTimeRange getPeriod() {
+			return dtr;
+		}
+
 		@SuppressWarnings("unused")
 		private void printData() {
 			System.out
@@ -1170,13 +1256,15 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 									.getName() : "?"));
 		}
 
-		private NetXResource processResourceChange(IObservableValue ob) {
-			NetXResource r = null;
+		private Node processNodeChange(IObservableValue ob) {
+			Node n = null;
 			Object value = ob.getValue();
-			if (value instanceof NetXResource) {
-				r = (NetXResource) value;
+			if (value instanceof Node) {
+				n = (Node) value;
+				currentComponent = null;
+				currentNetXResource = null;
 			}
-			return r;
+			return n;
 		}
 
 		private Component processComponentChange(IObservableValue ob) {
@@ -1188,6 +1276,16 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			}
 			return c;
 		}
+
+		private NetXResource processResourceChange(IObservableValue ob) {
+			NetXResource r = null;
+			Object value = ob.getValue();
+			if (value instanceof NetXResource) {
+				r = (NetXResource) value;
+			}
+			return r;
+		}
+
 	}
 
 	class CapacityEditingSupport extends EditingSupport {
@@ -1385,7 +1483,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		// NODE SINGLE SELECTION OBSERVABLE.
 
-		final IViewerObservableValue observeNodeSelection = ViewersObservables
+		observeNodeSelection = ViewersObservables
 				.observeSingleSelection(cmbViewerNode);
 
 		// BINDING OF THE COMPONENTS TABLE.
@@ -1422,6 +1520,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 						LibraryPackage.Literals.NODE_TYPE__FUNCTIONS),
 				FeaturePath.fromList(OperatorsPackage.Literals.NODE__NODE_TYPE,
 						LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS));
+
 		componentsTreeViewer.setInput(nodeTypeList
 				.observeDetail(observeNodeSelection));
 
@@ -1625,6 +1724,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		periodEndWritableValue.setValue(periodComponent.getPeriod().getEnd());
 
 		observerExpressionFeature.addValueChangeListener(contextAggregate);
+
+		observeNodeSelection.addValueChangeListener(contextAggregate);
 		observeSingleComponentSelection
 				.addValueChangeListener(contextAggregate);
 		observeResourceSingleSelection.addValueChangeListener(contextAggregate);
@@ -1922,5 +2023,37 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		actionList.add(new EditResourceAction(actionText));
 		// actionList.add(new MonitorResourceAction("Monitor...", SWT.PUSH));
 		return actionList.toArray(new IAction[actionList.size()]);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#getShowIn(org.eclipse
+	 * .jface.viewers.ISelection)
+	 */
+	@Override
+	public ShowInContext getShowIn(ISelection selection) {
+		
+		ChartShowInContext chartInput = new ChartShowInContext();
+		
+		DateTimeRange period = contextAggregate.getPeriod();
+		chartInput.setPeriod(period);
+		
+		// Should get it from the value component, but no range state there yet.
+		// Defaults to 60 minutes. 
+		chartInput.setInterval(ModelUtils.MINUTES_IN_AN_HOUR);
+		
+		//If we have a resource monitor, we can pass this as well. 
+		if(resultProcessor.getResourceMonitor() != null){
+			chartInput.setResourceMonitor(resultProcessor.getResourceMonitor());
+		}
+		
+		// create a chart show in.
+		ShowInContext showInContext = new ShowInContext(chartInput,
+				selection);
+
+		
+		return showInContext;
 	}
 }

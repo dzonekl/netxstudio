@@ -55,7 +55,7 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 									+ getTotalRows() + " rows."));
 			return 0;
 		}
-
+		reader.close();
 		final int totalRows = processRows();
 		return totalRows;
 	}

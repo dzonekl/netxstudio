@@ -14,11 +14,11 @@ import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.nebula.widgets.cdatetime.CDT;
-import org.eclipse.nebula.widgets.cdatetime.CDateTime;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -38,12 +38,14 @@ import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.part.ShowInContext;
 import org.swtchart.Chart;
 import org.swtchart.IAxis.Position;
 import org.swtchart.IAxisTick;
 import org.swtchart.IBarSeries;
 import org.swtchart.ILineSeries;
 import org.swtchart.ISeries;
+import org.swtchart.ISeriesSet;
 import org.swtchart.LineStyle;
 
 import com.google.common.collect.Lists;
@@ -56,22 +58,20 @@ import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 
-public class ResourceChartScreen extends AbstractScreen implements
-		IDataScreenInjection {
+public class ChartScreen extends AbstractScreen implements IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Chart chart;
 	private Table table;
-	private Form frmFunction;
+	private Form frmChartScreen;
 	private ResourceMonitor resMonitor;
 	private NetXResource netXResource;
 	private DateTimeRange dtr;
 	private TableViewer markersTableViewer;
-	private CDateTime dateTimeFrom;
-	private CDateTime dateTimeTo;
 
-	public ResourceChartScreen(Composite parent, int style) {
+	public ChartScreen(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -82,145 +82,32 @@ public class ResourceChartScreen extends AbstractScreen implements
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 		// buildUI();
-
 	}
 
 	public void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		frmFunction = toolkit.createForm(this);
-//		frmFunction.setText("Resource Monitor " + netXResource.getShortName());
-		frmFunction.setText("Resource charts");		
-		frmFunction.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmFunction);
+		frmChartScreen = toolkit.createForm(this);
+		// frmFunction.setText("Resource Monitor " +
+		// netXResource.getShortName());
+		frmChartScreen.setText("Resource charts");
+		frmChartScreen.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmChartScreen);
 
-		frmFunction.getBody().setLayout(new ColumnLayout());
+		frmChartScreen.getBody().setLayout(new ColumnLayout());
 
-		// FormText formText = toolkit
-		// .createFormText(frmFunction.getBody(), false);
-		// FormData fd_formText = new FormData();
-		// fd_formText.bottom = new FormAttachment(0, 50);
-		// fd_formText.right = new FormAttachment(100, -12);
-		// fd_formText.top = new FormAttachment(0, 12);
-		// fd_formText.left = new FormAttachment(0, 12);
-		// formText.setLayoutData(fd_formText);
-		// toolkit.paintBordersFor(formText);
-		// formText.setText(
-		// "<form><p>A Resource Monitor maps, capacity with utilization from metrics, and applies markers where needed.</p></form>",
-		// true, false);
+		Composite cmChart = toolkit.createComposite(frmChartScreen.getBody(),
+				SWT.NONE);
+		toolkit.paintBordersFor(cmChart);
+		// sctnPeriod.setClient(composite_2);
+		cmChart.setLayout(new GridLayout(2, false));
 
-		Section sctnPeriod = toolkit.createSection(frmFunction.getBody(),
-				Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR);
-
-		// FormData fd_sctnPeriod = new FormData();
-		// fd_sctnPeriod.bottom = new FormAttachment(100, -165);
-		// fd_sctnPeriod.right = new FormAttachment(100, -12);
-		// fd_sctnPeriod.top = new FormAttachment(0, 12);
-		// fd_sctnPeriod.left = new FormAttachment(0, 12);
-		// sctnPeriod.setLayoutData(fd_sctnPeriod);
-
-		toolkit.paintBordersFor(sctnPeriod);
-		sctnPeriod.setText("Monitor Period");
-
-		Composite composite_2 = toolkit.createComposite(sctnPeriod, SWT.NONE);
-		toolkit.paintBordersFor(composite_2);
-		sctnPeriod.setClient(composite_2);
-		composite_2.setLayout(new GridLayout(4, false));
-
-		@SuppressWarnings("unused")
-		Label lblFromDate = toolkit.createLabel(composite_2, "From:", SWT.NONE);
-
-		dateTimeFrom = new CDateTime(composite_2, CDT.BORDER | CDT.DROP_DOWN
-				| CDT.DATE_MEDIUM);
-
-		GridData gdDateTimeFrom = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gdDateTimeFrom.heightHint = 19;
-		gdDateTimeFrom.widthHint = 100;
-		dateTimeFrom.setLayoutData(gdDateTimeFrom);
-		toolkit.adapt(dateTimeFrom);
-		toolkit.paintBordersFor(dateTimeFrom);
-
-		Composite compositeScrollStick = toolkit.createComposite(composite_2,
-				SWT.NO_BACKGROUND);
-		compositeScrollStick.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 2, 2));
-		toolkit.paintBordersFor(compositeScrollStick);
-		GridLayout gl_compositeScrollStick = new GridLayout(3, false);
-		gl_compositeScrollStick.marginTop = 3;
-		gl_compositeScrollStick.verticalSpacing = 0;
-		gl_compositeScrollStick.marginWidth = 0;
-		gl_compositeScrollStick.marginHeight = 0;
-		gl_compositeScrollStick.horizontalSpacing = 0;
-		compositeScrollStick.setLayout(gl_compositeScrollStick);
-
-		new Label(compositeScrollStick, SWT.NONE);
-		Button btnUpScroll = toolkit.createButton(compositeScrollStick, "",
-				SWT.ARROW | SWT.UP);
-		btnUpScroll.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				getChart().getAxisSet().getYAxis(0).scrollUp();
-				getChart().redraw();
-			}
-		});
-		new Label(compositeScrollStick, SWT.NONE);
-
-		Button btnLeftScroll = toolkit.createButton(compositeScrollStick, "",
-				SWT.ARROW | SWT.LEFT);
-		btnLeftScroll.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				getChart().getAxisSet().getXAxis(0).scrollDown();
-				getChart().redraw();
-			}
-		});
-		new Label(compositeScrollStick, SWT.NONE);
-		Button btnRightScroll = toolkit.createButton(compositeScrollStick, "",
-				SWT.ARROW | SWT.RIGHT);
-		btnRightScroll.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				getChart().getAxisSet().getXAxis(0).scrollUp();
-				getChart().redraw();
-			}
-		});
-
-		new Label(compositeScrollStick, SWT.NONE);
-		Button btnDownScroll = toolkit.createButton(compositeScrollStick, "",
-				SWT.ARROW | SWT.DOWN);
-		btnDownScroll.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				getChart().getAxisSet().getYAxis(0).scrollDown();
-				getChart().redraw();
-			}
-		});
-		new Label(compositeScrollStick, SWT.NONE);
-
-		Label lblToDate = toolkit.createLabel(composite_2, "To:", SWT.NONE);
-		lblToDate.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+		buildScrollStick(cmChart, new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1));
 
-		dateTimeTo = new CDateTime(composite_2, CDT.BORDER | CDT.DROP_DOWN
-				| CDT.DATE_MEDIUM);
-		GridData gd_dateChooserCombo_1 = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
-		gd_dateChooserCombo_1.heightHint = 19;
-		gd_dateChooserCombo_1.widthHint = 100;
-		dateTimeTo.setLayoutData(gd_dateChooserCombo_1);
-
-		toolkit.adapt(dateTimeTo);
-		toolkit.paintBordersFor(dateTimeTo);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-
 		// CHART
-		chart = new Chart(composite_2, SWT.NONE);
-		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4);
+		chart = new Chart(cmChart, SWT.NONE);
+		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4);
 		gridData.heightHint = 350;
 		chart.setLayoutData(gridData);
 		chart.setBackground(Display.getDefault()
@@ -254,12 +141,13 @@ public class ResourceChartScreen extends AbstractScreen implements
 				.getTick()
 				.setForeground(
 						Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+
 		// chart.getAxisSet().getYAxis(utilizationAxisID).getTick()
 		// .setFormat(new DecimalFormat("##%"));
 
 		// ZOOM etc... buttons.
 
-		Button btnZoomIn = toolkit.createButton(composite_2, "Z+", SWT.NONE);
+		Button btnZoomIn = toolkit.createButton(cmChart, "Z+", SWT.NONE);
 		btnZoomIn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -267,13 +155,13 @@ public class ResourceChartScreen extends AbstractScreen implements
 				getChart().redraw();
 			}
 		});
-		GridData gd_btnZoomIn = new GridData(SWT.LEFT, SWT.CENTER, false,
+		GridData gd_btnZoomIn = new GridData(SWT.CENTER, SWT.CENTER, false,
 				false, 1, 1);
 		gd_btnZoomIn.widthHint = 24;
 		gd_btnZoomIn.heightHint = 18;
 		btnZoomIn.setLayoutData(gd_btnZoomIn);
 
-		Button btnZoomOut = toolkit.createButton(composite_2, "Z-", SWT.NONE);
+		Button btnZoomOut = toolkit.createButton(cmChart, "Z-", SWT.NONE);
 		btnZoomOut.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -281,18 +169,13 @@ public class ResourceChartScreen extends AbstractScreen implements
 				getChart().redraw();
 			}
 		});
-		GridData gd_btnZoomOut = new GridData(SWT.LEFT, SWT.CENTER, false,
+		GridData gd_btnZoomOut = new GridData(SWT.CENTER, SWT.CENTER, false,
 				false, 1, 1);
 		gd_btnZoomOut.widthHint = 24;
 		gd_btnZoomOut.heightHint = 18;
 		btnZoomOut.setLayoutData(gd_btnZoomOut);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
 
-		Section sctnMarkers = toolkit.createSection(frmFunction.getBody(),
+		Section sctnMarkers = toolkit.createSection(frmChartScreen.getBody(),
 				Section.TWISTIE | Section.TITLE_BAR);
 
 		toolkit.paintBordersFor(sctnMarkers);
@@ -360,6 +243,64 @@ public class ResourceChartScreen extends AbstractScreen implements
 
 	}
 
+	private void buildScrollStick(Composite composite_2, GridData gd) {
+		Composite compositeScrollStick = toolkit.createComposite(composite_2,
+				SWT.NO_BACKGROUND);
+		compositeScrollStick.setLayoutData(gd);
+		toolkit.paintBordersFor(compositeScrollStick);
+		GridLayout gl_compositeScrollStick = new GridLayout(3, false);
+		gl_compositeScrollStick.marginTop = 3;
+		gl_compositeScrollStick.verticalSpacing = 0;
+		gl_compositeScrollStick.marginWidth = 0;
+		gl_compositeScrollStick.marginHeight = 0;
+		gl_compositeScrollStick.horizontalSpacing = 0;
+		compositeScrollStick.setLayout(gl_compositeScrollStick);
+
+		new Label(compositeScrollStick, SWT.NONE);
+		Button btnUpScroll = toolkit.createButton(compositeScrollStick, "",
+				SWT.ARROW | SWT.UP);
+		btnUpScroll.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				getChart().getAxisSet().getYAxis(0).scrollUp();
+				getChart().redraw();
+			}
+		});
+		new Label(compositeScrollStick, SWT.NONE);
+
+		Button btnLeftScroll = toolkit.createButton(compositeScrollStick, "",
+				SWT.ARROW | SWT.LEFT);
+		btnLeftScroll.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				getChart().getAxisSet().getXAxis(0).scrollDown();
+				getChart().redraw();
+			}
+		});
+		new Label(compositeScrollStick, SWT.NONE);
+		Button btnRightScroll = toolkit.createButton(compositeScrollStick, "",
+				SWT.ARROW | SWT.RIGHT);
+		btnRightScroll.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				getChart().getAxisSet().getXAxis(0).scrollUp();
+				getChart().redraw();
+			}
+		});
+
+		new Label(compositeScrollStick, SWT.NONE);
+		Button btnDownScroll = toolkit.createButton(compositeScrollStick, "",
+				SWT.ARROW | SWT.DOWN);
+		btnDownScroll.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				getChart().getAxisSet().getYAxis(0).scrollDown();
+				getChart().redraw();
+			}
+		});
+		new Label(compositeScrollStick, SWT.NONE);
+	}
+
 	public void loadDummyData() {
 
 		// Demo values. Use Databinding !
@@ -403,10 +344,11 @@ public class ResourceChartScreen extends AbstractScreen implements
 
 	int expectedValueQuantity = -1;
 	private int interval;
+	private List<Value> values;
 
 	public List<Value> sortAndApplyPeriod(List<Value> values) {
-		List<Value> sortedCopy = modelUtils.sortByTimeStampAndReverse(values);
-		return modelUtils.filterValueInRange(sortedCopy, dtr);
+		List<Value> sortedCopy = modelUtils.sortValuesByTimeStampAndReverse(values);
+		return modelUtils.valuesInRange(sortedCopy, dtr);
 	}
 
 	/**
@@ -492,16 +434,27 @@ public class ResourceChartScreen extends AbstractScreen implements
 	/**
 	 * Use with additional parameter DateTimeRange.
 	 */
+	@SuppressWarnings("unchecked")
 	public void injectData(Object owner, Object object) {
 
-		if (object != null && object instanceof ResourceMonitor) {
+		if (object instanceof ResourceMonitor) {
 			resMonitor = (ResourceMonitor) object;
 			netXResource = resMonitor.getResourceRef();
 			dtr = resMonitor.getPeriod();
 			buildUI();
-
-			frmFunction.setText("Resource Monitor "
+			frmChartScreen.setText("Resource Monitor "
 					+ netXResource.getShortName());
+			initDataBindings_();
+		} else {
+			if (owner instanceof NetXResource) {
+//				this.dtr = (DateTimeRange) object;
+				this.netXResource = (NetXResource) owner;
+			}
+
+			if (object instanceof List<?>) {
+				this.values = (List<Value>) object;
+			}
+//			buildUI();
 			initDataBindings_();
 		}
 
@@ -524,7 +477,7 @@ public class ResourceChartScreen extends AbstractScreen implements
 			this.interval = interval;
 		}
 
-		buildUI();
+//		buildUI();
 		initDataBindings_();
 	}
 
@@ -540,16 +493,13 @@ public class ResourceChartScreen extends AbstractScreen implements
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		if (dtr != null) {
-			dateTimeFrom.setSelection(modelUtils.begin(dtr));
-			dateTimeTo.setSelection(modelUtils.end(dtr));
-
-			dateTimeFrom.setEditable(false);
-			dateTimeTo.setEditable(false);
-		}
-
 		initChartBinding();
+		initMarkersBinding();
 
+		return context;
+	}
+
+	private void initMarkersBinding() {
 		if (resMonitor != null) {
 
 			ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
@@ -576,27 +526,39 @@ public class ResourceChartScreen extends AbstractScreen implements
 			markersTableViewer.setInput(resourceMonitorObservableList
 					.observe(resMonitor));
 		}
-		return context;
 	}
 
 	private void initChartBinding() {
-
+		
+		ISeriesSet seriesSet = chart.getSeriesSet();
+		for( ISeries serie : seriesSet.getSeries()){
+			seriesSet.deleteSeries(serie.getId());
+		}
+		
 		// METRIC VALUES....
 		List<Value> metricValues = null;
-		if (interval > 0) {
-			MetricValueRange mvr = modelUtils.valueRangeForInterval(
-					netXResource, interval);
-			metricValues = mvr.getMetricValues();
-			if (metricValues == null || metricValues.size() == 0) {
-				return;
+
+		if (values == null) {
+			if (interval > 0) {
+				MetricValueRange mvr = modelUtils.valueRangeForInterval(
+						netXResource, interval);
+				metricValues = mvr.getMetricValues();
+				if (metricValues == null || metricValues.size() == 0) {
+					return;
+				}
 			} else {
-				metricValues = this.sortAndApplyPeriod(metricValues);
+				// if(netXResource.getMetricValueRanges().size() > 0 ){
+				// values = netXResource.getMetricValueRanges().get(0);
+				// }
+				return;
 			}
+
 		} else {
-			// if(netXResource.getMetricValueRanges().size() > 0 ){
-			// values = netXResource.getMetricValueRanges().get(0);
-			// }
-			return;
+			metricValues = values;
+		}
+
+		if (dtr != null) {
+			metricValues = this.sortAndApplyPeriod(metricValues);
 		}
 
 		// DATE RANGE FROM METRIC VALUES
@@ -625,27 +587,29 @@ public class ResourceChartScreen extends AbstractScreen implements
 		double[] capValues = modelUtils
 				.transformValueToDoubleArray(capMatchingDates);
 		this.seriesFromCapacity(dateArray, capValues, chart);
-		
-		
-		// UTIL VALUES.
-		List<Value> utilValues = sortAndApplyPeriod(netXResource.getUtilizationValues());
-		
-		List<Double> utilDoubleValues = modelUtils.transformValueToDouble(utilValues);
 
-		// Multiply by 100 
-		double[] utilDoubleArray = modelUtils.multiplyByHundredAndToArray(utilDoubleValues);
-		
+		// UTIL VALUES.
+		List<Value> utilValues = sortAndApplyPeriod(netXResource
+				.getUtilizationValues());
+
+		List<Double> utilDoubleValues = modelUtils
+				.transformValueToDouble(utilValues);
+
+		// Multiply by 100
+		double[] utilDoubleArray = modelUtils
+				.multiplyByHundredAndToArray(utilDoubleValues);
+
 		this.seriesFromUtilization(dateArray, utilDoubleArray, chart, 1);
 
-		
 		// TOL VALUES
-		
+
 		// Tolerances are not stored.....
 		// this.seriesFromTolerance(chart, 1);
 
 		// Setup data binding.
 		// adjust the axis range
 		chart.getAxisSet().adjustRange();
+		chart.redraw();
 	}
 
 	public class MarkersObervableMapLabelProvider extends
@@ -689,7 +653,7 @@ public class ResourceChartScreen extends AbstractScreen implements
 	}
 
 	public Form getScreenForm() {
-		return this.frmFunction;
+		return this.frmChartScreen;
 	}
 
 	public void disposeData() {
@@ -699,4 +663,33 @@ public class ResourceChartScreen extends AbstractScreen implements
 		return "Resource graph";
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#handleShowIn(org.eclipse.ui.part.ShowInContext)
+	 */
+	@Override
+	public boolean handleShowIn(ShowInContext context) {
+		
+		if(context.getInput() instanceof ChartShowInContext){
+			
+			ChartShowInContext chartInput = (ChartShowInContext) context.getInput();
+			// Clear our chart,
+			this.interval = chartInput.getInterval();
+			this.dtr = chartInput.getPeriod();
+			this.resMonitor = chartInput.getResourceMonitor();
+			ISelection selection = context.getSelection();
+			if( selection instanceof IStructuredSelection){
+				if(((IStructuredSelection) selection).getFirstElement() instanceof NetXResource){
+					this.netXResource = (NetXResource) ((IStructuredSelection) selection).getFirstElement();
+				}
+			}
+			
+			this.initDataBindings_();
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
 }

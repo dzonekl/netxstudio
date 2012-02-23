@@ -55,9 +55,8 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Warehouse;
 
 /**
- * Is responsible for finding a network element using a set of IdentifierValues.
- * When the most deep component or relationship is not found, and the metric is
- * actually on the parent, we create the component.
+ * Is responsible for finding a position in a the Network Hierarchy using a set
+ * of IdentifierValues. The Node Identifier value is mandatory.
  * 
  * 
  * @author Martin Taal
@@ -125,8 +124,9 @@ public class ComponentLocator {
 			if (metric == null || descriptors == null) {
 				return null;
 			}
-
-			System.out.println("IMPORTER calling xref for key=" + from);
+			if (DataActivator.DEBUG) {
+				System.out.println("IMPORTER calling xref for key=" + from);
+			}
 
 			// Result set.
 			List<Component> matchingComponents = Lists.newArrayList();
@@ -173,10 +173,11 @@ public class ComponentLocator {
 						.getSourceObject();
 				if (DataActivator.DEBUG) {
 					if (referingObject instanceof Component) {
-						System.out.println("-- ref: "
-								+ ((Component) referingObject).getName()
-								+ " cdo res path="
-								+ modelUtils.cdoResourcePath(referingObject));
+							System.out.println("-- ref: Component="
+									+ ((Component) referingObject).getName()
+									+ " cdo res path="
+									+ modelUtils
+											.cdoResourcePath(referingObject));
 					}
 				}
 
@@ -305,13 +306,14 @@ public class ComponentLocator {
 		}
 
 		// make a copy, ommitting the node descriptor to reduce the list.
-//		List<IdentifierDescriptor> lookupList = Lists.newArrayListWithCapacity(descriptors.size());
-//		int indexOfNodeDescriptor = descriptors.indexOf(nodeDescriptor);
-//		Collections.copy(lookupList, descriptors);
-//		lookupList.remove(indexOfNodeDescriptor);
+		// List<IdentifierDescriptor> lookupList =
+		// Lists.newArrayListWithCapacity(descriptors.size());
+		// int indexOfNodeDescriptor = descriptors.indexOf(nodeDescriptor);
+		// Collections.copy(lookupList, descriptors);
+		// lookupList.remove(indexOfNodeDescriptor);
 
-		Component result = matchIdentifiers(descriptors,
-				nodeDescriptor, allComponentsMatchingMetric);
+		Component result = matchIdentifiers(descriptors, nodeDescriptor,
+				allComponentsMatchingMetric);
 
 		if (result != null) {
 			return result;
@@ -404,15 +406,14 @@ public class ComponentLocator {
 		}
 		return null;
 	}
-	
-	
+
+	// Iterate through components and sub iterate through the identifiers,
+	// having a full match of identifiers
+	// and components.
 	private Component matchIdentifiers(List<IdentifierDescriptor> identifiers,
 			IdentifierDescriptor nodeIdentifier,
 			List<Component> allComponentsMatchingMetrics) {
 
-		// Iterate through components and sub iterate through the identifiers,
-		// having a full match of identifiers
-		// and components.
 		for (final Component componentToVerify : allComponentsMatchingMetrics) {
 
 			if (DataActivator.DEBUG) {
@@ -449,7 +450,7 @@ public class ComponentLocator {
 								+ componentToVerify.getName());
 					}
 					// Check if the identifier matches the component name.
-					if (!isMatching(componentToVerify, idDescriptor)) {
+					if (!isMatching(componentToVerify, idDescriptor, true)) {
 						if (DataActivator.DEBUG) {
 							System.out.println("-- matching failed:"
 									+ idDescriptor.getValue()
@@ -504,8 +505,7 @@ public class ComponentLocator {
 		return null;
 	}
 
-	
-	// DO NOT USE, DOESN"T WORK. 
+	// DO NOT USE, DOESN"T WORK.
 	@SuppressWarnings("unused")
 	private Component matchIdentifiersAdvanced(
 			List<IdentifierDescriptor> identifiers,
@@ -528,10 +528,10 @@ public class ComponentLocator {
 		for (final IdentifierDescriptor idDescriptor : identifiers) {
 			atLeastOneIdentifierChecked = true;
 
-			if(idDescriptor.getKind().getObjectKind() == ObjectKindType.NODE ){
-				// If no other identifiers, this should still work. 
+			if (idDescriptor.getKind().getObjectKind() == ObjectKindType.NODE) {
+				// If no other identifiers, this should still work.
 				continue; // skip node descriptor
-			}else if (idDescriptor.getKind().getObjectKind() == ObjectKindType.RELATIONSHIP) {
+			} else if (idDescriptor.getKind().getObjectKind() == ObjectKindType.RELATIONSHIP) {
 				// TODO, predicate for relationships.
 				continue;
 			} else {
@@ -548,8 +548,8 @@ public class ComponentLocator {
 						System.out.println("-- matching succeeded:"
 								+ idDescriptor.getValue()
 								+ " , for component name=" + c.getName());
-					} 
-				}else {
+					}
+				} else {
 					allIdentifiersValid = false;
 					if (DataActivator.DEBUG) {
 						System.out.println("-- matching failed:"
@@ -558,16 +558,15 @@ public class ComponentLocator {
 				}
 			}
 		}
-		
-		// update the global state. 
-		if (localSuccessFullIdentifiers.size() > successFullIdentifiers
-				.size()) {
+
+		// update the global state.
+		if (localSuccessFullIdentifiers.size() > successFullIdentifiers.size()) {
 			successFullIdentifiers = localSuccessFullIdentifiers;
 			successFullComponents = localSucssFullComponents;
 		}
-		
+
 		Component result = null;
-		
+
 		// We checked at least one, and all are actually valid so get the first
 		// matching entry. (There could be more).
 		if (atLeastOneIdentifierChecked && allIdentifiersValid) {
@@ -780,7 +779,7 @@ public class ComponentLocator {
 		if (eObject == null) {
 			return false;
 		}
-		if (eObject instanceof Node && isMatching(eObject, identifierValue)) {
+		if (eObject instanceof Node && isMatching(eObject, identifierValue, false)) {
 			// Bug Should not add metrics to a Network Element in the Warehouse.
 			Node n = (Node) eObject;
 			if (n.eContainer() != null && n.eContainer() instanceof Warehouse) {
@@ -799,7 +798,7 @@ public class ComponentLocator {
 	 * (For the target row).
 	 */
 	private boolean isMatching(EObject eObject,
-			IdentifierDescriptor identifierDescriptor) {
+			IdentifierDescriptor identifierDescriptor, boolean shouldMatchParents) {
 
 		// A null identifier should not be created!
 		final String idValue = identifierDescriptor.getValue() != null ? identifierDescriptor
@@ -809,34 +808,38 @@ public class ComponentLocator {
 			if (eObject instanceof Function) {
 				for (final FunctionRelationship r : ((Function) eObject)
 						.getFunctionRelationshipRefs()) {
-					if (featureMatchesValue(r,
-							identifierDescriptor.getPropertyFeature(), idValue)) {
+					if (objectFeatureMatchesValue(r,
+							identifierDescriptor.getPropertyFeature(), idValue, shouldMatchParents)) {
 						return true;
 					}
 				}
 			} else {
 				for (final EquipmentRelationship r : ((Equipment) eObject)
 						.getEquipmentRelationshipRefs()) {
-					if (featureMatchesValue(r,
-							identifierDescriptor.getPropertyFeature(), idValue)) {
+					if (objectFeatureMatchesValue(r,
+							identifierDescriptor.getPropertyFeature(), idValue, shouldMatchParents)) {
 						return true;
 					}
 				}
 			}
 			return false;
 		} else {
-			return featureMatchesValue(eObject,
-					identifierDescriptor.getPropertyFeature(), idValue);
+			return objectFeatureMatchesValue(eObject,
+					identifierDescriptor.getPropertyFeature(), idValue, shouldMatchParents);
 		}
 	}
 
-	private boolean featureMatchesValue(EObject eObject,
-			EStructuralFeature eFeature, String idValue) {
+	
+	/*
+	 * Potentially walks up the containment hierarchy to find this value. 
+	 * Can be disabled for certain cases. 
+	 */
+	private boolean objectFeatureMatchesValue(EObject eObject,
+			EStructuralFeature eFeature, String idValue, boolean shouldMatchParents) {
 
 		// CB, feature is already produced with the descriptor.
 		// EStructuralFeature eFeature = featureForName(eObject, eFeatureName);
-
-		if (eFeature != null) {
+		if (eFeature != null && eObject.eClass().getFeatureID(eFeature) != -1) {
 			final Object componentFeatureValue = eObject.eGet(eFeature);
 			if (componentFeatureValue instanceof String
 					&& matches(idValue, (String) componentFeatureValue)) {
@@ -844,11 +847,9 @@ public class ComponentLocator {
 			}
 		}
 
-		// CB removed, 20-01-2011, check if one of the parents has this one, why
-		// if we already have the whole hiearchy??????
-		// if (eObject.eContainer() != null) {
-		// return featureMatchesValue(eObject.eContainer(), eFeature, idValue);
-		// }
+		if (eObject.eContainer() != null) {
+			return objectFeatureMatchesValue(eObject.eContainer(), eFeature, idValue, shouldMatchParents);
+		}
 		return false;
 	}
 
@@ -886,8 +887,8 @@ public class ComponentLocator {
 			// A null identifier should not be created!
 			final String idValue = identifierDescriptor.getValue() != null ? identifierDescriptor
 					.getValue() : null;
-			return featureMatchesValue(c,
-					identifierDescriptor.getPropertyFeature(), idValue);
+			return objectFeatureMatchesValue(c,
+					identifierDescriptor.getPropertyFeature(), idValue, true);
 		}
 	}
 

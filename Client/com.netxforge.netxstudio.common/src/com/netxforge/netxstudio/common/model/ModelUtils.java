@@ -43,6 +43,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -272,10 +273,10 @@ public class ModelUtils {
 		return new NodeTypeIsLeafComparator();
 	}
 
-	public class ValuerInsideRange implements Predicate<Value> {
+	public class ValueInsideRange implements Predicate<Value> {
 		private final DateTimeRange dtr;
 
-		public ValuerInsideRange(final DateTimeRange dtr) {
+		public ValueInsideRange(final DateTimeRange dtr) {
 			this.dtr = dtr;
 		}
 
@@ -289,8 +290,8 @@ public class ModelUtils {
 		}
 	}
 
-	public ValuerInsideRange valueInsideRange(DateTimeRange dtr) {
-		return new ValuerInsideRange(dtr);
+	public ValueInsideRange valueInsideRange(DateTimeRange dtr) {
+		return new ValueInsideRange(dtr);
 	}
 
 	public class NonHiddenFile implements Predicate<File> {
@@ -459,7 +460,7 @@ public class ModelUtils {
 		public boolean apply(final Marker m) {
 			Value mValue = m.getValueRef();
 			if (mValue != null) {
-				return mValue == value;
+				return EcoreUtil.equals(mValue, value);
 			}
 			return false;
 		}
@@ -467,6 +468,40 @@ public class ModelUtils {
 
 	public MarkerForValue markerForValue(Value v) {
 		return new MarkerForValue(v);
+	}
+	
+	
+	public class MarkerForDate implements Predicate<Marker> {
+		private final Date checkDate;
+
+		public MarkerForDate(final Date value) {
+			this.checkDate = value;
+		}
+
+		public boolean apply(final Marker m) {
+			if (m.eIsSet(OperatorsPackage.Literals.MARKER__VALUE_REF)) {
+				Value markerValue = m.getValueRef();
+				if (markerValue.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)) {
+					Date markerDate = fromXMLDate(markerValue.getTimeStamp());
+					return markerDate.equals(checkDate);
+				}
+			}
+			return false;
+		}
+	}
+	
+	public MarkerForDate markerForDate(Date d) {
+		return new MarkerForDate(d);
+	}
+	
+	public class ToleranceMarkerPredicate implements Predicate<Marker> {
+		public boolean apply(final Marker m) {
+			return m instanceof ToleranceMarker;
+		}
+	}
+
+	public ToleranceMarkerPredicate toleranceMarkers() {
+		return new ToleranceMarkerPredicate();
 	}
 
 	/**
@@ -662,14 +697,14 @@ public class ModelUtils {
 		return this.resourcesWithExpressionName(cl, expressionName, true);
 	}
 
-	public List<Value> sortByTimeStampAndReverse(List<Value> values) {
+	public List<Value> sortValuesByTimeStampAndReverse(List<Value> values) {
 		List<Value> sortedCopy = Ordering.from(valueTimeStampCompare())
 				.reverse().sortedCopy(values);
 		return sortedCopy;
 
 	}
 
-	public List<Value> sortByTimeStamp(List<Value> values) {
+	public List<Value> sortValuesByTimeStamp(List<Value> values) {
 		List<Value> sortedCopy = Ordering.from(valueTimeStampCompare())
 				.sortedCopy(values);
 
@@ -690,11 +725,12 @@ public class ModelUtils {
 		return (Lists.newArrayList(filterValues));
 	}
 
-	public List<Value> filterValueInRange(List<Value> unfiltered,
+	public List<Value> valuesInRange(Iterable<Value> unfiltered,
 			DateTimeRange dtr) {
+
 		Iterable<Value> filterValues = Iterables.filter(unfiltered,
-				this.valueInsideRange(dtr));
-		return (Lists.newArrayList(filterValues));
+				valueInsideRange(dtr));
+		return Lists.newArrayList(filterValues);
 	}
 
 	/**
@@ -941,8 +977,17 @@ public class ModelUtils {
 		return null;
 	}
 
-	public Map<NetXResource, List<Marker>> markersForNode(Service service,
-			Node n, DateTimeRange dtr) {
+	/**
+	 * returns a Map of markers for each of the NetXResources in the specified
+	 * node.
+	 * 
+	 * @param service
+	 * @param n
+	 * @param dtr
+	 * @return
+	 */
+	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceAndNodeAndPeriod(
+			Service service, Node n, DateTimeRange dtr) {
 
 		// Sort and reverse the Service Monitors.
 		List<ServiceMonitor> sortedCopy = Ordering
@@ -953,34 +998,8 @@ public class ModelUtils {
 		List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
 				sortedCopy, dtr);
 
-		Map<NetXResource, List<Marker>> markersPerResource = Maps.newHashMap();
-
-		for (ServiceMonitor sm : filtered) {
-
-			for (ResourceMonitor rm : sm.getResourceMonitors()) {
-				if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
-
-					// Analyze per resource.
-					List<Marker> markers;
-					NetXResource res = rm.getResourceRef();
-					if (!markersPerResource.containsKey(res)) {
-						markers = Lists.newArrayList();
-						markersPerResource.put(res, markers);
-					} else {
-						markers = markersPerResource.get(res);
-					}
-
-					Marker[] markerArray = new Marker[rm.getMarkers().size()];
-					rm.getMarkers().toArray(markerArray);
-					List<Marker> toleranceMarkers = this
-							.toleranceMarkers(markerArray);
-
-					markers.addAll(toleranceMarkers);
-
-				}
-			}
-
-		}
+		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
+				filtered, n);
 		return markersPerResource;
 
 	}
@@ -994,7 +1013,8 @@ public class ModelUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public List<Marker> markersWithinRange(ServiceMonitor sm, Node n) {
+	public List<Marker> toleranceMarkersForServiceMonitor(ServiceMonitor sm,
+			Node n) {
 		// Process a ServiceMonitor for which the period is somehow within the
 		// range.
 		List<Marker> filtered = Lists.newArrayList();
@@ -1002,15 +1022,9 @@ public class ModelUtils {
 		// Each RM represents a Resource.
 		for (ResourceMonitor rm : sm.getResourceMonitors()) {
 			if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
-				Marker[] markerArray = new Marker[rm.getMarkers().size()];
-				rm.getMarkers().toArray(markerArray);
-				List<Marker> markersForNodeList = this
-						.toleranceMarkers(markerArray);
-				if (markersForNodeList.size() > 0) {
-					filtered.addAll(markersForNodeList);
-				}
+				List<Marker> toleranceMarkers = toleranceMarkersForResourceMonitor(rm);
+				filtered.addAll(toleranceMarkers);
 			}
-
 		}
 
 		return filtered;
@@ -1062,34 +1076,8 @@ public class ModelUtils {
 		List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
 				sortedCopy, dtr);
 
-		Map<NetXResource, List<Marker>> markersPerResource = Maps.newHashMap();
-
-		for (ServiceMonitor sm : filtered) {
-
-			for (ResourceMonitor rm : sm.getResourceMonitors()) {
-				if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
-
-					// Analyze per resource.
-					List<Marker> markers;
-					NetXResource res = rm.getResourceRef();
-					if (!markersPerResource.containsKey(res)) {
-						markers = Lists.newArrayList();
-						markersPerResource.put(res, markers);
-					} else {
-						markers = markersPerResource.get(res);
-					}
-
-					Marker[] markerArray = new Marker[rm.getMarkers().size()];
-					rm.getMarkers().toArray(markerArray);
-					List<Marker> toleranceMarkers = this
-							.toleranceMarkers(markerArray);
-
-					markers.addAll(toleranceMarkers);
-
-				}
-			}
-
-		}
+		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
+				filtered, n);
 
 		for (NetXResource res : markersPerResource.keySet()) {
 
@@ -1102,6 +1090,44 @@ public class ModelUtils {
 		}
 
 		return new int[] { red, amber, green };
+	}
+
+	/**
+	 * @param serviceMonitors
+	 * @param n
+	 * @return
+	 */
+	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
+			List<ServiceMonitor> serviceMonitors, Node n) {
+		Map<NetXResource, List<Marker>> markersPerResource = Maps.newHashMap();
+
+		for (ServiceMonitor sm : serviceMonitors) {
+			for (ResourceMonitor rm : sm.getResourceMonitors()) {
+				if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
+
+					// Analyze per resource, why would a resource monitor
+					// contain markers for a nother resource?
+					List<Marker> markers;
+					NetXResource res = rm.getResourceRef();
+					if (!markersPerResource.containsKey(res)) {
+						markers = Lists.newArrayList();
+						markersPerResource.put(res, markers);
+					} else {
+						markers = markersPerResource.get(res);
+					}
+					List<Marker> toleranceMarkers = toleranceMarkersForResourceMonitor(rm);
+					markers.addAll(toleranceMarkers);
+				}
+			}
+
+		}
+		return markersPerResource;
+	}
+
+	public List<Marker> toleranceMarkersForResourceMonitor(ResourceMonitor rm) {
+		List<Marker> toleranceMarkers = Lists.newArrayList(Iterables.filter(
+				rm.getMarkers(), toleranceMarkers()));
+		return toleranceMarkers;
 	}
 
 	/**
@@ -1168,17 +1194,18 @@ public class ModelUtils {
 				|| tm.getDirection() == ToleranceMarkerDirectionKind.START;
 	}
 
-	public List<Marker> toleranceMarkers(Marker... unfiltered) {
-		List<Marker> resultList = Lists.newArrayList();
-		List<Marker> markerList = Lists.newArrayList(unfiltered);
-		for (Marker m : markerList) {
-			if (m instanceof ToleranceMarker) {
-				ToleranceMarker tempMarker = (ToleranceMarker) m;
-				resultList.add(tempMarker);
-			}
-		}
-		return resultList;
-	}
+	// CB, replaced by predicate.
+	// public List<Marker> toleranceMarkers(Marker... unfiltered) {
+	// List<Marker> resultList = Lists.newArrayList();
+	// List<Marker> markerList = Lists.newArrayList(unfiltered);
+	// for (Marker m : markerList) {
+	// if (m instanceof ToleranceMarker) {
+	// ToleranceMarker tempMarker = (ToleranceMarker) m;
+	// resultList.add(tempMarker);
+	// }
+	// }
+	// return resultList;
+	// }
 
 	/**
 	 * Return the last marker which is either START or UP. The lists is sorted
@@ -1446,7 +1473,7 @@ public class ModelUtils {
 	}
 
 	public Value mostRecentValue(List<Value> rawListOfValues) {
-		List<Value> values = this.sortByTimeStampAndReverse(rawListOfValues);
+		List<Value> values = this.sortValuesByTimeStampAndReverse(rawListOfValues);
 		if (values.size() > 0) {
 			return values.get(0);
 		}
@@ -1454,7 +1481,7 @@ public class ModelUtils {
 	}
 
 	public Value oldestValue(List<Value> rawListOfValues) {
-		List<Value> values = this.sortByTimeStamp(rawListOfValues);
+		List<Value> values = this.sortValuesByTimeStamp(rawListOfValues);
 		if (values.size() > 0) {
 			return values.get(0);
 		}
@@ -1472,13 +1499,7 @@ public class ModelUtils {
 		return mostRecentValue(resource.getCapacityValues());
 	}
 
-	public List<Value> valuesInRange(Iterable<Value> unfiltered,
-			DateTimeRange dtr) {
-
-		Iterable<Value> filterValues = Iterables.filter(unfiltered,
-				valueInsideRange(dtr));
-		return Lists.newArrayList(filterValues);
-	}
+	
 
 	/**
 	 * Will return an empty list, if no range is found with the provided
@@ -1490,8 +1511,8 @@ public class ModelUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public List<Value> metricValuesInRange(NetXResource res, int intervalHint,
-			KindHintType kh, DateTimeRange dtr) {
+	public List<Value> valueRangeForIntervalKindAndPeriod(NetXResource res,
+			int intervalHint, KindHintType kh, DateTimeRange dtr) {
 
 		MetricValueRange mvr;
 		if (kh == null) {
@@ -1819,7 +1840,9 @@ public class ModelUtils {
 	 * 
 	 * @param components
 	 * @param name
-	 * @param closure decend the child hierarchy and look for resources when <code>true</code>
+	 * @param closure
+	 *            decend the child hierarchy and look for resources when
+	 *            <code>true</code>
 	 * @return
 	 */
 	public List<NetXResource> resourcesWithExpressionName(
@@ -1832,7 +1855,7 @@ public class ModelUtils {
 					rl.add(r);
 				}
 			}
-			
+
 			if (closure) {
 				final List<Component> cl = Lists.newArrayList();
 				if (c instanceof Equipment) {

@@ -195,7 +195,7 @@ public class ResourceMonitors extends AbstractScreen implements
 
 					if (o instanceof ResourceMonitor) {
 
-						ResourceChartScreen rmScreen = new ResourceChartScreen(
+						ChartScreen rmScreen = new ChartScreen(
 								screenService.getScreenContainer(), SWT.NONE);
 						rmScreen.setScreenService(screenService);
 						rmScreen.setOperation(getOperation());

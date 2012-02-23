@@ -217,7 +217,7 @@ public class MappingStatistics extends AbstractScreen implements
 									+ res.getComponentRef().getName());
 
 							List<Value> values = modelUtils
-									.metricValuesInRange(res,
+									.valueRangeForIntervalKindAndPeriod(res,
 											targetIntervalHint, null, dtr);
 							if (values.size() > 0) {
 								valueCount += values.size();
@@ -264,7 +264,7 @@ public class MappingStatistics extends AbstractScreen implements
 
 						for (NetXResource res : resourcesInMetricSource) {
 							List<Value> values = modelUtils
-									.metricValuesInRange(res,
+									.valueRangeForIntervalKindAndPeriod(res,
 											targetIntervalHint, null, dtr);
 							if (values.size() > 0) {
 								WarningDeleteCommand dc = new WarningDeleteCommand(

@@ -159,8 +159,7 @@ public class MonitoringEngine extends BaseComponentEngine {
 								+ netXResource.getShortName());
 			}
 
-			// RESOURCE MONITOR CREATION, the result of a tolerance expression,
-			// is the
+			// RESOURCE MONITOR CREATION
 			final ResourceMonitor resourceMonitor = OperatorsFactory.eINSTANCE
 					.createResourceMonitor();
 			resourceMonitor.setNodeRef(node);

@@ -59,7 +59,7 @@ public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 									+ sheet.getLastRowNum() + " rows."));
 			return 0;
 		}
-
+		is.close();
 		final int totalRows = processRows();
 		currentSheet = null;
 		return totalRows;

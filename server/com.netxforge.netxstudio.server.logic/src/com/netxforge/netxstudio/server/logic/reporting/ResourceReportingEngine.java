@@ -113,9 +113,9 @@ public class ResourceReportingEngine {
 
 	public int writeCapacity(HSSFSheet sheet, int resourceIndex,
 			NetXResource resource) {
-		List<Value> capRange = getModelUtils().sortByTimeStamp(
+		List<Value> capRange = getModelUtils().sortValuesByTimeStamp(
 				resource.getCapacityValues());
-		capRange = getModelUtils().filterValueInRange(capRange,
+		capRange = getModelUtils().valuesInRange(capRange,
 				this.getPeriod());
 
 		HSSFRow capRow = sheet.createRow(resourceIndex++);
@@ -149,9 +149,9 @@ public class ResourceReportingEngine {
 
 	public int writeUtilization(HSSFSheet sheet, int resourceIndex,
 			NetXResource resource) {
-		List<Value> capRange = getModelUtils().sortByTimeStamp(
+		List<Value> capRange = getModelUtils().sortValuesByTimeStamp(
 				resource.getUtilizationValues());
-		capRange = getModelUtils().filterValueInRange(capRange,
+		capRange = getModelUtils().valuesInRange(capRange,
 				this.getPeriod());
 
 		HSSFRow capRow = sheet.createRow(resourceIndex++);
@@ -189,9 +189,9 @@ public class ResourceReportingEngine {
 			int resourceIndex, MetricValueRange mvr) {
 
 		// !Potentially long operation, as we sort of the whole rang.e
-		List<Value> range = getModelUtils().sortByTimeStamp(
+		List<Value> range = getModelUtils().sortValuesByTimeStamp(
 				mvr.getMetricValues());
-		range = getModelUtils().filterValueInRange(range, this.getPeriod());
+		range = getModelUtils().valuesInRange(range, this.getPeriod());
 
 		HSSFRow resourceRow = sheet.createRow(resourceIndex++);
 
