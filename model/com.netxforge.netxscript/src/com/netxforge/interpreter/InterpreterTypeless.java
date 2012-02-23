@@ -1280,6 +1280,12 @@ public class InterpreterTypeless implements IInterpreter {
 								ImmutableMap.copyOf(localVarsAndArguments));
 						evals.add(subEval);
 					}
+					
+					// CB TODO Range evaluations could be a Matrix, which is 
+					// not supported by all operators like multi etc...
+					if(evals.size() == 1){
+						eval = evals.get(0);
+					}
 					eval = evals;
 
 				} else if (contextReference.getPrimaryRef().getLeafRef() instanceof StatusRef) {
@@ -1481,7 +1487,7 @@ public class InterpreterTypeless implements IInterpreter {
 			switch (rangeRef.getValuerange().getValue()) {
 			case ValueRange.METRIC_VALUE: {
 
-				v = modelUtils.metricValuesInRange((NetXResource) resource,
+				v = modelUtils.valueRangeForIntervalKindAndPeriod((NetXResource) resource,
 						targetInterval, targetKind, dtr);
 			}
 				break;
@@ -1504,7 +1510,7 @@ public class InterpreterTypeless implements IInterpreter {
 			switch (rangeRef.getValuerange().getValue()) {
 			case ValueRange.DERIVED_VALUE: {
 				v = ((DerivedResource) resource).getValues();
-				v = modelUtils.filterValueInRange(v, dtr);
+				v = modelUtils.valuesInRange(v, dtr);
 			}
 			}
 		}
@@ -1585,7 +1591,7 @@ public class InterpreterTypeless implements IInterpreter {
 			List<?> range = null;
 			if (assertCollection(eval)) {
 				range = (List<?>) eval;
-				if (assertCollectionContentNotCollection(range)) {
+				if (!assertMatrix(range)) {
 					
 					// Note; the timestamp is lost here. 
 					eval = processNativeFunction(ne, range);
@@ -2193,10 +2199,10 @@ public class InterpreterTypeless implements IInterpreter {
 		return (eval instanceof List<?>);
 	}
 
-	protected boolean assertCollectionContentNotCollection(List<?> collection) {
+	protected boolean assertMatrix(List<?> collection) {
 		for (Object o : collection) {
 			if (assertCollection(o)) {
-				return false;
+				return true;
 			}
 		}
 		return true;
