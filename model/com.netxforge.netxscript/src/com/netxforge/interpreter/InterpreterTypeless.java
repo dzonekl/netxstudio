@@ -15,6 +15,7 @@ import org.eclipse.xtext.util.PolymorphicDispatcher;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
@@ -208,18 +209,9 @@ public class InterpreterTypeless implements IInterpreter {
 	}
 
 	private Node getContextualNode() {
-
-		DateTimeRange contextualPeriod = this.getContextualPeriod();
-
-		// TODO, experiment with this.
-		@SuppressWarnings("unused")
-		long beginContext = contextualPeriod.getBegin().toGregorianCalendar()
-				.getTimeInMillis();
-
 		IInterpreterContext nodeContext = getContextFor(NodeImpl.class);
 		if (nodeContext != null) {
 			Node n = (Node) nodeContext.getContext();
-
 			return n;
 		}
 		return null;
@@ -373,7 +365,7 @@ public class InterpreterTypeless implements IInterpreter {
 			ImmutableMap<String, Object> values) {
 		Object eval = dispatcher.invoke(e, values);
 		if (assertNumeric(eval)) {
-			return (BigDecimal) eval;
+			return asNum((BigDecimal) eval);
 		} else {
 			throw new UnsupportedOperationException(e.toString());
 		}
@@ -614,8 +606,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 		Node ctxNode = this.getContextualNode();
 		Component ctxComponent = this.getContextualComponent();
-		 
-			
+
 		if (resourceRef.getResource() instanceof NetXResource) {
 
 			// CB 07-02-2012, the navigation component is optional
@@ -701,7 +692,8 @@ public class InterpreterTypeless implements IInterpreter {
 			// Find matching resources with this
 			// name.
 			resources = modelUtils.resourcesWithExpressionName(
-					ImmutableList.of(c), tmpResource.getExpressionName(), resourceRef.isAll());
+					ImmutableList.of(c), tmpResource.getExpressionName(),
+					resourceRef.isAll());
 		}
 		return resources;
 	}
@@ -793,10 +785,9 @@ public class InterpreterTypeless implements IInterpreter {
 					er.setTargetRange(RangeKind.DERIVED);
 				}
 					break;
-
 				}
 
-				if (varEval instanceof BigDecimal) {
+				if (assertNumeric(varEval)) {
 					// We return a single value.
 
 					// Get the period context, and use the start
@@ -810,36 +801,40 @@ public class InterpreterTypeless implements IInterpreter {
 					Value beginValue = GenericsFactory.eINSTANCE.createValue();
 					// Set the ts/value.
 					beginValue.setTimeStamp(dtr.getBegin());
-					beginValue.setValue(((BigDecimal) varEval).doubleValue());
+					beginValue.setValue(asNum((BigDecimal) varEval)
+							.doubleValue());
 
 					Value endValue = GenericsFactory.eINSTANCE.createValue();
 
 					// Set the ts/value.
 					endValue.setTimeStamp(dtr.getEnd());
-					endValue.setValue(((BigDecimal) varEval).doubleValue());
+					endValue.setValue(asNum((BigDecimal) varEval).doubleValue());
 
 					er.getTargetValues().add(endValue);
 					er.getTargetValues().add(beginValue);
 					expressionResults.add(er);
 				}
-				if (varEval instanceof List<?>) {
+				if (assertCollection(varEval)) {
 					// We return a list of values, note values are contained, so
 					// we should
 					// make a copy, in an assignment.
 					List<?> resultValues = (List<?>) varEval;
 					for (Object entry : resultValues) {
 						if (entry instanceof Value) {
-
 							// The only place a Value object could have come
 							// from, is from another range,
 							// so we need to make a copy to avoid, the contained
 							// value object from being "moved"
 							// out of the source range.
+							//
+							// DO not make a copy, as a all expressions should
+							// have returned a copy of referenced vales.
 							Value copy = EcoreUtil.copy((Value) entry);
 							er.getTargetValues().add(copy);
-						} else if (entry instanceof BigDecimal) {
+						} else if (assertNumeric(entry)) {
+
 							Value v = GenericsFactory.eINSTANCE.createValue();
-							v.setValue(((BigDecimal) entry).doubleValue());
+							v.setValue(asNum((BigDecimal) entry).doubleValue());
 							// FIXME, We don't set a timestamp!
 							// values without a timestamp, will not be visible
 							// because
@@ -1100,14 +1095,14 @@ public class InterpreterTypeless implements IInterpreter {
 			Variable var = (Variable) e.getCall();
 			Object preEvaluated = values.get(var.getName());
 			if (preEvaluated != null) {
-				if (preEvaluated instanceof List<?>) {
+				if (assertCollection(preEvaluated)) {
 					// Get the member of a range.
 					if (e.getIndex() != null) {
 						Object eval = dispatcher.invoke(e.getIndex(),
 								ImmutableMap.copyOf(values));
-						if (this.assertNumeric(eval)) {
-							return ((List<?>) preEvaluated)
-									.get(((BigDecimal) eval).intValue());
+						if (assertNumeric(eval)) {
+							return ((List<?>) preEvaluated).get(asNum(
+									(BigDecimal) eval).intValue());
 						}
 					}
 				}
@@ -1280,10 +1275,8 @@ public class InterpreterTypeless implements IInterpreter {
 								ImmutableMap.copyOf(localVarsAndArguments));
 						evals.add(subEval);
 					}
-					
-					// CB TODO Range evaluations could be a Matrix, which is 
-					// not supported by all operators like multi etc...
-					if(evals.size() == 1){
+
+					if (evals.size() == 1) {
 						eval = evals.get(0);
 					}
 					eval = evals;
@@ -1487,8 +1480,9 @@ public class InterpreterTypeless implements IInterpreter {
 			switch (rangeRef.getValuerange().getValue()) {
 			case ValueRange.METRIC_VALUE: {
 
-				v = modelUtils.valueRangeForIntervalKindAndPeriod((NetXResource) resource,
-						targetInterval, targetKind, dtr);
+				v = modelUtils.valueRangeForIntervalKindAndPeriod(
+						(NetXResource) resource, targetInterval, targetKind,
+						dtr);
 			}
 				break;
 			case ValueRange.CAP_VALUE: {
@@ -1515,9 +1509,6 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 		}
 
-		// We want the Value object without the timestamp, as we know the
-		// period
-		// context.
 		return v;
 	}
 
@@ -1592,8 +1583,8 @@ public class InterpreterTypeless implements IInterpreter {
 			if (assertCollection(eval)) {
 				range = (List<?>) eval;
 				if (!assertMatrix(range)) {
-					
-					// Note; the timestamp is lost here. 
+
+					// Note; the timestamp is lost here.
 					eval = processNativeFunction(ne, range);
 				} else {
 
@@ -1649,10 +1640,10 @@ public class InterpreterTypeless implements IInterpreter {
 								}
 
 								Value processedValue = EcoreUtil.copy(tsValue);
-								Object processNativeFunction = processNativeFunction(
-										ne, sameTimestamps);
-								if (processNativeFunction instanceof BigDecimal) {
-									BigDecimal bdValue = (BigDecimal) processNativeFunction;
+								Object evalNative = processNativeFunction(ne,
+										sameTimestamps);
+								if (assertNumeric(evalNative)) {
+									BigDecimal bdValue = asNum((BigDecimal) evalNative);
 									processedValue.setValue(bdValue
 											.doubleValue());
 								}
@@ -1670,8 +1661,7 @@ public class InterpreterTypeless implements IInterpreter {
 							// and
 							// returned as a range.
 							if (assertCollection(rangeItem)) {
-								
-								
+
 								// perform the native function here.
 								evalResult.add(processNativeFunction(ne,
 										(List<?>) rangeItem));
@@ -1768,40 +1758,16 @@ public class InterpreterTypeless implements IInterpreter {
 			ImmutableMap<String, Object> values) {
 
 		// Various adding combinations.
-		//
 		Object leftEval = evaluate(plus.getLeft(), values);
 		Object rightEval = evaluate(plus.getRight(), values);
-
-		if (assertNumeric(leftEval)) {
-			if (assertNumeric(rightEval)) {
-				return ((BigDecimal) leftEval).add((BigDecimal) rightEval);
-			}
-		}
-		if (assertCollection(leftEval)) {
-			List<Object> leftEvalAsList = Lists
-					.newArrayList((List<?>) leftEval);
-			if (assertNumeric(rightEval)) {
-				// Build a new list.
-				leftEvalAsList.add(rightEval);
-				return ImmutableList.copyOf(leftEvalAsList);
-			}
-			if (assertValue(rightEval)) {
-				Value v = (Value) rightEval;
-				// TODO How do we know the list can deal with a Value.
-				leftEvalAsList.add(v);
-				return ImmutableList.copyOf(leftEvalAsList);
-			}
-		}
-
-		throw new UnsupportedOperationException(
-				"Plus expression for invalid types, i.e. this could be adding a Range to a Numbers");
-
+		return processArithmetic(leftEval, rightEval, plus);
 	}
 
-	protected BigDecimal internalEvaluate(Minus minus,
+	protected Object internalEvaluate(Minus minus,
 			ImmutableMap<String, Object> values) {
-		return evaluateNumeric(minus.getLeft(), values).subtract(
-				evaluateNumeric(minus.getRight(), values));
+		Object leftEval = evaluate(minus.getLeft(), values);
+		Object rightEval = evaluate(minus.getRight(), values);
+		return processArithmetic(leftEval, rightEval, minus);
 	}
 
 	/*
@@ -1812,119 +1778,8 @@ public class InterpreterTypeless implements IInterpreter {
 
 		Object leftEval = evaluate(div.getLeft(), values);
 		Object rightEval = evaluate(div.getRight(), values);
+		return processArithmetic(leftEval, rightEval, div);
 
-		if (assertNumeric(leftEval)) {
-			if (assertNumeric(rightEval)) {
-				return ((BigDecimal) leftEval).divide((BigDecimal) rightEval,
-						20, RoundingMode.HALF_UP);
-			}
-		}
-
-		if (assertCollection(leftEval)) {
-			List<Object> resultList = Lists.newArrayList();
-			if (assertNumeric(rightEval)) {
-				// Divide all contents of the left list by the numeric provided.
-				for (Object leftO : (List<?>) leftEval) {
-					if (assertNumeric(leftO)) {
-						BigDecimal d = ((BigDecimal) leftEval).divide(
-								(BigDecimal) rightEval, 20,
-								RoundingMode.HALF_UP);
-						resultList.add(d);
-						continue;
-					}
-					if (assertValue(leftO)) {
-						Value v = (Value) leftO;
-						BigDecimal dValue = new BigDecimal(v.getValue());
-						BigDecimal d = dValue.divide((BigDecimal) rightEval,
-								20, RoundingMode.HALF_UP);
-						Value copy = EcoreUtil.copy(v);
-
-						copy.setValue(d.doubleValue());
-						resultList.add(copy);
-						continue;
-					}
-				}
-
-				// Assert the number of entries are the same.
-				assert resultList.size() == ((List<?>) leftEval).size() : new UnsupportedOperationException(
-						"Dividing computation error, result range is a non-equal size to the left value");
-				return ImmutableList.copyOf(resultList);
-			}
-			if (assertValue(rightEval)) {
-				BigDecimal rightDividor = new BigDecimal(
-						((Value) rightEval).getValue());
-				// Divide all contents of the left list by the numeric provided.
-				for (Object leftO : (List<?>) leftEval) {
-					if (assertNumeric(leftO)) {
-						BigDecimal d = ((BigDecimal) leftEval).divide(
-								rightDividor, 20, RoundingMode.HALF_UP);
-						resultList.add(d);
-						continue;
-					}
-					if (assertValue(leftO)) {
-						Value v = (Value) leftO;
-						BigDecimal dValue = new BigDecimal(v.getValue());
-						BigDecimal d = dValue.divide(rightDividor, 20,
-								RoundingMode.HALF_UP);
-						Value copy = EcoreUtil.copy(v);
-						copy.setValue(d.doubleValue());
-						resultList.add(copy);
-						continue;
-					}
-				}
-
-				// Assert the number of entries are the same.
-				assert resultList.size() == ((List<?>) leftEval).size() : new UnsupportedOperationException(
-						"Dividing computation error, result range is a non-equal size to the left range");
-				return ImmutableList.copyOf(resultList);
-			}
-			if (assertCollection(rightEval)) {
-				// divide two collections.
-				// assert ((List<?>) leftEval).size() == ((List<?>) rightEval)
-				// .size() : new UnsupportedOperationException(
-				// "Dividing computation error, left and right range are not equal size");
-
-				// Divide error, really dividing by zero, return nothing.
-				if (((List<?>) rightEval).isEmpty()) {
-					return Lists.newArrayList();
-				}
-
-				// Use the left as the iterator, so make sure we never retrieve
-				// more than size from right,
-				// If we are over, take the last value.
-				for (int j = 0; j < ((List<?>) leftEval).size(); j++) {
-					Object leftVal = ((List<?>) leftEval).get(j);
-					Object rightVal;
-					if (j < ((List<?>) rightEval).size()) {
-						rightVal = ((List<?>) rightEval).get(j);
-					} else {
-						rightVal = ((List<?>) rightEval)
-								.get(((List<?>) rightEval).size() - 1);
-					}
-					if (assertNumeric(leftVal) && assertNumeric(rightVal)) {
-						BigDecimal d = ((BigDecimal) leftVal)
-								.divide((BigDecimal) rightVal, 20,
-										RoundingMode.HALF_UP);
-						resultList.add(d);
-						continue;
-					}
-					if (assertValue(leftVal) && assertValue(rightVal)) {
-						Value vl = (Value) leftVal;
-						Value vr = (Value) rightVal;
-						BigDecimal d = new BigDecimal(vl.getValue()).divide(
-								new BigDecimal(vr.getValue()), 20,
-								RoundingMode.HALF_UP);
-						Value copy = EcoreUtil.copy(vl);
-						copy.setValue(d.doubleValue());
-						resultList.add(copy);
-					}
-				}
-				return ImmutableList.copyOf(resultList);
-			}
-		}
-
-		throw new UnsupportedOperationException(
-				"Div expression for invalid types, i.e. This could be dividing a Number by a Range.");
 	}
 
 	protected Object internalEvaluate(Multi multi,
@@ -1932,94 +1787,364 @@ public class InterpreterTypeless implements IInterpreter {
 
 		Object leftEval = evaluate(multi.getLeft(), values);
 		Object rightEval = evaluate(multi.getRight(), values);
+		return processArithmetic(leftEval, rightEval, multi);
+	}
 
+	/*
+	 * Applies an arithmetic operation on left with right. right is the
+	 * transformation
+	 */
+	abstract class ArithmeticFunction {
+
+		private Object operation;
+		private BigDecimal leftNum;
+		private boolean revert;
+
+		public ArithmeticFunction(boolean revert) {
+			this.revert = revert;
+		}
+
+		public void setOperation(Object operation) {
+			this.operation = operation;
+		}
+
+		public void setNum(BigDecimal leftNum) {
+			this.leftNum = leftNum;
+		}
+
+		public BigDecimal doApply(BigDecimal rightNum) {
+			if (revert) {
+				return doApplyRight(rightNum);
+			} else {
+				return doApplyLeft(rightNum);
+			}
+		}
+
+		public BigDecimal doApplyLeft(BigDecimal rightNum) {
+			if (leftNum == null || rightNum == null || operation == null) {
+				throw new UnsupportedOperationException(
+						"Null values in ArithmeticFunction");
+			}
+			BigDecimal numResult = null;
+			if (operation instanceof Multi) {
+				numResult = leftNum.multiply(rightNum);
+			} else if (operation instanceof Div) {
+				numResult = leftNum.divide(rightNum, 20, RoundingMode.HALF_UP);
+			} else if (operation instanceof Plus) {
+				numResult = leftNum.add(rightNum);
+			} else if (operation instanceof Minus) {
+				numResult = leftNum.subtract(rightNum);
+			} else {
+				throw new UnsupportedOperationException("Unsupported operation");
+			}
+			return numResult;
+		}
+
+		public BigDecimal doApplyRight(BigDecimal rightNum) {
+			if (leftNum == null || rightNum == null || operation == null) {
+				throw new UnsupportedOperationException(
+						"Null values in ArithmeticFunction");
+			}
+			BigDecimal numResult = null;
+			if (operation instanceof Multi) {
+				numResult = rightNum.multiply(leftNum);
+			} else if (operation instanceof Div) {
+				numResult = rightNum.divide(leftNum, 20, RoundingMode.HALF_UP);
+			} else if (operation instanceof Plus) {
+				numResult = rightNum.add(leftNum);
+			} else if (operation instanceof Minus) {
+				numResult = rightNum.subtract(leftNum);
+			} else {
+				throw new UnsupportedOperationException("Unsupported operation");
+			}
+			return numResult;
+		}
+
+	}
+
+	/*
+	 * Apply with left and right are Numeric.
+	 */
+	class ArithmeticNumToNumFunction extends ArithmeticFunction implements
+			com.google.common.base.Function<BigDecimal, BigDecimal> {
+
+		public ArithmeticNumToNumFunction(Object operation, Value value,
+				boolean revert) {
+			super(revert);
+			setOperation(operation);
+			setNum(asNum(value));
+		}
+
+		public ArithmeticNumToNumFunction(Object operation, BigDecimal num,
+				boolean revert) {
+			super(revert);
+			setOperation(operation);
+			setNum(num);
+		}
+
+		@Override
+		public BigDecimal apply(BigDecimal rightNum) {
+			return doApply(rightNum);
+		}
+	}
+
+	/*
+	 * Dual use:
+	 * 
+	 * 1) Apply with left and right Value, left is returned with the operation
+	 * applied. ( The time stamps should be equal, otherwise left is returned
+	 * not applying the operation). 2) Apply with left numeric and right Value,
+	 * right is returned with the operation applied.
+	 */
+	class ArithmeticValueToValueFunction extends ArithmeticFunction implements
+			com.google.common.base.Function<Value, Value> {
+
+		private Value leftValue;
+		private boolean matchTS = true;
+
+		public ArithmeticValueToValueFunction(Object operation,
+				Value leftValue, boolean revert) {
+			super(revert);
+			setOperation(operation);
+			setNum(asNum(leftValue));
+			this.leftValue = leftValue;
+		}
+
+		public ArithmeticValueToValueFunction(Object operation, BigDecimal num,
+				boolean revert) {
+			super(revert);
+			setOperation(operation);
+			setNum(num);
+		}
+
+		public void setMatchTS(Boolean matchTS) {
+			this.matchTS = matchTS;
+		}
+
+		@Override
+		public Value apply(Value rightValue) {
+
+			if (leftValue != null) {
+				// assert value time stamps are equal, only if instructed to do
+				// so.
+				if (matchTS) {
+					if (assertValueTSEqual(leftValue, rightValue)) {
+						BigDecimal rightNum = asNum(rightValue);
+						BigDecimal numResult = doApply(rightNum);
+						leftValue.setValue(numResult.doubleValue());
+						return leftValue;
+					} else {
+						// doesn't apply the operation.
+						return leftValue;
+					}
+				} else {
+					BigDecimal rightNum = asNum(rightValue);
+					BigDecimal numResult = doApply(rightNum);
+					leftValue.setValue(numResult.doubleValue());
+					return leftValue;
+				}
+			} else {
+				BigDecimal rightNum = asNum(rightValue);
+				BigDecimal numResult = doApply(rightNum);
+				rightValue.setValue(numResult.doubleValue());
+				return rightValue;
+			}
+		}
+	}
+
+	ArithmeticNumToNumFunction opNumToNum(Object operation, BigDecimal num,
+			boolean revert) {
+		return new ArithmeticNumToNumFunction(operation, num, revert);
+	}
+
+	ArithmeticNumToNumFunction opNumToNum(Object operation, Value value,
+			boolean revert) {
+		return new ArithmeticNumToNumFunction(operation, value, revert);
+	}
+
+	ArithmeticValueToValueFunction opValueToValue(Object operation,
+			Value value, boolean revert) {
+		return new ArithmeticValueToValueFunction(operation, value, revert);
+	}
+
+	ArithmeticValueToValueFunction opValueToValue(Object operation,
+			BigDecimal num, boolean revert) {
+		return new ArithmeticValueToValueFunction(operation, num, revert);
+	}
+
+	/*
+	 * Applies to the left range. Ranges, need to be equal size. For Values,
+	 * time stamps do not need to match.
+	 */
+	void opValueToValue(Object operation, List<Value> leftValues,
+			List<Value> rightValues) {
+
+		boolean matchTS = true;
+
+		// When sizes are unequal, we do not match on the timestamp.
+		if (leftValues.size() != rightValues.size()) {
+			matchTS = false;
+		}
+
+		for (int j = 0; j < leftValues.size(); j++) {
+
+			Value leftVal = leftValues.get(j);
+			Value rightVal = null;
+			if (j < rightValues.size()) {
+				rightVal = rightValues.get(j);
+			} else {
+				rightVal = rightValues.get(rightValues.size() - 1);
+			}
+			ArithmeticValueToValueFunction opValueToValue = opValueToValue(
+					operation, leftVal, false);
+			opValueToValue.setMatchTS(matchTS);
+			opValueToValue.apply(rightVal);
+		}
+	}
+
+	/**
+	 * Uniform processing of arithmetic for all left and right type
+	 * combinations. being BigDecimal, Value, Collection. Note: Matrix left and
+	 * right are not supported.
+	 * 
+	 * 
+	 * @param leftEval
+	 * @param rightEval
+	 * @param operation
+	 * @return
+	 */
+	private Object processArithmetic(Object leftEval, Object rightEval,
+			Object operation) {
+
+		Object result = null;
+
+		// Important: for readability and uniformity of method names, casts are
+		// done through a method,
+		// which should accept a casted argument of the target.
 		if (assertNumeric(leftEval)) {
 			if (assertNumeric(rightEval)) {
-				return ((BigDecimal) leftEval).multiply((BigDecimal) rightEval);
+				result = opNumToNum(operation, asNum((BigDecimal) leftEval),
+						false).apply(asNum((BigDecimal) rightEval));
+			} else if (assertValue(rightEval)) {
+				result = opValueToValue(operation,
+						asNum((BigDecimal) leftEval), false).apply(
+						(Value) rightEval);
+			} else if (assertCollection(rightEval)) {
+				if (assertValueCollection(rightEval)) {
+					// Copy, as we will use it's values in the operation.
+					List<Value> rightValueCollection = asCopyOfValueCollection(asCollection((List<?>) rightEval));
+					Iterable<Value> transform = Iterables.transform(
+							rightValueCollection,
+							opValueToValue(operation, (BigDecimal) leftEval,
+									false));
+					result = Lists.newArrayList(transform);
+				} else if (assertNumericCollection(rightEval)) {
+					List<BigDecimal> rightNumericCollection = asNumericCollection(asCollection((List<?>) rightEval));
+					Iterable<BigDecimal> transform = Iterables
+							.transform(
+									rightNumericCollection,
+									opNumToNum(operation,
+											(BigDecimal) leftEval, false));
+					result = Lists.newArrayList(transform);
+				}
+			}
+		} else if (assertValue(leftEval)) {
+			// From the model, no reference will return a single value, so this
+			// can be ignored.
+			throw new UnsupportedOperationException(
+					"Operation on single value is not supported");
+		} else if (assertCollection(leftEval)) {
+			// NOTE: Operations are reverted, apply to the left collection.
+			if (assertValueCollection(leftEval)) {
+				List<Value> leftValueCollection = asCopyOfValueCollection(asCollection((List<?>) leftEval));
+				if (assertNumeric(rightEval)) {
+					Iterable<Value> transform = Iterables.transform(
+							leftValueCollection,
+							opValueToValue(operation,
+									asNum((BigDecimal) rightEval), true));
+					result = Lists.newArrayList(transform);
+				} else if (assertValue(rightEval)) {
+					Iterable<Value> transform = Iterables.transform(
+							leftValueCollection,
+							opValueToValue(operation, (Value) rightEval, true));
+					result = Lists.newArrayList(transform);
+				} else if (assertCollection(rightEval)) {
+					if (assertNumericCollection(rightEval)) {
+						List<BigDecimal> rightNumericCollection = asNumericCollection(asCollection((List<?>) rightEval));
+						// TODO, apply collection left and right.
+
+					} else if (assertValueCollection(rightEval)) {
+						List<Value> rightValueCollection = asValueCollection(asCollection((List<?>) rightEval));
+						opValueToValue(operation, leftValueCollection,
+								rightValueCollection);
+						result = leftValueCollection;
+					}
+				}
+			} else if (assertNumericCollection(leftEval)) {
+				List<BigDecimal> leftNumericCollection = asNumericCollection(asCollection((List<?>) leftEval));
+				if (assertNumeric(rightEval)) {
+					Iterable<BigDecimal> transform = Iterables.transform(
+							leftNumericCollection,
+							opNumToNum(operation,
+									asNum((BigDecimal) rightEval), true));
+					result = Lists.newArrayList(transform);
+				} else if (assertValue(rightEval)) {
+					Iterable<BigDecimal> transform = Iterables.transform(
+							leftNumericCollection,
+							opNumToNum(operation, (Value) rightEval, true));
+					result = Lists.newArrayList(transform);
+				} else if (assertCollection(rightEval)) {
+
+					if (assertNumericCollection(rightEval)) {
+						List<BigDecimal> rightNumericCollection = asNumericCollection(asCollection((List<?>) rightEval));
+					} else if (assertValueCollection(rightEval)) {
+						List<Value> rightValueCollection = asValueCollection(asCollection((List<?>) rightEval));
+						// TODO, apply collection left and right.
+					}
+				}
 			}
 		}
 
-		if (assertCollection(leftEval)) {
-			List<Object> resultList = Lists.newArrayList();
-			if (assertNumeric(rightEval)) {
-				// Divide all contents of the left list by the numeric provided.
-				for (Object leftO : (List<?>) leftEval) {
-					if (assertNumeric(leftO)) {
-						BigDecimal d = ((BigDecimal) leftEval)
-								.multiply((BigDecimal) rightEval);
-						resultList.add(d);
-						continue;
-					}
-					if (assertValue(leftO)) {
-						Value v = (Value) leftO;
-						BigDecimal dValue = new BigDecimal(v.getValue());
-						BigDecimal d = dValue.multiply((BigDecimal) rightEval);
-						Value copyOf = EcoreUtil.copy(v);
-						copyOf.setValue(d.doubleValue());
-						resultList.add(copyOf);
-						continue;
-					}
-				}
-				// Assert the number of entries are the same.
-				assert resultList.size() == ((List<?>) leftEval).size() : new UnsupportedOperationException(
-						"Multiplication computation error, result range is a non-equal size to the left range");
-				return ImmutableList.copyOf(resultList);
-			}
-			if (assertValue(rightEval)) {
-				BigDecimal rightMultiplier = new BigDecimal(
-						((Value) rightEval).getValue());
-				// Divide all contents of the left list by the numeric provided.
-				for (Object leftO : (List<?>) leftEval) {
-					if (assertNumeric(leftO)) {
-						BigDecimal d = ((BigDecimal) leftEval)
-								.multiply(rightMultiplier);
-						resultList.add(d);
-						continue;
-					}
-					if (assertValue(leftO)) {
-						Value v = (Value) leftO;
-						BigDecimal dValue = new BigDecimal(v.getValue());
-						BigDecimal d = dValue.multiply(rightMultiplier);
-						Value copyOf = EcoreUtil.copy(v);
-						copyOf.setValue(d.doubleValue());
-						resultList.add(copyOf);
-						continue;
-					}
-				}
+		if (result != null) {
+			return result;
+		} else {
+			throw new UnsupportedOperationException(
+					"Multiplication expression for invalid types");
+		}
+	}
 
-				// Assert the number of entries are the same.
-				assert resultList.size() == ((List<?>) leftEval).size() : new UnsupportedOperationException(
-						"Multiplication computation error, result range is a non-equal size to the left range");
-				return ImmutableList.copyOf(resultList);
-			}
-			if (assertCollection(rightEval)) {
-				// divide two collections.
-				assert ((List<?>) leftEval).size() == ((List<?>) rightEval)
-						.size() : new UnsupportedOperationException(
-						"Multiplication computation error, left and right range are not equal size");
+	private BigDecimal asNum(BigDecimal eval) {
+		return (BigDecimal) eval;
+	}
 
-				for (int j = 0; j < ((List<?>) leftEval).size(); j++) {
-					Object leftVal = ((List<?>) leftEval).get(j);
-					Object rightVal = ((List<?>) rightEval).get(j);
-					if (assertNumeric(leftVal) && assertNumeric(rightVal)) {
-						BigDecimal d = ((BigDecimal) leftVal)
-								.multiply((BigDecimal) rightVal);
-						resultList.add(d);
-					}
-					if (assertValue(leftVal) && assertValue(rightVal)) {
-						BigDecimal d = new BigDecimal(
-								((Value) leftVal).getValue())
-								.multiply(new BigDecimal(((Value) rightVal)
-										.getValue()));
-						resultList.add(d);
-					}
-				}
-				return ImmutableList.copyOf(resultList);
+	private BigDecimal asNum(Value eval) {
+		return new BigDecimal(eval.getValue());
+	}
+
+	private List<?> asCollection(List<?> collection) {
+		return (List<?>) collection;
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Value> asValueCollection(List<?> collection) {
+		return (List<Value>) collection;
+	}
+
+	private List<Value> asCopyOfValueCollection(List<?> collection) {
+
+		List<Value> copyList = Lists.newArrayList();
+		for (Object o : collection) {
+			if (assertValue(o)) {
+				Value copy = EcoreUtil.copy((Value) o);
+				copyList.add(copy);
 			}
 		}
+		return copyList;
+	}
 
-		throw new UnsupportedOperationException(
-				"Multiplication expression for invalid types, i.e. This could be multiplying a Number by a Range.");
+	@SuppressWarnings("unchecked")
+	private List<BigDecimal> asNumericCollection(List<?> collection) {
+		return (List<BigDecimal>) collection;
 	}
 
 	protected BigDecimal internalEvaluate(Modulo mod,
@@ -2158,9 +2283,9 @@ public class InterpreterTypeless implements IInterpreter {
 		Object rightEval = evaluate(e.getRight(), values);
 		if (assertNumeric(rightEval)) {
 			if (e.getOp().equals("+")) {
-				return (BigDecimal) rightEval;
+				return asNum((BigDecimal) rightEval);
 			} else {
-				return ((BigDecimal) rightEval).negate();
+				return asNum((BigDecimal) rightEval).negate();
 			}
 		} else {
 			throw new UnsupportedOperationException(e.toString());
@@ -2183,20 +2308,54 @@ public class InterpreterTypeless implements IInterpreter {
 		return (eval instanceof BigDecimal);
 	}
 
-	protected boolean assertValue(Object eval) {
-		return (eval instanceof Value);
+	protected boolean assertNumeric(Object left, Object right) {
+		return (left instanceof BigDecimal && right instanceof BigDecimal);
 	}
 
 	protected boolean assertValueOrNumeric(Object eval) {
 		return assertNumeric(eval) || assertValue(eval);
 	}
 
-	protected boolean assertNumeric(Object left, Object right) {
-		return (left instanceof BigDecimal && right instanceof BigDecimal);
+	protected boolean assertValue(Object eval) {
+		return (eval instanceof Value);
+	}
+
+	/*
+	 * Structural equality according to
+	 */
+	protected boolean assertValueTSEqual(Value leftValue, Value rightValue) {
+		return modelUtils.valueTimeStampCompare()
+				.compare(leftValue, rightValue) == 0;
 	}
 
 	protected boolean assertCollection(Object eval) {
 		return (eval instanceof List<?>);
+	}
+
+	protected boolean assertValueCollection(Object eval) {
+		if (eval instanceof List<?>) {
+			for (Object o : asCollection((List<?>) eval)) {
+				if (!assertValue(o)) {
+					return false;
+				}
+			}
+		} else {
+			return false;
+		}
+		return true;
+	}
+
+	protected boolean assertNumericCollection(Object eval) {
+		if (eval instanceof List<?>) {
+			for (Object o : asCollection((List<?>) eval)) {
+				if (!assertNumeric(o)) {
+					return false;
+				}
+			}
+		} else {
+			return false;
+		}
+		return true;
 	}
 
 	protected boolean assertMatrix(List<?> collection) {
