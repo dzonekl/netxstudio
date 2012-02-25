@@ -154,7 +154,7 @@ public class ModelUtils {
 					&& v2.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)) {
 				return v1.getTimeStamp().compare(v2.getTimeStamp());
 			}
-			return 0;
+			return -1;
 		}
 	};
 
