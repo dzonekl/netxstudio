@@ -33,7 +33,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * @author dzonekl
  * 
  */
-public class EditingActionsHandler implements IActionHandler {
+public class TextEditingActionsHandler implements IActionHandler {
 
 	/**
 	 * This style bit indicates that the "additions" separator should come after
@@ -46,36 +46,36 @@ public class EditingActionsHandler implements IActionHandler {
 	 */
 	protected int style;
 
-	/**
-	 * This is the action used to implement delete, this is the real delete
-	 * action.
-	 */
-	protected WarningDeleteAction deleteAction;
-
-	/**
-	 * This is the action used to implement cut.
-	 */
-	protected CutAction cutAction;
-
-	/**
-	 * This is the action used to implement copy.
-	 */
-	protected CopyAction copyAction;
-
-	/**
-	 * This is the action used to implement paste.
-	 */
-	protected PasteAction pasteAction;
-
-	/**
-	 * This is the action used to implement undo.
-	 */
-	protected UndoAction undoAction;
-
-	/**
-	 * This is the action used to implement redo.
-	 */
-	protected RedoAction redoAction;
+//	/**
+//	 * This is the action used to implement delete, this is the real delete
+//	 * action.
+//	 */
+//	protected WarningDeleteAction deleteAction;
+//
+//	/**
+//	 * This is the action used to implement cut.
+//	 */
+//	protected CutAction cutAction;
+//
+//	/**
+//	 * This is the action used to implement copy.
+//	 */
+//	protected CopyAction copyAction;
+//
+//	/**
+//	 * This is the action used to implement paste.
+//	 */
+//	protected PasteAction pasteAction;
+//
+//	/**
+//	 * This is the action used to implement undo.
+//	 */
+//	protected UndoAction undoAction;
+//
+//	/**
+//	 * This is the action used to implement redo.
+//	 */
+//	protected RedoAction redoAction;
 
 	/**
 	 * This is the aciton bladibla...
@@ -84,7 +84,7 @@ public class EditingActionsHandler implements IActionHandler {
 
 	private IEditingService editingService;
 
-	public EditingActionsHandler(IEditingService editingService) {
+	public TextEditingActionsHandler(IEditingService editingService) {
 		this.style = ADDITIONS_LAST_STYLE;
 		this.editingService = editingService;
 	}
@@ -97,48 +97,48 @@ public class EditingActionsHandler implements IActionHandler {
 	 * (org.eclipse.ui.IActionBars)
 	 */
 	public void initActions(IActionBars actionBars) {
-
-		ISharedImages sharedImages = PlatformUI.getWorkbench()
-				.getSharedImages();
-
-		deleteAction = createDeleteAction();
-		deleteAction.setImageDescriptor(sharedImages
-				.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
-		actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(),
-				deleteAction);
-
-		cutAction = createCutAction();
-		cutAction.setImageDescriptor(sharedImages
-				.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
-		actionBars.setGlobalActionHandler(ActionFactory.CUT.getId(), cutAction);
-
-		copyAction = createCopyAction();
-		copyAction.setImageDescriptor(sharedImages
-				.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
-		actionBars.setGlobalActionHandler(ActionFactory.COPY.getId(),
-				copyAction);
-
-		pasteAction = createPasteAction();
-		pasteAction.setImageDescriptor(sharedImages
-				.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
-		actionBars.setGlobalActionHandler(ActionFactory.PASTE.getId(),
-				pasteAction);
-
-		undoAction = createUndoAction();
-		undoAction.setImageDescriptor(sharedImages
-				.getImageDescriptor(ISharedImages.IMG_TOOL_UNDO));
-		actionBars.setGlobalActionHandler(ActionFactory.UNDO.getId(),
-				undoAction);
-
-		redoAction = createRedoAction();
-		redoAction.setImageDescriptor(sharedImages
-				.getImageDescriptor(ISharedImages.IMG_TOOL_REDO));
-		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(),
-				redoAction);
-
-		selectAllAction = createSelectAllAction();
-		actionBars.setGlobalActionHandler(ActionFactory.SELECT_ALL.getId(),
-				selectAllAction);
+//
+//		ISharedImages sharedImages = PlatformUI.getWorkbench()
+//				.getSharedImages();
+//
+//		deleteAction = createDeleteAction();
+//		deleteAction.setImageDescriptor(sharedImages
+//				.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
+//		actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(),
+//				deleteAction);
+//
+//		cutAction = createCutAction();
+//		cutAction.setImageDescriptor(sharedImages
+//				.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
+//		actionBars.setGlobalActionHandler(ActionFactory.CUT.getId(), cutAction);
+//
+//		copyAction = createCopyAction();
+//		copyAction.setImageDescriptor(sharedImages
+//				.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
+//		actionBars.setGlobalActionHandler(ActionFactory.COPY.getId(),
+//				copyAction);
+//
+//		pasteAction = createPasteAction();
+//		pasteAction.setImageDescriptor(sharedImages
+//				.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
+//		actionBars.setGlobalActionHandler(ActionFactory.PASTE.getId(),
+//				pasteAction);
+//
+//		undoAction = createUndoAction();
+//		undoAction.setImageDescriptor(sharedImages
+//				.getImageDescriptor(ISharedImages.IMG_TOOL_UNDO));
+//		actionBars.setGlobalActionHandler(ActionFactory.UNDO.getId(),
+//				undoAction);
+//
+//		redoAction = createRedoAction();
+//		redoAction.setImageDescriptor(sharedImages
+//				.getImageDescriptor(ISharedImages.IMG_TOOL_REDO));
+//		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(),
+//				redoAction);
+//
+//		selectAllAction = createSelectAllAction();
+//		actionBars.setGlobalActionHandler(ActionFactory.SELECT_ALL.getId(),
+//				selectAllAction);
 
 	}
 
@@ -244,17 +244,18 @@ public class EditingActionsHandler implements IActionHandler {
 
 		activePart.addPropertyListener(this);
 
-		deleteAction.setActiveWorkbenchPart(activePart);
-		cutAction.setActiveWorkbenchPart(activePart);
-		copyAction.setActiveWorkbenchPart(activePart);
-		pasteAction.setActiveWorkbenchPart(activePart);
-		undoAction.setActiveWorkbenchPart(activePart);
-		redoAction.setActiveWorkbenchPart(activePart);
+//		deleteAction.setActiveWorkbenchPart(activePart);
+//		cutAction.setActiveWorkbenchPart(activePart);
+//		copyAction.setActiveWorkbenchPart(activePart);
+//		pasteAction.setActiveWorkbenchPart(activePart);
+//		undoAction.setActiveWorkbenchPart(activePart);
+//		redoAction.setActiveWorkbenchPart(activePart);
 
 		ISelectionProvider selectionProvider = activePart instanceof ISelectionProvider ? (ISelectionProvider) activePart
 				: activePart.getSite().getSelectionProvider();
 
 		if (selectionProvider != null) {
+			
 			selectionProvider.addSelectionChangedListener(deleteAction);
 			selectionProvider.addSelectionChangedListener(cutAction);
 			selectionProvider.addSelectionChangedListener(copyAction);

@@ -54,7 +54,8 @@ public class DynamicScreensActionHandler extends AbstractActionHandler {
 		
 		for (IAction action : actions) {
 			if(EditingActivator.DEBUG){
-				System.out.println("EDITING: update action=" + action.getText());
+				EditingActivator.TRACE.trace("/debug", "inserting dynanmic action" + action.getText());
+//				System.out.println("EDITING: update action=" + action.getText());
 			}
 			if (action instanceof SeparatorAction) {
 				menuManager.insertAfter("screen", new Separator());
@@ -67,13 +68,12 @@ public class DynamicScreensActionHandler extends AbstractActionHandler {
 	@Override
 	public void handleSelection(IStructuredSelection ss) {
 		this.selection = ss;
-		if(EditingActivator.DEBUG){
-			System.out.println("EDITING: updating selection for # actions=" + actions.size());
-		}
 		for (IAction action : actions) {
 			if(EditingActivator.DEBUG){
-				System.out.println(action.getText());
+				EditingActivator.TRACE.trace(null, "update selection for action=" + action.getText());
+//				System.out.println("EDITING: updating selection for # actions=" + actions.size());
 			}
+
 			if (action instanceof BaseSelectionListenerAction) {
 				BaseSelectionListenerAction bsla = (BaseSelectionListenerAction) action;
 				bsla.selectionChanged(ss);

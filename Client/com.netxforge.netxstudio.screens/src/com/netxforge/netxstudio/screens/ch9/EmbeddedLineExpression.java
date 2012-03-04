@@ -96,7 +96,7 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 	ModelUtils modelUtils;
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	protected EmbeddedXtextEditor xtextEditor;
+	private EmbeddedXtextEditor xtextEditor;
 
 	private Expression expression;
 	private EmbeddedXtextService xtextService;
@@ -831,5 +831,12 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 				expressionsResource.getContents(), expression);
 		editingService.getEditingDomain().getCommandStack().execute(c);
 
+	}
+
+	/**
+	 * @return the xtextEditor
+	 */
+	public EmbeddedXtextEditor getXtextEditor() {
+		return xtextEditor;
 	}
 }

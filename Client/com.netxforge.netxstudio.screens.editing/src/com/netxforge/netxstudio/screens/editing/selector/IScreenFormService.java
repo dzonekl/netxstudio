@@ -156,7 +156,18 @@ public interface IScreenFormService {
 	 * @return
 	 */
 	public abstract void fireScreenChangedExternal(IScreen screen);
+	
+	
+	/**
+	 * Notify of a widget changed within the screen.
+	 * this could trigger to query which widget should provide selection. 
+	 * The screen itself can be queried for the current widget in focus. 
+	 * 
+	 * @return
+	 */
+	public abstract void fireScreenWidgetChangedExternal(IScreen screen);
 
+	
 	/**
 	 * A listener which is notified of screen changes. 
 	 * 

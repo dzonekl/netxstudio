@@ -653,6 +653,13 @@ public class ScreenFormService implements IScreenFormService {
 		this.fireScreenChanged(screen);
 	}
 
+	public void fireScreenWidgetChangedExternal(IScreen screen) {
+		for (ScreenChangeListener l : screenChangedListeners) {
+			l.screenWidgetChanged(screen);
+		}
+	}
+
+	
 	private void fireScreenChanged(IScreen screen) {
 		for (ScreenChangeListener l : screenChangedListeners) {
 			l.screenChanged(screen);
@@ -717,5 +724,6 @@ public class ScreenFormService implements IScreenFormService {
 			lnk.setEnabled(false);
 		}
 	}
+
 
 }

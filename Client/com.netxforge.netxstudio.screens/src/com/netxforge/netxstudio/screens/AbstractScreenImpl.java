@@ -23,11 +23,15 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.part.ShowInContext;
 
@@ -52,7 +56,7 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  * @author dzonekl
  */
 public abstract class AbstractScreenImpl extends Composite implements IScreen,
-		IDataInjection, IValidationListener, DisposeListener {
+		IDataInjection, IValidationListener, DisposeListener, FocusListener {
 
 	protected int operation;
 
@@ -70,12 +74,46 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	@Inject
 	protected IValidationService validationService;
 
+	private Object currentFocusWidget;
+
 	public AbstractScreenImpl(Composite parent, int style) {
 		super(parent, style);
 		this.addDisposeListener(this);
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
 	}
+	
+	
+	/**
+	 * Clients could call to update the selection provider depending on focus. 
+	 * 
+	 * @param c
+	 */
+	protected void registerFocus(Control c) {
+		if (c instanceof Composite) {
+			Composite comp = (Composite) c;
+			for (Control cChild : comp.getChildren()) {
+				cChild.addFocusListener(this);
+				registerFocus(cChild);
+			}
+		}
+	}
+	
+	
+	/**
+	 * Called automaticly when we are disposed. 
+	 * @param c
+	 */
+	private void unRegisterFocus(Control c) {
+		if (c instanceof Composite) {
+			Composite comp = (Composite) c;
+			for (Control cChild : comp.getChildren()) {
+				cChild.removeFocusListener(this);
+				unRegisterFocus(cChild);
+			}
+		}
+	}
 
+	
 	public int getOperation() {
 		return operation;
 	}
@@ -107,7 +145,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	public IEditingService getEditingService() {
 		if (screenService != null) {
 			return screenService.getEditingService();
-		}else{
+		} else {
 			return editingService;
 		}
 	}
@@ -157,6 +195,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		if (validationService != null) {
 			validationService.dispose();
 		}
+		this.unRegisterFocus(this);
 	}
 
 	/**
@@ -213,37 +252,60 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 
 	// ISelectionProvider - Composition.
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		for (Viewer v : this.getViewers()) {
-			if (v != null) {
-				v.addSelectionChangedListener(listener);
-			}
+			ISelectionProvider currentSelectionProvider = this.resolveSelectionProviderFromWidget(currentFocusWidget);
+			if(currentSelectionProvider != null){
+				currentSelectionProvider.addSelectionChangedListener(listener);
 		}
+		
+//		for (Viewer v : this.getViewers()) {
+//			if (v != null) {
+//				v.addSelectionChangedListener(listener);
+//			}
+//		}
 	}
 
 	public ISelection getSelection() {
-		// return the selection from the first viewer with focus.
-		for (Viewer v : this.getViewers()) {
-			if (v != null && v.getControl().isFocusControl()) {
-				return v.getSelection();
+		
+			ISelectionProvider currentSelectionProvider = this.resolveSelectionProviderFromWidget(currentFocusWidget);
+			if(currentSelectionProvider != null){
+				return currentSelectionProvider.getSelection();
 			}
-		}
+		
+		// return the selection from the first viewer with focus.
+//		for (Viewer v : this.getViewers()) {
+//			if (v != null && v.getControl().isFocusControl()) {
+//				return v.getSelection();
+//			}
+//		}
 		return StructuredSelection.EMPTY;
 	}
 
 	public void removeSelectionChangedListener(
 			ISelectionChangedListener listener) {
-
-		for (Viewer v : this.getViewers()) {
-			if (v != null) {
-				v.removeSelectionChangedListener(listener);
+		
+			ISelectionProvider currentSelectionProvider = this.resolveSelectionProviderFromWidget(currentFocusWidget);
+			if(currentSelectionProvider != null){
+				currentSelectionProvider.removeSelectionChangedListener(listener);
 			}
-		}
+		
+//		for (Viewer v : this.getViewers()) {
+//			if (v != null) {
+//				v.removeSelectionChangedListener(listener);
+//			}
+//		}
 	}
 
 	public void setSelection(ISelection selection) {
-		for (Viewer v : this.getViewers()) {
-			if (v != null && v.getSelection() != null) {
-				v.setSelection(selection);
+//		for (Viewer v : this.getViewers()) {
+//			if (v != null && v.getSelection() != null) {
+//				v.setSelection(selection);
+//			}
+//		}
+		
+		if( this.currentFocusWidget != null){
+			ISelectionProvider currentSelectionProvider = this.resolveSelectionProviderFromWidget(currentFocusWidget);
+			if(currentSelectionProvider != null){
+				currentSelectionProvider.setSelection(selection);
 			}
 		}
 	}
@@ -277,4 +339,45 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		}
 		return false;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events
+	 * .FocusEvent)
+	 */
+	public void focusGained(FocusEvent e) {
+		this.currentFocusWidget = e.getSource();
+		fireScreenSelectionProviderChanged();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events
+	 * .FocusEvent)
+	 */
+	public void focusLost(FocusEvent e) {
+	}
+	
+	/**
+	 * Convenience method to fire a widget change within our IScreen. 
+	 */
+	private void fireScreenSelectionProviderChanged(){
+		this.screenService.fireScreenWidgetChangedExternal(this);
+	}
+		
+	/**
+	 * Clients should override to return custom selection providers based on the current focus control. 
+	 * The default implementation returns the active viewer. 
+	 *  
+	 * @param widget
+	 * @return
+	 */
+	protected ISelectionProvider resolveSelectionProviderFromWidget(Object widget){
+		return this.getViewer();
+	}
+	
 }

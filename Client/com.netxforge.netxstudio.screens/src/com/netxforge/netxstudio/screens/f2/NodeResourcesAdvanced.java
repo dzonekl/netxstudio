@@ -52,6 +52,7 @@ import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -216,6 +217,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private Composite cmpExpression;
 	private Composite cmpSubSelector;
 	private IViewerObservableValue observeNodeSelection;
+	private Tree componentsTree;
 
 	// private CDateTimeObservableValue fromTimeObservableValue;
 	// private CDateTimeObservableValue toTimeObservableValue;
@@ -359,15 +361,15 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				| SWT.MULTI | widgetStyle);
 		componentsTreeViewer.setUseHashlookup(true);
 		componentsTreeViewer.setComparer(new CDOElementComparer());
-		Tree tree = componentsTreeViewer.getTree();
-		tree.setHeaderVisible(true);
-		tree.setLinesVisible(true);
+		componentsTree = componentsTreeViewer.getTree();
+		componentsTree.setHeaderVisible(true);
+		componentsTree.setLinesVisible(true);
 
 		if (gd_componentsTreeViewer != null) {
-			tree.setLayoutData(gd_componentsTreeViewer);
+			componentsTree.setLayoutData(gd_componentsTreeViewer);
 		}
 
-		toolkit.paintBordersFor(tree);
+		toolkit.paintBordersFor(componentsTree);
 
 		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(
 				componentsTreeViewer, SWT.NONE);
@@ -433,21 +435,32 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		// Could potentially use a custom FocusCellOwnerDrawHighlighter which
 		// could show a handle.
+		
+		FocusCellOwnerDrawHighlighterForMultiselection fcHighlighter = new FocusCellOwnerDrawHighlighterForMultiselection(
+				componentsTreeViewer);
+		
+//		FocusCellOwnerdrawBorderHighlighter fcHighlighter = new FocusCellOwnerdrawBorderHighlighter(
+//				componentsTreeViewer);
+		
+		
 		TreeViewerFocusCellManager componentsFocusCellManager = new TreeViewerFocusCellManager(
-				componentsTreeViewer,
-				new FocusCellOwnerDrawHighlighterForMultiselection(
-						componentsTreeViewer));
-
+				componentsTreeViewer,fcHighlighter
+				);
+		
+		
+		
 		ColumnViewerEditorActivationStrategy actSupport = new ColumnViewerEditorActivationStrategy(
 				componentsTreeViewer) {
 			protected boolean isEditorActivationEvent(
 					ColumnViewerEditorActivationEvent event) {
 				// return false;
-
-				return event.eventType == ColumnViewerEditorActivationEvent.TRAVERSAL
+				
+				boolean result = event.eventType == ColumnViewerEditorActivationEvent.TRAVERSAL
 						|| event.eventType == ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION
 						|| (event.eventType == ColumnViewerEditorActivationEvent.KEY_PRESSED && event.keyCode == SWT.CR)
 						|| event.eventType == ColumnViewerEditorActivationEvent.PROGRAMMATIC;
+				System.out.println("NodeResourceAdvanced: Cell editing activation for event=" +event.eventType + " activate? " +result);
+				return result;
 			}
 		};
 
@@ -1606,8 +1619,6 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		IObservableValue valueWritableObservable = new WritableValue();
 		valueWritableObservable.addChangeListener(new IChangeListener() {
 			public void handleChange(ChangeEvent event) {
-				System.out.println(" update resource here. "
-						+ event.getSource());
 				if (event.getSource() instanceof WritableValue) {
 					WritableValue v = (WritableValue) event.getSource();
 					Object value = v.getValue();
@@ -1985,6 +1996,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				.getData(OperatorsPackage.Literals.OPERATOR);
 
 		buildUI();
+		registerFocus(this);
 		initDataBindings_();
 	}
 
@@ -2056,4 +2068,28 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		
 		return showInContext;
 	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#resolveSelectionProviderFromWidget(java.lang.Object)
+	 */
+	@Override
+	protected ISelectionProvider resolveSelectionProviderFromWidget(
+			Object widget) {
+		
+		if(widget == componentsTree ){
+			return componentsTreeViewer;
+		}else if ( widget == resourcesTable ){
+			return resourcesTableViewer;
+		}else if (widget == expressionComponent.getXtextEditor().getViewer().getTextWidget() ){
+			return expressionComponent.getXtextEditor().getViewer().getSelectionProvider();
+		}
+		
+		// TODO, value component. 
+		return super.resolveSelectionProviderFromWidget(widget);
+	}
+	
+	
+	
+	
+	
 }

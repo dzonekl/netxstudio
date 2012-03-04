@@ -22,6 +22,7 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -181,13 +182,11 @@ public class UIActionsHandler implements IActionHandler,
 		refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());
 		menuManager.insertAfter("ui-actions", refreshViewerAction);
 		
-		
-		
-		menuManager.add(ContributionItemFactory.VIEWS_SHOW_IN.create(PlatformUI.getWorkbench().getActiveWorkbenchWindow()));
-		
-		
-		
-		// super.addGlobalActions(menuManager);
+		// The Show-in menu.		
+		menuManager.add(new Separator());
+		MenuManager showinMenuManager = new MenuManager("Show In");
+		showinMenuManager.add(ContributionItemFactory.VIEWS_SHOW_IN.create(PlatformUI.getWorkbench().getActiveWorkbenchWindow()));
+		menuManager.add(showinMenuManager);
 	}
 
 	public void propertyChanged(Object source, int propId) {

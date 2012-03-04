@@ -142,24 +142,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		// Some screens won't have a viewer, in this case
 		// the current viewer will be null, and an empty selection will be set.
 		if (screen != null) {
-			
 			getActionHandlerDescriptor().clearDynamicHandlers();
-
-//			if (getSite() instanceof IViewSite) {
-//				IViewSite site = (IViewSite) getSite();
-//				getActionHandlerDescriptor().initActions(site.getActionBars());
-//			}
-//			
-//			if (!ScreenUtil.isReadOnlyOperation(screen.getOperation())) {
-//				getActionHandlerDescriptor().addHandler(
-//						new EditingActionsHandler(getEditingService()));
-//				getActionHandlerDescriptor().addHandler(
-//						new CreationActionsHandler());
-//			}
-//
-//			// Enabled for all screen modes.
-//			getActionHandlerDescriptor().addHandler(new UIActionsHandler());
-			
 			// before activating the screen, set the selection providerts.
 			this.setCurrentScreen(screen);
 			this.activeScreen = screen;
@@ -167,7 +150,16 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 			firePropertyChange(ISaveablePart2.PROP_DIRTY);
 		}
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.selector.ScreenChangeListener#screenWidgetChanged(com.netxforge.netxstudio.screens.editing.selector.IScreen)
+	 */
+	public void screenWidgetChanged(IScreen screen) {
+		// force an update of the current screen. 
+		this.setCurrentScreen(screen);
+	}
+	
+	
 	public IScreen getScreen() {
 		return this.activeScreen;
 	}
@@ -222,6 +214,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		}
 		return new ShowInContext(null, this.getSelection());
 	}
+
 	
 	
 }

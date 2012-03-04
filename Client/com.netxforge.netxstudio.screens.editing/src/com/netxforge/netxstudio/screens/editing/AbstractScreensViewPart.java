@@ -54,7 +54,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
 import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
-import com.netxforge.netxstudio.screens.editing.actions.EditingActionsHandler;
+import com.netxforge.netxstudio.screens.editing.actions.ObjectEditingActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
@@ -167,12 +167,13 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		// Set the current editor as selection provider.
 		site.setSelectionProvider(this);
 
+		// FIXME, ACTION handlers should be installed dynamicly, 
 		// Note add some static action handlers which are updated by the
 		// selection
 		// provider of the active part. which is this. We can also add
 		// dynamic action handlers.
 		actionHandlerDescriptor = new ActionHandlerDescriptor();
-		actionHandlerDescriptor.addHandler(new EditingActionsHandler(
+		actionHandlerDescriptor.addHandler(new ObjectEditingActionsHandler(
 				getEditingService()));
 		actionHandlerDescriptor.addHandler(new CreationActionsHandler());
 		actionHandlerDescriptor.addHandler(new UIActionsHandler());
@@ -352,9 +353,11 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 					// so we need to refresh the input.
 					// currentViewer.refresh();
 					if (EditingActivator.DEBUG) {
-						System.out
-								.println("Command stack, fire command stack changed, source="
-										+ event.getSource());
+						EditingActivator.TRACE.trace(null, "Command stack changed");
+//						System.out
+//								.println("Command stack, fire command stack changed, source="
+
+						//										+ event.getSource());
 					}
 				}
 			});
@@ -409,8 +412,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 * This creates a context menu for the viewer and adds a listener as well
 	 * registering the menu for extension. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
-	 * @generated
 	 */
 	protected void augmentContextMenuFor(StructuredViewer viewer) {
 
@@ -437,6 +438,13 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	}
 
 	public void menuAboutToShow(IMenuManager manager) {
+		
+		// CB We might not be the active part, make sure we are activated. 
+		// this is important for show-in, which activates the show-in part. 
+		IWorkbenchPart activePart = this.getSite().getWorkbenchWindow().getActivePage().getActivePart();
+		if(activePart != this){
+			this.getSite().getWorkbenchWindow().getActivePage().activate(this);
+		}
 		contributeMenuAboutToShow(manager);
 	}
 
@@ -495,7 +503,10 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		//
 		setSelection(screen == null ? StructuredSelection.EMPTY : screen
 				.getSelection());
-
+		
+		
+		// Install a menu on the active viewer. 
+		
 		for (Viewer v : screen.getViewers()) {
 			// Install a context menu, for all possible viewers, note
 			// all actions will be installed, we don't differentiate which

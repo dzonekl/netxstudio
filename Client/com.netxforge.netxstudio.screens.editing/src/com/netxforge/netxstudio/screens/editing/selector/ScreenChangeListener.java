@@ -28,4 +28,6 @@ public interface ScreenChangeListener extends EventListener {
 
 	public void screenChanged(IScreen screen);
 	
+	public void screenWidgetChanged(IScreen screen);
+	
 }

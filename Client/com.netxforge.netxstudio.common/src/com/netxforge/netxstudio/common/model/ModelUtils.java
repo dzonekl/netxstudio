@@ -1965,6 +1965,10 @@ public class ModelUtils {
 		return getDateString.apply(d);
 	}
 
+	public String currentTimeAndSeconds() {
+		return timeAndSeconds(new Date());
+	}
+	
 	public String dateAndTime(XMLGregorianCalendar d) {
 		Date date = fromXMLDate(d);
 		return dateAndTime(date);

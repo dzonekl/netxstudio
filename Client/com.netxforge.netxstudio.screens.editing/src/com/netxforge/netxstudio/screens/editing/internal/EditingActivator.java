@@ -53,6 +53,7 @@ public class EditingActivator extends AbstractUIPlugin implements DebugOptionsLi
 	}
 
 	public void optionsChanged(DebugOptions options) {
+		// create an .options file!
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}

@@ -200,7 +200,7 @@ public class FocusCellOwnerDrawHighlighterForMultiselection extends
 	@Override
 	protected void focusCellChanged(ViewerCell newCell, ViewerCell oldCell) {
 		super.focusCellChanged(newCell, oldCell);
-
+		
 		// Redraw new area
 		if (newCell != null) {
 			Rectangle rect = newCell.getBounds();
