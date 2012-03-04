@@ -10,7 +10,6 @@ import java.util.Random;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.xtext.util.PolymorphicDispatcher;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -131,15 +130,16 @@ public class InterpreterTypeless implements IInterpreter {
 	@Inject
 	INativeFunctions nativeFunctions;// = new NativeFunctions();
 
-	@Inject
 	IPrettyLog pLog;// = new PrettyLog();
 
 	@Inject
 	ModelUtils modelUtils;// = new ModelUtils();
 
-	private PolymorphicDispatcher<BigDecimal> dispatcher = PolymorphicDispatcher
+	private PrintingPolymorphicDispatcher<BigDecimal> dispatcher = PrintingPolymorphicDispatcher
 			.createForSingleTarget("internalEvaluate", 2, 2, this);
-
+		
+	
+	
 	// private PolymorphicDispatcher dispatcher = PolymorphicDispatcher
 	// .createForVarTarget("internalEvaluate", this);
 
@@ -151,8 +151,10 @@ public class InterpreterTypeless implements IInterpreter {
 	/**
 	 * Construct without a root object constraint.
 	 */
-	public InterpreterTypeless() {
-
+	@Inject
+	public InterpreterTypeless(IPrettyLog pLog) {
+		this.pLog = pLog;
+		dispatcher.setPrettyLog(pLog);
 	}
 
 	/**
@@ -287,9 +289,9 @@ public class InterpreterTypeless implements IInterpreter {
 			// TODO, this is where we need to set the arguments if any.
 			// We would then call the function evaluation including values.
 			// Or the first function has no arguments?
-			pLog.log("Calling first function: '" + f.getName()
-					+ "' Additional Functions:"
-					+ (module.getFunctions().size() - 1));
+//			pLog.log("Calling first function: '" + f.getName()
+//					+ "' Additional Functions:"
+//					+ (module.getFunctions().size() - 1));
 			return evaluate(f);
 		} else {
 			// Dispatch without functions.
@@ -450,7 +452,10 @@ public class InterpreterTypeless implements IInterpreter {
 
 		// Object eval = null;
 		for (Statement statement : internalStatements) {
-			int index = internalStatements.indexOf(statement);
+			
+			
+			// CB Unused, comment out. 
+//			int index = internalStatements.indexOf(statement);
 
 			// When we define a variable or assign a value to a var, we
 			// also store the expression result as a parameter which we pass on
@@ -501,9 +506,9 @@ public class InterpreterTypeless implements IInterpreter {
 						ImmutableMap.copyOf(localVarsAndArguments));
 
 				// Print the evaluation result.
-				if (eval != null) {
-					pLog.log("Statement (" + index + ") result:", eval);
-				}
+//				if (eval != null) {
+//					pLog.log("Statement (" + index + ") result:", eval);
+//				}
 
 				// Merge the returned locals.
 				if (eval instanceof Map<?, ?>) {
@@ -1601,16 +1606,20 @@ public class InterpreterTypeless implements IInterpreter {
 					List<Object> evalResult = Lists.newArrayList();
 					if (true) {
 
-						// use the first subrange as the reference list.
+						// use the first subrange as the reference list, make a
+						// copy.
+						// for each of the ranges, aggregate values with the
+						// same timestamp.
+						//
 						if (range.size() > 0 && range.get(0) instanceof List<?>) {
 							ImmutableList<?> refRange = ImmutableList
 									.copyOf((List<?>) range.get(0));
-							for (Object indexValue : refRange) {
+							for (Object refObject : refRange) {
 								List<Value> sameTimestamps = Lists
 										.newArrayList();
-								Value tsValue = null;
-								if (indexValue instanceof Value) {
-									tsValue = (Value) indexValue;
+								Value refValue = null;
+								if (refObject instanceof Value) {
+									refValue = (Value) refObject;
 								}
 								for (Object rangeItem : range) {
 
@@ -1626,7 +1635,7 @@ public class InterpreterTypeless implements IInterpreter {
 															.valueTimeStampCompare()
 															.compare(
 																	(Value) ri,
-																	tsValue) == 0) {
+																	refValue) == 0) {
 
 												sameTimestamps.add((Value) ri);
 											}
@@ -1639,7 +1648,8 @@ public class InterpreterTypeless implements IInterpreter {
 									}
 								}
 
-								Value processedValue = EcoreUtil.copy(tsValue);
+								// Create a copy of the
+								Value processedValue = EcoreUtil.copy(refValue);
 								Object evalNative = processNativeFunction(ne,
 										sameTimestamps);
 								if (assertNumeric(evalNative)) {
@@ -1882,7 +1892,6 @@ public class InterpreterTypeless implements IInterpreter {
 			setNum(num);
 		}
 
-		@Override
 		public BigDecimal apply(BigDecimal rightNum) {
 			return doApply(rightNum);
 		}
@@ -1919,9 +1928,10 @@ public class InterpreterTypeless implements IInterpreter {
 
 		public void setMatchTS(Boolean matchTS) {
 			this.matchTS = matchTS;
+			System.out.println("setting non matching ");
+			
 		}
 
-		@Override
 		public Value apply(Value rightValue) {
 
 			if (leftValue != null) {
@@ -2113,20 +2123,20 @@ public class InterpreterTypeless implements IInterpreter {
 		}
 	}
 
-	private BigDecimal asNum(BigDecimal eval) {
+	public static BigDecimal asNum(BigDecimal eval) {
 		return (BigDecimal) eval;
 	}
 
-	private BigDecimal asNum(Value eval) {
+	public static BigDecimal asNum(Value eval) {
 		return new BigDecimal(eval.getValue());
 	}
 
-	private List<?> asCollection(List<?> collection) {
+	public static List<?> asCollection(List<?> collection) {
 		return (List<?>) collection;
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Value> asValueCollection(List<?> collection) {
+	public static List<Value> asValueCollection(List<?> collection) {
 		return (List<Value>) collection;
 	}
 
@@ -2143,7 +2153,7 @@ public class InterpreterTypeless implements IInterpreter {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<BigDecimal> asNumericCollection(List<?> collection) {
+	public static List<BigDecimal> asNumericCollection(List<?> collection) {
 		return (List<BigDecimal>) collection;
 	}
 
@@ -2296,27 +2306,27 @@ public class InterpreterTypeless implements IInterpreter {
 	// How to build the grammar, that types represent expression types, and
 	// avoid casting?
 
-	protected boolean assertBoolean(Object eval) {
+	public static boolean assertBoolean(Object eval) {
 		return (eval instanceof Boolean);
 	}
 
-	protected boolean assertBoolean(Object left, Object right) {
+	public static boolean assertBoolean(Object left, Object right) {
 		return (left instanceof Boolean && right instanceof Boolean);
 	}
 
-	protected boolean assertNumeric(Object eval) {
+	public static boolean assertNumeric(Object eval) {
 		return (eval instanceof BigDecimal);
 	}
 
-	protected boolean assertNumeric(Object left, Object right) {
+	public static boolean assertNumeric(Object left, Object right) {
 		return (left instanceof BigDecimal && right instanceof BigDecimal);
 	}
 
-	protected boolean assertValueOrNumeric(Object eval) {
+	public static boolean assertValueOrNumeric(Object eval) {
 		return assertNumeric(eval) || assertValue(eval);
 	}
 
-	protected boolean assertValue(Object eval) {
+	public static boolean assertValue(Object eval) {
 		return (eval instanceof Value);
 	}
 
@@ -2328,11 +2338,11 @@ public class InterpreterTypeless implements IInterpreter {
 				.compare(leftValue, rightValue) == 0;
 	}
 
-	protected boolean assertCollection(Object eval) {
+	public static boolean assertCollection(Object eval) {
 		return (eval instanceof List<?>);
 	}
 
-	protected boolean assertValueCollection(Object eval) {
+	public static boolean assertValueCollection(Object eval) {
 		if (eval instanceof List<?>) {
 			for (Object o : asCollection((List<?>) eval)) {
 				if (!assertValue(o)) {
@@ -2345,7 +2355,7 @@ public class InterpreterTypeless implements IInterpreter {
 		return true;
 	}
 
-	protected boolean assertNumericCollection(Object eval) {
+	public static boolean assertNumericCollection(Object eval) {
 		if (eval instanceof List<?>) {
 			for (Object o : asCollection((List<?>) eval)) {
 				if (!assertNumeric(o)) {
@@ -2358,10 +2368,10 @@ public class InterpreterTypeless implements IInterpreter {
 		return true;
 	}
 
-	protected boolean assertMatrix(List<?> collection) {
+	public static boolean assertMatrix(List<?> collection) {
 		for (Object o : collection) {
-			if (assertCollection(o)) {
-				return true;
+			if (!assertCollection(o)) {
+				return false;
 			}
 		}
 		return true;

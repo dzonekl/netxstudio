@@ -47,14 +47,14 @@ import com.netxforge.netxstudio.services.ServicesPackage;
 @Singleton
 public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 
-	private static String REPO_NAME = "repo1";
+//	private static String REPO_NAME = "repo1";
 
 	private Provider<IResourceDescriptions> loadOnDemandDescriptions;
 
 	private ModelUtils modelUtils;
 
 	private CDOView view;
-	
+
 	/*
 	 * Our dynamic map of EClass and URIs for NetXResource object, we expect the
 	 * list of URI's to grow.
@@ -67,6 +67,12 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 	private IResourceDescriptions descriptions;
 
 	private DynamixCDOScopeListener cdoScopeListener;
+
+	/**
+	 * maintain the initializing state of the scope providers. when
+	 * initializing, no scope can be queried
+	 */
+	private boolean initializing = false;
 
 	@Inject
 	public DynamixCDOScopeProvider(
@@ -103,6 +109,20 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 	}
 
 	/**
+	 * @return the initializing
+	 */
+	public synchronized boolean isInitializing() {
+		return initializing;
+	}
+
+	/**
+	 * @param initializing the initializing to set
+	 */
+	public synchronized void setInitializing(boolean initializing) {
+		this.initializing = initializing;
+	}
+
+	/**
 	 * Tell us we are running on the Server.
 	 * 
 	 * @return
@@ -126,43 +146,48 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 	@Override
 	protected IScope getScope(Resource resource, boolean ignoreCase,
 			EClass type, Predicate<IEObjectDescription> filter) {
-
-		if (filter != null) {
-			System.err.println("NETXSCRIPT: filter=" + filter);
-		}
-
-		if (RuntimeActivator.DEBUG) {
-			System.err
-					.println("NETXSCRIPT: Dynamix Global scope provider invoked");
-		}
+		
 		IScope scope = IScope.NULLSCOPE;
-		List<URI> urisForClass = urisForClass(type);
-		if (urisForClass != null && urisForClass.size() > 0) {
-			for (URI uri : urisForClass) {
+		// prevent from accessing the global scope, if we
+		if (!isInitializing()) {
 
-				if (RuntimeActivator.DEBUG) {
-					System.err.println("NETXSCRIPT: build an IScope for: "
-							+ uri.toString());
-				}
-
-				// the parent scope is self, so all URI's are caught.
-				scope = createLazyResourceScope(scope, uri, descriptions, type,
-						filter, ignoreCase);
-				if (RuntimeActivator.DEBUG) {
-					// int size = Iterables.size(scope.getAllElements());
-					// System.err.println("NETXSCRIPT: last scope = "
-					// + scope.toString() + " , number of descriptions = "
-					// + size);
-				}
-
+			if (filter != null) {
+				System.err.println("NETXSCRIPT: filter=" + filter);
 			}
-		} else {
+
 			if (RuntimeActivator.DEBUG) {
-				System.err.println("NETXSCRIPT:, no URI's for target EClass:"
-						+ type.getName());
+				System.err
+						.println("NETXSCRIPT: Dynamix Global scope provider invoked");
 			}
-		}
+			
+			List<URI> urisForClass = urisForClass(type);
+			if (urisForClass != null && urisForClass.size() > 0) {
+				for (URI uri : urisForClass) {
 
+					// the parent scope is self, so all URI's are caught.
+					scope = createLazyResourceScope(scope, uri, descriptions,
+							type, filter, ignoreCase);
+					if (RuntimeActivator.DEBUG) {
+						// int size = Iterables.size(scope.getAllElements());
+						// System.err.println("NETXSCRIPT: last scope = "
+						// + scope.toString() + " , number of descriptions = "
+						// + size);
+					}
+
+				}
+			} else {
+				if (RuntimeActivator.DEBUG) {
+					System.err
+							.println("NETXSCRIPT:, no URI's for target EClass:"
+									+ type.getName());
+				}
+			}
+		}else{
+			if (RuntimeActivator.DEBUG) {
+				System.err
+						.println("NETXSCRIPT: Global scope not available, currently Initializing...please try again later");
+			}
+		} 
 		return scope;
 	}
 
@@ -216,40 +241,48 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 
 	/**
 	 * Initialize for all URI's representing CDO Resources. this will populate
-	 * the cache and speed up usage of an Expression editor
+	 * the cache and speed up usage of an Expression editor. The method is not
+	 * reentrant. the initializing state is kept, and can be queried.
 	 */
 	public void initDescriptions() {
-		
-		// TODO, We need a monitor for accessing the descriptions. 
-		
-		for (EClass eClass : eClassToURIMap.keySet()) {
-			List<URI> urisForClass = eClassToURIMap.get(eClass);
-			for (URI uri : urisForClass) {
-				// Call to populate the cache.
-				descriptions.getResourceDescription(uri);
+
+		if (!isInitializing()) {
+			setInitializing(true);
+			for (EClass eClass : eClassToURIMap.keySet()) {
+				List<URI> urisForClass = eClassToURIMap.get(eClass);
+				for (URI uri : urisForClass) {
+					// Call to populate the cache.
+					descriptions.getResourceDescription(uri);
+				}
 			}
+			setInitializing(false);
 		}
 	}
 
 	/*
+	 * FIXME, this is really CDO stuff, move to the dataprovider. 
+	 * 
 	 * See NetXScript grammar for all possible model referenced objects.
 	 */
 	public Map<EClass, List<URI>> getClassToURIMap() {
-
+		
+		// Resolve
+		String repo_name = this.view.getSession().getRepositoryInfo().getName();
+		
 		final LinkedHashMap<EClass, List<URI>> classURIMap = Maps
 				.newLinkedHashMap();
-
-		URI nodeTypeURI = uri(LibraryPackage.Literals.NODE_TYPE);
+		
+		URI nodeTypeURI = uri(repo_name, LibraryPackage.Literals.NODE_TYPE);
 		classURIMap.put(LibraryPackage.Literals.NODE_TYPE,
 				ImmutableList.of(nodeTypeURI));
 
 		classURIMap.put(LibraryPackage.Literals.PARAMETER,
-				ImmutableList.of(uri(LibraryPackage.Literals.PARAMETER)));
+				ImmutableList.of(uri(repo_name, LibraryPackage.Literals.PARAMETER)));
 
 		classURIMap.put(ServicesPackage.Literals.SERVICE_USER,
-				ImmutableList.of(uri(ServicesPackage.Literals.SERVICE_USER)));
+				ImmutableList.of(uri(repo_name, ServicesPackage.Literals.SERVICE_USER)));
 
-		URI operatorURI = uri(OperatorsPackage.Literals.OPERATOR);
+		URI operatorURI = uri(repo_name, OperatorsPackage.Literals.OPERATOR);
 
 		classURIMap.put(OperatorsPackage.Literals.OPERATOR,
 				ImmutableList.of(operatorURI));
@@ -268,9 +301,15 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 
 		// CB NetXResource are held in a CDO Folder container, scan the
 		// container
-		URI nodeResourceURI = URI.createURI("cdo://" + REPO_NAME + "/Node_");
-		URI nodeTypeResoureURI = URI.createURI("cdo://" + REPO_NAME
-				+ "/NodeType_");
+		
+		
+		URI nodeResourceURI = URI.createURI("cdo://" + repo_name + "/Node_");
+		
+		
+		// CB, do not allow NetXResource objects from the NodeTypes in an expression. 
+		// 
+//		URI nodeTypeResoureURI = URI.createURI("cdo://" + repo_name
+//				+ "/NodeType_");
 
 		// this list is mutable by intend.
 		ArrayList<URI> urisAsList = Lists.newArrayList();
@@ -280,10 +319,10 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 			urisAsList.addAll(allNodeURIs);
 		}
 
-		{
-			List<URI> allNodeURIs = resolveAllURIs(nodeTypeResoureURI);
-			urisAsList.addAll(allNodeURIs);
-		}
+//		{
+//			List<URI> allNodeURIs = resolveAllURIs(nodeTypeResoureURI);
+//			urisAsList.addAll(allNodeURIs);
+//		}
 
 		// first type init.
 		classURIMap.put(LibraryPackage.Literals.NET_XRESOURCE, urisAsList);
@@ -292,8 +331,8 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 
 	}
 
-	public URI uri(EClass eClass) {
-		return URI.createURI("cdo://" + REPO_NAME + "/" + eClass.getName());
+	public URI uri(String repo_name, EClass eClass) {
+		return URI.createURI("cdo://" + repo_name + "/" + eClass.getName());
 	}
 
 	/*

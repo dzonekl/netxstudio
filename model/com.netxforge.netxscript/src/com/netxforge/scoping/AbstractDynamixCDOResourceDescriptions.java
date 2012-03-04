@@ -18,6 +18,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.netxforge.internal.RuntimeActivator;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.CDODataProvider;
 
@@ -31,6 +32,9 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 	@Inject
 	private IResourceServiceProvider.Registry serviceProviderRegistry;
 
+	@Inject
+	private ModelUtils modelUtils;
+	
 	private DynamixCache<URI, IResourceDescription> resourceDescriptionCache;
 
 	public void initialize(Collection<URI> scopedURIs, final CDOView view) {
@@ -46,7 +50,7 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 									"Data Service should be initialized");
 
 							Resource resource = null;
-							System.out.println("cached not used");
+							
 							try {
 								// System.out.println("--Run Scope builder Reading resource: "
 								// +
@@ -66,9 +70,11 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 
 									// This should attach our listener to the
 									// resources.
+//									System.out.println("NETXSCRIPT: getting resource " + uri.toString()  + " @ " + modelUtils.currentTimeAndSeconds());		
 									resource = ((CDODataProvider) provider)
 											.getResource(view, lookup);
-
+//									System.out.println("NETXSCRIPT: done getting resource " + uri.toString()  + " @ " + modelUtils.currentTimeAndSeconds());
+									
 									// System.out.println("--Done Scope builder Reading resource: "
 									// +
 									// uri.toString());
@@ -143,11 +149,18 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 						+ IResourceDescription.Manager.class.getName()
 						+ " provided by service provider for URI " + uri);
 
-			// Do we cache our resource description?
 			System.out
 					.println("--- NETXSCRIPT: Building Description for resource: "
-							+ resource.getURI().toString());
-			return resourceDescriptionManager.getResourceDescription(resource);
+							+ resource.getURI().toString() + " @ " + modelUtils.currentTimeAndSeconds());
+			
+			IResourceDescription resourceDescription = resourceDescriptionManager.getResourceDescription(resource);
+
+			System.out
+			.println("--- NETXSCRIPT: Done Building Description for resource: "
+					+ resource.getURI().toString() + " @ " + modelUtils.currentTimeAndSeconds());
+
+			
+			return resourceDescription;
 		}
 		return null;
 	}

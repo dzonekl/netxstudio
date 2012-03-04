@@ -33,15 +33,27 @@ import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.impl.DefaultResourceDescriptionDelta;
-import org.eclipse.xtext.resource.impl.DefaultResourceDescriptionManager;
-import org.eclipse.xtext.util.IResourceScopeCache;
 
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 
+
+/**
+ * Resource Description manager which doesn't use a OnChangeEvictingCache like 
+ * the default implementation, this cache has an EContentAdapter which would stick 
+ * into the complete CDO Resource containment hierarchy. As CDO Caches objects,
+ * we simply let CDO return the wanted objects. 
+ * 
+ * 
+ * Also the exported objects and exported references are calculated not by walking the complete hierarchy, 
+ * but really returning for interested objects only.
+ * 
+ * 
+ * @author Christophe
+ *
+ */
 @Singleton
 public class CDOResourceDescriptionManager implements IResourceDescription.Manager {
 
@@ -51,8 +63,11 @@ public class CDOResourceDescriptionManager implements IResourceDescription.Manag
 	@Inject
 	private IContainer.Manager containerManager;
 	
-	@Inject
-	private IResourceScopeCache cache = IResourceScopeCache.NullImpl.INSTANCE;
+	
+	
+	// Do not cache here, we do that ourselves. 
+//	@Inject
+//	private IResourceScopeCache cache = IResourceScopeCache.NullImpl.INSTANCE;
 	
 	@Inject
 	private DescriptionUtils descriptionUtils;
@@ -60,14 +75,17 @@ public class CDOResourceDescriptionManager implements IResourceDescription.Manag
 	@Inject 
 	private ModelUtils modelUtils;
 	
-	private static final String CACHE_KEY = DefaultResourceDescriptionManager.class.getName() + "#getResourceDescription";
+//	private static final String CACHE_KEY = DefaultResourceDescriptionManager.class.getName() + "#getResourceDescription";
 	
 	public IResourceDescription getResourceDescription(final Resource resource) {
-		return cache.get(CACHE_KEY, resource, new Provider<IResourceDescription>() {
-			public IResourceDescription get() {
-				return internalGetResourceDescription(resource, strategy);
-			}
-		});
+		
+		return internalGetResourceDescription(resource, strategy);
+		
+//		return cache.get(CACHE_KEY, resource, new Provider<IResourceDescription>() {
+//			public IResourceDescription get() {
+//				return internalGetResourceDescription(resource, strategy);
+//			}
+//		});
 	}
 	
 	public Delta createDelta(IResourceDescription oldDescription, IResourceDescription newDescription) {
@@ -75,7 +93,7 @@ public class CDOResourceDescriptionManager implements IResourceDescription.Manag
 	}
 
 	protected IResourceDescription internalGetResourceDescription(Resource resource, IDefaultResourceDescriptionStrategy strategy) {
-		return new CDOResourceDescription(resource, strategy, cache, modelUtils);
+		return new CDOResourceDescription(resource, strategy, modelUtils);
 	}
 	
 	public IContainer.Manager getContainerManager() {
@@ -86,14 +104,15 @@ public class CDOResourceDescriptionManager implements IResourceDescription.Manag
 		this.containerManager = containerManager;
 	}
 	
-	public void setCache(IResourceScopeCache cache) {
-		this.cache = cache;
-	}
+//	public void setCache(IResourceScopeCache cache) {
+//		this.cache = cache;
+//	}
+//	
+//	public IResourceScopeCache getCache() {
+//		return cache;
+//	}
 	
-	public IResourceScopeCache getCache() {
-		return cache;
-	}
-	
+
 	public boolean isAffected(Delta delta, IResourceDescription candidate) throws IllegalArgumentException {
 		if (!delta.haveEObjectDescriptionsChanged())
 			return false;
