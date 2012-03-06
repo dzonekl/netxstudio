@@ -24,7 +24,9 @@ import org.eclipse.swt.widgets.Display;
 
 import com.netxforge.netxstudio.screens.editing.IScreenProvider;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
+import com.netxforge.netxstudio.screens.editing.selector.IDataInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Martin Fluegge
@@ -55,12 +57,6 @@ public class DawnEMFHandler extends BasicDawnListener {
 	@Override
 	public void handleViewInvalidationEvent(CDOViewInvalidationEvent event) {
 		super.handleViewInvalidationEvent(event);
-
-		if (EditingActivator.DEBUG) {
-			String invalidBy = event.getSource().getSession().getUserID();
-			System.out.println("CDOEditingService: Event Invalid objects by="
-					+ invalidBy + "  event=");
-		}
 
 //		Map<CDOObject, CDORevisionDelta> revisionDeltas = event
 //				.getRevisionDeltas();
@@ -118,6 +114,13 @@ public class DawnEMFHandler extends BasicDawnListener {
 					return;
 				}
 				
+				IDataInjection dataInjection = ScreenUtil.dataInjectionFor(screen);
+				
+				if(dataInjection.shouldInjectForObject(dos)){
+					// Inject here.... the screen can accept or not. 
+				}
+				
+				// Walk all the viewers for this screen. 
 				for( Viewer v : screen.getViewers()){
 					if (EditingActivator.DEBUG) {
 						if (v == null) {
@@ -130,7 +133,7 @@ public class DawnEMFHandler extends BasicDawnListener {
 
 					}
 					if (v != null) {
-						if (v instanceof StructuredViewer) {
+						if (v instanceof StructuredViewer && !v.getControl().isDisposed()) {
 							v.refresh();
 							// Show the state of the objects after a refresh.
 

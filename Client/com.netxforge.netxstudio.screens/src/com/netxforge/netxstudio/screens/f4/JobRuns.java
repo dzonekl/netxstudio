@@ -20,8 +20,13 @@ package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.map.IMapChangeListener;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.map.MapChangeEvent;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -35,16 +40,22 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.LabelProviderChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -52,15 +63,21 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.wb.swt.TableViewerColumnSorter;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
@@ -96,7 +113,8 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 	}
-
+	
+	
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
@@ -129,6 +147,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 				| SWT.FULL_SELECTION);
 		jobRunsTableViewer.setComparer(new CDOElementComparer());
 		Table table = jobRunsTableViewer.getTable();
+
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -146,9 +165,9 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		tblclmnStatus.setWidth(97);
 		tblclmnStatus.setText("Status");
 
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+		TableViewerColumn tblViewerColumnProgress = new TableViewerColumn(
 				jobRunsTableViewer, SWT.NONE);
-		TableColumn tblclmnProgress = tableViewerColumn_1.getColumn();
+		TableColumn tblclmnProgress = tblViewerColumnProgress.getColumn();
 		tblclmnProgress.setWidth(116);
 		tblclmnProgress.setText("Progress");
 
@@ -164,15 +183,34 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		tblclmnMessage.setWidth(200);
 		tblclmnMessage.setText("Message");
 
-		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(
+		TableViewerColumn tblViewerColumnStarted = new TableViewerColumn(
 				jobRunsTableViewer, SWT.NONE);
-		TableColumn tblclmnStarted = tableViewerColumn_4.getColumn();
+		TableColumn tblclmnStarted = tblViewerColumnStarted.getColumn();
 		tblclmnStarted.setWidth(120);
 		tblclmnStarted.setText("Started");
 
-		TableViewerColumn tableViewerColumn_5 = new TableViewerColumn(
+		// Apply a sorter on the started date.
+		TableViewerColumnSorter startedColumnSorter = new TableViewerColumnSorter(
+				tblViewerColumnStarted) {
+			protected int doCompare(Viewer viewer, Object e1, Object e2) {
+				if (e1 instanceof WorkFlowRun && e2 instanceof WorkFlowRun) {
+
+					WorkFlowRun re1 = (WorkFlowRun) e1;
+					WorkFlowRun re2 = (WorkFlowRun) e2;
+
+					if (re1.eIsSet(SchedulingPackage.Literals.WORK_FLOW_RUN__STARTED)
+							&& re2.eIsSet(SchedulingPackage.Literals.WORK_FLOW_RUN__STARTED))
+						return re1.getStarted().compare(re2.getStarted());
+				}
+				return 0;
+			}
+
+		};
+		startedColumnSorter.setSorter(TableViewerColumnSorter.DESC);
+
+		TableViewerColumn tblViewerColumnEnded = new TableViewerColumn(
 				jobRunsTableViewer, SWT.NONE);
-		TableColumn tblclmnEnded = tableViewerColumn_5.getColumn();
+		TableColumn tblclmnEnded = tblViewerColumnEnded.getColumn();
 		tblclmnEnded.setWidth(120);
 		tblclmnEnded.setText("Ended");
 
@@ -290,6 +328,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			// Get the job container:
 			Resource jobRunContainerResource = editingService
 					.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+
 			// find our jobcontainer .
 			for (final EObject eObject : jobRunContainerResource.getContents()) {
 				final JobRunContainer container = (JobRunContainer) eObject;
@@ -311,55 +350,12 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 				// There is no container, TODO should really do this test before
 				// showing the runs.
 				// Do not initiate data binding.
-				MessageDialog.openInformation(this.getShell(), "Job runs",
-						"This job has not run yet.");
+				MessageDialog
+						.openInformation(this.getShell(), "Job runs",
+								"This job has not run yet, wait for a server job to start. ");
 				return;
 			}
-
-			if (currentJobContainer != null
-					&& currentJobContainer.getWorkFlowRuns().size() > 0
-					&& currentJobContainer.getWorkFlowRuns().get(0) instanceof ComponentWorkFlowRun) {
-				// This is a conditional menu, if the workflowrun is an
-				// ExpressionWorkflowrun.
-				
-				// TODO Remove, with actions this doens't work, besides we have another dialog for this. 
-//				MenuItem mntmExpressions = new MenuItem(jobRunMenu, SWT.NONE);
-//				mntmExpressions.addSelectionListener(new SelectionAdapter() {
-//					@Override
-//					public void widgetSelected(SelectionEvent e) {
-//						ISelection selection = jobRunsTableViewer
-//								.getSelection();
-//						if (selection instanceof IStructuredSelection) {
-//							IStructuredSelection ss = (IStructuredSelection) selection;
-//							Object o = ss.getFirstElement();
-//							if (o instanceof ComponentWorkFlowRun) {
-//								ComponentWorkFlowRun wfRun = (ComponentWorkFlowRun) o;
-//								List<Failure> failures = wfRun.getFailureRefs();
-//								for (Failure f : failures) {
-//									if (f instanceof ExpressionFailure) {
-//										ExpressionFailure ef = (ExpressionFailure) f;
-//										System.out
-//												.println("Expression failed: "
-//														+ ef.getExpressionRef()
-//																.getName());
-//										System.out.println("Msg: "
-//												+ f.getMessage());
-//									}
-//									if (f instanceof ComponentFailure) {
-//										System.out.println("Component: "
-//												+ ((ComponentFailure) f)
-//														.getComponentRef()
-//														.getName());
-//									}
-//								}
-//							}
-//						}
-//					}
-//				});
-//				mntmExpressions.setText("Expressions...");
-			}
 		}
-
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();
@@ -390,10 +386,6 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
-		// TODO, We would need some ordering the workflow runs by date, and
-		// perhaps some custom cell viewers to show the
-		// log for a run.
-
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		jobRunsTableViewer.setContentProvider(listContentProvider);
 
@@ -411,29 +403,124 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 								SchedulingPackage.Literals.WORK_FLOW_RUN__STARTED,
 								SchedulingPackage.Literals.WORK_FLOW_RUN__ENDED,
 								SchedulingPackage.Literals.WORK_FLOW_RUN__LOG });
+
+		WorkflowRunObservableMapLabelProvider workflowRunObservableMapLabelProvider = new WorkflowRunObservableMapLabelProvider(
+				observeMaps);
+		workflowRunObservableMapLabelProvider
+				.setTableViewer(jobRunsTableViewer);
 		jobRunsTableViewer
-				.setLabelProvider(new WorkflowRunObservableMapLabelProvider(
-						observeMaps));
+				.setLabelProvider(workflowRunObservableMapLabelProvider);
 
 		IEMFListProperty l = EMFProperties
 				.list(SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS);
-		jobRunsTableViewer.setInput(l.observe(currentJobContainer));
+		IObservableList observeWorkFlowRuns = l.observe(currentJobContainer);
+		jobRunsTableViewer.setInput(observeWorkFlowRuns);
+
 		return bindingContext;
 	}
 
-	class WorkflowRunObservableMapLabelProvider extends
-			ObservableMapLabelProvider {
+	class WorkflowRunObservableMapLabelProvider extends LabelProvider implements
+			ILabelProvider, ITableLabelProvider {
+
+		protected IObservableMap[] attributeMaps;
+		private TableViewer tableViewer;
+
+		private Map<CDOID, TableEditor> progressCache = Maps.newHashMap();
+
+		private IMapChangeListener mapChangeListener = new IMapChangeListener() {
+			public void handleMapChange(MapChangeEvent event) {
+				@SuppressWarnings("rawtypes")
+				Set affectedElements = event.diff.getChangedKeys();
+				LabelProviderChangedEvent newEvent = new LabelProviderChangedEvent(
+						WorkflowRunObservableMapLabelProvider.this,
+						affectedElements.toArray());
+
+				fireLabelProviderChanged(newEvent);
+				// @SuppressWarnings("rawtypes")
+				// Set addedKeys = event.diff.getAddedKeys();
+				// for (Object k : addedKeys) {
+				// System.out.println(k);
+				// addProgress(k);
+				// }
+			}
+		};
 
 		public WorkflowRunObservableMapLabelProvider(
 				IObservableMap[] attributeMaps) {
-			super(attributeMaps);
+			System.arraycopy(
+					attributeMaps,
+					0,
+					this.attributeMaps = new IObservableMap[attributeMaps.length],
+					0, attributeMaps.length);
+			for (int i = 0; i < attributeMaps.length; i++) {
+				attributeMaps[i].addMapChangeListener(mapChangeListener);
+			}
+
+		}
+
+		/*
+		 * Install a table editor, for the target object TableItem Note: locate
+		 * the table item first..
+		 */
+		protected TableEditor addProgress(Object k) {
+
+			if (k instanceof WorkFlowRun) {
+				WorkFlowRun wfr = ((WorkFlowRun) k);
+				if (progressCache.containsKey(wfr.cdoID())) {
+					return progressCache.get(wfr.cdoID());
+				}
+
+				// install a table editor on the last item...
+				TableItem item = null;
+				for (TableItem checkItem : tableViewer.getTable().getItems()) {
+					Object data = checkItem.getData();
+					if (data instanceof CDOObject && k instanceof CDOObject) {
+
+						CDOID cdoID2 = ((CDOObject) data).cdoID();
+						System.out.println("table item with CDOID "
+								+ cdoID2.toString());
+						if (wfr.cdoID().toString().equals(cdoID2.toString())) {
+							item = checkItem;
+						}
+					}
+					// if (EcoreUtil.equals((EObject) data, (EObject) k)) {
+					// item = checkItem;
+					// }
+				}
+
+				if (item != null) {
+					TableEditor progressEditor = new TableEditor(
+							tableViewer.getTable());
+					progressEditor.grabHorizontal = true;
+					progressEditor.grabVertical = true;
+					
+//					ProgressBar bar = new ProgressBar(tableViewer.getTable(),
+//							SWT.SMOOTH);
+//					bar.setMaximum(100);
+//					bar.setSelection(0);
+					
+					ProgressControl progressControl = new ProgressControl(tableViewer.getTable(), SWT.NONE);
+					
+					progressEditor.setEditor(progressControl, item, 2);
+					progressCache.put(wfr.cdoID(), progressEditor);
+				}
+			}
+			return null;
+		}
+
+		public boolean hasProgress(CDOID current) {
+			return progressCache.containsKey(current);
 		}
 
 		public WorkflowRunObservableMapLabelProvider(IObservableMap attributeMap) {
-			super(attributeMap);
+			this(new IObservableMap[] { attributeMap });
 		}
 
-		@Override
+		public void setTableViewer(TableViewer tableViewer) {
+			this.tableViewer = tableViewer;
+			// progressEditor = new TableEditor(table);
+		}
+
 		public String getText(Object element) {
 
 			((EObject) element).eContainmentFeature();
@@ -441,10 +528,50 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			return super.getText(element);
 		}
 
-		@Override
+		public Image getImage(Object element) {
+			return getColumnImage(element, 0);
+		}
+
+		public Image getColumnImage(Object element, int columnIndex) {
+			return null;
+		}
+
 		public String getColumnText(Object element, int columnIndex) {
+
 			if (element instanceof WorkFlowRun) {
 				WorkFlowRun j = (WorkFlowRun) element;
+
+				if (columnIndex == 2) {
+					if (j.getState() == JobRunState.RUNNING) {
+						// find the progress and update it.
+						TableEditor addProgress = addProgress(element);
+						if (addProgress != null) {
+							Control editor = addProgress.getEditor();
+							if (editor instanceof ProgressControl) {
+								((ProgressControl) editor).updateProgress(j
+										.getProgress());
+							}
+
+//							if (editor instanceof ProgressBar) {
+//								((ProgressBar) editor).setSelection(j
+//										.getProgress());
+//							}
+						}
+					} else {
+						// dispose when we are not in running state.
+						if (this.hasProgress(j.cdoID())) {
+							TableEditor tableEditor = progressCache.get(j.cdoID());
+							tableEditor.getEditor().dispose();
+							tableEditor.dispose();
+							progressCache.remove(j.cdoID());
+							System.out.println("Disposed progress for "
+									+ modelUtils.printModelObject(j));
+						}
+					}
+					// bar.set
+//					return null;
+				}
+
 				switch (columnIndex) {
 				case 0: {
 					if (j instanceof ComponentWorkFlowRun) {
@@ -480,9 +607,103 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 				}
 				}
 			}
-			return super.getColumnText(element, columnIndex);
+
+			Object result = attributeMaps[columnIndex].get(element);
+			return result == null ? "" : result.toString(); //$NON-NLS-1$
+
 		}
+		
+		class ProgressControl extends Composite {
+
+			private ProgressBar bar;
+			private Label label;
+
+			public ProgressControl(Composite parent, int style) {
+				super(parent, style);
+				StackLayout stackLayout = new StackLayout();
+				stackLayout.marginHeight = 0;
+				stackLayout.marginWidth = 0;
+				
+				this.setLayout(stackLayout);
+				bar = new ProgressBar(this,
+						SWT.SMOOTH);
+				bar.setMaximum(100);
+				bar.setSelection(0);
+//				label = new Label(this, SWT.NONE);
+//				label.setText("progress");
+				stackLayout.topControl = bar;
+			}
+			
+			public void updateProgress(int progress){
+				bar.setSelection(progress);
+			}
+			
+			public void updateText(String progress){
+				label.setText(progress);
+			}
+
+			/* (non-Javadoc)
+			 * @see org.eclipse.swt.widgets.Widget#addDisposeListener(org.eclipse.swt.events.DisposeListener)
+			 */
+			@Override
+			public void addDisposeListener(DisposeListener listener) {
+				super.addDisposeListener(listener);
+				label.dispose();
+				bar.dispose();
+				
+			}
+		}
+		
+		
 	}
+
+	// class CapacityEditingSupport extends EditingSupport {
+	//
+	// private TableViewer viewer;
+	//
+	// public CapacityEditingSupport(TableViewer viewer) {
+	// super(viewer);
+	// this.viewer = viewer;
+	// }
+	//
+	// @Override
+	// protected CellEditor getCellEditor(Object element) {
+	// EnterCapacityCellEditor enterCapacityCellEditor = new
+	// EnterCapacityCellEditor(
+	// viewer.getTable());
+	// enterCapacityCellEditor.setResource((NetXResource) element);
+	// return enterCapacityCellEditor;
+	// }
+	//
+	// @Override
+	// protected boolean canEdit(Object element) {
+	// return true;
+	// }
+	//
+	// @Override
+	// protected Object getValue(Object element) {
+	// if (element instanceof NetXResource) {
+	// Value v = modelUtils
+	// .mostRecentCapacityValue((NetXResource) element);
+	//
+	// if (v != null) {
+	// DecimalFormat numberFormatter = new DecimalFormat(
+	// "###,###,##0.00");
+	// numberFormatter.setDecimalSeparatorAlwaysShown(true);
+	// return numberFormatter.format(v.getValue());
+	// } else {
+	// return "<not set>";
+	// }
+	// }
+	// return null;
+	// }
+	//
+	// @Override
+	// protected void setValue(Object element, Object value) {
+	// viewer.update(element, null);
+	// }
+	//
+	// }
 
 	/*
 	 * (non-Javadoc)

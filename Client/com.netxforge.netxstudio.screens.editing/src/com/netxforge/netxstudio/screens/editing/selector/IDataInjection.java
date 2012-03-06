@@ -1,5 +1,9 @@
 package com.netxforge.netxstudio.screens.editing.selector;
 
+import java.util.Set;
+
+import org.eclipse.emf.cdo.CDOObject;
+
 public interface IDataInjection {
 	
 	/**
@@ -19,4 +23,15 @@ public interface IDataInjection {
 	 * @param params
 	 */
 	public abstract void injectData(Object... params);
+	
+	
+	/**
+	 * Screens can implement, to have injection occur automatically, 
+	 * when a server invalidation occurs.  To prevent injection to happen 
+	 * for each notification, screens can 
+	 * 
+	 * @return
+	 */
+	public abstract boolean shouldInjectForObject(Set<CDOObject> injectionSet);
+	
 }

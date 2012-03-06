@@ -509,9 +509,6 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	public void injectData() {
 
 		jobsResource = editingService.getData(SchedulingPackage.Literals.JOB);
-		// jobContainerResource = editingService
-		// .getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
-
 		buildUI();
 		initDataBindings_();
 	}

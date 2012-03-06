@@ -1,6 +1,9 @@
 package com.netxforge.netxstudio.screens.f4;
 
+import java.util.Set;
+
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -190,5 +193,8 @@ public class JobFailuresDialog extends Dialog implements IDataScreenInjection {
 		// N/A, This is a view.
 	}
 
+	public boolean shouldInjectForObject(Set<CDOObject> injectionSet) {
+		return false;
+	}
 	
 }

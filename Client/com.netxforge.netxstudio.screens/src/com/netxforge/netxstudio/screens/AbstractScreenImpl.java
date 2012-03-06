@@ -18,7 +18,9 @@
 package com.netxforge.netxstudio.screens;
 
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -378,6 +380,14 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 */
 	protected ISelectionProvider resolveSelectionProviderFromWidget(Object widget){
 		return this.getViewer();
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.selector.IDataInjection#shouldInjectForObject(org.eclipse.emf.cdo.CDOObject)
+	 */
+	public boolean shouldInjectForObject(Set<CDOObject> injectionObjects) {
+		return false;
 	}
 	
 }

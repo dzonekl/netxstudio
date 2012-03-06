@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 public class ScreenUtil {
-	
+
 	public static final String RED_MARKER = "RED";
 	public static final String AMBER_MARKER = "AMBER";
 	public static final String YELLOW_MARKER = "YELLOW";
@@ -52,13 +52,11 @@ public class ScreenUtil {
 	public static boolean isNewOperation(int operation) {
 		return (operation & OPERATION_NEW) != 0;
 	}
-	
+
 	public static boolean isNewOperation(IScreen screen) {
 		return (screen.getOperation() & OPERATION_NEW) != 0;
 	}
 
-	
-	
 	public static boolean isEditOperation(int operation) {
 		return (operation & OPERATION_EDIT) != 0;
 	}
@@ -85,14 +83,12 @@ public class ScreenUtil {
 	}
 
 	public static IScreen screenFor(Composite composite) {
-		if( composite instanceof IScreen) {
-			return (IScreen)composite;
+		if (composite instanceof IScreen) {
+			return (IScreen) composite;
 		}
 		return null;
 	}
 
-	
-	
 	public static boolean isDataScreenInjection(IScreen screen) {
 		return screen instanceof IDataScreenInjection;
 	}
@@ -111,6 +107,13 @@ public class ScreenUtil {
 	public static IDataServiceInjection dataServiceInjectionFor(IScreen screen) {
 		if (screen instanceof IDataServiceInjection) {
 			return (IDataServiceInjection) screen;
+		}
+		return null;
+	}
+
+	public static IDataInjection dataInjectionFor(IScreen screen) {
+		if (screen instanceof IDataInjection) {
+			return (IDataInjection) screen;
 		}
 		return null;
 	}

@@ -25,7 +25,7 @@ package com.netxforge.netxstudio.screens.editing.selector;
 public interface IDataScreenInjection extends IDataInjection {
 	
 	/**
-	 * Add the data.
+	 * It is expected that screens, which have their data injected by a parent screen, should commit the data here.
 	 */
 	public abstract void addData();
 	

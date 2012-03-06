@@ -19,9 +19,11 @@
 package com.netxforge.netxstudio.screens.ch9;
 
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
@@ -838,5 +840,9 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 	 */
 	public EmbeddedXtextEditor getXtextEditor() {
 		return xtextEditor;
+	}
+
+	public boolean shouldInjectForObject(Set<CDOObject> injectionSet) {
+		return false;
 	}
 }

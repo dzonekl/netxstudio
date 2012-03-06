@@ -442,23 +442,23 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	private void postProcessFile(File file, boolean error) {
 		if (error) {
-			renameFile(new File(file.getAbsolutePath()
+			renameFile(file, new File(file.getAbsolutePath()
 					+ ModelUtils.EXTENSION_DONE_WITH_FAILURES));
 		} else {
-			renameFile(new File(file.getAbsolutePath()
+			renameFile(file, new File(file.getAbsolutePath()
 					+ ModelUtils.EXTENSION_DONE));
 		}
 	}
 
-	private void renameFile(File file) {
+	private void renameFile(File file, File newFile) {
 		
-		boolean renameTo = file.renameTo(file);
+		boolean renameTo = file.renameTo(newFile);
 		if (DataActivator.DEBUG) {
 			if (renameTo) {
 				System.out.println("IMPORTER: rename successed for file="
 						+ file.getName());
 			} else {
-				System.out.println("IMPORTER: rename failed for file="
+				System.out.println("IMPORTER: rename failed to file= "
 						+ file.getName() + ", the file is likely still open");
 			}
 		}
