@@ -19,3 +19,11 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.models.export.ui
+Import-Package: com.netxforge.netxstudio,
+ com.netxforge.netxstudio.generics,
+ com.netxforge.netxstudio.geo,
+ com.netxforge.netxstudio.library,
+ com.netxforge.netxstudio.metrics,
+ com.netxforge.netxstudio.operators,
+ com.netxforge.netxstudio.scheduling,
+ com.netxforge.netxstudio.services

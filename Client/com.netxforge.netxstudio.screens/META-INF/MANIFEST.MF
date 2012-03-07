@@ -15,8 +15,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.databinding;bundle-version="1.5.0",
  org.eclipse.emf.databinding,
  org.eclipse.emf.databinding.edit;bundle-version="1.2.0",
- com.netxforge.netxstudio.models;bundle-version="1.0.0",
- com.netxforge.netxstudio.models.edit;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens.nebula;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens.editing;bundle-version="1.0.0";visibility:=reexport,
  com.netxforge.netxstudio.screens.xtext;bundle-version="1.0.0",
@@ -135,4 +133,14 @@ Export-Package: com.netxforge.netxstudio.screens;
    org.eclipse.jface.dialogs",
  com.netxforge.netxstudio.screens.parts;uses:="com.netxforge.netxstudio.screens.editing.selector,org.eclipse.swt.widgets",
  org.eclipse.wb.swt;uses:="org.eclipse.jface.resource,org.eclipse.swt.graphics"
+Import-Package: com.netxforge.netxstudio,
+ com.netxforge.netxstudio.generics,
+ com.netxforge.netxstudio.geo,
+ com.netxforge.netxstudio.library,
+ com.netxforge.netxstudio.metrics,
+ com.netxforge.netxstudio.metrics.impl,
+ com.netxforge.netxstudio.operators,
+ com.netxforge.netxstudio.protocols,
+ com.netxforge.netxstudio.scheduling,
+ com.netxforge.netxstudio.services
 
