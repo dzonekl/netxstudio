@@ -50,6 +50,7 @@
       <feature id="com.netxforge.netxstudio.console.feature"/>
       <feature id="com.netxforge.netxstudio.help.feature"/>
       <feature id="com.netxforge.netxstudio.screens.feature"/>
+      <feature id="com.netxforge.netxstudio.screens.xtext.feature"/>
       <feature id="com.netxforge.netxstudio.models.feature"/>
       <feature id="com.netxforge.netxstudio.data.feature"/>
       <feature id="com.netxforge.netxstudio.common.feature"/>
