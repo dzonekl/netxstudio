@@ -24,3 +24,4 @@ Export-Package: com.netxforge.netxstudio.ui,
  com.netxforge.netxstudio.ui.handlers,
  com.netxforge.netxstudio.ui.internal,
  com.netxforge.netxstudio.ui.perspective
+Import-Package: com.netxforge.netxstudio.generics

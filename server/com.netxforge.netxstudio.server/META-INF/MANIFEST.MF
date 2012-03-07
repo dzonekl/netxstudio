@@ -22,3 +22,12 @@ Export-Package: com.netxforge.netxstudio.server,
  com.netxforge.netxstudio.server.internal,
  com.netxforge.netxstudio.server.service,
  com.netxforge.netxstudio.server.servlet
+Import-Package: com.netxforge.netxstudio,
+ com.netxforge.netxstudio.generics,
+ com.netxforge.netxstudio.geo,
+ com.netxforge.netxstudio.library,
+ com.netxforge.netxstudio.metrics,
+ com.netxforge.netxstudio.operators,
+ com.netxforge.netxstudio.protocols,
+ com.netxforge.netxstudio.scheduling,
+ com.netxforge.netxstudio.services

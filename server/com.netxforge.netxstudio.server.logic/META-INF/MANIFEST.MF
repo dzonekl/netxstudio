@@ -6,7 +6,6 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.server.logic.internal.LogicActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.core.runtime,
- com.netxforge.netxstudio.models;bundle-version="1.0.0",
  com.netxforge.netxscript;bundle-version="1.0.0",
  com.netxforge.netxstudio.data;bundle-version="1.0.0",
  com.google.collect;bundle-version="1.0.0",
@@ -23,3 +22,10 @@ Export-Package: com.netxforge.netxstudio.server.logic,
  com.netxforge.netxstudio.server.logic.profile,
  com.netxforge.netxstudio.server.logic.reporting,
  com.netxforge.netxstudio.server.logic.retention
+Import-Package: com.netxforge.netxstudio,
+ com.netxforge.netxstudio.generics,
+ com.netxforge.netxstudio.library,
+ com.netxforge.netxstudio.metrics,
+ com.netxforge.netxstudio.operators,
+ com.netxforge.netxstudio.scheduling,
+ com.netxforge.netxstudio.services

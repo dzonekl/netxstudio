@@ -24,3 +24,4 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.screens.xtext,
  com.netxforge.netxstudio.screens.xtext.embedded
+Import-Package: com.netxforge.netxstudio.library
