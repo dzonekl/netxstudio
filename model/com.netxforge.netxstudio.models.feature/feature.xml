@@ -17,12 +17,6 @@
       [Enter License Description here.]
    </license>
 
-   <requires>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.emf.ecore.xmi"/>
-   </requires>
-
    <plugin
          id="com.netxforge.netxstudio.models"
          download-size="0"

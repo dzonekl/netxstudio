@@ -50,17 +50,16 @@
    </plugins>
 
    <features>
-      <feature id="com.netxforge.netxstudio.server.db.product.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.server.db.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.data.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxscript.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.common.feature" version="1.0.0.qualifier"/>
-      <feature id="com.google.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.apache.poi.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="javax.servlet.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.mortbay.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.emf.cdo.server.db.postgres.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.server.db.product.feature"/>
+      <feature id="com.netxforge.netxstudio.server.db.feature"/>
+      <feature id="com.netxforge.netxstudio.data.feature"/>
+      <feature id="com.netxforge.netxscript.feature"/>
+      <feature id="com.netxforge.netxstudio.common.feature"/>
+      <feature id="com.google.artifacts.feature"/>
+      <feature id="org.apache.poi.artifacts.feature"/>
+      <feature id="javax.servlet.artifacts.feature"/>
+      <feature id="org.mortbay.artifacts.feature"/>
+      <feature id="org.eclipse.emf.cdo.server.db.postgres.artifacts.feature"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.emf.ecore"/>
       <feature id="org.dom4j" version="1.6.1"/>
@@ -72,6 +71,7 @@
       <feature id="oracle.jdbc.driver" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.equinox.jsp.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.postgresql.jdbc.driver.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.models.feature"/>
    </features>
 
    <configurations>

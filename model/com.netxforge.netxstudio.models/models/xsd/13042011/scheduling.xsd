@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns="http://www.netxforge.com/13042011/scheduling"
+<xs:schema xmlns="http://www.netxforge.com/06032012/scheduling"
 	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:operators="http://www.netxforge.com/13042011/operators"
-	xmlns:metrics="http://www.netxforge.com/13042011/metrics" xmlns:gen="http://www.netxforge.com/13042011/generics"
-	xmlns:lib="http://www.netxforge.com/13042011/library" xmlns:services="http://www.netxforge.com/13042011/services"
-	id="scheduling" targetNamespace="http://www.netxforge.com/13042011/scheduling"
+	xmlns:operators="http://www.netxforge.com/06032012/operators"
+	xmlns:metrics="http://www.netxforge.com/06032012/metrics" xmlns:gen="http://www.netxforge.com/06032012/generics"
+	xmlns:lib="http://www.netxforge.com/06032012/library" xmlns:services="http://www.netxforge.com/06032012/services"
+	id="scheduling" targetNamespace="http://www.netxforge.com/06032012/scheduling"
 	ecore:package="com.netxforge.netxstudio.scheduling">
 	<xs:import schemaLocation="generics.xsd"
-		namespace="http://www.netxforge.com/13042011/generics"></xs:import>
+		namespace="http://www.netxforge.com/06032012/generics"></xs:import>
 	<xs:import schemaLocation="operators.xsd"
-		namespace="http://www.netxforge.com/13042011/operators"></xs:import>
+		namespace="http://www.netxforge.com/06032012/operators"></xs:import>
 	<xs:import schemaLocation="library.xsd"
-		namespace="http://www.netxforge.com/13042011/library"></xs:import>
-	<xs:import namespace="http://www.netxforge.com/13042011/metrics"
+		namespace="http://www.netxforge.com/06032012/library"></xs:import>
+	<xs:import namespace="http://www.netxforge.com/06032012/metrics"
 		schemaLocation="metrics.xsd" />
 	<xs:import schemaLocation="services.xsd"
-		namespace="http://www.netxforge.com/13042011/services" />
+		namespace="http://www.netxforge.com/06032012/services" />
 
 
 	<!--_____________________________ -->

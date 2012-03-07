@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns="http://www.netxforge.com/13042011/generics"
+<xs:schema xmlns="http://www.netxforge.com/06032012/generics"
 	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	ecore:package="com.netxforge.netxstudio.generics" id="generics"
-	targetNamespace="http://www.netxforge.com/13042011/generics">
+	targetNamespace="http://www.netxforge.com/06032012/generics">
 	<!--_____________________________ -->
 	<!--| COMPANY | -->
 	<!--|___________________________| -->

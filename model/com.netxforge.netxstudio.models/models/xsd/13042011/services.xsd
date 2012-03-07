@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns="http://www.netxforge.com/13042011/services"
+<xs:schema xmlns="http://www.netxforge.com/06032012/services"
 	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	id="services" xmlns:gen="http://www.netxforge.com/13042011/generics"
-	xmlns:library="http://www.netxforge.com/13042011/library"
-	targetNamespace="http://www.netxforge.com/13042011/services"
-	xmlns:operators="http://www.netxforge.com/13042011/operators"
+	id="services" xmlns:gen="http://www.netxforge.com/06032012/generics"
+	xmlns:library="http://www.netxforge.com/06032012/library"
+	targetNamespace="http://www.netxforge.com/06032012/services"
+	xmlns:operators="http://www.netxforge.com/06032012/operators"
 	ecore:package="com.netxforge.netxstudio.services">
 	<xs:import schemaLocation="generics.xsd"
-		namespace="http://www.netxforge.com/13042011/generics">
+		namespace="http://www.netxforge.com/06032012/generics">
 	</xs:import>
 	<xs:import schemaLocation="library.xsd"
-		namespace="http://www.netxforge.com/13042011/library">
+		namespace="http://www.netxforge.com/06032012/library">
 	</xs:import>
 	<xs:import schemaLocation="operators.xsd"
-		namespace="http://www.netxforge.com/13042011/operators"></xs:import>
+		namespace="http://www.netxforge.com/06032012/operators"></xs:import>
 	<xs:annotation>
 		<xs:documentation>
 		</xs:documentation>

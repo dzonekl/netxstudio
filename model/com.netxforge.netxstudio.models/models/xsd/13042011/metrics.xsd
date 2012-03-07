@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns="http://www.netxforge.com/13042011/metrics"
+<xs:schema xmlns="http://www.netxforge.com/06032012/metrics"
 	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:library="http://www.netxforge.com/13042011/library" xmlns:gen="http://www.netxforge.com/13042011/generics"
-	xmlns:operators="http://www.netxforge.com/13042011/operators" id="metrics"
-	targetNamespace="http://www.netxforge.com/13042011/metrics"
+	xmlns:library="http://www.netxforge.com/06032012/library" xmlns:gen="http://www.netxforge.com/06032012/generics"
+	xmlns:operators="http://www.netxforge.com/06032012/operators" id="metrics"
+	targetNamespace="http://www.netxforge.com/06032012/metrics"
 	ecore:package="com.netxforge.netxstudio.metrics">
 	<xs:import schemaLocation="generics.xsd"
-		namespace="http://www.netxforge.com/13042011/generics"></xs:import>
+		namespace="http://www.netxforge.com/06032012/generics"></xs:import>
 	<xs:import schemaLocation="library.xsd"
-		namespace="http://www.netxforge.com/13042011/library"></xs:import>
+		namespace="http://www.netxforge.com/06032012/library"></xs:import>
 	<!--_____________________________ -->
 	<!--| METRIC | -->
 	<!--|___________________________| -->
