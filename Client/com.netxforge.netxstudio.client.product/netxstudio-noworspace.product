@@ -54,7 +54,6 @@
       <feature id="com.netxforge.netxstudio.models.feature"/>
       <feature id="com.netxforge.netxstudio.data.feature"/>
       <feature id="com.netxforge.netxstudio.common.feature"/>
-      <feature id="com.netxforge.netxstudio.models.edit.feature"/>
       <feature id="com.netxforge.netxstudio.models.export.feature"/>
       <feature id="com.netxforge.netxstudio.models.export.ui.feature"/>
       <feature id="com.netxforge.netxstudio.models.import.ui.feature"/>
@@ -93,6 +92,9 @@
       <feature id="org.eclipse.draw2d"/>
       <feature id="oracle.jdbc.driver"/>
       <feature id="org.postgresql" version="9.0.0.801"/>
+      <feature id="com.netxforge.netxstudio.models.13042011.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.models.edit.13042011.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.models.edit.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
