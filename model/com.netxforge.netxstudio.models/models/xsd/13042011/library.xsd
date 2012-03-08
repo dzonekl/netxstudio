@@ -924,7 +924,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-
+					
 					<!-- Non-Contained -->
 					<!-- OCL Derived features -->
 				</xs:sequence>
@@ -934,6 +934,187 @@
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="Name" type="gen:Name255"></xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<!--_______________________ -->
+	<!-- REFERENCENETWORK -->
+	<!--_______________________ -->
+	<xs:complexType name="ReferenceNetwork">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of
+				a reference telecommunications network or part of a network.
+				A Network
+				type can have a parent Network. It also can contain Network Element types.
+				and
+				relationships. A Network can have different phases
+				which represents
+				how the network evolves over time. The start and end
+				date of the
+				network provide reference on the period for which a
+				phase applies.
+				applies. Network phases are also linked together.
+
+				Examples:
+				1. A "Core
+				Network" is defined which holds Nodes belonging to the
+				"Core
+				Network". Relationships are also stored
+				in this network.
+				1. A "Core
+				Network" has 2 phases, each covering 1 calendar year.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<!-- Contained -->
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Diagrams"
+						type="gen:DiagramInfo">
+						<xs:annotation>
+							<xs:documentation>The Diagrams reference, contains 0 or more
+								DiagramInfo types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="NodeTypes"
+						type="NodeType">
+						<xs:annotation>
+							<xs:documentation>The Nodes reference, contains 0 or more Node
+								types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ReferenceNetworks"
+						type="ReferenceNetwork">
+						<xs:annotation>
+							<xs:documentation>The Networks reference, contains 0 or more
+								Network types.
+								These are sub networks.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+						<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="RefRelationships" ecore:reference="ReferenceRelationship" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The Reference Relations reference, contains 0
+								or more Reference Relationships.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<!-- <xs:element maxOccurs="unbounded" minOccurs="0"
+						name="FunctionRelationships" type="FunctionRelationship">
+						<xs:annotation>
+							<xs:documentation>The FunctionRelationships reference, contains 0
+								or more FunctionRelationship types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="EquipmentRelationships" type="EquipmentRelationship">
+						<xs:annotation>
+							<xs:documentation>The EquipmentRelationships reference, contains
+								0
+								or more EquipmentRelationship types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element> -->
+				</xs:sequence>
+				<xs:attribute default="name" name="Name" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The Name attribute holds the name of the
+							network.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Description" type="gen:Description2000">
+					<xs:annotation>
+						<xs:documentation>The Description attribute holds the description
+							of
+							the network.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- ___________________________ -->
+	<!--| REFERENCERELATIONSHIP | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="ReferenceRelationship">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of
+				a Reference Relationship between two Network Element Types. The
+				protocol
+				defines the procedures for this relationship.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<xs:element name="RefInterface1Ref" type="ReferenceInterface" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The RefInterface1Ref attribute, references a
+								ReferenceInterface
+								type.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RefInterface2Ref" type="ReferenceInterface" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The RefInterface2Ref attribute, references a
+								ReferenceInterface
+								type.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- ___________________________ -->
+	<!--| REFERENCEINTERFACE | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="ReferenceInterface">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of
+				a Reference Relationship between two Network Element Types. The
+				protocol
+				defines the procedures for this relationship.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:attribute name="NodeTypeRef" ecore:reference="NodeType"
+					type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>The NodeID1Ref attribute, references a Node
+							type.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Name" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>The Name attribute holds a name used for
+							presentation.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute ecore:reference="protocols:Protocol"
+					name="ProtocolRef" type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>The ProtocolRef reference, refers to 0 or 1
+							Protocol type.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

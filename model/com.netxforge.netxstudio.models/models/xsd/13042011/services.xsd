@@ -33,7 +33,7 @@
 					<xs:element name="Nodes" ecore:reference="operators:Node"
 						type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>The Nodes reference, references 0 or more Node
+							<xs:documentation>The Network Element reference, references 0 or more Network Element
 								types
 							</xs:documentation>
 						</xs:annotation>
@@ -58,6 +58,36 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	
+	
+	<!--_______________________ -->
+	<!-- SERVICEFLOW -->
+	<!--_______________________ -->
+	<xs:complexType name="ServiceFlow">
+		<xs:annotation>
+			<xs:documentation>A type representing a Service flow.
+			Service flows are part of an RFService. A Service flow consists of service legs. Service 
+			flows operate on the Nodes of a Service.  
+			A service leg, has a start and end point, which represents the reference interface 
+			between two node types.   
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<xs:element name="FlowParts" ecore:reference="library:ReferenceInterface"
+						type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>FlowParts are a sequence of Reference Interfaces which are ordered.
+							From the reference interface. 
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
 
 	<!--_______________________ -->
 	<!-- CFSERVICE -->
