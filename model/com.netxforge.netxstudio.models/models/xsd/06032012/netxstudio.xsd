@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/06032012/netxstudio"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:gen="http://www.netxforge.com/06032012/generics"
+	xmlns:geo="http://www.netxforge.com/06032012/geo" xmlns:library="http://www.netxforge.com/06032012/library"
+	xmlns:metrics="http://www.netxforge.com/06032012/metrics"
+	xmlns:operators="http://www.netxforge.com/06032012/operators"
+	xmlns:scheduling="http://www.netxforge.com/06032012/scheduling"
+	xmlns:services="http://www.netxforge.com/06032012/services" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	ecore:package="com.netxforge.netxstudio" id="NetXStudio"
+	targetNamespace="http://www.netxforge.com/06032012/netxstudio">
+
+	<xs:import namespace="http://www.netxforge.com/06032012/operators"
+		schemaLocation="operators.xsd" />
+	<xs:import namespace="http://www.netxforge.com/06032012/generics"
+		schemaLocation="generics.xsd" />
+	<xs:import namespace="http://www.netxforge.com/06032012/metrics"
+		schemaLocation="metrics.xsd" />
+	<xs:import namespace="http://www.netxforge.com/06032012/geo"
+		schemaLocation="geo.xsd" />
+	<xs:import namespace="http://www.netxforge.com/06032012/library"
+		schemaLocation="library.xsd" />
+	<xs:import namespace="http://www.netxforge.com/06032012/services"
+		schemaLocation="services.xsd" />
+	<xs:import namespace="http://www.netxforge.com/06032012/scheduling"
+		schemaLocation="scheduling.xsd" />
+	<xs:import namespace="http://www.eclipse.org/emf/2002/Ecore"
+		schemaLocation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xsd" />
+	<xs:annotation>
+		<xs:documentation>
+			Network Data schema Copyright 2012 The schema uses
+			ecore
+			references syntax, but should easily map into an SQL schema.
+			The
+			ecore
+			references, are mapped into ORM specific DLL (See
+			Hibernate or
+			other
+			ORM). Most tables have an ID field, which
+			could actually be
+			removed.
+			the Original intent is the use of
+			an ID column, as a reference
+			identifier. EMF/Hibernate
+			however uses a custom mechanism.
+
+			Don't use
+			the word "Item", as this is appended to the Object
+			name in the EMF
+			edit model.
+			
+			update: 06032012 => Additions from Network design.
+		</xs:documentation>
+	</xs:annotation>
+
+	<!--_______________________ -->
+	<!-- SERVERSETTINGS -->
+	<!--_______________________ -->
+	<xs:complexType name="ServerSettings">
+		<xs:annotation>
+			<xs:documentation>Contains Settings on the server</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ExpansionDurationSettings" type="gen:ExpansionDurationSetting"
+				minOccurs="0" maxOccurs="1"></xs:element>
+		</xs:sequence>
+		<xs:attribute name="ImportPath" type="xs:string"></xs:attribute>
+		<xs:attribute name="ExportPath" type="xs:string"></xs:attribute>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- NETXSTUDIO -->
+	<!--_______________________ -->
+
+	<xs:complexType name="Netxstudio">
+		<xs:annotation>
+			<xs:appinfo ecore:key="operations"
+				source="http://www.eclipse.org/emf/2002/Ecore">
+				<operation name="test" type="xs:int">
+				</operation>
+			</xs:appinfo>
+			<xs:documentation>Netxstudio is a container which groups all main
+				other types. It is the root object.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Operators"
+				type="operators:Operator">
+				<xs:annotation>
+					<xs:documentation>The Operators reference, contains 0 or more
+						Operator type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Libraries"
+				type="library:Library">
+				<xs:annotation>
+					<xs:documentation>The Libraries reference, contains 0 or more
+						Library type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Companies"
+				type="gen:Company">
+				<xs:annotation>
+					<xs:documentation>The Companies reference, contains 0 or more
+						Company type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Vendors"
+				type="library:Vendor">
+				<xs:annotation>
+					<xs:documentation>The Companies reference, contains 0 or more
+						Company type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Users"
+				type="gen:Person">
+				<xs:annotation>
+					<xs:documentation>The Users reference, contains 0 or more User
+						type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Roles"
+				type="gen:Role">
+				<xs:annotation>
+					<xs:documentation>The Roles reference, contains 0 or more Role
+						type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Countries"
+				type="geo:Country">
+				<xs:annotation>
+					<xs:documentation>The Countries reference, contains 0 or more
+						Country type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Jobs"
+				type="scheduling:Job">
+				<xs:annotation>
+					<xs:documentation>The Jobs reference, contains 0 or more Job type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
