@@ -72,6 +72,7 @@
       <feature id="org.eclipse.equinox.jsp.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.postgresql.jdbc.driver.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.feature"/>
+      <feature id="com.netxforge.netxstudio.models.13042011.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
