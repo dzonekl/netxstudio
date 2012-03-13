@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens;
+package com.netxforge.netxstudio.screens.dialog;
 
 import java.util.Comparator;
 
@@ -32,26 +32,24 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.library.Function;
-import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class FunctionFilterDialog extends FilteredItemsSelectionDialog {
-	private final Object scope;
+public class ProtocolFilterDialog extends FilteredItemsSelectionDialog {
+	private final Resource resource;
 
 	/**
 	 * Create a new dialog
 	 * 
 	 * @param shell
 	 *            the parent shell
-	 * @param scope
+	 * @param resource
 	 *            the model resource
 	 */
-	public FunctionFilterDialog(Shell shell, Object scope) {
+	public ProtocolFilterDialog(Shell shell, Resource resource) {
 		super(shell);
-		super.setTitle("Select a Function");
-		this.scope = scope;
+		setTitle("Select an existing Protocol");
+		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {
 			@Override
@@ -59,7 +57,11 @@ public class FunctionFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return FunctionFilterDialog.this.getText((Function) element);
+				return ProtocolFilterDialog.this.getText(
+
+				(Protocol) element
+
+				);
 			}
 		});
 
@@ -69,34 +71,13 @@ public class FunctionFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return FunctionFilterDialog.this
-						.getParentText((Function) element);
+				return ProtocolFilterDialog.this.getText((Protocol) element);
 			}
 		});
 	}
 
-	private String getText(Function p) {
-		return p.getName();
-	}
-
-	private String getParentText(Function p) {
-		Node n;
-		if ((n = this.resolveParentNode(p)) != null) {
-			return n.getNodeID();
-		}
-		return "Unresolved Node!";
-	}
-
-	private Node resolveParentNode(EObject current) {
-		if (current != null && current.eContainer() != null) {
-			if (current.eContainer() instanceof Node) {
-				return (Node) current.eContainer();
-			} else {
-				return resolveParentNode(current.eContainer());
-			}
-		} else {
-			return null;
-		}
+	private String getText(Protocol p) {
+		return p.getName() ;
 	}
 
 	@Override
@@ -106,9 +87,9 @@ public class FunctionFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<Function>() {
+		return new Comparator<Protocol>() {
 
-			public int compare(Function o1, Function o2) {
+			public int compare(Protocol o1, Protocol o2) {
 				return getText(o1).compareTo(getText(o2));
 			}
 		};
@@ -116,18 +97,18 @@ public class FunctionFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	public String getElementName(Object item) {
-		Function p = (Function) item;
+		Protocol p = (Protocol) item;
 		return getText(p);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("Functiondialog");
+				.getDialogSettings().getSection("Protocoldialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("Functiondialog");
+					.addNewSection("Protocoldialog");
 		}
 		return settings;
 	}
@@ -136,21 +117,13 @@ public class FunctionFilterDialog extends FilteredItemsSelectionDialog {
 	protected void fillContentProvider(AbstractContentProvider contentProvider,
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
-
-		org.eclipse.emf.common.util.TreeIterator<EObject> ti = null;
-		if (scope instanceof Resource) {
-			ti = ((Resource) scope).getAllContents();
-		}
-		if (scope instanceof EObject) {
-			ti = ((EObject) scope).eAllContents();
-		}
-		if (ti != null) {
-			while (ti.hasNext()) {
-				EObject p = ti.next();
-				if (p.eClass().equals(LibraryPackage.Literals.FUNCTION)) {
-					contentProvider.add(p, itemsFilter);
-				}
+		
+		for (EObject p : resource.getContents()) {
+			if (progressMonitor.isCanceled()) {
+				return;
 			}
+
+			contentProvider.add(p, itemsFilter);
 		}
 	}
 
@@ -165,9 +138,10 @@ public class FunctionFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				Function p = (Function) item;
+				Protocol p = (Protocol) item;
 				return matches(p.getName());
 			}
+
 		};
 	}
 

@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.f2;
+package com.netxforge.netxstudio.screens.tables;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ColumnViewer;
@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+
 
 /**
  * Hack for solving the jface Bug 268135
@@ -68,18 +69,21 @@ public class FocusCellOwnerDrawHighlighterForMultiselection extends
 				gc.fillRectangle(area);
 			} else {
 				gc.fillRectangle(event.getBounds());
-				drawBorder(event, cell);
+				
 			}
-
 			event.detail &= ~SWT.SELECTED;
+		}else{
+			drawBorder(event, cell);
 		}
+		event.detail &= ~SWT.SELECTED;
 	}
 
 	private void drawBorder(Event event, ViewerCell cell) {
 		Rectangle rect = cell.getBounds();
 		Color fg = event.gc.getForeground();
 		event.gc.setForeground(event.display.getSystemColor(SWT.COLOR_BLACK));
-		event.gc.drawRectangle(rect.x, rect.y, rect.width - 2, rect.height - 2);
+//		event.gc.drawRectangle(rect.x, rect.y, rect.width-1, rect.height);
+		event.gc.drawRoundRectangle(rect.x, rect.y, rect.width-1, rect.height, 3,3);
 		event.gc.setForeground(fg);
 	}
 
@@ -97,27 +101,21 @@ public class FocusCellOwnerDrawHighlighterForMultiselection extends
 					// try {
 					//
 
-					if (viewer instanceof AccessToRowsTreeViewer) {
-						ViewerRow row = ((AccessToRowsTreeViewer) viewer)
+					if (viewer instanceof OpenTreeViewer) {
+						ViewerRow row = ((OpenTreeViewer) viewer)
 								.getViewerRowFromItemExposed(event.item);
 						Assert.isNotNull(row,
 								"Internal structure invalid. Item without associated row is not possible."); //$NON-NLS-1$
 
 						ViewerCell cell = row.getCell(event.index);
-//						System.out.println("Event cell="
-//								+ cell.getColumnIndex());
-						// if (focusCell != null && cell.equals(focusCell)) {
-						// markFocusedCell(event, cell);
-						// }else{
-						// removeSelectionInformation(event, cell);
-						// }
-
 						if (focusCell == null || !cell.equals(focusCell)) {
 							removeSelectionInformation(event, cell);
 						} else {
 							
-							// skip if the cell index = 0. 
-							if( cell.getColumnIndex() != 0){
+							// skip if the cell index = 0.
+							
+							// FIXME, Should prevent focus for index = 0;
+							if( event.index > 0){
 								markFocusedCell(event, cell);
 							}
 							

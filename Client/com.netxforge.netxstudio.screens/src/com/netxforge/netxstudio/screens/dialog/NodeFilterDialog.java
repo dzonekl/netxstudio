@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens;
+package com.netxforge.netxstudio.screens.dialog;
 
 import java.util.Comparator;
 
@@ -31,17 +31,16 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDialog {
+public class NodeFilterDialog extends FilteredItemsSelectionDialog {
 	private final Resource resource;
-	private ModelUtils modelUtils;
 
 	/**
 	 * Create a new dialog
@@ -51,14 +50,10 @@ public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDi
 	 * @param resource
 	 *            the model resource
 	 */
-	public NodeOrNetworkFilterDialog(Shell shell, Resource resource,
-			ModelUtils modelUtils) {
-		
-		super(shell, true);
-		super.setTitle("Select a Network Element or Network");
-		
+	public NodeFilterDialog(Shell shell, Resource resource) {
+		super(shell);
+		super.setTitle("Select a Network Element");
 		this.resource = resource;
-		this.modelUtils = modelUtils;
 
 		setListLabelProvider(new LabelProvider() {
 			@Override
@@ -66,7 +61,7 @@ public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDi
 				if (element == null) {
 					return "";
 				}
-				return NodeOrNetworkFilterDialog.this.getText(element);
+				return NodeFilterDialog.this.getText((Node) element);
 			}
 		});
 
@@ -76,30 +71,13 @@ public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDi
 				if (element == null) {
 					return "";
 				}
-				return NodeOrNetworkFilterDialog.this.getText(element);
+				return NodeFilterDialog.this.getText((Node) element);
 			}
 		});
 	}
 
-	private String getText(Object e) {
-		
-		if( e instanceof String){
-			return (String) e;
-		}
-		
-		String indent = "";
-		int depth = modelUtils.depthToResource(0, (EObject) e);
-		for (int i = 0; i < depth; i++) {
-			indent += "   ";
-		}
-
-		if (e instanceof Node) {
-			return indent + "NE: " + ((Node) e).getNodeID();
-		}
-		if (e instanceof Network) {
-			return indent + "Network: " + ((Network) e).getName();
-		}
-		return "invalid object";
+	private String getText(Node p) {
+		return p.getNodeID();
 	}
 
 	@Override
@@ -109,32 +87,28 @@ public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDi
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<Object>() {
-			public int compare(Object o1, Object o2) {
+		return new Comparator<Node>() {
 
-				// Do not sort by name, but by hierarchy
-				return 1;
-				// if(o1 instanceof Network && o2 instanceof Node){
-				// return 1;
-				// }
-				// return getText(o1).compareTo(getText(o2));
+			public int compare(Node o1, Node o2) {
+				return getText(o1).compareTo(getText(o2));
 			}
 		};
 	}
 
 	@Override
 	public String getElementName(Object item) {
-		return getText(item);
+		Node p = (Node) item;
+		return getText(p);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("NodeOrNetworkDialog");
+				.getDialogSettings().getSection("Roomdialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("NodeOrNetworkDialog");
+					.addNewSection("Roomdialog");
 		}
 		return settings;
 	}
@@ -144,9 +118,7 @@ public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDi
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
 		
-
 		this.populateContent(contentProvider, itemsFilter, resource.getContents());
-		
 	}
 
 	private void populateContent(AbstractContentProvider contentProvider,
@@ -154,12 +126,10 @@ public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDi
 		for (Object o : list) {
 			EObject eo = (EObject) o;
 			if (eo.eClass().equals(OperatorsPackage.Literals.OPERATOR)) {
-//				contentProvider.add(eo, itemsFilter);
 				Operator op = (Operator) eo;
 				populateContent( contentProvider, itemsFilter, op.getNetworks());
 			}
 			if (eo.eClass().equals(OperatorsPackage.Literals.NETWORK)) {
-				contentProvider.add(eo, itemsFilter);
 				Network net = (Network) eo;
 				populateContent( contentProvider, itemsFilter, net.getNodes());
 				populateContent( contentProvider, itemsFilter, net.getNetworks());
@@ -170,7 +140,7 @@ public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDi
 		}
 
 	}
-
+	
 	@Override
 	protected ItemsFilter createFilter() {
 		return new ItemsFilter() {
@@ -182,17 +152,8 @@ public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDi
 
 			@Override
 			public boolean matchItem(Object item) {
-
-				if (item instanceof Node) {
-					Node p = (Node) item;
-					return matches(p.getNodeID());
-				}
-				if (item instanceof Network) {
-					Network p = (Network) item;
-					return matches(p.getName());
-				}
-				return false;
-
+				Node p = (Node) item;
+				return matches(p.getNodeID());
 			}
 		};
 	}

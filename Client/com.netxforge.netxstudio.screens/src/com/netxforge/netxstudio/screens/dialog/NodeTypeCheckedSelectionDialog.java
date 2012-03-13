@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens;
+package com.netxforge.netxstudio.screens.dialog;
 
 import java.util.List;
 

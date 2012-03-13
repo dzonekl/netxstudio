@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens;
+package com.netxforge.netxstudio.screens.dialog;
 
 import java.util.Comparator;
 
@@ -32,10 +32,11 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class OperatorFilterDialog extends FilteredItemsSelectionDialog {
+public class MetricFilterDialog extends FilteredItemsSelectionDialog {
 	private final Resource resource;
 
 	/**
@@ -46,9 +47,10 @@ public class OperatorFilterDialog extends FilteredItemsSelectionDialog {
 	 * @param resource
 	 *            the model resource
 	 */
-	public OperatorFilterDialog(Shell shell, Resource resource) {
-		super(shell);
-		super.setTitle("Select an Operator");
+	public MetricFilterDialog(Shell shell, Resource resource) {
+		super(shell, true);
+		super.setTitle("Select an existing Metric");
+
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {
@@ -57,9 +59,9 @@ public class OperatorFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return OperatorFilterDialog.this.getText(
+				return MetricFilterDialog.this.getText(
 
-				(Operator) element
+				(Metric) element
 
 				);
 			}
@@ -70,14 +72,24 @@ public class OperatorFilterDialog extends FilteredItemsSelectionDialog {
 			public String getText(Object element) {
 				if (element == null) {
 					return "";
+				} else if (element instanceof Metric) {
+					return MetricFilterDialog.this.getText((Metric) element);
+				}else if( element instanceof String){
+					return (String) element;
 				}
-				return OperatorFilterDialog.this.getText((Operator) element);
+				return "";
 			}
 		});
 	}
 
-	private String getText(Operator p) {
-		return p.getName();
+	private String getText(Metric p) {
+		StringBuffer buf = new StringBuffer();
+		buf.append(p.eIsSet(MetricsPackage.Literals.METRIC__NAME) ? p.getName()
+				: "?");
+		buf.append(" - ");
+		buf.append(p.eIsSet(MetricsPackage.Literals.METRIC__DESCRIPTION) ? p
+				.getDescription() : "?");
+		return buf.toString();
 	}
 
 	@Override
@@ -87,9 +99,9 @@ public class OperatorFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<Operator>() {
+		return new Comparator<Metric>() {
 
-			public int compare(Operator o1, Operator o2) {
+			public int compare(Metric o1, Metric o2) {
 				return getText(o1).compareTo(getText(o2));
 			}
 		};
@@ -97,18 +109,18 @@ public class OperatorFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	public String getElementName(Object item) {
-		Operator p = (Operator) item;
+		Metric p = (Metric) item;
 		return getText(p);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("Operatordialog");
+				.getDialogSettings().getSection("Metricdialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("Operatordialog");
+					.addNewSection("Metricdialog");
 		}
 		return settings;
 	}
@@ -117,7 +129,7 @@ public class OperatorFilterDialog extends FilteredItemsSelectionDialog {
 	protected void fillContentProvider(AbstractContentProvider contentProvider,
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
-		
+
 		for (EObject p : resource.getContents()) {
 			if (progressMonitor.isCanceled()) {
 				return;
@@ -138,9 +150,10 @@ public class OperatorFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				Operator p = (Operator) item;
-				return matches(p.getName());
+				Metric p = (Metric) item;
+				return matches(p.getName() + p.getDescription());
 			}
+
 		};
 	}
 

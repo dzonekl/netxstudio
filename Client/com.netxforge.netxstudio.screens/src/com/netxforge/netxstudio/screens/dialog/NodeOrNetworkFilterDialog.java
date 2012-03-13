@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens;
+package com.netxforge.netxstudio.screens.dialog;
 
 import java.util.Comparator;
 
@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.IDialogSettings;
@@ -30,16 +31,17 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.geo.Country;
-import com.netxforge.netxstudio.geo.Location;
-import com.netxforge.netxstudio.geo.Room;
-import com.netxforge.netxstudio.geo.Site;
+import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.operators.Network;
+import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class LocationFilterDialog extends FilteredItemsSelectionDialog {
+public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDialog {
 	private final Resource resource;
+	private ModelUtils modelUtils;
 
 	/**
 	 * Create a new dialog
@@ -49,10 +51,14 @@ public class LocationFilterDialog extends FilteredItemsSelectionDialog {
 	 * @param resource
 	 *            the model resource
 	 */
-	public LocationFilterDialog(Shell shell, Resource resource) {
-		super(shell);
-		this.setTitle("Select a location (Room/Site/Country)");
+	public NodeOrNetworkFilterDialog(Shell shell, Resource resource,
+			ModelUtils modelUtils) {
+		
+		super(shell, true);
+		super.setTitle("Select a Network Element or Network");
+		
 		this.resource = resource;
+		this.modelUtils = modelUtils;
 
 		setListLabelProvider(new LabelProvider() {
 			@Override
@@ -60,7 +66,7 @@ public class LocationFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return LocationFilterDialog.this.getText((Location) element);
+				return NodeOrNetworkFilterDialog.this.getText(element);
 			}
 		});
 
@@ -70,36 +76,30 @@ public class LocationFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return LocationFilterDialog.this.getText((Location) element);
+				return NodeOrNetworkFilterDialog.this.getText(element);
 			}
 		});
 	}
 
-	private String getText(Location p) {
+	private String getText(Object e) {
 		
-		StringBuilder sb = new StringBuilder();
-		if(p instanceof Country){
-			
-			sb.append("Country: " + p.getName());
-		}else if( p instanceof Site){
-			if(p.eContainer() instanceof Country){
-				Country c = (Country) p.eContainer();
-				sb.append("Country: " + c.getName());
-			}
-			sb.append(" --> Site: " + p.getName());
-		}else if( p instanceof Room){
-			if(p.eContainer() instanceof Site){
-				Site s = (Site) p.eContainer();
-				if(s.eContainer() instanceof Country){
-					Country c = (Country) s.eContainer();
-					sb.append("Country: " + c.getName());
-				}
-				sb.append(" --> Site: " + s.getName());
-			}
-			sb.append(" --> Room: " + p.getName());
+		if( e instanceof String){
+			return (String) e;
 		}
 		
-		return sb.toString();
+		String indent = "";
+		int depth = modelUtils.depthToResource(0, (EObject) e);
+		for (int i = 0; i < depth; i++) {
+			indent += "   ";
+		}
+
+		if (e instanceof Node) {
+			return indent + "NE: " + ((Node) e).getNodeID();
+		}
+		if (e instanceof Network) {
+			return indent + "Network: " + ((Network) e).getName();
+		}
+		return "invalid object";
 	}
 
 	@Override
@@ -109,28 +109,32 @@ public class LocationFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<Location>() {
+		return new Comparator<Object>() {
+			public int compare(Object o1, Object o2) {
 
-			public int compare(Location o1, Location o2) {
-				return getText(o1).compareTo(getText(o2));
+				// Do not sort by name, but by hierarchy
+				return 1;
+				// if(o1 instanceof Network && o2 instanceof Node){
+				// return 1;
+				// }
+				// return getText(o1).compareTo(getText(o2));
 			}
 		};
 	}
 
 	@Override
 	public String getElementName(Object item) {
-		Location p = (Location) item;
-		return getText(p);
+		return getText(item);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("Locationdialog");
+				.getDialogSettings().getSection("NodeOrNetworkDialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("Locationdialog");
+					.addNewSection("NodeOrNetworkDialog");
 		}
 		return settings;
 	}
@@ -140,14 +144,31 @@ public class LocationFilterDialog extends FilteredItemsSelectionDialog {
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
 		
+
+		this.populateContent(contentProvider, itemsFilter, resource.getContents());
 		
-		org.eclipse.emf.common.util.TreeIterator<EObject> ti = resource.getAllContents();
-		while(ti.hasNext()){
-			EObject p = ti.next();
-			if(p instanceof Location){
-				contentProvider.add(p, itemsFilter);	
+	}
+
+	private void populateContent(AbstractContentProvider contentProvider,
+			ItemsFilter itemsFilter, EList<?> list) {
+		for (Object o : list) {
+			EObject eo = (EObject) o;
+			if (eo.eClass().equals(OperatorsPackage.Literals.OPERATOR)) {
+//				contentProvider.add(eo, itemsFilter);
+				Operator op = (Operator) eo;
+				populateContent( contentProvider, itemsFilter, op.getNetworks());
+			}
+			if (eo.eClass().equals(OperatorsPackage.Literals.NETWORK)) {
+				contentProvider.add(eo, itemsFilter);
+				Network net = (Network) eo;
+				populateContent( contentProvider, itemsFilter, net.getNodes());
+				populateContent( contentProvider, itemsFilter, net.getNetworks());
+			}
+			if (eo.eClass().equals(OperatorsPackage.Literals.NODE)) {
+				contentProvider.add(eo, itemsFilter);
 			}
 		}
+
 	}
 
 	@Override
@@ -161,8 +182,17 @@ public class LocationFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				Location p = (Location) item;
-				return matches(p.getName());
+
+				if (item instanceof Node) {
+					Node p = (Node) item;
+					return matches(p.getNodeID());
+				}
+				if (item instanceof Network) {
+					Network p = (Network) item;
+					return matches(p.getName());
+				}
+				return false;
+
 			}
 		};
 	}

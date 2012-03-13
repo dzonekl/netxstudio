@@ -43,8 +43,8 @@ import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
-import com.netxforge.netxstudio.screens.UnitFilterDialog;
+import com.netxforge.netxstudio.screens.dialog.ExpressionFilterDialog;
+import com.netxforge.netxstudio.screens.dialog.UnitFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 

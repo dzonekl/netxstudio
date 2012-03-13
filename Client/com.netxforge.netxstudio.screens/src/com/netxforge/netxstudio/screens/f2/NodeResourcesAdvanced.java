@@ -45,9 +45,6 @@ import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
-import org.eclipse.jface.viewers.ColumnViewerEditor;
-import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
-import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
@@ -60,8 +57,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TreeViewerColumn;
-import org.eclipse.jface.viewers.TreeViewerEditor;
-import org.eclipse.jface.viewers.TreeViewerFocusCellManager;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.window.Window;
@@ -99,6 +94,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -130,14 +126,19 @@ import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.ScreenDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.TableColumnFilter;
-import com.netxforge.netxstudio.screens.ToleranceFilterDialog;
-import com.netxforge.netxstudio.screens.ch9.EmbeddedLineExpression;
 import com.netxforge.netxstudio.screens.ch9.ObjectExpressions;
+import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
+import com.netxforge.netxstudio.screens.tables.FocusBlockOwnerDrawHighlighterForMultiselection;
+import com.netxforge.netxstudio.screens.tables.FocusColumnToModelMap;
+import com.netxforge.netxstudio.screens.tables.OpenTreeViewer;
 import com.netxforge.netxstudio.screens.tables.TableHelper;
+import com.netxforge.netxstudio.screens.tables.TreeViewerFocusBlockManager;
+import com.netxforge.netxstudio.screens.xtext.IInjectorProxy;
+import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 
 /**
  * See this for filtering. http://www.eclipsezone.com/eclipse/forums/t63214.html
@@ -166,11 +167,19 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	@Inject
 	private EmbeddedLineExpression expressionComponent;
 
-	private IExpressionEngine expressionEngine = expressionComponent
-			.getNetxScriptInjector().getInstance(IExpressionEngine.class);
+	@Inject
+	private ExpressionSupport expressionSupport;
+	
+	@Inject
+	private IInjectorProxy injectorProxy;
+		
+	
+	// Delegated injection.
+	private Injector nextscriptInjector = injectorProxy.getInjector("com.netxforge.Netxscript");
+	
+	private IExpressionEngine expressionEngine = nextscriptInjector.getInstance(IExpressionEngine.class);
 
-	private ResultProcessor resultProcessor = expressionComponent
-			.getNetxScriptInjector().getInstance(ResultProcessor.class);
+	private ResultProcessor resultProcessor =  nextscriptInjector.getInstance(ResultProcessor.class);
 
 	/**
 	 * A Map of filters.
@@ -201,7 +210,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	protected TableViewer resourcesTableViewer;
 	private Table resourcesTable;
 
-	private AccessToRowsTreeViewer componentsTreeViewer;
+	private OpenTreeViewer componentsTreeViewer;
 	// private Composite cmpExpressionContext;
 
 	private ComputedList computedResourcesList;
@@ -357,7 +366,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			GridData gd_componentsTreeViewer, int widgetStyle) {
 		// COMPONENTS TREEVIEWER.
 
-		componentsTreeViewer = new AccessToRowsTreeViewer(parent, SWT.BORDER
+		componentsTreeViewer = new OpenTreeViewer(parent, SWT.BORDER
 				| SWT.MULTI | widgetStyle);
 		componentsTreeViewer.setUseHashlookup(true);
 		componentsTreeViewer.setComparer(new CDOElementComparer());
@@ -394,108 +403,23 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		TreeColumn trclmnUtilization = treeViewerUtilization.getColumn();
 		trclmnUtilization.setWidth(30);
 		trclmnUtilization.setText("Util.");
-
-		// Cell navigation.
-
-		// CB Remove later, default cell navigation works ok.
-		// CellNavigationStrategy navigationStrategy = new
-		// CellNavigationStrategy() {
-		// public ViewerCell findSelectedCell(ColumnViewer viewer,
-		// ViewerCell currentSelectedCell, Event event) {
-		// ViewerCell cell = super.findSelectedCell(viewer,
-		// currentSelectedCell, event);
-		//
-		// if (cell != null) {
-		// componentsTreeViewer.getTree().showColumn(
-		// componentsTreeViewer.getTree().getColumn(
-		// cell.getColumnIndex()));
-		// }
-		// return cell;
-		// }
-		//
-		// // TODO, decide how to expand and collapse, the default
-		// // strategy will not allow expand and collapse using Arrow Right and
-		// Left.
-		//
-		// @Override
-		// public boolean isCollapseEvent(ColumnViewer viewer,
-		// ViewerCell cellToCollapse, Event event) {
-		// return super.isCollapseEvent(viewer, cellToCollapse, event);
-		// }
-		//
-		// @Override
-		// public boolean isExpandEvent(ColumnViewer viewer,
-		// ViewerCell cellToExpand, Event event) {
-		// return super.isExpandEvent(viewer, cellToExpand, event);
-		// }
-		//
-		//
-		//
-		// };
-
-		// Could potentially use a custom FocusCellOwnerDrawHighlighter which
-		// could show a handle.
 		
-		FocusCellOwnerDrawHighlighterForMultiselection fcHighlighter = new FocusCellOwnerDrawHighlighterForMultiselection(
+		
+		
+		// Multi cell focus block selection, with drag copy action build in. 
+		FocusBlockOwnerDrawHighlighterForMultiselection fcHighlighter = new FocusBlockOwnerDrawHighlighterForMultiselection(
 				componentsTreeViewer);
 		
-//		FocusCellOwnerdrawBorderHighlighter fcHighlighter = new FocusCellOwnerdrawBorderHighlighter(
-//				componentsTreeViewer);
+		// instantiate it, it will hook listeners. 
+		TreeViewerFocusBlockManager treeViewerFocusBlockManager = new TreeViewerFocusBlockManager(componentsTreeViewer, fcHighlighter);
+		treeViewerFocusBlockManager.setEditingDomain(this.getEditingService().getEditingDomain());
 		
+		FocusColumnToModelMap focusColumnToModelMap = new FocusColumnToModelMap();
+		focusColumnToModelMap.getColumnFeatureMap().put(1, LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF);
+		focusColumnToModelMap.getColumnFeatureMap().put(2, LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF);
 		
-		TreeViewerFocusCellManager componentsFocusCellManager = new TreeViewerFocusCellManager(
-				componentsTreeViewer,fcHighlighter
-				);
+		treeViewerFocusBlockManager.setFeatureMap(focusColumnToModelMap);
 		
-		
-		
-		ColumnViewerEditorActivationStrategy actSupport = new ColumnViewerEditorActivationStrategy(
-				componentsTreeViewer) {
-			protected boolean isEditorActivationEvent(
-					ColumnViewerEditorActivationEvent event) {
-				// return false;
-				
-				boolean result = event.eventType == ColumnViewerEditorActivationEvent.TRAVERSAL
-						|| event.eventType == ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION
-						|| (event.eventType == ColumnViewerEditorActivationEvent.KEY_PRESSED && event.keyCode == SWT.CR)
-						|| event.eventType == ColumnViewerEditorActivationEvent.PROGRAMMATIC;
-				System.out.println("NodeResourceAdvanced: Cell editing activation for event=" +event.eventType + " activate? " +result);
-				return result;
-			}
-		};
-
-		TreeViewerEditor.create(componentsTreeViewer,
-				componentsFocusCellManager, actSupport,
-				ColumnViewerEditor.TABBING_HORIZONTAL
-						| ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR
-						| ColumnViewerEditor.TABBING_VERTICAL
-						| ColumnViewerEditor.KEYBOARD_ACTIVATION);
-
-		// componentsTreeViewer.getColumnViewerEditor()
-		// .addEditorActivationListener(
-		// new ColumnViewerEditorActivationListener() {
-		// public void afterEditorActivated(
-		// ColumnViewerEditorActivationEvent event) {
-		// }
-		//
-		// public void afterEditorDeactivated(
-		// ColumnViewerEditorDeactivationEvent event) {
-		// }
-		//
-		// public void beforeEditorActivated(
-		// ColumnViewerEditorActivationEvent event) {
-		// ViewerCell cell = (ViewerCell) event
-		// .getSource();
-		// componentsTreeViewer.getTree().showColumn(
-		// componentsTreeViewer.getTree()
-		// .getColumn(
-		// cell.getColumnIndex()));
-		// }
-		//
-		// public void beforeEditorDeactivated(
-		// ColumnViewerEditorDeactivationEvent event) {
-		// }
-		// });
 	}
 
 	private void buildComponentSelector(Composite parent, GridData gridData,
@@ -696,6 +620,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		gl_cmpExpressionHead.marginHeight = 0;
 		cmpExpressionEditor.setLayout(gl_cmpExpressionHead);
 
+		expressionComponent.setInjector(this.nextscriptInjector);
 		expressionComponent.buildExpression(widgetStyle, cmpExpressionEditor,
 				new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		expressionComponent.configure(editingService, this.getOperation());
@@ -1181,19 +1106,19 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			ImmutableList<IInterpreterContext> contextList = null;
 			if (currentExpressionFeature == LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF) {
 				if (currentComponent != null) {
-					contextList = expressionComponent.buildContext(dtr,
+					contextList = expressionSupport.buildContext(dtr,
 							currentComponent);
 					currentExpressionType = CAP_EXPRESSION_CONTEXT;
 				}
 			} else if (currentExpressionFeature == LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF) {
 				if (currentNetXResource != null) {
-					contextList = expressionComponent.buildContext(dtr,
+					contextList = expressionSupport.buildContext(dtr,
 							currentNetXResource);
 					currentExpressionType = UTIL_EXPRESSION_CONTEXT;
 				}
 			} else if (currentExpressionFeature == LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF) {
 				if (currentNetXResource != null) {
-					contextList = expressionComponent.buildContext(dtr,
+					contextList = expressionSupport.buildContext(dtr,
 							currentNetXResource);
 					currentExpressionType = TOL_EXPRESSION_CONTEXT;
 				}
@@ -1523,7 +1448,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 			IObservableMap[] map = new IObservableMap[observeMaps.size()];
 			observeMaps.toArray(map);
-
+			
 			componentsTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(
 					map));
 		}
@@ -2046,50 +1971,49 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	 */
 	@Override
 	public ShowInContext getShowIn(ISelection selection) {
-		
+
 		ChartShowInContext chartInput = new ChartShowInContext();
-		
+
 		DateTimeRange period = contextAggregate.getPeriod();
 		chartInput.setPeriod(period);
-		
+
 		// Should get it from the value component, but no range state there yet.
-		// Defaults to 60 minutes. 
+		// Defaults to 60 minutes.
 		chartInput.setInterval(ModelUtils.MINUTES_IN_AN_HOUR);
-		
-		//If we have a resource monitor, we can pass this as well. 
-		if(resultProcessor.getResourceMonitor() != null){
+
+		// If we have a resource monitor, we can pass this as well.
+		if (resultProcessor.getResourceMonitor() != null) {
 			chartInput.setResourceMonitor(resultProcessor.getResourceMonitor());
 		}
-		
-		// create a chart show in.
-		ShowInContext showInContext = new ShowInContext(chartInput,
-				selection);
 
-		
+		// create a chart show in.
+		ShowInContext showInContext = new ShowInContext(chartInput, selection);
+
 		return showInContext;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#resolveSelectionProviderFromWidget(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#
+	 * resolveSelectionProviderFromWidget(java.lang.Object)
 	 */
 	@Override
 	protected ISelectionProvider resolveSelectionProviderFromWidget(
 			Object widget) {
-		
-		if(widget == componentsTree ){
+
+		if (widget == componentsTree) {
 			return componentsTreeViewer;
-		}else if ( widget == resourcesTable ){
+		} else if (widget == resourcesTable) {
 			return resourcesTableViewer;
-		}else if (widget == expressionComponent.getXtextEditor().getViewer().getTextWidget() ){
-			return expressionComponent.getXtextEditor().getViewer().getSelectionProvider();
+		} else if (widget == expressionComponent.getXtextEditor().getViewer()
+				.getTextWidget()) {
+			return expressionComponent.getXtextEditor().getViewer()
+					.getSelectionProvider();
 		}
-		
-		// TODO, value component. 
+
+		// TODO, value component.
 		return super.resolveSelectionProviderFromWidget(widget);
 	}
-	
-	
-	
-	
-	
+
 }

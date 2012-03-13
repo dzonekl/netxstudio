@@ -20,7 +20,7 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
-import com.netxforge.netxstudio.screens.NodeTypeFilterDialog;
+import com.netxforge.netxstudio.screens.dialog.NodeTypeFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.services.Service;
 

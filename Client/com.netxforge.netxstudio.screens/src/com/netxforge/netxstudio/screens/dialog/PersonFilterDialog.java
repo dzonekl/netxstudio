@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens;
+package com.netxforge.netxstudio.screens.dialog;
 
 import java.util.Comparator;
 
@@ -23,8 +23,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Composite;
@@ -32,11 +30,12 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
+import com.netxforge.netxstudio.Netxstudio;
+import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
-import com.netxforge.netxstudio.services.ServiceUser;
 
-public class ServiceUserFilterDialog extends FilteredItemsSelectionDialog {
-	private final Resource resource;
+public class PersonFilterDialog extends FilteredItemsSelectionDialog {
+	private final Netxstudio resource;
 
 	/**
 	 * Create a new dialog
@@ -46,9 +45,8 @@ public class ServiceUserFilterDialog extends FilteredItemsSelectionDialog {
 	 * @param resource
 	 *            the model resource
 	 */
-	public ServiceUserFilterDialog(Shell shell, Resource resource) {
+	public PersonFilterDialog(Shell shell, Netxstudio resource) {
 		super(shell);
-		setTitle("Select an existing Service User");
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {
@@ -57,9 +55,9 @@ public class ServiceUserFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return ServiceUserFilterDialog.this.getText(
+				return PersonFilterDialog.this.getText(
 
-				(ServiceUser) element
+				(Person) element
 
 				);
 			}
@@ -71,13 +69,13 @@ public class ServiceUserFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return ServiceUserFilterDialog.this.getText((ServiceUser) element);
+				return PersonFilterDialog.this.getText((Person) element);
 			}
 		});
 	}
 
-	private String getText(ServiceUser p) {
-		return p.getName() ;
+	private String getText(Person p) {
+		return p.getLastName() + " " + p.getFirstName();
 	}
 
 	@Override
@@ -87,9 +85,9 @@ public class ServiceUserFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<ServiceUser>() {
+		return new Comparator<Person>() {
 
-			public int compare(ServiceUser o1, ServiceUser o2) {
+			public int compare(Person o1, Person o2) {
 				return getText(o1).compareTo(getText(o2));
 			}
 		};
@@ -97,18 +95,18 @@ public class ServiceUserFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	public String getElementName(Object item) {
-		ServiceUser p = (ServiceUser) item;
+		Person p = (Person) item;
 		return getText(p);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("ServiceUserdialog");
+				.getDialogSettings().getSection("committerdialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("ServiceUserdialog");
+					.addNewSection("committerdialog");
 		}
 		return settings;
 	}
@@ -117,8 +115,7 @@ public class ServiceUserFilterDialog extends FilteredItemsSelectionDialog {
 	protected void fillContentProvider(AbstractContentProvider contentProvider,
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
-		
-		for (EObject p : resource.getContents()) {
+		for (Person p : resource.getUsers()) {
 			if (progressMonitor.isCanceled()) {
 				return;
 			}
@@ -138,8 +135,8 @@ public class ServiceUserFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				ServiceUser p = (ServiceUser) item;
-				return matches(p.getName());
+				Person p = (Person) item;
+				return matches(p.getLastName() + " " + p.getFirstName());
 			}
 
 		};

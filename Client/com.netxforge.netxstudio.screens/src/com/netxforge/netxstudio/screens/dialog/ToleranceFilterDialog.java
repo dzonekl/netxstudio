@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens;
+package com.netxforge.netxstudio.screens.dialog;
 
 import java.util.Comparator;
 
@@ -32,10 +32,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class ExpressionFilterDialog extends FilteredItemsSelectionDialog {
+public class ToleranceFilterDialog extends FilteredItemsSelectionDialog {
 	private final Resource resource;
 
 	/**
@@ -46,9 +46,9 @@ public class ExpressionFilterDialog extends FilteredItemsSelectionDialog {
 	 * @param resource
 	 *            the model resource
 	 */
-	public ExpressionFilterDialog(Shell shell, Resource resource) {
+	public ToleranceFilterDialog(Shell shell, Resource resource) {
 		super(shell);
-		this.setTitle("Select an existing Expression");
+		setTitle("Select an existing Tolerance");
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {
@@ -57,9 +57,9 @@ public class ExpressionFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return ExpressionFilterDialog.this.getText(
+				return ToleranceFilterDialog.this.getText(
 
-				(Expression) element
+				(Tolerance) element
 
 				);
 			}
@@ -71,12 +71,12 @@ public class ExpressionFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return ExpressionFilterDialog.this.getText((Expression) element);
+				return ToleranceFilterDialog.this.getText((Tolerance) element);
 			}
 		});
 	}
 
-	private String getText(Expression p) {
+	private String getText(Tolerance p) {
 		return p.getName() ;
 	}
 
@@ -87,9 +87,9 @@ public class ExpressionFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<Expression>() {
+		return new Comparator<Tolerance>() {
 
-			public int compare(Expression o1, Expression o2) {
+			public int compare(Tolerance o1, Tolerance o2) {
 				return getText(o1).compareTo(getText(o2));
 			}
 		};
@@ -97,18 +97,18 @@ public class ExpressionFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	public String getElementName(Object item) {
-		Expression p = (Expression) item;
+		Tolerance p = (Tolerance) item;
 		return getText(p);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("Expressiondialog");
+				.getDialogSettings().getSection("Metricdialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("Expressiondialog");
+					.addNewSection("Metricdialog");
 		}
 		return settings;
 	}
@@ -138,7 +138,7 @@ public class ExpressionFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				Expression p = (Expression) item;
+				Tolerance p = (Tolerance) item;
 				return matches(p.getName());
 			}
 

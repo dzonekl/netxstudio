@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens;
+package com.netxforge.netxstudio.screens.dialog;
 
 import java.util.Comparator;
 
@@ -32,24 +32,26 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.library.Tolerance;
+import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class ToleranceFilterDialog extends FilteredItemsSelectionDialog {
-	private final Resource resource;
+public class FunctionFilterDialog extends FilteredItemsSelectionDialog {
+	private final Object scope;
 
 	/**
 	 * Create a new dialog
 	 * 
 	 * @param shell
 	 *            the parent shell
-	 * @param resource
+	 * @param scope
 	 *            the model resource
 	 */
-	public ToleranceFilterDialog(Shell shell, Resource resource) {
+	public FunctionFilterDialog(Shell shell, Object scope) {
 		super(shell);
-		setTitle("Select an existing Tolerance");
-		this.resource = resource;
+		super.setTitle("Select a Function");
+		this.scope = scope;
 
 		setListLabelProvider(new LabelProvider() {
 			@Override
@@ -57,11 +59,7 @@ public class ToleranceFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return ToleranceFilterDialog.this.getText(
-
-				(Tolerance) element
-
-				);
+				return FunctionFilterDialog.this.getText((Function) element);
 			}
 		});
 
@@ -71,13 +69,34 @@ public class ToleranceFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return ToleranceFilterDialog.this.getText((Tolerance) element);
+				return FunctionFilterDialog.this
+						.getParentText((Function) element);
 			}
 		});
 	}
 
-	private String getText(Tolerance p) {
-		return p.getName() ;
+	private String getText(Function p) {
+		return p.getName();
+	}
+
+	private String getParentText(Function p) {
+		Node n;
+		if ((n = this.resolveParentNode(p)) != null) {
+			return n.getNodeID();
+		}
+		return "Unresolved Node!";
+	}
+
+	private Node resolveParentNode(EObject current) {
+		if (current != null && current.eContainer() != null) {
+			if (current.eContainer() instanceof Node) {
+				return (Node) current.eContainer();
+			} else {
+				return resolveParentNode(current.eContainer());
+			}
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -87,9 +106,9 @@ public class ToleranceFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<Tolerance>() {
+		return new Comparator<Function>() {
 
-			public int compare(Tolerance o1, Tolerance o2) {
+			public int compare(Function o1, Function o2) {
 				return getText(o1).compareTo(getText(o2));
 			}
 		};
@@ -97,18 +116,18 @@ public class ToleranceFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	public String getElementName(Object item) {
-		Tolerance p = (Tolerance) item;
+		Function p = (Function) item;
 		return getText(p);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("Metricdialog");
+				.getDialogSettings().getSection("Functiondialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("Metricdialog");
+					.addNewSection("Functiondialog");
 		}
 		return settings;
 	}
@@ -117,13 +136,21 @@ public class ToleranceFilterDialog extends FilteredItemsSelectionDialog {
 	protected void fillContentProvider(AbstractContentProvider contentProvider,
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
-		
-		for (EObject p : resource.getContents()) {
-			if (progressMonitor.isCanceled()) {
-				return;
-			}
 
-			contentProvider.add(p, itemsFilter);
+		org.eclipse.emf.common.util.TreeIterator<EObject> ti = null;
+		if (scope instanceof Resource) {
+			ti = ((Resource) scope).getAllContents();
+		}
+		if (scope instanceof EObject) {
+			ti = ((EObject) scope).eAllContents();
+		}
+		if (ti != null) {
+			while (ti.hasNext()) {
+				EObject p = ti.next();
+				if (p.eClass().equals(LibraryPackage.Literals.FUNCTION)) {
+					contentProvider.add(p, itemsFilter);
+				}
+			}
 		}
 	}
 
@@ -138,10 +165,9 @@ public class ToleranceFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				Tolerance p = (Tolerance) item;
+				Function p = (Function) item;
 				return matches(p.getName());
 			}
-
 		};
 	}
 

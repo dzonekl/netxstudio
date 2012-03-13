@@ -48,13 +48,15 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.ch9.EmbeddedSelectionExpression;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.xtext.IInjectorProxy;
+import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedSelectionExpression;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -72,6 +74,10 @@ public class NewEditServiceUser extends AbstractScreen implements
 
 	private TableViewer resourcesTableViewer;
 	private EmbeddedSelectionExpression exp;
+	
+	@Inject
+	private IInjectorProxy injectorProxy; 
+
 
 	public NewEditServiceUser(Composite parent, int style) {
 		super(parent, style);
@@ -248,6 +254,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 
 		exp = new EmbeddedSelectionExpression(this.editingService,
 				frmServiceUser.getBody(), null, getOperation());
+		exp.setXtextInjector(injectorProxy.getInjector("com.netxforge.Netxscript"));
 		exp.injectData("Profile", serviceUser,
 				ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF);
 

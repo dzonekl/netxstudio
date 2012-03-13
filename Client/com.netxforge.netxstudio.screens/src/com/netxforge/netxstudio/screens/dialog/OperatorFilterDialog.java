@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens;
+package com.netxforge.netxstudio.screens.dialog;
 
 import java.util.Comparator;
 
@@ -32,10 +32,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.protocols.Protocol;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class ProtocolFilterDialog extends FilteredItemsSelectionDialog {
+public class OperatorFilterDialog extends FilteredItemsSelectionDialog {
 	private final Resource resource;
 
 	/**
@@ -46,9 +46,9 @@ public class ProtocolFilterDialog extends FilteredItemsSelectionDialog {
 	 * @param resource
 	 *            the model resource
 	 */
-	public ProtocolFilterDialog(Shell shell, Resource resource) {
+	public OperatorFilterDialog(Shell shell, Resource resource) {
 		super(shell);
-		setTitle("Select an existing Protocol");
+		super.setTitle("Select an Operator");
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {
@@ -57,9 +57,9 @@ public class ProtocolFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return ProtocolFilterDialog.this.getText(
+				return OperatorFilterDialog.this.getText(
 
-				(Protocol) element
+				(Operator) element
 
 				);
 			}
@@ -71,13 +71,13 @@ public class ProtocolFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return ProtocolFilterDialog.this.getText((Protocol) element);
+				return OperatorFilterDialog.this.getText((Operator) element);
 			}
 		});
 	}
 
-	private String getText(Protocol p) {
-		return p.getName() ;
+	private String getText(Operator p) {
+		return p.getName();
 	}
 
 	@Override
@@ -87,9 +87,9 @@ public class ProtocolFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<Protocol>() {
+		return new Comparator<Operator>() {
 
-			public int compare(Protocol o1, Protocol o2) {
+			public int compare(Operator o1, Operator o2) {
 				return getText(o1).compareTo(getText(o2));
 			}
 		};
@@ -97,18 +97,18 @@ public class ProtocolFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	public String getElementName(Object item) {
-		Protocol p = (Protocol) item;
+		Operator p = (Operator) item;
 		return getText(p);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("Protocoldialog");
+				.getDialogSettings().getSection("Operatordialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("Protocoldialog");
+					.addNewSection("Operatordialog");
 		}
 		return settings;
 	}
@@ -138,10 +138,9 @@ public class ProtocolFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				Protocol p = (Protocol) item;
+				Operator p = (Operator) item;
 				return matches(p.getName());
 			}
-
 		};
 	}
 

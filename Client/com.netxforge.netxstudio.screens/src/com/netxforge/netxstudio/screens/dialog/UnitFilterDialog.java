@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens;
+package com.netxforge.netxstudio.screens.dialog;
 
 import java.util.Comparator;
 
@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.IDialogSettings;
@@ -33,13 +32,11 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.operators.Network;
-import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.operators.Operator;
-import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class NodeFilterDialog extends FilteredItemsSelectionDialog {
+public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 	private final Resource resource;
 
 	/**
@@ -50,18 +47,22 @@ public class NodeFilterDialog extends FilteredItemsSelectionDialog {
 	 * @param resource
 	 *            the model resource
 	 */
-	public NodeFilterDialog(Shell shell, Resource resource) {
+	public UnitFilterDialog(Shell shell, Resource resource) {
 		super(shell);
-		super.setTitle("Select a Network Element");
 		this.resource = resource;
-
+		this.setTitle("Select an existing Unit");
+		
 		setListLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
 				if (element == null) {
 					return "";
 				}
-				return NodeFilterDialog.this.getText((Node) element);
+				return UnitFilterDialog.this.getText(
+
+				(Unit) element
+
+				);
 			}
 		});
 
@@ -71,13 +72,17 @@ public class NodeFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return NodeFilterDialog.this.getText((Node) element);
+				return UnitFilterDialog.this.getText((Unit) element);
 			}
 		});
 	}
 
-	private String getText(Node p) {
-		return p.getNodeID();
+	private String getText(Unit p) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(p.eIsSet(LibraryPackage.Literals.UNIT__NAME)? p.getName():"");
+		sb.append(p.eIsSet(LibraryPackage.Literals.UNIT__CODE)? "[" + p.getCode() + "]": "");
+		sb.append(p.eIsSet(LibraryPackage.Literals.UNIT__DESCRIPTION)? "-" + p.getDescription():"");
+		return sb.toString();
 	}
 
 	@Override
@@ -87,9 +92,9 @@ public class NodeFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<Node>() {
+		return new Comparator<Unit>() {
 
-			public int compare(Node o1, Node o2) {
+			public int compare(Unit o1, Unit o2) {
 				return getText(o1).compareTo(getText(o2));
 			}
 		};
@@ -97,18 +102,18 @@ public class NodeFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	public String getElementName(Object item) {
-		Node p = (Node) item;
+		Unit p = (Unit) item;
 		return getText(p);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("Roomdialog");
+				.getDialogSettings().getSection("unitdialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("Roomdialog");
+					.addNewSection("unitdialog");
 		}
 		return settings;
 	}
@@ -118,29 +123,15 @@ public class NodeFilterDialog extends FilteredItemsSelectionDialog {
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
 		
-		this.populateContent(contentProvider, itemsFilter, resource.getContents());
-	}
+		for (EObject p : resource.getContents()) {
+			if (progressMonitor.isCanceled()) {
+				return;
+			}
 
-	private void populateContent(AbstractContentProvider contentProvider,
-			ItemsFilter itemsFilter, EList<?> list) {
-		for (Object o : list) {
-			EObject eo = (EObject) o;
-			if (eo.eClass().equals(OperatorsPackage.Literals.OPERATOR)) {
-				Operator op = (Operator) eo;
-				populateContent( contentProvider, itemsFilter, op.getNetworks());
-			}
-			if (eo.eClass().equals(OperatorsPackage.Literals.NETWORK)) {
-				Network net = (Network) eo;
-				populateContent( contentProvider, itemsFilter, net.getNodes());
-				populateContent( contentProvider, itemsFilter, net.getNetworks());
-			}
-			if (eo.eClass().equals(OperatorsPackage.Literals.NODE)) {
-				contentProvider.add(eo, itemsFilter);
-			}
+			contentProvider.add(p, itemsFilter);
 		}
-
 	}
-	
+
 	@Override
 	protected ItemsFilter createFilter() {
 		return new ItemsFilter() {
@@ -152,9 +143,11 @@ public class NodeFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				Node p = (Node) item;
-				return matches(p.getNodeID());
+				Unit p = (Unit) item;
+				return matches(p.getName() + "[" + p.getCode() + "] -"
+						+ p.getDescription());
 			}
+
 		};
 	}
 

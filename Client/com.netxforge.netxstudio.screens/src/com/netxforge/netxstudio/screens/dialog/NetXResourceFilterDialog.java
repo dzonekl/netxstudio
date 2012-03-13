@@ -15,16 +15,16 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens;
+package com.netxforge.netxstudio.screens.dialog;
 
 import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Composite;
@@ -32,26 +32,25 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class EquipmentFilterDialog extends FilteredItemsSelectionDialog {
-	private final Object scope;
+public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
+
+	private List<NetXResource> netXResources;
 
 	/**
 	 * Create a new dialog
 	 * 
 	 * @param shell
 	 *            the parent shell
-	 * @param scope
+	 * @param resource
 	 *            the model resource
 	 */
-	public EquipmentFilterDialog(Shell shell, Object scope) {
+	public NetXResourceFilterDialog(Shell shell, List<NetXResource> netXResources) {
 		super(shell);
-		super.setTitle("Select an Equipment");
-		this.scope = scope;
+		this.setTitle("Select an existing Resource");
+		this.netXResources = netXResources;
 
 		setListLabelProvider(new LabelProvider() {
 			@Override
@@ -59,7 +58,11 @@ public class EquipmentFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return EquipmentFilterDialog.this.getText((Equipment) element);
+				return NetXResourceFilterDialog.this.getText(
+
+				(NetXResource) element
+
+				);
 			}
 		});
 
@@ -69,36 +72,13 @@ public class EquipmentFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return EquipmentFilterDialog.this
-						.getParentText((Equipment) element);
+				return NetXResourceFilterDialog.this.getText((NetXResource) element);
 			}
 		});
 	}
 
-	private String getParentText(Equipment p) {
-		Node n;
-		if ((n = this.resolveParentNode(p)) != null) {
-			return n.getNodeID();
-		}
-		return "Unresolved Node!";
-	}
-
-	private Node resolveParentNode(EObject current) {
-		if (current != null && current.eContainer() != null) {
-			if (current.eContainer() instanceof Node) {
-				return (Node) current.eContainer();
-			} else {
-				return resolveParentNode(current.eContainer());
-			}
-		} else {
-			return null;
-		}
-	}
-
-	private String getText(Equipment p) {
-		String name = p.eIsSet(LibraryPackage.Literals.COMPONENT__NAME) ? 
-			p.getName() : "?";
-		return name + " - " + p.getEquipmentCode();
+	private String getText(NetXResource p) {
+		return p.getShortName() ;
 	}
 
 	@Override
@@ -108,9 +88,9 @@ public class EquipmentFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<Equipment>() {
+		return new Comparator<NetXResource>() {
 
-			public int compare(Equipment o1, Equipment o2) {
+			public int compare(NetXResource o1, NetXResource o2) {
 				return getText(o1).compareTo(getText(o2));
 			}
 		};
@@ -118,18 +98,18 @@ public class EquipmentFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	public String getElementName(Object item) {
-		Equipment p = (Equipment) item;
+		NetXResource p = (NetXResource) item;
 		return getText(p);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("Equipmentdialog");
+				.getDialogSettings().getSection("Metricdialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("Equipmentdialog");
+					.addNewSection("Metricdialog");
 		}
 		return settings;
 	}
@@ -138,21 +118,12 @@ public class EquipmentFilterDialog extends FilteredItemsSelectionDialog {
 	protected void fillContentProvider(AbstractContentProvider contentProvider,
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
-
-		org.eclipse.emf.common.util.TreeIterator<EObject> ti = null;
-		if (scope instanceof Resource) {
-			ti = ((Resource) scope).getAllContents();
-		}
-		if (scope instanceof EObject) {
-			ti = ((EObject) scope).eAllContents();
-		}
-		if (ti != null) {
-			while (ti.hasNext()) {
-				EObject p = ti.next();
-				if (p.eClass().equals(LibraryPackage.Literals.EQUIPMENT)) {
-					contentProvider.add(p, itemsFilter);
-				}
+		
+		for (EObject netxResource : netXResources) {
+			if (progressMonitor.isCanceled()) {
+				return;
 			}
+			contentProvider.add(netxResource, itemsFilter);
 		}
 	}
 
@@ -167,9 +138,12 @@ public class EquipmentFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				Equipment p = (Equipment) item;
-				return matches(p.getEquipmentCode());
+				NetXResource p = (NetXResource) item;
+				
+				// TODO, potentially match on other than short name. 
+				return matches(p.getShortName());
 			}
+
 		};
 	}
 

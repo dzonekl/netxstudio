@@ -84,6 +84,9 @@ import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedExpression;
+import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedNonSelectionExpression;
+
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.jface.viewers.TableViewerColumn;
 
@@ -344,7 +347,9 @@ public class ObjectExpressions extends AbstractScreen implements
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// call the interpreter.
-				exp.testExpression(periodContext, objects.toArray());
+				
+				// CB, replate with an Expression Service.
+//				exp.testExpression(periodContext, objects.toArray());
 			}
 		});
 		new Label(cmpTesting, SWT.NONE);

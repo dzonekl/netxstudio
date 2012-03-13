@@ -58,6 +58,7 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -66,6 +67,9 @@ import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.xtext.IInjectorProxy;
+import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedExpression;
+import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedNonSelectionExpression;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -87,6 +91,9 @@ public class NewEditExpression extends AbstractScreen implements
 
 	private Object whoRefers;
 
+	@Inject
+	private IInjectorProxy injectorProxy; 
+	
 	/**
 	 * A feature which can be passed for which this expression should be added.
 	 */
@@ -168,6 +175,7 @@ public class NewEditExpression extends AbstractScreen implements
 
 		exp = new EmbeddedNonSelectionExpression(this.editingService,
 				frmExpression.getBody(), fd_sctnNewSection, getOperation());
+		exp.setXtextInjector(injectorProxy.getInjector("com.netxforge.Netxscript"));
 	}
 
 	public void injectData(Object owner, Object object) {

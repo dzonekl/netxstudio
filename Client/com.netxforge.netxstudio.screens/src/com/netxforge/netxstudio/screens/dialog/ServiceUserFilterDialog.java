@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens;
+package com.netxforge.netxstudio.screens.dialog;
 
 import java.util.Comparator;
 
@@ -32,11 +32,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.netxstudio.services.ServiceUser;
 
-public class UnitFilterDialog extends FilteredItemsSelectionDialog {
+public class ServiceUserFilterDialog extends FilteredItemsSelectionDialog {
 	private final Resource resource;
 
 	/**
@@ -47,20 +46,20 @@ public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 	 * @param resource
 	 *            the model resource
 	 */
-	public UnitFilterDialog(Shell shell, Resource resource) {
+	public ServiceUserFilterDialog(Shell shell, Resource resource) {
 		super(shell);
+		setTitle("Select an existing Service User");
 		this.resource = resource;
-		this.setTitle("Select an existing Unit");
-		
+
 		setListLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
 				if (element == null) {
 					return "";
 				}
-				return UnitFilterDialog.this.getText(
+				return ServiceUserFilterDialog.this.getText(
 
-				(Unit) element
+				(ServiceUser) element
 
 				);
 			}
@@ -72,17 +71,13 @@ public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return UnitFilterDialog.this.getText((Unit) element);
+				return ServiceUserFilterDialog.this.getText((ServiceUser) element);
 			}
 		});
 	}
 
-	private String getText(Unit p) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(p.eIsSet(LibraryPackage.Literals.UNIT__NAME)? p.getName():"");
-		sb.append(p.eIsSet(LibraryPackage.Literals.UNIT__CODE)? "[" + p.getCode() + "]": "");
-		sb.append(p.eIsSet(LibraryPackage.Literals.UNIT__DESCRIPTION)? "-" + p.getDescription():"");
-		return sb.toString();
+	private String getText(ServiceUser p) {
+		return p.getName() ;
 	}
 
 	@Override
@@ -92,9 +87,9 @@ public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<Unit>() {
+		return new Comparator<ServiceUser>() {
 
-			public int compare(Unit o1, Unit o2) {
+			public int compare(ServiceUser o1, ServiceUser o2) {
 				return getText(o1).compareTo(getText(o2));
 			}
 		};
@@ -102,18 +97,18 @@ public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	public String getElementName(Object item) {
-		Unit p = (Unit) item;
+		ServiceUser p = (ServiceUser) item;
 		return getText(p);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("unitdialog");
+				.getDialogSettings().getSection("ServiceUserdialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("unitdialog");
+					.addNewSection("ServiceUserdialog");
 		}
 		return settings;
 	}
@@ -143,9 +138,8 @@ public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				Unit p = (Unit) item;
-				return matches(p.getName() + "[" + p.getCode() + "] -"
-						+ p.getDescription());
+				ServiceUser p = (ServiceUser) item;
+				return matches(p.getName());
 			}
 
 		};

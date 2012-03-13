@@ -15,16 +15,16 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens;
+package com.netxforge.netxstudio.screens.dialog;
 
 import java.util.Comparator;
-import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Composite;
@@ -32,12 +32,14 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.geo.Country;
+import com.netxforge.netxstudio.geo.Location;
+import com.netxforge.netxstudio.geo.Room;
+import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
-
-	private List<NetXResource> netXResources;
+public class LocationFilterDialog extends FilteredItemsSelectionDialog {
+	private final Resource resource;
 
 	/**
 	 * Create a new dialog
@@ -47,10 +49,10 @@ public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
 	 * @param resource
 	 *            the model resource
 	 */
-	public NetXResourceFilterDialog(Shell shell, List<NetXResource> netXResources) {
+	public LocationFilterDialog(Shell shell, Resource resource) {
 		super(shell);
-		this.setTitle("Select an existing Resource");
-		this.netXResources = netXResources;
+		this.setTitle("Select a location (Room/Site/Country)");
+		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {
 			@Override
@@ -58,11 +60,7 @@ public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return NetXResourceFilterDialog.this.getText(
-
-				(NetXResource) element
-
-				);
+				return LocationFilterDialog.this.getText((Location) element);
 			}
 		});
 
@@ -72,13 +70,36 @@ public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return NetXResourceFilterDialog.this.getText((NetXResource) element);
+				return LocationFilterDialog.this.getText((Location) element);
 			}
 		});
 	}
 
-	private String getText(NetXResource p) {
-		return p.getShortName() ;
+	private String getText(Location p) {
+		
+		StringBuilder sb = new StringBuilder();
+		if(p instanceof Country){
+			
+			sb.append("Country: " + p.getName());
+		}else if( p instanceof Site){
+			if(p.eContainer() instanceof Country){
+				Country c = (Country) p.eContainer();
+				sb.append("Country: " + c.getName());
+			}
+			sb.append(" --> Site: " + p.getName());
+		}else if( p instanceof Room){
+			if(p.eContainer() instanceof Site){
+				Site s = (Site) p.eContainer();
+				if(s.eContainer() instanceof Country){
+					Country c = (Country) s.eContainer();
+					sb.append("Country: " + c.getName());
+				}
+				sb.append(" --> Site: " + s.getName());
+			}
+			sb.append(" --> Room: " + p.getName());
+		}
+		
+		return sb.toString();
 	}
 
 	@Override
@@ -88,9 +109,9 @@ public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<NetXResource>() {
+		return new Comparator<Location>() {
 
-			public int compare(NetXResource o1, NetXResource o2) {
+			public int compare(Location o1, Location o2) {
 				return getText(o1).compareTo(getText(o2));
 			}
 		};
@@ -98,18 +119,18 @@ public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	public String getElementName(Object item) {
-		NetXResource p = (NetXResource) item;
+		Location p = (Location) item;
 		return getText(p);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("Metricdialog");
+				.getDialogSettings().getSection("Locationdialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("Metricdialog");
+					.addNewSection("Locationdialog");
 		}
 		return settings;
 	}
@@ -119,11 +140,13 @@ public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
 		
-		for (EObject netxResource : netXResources) {
-			if (progressMonitor.isCanceled()) {
-				return;
+		
+		org.eclipse.emf.common.util.TreeIterator<EObject> ti = resource.getAllContents();
+		while(ti.hasNext()){
+			EObject p = ti.next();
+			if(p instanceof Location){
+				contentProvider.add(p, itemsFilter);	
 			}
-			contentProvider.add(netxResource, itemsFilter);
 		}
 	}
 
@@ -138,12 +161,9 @@ public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				NetXResource p = (NetXResource) item;
-				
-				// TODO, potentially match on other than short name. 
-				return matches(p.getShortName());
+				Location p = (Location) item;
+				return matches(p.getName());
 			}
-
 		};
 	}
 

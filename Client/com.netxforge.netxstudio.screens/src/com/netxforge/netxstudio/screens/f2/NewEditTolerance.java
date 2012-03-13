@@ -32,13 +32,15 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.ch9.EmbeddedSelectionExpression;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.xtext.IInjectorProxy;
+import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedSelectionExpression;
 
 public class NewEditTolerance extends AbstractScreen implements
 		IDataScreenInjection {
@@ -53,6 +55,9 @@ public class NewEditTolerance extends AbstractScreen implements
 	private ComboViewer cmbLevelViewer;
 //	private Text txtExpression;
 	private EmbeddedSelectionExpression embeddedExpression;
+	
+	@Inject
+	private IInjectorProxy injectorProxy;
 
 	/**
 	 * Create the composite.
@@ -142,6 +147,7 @@ public class NewEditTolerance extends AbstractScreen implements
 		
 		embeddedExpression = new EmbeddedSelectionExpression(this.editingService,
 				frmNewTolerance.getBody(), null, getOperation());
+		embeddedExpression.setXtextInjector(injectorProxy.getInjector("com.netxforge.Netxscript"));
 		embeddedExpression.injectData("Tolerance", tolerance,
 				LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF);
 		
