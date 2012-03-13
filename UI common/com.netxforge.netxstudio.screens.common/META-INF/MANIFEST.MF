@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Screens Common
+Bundle-SymbolicName: com.netxforge.netxstudio.screens.common
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.netxforge.netxstudio.screens.common.ScreensCommonActivator
+Bundle-Vendor: NetXForge
+Require-Bundle: org.eclipse.core.runtime,
+ com.netxforge.netxstudio.common;bundle-version="1.0.0",
+ com.google.inject;bundle-version="2.0.0",
+ org.eclipse.jface;bundle-version="3.7.0",
+ org.eclipse.emf.ecore;bundle-version="2.7.0",
+ org.eclipse.emf.edit;bundle-version="2.7.1",
+ com.netxforge.netxstudio.data;bundle-version="1.0.0",
+ com.netxforge.netxstudio.screens.editing;bundle-version="1.0.0";visibility:=reexport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: com.netxforge.netxstudio.screens.common,
+ com.netxforge.netxstudio.screens.common.tables
