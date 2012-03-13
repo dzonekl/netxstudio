@@ -58,6 +58,7 @@
       <feature id="com.netxforge.netxstudio.models.export.ui.feature"/>
       <feature id="com.netxforge.netxstudio.models.import.ui.feature"/>
       <feature id="com.netxforge.netxstudio.models.import.feature"/>
+      <feature id="com.netxforge.netxstudio.screens.editing.feature"/>
       <feature id="com.netxforge.netxscript.feature"/>
       <feature id="com.netxforge.netxscript.ui.feature"/>
       <feature id="org.eclipse.emf.common"/>
