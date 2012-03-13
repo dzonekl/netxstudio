@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="com.netxforge.netxstudio.ui.application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+              class="com.netxforge.netxstudio.ui.Application">
+         </run>
+      </application>
+   </extension>
+   <!-- ActionSets -->
+   <!-- We tigh our commands trough actions sets, we also tigh them to part ID's in the workbench --> 
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="com.netxforge.netxstudio.ui.designActionSet"
+            label="%actionSet.label"
+            visible="false">
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSetPartAssociations">
+		<actionSetPartAssociation 
+			targetID="com.netxforge.netxstudio.ui.designActionSet">
+				<part id="com.netxforge.netxstudio.editors.designsingledomain"/>
+		</actionSetPartAssociation>
+	</extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="com.netxforge.netxstudio.ui.inDesignActionSet">
+         <with
+               variable="activeContexts">
+            <iterate
+                  operator="or">
+               <equals
+                     value="com.netxforge.netxstudio.ui.designActionSet">
+               </equals>
+            </iterate>
+         </with>
+      </definition>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.commands">   
+      <category
+            id="com.netxforge.netxstudio.ui"
+            name="%category.name">
+      </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <category
+            id="com.netxforge.netxstudio.ui.category.export"
+            name="%category.name.0">
+      </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <category
+            id="com.netxforge.netxstudio.ui.category.import"
+            name="%category.name.1">
+      </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="com.netxforge.netxstudio.ui.category.new"
+            name="%category.name.2">
+      </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="com.netxforge.netxstudio.ui"
+            name="%category.name.3">
+      </category>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.activities">
+      <activity
+            description="Default activitities"
+            id="com.netxforge.netxstudio.ui.activity.ide"
+            name="admin">
+      </activity>
+      <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.ide"
+            isEqualityPattern="true"
+            pattern="org.eclipse.ui.ide/org.eclipse.ui.views.ResourceNavigator">
+      </activityPatternBinding>
+       <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.ide"
+            isEqualityPattern="true"
+            pattern="org.eclipse.ui.ide/org.eclipse.ui.views.BookmarkView">
+      </activityPatternBinding>
+       <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.ide"
+            isEqualityPattern="true"
+            pattern="org.eclipse.ui.ide/org.eclipse.ui.views.TaskList">
+      </activityPatternBinding>
+       <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.ide"
+            isEqualityPattern="true"
+            pattern="org.eclipse.ui.ide/org.eclipse.ui.views.AllMarkersView">
+      </activityPatternBinding>
+       <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.ide"
+            isEqualityPattern="true"
+            pattern="org.eclipse.gef/org.eclipse.gef.ui.palette_view">
+      </activityPatternBinding>
+       <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.ide"
+            isEqualityPattern="true"
+            pattern="org.eclipse.ui.views/org.eclipse.ui.views.ContentOutline ">
+      </activityPatternBinding>
+   </extension>
+</plugin>
