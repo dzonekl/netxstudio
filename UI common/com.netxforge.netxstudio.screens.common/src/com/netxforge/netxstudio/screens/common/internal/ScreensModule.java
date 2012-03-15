@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.common;
+package com.netxforge.netxstudio.screens.common.internal;
 
 import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.screens.common.tables.TableHelper;

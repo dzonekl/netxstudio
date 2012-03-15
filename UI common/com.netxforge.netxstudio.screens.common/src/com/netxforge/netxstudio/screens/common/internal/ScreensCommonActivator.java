@@ -1,7 +1,8 @@
-package com.netxforge.netxstudio.screens.common;
+package com.netxforge.netxstudio.screens.common.internal;
 
 import static com.google.inject.util.Modules.override;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -61,5 +62,9 @@ public class ScreensCommonActivator extends AbstractUIPlugin {
 		return plugin;
 	}
 
+	
+	public static IPreferenceStore doGetPreferenceStore() {
+		return getDefault().getPreferenceStore();
+	}
 	
 }

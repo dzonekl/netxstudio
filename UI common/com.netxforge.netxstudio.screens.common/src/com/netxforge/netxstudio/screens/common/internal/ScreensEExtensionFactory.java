@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.common;
+package com.netxforge.netxstudio.screens.common.internal;
 
 import org.osgi.framework.Bundle;
 
