@@ -54,13 +54,11 @@ import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.model.IXtextModelListener;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.xtext.EmbeddedXtextService;
-import com.netxforge.netxstudio.screens.xtext.IInjectorProxy;
 
 /**
  * 
@@ -104,8 +102,7 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 	 * @param parent
 	 * @param style
 	 */
-	@Inject
-	public EmbeddedLineExpression(IInjectorProxy injectorProxy) {
+	public EmbeddedLineExpression() {
 	}
 
 	public void setInjector(Injector injector) {
