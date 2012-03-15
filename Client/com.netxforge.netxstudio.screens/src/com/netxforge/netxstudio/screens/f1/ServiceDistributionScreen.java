@@ -65,7 +65,7 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.common.AbstractScreen;
 import com.netxforge.netxstudio.screens.dialog.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.NetXResourceFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;

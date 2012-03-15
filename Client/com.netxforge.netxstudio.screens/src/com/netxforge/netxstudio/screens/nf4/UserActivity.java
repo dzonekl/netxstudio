@@ -54,8 +54,8 @@ import org.eclipse.wb.swt.TableViewerColumnSorter;
 import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
-import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
+import com.netxforge.netxstudio.screens.common.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 

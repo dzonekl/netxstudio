@@ -52,7 +52,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.common.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.xtext.IInjectorProxy;

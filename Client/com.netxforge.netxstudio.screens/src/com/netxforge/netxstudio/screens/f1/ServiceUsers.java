@@ -39,8 +39,8 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
+import com.netxforge.netxstudio.screens.common.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.services.ServiceUser;

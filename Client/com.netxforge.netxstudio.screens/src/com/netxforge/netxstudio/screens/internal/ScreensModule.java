@@ -3,10 +3,10 @@ package com.netxforge.netxstudio.screens.internal;
 import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.ch9.NetXScriptInjectorProxy;
+import com.netxforge.netxstudio.screens.common.tables.TableHelper;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
 import com.netxforge.netxstudio.screens.f2.PeriodComponent;
 import com.netxforge.netxstudio.screens.f2.ValueComponentII;
-import com.netxforge.netxstudio.screens.tables.TableHelper;
 import com.netxforge.netxstudio.screens.xtext.IInjectorProxy;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 

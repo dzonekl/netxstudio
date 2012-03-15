@@ -35,10 +35,10 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
+import com.netxforge.netxstudio.screens.common.tables.TableHelper;
+import com.netxforge.netxstudio.screens.common.tables.TableHelper.TBVCSorterValueProvider;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.tables.TableHelper;
-import com.netxforge.netxstudio.screens.tables.TableHelper.TBVCSorterValueProvider;
 
 /**
  * Holds all needed to build a component showing NetXResource values.

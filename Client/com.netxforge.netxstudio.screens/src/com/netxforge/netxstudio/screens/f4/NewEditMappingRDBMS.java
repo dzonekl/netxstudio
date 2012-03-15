@@ -86,7 +86,7 @@ import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl;
 import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
-import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.common.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu;

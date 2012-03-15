@@ -16,7 +16,7 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.common.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.f2.model.WrappedNodeType;
 import com.netxforge.netxstudio.screens.f2.parts.NodeTypeEditPartsFactory;

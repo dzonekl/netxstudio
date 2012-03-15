@@ -41,6 +41,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.widgets.cdatetime.CDT;
@@ -62,6 +63,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.widgets.Form;
@@ -78,7 +80,7 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
-import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.common.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
@@ -86,9 +88,6 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedExpression;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedNonSelectionExpression;
-
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.jface.viewers.TableViewerColumn;
 
 /**
  * <ul>

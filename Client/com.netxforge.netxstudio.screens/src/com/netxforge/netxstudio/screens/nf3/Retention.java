@@ -40,8 +40,8 @@ import com.netxforge.netxstudio.metrics.MetricRetentionPeriod;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
+import com.netxforge.netxstudio.screens.common.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 

@@ -66,9 +66,9 @@ import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
-import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
+import com.netxforge.netxstudio.screens.common.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 

@@ -35,7 +35,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.netxforge.netxstudio.protocols.OSIType;
 import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.common.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 

@@ -83,7 +83,7 @@ import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.common.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 

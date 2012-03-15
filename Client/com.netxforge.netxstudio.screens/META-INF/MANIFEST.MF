@@ -5,30 +5,20 @@ Bundle-SymbolicName: com.netxforge.netxstudio.screens;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.screens.internal.ScreensActivator
 Bundle-Vendor: NetXForge
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.ui.forms;bundle-version="3.5.100",
- org.swtchart;bundle-version="0.7.0",
- org.eclipse.core.databinding;bundle-version="1.4.0",
- org.eclipse.core.databinding.beans;bundle-version="1.2.100",
+Require-Bundle: org.swtchart;bundle-version="0.7.0",
  org.eclipse.core.databinding.property;bundle-version="1.4.0",
  org.eclipse.jface.databinding;bundle-version="1.5.0",
- org.eclipse.emf.databinding,
  org.eclipse.emf.databinding.edit;bundle-version="1.2.0",
+ com.netxforge.netxstudio.screens.common;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens.nebula;bundle-version="1.0.0",
- com.netxforge.netxstudio.screens.editing;bundle-version="1.0.0";visibility:=reexport,
  com.netxforge.netxstudio.screens.xtext;bundle-version="1.0.0",
- com.netxforge.netxstudio.data;bundle-version="1.0.0",
- com.netxforge.netxstudio.common;bundle-version="1.0.0",
- com.google.inject;bundle-version="2.0.0",
  com.netxforge.netxstudio.workspace;bundle-version="1.0.0",
  org.apache.poi;bundle-version="1.0.0",
  org.postgresql;bundle-version="9.0.0",
  oracle.jdbc.driver.10_2_0_4;bundle-version="10.2.0",
  org.eclipse.gef;bundle-version="3.7.0",
- org.eclipse.core.expressions;bundle-version="3.4.300",
- com.google.collect;bundle-version="1.0.0",
- com.netxforge.netxscript.ui;bundle-version="1.0.0"
+ com.netxforge.netxscript.ui;bundle-version="1.0.0",
+ org.eclipse.core.expressions;bundle-version="3.4.300"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
