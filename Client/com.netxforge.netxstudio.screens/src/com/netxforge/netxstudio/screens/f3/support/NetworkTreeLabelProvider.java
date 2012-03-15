@@ -100,6 +100,7 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 		case 1: {
 			updateColumn1(cell, element);
 		}
+			break;
 		case 2: {
 			updateColumn2(cell, element);
 		}
@@ -118,19 +119,21 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 	private void updateColumn1(ViewerCell cell, Object element) {
 
 		StyledString styledString = new StyledString();
-//		Styler expressionColorStyle = StyledString.createColorRegistryStyler(
-//				EXPRESSION_COLOR_STYLER, null);
+		// Styler expressionColorStyle = StyledString.createColorRegistryStyler(
+		// EXPRESSION_COLOR_STYLER, null);
 		Image img = null;
 		if (element instanceof Component) {
 			Component c = (Component) element;
 			if (c.eIsSet(LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF)) {
-//				styledString.append(" C ", expressionColorStyle);
-//				cell.setText(styledString.getString());
+				// styledString.append(" C ", expressionColorStyle);
+				// cell.setText(styledString.getString());
 				img = ResourceManager.getPluginImage(
 						"com.netxforge.netxstudio.models.edit",
 						"icons/full/obj16/Expression_H.png");
 				cell.setImage(img);
 				cell.setStyleRanges(styledString.getStyleRanges());
+			} else {
+				cell.setImage(null);
 			}
 		}
 
@@ -139,21 +142,23 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 	private void updateColumn2(ViewerCell cell, Object element) {
 
 		StyledString styledString = new StyledString();
-//		Styler expressionColorStyle = StyledString.createColorRegistryStyler(
-//				EXPRESSION_COLOR_STYLER, null);
+		// Styler expressionColorStyle = StyledString.createColorRegistryStyler(
+		// EXPRESSION_COLOR_STYLER, null);
 		Image img = null;
 
 		if (element instanceof Component) {
 			Component c = (Component) element;
 
 			if (c.eIsSet(LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF)) {
-//				styledString.append(" ,U ", expressionColorStyle);
-//				cell.setText(styledString.getString());
+				// styledString.append(" ,U ", expressionColorStyle);
+				// cell.setText(styledString.getString());
 				img = ResourceManager.getPluginImage(
 						"com.netxforge.netxstudio.models.edit",
 						"icons/full/obj16/Expression_H.png");
 				cell.setImage(img);
 				cell.setStyleRanges(styledString.getStyleRanges());
+			}else{
+				cell.setImage(null);
 			}
 		}
 	}

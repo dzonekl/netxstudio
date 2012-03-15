@@ -40,7 +40,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-import com.netxforge.netxstudio.screens.common.AbstractDetailsScreen;
+import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.dialog.EquipmentFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.NodeFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.ProtocolFilterDialog;

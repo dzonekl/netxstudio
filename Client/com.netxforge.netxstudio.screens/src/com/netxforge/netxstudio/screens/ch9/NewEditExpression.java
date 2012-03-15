@@ -59,15 +59,16 @@ import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
-import com.netxforge.netxstudio.screens.common.AbstractScreen;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.xtext.IInjectorProxy;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedExpression;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedNonSelectionExpression;
 
@@ -92,6 +93,7 @@ public class NewEditExpression extends AbstractScreen implements
 	private Object whoRefers;
 
 	@Inject
+	@Named("Netxscript")
 	private IInjectorProxy injectorProxy; 
 	
 	/**

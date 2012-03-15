@@ -33,13 +33,14 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
-import com.netxforge.netxstudio.screens.common.AbstractScreen;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.xtext.IInjectorProxy;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedSelectionExpression;
 
 public class NewEditTolerance extends AbstractScreen implements
@@ -57,6 +58,7 @@ public class NewEditTolerance extends AbstractScreen implements
 	private EmbeddedSelectionExpression embeddedExpression;
 	
 	@Inject
+	@Named("Netxscript")
 	private IInjectorProxy injectorProxy;
 
 	/**

@@ -54,8 +54,8 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.actions.CompareAction;
-import com.netxforge.netxstudio.screens.common.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 

@@ -12,10 +12,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.name.Named;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.interpreter.IInterpreterContextFactory;
 import com.netxforge.netxscript.Mod;
+import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
@@ -23,7 +25,6 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.screens.xtext.IInjectorProxy;
 
 public class ExpressionSupport {
 
@@ -35,7 +36,7 @@ public class ExpressionSupport {
 	private IInterpreterContextFactory interpreterContextFactory;
 
 	@Inject
-	public ExpressionSupport(IInjectorProxy injectorProxy) {
+	public ExpressionSupport(@Named("Netxscript")IInjectorProxy injectorProxy) {
 		
 		nextscriptInjector = injectorProxy
 				.getInjector("com.netxforge.Netxscript");

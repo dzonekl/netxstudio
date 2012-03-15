@@ -95,8 +95,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.name.Named;
 import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.interpreter.IInterpreterContext;
+import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -121,23 +123,24 @@ import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.ScreenDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.TableColumnFilter;
 import com.netxforge.netxstudio.screens.ch9.ObjectExpressions;
-import com.netxforge.netxstudio.screens.common.AbstractScreen;
+import com.netxforge.netxstudio.screens.common.tables.CopyFeatureCommand.FeatureInitializer;
 import com.netxforge.netxstudio.screens.common.tables.FocusBlockOwnerDrawHighlighterForMultiselection;
 import com.netxforge.netxstudio.screens.common.tables.FocusColumnToModelMap;
 import com.netxforge.netxstudio.screens.common.tables.OpenTreeViewer;
 import com.netxforge.netxstudio.screens.common.tables.TableHelper;
 import com.netxforge.netxstudio.screens.common.tables.TreeViewerFocusBlockManager;
 import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
+import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
-import com.netxforge.netxstudio.screens.xtext.IInjectorProxy;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 
 /**
@@ -169,17 +172,20 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 	@Inject
 	private ExpressionSupport expressionSupport;
-	
-	@Inject
-	private IInjectorProxy injectorProxy;
-		
-	
-	// Delegated injection.
-	private Injector nextscriptInjector = injectorProxy.getInjector("com.netxforge.Netxscript");
-	
-	private IExpressionEngine expressionEngine = nextscriptInjector.getInstance(IExpressionEngine.class);
 
-	private ResultProcessor resultProcessor =  nextscriptInjector.getInstance(ResultProcessor.class);
+	@Inject
+	@Named("Netxscript")
+	private IInjectorProxy injectorProxy;
+
+	// Delegated injection.
+	private Injector nextscriptInjector = injectorProxy
+			.getInjector("com.netxforge.Netxscript");
+
+	private IExpressionEngine expressionEngine = nextscriptInjector
+			.getInstance(IExpressionEngine.class);
+
+	private ResultProcessor resultProcessor = nextscriptInjector
+			.getInstance(ResultProcessor.class);
 
 	/**
 	 * A Map of filters.
@@ -403,23 +409,58 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		TreeColumn trclmnUtilization = treeViewerUtilization.getColumn();
 		trclmnUtilization.setWidth(30);
 		trclmnUtilization.setText("Util.");
-		
-		
-		
-		// Multi cell focus block selection, with drag copy action build in. 
+
+		// Multi cell focus block selection, with drag copy action build in.
 		FocusBlockOwnerDrawHighlighterForMultiselection fcHighlighter = new FocusBlockOwnerDrawHighlighterForMultiselection(
 				componentsTreeViewer);
-		
-		// instantiate it, it will hook listeners. 
-		TreeViewerFocusBlockManager treeViewerFocusBlockManager = new TreeViewerFocusBlockManager(componentsTreeViewer, fcHighlighter);
-		treeViewerFocusBlockManager.setEditingDomain(this.getEditingService().getEditingDomain());
-		
+
+		// instantiate it, it will hook listeners.
+		TreeViewerFocusBlockManager treeViewerFocusBlockManager = new TreeViewerFocusBlockManager(
+				componentsTreeViewer, fcHighlighter);
+		treeViewerFocusBlockManager.setEditingDomain(this.getEditingService()
+				.getEditingDomain());
+
 		FocusColumnToModelMap focusColumnToModelMap = new FocusColumnToModelMap();
-		focusColumnToModelMap.getColumnFeatureMap().put(1, LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF);
-		focusColumnToModelMap.getColumnFeatureMap().put(2, LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF);
-		
+		focusColumnToModelMap.getColumnFeatureMap().put(1,
+				LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF);
+		focusColumnToModelMap.getColumnFeatureMap().put(2,
+				LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF);
+
 		treeViewerFocusBlockManager.setFeatureMap(focusColumnToModelMap);
-		
+		treeViewerFocusBlockManager
+				.setFeatureInitializer(new ExpressionInitializer());
+
+		// We shall set a target for the copied object if non-containment.
+		Resource expressionsResource = editingService
+				.getData(LibraryPackage.Literals.EXPRESSION);
+
+		treeViewerFocusBlockManager
+				.setTargetResourceForNonContainment(expressionsResource);
+
+	}
+
+	/*
+	 * The copied expression will need to have a generated name set.
+	 */
+	class ExpressionInitializer extends FeatureInitializer {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * com.netxforge.netxstudio.screens.common.tables.CopyFeatureCommand
+		 * .FeatureInitializer#initialize(java.lang.Object)
+		 */
+		@Override
+		public void initialize(Object owner, Object copy,
+				EStructuralFeature feature) {
+			if (owner instanceof Component && copy instanceof Expression) {
+				String name = getExpressionName((Component) owner, feature);
+				Expression copiedExpression = (Expression) copy;
+				copiedExpression.setName(name);
+			}
+		}
+
 	}
 
 	private void buildComponentSelector(Composite parent, GridData gridData,
@@ -763,6 +804,24 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 	}
 
+	/**
+	 * Generates a name for the target component using the feature and the
+	 * component type.
+	 * 
+	 * @param target
+	 * @param feature
+	 * @return
+	 */
+	private String getExpressionName(Component target,
+			EStructuralFeature feature) {
+		String cName = target instanceof Function ? ((Function) target)
+				.getName() : target instanceof Equipment ? ((Equipment) target)
+				.getEquipmentCode() : "Unknown";
+
+		String name = " Generated_comp_" + cName + "_" + feature.getName();
+		return name;
+	}
+
 	/*
 	 * Maintains the state of an expression selector and sub-selector.
 	 */
@@ -977,12 +1036,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 			Expression expression = LibraryFactory.eINSTANCE.createExpression();
 
-			String cName = target instanceof Function ? ((Function) target)
-					.getName()
-					: target instanceof Equipment ? ((Equipment) target)
-							.getEquipmentCode() : "Unknown";
-
-			String name = " Generated_comp_" + cName + "_" + feature.getName();
+			String name = getExpressionName(target, feature);
 			expression.setName(name);
 
 			return expression;
@@ -1307,7 +1361,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		}
 	}
 
-	class EditResourceAction extends Action {
+	class EditResourceAction extends BaseSelectionListenerAction {
 
 		public EditResourceAction(String text) {
 			super(text);
@@ -1315,20 +1369,33 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		@Override
 		public void run() {
-			ISelection selection = getViewer().getSelection();
-			if (selection instanceof IStructuredSelection) {
-				Object o = ((IStructuredSelection) selection).getFirstElement();
-				NewEditResource resourceScreen = new NewEditResource(
-						screenService.getScreenContainer(), SWT.NONE);
-				resourceScreen.setOperation(ScreenUtil.OPERATION_EDIT);
-				resourceScreen.setScreenService(screenService);
+			IStructuredSelection structuredSelection = super
+					.getStructuredSelection();
 
-				// CB, the parent is the container resource.
-				if (o instanceof CDOObject) {
-					resourceScreen.injectData(null, o);
-					screenService.setActiveScreen(resourceScreen);
-				}
+			Object o = structuredSelection.getFirstElement();
+			NewEditResource resourceScreen = new NewEditResource(
+					screenService.getScreenContainer(), SWT.NONE);
+			resourceScreen.setOperation(ScreenUtil.OPERATION_EDIT);
+			resourceScreen.setScreenService(screenService);
+
+			// CB, the parent is the container resource.
+			if (o instanceof CDOObject) {
+				resourceScreen.injectData(null, o);
+				screenService.setActiveScreen(resourceScreen);
 			}
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see com.netxforge.netxstudio.screens.editing.actions.
+		 * BaseSelectionListenerAction
+		 * #updateSelection(org.eclipse.jface.viewers.IStructuredSelection)
+		 */
+		@Override
+		protected boolean updateSelection(IStructuredSelection selection) {
+			Object firstElement = selection.getFirstElement();
+			return firstElement instanceof NetXResource;
 		}
 	}
 
@@ -1448,7 +1515,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 			IObservableMap[] map = new IObservableMap[observeMaps.size()];
 			observeMaps.toArray(map);
-			
+
 			componentsTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(
 					map));
 		}
@@ -1934,7 +2001,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 	@Override
 	public Viewer[] getViewers() {
-		return new Viewer[] { resourcesTableViewer };
+		return new Viewer[] { componentsTreeViewer, resourcesTableViewer,
+				cmpValues.getValuesTableViewer() };
 	}
 
 	@Override
@@ -2012,7 +2080,6 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					.getSelectionProvider();
 		}
 
-		// TODO, value component.
 		return super.resolveSelectionProviderFromWidget(widget);
 	}
 

@@ -15,43 +15,24 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.screens.ch9;
+package com.netxforge.netxstudio.screens.internal;
 
 import com.google.inject.Injector;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
-import com.netxforge.ui.internal.override.OverrideNetxscriptActivator;
 
 /**
  * Proxies to whatever Activator can return the injector. 
- * FIXME The worst hack in history of Java!
- * Consider, some other options to access injectors?? Pearberry???
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public class NetXScriptInjectorProxy implements IInjectorProxy {
+public class ScreensInjectorProxy implements IInjectorProxy {
 		
 	/**
-	 * TODO, Maintain a static list of grammars we support. 
-	 */
-	
-	
-	/**
-	 * 
-	 * @param grammarName
 	 * @return
 	 */
-	public Injector getInjector(String grammarName){
-		
-		if(grammarName.equals("")){
-			throw new java.lang.UnsupportedOperationException();
-		}
-		
-		
-		// The worst hack in history of Java. 
-//		return ArithmeticsActivator.getInstance().getInjector("org.eclipse.xtext.example.arithmetics.Arithmetics");
-		
+	public Injector getInjector(String name){
 		// and this one comes just next. 
-		return OverrideNetxscriptActivator.getInstance().getInjector(grammarName);
+		return ScreensActivator.getDefault().getInjector();
 		
 	}
 }

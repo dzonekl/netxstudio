@@ -49,13 +49,14 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.screens.common.AbstractScreen;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.xtext.IInjectorProxy;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedSelectionExpression;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesFactory;
@@ -76,6 +77,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 	private EmbeddedSelectionExpression exp;
 	
 	@Inject
+	@Named("Netxscript")
 	private IInjectorProxy injectorProxy; 
 
 
