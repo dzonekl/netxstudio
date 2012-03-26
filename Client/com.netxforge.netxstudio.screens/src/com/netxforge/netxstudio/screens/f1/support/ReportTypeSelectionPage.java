@@ -14,8 +14,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.TableWrapData;
+import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -45,6 +49,8 @@ public class ReportTypeSelectionPage extends WizardPage {
 	public static final int REPORT_ON_OPERATOR_NODETYPE = 103;
 
 	public static final int REPORT_ON_NODE = 104;
+
+	public static final int REPORT_ON_COMPONENT = 105;
 
 	/**
 	 * The current selection.
@@ -115,6 +121,7 @@ public class ReportTypeSelectionPage extends WizardPage {
 		buildSelectionIsService(composite);
 		buildSelectionIsOperator(composite);
 		buildSelectionIsNode(composite);
+		buildSelectionIsComponent(composite);
 	}
 
 	private void buildYouCan() {
@@ -132,6 +139,36 @@ public class ReportTypeSelectionPage extends WizardPage {
 		lblYouCan.setLayoutData(gd_lblYouCan);
 		new Label(composite_1, SWT.NONE);
 		new Label(composite_1, SWT.NONE);
+	}
+
+	private void buildSelectionIsComponent(Composite composite) {
+		if (selectedObject instanceof Component) {
+
+			Composite noteComposite = formToolkit.createComposite(composite);
+
+			TableWrapLayout tableWrapLayout = new TableWrapLayout();
+			tableWrapLayout.numColumns = 1;
+			tableWrapLayout.leftMargin = 0;
+			noteComposite.setLayout(tableWrapLayout);
+
+			GridData noteGD = new GridData(SWT.LEFT, SWT.CENTER, true, false,
+					3, 1);
+			noteComposite.setLayoutData(noteGD);
+
+			FormText note = formToolkit.createFormText(noteComposite, false);
+			note.setText(
+					"<form><p><span color=\"red\">Note:  </span><b> The Report will be created for all functions and equipments on the parent Network Element</b></p></form>",
+					true, false);
+
+			note.setColor("red",
+					Display.getCurrent().getSystemColor(SWT.COLOR_RED));
+			TableWrapData tableWrapData = new TableWrapData(
+					TableWrapData.FILL_GRAB, TableWrapData.TOP);
+			tableWrapData.colspan = 1;
+			note.setLayoutData(tableWrapData);
+
+			formToolkit.paintBordersFor(note);
+		}
 	}
 
 	private void buildSelectionIsNode(Composite composite) {
@@ -300,8 +337,9 @@ public class ReportTypeSelectionPage extends WizardPage {
 			this.reportSelection = REPORT_ON_SERVICE;
 		} else if (o instanceof Node) {
 			this.reportSelection = REPORT_ON_NODE;
-		} 
-
+		} else if (o instanceof Component) {
+			this.reportSelection = REPORT_ON_COMPONENT;
+		}
 
 	}
 

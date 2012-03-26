@@ -396,7 +396,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			// "Schedule Reporting Job...", SWT.PUSH));
 			actions.add(new ScheduleReportingJobAction(
 					"Schedule Reporting Job..."));
-			actions.add(new ReportNowAction("Report Now"));
+			actions.add(new ReportNodeAction("Report Now"));
 			actions.add(new SeparatorAction());
 			actions.add(new ExportHTMLAction("Export to HTML"));
 			actions.add(new ExportXLSAction("Export to XLS"));
@@ -470,8 +470,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		}
 	}
 
-	class ReportNowAction extends Action {
-		public ReportNowAction(String text) {
+	class ReportNodeAction extends Action {
+		public ReportNodeAction(String text) {
 			super(text);
 		}
 

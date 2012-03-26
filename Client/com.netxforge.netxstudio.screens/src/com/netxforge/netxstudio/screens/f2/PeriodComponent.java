@@ -39,16 +39,26 @@ public class PeriodComponent {
 	private ModelUtils modelUtils;
 
 	private Composite cmpPeriod;
+	
+	/*
+	 * Defaults to show a border. 
+	 */
+	private boolean showBorder = true;
 
 	@Inject
 	public PeriodComponent(ModelUtils modelUtils) {
 		super();
 		this.modelUtils = modelUtils;
 	}
-
+	
+	public void setShowBorder(boolean showBorder){
+		this.showBorder = showBorder;
+	}
+	
+	
 	public void buildUI(Composite parent, Object layoutData) {
 
-		cmpPeriod = toolkit.createComposite(parent, SWT.BORDER);
+		cmpPeriod = toolkit.createComposite(parent, showBorder ? SWT.BORDER : SWT.NONE);
 
 		toolkit.adapt(cmpPeriod);
 

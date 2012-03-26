@@ -5,6 +5,7 @@ import com.google.inject.name.Names;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.ch9.NetXScriptInjectorProxy;
+import com.netxforge.netxstudio.screens.f1.support.ReportSelectionPeriodPage;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
 import com.netxforge.netxstudio.screens.f2.PeriodComponent;
 import com.netxforge.netxstudio.screens.f2.ValueComponentII;
@@ -20,7 +21,9 @@ public class ScreensModule extends AbstractModule {
 		this.bind(IInjectorProxy.class).annotatedWith(Names.named("Screens")).to(ScreensInjectorProxy.class);
 		
 		this.bind(SearchFilter.class);
-
+		
+		this.bind(ReportSelectionPeriodPage.class);
+		
 		// Binding util.
 //		this.bind(TableHelper.class);
 

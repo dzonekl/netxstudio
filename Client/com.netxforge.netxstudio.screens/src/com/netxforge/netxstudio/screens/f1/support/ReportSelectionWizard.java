@@ -13,23 +13,26 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 public class ReportSelectionWizard extends Wizard implements INewWizard {
 
 	@Inject
-	ModelUtils modelUtils;
+	private ModelUtils modelUtils;
 
 	@Inject
-	ServerRequest serverActions;
+	private ServerRequest serverActions;
 
 	@Inject
-	IEditingService editingService;
+	private IEditingService editingService;
 
-	private Object o;
+	private Object firstSelectedObject;
 
+	@Inject
 	private ReportSelectionPeriodPage reportSelectionPeriod;
 
+	
 	private ReportTypeSelectionPage reportSelectionType;
 
 	public ReportSelectionWizard() {
@@ -40,10 +43,9 @@ public class ReportSelectionWizard extends Wizard implements INewWizard {
 	public void addPages() {
 
 		reportSelectionType = new ReportTypeSelectionPage(editingService);
-		reportSelectionType.setSelection(o);
-		this.addPage(reportSelectionType);
+		reportSelectionType.setSelection(firstSelectedObject);
 
-		reportSelectionPeriod = new ReportSelectionPeriodPage(modelUtils);
+		this.addPage(reportSelectionType);
 		this.addPage(reportSelectionPeriod);
 
 	}
@@ -51,12 +53,12 @@ public class ReportSelectionWizard extends Wizard implements INewWizard {
 	@Override
 	public boolean performFinish() {
 
-		CDOObject target = null;
+		CDOObject targetObject = null;
 		@SuppressWarnings("unused")
 		String identifier = "";
 
-		if (o instanceof CDOObject) {
-			target = (CDOObject) o;
+		if (firstSelectedObject instanceof CDOObject) {
+			targetObject = (CDOObject) firstSelectedObject;
 		}
 		try {
 
@@ -70,38 +72,49 @@ public class ReportSelectionWizard extends Wizard implements INewWizard {
 			int reportSelection = reportSelectionType.getReportSelection();
 			serverActions.setCDOServer(editingService.getDataService()
 					.getProvider().getServer());
-			
+
 			switch (reportSelection) {
 			case ReportTypeSelectionPage.REPORT_ON_SERVICE_NODETYPE: {
 				NodeType nodeType = reportSelectionType.getNodeType();
 				result = serverActions.callNodeTypeReportingForServiceAction(
-						nodeType, target, fromDate, toDate);
+						nodeType, targetObject, fromDate, toDate);
 			}
 				break;
 			case ReportTypeSelectionPage.REPORT_ON_SERVICE: {
-				result = serverActions.callServiceReportingAction(target,
+				result = serverActions.callServiceReportingAction(targetObject,
 						fromDate, toDate);
 
 			}
 				break;
 			case ReportTypeSelectionPage.REPORT_ON_OPERATOR: {
-				result = serverActions.callOperatorReportingAction(target,
-						fromDate, toDate);
+				result = serverActions.callOperatorReportingAction(
+						targetObject, fromDate, toDate);
 
 			}
 				break;
 			case ReportTypeSelectionPage.REPORT_ON_OPERATOR_NODETYPE: {
 				NodeType nodeType = reportSelectionType.getNodeType();
 				result = serverActions.callNodeTypeReportingForOperatorAction(
-						nodeType, target, fromDate, toDate);
+						nodeType, targetObject, fromDate, toDate);
 
 			}
 				break;
 			case ReportTypeSelectionPage.REPORT_ON_NODE: {
-				result = serverActions.callNodeReportingAction(target,
+				result = serverActions.callNodeReportingAction(targetObject,
 						fromDate, toDate);
 			}
+				break;
 
+			case ReportTypeSelectionPage.REPORT_ON_COMPONENT: {
+				
+				// We can only report for the whole node, so resolve it first!
+				Node nodeFor = modelUtils.nodeFor(targetObject);
+				if (nodeFor != null) {
+					result = serverActions.callNodeReportingAction(
+							nodeFor, fromDate, toDate);
+
+				}
+			}
 			}
 
 			// Set the period to the last service monitor,
@@ -144,7 +157,8 @@ public class ReportSelectionWizard extends Wizard implements INewWizard {
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		o = ((IStructuredSelection) selection).getFirstElement();
+		firstSelectedObject = ((IStructuredSelection) selection)
+				.getFirstElement();
 	}
 
 }

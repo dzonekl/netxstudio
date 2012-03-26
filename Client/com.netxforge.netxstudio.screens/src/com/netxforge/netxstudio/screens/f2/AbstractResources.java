@@ -242,7 +242,6 @@ public abstract class AbstractResources extends AbstractScreen implements
 				return null;
 			}
 		}
-
 	}
 
 	/**

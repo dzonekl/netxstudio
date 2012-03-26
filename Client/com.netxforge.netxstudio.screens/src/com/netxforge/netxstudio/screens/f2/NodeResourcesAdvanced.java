@@ -137,6 +137,8 @@ import com.netxforge.netxstudio.screens.common.tables.TableHelper;
 import com.netxforge.netxstudio.screens.common.tables.TreeViewerFocusBlockManager;
 import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
+import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
+import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
@@ -923,6 +925,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					+ event.getObservableValue().getValue());
 			if (observable instanceof IViewerObservableValue) {
 				IViewerObservableValue ivov = (IViewerObservableValue) observable;
+				// A change on the expression viewer?
 				if (ivov.getViewer() == cmbViewerExpression) {
 					expressionFeature = processExpressionFeatureChange(event
 							.getObservableValue());
@@ -932,8 +935,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 						loadExpression();
 					}
 
-					// After a change, we inject the new expression.
-				} else if (ivov.getViewer() == componentsTreeViewer) {
+				}
+				// A change on the component viewer?
+				else if (ivov.getViewer() == componentsTreeViewer) {
 					currentComponent = processComponentChange(event
 							.getObservableValue());
 					if (currentComponent != null) {
@@ -941,7 +945,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 						loadExpression();
 					}
 
-				} else if (ivov.getViewer() == cmbViewerSubSelector) {
+				}
+				// A change on the sub selection viewer.
+				else if (ivov.getViewer() == cmbViewerSubSelector) {
 					processSubSelectionChange(event.getObservableValue());
 					if (currentComponent != null) {
 						loadExpression();
@@ -965,7 +971,6 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 						.observeSingleSelection(cmbViewerSubSelector);
 
 				observerSubSelection.addValueChangeListener(this);
-
 			} else {
 				cmpSubSelector.setVisible(false);
 			}
@@ -1006,6 +1011,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				} else {
 					// do nothing.
 					// well clean the expression editor, as no...
+					expressionComponent.clearData();
 				}
 			} else if (expressionFeature.getEContainingClass() == LibraryPackage.Literals.COMPONENT) {
 				if (currentComponent.eIsSet(expressionFeature)) {
@@ -1360,7 +1366,40 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			}
 		}
 	}
+	
+	
+	class ReportNodeAction extends BaseSelectionListenerAction {
 
+		public ReportNodeAction(String text) {
+			super(text);
+		}
+
+		@Override
+		public void run() {
+			IStructuredSelection structuredSelection = super
+					.getStructuredSelection();
+
+				WizardUtil.openWizard(
+						"com.netxforge.netxstudio.screens.reporting",
+						structuredSelection);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see com.netxforge.netxstudio.screens.editing.actions.
+		 * BaseSelectionListenerAction
+		 * #updateSelection(org.eclipse.jface.viewers.IStructuredSelection)
+		 */
+		@Override
+		protected boolean updateSelection(IStructuredSelection selection) {
+			Object firstElement = selection.getFirstElement();
+			return firstElement instanceof Component;
+		}
+	}
+	
+	
+	
 	class EditResourceAction extends BaseSelectionListenerAction {
 
 		public EditResourceAction(String text) {
@@ -2019,14 +2058,21 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		return "Resources";
 	}
 
+	List<IAction> actionList = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View..." : "Edit...";
 
-		List<IAction> actionList = Lists.newArrayList();
-		actionList.add(new EditResourceAction(actionText));
-		// actionList.add(new MonitorResourceAction("Monitor...", SWT.PUSH));
+		if (actionList.size() == 0) {
+
+			actionList.add(new EditResourceAction(actionText));
+			actionList.add(new SeparatorAction());
+			actionList.add(new ReportNodeAction("Report..."));
+//			 actionList.add(new MonitorResourceAction("Monitor...",
+//			 SWT.PUSH));
+		}
 		return actionList.toArray(new IAction[actionList.size()]);
 	}
 
