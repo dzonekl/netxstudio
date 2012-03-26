@@ -42,8 +42,8 @@
    <features>
       <feature id="com.netxforge.netxstudio.server.db.mysql.product.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.server.db.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.models.13042011.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.data.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxscript.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.common.feature" version="1.0.0.qualifier"/>
       <feature id="com.google.artifacts.feature" version="1.0.0.qualifier"/>
