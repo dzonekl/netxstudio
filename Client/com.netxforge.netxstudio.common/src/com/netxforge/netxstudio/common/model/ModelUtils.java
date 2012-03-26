@@ -52,6 +52,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.ServerSettings;
@@ -469,8 +471,7 @@ public class ModelUtils {
 	public MarkerForValue markerForValue(Value v) {
 		return new MarkerForValue(v);
 	}
-	
-	
+
 	public class MarkerForDate implements Predicate<Marker> {
 		private final Date checkDate;
 
@@ -481,7 +482,8 @@ public class ModelUtils {
 		public boolean apply(final Marker m) {
 			if (m.eIsSet(OperatorsPackage.Literals.MARKER__VALUE_REF)) {
 				Value markerValue = m.getValueRef();
-				if (markerValue.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)) {
+				if (markerValue
+						.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)) {
 					Date markerDate = fromXMLDate(markerValue.getTimeStamp());
 					return markerDate.equals(checkDate);
 				}
@@ -489,11 +491,11 @@ public class ModelUtils {
 			return false;
 		}
 	}
-	
+
 	public MarkerForDate markerForDate(Date d) {
 		return new MarkerForDate(d);
 	}
-	
+
 	public class ToleranceMarkerPredicate implements Predicate<Marker> {
 		public boolean apply(final Marker m) {
 			return m instanceof ToleranceMarker;
@@ -1473,7 +1475,8 @@ public class ModelUtils {
 	}
 
 	public Value mostRecentValue(List<Value> rawListOfValues) {
-		List<Value> values = this.sortValuesByTimeStampAndReverse(rawListOfValues);
+		List<Value> values = this
+				.sortValuesByTimeStampAndReverse(rawListOfValues);
 		if (values.size() > 0) {
 			return values.get(0);
 		}
@@ -1498,8 +1501,6 @@ public class ModelUtils {
 	public Value mostRecentCapacityValue(NetXResource resource) {
 		return mostRecentValue(resource.getCapacityValues());
 	}
-
-	
 
 	/**
 	 * Will return an empty list, if no range is found with the provided
@@ -1968,7 +1969,7 @@ public class ModelUtils {
 	public String currentTimeAndSeconds() {
 		return timeAndSeconds(new Date());
 	}
-	
+
 	public String dateAndTime(XMLGregorianCalendar d) {
 		Date date = fromXMLDate(d);
 		return dateAndTime(date);
@@ -2266,6 +2267,13 @@ public class ModelUtils {
 		this.setToDayEnd(cal);
 		return cal.getTime();
 	}
+
+	public void setToFullHour(Calendar cal) {
+		cal.set(Calendar.MINUTE, 00);
+		cal.set(Calendar.SECOND, 00);
+		cal.set(Calendar.MILLISECOND, 000);
+	}
+	
 
 	public int inSeconds(String field) {
 		final Function<String, Integer> getFieldInSeconds = new Function<String, Integer>() {
@@ -2792,6 +2800,66 @@ public class ModelUtils {
 		return result;
 	}
 
+	/**
+	 * Get all the day timestamps in the period.
+	 * 
+	 * @param dtr
+	 * @return
+	 */
+	public List<XMLGregorianCalendar> transformPeriodToDailyTimestamps(
+			DateTimeRange dtr) {
+
+		List<XMLGregorianCalendar> timeStamps = Lists.newArrayList();
+
+		final Calendar cal = GregorianCalendar.getInstance();
+		// Set the end time and count backwards, make the hour is the end hour.
+		// Optional set to day end, the UI should have done this already.
+		// this.setToDayEnd();
+		cal.setTime(dtr.getEnd().toGregorianCalendar().getTime());
+		Date begin = dtr.getBegin().toGregorianCalendar().getTime();
+
+		while (cal.getTime().compareTo(begin) >= 0) {
+			cal.add(Calendar.DAY_OF_YEAR, -1);
+			Date runTime = cal.getTime();
+			timeStamps.add(this.toXMLDate(runTime));
+		}
+
+		return timeStamps;
+	}
+	
+	/**
+	 * Get all the hourly timestamps in the period.
+	 * 
+	 * @param dtr
+	 * @return
+	 */
+	public List<XMLGregorianCalendar> transformPeriodToHourlyTimestamps(
+			DateTimeRange dtr) {
+
+		List<XMLGregorianCalendar> timeStamps = Lists.newArrayList();
+
+		final Calendar cal = GregorianCalendar.getInstance();
+		// Set the end time and count backwards, make the hour is the end hour.
+		// Optional set to day end, the UI should have done this already.
+		// this.setToDayEnd();
+		
+		Date endTime = dtr.getEnd().toGregorianCalendar().getTime();
+		
+		Date beginTime = dtr.getBegin().toGregorianCalendar().getTime();
+		
+		cal.setTime(endTime);
+		setToFullHour(cal);
+
+		while (cal.getTime().compareTo(beginTime) >= 0) {
+			cal.add(Calendar.HOUR_OF_DAY, -1);
+			Date runTime = cal.getTime();
+			timeStamps.add(this.toXMLDate(runTime));
+		}
+
+		return timeStamps;
+	}
+	
+
 	public double[] multiplyByHundredAndToArray(List<Double> values) {
 		final Function<Double, Double> valueToDouble = new Function<Double, Double>() {
 			public Double apply(Double from) {
@@ -2822,6 +2890,15 @@ public class ModelUtils {
 			}
 		};
 		return Lists.transform(values, valueToDouble);
+	}
+
+	public List<Date> transformXMLDateToDate(Collection<XMLGregorianCalendar> dates) {
+		final Function<XMLGregorianCalendar, Date> valueToDouble = new Function<XMLGregorianCalendar, Date>() {
+			public Date apply(XMLGregorianCalendar from) {
+				return fromXMLDate(from);
+			}
+		};
+		return Lists.newArrayList(Iterables.transform(dates, valueToDouble));
 	}
 
 	public Date[] transformValueToDateArray(List<Value> values) {
@@ -2858,10 +2935,29 @@ public class ModelUtils {
 				doubles.add(positionOf, v.getValue());
 			} else {
 				dates.add(dateToMergeOrAdd);
-				doubles.add(v.getValue());
+				double value = v.getValue();
+				doubles.add(value);
 			}
 		}
 		return doubles;
+	}
+
+	public Multimap<Integer, XMLGregorianCalendar> hourlyTimeStampsByWeekFor(
+			DateTimeRange dtr) {
+
+		List<XMLGregorianCalendar> tses = this
+				.transformPeriodToHourlyTimestamps(dtr);
+
+		Function<XMLGregorianCalendar, Integer> weekNumFunction = new Function<XMLGregorianCalendar, Integer>() {
+			Calendar cal = Calendar.getInstance();
+
+			public Integer apply(XMLGregorianCalendar from) {
+				// convert to a regular calendar to get the time.
+				cal.setTime(from.toGregorianCalendar().getTime());
+				return cal.get(Calendar.WEEK_OF_YEAR);
+			}
+		};
+		return Multimaps.index(tses, weekNumFunction);
 	}
 
 	public int positionOf(List<Date> dates, Date toCheckDate) {
