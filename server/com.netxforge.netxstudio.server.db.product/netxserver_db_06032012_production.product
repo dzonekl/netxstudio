@@ -50,7 +50,6 @@
    </plugins>
 
    <features>
-      <feature id="com.netxforge.netxstudio.server.db.product.feature"/>
       <feature id="com.netxforge.netxstudio.server.base.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.data.feature"/>
       <feature id="com.netxforge.netxstudio.common.feature"/>
