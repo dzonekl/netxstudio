@@ -226,8 +226,12 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 	}
 
 	public void clearData() {
+		// Make sure no updates to the editor are reconciled with the expression object. 
+		expression = null;
 		// Set an empty string in the editor.
-		xtextEditor.update("");
+		xtextEditor.update("// Select a tolerance expression");
+ 
+		
 	}
 
 	/**
