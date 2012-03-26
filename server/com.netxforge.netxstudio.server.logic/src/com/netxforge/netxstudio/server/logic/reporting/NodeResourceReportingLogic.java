@@ -3,9 +3,9 @@ package com.netxforge.netxstudio.server.logic.reporting;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
@@ -26,9 +26,11 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 	// FIXME, This should be outputed somehow aswell.
 	private int componentsNotReported = 0;
 	private Map<NetXResource, List<Marker>> markersForNode;
-
+	
+	ResourceReportingEngine reportingEngine;
+	
 	@Override
-	protected void writeHeader(HSSFSheet sheet, DateTimeRange dtr) {
+	protected void writeHeader(Sheet sheet, DateTimeRange dtr) {
 		super.createHeaderStructure(sheet);
 		super.typeCell.setCellValue("Network Element Monitoring");
 		super.titleCell.setCellValue("Resource");
@@ -57,27 +59,33 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 	}
 
 	@Override
-	protected void writeContent(HSSFSheet sheet, NodeType nodeType) {
+	protected void writeContent(Sheet sheet, NodeType nodeType) {
 	}
 
 	@Override
-	protected void writeContent(HSSFSheet sheet, Node node, int rowIndex,
+	protected void writeContent(Sheet sheet, Node node, int rowIndex,
 			int nodeTypeCount) {
+		
+		reportingEngine = new ResourceReportingEngine(
+				this.getModelUtils(), this.getPeriod(), this.getWorkBook());
 
+		
 		// We skip reporting for this node, using a static check.
 		// if (getModelUtils().ragShouldReport(
 		// getModelUtils().ragCountResourcesForNode(service, node,
 		// this.getPeriod()))) {
 
 		int newRow = rowIndex == 0 ? NODE_ROW : sheet.getLastRowNum() + 1;
-
-		HSSFRow nodeRow = sheet.getRow(newRow);
-		if (nodeRow == null) {
-			nodeRow = sheet.createRow(newRow);
-		}
-
-		HSSFCell nodeCell = nodeRow.createCell(NODE_COLUMN);
+		
+		Row nodeRow = reportingEngine.rowForIndex(sheet, newRow);
+	
+		Cell nodeCell = nodeRow.createCell(NODE_COLUMN);
 		nodeCell.setCellValue(node.getNodeID());
+		
+		
+		
+		// Write the time stamps. 
+		reportingEngine.writeTS(sheet, ++newRow);
 
 		// TODO, Convert this util for Node only, with no service????
 		// markersForNode = this.getModelUtils().markersForNode(service, node,
@@ -88,36 +96,41 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 		// nodesNotReported++;
 		// }
 	}
-
+	
+	
+	/*
+	 * We expect the component to have resources, otherwise it is not reported. 
+	 * Also if the 
+	 * 
+	 * (non-Javadoc)
+	 * @see com.netxforge.netxstudio.server.logic.reporting.BaseNodeReportingLogic#writeContent(org.apache.poi.hssf.usermodel.HSSFSheet, com.netxforge.netxstudio.library.Component)
+	 */
 	@Override
-	protected void writeContent(HSSFSheet sheet, Component component) {
-
-		int newRow = sheet.getLastRowNum() + 1;
-		ResourceReportingEngine componentEngine = new ResourceReportingEngine(
-				this.getModelUtils(), this.getPeriod(), this.getWorkBook());
-
+	protected void writeContent(Sheet sheet, Component component) {
+		
+		// write each component ina  new row. 
 		if (component.getResourceRefs().size() > 0) {
-			componentEngine.writeComponentLine(newRow, sheet, component);
+//			reportingEngine.writeComponentLine(newRow, sheet, component);
+			reportingEngine.writeFlat(sheet.getLastRowNum() , sheet, component, markersForNode);	
 		} else {
 			this.componentsNotReported++;
 		}
 
-		componentEngine.write(newRow, sheet, component, markersForNode);
-
+		
 	}
 
 	@Override
-	protected void processServiceUser(Service service, HSSFSheet sheet) {
+	protected void processServiceUser(Service service, Sheet sheet) {
 	}
 
 	@Override
-	public void writeFinal(HSSFSheet sheet) {
+	public void writeFinal(Sheet sheet) {
 
-		HSSFRow row = sheet.getRow(INFO_ROW);
+		Row row = sheet.getRow(INFO_ROW);
 		if (row == null) {
 			row = sheet.createRow(INFO_ROW);
 		}
-		HSSFCell componentsSkippedInfoCell = row.createCell(INFO_COLUMN);
+		Cell componentsSkippedInfoCell = row.createCell(INFO_COLUMN);
 		componentsSkippedInfoCell
 				.setCellValue("Number of not-reported Components (RAG Appropriate):"
 						+ this.componentsNotReported);

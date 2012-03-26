@@ -115,6 +115,6 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 		}
 
 		
-		componentEngine.write(newRow, sheet, component, markersForNode);
+		componentEngine.writeFlat(newRow, sheet, component, markersForNode);
 	}
 }

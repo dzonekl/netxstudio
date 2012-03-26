@@ -62,6 +62,7 @@ public abstract class BaseLogic {
 				jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);
 			}
 		} catch (final Throwable t) {
+			t.printStackTrace();
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
 		}finally{
 			

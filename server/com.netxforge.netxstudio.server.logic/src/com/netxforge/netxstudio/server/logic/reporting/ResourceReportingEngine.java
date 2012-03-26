@@ -1,16 +1,25 @@
 package com.netxforge.netxstudio.server.logic.reporting;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
@@ -28,50 +37,136 @@ public class ResourceReportingEngine {
 
 	private ModelUtils modelUtils;
 	private DateTimeRange period;
-	private HSSFWorkbook workBook;
+	private Workbook workBook;
 
 	private static final int NODE_COLUMN = 2;
 
-	public ResourceReportingEngine(ModelUtils modelUtils2, DateTimeRange period2,
-			HSSFWorkbook workBook2) {
+	public ResourceReportingEngine(ModelUtils modelUtils2,
+			DateTimeRange period2, Workbook workBook2) {
 		this.modelUtils = modelUtils2;
 		this.period = period2;
 		this.workBook = workBook2;
 	}
 
-	
-	public void writeComponentLine(int newRow, HSSFSheet sheet, Component component){
-		
-		HSSFRow componentRow = sheet.createRow(newRow);
-		HSSFCell componentCell = componentRow.createCell(NODE_COLUMN + 1);
-		
-		// Build the presentation of a component. 
+	public void writeComponentLine(int newRow, Sheet sheet,
+			Component component) {
+
+		Row componentRow = sheet.createRow(newRow);
+		Cell componentCell = componentRow.createCell(NODE_COLUMN + 1);
+
+		// Build the presentation of a component.
 		StringBuilder builder = new StringBuilder();
 
 		if (component instanceof Function) {
 			builder.append(component.getName());
-			
-			// DEBUG CODE. 
-//			if(component.getName().equals("amm02in0assoc0")){
-//				System.out.println("DEBUG this comp" + component.getName());
-//			}
+
+			// DEBUG CODE.
+			// if(component.getName().equals("amm02in0assoc0")){
+			// System.out.println("DEBUG this comp" + component.getName());
+			// }
 		} else if (component instanceof Equipment) {
 			builder.append(((Equipment) component).getEquipmentCode());
 
 			builder.append(component
-					.eIsSet(LibraryPackage.Literals.COMPONENT__NAME) ? " name:" + component
-					.getName() : "");
+					.eIsSet(LibraryPackage.Literals.COMPONENT__NAME) ? " name:"
+					+ component.getName() : "");
 		}
 		builder.append(component
-				.eIsSet(LibraryPackage.Literals.COMPONENT__DESCRIPTION) ? " description:" + component
-				.getDescription() : "");
+				.eIsSet(LibraryPackage.Literals.COMPONENT__DESCRIPTION) ? " description:"
+				+ component.getDescription()
+				: "");
 
 		componentCell.setCellValue(builder.toString());
 	}
-	public void write(int newRow, HSSFSheet sheet, Component component,
-			Map<NetXResource, List<Marker>> markersForNode) {
-		int resourceIndex = newRow + 1;
 
+	public void writeComponentLine(Sheet sheet, Row row,
+			Component component) {
+
+		Cell componentCell = row.createCell(NODE_COLUMN + 1);
+
+		// Build the presentation of a component.
+		StringBuilder builder = new StringBuilder();
+
+		if (component instanceof Function) {
+			builder.append(component.getName());
+
+			// DEBUG CODE.
+			// if(component.getName().equals("amm02in0assoc0")){
+			// System.out.println("DEBUG this comp" + component.getName());
+			// }
+		} else if (component instanceof Equipment) {
+			builder.append(((Equipment) component).getEquipmentCode());
+
+			builder.append(component
+					.eIsSet(LibraryPackage.Literals.COMPONENT__NAME) ? " name:"
+					+ component.getName() : "");
+		}
+		builder.append(component
+				.eIsSet(LibraryPackage.Literals.COMPONENT__DESCRIPTION) ? " description:"
+				+ component.getDescription()
+				: "");
+
+		componentCell.setCellValue(builder.toString());
+	}
+
+	/**
+	 * Write the resources for a component in the engine's set period.
+	 * 
+	 * @param newRow
+	 * @param sheet
+	 * @param component
+	 * @param markersForNode
+	 */
+	// public void writeHiarchy(int newRow, HSSFSheet sheet, Component
+	// component,
+	// Map<NetXResource, List<Marker>> markersForNode) {
+	// int resourceIndex = newRow + 1;
+	//
+	// for (NetXResource resource : component.getResourceRefs()) {
+	//
+	// List<Marker> markersForResource = null;
+	// if (markersForNode != null && markersForNode.containsKey(resource)) {
+	// markersForResource = markersForNode.get(resource);
+	// }
+	//
+	// HSSFRow resourceRow = sheet.createRow(resourceIndex++);
+	//
+	// HSSFCell resourceCell = resourceRow.createCell(NODE_COLUMN + 2);
+	// resourceCell.setCellValue(resource.getLongName());
+	//
+	// for (MetricValueRange mvr : resource.getMetricValueRanges()) {
+	// resourceIndex = writeRange(sheet, resourceIndex, resource,
+	// markersForResource, mvr);
+	// }
+	//
+	// { // Write the capacity.
+	// // !Potentially long operation, as we sort of the whole rang.e
+	// resourceIndex = writeCapacity(sheet, resourceIndex, resource);
+	// }
+	//
+	// { // Write the utilization.
+	// // !Potentially long operation, as we sort of the whole rang.e
+	// resourceIndex = writeUtilization(sheet, resourceIndex, resource);
+	// }
+	//
+	// }
+	// }
+	
+	
+	/**
+	 * 
+	 * @param newRow
+	 * @param sheet
+	 * @param component
+	 * @param markersForNode
+	 */
+	public void writeFlat(int newRow, Sheet sheet, Component component,
+			Map<NetXResource, List<Marker>> markersForNode) {
+		int rowIndex = newRow;
+
+//		writeTS(sheet, rowIndex);
+
+		// Write one line for each resource MVR.
 		for (NetXResource resource : component.getResourceRefs()) {
 
 			List<Marker> markersForResource = null;
@@ -79,156 +174,183 @@ public class ResourceReportingEngine {
 				markersForResource = markersForNode.get(resource);
 			}
 
-			HSSFRow resourceRow = sheet.createRow(resourceIndex++);
+			for (MetricValueRange mvr : resource.getMetricValueRanges()) {
 
-			HSSFCell resourceCell = resourceRow.createCell(NODE_COLUMN + 2);
-			resourceCell.setCellValue(resource.getLongName());
-			
-			for(MetricValueRange mvr : resource.getMetricValueRanges()){
-				resourceIndex = writeRange(sheet, resourceIndex, resource,
-						markersForResource, mvr);
+				if (mvr != null) {
+
+					Row nextRow = this.rowForIndex(sheet, ++rowIndex);
+
+					// The component name.
+					this.writeComponentLine(sheet, nextRow, component);
+
+					// The resource (metric) name.
+					Cell resourceCell = nextRow.createCell(NODE_COLUMN + 2);
+					resourceCell.setCellValue(resource.getLongName());
+
+					// The range name.
+					Cell mvrCell = nextRow.createCell(NODE_COLUMN + 3);
+					mvrCell.setCellValue(nameForValueRange(mvr));
+
+					writeRange(markersForResource, sheet, mvr, nextRow);
+				}
 			}
-
 			{ // Write the capacity.
-				// !Potentially long operation, as we sort of the whole rang.e
-				resourceIndex = writeCapacity(sheet, resourceIndex, resource);
-			}
+				
+				
+				Row nextRow = this.rowForIndex(sheet, ++rowIndex);
+				
+				// The component name.
+				this.writeComponentLine(sheet, nextRow, component);
 
-			{ // Write the utilization.
-				// !Potentially long operation, as we sort of the whole rang.e
-				resourceIndex = writeUtilization(sheet, resourceIndex, resource);
-			}
+				// The resource (metric) name.
+				Cell resourceCell = nextRow.createCell(NODE_COLUMN + 2);
+				resourceCell.setCellValue(resource.getLongName());
+
+				// The range name.
+				Cell mvrCell = nextRow.createCell(NODE_COLUMN + 3);
+				mvrCell.setCellValue("Capacity");
+				
+			 // !Potentially long operation, as we sort of the whole rang.e
+				 writeCapacity(sheet, nextRow, resource);
+				 
+			 }
+			//
+			// { // Write the utilization.
+			// // !Potentially long operation, as we sort of the whole rang.e
+			//
+			// rowIndex = writeUtilization(sheet, rowIndex, resource);
+			// HSSFRow resourceRow = sheet.getRow(rowIndex - 1);
+			// if (resourceRow != null) {
+			// HSSFCell resourceCell = resourceRow
+			// .createCell(NODE_COLUMN + 2);
+			// resourceCell.setCellValue(resource.getLongName());
+			// }
+			// }
 
 		}
 	}
+	
+	/*
+	 * A map of column index and TimesStamp. 
+	 */
+	Map<Integer, Date> columnTS = Maps.newHashMap();
 
-	public int writeRange(HSSFSheet sheet, int resourceIndex,
-			NetXResource resource, List<Marker> markersForResource, MetricValueRange mvr) {
-		if (mvr != null) {
-			resourceIndex = writeRange(markersForResource, sheet,
-					resourceIndex, mvr);
+	/**
+	 * @param sheet
+	 * @param rowIndex
+	 */
+	public void writeTS(Sheet sheet, int rowIndex) {
+		// Get the timestamps by week numbers.
+		Multimap<Integer, XMLGregorianCalendar> timeStampsByWeek = modelUtils
+				.hourlyTimeStampsByWeekFor(this.getPeriod());
+
+		Row tsRow = this.rowForIndex(sheet, rowIndex);
+		System.out.println("Analyzed weeks " + timeStampsByWeek.keySet().size());
+		
+		int column = NODE_COLUMN + 4;
+		
+		// TODO, Should reverse the weeks.
+		
+		// build an index of colums and timestamps.  
+		for (int i : timeStampsByWeek.keySet()) {
+			Collection<XMLGregorianCalendar> collection = timeStampsByWeek
+					.get(i);
+
+			List<Date> weekTS = modelUtils.transformXMLDateToDate(collection);
+			Collections.sort(weekTS);
+			
+			// CB Apply a check, if our usemodel for POI is based on HSSF which is < '07 excel. 
+//			if( weekTS.size() + column >= 256 ){
+//				// With HSSF POI model, we can't do more than 256 columns
+//				break;
+//			}
+			
+			// Write the timestamps from the specified column.
+			column = this.writeTS(columnTS, sheet, tsRow, weekTS, i, column);
+				
+			System.out.println(weekTS);
+			
 		}
-		return resourceIndex;
 	}
 
-	public int writeCapacity(HSSFSheet sheet, int resourceIndex,
+	// public int writeRange(HSSFSheet sheet, int resourceIndex,
+	// NetXResource resource, List<Marker> markersForResource,
+	// MetricValueRange mvr) {
+	// if (mvr != null) {
+	// resourceIndex = writeRange(markersForResource, sheet, mvr,
+	// resourceIndex);
+	// }
+	// return resourceIndex;
+	// }
+
+	public void writeCapacity(Sheet sheet, Row utilRow,
 			NetXResource resource) {
 		List<Value> capRange = getModelUtils().sortValuesByTimeStamp(
 				resource.getCapacityValues());
-		capRange = getModelUtils().valuesInRange(capRange,
-				this.getPeriod());
-
-		HSSFRow capRow = sheet.createRow(resourceIndex++);
-		HSSFCell capCell = capRow.createCell(NODE_COLUMN + 3);
-		capCell.setCellValue("Capacity");
-
-		CreationHelper createHelper = this.getWorkBook().getCreationHelper();
-		HSSFCellStyle cellStyle = this.getWorkBook().createCellStyle();
-		cellStyle.setDataFormat(createHelper.createDataFormat().getFormat(
-				"m-d-yy h:mm"));
-
-		HSSFRow tsRow = sheet.createRow(resourceIndex++);
-		HSSFRow valueRow = sheet.createRow(resourceIndex++);
-
-		// Write the values.
-		int valueIndex = NODE_COLUMN + 4;
-		for (Value v : capRange) {
-
-			sheet.setColumnWidth(valueIndex, 14 * 256);
-
-			HSSFCell tsCell = tsRow.createCell(valueIndex);
-			tsCell.setCellValue(getModelUtils().fromXMLDate(v.getTimeStamp()));
-			tsCell.setCellStyle(cellStyle);
-
-			// TODO, Perhaps some formatting for a double.
-			HSSFCell valueCell = valueRow.createCell(valueIndex++);
-			valueCell.setCellValue(v.getValue());
-		}
-		return resourceIndex;
+		capRange = getModelUtils().valuesInRange(capRange, this.getPeriod());
+		writeRange(null, sheet, utilRow, capRange);
 	}
 
-	public int writeUtilization(HSSFSheet sheet, int resourceIndex,
+	public void writeUtilization(Sheet sheet, Row capRow,
 			NetXResource resource) {
-		List<Value> capRange = getModelUtils().sortValuesByTimeStamp(
+		List<Value> utilRange = getModelUtils().sortValuesByTimeStamp(
 				resource.getUtilizationValues());
-		capRange = getModelUtils().valuesInRange(capRange,
-				this.getPeriod());
+		utilRange = getModelUtils().valuesInRange(utilRange, this.getPeriod());
 
-		HSSFRow capRow = sheet.createRow(resourceIndex++);
-		HSSFCell capCell = capRow.createCell(NODE_COLUMN + 3);
-		capCell.setCellValue("Utilization");
-
-		CreationHelper createHelper = this.getWorkBook().getCreationHelper();
-		HSSFCellStyle tsCellStyle = this.getWorkBook().createCellStyle();
-		tsCellStyle.setDataFormat(createHelper.createDataFormat().getFormat(
-				"m-d-yy h:mm"));
-
-		HSSFCellStyle percenCellStyle = this.getWorkBook().createCellStyle();
-		percenCellStyle.setDataFormat(createHelper.createDataFormat()
-				.getFormat("0.00%"));
-
-		HSSFRow tsRow = sheet.createRow(resourceIndex++);
-		HSSFRow valueRow = sheet.createRow(resourceIndex++);
-
-		// Write the values.
-		int valueIndex = NODE_COLUMN + 4;
-		for (Value v : capRange) {
-			HSSFCell tsCell = tsRow.createCell(valueIndex);
-			tsCell.setCellValue(getModelUtils().fromXMLDate(v.getTimeStamp()));
-			tsCell.setCellStyle(tsCellStyle);
-
-			HSSFCell valueCell = valueRow.createCell(valueIndex++);
-			valueCell.setCellValue(v.getValue());
-			valueCell.setCellStyle(percenCellStyle);
-
-		}
-		return resourceIndex;
+		writeRange(null, sheet, capRow, utilRange);
 	}
 
-	public int writeRange(List<Marker> markers, HSSFSheet sheet,
-			int resourceIndex, MetricValueRange mvr) {
+	public void writeRange(List<Marker> markers, Sheet sheet,
+			MetricValueRange mvr, Row valueRow) {
 
 		// !Potentially long operation, as we sort of the whole rang.e
 		List<Value> range = getModelUtils().sortValuesByTimeStamp(
 				mvr.getMetricValues());
 		range = getModelUtils().valuesInRange(range, this.getPeriod());
+		writeRange(markers, sheet, valueRow, range);
+	}
 
-		HSSFRow resourceRow = sheet.createRow(resourceIndex++);
+	/**
+	 * @param mvr
+	 */
+	private String nameForValueRange(MetricValueRange mvr) {
+		String fromMinutes = this.getModelUtils().fromMinutes(
+				mvr.getIntervalHint());
 
-		HSSFCell mvrCell = resourceRow.createCell(NODE_COLUMN + 3);
-		String fromMinutes = this.getModelUtils().fromMinutes(mvr.getIntervalHint());
-		
 		String rangeKind = mvr.getKindHint().getName();
-		// CB, Also add the range type. 
-		mvrCell.setCellValue(fromMinutes + " (" + rangeKind + ")");
+		return fromMinutes + " (" + rangeKind + ")";
+	}
 
-		HSSFRow tsRow = sheet.createRow(resourceIndex++);
-		HSSFRow valueRow = sheet.createRow(resourceIndex++);
+	public void writeRange(List<Marker> markers, Sheet sheet,
+			Row valueRow, List<Value> range) {
 
 		CreationHelper createHelper = this.getWorkBook().getCreationHelper();
-		HSSFCellStyle cellStyle = this.getWorkBook().createCellStyle();
+		CellStyle cellStyle = this.getWorkBook().createCellStyle();
 		cellStyle.setDataFormat(createHelper.createDataFormat().getFormat(
 				"m-d-yy h:mm"));
 
 		// Styles for markers.
-
-		HSSFCellStyle markerStyleRed = this.getWorkBook().createCellStyle();
+		CellStyle markerStyleRed = this.getWorkBook().createCellStyle();
 		markerStyleRed.setFillForegroundColor(IndexedColors.RED.getIndex());
 
-		HSSFCellStyle markerStyleAmber = this.getWorkBook().createCellStyle();
+		CellStyle markerStyleAmber = this.getWorkBook().createCellStyle();
 		markerStyleAmber
 				.setFillForegroundColor(IndexedColors.ORANGE.getIndex());
 
 		// Write the values.
-		int valueIndex = NODE_COLUMN + 4;
 		for (Value v : range) {
-			HSSFCell tsCell = tsRow.createCell(valueIndex);
-			tsCell.setCellValue(getModelUtils().fromXMLDate(v.getTimeStamp()));
-			tsCell.setCellStyle(cellStyle);
-
-			// TODO, Perhaps some formatting for a double.
-			HSSFCell valueCell = valueRow.createCell(valueIndex++);
+			
+			// lookup the value. 
+			int valueIndex = tsColumnForValue(v);
+			if( valueIndex == -1){
+				continue; 
+			}
+			
+			Cell valueCell = valueRow.createCell(valueIndex);
 			valueCell.setCellValue(v.getValue());
+			
+			// Adapt the width of the column for this value. 
+			sheet.setColumnWidth(valueIndex, 14 * 256);
 
 			// Set the markers.
 			if (markers != null) {
@@ -248,9 +370,50 @@ public class ResourceReportingEngine {
 					}
 				}
 			}
-
 		}
-		return resourceIndex;
+	}
+	
+	private int tsColumnForValue( Value v) {
+		final Date toLookup = modelUtils.fromXMLDate(v.getTimeStamp());
+		Map<Integer, Date> filterEntries = Maps.filterEntries(columnTS, new Predicate<Entry<Integer, Date>>(){
+
+			public boolean apply(Entry<Integer, Date> input) {
+				Date value = input.getValue();
+				return value.compareTo(toLookup) == 0;
+			}
+			
+		});
+			
+		// there should only be one entry, ugly hack. 
+		if( filterEntries.size() == 1){
+			return filterEntries.keySet().iterator().next();	
+		}
+		return -1;
+	}
+
+	/**
+	 * Has a side effect of populating the columnTSMap with the index and date. 
+	 *
+	 */
+	public int writeTS(Map<Integer, Date> columnTSMap, Sheet sheet, Row tsRow, List<Date> range,
+			int weekNumber, int columnIndex) {
+
+		CreationHelper createHelper = this.getWorkBook().getCreationHelper();
+		CellStyle dateStyle = this.getWorkBook().createCellStyle();
+		dateStyle.setDataFormat(createHelper.createDataFormat().getFormat(
+				"m-d-yy h:mm"));
+
+		// Write the values.
+		int valueIndex = columnIndex;
+		for (Date d : range) {
+			Cell tsCell = tsRow.createCell(valueIndex);
+//			sheet.setColumnWidth(valueIndex, 14 * 256);
+			tsCell.setCellValue(d);
+			tsCell.setCellStyle(dateStyle);
+			valueIndex++;
+			columnTS.put(valueIndex, d);
+		}
+		return valueIndex;
 	}
 
 	// Getters and setters.
@@ -271,12 +434,20 @@ public class ResourceReportingEngine {
 		this.period = period;
 	}
 
-	public HSSFWorkbook getWorkBook() {
+	public Workbook getWorkBook() {
 		return workBook;
 	}
 
-	public void setWorkBook(HSSFWorkbook workBook) {
+	public void setWorkBook(Workbook workBook) {
 		this.workBook = workBook;
+	}
+
+	public Row rowForIndex(Sheet sheet, int rowIndex) {
+		Row tsRow = sheet.getRow(rowIndex);
+		if (tsRow == null) {
+			tsRow = sheet.createRow(rowIndex);
+		}
+		return tsRow;
 	}
 
 }
