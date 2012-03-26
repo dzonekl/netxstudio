@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -137,9 +139,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 	private PrintingPolymorphicDispatcher<BigDecimal> dispatcher = PrintingPolymorphicDispatcher
 			.createForSingleTarget("internalEvaluate", 2, 2, this);
-		
-	
-	
+
 	// private PolymorphicDispatcher dispatcher = PolymorphicDispatcher
 	// .createForVarTarget("internalEvaluate", this);
 
@@ -289,9 +289,9 @@ public class InterpreterTypeless implements IInterpreter {
 			// TODO, this is where we need to set the arguments if any.
 			// We would then call the function evaluation including values.
 			// Or the first function has no arguments?
-//			pLog.log("Calling first function: '" + f.getName()
-//					+ "' Additional Functions:"
-//					+ (module.getFunctions().size() - 1));
+			// pLog.log("Calling first function: '" + f.getName()
+			// + "' Additional Functions:"
+			// + (module.getFunctions().size() - 1));
 			return evaluate(f);
 		} else {
 			// Dispatch without functions.
@@ -452,10 +452,9 @@ public class InterpreterTypeless implements IInterpreter {
 
 		// Object eval = null;
 		for (Statement statement : internalStatements) {
-			
-			
-			// CB Unused, comment out. 
-//			int index = internalStatements.indexOf(statement);
+
+			// CB Unused, comment out.
+			// int index = internalStatements.indexOf(statement);
 
 			// When we define a variable or assign a value to a var, we
 			// also store the expression result as a parameter which we pass on
@@ -506,9 +505,9 @@ public class InterpreterTypeless implements IInterpreter {
 						ImmutableMap.copyOf(localVarsAndArguments));
 
 				// Print the evaluation result.
-//				if (eval != null) {
-//					pLog.log("Statement (" + index + ") result:", eval);
-//				}
+				// if (eval != null) {
+				// pLog.log("Statement (" + index + ") result:", eval);
+				// }
 
 				// Merge the returned locals.
 				if (eval instanceof Map<?, ?>) {
@@ -793,30 +792,23 @@ public class InterpreterTypeless implements IInterpreter {
 				}
 
 				if (assertNumeric(varEval)) {
-					// We return a single value.
-
+					
+					
+					// Single values are mapped to each start and end of days in the period. 
 					// Get the period context, and use the start
 					// and end date.
-
-					// CB 06-02-2012, A better alternative, would be to find
-					// metric values within the context,
-					// and use the first and last of these values.
-
 					DateTimeRange dtr = this.getContextualPeriod();
-					Value beginValue = GenericsFactory.eINSTANCE.createValue();
-					// Set the ts/value.
-					beginValue.setTimeStamp(dtr.getBegin());
-					beginValue.setValue(asNum((BigDecimal) varEval)
-							.doubleValue());
-
-					Value endValue = GenericsFactory.eINSTANCE.createValue();
-
-					// Set the ts/value.
-					endValue.setTimeStamp(dtr.getEnd());
-					endValue.setValue(asNum((BigDecimal) varEval).doubleValue());
-
-					er.getTargetValues().add(endValue);
-					er.getTargetValues().add(beginValue);
+					List<XMLGregorianCalendar> transformPeriodToDailyTimestamps = modelUtils
+							.transformPeriodToDailyTimestamps(dtr);
+					for (XMLGregorianCalendar ts : transformPeriodToDailyTimestamps) {
+						System.out.println("Create value for TS = " + ts + " with value " + varEval);
+						Value newValue = GenericsFactory.eINSTANCE.createValue();
+						newValue.setTimeStamp(ts);
+						newValue.setValue(asNum((BigDecimal) varEval)
+								.doubleValue());
+						er.getTargetValues().add(newValue);
+						
+					}
 					expressionResults.add(er);
 				}
 				if (assertCollection(varEval)) {
@@ -1283,8 +1275,10 @@ public class InterpreterTypeless implements IInterpreter {
 
 					if (evals.size() == 1) {
 						eval = evals.get(0);
+
+					} else {
+						eval = evals;
 					}
-					eval = evals;
 
 				} else if (contextReference.getPrimaryRef().getLeafRef() instanceof StatusRef) {
 					if (this.getContextualService() != null) {
@@ -1929,7 +1923,7 @@ public class InterpreterTypeless implements IInterpreter {
 		public void setMatchTS(Boolean matchTS) {
 			this.matchTS = matchTS;
 			System.out.println("setting non matching ");
-			
+
 		}
 
 		public Value apply(Value rightValue) {
@@ -2080,6 +2074,8 @@ public class InterpreterTypeless implements IInterpreter {
 					result = Lists.newArrayList(transform);
 				} else if (assertCollection(rightEval)) {
 					if (assertNumericCollection(rightEval)) {
+
+						@SuppressWarnings("unused")
 						List<BigDecimal> rightNumericCollection = asNumericCollection(asCollection((List<?>) rightEval));
 						// TODO, apply collection left and right.
 
@@ -2106,8 +2102,10 @@ public class InterpreterTypeless implements IInterpreter {
 				} else if (assertCollection(rightEval)) {
 
 					if (assertNumericCollection(rightEval)) {
+						@SuppressWarnings("unused")
 						List<BigDecimal> rightNumericCollection = asNumericCollection(asCollection((List<?>) rightEval));
 					} else if (assertValueCollection(rightEval)) {
+						@SuppressWarnings("unused")
 						List<Value> rightValueCollection = asValueCollection(asCollection((List<?>) rightEval));
 						// TODO, apply collection left and right.
 					}
