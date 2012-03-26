@@ -151,4 +151,6 @@ public class TreeViewerFocusBlockManager extends SWTFocusBlockManager {
 
 		return super.getFocusCell();
 	}
+
+	
 }

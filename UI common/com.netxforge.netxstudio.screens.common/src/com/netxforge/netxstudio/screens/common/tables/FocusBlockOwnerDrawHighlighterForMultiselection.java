@@ -98,31 +98,32 @@ public class FocusBlockOwnerDrawHighlighterForMultiselection extends
 
 		Color fg = event.gc.getForeground();
 		event.gc.setForeground(event.display.getSystemColor(SWT.COLOR_BLACK));
-		
-//		Rectangle originalClipping = event.gc.getClipping();
 
-		// Adapt the clipping, as we draw outside the bounds of the cell. 
-//		allCellsRectangle.x = allCellsRectangle.x - 2;
-//		allCellsRectangle.y = allCellsRectangle.y - 2;
-//		allCellsRectangle.height = allCellsRectangle.height + 6;
-//		allCellsRectangle.width = allCellsRectangle.width + 6;
-		
-//		event.gc.setClipping(allCellsRectangle);
+		// Rectangle originalClipping = event.gc.getClipping();
+
+		// Adapt the clipping, as we draw outside the bounds of the cell.
+		// allCellsRectangle.x = allCellsRectangle.x - 2;
+		// allCellsRectangle.y = allCellsRectangle.y - 2;
+		// allCellsRectangle.height = allCellsRectangle.height + 6;
+		// allCellsRectangle.width = allCellsRectangle.width + 6;
+
+		// event.gc.setClipping(allCellsRectangle);
 		event.gc.drawRoundRectangle(allCellsRectangle.x, allCellsRectangle.y,
-				allCellsRectangle.width -1 , allCellsRectangle.height,  3, 3);
-		
-//		event.gc.setClipping(originalClipping);
+				allCellsRectangle.width - 1, allCellsRectangle.height - 1, 3, 3);
+
+		// event.gc.setClipping(originalClipping);
 		event.gc.setForeground(fg);
 	}
 
 	private void hookListener(final ColumnViewer viewer) {
-
 		Listener listener = new Listener() {
 
 			public void handleEvent(Event event) {
-				
-				System.out.println(event.x + "," + event.y + "," +  event.width+ "," +  event.height);
-				
+
+//				System.out.println("Event index = " + event.index
+//						+ " coordinates = " + event.x + "," + event.y + ","
+//						+ event.width + "," + event.height);
+
 				if ((event.detail & SWT.SELECTED) > 0) {
 					List<ViewerCell> allCells = new ArrayList<ViewerCell>();
 					ViewerCell focusCell = getFocusCell();
@@ -229,8 +230,10 @@ public class FocusBlockOwnerDrawHighlighterForMultiselection extends
 	@Override
 	protected void focusCellChanged(ViewerCell newCell, ViewerCell oldCell) {
 		super.focusCellChanged(newCell, oldCell);
-		
-		System.out.println("focus cell changed" );
+
+		System.out
+				.println("FocusBlockOwnerDrawHighlighter => focus cell changed");
+
 		// Redraw new area
 		if (newCell != null) {
 			redrawCell(newCell);
@@ -252,38 +255,78 @@ public class FocusBlockOwnerDrawHighlighterForMultiselection extends
 	protected void focusBlockChanged(ViewerCell[] newBlock,
 			ViewerCell[] oldBlock) {
 		super.focusBlockChanged(newBlock, oldBlock);
-		
-		System.out.println("focus block changed" );
-		
+
+		// Fire only what update on the viewer.
+
 		if (newBlock != null) {
-			for (int i = 0; i < newBlock.length; i++) {
-				redrawCell(newBlock[i]);
+			for (ViewerCell cell : newBlock) {
+				redrawCell(cell);
 			}
 		}
 		if (oldBlock != null) {
-			for (int i = 0; i < oldBlock.length; i++) {
-				redrawCell(oldBlock[i]);
+			for (ViewerCell cell : oldBlock) {
+				redrawCell(cell);
 			}
 		}
 	}
 
 	private void redrawCell(ViewerCell redrawCell) {
 		Rectangle rect = redrawCell.getBounds();
-		
+
 		int x = redrawCell.getColumnIndex() == 0 ? 0 : rect.x;
 		int width = redrawCell.getColumnIndex() == 0 ? rect.x + rect.width
 				: rect.width;
-		
+
+		int y = (rect.y + 1);
+
+		System.out.println("redraw viewercell horizontal from " + x + " to "
+				+ (x + width));
+		System.out.println("redraw viewercell vertical from " + y + " to "
+				+ (y + rect.height));
+
 		// 1 is a fix for Linux-GTK
 		redrawCell.getControl().redraw(x, rect.y - 1, width, rect.height + 1,
 				true);
 	}
 
+	//
+	// private void redrawBlock(ViewerCell[] redrawCells) {
+	// // Rectangle rect = redrawCell.getBounds();
+	//
+	// Rectangle allCellsRectangle = null;
+	//
+	// for (ViewerCell cell : redrawCells) {
+	// Rectangle rect = cell.getBounds();
+	// if (allCellsRectangle == null) {
+	// allCellsRectangle = rect;
+	// } else {
+	// allCellsRectangle.add(rect);
+	// }
+	// }
+	//
+	// // int x = redrawCell.getColumnIndex() == 0 ? 0 : rect.x;
+	// // int width = redrawCell.getColumnIndex() == 0 ? rect.x + rect.width
+	// // : rect.width;
+	//
+	// int y = (allCellsRectangle.y + 1);
+	//
+	// // System.out.println("redraw viewercell horizontal from " + x + " to "
+	// // +( x + width) );
+	// // System.out.println("redraw viewercell vertical from " + y + " to " +
+	// // ( y
+	// // + rect.height) );
+	//
+	// // 1 is a fix for Linux-GTK
+	// viewer.getControl().redraw(allCellsRectangle.x,
+	// allCellsRectangle.y - 1, allCellsRectangle.width,
+	// allCellsRectangle.height + 1, true);
+	// }
+
 	private void removeSelectionInformation(Event event, ViewerCell cell) {
 		GC gc = event.gc;
 		gc.setBackground(getUnselectedCellBackgroundColor(cell));
 		gc.setForeground(getUnselectedCellForegroundColor(cell));
-		gc.fillRectangle(event.getBounds());
+		gc.fillRectangle(cell.getBounds());
 
 		event.detail &= ~SWT.SELECTED;
 	}

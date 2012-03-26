@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -20,6 +21,8 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+
+import com.netxforge.netxstudio.screens.common.tables.CopyFeatureCommand.FeatureInitializer;
 
 /**
  * This class is responsible to provide cell management base features for the
@@ -71,6 +74,18 @@ abstract class SWTFocusBlockManager {
 	 * dragging state.
 	 */
 	private boolean cellDragging;
+	
+	
+	/*
+	 * Passed to the command to initialize the copied object. 
+	 */
+	private FeatureInitializer featureInitializer;
+	
+	
+	/*
+	 * The target resource for non-contained EReference copies. 
+	 */
+	private Resource resource;
 
 	/**
 	 * @param viewer
@@ -109,20 +124,19 @@ abstract class SWTFocusBlockManager {
 		}
 		cleanFocusBlock(focusCell);
 		cellDragging = true;
-		System.out
-				.println(" moving down, activate cell dragging, block size = "
-						+ focusBlock.size());
+		// System.out
+		// .println(" moving down, activate cell dragging, block size = "
+		// + focusBlock.size());
 	}
 
 	private void handleMouseMove(Event event) {
 
 		if (cellDragging) {
-			System.out.println(" dragging mouse" + event.x + "," + event.y);
+			// System.out.println(" dragging mouse" + event.x + "," + event.y);
 			handleCellDragging(event);
 		} else {
 			// we are not dragging, do nothing.
-			System.out.println(" moving mouse" + event.x + "," + event.y);
-			// Show the cursor if the position is at the bottom, right.
+//			 System.out.println(" moving mouse" + event.x + "," + event.y);
 		}
 	}
 
@@ -174,7 +188,7 @@ abstract class SWTFocusBlockManager {
 				// System.out.println("Dragging....Clearing cells:"
 				// + cell.getVisualIndex());
 				focusBlock.clear();
-				cellHighlighter.focusBlockChanged(null, oldBlock);
+				cellHighlighter.focusBlockChanged(block(), oldBlock);
 				updateCommand();
 
 			} else if (focusBlock.contains(cell)) {
@@ -188,8 +202,7 @@ abstract class SWTFocusBlockManager {
 				focusBlock.retainAll(retain);
 				// System.out.println("Dragging....Clearing cells:"
 				// + cell.getVisualIndex());
-				ViewerCell[] newBlock = block();
-				cellHighlighter.focusBlockChanged(newBlock, oldBlock);
+				cellHighlighter.focusBlockChanged( block(), oldBlock);
 				updateCommand();
 			}
 		}
@@ -200,26 +213,40 @@ abstract class SWTFocusBlockManager {
 		if (!initialized()) {
 			System.out
 					.println("command can't be created, command creation not initialized");
-			// dispose the command. 
+			// dispose the command.
 			if (copyFeatureCommand != null) {
 				copyFeatureCommand.dispose();
 				copyFeatureCommand = null;
 			}
 			return;
 		} else {
-			if (copyFeatureCommand == null) {
-				EStructuralFeature feature = mapColumnToFeature(focusCell
-						.getColumnIndex());
-				EObject element = (EObject) focusCell.getElement();
-				copyFeatureCommand = new CopyFeatureCommand(editingDomain,
-						element, feature, new CopyFeatureCommand.Helper());
-
-			} else {
-				System.out
-						.println("TODO, update the command with target objects");
-				// TODO, add drag targets here.
+			EStructuralFeature feature = mapColumnToFeature(focusCell
+					.getColumnIndex());
+			EObject element = (EObject) focusCell.getElement();
+			Collection<EObject> targets = getTargets();
+			
+			copyFeatureCommand = new CopyFeatureCommand(editingDomain, element,
+					targets, feature, new CopyFeatureCommand.Helper(), featureInitializer, resource);
+		}
+	}
+	
+	
+	
+	
+	/*
+	 * get all the targets for the focus block. 
+	 */
+	private Collection<EObject> getTargets() {
+		
+		// Do a transformation.  
+		Collection<EObject> targets = new ArrayList<EObject>();
+		for( ViewerCell cell : focusBlock){
+			Object element = cell.getElement();
+			if(element instanceof EObject){
+				targets.add((EObject) element);
 			}
 		}
+		return targets;
 	}
 
 	/*
@@ -248,10 +275,10 @@ abstract class SWTFocusBlockManager {
 
 	private ViewerCell[] block() {
 		ViewerCell[] block = null;
-		if (!focusBlock.isEmpty()) {
-			block = new ViewerCell[focusBlock.size()];
-			focusBlock.toArray(block);
-		}
+		block = new ViewerCell[focusBlock.size() + 1];
+		focusBlock.toArray(block);
+		block[focusBlock.size()] = focusCell;
+		
 		return block;
 	}
 
@@ -277,22 +304,20 @@ abstract class SWTFocusBlockManager {
 	private void addCellToBlock(ViewerCell cell) {
 
 		if (!focusBlock.contains(cell)) {
-			ViewerCell[] oldBlock = new ViewerCell[focusBlock.size()];
-			focusBlock.toArray(oldBlock);
+			
+			ViewerCell[] oldBlock = block();
 			focusBlock.add(cell);
-
-			ViewerCell[] newBlock = new ViewerCell[focusBlock.size()];
-			focusBlock.toArray(newBlock);
+			ViewerCell[] newBlock = block();
 			cellHighlighter.focusBlockChanged(newBlock, oldBlock);
 			updateCommand();
 		}
 	}
 
 	private void handleMouseUp(Event event) {
-		System.out.println(" mouse up, disable dragging");
+//		System.out.println(" mouse up, disable dragging");
 		if (cellDragging && copyFeatureCommand != null) {
-			System.out.println(" Executing copy command");
-			copyFeatureCommand.execute();
+//			System.out.println("SWTFocusBlockManager: Executing copy command");
+			this.getEditingDomain().getCommandStack().execute(copyFeatureCommand);
 		}
 		this.cellDragging = false;
 	}
@@ -498,4 +523,28 @@ abstract class SWTFocusBlockManager {
 	public void setFeatureMap(FocusColumnToModelMap focusColumnToModelMap) {
 		this.featureMap = focusColumnToModelMap;
 	}
+
+	/**
+	 * @return the featureInitializer
+	 */
+	public FeatureInitializer getFeatureInitializer() {
+		return featureInitializer;
+	}
+
+	/**
+	 * @param featureInitializer the featureInitializer to set
+	 */
+	public void setFeatureInitializer(FeatureInitializer featureInitializer) {
+		this.featureInitializer = featureInitializer;
+	}
+	
+	/**
+	 * Set the target resource for non-contained EReference copies. 
+	 * @param expressionsResource
+	 */
+	public void setTargetResourceForNonContainment(Resource resource) {
+		this.resource = resource;
+	}
 }
+
+

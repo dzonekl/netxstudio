@@ -36,7 +36,7 @@ public class ScreensCommonActivator extends AbstractUIPlugin {
 		plugin = this;
 		
 		// Bind our modules.
-		Module om = new ScreensModule();
+		Module om = new ScreensCommonModule();
 		om = override(om).with(new CommonModule());
 		om = override(om).with(new CDODataServiceModule());
 		om = override(om).with(new EditingServiceModule());

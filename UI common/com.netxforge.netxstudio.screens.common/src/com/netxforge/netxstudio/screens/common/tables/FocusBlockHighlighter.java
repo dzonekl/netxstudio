@@ -8,7 +8,7 @@ import org.eclipse.jface.viewers.ViewerCell;
  *
  */
 public abstract class FocusBlockHighlighter {
-	private ColumnViewer viewer;
+	protected ColumnViewer viewer;
 	private SWTFocusBlockManager mgr;
 
 	/**

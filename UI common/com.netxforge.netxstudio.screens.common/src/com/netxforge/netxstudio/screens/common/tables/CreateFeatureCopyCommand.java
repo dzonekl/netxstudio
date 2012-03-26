@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.command.AbstractOverrideableCommand;
 import org.eclipse.emf.edit.command.ChildrenToCopyProvider;
@@ -27,6 +27,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  */
 public class CreateFeatureCopyCommand extends AbstractOverrideableCommand
 		implements ChildrenToCopyProvider {
+	
 	/**
 	 * This creates a command that will create and object for copying the given
 	 * object
@@ -55,7 +56,7 @@ public class CreateFeatureCopyCommand extends AbstractOverrideableCommand
 	protected EObject owner;
 
 	/**
-	 * This is the copy of the feature. 
+	 * This is the copy of the feature.
 	 */
 	protected Object copy;
 
@@ -65,21 +66,28 @@ public class CreateFeatureCopyCommand extends AbstractOverrideableCommand
 	protected CopyFeatureCommand.Helper copyHelper;
 
 	/**
-	 * The feature to copy. 
+	 * The feature to copy.
 	 */
 	private EStructuralFeature feature;
+
+	private Collection<EObject> targets;
 
 	/**
 	 * This constructs a command that will create an object that is a copy of
 	 * the given object.
+	 * 
+	 * @param targets
 	 */
 	public CreateFeatureCopyCommand(EditingDomain domain, EObject owner,
-			EStructuralFeature feature, CopyFeatureCommand.Helper copyHelper) {
+			Collection<EObject> targets, EStructuralFeature feature,
+			CopyFeatureCommand.Helper copyHelper) {
 		super(domain, LABEL, DESCRIPTION);
 
 		this.owner = owner;
+		this.targets = targets;
 		this.copyHelper = copyHelper;
 		this.feature = feature;
+
 	}
 
 	/**
@@ -98,18 +106,37 @@ public class CreateFeatureCopyCommand extends AbstractOverrideableCommand
 
 	@Override
 	protected boolean prepare() {
-		return true;
+
+		boolean allTargetsSupported = true;
+		for (EObject target : targets) {
+			// valid feature exists for this target.
+			if (!target.eClass().getEAllStructuralFeatures().contains(feature)) {
+				allTargetsSupported = false;
+			}
+		}
+		// Only eobject feature values supported.
+		copy = owner.eGet(feature);
+
+		boolean result = owner != null && feature != null && copy != null
+				&& copy instanceof EObject && allTargetsSupported;
+
+//		System.out.println("CreateFeatureCopyCommand: can execute?  " + result);
+		return result;
 	}
 
 	@Override
 	public void doExecute() {
-		
-		Object featureValue = owner.eGet(feature);
-		@SuppressWarnings("unused")
-		EClassifier eType = feature.getEType();
-		
-		// Store a copy of this feature for this owner. 
-		copyHelper.setMasterCopy(featureValue);
+		// Store a copy of this feature for this owner.
+//		System.out
+//				.println("CreateFeatureCopyCommand:  set copy helper master value ="
+//						+ copy);
+		copyHelper.setMasterCopy(copy);
+		for (EObject target : targets) {
+			// make a copy from the master.
+			Object masterCopy = copyHelper.getMasterCopy();
+			EObject eObjectCopy = EcoreUtil.copy((EObject) masterCopy);
+			copyHelper.put(target, eObjectCopy);
+		}
 	}
 
 	@Override
