@@ -197,6 +197,14 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ConfigAttributes"
+						type="gen:ConfigAttribute">
+						<xs:annotation>
+							<xs:documentation>The Lifecycle reference, contains 0 or 1
+								Lifecycle types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 
 					<!-- Non-Contained -->
 					<xs:element ecore:reference="metrics:Metric" maxOccurs="unbounded"
@@ -1057,7 +1065,7 @@
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
 				<xs:sequence>
-					<xs:element name="RefInterface1Ref" type="ReferenceInterface" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="RefInterface1Ref" type="ReferenceInterface" minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>The RefInterface1Ref attribute, references a
 								ReferenceInterface
@@ -1065,7 +1073,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="RefInterface2Ref" type="ReferenceInterface" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="RefInterface2Ref" type="ReferenceInterface" minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>The RefInterface2Ref attribute, references a
 								ReferenceInterface

@@ -75,7 +75,7 @@
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
 				<xs:sequence>
-					<xs:element name="FlowParts" ecore:reference="library:ReferenceInterface"
+					<xs:element name="FlowParts" ecore:reference="library:ReferenceRelationship"
 						type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>FlowParts are a sequence of Reference Interfaces which are ordered.
@@ -84,6 +84,12 @@
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
+				<xs:attribute name="Name" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The name of the Service Flow.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

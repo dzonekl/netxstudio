@@ -113,6 +113,16 @@
         <details key="name" value="ResourceRefs"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configAttributes" upperBound="-1"
+        eType="ecore:EClass generics.ecore#//ConfigAttribute" containment="true" resolveProxies="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The Lifecycle reference, contains 0 or 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Lifecycle types.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="ConfigAttributes"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="metricRefs" upperBound="-1"
         eType="ecore:EClass metrics.ecore#//Metric">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -1176,8 +1186,8 @@
       <details key="name" value="ReferenceRelationship"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refInterface1Ref" upperBound="-1"
-        eType="#//ReferenceInterface" containment="true" resolveProxies="false">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refInterface1Ref" eType="#//ReferenceInterface"
+        containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The RefInterface1Ref attribute, references a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ReferenceInterface&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -1186,8 +1196,8 @@
         <details key="name" value="RefInterface1Ref"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refInterface2Ref" upperBound="-1"
-        eType="#//ReferenceInterface" containment="true" resolveProxies="false">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refInterface2Ref" eType="#//ReferenceInterface"
+        containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The RefInterface2Ref attribute, references a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ReferenceInterface&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>

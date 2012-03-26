@@ -600,6 +600,30 @@
 		</xs:attribute>
 	</xs:complexType>
 
+
+	<!--_____________________________ -->
+	<!--| CONFIG ATTRIBUTE | -->
+	<!--|___________________________| -->
+	<xs:complexType name="ConfigAttribute">
+		<xs:annotation>
+			<xs:documentation>A type representing an arbitrary attribute represented as a string. 
+			It can be used for addressing or other labeling of components. 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Value" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The Value attribute holds the value as a string. 
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Name" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
 	<!-- ___________________________ -->
 	<!--| CommitLOGENTRY | -->
 	<!--|___________________________| -->

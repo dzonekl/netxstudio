@@ -2,11 +2,12 @@
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2011 NetXForge&#xA;&#xA;This program is free software: you can redistribute it and/or modify&#xA;it under the terms of the GNU Lesser General Public License as published by&#xA;the Free Software Foundation, either version 3 of the License, or&#xA;(at your option) any later version.&#xA;&#xA;This program is distributed in the hope that it will be useful,&#xA;but WITHOUT ANY WARRANTY; without even the implied warranty of&#xA;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#xA;GNU General Public License for more details.&#xA;You should have received a copy of the GNU Lesser General Public License&#xA;along with this program.  If not, see &lt;http://www.gnu.org/licenses/>&#xA;&#xA;Contributors:&#xA;Christophe Bouhier - initial API and implementation and/or initial documentation"
-    modelDirectory="/com.netxforge.netxstudio.models_06032012/src-gen" modelPluginID="com.netxforge.netxstudio.models_06032012"
+    modelDirectory="/com.netxforge.netxstudio.models.06032012/src-gen" modelPluginID="com.netxforge.netxstudio.models.06032012"
     templateDirectory="com.netxforge.netxstudio.models/templates" dynamicTemplates="true"
-    modelName="Netxstudio" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl"
-    reflectiveDelegation="true" importerID="org.eclipse.xsd.ecore.importer" featureDelegation="Reflective"
-    complianceLevel="6.0" copyrightFields="false" providerRootExtendsClass="com.netxforge.netxstudio.edit.MotherOfAllItemProvider"
+    modelName="Netxstudio" modelPluginClass="" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject"
+    rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl" reflectiveDelegation="true"
+    importerID="org.eclipse.xsd.ecore.importer" featureDelegation="Reflective" complianceLevel="6.0"
+    copyrightFields="false" providerRootExtendsClass="com.netxforge.netxstudio.edit.MotherOfAllItemProvider"
     usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>../../xsd/06032012/netxstudio.xsd</foreignModel>
   <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
@@ -129,6 +130,10 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Company/symbol"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Company/website"/>
     </genClasses>
+    <genClasses ecoreClass="generics.ecore#//ConfigAttribute">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//ConfigAttribute/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//ConfigAttribute/value"/>
+    </genClasses>
     <genClasses ecoreClass="generics.ecore#//DateTimeRange">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//DateTimeRange/begin"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//DateTimeRange/end"/>
@@ -240,6 +245,7 @@
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ServiceFlow">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceFlow/flowParts"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceFlow/name"/>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ServiceForecast">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceForecast/period"/>
@@ -316,6 +322,7 @@
     <genClasses ecoreClass="library.ecore#//Component">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Component/lifecycle"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/resourceRefs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Component/configAttributes"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/metricRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/capacityExpressionRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/utilizationExpressionRef"/>
