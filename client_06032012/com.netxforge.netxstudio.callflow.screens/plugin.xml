@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+    <extension
+         point="org.eclipse.ui.perspectives">
+       <perspective
+             class="com.netxforge.netxstudio.callflow.screens.perspective.CallFlowPerspective"
+             icon="icons/view16/Protocol_H.png"
+             id="com.netxforge.netxstudio.ui.perspective.callflows"
+             name="Call Flows">
+   </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+      
+            class="com.netxforge.netxstudio.callflow.screens.ScreensEExtensionFactory:com.netxforge.netxstudio.callflow.screens.parts.CallFlowScreenSelector"
+            id="com.netxforge.netxstudio.screens.selector.callflow"
+            name="Call Flow"
+            icon="icons/view16/Protocol_H.png"
+            restorable="true">
+      </view>
+   </extension>
+   
+   <!-- NOT NEEDED FOR NOW. 
+   <extension
+         point="org.eclipse.emf.edit.childCreationExtenders">
+      <extender
+            class="com.netxforge.netxstudio.callflow.screens.ScreensEExtensionFactory:com.netxforge.netxstudio.callflow.screens.actions.ServiceChildCreationExtender"
+            uri="http://www.netxforge.com/06032012/services">
+      </extender>
+   </extension>
+   -->
+   
+</plugin>
