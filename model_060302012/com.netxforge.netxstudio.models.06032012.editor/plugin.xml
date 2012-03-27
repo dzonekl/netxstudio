@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ Copyright (c) 2011 NetXForge
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ You should have received a copy of the GNU Lesser General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>
+ 
+ Contributors:
+ Christophe Bouhier - initial API and implementation and/or initial documentation
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="com.netxforge.netxstudio.scheduling.presentation.SchedulingModelWizardID"
+            name="%_UI_SchedulingModelWizard_label"
+            class="com.netxforge.netxstudio.scheduling.presentation.SchedulingModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/SchedulingModelFile.gif">
+         <description>%_UI_SchedulingModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="com.netxforge.netxstudio.scheduling.presentation.SchedulingEditorID"
+            name="%_UI_SchedulingEditor_label"
+            icon="icons/full/obj16/SchedulingModelFile.gif"
+            extensions="scheduling"
+            class="com.netxforge.netxstudio.scheduling.presentation.SchedulingEditor"
+            contributorClass="com.netxforge.netxstudio.scheduling.presentation.SchedulingActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="com.netxforge.netxstudio.generics.presentation.GenericsModelWizardID"
+            name="%_UI_GenericsModelWizard_label"
+            class="com.netxforge.netxstudio.generics.presentation.GenericsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/GenericsModelFile.gif">
+         <description>%_UI_GenericsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="com.netxforge.netxstudio.generics.presentation.GenericsEditorID"
+            name="%_UI_GenericsEditor_label"
+            icon="icons/full/obj16/GenericsModelFile.gif"
+            extensions="generics"
+            class="com.netxforge.netxstudio.generics.presentation.GenericsEditor"
+            contributorClass="com.netxforge.netxstudio.generics.presentation.GenericsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="com.netxforge.netxstudio.services.presentation.ServicesModelWizardID"
+            name="%_UI_ServicesModelWizard_label"
+            class="com.netxforge.netxstudio.services.presentation.ServicesModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ServicesModelFile.gif">
+         <description>%_UI_ServicesModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="com.netxforge.netxstudio.services.presentation.ServicesEditorID"
+            name="%_UI_ServicesEditor_label"
+            icon="icons/full/obj16/ServicesModelFile.gif"
+            extensions="services"
+            class="com.netxforge.netxstudio.services.presentation.ServicesEditor"
+            contributorClass="com.netxforge.netxstudio.services.presentation.ServicesActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="com.netxforge.netxstudio.library.presentation.LibraryModelWizardID"
+            name="%_UI_LibraryModelWizard_label"
+            class="com.netxforge.netxstudio.library.presentation.LibraryModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/LibraryModelFile.gif">
+         <description>%_UI_LibraryModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="com.netxforge.netxstudio.library.presentation.LibraryEditorID"
+            name="%_UI_LibraryEditor_label"
+            icon="icons/full/obj16/LibraryModelFile.gif"
+            extensions="library"
+            class="com.netxforge.netxstudio.library.presentation.LibraryEditor"
+            contributorClass="com.netxforge.netxstudio.library.presentation.LibraryActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="com.netxforge.netxstudio.operators.presentation.OperatorsModelWizardID"
+            name="%_UI_OperatorsModelWizard_label"
+            class="com.netxforge.netxstudio.operators.presentation.OperatorsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/OperatorsModelFile.gif">
+         <description>%_UI_OperatorsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="com.netxforge.netxstudio.operators.presentation.OperatorsEditorID"
+            name="%_UI_OperatorsEditor_label"
+            icon="icons/full/obj16/OperatorsModelFile.gif"
+            extensions="operators"
+            class="com.netxforge.netxstudio.operators.presentation.OperatorsEditor"
+            contributorClass="com.netxforge.netxstudio.operators.presentation.OperatorsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="com.netxforge.netxstudio.metrics.presentation.MetricsModelWizardID"
+            name="%_UI_MetricsModelWizard_label"
+            class="com.netxforge.netxstudio.metrics.presentation.MetricsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/MetricsModelFile.gif">
+         <description>%_UI_MetricsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="com.netxforge.netxstudio.metrics.presentation.MetricsEditorID"
+            name="%_UI_MetricsEditor_label"
+            icon="icons/full/obj16/MetricsModelFile.gif"
+            extensions="metrics"
+            class="com.netxforge.netxstudio.metrics.presentation.MetricsEditor"
+            contributorClass="com.netxforge.netxstudio.metrics.presentation.MetricsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="com.netxforge.netxstudio.protocols.presentation.ProtocolsModelWizardID"
+            name="%_UI_ProtocolsModelWizard_label"
+            class="com.netxforge.netxstudio.protocols.presentation.ProtocolsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ProtocolsModelFile.gif">
+         <description>%_UI_ProtocolsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="com.netxforge.netxstudio.protocols.presentation.ProtocolsEditorID"
+            name="%_UI_ProtocolsEditor_label"
+            icon="icons/full/obj16/ProtocolsModelFile.gif"
+            extensions="protocols"
+            class="com.netxforge.netxstudio.protocols.presentation.ProtocolsEditor"
+            contributorClass="com.netxforge.netxstudio.protocols.presentation.ProtocolsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="com.netxforge.netxstudio.geo.presentation.GeoModelWizardID"
+            name="%_UI_GeoModelWizard_label"
+            class="com.netxforge.netxstudio.geo.presentation.GeoModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/GeoModelFile.gif">
+         <description>%_UI_GeoModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="com.netxforge.netxstudio.geo.presentation.GeoEditorID"
+            name="%_UI_GeoEditor_label"
+            icon="icons/full/obj16/GeoModelFile.gif"
+            extensions="geo"
+            class="com.netxforge.netxstudio.geo.presentation.GeoEditor"
+            contributorClass="com.netxforge.netxstudio.geo.presentation.GeoActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="com.netxforge.netxstudio.presentation.NetxstudioModelWizardID"
+            name="%_UI_NetxstudioModelWizard_label"
+            class="com.netxforge.netxstudio.presentation.NetxstudioModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/NetxstudioModelFile.gif">
+         <description>%_UI_NetxstudioModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="com.netxforge.netxstudio.presentation.NetxstudioEditorID"
+            name="%_UI_NetxstudioEditor_label"
+            icon="icons/full/obj16/NetxstudioModelFile.gif"
+            extensions="netxstudio"
+            class="com.netxforge.netxstudio.presentation.NetxstudioEditor"
+            contributorClass="com.netxforge.netxstudio.presentation.NetxstudioActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
