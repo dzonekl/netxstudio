@@ -41,7 +41,6 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.screens.common.internal.ScreensCommonActivator;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
@@ -220,7 +219,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 * @return
 	 */
 	protected boolean storePreference(String key, String value) {
-		ScreensCommonActivator.doGetPreferenceStore().setValue(key, value);
+		ScreensActivator.doGetPreferenceStore().setValue(key, value);
 		return true;
 	}
 
@@ -231,8 +230,8 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 * @return
 	 */
 	protected String findPreference(String key) {
-		if (ScreensCommonActivator.doGetPreferenceStore().contains(key)) {
-			return ScreensCommonActivator.doGetPreferenceStore().getString(key);
+		if (ScreensActivator.doGetPreferenceStore().contains(key)) {
+			return ScreensActivator.doGetPreferenceStore().getString(key);
 		}
 		return null;
 	}
