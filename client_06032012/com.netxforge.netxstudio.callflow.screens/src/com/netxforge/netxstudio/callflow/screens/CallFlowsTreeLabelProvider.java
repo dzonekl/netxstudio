@@ -33,6 +33,7 @@ import org.eclipse.swt.graphics.RGB;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.ReferenceRelationship;
+import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.services.ServiceFlow;
 import com.netxforge.netxstudio.services.ServiceFlowDirection;
@@ -99,6 +100,7 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 		// 2 = NodeType A
 		// 3 = NodeType B
 		// 4 = Protocol
+		//
 
 		// We potentially support multiple columns, override as needed. binding
 		// to features should return a reasonable default.
@@ -133,6 +135,11 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 			updateColumn6(cell, element);
 		}
 			break;
+		case 7: {
+			updateColumn7(cell, element);
+		}
+			break;
+
 		default: {
 			super.update(cell);
 		}
@@ -164,22 +171,17 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 					cell.setStyleRanges(styledString.getStyleRanges());
 
 				}
+			} else {
+				cell.setText("-");
 			}
-
 		}
 	}
 
 	private void updateColumn6(ViewerCell cell, Object element) {
 		if (element instanceof ServiceFlowRelationship) {
-			ServiceFlowRelationship rel = (ServiceFlowRelationship) element;
-			if (rel.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP)) {
-				ReferenceRelationship referenceRelationship = rel
-						.getReferenceRelationship();
-
-				// Check if the interface is set.
-				if (referenceRelationship
-						.eIsSet(LibraryPackage.Literals.REFERENCE_RELATIONSHIP__PROTOCOL_REF)) {
-					Protocol protocol = referenceRelationship.getProtocolRef();
+			ServiceFlowRelationship sfRel = (ServiceFlowRelationship) element;
+			if (sfRel.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__PROTOCOL)) {
+					Protocol protocol = sfRel.getProtocol();
 
 					// Set the name of the Node Type.
 					StyledString styledString = new StyledString(
@@ -190,8 +192,31 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 					// "icons/full/obj16/Company_H.png");
 					// cell.setImage(img);
 					cell.setStyleRanges(styledString.getStyleRanges());
+				
+			} else {
+				cell.setText("-");
+			}
+		}
+	}
 
-				}
+	private void updateColumn7(ViewerCell cell, Object element) {
+		if (element instanceof ServiceFlowRelationship) {
+			ServiceFlowRelationship rel = (ServiceFlowRelationship) element;
+			if (rel.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__MESSAGE)) {
+				Message msg = rel.getMessage();
+
+				// Set the name of the Node Type.
+				StyledString styledString = new StyledString(msg.getName(),
+						null);
+				cell.setText(styledString.getString());
+				// Image img = ResourceManager.getPluginImage(
+				// "com.netxforge.netxstudio.models.edit",
+				// "icons/full/obj16/Company_H.png");
+				// cell.setImage(img);
+				cell.setStyleRanges(styledString.getStyleRanges());
+
+			} else {
+				cell.setText("-");
 			}
 		}
 	}
@@ -205,12 +230,14 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 					switch (direction.getValue()) {
 					case ServiceFlowDirection.LEFTTORIGHT_VALUE: {
 						cell.setText("-->");
-					}break;
+					}
+						break;
 					case ServiceFlowDirection.RIGHTTOLEFT_VALUE: {
 						cell.setText("<--");
-					}break;
 					}
-				}else{
+						break;
+					}
+				} else {
 					cell.setText("-");
 				}
 
@@ -247,14 +274,38 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 						.getReferenceRelationship();
 
 				// Set the name of the Node Type.
-				StyledString styledString = new StyledString(
-						referenceRelationship.getName(), null);
-				cell.setText(styledString.getString());
+				StyledString styledString = new StyledString();
+
+				NodeType nt1 = referenceRelationship.getRefInterface1Ref();
+				NodeType nt2 = referenceRelationship.getRefInterface2Ref();
+
+				StringBuffer buf = new StringBuffer();
+				buf.append(" (");
+				buf.append(nt1 != null ? nt1.getName() : " ?");
+				buf.append(" <--> ");
+				buf.append(nt2 != null ? nt2.getName() : " ?");
+				buf.append(")");
+
+				styledString
+						.append(referenceRelationship.getName() != null ? referenceRelationship
+								.getName() : buf.toString());
+
 				// Image img = ResourceManager.getPluginImage(
 				// "com.netxforge.netxstudio.models.edit",
 				// "icons/full/obj16/Company_H.png");
 				// cell.setImage(img);
 				cell.setStyleRanges(styledString.getStyleRanges());
+				cell.setText(styledString.getString());
+			} else if (rel
+					.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__SERVICE_FLOW)) {
+				ServiceFlow serviceFlow = rel.getServiceFlow();
+				StringBuffer buf = new StringBuffer();
+				buf.append("[");
+				buf.append(serviceFlow.getName());
+				buf.append("]");
+				cell.setText(buf.toString());
+			} else {
+				cell.setText("-");
 			}
 		} else if (element instanceof ReferenceRelationship) {
 			ReferenceRelationship referenceRelationship = (ReferenceRelationship) element;
@@ -304,6 +355,8 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 					cell.setStyleRanges(styledString.getStyleRanges());
 
 				}
+			} else {
+				cell.setText("-");
 			}
 		} else if (element instanceof ReferenceRelationship) {
 			ReferenceRelationship referenceRelationship = (ReferenceRelationship) element;

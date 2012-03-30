@@ -8,6 +8,7 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
@@ -25,10 +26,14 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.layout.TreeColumnLayout;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnPixelData;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -49,10 +54,15 @@ import com.netxforge.netxstudio.callflow.screens.referenceNetwork.TextCellEditin
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.ReferenceNetwork;
+import com.netxforge.netxstudio.protocols.Message;
+import com.netxforge.netxstudio.protocols.ProtocolsFactory;
+import com.netxforge.netxstudio.protocols.ProtocolsPackage;
+import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.services.ServiceFlow;
 import com.netxforge.netxstudio.services.ServiceFlowDirection;
+import com.netxforge.netxstudio.services.ServiceFlowRelationship;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -63,13 +73,14 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	private ReferenceNetwork refNet;
 	private TreeViewer callFlowTreeViewer;
 	private Resource cdoResourceCallFlows;
-	private TreeViewerColumn treeViewerColumnRelationship;
+	private TreeViewerColumn treeViewerColumnLink;
 	private Tree callFlowTree;
-	private TreeViewerColumn treeViewerProtocol;
+	private TreeViewerColumn treeViewerColumnProtocol;
 	private TreeViewerColumn treeViewerColumnA;
 	private TreeViewerColumn treeViewerColumnB;
 	private TreeViewerColumn treeViewerColumnName;
 	private TreeViewerColumn treeViewerColumnDirection;
+	private TreeViewerColumn treeViewerColumnMessage;
 
 	public CallFlows(Composite parent, int style) {
 		super(parent, style);
@@ -162,7 +173,7 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		TreeColumnLayout treeColumnLayout = new TreeColumnLayout();
 		cmpCallFlows.setLayout(treeColumnLayout);
 
-		callFlowTreeViewer = new TreeViewer(cmpCallFlows, SWT.BORDER);
+		callFlowTreeViewer = new TreeViewer(cmpCallFlows, SWT.BORDER | SWT.MULTI);
 		callFlowTree = callFlowTreeViewer.getTree();
 		callFlowTree.setHeaderVisible(true);
 		callFlowTree.setLinesVisible(true);
@@ -182,10 +193,10 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 				true, true));
 		trclmnName.setText("Name");
 
-		treeViewerColumnRelationship = new TreeViewerColumn(callFlowTreeViewer,
+		treeViewerColumnLink = new TreeViewerColumn(callFlowTreeViewer,
 				SWT.NONE);
-		TreeColumn trclmnLink = treeViewerColumnRelationship.getColumn();
-		treeColumnLayout.setColumnData(trclmnLink, new ColumnPixelData(40,
+		TreeColumn trclmnLink = treeViewerColumnLink.getColumn();
+		treeColumnLayout.setColumnData(trclmnLink, new ColumnPixelData(100,
 				true, true));
 		trclmnLink.setText("Link");
 
@@ -195,10 +206,11 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 				true));
 		trclmnA.setText("A");
 
-		treeViewerColumnDirection = new TreeViewerColumn(callFlowTreeViewer, SWT.NONE);
+		treeViewerColumnDirection = new TreeViewerColumn(callFlowTreeViewer,
+				SWT.NONE);
 		TreeColumn trclmnDirection = treeViewerColumnDirection.getColumn();
-		treeColumnLayout.setColumnData(trclmnDirection, new ColumnPixelData(100, true,
-				true));
+		treeColumnLayout.setColumnData(trclmnDirection, new ColumnPixelData(
+				100, true, true));
 		trclmnDirection.setText("Direction");
 
 		treeViewerColumnB = new TreeViewerColumn(callFlowTreeViewer, SWT.NONE);
@@ -207,12 +219,21 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 				true));
 		trclmnB.setText("B");
 
-		treeViewerProtocol = new TreeViewerColumn(callFlowTreeViewer, SWT.NONE);
+		treeViewerColumnProtocol = new TreeViewerColumn(callFlowTreeViewer,
+				SWT.NONE);
 
-		TreeColumn trclmnProtocol = treeViewerProtocol.getColumn();
+		TreeColumn trclmnProtocol = treeViewerColumnProtocol.getColumn();
 		treeColumnLayout.setColumnData(trclmnProtocol, new ColumnPixelData(150,
 				true, true));
 		trclmnProtocol.setText("Protocol");
+		
+		treeViewerColumnMessage = new TreeViewerColumn(callFlowTreeViewer,
+				SWT.NONE);
+
+		TreeColumn trclmnMessage = treeViewerColumnMessage.getColumn();
+		treeColumnLayout.setColumnData(trclmnMessage, new ColumnPixelData(100,
+				true, true));
+		trclmnMessage.setText("Message");
 
 	}
 
@@ -236,12 +257,27 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 					ServicesPackage.Literals.SERVICE_FLOW__NAME).observeDetail(
 					set));
 
-			observeMaps.add(EMFEditProperties.value(
-					editingService.getEditingDomain(),
-					ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__DIRECTION).observeDetail(
-					set));
-
+			observeMaps
+					.add(EMFEditProperties
+							.value(editingService.getEditingDomain(),
+									ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__DIRECTION)
+							.observeDetail(set));
 			
+			observeMaps
+			.add(EMFEditProperties
+					.value(editingService.getEditingDomain(),
+							ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__PROTOCOL)
+					.observeDetail(set));
+
+			observeMaps
+					.add(EMFEditProperties
+							.value(editingService.getEditingDomain(),
+									FeaturePath
+											.fromList(
+													ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__MESSAGE,
+													ProtocolsPackage.Literals.MESSAGE__NAME))
+							.observeDetail(set));
+
 			FeaturePath refRelationshipPath = FeaturePath
 					.fromList(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP);
 
@@ -249,7 +285,6 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 					editingService.getEditingDomain(), refRelationshipPath)
 					.observeDetail(set));
 
-			
 			// Don't bind the protocol yet.
 			IObservableMap[] map = new IObservableMap[observeMaps.size()];
 			observeMaps.toArray(map);
@@ -262,7 +297,6 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		callFlowTreeViewer.setInput(callFlowsListProperty
 				.observe(cdoResourceCallFlows));
 
-
 		{
 			FeaturePath namePath = FeaturePath
 					.fromList(ServicesPackage.Literals.SERVICE_FLOW__NAME);
@@ -274,26 +308,60 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 			treeViewerColumnName.setEditingSupport(txtCellEditingSupportName);
 		}
 
-		
 		// Get the data to observe and set as input to our combo.
-		IEMFListProperty refRelationshipsProperties = EMFEditProperties.list(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.REFERENCE_NETWORK__REF_RELATIONSHIPS);
+		IEMFListProperty refRelationshipsProperties = EMFEditProperties
+				.multiList(
+						editingService.getEditingDomain(),
+						LibraryPackage.Literals.REFERENCE_NETWORK__REF_RELATIONSHIPS);
+		//
+		// ComputedList computedList = new ComputedList() {
+		//
+		// @Override
+		// protected List<Object> calculate() {
+		// List<Object> refRelationshipsAndServiceFlows = Lists
+		// .newArrayList();
+		// refRelationshipsAndServiceFlows.addAll(refNet
+		// .getRefRelationships());
+		// refRelationshipsAndServiceFlows.addAll(cdoResourceCallFlows
+		// .getContents());
+		// return refRelationshipsAndServiceFlows;
+		// }
+		// };
 
 		// Set the binding for the cell editors.
 
-		FeaturePath aNodeTypePath = FeaturePath
+		FeaturePath linkPath = FeaturePath
 				.fromList(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP);
 
-		ComboBoxCellEditingSupport cmbCellEditingSupportA = new ComboBoxCellEditingSupport(
+		ComboBoxCellEditingSupport cmbCellEditingSupportLink = new ComboBoxCellEditingSupport(
 				callFlowTreeViewer, context, callFlowTree,
-				editingService.getEditingDomain(), aNodeTypePath);
+				editingService.getEditingDomain(), linkPath) {
 
-		treeViewerColumnRelationship.setEditingSupport(cmbCellEditingSupportA);
-		cmbCellEditingSupportA.setInput(refRelationshipsProperties
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see com.netxforge.netxstudio.callflow.screens.referenceNetwork.
+			 * ComboBoxCellEditingSupport#getCellEditor(java.lang.Object)
+			 */
+			@Override
+			protected CellEditor getCellEditor(Object element) {
+				if (element instanceof ServiceFlowRelationship) {
+					ServiceFlowRelationship sfRelationship = (ServiceFlowRelationship) element;
+					if (sfRelationship
+							.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__SERVICE_FLOW)) {
+						return null; // we can't edit if the relationship is a service flow. 
+					}
+					return super.getCellEditor(element);
+				}
+				return null;
+			}
+		};
+
+		treeViewerColumnLink.setEditingSupport(cmbCellEditingSupportLink);
+
+		cmbCellEditingSupportLink.setInput(refRelationshipsProperties
 				.observe(refNet));
-		
-		
+
 		// Populate with an enum
 		IObservableList directionsObservableList = new ComputedList() {
 			@Override
@@ -302,7 +370,7 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 				result.addAll(ServiceFlowDirection.VALUES);
 				return result;
 			}
-		};		
+		};
 		FeaturePath directionPath = FeaturePath
 				.fromList(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__DIRECTION);
 
@@ -310,9 +378,73 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 				callFlowTreeViewer, context, callFlowTree,
 				editingService.getEditingDomain(), directionPath);
 
-		treeViewerColumnDirection.setEditingSupport(cmbCellEditingSupportDirection);
+		treeViewerColumnDirection
+				.setEditingSupport(cmbCellEditingSupportDirection);
 		cmbCellEditingSupportDirection.setInput(directionsObservableList);
 		
+		// The protocol column
+		{
+			
+			Resource cdoResProtocols = editingService
+					.getData(ProtocolsPackage.Literals.PROTOCOL);
+
+			IEMFListProperty protocolsPropertyList = EMFEditProperties.resource(editingService
+					.getEditingDomain());
+			
+			FeaturePath protocolPath = FeaturePath
+					.fromList(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__PROTOCOL);
+
+			ComboBoxCellEditingSupport cmbCellEditingSupportProtocol = new ComboBoxCellEditingSupport(
+					callFlowTreeViewer, context, callFlowTree,
+					editingService.getEditingDomain(), protocolPath);
+
+			treeViewerColumnProtocol
+					.setEditingSupport(cmbCellEditingSupportProtocol);
+			cmbCellEditingSupportProtocol.setInput(protocolsPropertyList.observe(cdoResProtocols));
+		}
+		
+		// The message column.
+		{
+			FeaturePath messagePath = FeaturePath
+					.fromList(
+							ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__MESSAGE,
+							ProtocolsPackage.Literals.MESSAGE__NAME);
+
+			TextCellEditingSupport txtCellEditingMessage = new TextCellEditingSupport(
+					callFlowTreeViewer, context, callFlowTree,
+					editingService.getEditingDomain(), messagePath) {
+
+				/*
+				 * (non-Javadoc)
+				 * 
+				 * @see
+				 * com.netxforge.netxstudio.callflow.screens.referenceNetwork
+				 * .TextCellEditingSupport
+				 * #doCreateElementObservable(java.lang.Object,
+				 * org.eclipse.jface.viewers.ViewerCell)
+				 */
+				@Override
+				protected IObservableValue doCreateElementObservable(
+						Object element, ViewerCell cell) {
+					// make sure we have a message object for this service flow
+					// relationship.
+					if (element instanceof ServiceFlowRelationship) {
+						if (!((ServiceFlowRelationship) element)
+								.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__MESSAGE)) {
+							Message createMessage = ProtocolsFactory.eINSTANCE
+									.createMessage();
+							createMessage.setName("new*");
+							((ServiceFlowRelationship) element)
+									.setMessage(createMessage);
+						}
+					}
+					return super.doCreateElementObservable(element, cell);
+				}
+
+			};
+
+			treeViewerColumnMessage.setEditingSupport(txtCellEditingMessage);
+		}
 
 		return context;
 	}
@@ -363,8 +495,70 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 			if (element instanceof ServiceFlow) {
 				return ((ServiceFlow) element).getServiceFlowRelationships()
 						.size() > 0 ? Boolean.TRUE : null;
+			} else if (element instanceof ServiceFlowRelationship) {
+				// Allow expansion of the nested service
+				if (((ServiceFlowRelationship) element)
+						.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__SERVICE_FLOW)) {
+
+				}
 			}
+
 			return false;
+		}
+	}
+
+	class AddCallFlowAction extends BaseSelectionListenerAction {
+
+		public AddCallFlowAction(String text, int style) {
+			super(text);
+		}
+
+		@Override
+		public void run() {
+			// Add to the current selection.
+			IStructuredSelection structuredSelection = this
+					.getStructuredSelection();
+			Object firstElement = structuredSelection.getFirstElement();
+			if (firstElement instanceof ServiceFlow) {
+				ServiceFlow sf = (ServiceFlow) firstElement;
+
+				ServiceFlowFilterDialog serviceFlowFilterDialog = new ServiceFlowFilterDialog(
+						CallFlows.this.getShell(), cdoResourceCallFlows);
+				int open = serviceFlowFilterDialog.open();
+				if (open == Window.OK) {
+					Object firstResult = serviceFlowFilterDialog
+							.getFirstResult();
+					if (firstResult instanceof ServiceFlow) {
+
+						ServiceFlowRelationship createServiceFlowRelationship = ServicesFactory.eINSTANCE
+								.createServiceFlowRelationship();
+						createServiceFlowRelationship
+								.setServiceFlow((ServiceFlow) firstResult);
+						AddCommand ac = new AddCommand(
+								editingService.getEditingDomain(),
+								sf.getServiceFlowRelationships(),
+								createServiceFlowRelationship);
+
+						editingService.getEditingDomain().getCommandStack()
+								.execute(ac);
+					}
+				}
+				// Create a new relationship, with the selected object.
+
+			}
+
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.ui.actions.BaseSelectionListenerAction#updateSelection
+		 * (org.eclipse.jface.viewers.IStructuredSelection)
+		 */
+		@Override
+		protected boolean updateSelection(IStructuredSelection selection) {
+			return selection.getFirstElement() instanceof ServiceFlow;
 		}
 	}
 
@@ -437,73 +631,10 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		@SuppressWarnings("unused")
 		String actionText = readonly ? "View..." : "Edit...";
-
-		// actionList.add(new MonitorResourceAction("Monitor...", SWT.PUSH));
+		if (actions.size() == 0) {
+			actions.add(new AddCallFlowAction("Add Existing Call Flow...",
+					SWT.PUSH));
+		}
 		return actions.toArray(new IAction[actions.size()]);
 	}
-
-	/**
-	 * Editor support, which uses a combobox.
-	 * 
-	 * @author Christophe
-	 * 
-	 */
-	// class SelectionEditingSupport extends EditingSupport {
-	//
-	// private TreeViewer viewer;
-	// private ComboBoxCellEditor dropDownEditor;
-	// private Resource cdoResourceProtocols;
-	//
-	// public SelectionEditingSupport(TreeViewer viewer) {
-	// super(viewer);
-	// this.viewer = viewer;
-	// cdoResourceProtocols = editingService
-	// .getData(ProtocolsPackage.Literals.PROTOCOL);
-	// }
-	//
-	// @Override
-	// protected CellEditor getCellEditor(Object element) {
-	//
-	// EList<EObject> contents = cdoResourceProtocols.getContents();
-	// Function<EObject, String> transformer = new Function<EObject, String>(){
-	//
-	// public String apply(EObject from) {
-	// if( from instanceof Protocol){
-	// return ((Protocol) from).getName();
-	// }
-	// return from.toString();
-	// }
-	// };
-	//
-	// List<String> transform = Lists.transform(contents,transformer);
-	//
-	// dropDownEditor = new ComboBoxCellEditor(viewer.getTree(), elements);
-	//
-	// return dropDownEditor;
-	// }
-	//
-	// @Override
-	// protected boolean canEdit(Object element) {
-	// // As we are a tree, we should limit to the proper object.
-	// return true;
-	// }
-	//
-	// @Override
-	// protected Object getValue(Object element) {
-	//
-	// return 0;
-	// // if (element instanceof ServiceFlow) {
-	// //
-	// // return element;
-	// // }
-	// // return null;
-	// }
-	//
-	// @Override
-	// protected void setValue(Object element, Object value) {
-	// viewer.update(element, null);
-	// }
-	//
-	// }
-
 }

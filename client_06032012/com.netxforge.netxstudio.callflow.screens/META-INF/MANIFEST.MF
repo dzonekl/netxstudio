@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Call Flow Screens
 Bundle-SymbolicName: com.netxforge.netxstudio.callflow.screens;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.netxforge.netxstudio.callflow.screens.Activator
+Bundle-Activator: com.netxforge.netxstudio.callflow.screens.internal.CallFlowsActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.core.runtime,
  com.netxforge.netxstudio.screens.common;bundle-version="1.0.0",
@@ -12,6 +12,9 @@ Require-Bundle: org.eclipse.core.runtime,
  com.netxforge.netxstudio.screens.nebula;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
-Import-Package: com.netxforge.netxstudio.library,
+Import-Package: com.netxforge.netxstudio.geo,
+ com.netxforge.netxstudio.library,
+ com.netxforge.netxstudio.metrics,
+ com.netxforge.netxstudio.operators,
  com.netxforge.netxstudio.protocols,
  com.netxforge.netxstudio.services

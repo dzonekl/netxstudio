@@ -1,26 +1,29 @@
-package com.netxforge.netxstudio.callflow.screens;
+package com.netxforge.netxstudio.callflow.screens.internal;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.netxforge.netxstudio.screens.common.internal.ScreensCommonActivator;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class CallFlowsActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.netxforge.client.callflow.screens"; //$NON-NLS-1$
 
 	// The shared instance
-	private static Activator plugin;
+	private static CallFlowsActivator plugin;
+
+	private Injector callFlowsInjector;
 	
 	/**
 	 * The constructor
 	 */
-	public Activator() {
+	public CallFlowsActivator() {
 	}
 
 	/*
@@ -30,6 +33,9 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		
+		Module om = new ScreensModule();
+		callFlowsInjector = ScreensCommonActivator.getDefault().getInjector().createChildInjector(om);
 	}
 
 	/*
@@ -46,13 +52,12 @@ public class Activator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static Activator getDefault() {
+	public static CallFlowsActivator getDefault() {
 		return plugin;
 	}
 	
-	
 	public Injector getInjector() {
-		return ScreensCommonActivator.getDefault().getInjector();
+		return callFlowsInjector;
 	}
 
 }

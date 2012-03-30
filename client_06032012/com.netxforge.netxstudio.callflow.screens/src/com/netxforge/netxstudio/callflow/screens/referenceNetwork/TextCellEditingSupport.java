@@ -49,7 +49,7 @@ public class TextCellEditingSupport extends ObservableValueEditingSupport {
 	protected IObservableValue doCreateCellEditorObservable(
 			CellEditor cellEditor) {
 		return SWTObservables
-				.observeDelayedValue(400, SWTObservables.observeText(
+				.observeDelayedValue(100, SWTObservables.observeText(
 						((TextCellEditor) cellEditor).getControl(), SWT.Modify));
 	}
 

@@ -72,7 +72,20 @@ public class ComboBoxCellEditingSupport extends ObservableValueEditingSupport {
 				} else if (element instanceof Protocol) {
 					return ((Protocol) element).getName();
 				} else if (element instanceof ReferenceRelationship) {
-					return ((ReferenceRelationship) element).getName();
+					
+					ReferenceRelationship rel = (ReferenceRelationship) element;
+					NodeType nt1 = rel.getRefInterface1Ref();
+					NodeType nt2 = rel.getRefInterface2Ref();
+
+					StringBuffer buf = new StringBuffer();
+					buf.append(" (");
+					buf.append(nt1 != null ? nt1.getName() : " ?");
+					buf.append(" <--> ");
+					buf.append(nt2 != null ? nt2.getName() : " ?");
+					buf.append(")");
+					
+					String name = rel.getName();
+					return name != null ? name : buf.toString();
 				} else if (element instanceof ServiceFlowDirection) {
 					switch (((ServiceFlowDirection) element).getValue()) {
 					case ServiceFlowDirection.LEFTTORIGHT_VALUE: {
@@ -112,7 +125,9 @@ public class ComboBoxCellEditingSupport extends ObservableValueEditingSupport {
 	@Override
 	protected IObservableValue doCreateElementObservable(Object element,
 			ViewerCell cell) {
-
+		
+		System.out.println("ComboBoxCellEditing, create element observable called");
+		
 		// This will likely crash the cell editor, so do we have a NULL,
 		// observable?
 		return EMFEditProperties.value(editingDomain, path).observe(element);

@@ -14,7 +14,7 @@
          point="org.eclipse.ui.views">
       <view
       
-            class="com.netxforge.netxstudio.callflow.screens.ScreensEExtensionFactory:com.netxforge.netxstudio.callflow.screens.parts.CallFlowScreenSelector"
+            class="com.netxforge.netxstudio.callflow.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.callflow.screens.parts.CallFlowScreenSelector"
             id="com.netxforge.netxstudio.screens.selector.callflow"
             name="Call Flow"
             icon="icons/view16/Protocol_H.png"
@@ -22,14 +22,12 @@
       </view>
    </extension>
    
-   <!-- NOT NEEDED FOR NOW. 
    <extension
          point="org.eclipse.emf.edit.childCreationExtenders">
       <extender
-            class="com.netxforge.netxstudio.callflow.screens.ScreensEExtensionFactory:com.netxforge.netxstudio.callflow.screens.actions.ServiceChildCreationExtender"
+            class="com.netxforge.netxstudio.callflow.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.callflow.screens.actions.ServicesChildCreationExtender"
             uri="http://www.netxforge.com/06032012/services">
       </extender>
    </extension>
-   -->
    
 </plugin>

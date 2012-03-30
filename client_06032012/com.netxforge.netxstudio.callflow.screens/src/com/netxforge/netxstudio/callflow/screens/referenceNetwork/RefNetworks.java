@@ -94,7 +94,7 @@ public class RefNetworks extends AbstractScreen implements
 				.getData(LibraryPackage.Literals.REFERENCE_NETWORK);
 
 		// For now hard code to a single entry.
-		if (cdoResourceReferenceNetworks.getContents().size() == 1) {
+		if (cdoResourceReferenceNetworks.getContents().size() > 0) {
 			refNet = (ReferenceNetwork) cdoResourceReferenceNetworks
 					.getContents().get(0);
 		} else {
@@ -125,7 +125,7 @@ public class RefNetworks extends AbstractScreen implements
 
 		frmRefNetwork.setText(" Reference Interfaces");
 
-		frmRefNetwork.getToolBarManager().add(new NewCallFlowAction(""));
+		frmRefNetwork.getToolBarManager().add(new NewReferenceAction(""));
 
 		frmRefNetwork.getToolBarManager().update(true);
 		frmRefNetwork.setToolBarVerticalAlignment(SWT.TOP);
@@ -295,7 +295,7 @@ public class RefNetworks extends AbstractScreen implements
 			cmbCellEditingSupportB.setInput(nodeTypesObservableList);
 		}
 
-		// Column Protocol, NODE TYPE selector
+		// Column Protocol selector
 
 		// Get the data to observe and set as input to our combo.
 		Resource cdoResProtocols = editingService
@@ -372,9 +372,9 @@ public class RefNetworks extends AbstractScreen implements
 		return actions.toArray(new IAction[actions.size()]);
 	}
 
-	class NewCallFlowAction extends Action {
+	class NewReferenceAction extends Action {
 
-		public NewCallFlowAction(String text) {
+		public NewReferenceAction(String text) {
 			super(text, ResourceManager.getPluginImageDescriptor(
 					"com.netxforge.netxstudio.models.edit",
 					"icons/full/ctool16/FunctionRelationship_E.png"));

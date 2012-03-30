@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.callflow.screens;
+package com.netxforge.netxstudio.callflow.screens.internal;
 
 import org.osgi.framework.Bundle;
 
@@ -13,12 +13,12 @@ public class ScreensEExtensionFactory extends AbstractGuiceAwareExecutableExtens
 
 	@Override
 	protected Bundle getBundle() {
-		return Activator.getDefault().getBundle();
+		return CallFlowsActivator.getDefault().getBundle();
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return Activator.getDefault().getInjector();
+		return CallFlowsActivator.getDefault().getInjector();
 	}
 	
 }
