@@ -22,6 +22,9 @@ import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.library.ReferenceRelationship;
+import com.netxforge.netxstudio.protocols.Message;
+import com.netxforge.netxstudio.protocols.Protocol;
+import com.netxforge.netxstudio.services.ServiceFlow;
 import com.netxforge.netxstudio.services.ServiceFlowDirection;
 import com.netxforge.netxstudio.services.ServiceFlowRelationship;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -34,6 +37,9 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceFlowRelationshipImpl#getReferenceRelationship <em>Reference Relationship</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceFlowRelationshipImpl#getServiceFlow <em>Service Flow</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceFlowRelationshipImpl#getProtocol <em>Protocol</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceFlowRelationshipImpl#getMessage <em>Message</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceFlowRelationshipImpl#getDirection <em>Direction</em>}</li>
  * </ul>
  * </p>
@@ -76,6 +82,60 @@ public class ServiceFlowRelationshipImpl extends BaseImpl implements ServiceFlow
 	 */
 	public void setReferenceRelationship(ReferenceRelationship newReferenceRelationship) {
 		eSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP, newReferenceRelationship);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ServiceFlow getServiceFlow() {
+		return (ServiceFlow)eGet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__SERVICE_FLOW, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setServiceFlow(ServiceFlow newServiceFlow) {
+		eSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__SERVICE_FLOW, newServiceFlow);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Protocol getProtocol() {
+		return (Protocol)eGet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__PROTOCOL, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setProtocol(Protocol newProtocol) {
+		eSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__PROTOCOL, newProtocol);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Message getMessage() {
+		return (Message)eGet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__MESSAGE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMessage(Message newMessage) {
+		eSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__MESSAGE, newMessage);
 	}
 
 	/**

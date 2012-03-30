@@ -43,6 +43,8 @@ import com.netxforge.netxstudio.library.LibraryPackage;
  * 
  * 		
  * 
+ * 		
+ * 
  * 
  * 			Network Data schema Copyright 2008 The schema uses
  * 			ecore
@@ -97,7 +99,7 @@ import com.netxforge.netxstudio.library.LibraryPackage;
  * <!-- end-model-doc -->
  * @see com.netxforge.netxstudio.services.ServicesFactory
  * @model kind="package"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore validationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' settingDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' invocationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore validationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' settingDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' invocationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL'"
  * @generated
  */
 public interface ServicesPackage extends EPackage {
@@ -890,13 +892,40 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Service Flow</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_FLOW_RELATIONSHIP__SERVICE_FLOW = GenericsPackage.BASE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Protocol</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_FLOW_RELATIONSHIP__PROTOCOL = GenericsPackage.BASE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_FLOW_RELATIONSHIP__MESSAGE = GenericsPackage.BASE_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Direction</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_FLOW_RELATIONSHIP__DIRECTION = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int SERVICE_FLOW_RELATIONSHIP__DIRECTION = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Service Flow Relationship</em>' class.
@@ -905,7 +934,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_FLOW_RELATIONSHIP_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int SERVICE_FLOW_RELATIONSHIP_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.ServiceForecastImpl <em>Service Forecast</em>}' class.
@@ -1671,6 +1700,39 @@ public interface ServicesPackage extends EPackage {
 	EReference getServiceFlowRelationship_ReferenceRelationship();
 
 	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getServiceFlow <em>Service Flow</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Service Flow</em>'.
+	 * @see com.netxforge.netxstudio.services.ServiceFlowRelationship#getServiceFlow()
+	 * @see #getServiceFlowRelationship()
+	 * @generated
+	 */
+	EReference getServiceFlowRelationship_ServiceFlow();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getProtocol <em>Protocol</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Protocol</em>'.
+	 * @see com.netxforge.netxstudio.services.ServiceFlowRelationship#getProtocol()
+	 * @see #getServiceFlowRelationship()
+	 * @generated
+	 */
+	EReference getServiceFlowRelationship_Protocol();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getMessage <em>Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Message</em>'.
+	 * @see com.netxforge.netxstudio.services.ServiceFlowRelationship#getMessage()
+	 * @see #getServiceFlowRelationship()
+	 * @generated
+	 */
+	EReference getServiceFlowRelationship_Message();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getDirection <em>Direction</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2327,6 +2389,30 @@ public interface ServicesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP = eINSTANCE.getServiceFlowRelationship_ReferenceRelationship();
+
+		/**
+		 * The meta object literal for the '<em><b>Service Flow</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERVICE_FLOW_RELATIONSHIP__SERVICE_FLOW = eINSTANCE.getServiceFlowRelationship_ServiceFlow();
+
+		/**
+		 * The meta object literal for the '<em><b>Protocol</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERVICE_FLOW_RELATIONSHIP__PROTOCOL = eINSTANCE.getServiceFlowRelationship_Protocol();
+
+		/**
+		 * The meta object literal for the '<em><b>Message</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERVICE_FLOW_RELATIONSHIP__MESSAGE = eINSTANCE.getServiceFlowRelationship_Message();
 
 		/**
 		 * The meta object literal for the '<em><b>Direction</b></em>' attribute feature.

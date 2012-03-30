@@ -29,8 +29,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  * <!-- begin-model-doc -->
  * A type representing the basic information points of
  * 				a Reference Relationship between two Network Element Types. The
- * 				protocol
- * 				defines the procedures for this relationship.
+ * 				protocol defines the procedures for this relationship. Note the relation
  * 			
  * <!-- end-model-doc -->
  *
@@ -83,7 +82,7 @@ public interface ReferenceRelationship extends Base {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The ProtocolRef reference, refers to 0 or 1
-	 * 							Protocol type.
+	 * 							Protocol type. 
 	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Protocol Ref</em>' reference.

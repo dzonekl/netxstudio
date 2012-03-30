@@ -648,8 +648,35 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getServiceFlowRelationship_ServiceFlow() {
+		return (EReference)serviceFlowRelationshipEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getServiceFlowRelationship_Protocol() {
+		return (EReference)serviceFlowRelationshipEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getServiceFlowRelationship_Message() {
+		return (EReference)serviceFlowRelationshipEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getServiceFlowRelationship_Direction() {
-		return (EAttribute)serviceFlowRelationshipEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)serviceFlowRelationshipEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -978,6 +1005,9 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 
 		serviceFlowRelationshipEClass = createEClass(SERVICE_FLOW_RELATIONSHIP);
 		createEReference(serviceFlowRelationshipEClass, SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP);
+		createEReference(serviceFlowRelationshipEClass, SERVICE_FLOW_RELATIONSHIP__SERVICE_FLOW);
+		createEReference(serviceFlowRelationshipEClass, SERVICE_FLOW_RELATIONSHIP__PROTOCOL);
+		createEReference(serviceFlowRelationshipEClass, SERVICE_FLOW_RELATIONSHIP__MESSAGE);
 		createEAttribute(serviceFlowRelationshipEClass, SERVICE_FLOW_RELATIONSHIP__DIRECTION);
 
 		serviceForecastEClass = createEClass(SERVICE_FORECAST);
@@ -1046,6 +1076,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		GenericsPackage theGenericsPackage = (GenericsPackage)EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI);
 		LibraryPackage theLibraryPackage = (LibraryPackage)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
 		OperatorsPackage theOperatorsPackage = (OperatorsPackage)EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI);
+		ProtocolsPackage theProtocolsPackage = (ProtocolsPackage)EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -1114,6 +1145,9 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 
 		initEClass(serviceFlowRelationshipEClass, ServiceFlowRelationship.class, "ServiceFlowRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getServiceFlowRelationship_ReferenceRelationship(), theLibraryPackage.getReferenceRelationship(), null, "referenceRelationship", null, 0, 1, ServiceFlowRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getServiceFlowRelationship_ServiceFlow(), this.getServiceFlow(), null, "serviceFlow", null, 0, 1, ServiceFlowRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getServiceFlowRelationship_Protocol(), theProtocolsPackage.getProtocol(), null, "protocol", null, 0, 1, ServiceFlowRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getServiceFlowRelationship_Message(), theProtocolsPackage.getMessage(), null, "message", null, 0, 1, ServiceFlowRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getServiceFlowRelationship_Direction(), this.getServiceFlowDirection(), "direction", null, 0, 1, ServiceFlowRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serviceForecastEClass, ServiceForecast.class, "ServiceForecast", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1185,10 +1219,10 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		  (this, 
 		   source, 
 		   new String[] {
-			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
-			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
-			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																																																
+			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
+			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
+			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
+		   });																																																																																																																																						
 	}
 
 	/**
@@ -1503,6 +1537,27 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		   new String[] {
 			 "kind", "element",
 			 "name", "ReferenceRelationship"
+		   });			
+		addAnnotation
+		  (getServiceFlowRelationship_ServiceFlow(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ServiceFlow"
+		   });			
+		addAnnotation
+		  (getServiceFlowRelationship_Protocol(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "Protocol"
+		   });			
+		addAnnotation
+		  (getServiceFlowRelationship_Message(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "Message"
 		   });			
 		addAnnotation
 		  (getServiceFlowRelationship_Direction(), 

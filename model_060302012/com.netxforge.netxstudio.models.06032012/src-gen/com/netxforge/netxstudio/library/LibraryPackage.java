@@ -68,6 +68,8 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
  * 
  * 		
  * 
+ * 		
+ * 
  * 
  * 			Network Data schema Copyright 2008 The schema uses
  * 			ecore
@@ -91,8 +93,6 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
  * 			Validation with pattern is not used, considering the limited
  * 			capabilities of
  * 			XSD patterns.
- * 
- * 		
  * 
  * 		
  * <!-- end-model-doc -->

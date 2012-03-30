@@ -101,7 +101,7 @@ public class ReferenceNetworkItemProvider
 				 LibraryPackage.Literals.REFERENCE_NETWORK__REF_RELATIONSHIPS,
 				 true,
 				 false,
-				 true,
+				 false,
 				 null,
 				 null,
 				 null));
@@ -166,6 +166,7 @@ public class ReferenceNetworkItemProvider
 			childrenFeatures.add(LibraryPackage.Literals.REFERENCE_NETWORK__DIAGRAMS);
 			childrenFeatures.add(LibraryPackage.Literals.REFERENCE_NETWORK__NODE_TYPES);
 			childrenFeatures.add(LibraryPackage.Literals.REFERENCE_NETWORK__REFERENCE_NETWORKS);
+			childrenFeatures.add(LibraryPackage.Literals.REFERENCE_NETWORK__REF_RELATIONSHIPS);
 		}
 		return childrenFeatures;
 	}
@@ -228,6 +229,7 @@ public class ReferenceNetworkItemProvider
 			case LibraryPackage.REFERENCE_NETWORK__DIAGRAMS:
 			case LibraryPackage.REFERENCE_NETWORK__NODE_TYPES:
 			case LibraryPackage.REFERENCE_NETWORK__REFERENCE_NETWORKS:
+			case LibraryPackage.REFERENCE_NETWORK__REF_RELATIONSHIPS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -259,6 +261,11 @@ public class ReferenceNetworkItemProvider
 			(createChildParameter
 				(LibraryPackage.Literals.REFERENCE_NETWORK__REFERENCE_NETWORKS,
 				 LibraryFactory.eINSTANCE.createReferenceNetwork()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(LibraryPackage.Literals.REFERENCE_NETWORK__REF_RELATIONSHIPS,
+				 LibraryFactory.eINSTANCE.createReferenceRelationship()));
 	}
 
 	/**

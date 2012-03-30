@@ -20,6 +20,8 @@ package com.netxforge.netxstudio.services;
 
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.library.ReferenceRelationship;
+import com.netxforge.netxstudio.protocols.Message;
+import com.netxforge.netxstudio.protocols.Protocol;
 
 /**
  * <!-- begin-user-doc -->
@@ -43,6 +45,9 @@ import com.netxforge.netxstudio.library.ReferenceRelationship;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getReferenceRelationship <em>Reference Relationship</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getServiceFlow <em>Service Flow</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getProtocol <em>Protocol</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getMessage <em>Message</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getDirection <em>Direction</em>}</li>
  * </ul>
  * </p>
@@ -58,7 +63,7 @@ public interface ServiceFlowRelationship extends Base {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 							
+	 * 								
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Reference Relationship</em>' reference.
 	 * @see #setReferenceRelationship(ReferenceRelationship)
@@ -77,6 +82,86 @@ public interface ServiceFlowRelationship extends Base {
 	 * @generated
 	 */
 	void setReferenceRelationship(ReferenceRelationship value);
+
+	/**
+	 * Returns the value of the '<em><b>Service Flow</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 								
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Service Flow</em>' reference.
+	 * @see #setServiceFlow(ServiceFlow)
+	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceFlowRelationship_ServiceFlow()
+	 * @model extendedMetaData="kind='element' name='ServiceFlow'"
+	 * @generated
+	 */
+	ServiceFlow getServiceFlow();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getServiceFlow <em>Service Flow</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Service Flow</em>' reference.
+	 * @see #getServiceFlow()
+	 * @generated
+	 */
+	void setServiceFlow(ServiceFlow value);
+
+	/**
+	 * Returns the value of the '<em><b>Protocol</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The protocol used on the service flow. 
+	 * 							In contrary to the protocol of the reference interface, which is likely different. 
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Protocol</em>' reference.
+	 * @see #setProtocol(Protocol)
+	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceFlowRelationship_Protocol()
+	 * @model extendedMetaData="kind='element' name='Protocol'"
+	 * @generated
+	 */
+	Protocol getProtocol();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getProtocol <em>Protocol</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Protocol</em>' reference.
+	 * @see #getProtocol()
+	 * @generated
+	 */
+	void setProtocol(Protocol value);
+
+	/**
+	 * Returns the value of the '<em><b>Message</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The specific message for the protocol. 
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Message</em>' containment reference.
+	 * @see #setMessage(Message)
+	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceFlowRelationship_Message()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='Message'"
+	 * @generated
+	 */
+	Message getMessage();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getMessage <em>Message</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Message</em>' containment reference.
+	 * @see #getMessage()
+	 * @generated
+	 */
+	void setMessage(Message value);
 
 	/**
 	 * Returns the value of the '<em><b>Direction</b></em>' attribute.
