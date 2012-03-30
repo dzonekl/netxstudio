@@ -4,7 +4,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="library"
     nsURI="http://www.netxforge.com/06032012/library" nsPrefix="library">
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-    <details key="documentation" value="&#xA;&#xA;&#x9;&#x9;&#x9;Network Data schema Copyright 2008 The schema uses&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references syntax, but should easily map into an SQL schema.&#xA;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references, are mapped into ORM specific DLL (See&#xA;&#x9;&#x9;&#x9;Hibernate or&#xA;&#x9;&#x9;&#x9;other&#xA;&#x9;&#x9;&#x9;ORM. EMF/Hibernate&#xA;&#x9;&#x9;&#x9;however uses a custom mechanism.&#xA;&#xA;&#x9;&#x9;&#x9;Don't use&#xA;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;word&#xA;&#x9;&#x9;&#x9;&quot;Item&quot;, as this is appended to the Object&#xA;&#x9;&#x9;&#x9;name in the EMF&#xA;&#x9;&#x9;&#x9;edit&#xA;&#x9;&#x9;&#x9;model.&#xA;&#xA;&#x9;&#x9;&#x9;Validation with pattern is not used, considering the limited&#xA;&#x9;&#x9;&#x9;capabilities of&#xA;&#x9;&#x9;&#x9;XSD patterns.&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#xA;&#x9;&#x9;&#x9;Network Data schema Copyright 2008 The schema uses&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references syntax, but should easily map into an SQL schema.&#xA;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references, are mapped into ORM specific DLL (See&#xA;&#x9;&#x9;&#x9;Hibernate or&#xA;&#x9;&#x9;&#x9;other&#xA;&#x9;&#x9;&#x9;ORM. EMF/Hibernate&#xA;&#x9;&#x9;&#x9;however uses a custom mechanism.&#xA;&#xA;&#x9;&#x9;&#x9;Don't use&#xA;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;word&#xA;&#x9;&#x9;&#x9;&quot;Item&quot;, as this is appended to the Object&#xA;&#x9;&#x9;&#x9;name in the EMF&#xA;&#x9;&#x9;&#x9;edit&#xA;&#x9;&#x9;&#x9;model.&#xA;&#xA;&#x9;&#x9;&#x9;Validation with pattern is not used, considering the limited&#xA;&#x9;&#x9;&#x9;capabilities of&#xA;&#x9;&#x9;&#x9;XSD patterns.&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#x9;&#x9;"/>
+    <details key="documentation" value="&#xA;&#xA;&#x9;&#x9;&#x9;Network Data schema Copyright 2008 The schema uses&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references syntax, but should easily map into an SQL schema.&#xA;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references, are mapped into ORM specific DLL (See&#xA;&#x9;&#x9;&#x9;Hibernate or&#xA;&#x9;&#x9;&#x9;other&#xA;&#x9;&#x9;&#x9;ORM. EMF/Hibernate&#xA;&#x9;&#x9;&#x9;however uses a custom mechanism.&#xA;&#xA;&#x9;&#x9;&#x9;Don't use&#xA;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;word&#xA;&#x9;&#x9;&#x9;&quot;Item&quot;, as this is appended to the Object&#xA;&#x9;&#x9;&#x9;name in the EMF&#xA;&#x9;&#x9;&#x9;edit&#xA;&#x9;&#x9;&#x9;model.&#xA;&#xA;&#x9;&#x9;&#x9;Validation with pattern is not used, considering the limited&#xA;&#x9;&#x9;&#x9;capabilities of&#xA;&#x9;&#x9;&#x9;XSD patterns.&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#xA;&#x9;&#x9;&#x9;Network Data schema Copyright 2008 The schema uses&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references syntax, but should easily map into an SQL schema.&#xA;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references, are mapped into ORM specific DLL (See&#xA;&#x9;&#x9;&#x9;Hibernate or&#xA;&#x9;&#x9;&#x9;other&#xA;&#x9;&#x9;&#x9;ORM. EMF/Hibernate&#xA;&#x9;&#x9;&#x9;however uses a custom mechanism.&#xA;&#xA;&#x9;&#x9;&#x9;Don't use&#xA;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;word&#xA;&#x9;&#x9;&#x9;&quot;Item&quot;, as this is appended to the Object&#xA;&#x9;&#x9;&#x9;name in the EMF&#xA;&#x9;&#x9;&#x9;edit&#xA;&#x9;&#x9;&#x9;model.&#xA;&#xA;&#x9;&#x9;&#x9;Validation with pattern is not used, considering the limited&#xA;&#x9;&#x9;&#x9;capabilities of&#xA;&#x9;&#x9;&#x9;XSD patterns.&#xA;&#xA;&#x9;&#x9;"/>
   </eAnnotations>
   <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
     <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL&#xA;http://www.eclipse.org/emf/2002/Ecore/OCL&#xA;http://www.eclipse.org/emf/2002/Ecore/OCL"/>
@@ -1074,42 +1074,6 @@
       <details key="baseType" value="Redundancy_._type"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ReferenceInterface" eSuperTypes="generics.ecore#//Base">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the basic information points of&#xA;&#x9;&#x9;&#x9;&#x9;a Reference Relationship between two Network Element Types. The&#xA;&#x9;&#x9;&#x9;&#x9;protocol&#xA;&#x9;&#x9;&#x9;&#x9;defines the procedures for this relationship.&#xA;&#x9;&#x9;&#x9;"/>
-    </eAnnotations>
-    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="ReferenceInterface"/>
-      <details key="kind" value="empty"/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Name attribute holds a name used for&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;presentation.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="attribute"/>
-        <details key="name" value="Name"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="nodeTypeRef" eType="#//NodeType">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The NodeID1Ref attribute, references a Node&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="attribute"/>
-        <details key="name" value="NodeTypeRef"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="protocolRef" eType="ecore:EClass protocols.ecore#//Protocol">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The ProtocolRef reference, refers to 0 or 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Protocol type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="attribute"/>
-        <details key="name" value="ProtocolRef"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferenceNetwork" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A type representing the basic information points of&#xA;&#x9;&#x9;&#x9;&#x9;a reference telecommunications network or part of a network.&#xA;&#x9;&#x9;&#x9;&#x9;A Network&#xA;&#x9;&#x9;&#x9;&#x9;type can have a parent Network. It also can contain Network Element types.&#xA;&#x9;&#x9;&#x9;&#x9;and&#xA;&#x9;&#x9;&#x9;&#x9;relationships. A Network can have different phases&#xA;&#x9;&#x9;&#x9;&#x9;which represents&#xA;&#x9;&#x9;&#x9;&#x9;how the network evolves over time. The start and end&#xA;&#x9;&#x9;&#x9;&#x9;date of the&#xA;&#x9;&#x9;&#x9;&#x9;network provide reference on the period for which a&#xA;&#x9;&#x9;&#x9;&#x9;phase applies.&#xA;&#x9;&#x9;&#x9;&#x9;applies. Network phases are also linked together.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;1. A &quot;Core&#xA;&#x9;&#x9;&#x9;&#x9;Network&quot; is defined which holds Nodes belonging to the&#xA;&#x9;&#x9;&#x9;&#x9;&quot;Core&#xA;&#x9;&#x9;&#x9;&#x9;Network&quot;. Relationships are also stored&#xA;&#x9;&#x9;&#x9;&#x9;in this network.&#xA;&#x9;&#x9;&#x9;&#x9;1. A &quot;Core&#xA;&#x9;&#x9;&#x9;&#x9;Network&quot; has 2 phases, each covering 1 calendar year.&#xA;&#x9;&#x9;&#x9;"/>
@@ -1149,7 +1113,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="refRelationships" upperBound="-1"
-        eType="#//ReferenceRelationship">
+        eType="#//ReferenceRelationship" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The Reference Relations reference, contains 0&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;or more Reference Relationships.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -1180,29 +1144,45 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferenceRelationship" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the basic information points of&#xA;&#x9;&#x9;&#x9;&#x9;a Reference Relationship between two Network Element Types. The&#xA;&#x9;&#x9;&#x9;&#x9;protocol&#xA;&#x9;&#x9;&#x9;&#x9;defines the procedures for this relationship.&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type representing the basic information points of&#xA;&#x9;&#x9;&#x9;&#x9;a Reference Relationship between two Network Element Types. The&#xA;&#x9;&#x9;&#x9;&#x9;protocol defines the procedures for this relationship. Note the relation&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ReferenceRelationship"/>
-      <details key="kind" value="elementOnly"/>
+      <details key="kind" value="empty"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refInterface1Ref" eType="#//ReferenceInterface"
-        containment="true" resolveProxies="false">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The RefInterface1Ref attribute, references a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ReferenceInterface&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The Name attribute holds a name used for&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;presentation.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
+        <details key="kind" value="attribute"/>
+        <details key="name" value="Name"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="protocolRef" eType="ecore:EClass protocols.ecore#//Protocol">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The ProtocolRef reference, refers to 0 or 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Protocol type. &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="ProtocolRef"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refInterface1Ref" eType="#//NodeType">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The NodeID1Ref attribute, references a Node&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
         <details key="name" value="RefInterface1Ref"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refInterface2Ref" eType="#//ReferenceInterface"
-        containment="true" resolveProxies="false">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refInterface2Ref" eType="#//NodeType">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The RefInterface2Ref attribute, references a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ReferenceInterface&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The NodeID2Ref attribute, references a Node&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
+        <details key="kind" value="attribute"/>
         <details key="name" value="RefInterface2Ref"/>
       </eAnnotations>
     </eStructuralFeatures>

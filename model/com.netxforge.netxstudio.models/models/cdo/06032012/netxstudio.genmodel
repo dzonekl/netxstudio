@@ -201,8 +201,13 @@
       <genEnumLiterals ecoreEnumLiteral="services.ecore#//ServiceClassType/Silver"/>
       <genEnumLiterals ecoreEnumLiteral="services.ecore#//ServiceClassType/Bronze"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="services.ecore#//ServiceFlowDirection">
+      <genEnumLiterals ecoreEnumLiteral="services.ecore#//ServiceFlowDirection/LEFTTORIGHT"/>
+      <genEnumLiterals ecoreEnumLiteral="services.ecore#//ServiceFlowDirection/RIGHTTOLEFT"/>
+    </genEnums>
     <genDataTypes ecoreDataType="services.ecore#//ResourceOriginTypeObject"/>
     <genDataTypes ecoreDataType="services.ecore#//ServiceClassTypeObject"/>
+    <genDataTypes ecoreDataType="services.ecore#//ServiceFlowDirectionObject"/>
     <genClasses ecoreClass="services.ecore#//CFSService">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CFSService/provider"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CFSService/scenario"/>
@@ -244,8 +249,15 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceDistribution/expressionRefs"/>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ServiceFlow">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceFlow/flowParts"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceFlow/serviceFlowRelationships"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceFlow/name"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//ServiceFlowRelationship">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceFlowRelationship/referenceRelationship"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceFlowRelationship/serviceFlow"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceFlowRelationship/protocol"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceFlowRelationship/message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceFlowRelationship/direction"/>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ServiceForecast">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceForecast/period"/>
@@ -427,20 +439,17 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ProductInfo/salesCode"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ProductInfo/underDevelopmentDate"/>
     </genClasses>
-    <genClasses ecoreClass="library.ecore#//ReferenceInterface">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ReferenceInterface/name"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//ReferenceInterface/nodeTypeRef"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//ReferenceInterface/protocolRef"/>
-    </genClasses>
     <genClasses ecoreClass="library.ecore#//ReferenceNetwork">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//ReferenceNetwork/diagrams"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//ReferenceNetwork/nodeTypes"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//ReferenceNetwork/referenceNetworks"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//ReferenceNetwork/refRelationships"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//ReferenceNetwork/refRelationships"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ReferenceNetwork/description"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ReferenceNetwork/name"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//ReferenceRelationship">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ReferenceRelationship/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//ReferenceRelationship/protocolRef"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//ReferenceRelationship/refInterface1Ref"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//ReferenceRelationship/refInterface2Ref"/>
     </genClasses>

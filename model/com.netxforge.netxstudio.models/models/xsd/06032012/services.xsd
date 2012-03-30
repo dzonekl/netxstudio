@@ -5,6 +5,7 @@
 	xmlns:library="http://www.netxforge.com/06032012/library"
 	targetNamespace="http://www.netxforge.com/06032012/services"
 	xmlns:operators="http://www.netxforge.com/06032012/operators"
+	xmlns:protocols="http://www.netxforge.com/06032012/protocols"
 	ecore:package="com.netxforge.netxstudio.services">
 	<xs:import schemaLocation="generics.xsd"
 		namespace="http://www.netxforge.com/06032012/generics">
@@ -14,6 +15,9 @@
 	</xs:import>
 	<xs:import schemaLocation="operators.xsd"
 		namespace="http://www.netxforge.com/06032012/operators"></xs:import>
+	<xs:import schemaLocation="protocols.xsd"
+		namespace="http://www.netxforge.com/06032012/protocols"></xs:import>
+
 	<xs:annotation>
 		<xs:documentation>
 		</xs:documentation>
@@ -33,7 +37,8 @@
 					<xs:element name="Nodes" ecore:reference="operators:Node"
 						type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>The Network Element reference, references 0 or more Network Element
+							<xs:documentation>The Network Element reference, references 0 or
+								more Network Element
 								types
 							</xs:documentation>
 						</xs:annotation>
@@ -58,28 +63,34 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
-	
+
+
 	<!--_______________________ -->
 	<!-- SERVICEFLOW -->
 	<!--_______________________ -->
 	<xs:complexType name="ServiceFlow">
 		<xs:annotation>
 			<xs:documentation>A type representing a Service flow.
-			Service flows are part of an RFService. A Service flow consists of service legs. Service 
-			flows operate on the Nodes of a Service.  
-			A service leg, has a start and end point, which represents the reference interface 
-			between two node types.   
+				Service flows
+				are part of an RFService. A Service flow consists of service
+				legs.
+				Service
+				flows operate on the Nodes of a Service.
+				A service leg, has a
+				start and end point, which represents the
+				reference interface
+				between
+				two node types.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
 				<xs:sequence>
-					<xs:element name="FlowParts" ecore:reference="library:ReferenceRelationship"
-						type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="ServiceFlowRelationships" type="ServiceFlowRelationship"
+						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>FlowParts are a sequence of Reference Interfaces which are ordered.
-							From the reference interface. 
+							<xs:documentation>ServiceFlowRelationships are a sequence of
+								ServiceFlowRelationship.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -93,7 +104,84 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
+
+
+	<!--_______________________ -->
+	<!-- SERVICEFLOWRELATIONSHIP -->
+	<!--_______________________ -->
+	<xs:complexType name="ServiceFlowRelationship">
+		<xs:annotation>
+			<xs:documentation>A type representing a Service flow Relationship.
+				Service flows are part of an RFService. A Service flow consists of
+				service
+				legs. Service
+				flows operate on the Nodes of a Service.
+				A
+				service leg, has a start and end point, which represents the
+				reference interface
+				between two node types.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<xs:choice maxOccurs="1">
+						<xs:element name="ReferenceRelationship"
+							ecore:reference="library:ReferenceRelationship" type="xs:anyURI">
+							<xs:annotation>
+								<xs:documentation>
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ServiceFlow" ecore:reference="ServiceFlow"
+							type="xs:anyURI">
+							<xs:annotation>
+								<xs:documentation>
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:element name="Protocol" ecore:reference="protocols:Protocol" type="xs:anyURI"
+						minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The protocol used on the service flow. 
+							In contrary to the protocol of the reference interface, which is likely different. 
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Message" type="protocols:Message"
+						minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The specific message for the protocol. 
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="Direction" type="ServiceFlowDirection">
+					<xs:annotation>
+						<xs:documentation>The direction of the Service Flow, between the
+							Node types in the reference relationship.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<!--_____________________________ -->
+	<!--| SERVICEFLOWDIRECTION | -->
+	<!--|___________________________| -->
+	<xs:simpleType name="ServiceFlowDirection">
+		<xs:annotation>
+			<xs:documentation>The service flow direction
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="LEFT_TO_RIGHT" />
+			<xs:enumeration value="RIGHT_TO_LEFT" />
+		</xs:restriction>
+	</xs:simpleType>
 
 	<!--_______________________ -->
 	<!-- CFSERVICE -->
@@ -365,7 +453,8 @@
 				<xs:attribute name="Description" type="gen:Description2000">
 					<xs:annotation>
 						<xs:documentation>The Description attribute, holds the
-							Description of the service User.
+							Description
+							of the service User.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
@@ -637,7 +726,8 @@
 					<xs:element name="DistributionEntries" minOccurs="0"
 						maxOccurs="unbounded" type="DistributionEntry">
 						<xs:annotation>
-							<xs:documentation>The DistributionEntries reference, contains 0 or
+							<xs:documentation>The DistributionEntries reference, contains 0
+								or
 								more Entries.
 							</xs:documentation>
 						</xs:annotation>

@@ -987,7 +987,6 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-
 					<xs:element maxOccurs="unbounded" minOccurs="0" name="NodeTypes"
 						type="NodeType">
 						<xs:annotation>
@@ -1005,8 +1004,8 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-						<xs:element maxOccurs="unbounded" minOccurs="0"
-						name="RefRelationships" ecore:reference="ReferenceRelationship" type="xs:anyURI">
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="RefRelationships" type="ReferenceRelationship">
 						<xs:annotation>
 							<xs:documentation>The Reference Relations reference, contains 0
 								or more Reference Relationships.
@@ -1058,52 +1057,24 @@
 		<xs:annotation>
 			<xs:documentation>A type representing the basic information points of
 				a Reference Relationship between two Network Element Types. The
-				protocol
-				defines the procedures for this relationship.
+				protocol defines the procedures for this relationship. Note the relation
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
-				<xs:sequence>
-					<xs:element name="RefInterface1Ref" type="ReferenceInterface" minOccurs="0" maxOccurs="1">
-						<xs:annotation>
-							<xs:documentation>The RefInterface1Ref attribute, references a
-								ReferenceInterface
-								type.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="RefInterface2Ref" type="ReferenceInterface" minOccurs="0" maxOccurs="1">
-						<xs:annotation>
-							<xs:documentation>The RefInterface2Ref attribute, references a
-								ReferenceInterface
-								type.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-
-	<!-- ___________________________ -->
-	<!--| REFERENCEINTERFACE | -->
-	<!--|___________________________| -->
-
-	<xs:complexType name="ReferenceInterface">
-		<xs:annotation>
-			<xs:documentation>A type representing the basic information points of
-				a Reference Relationship between two Network Element Types. The
-				protocol
-				defines the procedures for this relationship.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="gen:Base">
-				<xs:attribute name="NodeTypeRef" ecore:reference="NodeType"
+				<xs:attribute name="RefInterface1Ref" ecore:reference="NodeType"
 					type="xs:anyURI">
 					<xs:annotation>
 						<xs:documentation>The NodeID1Ref attribute, references a Node
+							type.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				
+				<xs:attribute name="RefInterface2Ref" ecore:reference="NodeType"
+					type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>The NodeID2Ref attribute, references a Node
 							type.
 						</xs:documentation>
 					</xs:annotation>
@@ -1119,14 +1090,13 @@
 					name="ProtocolRef" type="xs:anyURI">
 					<xs:annotation>
 						<xs:documentation>The ProtocolRef reference, refers to 0 or 1
-							Protocol type.
+							Protocol type. 
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
 
 	<!--_____________________________ -->
 	<!--| RESOURCE | -->
