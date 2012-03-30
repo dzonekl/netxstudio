@@ -3,8 +3,12 @@ package com.netxforge.netxstudio.screens.f4;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -49,6 +53,7 @@ import org.swtchart.ISeriesSet;
 import org.swtchart.LineStyle;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -347,7 +352,8 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 	private List<Value> values;
 
 	public List<Value> sortAndApplyPeriod(List<Value> values) {
-		List<Value> sortedCopy = modelUtils.sortValuesByTimeStampAndReverse(values);
+		List<Value> sortedCopy = modelUtils
+				.sortValuesByTimeStampAndReverse(values);
 		return modelUtils.valuesInRange(sortedCopy, dtr);
 	}
 
@@ -447,14 +453,14 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 			initDataBindings_();
 		} else {
 			if (owner instanceof NetXResource) {
-//				this.dtr = (DateTimeRange) object;
+				// this.dtr = (DateTimeRange) object;
 				this.netXResource = (NetXResource) owner;
 			}
 
 			if (object instanceof List<?>) {
 				this.values = (List<Value>) object;
 			}
-//			buildUI();
+			// buildUI();
 			initDataBindings_();
 		}
 
@@ -477,7 +483,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 			this.interval = interval;
 		}
 
-//		buildUI();
+		// buildUI();
 		initDataBindings_();
 	}
 
@@ -529,12 +535,12 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 	}
 
 	private void initChartBinding() {
-		
+
 		ISeriesSet seriesSet = chart.getSeriesSet();
-		for( ISeries serie : seriesSet.getSeries()){
+		for (ISeries serie : seriesSet.getSeries()) {
 			seriesSet.deleteSeries(serie.getId());
 		}
-		
+
 		// METRIC VALUES....
 		List<Value> metricValues = null;
 
@@ -562,12 +568,22 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		}
 
 		// DATE RANGE FROM METRIC VALUES
+		// FIXME, We let the timestamps depending on the metric values, which this should be the provided
+		// period. For a single metric value this gives an odd behaviour of the chart. 
+		// See the way it's done in the class ResourceReportingEngine/ 
+//		List<Date> dates = getTS();
+		
+		
+		
 		List<Date> dates = modelUtils.transformValueToDate(metricValues);
 		Date[] dateArray = new Date[dates.size()];
 		dates.toArray(dateArray);
 
 		double[] metricDoubleValues = modelUtils
 				.transformValueToDoubleArray(metricValues);
+		
+		
+		// 
 		this.seriesFromMetric(dateArray, metricDoubleValues, chart,
 				netXResource);
 
@@ -575,6 +591,12 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 
 		// CAP VALUES......
 		List<Value> capacities = netXResource.getCapacityValues();
+
+		// We should also filter the cap values.
+		if (dtr != null) {
+			capacities = this.sortAndApplyPeriod(capacities);
+		}
+
 		List<Value> capMatchingDates = Lists.newArrayList(capacities);
 		int capSize = capMatchingDates.size();
 		int delta = dates.size() - capSize;
@@ -584,6 +606,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 				capMatchingDates.add(i, lastVal);
 			}
 		}
+
 		double[] capValues = modelUtils
 				.transformValueToDoubleArray(capMatchingDates);
 		this.seriesFromCapacity(dateArray, capValues, chart);
@@ -592,15 +615,17 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		List<Value> utilValues = sortAndApplyPeriod(netXResource
 				.getUtilizationValues());
 
-		List<Double> utilDoubleValues = modelUtils
-				.transformValueToDouble(utilValues);
+		if (utilValues.size() > 0) {
+			List<Double> utilDoubleValues = modelUtils
+					.transformValueToDouble(utilValues);
 
-		// Multiply by 100
-		double[] utilDoubleArray = modelUtils
-				.multiplyByHundredAndToArray(utilDoubleValues);
+			// Multiply by 100
+			double[] utilDoubleArray = modelUtils
+					.multiplyByHundredAndToArray(utilDoubleValues);
 
-		this.seriesFromUtilization(dateArray, utilDoubleArray, chart, 1);
+			this.seriesFromUtilization(dateArray, utilDoubleArray, chart, 1);
 
+		}
 		// TOL VALUES
 
 		// Tolerances are not stored.....
@@ -610,6 +635,22 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		// adjust the axis range
 		chart.getAxisSet().adjustRange();
 		chart.redraw();
+	}
+
+	@SuppressWarnings("unused")
+	private List<Date> getTS() {
+		List<Date> allTS = Lists.newArrayList();
+		Multimap<Integer, XMLGregorianCalendar> timeStampsByWeek = modelUtils
+				.hourlyTimeStampsByWeekFor(dtr);
+		// build an index of colums and timestamps.  
+		for (int i : timeStampsByWeek.keySet()) {
+			Collection<XMLGregorianCalendar> collection = timeStampsByWeek
+					.get(i);
+			allTS.addAll(modelUtils.transformXMLDateToDate(collection));
+			
+		}
+		Collections.sort(allTS);
+		return allTS;
 	}
 
 	public class MarkersObervableMapLabelProvider extends
@@ -663,33 +704,38 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		return "Resource graph";
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#handleShowIn(org.eclipse.ui.part.ShowInContext)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#handleShowIn(org.
+	 * eclipse.ui.part.ShowInContext)
 	 */
 	@Override
 	public boolean handleShowIn(ShowInContext context) {
-		
-		if(context.getInput() instanceof ChartShowInContext){
-			
-			ChartShowInContext chartInput = (ChartShowInContext) context.getInput();
+
+		if (context.getInput() instanceof ChartShowInContext) {
+
+			ChartShowInContext chartInput = (ChartShowInContext) context
+					.getInput();
 			// Clear our chart,
 			this.interval = chartInput.getInterval();
 			this.dtr = chartInput.getPeriod();
 			this.resMonitor = chartInput.getResourceMonitor();
 			ISelection selection = context.getSelection();
-			if( selection instanceof IStructuredSelection){
-				if(((IStructuredSelection) selection).getFirstElement() instanceof NetXResource){
-					this.netXResource = (NetXResource) ((IStructuredSelection) selection).getFirstElement();
+			if (selection instanceof IStructuredSelection) {
+				if (((IStructuredSelection) selection).getFirstElement() instanceof NetXResource) {
+					this.netXResource = (NetXResource) ((IStructuredSelection) selection)
+							.getFirstElement();
 				}
 			}
-			
+
 			this.initDataBindings_();
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
-	
-	
+
 }
