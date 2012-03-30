@@ -8,6 +8,7 @@ import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -96,7 +97,7 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 		buildInfoSection(widgetStyle);
 		buildProtocol(widgetStyle);
 		buildNodeLinkSection(widgetStyle);
-//		buildFunctionLinkSection();
+		// buildFunctionLinkSection();
 	}
 
 	public void buildNodeLinkSection(int widgetStyle) {
@@ -112,8 +113,7 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 		toolkit.paintBordersFor(cmpLinks);
 		sctnNode.setClient(cmpLinks);
 		cmpLinks.setLayout(new GridLayout(4, false));
-		
-		
+
 		FormText formText = toolkit.createFormText(cmpLinks, false);
 		GridData gd_formText = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				4, 1);
@@ -122,11 +122,10 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 		toolkit.paintBordersFor(formText);
 		formText.setText("<form><p><b>Left Connection:</b></p></form>", true,
 				false);
-		
-		// NODE #1 
-		
-		Label lblRoomsite = toolkit.createLabel(cmpLinks, "NE #1:",
-				SWT.NONE);
+
+		// NODE #1
+
+		Label lblRoomsite = toolkit.createLabel(cmpLinks, "NE #1:", SWT.NONE);
 		lblRoomsite.setAlignment(SWT.RIGHT);
 		GridData gd_lblRoomsite = new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1);
@@ -140,8 +139,7 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 		gd_txtNode1.widthHint = 150;
 		txtNode1.setLayoutData(gd_txtNode1);
 
-		hypLnkClearNode1 = toolkit
-				.createImageHyperlink(cmpLinks, SWT.NONE);
+		hypLnkClearNode1 = toolkit.createImageHyperlink(cmpLinks, SWT.NONE);
 		GridData gd_hypLnkClearNode1 = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 1, 1);
 		gd_hypLnkClearNode1.widthHint = 18;
@@ -210,15 +208,14 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 						NewEditFunctionLinkII.this.getShell(), operatorResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					Node node1 = (Node) dialog.getFirstResult();
+
 					relationship.setNodeID1Ref(node1);
 				}
 			}
 		});
 
-		
-		
-		// FUNCTION  #1
-		
+		// FUNCTION #1
+
 		Label lblFunction1 = toolkit.createLabel(cmpLinks, "Function #1",
 				SWT.NONE);
 		lblFunction1.setAlignment(SWT.RIGHT);
@@ -227,16 +224,15 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 		gd_lblFunction1.widthHint = 80;
 		lblFunction1.setLayoutData(gd_lblFunction1);
 
-		txtFunction1 = toolkit.createText(cmpLinks, "New Text",
-				SWT.READ_ONLY);
+		txtFunction1 = toolkit.createText(cmpLinks, "New Text", SWT.READ_ONLY);
 		txtFunction1.setText("");
 		GridData gd_txtFunction1 = new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1);
 		gd_txtFunction1.widthHint = 150;
 		txtFunction1.setLayoutData(gd_txtFunction1);
 
-		ImageHyperlink hypLnkFunction1 = toolkit.createImageHyperlink(
-				cmpLinks, SWT.NONE);
+		ImageHyperlink hypLnkFunction1 = toolkit.createImageHyperlink(cmpLinks,
+				SWT.NONE);
 		hypLnkFunction1.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				// Set the ref to null.
@@ -265,8 +261,8 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 		toolkit.paintBordersFor(hypLnkFunction1);
 		hypLnkFunction1.setText("");
 
-		Button btnSelectFunction1 = toolkit.createButton(cmpLinks,
-				"Select...", SWT.NONE);
+		Button btnSelectFunction1 = toolkit.createButton(cmpLinks, "Select...",
+				SWT.NONE);
 		btnSelectFunction1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -281,19 +277,40 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 									.getNodeID1Ref());
 					if (dialog.open() == IDialogConstants.OK_ID) {
 						Function function1 = (Function) dialog.getFirstResult();
-						((FunctionRelationship) relationship)
-								.setFunction1Ref(function1);
+
+						CompoundCommand cc = new CompoundCommand();
+
+						{
+							Command set = new SetCommand(
+									editingService.getEditingDomain(),
+									relationship,
+									OperatorsPackage.Literals.FUNCTION_RELATIONSHIP__FUNCTION1_REF,
+									function1);
+
+							cc.append(set);
+						}
+
+						{
+							Command set = new AddCommand(editingService
+									.getEditingDomain(), function1
+									.getFunctionRelationshipRefs(),
+									relationship);
+
+							cc.append(set);
+						}
+
+						editingService.getEditingDomain().getCommandStack()
+								.execute(cc);
+
 					}
 				} else {
 
 				}
 			}
 		});
-		
-		
+
 		// NODE #2
-		
-		
+
 		// Separator.
 		Composite composite = toolkit.createComposite(cmpLinks, SWT.NONE);
 		GridData gd_composite = new GridData(SWT.LEFT, SWT.CENTER, false,
@@ -394,22 +411,21 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 				}
 			}
 		});
-		
-		// FUNCTION #2. 
-		
+
+		// FUNCTION #2.
+
 		Label lblFunction2 = toolkit.createLabel(cmpLinks, "Function #2",
 				SWT.NONE);
 		lblFunction2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
-		txtFunction2 = toolkit.createText(cmpLinks, "New Text",
-				SWT.READ_ONLY);
+		txtFunction2 = toolkit.createText(cmpLinks, "New Text", SWT.READ_ONLY);
 		txtFunction2.setText("");
 		txtFunction2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1));
 
-		ImageHyperlink hypLnkFunction2 = toolkit.createImageHyperlink(
-				cmpLinks, SWT.NONE);
+		ImageHyperlink hypLnkFunction2 = toolkit.createImageHyperlink(cmpLinks,
+				SWT.NONE);
 		hypLnkFunction2.setImage(ResourceManager.getPluginImage(
 				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
 		GridData gd_HypLnkFunction2 = new GridData(SWT.LEFT, SWT.CENTER, false,
@@ -437,8 +453,8 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 			}
 		});
 
-		Button btnSelectFunction2 = toolkit.createButton(cmpLinks,
-				"Select...", SWT.NONE);
+		Button btnSelectFunction2 = toolkit.createButton(cmpLinks, "Select...",
+				SWT.NONE);
 		btnSelectFunction2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -453,8 +469,30 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 									.getNodeID2Ref());
 					if (dialog.open() == IDialogConstants.OK_ID) {
 						Function function2 = (Function) dialog.getFirstResult();
-						((FunctionRelationship) relationship)
-								.setFunction2Ref(function2);
+						CompoundCommand cc = new CompoundCommand();
+
+						{
+							Command set = new SetCommand(
+									editingService.getEditingDomain(),
+									relationship,
+									OperatorsPackage.Literals.FUNCTION_RELATIONSHIP__FUNCTION2_REF,
+									function2);
+
+							cc.append(set);
+						}
+
+						{
+							Command set = new SetCommand(
+									editingService.getEditingDomain(),
+									function2,
+									LibraryPackage.Literals.FUNCTION__FUNCTION_RELATIONSHIP_REFS,
+									relationship);
+
+							cc.append(set);
+						}
+
+						editingService.getEditingDomain().getCommandStack()
+								.execute(cc);
 					}
 				}
 			}
@@ -475,6 +513,7 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 		sctnFunctionLink.setClient(composite_1);
 		composite_1.setLayout(new GridLayout(4, false));
 
+		// FUNCTION #1
 		Label lblFunction1 = toolkit.createLabel(composite_1, "Function #1",
 				SWT.NONE);
 		lblFunction1.setAlignment(SWT.RIGHT);
@@ -537,8 +576,31 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 									.getNodeID1Ref());
 					if (dialog.open() == IDialogConstants.OK_ID) {
 						Function function1 = (Function) dialog.getFirstResult();
-						((FunctionRelationship) relationship)
-								.setFunction1Ref(function1);
+
+						CompoundCommand cc = new CompoundCommand();
+
+						{
+							Command set = new SetCommand(
+									editingService.getEditingDomain(),
+									relationship,
+									OperatorsPackage.Literals.FUNCTION_RELATIONSHIP__FUNCTION1_REF,
+									function1);
+
+							cc.append(set);
+						}
+
+						{
+							Command set = new SetCommand(
+									editingService.getEditingDomain(),
+									function1,
+									LibraryPackage.Literals.FUNCTION__FUNCTION_RELATIONSHIP_REFS,
+									relationship);
+
+							cc.append(set);
+						}
+
+						editingService.getEditingDomain().getCommandStack()
+								.execute(cc);
 					}
 				} else {
 
@@ -602,8 +664,36 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 									.getNodeID2Ref());
 					if (dialog.open() == IDialogConstants.OK_ID) {
 						Function function2 = (Function) dialog.getFirstResult();
-						((FunctionRelationship) relationship)
-								.setFunction2Ref(function2);
+
+						CompoundCommand cc = new CompoundCommand();
+
+						{
+							Command set = new SetCommand(
+									editingService.getEditingDomain(),
+									relationship,
+									OperatorsPackage.Literals.FUNCTION_RELATIONSHIP__FUNCTION2_REF,
+									function2);
+
+							cc.append(set);
+						}
+
+						{
+							Command set = new SetCommand(
+									editingService.getEditingDomain(),
+									function2,
+									LibraryPackage.Literals.FUNCTION__FUNCTION_RELATIONSHIP_REFS,
+									relationship);
+
+							cc.append(set);
+						}
+
+						editingService.getEditingDomain().getCommandStack()
+								.execute(cc);
+						//
+						//
+						// ((FunctionRelationship) relationship)
+						// .setFunction2Ref(function2);
+
 					}
 				}
 			}
