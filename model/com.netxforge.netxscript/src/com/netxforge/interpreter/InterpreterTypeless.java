@@ -794,9 +794,9 @@ public class InterpreterTypeless implements IInterpreter {
 				if (assertNumeric(varEval)) {
 					
 					
-					// Single values are mapped to each start and end of days in the period. 
-					// Get the period context, and use the start
-					// and end date.
+					// Single values are extrapolated to each end of day for each day in the period. 
+					// Get the period context, and use the start and end date for the exprapolation. 
+					// Note: This is a design choice, and could be optional. 
 					DateTimeRange dtr = this.getContextualPeriod();
 					List<XMLGregorianCalendar> transformPeriodToDailyTimestamps = modelUtils
 							.transformPeriodToDailyTimestamps(dtr);
