@@ -40,6 +40,7 @@ import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -179,6 +180,13 @@ public abstract class AbstractExportFilter implements IExportFilter {
 					filteredClasses);
 		}
 		
+		// PROTOCOL PACKAGE. 
+		{
+			List<EClass> filteredClasses = Lists.newArrayList();
+			// NO filtered classes for protocol
+			filteredNonMasterClasses.put(ProtocolsPackage.eINSTANCE,
+					filteredClasses);
+		}
 		
 		// FEATURES. 
 		{

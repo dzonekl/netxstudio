@@ -78,6 +78,7 @@ public class StaticExportFilter extends AbstractExportFilter {
 			filteredNonMasterFeatures.put(GenericsPackage.Literals.BASE,
 					filteredFeatures);
 		}
+		
 
 	}
 

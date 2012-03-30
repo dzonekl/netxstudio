@@ -25,5 +25,6 @@ Import-Package: com.netxforge.netxstudio,
  com.netxforge.netxstudio.library,
  com.netxforge.netxstudio.metrics,
  com.netxforge.netxstudio.operators,
+ com.netxforge.netxstudio.protocols,
  com.netxforge.netxstudio.scheduling,
  com.netxforge.netxstudio.services

@@ -10,6 +10,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.models.export.IExportFilter;
 import com.netxforge.netxstudio.models.export.StaticExportFilter;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -22,7 +23,7 @@ public class AllStaticXLSPOIWizard extends AbstractExportPOIRevengeWizard {
 		return new EPackage[] { ServicesPackage.eINSTANCE,
 				MetricsPackage.eINSTANCE, LibraryPackage.eINSTANCE,
 				OperatorsPackage.eINSTANCE, GenericsPackage.eINSTANCE,
-				SchedulingPackage.eINSTANCE };
+				SchedulingPackage.eINSTANCE, ProtocolsPackage.eINSTANCE };
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {

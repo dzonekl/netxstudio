@@ -18,7 +18,6 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
@@ -32,26 +31,12 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
-import com.netxforge.netxstudio.geo.Country;
-import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.metrics.DataKind;
-import com.netxforge.netxstudio.metrics.Mapping;
-import com.netxforge.netxstudio.metrics.MappingColumn;
-import com.netxforge.netxstudio.metrics.MetricSource;
-import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.models.importer.MasterDataImporterJob;
-import com.netxforge.netxstudio.operators.Network;
-import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.services.Service;
-import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 public abstract class AbstractImportWizard extends Wizard implements
@@ -72,10 +57,12 @@ public abstract class AbstractImportWizard extends Wizard implements
 
 	@Inject
 	private IEditingService editingService;
-	
-	@Inject 
+
+	@Inject
 	private ModelUtils modelUtils;
-	
+
+	private ITreeContentProvider importContentProvider;
+
 	abstract EPackage[] getEPackages();
 
 	abstract boolean useIndexed();
@@ -100,12 +87,16 @@ public abstract class AbstractImportWizard extends Wizard implements
 						// present the result to the user.
 
 						if (results != null && results.size() > 0) {
+							// Does our injector proxy work?
+							if (importContentProvider == null) {
+								importContentProvider = new ImportResultTreeContentProvider();
+							}
 
 							CheckedTreeSelectionDialog dialog = new CheckedTreeSelectionDialog(
 									Display.getDefault().getActiveShell(),
 									new ImportResultLabelProvider(
 											editingService.getAdapterFactory()),
-									new ImportResultTreeContentProvider());
+									importContentProvider);
 							dialog.setTitle("Result of the import");
 							dialog.setMessage("Select which items to import");
 							dialog.setBlockOnOpen(true);
@@ -189,14 +180,16 @@ public abstract class AbstractImportWizard extends Wizard implements
 		}
 
 		for (EObject object : listOfObjectsToStore) {
-			
-			if(object instanceof NetXResource){
+
+			if (object instanceof NetXResource) {
 				NetXResource res = (NetXResource) object;
 				Component componentRef = res.getComponentRef();
-				if(componentRef != null){
-					String cdoResourcePath = modelUtils.cdoCalculateResourcePathII(componentRef);
-					Resource resource = dataProvider.getResource(cdoResourcePath);
-					if(resource != null ){
+				if (componentRef != null) {
+					String cdoResourcePath = modelUtils
+							.cdoCalculateResourcePathII(componentRef);
+					Resource resource = dataProvider
+							.getResource(cdoResourcePath);
+					if (resource != null) {
 						resource.getContents().add(res);
 					}
 				}
@@ -339,7 +332,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 
 	}
 
-	class ImportResultLabelProvider extends AdapterFactoryLabelProvider {
+	public class ImportResultLabelProvider extends AdapterFactoryLabelProvider {
 		public ImportResultLabelProvider(AdapterFactory adapterFactory) {
 			super(adapterFactory);
 		}
@@ -347,131 +340,6 @@ public abstract class AbstractImportWizard extends Wizard implements
 		@Override
 		public String getText(Object object) {
 			return super.getText(object);
-		}
-	}
-
-	/**
-	 * A tree content provider, which creates a root object of type EClass and
-	 * places items under it having this EClass.
-	 * 
-	 * @author dzonekl
-	 * 
-	 */
-	class ImportResultTreeContentProvider implements ITreeContentProvider {
-
-		List<EObject> originalList;
-
-		public void dispose() {
-			// Do nothing.
-		}
-
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-			// Do nothing.
-		}
-
-		@SuppressWarnings("unchecked")
-		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof List<?>) {
-				this.originalList = (List<EObject>) inputElement;
-				List<EClass> uniqueClasses = Lists.newArrayList();
-				// Convert to an object array containing the EClass of the
-				// Objects.
-				for (EObject o : originalList) {
-					EClass eClass = o.eClass();
-					if (!uniqueClasses.contains(eClass)) {
-						uniqueClasses.add(eClass);
-					}
-				}
-				return uniqueClasses.toArray();
-			}
-			return null;
-		}
-
-		public Object[] getChildren(Object parentElement) {
-			return childrenEObjects(parentElement);
-		}
-
-		public Object getParent(Object element) {
-			return null; // Not required.
-		}
-
-		public boolean hasChildren(Object element) {
-			return this.childrenEObjects(element).length > 0;
-		}
-
-		private Object[] childrenEObjects(Object parentElement) {
-			List<EObject> children = Lists.newArrayList();
-			if (parentElement instanceof EClass) {
-				for (EObject o : originalList) {
-					if (o.eClass().equals(parentElement)) {
-						children.add(o);
-					}
-				}
-			} else if (parentElement instanceof Service) {
-				children.addAll(((Service) parentElement).getServices());
-			} else if (parentElement instanceof ServiceUser) {
-				if (((ServiceUser) parentElement).getServiceProfile() != null) {
-					children.add(((ServiceUser) parentElement)
-							.getServiceProfile());
-				}
-			} else if (parentElement instanceof Country) {
-				children.addAll(((Country) parentElement).getSites());
-			} else if (parentElement instanceof Site) {
-				children.addAll(((Site) parentElement).getRooms());
-			} else if (parentElement instanceof Operator) {
-				children.addAll(((Operator) parentElement).getNetworks());
-				children.addAll(((Operator) parentElement).getServices());
-				children.addAll(((Operator) parentElement).getServiceUsers());
-				children.addAll(((Operator) parentElement).getWarehouses());
-			} else if (parentElement instanceof Network) {
-				children.addAll(((Network) parentElement).getNetworks());
-				children.addAll(((Network) parentElement).getNodes());
-				children.addAll(((Network) parentElement)
-						.getEquipmentRelationships());
-				children.addAll(((Network) parentElement)
-						.getFunctionRelationships());
-			} else if (parentElement instanceof Node) {
-				NodeType nodeType = ((Node) parentElement).getNodeType();
-				if (nodeType != null) {
-					children.add(nodeType);
-				}
-			} else if (parentElement instanceof NetXResource) {
-				NetXResource res = (NetXResource) parentElement;
-				children.addAll(res.getMetricValueRanges());
-			} else if ( parentElement instanceof MetricValueRange) {
-				children.addAll(((MetricValueRange) parentElement).getMetricValues());
-			}else if (parentElement instanceof NodeType) {
-				children.addAll(((NodeType) parentElement).getFunctions());
-				children.addAll(((NodeType) parentElement).getEquipments());
-			} else if (parentElement instanceof Function) {
-				children.addAll(((Function) parentElement).getFunctions());
-			} else if (parentElement instanceof Equipment) {
-				children.addAll(((Equipment) parentElement).getEquipments());
-			} else if (parentElement instanceof Component) {
-				children.addAll(((Component) parentElement).getResourceRefs());
-			} else if (parentElement instanceof MetricSource) {
-
-				Mapping metricMapping = ((MetricSource) parentElement)
-						.getMetricMapping();
-				if (metricMapping != null) {
-					children.add(metricMapping);
-				}
-			} else if (parentElement instanceof Mapping) {
-				children.addAll(((Mapping) parentElement)
-						.getHeaderMappingColumns());
-				children.addAll(((Mapping) parentElement)
-						.getDataMappingColumns());
-			} else if (parentElement instanceof MappingColumn) {
-
-				DataKind dataType = ((MappingColumn) parentElement)
-						.getDataType();
-				if (dataType != null) {
-					children.add(dataType);
-				}
-
-			}
-
-			return children.toArray();
 		}
 	}
 }

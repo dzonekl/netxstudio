@@ -18,7 +18,7 @@ import com.netxforge.netxstudio.screens.editing.EditingServiceModule;
 public class ImportActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "com.netxforge.netxstudio.m2m.ui"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.netxforge.netxstudio.models.import.ui"; //$NON-NLS-1$
 
 	// The shared instance
 	private static ImportActivator plugin;
