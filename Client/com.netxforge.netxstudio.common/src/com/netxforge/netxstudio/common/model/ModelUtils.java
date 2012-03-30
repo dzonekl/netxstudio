@@ -2817,11 +2817,9 @@ public class ModelUtils {
 		// this.setToDayEnd();
 		cal.setTime(dtr.getEnd().toGregorianCalendar().getTime());
 		Date begin = dtr.getBegin().toGregorianCalendar().getTime();
-
-		while (cal.getTime().compareTo(begin) >= 0) {
+		while (cal.getTime().after(begin)) {
+			timeStamps.add(this.toXMLDate(cal.getTime()));
 			cal.add(Calendar.DAY_OF_YEAR, -1);
-			Date runTime = cal.getTime();
-			timeStamps.add(this.toXMLDate(runTime));
 		}
 
 		return timeStamps;
