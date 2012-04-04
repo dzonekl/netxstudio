@@ -248,7 +248,7 @@ public class ModelUtils {
 
 	public class FileLastModifiedComparator implements Comparator<File> {
 		public int compare(final File f1, File f2) {
-			return new Long(f1.lastModified()).compareTo(f2.lastModified());
+			return new Long(f2.lastModified()).compareTo(f1.lastModified());
 		}
 	};
 
