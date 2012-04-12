@@ -26,6 +26,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.common.util.EList;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -197,21 +198,34 @@ public class ResultProcessor {
 		}
 	}
 
+	/**
+	 * Creates markers for a given period.
+	 * 
+	 * @param expressionResult
+	 * @param start
+	 * @param end
+	 */
 	private void createMarkers(ExpressionResult expressionResult, Date start,
 			Date end) {
+
+		System.out
+				.println("- CreateMarkers markers before in resource monitor="
+						+ resourceMonitor.getMarkers().size());
+
+		if (expressionResult.getTargetValues().size() == 0) {
+			// markers can not be created.
+			return;
+		}
 
 		NetXResource resource = (NetXResource) expressionResult
 				.getTargetResource();
 
-		// now compute the capacity in order
 		List<Value> usageValues = new ArrayList<Value>();
 
 		for (final MetricValueRange mvr : resource.getMetricValueRanges()) {
 			usageValues.addAll(mvr.getMetricValues());
 		}
 
-		// FIXME, a monitor should not remove values???????
-		// get rid of everything before and after start time
 		final List<Value> toRemoveUsageValues = new ArrayList<Value>();
 		for (final Value usageValue : usageValues) {
 			final long timeMillis = usageValue.getTimeStamp()
@@ -221,9 +235,12 @@ public class ResultProcessor {
 			}
 		}
 
-		// usageValues.removeAll(toRemoveUsageValues);
+		usageValues.removeAll(toRemoveUsageValues);
 
 		usageValues = modelUtils.sortValuesByTimeStamp(usageValues);
+
+		System.out.println("CreateMarkers use values size="
+				+ usageValues.size());
 
 		// now get the tolerance computation
 		final List<Value> toleranceValues = modelUtils
@@ -252,6 +269,15 @@ public class ResultProcessor {
 				fromTime = currentToleranceValue.getTimeStamp()
 						.toGregorianCalendar().getTimeInMillis();
 			}
+
+			System.out.println("- CreateMarkers tolerance="
+					+ toleranceValue.getValue() + " ,"
+					+ modelUtils.dateAndTime(toleranceValue.getTimeStamp()));
+			System.out.println("- CreateMarkers from time="
+					+ new Date(fromTime));
+			System.out.println("- CreateMarkers to time=" + new Date(toTime));
+
+			// values within period of tolerance hops.
 			final List<Value> checkValues = Lists.newArrayList();
 			for (final Value usageValue : usageValues) {
 				final long time = usageValue.getTimeStamp()
@@ -261,20 +287,24 @@ public class ResultProcessor {
 				}
 			}
 
+			System.out
+					.println("- CreateMarkers checkvalues within tolerance hop="
+							+ checkValues.size());
 			double tDouble = currentToleranceValue.getValue();
 
 			// check if they are over or under
 			for (final Value checkValue : checkValues) {
 
 				double cDouble = checkValue.getValue();
-				
+
 				ToleranceMarkerDirectionKind direction = null;
-				
-				// Generate a start marker only if the the level type is YELLOW, 
-				// if not specified, this would not be relevant. 
-				// It means the markers will only be complete, if all tolerance levels are
-				// specified. 
-				
+
+				// Generate a start marker only if the the level type is YELLOW,
+				// if not specified, this would not be relevant.
+				// It means the markers will only be complete, if all tolerance
+				// levels are
+				// specified.
+
 				if (getTolerance().getLevel() == LevelKind.YELLOW
 						&& cDouble < tDouble && !startMarkerGenerated) {
 					// generate a start marker
@@ -289,6 +319,9 @@ public class ResultProcessor {
 					direction = ToleranceMarkerDirectionKind.UP;
 				}
 				if (direction != null) {
+
+					// Create a marker as we have crossed a tolerance.
+
 					final ToleranceMarker marker = OperatorsFactory.eINSTANCE
 							.createToleranceMarker();
 					marker.setValueRef(checkValue);
@@ -301,12 +334,22 @@ public class ResultProcessor {
 					}
 					marker.setDescription(expressionResult.getTargetResource()
 							.getLongName());
+					System.out
+							.println("- CreateMarkers adding marker"
+									+ checkValue.getValue()
+									+ " , "
+									+ modelUtils.dateAndTime(checkValue
+											.getTimeStamp()));
 					newMarkers.add(marker);
 				}
 				startMarkerGenerated = true;
 			}
 			index++;
 		}
+
+		System.out.println("- CreateMarkers total markers created size="
+				+ newMarkers.size());
+
 		// now compare the newmarkers with what is already there
 		for (final Marker newMarker : newMarkers) {
 			index = 0;
@@ -329,6 +372,108 @@ public class ResultProcessor {
 				resourceMonitor.getMarkers().add(newMarker);
 			}
 		}
+
+		System.out.println("- CreateMarkers markers now in resource monitor="
+				+ resourceMonitor.getMarkers().size());
+	}
+
+	/**
+	 * Maintaince the state of the tolerance for a current set of values. It is
+	 * either over or under.
+	 * 
+	 * @author Christophe
+	 * 
+	 */
+	class ToleranceState {
+		boolean isOver = false;
+		boolean startMarkerGenerated = false;
+		private Double tDouble;
+
+		ToleranceState(Double tDouble) {
+			this.tDouble = tDouble;
+		}
+
+		/**
+		 * @param checkValue
+		 * @param direction
+		 */
+		class MarkerForDirection implements
+				Function<ToleranceMarkerDirectionKind, ToleranceMarker> {
+
+			private Value checkValue;
+			private String description;
+
+			MarkerForDirection(Value checkValue, String description) {
+				this.checkValue = checkValue;
+				this.description = description;
+			}
+
+			public ToleranceMarker apply(ToleranceMarkerDirectionKind direction) {
+
+				new Direction();
+
+				if (direction != null) {
+
+					// Create a marker as we have crossed a tolerance.
+
+					final ToleranceMarker marker = OperatorsFactory.eINSTANCE
+							.createToleranceMarker();
+					marker.setValueRef(checkValue);
+					marker.setKind(MarkerKind.TOLERANCECROSSED);
+					marker.setLevel(getTolerance().getLevel());
+					if (startMarkerGenerated) {
+						marker.setDirection(direction);
+					} else {
+						marker.setDirection(ToleranceMarkerDirectionKind.START);
+					}
+					// marker.setDescription(expressionResult.getTargetResource()
+					// .getLongName());
+					marker.setDescription(description);
+
+					System.out
+							.println("- CreateMarkers adding marker"
+									+ checkValue.getValue()
+									+ " , "
+									+ modelUtils.dateAndTime(checkValue
+											.getTimeStamp()));
+					return marker;
+				}
+
+				startMarkerGenerated = true;
+				return null;
+			}
+		}
+
+		class Direction implements
+				Function<Value, ToleranceMarkerDirectionKind> {
+
+			public ToleranceMarkerDirectionKind apply(Value checkValue) {
+				ToleranceMarkerDirectionKind direction = null;
+				double cDouble = checkValue.getValue();
+
+				// Generate a start marker only if the the level type is YELLOW,
+				// if not specified, this would not be relevant.
+				// It means the markers will only be complete, if all tolerance
+				// levels are
+				// specified.
+
+				if (getTolerance().getLevel() == LevelKind.YELLOW
+						&& cDouble < tDouble && !startMarkerGenerated) {
+					// generate a start marker
+					isOver = false;
+					direction = ToleranceMarkerDirectionKind.DOWN;
+				} else if (cDouble < tDouble && isOver) {
+					isOver = false;
+					direction = ToleranceMarkerDirectionKind.DOWN;
+				} else if (cDouble > tDouble && !isOver) {
+					// generate a marker
+					isOver = true;
+					direction = ToleranceMarkerDirectionKind.UP;
+				}
+				return direction;
+			}
+		}
+
 	}
 
 	private void removeValues(EList<Value> values, Date start, Date end) {
