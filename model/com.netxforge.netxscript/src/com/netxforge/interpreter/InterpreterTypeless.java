@@ -2116,9 +2116,17 @@ public class InterpreterTypeless implements IInterpreter {
 		if (result != null) {
 			return result;
 		} else {
-			throw new UnsupportedOperationException(
-					"Multiplication expression for invalid types");
+			// CB 09-04-2012, this would prevent any sub-sequent resource for a component to be evaluated, so do not
+			// throw an exception. 
+			
+//			throw new UnsupportedOperationException(
+//					"Multiplication expression for invalid types");
+			
+			return result;
 		}
+		
+		
+		
 	}
 
 	public static BigDecimal asNum(BigDecimal eval) {
