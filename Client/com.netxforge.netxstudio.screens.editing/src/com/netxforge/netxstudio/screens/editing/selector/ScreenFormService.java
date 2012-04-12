@@ -41,6 +41,7 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -100,10 +101,9 @@ public class ScreenFormService implements IScreenFormService {
 	private Stack<Composite> screenStack = new Stack<Composite>();
 
 	private List<ImageHyperlink> screenSelectors = Lists.newArrayList();
-	
-	
+
 	/*
-	 * The associated AbstractScreensViewPart for this screen manager. 
+	 * The associated AbstractScreensViewPart for this screen manager.
 	 */
 	private AbstractScreensViewPart absViewPart;
 
@@ -234,9 +234,9 @@ public class ScreenFormService implements IScreenFormService {
 	 * org.eclipse.swt.widgets.Composite)
 	 */
 	public void initalize(AbstractScreensViewPart absViewPart, Composite parent) {
-		
+
 		this.absViewPart = absViewPart;
-		
+
 		rootComposite = new Composite(parent, SWT.NONE);
 		rootComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		{
@@ -404,6 +404,7 @@ public class ScreenFormService implements IScreenFormService {
 							.newInstance(getScreenContainer(), SWT.NONE);
 					((IScreen) target).setOperation(finalOperation);
 					((IScreen) target).setScreenService(ScreenFormService.this);
+
 					if (target instanceof IDataServiceInjection) {
 						((IDataServiceInjection) target).injectData();
 					}
@@ -491,6 +492,9 @@ public class ScreenFormService implements IScreenFormService {
 		// but it's better to dispose the complete list and restart.
 		while (!screenStack.empty()) {
 			Composite c = screenStack.pop();
+			IScreen screenFor = ScreenUtil.screenFor(c);
+			saveScreenState(screenFor);
+
 			System.out.println("About to dispose : "
 					+ c.getClass().getSimpleName());
 
@@ -501,7 +505,22 @@ public class ScreenFormService implements IScreenFormService {
 		if (c instanceof IScreen) {
 			System.out.println("About to dispose : "
 					+ c.getClass().getSimpleName());
+			saveScreenState((IScreen) c);
+
 			c.dispose();
+		}
+	}
+
+	private void saveScreenState(IScreen screen) {
+		IMemento parent = absViewPart.getMemento();
+
+		if (parent != null) {
+			String validMementoElement = modelUtils.underscopeWhiteSpaces(screen.getScreenName());
+			IMemento child = parent.getChild(validMementoElement);
+			if (child == null) {
+				child = parent.createChild(validMementoElement);
+			}
+			screen.saveState(child);
 		}
 	}
 
@@ -659,7 +678,6 @@ public class ScreenFormService implements IScreenFormService {
 		}
 	}
 
-	
 	private void fireScreenChanged(IScreen screen) {
 		for (ScreenChangeListener l : screenChangedListeners) {
 			l.screenChanged(screen);
@@ -724,6 +742,5 @@ public class ScreenFormService implements IScreenFormService {
 			lnk.setEnabled(false);
 		}
 	}
-
 
 }

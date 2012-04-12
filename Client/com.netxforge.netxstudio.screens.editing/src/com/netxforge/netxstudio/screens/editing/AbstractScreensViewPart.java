@@ -50,6 +50,7 @@ import org.eclipse.ui.ISaveablePart2;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.part.ViewPart;
 
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
@@ -151,23 +152,43 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		// Set the focus
 	}
 
-	// Save memento state.
-	String AKEY = "AKey";
-	float aValue;
 	private ActionHandlerDescriptor actionHandlerDescriptor;
 
+	/*
+	 * The memento.
+	 */
+	protected IMemento memento;
+
+	public IMemento getMemento() {
+		// IMemento child = memento.getChild(IScreen.MEM_KEY_STRING) ;
+		// if(child == null){
+		// child = memento.createChild(IScreen.MEM_KEY_STRING );
+		// }
+		// return child;
+		return memento;
+	}
+
+	/**
+	 * The memento is delegated to the IScreen whenever it becomes active.
+	 */
 	@Override
 	public void init(IViewSite site, IMemento memento) throws PartInitException {
 		super.init(site, memento);
-		if (memento != null && memento.getFloat(AKEY) != null) {
-			aValue = memento.getFloat(AKEY);
+
+		if (memento == null) {
+			XMLMemento newMemento = XMLMemento
+					.createWriteRoot(IScreen.MEM_KEY_STRING);
+			this.memento = newMemento;
+		} else {
+			this.memento = memento;
 		}
+
 		this.addPropertyListener(this);
 		site.getPage().addPartListener(this);
 		// Set the current editor as selection provider.
 		site.setSelectionProvider(this);
 
-		// FIXME, ACTION handlers should be installed dynamicly, 
+		// FIXME, ACTION handlers should be installed dynamicly,
 		// Note add some static action handlers which are updated by the
 		// selection
 		// provider of the active part. which is this. We can also add
@@ -189,9 +210,9 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	}
 
 	// ISaveablePart2 API.
+	// UI states are delegated to the the IScreen interface, save the result in our memento.
 	public void saveState(IMemento memento) {
-		super.saveState(memento);
-		memento.putFloat(AKEY, 0.1f);
+		memento.putMemento(this.getMemento());
 	}
 
 	/**
@@ -353,11 +374,12 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 					// so we need to refresh the input.
 					// currentViewer.refresh();
 					if (EditingActivator.DEBUG) {
-						EditingActivator.TRACE.trace(null, "Command stack changed");
-//						System.out
-//								.println("Command stack, fire command stack changed, source="
+						EditingActivator.TRACE.trace(null,
+								"Command stack changed");
+						// System.out
+						// .println("Command stack, fire command stack changed, source="
 
-						//										+ event.getSource());
+						// + event.getSource());
 					}
 				}
 			});
@@ -438,11 +460,12 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	}
 
 	public void menuAboutToShow(IMenuManager manager) {
-		
-		// CB We might not be the active part, make sure we are activated. 
-		// this is important for show-in, which activates the show-in part. 
-		IWorkbenchPart activePart = this.getSite().getWorkbenchWindow().getActivePage().getActivePart();
-		if(activePart != this){
+
+		// CB We might not be the active part, make sure we are activated.
+		// this is important for show-in, which activates the show-in part.
+		IWorkbenchPart activePart = this.getSite().getWorkbenchWindow()
+				.getActivePage().getActivePart();
+		if (activePart != this) {
 			this.getSite().getWorkbenchWindow().getActivePage().activate(this);
 		}
 		contributeMenuAboutToShow(manager);
@@ -503,10 +526,9 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		//
 		setSelection(screen == null ? StructuredSelection.EMPTY : screen
 				.getSelection());
-		
-		
-		// Install a menu on the active viewer. 
-		
+
+		// Install a menu on the active viewer.
+
 		for (Viewer v : screen.getViewers()) {
 			// Install a context menu, for all possible viewers, note
 			// all actions will be installed, we don't differentiate which

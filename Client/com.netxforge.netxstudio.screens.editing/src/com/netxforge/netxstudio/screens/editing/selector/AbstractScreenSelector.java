@@ -27,6 +27,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.ISaveablePart2;
 import org.eclipse.ui.part.IShowInSource;
 import org.eclipse.ui.part.ShowInContext;
@@ -44,7 +45,7 @@ import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHand
 public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		implements ScreenChangeListener, IShowInSource {
 
-	public static final String ID = "com.netxforge.netxstudio.screens.selector.AbstractScreenSelectorII"; //$NON-NLS-1$
+	public static final String ID = "com.netxforge.netxstudio.screens.selector.AbstractScreenSelector"; //$NON-NLS-1$
 
 	@Inject
 	protected IScreenFormService screenFormService;
@@ -139,6 +140,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	 * #screenChanged()
 	 */
 	public void screenChanged(IScreen screen) {
+
 		// Some screens won't have a viewer, in this case
 		// the current viewer will be null, and an empty selection will be set.
 		if (screen != null) {
@@ -148,18 +150,31 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 			this.activeScreen = screen;
 			// Make sure we update the dirty state, when changing screen.
 			firePropertyChange(ISaveablePart2.PROP_DIRTY);
+
+			// restore the state of the screen.
+			if (this.getMemento() != null) {
+				IMemento child = this.getMemento().getChild(
+						screen.getScreenName());
+				if (child != null) {
+					screen.restoreState(child);
+				}
+			}
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.selector.ScreenChangeListener#screenWidgetChanged(com.netxforge.netxstudio.screens.editing.selector.IScreen)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.selector.ScreenChangeListener
+	 * #screenWidgetChanged
+	 * (com.netxforge.netxstudio.screens.editing.selector.IScreen)
 	 */
 	public void screenWidgetChanged(IScreen screen) {
-		// force an update of the current screen. 
+		// force an update of the current screen.
 		this.setCurrentScreen(screen);
 	}
-	
-	
+
 	public IScreen getScreen() {
 		return this.activeScreen;
 	}
@@ -207,14 +222,12 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		Collections.reverse(list);
 		return list;
 	}
-	
+
 	public ShowInContext getShowInContext() {
-		if(this.getScreen() != null){
+		if (this.getScreen() != null) {
 			return this.getScreen().getShowIn(this.getSelection());
 		}
 		return new ShowInContext(null, this.getSelection());
 	}
 
-	
-	
 }

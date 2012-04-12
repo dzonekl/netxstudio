@@ -24,6 +24,8 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.ui.IMemento;
+import org.eclipse.ui.IPersistable;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.part.ShowInContext;
 
@@ -35,8 +37,11 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public interface IScreen extends IViewerProvider, ISelectionProvider {
-
+public interface IScreen extends IViewerProvider, ISelectionProvider, IPersistable {
+	
+	
+	public static final String MEM_KEY_STRING = "MEM_KEY_SCREEN";
+	
 	/**
 	 * Screens should implement, and tell us what kind of operation they should perform. 
 	 * {@link ScreenUtil}
@@ -128,5 +133,12 @@ public interface IScreen extends IViewerProvider, ISelectionProvider {
 	 * @return
 	 */
 	public Viewer[] getViewers();
+	
+	
+	/**
+	 * Delegate from the IViewerPart
+	 * @param memento
+	 */
+	public abstract void restoreState(IMemento memento);
 	
 }
