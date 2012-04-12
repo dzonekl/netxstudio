@@ -1,5 +1,8 @@
 package com.netxforge.netxstudio.screens.f1.support;
 
+import java.util.Date;
+
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -9,7 +12,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.f2.PeriodComponent;
 
 public class ReportSelectionPeriodPage extends WizardPage {
@@ -17,9 +22,18 @@ public class ReportSelectionPeriodPage extends WizardPage {
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
 
+	private static final String REPORTING_PERIOD_START = "reporting_period_start";
+	private static final String REPORTING_PERIOD_END = "reporting_period_end";
+
 	@Inject
 	private PeriodComponent periodComponent;
 
+	@Inject
+	private MementoUtil mementoUtil;
+
+	@Inject
+	private ModelUtils modelUtils;
+	
 	/**
 	 * Create the wizard.
 	 */
@@ -45,7 +59,22 @@ public class ReportSelectionPeriodPage extends WizardPage {
 				true, false));
 		setControl(placeHolder);
 
-		this.initiBinding();
+		restoreDialogSettings();
+
+//		this.initiBinding();
+	}
+
+	private void restoreDialogSettings() {
+		IDialogSettings ds = getDialogSettings();
+		if (ds != null) {
+			Date start = mementoUtil.retrieveDate(ds, REPORTING_PERIOD_START);
+			Date end = mementoUtil.retrieveDate(ds, REPORTING_PERIOD_END);
+			if (start != null && end != null) {
+				setPeriod(start, end);
+				return;
+			}
+		}
+		initiBinding();
 	}
 
 	private void initiBinding() {
@@ -55,8 +84,29 @@ public class ReportSelectionPeriodPage extends WizardPage {
 	}
 
 	public DateTimeRange period() {
-
 		return periodComponent.getPeriod();
+	}
+
+	public void setPeriod(DateTimeRange dtr) {
+		this.periodComponent.presetExternal(dtr);
+	}
+
+	public void setPeriod(Date from, Date to) {
+		this.periodComponent.presetExternal(from, to);
+	}
+
+	public void finish() {
+
+		DateTimeRange dtr = period();
+
+		Date fromDate = modelUtils.begin(dtr);
+		Date toDate = modelUtils.end(dtr);
+
+		mementoUtil.rememberDate(this.getDialogSettings(), fromDate,
+				REPORTING_PERIOD_START);
+		mementoUtil.rememberDate(this.getDialogSettings(), toDate,
+				REPORTING_PERIOD_END);
+
 	}
 
 }

@@ -34,6 +34,7 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.part.ShowInContext;
 
@@ -41,6 +42,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
@@ -74,6 +76,9 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 
 	@Inject
 	protected ModelUtils modelUtils;
+	
+	@Inject 
+	protected MementoUtil mementoUtils;
 
 	@Inject
 	protected IValidationService validationService;
@@ -399,6 +404,22 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 */
 	public boolean shouldInjectForObject(Set<CDOObject> injectionObjects) {
 		return false;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.IPersistable#saveState(org.eclipse.ui.IMemento)
+	 */
+	public void saveState(IMemento memento) {
+		// do nothing, clients should override to store the state of the UI. 
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#init(org.eclipse.ui.IMemento)
+	 */
+	public void restoreState(IMemento memento) {
+		// do nothing, clients should override to restore the state of the UI.
 	}
 	
 }

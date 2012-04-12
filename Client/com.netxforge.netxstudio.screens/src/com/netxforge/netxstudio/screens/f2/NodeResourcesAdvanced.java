@@ -21,6 +21,7 @@ import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
@@ -60,6 +61,7 @@ import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
@@ -81,6 +83,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.ISaveablePart2;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
@@ -141,6 +144,7 @@ import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.f1.support.ReportSelectionWizard;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
@@ -153,6 +157,25 @@ import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
  */
 public class NodeResourcesAdvanced extends AbstractScreen implements
 		IDataServiceInjection {
+
+	/*
+	 * Memento keys.
+	 */
+	private static final String MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_VERTICAL = "MEM_KEY_NODERESOURCESADVANCED_SEPARATOR_VERTICAL";
+
+	private static final String MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA = "MEM_KEY_NODERESOURCESADVANCED_SEPARATOR_DATA";
+
+	private static final String MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK = "MEM_KEY_NODERESOURCESADVANCED_SELECTION_NETWORK";
+
+	private static final String MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE = "MEM_KEY_NODERESOURCESADVANCED_SELECTION_NODE";
+
+	private static final String MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT = "MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT";
+
+	private static final String MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE = "MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE";
+
+	private static final String MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM = "MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM";
+
+	private static final String MEM_KEY_NODERESOURCEADVANCED_PERIOD_TO = "MEM_KEY_NODERESOURCEADVANCED_PERIOD_TO";
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Form frmResources;
@@ -210,7 +233,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private Label lblNetwork;
 	private Label lblComponent;
 
-	private Resource operatorResource;
+	private CDOResource operatorResource;
 	private NetXResourceObervableMapLabelProvider netXResourceObervableMapLabelProvider;
 
 	private Button btnExpressionTest;
@@ -235,9 +258,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private Composite cmpSubSelector;
 	private IViewerObservableValue observeNodeSelection;
 	private Tree componentsTree;
-
-	// private CDateTimeObservableValue fromTimeObservableValue;
-	// private CDateTimeObservableValue toTimeObservableValue;
+	private SashForm sashVertical;
+	private SashForm sashData;
 
 	/**
 	 * Create the composite.
@@ -285,8 +307,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		FillLayout fl = new FillLayout();
 		frmResources.getBody().setLayout(fl);
 
-		final SashForm sashVertical = new SashForm(frmResources.getBody(),
-				SWT.VERTICAL);
+		sashVertical = new SashForm(frmResources.getBody(), SWT.VERTICAL);
 		sashVertical.setSashWidth(3);
 		toolkit.adapt(sashVertical);
 		toolkit.paintBordersFor(sashVertical);
@@ -336,7 +357,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		buildExpressionSelector(cmpRoot, new GridData(SWT.FILL, SWT.FILL, true,
 				true), widgetStyle);
 
-		SashForm sashData = new SashForm(sashVertical, SWT.HORIZONTAL);
+		sashData = new SashForm(sashVertical, SWT.HORIZONTAL);
 		sashData.setSashWidth(5);
 		toolkit.adapt(sashData);
 		toolkit.paintBordersFor(sashData);
@@ -348,10 +369,10 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		buildResourceViewer(sashData, widgetStyle);
 		buildValues(sashData);
 
-		// WEIGHTDS FOR SASH.
+		// WEIGHTS FOR SASH.
+		sashVertical.setWeights(new int[] { 1, 9 });
 		sashData.setWeights(new int[] { 3, 5, 5 });
 
-		sashVertical.setWeights(new int[] { 1, 9 });
 	}
 
 	private void buildResourceViewer(SashForm sashComponentResources,
@@ -503,6 +524,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		cmbNetwork = new Combo(cmpComponentSelector, SWT.READ_ONLY);
 		cmbViewerNetwork = new ComboViewer(cmbNetwork);
+		cmbViewerNetwork.setComparer(new CDOElementComparer());
 
 		cmbNetwork.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
@@ -1366,8 +1388,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			}
 		}
 	}
-	
-	
+
 	class ReportNodeAction extends BaseSelectionListenerAction {
 
 		public ReportNodeAction(String text) {
@@ -1379,9 +1400,14 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			IStructuredSelection structuredSelection = super
 					.getStructuredSelection();
 
-				WizardUtil.openWizard(
-						"com.netxforge.netxstudio.screens.reporting",
-						structuredSelection);
+			IWizard wiz = WizardUtil.openWizard(
+					"com.netxforge.netxstudio.screens.reporting",
+					structuredSelection);
+			if (wiz instanceof ReportSelectionWizard) {
+				ReportSelectionWizard rWiz = (ReportSelectionWizard) wiz;
+				rWiz.forceReportPeriod(periodComponent.getPeriod());
+
+			}
 		}
 
 		/*
@@ -1397,9 +1423,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			return firstElement instanceof Component;
 		}
 	}
-	
-	
-	
+
 	class EditResourceAction extends BaseSelectionListenerAction {
 
 		public EditResourceAction(String text) {
@@ -1761,6 +1785,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				});
 
 		periodComponent.presetLastMonth();
+
 		periodBeginWritableValue.setValue(periodComponent.getPeriod()
 				.getBegin());
 		periodEndWritableValue.setValue(periodComponent.getPeriod().getEnd());
@@ -2023,7 +2048,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 	public void injectData() {
 
-		operatorResource = editingService
+		operatorResource = (CDOResource) editingService
 				.getData(OperatorsPackage.Literals.OPERATOR);
 
 		buildUI();
@@ -2070,8 +2095,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			actionList.add(new EditResourceAction(actionText));
 			actionList.add(new SeparatorAction());
 			actionList.add(new ReportNodeAction("Report..."));
-//			 actionList.add(new MonitorResourceAction("Monitor...",
-//			 SWT.PUSH));
+			// actionList.add(new MonitorResourceAction("Monitor...",
+			// SWT.PUSH));
 		}
 		return actionList.toArray(new IAction[actionList.size()]);
 	}
@@ -2127,6 +2152,96 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		}
 
 		return super.resolveSelectionProviderFromWidget(widget);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#saveState(org.eclipse
+	 * .ui.IMemento)
+	 */
+	@Override
+	public void saveState(IMemento memento) {
+
+		// sash state vertical.
+		mementoUtils.rememberSashForm(memento, sashVertical,
+				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_VERTICAL);
+
+		// sash state data.
+		mementoUtils.rememberSashForm(memento, sashData,
+				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
+
+		// combo network.
+		mementoUtils.rememberStructuredViewer(memento, cmbViewerNetwork,
+				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK);
+
+		// combo node.
+		mementoUtils.rememberStructuredViewer(memento, cmbViewerNode,
+				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE);
+
+		// tree component
+		mementoUtils.rememberStructuredViewer(memento, componentsTreeViewer,
+				MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT);
+
+		// table resource
+		mementoUtils.rememberStructuredViewer(memento, resourcesTableViewer,
+				MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE);
+
+		// from date.
+		mementoUtils.rememberCDateTime(memento,
+				periodComponent.getDateTimeFrom(),
+				MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM);
+
+		// to date.
+		mementoUtils.rememberCDateTime(memento,
+				periodComponent.getDateTimeTo(),
+				MEM_KEY_NODERESOURCEADVANCED_PERIOD_TO);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#init(org.eclipse.
+	 * ui.IMemento)
+	 */
+	@Override
+	public void restoreState(IMemento memento) {
+
+		mementoUtils.retrieveSashForm(memento, sashVertical,
+				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_VERTICAL);
+		mementoUtils.retrieveSashForm(memento, sashData,
+				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
+
+		mementoUtils.retrieveStructuredViewer(memento, cmbViewerNetwork,
+				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK,
+				this.operatorResource.cdoView());
+		mementoUtils.retrieveStructuredViewer(memento, cmbViewerNode,
+				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE,
+				this.operatorResource.cdoView());
+		mementoUtils.retrieveStructuredViewer(memento, componentsTreeViewer,
+				MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT,
+				this.operatorResource.cdoView());
+		mementoUtils.retrieveStructuredViewer(memento, resourcesTableViewer,
+				MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
+				this.operatorResource.cdoView());
+
+		mementoUtils.retrieveCDateTime(memento,
+				periodComponent.getDateTimeFrom(),
+				MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM);
+		mementoUtils.retrieveCDateTime(memento,
+				periodComponent.getDateTimeTo(),
+				MEM_KEY_NODERESOURCEADVANCED_PERIOD_TO);
+
+		// update the binding, as this won't work by setting the UI widget
+		// selection.
+		periodComponent.updatePeriod();
+		periodBeginWritableValue.setValue(periodComponent.getPeriod()
+				.getBegin());
+		periodEndWritableValue.setValue(periodComponent.getPeriod().getEnd());
+
 	}
 
 }

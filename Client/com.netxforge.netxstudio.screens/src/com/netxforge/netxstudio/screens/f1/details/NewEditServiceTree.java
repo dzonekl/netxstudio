@@ -9,6 +9,8 @@ import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -78,9 +80,9 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f1.ServiceDistributionScreen;
 import com.netxforge.netxstudio.screens.f1.ServiceHierarchy;
+import com.netxforge.netxstudio.screens.f1.RFSServiceSummaryJob;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 import com.netxforge.netxstudio.services.RFSService;
-import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -116,6 +118,10 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	private DateChooserCombo dcConstruction;
 	private DateChooserCombo dcInService;
 	private DateChooserCombo dcOutOfService;
+
+	private RFSServiceSummaryJob job;
+
+	private Section sctnInfo;
 
 	public NewEditServiceTree(Composite parent, int style,
 			final IEditingService editingService) {
@@ -715,7 +721,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	}
 
 	private void buildInfoSection(int widgetStyle) {
-		Section sctnInfo = formToolkit.createSection(this, Section.EXPANDED
+		sctnInfo = formToolkit.createSection(this, Section.EXPANDED
 				| Section.TWISTIE | Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnInfo);
 		sctnInfo.setText("Info");
@@ -760,31 +766,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		ServiceMonitor sm = modelUtils.lastServiceMonitor(service);
-
-		if (sm != null) {
-			RFSServiceSummary summary = modelUtils.serviceSummaryForService(
-					service, sm.getPeriod());
-
-			formTextLastMonitor.setText(summary.getPeriodFormattedString(),
-					false, false);
-			formTextNumberOfNodes.setText(
-					new Integer(summary.getNodeCount()).toString(), false,
-					false);
-			formTextNumberOfResources.setText(
-					new Integer(summary.getResourcesCount()).toString(), false,
-					false);
-
-			formTextRed.setText(
-					new Integer(summary.getRedCountResources()).toString(),
-					false, false);
-			formTextAmber.setText(
-					new Integer(summary.getAmberCountResources()).toString(),
-					false, false);
-			formTextGreen.setText(
-					new Integer(summary.getGreenCountResources()).toString(),
-					false, false);
-		}
+		prepServiceSummary();
 
 		bindInfoSection(context);
 		bindLifeCycle(context);
@@ -793,6 +775,67 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		bindToleranceSection();
 
 		return context;
+	}
+
+	/**
+	 * Creates a summary in the background, update relevant UI bits when done.
+	 */
+	private void prepServiceSummary() {
+
+		
+		if( job == null){
+			job = new RFSServiceSummaryJob(modelUtils);
+			job.addNotifier(new JobChangeAdapter() {
+				@Override
+				public void done(IJobChangeEvent event) {
+
+					final RFSServiceSummary summary = job.getSummary();
+					if (summary != null) {
+						NewEditServiceTree.this.getDisplay().asyncExec(
+								new Runnable() {
+
+									public void run() {
+										formTextLastMonitor.setText(
+												summary.getPeriodFormattedString(),
+												false, false);
+										formTextNumberOfNodes.setText(new Integer(
+												summary.getNodeCount()).toString(),
+												false, false);
+										formTextNumberOfResources.setText(
+												new Integer(summary
+														.getResourcesCount())
+														.toString(), false, false);
+
+										formTextRed.setText(
+												new Integer(summary
+														.getRedCountResources())
+														.toString(), false, false);
+										formTextAmber.setText(
+												new Integer(summary
+														.getAmberCountResources())
+														.toString(), false, false);
+										formTextGreen.setText(
+												new Integer(summary
+														.getGreenCountResources())
+														.toString(), false, false);
+										sctnInfo.redraw();
+										
+									}
+
+								});
+					}
+				}
+			});
+		}
+		if(job.isRunning()){
+			// This will abrupt the job but on demand, so we can't really start a new job here. 
+			job.cancelMonitor();
+		}
+		
+
+		job.setRFSServiceToProcess(service);
+		job.go(); // Should spawn a job processing the xls.
+
 	}
 
 	private void bindInfoSection(EMFDataBindingContext context) {
@@ -1041,10 +1084,11 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 					"Data injection for screen invalid");
 		}
 
-		// Hack to clean a stale reference, which was not removed when deleting an object.
-		CDOUtil.cleanStaleReference(service, ServicesPackage.Literals.RFS_SERVICE__NODES);
-		
-		
+		// Hack to clean a stale reference, which was not removed when deleting
+		// an object.
+		CDOUtil.cleanStaleReference(service,
+				ServicesPackage.Literals.RFS_SERVICE__NODES);
+
 		buildUI();
 		this.initDataBindings_();
 

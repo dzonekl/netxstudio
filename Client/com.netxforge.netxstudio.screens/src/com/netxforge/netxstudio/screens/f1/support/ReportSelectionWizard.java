@@ -3,6 +3,7 @@ package com.netxforge.netxstudio.screens.f1.support;
 import java.util.Date;
 
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
@@ -15,12 +16,16 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class ReportSelectionWizard extends Wizard implements INewWizard {
 
+	
+	private static final String REPORTING_WIZARD = "reporting_period";
+	
 	@Inject
 	private ModelUtils modelUtils;
-
+	
 	@Inject
 	private ServerRequest serverActions;
 
@@ -37,6 +42,13 @@ public class ReportSelectionWizard extends Wizard implements INewWizard {
 
 	public ReportSelectionWizard() {
 		setWindowTitle("Reporting");
+		IDialogSettings ds = ScreensActivator.getDefault().getDialogSettings();
+		IDialogSettings section = ds.getSection(REPORTING_WIZARD);
+		if( section == null){
+			ds.addNewSection(REPORTING_WIZARD);
+		}
+		this.setDialogSettings(section);
+		
 	}
 
 	@Override
@@ -47,12 +59,21 @@ public class ReportSelectionWizard extends Wizard implements INewWizard {
 
 		this.addPage(reportSelectionType);
 		this.addPage(reportSelectionPeriod);
+		
 
+	}
+	
+	public void forceReportPeriod(DateTimeRange dtr){
+		// note the page is already created...
+		reportSelectionPeriod.setPeriod(dtr);
 	}
 
 	@Override
 	public boolean performFinish() {
-
+		
+		finishPages();
+		
+		
 		CDOObject targetObject = null;
 		@SuppressWarnings("unused")
 		String identifier = "";
@@ -66,6 +87,7 @@ public class ReportSelectionWizard extends Wizard implements INewWizard {
 
 			Date fromDate = modelUtils.begin(dtr);
 			Date toDate = modelUtils.end(dtr);
+			
 			@SuppressWarnings("unused")
 			String result = null;
 
@@ -154,6 +176,11 @@ public class ReportSelectionWizard extends Wizard implements INewWizard {
 		}
 
 		return true;
+	}
+
+	private void finishPages() {
+		reportSelectionPeriod.finish();
+		
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {

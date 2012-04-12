@@ -27,6 +27,7 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -66,6 +67,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
@@ -122,12 +124,14 @@ import com.netxforge.netxstudio.screens.f4.NewEditJob;
  */
 public class Networks extends AbstractScreen implements IDataServiceInjection {
 
+	private static final String MEM_KEY_NETWORKS_SELECTION_TREE = "MEM_KEY_NETWORKS_SELECTION_TREE";
+
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
 	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
 	private Form frmNetworks;
-	private Resource operatorsResource;
+	private CDOResource operatorsResource;
 	private TreeViewer networkTreeViewer;
 	private Composite cmpDetails;
 	private SashForm sashForm;
@@ -160,7 +164,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
 	 */
 	public void injectData() {
-		operatorsResource = editingService
+		operatorsResource = (CDOResource) editingService
 				.getData(OperatorsPackage.Literals.OPERATOR);
 		buildUI();
 		initDataBindings_();
@@ -381,8 +385,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 	@Override
 	public IAction[] getActions() {
-		
-		// Lazy init actions. 
+
+		// Lazy init actions.
 		if (actions.isEmpty()) {
 			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
 
@@ -401,8 +405,9 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			actions.add(new ExportHTMLAction("Export to HTML"));
 			actions.add(new ExportXLSAction("Export to XLS"));
 			actions.add(new SeparatorAction());
-//			actions.add(new ExpressionsAction(this.getScreenService(), "Expressions for"));
-			
+			// actions.add(new ExpressionsAction(this.getScreenService(),
+			// "Expressions for"));
+
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}
@@ -561,7 +566,6 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		}
 	}
 
-
 	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
@@ -580,11 +584,11 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				editingService.getEditingDomain(),
 				GenericsPackage.Literals.COMPANY__NAME).observeDetail(set));
 
-		// CB propably not needed, as the factory will take care. 
-//		observableMap.add(EMFEditProperties.value(
-//				editingService.getEditingDomain(),
-//				OperatorsPackage.Literals.OPERATOR__NETWORKS)
-//				.observeDetail(set));
+		// CB propably not needed, as the factory will take care.
+		// observableMap.add(EMFEditProperties.value(
+		// editingService.getEditingDomain(),
+		// OperatorsPackage.Literals.OPERATOR__NETWORKS)
+		// .observeDetail(set));
 
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -627,18 +631,17 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.NODE_TYPE__NAME).observeDetail(set));
 
-		observableMap.add(EMFEditProperties.value(editingService.getEditingDomain(), 
+		observableMap.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
 				LibraryPackage.Literals.COMPONENT__NAME).observeDetail(set));
-		
-		
-		// FIXME, doesn't work. 
-//		observableMap.add(EMFEditProperties.value(editingService.getEditingDomain(), 
-//				LibraryPackage.Literals.COMPONENT__METRIC_REFS).observeDetail(set));
-//		
-//		observableMap.add(EMFEditProperties.value(editingService.getEditingDomain(), 
-//				LibraryPackage.Literals.COMPONENT__RESOURCE_REFS).observeDetail(set));
 
-		
+		// FIXME, doesn't work.
+		// observableMap.add(EMFEditProperties.value(editingService.getEditingDomain(),
+		// LibraryPackage.Literals.COMPONENT__METRIC_REFS).observeDetail(set));
+		//
+		// observableMap.add(EMFEditProperties.value(editingService.getEditingDomain(),
+		// LibraryPackage.Literals.COMPONENT__RESOURCE_REFS).observeDetail(set));
+
 		IObservableMap[] map = new IObservableMap[observableMap.size()];
 		observableMap.toArray(map);
 
@@ -815,7 +818,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			sashForm.layout(true, true);
 		}
 		if (o instanceof Equipment) {
-			
+
 			NewEditNodeEquipment screen = null;
 			screen = new NewEditNodeEquipment(this.cmpDetails, SWT.NONE,
 					editingService);
@@ -887,6 +890,38 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public String getScreenName() {
 		return "Networks";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#saveState(org.eclipse
+	 * .ui.IMemento)
+	 */
+	@Override
+	public void saveState(IMemento memento) {
+
+		// sash state vertical.
+		mementoUtils.rememberStructuredViewer(memento, networkTreeViewer,
+				MEM_KEY_NETWORKS_SELECTION_TREE);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#init(org.eclipse.
+	 * ui.IMemento)
+	 */
+	@Override
+	public void restoreState(IMemento memento) {
+
+		mementoUtils.retrieveStructuredViewer(memento, networkTreeViewer,
+				MEM_KEY_NETWORKS_SELECTION_TREE,
+				this.operatorsResource.cdoView());
+
 	}
 
 }

@@ -163,7 +163,15 @@ public class PeriodComponent {
 		period.setEnd(modelUtils.toXMLDate(to));
 
 	}
-
+	
+	public void presetExternal(Date from, Date to) {
+		this.updatePeriod(from, to);
+	}
+	
+	public void presetExternal(DateTimeRange dtr) {
+		this.updatePeriod(modelUtils.begin(dtr), modelUtils.end(dtr));
+	}
+	
 	public void presetYesterday() {
 		Date yesterday = modelUtils.yesterday();
 		yesterday = modelUtils.setToDayStart(yesterday);
