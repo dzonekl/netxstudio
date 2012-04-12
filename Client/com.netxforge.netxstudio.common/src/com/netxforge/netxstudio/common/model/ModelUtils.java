@@ -19,6 +19,7 @@ import java.util.Map;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
 import org.eclipse.emf.cdo.common.branch.CDOBranchVersion;
@@ -887,6 +888,16 @@ public class ModelUtils {
 		}
 		return uniques;
 	}
+	
+	/**
+	 * Replaces all white spaces with an underscore
+	 * @param inString
+	 * @return
+	 */
+	public String underscopeWhiteSpaces(String inString){
+		return inString.replaceAll("\\s", "_");
+	}
+	
 
 	public List<Node> nodesForNodeType(List<Node> nodes, NodeType targetNodeType) {
 		Iterable<Node> filtered = Iterables.filter(nodes,
@@ -902,7 +913,7 @@ public class ModelUtils {
 	}
 
 	public RFSServiceSummary serviceSummaryForService(Service service,
-			DateTimeRange dtr) {
+			DateTimeRange dtr, IProgressMonitor monitor) {
 		RFSServiceSummary serviceSummary = new RFSServiceSummary(
 				(RFSService) service);
 
@@ -910,7 +921,10 @@ public class ModelUtils {
 			int[] ragTotalResources = new int[] { 0, 0, 0 };
 			int[] ragTotalNodes = new int[] { 0, 0, 0 };
 			for (Node n : ((RFSService) service).getNodes()) {
-				int[] ragResources = ragCountResourcesForNode(service, n, dtr);
+				if(monitor != null && monitor.isCanceled()){
+					return serviceSummary;
+				}
+				int[] ragResources = ragCountResourcesForNode(service, n, dtr, monitor);
 				for (int i = 0; i < ragTotalResources.length; i++) {
 					ragTotalResources[i] += ragResources[i];
 				}
@@ -922,6 +936,7 @@ public class ModelUtils {
 			serviceSummary.setRagCountResources(ragTotalResources);
 			serviceSummary.setRagCountNodes(ragTotalNodes);
 		}
+		serviceSummary.setPeriodFormattedString(formatPeriod(dtr));
 		return serviceSummary;
 	}
 
@@ -989,23 +1004,23 @@ public class ModelUtils {
 	 * @return
 	 */
 	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceAndNodeAndPeriod(
-			Service service, Node n, DateTimeRange dtr) {
+			Service service, Node n, DateTimeRange dtr, IProgressMonitor monitor) {
 
-		// Sort and reverse the Service Monitors.
+		// Sort by begin date and reverse the Service Monitors.
 		List<ServiceMonitor> sortedCopy = Ordering
 				.from(this.serviceMonitorCompare()).reverse()
 				.sortedCopy(service.getServiceMonitors());
 
 		// Filter ServiceMonitors on the time range.
-		List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
-				sortedCopy, dtr);
+//		List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
+//				sortedCopy, dtr);
 
 		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-				filtered, n);
+				sortedCopy, n, monitor);
 		return markersPerResource;
 
 	}
-
+	
 	/**
 	 * Provides a total list of markers for the Service Monitor, Node and Date
 	 * Time Range. ,indiscreet of the NetXResource.
@@ -1065,7 +1080,7 @@ public class ModelUtils {
 	 * @return
 	 */
 	public int[] ragCountResourcesForNode(Service service, Node n,
-			DateTimeRange dtr) {
+			DateTimeRange dtr, IProgressMonitor monitor) {
 
 		int red = 0, amber = 0, green = 0;
 
@@ -1079,10 +1094,13 @@ public class ModelUtils {
 				sortedCopy, dtr);
 
 		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-				filtered, n);
+				filtered, n, monitor);
 
 		for (NetXResource res : markersPerResource.keySet()) {
-
+			
+			if( monitor != null && monitor.isCanceled()){
+				return new int[] { red, amber, green };
+			}
 			List<Marker> markers = markersPerResource.get(res);
 			int[] rag = ragForMarkers(markers);
 			red += rag[0];
@@ -1100,11 +1118,18 @@ public class ModelUtils {
 	 * @return
 	 */
 	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-			List<ServiceMonitor> serviceMonitors, Node n) {
+			List<ServiceMonitor> serviceMonitors, Node n, IProgressMonitor monitor) {
 		Map<NetXResource, List<Marker>> markersPerResource = Maps.newHashMap();
 
 		for (ServiceMonitor sm : serviceMonitors) {
 			for (ResourceMonitor rm : sm.getResourceMonitors()) {
+					
+				
+				// Abort the task if we are cancelled. 
+				if(monitor != null && monitor.isCanceled()){
+					return markersPerResource;
+				}
+				
 				if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
 
 					// Analyze per resource, why would a resource monitor
@@ -2815,13 +2840,25 @@ public class ModelUtils {
 		// Set the end time and count backwards, make the hour is the end hour.
 		// Optional set to day end, the UI should have done this already.
 		// this.setToDayEnd();
-		cal.setTime(dtr.getEnd().toGregorianCalendar().getTime());
-		Date begin = dtr.getBegin().toGregorianCalendar().getTime();
-		while (cal.getTime().after(begin)) {
+		
+		
+		// BACKWARD, WILL USE THE END TIME STAMP WHICH IS 23:59:999h
+//		cal.setTime(dtr.getEnd().toGregorianCalendar().getTime());
+//		Date begin = dtr.getBegin().toGregorianCalendar().getTime();
+//		while (cal.getTime().after(begin)) {
+//			timeStamps.add(this.toXMLDate(cal.getTime()));
+//			cal.add(Calendar.DAY_OF_YEAR, -1);
+//		}
+		
+		// FORWARD, WILL USE THE BEGIN TIME STAMP WHICH IS 00:00:000h		
+		cal.setTime(dtr.getBegin().toGregorianCalendar().getTime());
+		Date end = dtr.getEnd().toGregorianCalendar().getTime();
+		while (cal.getTime().before(end)) {
 			timeStamps.add(this.toXMLDate(cal.getTime()));
-			cal.add(Calendar.DAY_OF_YEAR, -1);
+			cal.add(Calendar.DAY_OF_YEAR, 1);
 		}
 
+		
 		return timeStamps;
 	}
 	

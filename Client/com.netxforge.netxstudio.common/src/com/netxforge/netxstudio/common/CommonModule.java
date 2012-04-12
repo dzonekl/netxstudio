@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.common;
 import javax.xml.datatype.DatatypeFactory;
 
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.jca.JCAServiceModule;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 
@@ -37,7 +38,7 @@ public class CommonModule extends JCAServiceModule {
 	@Override
 	protected void configure() {
 		super.configure();
-		this.bind(ModelUtils.class);
+		this.bind(ModelUtils.class).in(Singleton.class);
 		
 	}
 	
