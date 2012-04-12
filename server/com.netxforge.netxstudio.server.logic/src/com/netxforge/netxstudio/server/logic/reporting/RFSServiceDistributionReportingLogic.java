@@ -1,6 +1,6 @@
 package com.netxforge.netxstudio.server.logic.reporting;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Sheet;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NodeType;
@@ -8,7 +8,7 @@ import com.netxforge.netxstudio.library.NodeType;
 public class RFSServiceDistributionReportingLogic extends OperatorReportingLogic {
 
 	@Override
-	protected void writeHeader(HSSFSheet sheet, DateTimeRange dtr) {
+	protected void writeHeader(Sheet sheet, DateTimeRange dtr) {
 		super.createHeaderStructure(sheet);
 		super.typeCell.setCellValue("Service Monitoring");
 		super.titleCell.setCellValue("Service Distribution");
@@ -22,7 +22,7 @@ public class RFSServiceDistributionReportingLogic extends OperatorReportingLogic
 	}
 
 	@Override
-	protected void writeContent(HSSFSheet sheet, NodeType nodeType) {
+	protected void writeContent(Sheet sheet, NodeType nodeType) {
 	}
 
 	protected String calculateFileName() {

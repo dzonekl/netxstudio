@@ -18,7 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic.reporting;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Sheet;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
@@ -36,36 +36,36 @@ public abstract class BaseServiceReportingAdapterLogic extends BaseServiceReport
 
 
 	@Override
-	public void writeFinal(HSSFSheet sheet) {
+	public void writeFinal(Sheet sheet) {
 		
 	}
 
 	@Override
-	protected void processServiceUser(Service service, HSSFSheet sheet) {
+	protected void processServiceUser(Service service, Sheet sheet) {
 		
 	}
 
 	@Override
-	protected void writeHeader(HSSFSheet sheet, DateTimeRange dtr) {
+	protected void writeHeader(Sheet sheet, DateTimeRange dtr) {
 	}
 
 	@Override
-	protected void writeContent(HSSFSheet sheet, NodeType nodeType) {
+	protected void writeContent(Sheet sheet, NodeType nodeType) {
 	}
 
 	@Override
-	protected void writeContent(HSSFSheet sheet, Service service, Node node,
+	protected void writeContent(Sheet sheet, Service service, Node node,
 			int rowIndex, int columnIndex) {
 		
 	}
 
 	@Override
-	protected void writeContent(HSSFSheet sheet, Service service,
+	protected void writeContent(Sheet sheet, Service service,
 			ServiceUser serviceUser, int rowIndex, int columnIndex) {
 	}
 
 	@Override
-	protected void writeContent(HSSFSheet sheet, Component component) {
+	protected void writeContent(Sheet sheet, Component component) {
 	}
 	
 

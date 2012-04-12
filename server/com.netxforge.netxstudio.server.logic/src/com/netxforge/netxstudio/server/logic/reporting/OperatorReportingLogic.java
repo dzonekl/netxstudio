@@ -125,8 +125,8 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 
 	@Override
 	protected List<NodeType> getNodeTypesToExecuteFor(RFSService service) {
-
-		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
+		
+ 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 		
 		
 		// Filter the nodes. 

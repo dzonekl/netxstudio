@@ -27,7 +27,7 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 	private int componentsNotReported = 0;
 	private Map<NetXResource, List<Marker>> markersForNode;
 	
-	ResourceReportingEngine reportingEngine;
+	private ResourceReportingEngine reportingEngine;
 	
 	@Override
 	protected void writeHeader(Sheet sheet, DateTimeRange dtr) {
@@ -91,6 +91,11 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 		// markersForNode = this.getModelUtils().markersForNode(service, node,
 		// this.getPeriod());
 
+//		
+//		markersForNode = this.getModelUtils()
+//				.toleranceMarkerMapPerResourceForServiceAndNodeAndPeriod(
+//						service, node, this.getPeriod());
+		
 		// } else {
 		//
 		// nodesNotReported++;

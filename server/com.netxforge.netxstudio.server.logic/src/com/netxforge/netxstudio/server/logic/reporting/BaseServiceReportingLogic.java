@@ -20,17 +20,16 @@ package com.netxforge.netxstudio.server.logic.reporting;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
@@ -58,7 +57,7 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 
 	private ReportingEngine engine;
 
-	private HSSFWorkbook workBook;
+	private Workbook workBook;
 
 	private OutputStream stream;
 
@@ -97,12 +96,12 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 		getJobMonitor().setTask("Performing reporting");
 
 		// EXCEL WRITE
-		setWorkBook(new HSSFWorkbook());
+		setWorkBook(new XSSFWorkbook());
 
 		for (Service service : allServices) {
 			if (service instanceof RFSService) {
 
-				HSSFSheet sheet = getSheet(service.getServiceName());
+				Sheet sheet = getSheet(service.getServiceName());
 
 				// WRITE EXCEL.
 				writeHeader(sheet, getPeriod());
@@ -137,11 +136,11 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 		 this.getDataProvider().closeSession();
 	}
 
-	public abstract void writeFinal(HSSFSheet sheet);
+	public abstract void writeFinal(Sheet sheet);
 
-	protected abstract void processServiceUser(Service service, HSSFSheet sheet);
+	protected abstract void processServiceUser(Service service, Sheet sheet);
 
-	protected void processNodesByNodeType(Service service, HSSFSheet sheet) {
+	protected void processNodesByNodeType(Service service, Sheet sheet) {
 		List<NodeType> nodeTypes = this
 				.getNodeTypesToExecuteFor((RFSService) service);
 
@@ -188,28 +187,28 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 		}
 	}
 
-	protected void processComponent(HSSFSheet sheet, Component component) {
-		this.getJobMonitor().setTask("Reporting for " + component.getName());
-
-		// TODO set total work correctly.
-		this.getJobMonitor().incrementProgress(1, false);
-		this.writeContent(sheet, component);
-
-		// final ReportingEngine engine = (ReportingEngine) getEngine();
-		// engine.setJobMonitor(getJobMonitor());
-		// engine.setComponent(component);
-		// engine.setDataProvider(this.getDataProvider());
-		// // engine.setPeriod(getTimeRange());
-		// engine.execute();
-		// if (engine.getFailures().size() > 0) {
-		// for (final Failure failure : engine.getFailures()) {
-		// if (failure instanceof ComponentFailure) {
-		// ((ComponentFailure) failure).setComponentRef(component);
-		// }
-		// this.getFailures().add(failure);
-		// }
-		// }
-	}
+//	protected void processComponent(HSSFSheet sheet, Component component) {
+//		this.getJobMonitor().setTask("Reporting for " + component.getName());
+//
+//		// TODO set total work correctly.
+//		this.getJobMonitor().incrementProgress(1, false);
+//		this.writeContent(sheet, component);
+//
+//		// final ReportingEngine engine = (ReportingEngine) getEngine();
+//		// engine.setJobMonitor(getJobMonitor());
+//		// engine.setComponent(component);
+//		// engine.setDataProvider(this.getDataProvider());
+//		// // engine.setPeriod(getTimeRange());
+//		// engine.execute();
+//		// if (engine.getFailures().size() > 0) {
+//		// for (final Failure failure : engine.getFailures()) {
+//		// if (failure instanceof ComponentFailure) {
+//		// ((ComponentFailure) failure).setComponentRef(component);
+//		// }
+//		// this.getFailures().add(failure);
+//		// }
+//		// }
+//	}
 
 	/**
 	 * Clients should override to avoid walking the NodeType Hierarchy if not
@@ -218,103 +217,153 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 	 * @param sheet
 	 * @param nodeType
 	 */
-	protected void processNode(HSSFSheet sheet, NodeType nodeType) {
+//	protected void processNode(HSSFSheet sheet, NodeType nodeType) {
+//		int cnt = 0;
+
+//		// EQUIPMENTS
+//		{
+//			final Set<Equipment> leafEquipments = new HashSet<Equipment>();
+//			getLeafEquipments(nodeType.getEquipments(), leafEquipments);
+//			Set<Equipment> executeFor = leafEquipments;
+//			while (!executeFor.isEmpty()) {
+//				final Set<Equipment> newExecuteFor = new HashSet<Equipment>();
+//				for (final Equipment equipment : executeFor) {
+//					processComponent(sheet, equipment);
+//					if (equipment.eContainer() instanceof Equipment
+//							&& !newExecuteFor.contains(equipment.eContainer())) {
+//						newExecuteFor.add((Equipment) equipment.eContainer());
+//					}
+//					executeFor = newExecuteFor;
+//				}
+//				getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
+//			}
+//		}
+//
+//		// FUNCTIONS
+//		{
+//			final Set<Function> leafFunctions = new HashSet<Function>();
+//			getLeafFunctions(nodeType.getFunctions(), leafFunctions);
+//			Set<Function> executeFor = leafFunctions;
+//			while (!executeFor.isEmpty()) {
+//				final Set<Function> newExecuteFor = new HashSet<Function>();
+//				for (final Function function : executeFor) {
+//					processComponent(sheet, function);
+//					if (function.eContainer() instanceof Function
+//							&& !newExecuteFor.contains(function.eContainer())) {
+//						newExecuteFor.add((Function) function.eContainer());
+//					}
+//					executeFor = newExecuteFor;
+//					getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
+//				}
+//			}
+//		}
+//	}
+
+//	private void getLeafEquipments(List<Equipment> equipments,
+//			Set<Equipment> leafEquipments) {
+//		for (final Equipment equipment : equipments) {
+//			if (equipment.getEquipments().isEmpty()) {
+//				leafEquipments.add(equipment);
+//			} else {
+//				getLeafEquipments(equipment.getEquipments(), leafEquipments);
+//			}
+//		}
+//	}
+//
+//	private void getLeafFunctions(List<Function> functions,
+//			Set<Function> leafFunctions) {
+//		for (final Function function : functions) {
+//			if (function.getFunctions().isEmpty()) {
+//				leafFunctions.add(function);
+//			} else {
+//				getLeafFunctions(function.getFunctions(), leafFunctions);
+//			}
+//		}
+//	}
+	
+	/**
+	 * Clients should override to avoid walking the NodeType Hierarchy if not
+	 * required.
+	 * 
+	 * @param sheet
+	 * @param nodeType
+	 */
+	protected void processNode(Sheet sheet, NodeType nodeType) {
 		int cnt = 0;
 
-		// EQUIPMENTS
-		{
-			final Set<Equipment> leafEquipments = new HashSet<Equipment>();
-			getLeafEquipments(nodeType.getEquipments(), leafEquipments);
-			Set<Equipment> executeFor = leafEquipments;
-			while (!executeFor.isEmpty()) {
-				final Set<Equipment> newExecuteFor = new HashSet<Equipment>();
-				for (final Equipment equipment : executeFor) {
-					processComponent(sheet, equipment);
-					if (equipment.eContainer() instanceof Equipment
-							&& !newExecuteFor.contains(equipment.eContainer())) {
-						newExecuteFor.add((Equipment) equipment.eContainer());
-					}
-					executeFor = newExecuteFor;
-				}
-				getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
-			}
-		}
-
 		// FUNCTIONS
-		{
-			final Set<Function> leafFunctions = new HashSet<Function>();
-			getLeafFunctions(nodeType.getFunctions(), leafFunctions);
-			Set<Function> executeFor = leafFunctions;
-			while (!executeFor.isEmpty()) {
-				final Set<Function> newExecuteFor = new HashSet<Function>();
-				for (final Function function : executeFor) {
-					processComponent(sheet, function);
-					if (function.eContainer() instanceof Function
-							&& !newExecuteFor.contains(function.eContainer())) {
-						newExecuteFor.add((Function) function.eContainer());
-					}
-					executeFor = newExecuteFor;
-					getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
-				}
-			}
+		for (Function fu : nodeType.getFunctions()) {
+			processFunction(sheet, fu);
+			getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
+		}
+		// EQUIPMENTS
+		for (Equipment eq : nodeType.getEquipments()) {
+			processEquipment(sheet, eq);
+			getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
+		}
+	}
+	
+	
+	/*
+	 * Iterates through hierarchy and produce the component output. 
+	 */
+	protected void processEquipment(Sheet sheet, Equipment eq) {
+		this.getJobMonitor().setTask("Reporting for " + eq.getName());
+		// TODO set total work correctly.
+		this.getJobMonitor().incrementProgress(1, false);
+		writeContent(sheet, eq);
+		for (Equipment child : eq.getEquipments()) {
+			processEquipment(sheet, child);
 		}
 	}
 
-	private void getLeafEquipments(List<Equipment> equipments,
-			Set<Equipment> leafEquipments) {
-		for (final Equipment equipment : equipments) {
-			if (equipment.getEquipments().isEmpty()) {
-				leafEquipments.add(equipment);
-			} else {
-				getLeafEquipments(equipment.getEquipments(), leafEquipments);
-			}
+	/*
+	 * Iterates through hierarchy and produce the component output. 
+	 */
+	protected void processFunction(Sheet sheet, Function fu) {
+		this.getJobMonitor().setTask("Reporting for " + fu.getName());
+		// TODO set total work correctly.
+		this.getJobMonitor().incrementProgress(1, false);
+		writeContent(sheet, fu);
+		for (Function child : fu.getFunctions()) {
+			processFunction(sheet, child);
 		}
 	}
 
-	private void getLeafFunctions(List<Function> functions,
-			Set<Function> leafFunctions) {
-		for (final Function function : functions) {
-			if (function.getFunctions().isEmpty()) {
-				leafFunctions.add(function);
-			} else {
-				getLeafFunctions(function.getFunctions(), leafFunctions);
-			}
-		}
-	}
 
 	// /// WRITING SECTION.
 
-	protected abstract void writeHeader(HSSFSheet sheet, DateTimeRange dtr);
+	protected abstract void writeHeader(Sheet sheet, DateTimeRange dtr);
 
-	protected abstract void writeContent(HSSFSheet sheet, NodeType nodeType);
+	protected abstract void writeContent(Sheet sheet, NodeType nodeType);
 
-	protected abstract void writeContent(HSSFSheet sheet, Service service,
+	protected abstract void writeContent(Sheet sheet, Service service,
 			Node node, int rowIndex, int columnIndex);
 
-	protected abstract void writeContent(HSSFSheet sheet, Service service,
+	protected abstract void writeContent(Sheet sheet, Service service,
 			ServiceUser serviceUser, int rowIndex, int columnIndex);
 
-	protected abstract void writeContent(HSSFSheet sheet, Component component);
+	protected abstract void writeContent(Sheet sheet, Component component);
 
-	protected HSSFSheet getSheet(String string) {
-		HSSFSheet sheet = this.getWorkBook().createSheet(string);
+	protected Sheet getSheet(String string) {
+		Sheet sheet = this.getWorkBook().createSheet(string);
 		return sheet;
 	}
 
-	public HSSFWorkbook getWorkBook() {
+	public Workbook getWorkBook() {
 		return workBook;
 	}
 
-	public void setWorkBook(HSSFWorkbook workBook) {
+	public void setWorkBook(Workbook workBook) {
 		this.workBook = workBook;
 	}
 
 	// Formated Header cells, to be filled by clients.
-	protected HSSFCell typeCell;
-	protected HSSFCell titleCell;
-	protected HSSFCell periodCell;
+	protected Cell typeCell;
+	protected Cell titleCell;
+	protected Cell periodCell;
 
-	public void createHeaderStructure(HSSFSheet sheet) {
+	public void createHeaderStructure(Sheet sheet) {
 
 		CellStyle baseStyle = this.getWorkBook().createCellStyle();
 		baseStyle.setBorderTop(CellStyle.BORDER_MEDIUM);
@@ -330,7 +379,7 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 		typeFont.setFontHeightInPoints((short) 24);
 		typeStyle.setFont(typeFont);
 
-		HSSFRow typeRow = sheet.createRow(0);
+		Row typeRow = sheet.createRow(0);
 		typeCell = typeRow.createCell(0);
 		typeCell.setCellValue("<Service Type>");
 		typeCell.setCellStyle(typeStyle);
@@ -346,7 +395,7 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 		titleFont.setFontHeightInPoints((short) 16);
 		titleStyle.setFont(titleFont);
 
-		HSSFRow titleRow = sheet.createRow(1);
+		Row titleRow = sheet.createRow(1);
 		titleCell = titleRow.createCell(0);
 		titleCell.setCellValue("<Report title>");
 		titleCell.setCellStyle(titleStyle);
@@ -355,7 +404,7 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 			titleRow.createCell(i).setCellStyle(titleStyle);
 		}
 
-		HSSFRow periodRow = sheet.createRow(2);
+		Row periodRow = sheet.createRow(2);
 		periodCell = periodRow.createCell(0);
 		periodCell.setCellValue("<Period>");
 		periodCell.setCellStyle(titleStyle);

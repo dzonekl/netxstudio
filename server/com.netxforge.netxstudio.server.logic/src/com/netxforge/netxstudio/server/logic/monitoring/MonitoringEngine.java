@@ -56,29 +56,29 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
 public class MonitoringEngine extends BaseComponentEngine {
 
 	private ServiceMonitor serviceMonitor;
-	
-	@Inject 
+
+	@Inject
 	private ResultProcessor resultProcessor;
-	
+
 	@Override
 	public void doExecute() {
 
 		if (this.getComponent() instanceof Equipment) {
 
-			if (LogicActivator.DEBUG) {
-				System.out
-						.println("MONITORING ENGINE: Start Monitoring for Equipment: "
-								+ ((Equipment) this.getComponent())
-										.getEquipmentCode()
-								+ " Name="
-								+ this.getComponent().getName());
-			}
+			// if (LogicActivator.DEBUG) {
+			// System.out
+			// .println("MONITORING ENGINE: Start Monitoring for Equipment: "
+			// + ((Equipment) this.getComponent())
+			// .getEquipmentCode()
+			// + " Name="
+			// + this.getComponent().getName());
+			// }
 		} else if (this.getComponent() instanceof Function) {
-			if (LogicActivator.DEBUG) {
-				System.out
-						.println("MONITORING ENGINE: Start Monitoring for Function: "
-								+ " Name=" + this.getComponent().getName());
-			}
+			// if (LogicActivator.DEBUG) {
+			// System.out
+			// .println("MONITORING ENGINE: Start Monitoring for Function: "
+			// + " Name=" + this.getComponent().getName());
+			// }
 		}
 
 		// Clear the context first.
@@ -118,45 +118,45 @@ public class MonitoringEngine extends BaseComponentEngine {
 
 			getExpressionEngine().getContext().add(netXResource);
 
-			if (LogicActivator.DEBUG) {
-				System.err
-						.println("MONITORING ENGINE: Run capacity expression for resource: "
-								+ netXResource.getShortName());
-			}
-
 			setEngineContextInfo("NetXResource: " + netXResource.getShortName()
 					+ " - capacity expression -");
 
 			Expression runCapExpression = getExpression(LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF);
-			runForExpression(runCapExpression);
-
 			if (LogicActivator.DEBUG) {
-				System.err
-						.println("MONITORING ENGINE: Run util expression for resource: "
-								+ netXResource.getShortName());
+				if (runCapExpression != null) {
+					System.err
+							.println("MONITORING ENGINE: Run capacity expression for resource: "
+									+ netXResource.getShortName());
+				}
 			}
+			runForExpression(runCapExpression);
 
 			setEngineContextInfo("NetXResource: " + netXResource.getShortName()
 					+ " - utilization expression -");
 
 			Expression runUtilExpression = this
 					.getExpression(LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF);
+
+			if (LogicActivator.DEBUG) {
+				if (runUtilExpression != null) {
+					System.err
+							.println("MONITORING ENGINE: Run util expression for resource: "
+									+ netXResource.getShortName());
+				}
+			}
+
 			runForExpression(runUtilExpression);
 
 			if (LogicActivator.DEBUG) {
-				System.err
-						.println("MONITORING ENGINE: Done util expression for resource: "
-								+ netXResource.getShortName());
+				if (runUtilExpression != null) {
+					System.err
+							.println("MONITORING ENGINE: Done util expression for resource: "
+									+ netXResource.getShortName());
+				}
 			}
 
 			if (getFailures().size() > 0) {
 				return;
-			}
-
-			if (LogicActivator.DEBUG) {
-				System.err
-						.println("MONITORING ENGINE: Run tolerance expression(s) for resource: "
-								+ netXResource.getShortName());
 			}
 
 			// RESOURCE MONITOR CREATION
@@ -168,14 +168,17 @@ public class MonitoringEngine extends BaseComponentEngine {
 			// Service Monitor.
 			DateTimeRange dtr = EcoreUtil.copy(getPeriod());
 			resourceMonitor.setPeriod(dtr);
+			resultProcessor.setResourceMonitor(resourceMonitor);
+
+			boolean hasTolerances = this.getTolerances().size() > 0;
 
 			if (LogicActivator.DEBUG) {
-				System.err
-						.println("MONITORING ENGINE: Creating a new resource monitor for: "
-								+ netXResource.getShortName());
+				if (hasTolerances) {
+					System.out
+							.println("MONITORING ENGINE: Run tolerance expression(s) for resource: "
+									+ netXResource.getShortName());
+				}
 			}
-
-			resultProcessor.setResourceMonitor(resourceMonitor);
 
 			for (final Tolerance tolerance : getTolerances()) {
 				resultProcessor.setTolerance(tolerance);
@@ -193,13 +196,22 @@ public class MonitoringEngine extends BaseComponentEngine {
 			}
 
 			if (LogicActivator.DEBUG) {
-				System.err
-						.println("Done tolerance expression(s) for resource: "
-								+ netXResource.getShortName());
+				if (hasTolerances) {
+					System.out
+							.println("Done tolerance expression(s) for resource: "
+									+ netXResource.getShortName());
+				}
 			}
 
 			// Only store for resource monitors which actually have something
 			if (resourceMonitor.getMarkers().size() > 0) {
+
+				if (LogicActivator.DEBUG) {
+					System.err
+							.println("MONITORING ENGINE: Creating a new resource monitor for: "
+									+ netXResource.getShortName());
+				}
+
 				if (getServiceMonitor() == null) {
 					final Resource emfResource = getDataProvider().getResource(
 							OperatorsPackage.eINSTANCE.getResourceMonitor());
@@ -211,17 +223,17 @@ public class MonitoringEngine extends BaseComponentEngine {
 			}
 
 		}
-		
-		// Print info on which component was processed. 
+
+		// Print info on which component was processed.
 		if (LogicActivator.DEBUG) {
-			if (this.getComponent() instanceof Equipment) {
-				System.out.println("Done Monitoring for Equipment: "
-						+ ((Equipment) this.getComponent()).getEquipmentCode()
-						+ " Name=" + this.getComponent().getName());
-			} else if (this.getComponent() instanceof Function) {
-				System.out.println("Done Monitoring for Function: " + " Name="
-						+ this.getComponent().getName());
-			}
+			// if (this.getComponent() instanceof Equipment) {
+			// System.out.println("Done Monitoring for Equipment: "
+			// + ((Equipment) this.getComponent()).getEquipmentCode()
+			// + " Name=" + this.getComponent().getName());
+			// } else if (this.getComponent() instanceof Function) {
+			// System.out.println("Done Monitoring for Function: " + " Name="
+			// + this.getComponent().getName());
+			// }
 		}
 	}
 
@@ -230,26 +242,30 @@ public class MonitoringEngine extends BaseComponentEngine {
 		if (getComponent().eIsSet(ref)) {
 			runCapExpression = (Expression) getComponent().eGet(ref);
 		} else {
-			if (LogicActivator.DEBUG) {
-				System.out
-						.println("MONITORING ENGINE: Expression not set for component"
-								+ getComponent().getName()
-								+ " try expression from parent Component");
-			}
-			// walk up the parent cap expression, just one level.
-			EObject parent = getComponent().eContainer();
-			if (parent != null && parent instanceof Component) {
-				Component parentComponent = (Component) parent;
-				if (parentComponent.eIsSet(ref)) {
-					runCapExpression = (Expression) parentComponent.eGet(ref);
-				} else {
-					if (LogicActivator.DEBUG) {
-						System.out
-								.println("MONITORING ENGINE: Expression not set for parent component :-("
-										+ getComponent().getName());
-					}
-				}
-			}
+
+			// CB 9-10-2012. Do not walk up the hierarchy for now.
+			//
+
+			// if (LogicActivator.DEBUG) {
+			// System.out
+			// .println("MONITORING ENGINE: Expression not set for component"
+			// + getComponent().getName()
+			// + " try expression from parent Component");
+			// }
+			// // walk up the parent cap expression, just one level.
+			// EObject parent = getComponent().eContainer();
+			// if (parent != null && parent instanceof Component) {
+			// Component parentComponent = (Component) parent;
+			// if (parentComponent.eIsSet(ref)) {
+			// runCapExpression = (Expression) parentComponent.eGet(ref);
+			// } else {
+			// if (LogicActivator.DEBUG) {
+			// System.out
+			// .println("MONITORING ENGINE: Expression not set for parent component :-("
+			// + getComponent().getName());
+			// }
+			// }
+			// }
 		}
 		return runCapExpression;
 	}
@@ -258,7 +274,7 @@ public class MonitoringEngine extends BaseComponentEngine {
 		if (getComponent().getToleranceRefs().size() > 0) {
 			return getComponent().getToleranceRefs();
 		} else {
-			// walk up the parent cap expression, just one level.
+
 			EObject parent = getComponent().eContainer();
 			if (parent != null && parent instanceof Component) {
 				Component parentComponent = (Component) parent;

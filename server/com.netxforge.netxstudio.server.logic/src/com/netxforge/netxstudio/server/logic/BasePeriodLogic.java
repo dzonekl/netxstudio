@@ -78,7 +78,7 @@ public abstract class BasePeriodLogic extends BaseLogic {
 			// Make sure we start at mighnight, 6 months ago.
 			// TODO: make the period for the look back configurable
 			startTime = this.getModelUtils().sixMonthsAgo();
-			getModelUtils().setToDayStart(startTime);
+			startTime = getModelUtils().setToDayStart(startTime);
 			
 			
 			// creating new last service monitor with an end date in the past

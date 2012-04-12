@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) Apr 5, 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.server.logic.reporting;
 
 import java.util.Collection;
@@ -33,6 +50,12 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 
+/**
+ * Outputs resources reports.
+ * 
+ * @author Christophe
+ * 
+ */
 public class ResourceReportingEngine {
 
 	private ModelUtils modelUtils;
@@ -48,8 +71,7 @@ public class ResourceReportingEngine {
 		this.workBook = workBook2;
 	}
 
-	public void writeComponentLine(int newRow, Sheet sheet,
-			Component component) {
+	public void writeComponentLine(int newRow, Sheet sheet, Component component) {
 
 		Row componentRow = sheet.createRow(newRow);
 		Cell componentCell = componentRow.createCell(NODE_COLUMN + 1);
@@ -79,8 +101,7 @@ public class ResourceReportingEngine {
 		componentCell.setCellValue(builder.toString());
 	}
 
-	public void writeComponentLine(Sheet sheet, Row row,
-			Component component) {
+	public void writeComponentLine(Sheet sheet, Row row, Component component) {
 
 		Cell componentCell = row.createCell(NODE_COLUMN + 1);
 
@@ -151,8 +172,7 @@ public class ResourceReportingEngine {
 	//
 	// }
 	// }
-	
-	
+
 	/**
 	 * 
 	 * @param newRow
@@ -164,7 +184,7 @@ public class ResourceReportingEngine {
 			Map<NetXResource, List<Marker>> markersForNode) {
 		int rowIndex = newRow;
 
-//		writeTS(sheet, rowIndex);
+		// writeTS(sheet, rowIndex);
 
 		// Write one line for each resource MVR.
 		for (NetXResource resource : component.getResourceRefs()) {
@@ -172,8 +192,12 @@ public class ResourceReportingEngine {
 			List<Marker> markersForResource = null;
 			if (markersForNode != null && markersForNode.containsKey(resource)) {
 				markersForResource = markersForNode.get(resource);
+				if(markersForResource.size() > 0 ){
+					System.out.println("Markers found for this resource " + resource.getLongName() + " size=" +markersForResource.size());
+				}
+				
 			}
-
+			
 			for (MetricValueRange mvr : resource.getMetricValueRanges()) {
 
 				if (mvr != null) {
@@ -196,9 +220,9 @@ public class ResourceReportingEngine {
 			}
 			{ // Write the capacity.
 				
-				
+				// increment the index before creating a new row. 
 				Row nextRow = this.rowForIndex(sheet, ++rowIndex);
-				
+
 				// The component name.
 				this.writeComponentLine(sheet, nextRow, component);
 
@@ -209,29 +233,36 @@ public class ResourceReportingEngine {
 				// The range name.
 				Cell mvrCell = nextRow.createCell(NODE_COLUMN + 3);
 				mvrCell.setCellValue("Capacity");
-				
-			 // !Potentially long operation, as we sort of the whole rang.e
-				 writeCapacity(sheet, nextRow, resource);
-				 
-			 }
-			//
-			// { // Write the utilization.
-			// // !Potentially long operation, as we sort of the whole rang.e
-			//
-			// rowIndex = writeUtilization(sheet, rowIndex, resource);
-			// HSSFRow resourceRow = sheet.getRow(rowIndex - 1);
-			// if (resourceRow != null) {
-			// HSSFCell resourceCell = resourceRow
-			// .createCell(NODE_COLUMN + 2);
-			// resourceCell.setCellValue(resource.getLongName());
-			// }
-			// }
 
+				// !Potentially long operation, as we sort of the whole rang.e
+				writeCapacity(sheet, nextRow, resource);
+
+			}
+
+			{ // Write the utilization.
+				
+				// increment the index before creating a new row. 
+				Row nextRow = this.rowForIndex(sheet, ++rowIndex);
+
+				// The component name.
+				this.writeComponentLine(sheet, nextRow, component);
+
+				// The resource (metric) name.
+				Cell resourceCell = nextRow.createCell(NODE_COLUMN + 2);
+				resourceCell.setCellValue(resource.getLongName());
+
+				// The range name.
+				Cell mvrCell = nextRow.createCell(NODE_COLUMN + 3);
+				mvrCell.setCellValue("Utilization");
+
+				// !Potentially long operation, as we sort of the whole rang.e
+				writeUtilization(sheet, nextRow, resource);
+			}
 		}
 	}
-	
+
 	/*
-	 * A map of column index and TimesStamp. 
+	 * A map of column index and TimesStamp.
 	 */
 	Map<Integer, Date> columnTS = Maps.newHashMap();
 
@@ -245,31 +276,33 @@ public class ResourceReportingEngine {
 				.hourlyTimeStampsByWeekFor(this.getPeriod());
 
 		Row tsRow = this.rowForIndex(sheet, rowIndex);
-		System.out.println("Analyzed weeks " + timeStampsByWeek.keySet().size());
-		
+		System.out
+				.println("Analyzed weeks " + timeStampsByWeek.keySet().size());
+
 		int column = NODE_COLUMN + 4;
-		
+
 		// TODO, Should reverse the weeks.
-		
-		// build an index of colums and timestamps.  
+
+		// build an index of colums and timestamps.
 		for (int i : timeStampsByWeek.keySet()) {
 			Collection<XMLGregorianCalendar> collection = timeStampsByWeek
 					.get(i);
 
 			List<Date> weekTS = modelUtils.transformXMLDateToDate(collection);
 			Collections.sort(weekTS);
-			
-			// CB Apply a check, if our usemodel for POI is based on HSSF which is < '07 excel. 
-//			if( weekTS.size() + column >= 256 ){
-//				// With HSSF POI model, we can't do more than 256 columns
-//				break;
-//			}
-			
+
+			// CB Apply a check, if our usemodel for POI is based on HSSF which
+			// is < '07 excel.
+			// if( weekTS.size() + column >= 256 ){
+			// // With HSSF POI model, we can't do more than 256 columns
+			// break;
+			// }
+
 			// Write the timestamps from the specified column.
 			column = this.writeTS(columnTS, sheet, tsRow, weekTS, i, column);
-				
+
 			System.out.println(weekTS);
-			
+
 		}
 	}
 
@@ -283,16 +316,14 @@ public class ResourceReportingEngine {
 	// return resourceIndex;
 	// }
 
-	public void writeCapacity(Sheet sheet, Row utilRow,
-			NetXResource resource) {
+	public void writeCapacity(Sheet sheet, Row capRow, NetXResource resource) {
 		List<Value> capRange = getModelUtils().sortValuesByTimeStamp(
 				resource.getCapacityValues());
 		capRange = getModelUtils().valuesInRange(capRange, this.getPeriod());
-		writeRange(null, sheet, utilRow, capRange);
+		writeRange(null, sheet, capRow, capRange);
 	}
 
-	public void writeUtilization(Sheet sheet, Row capRow,
-			NetXResource resource) {
+	public void writeUtilization(Sheet sheet, Row capRow, NetXResource resource) {
 		List<Value> utilRange = getModelUtils().sortValuesByTimeStamp(
 				resource.getUtilizationValues());
 		utilRange = getModelUtils().valuesInRange(utilRange, this.getPeriod());
@@ -321,8 +352,8 @@ public class ResourceReportingEngine {
 		return fromMinutes + " (" + rangeKind + ")";
 	}
 
-	public void writeRange(List<Marker> markers, Sheet sheet,
-			Row valueRow, List<Value> range) {
+	public void writeRange(List<Marker> markers, Sheet sheet, Row valueRow,
+			List<Value> range) {
 
 		CreationHelper createHelper = this.getWorkBook().getCreationHelper();
 		CellStyle cellStyle = this.getWorkBook().createCellStyle();
@@ -330,26 +361,31 @@ public class ResourceReportingEngine {
 				"m-d-yy h:mm"));
 
 		// Styles for markers.
-		CellStyle markerStyleRed = this.getWorkBook().createCellStyle();
-		markerStyleRed.setFillForegroundColor(IndexedColors.RED.getIndex());
-
-		CellStyle markerStyleAmber = this.getWorkBook().createCellStyle();
-		markerStyleAmber
-				.setFillForegroundColor(IndexedColors.ORANGE.getIndex());
+//		CellStyle markerStyleRed = this.getWorkBook().createCellStyle();
+//		markerStyleRed.setFillForegroundColor(IndexedColors.RED.getIndex());
+//		markerStyleRed.setFillPattern(CellStyle.SOLID_FOREGROUND);
+		
+		CellStyle markerStyleRed  = createRedBorderStyle();
+		CellStyle markerStyleAmber  = createAmberBorderStyle();
+		
+//		CellStyle markerStyleAmber = this.getWorkBook().createCellStyle();
+//		markerStyleAmber.setFillPattern(CellStyle.SOLID_FOREGROUND);
+//		markerStyleAmber
+//				.setFillForegroundColor(IndexedColors.ORANGE.getIndex());
 
 		// Write the values.
 		for (Value v : range) {
-			
-			// lookup the value. 
+
+			// lookup the value.
 			int valueIndex = tsColumnForValue(v);
-			if( valueIndex == -1){
-				continue; 
+			if (valueIndex == -1) {
+				continue;
 			}
-			
+
 			Cell valueCell = valueRow.createCell(valueIndex);
 			valueCell.setCellValue(v.getValue());
-			
-			// Adapt the width of the column for this value. 
+
+			// Adapt the width of the column for this value.
 			sheet.setColumnWidth(valueIndex, 14 * 256);
 
 			// Set the markers.
@@ -372,31 +408,58 @@ public class ResourceReportingEngine {
 			}
 		}
 	}
-	
-	private int tsColumnForValue( Value v) {
-		final Date toLookup = modelUtils.fromXMLDate(v.getTimeStamp());
-		Map<Integer, Date> filterEntries = Maps.filterEntries(columnTS, new Predicate<Entry<Integer, Date>>(){
 
-			public boolean apply(Entry<Integer, Date> input) {
-				Date value = input.getValue();
-				return value.compareTo(toLookup) == 0;
-			}
-			
-		});
-			
-		// there should only be one entry, ugly hack. 
-		if( filterEntries.size() == 1){
-			return filterEntries.keySet().iterator().next();	
+	private CellStyle createAmberBorderStyle() {
+		CellStyle style = this.getWorkBook().createCellStyle();
+	    style.setBorderBottom(CellStyle.BORDER_THIN);
+	    style.setBottomBorderColor(IndexedColors.ORANGE.getIndex());
+	    style.setBorderLeft(CellStyle.BORDER_THIN);
+	    style.setLeftBorderColor(IndexedColors.ORANGE.getIndex());
+	    style.setBorderRight(CellStyle.BORDER_THIN);
+	    style.setRightBorderColor(IndexedColors.ORANGE.getIndex());
+	    style.setBorderTop(CellStyle.BORDER_THIN);
+	    style.setTopBorderColor(IndexedColors.ORANGE.getIndex());
+	    return style;
+	}
+
+	private CellStyle createRedBorderStyle() {
+		CellStyle style = this.getWorkBook().createCellStyle();
+	    style.setBorderBottom(CellStyle.BORDER_THIN);
+	    style.setBottomBorderColor(IndexedColors.RED.getIndex());
+	    style.setBorderLeft(CellStyle.BORDER_THIN);
+	    style.setLeftBorderColor(IndexedColors.RED.getIndex());
+	    style.setBorderRight(CellStyle.BORDER_THIN);
+	    style.setRightBorderColor(IndexedColors.RED.getIndex());
+	    style.setBorderTop(CellStyle.BORDER_THIN);
+	    style.setTopBorderColor(IndexedColors.RED.getIndex());
+	    return style;
+	}
+
+	private int tsColumnForValue(Value v) {
+		final Date toLookup = modelUtils.fromXMLDate(v.getTimeStamp());
+		Map<Integer, Date> filterEntries = Maps.filterEntries(columnTS,
+				new Predicate<Entry<Integer, Date>>() {
+
+					public boolean apply(Entry<Integer, Date> input) {
+						Date value = input.getValue();
+						return value.compareTo(toLookup) == 0;
+					}
+
+				});
+
+		// there should only be one entry, ugly hack.
+		if (filterEntries.size() == 1) {
+			return filterEntries.keySet().iterator().next();
 		}
 		return -1;
 	}
 
 	/**
-	 * Has a side effect of populating the columnTSMap with the index and date. 
-	 *
+	 * Has a side effect of populating the columnTSMap with the index and date.
+	 * 
 	 */
-	public int writeTS(Map<Integer, Date> columnTSMap, Sheet sheet, Row tsRow, List<Date> range,
-			int weekNumber, int columnIndex) {
+	public int writeTS(Map<Integer, Date> columnTSMap, Sheet sheet, Row tsRow,
+			List<Date> range, int weekNumber, int columnIndex) {
 
 		CreationHelper createHelper = this.getWorkBook().getCreationHelper();
 		CellStyle dateStyle = this.getWorkBook().createCellStyle();
@@ -407,7 +470,7 @@ public class ResourceReportingEngine {
 		int valueIndex = columnIndex;
 		for (Date d : range) {
 			Cell tsCell = tsRow.createCell(valueIndex);
-//			sheet.setColumnWidth(valueIndex, 14 * 256);
+			// sheet.setColumnWidth(valueIndex, 14 * 256);
 			tsCell.setCellValue(d);
 			tsCell.setCellStyle(dateStyle);
 			valueIndex++;

@@ -1,10 +1,10 @@
 package com.netxforge.netxstudio.server.logic.reporting;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -22,7 +22,7 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 	private static final int NODE_WIDTH = 4;
 
 	@Override
-	protected void writeHeader(HSSFSheet sheet, DateTimeRange dtr) {
+	protected void writeHeader(Sheet sheet, DateTimeRange dtr) {
 		super.createHeaderStructure(sheet);
 		super.typeCell.setCellValue("Service Monitoring");
 		super.titleCell.setCellValue("Dashboard Red/Amber/Green");
@@ -42,14 +42,14 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 	 * <code>NODETYPE_ROW</code>
 	 */
 	@Override
-	protected void writeContent(HSSFSheet sheet, NodeType nodeType) {
+	protected void writeContent(Sheet sheet, NodeType nodeType) {
 
-		HSSFRow ntRow = sheet.getRow(NODETYPE_ROW);
+		Row ntRow = sheet.getRow(NODETYPE_ROW);
 		if (ntRow == null) {
 			ntRow = sheet.createRow(NODETYPE_ROW);
 		}
 
-		HSSFCell ntCell = null;
+		Cell ntCell = null;
 
 		if (ntRow.getLastCellNum() == -1) {
 			// This is our first node type.
@@ -66,7 +66,7 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 	 * Write each Node per NodeType column, starting 
 	 */
 	@Override
-	protected void writeContent(HSSFSheet sheet, Service service, Node node, int row, int column) {
+	protected void writeContent(Sheet sheet, Service service, Node node, int row, int column) {
 
 		// Write the NODE.ID box.
 		int newRow = NODE_ROW + (row * NODE_HEIGHT);
@@ -83,28 +83,28 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 		nodeStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 
 		{
-			HSSFRow cellRow = sheet.getRow(newRow);
+			Row cellRow = sheet.getRow(newRow);
 			if (cellRow == null) {
 				cellRow = sheet.createRow(newRow);
 			}
-			HSSFCell c1 = cellRow.createCell(nodeColumn);
+			Cell c1 = cellRow.createCell(nodeColumn);
 			c1.setCellValue(node.getNodeID());
 			c1.setCellStyle(nodeStyle);
 		}
 		{
-			HSSFRow cellRow = sheet.getRow(newRow + 1);
+			Row cellRow = sheet.getRow(newRow + 1);
 			if (cellRow == null) {
 				cellRow = sheet.createRow(newRow + 1);
 			}
-			HSSFCell c1 = cellRow.createCell(nodeColumn);
+			Cell c1 = cellRow.createCell(nodeColumn);
 			c1.setCellStyle(nodeStyle);
 		}
 		{
-			HSSFRow cellRow = sheet.getRow(newRow + 2);
+			Row cellRow = sheet.getRow(newRow + 2);
 			if (cellRow == null) {
 				cellRow = sheet.createRow(newRow + 2);
 			}
-			HSSFCell c1 = cellRow.createCell(nodeColumn);
+			Cell c1 = cellRow.createCell(nodeColumn);
 			c1.setCellStyle(nodeStyle);
 		}
 
@@ -131,14 +131,14 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 		
 		
 		
-		int[] rag = this.getModelUtils().ragCountResourcesForNode(service, node, this.getPeriod());
+		int[] rag = this.getModelUtils().ragCountResourcesForNode(service, node, this.getPeriod(), null);
 
 		{
-			HSSFRow cellRow = sheet.getRow(newRow);
+			Row cellRow = sheet.getRow(newRow);
 			if (cellRow == null) {
 				cellRow = sheet.createRow(newRow);
 			}
-			HSSFCell c1 = cellRow.createCell(ragColumn);
+			Cell c1 = cellRow.createCell(ragColumn);
 
 			c1.setCellValue("R");
 
@@ -152,11 +152,11 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 			}
 		}
 		{
-			HSSFRow cellRow = sheet.getRow(newRow + 1);
+			Row cellRow = sheet.getRow(newRow + 1);
 			if (cellRow == null) {
 				cellRow = sheet.createRow(newRow + 1);
 			}
-			HSSFCell c1 = cellRow.createCell(ragColumn);
+			Cell c1 = cellRow.createCell(ragColumn);
 
 			c1.setCellValue("A");
 
@@ -170,11 +170,11 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 			}
 		}
 		{
-			HSSFRow cellRow = sheet.getRow(newRow + 2);
+			Row cellRow = sheet.getRow(newRow + 2);
 			if (cellRow == null) {
 				cellRow = sheet.createRow(newRow + 2);
 			}
-			HSSFCell c1 = cellRow.createCell(ragColumn);
+			Cell c1 = cellRow.createCell(ragColumn);
 			c1.setCellValue("G");
 			CellStyle gStyle = this.getWorkBook().createCellStyle();
 			gStyle.cloneStyleFrom(ragStyle);
@@ -195,7 +195,7 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 	}
 
 	@Override
-	protected void writeContent(HSSFSheet sheet, Service service,
+	protected void writeContent(Sheet sheet, Service service,
 			ServiceUser serviceUser, int rowIndex, int columnIndex) {
 	}
 

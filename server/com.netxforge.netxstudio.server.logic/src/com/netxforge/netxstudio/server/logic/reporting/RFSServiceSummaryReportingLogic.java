@@ -3,12 +3,12 @@ package com.netxforge.netxstudio.server.logic.reporting;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.netxforge.netxstudio.common.model.OperatorSummary;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
@@ -28,7 +28,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	private OperatorSummary opSummary = new OperatorSummary();
 
 	@Override
-	protected void writeHeader(HSSFSheet sheet, DateTimeRange dtr) {
+	protected void writeHeader(Sheet sheet, DateTimeRange dtr) {
 		super.createHeaderStructure(sheet);
 
 		super.typeCell.setCellValue("Service Monitoring");
@@ -60,8 +60,8 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		getJobMonitor().setTask("Performing reporting");
 
 		// EXCEL WRITE
-		setWorkBook(new HSSFWorkbook());
-		HSSFSheet sheet = this.getSheet("Summary");
+		setWorkBook(new XSSFWorkbook());
+		Sheet sheet = this.getSheet("Summary");
 		this.writeHeader(sheet, this.getPeriod());
 
 		// Execute the tolerance expressions, which returns a summary for each
@@ -97,11 +97,11 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		 this.getDataProvider().closeSession();
 	}
 
-	private void writeSummary(HSSFSheet sheet) {
+	private void writeSummary(Sheet sheet) {
 
 		// Title
-		HSSFRow summaryRow = sheet.createRow(CONTENT_ROW);
-		HSSFCell summaryCell = summaryRow.createCell(2);
+		Row summaryRow = sheet.createRow(CONTENT_ROW);
+		Cell summaryCell = summaryRow.createCell(2);
 		summaryCell.setCellValue("Executive Summary");
 		sheet.addMergedRegion(new CellRangeAddress(CONTENT_ROW, CONTENT_ROW, 2,
 				4));
@@ -115,27 +115,27 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		borderStyle.setAlignment(CellStyle.ALIGN_CENTER);
 		borderStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 
-		HSSFRow headerRow = sheet.createRow(HEADER_ROW);
+		Row headerRow = sheet.createRow(HEADER_ROW);
 		{
-			HSSFCell c1 = headerRow.createCell(4);
+			Cell c1 = headerRow.createCell(4);
 			c1.setCellValue("Quantity");
 			c1.setCellStyle(borderStyle);
 		}
 
 		{
-			HSSFCell c1 = headerRow.createCell(5);
+			Cell c1 = headerRow.createCell(5);
 			c1.setCellValue("RED");
 			c1.setCellStyle(borderStyle);
 		}
 
 		{
-			HSSFCell c1 = headerRow.createCell(6);
+			Cell c1 = headerRow.createCell(6);
 			c1.setCellValue("AMBER");
 			c1.setCellStyle(borderStyle);
 		}
 
 		{
-			HSSFCell c1 = headerRow.createCell(7);
+			Cell c1 = headerRow.createCell(7);
 			c1.setCellValue("GREEN");
 			c1.setCellStyle(borderStyle);
 		}
@@ -146,99 +146,99 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 
 	}
 
-	private void writeServicesSummary(HSSFSheet sheet, CellStyle borderStyle) {
-		HSSFRow servicesRow = sheet.createRow(SERVICES_ROW);
+	private void writeServicesSummary(Sheet sheet, CellStyle borderStyle) {
+		Row servicesRow = sheet.createRow(SERVICES_ROW);
 
 		{
-			HSSFCell c1 = servicesRow.createCell(2);
+			Cell c1 = servicesRow.createCell(2);
 			c1.setCellValue("#Services");
 
 		}
 		{ // QUANTITY
-			HSSFCell c1 = servicesRow.createCell(4);
+			Cell c1 = servicesRow.createCell(4);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalServices());
 			this.getServices().size();
 		}
 
 		{ // RED
-			HSSFCell c1 = servicesRow.createCell(5);
+			Cell c1 = servicesRow.createCell(5);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalRedServices());
 		}
 
 		{ // AMBER
-			HSSFCell c1 = servicesRow.createCell(6);
+			Cell c1 = servicesRow.createCell(6);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalAmberServices());
 		}
 
 		{ // GREEN
-			HSSFCell c1 = servicesRow.createCell(7);
+			Cell c1 = servicesRow.createCell(7);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalGreenServices());
 		}
 	}
 
-	private void writeNodesSummary(HSSFSheet sheet, CellStyle borderStyle) {
-		HSSFRow nodesRow = sheet.createRow(NODES_ROW);
+	private void writeNodesSummary(Sheet sheet, CellStyle borderStyle) {
+		Row nodesRow = sheet.createRow(NODES_ROW);
 
 		{
-			HSSFCell c1 = nodesRow.createCell(2);
+			Cell c1 = nodesRow.createCell(2);
 			c1.setCellValue("#Nodes");
 		}
 		{
-			HSSFCell c1 = nodesRow.createCell(4);
+			Cell c1 = nodesRow.createCell(4);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalNodes());
 		}
 
 		{
-			HSSFCell c1 = nodesRow.createCell(5);
+			Cell c1 = nodesRow.createCell(5);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalRedNodes());
 		}
 
 		{
-			HSSFCell c1 = nodesRow.createCell(6);
+			Cell c1 = nodesRow.createCell(6);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalAmberNodes());
 		}
 
 		{
-			HSSFCell c1 = nodesRow.createCell(7);
+			Cell c1 = nodesRow.createCell(7);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalGreenNodes());
 		}
 	}
 
-	private void writeResourcesSummary(HSSFSheet sheet, CellStyle borderStyle) {
-		HSSFRow resourcesRow = sheet.createRow(RESOURCES_ROW);
+	private void writeResourcesSummary(Sheet sheet, CellStyle borderStyle) {
+		Row resourcesRow = sheet.createRow(RESOURCES_ROW);
 
 		{
-			HSSFCell c1 = resourcesRow.createCell(2);
+			Cell c1 = resourcesRow.createCell(2);
 			c1.setCellValue("#Resources");
 		}
 		{
-			HSSFCell c1 = resourcesRow.createCell(4);
+			Cell c1 = resourcesRow.createCell(4);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalResources());
 		}
 
 		{
-			HSSFCell c1 = resourcesRow.createCell(5);
+			Cell c1 = resourcesRow.createCell(5);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalRedResources());
 		}
 
 		{
-			HSSFCell c1 = resourcesRow.createCell(6);
+			Cell c1 = resourcesRow.createCell(6);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalAmberResources());
 		}
 
 		{
-			HSSFCell c1 = resourcesRow.createCell(7);
+			Cell c1 = resourcesRow.createCell(7);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalGreenResources());
 		}
@@ -247,7 +247,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	private RFSServiceSummary processService(Service service) {
 		// Build a service summary, to be passed to the engine.
 		RFSServiceSummary serviceSummary = this.getModelUtils()
-				.serviceSummaryForService(service, this.getPeriod());
+				.serviceSummaryForService(service, this.getPeriod(), null);
 
 		final ReportingEngine engine = (ReportingEngine) getEngine();
 		engine.setService(service);
