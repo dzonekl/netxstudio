@@ -13,11 +13,13 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.databinding;bundle-version="1.2.0";visibility:=reexport,
  org.eclipse.emf.databinding.edit;bundle-version="1.2.0";visibility:=reexport,
  org.eclipse.jface.databinding;bundle-version="1.5.0";visibility:=reexport,
- org.eclipse.core.databinding.property;bundle-version="1.4.0";visibility:=reexport
+ org.eclipse.core.databinding.property;bundle-version="1.4.0";visibility:=reexport,
+ com.netxforge.netxstudio.screens.nebula;bundle-version="1.0.0";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.screens.common.filter,
  com.netxforge.netxstudio.screens.common.internal,
  com.netxforge.netxstudio.screens.common.perspective,
- com.netxforge.netxstudio.screens.common.tables
+ com.netxforge.netxstudio.screens.common.tables,
+ com.netxforge.netxstudio.screens.common.util
 Import-Package: com.netxforge.netxstudio.generics

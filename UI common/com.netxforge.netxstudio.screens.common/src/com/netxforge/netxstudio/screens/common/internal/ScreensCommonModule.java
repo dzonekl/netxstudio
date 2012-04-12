@@ -1,7 +1,9 @@
 package com.netxforge.netxstudio.screens.common.internal;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.screens.common.tables.TableHelper;
+import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 
 
 /**
@@ -18,7 +20,9 @@ public class ScreensCommonModule extends AbstractModule {
 
 		// Binding util.
 		this.bind(TableHelper.class);
-
+		
+		this.bind(MementoUtil.class).in(Singleton.class);
+		
 		// Binding of components.
 //		this.bind(EmbeddedLineExpression.class);
 //		this.bind(PeriodComponent.class);
