@@ -286,9 +286,10 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 				buf.append(nt2 != null ? nt2.getName() : " ?");
 				buf.append(")");
 
+				String typedName  = referenceRelationship.getName();
 				styledString
-						.append(referenceRelationship.getName() != null ? referenceRelationship
-								.getName() : buf.toString());
+						.append( typedName != null && typedName.length() > 0 ? referenceRelationship
+								.getName() + " :" + buf.toString() : buf.toString());
 
 				// Image img = ResourceManager.getPluginImage(
 				// "com.netxforge.netxstudio.models.edit",

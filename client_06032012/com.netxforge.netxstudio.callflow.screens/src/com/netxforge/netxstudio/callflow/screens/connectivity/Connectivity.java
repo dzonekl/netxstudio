@@ -48,7 +48,7 @@ setLayout(new FillLayout(SWT.HORIZONTAL));
 		frmConnectivity = toolkit.createForm(this);
 		frmConnectivity.setSeparatorVisible(true);
 
-		frmConnectivity.setText("Connectivity");
+		frmConnectivity.setText(this.getScreenName());
 		frmConnectivity.getToolBarManager().update(true);
 		frmConnectivity.setToolBarVerticalAlignment(SWT.TOP);
 
@@ -77,6 +77,14 @@ setLayout(new FillLayout(SWT.HORIZONTAL));
 
 	public Viewer getViewer() {
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.callflow.screens.AbstractScreenImpl#getScreenName()
+	 */
+	@Override
+	public String getScreenName() {
+		return "Connectivity";
 	}
 
 }

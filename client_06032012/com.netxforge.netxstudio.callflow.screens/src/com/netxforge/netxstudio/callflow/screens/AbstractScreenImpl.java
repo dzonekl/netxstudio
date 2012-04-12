@@ -34,6 +34,7 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.part.ShowInContext;
 
@@ -397,6 +398,22 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 */
 	public boolean shouldInjectForObject(Set<CDOObject> injectionObjects) {
 		return false;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.IPersistable#saveState(org.eclipse.ui.IMemento)
+	 */
+	public void saveState(IMemento memento) {
+		
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#restoreState(org.eclipse.ui.IMemento)
+	 */
+	public void restoreState(IMemento memento) {
+		
 	}
 	
 }

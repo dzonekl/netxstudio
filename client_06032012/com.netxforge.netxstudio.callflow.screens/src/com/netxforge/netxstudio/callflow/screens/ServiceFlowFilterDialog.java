@@ -47,8 +47,8 @@ public class ServiceFlowFilterDialog extends FilteredItemsSelectionDialog {
 	 *            the model resource
 	 */
 	public ServiceFlowFilterDialog(Shell shell, Resource resource) {
-		super(shell);
-		setTitle("Select an existing Service User");
+		super(shell, true);
+		setTitle("Select an existing Service Flow");
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {
@@ -70,6 +70,8 @@ public class ServiceFlowFilterDialog extends FilteredItemsSelectionDialog {
 			public String getText(Object element) {
 				if (element == null) {
 					return "";
+				}else if (element instanceof String){
+					return (String) element;
 				}
 				return ServiceFlowFilterDialog.this
 						.getText((ServiceFlow) element);
@@ -105,11 +107,11 @@ public class ServiceFlowFilterDialog extends FilteredItemsSelectionDialog {
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = CallFlowsActivator.getDefault()
-				.getDialogSettings().getSection("ServiceUserdialog");
+				.getDialogSettings().getSection("ServiceFlowdialog");
 
 		if (settings == null) {
 			settings = CallFlowsActivator.getDefault().getDialogSettings()
-					.addNewSection("ServiceUserdialog");
+					.addNewSection("ServiceFlowdialog");
 		}
 		return settings;
 	}

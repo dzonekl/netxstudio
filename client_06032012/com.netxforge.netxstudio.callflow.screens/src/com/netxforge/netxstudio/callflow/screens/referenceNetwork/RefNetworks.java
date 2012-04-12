@@ -123,7 +123,7 @@ public class RefNetworks extends AbstractScreen implements
 		frmRefNetwork = toolkit.createForm(this);
 		frmRefNetwork.setSeparatorVisible(true);
 
-		frmRefNetwork.setText(" Reference Interfaces");
+		frmRefNetwork.setText(this.getScreenName());
 
 		frmRefNetwork.getToolBarManager().add(new NewReferenceAction(""));
 
@@ -399,4 +399,15 @@ public class RefNetworks extends AbstractScreen implements
 
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.callflow.screens.AbstractScreenImpl#getScreenName()
+	 */
+	@Override
+	public String getScreenName() {
+		return "Reference Interfaces";
+	}
+	
+	
+	
 }

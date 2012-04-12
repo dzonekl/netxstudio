@@ -10,6 +10,7 @@ import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -148,7 +149,7 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		frmCallFlows = toolkit.createForm(this);
 		frmCallFlows.setSeparatorVisible(true);
 
-		frmCallFlows.setText("Call Flows");
+		frmCallFlows.setText(this.getScreenName());
 
 		frmCallFlows.getToolBarManager().add(
 				new EditCallFlowsAction("Visual Editor"));
@@ -173,7 +174,8 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		TreeColumnLayout treeColumnLayout = new TreeColumnLayout();
 		cmpCallFlows.setLayout(treeColumnLayout);
 
-		callFlowTreeViewer = new TreeViewer(cmpCallFlows, SWT.BORDER | SWT.MULTI);
+		callFlowTreeViewer = new TreeViewer(cmpCallFlows, SWT.BORDER
+				| SWT.MULTI);
 		callFlowTree = callFlowTreeViewer.getTree();
 		callFlowTree.setHeaderVisible(true);
 		callFlowTree.setLinesVisible(true);
@@ -226,7 +228,7 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		treeColumnLayout.setColumnData(trclmnProtocol, new ColumnPixelData(150,
 				true, true));
 		trclmnProtocol.setText("Protocol");
-		
+
 		treeViewerColumnMessage = new TreeViewerColumn(callFlowTreeViewer,
 				SWT.NONE);
 
@@ -262,12 +264,12 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 							.value(editingService.getEditingDomain(),
 									ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__DIRECTION)
 							.observeDetail(set));
-			
+
 			observeMaps
-			.add(EMFEditProperties
-					.value(editingService.getEditingDomain(),
-							ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__PROTOCOL)
-					.observeDetail(set));
+					.add(EMFEditProperties
+							.value(editingService.getEditingDomain(),
+									ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__PROTOCOL)
+							.observeDetail(set));
 
 			observeMaps
 					.add(EMFEditProperties
@@ -349,7 +351,8 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 					ServiceFlowRelationship sfRelationship = (ServiceFlowRelationship) element;
 					if (sfRelationship
 							.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__SERVICE_FLOW)) {
-						return null; // we can't edit if the relationship is a service flow. 
+						return null; // we can't edit if the relationship is a
+										// service flow.
 					}
 					return super.getCellEditor(element);
 				}
@@ -381,16 +384,16 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		treeViewerColumnDirection
 				.setEditingSupport(cmbCellEditingSupportDirection);
 		cmbCellEditingSupportDirection.setInput(directionsObservableList);
-		
+
 		// The protocol column
 		{
-			
+
 			Resource cdoResProtocols = editingService
 					.getData(ProtocolsPackage.Literals.PROTOCOL);
 
-			IEMFListProperty protocolsPropertyList = EMFEditProperties.resource(editingService
-					.getEditingDomain());
-			
+			IEMFListProperty protocolsPropertyList = EMFEditProperties
+					.resource(editingService.getEditingDomain());
+
 			FeaturePath protocolPath = FeaturePath
 					.fromList(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__PROTOCOL);
 
@@ -400,9 +403,10 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 
 			treeViewerColumnProtocol
 					.setEditingSupport(cmbCellEditingSupportProtocol);
-			cmbCellEditingSupportProtocol.setInput(protocolsPropertyList.observe(cdoResProtocols));
+			cmbCellEditingSupportProtocol.setInput(protocolsPropertyList
+					.observe(cdoResProtocols));
 		}
-		
+
 		// The message column.
 		{
 			FeaturePath messagePath = FeaturePath
@@ -526,27 +530,50 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 						CallFlows.this.getShell(), cdoResourceCallFlows);
 				int open = serviceFlowFilterDialog.open();
 				if (open == Window.OK) {
-					Object firstResult = serviceFlowFilterDialog
-							.getFirstResult();
-					if (firstResult instanceof ServiceFlow) {
+
+					Object[] result = serviceFlowFilterDialog.getResult();
+
+					List<Object> serviceFlowSelection = Lists
+							.newArrayList(result);
+					// only add the delta of selected and already set service
+					// flows.
+					List<ServiceFlow> deltaServiceFlows = Lists.newArrayList();
+					for (Object sfSelection : serviceFlowSelection) {
+						boolean found = false;
+						for (ServiceFlowRelationship sfr : sf
+								.getServiceFlowRelationships()) {
+							if (sfr.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__SERVICE_FLOW)
+									&& sfr.getServiceFlow().equals(sfSelection)) {
+								found = true;
+								break;
+							}
+						}
+						if (!found) {
+							deltaServiceFlows.add((ServiceFlow) sfSelection);
+						}
+					}
+					
+					
+					// Create a compound command for all added relationships. 
+					CompoundCommand cc = new CompoundCommand();
+
+					for (ServiceFlow sfAdd : deltaServiceFlows) {
 
 						ServiceFlowRelationship createServiceFlowRelationship = ServicesFactory.eINSTANCE
 								.createServiceFlowRelationship();
-						createServiceFlowRelationship
-								.setServiceFlow((ServiceFlow) firstResult);
+
+						createServiceFlowRelationship.setServiceFlow(sfAdd);
+
 						AddCommand ac = new AddCommand(
 								editingService.getEditingDomain(),
 								sf.getServiceFlowRelationships(),
 								createServiceFlowRelationship);
-
-						editingService.getEditingDomain().getCommandStack()
-								.execute(ac);
+						cc.append(ac);
 					}
+					editingService.getEditingDomain().getCommandStack()
+							.execute(cc);
 				}
-				// Create a new relationship, with the selected object.
-
 			}
-
 		}
 
 		/*
@@ -637,4 +664,17 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.callflow.screens.AbstractScreenImpl#getScreenName
+	 * ()
+	 */
+	@Override
+	public String getScreenName() {
+		return "Call Flows";
+	}
+
 }
