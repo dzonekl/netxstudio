@@ -27,6 +27,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.common.util.EList;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -171,7 +173,7 @@ public class ResultProcessor {
 
 				break;
 			case RangeKind.TOLERANCE_VALUE:
-				createMarkers(expressionResult, start, end);
+				createMarkersRevisited(expressionResult, start, end);
 				break;
 			case RangeKind.UTILIZATION_VALUE:
 				removeValues(resource.getUtilizationValues(), start, end);
@@ -198,13 +200,42 @@ public class ResultProcessor {
 		}
 	}
 
+	/*
+	 * Create markers for the expression result in the period from start to end.
+	 */
+	private void createMarkersRevisited(ExpressionResult expressionResult,
+			Date start, Date end) {
+
+		if (expressionResult.getTargetValues().size() == 0) {
+			// markers can not be created.
+			return;
+		}
+		System.out
+				.println("- CreateMarkers markers before in resource monitor="
+						+ resourceMonitor.getMarkers().size());
+		ToleranceState state = new ToleranceState(start, end);
+		List<Marker> markersResult = state.process(expressionResult);
+
+		System.out.println("- CreateMarkers total markers created size="
+				+ markersResult.size());
+
+		storeNewMarkers(markersResult);
+
+		System.out.println("- CreateMarkers markers now in resource monitor="
+				+ resourceMonitor.getMarkers().size());
+	}
+
 	/**
 	 * Creates markers for a given period.
 	 * 
 	 * @param expressionResult
 	 * @param start
 	 * @param end
+	 * 
+	 * @deprecated use the newer version
+	 *             {@link #createMarkersRevisited(ExpressionResult, Date, Date)}
 	 */
+	@SuppressWarnings("unused")
 	private void createMarkers(ExpressionResult expressionResult, Date start,
 			Date end) {
 
@@ -217,27 +248,7 @@ public class ResultProcessor {
 			return;
 		}
 
-		NetXResource resource = (NetXResource) expressionResult
-				.getTargetResource();
-
-		List<Value> usageValues = new ArrayList<Value>();
-
-		for (final MetricValueRange mvr : resource.getMetricValueRanges()) {
-			usageValues.addAll(mvr.getMetricValues());
-		}
-
-		final List<Value> toRemoveUsageValues = new ArrayList<Value>();
-		for (final Value usageValue : usageValues) {
-			final long timeMillis = usageValue.getTimeStamp()
-					.toGregorianCalendar().getTimeInMillis();
-			if (timeMillis < start.getTime() || timeMillis > end.getTime()) {
-				toRemoveUsageValues.add(usageValue);
-			}
-		}
-
-		usageValues.removeAll(toRemoveUsageValues);
-
-		usageValues = modelUtils.sortValuesByTimeStamp(usageValues);
+		List<Value> usageValues = narrowValueSet(expressionResult, start, end);
 
 		System.out.println("CreateMarkers use values size="
 				+ usageValues.size());
@@ -248,6 +259,8 @@ public class ResultProcessor {
 
 		// now walk through the lists and find the occurences of overrides
 		Value currentToleranceValue = null;
+
+		// The processing state.
 		int index = 0;
 		boolean isOver = false;
 		boolean startMarkerGenerated = false;
@@ -350,8 +363,25 @@ public class ResultProcessor {
 		System.out.println("- CreateMarkers total markers created size="
 				+ newMarkers.size());
 
+		storeNewMarkers(newMarkers);
+
+		System.out.println("- CreateMarkers markers now in resource monitor="
+				+ resourceMonitor.getMarkers().size());
+	}
+
+	/**
+	 * @param newMarkers
+	 */
+	private void storeNewMarkers(final List<Marker> newMarkers) {
+		int index;
 		// now compare the newmarkers with what is already there
 		for (final Marker newMarker : newMarkers) {
+
+			// TODO Our function should filter null values??
+			if (newMarker == null) {
+				continue;
+			}
+
 			index = 0;
 			boolean found = false;
 			for (final Marker existingMarker : new ArrayList<Marker>(
@@ -372,45 +402,275 @@ public class ResultProcessor {
 				resourceMonitor.getMarkers().add(newMarker);
 			}
 		}
-
-		System.out.println("- CreateMarkers markers now in resource monitor="
-				+ resourceMonitor.getMarkers().size());
 	}
 
 	/**
-	 * Maintaince the state of the tolerance for a current set of values. It is
-	 * either over or under.
+	 * @param expressionResult
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	private List<Value> narrowValueSet(ExpressionResult expressionResult,
+			Date start, Date end) {
+		NetXResource resource = (NetXResource) expressionResult
+				.getTargetResource();
+
+		List<Value> usageValues = new ArrayList<Value>();
+
+		for (final MetricValueRange mvr : resource.getMetricValueRanges()) {
+			usageValues.addAll(mvr.getMetricValues());
+		}
+
+		final List<Value> toRemoveUsageValues = new ArrayList<Value>();
+		for (final Value usageValue : usageValues) {
+			final long timeMillis = usageValue.getTimeStamp()
+					.toGregorianCalendar().getTimeInMillis();
+			if (timeMillis < start.getTime() || timeMillis > end.getTime()) {
+				toRemoveUsageValues.add(usageValue);
+			}
+		}
+
+		usageValues.removeAll(toRemoveUsageValues);
+
+		usageValues = modelUtils.sortValuesByTimeStamp(usageValues);
+		return usageValues;
+	}
+
+	/**
+	 * Maintains the state of the tolerance for a given value. It is either over
+	 * or under the given value (of type double). </p> The state consists of:
+	 * <ul>
+	 * <li>stateDouble => The state value to which values to be checked are
+	 * compared</li>
+	 * <li>isOver => We are over or under the state double value</li>
+	 * <li>startMarkerGenerated => A start marker has been generated</li>
+	 * </ul>
 	 * 
-	 * @author Christophe
+	 * For convenience a
+	 * 
+	 * @author Christophe Bouhier
 	 * 
 	 */
 	class ToleranceState {
-		boolean isOver = false;
-		boolean startMarkerGenerated = false;
-		private Double tDouble;
 
-		ToleranceState(Double tDouble) {
-			this.tDouble = tDouble;
+		// We are over the state value.
+		boolean isOver = false;
+
+		// A start marker has been created already (
+		// ToleranceMarkerDirectionKind.START)
+		boolean startMarkerGenerated = false;
+
+		// The given state value to which we compare.
+		private Double stateDouble;
+
+		// An evaluator for the state.
+		private DirectionEvaluator directionEvaluator = new DirectionEvaluator();
+
+		// state for the current tolerance value.
+		// private Value currentToleranceValue = null;
+
+		// The start of the period which we should evaluate.
+		private Date start;
+
+		// The end of the period which we should evaluate.
+		private Date end;
+
+		ToleranceState(Date start, Date end) {
+			this.start = start;
+			this.end = end;
 		}
 
 		/**
+		 * Process a set of check values, the result is a set of Tolerance
+		 * markers.
+		 * 
+		 * @param checkValues
+		 * @return
+		 */
+		List<Marker> process(ExpressionResult expressionResult) {
+
+			final List<Marker> newMarkers = new ArrayList<Marker>();
+			List<Value> usageValues = narrowValueSet(expressionResult, start,
+					end);
+
+			System.out.println("CreateMarkers use values size="
+					+ usageValues.size());
+
+			// now get the tolerance computation
+			final List<Value> toleranceValues = modelUtils
+					.sortValuesByTimeStamp(expressionResult.getTargetValues());
+
+			int toleranceValueIndex = 0;
+			long toTime = -1;
+			long fromTime = -1;
+
+			for (final Value toleranceValue : toleranceValues) {
+
+				if (fromTime == -1) {
+					fromTime = toleranceValue.getTimeStamp()
+							.toGregorianCalendar().getTimeInMillis();
+				}
+
+				// check all values between the current tolerance and the
+				// previous,
+				// skip in between values.
+
+				if (toleranceValueIndex < (toleranceValues.size() - 1)) {
+
+					Date toDate = modelUtils.fromXMLDate(toleranceValues.get(
+							toleranceValueIndex + 1).getTimeStamp());
+					toTime = toDate.getTime();
+
+				}
+
+				// FIXME Bug, fromTime never changes, as the currentValue won't
+				// change.
+				// if (currentToleranceValue == null) {
+				// currentToleranceValue = toleranceValue;
+				// } else {
+				// fromTime = currentToleranceValue.getTimeStamp()
+				// .toGregorianCalendar().getTimeInMillis();
+				// }
+
+				// Update the current state as a double value.
+				stateDouble = toleranceValue.getValue();
+
+				System.out
+						.println("- CreateMarkers tolerance="
+								+ toleranceValue.getValue()
+								+ " ,"
+								+ modelUtils.dateAndTime(toleranceValue
+										.getTimeStamp()));
+				System.out.println("- CreateMarkers from time="
+						+ new Date(fromTime));
+				System.out.println("- CreateMarkers to time="
+						+ new Date(toTime));
+
+				// values within period of tolerance hops.
+				final List<Value> checkValues = modelUtils.valuesInsideRange(
+						usageValues, fromTime, toTime);
+
+				// If we have values to check, we want to make sure we don't
+				// recreate markers for the same period.,
+				// so the current tolerance. . The toTime will
+				// be updated to the new ToleranceValue in the next iteration.
+				if (checkValues.size() > 0) {
+
+					System.out
+							.println("- CreateMarkers checkvalues within tolerance hop="
+									+ checkValues.size());
+
+					Iterable<ToleranceMarker> process = processCheckValues(
+							checkValues, expressionResult.getTargetResource()
+									.getLongName());
+
+					List<ToleranceMarker> markersForThisPeriod = Lists
+							.newArrayList(process);
+
+					System.out.println("- CreateMarkers # markers created ="
+							+ markersForThisPeriod.size());
+
+					newMarkers.addAll(markersForThisPeriod);
+
+					// Set the current tolerance value, to the from time.
+					// currentToleranceValue = toleranceValue;
+					fromTime = toTime;
+
+				} else {
+					System.out
+							.println("- CreateMarkers :-( no values to check for this period ");
+
+				}
+
+				toleranceValueIndex++;
+			}
+
+			return newMarkers;
+
+		}
+
+		Iterable<ToleranceMarker> processCheckValues(List<Value> checkValues,
+				String description) {
+
+			Iterable<ToleranceMarker> transform = Iterables.transform(
+					checkValues, new MarkerForDirection(description));
+
+			// Should filter null values...
+			transform = Iterables.filter(transform,
+					new Predicate<ToleranceMarker>() {
+						public boolean apply(ToleranceMarker input) {
+							return input != null;
+						}
+
+					});
+
+			return transform;
+		}
+
+		/**
+		 * A given value is processed according to the Tolerance state. The
+		 * following rules applies.
+		 * <ul>
+		 * <li>If checkValue is less than the state and we don't have a start
+		 * marker and the tolerance level is YELLOW, the direction will be DOWN.
+		 * The state changes to over.</li>
+		 * <li>If checkValue is less than the state and we are over , the
+		 * direction will be DOWN</li>
+		 * <li>If checkValue is more than the state and we are NOT over, the
+		 * direction will be UP</li>
+		 * </ul>
+		 * 
+		 * @author Christophe
+		 */
+		class DirectionEvaluator implements
+				Function<Value, ToleranceMarkerDirectionKind> {
+
+			public ToleranceMarkerDirectionKind apply(Value checkValue) {
+				ToleranceMarkerDirectionKind direction = null;
+				double checkDouble = checkValue.getValue();
+
+				// Generate a start marker only if the the level type is YELLOW,
+				// if not specified, this would not be relevant.
+				// It means the markers will only be complete, if all tolerance
+				// levels are
+				// specified.
+
+				if (getTolerance().getLevel() == LevelKind.YELLOW
+						&& checkDouble < stateDouble && !startMarkerGenerated) {
+					// generate a start marker
+					isOver = false;
+					direction = ToleranceMarkerDirectionKind.DOWN;
+				} else if (checkDouble < stateDouble && isOver) {
+					isOver = false;
+					direction = ToleranceMarkerDirectionKind.DOWN;
+				} else if (checkDouble > stateDouble && !isOver) {
+					// generate a marker
+					isOver = true;
+					direction = ToleranceMarkerDirectionKind.UP;
+				}
+				return direction;
+			}
+		}
+
+		/**
+		 * For a given value and description, a ToleranceMarker is produced.
+		 * 
 		 * @param checkValue
 		 * @param direction
 		 */
-		class MarkerForDirection implements
-				Function<ToleranceMarkerDirectionKind, ToleranceMarker> {
+		class MarkerForDirection implements Function<Value, ToleranceMarker> {
 
-			private Value checkValue;
+			// A description for the marker.
 			private String description;
 
-			MarkerForDirection(Value checkValue, String description) {
-				this.checkValue = checkValue;
+			MarkerForDirection(String description) {
 				this.description = description;
 			}
 
-			public ToleranceMarker apply(ToleranceMarkerDirectionKind direction) {
+			public ToleranceMarker apply(Value checkValue) {
 
-				new Direction();
+				ToleranceMarkerDirectionKind direction = directionEvaluator
+						.apply(checkValue);
 
 				if (direction != null) {
 
@@ -441,36 +701,6 @@ public class ResultProcessor {
 
 				startMarkerGenerated = true;
 				return null;
-			}
-		}
-
-		class Direction implements
-				Function<Value, ToleranceMarkerDirectionKind> {
-
-			public ToleranceMarkerDirectionKind apply(Value checkValue) {
-				ToleranceMarkerDirectionKind direction = null;
-				double cDouble = checkValue.getValue();
-
-				// Generate a start marker only if the the level type is YELLOW,
-				// if not specified, this would not be relevant.
-				// It means the markers will only be complete, if all tolerance
-				// levels are
-				// specified.
-
-				if (getTolerance().getLevel() == LevelKind.YELLOW
-						&& cDouble < tDouble && !startMarkerGenerated) {
-					// generate a start marker
-					isOver = false;
-					direction = ToleranceMarkerDirectionKind.DOWN;
-				} else if (cDouble < tDouble && isOver) {
-					isOver = false;
-					direction = ToleranceMarkerDirectionKind.DOWN;
-				} else if (cDouble > tDouble && !isOver) {
-					// generate a marker
-					isOver = true;
-					direction = ToleranceMarkerDirectionKind.UP;
-				}
-				return direction;
 			}
 		}
 
