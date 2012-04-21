@@ -14,9 +14,15 @@
 -Dlog4j.debug=false
 -Dorg.osgi.service.http.port=8080
 -DmetricSourceRoot=/Users/dzonekl/Documents/Projects/NetXStudio/TestData</vmArgs>
+      <vmArgsLin>-server
+-Xmx768m
+-Xss512k
+-Dnet4j.config=config
+-Dcom.sun.management.jmxremote.port=8812
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false</vmArgsLin>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
-      <vmArgsWin>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
--server
+      <vmArgsWin>-server
 -d32
 -Xmx1024m
 -Xss512k
@@ -40,17 +46,18 @@
    </plugins>
 
    <features>
-      <feature id="com.netxforge.netxstudio.server.db.mysql.product.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.server.db.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.models.13042011.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.data.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxscript.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.common.feature" version="1.0.0.qualifier"/>
-      <feature id="com.google.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.apache.poi.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="javax.servlet.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.mortbay.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.server.db.mysql.product.feature"/>
+      <feature id="com.netxforge.netxstudio.server.db.feature"/>
+      <feature id="com.netxforge.netxstudio.models.13042011.feature"/>
+      <feature id="com.netxforge.netxstudio.models.feature"/>
+      <feature id="com.netxforge.netxstudio.data.feature"/>
+      <feature id="com.netxforge.netxscript.feature"/>
+      <feature id="com.netxforge.netxstudio.common.feature"/>
+      <feature id="com.google.artifacts.feature"/>
+      <feature id="org.apache.poi.artifacts.feature"/>
+      <feature id="javax.servlet.artifacts.feature"/>
+      <feature id="org.mortbay.artifacts.feature"/>
+      <feature id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.emf.ecore"/>
       <feature id="org.dom4j" version="1.6.1"/>
