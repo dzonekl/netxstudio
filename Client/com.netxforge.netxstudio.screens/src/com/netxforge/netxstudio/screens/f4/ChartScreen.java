@@ -354,7 +354,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 	public List<Value> sortAndApplyPeriod(List<Value> values) {
 		List<Value> sortedCopy = modelUtils
 				.sortValuesByTimeStampAndReverse(values);
-		return modelUtils.valuesInRange(sortedCopy, dtr);
+		return modelUtils.valuesInsideRange(sortedCopy, dtr);
 	}
 
 	/**
