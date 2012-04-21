@@ -275,27 +275,78 @@ public class ModelUtils {
 	public NodeTypeIsLeafComparator nodeTypeIsLeafComparator() {
 		return new NodeTypeIsLeafComparator();
 	}
-
+	
+	
+	/**
+	 * Explicitly evaluates to the timestamp being within the period. 
+	 * If the timestamp is equal to the period, it will not be included. 
+	 * 
+	 * @author Christophe
+	 */
 	public class ValueInsideRange implements Predicate<Value> {
-		private final DateTimeRange dtr;
+
+		private long from;
+		private long to;
 
 		public ValueInsideRange(final DateTimeRange dtr) {
-			this.dtr = dtr;
+			from = dtr.getBegin().toGregorianCalendar().getTimeInMillis();
+			to = dtr.getEnd().toGregorianCalendar().getTimeInMillis();
+		}
+
+		public ValueInsideRange(Date from, Date to) {
+			this.from = from.getTime();
+			this.to = to.getTime();
+		}
+
+		public ValueInsideRange(long from, long to) {
+			this.from = from;
+			this.to = to;
 		}
 
 		public boolean apply(final Value v) {
 
-			long begin = dtr.getBegin().toGregorianCalendar().getTimeInMillis();
-			long end = dtr.getEnd().toGregorianCalendar().getTimeInMillis();
 			long target = v.getTimeStamp().toGregorianCalendar()
 					.getTimeInMillis();
-			return begin <= target && end >= target;
+			return from <= target && to >= target;
 		}
 	}
 
 	public ValueInsideRange valueInsideRange(DateTimeRange dtr) {
 		return new ValueInsideRange(dtr);
 	}
+
+	public ValueInsideRange valueInsideRange(Date from, Date to) {
+		return new ValueInsideRange(from, to);
+	}
+	
+	public ValueInsideRange valueInsideRange(long from, long to) {
+		return new ValueInsideRange(from, to);
+	}
+
+	public List<Value> valuesInsideRange(Iterable<Value> unfiltered,
+			DateTimeRange dtr) {
+
+		Iterable<Value> filterValues = Iterables.filter(unfiltered,
+				valueInsideRange(dtr));
+		return Lists.newArrayList(filterValues);
+	}
+
+	public List<Value> valuesInsideRange(Iterable<Value> unfiltered, Date from,
+			Date to) {
+
+		Iterable<Value> filterValues = Iterables.filter(unfiltered,
+				valueInsideRange(from, to));
+		return Lists.newArrayList(filterValues);
+	}
+	
+	public List<Value> valuesInsideRange(Iterable<Value> unfiltered, long from,
+			long to) {
+
+		Iterable<Value> filterValues = Iterables.filter(unfiltered,
+				valueInsideRange(from, to));
+		return Lists.newArrayList(filterValues);
+	}
+	
 
 	public class NonHiddenFile implements Predicate<File> {
 		public boolean apply(final File f) {
@@ -728,14 +779,6 @@ public class ModelUtils {
 		return (Lists.newArrayList(filterValues));
 	}
 
-	public List<Value> valuesInRange(Iterable<Value> unfiltered,
-			DateTimeRange dtr) {
-
-		Iterable<Value> filterValues = Iterables.filter(unfiltered,
-				valueInsideRange(dtr));
-		return Lists.newArrayList(filterValues);
-	}
-
 	/**
 	 * Return the Node or null if the target object, has a Node somewhere along
 	 * the parent hiearchy.
@@ -888,16 +931,16 @@ public class ModelUtils {
 		}
 		return uniques;
 	}
-	
+
 	/**
 	 * Replaces all white spaces with an underscore
+	 * 
 	 * @param inString
 	 * @return
 	 */
-	public String underscopeWhiteSpaces(String inString){
+	public String underscopeWhiteSpaces(String inString) {
 		return inString.replaceAll("\\s", "_");
 	}
-	
 
 	public List<Node> nodesForNodeType(List<Node> nodes, NodeType targetNodeType) {
 		Iterable<Node> filtered = Iterables.filter(nodes,
@@ -921,10 +964,11 @@ public class ModelUtils {
 			int[] ragTotalResources = new int[] { 0, 0, 0 };
 			int[] ragTotalNodes = new int[] { 0, 0, 0 };
 			for (Node n : ((RFSService) service).getNodes()) {
-				if(monitor != null && monitor.isCanceled()){
+				if (monitor != null && monitor.isCanceled()) {
 					return serviceSummary;
 				}
-				int[] ragResources = ragCountResourcesForNode(service, n, dtr, monitor);
+				int[] ragResources = ragCountResourcesForNode(service, n, dtr,
+						monitor);
 				for (int i = 0; i < ragTotalResources.length; i++) {
 					ragTotalResources[i] += ragResources[i];
 				}
@@ -1012,15 +1056,15 @@ public class ModelUtils {
 				.sortedCopy(service.getServiceMonitors());
 
 		// Filter ServiceMonitors on the time range.
-//		List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
-//				sortedCopy, dtr);
+		// List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
+		// sortedCopy, dtr);
 
 		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
 				sortedCopy, n, monitor);
 		return markersPerResource;
 
 	}
-	
+
 	/**
 	 * Provides a total list of markers for the Service Monitor, Node and Date
 	 * Time Range. ,indiscreet of the NetXResource.
@@ -1097,8 +1141,8 @@ public class ModelUtils {
 				filtered, n, monitor);
 
 		for (NetXResource res : markersPerResource.keySet()) {
-			
-			if( monitor != null && monitor.isCanceled()){
+
+			if (monitor != null && monitor.isCanceled()) {
 				return new int[] { red, amber, green };
 			}
 			List<Marker> markers = markersPerResource.get(res);
@@ -1118,18 +1162,18 @@ public class ModelUtils {
 	 * @return
 	 */
 	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-			List<ServiceMonitor> serviceMonitors, Node n, IProgressMonitor monitor) {
+			List<ServiceMonitor> serviceMonitors, Node n,
+			IProgressMonitor monitor) {
 		Map<NetXResource, List<Marker>> markersPerResource = Maps.newHashMap();
 
 		for (ServiceMonitor sm : serviceMonitors) {
 			for (ResourceMonitor rm : sm.getResourceMonitors()) {
-					
-				
-				// Abort the task if we are cancelled. 
-				if(monitor != null && monitor.isCanceled()){
+
+				// Abort the task if we are cancelled.
+				if (monitor != null && monitor.isCanceled()) {
 					return markersPerResource;
 				}
-				
+
 				if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
 
 					// Analyze per resource, why would a resource monitor
@@ -2298,7 +2342,6 @@ public class ModelUtils {
 		cal.set(Calendar.SECOND, 00);
 		cal.set(Calendar.MILLISECOND, 000);
 	}
-	
 
 	public int inSeconds(String field) {
 		final Function<String, Integer> getFieldInSeconds = new Function<String, Integer>() {
@@ -2840,17 +2883,16 @@ public class ModelUtils {
 		// Set the end time and count backwards, make the hour is the end hour.
 		// Optional set to day end, the UI should have done this already.
 		// this.setToDayEnd();
-		
-		
+
 		// BACKWARD, WILL USE THE END TIME STAMP WHICH IS 23:59:999h
-//		cal.setTime(dtr.getEnd().toGregorianCalendar().getTime());
-//		Date begin = dtr.getBegin().toGregorianCalendar().getTime();
-//		while (cal.getTime().after(begin)) {
-//			timeStamps.add(this.toXMLDate(cal.getTime()));
-//			cal.add(Calendar.DAY_OF_YEAR, -1);
-//		}
-		
-		// FORWARD, WILL USE THE BEGIN TIME STAMP WHICH IS 00:00:000h		
+		// cal.setTime(dtr.getEnd().toGregorianCalendar().getTime());
+		// Date begin = dtr.getBegin().toGregorianCalendar().getTime();
+		// while (cal.getTime().after(begin)) {
+		// timeStamps.add(this.toXMLDate(cal.getTime()));
+		// cal.add(Calendar.DAY_OF_YEAR, -1);
+		// }
+
+		// FORWARD, WILL USE THE BEGIN TIME STAMP WHICH IS 00:00:000h
 		cal.setTime(dtr.getBegin().toGregorianCalendar().getTime());
 		Date end = dtr.getEnd().toGregorianCalendar().getTime();
 		while (cal.getTime().before(end)) {
@@ -2858,10 +2900,9 @@ public class ModelUtils {
 			cal.add(Calendar.DAY_OF_YEAR, 1);
 		}
 
-		
 		return timeStamps;
 	}
-	
+
 	/**
 	 * Get all the hourly timestamps in the period.
 	 * 
@@ -2877,11 +2918,11 @@ public class ModelUtils {
 		// Set the end time and count backwards, make the hour is the end hour.
 		// Optional set to day end, the UI should have done this already.
 		// this.setToDayEnd();
-		
+
 		Date endTime = dtr.getEnd().toGregorianCalendar().getTime();
-		
+
 		Date beginTime = dtr.getBegin().toGregorianCalendar().getTime();
-		
+
 		cal.setTime(endTime);
 		setToFullHour(cal);
 
@@ -2893,7 +2934,6 @@ public class ModelUtils {
 
 		return timeStamps;
 	}
-	
 
 	public double[] multiplyByHundredAndToArray(List<Double> values) {
 		final Function<Double, Double> valueToDouble = new Function<Double, Double>() {
@@ -2927,7 +2967,8 @@ public class ModelUtils {
 		return Lists.transform(values, valueToDouble);
 	}
 
-	public List<Date> transformXMLDateToDate(Collection<XMLGregorianCalendar> dates) {
+	public List<Date> transformXMLDateToDate(
+			Collection<XMLGregorianCalendar> dates) {
 		final Function<XMLGregorianCalendar, Date> valueToDouble = new Function<XMLGregorianCalendar, Date>() {
 			public Date apply(XMLGregorianCalendar from) {
 				return fromXMLDate(from);
