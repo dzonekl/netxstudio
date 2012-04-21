@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) Apr 21, 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.callflow.screens;
 
 import java.util.List;
@@ -34,13 +51,20 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.PartInitException;
@@ -58,6 +82,7 @@ import com.netxforge.netxstudio.library.ReferenceNetwork;
 import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.protocols.ProtocolsFactory;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
+import com.netxforge.netxstudio.screens.common.filter.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
@@ -82,6 +107,7 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	private TreeViewerColumn treeViewerColumnName;
 	private TreeViewerColumn treeViewerColumnDirection;
 	private TreeViewerColumn treeViewerColumnMessage;
+	private Text txtFilterText;
 
 	public CallFlows(Composite parent, int style) {
 		super(parent, style);
@@ -167,10 +193,49 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		// Body of the form.
 		FillLayout fl = new FillLayout();
 		frmCallFlows.getBody().setLayout(fl);
+			
+		// FILTER
+		Composite composite = toolkit.createComposite(frmCallFlows.getBody(), SWT.NONE);
+		toolkit.paintBordersFor(composite);
+		composite.setLayout(new GridLayout(2, false));
 
-		Composite cmpCallFlows = new Composite(frmCallFlows.getBody(), SWT.NONE);
+		Label lblFilterLabel = toolkit.createLabel(composite, "Filter:",
+				SWT.NONE);
+		lblFilterLabel.setSize(64, 81);
+
+		txtFilterText = toolkit.createText(composite, "New Text", SWT.H_SCROLL
+				| SWT.SEARCH | SWT.CANCEL);
+		GridData gd_txtFilterText = new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1);
+		// gd_txtFilterText.widthHint = 200;
+		txtFilterText.setLayoutData(gd_txtFilterText);
+		txtFilterText.setSize(64, 81);
+		txtFilterText.setText("");
+
+		txtFilterText.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent ke) {
+				ViewerFilter[] filters = callFlowTreeViewer.getFilters();
+				for (ViewerFilter viewerFilter : filters) {
+					if (viewerFilter instanceof TreeSearchFilter) {
+						((TreeSearchFilter) viewerFilter)
+								.setSearchText(txtFilterText.getText());
+					}
+				}
+				callFlowTreeViewer.refresh();
+				
+				// TODO, somehow find out which objects are shown, and expand for these. 
+//				callFlowTreeViewer.expandAll();
+			}
+		});
+		
+		
+		Composite cmpCallFlows = new Composite(composite, SWT.NONE);
 		toolkit.adapt(cmpCallFlows);
 		toolkit.paintBordersFor(cmpCallFlows);
+		
+		cmpCallFlows.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+
+		
 		TreeColumnLayout treeColumnLayout = new TreeColumnLayout();
 		cmpCallFlows.setLayout(treeColumnLayout);
 
@@ -180,7 +245,10 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		callFlowTree.setHeaderVisible(true);
 		callFlowTree.setLinesVisible(true);
 		toolkit.paintBordersFor(callFlowTree);
-
+		
+		callFlowTreeViewer.addFilter(new TreeSearchFilter(editingService));
+		
+		
 		TreeViewerColumn treeViewerColumnIndex = new TreeViewerColumn(
 				callFlowTreeViewer, SWT.NONE);
 		TreeColumn trclmnIndex = treeViewerColumnIndex.getColumn();
