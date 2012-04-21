@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) Apr 21, 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f4;
 
 import java.io.BufferedReader;
@@ -28,6 +45,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
@@ -39,6 +57,7 @@ import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -75,6 +94,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Value;
@@ -84,6 +104,7 @@ import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 
@@ -91,10 +112,8 @@ public class MappingStatistics extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Table recordsTable;
 	private Form frmMappingStatistics;
 	private MetricSource metricSource;
-	// private ListViewer statisticsListViewer;
 	private Text txtTotalRecords;
 	private Text txtStartDateTime;
 	private Text txtEndDateTime;
@@ -103,6 +122,8 @@ public class MappingStatistics extends AbstractScreen implements
 	private Text txtMessage;
 	private CleanStatsAction cleanStatsAction;
 	private TreeViewer statisticsTreeViewer;
+	private Tree statisticsTree;
+	private Table recordsTable;
 
 	/**
 	 * Create the composite.
@@ -121,6 +142,43 @@ public class MappingStatistics extends AbstractScreen implements
 		toolkit.paintBordersFor(this);
 		// buildUI();
 	}
+	
+	
+	/**
+	 * Copies the selected records as text to the clipboard....
+	 * @author Christophe
+	 *
+	 */
+	class CopyMappingErrorAction extends BaseSelectionListenerAction{
+
+		protected CopyMappingErrorAction(String text) {
+			super(text);
+		}
+
+		/* (non-Javadoc)
+		 * @see com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction#updateSelection(org.eclipse.jface.viewers.IStructuredSelection)
+		 */
+		@Override
+		protected boolean updateSelection(IStructuredSelection selection) {
+			Object firstElement = selection.getFirstElement();
+			return firstElement instanceof MappingRecord;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.action.Action#run()
+		 */
+		@Override
+		public void run() {
+			IStructuredSelection structuredSelection = this.getStructuredSelection();
+			Object firstElement = structuredSelection.getFirstElement();
+			if(firstElement instanceof MappingRecord){
+				System.out.println(" yeah valid action for this object");
+			}
+			
+		}
+		
+	}
+	
 
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -160,8 +218,8 @@ public class MappingStatistics extends AbstractScreen implements
 
 		statisticsTreeViewer = new TreeViewer(cmpSelector, SWT.BORDER
 				| SWT.MULTI);
-		Tree tree = statisticsTreeViewer.getTree();
-		toolkit.paintBordersFor(tree);
+		statisticsTree = statisticsTreeViewer.getTree();
+		toolkit.paintBordersFor(statisticsTree);
 
 		// statisticsListViewer = new ListViewer(cmpSelector, SWT.BORDER
 		// | SWT.V_SCROLL);
@@ -343,7 +401,8 @@ public class MappingStatistics extends AbstractScreen implements
 		toolkit.paintBordersFor(filler);
 
 		tblViewerRecords = new TableViewer(composite, SWT.BORDER
-				| SWT.FULL_SELECTION);
+				| SWT.FULL_SELECTION | SWT.MULTI);
+		
 		recordsTable = tblViewerRecords.getTable();
 		recordsTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false,
 				true, 2, 1));
@@ -371,6 +430,7 @@ public class MappingStatistics extends AbstractScreen implements
 		TableColumn tblclmnMessage = tableViewerColumn_2.getColumn();
 		tblclmnMessage.setWidth(400);
 		tblclmnMessage.setText("Message");
+
 		sashForm.setWeights(new int[] { 3, 7 });
 	}
 
@@ -450,7 +510,6 @@ public class MappingStatistics extends AbstractScreen implements
 					public Boolean hasChildren(Object element) {
 
 						if (element instanceof MappingStatistic) {
-							// TODO.
 							return ((MappingStatistic) element)
 									.getSubStatistics().size() > 0 ? Boolean.TRUE
 									: null;
@@ -461,10 +520,6 @@ public class MappingStatistics extends AbstractScreen implements
 				});
 
 		statisticsTreeViewer.setContentProvider(treeContentProvider);
-
-		// ObservableListContentProvider listContentProvider = new
-		// ObservableListContentProvider();
-		// statisticsListViewer.setContentProvider(listContentProvider);
 
 		IObservableMap[] observeMaps = EMFObservables
 				.observeMaps(
@@ -540,6 +595,7 @@ public class MappingStatistics extends AbstractScreen implements
 		// MetricsPackage.Literals.MAPPING_RECORD__ROW,
 		// MetricsPackage.Literals.MAPPING_RECORD__COLUMN,
 		// MetricsPackage.Literals.MAPPING_RECORD__MESSAGE, });
+
 		tblViewerRecords
 				.setLabelProvider(new RecordsObservableMapLabelProvider());
 
@@ -609,7 +665,7 @@ public class MappingStatistics extends AbstractScreen implements
 		}
 
 		public int getToolTipTimeDisplayed(Object object) {
-			return 5000;
+			return 10000;
 		}
 
 		@Override
@@ -662,10 +718,13 @@ public class MappingStatistics extends AbstractScreen implements
 			l.marginHeight = 0;
 			l.verticalSpacing = 0;
 
+			String tooltipText = getText(event);
+			// System.out.println(tooltipText.length());
+
 			comp.setLayout(l);
 			Browser browser = new Browser(comp, SWT.BORDER);
-			browser.setText(getText(event));
-			browser.setLayoutData(new GridData(200, 150));
+			browser.setText(tooltipText);
+			browser.setLayoutData(new GridData(400, 300));
 
 			return comp;
 		}
@@ -775,6 +834,7 @@ public class MappingStatistics extends AbstractScreen implements
 		}
 
 		buildUI();
+		registerFocus(this);
 		this.initDataBindings_();
 	}
 
@@ -784,10 +844,52 @@ public class MappingStatistics extends AbstractScreen implements
 	}
 
 	public Viewer getViewer() {
-		// return this.statisticsListViewer;
 		return this.statisticsTreeViewer;
 	}
 
+	@Override
+	public Viewer[] getViewers() {
+		return new Viewer[] { statisticsTreeViewer, tblViewerRecords };
+	}
+
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#
+	 * resolveSelectionProviderFromWidget(java.lang.Object)
+	 */
+	@Override
+	protected ISelectionProvider resolveSelectionProviderFromWidget(
+			Object widget) {
+
+		if (widget == statisticsTree) {
+			return statisticsTreeViewer;
+		} else if (widget == recordsTable) {
+			return tblViewerRecords;
+		} 
+
+		return super.resolveSelectionProviderFromWidget(widget);
+	}
+	
+	
+	List<IAction> actionList = Lists.newArrayList();
+	
+	
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#getActions()
+	 */
+	@Override
+	public IAction[] getActions() {
+		if( actionList.size() == 0){
+			actionList.add(new CopyMappingErrorAction("Copy error..."));
+		}
+		
+		IAction[] actions = new IAction[actionList.size()];
+		actionList.toArray(actions);
+		return actions;
+	}
+	
 	@Override
 	public boolean isValid() {
 		return true;
@@ -800,4 +902,6 @@ public class MappingStatistics extends AbstractScreen implements
 	public String getScreenName() {
 		return "Mapping Statistics";
 	}
+
+	
 }
