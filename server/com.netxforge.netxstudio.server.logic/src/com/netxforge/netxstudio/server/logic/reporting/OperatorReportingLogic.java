@@ -43,6 +43,8 @@ import com.netxforge.netxstudio.services.Service;
  */
 public abstract class OperatorReportingLogic extends BaseServiceReportingAdapterLogic {
 
+	private static final String REPORT_EXTENSION = "xlsx";
+
 	private List<Service> services;
 
 	public static final String REPORT_PREFIX = "Cap";
@@ -64,7 +66,7 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 		// append the file name without the extension, for this run, try until
 		// we have a new one.
 		uri = uri.appendSegment(calculateFileName());
-		uri = uri.appendFileExtension("xls");
+		uri = uri.appendFileExtension(REPORT_EXTENSION);
 		{
 			boolean absent = true;
 			int tries = 1;
@@ -73,7 +75,7 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 				if (f.exists()) {
 					uri.trimFileExtension();
 					uri.appendSegment(new Integer(tries).toString());
-					uri.appendFileExtension("xls");
+					uri.appendFileExtension(REPORT_EXTENSION);
 					tries++;
 					continue;
 				} else {

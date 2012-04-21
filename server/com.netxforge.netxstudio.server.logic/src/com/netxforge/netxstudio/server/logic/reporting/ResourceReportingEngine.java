@@ -319,14 +319,14 @@ public class ResourceReportingEngine {
 	public void writeCapacity(Sheet sheet, Row capRow, NetXResource resource) {
 		List<Value> capRange = getModelUtils().sortValuesByTimeStamp(
 				resource.getCapacityValues());
-		capRange = getModelUtils().valuesInRange(capRange, this.getPeriod());
+		capRange = getModelUtils().valuesInsideRange(capRange, this.getPeriod());
 		writeRange(null, sheet, capRow, capRange);
 	}
 
 	public void writeUtilization(Sheet sheet, Row capRow, NetXResource resource) {
 		List<Value> utilRange = getModelUtils().sortValuesByTimeStamp(
 				resource.getUtilizationValues());
-		utilRange = getModelUtils().valuesInRange(utilRange, this.getPeriod());
+		utilRange = getModelUtils().valuesInsideRange(utilRange, this.getPeriod());
 
 		writeRange(null, sheet, capRow, utilRange);
 	}
@@ -337,7 +337,7 @@ public class ResourceReportingEngine {
 		// !Potentially long operation, as we sort of the whole rang.e
 		List<Value> range = getModelUtils().sortValuesByTimeStamp(
 				mvr.getMetricValues());
-		range = getModelUtils().valuesInRange(range, this.getPeriod());
+		range = getModelUtils().valuesInsideRange(range, this.getPeriod());
 		writeRange(markers, sheet, valueRow, range);
 	}
 

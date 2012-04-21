@@ -66,7 +66,7 @@ public class RFSServiceUserReportingLogic extends OperatorReportingLogic {
 				
 				List<Value> range = getModelUtils().sortValuesByTimeStamp(
 						dr.getValues());
-				range = getModelUtils().valuesInRange(range,
+				range = getModelUtils().valuesInsideRange(range,
 						this.getPeriod());
 
 				CreationHelper createHelper = this.getWorkBook().getCreationHelper();
