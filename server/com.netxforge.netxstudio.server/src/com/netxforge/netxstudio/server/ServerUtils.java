@@ -186,7 +186,14 @@ public class ServerUtils {
 		final IManagedContainer container = IPluginContainer.INSTANCE;
 		acceptor = JVMUtil.getAcceptor(container, "default");
 		connector = JVMUtil.getConnector(container, "default");
-
+			
+		
+		// Debugging on.
+//		OMPlatform.INSTANCE.setDebugging(true);
+//		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
+//		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
+		
+		
 		// Create configuration
 		final CDOSessionConfiguration sessionConfiguration = CDONet4jUtil
 				.createSessionConfiguration();
