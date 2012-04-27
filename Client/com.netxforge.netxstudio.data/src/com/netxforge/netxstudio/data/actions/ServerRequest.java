@@ -44,7 +44,7 @@ import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 
 /**
  * 
- * This is our API to invoke jobs on the server.
+ * This is our API to invoke services on the server.
  * 
  * 
  * Returns CDO Object ID, to follow the processing.
@@ -82,6 +82,7 @@ public class ServerRequest {
 	public static final String MONITOR_SERVICE = "com.netxforge.netxstudio.server.logic.monitoring.MonitoringService";
 	public static final String RETENTION_SERVICE = "com.netxforge.netxstudio.server.logic.retention.RetentionService";
 	public static final String REPORTING_SERVICE = "com.netxforge.netxstudio.server.logic.reporting.ReportingService";
+	public static final String SCHEDULER_SERVICE = "com.netxforge.netxstudio.server.job.JobService";
 
 	public static final String MS_PARAM = "metricSource";
 	public static final String NETWORK_OPERATOR_PARAM = "operator";
@@ -91,6 +92,18 @@ public class ServerRequest {
 	public static final String START_TIME_PARAM = "startTime";
 	public static final String END_TIME_PARAM = "endTime";
 
+	// Scheduler commands. 
+	
+	// List all scheduled and running jobs. 
+	public static final String COMMAND_SCHEDULER_LIST = "scheduler_list";
+
+	// Stop the scheduler and abort all running jobs, for jobs in progress, we set the status to aborted. 
+	public static final String COMMAND_SCHEDULER_STOP = "scheduler_stop";
+
+	// Start the scheduler.
+	public static final String COMMAND_SCHEDULER_START = "scheduler_start";
+	
+	
 	@Inject
 	public ServerRequest(IDataProvider provider) {
 		this.provider = provider;
@@ -113,6 +126,22 @@ public class ServerRequest {
 		return null;
 	}
 
+	public String callJobAction(String command) throws Exception {
+		setServer();
+
+		final StringBuilder url = new StringBuilder();
+		url.append(server + NETXFORGE_SERVICE);
+		url.append("?" + SERVICE_PARAM_NAME + "=" + SCHEDULER_SERVICE);
+		url.append("&" + COMMAND_PARAM_NAME + "=" + command);
+		
+		System.err.println(url.toString());
+		final String result = doRequest(url.toString());
+		System.err.println(result);
+		return result;
+	}
+	
+	
+	
 	public String callMetricImportAction(CDOObject cdoObject) throws Exception {
 		return callMetricAction(METRIC_IMPORT_SERVICE, MS_PARAM,
 				cdoObject.cdoID());

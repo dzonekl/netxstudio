@@ -49,6 +49,14 @@ public interface IDataProvider {
 	public static final String CLIENT_COMMIT_COMMENT = "clientcommit";
 	
 	/**
+	 * Comment set on a commit handler side CDO Transaction when committing.
+	 */
+	public static final String COMMITINFO_COMMIT_COMMENT = "infocommit";
+
+	
+	
+	
+	/**
 	 * Get the server as a String.
 	 * 
 	 * @param set

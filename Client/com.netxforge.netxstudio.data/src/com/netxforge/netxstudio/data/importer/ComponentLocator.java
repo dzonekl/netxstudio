@@ -173,11 +173,10 @@ public class ComponentLocator {
 						.getSourceObject();
 				if (DataActivator.DEBUG) {
 					if (referingObject instanceof Component) {
-							System.out.println("-- ref: Component="
-									+ ((Component) referingObject).getName()
-									+ " cdo res path="
-									+ modelUtils
-											.cdoResourcePath(referingObject));
+						System.out.println("-- ref: Component="
+								+ ((Component) referingObject).getName()
+								+ " cdo res path="
+								+ modelUtils.cdoResourcePath(referingObject));
 					}
 				}
 
@@ -245,6 +244,9 @@ public class ComponentLocator {
 					// have multiple.
 					List<Component> allComponentsMatchingMetrics = Lists
 							.newArrayList();
+
+					// add the parent components and their children.
+					allComponentsMatchingMetrics.addAll(components);
 					for (Component c : components) {
 						addChildren(c, allComponentsMatchingMetrics);
 					}
@@ -779,7 +781,8 @@ public class ComponentLocator {
 		if (eObject == null) {
 			return false;
 		}
-		if (eObject instanceof Node && isMatching(eObject, identifierValue, false)) {
+		if (eObject instanceof Node
+				&& isMatching(eObject, identifierValue, false)) {
 			// Bug Should not add metrics to a Network Element in the Warehouse.
 			Node n = (Node) eObject;
 			if (n.eContainer() != null && n.eContainer() instanceof Warehouse) {
@@ -798,7 +801,8 @@ public class ComponentLocator {
 	 * (For the target row).
 	 */
 	private boolean isMatching(EObject eObject,
-			IdentifierDescriptor identifierDescriptor, boolean shouldMatchParents) {
+			IdentifierDescriptor identifierDescriptor,
+			boolean shouldMatchParents) {
 
 		// A null identifier should not be created!
 		final String idValue = identifierDescriptor.getValue() != null ? identifierDescriptor
@@ -809,7 +813,8 @@ public class ComponentLocator {
 				for (final FunctionRelationship r : ((Function) eObject)
 						.getFunctionRelationshipRefs()) {
 					if (objectFeatureMatchesValue(r,
-							identifierDescriptor.getPropertyFeature(), idValue, shouldMatchParents)) {
+							identifierDescriptor.getPropertyFeature(), idValue,
+							shouldMatchParents)) {
 						return true;
 					}
 				}
@@ -817,7 +822,8 @@ public class ComponentLocator {
 				for (final EquipmentRelationship r : ((Equipment) eObject)
 						.getEquipmentRelationshipRefs()) {
 					if (objectFeatureMatchesValue(r,
-							identifierDescriptor.getPropertyFeature(), idValue, shouldMatchParents)) {
+							identifierDescriptor.getPropertyFeature(), idValue,
+							shouldMatchParents)) {
 						return true;
 					}
 				}
@@ -825,17 +831,18 @@ public class ComponentLocator {
 			return false;
 		} else {
 			return objectFeatureMatchesValue(eObject,
-					identifierDescriptor.getPropertyFeature(), idValue, shouldMatchParents);
+					identifierDescriptor.getPropertyFeature(), idValue,
+					shouldMatchParents);
 		}
 	}
 
-	
 	/*
-	 * Potentially walks up the containment hierarchy to find this value. 
-	 * Can be disabled for certain cases. 
+	 * Potentially walks up the containment hierarchy to find this value. Can be
+	 * disabled for certain cases.
 	 */
 	private boolean objectFeatureMatchesValue(EObject eObject,
-			EStructuralFeature eFeature, String idValue, boolean shouldMatchParents) {
+			EStructuralFeature eFeature, String idValue,
+			boolean shouldMatchParents) {
 
 		// CB, feature is already produced with the descriptor.
 		// EStructuralFeature eFeature = featureForName(eObject, eFeatureName);
@@ -848,7 +855,8 @@ public class ComponentLocator {
 		}
 
 		if (eObject.eContainer() != null) {
-			return objectFeatureMatchesValue(eObject.eContainer(), eFeature, idValue, shouldMatchParents);
+			return objectFeatureMatchesValue(eObject.eContainer(), eFeature,
+					idValue, shouldMatchParents);
 		}
 		return false;
 	}
@@ -867,6 +875,7 @@ public class ComponentLocator {
 	// }
 
 	private boolean matches(String dataValue, String componentValue) {
+
 		return dataValue.equals(componentValue.trim());
 	}
 
@@ -906,10 +915,15 @@ public class ComponentLocator {
 			// Pre-create the feature, based on the identifier info.
 			ObjectKindType objectKind = kind.getObjectKind();
 			switch (objectKind.getValue()) {
-			case ObjectKindType.EQUIPMENT_VALUE:
+			case ObjectKindType.EQUIPMENT_VALUE: {
+				this.propertyFeature = featureForName(
+						LibraryPackage.Literals.EQUIPMENT,
+						kind.getObjectProperty());
+			}
+				break;
 			case ObjectKindType.FUNCTION_VALUE: {
 				this.propertyFeature = featureForName(
-						LibraryPackage.Literals.COMPONENT,
+						LibraryPackage.Literals.FUNCTION,
 						kind.getObjectProperty());
 			}
 				break;
