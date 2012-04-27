@@ -19,6 +19,8 @@
 package com.netxforge.netxstudio.screens.editing;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
+import com.netxforge.netxstudio.screens.editing.actions.clipboard.ClipboardService;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
@@ -41,5 +43,6 @@ public class EditingServiceModule extends AbstractModule {
 		this.bind(IEditingService.class).to(CDOEditingService.class);
 		this.bind(IScreenFormService.class).to(ScreenFormService.class);
 		this.bind(IValidationService.class).to(ValidationService.class);
+		this.bind(ClipboardService.class).in(Scopes.SINGLETON);
 	}
 }
