@@ -51,6 +51,8 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
@@ -79,7 +81,10 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	// private Resource jobContainerResource;
 
 	private TableViewerColumn tblViewerClmnState;
-
+	
+	@Inject
+	private ServerRequest serverActions;
+	
 	// private ArrayList<Object> uniqueJobList;
 
 	/**
@@ -105,6 +110,14 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmScheduledJobs = toolkit.createForm(this);
+		
+		SchedulerActions schedulerActions = new SchedulerActions(this.serverActions);
+		frmScheduledJobs.getToolBarManager().add(schedulerActions.getListScheduleAction());
+		
+		frmScheduledJobs.getToolBarManager().update(true);
+		frmScheduledJobs.setToolBarVerticalAlignment(SWT.TOP);
+
+		
 		frmScheduledJobs.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmScheduledJobs);
 		frmScheduledJobs.setText("Scheduled Jobs");

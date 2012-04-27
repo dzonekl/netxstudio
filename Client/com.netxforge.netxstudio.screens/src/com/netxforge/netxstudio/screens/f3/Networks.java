@@ -903,7 +903,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		mementoUtils.rememberStructuredViewer(memento, networkTreeViewer,
+		mementoUtils.rememberStructuredViewerSelection(memento, networkTreeViewer,
 				MEM_KEY_NETWORKS_SELECTION_TREE);
 
 	}
@@ -918,7 +918,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public void restoreState(IMemento memento) {
 
-		mementoUtils.retrieveStructuredViewer(memento, networkTreeViewer,
+		mementoUtils.retrieveStructuredViewerSelection(memento, networkTreeViewer,
 				MEM_KEY_NETWORKS_SELECTION_TREE,
 				this.operatorsResource.cdoView());
 

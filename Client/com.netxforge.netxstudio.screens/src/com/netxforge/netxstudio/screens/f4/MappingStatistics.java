@@ -95,6 +95,7 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Value;
@@ -106,6 +107,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
+import com.netxforge.netxstudio.screens.editing.actions.clipboard.ClipboardService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 
 public class MappingStatistics extends AbstractScreen implements
@@ -125,6 +127,11 @@ public class MappingStatistics extends AbstractScreen implements
 	private Tree statisticsTree;
 	private Table recordsTable;
 
+	
+	@SuppressWarnings("unused")
+	@Inject
+	private ClipboardService clipboard;
+	
 	/**
 	 * Create the composite.
 	 * 
@@ -150,7 +157,7 @@ public class MappingStatistics extends AbstractScreen implements
 	 *
 	 */
 	class CopyMappingErrorAction extends BaseSelectionListenerAction{
-
+		
 		protected CopyMappingErrorAction(String text) {
 			super(text);
 		}
