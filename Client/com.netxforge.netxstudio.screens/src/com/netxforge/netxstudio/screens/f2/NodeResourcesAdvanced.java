@@ -2173,19 +2173,19 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
 
 		// combo network.
-		mementoUtils.rememberStructuredViewer(memento, cmbViewerNetwork,
+		mementoUtils.rememberStructuredViewerSelection(memento, cmbViewerNetwork,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK);
 
 		// combo node.
-		mementoUtils.rememberStructuredViewer(memento, cmbViewerNode,
+		mementoUtils.rememberStructuredViewerSelection(memento, cmbViewerNode,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE);
 
 		// tree component
-		mementoUtils.rememberStructuredViewer(memento, componentsTreeViewer,
+		mementoUtils.rememberStructuredViewerSelection(memento, componentsTreeViewer,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT);
 
 		// table resource
-		mementoUtils.rememberStructuredViewer(memento, resourcesTableViewer,
+		mementoUtils.rememberStructuredViewerSelection(memento, resourcesTableViewer,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE);
 
 		// from date.
@@ -2215,16 +2215,16 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		mementoUtils.retrieveSashForm(memento, sashData,
 				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
 
-		mementoUtils.retrieveStructuredViewer(memento, cmbViewerNetwork,
+		mementoUtils.retrieveStructuredViewerSelection(memento, cmbViewerNetwork,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK,
 				this.operatorResource.cdoView());
-		mementoUtils.retrieveStructuredViewer(memento, cmbViewerNode,
+		mementoUtils.retrieveStructuredViewerSelection(memento, cmbViewerNode,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE,
 				this.operatorResource.cdoView());
-		mementoUtils.retrieveStructuredViewer(memento, componentsTreeViewer,
+		mementoUtils.retrieveStructuredViewerSelection(memento, componentsTreeViewer,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT,
 				this.operatorResource.cdoView());
-		mementoUtils.retrieveStructuredViewer(memento, resourcesTableViewer,
+		mementoUtils.retrieveStructuredViewerSelection(memento, resourcesTableViewer,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
 				this.operatorResource.cdoView());
 
