@@ -19,9 +19,13 @@
 package com.netxforge.netxstudio.server.job;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.commit.CDOCommitInfo;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDORevisionKey;
 import org.eclipse.emf.cdo.eresource.CDOResource;
@@ -40,10 +44,14 @@ import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 
 import com.google.inject.Inject;
@@ -51,9 +59,11 @@ import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobState;
+import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.ServerUtils;
+import com.netxforge.netxstudio.server.job.internal.JobActivator;
 
 /**
  * Handles jobs, reads the jobs from the database, initializes quartz and
@@ -67,16 +77,25 @@ public class JobHandler {
 
 	static void createAndInitialize() {
 		instance = new JobHandler();
-		Activator.getInstance().createInjector();
+		JobActivator.getInstance().createInjector();
 		instance.activate();
 		instance.initialize();
 	}
 
-	static void deActivate() {
+	public static void deActivate() {
 		if (instance != null) {
 			instance.deActivateInstance();
 		}
 		instance = null;
+	}
+
+	/**
+	 * Respond to a remote command
+	 */
+	public static void list() {
+		if (instance != null) {
+			instance.listSchedule();
+		}
 	}
 
 	@Inject
@@ -89,15 +108,77 @@ public class JobHandler {
 	// contains all the ids which are relevant to know when creating
 	// removing or updating jobs
 	private List<CDOID> relevantIds = new ArrayList<CDOID>();
+
+	// Map of JobKeys for our CDO Object ID's. 
+//	private Map<CDOID, JobKey> jobKeysMap = new HashMap<CDOID, JobKey>();
+	
+	// Map of TriggerKeys for our CDO Object ID's. 	
+	private Map<CDOID, TriggerKey> triggerKeysMap = new HashMap<CDOID, TriggerKey>();
+
 	private boolean addedListener = false;
 
+	private synchronized void listSchedule() {
+		try {
+			if (scheduler != null && scheduler.isStarted()) {
+				
+				// currently executing jobs. 
+				System.out.println("Current running scheduled jobs = " + scheduler.getCurrentlyExecutingJobs().size());
+				for (JobExecutionContext context : scheduler
+						.getCurrentlyExecutingJobs()) {
+					printJobExecutionContext(context);
+				}
+				// current triggers. 
+				System.out.println("Current triggers in the scheduler = " + triggerKeysMap.size());
+				for( TriggerKey tKey : triggerKeysMap.values()){
+					Trigger trigger = scheduler.getTrigger(tKey);
+					printTrigger(tKey, trigger);
+					
+				}
+			
+			}
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @param trigger
+	 */
+	private void printTrigger(TriggerKey tKey, Trigger trigger) {
+		Date nextFireTime = trigger.getNextFireTime();
+		System.out.println(tKey.getName() + " will fire next time " + nextFireTime);
+	}
+
+	private void printJobExecutionContext(JobExecutionContext context) {
+		System.out.println(context.toString());
+
+	}
+
 	public synchronized void initialize() {
+		this.initialize(null);
+	};
+
+	/**
+	 * Called with the repository starts and when an invalidation occurs on
+	 */
+	public synchronized void initialize(CDOObject change) {
+
+		// monitor, dis-allowing re-entry.
 		initializing = true;
+
+		if (JobActivator.DEBUG) {
+			JobActivator.TRACE.trace(null,
+					"(Re) Initializing jobs, getting a data session");
+
+		}
 		dataProvider.getSession();
 		final CDOTransaction transaction = dataProvider.getTransaction();
 		final Resource jobResource = dataProvider
 				.getResource(SchedulingPackage.eINSTANCE.getJob());
+
 		relevantIds.clear();
+		triggerKeysMap.clear();
+		
 		relevantIds.add(((CDOResource) jobResource).cdoID());
 		transaction.options().setInvalidationNotificationEnabled(true);
 		transaction.options().setInvalidationPolicy(
@@ -105,19 +186,26 @@ public class JobHandler {
 
 		try {
 			if (scheduler != null && !scheduler.isShutdown()) {
+
+				// We force a shutdown of the scheduler when initializing.
+				// report any ongoing jobs.
 				scheduler.shutdown(true);
 			}
+
+			// instantiating the scheduler.
 			scheduler = StdSchedulerFactory.getDefaultScheduler();
 		} catch (final Exception e) {
 			// TODO: do some form of logging but don't stop
 			e.printStackTrace(System.err);
 		}
 
-		// now initialize quartz
+		// now initialize quartz jobs, iterating through all available jobs.
 		for (final EObject eObject : jobResource.getContents()) {
 			try {
 				final Job job = (Job) eObject;
+
 				relevantIds.add(job.cdoID());
+
 				if (job.getJobState() == JobState.IN_ACTIVE) {
 					continue;
 				}
@@ -128,48 +216,36 @@ public class JobHandler {
 				if (job.getRepeat() > 0 && job.getRepeat() <= countJobRuns) {
 					continue;
 				}
-				
+
 				final JobDataMap map = new JobDataMap();
 				map.put(NetxForgeJob.JOB_PARAMETER, job);
 
 				final String jobIdentity = job.cdoID().toString();
 
+				// Should possible group the jobs byt the type of job it is.
+				String jobGroupName = "NetXStudio job";
+				if (job instanceof MetricSourceJob) {
+					jobGroupName = " Metric source job";
+				}
+
+				// The job detail.
 				final JobDetail jobDetail = JobBuilder
-						.newJob(NetxForgeJob.class).withIdentity(jobIdentity)
+						.newJob(NetxForgeJob.class)
+						.withIdentity(jobIdentity, jobGroupName)
 						.withDescription(job.getName()).usingJobData(map)
 						.build();
-				TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder
-						.newTrigger().withIdentity(jobIdentity);
-				if (job.getStartTime() != null) {
-					triggerBuilder = triggerBuilder.startAt(job.getStartTime()
-							.toGregorianCalendar().getTime());
-				} else {
-					triggerBuilder = triggerBuilder.startNow();
-				}
-				final SimpleScheduleBuilder scheduleBuilder;
-				if (job.getEndTime() != null) {
-					triggerBuilder.endAt(job.getEndTime().toGregorianCalendar()
-							.getTime());
-					scheduleBuilder = SimpleScheduleBuilder
-							.repeatSecondlyForever(
-									job.getInterval() > 10 ? job.getInterval()
-											: 10);
-				} else if (job.getRepeat() > 0) {
-					scheduleBuilder = SimpleScheduleBuilder
-							.repeatSecondlyForTotalCount(job.getRepeat()
-									- countJobRuns,
-									job.getInterval() > 10 ? job.getInterval()
-											: 10);
-				} else if (job.getInterval() > 10) {
-					scheduleBuilder = SimpleScheduleBuilder
-							.repeatSecondlyForever(job.getInterval());
-				} else {
-					scheduleBuilder = SimpleScheduleBuilder
-							.repeatSecondlyForever(10);
-				}
-				final Trigger trigger = triggerBuilder.withSchedule(
-						scheduleBuilder).build();
-				scheduler.scheduleJob(jobDetail, trigger);
+
+				// Keep a map of CDO job objects and the corresponding quartz
+				// job key.
+//				jobKeysMap.put(job.cdoID(), jobDetail.getKey());
+
+				Trigger newTrigger = this.createNewTrigger(job, jobIdentity,
+						jobGroupName, countJobRuns);
+				
+				// Keep a map of CDO job objects and the corresponding quartz trigger key. 
+				triggerKeysMap.put(job.cdoID(), newTrigger.getKey());
+				
+				scheduler.scheduleJob(jobDetail, newTrigger);
 			} catch (final Exception e) {
 				// TODO do some form of logging but don't stop everything
 				e.printStackTrace(System.err);
@@ -181,6 +257,8 @@ public class JobHandler {
 			// TODO do some form of logging but don't stop everything
 			e.printStackTrace(System.err);
 		}
+
+		// Although we do not commit, force the closing of our transaction here.
 		dataProvider.commitTransaction();
 
 		// do after commit
@@ -188,16 +266,37 @@ public class JobHandler {
 			addedListener = true;
 			dataProvider.getSession().addListener(new IListener() {
 				public void notifyEvent(org.eclipse.net4j.util.event.IEvent arg0) {
+
+					CDOCommitInfo info = null;
+					if (arg0 instanceof CDOCommitInfo) {
+						info = (CDOCommitInfo) arg0;
+
+						// ignore non client commits, like log commits or server
+						// commits.
+						if (!info.getComment().equals(
+								IDataProvider.CLIENT_COMMIT_COMMENT)) {
+							return;
+						}
+						if (JobActivator.DEBUG) {
+							JobActivator.TRACE.trace(null,
+									"Session event session="
+											+ dataProvider.getSession()
+													.getSessionID());
+							JobActivator.TRACE.trace(null,
+									"Event=" + info.toString());
+						}
+					}
+
 					if (arg0 instanceof CDOSessionInvalidationEvent
 							&& !JobHandler.this.initializing) {
 						final CDOSessionInvalidationEvent event = (CDOSessionInvalidationEvent) arg0;
 						// only check changed objects, in case of:
-						// removal: the resource is updated
-						// insert: the resource is update
-						// update: the job itself is updated
+						// removal: the CDO resource is updated
+						// insert: the CDO resource is update
+						// update: the job object itself is updated
 						for (final Object o : event.getChangedObjects()) {
 							if (o instanceof CDORevisionKey) {
-								final CDORevisionKey key = (CDORevisionKey)o;
+								final CDORevisionKey key = (CDORevisionKey) o;
 								final CDOID cdoId = key.getID();
 								if (relevantIds.contains(cdoId)) {
 									JobHandler.this.initialize();
@@ -205,6 +304,8 @@ public class JobHandler {
 								}
 							}
 						}
+					} else {
+						// When initializing we should wait.
 					}
 				}
 			});
@@ -212,8 +313,116 @@ public class JobHandler {
 		initializing = false;
 	}
 
+	/*
+	 * Create a trigger. Set the start time. Set the end time, if any specified.
+	 * Set the interval, no smaller then 10 seconds. Set the repeat, considering
+	 * the current job runs.
+	 */
+	private Trigger createNewTrigger(Job job, String jobIdentity,
+			String jobGroupName, int countJobRuns) {
+		// The trigger for this job.
+		TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger()
+				.withIdentity(jobIdentity, jobGroupName);
+		
+		if (job.getStartTime() != null) {
+			triggerBuilder = triggerBuilder.startAt(job.getStartTime()
+					.toGregorianCalendar().getTime());
+		} else {
+			triggerBuilder = triggerBuilder.startNow();
+		}
+		final SimpleScheduleBuilder scheduleBuilder;
+		if (job.getEndTime() != null) {
+			triggerBuilder.endAt(job.getEndTime().toGregorianCalendar()
+					.getTime());
+			scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(job
+					.getInterval() > 10 ? job.getInterval() : 10);
+		} else if (job.getRepeat() > 0) {
+			scheduleBuilder = SimpleScheduleBuilder
+					.repeatSecondlyForTotalCount(
+							job.getRepeat() - countJobRuns,
+							job.getInterval() > 10 ? job.getInterval() : 10);
+		} else if (job.getInterval() > 10) {
+			scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(job
+					.getInterval());
+		} else {
+			scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(10);
+		}
+		final Trigger trigger = triggerBuilder.withSchedule(scheduleBuilder)
+				.build();
+		return trigger;
+	}
+	
+	
+	/*
+	 * Create a trigger. Set the start time. Set the end time, if any specified.
+	 * Set the interval, no smaller then 10 seconds. Set the repeat, considering
+	 * the current job runs.
+	 */
+	@SuppressWarnings("unused")
+	private Trigger updateTrigger(TriggerBuilder<Trigger> tb, Job job, int countJobRuns) {
+		
+		
+		// don't manipulate the start time. 
+//		if (job.getStartTime() != null) {
+//			triggerBuilder = triggerBuilder.startAt(job.getStartTime()
+//					.toGregorianCalendar().getTime());
+//		} else {
+//			triggerBuilder = triggerBuilder.startNow();
+//		}
+
+		final SimpleScheduleBuilder scheduleBuilder;
+		if (job.getEndTime() != null) {
+			tb.endAt(job.getEndTime().toGregorianCalendar()
+					.getTime());
+			scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(job
+					.getInterval() > 10 ? job.getInterval() : 10);
+		} else if (job.getRepeat() > 0) {
+			scheduleBuilder = SimpleScheduleBuilder
+					.repeatSecondlyForTotalCount(
+							job.getRepeat() - countJobRuns,
+							job.getInterval() > 10 ? job.getInterval() : 10);
+		} else if (job.getInterval() > 10) {
+			scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(job
+					.getInterval());
+		} else {
+			scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(10);
+		}
+		final Trigger trigger = tb.withSchedule(scheduleBuilder)
+				.build();
+		return trigger;
+	}
+	
+	/*
+	 * Call when any of the features of the job which affect the trigger is
+	 * updated by notification. uses an existing TriggerBuilder to reschedule the job. 
+	 */
+	@SuppressWarnings("unused")
+	private void updateTrigger(Job job) {
+
+		TriggerKey triggerKey = triggerKeysMap.get(job.cdoID());
+		if (triggerKey == null) {
+			return;
+		}
+
+		try {
+			if (scheduler != null && !scheduler.isShutdown()) {
+				Trigger trigger = scheduler.getTrigger(triggerKey);
+				// get the job key. 
+				JobKey jobKey = trigger.getJobKey();
+				
+//				TriggerBuilder<? extends Trigger> triggerBuilder = trigger.getTriggerBuilder();
+//				this.updateTrigger(triggerBuilder, job, countJobRuns);
+//				
+//				scheduler.rescheduleJob(triggerKey, null /* TODO our new trigger */);
+				
+			}
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void activate() {
-		Activator.getInstance().getInjector().injectMembers(this);
+		JobActivator.getInstance().getInjector().injectMembers(this);
 	}
 
 	private int countJobRuns(Job job) {
@@ -224,7 +433,7 @@ public class JobHandler {
 			final JobRunContainer container = (JobRunContainer) eObject;
 			final Job containerJob = container.getJob();
 			// sometimes container doesn't have a job??
-			if( containerJob != null){
+			if (containerJob != null) {
 				final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
 				if (cdoId.equals(containerJobId)) {
 					return container.getWorkFlowRuns().size();

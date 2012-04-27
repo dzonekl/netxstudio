@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: NetxForge Job
 Bundle-SymbolicName: com.netxforge.netxstudio.server.job;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.netxforge.netxstudio.server.job.Activator
+Bundle-Activator: com.netxforge.netxstudio.server.job.internal.JobActivator
 Bundle-Vendor: NETXFORGE
 Require-Bundle: org.eclipse.core.runtime,
  com.google.inject;bundle-version="2.0.0",
@@ -14,6 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
  com.netxforge.netxstudio.data;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
-Export-Package: com.netxforge.netxstudio.server.job
+Export-Package: com.netxforge.netxstudio.server.job,
+ com.netxforge.netxstudio.server.job.internal
 Import-Package: com.netxforge.netxstudio.generics,
  com.netxforge.netxstudio.scheduling

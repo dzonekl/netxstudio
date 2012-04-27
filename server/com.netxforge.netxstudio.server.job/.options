@@ -1,0 +1,2 @@
+# Enables debugging. 
+com.netxforge.netxstudio.server.job/debug=true

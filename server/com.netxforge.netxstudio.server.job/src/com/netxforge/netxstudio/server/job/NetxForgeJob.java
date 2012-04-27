@@ -37,6 +37,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.job.internal.JobActivator;
 
 /**
  * Represents a job, will update job results etc.
@@ -70,7 +71,7 @@ public class NetxForgeJob implements org.quartz.Job {
 	private IDataProvider dataProvider;
 
 	public NetxForgeJob() {
-		Activator.getInstance().getInjector().injectMembers(this);
+		JobActivator.getInstance().getInjector().injectMembers(this);
 	}
 
 	public void execute(JobExecutionContext context)
@@ -103,7 +104,7 @@ public class NetxForgeJob implements org.quartz.Job {
 	}
 
 	private void createWorkFlowMonitor(JobImplementation jobImplementation) {
-		runMonitor = Activator.getInstance().getInjector()
+		runMonitor = JobActivator.getInstance().getInjector()
 				.getInstance(ServerWorkFlowRunMonitor.class);
 		dataProvider.openSession();
 		dataProvider.getTransaction();
