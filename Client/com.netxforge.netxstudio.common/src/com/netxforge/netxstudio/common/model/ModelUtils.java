@@ -35,6 +35,7 @@ import org.eclipse.emf.cdo.common.revision.delta.CDORevisionDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOSetFeatureDelta;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
+import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -137,6 +138,8 @@ public class ModelUtils {
 	public static final String NODE_ID = "NodeID";
 	public static final String NODE = "NODE";
 
+	private static final int MAX_CHANGE_LENGTH = 2000;
+	
 	public static final Iterable<String> MAPPING_NODE_ATTRIBUTES = ImmutableList
 			.of(NETWORK_ELEMENT_ID);
 	public static final Iterable<String> MAPPING_REL_ATTRIBUTES = ImmutableList
@@ -275,11 +278,10 @@ public class ModelUtils {
 	public NodeTypeIsLeafComparator nodeTypeIsLeafComparator() {
 		return new NodeTypeIsLeafComparator();
 	}
-	
-	
+
 	/**
-	 * Explicitly evaluates to the timestamp being within the period. 
-	 * If the timestamp is equal to the period, it will not be included. 
+	 * Explicitly evaluates to the timestamp being within the period. If the
+	 * timestamp is equal to the period, it will not be included.
 	 * 
 	 * @author Christophe
 	 */
@@ -318,7 +320,7 @@ public class ModelUtils {
 	public ValueInsideRange valueInsideRange(Date from, Date to) {
 		return new ValueInsideRange(from, to);
 	}
-	
+
 	public ValueInsideRange valueInsideRange(long from, long to) {
 		return new ValueInsideRange(from, to);
 	}
@@ -338,7 +340,7 @@ public class ModelUtils {
 				valueInsideRange(from, to));
 		return Lists.newArrayList(filterValues);
 	}
-	
+
 	public List<Value> valuesInsideRange(Iterable<Value> unfiltered, long from,
 			long to) {
 
@@ -346,7 +348,6 @@ public class ModelUtils {
 				valueInsideRange(from, to));
 		return Lists.newArrayList(filterValues);
 	}
-	
 
 	public class NonHiddenFile implements Predicate<File> {
 		public boolean apply(final File f) {
@@ -2577,6 +2578,63 @@ public class ModelUtils {
 		return revisions.iterator();
 	}
 
+	public String cdoDumpNewObject(InternalCDORevision revision) {
+		final StringBuilder sb = new StringBuilder();
+		for (final EStructuralFeature feature : revision.getClassInfo()
+				.getAllPersistentFeatures()) {
+			final Object value = revision.getValue(feature);
+			cdoDumpFeature(sb, feature, value);
+		}
+		return truncate(sb.toString());
+	}
+
+	public void cdoDumpFeatureDeltas(StringBuilder sb,
+			List<CDOFeatureDelta> featureDeltas) {
+		for (final CDOFeatureDelta featureDelta : featureDeltas) {
+			if (featureDelta instanceof CDOListFeatureDelta) {
+				final CDOListFeatureDelta list = (CDOListFeatureDelta) featureDelta;
+				cdoDumpFeatureDeltas(sb, list.getListChanges());
+			} else {
+				cdoDumpFeature(sb, featureDelta.getFeature(), featureDelta);
+			}
+		}
+	}
+
+	public void cdoDumpFeature(StringBuilder sb, EStructuralFeature feature,
+			Object value) {
+		addNewLine(sb);
+		sb.append(feature.getName() + " = " + value);
+	}
+
+	public void cdoDumpFeature(StringBuilder sb, EStructuralFeature feature,
+			CDOFeatureDelta value) {
+		addNewLine(sb);
+		sb.append(feature.getName() + " = " + cdoPrintFeatureDelta(value));
+	}
+
+	public String cdoPrintFeatureDelta(CDOFeatureDelta delta) {
+		String str = delta.toString();
+		if (str.indexOf(",") != -1) {
+			// do + 2 to get of one space
+			str = str.substring(str.indexOf(",") + 2);
+		}
+		// and get rid of the ] at the end
+		return str.substring(0, str.length() - 1);
+	}
+
+	public void addNewLine(StringBuilder sb) {
+		if (sb.length() > 0) {
+			sb.append("\n");
+		}
+	}
+
+	public String truncate(String value) {
+		if (value.length() >= MAX_CHANGE_LENGTH) {
+			return value.substring(0, MAX_CHANGE_LENGTH);
+		}
+		return value;
+	}
+
 	public CDOObject cdoObject(CDOObject currentObject, CDORevision cdoRevision) {
 		CDOView revView = currentObject.cdoView().getSession().openView();
 		boolean revViewOk = revView.setTimeStamp(cdoRevision.getTimeStamp());
@@ -2587,7 +2645,7 @@ public class ModelUtils {
 		return null;
 	}
 
-	public void cdoPrintDelta(CDORevisionDelta delta) {
+	public void cdoPrintRevisionDelta(CDORevisionDelta delta) {
 		for (CDOFeatureDelta fd : delta.getFeatureDeltas()) {
 			System.out.println("-- delta=" + fd);
 		}
