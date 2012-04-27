@@ -17,7 +17,7 @@ import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
-import com.netxforge.netxstudio.server.job.JobModule;
+import com.netxforge.netxstudio.server.job.internal.JobModule;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService;
 import com.netxforge.netxstudio.server.metrics.MetricSourceJobImplementation;
 
@@ -26,7 +26,7 @@ public class MetricsActivator implements BundleActivator, DebugOptionsListener {
 	private static BundleContext context;
 	private static MetricsActivator INSTANCE;
 
-private static final String PLUGIN_ID = "com.netxforge.netxstudio.server.metrics";
+	private static final String PLUGIN_ID = "com.netxforge.netxstudio.server.metrics";
 	
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
@@ -63,7 +63,8 @@ private static final String PLUGIN_ID = "com.netxforge.netxstudio.server.metrics
 		om = Modules.override(om).with(ServerModule.getModule());
 		om = Modules.override(om).with(new JobModule());
 		injector = Guice.createInjector(om);
-
+		
+		// register our import service.
 		bundleContext.registerService(MetricSourceImportService.class, new MetricSourceImportService(), new Hashtable<String, String>());
 
 		// register our new MetricSourceJob creator
