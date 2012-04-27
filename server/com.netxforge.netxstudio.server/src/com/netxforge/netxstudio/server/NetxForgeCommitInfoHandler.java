@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.server;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -29,13 +28,10 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.model.CDOClassInfo;
 import org.eclipse.emf.cdo.common.revision.CDOIDAndVersion;
 import org.eclipse.emf.cdo.common.revision.CDORevisionKey;
-import org.eclipse.emf.cdo.common.revision.delta.CDOFeatureDelta;
-import org.eclipse.emf.cdo.common.revision.delta.CDOListFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDORevisionDelta;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
@@ -57,8 +53,6 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 
 	@Inject
 	ModelUtils modelUtils;
-
-	private static final int MAX_CHANGE_LENGTH = 2000;
 
 	public synchronized void handleCommitInfo(CDOCommitInfo commitInfo) {
 		// don't do this when the server is initializing
@@ -99,6 +93,8 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 
 		final XMLGregorianCalendar commitTimeStamp = modelUtils
 				.toXMLDate(new Date(commitInfo.getTimeStamp()));
+		
+		// Do not use our dataprovider. 
 		final CDOSession session = ServerUtils.getInstance().openJVMSession();
 		final CDOTransaction transaction = session.openTransaction();
 
@@ -131,7 +127,7 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 				InternalCDORevision icdoRev = (InternalCDORevision) cdoIdAndVersion;
 				CDOClassInfo classInfo = icdoRev.getClassInfo();
 				logEntry.setObjectId(classInfo.getEClass().getName() + " " + icdoRev.getID()  + "" + icdoRev.getVersion() );
-				logEntry.setChange(dumpNewObject(icdoRev));
+				logEntry.setChange(modelUtils.cdoDumpNewObject(icdoRev));
 			}
 			resource.getContents().add(logEntry);
 		}
@@ -148,15 +144,16 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 
 			CDOID id = delta.getID();
 
-			logEntry.setObjectId(trunc(id.toString()));
+			logEntry.setObjectId(modelUtils.truncate(id.toString()));
 
 			final StringBuilder sb = new StringBuilder();
-			dumpFeatureDeltas(sb, delta.getFeatureDeltas());
+			modelUtils.cdoDumpFeatureDeltas(sb, delta.getFeatureDeltas());
 
-			logEntry.setChange(trunc(sb.toString()));
+			logEntry.setChange(modelUtils.truncate(sb.toString()));
 			resource.getContents().add(logEntry);
 		}
 		try {
+			transaction.setCommitComment(IDataProvider.COMMITINFO_COMMIT_COMMENT);
 			transaction.commit();
 			transaction.close();
 		} catch (final Exception e) {
@@ -166,60 +163,4 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 		}
 	}
 
-	private String dumpNewObject(InternalCDORevision revision) {
-		final StringBuilder sb = new StringBuilder();
-		for (final EStructuralFeature feature : revision.getClassInfo()
-				.getAllPersistentFeatures()) {
-			final Object value = revision.getValue(feature);
-			dumpFeature(sb, feature, value);
-		}
-		return trunc(sb.toString());
-	}
-
-	private void dumpFeatureDeltas(StringBuilder sb,
-			List<CDOFeatureDelta> featureDeltas) {
-		for (final CDOFeatureDelta featureDelta : featureDeltas) {
-			if (featureDelta instanceof CDOListFeatureDelta) {
-				final CDOListFeatureDelta list = (CDOListFeatureDelta) featureDelta;
-				dumpFeatureDeltas(sb, list.getListChanges());
-			} else {
-				dumpFeature(sb, featureDelta.getFeature(), featureDelta);
-			}
-		}
-	}
-
-	private void dumpFeature(StringBuilder sb, EStructuralFeature feature,
-			Object value) {
-		addNewLine(sb);
-		sb.append(feature.getName() + " = " + value);
-	}
-
-	private void dumpFeature(StringBuilder sb, EStructuralFeature feature,
-			CDOFeatureDelta value) {
-		addNewLine(sb);
-		sb.append(feature.getName() + " = " + printCDOFeatureDelta(value));
-	}
-
-	private String printCDOFeatureDelta(CDOFeatureDelta delta) {
-		String str = delta.toString();
-		if (str.indexOf(",") != -1) {
-			// do + 2 to get of one space
-			str = str.substring(str.indexOf(",") + 2);
-		}
-		// and get rid of the ] at the end
-		return str.substring(0, str.length() - 1);
-	}
-
-	private void addNewLine(StringBuilder sb) {
-		if (sb.length() > 0) {
-			sb.append("\n");
-		}
-	}
-
-	private String trunc(String value) {
-		if (value.length() >= MAX_CHANGE_LENGTH) {
-			return value.substring(0, MAX_CHANGE_LENGTH);
-		}
-		return value;
-	}
 }
