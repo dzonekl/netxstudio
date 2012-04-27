@@ -25,7 +25,7 @@ import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
-import com.netxforge.netxstudio.server.job.JobModule;
+import com.netxforge.netxstudio.server.job.internal.JobModule;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService;
 import com.netxforge.netxstudio.server.logic.monitoring.RFSServiceMonitoringJobImplementation;
 import com.netxforge.netxstudio.server.logic.netxscript.NetxscriptServerModule;

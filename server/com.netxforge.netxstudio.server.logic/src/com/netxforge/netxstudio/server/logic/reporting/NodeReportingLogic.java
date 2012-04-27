@@ -52,6 +52,8 @@ public abstract class NodeReportingLogic extends BaseNodeReportingLogic {
 
 	public static final String REPORT_PREFIX = "Cap";
 
+	private static final String REPORT_EXTENSION = "xlsx";
+	
 	// public static final String REPORT_PREFIX_SM_EXEC = "Exec_Summary";
 	// public static final String REPORT_PREFIX_SM_DASH = "DashBoard";
 	// public static final String REPORT_PREFIX_SM_MATRIX = "Distribution";
@@ -66,7 +68,7 @@ public abstract class NodeReportingLogic extends BaseNodeReportingLogic {
 		// append the file name without the extension, for this run, try until
 		// we have a new one.
 		uri = uri.appendSegment(calculateFileName());
-		uri = uri.appendFileExtension("xls");
+		uri = uri.appendFileExtension(REPORT_EXTENSION);
 		{
 			boolean absent = true;
 			int tries = 1;
@@ -75,7 +77,7 @@ public abstract class NodeReportingLogic extends BaseNodeReportingLogic {
 				if (f.exists()) {
 					uri.trimFileExtension();
 					uri.appendSegment(new Integer(tries).toString());
-					uri.appendFileExtension("xls");
+					uri.appendFileExtension(REPORT_EXTENSION);
 					tries++;
 					continue;
 				} else {
