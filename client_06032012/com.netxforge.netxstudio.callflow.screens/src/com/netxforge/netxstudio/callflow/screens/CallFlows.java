@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.callflow.screens;
 
 import java.util.List;
@@ -26,6 +26,7 @@ import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.ui.URIEditorInput;
@@ -51,6 +52,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -67,6 +69,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.Form;
@@ -93,6 +96,10 @@ import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 public class CallFlows extends AbstractScreen implements IDataServiceInjection {
+
+	private static final String MEM_KEY_CALLFLOWS_SELECTION_TREE = "MEM_KEY_CALLFLWOS_SELECTION_TREE";
+
+	private static final String MEM_KEY_CALLFLOWS_COLUMNS_TREE = "MEM_KEY_CALLFLWOS_COLUMNS_TREE";
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Form frmCallFlows;
@@ -193,9 +200,10 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		// Body of the form.
 		FillLayout fl = new FillLayout();
 		frmCallFlows.getBody().setLayout(fl);
-			
+
 		// FILTER
-		Composite composite = toolkit.createComposite(frmCallFlows.getBody(), SWT.NONE);
+		Composite composite = toolkit.createComposite(frmCallFlows.getBody(),
+				SWT.NONE);
 		toolkit.paintBordersFor(composite);
 		composite.setLayout(new GridLayout(2, false));
 
@@ -222,20 +230,20 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 					}
 				}
 				callFlowTreeViewer.refresh();
-				
-				// TODO, somehow find out which objects are shown, and expand for these. 
-//				callFlowTreeViewer.expandAll();
+
+				// TODO, somehow find out which objects are shown, and expand
+				// for these.
+				// callFlowTreeViewer.expandAll();
 			}
 		});
-		
-		
+
 		Composite cmpCallFlows = new Composite(composite, SWT.NONE);
 		toolkit.adapt(cmpCallFlows);
 		toolkit.paintBordersFor(cmpCallFlows);
-		
-		cmpCallFlows.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 
-		
+		cmpCallFlows.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
+				2, 1));
+
 		TreeColumnLayout treeColumnLayout = new TreeColumnLayout();
 		cmpCallFlows.setLayout(treeColumnLayout);
 
@@ -244,11 +252,88 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		callFlowTree = callFlowTreeViewer.getTree();
 		callFlowTree.setHeaderVisible(true);
 		callFlowTree.setLinesVisible(true);
+
 		toolkit.paintBordersFor(callFlowTree);
-		
+
 		callFlowTreeViewer.addFilter(new TreeSearchFilter(editingService));
-		
-		
+
+		/**
+		 * Set a comparator to sort our columns, only sort the objects of type
+		 * 
+		 */
+		callFlowTreeViewer.setComparator(new ViewerComparator() {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.jface.viewers.ViewerComparator#category(java.lang
+			 * .Object)
+			 */
+			@Override
+			public int category(Object element) {
+
+				// Set categories for our objects, only interrested in Service
+				// flows for now.
+				if (element instanceof ServiceFlow)
+					return 1;
+				return super.category(element);
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.jface.viewers.ViewerComparator#compare(org.eclipse
+			 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+			 */
+			@Override
+			public int compare(Viewer viewer, Object e1, Object e2) {
+				int cat1 = category(e1);
+				int cat2 = category(e2);
+
+				if (cat1 != cat2) {
+					return cat1 - cat2;
+				}
+
+				if (e1 instanceof ServiceFlow && e2 instanceof ServiceFlow) {
+					ServiceFlow eq1 = (ServiceFlow) e1;
+					ServiceFlow eq2 = (ServiceFlow) e2;
+
+					if (eq1.getName() != null && eq2.getName() != null) {
+						return eq1.getName().compareTo(eq2.getName());
+					}
+				}
+				return 0; // Do not compare other types. 
+//				return super.compare(viewer, e1, e2);
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.jface.viewers.ViewerComparator#isSorterProperty(java
+			 * .lang.Object, java.lang.String)
+			 */
+			@Override
+			public boolean isSorterProperty(Object element, String property) {
+				return super.isSorterProperty(element, property);
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.jface.viewers.ViewerComparator#sort(org.eclipse.jface
+			 * .viewers.Viewer, java.lang.Object[])
+			 */
+			@Override
+			public void sort(Viewer viewer, Object[] elements) {
+				super.sort(viewer, elements);
+			}
+
+		});
+
 		TreeViewerColumn treeViewerColumnIndex = new TreeViewerColumn(
 				callFlowTreeViewer, SWT.NONE);
 		TreeColumn trclmnIndex = treeViewerColumnIndex.getColumn();
@@ -620,9 +705,8 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 							deltaServiceFlows.add((ServiceFlow) sfSelection);
 						}
 					}
-					
-					
-					// Create a compound command for all added relationships. 
+
+					// Create a compound command for all added relationships.
 					CompoundCommand cc = new CompoundCommand();
 
 					for (ServiceFlow sfAdd : deltaServiceFlows) {
@@ -743,6 +827,40 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public String getScreenName() {
 		return "Call Flows";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#saveState(org.eclipse
+	 * .ui.IMemento)
+	 */
+	@Override
+	public void saveState(IMemento memento) {
+
+		// sash state vertical.
+		mementoUtils.rememberStructuredViewerSelection(memento,
+				callFlowTreeViewer, MEM_KEY_CALLFLOWS_SELECTION_TREE);
+		mementoUtils.rememberStructuredViewerColumns(memento,
+				callFlowTreeViewer, MEM_KEY_CALLFLOWS_COLUMNS_TREE);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#init(org.eclipse.
+	 * ui.IMemento)
+	 */
+	@Override
+	public void restoreState(IMemento memento) {
+
+		mementoUtils.retrieveStructuredViewerSelection(memento,
+				callFlowTreeViewer, MEM_KEY_CALLFLOWS_SELECTION_TREE,
+				((CDOResource) cdoResourceCallFlows).cdoView());
+		mementoUtils.retrieveStructuredViewerColumns(memento,
+				callFlowTreeViewer, MEM_KEY_CALLFLOWS_COLUMNS_TREE);
 	}
 
 }

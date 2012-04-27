@@ -41,6 +41,7 @@ import org.eclipse.ui.part.ShowInContext;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.common.internal.ScreensCommonActivator;
+import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
@@ -73,6 +74,9 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 
 	@Inject
 	protected ModelUtils modelUtils;
+	
+	@Inject 
+	protected MementoUtil mementoUtils;
 
 	@Inject
 	protected IValidationService validationService;
@@ -405,15 +409,15 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 * @see org.eclipse.ui.IPersistable#saveState(org.eclipse.ui.IMemento)
 	 */
 	public void saveState(IMemento memento) {
-		
+		// do nothing, clients should override to store the state of the UI. 
 	}
 
 
 	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#restoreState(org.eclipse.ui.IMemento)
+	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#init(org.eclipse.ui.IMemento)
 	 */
 	public void restoreState(IMemento memento) {
-		
+		// do nothing, clients should override to restore the state of the UI.
 	}
 	
 }
