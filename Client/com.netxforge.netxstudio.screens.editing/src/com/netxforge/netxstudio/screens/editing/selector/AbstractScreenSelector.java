@@ -33,6 +33,7 @@ import org.eclipse.ui.part.IShowInSource;
 import org.eclipse.ui.part.ShowInContext;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
@@ -49,6 +50,9 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 
 	@Inject
 	protected IScreenFormService screenFormService;
+
+	@Inject
+	protected ModelUtils modelUtils;
 
 	private IScreen activeScreen;
 
@@ -153,8 +157,11 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 
 			// restore the state of the screen.
 			if (this.getMemento() != null) {
-				IMemento child = this.getMemento().getChild(
-						screen.getScreenName());
+
+				String validMementoElement = modelUtils
+						.underscopeWhiteSpaces(screen.getScreenName());
+				IMemento child = this.getMemento()
+						.getChild(validMementoElement);
 				if (child != null) {
 					screen.restoreState(child);
 				}
