@@ -33,8 +33,12 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.nebula.widgets.cdatetime.CDateTime;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IMemento;
 
 /**
@@ -130,10 +134,44 @@ public class MementoUtil {
 	 * @param viewer
 	 * @param key
 	 */
-	public void rememberStructuredViewer(IMemento memento,
+	public void rememberStructuredViewerSelection(IMemento memento,
 			StructuredViewer viewer, String key) {
 		ISelection selection = viewer.getSelection();
+
 		this.rememberSelection(memento, selection, key);
+	}
+
+	/**
+	 * Remember a Combo viewer.
+	 * 
+	 * @param memento
+	 * @param viewer
+	 * @param key
+	 */
+	public void rememberStructuredViewerColumns(IMemento memento,
+			StructuredViewer viewer, String key) {
+
+		if (viewer instanceof TableViewer) {
+			TableColumn[] columns = ((TableViewer) viewer).getTable()
+					.getColumns();
+			int[] intArray = new int[columns.length];
+			for (int i = 0; i < columns.length; i++) {
+				TableColumn tc = columns[i];
+				int width = tc.getWidth();
+				intArray[i] = width;
+			}
+			this.rememberIntArray(memento, intArray, key);
+		} else if (viewer instanceof TreeViewer) {
+			TreeColumn[] columns = ((TreeViewer) viewer).getTree().getColumns();
+			int[] intArray = new int[columns.length];
+			for (int i = 0; i < columns.length; i++) {
+				TreeColumn tc = columns[i];
+				int width = tc.getWidth();
+				intArray[i] = width;
+			}
+			this.rememberIntArray(memento, intArray, key);
+
+		}
 	}
 
 	/**
@@ -143,13 +181,45 @@ public class MementoUtil {
 	 * @param viewer
 	 * @param key
 	 */
-	public void retrieveStructuredViewer(IMemento memento,
+	public void retrieveStructuredViewerSelection(IMemento memento,
 			StructuredViewer viewer, String key, CDOView view) {
 		IStructuredSelection retrieveSelection = this.retrieveSelection(
 				memento, key, view);
 		if (retrieveSelection != null) {
 			viewer.setSelection(retrieveSelection, true);
 		}
+	}
+
+	/**
+	 * Retrieve a Combo viewer.
+	 * 
+	 * @param memento
+	 * @param viewer
+	 * @param key
+	 */
+	public void retrieveStructuredViewerColumns(IMemento memento,
+			StructuredViewer viewer, String key) {
+
+		int[] columnWidths = this.retrieveIntArray(memento, key);
+		if (columnWidths.length > 0) {
+			if (viewer instanceof TableViewer) {
+				
+				// No check on the size of the array. 
+				TableColumn[] columns = ((TableViewer) viewer).getTable()
+						.getColumns();
+				for (int i = 0; i < columns.length; i++) {
+					TableColumn tc = columns[i];
+					tc.setWidth(columnWidths[i]);
+				}
+			} else if (viewer instanceof TreeViewer) {
+				TreeColumn[] columns = ((TreeViewer) viewer).getTree().getColumns();
+				for (int i = 0; i < columns.length; i++) {
+					TreeColumn tc = columns[i];
+					tc.setWidth(columnWidths[i]);
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -191,8 +261,6 @@ public class MementoUtil {
 
 		memento.putString(key, df.format(date));
 	}
-	
-	
 
 	/**
 	 * Remember a Date object.
@@ -208,7 +276,6 @@ public class MementoUtil {
 		memento.put(key, df.format(date));
 	}
 
-	
 	/**
 	 * Retrieve a Date object.
 	 * 
@@ -227,7 +294,7 @@ public class MementoUtil {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Retrieve a Date object.
 	 * 
@@ -246,7 +313,6 @@ public class MementoUtil {
 		}
 		return null;
 	}
-	
 
 	/**
 	 * Remember a Selection
