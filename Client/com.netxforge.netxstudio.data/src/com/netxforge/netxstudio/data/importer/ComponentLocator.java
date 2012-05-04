@@ -207,7 +207,12 @@ public class ComponentLocator {
 					// addChildren((Component) referingObject, allComponents);
 				}
 			}
-
+			
+			if (DataActivator.DEBUG) {
+				System.out.println("IMPORTER:LOCATOR components for: "
+						+ LibraryPackage.eINSTANCE.getComponent_MetricRefs()
+								.getName() + " =" + matchingComponents.size());
+			}
 			return matchingComponents;
 		}
 
@@ -247,9 +252,19 @@ public class ComponentLocator {
 
 					// add the parent components and their children.
 					allComponentsMatchingMetrics.addAll(components);
+					int childrenCount = allComponentsMatchingMetrics.size();
 					for (Component c : components) {
 						addChildren(c, allComponentsMatchingMetrics);
 					}
+					
+					childrenCount = allComponentsMatchingMetrics.size() - childrenCount;
+					if (DataActivator.DEBUG) {
+						System.out.println("IMPORTER:LOCATOR children components for: "
+								+ LibraryPackage.eINSTANCE.getComponent_MetricRefs()
+										.getName() + " =" + childrenCount);
+					}
+
+					
 					return allComponentsMatchingMetrics;
 				}
 			};
@@ -846,6 +861,11 @@ public class ComponentLocator {
 
 		// CB, feature is already produced with the descriptor.
 		// EStructuralFeature eFeature = featureForName(eObject, eFeatureName);
+		if(eFeature == null){
+			throw new IllegalStateException("ComponentLocator, feature must be set");
+		}
+		
+		
 		if (eFeature != null && eObject.eClass().getFeatureID(eFeature) != -1) {
 			final Object componentFeatureValue = eObject.eGet(eFeature);
 			if (componentFeatureValue instanceof String
@@ -914,6 +934,10 @@ public class ComponentLocator {
 
 			// Pre-create the feature, based on the identifier info.
 			ObjectKindType objectKind = kind.getObjectKind();
+			
+			// We have some legacty configurations, which have the 
+			
+			
 			switch (objectKind.getValue()) {
 			case ObjectKindType.EQUIPMENT_VALUE: {
 				this.propertyFeature = featureForName(
