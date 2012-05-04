@@ -82,11 +82,6 @@ public class CallFlowScreenSelector extends AbstractScreenSelector {
 		super.dispose();
 	}
 
-	@Override
-	public void setFocus() {
-		// Set the focus
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
