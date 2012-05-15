@@ -24,8 +24,6 @@ import org.eclipse.xpand2.output.OutputImpl;
 import org.eclipse.xtend.expression.EvaluationException;
 import org.eclipse.xtend.expression.Variable;
 
-import com.netxforge.netxstudio.models.export.internal.ExportActivator;
-
 /**
  * A Xpand facade builder. Use like this: 1) Define an output, call
  * defineOutput() with the resource to output and if you wish to overwrite it.
@@ -118,7 +116,6 @@ public class XpandCallerService {
 			facade.evaluate(definitionName, targetObject);
 		} catch (EvaluationException e) {
 			e.printStackTrace();
-			ExportActivator.logError("Evaluation Error", e);
 		}
 
 	}
@@ -136,7 +133,6 @@ public class XpandCallerService {
 		try {
 			facade.evaluate(definitionName, targetObject, arguments);
 		} catch (EvaluationException e) {
-			ExportActivator.logError("Evaluation Error", e);
 		}
 	}
 
