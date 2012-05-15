@@ -79,7 +79,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		frmDataRetention = toolkit.createForm(this);
 		frmDataRetention.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmDataRetention);
-		frmDataRetention.setText("Data Retention");
+		frmDataRetention.setText(this.getScreenName());
 		ColumnLayout columnLayout = new ColumnLayout();
 		columnLayout.maxNumColumns = 1;
 		frmDataRetention.getBody().setLayout(columnLayout);
@@ -87,10 +87,10 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		Section sctnControl = toolkit.createSection(frmDataRetention.getBody(),
 				Section.TITLE_BAR);
 		sctnControl.setText("Control");
-//		FormData fd_sctnControl = new FormData();
-//		fd_sctnControl.top = new FormAttachment(0, 10);
-//		fd_sctnControl.left = new FormAttachment(0, 10);
-//		sctnControl.setLayoutData(fd_sctnControl);
+		// FormData fd_sctnControl = new FormData();
+		// fd_sctnControl.top = new FormAttachment(0, 10);
+		// fd_sctnControl.left = new FormAttachment(0, 10);
+		// sctnControl.setLayoutData(fd_sctnControl);
 		toolkit.paintBordersFor(sctnControl);
 
 		Composite composite = toolkit.createComposite(sctnControl, SWT.NONE);
@@ -105,8 +105,9 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 					public void linkActivated(HyperlinkEvent e) {
 						try {
 							serverActions
-									.setCDOServer(editingService.getDataService()
-											.getProvider().getServer());
+									.setCDOServer(editingService
+											.getDataService().getProvider()
+											.getServer());
 							// TODO, We get the workflow run ID back, which
 							// could be used
 							// to link back to the screen showing the running
@@ -122,7 +123,8 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 						} catch (Exception e1) {
 							e1.printStackTrace();
 							MessageDialog.openError(Retention.this.getShell(),
-									"Data retention action failed:", "Remote service is not available");
+									"Data retention action failed:",
+									"Remote service is not available");
 
 						}
 
@@ -139,14 +141,14 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 
 		Section sctnRules = toolkit.createSection(frmDataRetention.getBody(),
 				Section.TITLE_BAR);
-//		fd_sctnControl.right = new FormAttachment(sctnRules, 0, SWT.RIGHT);
-//		fd_sctnControl.bottom = new FormAttachment(sctnRules, -6);
-//		FormData fd_sctnRules = new FormData();
-//		fd_sctnRules.bottom = new FormAttachment(100, -10);
-//		fd_sctnRules.top = new FormAttachment(0, 120);
-//		fd_sctnRules.left = new FormAttachment(0, 10);
-//		fd_sctnRules.right = new FormAttachment(100, -10);
-//		sctnRules.setLayoutData(fd_sctnRules);
+		// fd_sctnControl.right = new FormAttachment(sctnRules, 0, SWT.RIGHT);
+		// fd_sctnControl.bottom = new FormAttachment(sctnRules, -6);
+		// FormData fd_sctnRules = new FormData();
+		// fd_sctnRules.bottom = new FormAttachment(100, -10);
+		// fd_sctnRules.top = new FormAttachment(0, 120);
+		// fd_sctnRules.left = new FormAttachment(0, 10);
+		// fd_sctnRules.right = new FormAttachment(100, -10);
+		// sctnRules.setLayoutData(fd_sctnRules);
 		toolkit.paintBordersFor(sctnRules);
 		sctnRules.setText("Data retention rules");
 
@@ -277,4 +279,15 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 	public Form getScreenForm() {
 		return this.frmDataRetention;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#getScreenName()
+	 */
+	@Override
+	public String getScreenName() {
+		return "Data Retention";
+	}
+
 }

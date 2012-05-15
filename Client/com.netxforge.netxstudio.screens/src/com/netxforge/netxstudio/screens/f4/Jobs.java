@@ -7,6 +7,7 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -47,6 +48,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -70,8 +72,11 @@ import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
+	private static final String MEM_KEY_JOBS_SELECTION_TABLE = "MEM_KEY_JOBS_SELECTION_TABLE";
+	private static final String MEM_KEY_JOBS_COLUMNS_TABLE = "MEM_KEY_JOBS_COLUMNS_TABLE";
+	
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Table table;
+	private Table jobsTable;
 	private Text txtFilterText;
 
 	private TableViewer jobsTableViewer;
@@ -190,11 +195,11 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		jobsTableViewer.setComparer(new CDOElementComparer());
 		jobsTableViewer.addFilter(new SearchFilter(editingService));
 
-		table = jobsTableViewer.getTable();
-		table.setLinesVisible(true);
-		table.setHeaderVisible(true);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
-		toolkit.paintBordersFor(table);
+		jobsTable = jobsTableViewer.getTable();
+		jobsTable.setLinesVisible(true);
+		jobsTable.setHeaderVisible(true);
+		jobsTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
+		toolkit.paintBordersFor(jobsTable);
 
 		TableViewerColumn tblViewerClmType = new TableViewerColumn(
 				jobsTableViewer, SWT.NONE);
@@ -236,6 +241,8 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		TableColumn tblclmnInterval = tableViewerColumn_6.getColumn();
 		tblclmnInterval.setWidth(100);
 		tblclmnInterval.setText("Interval");
+		
+		jobsTable.setFocus();
 	}
 
 	//
@@ -544,5 +551,41 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	public String getScreenName() {
 		return "Jobs";
 	}
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#saveState(org.eclipse
+	 * .ui.IMemento)
+	 */
+	@Override
+	public void saveState(IMemento memento) {
 
+		// sash state vertical.
+		mementoUtils.rememberStructuredViewerSelection(memento,
+				jobsTableViewer, MEM_KEY_JOBS_SELECTION_TABLE);
+		mementoUtils.rememberStructuredViewerColumns(memento,
+				jobsTableViewer, MEM_KEY_JOBS_COLUMNS_TABLE);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#init(org.eclipse.
+	 * ui.IMemento)
+	 */
+	@Override
+	public void restoreState(IMemento memento) {
+
+		mementoUtils.retrieveStructuredViewerSelection(memento,
+				jobsTableViewer, MEM_KEY_JOBS_SELECTION_TABLE,
+				((CDOResource) jobsResource).cdoView());
+		mementoUtils.retrieveStructuredViewerColumns(memento,
+				jobsTableViewer, MEM_KEY_JOBS_COLUMNS_TABLE);
+	}
+
+	
 }

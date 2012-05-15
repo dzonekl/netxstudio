@@ -101,11 +101,6 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 		super.dispose();
 	}
 
-	@Override
-	public void setFocus() {
-		// Set the focus
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -116,7 +111,6 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 
 	@Override
 	protected void initBindings() {
-		// TODO Auto-generated method stub
 		// Static initialization of bindings. We need a dynamic form for this.
 		//
 

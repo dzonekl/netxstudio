@@ -65,11 +65,6 @@ public class AdminScreenSelector extends AbstractScreenSelector {
 		super.dispose();
 	}
 
-	@Override
-	public void setFocus() {
-		// Set the focus
-	}
-
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart#initBindings()
 	 */

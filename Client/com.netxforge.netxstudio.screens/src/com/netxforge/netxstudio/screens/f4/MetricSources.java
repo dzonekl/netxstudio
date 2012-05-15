@@ -11,6 +11,7 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -46,6 +47,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -76,8 +78,10 @@ import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 public class MetricSources extends AbstractScreen implements
 		IDataServiceInjection {
 
+	private static final String MEM_KEY_METRICSOURCE_SELECTION_TABLE = "MEM_KEY_METRICSOURCE_SELECTION_TABLE";
+	private static final String MEM_KEY_METRICSOURCE_COLUMNS_TABLE = "MEM_KEY_METRICSOURCE_COLUMNS_TABLE";
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Table table;
+	private Table metricSourceTable;
 	private Text txtFilterText;
 	private Form frmMetricSources;
 	private TableViewer metricSourceTableViewer;
@@ -417,11 +421,11 @@ public class MetricSources extends AbstractScreen implements
 		metricSourceTableViewer.setComparer(new CDOElementComparer());
 		metricSourceTableViewer.addFilter(new SearchFilter(editingService));
 
-		table = metricSourceTableViewer.getTable();
-		table.setLinesVisible(true);
-		table.setHeaderVisible(true);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
-		table.addSelectionListener(new SelectionAdapter() {
+		metricSourceTable = metricSourceTableViewer.getTable();
+		metricSourceTable.setLinesVisible(true);
+		metricSourceTable.setHeaderVisible(true);
+		metricSourceTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
+		metricSourceTable.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -473,7 +477,7 @@ public class MetricSources extends AbstractScreen implements
 			}
 		});
 
-		toolkit.paintBordersFor(table);
+		toolkit.paintBordersFor(metricSourceTable);
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				metricSourceTableViewer, SWT.NONE);
@@ -493,6 +497,8 @@ public class MetricSources extends AbstractScreen implements
 				.getColumn();
 		tblclmnLocationLastUpdate.setWidth(300);
 		tblclmnLocationLastUpdate.setText("Last update");
+		
+		metricSourceTable.setFocus();
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -600,5 +606,41 @@ public class MetricSources extends AbstractScreen implements
 	public String getScreenName() {
 		return "Metric Sources";
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#saveState(org.eclipse
+	 * .ui.IMemento)
+	 */
+	@Override
+	public void saveState(IMemento memento) {
+
+		// sash state vertical.
+		mementoUtils.rememberStructuredViewerSelection(memento,
+				metricSourceTableViewer, MEM_KEY_METRICSOURCE_SELECTION_TABLE);
+		mementoUtils.rememberStructuredViewerColumns(memento,
+				metricSourceTableViewer, MEM_KEY_METRICSOURCE_COLUMNS_TABLE);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#init(org.eclipse.
+	 * ui.IMemento)
+	 */
+	@Override
+	public void restoreState(IMemento memento) {
+
+		mementoUtils.retrieveStructuredViewerSelection(memento,
+				metricSourceTableViewer, MEM_KEY_METRICSOURCE_SELECTION_TABLE,
+				((CDOResource) msResource).cdoView());
+		mementoUtils.retrieveStructuredViewerColumns(memento,
+				metricSourceTableViewer, MEM_KEY_METRICSOURCE_COLUMNS_TABLE);
+	}
+
+	
 
 }

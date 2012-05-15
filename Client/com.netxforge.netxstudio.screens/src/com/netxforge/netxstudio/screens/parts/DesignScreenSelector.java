@@ -98,18 +98,12 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 		super.dispose();
 	}
 
-	@Override
-	public void setFocus() {
-		// Set the focus
-	}
-
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart#initBindings()
 	 */
 	
 	@Override
 	protected void initBindings() {
-		// TODO Auto-generated method stub
 		// Static initialization of bindings. We need a dynamic form for this. 
 		// 
 	}

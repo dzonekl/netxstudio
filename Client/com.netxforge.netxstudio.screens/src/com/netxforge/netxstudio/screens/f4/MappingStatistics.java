@@ -31,7 +31,9 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.util.CommitException;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.EMFProperties;
@@ -43,7 +45,6 @@ import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -64,7 +65,9 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.window.ToolTip;
+import org.eclipse.net4j.util.concurrent.IRWLockManager.LockType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.SashForm;
@@ -105,6 +108,7 @@ import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.actions.clipboard.ClipboardService;
@@ -127,11 +131,10 @@ public class MappingStatistics extends AbstractScreen implements
 	private Tree statisticsTree;
 	private Table recordsTable;
 
-	
 	@SuppressWarnings("unused")
 	@Inject
 	private ClipboardService clipboard;
-	
+
 	/**
 	 * Create the composite.
 	 * 
@@ -149,21 +152,25 @@ public class MappingStatistics extends AbstractScreen implements
 		toolkit.paintBordersFor(this);
 		// buildUI();
 	}
-	
-	
+
 	/**
 	 * Copies the selected records as text to the clipboard....
+	 * 
 	 * @author Christophe
-	 *
+	 * 
 	 */
-	class CopyMappingErrorAction extends BaseSelectionListenerAction{
-		
+	class CopyMappingErrorAction extends BaseSelectionListenerAction {
+
 		protected CopyMappingErrorAction(String text) {
 			super(text);
 		}
 
-		/* (non-Javadoc)
-		 * @see com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction#updateSelection(org.eclipse.jface.viewers.IStructuredSelection)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see com.netxforge.netxstudio.screens.editing.actions.
+		 * BaseSelectionListenerAction
+		 * #updateSelection(org.eclipse.jface.viewers.IStructuredSelection)
 		 */
 		@Override
 		protected boolean updateSelection(IStructuredSelection selection) {
@@ -171,21 +178,23 @@ public class MappingStatistics extends AbstractScreen implements
 			return firstElement instanceof MappingRecord;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.jface.action.Action#run()
 		 */
 		@Override
 		public void run() {
-			IStructuredSelection structuredSelection = this.getStructuredSelection();
+			IStructuredSelection structuredSelection = this
+					.getStructuredSelection();
 			Object firstElement = structuredSelection.getFirstElement();
-			if(firstElement instanceof MappingRecord){
+			if (firstElement instanceof MappingRecord) {
 				System.out.println(" yeah valid action for this object");
 			}
-			
+
 		}
-		
+
 	}
-	
 
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -225,6 +234,8 @@ public class MappingStatistics extends AbstractScreen implements
 
 		statisticsTreeViewer = new TreeViewer(cmpSelector, SWT.BORDER
 				| SWT.MULTI);
+		statisticsTreeViewer.setUseHashlookup(true);
+		statisticsTreeViewer.setComparer(new CDOElementComparer());
 		statisticsTree = statisticsTreeViewer.getTree();
 		toolkit.paintBordersFor(statisticsTree);
 
@@ -409,7 +420,7 @@ public class MappingStatistics extends AbstractScreen implements
 
 		tblViewerRecords = new TableViewer(composite, SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.MULTI);
-		
+
 		recordsTable = tblViewerRecords.getTable();
 		recordsTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false,
 				true, 2, 1));
@@ -465,14 +476,34 @@ public class MappingStatistics extends AbstractScreen implements
 				// Should also delete all contained objects like
 				// MappingRecord etc..
 
-				DeleteCommand dc = new DeleteCommand(
-						editingService.getEditingDomain(),
-						metricSource.getStatistics());
-				editingService.getEditingDomain().getCommandStack().execute(dc);
+				CDOView cdoView = metricSource.cdoView();
+				if (cdoView instanceof CDOTransaction) {
+					CDOTransaction cdoTransaction = (CDOTransaction) cdoView;
+					try {
+						cdoTransaction.lockObjects(metricSource.getStatistics(),
+								LockType.WRITE, 1000);
+						metricSource.getStatistics().clear();
+						cdoTransaction.unlockObjects(metricSource.getStatistics(),
+								LockType.WRITE);
+						cdoTransaction.commit();
 
-				if (editingService.isDirty()) {
-					editingService.doSave(new NullProgressMonitor());
+					} catch (InterruptedException e) {
+						// we are interrupted.
+						e.printStackTrace();
+					} catch (CommitException e) {
+						// we can not commit. 
+						e.printStackTrace();
+					}
 				}
+
+				// DeleteCommand dc = new DeleteCommand(
+				// editingService.getEditingDomain(),
+				// metricSource.getStatistics());
+				// editingService.getEditingDomain().getCommandStack().execute(dc);
+				//
+				// if (editingService.isDirty()) {
+				// editingService.doSave(new NullProgressMonitor());
+				// }
 			}
 		}
 	}
@@ -543,6 +574,62 @@ public class MappingStatistics extends AbstractScreen implements
 		IObservableList metricSourceObservableList = l.observe(metricSource);
 
 		statisticsTreeViewer.setInput(metricSourceObservableList);
+
+		/**
+		 * Set a comparator to sort our columns, only sort the objects of type
+		 * 
+		 */
+		statisticsTreeViewer.setComparator(new ViewerComparator() {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.jface.viewers.ViewerComparator#category(java.lang
+			 * .Object)
+			 */
+			@Override
+			public int category(Object element) {
+
+				// Set categories for our objects, only interrested in Service
+				// flows for now.
+				if (element instanceof MappingStatistic)
+					return 1;
+				return super.category(element);
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.jface.viewers.ViewerComparator#compare(org.eclipse
+			 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+			 */
+			@Override
+			public int compare(Viewer viewer, Object e1, Object e2) {
+				int cat1 = category(e1);
+				int cat2 = category(e2);
+
+				if (cat1 != cat2) {
+					return cat1 - cat2;
+				}
+
+				if (e1 instanceof MappingStatistic
+						&& e2 instanceof MappingStatistic) {
+					MappingStatistic ms1 = (MappingStatistic) e1;
+					MappingStatistic ms2 = (MappingStatistic) e2;
+
+					if (ms1.eIsSet(MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION)
+							&& ms2.eIsSet(MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION)) {
+						return ms2.getMappingDuration().getBegin()
+								.compare(ms1.getMappingDuration().getBegin());
+					}
+				}
+				return 0; // Do not compare other types.
+				// return super.compare(viewer, e1, e2);
+			}
+
+		});
 
 		IObservableValue selectionObservable = ViewerProperties
 				.singleSelection().observe(statisticsTreeViewer);
@@ -859,7 +946,6 @@ public class MappingStatistics extends AbstractScreen implements
 		return new Viewer[] { statisticsTreeViewer, tblViewerRecords };
 	}
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -874,29 +960,29 @@ public class MappingStatistics extends AbstractScreen implements
 			return statisticsTreeViewer;
 		} else if (widget == recordsTable) {
 			return tblViewerRecords;
-		} 
+		}
 
 		return super.resolveSelectionProviderFromWidget(widget);
 	}
-	
-	
+
 	List<IAction> actionList = Lists.newArrayList();
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#getActions()
 	 */
 	@Override
 	public IAction[] getActions() {
-		if( actionList.size() == 0){
+		if (actionList.size() == 0) {
 			actionList.add(new CopyMappingErrorAction("Copy error..."));
 		}
-		
+
 		IAction[] actions = new IAction[actionList.size()];
 		actionList.toArray(actions);
 		return actions;
 	}
-	
+
 	@Override
 	public boolean isValid() {
 		return true;
@@ -910,5 +996,4 @@ public class MappingStatistics extends AbstractScreen implements
 		return "Mapping Statistics";
 	}
 
-	
 }

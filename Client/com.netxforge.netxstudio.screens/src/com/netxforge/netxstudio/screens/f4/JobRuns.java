@@ -27,6 +27,7 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IMapChangeListener;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.map.MapChangeEvent;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -38,6 +39,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -88,6 +90,7 @@ import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
+import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.f4.support.LogDialog;
 
@@ -102,6 +105,8 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 	private Menu jobRunMenu;
 
+	private CleanJobRunsAction cleanJobRunsAction;
+
 	public JobRuns(Composite parent, int style) {
 		super(parent, style);
 
@@ -113,13 +118,15 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 	}
-	
-	
+
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmJobRuns = toolkit.createForm(this);
 		frmJobRuns.setSeparatorVisible(true);
+		cleanJobRunsAction = new CleanJobRunsAction("Clean up...");
+		frmJobRuns.getMenuManager().add(cleanJobRunsAction);
+		
 		toolkit.paintBordersFor(frmJobRuns);
 
 		frmJobRuns.setText("Job: \"Job name\"");
@@ -202,7 +209,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 							&& re2.eIsSet(SchedulingPackage.Literals.WORK_FLOW_RUN__STARTED))
 						return re1.getStarted().compare(re2.getStarted());
 				}
-				return 0;
+				return -1;
 			}
 
 		};
@@ -227,7 +234,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 	private TableViewer jobRunsTableViewer;
 	private Form frmJobRuns;
 	private Job job;
-	private JobRunContainer currentJobContainer;
+	private JobRunContainer jobContainer;
 
 	class ShowLogAction extends BaseSelectionListenerAction {
 
@@ -259,6 +266,37 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 		}
 
+	}
+
+	class CleanJobRunsAction extends Action {
+
+		public CleanJobRunsAction(String text) {
+			super(text);
+		}
+
+		@Override
+		public void run() {
+			if (jobContainer.getWorkFlowRuns().isEmpty()) {
+				return;
+			}
+
+			boolean openQuestion = MessageDialog
+					.openQuestion(
+							JobRuns.this.getShell(),
+							"Clean previous job runs",
+							"When pressing OK, the job runs for this job will be cleared\nThis action can not be reverted");
+			if (openQuestion) {
+				// yes selected, deletes the workflow runs.
+				WarningDeleteCommand dc = new WarningDeleteCommand(
+						editingService.getEditingDomain(),
+						jobContainer.getWorkFlowRuns());
+				editingService.getEditingDomain().getCommandStack().execute(dc);
+
+				if (editingService.isDirty()) {
+					editingService.doSave(new NullProgressMonitor());
+				}
+			}
+		}
 	}
 
 	class ShowFailuresAction extends BaseSelectionListenerAction {
@@ -325,7 +363,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			buildUI();
 			this.getScreenForm().setText("Job:" + job.getName());
 
-			// Get the job container:
+			// Get the job container, forces the registration of invalidation listeners. 
 			Resource jobRunContainerResource = editingService
 					.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
 
@@ -338,14 +376,14 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 							.cdoID();
 					if (job.cdoID().equals(containerJobId)) {
 						// Container found.
-						currentJobContainer = container;
+						jobContainer = container;
 						this.initDataBindings_();
 						break;
 					}
 				}
 			}
 
-			if (currentJobContainer == null) {
+			if (jobContainer == null) {
 
 				// There is no container, TODO should really do this test before
 				// showing the runs.
@@ -413,7 +451,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 		IEMFListProperty l = EMFProperties
 				.list(SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS);
-		IObservableList observeWorkFlowRuns = l.observe(currentJobContainer);
+		IObservableList observeWorkFlowRuns = l.observe(jobContainer);
 		jobRunsTableViewer.setInput(observeWorkFlowRuns);
 
 		return bindingContext;
@@ -477,8 +515,8 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 					if (data instanceof CDOObject && k instanceof CDOObject) {
 
 						CDOID cdoID2 = ((CDOObject) data).cdoID();
-						System.out.println("table item with CDOID "
-								+ cdoID2.toString());
+//						System.out.println("table item with CDOID "
+//								+ cdoID2.toString());
 						if (wfr.cdoID().toString().equals(cdoID2.toString())) {
 							item = checkItem;
 						}
@@ -493,14 +531,15 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 							tableViewer.getTable());
 					progressEditor.grabHorizontal = true;
 					progressEditor.grabVertical = true;
-					
-//					ProgressBar bar = new ProgressBar(tableViewer.getTable(),
-//							SWT.SMOOTH);
-//					bar.setMaximum(100);
-//					bar.setSelection(0);
-					
-					ProgressControl progressControl = new ProgressControl(tableViewer.getTable(), SWT.NONE);
-					
+
+					// ProgressBar bar = new ProgressBar(tableViewer.getTable(),
+					// SWT.SMOOTH);
+					// bar.setMaximum(100);
+					// bar.setSelection(0);
+
+					ProgressControl progressControl = new ProgressControl(
+							tableViewer.getTable(), SWT.NONE);
+
 					progressEditor.setEditor(progressControl, item, 2);
 					progressCache.put(wfr.cdoID(), progressEditor);
 				}
@@ -552,15 +591,16 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 										.getProgress());
 							}
 
-//							if (editor instanceof ProgressBar) {
-//								((ProgressBar) editor).setSelection(j
-//										.getProgress());
-//							}
+							// if (editor instanceof ProgressBar) {
+							// ((ProgressBar) editor).setSelection(j
+							// .getProgress());
+							// }
 						}
 					} else {
 						// dispose when we are not in running state.
 						if (this.hasProgress(j.cdoID())) {
-							TableEditor tableEditor = progressCache.get(j.cdoID());
+							TableEditor tableEditor = progressCache.get(j
+									.cdoID());
 							tableEditor.getEditor().dispose();
 							tableEditor.dispose();
 							progressCache.remove(j.cdoID());
@@ -569,7 +609,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 						}
 					}
 					// bar.set
-//					return null;
+					// return null;
 				}
 
 				switch (columnIndex) {
@@ -612,7 +652,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			return result == null ? "" : result.toString(); //$NON-NLS-1$
 
 		}
-		
+
 		class ProgressControl extends Composite {
 
 			private ProgressBar bar;
@@ -623,38 +663,40 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 				StackLayout stackLayout = new StackLayout();
 				stackLayout.marginHeight = 0;
 				stackLayout.marginWidth = 0;
-				
+
 				this.setLayout(stackLayout);
-				bar = new ProgressBar(this,
-						SWT.SMOOTH);
+				bar = new ProgressBar(this, SWT.SMOOTH);
 				bar.setMaximum(100);
 				bar.setSelection(0);
-//				label = new Label(this, SWT.NONE);
-//				label.setText("progress");
+				// label = new Label(this, SWT.NONE);
+				// label.setText("progress");
 				stackLayout.topControl = bar;
 			}
-			
-			public void updateProgress(int progress){
+
+			public void updateProgress(int progress) {
 				bar.setSelection(progress);
 			}
-			
-			public void updateText(String progress){
+
+			public void updateText(String progress) {
 				label.setText(progress);
 			}
 
-			/* (non-Javadoc)
-			 * @see org.eclipse.swt.widgets.Widget#addDisposeListener(org.eclipse.swt.events.DisposeListener)
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.swt.widgets.Widget#addDisposeListener(org.eclipse
+			 * .swt.events.DisposeListener)
 			 */
 			@Override
 			public void addDisposeListener(DisposeListener listener) {
 				super.addDisposeListener(listener);
 				label.dispose();
 				bar.dispose();
-				
+
 			}
 		}
-		
-		
+
 	}
 
 	// class CapacityEditingSupport extends EditingSupport {
