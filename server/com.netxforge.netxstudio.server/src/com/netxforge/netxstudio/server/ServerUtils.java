@@ -29,25 +29,22 @@ import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.session.CDOSession;
-import org.eclipse.emf.cdo.spi.server.InternalSession;
-import org.eclipse.emf.cdo.spi.server.InternalSessionManager;
+import org.eclipse.emf.cdo.session.CDOSession.ExceptionHandler;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.jvm.IJVMAcceptor;
 import org.eclipse.net4j.jvm.JVMUtil;
-import org.eclipse.net4j.signal.SignalProtocol;
-import org.eclipse.net4j.util.container.IContainerDelta;
 import org.eclipse.net4j.util.container.IElementProcessor;
 import org.eclipse.net4j.util.container.IManagedContainer;
 import org.eclipse.net4j.util.container.IPluginContainer;
-import org.eclipse.net4j.util.container.SingleDeltaContainerEvent;
-import org.eclipse.net4j.util.event.IEvent;
-import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
+import org.eclipse.net4j.util.om.OMPlatform;
+import org.eclipse.net4j.util.om.log.PrintLogHandler;
+import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import org.eclipse.net4j.util.security.IPasswordCredentialsProvider;
 import org.eclipse.net4j.util.security.PasswordCredentials;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
@@ -189,52 +186,43 @@ public class ServerUtils {
 			
 		
 		// Debugging on.
-//		OMPlatform.INSTANCE.setDebugging(true);
-//		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
-//		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
-		
+		OMPlatform.INSTANCE.setDebugging(true);
+		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
+		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
 		
 		// Create configuration
 		final CDOSessionConfiguration sessionConfiguration = CDONet4jUtil
 				.createSessionConfiguration();
+		
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
-		
+		sessionConfiguration.setExceptionHandler(exceptionHandler);
 		
 		// Note: Option to disable caching, this was of for Hibernate store, but back on for the DB Store.
-		
 		sessionConfiguration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
 
 		final IPasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(
 				new PasswordCredentials(serverSideLogin,
 						serverSideLogin.toCharArray()));
+		
 		sessionConfiguration.getAuthenticator().setCredentialsProvider(
 				credentialsProvider);
 		// set to a minute
-		sessionConfiguration.setSignalTimeout(IDataProvider.SIGNAL_TIME_OUT);
+//		sessionConfiguration.setSignalTimeout(IDataProvider.SIGNAL_TIME_OUT);
+		
 		return sessionConfiguration;
 	}
+	
+	// A customer exception handler implementation. 
+	ServerExceptionHandler exceptionHandler = new ServerExceptionHandler();
+	
+	class ServerExceptionHandler implements ExceptionHandler {
 
-	// public XMLGregorianCalendar toXmlDate(Date date) {
-	// final XMLGregorianCalendar gregCalendar = dataTypeFactory
-	// .newXMLGregorianCalendar();
-	// final Calendar calendar = Calendar.getInstance();
-	// calendar.setTime(date);
-	//
-	// gregCalendar.setYear(calendar.get(Calendar.YEAR));
-	// gregCalendar.setMonth(calendar.get(Calendar.MONTH) + 1); // correct with
-	// // 1 on
-	// // purpose
-	// gregCalendar.setDay(calendar.get(Calendar.DAY_OF_MONTH));
-	//
-	// gregCalendar.setHour(calendar.get(Calendar.HOUR_OF_DAY));
-	// gregCalendar.setMinute(calendar.get(Calendar.MINUTE));
-	// gregCalendar.setSecond(calendar.get(Calendar.SECOND));
-	// gregCalendar.setMillisecond(calendar.get(Calendar.MILLISECOND));
-	// // gregCalendar.setTimezone(calendar.get(Calendar.ZONE_OFFSET));
-	//
-	// return gregCalendar;
-	// }
+		public void handleException(CDOSession session, int attempt,
+				Exception exception) throws Exception {
+			exception.printStackTrace();
+		}
+	}
 
 	public String getServerSideLogin() {
 		return serverSideLogin;
@@ -246,20 +234,20 @@ public class ServerUtils {
 		}
 		isInitializing = true;
 
-		repository.getSessionManager().addListener(new IListener() {
-			public void notifyEvent(IEvent event) {
-				if (event instanceof SingleDeltaContainerEvent<?>) {
-					final SingleDeltaContainerEvent<?> e = (SingleDeltaContainerEvent<?>) event;
-					if (e.getSource() instanceof InternalSessionManager
-							&& e.getDeltaKind() == IContainerDelta.Kind.ADDED) {
-						final InternalSession s = (InternalSession) e
-								.getDelta().getElement();
-						((SignalProtocol<?>) s.getProtocol())
-								.setTimeout(IDataProvider.SIGNAL_TIME_OUT);
-					}
-				}
-			}
-		});
+//		repository.getSessionManager().addListener(new IListener() {
+//			public void notifyEvent(IEvent event) {
+//				if (event instanceof SingleDeltaContainerEvent<?>) {
+//					final SingleDeltaContainerEvent<?> e = (SingleDeltaContainerEvent<?>) event;
+//					if (e.getSource() instanceof InternalSessionManager
+//							&& e.getDeltaKind() == IContainerDelta.Kind.ADDED) {
+//						final InternalSession s = (InternalSession) e
+//								.getDelta().getElement();
+//						((SignalProtocol<?>) s.getProtocol())
+//								.setTimeout(IDataProvider.SIGNAL_TIME_OUT);
+//					}
+//				}
+//			}
+//		});
 
 		final ServerInitializer resourceInitializer = ServerActivator
 				.getInstance().getInjector()
@@ -307,6 +295,7 @@ public class ServerUtils {
 			initResourcesForEPackage(ServicesPackage.eINSTANCE);
 			loadFixtureData(dataProvider, modelUtils);
 			dataProvider.commitTransaction();
+			dataProvider.closeSession();
 		}
 
 		private void loadFixtureData(IDataProvider dataProvider, ModelUtils modelUtils) {
