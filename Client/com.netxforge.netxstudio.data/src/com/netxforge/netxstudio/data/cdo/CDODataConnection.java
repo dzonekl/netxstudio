@@ -18,6 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
+import org.eclipse.emf.cdo.common.CDOCommonSession.Options.PassiveUpdateMode;
 import org.eclipse.emf.cdo.common.revision.CDORevisionCache;
 import org.eclipse.emf.cdo.common.revision.CDORevisionUtil;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
@@ -93,6 +94,11 @@ public class CDODataConnection implements ICDOConnection {
 		sessionConfiguration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
+		
+		// Disable passive updates. 
+//		sessionConfiguration.setPassiveUpdateEnabled(false);
+		sessionConfiguration.setPassiveUpdateMode(PassiveUpdateMode.INVALIDATIONS);
+//		sessionConfiguration.setSignalTimeout(IDataProvider.SIGNAL_TIME_OUT);
 	}
 	
 	public String getCurrentServer(){

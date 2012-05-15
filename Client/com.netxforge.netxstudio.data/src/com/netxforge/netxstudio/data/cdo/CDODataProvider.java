@@ -121,14 +121,13 @@ public abstract class CDODataProvider implements IDataProvider {
 			connection.initialize(server);
 		}
 
-		connection.getConfig().setSignalTimeout(SIGNAL_TIME_OUT);
+//		connection.getConfig().setSignalTimeout(SIGNAL_TIME_OUT);
 
 		// Session Config and Sessions go hand in hand.
 		// Recover our session, if some reason we try to reopen for the same
 		// user and
 		// this very same config.
 		if (connection.getConfig().isSessionOpen()) {
-			
 			
 			// note: 
 			// Passive updates are enabled by default, invalidations could 
@@ -205,8 +204,8 @@ public abstract class CDODataProvider implements IDataProvider {
 		if (connection.getConfig() == null) {
 			connection.initialize();
 		}
-		connection.getConfig().setSignalTimeout(SIGNAL_TIME_OUT);
 		final CDOSession cdoSession = connection.getConfig().openSession();
+		
 		((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession.options())
 				.setCommitTimeout(COMMIT_TIMEOUT);
 
