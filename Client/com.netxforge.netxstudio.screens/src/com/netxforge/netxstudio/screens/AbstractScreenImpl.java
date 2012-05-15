@@ -421,5 +421,4 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	public void restoreState(IMemento memento) {
 		// do nothing, clients should override to restore the state of the UI.
 	}
-	
 }
