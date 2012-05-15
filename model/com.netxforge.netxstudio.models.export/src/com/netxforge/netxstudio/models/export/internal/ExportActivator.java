@@ -1,16 +1,43 @@
+/*******************************************************************************
+ * Copyright (c) May 11, 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.models.export.internal;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+
+import org.eclipse.osgi.service.debug.DebugOptions;
+import org.eclipse.osgi.service.debug.DebugOptionsListener;
+import org.eclipse.osgi.service.debug.DebugTrace;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class ExportActivator extends AbstractUIPlugin {
+public class ExportActivator extends AbstractUIPlugin implements DebugOptionsListener  {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.netxforge.netxstudio.models.export"; //$NON-NLS-1$
-
+	
+	// fields to cache the debug flags
+		public static boolean DEBUG = false;
+		public static DebugTrace TRACE = null;
+	
 	// The shared instance
 	private static ExportActivator plugin;
 	
@@ -27,6 +54,10 @@ public class ExportActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		
+		Dictionary<String, String> props = new Hashtable<String,String>(4);
+		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
+	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
 	}
 
 	/*
@@ -47,67 +78,7 @@ public class ExportActivator extends AbstractUIPlugin {
 		return plugin;
 	}
 	
-	public static void logError(String error) {
-		logError(error, null);
-	}
-
-	public static void logError(String error, Throwable throwable) {
-		if (error == null && throwable != null) {
-			error = throwable.getMessage();
-		}
-		getDefault().getLog().log(
-				new org.eclipse.core.runtime.Status(
-						org.eclipse.core.runtime.IStatus.ERROR,
-						ExportActivator.PLUGIN_ID,
-						org.eclipse.core.runtime.IStatus.OK, error, throwable));
-		debug(error, throwable);
-	}
-
-	public static void logWarning(String error) {
-		logError(error, null);
-	}
-
-	public static void logWarning(String error, Throwable throwable) {
-		if (error == null && throwable != null) {
-			error = throwable.getMessage();
-		}
-		getDefault().getLog().log(
-				new org.eclipse.core.runtime.Status(
-						org.eclipse.core.runtime.IStatus.WARNING,
-						ExportActivator.PLUGIN_ID,
-						org.eclipse.core.runtime.IStatus.OK, error, throwable));
-		debug(error, throwable);
-	}
-
-	public static void logInfo(String message) {
-		logInfo(message, null);
-	}
-
-	public static void logInfo(String message, Throwable throwable) {
-		if (message == null && throwable != null) {
-			message = throwable.getMessage();
-		}
-		getDefault().getLog()
-				.log(
-						new org.eclipse.core.runtime.Status(
-								org.eclipse.core.runtime.IStatus.INFO,
-								ExportActivator.PLUGIN_ID,
-								org.eclipse.core.runtime.IStatus.OK, message,
-								throwable));
-		debug(message, throwable);
-	}
-
-	private static void debug(String message, Throwable throwable) {
-		if (!getDefault().isDebugging()) {
-			return;
-		}
-		if (message != null) {
-			System.err.println(message);
-		}
-		if (throwable != null) {
-			throwable.printStackTrace();
-		}
-	}
+	
 
 	/**
 	 * Returns an image descriptor for the image file at the given plug-in
@@ -120,6 +91,11 @@ public class ExportActivator extends AbstractUIPlugin {
 	public static org.eclipse.jface.resource.ImageDescriptor getImageDescriptor(
 			String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+
+	public void optionsChanged(DebugOptions options) {
+		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);
+		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
 
 }
