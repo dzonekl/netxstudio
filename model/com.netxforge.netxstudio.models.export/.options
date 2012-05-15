@@ -1,0 +1,4 @@
+# Debugging and tracing options
+
+com.netxforge.netxstudio.models.export/debug = true
+com.netxforge.netxstudio.models.export/debug/export = true

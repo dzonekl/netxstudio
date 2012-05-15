@@ -46,6 +46,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.models.export.internal.ExportActivator;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 public class MasterDataExporterRevenge {
@@ -61,10 +62,16 @@ public class MasterDataExporterRevenge {
 	public void process(FileOutputStream fileOut) {
 
 		try {
+			if (ExportActivator.DEBUG) {
+				ExportActivator.TRACE.trace(null, "Starting export");
+			}
 			workBook = new HSSFWorkbook();
 			processPackages(ePackages);
 			workBook.write(fileOut);
 		} catch (final Exception e) {
+			if (ExportActivator.DEBUG) {
+				ExportActivator.TRACE.traceDumpStack(null);
+			}
 			throw new IllegalStateException(e);
 		}
 	}
@@ -78,8 +85,11 @@ public class MasterDataExporterRevenge {
 
 		List<EClassifier> alphabetOrderedClassesFor = exportFilter
 				.alphabetOrderedClassesFor(ePackages);
+		
+		// create a cache. 
 		buildCache(alphabetOrderedClassesFor);
-
+		
+		// process the attributes for each classifier. 
 		for (EClassifier eClassifier : alphabetOrderedClassesFor) {
 			processAttributeClassifier(eClassifier);
 		}
@@ -94,11 +104,18 @@ public class MasterDataExporterRevenge {
 	 */
 	private void buildCache(List<EClassifier> alphabetOrderedClassesFor) {
 
+		
+		if (ExportActivator.DEBUG) {
+			ExportActivator.TRACE.trace(null, "Building cache for classifiers:");
+		}
+
 		for (EClassifier eClassifier : alphabetOrderedClassesFor) {
 
 			if (eClassifier instanceof EClass) {
 				EClass eClass = (EClass) eClassifier;
-
+				if (ExportActivator.DEBUG) {
+					ExportActivator.TRACE.trace(null, "-- EClass: " + eClass.getName());
+				}
 				// Handle - Non-direct resources in the export properly.
 				if (eClassifier == LibraryPackage.Literals.NET_XRESOURCE) {
 					// all resources for
@@ -118,9 +135,7 @@ public class MasterDataExporterRevenge {
 					}
 
 				} else {
-
 					Resource resource = null;
-					;
 
 					// For some classes we should use the super type to get the
 					// resource.
@@ -154,7 +169,7 @@ public class MasterDataExporterRevenge {
 					List<EObject> currentForClass = Lists.newArrayList(cache
 							.get(objectClass));
 					// We could have duplicates, if the resource holds all
-					// objects from a super class. I.e. Job EClass. 
+					// objects from a super class. I.e. Job EClass.
 					if (!currentForClass.contains(closureObject)) {
 						currentForClass.add(closureObject);
 						cache.put(objectClass, currentForClass);
@@ -190,17 +205,33 @@ public class MasterDataExporterRevenge {
 	}
 
 	private void processAttributesClass(EClass eClass) {
+		
+		if (ExportActivator.DEBUG) {
+			ExportActivator.TRACE.trace(null, "Outputing attributes sheet for: " + eClass.getName());
+		}
 		Sheet sheet = _generateAttributeWorksheet(eClass);
+		
+		// output the ID column. 
 		_generateID(sheet);
+		
+		// output all attributes columns.  
 		for (EAttribute eAttribute : filterAttributes(eClass)) {
+			if (ExportActivator.DEBUG) {
+				ExportActivator.TRACE.trace(null, "-- EAttribute: " + eAttribute.getName());
+			}
 			processAttribute(eAttribute, sheet);
 		}
+		
+		// output all single-reference columns.  
 		for (EReference eReference : eClass.getEAllReferences()) {
 			if (!eReference.isMany()) {
+				if (ExportActivator.DEBUG) {
+					ExportActivator.TRACE.trace(null, "-- EReference: " + eReference.getName());
+				}
 				processReference(eReference, sheet);
 			}
 		}
-		// Process the actual values here.
+		// Process the actual values here, get the EOBjects from the cache first. 
 		List<EObject> data = contextObjectsForClass(eClass);
 		processAttributeData(data, sheet);
 
@@ -236,6 +267,11 @@ public class MasterDataExporterRevenge {
 	}
 
 	private void processAttributeData(List<EObject> data, Sheet sheet) {
+		
+		if (ExportActivator.DEBUG) {
+			ExportActivator.TRACE.trace(null, "Exporting data: ");
+		}
+		
 		// We assume the attribute order for each data object.
 		int objectCount = 2;
 		for (EObject dataObject : data) {
@@ -246,6 +282,9 @@ public class MasterDataExporterRevenge {
 			for (EAttribute eAttribute : this.filterAttributes(dataObject
 					.eClass())) {
 				Object value = dataObject.eGet(eAttribute);
+				if (ExportActivator.DEBUG) {
+					ExportActivator.TRACE.trace(null, "-- EObject (value):" + value);
+				}
 				_generateDataCell(value, objectCount, attributeCount, sheet);
 				attributeCount++;
 			}
@@ -361,30 +400,9 @@ public class MasterDataExporterRevenge {
 		this.ePackages = ePackages;
 	}
 
-	// public void setExportObjects(Object... contextObjects) {
-	// this.exportObjects = contextObjects;
-	// }
-
 	private List<EObject> contextObjectsForClass(EClass eClass) {
 
 		List<EObject> allObjectsForClass = fromCache(eClass);
-
-		// TODO previous based on a fixed set of objects.
-		// // We not only get the selected objects, but also their containments.
-		// for (Object o : of) {
-		// EObject eo = (EObject) o;
-		// if (eo.eClass() == eClass) {
-		// result.add(eo);
-		// }
-		// // Also add all closure contents.
-		// TreeIterator<EObject> ti = eo.eAllContents();
-		// List<EObject> closure = ImmutableList.copyOf(ti);
-		// for (EObject closureObject : closure) {
-		// if (closureObject.eClass() == eClass) {
-		// result.add(closureObject);
-		// }
-		// }
-		// }
 		return allObjectsForClass;
 	}
 
@@ -702,6 +720,7 @@ public class MasterDataExporterRevenge {
 		}
 		Cell cell = row.createCell(cellCount);
 		if (dataObject != null && dataObject instanceof CDOObject) {
+			// What if we deal with a detached object? 
 			cell.setCellValue(((CDOObject) dataObject).cdoID().toString());
 		}
 	}
