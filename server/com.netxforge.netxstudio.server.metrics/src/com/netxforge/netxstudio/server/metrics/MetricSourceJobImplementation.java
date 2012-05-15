@@ -54,10 +54,12 @@ public class MetricSourceJobImplementation extends JobImplementation {
 		if(metricSource == null){
 			// We need a populated list. 
 			return; 
-		}else{
-			// make sure we have the latest revision for this object 
-			metricSource.cdoReload();
 		}
+		
+//		else{
+			// make sure we have the latest revision for this object 
+//			metricSource.cdoReload();
+//		}
 		
 		
 		final AbstractMetricValuesImporter metricsImporter;
