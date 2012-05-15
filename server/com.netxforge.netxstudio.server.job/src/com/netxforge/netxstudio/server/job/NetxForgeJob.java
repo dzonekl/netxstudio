@@ -40,7 +40,7 @@ import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.internal.JobActivator;
 
 /**
- * Represents a job, will update job results etc.
+ * Represents a Quartz job, will update job results etc.
  * 
  * @author Martin Taal
  */
@@ -104,6 +104,8 @@ public class NetxForgeJob implements org.quartz.Job {
 	}
 
 	private void createWorkFlowMonitor(JobImplementation jobImplementation) {
+		
+		// use Guice provider pattern 
 		runMonitor = JobActivator.getInstance().getInjector()
 				.getInstance(ServerWorkFlowRunMonitor.class);
 		dataProvider.openSession();

@@ -101,6 +101,8 @@ public class JobHandler {
 	@Inject
 	@Server
 	private IDataProvider dataProvider;
+	
+	// Our quartz scheduler.
 	private Scheduler scheduler;
 
 	private boolean initializing = false;
@@ -128,13 +130,20 @@ public class JobHandler {
 					printJobExecutionContext(context);
 				}
 				// current triggers. 
-				System.out.println("Current triggers in the scheduler = " + triggerKeysMap.size());
+				System.out.println("Triggers:" );
+				List<TriggerKey> keysToRemove = new ArrayList<TriggerKey>();
 				for( TriggerKey tKey : triggerKeysMap.values()){
+					if(!scheduler.checkExists(tKey)){
+						keysToRemove.add(tKey);
+						continue;
+					}
 					Trigger trigger = scheduler.getTrigger(tKey);
 					printTrigger(tKey, trigger);
 					
 				}
-			
+				for( TriggerKey tKey : keysToRemove){
+					triggerKeysMap.remove(tKey);
+				}
 			}
 		} catch (SchedulerException e) {
 			e.printStackTrace();
@@ -145,8 +154,11 @@ public class JobHandler {
 	 * @param trigger
 	 */
 	private void printTrigger(TriggerKey tKey, Trigger trigger) {
+		
+//		System.out.println(tKey.getName() + " has fired already  " + trigger.get);
 		Date nextFireTime = trigger.getNextFireTime();
 		System.out.println(tKey.getName() + " will fire next time " + nextFireTime);
+		
 	}
 
 	private void printJobExecutionContext(JobExecutionContext context) {
@@ -424,7 +436,14 @@ public class JobHandler {
 	private void activate() {
 		JobActivator.getInstance().getInjector().injectMembers(this);
 	}
-
+	
+	
+	/**
+	 * Determine how many times a job has run, based on the entries in the job runs. 
+	 * 
+	 * @param job
+	 * @return
+	 */
 	private int countJobRuns(Job job) {
 		final CDOID cdoId = job.cdoID();
 		final Resource resource = dataProvider
