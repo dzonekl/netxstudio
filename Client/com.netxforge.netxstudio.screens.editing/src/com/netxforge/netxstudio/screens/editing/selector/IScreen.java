@@ -106,6 +106,7 @@ public interface IScreen extends IViewerProvider, ISelectionProvider, IPersistab
 	public abstract void setScreenService(IScreenFormService screenService);
 	
 	
+	
 	/**
 	 * Set the editing service for this screen. 
 	 * @param screenService

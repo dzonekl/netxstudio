@@ -23,13 +23,19 @@ import java.util.Collection;
 import java.util.EventObject;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.revision.CDORevision;
+import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -149,7 +155,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	@Override
 	public void setFocus() {
-		// Set the focus
+		// Set the focus, delegate to the IScreen, not sure this has any value,
+		// as we will remember the focus widget.
 	}
 
 	private ActionHandlerDescriptor actionHandlerDescriptor;
@@ -210,7 +217,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	}
 
 	// ISaveablePart2 API.
-	// UI states are delegated to the the IScreen interface, save the result in our memento.
+	// UI states are delegated to the the IScreen interface, save the result in
+	// our memento.
 	public void saveState(IMemento memento) {
 		memento.putMemento(this.getMemento());
 	}
@@ -360,8 +368,15 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		public void commandStackChanged(final EventObject event) {
 
 			// Note this also fires when flushing the command stack, as
-			// this is executed async,
-			// the widget is disposed.
+			// this is executed async, the widget is disposed so bail if there is no recent command
+			System.err.println("AbstractScreensViewPart last command =" + event.getSource());
+			if( event.getSource() instanceof BasicCommandStack){
+				BasicCommandStack stack = (BasicCommandStack) event.getSource();
+				if ( stack.getMostRecentCommand() == null){
+					return;
+				}
+			}
+			
 			getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
 				public void run() {
 
@@ -427,6 +442,56 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		// selection);
 		for (ISelectionChangedListener listener : selectionChangedListeners) {
 			listener.selectionChanged(new SelectionChangedEvent(this, selection));
+		}
+
+		setStatusLineManager(selection);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void setStatusLineManager(ISelection selection) {
+
+		IStatusLineManager statusLineManager = this.getViewSite()
+				.getActionBars().getStatusLineManager();
+
+		if (statusLineManager != null) {
+			if (selection instanceof IStructuredSelection) {
+				Collection<?> collection = ((IStructuredSelection) selection)
+						.toList();
+				switch (collection.size()) {
+				case 0: {
+					statusLineManager.setMessage("No selection");
+					break;
+				}
+				case 1: {
+					Object next = collection.iterator().next();
+					if (next instanceof CDOObject) {
+						
+						CDORevision cdoRevision = ((CDOObject) next).cdoRevision();
+						int version = cdoRevision.getVersion();
+						
+						CDOID cdoID = ((CDOObject) next).cdoID();
+
+						String text = new AdapterFactoryItemDelegator(
+								getEditingService().getAdapterFactory())
+								.getText(next);
+						statusLineManager.setMessage("Selection: " + text
+								+ " OID:" + cdoID + " version: " + version );
+					}
+					break;
+				}
+				default: {
+					statusLineManager.setMessage("Selection: "
+							+ Integer.toString(collection.size()));
+					break;
+				}
+				}
+			} else {
+				statusLineManager.setMessage("");
+			}
 		}
 	}
 

@@ -51,7 +51,6 @@ import org.eclipse.swt.widgets.Display;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.cdo.ClientCDODataProvider;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -176,11 +175,18 @@ public class CDOEditingService extends EMFEditingService implements
 				this.getEditingDomain().getResourceSet(), clazz);
 
 		if (res instanceof CDOResource) {
-			dawnEditorSupport.setView(((CDOResource) res).cdoView());
+			// we could fail adding listeners, as these might already exist.
+			CDOView cdoView = ((CDOResource) res).cdoView();
+//			if( !cdoView.isInvalidationRunnerActive()){
+//				// check the invalidation state. 
+//				System.out.println("CDOEditingService, CDOView, invalidation not-active, activating for: " + cdoView.getViewID());
+//				cdoView.options().setInvalidationNotificationEnabled(true);
+//			}else{
+//				System.out.println("CDOEditingService, CDOView, invalidation active, for: " + cdoView.getViewID());
+//			}
+			dawnEditorSupport.setView(cdoView);
 			dawnEditorSupport.registerListeners();
 		}
-
-		((ClientCDODataProvider) dataService.getProvider()).printSession();
 
 		return res;
 	}
@@ -284,7 +290,11 @@ public class CDOEditingService extends EMFEditingService implements
 		
 //		boolean result = ((BasicCommandStack) getEditingDomain()
 //				.getCommandStack()).isSaveNeeded();
-
+		
+		// Note views get dirty when invalidated ! state proxy. 
+		
+		
+		
 		if (this.getView() != null) {
 			boolean viewDirty = this.getView().isDirty();
 			if( EditingActivator.DEBUG){

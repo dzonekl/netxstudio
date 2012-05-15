@@ -177,8 +177,14 @@ public class WarningDeleteAction extends DeleteAction {
 			// ..this will also delete the workflow runs...
 			if (o instanceof Job) {
 				Job job = (Job) o;
-				Resource jobRunContainerResource = editingService
-						.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+				
+				// Use a call, which doesn't force listing to changes. 
+				Resource jobRunContainerResource = editingService.getDataService().getProvider().getResource(
+						editingService.getEditingDomain().getResourceSet(), SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+				
+//				Resource jobRunContainerResource = editingService
+//						.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+				
 				// find our jobcontainer .
 				for (final EObject eObject : jobRunContainerResource
 						.getContents()) {

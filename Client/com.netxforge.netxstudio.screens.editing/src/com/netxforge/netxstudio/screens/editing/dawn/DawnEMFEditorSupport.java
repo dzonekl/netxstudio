@@ -10,9 +10,6 @@
  */
 package com.netxforge.netxstudio.screens.editing.dawn;
 
-import java.util.ArrayList;
-
-import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOAdapterPolicy;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
@@ -27,7 +24,6 @@ import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
-import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 
 /**
@@ -52,47 +48,43 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 		}
 	}
 
+	/**
+	 * Registers a DawnEMFHandler as listener for various interfaces.
+	 * 
+	 * 
+	 */
 	public void registerListeners() {
 
 		CDOView view = getView();
 		IListener[] listeners = view.getListeners();
-		boolean doAdd = true;
+
+		// Always remove our listeners, even if we re-use a CDO view.
+		// Proving that registration on the view, would not include additionally loaded objects???
 		if (listeners != null) {
-			ArrayList<IListener> listenerList = Lists.newArrayList(listeners);
-			if (listenerList.contains(dawnEMFHandler) || listenerList.contains(transactionLifecycleHandler)) {
-				// we are a singleton listener per Editor, so only add the
-				// listener if we are not part...
+			view.removeListener(dawnEMFHandler);
+			view.removeListener(transactionLifecycleHandler);
+			
+		}
+
+		addChangeSubscription(view);
+		view.addListener(dawnEMFHandler);
+		view.addListener(transactionLifecycleHandler);
+	}
+
+	private void addChangeSubscription(CDOView view) {
+
+		boolean doAdd = true;
+		for (CDOAdapterPolicy cdoa : view.options()
+				.getChangeSubscriptionPolicies()) {
+			if (cdoa == CDOAdapterPolicy.CDO) {
 				doAdd = false;
 			}
 
 		}
-
 		if (doAdd) {
-			addChangeSubscription(view);
-			view.addListener(dawnEMFHandler);
-			view.addListener(transactionLifecycleHandler);
+			view.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.CDO);
 		}
-	}
 
-	private void addChangeSubscription(CDOView view) {
-		if (view instanceof CDOTransaction) {
-
-			CDOTransaction transaction = (CDOTransaction) view;
-
-			boolean doAdd = true;
-			for (CDOAdapterPolicy cdoa : transaction.options()
-					.getChangeSubscriptionPolicies()) {
-				if (cdoa == CDOAdapterPolicy.CDO) {
-					doAdd = false;
-				}
-
-			}
-			if (doAdd) {
-				transaction.options().addChangeSubscriptionPolicy(
-						CDOAdapterPolicy.CDO);
-			}
-
-		}
 	}
 
 	class TransactionLifecycle extends LifecycleEventAdapter {

@@ -115,11 +115,6 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 				.getMenuManager();
 	}
 
-	@Override
-	public void setFocus() {
-		// Set the focus
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -166,6 +161,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 					screen.restoreState(child);
 				}
 			}
+			setFocus();
 		}
 	}
 
