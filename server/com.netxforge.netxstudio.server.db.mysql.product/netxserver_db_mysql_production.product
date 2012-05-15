@@ -15,7 +15,7 @@
 -Dorg.osgi.service.http.port=8080
 -DmetricSourceRoot=/Users/dzonekl/Documents/Projects/NetXStudio/TestData</vmArgs>
       <vmArgsLin>-server
--Xmx768m
+-Xmx2048m
 -Xss512k
 -Dnet4j.config=config
 -Dcom.sun.management.jmxremote.port=8812
