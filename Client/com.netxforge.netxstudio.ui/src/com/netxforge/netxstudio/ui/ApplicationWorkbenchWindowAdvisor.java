@@ -21,7 +21,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IPerspectiveListener;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
@@ -43,6 +42,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	@Inject
 	private IActivityAndRoleService activityService;
 
+	private Role currentRole;
+
 	public ApplicationWorkbenchWindowAdvisor(
 			IWorkbenchWindowConfigurer configurer) {
 		super(configurer);
@@ -59,15 +60,28 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		// Note: Whenever we have cool toolbar icons to show, turn this on.
 		configurer.setShowCoolBar(false);
 		configurer.setShowStatusLine(true);
-		configurer.setTitle("NetXStudio");
 		configurer.setShowPerspectiveBar(true);
 		configurer.setShowProgressIndicator(true);
-		ConsoleService.INSTANCE.addConsole("NetXStudio");
+
+		initializeApplication(configurer);
+
 	}
 
 	@Override
 	public void postWindowOpen() {
 		super.postWindowOpen();
+		this.hideActionSets(getWindowConfigurer().getWindow().getActivePage());
+	}
+
+	/**
+	 * Initialize application. Console, the current role, activities and action
+	 * sets.
+	 * 
+	 * @param configurer
+	 */
+	private void initializeApplication(IWorkbenchWindowConfigurer configurer) {
+
+		ConsoleService.INSTANCE.addConsole("NetXStudio");
 
 		WorkspaceUtil.INSTANCE.initDefaultProject();
 
@@ -77,14 +91,18 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 		// 15-11-2011 fixtures moved server side.
 
-		Role r = dService.getCurrentRole();
+		currentRole = dService.getCurrentRole();
+		configurer.setTitle("NetXStudio User: "
+				+ dService.getProvider().getSessionUserID().toUpperCase()
+				+ "  with role: " + currentRole.getName().toUpperCase());
 
-		if (r != null) {
-			activityService.enableActivity(r);
+		if (currentRole != null) {
+			activityService.enableActivity(currentRole);
 		} else {
 			// Data corruption issue.
 		}
 
+		// close the transaction.
 		dService.getProvider().commitTransaction();
 
 		// dService.getQueryService().close();
@@ -97,8 +115,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		// We need to close the editor and maintain which pespective is active
 		// to be used with functions.
 
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-				.addPerspectiveListener(new IPerspectiveListener() {
+		configurer.getWindow().addPerspectiveListener(
+				new IPerspectiveListener() {
 
 					public void perspectiveActivated(IWorkbenchPage page,
 							IPerspectiveDescriptor perspective) {
@@ -113,9 +131,6 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 					}
 
 				});
-
-		this.hideActionSets(PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getActivePage());
 
 	}
 
