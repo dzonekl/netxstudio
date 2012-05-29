@@ -17,6 +17,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -243,7 +245,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 
 	/* Clients should override */
 	public String getScreenName() {
-		return "<TODO: Provide screenname>";
+		return "TODO_Provide_screenname";
 	}
 
 	public String getOperationText() {
@@ -420,5 +422,13 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 */
 	public void restoreState(IMemento memento) {
 		// do nothing, clients should override to restore the state of the UI.
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#getScreenObjects()
+	 */
+	public Collection<CDOObject> getScreenObjects() {
+		return Collections.emptyList();
 	}
 }

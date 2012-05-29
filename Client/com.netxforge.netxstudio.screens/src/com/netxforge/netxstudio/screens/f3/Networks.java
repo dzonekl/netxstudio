@@ -175,7 +175,6 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		// Readonlyness.
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmNetworks = toolkit.createForm(this);
@@ -183,7 +182,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		frmNetworks.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNetworks);
 
-		frmNetworks.setText(actionText + "Network");
+		frmNetworks.setText(getOperationText() + "Network");
 		frmNetworks.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		sashForm = new SashForm(frmNetworks.getBody(), SWT.VERTICAL);
@@ -222,43 +221,47 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			}
 		});
 
-		mghprlnkNewImagehyperlink = toolkit.createImageHyperlink(composite,
-				SWT.NONE);
-		mghprlnkNewImagehyperlink
-				.addHyperlinkListener(new IHyperlinkListener() {
-					public void linkActivated(HyperlinkEvent e) {
-						OperatorFilterDialog dialog = new OperatorFilterDialog(
-								Networks.this.getShell(), operatorsResource);
-						int result = dialog.open();
-						if (result == Window.OK) {
-							Operator operator = (Operator) dialog
-									.getFirstResult();
-							Network newNetwork = OperatorsFactory.eINSTANCE
-									.createNetwork();
-							newNetwork.setName("<new network>");
-							Command add = AddCommand.create(
-									editingService.getEditingDomain(),
-									operator, null, newNetwork);
-							editingService.getEditingDomain().getCommandStack()
-									.execute(add);
+		if (!readonly) {
+
+			mghprlnkNewImagehyperlink = toolkit.createImageHyperlink(composite,
+					SWT.NONE);
+			mghprlnkNewImagehyperlink
+					.addHyperlinkListener(new IHyperlinkListener() {
+						public void linkActivated(HyperlinkEvent e) {
+							OperatorFilterDialog dialog = new OperatorFilterDialog(
+									Networks.this.getShell(), operatorsResource);
+							int result = dialog.open();
+							if (result == Window.OK) {
+								Operator operator = (Operator) dialog
+										.getFirstResult();
+								Network newNetwork = OperatorsFactory.eINSTANCE
+										.createNetwork();
+								newNetwork.setName("<new network>");
+								Command add = AddCommand.create(
+										editingService.getEditingDomain(),
+										operator, null, newNetwork);
+								editingService.getEditingDomain()
+										.getCommandStack().execute(add);
+							}
+
 						}
 
-					}
+						public void linkEntered(HyperlinkEvent e) {
+						}
 
-					public void linkEntered(HyperlinkEvent e) {
-					}
+						public void linkExited(HyperlinkEvent e) {
+						}
+					});
+			mghprlnkNewImagehyperlink.setImage(ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/ctool16/Network_E.png"));
+			mghprlnkNewImagehyperlink.setLayoutData(new GridData(SWT.RIGHT,
+					SWT.CENTER, false, false, 1, 1));
+			toolkit.paintBordersFor(mghprlnkNewImagehyperlink);
+			mghprlnkNewImagehyperlink.setText("New");
 
-					public void linkExited(HyperlinkEvent e) {
-					}
-				});
-		mghprlnkNewImagehyperlink.setImage(ResourceManager.getPluginImage(
-				"com.netxforge.netxstudio.models.edit",
-				"icons/full/ctool16/Network_E.png"));
-		mghprlnkNewImagehyperlink.setLayoutData(new GridData(SWT.RIGHT,
-				SWT.CENTER, false, false, 1, 1));
-		toolkit.paintBordersFor(mghprlnkNewImagehyperlink);
-		mghprlnkNewImagehyperlink.setText("New");
-
+		}
+		
 		networkTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.VIRTUAL
 				| SWT.MULTI | widgetStyle);
 		// networkTreeViewer.setUseHashlookup(true);
@@ -793,6 +796,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		if (o instanceof Network) {
 			NewEditNetwork nef = null;
 			nef = new NewEditNetwork(this.cmpDetails, SWT.NONE, editingService);
+			nef.setOperation(getOperation());
 			nef.setScreenService(screenService);
 			nef.injectData(null, o);
 			this.currentDetails = nef;
@@ -803,6 +807,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			NewEditNode node = null;
 			node = new NewEditNode(this.getScreenForm(), this.cmpDetails,
 					SWT.NONE, editingService);
+			node.setOperation(getOperation());
 			node.setScreenService(screenService);
 			node.injectData(null, o);
 			this.currentDetails = node;
@@ -813,6 +818,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			NewEditNodeFunction screen = new NewEditNodeFunction(
 					this.cmpDetails, SWT.NONE, editingService);
 			screen.setScreenService(screenService);
+			screen.setOperation(getOperation());
 			screen.injectData(null, o);
 			this.currentDetails = screen;
 			sashForm.layout(true, true);
@@ -822,6 +828,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			NewEditNodeEquipment screen = null;
 			screen = new NewEditNodeEquipment(this.cmpDetails, SWT.NONE,
 					editingService);
+			screen.setOperation(getOperation());
 			screen.setScreenService(screenService);
 			screen.injectData(null, o);
 			this.currentDetails = screen;
@@ -831,6 +838,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		if (o instanceof NodeType) {
 			NewEditNodeType nnt = new NewEditNodeType(this.cmpDetails,
 					SWT.NONE, editingService);
+			nnt.setOperation(getOperation());
 			nnt.injectData(null, o);
 			this.currentDetails = nnt;
 			sashForm.layout(true, true);
@@ -839,6 +847,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		if (o instanceof FunctionRelationship) {
 			NewEditFunctionLinkII linkScreen = new NewEditFunctionLinkII(
 					this.cmpDetails, SWT.NONE, editingService);
+			linkScreen.setOperation(getOperation());
 			linkScreen.injectData(null, o);
 			this.currentDetails = linkScreen;
 			sashForm.layout(true, true);
@@ -848,6 +857,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		if (o instanceof EquipmentRelationship) {
 			NewEditEquipmentLinkII linkScreen = new NewEditEquipmentLinkII(
 					this.cmpDetails, SWT.NONE, editingService);
+			linkScreen.setOperation(getOperation());
 			linkScreen.injectData(null, o);
 			this.currentDetails = linkScreen;
 			sashForm.layout(true, true);
@@ -903,8 +913,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		mementoUtils.rememberStructuredViewerSelection(memento, networkTreeViewer,
-				MEM_KEY_NETWORKS_SELECTION_TREE);
+		mementoUtils.rememberStructuredViewerSelection(memento,
+				networkTreeViewer, MEM_KEY_NETWORKS_SELECTION_TREE);
 
 	}
 
@@ -918,8 +928,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public void restoreState(IMemento memento) {
 
-		mementoUtils.retrieveStructuredViewerSelection(memento, networkTreeViewer,
-				MEM_KEY_NETWORKS_SELECTION_TREE,
+		mementoUtils.retrieveStructuredViewerSelection(memento,
+				networkTreeViewer, MEM_KEY_NETWORKS_SELECTION_TREE,
 				this.operatorsResource.cdoView());
 
 	}

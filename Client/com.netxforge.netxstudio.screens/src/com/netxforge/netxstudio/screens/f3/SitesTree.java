@@ -68,6 +68,7 @@ import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
+import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f3.support.SiteTreeFactory;
@@ -108,10 +109,11 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 	public EMFDataBindingContext initDataBindings_() {
 
 		listTreeContentProvider = new ObservableListTreeContentProvider(
-				new SiteTreeFactory(editingService.getEditingDomain()), new SiteTreeStructureAdvisor());
+				new SiteTreeFactory(editingService.getEditingDomain()),
+				new SiteTreeStructureAdvisor());
 		sitesTreeViewer.setContentProvider(listTreeContentProvider);
 		IObservableSet set = listTreeContentProvider.getKnownElements();
-		
+
 		List<IObservableMap> mapList = Lists.newArrayList();
 
 		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
@@ -132,10 +134,13 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		IObservableMap[] observeMaps = new IObservableMap[mapList.size()];
 		mapList.toArray(observeMaps);
 
-		sitesTreeViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		sitesTreeViewer.setLabelProvider(new ObservableMapLabelProvider(
+				observeMaps));
 
-		IEMFListProperty countryResourceProperty = EMFEditProperties.resource(editingService.getEditingDomain());
-		IObservableList countryObservableList = countryResourceProperty.observe(countryResource);
+		IEMFListProperty countryResourceProperty = EMFEditProperties
+				.resource(editingService.getEditingDomain());
+		IObservableList countryObservableList = countryResourceProperty
+				.observe(countryResource);
 		sitesTreeViewer.setInput(countryObservableList);
 		EMFDataBindingContext context = new EMFDataBindingContext();
 		return context;
@@ -148,12 +153,16 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	private void buildUI() {
+
+		// Readonlyness.
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
+
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmSites = toolkit.createForm(this);
 		frmSites.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmSites);
-		frmSites.setText("Sites");
+		frmSites.setText(this.getOperationText() + "Sites");
 		frmSites.getBody().setLayout(new GridLayout(3, false));
 
 		Label lblFilterLabel = toolkit.createLabel(frmSites.getBody(),
@@ -185,41 +194,50 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
 
-		ImageHyperlink mghprlnkNewMetric = toolkit.createImageHyperlink(
-				frmSites.getBody(), SWT.NONE);
-		mghprlnkNewMetric.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				if (screenService != null) {
-					ISelection selection = getViewer().getSelection();
-					if (selection instanceof IStructuredSelection) {
-						Object o = ((IStructuredSelection) selection)
-								.getFirstElement();
-						if(o instanceof Country){
-							NewEditSite siteScreen = new NewEditSite(
-									screenService.getScreenContainer(), SWT.NONE);
-							siteScreen.setScreenService(screenService);
-							siteScreen.setOperation(ScreenUtil.OPERATION_NEW);
-							siteScreen.injectData(o, GeoFactory.eINSTANCE.createSite());
-							screenService.setActiveScreen(siteScreen);
+		if (!readonly) {
+			ImageHyperlink mghprlnkNewMetric = toolkit.createImageHyperlink(
+					frmSites.getBody(), SWT.NONE);
+			mghprlnkNewMetric.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					if (screenService != null) {
+						ISelection selection = getViewer().getSelection();
+						if (selection instanceof IStructuredSelection) {
+							Object o = ((IStructuredSelection) selection)
+									.getFirstElement();
+							if (o instanceof Country) {
+								NewEditSite siteScreen = new NewEditSite(
+										screenService.getScreenContainer(),
+										SWT.NONE);
+								siteScreen.setScreenService(screenService);
+								siteScreen
+										.setOperation(ScreenUtil.OPERATION_NEW);
+								siteScreen.injectData(o,
+										GeoFactory.eINSTANCE.createSite());
+								screenService.setActiveScreen(siteScreen);
+							}
 						}
 					}
-				}			
-			}
+				}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+				public void linkEntered(HyperlinkEvent e) {
+				}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNewMetric.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Site_E.png"));
-		toolkit.paintBordersFor(mghprlnkNewMetric);
-		mghprlnkNewMetric.setText("New");
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			mghprlnkNewMetric.setImage(ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/ctool16/Site_E.png"));
+			toolkit.paintBordersFor(mghprlnkNewMetric);
+			mghprlnkNewMetric.setText("New");
 
-		sitesTreeViewer = new TreeViewer(frmSites.getBody(), SWT.BORDER | SWT.VIRTUAL | SWT.MULTI);
+		}
+
+		sitesTreeViewer = new TreeViewer(frmSites.getBody(), SWT.BORDER
+				| SWT.VIRTUAL | SWT.MULTI);
 		sitesTreeViewer.setUseHashlookup(true);
 		sitesTreeViewer.setComparer(new CDOElementComparer());
-		
+
 		Tree tree = sitesTreeViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
@@ -243,20 +261,21 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		TreeColumn trclmnCity = treeViewerColumn_2.getColumn();
 		trclmnCity.setWidth(105);
 		trclmnCity.setText("City");
-		
-		TreeViewerColumn treeViewerColumn_3 = new TreeViewerColumn(sitesTreeViewer, SWT.NONE);
+
+		TreeViewerColumn treeViewerColumn_3 = new TreeViewerColumn(
+				sitesTreeViewer, SWT.NONE);
 		TreeColumn trclmnStreet = treeViewerColumn_3.getColumn();
 		trclmnStreet.setWidth(100);
 		trclmnStreet.setText("Street");
-		
-		TreeViewerColumn treeViewerColumn_4 = new TreeViewerColumn(sitesTreeViewer, SWT.NONE);
+
+		TreeViewerColumn treeViewerColumn_4 = new TreeViewerColumn(
+				sitesTreeViewer, SWT.NONE);
 		TreeColumn trclmnNr = treeViewerColumn_4.getColumn();
 		trclmnNr.setWidth(100);
 		trclmnNr.setText("Nr");
 
 		sitesTreeViewer.addFilter(searchFilter);
 	}
-	
 
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
@@ -264,33 +283,38 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 	 * @author dzonekl
 	 * 
 	 */
-	class EditSiteAction extends Action {
+	class EditSiteAction extends BaseSelectionListenerAction {
 
 		public EditSiteAction(String text) {
 			super(text);
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see com.netxforge.netxstudio.screens.editing.actions.
+		 * BaseSelectionListenerAction
+		 * #updateSelection(org.eclipse.jface.viewers.IStructuredSelection)
+		 */
+		@Override
+		protected boolean updateSelection(IStructuredSelection selection) {
+			return selection.getFirstElement() instanceof Site;
+		}
+
 		@Override
 		public void run() {
-			super.run();
-			if (screenService != null) {
-				ISelection selection = getViewer().getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-					if( o instanceof Site){
-						NewEditSite siteScreen = new NewEditSite(
-								screenService.getScreenContainer(), SWT.NONE);
-						siteScreen.setScreenService(screenService);
-						siteScreen.setOperation(getOperation());
-						siteScreen.injectData(((Site)o).eContainer(), o);
-						screenService.setActiveScreen(siteScreen);
-					}
-				}
+			Object o = this.getStructuredSelection().getFirstElement();
+			if (o instanceof Site) {
+				NewEditSite siteScreen = new NewEditSite(
+						screenService.getScreenContainer(), SWT.NONE);
+				siteScreen.setScreenService(screenService);
+				siteScreen.setOperation(getOperation());
+				siteScreen.injectData(((Site) o).eContainer(), o);
+				screenService.setActiveScreen(siteScreen);
 			}
 		}
 	}
-	
+
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
 	 * 
@@ -301,7 +325,10 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 
 		public NewSiteAction(String text) {
 			super(text);
-			ImageDescriptor descriptor = ResourceManager.getPluginImageDescriptor("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Site_E.png");
+			ImageDescriptor descriptor = ResourceManager
+					.getPluginImageDescriptor(
+							"com.netxforge.netxstudio.models.edit",
+							"icons/full/ctool16/Site_E.png");
 			setImageDescriptor(descriptor);
 
 		}
@@ -314,19 +341,20 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-					if(o instanceof Country){
+					if (o instanceof Country) {
 						NewEditSite siteScreen = new NewEditSite(
 								screenService.getScreenContainer(), SWT.NONE);
 						siteScreen.setScreenService(screenService);
 						siteScreen.setOperation(ScreenUtil.OPERATION_NEW);
-						siteScreen.injectData(o, GeoFactory.eINSTANCE.createSite());
+						siteScreen.injectData(o,
+								GeoFactory.eINSTANCE.createSite());
 						screenService.setActiveScreen(siteScreen);
 					}
 				}
 			}
 		}
 	}
-	
+
 	public Viewer getViewer() {
 		return sitesTreeViewer;
 	}
@@ -342,21 +370,21 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 
 	@Override
 	public IAction[] getActions() {
-		
+
 		List<IAction> actions = Lists.newArrayList();
-		
-		boolean readonly =  ScreenUtil.isReadOnlyOperation(getOperation());
-		String actionText = readonly? "View" : "Edit";
+
+		boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
+		String actionText = readonly ? "View" : "Edit";
 		actions.add(new EditSiteAction(actionText + "..."));
-		
-//		if(!readonly){
-//			actions.add(new NewSiteAction("New...", SWT.PUSH));
-//		}
-		
+
+		// if(!readonly){
+		// actions.add(new NewSiteAction("New...", SWT.PUSH));
+		// }
+
 		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray); 
+		return actions.toArray(actionArray);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Sites";

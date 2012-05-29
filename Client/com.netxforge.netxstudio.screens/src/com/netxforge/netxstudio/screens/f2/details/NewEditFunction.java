@@ -23,19 +23,17 @@ import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
-public class NewEditFunction extends NewEditComponent implements
-		IScreen  {
+public class NewEditFunction extends NewEditComponent implements IScreen {
 
 	private Text txtName;
 	private Text txtDescription;
 	private ComboViewer cmbViewerExpansionDuration;
-	
+
 	public NewEditFunction(Composite parent, int style,
 			final IEditingService editingService) {
 		super(parent, style, editingService);
-//		buildUI();
+		// buildUI();
 	}
 
 	public boolean isValid() {
@@ -43,22 +41,18 @@ public class NewEditFunction extends NewEditComponent implements
 	}
 
 	public void buildUI() {
+		super.buildUI();
+		buildInfoSection();
+		buildResourceSection();
 
-		// Readonlyness.
-		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
-
-		buildInfoSection(widgetStyle);
-		buildResourceSection( readonly);
-		
-		buildMetricSection(readonly);
-		buildToleranceSection( readonly);
+		buildMetricSection();
+		buildToleranceSection();
 	}
 
-	private void buildInfoSection(int widgetStyle) {
+	private void buildInfoSection() {
 		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
 				| Section.TITLE_BAR);
-		
+
 		toolkit.paintBordersFor(scnInfo);
 		scnInfo.setText("Info");
 
@@ -95,27 +89,36 @@ public class NewEditFunction extends NewEditComponent implements
 		gd_text.heightHint = 62;
 		gd_text.widthHint = 200;
 		txtDescription.setLayoutData(gd_text);
-		
+
 		Label lblExpansion = toolkit.createLabel(composite, "Expansion:",
 				SWT.NONE);
 		lblExpansion.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
-		
-		cmbViewerExpansionDuration = new ComboViewer(composite, SWT.NONE);
+
+		cmbViewerExpansionDuration = new ComboViewer(composite, widgetStyle);
 		Combo cmbExpansionDuration = cmbViewerExpansionDuration.getCombo();
 		cmbExpansionDuration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				false, false, 1, 1));
 		toolkit.paintBordersFor(cmbExpansionDuration);
+		if(readOnly){
+			cmbExpansionDuration.setEnabled(false);
+		}
+		
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = super.initDataBindings_();
-		
+
 		super.bindResourcesSection(context);
 		super.bindToleranceSection();
 		super.bindMetricSection();
-		this.bindDurationSection(context);
-		
+		bindInfoSection(context);
+
+		return context;
+	}
+
+	protected void bindInfoSection(EMFDataBindingContext context) {
+
 		// Binding of name and Description
 		IObservableValue nameObservable = SWTObservables.observeDelayedValue(
 				400, SWTObservables.observeText(txtName, SWT.Modify));
@@ -123,7 +126,6 @@ public class NewEditFunction extends NewEditComponent implements
 		IObservableValue descriptionObservable = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(txtDescription, SWT.Modify));
-
 
 		IEMFValueProperty componentNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -133,33 +135,27 @@ public class NewEditFunction extends NewEditComponent implements
 				.value(editingService.getEditingDomain(),
 						LibraryPackage.Literals.COMPONENT__DESCRIPTION);
 
-
 		context.bindValue(nameObservable, componentNameProperty.observe(comp),
 				null, null);
 
 		context.bindValue(descriptionObservable,
 				componentDescriptionProperty.observe(comp), null, null);
 
-		return context;
-	}
-	
-	
-	
-	
-	
-	protected void bindDurationSection(EMFDataBindingContext context) {
+		IObservableValue expansionDurationObservable;
 		// Expansion duration binding.
 		cmbViewerExpansionDuration
 				.setContentProvider(new ArrayContentProvider());
 		cmbViewerExpansionDuration.setLabelProvider(new LabelProvider());
 		cmbViewerExpansionDuration.setInput(ExpansionDuration.VALUES);
 
+		IValueProperty selectionProperty = ViewerProperties.singleSelection();
+		expansionDurationObservable = selectionProperty
+				.observe(cmbViewerExpansionDuration);
+
 		IEMFValueProperty durationProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.COMPONENT__DURATION);
-		IValueProperty selectionProperty = ViewerProperties.singleSelection();
-		IObservableValue expansionDurationObservable = selectionProperty
-				.observe(cmbViewerExpansionDuration);
+
 		context.bindValue(expansionDurationObservable,
 				durationProperty.observe(comp), null, null);
 	}

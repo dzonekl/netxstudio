@@ -125,14 +125,13 @@ public class NewEditWarehouse extends AbstractScreen implements
 
 		// Readonlyness.
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmNewWarehouse = toolkit.createForm(this);
 		frmNewWarehouse.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewWarehouse);
 
-		frmNewWarehouse.setText(actionText + "Warehouse");
+		frmNewWarehouse.setText(getOperationText() + "Warehouse");
 		frmNewWarehouse.getBody().setLayout(new FormLayout());
 
 		Section sctnMappings = toolkit.createSection(frmNewWarehouse.getBody(),
@@ -169,7 +168,7 @@ public class NewEditWarehouse extends AbstractScreen implements
 		lblDescription.setAlignment(SWT.RIGHT);
 		lblDescription.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1));
 		
-		txtDescription = toolkit.createText(composite_1, "New Text", SWT.MULTI);
+		txtDescription = toolkit.createText(composite_1, "New Text", SWT.MULTI | widgetStyle);
 		GridData gd_txtDescription = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_txtDescription.heightHint = 98;
 		txtDescription.setLayoutData(gd_txtDescription);

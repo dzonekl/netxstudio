@@ -18,11 +18,13 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f3;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -305,7 +307,7 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 		if (actionList.isEmpty()) {
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
-			new EditCountryAction(actionText + "...");
+			actionList.add(new EditCountryAction(actionText + "..."));
 		}
 
 		return actionList.toArray(new IAction[actionList.size()]);
@@ -314,6 +316,17 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public String getScreenName() {
 		return "Countries";
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#getScreenObjects()
+	 */
+	@Override
+	public Collection<CDOObject> getScreenObjects() {
+		if( countryResource instanceof CDOObject){
+			return Lists.newArrayList((CDOObject)countryResource);
+		}
+		return super.getScreenObjects();
 	}
 
 }

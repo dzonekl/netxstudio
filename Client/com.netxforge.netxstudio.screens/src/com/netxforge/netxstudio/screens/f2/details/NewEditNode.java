@@ -87,6 +87,8 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 
 	private ImageHyperlink nodeTypeHyperlink;
 	private Form parentForm;
+	private boolean readonly;
+	private int widgetStyle;
 
 	public NewEditNode(Form form, Composite cmpDetails, int style,
 			final IEditingService editingService) {
@@ -132,14 +134,14 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 	private void buildUI() {
 
 		// Readonlyness.
-		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
-		buildInfoSection(widgetStyle);
-		buildGeoSection(widgetStyle);
-		buildLifeCycleSection(widgetStyle);
+		readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
+		widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+		buildInfoSection();
+		buildGeoSection();
+		buildLifeCycleSection();
 	}
 
-	private void buildLifeCycleSection(int widgetStyle) {
+	private void buildLifeCycleSection() {
 		Section sctnLifecycle = toolkit.createSection(this, Section.TITLE_BAR
 				| Section.TWISTIE);
 		toolkit.paintBordersFor(sctnLifecycle);
@@ -225,9 +227,17 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 		dcOutOfService.setWeeksVisible(true);
 		toolkit.adapt(dcOutOfService);
 		toolkit.paintBordersFor(dcOutOfService);
+
+		if (readonly) {
+			dcProposed.setEditable(false);
+			dcPlanned.setEditable(false);
+			dcConstruction.setEditable(false);
+			dcInService.setEditable(false);
+			dcOutOfService.setEditable(false);
+		}
 	}
 
-	private void buildGeoSection(int widgetStyle) {
+	private void buildGeoSection() {
 		Section sctnGeo = toolkit.createSection(this, Section.TITLE_BAR
 				| Section.TWISTIE);
 
@@ -255,58 +265,61 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 		// gd_txtRoom.widthHint = 150;
 		txtRoom.setLayoutData(gd_txtRoom);
 
-		roomRefHyperlink = toolkit
-				.createImageHyperlink(cmpTolerances, SWT.NONE);
-		GridData gd_imageHyperlink = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_imageHyperlink.widthHint = 18;
-		roomRefHyperlink.setLayoutData(gd_imageHyperlink);
-		roomRefHyperlink.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				Command set = new SetCommand(editingService.getEditingDomain(),
-						node, OperatorsPackage.Literals.NODE__LOCATION_REF,
-						null);
-				editingService.getEditingDomain().getCommandStack()
-						.execute(set);
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-
-		roomRefHyperlink.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-		toolkit.paintBordersFor(roomRefHyperlink);
-		roomRefHyperlink.setText("");
-
-		Button btnSelectRoom = toolkit.createButton(cmpTolerances, "Select...",
-				SWT.NONE);
-		new Label(cmpTolerances, SWT.NONE);
-		btnSelectRoom.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				Resource nodeTypeResource = editingService
-						.getData(GeoPackage.Literals.COUNTRY);
-				LocationFilterDialog dialog = new LocationFilterDialog(
-						NewEditNode.this.getShell(), nodeTypeResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					Location room = (Location) dialog.getFirstResult();
-
-					Command sc = new SetCommand(editingService
+		if (!readonly) {
+			roomRefHyperlink = toolkit.createImageHyperlink(cmpTolerances,
+					SWT.NONE);
+			GridData gd_imageHyperlink = new GridData(SWT.LEFT, SWT.CENTER,
+					false, false, 1, 1);
+			gd_imageHyperlink.widthHint = 18;
+			roomRefHyperlink.setLayoutData(gd_imageHyperlink);
+			roomRefHyperlink.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					Command set = new SetCommand(editingService
 							.getEditingDomain(), node,
-							OperatorsPackage.Literals.NODE__LOCATION_REF, room);
+							OperatorsPackage.Literals.NODE__LOCATION_REF, null);
 					editingService.getEditingDomain().getCommandStack()
-							.execute(sc);
+							.execute(set);
 				}
-			}
-		});
+
+				public void linkEntered(HyperlinkEvent e) {
+				}
+
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+
+			roomRefHyperlink.setImage(ResourceManager.getPluginImage(
+					"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+			toolkit.paintBordersFor(roomRefHyperlink);
+			roomRefHyperlink.setText("");
+
+			Button btnSelectRoom = toolkit.createButton(cmpTolerances,
+					"Select...", SWT.NONE);
+			new Label(cmpTolerances, SWT.NONE);
+			btnSelectRoom.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+
+					Resource nodeTypeResource = editingService
+							.getData(GeoPackage.Literals.COUNTRY);
+					LocationFilterDialog dialog = new LocationFilterDialog(
+							NewEditNode.this.getShell(), nodeTypeResource);
+					if (dialog.open() == IDialogConstants.OK_ID) {
+						Location room = (Location) dialog.getFirstResult();
+
+						Command sc = new SetCommand(editingService
+								.getEditingDomain(), node,
+								OperatorsPackage.Literals.NODE__LOCATION_REF,
+								room);
+						editingService.getEditingDomain().getCommandStack()
+								.execute(sc);
+					}
+				}
+			});
+		}
 	}
 
-	private void buildInfoSection(int widgetStyle) {
+	private void buildInfoSection() {
 		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
 				| Section.TITLE_BAR);
 		toolkit.paintBordersFor(scnInfo);
@@ -344,240 +357,255 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 		txtNodeType.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1));
 
-		nodeTypeHyperlink = toolkit.createImageHyperlink(composite, SWT.NONE);
-		nodeTypeHyperlink.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
+		if (!readonly) {
+			nodeTypeHyperlink = toolkit.createImageHyperlink(composite,
+					SWT.NONE);
+			nodeTypeHyperlink.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
 
-				CompoundCommand cp = new CompoundCommand();
-				NodeType nt = node.getNodeType();
-				if (nt != null) {
-					Command dc = WarningDeleteCommand.create(
-							editingService.getEditingDomain(), nt);
-					cp.append(dc);
+					CompoundCommand cp = new CompoundCommand();
+					NodeType nt = node.getNodeType();
+					if (nt != null) {
+						Command dc = WarningDeleteCommand.create(
+								editingService.getEditingDomain(), nt);
+						cp.append(dc);
+					}
+					if (node.eIsSet(OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF)) {
+						SetCommand sc = new SetCommand(
+								editingService.getEditingDomain(),
+								node,
+								OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
+								null);
+						cp.append(sc);
+					}
+
+					// We can't really do this, as our object will be dangling.
+					// Command c = new
+					// SetCommand(editingService.getEditingDomain(),
+					// node, OperatorsPackage.Literals.NODE__NODE_TYPE, null);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(cp);
 				}
-				if (node.eIsSet(OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF)) {
-					SetCommand sc = new SetCommand(
+
+				public void linkEntered(HyperlinkEvent e) {
+				}
+
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			GridData gd_imageHyperlink_1 = new GridData(SWT.LEFT, SWT.CENTER,
+					false, false, 1, 1);
+			gd_imageHyperlink_1.widthHint = 18;
+			nodeTypeHyperlink.setLayoutData(gd_imageHyperlink_1);
+			nodeTypeHyperlink.setImage(ResourceManager.getPluginImage(
+					"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+			toolkit.paintBordersFor(nodeTypeHyperlink);
+			nodeTypeHyperlink.setText("");
+
+			Button btnSelectNodeType = toolkit.createButton(composite,
+					"Select...", SWT.NONE);
+			btnSelectNodeType.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					Resource nodeTypeResource = editingService
+							.getData(LibraryPackage.Literals.NODE_TYPE);
+					NodeTypeFilterDialog dialog = new NodeTypeFilterDialog(
+							NewEditNode.this.getShell(), nodeTypeResource);
+					if (dialog.open() == IDialogConstants.OK_ID) {
+						NodeType nt = (NodeType) dialog.getFirstResult();
+						// Ask the user if the node should be replaced,
+						// or simply set as the original node type.
+						boolean copyStructure = MessageDialog.openQuestion(
+								NewEditNode.this.getShell(),
+								"For Network Element: " + node.getNodeID(),
+								" Replace the structure with Network Element Type: "
+										+ nt.getName()
+										+ " ?, If not, the orignal Network Element Type will be set to be add parts from type: "
+										+ nt.getName() + " to: "
+										+ node.getNodeID());
+						if (copyStructure) {
+							handleNodeTypeCopy(nt);
+						} else {
+							handleSetOriginalNodeType(nt);
+						}
+					}
+				}
+
+				private void handleSetOriginalNodeType(NodeType nt) {
+
+					Command setOriginalNodeTypeRef = new SetCommand(
 							editingService.getEditingDomain(),
 							node,
 							OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
-							null);
-					cp.append(sc);
+							nt);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(setOriginalNodeTypeRef);
 				}
 
-				// We can't really do this, as our object will be dangling.
-				// Command c = new SetCommand(editingService.getEditingDomain(),
-				// node, OperatorsPackage.Literals.NODE__NODE_TYPE, null);
-				editingService.getEditingDomain().getCommandStack().execute(cp);
-			}
+				private void handleNodeTypeCopy(NodeType nt) {
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+					@SuppressWarnings("serial")
+					EcoreUtil.Copier nodeTypeCopier = new EcoreUtil.Copier() {
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		GridData gd_imageHyperlink_1 = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
-		gd_imageHyperlink_1.widthHint = 18;
-		nodeTypeHyperlink.setLayoutData(gd_imageHyperlink_1);
-		nodeTypeHyperlink.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-		toolkit.paintBordersFor(nodeTypeHyperlink);
-		nodeTypeHyperlink.setText("");
+						@Override
+						protected EObject createCopy(EObject eObject) {
+							EObject createCopy = super.createCopy(eObject);
+							if (createCopy instanceof Component) {
 
-		Button btnSelectNodeType = toolkit.createButton(composite, "Select...",
-				SWT.NONE);
-		btnSelectNodeType.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Resource nodeTypeResource = editingService
-						.getData(LibraryPackage.Literals.NODE_TYPE);
-				NodeTypeFilterDialog dialog = new NodeTypeFilterDialog(
-						NewEditNode.this.getShell(), nodeTypeResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					NodeType nt = (NodeType) dialog.getFirstResult();
-					// Ask the user if the node should be replaced,
-					// or simply set as the original node type.
-					boolean copyStructure = MessageDialog.openQuestion(
-							NewEditNode.this.getShell(),
-							"For Network Element: " + node.getNodeID(),
-							" Replace the structure with Network Element Type: "
-									+ nt.getName()
-									+ " ?, If not, the orignal Network Element Type will be set to be add parts from type: "
-									+ nt.getName() + " to: " + node.getNodeID());
-					if (copyStructure) {
-						handleNodeTypeCopy(nt);
-					} else {
-						handleSetOriginalNodeType(nt);
-					}
-				}
-			}
+								Lifecycle newLC = GenericsFactory.eINSTANCE
+										.createLifecycle();
+								newLC.setProposed(modelUtils
+										.toXMLDate(modelUtils.todayAndNow()));
+								((Component) createCopy).setLifecycle(newLC);
 
-			private void handleSetOriginalNodeType(NodeType nt) {
-
-				Command setOriginalNodeTypeRef = new SetCommand(editingService
-						.getEditingDomain(), node,
-						OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
-						nt);
-				editingService.getEditingDomain().getCommandStack()
-						.execute(setOriginalNodeTypeRef);
-			}
-
-			private void handleNodeTypeCopy(NodeType nt) {
-
-				@SuppressWarnings("serial")
-				EcoreUtil.Copier nodeTypeCopier = new EcoreUtil.Copier() {
-					
-					
-					
-					@Override
-					protected EObject createCopy(EObject eObject) {
-						EObject createCopy = super.createCopy(eObject);
-						if(createCopy instanceof Component){
-								
-							Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
-							newLC.setProposed(modelUtils.toXMLDate(modelUtils
-									.todayAndNow()));
-							((Component) createCopy).setLifecycle(newLC);
-							
+							}
+							return createCopy;
 						}
-						return createCopy;
-					}
 
-					/**
-					 * Our version of copy reference has a special treatment for
-					 * NetXResource object.
-					 */
-					@Override
-					protected void copyReference(EReference eReference,
-							EObject eObject, EObject copyEObject) {
+						/**
+						 * Our version of copy reference has a special treatment
+						 * for NetXResource object.
+						 */
+						@Override
+						protected void copyReference(EReference eReference,
+								EObject eObject, EObject copyEObject) {
 
-						if (eReference == LibraryPackage.Literals.COMPONENT__RESOURCE_REFS) {
-							copyResourceReference(eReference, eObject,
-									copyEObject);
-						} else {
-							super.copyReference(eReference, eObject,
-									copyEObject);
-						}
-					}
-
-					protected void copyResourceReference(EReference eReference,
-							EObject eObject, EObject copyEObject) {
-						if (eObject.eIsSet(eReference) && eReference.isMany()) {
-							@SuppressWarnings("unchecked")
-							InternalEList<EObject> source = (InternalEList<EObject>) eObject
-									.eGet(eReference);
-							@SuppressWarnings("unchecked")
-							InternalEList<EObject> target = (InternalEList<EObject>) copyEObject
-									.eGet(getTarget(eReference));
-							if (source.isEmpty()) {
-								target.clear();
+							if (eReference == LibraryPackage.Literals.COMPONENT__RESOURCE_REFS) {
+								copyResourceReference(eReference, eObject,
+										copyEObject);
 							} else {
-								boolean isBidirectional = eReference
-										.getEOpposite() != null;
-								int index = 0;
-								for (Iterator<EObject> k = resolveProxies ? source
-										.iterator() : source.basicIterator(); k
-										.hasNext();) {
-									EObject referencedEObject = k.next();
-									EObject copyReferencedEObject = get(referencedEObject);
-									if (copyReferencedEObject == null) {
-										if (useOriginalReferences) {
-											// NetXResource is a bidi link, so
-											// make an actual copy (A copier
-											// within a copier... auch).
-											if (isBidirectional) {
-												EcoreUtil.Copier defaultCopier = new EcoreUtil.Copier();
-												EObject newEObject = defaultCopier
-														.copy(referencedEObject);
+								super.copyReference(eReference, eObject,
+										copyEObject);
+							}
+						}
 
-												if (copyEObject instanceof Component) {
-													
-//													if (copyEObject instanceof Equipment) {
-//														((Component) copyEObject)
-//																.setName("<name>");
-//													}
+						protected void copyResourceReference(
+								EReference eReference, EObject eObject,
+								EObject copyEObject) {
+							if (eObject.eIsSet(eReference)
+									&& eReference.isMany()) {
+								@SuppressWarnings("unchecked")
+								InternalEList<EObject> source = (InternalEList<EObject>) eObject
+										.eGet(eReference);
+								@SuppressWarnings("unchecked")
+								InternalEList<EObject> target = (InternalEList<EObject>) copyEObject
+										.eGet(getTarget(eReference));
+								if (source.isEmpty()) {
+									target.clear();
+								} else {
+									boolean isBidirectional = eReference
+											.getEOpposite() != null;
+									int index = 0;
+									for (Iterator<EObject> k = resolveProxies ? source
+											.iterator() : source
+											.basicIterator(); k.hasNext();) {
+										EObject referencedEObject = k.next();
+										EObject copyReferencedEObject = get(referencedEObject);
+										if (copyReferencedEObject == null) {
+											if (useOriginalReferences) {
+												// NetXResource is a bidi link,
+												// so
+												// make an actual copy (A copier
+												// within a copier... auch).
+												if (isBidirectional) {
+													EcoreUtil.Copier defaultCopier = new EcoreUtil.Copier();
+													EObject newEObject = defaultCopier
+															.copy(referencedEObject);
 
-													String cdoResourcePath = modelUtils
-															.cdoCalculateResourcePathII(node);
-													if (cdoResourcePath == null) {
-														System.out
-																.println("Error, CDO resource can't be determoned, should not occur!");
+													if (copyEObject instanceof Component) {
 
-														return; // Can't
-																// calculate
-																// path for
-																// empty names.
-													} else {
-														System.out
-																.println("Creating CDO Resource "
-																		+ cdoResourcePath);
+														// if (copyEObject
+														// instanceof Equipment)
+														// {
+														// ((Component)
+														// copyEObject)
+														// .setName("<name>");
+														// }
+
+														String cdoResourcePath = modelUtils
+																.cdoCalculateResourcePathII(node);
+														if (cdoResourcePath == null) {
+															System.out
+																	.println("Error, CDO resource can't be determoned, should not occur!");
+
+															return; // Can't
+																	// calculate
+																	// path for
+																	// empty
+																	// names.
+														} else {
+															System.out
+																	.println("Creating CDO Resource "
+																			+ cdoResourcePath);
+														}
+														Resource resourcesResource = editingService
+																.getDataService()
+																.getProvider()
+																.getResource(
+																		editingService
+																				.getEditingDomain()
+																				.getResourceSet(),
+																		cdoResourcePath);
+														resourcesResource
+																.getContents()
+																.add(newEObject);
 													}
-													Resource resourcesResource = editingService
-															.getDataService()
-															.getProvider()
-															.getResource(
-																	editingService
-																			.getEditingDomain()
-																			.getResourceSet(),
-																	cdoResourcePath);
-													resourcesResource
-															.getContents().add(
-																	newEObject);
+
+													target.addUnique(index,
+															newEObject);
+													index++;
+												} else {
+													target.addUnique(index,
+															referencedEObject);
+													++index;
 												}
-
-												target.addUnique(index,
-														newEObject);
-												index++;
-											} else {
-												target.addUnique(index,
-														referencedEObject);
-												++index;
-											}
-										}
-									} else {
-
-										// This would actually do what?
-										if (isBidirectional) {
-											int position = target
-													.indexOf(copyReferencedEObject);
-											if (position == -1) {
-												target.addUnique(index,
-														copyReferencedEObject);
-											} else if (index != position) {
-												target.move(index,
-														copyReferencedEObject);
 											}
 										} else {
-											target.addUnique(index,
-													copyReferencedEObject);
+
+											// This would actually do what?
+											if (isBidirectional) {
+												int position = target
+														.indexOf(copyReferencedEObject);
+												if (position == -1) {
+													target.addUnique(index,
+															copyReferencedEObject);
+												} else if (index != position) {
+													target.move(index,
+															copyReferencedEObject);
+												}
+											} else {
+												target.addUnique(index,
+														copyReferencedEObject);
+											}
+											++index;
 										}
-										++index;
 									}
 								}
 							}
 						}
-					}
-				};
+					};
 
-				NodeType copyOf = (NodeType) nodeTypeCopier.copy(nt);
-				nodeTypeCopier.copyReferences();
+					NodeType copyOf = (NodeType) nodeTypeCopier.copy(nt);
+					nodeTypeCopier.copyReferences();
 
-				CompoundCommand cc = new CompoundCommand();
-				Command setOriginalNodeTypeRef = new SetCommand(editingService
-						.getEditingDomain(), node,
-						OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
-						nt);
-				Command setNodeTypeCommand = new SetCommand(editingService
-						.getEditingDomain(), node,
-						OperatorsPackage.Literals.NODE__NODE_TYPE, copyOf);
+					CompoundCommand cc = new CompoundCommand();
+					Command setOriginalNodeTypeRef = new SetCommand(
+							editingService.getEditingDomain(),
+							node,
+							OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
+							nt);
+					Command setNodeTypeCommand = new SetCommand(editingService
+							.getEditingDomain(), node,
+							OperatorsPackage.Literals.NODE__NODE_TYPE, copyOf);
 
-				cc.append(setOriginalNodeTypeRef);
-				cc.append(setNodeTypeCommand);
-				editingService.getEditingDomain().getCommandStack().execute(cc);
-			}
+					cc.append(setOriginalNodeTypeRef);
+					cc.append(setNodeTypeCommand);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(cc);
+				}
 
-		});
+			});
+		}
 	}
 
 	public EMFDataBindingContext initDataBindings_() {

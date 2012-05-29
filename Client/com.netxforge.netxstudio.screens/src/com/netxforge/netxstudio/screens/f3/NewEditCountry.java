@@ -108,14 +108,13 @@ public class NewEditCountry extends AbstractScreen implements
 
 		// Readonlyness.
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmNewOperator = toolkit.createForm(this);
 		frmNewOperator.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewOperator);
 
-		frmNewOperator.setText(actionText + "Country");
+		frmNewOperator.setText(getOperationText() + "Country");
 		frmNewOperator.getBody().setLayout(new FormLayout());
 
 		Section sctnMappings = toolkit.createSection(frmNewOperator.getBody(),

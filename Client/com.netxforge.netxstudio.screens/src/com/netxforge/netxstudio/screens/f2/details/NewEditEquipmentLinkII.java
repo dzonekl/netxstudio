@@ -65,6 +65,8 @@ public class NewEditEquipmentLinkII extends AbstractDetailsScreen implements
 
 	private Text txtEquipment1;
 	private Text txtEquipment2;
+	private boolean readonly;
+	private int widgetStyle;
 
 	public NewEditEquipmentLinkII(Composite parent, int style,
 			final IEditingService editingService) {
@@ -72,7 +74,7 @@ public class NewEditEquipmentLinkII extends AbstractDetailsScreen implements
 		this.editingService = editingService;
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 	}
 
 	public void injectData(Object owner, Object object) {
@@ -92,16 +94,16 @@ public class NewEditEquipmentLinkII extends AbstractDetailsScreen implements
 	protected void buildUI() {
 
 		// Readonlyness.
-		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+		readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
+		widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
-		buildInfoSection(widgetStyle);
-		buildProtocol(widgetStyle);
-		buildNodeLinkSection(widgetStyle);
-//		buildEquipmentLinkSection();
+		buildInfoSection();
+		buildProtocol();
+		buildNodeLinkSection();
+		// buildEquipmentLinkSection();
 	}
 
-	public void buildNodeLinkSection(int widgetStyle) {
+	public void buildNodeLinkSection() {
 		// Section Node links.
 
 		final Section sctnNode = toolkit.createSection(this, Section.TITLE_BAR
@@ -140,81 +142,84 @@ public class NewEditEquipmentLinkII extends AbstractDetailsScreen implements
 		gd_txtNode1.widthHint = 150;
 		txtNode1.setLayoutData(gd_txtNode1);
 
-		hypLnkClearNode1 = toolkit.createImageHyperlink(cmpLinks, SWT.NONE);
-		GridData gd_hypLnkClearNode1 = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
-		gd_hypLnkClearNode1.widthHint = 18;
-		hypLnkClearNode1.setLayoutData(gd_hypLnkClearNode1);
-		hypLnkClearNode1.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
+		if (!readonly) {
+			hypLnkClearNode1 = toolkit.createImageHyperlink(cmpLinks, SWT.NONE);
+			GridData gd_hypLnkClearNode1 = new GridData(SWT.LEFT, SWT.CENTER,
+					false, false, 1, 1);
+			gd_hypLnkClearNode1.widthHint = 18;
+			hypLnkClearNode1.setLayoutData(gd_hypLnkClearNode1);
+			hypLnkClearNode1.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
 
-				CompoundCommand cc = new CompoundCommand();
-				// Potentially also remove the child ref.
-				Command set = new SetCommand(editingService.getEditingDomain(),
-						relationship,
-						OperatorsPackage.Literals.RELATIONSHIP__NODE_ID1_REF,
-						null);
-				cc.append(set);
+					CompoundCommand cc = new CompoundCommand();
+					// Potentially also remove the child ref.
+					Command set = new SetCommand(
+							editingService.getEditingDomain(),
+							relationship,
+							OperatorsPackage.Literals.RELATIONSHIP__NODE_ID1_REF,
+							null);
+					cc.append(set);
 
-				if (relationship instanceof EquipmentRelationship) {
-					EquipmentRelationship eqRelationship = (EquipmentRelationship) relationship;
-					if (eqRelationship
-							.eIsSet(OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF)) {
-						Command setChild = new SetCommand(
-								editingService.getEditingDomain(),
-								eqRelationship,
-								OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF,
-								null);
-						cc.append(setChild);
+					if (relationship instanceof EquipmentRelationship) {
+						EquipmentRelationship eqRelationship = (EquipmentRelationship) relationship;
+						if (eqRelationship
+								.eIsSet(OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF)) {
+							Command setChild = new SetCommand(
+									editingService.getEditingDomain(),
+									eqRelationship,
+									OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF,
+									null);
+							cc.append(setChild);
+						}
+					}
+					if (relationship instanceof FunctionRelationship) {
+						FunctionRelationship fcRelationship = (FunctionRelationship) relationship;
+						if (fcRelationship
+								.eIsSet(OperatorsPackage.Literals.FUNCTION_RELATIONSHIP__FUNCTION1_REF)) {
+							Command setChild = new SetCommand(
+									editingService.getEditingDomain(),
+									fcRelationship,
+									OperatorsPackage.Literals.FUNCTION_RELATIONSHIP__FUNCTION1_REF,
+									null);
+							cc.append(setChild);
+						}
+					}
+
+					editingService.getEditingDomain().getCommandStack()
+							.execute(cc);
+				}
+
+				public void linkEntered(HyperlinkEvent e) {
+				}
+
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+
+			hypLnkClearNode1.setImage(ResourceManager.getPluginImage(
+					"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+			toolkit.paintBordersFor(hypLnkClearNode1);
+			hypLnkClearNode1.setText("");
+
+			Button btnSelNode1 = toolkit.createButton(cmpLinks, "Select...",
+					SWT.NONE);
+			btnSelNode1.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					// Operator->Network->Node.
+					// We can link to any node.
+					Resource operatorResource = editingService
+							.getData(OperatorsPackage.Literals.OPERATOR);
+					NodeFilterDialog dialog = new NodeFilterDialog(
+							NewEditEquipmentLinkII.this.getShell(),
+							operatorResource);
+					if (dialog.open() == IDialogConstants.OK_ID) {
+						Node node1 = (Node) dialog.getFirstResult();
+						relationship.setNodeID1Ref(node1);
 					}
 				}
-				if (relationship instanceof FunctionRelationship) {
-					FunctionRelationship fcRelationship = (FunctionRelationship) relationship;
-					if (fcRelationship
-							.eIsSet(OperatorsPackage.Literals.FUNCTION_RELATIONSHIP__FUNCTION1_REF)) {
-						Command setChild = new SetCommand(
-								editingService.getEditingDomain(),
-								fcRelationship,
-								OperatorsPackage.Literals.FUNCTION_RELATIONSHIP__FUNCTION1_REF,
-								null);
-						cc.append(setChild);
-					}
-				}
-
-				editingService.getEditingDomain().getCommandStack().execute(cc);
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-
-		hypLnkClearNode1.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-		toolkit.paintBordersFor(hypLnkClearNode1);
-		hypLnkClearNode1.setText("");
-
-		Button btnSelNode1 = toolkit.createButton(cmpLinks, "Select...",
-				SWT.NONE);
-		btnSelNode1.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				// Operator->Network->Node.
-				// We can link to any node.
-				Resource operatorResource = editingService
-						.getData(OperatorsPackage.Literals.OPERATOR);
-				NodeFilterDialog dialog = new NodeFilterDialog(
-						NewEditEquipmentLinkII.this.getShell(),
-						operatorResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					Node node1 = (Node) dialog.getFirstResult();
-					relationship.setNodeID1Ref(node1);
-				}
-			}
-		});
-		
+			});
+		}
 		// EQUIPMENT1.
 
 		Label lblEquipment1 = toolkit.createLabel(cmpLinks, "Equipment #1",
@@ -231,67 +236,66 @@ public class NewEditEquipmentLinkII extends AbstractDetailsScreen implements
 				false, 1, 1);
 		gd_txtEquipment1.widthHint = 150;
 		txtEquipment1.setLayoutData(gd_txtEquipment1);
+		if (!readonly) {
+			ImageHyperlink hypLnkEquipment1 = toolkit.createImageHyperlink(
+					cmpLinks, SWT.NONE);
+			hypLnkEquipment1.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					// Set the ref to null.
+					Command set = new SetCommand(
+							editingService.getEditingDomain(),
+							relationship,
+							OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF,
+							null);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(set);
+				}
 
-		ImageHyperlink hypLnkEquipment1 = toolkit.createImageHyperlink(
-				cmpLinks, SWT.NONE);
-		hypLnkEquipment1.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				// Set the ref to null.
-				Command set = new SetCommand(
-						editingService.getEditingDomain(),
-						relationship,
-						OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF,
-						null);
-				editingService.getEditingDomain().getCommandStack()
-						.execute(set);
-			}
+				public void linkEntered(HyperlinkEvent e) {
+				}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
+			GridData gd_HypLnkEquipment1 = new GridData(SWT.LEFT, SWT.CENTER,
+					false, false, 1, 1);
+			gd_HypLnkEquipment1.widthHint = 18;
+			hypLnkEquipment1.setLayoutData(gd_HypLnkEquipment1);
+			hypLnkEquipment1.setImage(ResourceManager.getPluginImage(
+					"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+			toolkit.paintBordersFor(hypLnkEquipment1);
+			hypLnkEquipment1.setText("");
 
-		GridData gd_HypLnkEquipment1 = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
-		gd_HypLnkEquipment1.widthHint = 18;
-		hypLnkEquipment1.setLayoutData(gd_HypLnkEquipment1);
-		hypLnkEquipment1.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-		toolkit.paintBordersFor(hypLnkEquipment1);
-		hypLnkEquipment1.setText("");
+			Button btnSelectEquipment1 = toolkit.createButton(cmpLinks,
+					"Select...", SWT.NONE);
+			btnSelectEquipment1.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					// Operator->Network->Node->Nodetype->Function......
+					if (relationship.getNodeID1Ref() != null) {
+						EquipmentFilterDialog dialog = new EquipmentFilterDialog(
+								NewEditEquipmentLinkII.this.getShell(),
+								relationship.getNodeID1Ref());
+						if (dialog.open() == IDialogConstants.OK_ID) {
+							Equipment Equipment1 = (Equipment) dialog
+									.getFirstResult();
 
-		Button btnSelectEquipment1 = toolkit.createButton(cmpLinks,
-				"Select...", SWT.NONE);
-		btnSelectEquipment1.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				// Operator->Network->Node->Nodetype->Function......
-				if (relationship.getNodeID1Ref() != null) {
-					EquipmentFilterDialog dialog = new EquipmentFilterDialog(
-							NewEditEquipmentLinkII.this.getShell(),
-							relationship.getNodeID1Ref());
-					if (dialog.open() == IDialogConstants.OK_ID) {
-						Equipment Equipment1 = (Equipment) dialog
-								.getFirstResult();
+							Command set = new SetCommand(
+									editingService.getEditingDomain(),
+									relationship,
+									OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF,
+									Equipment1);
+							editingService.getEditingDomain().getCommandStack()
+									.execute(set);
 
-						Command set = new SetCommand(
-								editingService.getEditingDomain(),
-								relationship,
-								OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF,
-								Equipment1);
-						editingService.getEditingDomain().getCommandStack()
-								.execute(set);
-
+						}
 					}
 				}
-			}
-		});
-		
+			});
+		}
 		// NODE2.
-		
-		
+
 		// Separator.
 		Composite composite = toolkit.createComposite(cmpLinks, SWT.NONE);
 		GridData gd_composite = new GridData(SWT.LEFT, SWT.CENTER, false,
@@ -310,8 +314,6 @@ public class NewEditEquipmentLinkII extends AbstractDetailsScreen implements
 		formText_1.setText("<form><p><b>Right Connection:</b></p></form>",
 				true, false);
 
-
-
 		Label lblNode = toolkit.createLabel(cmpLinks, "NE #2:", SWT.NONE);
 		lblNode.setAlignment(SWT.RIGHT);
 		lblNode.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
@@ -321,80 +323,83 @@ public class NewEditEquipmentLinkII extends AbstractDetailsScreen implements
 		txtNode2.setText("");
 		txtNode2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
 				1, 1));
+		if (!readonly) {
+			ImageHyperlink hypLnkRemoveNode2 = toolkit.createImageHyperlink(
+					cmpLinks, SWT.NONE);
+			hypLnkRemoveNode2.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					CompoundCommand cc = new CompoundCommand();
+					// Potentially also remove the child ref.
+					Command set = new SetCommand(
+							editingService.getEditingDomain(),
+							relationship,
+							OperatorsPackage.Literals.RELATIONSHIP__NODE_ID2_REF,
+							null);
+					cc.append(set);
 
-		ImageHyperlink hypLnkRemoveNode2 = toolkit.createImageHyperlink(
-				cmpLinks, SWT.NONE);
-		hypLnkRemoveNode2.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				CompoundCommand cc = new CompoundCommand();
-				// Potentially also remove the child ref.
-				Command set = new SetCommand(editingService.getEditingDomain(),
-						relationship,
-						OperatorsPackage.Literals.RELATIONSHIP__NODE_ID2_REF,
-						null);
-				cc.append(set);
+					if (relationship instanceof EquipmentRelationship) {
+						EquipmentRelationship eqRelationship = (EquipmentRelationship) relationship;
+						if (eqRelationship
+								.eIsSet(OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF)) {
+							Command setChild = new SetCommand(
+									editingService.getEditingDomain(),
+									eqRelationship,
+									OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF,
+									null);
+							cc.append(setChild);
+						}
+					}
+					if (relationship instanceof FunctionRelationship) {
+						FunctionRelationship fcRelationship = (FunctionRelationship) relationship;
+						if (fcRelationship
+								.eIsSet(OperatorsPackage.Literals.FUNCTION_RELATIONSHIP__FUNCTION2_REF)) {
+							Command setChild = new SetCommand(
+									editingService.getEditingDomain(),
+									fcRelationship,
+									OperatorsPackage.Literals.FUNCTION_RELATIONSHIP__FUNCTION2_REF,
+									null);
+							cc.append(setChild);
+						}
+					}
 
-				if (relationship instanceof EquipmentRelationship) {
-					EquipmentRelationship eqRelationship = (EquipmentRelationship) relationship;
-					if (eqRelationship
-							.eIsSet(OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF)) {
-						Command setChild = new SetCommand(
-								editingService.getEditingDomain(),
-								eqRelationship,
-								OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF,
-								null);
-						cc.append(setChild);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(cc);
+				}
+
+				public void linkEntered(HyperlinkEvent e) {
+				}
+
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			GridData gd_imageHyperlink = new GridData(SWT.LEFT, SWT.CENTER,
+					false, false, 1, 1);
+			gd_imageHyperlink.widthHint = 18;
+			hypLnkRemoveNode2.setLayoutData(gd_imageHyperlink);
+			hypLnkRemoveNode2.setImage(ResourceManager.getPluginImage(
+					"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+			toolkit.paintBordersFor(hypLnkRemoveNode2);
+			hypLnkRemoveNode2.setText("");
+
+			Button btnSelNode2 = toolkit.createButton(cmpLinks, "Select...",
+					SWT.NONE);
+			btnSelNode2.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					// Operator->Network->Node.
+					// We can link to any node.
+					Resource operatorResource = editingService
+							.getData(OperatorsPackage.Literals.OPERATOR);
+					NodeFilterDialog dialog = new NodeFilterDialog(
+							NewEditEquipmentLinkII.this.getShell(),
+							operatorResource);
+					if (dialog.open() == IDialogConstants.OK_ID) {
+						Node node2 = (Node) dialog.getFirstResult();
+						relationship.setNodeID2Ref(node2);
 					}
 				}
-				if (relationship instanceof FunctionRelationship) {
-					FunctionRelationship fcRelationship = (FunctionRelationship) relationship;
-					if (fcRelationship
-							.eIsSet(OperatorsPackage.Literals.FUNCTION_RELATIONSHIP__FUNCTION2_REF)) {
-						Command setChild = new SetCommand(
-								editingService.getEditingDomain(),
-								fcRelationship,
-								OperatorsPackage.Literals.FUNCTION_RELATIONSHIP__FUNCTION2_REF,
-								null);
-						cc.append(setChild);
-					}
-				}
-
-				editingService.getEditingDomain().getCommandStack().execute(cc);
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		GridData gd_imageHyperlink = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_imageHyperlink.widthHint = 18;
-		hypLnkRemoveNode2.setLayoutData(gd_imageHyperlink);
-		hypLnkRemoveNode2.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-		toolkit.paintBordersFor(hypLnkRemoveNode2);
-		hypLnkRemoveNode2.setText("");
-
-		Button btnSelNode2 = toolkit.createButton(cmpLinks, "Select...",
-				SWT.NONE);
-		btnSelNode2.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				// Operator->Network->Node.
-				// We can link to any node.
-				Resource operatorResource = editingService
-						.getData(OperatorsPackage.Literals.OPERATOR);
-				NodeFilterDialog dialog = new NodeFilterDialog(
-						NewEditEquipmentLinkII.this.getShell(),
-						operatorResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					Node node2 = (Node) dialog.getFirstResult();
-					relationship.setNodeID2Ref(node2);
-				}
-			}
-		});
+			});
+		}
 
 		// EQUIPMENT 2.
 
@@ -408,60 +413,62 @@ public class NewEditEquipmentLinkII extends AbstractDetailsScreen implements
 		txtEquipment2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1));
 
-		ImageHyperlink hypLnkEquipment2 = toolkit.createImageHyperlink(
-				cmpLinks, SWT.NONE);
-		hypLnkEquipment2.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-		GridData gd_HypLnkEquipment2 = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
-		gd_HypLnkEquipment2.widthHint = 18;
-		hypLnkEquipment2.setLayoutData(gd_HypLnkEquipment2);
-		toolkit.paintBordersFor(hypLnkEquipment2);
-		hypLnkEquipment2.setText("");
-		hypLnkEquipment2.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				// Set the ref to null.
-				Command set = new SetCommand(
-						editingService.getEditingDomain(),
-						relationship,
-						OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF,
-						null);
-				editingService.getEditingDomain().getCommandStack()
-						.execute(set);
-			}
+		if (!readonly) {
+			ImageHyperlink hypLnkEquipment2 = toolkit.createImageHyperlink(
+					cmpLinks, SWT.NONE);
+			hypLnkEquipment2.setImage(ResourceManager.getPluginImage(
+					"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+			GridData gd_HypLnkEquipment2 = new GridData(SWT.LEFT, SWT.CENTER,
+					false, false, 1, 1);
+			gd_HypLnkEquipment2.widthHint = 18;
+			hypLnkEquipment2.setLayoutData(gd_HypLnkEquipment2);
+			toolkit.paintBordersFor(hypLnkEquipment2);
+			hypLnkEquipment2.setText("");
+			hypLnkEquipment2.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					// Set the ref to null.
+					Command set = new SetCommand(
+							editingService.getEditingDomain(),
+							relationship,
+							OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF,
+							null);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(set);
+				}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+				public void linkEntered(HyperlinkEvent e) {
+				}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
 
-		Button btnSelectEquipment2 = toolkit.createButton(cmpLinks,
-				"Select...", SWT.NONE);
-		btnSelectEquipment2.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				// Operator->Network->Node->Nodetype->Function......
+			Button btnSelectEquipment2 = toolkit.createButton(cmpLinks,
+					"Select...", SWT.NONE);
+			btnSelectEquipment2.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					// Operator->Network->Node->Nodetype->Function......
 
-				if (relationship.getNodeID2Ref() != null) {
-					EquipmentFilterDialog dialog = new EquipmentFilterDialog(
-							NewEditEquipmentLinkII.this.getShell(),
-							relationship.getNodeID2Ref());
-					if (dialog.open() == IDialogConstants.OK_ID) {
-						Equipment Equipment2 = (Equipment) dialog
-								.getFirstResult();
-						Command set = new SetCommand(
-								editingService.getEditingDomain(),
-								relationship,
-								OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF,
-								Equipment2);
-						editingService.getEditingDomain().getCommandStack()
-								.execute(set);
+					if (relationship.getNodeID2Ref() != null) {
+						EquipmentFilterDialog dialog = new EquipmentFilterDialog(
+								NewEditEquipmentLinkII.this.getShell(),
+								relationship.getNodeID2Ref());
+						if (dialog.open() == IDialogConstants.OK_ID) {
+							Equipment Equipment2 = (Equipment) dialog
+									.getFirstResult();
+							Command set = new SetCommand(
+									editingService.getEditingDomain(),
+									relationship,
+									OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF,
+									Equipment2);
+							editingService.getEditingDomain().getCommandStack()
+									.execute(set);
+						}
 					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -620,7 +627,7 @@ public class NewEditEquipmentLinkII extends AbstractDetailsScreen implements
 		});
 	}
 
-	public void buildProtocol(int widgetStyle) {
+	public void buildProtocol() {
 		// Section Node links.
 
 		Section sctnNode = toolkit.createSection(this, Section.TITLE_BAR
@@ -642,69 +649,70 @@ public class NewEditEquipmentLinkII extends AbstractDetailsScreen implements
 		gd_lblRoomsite.widthHint = 80;
 		lblRoomsite.setLayoutData(gd_lblRoomsite);
 
-		txtProtocol = toolkit.createText(cmpProtocol, "New Text", SWT.NONE);
+		txtProtocol = toolkit.createText(cmpProtocol, "New Text", SWT.NONE | widgetStyle);
 		txtProtocol.setText("");
 		GridData gd_txtNode1 = new GridData(SWT.FILL, SWT.CENTER, false, false,
 				1, 1);
 		gd_txtNode1.widthHint = 150;
 		txtProtocol.setLayoutData(gd_txtNode1);
-
-		hypLnkClearProtocol = toolkit.createImageHyperlink(cmpProtocol,
-				SWT.NONE);
-		GridData gd_hypLnkClearNode1 = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
-		gd_hypLnkClearNode1.widthHint = 18;
-		hypLnkClearProtocol.setLayoutData(gd_hypLnkClearNode1);
-		hypLnkClearProtocol.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				Command set = new SetCommand(editingService.getEditingDomain(),
-						relationship,
-						OperatorsPackage.Literals.RELATIONSHIP__PROTOCOL_REF,
-						null);
-				editingService.getEditingDomain().getCommandStack()
-						.execute(set);
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-
-		hypLnkClearProtocol.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-		toolkit.paintBordersFor(hypLnkClearProtocol);
-		hypLnkClearProtocol.setText("");
-
-		Button btnSelProtocol = toolkit.createButton(cmpProtocol, "Select...",
-				SWT.NONE);
-		btnSelProtocol.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				// Operator->Network->Node.
-				// We can link to any node.
-				Resource operatorResource = editingService
-						.getData(ProtocolsPackage.Literals.PROTOCOL);
-				ProtocolFilterDialog dialog = new ProtocolFilterDialog(
-						NewEditEquipmentLinkII.this.getShell(),
-						operatorResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					Protocol protocol = (Protocol) dialog.getFirstResult();
-					SetCommand sc = new SetCommand(
+		if (!readonly) {
+			hypLnkClearProtocol = toolkit.createImageHyperlink(cmpProtocol,
+					SWT.NONE);
+			GridData gd_hypLnkClearNode1 = new GridData(SWT.LEFT, SWT.CENTER,
+					false, false, 1, 1);
+			gd_hypLnkClearNode1.widthHint = 18;
+			hypLnkClearProtocol.setLayoutData(gd_hypLnkClearNode1);
+			hypLnkClearProtocol.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					Command set = new SetCommand(
 							editingService.getEditingDomain(),
 							relationship,
 							OperatorsPackage.Literals.RELATIONSHIP__PROTOCOL_REF,
-							protocol);
+							null);
 					editingService.getEditingDomain().getCommandStack()
-							.execute(sc);
+							.execute(set);
 				}
-			}
-		});
 
+				public void linkEntered(HyperlinkEvent e) {
+				}
+
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+
+			hypLnkClearProtocol.setImage(ResourceManager.getPluginImage(
+					"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+			toolkit.paintBordersFor(hypLnkClearProtocol);
+			hypLnkClearProtocol.setText("");
+
+			Button btnSelProtocol = toolkit.createButton(cmpProtocol,
+					"Select...", SWT.NONE);
+			btnSelProtocol.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					// Operator->Network->Node.
+					// We can link to any node.
+					Resource operatorResource = editingService
+							.getData(ProtocolsPackage.Literals.PROTOCOL);
+					ProtocolFilterDialog dialog = new ProtocolFilterDialog(
+							NewEditEquipmentLinkII.this.getShell(),
+							operatorResource);
+					if (dialog.open() == IDialogConstants.OK_ID) {
+						Protocol protocol = (Protocol) dialog.getFirstResult();
+						SetCommand sc = new SetCommand(
+								editingService.getEditingDomain(),
+								relationship,
+								OperatorsPackage.Literals.RELATIONSHIP__PROTOCOL_REF,
+								protocol);
+						editingService.getEditingDomain().getCommandStack()
+								.execute(sc);
+					}
+				}
+			});
+		}
 	}
 
-	public void buildInfoSection(int widgetStyle) {
+	public void buildInfoSection() {
 		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
 				| Section.TITLE_BAR);
 		toolkit.paintBordersFor(scnInfo);

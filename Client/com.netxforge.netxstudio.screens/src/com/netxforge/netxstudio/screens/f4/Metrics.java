@@ -22,6 +22,7 @@ import java.util.List;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -50,6 +51,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -78,6 +80,9 @@ import com.netxforge.netxstudio.screens.f4.support.MetricTreeLabelProvider;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeStructureAdvisor;
 
 public class Metrics extends AbstractScreen implements IDataServiceInjection {
+
+	private static final String MEM_KEY_METRIC_SELECTION_TABLE = "MEM_KEY_METRIC_SELECTION_TABLE";
+	private static final String MEM_KEY_METRIC_COLUMNS_TABLE = "MEM_KEY_METRIC_COLUMNS_TABLE";
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
@@ -143,12 +148,18 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	private void buildUI() {
+		
+
+		// Readonlyness.
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
+		String actionText = readonly ? "View: " : "Edit: ";
+		
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmMetrics = toolkit.createForm(this);
 		frmMetrics.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmMetrics);
-		frmMetrics.setText("Metrics");
+		frmMetrics.setText(actionText +"Metrics");
 		frmMetrics.getBody().setLayout(new GridLayout(3, false));
 
 		Label lblFilterLabel = toolkit.createLabel(frmMetrics.getBody(),
@@ -179,7 +190,9 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
-
+		
+		if(!readonly){
+		
 		ImageHyperlink mghprlnkNewMetric = toolkit.createImageHyperlink(
 				frmMetrics.getBody(), SWT.NONE);
 		mghprlnkNewMetric.addHyperlinkListener(new IHyperlinkListener() {
@@ -213,7 +226,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 				"icons/full/ctool16/Metric_E.png"));
 		toolkit.paintBordersFor(mghprlnkNewMetric);
 		mghprlnkNewMetric.setText("New");
-
+	}
 		metricsTreeViewer = new TreeViewer(frmMetrics.getBody(), SWT.BORDER
 				| SWT.VIRTUAL | SWT.MULTI | SWT.FULL_SELECTION);
 		metricsTreeViewer.setUseHashlookup(true);
@@ -269,7 +282,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 					NewEditMetric metricScreen = new NewEditMetric(
 							screenService.getScreenContainer(), SWT.NONE);
 					metricScreen.setScreenService(screenService);
-					metricScreen.setOperation(ScreenUtil.OPERATION_EDIT);
+					metricScreen.setOperation(getOperation());
 					Object subowner = null;
 					if (o instanceof Metric) {
 						if (((Metric) o).eContainer() instanceof Metric) {
@@ -416,5 +429,39 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	public String getScreenName() {
 		return "Metrics";
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#saveState(org.eclipse
+	 * .ui.IMemento)
+	 */
+	@Override
+	public void saveState(IMemento memento) {
 
+		// sash state vertical.
+		mementoUtils.rememberStructuredViewerSelection(memento,
+				metricsTreeViewer, MEM_KEY_METRIC_SELECTION_TABLE);
+		mementoUtils.rememberStructuredViewerColumns(memento,
+				metricsTreeViewer, MEM_KEY_METRIC_COLUMNS_TABLE);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#init(org.eclipse.
+	 * ui.IMemento)
+	 */
+	@Override
+	public void restoreState(IMemento memento) {
+
+		mementoUtils.retrieveStructuredViewerSelection(memento,
+				metricsTreeViewer, MEM_KEY_METRIC_SELECTION_TABLE,
+				((CDOResource) metricResource).cdoView());
+		mementoUtils.retrieveStructuredViewerColumns(memento,
+				metricsTreeViewer, MEM_KEY_METRIC_COLUMNS_TABLE);
+	}
+	
 }

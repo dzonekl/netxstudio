@@ -39,4 +39,15 @@ public class NodeTypeResources extends AbstractResources {
 		buildTableColumns(properties, columnWidths, editingSupport);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#getScreenName()
+	 */
+	@Override
+	public String getScreenName() {
+		return "Library Resources";
+	}
+	
+	
+	
+	
 }

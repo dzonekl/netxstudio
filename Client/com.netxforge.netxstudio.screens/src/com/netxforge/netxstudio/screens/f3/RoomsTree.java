@@ -68,6 +68,7 @@ import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
+import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f3.support.RoomTreeFactory;
@@ -107,28 +108,32 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 	public EMFDataBindingContext initDataBindings_() {
 
 		listTreeContentProvider = new ObservableListTreeContentProvider(
-				new RoomTreeFactory(editingService.getEditingDomain()), new RoomTreeStructureAdvisor());
+				new RoomTreeFactory(editingService.getEditingDomain()),
+				new RoomTreeStructureAdvisor());
 		roomsTreeViewer.setContentProvider(listTreeContentProvider);
 		IObservableSet set = listTreeContentProvider.getKnownElements();
-		
+
 		List<IObservableMap> mapList = Lists.newArrayList();
 
 		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
 				.observeDetail(set));
 
-//		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
-//				.observeDetail(set));
-//
-//		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
-//				.observeDetail(set));
+		// mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
+		// .observeDetail(set));
+		//
+		// mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
+		// .observeDetail(set));
 
 		IObservableMap[] observeMaps = new IObservableMap[mapList.size()];
 		mapList.toArray(observeMaps);
 
-		roomsTreeViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		roomsTreeViewer.setLabelProvider(new ObservableMapLabelProvider(
+				observeMaps));
 
-		IEMFListProperty countryResourceProperty = EMFEditProperties.resource(editingService.getEditingDomain());
-		IObservableList countryObservableList = countryResourceProperty.observe(countryResource);
+		IEMFListProperty countryResourceProperty = EMFEditProperties
+				.resource(editingService.getEditingDomain());
+		IObservableList countryObservableList = countryResourceProperty
+				.observe(countryResource);
 		roomsTreeViewer.setInput(countryObservableList);
 		EMFDataBindingContext context = new EMFDataBindingContext();
 		return context;
@@ -141,12 +146,16 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	private void buildUI() {
+
+		// Readonlyness.
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
+
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmSites = toolkit.createForm(this);
 		frmSites.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmSites);
-		frmSites.setText("Rooms");
+		frmSites.setText(this.getOperationText() + "Rooms");
 		frmSites.getBody().setLayout(new GridLayout(3, false));
 
 		Label lblFilterLabel = toolkit.createLabel(frmSites.getBody(),
@@ -178,38 +187,48 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
 
-		ImageHyperlink mghprlnkNewMetric = toolkit.createImageHyperlink(
-				frmSites.getBody(), SWT.NONE);
-		mghprlnkNewMetric.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				ISelection sel = getViewer().getSelection();
-				if(sel instanceof IStructuredSelection){
-					Object o = ((IStructuredSelection) sel).getFirstElement();
-					if(o instanceof Site){
-						NewEditRoom roomScreen = new NewEditRoom(
-								screenService.getScreenContainer(), SWT.NONE);
-						roomScreen.setScreenService(screenService);
-						roomScreen.setOperation(ScreenUtil.OPERATION_NEW);
-						roomScreen.injectData(o, GeoFactory.eINSTANCE.createRoom());
-						screenService.setActiveScreen(roomScreen);
+		if (!readonly) {
+
+			ImageHyperlink mghprlnkNewMetric = toolkit.createImageHyperlink(
+					frmSites.getBody(), SWT.NONE);
+			mghprlnkNewMetric.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					ISelection sel = getViewer().getSelection();
+					if (sel instanceof IStructuredSelection) {
+						Object o = ((IStructuredSelection) sel)
+								.getFirstElement();
+						if (o instanceof Site) {
+							NewEditRoom roomScreen = new NewEditRoom(
+									screenService.getScreenContainer(),
+									SWT.NONE);
+							roomScreen.setScreenService(screenService);
+							roomScreen.setOperation(ScreenUtil.OPERATION_NEW);
+							roomScreen.injectData(o,
+									GeoFactory.eINSTANCE.createRoom());
+							screenService.setActiveScreen(roomScreen);
+						}
 					}
 				}
-			}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+				public void linkEntered(HyperlinkEvent e) {
+				}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNewMetric.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Room_E.png"));
-		toolkit.paintBordersFor(mghprlnkNewMetric);
-		mghprlnkNewMetric.setText("New");
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			mghprlnkNewMetric.setImage(ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/ctool16/Room_E.png"));
+			toolkit.paintBordersFor(mghprlnkNewMetric);
+			mghprlnkNewMetric.setText("New");
 
-		roomsTreeViewer = new TreeViewer(frmSites.getBody(), SWT.BORDER | SWT.VIRTUAL);
+		}
+		
+		roomsTreeViewer = new TreeViewer(frmSites.getBody(), SWT.BORDER
+				| SWT.VIRTUAL);
 		roomsTreeViewer.setUseHashlookup(true);
 		roomsTreeViewer.setComparer(new CDOElementComparer());
-		
+
 		Tree tree = roomsTreeViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
@@ -221,8 +240,9 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 		TreeColumn trclmnCountry = treeViewerColumn.getColumn();
 		trclmnCountry.setWidth(100);
 		trclmnCountry.setText("Country");
-		
-		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(roomsTreeViewer, SWT.NONE);
+
+		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
+				roomsTreeViewer, SWT.NONE);
 		TreeColumn trclmnSite = treeViewerColumn_2.getColumn();
 		trclmnSite.setWidth(100);
 		trclmnSite.setText("Site");
@@ -235,7 +255,6 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 
 		roomsTreeViewer.addFilter(searchFilter);
 	}
-	
 
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
@@ -243,34 +262,37 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 	 * @author dzonekl
 	 * 
 	 */
-	class EditRoomAction extends Action {
+	class EditRoomAction extends BaseSelectionListenerAction {
 
 		public EditRoomAction(String text) {
 			super(text);
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see com.netxforge.netxstudio.screens.editing.actions.
+		 * BaseSelectionListenerAction
+		 * #updateSelection(org.eclipse.jface.viewers.IStructuredSelection)
+		 */
+		@Override
+		protected boolean updateSelection(IStructuredSelection selection) {
+			return selection.getFirstElement() instanceof Room;
+		}
+
 		@Override
 		public void run() {
 			super.run();
-			if (screenService != null) {
-				ISelection selection = getViewer().getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-					if( o instanceof Room){
-						NewEditRoom roomScreen = new NewEditRoom(
-								screenService.getScreenContainer(), SWT.NONE);
-						roomScreen.setScreenService(screenService);
-						roomScreen.setOperation(getOperation());
-						roomScreen.injectData(((Room)o).eContainer(), o);
-						screenService.setActiveScreen(roomScreen);
-					}
-				}
-			}
+			Object o = this.getStructuredSelection().getFirstElement();
+			NewEditRoom roomScreen = new NewEditRoom(
+					screenService.getScreenContainer(), SWT.NONE);
+			roomScreen.setScreenService(screenService);
+			roomScreen.setOperation(getOperation());
+			roomScreen.injectData(((Room) o).eContainer(), o);
+			screenService.setActiveScreen(roomScreen);
 		}
 	}
-	
-	
+
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
 	 * 
@@ -281,7 +303,10 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 
 		public NewRoomAction(String text) {
 			super(text);
-			ImageDescriptor descriptor = ResourceManager.getPluginImageDescriptor("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Room_E.png");
+			ImageDescriptor descriptor = ResourceManager
+					.getPluginImageDescriptor(
+							"com.netxforge.netxstudio.models.edit",
+							"icons/full/ctool16/Room_E.png");
 			setImageDescriptor(descriptor);
 		}
 
@@ -293,12 +318,13 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-					if( o instanceof Site){
+					if (o instanceof Site) {
 						NewEditRoom roomScreen = new NewEditRoom(
 								screenService.getScreenContainer(), SWT.NONE);
 						roomScreen.setScreenService(screenService);
 						roomScreen.setOperation(ScreenUtil.OPERATION_NEW);
-						roomScreen.injectData(o, GeoFactory.eINSTANCE.createRoom());
+						roomScreen.injectData(o,
+								GeoFactory.eINSTANCE.createRoom());
 						screenService.setActiveScreen(roomScreen);
 					}
 				}
@@ -320,22 +346,21 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();
-	
+
 	@Override
 	public IAction[] getActions() {
-		
-		if(actions.isEmpty()){
-			boolean readonly =  ScreenUtil.isReadOnlyOperation(getOperation());
-			String actionText = readonly? "View" : "Edit";
+
+		if (actions.isEmpty()) {
+			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
+			String actionText = readonly ? "View" : "Edit";
 			actions.add(new EditRoomAction(actionText + "..."));
 		}
-		return actions.toArray(new IAction[actions.size()]); 
+		return actions.toArray(new IAction[actions.size()]);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Rooms";
 	}
 
-	
 }

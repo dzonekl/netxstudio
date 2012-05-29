@@ -28,7 +28,6 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 public class NewEditNodeFunction extends NewEditComponent implements IScreen {
 
@@ -47,21 +46,17 @@ public class NewEditNodeFunction extends NewEditComponent implements IScreen {
 	}
 
 	public void buildUI() {
+		super.buildUI();
+		buildInfoSection();
+		buildLinksSection();
+		buildLifeCycleSection();
+		buildResourceSection();
+		buildMetricSection();
+		buildToleranceSection();
 
-		// Readonlyness.
-		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
-
-		buildInfoSection(widgetStyle);
-		buildLinksSection(readonly);
-		buildLifeCycleSection(readonly);
-		buildResourceSection(readonly);
-		buildMetricSection(readonly);
-		buildToleranceSection(readonly);
-		
 	}
 
-	private void buildInfoSection(int widgetStyle) {
+	private void buildInfoSection() {
 		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
 				| Section.TITLE_BAR);
 
@@ -103,8 +98,7 @@ public class NewEditNodeFunction extends NewEditComponent implements IScreen {
 		txtDescription.setLayoutData(gd_text);
 	}
 
-	private void buildLinksSection(boolean readonly) {
-		// TODO Auto-generated method stub
+	private void buildLinksSection() {
 
 		Section sctnLinks = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
@@ -199,8 +193,6 @@ public class NewEditNodeFunction extends NewEditComponent implements IScreen {
 		// });
 		// mntmRemoveMetric.setText("Remove");
 
-		if (readonly) {
-		}
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -251,8 +243,7 @@ public class NewEditNodeFunction extends NewEditComponent implements IScreen {
 						OperatorsPackage.Literals.RELATIONSHIP__NAME,
 						OperatorsPackage.Literals.RELATIONSHIP__PROTOCOL_REF,
 						OperatorsPackage.Literals.RELATIONSHIP__NODE_ID2_REF });
-		linksTableViewer.setLabelProvider(new LinksLabelProvider(
-				observeMaps));
+		linksTableViewer.setLabelProvider(new LinksLabelProvider(observeMaps));
 		IEMFListProperty l = EMFEditProperties.list(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.FUNCTION__FUNCTION_RELATIONSHIP_REFS);
@@ -265,11 +256,12 @@ public class NewEditNodeFunction extends NewEditComponent implements IScreen {
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
-			
-			if( columnIndex == 2){
-				if(element instanceof Relationship){
-					Relationship link  = (Relationship) element;
-					if(!link.eIsSet(OperatorsPackage.Literals.RELATIONSHIP__NODE_ID2_REF)){
+
+			if (columnIndex == 2) {
+				if (element instanceof Relationship) {
+					Relationship link = (Relationship) element;
+					if (!link
+							.eIsSet(OperatorsPackage.Literals.RELATIONSHIP__NODE_ID2_REF)) {
 						return "Not set";
 					}
 				}
@@ -280,7 +272,7 @@ public class NewEditNodeFunction extends NewEditComponent implements IScreen {
 		public LinksLabelProvider(IObservableMap[] attributeMaps) {
 			super(attributeMaps);
 		}
-			
+
 	}
 
 }

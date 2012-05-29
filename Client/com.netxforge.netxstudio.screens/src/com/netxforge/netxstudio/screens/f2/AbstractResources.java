@@ -324,7 +324,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 				Object o = ((IStructuredSelection) selection).getFirstElement();
 				NewEditResource resourceScreen = new NewEditResource(
 						screenService.getScreenContainer(), SWT.NONE);
-				resourceScreen.setOperation(ScreenUtil.OPERATION_EDIT);
+				resourceScreen.setOperation(getOperation());
 				resourceScreen.setScreenService(screenService);
 
 				// CB, the parent is the container resource.
@@ -528,17 +528,17 @@ public abstract class AbstractResources extends AbstractScreen implements
 						return resource.getLongName();
 					}
 					break;
+//				case 6:
+//					Value v = modelUtils.mostRecentCapacityValue(resource);
+//					if (v != null) {
+//						DecimalFormat numberFormatter = new DecimalFormat(
+//								"###,###,##0.00");
+//						numberFormatter.setDecimalSeparatorAlwaysShown(true);
+//						return numberFormatter.format(v.getValue());
+//					} else {
+//						return "<not set>";
+//					}
 				case 6:
-					Value v = modelUtils.mostRecentCapacityValue(resource);
-					if (v != null) {
-						DecimalFormat numberFormatter = new DecimalFormat(
-								"###,###,##0.00");
-						numberFormatter.setDecimalSeparatorAlwaysShown(true);
-						return numberFormatter.format(v.getValue());
-					} else {
-						return "<not set>";
-					}
-				case 7:
 					if (resource.getUnitRef() != null) {
 						return resource.getUnitRef().getCode();
 					}

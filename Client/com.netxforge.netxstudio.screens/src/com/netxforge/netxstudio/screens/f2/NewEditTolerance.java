@@ -134,6 +134,11 @@ public class NewEditTolerance extends AbstractScreen implements
 		cmbToleranceLevel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
 				1));
 		toolkit.paintBordersFor(cmbToleranceLevel);
+
+		if(readonly){
+			cmbToleranceLevel.setEnabled(false);
+		}
+		
 		new Label(composite_1, SWT.NONE);
 		new Label(composite_1, SWT.NONE);
 		
@@ -211,9 +216,6 @@ public class NewEditTolerance extends AbstractScreen implements
 //		});
 		
 		
-		if(readonly){
-			cmbToleranceLevel.setEnabled(false);
-		}
 		
 		
 	}

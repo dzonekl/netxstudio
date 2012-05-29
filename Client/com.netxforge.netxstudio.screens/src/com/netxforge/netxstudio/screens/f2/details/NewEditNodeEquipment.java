@@ -17,7 +17,6 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 public class NewEditNodeEquipment extends NewEditComponent implements IScreen {
 
@@ -39,20 +38,16 @@ public class NewEditNodeEquipment extends NewEditComponent implements IScreen {
 	}
 
 	public void buildUI() {
-
-		// Readonlyness.
-		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
-
-		buildInfoSection(widgetStyle);
-		buildLifeCycleSection(readonly);
-		buildResourceSection(readonly);
-		buildMetricSection(readonly);
-		buildToleranceSection(readonly);
+		super.buildUI();
+		buildInfoSection();
+		buildLifeCycleSection();
+		buildResourceSection();
+		buildMetricSection();
+		buildToleranceSection();
 
 	}
 
-	private void buildInfoSection(int widgetStyle) {
+	private void buildInfoSection() {
 		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
 				| Section.TITLE_BAR);
 		toolkit.paintBordersFor(scnInfo);

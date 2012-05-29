@@ -21,6 +21,7 @@ import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 public class NewEditNetwork extends AbstractDetailsScreen implements
 		IScreen, IDataScreenInjection {
@@ -55,7 +56,12 @@ public class NewEditNetwork extends AbstractDetailsScreen implements
 	}
 
 	private void buildUI() {
-
+		
+		// Readonlyness.
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
+		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+		
+		
 		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
 				| Section.TITLE_BAR);
 		toolkit.paintBordersFor(scnInfo);
@@ -73,7 +79,7 @@ public class NewEditNetwork extends AbstractDetailsScreen implements
 		gd_lblName.widthHint = 70;
 		lblName.setLayoutData(gd_lblName);
 
-		txtName = toolkit.createText(composite, "New Text", SWT.NONE);
+		txtName = toolkit.createText(composite, "New Text", SWT.NONE | widgetStyle);
 		txtName.setText("");
 		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
@@ -87,7 +93,7 @@ public class NewEditNetwork extends AbstractDetailsScreen implements
 		lblDescription.setAlignment(SWT.RIGHT);
 
 		txtDescription = toolkit.createText(composite, "New Text", SWT.BORDER
-				| SWT.WRAP | SWT.MULTI);
+				| SWT.WRAP | SWT.MULTI | widgetStyle);
 		txtDescription.setText("");
 		GridData gd_text = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
 		gd_text.heightHint = 100;

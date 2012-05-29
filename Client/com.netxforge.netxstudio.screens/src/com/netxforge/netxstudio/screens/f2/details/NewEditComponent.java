@@ -111,6 +111,12 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 	// private CDateTime cdOutOfService;
 
 	protected Component comp;
+	
+	// If the screen is in read-only mode.
+	protected boolean readOnly;
+	
+	// The corresponding widget style for the operation mode. 
+	protected int widgetStyle;
 
 	public NewEditComponent(Composite parent, int style,
 			final IEditingService editingService) {
@@ -172,7 +178,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		screenService.setActiveScreen(expressionScreen);
 	}
 
-	protected Section buildToleranceSection(boolean readonly) {
+	protected Section buildToleranceSection() {
 
 		Section sctnTolerances = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
@@ -265,14 +271,14 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		});
 		mntmRemoveTolerance.setText("Remove");
 
-		if (readonly) {
-			hypLnkAddTolerance.setEnabled(false);
+		if (readOnly) {
+			hypLnkAddTolerance.setVisible(false);
 			mntmRemoveTolerance.setEnabled(false);
 		}
 		return sctnTolerances;
 	}
 
-	protected void buildLifeCycleSection(boolean readonly) {
+	protected void buildLifeCycleSection() {
 
 		Section sctnLifecycle = toolkit.createSection(this, Section.TITLE_BAR
 				| Section.TWISTIE);
@@ -413,9 +419,18 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		dcOutOfService.setWeeksVisible(true);
 		toolkit.adapt(dcOutOfService);
 		toolkit.paintBordersFor(dcOutOfService);
+		
+		
+		if (readOnly) {
+			dcProposed.setEditable(false);
+			dcPlanned.setEditable(false);
+			dcConstruction.setEditable(false);
+			dcInService.setEditable(false);
+			dcOutOfService.setEditable(false);
+		}
 	}
 
-	protected Section buildMetricSection(boolean readonly) {
+	protected Section buildMetricSection() {
 
 		Section sctnMetrics = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
@@ -523,14 +538,14 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		});
 		mntmRemoveMetric.setText("Remove");
 
-		if (readonly) {
-			hypLnkAddMetric.setEnabled(false);
+		if (readOnly) {
+			hypLnkAddMetric.setVisible(false);
 			mntmRemoveMetric.setEnabled(false);
 		}
 		return sctnMetrics;
 	}
 
-	protected Section buildResourceSection(boolean readonly) {
+	protected Section buildResourceSection() {
 		Section sctnResources = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
 		toolkit.paintBordersFor(sctnResources);
@@ -580,11 +595,11 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		// toolkit.paintBordersFor(hypLnkAddResource);
 		// hypLnkAddResource.setText("Add");
 
-		ImageHyperlink mghprlnkNewImagehyperlink = toolkit
+		ImageHyperlink mghprlnkNewResource = toolkit
 				.createImageHyperlink(composite_2, SWT.NONE);
-		mghprlnkNewImagehyperlink.setLayoutData(new GridData(SWT.RIGHT,
+		mghprlnkNewResource.setLayoutData(new GridData(SWT.RIGHT,
 				SWT.CENTER, false, false, 1, 1));
-		mghprlnkNewImagehyperlink
+		mghprlnkNewResource
 				.addHyperlinkListener(new IHyperlinkListener() {
 					public void linkActivated(HyperlinkEvent e) {
 						NewEditResource resourceScreen = new NewEditResource(
@@ -626,9 +641,9 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 					public void linkExited(HyperlinkEvent e) {
 					}
 				});
-		toolkit.paintBordersFor(mghprlnkNewImagehyperlink);
-		mghprlnkNewImagehyperlink.setText("New");
-
+		toolkit.paintBordersFor(mghprlnkNewResource);
+		mghprlnkNewResource.setText("New");
+		
 		resourceTableViewer = new TableViewer(composite_2, SWT.BORDER
 				| SWT.FULL_SELECTION);
 		Table resourcesTable = resourceTableViewer.getTable();
@@ -741,9 +756,9 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		txtCapExpression.setLayoutData(gd_txtCapExpression);
 		txtCapExpression.setText("");
 
-		ImageHyperlink imageHyperlink = toolkit.createImageHyperlink(
+		ImageHyperlink mghprlnkRemoveCapacityExpression = toolkit.createImageHyperlink(
 				composite_2, SWT.NONE);
-		imageHyperlink.addHyperlinkListener(new IHyperlinkListener() {
+		mghprlnkRemoveCapacityExpression.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				if (comp.getCapacityExpressionRef() != null) {
 					Command c = new SetCommand(
@@ -762,10 +777,10 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 			public void linkExited(HyperlinkEvent e) {
 			}
 		});
-		imageHyperlink.setImage(ResourceManager.getPluginImage(
+		mghprlnkRemoveCapacityExpression.setImage(ResourceManager.getPluginImage(
 				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-		toolkit.paintBordersFor(imageHyperlink);
-		imageHyperlink.setText("");
+		toolkit.paintBordersFor(mghprlnkRemoveCapacityExpression);
+		mghprlnkRemoveCapacityExpression.setText("");
 
 		Button btnSelectCapExpression = toolkit.createButton(composite_2,
 				"Select", SWT.NONE);
@@ -821,9 +836,9 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		txtUtilExpression.setLayoutData(gd_txtUtilExpression);
 		txtUtilExpression.setText("");
 
-		ImageHyperlink imageHyperlink_1 = toolkit.createImageHyperlink(
+		ImageHyperlink mghprlnkRemoveUtilizationExpression = toolkit.createImageHyperlink(
 				composite_2, SWT.NONE);
-		imageHyperlink_1.addHyperlinkListener(new IHyperlinkListener() {
+		mghprlnkRemoveUtilizationExpression.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				if (comp.getUtilizationExpressionRef() != null) {
 					Command c = new SetCommand(
@@ -842,10 +857,10 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 			public void linkExited(HyperlinkEvent e) {
 			}
 		});
-		imageHyperlink_1.setImage(ResourceManager.getPluginImage(
+		mghprlnkRemoveUtilizationExpression.setImage(ResourceManager.getPluginImage(
 				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-		toolkit.paintBordersFor(imageHyperlink_1);
-		imageHyperlink_1.setText("");
+		toolkit.paintBordersFor(mghprlnkRemoveUtilizationExpression);
+		mghprlnkRemoveUtilizationExpression.setText("");
 
 		Button btnSelectUtilExpression = toolkit.createButton(composite_2,
 				"Select", SWT.NONE);
@@ -875,13 +890,18 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 
-		if (readonly) {
-			btnSelectCapExpression.setEnabled(false);
-			btnSelectUtilExpression.setEnabled(false);
-			// hypLnkAddResource.setEnabled(false);
-
+		if (readOnly) {
+			
+			mghprlnkNewResource.setVisible(false);
 			mntmEditResource.setEnabled(false);
 			mntmRemoveResource.setEnabled(false);
+			
+			mghprlnkRemoveCapacityExpression.setVisible(false);
+			mghprlnkRemoveUtilizationExpression.setVisible(false);
+			
+			btnSelectCapExpression.setVisible(false);
+			btnSelectUtilExpression.setVisible(false);
+
 		}
 		return sctnResources;
 	}
@@ -896,7 +916,11 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		initDataBindings_();
 	}
 
-	public abstract void buildUI();
+	public void buildUI(){
+		// Readonlyness.
+		readOnly = ScreenUtil.isReadOnlyOperation(this.getOperation());
+		widgetStyle = readOnly ? SWT.READ_ONLY : SWT.NONE;
+	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();

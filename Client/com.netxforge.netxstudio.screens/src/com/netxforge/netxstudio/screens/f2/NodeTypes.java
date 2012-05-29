@@ -24,12 +24,12 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -56,6 +56,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -88,13 +89,15 @@ import com.netxforge.netxstudio.screens.f2.support.NodeTypeTreeLabelProvider;
  * 
  */
 public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
-
+	
+	private static final String MEM_KEY_NODETYPES_SELECTION_TREE = "MEM_KEY_NODETYPES_SELECTION_TREE";
+	
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
 	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
 	private Form frmNodeTypes;
-	private Resource nodeTypeResource;
+	private CDOResource nodeTypeResource;
 	private TreeViewer nodeTypeTreeViewer;
 	private Composite cmpDetails;
 	private SashForm sashForm;
@@ -124,7 +127,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
 	 */
 	public void injectData() {
-		nodeTypeResource = editingService
+		nodeTypeResource = (CDOResource) editingService
 				.getData(LibraryPackage.Literals.NODE_TYPE);
 		buildUI();
 		initDataBindings_();
@@ -184,33 +187,39 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 			}
 		});
 
-		hypLnkNewNodeType = toolkit.createImageHyperlink(composite, SWT.NONE);
-		hypLnkNewNodeType.setImage(ResourceManager.getPluginImage(
-				"com.netxforge.netxstudio.models.edit",
-				"icons/full/ctool16/Node_E.png"));
-		hypLnkNewNodeType.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				// Create a new top level nodetype.
-				NodeType newNodeType = LibraryFactory.eINSTANCE
-						.createNodeType();
-				newNodeType.setName("<new NE Type>");
-				Command add = new AddCommand(editingService.getEditingDomain(),
-						nodeTypeResource.getContents(), newNodeType);
+		if (!readonly) {
 
-				editingService.getEditingDomain().getCommandStack()
-						.execute(add);
-			}
+			hypLnkNewNodeType = toolkit.createImageHyperlink(composite,
+					SWT.NONE);
+			hypLnkNewNodeType.setImage(ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/ctool16/Node_E.png"));
+			hypLnkNewNodeType.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					// Create a new top level nodetype.
+					NodeType newNodeType = LibraryFactory.eINSTANCE
+							.createNodeType();
+					newNodeType.setName("<new NE Type>");
+					Command add = new AddCommand(editingService
+							.getEditingDomain(),
+							nodeTypeResource.getContents(), newNodeType);
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+					editingService.getEditingDomain().getCommandStack()
+							.execute(add);
+				}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		hypLnkNewNodeType.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
-		toolkit.paintBordersFor(hypLnkNewNodeType);
-		hypLnkNewNodeType.setText("New");
+				public void linkEntered(HyperlinkEvent e) {
+				}
+
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			hypLnkNewNodeType.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+					false, false, 1, 1));
+			toolkit.paintBordersFor(hypLnkNewNodeType);
+			hypLnkNewNodeType.setText("New");
+
+		}
 
 		nodeTypeTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.MULTI
 				| SWT.VIRTUAL | widgetStyle);
@@ -290,11 +299,11 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		return actions.toArray(new IAction[actions.size()]);
 	}
 
-//	public void disposeData() {
-//		if (editingService != null) {
-//			editingService.disposeData(nodeTypeResource);
-//		}
-//	}
+	// public void disposeData() {
+	// if (editingService != null) {
+	// editingService.disposeData(nodeTypeResource);
+	// }
+	// }
 
 	public EMFDataBindingContext initDataBindings_() {
 
@@ -472,6 +481,38 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public String getScreenName() {
 		return "NE Types";
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#saveState(org.eclipse
+	 * .ui.IMemento)
+	 */
+	@Override
+	public void saveState(IMemento memento) {
+
+		// sash state vertical.
+		mementoUtils.rememberStructuredViewerSelection(memento, nodeTypeTreeViewer,
+				MEM_KEY_NODETYPES_SELECTION_TREE);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#init(org.eclipse.
+	 * ui.IMemento)
+	 */
+	@Override
+	public void restoreState(IMemento memento) {
+
+		mementoUtils.retrieveStructuredViewerSelection(memento, nodeTypeTreeViewer,
+				MEM_KEY_NODETYPES_SELECTION_TREE,
+				this.nodeTypeResource.cdoView());
+
 	}
 
 }

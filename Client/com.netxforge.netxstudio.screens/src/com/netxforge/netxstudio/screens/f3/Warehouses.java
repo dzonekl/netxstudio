@@ -146,14 +146,13 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 
 		// Readonlyness.
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmNodeTypes = toolkit.createForm(this);
 		frmNodeTypes.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNodeTypes);
 
-		frmNodeTypes.setText(actionText + "Warehouse");
+		frmNodeTypes.setText(getOperationText() + "Warehouse");
 		frmNodeTypes.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		sashForm = new SashForm(frmNodeTypes.getBody(), SWT.VERTICAL);

@@ -101,7 +101,7 @@ public class WarehouseTree extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -147,12 +147,16 @@ public class WarehouseTree extends AbstractScreen implements
 	}
 
 	private void buildUI() {
+
+		// Readonlyness.
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
+
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmWarehouseTree = toolkit.createForm(this);
 		frmWarehouseTree.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmWarehouseTree);
-		frmWarehouseTree.setText("Warehouses");
+		frmWarehouseTree.setText(getOperationText() + "Warehouses");
 		frmWarehouseTree.getBody().setLayout(new GridLayout(4, false));
 
 		Label lblFilterLabel = toolkit.createLabel(frmWarehouseTree.getBody(),
@@ -184,38 +188,41 @@ public class WarehouseTree extends AbstractScreen implements
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
 
-		ImageHyperlink hypLnkNewWarehouse = toolkit.createImageHyperlink(
-				frmWarehouseTree.getBody(), SWT.NONE);
-		hypLnkNewWarehouse.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				NewEditWarehouse warehouseScreen = new NewEditWarehouse(
-						screenService.getScreenContainer(), SWT.NONE);
-				warehouseScreen.setOperation(ScreenUtil.OPERATION_NEW);
-				warehouseScreen.setScreenService(screenService);
-				Warehouse newWarehouse = OperatorsFactory.eINSTANCE
-						.createWarehouse();
-				warehouseScreen.injectData(warehouseResource, newWarehouse);
-				screenService.setActiveScreen(warehouseScreen);
-			}
+		if (!readonly) {
+			ImageHyperlink hypLnkNewWarehouse = toolkit.createImageHyperlink(
+					frmWarehouseTree.getBody(), SWT.NONE);
+			hypLnkNewWarehouse.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					NewEditWarehouse warehouseScreen = new NewEditWarehouse(
+							screenService.getScreenContainer(), SWT.NONE);
+					warehouseScreen.setOperation(ScreenUtil.OPERATION_NEW);
+					warehouseScreen.setScreenService(screenService);
+					Warehouse newWarehouse = OperatorsFactory.eINSTANCE
+							.createWarehouse();
+					warehouseScreen.injectData(warehouseResource, newWarehouse);
+					screenService.setActiveScreen(warehouseScreen);
+				}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+				public void linkEntered(HyperlinkEvent e) {
+				}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		hypLnkNewWarehouse.setImage(ResourceManager.getPluginImage(
-				"com.netxforge.netxstudio.models.edit",
-				"icons/full/ctool16/Warehouse_E.png"));
-		toolkit.paintBordersFor(hypLnkNewWarehouse);
-		hypLnkNewWarehouse.setText("New");
-		new Label(frmWarehouseTree.getBody(), SWT.NONE);
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			hypLnkNewWarehouse.setImage(ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/ctool16/Warehouse_E.png"));
+			toolkit.paintBordersFor(hypLnkNewWarehouse);
+			hypLnkNewWarehouse.setText("New");
+			new Label(frmWarehouseTree.getBody(), SWT.NONE);
+
+		}
 
 		warehouseTreeViewer = new TreeViewer(frmWarehouseTree.getBody(),
 				SWT.BORDER | SWT.VIRTUAL);
 		warehouseTreeViewer.setUseHashlookup(true);
 		warehouseTreeViewer.setComparer(new CDOElementComparer());
-		
+
 		Tree tree = warehouseTreeViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
@@ -260,10 +267,9 @@ public class WarehouseTree extends AbstractScreen implements
 					if (o instanceof Warehouse) {
 						NewEditWarehouse warehouseScreen = new NewEditWarehouse(
 								screenService.getScreenContainer(), SWT.NONE);
-						warehouseScreen.setOperation(ScreenUtil.OPERATION_NEW);
+						warehouseScreen.setOperation(getOperation());
 						warehouseScreen.setScreenService(screenService);
-						warehouseScreen.injectData(warehouseResource,
-								o);
+						warehouseScreen.injectData(warehouseResource, o);
 						screenService.setActiveScreen(warehouseScreen);
 					}
 				}
@@ -285,21 +291,20 @@ public class WarehouseTree extends AbstractScreen implements
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();
-	
+
 	@Override
 	public IAction[] getActions() {
-		if(actions.isEmpty()){
+		if (actions.isEmpty()) {
 			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
 			String actionText = readonly ? "View" : "Edit";
 			actions.add(new EditWarehouseItemAction(actionText + "..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Warehouses";
 	}
-
 
 }
