@@ -27,8 +27,7 @@ public interface IDataInjection {
 	
 	/**
 	 * Screens can implement, to have injection occur automatically, 
-	 * when a server invalidation occurs.  To prevent injection to happen 
-	 * for each notification, screens can 
+	 * when a server invalidation occurs.
 	 * 
 	 * @return
 	 */

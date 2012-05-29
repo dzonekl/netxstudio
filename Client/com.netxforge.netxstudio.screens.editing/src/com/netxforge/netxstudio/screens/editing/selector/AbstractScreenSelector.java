@@ -145,8 +145,9 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		if (screen != null) {
 			getActionHandlerDescriptor().clearDynamicHandlers();
 			// before activating the screen, set the selection providerts.
-			this.setCurrentScreen(screen);
 			this.activeScreen = screen;
+			this.setCurrentScreen(screen);
+			
 			// Make sure we update the dirty state, when changing screen.
 			firePropertyChange(ISaveablePart2.PROP_DIRTY);
 
@@ -177,6 +178,17 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		// force an update of the current screen.
 		this.setCurrentScreen(screen);
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.selector.ScreenChangeListener#screenInvalid(com.netxforge.netxstudio.screens.editing.selector.IScreen)
+	 */
+	public void screenInvalid(IScreen screen) {
+		// When our screen is invalidated, we should do whatever necessary for now update the status line.
+		if(screen != null){
+			this.setStatusLineManager(screen.getScreenObjects());
+		}
+	}
+
 
 	public IScreen getScreen() {
 		return this.activeScreen;
@@ -233,4 +245,5 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		return new ShowInContext(null, this.getSelection());
 	}
 
+	
 }

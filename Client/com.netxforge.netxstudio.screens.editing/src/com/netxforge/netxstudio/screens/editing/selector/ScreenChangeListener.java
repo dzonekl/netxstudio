@@ -30,4 +30,6 @@ public interface ScreenChangeListener extends EventListener {
 	
 	public void screenWidgetChanged(IScreen screen);
 	
+	public void screenInvalid(IScreen screen);
+	
 }

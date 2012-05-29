@@ -651,6 +651,7 @@ public class ScreenFormService implements IScreenFormService {
 	private ModelUtils modelUtils;
 
 	// Notification of screen changing.
+	// 29-05 these listeners will also be notified of a screen invalidation. 
 
 	List<ScreenChangeListener> screenChangedListeners = new ArrayList<ScreenChangeListener>();
 
@@ -683,7 +684,14 @@ public class ScreenFormService implements IScreenFormService {
 			l.screenChanged(screen);
 		}
 	}
+	
 
+	public void fireScreenInvalidExternal(IScreen screen) {
+		for (ScreenChangeListener l : screenChangedListeners) {
+			l.screenInvalid(screen);
+		}
+	}
+	
 	public AbstractScreensViewPart getAbsViewPart() {
 		return absViewPart;
 	}

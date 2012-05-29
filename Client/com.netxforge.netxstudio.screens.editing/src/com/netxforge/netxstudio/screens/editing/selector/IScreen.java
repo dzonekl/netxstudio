@@ -18,6 +18,9 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.editing.selector;
 
+import java.util.Collection;
+
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.jface.action.IAction;
@@ -141,5 +144,12 @@ public interface IScreen extends IViewerProvider, ISelectionProvider, IPersistab
 	 * @param memento
 	 */
 	public abstract void restoreState(IMemento memento);
+	
+	
+	/**
+	 * The screen objects being served. 
+	 * @return
+	 */
+	public abstract Collection<CDOObject> getScreenObjects();
 	
 }

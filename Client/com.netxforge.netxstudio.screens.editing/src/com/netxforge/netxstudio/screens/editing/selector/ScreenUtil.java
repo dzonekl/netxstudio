@@ -48,7 +48,7 @@ public class ScreenUtil {
 	public static final int OPERATION_EDIT = 0x0100;
 	public static final int OPERATION_NEW = 0x0200;
 	public static final int OPERATION_READ_ONLY = 0x0400;
-
+	
 	public static boolean isNewOperation(int operation) {
 		return (operation & OPERATION_NEW) != 0;
 	}

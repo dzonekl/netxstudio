@@ -159,6 +159,12 @@ public interface IScreenFormService {
 	
 	
 	/**
+	 * Notify of an external screen invalidation ( An IScreen
+	 * @param screen
+	 */
+	public abstract void fireScreenInvalidExternal(IScreen screen);
+	
+	/**
 	 * Notify of a widget changed within the screen.
 	 * this could trigger to query which widget should provide selection. 
 	 * The screen itself can be queried for the current widget in focus. 

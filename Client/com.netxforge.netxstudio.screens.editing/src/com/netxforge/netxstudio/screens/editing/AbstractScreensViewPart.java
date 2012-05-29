@@ -24,6 +24,7 @@ import java.util.EventObject;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.common.command.BasicCommandStack;
@@ -368,15 +369,17 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		public void commandStackChanged(final EventObject event) {
 
 			// Note this also fires when flushing the command stack, as
-			// this is executed async, the widget is disposed so bail if there is no recent command
-			System.err.println("AbstractScreensViewPart last command =" + event.getSource());
-			if( event.getSource() instanceof BasicCommandStack){
+			// this is executed async, the widget is disposed so bail if there
+			// is no recent command
+			System.err.println("AbstractScreensViewPart last command ="
+					+ event.getSource());
+			if (event.getSource() instanceof BasicCommandStack) {
 				BasicCommandStack stack = (BasicCommandStack) event.getSource();
-				if ( stack.getMostRecentCommand() == null){
+				if (stack.getMostRecentCommand() == null) {
 					return;
 				}
 			}
-			
+
 			getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
 				public void run() {
 
@@ -438,13 +441,50 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	public void setSelection(ISelection selection) {
 		this.viewSelection = selection;
-		// System.out.println("AbstractScreensViewPart#setSelection " +
-		// selection);
 		for (ISelectionChangedListener listener : selectionChangedListeners) {
 			listener.selectionChanged(new SelectionChangedEvent(this, selection));
 		}
+		
+		// Set the status, either selection or the main object handled by the screen.
+		if (!selection.isEmpty()) {
+			setStatusLineManager(selection);
+		} else {
+			IScreen screen = this.getScreen();
+			setStatusLineManager(screen.getScreenObjects());
+		}
+	}
 
-		setStatusLineManager(selection);
+	protected void setStatusLineManager(Collection<CDOObject> screenObjects) {
+		String message = "";
+		switch (screenObjects.size()) {
+		case 0: {
+			message = "No objects";
+			break;
+		}
+		case 1: {
+			CDOObject next = screenObjects.iterator().next();
+			CDOID cdoID = ((CDOObject) next).cdoID();
+			String text = new AdapterFactoryItemDelegator(
+					getEditingService().getAdapterFactory())
+					.getText(next);
+			
+			message = "Screen object: " + text + " OID:" + cdoID ;
+			
+			// An object could be in proxy state, append the version if not. (Otherwise the cdo revision will be null; 
+			if(next.cdoState() != CDOState.PROXY){
+				CDORevision cdoRevision = next.cdoRevision();
+				int version = cdoRevision.getVersion();
+				message += " version: " + version;
+			}
+
+			break;
+		}
+		default: {
+			message = "Objects: " + Integer.toString(screenObjects.size());
+			break;
+		}
+		}
+		setStatusLineManager(message);
 	}
 
 	/**
@@ -452,46 +492,49 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 * 
 	 * @generated
 	 */
-	public void setStatusLineManager(ISelection selection) {
+	private void setStatusLineManager(ISelection selection) {
+
+		String message = "";
+		if (selection instanceof IStructuredSelection) {
+			Collection<?> collection = ((IStructuredSelection) selection)
+					.toList();
+			switch (collection.size()) {
+			case 0: {
+				message = "No selection";
+				break;
+			}
+			case 1: {
+				Object next = collection.iterator().next();
+				if (next instanceof CDOObject) {
+
+					CDORevision cdoRevision = ((CDOObject) next).cdoRevision();
+					int version = cdoRevision.getVersion();
+
+					CDOID cdoID = ((CDOObject) next).cdoID();
+
+					String text = new AdapterFactoryItemDelegator(
+							getEditingService().getAdapterFactory())
+							.getText(next);
+					message = "Selection: " + text + " OID:" + cdoID
+							+ " version: " + version;
+				}
+				break;
+			}
+			default: {
+				message = "Selection: " + Integer.toString(collection.size());
+				break;
+			}
+			}
+		}
+		this.setStatusLineManager(message);
+	}
+
+	private void setStatusLineManager(String message) {
 
 		IStatusLineManager statusLineManager = this.getViewSite()
 				.getActionBars().getStatusLineManager();
-
 		if (statusLineManager != null) {
-			if (selection instanceof IStructuredSelection) {
-				Collection<?> collection = ((IStructuredSelection) selection)
-						.toList();
-				switch (collection.size()) {
-				case 0: {
-					statusLineManager.setMessage("No selection");
-					break;
-				}
-				case 1: {
-					Object next = collection.iterator().next();
-					if (next instanceof CDOObject) {
-						
-						CDORevision cdoRevision = ((CDOObject) next).cdoRevision();
-						int version = cdoRevision.getVersion();
-						
-						CDOID cdoID = ((CDOObject) next).cdoID();
-
-						String text = new AdapterFactoryItemDelegator(
-								getEditingService().getAdapterFactory())
-								.getText(next);
-						statusLineManager.setMessage("Selection: " + text
-								+ " OID:" + cdoID + " version: " + version );
-					}
-					break;
-				}
-				default: {
-					statusLineManager.setMessage("Selection: "
-							+ Integer.toString(collection.size()));
-					break;
-				}
-				}
-			} else {
-				statusLineManager.setMessage("");
-			}
+			statusLineManager.setMessage(message);
 		}
 	}
 
@@ -588,7 +631,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 		// Set the editors selection based on the current viewer's
 		// selection.
-		//
 		setSelection(screen == null ? StructuredSelection.EMPTY : screen
 				.getSelection());
 

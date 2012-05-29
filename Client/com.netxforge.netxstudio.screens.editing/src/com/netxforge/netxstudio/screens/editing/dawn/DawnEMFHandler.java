@@ -58,17 +58,18 @@ public class DawnEMFHandler extends BasicDawnListener {
 	public void handleViewInvalidationEvent(CDOViewInvalidationEvent event) {
 		super.handleViewInvalidationEvent(event);
 
-//		Map<CDOObject, CDORevisionDelta> revisionDeltas = event
-//				.getRevisionDeltas();
-//		for (CDOObject key = revisionDeltas.keySet().iterator().next(); revisionDeltas
-//				.keySet().iterator().hasNext();) {
-//			CDORevisionDelta cdoRevisionDelta = revisionDeltas.get(key);
-//			if (cdoRevisionDelta != null) {
-//				CDOID id = cdoRevisionDelta.getID();
-//				System.out.println(" Revision delta for event, cdoID=" + id);
-//			}
-//
-//		}
+		// Map<CDOObject, CDORevisionDelta> revisionDeltas = event
+		// .getRevisionDeltas();
+		// for (CDOObject key = revisionDeltas.keySet().iterator().next();
+		// revisionDeltas
+		// .keySet().iterator().hasNext();) {
+		// CDORevisionDelta cdoRevisionDelta = revisionDeltas.get(key);
+		// if (cdoRevisionDelta != null) {
+		// CDOID id = cdoRevisionDelta.getID();
+		// System.out.println(" Revision delta for event, cdoID=" + id);
+		// }
+		//
+		// }
 
 		Set<CDOObject> dos = event.getDirtyObjects();
 		if (EditingActivator.DEBUG) {
@@ -108,69 +109,53 @@ public class DawnEMFHandler extends BasicDawnListener {
 
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				
-				IScreen screen = ((IScreenProvider)editor).getScreen();
-				if(screen == null){
+
+				IScreen screen = ((IScreenProvider) editor).getScreen();
+				if (screen == null) {
 					return;
 				}
-				
-				IDataInjection dataInjection = ScreenUtil.dataInjectionFor(screen);
-				
-				if(dataInjection.shouldInjectForObject(dos)){
-					// Inject here.... the screen can accept or not. 
+
+				IDataInjection dataInjection = ScreenUtil
+						.dataInjectionFor(screen);
+
+				if (dataInjection.shouldInjectForObject(dos)) {
+					// Inject here.... the screen can accept or not.
 				}
-				
-				// Walk all the viewers for this screen. 
-				for( Viewer v : screen.getViewers()){
+
+				// Walk all the viewers for this screen.
+				for (Viewer v : screen.getViewers()) {
 					if (EditingActivator.DEBUG) {
 						if (v == null) {
 							System.out
 									.println("CDOEditingService: No viewer registered for this screen");
+							continue;
 						} else {
 							System.out
 									.println("CDOEditingService: updating viewer");
 						}
 
 					}
-					if (v != null) {
-						if (v instanceof StructuredViewer && !v.getControl().isDisposed()) {
-							v.refresh();
-							// Show the state of the objects after a refresh.
+					if (v instanceof StructuredViewer
+							&& !v.getControl().isDisposed()) {
+						v.refresh();
+						// Show the state of the objects after a refresh.
 
-							if (EditingActivator.DEBUG) {
-								for (CDOObject cdoObject : dos) {
-									System.out
-											.println("CDOEditingService: root: object="
-													+ cdoObject.cdoID()
-													+ " , state="
-													+ cdoObject.cdoState());
-
-									// Print the state of the children.
-									// CB, Do not print, as this could be the root
-									// resource, so all objects in the
-									// DB!
-									// TreeIterator<EObject> eAllContents =
-									// cdoObject.eAllContents();
-									// while(eAllContents.hasNext()){
-									// CDOObject next = (CDOObject)
-									// eAllContents.next();
-									// System.out.println("CDOEditingService: child: object="
-									// + next.cdoID() + " , state="
-									// + next.cdoState());
-									// }
-								}
+						if (EditingActivator.DEBUG) {
+							for (CDOObject cdoObject : dos) {
+								System.out
+										.println("CDOEditingService: root: object="
+												+ cdoObject.cdoID()
+												+ " , state="
+												+ cdoObject.cdoState());
 							}
-
 						}
 					}
-					// No viewer to update, if we are in a form screen,
-					// this could be a conflict.
 				}
-				
-				
-				// CB, TODO Remove later. Depracated, multiple viewer support. 
-//				Viewer v = ((IViewerProvider) editor).getViewer();
 
+				// in screen form service fire screen Invalid changed, this
+				// comes after refreshing the view
+				// , making sure the objects are never in state PROXY.
+				screen.getScreenService().fireScreenInvalidExternal(screen);
 			}
 		});
 	}
