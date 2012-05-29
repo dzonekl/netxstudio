@@ -1488,12 +1488,12 @@ public class InterpreterTypeless implements IInterpreter {
 				// For capcity calculations, we likely
 				// get a single value. To calculate the utilization,
 				// it would be needed to make it a complete range.
-				v = modelUtils.valuesInRange(
+				v = modelUtils.valuesInsideRange(
 						((NetXResource) resource).getCapacityValues(), dtr);
 			}
 				break;
 			case ValueRange.UTILIZATION_VALUE: {
-				v = modelUtils.valuesInRange(
+				v = modelUtils.valuesInsideRange(
 						((NetXResource) resource).getUtilizationValues(), dtr);
 			}
 				break;
@@ -1503,7 +1503,7 @@ public class InterpreterTypeless implements IInterpreter {
 			switch (rangeRef.getValuerange().getValue()) {
 			case ValueRange.DERIVED_VALUE: {
 				v = ((DerivedResource) resource).getValues();
-				v = modelUtils.valuesInRange(v, dtr);
+				v = modelUtils.valuesInsideRange(v, dtr);
 			}
 			}
 		}
