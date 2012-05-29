@@ -17,6 +17,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.callflow.screens;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -420,4 +422,10 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		// do nothing, clients should override to restore the state of the UI.
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#getScreenObjects()
+	 */
+	public Collection<CDOObject> getScreenObjects() {
+		return Collections.emptyList();
+	}
 }
