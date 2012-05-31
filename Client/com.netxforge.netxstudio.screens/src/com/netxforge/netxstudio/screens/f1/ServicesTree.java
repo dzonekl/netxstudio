@@ -165,7 +165,6 @@ public class ServicesTree extends AbstractScreen implements
 
 		// Readonlyness.
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmServices = toolkit.createForm(this);
@@ -173,7 +172,7 @@ public class ServicesTree extends AbstractScreen implements
 		frmServices.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmServices);
 
-		frmServices.setText(actionText + "Services");
+		frmServices.setText(this.getOperationText() + "Services");
 		frmServices.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		sashForm = new SashForm(frmServices.getBody(), SWT.VERTICAL);
@@ -211,43 +210,47 @@ public class ServicesTree extends AbstractScreen implements
 			}
 		});
 
-		hypLnkNewRFSService = toolkit.createImageHyperlink(composite, SWT.NONE);
-		hypLnkNewRFSService.setImage(ResourceManager.getPluginImage(
-				"com.netxforge.netxstudio.models.edit",
-				"icons/full/ctool16/Service_E.png"));
-		hypLnkNewRFSService.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
+		if (!readonly) {
+			hypLnkNewRFSService = toolkit.createImageHyperlink(composite,
+					SWT.NONE);
+			hypLnkNewRFSService.setImage(ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/ctool16/Service_E.png"));
+			hypLnkNewRFSService.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
 
-				OperatorFilterDialog dialog = new OperatorFilterDialog(
-						ServicesTree.this.getShell(), operatorsResource);
-				int result = dialog.open();
+					OperatorFilterDialog dialog = new OperatorFilterDialog(
+							ServicesTree.this.getShell(), operatorsResource);
+					int result = dialog.open();
 
-				if (result == Window.OK) {
-					Operator operator = (Operator) dialog.getFirstResult();
+					if (result == Window.OK) {
+						Operator operator = (Operator) dialog.getFirstResult();
 
-					// Create a new top level nodetype.
-					RFSService newRFSService = ServicesFactory.eINSTANCE
-							.createRFSService();
-					newRFSService
-							.setServiceName("<new Resource Facing Service>");
-					Command add = new AddCommand(editingService
-							.getEditingDomain(), operator.getServices(),
-							newRFSService);
-					editingService.getEditingDomain().getCommandStack()
-							.execute(add);
+						// Create a new top level nodetype.
+						RFSService newRFSService = ServicesFactory.eINSTANCE
+								.createRFSService();
+						newRFSService
+								.setServiceName("<new Resource Facing Service>");
+						Command add = new AddCommand(editingService
+								.getEditingDomain(), operator.getServices(),
+								newRFSService);
+						editingService.getEditingDomain().getCommandStack()
+								.execute(add);
+					}
 				}
-			}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+				public void linkEntered(HyperlinkEvent e) {
+				}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		hypLnkNewRFSService.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
-		toolkit.paintBordersFor(hypLnkNewRFSService);
-		hypLnkNewRFSService.setText("New");
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			hypLnkNewRFSService.setLayoutData(new GridData(SWT.RIGHT,
+					SWT.CENTER, false, false, 1, 1));
+			toolkit.paintBordersFor(hypLnkNewRFSService);
+			hypLnkNewRFSService.setText("New");
+
+		}
 
 		serviceTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.MULTI
 				| SWT.VIRTUAL | widgetStyle);
@@ -358,13 +361,13 @@ public class ServicesTree extends AbstractScreen implements
 			actions.add(new ServiceMonitoringAction("Monitoring Result..."));
 			actions.add(new SeparatorAction());
 
+			actions.add(new SeparatorAction());
 			if (!readonly) {
-				actions.add(new SeparatorAction());
 				actions.add(new ScheduleReportingJobAction(
 						"Schedule Reporting Job..."));
-				actions.add(new ReportNowAction("Report Now"));
-				actions.add(new SeparatorAction());
 			}
+			actions.add(new ReportNowAction("Report Now..."));
+			actions.add(new SeparatorAction());
 		}
 
 		return actions.toArray(new IAction[actions.size()]);
@@ -511,7 +514,7 @@ public class ServicesTree extends AbstractScreen implements
 					ServiceMonitors smScreen = new ServiceMonitors(
 							screenService.getScreenContainer(), SWT.NONE);
 					// CB 09-04-2012 Will prevent delete!
-//					smScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
+					// smScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 					smScreen.setOperation(ScreenUtil.OPERATION_EDIT);
 					smScreen.setScreenService(screenService);
 					smScreen.injectData(null, o);

@@ -100,7 +100,7 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 		formToolkit.adapt(this);
 		formToolkit.paintBordersFor(this);
 
-//		buildUI();
+		// buildUI();
 	}
 
 	private void buildUI() {
@@ -108,22 +108,20 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 
 		// Readonlyness.
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-
-		@SuppressWarnings("unused")
-		String actionText = readonly ? "View: " : "Edit: ";
-		@SuppressWarnings("unused")
-		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+//		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmServiceDistribution = formToolkit.createForm(this);
 		formToolkit.paintBordersFor(frmServiceDistribution);
 
-		frmServiceDistribution.setText("Service Distribution");
+		frmServiceDistribution.setText(this.getOperationText()
+				+ "Service Distribution");
 		ColumnLayout cl = new ColumnLayout();
 		cl.maxNumColumns = 2;
 		frmServiceDistribution.getBody().setLayout(cl);
 
 		Section sctnResourceProfiles = formToolkit.createSection(
-				frmServiceDistribution.getBody(), Section.TWISTIE | Section.TITLE_BAR);
+				frmServiceDistribution.getBody(), Section.TWISTIE
+						| Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnResourceProfiles);
 		sctnResourceProfiles.setText("Distribution Resources");
 		sctnResourceProfiles.setExpanded(true);
@@ -146,17 +144,18 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 			}
 
 			public void linkActivated(HyperlinkEvent e) {
-				
+
 				List<NodeType> types = Lists.newArrayList();
-				for(Node n : service.getNodes()){
+				for (Node n : service.getNodes()) {
 					types.add(n.getNodeType());
 				}
 				types = modelUtils.uniqueNodeTypes(types);
-				List<NetXResource> allResources = modelUtils.resourcesFromNodeTypes(types);
-				
+				List<NetXResource> allResources = modelUtils
+						.resourcesFromNodeTypes(types);
+
 				NetXResourceFilterDialog netXResourceFilterDialog = new NetXResourceFilterDialog(
 						ServiceDistributionScreen.this.getShell(), allResources);
-				
+
 				int result = netXResourceFilterDialog.open();
 				if (result == Window.OK) {
 					Object selected = netXResourceFilterDialog.getFirstResult();
@@ -188,7 +187,7 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 
 		resourcesTableViewer = new TableViewer(composite_2, SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.MULTI);
-		
+
 		table = resourcesTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -208,13 +207,12 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 		TableColumn tblclmnName = tableViewerColumn.getColumn();
 		tblclmnName.setWidth(150);
 		tblclmnName.setText("Resource Name");
-		
+
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
 		TableColumn tblclmnNewColumn = tableViewerColumn_2.getColumn();
 		tblclmnNewColumn.setWidth(60);
 		tblclmnNewColumn.setText("Origin");
-
 
 		Menu resourcesMenu = new Menu(table);
 		table.setMenu(resourcesMenu);
@@ -243,7 +241,6 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 			}
 		});
 		mntmRemoveResource.setText("Remove");
-
 
 		ImageHyperlink imageHyperlink_2 = formToolkit.createImageHyperlink(
 				composite_2, SWT.NONE);
@@ -299,8 +296,9 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 		Button btnSelectDistributionExpression = formToolkit.createButton(
 				composite_2, "Select", SWT.NONE);
 
-		Section sctnMatrix = formToolkit.createSection(frmServiceDistribution.getBody(),
-				Section.TWISTIE | Section.TITLE_BAR);
+		Section sctnMatrix = formToolkit.createSection(
+				frmServiceDistribution.getBody(), Section.TWISTIE
+						| Section.TITLE_BAR);
 		ColumnLayoutData cld_sctnMatrix = new ColumnLayoutData();
 		cld_sctnMatrix.heightHint = 230;
 		sctnMatrix.setLayoutData(cld_sctnMatrix);
@@ -312,15 +310,17 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 		formToolkit.paintBordersFor(composite);
 		sctnMatrix.setClient(composite);
 		composite.setLayout(new GridLayout(1, false));
-		
-		GridTableViewer gridTableViewer = new GridTableViewer(composite, SWT.BORDER);
+
+		GridTableViewer gridTableViewer = new GridTableViewer(composite,
+				SWT.BORDER);
 		Grid grid = gridTableViewer.getGrid();
 		GridData gd_grid = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd_grid.heightHint = 200;
 		grid.setLayoutData(gd_grid);
 		formToolkit.paintBordersFor(grid);
-		
-		GridViewerColumn gridViewerColumn = new GridViewerColumn(gridTableViewer, SWT.NONE);
+
+		GridViewerColumn gridViewerColumn = new GridViewerColumn(
+				gridTableViewer, SWT.NONE);
 		GridColumn gridColumn = gridViewerColumn.getColumn();
 		gridColumn.setWidth(100);
 		gridColumn.setText("Node");
@@ -462,23 +462,29 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 	public void injectData(Object owner, Object object) {
 
 		if (object != null && object instanceof Service) {
+			// Auto create the service distribution object.
 			service = (RFSService) object;
 			if (!service
 					.eIsSet(ServicesPackage.Literals.SERVICE__SERVICE_DISTRIBUTION)) {
 				service.setServiceDistribution(ServicesFactory.eINSTANCE
 						.createServiceDistribution());
-
+				MessageDialog.openInformation(this.getShell(),
+						"Service Distribution created",
+						"A Service distribution object has been created for the service "
+								+ service.getServiceName());
+				this.addData();
+				
 			}
 			serviceDistribution = service.getServiceDistribution();
 		} else {
 			throw new java.lang.IllegalArgumentException(
 					"Data injection for screen invalid");
 		}
-		
-		// Print the service distribution matrix. 
+
+		// Print the service distribution matrix.
 		Node[][] matrix = modelUtils.matrix(service.getNodes());
 		modelUtils.printMatrix(matrix);
-		
+
 		buildUI();
 		this.initDataBindings_();
 
@@ -507,6 +513,16 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 		if (editingService.isDirty()) {
 			editingService.doSave(new NullProgressMonitor());
 		}
-
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#getScreenName()
+	 */
+	@Override
+	public String getScreenName() {
+		return "Distribution";
+	}
+
 }

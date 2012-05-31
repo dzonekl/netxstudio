@@ -28,6 +28,7 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -123,6 +124,10 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 	private Section sctnInfo;
 
+	private boolean readonly;
+
+	private int widgetStyle;
+
 	public NewEditServiceTree(Composite parent, int style,
 			final IEditingService editingService) {
 		super(parent, style);
@@ -133,21 +138,21 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	private void buildUI() {
 
 		// Readonlyness.
-		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+		readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
+		widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
-		buildInfoSection(widgetStyle);
-		buildSummarySection(readonly);
-		buildNetworkElementsSection(readonly);
-		buildServiceUserSection(readonly);
-		buildLifeCycleSection(readonly);
-		buildHierarchySection(readonly);
-		buildServiceDistributionSection(readonly);
-		buildToleranceSection(readonly);
+		buildInfoSection();
+		buildSummarySection();
+		buildNetworkElementsSection();
+		buildServiceUserSection();
+		buildLifeCycleSection();
+		buildHierarchySection();
+		buildServiceDistributionSection();
+		buildToleranceSection();
 
 	}
 
-	private void buildLifeCycleSection(boolean readonly) {
+	private void buildLifeCycleSection() {
 
 		Section sctnLifecycle = toolkit.createSection(this, Section.TITLE_BAR
 				| Section.TWISTIE);
@@ -234,9 +239,17 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		dcOutOfService.setWeeksVisible(true);
 		toolkit.adapt(dcOutOfService);
 		toolkit.paintBordersFor(dcOutOfService);
+
+		if (readonly) {
+			dcProposed.setEditable(false);
+			dcPlanned.setEditable(false);
+			dcConstruction.setEditable(false);
+			dcInService.setEditable(false);
+			dcOutOfService.setEditable(false);
+		}
 	}
 
-	private void buildToleranceSection(boolean readonly) {
+	private void buildToleranceSection() {
 		Section sctnTolerances = formToolkit.createSection(this,
 				Section.TWISTIE | Section.TITLE_BAR);
 
@@ -250,37 +263,39 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		sctnTolerances.setClient(cmpTolerances);
 		cmpTolerances.setLayout(new GridLayout(1, false));
 
-		ImageHyperlink hypLnkAddTolerance = formToolkit.createImageHyperlink(
-				cmpTolerances, SWT.NONE);
-		hypLnkAddTolerance.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				Resource toleranceResource = editingService
-						.getData(LibraryPackage.Literals.TOLERANCE);
-				ToleranceFilterDialog dialog = new ToleranceFilterDialog(
-						NewEditServiceTree.this.getShell(), toleranceResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					Tolerance tol = (Tolerance) dialog.getFirstResult();
-					if (!service.getToleranceRefs().contains(tol)) {
-						Command c = new AddCommand(editingService
-								.getEditingDomain(),
-								service.getToleranceRefs(), tol);
-						editingService.getEditingDomain().getCommandStack()
-								.execute(c);
+		if (!readonly) {
+			ImageHyperlink hypLnkAddTolerance = formToolkit
+					.createImageHyperlink(cmpTolerances, SWT.NONE);
+			hypLnkAddTolerance.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					Resource toleranceResource = editingService
+							.getData(LibraryPackage.Literals.TOLERANCE);
+					ToleranceFilterDialog dialog = new ToleranceFilterDialog(
+							NewEditServiceTree.this.getShell(),
+							toleranceResource);
+					if (dialog.open() == IDialogConstants.OK_ID) {
+						Tolerance tol = (Tolerance) dialog.getFirstResult();
+						if (!service.getToleranceRefs().contains(tol)) {
+							Command c = new AddCommand(editingService
+									.getEditingDomain(), service
+									.getToleranceRefs(), tol);
+							editingService.getEditingDomain().getCommandStack()
+									.execute(c);
+						}
 					}
 				}
-			}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+				public void linkEntered(HyperlinkEvent e) {
+				}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		hypLnkAddTolerance.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
-		formToolkit.paintBordersFor(hypLnkAddTolerance);
-		hypLnkAddTolerance.setText("Add");
-
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			hypLnkAddTolerance.setLayoutData(new GridData(SWT.RIGHT,
+					SWT.CENTER, false, false, 1, 1));
+			formToolkit.paintBordersFor(hypLnkAddTolerance);
+			hypLnkAddTolerance.setText("Add");
+		}
 		tolerancesTableViewer = new TableViewer(cmpTolerances, SWT.BORDER
 				| SWT.FULL_SELECTION);
 		Table metricsTable = tolerancesTableViewer.getTable();
@@ -330,16 +345,12 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		mntmRemoveTolerance.setText("Remove");
 
 		if (readonly) {
-
-			hypLnkAddTolerance.setEnabled(false);
 			mntmRemoveTolerance.setEnabled(false);
-
-			// TODO, add other actions here.
 
 		}
 	}
 
-	private void buildServiceDistributionSection(boolean readonly) {
+	private void buildServiceDistributionSection() {
 		Section sctnDistribution = formToolkit.createSection(this,
 				Section.TWISTIE | Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnDistribution);
@@ -356,12 +367,21 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 				composite_4, SWT.NONE);
 		mghprlnkEdit.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				ServiceDistributionScreen screen = new ServiceDistributionScreen(
-						screenService.getScreenContainer(), SWT.NONE);
-				screen.setScreenService(screenService);
-				screen.setOperation(getOperation());
-				screen.injectData(null, service);
-				screenService.setActiveScreen(screen);
+
+				if (service
+						.eIsSet(ServicesPackage.Literals.SERVICE__SERVICE_DISTRIBUTION)) {
+
+					ServiceDistributionScreen screen = new ServiceDistributionScreen(
+							screenService.getScreenContainer(), SWT.NONE);
+					screen.setScreenService(screenService);
+					screen.setOperation(getOperation());
+					screen.injectData(null, service);
+					screenService.setActiveScreen(screen);
+				}else {
+					MessageDialog.openInformation(NewEditServiceTree.this.getShell(),
+							"Service Distribution is not existing",
+							"A Service distribution object can only be created in edit mode");
+				}
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -374,10 +394,11 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 				"com.netxforge.netxstudio.models.edit",
 				"icons/full/obj16/Servicedistribution_H.png"));
 		formToolkit.paintBordersFor(mghprlnkEdit);
-		mghprlnkEdit.setText("Edit");
+
+		mghprlnkEdit.setText(this.getOperationText());
 	}
 
-	private void buildHierarchySection(boolean readonly) {
+	private void buildHierarchySection() {
 		Section sctnHiarchy = formToolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnHiarchy);
@@ -412,7 +433,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		mghprlnkShowHiararchy.setText("Show Hierarchy");
 	}
 
-	private void buildServiceUserSection(boolean readonly) {
+	private void buildServiceUserSection() {
 		Section sctnServiceUsers = formToolkit.createSection(this,
 				Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR);
 		ColumnLayoutData cld_sctnServiceUsers = new ColumnLayoutData();
@@ -428,39 +449,44 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		sctnServiceUsers.setClient(composite_1);
 		composite_1.setLayout(new GridLayout(1, false));
 
-		ImageHyperlink mghprlnkAddServiceUser = formToolkit
-				.createImageHyperlink(composite_1, SWT.NONE);
-		mghprlnkAddServiceUser.setImage(null);
-		mghprlnkAddServiceUser.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				Resource serviceUserResource = editingService
-						.getData(ServicesPackage.Literals.SERVICE_USER);
+		if (!readonly) {
+			ImageHyperlink mghprlnkAddServiceUser = formToolkit
+					.createImageHyperlink(composite_1, SWT.NONE);
+			mghprlnkAddServiceUser.setImage(null);
+			mghprlnkAddServiceUser
+					.addHyperlinkListener(new IHyperlinkListener() {
+						public void linkActivated(HyperlinkEvent e) {
+							Resource serviceUserResource = editingService
+									.getData(ServicesPackage.Literals.SERVICE_USER);
 
-				ServiceUserFilterDialog dialog = new ServiceUserFilterDialog(
-						NewEditServiceTree.this.getShell(), serviceUserResource);
+							ServiceUserFilterDialog dialog = new ServiceUserFilterDialog(
+									NewEditServiceTree.this.getShell(),
+									serviceUserResource);
 
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					ServiceUser u = (ServiceUser) dialog.getFirstResult();
-					if (!service.getServiceUserRefs().contains(u)) {
-						Command c = new AddCommand(editingService
-								.getEditingDomain(), service
-								.getServiceUserRefs(), u);
-						editingService.getEditingDomain().getCommandStack()
-								.execute(c);
-					}
-				}
-			}
+							if (dialog.open() == IDialogConstants.OK_ID) {
+								ServiceUser u = (ServiceUser) dialog
+										.getFirstResult();
+								if (!service.getServiceUserRefs().contains(u)) {
+									Command c = new AddCommand(editingService
+											.getEditingDomain(), service
+											.getServiceUserRefs(), u);
+									editingService.getEditingDomain()
+											.getCommandStack().execute(c);
+								}
+							}
+						}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+						public void linkEntered(HyperlinkEvent e) {
+						}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkAddServiceUser.setLayoutData(new GridData(SWT.RIGHT,
-				SWT.CENTER, true, false, 1, 1));
-		formToolkit.paintBordersFor(mghprlnkAddServiceUser);
-		mghprlnkAddServiceUser.setText("Add");
+						public void linkExited(HyperlinkEvent e) {
+						}
+					});
+			mghprlnkAddServiceUser.setLayoutData(new GridData(SWT.RIGHT,
+					SWT.CENTER, true, false, 1, 1));
+			formToolkit.paintBordersFor(mghprlnkAddServiceUser);
+			mghprlnkAddServiceUser.setText("Add");
+		}
 
 		serviceUserTableViewer = new TableViewer(composite_1, SWT.BORDER
 				| SWT.FULL_SELECTION);
@@ -498,9 +524,13 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		});
 
 		mntmRemove.setText("Remove");
+
+		if (readonly) {
+			mntmRemove.setEnabled(false);
+		}
 	}
 
-	private void buildNetworkElementsSection(boolean readonly) {
+	private void buildNetworkElementsSection() {
 		Section sctnNetworkElements = formToolkit.createSection(this,
 				Section.TWISTIE | Section.TITLE_BAR);
 		ColumnLayoutData cld_sctnNetworkElements = new ColumnLayoutData();
@@ -516,60 +546,64 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		sctnNetworkElements.setClient(composite_3);
 		composite_3.setLayout(new GridLayout(1, false));
 
-		ImageHyperlink mghprlnkAddNetworkElement = formToolkit
-				.createImageHyperlink(composite_3, SWT.NONE);
-		mghprlnkAddNetworkElement
-				.addHyperlinkListener(new IHyperlinkListener() {
-					public void linkActivated(HyperlinkEvent e) {
+		if (!readonly) {
+			ImageHyperlink mghprlnkAddNetworkElement = formToolkit
+					.createImageHyperlink(composite_3, SWT.NONE);
+			mghprlnkAddNetworkElement
+					.addHyperlinkListener(new IHyperlinkListener() {
+						public void linkActivated(HyperlinkEvent e) {
 
-						Resource operatorResource = editingService
-								.getData(OperatorsPackage.Literals.OPERATOR);
+							Resource operatorResource = editingService
+									.getData(OperatorsPackage.Literals.OPERATOR);
 
-						NodeOrNetworkFilterDialog dialog = new NodeOrNetworkFilterDialog(
-								NewEditServiceTree.this.getShell(),
-								operatorResource, modelUtils);
+							NodeOrNetworkFilterDialog dialog = new NodeOrNetworkFilterDialog(
+									NewEditServiceTree.this.getShell(),
+									operatorResource, modelUtils);
 
-						if (dialog.open() == IDialogConstants.OK_ID) {
-							Object o = dialog.getFirstResult();
+							if (dialog.open() == IDialogConstants.OK_ID) {
+								Object o = dialog.getFirstResult();
 
-							List<Node> nodesToAdd = Lists.newArrayList();
-							// find non duplicates.
-							if (o instanceof Node) {
-								nodesToAdd.add((Node) o);
+								List<Node> nodesToAdd = Lists.newArrayList();
+								// find non duplicates.
+								if (o instanceof Node) {
+									nodesToAdd.add((Node) o);
+								}
+								if (o instanceof Network) {
+									// Adds all closure nodes.
+									nodesToAdd.addAll(modelUtils
+											.nodesForNetwork((Network) o));
+								}
+
+								Iterable<Node> filter = Iterables.filter(
+										nodesToAdd, new Predicate<Node>() {
+											public boolean apply(Node input) {
+												return !service.getNodes()
+														.contains(input);
+											}
+										});
+
+								Command c = new AddCommand(editingService
+										.getEditingDomain(),
+										service.getNodes(), Lists
+												.newArrayList(filter));
+								editingService.getEditingDomain()
+										.getCommandStack().execute(c);
 							}
-							if (o instanceof Network) {
-								// Adds all closure nodes.
-								nodesToAdd.addAll(modelUtils
-										.nodesForNetwork((Network) o));
-							}
 
-							Iterable<Node> filter = Iterables.filter(
-									nodesToAdd, new Predicate<Node>() {
-										public boolean apply(Node input) {
-											return !service.getNodes()
-													.contains(input);
-										}
-									});
-
-							Command c = new AddCommand(editingService
-									.getEditingDomain(), service.getNodes(),
-									Lists.newArrayList(filter));
-							editingService.getEditingDomain().getCommandStack()
-									.execute(c);
 						}
 
-					}
+						public void linkEntered(HyperlinkEvent e) {
+						}
 
-					public void linkEntered(HyperlinkEvent e) {
-					}
+						public void linkExited(HyperlinkEvent e) {
+						}
+					});
+			mghprlnkAddNetworkElement.setLayoutData(new GridData(SWT.RIGHT,
+					SWT.CENTER, true, false, 1, 1));
+			formToolkit.paintBordersFor(mghprlnkAddNetworkElement);
+			mghprlnkAddNetworkElement.setText("Add");
 
-					public void linkExited(HyperlinkEvent e) {
-					}
-				});
-		mghprlnkAddNetworkElement.setLayoutData(new GridData(SWT.RIGHT,
-				SWT.CENTER, true, false, 1, 1));
-		formToolkit.paintBordersFor(mghprlnkAddNetworkElement);
-		mghprlnkAddNetworkElement.setText("Add");
+		}
 
 		networkElementsTableViewer = new TableViewer(composite_3, SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.MULTI);
@@ -617,9 +651,13 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 			}
 		});
 		mntmRemoveNetworkElement.setText("Remove");
+
+		if (readonly) {
+			mntmRemoveNetworkElement.setEnabled(false);
+		}
 	}
 
-	private void buildSummarySection(boolean readonly) {
+	private void buildSummarySection() {
 		Section sctnSummary = formToolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnSummary);
@@ -720,7 +758,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		formTextGreen.setText("G", false, false);
 	}
 
-	private void buildInfoSection(int widgetStyle) {
+	private void buildInfoSection() {
 		sctnInfo = formToolkit.createSection(this, Section.EXPANDED
 				| Section.TWISTIE | Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnInfo);
@@ -754,7 +792,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 				false, 1, 1));
 
 		txtDescription = formToolkit.createText(composite, "New Text", SWT.WRAP
-				| SWT.MULTI);
+				| SWT.MULTI | widgetStyle);
 		txtDescription.setText("");
 		GridData gd_txtDescription = new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1);
@@ -782,8 +820,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	 */
 	private void prepServiceSummary() {
 
-		
-		if( job == null){
+		if (job == null) {
 			job = new RFSServiceSummaryJob(modelUtils);
 			job.addNotifier(new JobChangeAdapter() {
 				@Override
@@ -795,31 +832,37 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 								new Runnable() {
 
 									public void run() {
-										formTextLastMonitor.setText(
-												summary.getPeriodFormattedString(),
+										formTextLastMonitor.setText(summary
+												.getPeriodFormattedString(),
 												false, false);
-										formTextNumberOfNodes.setText(new Integer(
-												summary.getNodeCount()).toString(),
-												false, false);
+										formTextNumberOfNodes.setText(
+												new Integer(summary
+														.getNodeCount())
+														.toString(), false,
+												false);
 										formTextNumberOfResources.setText(
 												new Integer(summary
 														.getResourcesCount())
-														.toString(), false, false);
+														.toString(), false,
+												false);
 
 										formTextRed.setText(
 												new Integer(summary
 														.getRedCountResources())
-														.toString(), false, false);
+														.toString(), false,
+												false);
 										formTextAmber.setText(
-												new Integer(summary
-														.getAmberCountResources())
-														.toString(), false, false);
+												new Integer(
+														summary.getAmberCountResources())
+														.toString(), false,
+												false);
 										formTextGreen.setText(
-												new Integer(summary
-														.getGreenCountResources())
-														.toString(), false, false);
+												new Integer(
+														summary.getGreenCountResources())
+														.toString(), false,
+												false);
 										sctnInfo.redraw();
-										
+
 									}
 
 								});
@@ -827,11 +870,11 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 				}
 			});
 		}
-		if(job.isRunning()){
-			// This will abrupt the job but on demand, so we can't really start a new job here. 
+		if (job.isRunning()) {
+			// This will abrupt the job but on demand, so we can't really start
+			// a new job here.
 			job.cancelMonitor();
 		}
-		
 
 		job.setRFSServiceToProcess(service);
 		job.go(); // Should spawn a job processing the xls.
