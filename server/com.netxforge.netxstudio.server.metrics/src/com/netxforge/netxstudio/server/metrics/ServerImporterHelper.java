@@ -22,6 +22,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -125,8 +127,22 @@ public class ServerImporterHelper implements IImporterHelper {
 			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_HELPER_OPTION,
 					"-- looking for CDO resource path:" + path);
 		}
+
 		final Resource emfNetxResource = importer.getDataProvider()
 				.getResource(path);
+
+		// Set a prefetch policy so we can load a lot of objects in the first
+		// fetch.
+		// this should affect the Value objects being loaded. NetXResource-> MVR
+		// -> Value.
+		
+		if (emfNetxResource instanceof CDOResource) {
+			((CDOResource) emfNetxResource)
+					.cdoView()
+					.options()
+					.setRevisionPrefetchingPolicy(
+							CDOUtil.createRevisionPrefetchingPolicy(10));
+		}
 
 		final ValueDataKind valueDataKind = importer.getValueDataKind(column);
 		final Metric metric = valueDataKind.getMetricRef();
@@ -223,17 +239,22 @@ public class ServerImporterHelper implements IImporterHelper {
 
 		if (DataActivator.DEBUG) {
 			DataActivator.TRACE.trace(
-					DataActivator.TRACE_IMPORT_HELPER_OPTION,"-- try to add value to resource : "
-					+ foundNetXResource.getShortName() + " , value ="
-					+ value.getValue() + " timestamp="
-					+ modelUtils.dateAndTime(value.getTimeStamp()) + ", kind="
-					+ valueDataKind.getKindHint().getName() + " , interval ="
-					+ intervalHint);
+					DataActivator.TRACE_IMPORT_HELPER_OPTION,
+					"-- try to add value to resource : "
+							+ foundNetXResource.getShortName() + " , value ="
+							+ value.getValue() + " timestamp="
+							+ modelUtils.dateAndTime(value.getTimeStamp())
+							+ ", kind=" + valueDataKind.getKindHint().getName()
+							+ " , interval =" + intervalHint);
 		}
 
 		addToValueRange(foundNetXResource, intervalHint,
 				valueDataKind.getKindHint(), Collections.singletonList(value),
 				null, null);
+		if (DataActivator.DEBUG) {
+			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_HELPER_OPTION,
+					"-- value added ");
+		}
 	}
 
 }
