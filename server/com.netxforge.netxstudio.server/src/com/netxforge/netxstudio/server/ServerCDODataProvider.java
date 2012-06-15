@@ -57,12 +57,16 @@ public class ServerCDODataProvider extends CDODataProvider {
 	protected boolean doGetResourceFromOwnTransaction() {
 		return false;
 	}
-
+	
+	
+	// A cached session for this provider. 
 	private CDOSession session = null;
-
+	
+	// A cached session for this provider. 
 	private CDOTransaction transaction = null;
-
-	private CDOView view;
+	
+	// A cached view for this provider. 
+	private CDOView view = null;
 
 	/*
 	 * (non-Javadoc)
