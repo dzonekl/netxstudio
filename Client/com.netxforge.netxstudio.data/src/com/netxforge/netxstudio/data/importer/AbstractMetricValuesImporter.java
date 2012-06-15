@@ -190,7 +190,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 						"-- Calculated import directory for "
 								+ getMetricSource().getName() + " ="
 								+ fileOrDirectory);
-				System.out.println();
 			}
 
 			boolean noFiles = true;
