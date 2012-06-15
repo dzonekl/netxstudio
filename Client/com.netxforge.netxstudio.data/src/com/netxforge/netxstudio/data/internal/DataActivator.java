@@ -25,11 +25,15 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	private static Injector injector;
 	
 	// fields to cache the debug flags
-	public static boolean DEBUG = true;
+	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
-	 
+	
+	public static String TRACE_IMPORT_DETAILS_OPTION = "/trace.import";
+	public static String TRACE_IMPORT_LOCATOR_OPTION = "/trace.import.locator";
+	public static String TRACE_IMPORT_HELPER_OPTION = "/trace.import.helper";
+			
 	public void optionsChanged(DebugOptions options) {
-		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);
+		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
 	

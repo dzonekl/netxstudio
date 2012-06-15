@@ -123,7 +123,6 @@ public class NewEditResource extends AbstractScreen implements
 
 		// Readonlyness.
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -131,7 +130,7 @@ public class NewEditResource extends AbstractScreen implements
 		frmResource = toolkit.createForm(this);
 		frmResource.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmResource);
-		frmResource.setText(actionText + "Resource");
+		frmResource.setText(this.getOperationText() + "Resource");
 		frmResource.getBody().setLayout(new GridLayout(1, false));
 		
 		buildInfoSection(readonly, widgetStyle);

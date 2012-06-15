@@ -4,20 +4,18 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * Concrete implementation which can set and clear the expression from an owner.
  * 
  * @author dzonekl
  */
-public class EmbeddedNonSelectionExpression extends EmbeddedExpression {
+public class EmbeddedNonSelectionExpression extends AbstractEmbeddedExpression {
 
 	private EStructuralFeature expressionFeature;
 	private EObject owner;
@@ -29,14 +27,8 @@ public class EmbeddedNonSelectionExpression extends EmbeddedExpression {
 	}
 
 	public void buildUI(Composite parent, FormData fd) {
-
-		int widgetStyle = SWT.None;
-		if (ScreenUtil.isReadOnlyOperation(getOperation())) {
-			widgetStyle |= SWT.READ_ONLY;
-		}
-
 		Composite sectionClient = buildSection(identity, parent, fd);
-		buildExpression(widgetStyle, sectionClient);
+		buildExpression(sectionClient);
 	}
 
 	@Override
@@ -63,8 +55,5 @@ public class EmbeddedNonSelectionExpression extends EmbeddedExpression {
 		this.buildUI();
 		super.injectData(object);
 	}
-	
-	
-	
 
 }

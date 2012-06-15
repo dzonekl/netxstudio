@@ -93,10 +93,13 @@
             }
         </style>
 <body>
-<a href="/remote/monitors/monitors.jsp">Home</a>
-<table>
 <%
 	ListFolder lf = new util.ListFolder();
+	
+%>
+<a href="/remote/monitors/monitors.jsp">Home</a> (<%= lf.getPath() %>)
+<table>
+<%
 	String path = request.getContextPath();
 	if( request.getQueryString() != null){
 		path += "/" + request.getQueryString();

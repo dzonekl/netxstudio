@@ -56,11 +56,10 @@ public class ServerImporterHelper implements IImporterHelper {
 
 	/* We need the importer to set the data provider */
 	private AbstractMetricValuesImporter importer;
-	
+
 	@Inject
 	private ResultProcessor resultProcessor;
-	
-	
+
 	public ServerImporterHelper() {
 	}
 
@@ -114,17 +113,17 @@ public class ServerImporterHelper implements IImporterHelper {
 
 		if (path == null) {
 			if (DataActivator.DEBUG) {
-				System.out
-						.println("Invalid CDO Resource path, should not happen.");
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_HELPER_OPTION,
+						"-- invalid CDO Resource path, should not happen.");
 			}
 			throw new java.lang.IllegalStateException(
 					"Invalid CDO Resource path, should not happen.");
 		}
 
 		if (DataActivator.DEBUG) {
-			System.out
-					.println("IMPORTER looking for CDO resource path:" + path);
-
+			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_HELPER_OPTION,
+					"-- looking for CDO resource path:" + path);
 		}
 		final Resource emfNetxResource = importer.getDataProvider()
 				.getResource(path);
@@ -138,8 +137,9 @@ public class ServerImporterHelper implements IImporterHelper {
 			final NetXResource netXResource = (NetXResource) object;
 
 			// Match the resource on component, metric and also the name as per
-			// last identifier value.  
-			// Note, manually created resources, do not necessarly have a metric reference: 
+			// last identifier value.
+			// Note, manually created resources, do not necessarly have a metric
+			// reference:
 			// see http://work.netxforge.com/issues/264
 			if (netXResource.getComponentRef() != null
 					&& netXResource.getComponentRef().cdoID()
@@ -156,10 +156,19 @@ public class ServerImporterHelper implements IImporterHelper {
 				}
 				foundNetXResource = netXResource;
 				if (DataActivator.DEBUG) {
-					System.out.println("IMPORTER: Matching resource: "
-							+ foundNetXResource.getShortName()
-							+ " , for component: " + locatedComponent.getName()
-							+ ", on metric: " + metric.getName());
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_HELPER_OPTION,
+							"-- looking for CDO resource path:" + path);
+				}
+
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_HELPER_OPTION,
+							"-- matching resource: "
+									+ foundNetXResource.getShortName()
+									+ " , for component: "
+									+ locatedComponent.getName()
+									+ ", on metric: " + metric.getName());
 				}
 				break;
 			}
@@ -167,9 +176,11 @@ public class ServerImporterHelper implements IImporterHelper {
 		if (foundNetXResource == null) {
 
 			if (DataActivator.DEBUG) {
-				System.out.println("IMPORTER: No Matching resource for: "
-						+ locatedComponent.getName() + ", on metric: "
-						+ metric.getName() + " creating resource:");
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_HELPER_OPTION,
+						"-- No Matching resource for: "
+								+ locatedComponent.getName() + ", on metric: "
+								+ metric.getName() + " creating resource:");
 			}
 			foundNetXResource = LibraryFactory.eINSTANCE.createNetXResource();
 			foundNetXResource.setComponentRef(locatedComponent);
@@ -211,7 +222,8 @@ public class ServerImporterHelper implements IImporterHelper {
 		value.setValue(dblValue);
 
 		if (DataActivator.DEBUG) {
-			System.out.println("IMPORTER: Try to add value to resource : "
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_IMPORT_HELPER_OPTION,"-- try to add value to resource : "
 					+ foundNetXResource.getShortName() + " , value ="
 					+ value.getValue() + " timestamp="
 					+ modelUtils.dateAndTime(value.getTimeStamp()) + ", kind="

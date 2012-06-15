@@ -61,7 +61,7 @@ import com.netxforge.netxstudio.screens.xtext.EmbeddedXtextService;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public abstract class EmbeddedExpression {
+public abstract class AbstractEmbeddedExpression {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	protected EmbeddedXtextEditor editor;
@@ -85,6 +85,8 @@ public abstract class EmbeddedExpression {
 	private Composite parent;
 
 	private Composite keyPadComposite;
+	private boolean readonly;
+	private int widgetStyle;
 
 	/**
 	 * Create the composite.
@@ -92,22 +94,28 @@ public abstract class EmbeddedExpression {
 	 * @param parent
 	 * @param style
 	 */
-	public EmbeddedExpression(IEditingService editingService, Composite parent,
-			FormData fd, int operation) {
+	public AbstractEmbeddedExpression(IEditingService editingService,
+			Composite parent, FormData fd, int operation) {
 		this.editingService = editingService;
 		this.operation = operation;
 		this.fd = fd;
 		this.parent = parent;
 	}
-	
+
 	/**
-	 * @param xtextInjector the xtextInjector to set
+	 * @param xtextInjector
+	 *            the xtextInjector to set
 	 */
 	public void setXtextInjector(Injector xtextInjector) {
 		this.xtextInjector = xtextInjector;
 	}
 
 	public void buildUI() {
+
+		// Readonlyness.
+		readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
+		widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+
 		parent.addDisposeListener(new DisposeListener() {
 
 			public void widgetDisposed(DisposeEvent e) {
@@ -150,9 +158,7 @@ public abstract class EmbeddedExpression {
 		return sectionClient;
 	}
 
-	public void buildExpressionSelector(int widgetStyle, Composite sectionClient) {
-
-		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
+	public void buildExpressionSelector(Composite sectionClient) {
 
 		Composite selectionComposite = toolkit.createComposite(sectionClient);
 		selectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
@@ -235,7 +241,7 @@ public abstract class EmbeddedExpression {
 
 	protected abstract void clearExpression(Expression exp);
 
-	public void buildExpression(int widgetStyle, Composite sectionClient) {
+	public void buildExpression(Composite sectionClient) {
 
 		Composite editorComposite = toolkit.createComposite(sectionClient,
 				SWT.BORDER);
@@ -254,7 +260,9 @@ public abstract class EmbeddedExpression {
 		});
 		editorComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
 				true));
-		this.createKeyPad(sectionClient);
+		if (!ScreenUtil.isReadOnlyOperation(getOperation())) {
+			this.createKeyPad(sectionClient);
+		}
 	}
 
 	// public void buildExpressionTester(Section sctnNewSection) {
@@ -279,70 +287,73 @@ public abstract class EmbeddedExpression {
 	// mghprlnkTest.setText("Test Run");
 	// }
 
-//	public List<BaseExpressionResult> testExpression(DateTimeRange timeRange,
-//			Object... objects) {
-//
-//		List<BaseExpressionResult> result = null;
-//
-//		if (timeRange == null)
-//			throw new IllegalArgumentException("Should set a period context");
-//
-//		if (objects == null || objects.length < 1)
-//			throw new IllegalArgumentException(
-//					"Should have one or more context objects");
-//
-//		assert interpreterContextFactory != null : "Context factory is not initialized (check guice binding)";
-//
-//		final IXtextDocument doc = editor.getDocument();
-//		assert !documentHasErrors(doc) : "Intepreter cancelled, as errors exist in script: "
-//				+ doc.get();
-//
-//		// Context initialization.
-//		final IInterpreterContext periodContext = interpreterContextFactory
-//				.createPeriodContext(timeRange);
-//		final List<IInterpreterContext> contextList = Lists
-//				.newArrayList(periodContext);
-//
-//		for (Object o : objects) {
-//			final IInterpreterContext objectContext = interpreterContextFactory
-//					.createContext(o);
-//			contextList.add(objectContext);
-//		}
-//
-//		final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
-//				.size()];
-//
-//		final IInterpreter i = netxScriptInjector
-//				.getInstance(IInterpreter.class);
-//
-//		i.setContext(contextList.toArray(contextArray));
-//
-//		result = doc
-//				.readOnly(new IUnitOfWork<List<BaseExpressionResult>, XtextResource>() {
-//					public List<BaseExpressionResult> exec(
-//							XtextResource resource) throws Exception {
-//						if (resource.getContents().isEmpty()) {
-//							return null;
-//						}
-//						try {
-//							EObject rootASTElement = resource.getParseResult()
-//									.getRootASTElement();
-//
-//							if ((rootASTElement instanceof Mod)) {
-//								Mod root = (Mod) resource.getContents().get(0);
-//								i.evaluate(root);
-//								return i.getResult();
-//							}
-//						} catch (Throwable t) {
-//							// something with t.
-//							t.printStackTrace();
-//						}
-//						return null;
-//					}
-//				});
-//
-//		return result;
-//	}
+	// public List<BaseExpressionResult> testExpression(DateTimeRange timeRange,
+	// Object... objects) {
+	//
+	// List<BaseExpressionResult> result = null;
+	//
+	// if (timeRange == null)
+	// throw new IllegalArgumentException("Should set a period context");
+	//
+	// if (objects == null || objects.length < 1)
+	// throw new IllegalArgumentException(
+	// "Should have one or more context objects");
+	//
+	// assert interpreterContextFactory != null :
+	// "Context factory is not initialized (check guice binding)";
+	//
+	// final IXtextDocument doc = editor.getDocument();
+	// assert !documentHasErrors(doc) :
+	// "Intepreter cancelled, as errors exist in script: "
+	// + doc.get();
+	//
+	// // Context initialization.
+	// final IInterpreterContext periodContext = interpreterContextFactory
+	// .createPeriodContext(timeRange);
+	// final List<IInterpreterContext> contextList = Lists
+	// .newArrayList(periodContext);
+	//
+	// for (Object o : objects) {
+	// final IInterpreterContext objectContext = interpreterContextFactory
+	// .createContext(o);
+	// contextList.add(objectContext);
+	// }
+	//
+	// final IInterpreterContext[] contextArray = new
+	// IInterpreterContext[contextList
+	// .size()];
+	//
+	// final IInterpreter i = netxScriptInjector
+	// .getInstance(IInterpreter.class);
+	//
+	// i.setContext(contextList.toArray(contextArray));
+	//
+	// result = doc
+	// .readOnly(new IUnitOfWork<List<BaseExpressionResult>, XtextResource>() {
+	// public List<BaseExpressionResult> exec(
+	// XtextResource resource) throws Exception {
+	// if (resource.getContents().isEmpty()) {
+	// return null;
+	// }
+	// try {
+	// EObject rootASTElement = resource.getParseResult()
+	// .getRootASTElement();
+	//
+	// if ((rootASTElement instanceof Mod)) {
+	// Mod root = (Mod) resource.getContents().get(0);
+	// i.evaluate(root);
+	// return i.getResult();
+	// }
+	// } catch (Throwable t) {
+	// // something with t.
+	// t.printStackTrace();
+	// }
+	// return null;
+	// }
+	// });
+	//
+	// return result;
+	// }
 
 	/**
 	 * Inject the expression to work with. Do not use when enabling the
@@ -358,7 +369,7 @@ public abstract class EmbeddedExpression {
 			expression = (Expression) object;
 
 			String asString = xtextService.getAsString(expression);
-			setEnabled(true);
+			setEnabled(true && !ScreenUtil.isReadOnlyOperation(getOperation()));
 			// Update with both the eval. object as a well as the string,
 			// the editor will process either one....
 			editor.update(expression, asString == null ? "" : asString);
@@ -718,7 +729,8 @@ public abstract class EmbeddedExpression {
 	public void setEnabled(boolean state) {
 		this.editor.getViewer().setEditable(state);
 		this.editor.getViewer().getControl().setEnabled(state);
-		this.keyPadComposite.setEnabled(state);
+		// CB 08-06 2012, we don't show the keypad
+//		this.keyPadComposite.setEnabled(state);
 	}
 
 }

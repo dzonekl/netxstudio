@@ -69,7 +69,7 @@ import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedExpression;
+import com.netxforge.netxstudio.screens.xtext.embedded.AbstractEmbeddedExpression;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedNonSelectionExpression;
 
 /**
@@ -86,7 +86,7 @@ public class NewEditExpression extends AbstractScreen implements
 	private Resource owner;
 	private Expression expression;
 	private Form frmExpression;
-	private EmbeddedExpression exp;
+	private AbstractEmbeddedExpression exp;
 
 	private Label lblExpressionName;
 

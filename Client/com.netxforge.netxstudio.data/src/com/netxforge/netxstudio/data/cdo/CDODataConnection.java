@@ -28,9 +28,6 @@ import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.tcp.TCPUtil;
 import org.eclipse.net4j.util.container.ContainerUtil;
 import org.eclipse.net4j.util.container.IManagedContainer;
-import org.eclipse.net4j.util.om.OMPlatform;
-import org.eclipse.net4j.util.om.log.PrintLogHandler;
-import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 
 import com.google.inject.Singleton;
 
@@ -50,7 +47,7 @@ public class CDODataConnection implements ICDOConnection {
 	protected static String currentServer;
 	
 	private CDOSessionConfiguration sessionConfiguration = null;
-
+	
 	public CDOSessionConfiguration getConfig() {
 		return sessionConfiguration;
 	}
@@ -70,10 +67,7 @@ public class CDODataConnection implements ICDOConnection {
 		}
 		currentServer = server;
 
-		OMPlatform.INSTANCE.setDebugging(true);
-		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
-		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
-
+		
 		// Prepare container
 		final IManagedContainer container = ContainerUtil.createContainer();
 		Net4jUtil.prepareContainer(container); // Register Net4j factories

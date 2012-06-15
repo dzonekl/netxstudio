@@ -66,7 +66,6 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Unit;
-import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.dialog.UnitFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
@@ -118,7 +117,6 @@ public class NewEditDerivedResource extends AbstractScreen implements
 
 		// Readonlyness.
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -126,7 +124,7 @@ public class NewEditDerivedResource extends AbstractScreen implements
 		frmResource = toolkit.createForm(this);
 		frmResource.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmResource);
-		frmResource.setText(actionText + "Resource");
+		frmResource.setText(this.getOperationText() + "Resource");
 		frmResource.getBody().setLayout(new FormLayout());
 
 ////		FormText formText = toolkit
@@ -239,18 +237,11 @@ public class NewEditDerivedResource extends AbstractScreen implements
 		if (readonly) {
 			btnSelect.setEnabled(false);
 		}
-
-		// TODO show the node somehow in the resource!
-		@SuppressWarnings("unused")
-		Node node = null;
-		// if( netxResource.getComponentRef() != null && (node =
-		// modelUtils.resolveParentNode(netxResource.getComponentRef())) !=
-		// null) {
 		buildValuesUI();
-		// }
 	}
 
 	private void buildValuesUI() {
+		
 		Section sctnContents = toolkit.createSection(frmResource.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnContents = new FormData();

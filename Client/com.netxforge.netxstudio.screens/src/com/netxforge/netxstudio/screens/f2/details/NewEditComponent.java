@@ -688,7 +688,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				}
 			}
 		});
-		mntmEditResource.setText("Edit...");
+		mntmEditResource.setText(this.getOperationTextAction());
 
 		MenuItem mntmRemoveResource = new MenuItem(menu_1, SWT.NONE);
 		mntmRemoveResource.addSelectionListener(new SelectionAdapter() {
@@ -893,7 +893,6 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		if (readOnly) {
 			
 			mghprlnkNewResource.setVisible(false);
-			mntmEditResource.setEnabled(false);
 			mntmRemoveResource.setEnabled(false);
 			
 			mghprlnkRemoveCapacityExpression.setVisible(false);

@@ -62,7 +62,7 @@
       <dbAdapter name="mysql"/>
       <dataSource class="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"
         url="jdbc:mysql://localhost/TM"
-        user="root" password="PSQL2012"/>
+        user="root"/>
     </store>
 	</repository>
 

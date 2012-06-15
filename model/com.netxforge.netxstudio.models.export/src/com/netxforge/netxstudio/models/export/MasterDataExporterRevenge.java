@@ -46,6 +46,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.models.export.internal.ExportActivator;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
@@ -65,8 +66,14 @@ public class MasterDataExporterRevenge {
 			if (ExportActivator.DEBUG) {
 				ExportActivator.TRACE.trace(null, "Starting export");
 			}
+			if (ExportActivator.DEBUG) {
+				ExportActivator.TRACE.trace(null, "Creating XLS Workbook model");
+			}
 			workBook = new HSSFWorkbook();
 			processPackages(ePackages);
+			if (ExportActivator.DEBUG) {
+				ExportActivator.TRACE.trace(null, "Writing file");
+			}
 			workBook.write(fileOut);
 		} catch (final Exception e) {
 			if (ExportActivator.DEBUG) {
@@ -156,6 +163,9 @@ public class MasterDataExporterRevenge {
 				}
 			}
 		}
+		if (ExportActivator.DEBUG) {
+			ExportActivator.TRACE.trace(null, "Done, building cache for classifiers:");
+		}
 	}
 
 	private void cacheForResource(Resource resource) {
@@ -163,10 +173,22 @@ public class MasterDataExporterRevenge {
 			TreeIterator<EObject> allContents = resource.getAllContents();
 			// List<EObject> closure = ImmutableList.copyOf(allContents);
 			while (allContents.hasNext()) {
+				
 				EObject closureObject = allContents.next();
 				EClass objectClass = closureObject.eClass();
+				
+				// Make sure we don't cache closure objects which are dynamic.  
+				if( !allowedNestedClass(objectClass)){
+					// prune all subobjects. 
+					allContents.prune();
+					if (ExportActivator.DEBUG) {
+						ExportActivator.TRACE.trace(null, "-- skipping & pruning nested object EClass: " + objectClass.getName());
+					}
+					continue;
+				}
+				List<EObject> currentForClass = null;
 				if (cache.containsKey(objectClass)) {
-					List<EObject> currentForClass = Lists.newArrayList(cache
+					currentForClass = Lists.newArrayList(cache
 							.get(objectClass));
 					// We could have duplicates, if the resource holds all
 					// objects from a super class. I.e. Job EClass.
@@ -175,12 +197,21 @@ public class MasterDataExporterRevenge {
 						cache.put(objectClass, currentForClass);
 					}
 				} else {
-					List<EObject> currentForClass = Lists.newArrayList();
+					currentForClass = Lists.newArrayList();
 					currentForClass.add(closureObject);
 					cache.put(objectClass, currentForClass);
 				}
+				
+				
 			}
 		}
+	}
+
+	private boolean allowedNestedClass(EClass objectClass) {
+		if( objectClass == MetricsPackage.Literals.MAPPING_STATISTIC){
+			return false;
+		}
+		return true;
 	}
 
 	// private void processPackage(EPackage ePackage) {
@@ -193,12 +224,19 @@ public class MasterDataExporterRevenge {
 	// }
 
 	private void processAttributeClassifier(EClassifier eClassifier) {
+		if (ExportActivator.DEBUG) {
+			ExportActivator.TRACE.trace(null, "Start processing attributes");
+		}
+		
 		if (eClassifier instanceof EClass) {
 			processAttributesClass((EClass) eClassifier);
 		}
 	}
 
 	private void processMultiRefClassifier(EClassifier eClassifier) {
+		if (ExportActivator.DEBUG) {
+			ExportActivator.TRACE.trace(null, "Start processing multi references for classifier:" + eClassifier.getName());
+		}
 		if (eClassifier instanceof EClass) {
 			processMultiRefClass((EClass) eClassifier);
 		}
@@ -243,9 +281,15 @@ public class MasterDataExporterRevenge {
 			Sheet sheet = _generateRefsWorksheet(eClass);
 			_generateMultiReferenceSource(eClass, sheet);
 			for (EReference eReference : multiRefs) {
+				if (ExportActivator.DEBUG) {
+					ExportActivator.TRACE.trace(null, "-- EReference: " + eReference.getName());
+				}
 				processMultiReference(eReference, sheet);
 			}
-
+			
+			if (ExportActivator.DEBUG) {
+				ExportActivator.TRACE.trace(null, "--  processing multi reference data for classifier:" + eClass.getName());
+			}
 			// Process the actual values here.
 			List<EObject> data = contextObjectsForClass(eClass);
 			processMultiRefData(data, sheet);
@@ -326,6 +370,9 @@ public class MasterDataExporterRevenge {
 		// We assume the attribute order for each data object.
 		int objectCount = 2;
 		for (EObject dataObject : data) {
+			if (ExportActivator.DEBUG) {
+				ExportActivator.TRACE.trace(null, "-- EObject:" + dataObject);
+			}
 			int referenceCount = 1;
 			for (EReference eReference : this.filterMultiRefs(dataObject
 					.eClass())) {

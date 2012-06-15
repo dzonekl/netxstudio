@@ -1,0 +1,17 @@
+# Enables debugging.
+# Generic debugging enablement for plugins.
+com.netxforge.netxstudio.server/debug=true
+com.netxforge.netxstudio.server.metrics/debug=true
+com.netxforge.netxstudio.data/debug=true
+
+# Generic trace option.
+com.netxforge.netxstudio.server/trace.cdo=true
+
+# Metrics Job trace option.
+com.netxforge.netxstudio.server.metrics/trace.import=true
+
+# Data facilities
+com.netxforge.netxstudio.data/trace.import=true
+com.netxforge.netxstudio.data/trace.import.locator=true
+com.netxforge.netxstudio.data/trace.import.helper=true
+

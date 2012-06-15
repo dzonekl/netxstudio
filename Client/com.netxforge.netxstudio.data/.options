@@ -1,4 +1,0 @@
-# Enables debugging. 
-com.netxforge.nextstudio.data/debug=true
-# Generic trace option. 
-com.netxforge.nextstudio.data/trace=true

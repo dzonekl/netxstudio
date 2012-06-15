@@ -75,11 +75,10 @@ public class NewEditServiceUser extends AbstractScreen implements
 
 	private TableViewer resourcesTableViewer;
 	private EmbeddedSelectionExpression exp;
-	
+
 	@Inject
 	@Named("Netxscript")
-	private IInjectorProxy injectorProxy; 
-
+	private IInjectorProxy injectorProxy;
 
 	public NewEditServiceUser(Composite parent, int style) {
 		super(parent, style);
@@ -95,17 +94,16 @@ public class NewEditServiceUser extends AbstractScreen implements
 	}
 
 	private void buildUI() {
-		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+
+		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmServiceUser = formToolkit.createForm(this);
 		formToolkit.paintBordersFor(frmServiceUser);
-
-		frmServiceUser.setText(actionText + "Service User");
+		frmServiceUser.setText(this.getOperationText() + "Service User");
 		ColumnLayout cl = new ColumnLayout();
 		cl.maxNumColumns = 2;
 		frmServiceUser.getBody().setLayout(cl);
@@ -143,7 +141,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 				false, 1, 1));
 
 		txtDescription = formToolkit.createText(composite, "New Text", SWT.WRAP
-				| SWT.MULTI);
+				| SWT.MULTI | widgetStyle);
 		txtDescription.setText("");
 		GridData gd_txtDescription = new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1);
@@ -162,31 +160,33 @@ public class NewEditServiceUser extends AbstractScreen implements
 		sctnResourceProfiles.setClient(composite_2);
 		composite_2.setLayout(new GridLayout(5, false));
 
-		ImageHyperlink mghprlnkAdd = formToolkit.createImageHyperlink(
-				composite_2, SWT.NONE);
-		mghprlnkAdd.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkEntered(HyperlinkEvent e) {
+		if (!readonly) {
+			ImageHyperlink mghprlnkAdd = formToolkit.createImageHyperlink(
+					composite_2, SWT.NONE);
+			mghprlnkAdd.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkEntered(HyperlinkEvent e) {
 
-			}
+				}
 
-			public void linkExited(HyperlinkEvent e) {
+				public void linkExited(HyperlinkEvent e) {
 
-			}
+				}
 
-			public void linkActivated(HyperlinkEvent e) {
-				NewEditDerivedResource resourceScreen = new NewEditDerivedResource(
-						screenService.getScreenContainer(), SWT.NONE);
-				resourceScreen.setOperation(ScreenUtil.OPERATION_NEW);
-				resourceScreen.setScreenService(screenService);
-				resourceScreen.injectData(serviceUser.getServiceProfile(),
-						ServicesFactory.eINSTANCE.createDerivedResource());
-				screenService.setActiveScreen(resourceScreen);
-			}
-		});
-		mghprlnkAdd.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true,
-				false, 5, 1));
-		formToolkit.paintBordersFor(mghprlnkAdd);
-		mghprlnkAdd.setText("New");
+				public void linkActivated(HyperlinkEvent e) {
+					NewEditDerivedResource resourceScreen = new NewEditDerivedResource(
+							screenService.getScreenContainer(), SWT.NONE);
+					resourceScreen.setOperation(ScreenUtil.OPERATION_NEW);
+					resourceScreen.setScreenService(screenService);
+					resourceScreen.injectData(serviceUser.getServiceProfile(),
+							ServicesFactory.eINSTANCE.createDerivedResource());
+					screenService.setActiveScreen(resourceScreen);
+				}
+			});
+			mghprlnkAdd.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true,
+					false, 5, 1));
+			formToolkit.paintBordersFor(mghprlnkAdd);
+			mghprlnkAdd.setText("New");
+		}
 
 		resourcesTableViewer = new TableViewer(composite_2, SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.MULTI);
@@ -227,7 +227,8 @@ public class NewEditServiceUser extends AbstractScreen implements
 				}
 			}
 		});
-		mntmEditResource.setText("Edit...");
+		
+		mntmEditResource.setText(this.getOperationTextAction());
 
 		MenuItem mntmRemoveResource = new MenuItem(resourcesMenu, SWT.NONE);
 		mntmRemoveResource.addSelectionListener(new SelectionAdapter() {
@@ -256,12 +257,13 @@ public class NewEditServiceUser extends AbstractScreen implements
 
 		exp = new EmbeddedSelectionExpression(this.editingService,
 				frmServiceUser.getBody(), null, getOperation());
-		exp.setXtextInjector(injectorProxy.getInjector("com.netxforge.Netxscript"));
-		exp.injectData("Profile", serviceUser,
+		exp.setXtextInjector(injectorProxy
+				.getInjector("com.netxforge.Netxscript"));
+		exp.injectData("Profile Expression", serviceUser,
 				ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF);
 
 		if (readonly) {
-			// TODO, add other actions here.
+			mntmRemoveResource.setEnabled(false);
 		}
 	}
 

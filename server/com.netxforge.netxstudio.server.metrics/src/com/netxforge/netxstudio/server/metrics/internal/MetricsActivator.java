@@ -31,7 +31,12 @@ public class MetricsActivator implements BundleActivator, DebugOptionsListener {
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
-
+	
+	// public tracing options.
+	public static final String TRACE_IMPORT_OPTION = "/trace.import";
+	
+	
+	
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);

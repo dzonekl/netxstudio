@@ -824,19 +824,21 @@ public class ResultProcessor {
 						kindHintType, intervalHint);
 
 		if (DataActivator.DEBUG) {
-			System.out
-					.println("SERVER: Located/create value range for resource : "
+			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_HELPER_OPTION,
+					"-- Located/create value range for resource : "
 							+ foundNetXResource.getShortName()
 							+ " range size = " + mvr.getMetricValues().size());
 		}
 
 		if (start != null && end != null) {
-			if (DataActivator.DEBUG) {
-				System.out.println("SERVER: removing values from start="
-						+ modelUtils.dateAndTime(start) + " , end="
-						+ modelUtils.dateAndTime(end));
-			}
 			removeValues(mvr.getMetricValues(), start, end);
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_HELPER_OPTION,
+						"-- Removed values from start="
+								+ modelUtils.dateAndTime(start) + " , end="
+								+ modelUtils.dateAndTime(end));
+			}
 		}
 
 		// TODO Should filter for period, as we will other try to match the time
@@ -869,16 +871,18 @@ public class ResultProcessor {
 		}
 		if (foundValue != null) {
 			if (DataActivator.DEBUG) {
-				System.out.println("SERVER: found value within interval ("
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_HELPER_OPTION,"-- found value within interval ("
 						+ intervalHint + " min.), while storing value="
-						+ foundValue.getValue() + " , timestamp="
-						+ modelUtils.dateAndTime(foundValue.getTimeStamp())
-						+ " original timestamp=" + value.getTimeStamp());
+						+ foundValue.getValue() + " , original timestamp="
+						+ modelUtils.dateAndTime(foundValue.getTimeStamp()));
 			}
 			foundValue.setValue(value.getValue());
 		} else {
 			if (DataActivator.DEBUG) {
-				System.out.println("SERVER: NO values withing interval  ("
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_HELPER_OPTION,
+						"-- no values within interval  ("
 						+ intervalHint + " min.), while storing value="
 						+ value.getValue() + " , timestamp="
 						+ modelUtils.dateAndTime(value.getTimeStamp()));

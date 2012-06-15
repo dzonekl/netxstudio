@@ -33,21 +33,53 @@ import com.google.inject.Injector;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.ServerUtils;
 
+/**
+ * The following tracing options are supported.
+ * 
+ * {@link #PLUGIN_ID }
+ * 
+ * 
+ * 
+ * 
+ * 
+ * @author Christophe
+ * 
+ */
 public class ServerActivator implements BundleActivator, DebugOptionsListener {
 
 	private static BundleContext context;
 
 	private static ServerActivator INSTANCE;
-	
+
 	private static final String PLUGIN_ID = "com.netxforge.netxstudio.server";
+	private static final String DEBUG_OPTION = "/debug";
 	
+	// public tracing options.
+	public static final String TRACE_CDO_OPTION = "/trace.cdo";
+
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
 
 	public void optionsChanged(DebugOptions options) {
-		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
+		DEBUG = options.getBooleanOption(PLUGIN_ID + DEBUG_OPTION, false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
+		
+		// CB Experimental, set the trace.log file as this is not created.
+//		if(options.getFile() == null){
+//			File file = new File(this.workspaceLocation + File.separator + "trace.log");
+//			if(!file.exists()){
+//				try {
+//					if( file.createNewFile()){
+//						// creation succeeded. 
+//					}
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}else{
+//				options.setFile(file);
+//			}
+//		}
 	}
 
 	public static BundleContext getContext() {
@@ -60,6 +92,9 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener {
 
 	private Injector injector;
 
+	@SuppressWarnings("unused")
+	private String workspaceLocation;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -71,7 +106,9 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener {
 		INSTANCE = this;
 		ServerActivator.context = bundleContext;
 		injector = Guice.createInjector(ServerModule.getModule());
-
+		
+		// Set the Locale 
+		
 		Locale currentLocal = Locale.getDefault();
 		System.out.println("CURRENT Locale: country = "
 				+ currentLocal.getDisplayCountry() + "language = "
@@ -82,10 +119,14 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener {
 				+ currentLocal.getDisplayCountry() + "language = "
 				+ currentLocal.getDisplayLanguage());
 		
-		Dictionary<String, String> props = new Hashtable<String,String>(4);
-		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
-	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
+		// Get the workspace location property
+		workspaceLocation  = System.getProperty("osgi.instance.area");
 		
+		Dictionary<String, String> props = new Hashtable<String, String>(4);
+		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
+		context.registerService(DebugOptionsListener.class.getName(), this,
+				props);
+
 	}
 
 	/*

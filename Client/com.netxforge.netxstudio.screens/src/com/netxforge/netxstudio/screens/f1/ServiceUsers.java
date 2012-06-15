@@ -78,12 +78,16 @@ public class ServiceUsers extends AbstractScreen implements
 	}
 
 	private void buildUI() {
+
+		// Readonlyness.
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
+
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmServiceUsers = toolkit.createForm(this);
 		frmServiceUsers.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmServiceUsers);
-		frmServiceUsers.setText("Service Users");
+		frmServiceUsers.setText(this.getOperationText() + "Service Users");
 		frmServiceUsers.getBody().setLayout(new GridLayout(3, false));
 
 		Label lblFilterLabel = toolkit.createLabel(frmServiceUsers.getBody(),
@@ -101,38 +105,41 @@ public class ServiceUsers extends AbstractScreen implements
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
 
-		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-				frmServiceUsers.getBody(), SWT.NONE);
-		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				if (screenService != null) {
-					NewEditServiceUser smScreen = new NewEditServiceUser(
-							screenService.getScreenContainer(), SWT.NONE);
-					smScreen.setOperation(ScreenUtil.OPERATION_NEW);
-					smScreen.setScreenService(screenService);
-					ServiceUser su = ServicesFactory.eINSTANCE
-							.createServiceUser();
-					su.setServiceProfile(ServicesFactory.eINSTANCE
-							.createServiceProfile());
-					smScreen.injectData(serviceUserResource, su);
-					screenService.setActiveScreen(smScreen);
+		if (!readonly) {
+
+			ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
+					frmServiceUsers.getBody(), SWT.NONE);
+			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					if (screenService != null) {
+						NewEditServiceUser smScreen = new NewEditServiceUser(
+								screenService.getScreenContainer(), SWT.NONE);
+						smScreen.setOperation(ScreenUtil.OPERATION_NEW);
+						smScreen.setScreenService(screenService);
+						ServiceUser su = ServicesFactory.eINSTANCE
+								.createServiceUser();
+						su.setServiceProfile(ServicesFactory.eINSTANCE
+								.createServiceProfile());
+						smScreen.injectData(serviceUserResource, su);
+						screenService.setActiveScreen(smScreen);
+					}
 				}
-			}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+				public void linkEntered(HyperlinkEvent e) {
+				}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNew.setImage(ResourceManager.getPluginImage(
-				"com.netxforge.netxstudio.models.edit",
-				"icons/full/ctool16/ServiceUserProfile_E.png"));
-		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		toolkit.paintBordersFor(mghprlnkNew);
-		mghprlnkNew.setText("New");
-
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			mghprlnkNew.setImage(ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/ctool16/ServiceUserProfile_E.png"));
+			mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+					false, false, 1, 1));
+			toolkit.paintBordersFor(mghprlnkNew);
+			mghprlnkNew.setText("New");
+		}
+		
 		serviceUsers = new TableViewer(frmServiceUsers.getBody(), SWT.BORDER
 				| SWT.MULTI | SWT.FULL_SELECTION);
 		serviceUsers.setComparer(new CDOElementComparer());

@@ -64,15 +64,29 @@ public class ServerCDODataProvider extends CDODataProvider {
 
 	private CDOView view;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.data.cdo.CDODataProvider#openSession()
+	 */
+	@Override
+	public CDOSession openSession() {
+		CDOSession s = super.openSession();
+		if (ServerActivator.DEBUG) {
+			ServerActivator.TRACE.trace(
+					ServerActivator.TRACE_CDO_OPTION,
+					"OPEN session ID=" + s.getSessionID()
+							+ " , Updated last on:"
+							+ new Date(s.getLastUpdateTime()));
+		}
+
+		return s;
+	}
+
 	@Override
 	public CDOSession getSession() {
 		if (session == null) {
 			this.openSession();
-			if (ServerActivator.DEBUG) {
-				System.out.println("DATA Server: Creating session ID="
-						+ session.getSessionID() + " , Updated last on:"
-						+ new Date(session.getLastUpdateTime()));
-			}
 		}
 		return session;
 	}
@@ -97,8 +111,9 @@ public class ServerCDODataProvider extends CDODataProvider {
 		}
 		if (this.session != null && !this.session.isClosed()) {
 			if (ServerActivator.DEBUG) {
-				System.out
-						.println("DATA Server: attempt to Closing a session ID="
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_CDO_OPTION,
+						"SET a session ID="
 								+ session.getSessionID());
 			}
 			this.session.close();
@@ -115,9 +130,13 @@ public class ServerCDODataProvider extends CDODataProvider {
 	public void closeSession() {
 		if (session != null) {
 			if (ServerActivator.DEBUG) {
-				System.out.println("DATA Server: Closing session ID="
-						+ session.getSessionID() + " , Updated last on:"
-						+ new Date(session.getLastUpdateTime()));
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_CDO_OPTION,
+						"CLOSING session ID="
+								+ session.getSessionID()
+								+ " , Updated last on:"
+								+ new Date(session.getLastUpdateTime()));
+				// Thread.dumpStack();
 			}
 			session.close();
 		}

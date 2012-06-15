@@ -125,7 +125,9 @@ public class ComponentLocator {
 				return null;
 			}
 			if (DataActivator.DEBUG) {
-				System.out.println("IMPORTER calling xref for key=" + from);
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+						"-- calling xref for key=" + from);
 			}
 
 			// Result set.
@@ -164,19 +166,26 @@ public class ComponentLocator {
 							LibraryPackage.eINSTANCE.getComponent_MetricRefs());
 
 			if (DataActivator.DEBUG) {
-				System.out.println("IMPORTER:LOCATOR References for: "
-						+ LibraryPackage.eINSTANCE.getComponent_MetricRefs()
-								.getName() + " =" + results.size());
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+						"-- References for: "
+								+ LibraryPackage.eINSTANCE
+										.getComponent_MetricRefs().getName()
+								+ " =" + results.size());
 			}
 			for (final CDOObjectReference objectReference : results) {
 				final CDOObject referingObject = objectReference
 						.getSourceObject();
 				if (DataActivator.DEBUG) {
 					if (referingObject instanceof Component) {
-						System.out.println("-- ref: Component="
-								+ ((Component) referingObject).getName()
-								+ " cdo res path="
-								+ modelUtils.cdoResourcePath(referingObject));
+						DataActivator.TRACE
+								.trace(DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+										"-- ref: component="
+												+ ((Component) referingObject)
+														.getName()
+												+ " cdo res path="
+												+ modelUtils
+														.cdoResourcePath(referingObject));
 					}
 				}
 
@@ -207,11 +216,14 @@ public class ComponentLocator {
 					// addChildren((Component) referingObject, allComponents);
 				}
 			}
-			
+
 			if (DataActivator.DEBUG) {
-				System.out.println("IMPORTER:LOCATOR components for: "
-						+ LibraryPackage.eINSTANCE.getComponent_MetricRefs()
-								.getName() + " =" + matchingComponents.size());
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+						"-- components for: "
+								+ LibraryPackage.eINSTANCE
+										.getComponent_MetricRefs().getName()
+								+ " =" + matchingComponents.size());
 			}
 			return matchingComponents;
 		}
@@ -256,15 +268,19 @@ public class ComponentLocator {
 					for (Component c : components) {
 						addChildren(c, allComponentsMatchingMetrics);
 					}
-					
-					childrenCount = allComponentsMatchingMetrics.size() - childrenCount;
+
+					childrenCount = allComponentsMatchingMetrics.size()
+							- childrenCount;
 					if (DataActivator.DEBUG) {
-						System.out.println("IMPORTER:LOCATOR children components for: "
-								+ LibraryPackage.eINSTANCE.getComponent_MetricRefs()
-										.getName() + " =" + childrenCount);
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+								"-- children components for: "
+										+ LibraryPackage.eINSTANCE
+												.getComponent_MetricRefs()
+												.getName() + " ="
+										+ childrenCount);
 					}
 
-					
 					return allComponentsMatchingMetrics;
 				}
 			};
@@ -284,12 +300,15 @@ public class ComponentLocator {
 		setLastMatchingIdentifier(null);
 
 		if (DataActivator.DEBUG) {
-			System.out.println("IMPORTER:LOCATOR Start locator , metric="
-					+ metric.getName() + " # idenfifiers ="
-					+ descriptors.size() + " id's are: ");
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+					"Start locator , metric=" + metric.getName()
+							+ " # idenfifiers =" + descriptors.size()
+							+ " id's are: ");
 			for (IdentifierDescriptor iv : descriptors) {
-				System.out.println("ID col=" + iv.getColumn() + " ,value="
-						+ iv.getValue());
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_LOCATOR_OPTION, "-- ID col="
+								+ iv.getColumn() + " ,value=" + iv.getValue());
 			}
 		}
 
@@ -297,16 +316,18 @@ public class ComponentLocator {
 		if (nodeDescriptor == null) {
 			failedIdentifiers.add(nodeDescriptor);
 			if (DataActivator.DEBUG) {
-				System.out
-						.println("IMPORTER:LOCATOR No Network Element Identifier="
-								+ nodeDescriptor + " , abort component locator");
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+						"-- no network element identifier=" + nodeDescriptor
+								+ " , abort component locator");
 			}
 
 			return null;
 		}
 		final String key = getKey(nodeDescriptor, metric);
 		if (DataActivator.DEBUG) {
-			System.out.println("IMPORTER:LOCATOR key=" + key);
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_IMPORT_LOCATOR_OPTION, "-- key=" + key);
 		}
 
 		// CB MOVED TO A FUNCTIONAL CACHE, 16-12-2012.
@@ -319,7 +340,9 @@ public class ComponentLocator {
 		}
 
 		if (DataActivator.DEBUG) {
-			System.out.println("IMPORTER:LOCATOR start matching components");
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+					"-- start matching components");
 		}
 
 		// make a copy, ommitting the node descriptor to reduce the list.
@@ -359,7 +382,9 @@ public class ComponentLocator {
 		// componentsMatchingMetric);
 
 		if (DataActivator.DEBUG) {
-			System.out.println("IMPORTER:LOCATOR No result component");
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+					"-- no result component");
 		}
 
 		return null;
@@ -399,9 +424,9 @@ public class ComponentLocator {
 				if (!allComponentsMatchingMetrics.contains(resultComponent)) {
 					allComponentsMatchingMetrics.add(c);
 					if (DataActivator.DEBUG) {
-						System.out
-								.println("IMPORTER:LOCATOR Auto created component name="
-										+ c.getName()
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+								"-- auto created component name=" + c.getName()
 										+ " # components in cache  = "
 										+ allComponentsMatchingMetrics.size()
 										+ " for key: " + key);
@@ -412,8 +437,9 @@ public class ComponentLocator {
 
 			resultComponent = resultComponents.get(resultComponents.size() - 1);
 			if (DataActivator.DEBUG) {
-				System.out
-						.println("IMPORTER:LOCATOR Decision return component name="
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+						"-- decision return component name="
 								+ resultComponent.getName()
 								+ " # components in cache  = "
 								+ allComponentsMatchingMetrics.size()
@@ -434,8 +460,10 @@ public class ComponentLocator {
 		for (final Component componentToVerify : allComponentsMatchingMetrics) {
 
 			if (DataActivator.DEBUG) {
-				System.out.println("-- verify component name="
-						+ componentToVerify.getName());
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+						"-- verify component name="
+								+ componentToVerify.getName());
 			}
 
 			// All identifiers are valid (Excluding the Node identifier).
@@ -461,18 +489,22 @@ public class ComponentLocator {
 					atLeastOneIdentifierChecked = true;
 
 					if (DataActivator.DEBUG) {
-						System.out.println("-- try matching identifier:"
-								+ idDescriptor.getValue()
-								+ " , for component name="
-								+ componentToVerify.getName());
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+								"-- try matching identifier:"
+										+ idDescriptor.getValue()
+										+ " , for component name="
+										+ componentToVerify.getName());
 					}
 					// Check if the identifier matches the component name.
 					if (!isMatching(componentToVerify, idDescriptor, true)) {
 						if (DataActivator.DEBUG) {
-							System.out.println("-- matching failed:"
-									+ idDescriptor.getValue()
-									+ " , for component name="
-									+ componentToVerify.getName());
+							DataActivator.TRACE.trace(
+									DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+									"-- matching failed:"
+											+ idDescriptor.getValue()
+											+ " , for component name="
+											+ componentToVerify.getName());
 						}
 						allIdentifiersValid = false;
 						// The Component doesn't match the identifier.
@@ -481,18 +513,22 @@ public class ComponentLocator {
 						localSucssFullComponents.add(componentToVerify);
 						localSuccessFullIdentifiers.add(idDescriptor);
 						if (DataActivator.DEBUG) {
-							System.out.println("-- matching succeeded:"
-									+ idDescriptor.getValue()
-									+ " , for component name="
-									+ componentToVerify.getName());
+							DataActivator.TRACE.trace(
+									DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+									"-- matching succeeded:"
+											+ idDescriptor.getValue()
+											+ " , for component name="
+											+ componentToVerify.getName());
 						}
 					}
 				}
 			}
 
 			if (DataActivator.DEBUG) {
-				System.out.println("-- matching identifiers #="
-						+ localSuccessFullIdentifiers.size());
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+						"-- matching identifiers #="
+								+ localSuccessFullIdentifiers.size());
 			}
 			if (localSuccessFullIdentifiers.size() > successFullIdentifiers
 					.size()) {
@@ -501,8 +537,9 @@ public class ComponentLocator {
 			}
 			if (atLeastOneIdentifierChecked && allIdentifiersValid) {
 				if (DataActivator.DEBUG) {
-					System.out
-							.println("-- decision, all identifiers are valid, result component name="
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+							"-- decision, all identifiers are valid, result component name="
 									+ componentToVerify.getName());
 				}
 				return componentToVerify;
@@ -512,8 +549,9 @@ public class ComponentLocator {
 			// identifier , return the first one
 			if (atLeastOneIdentifierChecked == false) {
 				if (DataActivator.DEBUG) {
-					System.out
-							.println("-- decision, no identifiers found, result component name="
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+							"-- decision, no identifiers found, result component name="
 									+ componentToVerify.getName());
 				}
 				return componentToVerify;
@@ -562,15 +600,20 @@ public class ComponentLocator {
 					}
 					localSuccessFullIdentifiers.add(idDescriptor);
 					if (DataActivator.DEBUG) {
-						System.out.println("-- matching succeeded:"
-								+ idDescriptor.getValue()
-								+ " , for component name=" + c.getName());
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+								"-- matching succeeded:"
+										+ idDescriptor.getValue()
+										+ " , for component name="
+										+ c.getName());
 					}
 				} else {
 					allIdentifiersValid = false;
 					if (DataActivator.DEBUG) {
-						System.out.println("-- matching failed:"
-								+ idDescriptor.getValue());
+						DataActivator.TRACE
+								.trace(DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+										"-- matching failed:"
+												+ idDescriptor.getValue());
 					}
 				}
 			}
@@ -591,12 +634,14 @@ public class ComponentLocator {
 				result = localSucssFullComponents.get(0);
 			}
 			if (DataActivator.DEBUG) {
-				System.out
-						.println("-- decision, all identifiers are valid from a set of "
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+						"-- decision, all identifiers are valid from a set of "
 								+ localSucssFullComponents.size());
 				if (result != null) {
-					System.out.println("-- reesult component name="
-							+ result.getName());
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+							"-- result component name=" + result.getName());
 				}
 			}
 		}
@@ -640,13 +685,17 @@ public class ComponentLocator {
 
 			lastMatchingIdentifier = descriptor;
 			if (DataActivator.DEBUG) {
-				System.out.println("IMPORTER:CREATOR from identifiers size="
-						+ componentIdentifiers.size()
-						+ ", create for id object="
-						+ lastMatchingIdentifier.getKind().getObjectKind()
-								.getName() + " , property="
-						+ lastMatchingIdentifier.getKind().getObjectProperty()
-						+ " name=" + lastMatchingIdentifier.getValue());
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+						"-- from identifiers size="
+								+ componentIdentifiers.size()
+								+ ", create for id object="
+								+ lastMatchingIdentifier.getKind()
+										.getObjectKind().getName()
+								+ " , property="
+								+ lastMatchingIdentifier.getKind()
+										.getObjectProperty() + " name="
+								+ lastMatchingIdentifier.getValue());
 			}
 			Component result = createIdentified(createOnComponent,
 					lastMatchingIdentifier);
@@ -861,11 +910,11 @@ public class ComponentLocator {
 
 		// CB, feature is already produced with the descriptor.
 		// EStructuralFeature eFeature = featureForName(eObject, eFeatureName);
-		if(eFeature == null){
-			throw new IllegalStateException("ComponentLocator, feature must be set");
+		if (eFeature == null) {
+			throw new IllegalStateException(
+					"ComponentLocator, feature must be set");
 		}
-		
-		
+
 		if (eFeature != null && eObject.eClass().getFeatureID(eFeature) != -1) {
 			final Object componentFeatureValue = eObject.eGet(eFeature);
 			if (componentFeatureValue instanceof String
@@ -908,9 +957,11 @@ public class ComponentLocator {
 
 		public boolean apply(final Component c) {
 			if (DataActivator.DEBUG) {
-				System.out.println("-- try matching identifier:"
-						+ identifierDescriptor.getValue()
-						+ " , for component name=" + c.getName());
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+						"-- try matching identifier:"
+								+ identifierDescriptor.getValue()
+								+ " , for component name=" + c.getName());
 			}
 
 			// A null identifier should not be created!
@@ -934,10 +985,9 @@ public class ComponentLocator {
 
 			// Pre-create the feature, based on the identifier info.
 			ObjectKindType objectKind = kind.getObjectKind();
-			
-			// We have some legacty configurations, which have the 
-			
-			
+
+			// We have some legacty configurations, which have the
+
 			switch (objectKind.getValue()) {
 			case ObjectKindType.EQUIPMENT_VALUE: {
 				this.propertyFeature = featureForName(

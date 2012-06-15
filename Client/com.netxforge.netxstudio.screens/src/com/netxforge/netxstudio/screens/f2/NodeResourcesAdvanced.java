@@ -261,6 +261,10 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private SashForm sashVertical;
 	private SashForm sashData;
 
+	private boolean readOnly;
+
+	private int widgetStyle;
+
 	/**
 	 * Create the composite.
 	 * 
@@ -280,18 +284,18 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	}
 
 	private void buildUI() {
-		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		int widgetStyle = SWT.None;
-		if (ScreenUtil.isReadOnlyOperation(getOperation())) {
-			widgetStyle |= SWT.READ_ONLY;
-		}
+		// Readonlyness.
+		readOnly = ScreenUtil.isReadOnlyOperation(this.getOperation());
+		widgetStyle = readOnly ? SWT.READ_ONLY : SWT.NONE;
+
+		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Create the form.
 		frmResources = toolkit.createForm(this);
 		frmResources.setSeparatorVisible(true);
 
-		frmResources.setText("Resources");
+		frmResources.setText(this.getOperationText() + "Resources");
 		frmResources.getToolBarManager().add(new showContextAction("Context"));
 		frmResources.getToolBarManager().update(true);
 		frmResources.setToolBarVerticalAlignment(SWT.TOP);
@@ -353,9 +357,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		GridData gdCompSelector = new GridData(SWT.LEFT, SWT.TOP, false, false,
 				1, 1);
-		buildComponentSelector(cmpRoot, gdCompSelector, widgetStyle);
+		buildComponentSelector(cmpRoot, gdCompSelector);
 		buildExpressionSelector(cmpRoot, new GridData(SWT.FILL, SWT.FILL, true,
-				true), widgetStyle);
+				true));
 
 		sashData = new SashForm(sashVertical, SWT.HORIZONTAL);
 		sashData.setSashWidth(5);
@@ -365,8 +369,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		sashData.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2,
 				1));
 
-		buildComponentViewer(sashData, null, widgetStyle);
-		buildResourceViewer(sashData, widgetStyle);
+		buildComponentViewer(sashData, null);
+		buildResourceViewer(sashData);
 		buildValues(sashData);
 
 		// WEIGHTS FOR SASH.
@@ -375,8 +379,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 	}
 
-	private void buildResourceViewer(SashForm sashComponentResources,
-			int widgetStyle) {
+	private void buildResourceViewer(SashForm sashComponentResources) {
 		resourcesTableViewer = new TableViewer(sashComponentResources,
 				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
 		resourcesTable = resourcesTableViewer.getTable();
@@ -392,7 +395,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	}
 
 	private void buildComponentViewer(SashForm parent,
-			GridData gd_componentsTreeViewer, int widgetStyle) {
+			GridData gd_componentsTreeViewer) {
 		// COMPONENTS TREEVIEWER.
 
 		componentsTreeViewer = new OpenTreeViewer(parent, SWT.BORDER
@@ -486,8 +489,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 	}
 
-	private void buildComponentSelector(Composite parent, GridData gridData,
-			int widgetStyle) {
+	private void buildComponentSelector(Composite parent, GridData gridData) {
 		// Selector.
 		Composite cmpComponentSelector = toolkit.createComposite(parent,
 				SWT.NONE);
@@ -543,7 +545,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	}
 
 	private void buildExpressionSelector(Composite cmpComponents,
-			GridData gridData, int widgetStyle) {
+			GridData gridData) {
 
 		cmpExpression = toolkit.createComposite(cmpComponents, SWT.NONE);
 
@@ -670,6 +672,10 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			}
 		});
 
+		if (readOnly) {
+			btnExpressionTest.setEnabled(false);
+		}
+
 		cmpExpressionEditor = toolkit
 				.createComposite(cmpExpression, SWT.BORDER);
 		GridData gd_cmpExpressionHead = new GridData(SWT.FILL, SWT.FILL, true,
@@ -712,6 +718,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		gl_cmpSubSelector.marginWidth = 0;
 		cmpSubSelector.setLayout(gl_cmpSubSelector);
 		cmpSubSelector.setVisible(false);
+
 	}
 
 	class showContextAction extends Action {
@@ -903,40 +910,45 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					.setLabelProvider(new AdapterFactoryLabelProvider(
 							editingService.getAdapterFactory()));
 
-			ImageHyperlink hypLnkAddTolerance = toolkit.createImageHyperlink(
-					subSelectorParent, SWT.NONE);
-			hypLnkAddTolerance.addHyperlinkListener(new IHyperlinkListener() {
-				public void linkActivated(HyperlinkEvent e) {
-					Resource toleranceResource = editingService
-							.getData(LibraryPackage.Literals.TOLERANCE);
-					ToleranceFilterDialog dialog = new ToleranceFilterDialog(
-							NodeResourcesAdvanced.this.getShell(),
-							toleranceResource);
-					if (dialog.open() == IDialogConstants.OK_ID) {
-						Tolerance tolerance = (Tolerance) dialog
-								.getFirstResult();
-						if (!currentComponent.getToleranceRefs().contains(
-								tolerance)) {
-							Command c = new AddCommand(editingService
-									.getEditingDomain(), currentComponent
-									.getToleranceRefs(), tolerance);
-							editingService.getEditingDomain().getCommandStack()
-									.execute(c);
-						}
-					}
-				}
+			if (!readOnly) {
+				ImageHyperlink hypLnkAddTolerance = toolkit
+						.createImageHyperlink(subSelectorParent, SWT.NONE);
+				hypLnkAddTolerance
+						.addHyperlinkListener(new IHyperlinkListener() {
+							public void linkActivated(HyperlinkEvent e) {
+								Resource toleranceResource = editingService
+										.getData(LibraryPackage.Literals.TOLERANCE);
+								ToleranceFilterDialog dialog = new ToleranceFilterDialog(
+										NodeResourcesAdvanced.this.getShell(),
+										toleranceResource);
+								if (dialog.open() == IDialogConstants.OK_ID) {
+									Tolerance tolerance = (Tolerance) dialog
+											.getFirstResult();
+									if (!currentComponent.getToleranceRefs()
+											.contains(tolerance)) {
+										Command c = new AddCommand(
+												editingService
+														.getEditingDomain(),
+												currentComponent
+														.getToleranceRefs(),
+												tolerance);
+										editingService.getEditingDomain()
+												.getCommandStack().execute(c);
+									}
+								}
+							}
 
-				public void linkEntered(HyperlinkEvent e) {
-				}
+							public void linkEntered(HyperlinkEvent e) {
+							}
 
-				public void linkExited(HyperlinkEvent e) {
-				}
-			});
-			hypLnkAddTolerance.setLayoutData(new GridData(SWT.RIGHT,
-					SWT.CENTER, false, false, 1, 1));
-			toolkit.paintBordersFor(hypLnkAddTolerance);
-			hypLnkAddTolerance.setText("Add");
-
+							public void linkExited(HyperlinkEvent e) {
+							}
+						});
+				hypLnkAddTolerance.setLayoutData(new GridData(SWT.RIGHT,
+						SWT.CENTER, false, false, 1, 1));
+				toolkit.paintBordersFor(hypLnkAddTolerance);
+				hypLnkAddTolerance.setText("Add");
+			}
 		}
 
 		public void handleValueChange(ValueChangeEvent event) {
@@ -1211,12 +1223,14 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				contextWritableList.addAll(contextList);
 			}
 
-			// execute the expression in the background.
-			if (currentExpression != null && contextList != null
-					&& contextList.size() > 0) {
-				btnExpressionTest.setEnabled(true);
-			} else {
-				btnExpressionTest.setEnabled(false);
+			// update the test expression button, if we are not readonly.
+			if (!readOnly) {
+				if (currentExpression != null && contextList != null
+						&& contextList.size() > 0) {
+					btnExpressionTest.setEnabled(true);
+				} else {
+					btnExpressionTest.setEnabled(false);
+				}
 			}
 		}
 
@@ -1438,7 +1452,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			Object o = structuredSelection.getFirstElement();
 			NewEditResource resourceScreen = new NewEditResource(
 					screenService.getScreenContainer(), SWT.NONE);
-			resourceScreen.setOperation(ScreenUtil.OPERATION_EDIT);
+			resourceScreen.setOperation(getOperation());
 			resourceScreen.setScreenService(screenService);
 
 			// CB, the parent is the container resource.
@@ -2173,7 +2187,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
 
 		// combo network.
-		mementoUtils.rememberStructuredViewerSelection(memento, cmbViewerNetwork,
+		mementoUtils.rememberStructuredViewerSelection(memento,
+				cmbViewerNetwork,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK);
 
 		// combo node.
@@ -2181,11 +2196,13 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE);
 
 		// tree component
-		mementoUtils.rememberStructuredViewerSelection(memento, componentsTreeViewer,
+		mementoUtils.rememberStructuredViewerSelection(memento,
+				componentsTreeViewer,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT);
 
 		// table resource
-		mementoUtils.rememberStructuredViewerSelection(memento, resourcesTableViewer,
+		mementoUtils.rememberStructuredViewerSelection(memento,
+				resourcesTableViewer,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE);
 
 		// from date.
@@ -2215,16 +2232,19 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		mementoUtils.retrieveSashForm(memento, sashData,
 				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
 
-		mementoUtils.retrieveStructuredViewerSelection(memento, cmbViewerNetwork,
+		mementoUtils.retrieveStructuredViewerSelection(memento,
+				cmbViewerNetwork,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK,
 				this.operatorResource.cdoView());
 		mementoUtils.retrieveStructuredViewerSelection(memento, cmbViewerNode,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE,
 				this.operatorResource.cdoView());
-		mementoUtils.retrieveStructuredViewerSelection(memento, componentsTreeViewer,
+		mementoUtils.retrieveStructuredViewerSelection(memento,
+				componentsTreeViewer,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT,
 				this.operatorResource.cdoView());
-		mementoUtils.retrieveStructuredViewerSelection(memento, resourcesTableViewer,
+		mementoUtils.retrieveStructuredViewerSelection(memento,
+				resourcesTableViewer,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
 				this.operatorResource.cdoView());
 

@@ -79,11 +79,18 @@ public class ServerUtils {
 	@SuppressWarnings("unused")
 	private DatatypeFactory dataTypeFactory;
 
+	// Debugging on.
+	static {
+		OMPlatform.INSTANCE.setDebugging(true);
+		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
+		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
+	}
+
 	private static ServerUtils instance = new ServerUtils();
 
 	@Inject
 	private NetxForgeCommitInfoHandler commitInfoHandler;
-	
+
 	public static ServerUtils getInstance() {
 		return instance;
 	}
@@ -104,11 +111,11 @@ public class ServerUtils {
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		}
-		
+
 		if (commitInfoHandler == null) {
 			ServerActivator.getInstance().getInjector().injectMembers(this);
 		}
-		
+
 	}
 
 	public Object runService(Map<String, String> parameters) {
@@ -183,39 +190,35 @@ public class ServerUtils {
 		final IManagedContainer container = IPluginContainer.INSTANCE;
 		acceptor = JVMUtil.getAcceptor(container, "default");
 		connector = JVMUtil.getConnector(container, "default");
-			
-		
-		// Debugging on.
-		OMPlatform.INSTANCE.setDebugging(true);
-		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
-		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
-		
+
 		// Create configuration
 		final CDOSessionConfiguration sessionConfiguration = CDONet4jUtil
 				.createSessionConfiguration();
-		
+
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 		sessionConfiguration.setExceptionHandler(exceptionHandler);
-		
-		// Note: Option to disable caching, this was of for Hibernate store, but back on for the DB Store.
-		sessionConfiguration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
+
+		// Note: Option to disable caching, this was of for Hibernate store, but
+		// back on for the DB Store.
+		sessionConfiguration.setRevisionManager(CDORevisionUtil
+				.createRevisionManager(CDORevisionCache.NOOP));
 
 		final IPasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(
 				new PasswordCredentials(serverSideLogin,
 						serverSideLogin.toCharArray()));
-		
+
 		sessionConfiguration.getAuthenticator().setCredentialsProvider(
 				credentialsProvider);
 		// set to a minute
-//		sessionConfiguration.setSignalTimeout(IDataProvider.SIGNAL_TIME_OUT);
-		
+		// sessionConfiguration.setSignalTimeout(IDataProvider.SIGNAL_TIME_OUT);
+
 		return sessionConfiguration;
 	}
-	
-	// A customer exception handler implementation. 
+
+	// A customer exception handler implementation.
 	ServerExceptionHandler exceptionHandler = new ServerExceptionHandler();
-	
+
 	class ServerExceptionHandler implements ExceptionHandler {
 
 		public void handleException(CDOSession session, int attempt,
@@ -234,20 +237,21 @@ public class ServerUtils {
 		}
 		isInitializing = true;
 
-//		repository.getSessionManager().addListener(new IListener() {
-//			public void notifyEvent(IEvent event) {
-//				if (event instanceof SingleDeltaContainerEvent<?>) {
-//					final SingleDeltaContainerEvent<?> e = (SingleDeltaContainerEvent<?>) event;
-//					if (e.getSource() instanceof InternalSessionManager
-//							&& e.getDeltaKind() == IContainerDelta.Kind.ADDED) {
-//						final InternalSession s = (InternalSession) e
-//								.getDelta().getElement();
-//						((SignalProtocol<?>) s.getProtocol())
-//								.setTimeout(IDataProvider.SIGNAL_TIME_OUT);
-//					}
-//				}
-//			}
-//		});
+		// repository.getSessionManager().addListener(new IListener() {
+		// public void notifyEvent(IEvent event) {
+		// if (event instanceof SingleDeltaContainerEvent<?>) {
+		// final SingleDeltaContainerEvent<?> e = (SingleDeltaContainerEvent<?>)
+		// event;
+		// if (e.getSource() instanceof InternalSessionManager
+		// && e.getDeltaKind() == IContainerDelta.Kind.ADDED) {
+		// final InternalSession s = (InternalSession) e
+		// .getDelta().getElement();
+		// ((SignalProtocol<?>) s.getProtocol())
+		// .setTimeout(IDataProvider.SIGNAL_TIME_OUT);
+		// }
+		// }
+		// }
+		// });
 
 		final ServerInitializer resourceInitializer = ServerActivator
 				.getInstance().getInjector()
@@ -269,14 +273,14 @@ public class ServerUtils {
 	}
 
 	static class ServerInitializer {
-		
+
 		@Inject
 		@Server
 		private IDataProvider dataProvider;
 
-		@Inject 
+		@Inject
 		private ModelUtils modelUtils;
-		
+
 		private void initialize() {
 			initResources();
 		}
@@ -298,10 +302,11 @@ public class ServerUtils {
 			dataProvider.closeSession();
 		}
 
-		private void loadFixtureData(IDataProvider dataProvider, ModelUtils modelUtils) {
+		private void loadFixtureData(IDataProvider dataProvider,
+				ModelUtils modelUtils) {
 			Fixtures fixtures = new Fixtures(dataProvider, modelUtils);
 			fixtures.loadFixtures();
-			
+
 		}
 
 		private void initResourcesForEPackage(EPackage ePackage) {

@@ -258,6 +258,17 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		}
 	}
 
+	public String getOperationTextAction() {
+		if (ScreenUtil.isReadOnlyOperation(this.getOperation())) {
+			return "View...";
+		} else if (ScreenUtil.isNewOperation(this.getOperation())) {
+			return "New...";
+		} else {
+			return "Edit...";
+		}
+	}
+
+	
 	public void injectData(Object... params) {
 		// do nothing.
 	}

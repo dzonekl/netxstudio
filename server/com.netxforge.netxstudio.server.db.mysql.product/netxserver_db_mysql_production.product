@@ -7,10 +7,11 @@
    </configIni>
 
    <launcherArgs>
-      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -clean -console 8811 -noExit -consoleLog --launcher.XXMaxPermSize 128M</programArgs>
+      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -clean  -debug -console 8811 -noExit -consoleLog --launcher.XXMaxPermSize 128M</programArgs>
+      <programArgsLin>-data @user.home/workspace</programArgsLin>
+      <programArgsMac>-data @user.home/netxserver</programArgsMac>
       <vmArgs>-Xms40m
 -XX:+HeapDumpOnOutOfMemoryError
--Ddebug=false
 -Dlog4j.debug=false
 -Dorg.osgi.service.http.port=8080
 -DmetricSourceRoot=/Users/dzonekl/Documents/Projects/NetXStudio/TestData</vmArgs>
@@ -18,10 +19,19 @@
 -Xmx2048m
 -Xss512k
 -Dnet4j.config=config
+-Dosgi.debug=file:/home/capman/capman/.options
 -Dcom.sun.management.jmxremote.port=8812
 -Dcom.sun.management.jmxremote.authenticate=false
 -Dcom.sun.management.jmxremote.ssl=false</vmArgsLin>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+-server
+-Xmx2048m
+-Xss512k
+-Dosgi.debug=file:/Users/Christophe/netxserver/.options
+-Dnet4j.config=&quot;${resource_loc:/com.netxforge.netxstudio.server.db.mysql.product/config}&quot;
+-Dcom.sun.management.jmxremote.port=8812
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false</vmArgsMac>
       <vmArgsWin>-server
 -d32
 -Xmx1024m
@@ -66,10 +76,10 @@
       <feature id="org.eclipse.xtext.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.quartz.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.apache.artifacts.server.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.equinox.jsp.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="oracle.jdbc.driver" version="1.0.0.qualifier"/>
-      <feature id="com.mysql.driver.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.equinox.jsp.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.postgresql.jdbc.driver.feature" version="1.0.0.qualifier"/>
+      <feature id="com.mysql.driver.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>

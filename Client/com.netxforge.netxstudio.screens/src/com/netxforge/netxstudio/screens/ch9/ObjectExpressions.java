@@ -86,7 +86,7 @@ import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedExpression;
+import com.netxforge.netxstudio.screens.xtext.embedded.AbstractEmbeddedExpression;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedNonSelectionExpression;
 
 /**
@@ -110,7 +110,7 @@ public class ObjectExpressions extends AbstractScreen implements
 	private EObject primaryContextObject;
 
 	private Form frmExpressionTester;
-	private EmbeddedExpression exp;
+	private AbstractEmbeddedExpression exp;
 
 	private Label lblExpressionName;
 
