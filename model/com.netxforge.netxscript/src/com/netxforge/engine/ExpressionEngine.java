@@ -102,6 +102,10 @@ public class ExpressionEngine implements IExpressionEngine {
 		getExpressionResult().clear();
 
 		final String asString = this.asString(expression);
+		if(asString.length() == 0){
+			return;
+		}
+		
 		try {
 			System.out.println("Parsing expression: " + asString);
 			xResource = getResourceFromString(asString);
