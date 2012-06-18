@@ -5,6 +5,8 @@ import static com.google.inject.util.Modules.override;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import org.eclipse.osgi.framework.console.CommandInterpreter;
+import org.eclipse.osgi.framework.console.CommandProvider;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
@@ -18,13 +20,14 @@ import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.job.JobHandler;
 import com.netxforge.netxstudio.server.job.JobService;
 
-public class JobActivator implements BundleActivator, DebugOptionsListener {
+public class JobActivator implements BundleActivator, DebugOptionsListener,
+		CommandProvider {
 
 	private static BundleContext context;
 	private static JobActivator INSTANCE;
 
 	private static final String PLUGIN_ID = "com.netxforge.netxstudio.server.job";
-	
+
 	static BundleContext getContext() {
 		return context;
 	}
@@ -45,13 +48,20 @@ public class JobActivator implements BundleActivator, DebugOptionsListener {
 	public void start(BundleContext bundleContext) throws Exception {
 		JobActivator.context = bundleContext;
 		INSTANCE = this;
-			
+
 		// register our import service.
-		bundleContext.registerService(JobService.class, new JobService(), new Hashtable<String, String>());
-		
-		Dictionary<String, String> props = new Hashtable<String,String>(4);
+		context.registerService(JobService.class, new JobService(),
+				new Hashtable<String, String>());
+
+		// register our trace and debugging listener.
+		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
-	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
+		context.registerService(DebugOptionsListener.class.getName(), this,
+				props);
+
+		// register our command provider.
+		context.registerService(CommandProvider.class.getName(), this, null);
+
 	}
 
 	public void createInjector() {
@@ -82,6 +92,58 @@ public class JobActivator implements BundleActivator, DebugOptionsListener {
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
+	}
+
+	@Override
+	public String getHelp() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("---NetXStudio Job commands---\n");
+		buffer.append("\tjob status - status of the scheduler \n");
+		buffer.append("\tjob start - start the scheduler \n");
+		buffer.append("\tjob stop - stop the scheduler \n");
+		buffer.append("\tjob schedule - list the scheduled jobs \n");
+		buffer.append("\tjob pause_all - pause the running jobs \n");
+		buffer.append("\tjob resume_all - resume the running jobs \n");
+		buffer.append("\tjob clean - clean job progress data\n");
+		buffer.append("\tjob health - health status \n");
+		return buffer.toString();
+	}
+
+	public Object _job(CommandInterpreter interpreter) {
+		try {
+			String cmd = interpreter.nextArgument();
+			if ("status".equals(cmd)) {
+				JobHandler.status(interpreter); 
+				return null;
+			}
+			if ("schedule".equals(cmd)) {
+				JobHandler.list(interpreter); // we could be initializing!
+				return null;
+			}
+			if ("start".equals(cmd)) {
+				JobHandler.start(interpreter); // we could be initializing!
+				return null;
+			}
+			if ("stop".equals(cmd)) {
+				JobHandler.stop(interpreter); // we could be initializing!
+				return null;
+			}
+			if ("clean".equals(cmd)) {
+				System.out.println("TODO, clean workflow run items.");
+				return null;
+			}
+			if ("health".equals(cmd)) {
+				System.out
+						.println("TODO, show job handler issues like if the session is active");
+				return null;
+			}
+
+			interpreter.println(getHelp());
+		} catch (Exception ex) {
+			interpreter.printStackTrace(ex);
+		}
+
+		return null;
 	}
 
 }

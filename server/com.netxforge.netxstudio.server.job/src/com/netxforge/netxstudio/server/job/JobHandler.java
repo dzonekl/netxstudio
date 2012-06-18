@@ -41,6 +41,7 @@ import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
+import org.eclipse.osgi.framework.console.CommandInterpreter;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -69,32 +70,124 @@ import com.netxforge.netxstudio.server.job.internal.JobActivator;
  * Handles jobs, reads the jobs from the database, initializes quartz and
  * re-initializes if anything changes in the database.
  * 
+ * Provides external API for the OSGI command interpreter.
+ * 
  * @author Martin Taal
  */
 public class JobHandler {
 
-	private static JobHandler instance;
+	private static JobHandler INSTANCE;
 
 	static void createAndInitialize() {
-		instance = new JobHandler();
+		INSTANCE = new JobHandler();
 		JobActivator.getInstance().createInjector();
-		instance.activate();
-		instance.initialize();
+		INSTANCE.activate();
+		INSTANCE.initialize();
 	}
 
 	public static void deActivate() {
-		if (instance != null) {
-			instance.deActivateInstance();
+		if (INSTANCE != null) {
+			INSTANCE.deActivateInstance();
 		}
-		instance = null;
+		INSTANCE = null;
 	}
 
 	/**
-	 * Respond to a remote command
+	 * Start the scheduler.
+	 */
+	public static void status() {
+		status(null);
+	}
+
+	public static void status(CommandInterpreter interpreter) {
+		if (INSTANCE != null) {
+			if (interpreter != null) {
+				interpreter.println(INSTANCE.statusScheduler());
+			} else {
+				System.out.println(INSTANCE.statusScheduler());
+			}
+		}
+	}
+
+	/**
+	 * Start the scheduler.
+	 */
+	public static void start() {
+		start(null);
+	}
+
+	public static void start(CommandInterpreter interpreter) {
+		if (INSTANCE != null) {
+			if (interpreter != null) {
+				interpreter.println(INSTANCE.startScheduler());
+			} else {
+				System.out.println(INSTANCE.startScheduler());
+			}
+		}
+	}
+
+	/**
+	 * Stop the scheduler.
+	 */
+	public static void stop() {
+		stop(null);
+	}
+
+	public static void stop(CommandInterpreter interpreter) {
+		if (INSTANCE != null) {
+			if (interpreter != null) {
+				interpreter.println(INSTANCE.stopScheduler());
+			} else {
+				System.out.println(INSTANCE.stopScheduler());
+			}
+		}
+	}
+
+	/**
+	 * Clean job data
+	 */
+	public static void clean() {
+		// TODO Implement, should clean the WorkFlowMonitor data.
+	}
+
+	/**
+	 * list the scheduled jobs to System.out
 	 */
 	public static void list() {
-		if (instance != null) {
-			instance.listSchedule();
+		list(null);
+	}
+
+	public static void list(CommandInterpreter interpreter) {
+		if (interpreter != null && INSTANCE != null) {
+			interpreter.println(INSTANCE.listScheduler());
+		} else {
+			System.out.println(INSTANCE.listScheduler());
+		}
+	}
+
+	/**
+	 * Pause all jobs.
+	 */
+	public static void pauseAll() {
+		pauseAll(null);
+	}
+
+	public static void pauseAll(CommandInterpreter interpreter) {
+		if (interpreter != null && INSTANCE != null) {
+			interpreter.println(INSTANCE.pauseAllScheduler());
+		}
+	}
+
+	/**
+	 * Resume all jobs
+	 */
+	public static void resumeAll() {
+		resumeAll(null);
+	}
+
+	public static void resumeAll(CommandInterpreter interpreter) {
+		if (interpreter != null && INSTANCE != null) {
+			interpreter.println(INSTANCE.resumeAllScheduler());
 		}
 	}
 
@@ -119,19 +212,90 @@ public class JobHandler {
 
 	private boolean addedListener = false;
 
-	private synchronized void listSchedule() {
+	/**
+	 * @return the initializing
+	 */
+	public boolean isInitializing() {
+		return initializing;
+	}
+
+	private synchronized String statusScheduler() {
+		if (isInitializing()) {
+			return "Scheduler initializing";
+		} else {
+
+			try {
+				if (scheduler.isStarted()) {
+					if (scheduler.isInStandbyMode()) {
+						return "Scheduler is on standby";
+					} else {
+						return "Scheduler started";
+					}
+				} else if (scheduler.isShutdown()) {
+					return "Scheduler is stopped";
+				}
+			} catch (SchedulerException e) {
+				e.printStackTrace();
+			}
+		}
+		return "Scheduler status unknown";
+	}
+
+	private synchronized String startScheduler() {
+		waitWhileInitializing();
+
+		StringBuffer sb = new StringBuffer();
+		try {
+			if (scheduler != null) {
+				if (scheduler.isStarted()) {
+					if (scheduler.isInStandbyMode()) {
+						scheduler.start();
+						sb.append("Scheduler started...");
+					}else{
+						sb.append("Scheduler is started already...");
+					}
+				}
+			} else {
+				
+			}
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
+
+	private synchronized String stopScheduler() {
+		waitWhileInitializing();
+
+		StringBuffer sb = new StringBuffer();
 		try {
 			if (scheduler != null && scheduler.isStarted()) {
+				scheduler.standby();
+				sb.append("Scheduler stopped (on standby)");
+			} else {
+				sb.append("Scheduler is stopped already...");
+			}
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
 
+	private synchronized String listScheduler() {
+		waitWhileInitializing();
+
+		StringBuffer sb = new StringBuffer();
+		try {
+			if (scheduler != null && scheduler.isStarted()) {
 				// currently executing jobs.
-				System.out.println("Current running scheduled jobs = "
+				sb.append("Current running scheduled jobs = "
 						+ scheduler.getCurrentlyExecutingJobs().size());
 				for (JobExecutionContext context : scheduler
 						.getCurrentlyExecutingJobs()) {
-					printJobExecutionContext(context);
+					sb.append(context.toString() + "\n");
 				}
 				// current triggers.
-				System.out.println("Triggers:");
+				sb.append("\nTriggers:");
 				List<TriggerKey> keysToRemove = new ArrayList<TriggerKey>();
 				for (TriggerKey tKey : triggerKeysMap.values()) {
 					if (!scheduler.checkExists(tKey)) {
@@ -139,7 +303,7 @@ public class JobHandler {
 						continue;
 					}
 					Trigger trigger = scheduler.getTrigger(tKey);
-					printTrigger(tKey, trigger);
+					sb.append(printTrigger(tKey, trigger));
 
 				}
 				for (TriggerKey tKey : keysToRemove) {
@@ -149,31 +313,48 @@ public class JobHandler {
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 		}
+		return sb.toString();
 	}
 
 	/**
 	 * @param trigger
 	 */
-	private void printTrigger(TriggerKey tKey, Trigger trigger) {
+	private String printTrigger(TriggerKey tKey, Trigger trigger) {
 
 		// System.out.println(tKey.getName() + " has fired already  " +
 		// trigger.get);
 		Date nextFireTime = trigger.getNextFireTime();
-		System.out.println(tKey.getName() + " will fire next time "
-				+ nextFireTime);
-
-	}
-
-	private void printJobExecutionContext(JobExecutionContext context) {
-		System.out.println(context.toString());
+		return tKey.getName() + " will fire next time " + nextFireTime + "\n";
 
 	}
 
 	/**
-	 * Pauzes the scheduler. Any notifications will not be processed while pauzed.
+	 * Pauzes the scheduler. Any notifications will not be processed while
+	 * pauzed.
 	 */
-	public synchronized void pauze() {
-		// Wait until initialize is done.
+	private synchronized String pauseAllScheduler() {
+		waitWhileInitializing();
+
+		StringBuffer sb = new StringBuffer();
+		if (scheduler != null) {
+			try {
+				if (scheduler.isStarted()) {
+					scheduler.pauseAll();
+				} else {
+					sb.append("Scheduler is not started");
+				}
+			} catch (SchedulerException e) {
+				e.printStackTrace();
+
+			}
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * 
+	 */
+	private void waitWhileInitializing() {
 		while (initializing) {
 			try {
 				this.wait(1000);
@@ -181,12 +362,18 @@ public class JobHandler {
 				e.printStackTrace();
 			}
 		}
+	};
+
+	private synchronized String resumeAllScheduler() {
+		waitWhileInitializing();
+
+		StringBuffer sb = new StringBuffer();
 		try {
-			scheduler.pauseAll();
+			scheduler.resumeAll();
 		} catch (SchedulerException e) {
 			e.printStackTrace();
-
 		}
+		return sb.toString();
 	};
 
 	public synchronized void initialize() {
@@ -221,7 +408,6 @@ public class JobHandler {
 
 		try {
 			if (scheduler != null && !scheduler.isShutdown()) {
-
 				// We force a shutdown of the scheduler when initializing.
 				// report any ongoing jobs.
 				scheduler.shutdown(true);
@@ -301,8 +487,7 @@ public class JobHandler {
 			addedListener = true;
 			dataProvider.getSession().addListener(new IListener() {
 				public void notifyEvent(org.eclipse.net4j.util.event.IEvent arg0) {
-					
-					
+
 					CDOCommitInfo info = null;
 					if (arg0 instanceof CDOCommitInfo) {
 						info = (CDOCommitInfo) arg0;
@@ -313,7 +498,7 @@ public class JobHandler {
 								IDataProvider.CLIENT_COMMIT_COMMENT)) {
 							return;
 						}
-						
+
 						if (JobActivator.DEBUG) {
 							JobActivator.TRACE.trace(null,
 									"Session event session="
@@ -323,16 +508,15 @@ public class JobHandler {
 									"Event=" + info.toString());
 						}
 					}
-					
-					// Don't bother if we are pauzed. 
+
+					// Don't bother if we are pauzed.
 					try {
-						if(scheduler != null && !scheduler.isStarted()){
+						if (scheduler != null && !scheduler.isStarted()) {
 							return;
 						}
 					} catch (SchedulerException e) {
 						e.printStackTrace();
 					}
-
 
 					if (arg0 instanceof CDOSessionInvalidationEvent
 							&& !JobHandler.this.initializing) {
@@ -527,4 +711,5 @@ public class JobHandler {
 			return element;
 		}
 	}
+
 }
