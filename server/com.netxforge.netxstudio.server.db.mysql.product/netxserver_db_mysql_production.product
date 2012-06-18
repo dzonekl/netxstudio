@@ -12,7 +12,6 @@
       <programArgsMac>-data @user.home/netxserver</programArgsMac>
       <vmArgs>-Xms40m
 -XX:+HeapDumpOnOutOfMemoryError
--Dlog4j.debug=false
 -Dorg.osgi.service.http.port=8080
 -DmetricSourceRoot=/Users/dzonekl/Documents/Projects/NetXStudio/TestData</vmArgs>
       <vmArgsLin>-server
@@ -71,6 +70,7 @@
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.emf.ecore"/>
       <feature id="org.dom4j" version="1.6.1"/>
+      <feature id="org.slf4j.feature" version="1.0.0.qualifier"/>
       <feature id="javax.persistence"/>
       <feature id="org.antlr.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.xtext.artifacts.feature" version="1.0.0.qualifier"/>
