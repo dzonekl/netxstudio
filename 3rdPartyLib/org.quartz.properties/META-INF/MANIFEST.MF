@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Quartz Properties
+Bundle-SymbolicName: org.quartz.properties
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: org.quartz;bundle-version="[2.0.0,3.0.0)"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
