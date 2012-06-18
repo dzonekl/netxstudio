@@ -22,6 +22,7 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Locale;
 
+import org.apache.log4j.Logger;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
@@ -37,10 +38,6 @@ import com.netxforge.netxstudio.server.ServerUtils;
  * The following tracing options are supported.
  * 
  * {@link #PLUGIN_ID }
- * 
- * 
- * 
- * 
  * 
  * @author Christophe
  * 
@@ -126,7 +123,13 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener {
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
 		context.registerService(DebugOptionsListener.class.getName(), this,
 				props);
-
+		
+		// Test log4J. Remove later...
+		Logger logger = Logger.getLogger(ServerActivator.class);
+        logger.info("Info starting");
+        logger.warn("Warning starting");
+        logger.error("Error starting");
+        logger.debug("Debug starting");
 	}
 
 	/*
