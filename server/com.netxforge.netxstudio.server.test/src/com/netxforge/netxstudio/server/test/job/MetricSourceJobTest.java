@@ -46,6 +46,7 @@ import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTes
  * @author Martin Taal
  */
 public class MetricSourceJobTest extends AbstractDataProviderTest {
+	
 	private static final String JOBNAME = "testJobReinitialization";
 	private static final int MINUTE = 60000;
 

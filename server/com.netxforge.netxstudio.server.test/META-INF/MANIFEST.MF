@@ -36,3 +36,12 @@ Export-Package: com.netxforge.netxstudio.server.test,
  com.netxforge.netxstudio.server.test.metrics
 Bundle-Activator: com.netxforge.netxstudio.server.test.Activator
 Bundle-ActivationPolicy: lazy
+Import-Package: com.netxforge.netxstudio,
+ com.netxforge.netxstudio.generics,
+ com.netxforge.netxstudio.geo,
+ com.netxforge.netxstudio.library,
+ com.netxforge.netxstudio.metrics,
+ com.netxforge.netxstudio.operators,
+ com.netxforge.netxstudio.protocols,
+ com.netxforge.netxstudio.scheduling,
+ com.netxforge.netxstudio.services
