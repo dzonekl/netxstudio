@@ -23,6 +23,9 @@ import java.util.Hashtable;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
@@ -118,6 +121,16 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener {
 		
 		// Get the workspace location property
 		workspaceLocation  = System.getProperty("osgi.instance.area");
+		
+		
+		Location instanceLocation = Platform.getInstanceLocation();
+		System.out.println("Instance location " + instanceLocation.getURL().toExternalForm());
+
+		// Note: The DataArea is never initialized, as we have no knowledge of the Platform, 
+		// As we are an OSGI bundle, we need to explicitly invoke a platform call, which initializes
+		// the DataArea class. This state location method does the job for us.  
+		IPath stateLocation = Platform.getStateLocation(context.getBundle());
+		System.out.println("Instance location " + stateLocation.toString());
 		
 		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);

@@ -129,6 +129,18 @@ public class ServerCDODataProvider extends CDODataProvider {
 	protected void setTransaction(CDOTransaction transaction) {
 		this.transaction = transaction;
 	}
+	
+	
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.IDataProvider#closeView()
+	 */
+	public void closeView() {
+		if(this.view != null){
+			this.view.close();
+			view = null;
+		}
+	}
 
 	@Override
 	public void closeSession() {

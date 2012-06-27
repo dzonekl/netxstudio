@@ -190,6 +190,7 @@ public class ServerUtils {
 		final IManagedContainer container = IPluginContainer.INSTANCE;
 		acceptor = JVMUtil.getAcceptor(container, "default");
 		connector = JVMUtil.getConnector(container, "default");
+		
 
 		// Create configuration
 		final CDOSessionConfiguration sessionConfiguration = CDONet4jUtil
@@ -284,7 +285,7 @@ public class ServerUtils {
 		private void initialize() {
 			initResources();
 		}
-
+		
 		private void initResources() {
 			dataProvider.openSession();
 			dataProvider.getTransaction();
@@ -308,7 +309,8 @@ public class ServerUtils {
 			fixtures.loadFixtures();
 
 		}
-
+		
+		// Creates or loads the CDOResources, which are entry points in the DB.
 		private void initResourcesForEPackage(EPackage ePackage) {
 			for (final EClassifier eClassifier : ePackage.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {
