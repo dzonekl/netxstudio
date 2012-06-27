@@ -87,4 +87,11 @@ public class NonStaticCDODataProvider extends CDODataProvider {
 		return view;
 	}
 
+	public void closeView() {
+		if(this.view != null){
+			this.view.close();
+			view = null;
+		}
+	}
+
 }

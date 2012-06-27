@@ -487,4 +487,11 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 		return view;
 	}
 
+	public void closeView() {
+		if(this.view != null){
+			this.view.close();
+			view = null;
+		}
+	}
+
 }

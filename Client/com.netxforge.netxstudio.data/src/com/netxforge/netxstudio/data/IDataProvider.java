@@ -228,6 +228,11 @@ public interface IDataProvider {
 	 * Commit the current transaction if there is any.
 	 */
 	public void commitTransaction();
+	
+	/**
+	 * Closes a view, and potentially nullify an instance in the provider. 
+	 */
+	public void closeView();
 
 	/**
 	 * Rollback the current transaction if there is any.

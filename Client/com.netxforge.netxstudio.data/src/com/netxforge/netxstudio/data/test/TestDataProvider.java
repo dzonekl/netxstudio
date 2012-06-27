@@ -172,4 +172,8 @@ public class TestDataProvider implements IDataProvider {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
+	public void closeView() {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
 }

@@ -176,24 +176,25 @@ public class ComponentLocator {
 			for (final CDOObjectReference objectReference : results) {
 				final CDOObject referingObject = objectReference
 						.getSourceObject();
-				if (DataActivator.DEBUG) {
-					if (referingObject instanceof Component) {
-						DataActivator.TRACE
-								.trace(DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
-										"-- ref: component="
-												+ ((Component) referingObject)
-														.getName()
-												+ " cdo res path="
-												+ modelUtils
-														.cdoResourcePath(referingObject));
-					}
-				}
-
+				
 				// walk up the node hierarchy and end up with a Node object
 				// which should be equal
 				// to the node identifier, otherwise skip this component.
 				if (!hasValidNode(referingObject, nodeDescriptor)) {
 					continue;
+				}else{
+					if (DataActivator.DEBUG) {
+						if (referingObject instanceof Component) {
+							DataActivator.TRACE
+									.trace(DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+											"-- ref: valid component="
+													+ ((Component) referingObject)
+															.getName()
+													+ " cdo res path="
+													+ modelUtils
+															.cdoResourcePath(referingObject));
+						}
+					}
 				}
 
 				if (!searchingForAll) {
@@ -220,7 +221,7 @@ public class ComponentLocator {
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
-						"-- components for: "
+						"-- Valid Components for: "
 								+ LibraryPackage.eINSTANCE
 										.getComponent_MetricRefs().getName()
 								+ " =" + matchingComponents.size());

@@ -877,6 +877,7 @@ public class ResultProcessor {
 						+ foundValue.getValue() + " , original timestamp="
 						+ modelUtils.dateAndTime(foundValue.getTimeStamp()));
 			}
+			// Same timestamp, different value!
 			foundValue.setValue(value.getValue());
 		} else {
 			if (DataActivator.DEBUG) {
@@ -887,6 +888,7 @@ public class ResultProcessor {
 						+ value.getValue() + " , timestamp="
 						+ modelUtils.dateAndTime(value.getTimeStamp()));
 			}
+			// New timestamp, new value. 
 			currentValues.add(value);
 		}
 	}

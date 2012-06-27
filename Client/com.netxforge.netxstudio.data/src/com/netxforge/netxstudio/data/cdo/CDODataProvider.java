@@ -442,9 +442,9 @@ public abstract class CDODataProvider implements IDataProvider {
 	}
 
 	public Resource getResource(EClass feature) {
-		final String res = resolveResourceName(feature);
-		assert res != null && res.length() > 0;
-		return this.getResource(res);
+		final String resPath = resolveResourceName(feature);
+		assert resPath != null && resPath.length() > 0;
+		return this.getResource(resPath);
 	}
 
 	public Resource getCommitInfoResource(String userID) {
@@ -556,7 +556,11 @@ public abstract class CDODataProvider implements IDataProvider {
 		return lastExistingNode;
 
 	}
-
+	
+	/**
+	 * Forces to resolve the resource from 
+	 * @return
+	 */
 	protected boolean doGetResourceFromOwnTransaction() {
 		return doGetResourceFromOwnTransaction;
 	}
