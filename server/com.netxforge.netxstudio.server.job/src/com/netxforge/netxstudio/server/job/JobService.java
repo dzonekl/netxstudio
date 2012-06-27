@@ -61,10 +61,13 @@ public class JobService implements NetxForgeService {
 		return "command done";
 	}
 	
-	
+	/**
+	 * Various additional commands can be run from OSGI console. 
+	 * 
+	 */
 	private void runCommand(String command) {
 		if(command.equals(COMMAND_SCHEDULER_LIST)){
-			JobHandler.list();
+			JobHandler.scheduled();
 		}else if( command.equals(COMMAND_SCHEDULER_START)){
 			// TODO, implement. 
 		}else if( command.equals(COMMAND_SCHEDULER_STOP)){

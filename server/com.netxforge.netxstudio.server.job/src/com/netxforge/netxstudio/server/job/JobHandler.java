@@ -31,8 +31,7 @@ import org.eclipse.emf.cdo.common.revision.CDORevisionKey;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.session.CDOSessionInvalidationEvent;
-import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.cdo.view.CDOInvalidationPolicy;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.net4j.util.container.IElementProcessor;
@@ -51,6 +50,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
+import org.quartz.Trigger.TriggerState;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
@@ -70,7 +70,8 @@ import com.netxforge.netxstudio.server.job.internal.JobActivator;
  * Handles jobs, reads the jobs from the database, initializes quartz and
  * re-initializes if anything changes in the database.
  * 
- * Provides external API for the OSGI command interpreter.
+ * Provides external API for the OSGI command interpreter or remote calls. For
+ * remote calls, outputs to System.out. TODO, replace with a print stream.
  * 
  * @author Martin Taal
  */
@@ -147,7 +148,35 @@ public class JobHandler {
 	 * Clean job data
 	 */
 	public static void clean() {
-		// TODO Implement, should clean the WorkFlowMonitor data.
+		clean(null);
+	}
+
+	public static void clean(CommandInterpreter interpreter) {
+		if (interpreter != null && INSTANCE != null) {
+			interpreter.println(INSTANCE.cleanJobRuns());
+		} else {
+			System.out.println(INSTANCE.cleanJobRuns());
+		}
+	}
+
+	private Object cleanJobRuns() {
+
+		return null;
+	}
+
+	/**
+	 * list the scheduled jobs to System.out
+	 */
+	public static void scheduled() {
+		scheduled(null);
+	}
+
+	public static void scheduled(CommandInterpreter interpreter) {
+		if (interpreter != null && INSTANCE != null) {
+			interpreter.println(INSTANCE.listScheduler());
+		} else {
+			System.out.println(INSTANCE.listScheduler());
+		}
 	}
 
 	/**
@@ -159,9 +188,9 @@ public class JobHandler {
 
 	public static void list(CommandInterpreter interpreter) {
 		if (interpreter != null && INSTANCE != null) {
-			interpreter.println(INSTANCE.listScheduler());
+			interpreter.println(INSTANCE.listJobs());
 		} else {
-			System.out.println(INSTANCE.listScheduler());
+			System.out.println(INSTANCE.listJobs());
 		}
 	}
 
@@ -219,6 +248,45 @@ public class JobHandler {
 		return initializing;
 	}
 
+	/**
+	 * We could very well be reading jobs and containers which are either
+	 * initialized or updated for a running job, we don't obtain locks.
+	 * 
+	 * @return
+	 */
+	private String listJobs() {
+
+		StringBuffer sb = new StringBuffer();
+
+		dataProvider.getSession();
+		final CDOView cdoView = dataProvider.getView();
+		CDOResource jobResource = (CDOResource) dataProvider
+				.getResource(SchedulingPackage.eINSTANCE.getJob());
+
+		CDOResource jobRunContainerResource = (CDOResource) dataProvider
+				.getResource(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+
+		// now initialize quartz jobs, iterating through all available jobs.
+		for (final EObject eObject : jobResource.getContents()) {
+			final Job job = (Job) eObject;
+			sb.append("Name: " + job.getName() + " | State: "
+					+ job.getJobState().getName() + " | Repeats: "
+					+ job.getRepeat() + " | Interval: " + job.getInterval()
+					+ " | Start: " + job.getStartTime() + " | End "
+					+ job.getEndTime());
+			JobRunContainer container = this.getContainer(
+					jobRunContainerResource, job);
+			if (container != null) {
+				sb.append(" | Runs " + container.getWorkFlowRuns().size()
+						+ " times\n");
+			} else {
+				sb.append("\n");
+			}
+		}
+		cdoView.close();
+		return sb.toString();
+	}
+
 	private synchronized String statusScheduler() {
 		if (isInitializing()) {
 			return "Scheduler initializing";
@@ -251,12 +319,15 @@ public class JobHandler {
 					if (scheduler.isInStandbyMode()) {
 						scheduler.start();
 						sb.append("Scheduler started...");
-					}else{
+					} else {
 						sb.append("Scheduler is started already...");
 					}
+				} else {
+					scheduler.start();
+					sb.append("Scheduler started...");
 				}
 			} else {
-				
+
 			}
 		} catch (SchedulerException e) {
 			e.printStackTrace();
@@ -286,16 +357,25 @@ public class JobHandler {
 
 		StringBuffer sb = new StringBuffer();
 		try {
-			if (scheduler != null && scheduler.isStarted()) {
+			if (scheduler != null) {
+
+				// print the scheduler status first.
+				sb.append("Current scheduler status=" + statusScheduler() + "\n");
+
 				// currently executing jobs.
 				sb.append("Current running scheduled jobs = "
-						+ scheduler.getCurrentlyExecutingJobs().size());
+						+ scheduler.getCurrentlyExecutingJobs().size() + "\n");
+
 				for (JobExecutionContext context : scheduler
 						.getCurrentlyExecutingJobs()) {
-					sb.append(context.toString() + "\n");
+					sb.append("=> Job with ID:" + context.getJobDetail().getDescription() + "\n");
 				}
-				// current triggers.
-				sb.append("\nTriggers:");
+
+				// current triggers, if the scheduler is stopped, we still have
+				// triggers
+				// but the date will be wrong.
+				sb.append("Current triggers for jobs\n");
+				
 				List<TriggerKey> keysToRemove = new ArrayList<TriggerKey>();
 				for (TriggerKey tKey : triggerKeysMap.values()) {
 					if (!scheduler.checkExists(tKey)) {
@@ -304,8 +384,8 @@ public class JobHandler {
 					}
 					Trigger trigger = scheduler.getTrigger(tKey);
 					sb.append(printTrigger(tKey, trigger));
-
 				}
+
 				for (TriggerKey tKey : keysToRemove) {
 					triggerKeysMap.remove(tKey);
 				}
@@ -321,11 +401,21 @@ public class JobHandler {
 	 */
 	private String printTrigger(TriggerKey tKey, Trigger trigger) {
 
-		// System.out.println(tKey.getName() + " has fired already  " +
-		// trigger.get);
+		StringBuffer sb = new StringBuffer();
 		Date nextFireTime = trigger.getNextFireTime();
-		return tKey.getName() + " will fire next time " + nextFireTime + "\n";
-
+		
+		
+		try {
+			JobDetail detail = scheduler.getJobDetail(trigger.getJobKey());
+			
+			sb.append("=> Job with ID: " + detail.getDescription() + " will fire next time " + nextFireTime);
+			TriggerState triggerState = scheduler.getTriggerState(tKey);
+			sb.append(", state=" + triggerState.name() + "\n");
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+		
+		return sb.toString();
 	}
 
 	/**
@@ -394,7 +484,8 @@ public class JobHandler {
 
 		}
 		dataProvider.getSession();
-		final CDOTransaction transaction = dataProvider.getTransaction();
+
+		dataProvider.getView();
 		final Resource jobResource = dataProvider
 				.getResource(SchedulingPackage.eINSTANCE.getJob());
 
@@ -402,9 +493,13 @@ public class JobHandler {
 		triggerKeysMap.clear();
 
 		relevantIds.add(((CDOResource) jobResource).cdoID());
-		transaction.options().setInvalidationNotificationEnabled(true);
-		transaction.options().setInvalidationPolicy(
-				CDOInvalidationPolicy.DEFAULT);
+
+		// CB 26062012, this would only imply that objects in this view notify,
+		// when invalidated.
+		// It's likely not needed.
+		// view.options().setInvalidationNotificationEnabled(true);
+		// view.options().setInvalidationPolicy(
+		// CDOInvalidationPolicy.DEFAULT);
 
 		try {
 			if (scheduler != null && !scheduler.isShutdown()) {
@@ -467,20 +562,21 @@ public class JobHandler {
 				triggerKeysMap.put(job.cdoID(), newTrigger.getKey());
 
 				scheduler.scheduleJob(jobDetail, newTrigger);
+
 			} catch (final Exception e) {
 				// TODO do some form of logging but don't stop everything
 				e.printStackTrace(System.err);
 			}
 		}
-		try {
-			scheduler.start();
-		} catch (final Exception e) {
-			// TODO do some form of logging but don't stop everything
-			e.printStackTrace(System.err);
-		}
 
-		// Although we do not commit, force the closing of our transaction here.
-		dataProvider.commitTransaction();
+		// try {
+		// scheduler.start();
+		// } catch (final Exception e) {
+		// // TODO do some form of logging but don't stop everything
+		// e.printStackTrace(System.err);
+		// }
+
+		dataProvider.closeView();
 
 		// do after commit
 		if (!addedListener) {
@@ -493,11 +589,19 @@ public class JobHandler {
 						info = (CDOCommitInfo) arg0;
 
 						// ignore non client commits, like log commits or server
-						// commits.
-						if (!info.getComment().equals(
-								IDataProvider.CLIENT_COMMIT_COMMENT)) {
-							return;
-						}
+						// // commits.
+						// if (!info.getComment().equals(
+						// IDataProvider.CLIENT_COMMIT_COMMENT)) {
+						// if (JobActivator.DEBUG) {
+						// JobActivator.TRACE.trace(null,
+						// "Ignoring (Non Client commit) Session event session="
+						// + dataProvider.getSession()
+						// .getSessionID());
+						// JobActivator.TRACE.trace(null,
+						// "Event=" + info.toString());
+						// }
+						// return;
+						// }
 
 						if (JobActivator.DEBUG) {
 							JobActivator.TRACE.trace(null,
@@ -509,14 +613,17 @@ public class JobHandler {
 						}
 					}
 
-					// Don't bother if we are pauzed.
-					try {
-						if (scheduler != null && !scheduler.isStarted()) {
-							return;
-						}
-					} catch (SchedulerException e) {
-						e.printStackTrace();
-					}
+					// Don't bother if we are pauzed, do see if we can be
+					// scheduled, even when stopped.
+					// CB 26062012 disable, we could change the schedule, even
+					// when the scheduler is stand-by.
+					// try {
+					// if (scheduler != null && !scheduler.isStarted()) {
+					// return;
+					// }
+					// } catch (SchedulerException e) {
+					// e.printStackTrace();
+					// }
 
 					if (arg0 instanceof CDOSessionInvalidationEvent
 							&& !JobHandler.this.initializing) {
@@ -536,7 +643,7 @@ public class JobHandler {
 							}
 						}
 					} else {
-						// When initializing we should wait.
+						waitWhileInitializing();
 					}
 				}
 			});
@@ -681,6 +788,25 @@ public class JobHandler {
 		return 0;
 	}
 
+	private JobRunContainer getContainer(CDOResource containerResource, Job job) {
+		JobRunContainer jobContainer = null;
+
+		// find our jobcontainer .
+		for (final EObject eObject : containerResource.getContents()) {
+			final JobRunContainer container = (JobRunContainer) eObject;
+			final Job containerJob = container.getJob();
+			if (containerJob != null) {
+				final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
+				if (job.cdoID().equals(containerJobId)) {
+					// Container found.
+					jobContainer = container;
+					break;
+				}
+			}
+		}
+		return jobContainer;
+	}
+
 	private void deActivateInstance() {
 		try {
 			scheduler.shutdown();
@@ -704,12 +830,104 @@ public class JobHandler {
 							ServerUtils.getInstance().initializeServer(
 									repository);
 							JobHandler.createAndInitialize();
+							// CB 26062012 disable the scheduler, to force a
+							// manual start of the scheduler.
+							stop();
 						}
 					}
 				});
 			}
 			return element;
 		}
+	}
+
+	public static void activate(CommandInterpreter interpreter) {
+		if (interpreter != null && INSTANCE != null) {
+			interpreter.println(INSTANCE.activateJob(interpreter));
+		} else {
+			System.out.println(INSTANCE.activateJob(interpreter));
+		}
+	}
+
+	public static void deActivate(CommandInterpreter interpreter) {
+		if (interpreter != null && INSTANCE != null) {
+			interpreter.println(INSTANCE.deactivateJob(interpreter));
+		} else {
+			System.out.println(INSTANCE.deactivateJob(interpreter));
+		}
+	}
+
+	/**
+	 * @param interpreter
+	 * @return
+	 */
+	private String activateJob(CommandInterpreter interpreter) {
+		this.waitWhileInitializing();
+		String nextArgument = interpreter.nextArgument();
+		String result = "";
+		if (nextArgument == null) {
+			return " Provide a job name to activate \n";
+		} else {
+			dataProvider.getSession();
+			dataProvider.getTransaction();
+			// look for the job to activate and do it.
+			Job j = jobForName(nextArgument);
+			if (j != null) {
+				if (j.getJobState() == JobState.ACTIVE) {
+					result = "Job is already active";
+				} else {
+					j.setJobState(JobState.ACTIVE);
+					result = "Job activated";
+				}
+			} else {
+				result = "Oops, job " + nextArgument + " doesn't exist.";
+			}
+			dataProvider.commitTransaction();
+		}
+		return result;
+	}
+
+	private String deactivateJob(CommandInterpreter interpreter) {
+		this.waitWhileInitializing();
+		String nextArgument = interpreter.nextArgument();
+		String result = "";
+		if (nextArgument == null) {
+			return " Provide a job name to deactivate \n";
+		} else {
+			dataProvider.getSession();
+			dataProvider.getTransaction();
+			// look for the job to activate and do it.
+			Job j = jobForName(nextArgument);
+			if (j != null) {
+				if (j.getJobState() == JobState.IN_ACTIVE) {
+					result = "Job is already de-actived";
+				} else {
+					j.setJobState(JobState.IN_ACTIVE);
+					result = "Job de-activated";
+				}
+			} else {
+				result = "Oops, job " + nextArgument + " doesn't exist.";
+			}
+			dataProvider.commitTransaction();
+		}
+		return result;
+	}
+
+	private Job jobForName(String jobName) {
+
+		CDOResource jobResource = (CDOResource) dataProvider
+				.getResource(SchedulingPackage.eINSTANCE.getJob());
+
+		// now initialize quartz jobs, iterating through all available jobs.
+		for (final EObject eObject : jobResource.getContents()) {
+			final Job job = (Job) eObject;
+			if (job.getName().equalsIgnoreCase(jobName)) {
+				return job;
+			}
+		}
+
+		return null;
+
 	}
 
 }

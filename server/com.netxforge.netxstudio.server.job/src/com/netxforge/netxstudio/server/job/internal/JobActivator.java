@@ -102,8 +102,11 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 		buffer.append("\tjob start - start the scheduler \n");
 		buffer.append("\tjob stop - stop the scheduler \n");
 		buffer.append("\tjob schedule - list the scheduled jobs \n");
-		buffer.append("\tjob pause_all - pause the running jobs \n");
-		buffer.append("\tjob resume_all - resume the running jobs \n");
+		buffer.append("\tjob list - list the existing jobs \n");
+		buffer.append("\tjob activate [Job name]- activate a job \n");
+		buffer.append("\tjob deactivate [Job name]- activate a job \n");
+		buffer.append("\tjob pause - pause the running jobs \n");
+		buffer.append("\tjob resume - resume the running jobs \n");
 		buffer.append("\tjob clean - clean job progress data\n");
 		buffer.append("\tjob health - health status \n");
 		return buffer.toString();
@@ -113,11 +116,23 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 		try {
 			String cmd = interpreter.nextArgument();
 			if ("status".equals(cmd)) {
-				JobHandler.status(interpreter); 
+				JobHandler.status(interpreter);
 				return null;
 			}
 			if ("schedule".equals(cmd)) {
+				JobHandler.scheduled(interpreter); // we could be initializing!
+				return null;
+			}
+			if ("list".equals(cmd)) {
 				JobHandler.list(interpreter); // we could be initializing!
+				return null;
+			}
+			if ("activate".equals(cmd)) {
+				JobHandler.activate(interpreter); // we could be initializing!
+				return null;
+			}
+			if ("deactivate".equals(cmd)) {
+				JobHandler.deActivate(interpreter); // we could be initializing!
 				return null;
 			}
 			if ("start".equals(cmd)) {
@@ -128,8 +143,17 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 				JobHandler.stop(interpreter); // we could be initializing!
 				return null;
 			}
+			if ("pause".equals(cmd)) {
+				JobHandler.pauseAll(interpreter); // we could be initializing!
+				return null;
+			}
+			if ("resume".equals(cmd)) {
+				JobHandler.resumeAll(interpreter); // we could be initializing!
+				return null;
+			}
 			if ("clean".equals(cmd)) {
-				System.out.println("TODO, clean workflow run items.");
+				JobHandler.clean(interpreter); // We could be initializing and
+												// running jobs!
 				return null;
 			}
 			if ("health".equals(cmd)) {
