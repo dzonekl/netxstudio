@@ -433,6 +433,7 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
 				while ((bytesRead = fin.read(buffer)) >= 0) {
 					fout.write(buffer, 0, bytesRead);
 				}
+				fout.close();
 			} catch (IOException e) { // Error copying file...
 				IOException wrapper = new IOException("Unable to copy file: "
 						+ src.getAbsolutePath() + "to" + dest.getAbsolutePath());
