@@ -1,0 +1,46 @@
+Model observations
+---------------------------
+
+Company
+
+Company should be vendor? (It’s also used for standard bodies so should be kept generic). 
+Add Company short name.
+
+Element 
+
+Present separate worksheet for Function, Equipment (Abstract = false) and instance of an Equipment.  
+Decided to split element definition for functional and equipment. The equipment definition will link to the functional definition. (In the model currently, 
+the equipment definition can be linked as a contained element, TODO Decide how to create an 
+equipment from an element (Copy content). 
+
+For element/resources/parameters definition reference to standards document needed. (i.e. SGSN from 3GPP TS 23.060), an additional field is needed. 
+
+Equipment
+As an example SGSN9810 from Huawei, consider also the SW release version. 
+V800R007 (Check with specialist). 
+
+Boards have sometimes fixed slot locations, consider modeling this not as a resource, but as a specific HW resource.  
+
+Resource
+Not done yet, we need an overview of used counters (to derive the monitored resources). 
+
+
+Measurement (PI). 
+
+TODO define this new model object. 
+
+
+Counter
+TODO define this new model object. 
+Vendor specific Defined on Equipment level, but would point to an inherited functional definition. 
+
+
+
+
+
+ 
+
+
+
+
+

@@ -1,0 +1,3 @@
+DBServer = jdbc:derby:netxstudio;create=true
+DBDriver = org.apache.derby.jdbc.EmbeddedDriver
+DBDialect = org.hibernate.dialect.DerbyDialect

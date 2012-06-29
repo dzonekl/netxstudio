@@ -1,0 +1,15 @@
+dienst naam
+dienst kenmerk (CI)
+dienst type
+dienst omschrijving
+doel van de dienst
+doelgroep
+eigenaar
+bevoegden
+relatie met commerci‘le producten
+leverende partij(en)
+financi‘le kenmerken (optioneel)
+dienst model (componenten en samenhang)
+relatie met andere diensten
+dienst ondersteuning (support hours)
+Service levels (Gold, Silver, Bronze) 

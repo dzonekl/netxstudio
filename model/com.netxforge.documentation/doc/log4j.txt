@@ -1,0 +1,5 @@
+See: http://www.eclipsezone.com/articles/eclipse-vms/
+
+
+Add a buddy policy to MANIFEST.MF
+Eclipse-RegisterBuddy: org.apache.log4j

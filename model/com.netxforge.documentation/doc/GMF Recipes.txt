@@ -1,0 +1,1384 @@
+GMF Generated code decomposition and RCP integration
+===================================================
+
+Background: 
+
+When building a commercial RCP application, chances are various Graphical editors are required. 
+The GMF framework is not capable to manage multiple editors in a consistent way. 
+
+Problems which arise: 
+
+- Naming of plugin declarations, package naming and class naming is taken from the ecore model namespace. 
+When generating multiple diagram editors, we would like to control this naming process. There is no space where
+where this can be done in .gmfmap. when .gmfgen is generated, we can change: 
+
+* the MODEL ID => is used as a hint by the providers (View only?), so it's a good idea to make this unique for each editor.  
+* the package prefix name => This is handy but only solves part of the problem. 
+
+
+- We don't need all of it! Features for generated code, can be turned on and off, but it's
+not really clear how and where this can be done in the .gmfgen. It does help to render a non
+-RCP app to get rid of i.e. menu items. 
+
+- Various functions can be generic for multiple diagram editors. 
+When decomposing a GMF diagram editor, we can extract functions/classes which can 
+be generic for multiple diagram editors. These can be supporting functions like L10N, Util classes
+and UI framework items like menu's, preferences  etc... 
+
+
+the following class were found sufficiently generic to be re-usable
+
+
+* Editor => 
+
+* Messages => L10N Handling (Note L10N handling is better handled by the externalize strings functions). 
+* Preferences => Preferences can be reused. 
+* Navigator => Can be re-used or totally excluded. 
+
+
+Adapting the UI framework classes: 
+
+Probably the most interesting part, is adapting the Actual editor and how it is invoked. 
+The generated code for one single diagram editors does the following: 
+
+Chunk 1: Editor related declarations. 
+
+- declare org.eclipse.team.core.fileTypes => the extension for the diagram file. 
+- declare org.eclipse.emf.ecore.extension_parser => the extension and associated Resource factory. 
+- declare org.eclipse.ui.editors => the editor, extension, actionbarcontributor and matchingstrategy
+
+Here, we can add additional extensions for the same editor. Each extension will trigger the same diagram editor,
+and resource factory. In the code we will use the specific MODEL_ID to fire requests which open the correct diagram. 
+
+Note, for non-file/extension based resource usage, (I.e. case where the resource is in TENEO / Hibernate), 
+we can used the already registered protocols like hbxml, hibernate etc.. These are registered
+against hibernate related resourcefactories, so the resource returned for this URI will be of 
+the correct type). Note that for storing multiple diagrams in a single DB, requires additional settings, 
+see TODO refer to mailing where we discuss this: news://news.eclipse.org:119/4AD47AFD.9000704@gmail.com
+
+
+The matching strategy can be generalized as well (As it compares the EditorInput URI with a new target URI. 
+
+
+Chunk 2: GMF related declarations (Providers). 
+
+More on providers: [TODO] GMF documentation
+GMF Developer Guide > Tutorials > Runtime > 
+* Service and Provider
+* Developer Guide to Diagram Runtime Framework
+
+1 declare org.eclipse.gmf.runtime.diagram.core.viewProviders
+2 declare org.eclipse.gmf.runtime.diagram.ui.editpartProviders
+3 declare org.eclipse.gmf.runtime.emf.ui.modelingAssistantProviders
+4 declare org.eclipse.gmf.runtime.common.ui.services.iconProviders
+5 declare org.eclipse.gmf.runtime.common.ui.services.parserProviders
+6 declare org.eclipse.gmf.runtime.emf.type.core.elementTypes
+7 declare org.eclipse.gmf.runtime.emf.type.core.elementTypeBindings
+
+..additionally other providers can be defined, like the LayoutProvider, 
+various operations are handled by service providers as listed below. 
+
+
+Chunk 3 CNF related declarations and implementation. 
+
+GMF is capable to generate code for CNF (If generation is non-RCP, as the .ide plugin woud be required, which is assumed
+not to be included in an RCP app, see more on Eclipse plugins). 
+
+GMF generates CNF declarations for GMF diagram files. It is described here how it works. 
+
+1) First the content extensions are bound to the default project explorer. (So when defining a viewer
+which extends the CommonNavigator, it seems these bindings work as well?? : org.eclipse.ui.navigator.ProjectExplorer). 
+
+2) It defined 3 types of content extensions: 
+
+<contentExtension pattern="com.netxforge.z.function.diagram.resourceContent"/>
+<contentExtension pattern="com.netxforge.z.function.diagram.domainResourceContent"/>
+<contentExtension pattern="com.netxforge.z.function.diagram.navigatorLinkHelper"/>
+
+3) The content extensions are: 
+
+for *.resourceContent: 
+
+It triggers on objects of type IFile or xxxxAbstractNavigatorItem
+The IFile needs to have the extension defined for the diagram resource. 
+
+for *.domainResourceContent
+
+It triggers on objects of type IFile or xxxxDomainNavigatorItem
+The IFile needs to have the extension which is defined for the semantic resource. 
+(For a shared resource domain, this definition could be removed!). 
+
+for *.navigatorLinkHelper. (This is a org.eclipse.ui.navigator.linkHelper content extension), 
+A link is enabled in the CNF, if the URI is of type: org.eclipse.emf.common.ui.URIEditorInput
+
+
+GMF Tooling
+***********
+
+
+Diagram Partitioning
+====================
+
+http://www.jevon.org/wiki/GMF_Diagram_Partitioning
+
+http://gmfsamples.tuxfamily.org/wiki/doku.php?id=start
+
+
+GENMODEL
+********
+
+GMF creates a transformation model called GMFGen. It is documented here: 
+
+http://wiki.eclipse.org/GMF_GenModel_Hints
+
+
+Known Issues: 
+
+The following Diagram node: Gen Diagram xxxEdtiPart -> Figure ViewMap -> Layout Type, is by default UNKNOWN. 
+With this no specific, layout is installed, the default layout policy from the DiagramEditPart is used. When setting
+the "Layout Type" to another Layout mode than UNKNOWN, the following is installed on the xxxDiagramEditPart
+
+installEditPolicy(EditPolicy.LAYOUT_ROLE, new LayoutEditPolicy() {
+	protected EditPolicy createChildEditPolicy(EditPart child) {
+		final NonResizableEditPolicy p = new NonResizableEditPolicy();
+		p.setDragAllowed(false);
+		return p;
+	}
+
+	protected Command getMoveChildrenCommand(Request request) {
+		return null;
+	}
+
+	protected Command getCreateCommand(CreateRequest request) {
+		return null;
+		}
+	});
+
+Additionally the createFigure() is overridden, and the selected layout mode is defined. 
+This is either XYLAYOUT, FLOWLAYOUT, TOOLBARLAYOUT "Layout type" in the GenModel. 
+
+
+
+DiagramEditor
+*************
+
+
+The EditingDomain
+=================
+
+GMF uses a Transactional Editing domain. In principle the Transactional Editing domain can be declared in the plugin. 
+(For a generated editor, the T.EditingDomain is created in the Document Provider). 
+
+The DiagramEventBroker
+======================
+This is basically a service, which is used by parts of the editor to register against to receive notifications. 
+When sharing with EMF editors, it could be re-used. 
+
+
+The xxxDocumentProvider (Doc from API). 
+====================================
+
+A document provider maps between domain elements and documents. A document provider has the following responsibilities:
+
+create and manage a content representation, i.e., a document, of a domain model element
+create and save the content of domain model elements based on given documents
+update the documents this document provider manages for domain model elements to changes directly applied to those domain model elements
+notify all element state listeners about changes directly applied to domain model elements this document provider manages a document for, i.e. the document provider must know which changes of a domain model element are to be interpreted as element moves, deletes, etc.
+A single document provider may be shared between multiple editors; the methods take the editors' input elements as a parameter.
+This interface may be implemented by clients; or subclass the standard abstract base class AbstractDocumentProvider.
+
+
+The xxxDiagramEditor
+==================
+
+A generated editor will a stack of class, each adding functionality.
+As the functionality, is a reasonable default for Modelling based editors, customizations 
+will happen by overriding or adding functionality provided by these classes. For example the base draw2d viewer, (GraphicalViewer) is 
+defined in the GraphicalEditor, but each of the classes editor classes on top will add functionality with the method configureGraphicalViewer(). 
+
+EditorPart (Platform)
+	GraphicalEditor (GEF) 
+		DiagramEditor (GMF)
+			DiagramEditorWithFlyOutPalette (GMF)
+				DiagramDocumentEditor (GMF)
+					-I IReusableEditor
+					-I IDocumentEditor 
+					xxxDiagramEditor (YourPlugin) 
+
+
+xxxDiagramEditor
+----------------
+
+A generated diagram will: 
+- Override createPaletteRoot, to fill the palette with a custom factory. 
+- 
+
+
+
+DiagramDocumentEditor (GMF).
+----------------------------
+
+- Provides a concrete implementation for IReusableEditor and IDocumentEditor. 
+	IReusableEditor: 
+		setInput(), will make sure that we save the old input, and do various stuff with the document provider. 
+		Simply calling this method, will make new input to the provider. 
+- Adapts to IPropertiesSheetPage. 
+- Configures the graphicalViewer.
+	- Adds a propertylistener to listen to preference changes. 
+	- 
+
+
+
+TODO, complement
+
+DiagramEditorWithFlyOutPalette (GMF)
+------------------------------------
+
+TODO
+
+DiagramEditor (GMF)
+-------------------
+
+Adapts to: 
+
+if (type == IContentOutlinePage.class) {
+            TreeViewer viewer = new TreeViewer();
+            viewer.setRootEditPart(new DiagramRootTreeEditPart());
+            return new DiagramOutlinePage(viewer);
+}
+
+The DiagramRootTreeEditPart, is the root editor part for this outline viewer. 
+
+
+        if (ActionManager.class == type)
+            return getActionManager();
+
+        if (IDiagramEditDomain.class == type)
+            return getDiagramEditDomain();
+
+        if (type == ZoomManager.class)
+            return getZoomManager();
+
+        if (type == IUndoContext.class) {
+            return getUndoContext();
+        }
+        if (type == IOperationHistory.class) {
+            return getOperationHistory();
+        }
+        if (type == IEditingDomainProvider.class) {
+            return domainProvider;
+        }
+
+
+SelectionSynchronizer
+---------------------
+This is a pattern which allows to register GEF viewers for which the selection is synchronized based on the model element.
+It can be hooked into as it is returned from getSelectionSynchronizer(); By default the GraphicalViewer (Canvas) and the TreeViewer
+are synchronized. Additional views can be added to the sync process. The Synchronizer implements ISelectionChangedListener, so overriding
+the selectionChanged(É) allows the selection to be used differently. 
+
+As an example it can be used to feed the notation model, which can than be consumed by i.e. Edit policies like the CanonicalEditingPolicy. 
+This pattern can be applied to implement a Partial canonical editing policy which will sync view and semantic model for certain semantic model 
+objects only. (See more on this in the ConnonicalEditing Policy. 
+
+
+Known Issues: 
+
+
+The Outline, TreeEditPart -> getText() returns the label if a feature "Name" exists, or otherwise returns an empty String. 
+To override this, make sure we use a custom EditPartFactory for the OutLineViewer Edit Parts. 
+The current EditPartFactory does this: 
+
+  protected EditPartFactory getOutlineViewEditPartFactory() {
+		return new EditPartFactory() {
+
+			public EditPart createEditPart(EditPart context, Object model) {
+				if (model instanceof Diagram) {
+					return new TreeDiagramEditPart(model);
+                } else if (model instanceof View
+                    && ViewType.GROUP.equals(((View) model).getType())) {
+                    return new TreeContainerEditPart(model);
+				} else {
+					return new TreeEditPart(model);
+				}
+			}
+		};
+	}
+
+
+Here, we can return an extended TreeEditPart or TreeDiagramEditPart.
+
+GraphicalEditor (GEF)
+---------------------
+
+The Graphical Editor provided, by GEF offers interesting functionality:
+
+- It defines, configures and initializes the GraphicalViewer, which is by default a Scrolling graphicalViewer from GEF. 
+
+API Description: ScrollingGraphicalViewer (GEF)
+
+A Graphical Viewer implementation which uses a org.eclipse.draw2d.FigureCanvas for native scrolling. Because the scrolling is handled natively, the root editpart should not contain a org.eclipse.draw2d.ScrollPane figure. Do not use root editparts which provide scrollpane figures, such as GraphicalRootEditPart.
+
+The RootEditPart for a ScrollingGraphicalViewer may contain a Viewport. If it does, that viewport will be set as the FigureCanvas' viewport. FigureCanvas has certain requirements on the viewport figure, see FigureCanvas.setViewport(Viewport).
+
+
+API Description: FigureCanvas (draw2d)
+
+A scrolling Canvas that contains Figures viewed through a Viewport. Call setContents(IFigure) to specify the root of the tree of Figures to be viewed through the Viewport.
+
+Normal procedure for using a FigureCanvas:
+
+Create a FigureCanvas.
+Create a Draw2d Figure and call setContents(IFigure). This Figure will be the top-level Figure of the Draw2d application.
+Required Styles (when using certain constructors):
+V_SCROLL, H_SCROLL, NO_REDRAW_RESIZE
+Optional Styles:
+DOUBLE_BUFFERED, RIGHT_TO_LEFT, LEFT_TO_RIGHT, NO_BACKGROUND, BORDER
+
+- SelectionSynchronizer, which is capable to sync. the selection of multiple viewers. 
+By default it used to sync the graphical viewer with the rest of the editor, also the Graphical Viewer is made the 
+selection provider. 
+
+Scenario: One example scenario, is to use the outline as a selection provider for the editor. So basically turning around, who is providing the selection, with the effect that the 
+Graphical viewer should show what is selected in the outline.  
+
+
+
+SERVICES AND PROVIDERS
+**********************
+
+
+For various GMF functions a service is defined. This can be the creation of:
+
+1) View
+2) EditPart
+3) EditPolicies
+4) Icons
+5) Text 
+6) 
+
+
+
+These declarations provide a level of abstraction between our diagram specific visual elements and our semantic model.
+Providers use a uniform mechanism to determine if the operation can be served. The method called
+on a provider is 
+
+... provides(IOperation op)
+
+the following operations are defined: 
+
+ApplyModifiersOperation
+ContributeToActionBarsOperation
+ContributeToPaletteOperation
+ContributeToPopupMenuOperation
+CreateDecoratorsOperation
+CreateDiagramEventBroker
+CreateEditPoliciesOperation
+CreateViewOperation -> CreateChildViewOperation -> CreateDiagramViewOperation
+DisposeContributionsOperation
+GetParserOperation
+GetPropertySourceOperation
+GetStatusLineContributionOperation
+GlobalActionHandlerOperation
+GotoMarkerOperation
+OpenEditorOperation
+TestAtributeOperation
+EditPartOperation -> CreateGraphicEditPartOperation -> CreateRootEditPartOperation
+IconOperation
+ILayoutNodeOperation
+IMatchingObjectsOperation
+
+
+View Providers
+--------------
+
+1) viewProviders translates operations (IOperation), into the creation of Notation (Diagram) elements
+the provides(..) API method, matches the semantic hint and the SemanticAdapter (Other word for the EObject to 
+be associated with the graphical element). 
+
+The GMF runtime also defines various ViewFactories to support the creations of views by the providers. 
+View factories implement the interface: ViewFactoy. 
+API Description: Interface defining the basic View Factory APIs; a view factory is responsible for creating a view. The createView will be called by the ViewService (using reflection) during a view creation process.
+
+
+The following are identified. 
+
+ViewFactory
+	AbstractViewFactory
+		BasicNodeViewFactory
+			AbstractLabelViewFactory
+			AbstractShapeViewFactory
+			BasicCompartmentViewFactory
+			BasicDecorationViewFactory
+		ConnectionViewFactory
+TODOÉ.Finish this and describe, what the view factories produce. (Which notation aspects are handles, like style etc..)
+
+Note: It doesn't seem, that the generated GMF diagram, actually uses any of these factories. 
+
+
+Customizations: In order to support multiple diagrams we would need to declare a view provider for each diagram, 
+the request creator however would need to be adapted to initiate a request providing the applicable: 
+
+* Semantic Hint -> Matching the MODEL_ID of the applicable diagram
+* model -> The Semantic adapter of EObject.
+
+
+Global action handlers 
+----------------------
+
+Some actions can not be overridden with an edit policy. Global actions like cut, copy and paste 
+can be defined with a global action handler. 
+
+A global action handler is defined in declarative form (plugin.xml) by first defining a Global Action handler
+provider. The provider installed by the generated GMF code is shown below. The ViewID is our GMF editor ID. 
+Several providers can be used, the one for cut, copy and paste is DiagramUIRenderGlobalActionHandlerProvider. 
+
+A custom GlobalActionHandlerProvider can be defined by extending:AbstractGlobalActionHandlerProvider
+Also a context is defined to get the declarative definitions. This context is the IGlobalActionHandlerContext
+
+<GlobalActionHandlerProvider
+            class="org.eclipse.gmf.runtime.diagram.ui.render.providers.DiagramUIRenderGlobalActionHandlerProvider"
+            id="netx_equipRender">
+         <Priority name="Lowest"/>
+         <ViewId id="com.netxforge.d.dg.editors.generic">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="cut"/>
+               <GlobalActionId actionId="copy"/>
+               <GlobalActionId actionId="paste"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+
+
+An action list is populated with the declarations for cut, copy, paste. 
+
+the corresponding Global Actions for these declarations are: 
+
+CopyGlobalAction
+CutGlobalAction
+PasteGlobalAction
+
+The actions interact with a GMF Specific ClipboardManager to do the final step of the action, but before 
+that a command is prepared which also interacts with the ClipboardManager.
+ 
+The ClipboardManager API is: 
+
+- addToCache(Object, Transfer)
+- FlushCacheToClipboard()
+- doesClipboardHaveData(Format, )
+
+
+In the DiagramGlobalActionHandler, the following commands on selection 
+of an element or execution of the action. These commands extend the ClipboardCommand. 
+
+CutCommand 
+CopyCommand
+PasteCommand
+ 
+ 
+ 
+For Cut and Copy Command: 
+- The selection is copied using the GMF ClipboardManager API: 
+addToCache(); A CustomData object is prepared, which is passed on to this method: 
+
+CustomData data =
+                new CustomData(
+                    DRAWING_SURFACE,
+                    copyViewsToString(source).getBytes());
+
+The source is the selected or more than one selected View objects. (See GMF Notation model). 
+So, the view object is serialized using the copyViewsToString() for the source Views. 
+and calling getBytes() to get a binary object which is wrapped in CustomData. 
+
+To make a string out of the View Objects, these are passed to a ClipboardUtil class, 
+which executes: copyElementsToString(), finaly a CopyOperation is prepared which returns (Example of a 
+copied object). So an exact copy is created, including the serialized Semantic object reference, 
+in this case:    <element xmi:type="networks:Node" href="platform:/resource/NetXStudio/Models/default.netxstudio#//@nodes.1"/>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:networks="http://www.netxforge.com/25102010/networks" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <ecore:EAnnotation xmi:id="_VVUzkP-DEd-nMviEnFenOw" source="Pixel"/>
+  <ecore:EAnnotation xmi:id="_VVUzkf-DEd-nMviEnFenOw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_VVUzkv-DEd-nMviEnFenOw" source="serialization_annotations">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_VVUzk_-DEd-nMviEnFenOw">
+        <references xmi:type="notation:Shape" href="platform:/resource/NetXStudio/Models/default.netxstudio_diagram#_2yekAP98Ed-nMviEnFenOw"/>
+        <references xmi:type="ecore:EReference" href="http://www.eclipse.org/gmf/runtime/1.0.2/notation#//View/children"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_VVUzlP-DEd-nMviEnFenOw">
+        <references xmi:type="notation:DecorationNode" href="platform:/resource/NetXStudio/Models/default.netxstudio_diagram#_2yfLEP98Ed-nMviEnFenOw"/>
+        <references xmi:type="ecore:EReference" href="http://www.eclipse.org/gmf/runtime/1.0.2/notation#//View/children"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_VVUzlf-DEd-nMviEnFenOw">
+        <references xmi:type="notation:Bounds" href="platform:/resource/NetXStudio/Models/default.netxstudio_diagram#_2yekAf98Ed-nMviEnFenOw"/>
+        <references xmi:type="ecore:EReference" href="http://www.eclipse.org/gmf/runtime/1.0.2/notation#//Node/layoutConstraint"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_VVUzlv-DEd-nMviEnFenOw">
+        <references xmi:type="ecore:EAnnotation" href="#_VVUzkP-DEd-nMviEnFenOw"/>
+      </eAnnotations>
+    </eAnnotations>
+  </ecore:EAnnotation>
+  <notation:Shape xmi:id="_2yekAP98Ed-nMviEnFenOw" type="2002" fontName="Lucida Grande">
+    <children xmi:type="notation:DecorationNode" xmi:id="_2yfLEP98Ed-nMviEnFenOw" type="5002"/>
+    <element xmi:type="networks:Node" href="platform:/resource/NetXStudio/Models/default.netxstudio#//@nodes.1"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2yekAf98Ed-nMviEnFenOw" x="317" y="140"/>
+  </notation:Shape>
+</xmi:XMI>
+
+
+ClipboardSupport
+----------------
+
+It broke in 2.2.2
+https://bugs.eclipse.org/bugs/show_bug.cgi?id=306500
+
+How to fix: (Let the internal factory have a higher prio.). 
+
+<extension
+         point="org.eclipse.gmf.runtime.emf.clipboard.core.clipboardSupport">
+      <factory
+class="org.eclipse.gmf.runtime.notation.providers.internal.copypaste.ClipboardSupportFactory"
+            nsURI="http://www.eclipse.org/gmf/runtime/1.0.2/notation"
+            priority="medium">
+  </factory>
+
+What it does: 
+The IClipboardSupport API provides facilities to assist in the copy and paste process.
+It deals with handling of collisions, defining the unique name etc... (See API for the details). 
+The IClipboardSupport is also handled by the factory above. 
+
+3) editPolicyProvider provides the edit policies for various editing roles. 
+The GEF and GMF framework installs many 'default' policies for the various roles. 
+The roles are defined in: 
+
+EditPolicy => GEF
+EditorPolicyRole => GMF
+
+The GEF document [TODO ref to the GEF runtime doc], explains very well the role of an edit policy. 
+In summary it is a bridge between editing requests and the command to execute the request. 
+The various requests are defined in: 
+
+org.eclipse.gmf.runtime.diagram.ui.requests.RequestsConstants.
+
+
+Examples of these policies is the decoration role: 
+
+public static final String DECORATION_ROLE = "DecorationPolicy"; //$NON-NLS-1$
+
+So for this role a policy is installed. This is typically done by an edit part, in the method
+createDefaultEditPolicies();
+
+In our example, the GraphicalEditPart installs the edit policies below. 
+
+
+    protected void createDefaultEditPolicies() {
+        installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
+            new SemanticEditPolicy());
+        installEditPolicy(EditPolicyRoles.PROPERTY_HANDLER_ROLE,
+            new PropertyHandlerEditPolicy());
+        installEditPolicy(EditPolicyRoles.DECORATION_ROLE,
+            new DecorationEditPolicy());
+    }
+
+The Edit policy registry is maintained for each edit part in the super AbstractEditPart. 
+The AbstractEditPart will replace newly defined/installed edit policies for the existing one. 
+(There can only be one active policy per role). 
+
+See the installEditPolicies(...) method in AbstractEditPart.
+
+EditPolicy Interface
+--------------------
+
+API Description
+
+A pluggable contribution implementing a portion of an EditPart's behavior. EditPolicies contribute to the overall editing behavior of an EditPart. Editing behavior is defined as one or more of the following:
+
+Command Creation - Returning a Command in response to getCommand(Request)
+Feedback Management - Showing/erasing source and/or target feedback in response to Requests.
+Delegation/Forwarding - Collecting contributions from other EditParts (and therefore their EditPolicies). 
+In response to a given Request, an EditPolicy may create a derived Request and forward it to other EditParts. 
+For example, during the deletion of a composite EditPart, that composite may consult its children for contributions to the delete command. Then, if the children have any additional work to do, 
+they will return additional comands to be executed. EditPolicies should determine an EditPart's editing capabilities. 
+It is possible to implement an EditPart such that it handles all editing responsibility. 
+However, it is much more flexible and object-oriented to use EditPolicies. Using policies, you can pick and choose the editing behavior for an EditPart without 
+being bound to its class hierarchy. Code reuse is increased, and code management is easier.
+
+IMPORTANT: This interface is not intended to be implemented by clients. 
+Clients should inherit from org.eclipse.gef.editpolicies.AbstractEditPolicy. New methods may be added in the future.
+
+
+Edit Part Providers
+-------------------
+
+editPartProviders provide the actual GEF edit parts. 
+Here a "cachingKey" is provided which is either the MODEL_ID or a VISUAL_ID, 
+The editPartProvider is closely tighted to the GEF Edit Part factory, so it's 
+better to define an edit part provider for each diagram.
+
+The Model View Control pattern applies to the GEF framework whereby the EditParts represent the controllers. 
+GMF generated edit parts, in addition to GEF, override a defined set of base GMF Editparts. The structure is like this: 
+
+Class Hiarchy. 
+
+AbstractEditPart (GEF)
+	-P EDITPOLICYITERATOR, REQ_SELECTION
+	AbstractGraphicalEditPart (GEF)
+		AbstractConnectionEditPart(GEF)
+			ConnectionEditPart (GMF)
+				ConnectionNodeEditPart(GMF)
+					DefaultConnectionEditPart(GMF)
+					NoteAttachementEditPart(GMF)
+			ConnectionEditPart (GEF)
+		GraphicalEditPart(GMF)
+		-P EditPolicyRoles.SEMANTIC_ROLE (GMF): REQ_RECONNECT_SOURCE, REQ_RECONNECT_TARGET, REQ_SEMANTIC_WRAPPER
+		-P EditPolicyRoles.PROPERTY_HANDLER_ROLE(GMF): REQ_PROPERTY_CHANGE, REQ_CHILD_PROPERTY_CHANGE, REQ_SHOW_ALL_COMPARTMENTS
+		-P EditPolicyRoles.DECORATION_ROLE(GMF): no requests...
+			CompartmentEditPart(GMF)
+			-P EditPolicyRoles.CONNECTION_HANDLES_ROLE: delegate to parent policies with "MouseMotionListener" interface. (Where?)
+			-P EditPolicyRoles.POPUPBAR_ROLE: delegate to parent policies with "MouseMotionListener" interface. (Where?) 
+				ResizeableCompartmentEditPart
+					DefaultCompartmentEditPart
+					ListCompartmentEditPart
+					-P EditPolicyRoles.MODIFY_SORT_FILTER_ROLE: REQ_CHANGE_SORT_FILTER(GMF)
+					-P EditPolicy.COMPONENT_ROLE: REQ_DELETE, REQ_ORPHAN
+					ShapeCompartmentEditPart
+					-P EditPolicyRoles.CREATION_ROLE (GMF), 
+					-P EditPolicy.LAYOUT_ROLE (GEF), 
+					-P EditPolicy.CONTAINER_ROLE (GEF),
+					-P EditPolicyRoles.DRAG_DROP_ROLE (GMF),
+					-P EditPolicy.GRAPHICAL_NODE_ROLE (GEF),
+					-P-P EditPolicyRoles.SNAP_FEEDBACK_ROLE (GMF)
+					-P EditPolicyRoles.DRAG_DROP_ROLE (GMF),
+					-P EditPolicyRoles.POPUPBAR_ROLE (GMF),
+			DiagramEditPart(GMF)
+			-P EditPolicyRoles.CREATION_ROLE
+			-P EditPolicy.CONTAINER_ROLE
+			-P EditPolicy.COMPONENT_ROLE
+			-P EditPolicy.LAYOUT_ROLE
+			-P EditPolicyRoles.DRAG_DROP_ROLE
+				xxxEditPart(YourPlugin)
+					-P EditPolicyRoles.SEMANTIC_ROLE
+					-P EditPolicyRoles.CANONICAL_ROLE
+			DummyEditPart(GMF)
+			TopGraphicEditPart(GMF): REQ_DIRECT_EDIT (GEF)
+				-P EditPolicy.LAYOUT_ROLE (GEF): REQ_AUTOSIZE
+					-P EditPolicy.PRIMARY_DRAG_ROLE (GEF): REQ_RESIZE(GEF),REQ_MOVE(GEF), REQ_ADD(GEF), REQ_CLONE(GEF), REQ_ORPHAN(GEF), REQ(ALIGN)					 
+				LabelEditPart(GMF)
+					xxxEditPart(YourPlugin)
+						- 
+				ShapeEditPart(GMF)	
+				-P EditPolicy.CONTAINER_ROLE
+				-P EditPolicy.COMPONENT_ROLE
+				-P EditPolicyRoles.POPUPBAR_ROLE
+					ShapeNodeEditPart(GMF) : 
+					-P EditPolicy.GRAPHICAL_NODE_ROLE
+					-P EditPolicyRoles.SORT_FILTER_ROLE
+					-P EditPolicyRoles.CONNECTION_HANDLES_ROLE
+					-P "NoteAttachmentReorient" (? No Key defined). 
+						xxxEditPart(YourPlugin) : 
+							- EditPolicyRoles.CREATION_ROLE
+							- EditPolicyRoles.SEMANTIC_ROLE
+							- EditPolicyRoles.DRAG_DROP_ROLE
+							- EditPolicyRoles.CANONICAL_ROLE
+							- EditPolicy.LAYOUT_ROLE
+Interfaces: 							
+			ITextAwareEditPart(GMF)
+			INodeEditPart(GMF)
+			IContainedEditPart(GMF) 
+			
+A Diagram editor will typically extend the editparts defined by GMF runtime. 
+
+- The DiagramEditPart is extended for a diagram root edit part. (Canvas). 
+- The ShapNodeEditPart is extended for a typical node. (Implement INodeEditPart). 
+- The ConnectioNodeEditPart is extended for a typical edge. 
+- The ShapeCompartmentPart/ListCompartmentEditPart is extended for a typical compartment. 
+- The LabelEditPart is extended for a typical label on an edge. 
+- The CompartmentEditPart is extended for a typical label in a Node (It will also implement ITextAwareEditPart, IContainedEditPart). 
+
+					
+								
+The GMF runtime Editparts explained: 
+Some concepts: 
+
+The top edit part which would be the DiagramEditPart in GEF, is defined as the primary edit part in GMF. 
+
+
+GraphicalEditPart (Implements IGraphicalEditPart)
+-----------------
+
+It's an abstract base class for editparts with a View as a model (View being the Notation model).
+ 
+It is responsible for dealing with the View as a model, so it receives notifications and has convenience
+classes for getting/setting the semantic model object and it's features. 
+It also has access to the Editingdomain associated with the semantic/notation model resource. 
+It also get's preferred values from the preference store like the font, line and background colors. It
+deals with these features between the Notation View and the associated figure.  
+
+It also adds the following editing policies: 
+
+installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
+            new SemanticEditPolicy());
+installEditPolicy(EditPolicyRoles.PROPERTY_HANDLER_ROLE,
+            new PropertyHandlerEditPolicy());
+installEditPolicy(EditPolicyRoles.DECORATION_ROLE,
+            new DecorationEditPolicy());
+            
+These are all GMF policies. (See various GMF Policies). 
+And calls the EditPolicy Service for installing declarative Editing policies. 
+
+
+TopGraphicEditPart (Implements IContainedEditPart)
+------------------
+
+This is the base class for all edit parts which are not the diagram edit part. (Primary Editpart). 
+It installs a layout policy, which in it's turn installs a policy on the PRIMAY_DRAG_ROLE, 
+on the children depending on their type:. 
+
+- ResizableCompartmentEditPart
+- TextCompartmentEditPart
+- IBorderItemEditPart
+
+installEditPolicy(
+			EditPolicy.LAYOUT_ROLE,
+			new ConstrainedToolbarLayoutEditPolicy());
+
+It is also an accessor for Resizable compartments. 
+(Edit parts of type ResizableCompartmentEditPart)
+
+It is also aware of children with a View model containing the Drawer Style from the
+Notation model. 
+
+Finally it performs direct edits for REQ_DIRECT_EDIT requests. These are performed
+in the edit part, and not added with an editpolicy. 
+
+LabelEditPart
+-------------
+	
+	
+ShapeEditPart
+-------------
+
+The base editpart for shapes in the diagram. 
+
+The following editing policies are installed:
+
+installEditPolicy(EditPolicy.CONTAINER_ROLE, new ShapeContainerEditPolicy());
+installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy());
+installEditPolicy(EditPolicyRoles.POPUPBAR_ROLE, new PopupBarEditPolicy());
+
+ShapeNodeEditPart
+-----------------
+
+On top of the ShapeEditPart, the ShapeNodeEditPart also implements the INodeEditPart. 
+The functionality of INodeEditPart is to map connections to anchors. The interface is used
+by the EditPolicy.GRAPHICAL_NODE_ROLE and belonging policy. 
+
+The following editing policies are installed:
+
+installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,new GraphicalNodeEditPolicy());
+installEditPolicy(EditPolicyRoles.SORT_FILTER_ROLE, new SortFilterCompartmentItemsEditPolicy());
+installEditPolicy(EditPolicyRoles.CONNECTION_HANDLES_ROLE, new ConnectionHandleEditPolicy());
+// Disable note attachment reorient between two shapes where neither is a note.
+installEditPolicy("NoteAttachmentReorient", new NoteAttachmentReorientEditPolicy());
+
+
+Typical shapes on top will add the following policy roles. 
+
+installEditPolicy(EditPolicyRoles.CREATION_ROLE,new CreationEditPolicy());
+installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new xxxItemSemanticEditPolicy());
+installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE, new DragDropEditPolicy());
+installEditPolicy(EditPolicyRoles.CANONICAL_ROLE, new xxxCanonicalEditPolicy());
+installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
+
+
+CompartmentEditPart
+-------------------
+
+The base edit part for compartments. Compartments behave like mini diagram edit parts.
+Installs a policies related to the following roles. 
+
+		installEditPolicy(EditPolicyRoles.CONNECTION_HANDLES_ROLE,
+			new DelegatingMouseEventsEditPolicy(EditPolicyRoles.CONNECTION_HANDLES_ROLE));
+		installEditPolicy(EditPolicyRoles.POPUPBAR_ROLE,
+			new DelegatingMouseEventsEditPolicy(EditPolicyRoles.POPUPBAR_ROLE));
+
+These policies delegate to policies in the parent hierarchy of this edit part, looking
+for policies which implement the interface: "MouseMotionListener"
+
+It also has some specific behaviour to selections. as the compartment can only 
+be selected when the shape is selected.  
+
+
+ITextAwareEditPart
+------------------
+
+An edit part which is text aware, It is often implemented on a class extending the CompartmentEditPart. 
+
+
+ResizableCompartmentEditPart
+----------------------------
+
+An editpart for controlling generic resizable compartment views
+The compartment can be collapsed, hidden, resized, or given a title
+
+
+ListCompartmentEditPart
+-----------------------
+
+An editpart implementation of the ResizableCompartment as a list compartment
+It supports sorting and filtering of children edit parts. The sorting and filtering is 
+part of the Notation model, it can be automatic or not. 
+
+It installs the following policies: 
+
+		installEditPolicy(EditPolicyRoles.MODIFY_SORT_FILTER_ROLE, new ModifySortFilterEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ListComponentEditPolicy());
+
+Note that the COMPONENT_ROLE is to disable the delete command on this edit part. 
+(As a compartment shouldn't be deleted). 
+
+When creating the figure, it adds a ConstrainedToolbarLayout to the compartment figure. 
+This forces the children to be laid out according to this policy. 
+
+SemanticListCompartmentEditPart
+-------------------------------
+
+Is not generated by default, but can be used to reduce the number of notation views with many list 
+items to show. See Hunter Mostafa, Eclipscon 2007.
+
+
+ShapeCompartmentEditPart
+------------------------
+
+A generic (sub) shape container that holds instances of
+<code>ShapeNodeEditPart</code>s and manages the display of
+<code>ConnectionNodeEditPart</code>s anchored to these shape editpart instances.
+
+The following policies are installed.
+
+installEditPolicy(EditPolicyRoles.CREATION_ROLE,
+			new CreationEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicy());
+		installEditPolicy(EditPolicy.CONTAINER_ROLE, new ContainerEditPolicy());
+		// TODO: this edit policy get overriden by code at the end of this
+		// function
+		// may be this breaks some use cases; it needs to be checked
+		installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE,
+			new DiagramLinkDragDropEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
+			new ContainerNodeEditPolicy());
+		// Install an edit policy for snap
+		installEditPolicy(EditPolicyRoles.SNAP_FEEDBACK_ROLE,
+			new SnapFeedbackPolicy());
+		installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE,
+			new ShapeCompartmentDropEditPolicy());
+		installEditPolicy(EditPolicyRoles.POPUPBAR_ROLE,
+			new PopupBarEditPolicy());
+
+
+DiagramEditPart (TODO)
+---------------------------
+
+@See GMFGen Known Issues, considering layouts. 
+Like any other edit part, the 
+
+
+
+
+DiagramRootEditPart
+-------------------
+
+First, the DiagramRootEditPart is responsible for showing rulers, grids layers etc..
+Some of the properties can be set directly on the graphicalViewer. 
+
+The following properties can be overriden (From default preferences). 
+- SnapToGrid
+- SnapToShape
+- ShowGrid
+
+This can be done, when configuring the GraphicalViewer in your Editor. 
+Add this to the method: 
+
+protected void configureGraphicalViewer() {
+...
+
+// Snap to Geometry
+getDiagramGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, new Boolean(true));
+// Snap to Grid
+getDiagramGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED,new Boolean(true));
+// Grid Visible
+getDiagramGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, new Boolean(true));
+
+
+// To change the grid line color: 
+
+RootEditPart p = getDiagramGraphicalViewer().getRootEditPart();
+if(p instanceof DiagramRootEditPart){
+
+	((DiagramRootEditPart)p).setGridColor(FigureUtilities
+					.RGBToInteger(new RGB(0,0,0)));
+
+// To change the grid style
+	((DiagramRootEditPart)p).setGridStyle(SWT.LINE_SOLID);
+
+
+A more rigorous approach would be to implement a provider which can deliver
+a custom root edit part. TODO -> Set the context in EditPartProvider to "true", 
+can not make this work! 
+
+
+GEF Layers: 
+
+See LayersConstants for information on the layers. 
+
+
+Clickable Figures
+=================
+
+- Add an ActionFigure as a .GMFgraph custom figure. The ActionFigure extends draw2D Button. 
+- Add a custom editing policy (via an editpolicy provider), which installs an action listener on the action figure. 
+- The custom policy produces and executes a command, on the editing domain commandstack.
+
+
+EditPolicyProvider Roles & Policies
+=================================
+
+Edit policies can be set by defining an Edit policy provider. 
+The edit policy provider will have to return the edit policy for the supported roles. 
+
+EXAMPLE: Custom Behaviour in Generation Model
+------------------------------------
+
+First define a new Edit Policy extending OpenEditPolicy, which reacts to .OPEN_ROLE
+Add a Custom Behaviour to an Child Label Node.
+
+
+Policies which can not be override the role:
+
+Note that some providers are automaticly installed. This is true for providers who's parent are responsible for the edit policy. 
+To be concrete the LayoutEditPolicy installs child edit policies for the role of: PRIMARY_DRAG_ROLE.
+
+
+GMF runtime defines, the following roles & policies: 
+
+
+What can be customized with an EditPolicy?
+
+
+- Source and target feedback. 
+- Which requests are handled. 
+- Which commands are issued to deal with notation and domain model. 
+
+CREATION_ROLE
+-------------
+
+The typical editpolicy for this role is: 
+
+CreationEditPolicy (GMF)
+
+It is typically the entry point for a REQ_CREATE and REQ_ADD. 
+The requests from tools would one of: 
+
+CreateUnspecifiedTypeRequest -> The type to create is unknown yet and needs to be resolved. 
+CreateViewAndElementRequest -> 
+CreateViewRequest
+
+getUnspecifiedTypeCreateCommand(..)
+
+Gets the command to create a new view (and optionally element) for an unspecified type request. 
+This command includes a command to popup a menu to prompt the user for the type to be created.
+
+The Element type, for which a CreateViewAndElementRequest is part of the CreateUnspecifiedTypeRequest. 
+The actual creation of the command for the newly created CreateViewAndElementRequest, is delegated to the host holding the policy, but now with a 
+specified type, we will typically end-up in the same CreationEditPolicy, but now dealing with a 
+CreateViewAndElementRequest. 
+
+getCreateElementAndViewCommand(...)
+
+Here, the request is decomposed, the semantic object is resolved (Using ViewUtil), 
+a CreateElementRequest is created and wrapped in a EditCommandRequestWrapper and again
+the host is consulted to get a command for EditCommandRequestWrapper, as we will see this 
+will be handled by the SEMANTIC_ROLE. The EditCommandRequestWrapper is needed, as the request, 
+as to be of type GEF Request. (TODO, Describe the difference, between GEF and GMF requests). 
+
+
+SEMANTIC_ROLE
+-------------
+
+The typical EditPolicy for this role is installed on generated xxxEditParts. 
+This xxxBaseItemSemanticPolicy will extends the SemanticEditPolicy which is responsible
+for creating and updating semantic elements.
+
+It handles the following requests:
+- ReconnectRequest (Just adding the visualID to the request). 
+CB: Why only for this request? 
+
+It delegates to SemanticEditPolicy, for other requests types. (Request.getType()).  
+- REQ_SEMANTIC_WRAPPER 
+- REQ_RECONNECT_SOURCE
+- REQ_RECONNECT_TARGET
+
+For the REQ_SEMANTIC_WRAPPER, it invokes a getSemanticCommandSwitch(), 
+which processes the following requests: 
+
+CreateRelationshipRequest
+CreateElementRequest
+ConfigureRequest
+DestroyElementRequest
+DestroyReferenceRequest
+DuplicateElementsRequest
+GetEditContextRequest
+MoveRequest
+ReorientReferenceRelationshipRequest
+ReorientRelationshipRequest
+SetRequest
+
+For each of the request, 
+
+
+
+
+
+
+LAYOUT_ROLE 
+-----------
+
+Depending on the chosen figure layout mode, a suitable layouteditpolicy should be chosen. 
+By default the freeformlayout chosen for the Canvas edit part, is matched with an XYLayout. 
+
+A somewhat special policy. 
+API Description:
+
+* Provides support for interacting with children GraphicalEditParts with the host figure's current org.eclipse.draw2d.LayoutManager.
+* LayoutEditPolicies are responsible for moving, resizing, reparenting, and creating children. The should provide Commands for all of these operations. Feedback on the container can also be useful for some layouts like grids.
+* LayoutEditPolicies will decorate the host's children with "satellite" EditPolicies. These policies are installed using the EditPolicy.PRIMARY_DRAG_ROLE. Simple layouts will use either ResizableEditPolicy or NonResizableEditPolicy, depending on how the LayoutManager works, and/or attributes of the child EditPart. (TODO, Which Attributes???). 
+
+How it works. 
+
+It adds a listener to the EditPart, to be notified when children EditParts are added. Any children added
+will be decorated with a policy with the role PRIMARY_DRAG_ROLE. (See this role for more information).
+
+
+Contrib: 
+So, this policy provides commands for various activities like moving, resizing, reparenting and creating (+ dropping) children on the parent. If the parent also has a draw2dpolicy, it will interwork with it. 
+We have tried the following. 
+1) Use a Toolbar layout on the diagram editpart, and set the layout editpolicy to: ConstrainedToolbarLayoutEditPolicy
+
+
+
+GRAPHICAL_NODE_ROLE
+-------------------
+Various policies in GMF depending on the EditPart type. (Diagram, Shape etc..) 
+
+
+* GraphicalNodeEditPolicy (GMF)
+
+API Description:
+A GraphicalNodeEditPolicy is responsible for creating and reconnecting connections graphically.
+
+Has it provides feedback and commands for creating and reconnecting connections, this is the place to customize the commands, feedback etc..
+
+
+* ContainerNodeEditPolicy (GMF)
+
+API Description: 
+This is installed on a container editpart. It is responsible for creating connections from a source shape to an unspecified target and a target shape to an unspecified source. A popup will appear asking the user to select or create a new source or target element. This will handle both single create connection requests and multi connection requests (i.e. where the popup also prompts the user for the type of relationship to created).
+
+
+* GraphicalEditPolicy (GEF)
+
+A GraphicalEditPolicy is used with a GraphicalEditPart. All GraphicalEditPolicies are involved with the Figure in some way. They might use the Figure to interpret Requests, or they might simply decorate the Figure with graphical Feedback, such as selection handles.
+
+This class provides convenience methods for accessing the host's Figure, and for adding feedback to the GraphicalViewer. This class does not handle any Request types directly.
+
+
+CONTAINER_ROLE
+--------------
+
+* ContainerEditPolicy
+
+* ShapeContainerEditPolicy
+
+* GroupContainerEditPolicy
+
+
+DECORATION_ROLE
+---------------
+
+* DecorationEditPolicy
+
+API Description: 
+This editpolicy is responsible for adding the decorations from the DecoratorService. The decorations are added to a different layer so that they have the option of being printed or not.
+
+
+CANONICAL_ROLE
+--------------
+
+* CanonicalEditingPolicy
+
+GMF Documentation: "Supporting Canonical Containers"
+It could be that the container needs to optionally support the canonical synchronization.  In this case the edit policy described above needs to be disabled or deactivated.  This capability is built into the infrastructure, but requires the client to install a style that is a trigger for turning on / off the canonical behavior.
+
+The CanonicalStyle is a style on a view that indicates whether or not the
+Canonical editpolicy behavior is active or not.  If the style property is turned off, then the CanonicalEditPolicy listens and automatically will no
+longer synchronize the semantic model and create / delete notation views accordingly.
+
+To install the CanonicalStyle on your notation view that is to support the canonical behavior, you need to override the AbstractViewFactory#createStyles method in your View factory class.
+
+//create the canonical style and add it the view on creation
+protected List createStyles(View view) {
+           List styles = super.createStyles(view);
+           Styles.add(NotationFactory.eINSTANCE.createCanonicalStyle());
+           Return styles;
+}
+
+After the style is installed, it is exposed in the UI through the advanced tab where the user can toggle the capability on or off and the CanonicalEditPolicy that is installed on the shape responds accordingly.
+
+
+PRIMARY_DRAG_ROLE (GEF)
+-----------------------
+
+Typically this role is installed with a NonResizableEditPolicy which extends
+the SelectionHandlesEditPolicy 
+
+* NonResizableEditPolicy
+
+API Description: 
+Provide support for selecting and positioning a non-resizable editpart. Selection is indicated via four square handles at each corner of the editpart's figure, and a rectangular handle that outlines the editpart with a 1-pixel black line. All of these handles return org.eclipse.gef.tools.DragEditPartsTrackers, which allows the current selection to be dragged.
+
+During feedback, a rectangle filled using XOR and outlined with dashes is drawn. Subclasses can tailor the feedback.
+
+
+
+
+ParserProviders
+===============
+
+The Parser service is consulted, when passed Strings to be presented in the diagram. (Including outline). 
+By default, it is generated to be able to provide a parser service, for defined IElementTypes.  (See the ElementType providers). 
+For other objects. (Like model elements) wrapped in an EObjectAdapter (Which supports Eclipse platform IAdaptable), the generated
+parser provider will not return a parser. (And labels will be empty). This applies to the TreeEditPart used in the Outline. 
+To overcome, install a higher-prio, parser provider which can deal with the objects. element.getAdapter(EObject.class), and even nicer
+would be to combine this with an EMF AdapterFactory, which can adapt to a ILabelProvider. 
+
+
+
+....TODO Other providers
+
+COMMANDS
+********
+
+Defining new commands 
+=====================
+
+The reader should be familiar with the concepts of the TransactionalEditingDomain as described in 
+[TODO reference to: EMF Model Transaction Developers Guide / Creating Transactions]
+
+In Summary: 
+
+A TransactionalEditingDomain as a TransactionalCommandStack. Commands need to be created
+for the types of actions. So to set a feature value the SetCommand can be used. 
+The command is created with a CommandParameter. 
+
+See: 
+
+org.eclipse.emf.edit.command.CommandParameter
+
+Typically instantiated with the Owner, Feature and Value. (Owner being the target object).  
+
+
+
+
+
+
+
+
+
+
+
+
+NOTATION MODEL
+**************
+
+ 
+GMF provides a bridge between a custom domain model defined in EMF and GEF. In the meantime
+GMF defines the so called "Notation" Model which represents the graphical representation of the 
+diagram in a model which can be loaded/unloaded thus therefor persisted. 
+
+So instead of defining the diagram in the createFigure methods of the Editpart, we actually 
+set the features on the Notation model. (Note the GMF code generator is actually modifying the edit 
+part to set the style defaults directly in draw2D). 
+
+
+
+
+
+
+
+EXAMPLE Change the styles programmaticly: 
+---------------------------------
+
+It's propably best to set the styles in the Viewprovider. The create Views in the view providers
+for respective shapes (Diagram, Node, Edges) allow the styles to be set. 
+First a View should have a Style set to be able to set style properties. 
+
+In the example below, our node is of type Shape and we set the Font style, meaning
+we can actually modify this style, and the modifications will be stored in our notational
+model.  
+
+node.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100.4: Using diagram hierarchy in gmf
+------------------------------------
+
+Hierarchy can be atained by simply nesting nodes using a child ref <--> node mapping. 
+
+
+See recipes here: 
+
+
+http://wiki.eclipse.org/GMF/Recipes
+
+
+
+
+
+Using GMFTools (Itemis). 
+=======================
+
+GMFTools dictates a more "pure" transformation from meta models (.gmfmap, .gmftools and . gmfgraph) to 
+a code generator meta model (.gmfgen). GMFTools will use M2M transformation (xtend) to 
+hold the wished transformation. 
+
+See more on xtend here: 
+
+Example xtend syntax: 
+
+List[emf::EObject] transform(List[emf::EObject] gmfGenModelContents)
+
+Also it includes some other features for:
+ 
+- Harmonizing element types. 
+- Sharing editing domains (Using custom templates). 
+- deploy semicanonical edit policy. 
+
+See: 
+
+http://code.google.com/p/gmftools/
+
+Some learnings from using GMFTools: 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Adapting the generated .gmfgen
+
+Suppose we have several .gmfmap, and from this we will have several .gmfgen. 
+gmfgen uses the Model name as a default for various generated items. This is for example the file extension of the model/diagram. 
+The prefix for many class names, and also the MODEL_ID which is so crucial to identify a diagram. 
+
+Changing the name to a diagram specific identifie is what would need to be done. -> In G
+- Change the name of the MODEL ID property in Gen Generator Editor.
+- Change the domain file extension
+- Change the name of the plugin to "Activator". (This is our default Plugin name) 
+
+
+
+Chunk 1: Adapting the code. 
+The most important change to the code is the ability to detect the type of diagram in an editor. 
+One little trick which can be used, is to store the key in the URIEditorInput's name. 
+If this key maps the MODEL_ID, the diagram editor can easily "switch" on the correct editor. 
+Even better, the URI is available from within the editor, which comes in very handy for i.e. setting
+the correct palettefactory
+
+
+[FILE ACTION]
+Move the code in [diagrampackage].part to [genericpackage].ui
+
+
+To generalize the editor change the following: 
+
+Take one generated XXXEditorPlugin, and make this your generic Editor plugin. 
+Note that references to the plugin, from multiple generated GMF editors would need
+to be refactored to point to the generic plugin
+
+
+In xxxDiagramEditor: 
+
+- Change the ID to make it more generic. 
+- Change the CONTEXT_ID to make it more generic. 
+- The preference hint (Which is used by the providers to create views with default values), should be made generic, and mapped
+to our new plugin. 
+
+
+The following methods are overriden by our xxxDiagramEditor
+- getContexID => DiagramEditor
+- createPaletteRoot => DiagramEditorWithFlyoutPalette 
+- getPreferencesHint => DiagramEditor
+
+createPaletteRoot()
+
+This method returns a PaletteRoot delegated to a custom palette factory, Now the palette is very diagram specific, 
+so this means we need a switch to select the right factory for the diagram being edited. 
+We can implement this, by 
+
+
+In xxxDiagramUtil: 
+
+In createDiagram(..), 
+
+Adding diagrams: 
+1) In the generic editor plugin, add the file extension of the new diagram. 
+To the following extensions: 
+
+
+
+
+2) Register this diagram with the Generic editor. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,69 @@
+Approach for l10n in an RCP app, which uses EMF and GMF. 
+
+This article describes the various methods used by resp. EMF, GMF and the advised way to 
+externalize strings an a RCP application which uses EMF and GMF.
+
+First, what is the "standard way", reading the documentation as provided in [1], it's advised to use the wizard
+named "Externalize Strings", to detect the strings from a source java file. 
+The wizard let's the actor select the location of the "Messages" class and the actual 
+messages.properties resource file as well as other settings. 
+
+When strings from an additional class in the same plugin are externalized, 
+
+Now this is all fine for java classes, for a plugin there is actually a complementary way. 
+In the plugin MANIFEST.MF, there is another wizard which can be invoked. 
+This wizard will externalize string in the declaritive programming style, thus plugin.xml. 
+It will also externalize strings in the  
+
+How it's done in EMF. 
+
+The generated EMF Editor contains strings which are localized by the code generator (L10n).
+The EMF Feature has it's own plugin class named EMFPlugin, which provides a mechanism for access
+to external resources including localized strings. 
+
+In the EMF code, the localization is performed as: 
+
+[Your semantic model name]EditorPlugin.INSTANCE.getString(key);
+The keys are defined in the file plugin.properties as a value pair. (The standard value pair mechanism). 
+
+The EMFPlugin extends DelegatingResourceLocator, which implements the various resource 
+access methods like getString(key). 
+
+The reason EMF has it's own resource locator, which goes beyond the typical default plugin is explained
+in the EMFPlugin javadoc: 
+
+*****
+
+EMF must run within an Eclipse workbench,within a headless Eclipse workspace, or just stand-alone as part of some other application.
+To support this, all resource access (e.g., NL strings, images, and so on) is directed to the resource locator methods, 
+which can redirect the service as appropriate to the runtime.
+During Eclipse invocation, the implementation delegates to a plugin implementation. During stand-alone invocation, no plugin initialization takes place,
+so the implementation delegates to a resource JAR on the CLASSPATH.The resource jar will typically <b>not</b> be on the CLASSPATH during Eclipse invocation.
+It will contain things like the icons and the .properties,  which are available in a different way during Eclipse invocation.
+
+******
+
+The deviated way of accessing resource is thus mainly for the case when EMF is run stand-alone and plugin initialization doesn't take place. 
+This is not valid for RCP applications, so this mechanism could be simplified. (Check if this is really the case). 
+Note: According to [3], this is suboptimal, as the new standard Message bundle system is not used. 
+
+
+How it's doen in GMF. 
+
+In GMF, localization is somewhat more simplified. The Diagram plugin simply implements resource access methods, one of them being getString(String key);
+This methods delegates to Platform.getResourceString(getInstance().getBundle(), "%" + key). 
+Q: How is this different than NLS ? 
+
+So we have a differentiating approach for EMF and GMF, and recommended way for RCP. 
+It's not advised to change the EMF nor GMF implementation, simply treating them as oddities, with their special way to localize is probably the best approach. 
+For custom made plugins, it's probably recommended to use: 
+
+1. Externalize string wizard (JDT) to externalize strings in Java classes. 
+2. Externalize string (PDE tools) to externalize strings in MANIFEST.MF and plugin.xml
+
+
+[1] Java Development user guide.
+[2] PDE Tools 
+[3] Platform Plug-in Message Bundles
+[4] http://eclipse.org/articles/Article-Internationalization/how2I18n.html
+[5] http://java.sun.com/docs/books/tutorial/i18n/intro/index.html

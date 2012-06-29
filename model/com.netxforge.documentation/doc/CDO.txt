@@ -1,0 +1,92 @@
+
+
+Making packages CDO enabled
+===========================
+
+There are two options: 
+
+1) CDO Native
+ - Create an EMF project, and use the CDO Native Importer. (Instead of i.e. XSD). 
+
+2) EMF Gen model migration. 
+
+Use the option "migrate EMF model" under the CDO context menu. 
+
+Programming a client
+====================
+
+
+
+
+
+Setting up a server with derby: 
+===============================
+
+http://wiki.eclipse.org/Setting_up_a_CDO_Server
+
+1) Checkout the server product from: 
+- It's part of the Eclipse modeling distro, so no need to download. 
+
+2) Save the CDO-Server.xml config file to /home/yoda/configuration/cdo-server.xml
+Note: The provided server config is not correct: 
+
+-Change the mapping property to "horizontal" instead of "horizontalBranching". 
+- Uncomment the Derby DB Adapter
+
+Note: The location of the derby DB file is by default /temp/cdodb1
+On win32 it will end up in the root (C: or D:). Perhaps better to specify it in 
+a runtime folder. 
+
+
+3) Settings in launch configuration
+
+- Add the required plugins + 
+
+* org.apache.derby
+* org.eclipse.emf.cdo.server.db
+* org.eclipse.net4j.db.derby
+* org.eclipse.net4j.tcp
+
+to work with Derby. 
+The total number of plugins is now 36
+
+- Change the net4j.config property to: 
+
+-Dnet4j.config=${resource_loc:/org.eclipse.emf.cdo.server.product/rootfiles/configuration}
+
+4) Enable tracing on CDO and Net4J
+
+5) Close the server by typing: "close" in the OSGI console. 
+
+Connect with a client
+=====================
+
+
+1) Open the CDO Sessions view Window->Show View->CDO
+
+2) Create a session / connection: 
+- Press + 
+- fill in: 
+Server description: tcp://localhost or tcp://[ip address]:2036 
+Repo name: repo1 // This is the default repository name in cdoserver.xml
+	
+3) Adding packages. 
+
+- You can add packages:
+
+
+Troubleshooting:
+================
+
+Stop / restart server can give an error:
+
+
+
+
+
+
+
+
+
+
+

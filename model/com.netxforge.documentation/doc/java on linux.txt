@@ -1,0 +1,21 @@
+1) Installing on Ubuntu: 
+
+https://help.ubuntu.com/community/Java#Choosing_the_default_Java_to_use
+
+SUN (Oracle) Java version 6. 
+
+
+Download from Oracle OTN site. 
+
+chmod u+x jdk-6u33-linux-i586.bin
+./jdk-6u33-linux-i586.bin
+sudo mv jdk1.6.0_33 /usr/lib/jvm/
+sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.6.0_31/bin/java" 1
+
+for the browser plugin (optional):
+
+sudo update-alternatives --install "/usr/lib/mozilla/plugins/libjavaplugin.so" "mozilla-javaplugin.so" "/usr/lib/jvm/jdk1.6.0_31/jre/lib/i386/libnpjp2.so" 1
+ 
+ 
+ 
+ 

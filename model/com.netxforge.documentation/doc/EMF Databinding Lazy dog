@@ -1,0 +1,7 @@
+See Tom Shindl's Tutorial: 
+==========================
+
+http://tomsondev.bestsolution.at/2009/06/06/galileo-emf-databinding-part-1/
+
+* Use ViewPart instead of editors. Make ViewPart implement ISaveablePart2 (To maintain the dirty state). 
+

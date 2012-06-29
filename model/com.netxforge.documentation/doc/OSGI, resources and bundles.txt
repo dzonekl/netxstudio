@@ -1,0 +1,242 @@
+
+OSGI
+====
+
+http://mikesveryoccasionalblog.wordpress.com/2009/01/23/using-osgi-services-in-an-existing-rcp-application/
+
+What makes a bundle OSGi? Well it's simply the bundle dependencies: 
+Import-Package: org.osgi.framework;version="1.5.0"
+
+An eclipse bundle refers to:
+Require-Bundle: org.eclipse.core.runtime
+
+
+See baritone bundles for respectively eclipse/OSGI equinox
+
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Osgi
+Bundle-SymbolicName: test.osgi
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: test.osgi.Activator
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.osgi.framework;version="1.3.0"
+
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: test
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: test.Activator
+Require-Bundle: org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+
+
+The Bundle folder: 
+
+/some.project.bundle/OSGI-INF
+
+
+
+Register a service:
+===================
+
+public class Activator implements BundleActivator {
+	private ServiceRegistration registration;
+
+	public void start(BundleContext context) {
+		registration = context.registerService(Interface.class.getName(), new Instance() , null);
+	}
+
+	public void stop(BundleContext context) {
+		registration.unregister();
+	}
+}
+
+Getting a service:
+==================
+
+clazzRef = context.getServiceReference(Interface.class.getName());
+Instance instance = (IGps) context.getService(clazzRef);
+
+
+Listening for services (Manually)
+=================================
+
+- Create a service tracker for each needed services. (In Activator)
+
+
+	private ServiceTrackerCustomizer createGpsCustomizer() {
+		return new ServiceTrackerCustomizer() {
+			public Object addingService(ServiceReference reference) {
+				Object service = context.getService(reference);
+				synchronized (Activator.this) {
+					if (Activator.this.gps == null) {
+						Activator.this.gps = (IGps) service;
+						Activator.this.bind();
+					}
+				}
+				return service;
+			}
+
+			public void modifiedService(ServiceReference reference,
+					Object service) {
+				// No service property modifications to handle.
+			}
+
+			public void removedService(ServiceReference reference,
+					Object service) {
+				synchronized (Activator.this) {
+					if (service != Activator.this.gps)
+						return;
+					Activator.this.unbind();
+					Activator.this.bind();
+				}
+			}
+		};
+	}
+
+- Call a bind/unbind when the service is registered/unregistered. 
+It simply tries to get the service (Object) and finally only starts when all services are available. 
+
+	private void bind() {
+		if (gps == null) {
+			gps = (IGps) gpsTracker.getService();
+			if (gps == null)
+				return; // No IGps service.
+		}
+		if (airbag == null) {
+			airbag = (IAirbag) airbagTracker.getService();
+			if (airbag == null)
+				return; // No IAirbag service.
+		}
+		monitor.setGps(gps);
+		monitor.setAirbag(airbag);
+		monitor.startup();
+	}
+
+
+SAT for services
+================
+
+..First service provider Activators extend BaseBundleActivator
+
+public class Activator extends BaseBundleActivator {
+
+…then  registration is like this: 
+
+protected void activate() {
+		addExportedService(Interface.class.getName(), new Instance(), null);
+	}
+
+then in the service receiver Activator tell which services are needed: 
+
+	protected String[] getImportedServiceNames() {
+		return new String[] { Interface.class.getName(), InterfaceAlso.class.getName() };
+	}
+
+…activate will be called when the services above are called. 
+
+protected void activate() {
+		instance = (IGps) getImportedService(Interface.class.getName());
+		instanceAlso = (IAirbag) getImportedService(InterfaceAlso.class.getName());
+		…do stuff.
+}
+
+
+Declarative Services
+====================
+
+Create a new component definition. 
+In the MANIFEST.MF the following is added: 
+
+Service-Component: OSGI-INF/component.xml
+
+No Activator needed! (Delete it). 
+
+Add OSGI-INF to the build.
+
+Declaring a service: 
+
+- A qualified name 
+- A implementation class
+- A service interface. 
+
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0"
+   enabled="true" immediate="false" name="org.equinoxosgi.toast.dev.gps">
+  <implementation
+    class="org.equinoxosgi.toast.internal.dev.gps.fake.FakeGps"/>
+  <service>
+     <provide interface="org.equinoxosgi.toast.dev.gps.IGps"/>
+   </service>
+</scr:component>
+
+
+Consuming a service: 
+
+Define a consuming service with an Activate and Deactive fields set. 
+These are called when consumed services are available. 
+
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0"
+    enabled="true" immediate="true"
+    name="org.equinoxosgi.toast.client.emergency"
+    activate="startup" deactivate="shutdown">
+  <implementation class=
+    "org.equinoxosgi.toast.internal.client.emergency.EmergencyMonitor"/>
+  <reference bind="setAirbag" interface="org.equinoxosgi.toast.dev.airbag.IAirbag" name="airbag"/>
+  <reference bind="setGps" interface="org.equinoxosgi.toast.dev.gps.IGps" name="gps"/>
+</scr:component>
+
+
+Define the reference to bind a service discovery method to a service interface.
+In the implementation class define now the "set…" methods, in this case setAirbag and setups. 
+
+
+Running an Http OSGi Servlet
+============================
+
+Declare a component, and bind to the OSGi HTTP Service "org.osgi.service.http.HttpService"
+
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component enabled="true" name="org.equinoxosgi.toast.backend.emergency" xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="startup" deactivate="shutdown">
+  <implementation class="org.equinoxosgi.toast.internal.backend.emergency.bundle.Component"/>
+  <reference bind="setHttp" cardinality="1..1" interface="org.osgi.service.http.HttpService" name="http" policy="static"/>
+</scr:component>
+
+In the component startup, register a servlet
+
+protected void startup() {
+		try {
+			
+			// Code to determine the servlet allies
+
+			MyNewServlet servlet = new MyNewServlet();
+			http.registerServlet(servletAlias, servlet, null, null);
+		} catch (Exception e) {
+			… error
+		}
+	}
+
+And the servlet….
+
+
+public class MyNewServlet extends HttpServlet {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {		
+		PrintWriter writer = response.getWriter();
+		writer.print("Hello");
+	}
+}
+
+
+Getting bundles resources
+=========================
+
+http://www.eclipsezone.com/eclipse/forums/t101557.html
+
+
+

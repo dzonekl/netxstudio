@@ -1,0 +1,31 @@
+Instructions for updating the model
+-----------------------------------
+
+See also: 
+http://wiki.eclipse.org/EMF/Recipes#Recipe:_Data_Migration
+
+Models can be migrated by: 
+
+1 Create a new version of the model
+===================================
+
+- To have unique instances of our models (Both .xsd and .ecore) do a save-as for both in the migrations folder. 
+- Update the target namespace of the source model (.xsd). Keep the file name as this would otherwise also rename the .ecore
+- Update references to the new target name space in other .xsd's. 
+- Reload the .genmodel
+- Don't regenerate the code yet. We would need to migrate the old model first.
+
+- Generate the code.
+- Update the model URI wherever used. (Like in the .edit plugin).
+
+
+2 Create a model transformation
+===============================
+
+- In our model transformation folder, define a new transformation for this model. 
+
+
+3 Migrate the existing model
+============================
+- Save the existing model to a file. 
+- Apply the model transfmoration

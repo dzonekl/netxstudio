@@ -1,0 +1,88 @@
+
+
+DTP Incubator: http://wiki.eclipse.org/DTP_Incubator
+
+Ecore ODA Driver Proposal: http://wiki.eclipse.org/Ecore_ODA_Driver-Proposal
+
+Ecore ODA Driver page: http://wiki.eclipse.org/Ecore_ODA_Driver
+
+Tutorial:
+http://timezra.blogspot.com/2008/04/oda-ecore-getting-starte d-guide.html
+http://timezra.blogspot.com/2008/07/oda-ecore-getting-starte d-guide-part.html
+http://timezra.blogspot.com/2008/05/oda-ecore-driver-backpor t.html
+
+The right place to ask is the DTPs newsgroup: eclipse.dtp
+
+Regarding compatibility with CDO, I can only agree with Eike: as long as 
+the driver honors EMF APIs and don't make excessive use of EMF's 
+internals, CDO should properly work, the same way it works well with 
+things like GMF, EMF Query or MDT OCL.
+
+Postgres Connections
+=====================
+
+
+Call flow DB
+
+jdbc:postgresql://localhost:5432/DBSTORE_06032012
+
+Capman DB
+
+jdbc:postgresql://localhost:5432/DBSTORE
+
+
+
+QUERY SAMPLES: 
+(Copy these in a new Data set). 
+
+1) In the call flow model make a selection of node types for relationships using where statements. 
+
+select public.services_serviceflow.name, 
+public.library_referencerelationship.name,
+public.library_nodetype.name
+from public.services_serviceflow_serviceflowrelationships_list, -- relationships index table
+public.services_serviceflow, -- service flow table
+public.services_serviceflowrelationship, -- service flow relationship table
+public.library_referencerelationship, -- reference relationship table
+public.library_nodetype
+where public.services_serviceflow_serviceflowrelationships_list.cdo_source = public.services_serviceflow.cdo_id
+and public.services_serviceflow_serviceflowrelationships_list.cdo_value = public.services_serviceflowrelationship.cdo_id
+and public.services_serviceflowrelationship.referencerelationship = public.library_referencerelationship.cdo_id
+and public.library_referencerelationship.refinterface1ref = public.library_nodetype.cdo_id
+
+2) In the call flow model make a selection of node types for relationships using joins. 
+
+select public.services_serviceflow.name, -- Service flow name
+public.services_serviceflowrelationship.direction, -- Service flow direction
+public.library_referencerelationship.name, -- Service flow rel. name
+public.library_nodetype.name -- node type name
+from  public.services_serviceflow 
+join public.services_serviceflow_serviceflowrelationships_list
+on public.services_serviceflow_serviceflowrelationships_list.cdo_source = public.services_serviceflow.cdo_id
+join public.services_serviceflowrelationship
+on public.services_serviceflow_serviceflowrelationships_list.cdo_value = public.services_serviceflowrelationship.cdo_id
+join public.library_referencerelationship 
+on public.services_serviceflowrelationship.referencerelationship = public.library_referencerelationship.cdo_id
+join public.library_nodetype
+on public.library_referencerelationship.refinterface1ref = public.library_nodetype.cdo_id or
+public.library_referencerelationship.refinterface2ref = public.library_nodetype.cdo_id
+
+3) In the call flow model make a selection of reference relationships used by service flow, use alias
+to be able to refer to the same table column twice. (In this case for NodeType). 
+
+select public.library_referencerelationship.cdo_id, ntleft.name, ntright.name, public.services_serviceflow.name
+from public.library_referencerelationship 
+join public.services_serviceflowrelationship
+on public.library_referencerelationship.cdo_id = public.services_serviceflowrelationship.referencerelationship
+join public.services_serviceflow_serviceflowrelationships_list 
+on public.services_serviceflowrelationship.cdo_id = public.services_serviceflow_serviceflowrelationships_list.cdo_value 
+join public.services_serviceflow
+on public.services_serviceflow.cdo_id = public.services_serviceflow_serviceflowrelationships_list.cdo_source
+join public.library_nodetype as ntleft
+on public.library_referencerelationship.refinterface1ref = ntleft.cdo_id
+join public.library_nodetype as ntright
+on public.library_referencerelationship.refinterface2ref = ntright.cdo_id
+
+
+
+

@@ -1,0 +1,90 @@
+
+Various techniques exist in Eclipse for multi-threading combined with undo/redo 
+functionality. 
+
+In EMF/GMF
+=========
+
+In EMF, commands to modify the domain model, are created and executed on the Editing
+domain command stack. For example this could be the AddCommand(...) to add an object. 
+
+The editingDomain.getCommandStack().execute(...) is called to execute the command. 
+
+In GMF, the editing domain is a transactional Editing domain, so the commands are also 
+transactional.
+
+This is well explained in: 
+
+-> EMF Model Transaction Developer Guide
+
+The EMF Transactional Editing Domain, supports the eclipse IOperationsHistory. 
+ 
+
+Platform
+========
+
+In Eclipse itself, we can execute code for long during operations, using: 
+
+1) shell.syncExec(...) or shell.asyncExec(...) where a Runnable is created and passed. 
+this is to make sure we execute code in the UI thread when somehow interacting with SWT. 
+
+2) More powerfull is the Job() function, which can schedule jobs which can be monitored, 
+scheduled and even have the possibility to prevent dead-locking with scheduling rules. 
+See the document: 
+
+http://www.eclipse.org/articles/Article-Concurrency/jobs-api.html
+
+3) When modifying resources, we should wrap the code in a WorkspaceModifyOperation. 
+
+
+The undoable variant are operations which extend: AbstractOperation. 
+Examples of this are: 
+
+CreateFileOperation
+CreateFolderOperation
+CreateProjectOperation
+
+CopyProjectOperation
+CopyResourcesOperation
+MoveProjectOperation
+MoveResourcesOperation
+
+DeleteResourcesOperation
+
+CreateMarkersOperation
+DeleteMarkersOperation
+UpdateMarkersOperation
+
+These operations can be executed by calling: 
+
+operation.execute(monitor, IAdaptable). 
+See also the WorkspaceUndoUtil, which has various handy methods. 
+
+As these operations all implement IUndoableOperation, the following should also work: 
+
+OperationHistoryFactory.getOperationHistory().execute: 
+
+
+
+4) UI components sometimes implement: IRunnableContext. 
+
+The following classes implement this i/f: 
+ org.eclipse.jface.window.ApplicationWindow
+ org.eclipse.jface.dialogs.ProgressMonitorDialog
+ org.eclipse.jface.wizard.WizardDialog
+
+A class which needs to run code in the background can use this i/f i.e. Call run(...), 
+to execute the code. 
+
+5) 
+
+Progress Reporting
+==================
+
+
+
+
+
+
+
+

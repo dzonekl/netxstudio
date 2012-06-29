@@ -1,0 +1,18 @@
+ 
+ 
+ 
+FILE FIND=> find / -name 'my.cnf'
+ FILE OWNER => chown -Rv username somedir
+ PROCESSOR/MEMORY => htop or top
+ PROCESS => ps -ef
+ PORTS => netstat -ln
+  
+ 
+ Ubuntu
+ ------
+ 
+ APT UPDATE => apt-get update (Update the cache). 
+ 
+ USER ADD => sudo adduser username
+ USER PASS STATUS => chage -l capman
+ 

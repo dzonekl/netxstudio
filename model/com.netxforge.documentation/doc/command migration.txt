@@ -1,0 +1,61 @@
+This Article describes how Eclipse is contributing items to the workbench's menu, toolbar and 
+popup menu's. The need for this description rised from the fact that in an RCP application, I found
+the GMF code didn't properly work well with other contributions. 
+In an attempt to understand the inner workings of GMF and find the source of my integration problems, 
+I start to document the observations, which should lead to a full understanding why things 
+are not working as expected.  
+
+What is the problem? 
+
+Any GMF RCP application, will generate an ActionBarContributor, which contributes
+diagram editing actions to the menu, toolbar and popup's. This is done programmaticly, 
+so in a non-declarative form, which is nowdays not the recommended way, as described in [1]
+The preferred way is using the declarative command API, so all command, contributions, 
+handlers are declared in the plugins extension mechanism, 
+
+Contributing to the workbench in a programmatic form, was the way before (prior to Eclipse 3.3), 
+so this legacy is there now. However when adding functionality to an 
+RCP program, this will likely be done using the command API. We are now more or
+less forced, to have a hybrid form of declarative and programmed contributions in the 
+respective command and action API's, which as such is a problem. UI management is difficult
+enough with one API already. 
+
+On top, it actually doesn't work. A typcial RCP GMF app which also includes
+other editors with actionbar contributors, will clash and strange behaviour will occure. 
+(One contributor overriding the other or malfunctioning). 
+
+
+How does GMF contribute actions? 
+
+Using Commands and Handlers. 
+============================
+
+
+
+- Use HandlerUtil to get Platform UI access. 
+
+Enabling command visibility: 
+
+<command
+	commandId="org.eclipse.ui.examples.contributions.editor.reset"
+    mnemonic="%contributions.editor.reset.mnemonic">
+    	<visibleWhen>
+        	<reference
+                        definitionId="org.eclipse.ui.examples.contributions.view.activeEditor">
+            </reference>
+        </visibleWhen>
+</command>
+
+Various definitions: 
+
+Check which active perspective. 
+
+ACTIVE_WORKBENCH_WINDOW_ACTIVE_PERSPECTIVE_NAME
+
+
+Creating an action set. 
+
+
+
+
+[1] Eclipse Plug-ins, third Edition ECLAYBERG and DRUBEL. 

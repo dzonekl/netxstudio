@@ -1,0 +1,47 @@
+Code injection
+==============
+
+
+Define a Module and bind the interface to an implementation class
+
+import com.google.inject.AbstractModule;
+public class XandYModule extends AbstractModule{
+
+	protected configure(){
+	
+		bind(X.class).to(XImpl.class);
+		bind(Y.class).to(YImpl.class);	
+	}
+}
+
+In the consumer declare a constructor which takes dependencies as arguments. 
+With @Inject, an instance is passed which can be assigned to a local var.
+
+import com.googe.inject.Inject;
+public class XandYClient(){
+
+	private final X x;
+	private final Y y;
+	
+	@Inject
+	public void XandYClient(X x, Y y){
+		this.x = x;
+		this.y = y;
+	}
+}
+
+
+Putting it all together in main() or in startup() 
+
+...
+Injector injector = Guice.createInjector(new XandYModule);
+XandYClient client = injector.getInstance(XandYClient.class);
+
+
+
+
+
+
+
+
+

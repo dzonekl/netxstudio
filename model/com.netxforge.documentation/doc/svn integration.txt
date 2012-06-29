@@ -1,0 +1,36 @@
+1) Download the subclipse feature/plug-ins into your Eclipse IDE environment.
+
+2) In the launcher for your RCP app include these
+required plug-ins:
+
+
+org.tigris.subversion.subclipse.core
+org.tigris.subversion.subclipse.ui
+org.tigris.subversion.subclipse.mylyn
+org.tigris.subversion.javahl.win32
+
+
+3) Add an action in your RCP app that will open the SVN Repository view.
+This will allow you to use the SVN Repository View to access Subversion.
+
+
+public OpenSubversionViewAction() {
+  setText("SVN Repository");
+}
+	
+public void run() {
+
+
+try {
+
+IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+
+page.showView("org.tigris.subversion.subclipse.ui.repository.RepositoriesView");
+
+
+  } catch (PartInitException e) {
+  }
+}
+
+
+You can also use the SVNKit or clientAdapter to make calls directly to Subversion from you own plug-ins.

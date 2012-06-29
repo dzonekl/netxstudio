@@ -1,0 +1,4 @@
+
+svn+ssh://jpodder@svn.kualasoft.com/home/jpodder/svn/icebreaker
+
+find . -name '.svn' | xargs sudo rm -drvf 

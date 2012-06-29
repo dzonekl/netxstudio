@@ -1,0 +1,91 @@
+How the GMFCode generator works
+===============================
+
+The GMF Code generator takes a GMFGen model and calls emmitters to produce code or other resources in an EMF project 
+holding the GMF diagram. This document explains what happens in org.eclipse.gmf.codegen
+
+
+org.eclipse.gmf.codegen.ui Declares actions to invoke templates: 
+1. It calls an Execute template Operation. ExecutesTemplateOperation()
+		ExecuteTemplatesOperation op = createOperation();
+The following settings: 
+		op.setName(action.getText());
+		op.setShell(getShell());
+		op.setGenModelURI(URI.createPlatformResourceURI(gmFile.getFullPath().toString(), true));
+		and op.run() is caled.
+
+In our case: 
+	The gen model, would be: our own model file. 
+
+This operation performs the following
+	1.1. Calls loadGenModel() to load the model from the given URI. 
+	1.1.1 Performs some URI computation and sets it on the resourceset.
+	- srcResSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+	1.1.2. Then performs this: 
+	- fillWorkspaceMetaModelsMap(srcResSet.getPackageRegistry());
+ 	Fills supplied registry with metamodels available in the workspace, accessible both with platform:/resource/ and nsURI.
+	In our case: Migrated the fillWorkspaceMetaModelsMap(srcResSet.getPackageRegistry()); to an own util class. 
+	1.1.2 When loading completes, the root is casted to our model root. 
+	1.2 The model is validated and diagnostics are performed. 
+	1.3 All editors are saved. 
+	1.4 Performs the actual transformation with run(progressMonitor) in a Job
+	1.4.1 It creates a new Generator (See below). 
+	1.5 Some job parameters are set, like an action to process the result. 
+	1.6 The job completes with a job status change and the model is unloaded.
+		
+
+The Generator and GeneratorBase class
+=====================================
+
+This the actual code generator, it calls methods like below. 
+The emmitters are initially configured when instantiating the model, see the Emmitter class. 
+
+doGenerateJavaClass(myEmitters.getBaseEditHelperEmitter(), myDiagram.getBaseEditHelperQualifiedClassName(), myDiagram);
+
+		
+The CodeGenEmmitters example
+============================
+
+Emmitters are derived from the TextEmiter interface. The constructor looks like this: 
+
+XpandTextEmitter(ResourceManager manager, String templateFQN, Map<String, Object> globals) {
+
+- manager -> A custom resource manager, it is passed to the XPandFacade 
+- templateFQN -> The fully qualified name, would look like "xpt::diagram::preferences::PreferenceInitializer" this is the entry 
+in a template. 
+- globals -> These are the global variables used by the template. 
+
+With these arguments, a scope is build with: new Scope(myResourceManager, myGlobals, new BufferOutput(result));
+The scope is a custom object which is passed to the 
+
+and implement the .generate(IProgressMonitor monitor, Object[] arguments) method. 
+The arguments object contains the follwoing
+- Position 0 -> 
+
+Generator Class
+===============
+
+For the example above, the following is called: 
+
+doGenerateJavaClass(myEmitters.getPreferenceInitializerEmitter(), myEmitters.getPreferenceInitializerName(myDiagram), myDiagram);
+This class uses the emitter, the preference initializer class name an the diagram object to invoke the XPand text emmitter with: 
+
+String genText = emitter.generate(new SubProgressMonitor(pm, 2), input); 
+
+- Various other actions, like writing out the result, imports etc...
+
+The template (Located in templates/xpt/diagram/preferences) for the Template FQN:  "xpt::diagram::preferences::PreferenceInitializer" is: 
+
+ÇDEFINE PreferenceInitializer FOR gmfgen::GenDiagram-È
+...
+
+As the provided input (myDiagram) matches the expected object of type gmfgen::GenDiagram, the template will use this object to emmitt the 
+text as defined. 
+
+ 
+
+
+
+	
+		
+		

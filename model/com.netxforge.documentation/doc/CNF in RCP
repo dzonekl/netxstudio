@@ -1,0 +1,162 @@
+It's now well described in the Eclipse help, under Common Navigator Framework. 
+
+
+1. RCP was assumed not to need various functions of eclipse, mainly summarized as the IDE and Resource
+plugin. Those contain facilities to have the Project explorer and the infrastructure for the Workspace and 
+it's resources. When including the ide plugin in an RCP app, this infra. is made avaialble to the RCP app. 
+
+2. CNF is included in : org.eclipse.ui.navigator, add it as a dependency. 
+
+Using the default project explorer 
+==================================
+
+This is the simplest, just add the view in the perspective and make a reference to it's declaration plugin. 
+The downside is that it drags in the complete Eclipse IDE stuff (Like working sets) etc.... 
+
+2. One first thing, which could be done is to add the Project Explorer to our RCP perspective. 
+This could be like this: 
+
+In your perspective add this view: 
+
+bottom.addView("org.eclipse.ui.navigator.ProjectExplorer");
+
+
+Customizing the workspace CNF. (Project explorer). 
+==================================================
+
+A bit more advanced would be to customize the existing explorer. This can be done, by implementing 
+a custom view and Navigator Content Extensions (NCE).  
+ 
+ <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="View"
+            class="org.eclipse.ui.navigator.CommonNavigator"
+            id="example.view">
+      </view>
+   </extension>
+
+This is the one from navigator.resources plugin: 
+
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="com.netxforge.nextstudio.navigator"
+            class="com.netxforge.netxstudio.navigator.resources.NetXStudioExplorer"
+            icon="$nl$/icons/full/eview16/resource_persp.gif"
+            id="com.netxforge.netxstudio.navigator.ProjectExplorer"
+            name="%Common_Resource_Navigator"/>
+      <category
+            id="com.netxforge.nextstudio.navigator"
+            name="Navigator">
+      </category>
+   </extension>
+
+In the perspective, add the view. 
+
+left.addView("com.netxforge.netxstudio.navigator.ProjectExplorer");
+
+Make sure to register the adapters, which can adapt to IWorkbenchAdapter for the 
+workspace items. (IWorkspace, IFoler, IFile, IProject etc...).  
+
+	public void initialize(IWorkbenchConfigurer configurer) 
+	{
+		IDE.registerAdapters();
+	}
+
+
+These adapters are used by the content and label providers defined in the NCE: 
+This content binder, points to content extentions. 
+
+<viewerContentBinding 
+             viewerId="com.netxforge.netxstudio.navigator.ProjectExplorer">
+          <includes>
+       	      <contentExtension pattern="com.netxforge.netxstudio.navigator.resourceContent" />		       	      
+	          <contentExtension pattern="com.netxforge.netxstudio.navigator.resources.filters.*"/>
+           <contentExtension pattern="com.netxforge.netxstudio.navigator.resources.linkHelper"/>
+           <contentExtension pattern="com.netxforge.netxstudio.navigator.resources.workingSets"/>
+          </includes>
+</viewerContentBinding>
+
+Of which the first is: 
+
+
+<extension  
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            name="%resource.extension.name"
+            priority="low"
+            icon="$nl$/icons/full/eview16/resource_persp.gif"
+            activeByDefault="true"
+			            contentProvider="com.netxforge.netxstudio.internal.navigator.resources.workbench.ResourceExtensionContentProvider"
+            			labelProvider="com.netxforge.netxstudio.internal.navigator.resources.workbench.ResourceExtensionLabelProvider"			
+            id="com.netxforge.netxstudio.navigator.resourceContent">    
+            ....
+            
+Now here we see the Content and label providers to be used for this content. 
+It is triggered on the following content (IResource). 
+
+         <enablement>
+		         <or>         
+		            <instanceof 
+		                  	value="org.eclipse.core.resources.IResource" /> 
+		         </or>
+         </enablement>
+
+
+The ResourceExtensionContentProvider and ResourceExtensionLabelProvider adapt the object use the platform adapter service, 
+which registered the adapters earlier: 
+
+        manager.registerAdapters(factory, IWorkspace.class);
+        manager.registerAdapters(factory, IWorkspaceRoot.class);
+        manager.registerAdapters(factory, IProject.class);
+        manager.registerAdapters(factory, IFolder.class);
+        manager.registerAdapters(factory, IFile.class);
+        manager.registerAdapters(factory, IMarker.class);
+
+
+These adapters, will adapt to a IWorkbenchAdapter interface, adapting to show the projects, folders, files and markers.
+
+Changing the default IDE adapters, to deal with new objects. 
+============================================================
+
+Now it would be nice, to have other objects than the default workspace objects. 
+To have this, we need to register our own adapters, so objects passed on are properly dealt with the defined 
+content and label providers. 
+
+1. Make sure we have an adapter factory, which can deal with our objects Note, that
+it should also be able to deal with the original workspace objects. Normally the class WorkbenchRootResource
+would be returned for IWorkspace, make sure our factory is aware of our new IEnhancedWorkspaceRoot and 
+returns an adapter for this object. 
+
+
+	@Override
+	public Object[] getChildren(Object o) {
+		List<Object> children = new ArrayList<Object>(); 
+		IWorkspaceRoot root = (IWorkspaceRoot)o;
+		children.addAll(Arrays.asList(NetXStudioRoot.INSTANCE.getDatabases()));
+		children.addAll(Arrays.asList(root.getProjects()));
+		return children.toArray();
+	}
+	
+So we add our own objects as children to the workspace root. 
+Now we want to decorate it with an icon, and give it some special icons. 
+
+	
+	
+
+
+
+
+
+
+
+
+
+            
+            
+            
+
+
+
+ 

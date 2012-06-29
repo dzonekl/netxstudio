@@ -1,0 +1,37 @@
+Annotations
+===========
+
+Basically influence the default ORM mapping chosen by Hibernate. 
+
+http://wiki.eclipse.org/Teneo/Hibernate/ModelRelational/Annotations_Format
+
+What is supported? 
+
+http://wiki.eclipse.org/Teneo/Hibernate/ModelRelational/Annotations_Support
+Documentation for Annotations are from EJB3/JPA, see chapter 8.3.2
+
+- Don't use xs:time, Hibernate/CDO doesn't like it. 
+- 
+
+
+Extensions
+==========
+
+http://wiki.eclipse.org/Teneo/Hibernate/Extensions
+
+In CDO, the cdo-server can be used to declare extensions: 
+
+
+		<store type="hibernate">
+			<mappingProvider type="teneo">
+				<extension name="org.eclipse.emf.teneo.annotations.mapper.EFeatureAnnotator" 
+					value="org.eclipse.emf.cdo.examples.hibernate.server.CDOExampleEFeatureAnnotator"/>
+			</mappingProvider>
+		<!-- 
+			<mappingProvider type="file">
+				<mappingFile location="/META-INF/generated_hbm.xml"/>
+			</mappingProvider>
+			 -->
+		</store>
+
+

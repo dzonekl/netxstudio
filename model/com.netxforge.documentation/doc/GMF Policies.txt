@@ -1,0 +1,306 @@
+Editparts and EditPolicies in GEF/GMF
+=====================================
+
+
+editPolicyProvider provides the edit policies for various editing roles. 
+The GEF and GMF framework installs many 'default' policies for the various roles. 
+The roles are defined in: 
+
+EditPolicy => GEF
+EditorPolicyRole => GMF
+
+The GEF document [TODO ref to the GEF runtime doc], explains very well the role of an edit policy. 
+In summary it is a bridge between editing requests and the command to execute the request. 
+The various requests are defined in: 
+
+org.eclipse.gmf.runtime.diagram.ui.requests.RequestsConstants.
+
+
+Examples of these policies is the decoration role: 
+
+public static final String DECORATION_ROLE = "DecorationPolicy"; //$NON-NLS-1$
+
+So for this role a policy is installed. This is typically done by an edit part, in the method
+createDefaultEditPolicies();
+
+In our example, the GraphicalEditPart installs the edit policies below. 
+
+
+    protected void createDefaultEditPolicies() {
+        installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
+            new SemanticEditPolicy());
+        installEditPolicy(EditPolicyRoles.PROPERTY_HANDLER_ROLE,
+            new PropertyHandlerEditPolicy());
+        installEditPolicy(EditPolicyRoles.DECORATION_ROLE,
+            new DecorationEditPolicy());
+    }
+
+The Edit policy registry is maintained for each edit part in the super AbstractEditPart. 
+The AbstractEditPart will replace newly defined/installed edit policies for the existing one. 
+(There can only be one active policy per role). 
+
+See the installEditPolicies(...) method in AbstractEditPart.
+
+
+EditParts and EditPolicies
+==========================
+
+The Model View Control pattern applies to the GEF framework whereby the EditParts represent the controllers. 
+GMF generated edit parts, in addition to GEF, override a defined set of base GMF Editparts. The structure is like this: 
+
+Class Hiarchy. 
+
+AbstractEditPart (GEF)
+	-P EDITPOLICYITERATOR, REQ_SELECTION
+	AbstractGraphicalEditPart (GEF)
+		AbstractConnectionEditPart(GEF)
+			ConnectionEditPart (GMF)
+				ConnectionNodeEditPart(GMF)
+					DefaultConnectionEditPart(GMF)
+					NoteAttachementEditPart(GMF)
+			ConnectionEditPart (GEF)
+		GraphicalEditPart(GMF)
+		-P EditPolicyRoles.SEMANTIC_ROLE (GMF): REQ_RECONNECT_SOURCE, REQ_RECONNECT_TARGET, REQ_SEMANTIC_WRAPPER
+		-P EditPolicyRoles.PROPERTY_HANDLER_ROLE(GMF): REQ_PROPERTY_CHANGE, REQ_CHILD_PROPERTY_CHANGE, REQ_SHOW_ALL_COMPARTMENTS
+		-P EditPolicyRoles.DECORATION_ROLE(GMF): no requests...
+			CompartmentEditPart(GMF)
+			-P EditPolicyRoles.CONNECTION_HANDLES_ROLE: delegate to parent policies with "MouseMotionListener" interface. (Where?)
+			-P EditPolicyRoles.POPUPBAR_ROLE: delegate to parent policies with "MouseMotionListener" interface. (Where?) 
+				ResizeableCompartmentEditPart
+					DefaultCompartmentEditPart
+					ListCompartmentEditPart
+					-P EditPolicyRoles.MODIFY_SORT_FILTER_ROLE: REQ_CHANGE_SORT_FILTER(GMF)
+					-P EditPolicy.COMPONENT_ROLE: REQ_DELETE, REQ_ORPHAN
+					ShapeCompartmentEditPart
+					-P EditPolicyRoles.CREATION_ROLE (GMF), 
+					-P EditPolicy.LAYOUT_ROLE (GEF), 
+					-P EditPolicy.CONTAINER_ROLE (GEF),
+					-P EditPolicyRoles.DRAG_DROP_ROLE (GMF),
+					-P EditPolicy.GRAPHICAL_NODE_ROLE (GEF),
+					-P-P EditPolicyRoles.SNAP_FEEDBACK_ROLE (GMF)
+					-P EditPolicyRoles.DRAG_DROP_ROLE (GMF),
+					-P EditPolicyRoles.POPUPBAR_ROLE (GMF),
+			DiagramEditPart(GMF)
+			-P EditPolicyRoles.CREATION_ROLE
+			-P EditPolicy.CONTAINER_ROLE
+			-P EditPolicy.COMPONENT_ROLE
+			-P EditPolicy.LAYOUT_ROLE
+			-P EditPolicyRoles.DRAG_DROP_ROLE
+				xxxEditPart(YourPlugin)
+					-P EditPolicyRoles.SEMANTIC_ROLE
+					-P EditPolicyRoles.CANONICAL_ROLE
+			DummyEditPart(GMF)
+			TopGraphicEditPart(GMF): REQ_DIRECT_EDIT (GEF)
+				-P EditPolicy.LAYOUT_ROLE (GEF): REQ_AUTOSIZE
+					-P EditPolicy.PRIMARY_DRAG_ROLE (GEF): REQ_RESIZE(GEF),REQ_MOVE(GEF), REQ_ADD(GEF), REQ_CLONE(GEF), REQ_ORPHAN(GEF), REQ(ALIGN)					 
+				LabelEditPart(GMF)
+					xxxEditPart(YourPlugin)
+						- 
+				ShapeEditPart(GMF)	
+				-P EditPolicy.CONTAINER_ROLE
+				-P EditPolicy.COMPONENT_ROLE
+				-P EditPolicyRoles.POPUPBAR_ROLE
+					ShapeNodeEditPart(GMF) : 
+					-P EditPolicy.GRAPHICAL_NODE_ROLE
+					-P EditPolicyRoles.SORT_FILTER_ROLE
+					-P EditPolicyRoles.CONNECTION_HANDLES_ROLE
+					-P "NoteAttachmentReorient" (? No Key defined). 
+						xxxEditPart(YourPlugin) : 
+							- EditPolicyRoles.CREATION_ROLE
+							- EditPolicyRoles.SEMANTIC_ROLE
+							- EditPolicyRoles.DRAG_DROP_ROLE
+							- EditPolicyRoles.CANONICAL_ROLE
+							- EditPolicy.LAYOUT_ROLE
+Interfaces: 							
+			ITextAwareEditPart(GMF)
+			INodeEditPart(GMF)
+			IContainedEditPart(GMF) 
+			
+A Diagram editor will typically extend the editparts defined by GMF runtime. 
+
+- The DiagramEditPart is extended for a diagram root edit part. (Canvas). 
+- The ShapNodeEditPart is extended for a typical node. (Implement INodeEditPart). 
+- The ConnectioNodeEditPart is extended for a typical edge. 
+- The ShapeCompartmentPart/ListCompartmentEditPart is extended for a typical compartment. 
+- The LabelEditPart is extended for a typical label on an edge. 
+- The CompartmentEditPart is extended for a typical label in a Node (It will also implement ITextAwareEditPart, IContainedEditPart). 
+
+					
+								
+The GMF runtime Editparts explained: 
+Some concepts: 
+
+The top edit part which would be the DiagramEditPart in GEF, is defined as the primary edit part in GMF. 
+
+
+GraphicalEditPart (Implements IGraphicalEditPart)
+-----------------
+
+It's an abstract base class for editparts with a View as a model (View being the Notation model).
+ 
+It is responsible for dealing with the View as a model, so it receives notifications and has convenience
+classes for getting/setting the semantic model object and it's features. 
+It also has access to the Editingdomain associated with the semantic/notation model resource. 
+It also get's preferred values from the preference store like the font, line and background colors. It
+deals with these features between the Notation View and the associated figure.  
+
+It also adds the following editing policies: 
+
+installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
+            new SemanticEditPolicy());
+installEditPolicy(EditPolicyRoles.PROPERTY_HANDLER_ROLE,
+            new PropertyHandlerEditPolicy());
+installEditPolicy(EditPolicyRoles.DECORATION_ROLE,
+            new DecorationEditPolicy());
+            
+These are all GMF policies. (See various GMF Policies). 
+And calls the EditPolicy Service for installing declarative Editing policies. 
+
+
+TopGraphicEditPart (Implements IContainedEditPart)
+------------------
+
+This is the base class for all edit parts which are not the diagram edit part. (Primary Editpart). 
+It installs a layout policy, which in it's turn installs a policy on the PRIMAY_DRAG_ROLE, 
+on the children depending on their type:. 
+
+- ResizableCompartmentEditPart
+- TextCompartmentEditPart
+- IBorderItemEditPart
+
+installEditPolicy(
+			EditPolicy.LAYOUT_ROLE,
+			new ConstrainedToolbarLayoutEditPolicy());
+
+It is also an accessor for Resizable compartments. 
+(Edit parts of type ResizableCompartmentEditPart)
+
+It is also aware of children with a View model containing the Drawer Style from the
+Notation model. 
+
+Finally it performs direct edits for REQ_DIRECT_EDIT requests. These are performed
+in the edit part, and not added with an edit part. 
+
+LabelEditPart
+-------------
+	
+	
+ShapeEditPart
+-------------
+
+The base editpart for shapes in the diagram. 
+
+The following editing policies are installed:
+
+installEditPolicy(EditPolicy.CONTAINER_ROLE, new ShapeContainerEditPolicy());
+installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy());
+installEditPolicy(EditPolicyRoles.POPUPBAR_ROLE, new PopupBarEditPolicy());
+
+ShapeNodeEditPart
+-----------------
+
+On top of the ShapeEditPart, the ShapeNodeEditPart also implements the INodeEditPart. 
+The functionality of INodeEditPart is to map connections to anchors. The interface is used
+by the EditPolicy.GRAPHICAL_NODE_ROLE and belonging policy. 
+
+The following editing policies are installed:
+
+installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,new GraphicalNodeEditPolicy());
+installEditPolicy(EditPolicyRoles.SORT_FILTER_ROLE, new SortFilterCompartmentItemsEditPolicy());
+installEditPolicy(EditPolicyRoles.CONNECTION_HANDLES_ROLE, new ConnectionHandleEditPolicy());
+// Disable note attachment reorient between two shapes where neither is a note.
+installEditPolicy("NoteAttachmentReorient", new NoteAttachmentReorientEditPolicy());
+
+
+Typical shapes on top will add the following policy roles. 
+
+installEditPolicy(EditPolicyRoles.CREATION_ROLE,new CreationEditPolicy());
+installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new xxxItemSemanticEditPolicy());
+installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE, new DragDropEditPolicy());
+installEditPolicy(EditPolicyRoles.CANONICAL_ROLE, new xxxCanonicalEditPolicy());
+installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
+
+
+CompartmentEditPart
+-------------------
+
+The base edit part for compartments. Compartments behave like mini diagram edit parts.
+Installs a policies related to the following roles. 
+
+		installEditPolicy(EditPolicyRoles.CONNECTION_HANDLES_ROLE,
+			new DelegatingMouseEventsEditPolicy(EditPolicyRoles.CONNECTION_HANDLES_ROLE));
+		installEditPolicy(EditPolicyRoles.POPUPBAR_ROLE,
+			new DelegatingMouseEventsEditPolicy(EditPolicyRoles.POPUPBAR_ROLE));
+
+These policies delegate to policies in the parent hierarchy of this edit part, looking
+for policies which implement the interface: "MouseMotionListener"
+
+It also has some specific behaviour to selections. as the compartment can only 
+be selected when the shape is selected.  
+
+
+ITextAwareEditPart
+------------------
+
+An edit part which is text aware, It is often implemented on a class extending the CompartmentEditPart. 
+
+
+ResizableCompartmentEditPart
+----------------------------
+
+An editpart for controlling generic resizable compartment views
+The compartment can be collapsed, hidden, resized, or given a title
+
+
+ListCompartmentEditPart
+-----------------------
+
+An editpart implementation of the ResizableCompartment as a list compartment
+It supports sorting and filtering of children edit parts. The sorting and filtering is 
+part of the Notation model, it can be automatic or not. 
+
+It installs the following policies: 
+
+		installEditPolicy(EditPolicyRoles.MODIFY_SORT_FILTER_ROLE, new ModifySortFilterEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ListComponentEditPolicy());
+
+Note that the COMPONENT_ROLE is to disable the delete command on this edit part. 
+(As a compartment shouldn't be deleted). 
+
+When creating the figure, it adds a ConstrainedToolbarLayout to the compartment figure. 
+This forces the children to be laid out according to this policy. 
+
+SemanticListCompartmentEditPart
+-------------------------------
+
+Is not generated by default, but can be used to reduce the number of notation views with many list 
+items to show. See Hunter Mostafa, Eclipscon 2007.
+
+
+ShapeCompartmentEditPart
+------------------------
+
+A generic (sub) shape container that holds instances of
+<code>ShapeNodeEditPart</code>s and manages the display of
+<code>ConnectionNodeEditPart</code>s anchored to these shape editpart instances.
+
+The following policies are installed.
+
+installEditPolicy(EditPolicyRoles.CREATION_ROLE,
+			new CreationEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicy());
+		installEditPolicy(EditPolicy.CONTAINER_ROLE, new ContainerEditPolicy());
+		// TODO: this edit policy get overriden by code at the end of this
+		// function
+		// may be this breaks some use cases; it needs to be checked
+		installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE,
+			new DiagramLinkDragDropEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
+			new ContainerNodeEditPolicy());
+		// Install an edit policy for snap
+		installEditPolicy(EditPolicyRoles.SNAP_FEEDBACK_ROLE,
+			new SnapFeedbackPolicy());
+		installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE,
+			new ShapeCompartmentDropEditPolicy());
+		installEditPolicy(EditPolicyRoles.POPUPBAR_ROLE,
+			new PopupBarEditPolicy());

@@ -1,0 +1,10 @@
+Action states depend on the selection in a viewer. 
+The PasteAction defined by EMF, can only paste if it can add the copied item into the Selection as a containment. 
+This mechanism is not working well on a tableviewer, where
+we can't select the container for a child element. (The table viewer doesn't
+show the parent element). Also pasting a reference is likely not working
+
+Note that the command creation (i.e. for a paste command) is delegated to
+the ItemProvider. 
+
+

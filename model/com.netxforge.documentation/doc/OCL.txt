@@ -1,0 +1,185 @@
+
+OUTDATED since EMF 2.6
+See: 
+
+http://wiki.eclipse.org/EMF/New_and_Noteworthy/Helios
+
+
+
+This document describes embedding of OCL in an Ecore model, to achieve various effects like
+constraints, invariants and derived features for model integrity and non-persistent features. (Really
+embedding useful queries on our model, without hand coding).
+
+As OCL, form the basis for querying and imposing constraints the document also discusses briefly OCL. 
+
+
+Reference: 
+
+http://www.eclipse.org/articles/article.php?file=Article-EMF-Codegen-with-OCL/index.html
+
+
+
+Requirements: 
+- MDT OCL is needed
+- EMF 2.5 > 
+- JedEditor for editing templates. 
+
+Adding the OCL console to the app
+=================================
+???
+
+
+
+Extend an ECore model with OCL
+==============================
+
+The following options: 
+- Class constraints and invariants
+- Method Bodies.
+- Derived Features. 
+
+To annotate our source model (.xsd)
+===================================
+
+To add a constraint: 
+
+	<xs:annotation>
+       <xs:appinfo source="http://www.eclipse.org/emf/2002/Ecore" 
+       ecore:key="constraints">[ConstraintName]</xs:appinfo>
+    </xs:annotation>
+
+
+To add an invariant (Operation):
+
+	<xs:annotation>
+       <xsd:appinfo source="http://www.eclipse.org/emf/2002/Ecore" 
+       ecore:key="operations">
+       		<operation name="[InvariantMethodName]" type="ecore:EBoolean">
+       			<parameter 
+       		</operation>
+       </xs:appinfo>
+    </xs:annotation>
+
+To add a derived feature: 
+(In this case will 
+
+	<xs:element name="ResourcesDerived" ecore:volatile="true"
+		ecore:transient="true" ecore:derived="true" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded"
+		ecore:reference="Resource">
+	</xs:element>
+
+
+To add an OCL extension
+
+	<xs:annotation>
+       <xs:appinfo source="http://www.eclipse.org/OCL" 
+       ecore:key="[ConstraintName]/derive/body">[OCL syntax]</xs:appinfo>
+    </xs:annotation>
+    
+Note for contraints to work, the 'key' feature should be the Invariant method name specified
+earlier.
+    
+
+To add OCL to the ecore model directly
+======================================
+
+NOTE: The ecore, gets re-generated, and all model extension will be lost! 
+It's best to keep a copy of generated ecore files, or define the constraint or 
+invariant in the source model. (.xsd in our case). 
+
+CLASS CONSTRAINT
+
+1) Add an EAnnotation. (Or define in the schema). 
+	- Source = http://www.eclipse.org/2007/ocl
+	- Reference = Leave empty!
+2) Add a Details Entry
+	- Key = either: constraint, derive or body.
+	- value = OCL syntax. 
+
+To configure the GenModel to apply our OCL code generation
+==========================================================
+
+3) Tell the Gen Model to include a dependency on OCL. (plugin should appear in model Manifest).  
+
+Section Model: 
+
+OCL_ECORE=org.eclipse.ocl.ecore
+
+4) Use custom templates: 
+
+	- Create a directory 
+		- templates/model/Class
+	- Copy the following jet templates in. 
+		- 
+	- Section Templates & Merge:
+		- Dynamic Templates = true
+		- Template Directory = "The directory where our custom templates are. 
+ 
+5) Load in the plugin: 
+org.eclipse.ocl.example.codegen (From the reference article). 
+
+Copy, the needed templates to our model template folder. 
+
+6) Generate the model code. ( a .JetEmitters plugin will be created has an intermediate step for Jet code
+generation). 
+
+OCL syntax
+==========
+
+ TYPES	
+
+	 Boolean, Integer, Real, String
+	 Collection, Set, OrderedSet, Bag, Sequence
+	 
+
+ OPERATIONS	
+	
+	 Apply operations: ->	
+	
+	 Arithmetic Operations on Real: + - * / abs() floor() round() max(r : Real) min (r : Real) < > <= >=
+	 Arithmetic Operations on Integer: + - * / abs() div( i: Integer) mod ( i:Integer) max(r : Real) min (r : Real) < > <= >=
+	 Operations on String: size() concats(s: String) substring(lower :Integer, upper : Integer) toInteger() toReal()
+	 Boolean Operations: or(b : Boolean) xor(b : Boolean) and(b : Boolean) not implies( b : Boolean)
+
+	 To write a comment: -- this is a comment
+	 To use an enumerated value: type = ParameterType::'Read Only'
+	 "Check the exact syntax for String literals"
+ 
+ COLLECTIONS	
+	 
+	 To get the contextual instance: self
+	 To use an AssociationEnds: self.node
+	 To use a property or Association with spaces in the name: "Display Name" becomes "displayName"
+	 
+	 To access a collection method: self.parameter->size() or self.parameter->isEmpty()
+	 To select from a collection: collection->select(boolean-expression)
+	 
+	 self.parameter->select(node.name = 'BSC')
+	 
+	 To select from a collection II: collection->select( v | boolean-expression-with-v )
+	 self.paramater
+	 
+	 To reject from a collection:
+	 "Same as select, but returns the negative list".
+	 
+	 To collect from a collection: collection->collect( v : Type | expression-with-v )
+	 self.parameter->collect(resourceName)
+	 
+	 To remove duplicates 
+	 self.parameter->collect(resourceName)->asSet()
+	 
+	 To check on all in a collection: collection->forAll( v : Type | boolean-expression-with-v )
+	 self.parameter->forAll(node.name.isEmpty())
+	 
+	 To check the existence: collection->exists( v : Type |  boolean-expression-with-v )
+	self.parameter->exists(resourceName = 'BSC)
+	 To define a var in an expression: let income : Integer = 5 in
+	 
+	 if canAfford then
+	 income > 100
+	 else
+	 income < 100
+	 endif
+	 
+	 To define a global variable: def income : Integer = self.job.salary
+	

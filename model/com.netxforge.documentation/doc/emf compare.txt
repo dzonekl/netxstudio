@@ -1,0 +1,26 @@
+To match models: 
+================
+
+// Loading models
+EObject model1 = ModelUtils.load(model1, resourceSet);
+EObject model2 = ModelUtils.load(model2, resourceSet);
+ 
+// Matching model elements
+MatchModel match = MatchService.doMatch(model1, model2, Collections.<String, Object> emptyMap());
+
+
+To diff models:
+===============
+
+/ Computing differences
+DiffModel diff = DiffService.doDiff(match, false);
+// Merges all differences from model1 to model2
+List<DiffElement> differences = new ArrayList<DiffElement>(diff.getOwnedElements());
+
+
+To merge models:
+================
+
+MergeService.merge(differences, true);
+
+
