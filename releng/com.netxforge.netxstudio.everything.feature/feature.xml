@@ -65,18 +65,4 @@
          id="com.netxforge.netxstudio.client.product.feature"
          version="0.0.0"/>
 
-   <plugin
-         id="org.eclipse.equinox.servletbridge"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.equinox.http"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
 </feature>
