@@ -165,7 +165,6 @@ public class CDOResourceDescription extends AbstractResourceDescription {
 		return exportedEObjects;
 	}
 
-	@Override
 	public Iterable<QualifiedName> getImportedNames() {
 		EcoreUtil2.resolveLazyCrossReferences(resource,
 				CancelIndicator.NullImpl);
@@ -178,7 +177,6 @@ public class CDOResourceDescription extends AbstractResourceDescription {
 		return Collections.emptySet();
 	}
 
-	@Override
 	public Iterable<IReferenceDescription> getReferenceDescriptions() {
 		// return cache.get(REFERENCE_DESCRIPTIONS_CACHE_KEY, getResource(), new
 		// Provider<List<IReferenceDescription>>(){
@@ -236,7 +234,6 @@ public class CDOResourceDescription extends AbstractResourceDescription {
 		return null;
 	}
 
-	@Override
 	public URI getURI() {
 		return uri;
 	}
