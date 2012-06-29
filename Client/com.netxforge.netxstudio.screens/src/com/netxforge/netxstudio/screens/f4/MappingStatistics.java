@@ -131,7 +131,6 @@ public class MappingStatistics extends AbstractScreen implements
 	private Tree statisticsTree;
 	private Table recordsTable;
 
-	@SuppressWarnings("unused")
 	@Inject
 	private ClipboardService clipboard;
 
