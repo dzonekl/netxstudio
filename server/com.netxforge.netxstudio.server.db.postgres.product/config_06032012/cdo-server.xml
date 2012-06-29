@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdoServer>
+
+	<!-- CDO server config for Version 06032012 -->
+
+	<acceptor type="tcp" listenAddr="0.0.0.0" port="2036">
+		<!-- negotiator type="challenge" description="NetxForgeChallenge"/-->
+	</acceptor>
+
+	<repository name="repo1">
+	
+		<userManager type="NetxForgeUserManager" description="repo1"/>
+	
+		<!-- userManager type="file" description="/temp/users.db"/-->  
+	
+		<property name="overrideUUID" value=""/>
+		
+		 
+		<property name="supportingBranches" value="false"/>
+		<property name="supportingAudits" value="false"/>
+		<!--  Disable auditing.
+		
+		--> 
+
+		<initialPackage nsURI="http://www.netxforge.com/06032012/geo"/>
+		<initialPackage nsURI="http://www.netxforge.com/06032012/generics"/>
+		<initialPackage nsURI="http://www.netxforge.com/06032012/netxstudio"/>
+		<initialPackage nsURI="http://www.netxforge.com/06032012/library"/>
+		<initialPackage nsURI="http://www.netxforge.com/06032012/metrics"/>
+		<initialPackage nsURI="http://www.netxforge.com/06032012/operators"/>
+		<initialPackage nsURI="http://www.netxforge.com/06032012/protocols"/>
+		<initialPackage nsURI="http://www.netxforge.com/06032012/scheduling"/>
+		<initialPackage nsURI="http://www.netxforge.com/06032012/services"/>
+		<initialPackage nsURI="http://www.eclipse.org/emf/2003/XMLType"/>
+
+		<!--
+			NOTE: the following properties are currently defined on repository level.
+			In future builds of the CDO Hibernate store these properties are defined
+			within the store and mappingProvider tags.
+		-->
+	<store type="db">
+
+      	<!-- Period at which to execute an SQL statement to keep DB connection alive, in minutes -->
+      	<property name="connectionKeepAlivePeriod" value="60"/>
+
+      	<mappingStrategy type="horizontal"> <!-- callout -->
+        	<property name="qualifiedNames" value="true"/>
+        	<property name="toManyReferences" value="ONE_TABLE_PER_REFERENCE"/>
+        	<property name="toOneReferences" value="LIKE_ATTRIBUTES"/>
+
+        <!--
+          Per default, the objectTypeCache is in-memory and contains
+          100,000 cache entries. If you want to change the size,
+          uncomment the following line and set the desired size.
+          The cache can be disabled by setting a size of 0.
+        -->
+
+        	<!-- Optional: 
+        		<property name="objectTypeCacheSize" value="100000" />
+        	-->
+
+      	</mappingStrategy>
+
+
+      <dbAdapter name="postgresql"/>
+      <dataSource class="org.postgresql.ds.PGSimpleDataSource"
+        url="jdbc:postgresql://localhost:5432/repo1"
+        databaseName="DBSTORE_06032012"
+        user="TM"
+        password="TM"/>
+
+
+    </store>
+	</repository>
+
+</cdoServer>
