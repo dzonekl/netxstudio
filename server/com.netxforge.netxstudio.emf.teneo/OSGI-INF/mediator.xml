@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="com.netxforge.netxstudio.emf.teneo.mediator">
-   <implementation class="com.netxforge.netxstudio.emf.teneo.ServiceMediator"/>
-   <reference bind="addConsumer" cardinality="0..n" interface="com.netxforge.netxstudio.emf.teneo.IServiceConsumer" name="IServiceConsumer" policy="dynamic" unbind="removeConsumer"/>
-   <reference bind="addService" cardinality="1..1" interface="com.netxforge.netxstudio.emf.teneo.IPersistenceService" name="IPersistenceService" policy="dynamic" unbind="removeService"/>
-</scr:component>
