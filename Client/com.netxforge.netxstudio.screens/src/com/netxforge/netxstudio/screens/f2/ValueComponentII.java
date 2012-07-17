@@ -120,8 +120,12 @@ public class ValueComponentII {
 			NetXResource resource = (NetXResource) res;
 			for (MetricValueRange mvr : resource.getMetricValueRanges()) {
 				int intervalHint = mvr.getIntervalHint();
-				String columnName = new Integer(intervalHint).toString()
-						+ " (min), " + mvr.getKindHint().getName();
+				
+				// CB 14-07-2012, interpret the interval. 
+				String columnName = modelUtils.fromMinutes(intervalHint) + " [" + mvr.getKindHint().getName() + "]";
+//				String columnName = new Integer(intervalHint).toString()
+//						+ " (min), " + mvr.getKindHint().getName();
+
 				tableHelper.new TBVC<Double>(
 						new NetXResourceValueLabelProvider()).tbvcFor(
 						valuesTableViewer, columnName,

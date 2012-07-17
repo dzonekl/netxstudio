@@ -17,7 +17,7 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.f2.PeriodComponent;
 
-public class ReportSelectionPeriodPage extends WizardPage {
+public class ReportPeriodSelectionPage extends WizardPage {
 
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
@@ -37,7 +37,7 @@ public class ReportSelectionPeriodPage extends WizardPage {
 	/**
 	 * Create the wizard.
 	 */
-	public ReportSelectionPeriodPage() {
+	public ReportPeriodSelectionPage() {
 		super("wizardPage");
 
 		setTitle("Reporting period");

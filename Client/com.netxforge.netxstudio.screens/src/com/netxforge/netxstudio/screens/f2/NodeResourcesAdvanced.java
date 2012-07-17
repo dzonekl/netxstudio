@@ -119,6 +119,7 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Tolerance;
+import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
@@ -590,17 +591,35 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				Expression expression = (Expression) expressionAggregate
 						.getExpressionObservable().getValue();
 
+				// The expression could be
+				// A Utilization Expression.
 				if (expression != null) {
+
 					expressionEngine.getContext().clear();
 					expressionEngine.getContext().addAll(
 							contextAggregate.getContextObjects());
 
+					// RETENTION EXPRESSION.
+					// If the expression is a retention expression we have to
+					// override the DTR from the metric retention rule.
+					if (contextAggregate.getCurrentExpressionType() == ContextAggregate.TOL_EXPRESSION_CONTEXT
+							&& expressionAggregate.getCurrentSubSelection() instanceof MetricRetentionRule) {
+
+						MetricRetentionRule currentSubSelection = (MetricRetentionRule) expressionAggregate
+								.getCurrentSubSelection();
+						// The retention rule DTR, is only used for cleaning, not aggregation.  
+						@SuppressWarnings("unused")
+						DateTimeRange dtrForRetentionRule = modelUtils.getDTRForRetentionRule(currentSubSelection);
+					}
+
+					// TOLERANCE EXPRESSION.
 					// If the expression is a tolerance expression, we have to
 					// provide
 					// a resource monitor...
 					DateTimeRange period = contextAggregate.getPeriod();
 					Date start = modelUtils.fromXMLDate(period.getBegin());
 					Date end = modelUtils.fromXMLDate(period.getEnd());
+
 					ResourceMonitor resourceMonitor = null;
 					if (contextAggregate.getCurrentExpressionType() == ContextAggregate.TOL_EXPRESSION_CONTEXT
 							&& expressionAggregate.getCurrentSubSelection() instanceof Tolerance) {
@@ -624,6 +643,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 					expressionEngine.setExpression(expression);
 					expressionEngine.run();
+
 					if (expressionEngine.errorOccurred()) {
 						// stop here will be logged
 						throw new IllegalStateException(expressionEngine
@@ -643,6 +663,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 								.toleranceMarkersForResourceMonitor(resourceMonitor));
 					}
 
+					// refresh so the new values become visible.
+					// TODO, we need to rebuild if it is a retention expression.
 					cmpValues.getValuesTableViewer().refresh(true);
 
 					// update our view part dirty state, as we don't use the
@@ -884,9 +906,17 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		 * The currently selected sub selection object.
 		 */
 		private Object currentSubSelection;
-
+		
+		/*
+		 * The currently selected expression feature. 
+		 */
 		private EReference expressionFeature;
 
+		/*
+		 * Sub selection hyperkink
+		 */
+		private ImageHyperlink hypLnkAddTolerance;
+		
 		public ExpressionAggregate(Composite subSelectorParent) {
 			initSubSelector(subSelectorParent);
 		}
@@ -911,7 +941,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 							editingService.getAdapterFactory()));
 
 			if (!readOnly) {
-				ImageHyperlink hypLnkAddTolerance = toolkit
+				hypLnkAddTolerance = toolkit
 						.createImageHyperlink(subSelectorParent, SWT.NONE);
 				hypLnkAddTolerance
 						.addHyperlinkListener(new IHyperlinkListener() {
@@ -965,7 +995,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 							.getObservableValue());
 					exprFeatureWritable.setValue(expressionFeature);
 					if (currentComponent != null) {
-						updateSubSelection();
+						showAndBindSubSelection();
 						loadExpression();
 					}
 
@@ -975,7 +1005,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					currentComponent = processComponentChange(event
 							.getObservableValue());
 					if (currentComponent != null) {
-						updateSubSelection();
+						showAndBindSubSelection();
 						loadExpression();
 					}
 
@@ -992,22 +1022,43 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			// handleComponentChange();
 		}
 
-		private void updateSubSelection() {
-			if (expressionFeature.getEContainingClass() == LibraryPackage.Literals.TOLERANCE) {
+		private void showAndBindSubSelection() {
+			
+			if (expressionFeature.getEContainingClass() == LibraryPackage.Literals.TOLERANCE
+					|| expressionFeature.getEContainingClass() == MetricsPackage.Literals.METRIC_RETENTION_RULE) {
 				if (!cmpSubSelector.isVisible()) {
 					cmpSubSelector.setVisible(true);
 				}
-				IEMFListProperty list = EMFProperties
-						.list(LibraryPackage.Literals.COMPONENT__TOLERANCE_REFS);
-				cmbViewerSubSelector.setInput(list.observe(currentComponent));
-				// observe the sub selector, and handle change with this class.
-				IViewerObservableValue observerSubSelection = ViewersObservables
-						.observeSingleSelection(cmbViewerSubSelector);
-
-				observerSubSelection.addValueChangeListener(this);
+				
+				if( expressionFeature.getEContainingClass() == MetricsPackage.Literals.METRIC_RETENTION_RULE){
+					hypLnkAddTolerance.setVisible(false);
+				}else{
+					hypLnkAddTolerance.setVisible(true);
+				}
+				
 			} else {
 				cmpSubSelector.setVisible(false);
 			}
+
+			if (expressionFeature.getEContainingClass() == LibraryPackage.Literals.TOLERANCE) {
+				IEMFListProperty list = EMFProperties
+						.list(LibraryPackage.Literals.COMPONENT__TOLERANCE_REFS);
+				cmbViewerSubSelector.setInput(list.observe(currentComponent));
+			}
+			if (expressionFeature.getEContainingClass() == MetricsPackage.Literals.METRIC_RETENTION_RULE) {
+
+				// get the rules from a resource.
+				Resource retentionRulesResource = editingService
+						.getData(MetricsPackage.Literals.METRIC_RETENTION_RULES);
+				IEMFListProperty list = EMFProperties
+						.list(MetricsPackage.Literals.METRIC_RETENTION_RULES__METRIC_RETENTION_RULES);
+				cmbViewerSubSelector.setInput(list
+						.observe(retentionRulesResource.getContents().get(0)));
+			}
+			// observe the sub selector, and handle change with this class.
+			IViewerObservableValue observerSubSelection = ViewersObservables
+					.observeSingleSelection(cmbViewerSubSelector);
+			observerSubSelection.addValueChangeListener(this);
 			currentSubSelection = null;
 		}
 
@@ -1061,8 +1112,19 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 							currentComponent, expressionFeature);
 				}
 			} else if (expressionFeature.getEContainingClass() == MetricsPackage.Literals.METRIC_RETENTION_RULE) {
-				// TODO, get applicable retention type first, need a
-				// selector for this.
+				if (currentSubSelection instanceof MetricRetentionRule) {
+					if (((MetricRetentionRule) currentSubSelection)
+							.eIsSet(MetricsPackage.Literals.METRIC_RETENTION_RULE__RETENTION_EXPRESSION)) {
+						expr = ((MetricRetentionRule) currentSubSelection)
+								.getRetentionExpression();
+						expressionComponent.injectData(expr.eResource(), expr);
+					} // else DO NOT auto create a retention expression.
+
+				} else {
+					// do nothing.
+					// well clean the expression editor, as no...
+					expressionComponent.clearData();
+				}
 			}
 
 			if (expr != null) {
@@ -1117,7 +1179,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		private void processSubSelectionChange(IObservableValue ob) {
 			Object value = ob.getValue();
-			if (value instanceof Tolerance) {
+			if (value instanceof Tolerance
+					|| value instanceof MetricRetentionRule) {
 				currentSubSelection = value;
 			}
 		}
@@ -1156,6 +1219,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		static final int CAP_EXPRESSION_CONTEXT = 1;
 		static final int UTIL_EXPRESSION_CONTEXT = 2;
 		static final int TOL_EXPRESSION_CONTEXT = 3;
+		static final int RETENTION_EXPRESSION_CONTEXT = 3;
 
 		private int currentExpressionType = NOTSET_EXPRESSION_CONTEXT;
 
@@ -1216,6 +1280,16 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 							currentNetXResource);
 					currentExpressionType = TOL_EXPRESSION_CONTEXT;
 				}
+			} else if (currentExpressionFeature == MetricsPackage.Literals.METRIC_RETENTION_RULE__RETENTION_EXPRESSION) {
+
+				// the context of an retention rule is the NetXResource, the
+				// component and the DTR. First we take the DTR from the UI, and
+				// override it with the
+				// DTR from the retention rule, once the actual rule is selected
+				// as a subexpression.
+				contextList = expressionSupport.buildContext(dtr, new Object[] {
+						this.currentComponent, this.currentNetXResource });
+				currentExpressionType = RETENTION_EXPRESSION_CONTEXT;
 			}
 
 			contextWritableList.clear();
@@ -1817,6 +1891,10 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		expressionAggregate.getExpressionObservable().addValueChangeListener(
 				contextAggregate);
 
+		// IViewerObservableValue observeValueSingleSelection =
+		// ViewersObservables
+		// .observeSingleSelection(resourcesTableViewer);
+
 		cmbViewerExpression.setSelection(new StructuredSelection(
 				LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF));
 	}
@@ -1940,8 +2018,6 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		public NetXResourceObervableMapLabelProvider(
 				IObservableMap[] attributeMaps) {
-			// FIXME maps have no effect here.
-
 		}
 
 		@Override
@@ -2130,8 +2206,6 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		DateTimeRange period = contextAggregate.getPeriod();
 		chartInput.setPeriod(period);
 
-		// Should get it from the value component, but no range state there yet.
-		// Defaults to 60 minutes.
 		chartInput.setInterval(ModelUtils.MINUTES_IN_AN_HOUR);
 
 		// If we have a resource monitor, we can pass this as well.
@@ -2139,8 +2213,17 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			chartInput.setResourceMonitor(resultProcessor.getResourceMonitor());
 		}
 
+		// Note the selection for Values, override for the Value selection by
+		// the netxresource
+		// selection. The Value, could still be passed on to sync the selection
+		// in the chart?
+		StructuredSelection netXResourceSelection = contextAggregate
+				.getCurrentNetXResource() != null ? new StructuredSelection(
+				contextAggregate.getCurrentNetXResource()) : null;
+
 		// create a chart show in.
-		ShowInContext showInContext = new ShowInContext(chartInput, selection);
+		ShowInContext showInContext = new ShowInContext(chartInput,
+				netXResourceSelection);
 
 		return showInContext;
 	}
@@ -2159,6 +2242,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			return componentsTreeViewer;
 		} else if (widget == resourcesTable) {
 			return resourcesTableViewer;
+		} else if (widget == cmpValues.getValuesTableViewer().getTable()) {
+			return cmpValues.getValuesTableViewer();
 		} else if (widget == expressionComponent.getXtextEditor().getViewer()
 				.getTextWidget()) {
 			return expressionComponent.getXtextEditor().getViewer()

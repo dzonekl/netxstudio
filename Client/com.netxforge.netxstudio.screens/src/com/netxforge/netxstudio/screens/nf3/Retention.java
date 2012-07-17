@@ -204,14 +204,14 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		IValueProperty selectionProperty = ViewerProperties.singleSelection();
 
 		for (MetricRetentionRule r : rules.getMetricRetentionRules()) {
-			addRule(cmpRules, r, context, retentionPeriodProperty,
+			addUIForRule(cmpRules, r, context, retentionPeriodProperty,
 					selectionProperty);
 		}
 
 		return context;
 	}
 
-	private void addRule(Composite cmpRules, final MetricRetentionRule rule,
+	private void addUIForRule(Composite cmpRules, final MetricRetentionRule rule,
 			EMFDataBindingContext context,
 			IEMFValueProperty retentionPeriodProperty,
 			IValueProperty selectionProperty) {

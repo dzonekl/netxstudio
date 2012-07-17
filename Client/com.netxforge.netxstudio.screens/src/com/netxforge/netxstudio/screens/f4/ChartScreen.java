@@ -23,6 +23,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -62,6 +63,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 
@@ -548,10 +550,13 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 			if (interval > 0) {
 				MetricValueRange mvr = modelUtils.valueRangeForInterval(
 						netXResource, interval);
-				metricValues = mvr.getMetricValues();
-				if (metricValues == null || metricValues.size() == 0) {
+				if (mvr != null) {
+					metricValues = mvr.getMetricValues();
+					if (metricValues == null || metricValues.size() == 0)
+						return;
+				} else
 					return;
-				}
+
 			} else {
 				// if(netXResource.getMetricValueRanges().size() > 0 ){
 				// values = netXResource.getMetricValueRanges().get(0);
@@ -568,22 +573,21 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		}
 
 		// DATE RANGE FROM METRIC VALUES
-		// FIXME, We let the timestamps depending on the metric values, which this should be the provided
-		// period. For a single metric value this gives an odd behaviour of the chart. 
-		// See the way it's done in the class ResourceReportingEngine/ 
-//		List<Date> dates = getTS();
-		
-		
-		
+		// FIXME, We let the timestamps depending on the metric values, which
+		// this should be the provided
+		// period. For a single metric value this gives an odd behaviour of the
+		// chart.
+		// See the way it's done in the class ResourceReportingEngine/
+		// List<Date> dates = getTS();
+
 		List<Date> dates = modelUtils.transformValueToDate(metricValues);
 		Date[] dateArray = new Date[dates.size()];
 		dates.toArray(dateArray);
 
 		double[] metricDoubleValues = modelUtils
 				.transformValueToDoubleArray(metricValues);
-		
-		
-		// 
+
+		//
 		this.seriesFromMetric(dateArray, metricDoubleValues, chart,
 				netXResource);
 
@@ -642,12 +646,12 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		List<Date> allTS = Lists.newArrayList();
 		Multimap<Integer, XMLGregorianCalendar> timeStampsByWeek = modelUtils
 				.hourlyTimeStampsByWeekFor(dtr);
-		// build an index of colums and timestamps.  
+		// build an index of colums and timestamps.
 		for (int i : timeStampsByWeek.keySet()) {
 			Collection<XMLGregorianCalendar> collection = timeStampsByWeek
 					.get(i);
 			allTS.addAll(modelUtils.transformXMLDateToDate(collection));
-			
+
 		}
 		Collections.sort(allTS);
 		return allTS;
@@ -718,11 +722,20 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 
 			ChartShowInContext chartInput = (ChartShowInContext) context
 					.getInput();
+			
 			// Clear our chart,
 			this.interval = chartInput.getInterval();
 			this.dtr = chartInput.getPeriod();
 			this.resMonitor = chartInput.getResourceMonitor();
 			ISelection selection = context.getSelection();
+			
+			// fire a wizard to selecte the range. 
+			@SuppressWarnings("unused")
+			IWizard wiz = WizardUtil.openWizard(
+			"com.netxforge.netxstudio.screens.valueranges",
+			(IStructuredSelection) selection);
+			
+			
 			if (selection instanceof IStructuredSelection) {
 				if (((IStructuredSelection) selection).getFirstElement() instanceof NetXResource) {
 					this.netXResource = (NetXResource) ((IStructuredSelection) selection)

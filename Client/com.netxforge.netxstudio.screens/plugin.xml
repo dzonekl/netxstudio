@@ -47,6 +47,12 @@
             id="com.netxforge.netxstudio.screens.reporting"
             name="Reporting Wizard">
       </wizard>
+        <wizard
+            class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionWizard"
+            hasPages="true"
+            id="com.netxforge.netxstudio.screens.valueranges"
+            name="Value Range Wizard">
+      </wizard>
    </extension>
    <extension
       point="org.eclipse.ui.perspectiveExtensions">

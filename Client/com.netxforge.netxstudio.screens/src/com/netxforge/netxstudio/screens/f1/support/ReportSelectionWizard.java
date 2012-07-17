@@ -35,7 +35,7 @@ public class ReportSelectionWizard extends Wizard implements INewWizard {
 	private Object firstSelectedObject;
 
 	@Inject
-	private ReportSelectionPeriodPage reportSelectionPeriod;
+	private ReportPeriodSelectionPage reportSelectionPeriod;
 
 	
 	private ReportTypeSelectionPage reportSelectionType;
