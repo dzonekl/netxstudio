@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.math.stat.StatUtils;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
+import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.Value;
@@ -15,7 +16,7 @@ import com.netxforge.netxstudio.generics.Value;
  * 
  * @author dzonekl
  */
-public class NativeFunctions implements INativeFunctions {
+public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 
 	@Inject
 	ModelUtils modelUtils;
@@ -234,6 +235,18 @@ public class NativeFunctions implements INativeFunctions {
 
 	public BigDecimal erlangB(List<?> range, float gradeOfService) {
 		return null;
+	}
+
+	public Value minValue(List<Value> range) {
+		List<Value> sortedCopy = Ordering.from(modelUtils.valueValueCompare())
+				.sortedCopy(range);
+		return sortedCopy.get(0);
+	}
+
+	public Value maxValue(List<Value> range) {
+		List<Value> sortedCopy = Ordering.from(modelUtils.valueValueCompare())
+				.sortedCopy(range);
+		return sortedCopy.get(sortedCopy.size()-1);
 	}
 
 }

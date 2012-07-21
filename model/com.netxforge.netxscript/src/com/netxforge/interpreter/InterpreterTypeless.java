@@ -148,7 +148,7 @@ public class InterpreterTypeless implements IInterpreter {
 	 */
 	private List<BaseExpressionResult> expressionResults = Lists.newArrayList();
 
-	/**
+	/*
 	 * Construct without a root object constraint.
 	 */
 	@Inject
@@ -157,17 +157,23 @@ public class InterpreterTypeless implements IInterpreter {
 		dispatcher.setPrettyLog(pLog);
 	}
 
-	/**
+	/*
 	 * The first Context always corresponds to 'this' in the grammar. Additional
 	 * context, contain the period range for an expression.
-	 * 
 	 */
 	private List<IInterpreterContext> contextList = Lists.newArrayList();
 
-	/**
+	/*
 	 * An index of all context.
 	 */
-	Map<Class<?>, IInterpreterContext> contextIndex = Maps.newHashMap();
+	private Map<Class<?>, IInterpreterContext> contextIndex = Maps.newHashMap();
+
+	/*
+	 * The target range interval for a reference assignment. Can be used
+	 * customize how ranges are split. For a week target range interval, the
+	 * split could be by week.
+	 */
+	private int targetRangeInterval = -1;
 
 	/**
 	 * Clear the interpreter if it's re-used.
@@ -534,13 +540,10 @@ public class InterpreterTypeless implements IInterpreter {
 			Map<String, Object> localVarsAndArguments, Statement statement) {
 		RefAssignment refa = (RefAssignment) statement;
 		if (refa.getExpression() != null) {
-			Object varEval = dispatcher.invoke(refa.getExpression(),
-					ImmutableMap.copyOf(localVarsAndArguments));
 
-			// Notice:
+			// Note:
 			// We unfortunately, can't use the dispatched to get to
-			// the
-			// leaf reference, so we use a recursive way to get it.
+			// the leaf reference, so we use a recursive way to get it.
 			final Reference assignmentReference = refa.getAssignmentRef();
 			final List<BaseResource> targetResources = Lists.newArrayList();
 			RangeRef targetRangeReference = null;
@@ -575,6 +578,7 @@ public class InterpreterTypeless implements IInterpreter {
 							.getPrimaryRef().getLeafRef();
 					targetResources.addAll(resources(cRef));
 					targetRangeReference = resourceRef.getRangeRef();
+
 					// if (leafReference instanceof StatusRef) {
 					// // Can we assign a status?
 					// }
@@ -590,9 +594,15 @@ public class InterpreterTypeless implements IInterpreter {
 				if (cRef.getRangeRef() != null) {
 					targetRangeReference = cRef.getRangeRef();
 				}
+
+				targetRangeInterval = extractInterval(targetRangeReference);
+
+				Object varEval = dispatcher.invoke(refa.getExpression(),
+						ImmutableMap.copyOf(localVarsAndArguments));
+				processExpressionResult(varEval, targetResources,
+						targetRangeReference);
+
 			}
-			processExpressionResult(varEval, targetResources,
-					targetRangeReference);
 
 		}
 	}
@@ -792,22 +802,30 @@ public class InterpreterTypeless implements IInterpreter {
 				}
 
 				if (assertNumeric(varEval)) {
-					
-					
-					// Single values are extrapolated to each end of day for each day in the period. 
-					// Get the period context, and use the start and end date for the exprapolation. 
-					// Note: This is a design choice, and could be optional. 
+
+					// Single values are extrapolated to each beginning of the
+					// day, for each day in the period.
+					// Get the period context, and use the start and end date
+					// for the extrapolation.
+					// Note: This is a design choice, and could be optional.
+					// Note II: We do not check the range, so this could also
+					// apply to other ranges, than the capacity value.
 					DateTimeRange dtr = this.getContextualPeriod();
 					List<XMLGregorianCalendar> transformPeriodToDailyTimestamps = modelUtils
 							.transformPeriodToDailyTimestamps(dtr);
 					for (XMLGregorianCalendar ts : transformPeriodToDailyTimestamps) {
-						System.out.println("Create value for TS = " + ts + " with value " + varEval);
-						Value newValue = GenericsFactory.eINSTANCE.createValue();
+
+						// TODO, use tracing facility.
+						System.out.println("Create value for TS = " + ts
+								+ " with value " + varEval);
+
+						Value newValue = GenericsFactory.eINSTANCE
+								.createValue();
 						newValue.setTimeStamp(ts);
 						newValue.setValue(asNum((BigDecimal) varEval)
 								.doubleValue());
 						er.getTargetValues().add(newValue);
-						
+
 					}
 					expressionResults.add(er);
 				}
@@ -1434,7 +1452,6 @@ public class InterpreterTypeless implements IInterpreter {
 		// : null;
 		// } else if (s != null) {
 		//
-		// // TODO, What should happen here?
 		// for (@SuppressWarnings("unused")
 		// ServiceUser su : s.getServiceUserRefs()) {
 		//
@@ -1478,16 +1495,12 @@ public class InterpreterTypeless implements IInterpreter {
 		if (resource instanceof NetXResource) {
 			switch (rangeRef.getValuerange().getValue()) {
 			case ValueRange.METRIC_VALUE: {
-
 				v = modelUtils.valueRangeForIntervalKindAndPeriod(
 						(NetXResource) resource, targetInterval, targetKind,
 						dtr);
 			}
 				break;
 			case ValueRange.CAP_VALUE: {
-				// For capcity calculations, we likely
-				// get a single value. To calculate the utilization,
-				// it would be needed to make it a complete range.
 				v = modelUtils.valuesInsideRange(
 						((NetXResource) resource).getCapacityValues(), dtr);
 			}
@@ -1507,7 +1520,6 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 			}
 		}
-
 		return v;
 	}
 
@@ -1538,7 +1550,6 @@ public class InterpreterTypeless implements IInterpreter {
 	private int extractInterval(RangeRef rangeRef) {
 		int targetInterval;
 		if (rangeRef.getInterval() != null) {
-
 			BigDecimal result = dispatcher.invoke(rangeRef.getInterval(),
 					ImmutableMap.<String, Object> of());
 			targetInterval = result.intValue();
@@ -1569,9 +1580,20 @@ public class InterpreterTypeless implements IInterpreter {
 	// NATIVE FUNCTIONS
 	// //////////////////////////////////////
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "unchecked" })
 	protected Object internalEvaluate(NativeExpression ne,
 			ImmutableMap<String, Object> values) {
+
+		// Remember the interval if we are dealing with a range reference
+		// the function handler will use this for value ranges, to break up the
+		// range.
+		int extractedRangeInterval = -1;
+		if (ne.getLeft() instanceof ContextRef) {
+			ContextRef cr = (ContextRef) ne.getLeft();
+			if (cr.getRangeRef() != null) {
+				extractedRangeInterval = this.extractInterval(cr.getRangeRef());
+			}
+		}
 
 		Object eval = dispatcher.invoke(ne.getLeft(),
 				ImmutableMap.copyOf(values));
@@ -1583,8 +1605,34 @@ public class InterpreterTypeless implements IInterpreter {
 				range = (List<?>) eval;
 				if (!assertMatrix(range)) {
 
-					// Note; the timestamp is lost here.
-					eval = processNativeFunction(ne, range);
+					// Doesn't apply to matrix ranges.
+					if (assertValueCollection(range)
+							&& extractedRangeInterval != -1) {
+
+						// break up the range using the interval.
+						List<List<Value>> splitValueRange = modelUtils
+								.splitValueRange((List<Value>) eval,
+										extractedRangeInterval,
+										targetRangeInterval);
+
+						List<Object> evalResult = Lists.newArrayList();
+						// iterate through the sublists, and apply the native
+						// expression. the results are.
+						for (List<Value> subRange : splitValueRange) {
+							Object subRangeResult = processNativeFunction(ne,
+									subRange);
+							if (assertValue(subRangeResult)) {
+								System.out.println(modelUtils
+										.value((Value) subRangeResult));
+								evalResult.add(subRangeResult);
+							}
+						}
+						// result with time stamps, otherwise eval will be nul.
+						eval = evalResult;
+					} else {
+						// Note; the timestamp is lost here.
+						eval = processNativeFunction(ne, range);
+					}
 				} else {
 
 					// process a matrix of values, either horizontal or vertical
@@ -1593,18 +1641,14 @@ public class InterpreterTypeless implements IInterpreter {
 					// or by configuration, or implicity.....
 
 					// /////////////////////////////////////////////
-					// 1. Process the ranges horizontally, function is applied
-					// to the values of the range.
-					// walk through the list twice, to swap the array.
-
+					// 1 Process the ranges vertically, function is applied
+					// to all similar timestamps of the ranges.
 					List<Object> evalResult = Lists.newArrayList();
 					if (true) {
-
 						// use the first subrange as the reference list, make a
 						// copy.
 						// for each of the ranges, aggregate values with the
 						// same timestamp.
-						//
 						if (range.size() > 0 && range.get(0) instanceof List<?>) {
 							ImmutableList<?> refRange = ImmutableList
 									.copyOf((List<?>) range.get(0));
@@ -1641,8 +1685,10 @@ public class InterpreterTypeless implements IInterpreter {
 										continue;
 									}
 								}
-
-								// Create a copy of the
+								// Create a copy of the reference value to keep
+								// the timestamp
+								// , but store the evaluated native function
+								// value.
 								Value processedValue = EcoreUtil.copy(refValue);
 								Object evalNative = processNativeFunction(ne,
 										sameTimestamps);
@@ -1651,15 +1697,16 @@ public class InterpreterTypeless implements IInterpreter {
 									processedValue.setValue(bdValue
 											.doubleValue());
 								}
-
 								evalResult.add(processedValue);
 							}
-
 						}
 
 					} else {
-						// 2. Process the ranges vertically, function is applied
-						// to all similar timestamps of the ranges.
+						// 2.Process the ranges horizontally, function is
+						// applied
+						// to the values of the range.
+						// walk through the list twice, to swap the array.
+
 						for (Object rangeItem : range) {
 							// Collections should be passed to the evaluation,
 							// and
@@ -1685,15 +1732,32 @@ public class InterpreterTypeless implements IInterpreter {
 
 	/**
 	 * Execute the Native function in the Native expression on the specified
-	 * range.
+	 * range. </p> For ranges which contain the value object, the function is
+	 * applied for sub-periods depending on the interval of the values.
+	 * <ul>
+	 * <li>For hourly values, the sub period is a day</li>
+	 * <li>For daily values, the sub period is a week</li>
+	 * <li>For week values, the sub period is a month</li>
+	 * <li>For month values, the sub period is a year</li>
+	 * </ul>
+	 * 
 	 * 
 	 * @param ne
 	 * @param range
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private Object processNativeFunction(NativeExpression ne, List<?> range) {
+
+		INativeFunctions2 nativeFunctions2 = null;
+
+		if (this.nativeFunctions instanceof INativeFunctions2) {
+			nativeFunctions2 = (INativeFunctions2) nativeFunctions;
+		}
+
 		// Result could be an array, so aggregate...
 		NativeFunction nf = ne.getNativeFunction();
+
 		switch (nf.getValue()) {
 		case NativeFunction.SUM_VALUE: {
 			return nativeFunctions.sum(range);
@@ -1701,11 +1765,22 @@ public class InterpreterTypeless implements IInterpreter {
 		case NativeFunction.COUNT_VALUE: {
 			return nativeFunctions.count(range);
 		}
+		// Supports various implementations.
 		case NativeFunction.MAX_VALUE: {
-			return nativeFunctions.max(range);
+			if (assertValueCollection(range)) {
+				return nativeFunctions2.maxValue((List<Value>) range);
+			} else {
+				return nativeFunctions.max(range);
+			}
+
 		}
+		// Supports various implementations.
 		case NativeFunction.MIN_VALUE: {
-			return nativeFunctions.min(range);
+			if (assertValueCollection(range)) {
+				return nativeFunctions2.minValue((List<Value>) range);
+			} else {
+				return nativeFunctions.min(range);
+			}
 		}
 		case NativeFunction.MEAN_VALUE: {
 			return nativeFunctions.mean(range);
@@ -2116,17 +2191,16 @@ public class InterpreterTypeless implements IInterpreter {
 		if (result != null) {
 			return result;
 		} else {
-			// CB 09-04-2012, this would prevent any sub-sequent resource for a component to be evaluated, so do not
-			// throw an exception. 
-			
-//			throw new UnsupportedOperationException(
-//					"Multiplication expression for invalid types");
-			
+			// CB 09-04-2012, this would prevent any sub-sequent resource for a
+			// component to be evaluated, so do not
+			// throw an exception.
+
+			// throw new UnsupportedOperationException(
+			// "Multiplication expression for invalid types");
+
 			return result;
 		}
-		
-		
-		
+
 	}
 
 	public static BigDecimal asNum(BigDecimal eval) {
