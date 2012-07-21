@@ -162,7 +162,7 @@ public class ComponentLocator {
 			// find the cross references to this metric, Note this could be a
 			// component which is a NodeType Component.
 			final List<CDOObjectReference> results = dataProvider
-					.getView().queryXRefs(metric,
+					.getTransaction().queryXRefs(metric,
 							LibraryPackage.eINSTANCE.getComponent_MetricRefs());
 
 			if (DataActivator.DEBUG) {

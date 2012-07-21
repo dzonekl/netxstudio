@@ -55,6 +55,7 @@ import org.swtchart.LineStyle;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -97,7 +98,6 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		frmChartScreen = toolkit.createForm(this);
 		// frmFunction.setText("Resource Monitor " +
 		// netXResource.getShortName());
-		frmChartScreen.setText("Resource charts");
 		frmChartScreen.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmChartScreen);
 
@@ -122,11 +122,11 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 
 		chart.getTitle().setVisible(false);
 
-		chart.getAxisSet().getXAxis(0).getTitle().setText("Time stamps");
-		IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
-		xTick.setTickMarkStepHint(20);
-		DateFormat format = new SimpleDateFormat("HH:mm");
-		xTick.setFormat(format);
+		// chart.getAxisSet().getXAxis(0).getTitle().setText("Time stamps");
+		// IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
+		// xTick.setTickMarkStepHint(20);
+		// DateFormat format = new SimpleDateFormat("HH:mm");
+		// xTick.setFormat(format);
 
 		chart.getAxisSet().getYAxis(0).getTitle().setText("Value");
 
@@ -143,6 +143,12 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 						Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		chart.getAxisSet().getYAxis(utilizationAxisID).getGrid()
 				.setStyle(LineStyle.DASHDOT);
+		chart.getAxisSet()
+				.getYAxis(utilizationAxisID)
+				.getGrid()
+				.setForeground(
+						Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
+
 		chart.getAxisSet()
 				.getYAxis(utilizationAxisID)
 				.getTick()
@@ -350,7 +356,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 	}
 
 	int expectedValueQuantity = -1;
-	private int interval;
+	private int interval = -1;
 	private List<Value> values;
 
 	public List<Value> sortAndApplyPeriod(List<Value> values) {
@@ -359,6 +365,47 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		return modelUtils.valuesInsideRange(sortedCopy, dtr);
 	}
 
+	private void createXTickForInterval(Chart chart, int interval) {
+
+		String primaryDatePattern = "";
+//		String secondaryDatePattern = "";
+		String label = "";
+		switch (interval) {
+		case ModelUtils.MINUTES_IN_AN_HOUR: {
+			primaryDatePattern = "HH:mm";
+//			secondaryDatePattern = "dd-MMM";
+			label = "HOUR";
+		}
+			break;
+		default: {
+			primaryDatePattern = "HH:mm";
+			label = "UNKOWN";
+		}
+		}
+
+		// set the label.
+		chart.getAxisSet().getXAxis(0).getTitle().setText(label);
+
+		DateFormat primaryFormat = new SimpleDateFormat(primaryDatePattern);
+
+		IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
+		xTick.setTickMarkStepHint(10);
+		xTick.setFormat(primaryFormat);
+
+		// int secondaryAxisID = 1;
+		// if (chart.getAxisSet().getXAxes().length == 1) {
+		// secondaryAxisID = chart.getAxisSet().createXAxis();
+		// }
+		// IAxis xAxisSecondary = chart.getAxisSet().getXAxis(secondaryAxisID);
+		// xAxisSecondary.getTitle().setText("DAY");
+		// xAxisSecondary.getTick().setTickMarkStepHint(10);
+		//
+		// DateFormat secondaryFormat = new
+		// SimpleDateFormat(secondaryDatePattern);
+		// IAxisTick xTickSecondary = xAxisSecondary.getTick();
+		// xTickSecondary.setFormat(secondaryFormat);
+
+	}
 	/**
 	 * Get a Chart Lineseries from a Resource.
 	 * 
@@ -375,15 +422,12 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 				.createSeries(ISeries.SeriesType.LINE, "Metric");
 
 		metricLineSeries.setXDateSeries(dateArray);
-		DateFormat format = new SimpleDateFormat("ddMM HH:mm");
-		IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
-		xTick.setFormat(format);
-
+		metricLineSeries.enableArea(true);
 		metricLineSeries.setYSeries(metricValues);
 		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
 		return metricLineSeries;
 	}
-
+	
 	private ILineSeries seriesFromCapacity(Date[] dateArray,
 			double[] capacityValues, Chart chart) {
 
@@ -395,6 +439,8 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		capLineSeries.enableStep(true);
 		capLineSeries.setLineColor(Display.getDefault().getSystemColor(
 				SWT.COLOR_DARK_YELLOW));
+		capLineSeries.setLineWidth(2);
+		capLineSeries.setLineStyle(LineStyle.DASHDOT);
 		capLineSeries.setSymbolType(ILineSeries.PlotSymbolType.NONE);
 		return capLineSeries;
 
@@ -412,6 +458,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		utilLineSeries.setBarColor(Display.getDefault().getSystemColor(
 				SWT.COLOR_GREEN));
 		utilLineSeries.setBarPadding(50);
+
 		return utilLineSeries;
 	}
 
@@ -463,6 +510,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 				this.values = (List<Value>) object;
 			}
 			// buildUI();
+
 			initDataBindings_();
 		}
 
@@ -501,6 +549,8 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
+		frmChartScreen.setText("Resource: " + netXResource.getLongName());
+
 		initChartBinding();
 		initMarkersBinding();
 
@@ -536,12 +586,20 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		}
 	}
 
+	/*
+	 * Build a chart. The values to show are extracted from the injected
+	 * netXResource and interval. The metric values are sorted by period, and
+	 * split in consumable sub-ranges matching the interval. The UI allows to
+	 * select the sub-range.
+	 * 
+	 * For a sub-range the corresponding capacity and utilization a chart series
+	 * is produced.
+	 * 
+	 * The x-axis (xtick) is determined from the interval.
+	 */
 	private void initChartBinding() {
 
-		ISeriesSet seriesSet = chart.getSeriesSet();
-		for (ISeries serie : seriesSet.getSeries()) {
-			seriesSet.deleteSeries(serie.getId());
-		}
+		cleanChart();
 
 		// METRIC VALUES....
 		List<Value> metricValues = null;
@@ -558,9 +616,6 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 					return;
 
 			} else {
-				// if(netXResource.getMetricValueRanges().size() > 0 ){
-				// values = netXResource.getMetricValueRanges().get(0);
-				// }
 				return;
 			}
 
@@ -580,42 +635,52 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		// See the way it's done in the class ResourceReportingEngine/
 		// List<Date> dates = getTS();
 
-		List<Date> dates = modelUtils.transformValueToDate(metricValues);
-		Date[] dateArray = new Date[dates.size()];
-		dates.toArray(dateArray);
+		List<Date> metricValueDates = modelUtils
+				.transformValueToDate(metricValues);
+		Date[] dateArray = new Date[metricValueDates.size()];
+		metricValueDates.toArray(dateArray);
 
 		double[] metricDoubleValues = modelUtils
 				.transformValueToDoubleArray(metricValues);
 
-		//
+		createXTickForInterval(chart, interval);
+
 		this.seriesFromMetric(dateArray, metricDoubleValues, chart,
 				netXResource);
 
-		// TODO, Apply Period Filter.
+		DateTimeRange metricDTR = modelUtils.range(metricValues);
 
 		// CAP VALUES......
-		List<Value> capacities = netXResource.getCapacityValues();
-
-		// We should also filter the cap values.
-		if (dtr != null) {
-			capacities = this.sortAndApplyPeriod(capacities);
-		}
-
-		List<Value> capMatchingDates = Lists.newArrayList(capacities);
-		int capSize = capMatchingDates.size();
-		int delta = dates.size() - capSize;
-		if (capSize > 0 && delta > 0) {
-			Value lastVal = capMatchingDates.get(capSize - 1);
-			for (int i = capSize; i < dates.size(); i++) {
-				capMatchingDates.add(i, lastVal);
-			}
-		}
-
-		double[] capValues = modelUtils
-				.transformValueToDoubleArray(capMatchingDates);
-		this.seriesFromCapacity(dateArray, capValues, chart);
+		initCapacityRange(dateArray, metricDTR);
 
 		// UTIL VALUES.
+		initUtilizationRange(dateArray);
+
+		// TOL VALUES
+
+		// Tolerances are not stored.....
+		// this.seriesFromTolerance(chart, 1);
+
+		// Setup data binding.
+		// adjust the axis range
+		// chart.getAxisSet().getYAxes()[0].adjustRange();
+		// chart.getAxisSet().getYAxes()[1].adjustRange();
+		chart.getAxisSet().adjustRange();
+		// chart.redraw();
+	}
+
+	private void cleanChart() {
+
+		// Clear the series set.
+		ISeriesSet seriesSet = chart.getSeriesSet();
+		for (ISeries serie : seriesSet.getSeries()) {
+			seriesSet.deleteSeries(serie.getId());
+		}
+		// clear the axis.
+
+	}
+
+	private void initUtilizationRange(Date[] dateArray) {
 		List<Value> utilValues = sortAndApplyPeriod(netXResource
 				.getUtilizationValues());
 
@@ -630,17 +695,39 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 			this.seriesFromUtilization(dateArray, utilDoubleArray, chart, 1);
 
 		}
-		// TOL VALUES
-
-		// Tolerances are not stored.....
-		// this.seriesFromTolerance(chart, 1);
-
-		// Setup data binding.
-		// adjust the axis range
-		chart.getAxisSet().adjustRange();
-		chart.redraw();
 	}
 
+	private void initCapacityRange(Date[] dateArray,
+			DateTimeRange metricValuesDateTimeRange) {
+		List<Value> capacities = netXResource.getCapacityValues();
+		// Apply a period filter.
+		if (dtr != null) {
+			capacities = this.sortAndApplyPeriod(capacities);
+		}
+
+		List<Value> capMatchingDates = Lists.newArrayList(capacities);
+		int capSize = capMatchingDates.size();
+		if (capSize > 0 && capSize > dateArray.length) {
+			// we have more capacities then values, strip according
+			// to the metric value date time range, filling up the blanks.
+			// capMatchingDates = capacities.subList(0, dateArray.length);
+			capMatchingDates = modelUtils.valuesInsideRange(capMatchingDates,
+					metricValuesDateTimeRange);
+		}
+		capSize = capMatchingDates.size();
+		if (capSize > 0 && capSize < dateArray.length) {
+			Value lastVal = capMatchingDates.get(capSize - 1);
+			for (int i = capSize; i < dateArray.length; i++) {
+				capMatchingDates.add(i, lastVal);
+			}
+		}
+
+		double[] capValues = modelUtils
+				.transformValueToDoubleArray(capMatchingDates);
+		this.seriesFromCapacity(dateArray, capValues, chart);
+	}
+
+	// TODO Move to ModelUtils (Even when used).
 	@SuppressWarnings("unused")
 	private List<Date> getTS() {
 		List<Date> allTS = Lists.newArrayList();
@@ -722,20 +809,19 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 
 			ChartShowInContext chartInput = (ChartShowInContext) context
 					.getInput();
-			
+
 			// Clear our chart,
 			this.interval = chartInput.getInterval();
 			this.dtr = chartInput.getPeriod();
 			this.resMonitor = chartInput.getResourceMonitor();
 			ISelection selection = context.getSelection();
-			
-			// fire a wizard to selecte the range. 
+
+			// fire a wizard to select the range.
 			@SuppressWarnings("unused")
 			IWizard wiz = WizardUtil.openWizard(
-			"com.netxforge.netxstudio.screens.valueranges",
-			(IStructuredSelection) selection);
-			
-			
+					"com.netxforge.netxstudio.screens.valueranges",
+					(IStructuredSelection) selection);
+
 			if (selection instanceof IStructuredSelection) {
 				if (((IStructuredSelection) selection).getFirstElement() instanceof NetXResource) {
 					this.netXResource = (NetXResource) ((IStructuredSelection) selection)

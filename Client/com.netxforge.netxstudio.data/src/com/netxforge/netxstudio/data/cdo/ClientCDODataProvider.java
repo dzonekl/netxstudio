@@ -244,6 +244,7 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 			Expression weeklyRetentionExpression;
 			Expression dailyRetentionExpression;
 			Expression hourlyRetentionExpression;
+			Expression qHourlyRetentionExpression;
 
 			if (contents.size() == 1) {
 				return;
@@ -252,6 +253,10 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 						.createMetricRetentionRules();
 				contents.add(rules);
 				{
+					
+					// FIXME the expression which is not an assignment is not allowed any more in NetXScript. 
+					// The syntax should be....
+					
 					// Add all expressions.
 					{
 						// Monthly expression
@@ -310,14 +315,34 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 						expressionResource.getContents().add(
 								hourlyRetentionExpression);
 					}
-				}
+					
+					{
+						qHourlyRetentionExpression = LibraryFactory.eINSTANCE
+								.createExpression();
+						qHourlyRetentionExpression 
+								.setName("15 min. retention rule");
 
+						// Gets the max value from a range and assigns it to
+						// another
+						// range, clears the original range.
+						final String eAsString = "this METRIC HOUR = this METRIC 15 .max();\nthis METRIC 15 .clear();";
+						qHourlyRetentionExpression.getExpressionLines().addAll(
+								modelUtils.expressionLines(eAsString));
+						expressionResource.getContents().add(
+								qHourlyRetentionExpression);
+					}
+				}
+				
+				
+				// A bunch of retention rules for popular intervals. 
+				// typically a 15 minutes interval is not covered. 
 				if (rules.getMetricRetentionRules().size() == 0) {
 					{
 						MetricRetentionRule r = MetricsFactory.eINSTANCE
 								.createMetricRetentionRule();
 						r.setName("Monthly values");
 						r.setPeriod(MetricRetentionPeriod.ALWAYS);
+						r.setIntervalHint(ModelUtils.SECONDS_IN_A_MONTH);
 						rules.getMetricRetentionRules().add(r);
 					}
 					{
@@ -325,6 +350,7 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 								.createMetricRetentionRule();
 						r.setName("Weekly values");
 						r.setPeriod(MetricRetentionPeriod.ALWAYS);
+						r.setIntervalHint(ModelUtils.SECONDS_IN_A_WEEK);
 						r.setRetentionExpression(weeklyRetentionExpression);
 						rules.getMetricRetentionRules().add(r);
 					}
@@ -333,6 +359,7 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 								.createMetricRetentionRule();
 						r.setName("Daily values");
 						r.setPeriod(MetricRetentionPeriod.ONE_MONTH);
+						r.setIntervalHint(ModelUtils.SECONDS_IN_A_DAY);
 						r.setRetentionExpression(dailyRetentionExpression);
 						rules.getMetricRetentionRules().add(r);
 
@@ -342,9 +369,22 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 								.createMetricRetentionRule();
 						r.setName("Hourly values");
 						r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
+						r.setIntervalHint(ModelUtils.SECONDS_IN_AN_HOUR);
 						r.setRetentionExpression(hourlyRetentionExpression);
 						rules.getMetricRetentionRules().add(r);
 					}
+					
+					{
+						MetricRetentionRule r = MetricsFactory.eINSTANCE
+								.createMetricRetentionRule();
+						r.setName("15 minutes values");
+						r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
+						r.setIntervalHint(ModelUtils.SECONDS_IN_15MIN);
+						r.setRetentionExpression(qHourlyRetentionExpression);
+						rules.getMetricRetentionRules().add(r);
+
+					}
+
 
 					final RetentionJob retentionJob = SchedulingFactory.eINSTANCE
 							.createRetentionJob();

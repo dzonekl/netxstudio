@@ -84,60 +84,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		columnLayout.maxNumColumns = 1;
 		frmDataRetention.getBody().setLayout(columnLayout);
 
-		Section sctnControl = toolkit.createSection(frmDataRetention.getBody(),
-				Section.TITLE_BAR);
-		sctnControl.setText("Control");
-		// FormData fd_sctnControl = new FormData();
-		// fd_sctnControl.top = new FormAttachment(0, 10);
-		// fd_sctnControl.left = new FormAttachment(0, 10);
-		// sctnControl.setLayoutData(fd_sctnControl);
-		toolkit.paintBordersFor(sctnControl);
-
-		Composite composite = toolkit.createComposite(sctnControl, SWT.NONE);
-		toolkit.paintBordersFor(composite);
-		sctnControl.setClient(composite);
-		composite.setLayout(new GridLayout(1, false));
-
-		ImageHyperlink mghprlnkInvokeDataRetention = toolkit
-				.createImageHyperlink(composite, SWT.NONE);
-		mghprlnkInvokeDataRetention
-				.addHyperlinkListener(new IHyperlinkListener() {
-					public void linkActivated(HyperlinkEvent e) {
-						try {
-							serverActions
-									.setCDOServer(editingService
-											.getDataService().getProvider()
-											.getServer());
-							// TODO, We get the workflow run ID back, which
-							// could be used
-							// to link back to the screen showing the running
-							// workflows.
-
-							@SuppressWarnings("unused")
-							String result = serverActions.callRetentionAction();
-							MessageDialog.openInformation(
-									Retention.this.getShell(),
-									"Data retention action invoked",
-									"Clear data invoked on the server");
-
-						} catch (Exception e1) {
-							e1.printStackTrace();
-							MessageDialog.openError(Retention.this.getShell(),
-									"Data retention action failed:",
-									"Remote service is not available");
-
-						}
-
-					}
-
-					public void linkEntered(HyperlinkEvent e) {
-					}
-
-					public void linkExited(HyperlinkEvent e) {
-					}
-				});
-		toolkit.paintBordersFor(mghprlnkInvokeDataRetention);
-		mghprlnkInvokeDataRetention.setText("Invoke data retention rules now");
+//		buildRunRetentionRulesSection();
 
 		Section sctnRules = toolkit.createSection(frmDataRetention.getBody(),
 				Section.TITLE_BAR);
@@ -170,6 +117,66 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 						"<form><p>Settings for data retention, keep value data for:</p>\n<p/></form>",
 						true, false);
 	}
+	
+	
+	
+	// CB 17-07 2012, Decided not to allow this operation in this screen. 
+	// It would start a server side job, without showing feedback, the job can be scheduled instead. 
+	@SuppressWarnings("unused")
+	private void buildRunRetentionRulesSection() {
+		Section sctnControl = toolkit.createSection(frmDataRetention.getBody(),
+				Section.TITLE_BAR);
+		sctnControl.setText("Control");
+		// FormData fd_sctnControl = new FormData();
+		// fd_sctnControl.top = new FormAttachment(0, 10);
+		// fd_sctnControl.left = new FormAttachment(0, 10);
+		// sctnControl.setLayoutData(fd_sctnControl);
+		toolkit.paintBordersFor(sctnControl);
+
+		Composite composite = toolkit.createComposite(sctnControl, SWT.NONE);
+		toolkit.paintBordersFor(composite);
+		sctnControl.setClient(composite);
+		composite.setLayout(new GridLayout(1, false));
+
+		ImageHyperlink mghprlnkInvokeDataRetention = toolkit
+				.createImageHyperlink(composite, SWT.NONE);
+		mghprlnkInvokeDataRetention
+				.addHyperlinkListener(new IHyperlinkListener() {
+					public void linkActivated(HyperlinkEvent e) {
+						try {
+							serverActions
+									.setCDOServer(editingService
+											.getDataService().getProvider()
+											.getServer());
+							// TODO, We get the workflow run ID back, which
+							// could be used
+							// to link back to the screen showing the running
+							// workflows.
+							String result = serverActions.callRetentionAction();
+							MessageDialog.openInformation(
+									Retention.this.getShell(),
+									"Data retention action invoked",
+									"Clear data invoked on the server");
+
+						} catch (Exception e1) {
+							e1.printStackTrace();
+							MessageDialog.openError(Retention.this.getShell(),
+									"Data retention action failed:",
+									"Remote service is not available");
+
+						}
+
+					}
+
+					public void linkEntered(HyperlinkEvent e) {
+					}
+
+					public void linkExited(HyperlinkEvent e) {
+					}
+				});
+		toolkit.paintBordersFor(mghprlnkInvokeDataRetention);
+		mghprlnkInvokeDataRetention.setText("Invoke data retention rules now");
+	}
 
 	private void launchExpressionScreen(MetricRetentionRule retention) {
 		if (retention != null) {
@@ -184,12 +191,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 				expressionScreen.setOperation(ScreenUtil.OPERATION_EDIT);
 			}
 			expressionScreen.setScreenService(screenService);
-			expressionScreen
-					.injectData(
-							null,
-							retention,
-							MetricsPackage.Literals.METRIC_RETENTION_RULE__RETENTION_EXPRESSION,
-							expression);
+			expressionScreen.injectData(expression.eResource(), expression);
 			screenService.setActiveScreen(expressionScreen);
 		}
 	}
@@ -211,8 +213,8 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		return context;
 	}
 
-	private void addUIForRule(Composite cmpRules, final MetricRetentionRule rule,
-			EMFDataBindingContext context,
+	private void addUIForRule(Composite cmpRules,
+			final MetricRetentionRule rule, EMFDataBindingContext context,
 			IEMFValueProperty retentionPeriodProperty,
 			IValueProperty selectionProperty) {
 

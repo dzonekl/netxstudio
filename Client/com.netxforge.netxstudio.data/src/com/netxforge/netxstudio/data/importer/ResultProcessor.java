@@ -799,8 +799,7 @@ public class ResultProcessor {
 	 * FIXME CB: Values are removed if Period is specified and then matched on
 	 * timestamp, which would only exist, if not removed. If Period is not
 	 * provided (i.e. Metric Source Importer does that). than the value is
-	 * always matched with an existing one first.
-	 * 
+	 * always matched with an existing one first
 	 * 
 	 * 
 	 * @param foundNetXResource
@@ -826,8 +825,9 @@ public class ResultProcessor {
 		if (DataActivator.DEBUG) {
 			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_HELPER_OPTION,
 					"-- Located/create value range for resource : "
-							+ foundNetXResource.getShortName()
-							+ " range size = " + mvr.getMetricValues().size());
+							+ foundNetXResource.getShortName() + "interval="
+							+ intervalHint + " range size = "
+							+ mvr.getMetricValues().size());
 		}
 
 		if (start != null && end != null) {
@@ -844,11 +844,28 @@ public class ResultProcessor {
 		// TODO Should filter for period, as we will other try to match the time
 		// against the whole range.
 		addToValues(mvr.getMetricValues(), newValues, intervalHint);
+
+		if (DataActivator.DEBUG) {
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_IMPORT_HELPER_OPTION,
+					"-- range for resource (after add): "
+							+ foundNetXResource.getShortName() + "interval="
+							+ intervalHint + " range size = "
+							+ mvr.getMetricValues().size());
+		}
 	}
 
 	public void addToValues(EList<Value> values, List<Value> newValues,
 			int intervalHint) {
 		for (final Value newValue : new ArrayList<Value>(newValues)) {
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_HELPER_OPTION,
+						"-- Attempt to add value within interval ("
+								+ intervalHint + " min.), "
+								+ modelUtils.value(newValue));
+			}
+
 			addToValues(values, newValue, intervalHint);
 		}
 	}
@@ -862,6 +879,9 @@ public class ResultProcessor {
 		final long timeInMillis = value.getTimeStamp().toGregorianCalendar()
 				.getTimeInMillis();
 		Value foundValue = null;
+		
+		// Use a query instead. 
+		
 		for (final Value lookValue : currentValues) {
 			if (isSameTime(intervalHint, timeInMillis, lookValue.getTimeStamp())) {
 				foundValue = lookValue;
@@ -872,10 +892,14 @@ public class ResultProcessor {
 		if (foundValue != null) {
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(
-						DataActivator.TRACE_IMPORT_HELPER_OPTION,"-- found value within interval ("
-						+ intervalHint + " min.), while storing value="
-						+ foundValue.getValue() + " , original timestamp="
-						+ modelUtils.dateAndTime(foundValue.getTimeStamp()));
+						DataActivator.TRACE_IMPORT_HELPER_OPTION,
+						"-- found value within interval ("
+								+ intervalHint
+								+ " min.), while storing value="
+								+ foundValue.getValue()
+								+ " , original timestamp="
+								+ modelUtils.dateAndTime(foundValue
+										.getTimeStamp()));
 			}
 			// Same timestamp, different value!
 			foundValue.setValue(value.getValue());
@@ -883,34 +907,50 @@ public class ResultProcessor {
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_IMPORT_HELPER_OPTION,
-						"-- no values within interval  ("
-						+ intervalHint + " min.), while storing value="
-						+ value.getValue() + " , timestamp="
-						+ modelUtils.dateAndTime(value.getTimeStamp()));
+						"-- no values within interval  (" + intervalHint
+								+ " min.), while storing value="
+								+ value.getValue() + " , timestamp="
+								+ modelUtils.dateAndTime(value.getTimeStamp()));
 			}
-			// New timestamp, new value. 
+			// New timestamp, new value.
 			currentValues.add(value);
 		}
 	}
 
 	/**
 	 * The IntervalHint is required if to compare the difference is less than
-	 * the interval.
+	 * the interval. For an Interval hint which corresponding to an HOUR, the
+	 * equality also considers in-between values.
+	 * 
+	 * Note: This function doesn't consider interval boundaries, as the
+	 * comparison uses the time representation, from Date.
+	 * 
 	 * 
 	 * @param intervalHint
+	 *            in Minutes
 	 * @param time1
 	 * @param time2
 	 * @return
 	 */
 	private boolean isSameTime(int intervalHint, long time1,
 			XMLGregorianCalendar time2) {
+
 		long diff = time1 - time2.toGregorianCalendar().getTimeInMillis();
+
+		// make the diff value absolute.
 		if (diff < 0) {
 			diff = diff * -1;
 		}
-		// Substract one second, to make sure we really do not skip closely
-		// related entries.
-		return diff < ((intervalHint * 60 * 1000) - 1000);
+
+		if (intervalHint == ModelUtils.MINUTES_IN_AN_HOUR) {
+			// Substract one second, to make sure we really do not skip closely
+			// related entries.
+			boolean isDiff = diff < ((intervalHint * 60 * 1000) - 1000);
+			return isDiff;
+		} else {
+			return diff == 0; // exact equal timestamp.
+		}
+
 	}
 
 	// from ModelUtils.

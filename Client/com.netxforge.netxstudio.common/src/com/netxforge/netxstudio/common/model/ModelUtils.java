@@ -78,6 +78,8 @@ import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricRetentionPeriod;
+import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -113,14 +115,19 @@ public class ModelUtils {
 	public static final String TIME_PATTERN_3 = "hh:mm:ss"; // AM PM
 	public static final String TIME_PATTERN_4 = "hh:mm"; // AM PM
 
-	public static final String TIM_PATTERN_5 = "a"; // AM PM marker.
+	public static final String TIME_PATTERN_5 = "a"; // AM PM marker.
 	public static final String DEFAULT_DATE_TIME_PATTERN = "MM/dd/yyyy HH:mm:ss";
 
 	public static final int SECONDS_IN_A_MINUTE = 60;
-	public static final int SECONDS_IN_A_QUARTER = SECONDS_IN_A_MINUTE * 15;
+	public static final int SECONDS_IN_15MIN = SECONDS_IN_A_MINUTE * 15;
 	public static final int SECONDS_IN_AN_HOUR = SECONDS_IN_A_MINUTE * 60;
 	public static final int SECONDS_IN_A_DAY = SECONDS_IN_AN_HOUR * 24;
 	public static final int SECONDS_IN_A_WEEK = SECONDS_IN_A_DAY * 7;
+
+	/**
+	 * this is seconds in 4 weeks. Should be use only as an interval rule.
+	 */
+	public static final int SECONDS_IN_A_MONTH = SECONDS_IN_A_DAY * 30;
 
 	public static final int MINUTES_IN_AN_HOUR = 60;
 	public static final int MINUTES_IN_A_DAY = 60 * 24;
@@ -139,7 +146,7 @@ public class ModelUtils {
 	public static final String NODE = "NODE";
 
 	private static final int MAX_CHANGE_LENGTH = 2000;
-	
+
 	public static final Iterable<String> MAPPING_NODE_ATTRIBUTES = ImmutableList
 			.of(NETWORK_ELEMENT_ID);
 	public static final Iterable<String> MAPPING_REL_ATTRIBUTES = ImmutableList
@@ -184,6 +191,15 @@ public class ModelUtils {
 
 	public ValueValueComparator valueValueCompare() {
 		return new ValueValueComparator();
+	}
+
+	public String value(Value v) {
+		StringBuffer sb = new StringBuffer();
+		if (v == null)
+			return "";
+		sb.append("v=" + v.getValue() + ", ");
+		sb.append("ts=" + dateAndTime(v.getTimeStamp()));
+		return sb.toString();
 	}
 
 	/**
@@ -347,6 +363,153 @@ public class ModelUtils {
 		Iterable<Value> filterValues = Iterables.filter(unfiltered,
 				valueInsideRange(from, to));
 		return Lists.newArrayList(filterValues);
+	}
+
+	/**
+	 * Gets a range from a bunch of values. The values are sorted first. The
+	 * values should not be empty.
+	 * 
+	 * @param values
+	 * @return
+	 */
+	public DateTimeRange range(List<Value> values) {
+
+		if (values.isEmpty()) {
+			return null;
+
+		}
+		List<Value> sortValuesByTimeStamp = sortValuesByTimeStamp(values);
+		DateTimeRange createDateTimeRange = GenericsFactory.eINSTANCE
+				.createDateTimeRange();
+		createDateTimeRange.setBegin(sortValuesByTimeStamp.get(0)
+				.getTimeStamp());
+		createDateTimeRange.setEnd(sortValuesByTimeStamp.get(
+				sortValuesByTimeStamp.size() - 1).getTimeStamp());
+		
+		return createDateTimeRange;
+	}
+
+	public List<List<Value>> splitValueRange(List<Value> values, int srcInterval) {
+		return this.splitValueRange(values, srcInterval, -1);
+	}
+
+	/**
+	 * Split the value range, in subranges for the provided interval boundaries.
+	 * So a Day interval will split the value range containing hourly values in
+	 * sub ranges containing a maximum quantity of values which is lesser or
+	 * equal of a day. (23)
+	 * 
+	 * @param values
+	 * @param srcInterval
+	 *            in minutes.
+	 * @return
+	 */
+	public List<List<Value>> splitValueRange(List<Value> values,
+			int srcInterval, int targetInterval) {
+
+		int field = fieldForInterval(srcInterval, targetInterval);
+
+		List<List<Value>> newArrayList = Lists.newArrayList();
+		List<Value> nextSequence = Lists.newArrayList();
+
+		// we expect at least one value, so we can safely add the first
+		// sequence.
+		if (!values.isEmpty()) {
+			newArrayList.add(nextSequence);
+		}
+		Iterator<Value> iterator = values.iterator();
+
+		GregorianCalendar cal = null;
+		int actualMaximum = -1;
+		// int actualMinimum = -1;
+
+		while (iterator.hasNext()) {
+			Value v = iterator.next();
+			cal = v.getTimeStamp().toGregorianCalendar();
+			if (actualMaximum == -1) {
+				actualMaximum = cal.getActualMaximum(field);
+				// actualMinimum = cal.getActualMinimum(field);
+			}
+			int fieldValue = cal.get(field);
+			// Get the relevant field for this timestamp. the value for the
+			// corresponding field
+			// is pushed until the max value.
+			if (fieldValue == actualMaximum) {
+				nextSequence.add(v);
+				if (iterator.hasNext()) {
+					nextSequence = Lists.newArrayList();
+					newArrayList.add(nextSequence);
+				}
+				continue;
+			} else if (fieldValue < actualMaximum) {
+				nextSequence.add(v);
+				continue;
+			} else {
+				// it should nog get here.
+				throw new IllegalStateException(
+						"interval out of bounds, for value=" + this.value(v));
+			}
+		}
+
+		return newArrayList;
+	}
+
+	/**
+	 * The IntervalHint is required if to compare the difference is less than
+	 * the interval.
+	 * 
+	 * @param intervalHint
+	 *            in Minutes
+	 * @param time1
+	 * @param time2
+	 * @return
+	 * @deprecated DO NOT USE, WORK IN PROGRESS.
+	 */
+	public boolean isSameTime(int intervalHint, Date d1, Date d2) {
+
+		Calendar instance = Calendar.getInstance();
+		instance.setTime(d1);
+
+		// Get the next timestamp for this interval,
+
+		@SuppressWarnings("unused")
+		int fieldForInterval = this.fieldForInterval(intervalHint, -1);
+
+		return false;
+	}
+
+	/**
+	 * Return a Calendar field value which corresponds to the source interval
+	 * provided in minutes. The target Interval is used for some source interval
+	 * only. (Like Day, could be day of the week or day of the month), if the
+	 * target Interval is not specified (-1), day of the month is the default.
+	 * 
+	 * @param srcInterval
+	 * @param targetInterval
+	 * @return
+	 */
+	public int fieldForInterval(int srcInterval, int targetInterval) {
+
+		switch (srcInterval) {
+		case MINUTES_IN_AN_HOUR: // one hour interval.
+			return Calendar.HOUR_OF_DAY;
+		case MINUTES_IN_A_DAY: { // one day interval
+			switch (targetInterval) {
+			case MINUTES_IN_A_MONTH:
+			case -1:
+				return Calendar.DAY_OF_MONTH;
+			case MINUTES_IN_A_WEEK:
+				return Calendar.DAY_OF_WEEK;
+			}
+		}
+		case MINUTES_IN_A_WEEK:
+			return Calendar.WEEK_OF_YEAR;
+		case MINUTES_IN_A_MONTH: {
+			return Calendar.MONTH;
+		}
+		default:
+			return -1;
+		}
 	}
 
 	public class NonHiddenFile implements Predicate<File> {
@@ -759,10 +922,15 @@ public class ModelUtils {
 
 	}
 
+	/**
+	 * Sorts a list of value in chronological order. (oldest first).
+	 * 
+	 * @param values
+	 * @return
+	 */
 	public List<Value> sortValuesByTimeStamp(List<Value> values) {
 		List<Value> sortedCopy = Ordering.from(valueTimeStampCompare())
 				.sortedCopy(values);
-
 		return sortedCopy;
 
 	}
@@ -2239,7 +2407,7 @@ public class ModelUtils {
 	public Date daysAgo(int days) {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.DAY_OF_YEAR, days);
+		cal.add(Calendar.DAY_OF_YEAR, -days);
 		return cal.getTime();
 
 	}
@@ -2357,7 +2525,7 @@ public class ModelUtils {
 					return ModelUtils.SECONDS_IN_AN_HOUR;
 				}
 				if (from.equals("Quarter")) {
-					return ModelUtils.SECONDS_IN_A_QUARTER;
+					return ModelUtils.SECONDS_IN_15MIN;
 				}
 
 				if (from.endsWith("min")) {
@@ -2386,10 +2554,21 @@ public class ModelUtils {
 		return this.fromSeconds(minutes * 60);
 	}
 
+	/**
+	 * Convert in an interval in seconds to a String value. The Week, Day and
+	 * Hour values in seconds are converted to the respective screen. Any other
+	 * value is converted to the number of minutes with a "min" prefix.
+	 * 
+	 * @param secs
+	 * @return
+	 */
 	public String fromSeconds(int secs) {
 		final Function<Integer, String> getFieldInSeconds = new Function<Integer, String>() {
 			public String apply(Integer from) {
 
+				if (from.equals(ModelUtils.SECONDS_IN_A_MONTH)) {
+					return "Month";
+				}
 				if (from.equals(ModelUtils.SECONDS_IN_A_WEEK)) {
 					return "Week";
 				}
@@ -3076,6 +3255,43 @@ public class ModelUtils {
 		return doubles;
 	}
 
+	/**
+	 * Converts the detention period for {@link MetricRetentionRule}.
+	 * 
+	 * @param rule
+	 * @return
+	 */
+	public DateTimeRange getDTRForRetentionRule(MetricRetentionRule rule) {
+		DateTimeRange dtr = null;
+		switch (rule.getPeriod().getValue()) {
+		case MetricRetentionPeriod.ALWAYS_VALUE: {
+			// DTR is not set.
+		}
+			break;
+		case MetricRetentionPeriod.ONE_MONTH_VALUE: {
+			dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
+			dtr.setBegin(toXMLDate(oneWeekAgo()));
+			dtr.setEnd(toXMLDate(todayAndNow()));
+		}
+			break;
+		case MetricRetentionPeriod.ONE_WEEK_VALUE: {
+		}
+			dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
+			dtr.setBegin(toXMLDate(oneMonthAgo()));
+			dtr.setEnd(toXMLDate(todayAndNow()));
+
+			break;
+
+		}
+		return dtr;
+	}
+
+	/**
+	 * Get hourly timestamps in weekly chunks.
+	 * 
+	 * @param dtr
+	 * @return
+	 */
 	public Multimap<Integer, XMLGregorianCalendar> hourlyTimeStampsByWeekFor(
 			DateTimeRange dtr) {
 

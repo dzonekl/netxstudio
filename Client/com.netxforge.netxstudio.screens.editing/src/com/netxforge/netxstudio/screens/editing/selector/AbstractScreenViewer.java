@@ -182,28 +182,8 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 	}
 	
 	public boolean show(ShowInContext context) {
-		
 		// delegate to the screen. 
 		return getScreen().handleShowIn(context);
-//		
-//		if( ScreenUtil.isDataScreenInjection(getScreen())) {
-//			ISelection selection = context.getSelection();
-//			if(selection instanceof IStructuredSelection){
-//				
-//				// TODO ... HACK.....
-//				Object firstElement = ((IStructuredSelection) selection).getFirstElement();
-//				System.out.println(" show-in" + firstElement.getClass().getSimpleName());
-//				
-//				if(firstElement instanceof NetXResource){
-//					
-//					MetricValueRange mvr = modelUtils.valueRangeForInterval((NetXResource) firstElement, 60);
-//					if(ScreenUtil.isDataScreenInjection(getScreen())){
-//						ScreenUtil.dataScreenInjectionFor(getScreen()).injectData(firstElement, mvr.getMetricValues());
-//					}
-//				}
-//			}
-//			
-//		}
 	}
 	
 }

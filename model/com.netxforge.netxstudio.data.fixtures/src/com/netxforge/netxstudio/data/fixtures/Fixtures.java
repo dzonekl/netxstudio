@@ -18,12 +18,15 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.fixtures;
 
+import java.util.List;
+
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
@@ -50,6 +53,7 @@ import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -132,141 +136,160 @@ public class Fixtures implements IFixtures {
 				.getResource(MetricsPackage.Literals.METRIC_RETENTION_RULES);
 		Resource expressionResource = dataProvider
 				.getResource(LibraryPackage.Literals.EXPRESSION);
-		// add to the job resource, that one is watched by the jobhandler
-		Resource retentionResource = dataProvider
-				.getResource(SchedulingPackage.Literals.JOB);
 
-		EList<EObject> contents = retentionRulesResource.getContents();
+		EList<EObject> rulesContents = retentionRulesResource.getContents();
 
+		Expression monthlyRetentionExpression;
 		Expression weeklyRetentionExpression;
 		Expression dailyRetentionExpression;
 		Expression hourlyRetentionExpression;
 
-		if (contents.size() == 1) {
-			return;
-		} else {
-			MetricRetentionRules rules = MetricsFactory.eINSTANCE
-					.createMetricRetentionRules();
-			contents.add(rules);
+		// always reset for now.
+		rulesContents.clear();
+
+		// if (contents.size() == 1) {
+		// return;
+		// } else {
+		MetricRetentionRules rules = MetricsFactory.eINSTANCE
+				.createMetricRetentionRules();
+		rulesContents.add(rules);
+		{
+
+			// TODO, Adapt to context.
 			{
-				
-				// TODO, Adapt to context. 
-				
-				// Add all expressions.
-				{
-					// Monthly expression
-					weeklyRetentionExpression = LibraryFactory.eINSTANCE
-							.createExpression();
-					weeklyRetentionExpression.setName("Weekly retention rule");
+				// Monthly expression
+				monthlyRetentionExpression = LibraryFactory.eINSTANCE
+						.createExpression();
+				monthlyRetentionExpression.setName("Monthly retention rule");
 
-					// Gets the max value from a range and assigns it to
-					// another
-					// range, clears the original range.
-					final String eAsString = "this METRIC "
-							+ ModelUtils.MINUTES_IN_A_MONTH + " = this METRIC "
-							+ ModelUtils.MINUTES_IN_A_WEEK
-							+ " .max();this METRIC "
-							+ ModelUtils.MINUTES_IN_A_WEEK + " .clear();";
-					weeklyRetentionExpression.getExpressionLines().addAll(
-							modelUtils.expressionLines(eAsString));
-					expressionResource.getContents().add(
-							weeklyRetentionExpression);
-				}
-				{
-					dailyRetentionExpression = LibraryFactory.eINSTANCE
-							.createExpression();
-					dailyRetentionExpression.setName("Daily retention rule");
+				// Gets the max value from a range and assigns it to
+				// another
+				// range, clears the original range.
+				final String eAsString = "this METRIC AVG MONTH = this METRIC AVG DAY.max();";
+				monthlyRetentionExpression.getExpressionLines().addAll(
+						modelUtils.expressionLines(eAsString));
+				expressionResource.getContents()
+						.add(monthlyRetentionExpression);
+			}
+			{
+				// Monthly expression
+				weeklyRetentionExpression = LibraryFactory.eINSTANCE
+						.createExpression();
+				weeklyRetentionExpression.setName("Weekly retention rule");
 
-					// Gets the max value from a range and assigns it to
-					// another
-					// range, clears the original range.
-					final String eAsString = "this METRIC "
-							+ ModelUtils.MINUTES_IN_A_WEEK + " = this METRIC "
-							+ ModelUtils.MINUTES_IN_A_DAY
-							+ " .max();this METRIC "
-							+ ModelUtils.MINUTES_IN_A_DAY + " .clear();";
-					dailyRetentionExpression.getExpressionLines().addAll(
-							modelUtils.expressionLines(eAsString));
-					expressionResource.getContents().add(
-							dailyRetentionExpression);
-				}
+				// Gets the max value from a range and assigns it to
+				// another
+				// range, clears the original range.
+				final String eAsString = "this METRIC AVG WEEK = this METRIC AVG DAY.max();";
+				weeklyRetentionExpression.getExpressionLines().addAll(
+						modelUtils.expressionLines(eAsString));
+				expressionResource.getContents().add(weeklyRetentionExpression);
+			}
+			{
+				dailyRetentionExpression = LibraryFactory.eINSTANCE
+						.createExpression();
+				dailyRetentionExpression.setName("Daily retention rule");
 
-				{
-					hourlyRetentionExpression = LibraryFactory.eINSTANCE
-							.createExpression();
-					hourlyRetentionExpression.setName("Hourly retention rule");
-
-					// Gets the max value from a range and assigns it to
-					// another
-					// range, clears the original range.
-					final String eAsString = "this METRIC DAY = this METRIC HOUR .max();\nthis METRIC HOUR .clear();";
-					hourlyRetentionExpression.getExpressionLines().addAll(
-							modelUtils.expressionLines(eAsString));
-					expressionResource.getContents().add(
-							hourlyRetentionExpression);
-				}
+				// Gets the max value from a range and assigns it to
+				// another
+				// range, clears the original range.
+				final String eAsString = "this METRIC AVG DAY = this METRIC AVG HOUR.max();";
+				dailyRetentionExpression.getExpressionLines().addAll(
+						modelUtils.expressionLines(eAsString));
+				expressionResource.getContents().add(dailyRetentionExpression);
 			}
 
-			if (rules.getMetricRetentionRules().size() == 0) {
-				{
-					MetricRetentionRule r = MetricsFactory.eINSTANCE
-							.createMetricRetentionRule();
-					r.setName("Monthly values");
-					r.setPeriod(MetricRetentionPeriod.ALWAYS);
-					rules.getMetricRetentionRules().add(r);
-				}
-				{
-					MetricRetentionRule r = MetricsFactory.eINSTANCE
-							.createMetricRetentionRule();
-					r.setName("Weekly values");
-					r.setPeriod(MetricRetentionPeriod.ALWAYS);
-					r.setRetentionExpression(weeklyRetentionExpression);
-					rules.getMetricRetentionRules().add(r);
-				}
-				{
-					MetricRetentionRule r = MetricsFactory.eINSTANCE
-							.createMetricRetentionRule();
-					r.setName("Daily values");
-					r.setPeriod(MetricRetentionPeriod.ONE_MONTH);
-					r.setRetentionExpression(dailyRetentionExpression);
-					rules.getMetricRetentionRules().add(r);
+			{
+				hourlyRetentionExpression = LibraryFactory.eINSTANCE
+						.createExpression();
+				hourlyRetentionExpression.setName("Hourly retention rule");
 
-				}
-				{
-					MetricRetentionRule r = MetricsFactory.eINSTANCE
-							.createMetricRetentionRule();
-					r.setName("Hourly values");
-					r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
-					r.setRetentionExpression(hourlyRetentionExpression);
-					rules.getMetricRetentionRules().add(r);
-				}
-
-				final RetentionJob retentionJob = SchedulingFactory.eINSTANCE
-						.createRetentionJob();
-				retentionJob.setJobState(JobState.IN_ACTIVE);
-				retentionJob.setStartTime(modelUtils.toXMLDate(modelUtils
-						.tomorrow()));
-				retentionJob.setInterval(600);
-				retentionJob.setName("Data Retention");
-				retentionResource.getContents().add(retentionJob);
+				// Gets the max value from a range and assigns it to
+				// another
+				// range, clears the original range.
+				final String eAsString = "this METRIC AVG DAY = this METRIC 15 .max();";
+				hourlyRetentionExpression.getExpressionLines().addAll(
+						modelUtils.expressionLines(eAsString));
+				expressionResource.getContents().add(hourlyRetentionExpression);
 			}
-
 		}
+
+		if (rules.getMetricRetentionRules().size() == 0) {
+			{
+				MetricRetentionRule r = MetricsFactory.eINSTANCE
+						.createMetricRetentionRule();
+				r.setName("Monthly values");
+				r.setPeriod(MetricRetentionPeriod.ALWAYS);
+				r.setRetentionExpression(monthlyRetentionExpression);
+				rules.getMetricRetentionRules().add(r);
+			}
+			{
+				MetricRetentionRule r = MetricsFactory.eINSTANCE
+						.createMetricRetentionRule();
+				r.setName("Weekly values");
+				r.setPeriod(MetricRetentionPeriod.ALWAYS);
+				r.setRetentionExpression(weeklyRetentionExpression);
+				rules.getMetricRetentionRules().add(r);
+			}
+			{
+				MetricRetentionRule r = MetricsFactory.eINSTANCE
+						.createMetricRetentionRule();
+				r.setName("Daily values");
+				r.setPeriod(MetricRetentionPeriod.ONE_MONTH);
+				r.setRetentionExpression(dailyRetentionExpression);
+				rules.getMetricRetentionRules().add(r);
+
+			}
+			{
+				MetricRetentionRule r = MetricsFactory.eINSTANCE
+						.createMetricRetentionRule();
+				r.setName("Hourly values");
+				r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
+				r.setRetentionExpression(hourlyRetentionExpression);
+				rules.getMetricRetentionRules().add(r);
+			}
+
+			// Add the retention job, if non-existing.
+			Resource jobResource = dataProvider
+					.getResource(SchedulingPackage.Literals.JOB);
+
+			List<Job> jobsToRemove = Lists.newArrayList();
+			for (EObject eo : jobResource.getContents()) {
+				if (eo instanceof RetentionJob) {
+					jobsToRemove.add((RetentionJob) eo);
+				}
+			}
+
+			if (jobsToRemove.size() > 0) {
+				jobResource.getContents().removeAll(jobsToRemove);
+			}
+			
+			// Add the retention job.
+			final RetentionJob retentionJob = SchedulingFactory.eINSTANCE
+					.createRetentionJob();
+			retentionJob.setJobState(JobState.IN_ACTIVE);
+			retentionJob.setStartTime(modelUtils.toXMLDate(modelUtils
+					.tomorrow()));
+			retentionJob.setInterval(600);
+			retentionJob.setName("Data Retention");
+			jobResource.getContents().add(retentionJob);
+		}
+
+		// }
 	}
 
 	private void loadRoles() {
 
 		final CDOResource rolesResource = (CDOResource) dataProvider
 				.getResource(GenericsPackage.Literals.ROLE);
-		
 
 		if (rolesResource.getContents().size() > 0) {
 			return;
 		}
-		
+
 		final CDOResource userResource = (CDOResource) dataProvider
 				.getResource(GenericsPackage.Literals.PERSON);
-		
+
 		// Add the fixture roles.
 		{
 			final Role r = GenericsFactory.eINSTANCE.createRole();
