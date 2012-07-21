@@ -14,4 +14,3 @@ com.netxforge.netxstudio.server.metrics/trace.import=true
 com.netxforge.netxstudio.data/trace.import=true
 com.netxforge.netxstudio.data/trace.import.locator=true
 com.netxforge.netxstudio.data/trace.import.helper=true
-
