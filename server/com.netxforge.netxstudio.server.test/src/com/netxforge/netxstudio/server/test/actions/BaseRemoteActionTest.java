@@ -51,7 +51,7 @@ import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService;
 import com.netxforge.netxstudio.server.logic.retention.RetentionService;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
-import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTest;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 
@@ -61,7 +61,7 @@ import com.netxforge.netxstudio.services.Service;
  * 
  * @author Martin Taal
  */
-public abstract class BaseRemoteActionTest extends AbstractDataProviderTest {
+public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit3 {
 
 	private static final long ONE_DAY = 24 * 60 * 60 * 1000;
 

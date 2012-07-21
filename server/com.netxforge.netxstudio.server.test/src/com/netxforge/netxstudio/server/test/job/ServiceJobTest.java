@@ -36,7 +36,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTest;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServicesFactory;
@@ -47,7 +47,7 @@ import com.netxforge.netxstudio.services.ServicesFactory;
  * @author dzonekl
  * 
  */
-public class ServiceJobTest extends AbstractDataProviderTest {
+public class ServiceJobTest extends AbstractInjectedTestJUnit3 {
 
 	private static final String RFS_NAME = "Speech";
 	private static final String OPERATOR_NAME = "tmnl";

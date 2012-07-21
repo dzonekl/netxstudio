@@ -22,7 +22,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
-import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTest;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
 
 /**
  * Creates test data. Steps:
@@ -34,7 +34,7 @@ import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTes
  * 
  * @author Martin Taal
  */
-public class CreateTestData extends AbstractDataProviderTest {
+public class CreateTestData extends AbstractInjectedTestJUnit3 {
 	
 	@Inject
 	private TestDataCreator testDataCreator;

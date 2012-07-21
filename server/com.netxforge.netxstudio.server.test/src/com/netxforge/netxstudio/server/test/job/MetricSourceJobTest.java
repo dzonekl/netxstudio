@@ -38,14 +38,14 @@ import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTest;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
 
 /**
  * Test the job mechanism
  * 
  * @author Martin Taal
  */
-public class MetricSourceJobTest extends AbstractDataProviderTest {
+public class MetricSourceJobTest extends AbstractInjectedTestJUnit3 {
 	
 	private static final String JOBNAME = "testJobReinitialization";
 	private static final int MINUTE = 60000;

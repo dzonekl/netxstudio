@@ -46,14 +46,14 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
-import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTest;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
 
 /**
  * Calls the metric source import action.
  * 
  * @author Martin Taal
  */
-public class TestMetricSourceImportAction extends AbstractDataProviderTest {
+public class TestMetricSourceImportAction extends AbstractInjectedTestJUnit3 {
 
 	@Inject
 	@NonStatic

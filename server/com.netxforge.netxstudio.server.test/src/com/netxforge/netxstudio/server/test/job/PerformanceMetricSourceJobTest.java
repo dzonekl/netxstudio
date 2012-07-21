@@ -12,9 +12,9 @@ import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTest;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
 
-public class PerformanceMetricSourceJobTest extends AbstractDataProviderTest {
+public class PerformanceMetricSourceJobTest extends AbstractInjectedTestJUnit3 {
 
 	private IDataService dataService;
 

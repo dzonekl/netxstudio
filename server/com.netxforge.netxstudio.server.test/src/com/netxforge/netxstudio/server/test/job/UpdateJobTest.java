@@ -37,14 +37,14 @@ import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTest;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
 
 /**
  * Test the job mechanism
  * 
  * @author Martin Taal
  */
-public class UpdateJobTest extends AbstractDataProviderTest {
+public class UpdateJobTest extends AbstractInjectedTestJUnit3 {
 	private static final String MSJOBNAME = "testMetricSource";
 	private static final int MINUTE = 60000;
 

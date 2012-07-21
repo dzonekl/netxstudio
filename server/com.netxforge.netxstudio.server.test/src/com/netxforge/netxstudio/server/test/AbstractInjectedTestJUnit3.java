@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.server.test.dataprovider;
+package com.netxforge.netxstudio.server.test;
 
 import junit.framework.TestCase;
 
@@ -26,7 +26,7 @@ import com.netxforge.netxstudio.server.test.base.TestModule;
 /**
  * Gives access to a Guice injector. 
  */
-public abstract class AbstractDataProviderTest extends TestCase {
+public abstract class AbstractInjectedTestJUnit3 extends TestCase {
 
 	private Injector injector;
 

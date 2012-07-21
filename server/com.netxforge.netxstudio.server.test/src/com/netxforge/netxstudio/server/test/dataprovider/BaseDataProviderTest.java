@@ -6,8 +6,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
 
-public class BaseDataProviderTest extends AbstractDataProviderTest {
+public class BaseDataProviderTest extends AbstractInjectedTestJUnit3 {
 
 	IDataService service;
 	
