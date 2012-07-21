@@ -43,7 +43,6 @@ public class CreateTestData extends AbstractInjectedTestJUnit3 {
 	@NonStatic
 	private IDataProvider dataProvider;
 	
-	@SuppressWarnings("unused")
 	@Inject
 	private ModelUtils modelUtils;
 
