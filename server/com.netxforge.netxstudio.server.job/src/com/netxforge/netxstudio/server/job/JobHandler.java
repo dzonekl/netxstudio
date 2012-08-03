@@ -25,13 +25,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.cdo.CDOObject;
-import org.eclipse.emf.cdo.common.commit.CDOCommitInfo;
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.revision.CDORevisionKey;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.server.IRepository;
-import org.eclipse.emf.cdo.session.CDOSessionInvalidationEvent;
+import org.eclipse.emf.cdo.view.CDOAdapterPolicy;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.cdo.view.CDOViewInvalidationEvent;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.net4j.util.container.IElementProcessor;
@@ -78,6 +77,33 @@ import com.netxforge.netxstudio.server.job.internal.JobActivator;
 public class JobHandler {
 
 	private static JobHandler INSTANCE;
+
+	/*
+	 * Our own instance of IDataProvider. We maintain a view on this provider.
+	 */
+	@Inject
+	@Server
+	private IDataProvider dataProvider;
+
+	// Our quartz scheduler.
+	private Scheduler scheduler;
+
+	/*
+	 * A state flag, if we are currently initializing.
+	 */
+	private boolean initializing = false;
+
+	// contains all the ids which are relevant to know when creating
+	// removing or updating jobs
+	private List<CDOID> relevantIds = new ArrayList<CDOID>();
+
+	// Map of JobKeys for our CDO Object ID's.
+	// private Map<CDOID, JobKey> jobKeysMap = new HashMap<CDOID, JobKey>();
+
+	// Map of TriggerKeys for our CDO Object ID's.
+	private Map<CDOID, TriggerKey> triggerKeysMap = new HashMap<CDOID, TriggerKey>();
+
+	private CDOView view;
 
 	static void createAndInitialize() {
 		INSTANCE = new JobHandler();
@@ -159,9 +185,9 @@ public class JobHandler {
 		}
 	}
 
-	private Object cleanJobRuns() {
+	private synchronized String cleanJobRuns() {
 
-		return null;
+		return "Not implemented";
 	}
 
 	/**
@@ -220,27 +246,6 @@ public class JobHandler {
 		}
 	}
 
-	@Inject
-	@Server
-	private IDataProvider dataProvider;
-
-	// Our quartz scheduler.
-	private Scheduler scheduler;
-
-	private boolean initializing = false;
-
-	// contains all the ids which are relevant to know when creating
-	// removing or updating jobs
-	private List<CDOID> relevantIds = new ArrayList<CDOID>();
-
-	// Map of JobKeys for our CDO Object ID's.
-	// private Map<CDOID, JobKey> jobKeysMap = new HashMap<CDOID, JobKey>();
-
-	// Map of TriggerKeys for our CDO Object ID's.
-	private Map<CDOID, TriggerKey> triggerKeysMap = new HashMap<CDOID, TriggerKey>();
-
-	private boolean addedListener = false;
-
 	/**
 	 * @return the initializing
 	 */
@@ -258,17 +263,16 @@ public class JobHandler {
 
 		StringBuffer sb = new StringBuffer();
 
-		dataProvider.getSession();
-		final CDOView cdoView = dataProvider.getView();
-		CDOResource jobResource = (CDOResource) dataProvider
-				.getResource(SchedulingPackage.eINSTANCE.getJob());
+		CDOResource jobResource = (CDOResource) dataProvider.getResource(view,
+				SchedulingPackage.eINSTANCE.getJob());
 
 		CDOResource jobRunContainerResource = (CDOResource) dataProvider
-				.getResource(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+				.getResource(view, SchedulingPackage.Literals.JOB_RUN_CONTAINER);
 
 		// now initialize quartz jobs, iterating through all available jobs.
 		for (final EObject eObject : jobResource.getContents()) {
 			final Job job = (Job) eObject;
+			sb.append(job.cdoRevision() + " | ");
 			sb.append("Name: " + job.getName() + " | State: "
 					+ job.getJobState().getName() + " | Repeats: "
 					+ job.getRepeat() + " | Interval: " + job.getInterval()
@@ -283,7 +287,6 @@ public class JobHandler {
 				sb.append("\n");
 			}
 		}
-		cdoView.close();
 		return sb.toString();
 	}
 
@@ -291,7 +294,6 @@ public class JobHandler {
 		if (isInitializing()) {
 			return "Scheduler initializing";
 		} else {
-
 			try {
 				if (scheduler.isStarted()) {
 					if (scheduler.isInStandbyMode()) {
@@ -306,11 +308,13 @@ public class JobHandler {
 				e.printStackTrace();
 			}
 		}
-		return "Scheduler status unknown";
+		return "Scheduler never started";
 	}
 
 	private synchronized String startScheduler() {
-		waitWhileInitializing();
+		if (isInitializing()) {
+			return "Currently initializing, sorry";
+		}
 
 		StringBuffer sb = new StringBuffer();
 		try {
@@ -336,7 +340,9 @@ public class JobHandler {
 	}
 
 	private synchronized String stopScheduler() {
-		waitWhileInitializing();
+		if (isInitializing()) {
+			return "Currently initializing, sorry";
+		}
 
 		StringBuffer sb = new StringBuffer();
 		try {
@@ -353,14 +359,17 @@ public class JobHandler {
 	}
 
 	private synchronized String listScheduler() {
-		waitWhileInitializing();
+		if (isInitializing()) {
+			return "Currently initializing, sorry";
+		}
 
 		StringBuffer sb = new StringBuffer();
 		try {
 			if (scheduler != null) {
 
 				// print the scheduler status first.
-				sb.append("Current scheduler status=" + statusScheduler() + "\n");
+				sb.append("Current scheduler status=" + statusScheduler()
+						+ "\n");
 
 				// currently executing jobs.
 				sb.append("Current running scheduled jobs = "
@@ -368,14 +377,15 @@ public class JobHandler {
 
 				for (JobExecutionContext context : scheduler
 						.getCurrentlyExecutingJobs()) {
-					sb.append("=> Job with ID:" + context.getJobDetail().getDescription() + "\n");
+					sb.append("=> Job with ID:"
+							+ context.getJobDetail().getDescription() + "\n");
 				}
 
 				// current triggers, if the scheduler is stopped, we still have
 				// triggers
 				// but the date will be wrong.
 				sb.append("Current triggers for jobs\n");
-				
+
 				List<TriggerKey> keysToRemove = new ArrayList<TriggerKey>();
 				for (TriggerKey tKey : triggerKeysMap.values()) {
 					if (!scheduler.checkExists(tKey)) {
@@ -403,18 +413,18 @@ public class JobHandler {
 
 		StringBuffer sb = new StringBuffer();
 		Date nextFireTime = trigger.getNextFireTime();
-		
-		
+
 		try {
 			JobDetail detail = scheduler.getJobDetail(trigger.getJobKey());
-			
-			sb.append("=> Job with ID: " + detail.getDescription() + " will fire next time " + nextFireTime);
+
+			sb.append("=> Job with ID: " + detail.getDescription()
+					+ " will fire next time " + nextFireTime);
 			TriggerState triggerState = scheduler.getTriggerState(tKey);
 			sb.append(", state=" + triggerState.name() + "\n");
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 		}
-		
+
 		return sb.toString();
 	}
 
@@ -423,7 +433,9 @@ public class JobHandler {
 	 * pauzed.
 	 */
 	private synchronized String pauseAllScheduler() {
-		waitWhileInitializing();
+		if (isInitializing()) {
+			return "Currently initializing, sorry";
+		}
 
 		StringBuffer sb = new StringBuffer();
 		if (scheduler != null) {
@@ -441,21 +453,10 @@ public class JobHandler {
 		return sb.toString();
 	}
 
-	/**
-	 * 
-	 */
-	private void waitWhileInitializing() {
-		while (initializing) {
-			try {
-				this.wait(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	};
-
 	private synchronized String resumeAllScheduler() {
-		waitWhileInitializing();
+		if (isInitializing()) {
+			return "Currently initializing, sorry";
+		}
 
 		StringBuffer sb = new StringBuffer();
 		try {
@@ -470,6 +471,22 @@ public class JobHandler {
 		this.initialize(null);
 	};
 
+	private void addChangeSubscription(CDOView view) {
+
+		boolean doAdd = true;
+		for (CDOAdapterPolicy cdoa : view.options()
+				.getChangeSubscriptionPolicies()) {
+			if (cdoa == CDOAdapterPolicy.CDO) {
+				doAdd = false;
+			}
+
+		}
+		if (doAdd) {
+			view.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.CDO);
+		}
+
+	}
+
 	/**
 	 * Called with the repository starts and when an invalidation occurs on
 	 */
@@ -479,15 +496,12 @@ public class JobHandler {
 		initializing = true;
 
 		if (JobActivator.DEBUG) {
-			JobActivator.TRACE.trace(null,
-					"(Re) Initializing jobs, getting a data session");
+			JobActivator.TRACE.trace(null, "(Re) Initializing jobs");
 
 		}
-		dataProvider.getSession();
 
-		dataProvider.getView();
-		final Resource jobResource = dataProvider
-				.getResource(SchedulingPackage.eINSTANCE.getJob());
+		final Resource jobResource = dataProvider.getResource(view,
+				SchedulingPackage.eINSTANCE.getJob());
 
 		relevantIds.clear();
 		triggerKeysMap.clear();
@@ -502,14 +516,21 @@ public class JobHandler {
 		// CDOInvalidationPolicy.DEFAULT);
 
 		try {
-			if (scheduler != null && !scheduler.isShutdown()) {
-				// We force a shutdown of the scheduler when initializing.
-				// report any ongoing jobs.
-				scheduler.shutdown(true);
+
+			if (scheduler == null) {
+				scheduler = StdSchedulerFactory.getDefaultScheduler();
+			} else {
+				scheduler.clear();
 			}
 
-			// instantiating the scheduler.
-			scheduler = StdSchedulerFactory.getDefaultScheduler();
+			// if (scheduler != null && !scheduler.isShutdown()) {
+			// // We force a shutdown of the scheduler when initializing.
+			// // report any ongoing jobs.
+			// scheduler.shutdown(true);
+			// }
+
+			// clear the scheduler.
+
 		} catch (final Exception e) {
 			e.printStackTrace(System.err);
 		}
@@ -569,6 +590,7 @@ public class JobHandler {
 			}
 		}
 
+		// Do not start the scheduler.
 		// try {
 		// scheduler.start();
 		// } catch (final Exception e) {
@@ -576,78 +598,9 @@ public class JobHandler {
 		// e.printStackTrace(System.err);
 		// }
 
-		dataProvider.closeView();
+		// CB Keep it open, we need for invalidation events.
+		// dataProvider.closeView();
 
-		// do after commit
-		if (!addedListener) {
-			addedListener = true;
-			dataProvider.getSession().addListener(new IListener() {
-				public void notifyEvent(org.eclipse.net4j.util.event.IEvent arg0) {
-
-					CDOCommitInfo info = null;
-					if (arg0 instanceof CDOCommitInfo) {
-						info = (CDOCommitInfo) arg0;
-
-						// ignore non client commits, like log commits or server
-						// // commits.
-						// if (!info.getComment().equals(
-						// IDataProvider.CLIENT_COMMIT_COMMENT)) {
-						// if (JobActivator.DEBUG) {
-						// JobActivator.TRACE.trace(null,
-						// "Ignoring (Non Client commit) Session event session="
-						// + dataProvider.getSession()
-						// .getSessionID());
-						// JobActivator.TRACE.trace(null,
-						// "Event=" + info.toString());
-						// }
-						// return;
-						// }
-
-						if (JobActivator.DEBUG) {
-							JobActivator.TRACE.trace(null,
-									"Session event session="
-											+ dataProvider.getSession()
-													.getSessionID());
-							JobActivator.TRACE.trace(null,
-									"Event=" + info.toString());
-						}
-					}
-
-					// Don't bother if we are pauzed, do see if we can be
-					// scheduled, even when stopped.
-					// CB 26062012 disable, we could change the schedule, even
-					// when the scheduler is stand-by.
-					// try {
-					// if (scheduler != null && !scheduler.isStarted()) {
-					// return;
-					// }
-					// } catch (SchedulerException e) {
-					// e.printStackTrace();
-					// }
-
-					if (arg0 instanceof CDOSessionInvalidationEvent
-							&& !JobHandler.this.initializing) {
-						final CDOSessionInvalidationEvent event = (CDOSessionInvalidationEvent) arg0;
-						// only check changed objects, in case of:
-						// removal: the CDO resource is updated
-						// insert: the CDO resource is update
-						// update: the job object itself is updated
-						for (final Object o : event.getChangedObjects()) {
-							if (o instanceof CDORevisionKey) {
-								final CDORevisionKey key = (CDORevisionKey) o;
-								final CDOID cdoId = key.getID();
-								if (relevantIds.contains(cdoId)) {
-									JobHandler.this.initialize();
-									return;
-								}
-							}
-						}
-					} else {
-						waitWhileInitializing();
-					}
-				}
-			});
-		}
 		initializing = false;
 	}
 
@@ -761,19 +714,93 @@ public class JobHandler {
 
 	private void activate() {
 		JobActivator.getInstance().getInjector().injectMembers(this);
+		dataProvider.getSession();
+		view = dataProvider.getView();
+		this.addChangeSubscription(view);
+
+		view.addListener(new IListener() {
+			public void notifyEvent(org.eclipse.net4j.util.event.IEvent arg0) {
+
+				boolean shoudInitialize = false;
+
+				if (arg0 instanceof CDOViewInvalidationEvent
+						&& !JobHandler.this.initializing) {
+					final CDOViewInvalidationEvent event = (CDOViewInvalidationEvent) arg0;
+					// only check changed objects, in case of:
+					// removal: the CDO resource is updated
+					// insert: the CDO resource is update
+					// update: the job object itself is updated
+
+					for (final CDOObject o : event.getDirtyObjects()) {
+						if (relevantIds.contains(o.cdoID())) {
+							shoudInitialize = true;
+						}
+					}
+				}
+				if (shoudInitialize) {
+					JobHandler.this.initialize();
+				}
+			}
+		});
+
+		// dataProvider.getSession().addListener(new IListener() {
+		// public void notifyEvent(org.eclipse.net4j.util.event.IEvent arg0)
+		// {
+		//
+		// boolean shoudInitialize = false;
+		//
+		// // CDOCommitInfo info = (CDOCommitInfo) arg0;
+		// // if (JobActivator.DEBUG) {
+		// // JobActivator.TRACE.trace(null,
+		// // "Session event session="
+		// // + dataProvider.getSession()
+		// // .getSessionID());
+		// // JobActivator.TRACE.trace(null,
+		// // "Event=" + info.toString());
+		// // }
+		// if (arg0 instanceof SingleDeltaContainerEvent) {
+		// // SingleDeltaContainerEvent event =
+		// // (SingleDeltaContainerEvent) arg0;
+		// return;
+		// } else if (arg0 instanceof CDOSessionInvalidationEvent
+		// && !JobHandler.this.initializing) {
+		// final CDOSessionInvalidationEvent event =
+		// (CDOSessionInvalidationEvent) arg0;
+		// // only check changed objects, in case of:
+		// // removal: the CDO resource is updated
+		// // insert: the CDO resource is update
+		// // update: the job object itself is updated
+		//
+		// for (final Object o : event.getChangedObjects()) {
+		// if (o instanceof CDORevisionKey) {
+		// final CDORevisionKey key = (CDORevisionKey) o;
+		// final CDOID cdoId = key.getID();
+		// if (relevantIds.contains(cdoId)) {
+		// shoudInitialize = true;
+		// }
+		// }
+		// }
+		// }
+		// if (shoudInitialize) {
+		// JobHandler.this.initialize();
+		// }
+		// }
+		// });
 	}
 
 	/**
 	 * Determine how many times a job has run, based on the entries in the job
 	 * runs.
 	 * 
+	 * @param view
+	 * 
 	 * @param job
 	 * @return
 	 */
 	private int countJobRuns(Job job) {
 		final CDOID cdoId = job.cdoID();
-		final Resource resource = dataProvider
-				.getResource(SchedulingPackage.eINSTANCE.getJobRunContainer());
+		final Resource resource = dataProvider.getResource(view,
+				SchedulingPackage.eINSTANCE.getJobRunContainer());
 		for (final EObject eObject : resource.getContents()) {
 			final JobRunContainer container = (JobRunContainer) eObject;
 			final Job containerJob = container.getJob();
@@ -862,13 +889,11 @@ public class JobHandler {
 	 * @return
 	 */
 	private String activateJob(CommandInterpreter interpreter) {
-		this.waitWhileInitializing();
 		String nextArgument = interpreter.nextArgument();
 		String result = "";
 		if (nextArgument == null) {
 			return " Provide a job name to activate \n";
 		} else {
-			dataProvider.getSession();
 			dataProvider.getTransaction();
 			// look for the job to activate and do it.
 			Job j = jobForName(nextArgument);
@@ -888,13 +913,11 @@ public class JobHandler {
 	}
 
 	private String deactivateJob(CommandInterpreter interpreter) {
-		this.waitWhileInitializing();
 		String nextArgument = interpreter.nextArgument();
 		String result = "";
 		if (nextArgument == null) {
 			return " Provide a job name to deactivate \n";
 		} else {
-			dataProvider.getSession();
 			dataProvider.getTransaction();
 			// look for the job to activate and do it.
 			Job j = jobForName(nextArgument);

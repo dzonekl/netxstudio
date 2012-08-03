@@ -105,10 +105,9 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 		buffer.append("\tjob list - list the existing jobs \n");
 		buffer.append("\tjob activate [Job name]- activate a job \n");
 		buffer.append("\tjob deactivate [Job name]- activate a job \n");
-		buffer.append("\tjob pause - pause the running jobs \n");
-		buffer.append("\tjob resume - resume the running jobs \n");
+		buffer.append("\tjob pause - pause the scheduled jobs (Running jobs are not interrupted) \n");
+		buffer.append("\tjob resume - resume the schduled jobs \n");
 		buffer.append("\tjob clean - clean job progress data\n");
-		buffer.append("\tjob health - health status \n");
 		return buffer.toString();
 	}
 
@@ -154,11 +153,6 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 			if ("clean".equals(cmd)) {
 				JobHandler.clean(interpreter); // We could be initializing and
 												// running jobs!
-				return null;
-			}
-			if ("health".equals(cmd)) {
-				System.out
-						.println("TODO, show job handler issues like if the session is active");
 				return null;
 			}
 
