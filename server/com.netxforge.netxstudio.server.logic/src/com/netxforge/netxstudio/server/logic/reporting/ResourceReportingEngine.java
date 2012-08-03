@@ -38,6 +38,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
@@ -59,16 +60,22 @@ import com.netxforge.netxstudio.operators.ToleranceMarker;
 public class ResourceReportingEngine {
 
 	private ModelUtils modelUtils;
+	
 	private DateTimeRange period;
+	
 	private Workbook workBook;
+	
+	@SuppressWarnings("unused")
+	private IQueryService queryService;
 
 	private static final int NODE_COLUMN = 2;
 
-	public ResourceReportingEngine(ModelUtils modelUtils2,
-			DateTimeRange period2, Workbook workBook2) {
-		this.modelUtils = modelUtils2;
-		this.period = period2;
-		this.workBook = workBook2;
+	public ResourceReportingEngine(ModelUtils modelUtils,
+			DateTimeRange period, Workbook workBook, IQueryService queryService) {
+		this.modelUtils = modelUtils;
+		this.period = period;
+		this.workBook = workBook;
+		this.queryService = queryService;
 	}
 
 	public void writeComponentLine(int newRow, Sheet sheet, Component component) {
@@ -334,6 +341,9 @@ public class ResourceReportingEngine {
 	public void writeRange(List<Marker> markers, Sheet sheet,
 			MetricValueRange mvr, Row valueRow) {
 
+		// use a query, experimental.
+//		List<Value> range = queryService.getSortedValues(mvr);
+		
 		// !Potentially long operation, as we sort of the whole rang.e
 		List<Value> range = getModelUtils().sortValuesByTimeStamp(
 				mvr.getMetricValues());

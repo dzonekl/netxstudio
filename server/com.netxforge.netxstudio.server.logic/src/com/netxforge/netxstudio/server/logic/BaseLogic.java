@@ -29,6 +29,7 @@ import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.server.Server;
@@ -48,6 +49,9 @@ public abstract class BaseLogic {
 	private IDataProvider dataProvider;
 
 
+	@Inject 
+	protected IQueryService queryService;
+	
 	@Inject
 	private ModelUtils modelUtils;
 

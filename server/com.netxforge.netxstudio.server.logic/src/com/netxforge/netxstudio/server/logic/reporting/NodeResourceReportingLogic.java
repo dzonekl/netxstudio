@@ -13,6 +13,7 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.services.Service;
 
 public class NodeResourceReportingLogic extends NodeReportingLogic {
@@ -26,9 +27,9 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 	// FIXME, This should be outputed somehow aswell.
 	private int componentsNotReported = 0;
 	private Map<NetXResource, List<Marker>> markersForNode;
-	
+
 	private ResourceReportingEngine reportingEngine;
-	
+
 	@Override
 	protected void writeHeader(Sheet sheet, DateTimeRange dtr) {
 		super.createHeaderStructure(sheet);
@@ -65,63 +66,75 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 	@Override
 	protected void writeContent(Sheet sheet, Node node, int rowIndex,
 			int nodeTypeCount) {
-		
-		reportingEngine = new ResourceReportingEngine(
-				this.getModelUtils(), this.getPeriod(), this.getWorkBook());
 
 		
+		if (reportingEngine == null) {
+			queryService.setDataProvider(this.getDataProvider());
+			reportingEngine = new ResourceReportingEngine(this.getModelUtils(),
+					this.getPeriod(), this.getWorkBook(), this.queryService);
+		}
+
 		// We skip reporting for this node, using a static check.
 		// if (getModelUtils().ragShouldReport(
 		// getModelUtils().ragCountResourcesForNode(service, node,
 		// this.getPeriod()))) {
 
 		int newRow = rowIndex == 0 ? NODE_ROW : sheet.getLastRowNum() + 1;
-		
+
 		Row nodeRow = reportingEngine.rowForIndex(sheet, newRow);
-	
+
 		Cell nodeCell = nodeRow.createCell(NODE_COLUMN);
 		nodeCell.setCellValue(node.getNodeID());
-		
-		
-		
-		// Write the time stamps. 
+
+		// Write the time stamps.
 		reportingEngine.writeTS(sheet, ++newRow);
 
 		// TODO, Convert this util for Node only, with no service????
 		// markersForNode = this.getModelUtils().markersForNode(service, node,
 		// this.getPeriod());
 
-//		
-//		markersForNode = this.getModelUtils()
-//				.toleranceMarkerMapPerResourceForServiceAndNodeAndPeriod(
-//						service, node, this.getPeriod());
-		
+		//
+		// markersForNode = this.getModelUtils()
+		// .toleranceMarkerMapPerResourceForServiceAndNodeAndPeriod(
+		// service, node, this.getPeriod());
+
 		// } else {
 		//
 		// nodesNotReported++;
 		// }
 	}
-	
-	
+
 	/*
-	 * We expect the component to have resources, otherwise it is not reported. 
-	 * Also if the 
+	 * We expect the component to have resources, otherwise it is not reported.
+	 * Also if the
 	 * 
 	 * (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.logic.reporting.BaseNodeReportingLogic#writeContent(org.apache.poi.hssf.usermodel.HSSFSheet, com.netxforge.netxstudio.library.Component)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.server.logic.reporting.BaseNodeReportingLogic
+	 * #writeContent(org.apache.poi.hssf.usermodel.HSSFSheet,
+	 * com.netxforge.netxstudio.library.Component)
 	 */
 	@Override
 	protected void writeContent(Sheet sheet, Component component) {
-		
-		// write each component ina  new row. 
+
+		// write each component ina new row.
 		if (component.getResourceRefs().size() > 0) {
-//			reportingEngine.writeComponentLine(newRow, sheet, component);
-			reportingEngine.writeFlat(sheet.getLastRowNum() , sheet, component, markersForNode);	
+			// reportingEngine.writeComponentLine(newRow, sheet, component);
+
+			if (LogicActivator.DEBUG) {
+				LogicActivator.TRACE.trace(
+						LogicActivator.TRACE_LOGIC_OPTION,
+						"-- report component: "
+								+ this.getModelUtils().printModelObject(
+										component));
+			}
+			reportingEngine.writeFlat(sheet.getLastRowNum(), sheet, component,
+					markersForNode);
 		} else {
 			this.componentsNotReported++;
 		}
 
-		
 	}
 
 	@Override

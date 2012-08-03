@@ -43,11 +43,14 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 	private static LogicActivator INSTANCE;
 
 	// fields to cache the debug flags
-	public static boolean DEBUG = true;
+	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
-
+	
+	public static String TRACE_LOGIC_OPTION = "/trace.logic";
+	public static String TRACE_LOGIC_DETAILS_OPTION = "/trace.logic.details";
+	
 	public void optionsChanged(DebugOptions options) {
-		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);
+		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
 

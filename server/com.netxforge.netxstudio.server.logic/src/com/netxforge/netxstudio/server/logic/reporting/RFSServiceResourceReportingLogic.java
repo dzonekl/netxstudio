@@ -12,6 +12,7 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.services.Service;
 
 public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
@@ -60,8 +61,7 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 		if (componentsRow == null) {
 			componentsRow = sheet.createRow(INFO_ROW + 1);
 		}
-		Cell componentsSkippedInfoCell = componentsRow
-				.createCell(INFO_COLUMN);
+		Cell componentsSkippedInfoCell = componentsRow.createCell(INFO_COLUMN);
 		componentsSkippedInfoCell
 				.setCellValue("Number of not-reported Components (RAG Appropriate):"
 						+ this.componentsNotReported);
@@ -82,8 +82,9 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 		// getModelUtils().ragCountResourcesForNode(service, node,
 		// this.getPeriod()))) {
 		if (reportingEngine == null) {
+			queryService.setDataProvider(this.getDataProvider());
 			reportingEngine = new ResourceReportingEngine(this.getModelUtils(),
-					this.getPeriod(), this.getWorkBook());
+					this.getPeriod(), this.getWorkBook(), this.queryService);
 		}
 
 		// We skip reporting for this node, using a static check.
@@ -116,6 +117,14 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 
 		if (component.getResourceRefs().size() > 0) {
 			// reportingEngine.writeComponentLine(newRow, sheet, component);
+
+			if (LogicActivator.DEBUG) {
+				LogicActivator.TRACE.trace(
+						LogicActivator.TRACE_LOGIC_OPTION,
+						"-- report component: "
+								+ this.getModelUtils().printModelObject(
+										component));
+			}
 			reportingEngine.writeFlat(sheet.getLastRowNum(), sheet, component,
 					markersForNode);
 		} else {

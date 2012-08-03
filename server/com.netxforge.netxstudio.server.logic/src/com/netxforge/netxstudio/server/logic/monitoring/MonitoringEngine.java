@@ -32,9 +32,7 @@ import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Tolerance;
@@ -63,22 +61,13 @@ public class MonitoringEngine extends BaseComponentEngine {
 	@Override
 	public void doExecute() {
 
-		if (this.getComponent() instanceof Equipment) {
+		if (LogicActivator.DEBUG) {
 
-			// if (LogicActivator.DEBUG) {
-			// System.out
-			// .println("MONITORING ENGINE: Start Monitoring for Equipment: "
-			// + ((Equipment) this.getComponent())
-			// .getEquipmentCode()
-			// + " Name="
-			// + this.getComponent().getName());
-			// }
-		} else if (this.getComponent() instanceof Function) {
-			// if (LogicActivator.DEBUG) {
-			// System.out
-			// .println("MONITORING ENGINE: Start Monitoring for Function: "
-			// + " Name=" + this.getComponent().getName());
-			// }
+			LogicActivator.TRACE.trace(
+					LogicActivator.TRACE_LOGIC_OPTION,
+					"monitoring for: "
+							+ this.getModelUtils().printModelObject(
+									this.getComponent()));
 		}
 
 		// Clear the context first.
@@ -122,13 +111,16 @@ public class MonitoringEngine extends BaseComponentEngine {
 					+ " - capacity expression -");
 
 			Expression runCapExpression = getExpression(LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF);
+
 			if (LogicActivator.DEBUG) {
 				if (runCapExpression != null) {
-					System.err
-							.println("MONITORING ENGINE: Run capacity expression for resource: "
+					LogicActivator.TRACE.trace(
+							LogicActivator.TRACE_LOGIC_DETAILS_OPTION,
+							"-- run capacity expression for resource: "
 									+ netXResource.getShortName());
 				}
 			}
+
 			runForExpression(runCapExpression);
 
 			setEngineContextInfo("NetXResource: " + netXResource.getShortName()
@@ -139,23 +131,21 @@ public class MonitoringEngine extends BaseComponentEngine {
 
 			if (LogicActivator.DEBUG) {
 				if (runUtilExpression != null) {
-					System.err
-							.println("MONITORING ENGINE: Run util expression for resource: "
+					LogicActivator.TRACE.trace(
+							LogicActivator.TRACE_LOGIC_DETAILS_OPTION,
+							"-- run utilization expression for resource: "
 									+ netXResource.getShortName());
 				}
 			}
 
 			runForExpression(runUtilExpression);
 
-			if (LogicActivator.DEBUG) {
-				if (runUtilExpression != null) {
-					System.err
-							.println("MONITORING ENGINE: Done util expression for resource: "
-									+ netXResource.getShortName());
-				}
-			}
-
 			if (getFailures().size() > 0) {
+				if (LogicActivator.DEBUG) {
+					LogicActivator.TRACE.trace(
+							LogicActivator.TRACE_LOGIC_OPTION,
+							"Error, ending for this component");
+				}
 				return;
 			}
 
@@ -174,8 +164,9 @@ public class MonitoringEngine extends BaseComponentEngine {
 
 			if (LogicActivator.DEBUG) {
 				if (hasTolerances) {
-					System.out
-							.println("MONITORING ENGINE: Run tolerance expression(s) for resource: "
+					LogicActivator.TRACE.trace(
+							LogicActivator.TRACE_LOGIC_DETAILS_OPTION,
+							"-- tolerance expression(s) for resource: "
 									+ netXResource.getShortName());
 				}
 			}
@@ -191,15 +182,12 @@ public class MonitoringEngine extends BaseComponentEngine {
 						+ " - tolerance expression -");
 				runForExpression(tolerance.getExpressionRef());
 				if (getFailures().size() > 0) {
+					if (LogicActivator.DEBUG) {
+						LogicActivator.TRACE.trace(
+								LogicActivator.TRACE_LOGIC_OPTION,
+								"Error, ending for this component");
+					}
 					return;
-				}
-			}
-
-			if (LogicActivator.DEBUG) {
-				if (hasTolerances) {
-					System.out
-							.println("Done tolerance expression(s) for resource: "
-									+ netXResource.getShortName());
 				}
 			}
 
@@ -207,9 +195,9 @@ public class MonitoringEngine extends BaseComponentEngine {
 			if (resourceMonitor.getMarkers().size() > 0) {
 
 				if (LogicActivator.DEBUG) {
-					System.err
-							.println("MONITORING ENGINE: Creating a new resource monitor for: "
-									+ netXResource.getShortName());
+					LogicActivator.TRACE.trace(
+							LogicActivator.TRACE_LOGIC_OPTION,
+							"-- markers created");
 				}
 
 				if (getServiceMonitor() == null) {
@@ -218,22 +206,15 @@ public class MonitoringEngine extends BaseComponentEngine {
 					emfResource.getContents().add(resourceMonitor);
 
 				} else {
+					if (LogicActivator.DEBUG) {
+						LogicActivator.TRACE.trace(
+								LogicActivator.TRACE_LOGIC_OPTION,
+								"-- add service monitor");
+					}
 					serviceMonitor.getResourceMonitors().add(resourceMonitor);
 				}
 			}
 
-		}
-
-		// Print info on which component was processed.
-		if (LogicActivator.DEBUG) {
-			// if (this.getComponent() instanceof Equipment) {
-			// System.out.println("Done Monitoring for Equipment: "
-			// + ((Equipment) this.getComponent()).getEquipmentCode()
-			// + " Name=" + this.getComponent().getName());
-			// } else if (this.getComponent() instanceof Function) {
-			// System.out.println("Done Monitoring for Function: " + " Name="
-			// + this.getComponent().getName());
-			// }
 		}
 	}
 
