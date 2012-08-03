@@ -366,8 +366,8 @@ public abstract class CDODataProvider implements IDataProvider {
 	}
 
 	public Resource getResource(CDOView view, EClass feature) {
-		final String res = resolveResourceName(feature);
-		return getResource(view, res);
+		final String resName = resolveResourceName(feature);
+		return getResource(view, resName);
 	}
 
 	public Resource getResource(CDOView view, String res) {
@@ -385,7 +385,7 @@ public abstract class CDODataProvider implements IDataProvider {
 		} else {
 			return null; // We need a resourceset.
 		}
-
+		
 		// We haven't found this resource in the current view's and set's,
 		// but we can't create a new getTransaction(), so we have to see if the
 		// the CDOView has a getTransaction().
@@ -440,7 +440,12 @@ public abstract class CDODataProvider implements IDataProvider {
 		assert res != null && res.length() > 0;
 		return this.getResource(res);
 	}
-
+	
+	
+	
+	/**
+	 * This call will potentially create a transaction. 
+	 */
 	public Resource getResource(EClass feature) {
 		final String resPath = resolveResourceName(feature);
 		assert resPath != null && resPath.length() > 0;

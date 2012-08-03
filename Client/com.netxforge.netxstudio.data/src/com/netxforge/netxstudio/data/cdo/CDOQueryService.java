@@ -18,10 +18,12 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
@@ -31,6 +33,8 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Equipment;
@@ -38,6 +42,7 @@ import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.services.Service;
@@ -50,26 +55,25 @@ public class CDOQueryService implements IQueryService {
 
 	private IDataProvider provider;
 	private CDOQueryUtil queryService;
-	@SuppressWarnings("unused")
 	private ModelUtils modelUtils;
 	private List<CDOTransaction> usedTransactions = Lists.newArrayList();
-	
-	
+
 	@Inject
-	public CDOQueryService(IDataProvider dataProvider,
-			CDOQueryUtil queryService, ModelUtils modelUtils) {
-		this.provider = dataProvider;
+	public CDOQueryService(CDOQueryUtil queryService, ModelUtils modelUtils) {
 		this.queryService = queryService;
 		this.modelUtils = modelUtils;
 	}
-	
-	public void close(){
-		for(CDOTransaction t : usedTransactions){
+
+	public void setDataProvider(IDataProvider provider) {
+		this.provider = provider;
+	}
+
+	public void close() {
+		for (CDOTransaction t : usedTransactions) {
 			t.close();
 		}
 	}
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -80,28 +84,27 @@ public class CDOQueryService implements IQueryService {
 	public List<Role> getRole(String userID) {
 
 		CDOTransaction t = provider.getSession().openTransaction();
-		
-		if( !usedTransactions.contains(t)){
+
+		if (!usedTransactions.contains(t)) {
 			usedTransactions.add(t);
 		}
-		
+
 		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_ROLES_FROM_PERSON);
 		q.setParameter("name", userID);
 		queryService.setCacheParameter(q);
 		return q.getResult(Role.class);
 	}
-	
-	
+
 	public List<Job> getJobWithMetricSource(MetricSource source) {
 
 		CDOTransaction t = provider.getSession().openTransaction();
-		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_JOBS_WITH_METRICSOURCE);
+		CDOQuery q = t.createQuery("hql",
+				ICDOQueries.SELECT_JOBS_WITH_METRICSOURCE);
 		q.setParameter("metricSource", source);
 		queryService.setCacheParameter(q);
 		return q.getResult(Job.class);
 	}
 
-	
 	public List<Job> getJobWithService(Service service) {
 
 		CDOTransaction t = provider.getSession().openTransaction();
@@ -110,18 +113,20 @@ public class CDOQueryService implements IQueryService {
 		queryService.setCacheParameter(q);
 		return q.getResult(Job.class);
 	}
-	
+
 	public List<Job> getJobWithServiceReporting(Service service) {
 		CDOTransaction t = provider.getSession().openTransaction();
-		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_JOBS_WITH_SERVICE_REPORTING);
+		CDOQuery q = t.createQuery("hql",
+				ICDOQueries.SELECT_JOBS_WITH_SERVICE_REPORTING);
 		q.setParameter("rfsService", service);
 		queryService.setCacheParameter(q);
 		return q.getResult(Job.class);
 	}
-	
+
 	public List<Job> getJobWithOperatorReporting(Operator operator) {
 		CDOTransaction t = provider.getSession().openTransaction();
-		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_JOBS_WITH_OPERATOR_REPORTING);
+		CDOQuery q = t.createQuery("hql",
+				ICDOQueries.SELECT_JOBS_WITH_OPERATOR_REPORTING);
 		q.setParameter("operator", operator);
 		queryService.setCacheParameter(q);
 		return q.getResult(Job.class);
@@ -145,11 +150,11 @@ public class CDOQueryService implements IQueryService {
 				.createQuery(
 						"hql",
 						"select e from Equipment e, Node n"
-								+ "e in elements(n.equipments) " 
+								+ "e in elements(n.equipments) "
 								+ "and e.equipmentCode=:equipmentCode and n.nodeID=:nodeid");
 		cdoQuery.setParameter("nodeid", nodeID);
 		cdoQuery.setParameter("equipmentCode", equipmentCode);
-		
+
 		queryService.setCacheParameter(cdoQuery);
 		final List<Equipment> equipments = cdoQuery.getResult(Equipment.class);
 		return equipments;
@@ -157,15 +162,13 @@ public class CDOQueryService implements IQueryService {
 
 	public List<Function> getFunctions(String nodeID, String name) {
 		final CDOTransaction transaction = provider.getTransaction();
-		final CDOQuery cdoQuery = transaction
-				.createQuery(
-						"hql",
-						"select e from Function e, Node n"
-								+ "e in elements(n.functions) " 
-								+ "and e.name=:name and n.nodeID=:nodeid");
+		final CDOQuery cdoQuery = transaction.createQuery("hql",
+				"select e from Function e, Node n"
+						+ "e in elements(n.functions) "
+						+ "and e.name=:name and n.nodeID=:nodeid");
 		cdoQuery.setParameter("nodeid", nodeID);
 		cdoQuery.setParameter("equipmentCode", name);
-		
+
 		queryService.setCacheParameter(cdoQuery);
 		final List<Function> functions = cdoQuery.getResult(Function.class);
 		return functions;
@@ -173,38 +176,38 @@ public class CDOQueryService implements IQueryService {
 
 	public List<NetXResource> getResources(String nodeID, String expressionName) {
 		final CDOTransaction transaction = provider.getTransaction();
-		final CDOQuery cdoQuery = transaction
-				.createQuery(
-						"hql",
-						"select r from NetXResource r, Component c, Node n"
-								+ "r in elements(c.resources) " 
-								+ "and r.name=:expressionName and n.nodeID=:nodeid");
+		final CDOQuery cdoQuery = transaction.createQuery("hql",
+				"select r from NetXResource r, Component c, Node n"
+						+ "r in elements(c.resources) "
+						+ "and r.name=:expressionName and n.nodeID=:nodeid");
 		cdoQuery.setParameter("nodeid", nodeID);
 		cdoQuery.setParameter("expressioName", expressionName);
-		
+
 		queryService.setCacheParameter(cdoQuery);
-		final List<NetXResource> resources = cdoQuery.getResult(NetXResource.class);
-		return resources;	
+		final List<NetXResource> resources = cdoQuery
+				.getResult(NetXResource.class);
+		return resources;
 	}
-	
-	
+
 	public List<Value> getMetricsFromResource(String expressionName,
-			XMLGregorianCalendar from, XMLGregorianCalendar to, int intervalHint, KindHintType kindHint) {
+			XMLGregorianCalendar from, XMLGregorianCalendar to,
+			int intervalHint, KindHintType kindHint) {
 		final CDOTransaction transaction = provider.getTransaction();
 		final CDOQuery cdoQuery = transaction
 				.createQuery(
 						"hql",
 						"select v from Value v, MetricValueRange mvr, NetXResource res where "
-								+ "v in elements(mvr.metricValues) " 
+								+ "v in elements(mvr.metricValues) "
 								+ "and v.timeStamp >= :dateFrom and v.timeStamp <= :dateTo "
 								+ "and mvr.intervalHint=:intervalHint and mvr.kindHint = :kindHint "
 								+ "and mvr in elements(res.metricValueRanges) and res.expressionName=:name");
 		cdoQuery.setParameter("name", expressionName);
 		cdoQuery.setParameter("dateFrom", dateString(from));
 		cdoQuery.setParameter("dateTo", dateString(to));
-		cdoQuery.setParameter("intervalHint", new Integer(intervalHint).toString());
+		cdoQuery.setParameter("intervalHint",
+				new Integer(intervalHint).toString());
 		cdoQuery.setParameter("kindHint", kindHint);
-		
+
 		queryService.setCacheParameter(cdoQuery);
 		final List<Value> values = cdoQuery.getResult(Value.class);
 		return values;
@@ -216,14 +219,14 @@ public class CDOQueryService implements IQueryService {
 		final CDOQuery cdoQuery = transaction
 				.createQuery(
 						"hql",
-								"select v from Value v, NetXResource res where "
-								+"v in elements(res.capacityValues) "
-								+"and v.timeStamp >= :dateFrom and v.timeStamp <= :dateTo "
-								+"and res.expressionName=:name");
+						"select v from Value v, NetXResource res where "
+								+ "v in elements(res.capacityValues) "
+								+ "and v.timeStamp >= :dateFrom and v.timeStamp <= :dateTo "
+								+ "and res.expressionName=:name");
 		cdoQuery.setParameter("name", expressionName);
 		cdoQuery.setParameter("dateFrom", dateString(from));
 		cdoQuery.setParameter("dateTo", dateString(to));
-		
+
 		queryService.setCacheParameter(cdoQuery);
 		final List<Value> values = cdoQuery.getResult(Value.class);
 		return values;
@@ -236,13 +239,13 @@ public class CDOQueryService implements IQueryService {
 				.createQuery(
 						"hql",
 						"select v from Value v, NetXResource res where "
-								+ "v in elements(res.utilizationValues) " 
+								+ "v in elements(res.utilizationValues) "
 								+ "and v.timeStamp >= :dateFrom and v.timeStamp <= :dateTo "
 								+ "and res.expressionName=:name");
 		cdoQuery.setParameter("name", expressionName);
 		cdoQuery.setParameter("dateFrom", dateString(from));
 		cdoQuery.setParameter("dateTo", dateString(to));
-		
+
 		queryService.setCacheParameter(cdoQuery);
 		final List<Value> values = cdoQuery.getResult(Value.class);
 		return values;
@@ -252,6 +255,41 @@ public class CDOQueryService implements IQueryService {
 		return XMLTypeFactory.eINSTANCE.convertDateTime(date);
 	}
 
+	public List<Value> getSortedValues(MetricValueRange mvr) {
 
-	
+		DateTimeRange createDateTimeRange = GenericsFactory.eINSTANCE
+				.createDateTimeRange();
+		Calendar cal = Calendar.getInstance();
+		cal.set(2012, 5, 1);
+		System.out.println(modelUtils.dateAndTime(cal.getTime()));
+		createDateTimeRange.setBegin(modelUtils.toXMLDate(cal.getTime()));
+		cal.add(Calendar.MONTH, 1);
+		createDateTimeRange.setEnd(modelUtils.toXMLDate(cal.getTime()));
+
+		CDOTransaction openTransaction = provider.getSession()
+				.openTransaction();
+
+		final CDOQuery cdoQuery = openTransaction
+				.createQuery(
+						"sql",
+						"select val.cdo_id"
+								+ " from TM.metrics_metricvaluerange as mvr"
+								+ " join TM.metrics_metricvaluerange_metricvalues_list as val_list"
+								+ " on val_list.cdo_source = mvr.cdo_id"
+								+ " join TM.generics_value as val"
+								+ " on val_list.cdo_value = val.cdo_id"
+								+ " where mvr.cdo_id = :cdoid"
+								+ " order by val.timeStamp0 DESC;");
+
+		Long longValue = ((AbstractCDOIDLong) mvr.cdoID()).getLongValue();
+		cdoQuery.setParameter("cdoid", longValue.toString());
+		// cdoQuery.setParameter("dateFrom",
+		// dateString(createDateTimeRange.getBegin()));
+		// cdoQuery.setParameter("dateTo",
+		// dateString(createDateTimeRange.getEnd()));
+
+		List<Value> result = cdoQuery.getResult(Value.class);
+		return result;
+	}
+
 }

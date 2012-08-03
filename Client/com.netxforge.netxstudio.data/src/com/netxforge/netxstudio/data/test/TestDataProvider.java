@@ -15,7 +15,7 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.data.test;
 
 import java.util.List;
@@ -33,53 +33,69 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import com.netxforge.netxstudio.data.IDataProvider;
 
 /**
- * A test provider which creates dummy objects. 
+ * A test provider which creates dummy objects.
+ * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 public class TestDataProvider implements IDataProvider {
-	
-	
+
 	public EObject getObject() {
 		return null;
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.data.IDataProvider#getResource(org.eclipse.emf.ecore.resource.ResourceSet, int)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.IDataProvider#getResource(org.eclipse.emf
+	 * .ecore.resource.ResourceSet, int)
 	 */
 	public Resource getResource(ResourceSet set, int feature) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.data.IDataProvider#openSession(java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.IDataProvider#openSession(java.lang.String,
+	 * java.lang.String)
 	 */
 	public void openSession(String uid, String passwd) {
 		throw new java.lang.UnsupportedOperationException();
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.data.IDataProvider#getSessionUserID()
 	 */
 	public String getSessionUserID() {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.data.IDataProvider#getResource(int)
 	 */
 	public Resource getResource(int feature) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.data.IDataProvider#getSession()
 	 */
 	public CDOSession getSession() {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.data.IDataProvider#closeSession()
 	 */
 	public void closeSession() {
@@ -121,7 +137,7 @@ public class TestDataProvider implements IDataProvider {
 	public CDOSession openSession() {
 		throw new java.lang.UnsupportedOperationException();
 	}
-	
+
 	public void setDoGetResourceFromOwnTransaction(
 			boolean createResourceInSeparateTransaction) {
 		throw new java.lang.UnsupportedOperationException();
@@ -161,7 +177,7 @@ public class TestDataProvider implements IDataProvider {
 	}
 
 	public boolean hasResource(String resourcePath) {
-		throw new java.lang.UnsupportedOperationException();	
+		throw new java.lang.UnsupportedOperationException();
 	}
 
 	public boolean hasResource(URI resourceURI) {
@@ -173,6 +189,14 @@ public class TestDataProvider implements IDataProvider {
 	}
 
 	public void closeView() {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	public Resource getResource(CDOView view, EClass clazz) {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	public Resource getResource(CDOView view, String res) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 

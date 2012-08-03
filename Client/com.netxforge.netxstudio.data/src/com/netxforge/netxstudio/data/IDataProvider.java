@@ -129,6 +129,9 @@ public interface IDataProvider {
 	 */
 	public boolean hasResource(String resourcePath);
 	
+	
+	
+	
 	/**
 	 * Get the resource for a specific EClass.
 	 * 
@@ -137,6 +140,26 @@ public interface IDataProvider {
 	 */
 	public Resource getResource(EClass clazz);
 
+	/**
+	 * Get the resource for the specified EClass using 
+	 * the provided view. 
+	 * @param view
+	 * @param clazz
+	 * @return
+	 */
+	public Resource getResource(CDOView view, EClass clazz);
+	
+	
+	
+	/**
+	 * et the resource for the specified path using 
+	 * the provided view. 
+	 * 
+	 * @param view
+	 * @param res
+	 * @return
+	 */
+	public Resource getResource(CDOView view, String res);
 	
 	
 	/**

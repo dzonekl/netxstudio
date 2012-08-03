@@ -29,39 +29,42 @@ import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.services.Service;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
+ * 
  */
 public interface IQueryService {
-	
-	
+
+	public void setDataProvider(IDataProvider provider);
+
 	/**
-	 * Get the role for this user. 
+	 * Get the role for this user.
+	 * 
 	 * @param userID
 	 * @return
 	 */
 	public List<Role> getRole(String userID);
-	
-	
+
 	/**
-	 * Get the role for the current user. 
+	 * Get the role for the current user.
+	 * 
 	 * @return
 	 */
 	public Role getCurrentRole();
-	
-	
+
 	/**
-	 * Get a list of job for a specified metric source. 
+	 * Get a list of job for a specified metric source.
+	 * 
 	 * @param source
 	 * @return
 	 */
 	public List<Job> getJobWithMetricSource(MetricSource source);
-	
+
 	/**
 	 * 
 	 * Get a list of job for a specified service.
@@ -70,56 +73,59 @@ public interface IQueryService {
 	 * @return
 	 */
 	public List<Job> getJobWithService(Service service);
-	
+
 	/**
-	 *
+	 * 
 	 * Get a list of reporting job for a specified service.
+	 * 
 	 * @param service
 	 * @return
 	 */
 	public List<Job> getJobWithServiceReporting(Service service);
-	
-	
+
 	/**
 	 * Get a list o reporting job for a specified operator.
+	 * 
 	 * @param operator
 	 * @return
 	 */
 	public List<Job> getJobWithOperatorReporting(Operator operator);
-	
+
 	/**
-	 * Get the metric values for a period from a resource. 
-	 * The period and kind hint, tell use which range exactly should be read. 
+	 * Get the metric values for a period from a resource. The period and kind
+	 * hint, tell use which range exactly should be read.
 	 * 
 	 * @param expressionName
 	 * @param from
 	 * @param to
-	 * @return A list of Value type. 
+	 * @return A list of Value type.
 	 */
 	public List<Value> getMetricsFromResource(String expressionName,
-			XMLGregorianCalendar from, XMLGregorianCalendar to, int periodHint, KindHintType kindHint);
-		
+			XMLGregorianCalendar from, XMLGregorianCalendar to, int periodHint,
+			KindHintType kindHint);
+
 	/**
-	 * Get the capacity values from a resource. 
+	 * Get the capacity values from a resource.
 	 * 
 	 * @param expressionName
 	 * @param from
 	 * @param to
-	 * @return A list of Value type. 
+	 * @return A list of Value type.
 	 */
 	public List<Value> getCapacityFromResource(String expressionName,
 			XMLGregorianCalendar from, XMLGregorianCalendar to);
 
 	/**
-	 * Get the utilization from a resource.  
+	 * Get the utilization from a resource.
+	 * 
 	 * @param expressionName
 	 * @param from
 	 * @param to
-	 * @return A list of Value type. 
+	 * @return A list of Value type.
 	 */
 	public List<Value> getUtilizationFromResource(String expressionName,
 			XMLGregorianCalendar from, XMLGregorianCalendar to);
-	
+
 	/**
 	 * 
 	 * @param nodeID
@@ -127,7 +133,7 @@ public interface IQueryService {
 	 * @return
 	 */
 	public List<Equipment> getEquipments(String nodeID, String equipmentCode);
-	
+
 	/**
 	 * 
 	 * @param nodeID
@@ -135,8 +141,7 @@ public interface IQueryService {
 	 * @return
 	 */
 	public List<Function> getFunctions(String nodeID, String name);
-	
-	
+
 	/**
 	 * 
 	 * @param nodeID
@@ -144,11 +149,12 @@ public interface IQueryService {
 	 * @return
 	 */
 	public List<NetXResource> getResources(String nodeID, String expressionName);
-		
-	
+
 	/**
-	 * Close used transactions. 
+	 * Close used transactions.
 	 */
 	public void close();
-	
+
+	public List<Value> getSortedValues(MetricValueRange mvr);
+
 }
