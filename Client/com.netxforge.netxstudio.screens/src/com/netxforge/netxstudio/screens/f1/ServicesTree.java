@@ -18,7 +18,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f1;
 
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -36,7 +35,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -72,7 +70,6 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
-import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -83,7 +80,6 @@ import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
-import com.netxforge.netxstudio.screens.PeriodDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.dialog.OperatorFilterDialog;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
@@ -356,7 +352,7 @@ public class ServicesTree extends AbstractScreen implements
 			if (!readonly) {
 				actions.add(new ScheduleMonitorJobAction(
 						"Schedule Monitoring Job..."));
-				actions.add(new MonitorNowAction("Monitor Now"));
+				actions.add(new MonitorNowAction("Monitor Now..."));
 			}
 			actions.add(new ServiceMonitoringAction("Monitoring Result..."));
 			actions.add(new SeparatorAction());
@@ -533,50 +529,9 @@ public class ServicesTree extends AbstractScreen implements
 		public void run() {
 			ISelection selection = getViewer().getSelection();
 			if (selection instanceof IStructuredSelection) {
-				Object o = ((IStructuredSelection) selection).getFirstElement();
-				if (o instanceof Service) {
-					Service service = (Service) o;
-					try {
-						serverActions.setCDOServer(editingService
-								.getDataService().getProvider().getServer());
-
-						PeriodDialog pr = new PeriodDialog(
-								ServicesTree.this.getShell(), modelUtils);
-						pr.open();
-						DateTimeRange dtr = pr.period();
-
-						Date fromDate = modelUtils.begin(dtr);
-						Date toDate = modelUtils.end(dtr);
-
-						@SuppressWarnings("unused")
-						String result = serverActions.callMonitorAction(
-								service, fromDate, toDate);
-						// TODO, We get the workflow run ID back, which
-						// could be used
-						// to link back to the screen showing the running
-						// workflows.
-
-						MessageDialog
-								.openInformation(
-										ServicesTree.this.getShell(),
-										"Monitor now succeeded:",
-										"Monitoring of service: "
-												+ service.getServiceName()
-												+ "\n has been initiated on the server.");
-
-					} catch (Exception e1) {
-						e1.printStackTrace();
-						MessageDialog
-								.openError(
-										ServicesTree.this.getShell(),
-										"Monitor now failed:",
-										"Monitoring of service: "
-												+ service.getServiceName()
-												+ "\n failed. Consult the log for information on the failure");
-
-					}
-
-				}
+				WizardUtil.openWizard(
+						"com.netxforge.netxstudio.screens.monitoring",
+						(IStructuredSelection) selection);
 			}
 		}
 	}

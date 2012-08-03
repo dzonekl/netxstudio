@@ -71,13 +71,10 @@ public class ValueRangeSelectionPage extends WizardPage {
 		placeHolder.setLayout(new GridLayout(2, false));
 
 		valueRangeComponent.setShowBorder(false);
-		valueRangeComponent.buildUI(placeHolder, new GridData(SWT.LEFT, SWT.CENTER,
+		valueRangeComponent.buildUI(placeHolder, new GridData(SWT.FILL, SWT.CENTER,
 				true, false));
-		
 		setControl(placeHolder);
-
 		restoreDialogSettings();
-		
 		this.initiBinding();
 	}
 

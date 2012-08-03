@@ -58,6 +58,7 @@ import com.google.common.collect.Multimap;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -66,6 +67,7 @@ import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionWizard;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 
 public class ChartScreen extends AbstractScreen implements IDataScreenInjection {
@@ -78,6 +80,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 	private NetXResource netXResource;
 	private DateTimeRange dtr;
 	private TableViewer markersTableViewer;
+	private int utilizationAxisID = -1;
 
 	public ChartScreen(Composite parent, int style) {
 		super(parent, style);
@@ -121,42 +124,6 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 				.getSystemColor(SWT.COLOR_WHITE));
 
 		chart.getTitle().setVisible(false);
-
-		// chart.getAxisSet().getXAxis(0).getTitle().setText("Time stamps");
-		// IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
-		// xTick.setTickMarkStepHint(20);
-		// DateFormat format = new SimpleDateFormat("HH:mm");
-		// xTick.setFormat(format);
-
-		chart.getAxisSet().getYAxis(0).getTitle().setText("Value");
-
-		// Set another right axis.
-		int utilizationAxisID = chart.getAxisSet().createYAxis();
-		chart.getAxisSet().getYAxis(utilizationAxisID)
-				.setPosition(Position.Secondary);
-		chart.getAxisSet().getYAxis(utilizationAxisID).getTitle()
-				.setText("Utilization (%)");
-		chart.getAxisSet()
-				.getYAxis(utilizationAxisID)
-				.getTitle()
-				.setForeground(
-						Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
-		chart.getAxisSet().getYAxis(utilizationAxisID).getGrid()
-				.setStyle(LineStyle.DASHDOT);
-		chart.getAxisSet()
-				.getYAxis(utilizationAxisID)
-				.getGrid()
-				.setForeground(
-						Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
-
-		chart.getAxisSet()
-				.getYAxis(utilizationAxisID)
-				.getTick()
-				.setForeground(
-						Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
-
-		// chart.getAxisSet().getYAxis(utilizationAxisID).getTick()
-		// .setFormat(new DecimalFormat("##%"));
 
 		// ZOOM etc... buttons.
 
@@ -254,6 +221,40 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		tblclmnLevel.setWidth(100);
 		tblclmnLevel.setText("Level");
 
+	}
+
+	/*
+	 * Creates an Y-Axis showing the utilization in percentile.
+	 */
+	private void createUtilizationAxis() {
+
+		utilizationAxisID = chart.getAxisSet().createYAxis();
+
+		// The position.
+		chart.getAxisSet().getYAxis(utilizationAxisID)
+				.setPosition(Position.Secondary);
+
+		// The title.
+		chart.getAxisSet().getYAxis(utilizationAxisID).getTitle()
+				.setText("Utilization (%)");
+
+		// The title foreground color.
+		chart.getAxisSet()
+				.getYAxis(utilizationAxisID)
+				.getTitle()
+				.setForeground(
+						Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+
+		// The grid style.
+		chart.getAxisSet().getYAxis(utilizationAxisID).getGrid()
+				.setStyle(LineStyle.DASHDOT);
+
+		// The color of the grid for this axe.
+		chart.getAxisSet()
+				.getYAxis(utilizationAxisID)
+				.getGrid()
+				.setForeground(
+						Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
 	}
 
 	private void buildScrollStick(Composite composite_2, GridData gd) {
@@ -359,6 +360,9 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 	private int interval = -1;
 	private List<Value> values;
 
+	/* The parent component for the resource */
+	private Component component;
+
 	public List<Value> sortAndApplyPeriod(List<Value> values) {
 		List<Value> sortedCopy = modelUtils
 				.sortValuesByTimeStampAndReverse(values);
@@ -368,18 +372,29 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 	private void createXTickForInterval(Chart chart, int interval) {
 
 		String primaryDatePattern = "";
-//		String secondaryDatePattern = "";
+		// String secondaryDatePattern = "";
 		String label = "";
 		switch (interval) {
 		case ModelUtils.MINUTES_IN_AN_HOUR: {
-			primaryDatePattern = "HH:mm";
-//			secondaryDatePattern = "dd-MMM";
+			primaryDatePattern = "dd-MMM HH:mm";
 			label = "HOUR";
-		}
-			break;
+		}break;
+		case ModelUtils.MINUTES_IN_A_DAY:{
+			primaryDatePattern = "dd-MMM";
+			label = "DAY";
+			
+		}break;
+		case ModelUtils.MINUTES_IN_A_WEEK:{
+			primaryDatePattern = "ww";
+			label = "WEEK";
+		}break;
+		case ModelUtils.MINUTES_IN_A_MONTH:{
+			primaryDatePattern = "MMMMM";
+			label = "MONTH";
+		}break;
 		default: {
 			primaryDatePattern = "HH:mm";
-			label = "UNKOWN";
+			label = modelUtils.fromMinutes(interval);
 		}
 		}
 
@@ -389,9 +404,11 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		DateFormat primaryFormat = new SimpleDateFormat(primaryDatePattern);
 
 		IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
-		xTick.setTickMarkStepHint(10);
+//		xTick.setTickMarkStepHint(2);
 		xTick.setFormat(primaryFormat);
 
+		xTick.setTickLabelAngle(45);
+		
 		// int secondaryAxisID = 1;
 		// if (chart.getAxisSet().getXAxes().length == 1) {
 		// secondaryAxisID = chart.getAxisSet().createXAxis();
@@ -406,6 +423,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		// xTickSecondary.setFormat(secondaryFormat);
 
 	}
+
 	/**
 	 * Get a Chart Lineseries from a Resource.
 	 * 
@@ -415,8 +433,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 	 * @param resource
 	 * @return
 	 */
-	private ILineSeries seriesFromMetric(Date[] dateArray,
-			double[] metricValues, Chart chart, NetXResource resource) {
+	private ILineSeries seriesFromMetric(Date[] dateArray, double[] metricValues) {
 
 		ILineSeries metricLineSeries = (ILineSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE, "Metric");
@@ -425,11 +442,15 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		metricLineSeries.enableArea(true);
 		metricLineSeries.setYSeries(metricValues);
 		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
+
+		chart.getAxisSet().getYAxis(0).getTitle()
+				.setText(netXResource.getUnitRef().getName());
+
 		return metricLineSeries;
 	}
-	
+
 	private ILineSeries seriesFromCapacity(Date[] dateArray,
-			double[] capacityValues, Chart chart) {
+			double[] capacityValues) {
 
 		ILineSeries capLineSeries = (ILineSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE, "Capacity");
@@ -447,7 +468,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 	}
 
 	private IBarSeries seriesFromUtilization(Date[] dateArray,
-			double[] utilizationValues, Chart chart, int yAxisID) {
+			double[] utilizationValues, int yAxisID) {
 
 		IBarSeries utilLineSeries = (IBarSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.BAR, "Utilization");
@@ -464,7 +485,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 
 	@SuppressWarnings("unused")
 	private ILineSeries seriesFromTolerance(Date[] dateArray,
-			double[] toleranceValues, Chart chart, int yAxisID) {
+			double[] toleranceValues, int yAxisID) {
 
 		ILineSeries toleranceLineSeries = (ILineSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE, "Tolerance");
@@ -549,12 +570,71 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		frmChartScreen.setText("Resource: " + netXResource.getLongName());
+		frmChartScreen.setText("Resource: "
+				+ netXResource.getLongName()
+				+ (component != null ? " ( "
+						+ modelUtils.componentName(component) + ")" : ""));
 
 		initChartBinding();
 		initMarkersBinding();
 
 		return context;
+	}
+
+	/*
+	 * Build a chart. The values to show are extracted from the injected
+	 * netXResource and interval. The metric values are sorted by period, and
+	 * split in consumable sub-ranges matching the interval. The UI allows to
+	 * select the sub-range.
+	 * 
+	 * For a sub-range the corresponding capacity and utilization a chart series
+	 * is produced.
+	 * 
+	 * The x-axis (xtick) is determined from the interval.
+	 */
+	private void initChartBinding() {
+
+		cleanChart();
+
+		if (values == null && netXResource != null && interval > 0) {
+			MetricValueRange mvr = modelUtils.valueRangeForInterval(
+					netXResource, interval);
+			if (mvr != null) {
+				values = mvr.getMetricValues();
+				if (values == null || values.size() == 0)
+					return;
+			} else
+				return;
+		}
+
+		if (dtr != null) {
+			values = this.sortAndApplyPeriod(values);
+		}
+
+		Date[] dateArray = modelUtils.transformValueToDateArray(values);
+		double[] doubleArray = modelUtils.transformValueToDoubleArray(values);
+
+		createXTickForInterval(chart, interval);
+		seriesFromMetric(dateArray, doubleArray);
+
+		DateTimeRange metricDTR = modelUtils.range(values);
+
+		// CAP VALUES......
+		initCapacityRange(dateArray, metricDTR);
+		// UTIL VALUES.
+		initUtilizationRange(dateArray, values);
+
+		// TOL VALUES
+
+		// Tolerances are not stored.....
+		// this.seriesFromTolerance(chart, 1);
+
+		// Setup data binding.
+		// adjust the axis range
+		// chart.getAxisSet().getYAxes()[0].adjustRange();
+		// chart.getAxisSet().getYAxes()[1].adjustRange();
+		chart.getAxisSet().adjustRange();
+		chart.redraw();
 	}
 
 	private void initMarkersBinding() {
@@ -586,89 +666,6 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		}
 	}
 
-	/*
-	 * Build a chart. The values to show are extracted from the injected
-	 * netXResource and interval. The metric values are sorted by period, and
-	 * split in consumable sub-ranges matching the interval. The UI allows to
-	 * select the sub-range.
-	 * 
-	 * For a sub-range the corresponding capacity and utilization a chart series
-	 * is produced.
-	 * 
-	 * The x-axis (xtick) is determined from the interval.
-	 */
-	private void initChartBinding() {
-
-		cleanChart();
-
-		// METRIC VALUES....
-		List<Value> metricValues = null;
-
-		if (values == null) {
-			if (interval > 0) {
-				MetricValueRange mvr = modelUtils.valueRangeForInterval(
-						netXResource, interval);
-				if (mvr != null) {
-					metricValues = mvr.getMetricValues();
-					if (metricValues == null || metricValues.size() == 0)
-						return;
-				} else
-					return;
-
-			} else {
-				return;
-			}
-
-		} else {
-			metricValues = values;
-		}
-
-		if (dtr != null) {
-			metricValues = this.sortAndApplyPeriod(metricValues);
-		}
-
-		// DATE RANGE FROM METRIC VALUES
-		// FIXME, We let the timestamps depending on the metric values, which
-		// this should be the provided
-		// period. For a single metric value this gives an odd behaviour of the
-		// chart.
-		// See the way it's done in the class ResourceReportingEngine/
-		// List<Date> dates = getTS();
-
-		List<Date> metricValueDates = modelUtils
-				.transformValueToDate(metricValues);
-		Date[] dateArray = new Date[metricValueDates.size()];
-		metricValueDates.toArray(dateArray);
-
-		double[] metricDoubleValues = modelUtils
-				.transformValueToDoubleArray(metricValues);
-
-		createXTickForInterval(chart, interval);
-
-		this.seriesFromMetric(dateArray, metricDoubleValues, chart,
-				netXResource);
-
-		DateTimeRange metricDTR = modelUtils.range(metricValues);
-
-		// CAP VALUES......
-		initCapacityRange(dateArray, metricDTR);
-
-		// UTIL VALUES.
-		initUtilizationRange(dateArray);
-
-		// TOL VALUES
-
-		// Tolerances are not stored.....
-		// this.seriesFromTolerance(chart, 1);
-
-		// Setup data binding.
-		// adjust the axis range
-		// chart.getAxisSet().getYAxes()[0].adjustRange();
-		// chart.getAxisSet().getYAxes()[1].adjustRange();
-		chart.getAxisSet().adjustRange();
-		// chart.redraw();
-	}
-
 	private void cleanChart() {
 
 		// Clear the series set.
@@ -676,30 +673,47 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		for (ISeries serie : seriesSet.getSeries()) {
 			seriesSet.deleteSeries(serie.getId());
 		}
+
 		// clear the axis.
+		if (utilizationAxisID != -1
+				&& chart.getAxisSet().getYAxis(utilizationAxisID) != null) {
+			chart.getAxisSet().deleteYAxis(utilizationAxisID);
+		}
 
 	}
 
-	private void initUtilizationRange(Date[] dateArray) {
+	/*
+	 * Filter utlization values for metric values. 
+	 */
+	private void initUtilizationRange(Date[] dateArray, List<Value> metricValues) {
+		
+		// Depending on the range, we want to filter the values for which we have 
+		// a utilization. 
 		List<Value> utilValues = sortAndApplyPeriod(netXResource
 				.getUtilizationValues());
-
-		if (utilValues.size() > 0) {
-			List<Double> utilDoubleValues = modelUtils
-					.transformValueToDouble(utilValues);
-
-			// Multiply by 100
-			double[] utilDoubleArray = modelUtils
-					.multiplyByHundredAndToArray(utilDoubleValues);
-
-			this.seriesFromUtilization(dateArray, utilDoubleArray, chart, 1);
-
+		utilValues = modelUtils.valuesForValues(utilValues, metricValues);
+		
+		if (utilValues.isEmpty()) {
+			return;
 		}
+
+		createUtilizationAxis();
+
+		List<Double> utilDoubleValues = modelUtils
+				.transformValueToDouble(utilValues);
+		// Multiply by 100
+		double[] utilDoubleArray = modelUtils
+				.multiplyByHundredAndToArray(utilDoubleValues);
+		this.seriesFromUtilization(dateArray, utilDoubleArray, 1);
 	}
 
 	private void initCapacityRange(Date[] dateArray,
 			DateTimeRange metricValuesDateTimeRange) {
 		List<Value> capacities = netXResource.getCapacityValues();
+
+		if (capacities.isEmpty()) {
+			return;
+		}
 		// Apply a period filter.
 		if (dtr != null) {
 			capacities = this.sortAndApplyPeriod(capacities);
@@ -724,7 +738,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 
 		double[] capValues = modelUtils
 				.transformValueToDoubleArray(capMatchingDates);
-		this.seriesFromCapacity(dateArray, capValues, chart);
+		this.seriesFromCapacity(dateArray, capValues);
 	}
 
 	// TODO Move to ModelUtils (Even when used).
@@ -816,16 +830,23 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 			this.resMonitor = chartInput.getResourceMonitor();
 			ISelection selection = context.getSelection();
 
-			// fire a wizard to select the range.
-			@SuppressWarnings("unused")
+			// fire a wizard to select the range, block until we select a range.
 			IWizard wiz = WizardUtil.openWizard(
 					"com.netxforge.netxstudio.screens.valueranges",
-					(IStructuredSelection) selection);
+					(IStructuredSelection) selection, true);
+
+			if (wiz instanceof ValueRangeSelectionWizard) {
+				MetricValueRange valueRange = ((ValueRangeSelectionWizard) wiz)
+						.getValueRange();
+				values = valueRange.getMetricValues();
+				interval = valueRange.getIntervalHint();
+			}
 
 			if (selection instanceof IStructuredSelection) {
 				if (((IStructuredSelection) selection).getFirstElement() instanceof NetXResource) {
 					this.netXResource = (NetXResource) ((IStructuredSelection) selection)
 							.getFirstElement();
+					component = netXResource.getComponentRef();
 				}
 			}
 

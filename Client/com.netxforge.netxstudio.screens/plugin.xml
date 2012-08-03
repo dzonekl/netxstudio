@@ -42,11 +42,18 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <wizard
-            class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.f1.support.ReportSelectionWizard"
+            class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.f1.support.ReportWizard"
             hasPages="true"
             id="com.netxforge.netxstudio.screens.reporting"
             name="Reporting Wizard">
       </wizard>
+            <wizard
+            class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.f1.support.MonitoringWizard"
+            hasPages="true"
+            id="com.netxforge.netxstudio.screens.monitoring"
+            name="Monitoring Wizard">
+      </wizard>
+      
         <wizard
             class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionWizard"
             hasPages="true"

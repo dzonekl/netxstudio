@@ -24,6 +24,8 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 
 public class PeriodDialog extends Dialog {
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
+	
+	
 	private CDateTime startDate;
 	private CDateTime startTime;
 	private CDateTime endDate;

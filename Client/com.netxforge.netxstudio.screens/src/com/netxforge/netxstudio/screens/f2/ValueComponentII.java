@@ -108,8 +108,8 @@ public class ValueComponentII {
 		}
 
 		if (res instanceof NetXResource) {
-
-			// timestamp column
+			
+			// The time stamp column
 			TableViewerColumn tbvcFor = tableHelper.new TBVC<Date>(
 					new NetXResourceValueLabelProvider()).tbvcFor(
 					valuesTableViewer, "Time Stamp", 185);
@@ -118,7 +118,10 @@ public class ValueComponentII {
 
 			// metric value ranges....
 			NetXResource resource = (NetXResource) res;
-			for (MetricValueRange mvr : resource.getMetricValueRanges()) {
+			
+			List<MetricValueRange> mvrList = Lists.newArrayList(resource.getMetricValueRanges());
+			Collections.sort(mvrList, modelUtils.mvrCompare());
+			for (MetricValueRange mvr : mvrList) {
 				int intervalHint = mvr.getIntervalHint();
 				
 				// CB 14-07-2012, interpret the interval. 
@@ -243,7 +246,10 @@ public class ValueComponentII {
 					List<Date> existingDates = Lists.newArrayList();
 
 					int rangeIndex = 0;
-					for (MetricValueRange mvr : res.getMetricValueRanges()) {
+					
+					List<MetricValueRange> mvrList = Lists.newArrayList(res.getMetricValueRanges());
+					Collections.sort(mvrList, modelUtils.mvrCompare());
+					for (MetricValueRange mvr : mvrList) {
 						List<Double> doubles = modelUtils.merge(existingDates,
 								mvr.getMetricValues());
 						// check if the date exist, add if not and add the value

@@ -104,6 +104,10 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 		case 2: {
 			updateColumn2(cell, element);
 		}
+			break;
+		case 3: {
+			updateColumn3(cell, element);
+		}
 		}
 
 	}
@@ -157,8 +161,21 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 						"icons/full/obj16/Expression_H.png");
 				cell.setImage(img);
 				cell.setStyleRanges(styledString.getStyleRanges());
-			}else{
+			} else {
 				cell.setImage(null);
+			}
+		}
+	}
+
+	private void updateColumn3(ViewerCell cell, Object element) {
+
+		StyledString styledString = new StyledString();
+		if (element instanceof Component) {
+			Component c = (Component) element;
+			int size = c.getToleranceRefs().size();
+			if (size > 0) {
+				cell.setText(new Integer(size).toString());
+				cell.setStyleRanges(styledString.getStyleRanges());
 			}
 		}
 	}

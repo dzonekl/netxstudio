@@ -17,14 +17,13 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2;
 
-import java.util.List;
-
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -33,9 +32,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 
@@ -93,38 +92,45 @@ public class ValueRangeComponent {
 
 		Label createLabel = toolkit.createLabel(cmpValueRange,
 				"Select the range: ");
-		createLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
+		createLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
 		cmbViewerValueRange = new ComboViewer(cmpValueRange, SWT.READ_ONLY);
-		// cmbViewerValueRange.getCombo().setLayoutData(new GridData(SWT.LEFT,
-		// SWT.CENTER));
+		cmbViewerValueRange.getCombo().setLayoutData(
+				new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		toolkit.paintBordersFor(cmbViewerValueRange.getCombo());
 	}
 
 	public void setNetXResource(NetXResource resource) {
+
 		cmbViewerValueRange.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return super.getText(element);
+				StringBuffer sb = new StringBuffer();
+				if (element instanceof MetricValueRange) {
+					MetricValueRange mvr = (MetricValueRange) element;
+					sb.append(""
+							+ modelUtils.fromMinutes(mvr.getIntervalHint()));
+					sb.append(" (count=" + mvr.getMetricValues().size() + ")");
+
+					DateTimeRange range = modelUtils.range(mvr
+							.getMetricValues());
+					if (range != null) {
+						sb.append(" period=" + modelUtils.formatPeriod(range));
+					}
+
+				}
+				return sb.toString();
 			}
 		});
 		cmbViewerValueRange.setContentProvider(new ArrayContentProvider() {
-			List<String> content = Lists.newArrayList();
-
 			@Override
 			public Object[] getElements(Object inputElement) {
-
 				if (inputElement instanceof NetXResource) {
-					for (MetricValueRange mvr : ((NetXResource) inputElement)
-							.getMetricValueRanges()) {
-						StringBuffer sb = new StringBuffer();
-						sb.append("range for: "
-								+ modelUtils.fromSeconds(mvr.getIntervalHint()));
-						sb.append(" values = " + mvr.getMetricValues().size()); //
-						content.add(sb.toString());
-					}
+					return ((NetXResource) inputElement).getMetricValueRanges()
+							.toArray();
 				}
-				return super.getElements(inputElement);
+				return null;
 			}
 		});
 		cmbViewerValueRange
@@ -137,6 +143,14 @@ public class ValueRangeComponent {
 						}
 					}
 				});
+
+		cmbViewerValueRange.setInput(resource);
+		if (!resource.getMetricValueRanges().isEmpty()) {
+			MetricValueRange metricValueRange = resource.getMetricValueRanges()
+					.get(0);
+			cmbViewerValueRange.setSelection(new StructuredSelection(
+					metricValueRange));
+		}
 
 	}
 

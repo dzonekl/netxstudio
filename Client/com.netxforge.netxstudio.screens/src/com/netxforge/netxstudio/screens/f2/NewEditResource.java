@@ -63,8 +63,6 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
@@ -388,22 +386,7 @@ public class NewEditResource extends AbstractScreen implements
 			}
 
 			public Object convert(Object fromObject) {
-				if (fromObject instanceof Equipment) {
-					String code = ((Equipment) fromObject).getEquipmentCode();
-					String name = ((Equipment) fromObject).getName();
-					StringBuilder sb = new StringBuilder();
-					if (code != null && code.length() > 0) {
-						sb.append(code + " ");
-					}
-					if (name != null && name.length() > 0) {
-						sb.append(name);
-					}
-					return sb.toString();
-
-				} else if (fromObject instanceof Function) {
-					return ((Function) fromObject).getName();
-				}
-				return null;
+				return modelUtils.componentName(fromObject);
 			}
 
 		});

@@ -39,11 +39,9 @@ public class RFSServiceSummaryJob implements IJobChangeListener {
 	private RFSServiceSummary summary;
 	private ModelUtils modelUtils;
 	private boolean running = false;
-	
+
 	private IProgressMonitor monitor;
-	
-	
-	
+
 	public RFSServiceSummaryJob(ModelUtils modelUtils) {
 		super();
 		this.modelUtils = modelUtils;
@@ -85,11 +83,10 @@ public class RFSServiceSummaryJob implements IJobChangeListener {
 					service, sm.getPeriod(), monitor);
 		}
 	}
-	
-	public void cancelMonitor(){
+
+	public void cancelMonitor() {
 		this.monitor.setCanceled(true);
 	}
-	
 
 	public void aboutToRun(IJobChangeEvent event) {
 		System.out
@@ -97,7 +94,7 @@ public class RFSServiceSummaryJob implements IJobChangeListener {
 	}
 
 	public void awake(IJobChangeEvent event) {
-		
+
 	}
 
 	public void done(IJobChangeEvent event) {
@@ -133,10 +130,10 @@ public class RFSServiceSummaryJob implements IJobChangeListener {
 	}
 
 	/**
-	 * @param running the running to set
+	 * @param running
+	 *            the running to set
 	 */
 	public void setRunning(boolean running) {
 		this.running = running;
 	}
-
 }

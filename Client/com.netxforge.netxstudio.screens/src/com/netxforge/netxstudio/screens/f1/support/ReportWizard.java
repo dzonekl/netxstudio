@@ -18,7 +18,7 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class ReportSelectionWizard extends Wizard implements INewWizard {
+public class ReportWizard extends Wizard implements INewWizard {
 
 	
 	private static final String REPORTING_WIZARD = "reporting_period";
@@ -35,12 +35,12 @@ public class ReportSelectionWizard extends Wizard implements INewWizard {
 	private Object firstSelectedObject;
 
 	@Inject
-	private ReportPeriodSelectionPage reportSelectionPeriod;
+	private PeriodSelectionPage reportSelectionPeriod;
 
 	
 	private ReportTypeSelectionPage reportSelectionType;
 
-	public ReportSelectionWizard() {
+	public ReportWizard() {
 		setWindowTitle("Reporting");
 		IDialogSettings ds = ScreensActivator.getDefault().getDialogSettings();
 		IDialogSettings section = ds.getSection(REPORTING_WIZARD);
