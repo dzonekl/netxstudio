@@ -1,16 +1,28 @@
-# Enables debugging.
-# Generic debugging enablement for plugins.
+# Enables debugging. 
+# Generic debugging enablement for plugins. 
+com.netxforge.netxstudio.data/debug=true
 com.netxforge.netxstudio.server/debug=true
 com.netxforge.netxstudio.server.metrics/debug=true
-com.netxforge.netxstudio.data/debug=true
+com.netxforge.netxstudio.server.logic/debug=true
 
-# Generic trace option.
+# Enable debugging for CDO plugins
+org.eclipse.net4j.util/debug=false
+org.eclipse.emf.cdo/debug=false
+org.eclipse.emf.cdo/debug.session=false
+org.eclipse.emf.cdo.server.db/debug=true
+
+# Generic trace option, TODO do not use a generic, make it per plugin. 
 com.netxforge.netxstudio.server/trace.cdo=true
 
-# Metrics Job trace option.
+# Metrics Job trace option. 
 com.netxforge.netxstudio.server.metrics/trace.import=true
 
 # Data facilities
-com.netxforge.netxstudio.data/trace.import=true
-com.netxforge.netxstudio.data/trace.import.locator=true
-com.netxforge.netxstudio.data/trace.import.helper=true
+com.netxforge.netxstudio.data/trace.import=false
+com.netxforge.netxstudio.data/trace.import.details=false
+com.netxforge.netxstudio.data/trace.import.locator=false
+com.netxforge.netxstudio.data/trace.import.helper=false
+
+# Logic facilities
+com.netxforge.netxstudio.server.logic/trace.logic=true
+com.netxforge.netxstudio.server.logic/trace.logic.details=false

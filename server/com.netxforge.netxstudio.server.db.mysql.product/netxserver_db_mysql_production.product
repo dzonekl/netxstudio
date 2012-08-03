@@ -8,7 +8,7 @@
 
    <launcherArgs>
       <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -clean  -debug -console 8811 -noExit -consoleLog --launcher.XXMaxPermSize 128M</programArgs>
-      <programArgsLin>-data @user.home/workspace</programArgsLin>
+      <programArgsLin>-data @user.home</programArgsLin>
       <programArgsMac>-data @user.home/netxserver</programArgsMac>
       <vmArgs>-Xms40m
 -XX:+HeapDumpOnOutOfMemoryError
