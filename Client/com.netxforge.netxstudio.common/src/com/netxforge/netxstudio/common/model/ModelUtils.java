@@ -15,6 +15,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -36,6 +37,7 @@ import org.eclipse.emf.cdo.common.revision.delta.CDOSetFeatureDelta;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
+import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -163,7 +165,9 @@ public class ModelUtils {
 		public int compare(final Value v1, final Value v2) {
 
 			// check if set.
-			if (v1.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)
+			if (v1 != null
+					&& v1.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)
+					&& v2 != null
 					&& v2.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)) {
 				return v1.getTimeStamp().compare(v2.getTimeStamp());
 			}
@@ -228,8 +232,32 @@ public class ModelUtils {
 		return new DoubleComparator();
 	}
 
+	/**
+	 * Compare two value ranges, on the interval in minutes.
+	 */
+	public class MvrComparator implements Comparator<MetricValueRange> {
+		public int compare(final MetricValueRange mvr1,
+				final MetricValueRange mvr2) {
+			return new Integer(mvr1.getIntervalHint()).compareTo(mvr2
+					.getIntervalHint());
+		}
+	};
+
+	public MvrComparator mvrCompare() {
+		return new MvrComparator();
+	}
+
+	/**
+	 * Compare two markers on the time stamps.
+	 */
 	public class MarkerTimeStampComparator implements Comparator<Marker> {
 		public int compare(final Marker m1, final Marker m2) {
+
+			CDOUtil.cleanStaleReference(m1,
+					OperatorsPackage.Literals.MARKER__VALUE_REF);
+			CDOUtil.cleanStaleReference(m2,
+					OperatorsPackage.Literals.MARKER__VALUE_REF);
+
 			return new ValueTimeStampComparator().compare(m1.getValueRef(),
 					m2.getValueRef());
 		}
@@ -239,11 +267,12 @@ public class ModelUtils {
 		return new MarkerTimeStampComparator();
 	}
 
+	/**
+	 * Simply compare the begin of the period, we do not check for potential
+	 * overlap with the end of the period.
+	 */
 	public class ServiceMonitorComparator implements Comparator<ServiceMonitor> {
 		public int compare(final ServiceMonitor sm1, ServiceMonitor sm2) {
-			// Simply compare the begin of the period, we do not check for
-			// potential
-			// overlap with the end of the period.
 			return sm1.getPeriod().getBegin()
 					.compare(sm2.getPeriod().getBegin());
 		}
@@ -365,6 +394,41 @@ public class ModelUtils {
 		return Lists.newArrayList(filterValues);
 	}
 
+	public class ValueForValues implements Predicate<Value> {
+
+		List<Value> referenceValues;
+
+		public ValueForValues(final List<Value> referenceValues) {
+			this.referenceValues = referenceValues;
+		}
+
+		public boolean apply(final Value unfilteredValue) {
+
+			Predicate<Value> predicate = new Predicate<Value>() {
+				public boolean apply(final Value v) {
+					return valueTimeStampCompare().compare(unfilteredValue, v) == 0;
+				}
+			};
+			try {
+				Iterables.find(referenceValues, predicate);
+				return true;
+			} catch (NoSuchElementException nsee) {
+				return false;
+			}
+		}
+	}
+
+	public ValueForValues valueForValues(List<Value> referenceValues) {
+		return new ValueForValues(referenceValues);
+	}
+
+	public List<Value> valuesForValues(Iterable<Value> unfiltered,
+			List<Value> referenceValues) {
+		Iterable<Value> filterValues = Iterables.filter(unfiltered,
+				valueForValues(referenceValues));
+		return Lists.newArrayList(filterValues);
+	}
+
 	/**
 	 * Gets a range from a bunch of values. The values are sorted first. The
 	 * values should not be empty.
@@ -385,7 +449,7 @@ public class ModelUtils {
 				.getTimeStamp());
 		createDateTimeRange.setEnd(sortValuesByTimeStamp.get(
 				sortValuesByTimeStamp.size() - 1).getTimeStamp());
-		
+
 		return createDateTimeRange;
 	}
 
@@ -407,51 +471,54 @@ public class ModelUtils {
 	public List<List<Value>> splitValueRange(List<Value> values,
 			int srcInterval, int targetInterval) {
 
+		List<List<Value>> valueMatrix = Lists.newArrayList();
+
 		int field = fieldForInterval(srcInterval, targetInterval);
 
-		List<List<Value>> newArrayList = Lists.newArrayList();
-		List<Value> nextSequence = Lists.newArrayList();
+		if (field == -1) {
+			// can't split, bale out.
+			valueMatrix.add(values);
+			return valueMatrix;
+		}
 
+		List<Value> nextSequence = Lists.newArrayList();
 		// we expect at least one value, so we can safely add the first
 		// sequence.
 		if (!values.isEmpty()) {
-			newArrayList.add(nextSequence);
+			valueMatrix.add(nextSequence);
 		}
 		Iterator<Value> iterator = values.iterator();
 
 		GregorianCalendar cal = null;
 		int actualMaximum = -1;
-		// int actualMinimum = -1;
-
+		int actualMinimum = -1;
+		int lastVal = -1;
 		while (iterator.hasNext()) {
 			Value v = iterator.next();
 			cal = v.getTimeStamp().toGregorianCalendar();
 			if (actualMaximum == -1) {
 				actualMaximum = cal.getActualMaximum(field);
-				// actualMinimum = cal.getActualMinimum(field);
+				actualMinimum = cal.getActualMinimum(field);
 			}
-			int fieldValue = cal.get(field);
+			int currentVal = cal.get(field);
+
 			// Get the relevant field for this timestamp. the value for the
 			// corresponding field
 			// is pushed until the max value.
-			if (fieldValue == actualMaximum) {
-				nextSequence.add(v);
-				if (iterator.hasNext()) {
-					nextSequence = Lists.newArrayList();
-					newArrayList.add(nextSequence);
-				}
-				continue;
-			} else if (fieldValue < actualMaximum) {
-				nextSequence.add(v);
-				continue;
-			} else {
-				// it should nog get here.
-				throw new IllegalStateException(
-						"interval out of bounds, for value=" + this.value(v));
+			if (currentVal == actualMinimum && lastVal == actualMaximum) {
+				nextSequence = Lists.newArrayList();
+				valueMatrix.add(nextSequence);
 			}
+			// else {
+			// // it should nog get here.
+			// throw new IllegalStateException(
+			// "interval out of bounds, for value=" + this.value(v));
+			// }
+			nextSequence.add(v);
+			lastVal = currentVal;
 		}
 
-		return newArrayList;
+		return valueMatrix;
 	}
 
 	/**
@@ -491,6 +558,17 @@ public class ModelUtils {
 	public int fieldForInterval(int srcInterval, int targetInterval) {
 
 		switch (srcInterval) {
+		case 15: {
+			switch (targetInterval) {
+			case MINUTES_IN_A_DAY:
+			case -1:
+				return Calendar.HOUR_OF_DAY;
+			case MINUTES_IN_AN_HOUR: {
+				// we can't split using a field.
+				// return -1;
+			}
+			}
+		}
 		case MINUTES_IN_AN_HOUR: // one hour interval.
 			return Calendar.HOUR_OF_DAY;
 		case MINUTES_IN_A_DAY: { // one day interval
@@ -824,6 +902,42 @@ public class ModelUtils {
 			}
 		} else {
 			return LibraryPackage.Literals.NET_XRESOURCE.getName();
+		}
+	}
+
+	/*
+	 * Construct a name specific to hold NetXResource objects.
+	 */
+	public String cdoCalculateResourceName(EObject eObject)
+			throws IllegalAccessException {
+		if (eObject instanceof Component) {
+			final Component component = (Component) eObject;
+			// }
+			return cdoCalculateResourceName(component.eContainer());
+		} else if (eObject instanceof Node) {
+			Node n = (Node) eObject;
+			if (n.eIsSet(OperatorsPackage.Literals.NODE__NODE_ID)) {
+				return LibraryPackage.Literals.NET_XRESOURCE.getName() + "_"
+						+ ((Node) eObject).getNodeID();
+			} else {
+				throw new IllegalAccessException("The node ID should be set");
+			}
+
+		} else if (eObject instanceof NodeType) {
+			final NodeType nodeType = (NodeType) eObject;
+			if (nodeType.eContainer() instanceof Node) {
+				return cdoCalculateResourceName(nodeType.eContainer());
+			} else {
+				// throw an exception, we shouldn't call this method and expect
+				// a resource, for a NodeType instad of Node.
+				throw new IllegalAccessException(
+						"The root parent should always ne a Node");
+			}
+		} else {
+			// throw an exception, we shouldn't call this method and expect an
+			// invalid EObject.
+			throw new IllegalAccessException(
+					"Invalid argument EObject, shoud be Component, or parent");
 		}
 	}
 
@@ -1937,6 +2051,11 @@ public class ModelUtils {
 			NodeType nt = (NodeType) o;
 			result.append("NodeType: name=" + nt.getName());
 		}
+		if (o instanceof NetXResource) {
+			NetXResource nt = (NetXResource) o;
+			result.append("NetXResource: short name=" + nt.getShortName());
+		}
+
 		if (o instanceof Service) {
 			Service nt = (Service) o;
 			result.append("Service: name=" + nt.getServiceName());
@@ -1973,8 +2092,8 @@ public class ModelUtils {
 		// }else if(o.eResource() != null){
 		// result.append(" resource=" + o.eResource().getURI().toString());
 		// }
-		result.append(" ( CDO Info object=" + ((CDOObject) o).cdoRevision()
-				+ " )");
+		// result.append(" ( CDO Info object=" + ((CDOObject) o).cdoRevision()
+		// + " )");
 
 		return result.toString();
 	}
@@ -2551,6 +2670,15 @@ public class ModelUtils {
 	}
 
 	public String fromMinutes(int minutes) {
+
+		switch (minutes) {
+		case MINUTES_IN_A_MONTH: {
+			return "Month";
+		}
+		case MINUTES_IN_A_WEEK: {
+			return "Week";
+		}
+		}
 		return this.fromSeconds(minutes * 60);
 	}
 
@@ -3451,6 +3579,34 @@ public class ModelUtils {
 		return components;
 	}
 
+	/**
+	 * The component name. If the component is a Function, the name will be
+	 * returned. If the component is an Equipment, the code could be returned or
+	 * the name.
+	 * 
+	 * @param fromObject
+	 * @return
+	 */
+	public String componentName(Object fromObject) {
+		if (fromObject instanceof Equipment) {
+			String code = ((Equipment) fromObject).getEquipmentCode();
+			String name = ((Equipment) fromObject).getName();
+			StringBuilder sb = new StringBuilder();
+			if (code != null && code.length() > 0) {
+				sb.append(code + " ");
+			}
+			if (name != null && name.length() > 0) {
+				sb.append(name);
+			}
+			return sb.toString();
+
+		} else if (fromObject instanceof com.netxforge.netxstudio.library.Function) {
+			return ((com.netxforge.netxstudio.library.Function) fromObject)
+					.getName();
+		}
+		return null;
+	}
+
 	public List<NodeType> nodeTypesForResource(Resource operatorsResource) {
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 		for (EObject eo : operatorsResource.getContents()) {
@@ -3494,5 +3650,4 @@ public class ModelUtils {
 		}
 
 	}
-
 }
