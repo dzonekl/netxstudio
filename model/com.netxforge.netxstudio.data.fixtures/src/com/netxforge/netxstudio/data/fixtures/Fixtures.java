@@ -138,15 +138,25 @@ public class Fixtures implements IFixtures {
 				.getResource(LibraryPackage.Literals.EXPRESSION);
 
 		EList<EObject> rulesContents = retentionRulesResource.getContents();
+		
+		// always clear rules and expressions for the rules. 
+		rulesContents.clear();
 
+		List<Expression> expToRemove = Lists.newArrayList();
+		for (EObject eo : expressionResource.getContents()) {
+			Expression exp = (Expression) eo;
+			if (exp.getName().endsWith("retention rule")) {
+				expToRemove.add(exp);
+			}
+		}
+		
+		expressionResource.getContents().removeAll(expToRemove);
+		
 		Expression monthlyRetentionExpression;
 		Expression weeklyRetentionExpression;
 		Expression dailyRetentionExpression;
 		Expression hourlyRetentionExpression;
-
-		// always reset for now.
-		rulesContents.clear();
-
+		
 		// if (contents.size() == 1) {
 		// return;
 		// } else {
@@ -263,7 +273,7 @@ public class Fixtures implements IFixtures {
 			if (jobsToRemove.size() > 0) {
 				jobResource.getContents().removeAll(jobsToRemove);
 			}
-			
+
 			// Add the retention job.
 			final RetentionJob retentionJob = SchedulingFactory.eINSTANCE
 					.createRetentionJob();
