@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.actions;
 
 import org.eclipse.core.runtime.CoreException;
@@ -27,12 +27,28 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 
 /**
- * Utility for opening a wizard from the declared wizard ID.  
+ * Utility for opening a wizard from the declared wizard ID.
  * 
  * @author Christophe
  */
 public class WizardUtil {
+
+	/**
+	 * Open a wizard with the declarative id and pass on a selection.  
+	 * 
+	 * Block the wizard when opening. 
+	 *  
+	 * @param id
+	 * @param selection
+	 * @return
+	 */
 	public static IWizard openWizard(String id, IStructuredSelection selection) {
+		return openWizard(id, selection, false);
+	}
+
+	public static IWizard openWizard(String id, IStructuredSelection selection,
+			boolean blockOnOpen) {
+
 		// First see if this is a "new wizard".
 		IWizardDescriptor descriptor = PlatformUI.getWorkbench()
 				.getNewWizardRegistry().findWizard(id);
@@ -50,16 +66,17 @@ public class WizardUtil {
 			// Then if we have a wizard, open it.
 			if (descriptor != null) {
 				IWizard wizard = descriptor.createWizard();
-				if(wizard instanceof IWorkbenchWizard){
-					((IWorkbenchWizard) wizard).init(PlatformUI.getWorkbench(), selection);
+				if (wizard instanceof IWorkbenchWizard) {
+					((IWorkbenchWizard) wizard).init(PlatformUI.getWorkbench(),
+							selection);
 				}
-				
+
 				WizardDialog wd = new WizardDialog(Display.getCurrent()
 						.getActiveShell(), wizard);
 				wd.setTitle(wizard.getWindowTitle());
-				wd.setBlockOnOpen(false);
+				wd.setBlockOnOpen(blockOnOpen);
 				wd.open();
-				
+
 				return wizard;
 			}
 		} catch (CoreException e) {
