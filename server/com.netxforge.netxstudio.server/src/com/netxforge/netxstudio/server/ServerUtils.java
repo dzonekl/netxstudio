@@ -23,8 +23,6 @@ import java.util.Map;
 import javax.xml.datatype.DatatypeFactory;
 
 import org.eclipse.emf.cdo.common.commit.handler.AsyncCommitInfoHandler;
-import org.eclipse.emf.cdo.common.revision.CDORevisionCache;
-import org.eclipse.emf.cdo.common.revision.CDORevisionUtil;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.IRepository;
@@ -202,8 +200,9 @@ public class ServerUtils {
 
 		// Note: Option to disable caching, this was of for Hibernate store, but
 		// back on for the DB Store.
-		sessionConfiguration.setRevisionManager(CDORevisionUtil
-				.createRevisionManager(CDORevisionCache.NOOP));
+
+		//		sessionConfiguration.setRevisionManager(CDORevisionUtil
+		//		.createRevisionManager(CDORevisionCache.NOOP));
 
 		final IPasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(
 				new PasswordCredentials(serverSideLogin,
@@ -213,18 +212,32 @@ public class ServerUtils {
 				credentialsProvider);
 		// set to a minute
 		// sessionConfiguration.setSignalTimeout(IDataProvider.SIGNAL_TIME_OUT);
-
+		
 		return sessionConfiguration;
 	}
 
 	// A customer exception handler implementation.
 	ServerExceptionHandler exceptionHandler = new ServerExceptionHandler();
 
+	/*
+	 * Types of exceptions we can expect. 
+	 * Commit exceptions, duplicate identifier on Join Tables. 
+	 * Timeout exceptions. 
+	 * 
+	 * @author Christophe
+	 *
+	 */
 	class ServerExceptionHandler implements ExceptionHandler {
 
 		public void handleException(CDOSession session, int attempt,
 				Exception exception) throws Exception {
+			
+			
+			
+			
 			exception.printStackTrace();
+			
+			
 		}
 	}
 

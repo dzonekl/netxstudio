@@ -64,22 +64,6 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener {
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + DEBUG_OPTION, false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
-		
-		// CB Experimental, set the trace.log file as this is not created.
-//		if(options.getFile() == null){
-//			File file = new File(this.workspaceLocation + File.separator + "trace.log");
-//			if(!file.exists()){
-//				try {
-//					if( file.createNewFile()){
-//						// creation succeeded. 
-//					}
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}else{
-//				options.setFile(file);
-//			}
-//		}
 	}
 
 	public static BundleContext getContext() {
