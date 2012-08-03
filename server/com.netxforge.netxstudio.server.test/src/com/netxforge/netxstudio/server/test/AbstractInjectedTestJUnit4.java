@@ -28,6 +28,7 @@ import com.netxforge.netxstudio.server.test.base.TestModule;
 public abstract class AbstractInjectedTestJUnit4 {
 
 	private Injector injector;
+	
 	protected ModelUtils modelUtils;
 
 	public AbstractInjectedTestJUnit4() {
