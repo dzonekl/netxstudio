@@ -1,5 +1,8 @@
 h1. Resource Monitors
 
 Resource Monitors shows the resource monitoring objects created for the corresponding service monitor.
+Resource Monitors hold markers pointing to values in a resource. 
 
-!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/monitoring/services/resource_monitors.png!
+_See_ "Data Structure":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/getting_started/data_structure.html 
+
+

@@ -1,0 +1,13 @@
+h1. Service Users
+
+The Service User screen provides access to Service User definitions.
+
+* "Create or Modifying a Service User":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/monitoring/service_users/creating_a_service_user.html
+
+The Service User screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/monitoring/service_users/service_users.png!
+
+*New* => Click on the upright link to create a new Service User
+*Edit* => Right-click on a Service User in the table and select edit. 
+*Filter* => Type text to filter Service User containing the text

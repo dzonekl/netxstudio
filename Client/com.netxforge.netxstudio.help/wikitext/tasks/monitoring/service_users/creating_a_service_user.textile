@@ -1,0 +1,23 @@
+h1. Creating or Editing a Service User
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/monitoring/service_users/creating_a_service_user.png!
+
+The following data should be entered or is presented.
+
+*Info*
+
+* The Service User Name. The name of the Service User Example "Prepaid Subscriber".   
+* The Service User Description. The description of the Service User, explaining about what is in the profile. 
+
+*Profile*
+
+* Click "New" to create a Profile for this Service User
+* Right-Click on a Profile to either edit or remove a Profile for the Service User.
+
+*Profile Expression*
+
+* Click "Select" to select an expression which calculates the profile resource. 
+
+
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.

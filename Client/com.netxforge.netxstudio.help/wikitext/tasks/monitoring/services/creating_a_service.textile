@@ -42,12 +42,11 @@ The Service Users for this service.
 
 * Show Hierarchy. This is diagram of the Service hierarchy. For a nested service, the full hierarchy will be depicted.
 
-!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/monitoring/services/service_hierarchy.png!
 
 *Tolerances*
 
 * Click "Add" to add an existing Tolerance to the Service
 * Right-Click on a Tolerance to remove a Tolerance from the Service.
 
-*Save* => Menu -> File -> Save
-*Cancel* => The editing can be undone by Menu-> Edit -> Undo
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.
