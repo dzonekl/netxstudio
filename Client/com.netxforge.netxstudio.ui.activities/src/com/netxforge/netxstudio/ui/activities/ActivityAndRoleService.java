@@ -46,10 +46,9 @@ public class ActivityAndRoleService implements IActivityAndRoleService {
 	
 	public static String ACTIVITY_ADMIN = "com.netxforge.netxstudio.ui.activity.admin";
 	public static String ACTIVITY_MONITORING = "com.netxforge.netxstudio.ui.activity.monitoring";
-
+	public static String ACTIVITY_IMPORT = "com.netxforge.netxstudio.ui.activity.wizard";
 	
 	public ActivityAndRoleService(){
-		
 	}
 	
 	/**
@@ -62,9 +61,11 @@ public class ActivityAndRoleService implements IActivityAndRoleService {
 		if( role.getName().equals(IFixtures.ROLE_ADMIN)){
 			activities.add(ACTIVITY_ADMIN);
 			activities.add(ACTIVITY_MONITORING);
+			activities.add(ACTIVITY_IMPORT);
 			return activities;
 		} else if( role.getName().equals(IFixtures.ROLE_PLANNER)){
 			activities.add(ACTIVITY_MONITORING);
+			activities.add(ACTIVITY_IMPORT);
 		} else if( role.getName().equals((IFixtures.ROLE_READONLY))){
 			activities.add(ACTIVITY_MONITORING);
 		}
