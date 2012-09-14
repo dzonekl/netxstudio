@@ -458,8 +458,9 @@ public class ResourceReportingEngine {
 				});
 
 		// there should only be one entry, ugly hack.
+		// http://work.netxforge.com/issues/292
 		if (filterEntries.size() == 1) {
-			return filterEntries.keySet().iterator().next();
+			return filterEntries.keySet().iterator().next() -1 ;
 		}
 		return -1;
 	}
