@@ -228,7 +228,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 			}
 		});
 		
-		mntmEditResource.setText(this.getOperationTextAction());
+		mntmEditResource.setText(ScreenUtil.isReadOnlyOperation(this.getOperation()) ? "View..." : "Edit...");
 
 		MenuItem mntmRemoveResource = new MenuItem(resourcesMenu, SWT.NONE);
 		mntmRemoveResource.addSelectionListener(new SelectionAdapter() {
