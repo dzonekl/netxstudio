@@ -146,6 +146,7 @@ import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f1.support.ReportWizard;
+import com.netxforge.netxstudio.screens.f3.NetworkViewerComparator;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
@@ -403,10 +404,13 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				| SWT.MULTI | widgetStyle);
 		componentsTreeViewer.setUseHashlookup(true);
 		componentsTreeViewer.setComparer(new CDOElementComparer());
+		// CB http://work.netxforge.com/issues/290
+		componentsTreeViewer.setComparator(new NetworkViewerComparator());
+		
 		componentsTree = componentsTreeViewer.getTree();
 		componentsTree.setHeaderVisible(true);
 		componentsTree.setLinesVisible(true);
-
+		
 		if (gd_componentsTreeViewer != null) {
 			componentsTree.setLayoutData(gd_componentsTreeViewer);
 		}
@@ -418,7 +422,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		TreeColumn trclmnCountry = treeViewerColumn.getColumn();
 		trclmnCountry.setWidth(200);
 		trclmnCountry.setText("Component");
-
+		
+		
 		// TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
 		// componentsTreeViewer, SWT.NONE);
 		// TreeColumn trclmnSite = treeViewerColumn_2.getColumn();

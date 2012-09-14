@@ -83,6 +83,7 @@ import com.netxforge.netxstudio.screens.f2.details.NewEditFunction;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNodeType;
 import com.netxforge.netxstudio.screens.f2.support.NodeTypeTreeFactoryImpl;
 import com.netxforge.netxstudio.screens.f2.support.NodeTypeTreeLabelProvider;
+import com.netxforge.netxstudio.screens.f3.NetworkViewerComparator;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -226,7 +227,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		nodeTypeTreeViewer.setUseHashlookup(true);
 		nodeTypeTreeViewer.setComparer(new CDOElementComparer());
 		nodeTypeTreeViewer.addFilter(new TreeSearchFilter(editingService));
-
+		nodeTypeTreeViewer.setComparator(new NetworkViewerComparator());
+		
 		nodeTypeTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {

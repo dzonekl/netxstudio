@@ -49,7 +49,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -91,7 +90,6 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.operators.Warehouse;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -261,60 +259,15 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			mghprlnkNewImagehyperlink.setText("New");
 
 		}
-		
+
 		networkTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.VIRTUAL
 				| SWT.MULTI | widgetStyle);
 		// networkTreeViewer.setUseHashlookup(true);
 		// networkTreeViewer.setComparer(new CDOElementComparer());
 		networkTreeViewer.addFilter(new TreeSearchFilter(editingService));
 
-		// Set a default sorter.
-		networkTreeViewer.setComparator(new ViewerComparator() {
-
-			@Override
-			public int category(Object element) {
-				if (element instanceof Operator)
-					return 1;
-				if (element instanceof Network)
-					return 2;
-				if (element instanceof Relationship)
-					return 3;
-				if (element instanceof Node)
-					return 4;
-				if (element instanceof Function)
-					return 5;
-				if (element instanceof Equipment)
-					return 6;
-
-				return super.category(element);
-			}
-
-			// We can't delegate to the ILabelProvider, as we use a
-			// StyledCellLabelProvider.
-			@Override
-			public int compare(Viewer viewer, Object e1, Object e2) {
-				int cat1 = category(e1);
-				int cat2 = category(e2);
-
-				if (cat1 != cat2) {
-					return cat1 - cat2;
-				}
-
-				if (e1 instanceof Equipment && e2 instanceof Equipment) {
-					Equipment eq1 = (Equipment) e1;
-					Equipment eq2 = (Equipment) e2;
-
-					if (eq1.getEquipmentCode() != null
-							&& eq2.getEquipmentCode() != null) {
-						return eq1.getEquipmentCode().compareTo(
-								eq2.getEquipmentCode());
-					}
-				}
-
-				return super.compare(viewer, e1, e2);
-			}
-
-		});
+		// CB http://work.netxforge.com/issues/290
+		networkTreeViewer.setComparator(new NetworkViewerComparator());
 
 		networkTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
