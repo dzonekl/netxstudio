@@ -3,6 +3,7 @@ Commands
 
 git status -s -uno => Show the commit status, without non-staged files. 
 git commit -a -m "commit message" => Commit all with a message
+git rm -r [directory] => unstage a directory, commit it next. 
 
 
 
@@ -14,7 +15,8 @@ Create a users file (i.e. users.txt) for mapping SVN users to GIT:
 user1 = First Last Name <email@address.com>
 user2 = First Last Name <email@address.com>
 ...
-SVN will stop if it finds a missing SVN user not in the file. But after that you can update the file and pick-up where you left off.
+SVN will stop if it finds a missing SVN user not in the file. But after that you can update the file (make up the email adress) 
+and pick-up where you left off.
 
 Now pull the SVN data from the repo:
 
@@ -45,3 +47,14 @@ rm -rf dest_dir-tmp
 Finally, remove the remote from your clean git repo that points to the now deleted temp repo:
 
 git remote rm origin
+
+
+GIT INSTALL ON LINUX
+====================
+
+1. copy a git repo to /etc/opt 
+2. access with ssh
+
+
+
+

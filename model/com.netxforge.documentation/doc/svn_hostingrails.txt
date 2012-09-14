@@ -1,0 +1,5 @@
+Authentication
+
+/authfiles
+
+svn-access.conf => All permissions for SVN. 

@@ -1,0 +1,231 @@
+2.2.2 Installation on development (MacOSX): 
+===========================
+
+Note: 02092012 => Didn't manage to get rails 2.2.2 working on MacOSX Snow Leopard with mySQL 
+
+1. Go Aptana studio plugin. 
+2. Install through update manager. 
+3. Install the correct rails version. For NetXForge website it's 2.2.2
+4. Update local gem => sudo gem update --system
+5. Install some gems to make it run: 
+sudo gem install will_paginate
+
+Oopsie: read this! : http://www.kieransenior.co.uk/2010/02/mysql-cant-connect-using-ruby-on-rails-mac-os-x-snow-leopard/
+sudo gem install mysql
+sudo env ARCHFLAGS="-arch x86_64" gem install mysql -- --with-mysql-config=/usr/local/mysql/bin/mysql_config 
+sudo env ARCHFLAGS="-arch x86_64" gem install mysql --no-rdoc --no-ri -- --with-mysql-config=/usr/local/mysql/bin/mysql_config 
+
+
+Still problems: 
+1. Download xCode (App Store)
+2. Install Command Line Tools (XCode -> Preferences -> Downloads)
+
+Worked now, but new problems:
+
+Installed version 2.7 of mysql gem with: 
+
+sudo env ARCHFLAGS="-arch i386 -arch x86_64" gem install -v=2.7 mysql -- --with-mysql-config=/usr/local/mysql/bin/mysql_config --with-mysql-dir=/usr/local/mysql
+
+Still an error: 
+dlopen(/Library/Ruby/Gems/1.8/gems/mysql-2.7/lib/mysql.bundle, 9): Library not loaded: libmysqlclient.18.dylib
+  Referenced from: /Library/Ruby/Gems/1.8/gems/mysql-2.7/lib/mysql.bundle
+  Reason: image not found - /Library/Ruby/Gems/1.8/gems/mysql-2.7/lib/mysql.bundle
+
+
+sudo install_name_tool -change /usr/local/mysql/lib/mysql/libmysqlclient.15.dylib /usr/local/mysql/lib/libmysqlclient.15.dylib /Library/Ruby/Gems/1.8/gems/mysql-2.7/lib/mysql.bundle
+
+sudo install_name_tool -change /usr/local/mysql/lib/mysql/libmysqlclient.15.dylib /usr/local/mysql/lib/libmysqlclient.15.dylib /Library/Ruby/Gems/1.8/gems/mysql-2.7/mysql.bundle
+
+sudo env ARCHFLAGS="-arch i386 -arch x86_64" gem install --no-rdoc --no-ri mysql -- --with-mysql-config=/usr/local/mysql/bin/mysql_config --with-mysql-dir=/usr/local/mysql
+
+
+Start from scratch with rails 3.2.8 instiki
+=========================================
+
+1. Download instiki: (Clone it with)
+git clone http://github.com/parasew/instiki.git location-of-Instiki/
+
+2. get the gem bundles: 
+ ruby bundle install --path vendor/bundle
+ 
+3. Create a new rails project, based on git  
+3.1 new rails project -> clone from git. (clone from local install)
+3.2 The nature.  
+
+4. Start the instiki server: 
+./instiki --daemon
+
+
+5. Go to a web-browser with: http://0.0.0.0:2500/
+6. Configure a new web (A web is a wiki system)
+netxstudio
+6.1 Change the markup to textile. 
+
+7. Populate the home page. 
+
+
+
+
+ 
+
+
+
+
+
+
+Install on Ubuntu : https://help.ubuntu.com/community/RubyOnRails#Alternative_to_manual_installation
+Time: 30 minutes. 
+=================
+
+Ruby:
+
+sudo apt-get install ruby-full build-essential
+sudo aptitude install ruby build-essential libopenssl-ruby ruby1.8-dev
+
+Better: 
+Use Ruby Version Manager (RVM)
+1. Get it: 
+curl -L get.rvm.io | bash -s stable
+(bummer)
+
+2. Set a reference in your .bashrc (RVM is a script)
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+
+See below RVM. 
+
+
+
+Apache: 
+
+sudo apt-get install apache2 apache2-mpm-prefork apache2-prefork-dev
+
+Config. apache: 
+
+sudo a2enmod proxy
+sudo a2enmod proxy_http
+sudo a2enmod rewrite
+sudo /etc/init.d/apache2 restart
+sudo apt-get install mongrel
+
+Preparing the house??:
+
+sudo apt-get install lighttpd libfcgi-ruby1.8
+
+
+Ruby Gem (1.8.24)
+wget http://rubyforge.org/frs/download.php/76073/rubygems-1.8.24.tgz
+tar -xzvf rubygems-1.8.24.tgz 
+cd rubygems-1.8.24
+sudo ruby setup.rb
+sudo ln -s /usr/bin/gem1.8 /usr/bin/gem
+sudo gem update --system
+
+
+Install rails
+
+sudo gem install rails -V (Show verbose output as it takes a while, it seems nothing happens)
+
+Note: App is 2.2.2, so install an older version. 
+gem install -v=2.2.2 rails
+
+
+Gem Notes
+==========
+
+Gem is a ruby package installer. 
+
+SHOW LOCAL GEMS => gem query --local
+INSTALL => gem install -v=x.y.z. rails
+
+
+RVM Notes:
+==========
+Ruby Version Manager. 
+A GemSet is an environment for a specific combination of ruby and rails. 
+
+== Usefull Action
+
+(Note: for most actions, 'rvm help action-name' may provide more information.)
+
+*usage*     :: show this usage information
+version     :: show the rvm version installed in rvm_path
+use         :: setup current shell to use a specific ruby version
+reload      :: reload rvm source itself (useful after changing rvm source)
+implode     :: (seppuku) removes the rvm installation completely.
+
+               This means everything in $rvm_path (~/.rvm || /usr/local/rvm).
+
+               This does not touch your profiles. However, this means that you
+               must manually clean up your profiles and remove the lines which
+               source RVM.
+get         :: {head,stable} upgrades rvm to latest head or stable version.
+
+               Check 'rvm help get' for more details.
+
+               (If you experience bugs try this first with head version, then
+               ask for help in #rvm on irc.freenode.net and hang around)
+reset       :: remove current and stored default & system settings.
+
+               (If you experience odd behavior try this second)
+info        :: show the *current* environment information for current ruby
+current     :: print the *current* ruby version and the name of any gemset
+               being used.
+debug       :: show info plus additional information for common issues
+
+install     :: install one or many ruby versions
+
+               See also: https://rvm.io/rubies/installing/
+uninstall   :: uninstall one or many ruby versions, leaves their sources
+remove      :: uninstall one or many ruby versions and remove their sources
+
+migrate     :: Lets you migrate all gemsets from one ruby to another.
+upgrade     :: Lets you upgrade from one version of a ruby to another, including
+               migrating your gemsets semi-automatically.
+
+wrapper     :: generates a set of wrapper executables for a given ruby with the
+               specified ruby and gemset combination. Used under the hood for
+               passenger support and the like.
+
+cleanup     :: Lets you remove stale source folders / archives and other
+               miscellaneous data associated with rvm.
+repair      :: Lets you repair parts of your environment e.g. wrappers, env
+               files and and similar files (e.g. general maintenance).
+snapshot    :: Lets you backup / restore an rvm installation in a lightweight
+               manner.
+
+disk-usage  :: Tells you how much disk space rvm install is using.
+tools       :: Provides general information about the ruby environment,
+               primarily useful when scripting rvm.
+docs        :: Tools to make installing ri and rdoc documentation easier.
+rvmrc       :: Tools related to managing rvmrc trust and loading.
+
+do          :: runs an arbitrary command against specified and/or all rubies
+tests       :: runs 'rake test' across selected ruby versions
+specs       :: runs 'rake spec' across selected ruby versions
+monitor     :: Monitor cwd for testing, run `rake {spec,test}` on changes.
+
+gemset      :: gemsets: https://rvm.io/gemsets/
+
+rubygems    :: Switches the installed version of rubygems for the current ruby.
+
+gemdir      :: display the path to the current gem directory (GEM_HOME).
+srcdir      :: display the path to rvm source directory (may be yanked)
+
+fetch       :: Performs an archive / src fetch only of the selected ruby.
+list        :: show currently installed rubies, interactive output.
+
+               https://rvm.io/rubies/list/
+pkg         :: Install a dependency package {readline,iconv,zlib,openssl}
+
+               https://rvm.io/packages/
+notes       :: Display notes, with operating system specifics.
+
+export      :: Temporarily set an environment variable in the current shell.
+unexport    :: Undo changes made to the environment by 'rvm export'.
+requirements  :: Shows additional OS specific dependencies/requirements for
+                 building various rubies.
+
+
+
+
+

@@ -15,4 +15,5 @@ FILE FIND=> find / -name 'my.cnf'
  
  USER ADD => sudo adduser username
  USER PASS STATUS => chage -l capman
+ USERS LIST => 
  
