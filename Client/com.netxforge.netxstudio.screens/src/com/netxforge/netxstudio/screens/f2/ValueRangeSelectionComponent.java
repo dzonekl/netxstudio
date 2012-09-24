@@ -45,7 +45,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  * @author Christophe
  * 
  */
-public class ValueRangeComponent {
+public class ValueRangeSelectionComponent {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
@@ -66,7 +66,7 @@ public class ValueRangeComponent {
 	protected MetricValueRange mvr;
 
 	@Inject
-	public ValueRangeComponent(ModelUtils modelUtils) {
+	public ValueRangeSelectionComponent(ModelUtils modelUtils) {
 		super();
 		this.modelUtils = modelUtils;
 	}

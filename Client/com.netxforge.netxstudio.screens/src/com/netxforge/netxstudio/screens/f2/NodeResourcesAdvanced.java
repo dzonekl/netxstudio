@@ -192,7 +192,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private ValueComponentII cmpValues;
 
 	@Inject
-	private PeriodComponent periodComponent;
+	private PeriodComponent cmpPeriod;
 
 	@Inject
 	private EmbeddedLineExpression expressionComponent;
@@ -302,9 +302,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		frmResources.getToolBarManager().update(true);
 		frmResources.setToolBarVerticalAlignment(SWT.TOP);
 
-		periodComponent.buildUI(frmResources.getHead(), null);
+		cmpPeriod.buildUI(frmResources.getHead(), null);
 
-		frmResources.setHeadClient(periodComponent.getCmpPeriod());
+		frmResources.setHeadClient(cmpPeriod.getCmpPeriod());
 
 		toolkit.decorateFormHeading(frmResources);
 		toolkit.paintBordersFor(frmResources);
@@ -406,11 +406,11 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		componentsTreeViewer.setComparer(new CDOElementComparer());
 		// CB http://work.netxforge.com/issues/290
 		componentsTreeViewer.setComparator(new NetworkViewerComparator());
-		
+
 		componentsTree = componentsTreeViewer.getTree();
 		componentsTree.setHeaderVisible(true);
 		componentsTree.setLinesVisible(true);
-		
+
 		if (gd_componentsTreeViewer != null) {
 			componentsTree.setLayoutData(gd_componentsTreeViewer);
 		}
@@ -422,8 +422,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		TreeColumn trclmnCountry = treeViewerColumn.getColumn();
 		trclmnCountry.setWidth(200);
 		trclmnCountry.setText("Component");
-		
-		
+
 		// TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
 		// componentsTreeViewer, SWT.NONE);
 		// TreeColumn trclmnSite = treeViewerColumn_2.getColumn();
@@ -441,14 +440,12 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		TreeColumn trclmnUtilization = treeViewerUtilization.getColumn();
 		trclmnUtilization.setWidth(30);
 		trclmnUtilization.setText("Util.");
-		
-		
+
 		TreeViewerColumn treeViewerTolerance = new TreeViewerColumn(
 				componentsTreeViewer, SWT.NONE);
 		TreeColumn trclmnTolerance = treeViewerTolerance.getColumn();
 		trclmnTolerance.setWidth(30);
 		trclmnTolerance.setText("Tol.");
-		
 
 		// Multi cell focus block selection, with drag copy action build in.
 		FocusBlockOwnerDrawHighlighterForMultiselection fcHighlighter = new FocusBlockOwnerDrawHighlighterForMultiselection(
@@ -686,7 +683,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					if (currentExpressionType == ContextAggregate.RETENTION_EXPRESSION_CONTEXT) {
 						cmpValues.injectData(contextAggregate
 								.getCurrentNetXResource());
-						cmpValues.applyDateFilter(periodComponent.getPeriod());
+						cmpValues.applyDateFilter(cmpPeriod.getPeriod());
 					} else {
 
 						cmpValues.getValuesTableViewer().refresh(true);
@@ -1518,7 +1515,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					structuredSelection);
 			if (wiz instanceof ReportWizard) {
 				ReportWizard rWiz = (ReportWizard) wiz;
-				rWiz.forceReportPeriod(periodComponent.getPeriod());
+				rWiz.forceReportPeriod(cmpPeriod.getPeriod());
 
 			}
 		}
@@ -1534,6 +1531,51 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		protected boolean updateSelection(IStructuredSelection selection) {
 			Object firstElement = selection.getFirstElement();
 			return firstElement instanceof Component;
+		}
+	}
+
+	/*
+	 * Syncs the period to the values available for a resources. Shows a dialog
+	 * which allows to select for which range, the period should be synced.
+	 */
+	class AdjustToRangeAction extends BaseSelectionListenerAction {
+
+		public AdjustToRangeAction(String text) {
+			super(text);
+		}
+
+		@Override
+		public void run() {
+			IStructuredSelection structuredSelection = super
+					.getStructuredSelection();
+			
+			
+			// Do something with the resource. 
+			NetXResource res = (NetXResource) structuredSelection
+					.getFirstElement();
+
+			AdjustRangeDialog selectDialog = new AdjustRangeDialog(
+					NodeResourcesAdvanced.this.getShell(), modelUtils);
+			selectDialog.setBlockOnOpen(false);
+			selectDialog.open();
+			selectDialog.setMessage("Adjust the period according to a value range for resource");
+			selectDialog.injectData(res);
+			
+			// the result is applied to the filter. 
+
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see com.netxforge.netxstudio.screens.editing.actions.
+		 * BaseSelectionListenerAction
+		 * #updateSelection(org.eclipse.jface.viewers.IStructuredSelection)
+		 */
+		@Override
+		protected boolean updateSelection(IStructuredSelection selection) {
+			Object firstElement = selection.getFirstElement();
+			return firstElement instanceof NetXResource;
 		}
 	}
 
@@ -1689,10 +1731,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 									LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF)
 							.observeDetail(set));
 
-			observeMaps
-			.add(EMFEditProperties
-					.value(editingService.getEditingDomain(),
-							LibraryPackage.Literals.COMPONENT__TOLERANCE_REFS)
+			observeMaps.add(EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					LibraryPackage.Literals.COMPONENT__TOLERANCE_REFS)
 					.observeDetail(set));
 
 			IObservableMap[] map = new IObservableMap[observeMaps.size()];
@@ -1798,7 +1839,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					Object value = v.getValue();
 					if (value instanceof NetXResource) {
 						cmpValues.injectData((BaseResource) value);
-						cmpValues.applyDateFilter(periodComponent.getPeriod());
+						cmpValues.applyDateFilter(cmpPeriod.getPeriod());
 					} else {
 						cmpValues.clearData();
 					}
@@ -1881,33 +1922,30 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		periodBeginWritableValue.addValueChangeListener(contextAggregate);
 		periodEndWritableValue.addValueChangeListener(contextAggregate);
 
-		periodComponent.getDateTimeFrom().addSelectionListener(
+		cmpPeriod.getDateTimeFrom().addSelectionListener(
 				new SelectionAdapter() {
 
 					@Override
 					public void widgetSelected(SelectionEvent e) {
-						periodBeginWritableValue.setValue(periodComponent
-								.getPeriod().getBegin());
-						cmpValues.applyDateFilter(periodComponent.getPeriod());
+						periodBeginWritableValue.setValue(cmpPeriod.getPeriod()
+								.getBegin());
+						cmpValues.applyDateFilter(cmpPeriod.getPeriod());
 					}
 				});
 
-		periodComponent.getDateTimeTo().addSelectionListener(
-				new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						periodEndWritableValue.setValue(periodComponent
-								.getPeriod().getEnd());
-						cmpValues.applyDateFilter(periodComponent.getPeriod());
-					}
+		cmpPeriod.getDateTimeTo().addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
+				cmpValues.applyDateFilter(cmpPeriod.getPeriod());
+			}
 
-				});
+		});
 
-		periodComponent.presetLastMonth();
+		cmpPeriod.presetLastMonth();
 
-		periodBeginWritableValue.setValue(periodComponent.getPeriod()
-				.getBegin());
-		periodEndWritableValue.setValue(periodComponent.getPeriod().getEnd());
+		periodBeginWritableValue.setValue(cmpPeriod.getPeriod().getBegin());
+		periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
 
 		observerExpressionFeature.addValueChangeListener(contextAggregate);
 
@@ -2214,8 +2252,10 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		if (actionList.size() == 0) {
 
 			actionList.add(new EditResourceAction(actionText));
+			actionList.add(new AdjustToRangeAction("Adjust values..."));
 			actionList.add(new SeparatorAction());
 			actionList.add(new ReportNodeAction("Report..."));
+			
 			// actionList.add(new MonitorResourceAction("Monitor...",
 			// SWT.PUSH));
 		}
@@ -2322,13 +2362,11 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE);
 
 		// from date.
-		mementoUtils.rememberCDateTime(memento,
-				periodComponent.getDateTimeFrom(),
+		mementoUtils.rememberCDateTime(memento, cmpPeriod.getDateTimeFrom(),
 				MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM);
 
 		// to date.
-		mementoUtils.rememberCDateTime(memento,
-				periodComponent.getDateTimeTo(),
+		mementoUtils.rememberCDateTime(memento, cmpPeriod.getDateTimeTo(),
 				MEM_KEY_NODERESOURCEADVANCED_PERIOD_TO);
 
 	}
@@ -2364,19 +2402,16 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
 				this.operatorResource.cdoView());
 
-		mementoUtils.retrieveCDateTime(memento,
-				periodComponent.getDateTimeFrom(),
+		mementoUtils.retrieveCDateTime(memento, cmpPeriod.getDateTimeFrom(),
 				MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM);
-		mementoUtils.retrieveCDateTime(memento,
-				periodComponent.getDateTimeTo(),
+		mementoUtils.retrieveCDateTime(memento, cmpPeriod.getDateTimeTo(),
 				MEM_KEY_NODERESOURCEADVANCED_PERIOD_TO);
 
 		// update the binding, as this won't work by setting the UI widget
 		// selection.
-		periodComponent.updatePeriod();
-		periodBeginWritableValue.setValue(periodComponent.getPeriod()
-				.getBegin());
-		periodEndWritableValue.setValue(periodComponent.getPeriod().getEnd());
+		cmpPeriod.updatePeriod();
+		periodBeginWritableValue.setValue(cmpPeriod.getPeriod().getBegin());
+		periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
 
 	}
 

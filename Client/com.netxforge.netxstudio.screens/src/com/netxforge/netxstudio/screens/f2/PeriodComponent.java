@@ -154,63 +154,88 @@ public class PeriodComponent {
 	protected void updatePeriod() {
 
 		Date from = this.dateTimeFrom.getSelection();
-		modelUtils.setToDayStart(from);
-
 		Date to = this.dateTimeTo.getSelection();
-		modelUtils.setToDayEnd(to);
+
+		modelUtils.adjustToDayStartAndEnd(from, to);
 
 		period.setBegin(modelUtils.toXMLDate(from));
 		period.setEnd(modelUtils.toXMLDate(to));
 	}
+	
 
 	public DateTimeRange getPeriod() {
 		return period;
 	}
-
-	public void updatePeriod(Date from, Date to) {
+	
+	
+	/**
+	 * Updates the period in the widget and model.
+	 *  
+	 * @param from
+	 * @param to
+	 */
+	public void setPeriod(Date from, Date to) {
+		this.setPeriod(from, to, false);
+	}
+	
+	/**
+	 * Updates the period in the widget and model, optionally adjust to the day start for 
+	 * the start and day end for the end of the period. 
+	 * 
+	 * @param from
+	 * @param to
+	 * @param setToDayStartAndEnd
+	 */
+	public void setPeriod(Date from, Date to, boolean setToDayStartAndEnd) {
 
 		if (from == null || to == null) {
 			return;
 		}
-
+		
+		if(setToDayStartAndEnd){
+			modelUtils.adjustToDayStartAndEnd(from, to);
+		}
+		
 		// will this fire selection listeners?
 		dateTimeFrom.setSelection(from);
 		dateTimeTo.setSelection(to);
+		
+		
 		period.setBegin(modelUtils.toXMLDate(from));
 		period.setEnd(modelUtils.toXMLDate(to));
 
 	}
 	
 	public void presetExternal(Date from, Date to) {
-		this.updatePeriod(from, to);
+		this.setPeriod(from, to);
 	}
 	
 	public void presetExternal(DateTimeRange dtr) {
-		this.updatePeriod(modelUtils.begin(dtr), modelUtils.end(dtr));
+		this.setPeriod(modelUtils.begin(dtr), modelUtils.end(dtr));
 	}
 	
 	public void presetYesterday() {
 		Date yesterday = modelUtils.yesterday();
-		yesterday = modelUtils.setToDayStart(yesterday);
-		this.updatePeriod(yesterday, modelUtils.todayAtDayEnd());
+		yesterday = modelUtils.adjustToDayStart(yesterday);
+		this.setPeriod(yesterday, modelUtils.todayAtDayEnd());
 	}
 
 	public void presetLastWeek() {
 		Date oneWeekAgo = modelUtils.oneWeekAgo();
-		oneWeekAgo = modelUtils.setToDayStart(oneWeekAgo);
-		this.updatePeriod(oneWeekAgo, modelUtils.todayAtDayEnd());
+		oneWeekAgo = modelUtils.adjustToDayStart(oneWeekAgo);
+		this.setPeriod(oneWeekAgo, modelUtils.todayAtDayEnd());
 	}
 
 	public void presetLastMonth() {
 		Date oneMonthAgo = modelUtils.oneMonthAgo();
-		oneMonthAgo = modelUtils.setToDayStart(oneMonthAgo);
-		this.updatePeriod(oneMonthAgo, modelUtils.todayAtDayEnd());
+		oneMonthAgo = modelUtils.adjustToDayStart(oneMonthAgo);
+		this.setPeriod(oneMonthAgo, modelUtils.todayAtDayEnd());
 	}
 
 	public void presetLastQuarter() {
 		Date threeMonthsAgo = modelUtils.threeMonthsAgo();
-		threeMonthsAgo = modelUtils.setToDayStart(threeMonthsAgo);
-		this.updatePeriod(threeMonthsAgo, modelUtils.todayAtDayEnd());
+		threeMonthsAgo = modelUtils.adjustToDayStart(threeMonthsAgo);
+		this.setPeriod(threeMonthsAgo, modelUtils.todayAtDayEnd());
 	}
 
 }
