@@ -88,11 +88,11 @@ public class PeriodSelectionPage extends WizardPage {
 	}
 
 	public void setPeriod(DateTimeRange dtr) {
-		this.periodComponent.presetExternal(dtr);
+		this.periodComponent.setPeriod(dtr);
 	}
 
 	public void setPeriod(Date from, Date to) {
-		this.periodComponent.presetExternal(from, to);
+		this.periodComponent.setPeriod(from, to);
 	}
 
 	public void finish() {

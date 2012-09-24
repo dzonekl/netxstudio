@@ -196,21 +196,16 @@ public class PeriodComponent {
 			modelUtils.adjustToDayStartAndEnd(from, to);
 		}
 		
-		// will this fire selection listeners?
+		// Achtung! Selection listeners not fired....update your databinding writables manually. 
 		dateTimeFrom.setSelection(from);
 		dateTimeTo.setSelection(to);
-		
 		
 		period.setBegin(modelUtils.toXMLDate(from));
 		period.setEnd(modelUtils.toXMLDate(to));
 
 	}
 	
-	public void presetExternal(Date from, Date to) {
-		this.setPeriod(from, to);
-	}
-	
-	public void presetExternal(DateTimeRange dtr) {
+	public void setPeriod(DateTimeRange dtr) {
 		this.setPeriod(modelUtils.begin(dtr), modelUtils.end(dtr));
 	}
 	

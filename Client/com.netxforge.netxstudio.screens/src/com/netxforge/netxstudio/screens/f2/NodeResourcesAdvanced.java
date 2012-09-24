@@ -120,6 +120,7 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
@@ -1556,13 +1557,30 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 			AdjustRangeDialog selectDialog = new AdjustRangeDialog(
 					NodeResourcesAdvanced.this.getShell(), modelUtils);
-			selectDialog.setBlockOnOpen(false);
-			selectDialog.open();
-			selectDialog.setMessage("Adjust the period according to a value range for resource");
+			
+			selectDialog.setBlockOnOpen(true);
+			selectDialog.create();
+			
+			selectDialog.setMessage("Adjust the period according to a value range for resource: \"" + res.getLongName() + "\"");
 			selectDialog.injectData(res);
 			
-			// the result is applied to the filter. 
-
+			if( selectDialog.open() == Window.OK){
+				MetricValueRange mvr = selectDialog.getValueRange();
+				if(mvr != null){
+					DateTimeRange range = modelUtils.range(mvr
+							.getMetricValues());
+					
+					// 3 steps, update the period component. 
+					// update the period writable. 
+					cmpPeriod.setPeriod(range);
+					
+					periodBeginWritableValue.setValue(cmpPeriod.getPeriod().getBegin());
+					periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
+						
+					cmpValues.applyDateFilter(cmpPeriod.getPeriod());
+				}else{
+				}
+			}
 		}
 
 		/*
@@ -2252,7 +2270,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		if (actionList.size() == 0) {
 
 			actionList.add(new EditResourceAction(actionText));
-			actionList.add(new AdjustToRangeAction("Adjust values..."));
+			actionList.add(new AdjustToRangeAction("Adjust period..."));
 			actionList.add(new SeparatorAction());
 			actionList.add(new ReportNodeAction("Report..."));
 			
