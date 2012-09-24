@@ -610,13 +610,13 @@ public class InterpreterTypeless implements IInterpreter {
 	private List<BaseResource> resources(ContextRef cRef) {
 
 		final List<BaseResource> resources = Lists.newArrayList();
-		if (!(cRef.getPrimaryRef().getLeafRef() instanceof ResourceRef)) {
+		ResourceRef resourceRef = (ResourceRef) cRef.getPrimaryRef()
+				.getLeafRef();
+		if (!(resourceRef instanceof ResourceRef)) {
 			// there are no resources.
 			return resources;
 		}
 
-		ResourceRef resourceRef = (ResourceRef) cRef.getPrimaryRef()
-				.getLeafRef();
 
 		Node ctxNode = this.getContextualNode();
 		Component ctxComponent = this.getContextualComponent();
@@ -632,6 +632,8 @@ public class InterpreterTypeless implements IInterpreter {
 			if (navComponents != null && navComponents.size() > 0) {
 				// ignore the context Component, and look for the
 				// resource in the explicit component.
+				
+				// FIXME, WITH A VALID FUNCTION, THE RESOURCE IS NOT FOUND. 
 				Component navComponent = navComponents.get(0);
 				List<NetXResource> netxResources = this.resourcesByName(
 						navComponent, resourceRef);
@@ -1255,6 +1257,8 @@ public class InterpreterTypeless implements IInterpreter {
 
 		if (contextReference.getPrimaryRef() != null) {
 			Node node = this.getContextualNode();
+			
+			// OPTION 1. THE COMPONENT WITHOUT RESOURCE
 			// Check if there is no leaf ref, and it has components and a node
 			// context.
 			// to get the last referenced component for this node.
@@ -1272,7 +1276,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 				return components(contextReference.getPrimaryRef(), node);
 			} else {
-
+				// OPTION 2: WITH RESOURCE
 				if (contextReference.getPrimaryRef().getLeafRef() instanceof ResourceRef) {
 					// Will evaluate and get the resources.
 					List<BaseResource> resources = this
