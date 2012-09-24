@@ -46,8 +46,18 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
 	
+	// Tracing options for monitoring logic
 	public static String TRACE_LOGIC_OPTION = "/trace.logic";
 	public static String TRACE_LOGIC_DETAILS_OPTION = "/trace.logic.details";
+	
+	// Tracing options for reporting logic. 
+	public static String TRACE_REPORT_OPTION = "/trace.report";
+	public static String TRACE_REPORT_DETAILS_OPTION = "/trace.report.details";
+	
+	// Tracing options for subscriber profile logic. 
+	public static String TRACE_PROFILE_OPTION = "/trace.profile";
+	public static String TRACE_PROFILE_DETAILS_OPTION = "/trace.profile.details";
+	
 	
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);

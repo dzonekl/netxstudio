@@ -53,6 +53,8 @@ public class ProfileEngine extends BaseExpressionEngine {
 		getExpressionEngine().getContext().clear();
 		getExpressionEngine().getContext().add(getPeriod());
 		getExpressionEngine().getContext().add(getService());
+		
+		
 		System.err.println("Executing engine for" + serviceUser.getName());
 		getExpressionEngine().getContext().add(this.getServiceUser());
 		setEngineContextInfo("DerivedResource: " + serviceUser.getName()

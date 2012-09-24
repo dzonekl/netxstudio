@@ -124,7 +124,7 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 
 			if (LogicActivator.DEBUG) {
 				LogicActivator.TRACE.trace(
-						LogicActivator.TRACE_LOGIC_OPTION,
+						LogicActivator.TRACE_REPORT_OPTION,
 						"-- report component: "
 								+ this.getModelUtils().printModelObject(
 										component));

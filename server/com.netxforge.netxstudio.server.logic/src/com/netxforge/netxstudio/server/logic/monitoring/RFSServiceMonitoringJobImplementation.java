@@ -28,7 +28,10 @@ import com.netxforge.netxstudio.server.logic.profile.RFSServiceProfileLogic;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
- * Implements a job runner for a metric source.
+ * Implements a job runner for an RFSService. 
+ * It first runs monitoring over all elements of the service, then it runs 
+ * the logic over the service users. 
+ * 
  * 
  * @author Martin Taal
  */
