@@ -18,6 +18,7 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 public class SnmpTest extends TestCase {
 
+	@SuppressWarnings({ "unused", "rawtypes" })
 	public void testSNMP() throws Exception {
 
 		Address targetAddress = GenericAddress.parse("udp:127.0.0.1/161");

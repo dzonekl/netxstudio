@@ -28,7 +28,6 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: com.netxforge.netxstudio.server.test,
  com.netxforge.netxstudio.server.test.actions,
- com.netxforge.netxstudio.server.test.actions.data,
  com.netxforge.netxstudio.server.test.base,
  com.netxforge.netxstudio.server.test.common,
  com.netxforge.netxstudio.server.test.dataprovider,
