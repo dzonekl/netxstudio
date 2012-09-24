@@ -26,3 +26,12 @@ com.netxforge.netxstudio.data/trace.import.helper=false
 # Logic facilities
 com.netxforge.netxstudio.server.logic/trace.logic=true
 com.netxforge.netxstudio.server.logic/trace.logic.details=false
+
+com.netxforge.netxstudio.server.logic/trace.report=true
+com.netxforge.netxstudio.server.logic/trace.report.details=false
+
+com.netxforge.netxstudio.server.logic/trace.profile=true
+com.netxforge.netxstudio.server.logic/trace.profile.details=false
+
+
+
