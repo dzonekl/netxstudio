@@ -2209,7 +2209,8 @@ public class ModelUtils {
 
 		for (final Component c : components) {
 			for (final NetXResource r : c.getResourceRefs()) {
-				if (r.getExpressionName().matches(name)) {
+				String expName = r.getExpressionName();
+				if (expName.matches(name)) {
 					rl.add(r);
 				}
 			}
@@ -2575,8 +2576,19 @@ public class ModelUtils {
 	public Date todayAtDayEnd() {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
-		setToDayEnd(cal);
+		adjustToDayEnd(cal);
 		return cal.getTime();
+	}
+
+	/**
+	 * Set a period to day start and end.
+	 * 
+	 * @param from
+	 * @param to
+	 */
+	public void adjustToDayStartAndEnd(Date from, Date to) {
+		this.adjustToDayStart(from);
+		this.adjustToDayEnd(to);
 	}
 
 	/**
@@ -2585,7 +2597,7 @@ public class ModelUtils {
 	 * 
 	 * @param cal
 	 */
-	public void setToDayStart(Calendar cal) {
+	public void adjustToDayStart(Calendar cal) {
 		// When doing this, we push it forward one day, so if the day is 7 Jan
 		// at 11:50:27h,
 		// it will become 8 Jan at 00:00:00h, so we substract one day.
@@ -2597,10 +2609,10 @@ public class ModelUtils {
 
 	}
 
-	public Date setToDayStart(Date d) {
+	public Date adjustToDayStart(Date d) {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(d);
-		this.setToDayStart(cal);
+		this.adjustToDayStart(cal);
 		return cal.getTime();
 	}
 
@@ -2610,7 +2622,7 @@ public class ModelUtils {
 	 * 
 	 * @param cal
 	 */
-	public void setToDayEnd(Calendar cal) {
+	public void adjustToDayEnd(Calendar cal) {
 		cal.set(Calendar.HOUR_OF_DAY, 23);
 		cal.set(Calendar.MINUTE, 59);
 		cal.set(Calendar.SECOND, 59);
@@ -2618,10 +2630,10 @@ public class ModelUtils {
 
 	}
 
-	public Date setToDayEnd(Date d) {
+	public Date adjustToDayEnd(Date d) {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(d);
-		this.setToDayEnd(cal);
+		this.adjustToDayEnd(cal);
 		return cal.getTime();
 	}
 
