@@ -4,7 +4,13 @@ Commands
 git status -s -uno => Show the commit status, without non-staged files. 
 git commit -a -m "commit message" => Commit all with a message
 git rm -r [directory] => unstage a directory, commit it next. 
+git log => commit history. 
 
+
+Remote
+=======
+git remote add origin https://github.com/dzonekl/netxstudio.git => Add to a remote. 
+git push -u origin master => Push the master. 
 
 
 SVN CLONE PROCEDURE
