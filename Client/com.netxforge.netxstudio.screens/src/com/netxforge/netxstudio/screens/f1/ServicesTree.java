@@ -291,7 +291,7 @@ public class ServicesTree extends AbstractScreen implements
 	}
 
 	/**
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 */
 	class ExportHTMLAction extends Action {
 
@@ -315,7 +315,7 @@ public class ServicesTree extends AbstractScreen implements
 	}
 
 	/**
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 */
 	class ExportXLSAction extends Action {
 
@@ -490,7 +490,7 @@ public class ServicesTree extends AbstractScreen implements
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
 	 * 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 * 
 	 */
 	class ServiceMonitoringAction extends Action {

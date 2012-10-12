@@ -22,7 +22,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * Concrete implementation which can set and clear the expression from an owner.
  * i
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class EmbeddedSelectionExpression extends AbstractEmbeddedExpression {
 

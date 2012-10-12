@@ -3,7 +3,7 @@ package com.netxforge.interpreter;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class ObjectContext<T> extends AbstractInterpreterContext {
 	

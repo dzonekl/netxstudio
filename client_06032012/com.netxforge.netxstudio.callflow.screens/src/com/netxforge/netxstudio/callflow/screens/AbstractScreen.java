@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.callflow.screens;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public abstract class AbstractScreen extends AbstractScreenImpl {
 	

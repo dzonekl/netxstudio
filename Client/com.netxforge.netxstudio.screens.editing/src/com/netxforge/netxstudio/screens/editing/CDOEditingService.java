@@ -34,10 +34,8 @@ import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
@@ -75,7 +73,6 @@ public class CDOEditingService extends EMFEditingService implements
 	 * Our editor support for Dawn.
 	 */
 	private DawnEMFEditorSupport dawnEditorSupport;
-	
 
 	public CDOEditingService() {
 		dawnEditorSupport = new DawnEMFEditorSupport(this);
@@ -102,8 +99,8 @@ public class CDOEditingService extends EMFEditingService implements
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		
-		// save could be triggered from 
+
+		// save could be triggered from
 		CDOView view = dawnEditorSupport.getView();
 		if (view instanceof CDOTransaction) {
 			if (((CDOTransaction) view).hasConflict()) {
@@ -177,13 +174,15 @@ public class CDOEditingService extends EMFEditingService implements
 		if (res instanceof CDOResource) {
 			// we could fail adding listeners, as these might already exist.
 			CDOView cdoView = ((CDOResource) res).cdoView();
-//			if( !cdoView.isInvalidationRunnerActive()){
-//				// check the invalidation state. 
-//				System.out.println("CDOEditingService, CDOView, invalidation not-active, activating for: " + cdoView.getViewID());
-//				cdoView.options().setInvalidationNotificationEnabled(true);
-//			}else{
-//				System.out.println("CDOEditingService, CDOView, invalidation active, for: " + cdoView.getViewID());
-//			}
+			// if( !cdoView.isInvalidationRunnerActive()){
+			// // check the invalidation state.
+			// System.out.println("CDOEditingService, CDOView, invalidation not-active, activating for: "
+			// + cdoView.getViewID());
+			// cdoView.options().setInvalidationNotificationEnabled(true);
+			// }else{
+			// System.out.println("CDOEditingService, CDOView, invalidation active, for: "
+			// + cdoView.getViewID());
+			// }
 			dawnEditorSupport.setView(cdoView);
 			dawnEditorSupport.registerListeners();
 		}
@@ -268,59 +267,64 @@ public class CDOEditingService extends EMFEditingService implements
 	public Viewer getViewer() {
 		return this.delegateViewerProvider.getViewer();
 	}
-	
 
 	public IScreen getScreen() {
 		return this.delegateScreenProvider.getScreen();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#isDirty()
 	 */
 	public boolean isDirty() {
-		
+
 		boolean result = false;
-		
-		
-		// CB 19-12-2011, disable dirty state for the editing domain, this will force usage of 
-		// save link, when we deal with a detached object. (As a operations on a detached object are not marked dirty in 
-		// in the CDO View). 
-		
-//		boolean result = ((BasicCommandStack) getEditingDomain()
-//				.getCommandStack()).isSaveNeeded();
-		
-		// Note views get dirty when invalidated ! state proxy. 
-		
-		
-		
+
+		// CB 19-12-2011, disable dirty state for the editing domain, this will
+		// force usage of
+		// save link, when we deal with a detached object. (As a operations on a
+		// detached object are not marked dirty in
+		// in the CDO View).
+
+		// boolean result = ((BasicCommandStack) getEditingDomain()
+		// .getCommandStack()).isSaveNeeded();
+
+		// Note views get dirty when invalidated ! state proxy.
+
 		if (this.getView() != null) {
 			boolean viewDirty = this.getView().isDirty();
-			if( EditingActivator.DEBUG){
-				if(viewDirty){
-					System.out.println(" Dirty object:");
-					CDOView view = this.getView();
-					if(view instanceof CDOTransaction){
-						CDOTransaction transaction = (CDOTransaction) view;
-						Map<CDOID, CDOObject> dirtyObjects = transaction.getDirtyObjects();
-						for(CDOID id : dirtyObjects.keySet()){
-							CDOObject cdoObject = dirtyObjects.get(id);
-							System.out.println("-- dirty object="
-									+ cdoObject.cdoID().toURIFragment() + " , state="
-									+ cdoObject.cdoState() + ", rev="
-									+ cdoObject.cdoRevision() + " , dangling state="
-									+ cdoObject.cdoID().isDangling());
-							
-						}
-					}
-				}
-				
+			if (EditingActivator.DEBUG & viewDirty) {
+				printDirtyState();
 			}
 			return viewDirty || result;
 		}
 
 		return result;
+	}
+
+	/*
+	 * Print the dirty state (If in debugging mode only).
+	 */
+	private void printDirtyState() {
+		EditingActivator.TRACE.trace(EditingActivator.TRACE_EDITING_OPTION,
+				" Requesting dirty state");
+
+		CDOView view = this.getView();
+		if (view instanceof CDOTransaction) {
+			CDOTransaction transaction = (CDOTransaction) view;
+			Map<CDOID, CDOObject> dirtyObjects = transaction.getDirtyObjects();
+			for (CDOID id : dirtyObjects.keySet()) {
+				CDOObject cdoObject = dirtyObjects.get(id);
+				EditingActivator.TRACE.trace(
+						EditingActivator.TRACE_EDITING_OPTION, "dirty object="
+								+ cdoObject.cdoID().toURIFragment()
+								+ " , state=" + cdoObject.cdoState() + ", rev="
+								+ cdoObject.cdoRevision()
+								+ " , dangling state="
+								+ cdoObject.cdoID().isDangling());
+			}
+		}
 	}
 
 	/*
@@ -352,11 +356,10 @@ public class CDOEditingService extends EMFEditingService implements
 				// Save the resources to the file system.
 				try {
 					monitor.beginTask("Saving all Objects", 100);
-					
-					
-					// FIXME, REVISION HANDLING WITH NEW STORE. 
-//					monitor.subTask("Copy history");
-//					saveHistory();
+
+					// FIXME, REVISION HANDLING WITH NEW STORE.
+					// monitor.subTask("Copy history");
+					// saveHistory();
 					monitor.worked(50);
 					monitor.subTask("Committing");
 					CDOTransaction transaction = getView() instanceof CDOTransaction ? (CDOTransaction) getView()
@@ -400,29 +403,13 @@ public class CDOEditingService extends EMFEditingService implements
 					CDOState cdoState = cdoRes.cdoState();
 					CDOView cdoView = cdoRes.cdoView();
 
+					// Print dirty state.
+
 					if (EditingActivator.DEBUG) {
 
 						System.out.println("Saving resource: "
 								+ cdoRes.getURI().toString() + ", state="
 								+ cdoState.name());
-						if (cdoState == CDOState.DIRTY) {
-							Map<CDOID, CDOObject> dirtyObjects = ((CDOTransaction) cdoView)
-									.getDirtyObjects();
-							for (CDOID id : dirtyObjects.keySet()) {
-								CDOObject cdoObject = dirtyObjects.get(id);
-								TreeIterator<EObject> eAllContents = cdoObject
-										.eAllContents();
-								while (eAllContents.hasNext()) {
-									CDOObject next = (CDOObject) eAllContents
-											.next();
-									System.out.println("-- Dirty object="
-											+ next.cdoID().toURIFragment()
-											+ ", rev=" + next.cdoRevision()
-											+ " , dangling state="
-											+ next.cdoID().isDangling());
-								}
-							}
-						}
 
 					}
 
@@ -523,12 +510,12 @@ public class CDOEditingService extends EMFEditingService implements
 
 						EClass hint;
 						if ((hint = shouldHaveHistory(cdoRes)) != null) {
-							
-							
-							// Build a cache of unique nodetypes. 
-							// Use the node type as the point of reference. 
-							// the copy will resolve either NodeType or Node depending 
-							// on the hint. 
+
+							// Build a cache of unique nodetypes.
+							// Use the node type as the point of reference.
+							// the copy will resolve either NodeType or Node
+							// depending
+							// on the hint.
 							List<NodeType> uniqueNodeTypes = Lists
 									.newArrayList();
 

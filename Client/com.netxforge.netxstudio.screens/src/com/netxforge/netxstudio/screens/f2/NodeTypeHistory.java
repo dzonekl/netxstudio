@@ -223,7 +223,7 @@ public class NodeTypeHistory extends AbstractScreen implements
 	/**
 	 * Holds the NodeType and a revision for presentation.
 	 * 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 * 
 	 */
 	class HistoricNodeType {

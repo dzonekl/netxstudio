@@ -45,7 +45,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * 
  * Action gives user feedback on what will be deleted.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class WarningDeleteAction extends DeleteAction {

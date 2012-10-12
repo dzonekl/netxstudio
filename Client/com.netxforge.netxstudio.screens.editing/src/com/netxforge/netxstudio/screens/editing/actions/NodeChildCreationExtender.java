@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  * Custom child extender, capable to add conditional ( Type etc...) child
  * descriptors It works best, by disabling the generated EMF descriptors.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class NodeChildCreationExtender extends
 		AbstractConditionalChildCreationExtender {

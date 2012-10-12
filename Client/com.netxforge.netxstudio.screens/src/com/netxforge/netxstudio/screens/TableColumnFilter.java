@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.TableColumn;
 /**
  * Only filter items on a specified column. 
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  */
 public class TableColumnFilter extends ViewerFilter {

@@ -13,7 +13,7 @@ import org.eclipse.emf.edit.ui.action.PasteAction;
  * 
  * 
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class FilteredPasteAction extends PasteAction {

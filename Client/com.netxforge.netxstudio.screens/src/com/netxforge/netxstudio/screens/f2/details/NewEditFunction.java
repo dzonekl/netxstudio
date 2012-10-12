@@ -24,7 +24,7 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
-public class NewEditFunction extends NewEditComponent implements IScreen {
+public class NewEditFunction extends AbstractNewEditComponent implements IScreen {
 
 	private Text txtName;
 	private Text txtDescription;

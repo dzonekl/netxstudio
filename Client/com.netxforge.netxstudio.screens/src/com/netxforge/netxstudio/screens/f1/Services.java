@@ -173,7 +173,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
 	 * 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 * 
 	 */
 	class ServiceMonitoringAction extends Action {
@@ -422,7 +422,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
 	 * 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 * 
 	 */
 	class EditServiceAction extends Action {

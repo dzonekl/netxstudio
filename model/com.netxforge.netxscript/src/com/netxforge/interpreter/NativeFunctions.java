@@ -14,7 +14,7 @@ import com.netxforge.netxstudio.generics.Value;
 /**
  * Expandable list of functions. TODO: - Extrapolation (Regression math).
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 

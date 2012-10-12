@@ -32,7 +32,7 @@ public class NodeTypeCheckedSelectionDialog extends CheckedTreeSelectionDialog {
 	/**
 	 * Input should be a Collection<?>
 	 * 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 *
 	 */
 	public static class NodeTypeFlatContentProvider implements ITreeContentProvider {

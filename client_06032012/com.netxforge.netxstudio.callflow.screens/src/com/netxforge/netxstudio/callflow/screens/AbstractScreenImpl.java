@@ -43,12 +43,12 @@ import org.eclipse.ui.part.ShowInContext;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.common.internal.ScreensCommonActivator;
+import com.netxforge.netxstudio.screens.common.util.FormValidationEvent;
+import com.netxforge.netxstudio.screens.common.util.IValidationListener;
+import com.netxforge.netxstudio.screens.common.util.IValidationService;
 import com.netxforge.netxstudio.screens.common.util.MementoUtil;
+import com.netxforge.netxstudio.screens.common.util.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
-import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
-import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
-import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.selector.IDataInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
@@ -59,7 +59,7 @@ import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
  * operation, and the supporting services, a validation service, an observables
  * manager and a Managed form (for Master/Detail).
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		IDataInjection, IValidationListener, DisposeListener, FocusListener {

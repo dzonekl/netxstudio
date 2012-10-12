@@ -49,7 +49,7 @@ import com.netxforge.netxstudio.operators.Node;
  * Note: This is called for all EObject of the specified extender package, so
  * first check the target eclass.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class LibraryChildCreationExtender extends
 		AbstractConditionalChildCreationExtender {

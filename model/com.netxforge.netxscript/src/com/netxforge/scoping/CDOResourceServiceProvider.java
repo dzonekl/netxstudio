@@ -6,7 +6,7 @@ import org.eclipse.xtext.resource.impl.DefaultResourceServiceProvider;
 /**
  * Almost a literal copy from GenericResourceServiceProvider. 
  * @see {@link org.eclipse.xtext.resource.generic.AbstractGenericResourceRuntimeModule}
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  */
 public class CDOResourceServiceProvider extends DefaultResourceServiceProvider

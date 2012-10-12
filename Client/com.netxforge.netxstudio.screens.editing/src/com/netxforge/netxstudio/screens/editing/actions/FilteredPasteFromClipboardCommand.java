@@ -30,7 +30,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 /**
  * Specialized Paste from clipboard. 
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  */
 public class FilteredPasteFromClipboardCommand extends PasteFromClipboardCommand {

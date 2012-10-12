@@ -163,7 +163,7 @@ public class ServiceMonitors extends AbstractScreen implements
 	
 	/**
 	 * Wrap in an action, to contribute to a menu manager. 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 *
 	 */
 	class EditMonitorAction extends Action {

@@ -121,7 +121,7 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 	}
 
 	/*
@@ -189,28 +189,40 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 				}
 			}
 		});
-		
-		mghprlnkNewImagehyperlink = toolkit.createImageHyperlink(composite, SWT.NONE);
-		mghprlnkNewImagehyperlink.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				// Create a new top level network, for this operator. 
-				Network newNetwork = OperatorsFactory.eINSTANCE.createNetwork();
-				newNetwork.setName("<new network>");
-				Command add = AddCommand.create(editingService.getEditingDomain(), operator, null, newNetwork);
-				editingService.getEditingDomain().getCommandStack().execute(add);
-				
-			}
-			public void linkEntered(HyperlinkEvent e) {
-			}
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNewImagehyperlink.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Network_E.png"));
-		mghprlnkNewImagehyperlink.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+
+		mghprlnkNewImagehyperlink = toolkit.createImageHyperlink(composite,
+				SWT.NONE);
+		mghprlnkNewImagehyperlink
+				.addHyperlinkListener(new IHyperlinkListener() {
+					public void linkActivated(HyperlinkEvent e) {
+						// Create a new top level network, for this operator.
+						Network newNetwork = OperatorsFactory.eINSTANCE
+								.createNetwork();
+						newNetwork.setName("<new network>");
+						Command add = AddCommand.create(
+								editingService.getEditingDomain(), operator,
+								null, newNetwork);
+						editingService.getEditingDomain().getCommandStack()
+								.execute(add);
+
+					}
+
+					public void linkEntered(HyperlinkEvent e) {
+					}
+
+					public void linkExited(HyperlinkEvent e) {
+					}
+				});
+		mghprlnkNewImagehyperlink.setImage(ResourceManager.getPluginImage(
+				"com.netxforge.netxstudio.models.edit",
+				"icons/full/ctool16/Network_E.png"));
+		mghprlnkNewImagehyperlink.setLayoutData(new GridData(SWT.RIGHT,
+				SWT.CENTER, false, false, 1, 1));
 		toolkit.paintBordersFor(mghprlnkNewImagehyperlink);
 		mghprlnkNewImagehyperlink.setText("New");
 
-		warehouseTreeViewer = new TreeViewer(composite, SWT.BORDER | widgetStyle);
+		warehouseTreeViewer = new TreeViewer(composite, SWT.BORDER
+				| widgetStyle);
 		warehouseTreeViewer.setUseHashlookup(true);
 		warehouseTreeViewer.setComparer(new CDOElementComparer());
 		warehouseTreeViewer
@@ -254,7 +266,7 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				GenericsPackage.Literals.COMPANY__NAME).observeDetail(set));
-		
+
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				OperatorsPackage.Literals.NETWORK__NAME).observeDetail(set));
@@ -278,7 +290,8 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 		IObservableMap[] map = new IObservableMap[observableMap.size()];
 		observableMap.toArray(map);
 
-		warehouseTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(map));
+		warehouseTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(
+				modelUtils, map));
 
 		IEMFListProperty networksResourceProperty = EMFEditProperties.list(
 				editingService.getEditingDomain(),
@@ -403,7 +416,7 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 		if (currentDetails != null) {
 			currentDetails.dispose();
 		}
-		
+
 		if (o instanceof Network) {
 			NewEditNetwork nef = null;
 			nef = new NewEditNetwork(this.cmpDetails, SWT.NONE, editingService);
@@ -412,10 +425,11 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 			this.currentDetails = nef;
 			sashForm.layout(true, true);
 		}
-		
+
 		if (o instanceof Node) {
 			NewEditNode node = null;
-			node = new NewEditNode(this.getScreenForm(), this.cmpDetails, SWT.NONE, editingService);
+			node = new NewEditNode(this.getScreenForm(), this.cmpDetails,
+					SWT.NONE, editingService);
 			node.setScreenService(screenService);
 			node.injectData(null, o);
 			this.currentDetails = node;
@@ -424,7 +438,8 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 
 		if (o instanceof Function) {
 			NewEditFunction screen = null;
-			screen = new NewEditFunction(this.cmpDetails, SWT.NONE, editingService);
+			screen = new NewEditFunction(this.cmpDetails, SWT.NONE,
+					editingService);
 			screen.setScreenService(screenService);
 			screen.injectData(null, o);
 			this.currentDetails = screen;
@@ -447,7 +462,7 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 			this.currentDetails = nnt;
 			sashForm.layout(true, true);
 		}
-		
+
 	}
 
 	/*
@@ -476,6 +491,5 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 	public String getScreenName() {
 		return "Warehouses";
 	}
-
 
 }

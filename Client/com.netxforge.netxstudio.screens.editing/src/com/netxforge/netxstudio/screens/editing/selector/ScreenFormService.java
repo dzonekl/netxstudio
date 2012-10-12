@@ -62,6 +62,7 @@ import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
  * This service is capable to place a composite in a dedicated section (The
@@ -289,6 +290,11 @@ public class ScreenFormService implements IScreenFormService {
 
 		try {
 
+			// Experimental, move instantiation of screen to guice, to avoid
+			// .injectMembers in Screen classes.
+//			Object instance = EditingActivator.getDefault().getInjector()
+//					.getInstance(screen);
+
 			// We look for a constructor supporting the selector service.
 			// Screens, will be able to use the selector to place themselves on
 			// the
@@ -511,11 +517,16 @@ public class ScreenFormService implements IScreenFormService {
 		}
 	}
 
+	/*
+	 * Save the screen state, get the memento from the Viewpart, and add a child
+	 * with the screen name.
+	 */
 	private void saveScreenState(IScreen screen) {
 		IMemento parent = absViewPart.getMemento();
 
 		if (parent != null) {
-			String validMementoElement = modelUtils.underscopeWhiteSpaces(screen.getScreenName());
+			String validMementoElement = modelUtils
+					.underscopeWhiteSpaces(screen.getScreenName());
 			IMemento child = parent.getChild(validMementoElement);
 			if (child == null) {
 				child = parent.createChild(validMementoElement);
@@ -651,7 +662,7 @@ public class ScreenFormService implements IScreenFormService {
 	private ModelUtils modelUtils;
 
 	// Notification of screen changing.
-	// 29-05 these listeners will also be notified of a screen invalidation. 
+	// 29-05 these listeners will also be notified of a screen invalidation.
 
 	List<ScreenChangeListener> screenChangedListeners = new ArrayList<ScreenChangeListener>();
 
@@ -684,14 +695,13 @@ public class ScreenFormService implements IScreenFormService {
 			l.screenChanged(screen);
 		}
 	}
-	
 
 	public void fireScreenInvalidExternal(IScreen screen) {
 		for (ScreenChangeListener l : screenChangedListeners) {
 			l.screenInvalid(screen);
 		}
 	}
-	
+
 	public AbstractScreensViewPart getAbsViewPart() {
 		return absViewPart;
 	}

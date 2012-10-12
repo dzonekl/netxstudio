@@ -125,7 +125,7 @@ import com.netxforge.netxstudio.services.impl.ServiceUserImpl;
  * 
  * 
  * @author Sven Efftinge - initial contribution and API
- * @author dzonekl - Extended the grammar, see NetXScript.
+ * @author Christophe Bouhier - Extended the grammar, see NetXScript.
  */
 public class InterpreterTypeless implements IInterpreter {
 
@@ -617,7 +617,6 @@ public class InterpreterTypeless implements IInterpreter {
 			return resources;
 		}
 
-
 		Node ctxNode = this.getContextualNode();
 		Component ctxComponent = this.getContextualComponent();
 
@@ -627,14 +626,16 @@ public class InterpreterTypeless implements IInterpreter {
 			// in the syntax now.
 			// most example expressions, will not include
 			// navigation.
+
 			List<? extends Component> navComponents = this.components(
 					cRef.getPrimaryRef(), ctxNode);
 			if (navComponents != null && navComponents.size() > 0) {
 				// ignore the context Component, and look for the
-				// resource in the explicit component.
-				
-				// FIXME, WITH A VALID FUNCTION, THE RESOURCE IS NOT FOUND. 
+				// resource in the explicit component, if no exact match take
+				// the first one.
 				Component navComponent = navComponents.get(0);
+				// TODO, report that there are more than one components.
+
 				List<NetXResource> netxResources = this.resourcesByName(
 						navComponent, resourceRef);
 				resources.addAll(netxResources);
@@ -1257,7 +1258,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 		if (contextReference.getPrimaryRef() != null) {
 			Node node = this.getContextualNode();
-			
+
 			// OPTION 1. THE COMPONENT WITHOUT RESOURCE
 			// Check if there is no leaf ref, and it has components and a node
 			// context.
@@ -1347,15 +1348,24 @@ public class InterpreterTypeless implements IInterpreter {
 			Navigation cr = (Navigation) lastRef;
 
 			if (cr.getEquipment() != null) {
-
-				String eCode = cr.getEquipment().getEquipmentCode();
-
-				if (eCode != null) {
-					List<Equipment> equipments = modelUtils.equimentsWithCode(
-							node.getNodeType().getEquipments(), eCode);
-					result = equipments;
+				Equipment eq = cr.getEquipment();
+				if (eq.eIsSet(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE)) {
+					String eCode = eq.getEquipmentCode();
+					// Match on Equipment Name as well
+					// http://work.netxforge.com/issues/300
+					if (eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)) {
+						String eName = cr.getEquipment().getName();
+						List<Equipment> equipments = modelUtils
+								.equimentsWithCodeAndName(node.getNodeType()
+										.getEquipments(), eCode, eName);
+						result = equipments;
+					} else {
+						List<Equipment> equipments = modelUtils
+								.equimentsWithCode(node.getNodeType()
+										.getEquipments(), eCode);
+						result = equipments;
+					}
 				}
-
 			}
 			if (cr.getFunction() != null) {
 

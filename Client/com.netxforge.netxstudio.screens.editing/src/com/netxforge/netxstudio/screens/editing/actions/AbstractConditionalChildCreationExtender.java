@@ -32,7 +32,7 @@ import com.google.common.collect.Lists;
  * Custom child extender, capable to add conditional ( Type etc...) child descriptors
  * It works best, by disabling the generated EMF descriptors. 
  *  
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public abstract class AbstractConditionalChildCreationExtender implements IChildCreationExtender {
 

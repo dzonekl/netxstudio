@@ -25,7 +25,7 @@ import com.netxforge.netxstudio.services.Service;
  * a constraint when the figure is created.
  * 
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class RFSServiceLayout extends AbstractLayout {
 

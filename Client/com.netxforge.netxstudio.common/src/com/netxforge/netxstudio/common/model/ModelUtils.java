@@ -42,6 +42,7 @@ import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -61,6 +62,7 @@ import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.ServerSettings;
+import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -125,6 +127,16 @@ public class ModelUtils {
 	public static final int SECONDS_IN_AN_HOUR = SECONDS_IN_A_MINUTE * 60;
 	public static final int SECONDS_IN_A_DAY = SECONDS_IN_AN_HOUR * 24;
 	public static final int SECONDS_IN_A_WEEK = SECONDS_IN_A_DAY * 7;
+
+	/**
+	 * Lifecycle state Planned.
+	 */
+	public static final int LIFECYCLE_PROPOSED = 4;
+	public static final int LIFECYCLE_PLANNED = 3;
+	public static final int LIFECYCLE_CONSTRUCTED = 2;
+	public static final int LIFECYCLE_INSERVICE = 1;
+	public static final int LIFECYCLE_OUTOFSERVICE = 0;
+	public static final int LIFECYCLE_NOTSET = -1;
 
 	/**
 	 * this is seconds in 4 weeks. Should be use only as an interval rule.
@@ -801,24 +813,44 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Will be valid when the lifecycle is not set.
 	 * 
 	 * @param node
 	 * @return
 	 */
 	public boolean isInService(Node node) {
-		if (node.getLifecycle() == null) {
+		if (!node.eIsSet(OperatorsPackage.Literals.NODE__LIFECYCLE)) {
 			return true;
-		}
+		} else
+			return isInService(node.getLifecycle());
+	}
+
+	/**
+	 * 
+	 * @param c
+	 * @return
+	 */
+	public boolean isInService(Component c) {
+		if (!c.eIsSet(LibraryPackage.Literals.COMPONENT__LIFECYCLE)) {
+			return true;
+		} else
+			return isInService(c.getLifecycle());
+	}
+
+	/**
+	 * 
+	 * @param lc
+	 * @return
+	 */
+	public boolean isInService(Lifecycle lc) {
 		final long time = System.currentTimeMillis();
-		if (node.getLifecycle().getInServiceDate() != null
-				&& node.getLifecycle().getInServiceDate().toGregorianCalendar()
+		if (lc.getInServiceDate() != null
+				&& lc.getInServiceDate().toGregorianCalendar()
 						.getTimeInMillis() > time) {
 			return false;
 		}
-		if (node.getLifecycle().getOutOfServiceDate() != null
-				&& node.getLifecycle().getOutOfServiceDate()
-						.toGregorianCalendar().getTimeInMillis() < time) {
+		if (lc.getOutOfServiceDate() != null
+				&& lc.getOutOfServiceDate().toGregorianCalendar()
+						.getTimeInMillis() < time) {
 			return false;
 		}
 		return true;
@@ -955,6 +987,33 @@ public class ModelUtils {
 		return fl;
 	}
 
+	/**
+	 * Return the closure of equipments matching the code and name.
+	 * 
+	 * @param equips
+	 * @param code
+	 * @return
+	 */
+	public List<Equipment> equimentsWithCodeAndName(List<Equipment> equips,
+			String code, String name) {
+		final List<Equipment> el = Lists.newArrayList();
+		for (final Equipment e : equips) {
+			if (e.getEquipmentCode().equals(code) && e.getName().equals(name)) {
+				el.add(e);
+			}
+			el.addAll(this.equimentsWithCodeAndName(e.getEquipments(), code,
+					name));
+		}
+		return el;
+	}
+
+	/**
+	 * Return the closure of equipments matching the code.
+	 * 
+	 * @param equips
+	 * @param code
+	 * @return
+	 */
 	public List<Equipment> equimentsWithCode(List<Equipment> equips, String code) {
 		final List<Equipment> el = Lists.newArrayList();
 		for (final Equipment e : equips) {
@@ -1170,6 +1229,87 @@ public class ModelUtils {
 
 		return proposed_planned && planned_construction
 				&& construcion_inService && inService_outOfService;
+	}
+
+	/**
+	 * Get a String representation of the Lifeycycle State.
+	 * 
+	 * @param state
+	 * @return
+	 */
+	public String lifecycleText(Lifecycle lc) {
+		return lifecycleText(lifecycleState(lc));
+	}
+
+	/**
+	 * Get a String representation of the Lifeycycle State.
+	 * 
+	 * @param state
+	 * @return
+	 */
+	public String lifecycleText(int state) {
+
+		switch (state) {
+		case LIFECYCLE_PROPOSED:
+			return "Proposed";
+		case LIFECYCLE_CONSTRUCTED:
+			return "Constructed";
+		case LIFECYCLE_PLANNED:
+			return "Planned";
+		case LIFECYCLE_INSERVICE:
+			return "In Service";
+		case LIFECYCLE_OUTOFSERVICE:
+			return "Out of Service";
+		case LIFECYCLE_NOTSET:
+		default:
+			return "NotSet";
+		}
+
+	}
+
+	/**
+	 * Get the lifecycle state. Each date of a Lifecycle is compared with it's
+	 * predecessor. From this the state is determined.
+	 * 
+	 * @param lc
+	 * @return
+	 */
+	public int lifecycleState(Lifecycle lc) {
+
+		EAttribute[] states = new EAttribute[]{
+				
+				GenericsPackage.Literals.LIFECYCLE__OUT_OF_SERVICE_DATE,
+				GenericsPackage.Literals.LIFECYCLE__IN_SERVICE_DATE,
+				GenericsPackage.Literals.LIFECYCLE__CONSTRUCTION_DATE, 
+				GenericsPackage.Literals.LIFECYCLE__PLANNED_DATE, 
+				GenericsPackage.Literals.LIFECYCLE__PROPOSED
+		};
+		
+		long latestDate = -1;
+		int latestIndex = -1;
+		for( int i = 0; i < states.length ; i++){
+			EAttribute state = states[i];
+			if(lc.eIsSet(state)){
+				long currentDate = ((XMLGregorianCalendar)lc.eGet(state)).toGregorianCalendar().getTimeInMillis();
+				if(latestDate != -1) {
+					if ( latestDate >= currentDate ){
+						break;
+					}else{
+						latestDate = currentDate;
+						latestIndex = i;
+						if( CommonActivator.DEBUG){
+							CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION, "-- update index to: " + i);
+						}
+						// set the index, we are later then predecessor. 
+
+					}
+				}else {
+					latestDate = currentDate;
+					latestIndex = i;
+				}
+			}
+		}
+		return latestIndex;
 	}
 
 	// public class HasNodeType implements Predicate<NodeType> {
@@ -3456,7 +3596,7 @@ public class ModelUtils {
 	}
 
 	/**
-	 * FIXME, No other way that iterator through.
+	 * Transform from a Double list to a double array.
 	 * 
 	 * @param values
 	 * @return

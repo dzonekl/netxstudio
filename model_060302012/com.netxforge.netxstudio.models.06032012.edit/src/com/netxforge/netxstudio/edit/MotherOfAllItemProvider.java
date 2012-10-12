@@ -19,7 +19,7 @@ import com.netxforge.netxstudio.services.RFSService;
  * Generic ItemProvider which applies to all objects.
  * 
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class MotherOfAllItemProvider extends ItemProviderAdapter {

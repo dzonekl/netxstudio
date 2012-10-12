@@ -18,7 +18,7 @@ import com.netxforge.netxstudio.library.NodeType;
  * The model type is stored as a constraint when the figure is created.  
  * 
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class NodeTypeLayout extends AbstractLayout {
 	

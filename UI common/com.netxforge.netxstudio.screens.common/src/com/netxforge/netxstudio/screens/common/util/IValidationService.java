@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.editing.observables;
+package com.netxforge.netxstudio.screens.common.util;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.validation.IValidator;
@@ -32,7 +32,7 @@ public interface IValidationService {
 
 	/**
 	 * Aggregates the validation status providers from a binding context.
-	 * Fires validation events depending on the context.
+	 * Fires validation events on which clients can register separately. depending on the context.
 	 * Note: Only one context can be registered. 
 	 * 
 	 * @param mgr

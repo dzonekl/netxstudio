@@ -58,7 +58,7 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
-import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
+import com.netxforge.netxstudio.screens.common.util.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.dialog.LocationFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.NodeTypeFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;

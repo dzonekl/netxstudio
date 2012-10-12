@@ -262,7 +262,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
 	 * 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 * 
 	 */
 	class EditMetricAction extends Action {
@@ -299,7 +299,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
 	 * 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 * 
 	 */
 	class ValuesForMetricAction extends Action {
@@ -363,7 +363,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
 	 * 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 * 
 	 */
 	class NewMetricAction extends Action {

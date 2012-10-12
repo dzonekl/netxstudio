@@ -72,7 +72,7 @@ import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
-import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
+import com.netxforge.netxstudio.screens.common.util.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.dialog.NodeOrNetworkFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.ServiceUserFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;

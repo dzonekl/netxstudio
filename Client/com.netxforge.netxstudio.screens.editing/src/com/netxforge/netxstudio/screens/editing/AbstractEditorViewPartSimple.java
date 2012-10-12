@@ -50,7 +50,7 @@ import org.eclipse.ui.part.ViewPart;
 /**
  * A ViewPart which acts as an editor.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public abstract class AbstractEditorViewPartSimple extends ViewPart implements
 		ISaveablePart2, IPartListener, IEditingDomainProvider {

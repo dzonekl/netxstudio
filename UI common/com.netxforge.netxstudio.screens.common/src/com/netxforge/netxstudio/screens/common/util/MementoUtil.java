@@ -37,9 +37,12 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.nebula.widgets.cdatetime.CDateTime;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.forms.widgets.Section;
 
 /**
  * Various memento shortcut boilerplate busters!
@@ -203,8 +206,8 @@ public class MementoUtil {
 		int[] columnWidths = this.retrieveIntArray(memento, key);
 		if (columnWidths.length > 0) {
 			if (viewer instanceof TableViewer) {
-				
-				// No check on the size of the array. 
+
+				// No check on the size of the array.
 				TableColumn[] columns = ((TableViewer) viewer).getTable()
 						.getColumns();
 				for (int i = 0; i < columns.length; i++) {
@@ -212,7 +215,8 @@ public class MementoUtil {
 					tc.setWidth(columnWidths[i]);
 				}
 			} else if (viewer instanceof TreeViewer) {
-				TreeColumn[] columns = ((TreeViewer) viewer).getTree().getColumns();
+				TreeColumn[] columns = ((TreeViewer) viewer).getTree()
+						.getColumns();
 				for (int i = 0; i < columns.length; i++) {
 					TreeColumn tc = columns[i];
 					tc.setWidth(columnWidths[i]);
@@ -232,6 +236,17 @@ public class MementoUtil {
 	public void rememberSashForm(IMemento memento, SashForm sashForm, String key) {
 		int[] weights = sashForm.getWeights();
 		rememberIntArray(memento, weights, key);
+	}
+
+	/**
+	 * Remember a sash form and it's children.
+	 * 
+	 * @param memento
+	 * @param c
+	 */
+	public void rememberSashForm(IMemento memento, SashForm c) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/**
@@ -384,6 +399,46 @@ public class MementoUtil {
 
 	private CDOID getCDOID(String idString) {
 		return CDOIDUtil.createLong(Long.parseLong(idString));
+	}
+
+	/**
+	 * Remember the Section contols in a composite.
+	 * 
+	 * @param memento
+	 * @param cmpDetails
+	 * @param key
+	 */
+	public void rememberSectionsInComposite(IMemento memento,
+			Composite cmpDetails, String key) {
+
+		Control[] controls = cmpDetails.getChildren();
+		for (int i = 0; i < controls.length; i++) {
+			Control c = controls[i];
+			if (c instanceof Section) {
+				// append the index of the key, to retrieve later.
+				memento.putBoolean(key + i, ((Section) c).isExpanded());
+			}
+		}
+	}
+
+	/**
+	 * Retrieve the expansion state.
+	 * 
+	 * @param memento
+	 * @param cmpDetails
+	 * @param key
+	 */
+	public void retrieveSectionsInComposite(IMemento memento,
+			Composite cmpDetails, String key) {
+
+		Control[] controls = cmpDetails.getChildren();
+		for (int i = 0; i < controls.length; i++) {
+			Control c = controls[i];
+			Boolean b = memento.getBoolean(key + i);
+			if (c instanceof Section && b != null) {
+				((Section) c).setExpanded(b);
+			}
+		}
 	}
 
 }

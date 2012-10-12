@@ -29,7 +29,7 @@ import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
-public class NewEditNodeFunction extends NewEditComponent implements IScreen {
+public class NewEditNodeFunction extends AbstractNewEditComponent implements IScreen {
 
 	private Text txtName;
 	private Text txtDescription;
@@ -198,12 +198,18 @@ public class NewEditNodeFunction extends NewEditComponent implements IScreen {
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = super.initDataBindings_();
 
-		super.bindResourcesSection(context);
-		super.bindToleranceSection();
-		super.bindMetricSection();
-		super.bindLifeCycle(context);
+		context = bindResourcesSection(context);
+		bindToleranceSection();
+		bindMetricSection();
+		bindLifeCycle(context);
 		bindInfoSection(context);
-		return bindLinkSection(context);
+		bindLinkSection(context);
+		if(!readOnly){
+			validationService.registerBindingContext(context);
+			validationService.addValidationListener(this);
+		}
+		
+		return context;
 	}
 
 	private EMFDataBindingContext bindInfoSection(EMFDataBindingContext context) {

@@ -29,7 +29,7 @@ import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class ExpressionsAction extends BaseSelectionListenerAction {
 

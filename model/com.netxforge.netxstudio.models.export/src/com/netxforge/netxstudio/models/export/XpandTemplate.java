@@ -10,7 +10,7 @@ import org.eclipse.xtend.expression.Variable;
  * Clients should implement this interface to customize the context of an XPand transformation. 
  * Also clients should extend a basic convenience implementation named <code>XpandTemplateImpl</code>
  * @see com.netxforge.netxstudio.m2t.XPandTemplateImpl 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public interface XpandTemplate {
 

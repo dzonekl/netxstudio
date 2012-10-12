@@ -30,7 +30,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * helper, retargets actions to the global handlers. (This code is originally
  * found in the EMF Editor Action Bard Contributor.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class ObjectEditingActionsHandler implements IActionHandler {

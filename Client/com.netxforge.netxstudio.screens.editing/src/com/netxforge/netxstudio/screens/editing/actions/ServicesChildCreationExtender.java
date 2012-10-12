@@ -36,7 +36,7 @@ import com.netxforge.netxstudio.services.ServicesFactory;
  * Note: This is called for all EObject of the specified extender package, so
  * first check the target eclass.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class ServicesChildCreationExtender extends
 		AbstractConditionalChildCreationExtender {

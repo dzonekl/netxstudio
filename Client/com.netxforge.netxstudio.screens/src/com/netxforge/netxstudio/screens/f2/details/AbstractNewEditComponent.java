@@ -8,6 +8,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.validation.IValidator;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -17,6 +20,7 @@ import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
@@ -64,8 +68,8 @@ import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
-import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
+import com.netxforge.netxstudio.screens.common.util.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.dialog.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.MetricFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
@@ -75,15 +79,43 @@ import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.NewEditResource;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeLabelProvider;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
  * Abstract Component screen implementation, which can deliver various sections.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
-public abstract class NewEditComponent extends AbstractDetailsScreen implements
-		IDataScreenInjection {
+public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
+		implements IDataScreenInjection {
+
+	/**
+	 * Validates the lifecycle setting.
+	 * 
+	 * @author Christophe
+	 * 
+	 */
+	private final class LifecycleValidator implements IValidator {
+		public IStatus validate(Object value) {
+
+			IStatus status = null;
+
+			// It's OK to clear the value.
+			if (value == null) {
+				status = new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
+						"No problemo");
+			} else {
+				// Check if date is befoe it's predecessor.
+				status = new Status(IStatus.WARNING,
+						ScreensActivator.PLUGIN_ID,
+						"testing warning when setting");
+				System.out.println(status + ", value=" + value.toString());
+			}
+			
+			return status;
+		}
+	}
 
 	final IEditingService editingService;
 
@@ -111,14 +143,14 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 	// private CDateTime cdOutOfService;
 
 	protected Component comp;
-	
+
 	// If the screen is in read-only mode.
 	protected boolean readOnly;
-	
-	// The corresponding widget style for the operation mode. 
+
+	// The corresponding widget style for the operation mode.
 	protected int widgetStyle;
 
-	public NewEditComponent(Composite parent, int style,
+	public AbstractNewEditComponent(Composite parent, int style,
 			final IEditingService editingService) {
 		super(parent, style);
 		this.editingService = editingService;
@@ -161,11 +193,12 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		Expression expression = comp.getCapacityExpressionRef();
 		if (expression != null) {
 			expressionScreen.setOperation(ScreenUtil.OPERATION_EDIT);
-			
-			// CB, can't create expressions from here.... Should be supported with adaption on IDataScreenInjection
-//			expressionScreen.injectData(null, comp,
-//					LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
-//					expression);
+
+			// CB, can't create expressions from here.... Should be supported
+			// with adaption on IDataScreenInjection
+			// expressionScreen.injectData(null, comp,
+			// LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
+			// expression);
 		} else {
 			Resource expressionResource = editingService
 					.getData(LibraryPackage.Literals.EXPRESSION);
@@ -200,7 +233,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				Resource toleranceResource = editingService
 						.getData(LibraryPackage.Literals.TOLERANCE);
 				ToleranceFilterDialog dialog = new ToleranceFilterDialog(
-						NewEditComponent.this.getShell(), toleranceResource);
+						AbstractNewEditComponent.this.getShell(),
+						toleranceResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					Tolerance u = (Tolerance) dialog.getFirstResult();
 					if (!comp.getToleranceRefs().contains(u)) {
@@ -289,7 +323,9 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				SWT.NONE);
 		toolkit.paintBordersFor(cmpLifeCycle);
 		sctnLifecycle.setClient(cmpLifeCycle);
-		cmpLifeCycle.setLayout(new GridLayout(2, false));
+		cmpLifeCycle.setLayout(new GridLayout(3, false));
+
+		// PROPOSED.
 
 		Label lblProposed = toolkit.createLabel(cmpLifeCycle, "Proposed:",
 				SWT.NONE);
@@ -298,6 +334,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				false, 1, 1);
 		gd_lblProposed.widthHint = 70;
 		lblProposed.setLayoutData(gd_lblProposed);
+
 		//
 		// cdProposed = new CDateTime(cmpLifeCycle, CDT.BORDER | CDT.DROP_DOWN
 		// | CDT.DATE_MEDIUM);
@@ -317,6 +354,11 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		dcProposed.setLayoutData(gd_dcProposed);
 		toolkit.adapt(dcProposed);
 		toolkit.paintBordersFor(dcProposed);
+
+		buildClearLifeCycleDate(cmpLifeCycle,
+				GenericsPackage.Literals.LIFECYCLE__PROPOSED, readOnly);
+
+		// PLANNED
 
 		Label lblPlanned = toolkit.createLabel(cmpLifeCycle, "Planned:",
 				SWT.NONE);
@@ -343,6 +385,10 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		toolkit.adapt(dcPlanned);
 		toolkit.paintBordersFor(dcPlanned);
 
+		buildClearLifeCycleDate(cmpLifeCycle,
+				GenericsPackage.Literals.LIFECYCLE__PLANNED_DATE, readOnly);
+
+		// CONSTRUCTION
 		Label lblConstruction = toolkit.createLabel(cmpLifeCycle,
 				"Construction:", SWT.NONE);
 		lblConstruction.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
@@ -368,6 +414,10 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		toolkit.adapt(dcConstruction);
 		toolkit.paintBordersFor(dcConstruction);
 
+		buildClearLifeCycleDate(cmpLifeCycle,
+				GenericsPackage.Literals.LIFECYCLE__CONSTRUCTION_DATE, readOnly);
+
+		// IN SERVICE.
 		Label lblInService = toolkit.createLabel(cmpLifeCycle, "In Service:",
 				SWT.NONE);
 		lblInService.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
@@ -392,6 +442,10 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		toolkit.adapt(dcInService);
 		toolkit.paintBordersFor(dcInService);
 
+		buildClearLifeCycleDate(cmpLifeCycle,
+				GenericsPackage.Literals.LIFECYCLE__IN_SERVICE_DATE, readOnly);
+
+		// OUT OF SERVICE
 		Label lblOutOfService = toolkit.createLabel(cmpLifeCycle,
 				"Out of Service:", SWT.NONE);
 		GridData gd_lblOutOfService = new GridData(SWT.RIGHT, SWT.CENTER,
@@ -419,14 +473,54 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		dcOutOfService.setWeeksVisible(true);
 		toolkit.adapt(dcOutOfService);
 		toolkit.paintBordersFor(dcOutOfService);
-		
-		
+
+		buildClearLifeCycleDate(cmpLifeCycle,
+				GenericsPackage.Literals.LIFECYCLE__OUT_OF_SERVICE_DATE,
+				readOnly);
+
 		if (readOnly) {
 			dcProposed.setEditable(false);
 			dcPlanned.setEditable(false);
 			dcConstruction.setEditable(false);
 			dcInService.setEditable(false);
 			dcOutOfService.setEditable(false);
+		}
+	}
+
+	/*
+	 * An hyperlink which sets a Lifecycle , of the target component to null
+	 */
+	private void buildClearLifeCycleDate(Composite cmpLifeCycle,
+			final EAttribute ea, boolean readOnly) {
+		ImageHyperlink clearDate = toolkit.createImageHyperlink(cmpLifeCycle,
+				SWT.NONE);
+		clearDate.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				if (comp.eIsSet(LibraryPackage.Literals.COMPONENT__LIFECYCLE)) {
+					Lifecycle lc = (Lifecycle) comp
+							.eGet(LibraryPackage.Literals.COMPONENT__LIFECYCLE);
+					if (lc.eIsSet(ea)) {
+						Command c = new SetCommand(editingService
+								.getEditingDomain(), lc, ea, null);
+						editingService.getEditingDomain().getCommandStack()
+								.execute(c);
+					}
+				}
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		clearDate.setImage(ResourceManager.getPluginImage("org.eclipse.ui",
+				"/icons/full/etool16/delete.gif"));
+		toolkit.paintBordersFor(clearDate);
+		clearDate.setText("");
+
+		if (readOnly) {
+			clearDate.setEnabled(false);
 		}
 	}
 
@@ -452,7 +546,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 						.getData(MetricsPackage.Literals.METRIC);
 
 				MetricFilterDialog dialog = new MetricFilterDialog(
-						NewEditComponent.this.getShell(), metriceResource);
+						AbstractNewEditComponent.this.getShell(),
+						metriceResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					Object[] metricResult = dialog.getResult();
 					List<Object> metricResultList = Lists
@@ -595,55 +690,53 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		// toolkit.paintBordersFor(hypLnkAddResource);
 		// hypLnkAddResource.setText("Add");
 
-		ImageHyperlink mghprlnkNewResource = toolkit
-				.createImageHyperlink(composite_2, SWT.NONE);
-		mghprlnkNewResource.setLayoutData(new GridData(SWT.RIGHT,
-				SWT.CENTER, false, false, 1, 1));
-		mghprlnkNewResource
-				.addHyperlinkListener(new IHyperlinkListener() {
-					public void linkActivated(HyperlinkEvent e) {
-						NewEditResource resourceScreen = new NewEditResource(
-								screenService.getScreenContainer(), SWT.NONE);
-						resourceScreen.setOperation(ScreenUtil.OPERATION_NEW);
-						resourceScreen.setScreenService(screenService);
+		ImageHyperlink mghprlnkNewResource = toolkit.createImageHyperlink(
+				composite_2, SWT.NONE);
+		mghprlnkNewResource.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1));
+		mghprlnkNewResource.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				NewEditResource resourceScreen = new NewEditResource(
+						screenService.getScreenContainer(), SWT.NONE);
+				resourceScreen.setOperation(ScreenUtil.OPERATION_NEW);
+				resourceScreen.setScreenService(screenService);
 
-						String cdoResourcePath = modelUtils
-								.cdoCalculateResourcePathII(comp);
-						if (cdoResourcePath == null) {
-							System.out.println("Should not occur!");
-							MessageDialog.openError(
-									NewEditComponent.this.getShell(),
-									"Part name should be set",
-									"Resources can only be created on fully specified parts. Please specify the name");
+				String cdoResourcePath = modelUtils
+						.cdoCalculateResourcePathII(comp);
+				if (cdoResourcePath == null) {
+					System.out.println("Should not occur!");
+					MessageDialog.openError(
+							AbstractNewEditComponent.this.getShell(),
+							"Part name should be set",
+							"Resources can only be created on fully specified parts. Please specify the name");
 
-							return; // Can't calculate path for empty names.
-						} else {
-							System.out.println("Creating CDO Resource "
-									+ cdoResourcePath);
-						}
-						Resource resourcesResource = editingService
-								.getDataService()
-								.getProvider()
-								.getResource(
-										editingService.getEditingDomain()
-												.getResourceSet(),
-										cdoResourcePath);
+					return; // Can't calculate path for empty names.
+				} else {
+					System.out.println("Creating CDO Resource "
+							+ cdoResourcePath);
+				}
+				Resource resourcesResource = editingService
+						.getDataService()
+						.getProvider()
+						.getResource(
+								editingService.getEditingDomain()
+										.getResourceSet(), cdoResourcePath);
 
-						resourceScreen.injectData(resourcesResource, comp,
-								LibraryFactory.eINSTANCE.createNetXResource());
-						screenService.setActiveScreen(resourceScreen);
+				resourceScreen.injectData(resourcesResource, comp,
+						LibraryFactory.eINSTANCE.createNetXResource());
+				screenService.setActiveScreen(resourceScreen);
 
-					}
+			}
 
-					public void linkEntered(HyperlinkEvent e) {
-					}
+			public void linkEntered(HyperlinkEvent e) {
+			}
 
-					public void linkExited(HyperlinkEvent e) {
-					}
-				});
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
 		toolkit.paintBordersFor(mghprlnkNewResource);
 		mghprlnkNewResource.setText("New");
-		
+
 		resourceTableViewer = new TableViewer(composite_2, SWT.BORDER
 				| SWT.FULL_SELECTION);
 		Table resourcesTable = resourceTableViewer.getTable();
@@ -756,29 +849,31 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		txtCapExpression.setLayoutData(gd_txtCapExpression);
 		txtCapExpression.setText("");
 
-		ImageHyperlink mghprlnkRemoveCapacityExpression = toolkit.createImageHyperlink(
-				composite_2, SWT.NONE);
-		mghprlnkRemoveCapacityExpression.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				if (comp.getCapacityExpressionRef() != null) {
-					Command c = new SetCommand(
-							editingService.getEditingDomain(),
-							comp,
-							LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
-							null);
-					editingService.getEditingDomain().getCommandStack()
-							.execute(c);
-				}
-			}
+		ImageHyperlink mghprlnkRemoveCapacityExpression = toolkit
+				.createImageHyperlink(composite_2, SWT.NONE);
+		mghprlnkRemoveCapacityExpression
+				.addHyperlinkListener(new IHyperlinkListener() {
+					public void linkActivated(HyperlinkEvent e) {
+						if (comp.getCapacityExpressionRef() != null) {
+							Command c = new SetCommand(
+									editingService.getEditingDomain(),
+									comp,
+									LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
+									null);
+							editingService.getEditingDomain().getCommandStack()
+									.execute(c);
+						}
+					}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+					public void linkEntered(HyperlinkEvent e) {
+					}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkRemoveCapacityExpression.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+					public void linkExited(HyperlinkEvent e) {
+					}
+				});
+		mghprlnkRemoveCapacityExpression.setImage(ResourceManager
+				.getPluginImage("org.eclipse.ui",
+						"/icons/full/etool16/delete.gif"));
 		toolkit.paintBordersFor(mghprlnkRemoveCapacityExpression);
 		mghprlnkRemoveCapacityExpression.setText("");
 
@@ -792,7 +887,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				Resource expressionResource = editingService
 						.getData(LibraryPackage.Literals.EXPRESSION);
 				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
-						NewEditComponent.this.getShell(), expressionResource);
+						AbstractNewEditComponent.this.getShell(),
+						expressionResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					Expression expression = (Expression) dialog
 							.getFirstResult();
@@ -836,29 +932,31 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		txtUtilExpression.setLayoutData(gd_txtUtilExpression);
 		txtUtilExpression.setText("");
 
-		ImageHyperlink mghprlnkRemoveUtilizationExpression = toolkit.createImageHyperlink(
-				composite_2, SWT.NONE);
-		mghprlnkRemoveUtilizationExpression.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				if (comp.getUtilizationExpressionRef() != null) {
-					Command c = new SetCommand(
-							editingService.getEditingDomain(),
-							comp,
-							LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
-							null);
-					editingService.getEditingDomain().getCommandStack()
-							.execute(c);
-				}
-			}
+		ImageHyperlink mghprlnkRemoveUtilizationExpression = toolkit
+				.createImageHyperlink(composite_2, SWT.NONE);
+		mghprlnkRemoveUtilizationExpression
+				.addHyperlinkListener(new IHyperlinkListener() {
+					public void linkActivated(HyperlinkEvent e) {
+						if (comp.getUtilizationExpressionRef() != null) {
+							Command c = new SetCommand(
+									editingService.getEditingDomain(),
+									comp,
+									LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
+									null);
+							editingService.getEditingDomain().getCommandStack()
+									.execute(c);
+						}
+					}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+					public void linkEntered(HyperlinkEvent e) {
+					}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkRemoveUtilizationExpression.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+					public void linkExited(HyperlinkEvent e) {
+					}
+				});
+		mghprlnkRemoveUtilizationExpression.setImage(ResourceManager
+				.getPluginImage("org.eclipse.ui",
+						"/icons/full/etool16/delete.gif"));
 		toolkit.paintBordersFor(mghprlnkRemoveUtilizationExpression);
 		mghprlnkRemoveUtilizationExpression.setText("");
 
@@ -873,7 +971,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				Resource expressionResource = editingService
 						.getData(LibraryPackage.Literals.EXPRESSION);
 				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
-						NewEditComponent.this.getShell(), expressionResource);
+						AbstractNewEditComponent.this.getShell(),
+						expressionResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					Expression expression = (Expression) dialog
 							.getFirstResult();
@@ -891,13 +990,13 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		new Label(composite_2, SWT.NONE);
 
 		if (readOnly) {
-			
+
 			mghprlnkNewResource.setVisible(false);
 			mntmRemoveResource.setEnabled(false);
-			
+
 			mghprlnkRemoveCapacityExpression.setVisible(false);
 			mghprlnkRemoveUtilizationExpression.setVisible(false);
-			
+
 			btnSelectCapExpression.setVisible(false);
 			btnSelectUtilExpression.setVisible(false);
 
@@ -915,7 +1014,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		initDataBindings_();
 	}
 
-	public void buildUI(){
+	public void buildUI() {
 		// Readonlyness.
 		readOnly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		widgetStyle = readOnly ? SWT.READ_ONLY : SWT.NONE;
@@ -926,7 +1025,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 		return context;
 	}
 
-	public void bindResourcesSection(EMFDataBindingContext context) {
+	public EMFDataBindingContext bindResourcesSection(
+			EMFDataBindingContext context) {
 		IObservableValue capExpressionObservable = SWTObservables.observeText(
 				this.txtCapExpression, SWT.Modify);
 
@@ -967,6 +1067,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
 		resourceTableViewer.setInput(resourcesListProperty.observe(comp));
+
+		return context;
 	}
 
 	public void bindToleranceSection() {
@@ -1061,8 +1163,12 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 			}
 
 			public Object convert(Object fromObject) {
-				return modelUtils
-						.fromXMLDate((XMLGregorianCalendar) fromObject);
+				if (fromObject == null) {
+					return null;
+				} else {
+					return modelUtils
+							.fromXMLDate((XMLGregorianCalendar) fromObject);
+				}
 			}
 		});
 
@@ -1078,12 +1184,24 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 			}
 
 			public Object convert(Object fromObject) {
+				if (fromObject == null) {
+					return null;
+				}
 				return modelUtils.toXMLDate((Date) fromObject);
 			}
 		});
 
+		// Set a validator, after target->model conversion() and after
+		// model->target get().
+		LifecycleValidator lifecycleValidator = new LifecycleValidator();
+
+		targetToModelUpdateStrategy
+				.setAfterConvertValidator(lifecycleValidator);
+//		targetToModelUpdateStrategy.setAfterGetValidator(lifecycleValidator);
+
 		// Create a new lifecycle if non-existent.
-		// Note this will make the function dirty, we should never really get here, as our creators should create an lc. 
+		// Note this will make the function dirty, we should never really get
+		// here, as our creators should create an lc.
 		if (comp.getLifecycle() == null) {
 			Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
 
@@ -1094,7 +1212,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements
 				editingService.getEditingDomain().getCommandStack()
 						.execute(setCommand);
 
-				MessageDialog.openInformation(NewEditComponent.this.getShell(),
+				MessageDialog.openInformation(
+						AbstractNewEditComponent.this.getShell(),
 						"Created lifecycle entry",
 						"Created a lifecycle entry for: \"" + comp.getName()
 								+ "\"\n Please save (File->Save)");

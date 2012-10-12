@@ -6,7 +6,7 @@ import com.google.inject.Injector;
 
 /**
  * Required to run the test cases. 
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  */
 public class CommonStandalone {

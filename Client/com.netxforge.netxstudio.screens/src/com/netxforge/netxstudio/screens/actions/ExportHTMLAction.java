@@ -24,7 +24,7 @@ import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAct
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 
 /**
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class ExportHTMLAction extends BaseSelectionListenerAction {
 

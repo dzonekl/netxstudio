@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.screens.editing.observables;
+package com.netxforge.netxstudio.screens.common.util;
 
 import java.util.EventListener;
 

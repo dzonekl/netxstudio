@@ -112,7 +112,12 @@ public class NetxForgeJob implements org.quartz.Job {
 		dataProvider.getTransaction();
 		final JobRunContainer container = getCreateJobRunContainer(dataProvider
 				.getResource(SchedulingPackage.eINSTANCE.getJobRunContainer()));
-
+		
+		
+		if(container.getWorkFlowRuns().size() > ServerWorkFlowRunMonitor.MAX_WORKFLOW_RUNS){
+			
+		}
+		
 		final WorkFlowRun wfRun = jobImplementation.createWorkFlowRunInstance();
 		container.getWorkFlowRuns().add(wfRun);
 

@@ -21,7 +21,7 @@ import com.netxforge.netxstudio.generics.Value;
 /**
  * FIXME, Move to more appropriate utility plugin.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class PrettyLog implements IPrettyLog {

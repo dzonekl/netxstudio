@@ -44,7 +44,7 @@ import com.netxforge.netxstudio.services.ServicesFactory;
 /**
  * FIXME, Should target test repository.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class ServiceJobTest extends AbstractInjectedTestJUnit3 {

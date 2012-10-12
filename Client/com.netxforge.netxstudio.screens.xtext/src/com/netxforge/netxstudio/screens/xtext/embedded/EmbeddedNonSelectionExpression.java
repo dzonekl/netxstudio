@@ -13,7 +13,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
 /**
  * Concrete implementation which can set and clear the expression from an owner.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class EmbeddedNonSelectionExpression extends AbstractEmbeddedExpression {
 

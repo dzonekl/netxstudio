@@ -69,7 +69,7 @@ import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 /**
  * See this for filtering. http://www.eclipsezone.com/eclipse/forums/t63214.html
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public abstract class AbstractResources extends AbstractScreen implements

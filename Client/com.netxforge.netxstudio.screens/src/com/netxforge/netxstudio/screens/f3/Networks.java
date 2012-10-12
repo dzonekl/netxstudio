@@ -68,6 +68,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -123,6 +124,17 @@ import com.netxforge.netxstudio.screens.f4.NewEditJob;
 public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 	private static final String MEM_KEY_NETWORKS_SELECTION_TREE = "MEM_KEY_NETWORKS_SELECTION_TREE";
+
+	/*
+	 * Remember the state for Details => Function.
+	 */
+	private static final String MEM_KEY_DETAILS_FUNCTION = "MEM_KEY_DETAILS_FUNCTION";
+	private static final String MEM_KEY_DETAILS_EQUIPMENT = "MEM_KEY_DETAILS_EQUIPMENT";
+	private static final String MEM_KEY_DETAILS_NODE = "MEM_KEY_DETAILS_NODE";
+	private static final String MEM_KEY_DETAILS_NODE_TYPE = "MEM_KEY_DETAILS_NODE_TYPE";
+	private static final String MEM_KEY_DETAILS_NETWORK = "MEM_KEY_DETAILS_NETWORK";
+	private static final String MEM_KEY_DETAILS_FUNCTION_LINK = "MEM_KEY_DETAILS_FUNCTION_LINK";
+	private static final String MEM_KEY_DETAILS_EQUIPMENT_LINK = "MEM_KEY_DETAILS_EQUIPMENT_LINK";
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
@@ -182,7 +194,9 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		frmNetworks.setText(getOperationText() + "Network");
 		frmNetworks.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
-
+		
+		frmNetworks.addMessageHyperlinkListener(new HyperlinkAdapter());
+		
 		sashForm = new SashForm(frmNetworks.getBody(), SWT.VERTICAL);
 		sashForm.setOrientation(SWT.HORIZONTAL);
 		toolkit.adapt(sashForm);
@@ -451,7 +465,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	/**
 	 * Action to move objects to the ware house.
 	 * 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 * 
 	 */
 	class MoveToWarehouseAction extends BaseSelectionListenerAction {
@@ -591,7 +605,47 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.COMPONENT__NAME).observeDetail(set));
 
+		// Notifiy LifeCycle Features.
+
+		observableMap.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				FeaturePath.fromList(
+						LibraryPackage.Literals.COMPONENT__LIFECYCLE,
+						GenericsPackage.Literals.LIFECYCLE__PROPOSED))
+				.observeDetail(set));
+
+		observableMap.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				FeaturePath.fromList(
+						LibraryPackage.Literals.COMPONENT__LIFECYCLE,
+						GenericsPackage.Literals.LIFECYCLE__PLANNED_DATE))
+				.observeDetail(set));
+
+		observableMap.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				FeaturePath.fromList(
+						LibraryPackage.Literals.COMPONENT__LIFECYCLE,
+						GenericsPackage.Literals.LIFECYCLE__CONSTRUCTION_DATE))
+				.observeDetail(set));
+
+		observableMap.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				FeaturePath.fromList(
+						LibraryPackage.Literals.COMPONENT__LIFECYCLE,
+						GenericsPackage.Literals.LIFECYCLE__IN_SERVICE_DATE))
+				.observeDetail(set));
+
+		observableMap
+				.add(EMFEditProperties
+						.value(editingService.getEditingDomain(),
+								FeaturePath
+										.fromList(
+												LibraryPackage.Literals.COMPONENT__LIFECYCLE,
+												GenericsPackage.Literals.LIFECYCLE__OUT_OF_SERVICE_DATE))
+						.observeDetail(set));
+
 		// FIXME, doesn't work.
+		// See Bug for JFace Databinding.
 		// observableMap.add(EMFEditProperties.value(editingService.getEditingDomain(),
 		// LibraryPackage.Literals.COMPONENT__METRIC_REFS).observeDetail(set));
 		//
@@ -601,7 +655,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		IObservableMap[] map = new IObservableMap[observableMap.size()];
 		observableMap.toArray(map);
 
-		networkTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(map));
+		networkTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(
+				modelUtils, map));
 
 		IEMFListProperty networksResourceProperty = EMFEditProperties
 				.resource(editingService.getEditingDomain());
@@ -740,9 +795,18 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	Composite currentDetails;
 	private ImageHyperlink mghprlnkNewImagehyperlink;
 
+	
+	/*
+	 * Show details for a selection. 
+	 */
 	private void handleDetailsSelection(Object o) {
-
-		if (currentDetails != null) {
+		
+		// Clear the form messages. 
+		this.getScreenForm().getMessageManager().removeAllMessages();
+		
+		
+		if (currentDetails != null && !currentDetails.isDisposed()) {
+			this.saveDetailsState(currentDetails);
 			currentDetails.dispose();
 		}
 
@@ -751,81 +815,76 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			nef = new NewEditNetwork(this.cmpDetails, SWT.NONE, editingService);
 			nef.setOperation(getOperation());
 			nef.setScreenService(screenService);
+			nef.setParentScreen(this);
 			nef.injectData(null, o);
 			this.currentDetails = nef;
+			this.restoreDetailsState(currentDetails);
 			sashForm.layout(true, true);
-		}
-
-		if (o instanceof Node) {
+		} else if (o instanceof Node) {
 			NewEditNode node = null;
 			node = new NewEditNode(this.getScreenForm(), this.cmpDetails,
 					SWT.NONE, editingService);
 			node.setOperation(getOperation());
 			node.setScreenService(screenService);
+			node.setParentScreen(this);
 			node.injectData(null, o);
 			this.currentDetails = node;
+			this.restoreDetailsState(currentDetails);
 			sashForm.layout(true, true);
-		}
-
-		if (o instanceof Function) {
+		} else if (o instanceof Function) {
 			NewEditNodeFunction screen = new NewEditNodeFunction(
 					this.cmpDetails, SWT.NONE, editingService);
 			screen.setScreenService(screenService);
 			screen.setOperation(getOperation());
+			screen.setParentScreen(this);
 			screen.injectData(null, o);
 			this.currentDetails = screen;
+			this.restoreDetailsState(currentDetails);
 			sashForm.layout(true, true);
-		}
-		if (o instanceof Equipment) {
-
+		} else if (o instanceof Equipment) {
 			NewEditNodeEquipment screen = null;
 			screen = new NewEditNodeEquipment(this.cmpDetails, SWT.NONE,
 					editingService);
 			screen.setOperation(getOperation());
 			screen.setScreenService(screenService);
+			screen.setParentScreen(this);
 			screen.injectData(null, o);
 			this.currentDetails = screen;
+			this.restoreDetailsState(currentDetails);
 			sashForm.layout(true, true);
-
-		}
-		if (o instanceof NodeType) {
+		} else if (o instanceof NodeType) {
 			NewEditNodeType nnt = new NewEditNodeType(this.cmpDetails,
 					SWT.NONE, editingService);
 			nnt.setOperation(getOperation());
+			nnt.setScreenService(screenService);
+			nnt.setParentScreen(this);
 			nnt.injectData(null, o);
 			this.currentDetails = nnt;
+			this.restoreDetailsState(currentDetails);
 			sashForm.layout(true, true);
-		}
-
-		if (o instanceof FunctionRelationship) {
+		} else if (o instanceof FunctionRelationship) {
 			NewEditFunctionLinkII linkScreen = new NewEditFunctionLinkII(
 					this.cmpDetails, SWT.NONE, editingService);
 			linkScreen.setOperation(getOperation());
+			linkScreen.setScreenService(screenService);
+			linkScreen.setParentScreen(this);
 			linkScreen.injectData(null, o);
 			this.currentDetails = linkScreen;
+			this.restoreDetailsState(currentDetails);
 			sashForm.layout(true, true);
 			return;
-		}
-
-		if (o instanceof EquipmentRelationship) {
+		} else if (o instanceof EquipmentRelationship) {
 			NewEditEquipmentLinkII linkScreen = new NewEditEquipmentLinkII(
 					this.cmpDetails, SWT.NONE, editingService);
 			linkScreen.setOperation(getOperation());
+			linkScreen.setScreenService(screenService);
+			linkScreen.setParentScreen(this);
 			linkScreen.injectData(null, o);
 			this.currentDetails = linkScreen;
+			this.restoreDetailsState(currentDetails);
 			sashForm.layout(true, true);
 			return;
 		}
-
-		// CB Remove later.
-		// if (o instanceof Relationship) {
-		// NewEditLink linkScreen = new NewEditLink(this.cmpDetails, SWT.NONE,
-		// editingService);
-		// linkScreen.injectData(null, o);
-		// this.currentDetails = linkScreen;
-		// sashForm.layout(true, true);
-		// }
-
 	}
 
 	/*
@@ -864,11 +923,57 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	 */
 	@Override
 	public void saveState(IMemento memento) {
-
-		// sash state vertical.
 		mementoUtils.rememberStructuredViewerSelection(memento,
 				networkTreeViewer, MEM_KEY_NETWORKS_SELECTION_TREE);
 
+	}
+
+	public void saveDetailsState(Composite currentDetails) {
+		IMemento memento = this.getScreenService().getAbsViewPart()
+				.getMemento();
+		String key = keyForComposite(currentDetails);
+		if (key != null) {
+			mementoUtils.rememberSectionsInComposite(memento, currentDetails,
+					key);
+		}
+	}
+
+	public void restoreDetailsState(Composite currentDetails) {
+		IMemento memento = this.getScreenService().getAbsViewPart()
+				.getMemento();
+
+		String key = keyForComposite(currentDetails);
+		if (key != null) {
+			mementoUtils.retrieveSectionsInComposite(memento, currentDetails,
+					key);
+		}
+	}
+
+	/**
+	 * Find the IMemento Key for a Composite, to remember UI Details state.
+	 * 
+	 * @param currentDetails
+	 * @return
+	 */
+	private String keyForComposite(Composite currentDetails) {
+		String key = null;
+
+		if (currentDetails instanceof NewEditNetwork) {
+			key = MEM_KEY_DETAILS_NETWORK;
+		} else if (currentDetails instanceof NewEditNode) {
+			key = MEM_KEY_DETAILS_NODE;
+		} else if (currentDetails instanceof NewEditNodeType) {
+			key = MEM_KEY_DETAILS_NODE_TYPE;
+		} else if (currentDetails instanceof NewEditNodeFunction) {
+			key = MEM_KEY_DETAILS_FUNCTION;
+		} else if (currentDetails instanceof NewEditNodeEquipment) {
+			key = MEM_KEY_DETAILS_EQUIPMENT;
+		} else if (currentDetails instanceof NewEditEquipmentLinkII) {
+			key = MEM_KEY_DETAILS_EQUIPMENT_LINK;
+		} else if (currentDetails instanceof NewEditFunctionLinkII) {
+			key = MEM_KEY_DETAILS_FUNCTION_LINK;
+		}
+		return key;
 	}
 
 	/*

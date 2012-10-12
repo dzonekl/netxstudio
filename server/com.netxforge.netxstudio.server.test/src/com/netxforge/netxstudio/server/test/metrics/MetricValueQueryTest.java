@@ -48,7 +48,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
 /**
  * FIXME, Should target test repository.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class MetricValueQueryTest extends AbstractDataProviderTest {

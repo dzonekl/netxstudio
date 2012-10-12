@@ -1,0 +1,6 @@
+# NetXStudio Server tracing options 
+# Enables debugging and/or tracing for server side services. 
+com.netxforge.netxstudio.data/debug=true
+com.netxforge.netxstudio.screens.editing/debug=true
+com.netxforge.nextstudio.common/debug=true
+

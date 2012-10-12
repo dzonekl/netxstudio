@@ -61,7 +61,7 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 		Composite result;
 
 		result = screenFormService.addScreenSelector("Operators",
-				"icons/full/obj16/Company_H.gif", Operators.class, 1,
+				"icons/full/obj16/Company_H.png", Operators.class, 1,
 				ScreenUtil.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Networks",
 				"icons/full/obj16/Network_H.png", Networks.class, 1,

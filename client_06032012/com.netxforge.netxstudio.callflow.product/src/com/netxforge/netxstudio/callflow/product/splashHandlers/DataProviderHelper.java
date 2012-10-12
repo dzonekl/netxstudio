@@ -6,7 +6,7 @@ import com.netxforge.netxstudio.data.internal.DataActivator;
 
 /**
  * Delay the instantiation, after the workspace is set. 
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  */
 public class DataProviderHelper {

@@ -55,7 +55,7 @@ import com.netxforge.netxstudio.scheduling.WorkFlowRun;
  * Long.parseLong(result)); return
  * (WorkFlowRun)dataProvider.getTransaction().getObject( resultCDOID);
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class ServerRequest {

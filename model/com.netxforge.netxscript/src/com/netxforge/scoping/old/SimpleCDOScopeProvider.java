@@ -29,7 +29,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * A simple CDOScope provider, which returns all potential references. (Without filtering). 
  * Uses a custom CDOLoadOnDemandResourceDescriptions.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 	

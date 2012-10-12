@@ -29,7 +29,7 @@ import com.netxforge.netxstudio.library.NodeType;
 /**
  * FIXME, Should target test repository.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class ScopingNetXScriptTest extends AbstractNetXScriptTest {

@@ -10,7 +10,7 @@ import org.eclipse.ui.internal.ide.model.WorkbenchRootResource;
 /**
  * Our root resource returns the children from IWorkspaceRoot and from INetXStudioRoot
  *  
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  */
 public class NetXStudioRootResource extends WorkbenchRootResource {

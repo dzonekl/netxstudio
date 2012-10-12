@@ -30,7 +30,7 @@ import com.netxforge.netxstudio.workspace.WorkspaceUtil;
  * Note that the xpander, is not very clean in it's output. 
  * 
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  */
 public class M2TTest extends WorkspaceTest {

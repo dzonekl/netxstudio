@@ -34,7 +34,7 @@ import com.netxforge.scoping.AbstractDynamixCDOResourceDescriptions;
  * A simple CDOScope provider, which returns all potential references. (Without
  * filtering). Uses a custom CDOLoadOnDemandResourceDescriptions.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class FixedSetCDOScopeProvider extends AbstractGlobalScopeProvider {
 

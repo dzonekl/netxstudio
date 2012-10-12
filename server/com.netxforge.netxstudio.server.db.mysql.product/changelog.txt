@@ -1,0 +1,4 @@
+NetXStudio Server Change log.
+
+0=1.0.1
+http://work.netxforge.com/issues/302

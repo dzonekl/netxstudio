@@ -77,7 +77,7 @@ import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
  * 
  * TODO Consider deprecate the IViewerProvider, replace by IScreenProvider.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public abstract class AbstractScreensViewPart extends ViewPart implements
 		ISaveablePart2, IPartListener, IEditingDomainProvider,
@@ -249,7 +249,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	// }
 
 	/**
-	 * Based on the command stack statues.
+	 * Delegates to the editing service. 
 	 */
 	public boolean isDirty() {
 		// Should know about the type of screen, so read-only, is not asked for

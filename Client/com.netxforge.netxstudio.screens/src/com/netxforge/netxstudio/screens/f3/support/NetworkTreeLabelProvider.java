@@ -33,6 +33,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -44,18 +45,28 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.Relationship;
 
+
+/**
+ * A Styled Label provider which deals with model objects like Operator, Network. 
+ * 
+ * @author Christophe Bouhier
+ *
+ */
 public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 
 	private static final String REL_NOTCONNECTED_COLOR_STYLER = "X_COLOR_STYLER";
 	private static final String METRIC_COLOR_STYLER = "METRIC_COLOR_STYLER";
 	private static final String EXPRESSION_COLOR_STYLER = "EXPRESSION_COLOR_STYLER";
-
+	private static final String LIFECYCLE_COLOR_STYLER = "LIFECYCLE_COLOR_STYLER";
+	
+	private ModelUtils modelUtils;
+	
 	static {
 		ColorRegistry colorRegistry = JFaceResources.getColorRegistry();
-		colorRegistry.put(REL_NOTCONNECTED_COLOR_STYLER, new RGB(255, 0, 0));
-		colorRegistry.put(METRIC_COLOR_STYLER, new RGB(0xBD, 0xB7, 0x6B)); // yellowish
-		colorRegistry.put(EXPRESSION_COLOR_STYLER, new RGB(235, 80, 75)); // cherry
-																			// red.
+		colorRegistry.put(REL_NOTCONNECTED_COLOR_STYLER, new RGB(255, 0, 0)); // yellowish
+		colorRegistry.put(METRIC_COLOR_STYLER, new RGB(0xBD, 0xB7, 0x6B)); // cherry
+		colorRegistry.put(EXPRESSION_COLOR_STYLER, new RGB(235, 80, 75)); // red. 
+		colorRegistry.put(LIFECYCLE_COLOR_STYLER, new RGB(241,146,69)); // fade grey
 	}
 
 	private IMapChangeListener mapChangeListener = new IMapChangeListener() {
@@ -69,12 +80,12 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 			}
 		}
 	};
+	
 
-	public NetworkTreeLabelProvider() {
-		super();
-	}
-
-	public NetworkTreeLabelProvider(IObservableMap... attributeMaps) {
+	public NetworkTreeLabelProvider(ModelUtils modelUtils, IObservableMap... attributeMaps ) {
+		
+		this.modelUtils = modelUtils;
+		
 		for (int i = 0; i < attributeMaps.length; i++) {
 			attributeMaps[i].addMapChangeListener(mapChangeListener);
 		}
@@ -228,16 +239,25 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 		}
 
 		if (element instanceof Component) {
+			
+			
 			Component c = (Component) element;
 			StyledString styledString = new StyledString();
-
+				
+			
+			Styler lifecycleColorStyler = StyledString.createColorRegistryStyler(
+					LIFECYCLE_COLOR_STYLER, null);
+			int lifeCycleState = modelUtils.lifecycleState(c.getLifecycle());
+			
 			if (element instanceof Function) {
 
 				Function fc = (Function) element;
-				styledString.append(fc.getName() != null ? fc.getName() : "?");
+				styledString.append( fc.getName() != null ? fc.getName() : "?", null);
+				
 				cell.setImage(ResourceManager.getPluginImage(
 						"com.netxforge.netxstudio.models.edit",
 						"icons/full/obj16/Function_H.png"));
+				
 			}
 			if (element instanceof Equipment) {
 
@@ -258,16 +278,25 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 
 			Styler metricColorStyler = StyledString.createColorRegistryStyler(
 					METRIC_COLOR_STYLER, null);
-
+			
+			// Add Resources info. 
 			if (!c.getResourceRefs().isEmpty()) {
 				String decoration = " (" + c.getResourceRefs().size()
 						+ " Res.)";
 				styledString.append(decoration, StyledString.COUNTER_STYLER);
 			}
+			
+			// Add Metrics info. 
 			if (!c.getMetricRefs().isEmpty()) {
 				String decoration = " (" + c.getMetricRefs().size()
 						+ " Metrics)";
 				styledString.append(decoration, metricColorStyler);
+			}
+			
+			// Add Life Cycle info. 
+			if( lifeCycleState != ModelUtils.LIFECYCLE_NOTSET){
+				String decoration = " (" + modelUtils.lifecycleText(lifeCycleState) + ")";
+				styledString.append(decoration, lifecycleColorStyler);
 			}
 
 			cell.setText(styledString.getString());

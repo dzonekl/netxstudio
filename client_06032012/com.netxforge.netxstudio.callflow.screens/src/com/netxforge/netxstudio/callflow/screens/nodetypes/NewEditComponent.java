@@ -11,7 +11,7 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 /**
  * Abstract Component screen implementation, which can deliver various sections.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public abstract class NewEditComponent extends AbstractDetailsScreen implements

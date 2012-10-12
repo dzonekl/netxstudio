@@ -47,7 +47,7 @@ import com.netxforge.netxstudio.screens.editing.selector.IScreen;
  * Advanced table using nattable.
  * 
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class AllResources extends AbstractScreen implements IScreen,

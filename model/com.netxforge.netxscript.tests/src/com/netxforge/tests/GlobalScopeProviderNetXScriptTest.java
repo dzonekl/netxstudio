@@ -22,7 +22,7 @@ import com.netxforge.netxstudio.data.IDataService;
 /**
  * FIXME, Should target test repository.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class GlobalScopeProviderNetXScriptTest extends AbstractNetXScriptTest {

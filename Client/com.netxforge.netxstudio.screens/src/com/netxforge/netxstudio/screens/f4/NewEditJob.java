@@ -77,7 +77,7 @@ import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDateTimeObservableValue;
-import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
+import com.netxforge.netxstudio.screens.common.util.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -402,7 +402,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 	/**
 	 * Shows date occurences.
 	 * 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 */
 	class OccurenceLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
@@ -803,7 +803,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 	 * observables corresponding to: <code>JOB__START_TIME</code>
 	 * 
 	 * 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 * 
 	 */
 	private class JobInfoAggregate implements IValueChangeListener, IValidator {

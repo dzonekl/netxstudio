@@ -325,7 +325,7 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 	/**
 	 * Holds the Node and a revision for presentation.
 	 * 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 * @deprecated
 	 */
 	class HistoricNode {

@@ -115,7 +115,7 @@ public class SitesTable extends AbstractScreen implements IDataServiceInjection 
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
 	 * 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 * 
 	 */
 	class EditSiteAction extends Action {

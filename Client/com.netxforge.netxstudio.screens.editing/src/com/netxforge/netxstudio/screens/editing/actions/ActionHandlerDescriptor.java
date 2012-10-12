@@ -21,7 +21,7 @@ import com.google.common.collect.Lists;
  * It also acts as a repository or all Handlers and dispatches API calls to all
  * registered IActionHandler implementations.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public class ActionHandlerDescriptor implements IActionHandler {
 

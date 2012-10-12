@@ -47,7 +47,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
 /**
  * Maintains a table of EPackages's EClasses which are not to be exported.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public abstract class AbstractExportFilter implements IExportFilter {
 

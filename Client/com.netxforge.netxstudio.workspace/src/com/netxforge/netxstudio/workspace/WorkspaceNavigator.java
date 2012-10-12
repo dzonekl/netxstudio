@@ -9,7 +9,7 @@ import org.eclipse.ui.navigator.CommonNavigator;
  * 
  * See : http://rcpquickstart.com/2007/04/20/using-the-common-navigator-framework-in-an-rcp-application/
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  */
 public class WorkspaceNavigator extends CommonNavigator {

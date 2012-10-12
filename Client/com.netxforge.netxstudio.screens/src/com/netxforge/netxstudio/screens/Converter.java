@@ -5,7 +5,7 @@ import org.eclipse.core.databinding.conversion.IConverter;
 
 /**
  * Converts from Source to Target class. 
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  * @param <S>
  * @param <T>

@@ -16,11 +16,10 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.editing.observables;
+package com.netxforge.netxstudio.screens.common.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,6 @@ import org.eclipse.core.databinding.AggregateValidationStatus;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.ObservablesManager;
-import org.eclipse.core.databinding.ValidationStatusProvider;
 import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
@@ -46,18 +44,60 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.forms.IMessage;
 
-import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
+import com.netxforge.netxstudio.screens.common.internal.ScreensCommonActivator;
 
 /**
  * Can register a binding context for which validation will be aggregated.
- * </p>Can convert validation messages into Form {@link IMessage} </p>Can
- * register a listener {@link IValidationListener} notified on value changes.
- * TODO, only value change? </p>Can register a decorator on controls, which will
- * be notified when matching the observable controls of the binding context.
+ * </p>Can convert validation {@link IStatus} messages into Form
+ * {@link IMessage} </p>Can register a listener {@link IValidationListener}
+ * notified on value changes. TODO, only value change? </p>Can register a
+ * decorator on controls, which will be notified when matching the observable
+ * controls of the binding context.
+ * 
+ * To use, add an {@link IValidator } to {@link EMFUpdateValueStrategy}, and set
+ * in a Binding context. Then register the binding context with
+ * {@link #registerBindingContext(DataBindingContext)}
+ * 
+ * 
+ * 
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 public class ValidationService implements IValidationService {
+
+	private final class MessageFromStatus implements IMessage {
+		private final Control control;
+		private final IStatus status;
+
+		private MessageFromStatus(Control control, IStatus status) {
+			this.control = control;
+			this.status = status;
+		}
+
+		public Control getControl() {
+			return control;
+		}
+
+		public Object getData() {
+			return null;
+		}
+
+		public Object getKey() {
+			return null;
+		}
+
+		public String getPrefix() {
+			return null;
+		}
+
+		public String getMessage() {
+			return status.getMessage();
+		}
+
+		public int getMessageType() {
+			return convertType(status.getSeverity());
+		}
+	}
 
 	/**
 	 * A manager for observable within an instance of this validation service.
@@ -66,7 +106,7 @@ public class ValidationService implements IValidationService {
 	private DataBindingContext ctx = null; // Only one can exist.
 
 	public ValidationService() {
-//		this.observablesMgr = observablesMgr;
+		// this.observablesMgr = observablesMgr;
 	}
 
 	/*
@@ -93,12 +133,13 @@ public class ValidationService implements IValidationService {
 				// Get the severity type, converted for the new status.
 				IStatus currentStatus = (IStatus) event.diff.getNewValue();
 				if (currentStatus != null) {
-					
-					// FIXME, we fire error status, if the validation is not set on an widget. 
-//					if( currentStatus.getMessage().length() > 0 ){
-						notifyFormEvent(currentStatus, ctx);
-//					} 
-					
+
+					// FIXME, we fire error status, if the validation is not set
+					// on an widget.
+					// if( currentStatus.getMessage().length() > 0 ){
+					notifyFormEvent(currentStatus, ctx);
+					// }
+
 				}
 			}
 		});
@@ -111,15 +152,15 @@ public class ValidationService implements IValidationService {
 					IStatus status = (IStatus) binding.getValidationStatus()
 							.getValue();
 					Control control = null;
-					
-					// Note updating targets for writables, will not work here. 
+
+					// Note updating targets for writables, will not work here.
 					if (binding.getTarget() instanceof ISWTObservable) {
 						ISWTObservable swtObservable = (ISWTObservable) binding
 								.getTarget();
 						control = (Control) swtObservable.getWidget();
 					}
-					if( binding.getTarget() instanceof WritableValue){
-						// FIXME We can't determine control for writables. 
+					if (binding.getTarget() instanceof WritableValue) {
+						// FIXME We can't determine control for writables.
 					}
 					ControlDecoration decoration = getDecoration(control);
 					if (decoration != null) {
@@ -129,8 +170,10 @@ public class ValidationService implements IValidationService {
 							decoration.setDescriptionText(status.getMessage());
 							decoration.show();
 						}
-					}else{
-						System.out.println("Error: Decorator not set for control:" + control);
+					} else {
+						System.out
+								.println("Error: Decorator not set for control:"
+										+ control);
 					}
 				}
 			}
@@ -149,8 +192,8 @@ public class ValidationService implements IValidationService {
 		// We notify for forms.
 		int type = convertType(currentStatus.getSeverity());
 		List<IMessage> messages = getMessages(ctx);
-		
-		// Filter 
+
+		// Filter
 		fireFormValidationEvent(type, messages);
 	}
 
@@ -179,7 +222,7 @@ public class ValidationService implements IValidationService {
 				}
 				if (isInvalid) {
 					return new Status(IStatus.WARNING,
-							EditingActivator.PLUGIN_ID, validationMessage);
+							ScreensCommonActivator.PLUGIN_ID, validationMessage);
 				}
 				return Status.OK_STATUS;
 			}
@@ -193,10 +236,10 @@ public class ValidationService implements IValidationService {
 		strat.setAfterGetValidator(validator);
 		return strat;
 	}
-	
-	
+
 	/**
 	 * Convert from IStatus to IMessage
+	 * 
 	 * @param sev
 	 * @return
 	 */
@@ -224,43 +267,80 @@ public class ValidationService implements IValidationService {
 	 */
 	protected List<IMessage> getMessages(DataBindingContext ctx) {
 
-		// Iterate over the
+		// Iterate over the messages.
 		List<IMessage> iMessages = new ArrayList<IMessage>();
-		Iterator<?> it = ctx.getValidationStatusProviders().iterator();
-		while (it.hasNext()) {
-			ValidationStatusProvider validationStatusProvider = (ValidationStatusProvider) it
-					.next();
-			final IStatus status = (IStatus) validationStatusProvider
-					.getValidationStatus().getValue();
 
-			if (!status.isOK()) {
-				iMessages.add(new IMessage() {
-					public Control getControl() {
-						return null;
-					}
+		for (Object o : ctx.getBindings()) {
+			Binding binding = (Binding) o;
+			final IStatus status = (IStatus) binding.getValidationStatus()
+					.getValue();
 
-					public Object getData() {
-						return null;
-					}
+			Control control = null;
+			if (binding.getTarget() instanceof ISWTObservable) {
+				ISWTObservable swtObservable = (ISWTObservable) binding
+						.getTarget();
+				control = (Control) swtObservable.getWidget();
+			} else {
+				if (binding.getTarget() instanceof DateChooserComboObservableValue) {
+					DateChooserComboObservableValue dcObverable = (DateChooserComboObservableValue) binding.getTarget();
+					control = dcObverable.combo;
+				}
+				System.out.println(binding.getTarget().toString());
 
-					public Object getKey() {
-						return null;
-					}
-
-					public String getPrefix() {
-						return null;
-					}
-
-					public String getMessage() {
-						return status.getMessage();
-					}
-
-					public int getMessageType() {
-						return convertType(status.getSeverity());
-					}
-				});
 			}
+			// if (!status.isOK()) {
+			System.out.println("Creating message" + status.toString());
+			iMessages.add(new MessageFromStatus(control, status));
+			// CB Let MessageManager do the deoration.
+			// ControlDecoration decoration
+			// = decoratorMap.get(control);
+			// if (decoration != null) {
+			// if (status.isOK()) {
+			// decoration.hide();
+			// } else {
+			// decoration
+			// .setDescriptionText(status.getMessage());
+			// decoration.show();
+			// }
+			// }
+			// }
 		}
+		// Iterator<?> it = ctx.getValidationStatusProviders().iterator();
+		// while (it.hasNext()) {
+		// ValidationStatusProvider validationStatusProvider =
+		// (ValidationStatusProvider) it
+		// .next();
+		// final IStatus status = (IStatus) validationStatusProvider
+		// .getValidationStatus().getValue();
+		//
+		// if (!status.isOK()) {
+		// iMessages.add(new IMessage() {
+		// public Control getControl() {
+		// return null;
+		// }
+		//
+		// public Object getData() {
+		// return null;
+		// }
+		//
+		// public Object getKey() {
+		// return null;
+		// }
+		//
+		// public String getPrefix() {
+		// return null;
+		// }
+		//
+		// public String getMessage() {
+		// return status.getMessage();
+		// }
+		//
+		// public int getMessageType() {
+		// return convertType(status.getSeverity());
+		// }
+		// });
+		// }
+		// }
 		return iMessages;
 	}
 
@@ -389,15 +469,15 @@ public class ValidationService implements IValidationService {
 	 * #isValid()
 	 */
 	public boolean isValid() {
-		if(ctx == null)
+		if (ctx == null)
 			return true;
-		
+
 		boolean valid = true;
-		
+
 		for (Object o : ctx.getBindings()) {
 			Binding binding = (Binding) o;
 			IStatus status = (IStatus) binding.getValidationStatus().getValue();
-			if(status.getMessage().length() > 0 ){
+			if (status.getMessage().length() > 0) {
 				if (!status.isOK()) {
 					valid = false;
 					break;

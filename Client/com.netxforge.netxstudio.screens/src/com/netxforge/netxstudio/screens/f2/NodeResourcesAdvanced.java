@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) Oct 10, 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
@@ -155,7 +172,7 @@ import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 /**
  * See this for filtering. http://www.eclipsezone.com/eclipse/forums/t63214.html
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class NodeResourcesAdvanced extends AbstractScreen implements
@@ -1549,36 +1566,39 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		public void run() {
 			IStructuredSelection structuredSelection = super
 					.getStructuredSelection();
-			
-			
-			// Do something with the resource. 
+
+			// Do something with the resource.
 			NetXResource res = (NetXResource) structuredSelection
 					.getFirstElement();
 
 			AdjustRangeDialog selectDialog = new AdjustRangeDialog(
 					NodeResourcesAdvanced.this.getShell(), modelUtils);
-			
+
 			selectDialog.setBlockOnOpen(true);
 			selectDialog.create();
-			
-			selectDialog.setMessage("Adjust the period according to a value range for resource: \"" + res.getLongName() + "\"");
+
+			selectDialog
+					.setMessage("Adjust the period according to a value range for resource: \""
+							+ res.getLongName() + "\"");
 			selectDialog.injectData(res);
-			
-			if( selectDialog.open() == Window.OK){
+
+			if (selectDialog.open() == Window.OK) {
 				MetricValueRange mvr = selectDialog.getValueRange();
-				if(mvr != null){
+				if (mvr != null) {
 					DateTimeRange range = modelUtils.range(mvr
 							.getMetricValues());
-					
-					// 3 steps, update the period component. 
-					// update the period writable. 
+
+					// 3 steps, update the period component.
+					// update the period writable.
 					cmpPeriod.setPeriod(range);
-					
-					periodBeginWritableValue.setValue(cmpPeriod.getPeriod().getBegin());
-					periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
-						
+
+					periodBeginWritableValue.setValue(cmpPeriod.getPeriod()
+							.getBegin());
+					periodEndWritableValue.setValue(cmpPeriod.getPeriod()
+							.getEnd());
+
 					cmpValues.applyDateFilter(cmpPeriod.getPeriod());
-				}else{
+				} else {
 				}
 			}
 		}
@@ -1758,7 +1778,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			observeMaps.toArray(map);
 
 			componentsTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(
-					map));
+					modelUtils, map));
 		}
 
 		IEMFListProperty nodeTypeList = EMFProperties.multiList(FeaturePath
@@ -2273,7 +2293,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			actionList.add(new AdjustToRangeAction("Adjust period..."));
 			actionList.add(new SeparatorAction());
 			actionList.add(new ReportNodeAction("Report..."));
-			
+
 			// actionList.add(new MonitorResourceAction("Monitor...",
 			// SWT.PUSH));
 		}

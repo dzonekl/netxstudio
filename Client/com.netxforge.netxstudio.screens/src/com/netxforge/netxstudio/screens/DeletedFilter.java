@@ -7,7 +7,7 @@ import com.netxforge.netxstudio.generics.Base;
 
 /**
  * Filters objects from type Base, with deleted flag on. 
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  */
 public class DeletedFilter extends ViewerFilter {

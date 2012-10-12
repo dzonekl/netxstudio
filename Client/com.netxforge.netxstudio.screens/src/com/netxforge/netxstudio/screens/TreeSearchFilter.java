@@ -17,7 +17,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * sure the type name is not returned from the ItemProvider.
  * 
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class TreeSearchFilter extends ViewerFilter {

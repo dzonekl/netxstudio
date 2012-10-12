@@ -40,7 +40,7 @@ import com.netxforge.netxstudio.operators.Node;
  * implementation in turn delegates to the scoping API.
  * 
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class ContextSyntaxNetXScriptTest extends AbstractXtextTests {

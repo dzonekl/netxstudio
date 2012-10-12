@@ -21,7 +21,7 @@ import com.netxforge.netxstudio.workspace.WorkspaceUtil;
  * very clean in it's output.
  * 
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class ImportTest extends WorkspaceTest {

@@ -30,7 +30,7 @@ import com.netxforge.netxstudio.services.ServiceUser;
  * A tree content provider, which creates a root object of type EClass and
  * places items under it having this EClass.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class ImportResultTreeContentProvider implements ITreeContentProvider {

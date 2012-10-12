@@ -9,6 +9,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
  * Specialized Screen which forces a column layout on the composite.
@@ -23,6 +24,8 @@ public abstract class AbstractDetailsScreen extends AbstractScreenImpl {
 	@Inject
 	protected ModelUtils modelUtils;
 
+	private IScreen parentScreen;
+
 	public AbstractDetailsScreen(Composite parent, int style) {
 		super(parent, style);
 		super.setLayout(new ColumnLayout());
@@ -36,12 +39,15 @@ public abstract class AbstractDetailsScreen extends AbstractScreenImpl {
 	}
 
 	public Viewer getViewer() {
-		//N/A
-		return null;
+		return parentScreen.getViewer();
 	}
 
 	public Form getScreenForm() {
-		//N/A
-		return null;
+		return parentScreen.getScreenForm();
 	}
+	
+	public void setParentScreen(IScreen parentScreen){
+		this.parentScreen = parentScreen;
+	}
+	
 }

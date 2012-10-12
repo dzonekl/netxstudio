@@ -12,7 +12,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
  * Gets the platform console plugin, adds a custom console
  * which handles std.err and std.out.  
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  */
 public class ConsoleService {

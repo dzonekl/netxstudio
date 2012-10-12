@@ -34,7 +34,8 @@ import com.netxforge.netxstudio.common.CommonModule;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class EditingActivator extends AbstractUIPlugin implements DebugOptionsListener {
+public class EditingActivator extends AbstractUIPlugin implements
+		DebugOptionsListener {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.netxforge.netxstudio.screens.editing"; //$NON-NLS-1$
@@ -43,11 +44,15 @@ public class EditingActivator extends AbstractUIPlugin implements DebugOptionsLi
 	private static EditingActivator plugin;
 
 	private Injector injector;
-	
+
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
-	
+
+	// Tracing options for monitoring logic
+	public static String TRACE_EDITING_OPTION = "/trace.editing";
+	public static String TRACE_EDITING_DETAILS_OPTION = "/trace.editing.details";
+
 	public Injector getInjector() {
 		return injector;
 	}
@@ -57,7 +62,7 @@ public class EditingActivator extends AbstractUIPlugin implements DebugOptionsLi
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
-	
+
 	/**
 	 * The constructor
 	 */
@@ -79,10 +84,11 @@ public class EditingActivator extends AbstractUIPlugin implements DebugOptionsLi
 		Module om = new CommonModule();
 		injector = Guice.createInjector(om);
 
-		Dictionary<String, String> props = new Hashtable<String,String>(4);
+		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
-	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
-		
+		context.registerService(DebugOptionsListener.class.getName(), this,
+				props);
+
 	}
 
 	/*

@@ -22,7 +22,6 @@ Eclipse-BuddyPolicy: registered
 Export-Package: com.netxforge.netxstudio.screens.editing,
  com.netxforge.netxstudio.screens.editing.actions,
  com.netxforge.netxstudio.screens.editing.actions.clipboard,
- com.netxforge.netxstudio.screens.editing.observables,
  com.netxforge.netxstudio.screens.editing.selector
 Import-Package: com.netxforge.netxstudio,
  com.netxforge.netxstudio.edit,

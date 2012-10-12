@@ -42,7 +42,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * updates on the scope whenever the CDO targets invalidations are received. The
  * descriptions are build in the background.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 @Singleton
 public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {

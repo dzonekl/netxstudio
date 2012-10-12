@@ -1,6 +1,5 @@
-# Enables debugging. 
-# Generic debugging enablement for plugins. 
-com.netxforge.netxstudio.data/debug=true
+# NetXStudio Server tracing options 
+# Enables debugging and/or tracing for server side services. 
 com.netxforge.netxstudio.server/debug=true
 com.netxforge.netxstudio.server.metrics/debug=true
 com.netxforge.netxstudio.server.logic/debug=true
@@ -18,6 +17,7 @@ com.netxforge.netxstudio.server/trace.cdo=true
 com.netxforge.netxstudio.server.metrics/trace.import=true
 
 # Data facilities
+com.netxforge.netxstudio.data/debug=true
 com.netxforge.netxstudio.data/trace.import=false
 com.netxforge.netxstudio.data/trace.import.details=false
 com.netxforge.netxstudio.data/trace.import.locator=false
@@ -27,9 +27,11 @@ com.netxforge.netxstudio.data/trace.import.helper=false
 com.netxforge.netxstudio.server.logic/trace.logic=true
 com.netxforge.netxstudio.server.logic/trace.logic.details=false
 
+# Logic facilities reporting
 com.netxforge.netxstudio.server.logic/trace.report=true
 com.netxforge.netxstudio.server.logic/trace.report.details=false
 
+# Logic facilities profiles.
 com.netxforge.netxstudio.server.logic/trace.profile=true
 com.netxforge.netxstudio.server.logic/trace.profile.details=false
 

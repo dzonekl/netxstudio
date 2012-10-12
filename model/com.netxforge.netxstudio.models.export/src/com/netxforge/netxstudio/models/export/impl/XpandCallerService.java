@@ -31,7 +31,7 @@ import org.eclipse.xtend.expression.Variable;
  * packages and the defined output. 4) Evaluate with the created facade, the
  * template definition name and the target object.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class XpandCallerService {

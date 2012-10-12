@@ -8,13 +8,14 @@ import org.eclipse.xtext.naming.SimpleNameProvider;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Parameter;
 
 
 /**
  * Names as they will appear in the editor. 
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  */
 public class DynamixCDONameProvider extends SimpleNameProvider {
@@ -28,7 +29,12 @@ public class DynamixCDONameProvider extends SimpleNameProvider {
 		String name = null;
 
 		if (obj instanceof Equipment) {
-			name = ((Equipment) obj).getEquipmentCode();
+			// Name as presented is equal to the presentation (label) in the tree view.
+			Equipment eq = (Equipment) obj; 
+			name = eq.getEquipmentCode();
+			if( eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)){
+				name += "__" + eq.getName();
+			}
 		}
 
 		if (obj instanceof Parameter) {

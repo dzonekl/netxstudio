@@ -54,7 +54,7 @@ import com.netxforge.netxstudio.generics.Value;
  * 
  * 
  * @author Sven Efftinge - initial contribution and API
- * @author dzonekl - Extended the grammar, see NetXScript.
+ * @author Christophe Bouhier - Extended the grammar, see NetXScript.
  */
 public class Interpreter {
 

@@ -25,7 +25,7 @@ import com.netxforge.netxstudio.screens.editing.actions.WarningNWBDeleteCommand;
  * Also understands the ScreensCommandStack, which can make a copy of the object
  * for revision tracking.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class ScreensAdapterFactoryEditingDomain extends

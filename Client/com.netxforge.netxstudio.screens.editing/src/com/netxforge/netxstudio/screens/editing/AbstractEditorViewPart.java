@@ -64,7 +64,7 @@ import com.netxforge.netxstudio.data.internal.DataActivator;
  * dirty/save cycle. We are an editing domain providers. (Not shared).
  * 
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public abstract class AbstractEditorViewPart extends ViewPart implements
 		ISaveablePart2, IPartListener, ISelectionListener,

@@ -12,7 +12,7 @@ import com.netxforge.netxstudio.models.export.impl.XpandPackageImport;
 /**
  * A template registry. 
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  */
 public class XpandRegistryImpl {

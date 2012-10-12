@@ -44,12 +44,12 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.screens.common.util.FormValidationEvent;
+import com.netxforge.netxstudio.screens.common.util.IValidationListener;
 import com.netxforge.netxstudio.screens.common.util.MementoUtil;
+import com.netxforge.netxstudio.screens.common.util.ValidationEvent;
+import com.netxforge.netxstudio.screens.common.util.ValidationService;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
-import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
-import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
-import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.selector.IDataInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
@@ -61,7 +61,7 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  * operation, and the supporting services, a validation service, an observables
  * manager and a Managed form (for Master/Detail).
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  */
 public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		IDataInjection, IValidationListener, DisposeListener, FocusListener {
@@ -78,33 +78,32 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 
 	@Inject
 	protected ModelUtils modelUtils;
-	
-	@Inject 
+
+	@Inject
 	protected MementoUtil mementoUtils;
 
 	@Inject
-	protected IValidationService validationService;
+	protected ValidationService validationService;
 
 	@Inject
 	@Named("Screens")
 	protected IInjectorProxy injectorProxy;
-	
-	
+
 	private Object currentFocusWidget;
 
 	public AbstractScreenImpl(Composite parent, int style) {
 		super(parent, style);
 		this.addDisposeListener(this);
-		
-		// Should be replaced, by instantiation of this class with GUICE, so the injection already occurs.
+
+		// Should be replaced, by instantiation of this class with GUICE, so the
+		// injection already occurs.
 		// See Screen Service.
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
-//		injectorProxy.getInjector("").injectMembers(this);
+		// injectorProxy.getInjector("").injectMembers(this);
 	}
-	
-	
+
 	/**
-	 * Clients could call to update the selection provider depending on focus. 
+	 * Clients could call to update the selection provider depending on focus.
 	 * 
 	 * @param c
 	 */
@@ -117,10 +116,10 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 			}
 		}
 	}
-	
-	
+
 	/**
-	 * Called automaticly when we are disposed. 
+	 * Called automaticly when we are disposed.
+	 * 
 	 * @param c
 	 */
 	private void unRegisterFocus(Control c) {
@@ -133,7 +132,6 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		}
 	}
 
-	
 	public int getOperation() {
 		return operation;
 	}
@@ -184,18 +182,32 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 				return;
 			}
 			if (type != IMessage.NONE) {
-				String errorType = "";
-				if (type == IMessage.ERROR) {
-					errorType = "Error:";
+//				String errorType = "";
+//				if (type == IMessage.ERROR) {
+//					errorType = "Error:";
+//				}
+//				if (type == IMessage.WARNING) {
+//					errorType = "Required:";
+//				}
+				// StringBuffer msgBuffer = new StringBuffer();
+				// msgBuffer.append(errorType + "(" + list.size() + "), "
+				// + list.get(0).getMessage());
+//				this.getScreenForm().getMessageManager().removeAllMessages();
+				this.getScreenForm().getMessageManager().createSummary(list.toArray(new IMessage[list.size()]));
+				for (IMessage m : list) {
+					if (m.getControl() != null) {
+						this.getScreenForm()
+								.getMessageManager()
+								.addMessage(m, m.getMessage(), null, type,
+										m.getControl());
+					} else {
+						this.getScreenForm().getMessageManager()
+								.addMessage(m, m.getMessage(), null, type);
+					}
 				}
-				if (type == IMessage.WARNING) {
-					errorType = "Required:";
-				}
-				StringBuffer msgBuffer = new StringBuffer();
-				msgBuffer.append(errorType + "(" + list.size() + "), "
-						+ list.get(0).getMessage());
-				this.getScreenForm().setMessage(msgBuffer.toString(), type,
-						list.toArray(new IMessage[list.size()]));
+
+				// this.getScreenForm().setMessage(msgBuffer.toString(), type,
+				// list.toArray(new IMessage[list.size()]));
 
 			} else {
 				this.getScreenForm().setMessage(null);
@@ -268,7 +280,6 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		}
 	}
 
-	
 	public void injectData(Object... params) {
 		// do nothing.
 	}
@@ -283,59 +294,63 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 
 	// ISelectionProvider - Composition.
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-			ISelectionProvider currentSelectionProvider = this.resolveSelectionProviderFromWidget(currentFocusWidget);
-			if(currentSelectionProvider != null){
-				currentSelectionProvider.addSelectionChangedListener(listener);
+		ISelectionProvider currentSelectionProvider = this
+				.resolveSelectionProviderFromWidget(currentFocusWidget);
+		if (currentSelectionProvider != null) {
+			currentSelectionProvider.addSelectionChangedListener(listener);
 		}
-		
-//		for (Viewer v : this.getViewers()) {
-//			if (v != null) {
-//				v.addSelectionChangedListener(listener);
-//			}
-//		}
+
+		// for (Viewer v : this.getViewers()) {
+		// if (v != null) {
+		// v.addSelectionChangedListener(listener);
+		// }
+		// }
 	}
 
 	public ISelection getSelection() {
-		
-			ISelectionProvider currentSelectionProvider = this.resolveSelectionProviderFromWidget(currentFocusWidget);
-			if(currentSelectionProvider != null){
-				return currentSelectionProvider.getSelection();
-			}
-		
+
+		ISelectionProvider currentSelectionProvider = this
+				.resolveSelectionProviderFromWidget(currentFocusWidget);
+		if (currentSelectionProvider != null) {
+			return currentSelectionProvider.getSelection();
+		}
+
 		// return the selection from the first viewer with focus.
-//		for (Viewer v : this.getViewers()) {
-//			if (v != null && v.getControl().isFocusControl()) {
-//				return v.getSelection();
-//			}
-//		}
+		// for (Viewer v : this.getViewers()) {
+		// if (v != null && v.getControl().isFocusControl()) {
+		// return v.getSelection();
+		// }
+		// }
 		return StructuredSelection.EMPTY;
 	}
 
 	public void removeSelectionChangedListener(
 			ISelectionChangedListener listener) {
-		
-			ISelectionProvider currentSelectionProvider = this.resolveSelectionProviderFromWidget(currentFocusWidget);
-			if(currentSelectionProvider != null){
-				currentSelectionProvider.removeSelectionChangedListener(listener);
-			}
-		
-//		for (Viewer v : this.getViewers()) {
-//			if (v != null) {
-//				v.removeSelectionChangedListener(listener);
-//			}
-//		}
+
+		ISelectionProvider currentSelectionProvider = this
+				.resolveSelectionProviderFromWidget(currentFocusWidget);
+		if (currentSelectionProvider != null) {
+			currentSelectionProvider.removeSelectionChangedListener(listener);
+		}
+
+		// for (Viewer v : this.getViewers()) {
+		// if (v != null) {
+		// v.removeSelectionChangedListener(listener);
+		// }
+		// }
 	}
 
 	public void setSelection(ISelection selection) {
-//		for (Viewer v : this.getViewers()) {
-//			if (v != null && v.getSelection() != null) {
-//				v.setSelection(selection);
-//			}
-//		}
-		
-		if( this.currentFocusWidget != null){
-			ISelectionProvider currentSelectionProvider = this.resolveSelectionProviderFromWidget(currentFocusWidget);
-			if(currentSelectionProvider != null){
+		// for (Viewer v : this.getViewers()) {
+		// if (v != null && v.getSelection() != null) {
+		// v.setSelection(selection);
+		// }
+		// }
+
+		if (this.currentFocusWidget != null) {
+			ISelectionProvider currentSelectionProvider = this
+					.resolveSelectionProviderFromWidget(currentFocusWidget);
+			if (currentSelectionProvider != null) {
 				currentSelectionProvider.setSelection(selection);
 			}
 		}
@@ -392,52 +407,63 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 */
 	public void focusLost(FocusEvent e) {
 	}
-	
+
 	/**
-	 * Convenience method to fire a widget change within our IScreen. 
+	 * Convenience method to fire a widget change within our IScreen.
 	 */
-	private void fireScreenSelectionProviderChanged(){
+	private void fireScreenSelectionProviderChanged() {
 		this.screenService.fireScreenWidgetChangedExternal(this);
 	}
-		
+
 	/**
-	 * Clients should override to return custom selection providers based on the current focus control. 
-	 * The default implementation returns the active viewer. 
-	 *  
+	 * Clients should override to return custom selection providers based on the
+	 * current focus control. The default implementation returns the active
+	 * viewer.
+	 * 
 	 * @param widget
 	 * @return
 	 */
-	protected ISelectionProvider resolveSelectionProviderFromWidget(Object widget){
+	protected ISelectionProvider resolveSelectionProviderFromWidget(
+			Object widget) {
 		return this.getViewer();
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.selector.IDataInjection#shouldInjectForObject(org.eclipse.emf.cdo.CDOObject)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.screens.editing.selector.IDataInjection#
+	 * shouldInjectForObject(org.eclipse.emf.cdo.CDOObject)
 	 */
 	public boolean shouldInjectForObject(Set<CDOObject> injectionObjects) {
 		return false;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IPersistable#saveState(org.eclipse.ui.IMemento)
 	 */
 	public void saveState(IMemento memento) {
-		// do nothing, clients should override to store the state of the UI. 
+		// do nothing, clients should override to store the state of the UI.
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#init(org.eclipse.ui.IMemento)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.selector.IScreen#init(org.eclipse
+	 * .ui.IMemento)
 	 */
 	public void restoreState(IMemento memento) {
 		// do nothing, clients should override to restore the state of the UI.
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#getScreenObjects()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.selector.IScreen#getScreenObjects
+	 * ()
 	 */
 	public Collection<CDOObject> getScreenObjects() {
 		return Collections.emptyList();

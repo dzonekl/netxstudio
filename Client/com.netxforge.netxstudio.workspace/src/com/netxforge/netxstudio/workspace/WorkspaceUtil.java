@@ -49,7 +49,7 @@ import org.osgi.framework.Bundle;
  * 
  * http://hexapixel.com/2009/01/12/rcp-workspaces
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class WorkspaceUtil implements IWorkspaceUtil {

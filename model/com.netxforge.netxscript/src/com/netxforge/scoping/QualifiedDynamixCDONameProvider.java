@@ -15,7 +15,7 @@ import com.google.inject.Provider;
 /**
  * Names as they will appear in the editor.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class QualifiedDynamixCDONameProvider extends
