@@ -186,7 +186,7 @@ public class CSVLoadImpl implements CSVLoad {
 	
 	/**
 	 * We are interested in what happens on our resource. 
-	 * @author dzonekl
+	 * @author Christophe Bouhier
 	 */
 	class CSVLoadAdapter extends EContentAdapter{
 

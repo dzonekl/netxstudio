@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
  * CSV requires us to set which EMF ECore object is subject to the saving and
  * loading.
  * 
- * @author dzonekl
+ * @author Christophe Bouhier
  * 
  */
 public class CSVResourceImpl extends ResourceImpl implements Resource {

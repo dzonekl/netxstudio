@@ -13,7 +13,7 @@
 package com.netxforge.csv.ui.preferences;
 
 /**
- * @author dzonekl
+ * @author Christophe Bouhier
  *
  */
 public class Test {
