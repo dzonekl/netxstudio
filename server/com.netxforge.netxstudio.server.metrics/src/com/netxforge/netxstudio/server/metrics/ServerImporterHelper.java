@@ -31,6 +31,8 @@ import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -51,6 +53,7 @@ import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.job.JobHandler;
 import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
 
 /**
@@ -66,13 +69,22 @@ public class ServerImporterHelper implements IImporterHelper {
 	@Inject
 	private ResultProcessor resultProcessor;
 
+		
+	/*
+	 * Keep a reference to our Job Handler. 
+	 */
+	private JobHandler jobHandler; 
+	
+	
 	public ServerImporterHelper() {
 	}
 
 	public void setImporter(AbstractMetricValuesImporter importer) {
 		this.importer = importer;
 	}
-
+	
+	
+	
 	@Inject
 	private ModelUtils modelUtils;
 
@@ -332,5 +344,26 @@ public class ServerImporterHelper implements IImporterHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public boolean cancelled() {
+		Scheduler scheduler = jobHandler.getScheduler();
+		try {
+			if( scheduler.isInStandbyMode()) {
+				return true;
+			}
+		} catch (SchedulerException e) {
+			// TODO, handler the exception. 
+			return false;
+		}
+		return false;
+	}
+
+	public JobHandler getJobHandler() {
+		return jobHandler;
+	}
+
+	public void setJobHandler(JobHandler jobHandler) {
+		this.jobHandler = jobHandler;
 	}
 }

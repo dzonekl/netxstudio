@@ -88,4 +88,9 @@ public class DefaultImporterHelper implements IImporterHelper {
 		// We don't write data in the default implementation....
 	}
 
+	public boolean cancelled() {
+		// TODO, Cancellation of the manual process is not supported yet. 
+		return false;
+	}
+
 }

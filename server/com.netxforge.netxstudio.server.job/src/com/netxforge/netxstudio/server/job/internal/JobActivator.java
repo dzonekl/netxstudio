@@ -18,7 +18,6 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.job.JobHandler;
-import com.netxforge.netxstudio.server.job.JobService;
 
 public class JobActivator implements BundleActivator, DebugOptionsListener,
 		CommandProvider {
@@ -28,7 +27,7 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 
 	private static final String PLUGIN_ID = "com.netxforge.netxstudio.server.job";
 
-	static BundleContext getContext() {
+	public static BundleContext getContext() {
 		return context;
 	}
 
@@ -48,10 +47,6 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 	public void start(BundleContext bundleContext) throws Exception {
 		JobActivator.context = bundleContext;
 		INSTANCE = this;
-
-		// register our import service.
-		context.registerService(JobService.class, new JobService(),
-				new Hashtable<String, String>());
 
 		// register our trace and debugging listener.
 		Dictionary<String, String> props = new Hashtable<String, String>(4);

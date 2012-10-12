@@ -75,11 +75,14 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 
 /**
- * The main entry class for the Metrics importing.
+ * The main entry class for the Metrics importing. Uses a delegation pattern so 
+ * this  can be used on client and server.  
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
 public abstract class AbstractMetricValuesImporter implements IImporterHelper {
+
 
 	public static final String ROOT_SYSTEM_PROPERTY = "metricSourceRoot";
 
@@ -230,9 +233,21 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 							+ rootFile.getAbsolutePath());
 				}
 			} else {
+				// After each iteration, check if the scheduler is active, and cancel otherwise. 
 				for (final File file : rootFile.listFiles()) {
+					
+					if(cancelled()){
+						// we are cancelled, abort the next file.
+						if (DataActivator.DEBUG) {
+							DataActivator.TRACE.trace(
+									DataActivator.TRACE_IMPORT_OPTION,
+									"Importer instructed to abort the import process");
+						}
+						break;
+					}
+					
 					final String fileName = file.getName();
-
+					
 					if (DataActivator.DEBUG) {
 						DataActivator.TRACE.trace(
 								DataActivator.TRACE_IMPORT_OPTION,
@@ -258,6 +273,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 							}
 						}
 					}
+					
+					
 				}
 			}
 
@@ -1241,7 +1258,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	}
 
 	/**
-	 * Delegate to the currently set helper.
+	 * Delegate to the currently set helper, if no local provider exists. 
 	 */
 	public IDataProvider getDataProvider() {
 
@@ -1256,4 +1273,18 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		return dataProvider;
 	}
 
+	
+	/**
+	 * Delegate to the import helper. 
+	 */
+	public boolean cancelled() {
+		if(helper != null){
+			return helper.cancelled();
+		}else{
+			throw new java.lang.IllegalStateException(
+					"AbstractMetricValueImporter: Import helper should be set");
+		}
+	}
+
+	
 }

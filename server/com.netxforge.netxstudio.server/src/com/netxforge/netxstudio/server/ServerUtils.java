@@ -116,6 +116,14 @@ public class ServerUtils {
 
 	}
 
+	
+	/**
+	 * Run a service, which should be in the parameters. 
+	 * The Service Parameter should be the name of the class to invoke from registered OSGI services. 
+	 * 
+	 * @param parameters
+	 * @return
+	 */
 	public Object runService(Map<String, String> parameters) {
 
 		if (!parameters.containsKey(NetxForgeService.SERVICE_PARAM_NAME)) {

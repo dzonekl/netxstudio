@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.metrics;
 
+import org.osgi.framework.ServiceReference;
+
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
@@ -29,6 +31,8 @@ import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.server.internal.ServerActivator;
+import com.netxforge.netxstudio.server.job.JobHandler;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
 
@@ -40,49 +44,80 @@ import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
 public class MetricSourceJobImplementation extends JobImplementation {
 
 	public static final String ROOT_SYSTEM_PROPERTY = "metricSourceRoot";
-	
+
 	@Inject
 	private IImporterHelper importerHelper;
-	
+
 	@Override
 	public void run() {
 		// read a new metricsource so that it is part of this
 		// transaction/session
 		final MetricSource metricSource = getMetricSource();
-		if(metricSource == null){
-			// We need a populated list. 
-			return; 
+		if (metricSource == null) {
+			// We need a populated list.
+			return;
 		}
-		
+
 		final AbstractMetricValuesImporter metricsImporter;
 		if (metricSource.getMetricMapping() instanceof MappingXLS) {
-			metricsImporter = MetricsActivator.getInstance().getInjector().getInstance(XLSMetricValuesImporter.class);
+			metricsImporter = MetricsActivator.getInstance().getInjector()
+					.getInstance(XLSMetricValuesImporter.class);
 		} else if (metricSource.getMetricMapping() instanceof MappingCSV) {
-			metricsImporter = MetricsActivator.getInstance().getInjector().getInstance(CSVMetricValuesImporter.class);
+			metricsImporter = MetricsActivator.getInstance().getInjector()
+					.getInstance(CSVMetricValuesImporter.class);
 		} else if (metricSource.getMetricMapping() instanceof MappingRDBMS) {
-			metricsImporter = MetricsActivator.getInstance().getInjector().getInstance(RDBMSMetricValuesImporter.class);
+			metricsImporter = MetricsActivator.getInstance().getInjector()
+					.getInstance(RDBMSMetricValuesImporter.class);
 		} else {
-			throw new IllegalArgumentException("Mapping type not supported: " + metricSource.getMetricMapping());
+			throw new IllegalArgumentException("Mapping type not supported: "
+					+ metricSource.getMetricMapping());
 		}
-		
+
 		importerHelper.setImporter(metricsImporter);
+
+		if (importerHelper instanceof ServerImporterHelper) {
+			ServerImporterHelper sih = (ServerImporterHelper) importerHelper;
+			// Get the job service, so we can check the status of the scheduler.
+			ServiceReference<JobHandler> serviceReference = MetricsActivator
+					.getContext().getServiceReference(JobHandler.class);
+			if (serviceReference == null) {
+				throw new IllegalStateException(
+						"Can't locate job handler services, could be timing that the service has not been instantiated by CDO yet.");
+
+			}
+			final Object service = ServerActivator.getContext().getService(
+					serviceReference);
+			if (!(service instanceof JobHandler)) {
+				throw new IllegalStateException(
+						"Can't locate job handler services, could be timing that the service has not been instantiated by CDO yet.");
+			} else {
+				sih.setJobHandler((JobHandler) service);
+
+			}
+		}
+
 		metricsImporter.setImportHelper(importerHelper);
 		metricsImporter.setMetricSourceWithId(metricSource.cdoID());
 		metricsImporter.setJobMonitor(getRunMonitor());
+
 		metricsImporter.process();
 	}
 
 	private MetricSource getMetricSource() {
-		if( ((MetricSourceJob) getJob()).getMetricSources().size() > 0){
-			MetricSource ms = ((MetricSourceJob) getJob()).getMetricSources().get(0);
-			//CB crash on cdo prefetch. 
-//			ms.cdoPrefetch(CDORevision.DEPTH_INFINITE);
-			
-			if(MetricsActivator.DEBUG){
-				MetricsActivator.TRACE.trace(MetricsActivator.TRACE_IMPORT_OPTION, " Preparing import for metric source=" + ms.cdoRevision());
+		if (((MetricSourceJob) getJob()).getMetricSources().size() > 0) {
+			MetricSource ms = ((MetricSourceJob) getJob()).getMetricSources()
+					.get(0);
+			// CB crash on cdo prefetch.
+			// ms.cdoPrefetch(CDORevision.DEPTH_INFINITE);
+
+			if (MetricsActivator.DEBUG) {
+				MetricsActivator.TRACE.trace(
+						MetricsActivator.TRACE_IMPORT_OPTION,
+						" Preparing import for metric source="
+								+ ms.cdoRevision());
 			}
 			return ms;
-		}else{
+		} else {
 			return null;
 		}
 	}

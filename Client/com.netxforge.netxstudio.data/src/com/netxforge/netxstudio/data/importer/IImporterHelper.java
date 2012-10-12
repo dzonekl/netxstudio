@@ -42,7 +42,23 @@ public interface IImporterHelper {
 	 * @return
 	 */
 	public abstract IDataProvider getDataProvider();
-
+	
+	
+	/**
+	 * Set the importer to be used. 
+	 * @param importer
+	 */
 	public abstract void setImporter(AbstractMetricValuesImporter importer);
+	
 
+	/**
+	 * Can be called to check the cancellation status. 
+	 * For scheduled imports, the implementation can check the Quartz scheduler status. 
+	 * For manually triggered imports, the implementation can check for manual cancellation events. 
+	 * 
+	 * @return
+	 */
+	public abstract boolean cancelled();
+	
+	
 }

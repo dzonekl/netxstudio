@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.server.job;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -518,6 +519,7 @@ public class JobHandler {
 		try {
 
 			if (scheduler == null) {
+				// Instantiate only once. 
 				scheduler = StdSchedulerFactory.getDefaultScheduler();
 			} else {
 				scheduler.clear();
@@ -859,6 +861,12 @@ public class JobHandler {
 							JobHandler.createAndInitialize();
 							// CB 26062012 disable the scheduler, to force a
 							// manual start of the scheduler.
+
+							// CB 12102012 Register ourselves as a service.
+							JobActivator.getContext().registerService(
+									JobHandler.class, JobHandler.INSTANCE,
+									new Hashtable<String, String>());
+
 							stop();
 						}
 					}
@@ -951,6 +959,14 @@ public class JobHandler {
 
 		return null;
 
+	}
+	
+	/**
+	 * Expose the Quarts Scheduler. 
+	 * @return 
+	 */
+	public synchronized Scheduler getScheduler() {
+		return this.scheduler;
 	}
 
 }
