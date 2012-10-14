@@ -7,12 +7,19 @@ import org.eclipse.xtext.ui.generator.*
 var grammarURI = "classpath:/com/netxforge/Netxscript.xtext"
 var file.extensions = "netxscript"
 var projectName = "com.netxforge.netxscript"
+
 var runtimeProject = "../${projectName}"
+// Note when using GIT, there are subfolders, so customize, as xtext and xtext.ui are split.
+// Go up to folders, to be in the repot.  
+var uiProject = "../../Client/${projectName}.ui"
 
 Workflow {
     bean = StandaloneSetup {
         scanClassPath = true
         platformUri = "${runtimeProject}/.."
+        // registerGeneratedEPackage = "com.netxforge.netxstudio.library.LibraryPackage"
+        // registerGeneratedEPackage = "com.netxforge.netxstudio.operators.OperatorsPackage"
+        // registerGeneratedEPackage = "com.netxforge.netxstudio.metrics.MetricsPackage"
         registerGenModelFile = "platform:/resource/com.netxforge.netxstudio.models/models/cdo/13042011/netxstudio.genmodel"
     }
 
@@ -21,12 +28,12 @@ Workflow {
     }
 
     component = DirectoryCleaner {
-        directory = "${runtimeProject}.ui/src-gen"
+        directory = "${uiProject}/src-gen"
     }
 
     component = Generator {
         pathRtProject = runtimeProject
-        pathUiProject = "${runtimeProject}.ui"
+        pathUiProject = "${uiProject}"
         pathTestProject = "${runtimeProject}.tests"
         projectNameRt = projectName
         projectNameUi = "${projectName}.ui"
