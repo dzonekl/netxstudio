@@ -138,7 +138,7 @@ public class TableHelper {
 			// columns.
 
 			TableViewerColumn tblvc = new TableViewerColumn(tblViewer, SWT.NONE);
-
+			
 			// Optional Editing support.
 			if (editingSupport != null) {
 				tblvc.setEditingSupport(editingSupport);
@@ -165,7 +165,6 @@ public class TableHelper {
 			tblc.setToolTipText(toolTip != null ? columnName : "");
 			tblc.setAlignment(allignment != -1 ? allignment : SWT.LEFT);
 			tblc.setMoveable(moveable);
-
 			if (labelProvider != null) {
 				tblvc.setLabelProvider(labelProvider);
 			}
@@ -186,7 +185,7 @@ public class TableHelper {
 
 	/**
 	 * Column sorter, which delegates to a comparator if any provided. The value
-	 * is obtained from editing support, if installed.
+	 * is obtained from the label provider. , if installed.
 	 * 
 	 * @author Christophe
 	 * 

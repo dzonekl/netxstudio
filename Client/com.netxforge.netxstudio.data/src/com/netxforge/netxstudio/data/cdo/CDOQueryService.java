@@ -23,9 +23,11 @@ import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOQuery;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.common.collect.Lists;
@@ -39,10 +41,12 @@ import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.services.Service;
@@ -291,5 +295,30 @@ public class CDOQueryService implements IQueryService {
 		List<Value> result = cdoQuery.getResult(Value.class);
 		return result;
 	}
-
+	
+	
+	/**
+	 * Create query text, for external access. 
+	 * 
+	 * http://work.netxforge.com/issues/312
+	 */
+	public String getValuesQuery(CDOID container, EReference ref) {
+		Long longID = ((AbstractCDOIDLong) container).getLongValue();
+		
+		// dispatch the range. 
+		if( ref == MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES){
+			return "select cdo_id, value, timeStamp0 from TM.generics_value where cdo_container = " + longID;
+		}else if( ref == LibraryPackage.Literals.NET_XRESOURCE__CAPACITY_VALUES ){
+			return "select genValues.cdo_id, genValues.value, genValues.timeStamp0 from TM.library_netxresource_capacityvalues_list " +
+			"join TM.generics_value as genValues " + 
+			" on TM.library_netxresource_capacityvalues_list.cdo_value = genValues.cdo_id " +
+			"where TM.library_netxresource_capacityvalues_list.cdo_source = " + longID + ";";
+		}else if( ref == LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES ){
+			return "select genValues.cdo_id, genValues.value, genValues.timeStamp0 from TM.library_netxresource_utilizationvalues_list " +
+			"join TM.generics_value as genValues " + 
+			" on TM.library_netxresource_utilizationvalues_list.cdo_value = genValues.cdo_id " +
+			"where TM.library_netxresource_utilizationvalues_list.cdo_source = " + longID + ";";
+		}
+		return "";
+	}
 }

@@ -551,7 +551,9 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		contextMenu.addMenuListener(this);
 		Menu menu = contextMenu.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
-
+		
+		
+		
 		getSite().registerContextMenu(contextMenu,
 				new UnwrappingSelectionProvider(viewer));
 

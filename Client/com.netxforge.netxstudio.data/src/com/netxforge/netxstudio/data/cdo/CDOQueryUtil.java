@@ -29,10 +29,5 @@ public class CDOQueryUtil {
 	public void setCacheParameter(CDOQuery query) {
 		query.setParameter(ICDOQueries.CACHE_RESULTS, true);
 	}
-
-	
-	
-	
-	
 	
 }

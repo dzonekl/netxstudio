@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) Oct 13, 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
@@ -6,6 +23,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
@@ -18,8 +39,11 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.wb.swt.TableViewerColumnSorter;
 
@@ -30,8 +54,10 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.LevelKind;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
@@ -63,8 +89,8 @@ public class ValueComponentII {
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private BaseResource res;
 
-	@SuppressWarnings("unused")
 	private IScreenFormService screenService;
+
 	private List<Marker> markers;
 
 	public void configure(IScreenFormService screenService) {
@@ -95,6 +121,7 @@ public class ValueComponentII {
 		table.setLayoutData(layoutData);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
+
 		toolkit.paintBordersFor(table);
 
 	}
@@ -108,50 +135,88 @@ public class ValueComponentII {
 		}
 
 		if (res instanceof NetXResource) {
-			
+
 			// The time stamp column
 			TableViewerColumn tbvcFor = tableHelper.new TBVC<Date>(
 					new NetXResourceValueLabelProvider()).tbvcFor(
 					valuesTableViewer, "Time Stamp", 185);
-			ObjectArraySorter objectArraySorter = new ObjectArraySorter(tbvcFor);
-			objectArraySorter.setSorter(TableViewerColumnSorter.DESC);
 
-			// metric value ranges....
-			NetXResource resource = (NetXResource) res;
-			
-			List<MetricValueRange> mvrList = Lists.newArrayList(resource.getMetricValueRanges());
-			Collections.sort(mvrList, modelUtils.mvrCompare());
-			for (MetricValueRange mvr : mvrList) {
-				int intervalHint = mvr.getIntervalHint();
-				
-				// CB 14-07-2012, interpret the interval. 
-				String columnName = modelUtils.fromMinutes(intervalHint) + " [" + mvr.getKindHint().getName() + "]";
-//				String columnName = new Integer(intervalHint).toString()
-//						+ " (min), " + mvr.getKindHint().getName();
+			{
+				ColumnRangeFeedback columnRangeFeedback = new ColumnRangeFeedback(
+						MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES);
 
-				tableHelper.new TBVC<Double>(
-						new NetXResourceValueLabelProvider()).tbvcFor(
-						valuesTableViewer, columnName,
-						"Metric value range with " + columnName + " values.",
-						100);
+				ObjectArraySorter objectArraySorter = new ObjectArraySorter(
+						tbvcFor);
+				objectArraySorter.setSorter(TableViewerColumnSorter.DESC);
+
+				// metric value ranges....
+				NetXResource resource = (NetXResource) res;
+
+				List<MetricValueRange> mvrList = Lists.newArrayList(resource
+						.getMetricValueRanges());
+				Collections.sort(mvrList, modelUtils.mvrCompare());
+				for (MetricValueRange mvr : mvrList) {
+
+					int intervalHint = mvr.getIntervalHint();
+
+					// CB 14-07-2012, interpret the interval.
+					String columnName = modelUtils.fromMinutes(intervalHint)
+							+ " [" + mvr.getKindHint().getName() + "]";
+					// String columnName = new Integer(intervalHint).toString()
+					// + " (min), " + mvr.getKindHint().getName();
+
+					TableViewerColumn tbvc = tableHelper.new TBVC<Double>(
+							new NetXResourceValueLabelProvider()).tbvcFor(
+							valuesTableViewer, columnName,
+							"Metric value range with " + columnName
+									+ " values.", 100);
+
+					setColumnData(mvr, tbvc);
+					setRangeFeedback(columnRangeFeedback, tbvc);
+
+				}
 			}
+			{
+				ColumnRangeFeedback columnRangeFeedback = new ColumnRangeFeedback(
+						LibraryPackage.Literals.NET_XRESOURCE__CAPACITY_VALUES);
 
-			tableHelper.new TBVC<Double>(new NetXResourceValueLabelProvider())
-					.tbvcFor(valuesTableViewer, "Capacity",
-							"Capacity value range", 100);
-			tableHelper.new TBVC<Double>(new NetXResourceValueLabelProvider())
-					.tbvcFor(valuesTableViewer, "Utilization",
-							"Utilization value range", 100);
+				TableViewerColumn tbvc = tableHelper.new TBVC<Double>(
+						new NetXResourceValueLabelProvider()).tbvcFor(
+						valuesTableViewer, "Capacity", "Capacity value range",
+						100);
+				setColumnData(res, tbvc);
+				setRangeFeedback(columnRangeFeedback, tbvc);
+			}
+			{
+				ColumnRangeFeedback columnRangeFeedback = new ColumnRangeFeedback(
+						LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES	);
+				TableViewerColumn tbvc = tableHelper.new TBVC<Double>(
+						new NetXResourceValueLabelProvider()).tbvcFor(
+						valuesTableViewer, "Utilization",
+						"Utilization value range", 100);
+				setColumnData(res, tbvc);
+				setRangeFeedback(columnRangeFeedback, tbvc);
+			}
 
 			// TODO, dynamicly build the tolerance value ranges.
 		}
 		table.setRedraw(true);
 	}
 
+	private void setRangeFeedback(ColumnRangeFeedback columnRangeFeedback,
+			TableViewerColumn tbvc) {
+		tbvc.getColumn().addListener(SWT.Selection, columnRangeFeedback);
+	}
+
+	private void setColumnData(CDOObject mvr, TableViewerColumn tbvc) {
+		CDOID cdoIDOfMVR = mvr.cdoID();
+		tbvc.getColumn().setData(cdoIDOfMVR);
+	}
+
 	public void injectData(BaseResource object) {
 
 		res = object;
-		markers = null; // reset the markers. 
+		markers = null; // reset the markers.
 		try {
 			buildColumns();
 			valuesTableViewer.setInput(res);
@@ -169,6 +234,43 @@ public class ValueComponentII {
 	 */
 	public void applyMarkers(List<Marker> markers) {
 		this.markers = markers;
+	}
+
+	/*
+	 * Return a feedback for a table column data, which needs to be a CDOID
+	 * object. the provided EReference is used to produce the correct feedback.
+	 */
+	private final class ColumnRangeFeedback implements Listener {
+
+		// The feature which we want feedback on.
+		private EReference reference;
+
+		public ColumnRangeFeedback(EReference reference) {
+			super();
+			this.reference = reference;
+		}
+
+		public void handleEvent(Event event) {
+
+			// absolute positions
+			@SuppressWarnings("unused")
+			int x = event.x;
+			@SuppressWarnings("unused")
+			int y = event.y;
+
+			Widget widget = event.widget;
+			if (widget instanceof TableColumn) {
+				TableColumn tc = (TableColumn) widget;
+				Object data = tc.getData();
+				if (data instanceof CDOID) {
+					String valuesQuery = screenService.getEditingService()
+							.getDataService().getQueryService()
+							.getValuesQuery((CDOID) data, reference);
+					System.out.println(valuesQuery);
+					MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "SQL Query", valuesQuery);
+				}
+			}
+		}
 	}
 
 	/*
@@ -246,8 +348,9 @@ public class ValueComponentII {
 					List<Date> existingDates = Lists.newArrayList();
 
 					int rangeIndex = 0;
-					
-					List<MetricValueRange> mvrList = Lists.newArrayList(res.getMetricValueRanges());
+
+					List<MetricValueRange> mvrList = Lists.newArrayList(res
+							.getMetricValueRanges());
 					Collections.sort(mvrList, modelUtils.mvrCompare());
 					for (MetricValueRange mvr : mvrList) {
 						List<Double> doubles = modelUtils.merge(existingDates,
@@ -450,7 +553,8 @@ public class ValueComponentII {
 										}
 									}
 								} catch (NoSuchElementException nsee) {
-									// interresting API, from Iterables.find @!@##
+									// interresting API, from Iterables.find
+									// @!@##
 								}
 							}
 							StyledString styledString = new StyledString();

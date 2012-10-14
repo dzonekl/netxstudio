@@ -22,6 +22,9 @@ import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.ecore.EReference;
+
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Equipment;
@@ -155,6 +158,20 @@ public interface IQueryService {
 	 */
 	public void close();
 
+	/**
+	 * Use a query to get the values from a Metric value range, sort them
+	 * @param mvr
+	 * @return
+	 */
 	public List<Value> getSortedValues(MetricValueRange mvr);
 
+	
+	/**
+	 * Get an SQL query for the values with this container. 
+	 * @param container
+	 * @return
+	 */
+	public String getValuesQuery(CDOID container, EReference reference);
+	
+	
 }
