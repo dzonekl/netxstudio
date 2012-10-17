@@ -62,7 +62,6 @@ import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
  * This service is capable to place a composite in a dedicated section (The
