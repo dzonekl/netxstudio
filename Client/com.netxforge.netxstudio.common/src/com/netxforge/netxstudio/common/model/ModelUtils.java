@@ -1275,7 +1275,10 @@ public class ModelUtils {
 	 * @return
 	 */
 	public int lifecycleState(Lifecycle lc) {
-
+		
+		if(lc == null){
+			return LIFECYCLE_NOTSET;
+		}
 		EAttribute[] states = new EAttribute[]{
 				
 				GenericsPackage.Literals.LIFECYCLE__OUT_OF_SERVICE_DATE,

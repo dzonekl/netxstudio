@@ -73,15 +73,20 @@ public class LibraryChildCreationExtender extends
 				// Are we in the design view? (The target must have a parent
 				// Node).
 				Node node = modelUtils.nodeFor(target);
-				if (node != null && node.getOriginalNodeTypeRef() != null) {
-					NodeType ntRef = node.getOriginalNodeTypeRef();
+				if (node != null) {
+
 					if (target.eClass() == LibraryPackage.Literals.NODE_TYPE) {
 						// Handled by the Node child creation has NodeType is
 						// not visible in the Design view.
 					} else if (target.eClass() == LibraryPackage.Literals.EQUIPMENT) {
-						Equipment targetEq = (Equipment) target;
-						newChildDescriptors = newEquimentDescriptorsForTargetNodeType(
-								editingDomain, ntRef, targetEq);
+						if (node.getOriginalNodeTypeRef() != null) {
+							NodeType ntRef = node.getOriginalNodeTypeRef();
+							Equipment targetEq = (Equipment) target;
+							newChildDescriptors = newEquimentDescriptorsForTargetNodeType(
+									editingDomain, ntRef, targetEq);
+						} else {
+							// No descriptor, if we have no node type.
+						}
 
 					} else if (target.eClass() == LibraryPackage.Literals.FUNCTION) {
 
