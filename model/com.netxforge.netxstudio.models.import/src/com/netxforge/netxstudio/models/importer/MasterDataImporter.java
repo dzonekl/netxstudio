@@ -465,15 +465,6 @@ public class MasterDataImporter {
 					continue;
 				} else if (eFeature instanceof EAttribute) {
 
-					if (eFeature == LibraryPackage.Literals.EXPRESSION__EXPRESSION_LINES) {
-						// FIXME, doesn't work for this feature.
-						if (ImportActivator.DEBUG) {
-							System.out
-									.println("-> Skip FIXME expression lines, not working");
-						}
-						continue;
-					}
-
 					if (ImportActivator.DEBUG) {
 						System.out.print(" -> OK Attribute="
 								+ eFeature.getName());
@@ -505,23 +496,45 @@ public class MasterDataImporter {
 
 					// Resolve the type and set the attrib value.
 					if (type.getInstanceClass() == String.class) {
-						result.eSet(eFeature, value);
+						// Special threatment for multiplicity attributes.
+						// http://work.netxforge.com/issues/311
+						if (eFeature == LibraryPackage.Literals.EXPRESSION__EXPRESSION_LINES) {
+							
+							if (ImportActivator.DEBUG) {
+								System.out
+										.println("-> Processing expression lines. ");
+							}
+							Object eGet = result.eGet(eFeature);
+							if(eGet instanceof EList){
+								// We can safely cast. 
+								@SuppressWarnings("unchecked")
+								EList<String> lines = (EList<String>) eGet;
+								
+								String strings[] = value.split("\\r?\\n");
+								for(String s : strings){
+									lines.add(s + "\n");
+								}
+							}
+						} else {
+							result.eSet(eFeature, value);
+						}
 					} else if (type.getInstanceClass() == boolean.class) {
 						Boolean bValue = new Boolean(value);
 						result.eSet(eFeature, bValue);
 					} else if (type.getInstanceClass() == int.class) {
 						Integer iValue = new Integer(value);
 						result.eSet(eFeature, iValue);
-					} 
-					
+					}
+
 					// Park for now.
-//					else if( type.getInstanceClass() == double.class){
-//						Double dbValue = new Double(value);
-//						result.eSet(eFeature, dbValue);
-//					}else if( type.getInstanceClass() == XMLGregorianCalendar.class){
-//						new XMLGregorianCalendar(value);
-//						
-//					}
+					// else if( type.getInstanceClass() == double.class){
+					// Double dbValue = new Double(value);
+					// result.eSet(eFeature, dbValue);
+					// }else if( type.getInstanceClass() ==
+					// XMLGregorianCalendar.class){
+					// new XMLGregorianCalendar(value);
+					//
+					// }
 
 					// ///// ENUMS WHICH ARE MODE SPECIFIC.
 					else if (type.getInstanceClass() == ObjectKindType.class) {

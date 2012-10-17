@@ -67,7 +67,8 @@ public class MasterDataExporterRevenge {
 				ExportActivator.TRACE.trace(null, "Starting export");
 			}
 			if (ExportActivator.DEBUG) {
-				ExportActivator.TRACE.trace(null, "Creating XLS Workbook model");
+				ExportActivator.TRACE
+						.trace(null, "Creating XLS Workbook model");
 			}
 			workBook = new HSSFWorkbook();
 			processPackages(ePackages);
@@ -92,11 +93,11 @@ public class MasterDataExporterRevenge {
 
 		List<EClassifier> alphabetOrderedClassesFor = exportFilter
 				.alphabetOrderedClassesFor(ePackages);
-		
-		// create a cache. 
+
+		// create a cache.
 		buildCache(alphabetOrderedClassesFor);
-		
-		// process the attributes for each classifier. 
+
+		// process the attributes for each classifier.
 		for (EClassifier eClassifier : alphabetOrderedClassesFor) {
 			processAttributeClassifier(eClassifier);
 		}
@@ -111,9 +112,9 @@ public class MasterDataExporterRevenge {
 	 */
 	private void buildCache(List<EClassifier> alphabetOrderedClassesFor) {
 
-		
 		if (ExportActivator.DEBUG) {
-			ExportActivator.TRACE.trace(null, "Building cache for classifiers:");
+			ExportActivator.TRACE
+					.trace(null, "Building cache for classifiers:");
 		}
 
 		for (EClassifier eClassifier : alphabetOrderedClassesFor) {
@@ -121,7 +122,8 @@ public class MasterDataExporterRevenge {
 			if (eClassifier instanceof EClass) {
 				EClass eClass = (EClass) eClassifier;
 				if (ExportActivator.DEBUG) {
-					ExportActivator.TRACE.trace(null, "-- EClass: " + eClass.getName());
+					ExportActivator.TRACE.trace(null,
+							"-- EClass: " + eClass.getName());
 				}
 				// Handle - Non-direct resources in the export properly.
 				if (eClassifier == LibraryPackage.Literals.NET_XRESOURCE) {
@@ -164,7 +166,8 @@ public class MasterDataExporterRevenge {
 			}
 		}
 		if (ExportActivator.DEBUG) {
-			ExportActivator.TRACE.trace(null, "Done, building cache for classifiers:");
+			ExportActivator.TRACE.trace(null,
+					"Done, building cache for classifiers:");
 		}
 	}
 
@@ -173,23 +176,25 @@ public class MasterDataExporterRevenge {
 			TreeIterator<EObject> allContents = resource.getAllContents();
 			// List<EObject> closure = ImmutableList.copyOf(allContents);
 			while (allContents.hasNext()) {
-				
+
 				EObject closureObject = allContents.next();
 				EClass objectClass = closureObject.eClass();
-				
-				// Make sure we don't cache closure objects which are dynamic.  
-				if( !allowedNestedClass(objectClass)){
-					// prune all subobjects. 
+
+				// Make sure we don't cache closure objects which are dynamic.
+				if (!allowedNestedClass(objectClass)) {
+					// prune all subobjects.
 					allContents.prune();
 					if (ExportActivator.DEBUG) {
-						ExportActivator.TRACE.trace(null, "-- skipping & pruning nested object EClass: " + objectClass.getName());
+						ExportActivator.TRACE.trace(null,
+								"-- skipping & pruning nested object EClass: "
+										+ objectClass.getName());
 					}
 					continue;
 				}
 				List<EObject> currentForClass = null;
 				if (cache.containsKey(objectClass)) {
-					currentForClass = Lists.newArrayList(cache
-							.get(objectClass));
+					currentForClass = Lists
+							.newArrayList(cache.get(objectClass));
 					// We could have duplicates, if the resource holds all
 					// objects from a super class. I.e. Job EClass.
 					if (!currentForClass.contains(closureObject)) {
@@ -201,14 +206,13 @@ public class MasterDataExporterRevenge {
 					currentForClass.add(closureObject);
 					cache.put(objectClass, currentForClass);
 				}
-				
-				
+
 			}
 		}
 	}
 
 	private boolean allowedNestedClass(EClass objectClass) {
-		if( objectClass == MetricsPackage.Literals.MAPPING_STATISTIC){
+		if (objectClass == MetricsPackage.Literals.MAPPING_STATISTIC) {
 			return false;
 		}
 		return true;
@@ -227,7 +231,7 @@ public class MasterDataExporterRevenge {
 		if (ExportActivator.DEBUG) {
 			ExportActivator.TRACE.trace(null, "Start processing attributes");
 		}
-		
+
 		if (eClassifier instanceof EClass) {
 			processAttributesClass((EClass) eClassifier);
 		}
@@ -235,7 +239,9 @@ public class MasterDataExporterRevenge {
 
 	private void processMultiRefClassifier(EClassifier eClassifier) {
 		if (ExportActivator.DEBUG) {
-			ExportActivator.TRACE.trace(null, "Start processing multi references for classifier:" + eClassifier.getName());
+			ExportActivator.TRACE.trace(null,
+					"Start processing multi references for classifier:"
+							+ eClassifier.getName());
 		}
 		if (eClassifier instanceof EClass) {
 			processMultiRefClass((EClass) eClassifier);
@@ -243,33 +249,37 @@ public class MasterDataExporterRevenge {
 	}
 
 	private void processAttributesClass(EClass eClass) {
-		
+
 		if (ExportActivator.DEBUG) {
-			ExportActivator.TRACE.trace(null, "Outputing attributes sheet for: " + eClass.getName());
+			ExportActivator.TRACE.trace(null,
+					"Outputing attributes sheet for: " + eClass.getName());
 		}
 		Sheet sheet = _generateAttributeWorksheet(eClass);
-		
-		// output the ID column. 
+
+		// output the ID column.
 		_generateID(sheet);
-		
-		// output all attributes columns.  
+
+		// output all attributes columns.
 		for (EAttribute eAttribute : filterAttributes(eClass)) {
 			if (ExportActivator.DEBUG) {
-				ExportActivator.TRACE.trace(null, "-- EAttribute: " + eAttribute.getName());
+				ExportActivator.TRACE.trace(null, "-- EAttribute: "
+						+ eAttribute.getName());
 			}
 			processAttribute(eAttribute, sheet);
 		}
-		
-		// output all single-reference columns.  
+
+		// output all single-reference columns.
 		for (EReference eReference : eClass.getEAllReferences()) {
 			if (!eReference.isMany()) {
 				if (ExportActivator.DEBUG) {
-					ExportActivator.TRACE.trace(null, "-- EReference: " + eReference.getName());
+					ExportActivator.TRACE.trace(null, "-- EReference: "
+							+ eReference.getName());
 				}
 				processReference(eReference, sheet);
 			}
 		}
-		// Process the actual values here, get the EOBjects from the cache first. 
+		// Process the actual values here, get the EOBjects from the cache
+		// first.
 		List<EObject> data = contextObjectsForClass(eClass);
 		processAttributeData(data, sheet);
 
@@ -282,13 +292,16 @@ public class MasterDataExporterRevenge {
 			_generateMultiReferenceSource(eClass, sheet);
 			for (EReference eReference : multiRefs) {
 				if (ExportActivator.DEBUG) {
-					ExportActivator.TRACE.trace(null, "-- EReference: " + eReference.getName());
+					ExportActivator.TRACE.trace(null, "-- EReference: "
+							+ eReference.getName());
 				}
 				processMultiReference(eReference, sheet);
 			}
-			
+
 			if (ExportActivator.DEBUG) {
-				ExportActivator.TRACE.trace(null, "--  processing multi reference data for classifier:" + eClass.getName());
+				ExportActivator.TRACE.trace(null,
+						"--  processing multi reference data for classifier:"
+								+ eClass.getName());
 			}
 			// Process the actual values here.
 			List<EObject> data = contextObjectsForClass(eClass);
@@ -311,11 +324,11 @@ public class MasterDataExporterRevenge {
 	}
 
 	private void processAttributeData(List<EObject> data, Sheet sheet) {
-		
+
 		if (ExportActivator.DEBUG) {
 			ExportActivator.TRACE.trace(null, "Exporting data: ");
 		}
-		
+
 		// We assume the attribute order for each data object.
 		int objectCount = 2;
 		for (EObject dataObject : data) {
@@ -325,9 +338,32 @@ public class MasterDataExporterRevenge {
 			int attributeCount = 1;
 			for (EAttribute eAttribute : this.filterAttributes(dataObject
 					.eClass())) {
+
 				Object value = dataObject.eGet(eAttribute);
+
+				// For many() attributes, where the list values are of type
+				// String,
+				// export as one string separated with newline. (\n).
+				// http://work.netxforge.com/issues/311
+				if (eAttribute.isMany() && value instanceof EList<?>) {
+					EList<?> list = (EList<?>) value;
+					if (!list.isEmpty()) {
+						// gamble we are of type string.
+						StringBuffer sb = new StringBuffer();
+						for (Object o : list) {
+							if (o instanceof String) {
+								sb.append((String) o);
+							}
+						}
+						value = sb.toString();
+					} else {
+						value = "";
+					}
+				}
+
 				if (ExportActivator.DEBUG) {
-					ExportActivator.TRACE.trace(null, "-- EObject (value):" + value);
+					ExportActivator.TRACE.trace(null, "-- EObject (value):"
+							+ value);
 				}
 				_generateDataCell(value, objectCount, attributeCount, sheet);
 				attributeCount++;
@@ -767,7 +803,7 @@ public class MasterDataExporterRevenge {
 		}
 		Cell cell = row.createCell(cellCount);
 		if (dataObject != null && dataObject instanceof CDOObject) {
-			// What if we deal with a detached object? 
+			// What if we deal with a detached object?
 			cell.setCellValue(((CDOObject) dataObject).cdoID().toString());
 		}
 	}

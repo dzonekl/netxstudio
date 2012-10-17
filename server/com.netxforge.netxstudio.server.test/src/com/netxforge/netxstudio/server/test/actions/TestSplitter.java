@@ -49,7 +49,7 @@ public class TestSplitter {
 
 	Pattern csvSplitter = Pattern.compile("[,(\".*?\")]++");
 
-//	@Test
+	// @Test
 	public void testCSVQuoted() {
 		System.out.println("-------");
 		testString = testString.trim();
@@ -64,8 +64,24 @@ public class TestSplitter {
 		}
 
 	}
+	
+	
+	@Test
+	public void testNewLine() {
+		Pattern pattern = Pattern.compile("^.*$", Pattern.MULTILINE); // match a
+																		// line.
+		Matcher matcher = pattern.matcher("test1\ntest2\n");
+		while (matcher.find()) {
+			final int gc = matcher.groupCount();
+			// group 0 is the whole pattern matched,
+			// loops runs from from 0 to gc, not 0 to gc-1 as is traditional.
+			for (int j = 0; j <= gc; j++) {
+				System.out.println(j + " : " + matcher.group(j));
+			}
+		}
+	}
 
-//	@Test
+	// @Test
 	public void testCSVQuoted2() {
 
 		System.out.println("-------");
@@ -80,7 +96,7 @@ public class TestSplitter {
 		}
 	}
 
-//	@Test
+	// @Test
 	public void testCSVQuoted3() {
 
 		System.out.println("------- Quoted CSV, multiline");
@@ -95,7 +111,7 @@ public class TestSplitter {
 		}
 	}
 
-//	@Test
+	// @Test
 	public void testCSVSplitter() {
 		System.out.println("-------");
 
@@ -111,7 +127,7 @@ public class TestSplitter {
 	 */
 	Pattern nodeIDExtractor = Pattern.compile("^(\\w+)");
 
-//	@Test
+	// @Test
 	public void testValueExtractor_NodeID() {
 		System.out.println("------- Node ID Extractor:");
 
@@ -133,7 +149,7 @@ public class TestSplitter {
 	Pattern procesTypeExtractor = Pattern
 			.compile("Process type=(LIP|LLP|SGP|GBP)");
 
-//	@Test
+	// @Test
 	public void testValueExtractor_ProcessType() {
 		System.out.println("------- Process Type Extractor: ");
 
@@ -153,7 +169,7 @@ public class TestSplitter {
 	 */
 	Pattern SlotNoExtractor = Pattern.compile("Slot No\\.=(\\d++)");
 
-//	@Test
+	// @Test
 	public void testValueExtractor_Slot() {
 		System.out.println("------- Process Slot Extractor: ");
 
@@ -172,7 +188,7 @@ public class TestSplitter {
 	 */
 	Pattern RNCExtractor = Pattern.compile("Label=([a-zA-Z0-9]++),");
 
-//	@Test
+	// @Test
 	public void testValueExtractor_RNC() {
 		System.out.println("-------RNC Extractor: ");
 
@@ -191,7 +207,7 @@ public class TestSplitter {
 	Pattern NATIVE_EXPRESSION = Pattern.compile("(?:^'\\w*\\(\\)'$)");
 	String testStringNativeExpression = "'nativeFunction()'";
 
-//	@Test
+	// @Test
 	public void testNetXScript_NativeFunction() {
 		System.out.println("-------NetXScript native function: ");
 
@@ -203,7 +219,7 @@ public class TestSplitter {
 		}
 	}
 
-	@Test
+//	@Test
 	public void testStringConverter() {
 		String value = "\"";
 		if (value.startsWith("\"") && value.endsWith("\"")) {
