@@ -76,7 +76,6 @@ import com.netxforge.netxstudio.screens.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.actions.NodeTypeExportHTMLAction;
 import com.netxforge.netxstudio.screens.actions.NodeTypeExportXLSAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.details.NewEditEquipment;
 import com.netxforge.netxstudio.screens.f2.details.NewEditFunction;
@@ -414,6 +413,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		if (currentDetails != null) {
 			currentDetails.dispose();
 		}
+		
 
 		if (o instanceof Function) {
 			NewEditFunction screen = null;
@@ -421,6 +421,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 					editingService);
 			screen.setScreenService(screenService);
 			screen.setOperation(getOperation());
+			screen.setParentScreen(this);
 			screen.injectData(null, o);
 			this.currentDetails = screen;
 			sashForm.layout(true, true);
@@ -432,6 +433,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 					editingService);
 			screen.setScreenService(screenService);
 			screen.setOperation(getOperation());
+			screen.setParentScreen(this);
 			screen.injectData(null, o);
 			this.currentDetails = screen;
 			sashForm.layout(true, true);
@@ -442,6 +444,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 					SWT.NONE, editingService);
 			nnt.setOperation(getOperation());
 			nnt.setScreenService(screenService);
+			nnt.setParentScreen(this);
 			nnt.injectData(null, o);
 			this.currentDetails = nnt;
 			sashForm.layout(true, true);
@@ -455,15 +458,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
 	 */
 	public Viewer getViewer() {
-
-		if (currentDetails != null) {
-			if (currentDetails instanceof IScreen) {
-				Viewer v = ((IScreen) currentDetails).getViewer();
-				if (v != null) {
-					return v;
-				}
-			}
-		}
+		// http://work.netxforge.com/issues/320
 		return nodeTypeTreeViewer;
 	}
 
