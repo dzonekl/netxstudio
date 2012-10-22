@@ -896,7 +896,7 @@ public class ModelUtils {
 		}
 	}
 
-	/*
+	/**
 	 * Construct a path name specific to holde NetXResource objects.
 	 */
 	public String cdoCalculateResourcePathII(EObject eObject) {

@@ -9,6 +9,7 @@ import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 
 /**
@@ -171,8 +172,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 		// of the same type?
 		for (Object v : values) {
 			if (v instanceof Value) {
-				doubleList = modelUtils
-						.transformValueToDouble((List<Value>) values);
+				doubleList = doubleList((List<Value>) values);
 				break;
 			}
 			if (v instanceof BigDecimal) {
@@ -183,20 +183,33 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 		}
 		return modelUtils.transformToDoublePrimitiveArray(doubleList);
 	}
-	
+
+	/*
+	 * Returns a List of Doubles. the index, can be used to retrieve the
+	 * original Value object/
+	 */
+	private List<Double> doubleList(List<Value> values) {
+		List<Double> doubleList = null;
+		// We would need some assertion, that all objects in the collection are
+		// of the same type?
+		doubleList = modelUtils.transformValueToDouble((List<Value>) values);
+		return doubleList;
+	}
+
 	/**
-	 * TODO, USES A FIXED BLOCKING PROPABILITY = 0.1 
+	 * TODO, USES A FIXED BLOCKING PROPABILITY = 0.1
 	 * 
 	 * 
 	 * @param channel
 	 * @return
 	 */
-	public double erlangB(double channel){
+	public double erlangB(double channel) {
 		return this.calculateErlangB(channel, 0.1);
 	}
-	
+
 	/**
-	 * WARNING, NO PROOF THIS IS A CORRECT IMPLEMENTATION OF Erlang B f. in Java. 
+	 * WARNING, NO PROOF THIS IS A CORRECT IMPLEMENTATION OF Erlang B f. in
+	 * Java.
 	 * 
 	 * @param channel
 	 * @param gos
@@ -213,7 +226,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 		ue /= calculateFactorial(gos);//
 		ue = (double) ue;
 
-//		int sum1 = 0;
+		// int sum1 = 0;
 		for (int i = 1; i == gos; i++) {
 			double c = calculateFactorial(i);
 			double d = Math.pow(channel, i);
@@ -246,7 +259,25 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	public Value maxValue(List<Value> range) {
 		List<Value> sortedCopy = Ordering.from(modelUtils.valueValueCompare())
 				.sortedCopy(range);
-		return sortedCopy.get(sortedCopy.size()-1);
+		return sortedCopy.get(sortedCopy.size() - 1);
 	}
 
+	public Value meanValue(List<Value> range) {
+
+		List<Double> doubles = this.doubleList(range);
+		double[] rangeSelection = modelUtils
+				.transformToDoublePrimitiveArray(doubles);
+		double mean = StatUtils.mean(rangeSelection);
+		
+		// create a new value, and set the TS, as the dailyTimeStamp
+		// Should extract the 
+		
+		
+		Value newValue = GenericsFactory.eINSTANCE
+				.createValue();
+		newValue.setTimeStamp(range.get(0).getTimeStamp());
+		newValue.setValue(mean);
+		
+		return newValue;
+	}
 }

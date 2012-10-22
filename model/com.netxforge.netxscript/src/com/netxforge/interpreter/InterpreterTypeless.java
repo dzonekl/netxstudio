@@ -1797,7 +1797,11 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 		}
 		case NativeFunction.MEAN_VALUE: {
-			return nativeFunctions.mean(range);
+			if (assertValueCollection(range)) {
+				return nativeFunctions2.meanValue((List<Value>) range);
+			} else {
+				return nativeFunctions.mean(range);
+			}
 		}
 		case NativeFunction.ERLANGB_VALUE: {
 			// GoS is hardcoded.

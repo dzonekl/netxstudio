@@ -42,5 +42,13 @@ public interface INativeFunctions2 {
 	 * @return
 	 */
 	public abstract Value minValue(List<Value> range);
-
+	
+	/**
+	 * The mean value in the range. 
+	 * @param range
+	 * @return
+	 */
+	public abstract Value meanValue(List<Value> range);
+	
+	
 }
