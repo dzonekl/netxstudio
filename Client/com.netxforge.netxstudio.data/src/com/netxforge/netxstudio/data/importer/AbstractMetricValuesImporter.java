@@ -75,14 +75,13 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 
 /**
- * The main entry class for the Metrics importing. Uses a delegation pattern so 
- * this  can be used on client and server.  
+ * The main entry class for the Metrics importing. Uses a delegation pattern so
+ * this can be used on client and server.
  * 
  * @author Martin Taal
  * @author Christophe Bouhier
  */
 public abstract class AbstractMetricValuesImporter implements IImporterHelper {
-
 
 	public static final String ROOT_SYSTEM_PROPERTY = "metricSourceRoot";
 
@@ -233,21 +232,22 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 							+ rootFile.getAbsolutePath());
 				}
 			} else {
-				// After each iteration, check if the scheduler is active, and cancel otherwise. 
+				// After each iteration, check if the scheduler is active, and
+				// cancel otherwise.
 				for (final File file : rootFile.listFiles()) {
-					
-					if(cancelled()){
+
+					if (cancelled()) {
 						// we are cancelled, abort the next file.
 						if (DataActivator.DEBUG) {
-							DataActivator.TRACE.trace(
-									DataActivator.TRACE_IMPORT_OPTION,
-									"Importer instructed to abort the import process");
+							DataActivator.TRACE
+									.trace(DataActivator.TRACE_IMPORT_OPTION,
+											"Importer instructed to abort the import process");
 						}
 						break;
 					}
-					
+
 					final String fileName = file.getName();
-					
+
 					if (DataActivator.DEBUG) {
 						DataActivator.TRACE.trace(
 								DataActivator.TRACE_IMPORT_OPTION,
@@ -273,8 +273,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 							}
 						}
 					}
-					
-					
+
 				}
 			}
 
@@ -666,8 +665,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 						columnBeingProcessed, this.getFailedRecords());
 
 			} finally {
-				
-				// As last update the last row time stamp. 
+
+				// As last update the last row time stamp.
 				if (rowTimeStamp != null) {
 					this.updatePeriodEstimate(rowTimeStamp);
 				}
@@ -945,81 +944,103 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		return null;
 	}
 
+	/*
+	 * Get a timestamp using the defined mapping columns.
+	 */
 	private Date getTimeStampValue(List<MappingColumn> mappingColumns,
 			int rowNum, boolean reset) {
+
 		if (!reset && headerTimeStamp != null) {
 			return headerTimeStamp;
 		}
+
+		Date returnDate = new Date();
+
 		try {
+			// if we are Excel, get the timestamp directly, else process the
+			// provided patterns.
+			if (this instanceof XLSMetricValuesImporter) {
+				for (final MappingColumn column : mappingColumns) {
+					if (column.getDataType() instanceof ValueDataKind) {
 
-			for (final MappingColumn column : mappingColumns) {
-				if (column.getDataType() instanceof ValueDataKind
-						&& ((ValueDataKind) column.getDataType())
-								.getValueKind() == ValueKindType.DATETIME) {
-
-					Date date = getDateCellValue(rowNum, column.getColumn());
-
-					if (date == null) {
-						final ValueDataKind value = (ValueDataKind) column
+						// http://work.netxforge.com/issues/305
+						// Also check on DATE ValueDataKind!!!
+						final ValueDataKind vdk = (ValueDataKind) column
 								.getDataType();
-						final SimpleDateFormat dateFormat;
-						if (value.getFormat() != null) {
-							dateFormat = new SimpleDateFormat(value.getFormat());
-						} else {
-							dateFormat = new SimpleDateFormat(
-									ModelUtils.DEFAULT_DATE_TIME_PATTERN);
+						if (vdk.getValueKind() == ValueKindType.DATETIME
+								|| vdk.getValueKind() == ValueKindType.DATE
+								|| vdk.getValueKind() == ValueKindType.TIME) {
+
+							returnDate = getDateCellValue(rowNum,
+									column.getColumn());
+						}
+					}
+				}
+			} else {
+
+				String datePattern = null;
+				String timePattern = null;
+				String dateTimePattern = null;
+
+				String dateValue = null;
+				String timeValue = null;
+				String dateTimeValue = null;
+
+				for (final MappingColumn column : mappingColumns) {
+					if (column.getDataType() instanceof ValueDataKind) {
+						final ValueDataKind vdk = (ValueDataKind) column
+								.getDataType();
+
+						if (vdk.getValueKind() == ValueKindType.DATE) {
+							datePattern = vdk.getFormat();
+							dateValue = getStringCellValue(rowNum,
+									column.getColumn());
+						} else if (vdk.getValueKind() == ValueKindType.TIME) {
+							timePattern = vdk.getFormat();
+							timeValue = getStringCellValue(rowNum,
+									column.getColumn());
+						} else if (vdk.getValueKind() == ValueKindType.DATETIME) {
+							dateTimePattern = vdk.getFormat();
+							dateTimeValue = getStringCellValue(rowNum,
+									column.getColumn());
 						}
 
-						String dateStringValue = getStringCellValue(rowNum,
-								column.getColumn());
-						date = dateFormat.parse(dateStringValue);
-					}
-					return date;
-				}
-			}
-
-			String datePattern = null;
-			String timePattern = null;
-			String dateValue = null;
-			String timeValue = null;
-			for (final MappingColumn column : mappingColumns) {
-				if (column.getDataType() instanceof ValueDataKind) {
-					final ValueDataKind value = (ValueDataKind) column
-							.getDataType();
-					if (value.getValueKind() == ValueKindType.DATE) {
-						datePattern = value.getFormat();
-						dateValue = getStringCellValue(rowNum,
-								column.getColumn());
-					}
-					if (value.getValueKind() == ValueKindType.TIME) {
-						timePattern = value.getFormat();
-						timeValue = getStringCellValue(rowNum,
-								column.getColumn());
 					}
 				}
-			}
-			if (dateValue != null && timeValue != null) {
+				StringBuffer patternBuffer = new StringBuffer();
+				if (dateTimeValue != null && dateTimePattern != null) {
+					patternBuffer.append(dateTimePattern);
+				} else {
 
-				if (DataActivator.DEBUG) {
-					DataActivator.TRACE.trace(
-							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-							"-- resolved timestamp for row, date=" + dateValue
-									+ " , time=" + timeValue);
+					if (dateValue != null && datePattern != null) {
+						patternBuffer.append(datePattern);
+
+					}
+					if (timeValue != null && timePattern != null) {
+						patternBuffer.append(" " + timePattern);
+					}
 				}
 
-				String pattern = ModelUtils.DEFAULT_DATE_TIME_PATTERN;
-				if (datePattern != null && timePattern != null) {
-					pattern = datePattern + " " + timePattern;
+				if (patternBuffer.length() == 0) {
+					patternBuffer.append(ModelUtils.DEFAULT_DATE_TIME_PATTERN);
 				}
+
 				final SimpleDateFormat dateFormat = new SimpleDateFormat(
-						pattern);
+						patternBuffer.toString());
 
-				return dateFormat.parse(dateValue + " " + timeValue);
+				returnDate = dateFormat.parse(dateValue + " " + timeValue);
+
 			}
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
+		} finally {
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+						"Header date is " + returnDate);
+			}
 		}
-		return new Date();
+		return returnDate;
 	}
 
 	protected abstract Date getDateCellValue(int rowNum, int column);
@@ -1258,7 +1279,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	}
 
 	/**
-	 * Delegate to the currently set helper, if no local provider exists. 
+	 * Delegate to the currently set helper, if no local provider exists.
 	 */
 	public IDataProvider getDataProvider() {
 
@@ -1273,18 +1294,16 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		return dataProvider;
 	}
 
-	
 	/**
-	 * Delegate to the import helper. 
+	 * Delegate to the import helper.
 	 */
 	public boolean cancelled() {
-		if(helper != null){
+		if (helper != null) {
 			return helper.cancelled();
-		}else{
+		} else {
 			throw new java.lang.IllegalStateException(
 					"AbstractMetricValueImporter: Import helper should be set");
 		}
 	}
 
-	
 }
