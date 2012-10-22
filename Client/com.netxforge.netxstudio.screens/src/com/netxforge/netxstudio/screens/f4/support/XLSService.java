@@ -25,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.poi.hssf.eventusermodel.FormatTrackingHSSFListener;
 import org.apache.poi.hssf.eventusermodel.HSSFEventFactory;
@@ -221,9 +223,6 @@ public class XLSService implements HSSFListener {
 			Object value = null;
 
 			if (record.getSid() == NumberRecord.sid) {
-
-			}
-			if (record.getSid() == NumberRecord.sid) {
 				NumberRecord numrec = (NumberRecord) record;
 
 				double numValue = numrec.getValue();
@@ -304,6 +303,9 @@ public class XLSService implements HSSFListener {
 	// return 0;
 	// }
 
+	/*
+	 * Special threatment for
+	 */
 	private String formatNumberDateCell(CellValueRecordInterface cell,
 			double value) {
 		// Get the built in format, if there is one
@@ -319,12 +321,15 @@ public class XLSService implements HSSFListener {
 			// Format as a date
 			Date d = HSSFDateUtil.getJavaDate(value, false);
 			// split into two strings.
-			String convertXLSDateFormat = this.convertXLSDateFormat(formatString);
+			String convertXLSDateFormat = this
+					.convertXLSDateFormat(formatString);
 			DateFormat df = new SimpleDateFormat(convertXLSDateFormat);
 			return df.format(d);
 		}
-		if (formatString == "General") {
-			// Some sort of wierd default
+
+		// http://work.netxforge.com/issues/305
+		if (formatString.equals("General")) {
+			// Some sort of weird default
 			return Double.toString(value);
 		}
 
@@ -332,34 +337,108 @@ public class XLSService implements HSSFListener {
 		DecimalFormat df = new DecimalFormat(formatString);
 		return df.format(value);
 	}
-	
-	
+
 	/**
-	 * Simple format converter, is not capable to all possible conversions. 
-	 * from .xls to java.   
-	 *  
+	 * 
+	 * TODO, THIS REQUIRES MORE EFFORT, CURRENTLY IT RETURNS A DEFAULT FORMAT,
+	 * CAN NOT CONVERT TO JAVA FORMAT YET.
+	 * 
+	 * 
+	 * Simple format converter, is not capable to all possible conversions. from
+	 * .xls to java.
+	 * 
+	 * .xls format: The format is a bit similar to Java Date pattern. The
+	 * Forward slash '\' is used to escape non formating characters.
+	 * 
+	 * 
+	 * 
+	 * See bug....
+	 * 
+	 * Supported formats: (Huawei Port Capacity). "mm\\.dd\\.yyyy\\ hh:mm:ss" =>
+	 * "dddd", "mmmm\\ d", "yyyy" =>
+	 * 
+	 * <table>
+	 * <th>Excel</th>
+	 * <th>Java</th>
+	 * <tr>
+	 * <td>mm</td>
+	 * <td>month or minute</td>
+	 * </tr>
+	 * <tr>
+	 * <td>mmm</td>
+	 * <td></td>
+	 * </tr>
+	 * </table>
+	 * 
 	 * @param formatString
 	 * @return
 	 */
-	private String convertXLSDateFormat(String formatString){
-		String[] split = formatString.split(" ");
-		if (split.length == 2) {
-			String formatString1 = split[0].replace('m', 'M');
-			// Change \ into , if it's there
-			formatString1 = formatString1.replaceAll("\\\\", "");
-			String formatString2 = split[1].replace("h", "H");
-			return formatString1 + " " + formatString2;
-		} else {
-			// It's a single string, we assume it's a date (Not time). 
-			String formatString1 = split[0].replace('m', 'M');
-			// Change \ into , if it's there
-			formatString1 = formatString1.replaceAll("\\\\", "");
-			return formatString1;
+	private String convertXLSDateFormat(String formatString) {
+
+		// We shouldn't split the string, but parse by valid patterns and
+		// replace by java patterns.
+
+		// USE, WHEN PROPER IMPLEMENTATION.
+		// String formatString2 = formatString;
+		// xlsDateFormatConvert(formatString2);
+		return "mm:dd:yyyy";
+	}
+
+	@SuppressWarnings("unused")
+	private void xlsDateFormatConvert(String formatString) {
+
+		// String[] split = formatString.split(" ");
+		// if (split.length == 2) {
+		// String formatString1 = split[0].replace('m', 'M');
+		// // Change \ into , if it's there
+		// formatString1 = formatString1.replaceAll("\\\\", "");
+		// String formatString2 = split[1].replace("h", "H");
+		// return formatString1 + " " + formatString2;
+		// } else {
+		// // It's a single string, we assume it's a date (Not time).
+		// String formatString1 = split[0].replace('m', 'M');
+		// // Change \ into , if it's there
+		// formatString1 = formatString1.replaceAll("\\\\", "");
+		// return formatString1;
+		// }
+
+		StringBuffer javaPattern = new StringBuffer();
+		{
+			Pattern p1 = Pattern.compile("m+");
+			Matcher m = p1.matcher(formatString);
+			while (m.find()) {
+				final int gc = m.groupCount();
+				// group 0 is the whole pattern matched,
+				// loops runs from from 0 to gc, not 0 to gc-1 as is
+				// traditional.
+				for (int i = 0; i <= gc; i++) {
+					System.out.println(i + " : " + m.group(i));
+					String t = m.group(i);
+					t = t.replaceAll("m", "M"); // Replace for month. !How to
+					// distinct minutes?
+					javaPattern.append(t);
+				}
+			}
+		}
+
+		{
+			Pattern p1 = Pattern.compile("\\\\");
+			Matcher m = p1.matcher(formatString);
+			while (m.find()) {
+				final int gc = m.groupCount();
+				// group 0 is the whole pattern matched,
+				// loops runs from from 0 to gc, not 0 to gc-1 as is
+				// traditional.
+				for (int i = 0; i <= gc; i++) {
+					System.out.println(i + " : " + m.group(i));
+					String t = m.group(i);
+					t.replaceAll("m", "M"); // Replace for month. !How to
+											// distinct minutes?
+				}
+			}
 		}
 	}
-	
-	
-	
+
 	public void processRecord(Record rec) {
 		if ((currentReturnCode = processRecordInternal(rec)) != OK) {
 			// We are aborted or a failure.
