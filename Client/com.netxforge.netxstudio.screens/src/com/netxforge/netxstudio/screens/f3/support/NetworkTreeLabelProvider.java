@@ -249,27 +249,14 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 					LIFECYCLE_COLOR_STYLER, null);
 			int lifeCycleState = modelUtils.lifecycleState(c.getLifecycle());
 			
+			styledString.append(modelUtils.componentName(c), null);
+			
 			if (element instanceof Function) {
-
-				Function fc = (Function) element;
-				styledString.append( fc.getName() != null ? fc.getName() : "?", null);
-				
 				cell.setImage(ResourceManager.getPluginImage(
 						"com.netxforge.netxstudio.models.edit",
 						"icons/full/obj16/Function_H.png"));
-				
 			}
 			if (element instanceof Equipment) {
-
-				Equipment eq = (Equipment) element;
-
-				StringBuffer buf = new StringBuffer();
-				buf.append(eq.getEquipmentCode() != null ? eq
-						.getEquipmentCode() : "?");
-				if (eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)) {
-					buf.append(" : " + eq.getName());
-				}
-				styledString.append(buf.toString());
 				cell.setImage(ResourceManager.getPluginImage(
 						"com.netxforge.netxstudio.models.edit",
 						"icons/full/obj16/Equipment_H.png"));
