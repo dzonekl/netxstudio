@@ -337,7 +337,7 @@ public class ScreenFormService implements IScreenFormService {
 				operation = ScreenUtil.OPERATION_READ_ONLY;
 			}
 
-			editingService.getDataService().getProvider().commitTransaction();
+//			editingService.getDataService().getProvider().commitTransaction();
 
 			// editingService.getDataService().getQueryService().close();
 

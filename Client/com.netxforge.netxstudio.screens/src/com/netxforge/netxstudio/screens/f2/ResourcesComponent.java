@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) Oct 22, 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
@@ -9,32 +26,26 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -44,13 +55,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.wb.swt.TableViewerColumnSorter;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -59,34 +70,29 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.CDOElementComparer;
-import com.netxforge.netxstudio.screens.SearchFilter;
+import com.netxforge.netxstudio.screens.FunctionLabelTextTableColumnFilter;
 import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
-import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.SearchFilter;
+import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 
 /**
- * See this for filtering. http://www.eclipsezone.com/eclipse/forums/t63214.html
- *  
+ * A UI Component for NetXResource objects. It can be injected with a
+ * 
  * @author Christophe Bouhier
  * 
  */
-public abstract class AbstractResources extends AbstractScreen implements
-		IDataServiceInjection {
+public class ResourcesComponent {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
 	private Text txtFilterText;
-
-	protected TableViewer resourcesTableViewer;
-	private Form frmResources;
-	// private Resource resourcesResource;
+	private TableViewer resourcesTableViewer;
+	private ModelUtils modelUtils;
 
 	@Inject
 	private SearchFilter searchFilter;
-
-	protected List<Resource> resourcesList;
+	private IScreenFormService screenService;
+	private Composite resourcesComposite;
 
 	/**
 	 * Create the composite.
@@ -94,38 +100,40 @@ public abstract class AbstractResources extends AbstractScreen implements
 	 * @param parent
 	 * @param style
 	 */
-	public AbstractResources(Composite parent, int style) {
-		super(parent, style);
-		addDisposeListener(new DisposeListener() {
-			public void widgetDisposed(DisposeEvent e) {
-				toolkit.dispose();
-			}
-		});
-		toolkit.adapt(this);
-		toolkit.paintBordersFor(this);
-		// buildUI();
+	@Inject
+	public ResourcesComponent(ModelUtils modelUtils) {
+		this.modelUtils = modelUtils;
 	}
 
-	private void buildUI() {
-		setLayout(new FillLayout(SWT.HORIZONTAL));
-		buildResources();
+	public void configure(IScreenFormService screenService) {
+		this.screenService = screenService;
 	}
 
-	private void buildResources() {
-		frmResources = toolkit.createForm(this);
-		frmResources.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmResources);
-		frmResources.setText("Resources");
-		frmResources.getBody().setLayout(new GridLayout(3, false));
+	/**
+	 * Build this component. The layoutData is optional, won't be set if null.
+	 * 
+	 * @param parent
+	 * @param layoutData
+	 */
+	public void buildUI(Composite parent, Object layoutData) {
 
-		Label lblFilterLabel = toolkit.createLabel(frmResources.getBody(),
+		// A place holder with 3 columns.
+		resourcesComposite = toolkit.createComposite(parent, SWT.NONE);
+		if (layoutData != null) {
+			resourcesComposite.setLayoutData(layoutData);
+		}
+		toolkit.adapt(resourcesComposite);
+		GridLayout gridLayout = new GridLayout(2, false);
+		resourcesComposite.setLayout(gridLayout);
+
+		Label lblFilterLabel = toolkit.createLabel(resourcesComposite,
 				"Filter:", SWT.NONE);
 		GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblFilterLabel.widthHint = 44;
 		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
 
-		txtFilterText = toolkit.createText(frmResources.getBody(), "New Text",
+		txtFilterText = toolkit.createText(resourcesComposite, "New Text",
 				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.setText("");
 		txtFilterText.addKeyListener(new KeyAdapter() {
@@ -145,13 +153,13 @@ public abstract class AbstractResources extends AbstractScreen implements
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
-		new Label(frmResources.getBody(), SWT.NONE);
 
-		resourcesTableViewer = new TableViewer(frmResources.getBody(),
-				SWT.VIRTUAL | SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+		// CB Temporarly disable virtual and hashlookup.
+		resourcesTableViewer = new TableViewer(resourcesComposite, SWT.BORDER
+				| SWT.FULL_SELECTION | SWT.MULTI);
 		table = resourcesTableViewer.getTable();
-		resourcesTableViewer.setUseHashlookup(true);
-		resourcesTableViewer.setComparer(new CDOElementComparer());
+		// resourcesTableViewer.setUseHashlookup(true);
+		// resourcesTableViewer.setComparer(new CDOElementComparer());
 		resourcesTableViewer.addFilter(searchFilter);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -161,7 +169,17 @@ public abstract class AbstractResources extends AbstractScreen implements
 		buildColumns();
 	}
 
-	public abstract void buildColumns();
+	private void buildColumns() {
+		String[] properties = new String[] { "Network Element", "Component",
+				"Metric", "Short Name", "Expression Name", "Long Name", "Unit" };
+
+		int[] columnWidths = new int[] { 100, 100, 112, 76, 104, 200, 68 };
+
+		EditingSupport[] editingSupport = new EditingSupport[] { null, null,
+				null, null, null, null, null };
+
+		buildTableColumns(properties, columnWidths, editingSupport);
+	}
 
 	class CapacityEditingSupport extends EditingSupport {
 
@@ -231,7 +249,8 @@ public abstract class AbstractResources extends AbstractScreen implements
 		protected Object openDialogBox(Control cellEditorWindow) {
 
 			CapacityEditingDialog capacityEditingDialog = new CapacityEditingDialog(
-					cellEditorWindow.getShell(), editingService, modelUtils);
+					cellEditorWindow.getShell(),
+					screenService.getEditingService(), modelUtils);
 			capacityEditingDialog.setBlockOnOpen(true);
 			capacityEditingDialog.injectData(resource);
 			int open = capacityEditingDialog.open();
@@ -270,8 +289,22 @@ public abstract class AbstractResources extends AbstractScreen implements
 			tblColumn.setMoveable(true);
 
 			// Column filtering.
-			LabelTextTableColumnFilter tableColumnFilter = new LabelTextTableColumnFilter(
+			FunctionLabelTextTableColumnFilter tableColumnFilter = new FunctionLabelTextTableColumnFilter(
 					tblColumn);
+			tableColumnFilter
+					.setFilterFunction(new com.google.common.base.Function<CDOObject, Boolean>() {
+
+						public Boolean apply(CDOObject from) {
+							if (from instanceof NetXResource) {
+								NetXResource netXResource = (NetXResource) from;
+								boolean result = !netXResource
+										.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF);
+								return result;
+							}
+							return false;
+						}
+
+					});
 			columnFilters.put(property, tableColumnFilter);
 			resourcesTableViewer.addFilter(tableColumnFilter);
 
@@ -311,30 +344,33 @@ public abstract class AbstractResources extends AbstractScreen implements
 		}
 	}
 
-	class EditResourceAction extends Action {
+	// FIXME As this is a component, how do we deal with invokation of other
+	// screens? Shoudn't this be done by the parent?
 
-		public EditResourceAction(String text) {
-			super(text);
-		}
-
-		@Override
-		public void run() {
-			ISelection selection = getViewer().getSelection();
-			if (selection instanceof IStructuredSelection) {
-				Object o = ((IStructuredSelection) selection).getFirstElement();
-				NewEditResource resourceScreen = new NewEditResource(
-						screenService.getScreenContainer(), SWT.NONE);
-				resourceScreen.setOperation(getOperation());
-				resourceScreen.setScreenService(screenService);
-
-				// CB, the parent is the container resource.
-				if (o instanceof CDOObject) {
-					resourceScreen.injectData(null, o);
-					screenService.setActiveScreen(resourceScreen);
-				}
-			}
-		}
-	}
+	// class EditResourceAction extends Action {
+	//
+	// public EditResourceAction(String text) {
+	// super(text);
+	// }
+	//
+	// @Override
+	// public void run() {
+	// ISelection selection = getViewer().getSelection();
+	// if (selection instanceof IStructuredSelection) {
+	// Object o = ((IStructuredSelection) selection).getFirstElement();
+	// NewEditResource resourceScreen = new NewEditResource(
+	// screenService.getScreenContainer(), SWT.NONE);
+	// resourceScreen.setOperation(getOperation());
+	// resourceScreen.setScreenService(screenService);
+	//
+	// // CB, the parent is the container resource.
+	// if (o instanceof CDOObject) {
+	// resourceScreen.injectData(null, o);
+	// screenService.setActiveScreen(resourceScreen);
+	// }
+	// }
+	// }
+	// }
 
 	// class MonitorResourceAction extends Action {
 	//
@@ -385,30 +421,31 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 		List<IObservableMap> observeMaps = Lists.newArrayList();
 		IObservableSet set = listContentProvider.getKnownElements();
+
 		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
+				screenService.getEditingService().getEditingDomain(),
 				LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)
 				.observeDetail(set));
 
 		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
+				screenService.getEditingService().getEditingDomain(),
 				LibraryPackage.Literals.NET_XRESOURCE__METRIC_REF)
 				.observeDetail(set));
 
 		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
+				screenService.getEditingService().getEditingDomain(),
 				LibraryPackage.Literals.BASE_RESOURCE__SHORT_NAME)
 				.observeDetail(set));
 		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
+				screenService.getEditingService().getEditingDomain(),
 				LibraryPackage.Literals.BASE_RESOURCE__EXPRESSION_NAME)
 				.observeDetail(set));
 		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
+				screenService.getEditingService().getEditingDomain(),
 				LibraryPackage.Literals.BASE_RESOURCE__LONG_NAME)
 				.observeDetail(set));
 		observeMaps.add(EMFEditProperties.value(
-				editingService.getEditingDomain(),
+				screenService.getEditingService().getEditingDomain(),
 				LibraryPackage.Literals.BASE_RESOURCE__UNIT_REF).observeDetail(
 				set));
 
@@ -416,29 +453,6 @@ public abstract class AbstractResources extends AbstractScreen implements
 		observeMaps.toArray(map);
 		resourcesTableViewer
 				.setLabelProvider(new NetXResourceObervableMapLabelProvider(map));
-
-		// IEMFListProperty resourcesProperties = EMFEditProperties
-		// .resource(editingService.getEditingDomain());
-
-		// IObservableList resourceList = resourcesProperties
-		// .observe(resourcesResource);
-
-		final IEMFListProperty computedProperties = EMFProperties.resource();
-		ComputedList computedResourceList = new ComputedList() {
-			@SuppressWarnings("unchecked")
-			@Override
-			protected List<Object> calculate() {
-				List<Object> result = Lists.newArrayList();
-				for (Resource r : resourcesList) {
-					IObservableList observableList = computedProperties
-							.observe(r);
-					result.addAll(observableList);
-				}
-				return result;
-			}
-		};
-
-		resourcesTableViewer.setInput(computedResourceList);
 
 		return bindingContext;
 	}
@@ -528,16 +542,16 @@ public abstract class AbstractResources extends AbstractScreen implements
 						return resource.getLongName();
 					}
 					break;
-//				case 6:
-//					Value v = modelUtils.mostRecentCapacityValue(resource);
-//					if (v != null) {
-//						DecimalFormat numberFormatter = new DecimalFormat(
-//								"###,###,##0.00");
-//						numberFormatter.setDecimalSeparatorAlwaysShown(true);
-//						return numberFormatter.format(v.getValue());
-//					} else {
-//						return "<not set>";
-//					}
+				// case 6:
+				// Value v = modelUtils.mostRecentCapacityValue(resource);
+				// if (v != null) {
+				// DecimalFormat numberFormatter = new DecimalFormat(
+				// "###,###,##0.00");
+				// numberFormatter.setDecimalSeparatorAlwaysShown(true);
+				// return numberFormatter.format(v.getValue());
+				// } else {
+				// return "<not set>";
+				// }
 				case 6:
 					if (resource.getUnitRef() != null) {
 						return resource.getUnitRef().getCode();
@@ -549,43 +563,80 @@ public abstract class AbstractResources extends AbstractScreen implements
 		}
 	}
 
-	public void injectData() {
+	/**
+	 * 
+	 * @param bind Force initializing of bindings.
+	 * @param unconnectedResources
+	 */
+	public void injectData(boolean bind,
+			final List<NetXResource> unconnectedResources) {
 
-		// CB 31-08-2011, NetXResource is now sliced in own CDO resource by
-		// component Hierarchy.
-		// resourcesResource = editingService
-		// .getData(LibraryPackage.Literals.NET_XRESOURCE);
-		buildUI();
-		initDataBindings_();
-	}
+		if (bind) {
+			initDataBindings_();
+		}
 
-	public void disposeData() {
-		// editingService.disposeData(resourcesResource);
+		final IEMFListProperty computedProperties = EMFEditProperties
+				.resource(screenService.getEditingService().getEditingDomain());
+		ComputedList computedResourceList = new ComputedList() {
+			@SuppressWarnings("unchecked")
+			@Override
+			protected List<Object> calculate() {
+				List<Object> result = Lists.newArrayList();
+
+				// Make sure we don't observe the same CDO Resource twice.
+				List<String> observingResources = Lists.newArrayList();
+
+				for (int i = 0; i < unconnectedResources.size(); i++) {
+
+					try {
+						NetXResource netXResource = unconnectedResources.get(i);
+
+						CDOResource cdoRes = netXResource.cdoResource();
+						if (cdoRes != null
+								&& !observingResources.contains(cdoRes.getURI()
+										.toString())) {
+
+							observingResources.add(cdoRes.getURI().toString());
+							IObservableList observableList = computedProperties
+									.observe(netXResource.cdoResource());
+							result.addAll(observableList);
+
+						}
+					} catch (ObjectNotFoundException onf) {
+						// skip, this is a CDO bug, objects are not really
+						// deleted,
+						// the query returns a through result.
+						// Could also add: and cdo_version > 0; in the
+						// query.
+					}
+				}
+				return result;
+			}
+		};
+
+		resourcesTableViewer.setInput(computedResourceList);
+
 	}
 
 	public Viewer getViewer() {
 		return resourcesTableViewer;
 	}
 
-	@Override
-	public boolean isValid() {
-		return true;
-	}
-
-	public Form getScreenForm() {
-		return frmResources;
+	public Composite getResourcesComposite() {
+		return resourcesComposite;
 	}
 
 	private final List<IAction> actionList = Lists.newArrayList();
 
-	@Override
-	public IAction[] getActions() {
-		
-		// lazy init the aciton list. 
-		if (actionList.isEmpty()) {
-			String actionText = ScreenUtil.isReadOnlyOperation(this.getOperation()) ? "View..." : "Edit...";
-			actionList.add(new EditResourceAction(actionText));
-		}
+	public IAction[] getActions(int operation) {
+
+		// lazy init the aciton list.
+		// if (actionList.isEmpty()) {
+		// String actionText = ScreenUtil.isReadOnlyOperation(operation) ?
+		// "View..."
+		// : "Edit...";
+		// actionList.add(new EditResourceAction(actionText));
+		// }
 
 		// actionList.add(new MonitorResourceAction("Monitor...", SWT.PUSH));
 		return actionList.toArray(new IAction[actionList.size()]);

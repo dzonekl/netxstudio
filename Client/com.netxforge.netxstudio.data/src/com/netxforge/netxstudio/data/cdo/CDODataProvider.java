@@ -47,6 +47,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -62,10 +63,10 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * Note: One single data provider, is associated with one single user/session.
  * The session is static.
- *
- * Typical usage is to get a CDOResource using a Resourceset (Which will have a CDOView
- * associated). The provider can also use a one of transaction which is not associated with
- * a resource set.
+ * 
+ * Typical usage is to get a CDOResource using a Resourceset (Which will have a
+ * CDOView associated). The provider can also use a one of transaction which is
+ * not associated with a resource set.
  * 
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -122,18 +123,18 @@ public abstract class CDODataProvider implements IDataProvider {
 			connection.initialize(server);
 		}
 
-//		connection.getConfig().setSignalTimeout(SIGNAL_TIME_OUT);
+		// connection.getConfig().setSignalTimeout(SIGNAL_TIME_OUT);
 
 		// Session Config and Sessions go hand in hand.
 		// Recover our session, if some reason we try to reopen for the same
 		// user and
 		// this very same config.
 		if (connection.getConfig().isSessionOpen()) {
-			
-			// note: 
-			// Passive updates are enabled by default, invalidations could 
-			// be turned off to have finer control. 
-			
+
+			// note:
+			// Passive updates are enabled by default, invalidations could
+			// be turned off to have finer control.
+
 			final CDOSession openSession = connection.getConfig().openSession();
 			setSession(openSession);
 			return;
@@ -151,12 +152,11 @@ public abstract class CDODataProvider implements IDataProvider {
 			((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession
 					.options()).setCommitTimeout(COMMIT_TIMEOUT);
 			setSession(cdoSession);
-			
-			
-			// 
-//			for (final EPackage ePackage : ePackages) {
-//				getSession().getPackageRegistry().putEPackage(ePackage);
-//			}
+
+			//
+			// for (final EPackage ePackage : ePackages) {
+			// getSession().getPackageRegistry().putEPackage(ePackage);
+			// }
 		} catch (final SecurityException se) {
 			throw new SecurityException(se);
 		}
@@ -165,7 +165,7 @@ public abstract class CDODataProvider implements IDataProvider {
 	public abstract CDOSession getSession();
 
 	public abstract CDOTransaction getTransaction();
-	
+
 	public abstract CDOView getView();
 
 	protected abstract boolean isTransactionSet();
@@ -206,10 +206,12 @@ public abstract class CDODataProvider implements IDataProvider {
 			connection.initialize();
 		}
 		final CDOSession cdoSession = connection.getConfig().openSession();
-		
-		// do not load collection objects initially, load 300 objects when needed. 
-		cdoSession.options().setCollectionLoadingPolicy (CDOUtil.createCollectionLoadingPolicy(0, 300));
-		
+
+		// do not load collection objects initially, load 300 objects when
+		// needed.
+		cdoSession.options().setCollectionLoadingPolicy(
+				CDOUtil.createCollectionLoadingPolicy(0, 300));
+
 		((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession.options())
 				.setCommitTimeout(COMMIT_TIMEOUT);
 
@@ -248,7 +250,7 @@ public abstract class CDODataProvider implements IDataProvider {
 		}
 		// create a transaction for all sub resources from this path.
 		final CDOTransaction transaction = getSession().openTransaction(set);
-		
+
 		if (transaction.hasResource(resourcePath)) {
 			CDOResourceNode node = transaction.getResourceNode(resourcePath);
 			if (node instanceof CDOResourceFolder) {
@@ -312,7 +314,7 @@ public abstract class CDODataProvider implements IDataProvider {
 		final String fragment = '/' + uri.lastSegment();
 		return hasResource(fragment);
 	}
-	
+
 	/*
 	 * If any of the views has this resource.
 	 */
@@ -350,7 +352,8 @@ public abstract class CDODataProvider implements IDataProvider {
 				// the CDOView has a getTransaction().
 				if (view instanceof CDOTransaction) {
 					final CDOTransaction transaction = (CDOTransaction) view;
-					view.options().setInvalidationPolicy(CDOInvalidationPolicy.RELAXED);
+					view.options().setInvalidationPolicy(
+							CDOInvalidationPolicy.RELAXED);
 					final CDOResource resource = transaction
 							.getOrCreateResource(resourcePath);
 					return resource;
@@ -385,7 +388,7 @@ public abstract class CDODataProvider implements IDataProvider {
 		} else {
 			return null; // We need a resourceset.
 		}
-		
+
 		// We haven't found this resource in the current view's and set's,
 		// but we can't create a new getTransaction(), so we have to see if the
 		// the CDOView has a getTransaction().
@@ -440,11 +443,9 @@ public abstract class CDODataProvider implements IDataProvider {
 		assert res != null && res.length() > 0;
 		return this.getResource(res);
 	}
-	
-	
-	
+
 	/**
-	 * This call will potentially create a transaction. 
+	 * This call will potentially create a transaction.
 	 */
 	public Resource getResource(EClass feature) {
 		final String resPath = resolveResourceName(feature);
@@ -561,9 +562,10 @@ public abstract class CDODataProvider implements IDataProvider {
 		return lastExistingNode;
 
 	}
-	
+
 	/**
-	 * Forces to resolve the resource from 
+	 * Forces to resolve the resource from
+	 * 
 	 * @return
 	 */
 	protected boolean doGetResourceFromOwnTransaction() {
@@ -585,7 +587,7 @@ public abstract class CDODataProvider implements IDataProvider {
 	}
 
 	public void commitTransaction() {
-		commitTransaction(CLIENT_COMMIT_COMMENT);	
+		commitTransaction(CLIENT_COMMIT_COMMENT);
 	}
 
 	public void rollbackTransaction() {
@@ -609,15 +611,26 @@ public abstract class CDODataProvider implements IDataProvider {
 	public void commitTransaction(String commitComment) {
 		try {
 			if (isTransactionSet()) {
-				if( commitComment != null && commitComment.length() > 0){
+				if (commitComment != null && commitComment.length() > 0) {
 					this.getTransaction().setCommitComment(commitComment);
-					getTransaction().commit();	
+					getTransaction().commit();
 				}
 			}
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		} finally {
-			getTransaction().close();
+
+			CDOTransaction transaction = getTransaction();
+
+			if (!transaction.isClosed()) {
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_DATA_OPTION,
+							"Closing transaction with ID: "
+									+ transaction.getViewID());
+				}
+				transaction.close();
+			}
 			setTransaction(null);
 		}
 	}

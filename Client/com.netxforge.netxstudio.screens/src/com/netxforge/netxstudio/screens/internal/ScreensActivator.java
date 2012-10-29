@@ -1,8 +1,31 @@
+/*******************************************************************************
+ * Copyright (c) Oct 29, 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.internal;
 
 import static com.google.inject.util.Modules.override;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.osgi.service.debug.DebugOptions;
+import org.eclipse.osgi.service.debug.DebugOptionsListener;
+import org.eclipse.osgi.service.debug.DebugTrace;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -16,13 +39,22 @@ import com.netxforge.netxstudio.screens.editing.EditingServiceModule;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class ScreensActivator extends AbstractUIPlugin {
+public class ScreensActivator extends AbstractUIPlugin implements
+		DebugOptionsListener {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.netxforge.netxstudio.screens"; //$NON-NLS-1$
 
 	// The shared instance
 	private static ScreensActivator plugin;
+
+	// fields to cache the debug flags
+	public static boolean DEBUG = false;
+	public static DebugTrace TRACE = null;
+
+	// Tracing options for monitoring logic
+	public static String TRACE_SCREENS_OPTION = "/trace.screens";
+	public static String TRACE_SCREENS_BINDING_OPTION = "/trace.screens.binding";
 
 	private Injector injector;
 
@@ -34,6 +66,11 @@ public class ScreensActivator extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public ScreensActivator() {
+	}
+	
+	public void optionsChanged(DebugOptions options) {
+		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
+		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
 
 	/*
@@ -53,6 +90,12 @@ public class ScreensActivator extends AbstractUIPlugin {
 		om = override(om).with(new CDODataServiceModule());
 		om = override(om).with(new EditingServiceModule());
 		injector = Guice.createInjector(om);
+		
+		
+		Dictionary<String, String> props = new Hashtable<String, String>(4);
+		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
+		context.registerService(DebugOptionsListener.class.getName(), this,
+				props);
 
 	}
 
@@ -80,4 +123,6 @@ public class ScreensActivator extends AbstractUIPlugin {
 	public static IPreferenceStore doGetPreferenceStore() {
 		return getDefault().getPreferenceStore();
 	}
+
+	
 }

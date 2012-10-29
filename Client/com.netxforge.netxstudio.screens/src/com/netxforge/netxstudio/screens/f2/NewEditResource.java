@@ -23,10 +23,10 @@ import java.util.Date;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
@@ -68,7 +68,9 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.dialog.ComponentFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.UnitFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
@@ -91,13 +93,12 @@ public class NewEditResource extends AbstractScreen implements
 
 	private Text txtNode;
 	private Label lblNode;
-	
 
-	// CB 20-02-2012 disable viewing values in this screen. 
-//	@Inject
-//	private ValueComponent valueComponent;
-//	private boolean valuesVisible = false;
-	
+	// CB 20-02-2012 disable viewing values in this screen.
+	// @Inject
+	// private ValueComponent valueComponent;
+	// private boolean valuesVisible = false;
+
 	/**
 	 * Create the composite.
 	 * 
@@ -130,13 +131,13 @@ public class NewEditResource extends AbstractScreen implements
 		toolkit.paintBordersFor(frmResource);
 		frmResource.setText(this.getOperationText() + "Resource");
 		frmResource.getBody().setLayout(new GridLayout(1, false));
-		
+
 		buildInfoSection(readonly, widgetStyle);
 
 	}
 
 	private void buildInfoSection(boolean readonly, int widgetStyle) {
-		
+
 		Section sctnInfo = toolkit.createSection(frmResource.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		sctnInfo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
@@ -168,10 +169,57 @@ public class NewEditResource extends AbstractScreen implements
 
 		txtComponent = toolkit.createText(composite, "New Text", SWT.READ_ONLY);
 		GridData gd_txtComponent = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 2, 1);
+				false, 1, 1);
 		gd_txtComponent.widthHint = 300;
 		txtComponent.setLayoutData(gd_txtComponent);
 		txtComponent.setText("");
+
+		Button btnSelectComponent = toolkit.createButton(composite, "Select...",
+				SWT.PUSH);
+		btnSelectComponent.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				CDOResource operatorsResource = (CDOResource) editingService
+						.getData(OperatorsPackage.Literals.OPERATOR);
+
+				ComponentFilterDialog dialog = new ComponentFilterDialog(
+						NewEditResource.this.getShell(), operatorsResource,
+						modelUtils);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					Component component = (Component) dialog.getFirstResult();
+					
+					CompoundCommand cc = new CompoundCommand();
+					
+					
+					// Check to see if, we need to move the target to another CDO Resource.  
+					CDOResource cdoResource = res.cdoResource();
+					
+					String cdoCalculateResourcePathII = modelUtils.cdoCalculateResourcePathII(component);
+					if(!cdoResource.getPath().equals(cdoCalculateResourcePathII)){
+						editingService.getDataService().getProvider().getResource(cdoCalculateResourcePathII);
+						final Resource emfNetxResource = editingService.getDataService().getProvider()
+								.getResource(cdoCalculateResourcePathII);
+						Command moveResource = new AddCommand(editingService
+								.getEditingDomain(), emfNetxResource.getContents(),
+								(NetXResource) res);
+						cc.append(moveResource);
+					}
+					
+					Command refBidiCommand = new AddCommand(editingService
+							.getEditingDomain(), component.getResourceRefs(),
+							(NetXResource) res);
+					
+					cc.append(refBidiCommand);
+					
+					editingService.getEditingDomain().getCommandStack()
+							.execute(cc);
+					whoRefers = component;
+					updateWhoRefers();
+				}
+
+			}
+		});
 
 		Label lblShortName = toolkit.createLabel(composite, "Short Name:",
 				SWT.NONE);
@@ -223,9 +271,9 @@ public class NewEditResource extends AbstractScreen implements
 		gd_txtUnit.widthHint = 50;
 		txtUnit.setLayoutData(gd_txtUnit);
 
-		Button btnSelect = toolkit.createButton(composite, "Select...",
+		Button btnSelectUnit = toolkit.createButton(composite, "Select...",
 				SWT.NONE);
-		btnSelect.addSelectionListener(new SelectionAdapter() {
+		btnSelectUnit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Resource unitResource = editingService
@@ -249,7 +297,8 @@ public class NewEditResource extends AbstractScreen implements
 		// real node.
 
 		if (readonly) {
-			btnSelect.setEnabled(false);
+			btnSelectUnit.setEnabled(false);
+			btnSelectComponent.setEnabled(false);
 		}
 	}
 
@@ -356,8 +405,8 @@ public class NewEditResource extends AbstractScreen implements
 				.observeDelayedValue(400,
 						SWTObservables.observeText(this.txtUnit, SWT.Modify));
 
-		IEMFValueProperty componentProperty = EMFProperties
-				.value(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF);
+		IEMFValueProperty componentProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF);
 
 		IEMFValueProperty shortNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -386,7 +435,7 @@ public class NewEditResource extends AbstractScreen implements
 			}
 
 			public Object convert(Object fromObject) {
-				return modelUtils.componentName(fromObject);
+				return modelUtils.componentName((Component) fromObject);
 			}
 
 		});
@@ -402,6 +451,12 @@ public class NewEditResource extends AbstractScreen implements
 		context.bindValue(unitTargetObservable, unitProperty.observe(res),
 				null, null);
 
+		updateWhoRefers();
+
+		return context;
+	}
+
+	private void updateWhoRefers() {
 		if (whoRefers != null) {
 			NodeType nt = modelUtils.resolveParentNodeType((EObject) whoRefers);
 			if (nt != null) {
@@ -415,8 +470,6 @@ public class NewEditResource extends AbstractScreen implements
 				}
 			}
 		}
-
-		return context;
 	}
 
 	public void disposeData() {
@@ -447,19 +500,20 @@ public class NewEditResource extends AbstractScreen implements
 
 		buildUI();
 		this.initDataBindings_();
-		
-		// CB disable viewing resources. 
-//		if (this.whoRefers != null
-//				&& modelUtils.nodeFor((EObject) this.whoRefers) != null) {
-//			valuesVisible = true;
-//			
-//			valueComponent.configure(screenService);
-//			
-//			valueComponent.buildValuesUI(frmResource.getBody(), new GridData(SWT.FILL, SWT.CENTER, true, false,
-//					1, 1));
-//			valueComponent.bindValues();
-//			valueComponent.injectData(res);
-//		}
+
+		// CB disable viewing resources.
+		// if (this.whoRefers != null
+		// && modelUtils.nodeFor((EObject) this.whoRefers) != null) {
+		// valuesVisible = true;
+		//
+		// valueComponent.configure(screenService);
+		//
+		// valueComponent.buildValuesUI(frmResource.getBody(), new
+		// GridData(SWT.FILL, SWT.CENTER, true, false,
+		// 1, 1));
+		// valueComponent.bindValues();
+		// valueComponent.injectData(res);
+		// }
 	}
 
 	public void addData() {
@@ -469,15 +523,10 @@ public class NewEditResource extends AbstractScreen implements
 			if (whoRefers != null) {
 				if (res instanceof NetXResource) {
 
-					// NetXResource netxRes = (NetXResource) res;
-					// netxRes.setComponentRef(whoRefers);
-					// whoRefers.getResourceRefs().add(netxRes);
-					// owner.getContents().add(netxRes);
-					//
 					Command addResource = new AddCommand(
 							editingService.getEditingDomain(),
 							owner.getContents(), (NetXResource) res);
-					//
+
 					c.append(addResource);
 
 					Command refBidiCommand = new AddCommand(
@@ -486,14 +535,6 @@ public class NewEditResource extends AbstractScreen implements
 							(NetXResource) res);
 
 					c.append(refBidiCommand);
-
-					// Command refBidiResourceCommand = new SetCommand(
-					// editingService.getEditingDomain(),
-					// ((NetXResource) res).getComponentRef(),
-					// LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
-					// (Component) whoRefers);
-					//
-					// c.append(refBidiResourceCommand);
 
 				}
 				editingService.getEditingDomain().getCommandStack().execute(c);
@@ -526,14 +567,13 @@ public class NewEditResource extends AbstractScreen implements
 
 	public Viewer getViewer() {
 		return null;
-		// CB disable viewing values. 20-02-2012. 
-//		if (valuesVisible) {
-//			return valueComponent.getValuesTableViewer();
-//		} else {
-//			return null;
-//		}
+		// CB disable viewing values. 20-02-2012.
+		// if (valuesVisible) {
+		// return valueComponent.getValuesTableViewer();
+		// } else {
+		// return null;
+		// }
 	}
-
 
 	@Override
 	public boolean isValid() {
@@ -549,15 +589,15 @@ public class NewEditResource extends AbstractScreen implements
 	}
 
 	// CB Disable viewing values. 20-02-2012
-//	private final List<IAction> actions = Lists.newArrayList();
-//	@Override
-//	public IAction[] getActions() {
-//		// Lazy init actions.
-//		if (actions.isEmpty()) {
-//			actions.add(valueComponent.new MonitorAction("Monitoring Chart...",
-//					SWT.PUSH));
-//		}
-//		return actions.toArray(new IAction[actions.size()]);
-//	}
+	// private final List<IAction> actions = Lists.newArrayList();
+	// @Override
+	// public IAction[] getActions() {
+	// // Lazy init actions.
+	// if (actions.isEmpty()) {
+	// actions.add(valueComponent.new MonitorAction("Monitoring Chart...",
+	// SWT.PUSH));
+	// }
+	// return actions.toArray(new IAction[actions.size()]);
+	// }
 
 }

@@ -294,10 +294,23 @@ public class CDOEditingService extends EMFEditingService implements
 
 		if (this.getView() != null) {
 			boolean viewDirty = this.getView().isDirty();
-			if (EditingActivator.DEBUG & viewDirty) {
+			if (EditingActivator.DEBUG && viewDirty) {
 				printDirtyState();
 			}
-			return viewDirty || result;
+			result |= viewDirty;
+		}
+
+		// Check the standalone transaction for dirtyness...
+		CDOTransaction transaction = this.dataService.getProvider()
+				.getTransaction();
+		if (transaction != null) {
+			boolean transactionDirty = transaction.isDirty();
+			if (EditingActivator.DEBUG && transactionDirty) {
+				printDirtyState(transaction);
+			}
+			if (transactionDirty) {
+				result |= true;
+			}
 		}
 
 		return result;
@@ -309,8 +322,11 @@ public class CDOEditingService extends EMFEditingService implements
 	private void printDirtyState() {
 		EditingActivator.TRACE.trace(EditingActivator.TRACE_EDITING_OPTION,
 				" Requesting dirty state");
-
 		CDOView view = this.getView();
+		printDirtyState(view);
+	}
+
+	private void printDirtyState(CDOView view) {
 		if (view instanceof CDOTransaction) {
 			CDOTransaction transaction = (CDOTransaction) view;
 			Map<CDOID, CDOObject> dirtyObjects = transaction.getDirtyObjects();
@@ -361,12 +377,18 @@ public class CDOEditingService extends EMFEditingService implements
 					// monitor.subTask("Copy history");
 					// saveHistory();
 					monitor.worked(50);
-					monitor.subTask("Committing");
+					monitor.subTask("Committing transaction from regular view");
 					CDOTransaction transaction = getView() instanceof CDOTransaction ? (CDOTransaction) getView()
 							: null;
 					if (transaction != null) {
 						commitRegular(monitor, transaction);
 					}
+					monitor.subTask("Committing transaction from regular view");
+					transaction = dataService.getProvider().getTransaction();
+					if (transaction != null) {
+						commitRegular(monitor, transaction);
+					}
+
 					monitor.done();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -403,13 +425,13 @@ public class CDOEditingService extends EMFEditingService implements
 					CDOState cdoState = cdoRes.cdoState();
 					CDOView cdoView = cdoRes.cdoView();
 
-					// Print dirty state.
-
+					// Print saving state.
 					if (EditingActivator.DEBUG) {
-
-						System.out.println("Saving resource: "
-								+ cdoRes.getURI().toString() + ", state="
-								+ cdoState.name());
+						EditingActivator.TRACE.trace(
+								EditingActivator.TRACE_EDITING_OPTION,
+								"Saving resource: "
+										+ cdoRes.getURI().toString()
+										+ ", state=" + cdoState.name());
 
 					}
 
@@ -433,10 +455,11 @@ public class CDOEditingService extends EMFEditingService implements
 			CDOTransaction transaction) throws CommitException {
 
 		if (EditingActivator.DEBUG) {
-
-			System.out.println("Commit transaction: " + transaction.getViewID()
-					+ " last time update"
-					+ new Date(transaction.getLastUpdateTime()));
+			EditingActivator.TRACE.trace(
+					EditingActivator.TRACE_EDITING_OPTION,
+					"Commit transaction: " + transaction.getViewID()
+							+ " last time update"
+							+ new Date(transaction.getLastUpdateTime()));
 
 			if (transaction.isDirty()) {
 				Map<CDOID, CDOObject> dirtyObjects = transaction
@@ -444,11 +467,14 @@ public class CDOEditingService extends EMFEditingService implements
 
 				for (CDOID id : dirtyObjects.keySet()) {
 					CDOObject cdoObject = dirtyObjects.get(id);
-					System.out.println("-- dirty object="
-							+ cdoObject.cdoID().toURIFragment() + " , state="
-							+ cdoObject.cdoState() + ", rev="
-							+ cdoObject.cdoRevision() + " , dangling state="
-							+ cdoObject.cdoID().isDangling());
+					EditingActivator.TRACE.trace(
+							EditingActivator.TRACE_EDITING_OPTION,
+							"-- dirty object="
+									+ cdoObject.cdoID().toURIFragment()
+									+ " , state=" + cdoObject.cdoState()
+									+ ", rev=" + cdoObject.cdoRevision()
+									+ " , dangling state="
+									+ cdoObject.cdoID().isDangling());
 
 					// CB, this forces all CDO Objects to be read, as our
 					// cdoObject could be the root resource.

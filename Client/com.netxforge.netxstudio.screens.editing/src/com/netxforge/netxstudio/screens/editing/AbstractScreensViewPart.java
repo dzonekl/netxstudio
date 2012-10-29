@@ -60,6 +60,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.part.ViewPart;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
 import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.ObjectEditingActionsHandler;
@@ -88,6 +90,9 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 * This keeps track of the selection of the view as a whole.
 	 */
 	protected ISelection viewSelection = StructuredSelection.EMPTY;
+
+	@Inject
+	protected ModelUtils modelUtils;
 
 	// private MenuManager contextMenu;
 
@@ -249,7 +254,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	// }
 
 	/**
-	 * Delegates to the editing service. 
+	 * Delegates to the editing service.
 	 */
 	public boolean isDirty() {
 		// Should know about the type of screen, so read-only, is not asked for
@@ -444,8 +449,9 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		for (ISelectionChangedListener listener : selectionChangedListeners) {
 			listener.selectionChanged(new SelectionChangedEvent(this, selection));
 		}
-		
-		// Set the status, either selection or the main object handled by the screen.
+
+		// Set the status, either selection or the main object handled by the
+		// screen.
 		if (!selection.isEmpty()) {
 			setStatusLineManager(selection);
 		} else {
@@ -464,14 +470,14 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		case 1: {
 			CDOObject next = screenObjects.iterator().next();
 			CDOID cdoID = ((CDOObject) next).cdoID();
-			String text = new AdapterFactoryItemDelegator(
-					getEditingService().getAdapterFactory())
-					.getText(next);
-			
-			message = "Screen object: " + text + " OID:" + cdoID ;
-			
-			// An object could be in proxy state, append the version if not. (Otherwise the cdo revision will be null; 
-			if(next.cdoState() != CDOState.PROXY){
+			String text = new AdapterFactoryItemDelegator(getEditingService()
+					.getAdapterFactory()).getText(next);
+
+			message = "Screen object: " + text + " OID:" + cdoID;
+
+			// An object could be in proxy state, append the version if not.
+			// (Otherwise the cdo revision will be null;
+			if (next.cdoState() != CDOState.PROXY) {
 				CDORevision cdoRevision = next.cdoRevision();
 				int version = cdoRevision.getVersion();
 				message += " version: " + version;
@@ -506,17 +512,9 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			case 1: {
 				Object next = collection.iterator().next();
 				if (next instanceof CDOObject) {
-
-					CDORevision cdoRevision = ((CDOObject) next).cdoRevision();
-					int version = cdoRevision.getVersion();
-
-					CDOID cdoID = ((CDOObject) next).cdoID();
-
-					String text = new AdapterFactoryItemDelegator(
-							getEditingService().getAdapterFactory())
-							.getText(next);
-					message = "Selection: " + text + " OID:" + cdoID
-							+ " version: " + version;
+					message = modelUtils.cdoObjectToString((CDOObject) next,
+							new AdapterFactoryItemDelegator(getEditingService()
+									.getAdapterFactory()).getText(next));
 				}
 				break;
 			}
@@ -551,9 +549,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		contextMenu.addMenuListener(this);
 		Menu menu = contextMenu.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
-		
-		
-		
+
 		getSite().registerContextMenu(contextMenu,
 				new UnwrappingSelectionProvider(viewer));
 

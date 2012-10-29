@@ -27,6 +27,7 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
+import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.ISelection;
@@ -385,7 +386,11 @@ public class MementoUtil {
 		String string = memento.getString(key);
 		if (string != null) {
 			CDOID cdoid = this.getCDOID(string);
-			return view.getObject(cdoid);
+			try {
+				return view.getObject(cdoid);
+			} catch (ObjectNotFoundException onfe) {
+				// As we remember objects, we can sm
+			}
 		}
 		return null;
 	}

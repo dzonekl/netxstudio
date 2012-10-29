@@ -297,27 +297,54 @@ public class CDOQueryService implements IQueryService {
 	}
 	
 	
+	
 	/**
-	 * Create query text, for external access. 
+	 * 
+	 * Supported for MYSQL. 
+	 * 
+	 * @param transaction
+	 * @param dialect
+	 * @return
+	 */
+	public List<NetXResource> getUnconnectedResources(
+			CDOTransaction transaction, String dialect) {
+
+		if (dialect.equals("MYSQL")) {
+			final CDOQuery cdoQuery = transaction
+					.createQuery("sql",
+							"select * from TM.library_netxresource where componentRef IS NULL and cdo_version > 0;");
+
+			List<NetXResource> result = cdoQuery.getResult(NetXResource.class);
+			return result;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Create query text, for external access.
 	 * 
 	 * http://work.netxforge.com/issues/312
 	 */
 	public String getValuesQuery(CDOID container, EReference ref) {
 		Long longID = ((AbstractCDOIDLong) container).getLongValue();
-		
-		// dispatch the range. 
-		if( ref == MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES){
-			return "select cdo_id, value, timeStamp0 from TM.generics_value where cdo_container = " + longID;
-		}else if( ref == LibraryPackage.Literals.NET_XRESOURCE__CAPACITY_VALUES ){
-			return "select genValues.cdo_id, genValues.value, genValues.timeStamp0 from TM.library_netxresource_capacityvalues_list " +
-			"join TM.generics_value as genValues " + 
-			" on TM.library_netxresource_capacityvalues_list.cdo_value = genValues.cdo_id " +
-			"where TM.library_netxresource_capacityvalues_list.cdo_source = " + longID + ";";
-		}else if( ref == LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES ){
-			return "select genValues.cdo_id, genValues.value, genValues.timeStamp0 from TM.library_netxresource_utilizationvalues_list " +
-			"join TM.generics_value as genValues " + 
-			" on TM.library_netxresource_utilizationvalues_list.cdo_value = genValues.cdo_id " +
-			"where TM.library_netxresource_utilizationvalues_list.cdo_source = " + longID + ";";
+
+		// dispatch the range.
+		if (ref == MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES) {
+			return "select cdo_id, value, timeStamp0 from TM.generics_value where cdo_container = "
+					+ longID;
+		} else if (ref == LibraryPackage.Literals.NET_XRESOURCE__CAPACITY_VALUES) {
+			return "select genValues.cdo_id, genValues.value, genValues.timeStamp0 from TM.library_netxresource_capacityvalues_list "
+					+ "join TM.generics_value as genValues "
+					+ " on TM.library_netxresource_capacityvalues_list.cdo_value = genValues.cdo_id "
+					+ "where TM.library_netxresource_capacityvalues_list.cdo_source = "
+					+ longID + ";";
+		} else if (ref == LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES) {
+			return "select genValues.cdo_id, genValues.value, genValues.timeStamp0 from TM.library_netxresource_utilizationvalues_list "
+					+ "join TM.generics_value as genValues "
+					+ " on TM.library_netxresource_utilizationvalues_list.cdo_value = genValues.cdo_id "
+					+ "where TM.library_netxresource_utilizationvalues_list.cdo_source = "
+					+ longID + ";";
 		}
 		return "";
 	}

@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
@@ -27,24 +27,31 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.IObservable;
+import org.eclipse.core.databinding.observable.ObservableEvent;
 import org.eclipse.core.databinding.observable.list.ComputedList;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
+import org.eclipse.core.databinding.observable.map.IMapChangeListener;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.map.MapChangeEvent;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.core.databinding.observable.set.ISetChangeListener;
+import org.eclipse.core.databinding.observable.set.SetChangeEvent;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.databinding.edit.IEMFEditListProperty;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -102,11 +109,14 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.ISaveablePart2;
+import org.eclipse.ui.forms.events.ExpansionAdapter;
+import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.wb.swt.ResourceManager;
 
@@ -120,6 +130,8 @@ import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -147,9 +159,9 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
+import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
 import com.netxforge.netxstudio.screens.ScreenDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
-import com.netxforge.netxstudio.screens.TableColumnFilter;
 import com.netxforge.netxstudio.screens.ch9.ObjectExpressions;
 import com.netxforge.netxstudio.screens.common.tables.CopyFeatureCommand.FeatureInitializer;
 import com.netxforge.netxstudio.screens.common.tables.FocusBlockOwnerDrawHighlighterForMultiselection;
@@ -158,6 +170,8 @@ import com.netxforge.netxstudio.screens.common.tables.OpenTreeViewer;
 import com.netxforge.netxstudio.screens.common.tables.TableHelper;
 import com.netxforge.netxstudio.screens.common.tables.TreeViewerFocusBlockManager;
 import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
+import com.netxforge.netxstudio.screens.editing.CDOEditingService;
+import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
@@ -166,6 +180,7 @@ import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f1.support.ReportWizard;
 import com.netxforge.netxstudio.screens.f3.NetworkViewerComparator;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 
@@ -210,6 +225,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private ValueComponentII cmpValues;
 
 	@Inject
+	private ResourcesComponent cmpResources;
+
+	@Inject
 	private PeriodComponent cmpPeriod;
 
 	@Inject
@@ -235,7 +253,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	/**
 	 * A Map of filters.
 	 */
-	Map<String, TableColumnFilter> columnFilters = Maps.newHashMap();
+	Map<String, LabelTextTableColumnFilter> columnFilters = Maps.newHashMap();
 
 	private Composite cmpExpressionEditor;
 
@@ -284,6 +302,13 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private boolean readOnly;
 
 	private int widgetStyle;
+
+	/*
+	 * A notifier, attached to an IObservableMap (Capable to listen to a
+	 * structure).
+	 */
+	private final UpdateDisconnectedResources componentsChangeListener = UpdateDisconnectedResources
+			.getInstance();
 
 	/**
 	 * Create the composite.
@@ -393,10 +418,32 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		buildResourceViewer(sashData);
 		buildValues(sashData);
 
+		buildDisconnectedResourcesViewer(sashVertical);
+
 		// WEIGHTS FOR SASH.
-		sashVertical.setWeights(new int[] { 1, 9 });
+		sashVertical.setWeights(new int[] { 1, 9, 1 });
 		sashData.setWeights(new int[] { 3, 5, 5 });
 
+	}
+
+	private void buildDisconnectedResourcesViewer(SashForm sashVertical) {
+
+		Section scnResources = toolkit.createSection(sashVertical,
+				Section.TWISTIE | Section.TITLE_BAR);
+		toolkit.paintBordersFor(scnResources);
+		scnResources.setText("Disconnected Resources");
+		scnResources.addExpansionListener(new ExpansionAdapter() {
+			public void expansionStateChanged(ExpansionEvent e) {
+				List<NetXResource> disconnectedResources = updateDisconnectedResources();
+				if (disconnectedResources != null) {
+					cmpResources.injectData(false, disconnectedResources);
+				}
+			}
+
+		});
+		cmpResources.configure(screenService);
+		cmpResources.buildUI(scnResources, null);
+		scnResources.setClient(cmpResources.getResourcesComposite());
 	}
 
 	private void buildResourceViewer(SashForm sashComponentResources) {
@@ -806,8 +853,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private void buildValues(SashForm sashForm) {
 
 		cmpValues.configure(screenService);
-		cmpValues.buildValuesUI(sashForm, new GridData(SWT.FILL, SWT.FILL,
-				true, true, 1, 1));
+		cmpValues.buildUI(sashForm, new GridData(SWT.FILL, SWT.FILL, true,
+				true, 1, 1));
 	}
 
 	public void buildResourcesColumns() {
@@ -1025,8 +1072,6 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 			IObservable observable = event.getObservable();
 
-			System.out.println("Observable called for = "
-					+ event.getObservableValue().getValue());
 			if (observable instanceof IViewerObservableValue) {
 				IViewerObservableValue ivov = (IViewerObservableValue) observable;
 				// A change on the expression viewer?
@@ -1754,6 +1799,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				new ComponentTreeStructureAdvisorImpl());
 		componentsTreeViewer.setContentProvider(cp);
 
+		// Each IObservableMap observes the specified property/feature of the
+		// elements in set.
 		{
 			IObservableSet set = cp.getKnownElements();
 			List<IObservableMap> observeMaps = Lists.newArrayList();
@@ -1769,12 +1816,32 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 									LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF)
 							.observeDetail(set));
 
+			{
+				IObservableMap observeDetail = EMFEditProperties.value(
+						editingService.getEditingDomain(),
+						LibraryPackage.Literals.FUNCTION__FUNCTIONS)
+						.observeDetail(set);
+
+				componentsChangeListener.notifyObservableMap(observeDetail);
+				observeMaps.add(observeDetail);
+
+			}
+
+			{
+				IObservableMap observeDetail = EMFEditProperties.value(
+						editingService.getEditingDomain(),
+						LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS)
+						.observeDetail(set);
+				componentsChangeListener.notifyObservableMap(observeDetail);
+				observeMaps.add(observeDetail);
+			}
 			observeMaps.add(EMFEditProperties.value(
 					editingService.getEditingDomain(),
 					LibraryPackage.Literals.COMPONENT__TOLERANCE_REFS)
 					.observeDetail(set));
 
 			IObservableMap[] map = new IObservableMap[observeMaps.size()];
+
 			observeMaps.toArray(map);
 
 			componentsTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(
@@ -1795,11 +1862,16 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		final IViewerObservableList observeMultipleComponentSelection = ViewersObservables
 				.observeMultiSelection(componentsTreeViewer);
 
+		final IEMFEditListProperty list = EMFEditProperties.list(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
+
 		// COMPONENT SINGLE SELECTION OBSERVABLE
 		observeSingleComponentSelection = ViewersObservables
 				.observeSingleSelection(componentsTreeViewer);
 
 		computedResourcesList = new ComputedList() {
+			@SuppressWarnings("unchecked")
 			@Override
 			protected List<Object> calculate() {
 				List<Object> result = Lists.newArrayList();
@@ -1807,13 +1879,13 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				for (Object value : observeMultipleComponentSelection) {
 					if (value instanceof Component) {
 						// Should be a filter or else.
-						result.addAll(modelUtils
-								.resourcesForComponent((Component) value));
+						for (Component c : modelUtils
+								.componentsForComponent((Component) value)) {
+							IObservableList observe = list.observe(c);
+							result.addAll(observe);
+						}
 					}
 				}
-				// if (result.isEmpty()) {
-				// System.out.println("no result");
-				// }
 				return result;
 			}
 		};
@@ -1825,7 +1897,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		{
 			List<IObservableMap> observeMaps = Lists.newArrayList();
-			IObservableSet set = listContentProvider.getKnownElements();
+			IObservableSet set = componentsListContentProvider
+					.getKnownElements();
 			observeMaps.add(EMFEditProperties.value(
 					editingService.getEditingDomain(),
 					LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)
@@ -2250,7 +2323,38 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		buildUI();
 		registerFocus(this);
+
 		initDataBindings_();
+		List<NetXResource> disConnectedNetXResource = this
+				.updateDisconnectedResources();
+		if (disConnectedNetXResource != null)
+			cmpResources.injectData(true, disConnectedNetXResource);
+
+	}
+
+	private List<NetXResource> updateDisconnectedResources() {
+
+		final IQueryService queryService = screenService.getEditingService()
+				.getDataService().getQueryService();
+		IEditingService editingService = screenService.getEditingService();
+		final CDOTransaction transaction;
+
+		if (editingService instanceof CDOEditingService
+				&& ((CDOEditingService) editingService).getView() != null) {
+			transaction = (CDOTransaction) ((CDOEditingService) editingService)
+					.getView();
+		} else {
+			transaction = screenService.getEditingService().getDataService()
+					.getProvider().getTransaction();
+		}
+
+		if (queryService instanceof CDOQueryService) {
+
+			List<NetXResource> unconnectedResources = ((CDOQueryService) queryService)
+					.getUnconnectedResources(transaction, "MYSQL");
+			return unconnectedResources;
+		}
+		return null;
 	}
 
 	public void disposeData() {
@@ -2263,7 +2367,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	@Override
 	public Viewer[] getViewers() {
 		return new Viewer[] { componentsTreeViewer, resourcesTableViewer,
-				cmpValues.getValuesTableViewer() };
+				cmpValues.getValuesTableViewer(), cmpResources.getViewer() };
 	}
 
 	@Override
@@ -2353,6 +2457,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			return resourcesTableViewer;
 		} else if (widget == cmpValues.getValuesTableViewer().getTable()) {
 			return cmpValues.getValuesTableViewer();
+		} else if (widget == cmpResources.getViewer().getControl()) {
+			return cmpResources.getViewer();
 		} else if (widget == expressionComponent.getXtextEditor().getViewer()
 				.getTextWidget()) {
 			return expressionComponent.getXtextEditor().getViewer()
@@ -2451,6 +2557,58 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		periodBeginWritableValue.setValue(cmpPeriod.getPeriod().getBegin());
 		periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
 
+		// Re-inject the
+		cmpResources.getViewer().refresh();
+		componentsTreeViewer.refresh();
+	}
+
+}
+
+/*
+ * An IMap observable listener, which can be fed with IObservableMap's and will
+ * refresh the provided viewer.
+ */
+class UpdateDisconnectedResources implements IChangeListener,
+		ISetChangeListener, IMapChangeListener {
+
+	public static UpdateDisconnectedResources getInstance() {
+		return new UpdateDisconnectedResources();
+	}
+
+	// Disallow instantation.
+	private UpdateDisconnectedResources() {
+	}
+
+	/*
+	 * Used to perform additional functionality for map change notifications.
+	 */
+	public void notifyObservableMap(IObservableMap... maps) {
+
+		for (IObservableMap map : maps) {
+			map.addChangeListener(this);
+			map.addMapChangeListener(this);
+
+		}
+	}
+
+	public void handleChange(ChangeEvent event) {
+		this.handleEvent(event);
+	}
+
+	public void handleMapChange(MapChangeEvent event) {
+		this.handleEvent(event);
+	}
+
+	public void handleSetChange(SetChangeEvent event) {
+		this.handleEvent(event);
+	}
+
+	private void handleEvent(ObservableEvent event) {
+		if (ScreensActivator.DEBUG) {
+			ScreensActivator.TRACE.trace(
+					ScreensActivator.TRACE_SCREENS_BINDING_OPTION,
+					"Binding event " + event);
+		}
 	}
 
 }

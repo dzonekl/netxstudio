@@ -33,7 +33,11 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	public static String TRACE_IMPORT_DETAILS_OPTION = "/trace.import.details";
 	public static String TRACE_IMPORT_LOCATOR_OPTION = "/trace.import.locator";
 	public static String TRACE_IMPORT_HELPER_OPTION = "/trace.import.helper";
-			
+	
+	// Tracing for DataProvider
+	public static String TRACE_DATA_OPTION = "/trace.data";
+	public static String TRACE_DATA_DETAILS_OPTION = "/trace.data.details";
+	
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);

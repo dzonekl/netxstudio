@@ -111,18 +111,6 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 	@Override
 	public void screenChanged(IScreen screen) {
 		super.screenChanged(screen);
-		
-//		 Make sure we have an action handler for our specific screens and remove them 
-//		 otherwise. 
-//		if(screen instanceof Networks){
-//			nah = new NodeActionHandler();
-//			nah.setActivePart(this);
-//			this.getActionHandlerDescriptor().addHandler(nah);
-//		}else{
-//			if( nah != null && this.getActionHandlerDescriptor().hasHandler(nah)){
-//				this.getActionHandlerDescriptor().removeHandler(nah);
-//			}
-//		}
 	}
 
 	@Override

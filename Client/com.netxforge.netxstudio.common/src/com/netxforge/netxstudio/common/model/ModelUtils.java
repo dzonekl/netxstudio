@@ -1275,38 +1275,40 @@ public class ModelUtils {
 	 * @return
 	 */
 	public int lifecycleState(Lifecycle lc) {
-		
-		if(lc == null){
+
+		if (lc == null) {
 			return LIFECYCLE_NOTSET;
 		}
-		EAttribute[] states = new EAttribute[]{
-				
-				GenericsPackage.Literals.LIFECYCLE__OUT_OF_SERVICE_DATE,
+		EAttribute[] states = new EAttribute[] {
+
+		GenericsPackage.Literals.LIFECYCLE__OUT_OF_SERVICE_DATE,
 				GenericsPackage.Literals.LIFECYCLE__IN_SERVICE_DATE,
-				GenericsPackage.Literals.LIFECYCLE__CONSTRUCTION_DATE, 
-				GenericsPackage.Literals.LIFECYCLE__PLANNED_DATE, 
-				GenericsPackage.Literals.LIFECYCLE__PROPOSED
-		};
-		
+				GenericsPackage.Literals.LIFECYCLE__CONSTRUCTION_DATE,
+				GenericsPackage.Literals.LIFECYCLE__PLANNED_DATE,
+				GenericsPackage.Literals.LIFECYCLE__PROPOSED };
+
 		long latestDate = -1;
 		int latestIndex = -1;
-		for( int i = 0; i < states.length ; i++){
+		for (int i = 0; i < states.length; i++) {
 			EAttribute state = states[i];
-			if(lc.eIsSet(state)){
-				long currentDate = ((XMLGregorianCalendar)lc.eGet(state)).toGregorianCalendar().getTimeInMillis();
-				if(latestDate != -1) {
-					if ( latestDate >= currentDate ){
+			if (lc.eIsSet(state)) {
+				long currentDate = ((XMLGregorianCalendar) lc.eGet(state))
+						.toGregorianCalendar().getTimeInMillis();
+				if (latestDate != -1) {
+					if (latestDate >= currentDate) {
 						break;
-					}else{
+					} else {
 						latestDate = currentDate;
 						latestIndex = i;
-						if( CommonActivator.DEBUG){
-							CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION, "-- update index to: " + i);
+						if (CommonActivator.DEBUG) {
+							CommonActivator.TRACE.trace(
+									CommonActivator.TRACE_UTILS_OPTION,
+									"-- update index to: " + i);
 						}
-						// set the index, we are later then predecessor. 
+						// set the index, we are later then predecessor.
 
 					}
-				}else {
+				} else {
 					latestDate = currentDate;
 					latestIndex = i;
 				}
@@ -3040,6 +3042,42 @@ public class ModelUtils {
 		return revisions.iterator();
 	}
 
+	/**
+	 * Make a string representation of a CDO Object.
+	 * 
+	 * @param next
+	 * @return
+	 */
+	public String cdoObjectToString(CDOObject cdoObject, String objectText) {
+		StringBuffer sb = new StringBuffer();
+
+		CDORevision cdoRevision = cdoObject.cdoRevision();
+		int version = -1;
+		if (cdoRevision != null) {
+			version = cdoRevision.getVersion();
+		}
+		CDOID cdoID = cdoObject.cdoID();
+		CDOResource cdoResource = cdoObject.cdoResource();
+
+		sb.append(objectText + " ");
+
+		// Depending on the state, transient don't have an Object. ID>
+		if (cdoID != null) {
+			sb.append("OID: " + cdoID + " ");
+		}
+		if (version != -1) {
+			sb.append("version: " + version + " ");
+		}
+
+		sb.append("state: " + cdoObject.cdoState() + " ");
+
+		if (cdoResource != null) {
+			sb.append("path: " + cdoResource.getPath());
+		}
+
+		return sb.toString();
+	}
+
 	public String cdoDumpNewObject(InternalCDORevision revision) {
 		final StringBuilder sb = new StringBuilder();
 		for (final EStructuralFeature feature : revision.getClassInfo()
@@ -3742,10 +3780,13 @@ public class ModelUtils {
 	 * @param fromObject
 	 * @return
 	 */
-	public String componentName(Object fromObject) {
+	public String componentName(Component fromObject) {
+
+		String name = fromObject.getName();
+
 		if (fromObject instanceof Equipment) {
 			String code = ((Equipment) fromObject).getEquipmentCode();
-			String name = ((Equipment) fromObject).getName();
+
 			StringBuilder sb = new StringBuilder();
 			if (code != null && code.length() > 0) {
 				sb.append(code + " ");
@@ -3756,8 +3797,7 @@ public class ModelUtils {
 			return sb.toString();
 
 		} else if (fromObject instanceof com.netxforge.netxstudio.library.Function) {
-			return ((com.netxforge.netxstudio.library.Function) fromObject)
-					.getName();
+			return name != null ? name : "?";
 		}
 		return null;
 	}

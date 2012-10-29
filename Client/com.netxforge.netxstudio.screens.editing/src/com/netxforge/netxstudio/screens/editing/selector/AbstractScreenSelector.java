@@ -33,11 +33,11 @@ import org.eclipse.ui.part.IShowInSource;
 import org.eclipse.ui.part.ShowInContext;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
 import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHandler;
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -50,9 +50,6 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 
 	@Inject
 	protected IScreenFormService screenFormService;
-
-	@Inject
-	protected ModelUtils modelUtils;
 
 	private IScreen activeScreen;
 
@@ -140,6 +137,12 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	 */
 	public void screenChanged(IScreen screen) {
 
+		if (EditingActivator.DEBUG) {
+			EditingActivator.TRACE.trace(
+					EditingActivator.TRACE_EDITING_DETAILS_OPTION,
+					"Screen changed: " + screen.getScreenName());
+		}
+
 		// Some screens won't have a viewer, in this case
 		// the current viewer will be null, and an empty selection will be set.
 		if (screen != null) {
@@ -147,7 +150,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 			// before activating the screen, set the selection providerts.
 			this.activeScreen = screen;
 			this.setCurrentScreen(screen);
-			
+
 			// Make sure we update the dirty state, when changing screen.
 			firePropertyChange(ISaveablePart2.PROP_DIRTY);
 
@@ -175,20 +178,31 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	 * (com.netxforge.netxstudio.screens.editing.selector.IScreen)
 	 */
 	public void screenWidgetChanged(IScreen screen) {
+
+		if (EditingActivator.DEBUG) {
+			EditingActivator.TRACE.trace(
+					EditingActivator.TRACE_EDITING_DETAILS_OPTION,
+					"Screen widget changed: " + screen.getScreenName());
+		}
+
 		// force an update of the current screen.
 		this.setCurrentScreen(screen);
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.selector.ScreenChangeListener#screenInvalid(com.netxforge.netxstudio.screens.editing.selector.IScreen)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.selector.ScreenChangeListener
+	 * #screenInvalid(com.netxforge.netxstudio.screens.editing.selector.IScreen)
 	 */
 	public void screenInvalid(IScreen screen) {
-		// When our screen is invalidated, we should do whatever necessary for now update the status line.
-		if(screen != null){
+		// When our screen is invalidated, we should do whatever necessary for
+		// now update the status line.
+		if (screen != null) {
 			this.setStatusLineManager(screen.getScreenObjects());
 		}
 	}
-
 
 	public IScreen getScreen() {
 		return this.activeScreen;
@@ -218,15 +232,17 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		}
 		actionHandlerDescriptor.clearDynamicHandlers();
 
-		DynamicScreensActionHandler dynamicScreensActionHandler;
-
-		// !!!! actions would be created dynamicly.....
+		// actions created lazily.
 		IScreen screen = getScreen();
 		if (screen != null && screen.getActions() != null) {
+			
+			// get actions per widget. 
 			List<IAction> actions = reverse(this.getScreen().getActions());
-			dynamicScreensActionHandler = new DynamicScreensActionHandler();
+			
+			final DynamicScreensActionHandler dynamicScreensActionHandler = new DynamicScreensActionHandler();
 			dynamicScreensActionHandler.addActions(actions);
 			actionHandlerDescriptor.addHandler(dynamicScreensActionHandler);
+
 		}
 		actionHandlerDescriptor.showMenu();
 	}
@@ -245,5 +261,4 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		return new ShowInContext(null, this.getSelection());
 	}
 
-	
 }

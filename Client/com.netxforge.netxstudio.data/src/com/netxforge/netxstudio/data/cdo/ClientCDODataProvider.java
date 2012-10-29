@@ -36,6 +36,7 @@ import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
 import com.netxforge.netxstudio.generics.ExpansionDurationValue;
@@ -66,7 +67,8 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  * A CDO Data provider, for single threaded clients. The session and transaction
  * are stored in a static member and this object is a singleton.
  * 
- * CB TODO If a singleton, why a static session, we will always return the same session?  
+ * CB TODO If a singleton, why a static session, we will always return the same
+ * session?
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
@@ -84,19 +86,21 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 	private static CDOSession session = null;
 
 	private static CDOTransaction transaction = null;
-	
+
 	private CDOView view = null;
-	
 
 	@Override
 	public CDOSession getSession() {
 		if (session == null || session.isClosed()) {
 			// We can't get a session, which has not be opened and
 			// authenticated.
-			
-			throw new java.lang.IllegalStateException(session.isClosed() ? "Session closed" : "Session not set");
+
+			throw new java.lang.IllegalStateException(
+					session.isClosed() ? "Session closed" : "Session not set");
 		} else {
-			this.printSession();
+			if (DataActivator.DEBUG) {
+				this.printSession();
+			}
 			return session;
 		}
 	}
@@ -105,6 +109,13 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 	public CDOTransaction getTransaction() {
 		if (transaction == null) {
 			transaction = getSession().openTransaction();
+			if(DataActivator.DEBUG){
+				DataActivator.TRACE.trace(DataActivator.TRACE_DATA_OPTION, "Created transaction with ID: " + transaction.getViewID());
+			}
+		}else{
+			if(DataActivator.DEBUG){
+				DataActivator.TRACE.trace(DataActivator.TRACE_DATA_OPTION, "Accessing transaction with ID: " + transaction.getViewID());
+			}
 		}
 		return transaction;
 	}
@@ -125,34 +136,43 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 	}
 
 	public void printSession() {
-		
-		if(session.isClosed()){
-			System.out.println("ClientCDODataProvider: Session closed!, can not provide views or transactions");
+
+		if (session.isClosed()) {
+			DataActivator.TRACE.trace(DataActivator.TRACE_DATA_DETAILS_OPTION,
+					"Session closed!, can not provide views or transactions");
 			return;
 		}
-		
+
 		// Report the transactions on our session:
 		CDOView[] views = session.getElements();
 		for (int i = 0; i < views.length; i++) {
 			CDOView v = views[i];
 			if (v instanceof CDOTransaction) {
 				CDOTransaction t = (CDOTransaction) v;
-				System.out.println("ClientCDODataProvider: transaction ID: " + t.getViewID()
-						+ " ResourceSet hashcode:"
-						+ v.getResourceSet().hashCode());
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_DATA_DETAILS_OPTION,
+						"transaction ID: " + t.getViewID()
+								+ " ResourceSet hashcode:"
+								+ v.getResourceSet().hashCode());
 			} else {
-				System.out.println("ClientCDODataProvider: view ID: " + v.getViewID()
-						+ " ResourceSet hashcode:"
-						+ v.getResourceSet().hashCode());
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_DATA_DETAILS_OPTION, "view ID: "
+								+ v.getViewID() + " ResourceSet hashcode:"
+								+ v.getResourceSet().hashCode());
+
 			}
 			for (Resource res : v.getResourceSet().getResources()) {
 				if (res instanceof CDOResource) {
-					System.out.println("  Resource for set = " + res.getURI());
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_DATA_DETAILS_OPTION,
+							"  Resource for set = " + res.getURI());
 				}
 			}
 		}
-		if(views.length > 0 ){
-			System.out.println("ClientCDODataProvider: Number of views/transactions:" + session.getElements().length);
+		if (views.length > 0) {
+			DataActivator.TRACE.trace(DataActivator.TRACE_DATA_DETAILS_OPTION,
+					"Number of views/transactions:"
+							+ session.getElements().length);
 		}
 	}
 
@@ -253,10 +273,11 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 						.createMetricRetentionRules();
 				contents.add(rules);
 				{
-					
-					// FIXME the expression which is not an assignment is not allowed any more in NetXScript. 
+
+					// FIXME the expression which is not an assignment is not
+					// allowed any more in NetXScript.
 					// The syntax should be....
-					
+
 					// Add all expressions.
 					{
 						// Monthly expression
@@ -315,11 +336,11 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 						expressionResource.getContents().add(
 								hourlyRetentionExpression);
 					}
-					
+
 					{
 						qHourlyRetentionExpression = LibraryFactory.eINSTANCE
 								.createExpression();
-						qHourlyRetentionExpression 
+						qHourlyRetentionExpression
 								.setName("15 min. retention rule");
 
 						// Gets the max value from a range and assigns it to
@@ -332,10 +353,9 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 								qHourlyRetentionExpression);
 					}
 				}
-				
-				
-				// A bunch of retention rules for popular intervals. 
-				// typically a 15 minutes interval is not covered. 
+
+				// A bunch of retention rules for popular intervals.
+				// typically a 15 minutes interval is not covered.
 				if (rules.getMetricRetentionRules().size() == 0) {
 					{
 						MetricRetentionRule r = MetricsFactory.eINSTANCE
@@ -373,7 +393,7 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 						r.setRetentionExpression(hourlyRetentionExpression);
 						rules.getMetricRetentionRules().add(r);
 					}
-					
+
 					{
 						MetricRetentionRule r = MetricsFactory.eINSTANCE
 								.createMetricRetentionRule();
@@ -384,7 +404,6 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 						rules.getMetricRetentionRules().add(r);
 
 					}
-
 
 					final RetentionJob retentionJob = SchedulingFactory.eINSTANCE
 							.createRetentionJob();
@@ -521,14 +540,14 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 
 	@Override
 	public CDOView getView() {
-		if(view == null){
+		if (view == null) {
 			view = this.getSession().openView();
 		}
 		return view;
 	}
 
 	public void closeView() {
-		if(this.view != null){
+		if (this.view != null) {
 			this.view.close();
 			view = null;
 		}
