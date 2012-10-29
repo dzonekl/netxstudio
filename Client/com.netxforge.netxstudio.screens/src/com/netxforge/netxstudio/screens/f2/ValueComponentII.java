@@ -101,7 +101,7 @@ public class ValueComponentII {
 		return valuesTableViewer;
 	}
 
-	public void buildValuesUI(Composite parent, Object layoutData) {
+	public void buildUI(Composite parent, Object layoutData) {
 
 		// Composite valuesComposite = toolkit.createComposite(parent,
 		// SWT.NONE);
