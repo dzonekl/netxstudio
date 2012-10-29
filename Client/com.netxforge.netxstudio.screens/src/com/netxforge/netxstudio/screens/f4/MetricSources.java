@@ -1,19 +1,11 @@
 package com.netxforge.netxstudio.screens.f4;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.emf.cdo.CDOObject;
-import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.id.CDOIDUtil;
-import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
-import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.eresource.CDOResource;
-import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
-import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -36,8 +28,6 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -425,58 +415,7 @@ public class MetricSources extends AbstractScreen implements
 		metricSourceTable.setLinesVisible(true);
 		metricSourceTable.setHeaderVisible(true);
 		metricSourceTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
-		metricSourceTable.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				super.widgetSelected(e);
-				Object o = e.item.getData();
-				if (o instanceof MetricSource) {
-					MetricSource ms = (MetricSource) o;
-					System.out.println(ms.getName() + "--" + ms.cdoState());
-					CDORevision cdoRevision = ms.cdoRevision();
-					if (cdoRevision != null) {
-						if (ms.cdoInvalid()) {
-							System.out.println("object not locally valid ");
-							// CDOSession session =
-							// editingService.getDataService().getProvider().getSession();
-							// session.getRevisionManager().getRevisions(ids,
-							// ms.cdoRevision().getBranch()., referenceChunk,
-							// CDORevision.DEPTH_INFINITE, true);
-						}
-						System.out.println(" version ="
-								+ cdoRevision.getVersion() + " timestamp="
-								+ new Date(cdoRevision.getTimeStamp()));
-						CDOID cdoID = ms.cdoID();
-						long longValue = ((AbstractCDOIDLong) cdoID)
-								.getLongValue();
-
-						CDOID createLongWithClassifier = CDOIDUtil
-								.createLongWithClassifier(new CDOClassifierRef(
-										MetricsPackage.Literals.METRIC_SOURCE),
-										longValue);
-
-						CDOTransaction transaction = editingService
-								.getDataService().getProvider()
-								.getTransaction();
-						CDOObject object = transaction
-								.getObject(createLongWithClassifier);
-						System.out
-								.println(" reloaded object ="
-										+ object.cdoRevision().getVersion()
-										+ " timestamp="
-										+ new Date(object.cdoRevision()
-												.getTimeStamp()));
-						editingService.getDataService().getProvider()
-								.commitTransaction();
-						// metricSourceTableViewer.refresh(true);
-						// CDOResource cdoResource = ms.cdoResource();
-						// cdoResource.cdoReload();
-					}
-				}
-			}
-		});
-
+		
 		toolkit.paintBordersFor(metricSourceTable);
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
