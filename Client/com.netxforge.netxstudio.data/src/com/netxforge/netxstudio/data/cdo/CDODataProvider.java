@@ -293,13 +293,24 @@ public abstract class CDODataProvider implements IDataProvider {
 		for (CDOResourceNode n : nodes) {
 
 			if (n instanceof CDOResourceFolder) {
-				System.out.println("CDOFolder uri: " + n.getURI());
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_DATA_DETAILS_OPTION,
+							"CDOFolder uri: " + n.getURI());
+				}
+
 				resources.addAll(getResourcesFromNode((CDOResourceFolder) n));
 			} else if (n instanceof CDOResource) {
 
 				CDOResource res = (CDOResource) n;
-				System.out.println("CDOResource uri" + res.getURI()
-						+ " ResourceSet: " + res.getResourceSet().hashCode());
+
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_DATA_DETAILS_OPTION,
+							"CDOResource uri:" + res.getURI()
+									+ " ResourceSet: "
+									+ res.getResourceSet().hashCode());
+				}
 				resources.add((Resource) n);
 			}
 

@@ -44,7 +44,6 @@ import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.eresource.CDOResource;
-import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
@@ -130,8 +129,6 @@ import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -170,8 +167,6 @@ import com.netxforge.netxstudio.screens.common.tables.OpenTreeViewer;
 import com.netxforge.netxstudio.screens.common.tables.TableHelper;
 import com.netxforge.netxstudio.screens.common.tables.TreeViewerFocusBlockManager;
 import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
-import com.netxforge.netxstudio.screens.editing.CDOEditingService;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
@@ -434,9 +429,12 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		scnResources.setText("Disconnected Resources");
 		scnResources.addExpansionListener(new ExpansionAdapter() {
 			public void expansionStateChanged(ExpansionEvent e) {
-				List<NetXResource> disconnectedResources = updateDisconnectedResources();
-				if (disconnectedResources != null) {
-					cmpResources.injectData(false, disconnectedResources);
+
+				if (e.getState()) { // expanded when true.
+					List<NetXResource> disconnectedResources = updateDisconnectedResources();
+					if (disconnectedResources != null) {
+						cmpResources.injectData(false, disconnectedResources);
+					}
 				}
 			}
 
@@ -2325,6 +2323,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		registerFocus(this);
 
 		initDataBindings_();
+
+		// Option to observe all resources, our alternative using a query is ver
 		List<NetXResource> disConnectedNetXResource = this
 				.updateDisconnectedResources();
 		if (disConnectedNetXResource != null)
@@ -2333,29 +2333,61 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	}
 
 	private List<NetXResource> updateDisconnectedResources() {
+		
+		
+		// DO NOT USE A QUERY, TO DB SPECIFIC. 
+		// final IQueryService queryService = screenService.getEditingService()
+		// .getDataService().getQueryService();
+		// IEditingService editingService = screenService.getEditingService();
+		// final CDOTransaction transaction;
+		//
+		// if (editingService instanceof CDOEditingService
+		// && ((CDOEditingService) editingService).getView() != null) {
+		// transaction = (CDOTransaction) ((CDOEditingService) editingService)
+		// .getView();
+		// } else {
+		// transaction = screenService.getEditingService().getDataService()
+		// .getProvider().getTransaction();
+		// }
+		//
+		// if (queryService instanceof CDOQueryService) {
+		//
+		// List<NetXResource> unconnectedResources = ((CDOQueryService)
+		// queryService)
+		// .getUnconnectedResources(transaction, "MYSQL");
+		// return unconnectedResources;
+		// }
 
-		final IQueryService queryService = screenService.getEditingService()
-				.getDataService().getQueryService();
-		IEditingService editingService = screenService.getEditingService();
-		final CDOTransaction transaction;
+		List<Resource> nodeResources = editingService.getData("Node_");
+		if (nodeResources != null) {
+			List<NetXResource> unconnectedResources = Lists.newArrayList();
 
-		if (editingService instanceof CDOEditingService
-				&& ((CDOEditingService) editingService).getView() != null) {
-			transaction = (CDOTransaction) ((CDOEditingService) editingService)
-					.getView();
-		} else {
-			transaction = screenService.getEditingService().getDataService()
-					.getProvider().getTransaction();
-		}
-
-		if (queryService instanceof CDOQueryService) {
-
-			List<NetXResource> unconnectedResources = ((CDOQueryService) queryService)
-					.getUnconnectedResources(transaction, "MYSQL");
+			for (Resource res : nodeResources) {
+				for (Object o : res.getContents()) {
+					if (o instanceof NetXResource) {
+						NetXResource netxRes = (NetXResource) o;
+						if (!netxRes
+								.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)) {
+							unconnectedResources.add(netxRes);
+						}
+					}
+				}
+			}
 			return unconnectedResources;
 		}
+
 		return null;
 	}
+
+	// private List<Resource> updateDisconnectedCDOResources() {
+	//
+	// ArrayList<Object> resourcesList = Lists.newArrayList();
+	// List<Resource> nodeResources = editingService.getData("Node_");
+	// if (nodeResources != null) {
+	// resourcesList.addAll(nodeResources);
+	// }
+	// return nodeResources;
+	// }
 
 	public void disposeData() {
 	}

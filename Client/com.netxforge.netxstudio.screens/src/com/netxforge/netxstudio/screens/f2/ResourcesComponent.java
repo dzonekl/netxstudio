@@ -31,6 +31,7 @@ import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
@@ -562,10 +563,46 @@ public class ResourcesComponent {
 			return super.getColumnText(element, columnIndex);
 		}
 	}
+	
+	
+	/**
+	 * Inject our components with CDO Resources which should hold NetXResource objects. 
+	 * Note that, the any other object contained in the CDO Resource, will be dealt with by the 
+	 * content provider of the viewer.   
+	 * 
+	 * @param bind
+	 * @param cdoResources
+	 */
+	public void injectDataWithCDOResources(boolean bind, final List<Resource> cdoResources) {
+		
+		if (bind) {
+			initDataBindings_();
+		}
+		
+		final IEMFListProperty computedProperties = EMFEditProperties
+				.resource(screenService.getEditingService().getEditingDomain());
+		
+		ComputedList computedResourceList = new ComputedList() {
+			@SuppressWarnings("unchecked")
+			@Override
+			protected List<Object> calculate() {
+				List<Object> result = Lists.newArrayList();
+				for (Resource r : cdoResources) {
+					IObservableList observableList = computedProperties
+							.observe(r);
+					result.addAll(observableList);
+				}
+				return result;
+			}
+		};
+		resourcesTableViewer.setInput(computedResourceList);
+
+	}
 
 	/**
 	 * 
-	 * @param bind Force initializing of bindings.
+	 * @param bind
+	 *            Force initializing of bindings.
 	 * @param unconnectedResources
 	 */
 	public void injectData(boolean bind,
