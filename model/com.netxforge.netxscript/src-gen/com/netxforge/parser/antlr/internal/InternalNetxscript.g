@@ -464,27 +464,46 @@ ruleStatement returns [EObject current=null]
         afterParserOrEnumRuleCall();
     }
 
+    |(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getStatementAccess().getExpressionExpressionParserRuleCall_0_0_4_0()); 
+	    }
+		lv_expression_4_0=ruleExpression		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getStatementRule());
+	        }
+       		set(
+       			$current, 
+       			"expression",
+        		lv_expression_4_0, 
+        		"Expression");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)
     |
     { 
-        newCompositeNode(grammarAccess.getStatementAccess().getReturnStatementParserRuleCall_0_0_4()); 
+        newCompositeNode(grammarAccess.getStatementAccess().getReturnStatementParserRuleCall_0_0_5()); 
     }
-    this_ReturnStatement_4=ruleReturnStatement
+    this_ReturnStatement_5=ruleReturnStatement
     { 
-        $current = $this_ReturnStatement_4.current; 
+        $current = $this_ReturnStatement_5.current; 
         afterParserOrEnumRuleCall();
     }
-)	otherlv_5=';' 
+)	otherlv_6=';' 
     {
-    	newLeafNode(otherlv_5, grammarAccess.getStatementAccess().getSemicolonKeyword_0_1());
+    	newLeafNode(otherlv_6, grammarAccess.getStatementAccess().getSemicolonKeyword_0_1());
     }
 )
     |
     { 
         newCompositeNode(grammarAccess.getStatementAccess().getIfStatementParserRuleCall_1()); 
     }
-    this_IfStatement_6=ruleIfStatement
+    this_IfStatement_7=ruleIfStatement
     { 
-        $current = $this_IfStatement_6.current; 
+        $current = $this_IfStatement_7.current; 
         afterParserOrEnumRuleCall();
     }
 
@@ -492,9 +511,9 @@ ruleStatement returns [EObject current=null]
     { 
         newCompositeNode(grammarAccess.getStatementAccess().getWhileStatementParserRuleCall_2()); 
     }
-    this_WhileStatement_7=ruleWhileStatement
+    this_WhileStatement_8=ruleWhileStatement
     { 
-        $current = $this_WhileStatement_7.current; 
+        $current = $this_WhileStatement_8.current; 
         afterParserOrEnumRuleCall();
     }
 
@@ -502,9 +521,9 @@ ruleStatement returns [EObject current=null]
     { 
         newCompositeNode(grammarAccess.getStatementAccess().getBlockParserRuleCall_3()); 
     }
-    this_Block_8=ruleBlock
+    this_Block_9=ruleBlock
     { 
-        $current = $this_Block_8.current; 
+        $current = $this_Block_9.current; 
         afterParserOrEnumRuleCall();
     }
 )

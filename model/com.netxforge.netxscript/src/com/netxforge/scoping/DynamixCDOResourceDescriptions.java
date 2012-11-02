@@ -8,6 +8,7 @@
 package com.netxforge.scoping;
 
 import com.google.inject.Inject;
+import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxstudio.data.IDataProvider;
 
 /**
@@ -31,7 +32,9 @@ public class DynamixCDOResourceDescriptions extends
 
 	public DynamixCDOResourceDescriptions() {
 		super();
-		System.out.println("Initialize ResourceDescriptions, we should be a singlton.");
+		if(RuntimeActivator.DEBUG){
+			RuntimeActivator.TRACE.trace(RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION, "Initialize ResourceDescriptions, we should be a singlton.");
+		}
 	}
 
 

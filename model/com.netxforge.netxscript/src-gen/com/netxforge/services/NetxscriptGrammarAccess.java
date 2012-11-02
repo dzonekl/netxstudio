@@ -254,25 +254,29 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cAssignmentStatementParserRuleCall_0_0_1 = (RuleCall)cAlternatives_0_0.eContents().get(1);
 		private final RuleCall cPlusAssignmentStatementParserRuleCall_0_0_2 = (RuleCall)cAlternatives_0_0.eContents().get(2);
 		private final RuleCall cReferenceAssignmentStatementParserRuleCall_0_0_3 = (RuleCall)cAlternatives_0_0.eContents().get(3);
-		private final RuleCall cReturnStatementParserRuleCall_0_0_4 = (RuleCall)cAlternatives_0_0.eContents().get(4);
+		private final Assignment cExpressionAssignment_0_0_4 = (Assignment)cAlternatives_0_0.eContents().get(4);
+		private final RuleCall cExpressionExpressionParserRuleCall_0_0_4_0 = (RuleCall)cExpressionAssignment_0_0_4.eContents().get(0);
+		private final RuleCall cReturnStatementParserRuleCall_0_0_5 = (RuleCall)cAlternatives_0_0.eContents().get(5);
 		private final Keyword cSemicolonKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
 		private final RuleCall cIfStatementParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cWhileStatementParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		private final RuleCall cBlockParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		//Statement:
-		//	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement)
-		//	";" | IfStatement | WhileStatement | Block;
+		//	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement |
+		//	expression=Expression | ReturnStatement) ";" | IfStatement | WhileStatement | Block;
 		public ParserRule getRule() { return rule; }
 
-		//(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement) ";"
-		//| IfStatement | WhileStatement | Block
+		//(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement |
+		//expression=Expression | ReturnStatement) ";" | IfStatement | WhileStatement | Block
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement) ";"
+		//(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement |
+		//expression=Expression | ReturnStatement) ";"
 		public Group getGroup_0() { return cGroup_0; }
 
-		//VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement
+		//VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | expression=Expression
+		//| ReturnStatement
 		public Alternatives getAlternatives_0_0() { return cAlternatives_0_0; }
 
 		//VariableStatement
@@ -287,8 +291,14 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//ReferenceAssignmentStatement
 		public RuleCall getReferenceAssignmentStatementParserRuleCall_0_0_3() { return cReferenceAssignmentStatementParserRuleCall_0_0_3; }
 
+		//expression=Expression
+		public Assignment getExpressionAssignment_0_0_4() { return cExpressionAssignment_0_0_4; }
+
+		//Expression
+		public RuleCall getExpressionExpressionParserRuleCall_0_0_4_0() { return cExpressionExpressionParserRuleCall_0_0_4_0; }
+
 		//ReturnStatement
-		public RuleCall getReturnStatementParserRuleCall_0_0_4() { return cReturnStatementParserRuleCall_0_0_4; }
+		public RuleCall getReturnStatementParserRuleCall_0_0_5() { return cReturnStatementParserRuleCall_0_0_5; }
 
 		//";"
 		public Keyword getSemicolonKeyword_0_1() { return cSemicolonKeyword_0_1; }
@@ -2362,8 +2372,8 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Statement:
-	//	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement)
-	//	";" | IfStatement | WhileStatement | Block;
+	//	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement |
+	//	expression=Expression | ReturnStatement) ";" | IfStatement | WhileStatement | Block;
 	public StatementElements getStatementAccess() {
 		return (pStatement != null) ? pStatement : (pStatement = new StatementElements());
 	}

@@ -35,7 +35,10 @@
         eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Statement" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//AbstractVarOrArgument"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Statement" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//AbstractVarOrArgument">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Expression"
+        containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Expression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="index" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Expression"
         containment="true"/>
@@ -105,10 +108,7 @@
     <eLiterals name="AVG" literal="AVG"/>
     <eLiterals name="BH" value="1" literal="BH"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Return" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Expression"
-        containment="true"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Return" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement"/>
   <eClassifiers xsi:type="ecore:EClass" name="If" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="if" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Expression"
         containment="true"/>
@@ -125,23 +125,15 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Expression"
-        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="var" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//AbstractVarOrArgument"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Expression"
-        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PlusAssignment" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="var" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//AbstractVarOrArgument"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Expression"
-        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RefAssignment" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="assignmentRef" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Expression"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="And" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Expression">

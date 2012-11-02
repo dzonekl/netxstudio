@@ -43,47 +43,48 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 	private static RuntimeActivator INSTANCE;
 	private BundleContext context;
 	private Map<String, Injector> injectors = new HashMap<String, Injector>();
-	
-//	The plug-in ID
+
+	// The plug-in ID
 	public static final String PLUGIN_ID = "com.netxforge.netxscript"; //$NON-NLS-1$
-	
+
+	// Tracing for netxscript.
+	public static String TRACE_NETXSCRIPT_OPTION = "/trace.netxscript";
+	public static String TRACE_NETXSCRIPT_SCOPING_OPTION = "/trace.netxscript.scoping";
 
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
-	
+
 	public void start(BundleContext context) throws Exception {
 		INSTANCE = this;
 		this.context = context;
-		
-		// We do Guice binding for the runtime module, within this plugin. 
-		// (xtext, normally provides all Guice binding in the UI plugin, but we won't have 
-		// it on the server side). 
+
+		// We do Guice binding for the runtime module, within this plugin.
+		// (xtext, normally provides all Guice binding in the UI plugin, but we
+		// won't have
+		// it on the server side).
 		try {
 			registerInjectorFor("com.netxforge.Netxscript");
 		} catch (Exception e) {
 			Logger.getLogger(getClass()).error(e.getMessage(), e);
 			throw e;
 		}
-		
-		Dictionary<String, String> props = new Hashtable<String,String>(4);
+
+		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
-	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
-	 	
-	 	
-	 	
-		
+		context.registerService(DebugOptionsListener.class.getName(), this,
+				props);
+
 	}
 
 	public void stop(BundleContext context) throws Exception {
 
 	}
-	
+
 	public void optionsChanged(DebugOptions options) {
-		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);
+		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
-	
 
 	public static RuntimeActivator getInstance() {
 		return INSTANCE;
@@ -98,7 +99,7 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 	}
 
 	protected void registerInjectorFor(String language) throws Exception {
-		
+
 		Module om = getRuntimeModule(language);
 		// om = override(om).with(getSharedStateModule());
 		// om = override(om).with(getUiModule(language));
@@ -106,7 +107,7 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 		om = override(om).with(new CommonModule());
 		// ... add next module here.
 		injectors.put(language, createInjector(om));
-		
+
 	}
 
 	protected Module getRuntimeModule(String grammar) {

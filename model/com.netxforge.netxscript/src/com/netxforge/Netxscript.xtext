@@ -46,7 +46,7 @@ Block:
 	{Block} '{' statements+=Statement* '}';
 
 Statement:
-	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | ReturnStatement)
+	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | expression=Expression | ReturnStatement)
 	';'
 	| IfStatement | WhileStatement | Block;
 

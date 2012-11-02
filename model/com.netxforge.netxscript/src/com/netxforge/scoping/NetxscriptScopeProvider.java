@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 
+import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxscript.Mod;
 
 /**
@@ -21,17 +22,24 @@ public class NetxscriptScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	@Override
 	public IScope getScope(EObject context, EReference reference) {
-		System.out.println("SCOPING: looking for scope on " + context + " with reference" + reference);
+		
+		if(RuntimeActivator.DEBUG){
+			RuntimeActivator.TRACE.trace(RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION, "looking for scope on: " + context.eClass().getName() + " with reference: " + reference.getName());
+		}
+		
 		return super.getScope(context, reference);
 	}
 	
 	IScope scope_OperatorRef_function(final EObject context, EReference reference){
-		System.out.println("SCOPING: custom scoping called, for scope_OperatorRef_function");
+		if(RuntimeActivator.DEBUG){
+			RuntimeActivator.TRACE.trace(RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION, "custom scoping called, for scope_OperatorRef_function");
+		}
 		return null;
 	}
 	
 	
 	/*
+	 * We need the current interpreter context, to narrow down the scope. 
 	 * NetxscriptPackage.Literals.RESOURCE_REF__RESOURCE
 	 */
 	IScope scope_ResourceRef_resource(final EObject context, EReference reference){
@@ -40,9 +48,9 @@ public class NetxscriptScopeProvider extends AbstractDeclarativeScopeProvider {
 			((Mod)context).getStatements();
 		}
 		
-		
-		System.out.println("SCOPING: custom scoping called for scope_ResourceRef_resource with context type=" + context.eClass().getName() );
-//		System.out.println("SCOPING: parent = " + context.eContainer().eClass().getName() );
+		if(RuntimeActivator.DEBUG){
+			RuntimeActivator.TRACE.trace(RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION, "custom scoping called for scope_ResourceRef_resource");
+		}
 		return null;
 	}
 	
