@@ -17,9 +17,6 @@ git remote rm origin => Remove the origin which is set when cloning
 git remote show origin => Show information about a remote. 
 
 
-Setting up a clean GIT project. 
-===============================
-
 
 
 
