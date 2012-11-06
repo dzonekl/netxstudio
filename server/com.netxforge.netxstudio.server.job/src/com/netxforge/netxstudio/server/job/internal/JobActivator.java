@@ -26,6 +26,14 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 	private static JobActivator INSTANCE;
 
 	private static final String PLUGIN_ID = "com.netxforge.netxstudio.server.job";
+	
+
+	// fields to cache the debug flags
+	public static boolean DEBUG = false;
+	public static DebugTrace TRACE = null;
+
+	// Tracing for jobs. 
+	public static String TRACE_JOBS_OPTION = "/trace.jobs";
 
 	public static BundleContext getContext() {
 		return context;
@@ -79,10 +87,6 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 	public Injector getInjector() {
 		return injector;
 	}
-
-	// fields to cache the debug flags
-	public static boolean DEBUG = false;
-	public static DebugTrace TRACE = null;
 
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);

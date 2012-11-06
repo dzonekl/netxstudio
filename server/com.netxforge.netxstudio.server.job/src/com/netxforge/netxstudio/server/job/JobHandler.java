@@ -534,7 +534,9 @@ public class JobHandler {
 			// clear the scheduler.
 
 		} catch (final Exception e) {
-			e.printStackTrace(System.err);
+			if(JobActivator.DEBUG){
+				JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION, "Error initializing", e);
+			}
 		}
 
 		// now initialize quartz jobs, iterating through all available jobs.
@@ -587,8 +589,9 @@ public class JobHandler {
 				scheduler.scheduleJob(jobDetail, newTrigger);
 
 			} catch (final Exception e) {
-				// TODO do some form of logging but don't stop everything
-				e.printStackTrace(System.err);
+				if(JobActivator.DEBUG){
+					JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION, "Error initializing", e);
+				}
 			}
 		}
 
