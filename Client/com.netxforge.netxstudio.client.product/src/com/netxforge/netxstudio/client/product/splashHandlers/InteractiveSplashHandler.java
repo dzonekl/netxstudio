@@ -191,7 +191,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 					}
 				}
 
-				IDataService dataService = new DataProviderHelper()
+				IDataService dataService = new InjectionHelper()
 						.getDataService();
 				dataService.getProvider().openSession(username, password,
 						server, true);
