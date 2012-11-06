@@ -37,27 +37,11 @@
   <rm:searchPath name="eclipse-org">
     <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" mutable="false">
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://ftp.halifax.rwth-aachen.de/eclipse/eclipse/updates/3.7milestones/"/>
+      <rm:uri format="http://download.eclipse.org/modeling/emf/updates/releases/"/>
     </rm:provider>
-    <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
+    <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" mutable="false">
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://ftp.halifax.rwth-aachen.de/eclipse/releases/indigo/201105060900/"/>
-    </rm:provider>
-    <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://ftp.halifax.rwth-aachen.de/eclipse/tools/orbit/downloads/drops/R20100519200754/repository/"/>
-    </rm:provider>
-    <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://ftp.halifax.rwth-aachen.de/eclipse/modeling/tmf/updates/milestones/"/>
-    </rm:provider>
-    <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://download.eclipse.org/modeling/emf/cdo/updates/4.0-integration"/>
+      <rm:uri format="http://download.eclipse.org/modeling/emf/cdo/updates/releases/4.0"/>
     </rm:provider>
   </rm:searchPath>
 </rm:rmap>
