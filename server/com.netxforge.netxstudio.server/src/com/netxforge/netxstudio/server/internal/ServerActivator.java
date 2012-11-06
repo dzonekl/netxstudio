@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.server.internal;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Locale;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IPath;
@@ -34,6 +35,8 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
+import com.netxforge.netxstudio.common.properties.PropertiesUtil;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.ServerUtils;
 
@@ -45,7 +48,9 @@ import com.netxforge.netxstudio.server.ServerUtils;
  * @author Christophe
  * 
  */
-public class ServerActivator implements BundleActivator, DebugOptionsListener {
+public class ServerActivator implements BundleActivator, DebugOptionsListener, IPropertiesProvider {
+
+	private static final String NETXSERVER_PROPERTIES_FILE_NAME = "netxserver.properties";
 
 	private static BundleContext context;
 
@@ -54,8 +59,16 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener {
 	private static final String PLUGIN_ID = "com.netxforge.netxstudio.server";
 	private static final String DEBUG_OPTION = "/debug";
 	
+	 
+	public static final String NETXSTUDIO_MAX_JOBRUNS_QUANTITY = "netxstudio.max.jobruns.quantity"; // How many job runs to keep.
+	 
+	
+	public static final int NETXSTUDIO_MAX_JOBRUNS_QUANTITY_DEFAULT = 20; // How many job runs to keep.
+	
+	
 	// public tracing options.
-	public static final String TRACE_CDO_OPTION = "/trace.cdo";
+	public static final String TRACE_SERVER_CDO_OPTION = "/trace.server.cdo";
+	public static final String TRACE_SERVER_COMMIT_INFO_CDO_OPTION = "/trace.server.commitinfo";
 
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
@@ -76,8 +89,9 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener {
 
 	private Injector injector;
 
-	@SuppressWarnings("unused")
 	private String workspaceLocation;
+
+	private Properties properties;
 
 	/*
 	 * (non-Javadoc)
@@ -105,7 +119,7 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener {
 		
 		// Get the workspace location property
 		workspaceLocation  = System.getProperty("osgi.instance.area");
-		
+		System.out.println("Workspace location " + workspaceLocation);
 		
 		Location instanceLocation = Platform.getInstanceLocation();
 		System.out.println("Instance location " + instanceLocation.getURL().toExternalForm());
@@ -127,6 +141,19 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener {
         logger.warn("Warning starting");
         logger.error("Error starting");
         logger.debug("Debug starting");
+        
+        
+        //Read the server properties
+        PropertiesUtil pu = injector.getInstance(PropertiesUtil.class);
+        pu.readProperties(context.getBundle(), NETXSERVER_PROPERTIES_FILE_NAME, getProperties());
+        
+	}
+
+	public Properties getProperties() {
+		if(properties == null){
+			this.properties = new Properties();
+		}
+		return properties;
 	}
 
 	/*
@@ -138,10 +165,12 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener {
 	public void stop(BundleContext bundleContext) throws Exception {
 		ServerActivator.context = null;
 		ServerUtils.getInstance().deActivate();
+		PropertiesUtil pu = injector.getInstance(PropertiesUtil.class);
+		pu.writeProperties(context.getBundle(), NETXSERVER_PROPERTIES_FILE_NAME, getProperties());
 	}
 
 	public Injector getInjector() {
 		return injector;
 	}
-
+	
 }

@@ -57,15 +57,14 @@ public class ServerCDODataProvider extends CDODataProvider {
 	protected boolean doGetResourceFromOwnTransaction() {
 		return false;
 	}
-	
-	
-	// A cached session for this provider. 
+
+	// A cached session for this provider.
 	private CDOSession session = null;
-	
-	// A cached session for this provider. 
+
+	// A cached session for this provider.
 	private CDOTransaction transaction = null;
-	
-	// A cached view for this provider. 
+
+	// A cached view for this provider.
 	private CDOView view = null;
 
 	/*
@@ -78,9 +77,8 @@ public class ServerCDODataProvider extends CDODataProvider {
 		CDOSession s = super.openSession();
 		if (ServerActivator.DEBUG) {
 			ServerActivator.TRACE.trace(
-					ServerActivator.TRACE_CDO_OPTION,
-					"OPEN session ID=" + s.getSessionID()
-							+ " , Updated last on:"
+					ServerActivator.TRACE_SERVER_CDO_OPTION, "OPEN session ID="
+							+ s.getSessionID() + " , Updated last on:"
 							+ new Date(s.getLastUpdateTime()));
 		}
 
@@ -100,7 +98,7 @@ public class ServerCDODataProvider extends CDODataProvider {
 		if (transaction == null) {
 			transaction = getSession().openTransaction();
 			ServerActivator.TRACE.trace(
-					ServerActivator.TRACE_CDO_OPTION,
+					ServerActivator.TRACE_SERVER_CDO_OPTION,
 					"OPEN transaction ID=" + transaction.getViewID()
 							+ " , Updated last on:"
 							+ new Date(transaction.getLastCommitTime()));
@@ -121,9 +119,8 @@ public class ServerCDODataProvider extends CDODataProvider {
 		if (this.session != null && !this.session.isClosed()) {
 			if (ServerActivator.DEBUG) {
 				ServerActivator.TRACE.trace(
-						ServerActivator.TRACE_CDO_OPTION,
-						"SET a session ID="
-								+ session.getSessionID());
+						ServerActivator.TRACE_SERVER_CDO_OPTION,
+						"SET a session ID=" + session.getSessionID());
 			}
 			this.session.close();
 		}
@@ -134,14 +131,14 @@ public class ServerCDODataProvider extends CDODataProvider {
 	protected void setTransaction(CDOTransaction transaction) {
 		this.transaction = transaction;
 	}
-	
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.data.IDataProvider#closeView()
 	 */
 	public void closeView() {
-		if(this.view != null){
+		if (this.view != null) {
 			this.view.close();
 			view = null;
 		}
@@ -152,9 +149,8 @@ public class ServerCDODataProvider extends CDODataProvider {
 		if (session != null) {
 			if (ServerActivator.DEBUG) {
 				ServerActivator.TRACE.trace(
-						ServerActivator.TRACE_CDO_OPTION,
-						"CLOSING session ID="
-								+ session.getSessionID()
+						ServerActivator.TRACE_SERVER_CDO_OPTION,
+						"CLOSING session ID=" + session.getSessionID()
 								+ " , Updated last on:"
 								+ new Date(session.getLastUpdateTime()));
 				// Thread.dumpStack();
@@ -168,9 +164,8 @@ public class ServerCDODataProvider extends CDODataProvider {
 		if (view == null) {
 			this.view = this.getSession().openView();
 			ServerActivator.TRACE.trace(
-					ServerActivator.TRACE_CDO_OPTION,
-					"OPEN view ID=" + view.getViewID()
-							+ " , Updated last on:"
+					ServerActivator.TRACE_SERVER_CDO_OPTION, "OPEN view ID="
+							+ view.getViewID() + " , Updated last on:"
 							+ new Date(view.getLastUpdateTime()));
 		}
 		return view;
