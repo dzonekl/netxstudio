@@ -110,7 +110,8 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 					t.getMessage(), getMappingPeriodEstimate(),
 					getMappingIntervalEstimate(), getFailedRecords());
 		}
-		getMetricSource().getStatistics().add(mappingStatistic);
+		
+		super.addAndTruncate(mappingStatistic, getMetricSource().getStatistics());
 		getDataProvider().commitTransaction();
 	}
 

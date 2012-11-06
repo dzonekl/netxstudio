@@ -37,6 +37,8 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	// Tracing for DataProvider
 	public static String TRACE_DATA_OPTION = "/trace.data";
 	public static String TRACE_DATA_DETAILS_OPTION = "/trace.data.details";
+		
+	
 	
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);

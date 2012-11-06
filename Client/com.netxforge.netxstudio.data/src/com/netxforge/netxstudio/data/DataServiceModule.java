@@ -20,7 +20,6 @@ package com.netxforge.netxstudio.data;
 
 import com.netxforge.netxstudio.data.test.TestDataProvider;
 
-
 /**
  * Provides access to a data provider. 
  * 

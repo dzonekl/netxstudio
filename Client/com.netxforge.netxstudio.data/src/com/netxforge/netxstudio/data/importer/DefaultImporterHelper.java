@@ -21,6 +21,8 @@ package com.netxforge.netxstudio.data.importer;
 import java.util.Date;
 import java.util.List;
 
+import org.osgi.framework.BundleActivator;
+
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.internal.DataActivator;
@@ -89,8 +91,13 @@ public class DefaultImporterHelper implements IImporterHelper {
 	}
 
 	public boolean cancelled() {
-		// TODO, Cancellation of the manual process is not supported yet. 
 		return false;
 	}
 
+	public BundleActivator getActivator() {
+		return null;
+	}
+
+	public void setActivator(BundleActivator p) {
+	}
 }

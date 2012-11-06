@@ -3,6 +3,8 @@ package com.netxforge.netxstudio.data.importer;
 import java.util.Date;
 import java.util.List;
 
+import org.osgi.framework.BundleActivator;
+
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.ComponentLocator.IdentifierDescriptor;
 import com.netxforge.netxstudio.generics.Value;
@@ -59,6 +61,20 @@ public interface IImporterHelper {
 	 * @return
 	 */
 	public abstract boolean cancelled();
+	
+	
+	/**
+	 * Get Activator.
+	 * @return
+	 */
+	public abstract BundleActivator getActivator();
+	
+	
+	/**
+	 * Set Activator.
+	 * @return
+	 */
+	public abstract void setActivator(BundleActivator p);
 	
 	
 }

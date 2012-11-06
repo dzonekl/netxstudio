@@ -39,12 +39,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.osgi.framework.BundleActivator;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.ComponentLocator.IdentifierDescriptor;
 import com.netxforge.netxstudio.data.internal.DataActivator;
@@ -127,6 +129,25 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	private CDOID cdoID;
 
+	public static final String NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY = "netxstudio.max.mapping.stats.quantity"; // How
+																												// many
+																												// stats
+																												// to
+																												// keep
+																												// per
+																												// metric
+																												// source.
+	public static final int NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY_DEFAULT = 500; // How
+																					// many
+																					// stats
+																					// to
+																					// keep.
+
+	/*
+	 * Maximum number of stats per Metric Source.
+	 */
+	private int maxStats = -1;
+
 	public void process() {
 
 		if (DataActivator.DEBUG) {
@@ -148,9 +169,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				getMappingIntervalEstimate(), null);
 
 		MetricSource src = getMetricSource();
-
-		EList<MappingStatistic> statistics = src.getStatistics();
-		statistics.add(mappingStatistic);
+		addAndTruncate(mappingStatistic, src.getStatistics());
 
 		commitTransactionWithoutClosing();
 
@@ -376,6 +395,70 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	}
 
+	/**
+	 * @param mappingStatistic
+	 * @param statistics
+	 */
+	public void addAndTruncate(final MappingStatistic mappingStatistic,
+			EList<MappingStatistic> statistics) {
+
+		// Lazy init maxStats var.
+		if (maxStats == -1) {
+			boolean storeMaxStats = false;
+			BundleActivator a = helper.getActivator();
+			if (a instanceof IPropertiesProvider) {
+				String property = ((IPropertiesProvider) a).getProperties()
+						.getProperty(NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY);
+				if (property == null) {
+					maxStats = new Integer(
+							NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY_DEFAULT);
+					storeMaxStats = true;
+
+				} else {
+					try {
+						maxStats = new Integer(property);
+					} catch (NumberFormatException nfe) {
+
+						if (DataActivator.DEBUG) {
+							DataActivator.TRACE.trace(
+									DataActivator.TRACE_IMPORT_OPTION,
+									"Error reading property", nfe);
+						}
+
+						maxStats = new Integer(
+								NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY_DEFAULT);
+						storeMaxStats = true;
+					}
+				}
+			}
+
+			if (storeMaxStats) {
+				// Should be saved when the Activator stops!
+				((IPropertiesProvider) a).getProperties().setProperty(
+						NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY,
+						new Integer(maxStats).toString());
+			}
+		}
+
+		statistics.add(0, mappingStatistic);
+
+		// truncate the list, if exceeding max. size.
+		if (statistics.size() > maxStats) {
+
+			List<MappingStatistic> subList = Lists.newArrayList(statistics
+					.subList(0, maxStats));
+			boolean retainAll = statistics.retainAll(subList);
+
+			if (retainAll) {
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_OPTION,
+							"truncing mapping statistics to max " + maxStats);
+				}
+			}
+		}
+	}
+
 	/*
 	 * Commits, but doesn't close the transaction nor the session.
 	 */
@@ -501,8 +584,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			long endTime, int totalRows, String message,
 			DateTimeRange periodEstimate, int intervalEstimate,
 			List<MappingRecord> failedRecords) {
+
 		final MappingStatistic statistic = MetricsFactory.eINSTANCE
 				.createMappingStatistic();
+
 		final DateTimeRange range = GenericsFactory.eINSTANCE
 				.createDateTimeRange();
 		range.setBegin(modelUtils.toXMLDate(new Date(startTime)));
@@ -1304,6 +1389,14 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			throw new java.lang.IllegalStateException(
 					"AbstractMetricValueImporter: Import helper should be set");
 		}
+	}
+
+	public BundleActivator getActivator() {
+		return helper.getActivator();
+	}
+
+	public void setActivator(BundleActivator p) {
+		helper.setActivator(p);
 	}
 
 }
