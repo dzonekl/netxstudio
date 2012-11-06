@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.netxstudio.everything.feature"
+      id="com.netxforge.netxstudio.p2.feature"
       label="All NetXStudio Dependencies"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
