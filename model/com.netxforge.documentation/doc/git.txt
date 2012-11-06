@@ -7,7 +7,31 @@ git rm -r [directory] => unstage a directory, commit it next.
 git log => commit history. 
 git log --stat > stat.log => commit history stats, piped to a log file. 
 
+git filter-branch --index-filter 'git rm --cached --ignore-unmatch Rakefile' \
+  --prune-empty --tag-name-filter cat -- --all
+=> Clears file with name 'Rakefile' from history. 
 
+Examples: 
+
+library27092011_PS.xls
+
+
+Clean up
+========
+
+rm -rf .git/refs/original/
+
+$ git reflog expire --expire=now --all => Garbage expiration time. 
+
+$ git gc --prune=now => Garbage collect.
+
+# Counting objects: 2437, done.
+# Delta compression using up to 4 threads.
+# Compressing objects: 100% (1378/1378), done.
+# Writing objects: 100% (2437/2437), done.
+# Total 2437 (delta 1461), reused 1802 (delta 1048)
+
+$ git gc --aggressive --prune=now
 Remote
 =======
 git remote add origin https://github.com/dzonekl/netxstudio.git => Add to a remote. 
@@ -15,8 +39,6 @@ git push -u origin master => Push the master.  (Takes a while!).
 
 git remote rm origin => Remove the origin which is set when cloning
 git remote show origin => Show information about a remote. 
-
-
 
 
 
