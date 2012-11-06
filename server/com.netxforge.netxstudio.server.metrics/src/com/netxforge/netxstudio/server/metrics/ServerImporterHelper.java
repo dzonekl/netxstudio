@@ -31,6 +31,7 @@ import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.osgi.framework.BundleActivator;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 
@@ -69,26 +70,25 @@ public class ServerImporterHelper implements IImporterHelper {
 	@Inject
 	private ResultProcessor resultProcessor;
 
-		
 	/*
-	 * Keep a reference to our Job Handler. 
+	 * Keep a reference to our Job Handler.
 	 */
-	private JobHandler jobHandler; 
-	
-	
+	private JobHandler jobHandler;
+
 	public ServerImporterHelper() {
 	}
 
 	public void setImporter(AbstractMetricValuesImporter importer) {
 		this.importer = importer;
 	}
-	
-	
-	
+
 	@Inject
 	private ModelUtils modelUtils;
 
 	private CDOResourceFolder netXResourceFolder = null;
+
+	private BundleActivator activator;
+
 
 	public void initializeProviders(ComponentLocator networkElementLocator) {
 		// force that the same dataprovider is used
@@ -349,11 +349,10 @@ public class ServerImporterHelper implements IImporterHelper {
 	public boolean cancelled() {
 		Scheduler scheduler = jobHandler.getScheduler();
 		try {
-			if( scheduler.isInStandbyMode()) {
+			if (scheduler.isInStandbyMode()) {
 				return true;
 			}
 		} catch (SchedulerException e) {
-			// TODO, handler the exception. 
 			return false;
 		}
 		return false;
@@ -365,5 +364,14 @@ public class ServerImporterHelper implements IImporterHelper {
 
 	public void setJobHandler(JobHandler jobHandler) {
 		this.jobHandler = jobHandler;
+	}
+
+	public BundleActivator getActivator() {
+		return activator;
+	}
+
+	public void setActivator(BundleActivator a) {
+		this.activator = a;
+		
 	}
 }

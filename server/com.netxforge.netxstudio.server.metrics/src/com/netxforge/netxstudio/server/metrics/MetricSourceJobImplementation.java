@@ -31,6 +31,7 @@ import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.server.internal.ServerActivator;
 import com.netxforge.netxstudio.server.job.JobHandler;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
@@ -73,9 +74,11 @@ public class MetricSourceJobImplementation extends JobImplementation {
 		}
 
 		importerHelper.setImporter(metricsImporter);
-
+		
 		if (importerHelper instanceof ServerImporterHelper) {
 			ServerImporterHelper sih = (ServerImporterHelper) importerHelper;
+			sih.setActivator(ServerActivator.getInstance());
+			
 			// Get the job service, so we can check the status of the scheduler.
 			ServiceReference<JobHandler> serviceReference = MetricsActivator
 					.getContext().getServiceReference(JobHandler.class);
