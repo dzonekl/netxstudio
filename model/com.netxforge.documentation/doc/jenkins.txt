@@ -7,20 +7,55 @@ Requirements
 ============
 - Jetty 8.1.4
 - Jenkins 1.466
-- Buckminster (Installed by jenkins). 
+- Buckminster jenkins plugin(Installed by jenkins).
+- Buckminster headless. 
 - Buckminster plugins in Eclise IDE. 
-
 
 Installation 
 ============
 
 Step by step on how to setup a build server for NetXStudio. 
-1) Requires Jetty, which will be the webcontainer for jenkins. 
-2) Requires Jenkins, a web application for running jobs. 
+1) Requires Jenkins, a web application for running jobs. 
+2) (Optional) Requires Jetty, which will be the webcontainer for jenkins. 
 3) Requires Buckminster, a headless Eclipse builder.
+
+Jenkins Administration See: https://wiki.jenkins-ci.org/display/JENKINS/Administering+Jenkins
+=======================
+
+4) Install Buckminster. (https://wiki.jenkins-ci.org/display/JENKINS/Buckminster+PlugIn)
+The plugin helps with download and a build.step. 
+
+	4.1) Install the buckminster plugin jenkins-> Configuration, install the plugin. 
+	4.2) Activate buckminster  in jenkins configuration. 
+
+In our case the auto install, isn't working, so
+4.1) Fixing buckminster plugin bugs: 
+http://www.lorenzobettini.it/2012/10/using-buckminster-plugin-in-jenkins/
+
+
+Setting Up GIT in Jenkins
+=========================
+
+1) Enable the plugin, requires restart of plugin: ( https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin)
+
+
+
+
+
+
+
+
+
 
 Releng Setup
 ============
+
+Under user jenkins (su jenkins, cd ~) jobs can exist. Each project will have a jobs/[job name]/.
+2 jobs are defined: 
+
+netxstudio.updatesite
+netxstudio.product
+
 
 We use buckminster to create the build, the buckminster activities are triggered
 from jenkins. 
@@ -36,8 +71,7 @@ and executes a component query on a feature component which includes all sub fea
 - The buckminster script then builds (Our component??). 
 - Finally it "performs" an action on the com.netxforge.netxstudio.updatesite.feature, named site.p2
 
-
-Here is the script: (See  
+Here is the script: 
 
 setpref targetPlatformPath=${WORKSPACE}/netxstudio_target
 import -Dtarget.os=* -Dtarget.ws=* -Dtarget.arch=* ${WORKSPACE}/releng/com.netxforge.netxstudio.everything.feature/site.cquery
@@ -196,22 +230,55 @@ See the buck book Chapter 6.
 
 CSPEC's include the actions which can be performed. 
 
+Setting an RCP app in Buckminster (http://wiki.eclipse.org/Building_an_RCP_application_with_hudson_%28Buckminster%29)
+==================================
 
-Lazy dog installation of Jetty
+
+
+
+Lazy dog installation of Jetty (http://wiki.eclipse.org/Jetty/Starting/Downloads)
 ============================================
 http://docs.codehaus.org/display/JETTY/Jetty+Documentation
-
-
 1) Install jetty. (6.1.22)
 On ubuntu:
 	apt-get install jetty
 	install dir = /etc/jetty
 	config file = jetty.xml	
 2) - Change the port number, to avoid conflict with the netxstudio CDO Server.
-	Start the server => java -jar /usr/share/jetty/start.jar
+URL = http://176.58.103.70:8814/
+	Change to the server directory cd /usr/share/jetty
+	Start the server => java -jar start.jar
  	
 3) deploy on [jetty install]/webapps
-4) create a copy of test.xml from [jetty install]/contexts
+
+
+4) Installing Jenkins (https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+Ubuntu)
+4.1) wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+4.1) OK
+4.2) sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+4.2) 
+4.3) sudo apt-get update
+4.3) 
+Fetched 840kB in 0s (1,023kB/s) 
+Reading package lists... Done
+
+4.4) sudo apt-get install jenkins
+4.4) output
+===========
+
+The following extra packages will be installed:
+  daemon default-jre icedtea-6-jre-cacao icedtea-netx libflac8 libogg0 libpcsclite1 libpulse0 libsndfile1 libvorbis0a libvorbisenc2 openjdk-6-jre openjdk-6-jre-headless openjdk-6-jre-lib ttf-dejavu-extra
+
+- Jenkins will be launched as a daemon up on start. See /etc/init.d/jenkins for more details.
+- The 'jenkins' user is created to run this service.
+- Log file will be placed in /var/log/jenkins/jenkins.log. Check this file if you are troubleshooting Jenkins.
+- /etc/default/jenkins will capture configuration parameters for the launch.
+- By default, Jenkins listen on port 8080. Access this port with your browser to start configuration.
+
+
+Deploy Jenkins in a Jetty Container (Optional, jenkins works without this). https://wiki.jenkins-ci.org/display/JENKINS/Jetty
+===========================================================================
+create a copy of test.xml from [jetty install]/contexts
 replace the WebContext with this: 
 
 <?xml version="1.0"  encoding="ISO-8859-1"?>
@@ -242,15 +309,6 @@ detected.
 	</Get>
 </Configure>
 
-4) The jenkins local files are in ~/.hudson 
-
-Under ~/.hudson jobs can exist. Each project will have a .hudson/[job name]/workspace folder which is where files are stored. 
-
-5) See: https://wiki.jenkins-ci.org/display/JENKINS/Administering+Jenkins
-6) Install Buckminster. 
-	6.1) Install the buckminster plugin jenkins-> Configuration, install the plugin. 
-	6.2) Activate buckminster (3.6) in jenkins configuration. 
-7) Run the build
 
 
 Product dependencies.

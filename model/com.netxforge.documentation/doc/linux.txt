@@ -12,8 +12,14 @@ FILE FIND=> find / -name 'my.cnf'
  ------
  
  APT UPDATE => apt-get update (Update the cache). 
+ APT CACHE => a
+ 
  
  USER ADD => sudo adduser username
  USER PASS STATUS => chage -l capman
  USERS LIST => 
+ 
+ PERM CHANGE OWNER/GROUP => chown jenkins:adm netxstudio.updatesite/ -R (Owner=jenkins, Group=adm). 
+ 
+ 
  

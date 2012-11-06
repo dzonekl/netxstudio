@@ -3,3 +3,13 @@ Authentication
 /authfiles
 
 svn-access.conf => All permissions for SVN. 
+
+
+Currently: 
+
+1st generation
+svn+ssh://jpodder@svn.netxforge.com/home/jpodder/svn/icebreaker
+
+2nd generation
+svn+ssh://jpodder@svn.netxforge.com/home/jpodder/svn/netxstudio
+

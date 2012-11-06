@@ -5,6 +5,7 @@ git status -s -uno => Show the commit status, without non-staged files.
 git commit -a -m "commit message" => Commit all with a message
 git rm -r [directory] => unstage a directory, commit it next. 
 git log => commit history. 
+git log --stat > stat.log => commit history stats, piped to a log file. 
 
 
 Remote
@@ -14,6 +15,13 @@ git push -u origin master => Push the master.  (Takes a while!).
 
 git remote rm origin => Remove the origin which is set when cloning
 git remote show origin => Show information about a remote. 
+
+
+Setting up a clean GIT project. 
+===============================
+
+
+
 
 
 SVN CLONE PROCEDURE
