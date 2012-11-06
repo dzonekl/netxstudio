@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) Nov 2, 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
 import java.io.File;
@@ -3088,6 +3105,13 @@ public class ModelUtils {
 		return truncate(sb.toString());
 	}
 
+	/**
+	 * For each {@link CDOFeatureDelta} in the collection, dump the feature
+	 * delta content to the StringBuffer.
+	 * 
+	 * @param sb
+	 * @param featureDeltas
+	 */
 	public void cdoDumpFeatureDeltas(StringBuilder sb,
 			List<CDOFeatureDelta> featureDeltas) {
 		for (final CDOFeatureDelta featureDelta : featureDeltas) {
@@ -3095,7 +3119,7 @@ public class ModelUtils {
 				final CDOListFeatureDelta list = (CDOListFeatureDelta) featureDelta;
 				cdoDumpFeatureDeltas(sb, list.getListChanges());
 			} else {
-				cdoDumpFeature(sb, featureDelta.getFeature(), featureDelta);
+				cdoDumpFeature(sb, featureDelta);
 			}
 		}
 	}
@@ -3106,10 +3130,9 @@ public class ModelUtils {
 		sb.append(feature.getName() + " = " + value);
 	}
 
-	public void cdoDumpFeature(StringBuilder sb, EStructuralFeature feature,
-			CDOFeatureDelta value) {
+	public void cdoDumpFeature(StringBuilder sb, CDOFeatureDelta featureDelta) {
 		addNewLine(sb);
-		sb.append(feature.getName() + " = " + cdoPrintFeatureDelta(value));
+		sb.append(featureDelta.getFeature().getName() + " = " + cdoPrintFeatureDelta(featureDelta));
 	}
 
 	public String cdoPrintFeatureDelta(CDOFeatureDelta delta) {
@@ -3830,17 +3853,15 @@ public class ModelUtils {
 
 	public static class CollectionForObjects<T> {
 
+		@SuppressWarnings("unchecked")
 		public List<T> collectionForObjects(List<EObject> objects) {
 
 			List<T> typedList = Lists.transform(objects,
-					new Function<EObject, T>() {
-
-						@SuppressWarnings("unchecked")
-						public T apply(EObject from) {
+					new Function<Object, T>() {
+						public T apply(Object from) {
 							return (T) from;
 						}
 					});
-
 			return typedList;
 		}
 

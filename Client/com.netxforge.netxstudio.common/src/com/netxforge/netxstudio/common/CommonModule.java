@@ -24,6 +24,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.jca.JCAServiceModule;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.properties.PropertiesUtil;
 
 
 /**
@@ -39,7 +40,7 @@ public class CommonModule extends JCAServiceModule {
 	protected void configure() {
 		super.configure();
 		this.bind(ModelUtils.class).in(Singleton.class);
-		
+		this.bind(PropertiesUtil.class).in(Singleton.class);
 	}
 	
 	@Provides
