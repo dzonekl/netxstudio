@@ -1,10 +1,9 @@
 # Compiled source #
 ###################
 *.class
-
-/bin
 .svn
 
+bin/
 
 # OS generated files #
 ######################
