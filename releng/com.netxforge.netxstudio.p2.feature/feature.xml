@@ -17,11 +17,8 @@
       [Enter License Description here.]
    </license>
 
-   <plugin
-         id="com.netxforge.netxstudio.models"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+   <includes
+         id="com.netxforge.netxstudio.client.product.feature"
+         version="0.0.0"/>
 
 </feature>
