@@ -1,3 +1,10 @@
+Config
+======
+
+git config user.email "dude@dudes.com"
+git config user.name "dude"
+
+
 Commands
 ========
 
