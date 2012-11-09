@@ -162,10 +162,6 @@
          version="0.0.0"/>
 
    <includes
-         id="javax.servlet.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
          id="org.swtchart.artifacts.feature"
          version="0.0.0"/>
 
@@ -219,6 +215,14 @@
 
    <includes
          id="org.postgresql.jdbc.driver.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="javax.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xpand.artifacts.feature"
          version="0.0.0"/>
 
    <plugin
