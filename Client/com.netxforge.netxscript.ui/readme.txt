@@ -1,0 +1,1 @@
+13:53h Made org.eclipse.xtext.builder optional. 
