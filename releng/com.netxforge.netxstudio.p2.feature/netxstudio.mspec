@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8"?><md:mspec xmlns:md="http://www.eclipse.org/buckminster/MetaData-1.0" installLocation="/Users/Christophe/Documents/Projects/NetXStudio/Target/generated/" materializer="p2" conflictResolution="REPLACE" name="com.netxforge.netxstudio.p2.feature:eclipse.feature:1.0.0.qualifier" url="netxstudio.bom"/>

@@ -1,77 +1,225 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
-  <rm:locator pattern="^org\.eclipse(\..+)?" searchPathRef="org.eclipse" failOnError="false"/>
-  <rm:locator pattern="^org\.eclipse\.emf(\..+)?" searchPathRef="org.eclipse.emf" failOnError="false"/>
-  <rm:locator pattern="^org\.eclipse\.xtext(\..+)?" searchPathRef="org.eclipse.xtext" failOnError="false"/>
-  <rm:locator searchPathRef="orbit"/>
-  <rm:locator pattern=".*" searchPathRef="local" failOnError="false"/>
-  <rm:searchPath name="local">
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
-      <rm:uri format="${workspace.root}/Client/{0}">
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
-      <rm:uri format="${workspace.root}/model/{0}">
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
-      <rm:uri format="${workspace.root}/releng/{0}">
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
-      <rm:uri format="${workspace.root}/3rdPartyFeatures/{0}">
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
-      <rm:uri format="${workspace.root}/3rdPartyTemp/{0}">
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
-      <rm:uri format="${workspace.root}/3rdPartyLib/{0}">
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-  </rm:searchPath>
-  <rm:searchPath name="org.eclipse">
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://download.eclipse.org/eclipse/updates/3.7"/>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://download.eclipse.org/tools/gef/updates/releases"/>
-    </rm:provider>
-  </rm:searchPath>
-  <rm:searchPath name="org.eclipse.emf">
-    <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://download.eclipse.org/modeling/emf/updates/releases/"/>
-    </rm:provider>
-    <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" mutable="false">
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://download.eclipse.org/modeling/emf/cdo/updates/releases/4.0"/>
-    </rm:provider>
-  </rm:searchPath>
-  <rm:searchPath name="org.eclipse.xtext">
-    <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://download.eclipse.org/modeling/tmf/updates/"/>
-    </rm:provider>
-  </rm:searchPath>
-  <rm:searchPath name="orbit">
-    <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://download.eclipse.org/tools/orbit/downloads/drops/S20121021123453/orbitBundles-S20121021123453.p2.map"/>
-    </rm:provider>
-  </rm:searchPath>
+<rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0"
+	xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
+
+	<!-- PROPERTIES -->
+	<!-- Choose the platform release version -->
+	<rm:property mutable="true" key="platform.version" value="3.8" />
+
+	<!-- The local projects in the workspace root location -->
+	<rm:property key="projects.location" value="${workspace.root}" />
+
+	<!-- The version for EMF Compare -->
+	<rm:property mutable="true" key="emfcompare.version" value="1.3" />
+
+	<!-- LOCATORS -->
+
+	<!-- resolve from local workspace first, when running in IDE, this is already 
+		done, so no need to specify -->
+	<rm:locator pattern=".*" searchPathRef="local" failOnError="false" />
+
+	<!-- Platform org.eclipse locator -->
+	<rm:locator pattern="^org\.eclipse(\..+)?" searchPathRef="org.eclipse"
+		failOnError="false" />
+
+	<!-- EMF + CDO Locator -->
+	<rm:locator pattern="^org\.eclipse\.emf(\..+)?"
+		searchPathRef="org.eclipse.emf" failOnError="false" />
+
+	<!-- Net4j Locator -->
+	<rm:locator pattern="^org\.eclipse\.net4j(\..+)?"
+		searchPathRef="org.eclipse.emf" failOnError="false" />
+
+	<!-- MWE2 Locator -->
+	<rm:locator pattern="^org\.eclipse\.emf\.mwe2(\..+)?"
+		searchPathRef="emft" failOnError="false" />
+
+	<!-- Xpand Locator -->
+	<rm:locator pattern="^org\.eclipse\.xpand(\..+)?"
+		searchPathRef="m2t" failOnError="false" />
+
+	<!-- Xtend Locator (NOT IMPLEMENTED, No P2 available)-->
+	<!-- Brocken! 
+	<rm:locator pattern="^org\.eclipse\.xtend(\..+)?"
+		searchPathRef="m2t" failOnError="false" />
+	--> 	
+	<!-- Xtext Locator -->
+	<rm:locator pattern="^org\.eclipse\.xtext(\..+)?"
+		searchPathRef="org.eclipse.xtext" failOnError="false" />
+
+	<!-- Orbit Locator -->
+	<rm:locator searchPathRef="orbit" />
+
+
+	<!-- SEARCHPATHS -->
+	<rm:searchPath name="local">
+		<!-- Root of workspace, in case not checked-in to GIT yet, the project 
+			will remain in the root -->
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster"
+			readerType="local">
+			<rm:uri format="{1}/{0}">
+				<bc:propertyRef key="buckminster.component" />
+				<bc:propertyRef key="projects.location" />
+			</rm:uri>
+		</rm:provider>
+		<!-- Client -->
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster"
+			readerType="local">
+			<rm:uri format="{1}/Client/{0}">
+				<bc:propertyRef key="buckminster.component" />
+				<bc:propertyRef key="projects.location" />
+			</rm:uri>
+		</rm:provider>
+
+		<!-- model -->
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster"
+			readerType="local">
+			<rm:uri format="{1}/model/{0}">
+				<bc:propertyRef key="buckminster.component" />
+				<bc:propertyRef key="projects.location" />
+			</rm:uri>
+		</rm:provider>
+
+		<!-- releng -->
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster"
+			readerType="local">
+			<rm:uri format="{1}/releng/{0}">
+				<bc:propertyRef key="buckminster.component" />
+				<bc:propertyRef key="projects.location" />
+			</rm:uri>
+		</rm:provider>
+
+		<!-- 3rdPartyFeatures -->
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster"
+			readerType="local">
+			<rm:uri format="{1}/3rdPartyFeatures/{0}">
+				<bc:propertyRef key="buckminster.component" />
+				<bc:propertyRef key="projects.location" />
+			</rm:uri>
+		</rm:provider>
+
+		<!-- 3rdPartyTemp -->
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster"
+			readerType="local">
+			<rm:uri format="{1}/3rdPartyTemp/{0}">
+				<bc:propertyRef key="buckminster.component" />
+				<bc:propertyRef key="projects.location" />
+			</rm:uri>
+		</rm:provider>
+
+		<!-- 3rdPartyLib -->
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster"
+			readerType="local">
+			<rm:uri format="{1}/3rdPartyLib/{0}">
+				<bc:propertyRef key="buckminster.component" />
+				<bc:propertyRef key="projects.location" />
+			</rm:uri>
+		</rm:provider>
+	</rm:searchPath>
+
+	<rm:searchPath name="org.eclipse">
+
+		<!-- Platform -->
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature"
+			readerType="p2" source="false" mutable="false">
+			<rm:property key="buckminster.source" value="false" />
+			<rm:property key="buckminster.mutable" value="false" />
+			<rm:uri format="http://download.eclipse.org/eclipse/updates/{0}">
+				<bc:propertyRef key="platform.version" />
+			</rm:uri>
+		</rm:provider>
+
+		<!-- GEF/Draw2D -->
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature"
+			readerType="p2" source="false" mutable="false">
+			<rm:property key="buckminster.source" value="false" />
+			<rm:property key="buckminster.mutable" value="false" />
+			<rm:uri format="http://download.eclipse.org/tools/gef/updates/releases" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- EMF Specific (Optional Use, see corresponding locators) Note: Pattern 
+		unclear for EMF URL, This can be appended: "2.9-I-builds" -->
+	<rm:searchPath name="org.eclipse.emf">
+
+		<!-- EMF -->
+		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
+			readerType="p2" source="false" mutable="false">
+			<rm:property key="buckminster.source" value="false" />
+			<rm:property key="buckminster.mutable" value="false" />
+			<rm:uri format="http://download.eclipse.org/modeling/emf/emf/updates/" />
+		</rm:provider>
+
+		<!-- EMF CDO -->
+		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
+			readerType="p2" mutable="false">
+			<rm:property key="buckminster.mutable" value="false" />
+			<rm:uri
+				format="http://download.eclipse.org/modeling/emf/cdo/updates/releases/4.0" />
+		</rm:provider>
+
+		<!-- EMF Compare -->
+		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
+			readerType="p2" mutable="false">
+			<rm:property key="buckminster.mutable" value="false" />
+			<rm:uri
+				format="http://download.eclipse.org/modeling/emf/compare/updates/releases/{0}">
+				<bc:propertyRef key="emfcompare.version" />
+			</rm:uri>
+		</rm:provider>
+	</rm:searchPath>
+	
+	
+	<!-- Itemis Composite which holds. Xtext, Xpand, Xtend, MWE etc...)-->
+	<rm:searchPath name="com.itemis">
+		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
+			readerType="p2" source="false" mutable="false">
+			<rm:property key="buckminster.source" value="false" />
+			<rm:property key="buckminster.mutable" value="false" />
+			<rm:uri format="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/" />
+		</rm:provider>
+	</rm:searchPath>
+	
+	<!-- Xtext -->
+	<rm:searchPath name="org.eclipse.xtext">
+		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
+			readerType="p2" source="false" mutable="false">
+			<rm:property key="buckminster.source" value="false" />
+			<rm:property key="buckminster.mutable" value="false" />
+			<rm:uri format="http://download.eclipse.org/modeling/tmf/updates/" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- M2T (Xpand, Xtend1) -->
+	<rm:searchPath name="m2t">
+		<rm:provider componentTypes="osgi.bundle" readerType="p2"
+			source="false" mutable="false">
+			<rm:property key="buckminster.source" value="false" />
+			<rm:property key="buckminster.mutable" value="false" />
+			<rm:uri
+				format="http://archive.eclipse.org/modeling/m2t/xpand/downloads/drops/1.1.0/R201106070515/repository" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- Orbit -->
+	<rm:searchPath name="orbit">
+		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
+			readerType="p2" source="false" mutable="false">
+			<rm:property key="buckminster.source" value="false" />
+			<rm:property key="buckminster.mutable" value="false" />
+			<rm:uri
+				format="http://download.eclipse.org/tools/orbit/downloads/drops/S20121021123453/repository/" />
+		</rm:provider>
+	</rm:searchPath>
+
+
+	<rm:searchPath name="emft">
+		<rm:provider componentTypes="osgi.bundle" readerType="p2"
+			source="false" mutable="false">
+			<rm:property key="buckminster.source" value="false" />
+			<rm:property key="buckminster.mutable" value="false" />
+			<rm:uri
+				format="http://archive.eclipse.org/modeling/emft/mwe/downloads/drops/2.0.0/R201106070634/emft-mwe-2-Update-2.0.0.zip" />
+		</rm:provider>
+	</rm:searchPath>
 </rm:rmap>
