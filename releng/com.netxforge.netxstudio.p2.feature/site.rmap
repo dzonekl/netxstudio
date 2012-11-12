@@ -4,7 +4,7 @@
 
 	<!-- PROPERTIES -->
 	<!-- Choose the platform release version -->
-	<rm:property mutable="true" key="platform.version" value="3.8" />
+	<rm:property mutable="true" key="platform.version" value="3.7" />
 
 	<!-- The local projects in the workspace root location -->
 	<rm:property key="projects.location" value="${workspace.root}" />
@@ -38,11 +38,11 @@
 	<rm:locator pattern="^org\.eclipse\.xpand(\..+)?"
 		searchPathRef="m2t" failOnError="false" />
 
-	<!-- Xtend Locator (NOT IMPLEMENTED, No P2 available)-->
-	<!-- Brocken! 
+	<!-- Xtend Locator Part of m2t-->
+	<!-- Brocken! --> 
 	<rm:locator pattern="^org\.eclipse\.xtend(\..+)?"
 		searchPathRef="m2t" failOnError="false" />
-	--> 	
+	
 	<!-- Xtext Locator -->
 	<rm:locator pattern="^org\.eclipse\.xtext(\..+)?"
 		searchPathRef="org.eclipse.xtext" failOnError="false" />
