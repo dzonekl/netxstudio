@@ -1,25 +1,12 @@
-XTEXT
-=====
+Xtext Integration
+=================
+
+2.0.0
 
 
-Video: 
+netxscript.ui has optional dependencies on: 
 
-http://vimeo.com/14358869
-
-Two types of actions: 
-- Regular actions -> Use "current" and set it to a feature value, the new "current" becomes the newly created Action. 
-Regular actions, in fact do this in java: 
-current = Multiplication
-AdditionExpression tmp = new AdditionExpression();
-temp.setLeft() = current;
-current = temp;
-
-
-- Simple actions -> Create an instance, start with {}
-
-
-Terminal rules, use value converters. (So if you define an INT, it will make a Type out
-of the literal value (String processed) with a IValueConverterService. Value converters, 
-need to be registered: 
-
+- org.eclipse.xtext.ui.shared
+- org.eclipse.xtext.builder
+- org.eclipse.xtext.common.types.ui
 
