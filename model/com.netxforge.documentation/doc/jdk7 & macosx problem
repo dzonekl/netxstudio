@@ -1,0 +1,21 @@
+With JDK 7 there is a bug exporting plugins from Eclipse > 4.x 
+See https://bugs.eclipse.org/bugs/show_bug.cgi?id=371215
+
+
+This is the error: 
+
+>>>>>>>>>>>
+
+/Users/Christophe/Documents/Spaces/netxstudio/.metadata/.plugins/org.eclipse.pde.core/temp/org.eclipse.pde.container.feature/compile.org.eclipse.pde.container.feature.xml:4: The following error occurred while executing this line:
+/Users/Christophe/Documents/Projects/GIT_netxstudio/3rdPartyLib/org.apache.poi/build.xml:31: /Library/Java/JavaVirtualMachines/jdk1.7.0_07.jdk/Contents/Home/Classes does not exist.
+The following error occurred while executing this line:
+/Users/Christophe/Documents/Projects/GIT_netxstudio/3rdPartyLib/org.apache.poi/build.xml:31: /Library/Java/JavaVirtualMachines/jdk1.7.0_07.jdk/Contents/Home/Classes does not exist.
+
+>>>>>>>>>>>>>>>>
+
+
+To get around: 
+
+/Library/Java/JavaVirtualMachines/jdk1.7[version].jdk/Contents/Home.
+
+
