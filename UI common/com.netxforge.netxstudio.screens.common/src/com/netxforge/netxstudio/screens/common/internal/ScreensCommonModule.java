@@ -3,7 +3,6 @@ package com.netxforge.netxstudio.screens.common.internal;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.screens.common.tables.TableHelper;
-import com.netxforge.netxstudio.screens.common.util.IValidationService;
 import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.common.util.ValidationService;
 

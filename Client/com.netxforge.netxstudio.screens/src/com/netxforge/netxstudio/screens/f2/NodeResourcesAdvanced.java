@@ -60,6 +60,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.databinding.viewers.IViewerObservableList;
 import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
@@ -67,6 +68,7 @@ import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -93,6 +95,7 @@ import org.eclipse.swt.events.DragDetectEvent;
 import org.eclipse.swt.events.DragDetectListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -104,12 +107,11 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.ISaveablePart2;
-import org.eclipse.ui.forms.events.ExpansionAdapter;
-import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -426,19 +428,36 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		Section scnResources = toolkit.createSection(sashVertical,
 				Section.TWISTIE | Section.TITLE_BAR);
 		toolkit.paintBordersFor(scnResources);
+		ToolBarManager createSectionToolbar = this
+				.createSectionToolbar(scnResources);
+
+		ImageDescriptor refreshDescriptor = ResourceManager
+				.getPluginImageDescriptor(
+						"com.netxforge.netxstudio.screens.common",
+						"/icons/full/elcl16/refresh.gif");
+		
+		createSectionToolbar.add(new RefreshDisconnectedResourcesAction("",
+				refreshDescriptor));
+		
+		createSectionToolbar.update(true);
+
 		scnResources.setText("Disconnected Resources");
-		scnResources.addExpansionListener(new ExpansionAdapter() {
-			public void expansionStateChanged(ExpansionEvent e) {
-
-				if (e.getState()) { // expanded when true.
-					List<NetXResource> disconnectedResources = updateDisconnectedResources();
-					if (disconnectedResources != null) {
-						cmpResources.injectData(false, disconnectedResources);
-					}
-				}
-			}
-
-		});
+		
+		
+		// CB http://work.netxforge.com/issues/304
+		// Use a refresh button. 
+//		scnResources.addExpansionListener(new ExpansionAdapter() {
+//			public void expansionStateChanged(ExpansionEvent e) {
+//
+//				if (e.getState()) { // expanded when true.
+//					List<NetXResource> disconnectedResources = updateDisconnectedResources();
+//					if (disconnectedResources != null) {
+//						cmpResources.injectData(false, disconnectedResources);
+//					}
+//				}
+//			}
+//
+//		});
 		cmpResources.configure(screenService);
 		cmpResources.buildUI(scnResources, null);
 		scnResources.setClient(cmpResources.getResourcesComposite());
@@ -1596,6 +1615,31 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	}
 
 	/*
+	 * Refreshs the UI with disconnected resources
+	 */
+	class RefreshDisconnectedResourcesAction extends Action {
+
+		public RefreshDisconnectedResourcesAction(String text) {
+			super(text);
+		}
+
+		public RefreshDisconnectedResourcesAction(String text,
+				ImageDescriptor image) {
+			super(text, image);
+			this.setToolTipText("Refresh disconnected resources");
+		}
+
+		@Override
+		public void run() {
+			List<NetXResource> disconnectedResources = updateDisconnectedResources();
+			if (disconnectedResources != null) {
+				cmpResources.injectData(false, disconnectedResources);
+			}
+		}
+
+	}
+
+	/*
 	 * Syncs the period to the values available for a resources. Shows a dialog
 	 * which allows to select for which range, the period should be synced.
 	 */
@@ -2325,17 +2369,41 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		initDataBindings_();
 
 		// Option to observe all resources, our alternative using a query is ver
-		List<NetXResource> disConnectedNetXResource = this
-				.updateDisconnectedResources();
-		if (disConnectedNetXResource != null)
-			cmpResources.injectData(true, disConnectedNetXResource);
+		// http://work.netxforge.com/issues/304 update.
+		// List<NetXResource> disConnectedNetXResource = this
+		// .updateDisconnectedResources();
+		cmpResources.initDataBindings_();
 
 	}
 
+	/*
+	 * Add a toolbar to the section. (Consider make this generic, nowdays we add
+	 * actions below the section, could win some real-estate here).
+	 */
+	private ToolBarManager createSectionToolbar(Section section) {
+
+		ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
+		ToolBar toolbar = toolBarManager.createControl(section);
+		final Cursor handCursor = new Cursor(Display.getCurrent(),
+				SWT.CURSOR_HAND);
+		toolbar.setCursor(handCursor);
+		// Cursor needs to be explicitly disposed
+		toolbar.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent e) {
+				if ((handCursor != null) && (handCursor.isDisposed() == false)) {
+					handCursor.dispose();
+				}
+			}
+		});
+
+		toolBarManager.update(true);
+		section.setTextClient(toolbar);
+		return toolBarManager;
+	}
+
 	private List<NetXResource> updateDisconnectedResources() {
-		
-		
-		// DO NOT USE A QUERY, TO DB SPECIFIC. 
+
+		// DO NOT USE A QUERY, TO DB SPECIFIC.
 		// final IQueryService queryService = screenService.getEditingService()
 		// .getDataService().getQueryService();
 		// IEditingService editingService = screenService.getEditingService();

@@ -3866,4 +3866,13 @@ public class ModelUtils {
 		}
 
 	}
+	
+	
+	/**
+	 * Let's vommit! 
+	 */
+	public void puke() {
+		System.out.println("Beeeeuuuuuuh........@!");
+		
+	}
 }
