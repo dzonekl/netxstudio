@@ -65,7 +65,6 @@
       <feature id="com.netxforge.netxstudio.common.feature"/>
       <feature id="com.google.artifacts.feature"/>
       <feature id="org.apache.poi.artifacts.feature"/>
-      <feature id="javax.servlet.artifacts.feature"/>
       <feature id="org.mortbay.artifacts.feature"/>
       <feature id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature"/>
       <feature id="org.eclipse.emf.common"/>
@@ -81,6 +80,7 @@
       <feature id="org.eclipse.equinox.jsp.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.postgresql.jdbc.driver.feature" version="1.0.0.qualifier"/>
       <feature id="com.mysql.driver.feature" version="1.0.0.qualifier"/>
+      <feature id="javax.artifacts.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
