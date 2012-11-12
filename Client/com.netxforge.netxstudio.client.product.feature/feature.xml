@@ -178,10 +178,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.xtend.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.emf.cdo.client.artifacts.feature"
          version="0.0.0"/>
 
@@ -219,6 +215,14 @@
 
    <includes
          id="javax.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xtend.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.mwe.artifacts.feature"
          version="0.0.0"/>
 
    <includes
