@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.netxstudio.models.edit.13042011.feature"
+      id="com.netxforge.netxstudio.models.13042011.edit.feature"
       label="NetXStudio Models Edit Feature"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
