@@ -115,6 +115,16 @@
 				<bc:propertyRef key="projects.location" />
 			</rm:uri>
 		</rm:provider>
+		
+		
+		<!-- UI Commin -->
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster"
+			readerType="local">
+			<rm:uri format="{1}/UI common/{0}">
+				<bc:propertyRef key="buckminster.component" />
+				<bc:propertyRef key="projects.location" />
+			</rm:uri>
+		</rm:provider>
 	</rm:searchPath>
 
 	<rm:searchPath name="org.eclipse">
