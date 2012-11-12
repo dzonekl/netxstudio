@@ -76,11 +76,11 @@
       <feature id="org.eclipse.xtext.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.quartz.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.apache.artifacts.server.feature" version="1.0.0.qualifier"/>
-      <feature id="oracle.jdbc.driver" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.equinox.jsp.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.postgresql.jdbc.driver.feature" version="1.0.0.qualifier"/>
       <feature id="com.mysql.driver.feature" version="1.0.0.qualifier"/>
       <feature id="javax.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="oracle.jdbc.driver.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
