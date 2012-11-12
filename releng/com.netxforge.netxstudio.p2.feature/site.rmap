@@ -29,11 +29,11 @@
 	<!-- Net4j Locator -->
 	<rm:locator pattern="^org\.eclipse\.net4j(\..+)?"
 		searchPathRef="org.eclipse.emf" failOnError="false" />
-
-	<!-- MWE2 Locator -->
-	<rm:locator pattern="^org\.eclipse\.emf\.mwe2(\..+)?"
+	
+	<!-- MWE/MWE2 Locator -->
+	<rm:locator pattern="^org\.eclipse\.emf\.mwe(\d)?(\..+)?"
 		searchPathRef="emft" failOnError="false" />
-
+	
 	<!-- Xpand Locator -->
 	<rm:locator pattern="^org\.eclipse\.xpand(\..+)?"
 		searchPathRef="m2t" failOnError="false" />
@@ -221,7 +221,6 @@
 				format="http://download.eclipse.org/tools/orbit/downloads/drops/S20121021123453/repository/" />
 		</rm:provider>
 	</rm:searchPath>
-
 
 	<rm:searchPath name="emft">
 		<rm:provider componentTypes="osgi.bundle" readerType="p2"
