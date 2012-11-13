@@ -87,7 +87,7 @@ public class ServerUtils {
 	private static ServerUtils instance = new ServerUtils();
 
 	@Inject
-	private NetxForgeCommitInfoHandler commitInfoHandler;
+	private CommitInfoHandler commitInfoHandler;
 
 	public static ServerUtils getInstance() {
 		return instance;

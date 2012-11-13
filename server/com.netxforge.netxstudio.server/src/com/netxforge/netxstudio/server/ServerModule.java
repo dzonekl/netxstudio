@@ -52,6 +52,6 @@ public class ServerModule extends AbstractModule {
 		this.bind(ICDOConnection.class).annotatedWith(Server.class).to(ServerCDOConnection.class);
 		this.bind(IDataProvider.class).annotatedWith(Server.class).to(ServerCDODataProvider.class);
 		this.bind(ServerInitializer.class);
-		this.bind(NetxForgeCommitInfoHandler.class);
+		this.bind(CommitInfoHandler.class);
 	}
 }
