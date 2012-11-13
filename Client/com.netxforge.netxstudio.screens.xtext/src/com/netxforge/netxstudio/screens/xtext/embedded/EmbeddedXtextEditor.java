@@ -304,6 +304,9 @@ public class EmbeddedXtextEditor {
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		control.setLayoutData(data);
 
+		
+		// Let our screen framework deal with actions, so we can attach the Retargtable Actions. 
+		
 		createActions();
 
 		MenuManager manager = new MenuManager(null, null);
@@ -596,10 +599,10 @@ public class EmbeddedXtextEditor {
 	public void update(String text) {
 		IDocument document = fSourceViewer.getDocument();
 
-		fSourceViewer.setRedraw(false);
+//		fSourceViewer.setRedraw(false);
 		document.set(text);
-		fSourceViewer.setVisibleRegion(0, text.length());
-		fSourceViewer.setRedraw(true);
+//		fSourceViewer.setVisibleRegion(0, text.length());
+//		fSourceViewer.setRedraw(true);
 	}
 
 	/**
@@ -903,7 +906,7 @@ public class EmbeddedXtextEditor {
 	 * Source viewer focus listener that activates/deactivates action handlers
 	 * on focus state change.
 	 * 
-	 * @author Mikaël Barbero
+	 * @author Mika��l Barbero
 	 * 
 	 */
 	private final class SourceViewerFocusListener implements FocusListener {
