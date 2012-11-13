@@ -1,39 +1,42 @@
 # NetXStudio Server tracing options 
 # Enables debugging and/or tracing for server side services. 
 com.netxforge.netxstudio.server/debug=true
-com.netxforge.netxstudio.server.metrics/debug=true
-com.netxforge.netxstudio.server.logic/debug=true
+com.netxforge.netxstudio.server.metrics/debug=false
+com.netxforge.netxstudio.server.logic/debug=false
+com.netxforge.netxstudio.common/debug=true
+com.netxforge.netxstudio.data/debug=false
 
 # Enable debugging for CDO plugins
 org.eclipse.net4j.util/debug=false
 org.eclipse.emf.cdo/debug=false
 org.eclipse.emf.cdo/debug.session=false
-org.eclipse.emf.cdo.server.db/debug=true
+org.eclipse.emf.cdo.server.db/debug=false
 
-# Generic trace option, TODO do not use a generic, make it per plugin. 
-com.netxforge.netxstudio.server/trace.cdo=true
+# Data trace options.
+com.netxforge.netxstudio.data/trace.import=true
+com.netxforge.netxstudio.data/trace.import.details=true
+com.netxforge.netxstudio.data/trace.import.locator=true
+com.netxforge.netxstudio.data/trace.import.helper=true
 
-# Metrics Job trace option. 
+# Common trace options
+com.netxforge.netxstudio.common/trace.utils=true
+com.netxforge.netxstudio.common/trace.common.properties=true
+
+# Server trace options
+com.netxforge.netxstudio.server/trace.server.commitinfo=true
+com.netxforge.netxstudio.server/trace.server.cdo=true 
+
+# Metrics Job trace options. 
 com.netxforge.netxstudio.server.metrics/trace.import=true
 
-# Data facilities
-com.netxforge.netxstudio.data/debug=true
-com.netxforge.netxstudio.data/trace.import=false
-com.netxforge.netxstudio.data/trace.import.details=false
-com.netxforge.netxstudio.data/trace.import.locator=false
-com.netxforge.netxstudio.data/trace.import.helper=false
-
-# Logic facilities
+# Logic trace options.
 com.netxforge.netxstudio.server.logic/trace.logic=true
-com.netxforge.netxstudio.server.logic/trace.logic.details=false
+com.netxforge.netxstudio.server.logic/trace.logic.details=true
 
-# Logic facilities reporting
+# Logic reporting options.
 com.netxforge.netxstudio.server.logic/trace.report=true
-com.netxforge.netxstudio.server.logic/trace.report.details=false
+com.netxforge.netxstudio.server.logic/trace.report.details=true
 
-# Logic facilities profiles.
+# Logic profiles options.
 com.netxforge.netxstudio.server.logic/trace.profile=true
-com.netxforge.netxstudio.server.logic/trace.profile.details=false
-
-
-
+com.netxforge.netxstudio.server.logic/trace.profile.details=true
