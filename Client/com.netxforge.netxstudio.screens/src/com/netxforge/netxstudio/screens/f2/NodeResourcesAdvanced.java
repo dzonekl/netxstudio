@@ -435,29 +435,29 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				.getPluginImageDescriptor(
 						"com.netxforge.netxstudio.screens.common",
 						"/icons/full/elcl16/refresh.gif");
-		
+
 		createSectionToolbar.add(new RefreshDisconnectedResourcesAction("",
 				refreshDescriptor));
-		
+
 		createSectionToolbar.update(true);
 
 		scnResources.setText("Disconnected Resources");
-		
-		
+
 		// CB http://work.netxforge.com/issues/304
-		// Use a refresh button. 
-//		scnResources.addExpansionListener(new ExpansionAdapter() {
-//			public void expansionStateChanged(ExpansionEvent e) {
-//
-//				if (e.getState()) { // expanded when true.
-//					List<NetXResource> disconnectedResources = updateDisconnectedResources();
-//					if (disconnectedResources != null) {
-//						cmpResources.injectData(false, disconnectedResources);
-//					}
-//				}
-//			}
-//
-//		});
+		// Use a refresh button.
+		// scnResources.addExpansionListener(new ExpansionAdapter() {
+		// public void expansionStateChanged(ExpansionEvent e) {
+		//
+		// if (e.getState()) { // expanded when true.
+		// List<NetXResource> disconnectedResources =
+		// updateDisconnectedResources();
+		// if (disconnectedResources != null) {
+		// cmpResources.injectData(false, disconnectedResources);
+		// }
+		// }
+		// }
+		//
+		// });
 		cmpResources.configure(screenService);
 		cmpResources.buildUI(scnResources, null);
 		scnResources.setClient(cmpResources.getResourcesComposite());
@@ -1917,7 +1917,10 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			@Override
 			protected List<Object> calculate() {
 				List<Object> result = Lists.newArrayList();
-				resourcesTableViewer.setSelection(null);
+				
+				
+				//  Forces, no selection on the resources tableviewer???
+//				resourcesTableViewer.setSelection(null);
 				for (Object value : observeMultipleComponentSelection) {
 					if (value instanceof Component) {
 						// Should be a filter or else.
@@ -2461,13 +2464,14 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	}
 
 	public Viewer getViewer() {
-		return resourcesTableViewer;
+		return resolveViewerFromWidget(super.currentFocusWidget);
 	}
 
 	@Override
 	public Viewer[] getViewers() {
 		return new Viewer[] { componentsTreeViewer, resourcesTableViewer,
-				cmpValues.getValuesTableViewer(), cmpResources.getViewer() };
+				cmpValues.getValuesTableViewer(), cmpResources.getViewer(),
+				expressionComponent.getXtextEditor().getViewer() };
 	}
 
 	@Override
@@ -2566,6 +2570,28 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		}
 
 		return super.resolveSelectionProviderFromWidget(widget);
+	}
+
+	@Override
+	protected Viewer resolveViewerFromWidget(Object widget) {
+
+		if (widget == null) {
+			return resourcesTableViewer;
+		}
+
+		if (widget == componentsTree) {
+			return componentsTreeViewer;
+		} else if (widget == resourcesTable) {
+			return resourcesTableViewer;
+		} else if (widget == cmpValues.getValuesTableViewer().getTable()) {
+			return cmpValues.getValuesTableViewer();
+		} else if (widget == cmpResources.getViewer().getControl()) {
+			return cmpResources.getViewer();
+		} else if (widget == expressionComponent.getXtextEditor().getViewer()
+				.getTextWidget()) {
+			return expressionComponent.getXtextEditor().getViewer();
+		}
+		return resourcesTableViewer;
 	}
 
 	/*
