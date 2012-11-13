@@ -111,7 +111,7 @@ public class UserActivity extends AbstractScreen implements
 		composite_1.setLayout(gl_composite_1);
 
 		tableViewer = new TableViewer(composite_1, SWT.BORDER | SWT.VIRTUAL
-				| SWT.FULL_SELECTION);
+				| SWT.FULL_SELECTION | SWT.MULTI);
 		tableViewer.setUseHashlookup(true);
 		tableViewer.setComparer(new CDOElementComparer());
 		table = tableViewer.getTable();
@@ -284,7 +284,7 @@ public class UserActivity extends AbstractScreen implements
 	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
 	 */
 	public Viewer getViewer() {
-		return this.getTableViewerWidget();
+		return tableViewer;
 	}
 
 	/*
@@ -294,10 +294,6 @@ public class UserActivity extends AbstractScreen implements
 	 */
 	public boolean isValid() {
 		return true;
-	}
-
-	public TableViewer getTableViewerWidget() {
-		return tableViewer;
 	}
 
 	public Form getScreenForm() {

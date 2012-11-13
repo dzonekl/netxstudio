@@ -43,7 +43,6 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.ActionType;
 import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -55,8 +54,9 @@ import com.netxforge.netxstudio.server.internal.ServerActivator;
  * the database using {@link CommitLogEntry}.
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
-public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
+public class CommitInfoHandler implements CDOCommitInfoHandler {
 
 	@Inject
 	ModelUtils modelUtils;
@@ -66,7 +66,7 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 	 */
 	private int maxCommitEntries = -1;
 
-	public static final int NETXSTUDIO_MAX_COMMIT_INFO_DAYS_DEFAULT = 100; // how
+	public static final int NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY_DEFAULT = 100; // how
 																			// many
 																			// days
 																			// to
@@ -76,7 +76,7 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 																			// for
 																			// a
 																			// user.
-	public static final String NETXSTUDIO_MAX_COMMIT_INFO_DAYS = "netxstudio.max.commit.info.days"; // how
+	public static final String NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY = "netxstudio.max.commit.info.quantity"; // how
 																									// many
 	public synchronized void handleCommitInfo(CDOCommitInfo commitInfo) {
 		// don't do this when the server is initializing
@@ -199,25 +199,30 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 			BundleActivator a = ServerActivator.getInstance();
 			if (a instanceof IPropertiesProvider) {
 				String property = ((IPropertiesProvider) a).getProperties()
-						.getProperty(NETXSTUDIO_MAX_COMMIT_INFO_DAYS);
+						.getProperty(NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY);
+				
 				if (property == null) {
 					maxCommitEntries = new Integer(
-							NETXSTUDIO_MAX_COMMIT_INFO_DAYS_DEFAULT);
+							NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY_DEFAULT);
 					storeMaxCommits = true;
-
 				} else {
+					if (ServerActivator.DEBUG) {
+						ServerActivator.TRACE.trace(
+								ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
+								"found property: " + NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY);
+					}
 					try {
 						maxCommitEntries = new Integer(property);
 					} catch (NumberFormatException nfe) {
 
-						if (DataActivator.DEBUG) {
-							DataActivator.TRACE.trace(
-									DataActivator.TRACE_IMPORT_OPTION,
+						if (ServerActivator.DEBUG) {
+							ServerActivator.TRACE.trace(
+									ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
 									"Error reading property", nfe);
 						}
 
 						maxCommitEntries = new Integer(
-								NETXSTUDIO_MAX_COMMIT_INFO_DAYS_DEFAULT);
+								NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY_DEFAULT);
 						storeMaxCommits = true;
 					}
 				}
@@ -226,7 +231,7 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 			if (storeMaxCommits) {
 				// Should be saved when the Activator stops!
 				((IPropertiesProvider) a).getProperties().setProperty(
-						NETXSTUDIO_MAX_COMMIT_INFO_DAYS,
+						NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY,
 						new Integer(maxCommitEntries).toString());
 			}
 		}
@@ -241,9 +246,9 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 			boolean retainAll = contents.retainAll(subList);
 
 			if (retainAll) {
-				if (DataActivator.DEBUG) {
-					DataActivator.TRACE.trace(
-							DataActivator.TRACE_IMPORT_OPTION,
+				if (ServerActivator.DEBUG) {
+					ServerActivator.TRACE.trace(
+							ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
 							"truncing mapping statistics to max "
 									+ maxCommitEntries);
 				}

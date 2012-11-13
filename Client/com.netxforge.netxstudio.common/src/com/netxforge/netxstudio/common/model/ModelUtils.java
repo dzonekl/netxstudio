@@ -3094,7 +3094,15 @@ public class ModelUtils {
 
 		return sb.toString();
 	}
-
+	
+	
+	/**
+	 * Dump the content of a CDORevision. Iterates through the features of the revision, and 
+	 * gets the value of the object. The String will not exceed a maximum change length. 
+	 * 
+	 * @param revision
+	 * @return
+	 */
 	public String cdoDumpNewObject(InternalCDORevision revision) {
 		final StringBuilder sb = new StringBuilder();
 		for (final EStructuralFeature feature : revision.getClassInfo()
@@ -3150,7 +3158,13 @@ public class ModelUtils {
 			sb.append("\n");
 		}
 	}
-
+	
+	
+	/**
+	 * Truncates a string to the max. length of a change. 
+	 * @param value
+	 * @return
+	 */
 	public String truncate(String value) {
 		if (value.length() >= MAX_CHANGE_LENGTH) {
 			return value.substring(0, MAX_CHANGE_LENGTH);

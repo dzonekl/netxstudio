@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.eclipse.osgi.service.datalocation.Location;
 import org.osgi.framework.Bundle;
 
 import com.netxforge.netxstudio.common.internal.CommonActivator;
@@ -36,6 +37,12 @@ public class PropertiesUtil {
 
 	public static final String NETXSTUDIO_PROPS_COMMENT = "The NetXStudio properties";
 
+	public void readProperties(Location location, String fileName, Properties p) {
+		String filePath = location.getURL().getPath() + fileName;
+		File file = new File(filePath);
+		this.readProperties(file, p);
+	}
+
 	/**
 	 * Read properties p from a Bundle b with a file name fileName.
 	 * 
@@ -44,10 +51,13 @@ public class PropertiesUtil {
 	 * @param p
 	 */
 	public void readProperties(Bundle b, String fileName, Properties p) {
+		File f = b.getDataFile(fileName);
+		readProperties(f, p);
+	}
+
+	public void readProperties(File f, Properties p) {
 
 		try {
-			
-			File f = b.getDataFile(fileName);
 			if (f.exists()) {
 				// Read properties file.
 				p.load(new FileInputStream(f));
@@ -91,8 +101,30 @@ public class PropertiesUtil {
 	 * @param p
 	 */
 	public void writeProperties(Bundle b, String fileName, Properties p) {
-
 		File f = b.getDataFile(fileName);
+		writeProperties(f, p);
+	}
+	
+	
+	/**
+	 * Write the properties to a Location object. 
+	 * 
+	 * @param location
+	 * @param fileName
+	 * @param p
+	 */
+	public void writeProperties(Location location, String fileName, Properties p) {
+		String filePath = location.getURL().getPath() + fileName;
+		File file = new File(filePath);
+		writeProperties(file, p);
+	}
+	
+	/**
+	 * Write the properties to a file. 
+	 * @param f
+	 * @param p
+	 */
+	public void writeProperties(File f, Properties p) {
 
 		try {
 			p.store(new FileOutputStream(f), NETXSTUDIO_PROPS_COMMENT);
