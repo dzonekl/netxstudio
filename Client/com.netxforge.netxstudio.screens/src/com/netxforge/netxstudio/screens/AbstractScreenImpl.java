@@ -89,7 +89,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	@Named("Screens")
 	protected IInjectorProxy injectorProxy;
 
-	private Object currentFocusWidget;
+	protected Object currentFocusWidget;
 
 	public AbstractScreenImpl(Composite parent, int style) {
 		super(parent, style);
@@ -292,19 +292,17 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		// do nothing.
 	}
 
-	// ISelectionProvider - Composition.
+	/**
+	 * Add a selection changed listener to the current selection provider. 
+	 * The current selection provider will be the viewer which has focus for 
+	 * multi viewer screens. 
+	 */
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		ISelectionProvider currentSelectionProvider = this
 				.resolveSelectionProviderFromWidget(currentFocusWidget);
 		if (currentSelectionProvider != null) {
 			currentSelectionProvider.addSelectionChangedListener(listener);
 		}
-
-		// for (Viewer v : this.getViewers()) {
-		// if (v != null) {
-		// v.addSelectionChangedListener(listener);
-		// }
-		// }
 	}
 
 	public ISelection getSelection() {
@@ -314,13 +312,6 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		if (currentSelectionProvider != null) {
 			return currentSelectionProvider.getSelection();
 		}
-
-		// return the selection from the first viewer with focus.
-		// for (Viewer v : this.getViewers()) {
-		// if (v != null && v.getControl().isFocusControl()) {
-		// return v.getSelection();
-		// }
-		// }
 		return StructuredSelection.EMPTY;
 	}
 
@@ -417,7 +408,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 
 	/**
 	 * Clients should override to return custom selection providers based on the
-	 * current focus control. The default implementation returns the active
+	 * current focus control. The default implementation returns the focused
 	 * viewer.
 	 * 
 	 * @param widget
@@ -427,7 +418,21 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 			Object widget) {
 		return this.getViewer();
 	}
-
+	
+	
+	/**
+	 * Clients should override to return custom viewer providers based on the
+	 * current focus control. The default implementation returns the focused
+	 * viewer.
+	 * 
+	 * @param widget
+	 * @return
+	 */
+	protected Viewer resolveViewerFromWidget(
+			Object widget) {
+		return this.getViewer();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

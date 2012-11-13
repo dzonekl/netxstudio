@@ -1,6 +1,5 @@
 package com.netxforge.netxstudio.screens.editing.actions;
 
-import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.CopyAction;
 import org.eclipse.emf.edit.ui.action.CutAction;
@@ -22,8 +21,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
-import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.IScreenProvider;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
  * Views and editors, can register actions on the global action handlers. This
@@ -236,7 +236,7 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 
 	/**
 	 * Registers the global actions on the workbench part. The part must
-	 * implement.
+	 * implement a {@link IEditingDomainProvider}.
 	 * 
 	 * @param part
 	 */
@@ -260,7 +260,9 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 			selectionProvider.addSelectionChangedListener(copyAction);
 			selectionProvider.addSelectionChangedListener(pasteAction);
 		}
-
+		
+		// FIXME No point in updateing the selection when activating, as the selection will be empty. 
+		// there is no screen update yet, so no selection provider, and no selection. 
 		update(activePart);
 	}
 
@@ -275,12 +277,6 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 			IStructuredSelection structuredSelection = selection instanceof IStructuredSelection ? (IStructuredSelection) selection
 					: StructuredSelection.EMPTY;
 
-			// Why not provide the transaction here? 
-			if(part instanceof AbstractScreensViewPart){
-				((AbstractScreensViewPart) part).getEditingService().getDataService().getProvider();
-				
-			}
-		
 			deleteAction.updateSelection(structuredSelection);
 			cutAction.updateSelection(structuredSelection);
 			copyAction.updateSelection(structuredSelection);
@@ -290,14 +286,18 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 			redoAction.update();
 		}
 
-		if (part instanceof IViewerProvider) {
-			Viewer v = ((IViewerProvider) part).getViewer();
-			if (v != null) {
-				assert v instanceof StructuredViewer;
-				selectAllAction.updateViewer((StructuredViewer) v);
+		// Change to IScreenProvider
+		// http://work.netxforge.com/issues/322
+		if (part instanceof IScreenProvider) {
+			IScreen screen = ((IScreenProvider) part).getScreen();
+			// When a part get's activated we get called, but the screen isn't set yet. 
+			if (screen != null) {
+				Viewer viewer = screen.getViewer();
+				if (viewer instanceof StructuredViewer) {
+					selectAllAction.updateViewer((StructuredViewer) viewer);
+				}
 			}
 		}
-
 	}
 
 	public void deactivate() {

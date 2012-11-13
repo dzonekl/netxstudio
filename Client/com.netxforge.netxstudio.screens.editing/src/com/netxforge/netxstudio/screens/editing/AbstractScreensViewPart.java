@@ -76,9 +76,6 @@ import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
  * It is also a SaveablePart2 so it will be participate in the workbench
  * dirty/save cycle. We are an editing domain providers. (Not shared).
  * 
- * 
- * TODO Consider deprecate the IViewerProvider, replace by IScreenProvider.
- * 
  * @author Christophe Bouhier
  */
 public abstract class AbstractScreensViewPart extends ViewPart implements
@@ -202,7 +199,14 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		site.setSelectionProvider(this);
 
 		// FIXME, ACTION handlers should be installed dynamicly,
-		// Note add some static action handlers which are updated by the
+		// 1) Currently action handlers are static per Part
+		// 2) Each viewer in a part gets the same menu. (Actually for each viewer, a menu is created). 
+		// 3) The action bar is initiated statically, so changing the viewer in an IScreen, 
+		// doesn't update the i.e. the ActionBar which holds global actions. 
+		// If we change to a text based viewer, the global actions delete, cut, copy, paste, select-all are EMF Actions to 
+		// deal with StructuredViewer. 
+		
+		// Add some static action handlers which are updated by the
 		// selection
 		// provider of the active part. which is this. We can also add
 		// dynamic action handlers.
@@ -313,13 +317,14 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		}
 		screen.getScreenForm().setText(newTitle);
 	}
-
-	// IPartListner API.
+	
+	/**
+	 * Update the action handler descriptors with the active part.
+	 */
 	public void partActivated(IWorkbenchPart part) {
 		// Register selection listeners.
 		if (part == this) {
 			// Activate our global actions.
-			System.out.println(part.getClass().getSimpleName());
 			this.getActionHandlerDescriptor().setActivePart(part);
 		}
 	}
@@ -588,7 +593,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 * This keeps track of the active content viewer, which may be either one of
 	 * the viewers in the screens.
 	 * 
-	 * @generated
+	 * @deprecated
 	 */
 	protected Viewer currentViewer;
 
@@ -627,23 +632,30 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			screen.addSelectionChangedListener(selectionChangedListener);
 		}
 
-		// Set the editors selection based on the current viewer's
+		// Set the editors selection based on the current screen's
 		// selection.
 		setSelection(screen == null ? StructuredSelection.EMPTY : screen
 				.getSelection());
-
-		// Install a menu on the active viewer.
-
-		for (Viewer v : screen.getViewers()) {
-			// Install a context menu, for all possible viewers, note
-			// all actions will be installed, we don't differentiate which
-			// actions are added to which viewer.
-			if (v instanceof StructuredViewer) {
-				// Don't do that yet, as we have no facility to learn the
-				// existing menu items.
-				augmentContextMenuFor((StructuredViewer) v);
-			}
+		
+		
+		Viewer viewer = screen.getViewer();
+		if (viewer instanceof StructuredViewer) {
+			// Don't do that yet, as we have no facility to learn the
+			// existing menu items.
+			augmentContextMenuFor((StructuredViewer) viewer);
 		}
+		
+		// Install a menu on the active viewers.
+//		for (Viewer v : screen.getViewers()) {
+//			// Install a context menu, for all possible viewers, note
+//			// all actions will be installed, we don't differentiate which
+//			// actions are added to which viewer.
+//			if (v instanceof StructuredViewer) {
+//				// Don't do that yet, as we have no facility to learn the
+//				// existing menu items.
+//				augmentContextMenuFor((StructuredViewer) v);
+//			}
+//		}
 	}
 
 	/**
@@ -700,7 +712,12 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			}
 		}
 	}
-
+	
+	/**
+	 * Get the current viewer. 
+	 * 
+	 * @deprecated
+	 */
 	public Viewer getViewer() {
 		return currentViewer;
 	}

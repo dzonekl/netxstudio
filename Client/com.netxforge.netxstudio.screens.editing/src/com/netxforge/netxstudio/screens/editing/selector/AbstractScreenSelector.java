@@ -152,6 +152,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 			this.setCurrentScreen(screen);
 
 			// Make sure we update the dirty state, when changing screen.
+			// Action handlers will use this to update the current viewer. 
 			firePropertyChange(ISaveablePart2.PROP_DIRTY);
 
 			// restore the state of the screen.
@@ -169,9 +170,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see
 	 * com.netxforge.netxstudio.screens.editing.selector.ScreenChangeListener
 	 * #screenWidgetChanged
@@ -184,9 +183,16 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 					EditingActivator.TRACE_EDITING_DETAILS_OPTION,
 					"Screen widget changed: " + screen.getScreenName());
 		}
-
-		// force an update of the current screen.
+		
+		// force an update of the current screen, in the case of a viewer change, 
+		// this will force the installation of a selection change listener on the current 
+		// active viewer and corresponding provider. 
 		this.setCurrentScreen(screen);
+		
+		// Make sure we update the dirty state, when changing screen.
+		// Action handlers will use this to update the current viewer. 
+		firePropertyChange(ISaveablePart2.PROP_DIRTY);
+
 	}
 
 	/*
