@@ -23,17 +23,13 @@ import java.util.List;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.osgi.framework.BundleActivator;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
@@ -41,7 +37,6 @@ import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.internal.ServerActivator;
 import com.netxforge.netxstudio.server.job.internal.JobActivator;
 
 /**
@@ -53,34 +48,20 @@ public class NetxForgeJob implements org.quartz.Job {
 
 	public static final String JOB_PARAMETER = "job";
 
-	public static final String NETXSTUDIO_MAX_JOBRUNS_QUANTITY = "netxstudio.max.jobruns.quantity"; // How
-	// many
-	// job
-	// runs
-	// to
-	// keep.
-
-	public static final int NETXSTUDIO_MAX_JOBRUNS_QUANTITY_DEFAULT = 20; // How
-	// many
-	// job
-	// runs
-	// to
-	// keep.
-
 	private static List<CDOID> runningJobs = new ArrayList<CDOID>();
 
 	private static synchronized boolean isRunning(CDOID cdoId) {
 		return runningJobs.contains(cdoId);
 	}
-
+	
 	private static synchronized void addRunning(CDOID cdoId) {
 		runningJobs.add(cdoId);
 	}
-
+	
 	private static synchronized void removeRunning(CDOID cdoId) {
 		runningJobs.remove(cdoId);
 	}
-
+	
 	private Job job;
 
 	private ServerWorkFlowRunMonitor runMonitor;
@@ -88,8 +69,6 @@ public class NetxForgeJob implements org.quartz.Job {
 	@Inject
 	@Server
 	private IDataProvider dataProvider;
-
-	private int maxWorkFlowRunsInJobRunContainer = -1;
 
 	public NetxForgeJob() {
 		JobActivator.getInstance().getInjector().injectMembers(this);
@@ -125,94 +104,27 @@ public class NetxForgeJob implements org.quartz.Job {
 	}
 
 	private void createWorkFlowMonitor(JobImplementation jobImplementation) {
-
-		// use Guice provider pattern
+		
+		// use Guice provider pattern 
 		runMonitor = JobActivator.getInstance().getInjector()
 				.getInstance(ServerWorkFlowRunMonitor.class);
 		dataProvider.openSession();
 		dataProvider.getTransaction();
 		final JobRunContainer container = getCreateJobRunContainer(dataProvider
 				.getResource(SchedulingPackage.eINSTANCE.getJobRunContainer()));
-
+		
+		
+		if(container.getWorkFlowRuns().size() > ServerWorkFlowRunMonitor.MAX_WORKFLOW_RUNS){
+			
+		}
+		
 		final WorkFlowRun wfRun = jobImplementation.createWorkFlowRunInstance();
-
-		addAndTruncate(container.getWorkFlowRuns(), wfRun);
-//		container.getWorkFlowRuns().add(wfRun);
+		container.getWorkFlowRuns().add(wfRun);
 
 		dataProvider.commitTransaction();
 		dataProvider.closeSession();
 		runMonitor.setWorkFlowRunId(wfRun.cdoID());
 		runMonitor.setStartRunning();
-	}
-
-	/**
-	 * @param resource
-	 * @param logEntry
-	 */
-	public void addAndTruncate(final EList<WorkFlowRun> contents, WorkFlowRun wfRun) {
-
-		// Lazy init maxStats var.
-		if (maxWorkFlowRunsInJobRunContainer == -1) {
-			boolean storeMaxRuns = false;
-			BundleActivator a = ServerActivator.getInstance();
-			if (a instanceof IPropertiesProvider) {
-				String property = ((IPropertiesProvider) a).getProperties()
-						.getProperty(NETXSTUDIO_MAX_JOBRUNS_QUANTITY);
-
-				if (property == null) {
-					maxWorkFlowRunsInJobRunContainer = new Integer(
-							NETXSTUDIO_MAX_JOBRUNS_QUANTITY_DEFAULT);
-					storeMaxRuns = true;
-				} else {
-					if (JobActivator.DEBUG) {
-						JobActivator.TRACE.trace(
-								JobActivator.TRACE_JOBS_OPTION,
-								"found property: "
-										+ NETXSTUDIO_MAX_JOBRUNS_QUANTITY);
-					}
-					try {
-						maxWorkFlowRunsInJobRunContainer = new Integer(property);
-					} catch (NumberFormatException nfe) {
-
-						if (JobActivator.DEBUG) {
-							JobActivator.TRACE.trace(
-									JobActivator.TRACE_JOBS_OPTION,
-									"Error reading property", nfe);
-						}
-
-						maxWorkFlowRunsInJobRunContainer = new Integer(
-								NETXSTUDIO_MAX_JOBRUNS_QUANTITY_DEFAULT);
-						storeMaxRuns = true;
-					}
-				}
-			}
-
-			if (storeMaxRuns) {
-				// Should be saved when the Activator stops!
-				((IPropertiesProvider) a).getProperties().setProperty(
-						NETXSTUDIO_MAX_JOBRUNS_QUANTITY,
-						new Integer(maxWorkFlowRunsInJobRunContainer)
-								.toString());
-			}
-		}
-
-		contents.add(0, wfRun);
-
-		// truncate the list, if exceeding max. size.
-		if (contents.size() > maxWorkFlowRunsInJobRunContainer) {
-
-			List<WorkFlowRun> subList = Lists.newArrayList(contents.subList(0,
-					maxWorkFlowRunsInJobRunContainer));
-			boolean retainAll = contents.retainAll(subList);
-
-			if (retainAll) {
-				if (JobActivator.DEBUG) {
-					JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION,
-							"truncing workflow runs to max "
-									+ maxWorkFlowRunsInJobRunContainer);
-				}
-			}
-		}
 	}
 
 	private JobRunContainer getCreateJobRunContainer(Resource resource) {

@@ -7,7 +7,6 @@ Bundle-Activator: com.netxforge.netxstudio.server.job.internal.JobActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.core.runtime,
  com.google.inject;bundle-version="2.0.0",
- com.google.collect;bundle-version="1.0.0",
  com.netxforge.netxstudio.server;bundle-version="1.0.0",
  org.quartz;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.emf.cdo.server;bundle-version="4.0.0",
