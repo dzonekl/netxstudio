@@ -60,20 +60,6 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 	private static final String PLUGIN_ID = "com.netxforge.netxstudio.server";
 	private static final String DEBUG_OPTION = "/debug";
 
-	public static final String NETXSTUDIO_MAX_JOBRUNS_QUANTITY = "netxstudio.max.jobruns.quantity"; // How
-																									// many
-																									// job
-																									// runs
-																									// to
-																									// keep.
-
-	public static final int NETXSTUDIO_MAX_JOBRUNS_QUANTITY_DEFAULT = 20; // How
-																			// many
-																			// job
-																			// runs
-																			// to
-																			// keep.
-
 	// public tracing options.
 	public static final String TRACE_SERVER_CDO_OPTION = "/trace.server.cdo";
 	public static final String TRACE_SERVER_COMMIT_INFO_CDO_OPTION = "/trace.server.commitinfo";
@@ -118,6 +104,7 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 				+ currentLocal.getDisplayCountry() + "language = "
 				+ currentLocal.getDisplayLanguage());
 		Locale.setDefault(Locale.UK);
+		
 		currentLocal = Locale.getDefault();
 		System.out.println("NEW Locale: country = "
 				+ currentLocal.getDisplayCountry() + "language = "
