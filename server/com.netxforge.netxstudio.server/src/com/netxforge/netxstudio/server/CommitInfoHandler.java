@@ -249,7 +249,7 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 				if (ServerActivator.DEBUG) {
 					ServerActivator.TRACE.trace(
 							ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
-							"truncing mapping statistics to max "
+							"truncing commit info to max "
 									+ maxCommitEntries);
 				}
 			}
