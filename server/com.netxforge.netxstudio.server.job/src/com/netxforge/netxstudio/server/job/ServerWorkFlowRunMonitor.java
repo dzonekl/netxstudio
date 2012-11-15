@@ -48,18 +48,18 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 	@Inject
 	private ModelUtils modelUtils;
 	
-	/**
-	 * The maximum number of work flow runs in a job run container.
-	 * http://work.netxforge.com/issues/302
-	 */
-	public static final int MAX_WORKFLOW_RUNS = 10;
-	
-	/**
-	 * The manually invoked runs, maximum age in days. (WorkFlowRun objects in the 
-	 * WORKFLOW_RUN object.    
-	 * http://work.netxforge.com/issues/302
-	 */
-	public static final int MAX_MANUAL_WORKFLOW_AGE = 7;
+//	/**
+//	 * The maximum number of work flow runs in a job run container.
+//	 * http://work.netxforge.com/issues/302
+//	 */
+//	public static final int MAX_WORKFLOW_RUNS = 10;
+//	
+//	/**
+//	 * The manually invoked runs, maximum age in days. (WorkFlowRun objects in the 
+//	 * WORKFLOW_RUN object.    
+//	 * http://work.netxforge.com/issues/302
+//	 */
+//	public static final int MAX_MANUAL_WORKFLOW_AGE = 7;
 	
 	@Override
 	public void update() {

@@ -81,6 +81,7 @@
       <feature id="com.mysql.driver.feature" version="1.0.0.qualifier"/>
       <feature id="javax.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="oracle.jdbc.driver.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.patch351068.feature" version="1.0.0"/>
    </features>
 
    <configurations>
