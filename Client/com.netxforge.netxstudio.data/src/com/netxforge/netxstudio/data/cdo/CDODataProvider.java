@@ -28,6 +28,7 @@ import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
 import org.eclipse.emf.cdo.eresource.CDOResourceNode;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.view.CDOInvalidationPolicy;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
@@ -208,11 +209,8 @@ public abstract class CDODataProvider implements IDataProvider {
 
 		// do not load collection objects initially, load 300 objects when
 		// needed.
-
-		// Disable for now. See this bug:
-		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=394076
-		// cdoSession.options().setCollectionLoadingPolicy(
-		// CDOUtil.createCollectionLoadingPolicy(0, 300));
+		cdoSession.options().setCollectionLoadingPolicy(
+				CDOUtil.createCollectionLoadingPolicy(0, 300));
 
 		((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession.options())
 				.setCommitTimeout(COMMIT_TIMEOUT);
