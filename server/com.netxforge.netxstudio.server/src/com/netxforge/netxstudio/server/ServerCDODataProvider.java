@@ -97,11 +97,14 @@ public class ServerCDODataProvider extends CDODataProvider {
 	public CDOTransaction getTransaction() {
 		if (transaction == null) {
 			transaction = getSession().openTransaction();
-			ServerActivator.TRACE.trace(
-					ServerActivator.TRACE_SERVER_CDO_OPTION,
-					"OPEN transaction ID=" + transaction.getViewID()
-							+ " , Updated last on:"
-							+ new Date(transaction.getLastCommitTime()));
+
+			if (ServerActivator.DEBUG) {
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_SERVER_CDO_OPTION,
+						"OPEN transaction ID=" + transaction.getViewID()
+								+ " , Updated last on:"
+								+ new Date(transaction.getLastCommitTime()));
+			}
 		}
 		return transaction;
 	}
@@ -163,10 +166,13 @@ public class ServerCDODataProvider extends CDODataProvider {
 	public CDOView getView() {
 		if (view == null) {
 			this.view = this.getSession().openView();
-			ServerActivator.TRACE.trace(
-					ServerActivator.TRACE_SERVER_CDO_OPTION, "OPEN view ID="
-							+ view.getViewID() + " , Updated last on:"
-							+ new Date(view.getLastUpdateTime()));
+			if (ServerActivator.DEBUG) {
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_SERVER_CDO_OPTION,
+						"OPEN view ID=" + view.getViewID()
+								+ " , Updated last on:"
+								+ new Date(view.getLastUpdateTime()));
+			}
 		}
 		return view;
 	}
