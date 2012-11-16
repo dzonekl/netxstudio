@@ -1,20 +1,56 @@
-# NetXStudio Server tracing options 
+NetXstudio Server tracing options 
 # Enables debugging and/or tracing for server side services. 
-com.netxforge.netxstudio.server/debug=true
+com.netxforge.netxstudio.server/debug=false
 com.netxforge.netxstudio.server.metrics/debug=true
 com.netxforge.netxstudio.server.logic/debug=false
-com.netxforge.netxstudio.server.job/debug=true
+com.netxforge.netxstudio.server.job/debug=false
 
-com.netxforge.netxstudio.common/debug=true
-com.netxforge.netxstudio.data/debug=false
+# Enables debugging for common Appl plugins
+com.netxforge.netxstudio.common/debug=false
+com.netxforge.netxstudio.data/debug=true
 
 # Enable debugging for CDO plugins
 org.eclipse.net4j.util/debug=false
-org.eclipse.emf.cdo/debug=false
+org.eclipse.emf.cdo/debug=true
 org.eclipse.emf.cdo/debug.session=false
-org.eclipse.emf.cdo.server.db/debug=false
 
-# Data trace options.
+org.eclipse.emf.cdo.server.db/debug=true
+
+# CDO Server
+org.eclipse.emf.cdo.server/debug=true
+org.eclipse.emf.cdo.server/debug.repository=true
+org.eclipse.emf.cdo.server/debug.resource=true
+org.eclipse.emf.cdo.server/debug.revision=true
+org.eclipse.emf.cdo.server/debug.session=true
+org.eclipse.emf.cdo.server/debug.store=true
+org.eclipse.emf.cdo.server/debug.protocol=true
+org.eclipse.emf.cdo.server/debug.transaction=true
+org.eclipse.emf.cdo.server/debug.types=true
+
+org.eclipse.emf.cdo.server.net4j/debug=true
+
+# CDO NET4J
+
+org.eclipse.emf.cdo.net4j/debug=true
+org.eclipse.emf.cdo.net4j/debug.protocol=true
+
+# NET4J DB
+org.eclipse.net4j.db/debug=true
+org.eclipse.net4j.db/debug.sql=true
+
+# NET4J
+org.eclipse.net4j/debug=true
+org.eclipse.net4j/debug.acceptor=true
+org.eclipse.net4j/debug.connector=true
+org.eclipse.net4j/debug.channel=true
+org.eclipse.net4j/debug.buffer=true
+org.eclipse.net4j/debug.buffer.stream=false
+
+# NET4J DB.MYSQL
+org.eclipse.net4j.db.mysql/debug=true
+org.eclipse.net4j.db.mysql/debug.sql=true
+
+# Data trace options. (As the importers are in the .data plugin, options as well). 
 com.netxforge.netxstudio.data/trace.import=true
 com.netxforge.netxstudio.data/trace.import.details=true
 com.netxforge.netxstudio.data/trace.import.locator=true
@@ -45,3 +81,4 @@ com.netxforge.netxstudio.server.logic/trace.report.details=true
 # Logic profiles options.
 com.netxforge.netxstudio.server.logic/trace.profile=true
 com.netxforge.netxstudio.server.logic/trace.profile.details=true
+
