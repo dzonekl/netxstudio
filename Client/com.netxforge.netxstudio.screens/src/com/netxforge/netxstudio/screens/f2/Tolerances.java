@@ -23,6 +23,7 @@ import java.util.List;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
@@ -49,9 +50,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
@@ -67,8 +71,10 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
+import com.netxforge.netxstudio.screens.LoadingFactory;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.selector.IScreenII;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 
@@ -76,10 +82,11 @@ import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelPr
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class Tolerances extends AbstractScreen implements IDataServiceInjection {
+public class Tolerances extends AbstractScreen implements IDataServiceInjection, IScreenII {
 
 	private static final String MEM_KEY_TOLERANCE_SELECTION_TABLE = "MEM_KEY_TOLERANCE_SELECTION_TABLE";
 	private static final String MEM_KEY_TOLERANCE_COLUMNS_TABLE = "MEM_KEY_TOLERANCE_COLUMNS_TABLE";
+	protected static final int PAGE_SIZE = 64;
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
 	private Table table;
@@ -109,14 +116,13 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 		toolkit.paintBordersFor(this);
 	}
 
-	private void buildUI(){
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
-		
+
 		// Readonlyness.
-		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation()); 
+		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
-	
-		
+
 		frmTolerances = toolkit.createForm(this);
 		frmTolerances.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmTolerances);
@@ -166,6 +172,7 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 					toleranceScreen.injectData(toleranceResource, tolerance);
 					screenService.setActiveScreen(toleranceScreen);
 				}
+
 				public void linkEntered(HyperlinkEvent e) {
 				}
 
@@ -183,15 +190,33 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 
 		}
 
-		toleranceTblViewer = new TableViewer(frmTolerances.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION | widgetStyle);
+		toleranceTblViewer = new TableViewer(frmTolerances.getBody(),
+				SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION | SWT.VIRTUAL | widgetStyle);
 		toleranceTblViewer.setComparer(new CDOElementComparer());
+		toleranceTblViewer.setUseHashlookup(true);
 		table = toleranceTblViewer.getTable();
+		table.addListener (SWT.SetData, new Listener () {
+			public void handleEvent (Event event) {
+				TableItem item = (TableItem) event.item;
+				int index = table.indexOf (item);
+				int start = index / PAGE_SIZE * PAGE_SIZE;
+				int end = Math.min (start + PAGE_SIZE, table.getItemCount ());
+				System.out.println("SWT.SetData i=" + index + ", s=" + start + ", e=" + end);
+			}
+		});
+
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		toolkit.paintBordersFor(table);
 
+		toleranceTblViewer.addFilter(new SearchFilter(editingService));
+	}
+
+	/**
+	 * 
+	 */
+	public void buildColumns() {
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				toleranceTblViewer, SWT.NONE);
 		TableColumn tblclmnName = tableViewerColumn.getColumn();
@@ -209,14 +234,13 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 		TableColumn tblclmnExpression = tableViewerColumn_2.getColumn();
 		tblclmnExpression.setWidth(250);
 		tblclmnExpression.setText("Expression");
-		toleranceTblViewer.addFilter(new SearchFilter(editingService));
 	}
-	
-	
+
 	/**
-	 * Wrap in an action, to contribute to a menu manager. 
+	 * Wrap in an action, to contribute to a menu manager.
+	 * 
 	 * @author Christophe Bouhier
-	 *
+	 * 
 	 */
 	class EditToleranceAction extends Action {
 
@@ -255,10 +279,46 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
 	 */
 	public void injectData() {
-		toleranceResource = editingService
-				.getData(LibraryPackage.Literals.TOLERANCE);
-		buildUI();
+
+		if(toleranceResource instanceof CDOResource){
+			CDOResource tolResource = (CDOResource) toleranceResource;
+			tolResource.cdoPrefetch(CDORevision.DEPTH_INFINITE);
+		}
+
+		// 3. Bind the data to the UI, which will set the model target content
+		// provider and label provider.
+		// setting the input on the viewer.
+		// clean the input, as this will otherwise be set on the new content
+		// provider.
+		this.toleranceTblViewer.setInput(null);
+		
+		// Now build the columns, after cleaning the input. 
+		buildColumns();
 		bindingContext = initDataBindings_();
+	}
+
+	public boolean initUI() {
+		buildUI();
+		return Boolean.TRUE;
+	}
+
+	public void showPreLoadedUI() {
+		// 1. The Screenform service deals with UI initialization.
+
+				this.toleranceTblViewer.setContentProvider(LoadingFactory
+						.createLoadingContentProvider());
+				this.toleranceTblViewer.setLabelProvider(LoadingFactory
+						.createLoadingLabelProvider());
+
+				// 2. Get the root object, and prefetch infinit.
+				toleranceResource = editingService
+						.getData(LibraryPackage.Literals.TOLERANCE);
+
+				// prefetch this EList with infinite depth.
+				if (toleranceResource instanceof CDOResource) {
+					CDOResource tolResource = (CDOResource) toleranceResource;
+					this.toleranceTblViewer.setInput(tolResource.cdoID().toString());
+				}
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -271,13 +331,14 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 						LibraryPackage.Literals.TOLERANCE__NAME,
 						LibraryPackage.Literals.TOLERANCE__LEVEL,
 						LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF });
-		toleranceTblViewer.setLabelProvider(new ToleranceObservableMapLabelProvider(
-				observeMaps));
+		toleranceTblViewer
+				.setLabelProvider(new ToleranceObservableMapLabelProvider(
+						observeMaps));
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
 		IObservableList toleranceObservableList = l.observe(toleranceResource);
 
-//		obm.addObservable(toleranceObservableList);
+		// obm.addObservable(toleranceObservableList);
 		toleranceTblViewer.setInput(toleranceObservableList);
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
@@ -307,22 +368,23 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();
-	
+
 	@Override
-	public IAction[] getActions(){
-		if(actions.isEmpty()){
-			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View" : "Edit";
+	public IAction[] getActions() {
+		if (actions.isEmpty()) {
+			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
+					: "Edit";
 			actions.add(new EditToleranceAction(actionText + "..."));
 		}
-		 
+
 		return actions.toArray(new IAction[actions.size()]);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Tolerances";
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -350,12 +412,13 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 	@Override
 	public void restoreState(IMemento memento) {
 
-		mementoUtils.retrieveStructuredViewerSelection(memento,
-				toleranceTblViewer, MEM_KEY_TOLERANCE_SELECTION_TABLE,
-				((CDOResource) toleranceResource).cdoView());
-		mementoUtils.retrieveStructuredViewerColumns(memento,
-				toleranceTblViewer, MEM_KEY_TOLERANCE_COLUMNS_TABLE);
+		if (toleranceResource != null) {
+			mementoUtils.retrieveStructuredViewerSelection(memento,
+					toleranceTblViewer, MEM_KEY_TOLERANCE_SELECTION_TABLE,
+					((CDOResource) toleranceResource).cdoView());
+			mementoUtils.retrieveStructuredViewerColumns(memento,
+					toleranceTblViewer, MEM_KEY_TOLERANCE_COLUMNS_TABLE);
+		}
 	}
-	
 
 }

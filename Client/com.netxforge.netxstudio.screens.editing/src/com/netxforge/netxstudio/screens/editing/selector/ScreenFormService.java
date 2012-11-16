@@ -165,15 +165,17 @@ public class ScreenFormService implements IScreenFormService {
 				System.out.println("bug widget disposed" + e.getMessage());
 			} else {
 				e.printStackTrace();
+				
 			}
 
 		}
 
 		this.updateScreenBarActions(activeScreen);
 		screenBody.setScreenBarOn();
-
+		
 		// All our screens must implement IScreen.
 		fireScreenChanged((IScreen) activeScreen);
+
 	}
 
 	private void popScreen() {
@@ -291,8 +293,8 @@ public class ScreenFormService implements IScreenFormService {
 
 			// Experimental, move instantiation of screen to guice, to avoid
 			// .injectMembers in Screen classes.
-//			Object instance = EditingActivator.getDefault().getInjector()
-//					.getInstance(screen);
+			// Object instance = EditingActivator.getDefault().getInjector()
+			// .getInstance(screen);
 
 			// We look for a constructor supporting the selector service.
 			// Screens, will be able to use the selector to place themselves on
@@ -337,7 +339,7 @@ public class ScreenFormService implements IScreenFormService {
 				operation = ScreenUtil.OPERATION_READ_ONLY;
 			}
 
-//			editingService.getDataService().getProvider().commitTransaction();
+			// editingService.getDataService().getProvider().commitTransaction();
 
 			// editingService.getDataService().getQueryService().close();
 
@@ -350,6 +352,7 @@ public class ScreenFormService implements IScreenFormService {
 
 			lnk.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
+
 					doSetScreen(finalScreen, finalScreenConstructor,
 							finalOperation);
 				}
@@ -401,29 +404,58 @@ public class ScreenFormService implements IScreenFormService {
 
 		obm = new ObservablesManager();
 		obm.runAndCollect(new Runnable() {
+
 			public void run() {
-				// We are a new screen, instantiate and set active.
+
 				try {
-
-					IScreen target = (IScreen) finalScreenConstructor
+					final IScreen target = (IScreen) finalScreenConstructor
 							.newInstance(getScreenContainer(), SWT.NONE);
-					((IScreen) target).setOperation(finalOperation);
-					((IScreen) target).setScreenService(ScreenFormService.this);
+					target.setOperation(finalOperation);
+					target.setScreenService(ScreenFormService.this);
 
-					if (target instanceof IDataServiceInjection) {
-						((IDataServiceInjection) target).injectData();
+					// Clients supporting IScreenII will have
+					// succesfully initialized the UI,
+					// and can be safely activated first, prior to loading
+					// data.
+					// Activation will fire screen changed, and kinds of UI
+					// stuff, so we need a properly initiated
+					// screen UI first.
+
+					// Note: Restoring the screen state which might depend
+					// on the model being injected will fail.
+
+					if (target instanceof IScreenII) {
+						// We are a new screen, instantiate and set active.
+						((IScreenII) target).initUI();
+						doSetActiveScreen(target);
+						((IScreenII) target).showPreLoadedUI();
+
+						Display.getCurrent().asyncExec(new Runnable() {
+
+							public void run() {
+								if (target instanceof IDataServiceInjection) {
+									((IDataServiceInjection) target)
+											.injectData();
+								}
+							}
+
+						});
+
+					} else {
+						if (target instanceof IDataServiceInjection) {
+							((IDataServiceInjection) target).injectData();
+						}
+						doSetActiveScreen(target);
+
 					}
-
-					doSetActiveScreen(target);
-
-				} catch (IllegalArgumentException e1) {
-					e1.printStackTrace();
-				} catch (InstantiationException e1) {
-					e1.printStackTrace();
-				} catch (IllegalAccessException e1) {
-					e1.printStackTrace();
-				} catch (InvocationTargetException e1) {
-					e1.printStackTrace();
+				} catch (InstantiationException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
 				}
 			}
 		});

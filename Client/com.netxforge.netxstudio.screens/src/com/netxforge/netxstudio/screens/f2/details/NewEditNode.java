@@ -64,11 +64,10 @@ import com.netxforge.netxstudio.screens.dialog.NodeTypeFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class NewEditNode extends AbstractDetailsScreen implements IScreen,
+public class NewEditNode extends AbstractDetailsScreen implements
 		IDataScreenInjection {
 
 	private Node node;

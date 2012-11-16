@@ -18,8 +18,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
-public class NewEditEquipment extends NewEditComponent implements
-		IScreen {
+public class NewEditEquipment extends NewEditComponent {
 
 	private Text txtDescription;
 	private Text txtCode;

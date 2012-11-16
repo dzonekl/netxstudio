@@ -15,10 +15,9 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
-public class NewEditFunction extends NewEditComponent implements IScreen {
+public class NewEditFunction extends NewEditComponent {
 
 	private Text txtName;
 	private Text txtDescription;

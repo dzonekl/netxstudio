@@ -29,11 +29,10 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.NodeTypeHierarchy;
 
-public class NewEditNodeType extends AbstractDetailsScreen implements IScreen,
+public class NewEditNodeType extends AbstractDetailsScreen implements
 		IDataScreenInjection {
 
 	private NodeType nodeType;
@@ -167,7 +166,7 @@ public class NewEditNodeType extends AbstractDetailsScreen implements IScreen,
 
 		toolkit.paintBordersFor(sctnHierachy);
 		sctnHierachy.setText("Structure");
-//		sctnHierachy.setExpanded(false);
+		// sctnHierachy.setExpanded(false);
 
 		cmpHierachy = new Composite(sctnHierachy, SWT.NONE);
 		toolkit.adapt(cmpHierachy);
