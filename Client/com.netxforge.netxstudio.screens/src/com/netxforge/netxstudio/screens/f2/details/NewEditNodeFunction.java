@@ -27,9 +27,8 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
-public class NewEditNodeFunction extends AbstractNewEditComponent implements IScreen {
+public class NewEditNodeFunction extends AbstractNewEditComponent {
 
 	private Text txtName;
 	private Text txtDescription;
@@ -204,11 +203,11 @@ public class NewEditNodeFunction extends AbstractNewEditComponent implements ISc
 		bindLifeCycle(context);
 		bindInfoSection(context);
 		bindLinkSection(context);
-		if(!readOnly){
+		if (!readOnly) {
 			validationService.registerBindingContext(context);
 			validationService.addValidationListener(this);
 		}
-		
+
 		return context;
 	}
 

@@ -79,9 +79,9 @@ public class ServerUtils {
 
 	// Debugging on.
 	static {
-		OMPlatform.INSTANCE.setDebugging(true);
 		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
 		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
+		OMPlatform.INSTANCE.setDebugging(true);
 	}
 
 	private static ServerUtils instance = new ServerUtils();

@@ -291,7 +291,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	public void injectData(Object owner, Object object) {
 		// do nothing.
 	}
-
+	
 	/**
 	 * Add a selection changed listener to the current selection provider. 
 	 * The current selection provider will be the viewer which has focus for 
