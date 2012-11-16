@@ -85,7 +85,11 @@ public class CDODataConnection implements ICDOConnection {
 				server);
 		// Create configuration
 		sessionConfiguration = CDONet4jUtil.createSessionConfiguration();
-		sessionConfiguration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
+		
+		// Caching disabled. 
+		// CB Enabled client caching. 15-11-2012
+//		sessionConfiguration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
+		
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 		
