@@ -75,6 +75,16 @@
    
    <extension
          point="org.eclipse.ui.menus">
+         <menuContribution
+            locationURI="toolbar:org.eclipse.ui.trim.status">
+         <toolbar
+               id="com.netxforge.netxstudio.statustoolbar">
+            <control
+                  class="com.netxforge.netxstudio.ui.Clock"
+                  id="com.netxforge.netxstudio.clock">
+            </control>
+         </toolbar>
+      </menuContribution>
 <!-- Custom entry into the main menu.           
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu?after=edit">

@@ -17,15 +17,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.ui;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jface.action.ActionContributionItem;
-import org.eclipse.jface.action.ContributionItem;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.ICoolBarManager;
@@ -36,10 +29,6 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarContributionItem;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
@@ -134,61 +123,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 //		ToolBarContributionItem tbci = new ToolBarContributionItem(
 //				clockToolBar, IWorkbenchActionConstants.TOOLBAR_FILE);
 		
-		statusLine.add(new Clock("statusline_clock"));
+//		statusLine.add(new Clock("statusline_clock"));
 		super.fillStatusLine(statusLine);
-	}
-
-	/*
-	 * A clock wrapped in a contribution item. Can be placed on status line or
-	 * coolbar.
-	 */
-	public class Clock extends ContributionItem {
-
-		private CLabel label;
-
-		public Clock(String ID) {
-			super(ID);
-
-			final IActionBarConfigurer abc = getActionBarConfigurer();
-
-			final SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
-
-			ScheduledExecutorService exec = Executors
-					.newSingleThreadScheduledExecutor();
-
-			exec.scheduleAtFixedRate(new Runnable() {
-				public void run() {
-
-					abc.getWindowConfigurer().getWindow().getShell()
-							.getDisplay().asyncExec(new Runnable() {
-
-								public void run() {
-									String format = df.format(new Date(System
-											.currentTimeMillis()));
-									label.setText(format);
-									label.pack();
-								}
-							});
-				}
-			}, 5, 1, TimeUnit.SECONDS);
-		}
-
-		private String generateString(Random rng, String characters, int length) {
-			char[] text = new char[length];
-			for (int i = 0; i < length; i++) {
-				text[i] = characters.charAt(rng.nextInt(characters.length()));
-			}
-			return new String(text);
-		}
-
-		public void fill(Composite parent) {
-			final IActionBarConfigurer abc = getActionBarConfigurer();
-			Color systemColor = abc.getWindowConfigurer().getWindow()
-					.getShell().getDisplay().getSystemColor(SWT.COLOR_WHITE);
-			label = new CLabel(parent, SWT.SHADOW_ETCHED_OUT | SWT.BORDER | SWT.CENTER);
-			label.setText("               ");
-			label.setBackground(systemColor);
-		}
 	}
 
 	protected void fillMenuBar(IMenuManager menu) {
