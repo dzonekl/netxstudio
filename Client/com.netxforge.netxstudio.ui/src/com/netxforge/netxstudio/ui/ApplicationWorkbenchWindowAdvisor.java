@@ -56,9 +56,12 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 	public void preWindowOpen() {
 		IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
+		
 		configurer.setInitialSize(new Point(1200, 1000));
-		// Note: Whenever we have cool toolbar icons to show, turn this on.
-		configurer.setShowCoolBar(false);
+		
+		// Fast views are not compatible with standalone views. 
+//		configurer.setShowFastViewBars(true);
+		configurer.setShowCoolBar(true);
 		configurer.setShowStatusLine(true);
 		configurer.setShowPerspectiveBar(true);
 		configurer.setShowProgressIndicator(true);
