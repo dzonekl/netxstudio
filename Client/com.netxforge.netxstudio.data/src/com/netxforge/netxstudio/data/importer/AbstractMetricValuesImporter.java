@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.data.importer;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1063,6 +1064,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				}
 			} else {
 
+				// Process either a date Time Pattern , date or time pattern.
+				// Note: Time and Date is also a valid combination.
+
 				String datePattern = null;
 				String timePattern = null;
 				String dateTimePattern = null;
@@ -1075,7 +1079,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 					if (column.getDataType() instanceof ValueDataKind) {
 						final ValueDataKind vdk = (ValueDataKind) column
 								.getDataType();
-
+						// Should only accept one single ValueDataKind if
+						// DateTime,
+						// break out if we find one.
 						if (vdk.getValueKind() == ValueKindType.DATE) {
 							datePattern = vdk.getFormat();
 							dateValue = getStringCellValue(rowNum,
@@ -1088,36 +1094,50 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 							dateTimePattern = vdk.getFormat();
 							dateTimeValue = getStringCellValue(rowNum,
 									column.getColumn());
+							break;
 						}
-
-					}
-				}
-				StringBuffer patternBuffer = new StringBuffer();
-				if (dateTimeValue != null && dateTimePattern != null) {
-					patternBuffer.append(dateTimePattern);
-				} else {
-
-					if (dateValue != null && datePattern != null) {
-						patternBuffer.append(datePattern);
-
-					}
-					if (timeValue != null && timePattern != null) {
-						patternBuffer.append(" " + timePattern);
 					}
 				}
 
-				if (patternBuffer.length() == 0) {
-					patternBuffer.append(ModelUtils.DEFAULT_DATE_TIME_PATTERN);
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+							"Processed timestamp mappings, resolving ");
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+							"DATETIME=" + dateTimeValue == null ? "Not Set"
+									: dateTimeValue);
+					DataActivator.TRACE
+							.trace(DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+									"DATETIME PATTERN=" + dateTimePattern == null ? "Not Set"
+											: dateTimePattern);
+					DataActivator.TRACE
+							.trace(DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+									"TIME=" + timeValue == null ? "Not Set"
+											: timeValue);
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+							"TIME PATTERN=" + timePattern == null ? "Not Set"
+									: timePattern);
+					DataActivator.TRACE
+							.trace(DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+									"DATE=" + dateValue == null ? "Not Set"
+											: dateValue);
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+							"DATE PATTERN=" + datePattern == null ? "Not Set"
+									: datePattern);
 				}
 
-				final SimpleDateFormat dateFormat = new SimpleDateFormat(
-						patternBuffer.toString());
-
-				returnDate = dateFormat.parse(dateValue + " " + timeValue);
-
+				returnDate = processTSMapping(datePattern, timePattern,
+						dateTimePattern, dateValue, timeValue, dateTimeValue);
 			}
-		} catch (final Exception e) {
-			throw new IllegalStateException(e);
+		} catch (ParseException pe) {
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
+						"Error parsing timestamp", pe);
+			}
+			throw new IllegalStateException(pe);
 		} finally {
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(
@@ -1126,6 +1146,44 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			}
 		}
 		return returnDate;
+	}
+
+	/**
+	 * 
+	 * 
+	 * 
+	 * @param datePattern
+	 * @param timePattern
+	 * @param dateTimePattern
+	 * @param dateValue
+	 * @param timeValue
+	 * @param dateTimeValue
+	 * @return
+	 * @throws ParseException
+	 */
+	public Date processTSMapping(String datePattern, String timePattern,
+			String dateTimePattern, String dateValue, String timeValue,
+			String dateTimeValue) throws ParseException {
+
+		String value = null;
+		String pattern = null;
+
+		if (dateTimeValue != null && dateTimePattern != null) {
+			pattern = dateTimePattern;
+			value = dateTimeValue;
+		} else if (dateValue != null && datePattern != null) {
+			pattern = datePattern;
+			value = dateValue;
+		} else if (timeValue != null && timePattern != null) {
+			pattern = timePattern;
+			value = timeValue;
+		}
+		if (pattern == null) {
+			pattern = ModelUtils.DEFAULT_DATE_TIME_PATTERN;
+		}
+
+		final SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+		return dateFormat.parse(value);
 	}
 
 	protected abstract Date getDateCellValue(int rowNum, int column);
