@@ -27,6 +27,8 @@ import java.util.Stack;
 
 import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -61,6 +63,7 @@ import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
+import com.netxforge.netxstudio.screens.editing.DataLoadingJobService;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 /**
@@ -429,17 +432,30 @@ public class ScreenFormService implements IScreenFormService {
 						((IScreenII) target).initUI();
 						doSetActiveScreen(target);
 						((IScreenII) target).showPreLoadedUI();
+						
+						DataLoadingJobService dataLoadingJobService = new DataLoadingJobService(); 
+						dataLoadingJobService.setScreenToLoad(target);
+						dataLoadingJobService.addNotifier(new JobChangeAdapter(){
 
-						Display.getCurrent().asyncExec(new Runnable() {
-
-							public void run() {
-								if (target instanceof IDataServiceInjection) {
-									((IDataServiceInjection) target)
-											.injectData();
-								}
+							@Override
+							public void done(IJobChangeEvent event) {
+								// This is our call back, now we can complete the loading. 
+								
+								super.done(event);
 							}
-
+							
 						});
+						dataLoadingJobService.go();
+//						Display.getCurrent().asyncExec(new Runnable() {
+//
+//							public void run() {
+//								if (target instanceof IDataServiceInjection) {
+//									((IDataServiceInjection) target)
+//											.injectData();
+//								}
+//							}
+//
+//						});
 
 					} else {
 						if (target instanceof IDataServiceInjection) {
