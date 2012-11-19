@@ -183,7 +183,10 @@ public class ServerImporterHelper implements IImporterHelper {
 
 			if (netXResourceFolder != null) {
 				for (CDOResourceNode n : netXResourceFolder.getNodes()) {
-					if (n.getName().equals(cdoCalculateResourceName)
+					
+					// http://work.netxforge.com/issues/325
+					// Ignore the case of the CDO Resource name. 
+					if (n.getName().equalsIgnoreCase(cdoCalculateResourceName)
 							&& n instanceof CDOResource) {
 						emfNetxResource = (Resource) n;
 						if (DataActivator.DEBUG) {
