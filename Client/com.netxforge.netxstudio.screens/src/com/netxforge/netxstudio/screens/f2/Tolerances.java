@@ -82,7 +82,8 @@ import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelPr
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class Tolerances extends AbstractScreen implements IDataServiceInjection, IScreenII {
+public class Tolerances extends AbstractScreen implements
+		IDataServiceInjection, IScreenII {
 
 	private static final String MEM_KEY_TOLERANCE_SELECTION_TABLE = "MEM_KEY_TOLERANCE_SELECTION_TABLE";
 	private static final String MEM_KEY_TOLERANCE_COLUMNS_TABLE = "MEM_KEY_TOLERANCE_COLUMNS_TABLE";
@@ -191,17 +192,19 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection,
 		}
 
 		toleranceTblViewer = new TableViewer(frmTolerances.getBody(),
-				SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION | SWT.VIRTUAL | widgetStyle);
+				SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION | SWT.VIRTUAL
+						| widgetStyle);
 		toleranceTblViewer.setComparer(new CDOElementComparer());
 		toleranceTblViewer.setUseHashlookup(true);
 		table = toleranceTblViewer.getTable();
-		table.addListener (SWT.SetData, new Listener () {
-			public void handleEvent (Event event) {
+		table.addListener(SWT.SetData, new Listener() {
+			public void handleEvent(Event event) {
 				TableItem item = (TableItem) event.item;
-				int index = table.indexOf (item);
+				int index = table.indexOf(item);
 				int start = index / PAGE_SIZE * PAGE_SIZE;
-				int end = Math.min (start + PAGE_SIZE, table.getItemCount ());
-				System.out.println("SWT.SetData i=" + index + ", s=" + start + ", e=" + end);
+				int end = Math.min(start + PAGE_SIZE, table.getItemCount());
+				System.out.println("SWT.SetData i=" + index + ", s=" + start
+						+ ", e=" + end);
 			}
 		});
 
@@ -280,21 +283,32 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection,
 	 */
 	public void injectData() {
 
-		if(toleranceResource instanceof CDOResource){
+		if (toleranceResource instanceof CDOResource) {
 			CDOResource tolResource = (CDOResource) toleranceResource;
 			tolResource.cdoPrefetch(CDORevision.DEPTH_INFINITE);
 		}
-
-		// 3. Bind the data to the UI, which will set the model target content
-		// provider and label provider.
-		// setting the input on the viewer.
-		// clean the input, as this will otherwise be set on the new content
-		// provider.
-		this.toleranceTblViewer.setInput(null);
 		
-		// Now build the columns, after cleaning the input. 
-		buildColumns();
-		bindingContext = initDataBindings_();
+		// Inject in UI async, as we are likely called from a background loading job/ 
+
+		Display.getDefault().asyncExec(new Runnable() {
+
+			public void run() {
+
+				// 3. Bind the data to the UI, which will set the model target
+				// content
+				// provider and label provider.
+				// setting the input on the viewer.
+				// clean the input, as this will otherwise be set on the new
+				// content
+				// provider.
+				toleranceTblViewer.setInput(null);
+				// Now build the columns, after cleaning the input.
+				buildColumns();
+				bindingContext = initDataBindings_();
+			}
+
+		});
+
 	}
 
 	public boolean initUI() {
@@ -305,20 +319,20 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection,
 	public void showPreLoadedUI() {
 		// 1. The Screenform service deals with UI initialization.
 
-				this.toleranceTblViewer.setContentProvider(LoadingFactory
-						.createLoadingContentProvider());
-				this.toleranceTblViewer.setLabelProvider(LoadingFactory
-						.createLoadingLabelProvider());
+		this.toleranceTblViewer.setContentProvider(LoadingFactory
+				.createLoadingContentProvider());
+		this.toleranceTblViewer.setLabelProvider(LoadingFactory
+				.createLoadingLabelProvider());
 
-				// 2. Get the root object, and prefetch infinit.
-				toleranceResource = editingService
-						.getData(LibraryPackage.Literals.TOLERANCE);
+		// 2. Get the root object, and prefetch infinit.
+		toleranceResource = editingService
+				.getData(LibraryPackage.Literals.TOLERANCE);
 
-				// prefetch this EList with infinite depth.
-				if (toleranceResource instanceof CDOResource) {
-					CDOResource tolResource = (CDOResource) toleranceResource;
-					this.toleranceTblViewer.setInput(tolResource.cdoID().toString());
-				}
+		// prefetch this EList with infinite depth.
+		if (toleranceResource instanceof CDOResource) {
+			CDOResource tolResource = (CDOResource) toleranceResource;
+			this.toleranceTblViewer.setInput(tolResource.cdoID().toString());
+		}
 	}
 
 	public EMFDataBindingContext initDataBindings_() {

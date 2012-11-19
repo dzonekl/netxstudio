@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.data.cdo;
+package com.netxforge.netxstudio.screens.editing;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -24,19 +24,35 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
 
+import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+
 /**
  * A service for loading data in a job. 
+ * Should it be a factory? Is it a one of throw-away service? 
+ * 
  * 
  * @author Christophe
  *
  */
-public class DataLoadingJobService implements IJobChangeListener {
+public class DataLoadingJobService  {
 
 	private DataLoadingJob j = new DataLoadingJob("Loading...");
 	
+	private IScreen screenToLoad;
+	
+
+	public IScreen getScreenToLoad() {
+		return screenToLoad;
+	}
+
+	public void setScreenToLoad(IScreen screenToLoad) {
+		this.screenToLoad = screenToLoad;
+	}
 
 	public void go() {
-		j.addJobChangeListener(this);
+//		j.addJobChangeListener(this);
 		j.schedule();
 	}
 
@@ -57,8 +73,12 @@ public class DataLoadingJobService implements IJobChangeListener {
 			
 			// Total time, could depend on the number of objects. 
 			// Getting the size of the objects to fetch
-			monitor.beginTask("Loading data", 100);
+			monitor.beginTask("Loading data ", 100);
 			
+			// Need additional support for 
+			if(screenToLoad instanceof IDataServiceInjection){
+				((IDataServiceInjection) screenToLoad).injectData();
+			}
 			
 			monitor.done();
 			
@@ -67,27 +87,27 @@ public class DataLoadingJobService implements IJobChangeListener {
 		}
 	}
 
-	public void aboutToRun(IJobChangeEvent event) {
-		System.out
-				.println("Job about to get busy: " + event.getJob().getName()); //$NON-NLS-1$
-	}
-
-	public void awake(IJobChangeEvent event) {
-	}
-
-	public void done(IJobChangeEvent event) {
-		System.out.println("Job done: " + event.getJob().getName()); //$NON-NLS-1$
-	}
-
-	public void running(IJobChangeEvent event) {
-		System.out.println("Job running: " + event.getJob().getName()); //$NON-NLS-1$
-	}
-
-	public void scheduled(IJobChangeEvent event) {
-		System.out.println("Job scheduled: " + event.getJob().getName()); //$NON-NLS-1$
-	}
-
-	public void sleeping(IJobChangeEvent event) {
-		System.out.println("Job zzzzzz: " + event.getJob().getName()); //$NON-NLS-1$
-	}
+//	public void aboutToRun(IJobChangeEvent event) {
+//		System.out
+//				.println("Job about to get busy: " + event.getJob().getName()); //$NON-NLS-1$
+//	}
+//
+//	public void awake(IJobChangeEvent event) {
+//	}
+//
+//	public void done(IJobChangeEvent event) {
+//		System.out.println("Job done: " + event.getJob().getName()); //$NON-NLS-1$
+//	}
+//
+//	public void running(IJobChangeEvent event) {
+//		System.out.println("Job running: " + event.getJob().getName()); //$NON-NLS-1$
+//	}
+//
+//	public void scheduled(IJobChangeEvent event) {
+//		System.out.println("Job scheduled: " + event.getJob().getName()); //$NON-NLS-1$
+//	}
+//
+//	public void sleeping(IJobChangeEvent event) {
+//		System.out.println("Job zzzzzz: " + event.getJob().getName()); //$NON-NLS-1$
+//	}
 }
