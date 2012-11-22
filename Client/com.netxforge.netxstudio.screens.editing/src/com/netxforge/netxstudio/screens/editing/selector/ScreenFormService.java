@@ -64,7 +64,9 @@ import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.DataLoadingJobService;
+import com.netxforge.netxstudio.screens.editing.DataLoadingJobService.DataPostLoadingJob;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
  * This service is capable to place a composite in a dedicated section (The
@@ -135,6 +137,7 @@ public class ScreenFormService implements IScreenFormService {
 		if (c instanceof Composite) {
 			Composite screen = (Composite) c;
 			screen.setVisible(false);
+			saveScreenState(ScreenUtil.screenFor(screen));
 			screenStack.push(screen);
 		}
 	}
@@ -142,13 +145,14 @@ public class ScreenFormService implements IScreenFormService {
 	public void setActiveScreen(IScreen screen) {
 		pushCurrentScreen();
 		doSetActiveScreen(screen);
+		restoreScreenState(screen);
+		fireScreenChanged(screen);
 	}
 
 	private void doSetActiveScreen(IScreen screen) {
 		// We need a copy of the composite, so it can work.
 		final Composite activeScreen = ScreenUtil.compositeFor(screen);
 		if (activeScreen.isDisposed()) {
-			System.out.println("Attempt to set a disposed screen");
 			screenBody.getScreenDeck().topControl = null;
 			return; // can't set this screen sorry.
 		}
@@ -168,16 +172,13 @@ public class ScreenFormService implements IScreenFormService {
 				System.out.println("bug widget disposed" + e.getMessage());
 			} else {
 				e.printStackTrace();
-				
+
 			}
 
 		}
 
 		this.updateScreenBarActions(activeScreen);
 		screenBody.setScreenBarOn();
-		
-		// All our screens must implement IScreen.
-		fireScreenChanged((IScreen) activeScreen);
 
 	}
 
@@ -203,7 +204,8 @@ public class ScreenFormService implements IScreenFormService {
 				v.refresh();
 			}
 
-			fireScreenChanged((IScreen) popScreen);
+			restoreScreenState(ScreenUtil.screenFor(popScreen));
+			fireScreenChanged(ScreenUtil.screenFor(popScreen));
 
 		} else {
 			// Nothing to pop.
@@ -393,18 +395,25 @@ public class ScreenFormService implements IScreenFormService {
 
 	ObservablesManager obm = null;
 
-	private void doSetScreen(final Class<?> finalScreen,
+	private void doSetScreen(final Class<?> screenClass,
 			final Constructor<?> finalScreenConstructor,
 			final int finalOperation) {
-		if (isActiveScreen(finalScreen)) {
+		if (isActiveScreen(screenClass)) {
 			return; // Ignore we are there already.
 		}
 
 		// Warn for dirtyness.
 		dirtyWarning();
 
+		// Cancel any potential background loading of the active screen.
+		doCancelLoading();
+
+		// Reset the screen stack, and dispose observables.
 		doReset();
 
+		// Instantiate the new screen, from class and constructor, go through a
+		// series of jobs to load the data and the UI of the
+		// screen. Do this withing an Observable manager.
 		obm = new ObservablesManager();
 		obm.runAndCollect(new Runnable() {
 
@@ -417,52 +426,79 @@ public class ScreenFormService implements IScreenFormService {
 					target.setScreenService(ScreenFormService.this);
 
 					// Clients supporting IScreenII will have
-					// succesfully initialized the UI,
-					// and can be safely activated first, prior to loading
-					// data.
-					// Activation will fire screen changed, and kinds of UI
-					// stuff, so we need a properly initiated
-					// screen UI first.
-
 					// Note: Restoring the screen state which might depend
 					// on the model being injected will fail.
 
 					if (target instanceof IScreenII) {
+
+						final long startTime = System.currentTimeMillis();
+
+						if (EditingActivator.DEBUG) {
+							EditingActivator.TRACE
+									.trace(EditingActivator.TRACE_EDITING_LOADING_OPTION,
+											"Start loading Screen: "
+													+ target.getScreenName()
+													+ " @ "
+													+ modelUtils.todayAndNow());
+						}
 						// We are a new screen, instantiate and set active.
 						((IScreenII) target).initUI();
-						doSetActiveScreen(target);
-						((IScreenII) target).showPreLoadedUI();
-						
-						DataLoadingJobService dataLoadingJobService = new DataLoadingJobService(); 
-						dataLoadingJobService.setScreenToLoad(target);
-						dataLoadingJobService.addNotifier(new JobChangeAdapter(){
 
-							@Override
-							public void done(IJobChangeEvent event) {
-								// This is our call back, now we can complete the loading. 
-								
-								super.done(event);
-							}
-							
-						});
-						dataLoadingJobService.go();
-//						Display.getCurrent().asyncExec(new Runnable() {
-//
-//							public void run() {
-//								if (target instanceof IDataServiceInjection) {
-//									((IDataServiceInjection) target)
-//											.injectData();
-//								}
-//							}
-//
-//						});
+						// Set the new instantiated screen as the active screen.
+						doSetActiveScreen(target);
+
+						((IScreenII) target).showPreLoadedUI();
+
+						if (EditingActivator.DEBUG) {
+							EditingActivator.TRACE
+									.trace(EditingActivator.TRACE_EDITING_LOADING_OPTION,
+											"..Pre loaded "
+													+ target.getScreenName()
+													+ " in: "
+													+ modelUtils
+															.timeDuration(startTime));
+						}
+
+						DataLoadingJobService dataLoadingJobService = new DataLoadingJobService();
+						dataLoadingJobService.setScreenToLoad(target);
+						dataLoadingJobService
+								.addNotifier(new JobChangeAdapter() {
+
+									@Override
+									public void done(IJobChangeEvent event) {
+
+										// This is our call back, we should be
+										// done already.
+										if (EditingActivator.DEBUG) {
+											EditingActivator.TRACE
+													.trace(EditingActivator.TRACE_EDITING_LOADING_OPTION,
+															".."
+																	+ event.getJob()
+																			.getName()
+																	+ " for "
+																	+ target.getScreenName()
+																	+ " completed in: "
+																	+ modelUtils
+																			.timeDuration(startTime));
+										}
+
+										if (event.getJob() instanceof DataPostLoadingJob) {
+											restoreScreenState(target);
+											fireScreenChanged(target);
+										}
+									}
+								});
+						// Should be executed sequentially.
+						dataLoadingJobService.load();
+						dataLoadingJobService.postLoad();
 
 					} else {
 						if (target instanceof IDataServiceInjection) {
 							((IDataServiceInjection) target).injectData();
 						}
 						doSetActiveScreen(target);
-
+						restoreScreenState(target);
+						fireScreenChanged(target);
 					}
 				} catch (InstantiationException e) {
 					e.printStackTrace();
@@ -475,6 +511,14 @@ public class ScreenFormService implements IScreenFormService {
 				}
 			}
 		});
+
+	}
+
+	private void doCancelLoading() {
+		if (getActiveScreen() instanceof IScreenII) {
+			IScreenII activeScreen = (IScreenII) getActiveScreen();
+			activeScreen.cancelLoading();
+		}
 
 	}
 
@@ -547,19 +591,12 @@ public class ScreenFormService implements IScreenFormService {
 			Composite c = screenStack.pop();
 			IScreen screenFor = ScreenUtil.screenFor(c);
 			saveScreenState(screenFor);
-
-			System.out.println("About to dispose : "
-					+ c.getClass().getSimpleName());
-
 			c.dispose();
 		}
 
 		Control c = screenBody.getScreenDeck().topControl;
 		if (c instanceof IScreen) {
-			System.out.println("About to dispose : "
-					+ c.getClass().getSimpleName());
 			saveScreenState((IScreen) c);
-
 			c.dispose();
 		}
 	}
@@ -578,7 +615,34 @@ public class ScreenFormService implements IScreenFormService {
 			if (child == null) {
 				child = parent.createChild(validMementoElement);
 			}
+
+			if (EditingActivator.DEBUG) {
+				EditingActivator.TRACE.trace(
+						EditingActivator.TRACE_EDITING_DETAILS_OPTION,
+						" saving state for " + screen.getScreenName() + " mem:"
+								+ child.getType());
+			}
 			screen.saveState(child);
+		}
+	}
+
+	private void restoreScreenState(IScreen screen) {
+		IMemento memento = absViewPart.getMemento();
+
+		if (memento != null) {
+			String validMementoElement = modelUtils
+					.underscopeWhiteSpaces(screen.getScreenName());
+			IMemento child = memento.getChild(validMementoElement);
+
+			if (child != null) {
+				if (EditingActivator.DEBUG) {
+					EditingActivator.TRACE.trace(
+							EditingActivator.TRACE_EDITING_DETAILS_OPTION,
+							" restoring state for " + screen.getScreenName()
+									+ " mem:" + child.getType());
+				}
+				screen.restoreState(child);
+			}
 		}
 	}
 

@@ -1924,9 +1924,6 @@ public class ModelUtils {
 		// Cross reference the metrics from the target MetricSource.
 		for (EObject o : targetListInMetricSource) {
 
-			System.out.println("Look for NetXResource referencing metric: "
-					+ ((Metric) o).getName());
-
 			if (o instanceof CDOObject) {
 				CDOView cdoView = ((CDOObject) o).cdoView();
 				try {
@@ -2476,6 +2473,20 @@ public class ModelUtils {
 		return getDateString.apply(d);
 	}
 
+	/**
+	 * The duration as a String since the provided UTC
+	 * 
+	 * @param l
+	 *            UTC
+	 * @return
+	 */
+	public String timeDuration(long l) {
+		long delta = System.currentTimeMillis() - l;
+		String result = (delta > 1000 ? (delta / 1000 + "." +  delta % 1000 + " (sec) : ") : delta
+				+ " (ms) ");
+		return result;
+	}
+
 	public String timeAndSeconds(Date d) {
 		final Function<Date, String> getDateString = new Function<Date, String>() {
 			public String apply(Date from) {
@@ -2485,11 +2496,36 @@ public class ModelUtils {
 		};
 		return getDateString.apply(d);
 	}
-
+	
+	public String timeAndSecondsAmdMillis(Date d) {
+		final Function<Date, String> getDateString = new Function<Date, String>() {
+			public String apply(Date from) {
+				final SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss SSS");
+				return df.format(from);
+			}
+		};
+		return getDateString.apply(d);
+	}
+	
+	
+	/**
+	 * The current time as a String formatted as "HH:mm:ss"
+	 * @return
+	 */
 	public String currentTimeAndSeconds() {
 		return timeAndSeconds(new Date());
 	}
-
+	
+	/**
+	 * The current time as a String formatted as "HH:mm:ss SSS"
+	 * 
+	 * @return
+	 */
+	public String currentTimeAndSecondsAndMillis() {
+		return timeAndSecondsAmdMillis(new Date());
+	}
+	
+	
 	public String dateAndTime(XMLGregorianCalendar d) {
 		Date date = fromXMLDate(d);
 		return dateAndTime(date);
@@ -3094,11 +3130,11 @@ public class ModelUtils {
 
 		return sb.toString();
 	}
-	
-	
+
 	/**
-	 * Dump the content of a CDORevision. Iterates through the features of the revision, and 
-	 * gets the value of the object. The String will not exceed a maximum change length. 
+	 * Dump the content of a CDORevision. Iterates through the features of the
+	 * revision, and gets the value of the object. The String will not exceed a
+	 * maximum change length.
 	 * 
 	 * @param revision
 	 * @return
@@ -3140,7 +3176,8 @@ public class ModelUtils {
 
 	public void cdoDumpFeature(StringBuilder sb, CDOFeatureDelta featureDelta) {
 		addNewLine(sb);
-		sb.append(featureDelta.getFeature().getName() + " = " + cdoPrintFeatureDelta(featureDelta));
+		sb.append(featureDelta.getFeature().getName() + " = "
+				+ cdoPrintFeatureDelta(featureDelta));
 	}
 
 	public String cdoPrintFeatureDelta(CDOFeatureDelta delta) {
@@ -3158,10 +3195,10 @@ public class ModelUtils {
 			sb.append("\n");
 		}
 	}
-	
-	
+
 	/**
-	 * Truncates a string to the max. length of a change. 
+	 * Truncates a string to the max. length of a change.
+	 * 
 	 * @param value
 	 * @return
 	 */
@@ -3880,13 +3917,12 @@ public class ModelUtils {
 		}
 
 	}
-	
-	
+
 	/**
-	 * Let's vommit! 
+	 * Let's vommit!
 	 */
 	public void puke() {
 		System.out.println("Beeeeuuuuuuh........@!");
-		
+
 	}
 }

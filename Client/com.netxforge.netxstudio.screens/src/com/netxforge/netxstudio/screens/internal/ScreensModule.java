@@ -8,6 +8,7 @@ import com.netxforge.netxstudio.screens.ch9.NetXScriptInjectorProxy;
 import com.netxforge.netxstudio.screens.f1.support.PeriodSelectionPage;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionPage;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
+import com.netxforge.netxstudio.screens.f2.LazyResourcesComponent;
 import com.netxforge.netxstudio.screens.f2.PeriodComponent;
 import com.netxforge.netxstudio.screens.f2.ResourcesComponent;
 import com.netxforge.netxstudio.screens.f2.ValueComponentII;
@@ -48,6 +49,8 @@ public class ScreensModule extends AbstractModule {
 		this.bind(ValueComponentII.class);
 
 		this.bind(ResourcesComponent.class);
+		
+		this.bind(LazyResourcesComponent.class);
 
 	}
 

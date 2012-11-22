@@ -1,11 +1,11 @@
 # NetXStudio Client tracing options 
 # Enables debugging and/or tracing for client side services.
 
-com.netxforge.netxscript/debug=true
+com.netxforge.netxscript/debug=false
 com.netxforge.netxstudio.data/debug=false
 com.netxforge.nextstudio.common/debug=false
 com.netxforge.netxstudio.screens/debug=false
-com.netxforge.netxstudio.screens.editing/debug=false
+com.netxforge.netxstudio.screens.editing/debug=true
 
 # NetXScript facilities
 com.netxforge.netxscript/trace.netxscript=true
@@ -18,6 +18,7 @@ com.netxforge.netxstudio.screens/trace.screens.binding=true
 # Editing facilities
 com.netxforge.netxstudio.screens.editing/trace.editing=true
 com.netxforge.netxstudio.screens.editing/trace.editing.details=true
+com.netxforge.netxstudio.screens.editing/trace.editing.loading=true;
 
 # Data facilities
 com.netxforge.netxstudio.data/trace.data=true
