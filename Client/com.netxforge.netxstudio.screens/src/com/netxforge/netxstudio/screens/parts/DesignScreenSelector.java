@@ -17,14 +17,13 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.parts;
 
-import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.f2.LazyNodeResourcesAdvanced;
 import com.netxforge.netxstudio.screens.f2.NodeResourcesAdvanced;
 import com.netxforge.netxstudio.screens.f3.Countries;
 import com.netxforge.netxstudio.screens.f3.Networks;
@@ -75,9 +74,10 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 				"icons/full/obj16/Resource_H.gif", NodeResourcesAdvanced.class,
 				ScreenUtil.OPERATION_EDIT);
 
-//		result = screenFormService.addScreenSelector(result, "Resources+",
-//				"icons/full/obj16/Resource_H.gif", AllResources.class,
-//				Screens.OPERATION_EDIT);
+
+		result = screenFormService.addScreenSelector(result, "Lazy Resources",
+				"icons/full/obj16/Resource_H.gif", LazyNodeResourcesAdvanced.class,
+				ScreenUtil.OPERATION_EDIT);
 		
 		result = screenFormService.addScreenSelector(result, "Warehouses",
 				"icons/full/obj16/Warehouse_H.png", WarehouseTree.class, 1,
@@ -107,16 +107,5 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 		// Static initialization of bindings. We need a dynamic form for this. 
 		// 
 	}
-	
-	@Override
-	public void screenChanged(IScreen screen) {
-		super.screenChanged(screen);
-	}
-
-	@Override
-	public void contributeMenuAboutToShow(IMenuManager menuManager) {
-		super.contributeMenuAboutToShow(menuManager);
-	}
-	
 	
 }

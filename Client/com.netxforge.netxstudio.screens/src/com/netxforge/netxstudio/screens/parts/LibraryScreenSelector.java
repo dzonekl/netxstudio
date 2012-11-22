@@ -24,9 +24,11 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import com.netxforge.netxstudio.screens.ch9.Expressions;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.f2.LazyTolerances;
 import com.netxforge.netxstudio.screens.f2.NodeTypeResources;
 import com.netxforge.netxstudio.screens.f2.NodeTypes;
 import com.netxforge.netxstudio.screens.f2.Parameters;
+import com.netxforge.netxstudio.screens.f2.PrefabLazyTolerances;
 import com.netxforge.netxstudio.screens.f2.Protocols;
 import com.netxforge.netxstudio.screens.f2.Tolerances;
 import com.netxforge.netxstudio.screens.f2.Units;
@@ -72,7 +74,16 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 		result = screenFormService.addScreenSelector(result, "Tolerances",
 				"icons/full/obj16/Tolerance_H.png", Tolerances.class,
 				ScreenUtil.OPERATION_EDIT);
-
+		
+		result = screenFormService.addScreenSelector(result, "L Tolerances",
+				"icons/full/obj16/Tolerance_H.png", LazyTolerances.class,
+				ScreenUtil.OPERATION_EDIT);
+		
+		result = screenFormService.addScreenSelector(result, "History L Tolerances",
+				"icons/full/obj16/Tolerance_H.png", PrefabLazyTolerances.class,
+				ScreenUtil.OPERATION_EDIT);
+		
+		
 		result = screenFormService.addScreenSelector(result, "Expressions",
 				"icons/full/obj16/Expression_H.png", Expressions.class,
 				ScreenUtil.OPERATION_EDIT);

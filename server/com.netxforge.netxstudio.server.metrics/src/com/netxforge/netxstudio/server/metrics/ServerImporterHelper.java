@@ -61,6 +61,7 @@ import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
  * The main entry class for the Metrics importing.
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
 public class ServerImporterHelper implements IImporterHelper {
 

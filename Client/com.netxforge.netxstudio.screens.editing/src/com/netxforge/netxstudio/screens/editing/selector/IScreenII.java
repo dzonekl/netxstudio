@@ -30,6 +30,22 @@ public interface IScreenII {
 	 * @return
 	 */
 	public abstract boolean initUI();
-
+	
+	/**
+	 * Allows the screen to show something during loading.
+	 * Typically run in the UI Thread. 
+	 */
 	public abstract void showPreLoadedUI();
+	
+	
+	/**
+	 * Allows the screen to show the final result. 
+	 * Typically run in the UI Thread. 
+	 */
+	public abstract void showPostLoadedUI();
+	
+	/**
+	 * Allows the loading to be interrupted. 
+	 */
+	public abstract void cancelLoading();
 }

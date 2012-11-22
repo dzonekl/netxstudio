@@ -20,28 +20,27 @@ package com.netxforge.netxstudio.screens.editing;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.ui.progress.UIJob;
 
-import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.selector.IScreenII;
 
 /**
- * A service for loading data in a job. 
- * Should it be a factory? Is it a one of throw-away service? 
+ * A service for loading data in an IScreen.
  * 
+ * @author Christophe Bouhier
  * 
- * @author Christophe
- *
  */
-public class DataLoadingJobService  {
+public class DataLoadingJobService {
 
-	private DataLoadingJob j = new DataLoadingJob("Loading...");
-	
+	private DataLoadingJob loadJob = new DataLoadingJob("Loading...");
+	private DataPostLoadingJob postLoadJob = new DataPostLoadingJob(
+			"Presenting...");
+
 	private IScreen screenToLoad;
-	
 
 	public IScreen getScreenToLoad() {
 		return screenToLoad;
@@ -51,16 +50,22 @@ public class DataLoadingJobService  {
 		this.screenToLoad = screenToLoad;
 	}
 
-	public void go() {
-//		j.addJobChangeListener(this);
-		j.schedule();
+	public void load() {
+		// j.addJobChangeListener(this);
+		loadJob.schedule();
+	}
+
+	public void postLoad() {
+		// j.addJobChangeListener(this);
+		postLoadJob.schedule();
 	}
 
 	public void addNotifier(IJobChangeListener notifier) {
-		j.addJobChangeListener(notifier);
+		loadJob.addJobChangeListener(notifier);
+		postLoadJob.addJobChangeListener(notifier);
 	}
 
-	protected class DataLoadingJob extends Job {
+	public class DataLoadingJob extends Job {
 
 		public DataLoadingJob(String name) {
 			super(name);
@@ -69,45 +74,57 @@ public class DataLoadingJobService  {
 
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
-			
-			
-			// Total time, could depend on the number of objects. 
+
+			// Total time, could depend on the number of objects.
 			// Getting the size of the objects to fetch
 			monitor.beginTask("Loading data ", 100);
-			
-			// Need additional support for 
-			if(screenToLoad instanceof IDataServiceInjection){
+			if (screenToLoad instanceof IDataServiceInjection) {
 				((IDataServiceInjection) screenToLoad).injectData();
 			}
-			
 			monitor.done();
-			
-			// Stop the job, when not running.
 			return Status.OK_STATUS;
 		}
 	}
 
-//	public void aboutToRun(IJobChangeEvent event) {
-//		System.out
-//				.println("Job about to get busy: " + event.getJob().getName()); //$NON-NLS-1$
-//	}
-//
-//	public void awake(IJobChangeEvent event) {
-//	}
-//
-//	public void done(IJobChangeEvent event) {
-//		System.out.println("Job done: " + event.getJob().getName()); //$NON-NLS-1$
-//	}
-//
-//	public void running(IJobChangeEvent event) {
-//		System.out.println("Job running: " + event.getJob().getName()); //$NON-NLS-1$
-//	}
-//
-//	public void scheduled(IJobChangeEvent event) {
-//		System.out.println("Job scheduled: " + event.getJob().getName()); //$NON-NLS-1$
-//	}
-//
-//	public void sleeping(IJobChangeEvent event) {
-//		System.out.println("Job zzzzzz: " + event.getJob().getName()); //$NON-NLS-1$
-//	}
+	public class DataPostLoadingJob extends UIJob {
+
+		public DataPostLoadingJob(String name) {
+			super(name);
+			super.setUser(true);
+		}
+
+		@Override
+		public IStatus runInUIThread(IProgressMonitor monitor) {
+			monitor.beginTask("Presenting data ", 100);
+			if (screenToLoad instanceof IScreenII) {
+				((IScreenII) screenToLoad).showPostLoadedUI();
+			}
+			monitor.done();
+			return Status.OK_STATUS;
+		}
+	}
+
+	// public void aboutToRun(IJobChangeEvent event) {
+	// System.out
+	//				.println("Job about to get busy: " + event.getJob().getName()); //$NON-NLS-1$
+	// }
+	//
+	// public void awake(IJobChangeEvent event) {
+	// }
+	//
+	// public void done(IJobChangeEvent event) {
+	//		System.out.println("Job done: " + event.getJob().getName()); //$NON-NLS-1$
+	// }
+	//
+	// public void running(IJobChangeEvent event) {
+	//		System.out.println("Job running: " + event.getJob().getName()); //$NON-NLS-1$
+	// }
+	//
+	// public void scheduled(IJobChangeEvent event) {
+	//		System.out.println("Job scheduled: " + event.getJob().getName()); //$NON-NLS-1$
+	// }
+	//
+	// public void sleeping(IJobChangeEvent event) {
+	//		System.out.println("Job zzzzzz: " + event.getJob().getName()); //$NON-NLS-1$
+	// }
 }
