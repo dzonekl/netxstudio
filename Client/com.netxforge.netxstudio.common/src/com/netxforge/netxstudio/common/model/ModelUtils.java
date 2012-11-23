@@ -37,11 +37,13 @@ import java.util.NoSuchElementException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
 import org.eclipse.emf.cdo.common.branch.CDOBranchVersion;
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.common.revision.delta.CDOAddFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOContainerFeatureDelta;
@@ -61,6 +63,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -206,6 +209,56 @@ public class ModelUtils {
 
 	public ValueTimeStampComparator valueTimeStampCompare() {
 		return new ValueTimeStampComparator();
+	}
+
+	/**
+	 * A Generic comparator for EObject attributes of which the type supports
+	 * Comparable.
+	 * 
+	 * @author Christophe Bouhier
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public class ObjectEAttributeComparator<T extends EObject, O> implements
+			Comparator<T> {
+
+		// The attribute
+		private EAttribute attrib;
+		private Class<O> attribType;
+
+		public ObjectEAttributeComparator(EAttribute attrib) {
+
+			Assert.isNotNull(attrib);
+			this.attrib = attrib;
+			EDataType eAttributeType = attrib.getEAttributeType();
+
+			// How do we check?
+			attribType = (Class<O>) eAttributeType.getInstanceClass();
+
+		}
+
+		public int compare(T o1, T o2) {
+
+			O eGet1 = attribType.cast(o1.eGet(attrib));
+			O eGet2 = attribType.cast(o2.eGet(attrib));
+
+			if (eGet1 instanceof Comparable) {
+				return ((Comparable<O>) eGet1).compareTo(eGet2);
+			}
+			return 0;
+		}
+	}
+
+	/**
+	 * Return an object attribute comparator for type T and expected attribute
+	 * type O
+	 * 
+	 * @param attrib
+	 * @return
+	 */
+	public <T extends EObject, O> Comparator<T> objectEAttributeComparator(
+			EAttribute attrib) {
+		return new ObjectEAttributeComparator<T, O>(attrib);
 	}
 
 	/**
@@ -2482,8 +2535,8 @@ public class ModelUtils {
 	 */
 	public String timeDuration(long l) {
 		long delta = System.currentTimeMillis() - l;
-		String result = (delta > 1000 ? (delta / 1000 + "." +  delta % 1000 + " (sec) : ") : delta
-				+ " (ms) ");
+		String result = (delta > 1000 ? (delta / 1000 + "." + delta % 1000 + " (sec) : ")
+				: delta + " (ms) ");
 		return result;
 	}
 
@@ -2496,7 +2549,7 @@ public class ModelUtils {
 		};
 		return getDateString.apply(d);
 	}
-	
+
 	public String timeAndSecondsAmdMillis(Date d) {
 		final Function<Date, String> getDateString = new Function<Date, String>() {
 			public String apply(Date from) {
@@ -2506,16 +2559,16 @@ public class ModelUtils {
 		};
 		return getDateString.apply(d);
 	}
-	
-	
+
 	/**
 	 * The current time as a String formatted as "HH:mm:ss"
+	 * 
 	 * @return
 	 */
 	public String currentTimeAndSeconds() {
 		return timeAndSeconds(new Date());
 	}
-	
+
 	/**
 	 * The current time as a String formatted as "HH:mm:ss SSS"
 	 * 
@@ -2524,8 +2577,7 @@ public class ModelUtils {
 	public String currentTimeAndSecondsAndMillis() {
 		return timeAndSecondsAmdMillis(new Date());
 	}
-	
-	
+
 	public String dateAndTime(XMLGregorianCalendar d) {
 		Date date = fromXMLDate(d);
 		return dateAndTime(date);
@@ -3046,7 +3098,7 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Casts to AbstractCDOIDLong and returns the long as value.
+	 * Casts to AbstractCDOIDLong and returns the long as String.
 	 * 
 	 * @param cdoObject
 	 * @return
@@ -3054,6 +3106,17 @@ public class ModelUtils {
 	public String cdoLongIDAsString(CDOObject cdoObject) {
 		long lValue = ((AbstractCDOIDLong) cdoObject.cdoID()).getLongValue();
 		return new Long(lValue).toString();
+	}
+	
+	
+	/**
+	 * Get a CDOID for a String representing the Object ID. 
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public CDOID cdoStringAsCDOID(String s) {
+		return CDOIDUtil.createLong(Long.parseLong(s));
 	}
 
 	public String cdoResourcePath(CDOObject cdoObject) {

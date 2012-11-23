@@ -3,11 +3,16 @@ package com.netxforge.netxstudio.screens;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
+import org.eclipse.emf.spi.cdo.FSMUtil;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -16,8 +21,10 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IMemento;
 
 import com.netxforge.netxstudio.screens.AbstractLazyTableViewer.ItemsFilter;
+import com.netxforge.netxstudio.screens.AbstractLazyTableViewer.SelectionHistory;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
@@ -47,26 +54,88 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 		super(parent, style);
 	}
 
+	@Override
+	public void injectData() {
+		final CDOView view = delegateGetCDOView();
+		lazyTableViewer.setSelectionHistory(new LazySelectionHistory(view));
+	}
+
 	public void buildUI(Composite parent) {
 		lazyTableViewer = new LazyTableViewer(this.getShell());
-
+		
 		adapterFactoryItemDelegator = new AdapterFactoryItemDelegator(
 				editingService.getAdapterFactory());
 
-		// Set a default or custom label provider. The default uses EMF.edit to retrieve the ItemProvider getText()
+		// Set a default or custom label provider. The default uses EMF.edit to
+		// retrieve the ItemProvider getText()
 		IBaseLabelProvider provider = delegateGetListLabelProvider();
 		lazyTableViewer.setListLabelProvider(provider);
-		
-		// Do we have a custom selection decorator. 
+
+		// Do we have a custom selection decorator.
 		ILabelDecorator decorator = delegateGetListSelectionDecorator();
 		if (decorator != null) {
 			lazyTableViewer.setListSelectionLabelDecorator(decorator);
 		}
-		
+
 		lazyTableViewer.buildUI(parent);
 	}
 
-	class LazyTableViewer extends AbstractLazyTableViewer {
+	/**
+	 * A selection history which can restore a CDO Object using it's CDOID.
+	 * 
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	public class LazySelectionHistory extends SelectionHistory {
+
+		private final String MEM_KEY_LAZY_OID = "MEM_KEY_LAZY_OID";
+		private CDOView view;
+
+		public LazySelectionHistory(CDOView view) {
+			this.view = view;
+		}
+
+		@Override
+		protected Object restoreItemFromMemento(IMemento memento) {
+
+			String[] attributeKeys = memento.getAttributeKeys();
+			if (attributeKeys.length == 1) {
+				return mementoUtils.retrieveCDOObject(memento, view,
+						attributeKeys[0]);
+			}
+			return null;
+		}
+
+		@Override
+		protected void storeItemToMemento(Object item, IMemento memento) {
+
+			Assert.isTrue(item instanceof CDOObject);
+			if (FSMUtil.isClean((CDOObject) item)) {
+				String cdoLongIDAsString = modelUtils
+						.cdoLongIDAsString((CDOObject) item);
+
+				// This is the root memento, find children matching our ID.
+				IMemento[] children = memento.getChildren(this.infoNodeName);
+				for (IMemento m : children) {
+					// find a key matching our ID.
+					String[] attributeKeys = m.getAttributeKeys();
+					for (String key : attributeKeys) {
+						if (key.equals(MEM_KEY_LAZY_OID + cdoLongIDAsString)) {
+							return; // We know this one already.
+						}
+					}
+				}
+				// Remember clean CDOObjects only.
+
+				// Remember in a child node.
+				mementoUtils.rememberCDOObject(
+						memento.createChild(this.infoNodeName),
+						(CDOObject) item, MEM_KEY_LAZY_OID + cdoLongIDAsString);
+			}
+		}
+	}
+
+	public class LazyTableViewer extends AbstractLazyTableViewer {
 
 		public LazyTableViewer(Shell shell) {
 			super(shell);
@@ -83,6 +152,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 
 		@Override
 		public void handleDoubleClick() {
+			delegateHandleDoubleClick();
 		}
 
 		@Override
@@ -122,11 +192,6 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 		}
 
 		@Override
-		protected Comparator getItemsComparator() {
-			return null;
-		}
-
-		@Override
 		protected void fillContentProvider(
 				AbstractContentProvider contentProvider,
 				ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
@@ -162,6 +227,11 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 
 		}
 
+		@Override
+		protected <T> Comparator<T> getItemsComparator() {
+			return delegateGetItemsComparator();
+		}
+
 	}
 
 	/**
@@ -193,6 +263,13 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 		return result;
 	}
 
+	/*
+	 * Clients can override. the default implementation does nothing.
+	 */
+	protected void delegateHandleDoubleClick() {
+
+	}
+
 	protected abstract List<?> delegateGetItems();
 
 	/*
@@ -202,6 +279,16 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 	protected IStatus delegateValidateItem(Object item) {
 		return Status.OK_STATUS;
 	}
+
+	/*
+	 * Clients must implement.
+	 */
+	public abstract CDOView delegateGetCDOView();
+
+	/*
+	 * Clients must implement to provide a comparator.
+	 */
+	public abstract <T> Comparator<T> delegateGetItemsComparator();
 
 	/*
 	 * Clients can override to add columns. The default Impl. doesn't add any
@@ -233,6 +320,26 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 
 	public Viewer getViewer() {
 		return lazyTableViewer.getTableViewer();
+	}
+
+	public EMFDataBindingContext initDataBindings_() {
+		return null;
+	}
+
+	@Override
+	public void saveState(IMemento memento) {
+		lazyTableViewer.saveState(memento);
+	}
+
+	@Override
+	public void restoreState(IMemento memento) {
+		lazyTableViewer.restoreState(memento);
+		lazyTableViewer.applyFilter(); // Trigger the initial filtering, which
+										// will show history.
+	}
+
+	public LazyTableViewer getLazyTableViewer() {
+		return lazyTableViewer;
 	}
 
 }
