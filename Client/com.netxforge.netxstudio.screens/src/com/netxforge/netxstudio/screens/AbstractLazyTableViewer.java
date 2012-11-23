@@ -65,7 +65,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -270,13 +269,13 @@ public abstract class AbstractLazyTableViewer {
 	}
 
 	/**
-	 * Restores dialog using persisted settings. The default implementation
-	 * restores the status of the details line and the selection history.
+	 * Restores using persisted settings. The default implementation restores
+	 * the status of the selection history.
 	 * 
 	 * @param settings
 	 *            settings used to restore dialog
 	 */
-	protected void restoreDialog(IMemento memento) {
+	protected void restoreState(IMemento memento) {
 		this.contentProvider.loadHistory(memento);
 	}
 
@@ -311,13 +310,17 @@ public abstract class AbstractLazyTableViewer {
 	}
 
 	/**
-	 * Stores dialog settings.
+	 * Stores the settings.
 	 * 
 	 * @param settings
 	 *            settings used to store dialog
 	 */
-	protected void storeDialog(IMemento memento) {
+	protected void saveState(IMemento memento) {
 		this.contentProvider.saveHistory(memento);
+	}
+
+	public void addToHistory(Object item) {
+		accessedHistoryItem(item);
 	}
 
 	/**
@@ -687,7 +690,9 @@ public abstract class AbstractLazyTableViewer {
 		}
 
 		// apply filter even if pattern is empty (display history)
-		applyFilter();
+		// Note, as our transaction won't be set yet. delay this after our data
+		// has been injected.
+		// applyFilter();
 
 		return content;
 	}
@@ -947,7 +952,7 @@ public abstract class AbstractLazyTableViewer {
 	 * items list. When new filter is different than previous one it will cause
 	 * refiltering.
 	 */
-	protected void applyFilter() {
+	public void applyFilter() {
 
 		ItemsFilter newFilter = createFilter();
 
@@ -976,7 +981,7 @@ public abstract class AbstractLazyTableViewer {
 	 * @return comparator to sort items content provider
 	 */
 
-	protected abstract Comparator getItemsComparator();
+	protected abstract <T> Comparator<T> getItemsComparator();
 
 	/**
 	 * Fills the content provider with matching items.
@@ -1420,7 +1425,7 @@ public abstract class AbstractLazyTableViewer {
 		}
 
 		private Image getImage(Object element, int columnIndex) {
-			if (element instanceof ItemsListSeparator) {
+			if (element instanceof ItemsListSeparator && columnIndex == 0) {
 				return WorkbenchImages
 						.getImage(IWorkbenchGraphicConstants.IMG_OBJ_SEPARATOR);
 			} else if (provider instanceof ITableLabelProvider) {
@@ -1450,8 +1455,8 @@ public abstract class AbstractLazyTableViewer {
 		 */
 		private String getText(Object element, int columnIndex) {
 			if (element instanceof ItemsListSeparator) {
-				return getSeparatorLabel(((ItemsListSeparator) element)
-						.getName());
+				return getSeparatorLabel(
+						((ItemsListSeparator) element).getName(), columnIndex);
 			}
 
 			String str = "";
@@ -1510,34 +1515,58 @@ public abstract class AbstractLazyTableViewer {
 			super.update(cell);
 		}
 
-		private String getSeparatorLabel(String separatorLabel) {
-			Rectangle rect = tblViewer.getTable().getBounds();
+		private String getSeparatorLabel(String separatorLabel, int columnIndex) {
+
+			int cwidth = tblViewer.getTable().getColumns()[columnIndex]
+					.getWidth();
+
+			// Rectangle rect = tblViewer.getTable().getBounds();
 
 			int borderWidth = tblViewer.getTable().computeTrim(0, 0, 0, 0).width;
 
-			int imageWidth = WorkbenchImages.getImage(
-					IWorkbenchGraphicConstants.IMG_OBJ_SEPARATOR).getBounds().width;
-
-			int width = rect.width - borderWidth - imageWidth;
+			// int width = rect.width - borderWidth - imageWidth;
+			int width = 0;
+			if (columnIndex == 0) {
+				int imageWidth = WorkbenchImages.getImage(
+						IWorkbenchGraphicConstants.IMG_OBJ_SEPARATOR)
+						.getBounds().width;
+				width = cwidth - borderWidth - imageWidth;
+			} else {
+				width = cwidth - borderWidth;
+			}
 
 			GC gc = new GC(tblViewer.getTable());
 			gc.setFont(tblViewer.getTable().getFont());
 
-			int fSeparatorWidth = gc.getAdvanceWidth('-');
+			int dashWidth = gc.getAdvanceWidth('-');
 			int fMessageLength = gc.textExtent(separatorLabel).x;
 
 			gc.dispose();
 
 			StringBuffer dashes = new StringBuffer();
-			int chars = (((width - fMessageLength) / fSeparatorWidth) / 2) - 2;
+
+			int chars = 0;
+
+			if (columnIndex == 0) {
+				chars = (((width - fMessageLength) / dashWidth) / 2) - 2;
+			} else {
+				chars = ((width / dashWidth) / 2) - 2;
+			}
+
 			for (int i = 0; i < chars; i++) {
 				dashes.append('-');
 			}
 
 			StringBuffer result = new StringBuffer();
-			result.append(dashes);
-			result.append(" " + separatorLabel + " "); //$NON-NLS-1$//$NON-NLS-2$
-			result.append(dashes);
+
+			if (columnIndex == 0) {
+				result.append(dashes);
+				result.append(" " + separatorLabel + " "); //$NON-NLS-1$//$NON-NLS-2$
+				result.append(dashes);
+			} else {
+				result.append(dashes);
+				result.append(dashes);
+			}
 			return result.toString().trim();
 		}
 
@@ -1806,7 +1835,8 @@ public abstract class AbstractLazyTableViewer {
 			if (totalWork == 0)
 				return message;
 
-			return new Integer((int) ((worked * 100) / totalWork)).toString() + " %";
+			return new Integer((int) ((worked * 100) / totalWork)).toString()
+					+ " %";
 
 		}
 
@@ -1838,14 +1868,14 @@ public abstract class AbstractLazyTableViewer {
 		 */
 		protected IStatus run(IProgressMonitor monitor) {
 
+			this.itemsFilter = filter;
+
 			if (ScreensActivator.DEBUG) {
 				ScreensActivator.TRACE.trace(
 						ScreensActivator.TRACE_SCREENS_OPTION,
-						"filter history job invoked.");
+						"filter history job invoked with pattern: \""
+								+ filter.getPattern() + "\"");
 			}
-
-			this.itemsFilter = filter;
-
 			contentProvider.reset();
 
 			refreshWithLastSelection = false;
@@ -2026,9 +2056,9 @@ public abstract class AbstractLazyTableViewer {
 
 		private final Set historyList;
 
-		private final String rootNodeName;
+		protected final String rootNodeName;
 
-		private final String infoNodeName;
+		protected final String infoNodeName;
 
 		private SelectionHistory(String rootNodeName, String infoNodeName) {
 
@@ -2141,14 +2171,16 @@ public abstract class AbstractLazyTableViewer {
 		 */
 		public void save(IMemento memento) {
 
-			IMemento historyMemento = memento.createChild(rootNodeName);
-
+			IMemento historyMemento = memento.getChild(rootNodeName);
+			if (historyMemento == null) {
+				historyMemento = memento.createChild(rootNodeName);
+			}
+			
 			Object[] items = getHistoryItems();
+			
 			for (int i = 0; i < items.length; i++) {
 				Object item = items[i];
-				IMemento elementMemento = historyMemento
-						.createChild(infoNodeName);
-				storeItemToMemento(item, elementMemento);
+				storeItemToMemento(item, historyMemento);
 			}
 
 		}
@@ -2188,7 +2220,7 @@ public abstract class AbstractLazyTableViewer {
 	 * Filters elements using SearchPattern by comparing the names of items with
 	 * the filter pattern.
 	 */
-	protected abstract class ItemsFilter {
+	public abstract class ItemsFilter {
 
 		protected SearchPattern patternMatcher;
 
@@ -2301,7 +2333,7 @@ public abstract class AbstractLazyTableViewer {
 		 * @return <code>true</code> if text matches with filter pattern,
 		 *         <code>false</code> otherwise
 		 */
-		protected boolean matches(String text) {
+		public boolean matches(String text) {
 			return patternMatcher.matches(text);
 		}
 
@@ -2530,14 +2562,27 @@ public abstract class AbstractLazyTableViewer {
 		public void addHistoryItems(ItemsFilter itemsFilter) {
 			if (this.selectionHistory != null) {
 				Object[] items = this.selectionHistory.getHistoryItems();
+
 				for (int i = 0; i < items.length; i++) {
 					Object item = items[i];
 					if (itemsFilter == filter) {
 						if (itemsFilter != null) {
 							if (itemsFilter.matchItem(item)) {
 								if (itemsFilter.isConsistentItem(item)) {
+									if (ScreensActivator.DEBUG) {
+										ScreensActivator.TRACE
+												.trace(ScreensActivator.TRACE_SCREENS_OPTION,
+														"Adding consistent item: "
+																+ item);
+									}
 									this.items.add(item);
 								} else {
+									if (ScreensActivator.DEBUG) {
+										ScreensActivator.TRACE
+												.trace(ScreensActivator.TRACE_SCREENS_OPTION,
+														"Removing inconsistent item: "
+																+ item);
+									}
 									this.selectionHistory.remove(item);
 								}
 							}
@@ -2681,9 +2726,10 @@ public abstract class AbstractLazyTableViewer {
 					}
 
 					lastSortedItems.addAll(items);
-					// Collections.sort(lastSortedItems,
-					// getHistoryComparator());
-					// lastSortedItems.addAll(Ordering.from(getItemsComparator()).reverse().sortedCopy(items));
+					 Collections.sort(lastSortedItems,
+					 getHistoryComparator());
+					 // Alternative soring, why?
+//					 lastSortedItems.addAll(Ordering.from(getItemsComparator()).reverse().sortedCopy(items));
 
 				}
 			}
