@@ -24,14 +24,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import com.netxforge.netxstudio.screens.ch9.Expressions;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.f2.LazyTolerances;
 import com.netxforge.netxstudio.screens.f2.NodeTypeResources;
 import com.netxforge.netxstudio.screens.f2.NodeTypes;
 import com.netxforge.netxstudio.screens.f2.Parameters;
-import com.netxforge.netxstudio.screens.f2.PrefabLazyTolerances;
 import com.netxforge.netxstudio.screens.f2.Protocols;
-import com.netxforge.netxstudio.screens.f2.Tolerances;
 import com.netxforge.netxstudio.screens.f2.Units;
+import com.netxforge.netxstudio.screens.f2.smarts.SmartLazyTolerances;
 import com.netxforge.netxstudio.screens.f4.Metrics;
 
 public class LibraryScreenSelector extends AbstractScreenSelector {
@@ -71,16 +69,16 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 				"Resource Definitions", "icons/full/obj16/Resource_H.gif",
 				NodeTypeResources.class, ScreenUtil.OPERATION_EDIT);
 
+//		result = screenFormService.addScreenSelector(result, "Tolerances",
+//				"icons/full/obj16/Tolerance_H.png", Tolerances.class,
+//				ScreenUtil.OPERATION_EDIT);
+//		
+//		result = screenFormService.addScreenSelector(result, "L Tolerances",
+//				"icons/full/obj16/Tolerance_H.png", LazyTolerances.class,
+//				ScreenUtil.OPERATION_EDIT);
+		
 		result = screenFormService.addScreenSelector(result, "Tolerances",
-				"icons/full/obj16/Tolerance_H.png", Tolerances.class,
-				ScreenUtil.OPERATION_EDIT);
-		
-		result = screenFormService.addScreenSelector(result, "L Tolerances",
-				"icons/full/obj16/Tolerance_H.png", LazyTolerances.class,
-				ScreenUtil.OPERATION_EDIT);
-		
-		result = screenFormService.addScreenSelector(result, "History L Tolerances",
-				"icons/full/obj16/Tolerance_H.png", PrefabLazyTolerances.class,
+				"icons/full/obj16/Tolerance_H.png", SmartLazyTolerances.class,
 				ScreenUtil.OPERATION_EDIT);
 		
 		

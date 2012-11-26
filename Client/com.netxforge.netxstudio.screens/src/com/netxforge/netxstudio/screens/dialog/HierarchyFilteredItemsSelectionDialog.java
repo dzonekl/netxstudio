@@ -1196,7 +1196,7 @@ public abstract class HierarchyFilteredItemsSelectionDialog extends
 	 * 
 	 * @param contentProvider
 	 *            collector to add items to.
-	 *            {@link FilteredItemsSelectionDialog.AbstractContentProvider#add(Object, FilteredItemsSelectionDialog.ItemsFilter)}
+	 *            {@link FilteredItemsSelectionDialog.AbstractContentProvider#addItem(Object, FilteredItemsSelectionDialog.ItemsFilter)}
 	 *            only adds items that pass the given <code>itemsFilter</code>.
 	 * @param itemsFilter
 	 *            the items filter

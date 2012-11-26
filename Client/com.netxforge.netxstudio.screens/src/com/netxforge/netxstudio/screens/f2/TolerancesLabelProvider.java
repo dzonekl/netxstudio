@@ -26,7 +26,7 @@ import org.eclipse.swt.graphics.Image;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.Tolerance;
 
-class TolerancesLabelProvider extends CellLabelProvider implements
+public class TolerancesLabelProvider extends CellLabelProvider implements
 		ITableLabelProvider {
 
 	public Image getColumnImage(Object element, int columnIndex) {
