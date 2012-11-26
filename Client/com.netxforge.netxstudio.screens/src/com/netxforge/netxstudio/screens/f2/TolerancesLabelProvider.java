@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 20 nov. 2012 NetXForge.
+ * Copyright (c) 22 nov. 2012 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,23 +14,25 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ package com.netxforge.netxstudio.screens.f2.support;
+ *******************************************************************************/
+package com.netxforge.netxstudio.screens.f2;
 
-import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.graphics.Image;
 
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.Tolerance;
 
-public class ToleranceObservableMapLabelProvider extends
-		ObservableMapLabelProvider {
+public class TolerancesLabelProvider extends CellLabelProvider implements
+		ITableLabelProvider {
 
-	public ToleranceObservableMapLabelProvider(IObservableMap[] attributeMaps) {
-		 super(attributeMaps);
+	public Image getColumnImage(Object element, int columnIndex) {
+		return null;
 	}
 
-	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		if (element instanceof Tolerance) {
 			Tolerance t = (Tolerance) element;
@@ -50,14 +52,21 @@ public class ToleranceObservableMapLabelProvider extends
 					Expression e = t.getExpressionRef();
 					EList<String> s = e.getExpressionLines();
 					if (s.size() > 0) {
-						return s.get(0) + "...";
+						return s.get(0)
+								+ (s.size() > 1 ? " ( " + (s.size() - 1)
+										+ " more lines)" : "");
 					}
 				}
 			}
 				break;
 			}
 		}
+		return null;
+	}
 
-		return super.getColumnText(element, columnIndex);
+	@Override
+	public void update(ViewerCell cell) {
+		String text = getColumnText(cell.getElement(), cell.getColumnIndex());
+		cell.setText(text);
 	}
 }

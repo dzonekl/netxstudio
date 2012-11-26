@@ -27,17 +27,12 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.IObservable;
-import org.eclipse.core.databinding.observable.ObservableEvent;
 import org.eclipse.core.databinding.observable.list.ComputedList;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
-import org.eclipse.core.databinding.observable.map.IMapChangeListener;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.core.databinding.observable.map.MapChangeEvent;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
-import org.eclipse.core.databinding.observable.set.ISetChangeListener;
-import org.eclipse.core.databinding.observable.set.SetChangeEvent;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
@@ -173,11 +168,11 @@ import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAct
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.selector.IScreenII;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f1.support.ReportWizard;
 import com.netxforge.netxstudio.screens.f3.NetworkViewerComparator;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
-import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 
@@ -187,8 +182,8 @@ import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
  * @author Christophe Bouhier
  * 
  */
-public class NodeResourcesAdvanced extends AbstractScreen implements
-		IDataServiceInjection {
+public class LazyNodeResourcesAdvanced extends AbstractScreen implements
+		IDataServiceInjection, IScreenII {
 
 	/*
 	 * Memento keys.
@@ -222,7 +217,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private ValueComponentII cmpValues;
 
 	@Inject
-	private ResourcesComponent cmpResources;
+	private LazyResourcesComponent cmpResources;
 
 	@Inject
 	private PeriodComponent cmpPeriod;
@@ -307,13 +302,15 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	private final UpdateDisconnectedResources componentsChangeListener = UpdateDisconnectedResources
 			.getInstance();
 
+	private Composite cmpComponentSelector;
+
 	/**
 	 * Create the composite.
 	 * 
 	 * @param parent
 	 * @param style
 	 */
-	public NodeResourcesAdvanced(Composite parent, int style) {
+	public LazyNodeResourcesAdvanced(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -584,8 +581,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 	private void buildComponentSelector(Composite parent, GridData gridData) {
 		// Selector.
-		Composite cmpComponentSelector = toolkit.createComposite(parent,
-				SWT.NONE);
+		cmpComponentSelector = toolkit.createComposite(parent, SWT.NONE);
 
 		cmpComponentSelector.setLayoutData(gridData);
 		GridLayout gl_cmpSelector = new GridLayout(2, false);
@@ -593,6 +589,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		gl_cmpSelector.marginWidth = 0;
 		gl_cmpSelector.marginHeight = 0;
 		cmpComponentSelector.setLayout(gl_cmpSelector);
+
+		// OPERATOR SELCTOR
 
 		lblOperator = toolkit.createLabel(cmpComponentSelector, "Operator:",
 				SWT.NONE);
@@ -605,11 +603,13 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		cmbOperator = new Combo(cmpComponentSelector, SWT.READ_ONLY);
 		cmbViewerOperator = new ComboViewer(cmbOperator);
 
-		GridData gd_cmbOperator = new GridData(SWT.FILL, SWT.CENTER, false,
+		GridData gd_cmbOperator = new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1);
-		gd_cmbOperator.widthHint = 100;
+		gd_cmbOperator.widthHint = 200;
 		cmbOperator.setLayoutData(gd_cmbOperator);
 		toolkit.paintBordersFor(cmbOperator);
+
+		// NETWORK SELCTOR
 
 		lblNetwork = toolkit.createLabel(cmpComponentSelector, "Network:",
 				SWT.NONE);
@@ -627,6 +627,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 				false, 1, 1));
 		toolkit.paintBordersFor(cmbNetwork);
 		cmbNetwork.setEnabled(false);
+
+		// COMPONENT SELCTOR
 
 		lblComponent = toolkit.createLabel(cmpComponentSelector, "N. Element:",
 				SWT.NONE);
@@ -861,7 +863,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			WritableList contextWritableList = contextAggregate
 					.getContextWritableList();
 			ExpressionContextDialog expressionContextDialog = new ExpressionContextDialog(
-					NodeResourcesAdvanced.this.getShell(), editingService,
+					LazyNodeResourcesAdvanced.this.getShell(), editingService,
 					modelUtils);
 			expressionContextDialog.setBlockOnOpen(false);
 			expressionContextDialog.open();
@@ -1055,8 +1057,8 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 								Resource toleranceResource = editingService
 										.getData(LibraryPackage.Literals.TOLERANCE);
 								ToleranceFilterDialog dialog = new ToleranceFilterDialog(
-										NodeResourcesAdvanced.this.getShell(),
-										toleranceResource);
+										LazyNodeResourcesAdvanced.this
+												.getShell(), toleranceResource);
 								if (dialog.open() == IDialogConstants.OK_ID) {
 									Tolerance tolerance = (Tolerance) dialog
 											.getFirstResult();
@@ -1635,7 +1637,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		public void run() {
 			List<NetXResource> disconnectedResources = updateDisconnectedResources();
 			if (disconnectedResources != null) {
-				cmpResources.injectData(false, disconnectedResources);
+				cmpResources.injectData(disconnectedResources);
 			}
 		}
 
@@ -1661,7 +1663,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 					.getFirstElement();
 
 			AdjustRangeDialog selectDialog = new AdjustRangeDialog(
-					NodeResourcesAdvanced.this.getShell(), modelUtils);
+					LazyNodeResourcesAdvanced.this.getShell(), modelUtils);
 
 			selectDialog.setBlockOnOpen(true);
 			selectDialog.create();
@@ -1752,6 +1754,7 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		bindExpressionSelector(bindingContext);
 
 		cmpValues.bindValues();
+		cmpResources.initDataBindings_();
 
 		return bindingContext;
 	}
@@ -1836,6 +1839,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		observeNodeSelection = ViewersObservables
 				.observeSingleSelection(cmbViewerNode);
 
+		// RE_LAYOUT THE COMPONENT SELECTOR WHEN POPULATED.
+		cmpComponentSelector.layout();
+
 		// BINDING OF THE COMPONENTS TABLE.
 
 		ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(
@@ -1919,10 +1925,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			@Override
 			protected List<Object> calculate() {
 				List<Object> result = Lists.newArrayList();
-				
-				
-				//  Forces, no selection on the resources tableviewer???
-//				resourcesTableViewer.setSelection(null);
+
+				// Forces, no selection on the resources tableviewer???
+				// resourcesTableViewer.setSelection(null);
 				for (Object value : observeMultipleComponentSelection) {
 					if (value instanceof Component) {
 						// Should be a filter or else.
@@ -2367,18 +2372,6 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 
 		operatorResource = (CDOResource) editingService
 				.getData(OperatorsPackage.Literals.OPERATOR);
-
-		buildUI();
-		registerFocus(this);
-
-		initDataBindings_();
-
-		// Option to observe all resources, our alternative using a query is ver
-		// http://work.netxforge.com/issues/304 update.
-		// List<NetXResource> disConnectedNetXResource = this
-		// .updateDisconnectedResources();
-		cmpResources.initDataBindings_();
-
 	}
 
 	/*
@@ -2690,53 +2683,27 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 		componentsTreeViewer.refresh();
 	}
 
-}
-
-/*
- * An IMap observable listener, which can be fed with IObservableMap's and will
- * refresh the provided viewer.
- */
-class UpdateDisconnectedResources implements IChangeListener,
-		ISetChangeListener, IMapChangeListener {
-
-	public static UpdateDisconnectedResources getInstance() {
-		return new UpdateDisconnectedResources();
+	public boolean initUI() {
+		buildUI();
+		registerFocus(this);
+		return true;
 	}
 
-	// Disallow instantation.
-	private UpdateDisconnectedResources() {
+	public void showPreLoadedUI() {
+		// N/A We simply show an unloaded UI.
+
 	}
 
-	/*
-	 * Used to perform additional functionality for map change notifications.
-	 */
-	public void notifyObservableMap(IObservableMap... maps) {
+	public void showPostLoadedUI() {
+		// Init
+		initDataBindings_();
 
-		for (IObservableMap map : maps) {
-			map.addChangeListener(this);
-			map.addMapChangeListener(this);
-
-		}
 	}
 
-	public void handleChange(ChangeEvent event) {
-		this.handleEvent(event);
-	}
+	public void cancelLoading() {
+		// As loading is in background, use a flag to not execute post loading
+		// this method is called when we switch to another screen.
 
-	public void handleMapChange(MapChangeEvent event) {
-		this.handleEvent(event);
-	}
-
-	public void handleSetChange(SetChangeEvent event) {
-		this.handleEvent(event);
-	}
-
-	private void handleEvent(ObservableEvent event) {
-		if (ScreensActivator.DEBUG) {
-			ScreensActivator.TRACE.trace(
-					ScreensActivator.TRACE_SCREENS_BINDING_OPTION,
-					"Binding event " + event);
-		}
 	}
 
 }

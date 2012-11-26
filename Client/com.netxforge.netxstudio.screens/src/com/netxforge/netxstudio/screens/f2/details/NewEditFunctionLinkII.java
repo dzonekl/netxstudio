@@ -45,11 +45,10 @@ import com.netxforge.netxstudio.screens.dialog.NodeFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.ProtocolFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
-		IScreen, IDataScreenInjection {
+		IDataScreenInjection {
 
 	protected Relationship relationship;
 	protected FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -744,7 +743,8 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 		gd_lblRoomsite.widthHint = 80;
 		lblRoomsite.setLayoutData(gd_lblRoomsite);
 
-		txtProtocol = toolkit.createText(cmpProtocol, "New Text", SWT.NONE | widgetStyle);
+		txtProtocol = toolkit.createText(cmpProtocol, "New Text", SWT.NONE
+				| widgetStyle);
 		txtProtocol.setText("");
 		GridData gd_txtNode1 = new GridData(SWT.FILL, SWT.CENTER, false, false,
 				1, 1);

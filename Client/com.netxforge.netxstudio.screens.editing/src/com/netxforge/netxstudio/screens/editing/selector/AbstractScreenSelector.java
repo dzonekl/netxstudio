@@ -156,16 +156,16 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 			firePropertyChange(ISaveablePart2.PROP_DIRTY);
 
 			// restore the state of the screen.
-			if (this.getMemento() != null) {
-
-				String validMementoElement = modelUtils
-						.underscopeWhiteSpaces(screen.getScreenName());
-				IMemento child = this.getMemento()
-						.getChild(validMementoElement);
-				if (child != null) {
-					screen.restoreState(child);
-				}
-			}
+//			if (this.getMemento() != null) {
+//
+//				String validMementoElement = modelUtils
+//						.underscopeWhiteSpaces(screen.getScreenName());
+//				IMemento child = this.getMemento()
+//						.getChild(validMementoElement);
+//				if (child != null) {
+//					screen.restoreState(child);
+//				}
+//			}
 			setFocus();
 		}
 	}

@@ -23,10 +23,9 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
-public class NewEditNodeType extends AbstractDetailsScreen implements IScreen,
+public class NewEditNodeType extends AbstractDetailsScreen implements
 		IDataScreenInjection {
 
 	private NodeType nodeType;

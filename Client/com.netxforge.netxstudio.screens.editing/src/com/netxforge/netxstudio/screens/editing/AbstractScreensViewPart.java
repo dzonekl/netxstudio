@@ -158,7 +158,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	@Override
 	public void setFocus() {
-		// Set the focus, delegate to the IScreen, not sure this has any value,
+		// TODO Set the focus, delegate to the IScreen, not sure this has any value,
 		// as we will remember the focus widget.
 	}
 

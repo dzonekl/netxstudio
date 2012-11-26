@@ -21,40 +21,30 @@ package com.netxforge.netxstudio.screens.f2;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.IEMFListProperty;
-import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
@@ -70,31 +60,27 @@ import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.LoadingFactory;
-import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreenII;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class Tolerances extends AbstractScreen implements
-		IDataServiceInjection, IScreenII {
+public class LazyTolerances extends AbstractScreen implements
+		IDataServiceInjection {
 
 	private static final String MEM_KEY_TOLERANCE_SELECTION_TABLE = "MEM_KEY_TOLERANCE_SELECTION_TABLE";
 	private static final String MEM_KEY_TOLERANCE_COLUMNS_TABLE = "MEM_KEY_TOLERANCE_COLUMNS_TABLE";
 	protected static final int PAGE_SIZE = 64;
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Text txtFilterText;
+	// private Text txtFilterText;
 	private Table table;
 
 	private TableViewer toleranceTblViewer;
 	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
 	private Form frmTolerances;
-	private ObservableListContentProvider listContentProvider;
 	private Resource toleranceResource;
 
 	/**
@@ -103,7 +89,7 @@ public class Tolerances extends AbstractScreen implements
 	 * @param parent
 	 * @param style
 	 */
-	public Tolerances(Composite parent, int style) {
+	public LazyTolerances(Composite parent, int style) {
 		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
@@ -128,33 +114,35 @@ public class Tolerances extends AbstractScreen implements
 		frmTolerances.setText(getOperationText() + "Tolerances");
 		frmTolerances.getBody().setLayout(new GridLayout(3, false));
 
-		Label lblFilterLabel = toolkit.createLabel(frmTolerances.getBody(),
-				"Filter:", SWT.NONE);
-		GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_lblFilterLabel.widthHint = 36;
-		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
-
-		txtFilterText = toolkit.createText(frmTolerances.getBody(), "New Text",
-				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
-		txtFilterText.setText("");
-		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, true,
-				false, 1, 1);
-		gd_txtFilterText.widthHint = 200;
-		txtFilterText.setLayoutData(gd_txtFilterText);
-
-		txtFilterText.addKeyListener(new KeyAdapter() {
-			public void keyReleased(KeyEvent ke) {
-				toleranceTblViewer.refresh();
-				ViewerFilter[] filters = toleranceTblViewer.getFilters();
-				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
-								.setSearchText(txtFilterText.getText());
-					}
-				}
-			}
-		});
+		// Label lblFilterLabel = toolkit.createLabel(frmTolerances.getBody(),
+		// "Filter:", SWT.NONE);
+		// GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER,
+		// false,
+		// false, 1, 1);
+		// gd_lblFilterLabel.widthHint = 36;
+		// lblFilterLabel.setLayoutData(gd_lblFilterLabel);
+		//
+		// txtFilterText = toolkit.createText(frmTolerances.getBody(),
+		// "New Text",
+		// SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
+		// txtFilterText.setText("");
+		// GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, true,
+		// false, 1, 1);
+		// gd_txtFilterText.widthHint = 200;
+		// txtFilterText.setLayoutData(gd_txtFilterText);
+		//
+		// txtFilterText.addKeyListener(new KeyAdapter() {
+		// public void keyReleased(KeyEvent ke) {
+		// toleranceTblViewer.refresh();
+		// ViewerFilter[] filters = toleranceTblViewer.getFilters();
+		// for (ViewerFilter viewerFilter : filters) {
+		// if (viewerFilter instanceof SearchFilter) {
+		// ((SearchFilter) viewerFilter)
+		// .setSearchText(txtFilterText.getText());
+		// }
+		// }
+		// }
+		// });
 
 		// Conditional widget.
 		if (!readonly) {
@@ -211,7 +199,7 @@ public class Tolerances extends AbstractScreen implements
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		toolkit.paintBordersFor(table);
 
-		toleranceTblViewer.addFilter(new SearchFilter(editingService));
+//		toleranceTblViewer.addFilter(new SearchFilter(editingService));
 	}
 
 	/**
@@ -280,11 +268,19 @@ public class Tolerances extends AbstractScreen implements
 	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
 	 */
 	public void injectData() {
+		toleranceResource = editingService
+				.getData(LibraryPackage.Literals.TOLERANCE);
 
 		if (toleranceResource instanceof CDOResource) {
 			CDOResource tolResource = (CDOResource) toleranceResource;
 			tolResource.cdoPrefetch(CDORevision.DEPTH_INFINITE);
 		}
+		buildUI();
+		buildColumns();
+		toleranceTblViewer.setItemCount(((CDOResource) toleranceResource)
+				.eContents().size());
+		bindingContext = initDataBindings_();
+
 	}
 
 	public boolean initUI() {
@@ -313,34 +309,13 @@ public class Tolerances extends AbstractScreen implements
 
 	public EMFDataBindingContext initDataBindings_() {
 
-		listContentProvider = new ObservableListContentProvider();
-		toleranceTblViewer.setContentProvider(listContentProvider);
+		// listContentProvider = new ObservableListContentProvider();
+		toleranceTblViewer.setContentProvider(new LazyListContentProvider());
+		//
+		toleranceTblViewer.setLabelProvider(new TolerancesLabelProvider());
+		toleranceTblViewer.setInput(toleranceResource.getContents());
 
-//		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-//				listContentProvider.getKnownElements(),
-//				new EStructuralFeature[] {
-//						LibraryPackage.Literals.TOLERANCE__NAME,
-//						LibraryPackage.Literals.TOLERANCE__LEVEL,
-//						LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF });
-//		
-//		toleranceTblViewer
-//				.setLabelProvider(new ToleranceObservableMapLabelProvider(
-//						observeMaps));
-
-		
-		toleranceTblViewer
-		.setLabelProvider(new ToleranceObservableMapLabelProvider(
-				new IObservableMap[]{}));
-		
-		IEMFListProperty l = EMFEditProperties.resource(editingService
-				.getEditingDomain());
-		IObservableList toleranceObservableList = l.observe(toleranceResource);
-
-		// obm.addObservable(toleranceObservableList);
-		toleranceTblViewer.setInput(toleranceObservableList);
-
-		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-		return bindingContext;
+		return null;
 	}
 
 	/*
@@ -428,12 +403,14 @@ public class Tolerances extends AbstractScreen implements
 	public void showPostLoadedUI() {
 		if (!fCancelLoading) {
 			toleranceTblViewer.setInput(null);
+
 			// Now build the columns, after cleaning the input.
 			buildColumns();
+			toleranceTblViewer.setItemCount(((CDOResource) toleranceResource)
+					.eContents().size());
 			bindingContext = initDataBindings_();
 		} else {
 			fCancelLoading = false;
 		}
 	}
-
 }

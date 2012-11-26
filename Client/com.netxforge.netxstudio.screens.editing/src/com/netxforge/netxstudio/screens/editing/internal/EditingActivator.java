@@ -52,6 +52,7 @@ public class EditingActivator extends AbstractUIPlugin implements
 	// Tracing options for monitoring logic
 	public static String TRACE_EDITING_OPTION = "/trace.editing";
 	public static String TRACE_EDITING_DETAILS_OPTION = "/trace.editing.details";
+	public static String TRACE_EDITING_LOADING_OPTION = "/trace.editing.loading";
 
 	public Injector getInjector() {
 		return injector;
