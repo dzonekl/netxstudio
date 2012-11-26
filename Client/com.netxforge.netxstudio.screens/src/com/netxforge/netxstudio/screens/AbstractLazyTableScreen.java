@@ -31,6 +31,7 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.spi.cdo.FSMUtil;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -79,7 +80,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 		lazyTableViewer.setSelectionHistory(new LazySelectionHistory(view));
 	}
 
-	public void buildUI(Composite parent) {
+	public void buildUI(Composite parent, String pattern) {
 		lazyTableViewer = new LazyTableViewer(this.getShell(), true);
 		
 		adapterFactoryItemDelegator = new AdapterFactoryItemDelegator(
@@ -231,11 +232,6 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 
 			}
 
-			// We don't want to feed the whole list, this should really be done
-			// when a specific filter applies.
-			// If the filter is
-
-			
 			final Resource delegateGetResource = delegateGetResource();
 			
 			// Do in UI thread. 
@@ -388,6 +384,11 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 
 	public LazyTableViewer getLazyTableViewer() {
 		return lazyTableViewer;
+	}
+
+	@Override
+	public IAction[] getActions() {
+		return new IAction[ ]{lazyTableViewer.getRemoveHistoryItemAction()};
 	}
 
 }

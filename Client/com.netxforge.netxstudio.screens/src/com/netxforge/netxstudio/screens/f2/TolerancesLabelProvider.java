@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2;
 
 import org.eclipse.emf.common.util.EList;
@@ -52,7 +52,9 @@ public class TolerancesLabelProvider extends CellLabelProvider implements
 					Expression e = t.getExpressionRef();
 					EList<String> s = e.getExpressionLines();
 					if (s.size() > 0) {
-						return s.get(0) + "...";
+						return s.get(0)
+								+ (s.size() > 1 ? " ( " + (s.size() - 1)
+										+ " more lines)" : "");
 					}
 				}
 			}
@@ -64,8 +66,7 @@ public class TolerancesLabelProvider extends CellLabelProvider implements
 
 	@Override
 	public void update(ViewerCell cell) {
-		String text = getColumnText(cell.getElement(),
-				cell.getColumnIndex());
+		String text = getColumnText(cell.getElement(), cell.getColumnIndex());
 		cell.setText(text);
 	}
 }
