@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.f2;
+package com.netxforge.netxstudio.screens.f2.smarts;
 
 import java.util.Comparator;
 import java.util.List;
@@ -24,6 +24,7 @@ import java.util.List;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
@@ -50,17 +51,19 @@ import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractLazyTableScreen;
 import com.netxforge.netxstudio.screens.actions.ScreenAction;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.f2.NewEditTolerance;
+import com.netxforge.netxstudio.screens.f2.TolerancesLabelProvider;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class PrefabLazyTolerances extends AbstractLazyTableScreen {
+public class SmartLazyTolerances extends AbstractLazyTableScreen {
 
 	private Form frmTolerances;
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private CDOResource toleranceResource;
 
-	public PrefabLazyTolerances(Composite parent, int style) {
+	public SmartLazyTolerances(Composite parent, int style) {
 		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
@@ -87,7 +90,7 @@ public class PrefabLazyTolerances extends AbstractLazyTableScreen {
 		frmTolerances.getBody().setLayout(new GridLayout(3, false));
 		frmTolerances.getToolBarManager().add(new EditToleranceAction("", ResourceManager.getPluginImageDescriptor(
 				"com.netxforge.netxstudio.models.edit",
-				"icons/full/ctool16/Threshold_E.png"), ScreenAction.EDIT_OR_VIEW_MODE));
+				"icons/full/ctool16/Threshold_E.png"), ScreenAction.NEW_MODE));
 		frmTolerances.getToolBarManager().update(true);
 		super.buildUI(frmTolerances.getBody());
 
@@ -244,5 +247,10 @@ public class PrefabLazyTolerances extends AbstractLazyTableScreen {
 	@Override
 	public CDOView delegateGetCDOView() {
 		return toleranceResource.cdoView();
+	}
+
+	@Override
+	protected Resource delegateGetResource() {
+		return toleranceResource;
 	}
 }

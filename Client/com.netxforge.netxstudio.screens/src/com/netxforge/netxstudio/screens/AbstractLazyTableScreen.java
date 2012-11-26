@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 25 nov. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens;
 
 import java.util.Comparator;
@@ -11,6 +28,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.spi.cdo.FSMUtil;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
@@ -20,6 +38,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMemento;
 
@@ -61,7 +80,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 	}
 
 	public void buildUI(Composite parent) {
-		lazyTableViewer = new LazyTableViewer(this.getShell());
+		lazyTableViewer = new LazyTableViewer(this.getShell(), true);
 		
 		adapterFactoryItemDelegator = new AdapterFactoryItemDelegator(
 				editingService.getAdapterFactory());
@@ -136,6 +155,11 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 	}
 
 	public class LazyTableViewer extends AbstractLazyTableViewer {
+		
+		
+		public LazyTableViewer(Shell shell, boolean multi) {
+			super(shell, multi);
+		}
 
 		public LazyTableViewer(Shell shell) {
 			super(shell);
@@ -211,8 +235,21 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 			// when a specific filter applies.
 			// If the filter is
 
-			List<?> delegateGetItems = delegateGetItems();
-			contentProvider.addCollection(delegateGetItems, itemsFilter);
+			
+			final Resource delegateGetResource = delegateGetResource();
+			
+			// Do in UI thread. 
+			
+			Display.getDefault().asyncExec(new Runnable() {
+
+				public void run() {
+					if(!tblViewer.getInput().equals(delegateGetResource)){
+						tblViewer.setInput(delegateGetResource);	
+					}
+				}
+			});
+				
+			contentProvider.addCollection(delegateGetResource.getContents(), itemsFilter);
 
 		}
 
@@ -269,9 +306,20 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 	protected void delegateHandleDoubleClick() {
 
 	}
-
+	
+	
+	/*
+	 * Clients must implement. The source for populating items. 
+	 */
 	protected abstract List<?> delegateGetItems();
+	
+	
+	/*
+	 * Clients must implement. The source for populating items. 
+	 */
+	protected abstract Resource delegateGetResource();
 
+	
 	/*
 	 * Clients can override to validation of selected items. In the context of
 	 * an editor (Not a selector) the need for this is limited.
