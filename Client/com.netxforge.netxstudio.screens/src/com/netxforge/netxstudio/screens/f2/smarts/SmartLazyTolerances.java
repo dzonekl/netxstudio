@@ -18,6 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2.smarts;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -88,12 +89,14 @@ public class SmartLazyTolerances extends AbstractLazyTableScreen {
 		toolkit.paintBordersFor(frmTolerances);
 		frmTolerances.setText(getOperationText() + "Tolerances");
 		frmTolerances.getBody().setLayout(new GridLayout(3, false));
-		frmTolerances.getToolBarManager().add(new EditToleranceAction("", ResourceManager.getPluginImageDescriptor(
-				"com.netxforge.netxstudio.models.edit",
-				"icons/full/ctool16/Threshold_E.png"), ScreenAction.NEW_MODE));
+		frmTolerances.getToolBarManager().add(
+				new EditToleranceAction("", ResourceManager
+						.getPluginImageDescriptor(
+								"com.netxforge.netxstudio.models.edit",
+								"icons/full/ctool16/Threshold_E.png"),
+						ScreenAction.NEW_MODE));
 		frmTolerances.getToolBarManager().update(true);
-		super.buildUI(frmTolerances.getBody());
-
+		super.buildUI(frmTolerances.getBody(), "?");
 	}
 
 	public Form getScreenForm() {
@@ -113,6 +116,7 @@ public class SmartLazyTolerances extends AbstractLazyTableScreen {
 
 		// Must call to set the Selection History.
 		super.injectData();
+		this.getLazyTableViewer().setPattern("?");
 	}
 
 	@Override
@@ -167,7 +171,9 @@ public class SmartLazyTolerances extends AbstractLazyTableScreen {
 		if (actions.isEmpty()) {
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
-			actions.add(new EditToleranceAction(actionText + "...", SWT.NONE, ScreenAction.EDIT_OR_VIEW_MODE));
+			actions.add(new EditToleranceAction(actionText + "...", SWT.NONE,
+					ScreenAction.EDIT_OR_VIEW_MODE));
+			actions.addAll(Arrays.asList(super.getActions()));
 		}
 
 		return actions.toArray(new IAction[actions.size()]);
@@ -252,5 +258,11 @@ public class SmartLazyTolerances extends AbstractLazyTableScreen {
 	@Override
 	protected Resource delegateGetResource() {
 		return toleranceResource;
+	}
+
+	@Override
+	protected void delegateHandleDoubleClick() {
+		getActions()[0].run();
+		
 	}
 }

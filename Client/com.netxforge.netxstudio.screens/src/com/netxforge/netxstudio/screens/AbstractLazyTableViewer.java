@@ -27,7 +27,6 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
-import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.LegacyActionTools;
 import org.eclipse.jface.action.MenuManager;
@@ -75,9 +74,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IWorkbenchPreferenceConstants;
@@ -147,7 +144,15 @@ public abstract class AbstractLazyTableViewer {
 
 	private Label progressLabel;
 
+	
+	/*
+	 * Expose so we can add this action to another menu manager. 
+	 */
 	private RemoveHistoryItemAction removeHistoryItemAction;
+
+	public RemoveHistoryItemAction getRemoveHistoryItemAction() {
+		return removeHistoryItemAction;
+	}
 
 	private ActionContributionItem removeHistoryActionContributionItem;
 
@@ -490,24 +495,26 @@ public abstract class AbstractLazyTableViewer {
 
 		}
 	}
-
-	private void createPopupMenu() {
-		removeHistoryItemAction = new RemoveHistoryItemAction();
-		removeHistoryActionContributionItem = new ActionContributionItem(
-				removeHistoryItemAction);
-
-		contextMenuManager = new MenuManager();
-		contextMenuManager.setRemoveAllWhenShown(true);
-		contextMenuManager.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				fillContextMenu(manager);
-			}
-		});
-
-		final Table table = tblViewer.getTable();
-		Menu menu = contextMenuManager.createContextMenu(table);
-		table.setMenu(menu);
-	}
+	
+	
+	// CB Remove later. 
+//	private void createPopupMenu() {
+//		
+//		removeHistoryActionContributionItem = new ActionContributionItem(
+//				removeHistoryItemAction);
+//
+//		contextMenuManager = new MenuManager();
+//		contextMenuManager.setRemoveAllWhenShown(true);
+//		contextMenuManager.addMenuListener(new IMenuListener() {
+//			public void menuAboutToShow(IMenuManager manager) {
+//				fillContextMenu(manager);
+//			}
+//		});
+//
+//		final Table table = tblViewer.getTable();
+//		Menu menu = contextMenuManager.createContextMenu(table);
+//		table.setMenu(menu);
+//	}
 
 	/**
 	 * Creates an extra content area, which will be located above the details.
@@ -584,8 +591,9 @@ public abstract class AbstractLazyTableViewer {
 		// the label provider set.
 		tblViewer.setLabelProvider(getItemsLabelProvider());
 
-		createPopupMenu();
-
+//		createPopupMenu();
+		removeHistoryItemAction = new RemoveHistoryItemAction();
+		
 		pattern.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				applyFilter();
@@ -894,6 +902,17 @@ public abstract class AbstractLazyTableViewer {
 		this.selectionMode = selectionMode;
 	}
 
+		
+	/**
+	 * Set the pattern, forcing the filter to be re-applied. 
+	 * @param text
+	 */
+	public void setPattern(String text) {
+		pattern.setText(text);
+	}
+
+	
+	
 	/**
 	 * Gets initial pattern.
 	 * 
@@ -1042,6 +1061,7 @@ public abstract class AbstractLazyTableViewer {
 	 */
 	protected void accessedHistoryItem(Object item) {
 		contentProvider.addHistoryItem(item);
+		contentProvider.reloadCache();
 	}
 
 	/**
@@ -1328,7 +1348,7 @@ public abstract class AbstractLazyTableViewer {
 		 * Creates a new instance of the class.
 		 */
 		public RemoveHistoryItemAction() {
-			super("Remove Items from history");
+			super("Remove from history");
 		}
 
 		/*
@@ -2297,19 +2317,21 @@ public abstract class AbstractLazyTableViewer {
 			} else if (msg.getEventType() == Notification.REMOVE) {
 				// Removing, from source Items, LastSortedItems, Duplicates &
 				// History.
+				refreshWithLastSelection = false;
 				Object item = msg.getOldValue();
 				icp.removeItem(item);
 				icp.removeHistoryElement(item);
-				icp.reloadCache();
 			} else if (msg.getEventType() == Notification.REMOVE_MANY) {
 				List<?> list = (List<?>) msg.getOldValue();
 				for (Object item : list) {
 					icp.removeItem(item);
 					icp.removeHistoryElement(item);
 				}
-				icp.reloadCache();
 			}
 			
+			// Reload cache if we haven't received a notification within 1 second. 
+			refreshCacheJob.cancelAll();
+			refreshCacheJob.schedule(1000);
 		}
 	}
 
@@ -2672,9 +2694,10 @@ public abstract class AbstractLazyTableViewer {
 		@Override
 		public void addCollection(List<?> delegateGetItems,
 				ItemsFilter itemsFilter) {
-
-			// no, this will add the whole lot@
-			items.addAll(delegateGetItems);
+			
+			for( Object item : delegateGetItems){
+				this.addItem(item, itemsFilter);
+			}
 		}
 
 		/**
@@ -2762,7 +2785,9 @@ public abstract class AbstractLazyTableViewer {
 			synchronized (lastSortedItems) {
 				Collections.sort(lastSortedItems, getHistoryComparator());
 			}
-			this.reloadCache();
+			
+			// Do the reload caching explicitly. 
+//			this.reloadCache();
 		}
 
 		/**
@@ -2961,7 +2986,7 @@ public abstract class AbstractLazyTableViewer {
 			if (ScreensActivator.DEBUG) {
 				ScreensActivator.TRACE.trace(
 						ScreensActivator.TRACE_SCREENS_OPTION,
-						"cache size is : " + lastFilteredItems.size());
+						"cache size is (incl. separator) : " + lastFilteredItems.size());
 			}
 
 			if (reset || (monitor != null && monitor.isCanceled())) {
