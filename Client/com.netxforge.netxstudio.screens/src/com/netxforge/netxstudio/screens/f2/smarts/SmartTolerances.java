@@ -58,13 +58,13 @@ import com.netxforge.netxstudio.screens.f2.TolerancesLabelProvider;
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class SmartLazyTolerances extends AbstractLazyTableScreen {
+public class SmartTolerances extends AbstractLazyTableScreen {
 
 	private Form frmTolerances;
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private CDOResource toleranceResource;
 
-	public SmartLazyTolerances(Composite parent, int style) {
+	public SmartTolerances(Composite parent, int style) {
 		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
@@ -102,6 +102,11 @@ public class SmartLazyTolerances extends AbstractLazyTableScreen {
 	public Form getScreenForm() {
 		return frmTolerances;
 	}
+	
+	@Override
+	public String getScreenName() {
+		return "Tolerances";
+	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		return null;
@@ -116,7 +121,7 @@ public class SmartLazyTolerances extends AbstractLazyTableScreen {
 
 		// Must call to set the Selection History.
 		super.injectData();
-		this.getLazyTableViewer().setPattern("?");
+		
 	}
 
 	@Override
@@ -171,7 +176,10 @@ public class SmartLazyTolerances extends AbstractLazyTableScreen {
 		if (actions.isEmpty()) {
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
-			actions.add(new EditToleranceAction(actionText + "...", SWT.NONE,
+			actions.add(new EditToleranceAction(actionText + "...", ResourceManager
+					.getPluginImageDescriptor(
+							"com.netxforge.netxstudio.models.edit",
+							"icons/full/obj16/Tolerance_H.png"),
 					ScreenAction.EDIT_OR_VIEW_MODE));
 			actions.addAll(Arrays.asList(super.getActions()));
 		}
@@ -187,20 +195,13 @@ public class SmartLazyTolerances extends AbstractLazyTableScreen {
 	 */
 	class EditToleranceAction extends ScreenAction {
 
-		public EditToleranceAction(int mode) {
-			super(mode);
-		}
-
 		public EditToleranceAction(String text, ImageDescriptor image, int mode) {
 			super(text, image, mode);
 		}
 
-		public EditToleranceAction(String text, int style, int mode) {
-			super(text, style, mode);
-		}
-
-		public EditToleranceAction(String text, int mode) {
-			super(text, mode);
+		@Override
+		protected boolean updateSelection(IStructuredSelection selection) {
+			return selection.getFirstElement() instanceof Tolerance;
 		}
 
 		@Override
@@ -263,6 +264,6 @@ public class SmartLazyTolerances extends AbstractLazyTableScreen {
 	@Override
 	protected void delegateHandleDoubleClick() {
 		getActions()[0].run();
-		
 	}
+	
 }

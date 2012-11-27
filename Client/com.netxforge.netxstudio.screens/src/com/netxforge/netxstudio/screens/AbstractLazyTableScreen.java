@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens;
 
 import java.util.Comparator;
@@ -45,6 +45,7 @@ import org.eclipse.ui.IMemento;
 
 import com.netxforge.netxstudio.screens.AbstractLazyTableViewer.ItemsFilter;
 import com.netxforge.netxstudio.screens.AbstractLazyTableViewer.SelectionHistory;
+import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
@@ -82,7 +83,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 
 	public void buildUI(Composite parent, String pattern) {
 		lazyTableViewer = new LazyTableViewer(this.getShell(), true);
-		
+
 		adapterFactoryItemDelegator = new AdapterFactoryItemDelegator(
 				editingService.getAdapterFactory());
 
@@ -156,8 +157,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 	}
 
 	public class LazyTableViewer extends AbstractLazyTableViewer {
-		
-		
+
 		public LazyTableViewer(Shell shell, boolean multi) {
 			super(shell, multi);
 		}
@@ -233,19 +233,20 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 			}
 
 			final Resource delegateGetResource = delegateGetResource();
-			
-			// Do in UI thread. 
-			
+
+			// Do in UI thread.
+
 			Display.getDefault().asyncExec(new Runnable() {
 
 				public void run() {
-					if(!tblViewer.getInput().equals(delegateGetResource)){
-						tblViewer.setInput(delegateGetResource);	
+					if (!tblViewer.getInput().equals(delegateGetResource)) {
+						tblViewer.setInput(delegateGetResource);
 					}
 				}
 			});
-				
-			contentProvider.addCollection(delegateGetResource.getContents(), itemsFilter);
+
+			contentProvider.addCollection(delegateGetResource.getContents(),
+					itemsFilter);
 
 		}
 
@@ -302,20 +303,17 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 	protected void delegateHandleDoubleClick() {
 
 	}
-	
-	
+
 	/*
-	 * Clients must implement. The source for populating items. 
+	 * Clients must implement. The source for populating items.
 	 */
 	protected abstract List<?> delegateGetItems();
-	
-	
+
 	/*
-	 * Clients must implement. The source for populating items. 
+	 * Clients must implement. The source for populating items.
 	 */
 	protected abstract Resource delegateGetResource();
 
-	
 	/*
 	 * Clients can override to validation of selected items. In the context of
 	 * an editor (Not a selector) the need for this is limited.
@@ -373,13 +371,52 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 	@Override
 	public void saveState(IMemento memento) {
 		lazyTableViewer.saveState(memento);
+		// sash state vertical.
+		mementoUtils.rememberStructuredViewerSelection(memento,
+				lazyTableViewer.getTableViewer(),
+				MementoUtil.MEM_KEY_SELECTION_TABLE);
+
+		// Note: Not compatible with the refresh algorithm of the underlying
+		// viewer.
+		mementoUtils.rememberStructuredViewerColumns(memento,
+				lazyTableViewer.getTableViewer(),
+				MementoUtil.MEM_KEY_SELECTION_TABLE);
+
+		if (lazyItemsFilter != null) {
+			mementoUtils.rememberString(memento, lazyItemsFilter.getPattern(),
+					MementoUtil.MEM_KEY_SEARCH_PATTERN);
+		}
 	}
 
 	@Override
 	public void restoreState(IMemento memento) {
-		lazyTableViewer.restoreState(memento);
-		lazyTableViewer.applyFilter(); // Trigger the initial filtering, which
-										// will show history.
+		String pattern = null;
+		if (memento != null) {
+			lazyTableViewer.restoreState(memento);
+
+			mementoUtils.retrieveStructuredViewerSelection(memento,
+					lazyTableViewer.getTableViewer(),
+					MementoUtil.MEM_KEY_SELECTION_TABLE, delegateGetCDOView());
+			mementoUtils.retrieveStructuredViewerColumns(memento,
+					lazyTableViewer.getTableViewer(),
+					MementoUtil.MEM_KEY_COLUMNS_TABLE);
+
+			pattern = mementoUtils.retrieveString(memento,
+					MementoUtil.MEM_KEY_SEARCH_PATTERN);
+		}
+
+		if (pattern == null) {
+			this.getLazyTableViewer().setPattern("?"); // Show all when not set.
+		} else if (pattern.length() == 0) {
+			this.getLazyTableViewer().applyFilter(); // Just show the history/
+		} else {
+			this.getLazyTableViewer().setPattern(pattern);
+		}
+
+		// lazyTableViewer.applyFilter(); // Trigger the initial filtering,
+		// which
+		// will show history.
+
 	}
 
 	public LazyTableViewer getLazyTableViewer() {
@@ -388,7 +425,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 
 	@Override
 	public IAction[] getActions() {
-		return new IAction[ ]{lazyTableViewer.getRemoveHistoryItemAction()};
+		return new IAction[] { lazyTableViewer.getRemoveHistoryItemAction() };
 	}
 
 }

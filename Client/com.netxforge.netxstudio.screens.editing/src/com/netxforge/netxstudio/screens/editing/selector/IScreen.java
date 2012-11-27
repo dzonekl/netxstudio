@@ -43,8 +43,6 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
 public interface IScreen extends IViewerProvider, ISelectionProvider, IPersistable {
 	
 	
-	public static final String MEM_KEY_STRING = "MEM_KEY_SCREEN";
-	
 	/**
 	 * Screens should implement, and tell us what kind of operation they should perform. 
 	 * {@link ScreenUtil}

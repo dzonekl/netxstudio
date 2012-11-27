@@ -17,7 +17,9 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.ui;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IPerspectiveListener;
 import org.eclipse.ui.IWorkbenchPage;
@@ -151,6 +153,12 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	public boolean preWindowShellClose() {
 
 		return super.preWindowShellClose();
+	}
+
+	@Override
+	public IStatus saveState(IMemento memento) {
+		// TODO Auto-generated method stub
+		return super.saveState(memento);
 	}
 
 	@Override

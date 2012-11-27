@@ -25,7 +25,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.LegacyActionTools;
@@ -42,6 +41,7 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILazyContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
@@ -80,6 +80,7 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.XMLMemento;
+import org.eclipse.ui.actions.BaseSelectionListenerAction;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 import org.eclipse.ui.dialogs.SearchPattern;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -1342,13 +1343,21 @@ public abstract class AbstractLazyTableViewer {
 
 	}
 
-	private class RemoveHistoryItemAction extends Action {
+	private class RemoveHistoryItemAction extends BaseSelectionListenerAction {
 
 		/**
 		 * Creates a new instance of the class.
 		 */
 		public RemoveHistoryItemAction() {
 			super("Remove from history");
+		}
+
+		
+		
+		@Override
+		protected boolean updateSelection(IStructuredSelection selection) {
+			Object firstElement = selection.getFirstElement();
+			return isHistoryElement(firstElement);
 		}
 
 		/*
@@ -2331,7 +2340,7 @@ public abstract class AbstractLazyTableViewer {
 			
 			// Reload cache if we haven't received a notification within 1 second. 
 			refreshCacheJob.cancelAll();
-			refreshCacheJob.schedule(1000);
+			refreshCacheJob.schedule(500);
 		}
 	}
 

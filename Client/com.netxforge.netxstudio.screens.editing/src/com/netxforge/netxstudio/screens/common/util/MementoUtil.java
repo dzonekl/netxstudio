@@ -55,6 +55,16 @@ public class MementoUtil {
 
 	// Date formatter for memento.
 	final SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS-Z");
+	
+	public static final String MEM_KEY_SEARCH_PATTERN = "MEM_KEY_SEARCH_PATTERN";
+	
+	public static final String MEM_KEY_COLUMNS_TABLE = "MEM_KEY_COLUMNS_TABLE";
+	
+	public static final String MEM_KEY_SELECTION_TABLE = "MEM_KEY_SELECTION_TABLE";
+	
+	public static final String MEM_KEY_CURRENT_SCREEN = "MEM_KEY_CURRENT_SCREEN";
+
+	public static final String MEM_KEY_SCREEN_PART = "MEM_KEY_SCREEN_PART";
 
 	/**
 	 * Remember an array of integers.
@@ -446,4 +456,14 @@ public class MementoUtil {
 		}
 	}
 
+	public void rememberString(IMemento memento, String string,
+			String key) {
+		memento.putString(key, string);
+	}
+
+	public String retrieveString(IMemento memento,
+			String key) {
+		return memento.getString(key);
+	}
+	
 }

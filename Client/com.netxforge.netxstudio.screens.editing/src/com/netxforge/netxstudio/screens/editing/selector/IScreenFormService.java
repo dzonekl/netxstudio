@@ -47,14 +47,6 @@ public interface IScreenFormService {
 	public abstract Composite getActiveComposite();
 	
 	/**
-	 * Check if the proposed new screen is not the active screen already.
-	 * 
-	 * @param proposedScreen
-	 * @return
-	 */
-	public abstract boolean isActiveScreen(Class<?> proposedScreen);
-
-	/**
 	 * Set the active screen to this composite. Pushes the previous screen on a
 	 * screen stack. It's best to clear the cache when switching a branch of
 	 * screens.
@@ -134,7 +126,16 @@ public interface IScreenFormService {
 	 * @return
 	 */
 	public abstract Composite getScreenContainer();
-
+	
+	
+	/**
+	 * Save the screen state. API for saving the {@link IScreen} state, 
+	 * when a i.e. ViewPart closes.  
+	 * 
+	 * @param screen
+	 */
+	public abstract void saveScreenState(IScreen screen);
+	
 	/**
 	 * Get the screen action bar.
 	 * 
@@ -187,5 +188,12 @@ public interface IScreenFormService {
 	 * all potential actions. 
 	 */
 	public abstract void disable();
+
+	
+	/**
+	 * Try to instantiate an IScreen with this name. 
+	 * @param screenName
+	 */
+	public abstract void realize(String screenName);
 
 }

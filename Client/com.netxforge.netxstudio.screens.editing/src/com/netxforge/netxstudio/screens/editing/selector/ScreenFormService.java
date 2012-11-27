@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.screens.editing.selector;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
@@ -54,6 +55,7 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataService;
@@ -97,6 +99,7 @@ import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 public class ScreenFormService implements IScreenFormService {
 
 	private SashForm sashForm;
+
 	private Form selectorForm;
 
 	private ScreenBody screenBody;
@@ -111,6 +114,11 @@ public class ScreenFormService implements IScreenFormService {
 	 * The associated AbstractScreensViewPart for this screen manager.
 	 */
 	private AbstractScreensViewPart absViewPart;
+
+	/*
+	 * A Map holding the screen constructors by name of the screen.
+	 */
+	private HashMap<String, Constructor<?>> screenMap = Maps.newHashMap();
 
 	/*
 	 * (non-Javadoc)
@@ -216,18 +224,13 @@ public class ScreenFormService implements IScreenFormService {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.netxforge.netxstudio.screens.selector.ISelectorService#isActiveScreen
-	 * (java.lang.Class)
-	 */
-	public boolean isActiveScreen(Class<?> proposedScreen) {
+	private boolean isActiveScreen(String name) {
 
 		Control c = screenBody.getScreenDeck().topControl;
-		if (c != null) {
-			return c.getClass().equals(proposedScreen);
+		IScreen screenFor = ScreenUtil.screenFor(c);
+
+		if (screenFor != null) {
+			return screenFor.getScreenName().equals(name);
 		} else {
 			return false;
 		}
@@ -278,6 +281,13 @@ public class ScreenFormService implements IScreenFormService {
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
 
+	public void realize(String screenName) {
+		if (screenName == null || screenName.length() == 0) {
+			return;
+		}
+		doSetScreen(screenName, operationForUser(ScreenUtil.OPERATION_EDIT));
+	}
+
 	public Composite addScreenSelector(String name, String iconPath,
 			Class<?> screen, int position, int operation) {
 		return addScreenSelector(null, name, iconPath, screen, position,
@@ -289,10 +299,10 @@ public class ScreenFormService implements IScreenFormService {
 		return addScreenSelector(above, name, iconPath, screen, -1, operation);
 	}
 
-	public Composite addScreenSelector(Composite above, String name,
-			String iconPath, Class<?> screen, int position, int operation) {
+	public Composite addScreenSelector(Composite topComposite, String name,
+			String iconPath, Class<?> screenClass, int position, int operation) {
 
-		assert position >= 1 || above != null;
+		assert position >= 1 || topComposite != null;
 
 		try {
 
@@ -307,82 +317,22 @@ public class ScreenFormService implements IScreenFormService {
 			// service container, calling updateComposite();
 			Constructor<?> screenConstructor = null;
 			try {
-				screenConstructor = screen.getConstructor(Composite.class,
+				screenConstructor = screenClass.getConstructor(Composite.class,
 						int.class);
+				screenMap.put(name, screenConstructor);
 			} catch (NoSuchMethodException e2) {
 				System.out
 						.println("TODO, Implement correct screen signature on :"
-								+ screen.getClass().getSimpleName());
+								+ screenClass.getClass().getSimpleName());
 			}
 
-			// We need some finals, to invoke in the listener.
-			final Constructor<?> finalScreenConstructor = screenConstructor;
-			final Class<?> finalScreen = screen;
-
-			// We operride the operation, depending on the user role.
-
-			String currentUser = editingService.getDataService().getProvider()
-					.getSessionUserID();
-			Resource resource = editingService.getDataService().getProvider()
-					.getResource(GenericsPackage.Literals.PERSON);
-			List<Person> people = new ModelUtils.CollectionForObjects<Person>()
-					.collectionForObjects(resource.getContents());
-
-			// List<Person> people = Lists.transform(resource.getContents(),
-			// new Function<EObject, Person>() {
-			//
-			// public Person apply(EObject from) {
-			// if (from instanceof Person)
-			// return (Person) from;
-			// else
-			// return null;
-			// }
-			// });
-
-			final Role r = modelUtils.roleForUserWithName(currentUser, people);
-			if (r.getName().equals(IFixtures.ROLE_READONLY)) {
-				operation = ScreenUtil.OPERATION_READ_ONLY;
-			}
-
-			// editingService.getDataService().getProvider().commitTransaction();
-
-			// editingService.getDataService().getQueryService().close();
-
-			final int finalOperation = operation;
-
-			ImageHyperlink lnk = formToolkit.createImageHyperlink(
-					getSelectorForm().getBody(), SWT.NONE);
+			// We override the operation, depending on the user role.
+			operation = operationForUser(operation);
+			ImageHyperlink lnk = linkFor(topComposite, name, iconPath,
+					position, operation);
 
 			screenSelectors.add(lnk);
 
-			lnk.addHyperlinkListener(new IHyperlinkListener() {
-				public void linkActivated(HyperlinkEvent e) {
-
-					doSetScreen(finalScreen, finalScreenConstructor,
-							finalOperation);
-				}
-
-				public void linkEntered(HyperlinkEvent e) {
-				}
-
-				public void linkExited(HyperlinkEvent e) {
-				}
-			});
-
-			lnk.setImage(ResourceManager.getPluginImage(ICON_PATH, iconPath));
-			FormData lnkFD = new FormData();
-
-			if (position >= 1) {
-				lnkFD.top = new FormAttachment(0, position * 12);
-			}
-			if (above != null) {
-				lnkFD.top = new FormAttachment(above, 6);
-			}
-
-			lnkFD.left = new FormAttachment(0, 12);
-			lnk.setLayoutData(lnkFD);
-			formToolkit.paintBordersFor(lnk);
-			lnk.setText(name);
 			return lnk;
 
 		} catch (SecurityException e) {
@@ -393,13 +343,77 @@ public class ScreenFormService implements IScreenFormService {
 		return null;
 	}
 
+	/**
+	 * Create an Image Hyperlink. Set the layout data.
+	 * 
+	 * @param above
+	 * @param name
+	 * @param iconPath
+	 * @param position
+	 * @param finalScreenConstructor
+	 * @param finalScreen
+	 * @param finalOperation
+	 * @return
+	 */
+	private ImageHyperlink linkFor(Composite above, final String name,
+			String iconPath, int position, final int finalOperation) {
+		ImageHyperlink lnk = formToolkit.createImageHyperlink(getSelectorForm()
+				.getBody(), SWT.NONE);
+		lnk.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+
+				doSetScreen(name, finalOperation);
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+
+		lnk.setImage(ResourceManager.getPluginImage(ICON_PATH, iconPath));
+		FormData lnkFD = new FormData();
+
+		if (position >= 1) {
+			lnkFD.top = new FormAttachment(0, position * 12);
+		}
+		if (above != null) {
+			lnkFD.top = new FormAttachment(above, 6);
+		}
+
+		lnkFD.left = new FormAttachment(0, 12);
+		lnk.setLayoutData(lnkFD);
+
+		formToolkit.paintBordersFor(lnk);
+		lnk.setText(name);
+		return lnk;
+	}
+
+	/**
+	 * @return
+	 */
+	public int operationForUser(int operation) {
+		String currentUser = editingService.getDataService().getProvider()
+				.getSessionUserID();
+		Resource resource = editingService.getDataService().getProvider()
+				.getResource(GenericsPackage.Literals.PERSON);
+		List<Person> people = new ModelUtils.CollectionForObjects<Person>()
+				.collectionForObjects(resource.getContents());
+
+		final Role r = modelUtils.roleForUserWithName(currentUser, people);
+		if (r.getName().equals(IFixtures.ROLE_READONLY)) {
+			operation = ScreenUtil.OPERATION_READ_ONLY;
+		}
+		return operation;
+	}
+
 	ObservablesManager obm = null;
 
-	private void doSetScreen(final Class<?> screenClass,
-			final Constructor<?> finalScreenConstructor,
-			final int finalOperation) {
-		if (isActiveScreen(screenClass)) {
-			return; // Ignore we are there already.
+	private void doSetScreen(final String name, final int finalOperation) {
+
+		if (isActiveScreen(name)) {
+			return; // Ignore we are already.
 		}
 
 		// Warn for dirtyness.
@@ -420,8 +434,9 @@ public class ScreenFormService implements IScreenFormService {
 			public void run() {
 
 				try {
-					final IScreen target = (IScreen) finalScreenConstructor
-							.newInstance(getScreenContainer(), SWT.NONE);
+					Constructor<?> constructor = screenMap.get(name);
+					final IScreen target = (IScreen) constructor.newInstance(
+							getScreenContainer(), SWT.NONE);
 					target.setOperation(finalOperation);
 					target.setScreenService(ScreenFormService.this);
 
@@ -601,11 +616,11 @@ public class ScreenFormService implements IScreenFormService {
 		}
 	}
 
-	/*
+	/**
 	 * Save the screen state, get the memento from the Viewpart, and add a child
 	 * with the screen name.
 	 */
-	private void saveScreenState(IScreen screen) {
+	public void saveScreenState(IScreen screen) {
 		IMemento parent = absViewPart.getMemento();
 
 		if (parent != null) {
@@ -634,15 +649,13 @@ public class ScreenFormService implements IScreenFormService {
 					.underscopeWhiteSpaces(screen.getScreenName());
 			IMemento child = memento.getChild(validMementoElement);
 
-			if (child != null) {
-				if (EditingActivator.DEBUG) {
-					EditingActivator.TRACE.trace(
-							EditingActivator.TRACE_EDITING_DETAILS_OPTION,
-							" restoring state for " + screen.getScreenName()
-									+ " mem:" + child.getType());
-				}
-				screen.restoreState(child);
+			if (EditingActivator.DEBUG) {
+				EditingActivator.TRACE.trace(
+						EditingActivator.TRACE_EDITING_DETAILS_OPTION,
+						" restoring state for " + screen.getScreenName()
+								+ " mem:" + child.getType());
 			}
+			screen.restoreState(child);
 		}
 	}
 

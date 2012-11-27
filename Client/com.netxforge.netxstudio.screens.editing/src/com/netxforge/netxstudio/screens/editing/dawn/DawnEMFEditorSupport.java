@@ -120,7 +120,7 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 						IViewPart viewPart = iViewReference.getView(false);
 						if (viewPart instanceof AbstractScreenSelector) {
 							((AbstractScreenSelector) viewPart)
-									.getScreenFormService().disable();
+									.getScreenService().disable();
 						}
 					}
 				}

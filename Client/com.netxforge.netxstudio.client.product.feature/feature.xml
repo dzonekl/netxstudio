@@ -70,10 +70,6 @@
          version="0.0.0"/>
 
    <includes
-         id="com.netxforge.netxstudio.screens.common.feature"
-         version="0.0.0"/>
-
-   <includes
          id="com.netxforge.netxscript.feature"
          version="0.0.0"/>
 

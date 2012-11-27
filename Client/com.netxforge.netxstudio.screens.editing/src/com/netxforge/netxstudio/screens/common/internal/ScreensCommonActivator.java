@@ -28,7 +28,6 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
-import com.netxforge.netxstudio.screens.editing.EditingServiceModule;
 
 public class ScreensCommonActivator extends AbstractUIPlugin {
 
@@ -58,7 +57,6 @@ public class ScreensCommonActivator extends AbstractUIPlugin {
 		Module om = new ScreensCommonModule();
 		om = override(om).with(new CommonModule());
 		om = override(om).with(new CDODataServiceModule());
-		om = override(om).with(new EditingServiceModule());
 		injector = Guice.createInjector(om);
 
 	}

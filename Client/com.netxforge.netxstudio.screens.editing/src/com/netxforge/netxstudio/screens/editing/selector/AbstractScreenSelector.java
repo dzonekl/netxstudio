@@ -27,12 +27,12 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IMemento;
 import org.eclipse.ui.ISaveablePart2;
 import org.eclipse.ui.part.IShowInSource;
 import org.eclipse.ui.part.ShowInContext;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
@@ -56,14 +56,14 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	public AbstractScreenSelector() {
 	}
 
-	public IScreenFormService getScreenFormService() {
+	public IScreenFormService getScreenService() {
 		return screenFormService;
 	}
 
 	public IEditingService getEditingService() {
 		return screenFormService.getEditingService();
 	}
-
+	
 	/**
 	 * Create contents of the view part.
 	 * 
@@ -83,6 +83,14 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		getEditingService().setScreenProvider(this);
 		screenFormService.addScreenChangeListener(this);
 		buildSelector();
+		
+		// Restore the current Screen: 
+		if (this.memento != null) {
+			String screenName = mementoUtil.retrieveString(this.memento,
+					MementoUtil.MEM_KEY_CURRENT_SCREEN);
+			this.getScreenService().realize(screenName);
+		}
+		
 	}
 
 	public abstract void buildSelector();

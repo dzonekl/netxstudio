@@ -17,6 +17,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.internal;
 
+import static com.google.inject.util.Modules.override;
+
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -30,6 +32,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
+import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.netxforge.netxstudio.screens.common.internal.ScreensCommonModule;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -82,7 +86,10 @@ public class EditingActivator extends AbstractUIPlugin implements
 		plugin = this;
 
 		// Bind our modules.
-		Module om = new CommonModule();
+		Module om = new ScreensCommonModule();
+		om = override(om).with(new CommonModule());
+		om = override(om).with(new CDODataServiceModule());
+
 		injector = Guice.createInjector(om);
 
 		Dictionary<String, String> props = new Hashtable<String, String>(4);

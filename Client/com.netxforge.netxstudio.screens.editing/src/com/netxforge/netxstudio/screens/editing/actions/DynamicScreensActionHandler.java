@@ -51,11 +51,13 @@ public class DynamicScreensActionHandler extends AbstractActionHandler {
 	}
 
 	private void addActions(IMenuManager menuManager) {
-		
+
 		for (IAction action : actions) {
-			if(EditingActivator.DEBUG){
-				EditingActivator.TRACE.trace("/debug", "inserting dynanmic action" + action.getText());
-//				System.out.println("EDITING: update action=" + action.getText());
+			if (EditingActivator.DEBUG) {
+				EditingActivator.TRACE.trace("/debug",
+						"inserting dynanmic action" + action.getText());
+				// System.out.println("EDITING: update action=" +
+				// action.getText());
 			}
 			if (action instanceof SeparatorAction) {
 				menuManager.insertAfter("screen", new Separator());
@@ -68,16 +70,20 @@ public class DynamicScreensActionHandler extends AbstractActionHandler {
 	@Override
 	public void handleSelection(IStructuredSelection ss) {
 		this.selection = ss;
-		
-		if(EditingActivator.DEBUG && !ss.isEmpty()){
-			EditingActivator.TRACE.trace(null, "update selection: " + ss );
+
+		if (EditingActivator.DEBUG && !ss.isEmpty()) {
+			EditingActivator.TRACE.trace(null, "update selection: " + ss);
 		}
-		
+
 		for (IAction action : actions) {
 
-			if (action instanceof BaseSelectionListenerAction) {
-				BaseSelectionListenerAction bsla = (BaseSelectionListenerAction) action;
+			if (action instanceof com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction) {
+				com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction bsla = (com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction) action;
 				bsla.selectionChanged(ss);
+			} else if (action instanceof org.eclipse.ui.actions.BaseSelectionListenerAction) {
+				org.eclipse.ui.actions.BaseSelectionListenerAction bsla = (org.eclipse.ui.actions.BaseSelectionListenerAction) action;
+				bsla.selectionChanged(ss);
+
 			}
 		}
 	}

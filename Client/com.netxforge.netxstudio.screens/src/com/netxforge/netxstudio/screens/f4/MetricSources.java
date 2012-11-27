@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -461,46 +460,6 @@ public class MetricSources extends AbstractScreen implements
 		IObservableList metricSourcesObservableList = l.observe(msResource);
 		metricSourceTableViewer.setInput(metricSourcesObservableList);
 		return bindingContext;
-	}
-
-	public class MetricSourceObservableMapLabelProvider extends
-			ObservableMapLabelProvider {
-
-		public MetricSourceObservableMapLabelProvider(
-				IObservableMap[] attributeMaps) {
-			super(attributeMaps);
-		}
-
-		@Override
-		public String getColumnText(Object element, int columnIndex) {
-
-			if (element instanceof MetricSource) {
-
-				MetricSource ms = (MetricSource) element;
-				switch (columnIndex) {
-				case 0: {
-					return ms.getName();
-				}
-				case 1: {
-					return ms.getMetricLocation();
-				}
-				case 2: {
-
-//					long ts = modelUtils.mostRecentContainedDated(ms);
-//					if (ts == 0) {
-//						return "<unknown>";
-//					}
-//					Date d = new Date(ts);
-//					return modelUtils.date(d) + " @ " + modelUtils.time(d);
-					return "";
-				}
-
-				}
-
-			}
-			return super.getColumnText(element, columnIndex);
-		}
-
 	}
 
 	public boolean isValid() {

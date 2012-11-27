@@ -185,5 +185,10 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 		// delegate to the screen. 
 		return getScreen().handleShowIn(context);
 	}
+
+	@Override
+	public IScreenFormService getScreenService() {
+		return null;
+	}
 	
 }
