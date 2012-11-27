@@ -247,11 +247,10 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	public void saveState(IMemento memento) {
 
 		IScreenFormService screenService = getScreenService();
-		if (screenService != null) {
-			screenService.saveScreenState(this.getScreen());
-		}
-
 		if (this.getScreen() != null) {
+			if (screenService != null) {
+				screenService.saveScreenState(this.getScreen());
+			}
 			mementoUtil.rememberString(this.getMemento(), this.getScreen()
 					.getScreenName(), MementoUtil.MEM_KEY_CURRENT_SCREEN);
 		}

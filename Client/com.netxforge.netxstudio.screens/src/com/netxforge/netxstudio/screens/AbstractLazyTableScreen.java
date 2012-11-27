@@ -405,7 +405,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 					MementoUtil.MEM_KEY_SEARCH_PATTERN);
 		}
 
-		if (pattern == null) {
+		if (pattern == null || pattern.equals("?*")) {
 			this.getLazyTableViewer().setPattern("?"); // Show all when not set.
 		} else if (pattern.length() == 0) {
 			this.getLazyTableViewer().applyFilter(); // Just show the history/

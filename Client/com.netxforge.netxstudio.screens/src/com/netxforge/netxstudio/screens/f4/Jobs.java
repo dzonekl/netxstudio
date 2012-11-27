@@ -74,7 +74,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
 	private static final String MEM_KEY_JOBS_SELECTION_TABLE = "MEM_KEY_JOBS_SELECTION_TABLE";
 	private static final String MEM_KEY_JOBS_COLUMNS_TABLE = "MEM_KEY_JOBS_COLUMNS_TABLE";
-	
+
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table jobsTable;
 	private Text txtFilterText;
@@ -86,10 +86,10 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	// private Resource jobContainerResource;
 
 	private TableViewerColumn tblViewerClmnState;
-	
+
 	@Inject
 	private ServerRequest serverActions;
-	
+
 	// private ArrayList<Object> uniqueJobList;
 
 	/**
@@ -115,14 +115,15 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmScheduledJobs = toolkit.createForm(this);
-		
-		SchedulerActions schedulerActions = new SchedulerActions(this.serverActions);
-		frmScheduledJobs.getToolBarManager().add(schedulerActions.getListScheduleAction());
-		
+
+		SchedulerActions schedulerActions = new SchedulerActions(
+				this.serverActions);
+		frmScheduledJobs.getToolBarManager().add(
+				schedulerActions.getListScheduleAction());
+
 		frmScheduledJobs.getToolBarManager().update(true);
 		frmScheduledJobs.setToolBarVerticalAlignment(SWT.TOP);
 
-		
 		frmScheduledJobs.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmScheduledJobs);
 		frmScheduledJobs.setText("Scheduled Jobs");
@@ -198,7 +199,8 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		jobsTable = jobsTableViewer.getTable();
 		jobsTable.setLinesVisible(true);
 		jobsTable.setHeaderVisible(true);
-		jobsTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
+		jobsTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3,
+				4));
 		toolkit.paintBordersFor(jobsTable);
 
 		TableViewerColumn tblViewerClmType = new TableViewerColumn(
@@ -241,7 +243,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		TableColumn tblclmnInterval = tableViewerColumn_6.getColumn();
 		tblclmnInterval.setWidth(100);
 		tblclmnInterval.setText("Interval");
-		
+
 		jobsTable.setFocus();
 	}
 
@@ -274,9 +276,8 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	public IAction[] getActions() {
 		// lazy init.
 		if (actions.isEmpty()) {
-			String actionText = ScreenUtil
-					.isReadOnlyOperation(this.getOperation()) ? "View..."
-					: "Edit...";
+			String actionText = ScreenUtil.isReadOnlyOperation(this
+					.getOperation()) ? "View..." : "Edit...";
 
 			actions.add(new EditJobAction(actionText));
 			actions.add(new JobRunsAction("Runs..."));
@@ -533,7 +534,6 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		initDataBindings_();
 	}
 
-
 	public Viewer getViewer() {
 		return jobsTableViewer;
 	}
@@ -551,8 +551,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	public String getScreenName() {
 		return "Jobs";
 	}
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -566,8 +565,8 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		// sash state vertical.
 		mementoUtils.rememberStructuredViewerSelection(memento,
 				jobsTableViewer, MEM_KEY_JOBS_SELECTION_TABLE);
-		mementoUtils.rememberStructuredViewerColumns(memento,
-				jobsTableViewer, MEM_KEY_JOBS_COLUMNS_TABLE);
+		mementoUtils.rememberStructuredViewerColumns(memento, jobsTableViewer,
+				MEM_KEY_JOBS_COLUMNS_TABLE);
 	}
 
 	/*
@@ -579,13 +578,13 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	 */
 	@Override
 	public void restoreState(IMemento memento) {
-
-		mementoUtils.retrieveStructuredViewerSelection(memento,
-				jobsTableViewer, MEM_KEY_JOBS_SELECTION_TABLE,
-				((CDOResource) jobsResource).cdoView());
-		mementoUtils.retrieveStructuredViewerColumns(memento,
-				jobsTableViewer, MEM_KEY_JOBS_COLUMNS_TABLE);
+		if (memento != null) {
+			mementoUtils.retrieveStructuredViewerSelection(memento,
+					jobsTableViewer, MEM_KEY_JOBS_SELECTION_TABLE,
+					((CDOResource) jobsResource).cdoView());
+			mementoUtils.retrieveStructuredViewerColumns(memento,
+					jobsTableViewer, MEM_KEY_JOBS_COLUMNS_TABLE);
+		}
 	}
 
-	
 }
