@@ -194,9 +194,9 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		frmNetworks.setText(getOperationText() + "Network");
 		frmNetworks.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
-		
+
 		frmNetworks.addMessageHyperlinkListener(new HyperlinkAdapter());
-		
+
 		sashForm = new SashForm(frmNetworks.getBody(), SWT.VERTICAL);
 		sashForm.setOrientation(SWT.HORIZONTAL);
 		toolkit.adapt(sashForm);
@@ -795,16 +795,14 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	Composite currentDetails;
 	private ImageHyperlink mghprlnkNewImagehyperlink;
 
-	
 	/*
-	 * Show details for a selection. 
+	 * Show details for a selection.
 	 */
 	private void handleDetailsSelection(Object o) {
-		
-		// Clear the form messages. 
+
+		// Clear the form messages.
 		this.getScreenForm().getMessageManager().removeAllMessages();
-		
-		
+
 		if (currentDetails != null && !currentDetails.isDisposed()) {
 			this.saveDetailsState(currentDetails);
 			currentDetails.dispose();
@@ -986,10 +984,11 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public void restoreState(IMemento memento) {
 
-		mementoUtils.retrieveStructuredViewerSelection(memento,
-				networkTreeViewer, MEM_KEY_NETWORKS_SELECTION_TREE,
-				this.operatorsResource.cdoView());
-
+		if (memento != null) {
+			mementoUtils.retrieveStructuredViewerSelection(memento,
+					networkTreeViewer, MEM_KEY_NETWORKS_SELECTION_TREE,
+					this.operatorsResource.cdoView());
+		}
 	}
 
 }

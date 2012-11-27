@@ -411,7 +411,7 @@ public class Tolerances extends AbstractScreen implements
 	@Override
 	public void restoreState(IMemento memento) {
 
-		if (toleranceResource != null) {
+		if (memento != null && toleranceResource != null) {
 			mementoUtils.retrieveStructuredViewerSelection(memento,
 					toleranceTblViewer, MEM_KEY_TOLERANCE_SELECTION_TABLE,
 					((CDOResource) toleranceResource).cdoView());

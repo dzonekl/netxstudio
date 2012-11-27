@@ -148,18 +148,17 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	private void buildUI() {
-		
 
 		// Readonlyness.
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		String actionText = readonly ? "View: " : "Edit: ";
-		
+
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmMetrics = toolkit.createForm(this);
 		frmMetrics.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmMetrics);
-		frmMetrics.setText(actionText +"Metrics");
+		frmMetrics.setText(actionText + "Metrics");
 		frmMetrics.getBody().setLayout(new GridLayout(3, false));
 
 		Label lblFilterLabel = toolkit.createLabel(frmMetrics.getBody(),
@@ -190,43 +189,45 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
-		
-		if(!readonly){
-		
-		ImageHyperlink mghprlnkNewMetric = toolkit.createImageHyperlink(
-				frmMetrics.getBody(), SWT.NONE);
-		mghprlnkNewMetric.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				if (screenService != null) {
-					ISelection selection = getViewer().getSelection();
-					if (selection instanceof IStructuredSelection) {
-						Object subowner = ((IStructuredSelection) selection)
-								.getFirstElement();
-						NewEditMetric metricScreen = new NewEditMetric(
-								screenService.getScreenContainer(), SWT.NONE);
-						metricScreen.setOperation(ScreenUtil.OPERATION_NEW);
-						metricScreen.setScreenService(screenService);
-						Metric metric = MetricsFactory.eINSTANCE.createMetric();
-						// metricScreen.injectData(metricResource, metric);
-						metricScreen.injectData(metricResource, subowner,
-								metric);
-						screenService.setActiveScreen(metricScreen);
+
+		if (!readonly) {
+
+			ImageHyperlink mghprlnkNewMetric = toolkit.createImageHyperlink(
+					frmMetrics.getBody(), SWT.NONE);
+			mghprlnkNewMetric.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					if (screenService != null) {
+						ISelection selection = getViewer().getSelection();
+						if (selection instanceof IStructuredSelection) {
+							Object subowner = ((IStructuredSelection) selection)
+									.getFirstElement();
+							NewEditMetric metricScreen = new NewEditMetric(
+									screenService.getScreenContainer(),
+									SWT.NONE);
+							metricScreen.setOperation(ScreenUtil.OPERATION_NEW);
+							metricScreen.setScreenService(screenService);
+							Metric metric = MetricsFactory.eINSTANCE
+									.createMetric();
+							// metricScreen.injectData(metricResource, metric);
+							metricScreen.injectData(metricResource, subowner,
+									metric);
+							screenService.setActiveScreen(metricScreen);
+						}
 					}
 				}
-			}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+				public void linkEntered(HyperlinkEvent e) {
+				}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNewMetric.setImage(ResourceManager.getPluginImage(
-				"com.netxforge.netxstudio.models.edit",
-				"icons/full/ctool16/Metric_E.png"));
-		toolkit.paintBordersFor(mghprlnkNewMetric);
-		mghprlnkNewMetric.setText("New");
-	}
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			mghprlnkNewMetric.setImage(ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/ctool16/Metric_E.png"));
+			toolkit.paintBordersFor(mghprlnkNewMetric);
+			mghprlnkNewMetric.setText("New");
+		}
 		metricsTreeViewer = new TreeViewer(frmMetrics.getBody(), SWT.BORDER
 				| SWT.VIRTUAL | SWT.MULTI | SWT.FULL_SELECTION);
 		metricsTreeViewer.setUseHashlookup(true);
@@ -341,8 +342,9 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 								+ res.getShortName() + "on Component"
 								+ res.getComponentRef().getName());
 
-						List<Value> values = modelUtils.valueRangeForIntervalKindAndPeriod(
-								res, targetIntervalHint, null, dtr);
+						List<Value> values = modelUtils
+								.valueRangeForIntervalKindAndPeriod(res,
+										targetIntervalHint, null, dtr);
 						if (values.size() > 0) {
 							valueCount += values.size();
 							System.out.println("number of values "
@@ -410,8 +412,8 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 
 	@Override
 	public IAction[] getActions() {
-		
-		// lazy init actions. 
+
+		// lazy init actions.
 		if (actions.isEmpty()) {
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
@@ -429,7 +431,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	public String getScreenName() {
 		return "Metrics";
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -456,12 +458,13 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	 */
 	@Override
 	public void restoreState(IMemento memento) {
-
-		mementoUtils.retrieveStructuredViewerSelection(memento,
-				metricsTreeViewer, MEM_KEY_METRIC_SELECTION_TABLE,
-				((CDOResource) metricResource).cdoView());
-		mementoUtils.retrieveStructuredViewerColumns(memento,
-				metricsTreeViewer, MEM_KEY_METRIC_COLUMNS_TABLE);
+		if (memento != null) {
+			mementoUtils.retrieveStructuredViewerSelection(memento,
+					metricsTreeViewer, MEM_KEY_METRIC_SELECTION_TABLE,
+					((CDOResource) metricResource).cdoView());
+			mementoUtils.retrieveStructuredViewerColumns(memento,
+					metricsTreeViewer, MEM_KEY_METRIC_COLUMNS_TABLE);
+		}
 	}
-	
+
 }

@@ -1919,10 +1919,9 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			@Override
 			protected List<Object> calculate() {
 				List<Object> result = Lists.newArrayList();
-				
-				
-				//  Forces, no selection on the resources tableviewer???
-//				resourcesTableViewer.setSelection(null);
+
+				// Forces, no selection on the resources tableviewer???
+				// resourcesTableViewer.setSelection(null);
 				for (Object value : observeMultipleComponentSelection) {
 					if (value instanceof Component) {
 						// Should be a filter or else.
@@ -2652,42 +2651,44 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 	 */
 	@Override
 	public void restoreState(IMemento memento) {
+		if (memento != null) {
+			mementoUtils.retrieveSashForm(memento, sashVertical,
+					MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_VERTICAL);
+			mementoUtils.retrieveSashForm(memento, sashData,
+					MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
 
-		mementoUtils.retrieveSashForm(memento, sashVertical,
-				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_VERTICAL);
-		mementoUtils.retrieveSashForm(memento, sashData,
-				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
+			mementoUtils.retrieveStructuredViewerSelection(memento,
+					cmbViewerNetwork,
+					MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK,
+					this.operatorResource.cdoView());
+			mementoUtils.retrieveStructuredViewerSelection(memento,
+					cmbViewerNode, MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE,
+					this.operatorResource.cdoView());
+			mementoUtils.retrieveStructuredViewerSelection(memento,
+					componentsTreeViewer,
+					MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT,
+					this.operatorResource.cdoView());
+			mementoUtils.retrieveStructuredViewerSelection(memento,
+					resourcesTableViewer,
+					MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
+					this.operatorResource.cdoView());
 
-		mementoUtils.retrieveStructuredViewerSelection(memento,
-				cmbViewerNetwork,
-				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK,
-				this.operatorResource.cdoView());
-		mementoUtils.retrieveStructuredViewerSelection(memento, cmbViewerNode,
-				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE,
-				this.operatorResource.cdoView());
-		mementoUtils.retrieveStructuredViewerSelection(memento,
-				componentsTreeViewer,
-				MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT,
-				this.operatorResource.cdoView());
-		mementoUtils.retrieveStructuredViewerSelection(memento,
-				resourcesTableViewer,
-				MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
-				this.operatorResource.cdoView());
+			mementoUtils.retrieveCDateTime(memento,
+					cmpPeriod.getDateTimeFrom(),
+					MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM);
+			mementoUtils.retrieveCDateTime(memento, cmpPeriod.getDateTimeTo(),
+					MEM_KEY_NODERESOURCEADVANCED_PERIOD_TO);
 
-		mementoUtils.retrieveCDateTime(memento, cmpPeriod.getDateTimeFrom(),
-				MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM);
-		mementoUtils.retrieveCDateTime(memento, cmpPeriod.getDateTimeTo(),
-				MEM_KEY_NODERESOURCEADVANCED_PERIOD_TO);
+			// update the binding, as this won't work by setting the UI widget
+			// selection.
+			cmpPeriod.updatePeriod();
+			periodBeginWritableValue.setValue(cmpPeriod.getPeriod().getBegin());
+			periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
 
-		// update the binding, as this won't work by setting the UI widget
-		// selection.
-		cmpPeriod.updatePeriod();
-		periodBeginWritableValue.setValue(cmpPeriod.getPeriod().getBegin());
-		periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
-
-		// Re-inject the
-		cmpResources.getViewer().refresh();
-		componentsTreeViewer.refresh();
+			// Re-inject the
+			cmpResources.getViewer().refresh();
+			componentsTreeViewer.refresh();
+		}
 	}
 
 }

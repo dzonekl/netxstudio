@@ -122,7 +122,8 @@ public class MetricSources extends AbstractScreen implements
 							.getFirstElement();
 					NewEditMetricSource editMetricSourceScreen = new NewEditMetricSource(
 							screenService.getScreenContainer(), SWT.NONE);
-					editMetricSourceScreen.setOperation(ScreenUtil.OPERATION_EDIT);
+					editMetricSourceScreen
+							.setOperation(ScreenUtil.OPERATION_EDIT);
 					editMetricSourceScreen.setScreenService(screenService);
 					editMetricSourceScreen.injectData(msResource, o);
 					screenService.setActiveScreen(editMetricSourceScreen);
@@ -413,8 +414,9 @@ public class MetricSources extends AbstractScreen implements
 		metricSourceTable = metricSourceTableViewer.getTable();
 		metricSourceTable.setLinesVisible(true);
 		metricSourceTable.setHeaderVisible(true);
-		metricSourceTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
-		
+		metricSourceTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				true, 3, 4));
+
 		toolkit.paintBordersFor(metricSourceTable);
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
@@ -435,7 +437,7 @@ public class MetricSources extends AbstractScreen implements
 				.getColumn();
 		tblclmnLocationLastUpdate.setWidth(300);
 		tblclmnLocationLastUpdate.setText("Last update");
-		
+
 		metricSourceTable.setFocus();
 	}
 
@@ -474,7 +476,7 @@ public class MetricSources extends AbstractScreen implements
 
 	@Override
 	public IAction[] getActions() {
-		
+
 		// lazy init actions.
 		if (actions.isEmpty()) {
 			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
@@ -496,7 +498,7 @@ public class MetricSources extends AbstractScreen implements
 			// actions.add(new FindResourcesAction("Resources for...",
 			// SWT.PUSH));
 		}
-		
+
 		return actions.toArray(new IAction[actions.size()]);
 	}
 
@@ -504,7 +506,7 @@ public class MetricSources extends AbstractScreen implements
 	public String getScreenName() {
 		return "Metric Sources";
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -532,13 +534,16 @@ public class MetricSources extends AbstractScreen implements
 	@Override
 	public void restoreState(IMemento memento) {
 
-		mementoUtils.retrieveStructuredViewerSelection(memento,
-				metricSourceTableViewer, MEM_KEY_METRICSOURCE_SELECTION_TABLE,
-				((CDOResource) msResource).cdoView());
-		mementoUtils.retrieveStructuredViewerColumns(memento,
-				metricSourceTableViewer, MEM_KEY_METRICSOURCE_COLUMNS_TABLE);
+		if (memento != null) {
+			mementoUtils.retrieveStructuredViewerSelection(memento,
+					metricSourceTableViewer,
+					MEM_KEY_METRICSOURCE_SELECTION_TABLE,
+					((CDOResource) msResource).cdoView());
+			mementoUtils
+					.retrieveStructuredViewerColumns(memento,
+							metricSourceTableViewer,
+							MEM_KEY_METRICSOURCE_COLUMNS_TABLE);
+		}
 	}
-
-	
 
 }

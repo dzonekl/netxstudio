@@ -89,9 +89,9 @@ import com.netxforge.netxstudio.screens.f3.NetworkViewerComparator;
  * 
  */
 public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
-	
+
 	private static final String MEM_KEY_NODETYPES_SELECTION_TREE = "MEM_KEY_NODETYPES_SELECTION_TREE";
-	
+
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
 	@SuppressWarnings("unused")
@@ -227,7 +227,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		nodeTypeTreeViewer.setComparer(new CDOElementComparer());
 		nodeTypeTreeViewer.addFilter(new TreeSearchFilter(editingService));
 		nodeTypeTreeViewer.setComparator(new NetworkViewerComparator());
-		
+
 		nodeTypeTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
@@ -413,7 +413,6 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		if (currentDetails != null) {
 			currentDetails.dispose();
 		}
-		
 
 		if (o instanceof Function) {
 			NewEditFunction screen = null;
@@ -479,7 +478,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	public String getScreenName() {
 		return "NE Types";
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -491,8 +490,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		mementoUtils.rememberStructuredViewerSelection(memento, nodeTypeTreeViewer,
-				MEM_KEY_NODETYPES_SELECTION_TREE);
+		mementoUtils.rememberStructuredViewerSelection(memento,
+				nodeTypeTreeViewer, MEM_KEY_NODETYPES_SELECTION_TREE);
 
 	}
 
@@ -505,10 +504,11 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	 */
 	@Override
 	public void restoreState(IMemento memento) {
-
-		mementoUtils.retrieveStructuredViewerSelection(memento, nodeTypeTreeViewer,
-				MEM_KEY_NODETYPES_SELECTION_TREE,
-				this.nodeTypeResource.cdoView());
+		if (memento != null) {
+			mementoUtils.retrieveStructuredViewerSelection(memento,
+					nodeTypeTreeViewer, MEM_KEY_NODETYPES_SELECTION_TREE,
+					this.nodeTypeResource.cdoView());
+		}
 
 	}
 
