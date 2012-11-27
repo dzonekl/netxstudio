@@ -17,16 +17,19 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.actions;
 
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
+
+import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
+
 
 /**
  * An action for invoking a sub-screen, it maintains a mode. 
+ * Clients van also be notified of the selection. 
  * 
  * @author Christophe Bouhier
  *
  */
-public abstract class ScreenAction extends Action {
+public abstract class ScreenAction extends BaseSelectionListenerAction {
 	
 	public static final int EDIT_OR_VIEW_MODE = 0x00;
 	public static final int NEW_MODE = 0x01;

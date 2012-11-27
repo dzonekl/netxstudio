@@ -13,6 +13,7 @@ package com.netxforge.netxstudio.screens.editing.actions;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -76,6 +77,18 @@ public abstract class BaseSelectionListenerAction extends Action implements
 	 */
 	protected BaseSelectionListenerAction(String text) {
 		super(text, IAction.AS_PUSH_BUTTON);
+	}
+	
+	public BaseSelectionListenerAction() {
+		super();
+	}
+
+	public BaseSelectionListenerAction(String text, ImageDescriptor image) {
+		super(text, image);
+	}
+
+	public BaseSelectionListenerAction(String text, int style) {
+		super(text, style);
 	}
 
 	/**

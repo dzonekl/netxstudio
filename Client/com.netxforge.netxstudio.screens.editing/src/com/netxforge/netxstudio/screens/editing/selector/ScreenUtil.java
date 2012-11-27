@@ -22,6 +22,7 @@ import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * Screens operations and utilities on operations. IScreen interface is usually
@@ -88,6 +89,14 @@ public class ScreenUtil {
 		}
 		return null;
 	}
+	
+	public static IScreen screenFor(Control control) {
+		if (control instanceof IScreen) {
+			return (IScreen) control;
+		}
+		return null;
+	}
+	
 
 	public static boolean isDataScreenInjection(IScreen screen) {
 		return screen instanceof IDataScreenInjection;

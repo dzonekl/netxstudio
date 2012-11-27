@@ -29,7 +29,7 @@ import com.netxforge.netxstudio.screens.f2.NodeTypes;
 import com.netxforge.netxstudio.screens.f2.Parameters;
 import com.netxforge.netxstudio.screens.f2.Protocols;
 import com.netxforge.netxstudio.screens.f2.Units;
-import com.netxforge.netxstudio.screens.f2.smarts.SmartLazyTolerances;
+import com.netxforge.netxstudio.screens.f2.smarts.SmartTolerances;
 import com.netxforge.netxstudio.screens.f4.Metrics;
 
 public class LibraryScreenSelector extends AbstractScreenSelector {
@@ -78,7 +78,7 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 //				ScreenUtil.OPERATION_EDIT);
 		
 		result = screenFormService.addScreenSelector(result, "Tolerances",
-				"icons/full/obj16/Tolerance_H.png", SmartLazyTolerances.class,
+				"icons/full/obj16/Tolerance_H.png", SmartTolerances.class,
 				ScreenUtil.OPERATION_EDIT);
 		
 		

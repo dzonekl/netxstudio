@@ -62,12 +62,14 @@ import org.eclipse.ui.part.ViewPart;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
 import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.ObjectEditingActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
@@ -91,9 +93,24 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	@Inject
 	protected ModelUtils modelUtils;
 
+	@Inject
+	protected MementoUtil mementoUtil;
+
 	// private MenuManager contextMenu;
 
+	/**
+	 * Client should implement to provide the IEditingService
+	 * 
+	 * @return
+	 */
 	public abstract IEditingService getEditingService();
+
+	/**
+	 * Clients should implement to provide the IScreenFormService
+	 * 
+	 * @return
+	 */
+	public abstract IScreenFormService getScreenService();
 
 	public AbstractScreensViewPart() {
 		createActions();
@@ -158,7 +175,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	@Override
 	public void setFocus() {
-		// TODO Set the focus, delegate to the IScreen, not sure this has any value,
+		// TODO Set the focus, delegate to the IScreen, not sure this has any
+		// value,
 		// as we will remember the focus widget.
 	}
 
@@ -170,11 +188,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	protected IMemento memento;
 
 	public IMemento getMemento() {
-		// IMemento child = memento.getChild(IScreen.MEM_KEY_STRING) ;
-		// if(child == null){
-		// child = memento.createChild(IScreen.MEM_KEY_STRING );
-		// }
-		// return child;
 		return memento;
 	}
 
@@ -187,10 +200,10 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 		if (memento == null) {
 			XMLMemento newMemento = XMLMemento
-					.createWriteRoot(IScreen.MEM_KEY_STRING);
+					.createWriteRoot(MementoUtil.MEM_KEY_SCREEN_PART);
 			this.memento = newMemento;
 		} else {
-			this.memento = memento;
+			this.memento = memento.getChild(MementoUtil.MEM_KEY_SCREEN_PART);
 		}
 
 		this.addPropertyListener(this);
@@ -200,12 +213,15 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 		// FIXME, ACTION handlers should be installed dynamicly,
 		// 1) Currently action handlers are static per Part
-		// 2) Each viewer in a part gets the same menu. (Actually for each viewer, a menu is created). 
-		// 3) The action bar is initiated statically, so changing the viewer in an IScreen, 
-		// doesn't update the i.e. the ActionBar which holds global actions. 
-		// If we change to a text based viewer, the global actions delete, cut, copy, paste, select-all are EMF Actions to 
-		// deal with StructuredViewer. 
-		
+		// 2) Each viewer in a part gets the same menu. (Actually for each
+		// viewer, a menu is created).
+		// 3) The action bar is initiated statically, so changing the viewer in
+		// an IScreen,
+		// doesn't update the i.e. the ActionBar which holds global actions.
+		// If we change to a text based viewer, the global actions delete, cut,
+		// copy, paste, select-all are EMF Actions to
+		// deal with StructuredViewer.
+
 		// Add some static action handlers which are updated by the
 		// selection
 		// provider of the active part. which is this. We can also add
@@ -226,11 +242,27 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		return actionHandlerDescriptor;
 	}
 
-	// ISaveablePart2 API.
 	// UI states are delegated to the the IScreen interface, save the result in
 	// our memento.
 	public void saveState(IMemento memento) {
-		memento.putMemento(this.getMemento());
+
+		IScreenFormService screenService = getScreenService();
+		if (screenService != null) {
+			screenService.saveScreenState(this.getScreen());
+		}
+
+		if (this.getScreen() != null) {
+			mementoUtil.rememberString(this.getMemento(), this.getScreen()
+					.getScreenName(), MementoUtil.MEM_KEY_CURRENT_SCREEN);
+		}
+		
+		// Write a pre-created child memento to the ViewState memento, for
+		// the next time we meet.
+		if (memento.getChild(MementoUtil.MEM_KEY_SCREEN_PART) == null) {
+			IMemento createChild = memento
+					.createChild(MementoUtil.MEM_KEY_SCREEN_PART);
+			createChild.putMemento(this.getMemento());
+		}
 	}
 
 	/**
@@ -317,7 +349,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		}
 		screen.getScreenForm().setText(newTitle);
 	}
-	
+
 	/**
 	 * Update the action handler descriptors with the active part.
 	 */
@@ -636,26 +668,25 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		// selection.
 		setSelection(screen == null ? StructuredSelection.EMPTY : screen
 				.getSelection());
-		
-		
+
 		Viewer viewer = screen.getViewer();
 		if (viewer instanceof StructuredViewer) {
 			// Don't do that yet, as we have no facility to learn the
 			// existing menu items.
 			augmentContextMenuFor((StructuredViewer) viewer);
 		}
-		
+
 		// Install a menu on the active viewers.
-//		for (Viewer v : screen.getViewers()) {
-//			// Install a context menu, for all possible viewers, note
-//			// all actions will be installed, we don't differentiate which
-//			// actions are added to which viewer.
-//			if (v instanceof StructuredViewer) {
-//				// Don't do that yet, as we have no facility to learn the
-//				// existing menu items.
-//				augmentContextMenuFor((StructuredViewer) v);
-//			}
-//		}
+		// for (Viewer v : screen.getViewers()) {
+		// // Install a context menu, for all possible viewers, note
+		// // all actions will be installed, we don't differentiate which
+		// // actions are added to which viewer.
+		// if (v instanceof StructuredViewer) {
+		// // Don't do that yet, as we have no facility to learn the
+		// // existing menu items.
+		// augmentContextMenuFor((StructuredViewer) v);
+		// }
+		// }
 	}
 
 	/**
@@ -712,9 +743,9 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			}
 		}
 	}
-	
+
 	/**
-	 * Get the current viewer. 
+	 * Get the current viewer.
 	 * 
 	 * @deprecated
 	 */
