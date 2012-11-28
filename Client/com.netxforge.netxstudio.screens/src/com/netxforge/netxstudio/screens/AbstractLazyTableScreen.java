@@ -41,10 +41,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IMemento;
 
-import com.netxforge.netxstudio.screens.AbstractLazyTableViewer.ItemsFilter;
-import com.netxforge.netxstudio.screens.AbstractLazyTableViewer.SelectionHistory;
+import com.netxforge.netxstudio.screens.AbstractCachedTableViewer.SelectionHistory;
 import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -64,7 +64,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 	/*
 	 * Expose so clients can utilize methods like matches().
 	 */
-	protected ItemsFilter lazyItemsFilter;
+	protected AbstractPatternItemsFilter lazyItemsFilter;
 
 	/*
 	 * Expose so clients can utilize
@@ -79,6 +79,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 	public void injectData() {
 		final CDOView view = delegateGetCDOView();
 		lazyTableViewer.setSelectionHistory(new LazySelectionHistory(view));
+
 	}
 
 	public void buildUI(Composite parent, String pattern) {
@@ -86,6 +87,9 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 
 		adapterFactoryItemDelegator = new AdapterFactoryItemDelegator(
 				editingService.getAdapterFactory());
+
+		// Set our adapter factory for additional facilities.
+		lazyTableViewer.setAdapterFactory(editingService.getAdapterFactory());
 
 		// Set a default or custom label provider. The default uses EMF.edit to
 		// retrieve the ItemProvider getText()
@@ -156,7 +160,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 		}
 	}
 
-	public class LazyTableViewer extends AbstractLazyTableViewer {
+	public class LazyTableViewer extends AbstractCachedTableViewer {
 
 		public LazyTableViewer(Shell shell, boolean multi) {
 			super(shell, multi);
@@ -193,12 +197,18 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 		 * ()
 		 */
 		@Override
-		protected ItemsFilter createFilter() {
+		protected IItemsFilter createFilter() {
+
+			TextSearchPattern pattern = new TextSearchPattern();
+			Control patternControl = LazyTableViewer.this.getPatternControl();
+			if (patternControl instanceof Text) {
+				pattern.setPattern(((Text) patternControl).getText());
+			}
 
 			// Note: We need to realize each time, the constructor reads the
 			// pattern control (Text widget)
 			// to get the current pattern to match against.
-			lazyItemsFilter = lazyTableViewer.new ItemsFilter() {
+			lazyItemsFilter = new AbstractPatternItemsFilter(pattern) {
 
 				@Override
 				public boolean isConsistentItem(Object item) {
@@ -219,7 +229,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 		@Override
 		protected void fillContentProvider(
 				AbstractContentProvider contentProvider,
-				ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
+				IItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 				throws CoreException {
 
 			if (ScreensActivator.DEBUG) {
@@ -380,10 +390,13 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 		// viewer.
 		mementoUtils.rememberStructuredViewerColumns(memento,
 				lazyTableViewer.getTableViewer(),
-				MementoUtil.MEM_KEY_SELECTION_TABLE);
+				MementoUtil.MEM_KEY_COLUMNS_TABLE);
 
 		if (lazyItemsFilter != null) {
-			mementoUtils.rememberString(memento, lazyItemsFilter.getPattern(),
+
+			TextSearchPattern pattern = (TextSearchPattern) lazyItemsFilter
+					.getPattern();
+			mementoUtils.rememberString(memento, pattern.getPattern(),
 					MementoUtil.MEM_KEY_SEARCH_PATTERN);
 		}
 	}
@@ -407,12 +420,10 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 
 		if (pattern == null || pattern.equals("?*")) {
 			this.getLazyTableViewer().setPattern("?"); // Show all when not set.
-		} else if (pattern.length() == 0) {
-			this.getLazyTableViewer().applyFilter(); // Just show the history/
 		} else {
 			this.getLazyTableViewer().setPattern(pattern);
 		}
-
+		// this.getLazyTableViewer().applyFilter(); // Just show the history/
 		// lazyTableViewer.applyFilter(); // Trigger the initial filtering,
 		// which
 		// will show history.

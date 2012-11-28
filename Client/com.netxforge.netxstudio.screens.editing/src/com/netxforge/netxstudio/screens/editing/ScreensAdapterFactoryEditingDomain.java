@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 28 nov. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing;
 
 import org.eclipse.emf.cdo.CDOObject;
@@ -19,11 +36,15 @@ import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.actions.WarningNWBDeleteCommand;
 
 /**
- * Customized version of the standard af editing domain. The principle use case,
- * is for creating commands.
- * 
- * Also understands the ScreensCommandStack, which can make a copy of the object
- * for revision tracking.
+ * Customized version of the standard a.f. editing domain. The following
+ * commands are add or customized:
+ * <ul>
+ * <li>{@link WarningDeleteCommand} => Warns which objects in the containment
+ * hierarchy will be deleted and which references will be impacted</li>
+ * <li>{@link CreateChildCommand} => Changes the default behaviour for certain
+ * object types.</li>
+ * <li>{@link PasteFromClipboardCommand} => Supports pasting in a TableViewer.</li>
+ * </ul>
  * 
  * @author Christophe Bouhier
  * 
@@ -47,7 +68,8 @@ public class ScreensAdapterFactoryEditingDomain extends
 			return new WarningDeleteCommand(this,
 					commandParameter.getCollection());
 		}
-		// SPECIALIZED WARNING DELETE WITH NO UNDO, DOMAIN is DISCARDED IN THIS COMMAND. 
+		// SPECIALIZED WARNING DELETE WITH NO UNDO, DOMAIN is DISCARDED IN THIS
+		// COMMAND.
 		if (commandClass == WarningNWBDeleteCommand.class) {
 			return new WarningNWBDeleteCommand(commandParameter.getCollection());
 		}

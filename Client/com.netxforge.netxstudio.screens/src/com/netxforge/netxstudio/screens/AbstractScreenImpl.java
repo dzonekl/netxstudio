@@ -182,18 +182,19 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 				return;
 			}
 			if (type != IMessage.NONE) {
-//				String errorType = "";
-//				if (type == IMessage.ERROR) {
-//					errorType = "Error:";
-//				}
-//				if (type == IMessage.WARNING) {
-//					errorType = "Required:";
-//				}
+				// String errorType = "";
+				// if (type == IMessage.ERROR) {
+				// errorType = "Error:";
+				// }
+				// if (type == IMessage.WARNING) {
+				// errorType = "Required:";
+				// }
 				// StringBuffer msgBuffer = new StringBuffer();
 				// msgBuffer.append(errorType + "(" + list.size() + "), "
 				// + list.get(0).getMessage());
-//				this.getScreenForm().getMessageManager().removeAllMessages();
-				this.getScreenForm().getMessageManager().createSummary(list.toArray(new IMessage[list.size()]));
+				// this.getScreenForm().getMessageManager().removeAllMessages();
+				this.getScreenForm().getMessageManager()
+						.createSummary(list.toArray(new IMessage[list.size()]));
 				for (IMessage m : list) {
 					if (m.getControl() != null) {
 						this.getScreenForm()
@@ -291,11 +292,11 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	public void injectData(Object owner, Object object) {
 		// do nothing.
 	}
-	
+
 	/**
-	 * Add a selection changed listener to the current selection provider. 
-	 * The current selection provider will be the viewer which has focus for 
-	 * multi viewer screens. 
+	 * Add a selection changed listener to the current selection provider. The
+	 * current selection provider will be the viewer which has focus for multi
+	 * viewer screens.
 	 */
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		ISelectionProvider currentSelectionProvider = this
@@ -350,6 +351,15 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	public Viewer[] getViewers() {
 		// defaults to the IViewerProvider single viewer, note could be null.
 		return new Viewer[] { this.getViewer() };
+	}
+
+	/**
+	 * Clients should override to set the focus on the desired control.
+	 */
+	public void setScreenFocus() {
+		if (this.getViewer() != null) {
+			this.getViewer().getControl().setFocus();
+		}
 	}
 
 	/*
@@ -418,8 +428,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 			Object widget) {
 		return this.getViewer();
 	}
-	
-	
+
 	/**
 	 * Clients should override to return custom viewer providers based on the
 	 * current focus control. The default implementation returns the focused
@@ -428,11 +437,10 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 * @param widget
 	 * @return
 	 */
-	protected Viewer resolveViewerFromWidget(
-			Object widget) {
+	protected Viewer resolveViewerFromWidget(Object widget) {
 		return this.getViewer();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

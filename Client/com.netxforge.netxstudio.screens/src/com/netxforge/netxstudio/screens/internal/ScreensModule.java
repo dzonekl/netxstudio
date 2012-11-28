@@ -47,7 +47,9 @@ public class ScreensModule extends AbstractModule {
 
 		// a better version.
 		this.bind(ValueComponentII.class);
-
+		
+		this.bind(SmartValueComponent.class);
+		
 		this.bind(ResourcesComponent.class);
 		
 		this.bind(LazyResourcesComponent.class);

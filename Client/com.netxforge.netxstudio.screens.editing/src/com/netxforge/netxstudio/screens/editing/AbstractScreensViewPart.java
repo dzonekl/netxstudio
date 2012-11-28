@@ -175,9 +175,9 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	@Override
 	public void setFocus() {
-		// TODO Set the focus, delegate to the IScreen, not sure this has any
-		// value,
-		// as we will remember the focus widget.
+		if(this.getScreen() != null){
+			this.getScreen().setScreenFocus();
+		}
 	}
 
 	private ActionHandlerDescriptor actionHandlerDescriptor;
@@ -203,7 +203,14 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 					.createWriteRoot(MementoUtil.MEM_KEY_SCREEN_PART);
 			this.memento = newMemento;
 		} else {
+			// We could have a IWorkbenchConstants.TAG_VIEW_STATE which is set, 
+			// but no child if the view part didn't close properly.  
 			this.memento = memento.getChild(MementoUtil.MEM_KEY_SCREEN_PART);
+			if( this.memento == null){
+				XMLMemento newMemento = XMLMemento
+						.createWriteRoot(MementoUtil.MEM_KEY_SCREEN_PART);
+				this.memento = newMemento;
+			}
 		}
 
 		this.addPropertyListener(this);

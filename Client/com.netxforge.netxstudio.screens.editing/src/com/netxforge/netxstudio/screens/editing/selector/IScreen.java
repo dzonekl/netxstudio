@@ -106,7 +106,11 @@ public interface IScreen extends IViewerProvider, ISelectionProvider, IPersistab
 	 */
 	public abstract void setScreenService(IScreenFormService screenService);
 	
-	
+	/**
+	 * Set the focus on the desired widget. 
+	 * 
+	 */
+	public abstract void setScreenFocus();
 	
 	/**
 	 * Set the editing service for this screen. 

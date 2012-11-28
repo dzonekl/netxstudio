@@ -19,15 +19,18 @@ package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.StyledString.Styler;
@@ -38,13 +41,13 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.wb.swt.TableViewerColumnSorter;
 
 import com.google.common.collect.Iterables;
@@ -60,36 +63,38 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
-import com.netxforge.netxstudio.screens.CDOElementComparer;
+import com.netxforge.netxstudio.screens.AbstractCachedViewerComponent;
+import com.netxforge.netxstudio.screens.IItemsFilter;
 import com.netxforge.netxstudio.screens.common.tables.TableHelper;
 import com.netxforge.netxstudio.screens.common.tables.TableHelper.TBVCSorterValueProvider;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
- * Holds all needed to build a component showing NetXResource values.
+ * Holds all needed to build a component showing NetXResource values. The data
+ * is pre-processed using a background job, which populates a source list.
+ * 
+ * 
  * 
  * @author Christophe
  * 
  */
-public class ValueComponentII {
-
-	private Table table;
-	private TableViewer valuesTableViewer;
+public class SmartValueComponent {
 
 	private ModelUtils modelUtils;
 	private TableHelper tableHelper;
 
 	@Inject
-	public ValueComponentII(ModelUtils modelUtils, TableHelper tableHelper) {
+	public SmartValueComponent(ModelUtils modelUtils, TableHelper tableHelper) {
 		this.modelUtils = modelUtils;
 		this.tableHelper = tableHelper;
 	}
 
-	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private BaseResource res;
 
 	private IScreenFormService screenService;
+
+	private AbstractCachedViewerComponent viewerComponent;
 
 	private List<Marker> markers;
 
@@ -98,36 +103,70 @@ public class ValueComponentII {
 	}
 
 	public TableViewer getValuesTableViewer() {
-		return valuesTableViewer;
+		return viewerComponent.getTableViewer();
 	}
 
 	public void buildUI(Composite parent, Object layoutData) {
 
-		// Composite valuesComposite = toolkit.createComposite(parent,
-		// SWT.NONE);
-		// valuesComposite.setLayoutData(layoutData);
-		// toolkit.adapt(valuesComposite);
-		// GridLayout gridLayout = new GridLayout(3, false);
-		//
-		// valuesComposite.setLayout(gridLayout);
+		viewerComponent = new AbstractCachedViewerComponent(parent.getShell(),
+				true) {
 
-		valuesTableViewer = new TableViewer(parent, SWT.BORDER
-				| SWT.FULL_SELECTION | SWT.VIRTUAL | SWT.MULTI);
-		valuesTableViewer.setUseHashlookup(true);
-		valuesTableViewer.setComparer(new CDOElementComparer());
-		valuesTableViewer.addFilter(new PeriodFilter());
+			@Override
+			protected Control createExtendedContentArea(Composite parent) {
+				return null;
+			}
 
-		table = valuesTableViewer.getTable();
-		table.setLayoutData(layoutData);
-		table.setLinesVisible(true);
-		table.setHeaderVisible(true);
+			@Override
+			protected void buildColumns(TableViewer viewer) {
+				SmartValueComponent.this.delegateBuildColumns();
+			}
 
-		toolkit.paintBordersFor(table);
+			@Override
+			public void handleDoubleClick() {
 
+			}
+
+			@Override
+			protected IStatus validateItem(Object item) {
+				return null;
+			}
+
+			@Override
+			protected IItemsFilter createFilter() {
+				return null;
+			}
+
+			@Override
+			protected <T> Comparator<T> getItemsComparator() {
+				return null;
+			}
+
+			@Override
+			protected void fillContentProvider(
+					AbstractContentProvider contentProvider,
+					IItemsFilter itemsFilter, IProgressMonitor progressMonitor)
+					throws CoreException {
+
+			}
+
+			@Override
+			public String getElementName(Object item) {
+				return null;
+			}
+
+		};
+		
+		viewerComponent.setListLabelProvider(new NetXResourceValueLabelProvider());
+		
+	}
+
+	protected void delegateBuildColumns() {
+		this.buildColumns();
 	}
 
 	private void buildColumns() {
 
+		Table table = this.getValuesTableViewer().getTable();
 		table.setRedraw(false);
 
 		for (TableColumn tc : table.getColumns()) {
@@ -139,7 +178,7 @@ public class ValueComponentII {
 			// The time stamp column
 			TableViewerColumn tbvcFor = tableHelper.new TBVC<Date>(
 					new NetXResourceValueLabelProvider()).tbvcFor(
-					valuesTableViewer, "Time Stamp", 185);
+					this.getValuesTableViewer(), "Time Stamp", 185);
 
 			{
 				ColumnRangeFeedback columnRangeFeedback = new ColumnRangeFeedback(
@@ -167,7 +206,7 @@ public class ValueComponentII {
 
 					TableViewerColumn tbvc = tableHelper.new TBVC<Double>(
 							new NetXResourceValueLabelProvider()).tbvcFor(
-							valuesTableViewer, columnName,
+							this.getValuesTableViewer(), columnName,
 							"Metric value range with " + columnName
 									+ " values.", 100);
 
@@ -182,17 +221,17 @@ public class ValueComponentII {
 
 				TableViewerColumn tbvc = tableHelper.new TBVC<Double>(
 						new NetXResourceValueLabelProvider()).tbvcFor(
-						valuesTableViewer, "Capacity", "Capacity value range",
-						100);
+						this.getValuesTableViewer(), "Capacity",
+						"Capacity value range", 100);
 				setColumnData(res, tbvc);
 				setRangeFeedback(columnRangeFeedback, tbvc);
 			}
 			{
 				ColumnRangeFeedback columnRangeFeedback = new ColumnRangeFeedback(
-						LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES	);
+						LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES);
 				TableViewerColumn tbvc = tableHelper.new TBVC<Double>(
 						new NetXResourceValueLabelProvider()).tbvcFor(
-						valuesTableViewer, "Utilization",
+						this.getValuesTableViewer(), "Utilization",
 						"Utilization value range", 100);
 				setColumnData(res, tbvc);
 				setRangeFeedback(columnRangeFeedback, tbvc);
@@ -200,7 +239,7 @@ public class ValueComponentII {
 
 			// TODO, dynamicly build the tolerance value ranges.
 		}
-		table.setRedraw(true);
+		this.getValuesTableViewer().getTable().setRedraw(true);
 	}
 
 	private void setRangeFeedback(ColumnRangeFeedback columnRangeFeedback,
@@ -217,15 +256,16 @@ public class ValueComponentII {
 
 		res = object;
 		markers = null; // reset the markers.
-		try {
-			buildColumns();
-//			valuesTableViewer.setInput(res);
-			if (!valuesTableViewer.getTable().isVisible()) {
-				valuesTableViewer.getTable().setVisible(true);
-			}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
+		
+		
+//		try {
+//			buildColumns();
+//			if (!valuesTableViewer.getTable().isVisible()) {
+//				valuesTableViewer.getTable().setVisible(true);
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e);
+//		}
 	}
 
 	/**
@@ -267,7 +307,8 @@ public class ValueComponentII {
 							.getDataService().getQueryService()
 							.getValuesQuery((CDOID) data, reference);
 					System.out.println(valuesQuery);
-					MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "SQL Query", valuesQuery);
+					MessageDialog.openInformation(Display.getCurrent()
+							.getActiveShell(), "SQL Query", valuesQuery);
 				}
 			}
 		}
@@ -316,104 +357,6 @@ public class ValueComponentII {
 		}
 	}
 
-	public void bindValues() {
-
-		/*
-		 * Builds an Object[] array, the first column is the NetXResource Time
-		 * Stamps. the remaining are the NetXResource ranges. (Metric, Capacity,
-		 * Utilization).
-		 */
-		valuesTableViewer.setContentProvider(new ArrayContentProvider() {
-
-			@Override
-			public Object[] getElements(Object inputElement) {
-
-				if (inputElement == Collections.EMPTY_LIST) {
-					return new Object[] {};
-				}
-
-				if (inputElement instanceof NetXResource) {
-
-					NetXResource res = (NetXResource) inputElement;
-					// determine the size of the array.
-					int arraySize = 0;
-					Object[] rangeArray;
-					arraySize = res.getMetricValueRanges().size();
-					arraySize += 2; // Cap, Utilization.
-					rangeArray = new Object[arraySize];
-
-					// populate the array, in a set of indexed lists.
-					// later create an object matrix from the list.
-
-					List<Date> existingDates = Lists.newArrayList();
-
-					int rangeIndex = 0;
-
-					List<MetricValueRange> mvrList = Lists.newArrayList(res
-							.getMetricValueRanges());
-					Collections.sort(mvrList, modelUtils.mvrCompare());
-					for (MetricValueRange mvr : mvrList) {
-						List<Double> doubles = modelUtils.merge(existingDates,
-								mvr.getMetricValues());
-						// check if the date exist, add if not and add the value
-						rangeArray[rangeIndex++] = doubles;
-					}
-
-					{
-						List<Double> doubles = modelUtils.merge(existingDates,
-								res.getCapacityValues());
-						rangeArray[rangeIndex++] = doubles;
-					}
-					{
-						List<Double> doubles = modelUtils.merge(existingDates,
-								res.getUtilizationValues());
-						rangeArray[rangeIndex++] = doubles;
-					}
-
-					// reverse t
-					List<Object[]> result = Lists.newArrayList();
-
-					for (Date date : existingDates) {
-						if (date == null)
-							continue;
-						int indexOfDate = existingDates.indexOf(date);
-						if (indexOfDate != -1) {
-							Object[] row = new Object[arraySize + 1];
-							row[0] = date;
-							for (int i = 0; i < rangeArray.length; i++) {
-								// ranges can be safely casted.
-								@SuppressWarnings("unchecked")
-								List<Double> range = (List<Double>) rangeArray[i];
-								// Should not be index out of bound, as we have
-								// grown the lists to the size of the dates.
-								if (indexOfDate < range.size()) {
-									row[i + 1] = range.get(indexOfDate);
-								} else {
-									row[i + 1] = new Object();
-								}
-
-							}
-							result.add(row);
-						}
-					}
-
-					return result.toArray();
-				}
-				return null;
-			}
-
-			@Override
-			public void inputChanged(Viewer viewer, Object oldInput,
-					Object newInput) {
-				super.inputChanged(viewer, oldInput, newInput);
-			}
-
-		});
-
-		valuesTableViewer
-				.setLabelProvider(new NetXResourceValueLabelProvider());
-	}
-
 	/*
 	 * A table filter which can be update with a from/to date.
 	 */
@@ -458,7 +401,81 @@ public class ValueComponentII {
 		;
 		this.applyDateFilter(modelUtils.begin(dtr), modelUtils.end(dtr));
 	}
+	
+	/**
+	 * @param inputElement
+	 */
+	private Object[] fillContent(Object inputElement) {
+		if (inputElement instanceof NetXResource) {
 
+			NetXResource res = (NetXResource) inputElement;
+			// determine the size of the array.
+			int arraySize = 0;
+			Object[] rangeArray;
+			arraySize = res.getMetricValueRanges().size();
+			arraySize += 2; // Cap, Utilization.
+			rangeArray = new Object[arraySize];
+
+			// populate the array, in a set of indexed lists.
+			// later create an object matrix from the list.
+
+			List<Date> existingDates = Lists.newArrayList();
+
+			int rangeIndex = 0;
+
+			List<MetricValueRange> mvrList = Lists.newArrayList(res
+					.getMetricValueRanges());
+			Collections.sort(mvrList, modelUtils.mvrCompare());
+			for (MetricValueRange mvr : mvrList) {
+				List<Double> doubles = modelUtils.merge(existingDates,
+						mvr.getMetricValues());
+				// check if the date exist, add if not and add the value
+				rangeArray[rangeIndex++] = doubles;
+			}
+
+			{
+				List<Double> doubles = modelUtils.merge(existingDates,
+						res.getCapacityValues());
+				rangeArray[rangeIndex++] = doubles;
+			}
+			{
+				List<Double> doubles = modelUtils.merge(existingDates,
+						res.getUtilizationValues());
+				rangeArray[rangeIndex++] = doubles;
+			}
+
+			// reverse t
+			List<Object[]> result = Lists.newArrayList();
+
+			for (Date date : existingDates) {
+				if (date == null)
+					continue;
+				int indexOfDate = existingDates.indexOf(date);
+				if (indexOfDate != -1) {
+					Object[] row = new Object[arraySize + 1];
+					row[0] = date;
+					for (int i = 0; i < rangeArray.length; i++) {
+						// ranges can be safely casted.
+						@SuppressWarnings("unchecked")
+						List<Double> range = (List<Double>) rangeArray[i];
+						// Should not be index out of bound, as we have
+						// grown the lists to the size of the dates.
+						if (indexOfDate < range.size()) {
+							row[i + 1] = range.get(indexOfDate);
+						} else {
+							row[i + 1] = new Object();
+						}
+
+					}
+					result.add(row);
+				}
+			}
+
+			return result.toArray();
+		}
+		return new Object[0];
+	}
+	
 	/**
 	 * call to apply the period filter on the table viewer.
 	 * 
@@ -470,14 +487,17 @@ public class ValueComponentII {
 		if (from == null || to == null) {
 			return;
 		}
-
-		ViewerFilter[] filters = valuesTableViewer.getFilters();
+		
+		// The ViewerFilter will need to be re-applied. 
+		
+		ViewerFilter[] filters = this.getValuesTableViewer().getFilters();
 		for (ViewerFilter viewerFilter : filters) {
 			if (viewerFilter instanceof PeriodFilter) {
 				((PeriodFilter) viewerFilter).updateDates(from, to);
 			}
 		}
-		valuesTableViewer.refresh();
+		
+//		valuesTableViewer.refresh();
 	}
 
 	/**
@@ -593,10 +613,11 @@ public class ValueComponentII {
 
 	public void clearData() {
 		// Leaves behind an empty table with no columns etc..
-		this.valuesTableViewer.setInput(Collections.EMPTY_LIST);
-		res = null;
-		buildColumns();
-		// valuesTableViewer.getTable().setVisible(false);
+		
+		// FIXME, Do empty in the underlying component.  
+//		this.valuesTableViewer.setInput(Collections.EMPTY_LIST);
+//		res = null;
+//		buildColumns();
 	}
 
 	// public class MonitorAction extends BaseSelectionListenerAction {

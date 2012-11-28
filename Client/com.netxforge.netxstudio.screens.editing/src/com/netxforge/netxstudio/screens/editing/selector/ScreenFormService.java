@@ -621,14 +621,14 @@ public class ScreenFormService implements IScreenFormService {
 	 * with the screen name.
 	 */
 	public void saveScreenState(IScreen screen) {
-		IMemento parent = absViewPart.getMemento();
+		IMemento viewPartMemento = absViewPart.getMemento();
 
-		if (parent != null) {
+		if (viewPartMemento != null) {
 			String validMementoElement = modelUtils
 					.underscopeWhiteSpaces(screen.getScreenName());
-			IMemento child = parent.getChild(validMementoElement);
+			IMemento child = viewPartMemento.getChild(validMementoElement);
 			if (child == null) {
-				child = parent.createChild(validMementoElement);
+				child = viewPartMemento.createChild(validMementoElement);
 			}
 
 			if (EditingActivator.DEBUG) {
