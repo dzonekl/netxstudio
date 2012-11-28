@@ -214,7 +214,7 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 	private SearchFilter searchFilter;
 
 	@Inject
-	private ValueComponentII cmpValues;
+	private SmartValueComponent cmpValues;
 
 	@Inject
 	private LazyResourcesComponent cmpResources;
@@ -1753,7 +1753,6 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 
 		bindExpressionSelector(bindingContext);
 
-		cmpValues.bindValues();
 		cmpResources.initDataBindings_();
 
 		return bindingContext;

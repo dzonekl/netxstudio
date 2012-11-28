@@ -29,6 +29,7 @@ import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.spi.cdo.FSMUtil;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -406,7 +407,11 @@ public class MementoUtil {
 	}
 
 	public void rememberCDOObject(IMemento memento, CDOObject object, String key) {
-
+		
+		
+		if( FSMUtil.isNew(object) || FSMUtil.isTransient(object)){
+			return; // Can't remember this state. 
+		}
 		CDOID cdoID = object.cdoID();
 		Long longValue = ((AbstractCDOIDLong) cdoID).getLongValue();
 		memento.putString(key, longValue.toString());

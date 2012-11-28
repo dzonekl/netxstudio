@@ -22,13 +22,13 @@ import org.eclipse.core.runtime.ProgressMonitorWrapper;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.jface.action.ActionContributionItem;
-import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.emf.edit.provider.IChangeNotifier;
+import org.eclipse.emf.edit.provider.INotifyChangedListener;
+import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.jface.action.LegacyActionTools;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
@@ -41,7 +41,6 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILazyContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
@@ -57,15 +56,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
 import org.eclipse.swt.accessibility.AccessibleEvent;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -75,38 +69,22 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.XMLMemento;
-import org.eclipse.ui.actions.BaseSelectionListenerAction;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
-import org.eclipse.ui.dialogs.SearchPattern;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.handlers.IHandlerActivation;
 import org.eclipse.ui.handlers.IHandlerService;
-import org.eclipse.ui.internal.IWorkbenchGraphicConstants;
-import org.eclipse.ui.internal.WorkbenchImages;
 import org.eclipse.ui.progress.UIJob;
 
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
- * Shows a list of items to the user with a text entry field for a string
- * pattern used to filter the list of items.
- * 
- * 
- * Christophe Bouhier
- * 
- * Customization, with SurpressWarnings on restrictions. (Mostly I18N
- * references), The ContentProvider maintains LinkedLists, to maintain the
- * order, and skips the sorter
- * 
+ * A Cached Viewer Component, which can be extended. It has no support for
+ * history and Items filtering.
  * 
  */
-@SuppressWarnings({ "restriction", "unchecked", "rawtypes" })
-public abstract class AbstractLazyTableViewer {
+public abstract class AbstractCachedViewerComponent {
 
 	final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
@@ -128,8 +106,6 @@ public abstract class AbstractLazyTableViewer {
 	 */
 	public static final int FULL_SELECTION = 2;
 
-	private Text pattern;
-
 	/*
 	 * Expose for selection handling.
 	 */
@@ -137,25 +113,9 @@ public abstract class AbstractLazyTableViewer {
 
 	private ItemsLabelProvider itemsListLabelProvider;
 
-	private MenuManager menuManager;
-
-	private MenuManager contextMenuManager;
-
 	private boolean multi;
 
 	private Label progressLabel;
-
-	
-	/*
-	 * Expose so we can add this action to another menu manager. 
-	 */
-	private RemoveHistoryItemAction removeHistoryItemAction;
-
-	public RemoveHistoryItemAction getRemoveHistoryItemAction() {
-		return removeHistoryItemAction;
-	}
-
-	private ActionContributionItem removeHistoryActionContributionItem;
 
 	private RefreshCacheJob refreshCacheJob;
 
@@ -165,21 +125,13 @@ public abstract class AbstractLazyTableViewer {
 
 	private ItemsContentProvider contentProvider;
 
-	private FilterHistoryJob filterHistoryJob;
-
 	private FilterJob filterJob;
 
-	private ItemsFilter filter;
+	private IItemsFilter filter;
 
 	private List<?> lastCompletedResult;
 
-	private ItemsFilter lastCompletedFilter;
-
-	private String initialPatternText;
-
-	private int selectionMode;
-
-	private ItemsListSeparator itemsListSeparator;
+	private IItemsFilter lastCompletedFilter;
 
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
@@ -200,14 +152,11 @@ public abstract class AbstractLazyTableViewer {
 	 *            indicates whether dialog allows to select more than one
 	 *            position in its list of items
 	 */
-	public AbstractLazyTableViewer(Shell shell, boolean multi) {
+	public AbstractCachedViewerComponent(Shell shell, boolean multi) {
 		this.multi = multi;
-		filterHistoryJob = new FilterHistoryJob();
 		filterJob = new FilterJob();
 		contentProvider = new ItemsContentProvider();
 		refreshCacheJob = new RefreshCacheJob();
-		itemsListSeparator = new ItemsListSeparator("Matches");
-		selectionMode = NONE;
 	}
 
 	/**
@@ -217,7 +166,7 @@ public abstract class AbstractLazyTableViewer {
 	 * @param shell
 	 *            shell to parent the dialog on
 	 */
-	public AbstractLazyTableViewer(Shell shell) {
+	public AbstractCachedViewerComponent(Shell shell) {
 		this(shell, false);
 	}
 
@@ -281,17 +230,6 @@ public abstract class AbstractLazyTableViewer {
 		return itemsListLabelProvider;
 	}
 
-	/**
-	 * Restores using persisted settings. The default implementation restores
-	 * the status of the selection history.
-	 * 
-	 * @param settings
-	 *            settings used to restore dialog
-	 */
-	protected void restoreState(IMemento memento) {
-		this.contentProvider.loadHistory(memento);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -312,28 +250,7 @@ public abstract class AbstractLazyTableViewer {
 			showViewHandler = null;
 		}
 
-		if (menuManager != null)
-			menuManager.dispose();
-		if (contextMenuManager != null)
-			contextMenuManager.dispose();
-
-		// CB TODO, called from the outside, as we don't close.
-		// storeDialog();
 		return true;
-	}
-
-	/**
-	 * Stores the settings.
-	 * 
-	 * @param settings
-	 *            settings used to store dialog
-	 */
-	protected void saveState(IMemento memento) {
-		this.contentProvider.saveHistory(memento);
-	}
-
-	public void addToHistory(Object item) {
-		accessedHistoryItem(item);
 	}
 
 	/**
@@ -357,16 +274,6 @@ public abstract class AbstractLazyTableViewer {
 		Label headerLabel = new Label(header, SWT.NONE);
 		headerLabel
 				.setText("Select an item to open (? = any character, * = any string):");
-
-		// Skip traversal of this header.
-		headerLabel.addTraverseListener(new TraverseListener() {
-			public void keyTraversed(TraverseEvent e) {
-				if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
-					e.detail = SWT.TRAVERSE_NONE;
-					pattern.setFocus();
-				}
-			}
-		});
 
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		headerLabel.setLayoutData(gd);
@@ -466,57 +373,7 @@ public abstract class AbstractLazyTableViewer {
 	// menu.setVisible(true);
 	// }
 
-	/**
-	 * Hook that allows to add actions to the context menu.
-	 * <p>
-	 * Subclasses may extend in order to add other actions.
-	 * </p>
-	 * 
-	 * @param menuManager
-	 *            the context menu manager
-	 * @since 3.5
-	 */
-	protected void fillContextMenu(IMenuManager menuManager) {
-		List selectedElements = ((StructuredSelection) tblViewer.getSelection())
-				.toList();
-
-		Object item = null;
-
-		for (Iterator it = selectedElements.iterator(); it.hasNext();) {
-			item = it.next();
-			if (item instanceof ItemsListSeparator || !isHistoryElement(item)) {
-				return;
-			}
-		}
-
-		if (selectedElements.size() > 0) {
-			removeHistoryItemAction.setText("Remove from history");
-
-			menuManager.add(removeHistoryActionContributionItem);
-
-		}
-	}
 	
-	
-	// CB Remove later. 
-//	private void createPopupMenu() {
-//		
-//		removeHistoryActionContributionItem = new ActionContributionItem(
-//				removeHistoryItemAction);
-//
-//		contextMenuManager = new MenuManager();
-//		contextMenuManager.setRemoveAllWhenShown(true);
-//		contextMenuManager.addMenuListener(new IMenuListener() {
-//			public void menuAboutToShow(IMenuManager manager) {
-//				fillContextMenu(manager);
-//			}
-//		});
-//
-//		final Table table = tblViewer.getTable();
-//		Menu menu = contextMenuManager.createContextMenu(table);
-//		table.setMenu(menu);
-//	}
-
 	/**
 	 * Creates an extra content area, which will be located above the details.
 	 * 
@@ -545,23 +402,6 @@ public abstract class AbstractLazyTableViewer {
 
 		// CB Decide later. Do not build the header for now.
 		// final Label headerLabel = createHeader(content);
-
-		pattern = toolkit.createText(content, "", SWT.SINGLE | SWT.BORDER
-				| SWT.SEARCH | SWT.ICON_CANCEL);
-
-		// pattern = new Text(content, SWT.SINGLE | SWT.BORDER | SWT.SEARCH
-		// | SWT.ICON_CANCEL);
-
-		// pattern.getAccessible().addAccessibleListener(new AccessibleAdapter()
-		// {
-		// public void getName(AccessibleEvent e) {
-		// e.result = LegacyActionTools.removeMnemonics(headerLabel
-		// .getText());
-		// }
-		// });
-
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		pattern.setLayoutData(gd);
 
 		final Label listLabel = createLabels(content);
 
@@ -592,25 +432,6 @@ public abstract class AbstractLazyTableViewer {
 		// the label provider set.
 		tblViewer.setLabelProvider(getItemsLabelProvider());
 
-//		createPopupMenu();
-		removeHistoryItemAction = new RemoveHistoryItemAction();
-		
-		pattern.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				applyFilter();
-			}
-		});
-
-		pattern.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				if (e.keyCode == SWT.ARROW_DOWN) {
-					if (tblViewer.getTable().getItemCount() > 0) {
-						tblViewer.getTable().setFocus();
-					}
-				}
-			}
-		});
-
 		tblViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				StructuredSelection selection = (StructuredSelection) event
@@ -625,91 +446,7 @@ public abstract class AbstractLazyTableViewer {
 			}
 		});
 
-		tblViewer.getTable().addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-
-				if (e.keyCode == SWT.DEL) {
-
-					List<?> selectedElements = ((StructuredSelection) tblViewer
-							.getSelection()).toList();
-
-					Object item = null;
-					boolean isSelectedHistory = true;
-
-					for (Iterator<?> it = selectedElements.iterator(); it
-							.hasNext();) {
-						item = it.next();
-						if (item instanceof ItemsListSeparator
-								|| !isHistoryElement(item)) {
-							isSelectedHistory = false;
-							break;
-						}
-					}
-					if (isSelectedHistory)
-						removeSelectedItems(selectedElements);
-
-				}
-
-				if (e.keyCode == SWT.ARROW_UP && (e.stateMask & SWT.SHIFT) != 0
-						&& (e.stateMask & SWT.CTRL) != 0) {
-					StructuredSelection selection = (StructuredSelection) tblViewer
-							.getSelection();
-
-					if (selection.size() == 1) {
-						Object element = selection.getFirstElement();
-						if (element.equals(tblViewer.getElementAt(0))) {
-							pattern.setFocus();
-						}
-						if (tblViewer.getElementAt(tblViewer.getTable()
-								.getSelectionIndex() - 1) instanceof ItemsListSeparator)
-							tblViewer.getTable()
-									.setSelection(
-											tblViewer.getTable()
-													.getSelectionIndex() - 1);
-						tblViewer.getTable().notifyListeners(SWT.Selection,
-								new Event());
-
-					}
-				}
-
-				if (e.keyCode == SWT.ARROW_DOWN
-						&& (e.stateMask & SWT.SHIFT) != 0
-						&& (e.stateMask & SWT.CTRL) != 0) {
-
-					if (tblViewer.getElementAt(tblViewer.getTable()
-							.getSelectionIndex() + 1) instanceof ItemsListSeparator)
-						tblViewer.getTable().setSelection(
-								tblViewer.getTable().getSelectionIndex() + 1);
-					tblViewer.getTable().notifyListeners(SWT.Selection,
-							new Event());
-				}
-
-			}
-		});
-
 		createExtendedContentArea(content);
-
-		// CB restore is done externally.
-		// restoreDialog(getDialogSettings());
-
-		if (initialPatternText != null) {
-			pattern.setText(initialPatternText);
-		}
-
-		switch (selectionMode) {
-		case CARET_BEGINNING:
-			pattern.setSelection(0, 0);
-			break;
-		case FULL_SELECTION:
-			pattern.setSelection(0, initialPatternText.length());
-			break;
-		}
-
-		// apply filter even if pattern is empty (display history)
-		// Note, as our transaction won't be set yet. delay this after our data
-		// has been injected.
-		// applyFilter();
-
 		return content;
 	}
 
@@ -760,10 +497,6 @@ public abstract class AbstractLazyTableViewer {
 
 			for (Iterator<?> it = items.iterator(); it.hasNext();) {
 				Object o = it.next();
-
-				if (o instanceof ItemsListSeparator) {
-					continue;
-				}
 
 				item = o;
 				tempStatus = validateItem(item);
@@ -834,6 +567,10 @@ public abstract class AbstractLazyTableViewer {
 		scheduleProgressMessageRefresh();
 	}
 
+	public void setAdapterFactory(AdapterFactory adapterFactory) {
+		contentProvider.setAdapterFactory(adapterFactory);
+	}
+
 	/**
 	 * Notifies the content provider - fires filtering of content provider
 	 * elements. During the filtering, a separator between history and workspace
@@ -874,87 +611,6 @@ public abstract class AbstractLazyTableViewer {
 	}
 
 	/**
-	 * Sets the initial pattern used by the filter. This text is copied into the
-	 * selection input on the dialog. A full selection is used in the pattern
-	 * input field.
-	 * 
-	 * @param text
-	 *            initial pattern for the filter
-	 * @see FilteredItemsSelectionDialog#FULL_SELECTION
-	 */
-	public void setInitialPattern(String text) {
-		setInitialPattern(text, FULL_SELECTION);
-	}
-
-	/**
-	 * Sets the initial pattern used by the filter. This text is copied into the
-	 * selection input on the dialog. The <code>selectionMode</code> is used to
-	 * choose selection type for the input field.
-	 * 
-	 * @param text
-	 *            initial pattern for the filter
-	 * @param selectionMode
-	 *            one of: {@link FilteredItemsSelectionDialog#NONE},
-	 *            {@link FilteredItemsSelectionDialog#CARET_BEGINNING},
-	 *            {@link FilteredItemsSelectionDialog#FULL_SELECTION}
-	 */
-	public void setInitialPattern(String text, int selectionMode) {
-		this.initialPatternText = text;
-		this.selectionMode = selectionMode;
-	}
-
-		
-	/**
-	 * Set the pattern, forcing the filter to be re-applied. 
-	 * @param text
-	 */
-	public void setPattern(String text) {
-		pattern.setText(text);
-	}
-
-	
-	
-	/**
-	 * Gets initial pattern.
-	 * 
-	 * @return initial pattern, or <code>null</code> if initial pattern is not
-	 *         set
-	 */
-	protected String getInitialPattern() {
-		return this.initialPatternText;
-	}
-
-	/**
-	 * Returns the current selection.
-	 * 
-	 * @return the current selection
-	 */
-	protected StructuredSelection getSelectedItems() {
-
-		StructuredSelection selection = (StructuredSelection) tblViewer
-				.getSelection();
-
-		List selectedItems = selection.toList();
-		Object itemToRemove = null;
-
-		for (Iterator it = selection.iterator(); it.hasNext();) {
-			Object item = it.next();
-			if (item instanceof ItemsListSeparator) {
-				itemToRemove = item;
-				break;
-			}
-		}
-
-		if (itemToRemove == null)
-			return new StructuredSelection(selectedItems);
-		// Create a new selection without the collision
-		List newItems = new ArrayList(selectedItems);
-		newItems.remove(itemToRemove);
-		return new StructuredSelection(newItems);
-
-	}
-
-	/**
 	 * Validates the item. When items on the items list are selected or
 	 * deselected, it validates each item in the selection and the dialog status
 	 * depends on all validations.
@@ -972,7 +628,7 @@ public abstract class AbstractLazyTableViewer {
 	 *         no filtering will be applied then, causing no item to be shown in
 	 *         the list.
 	 */
-	protected abstract ItemsFilter createFilter();
+	protected abstract IItemsFilter createFilter();
 
 	/**
 	 * Applies the filter created by <code>createFilter()</code> method to the
@@ -981,7 +637,7 @@ public abstract class AbstractLazyTableViewer {
 	 */
 	public void applyFilter() {
 
-		ItemsFilter newFilter = createFilter();
+		IItemsFilter newFilter = createFilter();
 
 		// don't apply filtering for patterns which mean the same, for example:
 		// *a**b and ***a*b
@@ -989,13 +645,11 @@ public abstract class AbstractLazyTableViewer {
 			return;
 		}
 
-		filterHistoryJob.cancel();
 		filterJob.cancel();
-
 		this.filter = newFilter;
 
 		if (this.filter != null) {
-			filterHistoryJob.schedule();
+			filterJob.schedule();
 		}
 	}
 
@@ -1025,87 +679,8 @@ public abstract class AbstractLazyTableViewer {
 	 * @throws CoreException
 	 */
 	protected abstract void fillContentProvider(
-			AbstractContentProvider contentProvider, ItemsFilter itemsFilter,
+			AbstractContentProvider contentProvider, IItemsFilter itemsFilter,
 			IProgressMonitor progressMonitor) throws CoreException;
-
-	/**
-	 * Removes selected items from history.
-	 * 
-	 * @param items
-	 *            items to be removed
-	 */
-	private void removeSelectedItems(List items) {
-		for (Iterator iter = items.iterator(); iter.hasNext();) {
-			Object item = iter.next();
-			removeHistoryItem(item);
-		}
-		refreshWithLastSelection = false;
-		contentProvider.reloadCache();
-	}
-
-	/**
-	 * Removes an item from history.
-	 * 
-	 * @param item
-	 *            an item to remove
-	 * @return removed item
-	 */
-	protected Object removeHistoryItem(Object item) {
-		return contentProvider.removeHistoryElement(item);
-	}
-
-	/**
-	 * Adds item to history.
-	 * 
-	 * @param item
-	 *            the item to be added
-	 */
-	protected void accessedHistoryItem(Object item) {
-		contentProvider.addHistoryItem(item);
-		contentProvider.reloadCache();
-	}
-
-	/**
-	 * Returns a history comparator.
-	 * 
-	 * @return decorated comparator
-	 */
-	private Comparator getHistoryComparator() {
-		return new HistoryComparator();
-	}
-
-	/**
-	 * Returns the history of selected elements.
-	 * 
-	 * @return history of selected elements, or <code>null</code> if it is not
-	 *         set
-	 */
-	protected SelectionHistory getSelectionHistory() {
-		return this.contentProvider.getSelectionHistory();
-	}
-
-	/**
-	 * Sets new history.
-	 * 
-	 * @param selectionHistory
-	 *            the history
-	 */
-	protected void setSelectionHistory(SelectionHistory selectionHistory) {
-		if (this.contentProvider != null)
-			this.contentProvider.setSelectionHistory(selectionHistory);
-	}
-
-	/**
-	 * Indicates whether the given item is a history item.
-	 * 
-	 * @param item
-	 *            the item to be investigated
-	 * @return <code>true</code> if the given item exists in history,
-	 *         <code>false</code> otherwise
-	 */
-	public boolean isHistoryElement(Object item) {
-		return this.contentProvider.isHistoryElement(item);
-	}
 
 	/**
 	 * Indicates whether the given item is a duplicate.
@@ -1117,16 +692,6 @@ public abstract class AbstractLazyTableViewer {
 	 */
 	public boolean isDuplicateElement(Object item) {
 		return this.contentProvider.isDuplicateElement(item);
-	}
-
-	/**
-	 * Sets separator label
-	 * 
-	 * @param separatorLabel
-	 *            the label showed on separator
-	 */
-	public void setSeparatorLabel(String separatorLabel) {
-		this.itemsListSeparator = new ItemsListSeparator(separatorLabel);
 	}
 
 	/**
@@ -1195,8 +760,8 @@ public abstract class AbstractLazyTableViewer {
 				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
 						IStatus.OK, EMPTY_STRING, null);
 
-			if (AbstractLazyTableViewer.this != null) {
-				AbstractLazyTableViewer.this.refresh();
+			if (AbstractCachedViewerComponent.this != null) {
+				AbstractCachedViewerComponent.this.refresh();
 			}
 
 			return new Status(IStatus.OK, PlatformUI.PLUGIN_ID, IStatus.OK,
@@ -1316,10 +881,11 @@ public abstract class AbstractLazyTableViewer {
 						IStatus.CANCEL, EMPTY_STRING, null);
 			}
 
-			if (AbstractLazyTableViewer.this != null) {
+			if (AbstractCachedViewerComponent.this != null) {
 				GranualProgressMonitor wrappedMonitor = new GranualProgressMonitor(
 						monitor);
-				AbstractLazyTableViewer.this.reloadCache(true, wrappedMonitor);
+				AbstractCachedViewerComponent.this.reloadCache(true,
+						wrappedMonitor);
 			}
 
 			if (!monitor.isCanceled()) {
@@ -1341,35 +907,6 @@ public abstract class AbstractLazyTableViewer {
 			contentProvider.stopReloadingCache();
 		}
 
-	}
-
-	private class RemoveHistoryItemAction extends BaseSelectionListenerAction {
-
-		/**
-		 * Creates a new instance of the class.
-		 */
-		public RemoveHistoryItemAction() {
-			super("Remove from history");
-		}
-
-		
-		
-		@Override
-		protected boolean updateSelection(IStructuredSelection selection) {
-			Object firstElement = selection.getFirstElement();
-			return isHistoryElement(firstElement);
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.action.Action#run()
-		 */
-		public void run() {
-			List selectedElements = ((StructuredSelection) tblViewer
-					.getSelection()).toList();
-			removeSelectedItems(selectedElements);
-		}
 	}
 
 	private static boolean showColoredLabels() {
@@ -1461,10 +998,7 @@ public abstract class AbstractLazyTableViewer {
 		}
 
 		private Image getImage(Object element, int columnIndex) {
-			if (element instanceof ItemsListSeparator && columnIndex == 0) {
-				return WorkbenchImages
-						.getImage(IWorkbenchGraphicConstants.IMG_OBJ_SEPARATOR);
-			} else if (provider instanceof ITableLabelProvider) {
+			if (provider instanceof ITableLabelProvider) {
 				return ((ITableLabelProvider) provider).getColumnImage(element,
 						columnIndex);
 			} else if (provider instanceof ILabelProvider && columnIndex == 0) {
@@ -1490,10 +1024,6 @@ public abstract class AbstractLazyTableViewer {
 		 * org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 		 */
 		private String getText(Object element, int columnIndex) {
-			if (element instanceof ItemsListSeparator) {
-				return getSeparatorLabel(
-						((ItemsListSeparator) element).getName(), columnIndex);
-			}
 
 			String str = "";
 			if (provider instanceof ITableLabelProvider) {
@@ -1531,8 +1061,7 @@ public abstract class AbstractLazyTableViewer {
 
 			// TODO We could also check for CellLabelProvider, to delegate the
 			// full update method.
-			if (!(element instanceof ItemsListSeparator)
-					&& provider instanceof IStyledLabelProvider) {
+			if (provider instanceof IStyledLabelProvider) {
 				IStyledLabelProvider styledLabelProvider = (IStyledLabelProvider) provider;
 				StyledString styledString = getStyledText(element,
 						cell.getColumnIndex(), styledLabelProvider);
@@ -1549,61 +1078,6 @@ public abstract class AbstractLazyTableViewer {
 			cell.setBackground(getBackground(element));
 
 			super.update(cell);
-		}
-
-		private String getSeparatorLabel(String separatorLabel, int columnIndex) {
-
-			int cwidth = tblViewer.getTable().getColumns()[columnIndex]
-					.getWidth();
-
-			// Rectangle rect = tblViewer.getTable().getBounds();
-
-			int borderWidth = tblViewer.getTable().computeTrim(0, 0, 0, 0).width;
-
-			// int width = rect.width - borderWidth - imageWidth;
-			int width = 0;
-			if (columnIndex == 0) {
-				int imageWidth = WorkbenchImages.getImage(
-						IWorkbenchGraphicConstants.IMG_OBJ_SEPARATOR)
-						.getBounds().width;
-				width = cwidth - borderWidth - imageWidth;
-			} else {
-				width = cwidth - borderWidth;
-			}
-
-			GC gc = new GC(tblViewer.getTable());
-			gc.setFont(tblViewer.getTable().getFont());
-
-			int dashWidth = gc.getAdvanceWidth('-');
-			int fMessageLength = gc.textExtent(separatorLabel).x;
-
-			gc.dispose();
-
-			StringBuffer dashes = new StringBuffer();
-
-			int chars = 0;
-
-			if (columnIndex == 0) {
-				chars = (((width - fMessageLength) / dashWidth) / 2) - 2;
-			} else {
-				chars = ((width / dashWidth) / 2) - 2;
-			}
-
-			for (int i = 0; i < chars; i++) {
-				dashes.append('-');
-			}
-
-			StringBuffer result = new StringBuffer();
-
-			if (columnIndex == 0) {
-				result.append(dashes);
-				result.append(" " + separatorLabel + " "); //$NON-NLS-1$//$NON-NLS-2$
-				result.append(dashes);
-			} else {
-				result.append(dashes);
-				result.append(dashes);
-			}
-			return result.toString().trim();
 		}
 
 		/*
@@ -1664,9 +1138,6 @@ public abstract class AbstractLazyTableViewer {
 		}
 
 		private Color getBackground(Object element) {
-			if (element instanceof ItemsListSeparator) {
-				return null;
-			}
 			if (provider instanceof IColorProvider) {
 				return ((IColorProvider) provider).getBackground(element);
 			}
@@ -1674,10 +1145,6 @@ public abstract class AbstractLazyTableViewer {
 		}
 
 		private Color getForeground(Object element) {
-			if (element instanceof ItemsListSeparator) {
-				return Display.getCurrent().getSystemColor(
-						SWT.COLOR_WIDGET_NORMAL_SHADOW);
-			}
 			if (provider instanceof IColorProvider) {
 				return ((IColorProvider) provider).getForeground(element);
 			}
@@ -1685,9 +1152,6 @@ public abstract class AbstractLazyTableViewer {
 		}
 
 		private Font getFont(Object element) {
-			if (element instanceof ItemsListSeparator) {
-				return null;
-			}
 			if (provider instanceof IFontProvider) {
 				return ((IFontProvider) provider).getFont(element);
 			}
@@ -1706,34 +1170,6 @@ public abstract class AbstractLazyTableViewer {
 			for (int i = 0; i < listeners.size(); i++) {
 				((ILabelProviderListener) l[i]).labelProviderChanged(event);
 			}
-		}
-	}
-
-	/**
-	 * Used in ItemsListContentProvider, separates history and non-history
-	 * items.
-	 */
-	private class ItemsListSeparator {
-
-		private String name;
-
-		/**
-		 * Creates a new instance of the class.
-		 * 
-		 * @param name
-		 *            the name of the separator
-		 */
-		public ItemsListSeparator(String name) {
-			this.name = name;
-		}
-
-		/**
-		 * Returns the name of this separator.
-		 * 
-		 * @return the name of the separator
-		 */
-		public String getName() {
-			return name;
 		}
 	}
 
@@ -1881,65 +1317,6 @@ public abstract class AbstractLazyTableViewer {
 	}
 
 	/**
-	 * Filters items history and schedule filter job.
-	 */
-	private class FilterHistoryJob extends Job {
-
-		/**
-		 * Filter used during the filtering process.
-		 */
-		private ItemsFilter itemsFilter;
-
-		/**
-		 * Creates new instance of receiver.
-		 */
-		public FilterHistoryJob() {
-			super("Items Filtering");
-			setSystem(true);
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.
-		 * IProgressMonitor)
-		 */
-		protected IStatus run(IProgressMonitor monitor) {
-
-			this.itemsFilter = filter;
-
-			if (ScreensActivator.DEBUG) {
-				ScreensActivator.TRACE.trace(
-						ScreensActivator.TRACE_SCREENS_OPTION,
-						"filter history job invoked with pattern: \""
-								+ filter.getPattern() + "\"");
-			}
-			contentProvider.reset();
-
-			refreshWithLastSelection = false;
-
-			contentProvider.addHistoryItems(itemsFilter);
-
-			if (!(lastCompletedFilter != null && lastCompletedFilter
-					.isSubFilter(this.itemsFilter))) {
-
-				if (ScreensActivator.DEBUG) {
-					ScreensActivator.TRACE
-							.trace(ScreensActivator.TRACE_SCREENS_OPTION,
-									"Filter is new or not a sub-filter, refreshing content");
-				}
-
-				contentProvider.reloadCache();
-			}
-
-			filterJob.schedule();
-
-			return Status.OK_STATUS;
-		}
-
-	}
-
-	/**
 	 * Filters items in indicated set and history. During filtering, it
 	 * refreshes the dialog (progress monitor and elements list).
 	 * 
@@ -1957,7 +1334,7 @@ public abstract class AbstractLazyTableViewer {
 		/**
 		 * Filter used during the filtering process.
 		 */
-		protected ItemsFilter itemsFilter;
+		protected IItemsFilter itemsFilter;
 
 		/**
 		 * Creates new instance of FilterJob
@@ -2011,14 +1388,16 @@ public abstract class AbstractLazyTableViewer {
 						ScreensActivator.TRACE_SCREENS_OPTION,
 						"Filter Job Invoked");
 			}
-
+			
+			contentProvider.reset();
+			
 			try {
 				if (monitor.isCanceled())
 					return;
 
 				this.itemsFilter = filter;
 
-				if (filter.getPattern().length() != 0) {
+				if (!filter.getPattern().isEmpty()) {
 					filterContent(monitor);
 				}
 
@@ -2099,184 +1478,6 @@ public abstract class AbstractLazyTableViewer {
 	}
 
 	/**
-	 * History stores a list of key, object pairs. The list is bounded at a
-	 * certain size. If the list exceeds this size the oldest element is removed
-	 * from the list. An element can be added/renewed with a call to
-	 * <code>accessed(Object)</code>.
-	 * <p>
-	 * The history can be stored to/loaded from an XML file.
-	 */
-	protected static abstract class SelectionHistory {
-
-		private static final String DEFAULT_ROOT_NODE_NAME = "historyRootNode"; //$NON-NLS-1$
-
-		private static final String DEFAULT_INFO_NODE_NAME = "infoNode"; //$NON-NLS-1$
-
-		private static final int MAX_HISTORY_SIZE = 60;
-
-		private final Set historyList;
-
-		protected final String rootNodeName;
-
-		protected final String infoNodeName;
-
-		private SelectionHistory(String rootNodeName, String infoNodeName) {
-
-			historyList = Collections.synchronizedSet(new LinkedHashSet() {
-
-				private static final long serialVersionUID = 0L;
-
-				/*
-				 * (non-Javadoc)
-				 * 
-				 * @see java.util.LinkedList#add(java.lang.Object)
-				 */
-				public boolean add(Object arg0) {
-					if (this.size() >= MAX_HISTORY_SIZE) {
-						Iterator iterator = this.iterator();
-						iterator.next();
-						iterator.remove();
-					}
-					return super.add(arg0);
-				}
-
-			});
-
-			this.rootNodeName = rootNodeName;
-			this.infoNodeName = infoNodeName;
-		}
-
-		/**
-		 * Creates new instance of <code>SelectionHistory</code>.
-		 */
-		public SelectionHistory() {
-			this(DEFAULT_ROOT_NODE_NAME, DEFAULT_INFO_NODE_NAME);
-		}
-
-		/**
-		 * Adds object to history.
-		 * 
-		 * @param object
-		 *            the item to be added to the history
-		 */
-		public synchronized void accessed(Object object) {
-			historyList.remove(object);
-			historyList.add(object);
-		}
-
-		/**
-		 * Returns <code>true</code> if history contains object.
-		 * 
-		 * @param object
-		 *            the item for which check will be executed
-		 * @return <code>true</code> if history contains object
-		 *         <code>false</code> in other way
-		 */
-		public synchronized boolean contains(Object object) {
-			return historyList.contains(object);
-		}
-
-		/**
-		 * Returns <code>true</code> if history is empty.
-		 * 
-		 * @return <code>true</code> if history is empty
-		 */
-		public synchronized boolean isEmpty() {
-			return historyList.isEmpty();
-		}
-
-		/**
-		 * Remove element from history.
-		 * 
-		 * @param element
-		 *            to remove form the history
-		 * @return <code>true</code> if this list contained the specified
-		 *         element
-		 */
-		public synchronized boolean remove(Object element) {
-			return historyList.remove(element);
-		}
-
-		/**
-		 * Load history elements from memento.
-		 * 
-		 * @param memento
-		 *            memento from which the history will be retrieved
-		 */
-		public void load(IMemento memento) {
-
-			XMLMemento historyMemento = (XMLMemento) memento
-					.getChild(rootNodeName);
-
-			if (historyMemento == null) {
-				return;
-			}
-
-			IMemento[] mementoElements = historyMemento
-					.getChildren(infoNodeName);
-			for (int i = 0; i < mementoElements.length; ++i) {
-				IMemento mementoElement = mementoElements[i];
-				Object object = restoreItemFromMemento(mementoElement);
-				if (object != null) {
-					historyList.add(object);
-				}
-			}
-		}
-
-		/**
-		 * Save history elements to memento.
-		 * 
-		 * @param memento
-		 *            memento to which the history will be added
-		 */
-		public void save(IMemento memento) {
-
-			IMemento historyMemento = memento.getChild(rootNodeName);
-			if (historyMemento == null) {
-				historyMemento = memento.createChild(rootNodeName);
-			}
-
-			Object[] items = getHistoryItems();
-
-			for (int i = 0; i < items.length; i++) {
-				Object item = items[i];
-				storeItemToMemento(item, historyMemento);
-			}
-
-		}
-
-		/**
-		 * Gets array of history items.
-		 * 
-		 * @return array of history elements
-		 */
-		public synchronized Object[] getHistoryItems() {
-			return historyList.toArray();
-		}
-
-		/**
-		 * Creates an object using given memento.
-		 * 
-		 * @param memento
-		 *            memento used for creating new object
-		 * 
-		 * @return the restored object
-		 */
-		protected abstract Object restoreItemFromMemento(IMemento memento);
-
-		/**
-		 * Store object in <code>IMemento</code>.
-		 * 
-		 * @param item
-		 *            the item to store
-		 * @param memento
-		 *            the memento to store to
-		 */
-		protected abstract void storeItemToMemento(Object item, IMemento memento);
-
-	}
-
-	/**
 	 * A Notifier for content change. Adapts to any possible EObject.
 	 * Modifications on the model will be reflected by updating the content
 	 * provider.
@@ -2288,7 +1489,7 @@ public abstract class AbstractLazyTableViewer {
 	 * @author Christophe Bouhier
 	 * 
 	 */
-	public class ContentNotification extends AdapterImpl {
+	public class ContentNotification implements INotifyChangedListener {
 
 		private ItemsContentProvider icp;
 
@@ -2296,19 +1497,28 @@ public abstract class AbstractLazyTableViewer {
 			this.icp = icp;
 		}
 
-		@Override
 		public void notifyChanged(Notification msg) {
-			
-			
-			// For additions, as we add to history, cache will be reloaded. 
-			// For removals, explicitly reload the cache. 
-			
-			final ItemsFilter itemsFilter = filter;
-			
+
+			// For additions, as we add to history, cache will be reloaded.
+			// For removals, explicitly reload the cache.
+
+			if (msg instanceof ViewerNotification) {
+				// See AdapterFactoryContentProvider on how to merge viewer
+				// Notifications.
+			}
+
+			if (ScreensActivator.DEBUG) {
+				ScreensActivator.TRACE.trace(
+						ScreensActivator.TRACE_SCREENS_OPTION,
+						"Received Notification" + msg);
+			}
+
+			final IItemsFilter itemsFilter = filter;
+
 			if (icp == null) {
 				return; // duh should not occure.
 			}
-			
+
 			if (msg.getEventType() == Notification.ADD) {
 				// We should be part of items first.
 				// Filter might block the item from becoming visible, so we add
@@ -2316,12 +1526,10 @@ public abstract class AbstractLazyTableViewer {
 				// to history.
 				Object item = msg.getNewValue();
 				icp.addItem(item, itemsFilter);
-				icp.addHistoryItem(item);
 			} else if (msg.getEventType() == Notification.ADD_MANY) {
 				List<?> list = (List<?>) msg.getNewValue();
 				for (Object item : list) {
 					icp.addItem(item, itemsFilter);
-					icp.addHistoryItem(item);
 				}
 			} else if (msg.getEventType() == Notification.REMOVE) {
 				// Removing, from source Items, LastSortedItems, Duplicates &
@@ -2329,191 +1537,18 @@ public abstract class AbstractLazyTableViewer {
 				refreshWithLastSelection = false;
 				Object item = msg.getOldValue();
 				icp.removeItem(item);
-				icp.removeHistoryElement(item);
 			} else if (msg.getEventType() == Notification.REMOVE_MANY) {
 				List<?> list = (List<?>) msg.getOldValue();
 				for (Object item : list) {
 					icp.removeItem(item);
-					icp.removeHistoryElement(item);
 				}
 			}
-			
-			// Reload cache if we haven't received a notification within 1 second. 
+
+			// Reload cache if we haven't received a notification within 1
+			// second.
 			refreshCacheJob.cancelAll();
 			refreshCacheJob.schedule(500);
 		}
-	}
-
-	/**
-	 * Filters elements using SearchPattern by comparing the names of items with
-	 * the filter pattern.
-	 */
-	public abstract class ItemsFilter {
-
-		protected SearchPattern patternMatcher;
-
-		/**
-		 * Creates new instance of ItemsFilter.
-		 */
-		public ItemsFilter() {
-			this(new SearchPattern());
-		}
-
-		/**
-		 * Creates new instance of ItemsFilter.
-		 * 
-		 * @param searchPattern
-		 *            the pattern to be used when filtering
-		 */
-		public ItemsFilter(SearchPattern searchPattern) {
-			patternMatcher = searchPattern;
-			String stringPattern = ""; //$NON-NLS-1$
-			if (pattern != null && !pattern.getText().equals("*")) { //$NON-NLS-1$
-				stringPattern = pattern.getText();
-			}
-			patternMatcher.setPattern(stringPattern);
-		}
-
-		/**
-		 * Check if the given filter is a sub-filter of this filter. The default
-		 * implementation checks if the <code>SearchPattern</code> from the
-		 * given filter is a sub-pattern of the one from this filter.
-		 * <p>
-		 * <i>WARNING: This method is <b>not</b> defined in reading order, i.e.
-		 * <code>a.isSubFilter(b)</code> is <code>true</code> iff <code>b</code>
-		 * is a sub-filter of <code>a</code>, and not vice-versa. </i>
-		 * </p>
-		 * 
-		 * @param filter
-		 *            the filter to be checked, or <code>null</code>
-		 * @return <code>true</code> if the given filter is sub-filter of this
-		 *         filter, <code>false</code> if the given filter isn't a
-		 *         sub-filter or is <code>null</code>
-		 * 
-		 * @see org.eclipse.ui.dialogs.SearchPattern#isSubPattern(org.eclipse.ui.dialogs.SearchPattern)
-		 */
-		public boolean isSubFilter(ItemsFilter filter) {
-			if (filter != null) {
-				return this.patternMatcher.isSubPattern(filter.patternMatcher);
-			}
-			return false;
-		}
-
-		/**
-		 * Checks whether the provided filter is equal to the current filter.
-		 * The default implementation checks if <code>SearchPattern</code> from
-		 * current filter is equal to the one from provided filter.
-		 * 
-		 * @param filter
-		 *            filter to be checked, or <code>null</code>
-		 * @return <code>true</code> if the given filter is equal to current
-		 *         filter, <code>false</code> if given filter isn't equal to
-		 *         current one or if it is <code>null</code>
-		 * 
-		 * @see org.eclipse.ui.dialogs.SearchPattern#equalsPattern(org.eclipse.ui.dialogs.SearchPattern)
-		 */
-		public boolean equalsFilter(ItemsFilter filter) {
-			if (filter != null
-					&& filter.patternMatcher.equalsPattern(this.patternMatcher)) {
-				return true;
-			}
-			return false;
-		}
-
-		/**
-		 * Checks whether the pattern's match rule is camel case.
-		 * 
-		 * @return <code>true</code> if pattern's match rule is camel case,
-		 *         <code>false</code> otherwise
-		 */
-		public boolean isCamelCasePattern() {
-			return patternMatcher.getMatchRule() == SearchPattern.RULE_CAMELCASE_MATCH;
-		}
-
-		/**
-		 * Returns the pattern string.
-		 * 
-		 * @return pattern for this filter
-		 * 
-		 * @see SearchPattern#getPattern()
-		 */
-		public String getPattern() {
-			return patternMatcher.getPattern();
-		}
-
-		/**
-		 * Returns the rule to apply for matching keys.
-		 * 
-		 * @return an implementation-specific match rule
-		 * 
-		 * @see SearchPattern#getMatchRule() for match rules returned by the
-		 *      default implementation
-		 */
-		public int getMatchRule() {
-			return patternMatcher.getMatchRule();
-		}
-
-		/**
-		 * Matches text with filter.
-		 * 
-		 * @param text
-		 *            the text to match with the filter
-		 * @return <code>true</code> if text matches with filter pattern,
-		 *         <code>false</code> otherwise
-		 */
-		public boolean matches(String text) {
-			return patternMatcher.matches(text);
-		}
-
-		/**
-		 * General method for matching raw name pattern. Checks whether current
-		 * pattern is prefix of name provided item.
-		 * 
-		 * @param item
-		 *            item to check
-		 * @return <code>true</code> if current pattern is a prefix of name
-		 *         provided item, <code>false</code> if item's name is shorter
-		 *         than prefix or sequences of characters don't match.
-		 */
-		public boolean matchesRawNamePattern(Object item) {
-			String prefix = patternMatcher.getPattern();
-			String text = getElementName(item);
-
-			if (text == null)
-				return false;
-
-			int textLength = text.length();
-			int prefixLength = prefix.length();
-			if (textLength < prefixLength) {
-				return false;
-			}
-			for (int i = prefixLength - 1; i >= 0; i--) {
-				if (Character.toLowerCase(prefix.charAt(i)) != Character
-						.toLowerCase(text.charAt(i)))
-					return false;
-			}
-			return true;
-		}
-
-		/**
-		 * Matches an item against filter conditions.
-		 * 
-		 * @param item
-		 * @return <code>true<code> if item matches against filter conditions, <code>false</code>
-		 *         otherwise
-		 */
-		public abstract boolean matchItem(Object item);
-
-		/**
-		 * Checks consistency of an item. Item is inconsistent if was changed or
-		 * removed.
-		 * 
-		 * @param item
-		 * @return <code>true</code> if item is consistent, <code>false</code>
-		 *         if item is inconsistent
-		 */
-		public abstract boolean isConsistentItem(Object item);
-
 	}
 
 	/**
@@ -2532,10 +1567,10 @@ public abstract class AbstractLazyTableViewer {
 		 * 
 		 * @see FilteredItemsSelectionDialog.ItemsFilter#matchItem(Object)
 		 */
-		public abstract void addItem(Object item, ItemsFilter itemsFilter);
+		public abstract void addItem(Object item, IItemsFilter itemsFilter);
 
 		public abstract void addCollection(List<?> delegateGetItems,
-				ItemsFilter itemsFilter);
+				IItemsFilter itemsFilter);
 
 	}
 
@@ -2558,20 +1593,11 @@ public abstract class AbstractLazyTableViewer {
 	private class ItemsContentProvider extends AbstractContentProvider
 			implements IStructuredContentProvider, ILazyContentProvider {
 
-		private SelectionHistory selectionHistory;
-
 		private ContentNotification contentNotification;
 
 		public ContentNotification getContentNotification() {
 			return contentNotification;
 		}
-
-		// Decide if it's any use for Client control of the notification
-		// handler.
-		// public void setContentNotification(ContentNotification
-		// contentNotification) {
-		// this.contentNotification = contentNotification;
-		// }
 
 		/**
 		 * Raw result of the searching (unsorted, unfiltered).
@@ -2579,17 +1605,17 @@ public abstract class AbstractLazyTableViewer {
 		 * Standard object flow:
 		 * <code>items -> lastSortedItems -> lastFilteredItems</code>
 		 */
-		private Set items;
+		private Set<Object> items;
 
 		/**
 		 * Items that are duplicates.
 		 */
-		private Set duplicates;
+		private Set<Object> duplicates;
 
 		/**
 		 * List of <code>ViewerFilter</code>s to be used during filtering
 		 */
-		private List filters;
+		private List<ViewerFilter>filters;
 
 		/**
 		 * Result of the last filtering.
@@ -2597,7 +1623,7 @@ public abstract class AbstractLazyTableViewer {
 		 * Standard object flow:
 		 * <code>items -> lastSortedItems -> lastFilteredItems</code>
 		 */
-		private List lastFilteredItems;
+		private List<Object> lastFilteredItems;
 
 		/**
 		 * Result of the last sorting.
@@ -2605,7 +1631,7 @@ public abstract class AbstractLazyTableViewer {
 		 * Standard object flow:
 		 * <code>items -> lastSortedItems -> lastFilteredItems</code>
 		 */
-		private List lastSortedItems;
+		private List<Object> lastSortedItems;
 
 		/**
 		 * Used for <code>getFilteredItems()</code> method canceling (when the
@@ -2618,34 +1644,21 @@ public abstract class AbstractLazyTableViewer {
 		 */
 		private boolean reset;
 
+		private AdapterFactory adapterFactory;
+
 		/**
 		 * Creates new instance of <code>ContentProvider</code>.
 		 */
 		public ItemsContentProvider() {
-			this.items = Collections.synchronizedSet(new LinkedHashSet(2048));
-			this.duplicates = Collections.synchronizedSet(new HashSet(256));
-			this.lastFilteredItems = new LinkedList();
+			this.items = Collections.synchronizedSet(new LinkedHashSet<Object>(
+					2048));
+			this.duplicates = Collections.synchronizedSet(new HashSet<Object>(
+					256));
+			this.lastFilteredItems = new LinkedList<Object>();
 			this.lastSortedItems = Collections
-					.synchronizedList(new LinkedList());
+					.synchronizedList(new LinkedList<Object>());
 
 			contentNotification = new ContentNotification(this);
-		}
-
-		/**
-		 * Sets selection history.
-		 * 
-		 * @param selectionHistory
-		 *            The selectionHistory to set.
-		 */
-		public void setSelectionHistory(SelectionHistory selectionHistory) {
-			this.selectionHistory = selectionHistory;
-		}
-
-		/**
-		 * @return Returns the selectionHistory.
-		 */
-		public SelectionHistory getSelectionHistory() {
-			return selectionHistory;
 		}
 
 		/**
@@ -2672,7 +1685,7 @@ public abstract class AbstractLazyTableViewer {
 		 * @param itemsFilter
 		 */
 
-		public void addItem(Object item, ItemsFilter itemsFilter) {
+		public void addItem(Object item, IItemsFilter itemsFilter) {
 			if (itemsFilter == filter) {
 				if (itemsFilter != null) {
 					if (itemsFilter.matchItem(item)) {
@@ -2702,48 +1715,10 @@ public abstract class AbstractLazyTableViewer {
 		 */
 		@Override
 		public void addCollection(List<?> delegateGetItems,
-				ItemsFilter itemsFilter) {
-			
-			for( Object item : delegateGetItems){
+				IItemsFilter itemsFilter) {
+
+			for (Object item : delegateGetItems) {
 				this.addItem(item, itemsFilter);
-			}
-		}
-
-		/**
-		 * Add all history items to <code>contentProvider</code>.
-		 * 
-		 * @param itemsFilter
-		 */
-		public void addHistoryItems(ItemsFilter itemsFilter) {
-			if (this.selectionHistory != null) {
-				Object[] items = this.selectionHistory.getHistoryItems();
-
-				for (int i = 0; i < items.length; i++) {
-					Object item = items[i];
-					if (itemsFilter == filter) {
-						if (itemsFilter != null) {
-							if (itemsFilter.matchItem(item)) {
-								if (itemsFilter.isConsistentItem(item)) {
-									if (ScreensActivator.DEBUG) {
-										ScreensActivator.TRACE
-												.trace(ScreensActivator.TRACE_SCREENS_OPTION,
-														"Adding consistent item: "
-																+ item);
-									}
-									this.items.add(item);
-								} else {
-									if (ScreensActivator.DEBUG) {
-										ScreensActivator.TRACE
-												.trace(ScreensActivator.TRACE_SCREENS_OPTION,
-														"Removing inconsistent item: "
-																+ item);
-									}
-									this.selectionHistory.remove(item);
-								}
-							}
-						}
-					}
-				}
 			}
 		}
 
@@ -2752,62 +1727,6 @@ public abstract class AbstractLazyTableViewer {
 		 */
 		public void reloadCache() {
 			scheduleRefreshCache();
-		}
-
-		/**
-		 * Removes items from history and refreshes the view.
-		 * 
-		 * @param item
-		 *            to remove
-		 * 
-		 * @return removed item
-		 */
-		public Object removeHistoryElement(Object item) {
-			if (this.selectionHistory != null)
-				this.selectionHistory.remove(item);
-			if (filter == null || filter.getPattern().length() == 0) {
-				items.remove(item);
-				duplicates.remove(item);
-				this.lastSortedItems.remove(item);
-			}
-
-			synchronized (lastSortedItems) {
-				Collections.sort(lastSortedItems, getHistoryComparator());
-			}
-			return item;
-		}
-
-		/**
-		 * Adds item to history and refresh view.
-		 * 
-		 * @param item
-		 *            to add
-		 */
-		public void addHistoryItem(Object item) {
-			if (this.selectionHistory != null)
-				this.selectionHistory.accessed(item);
-			if (filter == null || !filter.matchItem(item)) {
-				this.items.remove(item);
-				this.duplicates.remove(item);
-				this.lastSortedItems.remove(item);
-			}
-			synchronized (lastSortedItems) {
-				Collections.sort(lastSortedItems, getHistoryComparator());
-			}
-			
-			// Do the reload caching explicitly. 
-//			this.reloadCache();
-		}
-
-		/**
-		 * @param item
-		 * @return <code>true</code> if given item is part of the history
-		 */
-		public boolean isHistoryElement(Object item) {
-			if (this.selectionHistory != null) {
-				return this.selectionHistory.contains(item);
-			}
-			return false;
 		}
 
 		/**
@@ -2829,6 +1748,25 @@ public abstract class AbstractLazyTableViewer {
 		}
 
 		/**
+		 * This sets the wrapped factory. If the adapter factory is an
+		 * {@link IChangeNotifier}, a listener is added to it, so it's important
+		 * to call {@link #dispose()}.
+		 */
+		public void setAdapterFactory(AdapterFactory adapterFactory) {
+			if (this.adapterFactory instanceof IChangeNotifier) {
+				((IChangeNotifier) this.adapterFactory).removeListener(this
+						.getContentNotification());
+			}
+
+			if (adapterFactory instanceof IChangeNotifier) {
+				((IChangeNotifier) adapterFactory).addListener(this
+						.getContentNotification());
+			}
+
+			this.adapterFactory = adapterFactory;
+		}
+
+		/**
 		 * Indicates whether given item is a duplicate.
 		 * 
 		 * @param item
@@ -2837,28 +1775,6 @@ public abstract class AbstractLazyTableViewer {
 		 */
 		public boolean isDuplicateElement(Object item) {
 			return duplicates.contains(item);
-		}
-
-		/**
-		 * Load history from memento.
-		 * 
-		 * @param memento
-		 *            memento from which the history will be retrieved
-		 */
-		public void loadHistory(IMemento memento) {
-			if (this.selectionHistory != null)
-				this.selectionHistory.load(memento);
-		}
-
-		/**
-		 * Save history to memento.
-		 * 
-		 * @param memento
-		 *            memento to which the history will be added
-		 */
-		public void saveHistory(IMemento memento) {
-			if (this.selectionHistory != null)
-				this.selectionHistory.save(memento);
 		}
 
 		/**
@@ -2883,7 +1799,7 @@ public abstract class AbstractLazyTableViewer {
 					}
 
 					lastSortedItems.addAll(items);
-					Collections.sort(lastSortedItems, getHistoryComparator());
+					Collections.sort(lastSortedItems, getItemsComparator());
 					// Alternative soring, why?
 					// lastSortedItems.addAll(Ordering.from(getItemsComparator()).reverse().sortedCopy(items));
 
@@ -2897,8 +1813,8 @@ public abstract class AbstractLazyTableViewer {
 		 * 
 		 * @param itemsFilter
 		 */
-		public void rememberResult(ItemsFilter itemsFilter) {
-			List itemsList = Collections.synchronizedList(Arrays
+		public void rememberResult(IItemsFilter itemsFilter) {
+			List<Object> itemsList = Collections.synchronizedList(Arrays
 					.asList(getSortedItems()));
 			// synchronization
 			if (itemsFilter == filter) {
@@ -2940,9 +1856,17 @@ public abstract class AbstractLazyTableViewer {
 		 */
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			if (newInput instanceof Notifier) {
-				// Attach a Content Notifier.
-				((Notifier) newInput).eAdapters().add(
-						this.getContentNotification());
+				// Attach a Content Notifier to the adapterfactory.
+				// The reflective Item provider is always attached to the
+				// content, no need to
+				// adapt to
+				if (adapterFactory != null) {
+					// Object adapt = adapterFactory.adapt(newInput,
+					// IChangeNotifier.class);
+				} else {
+					// Notifications won't be supported!
+				}
+
 			}
 		}
 
@@ -2954,9 +1878,9 @@ public abstract class AbstractLazyTableViewer {
 		 */
 		public void updateElement(int index) {
 
-			AbstractLazyTableViewer.this.tblViewer.replace((lastFilteredItems
-					.size() > index) ? lastFilteredItems.get(index) : null,
-					index);
+			AbstractCachedViewerComponent.this.tblViewer.replace(
+					(lastFilteredItems.size() > index) ? lastFilteredItems
+							.get(index) : null, index);
 
 		}
 
@@ -2995,7 +1919,8 @@ public abstract class AbstractLazyTableViewer {
 			if (ScreensActivator.DEBUG) {
 				ScreensActivator.TRACE.trace(
 						ScreensActivator.TRACE_SCREENS_OPTION,
-						"cache size is (incl. separator) : " + lastFilteredItems.size());
+						"cache size is (incl. separator) : "
+								+ lastFilteredItems.size());
 			}
 
 			if (reset || (monitor != null && monitor.isCanceled())) {
@@ -3019,22 +1944,20 @@ public abstract class AbstractLazyTableViewer {
 					subMonitor = new SubProgressMonitor(monitor, 100);
 					subMonitor.beginTask("check duplicates", 5);
 				}
-				HashMap helperMap = new HashMap();
+				HashMap<String, Object> helperMap = new HashMap<String, Object>();
 				for (int i = 0; i < lastFilteredItems.size(); i++) {
 					if (reset
 							|| (subMonitor != null && subMonitor.isCanceled()))
 						return;
 					Object item = lastFilteredItems.get(i);
 
-					if (!(item instanceof ItemsListSeparator)) {
-						Object previousItem = helperMap.put(
-								getElementName(item), item);
-						if (previousItem != null) {
-							setDuplicateElement(previousItem, true);
-							setDuplicateElement(item, true);
-						} else {
-							setDuplicateElement(item, false);
-						}
+					Object previousItem = helperMap.put(getElementName(item),
+							item);
+					if (previousItem != null) {
+						setDuplicateElement(previousItem, true);
+						setDuplicateElement(item, true);
+					} else {
+						setDuplicateElement(item, false);
 					}
 
 					if (subMonitor != null && reportEvery != 0
@@ -3082,49 +2005,16 @@ public abstract class AbstractLazyTableViewer {
 
 			// filter the elements using provided ViewerFilters
 			if (filters != null && filteredElements != null) {
-				for (Iterator iter = filters.iterator(); iter.hasNext();) {
+				for (Iterator<ViewerFilter> iter = filters.iterator(); iter.hasNext();) {
 					ViewerFilter f = (ViewerFilter) iter.next();
 					filteredElements = f.filter(tblViewer, parent,
 							filteredElements);
 					monitor.worked(ticks);
 				}
 			}
-
-			if (filteredElements == null || monitor.isCanceled()) {
-				monitor.done();
-				return new Object[0];
-			}
-
-			List preparedElements = new LinkedList();
-			boolean hasHistory = false;
-
-			if (filteredElements.length > 0) {
-				if (isHistoryElement(filteredElements[0])) {
-					hasHistory = true;
-				}
-			}
-
-			int reportEvery = filteredElements.length / ticks;
-
-			// add separator
-			for (int i = 0; i < filteredElements.length; i++) {
-				Object item = filteredElements[i];
-
-				if (hasHistory && !isHistoryElement(item)) {
-					preparedElements.add(itemsListSeparator);
-					hasHistory = false;
-				}
-
-				preparedElements.add(item);
-
-				if (reportEvery != 0 && ((i + 1) % reportEvery == 0)) {
-					monitor.worked(1);
-				}
-			}
-
 			monitor.done();
 
-			return preparedElements.toArray();
+			return filteredElements;
 		}
 
 		/**
@@ -3139,7 +2029,7 @@ public abstract class AbstractLazyTableViewer {
 		 */
 		public void addFilter(ViewerFilter filter) {
 			if (filters == null) {
-				filters = new ArrayList();
+				filters = new ArrayList<ViewerFilter>();
 			}
 			filters.add(filter);
 			// currently filters are only added when dialog is restored
@@ -3148,43 +2038,8 @@ public abstract class AbstractLazyTableViewer {
 		}
 	}
 
-	/**
-	 * Compares items according to the history.
-	 */
-	private class HistoryComparator implements Comparator {
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-		 */
-		public int compare(Object o1, Object o2) {
-			boolean h1 = isHistoryElement(o1);
-			boolean h2 = isHistoryElement(o2);
-			if (h1 == h2)
-				return getItemsComparator().compare(o1, o2);
-
-			if (h1)
-				return -2;
-			if (h2)
-				return +2;
-
-			return 0;
-		}
-
-	}
-
-	/**
-	 * Get the control where the search pattern is entered. Any filtering should
-	 * be done using an {@link ItemsFilter}. This control should only be
-	 * accessed for listeners that wish to handle events that do not affect
-	 * filtering such as custom traversal.
-	 * 
-	 * @return Control or <code>null</code> if the pattern control has not been
-	 *         created.
-	 */
-	public Control getPatternControl() {
-		return pattern;
+	public TableViewer getTableViewer() {
+		return tblViewer;
 	}
 
 }
