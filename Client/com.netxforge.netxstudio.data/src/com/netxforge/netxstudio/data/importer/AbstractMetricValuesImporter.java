@@ -512,6 +512,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		int afterFailedSize = getFailedRecords().size();
 		List<MappingRecord> fileFailedRecords = null;
 		if (afterFailedSize > beforeFailedSize) {
+			// http://work.netxforge.com/issues/324
 			fileFailedRecords = this.getFailedRecords().subList(beforeFailedSize,
 					afterFailedSize);
 			if (DataActivator.DEBUG) {
