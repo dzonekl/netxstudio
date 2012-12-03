@@ -49,7 +49,7 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
-import com.netxforge.netxstudio.screens.AbstractLazyTableScreen;
+import com.netxforge.netxstudio.screens.AbstractSmartTableScreen;
 import com.netxforge.netxstudio.screens.actions.ScreenAction;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.NewEditTolerance;
@@ -58,7 +58,7 @@ import com.netxforge.netxstudio.screens.f2.TolerancesLabelProvider;
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class SmartTolerances extends AbstractLazyTableScreen {
+public class SmartTolerances extends AbstractSmartTableScreen {
 
 	private Form frmTolerances;
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());

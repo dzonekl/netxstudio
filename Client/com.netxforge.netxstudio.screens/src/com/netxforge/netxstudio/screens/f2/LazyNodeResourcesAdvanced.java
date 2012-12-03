@@ -2000,8 +2000,9 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 					WritableValue v = (WritableValue) event.getSource();
 					Object value = v.getValue();
 					if (value instanceof NetXResource) {
-						cmpValues.injectData((BaseResource) value);
 						cmpValues.applyDateFilter(cmpPeriod.getPeriod());
+						cmpValues.injectData((BaseResource) value);
+						
 					} else {
 						cmpValues.clearData();
 					}
