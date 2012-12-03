@@ -2515,7 +2515,13 @@ public class ModelUtils {
 		};
 		return getDateString.apply(d);
 	}
-
+	
+	
+	/**
+	 * Returns the Time formatted as HH:mm
+	 * @param d
+	 * @return
+	 */
 	public String time(Date d) {
 		final Function<Date, String> getDateString = new Function<Date, String>() {
 			public String apply(Date from) {

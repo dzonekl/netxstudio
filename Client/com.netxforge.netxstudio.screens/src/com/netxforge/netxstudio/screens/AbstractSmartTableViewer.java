@@ -108,7 +108,7 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  * 
  */
 @SuppressWarnings({ "restriction", "unchecked", "rawtypes" })
-public abstract class AbstractCachedTableViewer {
+public abstract class AbstractSmartTableViewer {
 
 	final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
@@ -201,7 +201,7 @@ public abstract class AbstractCachedTableViewer {
 	 *            indicates whether dialog allows to select more than one
 	 *            position in its list of items
 	 */
-	public AbstractCachedTableViewer(Shell shell, boolean multi) {
+	public AbstractSmartTableViewer(Shell shell, boolean multi) {
 		this.multi = multi;
 		filterHistoryJob = new FilterHistoryJob();
 		filterJob = new FilterJob();
@@ -218,7 +218,7 @@ public abstract class AbstractCachedTableViewer {
 	 * @param shell
 	 *            shell to parent the dialog on
 	 */
-	public AbstractCachedTableViewer(Shell shell) {
+	public AbstractSmartTableViewer(Shell shell) {
 		this(shell, false);
 	}
 
@@ -228,7 +228,7 @@ public abstract class AbstractCachedTableViewer {
 	 * @param filter
 	 *            the new filter
 	 */
-	protected void addListFilter(ViewerFilter filter) {
+	public void addListFilter(ViewerFilter filter) {
 		contentProvider.addFilter(filter);
 	}
 
@@ -1197,8 +1197,8 @@ public abstract class AbstractCachedTableViewer {
 				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
 						IStatus.OK, EMPTY_STRING, null);
 
-			if (AbstractCachedTableViewer.this != null) {
-				AbstractCachedTableViewer.this.refresh();
+			if (AbstractSmartTableViewer.this != null) {
+				AbstractSmartTableViewer.this.refresh();
 			}
 
 			return new Status(IStatus.OK, PlatformUI.PLUGIN_ID, IStatus.OK,
@@ -1318,10 +1318,10 @@ public abstract class AbstractCachedTableViewer {
 						IStatus.CANCEL, EMPTY_STRING, null);
 			}
 
-			if (AbstractCachedTableViewer.this != null) {
+			if (AbstractSmartTableViewer.this != null) {
 				GranualProgressMonitor wrappedMonitor = new GranualProgressMonitor(
 						monitor);
-				AbstractCachedTableViewer.this.reloadCache(true, wrappedMonitor);
+				AbstractSmartTableViewer.this.reloadCache(true, wrappedMonitor);
 			}
 
 			if (!monitor.isCanceled()) {
@@ -2820,7 +2820,7 @@ public abstract class AbstractCachedTableViewer {
 		 */
 		public void updateElement(int index) {
 
-			AbstractCachedTableViewer.this.tblViewer.replace((lastFilteredItems
+			AbstractSmartTableViewer.this.tblViewer.replace((lastFilteredItems
 					.size() > index) ? lastFilteredItems.get(index) : null,
 					index);
 

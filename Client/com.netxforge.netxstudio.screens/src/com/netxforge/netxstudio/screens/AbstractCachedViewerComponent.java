@@ -176,8 +176,16 @@ public abstract class AbstractCachedViewerComponent {
 	 * @param filter
 	 *            the new filter
 	 */
-	protected void addListFilter(ViewerFilter filter) {
+	public void addViewerFilter(ViewerFilter filter) {
 		contentProvider.addFilter(filter);
+	}
+	
+	/**
+	 * Gets the list of currently installed viewer filters. 
+	 * @return
+	 */
+	public List<ViewerFilter> getViewerFilters(){
+		return contentProvider.getFilters();
 	}
 
 	/**
@@ -533,7 +541,7 @@ public abstract class AbstractCachedViewerComponent {
 			List<?> lastRefreshSelection = ((StructuredSelection) tblViewer
 					.getSelection()).toList();
 			tblViewer.getTable().deselectAll();
-
+			
 			tblViewer.setItemCount(contentProvider.getNumberOfElements());
 			tblViewer.refresh();
 
@@ -1389,6 +1397,8 @@ public abstract class AbstractCachedViewerComponent {
 						"Filter Job Invoked");
 			}
 			
+			
+			// Reset the content
 			contentProvider.reset();
 			
 			try {
@@ -2018,12 +2028,7 @@ public abstract class AbstractCachedViewerComponent {
 		}
 
 		/**
-		 * Adds a filter to this content provider. For an example usage of such
-		 * filters look at the project <code>org.eclipse.ui.ide</code>, class
-		 * <code>org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog.CustomWorkingSetFilter</code>
-		 * .
-		 * 
-		 * 
+		 * Adds a filter to this content provider. 
 		 * @param filter
 		 *            the filter to be added
 		 */
@@ -2036,6 +2041,16 @@ public abstract class AbstractCachedViewerComponent {
 			// if it is changed, refreshing the whole TableViewer should be
 			// added
 		}
+		
+		
+		/**
+		 * Get all the filters.
+		 * @return
+		 */
+		public List<ViewerFilter> getFilters(){
+			return filters;
+		}
+		
 	}
 
 	public TableViewer getTableViewer() {

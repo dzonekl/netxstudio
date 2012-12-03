@@ -3,6 +3,14 @@ NetXStudio Client Change log.
 1.0.7
 http://work.netxforge.com/issues/324
 http://work.netxforge.com/issues/325
+http://work.netxforge.com/issues/326 (Tolerances, MetricSources)
+http://work.netxforge.com/issues/327
+http://work.netxforge.com/issues/306 (Networks)
+
+Backlog
+http://work.netxforge.com/issues/154 (Various screens, but not all). 
+http://work.netxforge.com/issues/323
+http://work.netxforge.com/issues/307
 
 1.0.6
 

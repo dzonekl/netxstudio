@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IMemento;
 
-import com.netxforge.netxstudio.screens.AbstractCachedTableViewer.SelectionHistory;
+import com.netxforge.netxstudio.screens.AbstractSmartTableViewer.SelectionHistory;
 import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -56,7 +56,7 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  * @author Christophe Bouhier
  * 
  */
-public abstract class AbstractLazyTableScreen extends AbstractScreen implements
+public abstract class AbstractSmartTableScreen extends AbstractScreen implements
 		IDataServiceInjection {
 
 	private LazyTableViewer lazyTableViewer;
@@ -71,7 +71,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 	 */
 	protected AdapterFactoryItemDelegator adapterFactoryItemDelegator;
 
-	public AbstractLazyTableScreen(Composite parent, int style) {
+	public AbstractSmartTableScreen(Composite parent, int style) {
 		super(parent, style);
 	}
 
@@ -160,7 +160,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 		}
 	}
 
-	public class LazyTableViewer extends AbstractCachedTableViewer {
+	public class LazyTableViewer extends AbstractSmartTableViewer {
 
 		public LazyTableViewer(Shell shell, boolean multi) {
 			super(shell, multi);
@@ -219,7 +219,7 @@ public abstract class AbstractLazyTableScreen extends AbstractScreen implements
 				public boolean matchItem(Object item) {
 					// As we are a generic implementation this delegates to the
 					// concrete implememtation of the IScreen.
-					return AbstractLazyTableScreen.this.delegateMatchItem(item);
+					return AbstractSmartTableScreen.this.delegateMatchItem(item);
 				}
 			};
 

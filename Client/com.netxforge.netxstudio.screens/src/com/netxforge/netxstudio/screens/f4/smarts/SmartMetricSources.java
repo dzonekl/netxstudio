@@ -60,7 +60,7 @@ import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.screens.AbstractLazyTableScreen;
+import com.netxforge.netxstudio.screens.AbstractSmartTableScreen;
 import com.netxforge.netxstudio.screens.actions.ScreenAction;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
@@ -69,7 +69,7 @@ import com.netxforge.netxstudio.screens.f4.MetricSourceLabelProvider;
 import com.netxforge.netxstudio.screens.f4.NewEditJob;
 import com.netxforge.netxstudio.screens.f4.NewEditMetricSource;
 
-public class SmartMetricSources extends AbstractLazyTableScreen {
+public class SmartMetricSources extends AbstractSmartTableScreen {
 
 	private Form frmMetricSources;
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());

@@ -18,6 +18,7 @@
 package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -27,6 +28,7 @@ import java.util.NoSuchElementException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.ecore.EReference;
@@ -65,10 +67,14 @@ import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.screens.AbstractCachedViewerComponent;
 import com.netxforge.netxstudio.screens.IItemsFilter;
+import com.netxforge.netxstudio.screens.ISearchPattern;
+import com.netxforge.netxstudio.screens.PeriodItemsFilter;
+import com.netxforge.netxstudio.screens.PeriodItemsFilter.PeriodPattern;
 import com.netxforge.netxstudio.screens.common.tables.TableHelper;
 import com.netxforge.netxstudio.screens.common.tables.TableHelper.TBVCSorterValueProvider;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
  * Holds all needed to build a component showing NetXResource values. The data
@@ -90,13 +96,15 @@ public class SmartValueComponent {
 		this.tableHelper = tableHelper;
 	}
 
-	private BaseResource res;
+	private BaseResource baseResource;
 
 	private IScreenFormService screenService;
 
 	private AbstractCachedViewerComponent viewerComponent;
 
 	private List<Marker> markers;
+	private Date from;
+	private Date to;
 
 	public void configure(IScreenFormService screenService) {
 		this.screenService = screenService;
@@ -128,17 +136,62 @@ public class SmartValueComponent {
 
 			@Override
 			protected IStatus validateItem(Object item) {
-				return null;
+				return Status.OK_STATUS;
 			}
 
 			@Override
 			protected IItemsFilter createFilter() {
-				return null;
+
+				PeriodItemsFilter periodItemsFilter = new PeriodItemsFilter(
+						modelUtils) {
+
+					/**
+					 * Match on the first array of the item, which is a Value
+					 * with a timestamp.
+					 */
+					@Override
+					public boolean matchItem(Object item) {
+
+						if (item instanceof Object[]) {
+							Date d = (Date) ((Object[]) item)[0];
+							ISearchPattern pattern = this.getPattern();
+							if (pattern instanceof PeriodPattern) {
+								return ((PeriodPattern) pattern).matches(d);
+							}
+						}
+						//
+						return false;
+					}
+
+				};
+				ISearchPattern pattern = periodItemsFilter.getPattern();
+				// set the current period.
+				if (pattern instanceof PeriodPattern) {
+					((PeriodPattern) pattern).updateDates(from, to);
+				}
+				return periodItemsFilter;
+
 			}
 
 			@Override
 			protected <T> Comparator<T> getItemsComparator() {
-				return null;
+				
+				
+				/**
+				 * Compare on the first array in the matrix, which are dates. 
+				 */
+				return new Comparator<T>() {
+
+					public int compare(T o1, T o2) {
+
+						if (o1 instanceof Object[] && o1 instanceof Object[]) {
+							Date d1 = (Date) ((Object[]) o1)[0];
+							Date d2 = (Date) ((Object[]) o2)[0];
+							return modelUtils.dateComparator().compare(d1, d2);
+						}
+						return 0;
+					}
+				};
 			}
 
 			@Override
@@ -147,6 +200,22 @@ public class SmartValueComponent {
 					IItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 					throws CoreException {
 
+				if (ScreensActivator.DEBUG) {
+					ScreensActivator.TRACE.trace(
+							ScreensActivator.TRACE_SCREENS_OPTION,
+							"filling content provider");
+					ScreensActivator.TRACE
+							.trace(ScreensActivator.TRACE_SCREENS_OPTION,
+									"items filter pattern: "
+											+ itemsFilter.getPattern());
+
+				}
+
+				// Will be collection of Object[], each array corresponding to
+				// the column index.
+				List<?> delegateGetItems = delegateGetItems();
+				// Add unfiltered, we depend on Viewer filter.
+				contentProvider.addCollection(delegateGetItems, itemsFilter);
 			}
 
 			@Override
@@ -155,9 +224,13 @@ public class SmartValueComponent {
 			}
 
 		};
-		
-		viewerComponent.setListLabelProvider(new NetXResourceValueLabelProvider());
-		
+		viewerComponent.buildUI(parent);
+		viewerComponent
+				.setListLabelProvider(new NetXResourceValueLabelProvider());
+	}
+
+	protected List<?> delegateGetItems() {
+		return Arrays.asList(itemsForNetXResource());
 	}
 
 	protected void delegateBuildColumns() {
@@ -173,23 +246,22 @@ public class SmartValueComponent {
 			tc.dispose();
 		}
 
-		if (res instanceof NetXResource) {
+		if (baseResource instanceof NetXResource) {
 
 			// The time stamp column
-			TableViewerColumn tbvcFor = tableHelper.new TBVC<Date>(
-					new NetXResourceValueLabelProvider()).tbvcFor(
-					this.getValuesTableViewer(), "Time Stamp", 185);
+			tableHelper.new TBVC<Date>(new NetXResourceValueLabelProvider())
+					.tbvcFor(this.getValuesTableViewer(), "Time Stamp", 185);
 
 			{
 				ColumnRangeFeedback columnRangeFeedback = new ColumnRangeFeedback(
 						MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES);
 
-				ObjectArraySorter objectArraySorter = new ObjectArraySorter(
-						tbvcFor);
-				objectArraySorter.setSorter(TableViewerColumnSorter.DESC);
+				// ObjectArraySorter objectArraySorter = new ObjectArraySorter(
+				// tbvcFor);
+				// objectArraySorter.setSorter(TableViewerColumnSorter.DESC);
 
 				// metric value ranges....
-				NetXResource resource = (NetXResource) res;
+				NetXResource resource = (NetXResource) baseResource;
 
 				List<MetricValueRange> mvrList = Lists.newArrayList(resource
 						.getMetricValueRanges());
@@ -223,7 +295,7 @@ public class SmartValueComponent {
 						new NetXResourceValueLabelProvider()).tbvcFor(
 						this.getValuesTableViewer(), "Capacity",
 						"Capacity value range", 100);
-				setColumnData(res, tbvc);
+				setColumnData(baseResource, tbvc);
 				setRangeFeedback(columnRangeFeedback, tbvc);
 			}
 			{
@@ -233,11 +305,10 @@ public class SmartValueComponent {
 						new NetXResourceValueLabelProvider()).tbvcFor(
 						this.getValuesTableViewer(), "Utilization",
 						"Utilization value range", 100);
-				setColumnData(res, tbvc);
+				setColumnData(baseResource, tbvc);
 				setRangeFeedback(columnRangeFeedback, tbvc);
 			}
 
-			// TODO, dynamicly build the tolerance value ranges.
 		}
 		this.getValuesTableViewer().getTable().setRedraw(true);
 	}
@@ -254,18 +325,22 @@ public class SmartValueComponent {
 
 	public void injectData(BaseResource object) {
 
-		res = object;
+		baseResource = object;
 		markers = null; // reset the markers.
-		
-		
-//		try {
-//			buildColumns();
-//			if (!valuesTableViewer.getTable().isVisible()) {
-//				valuesTableViewer.getTable().setVisible(true);
-//			}
-//		} catch (Exception e) {
-//			System.out.println(e);
-//		}
+
+		buildColumns();
+
+		// Re-apply the filter.
+		viewerComponent.applyFilter();
+
+		// try {
+		// buildColumns();
+		// if (!valuesTableViewer.getTable().isVisible()) {
+		// valuesTableViewer.getTable().setVisible(true);
+		// }
+		// } catch (Exception e) {
+		// System.out.println(e);
+		// }
 	}
 
 	/**
@@ -401,14 +476,14 @@ public class SmartValueComponent {
 		;
 		this.applyDateFilter(modelUtils.begin(dtr), modelUtils.end(dtr));
 	}
-	
-	/**
-	 * @param inputElement
-	 */
-	private Object[] fillContent(Object inputElement) {
-		if (inputElement instanceof NetXResource) {
 
-			NetXResource res = (NetXResource) inputElement;
+	/*
+	 * get the content for this resource.
+	 */
+	private Object[] itemsForNetXResource() {
+		if (this.baseResource instanceof NetXResource) {
+
+			NetXResource res = (NetXResource) this.baseResource;
 			// determine the size of the array.
 			int arraySize = 0;
 			Object[] rangeArray;
@@ -475,7 +550,7 @@ public class SmartValueComponent {
 		}
 		return new Object[0];
 	}
-	
+
 	/**
 	 * call to apply the period filter on the table viewer.
 	 * 
@@ -487,17 +562,12 @@ public class SmartValueComponent {
 		if (from == null || to == null) {
 			return;
 		}
-		
-		// The ViewerFilter will need to be re-applied. 
-		
-		ViewerFilter[] filters = this.getValuesTableViewer().getFilters();
-		for (ViewerFilter viewerFilter : filters) {
-			if (viewerFilter instanceof PeriodFilter) {
-				((PeriodFilter) viewerFilter).updateDates(from, to);
-			}
-		}
-		
-//		valuesTableViewer.refresh();
+
+		this.from = from;
+		this.to = to;
+
+		viewerComponent.applyFilter();
+
 	}
 
 	/**
@@ -613,11 +683,11 @@ public class SmartValueComponent {
 
 	public void clearData() {
 		// Leaves behind an empty table with no columns etc..
-		
-		// FIXME, Do empty in the underlying component.  
-//		this.valuesTableViewer.setInput(Collections.EMPTY_LIST);
-//		res = null;
-//		buildColumns();
+
+		// FIXME, Do empty in the underlying component.
+		// this.valuesTableViewer.setInput(Collections.EMPTY_LIST);
+		// res = null;
+		// buildColumns();
 	}
 
 	// public class MonitorAction extends BaseSelectionListenerAction {

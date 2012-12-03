@@ -30,8 +30,6 @@ public interface IItemsFilter {
 	 * @return <code>true</code> if the given filter is sub-filter of this
 	 *         filter, <code>false</code> if the given filter isn't a sub-filter
 	 *         or is <code>null</code>
-	 * 
-	 * @see org.eclipse.ui.dialogs.SearchPattern#isSubPattern(org.eclipse.ui.dialogs.SearchPattern)
 	 */
 	public abstract boolean isSubFilter(IItemsFilter filter);
 
