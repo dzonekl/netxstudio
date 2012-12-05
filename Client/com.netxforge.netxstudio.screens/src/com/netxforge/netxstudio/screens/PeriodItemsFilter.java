@@ -58,7 +58,7 @@ public abstract class PeriodItemsFilter implements IItemsFilter {
 				&& ((PeriodItemsFilter) filter).pattern instanceof PeriodPattern
 				&& pattern instanceof PeriodPattern) {
 			PeriodItemsFilter pif = (PeriodItemsFilter) filter;
-			((PeriodPattern) pattern).subPeriod((PeriodPattern) pif.pattern);
+			return ((PeriodPattern) pattern).subPeriod((PeriodPattern) pif.pattern);
 
 		}
 		return false;
@@ -75,9 +75,10 @@ public abstract class PeriodItemsFilter implements IItemsFilter {
 			return false;
 		}
 
-		if (filter instanceof PeriodItemsFilter) {
+		if (filter instanceof PeriodItemsFilter
+				&& pattern instanceof PeriodPattern) {
 			PeriodItemsFilter pif = (PeriodItemsFilter) filter;
-			pattern.equals(pif.getPattern());
+			((PeriodPattern) pattern).equals(pif.getPattern());
 		}
 		return false;
 	}
@@ -97,7 +98,8 @@ public abstract class PeriodItemsFilter implements IItemsFilter {
 
 		@Override
 		public String toString() {
-			return "from:" + modelUtils.date(new Date(from)) + " to: " + modelUtils.date(new Date(to));
+			return "from:" + modelUtils.date(new Date(from)) + " to: "
+					+ modelUtils.date(new Date(to));
 		}
 
 		private long from = -1;
@@ -113,7 +115,7 @@ public abstract class PeriodItemsFilter implements IItemsFilter {
 		private long to = -1;
 
 		public void updateDates(Date from, Date to) {
-			assert from != null && to != null : new IllegalArgumentException();
+			assert from == null || to == null : new IllegalArgumentException();
 			this.from = from.getTime();
 			this.to = to.getTime();
 		}

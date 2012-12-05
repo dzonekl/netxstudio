@@ -37,6 +37,7 @@ import org.eclipse.xtext.util.StringInputStream;
 
 import com.google.common.base.Joiner;
 import com.google.inject.Inject;
+import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.interpreter.IInterpreterContextFactory;
@@ -63,7 +64,7 @@ import com.netxforge.netxstudio.services.Service;
  * </ul>
  * 
  * @author Martin Taal
- * @author Christophe Bouhier christophe.bouhier@netxforge.com
+ * @author Christophe Bouhier
  */
 public class ExpressionEngine implements IExpressionEngine {
 	private Expression expression;
@@ -102,16 +103,19 @@ public class ExpressionEngine implements IExpressionEngine {
 		getExpressionResult().clear();
 
 		final String asString = this.asString(expression);
-		if(asString.length() == 0){
+		if (asString.length() == 0) {
 			return;
 		}
-		
+
 		try {
-			System.out.println("Parsing expression: " + asString);
+			if (RuntimeActivator.DEBUG) {
+				RuntimeActivator.TRACE.trace(
+						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
+						"Parsing expression: " + asString);
+			}
 			xResource = getResourceFromString(asString);
 			// Get the parse tree.
 			final Mod m = (Mod) this.getModel(xResource);
-			System.out.println("Done parsing expression: ");
 
 			final List<IInterpreterContext> contextList = new ArrayList<IInterpreterContext>();
 			for (final Object o : context) {
@@ -122,15 +126,16 @@ public class ExpressionEngine implements IExpressionEngine {
 			contextList.toArray(contextArray);
 
 			// print the context.
-			this.printInterpreterContext(contextList);
+			if (RuntimeActivator.DEBUG) {
+				printInterpreterContext(contextList);
+			}
 
 			// Clear the interpreter and Set the context.
 			xInterpreter.clear();
 			xInterpreter.setContext(contextArray);
 
-			// What is returned from the evaluation are temporary variables from
-			// the last scope.
-
+			// What is returned from the evaluation are variables from
+			// the last (outer) scope.
 			@SuppressWarnings("unused")
 			Object result = xInterpreter.evaluate(m);
 			setExpressionResult(xInterpreter.getResult());
@@ -207,25 +212,12 @@ public class ExpressionEngine implements IExpressionEngine {
 
 		// TODO, consider some algorithm for URI generation, could be usefull
 		// for troubleshooting?
-//		return getResource(in,
-//				URI.createURI("mytestmodel." + getCurrentFileExtension()));
-		
-		return getResource(in,
-				URI.createURI("mytestmodel." + "netxscript"));
+		// return getResource(in,
+		// URI.createURI("mytestmodel." + getCurrentFileExtension()));
+
+		return getResource(in, URI.createURI("mytestmodel." + "netxscript"));
 
 	}
-
-//	private String getCurrentFileExtension() {
-//		final String instance = RuntimeActivator
-//				.getInstance()
-//				.getInjector()
-//				.getInstance(
-//						Key.get(String.class,
-//								Names.named(Constants.FILE_EXTENSIONS)));
-//		if (instance.indexOf(',') == -1)
-//			return instance;
-//		return instance.split(",")[0];
-//	}
 
 	private final XtextResource getResource(InputStream in, URI uri)
 			throws Exception {
@@ -271,27 +263,39 @@ public class ExpressionEngine implements IExpressionEngine {
 	}
 
 	private void printInterpreterContext(List<IInterpreterContext> contexts) {
-		System.out.println("# context= " + contexts.size());
+		RuntimeActivator.TRACE.trace(
+				RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
+				"# context= " + contexts.size());
 		for (IInterpreterContext c : contexts) {
 			Object context = c.getContext();
 			if (context instanceof DateTimeRange) {
-				System.out.println("Context DTR:"
-						+ modelUtils.formatPeriod((DateTimeRange) context));
+				RuntimeActivator.TRACE.trace(
+						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
+						"Context DTR:"
+								+ modelUtils
+										.formatPeriod((DateTimeRange) context));
 			}
 			if (context instanceof Node) {
-				System.out.println("Context Node:" + ((Node) context).getNodeID());
+				RuntimeActivator.TRACE.trace(
+						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
+						"Context Node:" + ((Node) context).getNodeID());
 			}
 			if (context instanceof Component) {
-				System.out
-						.println("Context Component:" + ((Component) context).getName());
+				RuntimeActivator.TRACE.trace(
+						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
+						"Context Component:" + ((Component) context).getName());
 			}
 			if (context instanceof Service) {
-				System.out.println("Context Service:"
-						+ ((Service) context).getServiceName());
+				RuntimeActivator.TRACE.trace(
+						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
+						"Context Service:"
+								+ ((Service) context).getServiceName());
 			}
 			if (context instanceof BaseResource) {
-				System.out.println("Context Resource:"
-						+ ((BaseResource) context).getExpressionName());
+				RuntimeActivator.TRACE.trace(
+						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
+						"Context Resource:"
+								+ ((BaseResource) context).getExpressionName());
 			}
 		}
 

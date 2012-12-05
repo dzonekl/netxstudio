@@ -177,12 +177,11 @@ import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 
 /**
- * See this for filtering. http://www.eclipsezone.com/eclipse/forums/t63214.html
  * 
  * @author Christophe Bouhier
  * 
  */
-public class LazyNodeResourcesAdvanced extends AbstractScreen implements
+public class SmartResources extends AbstractScreen implements
 		IDataServiceInjection, IScreenII {
 
 	/*
@@ -310,7 +309,7 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 	 * @param parent
 	 * @param style
 	 */
-	public LazyNodeResourcesAdvanced(Composite parent, int style) {
+	public SmartResources(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -400,7 +399,7 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 		buildExpressionSelector(cmpRoot, new GridData(SWT.FILL, SWT.FILL, true,
 				true));
 
-		sashData = new SashForm(sashVertical, SWT.HORIZONTAL);
+		sashData = new SashForm(sashVertical, SWT.HORIZONTAL | SWT.BORDER);
 		sashData.setSashWidth(5);
 		toolkit.adapt(sashData);
 		toolkit.paintBordersFor(sashData);
@@ -681,7 +680,15 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 				if (selection instanceof IStructuredSelection) {
 				}
 			}
-
+			
+			/**
+			 * Uses the information from the context Aggregate to run an expression in the standard expression.
+			 * Deals with different types of expressions. 
+			 * <ul>
+			 * 		<li>Tolerance Expressions</li>
+			 * 		<li>Retention Expressions</li>
+			 * </ul> 
+			 */
 			private void testExpression() {
 
 				Expression expression = (Expression) expressionAggregate
@@ -728,7 +735,7 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 								.setTolerance((Tolerance) expressionAggregate
 										.getCurrentSubSelection());
 
-						// RESOURCE MONITOR CREATION
+						// RESOURCE MONITOR
 						resourceMonitor = OperatorsFactory.eINSTANCE
 								.createResourceMonitor();
 						resourceMonitor.setNodeRef(contextAggregate
@@ -737,9 +744,8 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 								.getCurrentNetXResource());
 						// CB 22-02, we don't need a copy, we are not contained.
 						resourceMonitor.setPeriod(period);
-
 						resultProcessor.setResourceMonitor(resourceMonitor);
-
+						
 					}
 
 					expressionEngine.setExpression(expression);
@@ -750,6 +756,8 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 						throw new IllegalStateException(expressionEngine
 								.getThrowable());
 					}
+					
+					
 					final List<BaseExpressionResult> result = expressionEngine
 							.getExpressionResult();
 
@@ -764,17 +772,13 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 								.toleranceMarkersForResourceMonitor(resourceMonitor));
 					}
 
-					// update the values UI.
-
+					// update the values component by re-applying the filter.
 					if (currentExpressionType == ContextAggregate.RETENTION_EXPRESSION_CONTEXT) {
 						cmpValues.injectData(contextAggregate
 								.getCurrentNetXResource());
-						cmpValues.applyDateFilter(cmpPeriod.getPeriod());
-					} else {
-
-						cmpValues.getValuesTableViewer().refresh(true);
+					}else{
+						cmpValues.applyDateFilter(cmpPeriod.getPeriod(), true);						
 					}
-
 					// update our view part dirty state, as we don't use the
 					// editing domain.
 					screenService.getAbsViewPart().publicFirePropertyChange(
@@ -863,7 +867,7 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 			WritableList contextWritableList = contextAggregate
 					.getContextWritableList();
 			ExpressionContextDialog expressionContextDialog = new ExpressionContextDialog(
-					LazyNodeResourcesAdvanced.this.getShell(), editingService,
+					SmartResources.this.getShell(), editingService,
 					modelUtils);
 			expressionContextDialog.setBlockOnOpen(false);
 			expressionContextDialog.open();
@@ -1057,7 +1061,7 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 								Resource toleranceResource = editingService
 										.getData(LibraryPackage.Literals.TOLERANCE);
 								ToleranceFilterDialog dialog = new ToleranceFilterDialog(
-										LazyNodeResourcesAdvanced.this
+										SmartResources.this
 												.getShell(), toleranceResource);
 								if (dialog.open() == IDialogConstants.OK_ID) {
 									Tolerance tolerance = (Tolerance) dialog
@@ -1663,7 +1667,7 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 					.getFirstElement();
 
 			AdjustRangeDialog selectDialog = new AdjustRangeDialog(
-					LazyNodeResourcesAdvanced.this.getShell(), modelUtils);
+					SmartResources.this.getShell(), modelUtils);
 
 			selectDialog.setBlockOnOpen(true);
 			selectDialog.create();
@@ -1688,7 +1692,7 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 					periodEndWritableValue.setValue(cmpPeriod.getPeriod()
 							.getEnd());
 
-					cmpValues.applyDateFilter(cmpPeriod.getPeriod());
+					cmpValues.applyDateFilter(cmpPeriod.getPeriod(), true);
 				} else {
 				}
 			}
@@ -1990,9 +1994,6 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 		observeResourceSingleSelection = ViewersObservables
 				.observeSingleSelection(resourcesTableViewer);
 
-		// TODO Consider, binding the resourceSelectionObservable directly with
-		// the value widget.
-		// as this is a Component, we would need an API to pass the observable.
 		IObservableValue valueWritableObservable = new WritableValue();
 		valueWritableObservable.addChangeListener(new IChangeListener() {
 			public void handleChange(ChangeEvent event) {
@@ -2000,7 +2001,7 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 					WritableValue v = (WritableValue) event.getSource();
 					Object value = v.getValue();
 					if (value instanceof NetXResource) {
-						cmpValues.applyDateFilter(cmpPeriod.getPeriod());
+						cmpValues.applyDateFilter(cmpPeriod.getPeriod(), false);
 						cmpValues.injectData((BaseResource) value);
 						
 					} else {
@@ -2092,7 +2093,7 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 					public void widgetSelected(SelectionEvent e) {
 						periodBeginWritableValue.setValue(cmpPeriod.getPeriod()
 								.getBegin());
-						cmpValues.applyDateFilter(cmpPeriod.getPeriod());
+						cmpValues.applyDateFilter(cmpPeriod.getPeriod(), true);
 					}
 				});
 
@@ -2100,7 +2101,7 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
-				cmpValues.applyDateFilter(cmpPeriod.getPeriod());
+				cmpValues.applyDateFilter(cmpPeriod.getPeriod(), true);
 			}
 
 		});
@@ -2662,11 +2663,9 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 					componentsTreeViewer,
 					MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT,
 					this.operatorResource.cdoView());
-			mementoUtils.retrieveStructuredViewerSelection(memento,
-					resourcesTableViewer,
-					MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
-					this.operatorResource.cdoView());
-
+		
+			// Set the period prior to the Resource selection, as this will trigger the loading 
+			// of values. 
 			mementoUtils.retrieveCDateTime(memento,
 					cmpPeriod.getDateTimeFrom(),
 					MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM);
@@ -2676,12 +2675,24 @@ public class LazyNodeResourcesAdvanced extends AbstractScreen implements
 			// update the binding, as this won't work by setting the UI widget
 			// selection.
 			cmpPeriod.updatePeriod();
+			
 			periodBeginWritableValue.setValue(cmpPeriod.getPeriod().getBegin());
 			periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
+			
+			mementoUtils.retrieveStructuredViewerSelection(memento,
+					resourcesTableViewer,
+					MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
+					this.operatorResource.cdoView());
 
-			// Re-inject the
-			cmpResources.getViewer().refresh();
-			componentsTreeViewer.refresh();
+			
+			
+//		
+
+			// 
+//			componentsTreeViewer.refresh();
+//			cmpResources.getViewer().refresh();
+			
+			
 		}
 	}
 

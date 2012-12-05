@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 4 dec. 2012 NetXForge.
+ * Copyright (c) 3 dec. 2012 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,33 +14,22 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
-package com.netxforge.engine;
+ *******************************************************************************/
+package com.netxforge.netxstudio.screens.editing;
 
-import java.util.List;
+import org.eclipse.swt.widgets.Composite;
 
-import com.netxforge.netxstudio.library.BaseExpressionResult;
-import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
- * An Expression engine 
+ * A Factory for IScreen's
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
-public interface IExpressionEngine {
+public interface IScreenFactory {
+	public IScreen create(String screenName, Class<?> screenClass,
+			Composite parent, int style);
 
-	public abstract void run();
-
-	public abstract Expression getExpression();
-
-	public abstract void setExpression(Expression expression);
-
-	public abstract List<BaseExpressionResult> getExpressionResult();
-	
-	public boolean errorOccurred();
-	
-	public Throwable getThrowable();
-	
-	public List<Object> getContext();
+	public void registerScreen(String screenName, Class<?> screenClass);
 }

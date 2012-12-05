@@ -50,7 +50,9 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 	// Tracing for netxscript.
 	public static String TRACE_NETXSCRIPT_OPTION = "/trace.netxscript";
 	public static String TRACE_NETXSCRIPT_SCOPING_OPTION = "/trace.netxscript.scoping";
-
+	public static String TRACE_NETXSCRIPT_EXPRESSION_OPTION = "/trace.netxscript.expression";
+	public static String TRACE_NETXSCRIPT_DESCRIPTION_OPTION = "/trace.netxscript.description";
+	
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
