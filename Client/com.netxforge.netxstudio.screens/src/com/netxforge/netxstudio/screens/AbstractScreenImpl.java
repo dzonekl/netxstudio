@@ -91,15 +91,15 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 
 	protected Object currentFocusWidget;
 
+	@Inject
 	public AbstractScreenImpl(Composite parent, int style) {
 		super(parent, style);
-		this.addDisposeListener(this);
 
 		// Should be replaced, by instantiation of this class with GUICE, so the
 		// injection already occurs.
 		// See Screen Service.
+
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
-		// injectorProxy.getInjector("").injectMembers(this);
 	}
 
 	/**

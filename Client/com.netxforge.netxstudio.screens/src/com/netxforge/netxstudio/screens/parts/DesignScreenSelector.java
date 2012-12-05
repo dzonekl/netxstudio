@@ -23,8 +23,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.f2.LazyNodeResourcesAdvanced;
-import com.netxforge.netxstudio.screens.f2.NodeResourcesAdvanced;
+import com.netxforge.netxstudio.screens.f2.SmartResources;
 import com.netxforge.netxstudio.screens.f3.Countries;
 import com.netxforge.netxstudio.screens.f3.Networks;
 import com.netxforge.netxstudio.screens.f3.Operators;
@@ -66,17 +65,19 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 				"icons/full/obj16/Network_H.png", Networks.class, 1,
 				ScreenUtil.OPERATION_EDIT);
 
+// Version 1. 		
 //		result = screenFormService.addScreenSelector(result, "Resources",
 //				"icons/full/obj16/Resource_H.gif", NodeResources.class,
 //				ScreenUtil.OPERATION_EDIT);
 
+// Version 2, with IScreenII. 
+//		result = screenFormService.addScreenSelector(result, "Resources",
+//				"icons/full/obj16/Resource_H.gif", NodeResourcesAdvanced.class,
+//				ScreenUtil.OPERATION_EDIT);
+
+// Version 3, with Smart screens. 
 		result = screenFormService.addScreenSelector(result, "Resources",
-				"icons/full/obj16/Resource_H.gif", NodeResourcesAdvanced.class,
-				ScreenUtil.OPERATION_EDIT);
-
-
-		result = screenFormService.addScreenSelector(result, "Lazy Resources",
-				"icons/full/obj16/Resource_H.gif", LazyNodeResourcesAdvanced.class,
+				"icons/full/obj16/Resource_H.gif", SmartResources.class,
 				ScreenUtil.OPERATION_EDIT);
 		
 		result = screenFormService.addScreenSelector(result, "Warehouses",

@@ -660,6 +660,16 @@ public abstract class AbstractCachedViewerComponent {
 			filterJob.schedule();
 		}
 	}
+	
+	
+	
+	/**
+	 * Clear the last completed filter.
+	 */
+	public void clearFilter(){
+		lastCompletedFilter = null;
+	}
+	
 
 	/**
 	 * Returns comparator to sort items inside content provider. Returned object
@@ -804,7 +814,7 @@ public abstract class AbstractCachedViewerComponent {
 		 * .IProgressMonitor)
 		 */
 		public IStatus runInUIThread(IProgressMonitor monitor) {
-
+			
 			if (!progressLabel.isDisposed()) {
 				String p = (progressMonitor != null ? progressMonitor
 						.getMessage() : EMPTY_STRING);
@@ -821,7 +831,7 @@ public abstract class AbstractCachedViewerComponent {
 			}
 
 			// Schedule cyclical with 500 milliseconds delay
-			schedule(500);
+			schedule(200);
 
 			return new Status(IStatus.OK, PlatformUI.PLUGIN_ID, IStatus.OK,
 					EMPTY_STRING, null);
@@ -1401,6 +1411,10 @@ public abstract class AbstractCachedViewerComponent {
 			// Reset the content
 			contentProvider.reset();
 			
+			// Clear our cache. 
+//			contentProvider.reloadCache();
+			
+			
 			try {
 				if (monitor.isCanceled())
 					return;
@@ -1579,9 +1593,6 @@ public abstract class AbstractCachedViewerComponent {
 		 */
 		public abstract void addItem(Object item, IItemsFilter itemsFilter);
 
-		public abstract void addCollection(List<?> delegateGetItems,
-				IItemsFilter itemsFilter);
-
 	}
 
 	/**
@@ -1719,19 +1730,7 @@ public abstract class AbstractCachedViewerComponent {
 			duplicates.remove(item);
 		}
 
-		/**
-		 * Replace the collection without filtering. This should not involve a
-		 * CDO round trip.
-		 */
-		@Override
-		public void addCollection(List<?> delegateGetItems,
-				IItemsFilter itemsFilter) {
-
-			for (Object item : delegateGetItems) {
-				this.addItem(item, itemsFilter);
-			}
-		}
-
+		
 		/**
 		 * Refresh dialog.
 		 */

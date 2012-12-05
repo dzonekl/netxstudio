@@ -29,6 +29,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.ecore.EReference;
@@ -42,6 +43,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -50,6 +52,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.TableViewerColumnSorter;
 
 import com.google.common.collect.Iterables;
@@ -65,6 +68,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
+import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
 import com.netxforge.netxstudio.screens.AbstractCachedViewerComponent;
 import com.netxforge.netxstudio.screens.IItemsFilter;
 import com.netxforge.netxstudio.screens.ISearchPattern;
@@ -167,6 +171,7 @@ public class SmartValueComponent {
 				ISearchPattern pattern = periodItemsFilter.getPattern();
 				// set the current period.
 				if (pattern instanceof PeriodPattern) {
+					// From & To should not be null!
 					((PeriodPattern) pattern).updateDates(from, to);
 				}
 				return periodItemsFilter;
@@ -175,10 +180,9 @@ public class SmartValueComponent {
 
 			@Override
 			protected <T> Comparator<T> getItemsComparator() {
-				
-				
+
 				/**
-				 * Compare on the first array in the matrix, which are dates. 
+				 * Compare on the first array in the matrix, which are dates.
 				 */
 				return new Comparator<T>() {
 
@@ -211,11 +215,16 @@ public class SmartValueComponent {
 
 				}
 
+				List<?> delegateGetItems = delegateGetItems(progressMonitor);
+
 				// Will be collection of Object[], each array corresponding to
 				// the column index.
-				List<?> delegateGetItems = delegateGetItems();
-				// Add unfiltered, we depend on Viewer filter.
-				contentProvider.addCollection(delegateGetItems, itemsFilter);
+				for (int i = 0; i < delegateGetItems.size(); i++) {
+					contentProvider.addItem(delegateGetItems.get(i),
+							itemsFilter);
+				}
+				progressMonitor.done();
+
 			}
 
 			@Override
@@ -229,8 +238,8 @@ public class SmartValueComponent {
 				.setListLabelProvider(new NetXResourceValueLabelProvider());
 	}
 
-	protected List<?> delegateGetItems() {
-		return Arrays.asList(itemsForNetXResource());
+	protected List<?> delegateGetItems(IProgressMonitor monitor) {
+		return Arrays.asList(itemsForNetXResource(monitor));
 	}
 
 	protected void delegateBuildColumns() {
@@ -247,6 +256,10 @@ public class SmartValueComponent {
 		}
 
 		if (baseResource instanceof NetXResource) {
+			
+			// The marker column. 
+			tableHelper.new TBVC<Date>(new NetXResourceValueLabelProvider())
+					.tbvcFor(this.getValuesTableViewer(), "Markers", 50);
 
 			// The time stamp column
 			tableHelper.new TBVC<Date>(new NetXResourceValueLabelProvider())
@@ -330,7 +343,8 @@ public class SmartValueComponent {
 
 		buildColumns();
 
-		// Re-apply the filter.
+		// Clear the last completed, and re-apply the filter.
+		viewerComponent.clearFilter();
 		viewerComponent.applyFilter();
 
 		// try {
@@ -468,19 +482,28 @@ public class SmartValueComponent {
 		}
 	}
 
-	public void applyDateFilter(DateTimeRange dtr) {
+	public void applyDateFilter(DateTimeRange dtr, boolean applyIt) {
 		// Do not update on empty date selectors.
 		if (dtr == null) {
 			return;
 		}
 		;
-		this.applyDateFilter(modelUtils.begin(dtr), modelUtils.end(dtr));
+		this.applyDateFilter(modelUtils.begin(dtr), modelUtils.end(dtr),
+				applyIt);
 	}
 
-	/*
+	/**
 	 * get the content for this resource.
+	 * <ul>
+	 * <li>Array[0] => Date</li>
+	 * <li>Array[1] => MVR Value 0</li>
+	 * <li>Array[2] => MVR Value n</li>
+	 * <li>Array[3] => Capacity Value</li>
+	 * <li>Array[4] => Utilization Value</li>
+	 * </ul>
+	 * 
 	 */
-	private Object[] itemsForNetXResource() {
+	private Object[] itemsForNetXResource(IProgressMonitor monitor) {
 		if (this.baseResource instanceof NetXResource) {
 
 			NetXResource res = (NetXResource) this.baseResource;
@@ -500,26 +523,44 @@ public class SmartValueComponent {
 
 			List<MetricValueRange> mvrList = Lists.newArrayList(res
 					.getMetricValueRanges());
+
 			Collections.sort(mvrList, modelUtils.mvrCompare());
+
+			// Size analysis.
+
+			int totalWork = 0;
+			int metricWork = 0;
 			for (MetricValueRange mvr : mvrList) {
-				List<Double> doubles = modelUtils.merge(existingDates,
-						mvr.getMetricValues());
+				totalWork += mvr.getMetricValues().size();
+			}
+			metricWork = totalWork;
+			totalWork += res.getCapacityValues().size();
+			totalWork += res.getUtilizationValues().size();
+
+			SubMonitor convert = SubMonitor.convert(monitor, totalWork);
+			for (MetricValueRange mvr : mvrList) {
+				List<Double> doubles = modelUtils.merge(" Metrics: "
+						+ modelUtils.fromMinutes(mvr.getIntervalHint()),
+						existingDates, mvr.getMetricValues(),
+						convert.newChild(metricWork));
 				// check if the date exist, add if not and add the value
 				rangeArray[rangeIndex++] = doubles;
 			}
 
 			{
-				List<Double> doubles = modelUtils.merge(existingDates,
-						res.getCapacityValues());
+
+				List<Double> doubles = modelUtils.merge(" Capacity",
+						existingDates, res.getCapacityValues(),
+						convert.newChild(res.getCapacityValues().size()));
 				rangeArray[rangeIndex++] = doubles;
 			}
 			{
-				List<Double> doubles = modelUtils.merge(existingDates,
-						res.getUtilizationValues());
+				List<Double> doubles = modelUtils.merge(" Utilization",
+						existingDates, res.getUtilizationValues(),
+						convert.newChild(res.getUtilizationValues().size()));
 				rangeArray[rangeIndex++] = doubles;
 			}
-
-			// reverse t
+			// Populate the end result.
 			List<Object[]> result = Lists.newArrayList();
 
 			for (Date date : existingDates) {
@@ -556,8 +597,10 @@ public class SmartValueComponent {
 	 * 
 	 * @param from
 	 * @param to
+	 * @param applyIt
+	 *            Applies this filter to the viewer or just set the period here.
 	 */
-	public void applyDateFilter(Date from, Date to) {
+	public void applyDateFilter(Date from, Date to, boolean applyIt) {
 		// Do not update on empty date selectors.
 		if (from == null || to == null) {
 			return;
@@ -576,8 +619,9 @@ public class SmartValueComponent {
 	 * object types for each index.
 	 * 
 	 * <ul>
-	 * <li>Column 0 => should be a a Date object</li>
-	 * <li>Column > 0 => should be a a Double object</li>
+	 * <li>Column 0 => Derive from Column 1.</li>
+	 * <li>Column 1 => should be a a Date object</li>
+	 * <li>Column > 1 => should be a a Double object</li>
 	 * </ul>
 	 * 
 	 * If we have a marker for the date, we will style the cell according to the
@@ -601,54 +645,29 @@ public class SmartValueComponent {
 				if (columnIndex < array.length) {
 					switch (columnIndex) {
 					case 0: {
-						Object object = array[columnIndex];
+
+						Date d = (Date) array[0];
+						final Marker marker = markerForDate(d);
+						if (marker != null && marker instanceof ToleranceMarker) {
+							Image markerImage = imageForMarker((ToleranceMarker) marker);
+							cell.setImage(markerImage);
+						}
+
+					}
+						break;
+					case 1: {
+						Object object = array[columnIndex - 1];
 						if (object instanceof Date) {
 							Date d = (Date) object;
 							String ts = new String(modelUtils.date(d) + " @ "
 									+ modelUtils.time(d));
 							// find a marker for this date.
 							Styler markerStyle = null;
-							if (d != null && markers != null
-									&& markers.size() > 0) {
-
-								try {
-									Marker marker = Iterables.find(markers,
-											modelUtils.markerForDate(d));
-
-									if (marker != null
-											&& marker instanceof ToleranceMarker) {
-										ToleranceMarker tm = (ToleranceMarker) marker;
-										LevelKind level = tm.getLevel();
-										switch (level.getValue()) {
-										case LevelKind.RED_VALUE: {
-											markerStyle = StyledString
-													.createColorRegistryStyler(
-															ScreenUtil.RED_MARKER,
-															null);
-										}
-											break;
-										case LevelKind.AMBER_VALUE: {
-											markerStyle = StyledString
-													.createColorRegistryStyler(
-															ScreenUtil.AMBER_MARKER,
-															null);
-										}
-											break;
-										case LevelKind.YELLOW_VALUE: {
-											markerStyle = StyledString
-													.createColorRegistryStyler(
-															ScreenUtil.YELLOW_MARKER,
-															null);
-										}
-										}
-									}
-								} catch (NoSuchElementException nsee) {
-									// interresting API, from Iterables.find
-									// @!@##
-								}
-							}
+							final Marker marker = markerForDate(d);
 							StyledString styledString = new StyledString();
-							if (markerStyle != null) {
+							if (marker != null
+									&& marker instanceof ToleranceMarker) {
+								markerStyle = styleForMarker((ToleranceMarker) marker);
 								styledString.append(ts, markerStyle);
 							} else {
 								styledString.append(ts);
@@ -660,7 +679,7 @@ public class SmartValueComponent {
 						break;
 					// All other indexes are values.
 					default: {
-						Object object = array[columnIndex];
+						Object object = array[columnIndex - 1];
 						if (object instanceof Double) {
 							double value = (Double) object;
 							if (value != -1) {
@@ -679,15 +698,86 @@ public class SmartValueComponent {
 
 			super.update(cell);
 		}
+
+		/**
+		 * @param d
+		 * @param marker
+		 * @return
+		 */
+		private Marker markerForDate(Date d) {
+			Marker marker = null;
+			if (d != null && markers != null && markers.size() > 0) {
+				try {
+
+					marker = Iterables.find(markers,
+							modelUtils.markerForDate(d));
+				} catch (NoSuchElementException nsee) {
+					// ignore.
+				}
+			}
+			return marker;
+		}
+
+		private Styler styleForMarker(ToleranceMarker marker) {
+			LevelKind level = marker.getLevel();
+
+			Styler markerStyle = null;
+			switch (level.getValue()) {
+			case LevelKind.RED_VALUE: {
+				markerStyle = StyledString.createColorRegistryStyler(
+						ScreenUtil.RED_MARKER, null);
+			}
+				break;
+			case LevelKind.AMBER_VALUE: {
+				markerStyle = StyledString.createColorRegistryStyler(
+						ScreenUtil.AMBER_MARKER, null);
+			}
+				break;
+			case LevelKind.YELLOW_VALUE: {
+				markerStyle = StyledString.createColorRegistryStyler(
+						ScreenUtil.YELLOW_MARKER, null);
+			}
+			}
+			return markerStyle;
+		}
+
+		private Image imageForMarker(ToleranceMarker marker) {
+
+			ToleranceMarkerDirectionKind direction = marker.getDirection();
+			Image result = null;
+
+			switch (direction.getValue()) {
+			case ToleranceMarkerDirectionKind.START_VALUE: {
+				result = ResourceManager.getPluginImage(
+						"com.netxforge.netxstudio.models.edit",
+						"icons/full/obj16/Marker_s_H.png");
+			}
+				break;
+			case ToleranceMarkerDirectionKind.UP_VALUE: {
+				// No image for up :-(
+				result = ResourceManager.getPluginImage(
+						"com.netxforge.netxstudio.models.edit",
+						"icons/full/obj16/Marker_s_H.png");
+
+			}
+				break;
+			case ToleranceMarkerDirectionKind.DOWN_VALUE: {
+				// No image for up :-(
+				result = ResourceManager.getPluginImage(
+						"com.netxforge.netxstudio.models.edit",
+						"icons/full/obj16/Marker_s_H.png");
+
+			}
+				break;
+
+			}
+
+			return result;
+		}
 	}
 
 	public void clearData() {
-		// Leaves behind an empty table with no columns etc..
-
-		// FIXME, Do empty in the underlying component.
-		// this.valuesTableViewer.setInput(Collections.EMPTY_LIST);
-		// res = null;
-		// buildColumns();
+		// TODO, Implement.
 	}
 
 	// public class MonitorAction extends BaseSelectionListenerAction {

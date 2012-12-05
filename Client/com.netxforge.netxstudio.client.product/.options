@@ -10,6 +10,8 @@ com.netxforge.netxstudio.screens.editing/debug=true
 # NetXScript facilities
 com.netxforge.netxscript/trace.netxscript=true
 com.netxforge.netxscript/trace.netxscript.scoping=true
+com.netxforge.netxscript/trace.netxscript.expression=true
+com.netxforge.netxscript/trace.netxscript.description=true
 
 # Screens facilities
 com.netxforge.netxstudio.screens/trace.screens=true;

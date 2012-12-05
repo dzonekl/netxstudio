@@ -2515,10 +2515,10 @@ public class ModelUtils {
 		};
 		return getDateString.apply(d);
 	}
-	
-	
+
 	/**
 	 * Returns the Time formatted as HH:mm
+	 * 
 	 * @param d
 	 * @return
 	 */
@@ -3113,10 +3113,9 @@ public class ModelUtils {
 		long lValue = ((AbstractCDOIDLong) cdoObject.cdoID()).getLongValue();
 		return new Long(lValue).toString();
 	}
-	
-	
+
 	/**
-	 * Get a CDOID for a String representing the Object ID. 
+	 * Get a CDOID for a String representing the Object ID.
 	 * 
 	 * @param s
 	 * @return
@@ -3688,30 +3687,49 @@ public class ModelUtils {
 		return transform.toArray(new Date[transform.size()]);
 	}
 
+	public List<Double> merge(List<Date> dates, List<Value> valuesToMerge) {
+		return merge("", dates, valuesToMerge, null);
+	}
+
 	/**
 	 * Separate and Merge the date and value from a value collection into two
 	 * separate collections. if the Date is already in the date collection, we
 	 * re-use that index.
 	 * 
-	 * @param dates
+	 * @param existingDates
+	 *            A Collection containing dates which should match.
+	 * @return a collection of values.
 	 */
-	public List<Double> merge(List<Date> dates, List<Value> valuesToMerge) {
+	public List<Double> merge(String mergingTaskName, List<Date> existingDates,
+			List<Value> valuesToMerge, IProgressMonitor monitor) {
 
 		// should from with the dates list.
-		List<Double> doubles = Lists.newArrayListWithCapacity(dates.size());
-		for (int i = 0; i < dates.size(); i++) {
+		List<Double> doubles = Lists.newArrayListWithCapacity(existingDates
+				.size());
+
+		for (int i = 0; i < existingDates.size(); i++) {
 			doubles.add(new Double(-1));
 		}
+		
+		int s = valuesToMerge.size();
+		if (monitor != null)
+			monitor.subTask(mergingTaskName);
+		// For CDO, this will fetch the object depending on the CDO Prefetch
+		// policy on this list.
+		for (int i = 0; i < s ; i++) {
+			Value v = valuesToMerge.get(i);
 
-		for (Value v : valuesToMerge) {
+//			if (monitor != null && i % 10 == 0) {
+				monitor.worked(1);
+//			}
 			Date dateToMergeOrAdd = fromXMLDate(v.getTimeStamp());
-			int positionOf = positionOf(dates, dateToMergeOrAdd);
+			int positionOf = positionOf(existingDates, dateToMergeOrAdd);
 			if (positionOf != -1) {
 				// store in the same position, the initial size should allow
 				// this.
 				doubles.add(positionOf, v.getValue());
 			} else {
-				dates.add(dateToMergeOrAdd);
+				existingDates.add(dateToMergeOrAdd);
 				double value = v.getValue();
 				doubles.add(value);
 			}

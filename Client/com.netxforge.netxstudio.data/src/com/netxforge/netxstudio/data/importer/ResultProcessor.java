@@ -54,7 +54,8 @@ import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
 import com.netxforge.netxstudio.services.DerivedResource;
 
 /**
- * Implements the processing of an expression result.
+ * This class is a supporting class, for processes.
+ * It also keeps state for like the ResourceMonitor when processing 
  * 
  * 
  * @author Martin Taal
@@ -522,15 +523,6 @@ public class ResultProcessor {
 					toTime = toDate.getTime();
 
 				}
-
-				// FIXME Bug, fromTime never changes, as the currentValue won't
-				// change.
-				// if (currentToleranceValue == null) {
-				// currentToleranceValue = toleranceValue;
-				// } else {
-				// fromTime = currentToleranceValue.getTimeStamp()
-				// .toGregorianCalendar().getTimeInMillis();
-				// }
 
 				// Update the current state as a double value.
 				stateDouble = toleranceValue.getValue();

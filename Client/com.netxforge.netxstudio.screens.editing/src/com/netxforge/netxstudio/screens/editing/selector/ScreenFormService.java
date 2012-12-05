@@ -18,10 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.selector;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
@@ -55,7 +52,6 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataService;
@@ -68,6 +64,7 @@ import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.DataLoadingJobService;
 import com.netxforge.netxstudio.screens.editing.DataLoadingJobService.DataPostLoadingJob;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.IScreenFactory;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
@@ -115,10 +112,6 @@ public class ScreenFormService implements IScreenFormService {
 	 */
 	private AbstractScreensViewPart absViewPart;
 
-	/*
-	 * A Map holding the screen constructors by name of the screen.
-	 */
-	private HashMap<String, Constructor<?>> screenMap = Maps.newHashMap();
 
 	/*
 	 * (non-Javadoc)
@@ -299,48 +292,23 @@ public class ScreenFormService implements IScreenFormService {
 		return addScreenSelector(above, name, iconPath, screen, -1, operation);
 	}
 
-	public Composite addScreenSelector(Composite topComposite, String name,
+	public Composite addScreenSelector(Composite topComposite, String screenName,
 			String iconPath, Class<?> screenClass, int position, int operation) {
 
 		assert position >= 1 || topComposite != null;
 
-		try {
+		screenFactory.registerScreen(screenName, screenClass);
+		
+		// We override the operation, depending on the user role.
+		operation = operationForUser(operation);
 
-			// Experimental, move instantiation of screen to guice, to avoid
-			// .injectMembers in Screen classes.
-			// Object instance = EditingActivator.getDefault().getInjector()
-			// .getInstance(screen);
+		ImageHyperlink lnk = linkFor(topComposite, screenName, screenClass, iconPath,
+				position, operation);
 
-			// We look for a constructor supporting the selector service.
-			// Screens, will be able to use the selector to place themselves on
-			// the
-			// service container, calling updateComposite();
-			Constructor<?> screenConstructor = null;
-			try {
-				screenConstructor = screenClass.getConstructor(Composite.class,
-						int.class);
-				screenMap.put(name, screenConstructor);
-			} catch (NoSuchMethodException e2) {
-				System.out
-						.println("TODO, Implement correct screen signature on :"
-								+ screenClass.getClass().getSimpleName());
-			}
+		screenSelectors.add(lnk);
 
-			// We override the operation, depending on the user role.
-			operation = operationForUser(operation);
-			ImageHyperlink lnk = linkFor(topComposite, name, iconPath,
-					position, operation);
+		return lnk;
 
-			screenSelectors.add(lnk);
-
-			return lnk;
-
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	/**
@@ -355,6 +323,7 @@ public class ScreenFormService implements IScreenFormService {
 	 * @param finalOperation
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private ImageHyperlink linkFor(Composite above, final String name,
 			String iconPath, int position, final int finalOperation) {
 		ImageHyperlink lnk = formToolkit.createImageHyperlink(getSelectorForm()
@@ -363,6 +332,42 @@ public class ScreenFormService implements IScreenFormService {
 			public void linkActivated(HyperlinkEvent e) {
 
 				doSetScreen(name, finalOperation);
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+
+		lnk.setImage(ResourceManager.getPluginImage(ICON_PATH, iconPath));
+		FormData lnkFD = new FormData();
+
+		if (position >= 1) {
+			lnkFD.top = new FormAttachment(0, position * 12);
+		}
+		if (above != null) {
+			lnkFD.top = new FormAttachment(above, 6);
+		}
+
+		lnkFD.left = new FormAttachment(0, 12);
+		lnk.setLayoutData(lnkFD);
+
+		formToolkit.paintBordersFor(lnk);
+		lnk.setText(name);
+		return lnk;
+	}
+
+	private ImageHyperlink linkFor(Composite above, final String name,
+			final Class<?> screenClass, String iconPath, int position,
+			final int finalOperation) {
+		ImageHyperlink lnk = formToolkit.createImageHyperlink(getSelectorForm()
+				.getBody(), SWT.NONE);
+		lnk.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+
+				doSetScreen(name, screenClass, finalOperation);
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -411,6 +416,11 @@ public class ScreenFormService implements IScreenFormService {
 	ObservablesManager obm = null;
 
 	private void doSetScreen(final String name, final int finalOperation) {
+		doSetScreen(name, null, finalOperation);
+	}
+
+	private void doSetScreen(final String name, final Class<?> screenClass,
+			final int finalOperation) {
 
 		if (isActiveScreen(name)) {
 			return; // Ignore we are already.
@@ -433,97 +443,87 @@ public class ScreenFormService implements IScreenFormService {
 
 			public void run() {
 
-				try {
-					Constructor<?> constructor = screenMap.get(name);
-					final IScreen target = (IScreen) constructor.newInstance(
-							getScreenContainer(), SWT.NONE);
-					target.setOperation(finalOperation);
-					target.setScreenService(ScreenFormService.this);
+				final IScreen target = screenFactory.create(name, screenClass,
+						getScreenContainer(), SWT.NONE);
+				target.setOperation(finalOperation);
+				target.setScreenService(ScreenFormService.this);
 
-					// Clients supporting IScreenII will have
-					// Note: Restoring the screen state which might depend
-					// on the model being injected will fail.
+				// Clients supporting IScreenII will have
+				// Note: Restoring the screen state which might depend
+				// on the model being injected will fail.
+				if (target instanceof IScreenII) {
 
-					if (target instanceof IScreenII) {
+					handleScreenII(target);
 
-						final long startTime = System.currentTimeMillis();
+				} else {
+					if (target instanceof IDataServiceInjection) {
+						((IDataServiceInjection) target).injectData();
+					}
+					doSetActiveScreen(target);
+					restoreScreenState(target);
+					fireScreenChanged(target);
+				}
+			}
 
+			/*
+			 * Handle the screenII Service.
+			 * 
+			 * @param target
+			 */
+			private void handleScreenII(final IScreen target) {
+				final long startTime = System.currentTimeMillis();
+
+				if (EditingActivator.DEBUG) {
+					EditingActivator.TRACE.trace(
+							EditingActivator.TRACE_EDITING_LOADING_OPTION,
+							"Start loading Screen: " + target.getScreenName()
+									+ " @ " + modelUtils.todayAndNow());
+				}
+				// We are a new screen, instantiate and set active.
+				((IScreenII) target).initUI();
+
+				// Set the new instantiated screen as the active screen.
+				doSetActiveScreen(target);
+
+				((IScreenII) target).showPreLoadedUI();
+
+				if (EditingActivator.DEBUG) {
+					EditingActivator.TRACE.trace(
+							EditingActivator.TRACE_EDITING_LOADING_OPTION,
+							"..Pre loaded " + target.getScreenName() + " in: "
+									+ modelUtils.timeDuration(startTime));
+				}
+
+				DataLoadingJobService dataLoadingJobService = new DataLoadingJobService();
+				dataLoadingJobService.setScreenToLoad(target);
+				dataLoadingJobService.addNotifier(new JobChangeAdapter() {
+
+					@Override
+					public void done(IJobChangeEvent event) {
+
+						// This is our call back, we should be
+						// done already.
 						if (EditingActivator.DEBUG) {
 							EditingActivator.TRACE
 									.trace(EditingActivator.TRACE_EDITING_LOADING_OPTION,
-											"Start loading Screen: "
+											".."
+													+ event.getJob().getName()
+													+ " for "
 													+ target.getScreenName()
-													+ " @ "
-													+ modelUtils.todayAndNow());
-						}
-						// We are a new screen, instantiate and set active.
-						((IScreenII) target).initUI();
-
-						// Set the new instantiated screen as the active screen.
-						doSetActiveScreen(target);
-
-						((IScreenII) target).showPreLoadedUI();
-
-						if (EditingActivator.DEBUG) {
-							EditingActivator.TRACE
-									.trace(EditingActivator.TRACE_EDITING_LOADING_OPTION,
-											"..Pre loaded "
-													+ target.getScreenName()
-													+ " in: "
+													+ " completed in: "
 													+ modelUtils
 															.timeDuration(startTime));
 						}
 
-						DataLoadingJobService dataLoadingJobService = new DataLoadingJobService();
-						dataLoadingJobService.setScreenToLoad(target);
-						dataLoadingJobService
-								.addNotifier(new JobChangeAdapter() {
-
-									@Override
-									public void done(IJobChangeEvent event) {
-
-										// This is our call back, we should be
-										// done already.
-										if (EditingActivator.DEBUG) {
-											EditingActivator.TRACE
-													.trace(EditingActivator.TRACE_EDITING_LOADING_OPTION,
-															".."
-																	+ event.getJob()
-																			.getName()
-																	+ " for "
-																	+ target.getScreenName()
-																	+ " completed in: "
-																	+ modelUtils
-																			.timeDuration(startTime));
-										}
-
-										if (event.getJob() instanceof DataPostLoadingJob) {
-											restoreScreenState(target);
-											fireScreenChanged(target);
-										}
-									}
-								});
-						// Should be executed sequentially.
-						dataLoadingJobService.load();
-						dataLoadingJobService.postLoad();
-
-					} else {
-						if (target instanceof IDataServiceInjection) {
-							((IDataServiceInjection) target).injectData();
+						if (event.getJob() instanceof DataPostLoadingJob) {
+							restoreScreenState(target);
+							fireScreenChanged(target);
 						}
-						doSetActiveScreen(target);
-						restoreScreenState(target);
-						fireScreenChanged(target);
 					}
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
-				}
+				});
+				// Should be executed sequentially.
+				dataLoadingJobService.load();
+				dataLoadingJobService.postLoad();
 			}
 		});
 
@@ -784,6 +784,9 @@ public class ScreenFormService implements IScreenFormService {
 
 	@Inject
 	private ModelUtils modelUtils;
+
+	@Inject
+	private IScreenFactory screenFactory;
 
 	// Notification of screen changing.
 	// 29-05 these listeners will also be notified of a screen invalidation.
