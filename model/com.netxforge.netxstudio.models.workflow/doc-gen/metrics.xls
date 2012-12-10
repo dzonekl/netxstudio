@@ -389,7 +389,7 @@ String
 	 	 	<Data ss:Type="String">Pattern</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">A pattern to convert the information in the data source to an identifier which can be used to select a network element&#13;						
+	 	 	<Data ss:Type="String">A pattern to convert the information in the data&#13;							source to an identifier which can be used to select a network&#13;							element&#13;						
 </Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
@@ -941,6 +941,23 @@ String
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">FilterPattern</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">A regexp which is used to filter files present&#13;							at the location defined by the MetricLocation.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+String
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
 	 	 	<Data ss:Type="String">FirstDataRow</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
@@ -1476,10 +1493,27 @@ MappingColumn
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Count</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">The Row attribute holds the row identifier.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Long
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
 	 	 	<Data ss:Type="String">Column</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">The Column attribute holds the column identifier.&#13;						
+	 	 	<Data ss:Type="String">The Column attribute holds the column&#13;							identifier.&#13;						
 </Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
@@ -1497,23 +1531,6 @@ String
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
 	 	 	<Data ss:Type="String">The message giving information about this&#13;							record.&#13;						
-</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s27">
-	 	 	<Data ss:Type="String">
-String
-</Data>
-	 	 </Cell>
- 	</Row> 
-
-	<Row>
-		<Cell ss:StyleID="s18" ss:Index="1"/>
-		<Cell ss:StyleID="s25" ss:Index="2"/>
-	 	 <Cell ss:StyleID="s23" ss:Index="3">
-	 	 	<Data ss:Type="String">Row</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">The Row attribute holds the row identifier.&#13;						
 </Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
@@ -1665,10 +1682,27 @@ Boolean
 		<Cell ss:StyleID="s18" ss:Index="1"/>
 		<Cell ss:StyleID="s25" ss:Index="2"/>
 	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">Message</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">A global error or information message&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+Description2000
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
 	 	 	<Data ss:Type="String">IntervalEstimate</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">The IntervalEstimate attribute contains a number in minutes for &#13;						the mapping run. It also corresponds the MetricValueRange for the mapping run. &#13;						
+	 	 	<Data ss:Type="String">The IntervalEstimate attribute contains a number&#13;							in minutes for&#13;							the mapping run. It also corresponds the MetricValueRange for the&#13;							mapping run.&#13;						
 </Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
@@ -1691,23 +1725,6 @@ Int
 	 	 <Cell ss:StyleID="s27">
 	 	 	<Data ss:Type="String">
 Int
-</Data>
-	 	 </Cell>
- 	</Row> 
-
-	<Row>
-		<Cell ss:StyleID="s18" ss:Index="1"/>
-		<Cell ss:StyleID="s25" ss:Index="2"/>
-	 	 <Cell ss:StyleID="s23" ss:Index="3">
-	 	 	<Data ss:Type="String">Message</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">A global error or information message&#13;						
-</Data>
-	 	 </Cell>
-	 	 <Cell ss:StyleID="s27">
-	 	 	<Data ss:Type="String">
-String
 </Data>
 	 	 </Cell>
  	</Row> 
@@ -1759,7 +1776,7 @@ Boolean
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">MappingDuration</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The MappingDuration reference, refers to a&#13;								DateTimeRange type.&#13;							
+	 	 		<Data ss:Type="String">The MappingDuration is a&#13;								DateTimeRange type, it&#13;								is the begin and end time of the actual mapping.&#13;							
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -1776,7 +1793,7 @@ DateTimeRange
 				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">PeriodEstimate</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The PeriodEstimate reference, refers to a&#13;								DateTimeRange type. It contains an estimate of the start till end date and time &#13;								for a single mapping run.  &#13;							
+	 	 		<Data ss:Type="String">The PeriodEstimate is a DateTimeRange type. It&#13;								is an estimate of begin and end time stamps&#13;								for the processed metric source.&#13;							
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -1823,6 +1840,23 @@ DateTimeRange
 	 	 	 <Cell ss:StyleID="s27">
 	 	 		<Data ss:Type="String">
 MappingRecord
+</Data>
+	 	 	</Cell>
+		</Row>
+
+		<Row>
+			<Cell ss:StyleID="s18" ss:Index="1"/>
+			<Cell ss:StyleID="s25" ss:Index="2"/>
+			
+				<Cell ss:StyleID="s221" ss:Index="3"><Data ss:Type="String">SubStatistics</Data></Cell>
+			
+			<Cell ss:StyleID="s23">
+	 	 		<Data ss:Type="String">The SubStatistics contain 0 or more&#13;								MappingStatisic object. When importing multiple&#13;								sources in a single job run, there is an option to produce&#13;								sub-statistics for each processed source object. i.e. for each&#13;								File.&#13;							
+</Data>
+	 	 	</Cell>
+	 	 	 <Cell ss:StyleID="s27">
+	 	 		<Data ss:Type="String">
+MappingStatistic
 </Data>
 	 	 	</Cell>
 		</Row>
@@ -1920,6 +1954,23 @@ MappingRecord
 	 	 <Cell ss:StyleID="s27">
 	 	 	<Data ss:Type="String">
 Int
+</Data>
+	 	 </Cell>
+ 	</Row> 
+
+	<Row>
+		<Cell ss:StyleID="s18" ss:Index="1"/>
+		<Cell ss:StyleID="s25" ss:Index="2"/>
+	 	 <Cell ss:StyleID="s23" ss:Index="3">
+	 	 	<Data ss:Type="String">FilterPattern</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s23">
+	 	 	<Data ss:Type="String">A regexp which is used to filter files present&#13;							at the location defined by the MetricLocation.&#13;						
+</Data>
+	 	 </Cell>
+	 	 <Cell ss:StyleID="s27">
+	 	 	<Data ss:Type="String">
+String
 </Data>
 	 	 </Cell>
  	</Row> 
@@ -2247,7 +2298,7 @@ Boolean
 				<Cell ss:StyleID="s22" ss:Index="3"><Data ss:Type="String">ExpressionRef</Data></Cell>
 			
 			<Cell ss:StyleID="s23">
-	 	 		<Data ss:Type="String">The ExpressionRef reference, references 0 or&#13;							1 Expression type.&#13;						
+	 	 		<Data ss:Type="String">The ExpressionRef reference, references 0 or&#13;								1 Expression type.&#13;							
 </Data>
 	 	 	</Cell>
 	 	 	 <Cell ss:StyleID="s27">
@@ -2363,7 +2414,7 @@ Metric
     		<Cell ss:StyleID="s18"/>
 			<Cell ss:StyleID="s25"/>
     		<Cell ss:StyleID="s201" ss:MergeAcross="1">
- 	 			<Data ss:Type="String">A type with settings on retention of metric values&#13;			corresponding to the metric value range intervalhint.&#13;			
+ 	 			<Data ss:Type="String">A type with settings on retention of metric values&#13;				corresponding to the metric value range intervalhint.&#13;			
 </Data>
  	 		</Cell>
  	 		<Cell ss:StyleID="s28"/>
@@ -2554,7 +2605,7 @@ Expression
     		<Cell ss:StyleID="s18"/>
 			<Cell ss:StyleID="s25"/>
     		<Cell ss:StyleID="s201" ss:MergeAcross="1">
- 	 			<Data ss:Type="String">The metric retention rules. &#13;			
+ 	 			<Data ss:Type="String">The metric retention rules.&#13;			
 </Data>
  	 		</Cell>
  	 		<Cell ss:StyleID="s28"/>
@@ -2783,7 +2834,7 @@ Name255
 	 	 	<Data ss:Type="String">FilterPattern</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">A regexp which is used to filter files present&#13;						at the location defined by the MetricLocation.&#13;						
+	 	 	<Data ss:Type="String">A regexp which is used to filter files present&#13;							at the location defined by the MetricLocation.&#13;						
 </Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
@@ -3170,7 +3221,7 @@ KindHintType
 	 	 	<Data ss:Type="String">Format</Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s23">
-	 	 	<Data ss:Type="String">Defines the format to parse the date, time or datetime values
+	 	 	<Data ss:Type="String">Defines the format to parse the date, time or&#13;							datetime values
 </Data>
 	 	 </Cell>
 	 	 <Cell ss:StyleID="s27">
