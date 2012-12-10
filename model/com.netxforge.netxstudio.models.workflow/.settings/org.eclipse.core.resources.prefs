@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
 encoding//.settings/org.eclipse.xtend.shared.ui.prefs=MacRoman
-encoding//src/templates/Documentation.xpt=ISO-8859-1
+encoding//src/templates/Documentation.xpt=UTF-8
+encoding//src/templates/Import.xpt=UTF-8
 encoding/<project>=MacRoman
