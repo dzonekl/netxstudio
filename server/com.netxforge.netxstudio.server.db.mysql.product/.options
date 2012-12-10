@@ -1,8 +1,8 @@
 NetXstudio Server tracing options 
 # Enables debugging and/or tracing for server side services. 
 com.netxforge.netxstudio.server/debug=false
-com.netxforge.netxstudio.server.metrics/debug=true
-com.netxforge.netxstudio.server.logic/debug=false
+com.netxforge.netxstudio.server.metrics/debug=false
+com.netxforge.netxstudio.server.logic/debug=true
 com.netxforge.netxstudio.server.job/debug=false
 
 # Enables debugging for common Appl plugins
@@ -55,6 +55,11 @@ com.netxforge.netxstudio.data/trace.import=true
 com.netxforge.netxstudio.data/trace.import.details=true
 com.netxforge.netxstudio.data/trace.import.locator=true
 com.netxforge.netxstudio.data/trace.import.helper=true
+
+#Data result processing options
+com.netxforge.netxstudio.data/trace.result.value=true
+com.netxforge.netxstudio.data/trace.result.expression=true
+com.netxforge.netxstudio.data/trace.result.tolerance=true
 
 # Common trace options
 com.netxforge.netxstudio.common/trace.utils=true
