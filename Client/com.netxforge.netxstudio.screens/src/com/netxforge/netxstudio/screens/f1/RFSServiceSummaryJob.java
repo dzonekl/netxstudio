@@ -89,8 +89,6 @@ public class RFSServiceSummaryJob implements IJobChangeListener {
 	}
 
 	public void aboutToRun(IJobChangeEvent event) {
-		System.out
-				.println("Job about to get busy: " + event.getJob().getName()); //$NON-NLS-1$
 	}
 
 	public void awake(IJobChangeEvent event) {
@@ -98,21 +96,17 @@ public class RFSServiceSummaryJob implements IJobChangeListener {
 	}
 
 	public void done(IJobChangeEvent event) {
-		System.out.println("Job done: " + event.getJob().getName()); //$NON-NLS-1$
 		running = false;
 	}
 
 	public void running(IJobChangeEvent event) {
-		System.out.println("Job running: " + event.getJob().getName()); //$NON-NLS-1$
 		this.running = true;
 	}
 
 	public void scheduled(IJobChangeEvent event) {
-		System.out.println("Job scheduled: " + event.getJob().getName()); //$NON-NLS-1$
 	}
 
 	public void sleeping(IJobChangeEvent event) {
-		System.out.println("Job zzzzzz: " + event.getJob().getName()); //$NON-NLS-1$
 	}
 
 	/**

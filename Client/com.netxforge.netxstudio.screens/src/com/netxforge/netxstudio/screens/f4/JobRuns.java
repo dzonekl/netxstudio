@@ -519,6 +519,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 //								+ cdoID2.toString());
 						if (wfr.cdoID().toString().equals(cdoID2.toString())) {
 							item = checkItem;
+							break;
 						}
 					}
 					// if (EcoreUtil.equals((EObject) data, (EObject) k)) {
@@ -532,16 +533,12 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 					progressEditor.grabHorizontal = true;
 					progressEditor.grabVertical = true;
 
-					// ProgressBar bar = new ProgressBar(tableViewer.getTable(),
-					// SWT.SMOOTH);
-					// bar.setMaximum(100);
-					// bar.setSelection(0);
-
 					ProgressControl progressControl = new ProgressControl(
 							tableViewer.getTable(), SWT.NONE);
 
 					progressEditor.setEditor(progressControl, item, 2);
 					progressCache.put(wfr.cdoID(), progressEditor);
+					return progressEditor;
 				}
 			}
 			return null;
@@ -582,6 +579,10 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 				if (columnIndex == 2) {
 					if (j.getState() == JobRunState.RUNNING) {
+						// When the application is aborted, the state will remain running. 
+						//  
+						
+						
 						// find the progress and update it.
 						TableEditor addProgress = addProgress(element);
 						if (addProgress != null) {
@@ -604,8 +605,9 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 							tableEditor.getEditor().dispose();
 							tableEditor.dispose();
 							progressCache.remove(j.cdoID());
-							System.out.println("Disposed progress for "
-									+ modelUtils.printModelObject(j));
+							
+//							System.out.println("Disposed progress for "
+//									+ modelUtils.printModelObject(j));
 						}
 					}
 					// bar.set

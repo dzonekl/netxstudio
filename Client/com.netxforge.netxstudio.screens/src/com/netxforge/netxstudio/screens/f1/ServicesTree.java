@@ -448,6 +448,7 @@ public class ServicesTree extends AbstractScreen implements
 			NewEditServiceTree screen = null;
 			screen = new NewEditServiceTree(this.cmpDetails, SWT.NONE,
 					editingService);
+			screen.setParentScreen(this);
 			screen.setScreenService(screenService);
 			screen.setOperation(getOperation());
 			screen.injectData(null, o);

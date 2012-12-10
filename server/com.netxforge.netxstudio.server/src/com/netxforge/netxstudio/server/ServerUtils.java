@@ -77,11 +77,14 @@ public class ServerUtils {
 	@SuppressWarnings("unused")
 	private DatatypeFactory dataTypeFactory;
 
-	// Debugging on.
+	// Control CDO Debugging using trace options.
+	// Note that CDO Options will still set debugging, as the OM Activator
+	// starts earlier thant this plugin, so change the configuration of the product, 
+	// to have App plugins start earlier, or turn of the .options :-) 
 	static {
-		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
-		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
-		OMPlatform.INSTANCE.setDebugging(true);
+			OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
+			OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
+			OMPlatform.INSTANCE.setDebugging(ServerActivator.DEBUG);
 	}
 
 	private static ServerUtils instance = new ServerUtils();
@@ -116,10 +119,9 @@ public class ServerUtils {
 
 	}
 
-	
 	/**
-	 * Run a service, which should be in the parameters. 
-	 * The Service Parameter should be the name of the class to invoke from registered OSGI services. 
+	 * Run a service, which should be in the parameters. The Service Parameter
+	 * should be the name of the class to invoke from registered OSGI services.
 	 * 
 	 * @param parameters
 	 * @return
@@ -196,7 +198,6 @@ public class ServerUtils {
 		final IManagedContainer container = IPluginContainer.INSTANCE;
 		acceptor = JVMUtil.getAcceptor(container, "default");
 		connector = JVMUtil.getConnector(container, "default");
-		
 
 		// Create configuration
 		final CDOSessionConfiguration sessionConfiguration = CDONet4jUtil
@@ -209,8 +210,8 @@ public class ServerUtils {
 		// Note: Option to disable caching, this was of for Hibernate store, but
 		// back on for the DB Store.
 
-		//		sessionConfiguration.setRevisionManager(CDORevisionUtil
-		//		.createRevisionManager(CDORevisionCache.NOOP));
+		// sessionConfiguration.setRevisionManager(CDORevisionUtil
+		// .createRevisionManager(CDORevisionCache.NOOP));
 
 		final IPasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(
 				new PasswordCredentials(serverSideLogin,
@@ -220,7 +221,7 @@ public class ServerUtils {
 				credentialsProvider);
 		// set to a minute
 		// sessionConfiguration.setSignalTimeout(IDataProvider.SIGNAL_TIME_OUT);
-		
+
 		return sessionConfiguration;
 	}
 
@@ -228,24 +229,18 @@ public class ServerUtils {
 	ServerExceptionHandler exceptionHandler = new ServerExceptionHandler();
 
 	/*
-	 * Types of exceptions we can expect. 
-	 * Commit exceptions, duplicate identifier on Join Tables. 
-	 * Timeout exceptions. 
+	 * Types of exceptions we can expect. Commit exceptions, duplicate
+	 * identifier on Join Tables. Timeout exceptions.
 	 * 
 	 * @author Christophe
-	 *
 	 */
 	class ServerExceptionHandler implements ExceptionHandler {
 
 		public void handleException(CDOSession session, int attempt,
 				Exception exception) throws Exception {
-			
-			
-			
-			
+
 			exception.printStackTrace();
-			
-			
+
 		}
 	}
 
@@ -306,7 +301,7 @@ public class ServerUtils {
 		private void initialize() {
 			initResources();
 		}
-		
+
 		private void initResources() {
 			dataProvider.openSession();
 			dataProvider.getTransaction();
@@ -330,7 +325,7 @@ public class ServerUtils {
 			fixtures.loadFixtures();
 
 		}
-		
+
 		// Creates or loads the CDOResources, which are entry points in the DB.
 		private void initResourcesForEPackage(EPackage ePackage) {
 			for (final EClassifier eClassifier : ePackage.getEClassifiers()) {

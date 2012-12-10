@@ -57,18 +57,18 @@ public class MonitoringEngine extends BaseComponentEngine {
 
 	@Inject
 	private ResultProcessor resultProcessor;
-
+	
 	@Override
 	public void doExecute() {
 
-		if (LogicActivator.DEBUG) {
-
-			LogicActivator.TRACE.trace(
-					LogicActivator.TRACE_LOGIC_OPTION,
-					"monitoring for: "
-							+ this.getModelUtils().printModelObject(
-									this.getComponent()));
-		}
+//		if (LogicActivator.DEBUG) {
+//
+//			LogicActivator.TRACE.trace(
+//					LogicActivator.TRACE_LOGIC_OPTION,
+//					"monitoring for: "
+//							+ this.getModelUtils().printModelObject(
+//									this.getComponent()));
+//		}
 
 		// Clear the context first.
 		getExpressionEngine().getContext().clear();
@@ -158,7 +158,7 @@ public class MonitoringEngine extends BaseComponentEngine {
 			// Service Monitor.
 			DateTimeRange dtr = EcoreUtil.copy(getPeriod());
 			resourceMonitor.setPeriod(dtr);
-			resultProcessor.setResourceMonitor(resourceMonitor);
+			resultProcessor.getToleranceProcessor().setResourceMonitor(resourceMonitor);
 
 			boolean hasTolerances = this.getTolerances().size() > 0;
 
@@ -172,7 +172,7 @@ public class MonitoringEngine extends BaseComponentEngine {
 			}
 
 			for (final Tolerance tolerance : getTolerances()) {
-				resultProcessor.setTolerance(tolerance);
+				resultProcessor.getToleranceProcessor().setTolerance(tolerance);
 
 				// resultaat van de tolerance is een percentage
 				// loop door de capacity/utilization heen

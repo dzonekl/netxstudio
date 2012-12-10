@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 6 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.common.tables;
 
 import java.util.ArrayList;
@@ -120,9 +137,10 @@ public class FocusBlockOwnerDrawHighlighterForMultiselection extends
 
 			public void handleEvent(Event event) {
 
-//				System.out.println("Event index = " + event.index
-//						+ " coordinates = " + event.x + "," + event.y + ","
-//						+ event.width + "," + event.height);
+				// System.out.println("Event index = " + event.index
+				// + " coordinates = " + event.x + "," + event.y + ","
+				// + event.width + "," + event.height);
+				//
 
 				if ((event.detail & SWT.SELECTED) > 0) {
 					List<ViewerCell> allCells = new ArrayList<ViewerCell>();
@@ -172,7 +190,7 @@ public class FocusBlockOwnerDrawHighlighterForMultiselection extends
 	 * @return the color or <code>null</code> to use the default
 	 */
 	protected Color getSelectedCellBackgroundColor(ViewerCell cell) {
-		return null;
+		return cell.getControl().getDisplay().getSystemColor(SWT.COLOR_WHITE);
 	}
 
 	/**
@@ -184,7 +202,7 @@ public class FocusBlockOwnerDrawHighlighterForMultiselection extends
 	 * @return the color or <code>null</code> to use the default
 	 */
 	protected Color getSelectedCellForegroundColor(ViewerCell cell) {
-		return null;
+		return cell.getControl().getDisplay().getSystemColor(SWT.COLOR_BLACK);
 	}
 
 	/**
@@ -213,6 +231,7 @@ public class FocusBlockOwnerDrawHighlighterForMultiselection extends
 	 */
 	protected Color getSelectedCellBackgroundColorNoFocus(ViewerCell cell) {
 		return null;
+		// return cell.getControl().getDisplay().getSystemColor(SWT.COLOR_GRAY);
 	}
 
 	/**
@@ -231,8 +250,8 @@ public class FocusBlockOwnerDrawHighlighterForMultiselection extends
 	protected void focusCellChanged(ViewerCell newCell, ViewerCell oldCell) {
 		super.focusCellChanged(newCell, oldCell);
 
-		System.out
-				.println("FocusBlockOwnerDrawHighlighter => focus cell changed");
+		// System.out
+		// .println("FocusBlockOwnerDrawHighlighter => focus cell changed");
 
 		// Redraw new area
 		if (newCell != null) {
@@ -277,12 +296,11 @@ public class FocusBlockOwnerDrawHighlighterForMultiselection extends
 		int width = redrawCell.getColumnIndex() == 0 ? rect.x + rect.width
 				: rect.width;
 
-		int y = (rect.y + 1);
-
-		System.out.println("redraw viewercell horizontal from " + x + " to "
-				+ (x + width));
-		System.out.println("redraw viewercell vertical from " + y + " to "
-				+ (y + rect.height));
+		// int y = (rect.y + 1);
+		// System.out.println("redraw viewercell horizontal from " + x + " to "
+		// + (x + width));
+		// System.out.println("redraw viewercell vertical from " + y + " to "
+		// + (y + rect.height));
 
 		// 1 is a fix for Linux-GTK
 		redrawCell.getControl().redraw(x, rect.y - 1, width, rect.height + 1,

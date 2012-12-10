@@ -74,9 +74,6 @@ public abstract class BaseExpressionEngine extends BasePeriodEngine {
 			}
 		} catch (final Throwable t) {
 
-			// TODO, Perhaps hide this stack trace....
-			t.printStackTrace(System.err);
-			
 			// TODO, We need some smarter interpretation of the throwables, 
 			// to give instant feedback on the expression failures. 
 

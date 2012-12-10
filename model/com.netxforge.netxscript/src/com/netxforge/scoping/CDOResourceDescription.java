@@ -46,6 +46,7 @@ import org.eclipse.xtext.util.IAcceptor;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -86,9 +87,12 @@ public class CDOResourceDescription extends AbstractResourceDescription {
 	@Override
 	protected List<IEObjectDescription> computeExportedObjects() {
 
-		System.out.println("NETXSCRIPT: Computing exported objects: "
-				+ getNormalizedURI(getResource()).toString());
-
+		if (RuntimeActivator.DEBUG) {
+			RuntimeActivator.TRACE.trace(
+					RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+					"Computing exported objects: "
+							+ getNormalizedURI(getResource()).toString());
+		}
 		if (!getResource().isLoaded()) {
 			try {
 				getResource().load(null);

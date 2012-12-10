@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.scoping;
 
 import java.util.Collection;
@@ -39,9 +39,8 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.CDODataProvider;
 
-
 /**
- * An implementation which can deal with CDO Packages.  
+ * An implementation which can deal with CDO Packages.
  * 
  * @author Christophe
  */
@@ -57,7 +56,7 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 
 	@Inject
 	private ModelUtils modelUtils;
-	
+
 	private DynamixCache<URI, IResourceDescription> resourceDescriptionCache;
 
 	public void initialize(Collection<URI> scopedURIs, final CDOView view) {
@@ -73,13 +72,8 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 									"Data Service should be initialized");
 
 							Resource resource = null;
-							
+
 							try {
-								// System.out.println("--Run Scope builder Reading resource: "
-								// +
-								// uri.toString());
-								// Setup a session, as we likely don't have one
-								// here.
 								IDataProvider provider = getDataProvider();
 								if (provider instanceof CDODataProvider) {
 
@@ -93,14 +87,8 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 
 									// This should attach our listener to the
 									// resources.
-//									System.out.println("NETXSCRIPT: getting resource " + uri.toString()  + " @ " + modelUtils.currentTimeAndSeconds());		
 									resource = ((CDODataProvider) provider)
 											.getResource(view, lookup);
-//									System.out.println("NETXSCRIPT: done getting resource " + uri.toString()  + " @ " + modelUtils.currentTimeAndSeconds());
-									
-									// System.out.println("--Done Scope builder Reading resource: "
-									// +
-									// uri.toString());
 									IResourceDescription description = getDescription(
 											uri, resource);
 									return description;
@@ -151,8 +139,9 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 		assert resourceDescriptionCache != null : "--- NETXSCRIPT: cache not initialized";
 
 		if (RuntimeActivator.DEBUG) {
-			System.out.println("--- NETXSCRIPT: Get description for URI: "
-					+ uri.toString());
+			RuntimeActivator.TRACE.trace(
+					RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+					"Get description for URI: " + uri.toString());
 		}
 		return resourceDescriptionCache.get(uri);
 	}
@@ -172,17 +161,25 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 						+ IResourceDescription.Manager.class.getName()
 						+ " provided by service provider for URI " + uri);
 
-			System.out
-					.println("--- NETXSCRIPT: Building Description for resource: "
-							+ resource.getURI().toString() + " @ " + modelUtils.currentTimeAndSeconds());
-			
-			IResourceDescription resourceDescription = resourceDescriptionManager.getResourceDescription(resource);
+			if (RuntimeActivator.DEBUG) {
+				RuntimeActivator.TRACE.trace(
+						RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+						" Building Description for resource: "
+								+ resource.getURI().toString() + " @ "
+								+ modelUtils.currentTimeAndSeconds());
+			}
 
-			System.out
-			.println("--- NETXSCRIPT: Done Building Description for resource: "
-					+ resource.getURI().toString() + " @ " + modelUtils.currentTimeAndSeconds());
+			IResourceDescription resourceDescription = resourceDescriptionManager
+					.getResourceDescription(resource);
 
-			
+			if (RuntimeActivator.DEBUG) {
+				RuntimeActivator.TRACE.trace(
+						RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+						"Done Building Description for resource: "
+								+ resource.getURI().toString() + " @ "
+								+ modelUtils.currentTimeAndSeconds());
+			}
+
 			return resourceDescription;
 		}
 		return null;
