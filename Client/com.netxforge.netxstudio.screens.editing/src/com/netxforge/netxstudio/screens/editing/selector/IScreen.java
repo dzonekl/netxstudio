@@ -71,6 +71,14 @@ public interface IScreen extends IViewerProvider, ISelectionProvider, IPersistab
 	 */
 	public abstract String getScreenName();
 	
+	
+	/**
+	 * set the name of the screen. 
+	 * @param screenName
+	 */
+	public abstract void setScreenName(String screenName);
+	
+	
 	/**
 	 * update the screen with a show in context.
 	 * @return 
@@ -139,6 +147,25 @@ public interface IScreen extends IViewerProvider, ISelectionProvider, IPersistab
 	 * @return
 	 */
 	public Viewer[] getViewers();
+	
+	
+	/**
+	 * Ask the screen, if it wants to handle the refreshing.
+	 * Refreshing, could be needed, as data is remotely updated. 
+	 * This can be done by refreshing the viewers from the screen, 
+	 * or delegating it to the IScreen itself.  
+	 * 
+	 * @return
+	 */
+	public abstract boolean shouldHandleRefresh();
+	
+	
+	/**
+	 * Will be called, if {@link #shouldHandleRefresh()} returns true. 
+	 * 
+	 * @param objects the objects which could be needing a refresh. 
+	 */
+	public abstract void handleReshresh(Object... objects);
 	
 	
 	/**

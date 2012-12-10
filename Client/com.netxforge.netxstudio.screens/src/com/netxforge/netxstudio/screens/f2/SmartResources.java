@@ -40,6 +40,8 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
@@ -90,6 +92,8 @@ import org.eclipse.swt.events.DragDetectEvent;
 import org.eclipse.swt.events.DragDetectListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
@@ -145,6 +149,7 @@ import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
@@ -175,6 +180,9 @@ import com.netxforge.netxstudio.screens.f3.NetworkViewerComparator;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
+import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.Service;
+import com.netxforge.netxstudio.services.ServiceMonitor;
 
 /**
  * 
@@ -189,7 +197,10 @@ public class SmartResources extends AbstractScreen implements
 	 */
 	private static final String MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_VERTICAL = "MEM_KEY_NODERESOURCESADVANCED_SEPARATOR_VERTICAL";
 
+
 	private static final String MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA = "MEM_KEY_NODERESOURCESADVANCED_SEPARATOR_DATA";
+
+	private static final String MEM_KEY_NODERESOURCEADVANCED_SELECTION_OPERATOR = "MEM_KEY_NODERESOURCEADVANCED_SELECTION_OPERATOR";
 
 	private static final String MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK = "MEM_KEY_NODERESOURCESADVANCED_SELECTION_NETWORK";
 
@@ -279,13 +290,17 @@ public class SmartResources extends AbstractScreen implements
 	private ExpressionAggregate expressionAggregate;
 	private ContextAggregate contextAggregate;
 
-	private IViewerObservableValue observeSingleComponentSelection;
-	private IViewerObservableValue observeResourceSingleSelection;
 	private WritableValue periodBeginWritableValue;
 	private WritableValue periodEndWritableValue;
 	private Composite cmpExpression;
 	private Composite cmpSubSelector;
+
+	// Selection observables.
 	private IViewerObservableValue observeNodeSelection;
+	private IViewerObservableValue observeOperatorOrServiceSelection;
+	private IViewerObservableValue observeSingleComponentSelection;
+	private IViewerObservableValue observeResourceSingleSelection;
+
 	private Tree componentsTree;
 	private SashForm sashVertical;
 	private SashForm sashData;
@@ -300,7 +315,6 @@ public class SmartResources extends AbstractScreen implements
 	 */
 	private final UpdateDisconnectedResources componentsChangeListener = UpdateDisconnectedResources
 			.getInstance();
-
 	private Composite cmpComponentSelector;
 
 	/**
@@ -459,9 +473,63 @@ public class SmartResources extends AbstractScreen implements
 		scnResources.setClient(cmpResources.getResourcesComposite());
 	}
 
+	private Label buildViewerLabels(Composite parent) {
+
+		Composite labels = toolkit.createComposite(parent, SWT.NONE);
+		labels.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+
+		GridLayout layout = new GridLayout();
+
+		layout.numColumns = 2;
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		layout.verticalSpacing = 0;
+		labels.setLayout(layout);
+
+		Label listLabel = toolkit.createLabel(labels, "", SWT.NONE);
+
+		listLabel.addTraverseListener(new TraverseListener() {
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
+					e.detail = SWT.TRAVERSE_NONE;
+					resourcesTableViewer.getTable().setFocus();
+				}
+			}
+		});
+
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
+		listLabel.setLayoutData(gd);
+
+		Label progressLabel = toolkit.createLabel(labels, "", SWT.RIGHT);
+		progressLabel.setLayoutData(gd);
+
+		labels.setLayoutData(gd);
+		return listLabel;
+
+	}
+
 	private void buildResourceViewer(SashForm sashComponentResources) {
-		resourcesTableViewer = new TableViewer(sashComponentResources,
-				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+
+		Composite content = toolkit.createComposite(sashComponentResources,
+				SWT.NONE);
+		toolkit.paintBordersFor(content);
+
+		// GridData gd = new GridData(GridData.FILL_BOTH);
+		// content.setLayoutData(gd);
+
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 1;
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		// layout.verticalSpacing = 0;
+		content.setLayout(layout);
+
+		this.buildViewerLabels(content);
+
+		resourcesTableViewer = new TableViewer(content, SWT.BORDER
+				| SWT.FULL_SELECTION | SWT.MULTI);
+		resourcesTableViewer.getTable().setLayoutData(
+				new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		resourcesTable = resourcesTableViewer.getTable();
 		// Bug having virtual with hashlookup etc...
 		// resourcesTableViewer.setUseHashlookup(true);
@@ -474,11 +542,27 @@ public class SmartResources extends AbstractScreen implements
 		buildResourcesColumns();
 	}
 
-	private void buildComponentViewer(SashForm parent,
+	private void buildComponentViewer(SashForm sashComponent,
 			GridData gd_componentsTreeViewer) {
+
+		Composite content = toolkit.createComposite(sashComponent, SWT.NONE);
+		toolkit.paintBordersFor(content);
+		if (gd_componentsTreeViewer != null) {
+			content.setLayoutData(gd_componentsTreeViewer);
+		}
+
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 1;
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		// layout.verticalSpacing = 0;
+		content.setLayout(layout);
+
+		this.buildViewerLabels(content);
+
 		// COMPONENTS TREEVIEWER.
 
-		componentsTreeViewer = new OpenTreeViewer(parent, SWT.BORDER
+		componentsTreeViewer = new OpenTreeViewer(content, SWT.BORDER
 				| SWT.MULTI | widgetStyle);
 		componentsTreeViewer.setUseHashlookup(true);
 		componentsTreeViewer.setComparer(new CDOElementComparer());
@@ -488,10 +572,8 @@ public class SmartResources extends AbstractScreen implements
 		componentsTree = componentsTreeViewer.getTree();
 		componentsTree.setHeaderVisible(true);
 		componentsTree.setLinesVisible(true);
-
-		if (gd_componentsTreeViewer != null) {
-			componentsTree.setLayoutData(gd_componentsTreeViewer);
-		}
+		componentsTree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				true, 1, 1));
 
 		toolkit.paintBordersFor(componentsTree);
 
@@ -591,8 +673,8 @@ public class SmartResources extends AbstractScreen implements
 
 		// OPERATOR SELCTOR
 
-		lblOperator = toolkit.createLabel(cmpComponentSelector, "Operator:",
-				SWT.NONE);
+		lblOperator = toolkit.createLabel(cmpComponentSelector,
+				"Operator/Service:", SWT.NONE);
 		lblOperator.setAlignment(SWT.RIGHT);
 		GridData gd_lblOperator = new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1);
@@ -680,14 +762,15 @@ public class SmartResources extends AbstractScreen implements
 				if (selection instanceof IStructuredSelection) {
 				}
 			}
-			
+
 			/**
-			 * Uses the information from the context Aggregate to run an expression in the standard expression.
-			 * Deals with different types of expressions. 
+			 * Uses the information from the context Aggregate to run an
+			 * expression in the standard expression. Deals with different types
+			 * of expressions.
 			 * <ul>
-			 * 		<li>Tolerance Expressions</li>
-			 * 		<li>Retention Expressions</li>
-			 * </ul> 
+			 * <li>Tolerance Expressions</li>
+			 * <li>Retention Expressions</li>
+			 * </ul>
 			 */
 			private void testExpression() {
 
@@ -731,8 +814,8 @@ public class SmartResources extends AbstractScreen implements
 					ResourceMonitor resourceMonitor = null;
 					if (currentExpressionType == ContextAggregate.TOL_EXPRESSION_CONTEXT
 							&& expressionAggregate.getCurrentSubSelection() instanceof Tolerance) {
-						resultProcessor
-								.setTolerance((Tolerance) expressionAggregate
+						resultProcessor.getToleranceProcessor().setTolerance(
+								(Tolerance) expressionAggregate
 										.getCurrentSubSelection());
 
 						// RESOURCE MONITOR
@@ -744,8 +827,9 @@ public class SmartResources extends AbstractScreen implements
 								.getCurrentNetXResource());
 						// CB 22-02, we don't need a copy, we are not contained.
 						resourceMonitor.setPeriod(period);
-						resultProcessor.setResourceMonitor(resourceMonitor);
-						
+						resultProcessor.getToleranceProcessor()
+								.setResourceMonitor(resourceMonitor);
+
 					}
 
 					expressionEngine.setExpression(expression);
@@ -756,8 +840,7 @@ public class SmartResources extends AbstractScreen implements
 						throw new IllegalStateException(expressionEngine
 								.getThrowable());
 					}
-					
-					
+
 					final List<BaseExpressionResult> result = expressionEngine
 							.getExpressionResult();
 
@@ -776,8 +859,8 @@ public class SmartResources extends AbstractScreen implements
 					if (currentExpressionType == ContextAggregate.RETENTION_EXPRESSION_CONTEXT) {
 						cmpValues.injectData(contextAggregate
 								.getCurrentNetXResource());
-					}else{
-						cmpValues.applyDateFilter(cmpPeriod.getPeriod(), true);						
+					} else {
+						cmpValues.applyDateFilter(cmpPeriod.getPeriod(), true);
 					}
 					// update our view part dirty state, as we don't use the
 					// editing domain.
@@ -867,8 +950,7 @@ public class SmartResources extends AbstractScreen implements
 			WritableList contextWritableList = contextAggregate
 					.getContextWritableList();
 			ExpressionContextDialog expressionContextDialog = new ExpressionContextDialog(
-					SmartResources.this.getShell(), editingService,
-					modelUtils);
+					SmartResources.this.getShell(), editingService, modelUtils);
 			expressionContextDialog.setBlockOnOpen(false);
 			expressionContextDialog.open();
 			expressionContextDialog.injectData(contextWritableList);
@@ -885,15 +967,15 @@ public class SmartResources extends AbstractScreen implements
 	public void buildResourcesColumns() {
 
 		String[] properties = new String[] { "Component", "Long Name",
-				"Metric", "Expression Name", "Unit", "Cap. Expression" };
+				"Metric", "Expression Name", "Unit", "Markers" };
 
 		String[] toolTips = new String[] { "Component holding resource",
 				"The long name of the resource",
 				"Metric used to create the resource",
 				"The expression Name of the resource",
-				"The unit of the resource", "Capacity Expression" };
+				"The unit of the resource", "Monitored" };
 
-		int[] columnWidths = new int[] { 100, 200, 120, 120, 104, 68, 100 };
+		int[] columnWidths = new int[] { 100, 200, 120, 120, 40, 68 };
 
 		// Enable editing support.
 		EditingSupport[] editingSupport = new EditingSupport[] { null, null,
@@ -957,15 +1039,15 @@ public class SmartResources extends AbstractScreen implements
 					new TableHelper.ComparableComparator<String>());
 		}
 
-		// {
-		// int column = 5;
-		// @SuppressWarnings("unused")
-		// TableViewerColumn tbvcFor = tableHelper.new TBVC<String>(
-		// netXResourceObervableMapLabelProvider).tbvcFor(
-		// resourcesTableViewer, properties[column], toolTips[column],
-		// columnWidths[column], editingSupport[column],
-		// new TableHelper.ComparableComparator<String>());
-		// }
+		{
+			int column = 5;
+			@SuppressWarnings("unused")
+			TableViewerColumn tbvcFor = tableHelper.new TBVC<String>(
+					netXResourceObervableMapLabelProvider).tbvcFor(
+					resourcesTableViewer, properties[column], toolTips[column],
+					columnWidths[column], editingSupport[column],
+					new TableHelper.ComparableComparator<String>());
+		}
 
 	}
 
@@ -1061,8 +1143,8 @@ public class SmartResources extends AbstractScreen implements
 								Resource toleranceResource = editingService
 										.getData(LibraryPackage.Literals.TOLERANCE);
 								ToleranceFilterDialog dialog = new ToleranceFilterDialog(
-										SmartResources.this
-												.getShell(), toleranceResource);
+										SmartResources.this.getShell(),
+										toleranceResource);
 								if (dialog.open() == IDialogConstants.OK_ID) {
 									Tolerance tolerance = (Tolerance) dialog
 											.getFirstResult();
@@ -1317,11 +1399,17 @@ public class SmartResources extends AbstractScreen implements
 				.createDateTimeRange();
 
 		private Node currentNode = null;
+		private Service currentService = null;
 		private Component currentComponent = null;
 		private NetXResource currentNetXResource = null;
 		private EReference currentExpressionFeature = null;
-		private WritableList contextWritableList = new WritableList();
 		private Expression currentExpression;
+
+		private int currentExpressionType = NOTSET_EXPRESSION_CONTEXT;
+
+		private WritableList contextWritableList = new WritableList();
+
+		private Map<NetXResource, List<Marker>> markersForNode;
 
 		// Our model doesn't differential the expression types, but we need this
 		// for testing , so define them here.
@@ -1331,16 +1419,16 @@ public class SmartResources extends AbstractScreen implements
 		static final int TOL_EXPRESSION_CONTEXT = 3;
 		static final int RETENTION_EXPRESSION_CONTEXT = 4;
 
-		private int currentExpressionType = NOTSET_EXPRESSION_CONTEXT;
-
 		public void handleValueChange(ValueChangeEvent event) {
 			IObservable observable = event.getObservable();
 			if (observable instanceof IViewerObservableValue) {
 				IViewerObservableValue ivov = (IViewerObservableValue) observable;
-				if (ivov.getViewer() == cmbViewerNode) {
+				if (ivov.getViewer() == cmbViewerOperator) {
+					currentService = processServiceChange(event
+							.getObservableValue());
+				} else if (ivov.getViewer() == cmbViewerNode) {
 					currentNode = processNodeChange(event.getObservableValue());
-				}
-				if (ivov.getViewer() == componentsTreeViewer) {
+				} else if (ivov.getViewer() == componentsTreeViewer) {
 					currentComponent = processComponentChange(event
 							.getObservableValue());
 				} else if (ivov.getViewer() == resourcesTableViewer) {
@@ -1361,6 +1449,25 @@ public class SmartResources extends AbstractScreen implements
 			}
 
 			handleChange();
+
+		}
+
+		@SuppressWarnings("unused")
+		public Service getCurrentService() {
+			return currentService;
+		}
+
+		@SuppressWarnings("unused")
+		public Map<NetXResource, List<Marker>> getMarkersForNode() {
+			return markersForNode;
+		}
+
+		public List<Marker> getMarkersForResource(NetXResource resource) {
+			if (markersForNode != null && markersForNode.containsKey(resource)) {
+				return markersForNode.get(resource);
+			} else {
+				return null;
+			}
 
 		}
 
@@ -1474,6 +1581,15 @@ public class SmartResources extends AbstractScreen implements
 									.getName() : "?"));
 		}
 
+		private Service processServiceChange(IObservableValue ob) {
+			Service s = null;
+			Object value = ob.getValue();
+			if (value instanceof Service) {
+				s = (Service) value;
+			}
+			return s;
+		}
+
 		private Node processNodeChange(IObservableValue ob) {
 			Node n = null;
 			Object value = ob.getValue();
@@ -1481,6 +1597,21 @@ public class SmartResources extends AbstractScreen implements
 				n = (Node) value;
 				currentComponent = null;
 				currentNetXResource = null;
+
+				// get the markers for this nodes.
+				if (currentService != null) {
+
+					// Could take a while, see UI impact.
+					ServiceMonitor lastServiceMonitor = modelUtils
+							.lastServiceMonitor(currentService);
+					if (lastServiceMonitor != null) {
+						markersForNode = modelUtils
+								.toleranceMarkerMapPerResourceForServiceMonitorAndNodeAndPeriod(
+										lastServiceMonitor, n,
+										this.getPeriod(), null);
+					}
+				}
+
 			}
 			return n;
 		}
@@ -1753,6 +1884,8 @@ public class SmartResources extends AbstractScreen implements
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
+		contextAggregate = new ContextAggregate();
+
 		bindComponentSelector(bindingContext);
 
 		bindExpressionSelector(bindingContext);
@@ -1768,16 +1901,50 @@ public class SmartResources extends AbstractScreen implements
 		cmbViewerOperator.setContentProvider(listContentProvider);
 		cmbViewerOperator.setLabelProvider(new AdapterFactoryLabelProvider(
 				editingService.getAdapterFactory()));
-		IEMFListProperty operatorResourceProperties = EMFProperties.resource();
-		cmbViewerOperator.setInput(operatorResourceProperties
-				.observe(operatorResource));
+
+		// IEMFListProperty operatorResourceProperties =
+		// EMFProperties.resource();
+
+		IObservableList sourceList = new ComputedList() {
+			@Override
+			protected List<Object> calculate() {
+
+				List<Object> result = Lists.newArrayList();
+				if (operatorResource != null) {
+
+					for (EObject o : operatorResource.getContents()) {
+						if (o instanceof Operator) {
+							result.add(o);
+							EList<Service> services = ((Operator) o)
+									.getServices();
+							for (Service s : services) {
+								result.add(s);
+								TreeIterator<EObject> allServices = s
+										.eAllContents();
+								while (allServices.hasNext()) {
+									EObject next = allServices.next();
+									if (next instanceof Service) {
+										result.add(next);
+									}
+								}
+							}
+						}
+					}
+				}
+				return result;
+			}
+		};
+
+		cmbViewerOperator.setInput(sourceList);
+
 		if (cmbViewerOperator.getCombo().getItemCount() > 0) {
 			cmbViewerOperator.getCombo().select(0);
 		}
 
-		final IViewerObservableValue observeOperatorSelection = ViewersObservables
+		observeOperatorOrServiceSelection = ViewersObservables
 				.observeSingleSelection(cmbViewerOperator);
-		IObservableList operatorsList = new ComputedList() {
+
+		IObservableList networksList = new ComputedList() {
 			@Override
 			protected List<Object> calculate() {
 				// When triggered for a new calculation, we have to clear the
@@ -1788,12 +1955,16 @@ public class SmartResources extends AbstractScreen implements
 				cmbViewerNode.setSelection(null);
 				componentsTreeViewer.setSelection(null);
 				List<Object> result = Lists.newArrayList();
-				Object value = observeOperatorSelection.getValue();
+				Object value = observeOperatorOrServiceSelection.getValue();
 				if (value instanceof Operator) {
 					// closure of all Network objects.
 					result.addAll(modelUtils
 							.networksForOperator((Operator) value));
+				} else if (value instanceof Service) {
+					// In this case, we do not need the networks, the Nodes,
+					// are retrieved from the nodes themselves.
 				}
+
 				cmbNetwork.setEnabled(!result.isEmpty());
 				return result;
 			}
@@ -1804,7 +1975,7 @@ public class SmartResources extends AbstractScreen implements
 
 		cmbViewerNetwork.setLabelProvider(new AdapterFactoryLabelProvider(
 				editingService.getAdapterFactory()));
-		cmbViewerNetwork.setInput(operatorsList);
+		cmbViewerNetwork.setInput(networksList);
 
 		if (cmbViewerNetwork.getCombo().getItemCount() > 0) {
 			cmbViewerNetwork.getCombo().select(0);
@@ -1821,11 +1992,23 @@ public class SmartResources extends AbstractScreen implements
 				cmbViewerNode.setSelection(null);
 				// componentsTreeViewer.setSelection(null);
 				List<Object> result = Lists.newArrayList();
-				Object value = observeNetworkSelection.getValue();
-				if (value instanceof Network) {
-					// closure of all Network objects.
-					result.addAll(modelUtils.nodesForNetwork((Network) value));
+
+				{ // Any network selected?
+					Object value = observeNetworkSelection.getValue();
+					if (value instanceof Network) {
+						// closure of all Network objects.
+						result.addAll(modelUtils
+								.nodesForNetwork((Network) value));
+					}
 				}
+				{ // Any RFS Service selected.
+					Object value = observeOperatorOrServiceSelection.getValue();
+					if (value instanceof RFSService) {
+						// closure of all Network objects.
+						result.addAll(((RFSService) value).getNodes());
+					}
+				}
+
 				cmbNode.setEnabled(!result.isEmpty());
 				return result;
 			}
@@ -1984,8 +2167,9 @@ public class SmartResources extends AbstractScreen implements
 			IObservableMap[] map = new IObservableMap[observeMaps.size()];
 			observeMaps.toArray(map);
 			netXResourceObervableMapLabelProvider = new NetXResourceObervableMapLabelProvider(
-					map);
+					map, contextAggregate);
 		}
+
 		resourcesTableViewer
 				.setLabelProvider(netXResourceObervableMapLabelProvider);
 
@@ -2001,9 +2185,16 @@ public class SmartResources extends AbstractScreen implements
 					WritableValue v = (WritableValue) event.getSource();
 					Object value = v.getValue();
 					if (value instanceof NetXResource) {
+						List<Marker> markersForResource = contextAggregate
+								.getMarkersForResource((NetXResource) value);
+
 						cmpValues.applyDateFilter(cmpPeriod.getPeriod(), false);
 						cmpValues.injectData((BaseResource) value);
-						
+						if (markersForResource != null
+								&& !markersForResource.isEmpty()) {
+							cmpValues.applyMarkers(markersForResource);
+						}
+
 					} else {
 						cmpValues.clearData();
 					}
@@ -2013,7 +2204,8 @@ public class SmartResources extends AbstractScreen implements
 
 		bindingContext.bindValue(observeResourceSingleSelection,
 				valueWritableObservable);
-
+		// bindingContext.bindValue(observeSingleComponentSelection,
+		// valueWritableObservable);
 	}
 
 	private void bindExpressionSelector(EMFDataBindingContext bindingContext) {
@@ -2078,8 +2270,6 @@ public class SmartResources extends AbstractScreen implements
 
 		// CONTEXT BINDING.
 
-		contextAggregate = new ContextAggregate();
-
 		periodBeginWritableValue = new WritableValue();
 		periodEndWritableValue = new WritableValue();
 
@@ -2111,9 +2301,13 @@ public class SmartResources extends AbstractScreen implements
 		periodBeginWritableValue.setValue(cmpPeriod.getPeriod().getBegin());
 		periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
 
+		// A Context for selections in the screen.
 		observerExpressionFeature.addValueChangeListener(contextAggregate);
 
 		observeNodeSelection.addValueChangeListener(contextAggregate);
+		observeOperatorOrServiceSelection
+				.addValueChangeListener(contextAggregate);
+
 		observeSingleComponentSelection
 				.addValueChangeListener(contextAggregate);
 		observeResourceSingleSelection.addValueChangeListener(contextAggregate);
@@ -2246,11 +2440,23 @@ public class SmartResources extends AbstractScreen implements
 		}
 	}
 
+	/**
+	 * Label provider for {@link NetXResource} object. Additionally enriched
+	 * with the current context aggregate.
+	 * 
+	 * @author Christophe Bouhier
+	 * 
+	 */
 	class NetXResourceObervableMapLabelProvider extends CellLabelProvider
 			implements ITableLabelProvider {
 
+		// Used for enriched labels, showing if a resource is currently
+		// monitored.
+		private ContextAggregate aggregate;
+
 		public NetXResourceObervableMapLabelProvider(
-				IObservableMap[] attributeMaps) {
+				IObservableMap[] attributeMaps, ContextAggregate aggregate) {
+			this.aggregate = aggregate;
 		}
 
 		@Override
@@ -2355,14 +2561,17 @@ public class SmartResources extends AbstractScreen implements
 						result = resource.getUnitRef().getCode();
 					}
 					break;
-				// case 5:
-				// if (c != null
-				// &&
-				// c.eIsSet(LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF))
-				// {
-				// return c.getCapacityExpressionRef().getName();
-				// }
-				// break;
+				case 5:
+					if (aggregate != null) {
+						List<Marker> markersForResource = aggregate
+								.getMarkersForResource(resource);
+						if (markersForResource != null
+								&& !markersForResource.isEmpty()) {
+							result = new Integer(markersForResource.size())
+									.toString();
+						}
+					}
+					break;
 				}
 			}
 			return result;
@@ -2445,16 +2654,22 @@ public class SmartResources extends AbstractScreen implements
 
 		return null;
 	}
+	
+		
+	/* We handle refresh */
+	@Override
+	public boolean shouldHandleRefresh() {
+		return true;
+	}
 
-	// private List<Resource> updateDisconnectedCDOResources() {
-	//
-	// ArrayList<Object> resourcesList = Lists.newArrayList();
-	// List<Resource> nodeResources = editingService.getData("Node_");
-	// if (nodeResources != null) {
-	// resourcesList.addAll(nodeResources);
-	// }
-	// return nodeResources;
-	// }
+	@Override
+	public void handleReshresh(Object... objects) {
+		// 1. Analyse the objects. 
+		// 2. determine which screen is affected by these objects. 
+		// 3. 
+		cmpValues.smartRefresh();
+	}
+
 
 	public void disposeData() {
 	}
@@ -2522,8 +2737,9 @@ public class SmartResources extends AbstractScreen implements
 		chartInput.setInterval(ModelUtils.MINUTES_IN_AN_HOUR);
 
 		// If we have a resource monitor, we can pass this as well.
-		if (resultProcessor.getResourceMonitor() != null) {
-			chartInput.setResourceMonitor(resultProcessor.getResourceMonitor());
+		if (resultProcessor.getToleranceProcessor().getResourceMonitor() != null) {
+			chartInput.setResourceMonitor(resultProcessor
+					.getToleranceProcessor().getResourceMonitor());
 		}
 
 		// Note the selection for Values, override for the Value selection by
@@ -2608,6 +2824,11 @@ public class SmartResources extends AbstractScreen implements
 		mementoUtils.rememberSashForm(memento, sashData,
 				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
 
+		// combo operator.
+		mementoUtils.rememberStructuredViewerSelection(memento,
+				cmbViewerOperator,
+				MEM_KEY_NODERESOURCEADVANCED_SELECTION_OPERATOR);
+
 		// combo network.
 		mementoUtils.rememberStructuredViewerSelection(memento,
 				cmbViewerNetwork,
@@ -2653,19 +2874,27 @@ public class SmartResources extends AbstractScreen implements
 					MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
 
 			mementoUtils.retrieveStructuredViewerSelection(memento,
+					cmbViewerOperator,
+					MEM_KEY_NODERESOURCEADVANCED_SELECTION_OPERATOR,
+					this.operatorResource.cdoView());
+
+			mementoUtils.retrieveStructuredViewerSelection(memento,
 					cmbViewerNetwork,
 					MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK,
 					this.operatorResource.cdoView());
+
 			mementoUtils.retrieveStructuredViewerSelection(memento,
 					cmbViewerNode, MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE,
 					this.operatorResource.cdoView());
+
 			mementoUtils.retrieveStructuredViewerSelection(memento,
 					componentsTreeViewer,
 					MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT,
 					this.operatorResource.cdoView());
-		
-			// Set the period prior to the Resource selection, as this will trigger the loading 
-			// of values. 
+
+			// Set the period prior to the Resource selection, as this will
+			// trigger the loading
+			// of values.
 			mementoUtils.retrieveCDateTime(memento,
 					cmpPeriod.getDateTimeFrom(),
 					MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM);
@@ -2675,24 +2904,21 @@ public class SmartResources extends AbstractScreen implements
 			// update the binding, as this won't work by setting the UI widget
 			// selection.
 			cmpPeriod.updatePeriod();
-			
+
 			periodBeginWritableValue.setValue(cmpPeriod.getPeriod().getBegin());
 			periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
-			
+
 			mementoUtils.retrieveStructuredViewerSelection(memento,
 					resourcesTableViewer,
 					MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
 					this.operatorResource.cdoView());
 
-			
-			
-//		
+			//
 
-			// 
-//			componentsTreeViewer.refresh();
-//			cmpResources.getViewer().refresh();
-			
-			
+			//
+			// componentsTreeViewer.refresh();
+			// cmpResources.getViewer().refresh();
+
 		}
 	}
 

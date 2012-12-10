@@ -54,12 +54,18 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.ISaveablePart2;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.part.ViewPart;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.common.util.MementoUtil;
@@ -68,6 +74,7 @@ import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.ObjectEditingActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
@@ -111,6 +118,45 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 * @return
 	 */
 	public abstract IScreenFormService getScreenService();
+
+	/**
+	 * Returns all visible IScreen from the workbench.
+	 */
+	public IScreen[] getScreens() {
+		return doGetScreens(); // Delegate to static.
+	}
+
+	/**
+	 * @return
+	 */
+	private static IScreen[] doGetScreens() {
+		IWorkbenchWindow[] workbenchWindows = PlatformUI.getWorkbench()
+				.getWorkbenchWindows();
+
+		final ArrayList<IScreen> screens = Lists.newArrayList();
+
+		for (IWorkbenchWindow wbw : workbenchWindows) {
+			for (IWorkbenchPage iWorkbenchPage : wbw.getPages()) {
+				for (IViewReference iViewReference : iWorkbenchPage
+						.getViewReferences()) {
+					IViewPart viewPart = iViewReference.getView(false);
+					if (viewPart instanceof AbstractScreenSelector) {
+						AbstractScreenSelector selector = (AbstractScreenSelector) viewPart;
+						IScreen screen = selector.getScreen();
+						if (screen != null) {
+							screens.add(screen);
+						}
+					} else {
+						// it could also be the viewPart itself is an IScreen.
+						if (viewPart instanceof IScreen) {
+							screens.add((IScreen) viewPart);
+						}
+					}
+				}
+			}
+		}
+		return screens.toArray(new IScreen[screens.size()]);
+	}
 
 	public AbstractScreensViewPart() {
 		createActions();
@@ -175,7 +221,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	@Override
 	public void setFocus() {
-		if(this.getScreen() != null){
+		if (this.getScreen() != null) {
 			this.getScreen().setScreenFocus();
 		}
 	}
@@ -203,10 +249,10 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 					.createWriteRoot(MementoUtil.MEM_KEY_SCREEN_PART);
 			this.memento = newMemento;
 		} else {
-			// We could have a IWorkbenchConstants.TAG_VIEW_STATE which is set, 
-			// but no child if the view part didn't close properly.  
+			// We could have a IWorkbenchConstants.TAG_VIEW_STATE which is set,
+			// but no child if the view part didn't close properly.
 			this.memento = memento.getChild(MementoUtil.MEM_KEY_SCREEN_PART);
-			if( this.memento == null){
+			if (this.memento == null) {
 				XMLMemento newMemento = XMLMemento
 						.createWriteRoot(MementoUtil.MEM_KEY_SCREEN_PART);
 				this.memento = newMemento;
@@ -258,10 +304,11 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			if (screenService != null) {
 				screenService.saveScreenState(this.getScreen());
 			}
+
 			mementoUtil.rememberString(this.getMemento(), this.getScreen()
 					.getScreenName(), MementoUtil.MEM_KEY_CURRENT_SCREEN);
 		}
-		
+
 		// Write a pre-created child memento to the ViewState memento, for
 		// the next time we meet.
 		if (memento.getChild(MementoUtil.MEM_KEY_SCREEN_PART) == null) {
@@ -419,8 +466,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			// Note this also fires when flushing the command stack, as
 			// this is executed async, the widget is disposed so bail if there
 			// is no recent command
-			System.err.println("AbstractScreensViewPart last command ="
-					+ event.getSource());
 			if (event.getSource() instanceof BasicCommandStack) {
 				BasicCommandStack stack = (BasicCommandStack) event.getSource();
 				if (stack.getMostRecentCommand() == null) {

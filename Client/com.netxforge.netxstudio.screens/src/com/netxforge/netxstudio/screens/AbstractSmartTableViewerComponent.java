@@ -66,7 +66,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPreferenceConstants;
@@ -84,7 +83,7 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  * history and Items filtering.
  * 
  */
-public abstract class AbstractCachedViewerComponent {
+public abstract class AbstractSmartTableViewerComponent {
 
 	final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
@@ -143,6 +142,8 @@ public abstract class AbstractCachedViewerComponent {
 
 	private IHandlerActivation showViewHandler;
 
+	private Label listLabel;
+
 	/**
 	 * Creates a new instance of the class.
 	 * 
@@ -152,7 +153,7 @@ public abstract class AbstractCachedViewerComponent {
 	 *            indicates whether dialog allows to select more than one
 	 *            position in its list of items
 	 */
-	public AbstractCachedViewerComponent(Shell shell, boolean multi) {
+	public AbstractSmartTableViewerComponent(Shell shell, boolean multi) {
 		this.multi = multi;
 		filterJob = new FilterJob();
 		contentProvider = new ItemsContentProvider();
@@ -166,7 +167,7 @@ public abstract class AbstractCachedViewerComponent {
 	 * @param shell
 	 *            shell to parent the dialog on
 	 */
-	public AbstractCachedViewerComponent(Shell shell) {
+	public AbstractSmartTableViewerComponent(Shell shell) {
 		this(shell, false);
 	}
 
@@ -179,12 +180,13 @@ public abstract class AbstractCachedViewerComponent {
 	public void addViewerFilter(ViewerFilter filter) {
 		contentProvider.addFilter(filter);
 	}
-	
+
 	/**
-	 * Gets the list of currently installed viewer filters. 
+	 * Gets the list of currently installed viewer filters.
+	 * 
 	 * @return
 	 */
-	public List<ViewerFilter> getViewerFilters(){
+	public List<ViewerFilter> getViewerFilters() {
 		return contentProvider.getFilters();
 	}
 
@@ -301,15 +303,17 @@ public abstract class AbstractCachedViewerComponent {
 	private Label createLabels(Composite parent) {
 
 		Composite labels = toolkit.createComposite(parent, SWT.NONE);
+		labels.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 
 		GridLayout layout = new GridLayout();
+
 		layout.numColumns = 2;
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
+		layout.verticalSpacing = 0;
 		labels.setLayout(layout);
 
-		Label listLabel = toolkit.createLabel(labels, "Matching Items",
-				SWT.NONE);
+		listLabel = toolkit.createLabel(labels, "", SWT.NONE);
 
 		listLabel.addTraverseListener(new TraverseListener() {
 			public void keyTraversed(TraverseEvent e) {
@@ -320,13 +324,12 @@ public abstract class AbstractCachedViewerComponent {
 			}
 		});
 
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
 		listLabel.setLayoutData(gd);
 
 		progressLabel = toolkit.createLabel(labels, "", SWT.RIGHT);
 		progressLabel.setLayoutData(gd);
 
-		labels.setLayoutData(gd);
 		return listLabel;
 	}
 
@@ -381,7 +384,6 @@ public abstract class AbstractCachedViewerComponent {
 	// menu.setVisible(true);
 	// }
 
-	
 	/**
 	 * Creates an extra content area, which will be located above the details.
 	 * 
@@ -406,6 +408,7 @@ public abstract class AbstractCachedViewerComponent {
 		layout.numColumns = 1;
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
+		// layout.verticalSpacing = 0;
 		content.setLayout(layout);
 
 		// CB Decide later. Do not build the header for now.
@@ -531,7 +534,14 @@ public abstract class AbstractCachedViewerComponent {
 		}
 
 	}
-
+	
+	/**
+	 * Control if the last selection should be restored. 
+	 * @param refreshWithLastSelection
+	 */
+	public void setRefreshWithLastSelection(boolean refreshWithLastSelection) {
+		this.refreshWithLastSelection = refreshWithLastSelection;
+	}
 	/**
 	 * Refreshes the dialog - has to be called in UI thread.
 	 */
@@ -541,9 +551,14 @@ public abstract class AbstractCachedViewerComponent {
 			List<?> lastRefreshSelection = ((StructuredSelection) tblViewer
 					.getSelection()).toList();
 			tblViewer.getTable().deselectAll();
-			
+
 			tblViewer.setItemCount(contentProvider.getNumberOfElements());
 			tblViewer.refresh();
+
+			listLabel
+					.setText(contentProvider.getNumberOfElements() > 0 ? "Items: "
+							+ contentProvider.getNumberOfElements()
+							: "");
 
 			if (tblViewer.getTable().getItemCount() > 0) {
 				// preserve previous selection
@@ -553,9 +568,10 @@ public abstract class AbstractCachedViewerComponent {
 							lastRefreshSelection));
 				} else {
 					refreshWithLastSelection = true;
-					tblViewer.getTable().setSelection(0);
-					tblViewer.getTable().notifyListeners(SWT.Selection,
-							new Event());
+					tblViewer.setSelection(StructuredSelection.EMPTY);
+//					tblViewer.getTable().setSelection(0);
+//					tblViewer.getTable().notifyListeners(SWT.Selection,
+//							new Event());
 				}
 			} else {
 				tblViewer.setSelection(StructuredSelection.EMPTY);
@@ -660,16 +676,13 @@ public abstract class AbstractCachedViewerComponent {
 			filterJob.schedule();
 		}
 	}
-	
-	
-	
+
 	/**
 	 * Clear the last completed filter.
 	 */
-	public void clearFilter(){
+	public void clearFilter() {
 		lastCompletedFilter = null;
 	}
-	
 
 	/**
 	 * Returns comparator to sort items inside content provider. Returned object
@@ -778,8 +791,8 @@ public abstract class AbstractCachedViewerComponent {
 				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
 						IStatus.OK, EMPTY_STRING, null);
 
-			if (AbstractCachedViewerComponent.this != null) {
-				AbstractCachedViewerComponent.this.refresh();
+			if (AbstractSmartTableViewerComponent.this != null) {
+				AbstractSmartTableViewerComponent.this.refresh();
 			}
 
 			return new Status(IStatus.OK, PlatformUI.PLUGIN_ID, IStatus.OK,
@@ -814,7 +827,7 @@ public abstract class AbstractCachedViewerComponent {
 		 * .IProgressMonitor)
 		 */
 		public IStatus runInUIThread(IProgressMonitor monitor) {
-			
+
 			if (!progressLabel.isDisposed()) {
 				String p = (progressMonitor != null ? progressMonitor
 						.getMessage() : EMPTY_STRING);
@@ -899,10 +912,10 @@ public abstract class AbstractCachedViewerComponent {
 						IStatus.CANCEL, EMPTY_STRING, null);
 			}
 
-			if (AbstractCachedViewerComponent.this != null) {
+			if (AbstractSmartTableViewerComponent.this != null) {
 				GranualProgressMonitor wrappedMonitor = new GranualProgressMonitor(
 						monitor);
-				AbstractCachedViewerComponent.this.reloadCache(true,
+				AbstractSmartTableViewerComponent.this.reloadCache(true,
 						wrappedMonitor);
 			}
 
@@ -1406,15 +1419,13 @@ public abstract class AbstractCachedViewerComponent {
 						ScreensActivator.TRACE_SCREENS_OPTION,
 						"Filter Job Invoked");
 			}
-			
-			
+
 			// Reset the content
 			contentProvider.reset();
-			
-			// Clear our cache. 
-//			contentProvider.reloadCache();
-			
-			
+
+			// Clear our cache.
+			// contentProvider.reloadCache();
+
 			try {
 				if (monitor.isCanceled())
 					return;
@@ -1636,7 +1647,7 @@ public abstract class AbstractCachedViewerComponent {
 		/**
 		 * List of <code>ViewerFilter</code>s to be used during filtering
 		 */
-		private List<ViewerFilter>filters;
+		private List<ViewerFilter> filters;
 
 		/**
 		 * Result of the last filtering.
@@ -1730,7 +1741,6 @@ public abstract class AbstractCachedViewerComponent {
 			duplicates.remove(item);
 		}
 
-		
 		/**
 		 * Refresh dialog.
 		 */
@@ -1887,7 +1897,7 @@ public abstract class AbstractCachedViewerComponent {
 		 */
 		public void updateElement(int index) {
 
-			AbstractCachedViewerComponent.this.tblViewer.replace(
+			AbstractSmartTableViewerComponent.this.tblViewer.replace(
 					(lastFilteredItems.size() > index) ? lastFilteredItems
 							.get(index) : null, index);
 
@@ -2014,7 +2024,8 @@ public abstract class AbstractCachedViewerComponent {
 
 			// filter the elements using provided ViewerFilters
 			if (filters != null && filteredElements != null) {
-				for (Iterator<ViewerFilter> iter = filters.iterator(); iter.hasNext();) {
+				for (Iterator<ViewerFilter> iter = filters.iterator(); iter
+						.hasNext();) {
 					ViewerFilter f = (ViewerFilter) iter.next();
 					filteredElements = f.filter(tblViewer, parent,
 							filteredElements);
@@ -2027,7 +2038,8 @@ public abstract class AbstractCachedViewerComponent {
 		}
 
 		/**
-		 * Adds a filter to this content provider. 
+		 * Adds a filter to this content provider.
+		 * 
 		 * @param filter
 		 *            the filter to be added
 		 */
@@ -2040,16 +2052,16 @@ public abstract class AbstractCachedViewerComponent {
 			// if it is changed, refreshing the whole TableViewer should be
 			// added
 		}
-		
-		
+
 		/**
 		 * Get all the filters.
+		 * 
 		 * @return
 		 */
-		public List<ViewerFilter> getFilters(){
+		public List<ViewerFilter> getFilters() {
 			return filters;
 		}
-		
+
 	}
 
 	public TableViewer getTableViewer() {

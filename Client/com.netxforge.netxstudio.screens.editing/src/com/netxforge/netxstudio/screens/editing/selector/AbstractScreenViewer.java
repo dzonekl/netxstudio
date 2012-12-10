@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.selector;
 
 import java.util.Arrays;
@@ -28,33 +28,38 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.part.IShowInTarget;
 import org.eclipse.ui.part.ShowInContext;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.screens.common.util.ILinkedWithEditorView;
+import com.netxforge.netxstudio.screens.common.util.LinkWithEditorPartListener;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
 import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHandler;
 
 /**
- * Shows an IScreen standalone. 
+ * Shows an IScreen standalone, supports showInTarget and
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public abstract class AbstractScreenViewer extends AbstractScreensViewPart implements IShowInTarget {
+public abstract class AbstractScreenViewer extends AbstractScreensViewPart
+		implements ILinkedWithEditorView, IShowInTarget {
 
-
+	IPartListener2 linkWithEditorPartListener = new LinkWithEditorPartListener(
+			this);
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.AbstractScreenViewer"; //$NON-NLS-1$
-	
+
 	@Inject
 	private IEditingService editingService;
-	
-//	@Inject
-//	private ModelUtils modelUtils;
+
+	// @Inject
+	// private ModelUtils modelUtils;
 
 	public AbstractScreenViewer() {
-		
+
 	}
 
 	/**
@@ -68,21 +73,14 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 		createActions();
 		initializeToolBar();
 		initializeMenu();
-		
+
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 		initScreen(parent);
-		
-		
-		// Our service.
-//		getEditingService().setViewerProvider(this);
-//		getEditingService().setScreenProvider(this);
-		
-		
-		
+		getSite().getPage().addPartListener(linkWithEditorPartListener);
 	}
 
 	public abstract void initScreen(Composite parent);
-	
+
 	/**
 	 * Create the actions.
 	 */
@@ -129,18 +127,17 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 		super.dispose();
 	}
 
-	
 	@Override
 	public void contributeMenuAboutToShow(IMenuManager menuManager) {
-		
-		// Clear the menu manager. 
+
+		// Clear the menu manager.
 		menuManager.removeAll();
-		
+
 		ActionHandlerDescriptor descriptor = this.getActionHandlerDescriptor();
 		descriptor.setMenuManager(menuManager);
 
 		if (!ScreenUtil.isReadOnlyOperation(getScreen().getOperation())) {
-			
+
 			descriptor.setEnableEditActions(true);
 
 			if (this.getScreen().getViewer() instanceof TreeViewer) {
@@ -153,7 +150,7 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 			descriptor.setEnableChildCreationActions(false);
 			descriptor.setEnableSiblingCreationActions(false);
 		}
-		
+
 		DynamicScreensActionHandler dynamicScreensActionHandler;
 
 		// !!!! actions would be created dynamicly.....
@@ -164,7 +161,7 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 			dynamicScreensActionHandler.addActions(actions);
 			descriptor.addHandler(dynamicScreensActionHandler);
 		}
-		
+
 		descriptor.showMenu();
 	}
 
@@ -174,15 +171,15 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 		Collections.reverse(list);
 		return list;
 	}
-	
+
 	@Override
 	public IEditingService getEditingService() {
-		// Do we need a service, here as we are injected by selection. 
+		// Do we need a service, here as we are injected by selection.
 		return editingService;
 	}
-	
+
 	public boolean show(ShowInContext context) {
-		// delegate to the screen. 
+		// delegate to the screen.
 		return getScreen().handleShowIn(context);
 	}
 
@@ -190,5 +187,5 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart imple
 	public IScreenFormService getScreenService() {
 		return null;
 	}
-	
+
 }

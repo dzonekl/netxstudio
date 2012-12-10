@@ -21,12 +21,14 @@ package com.netxforge.netxstudio.screens.editing.selector;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -112,14 +114,6 @@ public class ScreenFormService implements IScreenFormService {
 	 */
 	private AbstractScreensViewPart absViewPart;
 
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.netxforge.netxstudio.screens.selector.ISelectorService#getActiveScreen
-	 * ()
-	 */
 	public IScreen getActiveScreen() {
 		Control c = screenBody.getScreenDeck().topControl;
 		if (c instanceof Composite && ScreenUtil.isScreen((Composite) c)) {
@@ -292,18 +286,19 @@ public class ScreenFormService implements IScreenFormService {
 		return addScreenSelector(above, name, iconPath, screen, -1, operation);
 	}
 
-	public Composite addScreenSelector(Composite topComposite, String screenName,
-			String iconPath, Class<?> screenClass, int position, int operation) {
+	public Composite addScreenSelector(Composite topComposite,
+			String screenName, String iconPath, Class<?> screenClass,
+			int position, int operation) {
 
 		assert position >= 1 || topComposite != null;
 
 		screenFactory.registerScreen(screenName, screenClass);
-		
+
 		// We override the operation, depending on the user role.
 		operation = operationForUser(operation);
 
-		ImageHyperlink lnk = linkFor(topComposite, screenName, screenClass, iconPath,
-				position, operation);
+		ImageHyperlink lnk = linkFor(topComposite, screenName, screenClass,
+				iconPath, position, operation);
 
 		screenSelectors.add(lnk);
 
@@ -445,6 +440,13 @@ public class ScreenFormService implements IScreenFormService {
 
 				final IScreen target = screenFactory.create(name, screenClass,
 						getScreenContainer(), SWT.NONE);
+				
+				if(target == null){
+					// Could happen, when we can't restore a screen. 
+					return;
+					
+				}
+				
 				target.setOperation(finalOperation);
 				target.setScreenService(ScreenFormService.this);
 
@@ -652,8 +654,7 @@ public class ScreenFormService implements IScreenFormService {
 			if (EditingActivator.DEBUG) {
 				EditingActivator.TRACE.trace(
 						EditingActivator.TRACE_EDITING_DETAILS_OPTION,
-						" restoring state for " + screen.getScreenName()
-								+ " mem:" + child.getType());
+						" restoring state for " + screen.getScreenName());
 			}
 			screen.restoreState(child);
 		}
@@ -885,6 +886,44 @@ public class ScreenFormService implements IScreenFormService {
 	public void disable() {
 		for (ImageHyperlink lnk : this.screenSelectors) {
 			lnk.setEnabled(false);
+		}
+		this.doSetActiveScreen(new NoConnection(this.getScreenContainer(), SWT.NONE));
+	}
+
+	/**
+	 * Set when no conneciton is available.
+	 * 
+	 * @author Christophe Bouhier.
+	 * 
+	 */
+	class NoConnection extends NothingScreenImpl implements
+			IDataServiceInjection {
+
+		protected FormToolkit toolkit = new FormToolkit(Display.getCurrent());
+
+		public NoConnection(Composite parent, int style) {
+			super(parent, style);
+		}
+
+		public void injectData() {
+			buildUI();
+		}
+
+		private void buildUI() {
+			// TODO a bit more than this. 
+			toolkit.createLabel(this, "no connection");
+		}
+
+		public void injectData(Object owner, Object object) {
+
+		}
+
+		public void injectData(Object... params) {
+
+		}
+
+		public boolean shouldInjectForObject(Set<CDOObject> injectionSet) {
+			return false;
 		}
 	}
 

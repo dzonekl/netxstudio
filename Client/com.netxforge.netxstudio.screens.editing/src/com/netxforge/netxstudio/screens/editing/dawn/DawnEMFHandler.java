@@ -74,14 +74,17 @@ public class DawnEMFHandler extends BasicDawnListener {
 		Set<CDOObject> dos = event.getDirtyObjects();
 		if (EditingActivator.DEBUG) {
 			String invalidBy = event.getSource().getSession().getUserID();
-			System.out.println("CDOEditingService: Invalid objects by="
-					+ invalidBy);
+			EditingActivator.TRACE.trace(
+					EditingActivator.TRACE_EDITING_DETAILS_OPTION, invalidBy
+							+ " invalidated some objects remotely");
 			for (CDOObject o : dos) {
-
 				CDORevision rev = o.cdoRevision();
-				System.out.println("CDOEditingService: Invalid object" + o
-						+ " state=" + o.cdoState() + " ,version="
-						+ (rev != null ? rev.getVersion() : "?"));
+				EditingActivator.TRACE.trace(
+						EditingActivator.TRACE_EDITING_DETAILS_OPTION,
+						"Invalid object: " + o + " state=" + o.cdoState()
+								+ " ,version="
+								+ (rev != null ? rev.getVersion() : "?"));
+
 				// CDOSession session = CDOUtil.getSession(o);
 				// session.refresh();
 				// Check the state after a refresh
@@ -110,52 +113,70 @@ public class DawnEMFHandler extends BasicDawnListener {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 
-				IScreen screen = ((IScreenProvider) editor).getScreen();
-				if (screen == null) {
-					return;
-				}
+				// IScreen screen = ((IScreenProvider) editor).getScreen();
+				// if (screen == null) {
+				// return;
+				// }
 
-				IDataInjection dataInjection = ScreenUtil
-						.dataInjectionFor(screen);
+				IScreen[] screens = ((IScreenProvider) editor).getScreens();
 
-				if (dataInjection.shouldInjectForObject(dos)) {
-					// Inject here.... the screen can accept or not.
-				}
+				for (IScreen screen : screens) {
+					IDataInjection dataInjection = ScreenUtil
+							.dataInjectionFor(screen);
 
-				// Walk all the viewers for this screen.
-				for (Viewer v : screen.getViewers()) {
-					if (EditingActivator.DEBUG) {
-						if (v == null) {
-							System.out
-									.println("CDOEditingService: No viewer registered for this screen");
-							continue;
-						} else {
-							System.out
-									.println("CDOEditingService: updating viewer");
-						}
-
+					if (dataInjection.shouldInjectForObject(dos)) {
+						// Inject here.... the screen can accept or not.
 					}
-					if (v instanceof StructuredViewer
-							&& !v.getControl().isDisposed()) {
-						v.refresh();
-						// Show the state of the objects after a refresh.
 
-						if (EditingActivator.DEBUG) {
-							for (CDOObject cdoObject : dos) {
-								System.out
-										.println("CDOEditingService: root: object="
-												+ cdoObject.cdoID()
-												+ " , state="
-												+ cdoObject.cdoState());
+					if (screen.shouldHandleRefresh()) {
+						screen.handleReshresh(dos);
+					} else {
+						// Walk all the viewers for this screen.
+						for (Viewer v : screen.getViewers()) {
+							if (EditingActivator.DEBUG) {
+								if (v == null) {
+									EditingActivator.TRACE
+											.trace(EditingActivator.TRACE_EDITING_DETAILS_OPTION,
+													"No viewer registered for IScreen: "
+															+ screen.getScreenName());
+									continue;
+								} else {
+									EditingActivator.TRACE
+											.trace(EditingActivator.TRACE_EDITING_DETAILS_OPTION,
+													"Refreshing IScreen: "
+															+ screen.getScreenName()
+															+ " viewer type: "
+															+ v.getClass()
+																	.getName());
+								}
+
+							}
+							if (v instanceof StructuredViewer
+									&& !v.getControl().isDisposed()) {
+								v.refresh();
+								// Show the state of the objects after a
+								// refresh.
+
+								if (EditingActivator.DEBUG) {
+									for (CDOObject cdoObject : dos) {
+										EditingActivator.TRACE
+												.trace(EditingActivator.TRACE_EDITING_DETAILS_OPTION,
+														"object="
+																+ cdoObject
+																		.cdoID()
+																+ " , state="
+																+ cdoObject
+																		.cdoState());
+									}
+								}
 							}
 						}
 					}
+					// in screen form service fire screen Invalid changed, this
+					// comes after refreshing the view
+					// , making sure the objects are never in state PROXY.
+					screen.getScreenService().fireScreenInvalidExternal(screen);
 				}
-
-				// in screen form service fire screen Invalid changed, this
-				// comes after refreshing the view
-				// , making sure the objects are never in state PROXY.
-				screen.getScreenService().fireScreenInvalidExternal(screen);
 			}
 		});
 	}

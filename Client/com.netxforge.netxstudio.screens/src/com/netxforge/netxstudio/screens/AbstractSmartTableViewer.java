@@ -192,6 +192,8 @@ public abstract class AbstractSmartTableViewer {
 
 	private IHandlerActivation showViewHandler;
 
+	private Label listLabel;
+
 	/**
 	 * Creates a new instance of the class.
 	 * 
@@ -394,9 +396,9 @@ public abstract class AbstractSmartTableViewer {
 		layout.marginHeight = 0;
 		labels.setLayout(layout);
 
-		Label listLabel = toolkit.createLabel(labels, "Matching Items",
+		listLabel = toolkit.createLabel(labels, "",
 				SWT.NONE);
-
+		
 		listLabel.addTraverseListener(new TraverseListener() {
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
@@ -802,6 +804,7 @@ public abstract class AbstractSmartTableViewer {
 			tblViewer.getTable().deselectAll();
 
 			tblViewer.setItemCount(contentProvider.getNumberOfElements());
+			listLabel.setText("Items:" + contentProvider.getNumberOfElements());
 			tblViewer.refresh();
 
 			if (tblViewer.getTable().getItemCount() > 0) {
