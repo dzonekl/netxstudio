@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 6 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.common.tables;
 
 import java.util.ArrayList;
@@ -30,6 +47,10 @@ import com.netxforge.netxstudio.screens.common.tables.CopyFeatureCommand.Feature
  * {@link org.eclipse.swt.widgets.Tree}.
  * 
  * @since 3.3
+ * @author Christophe Bouhier
+ * 
+ * Adapted for NetXStudio, it supports drag-copying of cell content from top to bottom. 
+ * While dragging an EMF Copy command is created. 
  * 
  */
 abstract class SWTFocusBlockManager {
@@ -154,9 +175,9 @@ abstract class SWTFocusBlockManager {
 				// to remove other cells..
 				if (inFocusBlock(cell)) {
 					cleanFocusBlock(cell);
-					System.out.println("Dragging....removing cell in column:"
-							+ cell.getVisualIndex() + " size of block = "
-							+ focusBlock.size());
+//					System.out.println("Dragging....removing cell in column:"
+//							+ cell.getVisualIndex() + " size of block = "
+//							+ focusBlock.size());
 				} else {
 
 					// we can add it now.
@@ -165,9 +186,9 @@ abstract class SWTFocusBlockManager {
 							.getNeighbor(ViewerCell.BELOW, false);
 					if (cell.equals(belowNeighborCell)) {
 						addCellToBlock(cell);
-						System.out.println("Dragging....Adding cell in column:"
-								+ cell.getVisualIndex() + " size of block = "
-								+ focusBlock.size());
+//						System.out.println("Dragging....Adding cell in column:"
+//								+ cell.getVisualIndex() + " size of block = "
+//								+ focusBlock.size());
 					}
 				}
 			} else {
@@ -211,8 +232,6 @@ abstract class SWTFocusBlockManager {
 	private void updateCommand() {
 
 		if (!initialized()) {
-			System.out
-					.println("command can't be created, command creation not initialized");
 			// dispose the command.
 			if (copyFeatureCommand != null) {
 				copyFeatureCommand.dispose();

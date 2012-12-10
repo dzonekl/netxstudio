@@ -21,6 +21,7 @@ import com.netxforge.netxstudio.data.importer.ImporterModule;
 public class DataActivator implements BundleActivator, DebugOptionsListener {
 
 	private static final String PLUGIN_ID = "com.netxforge.netxstudio.data";
+	
 	private static BundleContext context;
 	private static Injector injector;
 	
@@ -28,16 +29,21 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
 	
-	// Tracing for importing. 
-	public static String TRACE_IMPORT_OPTION = "/trace.import";
-	public static String TRACE_IMPORT_DETAILS_OPTION = "/trace.import.details";
-	public static String TRACE_IMPORT_LOCATOR_OPTION = "/trace.import.locator";
-	public static String TRACE_IMPORT_HELPER_OPTION = "/trace.import.helper";
-	
 	// Tracing for DataProvider
 	public static String TRACE_DATA_OPTION = "/trace.data";
 	public static String TRACE_DATA_DETAILS_OPTION = "/trace.data.details";
-		
+	
+	// Tracing for importing. 
+	public static final String TRACE_IMPORT_OPTION = "/trace.import";
+	public static final String TRACE_IMPORT_DETAILS_OPTION = "/trace.import.details";
+	public static final String TRACE_IMPORT_LOCATOR_OPTION = "/trace.import.locator";
+	public static final String TRACE_IMPORT_HELPER_OPTION = "/trace.import.helper";
+	
+	// Tracing for various types of result processing. 
+	
+	public static final String TRACE_RESULT_VALUE_OPTION = "/trace.result.value";
+	public static final String TRACE_RESULT_EXPRESSION_OPTION = "/trace.result.expression";
+	public static final String TRACE_RESULT_TOL_OPTION = "/trace.result.tolerance";
 	
 	
 	public void optionsChanged(DebugOptions options) {

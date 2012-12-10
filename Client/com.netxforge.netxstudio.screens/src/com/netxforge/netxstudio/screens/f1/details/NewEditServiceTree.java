@@ -79,9 +79,9 @@ import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.f1.RFSServiceSummaryJob;
 import com.netxforge.netxstudio.screens.f1.ServiceDistributionScreen;
 import com.netxforge.netxstudio.screens.f1.ServiceHierarchy;
-import com.netxforge.netxstudio.screens.f1.RFSServiceSummaryJob;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceUser;
@@ -103,16 +103,17 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	private TableViewer networkElementsTableViewer;
 	private TableViewer serviceUserTableViewer;
 
-	private FormText formTextNumberOfNodes;
 	private FormText formTextLastMonitor;
+
+	private FormText formTextNumberOfNodes;
+
+	private FormText formTextNumberOfResources;
 
 	private FormText formTextRed;
 
 	private FormText formTextAmber;
 
 	private FormText formTextGreen;
-
-	private FormText formTextNumberOfResources;
 
 	private DateChooserCombo dcProposed;
 	private DateChooserCombo dcPlanned;
@@ -127,6 +128,8 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	private boolean readonly;
 
 	private int widgetStyle;
+
+	private Section sctnSummary;
 
 	public NewEditServiceTree(Composite parent, int style,
 			final IEditingService editingService) {
@@ -377,8 +380,9 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 					screen.setOperation(getOperation());
 					screen.injectData(null, service);
 					screenService.setActiveScreen(screen);
-				}else {
-					MessageDialog.openInformation(NewEditServiceTree.this.getShell(),
+				} else {
+					MessageDialog.openInformation(
+							NewEditServiceTree.this.getShell(),
 							"Service Distribution is not existing",
 							"A Service distribution object can only be created in edit mode");
 				}
@@ -658,7 +662,8 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	}
 
 	private void buildSummarySection() {
-		Section sctnSummary = formToolkit.createSection(this, Section.TWISTIE
+
+		sctnSummary = formToolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnSummary);
 		sctnSummary.setText("Summary");
@@ -675,10 +680,8 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));
 		formTextLastMonitor = formToolkit.createFormText(composite_2, false);
-		formTextLastMonitor.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 3, 1));
-		formToolkit.paintBordersFor(formTextLastMonitor);
-		formTextLastMonitor.setText("", false, false);
+		formTextLastMonitor.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				true, false, 3, 1));
 
 		Label lblMonitoredNodes = formToolkit.createLabel(composite_2,
 				"# Monitored NE's:", SWT.NONE);
@@ -835,6 +838,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 										formTextLastMonitor.setText(summary
 												.getPeriodFormattedString(),
 												false, false);
+
 										formTextNumberOfNodes.setText(
 												new Integer(summary
 														.getNodeCount())
@@ -861,8 +865,9 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 														summary.getGreenCountResources())
 														.toString(), false,
 												false);
-										sctnInfo.redraw();
-
+										sctnSummary.layout();
+										NewEditServiceTree.this.layout();
+//										getScreenForm().layout();
 									}
 
 								});
