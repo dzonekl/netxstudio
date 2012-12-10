@@ -228,7 +228,7 @@
 			<rm:property key="buckminster.source" value="false" />
 			<rm:property key="buckminster.mutable" value="false" />
 			<rm:uri
-				format="http://archive.eclipse.org/modeling/emft/mwe/downloads/drops/2.0.0/R201106070634/emft-mwe-2-Update-2.0.0.zip" />
+				format="http://http://archive.eclipse.org/modeling/emft/mwe/downloads/drops/2.0.0/R201106070634/repository/" />
 		</rm:provider>
 	</rm:searchPath>
 </rm:rmap>
