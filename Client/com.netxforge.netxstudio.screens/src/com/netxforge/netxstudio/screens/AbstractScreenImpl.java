@@ -76,6 +76,8 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		return false;
 	}
 
+	private String screenName = "TODO_Provide_screenname";
+	
 	@Inject
 	protected ModelUtils modelUtils;
 
@@ -258,7 +260,11 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 
 	/* Clients should override */
 	public String getScreenName() {
-		return "TODO_Provide_screenname";
+		return screenName;
+	}
+	
+	public void setScreenName(String screenName) {
+		this.screenName = screenName;
 	}
 
 	public String getOperationText() {
@@ -481,4 +487,14 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	public Collection<CDOObject> getScreenObjects() {
 		return Collections.emptyList();
 	}
+	
+
+	public boolean shouldHandleRefresh() {
+		return false;
+	}
+
+	public void handleReshresh(Object... objects) {
+		// Do nothing. 
+	}
+	
 }

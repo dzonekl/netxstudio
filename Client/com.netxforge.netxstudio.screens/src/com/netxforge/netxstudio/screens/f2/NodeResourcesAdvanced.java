@@ -27,17 +27,12 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.IObservable;
-import org.eclipse.core.databinding.observable.ObservableEvent;
 import org.eclipse.core.databinding.observable.list.ComputedList;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
-import org.eclipse.core.databinding.observable.map.IMapChangeListener;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.core.databinding.observable.map.MapChangeEvent;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
-import org.eclipse.core.databinding.observable.set.ISetChangeListener;
-import org.eclipse.core.databinding.observable.set.SetChangeEvent;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
@@ -177,7 +172,6 @@ import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f1.support.ReportWizard;
 import com.netxforge.netxstudio.screens.f3.NetworkViewerComparator;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
-import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 
@@ -2688,55 +2682,6 @@ public class NodeResourcesAdvanced extends AbstractScreen implements
 			// Re-inject the
 			cmpResources.getViewer().refresh();
 			componentsTreeViewer.refresh();
-		}
-	}
-
-}
-
-/*
- * An IMap observable listener, which can be fed with IObservableMap's and will
- * refresh the provided viewer.
- */
-class UpdateDisconnectedResources implements IChangeListener,
-		ISetChangeListener, IMapChangeListener {
-
-	public static UpdateDisconnectedResources getInstance() {
-		return new UpdateDisconnectedResources();
-	}
-
-	// Disallow instantation.
-	private UpdateDisconnectedResources() {
-	}
-
-	/*
-	 * Used to perform additional functionality for map change notifications.
-	 */
-	public void notifyObservableMap(IObservableMap... maps) {
-
-		for (IObservableMap map : maps) {
-			map.addChangeListener(this);
-			map.addMapChangeListener(this);
-
-		}
-	}
-
-	public void handleChange(ChangeEvent event) {
-		this.handleEvent(event);
-	}
-
-	public void handleMapChange(MapChangeEvent event) {
-		this.handleEvent(event);
-	}
-
-	public void handleSetChange(SetChangeEvent event) {
-		this.handleEvent(event);
-	}
-
-	private void handleEvent(ObservableEvent event) {
-		if (ScreensActivator.DEBUG) {
-			ScreensActivator.TRACE.trace(
-					ScreensActivator.TRACE_SCREENS_BINDING_OPTION,
-					"Binding event " + event);
 		}
 	}
 

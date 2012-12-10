@@ -55,7 +55,11 @@ public class ScreenFactory implements IScreenFactory {
 			registerScreen(screenName, screenClass);
 			screenConstructor = screenMap.get(screenName);
 		}
-		return getScreen(screenConstructor, parent, style);
+		if (screenConstructor != null) {
+			return getScreen(screenConstructor, parent, style);
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -64,18 +68,25 @@ public class ScreenFactory implements IScreenFactory {
 	 * @param screenConstructor
 	 * @return
 	 */
-	public void registerScreen(String screenName,
-			Class<?> screenClass) {
+	public void registerScreen(String screenName, Class<?> screenClass) {
+
+		if (screenClass == null) {
+			System.out
+					.println("trying to register a screen, while no type is provided, is "
+							+ screenName
+							+ " the wrong screen name for restore? ");
+			return;
+		}
+
 		try {
-			Constructor<?> screenConstructor = screenClass.getConstructor(Composite.class,
-					int.class);
+			Constructor<?> screenConstructor = screenClass.getConstructor(
+					Composite.class, int.class);
 			put(screenName, screenConstructor);
 
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		}
 	}
-
 
 	private void put(String screenName, Constructor<?> screenConstructor) {
 		screenMap.put(screenName, screenConstructor);

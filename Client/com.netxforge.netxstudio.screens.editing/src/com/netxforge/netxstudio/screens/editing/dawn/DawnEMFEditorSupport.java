@@ -10,10 +10,10 @@
  */
 package com.netxforge.netxstudio.screens.editing.dawn;
 
+import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.view.CDOAdapterPolicy;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.lifecycle.ILifecycle;
@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
@@ -33,12 +34,12 @@ import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 
 	private BasicDawnListener dawnEMFHandler;
-	private TransactionLifecycle transactionLifecycleHandler;
+	private SessionLifecycle sessionLifeCycleHandler;
 
 	public DawnEMFEditorSupport(IDawnEditor editor) {
 		super(editor);
 		dawnEMFHandler = new DawnEMFHandler(getEditor());
-		transactionLifecycleHandler = new TransactionLifecycle();
+		sessionLifeCycleHandler = new SessionLifecycle();
 	}
 
 	public void close() {
@@ -59,16 +60,23 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 		IListener[] listeners = view.getListeners();
 
 		// Always remove our listeners, even if we re-use a CDO view.
-		// Proving that registration on the view, would not include additionally loaded objects???
+		// Proving that registration on the view, would not include additionally
+		// loaded objects???
 		if (listeners != null) {
 			view.removeListener(dawnEMFHandler);
-			view.removeListener(transactionLifecycleHandler);
-			
+			view.getSession().removeListener(sessionLifeCycleHandler);
+
 		}
 
 		addChangeSubscription(view);
 		view.addListener(dawnEMFHandler);
-		view.addListener(transactionLifecycleHandler);
+		CDOSession session = view.getSession();
+		for (IListener l : session.getListeners()) {
+			if (l == sessionLifeCycleHandler) {
+				return;
+			}
+		}
+		view.addListener(sessionLifeCycleHandler);
 	}
 
 	private void addChangeSubscription(CDOView view) {
@@ -87,40 +95,57 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 
 	}
 
-	class TransactionLifecycle extends LifecycleEventAdapter {
+	class SessionLifecycle extends LifecycleEventAdapter {
 
 		@Override
 		protected void onAboutToDeactivate(ILifecycle lifecycle) {
-			System.out.println("About to deactive lifecycle");
+			// System.out.println("About to deactive lifecycle");
 			super.onAboutToDeactivate(lifecycle);
 			noConnection(lifecycle);
 		}
 	}
 
+	/**
+	 * Fires on all failing transactions.
+	 * 
+	 * @param lifecycle
+	 */
 	public void noConnection(ILifecycle lifecycle) {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				MessageDialog
-						.openError(
-								Display.getDefault().getActiveShell(),
-								"Connection lost",
-								"Connection (Transaction) is not valid anymore,\n this could be "
-										+ "to a network failure or the server being not responding (Down or failure).\n It is recommended to restart the application");
+
+				// MessageDialog
+				// .openError(
+				// Display.getDefault().getActiveShell(),
+				// "Connection lost",
+				// "Connection (Transaction) is not valid anymore,\n this could be "
+				// +
+				// "to a network failure or the server being not responding (Down or failure).\n It is recommended to restart the application");
 
 				// Experimental way to interrogate the platform and cast to our
 				// known parts, to disable the screen selector.
-				IWorkbenchPage[] pages = PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getPages();
-				for (int i = 0; i < pages.length; i++) {
-					IWorkbenchPage iWorkbenchPage = pages[i];
-					IViewReference[] viewReferences = iWorkbenchPage
-							.getViewReferences();
-					for (int k = 0; k < viewReferences.length; k++) {
-						IViewReference iViewReference = viewReferences[k];
-						IViewPart viewPart = iViewReference.getView(false);
-						if (viewPart instanceof AbstractScreenSelector) {
-							((AbstractScreenSelector) viewPart)
-									.getScreenService().disable();
+
+				IWorkbenchWindow[] workbenchWindows = PlatformUI.getWorkbench()
+						.getWorkbenchWindows();
+				
+				// Doesn't work for non-active perspectives. 
+				// so need to maintain the state, and not allow restoring IScreens. 
+				// also, when a job is running it should be cancelled. 
+				
+				
+				for (IWorkbenchWindow wbw : workbenchWindows) {
+					IWorkbenchPage[] pages = wbw.getPages();
+					for (int i = 0; i < pages.length; i++) {
+						IWorkbenchPage iWorkbenchPage = pages[i];
+						IViewReference[] viewReferences = iWorkbenchPage
+								.getViewReferences();
+						for (int k = 0; k < viewReferences.length; k++) {
+							IViewReference iViewReference = viewReferences[k];
+							IViewPart viewPart = iViewReference.getView(false);
+							if (viewPart instanceof AbstractScreenSelector) {
+								((AbstractScreenSelector) viewPart)
+										.getScreenService().disable();
+							}
 						}
 					}
 				}

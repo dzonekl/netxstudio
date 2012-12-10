@@ -23,6 +23,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -57,6 +58,7 @@ import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.util.CDOUtil;
+import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -856,13 +858,20 @@ public class ModelUtils {
 		}
 
 		public boolean apply(final Marker m) {
-			if (m.eIsSet(OperatorsPackage.Literals.MARKER__VALUE_REF)) {
-				Value markerValue = m.getValueRef();
-				if (markerValue
-						.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)) {
-					Date markerDate = fromXMLDate(markerValue.getTimeStamp());
-					return markerDate.equals(checkDate);
+
+			try {
+				// Check the Marker CDO Status, seems to become invalid??
+				if (m.eIsSet(OperatorsPackage.Literals.MARKER__VALUE_REF)) {
+					Value markerValue = m.getValueRef();
+					if (markerValue
+							.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)) {
+						Date markerDate = fromXMLDate(markerValue
+								.getTimeStamp());
+						return markerDate.equals(checkDate);
+					}
 				}
+			} catch (ObjectNotFoundException onfe) {
+				onfe.printStackTrace();
 			}
 			return false;
 		}
@@ -1536,6 +1545,20 @@ public class ModelUtils {
 		return null;
 	}
 
+	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceMonitorAndNodeAndPeriod(
+			ServiceMonitor serviceMonitor, Node n, DateTimeRange dtr,
+			IProgressMonitor monitor) {
+
+		// Filter ServiceMonitors on the time range.
+		// List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
+		// sortedCopy, dtr);
+
+		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
+				Arrays.asList(new ServiceMonitor[] { serviceMonitor }), n,
+				monitor);
+		return markersPerResource;
+	}
+
 	/**
 	 * returns a Map of markers for each of the NetXResources in the specified
 	 * node.
@@ -1587,6 +1610,30 @@ public class ModelUtils {
 		}
 
 		return filtered;
+	}
+
+	public ResourceMonitor monitorForServiceAndResource(Service service,
+			Node n, NetXResource netxResource) {
+
+		ResourceMonitor monitor = null;
+
+		// Sort by begin date and reverse the Service Monitors.
+		List<ServiceMonitor> serviceMonitors = Ordering
+				.from(this.serviceMonitorCompare()).reverse()
+				.sortedCopy(service.getServiceMonitors());
+
+		for (ServiceMonitor sm : serviceMonitors) {
+			for (ResourceMonitor rm : sm.getResourceMonitors()) {
+				if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
+					if (rm.getResourceRef().equals(netxResource)) {
+						monitor = rm;
+					}
+				}
+			}
+
+		}
+		return monitor;
+
 	}
 
 	// public int[] ragCount(ServiceMonitor sm, Node n,
@@ -2112,7 +2159,15 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Note, side effect of creating the value range if the range doesn't exist.
+	 * Get a {@link MetricValueRange} for a {@link NetXResource} matching a kind
+	 * and interval.
+	 * 
+	 * @param foundNetXResource
+	 * @param kindHintType
+	 * @param intervalHint
+	 * @return The {@link MetricValueRange} matching the {@link KindHintType} &&
+	 *         interval or null if none is found.
+	 * 
 	 */
 	public MetricValueRange valueRangeForIntervalAndKind(
 			NetXResource foundNetXResource, KindHintType kindHintType,
@@ -3710,18 +3765,22 @@ public class ModelUtils {
 		for (int i = 0; i < existingDates.size(); i++) {
 			doubles.add(new Double(-1));
 		}
-		
+
 		int s = valuesToMerge.size();
 		if (monitor != null)
 			monitor.subTask(mergingTaskName);
 		// For CDO, this will fetch the object depending on the CDO Prefetch
 		// policy on this list.
-		for (int i = 0; i < s ; i++) {
+		for (int i = 0; i < s; i++) {
+			if (monitor.isCanceled()) {
+				return null;
+			}
+
 			Value v = valuesToMerge.get(i);
 
-//			if (monitor != null && i % 10 == 0) {
-				monitor.worked(1);
-//			}
+			// if (monitor != null && i % 10 == 0) {
+			monitor.worked(1);
+			// }
 			Date dateToMergeOrAdd = fromXMLDate(v.getTimeStamp());
 			int positionOf = positionOf(existingDates, dateToMergeOrAdd);
 			if (positionOf != -1) {

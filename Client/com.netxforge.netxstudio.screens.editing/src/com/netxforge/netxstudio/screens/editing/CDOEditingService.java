@@ -271,6 +271,10 @@ public class CDOEditingService extends EMFEditingService implements
 	public IScreen getScreen() {
 		return this.delegateScreenProvider.getScreen();
 	}
+	
+	public IScreen[] getScreens() {
+		return this.delegateScreenProvider.getScreens();
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -680,4 +684,5 @@ public class CDOEditingService extends EMFEditingService implements
 			});
 		}
 	}
+
 }
