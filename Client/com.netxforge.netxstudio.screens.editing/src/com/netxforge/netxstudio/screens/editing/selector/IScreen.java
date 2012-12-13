@@ -165,7 +165,7 @@ public interface IScreen extends IViewerProvider, ISelectionProvider, IPersistab
 	 * 
 	 * @param objects the objects which could be needing a refresh. 
 	 */
-	public abstract void handleReshresh(Object... objects);
+	public abstract void handleRefresh(Object... objects);
 	
 	
 	/**
