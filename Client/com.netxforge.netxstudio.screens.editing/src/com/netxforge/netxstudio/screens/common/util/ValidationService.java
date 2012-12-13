@@ -19,59 +19,109 @@
 package com.netxforge.netxstudio.screens.common.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.databinding.AggregateValidationStatus;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.ObservablesManager;
-import org.eclipse.core.databinding.observable.ChangeEvent;
-import org.eclipse.core.databinding.observable.IChangeListener;
+import org.eclipse.core.databinding.ValidationStatusProvider;
+import org.eclipse.core.databinding.observable.IDecoratingObservable;
+import org.eclipse.core.databinding.observable.IObservable;
+import org.eclipse.core.databinding.observable.IObserving;
+import org.eclipse.core.databinding.observable.list.IListChangeListener;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.list.ListChangeEvent;
+import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
+import org.eclipse.core.databinding.observable.list.WritableList;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.databinding.validation.IValidator;
+import org.eclipse.core.databinding.validation.MultiValidator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.jface.databinding.swt.ISWTObservable;
-import org.eclipse.jface.fieldassist.ControlDecoration;
-import org.eclipse.jface.fieldassist.FieldDecoration;
-import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
-import org.eclipse.swt.SWT;
+import org.eclipse.jface.databinding.viewers.IViewerObservable;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.forms.IMessage;
+import org.eclipse.ui.forms.IMessageManager;
 
+import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.screens.common.internal.ScreensCommonActivator;
 
 /**
- * Can register a binding context for which validation will be aggregated.
- * </p>Can convert validation {@link IStatus} messages into Form
- * {@link IMessage} </p>Can register a listener {@link IValidationListener}
- * notified on value changes. TODO, only value change? </p>Can register a
- * decorator on controls, which will be notified when matching the observable
- * controls of the binding context.
+ * Can register a binding context for which validation will be converted to
+ * {@link IMessage}, one for each {@link ValidationStatusProvider} in the
+ * {@link BindingContext} The {@link MessageFromStatus} implementation holds all
+ * required information for a {@link IMessageManager} to add and remove
+ * messages.
+ * 
+ * </p>Can register a listener {@link IValidationListener} notified on value
+ * changes. </p>
+ * 
+ * Note: Future use: Can register a decorator on controls, which will be
+ * notified when matching the observable controls of the binding context.
+ * 
+ * Supports a custom {@link MultiValidator} implementation, which can help in
+ * resolving the corresponding {@link Control} needed for the .
  * 
  * To use, add an {@link IValidator } to {@link EMFUpdateValueStrategy}, and set
- * in a Binding context. Then register the binding context with
+ * in a Binding context.
+ * 
+ * 
+ * Then register the binding context with
  * {@link #registerBindingContext(DataBindingContext)}
- * 
- * 
  * 
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 public class ValidationService implements IValidationService {
 
-	private final class MessageFromStatus implements IMessage {
-		private final Control control;
-		private final IStatus status;
+	/*
+	 * A Factory for producing strategies.
+	 */
+	private static final ValueStrategyFactory strategyFactory = new ValueStrategyFactory();
 
-		private MessageFromStatus(Control control, IStatus status) {
+	/**
+	 * Get a factory which produces prefabricated strategies.
+	 * 
+	 * @return
+	 */
+	public static ValueStrategyFactory getStrategyfactory() {
+		return strategyFactory;
+	}
+
+	/**
+	 * Implements {@link IMessage} but wraps around an IStatus of the Binding
+	 * Framework.
+	 * 
+	 * @author Christophe Bouhier
+	 * 
+	 */
+	public class MessageFromStatus implements IMessage {
+
+		private int msgType = -1; // Cache the msg type.
+		private final Control control;
+		private final IStatus newStatus;
+		private final IStatus oldStatus;
+
+		private MessageFromStatus(Control control, IStatus oldStatus,
+				IStatus newStatus) {
 			this.control = control;
-			this.status = status;
+			this.newStatus = newStatus;
+			this.oldStatus = oldStatus;
+		}
+
+		public IStatus getNewStatus() {
+			return newStatus;
+		}
+
+		public IStatus getOldStatus() {
+			return oldStatus;
 		}
 
 		public Control getControl() {
@@ -90,24 +140,121 @@ public class ValidationService implements IValidationService {
 			return null;
 		}
 
+		/**
+		 * Resolves the message from {@link IStatus}
+		 */
 		public String getMessage() {
-			return status.getMessage();
+			return newStatus.getMessage();
 		}
 
+		/**
+		 * Resolves the the message type from {@link IStatus}
+		 */
 		public int getMessageType() {
-			return convertType(status.getSeverity());
+			if (msgType == -1)
+				msgType = convertType(newStatus.getSeverity());
+			return msgType;
 		}
 	}
 
 	/**
 	 * A manager for observable within an instance of this validation service.
 	 */
-	private ObservablesManager observablesMgr = new ObservablesManager();
+	// private ObservablesManager observablesMgr = new ObservablesManager();
+
 	private DataBindingContext ctx = null; // Only one can exist.
 
+	protected final Map<ValidationStatusProvider, IValueChangeListener> valueChangeListeners = Maps
+			.newHashMap();
+
 	public ValidationService() {
-		// this.observablesMgr = observablesMgr;
+
 	}
+
+	/**
+	 * A custom {@link MultiValidator} which is initialized with an array of
+	 * observables. Typical use, is to feed with the targets of validated bound
+	 * {@link WritableValue} observable.
+	 * 
+	 * @author Christophe Bouhier
+	 * 
+	 */
+	public static abstract class ValidationWithTargetStatusProvider extends
+			MultiValidator {
+
+		private final IObservableList targets = new WritableList();
+
+		public void revalidateExternal() {
+			super.revalidate();
+		}
+
+		/**
+		 * The target {@link IObservableList} which can be adapted to resolve a
+		 * {@link Control} object.
+		 */
+		public IObservableList getTargets() {
+			IObservableList superTargets = super.getTargets();
+			targets.addAll(superTargets); // It's ok to add a collection as a
+											// our results content, the
+											// downstream methods now how to
+											// deal.
+			return targets;
+		}
+
+		public ValidationWithTargetStatusProvider(IObservable... targets) {
+			for (IObservable iObservable : targets) {
+				this.targets.add(iObservable);
+			}
+		}
+	}
+
+	/**
+	 * Initialize with a {@link ValidationStatusProvider
+	 * validationStatusProvider}, any call is delegated to
+	 * {@link ValidationService#getMessages(IObservableList, ValueChangeEvent)}
+	 * with the provider's targets as argument. (Effectively asking to resolve
+	 * {@link Control} from the targets in the {@link ValidationStatusProvider}.
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	public class ValueChangeListener implements IValueChangeListener {
+
+		private ValidationStatusProvider provider;
+
+		public ValueChangeListener(ValidationStatusProvider provider) {
+			this.provider = provider;
+		}
+
+		public void handleValueChange(ValueChangeEvent event) {
+			List<IMessage> messages = getMessages(provider.getTargets(), event);
+			fireFormValidationEvent(messages);
+		}
+	};
+
+	/**
+	 * Listen to changes in ValidationStatusProviders being added.
+	 */
+	protected final IListChangeListener listChangeListener = new IListChangeListener() {
+		public void handleListChange(ListChangeEvent event) {
+			event.diff.accept(new ListDiffVisitor() {
+				@Override
+				public void handleRemove(int index, Object element) {
+					if (element instanceof ValidationStatusProvider) {
+						final ValidationStatusProvider observable = (ValidationStatusProvider) element;
+						removeValueChangeListener(observable);
+					}
+				}
+
+				@Override
+				public void handleAdd(int index, Object element) {
+					if (element instanceof ValidationStatusProvider) {
+						final ValidationStatusProvider observable = (ValidationStatusProvider) element;
+						addValueChangeListener(observable);
+					}
+				}
+			});
+		}
+	};
 
 	/*
 	 * (non-Javadoc)
@@ -124,117 +271,109 @@ public class ValidationService implements IValidationService {
 			return;
 		}
 
-		AggregateValidationStatus aggregateStatus = new AggregateValidationStatus(
-				ctx.getValidationStatusProviders(),
-				AggregateValidationStatus.MAX_SEVERITY);
+		// Changes to the status providers, are noticed, so we catch any
+		// immediate validation.
+		ctx.getValidationStatusProviders().addListChangeListener(
+				listChangeListener);
 
-		aggregateStatus.addValueChangeListener(new IValueChangeListener() {
-			public void handleValueChange(ValueChangeEvent event) {
-				// Get the severity type, converted for the new status.
-				IStatus currentStatus = (IStatus) event.diff.getNewValue();
-				if (currentStatus != null) {
+		// Listen to changes to any existing ValidationStatusProviders
+		for (Object element : ctx.getValidationStatusProviders()) {
+			final ValidationStatusProvider observable = (ValidationStatusProvider) element;
+			addValueChangeListener(observable);
+		}
+	}
 
-					// FIXME, we fire error status, if the validation is not set
-					// on an widget.
-					// if( currentStatus.getMessage().length() > 0 ){
-					notifyFormEvent(currentStatus, ctx);
-					// }
+	protected void removeValueChangeListener(ValidationStatusProvider observable) {
+		final IValueChangeListener valueChangeListener = valueChangeListeners
+				.get(observable);
 
-				}
-			}
-		});
+		final IObservableValue value = observable.getValidationStatus();
+		// value.removeDisposeListener(observableDisposeListener);
+		if (valueChangeListener != null) {
+			value.removeValueChangeListener(valueChangeListener);
+		}
 
-		aggregateStatus.addChangeListener(new IChangeListener() {
-			public void handleChange(ChangeEvent event) {
-				// Loop through the bindings.
-				for (Object o : ctx.getBindings()) {
-					Binding binding = (Binding) o;
-					IStatus status = (IStatus) binding.getValidationStatus()
-							.getValue();
-					Control control = null;
+		valueChangeListeners.remove(observable);
+	}
 
-					// Note updating targets for writables, will not work here.
-					if (binding.getTarget() instanceof ISWTObservable) {
-						ISWTObservable swtObservable = (ISWTObservable) binding
-								.getTarget();
-						control = (Control) swtObservable.getWidget();
-					}
-					if (binding.getTarget() instanceof WritableValue) {
-						// FIXME We can't determine control for writables.
-					}
-					ControlDecoration decoration = getDecoration(control);
-					if (decoration != null) {
-						if (status.isOK()) {
-							decoration.hide();
-						} else {
-							decoration.setDescriptionText(status.getMessage());
-							decoration.show();
-						}
-					} else {
-						System.out
-								.println("Error: Decorator not set for control:"
-										+ control);
-					}
-				}
-			}
-
-		});
-
-		observablesMgr.addObservable(aggregateStatus);
+	private void addValueChangeListener(ValidationStatusProvider observable) {
+		final IObservableValue value = observable.getValidationStatus();
+		// value.addDisposeListener(observableDisposeListener);
+		ValueChangeListener valueChangeListener = new ValueChangeListener(
+				observable);
+		value.addValueChangeListener(valueChangeListener);
+		valueChangeListeners.put(observable, valueChangeListener);
 	}
 
 	public void dispose() {
-		// Should remove observabled, otherwise will still fire.
-		observablesMgr.dispose();
+		if (ctx != null) {
+			// Remove notifications of changes to the values
+			for (Object element : ctx.getValidationStatusProviders()) {
+				final ValidationStatusProvider observable = (ValidationStatusProvider) element;
+				removeValueChangeListener(observable);
+			}
+		}
 	}
 
-	private void notifyFormEvent(IStatus currentStatus, DataBindingContext ctx) {
-		// We notify for forms.
-		int type = convertType(currentStatus.getSeverity());
-		List<IMessage> messages = getMessages(ctx);
-
-		// Filter
-		fireFormValidationEvent(type, messages);
-	}
-
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Prefabricated strategies.
 	 * 
-	 * @see
-	 * com.netxforge.netxstudio.screens.editing.observables.IValidationService
-	 * #getAttributeStrategy(java.lang.String)
+	 * client should consider the impact of installing such a strategy on a
+	 * {@link BindingContext}, A before set, on a modelToTarget will not allow
+	 * setting the model, if validation not met.
+	 * 
+	 * @author Christophe Bouhier
+	 * 
 	 */
-	public EMFUpdateValueStrategy getUpdateValueStrategyBeforeSet(
-			final String validationMessage) {
-		EMFUpdateValueStrategy strat = new EMFUpdateValueStrategy();
-		strat.setBeforeSetValidator(new IValidator() {
-			public IStatus validate(Object value) {
+	public static class ValueStrategyFactory {
 
-				boolean isInvalid = false;
-				if (value == null) {
-					isInvalid = true;
-				} else {
-					if (value instanceof String) {
-						if (((String) value).length() == 0) {
-							isInvalid = true;
+		/**
+		 * Get a simple Update value strategy, which will set a status to
+		 * warning with the provided message, when the value is an empty
+		 * {@link String}, before setting the value.
+		 * 
+		 * @param validationMessage
+		 * @return
+		 */
+		public EMFUpdateValueStrategy strategyBeforeSetStringNotEmpty(
+				final String validationMessage) {
+			EMFUpdateValueStrategy strat = new EMFUpdateValueStrategy();
+			strat.setBeforeSetValidator(new IValidator() {
+				public IStatus validate(Object value) {
+
+					boolean isInvalid = false;
+					if (value == null) {
+						isInvalid = true;
+					} else {
+						if (value instanceof String) {
+							if (((String) value).length() == 0) {
+								isInvalid = true;
+							}
 						}
 					}
+					if (isInvalid) {
+						return new Status(IStatus.WARNING,
+								ScreensCommonActivator.PLUGIN_ID,
+								validationMessage);
+					}
+					return Status.OK_STATUS;
 				}
-				if (isInvalid) {
-					return new Status(IStatus.WARNING,
-							ScreensCommonActivator.PLUGIN_ID, validationMessage);
-				}
-				return Status.OK_STATUS;
-			}
-		});
-		return strat;
-	}
+			});
+			return strat;
+		}
 
-	public EMFUpdateValueStrategy getUpdateValueStrategyAfterGet(
-			IValidator validator) {
-		EMFUpdateValueStrategy strat = new EMFUpdateValueStrategy();
-		strat.setAfterGetValidator(validator);
-		return strat;
+		/**
+		 * Get an update value strategy, with a custom validator, after getting
+		 * the value
+		 * 
+		 * @param validator
+		 * @return
+		 */
+		public EMFUpdateValueStrategy strategyAfterGet(IValidator validator) {
+			EMFUpdateValueStrategy strat = new EMFUpdateValueStrategy();
+			strat.setAfterGetValidator(validator);
+			return strat;
+		}
 	}
 
 	/**
@@ -260,92 +399,82 @@ public class ValidationService implements IValidationService {
 	}
 
 	/**
-	 * Get all IMessages for this context.
+	 * Creates {@link IMessage}s from a {@link ValueChangeEvent }. The
+	 * {@link Control} is derived from the passed {@link IObservableList }.
+	 * </br></br> It could be the control can't be resolved from the provided
+	 * observables list, then the {@link IMessageManager} will not be able to a
 	 * 
-	 * @param ctx
-	 * @return
+	 * The {@link IMessage} implementation is a {@link MessageFromStatus}, which
+	 * wraps the {@link IStatus} from the the event.
+	 * 
+	 * @param iObservableList
+	 * 
+	 * @param event
+	 * @return a collection of {@link IMessage}.
 	 */
-	protected List<IMessage> getMessages(DataBindingContext ctx) {
+	protected List<IMessage> getMessages(IObservableList iObservableList,
+			ValueChangeEvent event) {
 
-		// Iterate over the messages.
 		List<IMessage> iMessages = new ArrayList<IMessage>();
-
-		for (Object o : ctx.getBindings()) {
-			Binding binding = (Binding) o;
-			final IStatus status = (IStatus) binding.getValidationStatus()
-					.getValue();
-
-			Control control = null;
-			if (binding.getTarget() instanceof ISWTObservable) {
-				ISWTObservable swtObservable = (ISWTObservable) binding
-						.getTarget();
-				control = (Control) swtObservable.getWidget();
-			} else {
-				if (binding.getTarget() instanceof DateChooserComboObservableValue) {
-					DateChooserComboObservableValue dcObverable = (DateChooserComboObservableValue) binding.getTarget();
-					control = dcObverable.combo;
-				}
-				System.out.println(binding.getTarget().toString());
-
-			}
-			// if (!status.isOK()) {
-			System.out.println("Creating message" + status.toString());
-			iMessages.add(new MessageFromStatus(control, status));
-			// CB Let MessageManager do the deoration.
-			// ControlDecoration decoration
-			// = decoratorMap.get(control);
-			// if (decoration != null) {
-			// if (status.isOK()) {
-			// decoration.hide();
-			// } else {
-			// decoration
-			// .setDescriptionText(status.getMessage());
-			// decoration.show();
-			// }
-			// }
-			// }
-		}
-		// Iterator<?> it = ctx.getValidationStatusProviders().iterator();
-		// while (it.hasNext()) {
-		// ValidationStatusProvider validationStatusProvider =
-		// (ValidationStatusProvider) it
-		// .next();
-		// final IStatus status = (IStatus) validationStatusProvider
-		// .getValidationStatus().getValue();
-		//
-		// if (!status.isOK()) {
-		// iMessages.add(new IMessage() {
-		// public Control getControl() {
-		// return null;
-		// }
-		//
-		// public Object getData() {
-		// return null;
-		// }
-		//
-		// public Object getKey() {
-		// return null;
-		// }
-		//
-		// public String getPrefix() {
-		// return null;
-		// }
-		//
-		// public String getMessage() {
-		// return status.getMessage();
-		// }
-		//
-		// public int getMessageType() {
-		// return convertType(status.getSeverity());
-		// }
-		// });
-		// }
-		// }
+		Control control = findControl(iObservableList);
+		final IStatus newStatus = (IStatus) event.diff.getNewValue();
+		final IStatus oldStatus = (IStatus) event.diff.getOldValue();
+		iMessages.add(new MessageFromStatus(control, oldStatus, newStatus));
 		return iMessages;
 	}
 
-	// IValidationListener
+	/**
+	 * Find a {@link Control} for the target {@link IObservable}. This method is
+	 * invoked recursively when the observable is an {@link IObservableList}.
+	 * </br></br> Currently supported observables.
+	 * <ul>
+	 * <li>{@link ISWTObservable}</li>
+	 * <li>{@link IViewerObservable}</li>
+	 * <li>{@link DateChooserComboObservableValue}</li>
+	 * <li>{@link IDecoratingObservable}</li>
+	 * <li>{@link IObserving}</li>
+	 * </ul>
+	 * 
+	 * @param target
+	 * @return
+	 */
+	protected Control findControl(IObservable target) {
+		if (target instanceof IObservableList) {
+			IObservableList list = (IObservableList) target;
+			for (int i = 0; i < list.size(); i++) {
+				Control control = findControl((IObservable) list.get(i));
+				if (control != null)
+					return control;
+			}
+		}
 
+		if (target instanceof ISWTObservable) {
+			Widget widget = ((ISWTObservable) target).getWidget();
+			if (widget instanceof Control)
+				return (Control) widget;
+		} else if (target instanceof IViewerObservable) {
+			Viewer viewer = ((IViewerObservable) target).getViewer();
+			return viewer.getControl();
+		} else if (target instanceof DateChooserComboObservableValue) {
+
+			DateChooserComboObservableValue observable = (DateChooserComboObservableValue) target;
+			return observable.getDateChooserCombo();
+		} else if (target instanceof IDecoratingObservable) {
+			IObservable decorated = ((IDecoratingObservable) target)
+					.getDecorated();
+			Control control = findControl(decorated);
+			if (control != null)
+				return control;
+		} else if (target instanceof IObserving) {
+			Object observed = ((IObserving) target).getObserved();
+			if (observed instanceof IObservable)
+				return findControl((IObservable) observed);
+		}
+
+		return null;
+	}
+
+	// IValidationListener
 	private List<IValidationListener> validationListeners = new ArrayList<IValidationListener>();
 
 	/*
@@ -378,87 +507,11 @@ public class ValidationService implements IValidationService {
 		}
 	}
 
-	protected void fireFormValidationEvent(int type, List<IMessage> messages) {
+	protected void fireFormValidationEvent(List<IMessage> messages) {
 		for (IValidationListener vl : validationListeners) {
-			FormValidationEvent event = new FormValidationEvent(this, type,
-					messages);
+			FormValidationEvent event = new FormValidationEvent(this, messages);
 			vl.handleValidationStateChange(event);
 		}
-	}
-
-	public ControlDecoration getErrorDecoration(Control control) {
-		ControlDecoration deco = new ControlDecoration(control, SWT.LEFT
-				| SWT.CENTER);
-		FieldDecoration fieldDecoration = FieldDecorationRegistry.getDefault()
-				.getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-		deco.setImage(fieldDecoration.getImage());
-		deco.hide();
-		return deco;
-	}
-
-	public ControlDecoration getWarningDecoration(Control control) {
-		ControlDecoration deco = new ControlDecoration(control, SWT.LEFT
-				| SWT.CENTER);
-		FieldDecoration fieldDecoration = FieldDecorationRegistry.getDefault()
-				.getFieldDecoration(FieldDecorationRegistry.DEC_WARNING);
-		deco.setImage(fieldDecoration.getImage());
-		deco.hide();
-		return deco;
-	}
-
-	public ControlDecoration getRequiredDecoration(Control control) {
-		ControlDecoration deco = new ControlDecoration(control, SWT.LEFT
-				| SWT.CENTER);
-		FieldDecoration fieldDecoration = FieldDecorationRegistry.getDefault()
-				.getFieldDecoration(FieldDecorationRegistry.DEC_REQUIRED);
-		deco.setImage(fieldDecoration.getImage());
-		deco.hide();
-		return deco;
-	}
-
-	Map<Control, ControlDecoration> errorDecorationMap = new HashMap<Control, ControlDecoration>();
-	Map<Control, ControlDecoration> warningDecorationMap = new HashMap<Control, ControlDecoration>();
-	Map<Control, ControlDecoration> requiredDecorationMap = new HashMap<Control, ControlDecoration>();
-
-	public void registerErrorDecorator(Control targetControl,
-			Control decoratorControl) {
-		errorDecorationMap.put(targetControl,
-				getErrorDecoration(decoratorControl));
-	}
-
-	public void registerWarningDecorator(Control targetControl,
-			Control decoratorControl) {
-		warningDecorationMap.put(targetControl,
-				getWarningDecoration(decoratorControl));
-	}
-
-	public void registerRequiredDecorator(Control targetControl,
-			Control decoratorControl) {
-		requiredDecorationMap.put(targetControl,
-				getRequiredDecoration(decoratorControl));
-	}
-
-	// TODO implement for all maps.
-	private ControlDecoration getDecoration(Control control) {
-		return requiredDecorationMap.get(control);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.netxforge.netxstudio.screens.editing.observables.IValidationService
-	 * #registerAllDecorators(org.eclipse.swt.widgets.Control,
-	 * org.eclipse.swt.widgets.Control)
-	 */
-	public void registerAllDecorators(Control control, Control decoratorControl) {
-		this.registerRequiredDecorator(control, decoratorControl);
-		this.registerWarningDecorator(control, decoratorControl);
-		this.registerErrorDecorator(control, decoratorControl);
-	}
-
-	public boolean canProceed() {
-		return false;
 	}
 
 	/*

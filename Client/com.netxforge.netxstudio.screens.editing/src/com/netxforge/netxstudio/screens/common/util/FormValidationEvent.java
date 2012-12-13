@@ -23,60 +23,34 @@ import java.util.List;
 import org.eclipse.ui.forms.IMessage;
 
 /**
- * A specialized event which provides validation information 
- * suitable for a {@link org.eclipse.ui.forms.widgets.Form}
+ * A specialized event which provides validation information suitable for a
+ * {@link MessageManager}
  * 
- * @author Christophe Bouhier christophe.bouhier@netxforge.com
+ * The event, could be aggregated, meaning one single message for as defined
+ * by {@link AggregationValidationStatus}. 
+ * 
+ * @author Christophe Bouhier
  * 
  */
 public class FormValidationEvent extends ValidationEvent {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * The IMessage type.
-	 */
-	private int msgType;
-
-	/**
-	 * The list of IMessages, which have led to this event.
+	/*
+	 * The messages.
 	 */
 	private List<IMessage> messages;
-
-	/**
-	 * @param arg0
-	 * @param msgType
-	 * @param messages
-	 */
-	public FormValidationEvent(Object arg0, int msgType, List<IMessage> messages) {
-		super(arg0);
-		this.msgType = msgType;
-		this.messages = messages;
-	}
-
-	public int getMsgType() {
-		return msgType;
-	}
-
-	public void setMsgType(int msgType) {
-		this.msgType = msgType;
-	}
 
 	public List<IMessage> getMessages() {
 		return messages;
 	}
 
-	public void setMessages(List<IMessage> messages) {
-		this.messages = messages;
-	}
-
 	/**
 	 * @param arg0
 	 */
-	public FormValidationEvent(Object arg0) {
+	public FormValidationEvent(Object arg0, List<IMessage> messages) {
 		super(arg0);
+		this.messages = messages;
 	}
+
 }

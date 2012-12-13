@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 11 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2.details;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -14,6 +31,8 @@ import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -28,6 +47,11 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
+/**
+ * 
+ * @author Christophe Bouhier
+ * 
+ */
 public class NewEditNodeFunction extends AbstractNewEditComponent {
 
 	private Text txtName;
@@ -37,6 +61,16 @@ public class NewEditNodeFunction extends AbstractNewEditComponent {
 	public NewEditNodeFunction(Composite parent, int style,
 			final IEditingService editingService) {
 		super(parent, style, editingService);
+
+		this.addDisposeListener(new DisposeListener() {
+
+			public void widgetDisposed(DisposeEvent e) {
+				validationService
+						.removeValidationListener(NewEditNodeFunction.this);
+			}
+
+		});
+
 		// buildUI();
 	}
 
@@ -203,6 +237,7 @@ public class NewEditNodeFunction extends AbstractNewEditComponent {
 		bindLifeCycle(context);
 		bindInfoSection(context);
 		bindLinkSection(context);
+
 		if (!readOnly) {
 			validationService.registerBindingContext(context);
 			validationService.addValidationListener(this);
