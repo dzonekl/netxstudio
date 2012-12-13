@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 11 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.f2.details;
 
 import java.util.Date;
@@ -91,9 +108,9 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 		implements IDataScreenInjection {
 
 	/**
-	 * Validates the lifecycle setting.
+	 * Validates the {@link Lifecycle} feature of a {@link Component}
 	 * 
-	 * @author Christophe
+	 * @author Christophe Bouhier
 	 * 
 	 */
 	private final class LifecycleValidator implements IValidator {
@@ -104,15 +121,15 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 			// It's OK to clear the value.
 			if (value == null) {
 				status = new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
-						"No problemo");
+						"Feature can be unset.");
 			} else {
-				// Check if date is befoe it's predecessor.
+				// TODO Check if date is befoe it's predecessor.
+				// Nice, chronological order of lifecycle dates. 
 				status = new Status(IStatus.WARNING,
 						ScreensActivator.PLUGIN_ID,
 						"testing warning when setting");
-				System.out.println(status + ", value=" + value.toString());
+//				System.out.println(status + ", value=" + value.toString());
 			}
-			
 			return status;
 		}
 	}

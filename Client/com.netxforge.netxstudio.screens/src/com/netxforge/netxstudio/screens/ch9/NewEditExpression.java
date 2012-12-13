@@ -18,8 +18,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.ch9;
 
-import java.util.List;
-
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -49,7 +47,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -64,9 +61,8 @@ import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.common.util.FormValidationEvent;
 import com.netxforge.netxstudio.screens.common.util.IValidationListener;
-import com.netxforge.netxstudio.screens.common.util.ValidationEvent;
+import com.netxforge.netxstudio.screens.common.util.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.xtext.embedded.AbstractEmbeddedExpression;
@@ -94,8 +90,8 @@ public class NewEditExpression extends AbstractScreen implements
 
 	@Inject
 	@Named("Netxscript")
-	private IInjectorProxy injectorProxy; 
-	
+	private IInjectorProxy injectorProxy;
+
 	/**
 	 * A feature which can be passed for which this expression should be added.
 	 */
@@ -120,11 +116,11 @@ public class NewEditExpression extends AbstractScreen implements
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 
-//		buildUI();
+		// buildUI();
 	}
 
 	private void buildUI() {
-		
+
 		// Readonlyness.
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
@@ -134,7 +130,7 @@ public class NewEditExpression extends AbstractScreen implements
 		frmExpression = toolkit.createForm(this);
 		frmExpression.setSeparatorVisible(true);
 		frmExpression.setText(this.getOperationText() + "Expression");
-		
+
 		toolkit.paintBordersFor(frmExpression);
 
 		frmExpression.getBody().setLayout(new FormLayout());
@@ -177,7 +173,8 @@ public class NewEditExpression extends AbstractScreen implements
 
 		exp = new EmbeddedNonSelectionExpression(this.editingService,
 				frmExpression.getBody(), fd_sctnNewSection, getOperation());
-		exp.setXtextInjector(injectorProxy.getInjector("com.netxforge.Netxscript"));
+		exp.setXtextInjector(injectorProxy
+				.getInjector("com.netxforge.Netxscript"));
 	}
 
 	public void injectData(Object owner, Object object) {
@@ -211,17 +208,17 @@ public class NewEditExpression extends AbstractScreen implements
 		} else {
 			throw new IllegalArgumentException("Valid argument required");
 		}
-		
+
 		buildUI();
 		m_bindingContext = initDataBindings_();
-		validationService.registerBindingContext(m_bindingContext);
-		validationService.addValidationListener(this);
-		exp.injectData(expression);
 
 		if (!ScreenUtil.isReadOnlyOperation(getOperation())) {
-			validationService.registerAllDecorators(txtExpressionName,
-					lblExpressionName);
+			// validationService.registerAllDecorators(txtExpressionName,
+			// lblExpressionName);
+			validationService.registerBindingContext(m_bindingContext);
+			validationService.addValidationListener(this);
 		}
+		exp.injectData(expression);
 	}
 
 	/*
@@ -278,8 +275,8 @@ public class NewEditExpression extends AbstractScreen implements
 	 */
 	public EMFDataBindingContext initDataBindings_() {
 
-		EMFUpdateValueStrategy expressionStrategy = validationService
-				.getUpdateValueStrategyBeforeSet("Expression name is required");
+		EMFUpdateValueStrategy expressionStrategy = ValidationService.getStrategyfactory()
+				.strategyBeforeSetStringNotEmpty("Expression name is required");
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
@@ -315,36 +312,36 @@ public class NewEditExpression extends AbstractScreen implements
 		return validationService.isValid();
 	}
 
-	public void handleValidationStateChange(ValidationEvent event) {
-		if (event instanceof FormValidationEvent) {
-			int type = ((FormValidationEvent) event).getMsgType();
-			List<IMessage> list = ((FormValidationEvent) event).getMessages();
-			if (frmExpression.isDisposed()
-					|| frmExpression.getHead().isDisposed()) {
-				return;
-			}
-
-			if (type != IMessage.NONE) {
-
-				String errorType = "";
-				if (type == IMessage.ERROR) {
-					errorType = "Error:";
-				}
-				if (type == IMessage.WARNING) {
-					errorType = "Required:";
-				}
-
-				StringBuffer msgBuffer = new StringBuffer();
-				msgBuffer.append(errorType + "(" + list.size() + "), "
-						+ list.get(0).getMessage());
-				frmExpression.setMessage(msgBuffer.toString(), type,
-						list.toArray(new IMessage[list.size()]));
-
-			} else {
-				frmExpression.setMessage(null);
-			}
-		}
-	}
+	// public void handleValidationStateChange(ValidationEvent event) {
+	// if (event instanceof FormValidationEvent) {
+	// int type = ((FormValidationEvent) event).getMsgType();
+	// List<IMessage> list = ((FormValidationEvent) event).getMessages();
+	// if (frmExpression.isDisposed()
+	// || frmExpression.getHead().isDisposed()) {
+	// return;
+	// }
+	//
+	// if (type != IMessage.NONE) {
+	//
+	// String errorType = "";
+	// if (type == IMessage.ERROR) {
+	// errorType = "Error:";
+	// }
+	// if (type == IMessage.WARNING) {
+	// errorType = "Required:";
+	// }
+	//
+	// StringBuffer msgBuffer = new StringBuffer();
+	// msgBuffer.append(errorType + "(" + list.size() + "), "
+	// + list.get(0).getMessage());
+	// frmExpression.setMessage(msgBuffer.toString(), type,
+	// list.toArray(new IMessage[list.size()]));
+	//
+	// } else {
+	// frmExpression.setMessage(null);
+	// }
+	// }
+	// }
 
 	public Form getScreenForm() {
 		return frmExpression;
@@ -371,6 +368,5 @@ public class NewEditExpression extends AbstractScreen implements
 	public String getScreenName() {
 		return "Expression";
 	}
-
 
 }

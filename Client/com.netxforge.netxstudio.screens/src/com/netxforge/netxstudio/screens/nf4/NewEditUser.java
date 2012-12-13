@@ -1,6 +1,26 @@
+/*******************************************************************************
+ * Copyright (c) 11 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.nf4;
 
+import java.util.List;
+
 import org.eclipse.core.databinding.conversion.Converter;
+import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -51,19 +71,25 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.common.CommonService;
 import com.netxforge.netxstudio.common.jca.JCAService;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.common.util.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class NewEditUser extends AbstractScreen implements
-		IDataScreenInjection  {
+/**
+ * 
+ * @author Christophe Bouhier
+ */
+public class NewEditUser extends AbstractScreen implements IDataScreenInjection {
 
+	@SuppressWarnings("unused")
 	private EMFDataBindingContext m_bindingContext;
 
 	CommonService commonService = new CommonService(new JCAService());
@@ -109,7 +135,6 @@ public class NewEditUser extends AbstractScreen implements
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 
-
 	}
 
 	private void buildUI() {
@@ -119,7 +144,8 @@ public class NewEditUser extends AbstractScreen implements
 		frmNewEditUser.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewEditUser);
 
-		String title = ScreenUtil.isNewOperation(getOperation()) ? "New: " : "Edit: ";
+		String title = ScreenUtil.isNewOperation(getOperation()) ? "New: "
+				: "Edit: ";
 
 		frmNewEditUser.setText(title + "User");
 		frmNewEditUser.addMessageHyperlinkListener(new HyperlinkAdapter());
@@ -287,14 +313,15 @@ public class NewEditUser extends AbstractScreen implements
 		toolkit.paintBordersFor(combo);
 
 		// Register decorators for each control.
-		validationService.registerAllDecorators(txtLogin, lblLogin);
-		validationService.registerAllDecorators(txtFirstName, lblFirstName);
-		validationService.registerAllDecorators(txtLastName, lblLastName);
-		validationService.registerAllDecorators(txtEmail, lblEmail);
-		validationService.registerAllDecorators(btnCheck, btnCheck);
-		validationService.registerAllDecorators(txtPass, lblPassword);
-		validationService.registerAllDecorators(txtConfirm, lblConfirm);
-		validationService.registerAllDecorators(combo, lblRole);
+		// CB Decoration is done automatically by the Message Manager.
+		// validationService.registerAllDecorators(txtLogin, lblLogin);
+		// validationService.registerAllDecorators(txtFirstName, lblFirstName);
+		// validationService.registerAllDecorators(txtLastName, lblLastName);
+		// validationService.registerAllDecorators(txtEmail, lblEmail);
+		// validationService.registerAllDecorators(btnCheck, btnCheck);
+		// validationService.registerAllDecorators(txtPass, lblPassword);
+		// validationService.registerAllDecorators(txtConfirm, lblConfirm);
+		// validationService.registerAllDecorators(combo, lblRole);
 	}
 
 	protected void handleRoleSelection(SelectionEvent e) {
@@ -308,28 +335,35 @@ public class NewEditUser extends AbstractScreen implements
 	 */
 	public EMFDataBindingContext initDataBindings_() {
 
+		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
+		validationService.registerBindingContext(bindingContext);
+
 		// Validation Strategies
-		EMFUpdateValueStrategy loginStrategy = validationService
-				.getUpdateValueStrategyBeforeSet("Login is required");
+		EMFUpdateValueStrategy loginStrategy = ValidationService
+				.getStrategyfactory().strategyBeforeSetStringNotEmpty(
+						"Login is required");
 
-		EMFUpdateValueStrategy firstNameStrategy = validationService
-				.getUpdateValueStrategyBeforeSet("First name is required");
+		EMFUpdateValueStrategy firstNameStrategy = ValidationService
+				.getStrategyfactory().strategyBeforeSetStringNotEmpty(
+						"First name is required");
 
-		EMFUpdateValueStrategy lastNameStrategy = validationService
-				.getUpdateValueStrategyBeforeSet("Last name is required");
+		EMFUpdateValueStrategy lastNameStrategy = ValidationService
+				.getStrategyfactory().strategyBeforeSetStringNotEmpty(
+						"Last name is required");
 
-		EMFUpdateValueStrategy emailNameStrategy = validationService
-				.getUpdateValueStrategyBeforeSet("Email is required");
+		EMFUpdateValueStrategy emailNameStrategy = ValidationService
+				.getStrategyfactory().strategyBeforeSetStringNotEmpty(
+						"Email is required");
 
 		// The active strategy is merely a warning.
-		EMFUpdateValueStrategy activeStrategy = validationService
-				.getUpdateValueStrategyAfterGet(new IValidator() {
+		EMFUpdateValueStrategy activeStrategy = ValidationService
+				.getStrategyfactory().strategyAfterGet(new IValidator() {
 
 					public IStatus validate(Object value) {
 						if (value instanceof Boolean) {
 							if (!((Boolean) value).booleanValue()) {
 								// Not active, issue warning.
-								return new Status(IStatus.OK,
+								return new Status(IStatus.WARNING,
 										ScreensActivator.PLUGIN_ID,
 										"Person not active, are you sure");
 							} else {
@@ -344,8 +378,8 @@ public class NewEditUser extends AbstractScreen implements
 
 				});
 
-		EMFUpdateValueStrategy roleStrategy = validationService
-				.getUpdateValueStrategyAfterGet(new IValidator() {
+		EMFUpdateValueStrategy roleStrategy = ValidationService
+				.getStrategyfactory().strategyAfterGet(new IValidator() {
 					public IStatus validate(Object value) {
 						if (value == null) {
 							return new Status(IStatus.WARNING,
@@ -361,8 +395,6 @@ public class NewEditUser extends AbstractScreen implements
 
 		// Bindings
 
-		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-		//
 		IObservableValue textObserveTextObserveWidget_1 = SWTObservables
 				.observeDelayedValue(100,
 						SWTObservables.observeText(txtLogin, SWT.Modify));
@@ -385,7 +417,6 @@ public class NewEditUser extends AbstractScreen implements
 		bindingContext.bindValue(txtFirstNameObserveTextObserveWidget,
 				userFirstNameObserveValue.observe(user), firstNameStrategy,
 				null);
-		//
 		IObservableValue txtLastNameObserveTextObserveWidget = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(txtLastName, SWT.Modify));
@@ -418,61 +449,55 @@ public class NewEditUser extends AbstractScreen implements
 		bindingContext.bindValue(btnCheckObserveSelectionObserveWidget,
 				userActiveObserveValue.observe(user), activeStrategy, null);
 
-		// Special writable case for password and confirmation,
-		// both share the value changed listener, which only updates the proxy
-		// when both passwords are the same. 2 x widgets -> model
-
 		IObservableValue passwordObservableValue = new WritableValue();
-
-		PasswordConfirmed confirmedHandler = new PasswordConfirmed(
-				passwordObservableValue);
 
 		IObservableValue txtPasswordObserveTextObserveWidget = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(txtPass, SWT.Modify));
-		txtPasswordObserveTextObserveWidget
-				.addValueChangeListener(confirmedHandler);
-
 		IObservableValue txtConfirmObserveTextObserveWidget = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(txtConfirm, SWT.Modify));
 
-		txtConfirmObserveTextObserveWidget
-				.addValueChangeListener(confirmedHandler);
+		// NEW CODE, Use a custom MultiValidator, it produces
+
+		NewPasswordConfirmed newPasswordConfirmed = new NewPasswordConfirmed(
+				bindingContext, new IObservableValue[] {
+						txtPasswordObserveTextObserveWidget,
+						txtConfirmObserveTextObserveWidget });
+
+		passwordObservableValue = newPasswordConfirmed
+				.observeValidatedValue(newPasswordConfirmed.getMiddletons()
+						.get(0));
+		
+		// OLD CODE.
+		// Special writable case for password and confirmation,
+		// both share the value changed listener, which only sets the model.
+		// when both passwords are the same. 2 x widgets -> model
+
+		// PasswordConfirmed confirmedHandler = new PasswordConfirmed(
+		// passwordObservableValue);
+
+		// txtPasswordObserveTextObserveWidget
+		// .addValueChangeListener(confirmedHandler);
+
+		// txtConfirmObserveTextObserveWidget
+		// .addValueChangeListener(confirmedHandler);
+
+		// EMFUpdateValueStrategy passStrategy = ValidationService
+		// .getStrategyfactory().strategyAfterGet(confirmedHandler);
+
+		EMFUpdateValueStrategy passStrategy = new EMFUpdateValueStrategy();
+		passStrategy.setConverter(new PasswordConverter());
 
 		IEMFValueProperty passwordObserveValue = EMFEditProperties.value(
 				editingService.getEditingDomain(), Literals.PERSON__PASSWORD);
 
-		EMFUpdateValueStrategy passStrategy = validationService
-				.getUpdateValueStrategyAfterGet(confirmedHandler);
-		passStrategy.setConverter(new PasswordConverter());
-
+		// Password, can not be presented (Ok it can but we don't want to), so only target to model.
 		bindingContext.bindValue(passwordObservableValue,
-				passwordObserveValue.observe(user), passStrategy, passStrategy);
-
-		// Observe and fork on the opposite direction model -> 2 x widget.
-
-		// final IObservableValue passToTargetObservableValueWritable = new
-		// WritableValue();
-		//
-		// IObservableValue passToTargetObservableValue = passwordObserveValue
-		// .observe(user);
-		// passToTargetObservableValue
-		// .addValueChangeListener(new IValueChangeListener() {
-		//
-		// public void handleValueChange(ValueChangeEvent event) {
-		// We can't set the value, which would trigger a
-		// circular update.
-		// passToTargetObservableValueWritable.setValue(event.diff.getNewValue());
-		// }
-		// });
-		//
-		// bindingContext.bindValue(txtPasswordObserveTextObserveWidget,
-		// passToTargetObservableValueWritable, null, null);
-
-		// bindingContext.bindValue(txtConfirmObserveTextObserveWidget,
-		// passToTargetObservableValueWritable, null, null);
-
+				passwordObserveValue.observe(user), passStrategy, null);
+		
+		newPasswordConfirmed.revalidateExternal();
+		
 		// Hand coded binding for a combo.
 
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
@@ -482,14 +507,14 @@ public class NewEditUser extends AbstractScreen implements
 				listContentProvider.getKnownElements(), Literals.ROLE__NAME);
 		this.getComboViewerWidget().setLabelProvider(
 				new ObservableMapLabelProvider(observeMap));
-		
+
 		rolesResource = editingService.getData(GenericsPackage.Literals.ROLE);
-		IEMFListProperty l = EMFEditProperties.resource(
-				editingService.getEditingDomain());
+		IEMFListProperty l = EMFEditProperties.resource(editingService
+				.getEditingDomain());
 		IObservableList rolesObservableList = l.observe(rolesResource);
-		
-//		obm.addObservable(rolesObservableList);
-		
+
+		// obm.addObservable(rolesObservableList);
+
 		this.getComboViewerWidget().setInput(rolesObservableList);
 
 		IObservableValue comboObserveProxy = ViewerProperties.singleSelection()
@@ -534,12 +559,107 @@ public class NewEditUser extends AbstractScreen implements
 	}
 
 	/**
+	 * Produces Middleton WritableValues for the provided targets, binds them
+	 * together and adds to the context.
+	 * 
+	 * @author Christophe
+	 * 
+	 */
+	private class NewPasswordConfirmed extends
+			ValidationService.ValidationWithTargetStatusProvider {
+
+		private EMFDataBindingContext ctx;
+
+		private List<IObservableValue> middletons = Lists.newArrayList();
+
+		@SuppressWarnings("unused")
+		public NewPasswordConfirmed(IObservableValue... targets) {
+			this(null, targets);
+		}
+
+		public NewPasswordConfirmed(EMFDataBindingContext ctx,
+				IObservableValue... targets) {
+			super(targets);
+			this.ctx = ctx;
+
+			if (this.ctx != null) {
+				for (IObservable iObservable : targets) {
+					IObservableValue writableValue = new WritableValue();
+					middletons.add(writableValue);
+					this.ctx.bindValue((IObservableValue) iObservable,
+							writableValue);
+				}
+			}
+			ctx.addValidationStatusProvider(this);
+		}
+
+		public List<IObservableValue> getMiddletons() {
+			return middletons;
+		}
+
+		@Override
+		protected IStatus validate() {
+			// Works for 2 middletons only!
+			if (middletons.size() == 2) {
+				String first = (String) middletons.get(0).getValue();
+				String second = (String) middletons.get(1).getValue();
+
+				if (!checkNotSet(first, second)) {
+					if (!checkEmpty(first, second)) {
+						if (checkPassConfirmed(first, second)) {
+							return Status.OK_STATUS;
+						} else {
+							return new Status(IStatus.ERROR,
+									ScreensActivator.PLUGIN_ID,
+									"Password should be equal");
+
+						}
+					} else {
+						return new Status(IStatus.INFO,
+								ScreensActivator.PLUGIN_ID,
+								"Enter a new password to (re)set");
+					}
+				} else {
+					return new Status(IStatus.INFO, ScreensActivator.PLUGIN_ID,
+							"Enter a new password to (re)set");
+				}
+			} else {
+				return new Status(IStatus.ERROR, ScreensActivator.PLUGIN_ID,
+						"Programming error");
+			}
+		}
+
+		/*
+		 * Password is confirmed when both the pass and the confirm are set,
+		 * non-empty and equal.
+		 */
+		private boolean checkPassConfirmed(String v1, String v2) {
+			return (v1 != null) && (v2 != null) && !v1.isEmpty()
+					&& !v2.isEmpty() && v1.equals(v2);
+		}
+
+		/*
+		 * Set when one of the
+		 */
+		private boolean checkNotSet(String v1, String v2) {
+			return (v1 == null) && (v2 == null);
+		}
+
+		private boolean checkEmpty(String v1, String v2) {
+			return (v1 != null) && (v2 != null)
+					&& (v1.isEmpty() && v2.isEmpty());
+		}
+
+	}
+
+	/**
 	 * Combines the password and confirm value into a single update. Acts as a
 	 * validator to make sure both password are the same.
 	 * 
 	 * @author Christophe Bouhier christophe.bouhier@netxforge.com
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	private class PasswordConfirmed implements IValueChangeListener, IValidator {
 
 		private String pass;
@@ -561,23 +681,46 @@ public class NewEditUser extends AbstractScreen implements
 		public void handleValueChange(ValueChangeEvent event) {
 			Object newValue = event.diff.getNewValue();
 
+			// As we use one single observable, we need to clear it first,
+			// otherwise equality will prevent it from being set by the binding,
+			// so it will not be validated.
+			// At the end, the
+
 			if (event.getObservable() instanceof ISWTObservableValue) {
 				Control control = (Control) ((ISWTObservableValue) event
 						.getObservable()).getWidget();
 				if (control.equals(txtPass)) {
 					pass = (String) newValue;
+					toObserve.setValue("");
+					toObserve.setValue(pass);
 				}
 				if (control.equals(txtConfirm)) {
 					confirm = (String) newValue;
-				}
-				if (checkPassConfirmed()) {
-					toObserve.setValue(pass);
+					toObserve.setValue("");
+					toObserve.setValue(confirm);
 				}
 			}
 		}
 
+		/*
+		 * Password is confirmed when both the pass and the confirm are set,
+		 * non-empty and equal.
+		 */
 		private boolean checkPassConfirmed() {
-			return (pass != null) && (confirm != null) & pass.equals(confirm);
+			return (pass != null) && (confirm != null) && !pass.isEmpty()
+					&& !confirm.isEmpty() && pass.equals(confirm);
+		}
+
+		/*
+		 * Set when one of the
+		 */
+		private boolean checkNotSet() {
+			return (pass == null) && (confirm == null);
+		}
+
+		private boolean checkEmpty() {
+			return (pass != null) && (confirm != null)
+					&& (pass.isEmpty() && confirm.isEmpty());
 		}
 
 		/*
@@ -589,12 +732,28 @@ public class NewEditUser extends AbstractScreen implements
 		 */
 		public IStatus validate(Object value) {
 
+			System.out.println(" validate + " + value + "pass: " + pass
+					+ " confirm: " + confirm);
+
 			// Should we care about the value, we use the observable.
-			if (checkPassConfirmed()) {
-				return Status.OK_STATUS;
+			if (!checkNotSet()) {
+				if (!checkEmpty()) {
+					if (checkPassConfirmed()) {
+						return Status.OK_STATUS;
+					} else {
+						return new Status(IStatus.ERROR,
+								ScreensActivator.PLUGIN_ID,
+								"Password should be equal");
+
+					}
+				} else {
+					return new Status(IStatus.INFO, ScreensActivator.PLUGIN_ID,
+							"Enter a new password to (re)set");
+				}
+			} else {
+				return new Status(IStatus.INFO, ScreensActivator.PLUGIN_ID,
+						"Enter a new password to (re)set");
 			}
-			return new Status(IStatus.WARNING, ScreensActivator.PLUGIN_ID,
-					"Password should be equal");
 		}
 	}
 
@@ -614,20 +773,18 @@ public class NewEditUser extends AbstractScreen implements
 			throw new java.lang.IllegalArgumentException();
 		}
 		if (object != null && object instanceof Person) {
-				user = (Person) object;
-		}else {
+			user = (Person) object;
+		} else {
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}
-		
 
 		buildUI();
-		m_bindingContext = initDataBindings_();
-
 		if (!ScreenUtil.isReadOnlyOperation(getOperation())) {
-			validationService.registerBindingContext(m_bindingContext);
 			validationService.addValidationListener(this);
+
 		}
+		m_bindingContext = initDataBindings_();
 	}
 
 	/*
@@ -695,6 +852,5 @@ public class NewEditUser extends AbstractScreen implements
 	public String getScreenName() {
 		return "User";
 	}
-
 
 }

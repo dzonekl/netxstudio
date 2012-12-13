@@ -65,7 +65,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -81,9 +80,8 @@ import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.common.util.FormValidationEvent;
 import com.netxforge.netxstudio.screens.common.util.IValidationListener;
-import com.netxforge.netxstudio.screens.common.util.ValidationEvent;
+import com.netxforge.netxstudio.screens.common.util.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.xtext.embedded.AbstractEmbeddedExpression;
@@ -91,7 +89,7 @@ import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedNonSelectionExpre
 
 /**
  * <ul>
- * <li>Can edit various  related expression references from the injected object</li>
+ * <li>Can edit various related expression references from the injected object</li>
  * <li>Can test the expression, with (at least) the component as context.</li>
  * </ul>
  * 
@@ -125,15 +123,17 @@ public class ObjectExpressions extends AbstractScreen implements
 			.createDateTimeRange();
 
 	/*
-	 * A list of objects, which will form the context for executing the expression. 
-	 * the inject object, will always be the first entry in this list. 
+	 * A list of objects, which will form the context for executing the
+	 * expression. the inject object, will always be the first entry in this
+	 * list.
 	 */
 	protected final List<Object> objects = Lists.newArrayList();
-	
+
 	/*
-	 * A map of expression and a presentation name for the selector. 
+	 * A map of expression and a presentation name for the selector.
 	 */
-	protected final Map<String, EReference> expressionEntries = Maps.newHashMap();
+	protected final Map<String, EReference> expressionEntries = Maps
+			.newHashMap();
 
 	private TableViewer tableViewer;
 
@@ -155,7 +155,7 @@ public class ObjectExpressions extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 	}
 
 	private void buildUI() {
@@ -218,36 +218,40 @@ public class ObjectExpressions extends AbstractScreen implements
 		cmpSelector.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		tableViewer = new TableViewer(cmpSelector, SWT.BORDER | SWT.V_SCROLL);
-		
+
 		Table expSelectorTable = tableViewer.getTable();
-		
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn = new TableViewerColumn(
+				tableViewer, SWT.NONE);
 		TableColumn tblclmnName = tableViewerColumn.getColumn();
 		tblclmnName.setWidth(200);
 		tblclmnName.setText("name");
-		
+
 		expSelectorTable.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// update the expression part.
 				ISelection selection = tableViewer.getSelection();
-				if(selection instanceof IStructuredSelection){
-					Object firstElement = ((IStructuredSelection) selection).getFirstElement();
-					if(firstElement != null && expressionEntries.containsKey(firstElement)){
-						
+				if (selection instanceof IStructuredSelection) {
+					Object firstElement = ((IStructuredSelection) selection)
+							.getFirstElement();
+					if (firstElement != null
+							&& expressionEntries.containsKey(firstElement)) {
+
 						EReference eref = expressionEntries.get(firstElement);
-						Expression expr = (Expression) primaryContextObject.eGet(eref);
+						Expression expr = (Expression) primaryContextObject
+								.eGet(eref);
 						if (expr != null) {
 							bindExpression(bindingContext, expr);
 							exp.injectData(expr);
-						}else{
-							// TODO, give the option to select, replace the composite?
+						} else {
+							// TODO, give the option to select, replace the
+							// composite?
 						}
 					}
 				}
 			}
 		});
-		
 
 		// INFO SECTION
 
@@ -280,7 +284,7 @@ public class ObjectExpressions extends AbstractScreen implements
 		txtExpressionName.setText("");
 		GridData gd_txtName = new GridData(SWT.FILL, SWT.CENTER, true, false,
 				1, 1);
-//		gd_txtName.widthHint = 200;
+		// gd_txtName.widthHint = 200;
 		txtExpressionName.setLayoutData(gd_txtName);
 
 		// FORM DATA FOR EXPRESSION EDITOR
@@ -305,7 +309,7 @@ public class ObjectExpressions extends AbstractScreen implements
 
 		Section sctnTesting = toolkit.createSection(cmpSashLowerPart,
 				Section.TITLE_BAR | Section.TWISTIE);
-		 
+
 		toolkit.paintBordersFor(sctnTesting);
 		sctnTesting.setText("Test");
 
@@ -346,16 +350,15 @@ public class ObjectExpressions extends AbstractScreen implements
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// call the interpreter.
-				
+
 				// CB, replate with an Expression Service.
-//				exp.testExpression(periodContext, objects.toArray());
+				// exp.testExpression(periodContext, objects.toArray());
 			}
 		});
 		new Label(cmpTesting, SWT.NONE);
 
 	}
 
-	
 	private void buildPeriodContext(Composite cmpTesting) {
 
 		Label lblStart = toolkit.createLabel(cmpTesting, "From:", SWT.NONE);
@@ -433,8 +436,8 @@ public class ObjectExpressions extends AbstractScreen implements
 		validationService.addValidationListener(this);
 
 		if (!ScreenUtil.isReadOnlyOperation(getOperation())) {
-			validationService.registerAllDecorators(txtExpressionName,
-					lblExpressionName);
+			// validationService.registerAllDecorators(txtExpressionName,
+			// lblExpressionName);
 		}
 	}
 
@@ -447,7 +450,8 @@ public class ObjectExpressions extends AbstractScreen implements
 		if (ScreenUtil.isNewOperation(getOperation()) && owner != null) {
 		} else if (ScreenUtil.isEditOperation(getOperation())) {
 			// invalid, and we should cancel the action and warn the user.
-			if (primaryContextObject instanceof CDOObject && ((CDOObject) primaryContextObject).cdoInvalid()) {
+			if (primaryContextObject instanceof CDOObject
+					&& ((CDOObject) primaryContextObject).cdoInvalid()) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
@@ -473,28 +477,25 @@ public class ObjectExpressions extends AbstractScreen implements
 		bindExpressionSelector(bindingContext);
 		// period context binding
 		bindPeriodContext(bindingContext);
-		// object context binding. 
+		// object context binding.
 		bindObjectsContext(bindingContext);
-		
+
 		return bindingContext;
 	}
 
 	private void bindObjectsContext(EMFDataBindingContext bindingContext2) {
-		
-		
-		
-		
-		
+
 	}
 
 	private void bindExpressionSelector(EMFDataBindingContext bindingContext) {
-		
-		List<EReference> expressionEReferences = modelUtils.expressionEReferences(primaryContextObject);
-		for( EReference eref : expressionEReferences){
+
+		List<EReference> expressionEReferences = modelUtils
+				.expressionEReferences(primaryContextObject);
+		for (EReference eref : expressionEReferences) {
 			expressionEntries.put(eref.getName(), eref);
 		}
-		
-		// set the content provider and label provider for the listviewer. 
+
+		// set the content provider and label provider for the listviewer.
 		tableViewer.setContentProvider(new ArrayContentProvider());
 		tableViewer.setLabelProvider(new StyledCellLabelProvider() {
 
@@ -502,26 +503,29 @@ public class ObjectExpressions extends AbstractScreen implements
 			public void update(ViewerCell cell) {
 				Object element = cell.getElement();
 				EReference eReference = expressionEntries.get(element);
-				Expression exp = (Expression) primaryContextObject.eGet(eReference);
-				
+				Expression exp = (Expression) primaryContextObject
+						.eGet(eReference);
+
 				// Strip some words from the ref name.
 				String refName = (String) element;
 				String replaceAll = refName.replaceAll("(Expression|Ref)", "");
-				StyledString styledString = new StyledString((String) replaceAll);
-				
-				if(exp == null){
-					styledString.append(" (not set)", StyledString.COUNTER_STYLER);	
+				StyledString styledString = new StyledString(
+						(String) replaceAll);
+
+				if (exp == null) {
+					styledString.append(" (not set)",
+							StyledString.COUNTER_STYLER);
 				}
-				
+
 				cell.setText(styledString.getString());
 				cell.setStyleRanges(styledString.getStyleRanges());
-				
+
 				super.update(cell);
 			}
 		});
-		
+
 		tableViewer.setInput(expressionEntries.keySet().toArray());
-		
+
 	}
 
 	private void bindPeriodContext(EMFDataBindingContext bindingContext) {
@@ -537,8 +541,9 @@ public class ObjectExpressions extends AbstractScreen implements
 			context.removeBinding(bindValue);
 		}
 
-		EMFUpdateValueStrategy expressionStrategy = validationService
-				.getUpdateValueStrategyBeforeSet("Expression name is required");
+		EMFUpdateValueStrategy expressionStrategy = ValidationService
+				.getStrategyfactory().strategyBeforeSetStringNotEmpty(
+						"Expression name is required");
 
 		IObservableValue txtNameObserveTextObserveWidget = SWTObservables
 				.observeDelayedValue(400, SWTObservables.observeText(
@@ -571,36 +576,36 @@ public class ObjectExpressions extends AbstractScreen implements
 		return validationService.isValid();
 	}
 
-	public void handleValidationStateChange(ValidationEvent event) {
-		if (event instanceof FormValidationEvent) {
-			int type = ((FormValidationEvent) event).getMsgType();
-			List<IMessage> list = ((FormValidationEvent) event).getMessages();
-			if (frmExpressionTester.isDisposed()
-					|| frmExpressionTester.getHead().isDisposed()) {
-				return;
-			}
-
-			if (type != IMessage.NONE) {
-
-				String errorType = "";
-				if (type == IMessage.ERROR) {
-					errorType = "Error:";
-				}
-				if (type == IMessage.WARNING) {
-					errorType = "Required:";
-				}
-
-				StringBuffer msgBuffer = new StringBuffer();
-				msgBuffer.append(errorType + "(" + list.size() + "), "
-						+ list.get(0).getMessage());
-				frmExpressionTester.setMessage(msgBuffer.toString(), type,
-						list.toArray(new IMessage[list.size()]));
-
-			} else {
-				frmExpressionTester.setMessage(null);
-			}
-		}
-	}
+	// public void handleValidationStateChange(ValidationEvent event) {
+	// if (event instanceof FormValidationEvent) {
+	// int type = ((FormValidationEvent) event).getMsgType();
+	// List<IMessage> list = ((FormValidationEvent) event).getMessages();
+	// if (frmExpressionTester.isDisposed()
+	// || frmExpressionTester.getHead().isDisposed()) {
+	// return;
+	// }
+	//
+	// if (type != IMessage.NONE) {
+	//
+	// String errorType = "";
+	// if (type == IMessage.ERROR) {
+	// errorType = "Error:";
+	// }
+	// if (type == IMessage.WARNING) {
+	// errorType = "Required:";
+	// }
+	//
+	// StringBuffer msgBuffer = new StringBuffer();
+	// msgBuffer.append(errorType + "(" + list.size() + "), "
+	// + list.get(0).getMessage());
+	// frmExpressionTester.setMessage(msgBuffer.toString(), type,
+	// list.toArray(new IMessage[list.size()]));
+	//
+	// } else {
+	// frmExpressionTester.setMessage(null);
+	// }
+	// }
+	// }
 
 	public Form getScreenForm() {
 		return frmExpressionTester;
