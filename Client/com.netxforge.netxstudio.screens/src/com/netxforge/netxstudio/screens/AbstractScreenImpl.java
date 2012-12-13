@@ -19,7 +19,6 @@ package com.netxforge.netxstudio.screens;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.cdo.CDOObject;
@@ -49,6 +48,7 @@ import com.netxforge.netxstudio.screens.common.util.IValidationListener;
 import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.common.util.ValidationEvent;
 import com.netxforge.netxstudio.screens.common.util.ValidationService;
+import com.netxforge.netxstudio.screens.common.util.ValidationService.MessageFromStatus;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
@@ -77,7 +77,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	}
 
 	private String screenName = "TODO_Provide_screenname";
-	
+
 	@Inject
 	protected ModelUtils modelUtils;
 
@@ -102,6 +102,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		// See Screen Service.
 
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
+
 	}
 
 	/**
@@ -171,51 +172,60 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	}
 
 	/**
+	 * 
+	 * 
 	 * @param currentStatus
 	 * @param ctx
 	 */
 	public void handleValidationStateChange(ValidationEvent event) {
 
 		if (event instanceof FormValidationEvent) {
-			int type = ((FormValidationEvent) event).getMsgType();
-			List<IMessage> list = ((FormValidationEvent) event).getMessages();
-			if (getScreenForm().isDisposed()
+
+			if (this.isDisposed() || getScreenForm().isDisposed()
 					|| this.getScreenForm().getHead().isDisposed()) {
 				return;
 			}
-			if (type != IMessage.NONE) {
-				// String errorType = "";
-				// if (type == IMessage.ERROR) {
-				// errorType = "Error:";
-				// }
-				// if (type == IMessage.WARNING) {
-				// errorType = "Required:";
-				// }
-				// StringBuffer msgBuffer = new StringBuffer();
-				// msgBuffer.append(errorType + "(" + list.size() + "), "
-				// + list.get(0).getMessage());
-				// this.getScreenForm().getMessageManager().removeAllMessages();
-				this.getScreenForm().getMessageManager()
-						.createSummary(list.toArray(new IMessage[list.size()]));
-				for (IMessage m : list) {
-					if (m.getControl() != null) {
-						this.getScreenForm()
-								.getMessageManager()
-								.addMessage(m, m.getMessage(), null, type,
-										m.getControl());
+
+			for (IMessage msg : ((FormValidationEvent) event).getMessages()) {
+				if (msg instanceof MessageFromStatus) {
+					MessageFromStatus mfs = (MessageFromStatus) msg;
+					if (mfs.getMessageType() != IMessage.NONE) {
+						// Add a message to the message manager, the control is
+						// the key.
+
+						if (mfs.getControl() != null) {
+							this.getScreenForm().getMessageManager().removeMessage(mfs.getOldStatus(), mfs.getControl());
+							this.getScreenForm()
+									.getMessageManager()
+									.addMessage(mfs.getNewStatus(),
+											mfs.getMessage(), null,
+											mfs.getMessageType(),
+											mfs.getControl());
+						} else {
+							this.getScreenForm().getMessageManager().removeMessage(mfs.getOldStatus());
+							this.getScreenForm()
+									.getMessageManager()
+									.addMessage(mfs.getNewStatus(),
+											mfs.getMessage(), null,
+											mfs.getMessageType());
+						}
+
 					} else {
-						this.getScreenForm().getMessageManager()
-								.addMessage(m, m.getMessage(), null, type);
+						if (mfs.getControl() != null) {
+							this.getScreenForm().getMessageManager().removeMessage(mfs.getOldStatus(), mfs.getControl());
+						}else{
+//							this.getScreenForm().getMessageManager().
+							this.getScreenForm().getMessageManager().removeMessage(mfs.getOldStatus());
+						}
 					}
 				}
-
-				// this.getScreenForm().setMessage(msgBuffer.toString(), type,
-				// list.toArray(new IMessage[list.size()]));
-
-			} else {
-				this.getScreenForm().setMessage(null);
 			}
 		}
+
+		// Does the form create it's own summary?
+//		 this.getScreenForm().getMessageManager()
+//		 .createSummary(list.toArray(new IMessage[list.size()]));
+
 	}
 
 	public IAction[] getActions() {
@@ -262,7 +272,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	public String getScreenName() {
 		return screenName;
 	}
-	
+
 	public void setScreenName(String screenName) {
 		this.screenName = screenName;
 	}
@@ -487,14 +497,13 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	public Collection<CDOObject> getScreenObjects() {
 		return Collections.emptyList();
 	}
-	
 
 	public boolean shouldHandleRefresh() {
 		return false;
 	}
 
-	public void handleReshresh(Object... objects) {
-		// Do nothing. 
+	public void handleRefresh(Object... objects) {
+		// Do nothing.
 	}
-	
+
 }
