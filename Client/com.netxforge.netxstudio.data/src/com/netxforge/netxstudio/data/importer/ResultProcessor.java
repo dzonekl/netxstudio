@@ -24,10 +24,12 @@ import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.common.util.EList;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.data.tolerance.ToleranceProcessor;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -61,6 +63,9 @@ public class ResultProcessor {
 
 	@Inject
 	private ToleranceProcessor tolProcessor;
+
+	@Inject
+	private IQueryService queryService;
 
 	/**
 	 * Process a Service Profile calculation result.
@@ -332,8 +337,20 @@ public class ResultProcessor {
 
 		// Default equals -1.
 		if (intervalHint == -1) {
-
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_RESULT_VALUE_OPTION,
+						"-- interval not set. ");
+			}
 		}
+
+		// CB Experimental, pre-load only 24 indexes, and chunks of 24.
+		foundNetXResource
+				.cdoView()
+				.getSession()
+				.options()
+				.setCollectionLoadingPolicy(
+						CDOUtil.createCollectionLoadingPolicy(24, 24));
 
 		final MetricValueRange mvr = modelUtils
 				.valueRangeForIntervalAndKindGetOrCreate(foundNetXResource,
@@ -360,7 +377,8 @@ public class ResultProcessor {
 
 		// TODO Should filter for period, as we will other try to match the time
 		// against the whole range.
-		addToValues(mvr.getMetricValues(), newValues, intervalHint);
+		// addToValues(mvr.getMetricValues(), newValues, intervalHint);
+		addToValues(mvr, newValues, intervalHint);
 
 		if (DataActivator.DEBUG) {
 			DataActivator.TRACE.trace(
@@ -372,6 +390,13 @@ public class ResultProcessor {
 		}
 	}
 
+	/**
+	 * Add a collection of values to a metric value range.
+	 * 
+	 * @param mvr
+	 * @param newValues
+	 * @param intervalHint
+	 */
 	public void addToValues(EList<Value> values, List<Value> newValues,
 			int intervalHint) {
 		for (final Value newValue : new ArrayList<Value>(newValues)) {
@@ -387,17 +412,42 @@ public class ResultProcessor {
 		}
 	}
 
-	/*
-	 * If this method is used to
+	/**
+	 * Add a collection of values to a metric value range.
+	 * 
+	 * @param mvr
+	 * @param newValues
+	 * @param intervalHint
+	 */
+	public void addToValues(MetricValueRange mvr, List<Value> newValues,
+			int intervalHint) {
+		for (final Value newValue : new ArrayList<Value>(newValues)) {
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_RESULT_VALUE_OPTION,
+						"-- Attempt to add value within interval ("
+								+ intervalHint + " min.), "
+								+ modelUtils.value(newValue));
+			}
+
+			addToValues(mvr, newValue, intervalHint);
+		}
+	}
+
+	/**
+	 * Add to a value range.
+	 * 
+	 * @param currentValues
+	 * @param value
+	 * @param intervalHint
 	 */
 	public void addToValues(EList<Value> currentValues, Value value,
 			int intervalHint) {
 
 		final long timeInMillis = value.getTimeStamp().toGregorianCalendar()
 				.getTimeInMillis();
-		Value foundValue = null;
 
-		// Use a query instead.
+		Value foundValue = null;
 
 		for (final Value lookValue : currentValues) {
 			if (isSameTime(intervalHint, timeInMillis, lookValue.getTimeStamp())) {
@@ -406,6 +456,7 @@ public class ResultProcessor {
 				break;
 			}
 		}
+
 		if (foundValue != null) {
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(
@@ -431,6 +482,55 @@ public class ResultProcessor {
 			}
 			// New timestamp, new value.
 			currentValues.add(value);
+		}
+	}
+
+	/**
+	 * Add to a value range, first trying to match the timestamp. If the
+	 * timestamp matches, overwrite the value.
+	 * 
+	 * @param mvr
+	 * @param value
+	 * @param intervalHint
+	 */
+	public void addToValues(MetricValueRange mvr, Value value, int intervalHint) {
+
+		Value foundValue = null;
+
+		List<Value> sortedValues = this.queryService.getSortedValues(
+				mvr.cdoView(), mvr, IQueryService.QUERY_MYSQL,
+				value.getTimeStamp());
+		if (sortedValues != null && sortedValues.size() == 1) {
+			foundValue = sortedValues.get(0); // we only have one entry.
+		}else{
+			foundValue = value;
+		}
+
+		if (foundValue != null) {
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_RESULT_VALUE_OPTION,
+						"-- found value within interval ("
+								+ intervalHint
+								+ " min.), while storing value="
+								+ foundValue.getValue()
+								+ " , original timestamp="
+								+ modelUtils.dateAndTime(foundValue
+										.getTimeStamp()));
+			}
+			// Same timestamp, different value!
+			foundValue.setValue(value.getValue());
+		} else {
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_RESULT_VALUE_OPTION,
+						"-- no values within interval  (" + intervalHint
+								+ " min.), while storing value="
+								+ value.getValue() + " , timestamp="
+								+ modelUtils.dateAndTime(value.getTimeStamp()));
+			}
+			// New timestamp, new value.
+			mvr.getMetricValues().add(0, foundValue);
 		}
 	}
 
