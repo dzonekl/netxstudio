@@ -30,6 +30,7 @@ import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Martin Fluegge
+ * @author Christophe Bouhier
  */
 public class DawnEMFHandler extends BasicDawnListener {
 	/**
@@ -129,7 +130,7 @@ public class DawnEMFHandler extends BasicDawnListener {
 					}
 
 					if (screen.shouldHandleRefresh()) {
-						screen.handleReshresh(dos);
+						screen.handleRefresh(dos);
 					} else {
 						// Walk all the viewers for this screen.
 						for (Viewer v : screen.getViewers()) {
