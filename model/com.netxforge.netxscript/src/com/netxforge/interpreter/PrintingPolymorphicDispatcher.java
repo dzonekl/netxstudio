@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 10 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.interpreter;
 
 import java.lang.reflect.Method;
@@ -9,7 +26,15 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.util.PolymorphicDispatcher;
 
 import com.google.common.base.Predicate;
+import com.netxforge.internal.RuntimeActivator;
 
+/**
+ * A Dispatcher which prints, the invoked methods. 
+ * 
+ * @author Christophe Bouhier
+ *
+ * @param <RT>
+ */
 public class PrintingPolymorphicDispatcher<RT> extends
 		PolymorphicDispatcher<RT> {
 
@@ -79,10 +104,12 @@ public class PrintingPolymorphicDispatcher<RT> extends
 			if (params[0] instanceof EObject) {
 				EObject rule = (EObject) params[0];
 				// TODO Arguments.
-				header = rule.getClass().getSimpleName(); 
+				header = rule.getClass().getSimpleName();
 			}
-		} 
-		pLog.log(header , eval);
+		}
+		if (RuntimeActivator.DEBUG) {
+			pLog.log(header, eval);
+		}
 		return eval;
 	}
 

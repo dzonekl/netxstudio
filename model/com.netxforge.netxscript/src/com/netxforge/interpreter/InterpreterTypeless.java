@@ -20,6 +20,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxscript.AbstractFunction;
 import com.netxforge.netxscript.AbstractVarOrArgument;
 import com.netxforge.netxscript.And;
@@ -818,10 +819,13 @@ public class InterpreterTypeless implements IInterpreter {
 							.transformPeriodToDailyTimestamps(dtr);
 					for (XMLGregorianCalendar ts : transformPeriodToDailyTimestamps) {
 
-						// TODO, use tracing facility.
-						System.out.println("Create value for TS = " + ts
-								+ " with value " + varEval);
-
+						if (RuntimeActivator.DEBUG) {
+							RuntimeActivator.TRACE
+									.trace(RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
+											"Create value for TS = " + ts
+													+ " with value " + varEval);
+						}
+						
 						Value newValue = GenericsFactory.eINSTANCE
 								.createValue();
 						newValue.setTimeStamp(ts);
@@ -2015,7 +2019,6 @@ public class InterpreterTypeless implements IInterpreter {
 
 		public void setMatchTS(Boolean matchTS) {
 			this.matchTS = matchTS;
-			System.out.println("setting non matching ");
 
 		}
 

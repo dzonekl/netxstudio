@@ -1,13 +1,29 @@
-package com.netxforge.interpreter;
+/*******************************************************************************
+ * Copyright (c) 10 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ package com.netxforge.interpreter;
 
 import static com.netxforge.interpreter.InterpreterTypeless.asCollection;
 import static com.netxforge.interpreter.InterpreterTypeless.asNum;
 import static com.netxforge.interpreter.InterpreterTypeless.assertCollection;
+import static com.netxforge.interpreter.InterpreterTypeless.assertMatrix;
 import static com.netxforge.interpreter.InterpreterTypeless.assertNumeric;
 import static com.netxforge.interpreter.InterpreterTypeless.assertNumericCollection;
 import static com.netxforge.interpreter.InterpreterTypeless.assertValue;
 import static com.netxforge.interpreter.InterpreterTypeless.assertValueCollection;
-import static com.netxforge.interpreter.InterpreterTypeless.assertMatrix;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,11 +31,12 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.google.inject.Inject;
+import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.Value;
 
 /**
- * FIXME, Move to more appropriate utility plugin.
+ * Prints evaluation to the tracing facility. 
  * 
  * @author Christophe Bouhier
  * 
@@ -39,7 +56,9 @@ public class PrettyLog implements IPrettyLog {
 	public void log(String header, Object... o) {
 		for (int i = 0; i < o.length; i++) {
 			// log.warn("Eval " + header + " value=" + printEval(o[i]));
-			System.out.println("Eval " + header + " value=" + printEval(o[i]));
+			RuntimeActivator.TRACE.trace(
+					RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION, header
+							+ "value=" + printEval(o[i]));
 		}
 	};
 
