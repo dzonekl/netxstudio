@@ -18,6 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f4;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,10 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IMapChangeListener;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.map.MapChangeEvent;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -73,9 +77,11 @@ import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.progress.UIJob;
 import org.eclipse.wb.swt.TableViewerColumnSorter;
 
 import com.google.common.collect.Lists;
@@ -93,6 +99,7 @@ import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAct
 import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.f4.support.LogDialog;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -107,8 +114,15 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 	private CleanJobRunsAction cleanJobRunsAction;
 
+	/*
+	 * A Job responsible for refresh.
+	 */
+	private RefreshUIJob refreshUIJob;
+
 	public JobRuns(Composite parent, int style) {
 		super(parent, style);
+
+		refreshUIJob = new RefreshUIJob("refresh JobRuns");
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -126,7 +140,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		frmJobRuns.setSeparatorVisible(true);
 		cleanJobRunsAction = new CleanJobRunsAction("Clean up...");
 		frmJobRuns.getMenuManager().add(cleanJobRunsAction);
-		
+
 		toolkit.paintBordersFor(frmJobRuns);
 
 		frmJobRuns.setText("Job: \"Job name\"");
@@ -363,7 +377,8 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			buildUI();
 			this.getScreenForm().setText("Job:" + job.getName());
 
-			// Get the job container, forces the registration of invalidation listeners. 
+			// Get the job container, forces the registration of invalidation
+			// listeners.
 			Resource jobRunContainerResource = editingService
 					.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
 
@@ -465,6 +480,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 		private Map<CDOID, TableEditor> progressCache = Maps.newHashMap();
 
+		@SuppressWarnings("unused")
 		private IMapChangeListener mapChangeListener = new IMapChangeListener() {
 			public void handleMapChange(MapChangeEvent event) {
 				@SuppressWarnings("rawtypes")
@@ -485,14 +501,19 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 		public WorkflowRunObservableMapLabelProvider(
 				IObservableMap[] attributeMaps) {
+
+			// Use invalidations to update the labels, so this won't depend on
+			// the observables
+			// on the actual objects. Invalidations are fired anyway.
+
 			System.arraycopy(
 					attributeMaps,
 					0,
 					this.attributeMaps = new IObservableMap[attributeMaps.length],
 					0, attributeMaps.length);
-			for (int i = 0; i < attributeMaps.length; i++) {
-				attributeMaps[i].addMapChangeListener(mapChangeListener);
-			}
+			// for (int i = 0; i < attributeMaps.length; i++) {
+			// attributeMaps[i].addMapChangeListener(mapChangeListener);
+			// }
 
 		}
 
@@ -515,8 +536,8 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 					if (data instanceof CDOObject && k instanceof CDOObject) {
 
 						CDOID cdoID2 = ((CDOObject) data).cdoID();
-//						System.out.println("table item with CDOID "
-//								+ cdoID2.toString());
+						// System.out.println("table item with CDOID "
+						// + cdoID2.toString());
 						if (wfr.cdoID().toString().equals(cdoID2.toString())) {
 							item = checkItem;
 							break;
@@ -579,10 +600,10 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 				if (columnIndex == 2) {
 					if (j.getState() == JobRunState.RUNNING) {
-						// When the application is aborted, the state will remain running. 
-						//  
-						
-						
+						// When the application is aborted, the state will
+						// remain running.
+						//
+
 						// find the progress and update it.
 						TableEditor addProgress = addProgress(element);
 						if (addProgress != null) {
@@ -605,9 +626,9 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 							tableEditor.getEditor().dispose();
 							tableEditor.dispose();
 							progressCache.remove(j.cdoID());
-							
-//							System.out.println("Disposed progress for "
-//									+ modelUtils.printModelObject(j));
+
+							// System.out.println("Disposed progress for "
+							// + modelUtils.printModelObject(j));
 						}
 					}
 					// bar.set
@@ -781,6 +802,85 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 	public String getScreenName() {
 		return "Runs";
+	}
+
+	@Override
+	public boolean shouldHandleRefresh() {
+		return true;
+	}
+
+	@Override
+	public void handleRefresh(Object... objects) {
+
+		for (Object o : objects) {
+			if (o instanceof Collection<?>) {
+				Collection<?> dirtyObjects = (Collection<?>) o;
+				for (Object dirty : dirtyObjects) {
+					handleRefresh(dirty);
+				}
+			}
+			// Any objects which are Workflows?
+			if (o instanceof WorkFlowRun) {
+
+				// Multiple WorkFlowRuns would cancel our job, when going in
+				// state DONE.
+
+				WorkFlowRun wfr = (WorkFlowRun) o;
+				JobRunState jobState = wfr.getState();
+				if (jobState == JobRunState.RUNNING) {
+					if (refreshUIJob.getState() == org.eclipse.core.runtime.jobs.Job.NONE) {
+//						System.out.println("JobRuns: schedule refreshUI");
+						refreshUIJob.schedule();
+					}
+				} else if (jobState == JobRunState.FINISHED_SUCCESSFULLY
+						|| jobState == JobRunState.FINISHED_WITH_ERROR) {
+					refreshUIJob.cancel();
+					// Do one more to reflect the latest status. 
+					getTableViewerWidget().refresh();
+
+				}
+			}
+			if( o instanceof JobRunContainer){
+				refreshUIJob.schedule();	
+			}
+			
+		}
+		// super.handleReshresh(objects);
+	}
+
+	/**
+	 * Updates the UI, while WorkFlow is in state running is running.
+	 * TODO, Potentially feed with the object, which needs to be refreshed. 
+	 * 
+	 * @author Christophe Bouhier
+	 * 
+	 */
+	class RefreshUIJob extends UIJob {
+
+		public RefreshUIJob(String name) {
+			super(name);
+			this.setSystem(true);
+		}
+
+		@Override
+		public IStatus runInUIThread(IProgressMonitor monitor) {
+
+			if (monitor.isCanceled() || JobRuns.this.isDisposed())
+				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
+						IStatus.OK, "", null);
+			
+			// Potentially only update the relevant object.
+			// getTableViewerWidget().up
+			getTableViewerWidget().refresh();
+
+			if (!monitor.isCanceled()) {
+				refreshUIJob.schedule(500);
+			}
+
+			return new Status(IStatus.OK, PlatformUI.PLUGIN_ID, IStatus.OK, "",
+					null);
+		}
+
 	}
 
 }
