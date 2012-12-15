@@ -27,6 +27,7 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOQuery;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
@@ -52,14 +53,15 @@ import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.services.Service;
 
 /**
- * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
+ * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 public class CDOQueryService implements IQueryService {
 
 	private IDataProvider provider;
 	private CDOQueryUtil queryService;
 	private ModelUtils modelUtils;
+
 	private List<CDOTransaction> usedTransactions = Lists.newArrayList();
 
 	@Inject
@@ -259,6 +261,83 @@ public class CDOQueryService implements IQueryService {
 		return XMLTypeFactory.eINSTANCE.convertDateTime(date);
 	}
 
+	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+			String dialect) {
+		return getSortedValues(view, mvr, dialect, null, null);
+	}
+
+	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+			String dialect, XMLGregorianCalendar date) {
+		return getSortedValues(view, mvr, dialect, null, date);
+	}
+
+	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+			String dialect, DateTimeRange period) {
+		return getSortedValues(view, mvr, dialect, period, null);
+	}
+
+	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+			String dialect, DateTimeRange period, XMLGregorianCalendar date) {
+
+		List<Value> result = null; // Might become assigned.
+
+		String queryString = null;
+		if (dialect.equals(QUERY_MYSQL)) {
+
+			StringBuffer sb = new StringBuffer();
+			sb.append("select val.cdo_id"
+					+ " from TM.metrics_metricvaluerange as mvr"
+					+ " join TM.metrics_metricvaluerange_metricvalues_list as val_list"
+					+ " on val_list.cdo_source = mvr.cdo_id"
+					+ " join TM.generics_value as val"
+					+ " on val_list.cdo_value = val.cdo_id"
+					+ " where mvr.cdo_id = :mvr_cdoid");
+
+			// period or date is optional.
+			if (period != null) {
+				sb.append(" and val.timeStamp0 >= :dateFrom and val.timeStamp0 < :dateTo");
+			} else if (date != null) {
+				sb.append(" and val.timeStamp0 = :date");
+			}
+
+			sb.append(" order by val.timeStamp0 DESC;");
+			queryString = sb.toString();
+
+		} else if (dialect.equals(QUERY_OCL)) {
+			// Syntax for OCL? 
+			queryString = "metrics::MetricValueRange.allInstances().metricValues->size()";
+		}
+
+		if (queryString != null) {
+
+			CDOQuery cdoQuery = null;
+
+			if (dialect.equals(QUERY_MYSQL)) {
+				cdoQuery = view.createQuery(dialect, queryString);
+				Long longValue = ((AbstractCDOIDLong) mvr.cdoID())
+						.getLongValue();
+				cdoQuery.setParameter("mvr_cdoid", longValue.toString());
+
+				if (period != null) {
+					cdoQuery.setParameter("dateFrom",
+							dateString(period.getBegin()));
+					cdoQuery.setParameter("dateTo", dateString(period.getEnd()));
+				} else if (date != null) {
+					cdoQuery.setParameter("date", dateString(date));
+
+				}
+
+			} else if (dialect.equals(QUERY_OCL)) {
+				cdoQuery = view.createQuery(dialect, queryString, mvr.cdoID());
+			}
+
+			if (cdoQuery != null) {
+				result = cdoQuery.getResult(Value.class);
+			}
+		}
+		return result;
+	}
+
 	public List<Value> getSortedValues(MetricValueRange mvr) {
 
 		DateTimeRange createDateTimeRange = GenericsFactory.eINSTANCE
@@ -295,12 +374,10 @@ public class CDOQueryService implements IQueryService {
 		List<Value> result = cdoQuery.getResult(Value.class);
 		return result;
 	}
-	
-	
-	
+
 	/**
 	 * 
-	 * Supported for MYSQL. 
+	 * Supported for MYSQL.
 	 * 
 	 * @param transaction
 	 * @param dialect
@@ -309,9 +386,10 @@ public class CDOQueryService implements IQueryService {
 	public List<NetXResource> getUnconnectedResources(
 			CDOTransaction transaction, String dialect) {
 
-		if (dialect.equals("MYSQL")) {
+		if (dialect.equals(QUERY_MYSQL)) {
 			final CDOQuery cdoQuery = transaction
-					.createQuery("sql",
+					.createQuery(
+							"sql",
 							"select * from TM.library_NetXresource where componentRef IS NULL and cdo_version > 0;");
 
 			List<NetXResource> result = cdoQuery.getResult(NetXResource.class);

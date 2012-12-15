@@ -5,19 +5,254 @@ import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.id.CDOIDUtil;
+import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
+import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
+import org.eclipse.emf.cdo.eresource.CDOResourceNode;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOQuery;
+import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.junit.Test;
 
+import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 public class QueryTest extends AbstractDataServiceTest4 {
 
 	@Test
+	public void testAllNetXResourceAllRanges_CDO_SQL_QUERY() {
+
+		service.getProvider().openSession("admin", "admin");
+
+		// Resolve the object from an existing resource.
+
+		// Use a new view to execute the query.
+		CDOView cdoView = service.getProvider().getSession().openView();
+
+		// Find a single value in for a date. (Hard coded OID and date!).
+//		System.out.println(doQuerySingleValue(cdoView, IQueryService.QUERY_MYSQL));
+		
+		// Find values in a period. (Hard coded OID and period!). 
+//		System.out.println(doQueryValues(cdoView, IQueryService.QUERY_MYSQL));
+
+		// Perform twice, to see effect of caching.
+//		System.out.println(doQueryAllResourcesAllRanges(cdoView,
+//				IQueryService.QUERY_MYSQL, false));
+
+//		System.out.println(doQueryAllResourcesAllRanges(cdoView,
+//				IQueryService.QUERY_MYSQL, false));
+
+		// Perform twice to see effect of caching.
+		// Query Syntax wrong.
+		 doQueryAllResourcesAllRanges(cdoView, IQueryService.QUERY_OCL, false);
+		// doQueryAllResourcesAllRanges(cdoView, IQueryService.QUERY_OCL, true);
+
+		cdoView.close();
+
+	}
+
+	private String doQueryValues(CDOView cdoView, String dialect) {
+
+		DateTimeRange dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
+
+		// Get the period.
+		Calendar cal = Calendar.getInstance();
+		cal.set(2012, 4, 13);
+		modelUtils.adjustToDayStart(cal);
+
+		dtr.setBegin(modelUtils.toXMLDate(cal.getTime()));
+
+		cal.add(Calendar.HOUR_OF_DAY, 24);
+		modelUtils.adjustToDayStart(cal);
+		dtr.setEnd(modelUtils.toXMLDate(cal.getTime()));
+
+		String objectID = "46639";
+
+		CDOID createLongWithClassifier = CDOIDUtil
+				.createLongWithClassifier(new CDOClassifierRef(
+						MetricsPackage.Literals.METRIC_VALUE_RANGE), Long
+						.parseLong(objectID));
+
+		// This should be a MetricValueRange object.
+
+		CDOObject object = cdoView.getObject(createLongWithClassifier);
+
+		IQueryService queryService = service.getQueryService();
+
+		List<Value> sortedValues = queryService.getSortedValues(cdoView,
+				(MetricValueRange) object, dialect, dtr);
+
+
+		return " found " + sortedValues.size() + " for object: "
+				+ object.cdoRevision() + " in period "
+				+ modelUtils.dateAndTime(dtr.getBegin()) + " to "
+				+ modelUtils.dateAndTime(dtr.getEnd());
+
+	}
+
+	private String doQuerySingleValue(CDOView cdoView, String dialect) {
+
+		// Get the period.
+		Calendar cal = Calendar.getInstance();
+		cal.set(2012, 4, 13);
+		modelUtils.adjustToDayStart(cal);
+
+		XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(cal.getTime());
+
+		String objectID = "46639";
+
+		CDOID createLongWithClassifier = CDOIDUtil
+				.createLongWithClassifier(new CDOClassifierRef(
+						MetricsPackage.Literals.METRIC_VALUE_RANGE), Long
+						.parseLong(objectID));
+
+		// This should be a MetricValueRange object.
+
+		CDOObject object = cdoView.getObject(createLongWithClassifier);
+
+		IQueryService queryService = service.getQueryService();
+
+		List<Value> sortedValues = queryService.getSortedValues(cdoView,
+				(MetricValueRange) object, dialect, xmlDate);
+
+
+		return " found " + sortedValues.size() + " for object: "
+				+ object.cdoRevision() + " for date "
+				+ modelUtils.dateAndTime(xmlDate);
+
+	}
+
+	/**
+	 * @param cdoView
+	 */
+	private String doQueryAllResourcesAllRanges(CDOView cdoView,
+			String dialect, boolean performance) {
+		CDOResourceNode folder = cdoView.getResourceNode("/Node_/");
+
+		int sumResources = 0;
+		int sumRanges = 0;
+		int sumValues = 0;
+
+		// Limit the number of netXResources, to save some time.
+		int numOfNetXResourceToQuery = 3;
+
+		// determine the duration of the query.
+		long totalTime = System.nanoTime();
+
+		// Loop through all CDO resources under this CDO folder.
+
+		// Name is produced as: LibraryPackage.Literals.NET_XRESOURCE.getName()
+		// + "_" + "sgrstp01";
+
+		if (folder instanceof CDOResourceFolder) {
+			for (CDOResourceNode n : ((CDOResourceFolder) folder).getNodes()) {
+				if (n instanceof CDOResource) {
+					CDOResource resource = (CDOResource) n;
+					// The CDO Resource will contain many NetXResource
+					if (!performance) {
+						System.out
+								.println("Number of NetXResource in CDOResource: "
+										+ resource.getName()
+										+ " : "
+										+ resource.getContents().size());
+					}
+
+					for (int i = 0; i < resource.getContents().size()
+							&& i < numOfNetXResourceToQuery; i++) {
+						EObject eo = resource.getContents().get(i);
+						if (eo instanceof NetXResource) {
+							NetXResource res = (NetXResource) eo;
+							sumResources++;
+							if (!performance) {
+								Component componentRef = res.getComponentRef();
+								System.out
+										.println(" NetXResource: "
+												+ res.getExpressionName()
+												+ " cdo: " + res.cdoRevision()
+												+ componentRef != null ? " from component"
+												+ modelUtils
+														.printModelObject(componentRef)
+												: "");
+							}
+							for (MetricValueRange mvr : res
+									.getMetricValueRanges()) {
+
+								if (!performance) {
+									System.out.println(" MetricValueRange: "
+											+ mvr.getIntervalHint()
+											+ mvr.getKindHint() + " cdo: "
+											+ mvr.cdoRevision());
+								}
+								sumRanges++;
+								IQueryService queryService = service
+										.getQueryService();
+
+								// determine the duration of the query.
+								long startTime = System.nanoTime();
+
+								List<Value> sortedValues = queryService
+										.getSortedValues(cdoView, mvr, dialect);
+
+								String timeDurationNano = modelUtils
+										.timeDurationNano(startTime);
+
+								if (sortedValues != null) {
+
+									sumValues += sortedValues.size();
+
+									if (!sortedValues.isEmpty()) {
+										Value lastValue = sortedValues
+												.get(sortedValues.size() - 1);
+										if (!performance) {
+											System.out.println("  Mvr:"
+													+ mvr.getIntervalHint()
+													+ mvr.getKindHint()
+													+ " last value ("
+													+ (sortedValues.size() - 1)
+													+ ") "
+													+ this.modelUtils
+															.value(lastValue)
+													+ " cdo: "
+													+ lastValue.cdoRevision()
+													+ " in: "
+													+ timeDurationNano);
+										}
+									} else {
+										if (!performance) {
+											System.out.println("  Mvr:"
+													+ mvr.getIntervalHint()
+													+ mvr.getKindHint()
+													+ " empty, in: "
+													+ timeDurationNano);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		String timeDurationNano = modelUtils.timeDurationNano(totalTime);
+
+		return " NetXResource: " + sumResources + ", MetricValueRange: "
+				+ sumRanges + " Value: " + sumValues + " in: "
+				+ timeDurationNano;
+	}
+
+	// @Test
 	public void testValueQuery() {
 
 		String funtionName = "Mobility";
@@ -52,14 +287,14 @@ public class QueryTest extends AbstractDataServiceTest4 {
 								+ " join TM.generics_value as val"
 								+ " on val_list.cdo_value = val.cdo_id"
 								+ " where TM.library_function.name = :function and mvr.intervalHint=60 and mvr.kindHint = 1 "
-								+ " and value.timeStamp0 >= :dateFrom and value.timeStamp0 <= :dateTo" 
+								+ " and value.timeStamp0 >= :dateFrom and value.timeStamp0 <= :dateTo"
 								+ " order by val.timeStamp0 DESC;");
 
 		cdoQuery.setParameter("function", funtionName);
-		 cdoQuery.setParameter("dateFrom",
-		 dateString(createDateTimeRange.getBegin()));
-		 cdoQuery.setParameter("dateTo",
-		 dateString(createDateTimeRange.getEnd()));
+		cdoQuery.setParameter("dateFrom",
+				dateString(createDateTimeRange.getBegin()));
+		cdoQuery.setParameter("dateTo",
+				dateString(createDateTimeRange.getEnd()));
 		// cdoQuery.setParameter("intervalHint", new Integer(60).toString());
 		// cdoQuery.setParameter("kindHint", KindHintType.AVG);
 

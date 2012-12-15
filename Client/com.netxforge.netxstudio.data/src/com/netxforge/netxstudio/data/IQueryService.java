@@ -23,8 +23,10 @@ import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EReference;
 
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Equipment;
@@ -42,6 +44,10 @@ import com.netxforge.netxstudio.services.Service;
  * 
  */
 public interface IQueryService {
+
+	public static final String QUERY_MYSQL = "sql";
+	public static final String QUERY_HQL = "hql";
+	public static final String QUERY_OCL = "ocl";
 
 	public void setDataProvider(IDataProvider provider);
 
@@ -157,21 +163,69 @@ public interface IQueryService {
 	 * Close used transactions.
 	 */
 	public void close();
+	
+	
+	/**
+	 * Find a value with a specified timestamp from a range.  
+	 * 
+	 * @param view
+	 * @param mvr
+	 * @param dialect
+	 * @param date
+	 * @return
+	 */
+	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+			String dialect, XMLGregorianCalendar date);
+	
+	
+	/**
+	 * Find values within a specified period.
+	 *   
+	 * @param view
+	 * @param mvr
+	 * @param dialect
+	 * @param dtr
+	 * @return
+	 */
+	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+			String dialect, DateTimeRange period);
+	/**
+	 * 
+	 * @param view
+	 * @param mvr
+	 * @param dialect
+	 * @param dtr
+	 * @return
+	 */
+	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+			String dialect, DateTimeRange period, XMLGregorianCalendar date);
+
+	
+	/**
+	 * Get the sorted values for a Metric Value Range.
+	 * 
+	 * @param view
+	 * @param mvr
+	 * @param dialect
+	 * @return
+	 */
+	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+			String dialect);
 
 	/**
 	 * Use a query to get the values from a Metric value range, sort them
+	 * 
 	 * @param mvr
 	 * @return
 	 */
 	public List<Value> getSortedValues(MetricValueRange mvr);
 
-	
 	/**
-	 * Get an SQL query for the values with this container. 
+	 * Get an SQL query for the values with this container.
+	 * 
 	 * @param container
 	 * @return
 	 */
 	public String getValuesQuery(CDOID container, EReference reference);
-	
-	
+
 }

@@ -513,8 +513,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		List<MappingRecord> fileFailedRecords = null;
 		if (afterFailedSize > beforeFailedSize) {
 			// http://work.netxforge.com/issues/324
-			fileFailedRecords = this.getFailedRecords().subList(beforeFailedSize,
-					afterFailedSize);
+			fileFailedRecords = this.getFailedRecords().subList(
+					beforeFailedSize, afterFailedSize);
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
 						"-- # of failed records for file=" + file.getName()
@@ -1171,6 +1171,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		if (dateTimeValue != null && dateTimePattern != null) {
 			pattern = dateTimePattern;
 			value = dateTimeValue;
+		} else if (dateValue != null && datePattern != null
+				&& timeValue != null && timePattern != null) {
+			pattern = datePattern + " " + timePattern;
+			value = dateValue + " " + timeValue;
 		} else if (dateValue != null && datePattern != null) {
 			pattern = datePattern;
 			value = dateValue;
