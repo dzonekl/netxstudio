@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 10 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f1.details;
 
 import java.util.Date;
@@ -9,6 +26,9 @@ import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.cdo.util.CDOUtil;
@@ -36,6 +56,8 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.nebula.widgets.datechooser.DateChooserCombo;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -48,6 +70,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.ColumnLayoutData;
@@ -55,6 +78,7 @@ import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.progress.UIJob;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 
@@ -83,10 +107,18 @@ import com.netxforge.netxstudio.screens.f1.RFSServiceSummaryJob;
 import com.netxforge.netxstudio.screens.f1.ServiceDistributionScreen;
 import com.netxforge.netxstudio.screens.f1.ServiceHierarchy;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
+/**
+ * Component for showing the Service Summary.
+ * 
+ * 
+ * @author Christophe Bouhier
+ * 
+ */
 public class NewEditServiceTree extends AbstractDetailsScreen implements
 		IDataScreenInjection {
 
@@ -94,6 +126,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
+
 	private Text txtName;
 	private Text txtDescription;
 	private Table table;
@@ -122,6 +155,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	private DateChooserCombo dcOutOfService;
 
 	private RFSServiceSummaryJob job;
+	private final RefreshSummaryJob refreshSummaryJob = new RefreshSummaryJob();
 
 	private Section sctnInfo;
 
@@ -131,10 +165,22 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 	private Section sctnSummary;
 
+	private RFSServiceSummary summary;
+
 	public NewEditServiceTree(Composite parent, int style,
 			final IEditingService editingService) {
 		super(parent, style);
 		this.editingService = editingService;
+
+		this.addDisposeListener(new DisposeListener() {
+
+			public void widgetDisposed(DisposeEvent e) {
+				if (job != null && job.isRunning()) {
+					job.cancel();
+				}
+				refreshSummaryJob.cancel();
+			}
+		});
 		// buildUI();
 	}
 
@@ -829,49 +875,20 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 				@Override
 				public void done(IJobChangeEvent event) {
 
-					final RFSServiceSummary summary = job.getSummary();
-					if (summary != null) {
-						NewEditServiceTree.this.getDisplay().asyncExec(
-								new Runnable() {
+					summary = job.getSummary();
+					// Schedule a refresh.
+					refreshSummaryJob.schedule(100);
 
-									public void run() {
-										formTextLastMonitor.setText(summary
-												.getPeriodFormattedString(),
-												false, false);
-
-										formTextNumberOfNodes.setText(
-												new Integer(summary
-														.getNodeCount())
-														.toString(), false,
-												false);
-										formTextNumberOfResources.setText(
-												new Integer(summary
-														.getResourcesCount())
-														.toString(), false,
-												false);
-
-										formTextRed.setText(
-												new Integer(summary
-														.getRedCountResources())
-														.toString(), false,
-												false);
-										formTextAmber.setText(
-												new Integer(
-														summary.getAmberCountResources())
-														.toString(), false,
-												false);
-										formTextGreen.setText(
-												new Integer(
-														summary.getGreenCountResources())
-														.toString(), false,
-												false);
-										sctnSummary.layout();
-										NewEditServiceTree.this.layout();
-//										getScreenForm().layout();
-									}
-
-								});
-					}
+					// if (summary != null) {
+					// NewEditServiceTree.this.getDisplay().asyncExec(
+					// new Runnable() {
+					//
+					// public void run() {
+					//
+					// }
+					//
+					// });
+					// }
 				}
 			});
 		}
@@ -1123,6 +1140,36 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		return false;
 	}
 
+	private void refreshSummaryUI() {
+
+		if (summary == null) {
+			return;
+		}
+
+		formTextLastMonitor.setText(summary.getPeriodFormattedString(), false,
+				false);
+
+		formTextNumberOfNodes.setText(
+				new Integer(summary.getNodeCount()).toString(), false, false);
+		formTextNumberOfResources.setText(
+				new Integer(summary.getResourcesCount()).toString(), false,
+				false);
+
+		formTextRed.setText(
+				new Integer(summary.getRedCountResources()).toString(), false,
+				false);
+		formTextAmber.setText(
+				new Integer(summary.getAmberCountResources()).toString(),
+				false, false);
+		formTextGreen.setText(
+				new Integer(summary.getGreenCountResources()).toString(),
+				false, false);
+		sctnSummary.layout();
+		NewEditServiceTree.this.layout();
+		// getScreenForm().layout();
+
+	}
+
 	public void injectData(Object owner, Object object) {
 
 		if (object != null && object instanceof RFSService) {
@@ -1141,4 +1188,34 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		this.initDataBindings_();
 
 	}
+	
+	
+	/**
+	 * Refreshes the RFS Service Summary Section. 
+	 * @author Christophe Bouhier
+	 */
+	class RefreshSummaryJob extends UIJob {
+
+		/**
+		 * Creates a new instance of the class.
+		 */
+		public RefreshSummaryJob() {
+			super("refresh");
+			setSystem(true);
+		}
+
+		@Override
+		public IStatus runInUIThread(IProgressMonitor monitor) {
+			if (monitor.isCanceled() || NewEditServiceTree.this.isDisposed())
+				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
+						IStatus.OK, "", null);
+
+			refreshSummaryUI();
+
+			return new Status(IStatus.OK, PlatformUI.PLUGIN_ID, IStatus.OK, "",
+					null);
+		}
+
+	}
+
 }

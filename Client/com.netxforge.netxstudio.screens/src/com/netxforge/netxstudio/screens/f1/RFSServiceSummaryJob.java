@@ -49,7 +49,12 @@ public class RFSServiceSummaryJob implements IJobChangeListener {
 
 	public void go() {
 		j.addJobChangeListener(this);
-		j.schedule(100);
+		j.schedule(2000);
+	}
+	
+
+	public void cancel() {
+		j.cancel();
 	}
 
 	public void addNotifier(IJobChangeListener notifier) {
