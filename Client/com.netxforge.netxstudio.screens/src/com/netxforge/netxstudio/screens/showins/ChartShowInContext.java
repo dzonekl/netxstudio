@@ -1,6 +1,9 @@
 package com.netxforge.netxstudio.screens.showins;
 
+import java.util.List;
+
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 
 public class ChartShowInContext {
@@ -18,8 +21,23 @@ public class ChartShowInContext {
 	/*
 	 * 
 	 */
-	private ResourceMonitor resourceMonitor; 
+	private ResourceMonitor resourceMonitor;
 	
+	/*
+	 * A bunch of markers. 
+	 */
+	private List<Marker> markers;
+	
+	
+	
+	public List<Marker> getMarkers() {
+		return markers;
+	}
+
+	public void setMarkers(List<Marker> markers) {
+		this.markers = markers;
+	}
+
 	/**
 	 * @return the dtr
 	 */
