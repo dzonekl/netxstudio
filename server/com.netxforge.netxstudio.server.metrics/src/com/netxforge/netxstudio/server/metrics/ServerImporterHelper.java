@@ -26,7 +26,6 @@ import java.util.List;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
 import org.eclipse.emf.cdo.eresource.CDOResourceNode;
-import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -219,13 +218,13 @@ public class ServerImporterHelper implements IImporterHelper {
 			// MVR
 			// -> Value.
 
-			if (emfNetxResource instanceof CDOResource) {
-				((CDOResource) emfNetxResource)
-						.cdoView()
-						.options()
-						.setRevisionPrefetchingPolicy(
-								CDOUtil.createRevisionPrefetchingPolicy(24));
-			}
+//			if (emfNetxResource instanceof CDOResource) {
+//				((CDOResource) emfNetxResource)
+//						.cdoView()
+//						.options()
+//						.setRevisionPrefetchingPolicy(
+//								CDOUtil.createRevisionPrefetchingPolicy(24));
+//			}
 
 			final ValueDataKind valueDataKind = importer
 					.getValueDataKind(column);
@@ -345,7 +344,6 @@ public class ServerImporterHelper implements IImporterHelper {
 			}
 
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
