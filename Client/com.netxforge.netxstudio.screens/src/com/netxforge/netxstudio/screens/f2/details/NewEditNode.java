@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 15 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.f2.details;
 
 import java.util.Date;
@@ -59,6 +76,7 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.common.util.DateChooserComboObservableValue;
+import com.netxforge.netxstudio.screens.common.util.ValidationService;
 import com.netxforge.netxstudio.screens.dialog.LocationFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.NodeTypeFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
@@ -67,6 +85,11 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
+/**
+ * 
+ * @author Christophe Bouhier
+ *
+ */
 public class NewEditNode extends AbstractDetailsScreen implements
 		IDataScreenInjection {
 
@@ -611,8 +634,8 @@ public class NewEditNode extends AbstractDetailsScreen implements
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
 		// The Node valiation
-		EMFUpdateValueStrategy nodeTypeStrategy = validationService
-				.getUpdateValueStrategyAfterGet(new IValidator() {
+		EMFUpdateValueStrategy nodeTypeStrategy = ValidationService
+				.getStrategyfactory().strategyAfterGet(new IValidator() {
 					public IStatus validate(Object value) {
 						if (value instanceof String) {
 							return new Status(IStatus.OK,
