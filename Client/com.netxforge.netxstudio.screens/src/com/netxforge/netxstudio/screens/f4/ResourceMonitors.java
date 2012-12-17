@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -47,6 +48,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.part.ShowInContext;
 
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
@@ -58,26 +60,26 @@ import com.netxforge.netxstudio.services.ServicesPackage;
 /**
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
 public class ResourceMonitors extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	
+
 	private Table table;
-	
+
 	private Text txtFilterText;
 
 	private TableViewer resourceMonitorsTableViewer;
 
 	private Form frmResourceMonitors;
-	
+
 	@SuppressWarnings("unused")
 	private Resource rfsServiceResource;
 
 	private TableViewerColumn tblViewerClmnState;
-	
+
 	private ServiceMonitor serviceMonitor;
 
 	/**
@@ -256,6 +258,37 @@ public class ResourceMonitors extends AbstractScreen implements
 			initDataBindings_();
 		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#getShowIn(org.eclipse
+	 * .jface.viewers.ISelection)
+	 */
+	@Override
+	public ShowInContext getShowIn(ISelection selection) {
+
+		@SuppressWarnings("unused")
+		ISelection resourceMonitorSelection = this.resourceMonitorsTableViewer
+				.getSelection();
+		
+		// TODO, Use the ChartModel to produce the Chart Input from a ResourceMonitor. 
+		
+		
+		// ChartShowInContext chartInput = new ChartShowInContext();
+		// chartInput.setPeriod(period);
+		// chartInput.setInterval(ModelUtils.MINUTES_IN_AN_HOUR);
+		// chartInput.setResourceMonitor(this.);
+		// // create a chart show in.
+		// ShowInContext showInContext = new ShowInContext(chartInput,
+		// netXResourceSelection);
+		// return showInContext;
+
+		return null;
+
+	}
+
 	public Viewer getViewer() {
 		return resourceMonitorsTableViewer;
 	}
@@ -272,7 +305,6 @@ public class ResourceMonitors extends AbstractScreen implements
 	public void addData() {
 		throw new UnsupportedOperationException();
 	}
-
 
 	@Override
 	public String getScreenName() {
