@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -82,6 +83,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
@@ -212,7 +214,33 @@ public class ModelUtils {
 	public ValueTimeStampComparator valueTimeStampCompare() {
 		return new ValueTimeStampComparator();
 	}
+	
+	/**
+	 * A predicate for a Value and provided timestamp. 
+	 * 
+	 * @author Christophe Bouhier
+	 *
+	 */
+	public class TimeStampPredicate implements Predicate<Value> {
+		
+		// The date to compate with. 
+		private Date d;
+		
+		
+		public TimeStampPredicate(Date d) {
+			this.d = d;
+		}
 
+		public boolean apply(final Value v) {
+			if(v.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)){
+				return v.getTimeStamp().toGregorianCalendar().getTime().equals(d);
+			}
+			return false;
+		}
+	}
+	
+	
+	
 	/**
 	 * A Generic comparator for EObject attributes of which the type supports
 	 * Comparable.
@@ -359,6 +387,23 @@ public class ModelUtils {
 		public int compare(final ServiceMonitor sm1, ServiceMonitor sm2) {
 			return sm1.getPeriod().getBegin()
 					.compare(sm2.getPeriod().getBegin());
+		}
+	};
+
+	/**
+	 * Compare two periods, if an equal the result has no meaning. (Do not use
+	 * for Sorting!)
+	 */
+	public class PeriodComparator implements Comparator<DateTimeRange> {
+		public int compare(final DateTimeRange dtr1, DateTimeRange dtr2) {
+
+			if (dtr1 != null && dtr2 != null) {
+				int beginResult = dtr1.getBegin().compare(dtr2.getBegin());
+				int endResult = dtr2.getEnd().compare(dtr2.getEnd());
+				return beginResult * endResult;
+
+			}
+			return -1;
 		}
 	};
 
@@ -789,7 +834,7 @@ public class ModelUtils {
 		return new SourceRelationshipForNode(n);
 	}
 
-	/*
+	/**
 	 * Note will not provide the ServiceMonitors for which the period is partly
 	 * in range. targetBegin <= begin && targetEnd <= end. (Example of an
 	 * overlapping).
@@ -816,8 +861,67 @@ public class ModelUtils {
 		}
 	}
 
+	/**
+	 * Get all the duplicates.
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	public class ServiceMonitorDuplicates implements Predicate<ServiceMonitor> {
+		private final Set<DateTimeRange> uniqueSMs;
+		final PeriodComparator periodComparator = new PeriodComparator();
+
+		public ServiceMonitorDuplicates(Set<DateTimeRange> uniqueSMs) {
+			this.uniqueSMs = uniqueSMs;
+		}
+
+		public boolean apply(final ServiceMonitor s) {
+
+			try {
+				Iterables.find(uniqueSMs, new Predicate<DateTimeRange>() {
+					public boolean apply(final DateTimeRange dtr) {
+						return periodComparator.compare(s.getPeriod(), dtr) == 0;
+					}
+				});
+				// We have this period, we would otherwise be thrown!
+				return true;
+			} catch (NoSuchElementException nse) {
+				uniqueSMs.add(s.getPeriod());
+				return false;
+
+			}
+		}
+	}
+
 	public ServiceMonitorInsideRange serviceMonitorinsideRange(DateTimeRange dtr) {
 		return new ServiceMonitorInsideRange(dtr);
+	}
+
+	/**
+	 * get the {@link ServiceMonitor}'s which are duplicates, and return a
+	 * unique copy of these.
+	 * 
+	 * 
+	 * @param service
+	 * @return
+	 */
+	public List<ServiceMonitor> serviceMonitorDuplicates(Service service) {
+
+		final Set<DateTimeRange> uniqueSMs = Sets.newHashSet();
+		final List<ServiceMonitor> copy = Lists.newArrayList(service
+				.getServiceMonitors());
+
+		Iterable<ServiceMonitor> result = Iterables.filter(copy,
+				new ServiceMonitorDuplicates(uniqueSMs));
+
+		// Print the duplicates.
+		// System.out.println("found " + Iterables.size(result)
+		// + " duplicates with these periods:");
+		// for (ServiceMonitor sm : result) {
+		// if (sm.getPeriod() != null) {
+		// System.out.println(period(sm.getPeriod()));
+		// }
+		// }
+		return Lists.newArrayList(result);
 	}
 
 	public class IsRelationship implements Predicate<EObject> {
@@ -860,6 +964,11 @@ public class ModelUtils {
 		public boolean apply(final Marker m) {
 
 			try {
+
+				// if(m.cdoInvalid()){
+				// m.cdoReload();
+				// }
+
 				// Check the Marker CDO Status, seems to become invalid??
 				if (m.eIsSet(OperatorsPackage.Literals.MARKER__VALUE_REF)) {
 					Value markerValue = m.getValueRef();
@@ -871,7 +980,8 @@ public class ModelUtils {
 					}
 				}
 			} catch (ObjectNotFoundException onfe) {
-				onfe.printStackTrace();
+				System.out.println("Error dealing with: " + m.cdoRevision()
+						+ m.cdoState());
 			}
 			return false;
 		}
@@ -1612,30 +1722,6 @@ public class ModelUtils {
 		return filtered;
 	}
 
-	public ResourceMonitor monitorForServiceAndResource(Service service,
-			Node n, NetXResource netxResource) {
-
-		ResourceMonitor monitor = null;
-
-		// Sort by begin date and reverse the Service Monitors.
-		List<ServiceMonitor> serviceMonitors = Ordering
-				.from(this.serviceMonitorCompare()).reverse()
-				.sortedCopy(service.getServiceMonitors());
-
-		for (ServiceMonitor sm : serviceMonitors) {
-			for (ResourceMonitor rm : sm.getResourceMonitors()) {
-				if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
-					if (rm.getResourceRef().equals(netxResource)) {
-						monitor = rm;
-					}
-				}
-			}
-
-		}
-		return monitor;
-
-	}
-
 	// public int[] ragCount(ServiceMonitor sm, Node n,
 	// DateTimeRange dtr) {
 	//
@@ -1659,10 +1745,11 @@ public class ModelUtils {
 	// }
 
 	/**
-	 * A two pass rag analyzer. First go through all ResourceMonitor and bundle
-	 * the markers per NetXResource. Then count the RAG per NetXResource's
-	 * markers. Note: Resources which are not referenced by a Resource Monitor
-	 * from the specified node, are ignored.
+	 * A two pass rag analyzer. First find all {@link ServiceMonitor}'s inside
+	 * the specified period. For all contained {@link ResourceMonitor }'s in the
+	 * Service Monitors, bundle the markers per NetXResource. Then count the RAG
+	 * per NetXResource's markers. Note: Resources which are not referenced by a
+	 * Resource Monitor from the specified node, are ignored.
 	 * 
 	 * @param sm
 	 * @param n
@@ -1738,6 +1825,104 @@ public class ModelUtils {
 
 		}
 		return markersPerResource;
+	}
+	
+	/**
+	 * Get the first {@link ResourceMonitor} 
+	 * @param service
+	 * @param n
+	 * @param netxResource
+	 * @return
+	 */
+	public ResourceMonitor resourceMonitorForServiceAndResource(Service service,
+			Node n, NetXResource netxResource) {
+
+		ResourceMonitor monitor = null;
+
+		// Sort by begin date and reverse the Service Monitors.
+		List<ServiceMonitor> serviceMonitors = Ordering
+				.from(this.serviceMonitorCompare()).reverse()
+				.sortedCopy(service.getServiceMonitors());
+
+		for (ServiceMonitor sm : serviceMonitors) {
+			for (ResourceMonitor rm : sm.getResourceMonitors()) {
+				if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
+					if (rm.getResourceRef().equals(netxResource)) {
+						monitor = rm;
+					}
+				}
+			}
+
+		}
+		return monitor;
+
+	}
+
+	/**
+	 * Get a {@link Map} of {@link NetXResource} with corresponding
+	 * {@link ResourceMonitor}s
+	 * 
+	 * @param serviceMonitor
+	 * @param n
+	 * @param dtr
+	 * @param monitor
+	 * @return
+	 */
+	public Map<NetXResource, List<ResourceMonitor>> resourceMonitorMapPerResourceForServiceMonitorAndNodeAndPeriod(
+			ServiceMonitor serviceMonitor, Node n, DateTimeRange dtr,
+			IProgressMonitor monitor) {
+
+		// Filter ServiceMonitors on the time range.
+		// List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
+		// sortedCopy, dtr);
+
+		Map<NetXResource, List<ResourceMonitor>> monitorsPerResource = resourceMonitorMapPerResourceForServiceMonitorsAndNode(
+				Arrays.asList(new ServiceMonitor[] { serviceMonitor }), n,
+				monitor);
+		return monitorsPerResource;
+	}
+
+	/**
+	 * Get a {@link Map} of {@link NetXResource} with corresponding
+	 * {@link ResourceMonitor}s
+	 * 
+	 * @param serviceMonitors
+	 * @param n
+	 *            The {@link Node} for which the Resource Monitor should be.
+	 * @return
+	 */
+	public Map<NetXResource, List<ResourceMonitor>> resourceMonitorMapPerResourceForServiceMonitorsAndNode(
+			List<ServiceMonitor> serviceMonitors, Node n,
+			IProgressMonitor monitor) {
+		Map<NetXResource, List<ResourceMonitor>> monitorsPerResource = Maps
+				.newHashMap();
+
+		for (ServiceMonitor sm : serviceMonitors) {
+			for (ResourceMonitor rm : sm.getResourceMonitors()) {
+
+				// Abort the task if we are cancelled.
+				if (monitor != null && monitor.isCanceled()) {
+					return monitorsPerResource;
+				}
+
+				if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
+
+					// Analyze per resource, why would a resource monitor
+					// contain markers for a nother resource?
+					List<ResourceMonitor> monitors;
+					NetXResource res = rm.getResourceRef();
+					if (!monitorsPerResource.containsKey(res)) {
+						monitors = Lists.newArrayList();
+						monitorsPerResource.put(res, monitors);
+					} else {
+						monitors = monitorsPerResource.get(res);
+					}
+					monitors.add(rm);
+				}
+			}
+
+		}
+		return monitorsPerResource;
 	}
 
 	public List<Marker> toleranceMarkersForResourceMonitor(ResourceMonitor rm) {
@@ -1946,6 +2131,14 @@ public class ModelUtils {
 		dtr.setBegin(this.toXMLDate(start));
 		dtr.setEnd(this.toXMLDate(end));
 		return dtr;
+	}
+
+	public String period(DateTimeRange dtr) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("from: " + dateAndTime(dtr.getBegin()));
+		sb.append(" to: " + dateAndTime(dtr.getEnd()));
+
+		return sb.toString();
 	}
 
 	public String formatLastMonitorDate(ServiceMonitor sm) {
@@ -2299,50 +2492,39 @@ public class ModelUtils {
 		if (o instanceof Network) {
 			Network net = (Network) o;
 			result.append("Network: name=" + net.getName());
-		}
+		} else
 
 		if (o instanceof Node) {
 			Node n = (Node) o;
 			result.append("Node: name=" + n.getNodeID());
-		}
-
-		if (o instanceof Equipment) {
-			result.append("Equipment: code="
-					+ ((Equipment) o).getEquipmentCode());
-		}
-		if (o instanceof com.netxforge.netxstudio.library.Function) {
+		} else if (o instanceof Equipment) {
+			Equipment eq = (Equipment) o;
+			result.append("Equipment: code=" + eq.getEquipmentCode() + " name="
+					+ eq.getName());
+		} else if (o instanceof com.netxforge.netxstudio.library.Function) {
 			result.append("Function: name="
 					+ ((com.netxforge.netxstudio.library.Function) o).getName());
-		}
-		if (o instanceof NodeType) {
+		} else if (o instanceof NodeType) {
 			NodeType nt = (NodeType) o;
 			result.append("NodeType: name=" + nt.getName());
-		}
-		if (o instanceof NetXResource) {
+		} else if (o instanceof NetXResource) {
 			NetXResource nt = (NetXResource) o;
 			result.append("NetXResource: short name=" + nt.getShortName());
-		}
-
-		if (o instanceof Service) {
+		} else if (o instanceof Service) {
 			Service nt = (Service) o;
 			result.append("Service: name=" + nt.getServiceName());
-		}
-
-		if (o instanceof MetricSource) {
+		} else if (o instanceof MetricSource) {
 			MetricSource ms = (MetricSource) o;
 			result.append("Metric Source: name=" + ms.getName());
-		}
-		if (o instanceof Mapping) {
+		} else if (o instanceof Mapping) {
 			Mapping mapping = (Mapping) o;
 			result.append("Mapping: datarow=" + mapping.getFirstDataRow()
 					+ "interval=" + mapping.getIntervalHint() + ",colums="
 					+ mapping.getDataMappingColumns().size());
-		}
-		if (o instanceof MappingColumn) {
+		} else if (o instanceof MappingColumn) {
 			MappingColumn mc = (MappingColumn) o;
 			result.append("mapping column: " + mc.getColumn());
-		}
-		if (o instanceof DataKind) {
+		} else if (o instanceof DataKind) {
 			DataKind dk = (DataKind) o;
 			if (dk instanceof IdentifierDataKind) {
 				result.append("Identifier Datakind: "
@@ -2598,6 +2780,20 @@ public class ModelUtils {
 		long delta = System.currentTimeMillis() - l;
 		String result = (delta > 1000 ? (delta / 1000 + "." + delta % 1000 + " (sec) : ")
 				: delta + " (ms) ");
+		return result;
+	}
+
+	/**
+	 * The duration as a String since the provided nanotime
+	 * 
+	 * @param l
+	 * 
+	 * @return
+	 */
+	public String timeDurationNano(long l) {
+		long delta = System.nanoTime() - l;
+		String result = (delta > 1000000 ? (delta / 1000000 + "." + delta
+				% 1000000 + " (micro-sec) : ") : delta + " (ms) ");
 		return result;
 	}
 
@@ -2924,6 +3120,7 @@ public class ModelUtils {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(d);
 		this.adjustToDayStart(cal);
+		d.setTime(cal.getTime().getTime());
 		return cal.getTime();
 	}
 
@@ -2945,6 +3142,7 @@ public class ModelUtils {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(d);
 		this.adjustToDayEnd(cal);
+		d.setTime(cal.getTime().getTime());
 		return cal.getTime();
 	}
 
