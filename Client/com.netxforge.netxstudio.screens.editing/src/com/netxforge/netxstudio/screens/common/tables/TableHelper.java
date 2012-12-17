@@ -1,7 +1,26 @@
+/*******************************************************************************
+ * Copyright (c) 16 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.common.tables;
 
 import java.util.Comparator;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
@@ -74,6 +93,15 @@ public class TableHelper {
 
 		private CellLabelProvider labelProvider = null;
 
+		/**
+		 * 
+		 * @param tblViewer
+		 * @param columnName
+		 *            The name of the Column
+		 * @param width
+		 *            Width of the column
+		 * @return
+		 */
 		public TableViewerColumn tbvcFor(TableViewer tblViewer,
 				String columnName, int width) {
 			return tbvcFor(tblViewer, columnName, "", width, -1, null, null, -1);
@@ -113,6 +141,14 @@ public class TableHelper {
 		}
 
 		public TableViewerColumn tbvcFor(TableViewer tblViewer,
+				String columnName, String toolTip, int width,
+				EditingSupport editingSupport, Comparator<T> comparator,
+				int sortingDirection) {
+			return tbvcFor(tblViewer, columnName, toolTip, width, -1, null,
+					comparator, sortingDirection);
+		}
+
+		public TableViewerColumn tbvcFor(TableViewer tblViewer,
 				String columnName, String toolTip, int width, int allignment,
 				EditingSupport editingSupport, Comparator<T> comparator,
 				int sortingDirection) {
@@ -138,7 +174,7 @@ public class TableHelper {
 			// columns.
 
 			TableViewerColumn tblvc = new TableViewerColumn(tblViewer, SWT.NONE);
-			
+
 			// Optional Editing support.
 			if (editingSupport != null) {
 				tblvc.setEditingSupport(editingSupport);
@@ -146,16 +182,11 @@ public class TableHelper {
 
 			// Optional Sorting support.
 			if (comparator != null) {
-				@SuppressWarnings("unused")
 				TBVCSorter<T> sorterFor = sorterFor(tblvc, comparator);
-				// sorterFor.setSorter(sortingDirection != -1 ? sortingDirection
-				// : TBVCSorter.ASC);
-			} 
-//			else {
-				// Assume the objects implement comparable by default.
-//				@SuppressWarnings("unused")
-//				TBVCSorter<T> sorterFor = sorterFor(tblvc);
-//			}
+				if (sortingDirection != -1) {
+					sorterFor.setSorter(sortingDirection);
+				}
+			}
 
 			// Column builder, set parameter or default properties.
 			TableColumn tblc = tblvc.getColumn();
@@ -172,10 +203,6 @@ public class TableHelper {
 			return tblvc;
 		}
 
-//		private TBVCSorter<T> sorterFor(TableViewerColumn column) {
-//			return new TBVCSorter<T>(column);
-//		}
-
 		private TBVCSorter<T> sorterFor(TableViewerColumn column,
 				Comparator<T> comparator) {
 			return new TBVCSorter<T>(column, comparator);
@@ -187,13 +214,14 @@ public class TableHelper {
 	 * Column sorter, which delegates to a comparator if any provided. The value
 	 * is obtained from the label provider. , if installed.
 	 * 
-	 * @author Christophe
+	 * @author Christophe Bouhier
 	 * 
 	 * @param <T>
 	 */
 	public class TBVCSorter<T> extends TableViewerColumnSorter {
 
 		private Comparator<T> delegateComparator = null;
+		@SuppressWarnings("unused")
 		private TableViewerColumn column = null;
 
 		public TBVCSorter(TableViewerColumn column) {
@@ -210,25 +238,23 @@ public class TableHelper {
 		@Override
 		protected int doCompare(Viewer viewer, Object e1, Object e2) {
 
-			int cIndex = -1;
-			if (viewer instanceof TableViewer) {
-				cIndex = ((TableViewer) viewer).getTable().indexOf(
-						column.getColumn());
-			}
-			if (cIndex == -1) {
-				return 0; // Can't compare without an index.
-			}
-
-			T value1 = (T) getValue(viewer, e1, cIndex);
-			T value2 = (T) getValue(viewer, e2, cIndex);
-
+			// Compare from the Label provider?
 			if (delegateComparator != null) {
-				return delegateComparator.compare(value1, value2);
+				return delegateComparator.compare((T) e1, (T) e2);
 			}
-			
-//			if (value1 instanceof Comparable && value2 instanceof Comparable) {
-//				return ((Comparable) value1).compareTo(value2);
-//			}
+
+			// int cIndex = -1;
+			// if (viewer instanceof TableViewer) {
+			// cIndex = ((TableViewer) viewer).getTable().indexOf(
+			// column.getColumn());
+			// }
+			// if (cIndex == -1) {
+			// return 0; // Can't compare without an index.
+			// }
+			//
+			// T value1 = (T) getValue(viewer, e1, cIndex);
+			// T value2 = (T) getValue(viewer, e2, cIndex);
+
 			return 0;
 		}
 
@@ -248,6 +274,43 @@ public class TableHelper {
 		}
 	}
 
+	/**
+	 * Column sorter, which delegates to a comparator if any provided. The value
+	 * is obtained from the specified feature.
+	 * 
+	 * @author Christophe Bouhier
+	 * 
+	 * @param <T>
+	 */
+	public class TBVCFeatureSorter<T> extends TableViewerColumnSorter {
+
+		private Comparator<T> delegateComparator = null;
+		private EStructuralFeature feature = null;
+
+		public TBVCFeatureSorter(TableViewerColumn column,
+				EStructuralFeature feature, Comparator<T> comparator) {
+			super(column);
+			this.feature = feature;
+			this.delegateComparator = comparator;
+		}
+
+		@SuppressWarnings({ "unchecked" })
+		@Override
+		protected int doCompare(Viewer viewer, Object e1, Object e2) {
+
+			// Compare from the Label provider?
+			if (delegateComparator != null && feature != null
+					&& e1 instanceof EObject && e2 instanceof EObject) {
+
+				Object value1 = ((EObject) e1).eGet(feature);
+				Object value2 = ((EObject) e2).eGet(feature);
+
+				return delegateComparator.compare((T) value1, (T) value2);
+			}
+			return 0;
+		}
+	}
+
 	public interface TBVCSorterValueProvider {
 
 		/**
@@ -260,20 +323,20 @@ public class TableHelper {
 		 */
 		public Object valueOf(Object rowObject, int columnIndex);
 	}
-	
-		
-	
+
 	/**
-	 * A comparator which checks if the types are Comparables. 
-	 * @author Christophe
+	 * A comparator which will compare if the provided type is
+	 * {@link Comparable}.
+	 * 
+	 * @author Christophe Bouhier
 	 * @param <K>
-	 *
+	 * 
 	 */
-	public static class ComparableComparator<K> implements Comparator<K>{
+	public static class ComparableComparator<K> implements Comparator<K> {
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public int compare(K o1, K o2) {
-			if(o1 instanceof Comparable && o2 instanceof Comparable){
+			if (o1 instanceof Comparable && o2 instanceof Comparable) {
 				return ((Comparable) o1).compareTo(o2);
 			}
 			return 0;
