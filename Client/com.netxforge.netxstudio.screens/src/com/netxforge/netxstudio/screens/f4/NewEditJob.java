@@ -78,6 +78,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDateTimeObservableValue;
 import com.netxforge.netxstudio.screens.common.util.DateChooserComboObservableValue;
+import com.netxforge.netxstudio.screens.common.util.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -375,8 +376,6 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		occurencesTableViewer.setContentProvider(new ArrayContentProvider());
 		occurencesTableViewer.setLabelProvider(new OccurenceLabelProvider());
 
-		validationService.registerAllDecorators(txtJobName, lblJobName);
-
 		tableViewerJobObjects = new TableViewer(compositeDetails, SWT.BORDER
 				| SWT.FULL_SELECTION);
 		tableJobObjects = tableViewerJobObjects.getTable();
@@ -484,8 +483,8 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 				jobStateModelToTargetStrategy);
 
 		// JOB_NAME
-		EMFUpdateValueStrategy nameStrategy = validationService
-				.getUpdateValueStrategyBeforeSet("Name is required");
+		EMFUpdateValueStrategy nameStrategy = ValidationService.getStrategyfactory()
+				.strategyBeforeSetStringNotEmpty("Name is required");
 
 		IObservableValue textObserveJobName = SWTObservables
 				.observeDelayedValue(400,
