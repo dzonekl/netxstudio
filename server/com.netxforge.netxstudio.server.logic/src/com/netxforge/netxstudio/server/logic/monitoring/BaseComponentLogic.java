@@ -42,7 +42,10 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		// start a transaction
 		this.getDataProvider().getTransaction();
 		final List<NodeType> nodeTypes = getNodeTypesToExecuteFor();
-
+		
+		
+		// Note: The total work is not linear to the number of components, 
+		// components which have expressions will take more time. 
 		this.getJobMonitor().setTotalWork(countComponents(nodeTypes));
 		this.getJobMonitor().setTask("Performing resource monitoring");
 
@@ -81,8 +84,11 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 	}
 
 	protected void executeFor(Component component) {
+		
 		this.getJobMonitor().setTask("Computing for " + component.getName());
-		this.getJobMonitor().incrementProgress(1, false);
+		
+		this.getJobMonitor().incrementProgress(1, ( this.getJobMonitor().getProgress() & 5 ) == 0);
+		
 		final BaseComponentEngine engine = (BaseComponentEngine) getEngine();
 		engine.setJobMonitor(getJobMonitor());
 		engine.setComponent(component);

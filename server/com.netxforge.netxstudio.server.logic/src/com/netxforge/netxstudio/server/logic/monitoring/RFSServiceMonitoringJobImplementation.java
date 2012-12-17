@@ -47,7 +47,8 @@ public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 			return; // return silently. 
 		}
 		
-		// Iterates over Nodes (By NodeType). 
+		// Iterates over Nodes (By NodeType).
+		// Consider running the monitor in chunks of 1 month. 
 		final RFSServiceMonitoringLogic resourceMonitoringLogic = ServerActivator.getInstance()
 				.getInjector().getInstance(RFSServiceMonitoringLogic.class);
 		resourceMonitoringLogic.setRfsService(serviceJob.getRFSService().cdoID());
@@ -61,7 +62,9 @@ public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 		resourceProfileLogic.setRfsService(rfsService.cdoID());
 		resourceProfileLogic.setJobMonitor(getRunMonitor());
 		resourceProfileLogic.initializeProfileLogic();
-		resourceProfileLogic.run();
+		
+		// Profile Logic Period not set. 
+		// Disable resourceProfileLogic.run();
 		
 		getDataProvider().commitTransaction();
 	}
