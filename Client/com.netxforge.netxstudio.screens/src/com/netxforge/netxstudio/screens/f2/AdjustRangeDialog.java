@@ -30,6 +30,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.screens.f3.ValueRangeSelectionComponent;
 
 /**
  * Shows a value range selection component.
