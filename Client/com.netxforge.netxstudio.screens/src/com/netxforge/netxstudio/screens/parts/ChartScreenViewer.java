@@ -28,7 +28,7 @@ import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenViewer;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.f4.ChartScreen;
+import com.netxforge.netxstudio.screens.f3.charts.ChartScreen;
 
 /**
  * A Chart screen in a viewer.
