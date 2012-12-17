@@ -70,6 +70,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * @author Martin Taal
  */
+@SuppressWarnings("deprecation")
 public class ServerUtils {
 
 	private static final String REPO_NAME = "repo1";
@@ -79,12 +80,13 @@ public class ServerUtils {
 
 	// Control CDO Debugging using trace options.
 	// Note that CDO Options will still set debugging, as the OM Activator
-	// starts earlier thant this plugin, so change the configuration of the product, 
-	// to have App plugins start earlier, or turn of the .options :-) 
+	// starts earlier thant this plugin, so change the configuration of the
+	// product,
+	// to have App plugins start earlier, or turn of the .options :-)
 	static {
-			OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
-			OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
-			OMPlatform.INSTANCE.setDebugging(ServerActivator.DEBUG);
+		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
+		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
+		OMPlatform.INSTANCE.setDebugging(ServerActivator.DEBUG);
 	}
 
 	private static ServerUtils instance = new ServerUtils();
