@@ -35,6 +35,12 @@ import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.jsp.JSPActivator;
 
+
+/**
+ * 
+ * @author Christophe Bouhier
+ *
+ */
 public final class ListFolder {
 
 	@Inject

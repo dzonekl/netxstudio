@@ -338,6 +338,45 @@ public class CDOQueryService implements IQueryService {
 		return result;
 	}
 
+	
+	public List<Value> getDuplicateValues(CDOView view, MetricValueRange mvr,
+			String dialect) {
+
+		List<Value> result = null; // Might become assigned.
+
+		String queryString = null;
+		if (dialect.equals(QUERY_MYSQL)) {
+
+			StringBuffer sb = new StringBuffer();
+			sb.append("select val.cdo_id"
+					+ "from TM.generics_value where cdo_container = :mvr_cdoid");
+			queryString = sb.toString();
+
+		} else if (dialect.equals(QUERY_OCL)) {
+			// Syntax for OCL? 
+			queryString = "self.";
+		}
+
+		if (queryString != null) {
+
+			CDOQuery cdoQuery = null;
+
+			if (dialect.equals(QUERY_MYSQL)) {
+				cdoQuery = view.createQuery(dialect, queryString);
+				Long longValue = ((AbstractCDOIDLong) mvr.cdoID())
+						.getLongValue();
+				cdoQuery.setParameter("mvr_cdoid", longValue.toString());
+			} else if (dialect.equals(QUERY_OCL)) {
+				cdoQuery = view.createQuery(dialect, queryString, mvr.cdoID());
+			}
+
+			if (cdoQuery != null) {
+				result = cdoQuery.getResult(Value.class);
+			}
+		}
+		return result;
+	}
+	
 	public List<Value> getSortedValues(MetricValueRange mvr) {
 
 		DateTimeRange createDateTimeRange = GenericsFactory.eINSTANCE

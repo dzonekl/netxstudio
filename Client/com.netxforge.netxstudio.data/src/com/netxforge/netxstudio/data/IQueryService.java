@@ -163,10 +163,9 @@ public interface IQueryService {
 	 * Close used transactions.
 	 */
 	public void close();
-	
-	
+
 	/**
-	 * Find a value with a specified timestamp from a range.  
+	 * Find a value with a specified timestamp from a range.
 	 * 
 	 * @param view
 	 * @param mvr
@@ -176,11 +175,10 @@ public interface IQueryService {
 	 */
 	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
 			String dialect, XMLGregorianCalendar date);
-	
-	
+
 	/**
 	 * Find values within a specified period.
-	 *   
+	 * 
 	 * @param view
 	 * @param mvr
 	 * @param dialect
@@ -189,6 +187,7 @@ public interface IQueryService {
 	 */
 	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
 			String dialect, DateTimeRange period);
+
 	/**
 	 * 
 	 * @param view
@@ -200,7 +199,6 @@ public interface IQueryService {
 	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
 			String dialect, DateTimeRange period, XMLGregorianCalendar date);
 
-	
 	/**
 	 * Get the sorted values for a Metric Value Range.
 	 * 
@@ -219,6 +217,17 @@ public interface IQueryService {
 	 * @return
 	 */
 	public List<Value> getSortedValues(MetricValueRange mvr);
+
+	/**
+	 * Use a query to get the duplicate value timeStamps in a
+	 * 
+	 * @param view
+	 * @param mvr
+	 * @param dialect
+	 * @return
+	 */
+	public List<Value> getDuplicateValues(CDOView view, MetricValueRange mvr,
+			String dialect);
 
 	/**
 	 * Get an SQL query for the values with this container.

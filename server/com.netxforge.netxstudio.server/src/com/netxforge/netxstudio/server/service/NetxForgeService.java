@@ -28,8 +28,12 @@ import java.util.Map;
  *
  */
 public interface NetxForgeService {
+	
+	
 	public static final String COMMAND_PARAM_NAME = "command";
+	
 	public static final String SERVICE_PARAM_NAME = "service";
+	
 	public static final String DEFAULT_SUCCESS_RESULT = "success";
 	
 	public Object run(Map<String, String> parameters);
