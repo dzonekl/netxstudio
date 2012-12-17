@@ -153,7 +153,7 @@ public class NothingScreenImpl extends Composite implements IScreen {
 		return false;
 	}
 
-	public void handleReshresh(Object... objects) {
+	public void handleRefresh(Object... objects) {
 	}
 
 }
