@@ -11,10 +11,10 @@ import com.netxforge.netxstudio.screens.f1.support.PeriodSelectionPage;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionPage;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
 import com.netxforge.netxstudio.screens.f2.LazyResourcesComponent;
-import com.netxforge.netxstudio.screens.f2.PeriodComponent;
-import com.netxforge.netxstudio.screens.f2.ResourcesComponent;
-import com.netxforge.netxstudio.screens.f2.SmartValueComponent;
-import com.netxforge.netxstudio.screens.f2.ValueComponentII;
+import com.netxforge.netxstudio.screens.f3.PeriodComponent;
+import com.netxforge.netxstudio.screens.f3.ResourcesComponent;
+import com.netxforge.netxstudio.screens.f3.SmartValueComponent;
+import com.netxforge.netxstudio.screens.f3.ValueComponentII;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 
 public class ScreensModule extends AbstractModule {
