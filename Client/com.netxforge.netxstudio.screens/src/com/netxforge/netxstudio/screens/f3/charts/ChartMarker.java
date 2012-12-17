@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.f3;
+package com.netxforge.netxstudio.screens.f3.charts;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
