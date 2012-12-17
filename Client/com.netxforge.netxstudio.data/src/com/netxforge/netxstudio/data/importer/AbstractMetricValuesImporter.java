@@ -88,13 +88,11 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	public static final String ROOT_SYSTEM_PROPERTY = "metricSourceRoot";
 
+	public static final boolean RENAME_FILE_AT_PROCESS = true;
+
 	private MetricSource metricSource;
 
 	private IRunMonitor jobMonitor;
-
-	public void setImporter(AbstractMetricValuesImporter importer) {
-		// Ignore, should not be called here.
-	}
 
 	// Note: Not injected, as we inject with a local provider.
 	protected IDataProvider dataProvider;
@@ -112,11 +110,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	private Throwable throwable;
 
 	private int intervalHint = 60;
+
 	private Date headerTimeStamp = null;
 
 	// Kept for each file.
 	private DateTimeRange metricPeriodEstimate = GenericsFactory.eINSTANCE
 			.createDateTimeRange();
+
 	private int intervalEstimate = -1;
 
 	private List<IdentifierDescriptor> headerIdentifiers = new ArrayList<ComponentLocator.IdentifierDescriptor>();
@@ -396,6 +396,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	}
 
+	public void setImporter(AbstractMetricValuesImporter importer) {
+		// Ignore, should not be called here.
+	}
+
 	/**
 	 * @param mappingStatistic
 	 * @param statistics
@@ -496,16 +500,19 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			throws Throwable {
 
 		int rows = 0;
-		
+
 		final String fileName = file.getName();
 		final String originalPath = file.getAbsolutePath();
-		
-		// Work with the renamed file, abort if rename fails. 
-		file = preProcessFile(file);
-		if(file == null){
-			return rows;
+
+		// Work with the renamed file, abort if rename fails.
+
+		if (RENAME_FILE_AT_PROCESS) {
+			file = preProcessFile(file);
+			if (file == null) {
+				return rows;
+			}
 		}
-		
+
 		this.getFailedRecords().clear();
 		final int beforeFailedSize = getFailedRecords().size();
 
@@ -583,16 +590,14 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	 * @param file
 	 * @param error
 	 */
-	private void postProcessFile(File file, String originalPath,
-			boolean error) {
+	private void postProcessFile(File file, String originalPath, boolean error) {
 		// Strip the process extension of the file.
 
 		if (error) {
 			renameFile(file, new File(originalPath
 					+ ModelUtils.EXTENSION_DONE_WITH_FAILURES));
 		} else {
-			renameFile(file, new File(originalPath
-					+ ModelUtils.EXTENSION_DONE));
+			renameFile(file, new File(originalPath + ModelUtils.EXTENSION_DONE));
 		}
 	}
 

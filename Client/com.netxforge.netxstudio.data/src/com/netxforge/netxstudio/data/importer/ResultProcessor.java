@@ -24,7 +24,6 @@ import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.common.util.EList;
 
 import com.google.inject.Inject;
@@ -345,12 +344,14 @@ public class ResultProcessor {
 		}
 
 		// CB Experimental, pre-load only 24 indexes, and chunks of 24.
-		foundNetXResource
-				.cdoView()
-				.getSession()
-				.options()
-				.setCollectionLoadingPolicy(
-						CDOUtil.createCollectionLoadingPolicy(24, 24));
+		// 
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=394076
+//		foundNetXResource
+//				.cdoView()
+//				.getSession()
+//				.options()
+//				.setCollectionLoadingPolicy(
+//						CDOUtil.createCollectionLoadingPolicy(24, 24));
 
 		final MetricValueRange mvr = modelUtils
 				.valueRangeForIntervalAndKindGetOrCreate(foundNetXResource,
@@ -502,8 +503,6 @@ public class ResultProcessor {
 				value.getTimeStamp());
 		if (sortedValues != null && sortedValues.size() == 1) {
 			foundValue = sortedValues.get(0); // we only have one entry.
-		}else{
-			foundValue = value;
 		}
 
 		if (foundValue != null) {
@@ -530,7 +529,7 @@ public class ResultProcessor {
 								+ modelUtils.dateAndTime(value.getTimeStamp()));
 			}
 			// New timestamp, new value.
-			mvr.getMetricValues().add(0, foundValue);
+			mvr.getMetricValues().add(0, value);
 		}
 	}
 
