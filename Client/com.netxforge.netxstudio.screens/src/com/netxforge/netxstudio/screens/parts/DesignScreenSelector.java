@@ -23,12 +23,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.f2.SmartResources;
 import com.netxforge.netxstudio.screens.f3.Countries;
 import com.netxforge.netxstudio.screens.f3.Networks;
 import com.netxforge.netxstudio.screens.f3.Operators;
 import com.netxforge.netxstudio.screens.f3.RoomsTree;
 import com.netxforge.netxstudio.screens.f3.SitesTree;
+import com.netxforge.netxstudio.screens.f3.SmartResources;
 import com.netxforge.netxstudio.screens.f3.WarehouseTree;
 
 public class DesignScreenSelector extends AbstractScreenSelector {
