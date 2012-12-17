@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.f2;
+package com.netxforge.netxstudio.screens.f3;
 
 import java.text.DecimalFormat;
 import java.util.Collection;
@@ -178,7 +178,12 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenII;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f1.support.ReportWizard;
-import com.netxforge.netxstudio.screens.f3.NetworkViewerComparator;
+import com.netxforge.netxstudio.screens.f2.AdjustRangeDialog;
+import com.netxforge.netxstudio.screens.f2.CapacityEditingDialog;
+import com.netxforge.netxstudio.screens.f2.ExpressionContextDialog;
+import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
+import com.netxforge.netxstudio.screens.f2.LazyResourcesComponent;
+import com.netxforge.netxstudio.screens.f2.NewEditResource;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
@@ -1411,6 +1416,11 @@ public class SmartResources extends AbstractScreen implements
 		private Service currentService = null;
 
 		/*
+		 * The current resource monitor (associated with the NetXResource).
+		 */
+		private ResourceMonitor currentResourceMonitor = null;
+
+		/*
 		 * The current monitored node.
 		 */
 		private Node currentNode = null;
@@ -1418,16 +1428,11 @@ public class SmartResources extends AbstractScreen implements
 		/*
 		 * The current monitored resource.
 		 */
-		private NetXResource netXRes = null;
+		private NetXResource currentNetXResource = null;
 		/*
 		 * All Markers for the context Node.
 		 */
-		private Map<NetXResource, List<Marker>> markersForNode;
-
-		/*
-		 * All Markers for the context NetXResource.
-		 */
-		private List<Marker> markersForResource;
+		private Map<NetXResource, List<ResourceMonitor>> monitorsForNode;
 
 		public void handleValueChange(ValueChangeEvent event) {
 			IObservable observable = event.getObservable();
@@ -1445,7 +1450,8 @@ public class SmartResources extends AbstractScreen implements
 				} else if (ivov.getViewer() == componentsTreeViewer) {
 					processComponentChange(event.getObservableValue());
 				} else if (ivov.getViewer() == resourcesTableViewer) {
-					netXRes = processResourceChange(event.getObservableValue());
+					currentNetXResource = processResourceChange(event
+							.getObservableValue());
 				}
 			}
 
@@ -1457,26 +1463,63 @@ public class SmartResources extends AbstractScreen implements
 		}
 
 		@SuppressWarnings("unused")
-		public Map<NetXResource, List<Marker>> getMarkersForNode() {
-			return markersForNode;
+		public Map<NetXResource, List<ResourceMonitor>> getMonitorsForNode() {
+			return monitorsForNode;
 		}
 
-		public List<Marker> getMarkersForResource(NetXResource resource) {
-			if (markersForNode != null && markersForNode.containsKey(resource)) {
-				List<Marker> list = markersForNode.get(resource);
+		/**
+		 * Get the first {@link ResourceMonitor} for a {@link NetXResource}
+		 * obtained from a cache, or otherwise updated
+		 * 
+		 * @param resource
+		 * @return
+		 */
+		public ResourceMonitor getResourceMonitorForNetXResource(
+				NetXResource resource) {
+			if (monitorsForNode != null
+					&& monitorsForNode.containsKey(resource)) {
+				List<ResourceMonitor> resourceMonitors = monitorsForNode
+						.get(resource);
 				// Check that our markers are not invalid...
-				// If monitoring is running, we could become invalid. 
-				for(Marker m : list){
-					if(m.cdoInvalid()){
-						updateServiceMarkers(currentNode);
+				// If monitoring is running, we could become invalid.
+				for (ResourceMonitor rm : resourceMonitors) {
+					if (rm.cdoInvalid()) {
+						updateResourceMonitorsForNode(currentNode);
 						return null;
 					}
 				}
-				return list;
-			} else {
-				return null;
-			}
 
+				// Assume the size is 1, set the current Monitor.
+				if (resourceMonitors.size() > 0) {
+					currentResourceMonitor = resourceMonitors.get(0);
+					return currentResourceMonitor;
+				}
+			}
+			return null;
+		}
+
+		public List<Marker> getMarkersForResource(NetXResource resource) {
+			if (monitorsForNode != null
+					&& monitorsForNode.containsKey(resource)) {
+				List<ResourceMonitor> resourceMonitors = monitorsForNode
+						.get(resource);
+				// Check that our markers are not invalid...
+				// If monitoring is running, we could become invalid.
+				for (ResourceMonitor rm : resourceMonitors) {
+					if (rm.cdoInvalid()) {
+						updateResourceMonitorsForNode(currentNode);
+						return null;
+					}
+				}
+
+				// Assume the size is 1, set the current Monitor.
+				if (resourceMonitors.size() > 0) {
+					currentResourceMonitor = resourceMonitors.get(0);
+					return modelUtils
+							.toleranceMarkersForResourceMonitor(currentResourceMonitor);
+				}
+			}
+			return null;
 		}
 
 		private Service processServiceChange(IObservableValue ob) {
@@ -1496,7 +1539,7 @@ public class SmartResources extends AbstractScreen implements
 
 				// get the markers for this nodes.
 				if (currentService != null) {
-					updateServiceMarkers(n);
+					updateResourceMonitorsForNode(n);
 				}
 
 			}
@@ -1506,29 +1549,33 @@ public class SmartResources extends AbstractScreen implements
 		/**
 		 * @param n
 		 */
-		private void updateServiceMarkers(Node n) {
+		private void updateResourceMonitorsForNode(Node n) {
 			// Could take a while, see UI impact.
 			ServiceMonitor lastServiceMonitor = modelUtils
 					.lastServiceMonitor(currentService);
 			if (lastServiceMonitor != null) {
 
 				// TODO Run the update in the background
-				markersForNode = modelUtils
-						.toleranceMarkerMapPerResourceForServiceMonitorAndNodeAndPeriod(
+				monitorsForNode = modelUtils
+						.resourceMonitorMapPerResourceForServiceMonitorAndNodeAndPeriod(
 								lastServiceMonitor, n,
 								contextAggregate.getPeriod(), null);
 
-				System.out.println("Markers for : "
-						+ markersForNode.values().size() + " resources");
+				System.out.println("Monitors for : "
+						+ monitorsForNode.values().size() + " resources");
 			}
 		}
 
-		private void updateNetXResourceMarkers(NetXResource netXResource) {
-			if (markersForNode != null) {
-				markersForResource = markersForNode.get(netXResource);
-				System.out.println("Markers for : "
+		private void updateResourceMonitorForNetXResource(
+				NetXResource netXResource) {
+			if (monitorsForNode != null) {
+				List<ResourceMonitor> list = monitorsForNode.get(netXResource);
+				if (list.size() > 0) {
+					currentResourceMonitor = list.get(0);
+				}
+				System.out.println("Resource Monitor for : "
 						+ netXResource.getExpressionName() + " ="
-						+ markersForResource.size());
+						+ currentResourceMonitor.getMarkers().size());
 			}
 		}
 
@@ -1554,7 +1601,7 @@ public class SmartResources extends AbstractScreen implements
 
 			if (s == currentService && this.currentNode != null) {
 				// Recalc the markers.
-				updateServiceMarkers(currentNode);
+				updateResourceMonitorsForNode(currentNode);
 				System.out.println("Hey this is our service rev is now:"
 						+ s.cdoRevision());
 			}
@@ -1570,8 +1617,8 @@ public class SmartResources extends AbstractScreen implements
 		 * @return
 		 */
 		public boolean invalidateNetXResource(NetXResource netXRes) {
-			if (this.netXRes == netXRes) {
-				updateNetXResourceMarkers(netXRes);
+			if (this.currentNetXResource == netXRes) {
+				updateResourceMonitorForNetXResource(netXRes);
 				System.out.println("invalidate resource rev is now:"
 						+ netXRes.cdoRevision());
 				return true;
@@ -2852,9 +2899,11 @@ public class SmartResources extends AbstractScreen implements
 				resourcesTableViewer.refresh();
 				continue;
 			} else if (o instanceof ServiceMonitor) {
-				System.out.println("Invalid " + ((ServiceMonitor) o).cdoRevision() );
+				System.out.println("Invalid "
+						+ ((ServiceMonitor) o).cdoRevision());
 			} else if (o instanceof ResourceMonitor) {
-				System.out.println("Invalid " + ((ResourceMonitor) o).cdoRevision() );
+				System.out.println("Invalid "
+						+ ((ResourceMonitor) o).cdoRevision());
 			} else if (o instanceof NetXResource) {
 				NetXResource netXRes = (NetXResource) o;
 				if (monitoringAggregate.invalidateNetXResource(netXRes)) {
@@ -2864,9 +2913,10 @@ public class SmartResources extends AbstractScreen implements
 							.getMarkersForResource(netXRes));
 					cmpValues.smartRefresh();
 				}
-				// Refresh the current resources viewer, so the number of markers appears.  
+				// Refresh the current resources viewer, so the number of
+				// markers appears.
 				resourcesTableViewer.refresh();
-				
+
 				continue;
 			}
 			if (!(o instanceof WorkFlowRun)) {
@@ -2874,7 +2924,7 @@ public class SmartResources extends AbstractScreen implements
 				cmpValues.smartRefresh();
 			}
 		}
-//		cmpValues.smartRefresh();
+		// cmpValues.smartRefresh();
 
 	}
 
@@ -2944,12 +2994,16 @@ public class SmartResources extends AbstractScreen implements
 		chartInput.setInterval(ModelUtils.MINUTES_IN_AN_HOUR);
 
 		// Get the resource monitor from the monitroingAggregate.
-
-		// If we have a resource monitor, we can pass this as well.
-		if (resultProcessor.getToleranceProcessor().getResourceMonitor() != null) {
-			chartInput.setResourceMonitor(resultProcessor
-					.getToleranceProcessor().getResourceMonitor());
-		}
+		ResourceMonitor resourceMonitorForNetXResource = monitoringAggregate.getResourceMonitorForNetXResource(contextAggregate
+				.getCurrentNetXResource());
+		
+		chartInput.setResourceMonitor(resourceMonitorForNetXResource);
+		
+		// Do not use it from the test Processor. 
+//		if (resultProcessor.getToleranceProcessor().getResourceMonitor() != null) {
+//			chartInput.setResourceMonitor(resultProcessor
+//					.getToleranceProcessor().getResourceMonitor());
+//		}
 
 		// Note the selection for Values, override for the Value selection by
 		// the netxresource
