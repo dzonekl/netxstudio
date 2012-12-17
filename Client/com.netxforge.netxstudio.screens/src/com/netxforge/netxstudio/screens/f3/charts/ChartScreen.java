@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.f3;
+package com.netxforge.netxstudio.screens.f3.charts;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -973,6 +973,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 			this.dtr = chartInput.getPeriod();
 			this.resMonitor = chartInput.getResourceMonitor();
 			this.markers = chartInput.getMarkers();
+			
 			ISelection selection = context.getSelection();
 
 			// fire a wizard to select the range, block until we select a range.
