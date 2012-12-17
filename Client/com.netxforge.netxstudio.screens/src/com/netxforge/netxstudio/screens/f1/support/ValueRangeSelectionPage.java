@@ -31,7 +31,7 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.screens.common.util.MementoUtil;
-import com.netxforge.netxstudio.screens.f2.ValueRangeSelectionComponent;
+import com.netxforge.netxstudio.screens.f3.ValueRangeSelectionComponent;
 
 public class ValueRangeSelectionPage extends WizardPage {
 
