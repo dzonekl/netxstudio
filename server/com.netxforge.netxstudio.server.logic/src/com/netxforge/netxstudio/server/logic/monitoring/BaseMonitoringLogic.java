@@ -68,7 +68,7 @@ public abstract class BaseMonitoringLogic extends BaseComponentLogic {
 					}
 					executeFor = newExecuteFor;
 				}
-				getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
+				getJobMonitor().incrementProgress(0, true);
 			}
 		}
 		{

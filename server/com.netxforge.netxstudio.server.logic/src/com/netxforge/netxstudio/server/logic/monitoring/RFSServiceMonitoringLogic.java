@@ -23,9 +23,11 @@ import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
 
+import com.google.common.collect.Iterables;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServicesFactory;
@@ -45,17 +47,35 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 		this.calculatePeriod(rfsService);
 		this.initServiceMonitor(this.getPeriod());
 	}
-	
-	public void initServiceMonitor(DateTimeRange dtr){
-				
+
+	/**
+	 * Initialize a new Monitor, clean monitors which match the same period.
+	 * Overlapping periods are also discarded.
+	 * 
+	 * @param dtr
+	 */
+	public void initServiceMonitor(DateTimeRange dtr) {
+
 		serviceMonitor = ServicesFactory.eINSTANCE.createServiceMonitor();
 		// what name should a servicemonitor have?
 		serviceMonitor.setName(rfsService.getServiceName());
 		serviceMonitor.setPeriod(dtr);
-		rfsService.getServiceMonitors().add(serviceMonitor);
+		rfsService.getServiceMonitors().add(0, serviceMonitor); // Add at beginning. 
+		
+		List<ServiceMonitor> serviceMonitorDuplicates = this.getModelUtils()
+				.serviceMonitorDuplicates(rfsService);
+		
+		if (LogicActivator.DEBUG) {
+			LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION, "Creating Service Monitor for period" + this.getModelUtils().period(dtr));
+			LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION, "Removing " + serviceMonitorDuplicates.size() + " entries for the same period");
+		}
+
+		// remove them with
+		Iterables.removeAll(rfsService.getServiceMonitors(), serviceMonitorDuplicates);
+		
+		
 		getEngine().setServiceMonitor(serviceMonitor);
 	}
-	
 
 	public RFSService getRfsService() {
 		return rfsService;

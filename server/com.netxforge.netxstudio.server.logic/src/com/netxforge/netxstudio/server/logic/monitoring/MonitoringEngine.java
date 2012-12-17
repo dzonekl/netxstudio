@@ -57,18 +57,18 @@ public class MonitoringEngine extends BaseComponentEngine {
 
 	@Inject
 	private ResultProcessor resultProcessor;
-	
+
 	@Override
 	public void doExecute() {
 
-//		if (LogicActivator.DEBUG) {
-//
-//			LogicActivator.TRACE.trace(
-//					LogicActivator.TRACE_LOGIC_OPTION,
-//					"monitoring for: "
-//							+ this.getModelUtils().printModelObject(
-//									this.getComponent()));
-//		}
+		if (LogicActivator.DEBUG) {
+
+			LogicActivator.TRACE.trace(
+					LogicActivator.TRACE_LOGIC_OPTION,
+					"monitoring for: "
+							+ this.getModelUtils().printModelObject(
+									this.getComponent()));
+		}
 
 		// Clear the context first.
 		getExpressionEngine().getContext().clear();
@@ -77,7 +77,7 @@ public class MonitoringEngine extends BaseComponentEngine {
 		final Node node = getModelUtils().nodeFor(getComponent());
 		getExpressionEngine().getContext().add(node);
 
-		// CB 16-12-2011, moved capacity expression content, to be the resource.
+		// CB 16-12-2011, moved capacity expression context, to be the resource.
 		// use capacity expressions, with NODE.
 
 		// setEngineContextInfo("Node: " + node.getNodeID() + ", Comp: "
@@ -86,10 +86,6 @@ public class MonitoringEngine extends BaseComponentEngine {
 		// Expression runCapExpression =
 		// getExpression(LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF);
 		// runForExpression(runCapExpression);
-
-		if (getFailures().size() > 0) {
-			return;
-		}
 
 		for (final NetXResource netXResource : getComponent().getResourceRefs()) {
 
@@ -120,8 +116,22 @@ public class MonitoringEngine extends BaseComponentEngine {
 									+ netXResource.getShortName());
 				}
 			}
+			if (runCapExpression != null) {
+				this.getJobMonitor().setMsg(
+						"Capacity of: " + netXResource.getExpressionName());
+				this.getJobMonitor().incrementProgress(0, true);
+			}
 
 			runForExpression(runCapExpression);
+
+			if (getFailures().size() > 0) {
+				if (LogicActivator.DEBUG) {
+					LogicActivator.TRACE.trace(
+							LogicActivator.TRACE_LOGIC_OPTION,
+							"Error, ending for this component");
+				}
+				return;
+			}
 
 			setEngineContextInfo("NetXResource: " + netXResource.getShortName()
 					+ " - utilization expression -");
@@ -136,6 +146,12 @@ public class MonitoringEngine extends BaseComponentEngine {
 							"-- run utilization expression for resource: "
 									+ netXResource.getShortName());
 				}
+			}
+
+			if (runUtilExpression != null) {
+				this.getJobMonitor().setMsg(
+						"Utilization of: " + netXResource.getExpressionName());
+				this.getJobMonitor().incrementProgress(0, true);
 			}
 
 			runForExpression(runUtilExpression);
@@ -158,7 +174,8 @@ public class MonitoringEngine extends BaseComponentEngine {
 			// Service Monitor.
 			DateTimeRange dtr = EcoreUtil.copy(getPeriod());
 			resourceMonitor.setPeriod(dtr);
-			resultProcessor.getToleranceProcessor().setResourceMonitor(resourceMonitor);
+			resultProcessor.getToleranceProcessor().setResourceMonitor(
+					resourceMonitor);
 
 			boolean hasTolerances = this.getTolerances().size() > 0;
 
@@ -180,7 +197,16 @@ public class MonitoringEngine extends BaseComponentEngine {
 				setEngineContextInfo("NetXResource: "
 						+ netXResource.getShortName()
 						+ " - tolerance expression -");
-				runForExpression(tolerance.getExpressionRef());
+				Expression tolExpression = tolerance.getExpressionRef();
+
+				if (tolExpression != null) {
+					this.getJobMonitor().setMsg(
+							"Tolerance (" + tolerance.getLevel().getLiteral()
+									+ ") of: "
+									+ netXResource.getExpressionName());
+					this.getJobMonitor().incrementProgress(0, true);
+				}
+				runForExpression(tolExpression);
 				if (getFailures().size() > 0) {
 					if (LogicActivator.DEBUG) {
 						LogicActivator.TRACE.trace(
@@ -196,7 +222,7 @@ public class MonitoringEngine extends BaseComponentEngine {
 
 				if (LogicActivator.DEBUG) {
 					LogicActivator.TRACE.trace(
-							LogicActivator.TRACE_LOGIC_OPTION,
+							LogicActivator.TRACE_LOGIC_DETAILS_OPTION,
 							"-- markers created");
 				}
 
@@ -208,7 +234,7 @@ public class MonitoringEngine extends BaseComponentEngine {
 				} else {
 					if (LogicActivator.DEBUG) {
 						LogicActivator.TRACE.trace(
-								LogicActivator.TRACE_LOGIC_OPTION,
+								LogicActivator.TRACE_LOGIC_DETAILS_OPTION,
 								"-- add service monitor");
 					}
 					serviceMonitor.getResourceMonitors().add(resourceMonitor);
