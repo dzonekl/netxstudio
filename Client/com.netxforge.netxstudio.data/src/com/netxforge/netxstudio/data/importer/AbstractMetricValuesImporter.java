@@ -496,12 +496,20 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			throws Throwable {
 
 		int rows = 0;
-		String fileName = file.getName();
-
+		
+		final String fileName = file.getName();
+		final String originalPath = file.getAbsolutePath();
+		
+		// Work with the renamed file, abort if rename fails. 
+		file = preProcessFile(file);
+		if(file == null){
+			return rows;
+		}
+		
 		this.getFailedRecords().clear();
 		final int beforeFailedSize = getFailedRecords().size();
 
-		long startTime = System.currentTimeMillis();
+		final long startTime = System.currentTimeMillis();
 		long endTime = startTime;
 
 		// CB 13-01, changed to task, as msg, will be overwritten quickly.
@@ -535,9 +543,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		// commit everything sofar in this transaction....
 		commitTransactionWithoutClosing();
 
-		// CB 13-01 Commit per file now.
-		// commitTransaction();
-		postProcessFile(file, afterFailedSize > beforeFailedSize);
+		postProcessFile(file, originalPath, afterFailedSize > beforeFailedSize);
 
 		return rows;
 
@@ -549,16 +555,53 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	protected abstract String getFileExtension();
 
-	private void postProcessFile(File file, boolean error) {
+	/**
+	 * A {@link File} being processed is renamed.
+	 * 
+	 * @param file
+	 * @return The renamed File.
+	 */
+	private File preProcessFile(File file) {
+		renameFile(file, new File(file.getAbsolutePath()
+				+ ModelUtils.EXTENSION_PROCESS));
+		File renamedFile = new File(file + ModelUtils.EXTENSION_PROCESS);
+		if (renamedFile.exists()) {
+			return renamedFile;
+		} else {
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
+						"File: " + file.getAbsolutePath()
+								+ " rename for processing failed, abort");
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * A {@link File} being processed is post-renamed.
+	 * 
+	 * @param file
+	 * @param error
+	 */
+	private void postProcessFile(File file, String originalPath,
+			boolean error) {
+		// Strip the process extension of the file.
+
 		if (error) {
-			renameFile(file, new File(file.getAbsolutePath()
+			renameFile(file, new File(originalPath
 					+ ModelUtils.EXTENSION_DONE_WITH_FAILURES));
 		} else {
-			renameFile(file, new File(file.getAbsolutePath()
+			renameFile(file, new File(originalPath
 					+ ModelUtils.EXTENSION_DONE));
 		}
 	}
 
+	/**
+	 * Rename a file being processed.
+	 * 
+	 * @param file
+	 * @param newFile
+	 */
 	private void renameFile(File file, File newFile) {
 		boolean renameTo = file.renameTo(newFile);
 		if (DataActivator.DEBUG) {

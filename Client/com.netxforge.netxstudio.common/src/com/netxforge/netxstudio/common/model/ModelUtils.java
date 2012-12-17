@@ -173,7 +173,8 @@ public class ModelUtils {
 
 	// Note! For months, we better use a calendar function.
 	public static final int MINUTES_IN_A_MONTH = MINUTES_IN_A_DAY * 30;
-
+	
+	public static final String EXTENSION_PROCESS = ".process";
 	public static final String EXTENSION_DONE = ".done";
 	public static final String EXTENSION_DONE_WITH_FAILURES = ".done_with_failures";
 
