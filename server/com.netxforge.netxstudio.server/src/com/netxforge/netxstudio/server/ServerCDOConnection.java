@@ -28,6 +28,7 @@ import com.netxforge.netxstudio.server.ServerUtils;
  *  
  * @author Martin Taal
  */
+@SuppressWarnings("deprecation")
 public class ServerCDOConnection implements ICDOConnection {
 
 	public void initialize() {
