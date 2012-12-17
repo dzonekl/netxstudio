@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 17 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.f4;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -41,10 +58,16 @@ import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.common.util.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.MappingTypeDialog;
 
+
+/**
+ * 
+ * @author Christophe Bouhier
+ */
 public class NewEditMetricSource extends AbstractScreen implements
 		IDataScreenInjection {
 
@@ -138,15 +161,6 @@ public class NewEditMetricSource extends AbstractScreen implements
 		txtLocationUrl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
 		
-		
-		// CB 26012012, moved to AbstractFileBasedMapping.
-//		Label lblFilePattern = toolkit.createLabel(composite_1, "File Pattern:", SWT.NONE);
-//		lblFilePattern.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-//		
-//		txtFilePattern = toolkit.createText(composite_1, "New Text", SWT.NONE);
-//		txtFilePattern.setText("");
-//		txtFilePattern.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-
 		Label lblNewEditMapping = toolkit.createLabel(composite_1, "Mapping:",
 				SWT.NONE);
 		lblNewEditMapping.setAlignment(SWT.RIGHT);
@@ -231,10 +245,6 @@ public class NewEditMetricSource extends AbstractScreen implements
 		});
 		toolkit.paintBordersFor(hprlnkAddMapping);
 		fd_sctnNewSection.bottom = new FormAttachment(0, 155);
-
-		// Register decorators for each control.
-		validationService.registerAllDecorators(txtName, lblName);
-		validationService.registerAllDecorators(txtLocationUrl, lblLocationUrl);
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -242,11 +252,11 @@ public class NewEditMetricSource extends AbstractScreen implements
 		EMFDataBindingContext context = new EMFDataBindingContext();
 		
 		// Validation Strategies
-		EMFUpdateValueStrategy nameStrategy = validationService
-				.getUpdateValueStrategyBeforeSet("Name is required");
+		EMFUpdateValueStrategy nameStrategy = ValidationService.getStrategyfactory()
+				.strategyBeforeSetStringNotEmpty("Name is required");
 
-		EMFUpdateValueStrategy locationStrategy = validationService
-				.getUpdateValueStrategyBeforeSet("Metric Source Location URL is required");
+		EMFUpdateValueStrategy locationStrategy = ValidationService.getStrategyfactory()
+				.strategyBeforeSetStringNotEmpty("Metric Source Location URL is required");
 
 
 		IObservableValue nameObservable = SWTObservables.observeText(txtName,
@@ -254,11 +264,6 @@ public class NewEditMetricSource extends AbstractScreen implements
 		
 		IObservableValue locationObservable = SWTObservables.observeText(
 				this.txtLocationUrl, SWT.Modify);
-		
-		// CB 26012012, moved to AbstractFileBasedMapping.
-//		IObservableValue filePatternObservable = SWTObservables.observeText(
-//				this.txtFilePattern, SWT.Modify);
-
 		
 		IEMFValueProperty nameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -268,20 +273,11 @@ public class NewEditMetricSource extends AbstractScreen implements
 				editingService.getEditingDomain(),
 				MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION);
 
-//		IEMFValueProperty filePatternProperty = EMFEditProperties.value(
-//				editingService.getEditingDomain(),
-//				MetricsPackage.Literals.METRIC_SOURCE__FILTER_PATTERN);
-
-		
 		context.bindValue(nameObservable, nameProperty.observe(metricSource),
 				nameStrategy, null);
 
 		context.bindValue(locationObservable,
 				locationProperty.observe(metricSource), locationStrategy, null);
-		
-//		context.bindValue(filePatternObservable,
-//				filePatternProperty.observe(metricSource), null, null);
-
 		
 		return context;
 	}
@@ -328,10 +324,6 @@ public class NewEditMetricSource extends AbstractScreen implements
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-
-			System.out.println(metricSource.cdoID() + ""
-					+ metricSource.cdoState());
-
 		}
 		// After our edit, we shall be dirty
 		if (editingService.isDirty()) {
