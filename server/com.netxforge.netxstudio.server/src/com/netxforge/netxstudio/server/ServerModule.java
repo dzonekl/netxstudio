@@ -15,7 +15,7 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.server;
 
 import static com.google.inject.util.Modules.override;
@@ -30,7 +30,7 @@ import com.netxforge.netxstudio.server.ServerUtils.ServerInitializer;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
+ * 
  */
 public class ServerModule extends AbstractModule {
 
@@ -40,18 +40,26 @@ public class ServerModule extends AbstractModule {
 		om = override(om).with(new ServerModule());
 		return om;
 	}
-	
-	private ServerModule(){
+
+	private ServerModule() {
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.google.inject.AbstractModule#configure()
 	 */
 	@Override
 	protected void configure() {
-		this.bind(ICDOConnection.class).annotatedWith(Server.class).to(ServerCDOConnection.class);
-		this.bind(IDataProvider.class).annotatedWith(Server.class).to(ServerCDODataProvider.class);
+		this.bind(ICDOConnection.class).annotatedWith(Server.class)
+				.to(ServerCDOConnection.class);
+		this.bind(IDataProvider.class).annotatedWith(Server.class)
+				.to(ServerCDODataProvider.class);
+		
 		this.bind(ServerInitializer.class);
+		
 		this.bind(CommitInfoHandler.class);
+		
+		this.bind(ServerIntegrity.class);
 	}
 }

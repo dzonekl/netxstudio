@@ -26,6 +26,8 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.osgi.framework.console.CommandInterpreter;
+import org.eclipse.osgi.framework.console.CommandProvider;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
@@ -37,19 +39,16 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.common.properties.PropertiesUtil;
+import com.netxforge.netxstudio.server.ServerIntegrity;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.ServerUtils;
 
 /**
- * The following tracing options are supported.
- * 
- * {@link #PLUGIN_ID }
- * 
- * @author Christophe
+ * @author Christophe Bouhier
  * 
  */
 public class ServerActivator implements BundleActivator, DebugOptionsListener,
-		IPropertiesProvider {
+		IPropertiesProvider, CommandProvider {
 
 	private static final String NETXSERVER_PROPERTIES_FILE_NAME = "netxserver.properties";
 
@@ -155,7 +154,11 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 		PropertiesUtil pu = injector.getInstance(PropertiesUtil.class);
 		pu.readProperties(instanceLocation, NETXSERVER_PROPERTIES_FILE_NAME,
 				getProperties());
-
+		
+		
+		// register our command provider.
+		context.registerService(CommandProvider.class.getName(), this, null);
+		
 	}
 
 	public Properties getProperties() {
@@ -181,6 +184,30 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 
 	public Injector getInjector() {
 		return injector;
+	}
+
+	public String getHelp() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("---NetXStudio Server commands---\n");
+		buffer.append("\tserver report - Integrity status of the server \n");
+		return buffer.toString();
+	}
+	
+	public Object _server(CommandInterpreter interpreter) {
+		try {
+			String cmd = interpreter.nextArgument();
+			if ("report".equals(cmd)) {
+				
+				// Disable for now. 
+				ServerIntegrity.reportIntegrity(interpreter);
+				return null;
+			}
+			interpreter.println(getHelp());
+		} catch (Exception ex) {
+			interpreter.printStackTrace(ex);
+		}
+
+		return null;
 	}
 
 }
