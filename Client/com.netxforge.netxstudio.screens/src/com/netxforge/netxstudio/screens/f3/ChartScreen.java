@@ -1,4 +1,21 @@
-package com.netxforge.netxstudio.screens.f4;
+/*******************************************************************************
+ * Copyright (c) 16 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
+package com.netxforge.netxstudio.screens.f3;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -7,6 +24,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -18,6 +36,7 @@ import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -38,7 +57,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -53,34 +71,58 @@ import org.swtchart.ISeries;
 import org.swtchart.ISeriesSet;
 import org.swtchart.LineStyle;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.ModelUtils.TimeStampPredicate;
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.common.tables.TableHelper;
+import com.netxforge.netxstudio.screens.common.tables.TableHelper.TBVCFeatureSorter;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionWizard;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 
+/**
+ * 
+ * @author Christophe Bouhier
+ */
 public class ChartScreen extends AbstractScreen implements IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
+
 	private Chart chart;
+
 	private Table table;
+
 	private Form frmChartScreen;
-	private ResourceMonitor resMonitor;
-	private NetXResource netXResource;
-	private DateTimeRange dtr;
+
 	private TableViewer markersTableViewer;
+
+	@Inject
+	private TableHelper tableHelper;
+
 	private int utilizationAxisID = -1;
+
+	// Context variables.
+	private ResourceMonitor resMonitor;
+
+	private NetXResource netXResource;
+
+	private DateTimeRange dtr;
 
 	public ChartScreen(Composite parent, int style) {
 		super(parent, style);
@@ -117,8 +159,9 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 
 		// CHART
 		chart = new Chart(cmChart, SWT.NONE);
-		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4);
+		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, true, 1, 4);
 		gridData.heightHint = 350;
+		// gridData.widthHint = 400;
 		chart.setLayoutData(gridData);
 		chart.setBackground(Display.getDefault()
 				.getSystemColor(SWT.COLOR_WHITE));
@@ -173,53 +216,53 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		table = markersTableViewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+
 		GridData gdMarkers = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gdMarkers.heightHint = 250;
 		table.setLayoutData(gdMarkers);
 		toolkit.paintBordersFor(table);
 
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(
-				markersTableViewer, SWT.NONE);
-		TableColumn tblclmnType = tableViewerColumn.getColumn();
-		tblclmnType.setWidth(125);
-		tblclmnType.setText("Type");
+		{ // Column 1.
+			tableHelper.new TBVC<String>().tbvcFor(markersTableViewer, "Type",
+					"Marker Type", 125, null,
+					new TableHelper.ComparableComparator<String>());
+		}
 
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-				markersTableViewer, SWT.NONE);
-		TableColumn tblclmnDescription = tableViewerColumn_1.getColumn();
-		tblclmnDescription.setWidth(200);
-		tblclmnDescription.setText("Description");
+		{ // Column 2.
+			tableHelper.new TBVC<String>().tbvcFor(markersTableViewer,
+					"Description", "Additional description for the Marker",
+					200, null, new TableHelper.ComparableComparator<String>());
+		}
 
-		// TableItem tableItem = new TableItem(table, SWT.NONE);
-		// tableItem
-		// .setText(new String[] {
-		// "Threshold Breached,",
-		// "The Threshold for this resource has been crossed. The resource is not within tolerance. "
-		// });
+		{ // Column 3.
+			TableViewerColumn tbvcFor = tableHelper.new TBVC<Date>().tbvcFor(
+					markersTableViewer, "TimeStamp",
+					"The date and time the Marker occurred", 140,
+					(EditingSupport) null);
 
-		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
-				markersTableViewer, SWT.NONE);
-		TableColumn tblclmnTimestamp = tableViewerColumn_3.getColumn();
-		tblclmnTimestamp.setWidth(140);
-		tblclmnTimestamp.setText("TimeStamp");
+			TBVCFeatureSorter<Value> tbvcFeatureSorter = tableHelper.new TBVCFeatureSorter<Value>(tbvcFor,
+					OperatorsPackage.Literals.MARKER__VALUE_REF,
+					modelUtils.valueTimeStampCompare());
+			tbvcFeatureSorter.setSorter(TBVCFeatureSorter.DESC);
+		}
 
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
-				markersTableViewer, SWT.NONE);
-		TableColumn tblclmnValue = tableViewerColumn_2.getColumn();
-		tblclmnValue.setWidth(100);
-		tblclmnValue.setText("Value");
+		{ // Column 4.
+			tableHelper.new TBVC<String>().tbvcFor(markersTableViewer, "Value",
+					"The marked Value.", 100, null,
+					new TableHelper.ComparableComparator<String>());
+		}
 
-		TableViewerColumn tableViewerColumnDirection = new TableViewerColumn(
-				markersTableViewer, SWT.NONE);
-		TableColumn tblclmnDirection = tableViewerColumnDirection.getColumn();
-		tblclmnDirection.setWidth(100);
-		tblclmnDirection.setText("Direction");
+		{ // Column 5.
+			tableHelper.new TBVC<String>().tbvcFor(markersTableViewer,
+					"Direction", "The direction in which the Value moves.",
+					100, null, new TableHelper.ComparableComparator<String>());
+		}
 
-		TableViewerColumn tableViewerColumnLevel = new TableViewerColumn(
-				markersTableViewer, SWT.NONE);
-		TableColumn tblclmnLevel = tableViewerColumnLevel.getColumn();
-		tblclmnLevel.setWidth(100);
-		tblclmnLevel.setText("Level");
+		{ // Column 6.
+			tableHelper.new TBVC<String>().tbvcFor(markersTableViewer, "Level",
+					"The Marker level.", 100, null,
+					new TableHelper.ComparableComparator<String>());
+		}
 
 	}
 
@@ -257,9 +300,16 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 						Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
 	}
 
-	private void buildScrollStick(Composite composite_2, GridData gd) {
-		Composite compositeScrollStick = toolkit.createComposite(composite_2,
-				SWT.NO_BACKGROUND);
+	/**
+	 * A Scroll stick which scrolls the Y-Axis up or down, and the X-Axis left
+	 * and right.
+	 * 
+	 * @param parent
+	 * @param gd
+	 */
+	private void buildScrollStick(Composite parent, GridData gd) {
+		Composite compositeScrollStick = toolkit.createComposite(parent,
+				SWT.NONE);
 		compositeScrollStick.setLayoutData(gd);
 		toolkit.paintBordersFor(compositeScrollStick);
 		GridLayout gl_compositeScrollStick = new GridLayout(3, false);
@@ -356,12 +406,16 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		}
 	}
 
-	int expectedValueQuantity = -1;
 	private int interval = -1;
+
 	private List<Value> values;
 
 	/* The parent component for the resource */
 	private Component component;
+
+	/* Prefer to use a Resource Monitor as a given input! */
+	@SuppressWarnings("unused")
+	private List<Marker> markers;
 
 	public List<Value> sortAndApplyPeriod(List<Value> values) {
 		List<Value> sortedCopy = modelUtils
@@ -378,20 +432,24 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		case ModelUtils.MINUTES_IN_AN_HOUR: {
 			primaryDatePattern = "dd-MMM HH:mm";
 			label = "HOUR";
-		}break;
-		case ModelUtils.MINUTES_IN_A_DAY:{
+		}
+			break;
+		case ModelUtils.MINUTES_IN_A_DAY: {
 			primaryDatePattern = "dd-MMM";
 			label = "DAY";
-			
-		}break;
-		case ModelUtils.MINUTES_IN_A_WEEK:{
+
+		}
+			break;
+		case ModelUtils.MINUTES_IN_A_WEEK: {
 			primaryDatePattern = "ww";
 			label = "WEEK";
-		}break;
-		case ModelUtils.MINUTES_IN_A_MONTH:{
+		}
+			break;
+		case ModelUtils.MINUTES_IN_A_MONTH: {
 			primaryDatePattern = "MMMMM";
 			label = "MONTH";
-		}break;
+		}
+			break;
 		default: {
 			primaryDatePattern = "HH:mm";
 			label = modelUtils.fromMinutes(interval);
@@ -404,11 +462,11 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		DateFormat primaryFormat = new SimpleDateFormat(primaryDatePattern);
 
 		IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
-//		xTick.setTickMarkStepHint(2);
+		// xTick.setTickMarkStepHint(2);
 		xTick.setFormat(primaryFormat);
 
 		xTick.setTickLabelAngle(45);
-		
+
 		// int secondaryAxisID = 1;
 		// if (chart.getAxisSet().getXAxes().length == 1) {
 		// secondaryAxisID = chart.getAxisSet().createXAxis();
@@ -583,9 +641,10 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 
 	/*
 	 * Build a chart. The values to show are extracted from the injected
-	 * netXResource and interval. The metric values are sorted by period, and
-	 * split in consumable sub-ranges matching the interval. The UI allows to
-	 * select the sub-range.
+	 * netXResource and interval. The metric values are sorted by period.
+	 * 
+	 * TODO split in consumable sub-ranges matching the interval. The UI allows
+	 * to select the sub-range.
 	 * 
 	 * For a sub-range the corresponding capacity and utilization a chart series
 	 * is produced.
@@ -621,8 +680,9 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 
 		// CAP VALUES......
 		initCapacityRange(dateArray, metricDTR);
+
 		// UTIL VALUES.
-		initUtilizationRange(dateArray, values);
+		initUtilizationRange(dateArray, values, metricDTR);
 
 		// TOL VALUES
 
@@ -656,11 +716,11 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 			markersTableViewer
 					.setLabelProvider(new MarkersObervableMapLabelProvider(
 							observeMaps));
-
 			IEMFListProperty resourceMonitorObservableList = EMFEditProperties
 					.list(editingService.getEditingDomain(),
 							OperatorsPackage.Literals.RESOURCE_MONITOR__MARKERS);
 
+			// EMFEditProperties.
 			markersTableViewer.setInput(resourceMonitorObservableList
 					.observe(resMonitor));
 		}
@@ -683,27 +743,47 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 	}
 
 	/*
-	 * Filter utlization values for metric values. 
+	 * Filter utlization values for metric values.
 	 */
-	private void initUtilizationRange(Date[] dateArray, List<Value> metricValues) {
-		
-		// Depending on the range, we want to filter the values for which we have 
-		// a utilization. 
+	private void initUtilizationRange(Date[] dateArray,
+			List<Value> metricValues, DateTimeRange dtr) {
+
+		// Depending on the range, we want to filter the values for which we
+		// have
+		// a utilization.
 		List<Value> utilValues = sortAndApplyPeriod(netXResource
 				.getUtilizationValues());
+
+		// Why not get from the period?
 		utilValues = modelUtils.valuesForValues(utilValues, metricValues);
-		
+
 		if (utilValues.isEmpty()) {
 			return;
 		}
 
-		createUtilizationAxis();
+		// Make sure we are equal size.
+		if (dateArray.length != utilValues.size()) {
+			if (ScreensActivator.DEBUG) {
+				ScreensActivator.TRACE
+						.trace(ScreensActivator.TRACE_SCREENS_OPTION,
+								"Skip plotting utilization, date array and util array length mismatch sizes => dates: "
+										+ dateArray.length
+										+ " util values: "
+										+ utilValues.size());
+			}
+			utilValues = rangeFillUpGaps(dateArray, dtr, utilValues);
+		}
 
 		List<Double> utilDoubleValues = modelUtils
 				.transformValueToDouble(utilValues);
+
 		// Multiply by 100
 		double[] utilDoubleArray = modelUtils
 				.multiplyByHundredAndToArray(utilDoubleValues);
+
+		// Create the axis.
+		createUtilizationAxis();
+
 		this.seriesFromUtilization(dateArray, utilDoubleArray, 1);
 	}
 
@@ -719,26 +799,90 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 			capacities = this.sortAndApplyPeriod(capacities);
 		}
 
-		List<Value> capMatchingDates = Lists.newArrayList(capacities);
-		int capSize = capMatchingDates.size();
-		if (capSize > 0 && capSize > dateArray.length) {
-			// we have more capacities then values, strip according
-			// to the metric value date time range, filling up the blanks.
-			// capMatchingDates = capacities.subList(0, dateArray.length);
-			capMatchingDates = modelUtils.valuesInsideRange(capMatchingDates,
-					metricValuesDateTimeRange);
-		}
-		capSize = capMatchingDates.size();
-		if (capSize > 0 && capSize < dateArray.length) {
-			Value lastVal = capMatchingDates.get(capSize - 1);
-			for (int i = capSize; i < dateArray.length; i++) {
-				capMatchingDates.add(i, lastVal);
-			}
-		}
+		List<Value> capMatchingDates = rangeFillUpWithLastValue(dateArray,
+				metricValuesDateTimeRange, capacities);
 
 		double[] capValues = modelUtils
 				.transformValueToDoubleArray(capMatchingDates);
 		this.seriesFromCapacity(dateArray, capValues);
+	}
+
+	/**
+	 * Fill up a range with missing values from the initial collection for the
+	 * provided period.
+	 * 
+	 * @param timeStamps
+	 * @param dtr
+	 * @param initialCollection
+	 * @return
+	 */
+	private List<Value> rangeFillUpWithLastValue(Date[] timeStamps,
+			DateTimeRange dtr, List<Value> initialCollection) {
+		List<Value> filledCollection = Lists.newArrayList(initialCollection);
+
+		int initialSize = filledCollection.size();
+		if (initialSize > 0 && initialSize > timeStamps.length) {
+			// we have more in the initial collection then the number of
+			// timeStamps timestamps , strip according
+			// to the metric value date time range, filling up the blanks.
+			filledCollection = modelUtils.valuesInsideRange(filledCollection,
+					dtr);
+			return filledCollection;
+		}
+
+		// Get the last value from the collection, and fill up for the quantity
+		// of dates.
+
+		initialSize = filledCollection.size();
+		if (initialSize > 0 && initialSize < timeStamps.length) {
+			Value lastVal = filledCollection.get(initialSize - 1);
+			for (int i = initialSize; i < timeStamps.length; i++) {
+				filledCollection.add(i, lastVal);
+			}
+		}
+		return filledCollection;
+	}
+
+	private List<Value> rangeFillUpGaps(Date[] timeStamps, DateTimeRange dtr,
+			List<Value> initialCollection) {
+		List<Value> filledCollection = Lists.newArrayList(initialCollection);
+
+		int initialSize = filledCollection.size();
+		if (initialSize > 0 && initialSize > timeStamps.length) {
+			// we have more in the initial collection then the number of
+			// timeStamps timestamps , strip according
+			// to the metric value date time range, filling up the blanks.
+			filledCollection = modelUtils.valuesInsideRange(filledCollection,
+					dtr);
+			return filledCollection;
+		}
+
+		// Get the last value from the collection, and fill up for the quantity
+		// of dates.
+		// Find the collection value for each date.
+		ArrayList<Date> timeStampsCollection = Lists.newArrayList(timeStamps);
+		filledCollection = Lists.newArrayListWithCapacity(timeStampsCollection
+				.size());
+
+		for (int i = 0; i < timeStampsCollection.size(); i++) {
+			Date date = timeStampsCollection.get(i);
+			TimeStampPredicate timeStampPredicate = modelUtils.new TimeStampPredicate(
+					date);
+			try {
+				Value find = Iterables.find(initialCollection,
+						timeStampPredicate);
+				filledCollection.add(i, find);
+			} catch (NoSuchElementException nsee) {
+				Value createValue = GenericsFactory.eINSTANCE.createValue();
+				createValue.setTimeStamp(modelUtils.toXMLDate(date));
+				createValue.setValue(0);
+				// Nope
+				filledCollection.add(i, createValue);
+			}
+
+		}
+
+		return filledCollection;
 	}
 
 	// TODO Move to ModelUtils (Even when used).
@@ -828,6 +972,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 			this.interval = chartInput.getInterval();
 			this.dtr = chartInput.getPeriod();
 			this.resMonitor = chartInput.getResourceMonitor();
+			this.markers = chartInput.getMarkers();
 			ISelection selection = context.getSelection();
 
 			// fire a wizard to select the range, block until we select a range.

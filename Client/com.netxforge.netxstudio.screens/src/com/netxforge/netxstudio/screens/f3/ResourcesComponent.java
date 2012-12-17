@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.f2;
+package com.netxforge.netxstudio.screens.f3;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -75,6 +75,7 @@ import com.netxforge.netxstudio.screens.FunctionLabelTextTableColumnFilter;
 import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
+import com.netxforge.netxstudio.screens.f2.CapacityEditingDialog;
 
 /**
  * A UI Component for NetXResource objects. It can be injected with a
