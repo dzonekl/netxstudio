@@ -1,7 +1,23 @@
+/*******************************************************************************
+ * Copyright (c) 17 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
-import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -11,12 +27,8 @@ import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -36,34 +48,37 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
+/**
+ * 
+ * @author Christophe Bouhier
+ *
+ */
 public class ResourceMonitors extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
+	
 	private Table table;
+	
 	private Text txtFilterText;
 
 	private TableViewer resourceMonitorsTableViewer;
+
 	private Form frmResourceMonitors;
-	
 	
 	@SuppressWarnings("unused")
 	private Resource rfsServiceResource;
 
 	private TableViewerColumn tblViewerClmnState;
-	// private List<ServiceMonitor> allServiceMonitors;
+	
 	private ServiceMonitor serviceMonitor;
-
-	// private Resource rmResource;
 
 	/**
 	 * Create the composite.
@@ -146,65 +161,6 @@ public class ResourceMonitors extends AbstractScreen implements
 		TableColumn tblclmnEnd = tblViewerClmnEnd.getColumn();
 		tblclmnEnd.setWidth(150);
 		tblclmnEnd.setText("End");
-
-		// Menu menu = new Menu(table);
-		// table.setMenu(menu);
-		//
-		// MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
-		// mntmEdit.addSelectionListener(new SelectionAdapter() {
-		// @Override
-		// public void widgetSelected(SelectionEvent e) {
-		//
-		// ISelection selection = getViewer().getSelection();
-		// if (selection instanceof IStructuredSelection) {
-		// Object o = ((IStructuredSelection) selection)
-		// .getFirstElement();
-		// com.netxforge.netxstudio.screens.f4.ResourceMonitor rmScreen = new
-		// com.netxforge.netxstudio.screens.f4.ResourceMonitor(
-		// screenService.getScreenContainer(), SWT.NONE);
-		// rmScreen.setScreenService(screenService);
-		// rmScreen.setOperation(getOperation());
-		// rmScreen.injectData(null, o);
-		// screenService.setActiveScreen(rmScreen);
-		// }
-		// }
-		// });
-		// mntmEdit.setText("View...");
-	}
-
-	/**
-	 * Wrap in an action, to contribute to a menu manager.
-	 * 
-	 * @author Christophe Bouhier
-	 * 
-	 */
-	class EditMonitorAction extends Action {
-
-		public EditMonitorAction(String text) {
-			super(text);
-		}
-
-		@Override
-		public void run() {
-			super.run();
-			if (screenService != null) {
-				ISelection selection = getViewer().getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-
-					if (o instanceof ResourceMonitor) {
-
-						ChartScreen rmScreen = new ChartScreen(
-								screenService.getScreenContainer(), SWT.NONE);
-						rmScreen.setScreenService(screenService);
-						rmScreen.setOperation(getOperation());
-						rmScreen.injectData(null, o);
-						screenService.setActiveScreen(rmScreen);
-					}
-				}
-			}
-		}
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -296,9 +252,6 @@ public class ResourceMonitors extends AbstractScreen implements
 	public void injectData(Object owner, Object object) {
 		if (object instanceof ServiceMonitor) {
 			serviceMonitor = (ServiceMonitor) object;
-			// serviceMonitor.get
-			// rmResource =
-			// editingService.getData(OperatorsPackage.Literals.RESOURCE_MONITOR);
 			buildUI();
 			initDataBindings_();
 		}
@@ -320,17 +273,6 @@ public class ResourceMonitors extends AbstractScreen implements
 		throw new UnsupportedOperationException();
 	}
 
-	private final List<IAction> actions = Lists.newArrayList();
-
-	@Override
-	public IAction[] getActions() {
-		String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
-				: "Edit";
-		if (actions.isEmpty()) {
-			actions.add(new EditMonitorAction(actionText + "..."));
-		}
-		return actions.toArray(new IAction[actions.size()]);
-	}
 
 	@Override
 	public String getScreenName() {
