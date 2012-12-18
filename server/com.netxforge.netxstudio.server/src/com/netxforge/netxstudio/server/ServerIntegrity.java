@@ -125,7 +125,6 @@ public class ServerIntegrity extends JobChangeAdapter {
 			return duplicateValueMap;
 		}
 
-		
 		/**
 		 * @return
 		 */
@@ -135,12 +134,24 @@ public class ServerIntegrity extends JobChangeAdapter {
 			for (NetXResource res : duplicateValueMap.keySet()) {
 				List<Value> list = duplicateValueMap.get(res);
 				sumDuplicates += list.size();
-				sb.append(" for resource: " + res.getExpressionName()
-						+ "there are: " + list.size()
-						+ " duplicate timestamps\n");
+				sb.append(" Resource("
+						+ (res.getComponentRef() != null ? modelUtils
+								.printModelObject(res.getComponentRef()) : "")
+						+ "): " + res.getExpressionName() + " are: "
+						+ list.size() + " duplicate timestamps\n");
 			}
 			sb.append(" total duplicates: " + sumDuplicates);
 			return sb.toString();
+		}
+
+		String duration;
+
+		public void setDuration(String timeDurationNano) {
+			this.duration = timeDurationNano;
+		}
+
+		public String integrity_getDuration() {
+			return duration;
 		}
 
 		public Date getLastRunDate() {
@@ -200,16 +211,46 @@ public class ServerIntegrity extends JobChangeAdapter {
 	public static void reportIntegrity(CommandInterpreter interpreter) {
 		self.setResultProcessor(interpreter);
 		self.createIntegrityReport();
+		interpreter
+				.println("The report will take time to produce, it will report back here when done.");
+	}
+
+	public static void reportIntegrityProgress(CommandInterpreter interpreter) {
+
+		if (self.loadingJob.getState() == Job.RUNNING) {
+			DataIntegrityReport report = self.loadingJob.getReport();
+			interpreter.println("Report production ongoing, results sofar:");
+			interpreter.println(report);
+		} else {
+			interpreter.println("No report being produced right now");
+		}
+	}
+
+	public static void reportIntegrityCancel(CommandInterpreter interpreter) {
+		if (self.loadingJob.getState() == Job.RUNNING) {
+			self.loadingJob.cancel();
+			interpreter.println("Cancel requested");
+		} else {
+			interpreter.println("No report being produced right now");
+		}
 	}
 
 	public static void restoreIntegrity(CommandInterpreter interpreter) {
-
-		// TODO, Use the last faulty report to restore the integrity.
+		self.doRestoreIntegrity(interpreter);
 	}
 
 	private void setResultProcessor(Object interpreter) {
 		this.resultProcessor = interpreter;
 
+	}
+
+	public void doRestoreIntegrity(CommandInterpreter interpreter) {
+		if (lastProducedReport != null) {
+			Map<NetXResource, List<Value>> duplicateValueMap = lastProducedReport
+					.getDuplicateValueMap();
+			// iterate and delete duplicate entries.
+
+		}
 	}
 
 	public void createIntegrityReport() {
@@ -245,7 +286,6 @@ public class ServerIntegrity extends JobChangeAdapter {
 			this.lastProducedReport = report;
 
 			// Can we adapt to the result processor?
-
 			if (resultProcessor instanceof CommandInterpreter) {
 				CommandInterpreter ci = (CommandInterpreter) resultProcessor;
 				ci.println(report);
@@ -263,9 +303,9 @@ public class ServerIntegrity extends JobChangeAdapter {
 	}
 
 	/**
-	 * A Loading job.
+	 * An Integrity analysis job.
 	 * 
-	 * @author Christophe
+	 * @author Christophe Bouhier
 	 * 
 	 */
 	class IntegrityJob extends Job {
@@ -301,9 +341,6 @@ public class ServerIntegrity extends JobChangeAdapter {
 			int sumRanges = 0;
 			int sumValues = 0;
 
-			// Limit the number of netXResources, to save some time.
-			int numOfNetXResourceToQuery = 3;
-
 			// determine the duration of the query.
 			long totalTime = System.nanoTime();
 
@@ -314,43 +351,50 @@ public class ServerIntegrity extends JobChangeAdapter {
 						CDOResource resource = (CDOResource) n;
 						// The CDO Resource will contain many NetXResource
 
-						for (int i = 0; i < resource.getContents().size()
-								&& i < numOfNetXResourceToQuery; i++) {
+						if (monitor.isCanceled()) {
+							break;
+						}
+
+						for (int i = 0; i < resource.getContents().size(); i++) {
 							EObject eo = resource.getContents().get(i);
 							if (eo instanceof NetXResource) {
 								NetXResource res = (NetXResource) eo;
 								sumResources++;
 
+								if (monitor.isCanceled()) {
+									break;
+								}
+
 								for (MetricValueRange mvr : res
 										.getMetricValueRanges()) {
+
+									if (monitor.isCanceled()) {
+										break;
+									}
 
 									sumRanges++;
 
 									// determine the duration of the query.
 									long startTime = System.nanoTime();
 
+									// query the values for this NetXResource
 									List<Value> sortedValues = queryService
 											.getSortedValues(openView, mvr,
 													IQueryService.QUERY_MYSQL);
+									sumValues += sortedValues.size();
 
-//									List<Value> findDuplicateTimeStamps = findDuplicateTimeStamps(sortedValues);
-									
-//									report.getDuplicateValueMap().put(res,
-//											findDuplicateTimeStamps);
+									// query the duplicate values for this
+									// NetXResource
+									List<Value> duplicates = queryService
+											.getDuplicateValues(openView, mvr,
+													IQueryService.QUERY_MYSQL);
+
+									report.getDuplicateValueMap().put(res,
+											duplicates);
 
 									String timeDurationNano = modelUtils
 											.timeDurationNano(startTime);
 
-									if (sortedValues != null) {
-
-										sumValues += sortedValues.size();
-
-										if (!sortedValues.isEmpty()) {
-											Value lastValue = sortedValues
-													.get(sortedValues.size() - 1);
-
-										}
-									}
 								}
 							}
 						}
@@ -360,28 +404,31 @@ public class ServerIntegrity extends JobChangeAdapter {
 
 			report.setNetXResources(sumResources);
 			report.setValues(sumValues);
+			report.setDuration(modelUtils.timeDurationNano(totalTime));
 
 			openView.close();
 			provider.closeSession();
 
-			return Status.OK_STATUS;
+			return monitor.isCanceled() ? Status.CANCEL_STATUS
+					: Status.OK_STATUS;
 		}
 
-		private List<Value> findDuplicateTimeStamps(List<Value> sortedValues) {
-			List<Value> duplicates = Lists.newArrayList();
-
-			for (Value v : sortedValues) {
-				Iterable<Value> filter = Iterables.filter(
-						sortedValues,
-						modelUtils.new TimeStampPredicate(modelUtils
-								.fromXMLDate(v.getTimeStamp())));
-				for (Value dup : filter) {
-					duplicates.add(dup);
-				}
-			}
-			return duplicates;
-
-		}
+		// private List<Value> findDuplicateTimeStamps(List<Value> sortedValues)
+		// {
+		// List<Value> duplicates = Lists.newArrayList();
+		//
+		// for (Value v : sortedValues) {
+		// Iterable<Value> filter = Iterables.filter(
+		// sortedValues,
+		// modelUtils.new TimeStampPredicate(modelUtils
+		// .fromXMLDate(v.getTimeStamp())));
+		// for (Value dup : filter) {
+		// duplicates.add(dup);
+		// }
+		// }
+		// return duplicates;
+		//
+		// }
 
 		public DataIntegrityReport getReport() {
 			return report;
