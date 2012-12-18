@@ -48,7 +48,8 @@ public interface IQueryService {
 	public static final String QUERY_MYSQL = "sql";
 	public static final String QUERY_HQL = "hql";
 	public static final String QUERY_OCL = "ocl";
-
+	
+	
 	public void setDataProvider(IDataProvider provider);
 
 	/**
@@ -209,14 +210,6 @@ public interface IQueryService {
 	 */
 	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
 			String dialect);
-
-	/**
-	 * Use a query to get the values from a Metric value range, sort them
-	 * 
-	 * @param mvr
-	 * @return
-	 */
-	public List<Value> getSortedValues(MetricValueRange mvr);
 
 	/**
 	 * Use a query to get the duplicate value timeStamps in a

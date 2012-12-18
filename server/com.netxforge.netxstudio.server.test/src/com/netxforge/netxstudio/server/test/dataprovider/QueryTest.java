@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 18 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.server.test.dataprovider;
 
 import java.util.Calendar;
@@ -6,12 +23,14 @@ import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.CDOCommonRepository.Type;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
 import org.eclipse.emf.cdo.eresource.CDOResourceNode;
+import org.eclipse.emf.cdo.session.CDORepositoryInfo;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.cdo.view.CDOView;
@@ -30,8 +49,8 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 public class QueryTest extends AbstractDataServiceTest4 {
 
-	@Test
-	public void testAllNetXResourceAllRanges_CDO_SQL_QUERY() {
+//	@Test
+	public void test1_CDO_SQL_QUERY() {
 
 		service.getProvider().openSession("admin", "admin");
 
@@ -41,25 +60,76 @@ public class QueryTest extends AbstractDataServiceTest4 {
 		CDOView cdoView = service.getProvider().getSession().openView();
 
 		// Find a single value in for a date. (Hard coded OID and date!).
-//		System.out.println(doQuerySingleValue(cdoView, IQueryService.QUERY_MYSQL));
-		
-		// Find values in a period. (Hard coded OID and period!). 
-//		System.out.println(doQueryValues(cdoView, IQueryService.QUERY_MYSQL));
+		System.out.println(doQuerySingleValue(cdoView,
+				IQueryService.QUERY_MYSQL));
 
-		// Perform twice, to see effect of caching.
-//		System.out.println(doQueryAllResourcesAllRanges(cdoView,
-//				IQueryService.QUERY_MYSQL, false));
+		cdoView.close();
+	}
 
-//		System.out.println(doQueryAllResourcesAllRanges(cdoView,
-//				IQueryService.QUERY_MYSQL, false));
+//	@Test
+	public void test2_CDO_SQL_QUERY() {
 
-		// Perform twice to see effect of caching.
-		// Query Syntax wrong.
-		 doQueryAllResourcesAllRanges(cdoView, IQueryService.QUERY_OCL, false);
-		// doQueryAllResourcesAllRanges(cdoView, IQueryService.QUERY_OCL, true);
+		service.getProvider().openSession("admin", "admin");
+
+		// Resolve the object from an existing resource.
+
+		// Use a new view to execute the query.
+		CDOView cdoView = service.getProvider().getSession().openView();
+
+		// Find values in a period. (Hard coded OID and period!).
+		System.out.println(doQueryValues(cdoView, IQueryService.QUERY_MYSQL));
+
+		// Perform twice.
+		System.out.println(doQueryValues(cdoView, IQueryService.QUERY_MYSQL));
 
 		cdoView.close();
 
+	}
+
+//	@Test
+	public void test3_CDO_SQL_QUERY() {
+
+		service.getProvider().openSession("admin", "admin");
+
+		// Resolve the object from an existing resource.
+
+		// Use a new view to execute the query.
+		CDOView cdoView = service.getProvider().getSession().openView();
+
+		// Perform twice to see effect of caching.
+		// Query Syntax wrong.
+		doQueryAllResourcesAllRanges(cdoView, IQueryService.QUERY_OCL, true);
+		doQueryAllResourcesAllRanges(cdoView, IQueryService.QUERY_OCL, true);
+
+		cdoView.close();
+
+	}
+
+	@Test
+	public void test4_CDO_SQL_QUERY() {
+
+		service.getProvider().openSession("admin", "admin");
+		// Use a new view to execute the query.
+		CDOView cdoView = service.getProvider().getSession().openView();
+		// Resolve the object from an existing resource.
+		doQueryValues_CS(cdoView, IQueryService.QUERY_OCL);
+
+		cdoView.close();
+
+	}
+
+	/**
+	 * Do a case sensitive query to the DB.
+	 * 
+	 * @param cdoView
+	 * @param dialect
+	 * @return
+	 */
+	private String doQueryValues_CS(CDOView cdoView, String dialect) {
+		CDORepositoryInfo repositoryInfo = cdoView.getSession()
+				.getRepositoryInfo();
+
+		return "";
 	}
 
 	private String doQueryValues(CDOView cdoView, String dialect) {
@@ -93,7 +163,6 @@ public class QueryTest extends AbstractDataServiceTest4 {
 		List<Value> sortedValues = queryService.getSortedValues(cdoView,
 				(MetricValueRange) object, dialect, dtr);
 
-
 		return " found " + sortedValues.size() + " for object: "
 				+ object.cdoRevision() + " in period "
 				+ modelUtils.dateAndTime(dtr.getBegin()) + " to "
@@ -125,7 +194,6 @@ public class QueryTest extends AbstractDataServiceTest4 {
 
 		List<Value> sortedValues = queryService.getSortedValues(cdoView,
 				(MetricValueRange) object, dialect, xmlDate);
-
 
 		return " found " + sortedValues.size() + " for object: "
 				+ object.cdoRevision() + " for date "

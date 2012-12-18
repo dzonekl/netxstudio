@@ -37,7 +37,6 @@ import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.osgi.framework.console.CommandInterpreter;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
@@ -98,30 +97,47 @@ public class ServerIntegrity extends JobChangeAdapter {
 			this.setLastRunDate(modelUtils.todayAndNow());
 		}
 
-		int netXResources;
+		/** Count the quantity of {@link NetXResource} objects **/
+		int netXResourceCount;
 
-		public int integrity_getNetXResources() {
-			return netXResources;
+		public int integrity_getNetXResourceCount() {
+			return netXResourceCount;
 		}
 
-		public void setNetXResources(int netXResources) {
-			this.netXResources = netXResources;
+		public void setNetXResourceCount(int netXResourceCount) {
+			this.netXResourceCount = netXResourceCount;
 		}
 
-		int values;
+		/** Count the quantity of {@link Value} objects **/
+		int valueCount;
 
-		public int integrity_getValues() {
-			return values;
+		public int integrity_getValueCount() {
+			return valueCount;
 		}
 
-		public void setValues(int values) {
-			this.values = values;
+		public void setValueCount(int values) {
+			this.valueCount = values;
 		}
 
-		private Map<NetXResource, List<Value>> duplicateValueMap = Maps
+		/** Count the quantity of {@link MetricValueRange} objects **/
+		public int rangeCount;
+
+		public int integrity_getRangeCount() {
+			return rangeCount;
+		}
+
+		public void setRangeCount(int rangeCount) {
+			this.rangeCount = rangeCount;
+		}
+
+		/**
+		 * A {@link Map} of {@link NetXResource} objects holding {@link Value}
+		 * objects with the same time stamps.
+		 */
+		private Map<MetricValueRange, List<Value>> duplicateValueMap = Maps
 				.newHashMap();
 
-		public Map<NetXResource, List<Value>> getDuplicateValueMap() {
+		public Map<MetricValueRange, List<Value>> getDuplicateValueMap() {
 			return duplicateValueMap;
 		}
 
@@ -131,16 +147,13 @@ public class ServerIntegrity extends JobChangeAdapter {
 		public String integrity_getDuplicateValues() {
 			StringBuffer sb = new StringBuffer();
 			int sumDuplicates = 0;
-			for (NetXResource res : duplicateValueMap.keySet()) {
-				List<Value> list = duplicateValueMap.get(res);
+			for (MetricValueRange mvr : duplicateValueMap.keySet()) {
+				List<Value> list = duplicateValueMap.get(mvr);
 				sumDuplicates += list.size();
-				sb.append(" Resource("
-						+ (res.getComponentRef() != null ? modelUtils
-								.printModelObject(res.getComponentRef()) : "")
-						+ "): " + res.getExpressionName() + " are: "
-						+ list.size() + " duplicate timestamps\n");
+				sb.append(" Value range has: " + list.size()
+						+ " duplicate timestamps\n");
 			}
-			sb.append(" total duplicates: " + sumDuplicates);
+			sb.append(sumDuplicates);
 			return sb.toString();
 		}
 
@@ -176,7 +189,7 @@ public class ServerIntegrity extends JobChangeAdapter {
 						sb.append("Param: "
 								+ m.getName().substring(
 										"integrity_get".length(),
-										m.getName().length() - 1) + ", value:"
+										m.getName().length()) + ": "
 								+ invoke + "\n");
 					} catch (IllegalAccessException e) {
 						e.printStackTrace();
@@ -207,10 +220,28 @@ public class ServerIntegrity extends JobChangeAdapter {
 	private DataIntegrityReport lastProducedReport;
 
 	// CommandInterpreter API.
-
+	
+	public static void reportIntegrityLast(CommandInterpreter interpreter) {
+		if(self.getLastProducedReport() != null){
+			interpreter.println(self.getLastProducedReport());
+		}
+	}
+	
 	public static void reportIntegrity(CommandInterpreter interpreter) {
+		reportIntegrity(interpreter, false);
+	}
+
+	public static void reportIntegrity(CommandInterpreter interpreter,
+			boolean checkDuplicates) {
+		
+		if(self.loadingJob.getState() == Job.RUNNING){
+			// Bail..
+			interpreter.println("Report already in production, specify the action 'cancel' to abort the production process");
+			return;
+		}
+		
 		self.setResultProcessor(interpreter);
-		self.createIntegrityReport();
+		self.createIntegrityReport(checkDuplicates);
 		interpreter
 				.println("The report will take time to produce, it will report back here when done.");
 	}
@@ -246,22 +277,28 @@ public class ServerIntegrity extends JobChangeAdapter {
 
 	public void doRestoreIntegrity(CommandInterpreter interpreter) {
 		if (lastProducedReport != null) {
-			Map<NetXResource, List<Value>> duplicateValueMap = lastProducedReport
+
+			// TODO, restore the integrity by:
+
+			// 1. Delete duplicate entries.
+			@SuppressWarnings("unused")
+			Map<MetricValueRange, List<Value>> duplicateValueMap = lastProducedReport
 					.getDuplicateValueMap();
-			// iterate and delete duplicate entries.
 
 		}
 	}
 
-	public void createIntegrityReport() {
+	public void createIntegrityReport(boolean checkDuplicates) {
 
 		DataIntegrityReport dataIntegrityReport = new DataIntegrityReport();
-		populateReport(dataIntegrityReport);
+		populateReport(dataIntegrityReport, checkDuplicates);
 
 	}
 
-	private void populateReport(DataIntegrityReport dataIntegrityReport) {
+	private void populateReport(DataIntegrityReport dataIntegrityReport,
+			boolean checkDuplicates) {
 		this.loadingJob.setReport(dataIntegrityReport);
+		this.loadingJob.setCheckDuplicates(checkDuplicates);
 		this.loadingJob.schedule(500);
 	}
 
@@ -295,7 +332,7 @@ public class ServerIntegrity extends JobChangeAdapter {
 			// Loading failed do something.
 			if (resultProcessor instanceof CommandInterpreter) {
 				CommandInterpreter ci = (CommandInterpreter) resultProcessor;
-				ci.println(" integrity report failed");
+				ci.println(" integrity report cancelled or failed");
 			}
 
 		}
@@ -312,8 +349,16 @@ public class ServerIntegrity extends JobChangeAdapter {
 
 		private DataIntegrityReport report = null;
 
+		/** Check potential duplicate {@link Value} objects */
+		private boolean checkDuplicates = false;
+
 		public IntegrityJob() {
 			this("Check integrity");
+		}
+
+		public void setCheckDuplicates(boolean checkDuplicates) {
+			this.checkDuplicates = checkDuplicates;
+
 		}
 
 		public IntegrityJob(String name) {
@@ -332,18 +377,23 @@ public class ServerIntegrity extends JobChangeAdapter {
 		private IStatus internalRun(IProgressMonitor monitor) {
 
 			CDOSession openSession = provider.openSession();
-
+			
 			CDOView openView = openSession.openView();
 
 			CDOResourceNode folder = openView.getResourceNode("/Node_/");
 
-			int sumResources = 0;
-			int sumRanges = 0;
-			int sumValues = 0;
+			List<MetricValueRange> valueRanges = Lists.newArrayList();
 
 			// determine the duration of the query.
 			long totalTime = System.nanoTime();
 
+			// Two step process.
+			// Step 1. Iterate through CDOResourceFolder -> CDResource ->
+			// NetXResource -> MetricValueRange.
+			// 			From MetricValueRange, query the Values and count.
+			// Step 2. Iterate through MetricValueRange
+			// 			From MetricValueRange, query duplicates and store in a Map.
+			
 			if (folder instanceof CDOResourceFolder) {
 				for (CDOResourceNode n : ((CDOResourceFolder) folder)
 						.getNodes()) {
@@ -359,11 +409,13 @@ public class ServerIntegrity extends JobChangeAdapter {
 							EObject eo = resource.getContents().get(i);
 							if (eo instanceof NetXResource) {
 								NetXResource res = (NetXResource) eo;
-								sumResources++;
+								this.getReport().netXResourceCount++;
 
 								if (monitor.isCanceled()) {
 									break;
 								}
+
+								valueRanges.addAll(res.getMetricValueRanges());
 
 								for (MetricValueRange mvr : res
 										.getMetricValueRanges()) {
@@ -371,29 +423,17 @@ public class ServerIntegrity extends JobChangeAdapter {
 									if (monitor.isCanceled()) {
 										break;
 									}
-
-									sumRanges++;
-
-									// determine the duration of the query.
-									long startTime = System.nanoTime();
+									this.getReport().rangeCount++;
 
 									// query the values for this NetXResource
 									List<Value> sortedValues = queryService
 											.getSortedValues(openView, mvr,
 													IQueryService.QUERY_MYSQL);
-									sumValues += sortedValues.size();
+									this.getReport().valueCount += sortedValues
+											.size();
 
-									// query the duplicate values for this
-									// NetXResource
-									List<Value> duplicates = queryService
-											.getDuplicateValues(openView, mvr,
-													IQueryService.QUERY_MYSQL);
-
-									report.getDuplicateValueMap().put(res,
-											duplicates);
-
-									String timeDurationNano = modelUtils
-											.timeDurationNano(startTime);
+									getReport().duration = modelUtils
+											.timeDurationNano(totalTime);
 
 								}
 							}
@@ -401,10 +441,29 @@ public class ServerIntegrity extends JobChangeAdapter {
 					}
 				}
 			}
+			
+			if (checkDuplicates) {
+				for (MetricValueRange mvr : valueRanges) {
+					
+					if (monitor.isCanceled()) {
+						break;
+					}
+					
+					getReport().duration = modelUtils
+							.timeDurationNano(totalTime);
+					// query the duplicate values for this
+					// NetXResource, store the values if there are duplicates.
+					List<Value> duplicates = queryService.getDuplicateValues(
+							openView, mvr, IQueryService.QUERY_MYSQL);
 
-			report.setNetXResources(sumResources);
-			report.setValues(sumValues);
-			report.setDuration(modelUtils.timeDurationNano(totalTime));
+					if (!duplicates.isEmpty()) {
+						getReport().getDuplicateValueMap().put(mvr, duplicates);
+					}
+				}
+			}
+
+			getReport().duration = modelUtils
+					.timeDurationNano(totalTime);
 
 			openView.close();
 			provider.closeSession();
@@ -413,24 +472,12 @@ public class ServerIntegrity extends JobChangeAdapter {
 					: Status.OK_STATUS;
 		}
 
-		// private List<Value> findDuplicateTimeStamps(List<Value> sortedValues)
-		// {
-		// List<Value> duplicates = Lists.newArrayList();
-		//
-		// for (Value v : sortedValues) {
-		// Iterable<Value> filter = Iterables.filter(
-		// sortedValues,
-		// modelUtils.new TimeStampPredicate(modelUtils
-		// .fromXMLDate(v.getTimeStamp())));
-		// for (Value dup : filter) {
-		// duplicates.add(dup);
-		// }
-		// }
-		// return duplicates;
-		//
-		// }
-
-		public DataIntegrityReport getReport() {
+		/**
+		 * Get the status of the current report.
+		 * 
+		 * @return
+		 */
+		public synchronized DataIntegrityReport getReport() {
 			return report;
 		}
 
@@ -438,5 +485,6 @@ public class ServerIntegrity extends JobChangeAdapter {
 			this.report = report;
 		}
 	}
+	
 
 }
