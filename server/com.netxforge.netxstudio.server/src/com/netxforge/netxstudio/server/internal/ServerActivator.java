@@ -187,12 +187,20 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 
 	public String getHelp() {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("---NetXStudio Server commands---\n");
-		buffer.append("\tserver report          - Integrity status of the data on the server\n");
-		buffer.append("\tserver report progress - Integrity status of the data on the server\n");
-		buffer.append("\tserver report cancel   - Integrity status of the data on the server\n");
-		buffer.append("\tserver fix             - Fix the integrity of the data on the server\n");
-		buffer.append("\t                         Delete Duplicate value entries\n");
+		buffer.append("---NetXStudio Server commands---\n\n");
+		buffer.append("\tserver report [actions] [options]\n\n");
+		buffer.append("\tReport the Data Integrity status of the data on the server. Depending on the options, this is a potentially\n");
+		buffer.append("\tlong-running operation, therefor actions exist to query the progress and cancel the process all togehter\n");
+		buffer.append("\tFixing actions are applied on the last produced (partial) report. \n");
+		buffer.append("\n\toptions:\n");
+		buffer.append("\t======= \n");
+		buffer.append("\t --duplicates => Reports Value objects which belong to the same range and have the equal timeStamp.\n");
+		buffer.append("\t                This is a long running operation. The progress is monitored by the 'progres' action.\n");
+		buffer.append("\n\tactions:\n");
+		buffer.append("\t======= \n");
+		buffer.append("\t  progress    => Show the progress of the reporting process\n");
+		buffer.append("\t  cancel      => Cancel the reporting process\n");
+		buffer.append("\t  fix         => Fix the integrity of the data on the server, which deletes duplicate value entries, if any were generated\n");
 
 		return buffer.toString();
 	}
@@ -201,17 +209,35 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 		try {
 			String cmd = interpreter.nextArgument();
 			if ("report".equals(cmd)) {
-				String reportCommand = interpreter.nextArgument();
-				if ("progress".equals(reportCommand)) {
+				String nextArgument = interpreter.nextArgument();
+
+				// Process Actions:
+				if ("last".equals(nextArgument)) {
+					ServerIntegrity.reportIntegrityLast(interpreter);
+					return null;
+				}
+				if ("progress".equals(nextArgument)) {
 					ServerIntegrity.reportIntegrityProgress(interpreter);
-				} else if ("cancel".equals(reportCommand)) {
+					return null;
+				} else if ("cancel".equals(nextArgument)) {
 					ServerIntegrity.reportIntegrityCancel(interpreter);
+					return null;
+				} else if ("fix".equals(cmd)) {
+					ServerIntegrity.restoreIntegrity(interpreter);
+					return null;
+				}
+				
+				// Process Options:
+				if ("--duplicates".equals(nextArgument)) {
+					ServerIntegrity.reportIntegrity(interpreter, true);
 				} else {
+					if(nextArgument != null && !nextArgument.isEmpty()){
+						interpreter.println("I don't know: " + nextArgument +"\n\n");
+						interpreter.println(getHelp());
+						return null;
+					}
 					ServerIntegrity.reportIntegrity(interpreter);
 				}
-				return null;
-			} else if ("fix".equals(cmd)) {
-				ServerIntegrity.restoreIntegrity(interpreter);
 				return null;
 			}
 			interpreter.println(getHelp());

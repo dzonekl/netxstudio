@@ -18,7 +18,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -37,7 +36,6 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Equipment;
@@ -59,10 +57,25 @@ import com.netxforge.netxstudio.services.Service;
 public class CDOQueryService implements IQueryService {
 
 	private IDataProvider provider;
+
 	private CDOQueryUtil queryService;
+
+	@SuppressWarnings("unused")
 	private ModelUtils modelUtils;
 
 	private List<CDOTransaction> usedTransactions = Lists.newArrayList();
+
+	private static final String DB_NAME = "TM";
+
+	private boolean CamelCase = true;
+
+	public boolean isCamelCase() {
+		return CamelCase;
+	}
+
+	public void setCamelCase(boolean camelCase) {
+		CamelCase = camelCase;
+	}
 
 	@Inject
 	public CDOQueryService(CDOQueryUtil queryService, ModelUtils modelUtils) {
@@ -80,12 +93,10 @@ public class CDOQueryService implements IQueryService {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * TODO
 	 * 
-	 * @see
-	 * com.netxforge.netxstudio.data.cdo.ICDORoleHandler#getRole(java.lang.String
-	 * )
+	 * @deprecated
 	 */
 	public List<Role> getRole(String userID) {
 
@@ -101,6 +112,10 @@ public class CDOQueryService implements IQueryService {
 		return q.getResult(Role.class);
 	}
 
+	/**
+	 * @TODO
+	 * @deprecated
+	 */
 	public List<Job> getJobWithMetricSource(MetricSource source) {
 
 		CDOTransaction t = provider.getSession().openTransaction();
@@ -111,6 +126,10 @@ public class CDOQueryService implements IQueryService {
 		return q.getResult(Job.class);
 	}
 
+	/**
+	 * @TODO
+	 * @deprecated
+	 */
 	public List<Job> getJobWithService(Service service) {
 
 		CDOTransaction t = provider.getSession().openTransaction();
@@ -120,6 +139,11 @@ public class CDOQueryService implements IQueryService {
 		return q.getResult(Job.class);
 	}
 
+	/**
+	 * TODO
+	 * 
+	 * @deprecated
+	 */
 	public List<Job> getJobWithServiceReporting(Service service) {
 		CDOTransaction t = provider.getSession().openTransaction();
 		CDOQuery q = t.createQuery("hql",
@@ -129,6 +153,11 @@ public class CDOQueryService implements IQueryService {
 		return q.getResult(Job.class);
 	}
 
+	/**
+	 * TODO
+	 * 
+	 * @deprecated
+	 */
 	public List<Job> getJobWithOperatorReporting(Operator operator) {
 		CDOTransaction t = provider.getSession().openTransaction();
 		CDOQuery q = t.createQuery("hql",
@@ -138,6 +167,11 @@ public class CDOQueryService implements IQueryService {
 		return q.getResult(Job.class);
 	}
 
+	/**
+	 * TODO
+	 * 
+	 * @deprecated
+	 */
 	public Role getCurrentRole() {
 
 		String userID = provider.getSessionUserID();
@@ -150,6 +184,11 @@ public class CDOQueryService implements IQueryService {
 		}
 	}
 
+	/**
+	 * TODO, Migrate to new API.
+	 * 
+	 * @deprecated
+	 */
 	public List<Equipment> getEquipments(String nodeID, String equipmentCode) {
 		final CDOTransaction transaction = provider.getTransaction();
 		final CDOQuery cdoQuery = transaction
@@ -166,6 +205,14 @@ public class CDOQueryService implements IQueryService {
 		return equipments;
 	}
 
+	/**
+	 * TODO, Migrate to new API.
+	 * 
+	 * @param nodeID
+	 * @param name
+	 * @return
+	 * @deprecated
+	 */
 	public List<Function> getFunctions(String nodeID, String name) {
 		final CDOTransaction transaction = provider.getTransaction();
 		final CDOQuery cdoQuery = transaction.createQuery("hql",
@@ -180,6 +227,11 @@ public class CDOQueryService implements IQueryService {
 		return functions;
 	}
 
+	/**
+	 * TODO Migrate to new API.
+	 * 
+	 * @deprecated
+	 */
 	public List<NetXResource> getResources(String nodeID, String expressionName) {
 		final CDOTransaction transaction = provider.getTransaction();
 		final CDOQuery cdoQuery = transaction.createQuery("hql",
@@ -195,6 +247,11 @@ public class CDOQueryService implements IQueryService {
 		return resources;
 	}
 
+	/**
+	 * TODO Migrate to new API.
+	 * 
+	 * @deprecated
+	 */
 	public List<Value> getMetricsFromResource(String expressionName,
 			XMLGregorianCalendar from, XMLGregorianCalendar to,
 			int intervalHint, KindHintType kindHint) {
@@ -219,6 +276,11 @@ public class CDOQueryService implements IQueryService {
 		return values;
 	}
 
+	/**
+	 * TODO Migrate to new API.
+	 * 
+	 * @deprecated
+	 */
 	public List<Value> getCapacityFromResource(String expressionName,
 			XMLGregorianCalendar from, XMLGregorianCalendar to) {
 		final CDOTransaction transaction = provider.getTransaction();
@@ -237,7 +299,12 @@ public class CDOQueryService implements IQueryService {
 		final List<Value> values = cdoQuery.getResult(Value.class);
 		return values;
 	}
-
+	
+	
+	/**
+	 * TODO
+	 * @deprecated
+	 */
 	public List<Value> getUtilizationFromResource(String expressionName,
 			XMLGregorianCalendar from, XMLGregorianCalendar to) {
 		final CDOTransaction transaction = provider.getTransaction();
@@ -285,14 +352,32 @@ public class CDOQueryService implements IQueryService {
 		if (dialect.equals(QUERY_MYSQL)) {
 
 			StringBuffer sb = new StringBuffer();
-			sb.append("select val.cdo_id"
-					+ " from TM.metrics_metricvaluerange as mvr"
-					+ " join TM.metrics_metricvaluerange_metricvalues_list as val_list"
-					+ " on val_list.cdo_source = mvr.cdo_id"
-					+ " join TM.generics_value as val"
-					+ " on val_list.cdo_value = val.cdo_id"
-					+ " where mvr.cdo_id = :mvr_cdoid");
 
+			if (!CamelCase) {
+				sb.append("select val.cdo_id"
+						+ " from "
+						+ DB_NAME
+						+ ".metrics_metricvaluerange as mvr"
+						+ " join "
+						+ DB_NAME
+						+ ".metrics_metricvaluerange_metricvalues_list as val_list"
+						+ " on val_list.cdo_source = mvr.cdo_id" + " join "
+						+ DB_NAME + ".generics_value as val"
+						+ " on val_list.cdo_value = val.cdo_id"
+						+ " where mvr.cdo_id = :mvr_cdoid");
+			} else {
+				sb.append("select val.cdo_id"
+						+ " from "
+						+ DB_NAME
+						+ ".metrics_MetricValueRange as mvr"
+						+ " join "
+						+ DB_NAME
+						+ ".metrics_MetricValueRange_metricValues_list as val_list"
+						+ " on val_list.cdo_source = mvr.cdo_id" + " join "
+						+ DB_NAME + ".generics_Value as val"
+						+ " on val_list.cdo_value = val.cdo_id"
+						+ " where mvr.cdo_id = :mvr_cdoid");
+			}
 			// period or date is optional.
 			if (period != null) {
 				sb.append(" and val.timeStamp0 >= :dateFrom and val.timeStamp0 < :dateTo");
@@ -347,10 +432,19 @@ public class CDOQueryService implements IQueryService {
 		if (dialect.equals(QUERY_MYSQL)) {
 
 			StringBuffer sb = new StringBuffer();
-			sb.append("select a.cdo_id from TM.generics_value AS a ");
-			sb.append("inner join TM.generics_value AS b ");
-			sb.append("where a.timeStamp0 = b.timeStamp0 and a.cdo_container=:mvr_cdoid and b.cdo_container=:mvr_cdoid ");
-			sb.append("and a.cdo_id <> b.cdo_id");
+			if (!CamelCase) {
+				sb.append("select a.cdo_id from " + DB_NAME
+						+ ".generics_value AS a ");
+				sb.append("inner join " + DB_NAME + ".generics_value AS b ");
+				sb.append("where a.timeStamp0 = b.timeStamp0 and a.cdo_container=:mvr_cdoid and b.cdo_container=:mvr_cdoid ");
+				sb.append("and a.cdo_id <> b.cdo_id");
+			}else{
+				sb.append("select a.cdo_id from " + DB_NAME
+						+ ".generics_Value AS a ");
+				sb.append("inner join " + DB_NAME + ".generics_Value AS b ");
+				sb.append("where a.timeStamp0 = b.timeStamp0 and a.cdo_container=:mvr_cdoid and b.cdo_container=:mvr_cdoid ");
+				sb.append("and a.cdo_id <> b.cdo_id");
+			}
 			queryString = sb.toString();
 
 		} else if (dialect.equals(QUERY_OCL)) {
@@ -378,42 +472,42 @@ public class CDOQueryService implements IQueryService {
 		return result;
 	}
 
-	public List<Value> getSortedValues(MetricValueRange mvr) {
-
-		DateTimeRange createDateTimeRange = GenericsFactory.eINSTANCE
-				.createDateTimeRange();
-		Calendar cal = Calendar.getInstance();
-		cal.set(2012, 5, 1);
-		System.out.println(modelUtils.dateAndTime(cal.getTime()));
-		createDateTimeRange.setBegin(modelUtils.toXMLDate(cal.getTime()));
-		cal.add(Calendar.MONTH, 1);
-		createDateTimeRange.setEnd(modelUtils.toXMLDate(cal.getTime()));
-
-		CDOTransaction openTransaction = provider.getSession()
-				.openTransaction();
-
-		final CDOQuery cdoQuery = openTransaction
-				.createQuery(
-						"sql",
-						"select val.cdo_id"
-								+ " from TM.metrics_metricvaluerange as mvr"
-								+ " join TM.metrics_metricvaluerange_metricvalues_list as val_list"
-								+ " on val_list.cdo_source = mvr.cdo_id"
-								+ " join TM.generics_value as val"
-								+ " on val_list.cdo_value = val.cdo_id"
-								+ " where mvr.cdo_id = :cdoid"
-								+ " order by val.timeStamp0 DESC;");
-
-		Long longValue = ((AbstractCDOIDLong) mvr.cdoID()).getLongValue();
-		cdoQuery.setParameter("cdoid", longValue.toString());
-		// cdoQuery.setParameter("dateFrom",
-		// dateString(createDateTimeRange.getBegin()));
-		// cdoQuery.setParameter("dateTo",
-		// dateString(createDateTimeRange.getEnd()));
-
-		List<Value> result = cdoQuery.getResult(Value.class);
-		return result;
-	}
+	// public List<Value> getSortedValues(MetricValueRange mvr) {
+	//
+	// DateTimeRange createDateTimeRange = GenericsFactory.eINSTANCE
+	// .createDateTimeRange();
+	// Calendar cal = Calendar.getInstance();
+	// cal.set(2012, 5, 1);
+	// System.out.println(modelUtils.dateAndTime(cal.getTime()));
+	// createDateTimeRange.setBegin(modelUtils.toXMLDate(cal.getTime()));
+	// cal.add(Calendar.MONTH, 1);
+	// createDateTimeRange.setEnd(modelUtils.toXMLDate(cal.getTime()));
+	//
+	// CDOTransaction openTransaction = provider.getSession()
+	// .openTransaction();
+	//
+	// final CDOQuery cdoQuery = openTransaction
+	// .createQuery(
+	// "sql",
+	// "select val.cdo_id"
+	// + " from TM.metrics_metricvaluerange as mvr"
+	// + " join TM.metrics_metricvaluerange_metricvalues_list as val_list"
+	// + " on val_list.cdo_source = mvr.cdo_id"
+	// + " join TM.generics_value as val"
+	// + " on val_list.cdo_value = val.cdo_id"
+	// + " where mvr.cdo_id = :cdoid"
+	// + " order by val.timeStamp0 DESC;");
+	//
+	// Long longValue = ((AbstractCDOIDLong) mvr.cdoID()).getLongValue();
+	// cdoQuery.setParameter("cdoid", longValue.toString());
+	// // cdoQuery.setParameter("dateFrom",
+	// // dateString(createDateTimeRange.getBegin()));
+	// // cdoQuery.setParameter("dateTo",
+	// // dateString(createDateTimeRange.getEnd()));
+	//
+	// List<Value> result = cdoQuery.getResult(Value.class);
+	// return result;
+	// }
 
 	/**
 	 * 
@@ -423,11 +517,11 @@ public class CDOQueryService implements IQueryService {
 	 * @param dialect
 	 * @return
 	 */
-	public List<NetXResource> getUnconnectedResources(
-			CDOTransaction transaction, String dialect) {
+	public List<NetXResource> getUnconnectedResources(CDOView view,
+			String dialect) {
 
 		if (dialect.equals(QUERY_MYSQL)) {
-			final CDOQuery cdoQuery = transaction
+			final CDOQuery cdoQuery = view
 					.createQuery(
 							"sql",
 							"select * from TM.library_netxresource where componentRef IS NULL and cdo_version > 0;");

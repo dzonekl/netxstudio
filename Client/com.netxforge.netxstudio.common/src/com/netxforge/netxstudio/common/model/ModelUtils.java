@@ -173,7 +173,7 @@ public class ModelUtils {
 
 	// Note! For months, we better use a calendar function.
 	public static final int MINUTES_IN_A_MONTH = MINUTES_IN_A_DAY * 30;
-	
+
 	public static final String EXTENSION_PROCESS = ".process";
 	public static final String EXTENSION_DONE = ".done";
 	public static final String EXTENSION_DONE_WITH_FAILURES = ".done_with_failures";
@@ -215,33 +215,31 @@ public class ModelUtils {
 	public ValueTimeStampComparator valueTimeStampCompare() {
 		return new ValueTimeStampComparator();
 	}
-	
+
 	/**
-	 * A predicate for a Value and provided timestamp. 
+	 * A predicate for a Value and provided timestamp.
 	 * 
 	 * @author Christophe Bouhier
-	 *
+	 * 
 	 */
 	public class TimeStampPredicate implements Predicate<Value> {
-		
-		// The date to compate with. 
+
+		// The date to compate with.
 		private Date d;
-		
-		
+
 		public TimeStampPredicate(Date d) {
 			this.d = d;
 		}
 
 		public boolean apply(final Value v) {
-			if(v.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)){
-				return v.getTimeStamp().toGregorianCalendar().getTime().equals(d);
+			if (v.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)) {
+				return v.getTimeStamp().toGregorianCalendar().getTime()
+						.equals(d);
 			}
 			return false;
 		}
 	}
-	
-	
-	
+
 	/**
 	 * A Generic comparator for EObject attributes of which the type supports
 	 * Comparable.
@@ -1827,16 +1825,17 @@ public class ModelUtils {
 		}
 		return markersPerResource;
 	}
-	
+
 	/**
-	 * Get the first {@link ResourceMonitor} 
+	 * Get the first {@link ResourceMonitor}
+	 * 
 	 * @param service
 	 * @param n
 	 * @param netxResource
 	 * @return
 	 */
-	public ResourceMonitor resourceMonitorForServiceAndResource(Service service,
-			Node n, NetXResource netxResource) {
+	public ResourceMonitor resourceMonitorForServiceAndResource(
+			Service service, Node n, NetXResource netxResource) {
 
 		ResourceMonitor monitor = null;
 
@@ -2785,17 +2784,46 @@ public class ModelUtils {
 	}
 
 	/**
-	 * The duration as a String since the provided nanotime
+	 * The duration as a String since the provided nanotime. nano is 10 to the
+	 * power of -9 (So Billionth of a second). The presentation is depending
+	 * on the size of the nano value. 
 	 * 
 	 * @param l
 	 * 
 	 * @return
 	 */
 	public String timeDurationNano(long l) {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		long onebillion = 1000000000;
+		long onemillion = 1000000;
+		long onethousand = 1000;
+		
 		long delta = System.nanoTime() - l;
-		String result = (delta > 1000000 ? (delta / 1000000 + "." + delta
-				% 1000000 + " (micro-sec) : ") : delta + " (ms) ");
-		return result;
+		long rest = 0;
+		
+		String[] units = new String[]{"(min)", "(sec)", "(ms)"};
+		String unit = ""; 
+		
+		int granularity = 2;
+		if(delta > onebillion * 60 && granularity != 0){
+			sb.append(delta / (onebillion *60) +":");
+			rest = delta % onebillion *60;
+			granularity--;
+		}
+		if(delta > onebillion && granularity != 0){
+			sb.append(delta / onebillion );
+			rest = delta % onebillion;
+			granularity--;
+		}
+		if( rest > onemillion && granularity != 0){
+			sb.append("." + rest/onemillion);
+			rest = delta % onethousand;
+			granularity--;
+		}
+		
+		return sb.toString();
 	}
 
 	public String timeAndSeconds(Date d) {

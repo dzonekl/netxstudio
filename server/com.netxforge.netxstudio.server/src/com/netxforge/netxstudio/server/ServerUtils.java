@@ -26,6 +26,7 @@ import org.eclipse.emf.cdo.common.commit.handler.AsyncCommitInfoHandler;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.IRepository;
+import org.eclipse.emf.cdo.server.IStore;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.session.CDOSession.ExceptionHandler;
 import org.eclipse.emf.ecore.EClass;
@@ -255,23 +256,11 @@ public class ServerUtils {
 			return;
 		}
 		isInitializing = true;
-
-		// repository.getSessionManager().addListener(new IListener() {
-		// public void notifyEvent(IEvent event) {
-		// if (event instanceof SingleDeltaContainerEvent<?>) {
-		// final SingleDeltaContainerEvent<?> e = (SingleDeltaContainerEvent<?>)
-		// event;
-		// if (e.getSource() instanceof InternalSessionManager
-		// && e.getDeltaKind() == IContainerDelta.Kind.ADDED) {
-		// final InternalSession s = (InternalSession) e
-		// .getDelta().getElement();
-		// ((SignalProtocol<?>) s.getProtocol())
-		// .setTimeout(IDataProvider.SIGNAL_TIME_OUT);
-		// }
-		// }
-		// }
-		// });
-
+		
+		
+		IStore store = repository.getStore();
+		
+		
 		final ServerInitializer resourceInitializer = ServerActivator
 				.getInstance().getInjector()
 				.getInstance(ServerInitializer.class);
