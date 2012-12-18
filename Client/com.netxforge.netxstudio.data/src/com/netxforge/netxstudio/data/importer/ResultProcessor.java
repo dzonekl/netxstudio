@@ -449,7 +449,8 @@ public class ResultProcessor {
 				.getTimeInMillis();
 
 		Value foundValue = null;
-
+		
+		
 		for (final Value lookValue : currentValues) {
 			if (isSameTime(intervalHint, timeInMillis, lookValue.getTimeStamp())) {
 				foundValue = lookValue;
@@ -498,9 +499,12 @@ public class ResultProcessor {
 
 		Value foundValue = null;
 
-		List<Value> sortedValues = this.queryService.getSortedValues(
+		List<Value> sortedValues = null; 
+		
+		sortedValues = this.queryService.getSortedValues(
 				mvr.cdoView(), mvr, IQueryService.QUERY_MYSQL,
 				value.getTimeStamp());
+	
 		if (sortedValues != null && sortedValues.size() == 1) {
 			foundValue = sortedValues.get(0); // we only have one entry.
 		}
