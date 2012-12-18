@@ -304,7 +304,7 @@ public class CDOQueryService implements IQueryService {
 			queryString = sb.toString();
 
 		} else if (dialect.equals(QUERY_OCL)) {
-			// Syntax for OCL? 
+			// Syntax for OCL?
 			queryString = "metrics::MetricValueRange.allInstances().metricValues->size()";
 		}
 
@@ -338,7 +338,6 @@ public class CDOQueryService implements IQueryService {
 		return result;
 	}
 
-	
 	public List<Value> getDuplicateValues(CDOView view, MetricValueRange mvr,
 			String dialect) {
 
@@ -348,12 +347,14 @@ public class CDOQueryService implements IQueryService {
 		if (dialect.equals(QUERY_MYSQL)) {
 
 			StringBuffer sb = new StringBuffer();
-			sb.append("select val.cdo_id"
-					+ "from TM.generics_value where cdo_container = :mvr_cdoid");
+			sb.append("select a.cdo_id from TM.generics_value AS a ");
+			sb.append("inner join TM.generics_value AS b ");
+			sb.append("where a.timeStamp0 = b.timeStamp0 and a.cdo_container=:mvr_cdoid and b.cdo_container=:mvr_cdoid ");
+			sb.append("and a.cdo_id <> b.cdo_id");
 			queryString = sb.toString();
 
 		} else if (dialect.equals(QUERY_OCL)) {
-			// Syntax for OCL? 
+			// Syntax for OCL?
 			queryString = "self.";
 		}
 
@@ -376,7 +377,7 @@ public class CDOQueryService implements IQueryService {
 		}
 		return result;
 	}
-	
+
 	public List<Value> getSortedValues(MetricValueRange mvr) {
 
 		DateTimeRange createDateTimeRange = GenericsFactory.eINSTANCE
@@ -429,7 +430,7 @@ public class CDOQueryService implements IQueryService {
 			final CDOQuery cdoQuery = transaction
 					.createQuery(
 							"sql",
-							"select * from TM.library_NetXresource where componentRef IS NULL and cdo_version > 0;");
+							"select * from TM.library_netxresource where componentRef IS NULL and cdo_version > 0;");
 
 			List<NetXResource> result = cdoQuery.getResult(NetXResource.class);
 			return result;

@@ -103,7 +103,7 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 				+ currentLocal.getDisplayCountry() + "language = "
 				+ currentLocal.getDisplayLanguage());
 		Locale.setDefault(Locale.UK);
-		
+
 		currentLocal = Locale.getDefault();
 		System.out.println("NEW Locale: country = "
 				+ currentLocal.getDisplayCountry() + "language = "
@@ -154,11 +154,10 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 		PropertiesUtil pu = injector.getInstance(PropertiesUtil.class);
 		pu.readProperties(instanceLocation, NETXSERVER_PROPERTIES_FILE_NAME,
 				getProperties());
-		
-		
+
 		// register our command provider.
 		context.registerService(CommandProvider.class.getName(), this, null);
-		
+
 	}
 
 	public Properties getProperties() {
@@ -189,17 +188,30 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 	public String getHelp() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("---NetXStudio Server commands---\n");
-		buffer.append("\tserver report - Integrity status of the server \n");
+		buffer.append("\tserver report          - Integrity status of the data on the server\n");
+		buffer.append("\tserver report progress - Integrity status of the data on the server\n");
+		buffer.append("\tserver report cancel   - Integrity status of the data on the server\n");
+		buffer.append("\tserver fix             - Fix the integrity of the data on the server\n");
+		buffer.append("\t                         Delete Duplicate value entries\n");
+
 		return buffer.toString();
 	}
-	
+
 	public Object _server(CommandInterpreter interpreter) {
 		try {
 			String cmd = interpreter.nextArgument();
 			if ("report".equals(cmd)) {
-				
-				// Disable for now. 
-				ServerIntegrity.reportIntegrity(interpreter);
+				String reportCommand = interpreter.nextArgument();
+				if ("progress".equals(reportCommand)) {
+					ServerIntegrity.reportIntegrityProgress(interpreter);
+				} else if ("cancel".equals(reportCommand)) {
+					ServerIntegrity.reportIntegrityCancel(interpreter);
+				} else {
+					ServerIntegrity.reportIntegrity(interpreter);
+				}
+				return null;
+			} else if ("fix".equals(cmd)) {
+				ServerIntegrity.restoreIntegrity(interpreter);
 				return null;
 			}
 			interpreter.println(getHelp());
