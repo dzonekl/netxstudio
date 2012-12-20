@@ -32,6 +32,7 @@ import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
 import com.netxforge.netxstudio.generics.ExpansionDurationValue;
@@ -138,25 +139,38 @@ public class Fixtures implements IFixtures {
 				.getResource(LibraryPackage.Literals.EXPRESSION);
 
 		EList<EObject> rulesContents = retentionRulesResource.getContents();
-		
-		// always clear rules and expressions for the rules. 
+
+		// always clear rules and expressions for the rules.
 		rulesContents.clear();
 
 		List<Expression> expToRemove = Lists.newArrayList();
 		for (EObject eo : expressionResource.getContents()) {
-			Expression exp = (Expression) eo;
-			if (exp.getName().endsWith("retention rule")) {
-				expToRemove.add(exp);
+			if (eo instanceof Expression) {
+				Expression exp = (Expression) eo;
+				if (exp.getName().endsWith("retention rule")) {
+					expToRemove.add(exp);
+				}
+			} else {
+				// http://work.netxforge.com/issues/339
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_DATA_OPTION,
+							"Wrong object in resource: "
+									+ ((CDOResource) expressionResource)
+											.getPath()
+									+ ((CDOResource) expressionResource)
+											.getName());
+				}
 			}
 		}
-		
+
 		expressionResource.getContents().removeAll(expToRemove);
-		
+
 		Expression monthlyRetentionExpression;
 		Expression weeklyRetentionExpression;
 		Expression dailyRetentionExpression;
 		Expression hourlyRetentionExpression;
-		
+
 		// if (contents.size() == 1) {
 		// return;
 		// } else {
