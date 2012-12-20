@@ -522,6 +522,12 @@ public class ModelUtils {
 		return Lists.newArrayList(filterValues);
 	}
 
+	/**
+	 * True when the a {@link Value} occurs in the collection of reference value
+	 * objects with a matching {@link Value#getTimeStamp()}
+	 * 
+	 * @author Christophe Bouhier
+	 */
 	public class ValueForValues implements Predicate<Value> {
 
 		List<Value> referenceValues;
@@ -2785,44 +2791,46 @@ public class ModelUtils {
 
 	/**
 	 * The duration as a String since the provided nanotime. nano is 10 to the
-	 * power of -9 (So Billionth of a second). The presentation is depending
-	 * on the size of the nano value. 
+	 * power of -10 (So one billionth of a second). The presentation is depending on
+	 * the size of the nano value.
 	 * 
 	 * @param l
 	 * 
 	 * @return
 	 */
 	public String timeDurationNano(long l) {
-		
+
 		StringBuilder sb = new StringBuilder();
-		
+
 		long onebillion = 1000000000;
 		long onemillion = 1000000;
 		long onethousand = 1000;
-		
+
 		long delta = System.nanoTime() - l;
 		long rest = 0;
-		
-		String[] units = new String[]{"(min)", "(sec)", "(ms)"};
-		String unit = ""; 
-		
+
+		@SuppressWarnings("unused")
+		String[] units = new String[] { "(min)", "(sec)", "(ms)" };
+		@SuppressWarnings("unused")
+		String unit = "";
+
 		int granularity = 2;
-		if(delta > onebillion * 60 && granularity != 0){
-			sb.append(delta / (onebillion *60) +":");
-			rest = delta % onebillion *60;
+		if (delta > onebillion * 60 && granularity != 0) {
+			sb.append(delta / (onebillion * 60) + ":");
+			rest = delta % onebillion * 60;
 			granularity--;
 		}
-		if(delta > onebillion && granularity != 0){
-			sb.append(delta / onebillion );
+		if (delta > onebillion && granularity != 0) {
+			sb.append(delta / onebillion);
 			rest = delta % onebillion;
 			granularity--;
 		}
-		if( rest > onemillion && granularity != 0){
-			sb.append("." + rest/onemillion);
+		if (rest > onemillion && granularity != 0) {
+			sb.append("." + rest / onemillion);
 			rest = delta % onethousand;
 			granularity--;
 		}
-		
+
 		return sb.toString();
 	}
 

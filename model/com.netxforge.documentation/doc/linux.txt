@@ -1,4 +1,5 @@
- 
+FILE PERMISSION
+  
  
  
 FILE FIND=> find / -name 'my.cnf'
