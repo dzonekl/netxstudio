@@ -27,6 +27,7 @@ import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.server.IStore;
+import org.eclipse.emf.cdo.server.db.IDBStore;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.session.CDOSession.ExceptionHandler;
 import org.eclipse.emf.ecore.EClass;
@@ -258,8 +259,13 @@ public class ServerUtils {
 		isInitializing = true;
 		
 		
-		IStore store = repository.getStore();
 		
+		// TODO, Find out the DB schema name and table name to create queries. 
+		IStore store = repository.getStore();
+		if(store instanceof IDBStore){
+			@SuppressWarnings("unused")
+			IDBStore dbStore = (IDBStore) store;
+		}
 		
 		final ServerInitializer resourceInitializer = ServerActivator
 				.getInstance().getInjector()
