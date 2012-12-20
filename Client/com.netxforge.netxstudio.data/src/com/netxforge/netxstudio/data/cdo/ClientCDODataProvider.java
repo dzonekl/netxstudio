@@ -175,7 +175,11 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 							+ session.getElements().length);
 		}
 	}
-
+	
+	
+	/**
+	 * @deprecated, Moved server side.
+	 */
 	public void loadFixtures() {
 		loadSettings();
 		loadRoles();
