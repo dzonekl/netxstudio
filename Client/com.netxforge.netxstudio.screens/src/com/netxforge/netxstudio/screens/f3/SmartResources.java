@@ -40,6 +40,7 @@ import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -131,6 +132,7 @@ import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -171,6 +173,8 @@ import com.netxforge.netxstudio.screens.common.tables.OpenTreeViewer;
 import com.netxforge.netxstudio.screens.common.tables.TableHelper;
 import com.netxforge.netxstudio.screens.common.tables.TreeViewerFocusBlockManager;
 import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
+import com.netxforge.netxstudio.screens.editing.CDOEditingService;
+import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
@@ -458,7 +462,7 @@ public class SmartResources extends AbstractScreen implements
 
 		ImageDescriptor refreshDescriptor = ResourceManager
 				.getPluginImageDescriptor(
-						"com.netxforge.netxstudio.screens.common",
+						"com.netxforge.netxstudio.screens.editing",
 						"/icons/full/elcl16/refresh.gif");
 
 		createSectionToolbar.add(new RefreshDisconnectedResourcesAction("",
@@ -712,7 +716,7 @@ public class SmartResources extends AbstractScreen implements
 		lblNetwork.setAlignment(SWT.RIGHT);
 		GridData gd_lblNetwork = new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1);
-//		gd_lblNetwork.widthHint = 70;
+		// gd_lblNetwork.widthHint = 70;
 		lblNetwork.setLayoutData(gd_lblNetwork);
 
 		cmbNetwork = new Combo(cmpComponentSelector, SWT.READ_ONLY);
@@ -729,13 +733,11 @@ public class SmartResources extends AbstractScreen implements
 		lblNode = toolkit.createLabel(cmpComponentSelector, "N. Element:",
 				SWT.NONE);
 		lblNode.setAlignment(SWT.RIGHT);
-		GridData gd_lblNode = new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1);
-//		gd_lblNode.widthHint = 70;
+		GridData gd_lblNode = new GridData(SWT.RIGHT, SWT.CENTER, false, false,
+				1, 1);
+		// gd_lblNode.widthHint = 70;
 		lblNode.setLayoutData(gd_lblNode);
-		
-		
-		
+
 		cmbNode = new Combo(cmpComponentSelector, SWT.READ_ONLY);
 		cmbViewerNode = new ComboViewer(cmbNode);
 		cmbNode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
@@ -2839,46 +2841,36 @@ public class SmartResources extends AbstractScreen implements
 
 	private List<NetXResource> updateDisconnectedResources() {
 
-		// DO NOT USE A QUERY, TO DB SPECIFIC.
-		// final IQueryService queryService = screenService.getEditingService()
-		// .getDataService().getQueryService();
-		// IEditingService editingService = screenService.getEditingService();
-		// final CDOTransaction transaction;
-		//
-		// if (editingService instanceof CDOEditingService
-		// && ((CDOEditingService) editingService).getView() != null) {
-		// transaction = (CDOTransaction) ((CDOEditingService) editingService)
-		// .getView();
-		// } else {
-		// transaction = screenService.getEditingService().getDataService()
-		// .getProvider().getTransaction();
-		// }
-		//
-		// if (queryService instanceof CDOQueryService) {
-		//
-		// List<NetXResource> unconnectedResources = ((CDOQueryService)
-		// queryService)
-		// .getUnconnectedResources(transaction, "MYSQL");
-		// return unconnectedResources;
-		// }
+		final IQueryService queryService = screenService.getEditingService()
+				.getDataService().getQueryService();
+		IEditingService editingService = screenService.getEditingService();
+		final CDOView view;
 
-		List<Resource> nodeResources = editingService.getData("Node_");
-		if (nodeResources != null) {
-			List<NetXResource> unconnectedResources = Lists.newArrayList();
-
-			for (Resource res : nodeResources) {
-				for (Object o : res.getContents()) {
-					if (o instanceof NetXResource) {
-						NetXResource netxRes = (NetXResource) o;
-						if (!netxRes
-								.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)) {
-							unconnectedResources.add(netxRes);
-						}
-					}
-				}
-			}
+		if (editingService instanceof CDOEditingService
+				&& ((CDOEditingService) editingService).getView() != null) {
+			view = ((CDOEditingService) editingService).getView();
+			List<NetXResource> unconnectedResources = queryService
+					.getUnconnectedResources(view, IQueryService.QUERY_MYSQL);
 			return unconnectedResources;
 		}
+
+		// List<Resource> nodeResources = editingService.getData("Node_");
+		// if (nodeResources != null) {
+		// List<NetXResource> unconnectedResources = Lists.newArrayList();
+		//
+		// for (Resource res : nodeResources) {
+		// for (Object o : res.getContents()) {
+		// if (o instanceof NetXResource) {
+		// NetXResource netxRes = (NetXResource) o;
+		// if (!netxRes
+		// .eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)) {
+		// unconnectedResources.add(netxRes);
+		// }
+		// }
+		// }
+		// }
+		// return unconnectedResources;
+		// }
 
 		return null;
 	}
@@ -3000,16 +2992,18 @@ public class SmartResources extends AbstractScreen implements
 		chartInput.setInterval(ModelUtils.MINUTES_IN_AN_HOUR);
 
 		// Get the resource monitor from the monitroingAggregate.
-		ResourceMonitor resourceMonitorForNetXResource = monitoringAggregate.getResourceMonitorForNetXResource(contextAggregate
-				.getCurrentNetXResource());
-		
+		ResourceMonitor resourceMonitorForNetXResource = monitoringAggregate
+				.getResourceMonitorForNetXResource(contextAggregate
+						.getCurrentNetXResource());
+
 		chartInput.setResourceMonitor(resourceMonitorForNetXResource);
-		
-		// Do not use it from the test Processor. 
-//		if (resultProcessor.getToleranceProcessor().getResourceMonitor() != null) {
-//			chartInput.setResourceMonitor(resultProcessor
-//					.getToleranceProcessor().getResourceMonitor());
-//		}
+
+		// Do not use it from the test Processor.
+		// if (resultProcessor.getToleranceProcessor().getResourceMonitor() !=
+		// null) {
+		// chartInput.setResourceMonitor(resultProcessor
+		// .getToleranceProcessor().getResourceMonitor());
+		// }
 
 		// Note the selection for Values, override for the Value selection by
 		// the netxresource

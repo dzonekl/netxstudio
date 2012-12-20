@@ -524,7 +524,7 @@ public class CDOQueryService implements IQueryService {
 			final CDOQuery cdoQuery = view
 					.createQuery(
 							"sql",
-							"select * from TM.library_netxresource where componentRef IS NULL and cdo_version > 0;");
+							"select * from TM.library_NetXResource where componentRef IS NULL and cdo_version > 0;");
 
 			List<NetXResource> result = cdoQuery.getResult(NetXResource.class);
 			return result;

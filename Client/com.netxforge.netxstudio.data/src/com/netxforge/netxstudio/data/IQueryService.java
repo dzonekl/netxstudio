@@ -48,8 +48,7 @@ public interface IQueryService {
 	public static final String QUERY_MYSQL = "sql";
 	public static final String QUERY_HQL = "hql";
 	public static final String QUERY_OCL = "ocl";
-	
-	
+
 	public void setDataProvider(IDataProvider provider);
 
 	/**
@@ -229,5 +228,16 @@ public interface IQueryService {
 	 * @return
 	 */
 	public String getValuesQuery(CDOID container, EReference reference);
+
+	/**
+	 * Get all {@link NetXResource} objects with a
+	 * {@link NetXResource#getComponentRef()} returns <code>null</code>
+	 * 
+	 * @param view
+	 * @param dialect
+	 * @return
+	 */
+	public List<NetXResource> getUnconnectedResources(CDOView view,
+			String dialect);
 
 }
