@@ -396,9 +396,8 @@ public abstract class AbstractSmartTableViewer {
 		layout.marginHeight = 0;
 		labels.setLayout(layout);
 
-		listLabel = toolkit.createLabel(labels, "",
-				SWT.NONE);
-		
+		listLabel = toolkit.createLabel(labels, "", SWT.NONE);
+
 		listLabel.addTraverseListener(new TraverseListener() {
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
@@ -839,6 +838,10 @@ public abstract class AbstractSmartTableViewer {
 
 	public void setAdapterFactory(AdapterFactory adapterFactory) {
 		contentProvider.setAdapterFactory(adapterFactory);
+	}
+
+	public void removeAdapterFactory() {
+		contentProvider.removeAdapterFactory();
 	}
 
 	/**
@@ -2303,12 +2306,12 @@ public abstract class AbstractSmartTableViewer {
 
 			// For additions, as we add to history, cache will be reloaded.
 			// For removals, explicitly reload the cache.
-			
-			if(msg instanceof ViewerNotification){
-				// See AdapterFactoryContentProvider on how to merge viewer Notifications. 
+
+			if (msg instanceof ViewerNotification) {
+				// See AdapterFactoryContentProvider on how to merge viewer
+				// Notifications.
 			}
-			
-			
+
 			if (ScreensActivator.DEBUG) {
 				ScreensActivator.TRACE.trace(
 						ScreensActivator.TRACE_SCREENS_OPTION,
@@ -2690,6 +2693,14 @@ public abstract class AbstractSmartTableViewer {
 			this.adapterFactory = adapterFactory;
 		}
 
+		public void removeAdapterFactory() {
+			if (this.adapterFactory != null) {
+				((IChangeNotifier) this.adapterFactory).removeListener(this
+						.getContentNotification());
+				this.adapterFactory = null;
+			}
+		}
+
 		/**
 		 * Indicates whether given item is a duplicate.
 		 * 
@@ -2802,14 +2813,15 @@ public abstract class AbstractSmartTableViewer {
 		 */
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			if (newInput instanceof Notifier) {
-				// Attach a Content Notifier to the adapterfactory. 
-				// The reflective Item provider is always attached to the content, no need to 
-				// adapt to 
+				// Attach a Content Notifier to the adapterfactory.
+				// The reflective Item provider is always attached to the
+				// content, no need to
+				// adapt to
 				if (adapterFactory != null) {
-//					Object adapt = adapterFactory.adapt(newInput,
-//							IChangeNotifier.class);
-				}else{
-					// Notifications won't be supported! 
+					// Object adapt = adapterFactory.adapt(newInput,
+					// IChangeNotifier.class);
+				} else {
+					// Notifications won't be supported!
 				}
 
 			}
@@ -3046,9 +3058,9 @@ public abstract class AbstractSmartTableViewer {
 
 	/**
 	 * Get the control where the search pattern is entered. Any filtering should
-	 * be done using an {@link AbstractPatternItemsFilter}. This control should only be
-	 * accessed for listeners that wish to handle events that do not affect
-	 * filtering such as custom traversal.
+	 * be done using an {@link AbstractPatternItemsFilter}. This control should
+	 * only be accessed for listeners that wish to handle events that do not
+	 * affect filtering such as custom traversal.
 	 * 
 	 * @return Control or <code>null</code> if the pattern control has not been
 	 *         created.

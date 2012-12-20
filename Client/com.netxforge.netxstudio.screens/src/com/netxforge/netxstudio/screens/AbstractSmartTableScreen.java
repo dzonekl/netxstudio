@@ -37,6 +37,8 @@ import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -73,6 +75,14 @@ public abstract class AbstractSmartTableScreen extends AbstractScreen implements
 
 	public AbstractSmartTableScreen(Composite parent, int style) {
 		super(parent, style);
+
+		this.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent e) {
+				if (getLazyTableViewer() != null) {
+					getLazyTableViewer().removeAdapterFactory();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -219,7 +229,8 @@ public abstract class AbstractSmartTableScreen extends AbstractScreen implements
 				public boolean matchItem(Object item) {
 					// As we are a generic implementation this delegates to the
 					// concrete implememtation of the IScreen.
-					return AbstractSmartTableScreen.this.delegateMatchItem(item);
+					return AbstractSmartTableScreen.this
+							.delegateMatchItem(item);
 				}
 			};
 
