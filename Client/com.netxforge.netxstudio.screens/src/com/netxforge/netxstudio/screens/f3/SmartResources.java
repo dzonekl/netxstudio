@@ -277,7 +277,7 @@ public class SmartResources extends AbstractScreen implements
 
 	private Label lblOperator;
 	private Label lblNetwork;
-	private Label lblComponent;
+	private Label lblNode;
 
 	private CDOResource operatorResource;
 	private NetXResourceObervableMapLabelProvider netXResourceObervableMapLabelProvider;
@@ -693,7 +693,7 @@ public class SmartResources extends AbstractScreen implements
 		lblOperator.setAlignment(SWT.RIGHT);
 		GridData gd_lblOperator = new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1);
-		gd_lblOperator.widthHint = 70;
+		gd_lblOperator.widthHint = 100;
 		lblOperator.setLayoutData(gd_lblOperator);
 
 		cmbOperator = new Combo(cmpComponentSelector, SWT.READ_ONLY);
@@ -712,7 +712,7 @@ public class SmartResources extends AbstractScreen implements
 		lblNetwork.setAlignment(SWT.RIGHT);
 		GridData gd_lblNetwork = new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1);
-		gd_lblNetwork.widthHint = 70;
+//		gd_lblNetwork.widthHint = 70;
 		lblNetwork.setLayoutData(gd_lblNetwork);
 
 		cmbNetwork = new Combo(cmpComponentSelector, SWT.READ_ONLY);
@@ -726,10 +726,16 @@ public class SmartResources extends AbstractScreen implements
 
 		// COMPONENT SELCTOR
 
-		lblComponent = toolkit.createLabel(cmpComponentSelector, "N. Element:",
+		lblNode = toolkit.createLabel(cmpComponentSelector, "N. Element:",
 				SWT.NONE);
-		lblComponent.setAlignment(SWT.RIGHT);
-
+		lblNode.setAlignment(SWT.RIGHT);
+		GridData gd_lblNode = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+//		gd_lblNode.widthHint = 70;
+		lblNode.setLayoutData(gd_lblNode);
+		
+		
+		
 		cmbNode = new Combo(cmpComponentSelector, SWT.READ_ONLY);
 		cmbViewerNode = new ComboViewer(cmbNode);
 		cmbNode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
