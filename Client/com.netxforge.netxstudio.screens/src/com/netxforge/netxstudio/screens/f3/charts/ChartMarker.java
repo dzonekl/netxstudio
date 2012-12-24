@@ -399,7 +399,7 @@ public class ChartMarker {
 		// The time.
 		long desiredTime = (long) firstAxe.getDataCoordinate(desiredX);
 
-		Date desired = new Date(desiredTime);
+//		Date desired = new Date(desiredTime);
 //		System.out.println(desired);
 
 		// Only Consider the Metric Series.
@@ -428,7 +428,7 @@ public class ChartMarker {
 
 	private Integer getInvertedSeriesIndex(long desiredTime) {
 
-		Date desired = new Date(desiredTime);
+//		Date desired = new Date(desiredTime);
 //		System.out.println(desired);
 
 		// Only Consider the Metric Series.
