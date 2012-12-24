@@ -23,9 +23,12 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -34,6 +37,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.netxforge.netxstudio.screens.ColorManager;
 import com.netxforge.netxstudio.screens.editing.EditingServiceModule;
 
 /**
@@ -67,7 +71,7 @@ public class ScreensActivator extends AbstractUIPlugin implements
 	 */
 	public ScreensActivator() {
 	}
-	
+
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
@@ -90,8 +94,7 @@ public class ScreensActivator extends AbstractUIPlugin implements
 		om = override(om).with(new CDODataServiceModule());
 		om = override(om).with(new EditingServiceModule());
 		injector = Guice.createInjector(om);
-		
-		
+
 		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
 		context.registerService(DebugOptionsListener.class.getName(), this,
@@ -108,6 +111,7 @@ public class ScreensActivator extends AbstractUIPlugin implements
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
+		ColorManager.getInstance().dispose();
 		super.stop(context);
 	}
 
@@ -123,6 +127,12 @@ public class ScreensActivator extends AbstractUIPlugin implements
 	public static IPreferenceStore doGetPreferenceStore() {
 		return getDefault().getPreferenceStore();
 	}
-
 	
+	/** Get a {@link Color} from a preference constant  */
+	public Color getPreferenceColor(String preferenceConstant) {
+		final RGB rgbColor = PreferenceConverter.getColor(
+				doGetPreferenceStore(), preferenceConstant);
+		return ColorManager.getInstance().getColor(rgbColor);
+	}
+
 }

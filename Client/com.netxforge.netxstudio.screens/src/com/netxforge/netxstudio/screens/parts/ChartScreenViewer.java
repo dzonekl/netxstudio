@@ -28,7 +28,7 @@ import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenViewer;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.f3.charts.ChartScreen;
+import com.netxforge.netxstudio.screens.f3.charts.SmartChartScreen;
 
 /**
  * A Chart screen in a viewer.
@@ -38,14 +38,14 @@ import com.netxforge.netxstudio.screens.f3.charts.ChartScreen;
  */
 public class ChartScreenViewer extends AbstractScreenViewer {
 
-	private ChartScreen chartScreen;
+	private SmartChartScreen chartScreen;
 
 	public IScreen getScreen() {
 		return chartScreen;
 	}
 
 	public void initScreen(Composite parent) {
-		chartScreen = new ChartScreen(parent, SWT.NONE);
+		chartScreen = new SmartChartScreen(parent, SWT.NONE);
 		chartScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 		chartScreen.setEditingService(getEditingService());
 		chartScreen.buildUI();

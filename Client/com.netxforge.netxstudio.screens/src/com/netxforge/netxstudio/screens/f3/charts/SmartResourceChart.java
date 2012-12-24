@@ -18,20 +18,32 @@
 package com.netxforge.netxstudio.screens.f3.charts;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
 
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.swtchart.Chart;
+import org.swtchart.IAxis;
+import org.swtchart.IAxis.Direction;
 import org.swtchart.IAxis.Position;
 import org.swtchart.IAxisTick;
 import org.swtchart.IBarSeries;
@@ -39,41 +51,49 @@ import org.swtchart.ILineSeries;
 import org.swtchart.ISeries;
 import org.swtchart.ISeriesSet;
 import org.swtchart.LineStyle;
+import org.swtchart.Range;
+import org.swtchart.ext.Messages;
 import org.swtchart.internal.PlotArea;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.common.model.ModelUtils.TimeStampPredicate;
-import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
-import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.operators.ToleranceMarker;
+import com.netxforge.netxstudio.screens.ColorManager;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.netxstudio.screens.preferences.ScreenConstants;
 
 /**
- * WORK IN PROGRESS, DO NOT USE YET. 
- * 
- * 
- * 
  * A Chart which presents a NetXResource, with the following features. </br>
  * <ul>
- * <li>Populates an {@link }</li>
- * <li></li>
+ * <li>Can draw 3 difference chart series</li>
  * </ul>
  * 
- * @author Christophe
+ * @author Christophe Bouhier
  * 
  */
-public class SmartResourceChart extends Chart {
+public class SmartResourceChart extends Chart implements
+		IPropertyChangeListener, PaintListener {
 
-	private static final String LEGEND_VISIBILITY = null;
+	/** the filter extensions */
+	private static final String[] EXTENSIONS = new String[] { "*.jpeg",
+			"*.jpg", "*.png" };
 
-	@Inject
-	ModelUtils modelUtils;
+	public static final String UTILIZATION_SERIES = "Utilization";
 
-	private ChartModel model;
+	public static final String CAPACITY_SERIES = "Capacity";
+
+	public static final String METRIC_SERIES = "Metric";
+
+	private ModelUtils modelUtils;
+
+	/** The marker. */
+	protected ChartMarker marker = null;
+
+	/** the selection rectangle for zoom in/out */
+	protected ChartSelectionRectangle selection;
+
+	/** the clicked time in milliseconds */
+	private long clickedTime;
 
 	/*
 	 * The ID of the Y-Axis showing Utilization.
@@ -83,12 +103,16 @@ public class SmartResourceChart extends Chart {
 	public SmartResourceChart(Composite parent, int style, Object layoutData) {
 		super(parent, style);
 
+		selection = new ChartSelectionRectangle();
+
+		ScreensActivator.doGetPreferenceStore().addPropertyChangeListener(this);
+
 		if (layoutData != null) {
 			this.setLayoutData(layoutData);
 		}
+		getTitle().setVisible(false);
 
 		Color white = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
-
 		// Initialize Chart color.
 		setBackground(white);
 
@@ -96,66 +120,255 @@ public class SmartResourceChart extends Chart {
 		getLegend().setPosition(SWT.BOTTOM);
 		getLegend().setVisible(
 				ScreensActivator.getDefault().getPreferenceStore()
-						.getBoolean(LEGEND_VISIBILITY));
+						.getBoolean(ScreenConstants.PREFERENCE_LEGEND_VISIBLE));
 
-		MyMouseListener plotAreaListener = new MyMouseListener(getPlotArea());
+		ChartMouseListener plotAreaListener = new ChartMouseListener(
+				getPlotArea());
 		getPlotArea().addListener(SWT.MouseMove, plotAreaListener);
 		getPlotArea().addListener(SWT.MouseDown, plotAreaListener);
 		getPlotArea().addListener(SWT.MouseUp, plotAreaListener);
+		getPlotArea().addListener(SWT.MouseHover, plotAreaListener);
+		getPlotArea().addListener(SWT.Resize, plotAreaListener);
+		getPlotArea().addListener(SWT.MouseWheel, plotAreaListener);
+		getPlotArea().addListener(SWT.KeyDown, plotAreaListener);
+		getPlotArea().addPaintListener(this);
+
+		createMenuItems(plotAreaListener);
+
+		marker = new ChartMarker(this);
+	}
+
+	/**
+	 * A Selection Rectangle which is instructed to draw to select the zoom
+	 * in/out area.
+	 * 
+	 * @author Christophe Bouhier
+	 * 
+	 */
+	class ChartSelectionRectangle {
+		/** the start point of selection */
+		private Point startPoint;
+
+		/** the end point of selection */
+		private Point endPoint;
+
+		/**
+		 * Sets the start point.
+		 * 
+		 * @param x
+		 *            the X coordinate of start point in pixels
+		 * @param y
+		 *            the Y coordinate of start point in pixels
+		 */
+		public void setStartPoint(int x, int y) {
+			startPoint = new Point(x, y);
+		}
+
+		/**
+		 * Sets the end point.
+		 * 
+		 * @param x
+		 *            the X coordinate of end point in pixels
+		 * @param y
+		 *            the X coordinate of end point in pixels
+		 */
+		public void setEndPoint(int x, int y) {
+			endPoint = new Point(x, y);
+		}
+
+		/**
+		 * Gets the horizontal selected range.
+		 * 
+		 * @return the horizontal selected range in pixels
+		 */
+		public Point getHorizontalRange() {
+			if (startPoint == null || endPoint == null) {
+				return null;
+			}
+
+			return new Point(startPoint.x, endPoint.x);
+		}
+
+		/**
+		 * Gets the vertical selected range.
+		 * 
+		 * @return the vertical selected range in pixels
+		 */
+		public Point getVerticalRange() {
+			if (startPoint == null || endPoint == null) {
+				return null;
+			}
+
+			return new Point(startPoint.y, endPoint.y);
+		}
+
+		/**
+		 * Check if selection is disposed.
+		 * 
+		 * @return true if selection is disposed.
+		 */
+		public boolean isDisposed() {
+			return startPoint == null;
+		}
+
+		/**
+		 * Disposes the resource.
+		 */
+		public void dispose() {
+			startPoint = null;
+			endPoint = null;
+		}
+
+		/**
+		 * Draws the selection rectangle on chart panel.
+		 * 
+		 * @param gc
+		 *            the graphics context
+		 */
+		public void draw(GC gc) {
+			if (startPoint == null || endPoint == null) {
+				return;
+			}
+
+			int minX;
+			int maxX;
+			if (startPoint.x > endPoint.x) {
+				minX = endPoint.x;
+				maxX = startPoint.x;
+			} else {
+				minX = startPoint.x;
+				maxX = endPoint.x;
+			}
+
+			int minY;
+			int maxY;
+			if (startPoint.y > endPoint.y) {
+				minY = endPoint.y;
+				maxY = startPoint.y;
+			} else {
+				minY = startPoint.y;
+				maxY = endPoint.y;
+			}
+			
+			gc.setLineStyle(SWT.LINE_DOT);
+			gc.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_DARK_CYAN));
+			gc.drawRectangle(minX, minY, maxX - minX, maxY - minY);
+		}
+	}
+
+	public void setModelUtils(ModelUtils modelUtils) {
+		this.modelUtils = modelUtils;
+	}
+
+	/**
+	 * Creates menu items.
+	 * 
+	 * @param plotAreaListener
+	 */
+	private void createMenuItems(ChartMouseListener plotAreaListener) {
+		Menu menu = new Menu(getPlotArea());
+		getPlotArea().setMenu(menu);
+
+		// adjust axis range menu group
+		MenuItem menuItem = new MenuItem(menu, SWT.CASCADE);
+		menuItem.setText(Messages.ADJUST_AXIS_RANGE_GROUP);
+		Menu adjustAxisRangeMenu = new Menu(menuItem);
+		menuItem.setMenu(adjustAxisRangeMenu);
+
+		// adjust axis range
+		menuItem = new MenuItem(adjustAxisRangeMenu, SWT.PUSH);
+		menuItem.setText(Messages.ADJUST_AXIS_RANGE);
+		menuItem.addListener(SWT.Selection, plotAreaListener);
+
+		// adjust X axis range
+		menuItem = new MenuItem(adjustAxisRangeMenu, SWT.PUSH);
+		menuItem.setText(Messages.ADJUST_X_AXIS_RANGE);
+		menuItem.addListener(SWT.Selection, plotAreaListener);
+
+		// adjust Y axis range
+		menuItem = new MenuItem(adjustAxisRangeMenu, SWT.PUSH);
+		menuItem.setText(Messages.ADJUST_Y_AXIS_RANGE);
+		menuItem.addListener(SWT.Selection, plotAreaListener);
+
+		menuItem = new MenuItem(menu, SWT.SEPARATOR);
+
+		// zoom in menu group
+		menuItem = new MenuItem(menu, SWT.CASCADE);
+		menuItem.setText(Messages.ZOOMIN_GROUP);
+		Menu zoomInMenu = new Menu(menuItem);
+		menuItem.setMenu(zoomInMenu);
+
+		// zoom in both axes
+		menuItem = new MenuItem(zoomInMenu, SWT.PUSH);
+		menuItem.setText(Messages.ZOOMIN);
+		menuItem.addListener(SWT.Selection, plotAreaListener);
+
+		// zoom in X axis
+		menuItem = new MenuItem(zoomInMenu, SWT.PUSH);
+		menuItem.setText(Messages.ZOOMIN_X);
+		menuItem.addListener(SWT.Selection, plotAreaListener);
+
+		// zoom in Y axis
+		menuItem = new MenuItem(zoomInMenu, SWT.PUSH);
+		menuItem.setText(Messages.ZOOMIN_Y);
+		menuItem.addListener(SWT.Selection, plotAreaListener);
+
+		// zoom out menu group
+		menuItem = new MenuItem(menu, SWT.CASCADE);
+		menuItem.setText(Messages.ZOOMOUT_GROUP);
+		Menu zoomOutMenu = new Menu(menuItem);
+		menuItem.setMenu(zoomOutMenu);
+
+		// zoom out both axes
+		menuItem = new MenuItem(zoomOutMenu, SWT.PUSH);
+		menuItem.setText(Messages.ZOOMOUT);
+		menuItem.addListener(SWT.Selection, plotAreaListener);
+
+		// zoom out X axis
+		menuItem = new MenuItem(zoomOutMenu, SWT.PUSH);
+		menuItem.setText(Messages.ZOOMOUT_X);
+		menuItem.addListener(SWT.Selection, plotAreaListener);
+
+		// zoom out Y axis
+		menuItem = new MenuItem(zoomOutMenu, SWT.PUSH);
+		menuItem.setText(Messages.ZOOMOUT_Y);
+		menuItem.addListener(SWT.Selection, plotAreaListener);
+
+		menuItem = new MenuItem(menu, SWT.SEPARATOR);
+
+		// save as
+		menuItem = new MenuItem(menu, SWT.PUSH);
+		menuItem.setText(Messages.SAVE_AS);
+		menuItem.addListener(SWT.Selection, plotAreaListener);
 
 	}
 
-	/*
-	 * Build a chart. The values to show are extracted from the injected
-	 * netXResource and interval. The metric values are sorted by period.
+	/**
+	 * Initial the chart from the {@link CharModel}
 	 * 
-	 * TODO split in consumable sub-ranges matching the interval. The UI allows
-	 * to select the sub-range.
-	 * 
-	 * For a sub-range the corresponding capacity and utilization a chart series
-	 * is produced.
-	 * 
-	 * The x-axis (xtick) is determined from the interval.
+	 * @param model
 	 */
-	@SuppressWarnings("unused")
-	private void initChartBinding() {
+	public void initChartBinding(ChartModel model) {
 
 		cleanChart();
 
-		if (model.values == null && model.netXRes != null && model.interval > 0) {
-			MetricValueRange mvr = modelUtils.valueRangeForInterval(
-					model.netXRes, model.interval);
-			if (mvr != null) {
-				model.values = mvr.getMetricValues();
-				if (model.values == null || model.values.size() == 0)
-					return;
-			} else
-				return;
+		configureXAxis(model);
+		configureYAxis();
+
+		configureSeriesMetric(model);
+
+		if (model.hasCapacity()) {
+			configureSeriesCapacity(model);
 		}
 
-		if (model.dtr != null) {
-			model.values = this.sortAndApplyPeriod(model.values, model.dtr);
+		if (model.hasUtilization()) {
+			configureYAxisUtilization();
+			configureSeriesUtilization(model, 1);
+			configureUtilizationVisible(ScreensActivator.getDefault()
+					.getPreferenceStore()
+					.getBoolean(ScreenConstants.PREFERENCE_UTIL_VISIBLE));
+
 		}
-
-		Date[] dateArray = modelUtils.transformValueToDateArray(model.values);
-		double[] doubleArray = modelUtils
-				.transformValueToDoubleArray(model.values);
-
-		createXTickForInterval(this, model.interval);
-		seriesFromMetric(dateArray, doubleArray);
-
-		DateTimeRange metricDTR = modelUtils.range(model.values);
-
-		// CAP VALUES......
-		initCapacityRange(dateArray, metricDTR);
-
-		// UTIL VALUES.
-		initUtilizationRange(dateArray, model.values, metricDTR);
-
-		// TOL VALUES
-
-		// Tolerances are not stored.....
-		// this.seriesFromTolerance(chart, 1);
 
 		// Setup data binding.
 		// adjust the axis range
@@ -163,6 +376,23 @@ public class SmartResourceChart extends Chart {
 		// chart.getAxisSet().getYAxes()[1].adjustRange();
 		getAxisSet().adjustRange();
 		redraw();
+	}
+
+	private void configureUtilizationVisible(boolean visible) {
+
+		if (getUtilAxis() != null) {
+			getUtilSeries().setVisible(visible);
+		}
+
+		final IAxis utilAxis = getUtilAxis();
+		if (utilAxis != null) {
+
+			utilAxis.getTick().setVisible(visible);
+			utilAxis.getTitle().setVisible(visible);
+			utilAxis.getGrid().setStyle(
+					visible ? LineStyle.DASHDOT : LineStyle.NONE);
+		}
+
 	}
 
 	/**
@@ -185,77 +415,32 @@ public class SmartResourceChart extends Chart {
 
 	}
 
-	private void initCapacityRange(Date[] dateArray,
-			DateTimeRange metricValuesDateTimeRange) {
-		List<Value> capacities = model.netXRes.getCapacityValues();
+	private void configureYAxis() {
 
-		if (capacities.isEmpty()) {
-			return;
-		}
-		// Apply a period filter.
-		if (model.dtr != null) {
-			capacities = this.sortAndApplyPeriod(capacities, model.dtr);
-		}
-
-		List<Value> capMatchingDates = rangeFillUpWithLastValue(dateArray,
-				metricValuesDateTimeRange, capacities);
-
-		double[] capValues = modelUtils
-				.transformValueToDoubleArray(capMatchingDates);
-		this.seriesFromCapacity(dateArray, capValues);
+		// We need some info on the data to set the decimal format.
+		IAxisTick yTick = this.getAxisSet().getYAxis(0).getTick();
+		yTick.setFormat(new DecimalFormat("##,###.#"));
+		yTick.setForeground(Display.getDefault()
+				.getSystemColor(SWT.COLOR_BLACK));
 	}
 
-	/*
-	 * Filter utilization values for metric values.
-	 */
-	private void initUtilizationRange(Date[] dateArray,
-			List<Value> metricValues, DateTimeRange dtr) {
+	private void configureXAxis(ChartModel model) {
 
-		// Depending on the range, we want to filter the values for which we
-		// have
-		// a utilization.
-		List<Value> utilValues = sortAndApplyPeriod(
-				model.netXRes.getUtilizationValues(), dtr);
-
-		// Why not get from the period?
-		utilValues = modelUtils.valuesForValues(utilValues, metricValues);
-
-		if (utilValues.isEmpty()) {
-			return;
+		if (model.hasNetXResource()) {
+			getAxisSet().getYAxis(0).getTitle()
+					.setText(model.netXRes.getUnitRef().getName());
+			getAxisSet()
+					.getYAxis(0)
+					.getTitle()
+					.setForeground(
+							Display.getDefault()
+									.getSystemColor(SWT.COLOR_BLACK));
 		}
-
-		// Make sure we are equal size.
-		if (dateArray.length != utilValues.size()) {
-			if (ScreensActivator.DEBUG) {
-				ScreensActivator.TRACE
-						.trace(ScreensActivator.TRACE_SCREENS_OPTION,
-								"Skip plotting utilization, date array and util array length mismatch sizes => dates: "
-										+ dateArray.length
-										+ " util values: "
-										+ utilValues.size());
-			}
-			utilValues = rangeFillUpGaps(dateArray, dtr, utilValues);
-		}
-
-		List<Double> utilDoubleValues = modelUtils
-				.transformValueToDouble(utilValues);
-
-		// Multiply by 100
-		double[] utilDoubleArray = modelUtils
-				.multiplyByHundredAndToArray(utilDoubleValues);
-
-		// Create the axis.
-		createUtilizationAxis();
-
-		this.seriesFromUtilization(dateArray, utilDoubleArray, 1);
-	}
-
-	private void createXTickForInterval(Chart chart, int interval) {
 
 		String primaryDatePattern = "";
 		// String secondaryDatePattern = "";
 		String label = "";
-		switch (interval) {
+		switch (model.interval) {
 		case ModelUtils.MINUTES_IN_AN_HOUR: {
 			primaryDatePattern = "dd-MMM HH:mm";
 			label = "HOUR";
@@ -278,81 +463,65 @@ public class SmartResourceChart extends Chart {
 		}
 			break;
 		default: {
-			primaryDatePattern = "HH:mm";
-			label = modelUtils.fromMinutes(interval);
+			primaryDatePattern = "dd-MMM HH:mm";
+			label = modelUtils.fromMinutes(model.interval);
 		}
 		}
 
 		// set the label.
-		chart.getAxisSet().getXAxis(0).getTitle().setText(label);
+		getAxisSet().getXAxis(0).getTitle().setText(label);
+		getAxisSet()
+				.getXAxis(0)
+				.getTitle()
+				.setForeground(
+						Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 
 		DateFormat primaryFormat = new SimpleDateFormat(primaryDatePattern);
 
-		IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
-		// xTick.setTickMarkStepHint(2);
+		IAxisTick xTick = getAxisSet().getXAxis(0).getTick();
 		xTick.setFormat(primaryFormat);
-
 		xTick.setTickLabelAngle(45);
-
-		// int secondaryAxisID = 1;
-		// if (chart.getAxisSet().getXAxes().length == 1) {
-		// secondaryAxisID = chart.getAxisSet().createXAxis();
-		// }
-		// IAxis xAxisSecondary = chart.getAxisSet().getXAxis(secondaryAxisID);
-		// xAxisSecondary.getTitle().setText("DAY");
-		// xAxisSecondary.getTick().setTickMarkStepHint(10);
-		//
-		// DateFormat secondaryFormat = new
-		// SimpleDateFormat(secondaryDatePattern);
-		// IAxisTick xTickSecondary = xAxisSecondary.getTick();
-		// xTickSecondary.setFormat(secondaryFormat);
+		xTick.setForeground(Display.getDefault()
+				.getSystemColor(SWT.COLOR_BLACK));
 
 	}
 
 	/*
 	 * Creates an Y-Axis showing the utilization in percentile.
 	 */
-	private void createUtilizationAxis() {
+	private void configureYAxisUtilization() {
 
 		utilizationAxisID = getAxisSet().createYAxis();
+		IAxis yAxis = getAxisSet().getYAxis(utilizationAxisID);
 
 		// The position.
-		getAxisSet().getYAxis(utilizationAxisID)
-				.setPosition(Position.Secondary);
 
+		yAxis.setPosition(Position.Secondary);
 		// The title.
-		getAxisSet().getYAxis(utilizationAxisID).getTitle()
-				.setText("Utilization (%)");
-
+		yAxis.getTitle().setText("Utilization (%)");
 		// The title foreground color.
-		getAxisSet()
-				.getYAxis(utilizationAxisID)
-				.getTitle()
-				.setForeground(
-						Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
-
+		yAxis.getTitle().setForeground(
+				Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		// The grid style.
-		getAxisSet().getYAxis(utilizationAxisID).getGrid()
-				.setStyle(LineStyle.DASHDOT);
-
+		yAxis.getGrid().setStyle(LineStyle.DASHDOT);
 		// The color of the grid for this axe.
-		getAxisSet()
-				.getYAxis(utilizationAxisID)
-				.getGrid()
-				.setForeground(
-						Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
+		yAxis.getGrid().setForeground(
+				Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
+
+		yAxis.getTick().setForeground(
+				Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+
+		// Hide the grid when not active.
+
 	}
 
 	/**
 	 * The mouse listener to show marker on chart.
 	 */
-	private class MyMouseListener implements Listener {
+	private class ChartMouseListener implements Listener {
 
 		/** The control to add listener. */
 		private Control control;
-		
-		/** The Marker**/
-		private ChartMarker marker;
 
 		/**
 		 * The constructor.
@@ -360,14 +529,28 @@ public class SmartResourceChart extends Chart {
 		 * @param control
 		 *            The control to add listener
 		 */
-		public MyMouseListener(Control control) {
+		public ChartMouseListener(Control control) {
 			this.control = control;
+			control.addFocusListener(new FocusAdapter(){
+
+				@Override
+				public void focusLost(FocusEvent e) {
+					if(!marker.isDisposed()){
+						marker.dispose();
+					}
+				}
+			});
 		}
 
 		/*
 		 * @see Listener#handleEvent(Event)
 		 */
 		public void handleEvent(Event event) {
+
+			if (marker == null) {
+				return;
+			}
+
 			int position;
 			if (control instanceof Chart) {
 				position = event.x - getPlotArea().getBounds().x;
@@ -378,101 +561,116 @@ public class SmartResourceChart extends Chart {
 			}
 
 			switch (event.type) {
+			case SWT.MouseHover:
+				// TODO, Do not show markers when dragging a selection. (Check
+				// the Seleciton Range).
+				marker.setPosition(position);
+				redraw();
+				break;
 			case SWT.MouseMove:
 				if (!marker.isDisposed()) {
-					marker.setPosition(position);
+					marker.dispose();
+
+				}
+				if (!selection.isDisposed()) {
+
+					selection.setEndPoint(event.x, event.y);
+
+					// The rectange size, should be at least...To avoid the
+					// intention
+					// to show the marker, but instead having an intense deep
+					// zoom.
+					// if (selectionIntended()) {
+					// marker.dispose(); // Hide the marker when dragging.
+					//
+					// }
+					redraw();
 				}
 				break;
 			case SWT.MouseDown:
 				if (event.button == 1) {
 					marker.setPosition(position);
 				}
+				if (event.button == 1) {
+					selection.setStartPoint(event.x, event.y);
+					clickedTime = System.currentTimeMillis();
+				}
 				break;
 			case SWT.MouseUp:
-				marker.dispose();
+				// Use the clicked time to deal with the Marker handling.
+				if (event.button == 1
+						&& System.currentTimeMillis() - clickedTime > 100
+						&& selectionIntended()) {
+					for (IAxis axis : getAxisSet().getAxes()) {
+						Point range = null;
+						if ((getOrientation() == SWT.HORIZONTAL && axis
+								.getDirection() == Direction.X)
+								|| (getOrientation() == SWT.VERTICAL && axis
+										.getDirection() == Direction.Y)) {
+							range = selection.getHorizontalRange();
+						} else {
+							range = selection.getVerticalRange();
+						}
+
+						if (range != null && range.x != range.y) {
+							setRange(range, axis);
+						}
+					}
+				}
+				selection.dispose();
+
+				redraw();
+				break;
+			case SWT.MouseWheel:
+				handleMouseWheel(event);
+				break;
+			case SWT.KeyDown:
+				handleKeyDownEvent(event);
+				break;
+			case SWT.Selection:
+				handleSelectionEvent(event);
 				break;
 			default:
 				break;
 			}
 		}
+		
+		
+		/**
+		 * The selection range should be a certain size before working. 
+		 * @return
+		 */
+		private boolean selectionIntended() {
+			if (selection.getHorizontalRange() != null
+					&& selection.getVerticalRange() != null) {
+
+				return selection.getHorizontalRange().y
+						- selection.getHorizontalRange().x > 15
+						&& selection.getVerticalRange().y
+								- selection.getVerticalRange().x > 15;
+			} else {
+				return false;
+			}
+		}
 	}
 
 	/**
-	 * Fill up a range with missing values from the initial collection for the
-	 * provided period.
+	 * Sets the axis range.
 	 * 
-	 * @param timeStamps
-	 * @param dtr
-	 * @param initialCollection
-	 * @return
+	 * @param range
+	 *            the axis range in pixels
+	 * @param axis
+	 *            the axis to set range
 	 */
-	private List<Value> rangeFillUpWithLastValue(Date[] timeStamps,
-			DateTimeRange dtr, List<Value> initialCollection) {
-		List<Value> filledCollection = Lists.newArrayList(initialCollection);
-
-		int initialSize = filledCollection.size();
-		if (initialSize > 0 && initialSize > timeStamps.length) {
-			// we have more in the initial collection then the number of
-			// timeStamps timestamps , strip according
-			// to the metric value date time range, filling up the blanks.
-			filledCollection = modelUtils.valuesInsideRange(filledCollection,
-					dtr);
-			return filledCollection;
+	private void setRange(Point range, IAxis axis) {
+		if (range == null) {
+			return;
 		}
 
-		// Get the last value from the collection, and fill up for the quantity
-		// of dates.
+		double min = axis.getDataCoordinate(range.x);
+		double max = axis.getDataCoordinate(range.y);
 
-		initialSize = filledCollection.size();
-		if (initialSize > 0 && initialSize < timeStamps.length) {
-			Value lastVal = filledCollection.get(initialSize - 1);
-			for (int i = initialSize; i < timeStamps.length; i++) {
-				filledCollection.add(i, lastVal);
-			}
-		}
-		return filledCollection;
-	}
-
-	private List<Value> rangeFillUpGaps(Date[] timeStamps, DateTimeRange dtr,
-			List<Value> initialCollection) {
-		List<Value> filledCollection = Lists.newArrayList(initialCollection);
-
-		int initialSize = filledCollection.size();
-		if (initialSize > 0 && initialSize > timeStamps.length) {
-			// we have more in the initial collection then the number of
-			// timeStamps timestamps , strip according
-			// to the metric value date time range, filling up the blanks.
-			filledCollection = modelUtils.valuesInsideRange(filledCollection,
-					dtr);
-			return filledCollection;
-		}
-
-		// Get the last value from the collection, and fill up for the quantity
-		// of dates.
-		// Find the collection value for each date.
-		ArrayList<Date> timeStampsCollection = Lists.newArrayList(timeStamps);
-		filledCollection = Lists.newArrayListWithCapacity(timeStampsCollection
-				.size());
-
-		for (int i = 0; i < timeStampsCollection.size(); i++) {
-			Date date = timeStampsCollection.get(i);
-			TimeStampPredicate timeStampPredicate = modelUtils.new TimeStampPredicate(
-					date);
-			try {
-				Value find = Iterables.find(initialCollection,
-						timeStampPredicate);
-				filledCollection.add(i, find);
-			} catch (NoSuchElementException nsee) {
-				Value createValue = GenericsFactory.eINSTANCE.createValue();
-				createValue.setTimeStamp(modelUtils.toXMLDate(date));
-				createValue.setValue(0);
-				// Nope
-				filledCollection.add(i, createValue);
-			}
-
-		}
-
-		return filledCollection;
+		axis.setRange(new Range(min, max));
 	}
 
 	/**
@@ -484,33 +682,32 @@ public class SmartResourceChart extends Chart {
 	 * @param resource
 	 * @return
 	 */
-	private ILineSeries seriesFromMetric(Date[] dateArray, double[] metricValues) {
+	private ILineSeries configureSeriesMetric(ChartModel model) {
 
 		ILineSeries metricLineSeries = (ILineSeries) getSeriesSet()
-				.createSeries(ISeries.SeriesType.LINE, "Metric");
+				.createSeries(ISeries.SeriesType.LINE, METRIC_SERIES);
 
-		metricLineSeries.setXDateSeries(dateArray);
+		metricLineSeries.setXDateSeries(model.timeStampArray);
 		metricLineSeries.enableArea(true);
-		metricLineSeries.setYSeries(metricValues);
+		metricLineSeries.setYSeries(model.metriDoubleArray);
 		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
-
-		getAxisSet().getYAxis(0).getTitle()
-				.setText(model.netXRes.getUnitRef().getName());
-
+		final Color metricColor = ScreensActivator.getDefault()
+				.getPreferenceColor(ScreenConstants.PREFERENCE_METRIC_COLOR);
+		metricLineSeries.setLineColor(metricColor);
 		return metricLineSeries;
 	}
 
-	private ILineSeries seriesFromCapacity(Date[] dateArray,
-			double[] capacityValues) {
+	private ILineSeries configureSeriesCapacity(ChartModel model) {
 
 		ILineSeries capLineSeries = (ILineSeries) getSeriesSet().createSeries(
-				ISeries.SeriesType.LINE, "Capacity");
+				ISeries.SeriesType.LINE, CAPACITY_SERIES);
 
-		capLineSeries.setXDateSeries(dateArray);
-		capLineSeries.setYSeries(capacityValues);
+		capLineSeries.setXDateSeries(model.timeStampArray);
+		capLineSeries.setYSeries(model.capDoubleArray);
 		capLineSeries.enableStep(true);
-		capLineSeries.setLineColor(Display.getDefault().getSystemColor(
-				SWT.COLOR_DARK_YELLOW));
+		final Color capColor = ScreensActivator.getDefault()
+				.getPreferenceColor(ScreenConstants.PREFERENCE_CAP_COLOR);
+		capLineSeries.setLineColor(capColor);
 		capLineSeries.setLineWidth(2);
 		capLineSeries.setLineStyle(LineStyle.DASHDOT);
 		capLineSeries.setSymbolType(ILineSeries.PlotSymbolType.NONE);
@@ -518,24 +715,23 @@ public class SmartResourceChart extends Chart {
 
 	}
 
-	private IBarSeries seriesFromUtilization(Date[] dateArray,
-			double[] utilizationValues, int yAxisID) {
+	private IBarSeries configureSeriesUtilization(ChartModel model, int yAxisID) {
 
 		IBarSeries utilLineSeries = (IBarSeries) getSeriesSet().createSeries(
-				ISeries.SeriesType.BAR, "Utilization");
-		utilLineSeries.setXDateSeries(dateArray);
-		utilLineSeries.setYSeries(utilizationValues);
+				ISeries.SeriesType.BAR, UTILIZATION_SERIES);
+		utilLineSeries.setXDateSeries(model.timeStampArray);
+		utilLineSeries.setYSeries(model.utilDoubleArray);
 		utilLineSeries.setYAxisId(yAxisID); // Connect a series to the
 											// Y-Axis.
-		utilLineSeries.setBarColor(Display.getDefault().getSystemColor(
-				SWT.COLOR_GREEN));
+		final Color utilColor = ScreensActivator.getDefault()
+				.getPreferenceColor(ScreenConstants.PREFERENCE_UTIL_COLOR);
+		utilLineSeries.setBarColor(utilColor);
 		utilLineSeries.setBarPadding(50);
-
 		return utilLineSeries;
 	}
 
 	@SuppressWarnings("unused")
-	private ILineSeries seriesFromTolerance(Date[] dateArray,
+	private ILineSeries configureSeriesTolerance(Date[] dateArray,
 			double[] toleranceValues, int yAxisID) {
 
 		ILineSeries toleranceLineSeries = (ILineSeries) getSeriesSet()
@@ -550,10 +746,256 @@ public class SmartResourceChart extends Chart {
 		return toleranceLineSeries;
 	}
 
-	public List<Value> sortAndApplyPeriod(List<Value> values, DateTimeRange dtr) {
-		List<Value> sortedCopy = modelUtils
-				.sortValuesByTimeStampAndReverse(values);
-		return modelUtils.valuesInsideRange(sortedCopy, dtr);
+	/*
+	 * Return the metric series in the proper series type.
+	 */
+	public ILineSeries getMetricSeries() {
+		return (ILineSeries) getSeries(METRIC_SERIES);
 	}
 
+	/*
+	 * Return the capacity series in the proper series type.
+	 */
+
+	public ILineSeries getCapSeries() {
+		return (ILineSeries) getSeries(CAPACITY_SERIES);
+	}
+
+	/*
+	 * Return the capacity series in the proper series type.
+	 */
+	public IBarSeries getUtilSeries() {
+		ISeries utilSeries = getSeries(UTILIZATION_SERIES);
+		return utilSeries != null ? (IBarSeries) utilSeries : null;
+	}
+
+	/*
+	 * Return the IAxis for the utilization.
+	 */
+	private IAxis getUtilAxis() {
+		return this.getAxisSet().getYAxis(utilizationAxisID);
+	}
+
+	/*
+	 * return an ISeries for the specified ID.
+	 */
+	private ISeries getSeries(String seriesID) {
+		return this.getSeriesSet().getSeries(seriesID);
+	}
+
+	/*
+	 * Gets the axes for given orientation.
+	 */
+	private IAxis[] getAxes(int orientation) {
+		IAxis[] axes;
+		if (getOrientation() == orientation) {
+			axes = getAxisSet().getXAxes();
+		} else {
+			axes = getAxisSet().getYAxes();
+		}
+		return axes;
+	}
+
+	/*
+	 * @see IPropertyChangeListener#propertyChange(PropertyChangeEvent)
+	 */
+	public void propertyChange(PropertyChangeEvent event) {
+		boolean needsRedraw = false;
+		if (ScreenConstants.PREFERENCE_LEGEND_VISIBLE.equals(event
+				.getProperty()) && !isDisposed()) {
+			getLegend().setVisible((Boolean) (event.getNewValue()));
+			needsRedraw = true;
+		} else if (ScreenConstants.PREFERENCE_UTIL_VISIBLE.equals(event
+				.getProperty()) && !isDisposed()) {
+			configureUtilizationVisible((Boolean) (event.getNewValue()));
+			needsRedraw = true;
+		} else if (ScreenConstants.PREFERENCE_METRIC_COLOR.equals(event
+				.getProperty())) {
+			final Color preferenceColor = ColorManager.getInstance().getColor(
+					(RGB) event.getNewValue());
+			getMetricSeries().setLineColor(preferenceColor);
+			needsRedraw = true;
+
+		} else if (ScreenConstants.PREFERENCE_CAP_COLOR.equals(event
+				.getProperty())) {
+			final Color preferenceColor = ColorManager.getInstance().getColor(
+					(RGB) event.getNewValue());
+			getCapSeries().setLineColor(preferenceColor);
+			needsRedraw = true;
+
+		} else if (ScreenConstants.PREFERENCE_UTIL_COLOR.equals(event
+				.getProperty())) {
+			final Color preferenceColor = ColorManager.getInstance().getColor(
+					(RGB) event.getNewValue());
+			if (getUtilSeries() != null) {
+				getUtilSeries().setBarColor(preferenceColor);
+				needsRedraw = true;
+			}
+
+		}
+
+		if (needsRedraw) {
+			redraw();
+		}
+	}
+
+	public void paintControl(PaintEvent e) {
+		selection.draw(e.gc);
+	}
+
+	/**
+	 * Handles mouse wheel event.
+	 * 
+	 * @param event
+	 *            the mouse wheel event
+	 */
+	private void handleMouseWheel(Event event) {
+		for (IAxis axis : getAxes(SWT.HORIZONTAL)) {
+			double coordinate = axis.getDataCoordinate(event.x);
+			if (event.count > 0) {
+				axis.zoomIn(coordinate);
+			} else {
+				axis.zoomOut(coordinate);
+			}
+		}
+
+		for (IAxis axis : getAxes(SWT.VERTICAL)) {
+			double coordinate = axis.getDataCoordinate(event.y);
+			if (event.count > 0) {
+				axis.zoomIn(coordinate);
+			} else {
+				axis.zoomOut(coordinate);
+			}
+		}
+		redraw();
+	}
+
+	/**
+	 * Handles the key down event. FIXME Doesn't work for MacOSX, as the
+	 * CTRL-Arrow is already OS assigned.
+	 * 
+	 * 
+	 * @param event
+	 *            the key down event
+	 */
+	private void handleKeyDownEvent(Event event) {
+		if (event.keyCode == SWT.ARROW_DOWN) {
+			if (event.stateMask == SWT.CTRL) {
+				getAxisSet().zoomOut();
+			} else {
+				for (IAxis axis : getAxes(SWT.VERTICAL)) {
+					axis.scrollDown();
+				}
+			}
+			redraw();
+		} else if (event.keyCode == SWT.ARROW_UP) {
+			if (event.stateMask == SWT.CTRL) {
+				getAxisSet().zoomIn();
+			} else {
+				for (IAxis axis : getAxes(SWT.VERTICAL)) {
+					axis.scrollUp();
+				}
+			}
+			redraw();
+		} else if (event.keyCode == SWT.ARROW_LEFT) {
+			for (IAxis axis : getAxes(SWT.HORIZONTAL)) {
+				axis.scrollDown();
+			}
+			redraw();
+		} else if (event.keyCode == SWT.ARROW_RIGHT) {
+			for (IAxis axis : getAxes(SWT.HORIZONTAL)) {
+				axis.scrollUp();
+			}
+			redraw();
+		}
+	}
+
+	/**
+	 * Handles the selection event.
+	 * 
+	 * @param event
+	 *            the event
+	 */
+	private void handleSelectionEvent(Event event) {
+
+		if (!(event.widget instanceof MenuItem)) {
+			return;
+		}
+		MenuItem menuItem = (MenuItem) event.widget;
+
+		if (menuItem.getText().equals(Messages.ADJUST_AXIS_RANGE)) {
+			getAxisSet().adjustRange();
+		} else if (menuItem.getText().equals(Messages.ADJUST_X_AXIS_RANGE)) {
+			for (IAxis axis : getAxisSet().getXAxes()) {
+				axis.adjustRange();
+			}
+		} else if (menuItem.getText().equals(Messages.ADJUST_Y_AXIS_RANGE)) {
+			for (IAxis axis : getAxisSet().getYAxes()) {
+				axis.adjustRange();
+			}
+		} else if (menuItem.getText().equals(Messages.ZOOMIN)) {
+			getAxisSet().zoomIn();
+		} else if (menuItem.getText().equals(Messages.ZOOMIN_X)) {
+			for (IAxis axis : getAxisSet().getXAxes()) {
+				axis.zoomIn();
+			}
+		} else if (menuItem.getText().equals(Messages.ZOOMIN_Y)) {
+			for (IAxis axis : getAxisSet().getYAxes()) {
+				axis.zoomIn();
+			}
+		} else if (menuItem.getText().equals(Messages.ZOOMOUT)) {
+			getAxisSet().zoomOut();
+		} else if (menuItem.getText().equals(Messages.ZOOMOUT_X)) {
+			for (IAxis axis : getAxisSet().getXAxes()) {
+				axis.zoomOut();
+			}
+		} else if (menuItem.getText().equals(Messages.ZOOMOUT_Y)) {
+			for (IAxis axis : getAxisSet().getYAxes()) {
+				axis.zoomOut();
+			}
+		} else if (menuItem.getText().equals(Messages.SAVE_AS)) {
+			openSaveAsDialog();
+		}
+		redraw();
+	}
+
+	/**
+	 * Opens the Save As dialog.
+	 */
+	private void openSaveAsDialog() {
+		FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
+		dialog.setText(Messages.SAVE_AS_DIALOG_TITLE);
+		dialog.setFilterExtensions(EXTENSIONS);
+
+		String filename = dialog.open();
+		if (filename == null) {
+			return;
+		}
+
+		int format;
+		if (filename.endsWith(".jpg") || filename.endsWith(".jpeg")) {
+			format = SWT.IMAGE_JPEG;
+		} else if (filename.endsWith(".png")) {
+			format = SWT.IMAGE_PNG;
+		} else {
+			format = SWT.IMAGE_UNDEFINED;
+		}
+
+		if (format != SWT.IMAGE_UNDEFINED) {
+			save(filename, format);
+		}
+	}
+
+	public void showHover(ToleranceMarker firstElement) {
+		Value v = firstElement.getValueRef();
+		long timeInMillis = v.getTimeStamp().toGregorianCalendar()
+				.getTimeInMillis();
+		if (!marker.isDisposed()) {
+			marker.dispose();
+
+		}
+		marker.setTime(timeInMillis);
+		redraw();
+
+	}
 }
