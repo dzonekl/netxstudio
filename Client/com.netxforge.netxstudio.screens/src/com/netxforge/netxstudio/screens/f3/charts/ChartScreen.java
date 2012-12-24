@@ -99,6 +99,7 @@ import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 /**
  * 
  * @author Christophe Bouhier
+ * @deprecated
  */
 public class ChartScreen extends AbstractScreen implements IDataScreenInjection {
 

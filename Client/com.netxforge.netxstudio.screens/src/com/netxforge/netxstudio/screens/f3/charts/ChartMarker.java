@@ -1,5 +1,6 @@
 package com.netxforge.netxstudio.screens.f3.charts;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,12 +12,19 @@ import java.util.Map.Entry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.swtchart.IAxis;
+import org.swtchart.ILineSeries;
 import org.swtchart.ISeries;
+
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.netxstudio.screens.preferences.ScreenConstants;
 
 /**
  * The marker showing the rectangle symbols and tooltip on chart.
@@ -97,6 +105,15 @@ public class ChartMarker {
 		}
 	}
 
+	protected void setTime(long time) {
+		Integer invertedSeriesIndex = getInvertedSeriesIndex(time);
+
+		createHovers();
+		if (invertedSeriesIndex != null) {
+			configureHovers(invertedSeriesIndex);
+		}
+	}
+
 	/**
 	 * Creates the hovers.
 	 */
@@ -153,7 +170,9 @@ public class ChartMarker {
 				}
 			}
 		});
-		hover.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_CYAN));
+		final Color preferenceColor = ScreensActivator.getDefault()
+				.getPreferenceColor(ScreenConstants.PREFERENCE_MARKER_COLOR);
+		hover.setBackground(preferenceColor);
 		hover.setAlpha(220);
 
 		return hover;
@@ -161,6 +180,11 @@ public class ChartMarker {
 
 	/**
 	 * Creates the hovers assuming that the time is almost the same among series
+	 * When zoomed the range will be either expanded or reduced. the coordinates
+	 * returned for a timestamp and value, could be outside the plot area. When
+	 * configuring the hover is tried to be placed with the plot area, if not
+	 * it's not set as visible.
+	 * 
 	 * 
 	 * @param invertedSeriesIndex
 	 *            The inverted series index
@@ -173,9 +197,8 @@ public class ChartMarker {
 		long time = dates[dates.length - invertedSeriesIndex].getTime();
 
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("time").append(' ')
-				.append(new SimpleDateFormat("HH:mm:ss") //$NON-NLS-1$
-						.format(time));
+		buffer.append(new SimpleDateFormat("MMM-dd HH:mm:ss") //$NON-NLS-1$
+				.format(time));
 		texts.put(TIME_KEY, buffer.toString());
 
 		int timeInPixel = chart.getAxisSet().getXAxes()[0]
@@ -183,24 +206,41 @@ public class ChartMarker {
 		configureHover(hovers.get(TIME_KEY), buffer.toString(), timeInPixel,
 				chart.getPlotArea().getSize().y, true);
 
-		// create hover for values
-		for (ISeries series : chart.getSeriesSet().getSeries()) {
-			double[] ySeries = series.getYSeries();
+		{
+			ILineSeries metricSeries = chart.getMetricSeries();
+			double[] ySeries = metricSeries.getYSeries();
 			int seriesIndex = ySeries.length - invertedSeriesIndex;
-			if (seriesIndex < 0) {
-				continue;
+			if (seriesIndex > 0) {
+				buffer = new StringBuffer();
+				buffer.append(metricSeries.getId()).append(": ") //$NON-NLS-1$
+						.append(getFormattedValue(ySeries[seriesIndex]));
+				texts.put(metricSeries.getId(), buffer.toString());
+
+				int valueInPixel = chart.getAxisSet().getYAxes()[0]
+						.getPixelCoordinate(ySeries[seriesIndex]);
+
+				configureHover(hovers.get(metricSeries.getId()),
+						buffer.toString(), timeInPixel, valueInPixel, false);
 			}
-
-			buffer = new StringBuffer();
-			buffer.append(series.getId()).append(": ") //$NON-NLS-1$
-					.append(getFormattedValue(ySeries[seriesIndex]));
-			texts.put(series.getId(), buffer.toString());
-
-			int valueInPixel = chart.getAxisSet().getYAxes()[0]
-					.getPixelCoordinate(ySeries[seriesIndex]);
-			configureHover(hovers.get(series.getId()), buffer.toString(),
-					timeInPixel, valueInPixel, false);
 		}
+
+		{
+			ILineSeries capSeries = chart.getCapSeries();
+			double[] ySeries = capSeries.getYSeries();
+			int seriesIndex = ySeries.length - invertedSeriesIndex;
+			if (seriesIndex > 0) {
+				buffer = new StringBuffer();
+				buffer.append(capSeries.getId()).append(": ") //$NON-NLS-1$
+						.append(getFormattedValue(ySeries[seriesIndex]));
+				texts.put(capSeries.getId(), buffer.toString());
+
+				int valueInPixel = chart.getAxisSet().getYAxes()[0]
+						.getPixelCoordinate(ySeries[seriesIndex]);
+				configureHover(hovers.get(capSeries.getId()),
+						buffer.toString(), timeInPixel, valueInPixel, false);
+			}
+		}
+
 	}
 
 	/**
@@ -220,18 +260,50 @@ public class ChartMarker {
 	private void configureHover(Shell hover, String text, int x, int y,
 			boolean showBelow) {
 
-		// set size
 		Point textExtent = getExtent(hover, text);
 		Point hoverSize = new Point(textExtent.x + MARGIN * 2 + OFFSET * 2,
 				textExtent.y + OFFSET * 2);
 		hover.setSize(hoverSize);
 
-		// set location
-		boolean showOnRight = Display.getDefault().map(chart.getPlotArea(),
-				null, x + hoverSize.x, y).x < Display.getDefault().getBounds().width;
+//		System.out.println(" COORDINATES FOR: " + text);
+//		System.out.println("   Value coordinate: (" + x + "," + y + ")");
+		Rectangle plotBounds = chart.getPlotArea().getBounds();
+//		System.out.println("  Plot area bounds: " + plotBounds);
+
+		Point point = new Point(x + hoverSize.x, y);
+
+//		System.out.println("  FLIP HOVER?");
+//		System.out.println("   Hover Size: (" + hoverSize.x + "," + hoverSize.y
+//				+ ")");
+//		System.out.println("   Target coordinate: (" + (x + hoverSize.x) + ","
+//				+ y + ")");
+		boolean showOnRight = point.x < plotBounds.width;
+
+//		System.out.println("   Hover Extremes coordinate: (" + point.x + ","
+//				+ point.y + ") width delta: " + (point.x - plotX) + " flip="
+//				+ !showOnRight);
+
 		int hoverX = showOnRight ? x : x - hoverSize.x;
 		int hoverY = showBelow ? y : y - hoverSize.y;
-		hover.setLocation(chart.getPlotArea().toDisplay(hoverX, hoverY));
+
+		Point displayCoordinate = chart.getPlotArea().toDisplay(hoverX, hoverY);
+
+//		System.out.println("  Chart coordinate: time: " + hoverX + ", value: "
+//				+ hoverY);
+//		System.out.println("  Display coordinate: time: " + displayCoordinate.x
+//				+ ", value: " + displayCoordinate.y);
+		
+		Point p = Display.getDefault().map(chart.getPlotArea(), null, new Point(x,y));
+//		System.out.println("  Display value: time: " + p.x
+//				+ ", value: " + p.y);
+		Rectangle map = Display.getDefault().map(chart, null, chart.getBounds());
+//		System.out.println("  Chart area bounds: " + map);
+		
+		if(!map.contains(p)){
+			return;
+		}
+		
+		hover.setLocation(displayCoordinate);
 
 		// set region
 		Region region = hover.getRegion();
@@ -320,24 +392,22 @@ public class ChartMarker {
 	 * @return The inverted series index, or <tt>null</tt> if not found
 	 */
 	private Integer getInvertedSeriesIndex(int desiredX) {
-		long desiredTime = (long) chart.getAxisSet().getAxes()[0]
-				.getDataCoordinate(desiredX);
 
-		// find largest size of series
-		ISeries largestSeries = null;
-		for (ISeries series : chart.getSeriesSet().getSeries()) {
-			int length = series.getXSeries().length;
-			if (largestSeries == null
-					|| largestSeries.getXSeries().length < length) {
-				largestSeries = series;
-			}
-		}
-		if (largestSeries == null) {
-			return null;
-		}
+		// This is the X-Axis
+		IAxis firstAxe = chart.getAxisSet().getAxes()[0];
 
-		// find the time series index
-		Date[] dates = largestSeries.getXDateSeries();
+		// The time.
+		long desiredTime = (long) firstAxe.getDataCoordinate(desiredX);
+
+		Date desired = new Date(desiredTime);
+//		System.out.println(desired);
+
+		// Only Consider the Metric Series.
+		ISeries metricSeries = chart.getSeriesSet().getSeries(
+				SmartResourceChart.METRIC_SERIES);
+
+		// find the time series index, biggest date comes first.
+		Date[] dates = metricSeries.getXDateSeries();
 		for (int i = 0; i < dates.length; i++) {
 			if (dates[i].getTime() < desiredTime && i != dates.length - 1) {
 				continue;
@@ -350,6 +420,36 @@ public class ChartMarker {
 			} else {
 				nearestIndex = i;
 			}
+//			System.out.println(" Date index = " + nearestIndex);
+			return dates.length - nearestIndex;
+		}
+		return null;
+	}
+
+	private Integer getInvertedSeriesIndex(long desiredTime) {
+
+		Date desired = new Date(desiredTime);
+//		System.out.println(desired);
+
+		// Only Consider the Metric Series.
+		ISeries metricSeries = chart.getSeriesSet().getSeries(
+				SmartResourceChart.METRIC_SERIES);
+
+		// find the time series index, biggest date comes first.
+		Date[] dates = metricSeries.getXDateSeries();
+		for (int i = 0; i < dates.length; i++) {
+			if (dates[i].getTime() < desiredTime && i != dates.length - 1) {
+				continue;
+			}
+			int nearestIndex;
+			if (i > 0
+					&& dates[i].getTime() - desiredTime > desiredTime
+							- dates[i - 1].getTime()) {
+				nearestIndex = i - 1;
+			} else {
+				nearestIndex = i;
+			}
+//			System.out.println(" Date index = " + nearestIndex);
 			return dates.length - nearestIndex;
 		}
 		return null;
@@ -364,18 +464,8 @@ public class ChartMarker {
 	 */
 	private String getFormattedValue(Object value) {
 
-		// Get the value for the toolTip!
-
-		// AxisUnit axisUnit = chart.getAttributeGroup().getAxisUnit();
-		// if (axisUnit == AxisUnit.Percent) {
-		//            return new DecimalFormat("###%").format(value); //$NON-NLS-1$
-		// } else if (axisUnit == AxisUnit.MBytes) {
-		//            return new DecimalFormat("#####.#M").format(value); //$NON-NLS-1$
-		// } else if (axisUnit == AxisUnit.Count) {
-		// return NumberFormat.getIntegerInstance().format(value);
-		// }
-		// return value.toString();
-		return "TODO, the value. ";
+		// TODO Derive the UNIT from the Resource.
+		return new DecimalFormat("#,###,###.##").format(value);
 	}
 
 	/**
