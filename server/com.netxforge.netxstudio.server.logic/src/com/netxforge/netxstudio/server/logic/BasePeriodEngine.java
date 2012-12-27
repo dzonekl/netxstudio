@@ -30,14 +30,15 @@ import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 
 /**
- * Common code for the engine implementations.
+ * The Period engine contains all necessary to
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
 public abstract class BasePeriodEngine {
 
 	private ServerWorkFlowRunMonitor jobMonitor;
-		
+
 	// contains context information to use when adding an error message to the
 	// log
 	private String engineContextInfo = "";
@@ -54,11 +55,11 @@ public abstract class BasePeriodEngine {
 	private Date end;
 
 	private List<Failure> failures = new ArrayList<Failure>();
-	
+
 	public void execute() {
 		doExecute();
 	}
-	
+
 	public abstract void doExecute();
 
 	public IDataProvider getDataProvider() {
@@ -67,28 +68,31 @@ public abstract class BasePeriodEngine {
 
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;
-//		commonLogic.setDataProvider(dataProvider);		
 	}
 
 	public DateTimeRange getPeriod() {
 		return period;
+	}
+	
+	
+	/**
+	 * Chuck the period according to the provided calendar field. 
+	 * @param calendarField
+	 * @return
+	 */
+	public List<DateTimeRange> getPeriods(int calendarField) {
+		return modelUtils.periods(this.getPeriod(), calendarField);
 	}
 
 	public void setPeriod(DateTimeRange range) {
 		this.period = range;
 		start = modelUtils.fromXMLDate(range.getBegin());
 		end = modelUtils.fromXMLDate(range.getEnd());
-//		commonLogic.setStart(start);
-//		commonLogic.setEnd(end);
 	}
 
 	public List<Failure> getFailures() {
 		return failures;
 	}
-
-//	public CommonLogic getCommonLogic() {
-//		return commonLogic;
-//	}
 
 	public ModelUtils getModelUtils() {
 		return modelUtils;

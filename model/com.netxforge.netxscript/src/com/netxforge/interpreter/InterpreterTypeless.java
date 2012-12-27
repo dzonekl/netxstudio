@@ -1629,7 +1629,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 						// break up the range using the interval.
 						List<List<Value>> splitValueRange = modelUtils
-								.splitValueRange((List<Value>) eval,
+								.values((List<Value>) eval,
 										extractedRangeInterval,
 										targetRangeInterval);
 

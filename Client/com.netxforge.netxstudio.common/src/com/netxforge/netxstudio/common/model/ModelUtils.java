@@ -564,13 +564,14 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Gets a range from a bunch of values. The values are sorted first. The
-	 * values should not be empty.
+	 * Gets a {@link DateTimeRange} from a bunch of {@link Value}s. The values
+	 * are sorted first. Returns <code>null</code> when the
+	 * {@link Collection#isEmpty()}
 	 * 
 	 * @param values
 	 * @return
 	 */
-	public DateTimeRange range(List<Value> values) {
+	public DateTimeRange period(List<Value> values) {
 
 		if (values.isEmpty()) {
 			return null;
@@ -587,23 +588,27 @@ public class ModelUtils {
 		return createDateTimeRange;
 	}
 
-	public List<List<Value>> splitValueRange(List<Value> values, int srcInterval) {
-		return this.splitValueRange(values, srcInterval, -1);
+	public List<List<Value>> values(List<Value> values, int srcInterval) {
+		return this.values(values, srcInterval, -1);
 	}
 
 	/**
-	 * Split the value range, in subranges for the provided interval boundaries.
-	 * So a Day interval will split the value range containing hourly values in
-	 * sub ranges containing a maximum quantity of values which is lesser or
-	 * equal of a day. (23)
+	 * Split the {@link Value} collection, in sub-collections for the provided
+	 * interval boundaries. So a Day interval will split the value collection
+	 * containing hourly values in sub collections containing a maximum quantity
+	 * of values which is lesser or equal of a day. (23)
+	 * 
+	 * @FIXME This method doesn't consider a collection with less values than
+	 *        the maximum.
 	 * 
 	 * @param values
 	 * @param srcInterval
 	 *            in minutes.
+	 * @deprecated
 	 * @return
 	 */
-	public List<List<Value>> splitValueRange(List<Value> values,
-			int srcInterval, int targetInterval) {
+	public List<List<Value>> values(List<Value> values, int srcInterval,
+			int targetInterval) {
 
 		List<List<Value>> valueMatrix = Lists.newArrayList();
 
@@ -643,11 +648,6 @@ public class ModelUtils {
 				nextSequence = Lists.newArrayList();
 				valueMatrix.add(nextSequence);
 			}
-			// else {
-			// // it should nog get here.
-			// throw new IllegalStateException(
-			// "interval out of bounds, for value=" + this.value(v));
-			// }
 			nextSequence.add(v);
 			lastVal = currentVal;
 		}
@@ -1602,7 +1602,7 @@ public class ModelUtils {
 			serviceSummary.setRagCountResources(ragTotalResources);
 			serviceSummary.setRagCountNodes(ragTotalNodes);
 		}
-		serviceSummary.setPeriodFormattedString(formatPeriod(dtr));
+		serviceSummary.setPeriodFormattedString(periodToStringMore(dtr));
 		return serviceSummary;
 	}
 
@@ -2139,7 +2139,7 @@ public class ModelUtils {
 		return dtr;
 	}
 
-	public String period(DateTimeRange dtr) {
+	public String periodToString(DateTimeRange dtr) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("from: " + dateAndTime(dtr.getBegin()));
 		sb.append(" to: " + dateAndTime(dtr.getEnd()));
@@ -2147,12 +2147,12 @@ public class ModelUtils {
 		return sb.toString();
 	}
 
-	public String formatLastMonitorDate(ServiceMonitor sm) {
+	public String serviceMonitorToString(ServiceMonitor sm) {
 		DateTimeRange dtr = sm.getPeriod();
-		return formatPeriod(dtr);
+		return periodToStringMore(dtr);
 	}
 
-	public String formatPeriod(DateTimeRange dtr) {
+	public String periodToStringMore(DateTimeRange dtr) {
 		StringBuilder sb = new StringBuilder();
 		Date begin = fromXMLDate(dtr.getBegin());
 		Date end = fromXMLDate(dtr.getEnd());
@@ -2791,8 +2791,8 @@ public class ModelUtils {
 
 	/**
 	 * The duration as a String since the provided nanotime. nano is 10 to the
-	 * power of -10 (So one billionth of a second). The presentation is depending on
-	 * the size of the nano value.
+	 * power of -10 (So one billionth of a second). The presentation is
+	 * depending on the size of the nano value.
 	 * 
 	 * @param l
 	 * 
@@ -4084,6 +4084,163 @@ public class ModelUtils {
 			}
 		};
 		return Multimaps.index(tses, weekNumFunction);
+	}
+
+	/**
+	 * Get monthly periods for the total period
+	 * 
+	 * @param dtr
+	 * @return
+	 */
+	public List<DateTimeRange> monthlyPeriods(DateTimeRange dtr) {
+
+		List<DateTimeRange> result = Lists.newArrayList();
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(dtr.getEnd().toGregorianCalendar().getTime());
+		// Go back in time and create a new DateTime Range for each Month
+		// boundary.
+		while (cal.getTime().getTime() > dtr.getBegin().toGregorianCalendar()
+				.getTimeInMillis()) {
+			final Date end = cal.getTime();
+			cal.add(Calendar.MONTH, -1);
+			Date begin;
+			if (cal.getTime().getTime() < dtr.getBegin().toGregorianCalendar()
+					.getTimeInMillis()) {
+				begin = this.fromXMLDate(dtr.getBegin());
+			} else {
+				begin = cal.getTime();
+			}
+
+			DateTimeRange createDateTimeRange = GenericsFactory.eINSTANCE
+					.createDateTimeRange();
+			createDateTimeRange.setEnd(toXMLDate(end));
+			createDateTimeRange.setEnd(toXMLDate(begin));
+		}
+
+		return result;
+
+	}
+
+	/**
+	 * A Period is synonym for a {@link DateTimeRange}.</p> Create a collection
+	 * of periods for the provided {@link DateTimeRange} with the granularity of
+	 * the specified {@link Calendar#fields Calendar Fields} field.
+	 * <ul>
+	 * <li>{@link Calendar#MONTH}</li>
+	 * <li>{@link Calendar#WEEK}</li>
+	 * <li>{@link Calendar#DAY}</li>
+	 * </ul>
+	 * The earliest period starts at the specified Calendar field boundary. The
+	 * following Calendar fields are supported
+	 * 
+	 * 
+	 * @param dtr
+	 * @param calField
+	 * @return A collection of periods in the {@link DateTimeRange} format.
+	 */
+	public List<DateTimeRange> periods(DateTimeRange dtr, int calField) {
+
+		boolean weekTreatment = false;
+
+		int childField = -1;
+		switch (calField) {
+		case Calendar.MONTH: {
+			childField = Calendar.DAY_OF_MONTH;
+		}
+			break;
+		case Calendar.DAY_OF_MONTH: {
+			childField = Calendar.HOUR_OF_DAY;
+		}
+			break;
+		case Calendar.WEEK_OF_YEAR: {
+			childField = Calendar.DAY_OF_WEEK;
+			weekTreatment = true;
+		}
+			break;
+		}
+
+		List<DateTimeRange> result = Lists.newArrayList();
+
+		if (childField == -1) {
+			result.add(dtr);
+			return result;
+		}
+
+		final Calendar cal = GregorianCalendar.getInstance();
+		cal.setTime(dtr.getEnd().toGregorianCalendar().getTime());
+
+		// An end calendar to compare the calendar field, and not take the field
+		// maximum but the value from the end calendar.
+		final Calendar endCal = GregorianCalendar.getInstance();
+		endCal.setTime(dtr.getEnd().toGregorianCalendar().getTime());
+
+		// Go back in time and create a new DateTime Range.
+		do {
+
+			// Set the begin to the actual minimum and end to the actual
+			// maximum, except at the start, where we keep the actual.
+			// At the end, roll one beyond the minimum to set the new actual.
+			if (cal.get(calField) != endCal.get(calField)) {
+				if (weekTreatment) {
+					// :-( there is no method to get the last day of week.
+					cal.set(childField, getLastDayOfWeek(cal));
+
+				} else {
+					cal.set(childField, cal.getActualMaximum(childField));
+				}
+
+			}
+
+			final Date end = cal.getTime();
+
+			// Special Treatment for Week
+			if (weekTreatment) {
+				final int firstDayOfWeek = cal.getFirstDayOfWeek();
+				cal.set(Calendar.DAY_OF_WEEK, firstDayOfWeek);
+			} else {
+				int minimum = cal.getActualMinimum(childField);
+				cal.set(childField, minimum);
+			}
+
+			Date begin;
+			if (cal.getTime().getTime() < dtr.getBegin().toGregorianCalendar()
+					.getTimeInMillis()) {
+				begin = this.fromXMLDate(dtr.getBegin());
+			} else {
+				begin = cal.getTime();
+			}
+
+			final DateTimeRange period = period(this.adjustToDayStart(begin),
+					this.adjustToDayEnd(end));
+			result.add(period);
+
+			// Role back one more, so the new actual can be applied.
+			cal.add(calField, -1);
+		} while (cal.getTime().getTime() > dtr.getBegin().toGregorianCalendar()
+				.getTimeInMillis());
+
+		return result;
+
+	}
+
+	/**
+	 * Get the last day of the week respecting the first day of the week for the
+	 * provided Calendar.
+	 * 
+	 * @param cal
+	 * @return
+	 */
+	public int getLastDayOfWeek(Calendar cal) {
+		final int firstDayOfWeek = cal.getFirstDayOfWeek();
+
+		final int lastDayOfWeek;
+		if (firstDayOfWeek != 1) {
+			lastDayOfWeek = firstDayOfWeek - 1; // One before the first day...
+		} else {
+			lastDayOfWeek = cal.getActualMaximum(Calendar.DAY_OF_WEEK); // Expect
+		}
+		return lastDayOfWeek;
 	}
 
 	public int positionOf(List<Date> dates, Date toCheckDate) {

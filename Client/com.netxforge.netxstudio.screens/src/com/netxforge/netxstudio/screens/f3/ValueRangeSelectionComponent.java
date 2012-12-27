@@ -113,10 +113,10 @@ public class ValueRangeSelectionComponent {
 							+ modelUtils.fromMinutes(mvr.getIntervalHint()));
 					sb.append(" (count=" + mvr.getMetricValues().size() + ")");
 
-					DateTimeRange range = modelUtils.range(mvr
+					DateTimeRange range = modelUtils.period(mvr
 							.getMetricValues());
 					if (range != null) {
-						sb.append(" period=" + modelUtils.formatPeriod(range));
+						sb.append(" period=" + modelUtils.periodToStringMore(range));
 					}
 
 				}

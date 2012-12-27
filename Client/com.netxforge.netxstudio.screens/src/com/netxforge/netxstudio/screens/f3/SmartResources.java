@@ -2027,7 +2027,7 @@ public class SmartResources extends AbstractScreen implements
 			if (selectDialog.open() == Window.OK) {
 				MetricValueRange mvr = selectDialog.getValueRange();
 				if (mvr != null) {
-					DateTimeRange range = modelUtils.range(mvr
+					DateTimeRange range = modelUtils.period(mvr
 							.getMetricValues());
 
 					// 3 steps, update the period component.

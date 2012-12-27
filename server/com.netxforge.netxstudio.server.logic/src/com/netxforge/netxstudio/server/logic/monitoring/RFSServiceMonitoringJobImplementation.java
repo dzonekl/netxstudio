@@ -48,7 +48,9 @@ public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 		}
 		
 		// Iterates over Nodes (By NodeType).
-		// Consider running the monitor in chunks of 1 month. 
+		// Chop the period on monthly chunks. 
+		
+		
 		final RFSServiceMonitoringLogic resourceMonitoringLogic = ServerActivator.getInstance()
 				.getInjector().getInstance(RFSServiceMonitoringLogic.class);
 		resourceMonitoringLogic.setRfsService(serviceJob.getRFSService().cdoID());

@@ -23,7 +23,6 @@ import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
-import org.eclipse.emf.cdo.common.CDOCommonRepository.Type;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
@@ -126,6 +125,7 @@ public class QueryTest extends AbstractDataServiceTest4 {
 	 * @return
 	 */
 	private String doQueryValues_CS(CDOView cdoView, String dialect) {
+		@SuppressWarnings("unused")
 		CDORepositoryInfo repositoryInfo = cdoView.getSession()
 				.getRepositoryInfo();
 

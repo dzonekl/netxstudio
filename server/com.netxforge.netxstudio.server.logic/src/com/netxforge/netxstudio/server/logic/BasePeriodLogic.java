@@ -71,26 +71,8 @@ public abstract class BasePeriodLogic extends BaseLogic {
 	public void calculatePeriod(Service service) {
 		Date startTime = getBeginTime();
 		if (startTime == null) {
-			
-			// TODO: note that a user can do a separate run which runs in the
-			// past
-			
-			// Make sure we start at mighnight, 6 months ago.
-			// TODO: make the period for the look back configurable
 			startTime = this.getModelUtils().sixMonthsAgo();
 			startTime = getModelUtils().adjustToDayStart(startTime);
-			
-			
-			// creating new last service monitor with an end date in the past
-			// the system, should not pick the last servicemonitor in the list
-			// but should find the last end time of all service monitors.
-			
-//			if (!service.getServiceMonitors().isEmpty()) {
-//				final Date previousEndTime = service.getServiceMonitors()
-//						.get(service.getServiceMonitors().size() - 1)
-//						.getPeriod().getEnd().toGregorianCalendar().getTime();
-//				startTime = new Date(previousEndTime.getTime() + 1);
-//			}
 			setBeginTime(startTime);
 		}
 		

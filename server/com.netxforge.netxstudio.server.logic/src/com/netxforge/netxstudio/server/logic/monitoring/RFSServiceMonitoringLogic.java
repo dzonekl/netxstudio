@@ -55,7 +55,7 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 	 * @param dtr
 	 */
 	public void initServiceMonitor(DateTimeRange dtr) {
-
+		
 		serviceMonitor = ServicesFactory.eINSTANCE.createServiceMonitor();
 		// what name should a servicemonitor have?
 		serviceMonitor.setName(rfsService.getServiceName());
@@ -66,7 +66,7 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 				.serviceMonitorDuplicates(rfsService);
 		
 		if (LogicActivator.DEBUG) {
-			LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION, "Creating Service Monitor for period" + this.getModelUtils().period(dtr));
+			LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION, "Creating Service Monitor for period" + this.getModelUtils().periodToString(dtr));
 			LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION, "Removing " + serviceMonitorDuplicates.size() + " entries for the same period");
 		}
 

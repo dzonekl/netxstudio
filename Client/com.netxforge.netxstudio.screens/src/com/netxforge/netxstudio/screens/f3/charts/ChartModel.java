@@ -148,7 +148,7 @@ public class ChartModel {
 		if (dtr != null) {
 			metricValues = sortAndApplyPeriod(metricValues, dtr, false);
 			// Derive a new DTR, for begin and end of the metric values.
-			DateTimeRange metricDTR = modelUtils.range(metricValues);
+			DateTimeRange metricDTR = modelUtils.period(metricValues);
 			// Split in Date and double arrays.
 			timeStampArray = modelUtils.transformValueToDateArray(metricValues);
 

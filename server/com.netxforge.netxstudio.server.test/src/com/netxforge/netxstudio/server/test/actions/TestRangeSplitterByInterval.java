@@ -96,7 +96,7 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 	public void testValueRangeSplitter() {
 		{
 			int size = hourValues.size();
-			List<List<Value>> splitValueRange = modelUtils.splitValueRange(
+			List<List<Value>> splitValueRange = modelUtils.values(
 					hourValues, ModelUtils.MINUTES_IN_AN_HOUR);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
@@ -112,7 +112,7 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		}
 		{
 			int size = dayValues.size();
-			List<List<Value>> splitValueRange = modelUtils.splitValueRange(
+			List<List<Value>> splitValueRange = modelUtils.values(
 					dayValues, ModelUtils.MINUTES_IN_A_DAY, ModelUtils.MINUTES_IN_A_MONTH);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
@@ -130,7 +130,7 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		
 		{
 			int size = dayValues.size();
-			List<List<Value>> splitValueRange = modelUtils.splitValueRange(
+			List<List<Value>> splitValueRange = modelUtils.values(
 					dayValues, ModelUtils.MINUTES_IN_A_DAY, ModelUtils.MINUTES_IN_A_WEEK);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
@@ -148,7 +148,7 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		
 		{
 			int size = monthValues.size();
-			List<List<Value>> splitValueRange = modelUtils.splitValueRange(
+			List<List<Value>> splitValueRange = modelUtils.values(
 					monthValues, ModelUtils.MINUTES_IN_A_MONTH);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
