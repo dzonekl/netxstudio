@@ -33,7 +33,7 @@ import com.netxforge.netxstudio.scheduling.Failure;
  * 
  * @author Martin Taal
  */
-public abstract class BaseExpressionEngine extends BasePeriodEngine {
+public abstract class BaseExpressionEngine extends BaseEngine {
 
 	@Inject
 	private IExpressionEngine expressionEngine;
