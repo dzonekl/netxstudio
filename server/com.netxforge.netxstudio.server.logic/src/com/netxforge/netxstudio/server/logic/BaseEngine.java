@@ -30,12 +30,13 @@ import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 
 /**
- * The Period engine contains all necessary to
+ * Holds several attributes like {@link ModelUtils} and the current
+ * {@link ServerWorkFlowRunMonitor}
  * 
  * @author Martin Taal
  * @author Christophe Bouhier
  */
-public abstract class BasePeriodEngine {
+public abstract class BaseEngine {
 
 	private ServerWorkFlowRunMonitor jobMonitor;
 
@@ -72,16 +73,6 @@ public abstract class BasePeriodEngine {
 
 	public DateTimeRange getPeriod() {
 		return period;
-	}
-	
-	
-	/**
-	 * Chuck the period according to the provided calendar field. 
-	 * @param calendarField
-	 * @return
-	 */
-	public List<DateTimeRange> getPeriods(int calendarField) {
-		return modelUtils.periods(this.getPeriod(), calendarField);
 	}
 
 	public void setPeriod(DateTimeRange range) {

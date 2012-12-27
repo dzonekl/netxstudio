@@ -85,7 +85,7 @@ public abstract class BaseLogic {
 	protected void doRun() {
 	}
 
-	protected abstract BasePeriodEngine getEngine();
+	protected abstract BaseEngine getEngine();
 
 	public ServerWorkFlowRunMonitor getJobMonitor() {
 		return jobMonitor;
