@@ -273,7 +273,7 @@ public class ExpressionEngine implements IExpressionEngine {
 						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
 						"Context DTR:"
 								+ modelUtils
-										.formatPeriod((DateTimeRange) context));
+										.periodToStringMore((DateTimeRange) context));
 			}
 			if (context instanceof Node) {
 				RuntimeActivator.TRACE.trace(

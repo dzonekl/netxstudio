@@ -677,7 +677,7 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 		createXTickForInterval(chart, interval);
 		seriesFromMetric(dateArray, doubleArray);
 
-		DateTimeRange metricDTR = modelUtils.range(values);
+		DateTimeRange metricDTR = modelUtils.period(values);
 
 		// CAP VALUES......
 		initCapacityRange(dateArray, metricDTR);

@@ -50,6 +50,7 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
  * Performs the resource monitoring execution for an equipment or function.
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
 public class MonitoringEngine extends BaseComponentEngine {
 
