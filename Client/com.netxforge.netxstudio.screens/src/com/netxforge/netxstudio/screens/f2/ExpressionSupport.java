@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2;
 
 import java.util.List;
@@ -42,24 +42,24 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Node;
-
+import com.netxforge.scoping.IExternalContextAware;
 
 /**
- * Helper, which can build a context. 
+ * Helper, which can build a context.
+ * 
  * @author Christophe
  */
 public class ExpressionSupport {
 
-	
 	private Injector nextscriptInjector;
-	
+
 	private IInterpreter interpreter;
 
 	private IInterpreterContextFactory interpreterContextFactory;
 
 	@Inject
-	public ExpressionSupport(@Named("Netxscript")IInjectorProxy injectorProxy) {
-		
+	public ExpressionSupport(@Named("Netxscript") IInjectorProxy injectorProxy) {
+
 		nextscriptInjector = injectorProxy
 				.getInjector("com.netxforge.Netxscript");
 		interpreter = nextscriptInjector.getInstance(IInterpreter.class);
@@ -123,9 +123,9 @@ public class ExpressionSupport {
 		return ImmutableList.copyOf(contextList);
 	}
 
-	
 	/**
-	 * Not used.  
+	 * Not used.
+	 * 
 	 * @param expression
 	 * @param contextList
 	 * @param doc
@@ -143,7 +143,10 @@ public class ExpressionSupport {
 
 		final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
 				.size()];
-		interpreter.setContext(contextList.toArray(contextArray));
+		if (interpreter instanceof IExternalContextAware) {
+			((IExternalContextAware) interpreter)
+					.setExternalContext(contextList.toArray(contextArray));
+		}
 
 		result = doc
 				.readOnly(new IUnitOfWork<List<BaseExpressionResult>, XtextResource>() {
