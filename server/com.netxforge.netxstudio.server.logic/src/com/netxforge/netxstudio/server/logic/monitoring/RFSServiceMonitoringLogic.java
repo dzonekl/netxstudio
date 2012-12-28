@@ -36,6 +36,7 @@ import com.netxforge.netxstudio.services.ServicesFactory;
  * Performs the capacity logic execution for a RFSService.
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
 public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 

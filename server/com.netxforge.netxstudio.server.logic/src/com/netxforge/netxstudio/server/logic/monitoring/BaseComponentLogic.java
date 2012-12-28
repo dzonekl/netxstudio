@@ -39,8 +39,8 @@ import com.netxforge.netxstudio.server.logic.BasePeriodLogic;
 public abstract class BaseComponentLogic extends BasePeriodLogic {
 
 	protected void doRun() {
-		// start a transaction
-		this.getDataProvider().getTransaction();
+		// get a transaction, if we didn't create it, we shouldn't close t. 
+//		this.getDataProvider().getTransaction();
 		final List<NodeType> nodeTypes = getNodeTypesToExecuteFor();
 		
 		
@@ -68,8 +68,8 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 
 		}
 		// Commit and close. 
-		this.getDataProvider().commitTransaction();
-		this.getDataProvider().closeSession();
+//		this.getDataProvider().commitTransaction();
+//		this.getDataProvider().closeSession();
 	}
 
 	protected abstract List<NodeType> getNodeTypesToExecuteFor();

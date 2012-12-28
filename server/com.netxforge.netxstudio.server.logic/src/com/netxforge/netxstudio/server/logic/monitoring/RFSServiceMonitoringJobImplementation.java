@@ -18,6 +18,10 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic.monitoring;
 
+import java.util.Calendar;
+import java.util.List;
+
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -28,9 +32,8 @@ import com.netxforge.netxstudio.server.logic.profile.RFSServiceProfileLogic;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
- * Implements a job runner for an RFSService. 
- * It first runs monitoring over all elements of the service, then it runs 
- * the logic over the service users. 
+ * Implements a job runner for an RFSService. It first runs monitoring over all
+ * elements of the service, then it runs the logic over the service users.
  * 
  * 
  * @author Martin Taal
@@ -43,31 +46,44 @@ public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 	public void run() {
 		final RFSServiceMonitoringJob serviceJob = (RFSServiceMonitoringJob) getJob();
 		RFSService rfsService = serviceJob.getRFSService();
-		if(rfsService == null){
-			return; // return silently. 
+		if (rfsService == null) {
+			return; // return silently.
 		}
-		
+
 		// Iterates over Nodes (By NodeType).
-		// Chop the period on monthly chunks. 
-		
-		
-		final RFSServiceMonitoringLogic resourceMonitoringLogic = ServerActivator.getInstance()
-				.getInjector().getInstance(RFSServiceMonitoringLogic.class);
-		resourceMonitoringLogic.setRfsService(serviceJob.getRFSService().cdoID());
+
+		final RFSServiceMonitoringLogic resourceMonitoringLogic = ServerActivator
+				.getInstance().getInjector()
+				.getInstance(RFSServiceMonitoringLogic.class);
+		resourceMonitoringLogic.setRfsService(serviceJob.getRFSService()
+				.cdoID());
 		resourceMonitoringLogic.setJobMonitor(getRunMonitor());
-		resourceMonitoringLogic.initializeMonitoringLogic();
-		resourceMonitoringLogic.run();
-		
-		// Iterates over Service Users 
-		final RFSServiceProfileLogic resourceProfileLogic = ServerActivator.getInstance()
-				.getInjector().getInstance(RFSServiceProfileLogic.class);
+
+		// Run the monitor for different periods.
+		final DateTimeRange defaultLogicPeriod = resourceMonitoringLogic
+				.getDefaultLogicPeriod();
+		final List<DateTimeRange> periods = resourceMonitoringLogic
+				.getModelUtils().periods(defaultLogicPeriod, Calendar.MONTH);
+
+		for (DateTimeRange period : periods) {
+			resourceMonitoringLogic.setPeriod(period);
+			// Should delete any monitor with the same period.
+			resourceMonitoringLogic.initServiceMonitor(period);
+			resourceMonitoringLogic.runWithoutClosing();
+		}
+		resourceMonitoringLogic.close();
+
+		// Iterates over Service Users
+		final RFSServiceProfileLogic resourceProfileLogic = ServerActivator
+				.getInstance().getInjector()
+				.getInstance(RFSServiceProfileLogic.class);
 		resourceProfileLogic.setRfsService(rfsService.cdoID());
 		resourceProfileLogic.setJobMonitor(getRunMonitor());
 		resourceProfileLogic.initializeProfileLogic();
-		
-		// Profile Logic Period not set. 
+
+		// Profile Logic Period not set.
 		// Disable resourceProfileLogic.run();
-		
+
 		getDataProvider().commitTransaction();
 	}
 

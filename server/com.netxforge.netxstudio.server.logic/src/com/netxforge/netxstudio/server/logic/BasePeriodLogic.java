@@ -42,13 +42,21 @@ public abstract class BasePeriodLogic extends BaseLogic {
 
 	private DateTimeRange timeRange;
 
+	/**
+	 * Get the period, could be <code>null</code>
+	 * @return
+	 */
 	public DateTimeRange getPeriod() {
 		if (timeRange != null) {
 			return timeRange;
 		}
-		timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
-		timeRange.setBegin(getModelUtils().toXMLDate(getBeginTime()));
-		timeRange.setEnd(getModelUtils().toXMLDate(getEndTime()));
+
+		if (getBeginTime() != null && getEndTime() != null) {
+			timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
+			timeRange.setBegin(getModelUtils().toXMLDate(getBeginTime()));
+			timeRange.setEnd(getModelUtils().toXMLDate(getEndTime()));
+			
+		}
 		return timeRange;
 	}
 
@@ -75,20 +83,44 @@ public abstract class BasePeriodLogic extends BaseLogic {
 			startTime = getModelUtils().adjustToDayStart(startTime);
 			setBeginTime(startTime);
 		}
-		
-		
-		// Perhaps should calculate on midnght hours. 
+
+		// Perhaps should calculate on midnght hours.
 		Date endTime = getEndTime();
 		if (endTime == null) {
 			endTime = this.getModelUtils().todayAtDayEnd();
 			setEndTime(endTime);
 		}
 	}
-	
-	
+
 	/**
-	 * Set the start and end time of the logic according to the Expansion Duration
-	 * definitions. 
+	 * Return the default logic period of 6 months.
+	 * 
+	 * @return
+	 */
+	public DateTimeRange getDefaultLogicPeriod() {
+
+		Date startTime = this.getModelUtils().sixMonthsAgo();
+		startTime = getModelUtils().adjustToDayStart(startTime);
+
+		// Perhaps should calculate on midnght hours.
+		Date endTime = this.getModelUtils().todayAtDayEnd();
+		setEndTime(endTime);
+
+		return this.getModelUtils().period(startTime, endTime);
+	}
+
+	/**
+	 * Set the start and end time of the logic.
+	 * 
+	 * @param duration
+	 */
+	public void setPeriod(DateTimeRange dtr) {
+		this.timeRange = dtr;
+	}
+
+	/**
+	 * Set the start and end time of the logic according to the Expansion
+	 * Duration definitions.
 	 * 
 	 * @param duration
 	 */
