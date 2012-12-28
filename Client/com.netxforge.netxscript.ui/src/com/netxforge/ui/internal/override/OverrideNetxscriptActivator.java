@@ -35,6 +35,7 @@ import com.netxforge.scoping.CDOScopeScheduler;
 
 /**
  * Override from generated xtext activator. 
+ * At bundle start initialize our 'external' scope. 
  */
 public class OverrideNetxscriptActivator extends AbstractUIPlugin {
 

@@ -40,9 +40,11 @@ import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.CDODataProvider;
 
 /**
- * An implementation which can deal with CDO Packages.
+ * An implementation which can produce {@link IResourceDescription} objects from 
+ * URI's which comply to the CDO Format. <code>cdo://[repository name]/CDOResourceNode</code>
  * 
- * @author Christophe
+ * 
+ * @author Christophe Bouhier
  */
 public abstract class AbstractDynamixCDOResourceDescriptions extends
 		AbstractCompoundSelectable implements IResourceDescriptions {
@@ -89,6 +91,7 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 									// resources.
 									resource = ((CDODataProvider) provider)
 											.getResource(view, lookup);
+									
 									IResourceDescription description = getDescription(
 											uri, resource);
 									return description;

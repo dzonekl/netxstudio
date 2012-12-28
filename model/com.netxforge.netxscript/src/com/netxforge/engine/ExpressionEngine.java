@@ -32,6 +32,7 @@ import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 import org.eclipse.xtext.resource.IResourceFactory;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
+import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.StringInputStream;
 
@@ -51,6 +52,7 @@ import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.Service;
+import com.netxforge.scoping.IExternalContextAware;
 
 /**
  * Runs an expression and collects the results in a list of
@@ -87,6 +89,9 @@ public class ExpressionEngine implements IExpressionEngine {
 	@Inject
 	private ModelUtils modelUtils;
 
+	@Inject
+	private IGlobalScopeProvider scopeProvider;
+
 	private List<Object> context = new ArrayList<Object>();
 
 	private Throwable throwable;
@@ -111,11 +116,18 @@ public class ExpressionEngine implements IExpressionEngine {
 			if (RuntimeActivator.DEBUG) {
 				RuntimeActivator.TRACE.trace(
 						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
-						"Parsing expression: " + asString);
+						"Parsing/linking expression: " + asString);
 			}
 			xResource = getResourceFromString(asString);
 			// Get the parse tree.
 			final Mod m = (Mod) this.getModel(xResource);
+
+			
+			if (RuntimeActivator.DEBUG) {
+				RuntimeActivator.TRACE.trace(
+						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
+						"Parsing/linking done");
+			}
 
 			final List<IInterpreterContext> contextList = new ArrayList<IInterpreterContext>();
 			for (final Object o : context) {
@@ -131,13 +143,22 @@ public class ExpressionEngine implements IExpressionEngine {
 			}
 
 			// Clear the interpreter and Set the context.
-			xInterpreter.clear();
-			xInterpreter.setContext(contextArray);
+			if (xInterpreter instanceof IExternalContextAware) {
+				((IExternalContextAware) xInterpreter).clearExternalContext();
+				((IExternalContextAware) xInterpreter)
+						.setExternalContext(contextArray);
+			}
+			if (scopeProvider != null
+					&& scopeProvider instanceof IExternalContextAware) {
+				((IExternalContextAware) scopeProvider).clearExternalContext();
+				((IExternalContextAware) scopeProvider)
+						.setExternalContext(contextArray);
+			}
 
 			// What is returned from the evaluation are variables from
-			// the last (outer) scope.
-			@SuppressWarnings("unused")
-			Object result = xInterpreter.evaluate(m);
+			// the last (outer) scope, which we don't use here.
+			xInterpreter.clearResults();
+			xInterpreter.evaluate(m);
 			setExpressionResult(xInterpreter.getResult());
 			xResource.unload();
 		} catch (final Throwable t) {
@@ -269,11 +290,11 @@ public class ExpressionEngine implements IExpressionEngine {
 		for (IInterpreterContext c : contexts) {
 			Object context = c.getContext();
 			if (context instanceof DateTimeRange) {
-				RuntimeActivator.TRACE.trace(
-						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
-						"Context DTR:"
-								+ modelUtils
-										.periodToStringMore((DateTimeRange) context));
+				RuntimeActivator.TRACE
+						.trace(RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
+								"Context DTR:"
+										+ modelUtils
+												.periodToStringMore((DateTimeRange) context));
 			}
 			if (context instanceof Node) {
 				RuntimeActivator.TRACE.trace(
