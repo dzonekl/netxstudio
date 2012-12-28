@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 28 dec. 2012 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.scoping;
 
 import java.util.ArrayList;
@@ -15,11 +32,13 @@ import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.scoping.impl.AbstractGlobalScopeProvider;
 import org.eclipse.xtext.scoping.impl.SelectableBasedScope;
 
@@ -31,23 +50,39 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.netxforge.internal.RuntimeActivator;
+import com.netxforge.interpreter.IInterpreterContext;
+import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
+ * A Scope provider based on a {@link Map} of external model {@link EClass
+ * NetXStudio EMF Classes} and the corresponding {@link CDOResource#getURI()}
+ * .</p> The {@link IScope} is produced from an implementation of
+ * {@link IResourceDescriptions} which is
+ * {@link AbstractDynamixCDOResourceDescriptions}. </p>It can be (optionally)
+ * populated for the given URI map by calling the method
+ * <code>{@link #initDescriptions()}</code>. When not populated the cache will
+ * do so, whenever an {@link IScope} is requested.</p>
  * 
- * A scope providers which attaches itself to some CDO resources, and performs
- * updates on the scope whenever the CDO targets invalidations are received. The
- * descriptions are build in the background.
+ * Updates to the URI map are performed whenever the CDO targets invalidations
+ * are received. The <code>Map</code> is initialized at instantiation with a
+ * predefined set of {@link CDOResource} URI's which contain the referenced.
+ * (Scoped) objects. </p> This {@link IScopeProvider} implements
+ * {@link IExternalContextAware}. When applied can reduce the set of
+ * {@link IEObjectDescription descriptions} by setting a {@link Predicate
+ * <IEObjectDescription> }
+ * 
  * 
  * @author Christophe Bouhier
  */
 @Singleton
-public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
-
-	// private static String REPO_NAME = "repo1";
+public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
+		implements IExternalContextAware {
 
 	private Provider<IResourceDescriptions> loadOnDemandDescriptions;
 
@@ -55,17 +90,16 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 
 	private CDOView view;
 
-	/*
+	/**
 	 * Our dynamic map of EClass and URIs for NetXResource object, we expect the
 	 * list of URI's to grow.
 	 */
 	private Map<EClass, List<URI>> eClassToURIMap;
 
-	/*
-	 * 
-	 */
+	/** The Resource Descriptions */
 	private IResourceDescriptions descriptions;
 
+	/** Our external model (CDO) listener **/
 	private DynamixCDOScopeListener cdoScopeListener;
 
 	/**
@@ -86,7 +120,7 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 		initialize();
 	}
 
-	/*
+	/**
 	 * Will not initialize if the view is already set.
 	 */
 	private void initialize() {
@@ -97,8 +131,8 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 				view = ((AbstractDynamixCDOResourceDescriptions) descriptions)
 						.getDataProvider().getView();
 				eClassToURIMap = this.getClassToURIMap();
-
-				registerURIs();
+				cdoScopeListener = new DynamixCDOScopeListener(this);
+				view.addListener(cdoScopeListener);
 				((AbstractDynamixCDOResourceDescriptions) descriptions)
 						.initialize(flattenMap(), view);
 			}
@@ -139,27 +173,124 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 		return true;
 	}
 
-	private void registerURIs() {
-		cdoScopeListener = new DynamixCDOScopeListener(this);
-		view.addListener(cdoScopeListener);
+	@Override
+	public IScope getScope(Resource resource, EReference reference) {
+		if (externalContexts == null) {
+			return super.getScope(resource, reference);
+		} else {
+
+			Predicate<IEObjectDescription> filter = new ExternalReferencePredicate(
+					reference, externalContexts);
+
+			return super.getScope(resource, reference, filter);
+		}
 	}
 
+	class ExternalReferencePredicate implements Predicate<IEObjectDescription> {
+
+		// Keeps count of filtered items.
+		int countFilteredDescriptions = 0;
+
+		public int getCountFilteredDescriptions() {
+			return countFilteredDescriptions;
+		}
+
+		public int getTotalDescriptions() {
+			return totalDescriptions;
+		}
+
+		int totalDescriptions = 0;
+
+		private EReference reference;
+
+		private IInterpreterContext[] externalContexts;
+
+		private Component contextComponent = null;
+
+		@SuppressWarnings("unused")
+		private Node contextNode = null;
+
+		public ExternalReferencePredicate(EReference reference,
+				IInterpreterContext[] externalContexts) {
+			this.reference = reference;
+			this.externalContexts = externalContexts;
+			disectContext();
+		}
+
+		private void disectContext() {
+			for (int i = 0; i < externalContexts.length; i++) {
+				IInterpreterContext context = externalContexts[i];
+				if (context.getKind() == IInterpreterContext.MODEL_OBJECT) {
+					Object modelObject = context.getContext();
+					if (modelObject instanceof Component) {
+						contextComponent = (Component) modelObject;
+					} else if (modelObject instanceof Node) {
+						contextNode = (Node) modelObject;
+					}
+				}
+			}
+		}
+
+		/**
+		 * Various {@link NetxscriptPackage} external references are global,
+		 * meaning non-context sensitive and should therefor not be filtered.
+		 */
+		public boolean apply(IEObjectDescription desc) {
+
+			boolean result = true;
+			// use the context to create a new predicate for the
+			// descriptions.
+			// For the following external references.
+			if (reference == NetxscriptPackage.Literals.RESOURCE_REF__RESOURCE) {
+				// context will have a component, if the component doesn't have
+				// a resource with a matching
+				// expression name, filter the description.
+				if (contextComponent != null) {
+					// Find resources in the component with this name, if any
+					// return true.
+				}
+			}
+
+			if (result) {
+				countFilteredDescriptions++;
+			}
+			return result;
+		}
+
+		@Override
+		public String toString() {
+			return "Filtered " + countFilteredDescriptions + " out of "
+					+ totalDescriptions;
+
+		}
+	};
+
+	/**
+	 * This implementation resolves one or more {@link URI URI's} for the given
+	 * {@link EClass} with help from the URI Map which is then delegated to
+	 * {@link AbstractDynamixCDOResourceDescriptions} to populate and return the
+	 * {@link IScope}.
+	 * 
+	 */
 	@Override
 	protected IScope getScope(Resource resource, boolean ignoreCase,
 			EClass type, Predicate<IEObjectDescription> filter) {
 
 		IScope scope = IScope.NULLSCOPE;
+
+		if (RuntimeActivator.DEBUG) {
+			RuntimeActivator.TRACE.trace(
+					RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+					" scope provider invoked for Resource: "
+							+ resource.getURI().toFileString()
+							+ " , EClass: "
+							+ type.getName()
+							+ (filter != null ? " , filter:"
+									+ filter.toString() : ", no filter"));
+		}
+
 		// prevent from accessing the global scope, if we
 		if (!isInitializing()) {
-
-			if (filter != null) {
-				System.err.println("NETXSCRIPT: filter=" + filter);
-			}
-
-			if (RuntimeActivator.DEBUG) {
-				System.err
-						.println("NETXSCRIPT: Dynamix Global scope provider invoked");
-			}
 
 			List<URI> urisForClass = urisForClass(type);
 			if (urisForClass != null && urisForClass.size() > 0) {
@@ -168,19 +299,12 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 					// the parent scope is self, so all URI's are caught.
 					scope = createLazyResourceScope(scope, uri, descriptions,
 							type, filter, ignoreCase);
-					if (RuntimeActivator.DEBUG) {
-						// int size = Iterables.size(scope.getAllElements());
-						// System.err.println("NETXSCRIPT: last scope = "
-						// + scope.toString() + " , number of descriptions = "
-						// + size);
-					}
-
 				}
 			} else {
 				if (RuntimeActivator.DEBUG) {
-					System.err
-							.println("NETXSCRIPT:, no URI's for target EClass:"
-									+ type.getName());
+					RuntimeActivator.TRACE.trace(
+							RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+							"no URI's for target EClass:" + type.getName());
 				}
 			}
 		} else {
@@ -203,7 +327,7 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 
 		if (eClass == LibraryPackage.Literals.BASE_RESOURCE) {
 			// Add for both NetXResource and Derived Resource.
-			//CB  http://work.netxforge.com/issues/297
+			// CB http://work.netxforge.com/issues/297
 			classesToCheck.add(LibraryPackage.Literals.NET_XRESOURCE);
 			classesToCheck.add(ServicesPackage.Literals.SERVICE_USER);
 		} else {
@@ -211,16 +335,16 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 		}
 
 		classesToCheck.addAll(eClass.getEAllSuperTypes());
-		
+
 		// CB http://work.netxforge.com/issues/297
 		List<URI> urisForClass = Lists.newArrayList();
 		for (EClass eC : classesToCheck) {
 			List<URI> list = this.eClassToURIMap.get(eC);
-			if(list != null) {
-				urisForClass.addAll(list);	
+			if (list != null) {
+				urisForClass.addAll(list);
 			}
 		}
-		
+
 		if (urisForClass.size() > 0) {
 			return urisForClass;
 		}
@@ -246,8 +370,17 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 		IResourceDescription description = descriptions
 				.getResourceDescription(uri);
 
-		return SelectableBasedScope.createScope(parent, description, filter,
-				type, ignoreCase);
+		IScope createScope = SelectableBasedScope.createScope(parent,
+				description, filter, type, ignoreCase);
+
+		if (RuntimeActivator.DEBUG) {
+			RuntimeActivator.TRACE.trace(
+					RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+					filter.toString());
+		}
+
+		return createScope;
+
 	}
 
 	/**
@@ -270,10 +403,12 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 		}
 	}
 
-	/*
-	 * FIXME, this is really CDO stuff, move to the dataprovider.
+	/**
+	 * Populates our URI Map with a pre-defined set of {@link EClass EMF
+	 * Classes} and the associated {@link CDOResource#getURI()}.
 	 * 
-	 * See NetXScript grammar for all possible model referenced objects.
+	 * @see {@link NetxscriptPackage NetXScript} for possible referenced
+	 *      external objects.
 	 */
 	public Map<EClass, List<URI>> getClassToURIMap() {
 
@@ -328,11 +463,6 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 			List<URI> allNodeURIs = resolveAllURIs(nodeResourceURI);
 			urisAsList.addAll(allNodeURIs);
 		}
-
-		// {
-		// List<URI> allNodeURIs = resolveAllURIs(nodeTypeResoureURI);
-		// urisAsList.addAll(allNodeURIs);
-		// }
 
 		// first type init.
 		classURIMap.put(LibraryPackage.Literals.NET_XRESOURCE, urisAsList);
@@ -419,8 +549,6 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 	 * @param dirtyDozen
 	 */
 	public void updateURIMap(Set<CDOObject> dirtyDozen) {
-		// tada our dirty objects, update the URI map, and instruct the cache to
-		// invalid the current URI's.
 
 		List<URI> urisToUpdate = Lists.newArrayList();
 		List<URI> urisToAdd = Lists.newArrayList();
@@ -431,6 +559,7 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 				CDOResourceFolder cdoFolder = (CDOResourceFolder) cdoO;
 				List<Resource> resourcesFromNode = this
 						.getResourcesFromNode(cdoFolder);
+
 				List<URI> dirtyURIS = Lists.newArrayList();
 				dirtyURIS.addAll(modelUtils
 						.transformResourceToURI(resourcesFromNode));
@@ -447,6 +576,8 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 							urisToAdd.add(dirtyURI);
 						}
 					}
+
+					// Process additions.
 					if (!urisToAdd.isEmpty()) {
 						existingNetXResourceURIS.addAll(urisToAdd);
 						this.eClassToURIMap.put(
@@ -454,11 +585,11 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 								existingNetXResourceURIS);
 
 						if (RuntimeActivator.DEBUG) {
-
 							for (URI uri : urisToAdd) {
-								System.out
-										.println("NETXSCRIPT, adding descriptions for URI "
-												+ uri.toString());
+								RuntimeActivator.TRACE
+										.trace(RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+												"adding descriptions for URI "
+														+ uri.toString());
 							}
 						}
 
@@ -466,14 +597,16 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 								.add(urisToAdd);
 
 					}
+					// Process updates.
 					if (!urisToUpdate.isEmpty()) {
 
 						if (RuntimeActivator.DEBUG) {
 
 							for (URI uri : urisToUpdate) {
-								System.out
-										.println("NETXSCRIPT, updating descriptions for URI "
-												+ uri.toString());
+								RuntimeActivator.TRACE
+										.trace(RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+												"updating descriptions for URI "
+														+ uri.toString());
 							}
 						}
 						((AbstractDynamixCDOResourceDescriptions) descriptions)
@@ -489,9 +622,10 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 					if (RuntimeActivator.DEBUG) {
 
 						for (URI uri : urisToUpdate) {
-							System.out
-									.println("NETXSCRIPT, updating descriptions for URI "
-											+ uri.toString());
+							RuntimeActivator.TRACE
+									.trace(RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+											" updating descriptions for URI "
+													+ uri.toString());
 						}
 					}
 
@@ -509,9 +643,10 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 				if (existingURIs != null) {
 					if (RuntimeActivator.DEBUG) {
 						for (URI uri : existingURIs) {
-							System.out
-									.println("NETXSCRIPT, updating descriptions for URI "
-											+ uri.toString());
+							RuntimeActivator.TRACE
+									.trace(RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+											" updating descriptions for URI "
+													+ uri.toString());
 						}
 					}
 
@@ -520,5 +655,20 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider {
 				}
 			}
 		}
+	}
+
+	/**
+	 * An external context which is used to reduce the scope for the given
+	 * context
+	 */
+	private IInterpreterContext[] externalContexts = null;
+
+	public void setExternalContext(IInterpreterContext... context) {
+		externalContexts = context;
+
+	}
+
+	public void clearExternalContext() {
+		externalContexts = null;
 	}
 }

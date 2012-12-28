@@ -24,11 +24,25 @@ import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import com.netxforge.internal.RuntimeActivator;
 
 /**
+ * A listener for various CDO events. 
+ * 
+ * <uL>
+ * <li>{@link CDOViewInvalidationEvent}</li>
+ * <li>{@link CDOTransactionConflictEvent}</li>
+ * <li>{@link ILifecycleEvent}</li>
+ * </ul>
+ * 
+ * Most of the implementations have no purpose. 
+ * This method only acts on the <code>CDOViewInvalidationEvent</code>
+ * For this it calls our {@link DynamixCDOScopeProvider#updateURIMap(Set)} on the 
+ * dirty objects. 
+ * 
+ * 
  * @author Martin Fluegge
  * @author Christophe Bouhier
  */
-public class DynamixCDOScopeListener implements ICDOScopeListener// implements
-{
+public class DynamixCDOScopeListener implements ICDOScopeListener {
+	
 	private DynamixCDOScopeProvider provider;
 
 	public DynamixCDOScopeListener(DynamixCDOScopeProvider provider) {
@@ -47,27 +61,21 @@ public class DynamixCDOScopeListener implements ICDOScopeListener// implements
 
 	// Override.
 	protected void handleLifeCycleEvent(ILifecycleEvent event) {
-		if (RuntimeActivator.DEBUG) {
-			System.out.println("CDOSCOPE lifecycle event");
-		}
+		// Do nothing;
 	}
 
 	/**
 	 * @since 1.0
 	 */
 	public void attachingObject(CDOTransaction transaction, CDOObject object) {
-		if (RuntimeActivator.DEBUG) {
-			System.out.println("CDOSCOPE attaching object event");
-		}
+		// Do nothing;
 	}
 
 	/**
 	 * @since 1.0
 	 */
 	public void detachingObject(CDOTransaction transaction, CDOObject object) {
-		if (RuntimeActivator.DEBUG) {
-			System.out.println("CDOSCOPE detaching object event");
-		}
+		// Do nothing;
 	}
 
 	/**
@@ -76,10 +84,7 @@ public class DynamixCDOScopeListener implements ICDOScopeListener// implements
 	public void modifyingObject(CDOTransaction transaction, CDOObject object,
 			CDOFeatureDelta featureDelta) { // This method can be overwritten be
 											// subclasses
-		if (RuntimeActivator.DEBUG) {
-			System.out.println("CDOSCOPE modifying object event");
-		}
-
+		// Do nothing;
 	}
 
 	/**
@@ -88,10 +93,7 @@ public class DynamixCDOScopeListener implements ICDOScopeListener// implements
 	public void committingTransaction(CDOTransaction transaction,
 			CDOCommitContext commitContext) { // This method can be overwritten
 												// be subclasses
-		if (RuntimeActivator.DEBUG) {
-			System.out.println("CDOSCOPE commit event");
-		}
-
+		// Do nothing;
 	}
 
 	/**
@@ -100,9 +102,7 @@ public class DynamixCDOScopeListener implements ICDOScopeListener// implements
 	public void committedTransaction(CDOTransaction transaction,
 			CDOCommitContext commitContext) { // This method can be overwritten
 												// be subclasses
-		if (RuntimeActivator.DEBUG) {
-			System.out.println("CDOSCOPE committed event");
-		}
+		// Do nothing;
 	}
 
 	/**
@@ -114,31 +114,30 @@ public class DynamixCDOScopeListener implements ICDOScopeListener// implements
 																	// overwritten
 																	// be
 																	// subclasses
-		if (RuntimeActivator.DEBUG) {
-			System.out.println("CDOSCOPE rollback event");
-		}
+		// Do nothing;
 	}
 
 	/**
 	 * Invalidation could be on the CDOResource or any of the objects.
-	 * 
 	 */
 	public void handleViewInvalidationEvent(CDOViewInvalidationEvent event) {
 
 		if (RuntimeActivator.DEBUG) {
-			System.out.println("CDOSCOPE invalidation event");
 			Set<CDOObject> dirtyObjects = event.getDirtyObjects();
-			for (CDOObject cdoO : dirtyObjects) {
-				System.out.println(" CDOSCOPE invalid = " + cdoO);
+			RuntimeActivator.TRACE.trace(
+					RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+					"invalidation: " + dirtyObjects.size());
+			for (CDOObject dirtyObject : dirtyObjects) {
+				RuntimeActivator.TRACE.trace(
+						RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+						"invalidation: " + dirtyObject);
 			}
 		}
 		// update our scope provider.
 		if (provider != null) {
-
 			try {
 				provider.updateURIMap(event.getDirtyObjects());
 			} catch (Exception e) {
-				System.out.println("CDO Scope Update Failed :-(");
 				e.printStackTrace();
 			}
 		}
@@ -155,9 +154,6 @@ public class DynamixCDOScopeListener implements ICDOScopeListener// implements
 																					// overwritten
 																					// be
 																					// subclasses
-		if (RuntimeActivator.DEBUG) {
-			System.out.println("CDOSCOPE conflict event");
-		}
-
+		// Do nothing;
 	}
 }

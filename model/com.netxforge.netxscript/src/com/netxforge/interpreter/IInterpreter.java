@@ -68,21 +68,7 @@ public interface IInterpreter {
 
 	
 	/**
-	 * Set multiple context for this interpretation.  
-	 * @param context
+	 * Clear the results of a previous evaluation. 
 	 */
-	public void setContext(IInterpreterContext... context);
-
-	
-	/**
-	 * Set a single interpretation context. 
-	 * @param context
-	 */
-	public void setContext(IInterpreterContext context);
-	
-	
-	/**
-	 * Clear the context and the results. 
-	 */
-	public void clear();
+	public void clearResults();
 }

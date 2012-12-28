@@ -17,6 +17,7 @@ import org.eclipse.net4j.util.event.IListener;
 
 /**
  * @author Martin Fluegge
+ * @author Christophe Bouhier
  * @since 1.0
  */
 public interface ICDOScopeListener extends CDOTransactionHandler, IListener

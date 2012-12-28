@@ -107,6 +107,7 @@ import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.impl.RFSServiceImpl;
 import com.netxforge.netxstudio.services.impl.ServiceUserImpl;
+import com.netxforge.scoping.IExternalContextAware;
 
 /**
  * An interpreter for instances of EClasses of the {@link NetxscriptPackage}.
@@ -128,7 +129,7 @@ import com.netxforge.netxstudio.services.impl.ServiceUserImpl;
  * @author Sven Efftinge - initial contribution and API
  * @author Christophe Bouhier - Extended the grammar, see NetXScript.
  */
-public class InterpreterTypeless implements IInterpreter {
+public class InterpreterTypeless implements IInterpreter, IExternalContextAware {
 
 	@Inject
 	INativeFunctions nativeFunctions;// = new NativeFunctions();
@@ -179,21 +180,21 @@ public class InterpreterTypeless implements IInterpreter {
 	/**
 	 * Clear the interpreter if it's re-used.
 	 */
-	public void clear() {
+	public void clearResults() {
 		expressionResults.clear();
+		
+	}
+	
+	public void clearExternalContext() {
 		contextIndex.clear();
 		contextList.clear();
 	}
 
-	public void setContext(IInterpreterContext... context) {
+	public void setExternalContext(IInterpreterContext... context) {
 		this.contextList.addAll(Lists.newArrayList(context));
 		this.initialize();
 	}
 
-	public void setContext(IInterpreterContext context) {
-		this.contextList.add(context);
-		this.initialize();
-	}
 
 	private DateTimeRange getContextualPeriod() {
 		IInterpreterContext periodContext = getContextFor(DateTimeRangeImpl.class);
@@ -1496,6 +1497,9 @@ public class InterpreterTypeless implements IInterpreter {
 	 * Received the resource as the first parameter in the map. named 'resource'
 	 * Also notice this is a specialized map.
 	 * 
+	 * FIXME, REPLACE WITH DB QUERIES. 
+	 * 
+	 * 
 	 * @param rr
 	 * @param values
 	 * @return
@@ -2486,5 +2490,5 @@ public class InterpreterTypeless implements IInterpreter {
 	public List<BaseExpressionResult> getResult() {
 		return expressionResults;
 	}
-
+	
 }
