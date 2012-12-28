@@ -21,7 +21,10 @@ public class SnmpTest extends TestCase {
 	@SuppressWarnings({ "unused", "rawtypes" })
 	public void testSNMP() throws Exception {
 
-		Address targetAddress = GenericAddress.parse("udp:127.0.0.1/161");
+//		Address targetAddress = GenericAddress.parse("udp:127.0.0.1/161");
+		
+		
+		
 		TransportMapping transport = new DefaultUdpTransportMapping();
 		Snmp snmp = new Snmp(transport);
 		USM usm = new USM(SecurityProtocols.getInstance(), new OctetString(
