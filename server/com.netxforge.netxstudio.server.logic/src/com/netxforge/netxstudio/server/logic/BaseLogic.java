@@ -36,8 +36,8 @@ import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 
 /**
- * Common code for all logic implementations.
- * The Base Logic provides supporting facilities. 
+ * Common code for all logic implementations. The Base Logic provides supporting
+ * facilities.
  * 
  * 
  * @author Martin Taal
@@ -51,10 +51,9 @@ public abstract class BaseLogic {
 	@Server
 	private IDataProvider dataProvider;
 
-
-	@Inject 
+	@Inject
 	protected IQueryService queryService;
-	
+
 	@Inject
 	private ModelUtils modelUtils;
 
@@ -71,17 +70,40 @@ public abstract class BaseLogic {
 		} catch (final Throwable t) {
 			t.printStackTrace();
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
-		}finally{
-			
-			CDOSession session = this.getDataProvider().getSession(); 
-			if(!session.isClosed()){
+		} finally {
+
+			CDOSession session = this.getDataProvider().getSession();
+			if (!session.isClosed()) {
 				session.close();
 			}
 		}
 	}
 	
-	
-	// Implementers should override. 
+	public void runWithoutClosing() {
+		try {
+			doRun();
+
+		} catch (final Throwable t) {
+			t.printStackTrace();
+			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
+		}
+	}
+
+	public void close() {
+		
+		//Will close any open transaction. 
+		getDataProvider().commitTransaction();
+		
+		if (getFailures().isEmpty()) {
+			jobMonitor.setFinished(JobRunState.FINISHED_SUCCESSFULLY, null);
+		} else {
+			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);
+		}
+		getDataProvider().closeSession();
+
+	}
+
+	// Implementers should override.
 	protected void doRun() {
 	}
 
@@ -114,7 +136,7 @@ public abstract class BaseLogic {
 	public void setModelUtils(ModelUtils modelUtils) {
 		this.modelUtils = modelUtils;
 	}
-	
+
 	public ServerSettings getSettings() {
 		// This piece goes in commons somewhere.
 		Resource settingsResource = this.getDataProvider().getResource(
