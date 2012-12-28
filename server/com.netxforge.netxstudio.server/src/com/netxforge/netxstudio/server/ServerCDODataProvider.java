@@ -159,6 +159,7 @@ public class ServerCDODataProvider extends CDODataProvider {
 				// Thread.dumpStack();
 			}
 			session.close();
+			session = null;
 		}
 	}
 
