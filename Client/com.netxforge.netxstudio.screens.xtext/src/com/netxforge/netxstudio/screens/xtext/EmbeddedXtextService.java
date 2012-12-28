@@ -39,10 +39,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
 
 /**
- * Acts as a service for embedded xtext editors.
- * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- * 
  */
 public class EmbeddedXtextService {
 
