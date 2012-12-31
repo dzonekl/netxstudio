@@ -343,7 +343,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 								+ res.getComponentRef().getName());
 
 						List<Value> values = modelUtils
-								.valueRangeForIntervalKindAndPeriod(res,
+								.valuesForIntervalKindAndPeriod(res,
 										targetIntervalHint, null, dtr);
 						if (values.size() > 0) {
 							valueCount += values.size();
