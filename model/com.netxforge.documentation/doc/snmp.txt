@@ -1,0 +1,33 @@
+
+
+
+Unix utilities to query SNMP. 
+
+http://www.net-snmp.org/
+
+Set it up on Ubuntu: 
+
+http://www.it-slav.net/blogs/2009/02/05/install-and-configure-snmp-on-ubuntu/
+
+Enabling traps: 
+
+http://www.ehow.com/how_8676050_setup-snmp-trap-ubuntu.html
+
+
+Walk all mibs from our linode Server. 
+
+snmpwalk -v 1 -c public -O e 176.58.103.70
+
+
+MIB's need to be understood in the SNMP Manager. 
+For a response on an SNMP GET. (or Trap), the corresponding MIB needs to be available: 
+
+http://docs.oracle.com/cd/E13161_01/tuxedo/docs10gr3/snmpmref/1tmib.html
+
+
+All MIB's!!!!!
+
+http://www.mibdepot.com/index.shtml
+
+
+
