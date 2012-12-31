@@ -187,7 +187,7 @@ public abstract class NodeReportingLogic extends BaseNodeReportingLogic {
 		// + getModelUtils().date(this.getEndTime()));
 
 		Date todayAndNow = getModelUtils().todayAndNow();
-		buf.append(this.getModelUtils().dateAndTime(todayAndNow));
+		buf.append(this.getModelUtils().folderDateAndTime(todayAndNow));
 
 		return buf.toString();
 	}

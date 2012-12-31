@@ -18,7 +18,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic.retention;
 
-import java.util.Date;
 import java.util.List;
 
 import com.google.inject.Inject;
@@ -43,30 +42,31 @@ import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentEngine;
 public class RetentionEngine extends BaseComponentEngine {
 
 	private MetricRetentionRules rules;
-	
+
 	@Inject
 	private ResultProcessor resultProcessor;
-	
-	
+
 	@Override
 	public void doExecute() {
-		
-		// Run for each resource, each retention rule. 
+
+		// Run for each resource, each retention rule.
 		for (final NetXResource netXResource : getComponent().getResourceRefs()) {
-			
-			
-			// Rules should execute considering the order of the smallest interval first, 
-			// as to allow aggregation. 
+
+			// Rules should execute considering the order of the smallest
+			// interval first,
+			// as to allow aggregation.
 			for (MetricRetentionRule rule : rules.getMetricRetentionRules()) {
 
 				Expression expression = rule.getRetentionExpression();
-				DateTimeRange dtr = this.getModelUtils().getDTRForRetentionRule(rule);
-				if(dtr != null && expression != null){
+				DateTimeRange dtr = this.getModelUtils()
+						.getDTRForRetentionRule(rule);
+				if (dtr != null && expression != null) {
 					getExpressionEngine().getContext().clear();
-					
-					// FIXME, Add the DTR for the Metric Retention Rule? 
-					getExpressionEngine().getContext().add(getPeriod()); 
-					getExpressionEngine().getContext().add(this.getModelUtils().nodeFor(getComponent()));
+
+					// FIXME, Add the DTR for the Metric Retention Rule?
+					getExpressionEngine().getContext().add(getPeriod());
+					getExpressionEngine().getContext().add(
+							this.getModelUtils().nodeFor(getComponent()));
 					getExpressionEngine().getContext().add(netXResource);
 
 					runForExpression(expression);
@@ -74,7 +74,6 @@ public class RetentionEngine extends BaseComponentEngine {
 			}
 		}
 	}
-	
 
 	@Override
 	public Failure getFailure() {
@@ -86,20 +85,19 @@ public class RetentionEngine extends BaseComponentEngine {
 
 	@Override
 	protected void processResult(List<Object> currentContext,
-			List<BaseExpressionResult> expressionResults, Date start, Date end) {
+			List<BaseExpressionResult> expressionResults, DateTimeRange period) {
 
 		// Note: For retention expressions, the order for which the expression
 		// result is processed,
 		// is relevant, as data is deleted after a while.
 
 		resultProcessor.processMonitoringResult(currentContext,
-				expressionResults, start, end);
+				expressionResults, period);
 
 	}
-	
-	public void setRetentionRules(MetricRetentionRules rules){
+
+	public void setRetentionRules(MetricRetentionRules rules) {
 		this.rules = rules;
 	}
-	
 
 }

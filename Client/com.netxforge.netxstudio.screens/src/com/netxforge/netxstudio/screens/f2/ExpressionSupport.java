@@ -47,7 +47,7 @@ import com.netxforge.scoping.IExternalContextAware;
 /**
  * Helper, which can build a context.
  * 
- * @author Christophe
+ * @author Christophe Bouhier
  */
 public class ExpressionSupport {
 

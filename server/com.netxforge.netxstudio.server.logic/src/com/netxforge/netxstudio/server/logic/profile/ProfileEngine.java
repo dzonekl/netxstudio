@@ -23,6 +23,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -43,18 +44,16 @@ public class ProfileEngine extends BaseExpressionEngine {
 
 	private ServiceUser serviceUser;
 	private RFSService service;
-	
+
 	@Inject
 	private ResultProcessor resultProcessor;
-	
 
 	@Override
 	public void doExecute() {
 		getExpressionEngine().getContext().clear();
 		getExpressionEngine().getContext().add(getPeriod());
 		getExpressionEngine().getContext().add(getService());
-		
-		
+
 		System.err.println("Executing engine for" + serviceUser.getName());
 		getExpressionEngine().getContext().add(this.getServiceUser());
 		setEngineContextInfo("DerivedResource: " + serviceUser.getName()
@@ -82,7 +81,11 @@ public class ProfileEngine extends BaseExpressionEngine {
 
 	@Override
 	protected void processResult(List<Object> currentContext,
-			List<BaseExpressionResult> expressionResults, Date start, Date end) {
+			List<BaseExpressionResult> expressionResults, DateTimeRange period) {
+
+		Date start = this.getModelUtils().fromXMLDate(period.getBegin());
+		Date end = this.getModelUtils().fromXMLDate(period.getEnd());
+
 		resultProcessor.processServiceProfileResult(currentContext,
 				expressionResults, start, end);
 	}

@@ -172,19 +172,18 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 		}
 		return true;
 	}
-
-	@Override
-	public IScope getScope(Resource resource, EReference reference) {
-		if (externalContexts == null) {
-			return super.getScope(resource, reference);
-		} else {
-
-			Predicate<IEObjectDescription> filter = new ExternalReferencePredicate(
-					reference, externalContexts);
-
-			return super.getScope(resource, reference, filter);
-		}
-	}
+	
+	
+	
+	
+//	public IScope getScope(Resource resource, boolean ignoreCase, final EReference reference, Predicate<IEObjectDescription> filter) {
+//		if (externalContexts != null) {
+//			// override the filter.
+//			filter = new ExternalReferencePredicate(
+//					reference, externalContexts);
+//		}
+//		return getScope(resource, reference, filter);
+//	}
 
 	class ExternalReferencePredicate implements Predicate<IEObjectDescription> {
 
@@ -236,7 +235,9 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 		 * meaning non-context sensitive and should therefor not be filtered.
 		 */
 		public boolean apply(IEObjectDescription desc) {
-
+			
+			totalDescriptions++;
+			
 			boolean result = true;
 			// use the context to create a new predicate for the
 			// descriptions.
@@ -264,7 +265,17 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 
 		}
 	};
-
+	
+	@Override
+	public IScope getScope(Resource resource, final EReference reference, Predicate<IEObjectDescription> filter) {
+		if (externalContexts != null) {
+			// override the filter.
+			filter = new ExternalReferencePredicate(
+					reference, externalContexts);
+		}
+		return getScope(resource, isIgnoreCase(reference), reference.getEReferenceType(), filter);
+	}
+	
 	/**
 	 * This implementation resolves one or more {@link URI URI's} for the given
 	 * {@link EClass} with help from the URI Map which is then delegated to
@@ -373,11 +384,11 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 		IScope createScope = SelectableBasedScope.createScope(parent,
 				description, filter, type, ignoreCase);
 
-		if (RuntimeActivator.DEBUG) {
-			RuntimeActivator.TRACE.trace(
-					RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
-					filter.toString());
-		}
+//		if (RuntimeActivator.DEBUG && filter != null) {
+//			RuntimeActivator.TRACE.trace(
+//					RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+//					filter.toString());
+//		}
 
 		return createScope;
 

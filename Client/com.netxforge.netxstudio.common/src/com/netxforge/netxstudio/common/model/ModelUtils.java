@@ -390,17 +390,19 @@ public class ModelUtils {
 	};
 
 	/**
-	 * Compare two periods, if an equal the result has no meaning. (Do not use
+	 * Compare two periods, if unequal the result has no meaning. (Do not use
 	 * for Sorting!)
 	 */
 	public class PeriodComparator implements Comparator<DateTimeRange> {
 		public int compare(final DateTimeRange dtr1, DateTimeRange dtr2) {
 
 			if (dtr1 != null && dtr2 != null) {
+				
 				int beginResult = dtr1.getBegin().compare(dtr2.getBegin());
 				int endResult = dtr2.getEnd().compare(dtr2.getEnd());
-				return beginResult * endResult;
-
+				if( beginResult == 0 &&  endResult == 0){
+					return 0;
+				}
 			}
 			return -1;
 		}
@@ -2322,7 +2324,7 @@ public class ModelUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public List<Value> valueRangeForIntervalKindAndPeriod(NetXResource res,
+	public List<Value> valuesForIntervalKindAndPeriod(NetXResource res,
 			int intervalHint, KindHintType kh, DateTimeRange dtr) {
 
 		MetricValueRange mvr;
@@ -2738,7 +2740,14 @@ public class ModelUtils {
 		};
 		return getDayString.apply(weekDay);
 	}
-
+	
+	
+	/**
+	 * Returns a {@link Date} as a <code>String</code> in the pre-defined format: 
+	 * <code>'dd-MM-yyyy'</code>
+	 * @param d
+	 * @return
+	 */
 	public String date(Date d) {
 		final Function<Date, String> getDateString = new Function<Date, String>() {
 			public String apply(Date from) {
@@ -2760,7 +2769,8 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Returns the Time formatted as HH:mm
+	 * Returns a {@link Date} as a <code>String</code> in a pre-defined format: 
+     * <code>'HH:mm'</code>
 	 * 
 	 * @param d
 	 * @return
@@ -2833,7 +2843,14 @@ public class ModelUtils {
 
 		return sb.toString();
 	}
-
+	
+	/**
+	 * Returns a {@link Date} as a <code>String</code> in a pre-defined format: 
+     * <code>'HH:mm:ss'</code>
+	 * 
+	 * @param d
+	 * @return
+	 */
 	public String timeAndSeconds(Date d) {
 		final Function<Date, String> getDateString = new Function<Date, String>() {
 			public String apply(Date from) {
@@ -2844,6 +2861,13 @@ public class ModelUtils {
 		return getDateString.apply(d);
 	}
 
+	/**
+	 * Returns a {@link Date} as a <code>String</code> in a pre-defined format: 
+     * <code>'HH:mm:ss SSS'</code>
+	 * 
+	 * @param d
+	 * @return
+	 */
 	public String timeAndSecondsAmdMillis(Date d) {
 		final Function<Date, String> getDateString = new Function<Date, String>() {
 			public String apply(Date from) {
@@ -2855,7 +2879,7 @@ public class ModelUtils {
 	}
 
 	/**
-	 * The current time as a String formatted as "HH:mm:ss"
+	 * The current time as a <code>String</code> formatted as {@link #timeAndSeconds(Date)}
 	 * 
 	 * @return
 	 */
@@ -2874,21 +2898,46 @@ public class ModelUtils {
 
 	public String dateAndTime(XMLGregorianCalendar d) {
 		Date date = fromXMLDate(d);
-		return dateAndTime(date);
+		return folderDateAndTime(date);
 	}
-
+	
+	/**
+	 * returns a {@link Date} as a <code>String</code> with the following pre-defined format. 
+	 * {@link #date} '-' {@link #time}
+	 * 
+	 * @param d
+	 * @return
+	 */
 	public String dateAndTime(Date d) {
 
 		StringBuilder sb = new StringBuilder();
+		sb.append(date(d) + "_");
+		sb.append(time(d));
+		return sb.toString();
+	}
 
-		final Function<Date, String> getDateString = new Function<Date, String>() {
+	
+	/**
+	 * returns a {@link Date} as a <code>String</code> with the following pre-defined format. 
+	 * <code>'ddMMyyyy-HHmm'</code> suitable for a file folder name. 
+	 * 
+	 *  
+	 * @see {@link File}
+	 * @param d
+	 * @return
+	 */
+	public String folderDateAndTime(Date d) {
+
+		StringBuilder sb = new StringBuilder();
+
+		final Function<Date, String> folderTime = new Function<Date, String>() {
 			public String apply(Date from) {
 				final SimpleDateFormat df = new SimpleDateFormat("HHmm");
 				return df.format(from);
 			}
 		};
 		sb.append(folderDate(d) + "_");
-		sb.append(getDateString.apply(d));
+		sb.append(folderTime.apply(d));
 		return sb.toString();
 	}
 
