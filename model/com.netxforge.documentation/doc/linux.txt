@@ -23,4 +23,9 @@ FILE FIND=> find / -name 'my.cnf'
  PERM CHANGE OWNER/GROUP => chown jenkins:adm netxstudio.updatesite/ -R (Owner=jenkins, Group=adm). 
  
  
+ SYSLOGGING
+ ----------
+ 
+ http://www.linuxvoodoo.com/resources/howtos/syslog
+ 
  
