@@ -18,10 +18,10 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic.reporting;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.LastEvaluationExpressionResult;
 import com.netxforge.netxstudio.library.LevelKind;
@@ -79,7 +79,7 @@ public class ReportingEngine extends BaseServiceEngine {
 
 	@Override
 	protected void processResult(List<Object> currentContext,
-			List<BaseExpressionResult> expressionResults, Date start, Date end) {
+			List<BaseExpressionResult> expressionResults, DateTimeRange period) {
 
 		for (final BaseExpressionResult expressionResult : expressionResults) {
 
@@ -100,18 +100,25 @@ public class ReportingEngine extends BaseServiceEngine {
 							if (tolerance != null) {
 								switch (tolerance.getLevel().getValue()) {
 								case LevelKind.RED_VALUE: {
-									getServiceSummary().setRedStatus(((Boolean) entry).booleanValue());
+									getServiceSummary().setRedStatus(
+											((Boolean) entry).booleanValue());
 								}
 									break;
 								case LevelKind.AMBER_VALUE: {
-									if(!getServiceSummary().getRedStatus()){
-										getServiceSummary().setAmberStatus(((Boolean) entry).booleanValue());
+									if (!getServiceSummary().getRedStatus()) {
+										getServiceSummary().setAmberStatus(
+												((Boolean) entry)
+														.booleanValue());
 									}
 								}
 									break;
 								case LevelKind.GREEN_VALUE: {
-									if(!getServiceSummary().getRedStatus() && !getServiceSummary().getAmberStatus() ){
-										getServiceSummary().setGreenStatus(((Boolean) entry).booleanValue());
+									if (!getServiceSummary().getRedStatus()
+											&& !getServiceSummary()
+													.getAmberStatus()) {
+										getServiceSummary().setGreenStatus(
+												((Boolean) entry)
+														.booleanValue());
 									}
 								}
 									break;

@@ -19,7 +19,6 @@ package com.netxforge.netxstudio.screens.f3;
 
 import java.text.DecimalFormat;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -189,6 +188,7 @@ import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
 import com.netxforge.netxstudio.screens.f2.LazyResourcesComponent;
 import com.netxforge.netxstudio.screens.f2.NewEditResource;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 import com.netxforge.netxstudio.services.RFSService;
@@ -831,9 +831,6 @@ public class SmartResources extends AbstractScreen implements
 					// provide
 					// a resource monitor...
 					DateTimeRange period = contextAggregate.getPeriod();
-					Date start = modelUtils.fromXMLDate(period.getBegin());
-					Date end = modelUtils.fromXMLDate(period.getEnd());
-
 					ResourceMonitor resourceMonitor = null;
 					if (currentExpressionType == ContextAggregate.TOL_EXPRESSION_CONTEXT
 							&& expressionAggregate.getCurrentSubSelection() instanceof Tolerance) {
@@ -867,10 +864,9 @@ public class SmartResources extends AbstractScreen implements
 					final List<BaseExpressionResult> result = expressionEngine
 							.getExpressionResult();
 
-					// TODO Annoying to have to provide the start and end date,
-					// as this is already in the context.
+					
 					resultProcessor.processMonitoringResult(
-							expressionEngine.getContext(), result, start, end);
+							expressionEngine.getContext(), result, period);
 
 					// Apply the markers to the value viewer.
 					if (resourceMonitor != null) {
@@ -1577,13 +1573,21 @@ public class SmartResources extends AbstractScreen implements
 		private void updateResourceMonitorForNetXResource(
 				NetXResource netXResource) {
 			if (monitorsForNode != null) {
-				List<ResourceMonitor> list = monitorsForNode.get(netXResource);
-				if (list.size() > 0) {
+				final List<ResourceMonitor> list = monitorsForNode
+						.get(netXResource);
+				if (list != null && list.size() > 0) {
+
+					// Should really consider the current period, instead of
+					// getting the
+					// the last monitor.
 					currentResourceMonitor = list.get(0);
+					if (ScreensActivator.DEBUG) {
+						ScreensActivator.TRACE.trace(
+								ScreensActivator.TRACE_SCREENS_OPTION,
+								"Setting current Monitor");
+					}
+
 				}
-				System.out.println("Resource Monitor for : "
-						+ netXResource.getExpressionName() + " ="
-						+ currentResourceMonitor.getMarkers().size());
 			}
 		}
 
@@ -1610,8 +1614,11 @@ public class SmartResources extends AbstractScreen implements
 			if (s == currentService && this.currentNode != null) {
 				// Recalc the markers.
 				updateResourceMonitorsForNode(currentNode);
-				System.out.println("Hey this is our service rev is now:"
-						+ s.cdoRevision());
+				if (ScreensActivator.DEBUG) {
+					ScreensActivator.TRACE.trace(
+							ScreensActivator.TRACE_SCREENS_OPTION,
+							"invalidate service rev is now:" + s.cdoRevision());
+				}
 			}
 
 		}
@@ -1627,8 +1634,12 @@ public class SmartResources extends AbstractScreen implements
 		public boolean invalidateNetXResource(NetXResource netXRes) {
 			if (this.currentNetXResource == netXRes) {
 				updateResourceMonitorForNetXResource(netXRes);
-				System.out.println("invalidate resource rev is now:"
-						+ netXRes.cdoRevision());
+				if (ScreensActivator.DEBUG) {
+					ScreensActivator.TRACE.trace(
+							ScreensActivator.TRACE_SCREENS_OPTION,
+							"invalidate resource rev is now:"
+									+ netXRes.cdoRevision());
+				}
 				return true;
 			} else {
 				return false;

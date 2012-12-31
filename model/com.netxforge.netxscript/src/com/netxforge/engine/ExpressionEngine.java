@@ -113,21 +113,8 @@ public class ExpressionEngine implements IExpressionEngine {
 		}
 
 		try {
-			if (RuntimeActivator.DEBUG) {
-				RuntimeActivator.TRACE.trace(
-						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
-						"Parsing/linking expression: " + asString);
-			}
-			xResource = getResourceFromString(asString);
-			// Get the parse tree.
-			final Mod m = (Mod) this.getModel(xResource);
 
-			
-			if (RuntimeActivator.DEBUG) {
-				RuntimeActivator.TRACE.trace(
-						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
-						"Parsing/linking done");
-			}
+			// Prepare the external context.
 
 			final List<IInterpreterContext> contextList = new ArrayList<IInterpreterContext>();
 			for (final Object o : context) {
@@ -136,6 +123,30 @@ public class ExpressionEngine implements IExpressionEngine {
 			final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
 					.size()];
 			contextList.toArray(contextArray);
+
+			if (scopeProvider != null
+					&& scopeProvider instanceof IExternalContextAware) {
+				((IExternalContextAware) scopeProvider).clearExternalContext();
+				((IExternalContextAware) scopeProvider)
+						.setExternalContext(contextArray);
+			}
+
+			if (RuntimeActivator.DEBUG) {
+				RuntimeActivator.TRACE.trace(
+						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
+						"Parsing/linking expression: " + asString);
+			}
+
+			xResource = getResourceFromString(asString);
+
+			if (RuntimeActivator.DEBUG) {
+				RuntimeActivator.TRACE.trace(
+						RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
+						"Parsing/linking done");
+			}
+
+			// Get the parse tree.
+			final Mod m = (Mod) this.getModel(xResource);
 
 			// print the context.
 			if (RuntimeActivator.DEBUG) {
@@ -146,12 +157,6 @@ public class ExpressionEngine implements IExpressionEngine {
 			if (xInterpreter instanceof IExternalContextAware) {
 				((IExternalContextAware) xInterpreter).clearExternalContext();
 				((IExternalContextAware) xInterpreter)
-						.setExternalContext(contextArray);
-			}
-			if (scopeProvider != null
-					&& scopeProvider instanceof IExternalContextAware) {
-				((IExternalContextAware) scopeProvider).clearExternalContext();
-				((IExternalContextAware) scopeProvider)
 						.setExternalContext(contextArray);
 			}
 

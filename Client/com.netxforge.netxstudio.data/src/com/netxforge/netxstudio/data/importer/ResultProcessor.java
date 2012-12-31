@@ -31,6 +31,7 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.data.tolerance.ToleranceProcessor;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
@@ -121,111 +122,113 @@ public class ResultProcessor {
 		}
 	}
 
-	public void processMonitoringResult(List<Object> currentContext,
-			List<BaseExpressionResult> expressionResults, Date start, Date end) {
-		for (final BaseExpressionResult baseExpressionResult : expressionResults) {
-			if (baseExpressionResult instanceof ExpressionResult) {
-				ExpressionResult expressionResult = (ExpressionResult) baseExpressionResult;
-				processMonitoringExpressionResult(start, end, expressionResult);
-			}
-		}
-	}
+	// public void processMonitoringResult(List<Object> currentContext,
+	// List<BaseExpressionResult> expressionResults, Date start, Date end) {
+	// for (final BaseExpressionResult baseExpressionResult : expressionResults)
+	// {
+	// if (baseExpressionResult instanceof ExpressionResult) {
+	// ExpressionResult expressionResult = (ExpressionResult)
+	// baseExpressionResult;
+	// processMonitoringExpressionResult(start, end, expressionResult);
+	// }
+	// }
+	// }
 
-	private void processMonitoringExpressionResult(Date start, Date end,
-			final ExpressionResult expressionResult) {
-
-		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-					"writing expression result: resource="
-							+ expressionResult.getTargetResource()
-									.getShortName() + " target="
-							+ expressionResult.getTargetRange().getName()
-							+ " interval="
-							+ expressionResult.getTargetIntervalHint()
-							+ " kind = "
-							+ expressionResult.getTargetKindHint().getName()
-							+ " values="
-							+ expressionResult.getTargetValues().size());
-		}
-
-		// FIXME: We could want to write to a resource, where the node
-		// doesn't match the context. The original context Node is not known
-		// here.
-		final BaseResource baseResource = expressionResult.getTargetResource();
-
-		// Process a NetXResource
-		if (baseResource instanceof NetXResource) {
-			NetXResource resource = (NetXResource) baseResource;
-			final Node n = modelUtils.nodeFor(resource.getComponentRef());
-
-			if (DataActivator.DEBUG) {
-				if (n != null) {
-					DataActivator.TRACE.trace(
-							DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-							"writing to resource in Node: " + n.getNodeID());
-				}
-			}
-
-			switch (expressionResult.getTargetRange().getValue()) {
-			case RangeKind.CAP_VALUE:
-				// Remove previous values within the range.
-				removeValues(resource.getCapacityValues(), start, end);
-				addToValues(resource.getCapacityValues(),
-						expressionResult.getTargetValues(),
-						expressionResult.getTargetIntervalHint());
-				break;
-			case RangeKind.METRIC_VALUE:
-
-				// TODO, Apply a value filler as the interpreter will only
-				// return two values
-				// with Timestamps matching start and end of the period.
-
-				// Disable the filler values.
-				// @SuppressWarnings("unused")
-				// List<Value> createValues = getCreateValues(expressionResult,
-				// start, end);
-
-				addToValueRange(resource,
-						expressionResult.getTargetIntervalHint(),
-						expressionResult.getTargetKindHint(),
-						expressionResult.getTargetValues(), start, end);
-
-				break;
-			case RangeKind.TOLERANCE_VALUE: {
-				if (tolProcessor != null && tolProcessor.ready()) {
-					tolProcessor.markersForExpressionResult(expressionResult,
-							start, end);
-				}
-			}
-				break;
-			case RangeKind.UTILIZATION_VALUE:
-				removeValues(resource.getUtilizationValues(), start, end);
-				addToValues(resource.getUtilizationValues(),
-						expressionResult.getTargetValues(),
-						expressionResult.getTargetIntervalHint());
-				break;
-			case RangeKind.METRICREMOVE_VALUE:
-				final MetricValueRange mvr = modelUtils
-						.valueRangeForIntervalAndKindGetOrCreate(resource,
-								expressionResult.getTargetKindHint(),
-								expressionResult.getTargetIntervalHint());
-				if (start != null) {
-					removeValues(mvr.getMetricValues(), start, end);
-				}
-				break;
-			default:
-				throw new IllegalStateException("Range kind "
-						+ expressionResult.getTargetRange() + " not supported");
-			}
-		}
-
-		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-					"done processing monitoring result");
-		}
-	}
+	// private void processMonitoringExpressionResult(Date start, Date end,
+	// final ExpressionResult expressionResult) {
+	//
+	// if (DataActivator.DEBUG) {
+	// DataActivator.TRACE.trace(
+	// DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
+	// "writing expression result: resource="
+	// + expressionResult.getTargetResource()
+	// .getShortName() + " target="
+	// + expressionResult.getTargetRange().getName()
+	// + " interval="
+	// + expressionResult.getTargetIntervalHint()
+	// + " kind = "
+	// + expressionResult.getTargetKindHint().getName()
+	// + " values="
+	// + expressionResult.getTargetValues().size());
+	// }
+	//
+	// // FIXME: We could want to write to a resource, where the node
+	// // doesn't match the context. The original context Node is not known
+	// // here.
+	// final BaseResource baseResource = expressionResult.getTargetResource();
+	//
+	// // Process a NetXResource
+	// if (baseResource instanceof NetXResource) {
+	// NetXResource resource = (NetXResource) baseResource;
+	// final Node n = modelUtils.nodeFor(resource.getComponentRef());
+	//
+	// if (DataActivator.DEBUG) {
+	// if (n != null) {
+	// DataActivator.TRACE.trace(
+	// DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
+	// "writing to resource in Node: " + n.getNodeID());
+	// }
+	// }
+	//
+	// switch (expressionResult.getTargetRange().getValue()) {
+	// case RangeKind.CAP_VALUE:
+	// // Remove previous values within the range.
+	// removeValues(resource.getCapacityValues(), start, end);
+	// addToValues(resource.getCapacityValues(),
+	// expressionResult.getTargetValues(),
+	// expressionResult.getTargetIntervalHint());
+	// break;
+	// case RangeKind.METRIC_VALUE:
+	//
+	// // TODO, Apply a value filler as the interpreter will only
+	// // return two values
+	// // with Timestamps matching start and end of the period.
+	//
+	// // Disable the filler values.
+	// // @SuppressWarnings("unused")
+	// // List<Value> createValues = getCreateValues(expressionResult,
+	// // start, end);
+	//
+	// addToValueRange(resource,
+	// expressionResult.getTargetIntervalHint(),
+	// expressionResult.getTargetKindHint(),
+	// expressionResult.getTargetValues(), start, end);
+	//
+	// break;
+	// case RangeKind.TOLERANCE_VALUE: {
+	// if (tolProcessor != null && tolProcessor.ready()) {
+	// tolProcessor.markersForExpressionResult(expressionResult,
+	// start, end);
+	// }
+	// }
+	// break;
+	// case RangeKind.UTILIZATION_VALUE:
+	// removeValues(resource.getUtilizationValues(), start, end);
+	// addToValues(resource.getUtilizationValues(),
+	// expressionResult.getTargetValues(),
+	// expressionResult.getTargetIntervalHint());
+	// break;
+	// case RangeKind.METRICREMOVE_VALUE:
+	// final MetricValueRange mvr = modelUtils
+	// .valueRangeForIntervalAndKindGetOrCreate(resource,
+	// expressionResult.getTargetKindHint(),
+	// expressionResult.getTargetIntervalHint());
+	// if (start != null) {
+	// removeValues(mvr.getMetricValues(), start, end);
+	// }
+	// break;
+	// default:
+	// throw new IllegalStateException("Range kind "
+	// + expressionResult.getTargetRange() + " not supported");
+	// }
+	// }
+	//
+	// if (DataActivator.DEBUG) {
+	// DataActivator.TRACE.trace(
+	// DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
+	// "done processing monitoring result");
+	// }
+	// }
 
 	private void removeValues(EList<Value> values, Date start, Date end) {
 		final long startMillis = start.getTime();
@@ -344,14 +347,14 @@ public class ResultProcessor {
 		}
 
 		// CB Experimental, pre-load only 24 indexes, and chunks of 24.
-		// 
+		//
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=394076
-//		foundNetXResource
-//				.cdoView()
-//				.getSession()
-//				.options()
-//				.setCollectionLoadingPolicy(
-//						CDOUtil.createCollectionLoadingPolicy(24, 24));
+		// foundNetXResource
+		// .cdoView()
+		// .getSession()
+		// .options()
+		// .setCollectionLoadingPolicy(
+		// CDOUtil.createCollectionLoadingPolicy(24, 24));
 
 		final MetricValueRange mvr = modelUtils
 				.valueRangeForIntervalAndKindGetOrCreate(foundNetXResource,
@@ -449,8 +452,7 @@ public class ResultProcessor {
 				.getTimeInMillis();
 
 		Value foundValue = null;
-		
-		
+
 		for (final Value lookValue : currentValues) {
 			if (isSameTime(intervalHint, timeInMillis, lookValue.getTimeStamp())) {
 				foundValue = lookValue;
@@ -499,12 +501,11 @@ public class ResultProcessor {
 
 		Value foundValue = null;
 
-		List<Value> sortedValues = null; 
-		
-		sortedValues = this.queryService.getSortedValues(
-				mvr.cdoView(), mvr, IQueryService.QUERY_MYSQL,
-				value.getTimeStamp());
-	
+		List<Value> sortedValues = null;
+
+		sortedValues = this.queryService.getSortedValues(mvr.cdoView(), mvr,
+				IQueryService.QUERY_MYSQL, value.getTimeStamp());
+
 		if (sortedValues != null && sortedValues.size() == 1) {
 			foundValue = sortedValues.get(0); // we only have one entry.
 		}
@@ -576,5 +577,131 @@ public class ResultProcessor {
 	public ToleranceProcessor getToleranceProcessor() {
 		return tolProcessor;
 	}
+
+	public void processMonitoringResult(List<Object> currentContext,
+			List<BaseExpressionResult> expressionResults, DateTimeRange period) {
+		for (final BaseExpressionResult baseExpressionResult : expressionResults) {
+			if (baseExpressionResult instanceof ExpressionResult) {
+				ExpressionResult expressionResult = (ExpressionResult) baseExpressionResult;
+				// processMonitoringExpressionResult(start, end,
+				// expressionResult);
+				processMonitoringExpressionResult(period, expressionResult);
+			}
+		}
+	}
+
+	private void processMonitoringExpressionResult(DateTimeRange period,
+			ExpressionResult expressionResult) {
+
+		final Date start = modelUtils.fromXMLDate(period.getBegin());
+		final Date end = modelUtils.fromXMLDate(period.getEnd());
+
+		if (DataActivator.DEBUG) {
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
+					"writing expression result: resource="
+							+ expressionResult.getTargetResource()
+									.getShortName() + " target="
+							+ expressionResult.getTargetRange().getName()
+							+ " interval="
+							+ expressionResult.getTargetIntervalHint()
+							+ " kind = "
+							+ expressionResult.getTargetKindHint().getName()
+							+ " values="
+							+ expressionResult.getTargetValues().size());
+		}
+
+		// FIXME: We could want to write to a resource, where the node
+		// doesn't match the context. The original context Node is not known
+		// here.
+		final BaseResource baseResource = expressionResult.getTargetResource();
+
+		// Process a NetXResource
+		if (baseResource instanceof NetXResource) {
+			NetXResource resource = (NetXResource) baseResource;
+			final Node n = modelUtils.nodeFor(resource.getComponentRef());
+
+			if (DataActivator.DEBUG) {
+				if (n != null) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
+							"writing to resource "
+									+ resource.getExpressionName()
+									+ " in Node: " + n.getNodeID());
+				}
+			}
+
+			switch (expressionResult.getTargetRange().getValue()) {
+			case RangeKind.CAP_VALUE:
+				// Remove previous values within the range.
+				removeValues(resource.getCapacityValues(), start, end);
+				addToValues(resource.getCapacityValues(),
+						expressionResult.getTargetValues(),
+						expressionResult.getTargetIntervalHint());
+				break;
+			case RangeKind.METRIC_VALUE:
+
+				// TODO, Apply a value filler as the interpreter will only
+				// return two values
+				// with Timestamps matching start and end of the period.
+
+				// Disable the filler values.
+				// @SuppressWarnings("unused")
+				// List<Value> createValues = getCreateValues(expressionResult,
+				// start, end);
+
+				addToValueRange(resource,
+						expressionResult.getTargetIntervalHint(),
+						expressionResult.getTargetKindHint(),
+						expressionResult.getTargetValues(), start, end);
+
+				break;
+			case RangeKind.TOLERANCE_VALUE: {
+				if (tolProcessor != null && tolProcessor.ready()) {
+					tolProcessor.markersForExpressionResult(expressionResult,
+							period);
+				}
+			}
+				break;
+			case RangeKind.UTILIZATION_VALUE:
+				removeValues(resource.getUtilizationValues(), start, end);
+				addToValues(resource.getUtilizationValues(),
+						expressionResult.getTargetValues(),
+						expressionResult.getTargetIntervalHint());
+				break;
+			case RangeKind.METRICREMOVE_VALUE:
+				final MetricValueRange mvr = modelUtils
+						.valueRangeForIntervalAndKindGetOrCreate(resource,
+								expressionResult.getTargetKindHint(),
+								expressionResult.getTargetIntervalHint());
+				if (start != null) {
+					removeValues(mvr.getMetricValues(), start, end);
+				}
+				break;
+			default:
+				throw new IllegalStateException("Range kind "
+						+ expressionResult.getTargetRange() + " not supported");
+			}
+		}
+
+		if (DataActivator.DEBUG) {
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
+					"done processing monitoring result");
+		}
+
+	}
+
+	// public void processMonitoringResult(List<Object> currentContext,
+	// List<BaseExpressionResult> expressionResults, Date start, Date end) {
+	// for (final BaseExpressionResult baseExpressionResult : expressionResults)
+	// {
+	// if (baseExpressionResult instanceof ExpressionResult) {
+	// ExpressionResult expressionResult = (ExpressionResult)
+	// baseExpressionResult;
+	// processMonitoringExpressionResult(start, end, expressionResult);
+	// }
+	// }
+	// }
 
 }

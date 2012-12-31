@@ -79,6 +79,8 @@ import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
+import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
@@ -99,6 +101,7 @@ import com.netxforge.netxstudio.library.impl.EquipmentImpl;
 import com.netxforge.netxstudio.library.impl.FunctionImpl;
 import com.netxforge.netxstudio.library.impl.NetXResourceImpl;
 import com.netxforge.netxstudio.metrics.KindHintType;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.impl.NodeImpl;
 import com.netxforge.netxstudio.services.DerivedResource;
@@ -130,7 +133,7 @@ import com.netxforge.scoping.IExternalContextAware;
  * @author Christophe Bouhier - Extended the grammar, see NetXScript.
  */
 public class InterpreterTypeless implements IInterpreter, IExternalContextAware {
-
+	
 	@Inject
 	INativeFunctions nativeFunctions;// = new NativeFunctions();
 
@@ -138,6 +141,19 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 
 	@Inject
 	ModelUtils modelUtils;// = new ModelUtils();
+
+	@Inject
+	private IQueryService cdoQueryService;
+	
+	
+	// Options Parameters. 
+	
+	/**
+	 * When enabled, the interpreter will prefer using CDO Queries to get external data. (Non-Context). 
+	 * Otherwise, external data will be deduced by iterating over known objects or using the DataProvider. 
+	 */
+	private static final boolean USE_QUERIES = true;
+	
 
 	private PrintingPolymorphicDispatcher<BigDecimal> dispatcher = PrintingPolymorphicDispatcher
 			.createForSingleTarget("internalEvaluate", 2, 2, this);
@@ -182,9 +198,9 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	 */
 	public void clearResults() {
 		expressionResults.clear();
-		
+
 	}
-	
+
 	public void clearExternalContext() {
 		contextIndex.clear();
 		contextList.clear();
@@ -194,7 +210,6 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 		this.contextList.addAll(Lists.newArrayList(context));
 		this.initialize();
 	}
-
 
 	private DateTimeRange getContextualPeriod() {
 		IInterpreterContext periodContext = getContextFor(DateTimeRangeImpl.class);
@@ -826,7 +841,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 											"Create value for TS = " + ts
 													+ " with value " + varEval);
 						}
-						
+
 						Value newValue = GenericsFactory.eINSTANCE
 								.createValue();
 						newValue.setTimeStamp(ts);
@@ -1497,7 +1512,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	 * Received the resource as the first parameter in the map. named 'resource'
 	 * Also notice this is a specialized map.
 	 * 
-	 * FIXME, REPLACE WITH DB QUERIES. 
+	 * FIXME, REPLACE WITH DB QUERIES.
 	 * 
 	 * 
 	 * @param rr
@@ -1517,9 +1532,20 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 		if (resource instanceof NetXResource) {
 			switch (rangeRef.getValuerange().getValue()) {
 			case ValueRange.METRIC_VALUE: {
-				v = modelUtils.valueRangeForIntervalKindAndPeriod(
-						(NetXResource) resource, targetInterval, targetKind,
-						dtr);
+
+				if (USE_QUERIES && cdoQueryService instanceof CDOQueryService) {
+					MetricValueRange mvr = modelUtils
+							.valueRangeForIntervalAndKind(
+									(NetXResource) resource, targetKind,
+									targetInterval);
+					v = cdoQueryService.getSortedValues(resource.cdoView(),
+							mvr, IQueryService.QUERY_MYSQL, dtr);
+				} else {
+
+					v = modelUtils.valuesForIntervalKindAndPeriod(
+							(NetXResource) resource, targetInterval,
+							targetKind, dtr);
+				}
 			}
 				break;
 			case ValueRange.CAP_VALUE: {
@@ -1632,10 +1658,9 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 							&& extractedRangeInterval != -1) {
 
 						// break up the range using the interval.
-						List<List<Value>> splitValueRange = modelUtils
-								.values((List<Value>) eval,
-										extractedRangeInterval,
-										targetRangeInterval);
+						List<List<Value>> splitValueRange = modelUtils.values(
+								(List<Value>) eval, extractedRangeInterval,
+								targetRangeInterval);
 
 						List<Object> evalResult = Lists.newArrayList();
 						// iterate through the sublists, and apply the native
@@ -2474,6 +2499,9 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	}
 
 	public static boolean assertMatrix(List<?> collection) {
+		if(collection.isEmpty()){
+			return false;
+		}
 		for (Object o : collection) {
 			if (!assertCollection(o)) {
 				return false;
@@ -2490,5 +2518,5 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	public List<BaseExpressionResult> getResult() {
 		return expressionResults;
 	}
-	
+
 }

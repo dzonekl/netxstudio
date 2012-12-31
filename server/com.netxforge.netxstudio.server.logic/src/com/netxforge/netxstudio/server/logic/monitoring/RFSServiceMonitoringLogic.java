@@ -56,25 +56,34 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 	 * @param dtr
 	 */
 	public void initServiceMonitor(DateTimeRange dtr) {
-		
+
 		serviceMonitor = ServicesFactory.eINSTANCE.createServiceMonitor();
 		// what name should a servicemonitor have?
 		serviceMonitor.setName(rfsService.getServiceName());
 		serviceMonitor.setPeriod(dtr);
-		rfsService.getServiceMonitors().add(0, serviceMonitor); // Add at beginning. 
-		
+		// The revision will hold the Object ID and creation time. 
+		serviceMonitor.setRevision(this.getModelUtils().dateAndTime(this.getModelUtils().todayAndNow()));
+		rfsService.getServiceMonitors().add(0, serviceMonitor); // Add at
+																// beginning.
+
 		List<ServiceMonitor> serviceMonitorDuplicates = this.getModelUtils()
 				.serviceMonitorDuplicates(rfsService);
-		
+
 		if (LogicActivator.DEBUG) {
-			LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION, "Creating Service Monitor for period" + this.getModelUtils().periodToString(dtr));
-			LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION, "Removing " + serviceMonitorDuplicates.size() + " entries for the same period");
+			LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION,
+					"Creating Service Monitor for period"
+							+ this.getModelUtils().periodToString(dtr));
+			if (serviceMonitorDuplicates.size() > 0) {
+				LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION,
+						"Removing " + serviceMonitorDuplicates.size()
+								+ " entries for the same period");
+			}
 		}
 
 		// remove them with
-		Iterables.removeAll(rfsService.getServiceMonitors(), serviceMonitorDuplicates);
-		
-		
+		Iterables.removeAll(rfsService.getServiceMonitors(),
+				serviceMonitorDuplicates);
+
 		getEngine().setServiceMonitor(serviceMonitor);
 	}
 

@@ -14,7 +14,8 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ package com.netxforge.interpreter;
+ *******************************************************************************/
+package com.netxforge.interpreter;
 
 import static com.netxforge.interpreter.InterpreterTypeless.asCollection;
 import static com.netxforge.interpreter.InterpreterTypeless.asNum;
@@ -36,7 +37,7 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.Value;
 
 /**
- * Prints evaluation to the tracing facility. 
+ * Prints evaluation to the tracing facility.
  * 
  * @author Christophe Bouhier
  * 
@@ -54,11 +55,13 @@ public class PrettyLog implements IPrettyLog {
 	 * @see com.netxforge.interpreter.IPrettyLog#log(java.lang.Object)
 	 */
 	public void log(String header, Object... o) {
+		RuntimeActivator.TRACE.trace(
+				RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION, "Evaluate: " + header );
+		
 		for (int i = 0; i < o.length; i++) {
 			// log.warn("Eval " + header + " value=" + printEval(o[i]));
 			RuntimeActivator.TRACE.trace(
-					RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION, header
-							+ "value=" + printEval(o[i]));
+					RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION, " return=" + printEval(o[i]));
 		}
 	};
 
@@ -72,7 +75,9 @@ public class PrettyLog implements IPrettyLog {
 			return ((Value) eval).toString();
 		} else if (assertCollection(eval)) {
 			List<?> evalCollection = asCollection((List<?>) eval);
-			if (assertMatrix(evalCollection)) {
+			if (evalCollection.isEmpty()) {
+				return buildCollectionString(evalCollection);
+			} else if (assertMatrix(evalCollection)) {
 				return "matrix, do not print";
 			} else if (assertValueCollection(eval)) {
 				return buildCollectionString(evalCollection);

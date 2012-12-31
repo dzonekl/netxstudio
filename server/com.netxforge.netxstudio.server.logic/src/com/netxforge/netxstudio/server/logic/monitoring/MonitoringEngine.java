@@ -18,7 +18,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic.monitoring;
 
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -312,9 +311,9 @@ public class MonitoringEngine extends BaseComponentEngine {
 
 	@Override
 	protected void processResult(List<Object> currentContext,
-			List<BaseExpressionResult> expressionResults, Date start, Date end) {
+			List<BaseExpressionResult> expressionResults, DateTimeRange period) {
 		resultProcessor.processMonitoringResult(currentContext,
-				expressionResults, start, end);
+				expressionResults, period);
 
 	}
 }

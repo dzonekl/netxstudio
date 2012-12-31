@@ -18,11 +18,11 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic;
 
-import java.util.Date;
 import java.util.List;
 
 import com.google.inject.Inject;
 import com.netxforge.engine.IExpressionEngine;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
@@ -43,9 +43,12 @@ public abstract class BaseExpressionEngine extends BaseEngine {
 		doExecute();
 	}
 
+//	protected abstract void processResult(List<Object> currentContext,
+//			List<BaseExpressionResult> expressionResults, Date start, Date end);
+	
 	protected abstract void processResult(List<Object> currentContext,
-			List<BaseExpressionResult> expressionResults, Date start, Date end);
-
+			List<BaseExpressionResult> result, DateTimeRange period);
+	
 	protected void runForExpression(Expression expression) {
 		try {
 			if (expression == null) {
@@ -68,9 +71,11 @@ public abstract class BaseExpressionEngine extends BaseEngine {
 			} else {
 				final List<Object> currentContext = expressionEngine
 						.getContext();
-
-				processResult(currentContext, result, this.getStart(),
-						this.getEnd());
+				// Move to DTR. 
+//				processResult(currentContext, result, this.getStart(),
+//						this.getEnd());
+				processResult(currentContext, result, this.getPeriod());
+				
 			}
 		} catch (final Throwable t) {
 
