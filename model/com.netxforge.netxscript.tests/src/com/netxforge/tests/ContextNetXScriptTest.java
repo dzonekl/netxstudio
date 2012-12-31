@@ -31,6 +31,7 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.scoping.IExternalContextAware;
 
 /**
  * FIXME, Should target test repository.
@@ -138,9 +139,12 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 
 			// An expression which reads values from a resource.
 			{
-				interpreter.clear(); // Clear the interpreter.
-				interpreter.setContext(contextList.toArray(contextArray)); // Set
-																			// a
+				interpreter.clearResults(); // Clear the interpreter.
+				if(interpreter instanceof IExternalContextAware){
+					((IExternalContextAware)interpreter).clearExternalContext();
+					((IExternalContextAware)interpreter).setExternalContext(contextList.toArray(contextArray));
+				}
+				
 				Mod m = (Mod) this
 						.getModel("var a = this.FUNCTION Function1 ->RESOURCE RES1 METRIC AVG 60;a;");
 				@SuppressWarnings("unused")
@@ -159,10 +163,12 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			// WARNING: The syntax of the expression is subject to change.
 
 			{
-				interpreter.clear(); // Clear the interpreter.
-				interpreter.setContext(contextList.toArray(contextArray)); // Set
-																			// a
-																			// context.
+				interpreter.clearResults(); // Clear the interpreter.
+				if(interpreter instanceof IExternalContextAware){
+					((IExternalContextAware)interpreter).clearExternalContext();
+					((IExternalContextAware)interpreter).setExternalContext(contextList.toArray(contextArray));
+				}
+
 				Mod m = (Mod) this
 						.getModel("this.FUNCTION SGSN->RESOURCE RES2 UTILIZATION AVG 60 = this.FUNCTION SGSN->RESOURCE RES1 METRIC AVG 60;");
 				@SuppressWarnings("unused")
@@ -179,10 +185,12 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			// write to another resource.
 
 			{
-				interpreter.clear(); // Clear the interpreter.
-				interpreter.setContext(contextList.toArray(contextArray)); // Set
-																			// a
-																			// context.
+				interpreter.clearResults(); // Clear the interpreter.
+				if(interpreter instanceof IExternalContextAware){
+					((IExternalContextAware)interpreter).clearExternalContext();
+					((IExternalContextAware)interpreter).setExternalContext(contextList.toArray(contextArray));
+				}
+
 				Mod m = (Mod) this
 						.getModel("var a = this.FUNCTION SGSN->RESOURCE RES1 METRIC AVG 60;this.FUNCTION SGSN->RESOURCE RES2 UTILIZATION AVG 60 = a;");
 				@SuppressWarnings("unused")
@@ -196,9 +204,11 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 
 			// An expression which writes a single value to a Capacity range.
 			{
-				interpreter.clear(); // Clear the interpreter.
-				interpreter.setContext(contextList.toArray(contextArray)); // Set
-																			// a
+				interpreter.clearResults(); // Clear the interpreter.
+				if(interpreter instanceof IExternalContextAware){
+					((IExternalContextAware)interpreter).clearExternalContext();
+					((IExternalContextAware)interpreter).setExternalContext(contextList.toArray(contextArray));
+				}
 
 				Mod m = (Mod) this
 						.getModel("this.FUNCTION SGSN->RESOURCE RES1 CAP 60 = 30 * 60;");
@@ -213,9 +223,12 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			// An expression which reads capacity values from a resource,
 
 			{
-				interpreter.clear(); // Clear the interpreter.
-				interpreter.setContext(contextList.toArray(contextArray)); // Set
-																			// a
+				interpreter.clearResults(); // Clear the interpreter.
+				if(interpreter instanceof IExternalContextAware){
+					((IExternalContextAware)interpreter).clearExternalContext();
+					((IExternalContextAware)interpreter).setExternalContext(contextList.toArray(contextArray));
+				}
+
 				Mod m = (Mod) this
 						.getModel("var a = this.FUNCTION SGSN->RESOURCE RES1 CAP 60;");
 				@SuppressWarnings("unused")
@@ -232,9 +245,12 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 
 			{
 
-				interpreter.clear(); // Clear the interpreter.
-				interpreter.setContext(contextList.toArray(contextArray)); // Set
-																			// a
+				interpreter.clearResults(); // Clear the interpreter.
+				if(interpreter instanceof IExternalContextAware){
+					((IExternalContextAware)interpreter).clearExternalContext();
+					((IExternalContextAware)interpreter).setExternalContext(contextList.toArray(contextArray));
+				}
+
 				Mod m = (Mod) this
 						.getModel("var a = this.FUNCTION SGSN->RESOURCE RES1 METRIC AVG 60; var i = 0; var c = []; while( i < a.count()){ c += a[i];  i+=1;} this.FUNCTION SGSN->RESOURCE RES2 UTILIZATION AVG 60 = c;");
 				@SuppressWarnings("unused")
@@ -254,10 +270,12 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			// the expression result. (Cool typeless system).
 
 			{
+				interpreter.clearResults(); // Clear the interpreter.
+				if(interpreter instanceof IExternalContextAware){
+					((IExternalContextAware)interpreter).clearExternalContext();
+					((IExternalContextAware)interpreter).setExternalContext(contextList.toArray(contextArray));
+				}
 
-				interpreter.clear(); // Clear the interpreter.
-				interpreter.setContext(contextList.toArray(contextArray)); // Set
-																			// a
 				Mod m = (Mod) this
 						.getModel("var metric = this.FUNCTION SGSN->RESOURCE RES1 METRIC AVG 60; var i = 0; var temp = []; while( i < metric.count()){ temp += metric[i] ;  i+=1;} this.FUNCTION SGSN->RESOURCE RES2 UTILIZATION AVG 60 = temp;");
 				@SuppressWarnings("unused")
@@ -272,10 +290,12 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			// An expression which takes a model object and applies a native
 			// expression.
 			{
+				interpreter.clearResults(); // Clear the interpreter.
+				if(interpreter instanceof IExternalContextAware){
+					((IExternalContextAware)interpreter).clearExternalContext();
+					((IExternalContextAware)interpreter).setExternalContext(contextList.toArray(contextArray));
+				}
 
-				interpreter.clear(); // Clear the interpreter.
-				interpreter.setContext(contextList.toArray(contextArray)); // Set
-																			// a
 				Mod m = (Mod) this
 						.getModel("var a = this.EQUIPMENT BOARD.count();");
 				@SuppressWarnings("unused")
@@ -306,9 +326,12 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				// An expression which takes a model object and applies a native
 				// expression.
 				{
+					interpreter.clearResults(); // Clear the interpreter.
+					if(interpreter instanceof IExternalContextAware){
+						((IExternalContextAware)interpreter).clearExternalContext();
+						((IExternalContextAware)interpreter).setExternalContext(contextList.toArray(contextArray));
+					}
 
-					interpreter.clear(); // Clear the interpreter.
-					interpreter.setContext(contextList.toArray(contextArray)); // Set
 
 					Mod m = (Mod) this
 							.getModel("this UTILIZATION 60 = this METRIC AVG 60 / this CAP 60;");
@@ -342,9 +365,11 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				// An expression which takes a model object and applies a native
 				// expression.
 				{
-
-					interpreter.clear(); // Clear the interpreter.
-					interpreter.setContext(contextList.toArray(contextArray)); // Set
+					interpreter.clearResults(); // Clear the interpreter.
+					if(interpreter instanceof IExternalContextAware){
+						((IExternalContextAware)interpreter).clearExternalContext();
+						((IExternalContextAware)interpreter).setExternalContext(contextList.toArray(contextArray));
+					}
 
 					Mod m = (Mod) this
 							.getModel("this TOLERANCE 60 = this CAP 60 * 0.9;");
