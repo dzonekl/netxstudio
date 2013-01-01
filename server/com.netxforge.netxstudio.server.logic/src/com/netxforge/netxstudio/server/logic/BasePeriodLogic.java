@@ -99,7 +99,7 @@ public abstract class BasePeriodLogic extends BaseLogic {
 	 */
 	public DateTimeRange getDefaultLogicPeriod() {
 
-		Date startTime = this.getModelUtils().sixMonthsAgo();
+		Date startTime = this.getModelUtils().monthsAgo(8);
 		startTime = getModelUtils().adjustToDayStart(startTime);
 
 		// Perhaps should calculate on midnght hours.

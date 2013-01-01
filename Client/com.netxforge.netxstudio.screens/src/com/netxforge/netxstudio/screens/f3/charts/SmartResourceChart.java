@@ -100,6 +100,8 @@ public class SmartResourceChart extends Chart implements
 	 */
 	private int utilizationAxisID = -1;
 
+	private ChartMouseListener plotAreaListener;
+
 	public SmartResourceChart(Composite parent, int style, Object layoutData) {
 		super(parent, style);
 
@@ -122,8 +124,11 @@ public class SmartResourceChart extends Chart implements
 				ScreensActivator.getDefault().getPreferenceStore()
 						.getBoolean(ScreenConstants.PREFERENCE_LEGEND_VISIBLE));
 
-		ChartMouseListener plotAreaListener = new ChartMouseListener(
+		plotAreaListener = new ChartMouseListener(
 				getPlotArea());
+		
+		plotAreaListener.setActive(false);
+		
 		getPlotArea().addListener(SWT.MouseMove, plotAreaListener);
 		getPlotArea().addListener(SWT.MouseDown, plotAreaListener);
 		getPlotArea().addListener(SWT.MouseUp, plotAreaListener);
@@ -349,7 +354,7 @@ public class SmartResourceChart extends Chart implements
 	 * @param model
 	 */
 	public void initChartBinding(ChartModel model) {
-
+		
 		cleanChart();
 
 		configureXAxis(model);
@@ -376,6 +381,8 @@ public class SmartResourceChart extends Chart implements
 		// chart.getAxisSet().getYAxes()[1].adjustRange();
 		getAxisSet().adjustRange();
 		redraw();
+		
+		plotAreaListener.setActive(true);
 	}
 
 	private void configureUtilizationVisible(boolean visible) {
@@ -519,9 +526,20 @@ public class SmartResourceChart extends Chart implements
 	 * The mouse listener to show marker on chart.
 	 */
 	private class ChartMouseListener implements Listener {
-
+		
 		/** The control to add listener. */
 		private Control control;
+		
+		// If the listener is active. 
+		private boolean active = false;
+		
+		public boolean isActive() {
+			return active;
+		}
+
+		public void setActive(boolean active) {
+			this.active = active;
+		}
 
 		/**
 		 * The constructor.
@@ -546,7 +564,11 @@ public class SmartResourceChart extends Chart implements
 		 * @see Listener#handleEvent(Event)
 		 */
 		public void handleEvent(Event event) {
-
+			
+			if(!isActive()){
+				return;
+			}
+			
 			if (marker == null) {
 				return;
 			}

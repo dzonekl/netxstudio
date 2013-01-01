@@ -44,6 +44,9 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 
 	private ServiceMonitor serviceMonitor;
 
+	/**
+	 * @deprecated
+	 */
 	void initializeMonitoringLogic() {
 		this.calculatePeriod(rfsService);
 		this.initServiceMonitor(this.getPeriod());

@@ -397,10 +397,10 @@ public class ModelUtils {
 		public int compare(final DateTimeRange dtr1, DateTimeRange dtr2) {
 
 			if (dtr1 != null && dtr2 != null) {
-				
+
 				int beginResult = dtr1.getBegin().compare(dtr2.getBegin());
 				int endResult = dtr2.getEnd().compare(dtr2.getEnd());
-				if( beginResult == 0 &&  endResult == 0){
+				if (beginResult == 0 && endResult == 0) {
 					return 0;
 				}
 			}
@@ -846,10 +846,11 @@ public class ModelUtils {
 	 * in range. targetBegin <= begin && targetEnd <= end. (Example of an
 	 * overlapping).
 	 */
-	public class ServiceMonitorInsideRange implements Predicate<ServiceMonitor> {
+	public class ServiceMonitorWithinPeriod implements
+			Predicate<ServiceMonitor> {
 		private final DateTimeRange dtr;
 
-		public ServiceMonitorInsideRange(final DateTimeRange dtr) {
+		public ServiceMonitorWithinPeriod(final DateTimeRange dtr) {
 			this.dtr = dtr;
 		}
 
@@ -899,8 +900,30 @@ public class ModelUtils {
 		}
 	}
 
-	public ServiceMonitorInsideRange serviceMonitorinsideRange(DateTimeRange dtr) {
-		return new ServiceMonitorInsideRange(dtr);
+	public ServiceMonitorWithinPeriod serviceMonitorWithinPeriod(
+			DateTimeRange dtr) {
+		return new ServiceMonitorWithinPeriod(dtr);
+	}
+
+	/**
+	 * Get the {@link ServiceMonitor Service Monitors} for which the start and
+	 * end date is within the provided {@link DateTimeRange period}.
+	 * 
+	 * @param service
+	 * @param dtr
+	 * @return
+	 */
+	public List<ServiceMonitor> serviceMonitorsWithinPeriod(Service service,
+			DateTimeRange dtr) {
+		// Sort and reverse the Service Monitors.
+		List<ServiceMonitor> sortedCopy = Ordering
+				.from(this.serviceMonitorCompare()).reverse()
+				.sortedCopy(service.getServiceMonitors());
+
+		// Filter ServiceMonitors on the time range.
+		List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
+				sortedCopy, dtr);
+		return filtered;
 	}
 
 	/**
@@ -1313,7 +1336,7 @@ public class ModelUtils {
 	public List<ServiceMonitor> filterSerciceMonitorInRange(
 			List<ServiceMonitor> unfiltered, DateTimeRange dtr) {
 		Iterable<ServiceMonitor> filterValues = Iterables.filter(unfiltered,
-				this.serviceMonitorinsideRange(dtr));
+				this.serviceMonitorWithinPeriod(dtr));
 		return (Lists.newArrayList(filterValues));
 	}
 
@@ -1877,16 +1900,12 @@ public class ModelUtils {
 	 * @return
 	 */
 	public Map<NetXResource, List<ResourceMonitor>> resourceMonitorMapPerResourceForServiceMonitorAndNodeAndPeriod(
-			ServiceMonitor serviceMonitor, Node n, DateTimeRange dtr,
-			IProgressMonitor monitor) {
-
-		// Filter ServiceMonitors on the time range.
-		// List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
-		// sortedCopy, dtr);
+			Node n, DateTimeRange dtr, IProgressMonitor monitor,
+			ServiceMonitor... serviceMonitors) {
 
 		Map<NetXResource, List<ResourceMonitor>> monitorsPerResource = resourceMonitorMapPerResourceForServiceMonitorsAndNode(
-				Arrays.asList(new ServiceMonitor[] { serviceMonitor }), n,
-				monitor);
+				Arrays.asList(serviceMonitors), n, monitor);
+
 		return monitorsPerResource;
 	}
 
@@ -2740,11 +2759,11 @@ public class ModelUtils {
 		};
 		return getDayString.apply(weekDay);
 	}
-	
-	
+
 	/**
-	 * Returns a {@link Date} as a <code>String</code> in the pre-defined format: 
-	 * <code>'dd-MM-yyyy'</code>
+	 * Returns a {@link Date} as a <code>String</code> in the pre-defined
+	 * format: <code>'dd-MM-yyyy'</code>
+	 * 
 	 * @param d
 	 * @return
 	 */
@@ -2769,8 +2788,8 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Returns a {@link Date} as a <code>String</code> in a pre-defined format: 
-     * <code>'HH:mm'</code>
+	 * Returns a {@link Date} as a <code>String</code> in a pre-defined format:
+	 * <code>'HH:mm'</code>
 	 * 
 	 * @param d
 	 * @return
@@ -2843,10 +2862,10 @@ public class ModelUtils {
 
 		return sb.toString();
 	}
-	
+
 	/**
-	 * Returns a {@link Date} as a <code>String</code> in a pre-defined format: 
-     * <code>'HH:mm:ss'</code>
+	 * Returns a {@link Date} as a <code>String</code> in a pre-defined format:
+	 * <code>'HH:mm:ss'</code>
 	 * 
 	 * @param d
 	 * @return
@@ -2862,8 +2881,8 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Returns a {@link Date} as a <code>String</code> in a pre-defined format: 
-     * <code>'HH:mm:ss SSS'</code>
+	 * Returns a {@link Date} as a <code>String</code> in a pre-defined format:
+	 * <code>'HH:mm:ss SSS'</code>
 	 * 
 	 * @param d
 	 * @return
@@ -2879,7 +2898,8 @@ public class ModelUtils {
 	}
 
 	/**
-	 * The current time as a <code>String</code> formatted as {@link #timeAndSeconds(Date)}
+	 * The current time as a <code>String</code> formatted as
+	 * {@link #timeAndSeconds(Date)}
 	 * 
 	 * @return
 	 */
@@ -2900,10 +2920,10 @@ public class ModelUtils {
 		Date date = fromXMLDate(d);
 		return folderDateAndTime(date);
 	}
-	
+
 	/**
-	 * returns a {@link Date} as a <code>String</code> with the following pre-defined format. 
-	 * {@link #date} '-' {@link #time}
+	 * returns a {@link Date} as a <code>String</code> with the following
+	 * pre-defined format. {@link #date} '-' {@link #time}
 	 * 
 	 * @param d
 	 * @return
@@ -2911,17 +2931,17 @@ public class ModelUtils {
 	public String dateAndTime(Date d) {
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(date(d) + "_");
+		sb.append(date(d) + " ");
 		sb.append(time(d));
 		return sb.toString();
 	}
 
-	
 	/**
-	 * returns a {@link Date} as a <code>String</code> with the following pre-defined format. 
-	 * <code>'ddMMyyyy-HHmm'</code> suitable for a file folder name. 
+	 * returns a {@link Date} as a <code>String</code> with the following
+	 * pre-defined format. <code>'ddMMyyyy-HHmm'</code> suitable for a file
+	 * folder name.
 	 * 
-	 *  
+	 * 
 	 * @see {@link File}
 	 * @param d
 	 * @return
@@ -3157,6 +3177,18 @@ public class ModelUtils {
 		final Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
 		cal.add(Calendar.MONTH, -6);
+		return cal.getTime();
+	}
+		
+	/**
+	 * Get a {@link Date} for the specified number of months ago. 
+	 * @param n
+	 * @return
+	 */
+	public Date monthsAgo(int n) {
+		final Calendar cal = GregorianCalendar.getInstance();
+		cal.setTime(new Date(System.currentTimeMillis()));
+		cal.add(Calendar.MONTH, -n);
 		return cal.getTime();
 	}
 

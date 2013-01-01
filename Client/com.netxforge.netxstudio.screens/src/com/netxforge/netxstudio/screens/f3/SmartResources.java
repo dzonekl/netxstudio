@@ -305,7 +305,7 @@ public class SmartResources extends AbstractScreen implements
 	private ContextAggregate contextAggregate;
 
 	/*
-	 * The Monitoring Aggregate
+	 * The Monitoring Context Aggregate
 	 */
 	private MonitoringAggregate monitoringAggregate;
 
@@ -864,7 +864,6 @@ public class SmartResources extends AbstractScreen implements
 					final List<BaseExpressionResult> result = expressionEngine
 							.getExpressionResult();
 
-					
 					resultProcessor.processMonitoringResult(
 							expressionEngine.getContext(), result, period);
 
@@ -1419,10 +1418,6 @@ public class SmartResources extends AbstractScreen implements
 		 */
 		private Service currentService = null;
 
-		/*
-		 * The current resource monitor (associated with the NetXResource).
-		 */
-		private ResourceMonitor currentResourceMonitor = null;
 
 		/*
 		 * The current monitored node.
@@ -1436,13 +1431,17 @@ public class SmartResources extends AbstractScreen implements
 		/*
 		 * All Markers for the context Node.
 		 */
-		private Map<NetXResource, List<ResourceMonitor>> monitorsForNode;
+		private Map<NetXResource, List<ResourceMonitor>> monitorsPerNetXResource;
+
+		/*
+		 * The current observed monitoring period. A period not clearly at
+		 * monitoring boundaries of Month, Week, Day might contain Monitoring
+		 * information (Like Markers) before and/or after the period.
+		 */
+		private DateTimeRange currentPeriod = GenericsFactory.eINSTANCE.createDateTimeRange();
 
 		public void handleValueChange(ValueChangeEvent event) {
 			IObservable observable = event.getObservable();
-
-			// Object newValue = event.diff.getNewValue();
-			// System.out.println("Obsv" + observable + "value:" + newValue);
 
 			if (observable instanceof IViewerObservableValue) {
 				IViewerObservableValue ivov = (IViewerObservableValue) observable;
@@ -1457,8 +1456,20 @@ public class SmartResources extends AbstractScreen implements
 					currentNetXResource = processResourceChange(event
 							.getObservableValue());
 				}
+			} else if (observable instanceof WritableValue) {
+				Object value = ((WritableValue) observable).getValue();
+				if (observable == periodBeginWritableValue) {
+					currentPeriod.setBegin((XMLGregorianCalendar) value);
+					updateResourceMonitorsForNode(currentNode);
+				} else if (observable == periodEndWritableValue) {
+					currentPeriod.setEnd((XMLGregorianCalendar) value);
+					updateResourceMonitorsForNode(currentNode);
+				}
 			}
+		}
 
+		public DateTimeRange getPeriod() {
+			return currentPeriod;
 		}
 
 		@SuppressWarnings("unused")
@@ -1468,7 +1479,7 @@ public class SmartResources extends AbstractScreen implements
 
 		@SuppressWarnings("unused")
 		public Map<NetXResource, List<ResourceMonitor>> getMonitorsForNode() {
-			return monitorsForNode;
+			return monitorsPerNetXResource;
 		}
 
 		/**
@@ -1480,9 +1491,9 @@ public class SmartResources extends AbstractScreen implements
 		 */
 		public ResourceMonitor getResourceMonitorForNetXResource(
 				NetXResource resource) {
-			if (monitorsForNode != null
-					&& monitorsForNode.containsKey(resource)) {
-				List<ResourceMonitor> resourceMonitors = monitorsForNode
+			if (monitorsPerNetXResource != null
+					&& monitorsPerNetXResource.containsKey(resource)) {
+				List<ResourceMonitor> resourceMonitors = monitorsPerNetXResource
 						.get(resource);
 				// Check that our markers are not invalid...
 				// If monitoring is running, we could become invalid.
@@ -1491,21 +1502,15 @@ public class SmartResources extends AbstractScreen implements
 						updateResourceMonitorsForNode(currentNode);
 						return null;
 					}
-				}
-
-				// Assume the size is 1, set the current Monitor.
-				if (resourceMonitors.size() > 0) {
-					currentResourceMonitor = resourceMonitors.get(0);
-					return currentResourceMonitor;
 				}
 			}
 			return null;
 		}
 
 		public List<Marker> getMarkersForResource(NetXResource resource) {
-			if (monitorsForNode != null
-					&& monitorsForNode.containsKey(resource)) {
-				List<ResourceMonitor> resourceMonitors = monitorsForNode
+			if (monitorsPerNetXResource != null
+					&& monitorsPerNetXResource.containsKey(resource)) {
+				List<ResourceMonitor> resourceMonitors = monitorsPerNetXResource
 						.get(resource);
 				// Check that our markers are not invalid...
 				// If monitoring is running, we could become invalid.
@@ -1515,13 +1520,20 @@ public class SmartResources extends AbstractScreen implements
 						return null;
 					}
 				}
-
-				// Assume the size is 1, set the current Monitor.
-				if (resourceMonitors.size() > 0) {
-					currentResourceMonitor = resourceMonitors.get(0);
-					return modelUtils
-							.toleranceMarkersForResourceMonitor(currentResourceMonitor);
+				
+				List<Marker> markers = Lists.newArrayList();
+				
+				for(ResourceMonitor rm : resourceMonitors){
+					List<Marker> toleranceMarkersForResourceMonitor = modelUtils
+					.toleranceMarkersForResourceMonitor(rm);
+					if( toleranceMarkersForResourceMonitor != null && !toleranceMarkersForResourceMonitor.isEmpty()){
+						markers.addAll(toleranceMarkersForResourceMonitor);
+					}
 				}
+				
+				return markers;
+				
+				
 			}
 			return null;
 		}
@@ -1551,43 +1563,43 @@ public class SmartResources extends AbstractScreen implements
 		}
 
 		/**
+		 * Updates the monitors based on the current Monitoring context.
+		 * 
 		 * @param n
 		 */
 		private void updateResourceMonitorsForNode(Node n) {
-			// Could take a while, see UI impact.
-			ServiceMonitor lastServiceMonitor = modelUtils
-					.lastServiceMonitor(currentService);
-			if (lastServiceMonitor != null) {
+			
+			if(currentService == null || n == null){
+				return; // No Service, No Monitor. 
+			}
+			
+			List<ServiceMonitor> serviceMonitorsWithinPeriod = modelUtils
+					.serviceMonitorsWithinPeriod(currentService, getPeriod());
+
+			if (serviceMonitorsWithinPeriod != null) {
 
 				// TODO Run the update in the background
-				monitorsForNode = modelUtils
+				monitorsPerNetXResource = modelUtils
 						.resourceMonitorMapPerResourceForServiceMonitorAndNodeAndPeriod(
-								lastServiceMonitor, n,
-								contextAggregate.getPeriod(), null);
-
-				System.out.println("Monitors for : "
-						+ monitorsForNode.values().size() + " resources");
+								n,
+								contextAggregate.getPeriod(),
+								null,
+								serviceMonitorsWithinPeriod
+										.toArray(new ServiceMonitor[serviceMonitorsWithinPeriod
+												.size()]));
 			}
 		}
 
 		private void updateResourceMonitorForNetXResource(
 				NetXResource netXResource) {
-			if (monitorsForNode != null) {
-				final List<ResourceMonitor> list = monitorsForNode
+			if (monitorsPerNetXResource != null) {
+				@SuppressWarnings("unused")
+				final List<ResourceMonitor> list = monitorsPerNetXResource
 						.get(netXResource);
-				if (list != null && list.size() > 0) {
-
-					// Should really consider the current period, instead of
-					// getting the
-					// the last monitor.
-					currentResourceMonitor = list.get(0);
-					if (ScreensActivator.DEBUG) {
-						ScreensActivator.TRACE.trace(
-								ScreensActivator.TRACE_SCREENS_OPTION,
-								"Setting current Monitor");
-					}
-
-				}
+					
+				// Not clear what is done here??? 
+				
+				
 			}
 		}
 
@@ -2525,14 +2537,16 @@ public class SmartResources extends AbstractScreen implements
 		periodBeginWritableValue.addValueChangeListener(contextAggregate);
 		periodEndWritableValue.addValueChangeListener(contextAggregate);
 
+		periodBeginWritableValue.addValueChangeListener(monitoringAggregate);
+		periodEndWritableValue.addValueChangeListener(monitoringAggregate);
+
 		cmpPeriod.getDateTimeFrom().addSelectionListener(
 				new SelectionAdapter() {
-
-					@Override
 					public void widgetSelected(SelectionEvent e) {
 						periodBeginWritableValue.setValue(cmpPeriod.getPeriod()
 								.getBegin());
 						cmpValues.applyDateFilter(cmpPeriod.getPeriod(), true);
+						cmpResources.getViewer().refresh();
 					}
 				});
 
@@ -2541,6 +2555,7 @@ public class SmartResources extends AbstractScreen implements
 			public void widgetSelected(SelectionEvent e) {
 				periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
 				cmpValues.applyDateFilter(cmpPeriod.getPeriod(), true);
+				cmpResources.getViewer().refresh();
 			}
 
 		});
@@ -3142,10 +3157,28 @@ public class SmartResources extends AbstractScreen implements
 	@Override
 	public void restoreState(IMemento memento) {
 		if (memento != null) {
+
 			mementoUtils.retrieveSashForm(memento, sashVertical,
 					MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_VERTICAL);
 			mementoUtils.retrieveSashForm(memento, sashData,
 					MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
+
+			// Set the period prior to the Operator/Service, Network, Node &
+			// Resource selection, as this will
+			// trigger the loading
+			// of values.
+			mementoUtils.retrieveCDateTime(memento,
+					cmpPeriod.getDateTimeFrom(),
+					MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM);
+			mementoUtils.retrieveCDateTime(memento, cmpPeriod.getDateTimeTo(),
+					MEM_KEY_NODERESOURCEADVANCED_PERIOD_TO);
+
+			// update the binding, as this won't work by setting the UI widget
+			// selection.
+			cmpPeriod.updatePeriod();
+
+			periodBeginWritableValue.setValue(cmpPeriod.getPeriod().getBegin());
+			periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
 
 			mementoUtils.retrieveStructuredViewerSelection(memento,
 					cmbViewerOperator,
@@ -3165,22 +3198,6 @@ public class SmartResources extends AbstractScreen implements
 					componentsTreeViewer,
 					MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT,
 					this.operatorResource.cdoView());
-
-			// Set the period prior to the Resource selection, as this will
-			// trigger the loading
-			// of values.
-			mementoUtils.retrieveCDateTime(memento,
-					cmpPeriod.getDateTimeFrom(),
-					MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM);
-			mementoUtils.retrieveCDateTime(memento, cmpPeriod.getDateTimeTo(),
-					MEM_KEY_NODERESOURCEADVANCED_PERIOD_TO);
-
-			// update the binding, as this won't work by setting the UI widget
-			// selection.
-			cmpPeriod.updatePeriod();
-
-			periodBeginWritableValue.setValue(cmpPeriod.getPeriod().getBegin());
-			periodEndWritableValue.setValue(cmpPeriod.getPeriod().getEnd());
 
 			mementoUtils.retrieveStructuredViewerSelection(memento,
 					resourcesTableViewer,
