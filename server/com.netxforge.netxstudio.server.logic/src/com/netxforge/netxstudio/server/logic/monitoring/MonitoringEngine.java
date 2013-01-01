@@ -86,7 +86,15 @@ public class MonitoringEngine extends BaseComponentEngine {
 		// Expression runCapExpression =
 		// getExpression(LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF);
 		// runForExpression(runCapExpression);
-
+		
+		
+		
+		
+		// CB 31-12-2012 As we execute the same expressions for multiple resources, if the expression 
+		// is a hard resource reference. (Where the context reference is not used, this will result in recalculating 
+		// the value multiple time for the hard reference!!!!!!!
+		// 
+	
 		for (final NetXResource netXResource : getComponent().getResourceRefs()) {
 
 			// remove the last entry, (Keep the date time and node context).

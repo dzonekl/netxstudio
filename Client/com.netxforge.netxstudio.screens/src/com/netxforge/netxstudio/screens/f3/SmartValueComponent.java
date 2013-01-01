@@ -89,7 +89,7 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  * 
  * 
  * 
- * @author Christophe
+ * @author Christophe Bouhier
  * 
  */
 public class SmartValueComponent {
@@ -194,7 +194,8 @@ public class SmartValueComponent {
 						if (o1 instanceof Object[] && o1 instanceof Object[]) {
 							Date d1 = (Date) ((Object[]) o1)[0];
 							Date d2 = (Date) ((Object[]) o2)[0];
-							return modelUtils.dateComparator().compare(d1, d2);
+							// Compare Ascending. 
+							return modelUtils.dateComparator().compare(d2, d1);
 						}
 						return 0;
 					}
