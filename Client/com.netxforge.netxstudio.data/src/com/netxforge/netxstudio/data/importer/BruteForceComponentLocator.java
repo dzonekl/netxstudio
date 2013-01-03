@@ -25,7 +25,6 @@ import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -42,7 +41,6 @@ import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
@@ -51,7 +49,6 @@ import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
-import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Warehouse;
 
 /**
@@ -62,10 +59,8 @@ import com.netxforge.netxstudio.operators.Warehouse;
  * @author Martin Taal
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class ComponentLocator {
+public class BruteForceComponentLocator implements IComponentLocator {
 
-	// @Inject
-	// @Server
 	private IDataProvider dataProvider;
 
 	@Inject
@@ -78,25 +73,25 @@ public class ComponentLocator {
 	// keeps track of the most successfull identifiers, can be used to provide
 	// more
 	// information to the user on which columns failed
-	private List<IdentifierDescriptor> successFullIdentifiers = Lists
+	private List<IComponentLocator.IdentifierDescriptor> successFullIdentifiers = Lists
 			.newArrayList();
 
-	private List<IdentifierDescriptor> failedIdentifiers = Lists.newArrayList();
+	private List<IComponentLocator.IdentifierDescriptor> failedIdentifiers = Lists.newArrayList();
 
 	private List<Component> successFullComponents = Lists.newArrayList();
 
-	private IdentifierDescriptor lastMatchingIdentifier = null;
+	private IComponentLocator.IdentifierDescriptor lastMatchingIdentifier = null;
 
 	private ParameterizedFunction cacheFunction;
 
 	private ParameterizedFunction allComponentsCacheFunction;
 
-	public IdentifierDescriptor getLastMatchingIdentifier() {
+	public IComponentLocator.IdentifierDescriptor getLastMatchingIdentifier() {
 		return lastMatchingIdentifier;
 	}
 
 	public void setLastMatchingIdentifier(
-			IdentifierDescriptor lastMatchingIdentifier) {
+			IComponentLocator.IdentifierDescriptor lastMatchingIdentifier) {
 		this.lastMatchingIdentifier = lastMatchingIdentifier;
 	}
 
@@ -108,12 +103,12 @@ public class ComponentLocator {
 			com.google.common.base.Function<String, List<Component>> {
 
 		private Metric metric;
-		private List<IdentifierDescriptor> descriptors;
-		private IdentifierDescriptor nodeDescriptor;
+		private List<IComponentLocator.IdentifierDescriptor> descriptors;
+		private IComponentLocator.IdentifierDescriptor nodeDescriptor;
 
 		public void setParameters(Metric metric,
-				List<IdentifierDescriptor> descriptors,
-				IdentifierDescriptor nodeDescriptor) {
+				List<IComponentLocator.IdentifierDescriptor> descriptors,
+				IComponentLocator.IdentifierDescriptor nodeDescriptor) {
 			this.metric = metric;
 			this.descriptors = descriptors;
 			this.nodeDescriptor = nodeDescriptor;
@@ -144,7 +139,7 @@ public class ComponentLocator {
 			boolean searchingForAll = true;
 			boolean searchingForEquipment = false;
 			boolean searchingForFunction = false;
-			for (final IdentifierDescriptor idValue : descriptors) {
+			for (final IComponentLocator.IdentifierDescriptor idValue : descriptors) {
 				if (idValue.getKind().getObjectKind() == ObjectKindType.EQUIPMENT) {
 					searchingForEquipment = true;
 					searchingForAll = false;
@@ -231,7 +226,7 @@ public class ComponentLocator {
 
 	}
 
-	public ComponentLocator() {
+	public BruteForceComponentLocator() {
 		// init the cache.
 		this.initialize();
 	}
@@ -291,8 +286,11 @@ public class ComponentLocator {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.importer.IComponentLocator#locateComponent(com.netxforge.netxstudio.metrics.Metric, java.util.List)
+	 */
 	public Component locateComponent(Metric metric,
-			List<IdentifierDescriptor> descriptors) {
+			List<IComponentLocator.IdentifierDescriptor> descriptors) {
 
 		successFullIdentifiers.clear();
 		failedIdentifiers.clear();
@@ -306,14 +304,14 @@ public class ComponentLocator {
 					"Start locator , metric=" + metric.getName()
 							+ " # idenfifiers =" + descriptors.size()
 							+ " id's are: ");
-			for (IdentifierDescriptor iv : descriptors) {
+			for (IComponentLocator.IdentifierDescriptor iv : descriptors) {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_IMPORT_LOCATOR_OPTION, "-- ID col="
 								+ iv.getColumn() + " ,value=" + iv.getValue());
 			}
 		}
 
-		IdentifierDescriptor nodeDescriptor = getNodeIdentifier(descriptors);
+		IComponentLocator.IdentifierDescriptor nodeDescriptor = getNodeIdentifier(descriptors);
 		if (nodeDescriptor == null) {
 			failedIdentifiers.add(nodeDescriptor);
 			if (DataActivator.DEBUG) {
@@ -365,7 +363,7 @@ public class ComponentLocator {
 		// /////////////////////////////////////////////////////
 
 		// report the failed ID's.
-		for (final IdentifierDescriptor idValue : descriptors) {
+		for (final IComponentLocator.IdentifierDescriptor idValue : descriptors) {
 			if (!successFullIdentifiers.contains(idValue)) {
 				failedIdentifiers.add(idValue);
 			}
@@ -454,8 +452,8 @@ public class ComponentLocator {
 	// Iterate through components and sub iterate through the identifiers,
 	// having a full match of identifiers
 	// and components.
-	private Component matchIdentifiers(List<IdentifierDescriptor> identifiers,
-			IdentifierDescriptor nodeIdentifier,
+	private Component matchIdentifiers(List<IComponentLocator.IdentifierDescriptor> identifiers,
+			IComponentLocator.IdentifierDescriptor nodeIdentifier,
 			List<Component> allComponentsMatchingMetrics) {
 
 		for (final Component componentToVerify : allComponentsMatchingMetrics) {
@@ -474,7 +472,7 @@ public class ComponentLocator {
 			boolean atLeastOneIdentifierChecked = false;
 
 			// Identifiers which have matched, The Node Identifier = 1.
-			final List<IdentifierDescriptor> localSuccessFullIdentifiers = Lists
+			final List<IComponentLocator.IdentifierDescriptor> localSuccessFullIdentifiers = Lists
 					.newArrayList();
 			localSuccessFullIdentifiers.add(nodeIdentifier);
 
@@ -483,7 +481,7 @@ public class ComponentLocator {
 
 			// If we are here, we already know the Node Identifier matches,
 			// so do not test again.
-			for (final IdentifierDescriptor idDescriptor : identifiers) {
+			for (final IComponentLocator.IdentifierDescriptor idDescriptor : identifiers) {
 
 				// Skip the Node identifier.
 				if (idDescriptor.getKind().getObjectKind() != ObjectKindType.NODE) {
@@ -564,12 +562,12 @@ public class ComponentLocator {
 	// DO NOT USE, DOESN"T WORK.
 	@SuppressWarnings("unused")
 	private Component matchIdentifiersAdvanced(
-			List<IdentifierDescriptor> identifiers,
-			IdentifierDescriptor nodeIdentifier,
+			List<IComponentLocator.IdentifierDescriptor> identifiers,
+			IComponentLocator.IdentifierDescriptor nodeIdentifier,
 			List<Component> allComponentsMatchingMetrics) {
 
 		// Identifiers which have matched, The Node Identifier = 1.
-		final List<IdentifierDescriptor> localSuccessFullIdentifiers = Lists
+		final List<IComponentLocator.IdentifierDescriptor> localSuccessFullIdentifiers = Lists
 				.newArrayList();
 		localSuccessFullIdentifiers.add(nodeIdentifier);
 
@@ -581,7 +579,7 @@ public class ComponentLocator {
 
 		final List<Component> localSucssFullComponents = Lists.newArrayList();
 
-		for (final IdentifierDescriptor idDescriptor : identifiers) {
+		for (final IComponentLocator.IdentifierDescriptor idDescriptor : identifiers) {
 			atLeastOneIdentifierChecked = true;
 
 			if (idDescriptor.getKind().getObjectKind() == ObjectKindType.NODE) {
@@ -650,11 +648,11 @@ public class ComponentLocator {
 		return result;
 	}
 
-	private IdentifierDescriptor getNodeIdentifier(
-			List<IdentifierDescriptor> identifiers) {
+	private IComponentLocator.IdentifierDescriptor getNodeIdentifier(
+			List<IComponentLocator.IdentifierDescriptor> identifiers) {
 		// find the node identifier otherwise bail out.
-		IdentifierDescriptor nodeIdentifier = null;
-		for (final IdentifierDescriptor identifierValue : identifiers) {
+		IComponentLocator.IdentifierDescriptor nodeIdentifier = null;
+		for (final IComponentLocator.IdentifierDescriptor identifierValue : identifiers) {
 			if (identifierValue.getKind().getObjectKind() == ObjectKindType.NODE) {
 				nodeIdentifier = identifierValue;
 				break;
@@ -665,14 +663,14 @@ public class ComponentLocator {
 	}
 
 	private List<Component> createForIdentifiers(
-			List<IdentifierDescriptor> targetIdentifiers,
+			List<IComponentLocator.IdentifierDescriptor> targetIdentifiers,
 			Component targetComponent) {
 
 		List<Component> resultComponents = Lists.newArrayList(targetComponent);
 
-		List<IdentifierDescriptor> componentIdentifiers = Lists.newArrayList();
+		List<IComponentLocator.IdentifierDescriptor> componentIdentifiers = Lists.newArrayList();
 		componentIdentifiers.clear();
-		for (IdentifierDescriptor iv : targetIdentifiers) {
+		for (IComponentLocator.IdentifierDescriptor iv : targetIdentifiers) {
 			ObjectKindType objectKind = iv.getKind().getObjectKind();
 			if (objectKind == ObjectKindType.EQUIPMENT
 					|| objectKind == ObjectKindType.FUNCTION
@@ -682,7 +680,7 @@ public class ComponentLocator {
 		}
 
 		Component createOnComponent = targetComponent;
-		for (IdentifierDescriptor descriptor : componentIdentifiers) {
+		for (IComponentLocator.IdentifierDescriptor descriptor : componentIdentifiers) {
 
 			lastMatchingIdentifier = descriptor;
 			if (DataActivator.DEBUG) {
@@ -709,7 +707,7 @@ public class ComponentLocator {
 	}
 
 	private Component createIdentified(Component target,
-			IdentifierDescriptor identifierDescriptor) {
+			IComponentLocator.IdentifierDescriptor identifierDescriptor) {
 
 		// The ultimate result, either a created component or the component
 		// holding a relationship.
@@ -842,7 +840,7 @@ public class ComponentLocator {
 	}
 
 	private boolean hasValidNode(EObject eObject,
-			IdentifierDescriptor identifierValue) {
+			IComponentLocator.IdentifierDescriptor identifierValue) {
 		if (eObject == null) {
 			return false;
 		}
@@ -866,7 +864,7 @@ public class ComponentLocator {
 	 * (For the target row).
 	 */
 	private boolean isMatching(EObject eObject,
-			IdentifierDescriptor identifierDescriptor,
+			IComponentLocator.IdentifierDescriptor identifierDescriptor,
 			boolean shouldMatchParents) {
 
 		// A null identifier should not be created!
@@ -950,9 +948,9 @@ public class ComponentLocator {
 	}
 
 	public class MatchComponentPredicate implements Predicate<Component> {
-		private final IdentifierDescriptor identifierDescriptor;
+		private final IComponentLocator.IdentifierDescriptor identifierDescriptor;
 
-		public MatchComponentPredicate(final IdentifierDescriptor descriptor) {
+		public MatchComponentPredicate(final IComponentLocator.IdentifierDescriptor descriptor) {
 			this.identifierDescriptor = descriptor;
 		}
 
@@ -973,97 +971,6 @@ public class ComponentLocator {
 		}
 	}
 
-	public static class IdentifierDescriptor {
-		private IdentifierDataKind kind;
-		private String value;
-		private int column;
-		private EStructuralFeature propertyFeature;
-
-		IdentifierDescriptor(IdentifierDataKind kind, String value, int column) {
-			this.kind = kind;
-			this.value = value;
-			this.column = column;
-
-			// Pre-create the feature, based on the identifier info.
-			ObjectKindType objectKind = kind.getObjectKind();
-
-			// We have some legacty configurations, which have the
-
-			switch (objectKind.getValue()) {
-			case ObjectKindType.EQUIPMENT_VALUE: {
-				this.propertyFeature = featureForName(
-						LibraryPackage.Literals.EQUIPMENT,
-						kind.getObjectProperty());
-			}
-				break;
-			case ObjectKindType.FUNCTION_VALUE: {
-				this.propertyFeature = featureForName(
-						LibraryPackage.Literals.FUNCTION,
-						kind.getObjectProperty());
-			}
-				break;
-			case ObjectKindType.NODE_VALUE: {
-				this.propertyFeature = featureForName(
-						OperatorsPackage.Literals.NODE,
-						kind.getObjectProperty());
-			}
-				break;
-
-			case ObjectKindType.RELATIONSHIP_VALUE: {
-				this.propertyFeature = featureForName(
-						OperatorsPackage.Literals.RELATIONSHIP,
-						kind.getObjectProperty());
-			}
-				break;
-			}
-
-		}
-
-		public IdentifierDataKind getKind() {
-			return kind;
-		}
-
-		public String getValue() {
-			return value;
-		}
-
-		public int getColumn() {
-			return column;
-		}
-
-		public EStructuralFeature getPropertyFeature() {
-			return propertyFeature;
-		}
-
-		public static IdentifierDescriptor valueFor(IdentifierDataKind kind,
-				String value, int column) {
-			if (kind == null || value == null || column < 0) {
-				throw new IllegalArgumentException(
-						"can't create descriptor for kind=" + kind + " value="
-								+ value + " col=" + column);
-			}
-			return new IdentifierDescriptor(kind, value, column);
-		}
-
-		private EStructuralFeature featureForName(EClass clazz,
-				String eFeatureName) {
-			EStructuralFeature eFeature = null;
-			for (final EStructuralFeature feature : clazz
-					.getEAllStructuralFeatures()) {
-				if (feature.getName().compareToIgnoreCase(eFeatureName) == 0) {
-					eFeature = feature;
-					break;
-				}
-			}
-			return eFeature;
-		}
-	}
-
-	// Never used.
-	// public IDataProvider getDataProvider() {
-	// return dataProvider;
-	// }
-
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;
 	}
@@ -1073,7 +980,7 @@ public class ComponentLocator {
 	 * potential pattern fist. The key format is [objectProperty]_[Computed
 	 * Identifier]_CDOID of metric.
 	 */
-	private String getKey(IdentifierDescriptor identifierDescriptor,
+	private String getKey(IComponentLocator.IdentifierDescriptor identifierDescriptor,
 			Metric metric) {
 
 		String value = null;
@@ -1115,11 +1022,11 @@ public class ComponentLocator {
 				+ "_" + metric.cdoID().toString();
 	}
 
-	public List<IdentifierDescriptor> getSuccessFullIdentifiers() {
+	public List<IComponentLocator.IdentifierDescriptor> getSuccessFullIdentifiers() {
 		return successFullIdentifiers;
 	}
 
-	public List<IdentifierDescriptor> getFailedIdentifiers() {
+	public List<IComponentLocator.IdentifierDescriptor> getFailedIdentifiers() {
 		return failedIdentifiers;
 	}
 

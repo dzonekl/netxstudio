@@ -4411,7 +4411,14 @@ public class ModelUtils {
 		}
 		return nodes;
 	}
-
+	
+	
+	/**
+	 * Get a collection of {@link Component } objects for a given {@link Operator}
+	 * 
+	 * @param op
+	 * @return
+	 */
 	public List<Component> componentsForOperator(Operator op) {
 
 		List<Component> components = Lists.newArrayList();

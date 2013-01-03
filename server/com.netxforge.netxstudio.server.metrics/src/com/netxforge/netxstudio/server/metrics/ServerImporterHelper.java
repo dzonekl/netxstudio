@@ -38,7 +38,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
-import com.netxforge.netxstudio.data.importer.ComponentLocator;
+import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.data.internal.DataActivator;
@@ -90,7 +90,7 @@ public class ServerImporterHelper implements IImporterHelper {
 	private BundleActivator activator;
 
 
-	public void initializeProviders(ComponentLocator networkElementLocator) {
+	public void initializeProviders(IComponentLocator networkElementLocator) {
 		// force that the same dataprovider is used
 		// so that components retrieved by the networkElementLocator
 		// participate in the same transaction
@@ -127,7 +127,7 @@ public class ServerImporterHelper implements IImporterHelper {
 
 	public void addMetricValue(MappingColumn column, Date timeStamp,
 			Component locatedComponent, Double dblValue, int intervalHint,
-			ComponentLocator.IdentifierDescriptor lastDescriptor) {
+			IComponentLocator.IdentifierDescriptor lastDescriptor) {
 
 		if (netXResourceFolder == null) {
 			CDOResourceNode folder = importer.getDataProvider()
