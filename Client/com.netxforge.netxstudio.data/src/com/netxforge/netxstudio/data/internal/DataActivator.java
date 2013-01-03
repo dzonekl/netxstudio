@@ -45,6 +45,8 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	public static final String TRACE_RESULT_EXPRESSION_OPTION = "/trace.result.expression";
 	public static final String TRACE_RESULT_TOL_OPTION = "/trace.result.tolerance";
 	
+	// Tracing for our component index service. 
+	public static final String TRACE_COMPONENT_INDEX_OPTION = "/trace.component.index";
 	
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);

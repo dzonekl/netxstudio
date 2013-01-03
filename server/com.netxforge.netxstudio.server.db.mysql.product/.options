@@ -31,6 +31,9 @@ com.netxforge.netxstudio.data/trace.result.value=true
 com.netxforge.netxstudio.data/trace.result.expression=true
 com.netxforge.netxstudio.data/trace.result.tolerance=true
 
+#Data Component indexing option
+com.netxforge.netxstudio.data/trace.component.index=true
+
 # Common trace options
 com.netxforge.netxstudio.common/trace.utils=true
 com.netxforge.netxstudio.common/trace.common.properties=true

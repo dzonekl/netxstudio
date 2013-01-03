@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) Mar 29, 2012 NetXForge.
+ * Copyright (c) 2 jan. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,44 +14,43 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
-package com.netxforge.netxstudio.data.index;
-
-import java.util.List;
-
-import com.netxforge.netxstudio.data.importer.ComponentLocator.IdentifierDescriptor;
-import com.netxforge.netxstudio.library.NetXResource;
+ *******************************************************************************/
+package com.netxforge.netxstudio.common;
 
 /**
- * @author Christophe
- *
+ * A Tuple object, which can be populated with any type. equality is delegated,
+ * if both key and value are the same type and support the {@link Comparable}
+ * interface.
+ * 
+ * @author Christophe Bouhier
  */
-public class ResourceIndex implements IResourceMappingIndex {
+public class GenericsTuple<K, V> {
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.netxforge.netxstudio.data.index.IResourceIndex#buildIndex()
-	 */
-	
-	
-	
-	
-	public void buildIndex() {
-		
-		//1. 
-		
-		
-		
+	protected K key;
+	protected V value;
+
+	private GenericsTuple(K key, V value) {
+		super();
+		this.key = key;
+		this.value = value;
 	}
 
-	public NetXResource resourceForIdentifiers(
-			List<IdentifierDescriptor> descriptors) {
-		// TODO Auto-generated method stub
-		return null;
+	public K getKey() {
+		return key;
+	}
+
+	public V getValue() {
+		return value;
+	}
+
+	public GenericsTuple<K, V> valueFor(K key, V value) {
+		GenericsTuple<K, V> genericsTuple = new GenericsTuple<K, V>(key, value);
+		return genericsTuple;
 	}
 	
-	
-	
-	
+	public boolean equals(Object object){
+		
+		return false;
+	}
 	
 }

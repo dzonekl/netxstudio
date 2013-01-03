@@ -49,7 +49,6 @@ import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.importer.ComponentLocator.IdentifierDescriptor;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -98,7 +97,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	protected IDataProvider dataProvider;
 
 	@Inject
-	protected ComponentLocator componentLocator;
+	protected IComponentLocator componentLocator;
 
 	@Inject
 	protected ModelUtils modelUtils;
@@ -119,7 +118,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	private int intervalEstimate = -1;
 
-	private List<IdentifierDescriptor> headerIdentifiers = new ArrayList<ComponentLocator.IdentifierDescriptor>();
+	private List<IComponentLocator.IdentifierDescriptor> headerIdentifiers = new ArrayList<IComponentLocator.IdentifierDescriptor>();
 
 	/**
 	 * The helper provides implementation of specialized methods depending on
@@ -708,7 +707,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				// We need at least a node and a component.
 				IdentifierValidator validator = new IdentifierValidator();
 
-				final List<IdentifierDescriptor> elementIdentifiers = getIdentifierValues(
+				final List<IComponentLocator.IdentifierDescriptor> elementIdentifiers = getIdentifierValues(
 						getMappingColumn(), rowNum, false);
 
 				validator.validateIdentifiers(elementIdentifiers);
@@ -772,7 +771,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 						 * The last matching identifier, is needed for the
 						 * resource name creation strategy.
 						 */
-						IdentifierDescriptor lastIdentifier = getComponentLocator()
+						IComponentLocator.IdentifierDescriptor lastIdentifier = getComponentLocator()
 								.getLastMatchingIdentifier();
 
 						final Double value = getNumericCellValue(rowNum,
@@ -819,9 +818,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		int countRelationship = 0;
 
 		public void validateIdentifiers(
-				List<IdentifierDescriptor> elementIdentifiers) {
+				List<IComponentLocator.IdentifierDescriptor> elementIdentifiers) {
 
-			for (IdentifierDescriptor iv : elementIdentifiers) {
+			for (IComponentLocator.IdentifierDescriptor iv : elementIdentifiers) {
 				switch (iv.getKind().getObjectKind().getValue()) {
 				case ObjectKindType.EQUIPMENT_VALUE:
 				case ObjectKindType.FUNCTION_VALUE: {
@@ -872,12 +871,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	@SuppressWarnings("unused")
 	private String createNetworkElementLocatorLog(Metric metric,
-			List<IdentifierDescriptor> identifierValues) {
+			List<IComponentLocator.IdentifierDescriptor> identifierValues) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("Could not locate networkElement for metric "
 				+ metric.getName());
 		sb.append("Using identifiers: ");
-		for (final IdentifierDescriptor idValue : identifierValues) {
+		for (final IComponentLocator.IdentifierDescriptor idValue : identifierValues) {
 			sb.append(" - " + idValue.getKind().getObjectKind().getName()
 					+ ": " + idValue.getValue());
 		}
@@ -1000,20 +999,20 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	}
 
 	protected void createNotFoundNetworkElementMappingRecord(Metric metric,
-			int rowNum, List<IdentifierDescriptor> allIdentifiers,
-			List<IdentifierDescriptor> failedIdentifiers,
+			int rowNum, List<IComponentLocator.IdentifierDescriptor> allIdentifiers,
+			List<IComponentLocator.IdentifierDescriptor> failedIdentifiers,
 			List<MappingRecord> records) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("Could not locate identifier for metric " + metric.getName());
 
 		sb.append(". For identifiers: ");
-		for (final IdentifierDescriptor idValue : allIdentifiers) {
+		for (final IComponentLocator.IdentifierDescriptor idValue : allIdentifiers) {
 			sb.append(" - " + idValue.getKind().getObjectKind().getName()
 					+ ": " + idValue.getValue());
 		}
 
 		sb.append(", Failed on : ");
-		for (final IdentifierDescriptor idValue : failedIdentifiers) {
+		for (final IComponentLocator.IdentifierDescriptor idValue : failedIdentifiers) {
 			sb.append(" - " + idValue.getKind().getObjectKind().getName()
 					+ ": " + idValue.getValue());
 		}
@@ -1266,10 +1265,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	 * @param reset
 	 * @return
 	 */
-	private List<IdentifierDescriptor> getIdentifierValues(
+	private List<IComponentLocator.IdentifierDescriptor> getIdentifierValues(
 			List<MappingColumn> mappingColumns, int row, boolean reset) {
 
-		final List<IdentifierDescriptor> result = Lists.newArrayList();
+		final List<IComponentLocator.IdentifierDescriptor> result = Lists.newArrayList();
 		if (!reset) {
 			result.addAll(headerIdentifiers);
 		}
@@ -1281,6 +1280,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 						.getDataType();
 				String dataValue = getStringCellValue(row, column.getColumn())
 						.trim();
+				
+				// Apply the pattern to the value. 
+				
 				if (identifierDataKind
 						.eIsSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN)) {
 					String extractionPattern = identifierDataKind.getPattern();
@@ -1315,7 +1317,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 					}
 				}
 
-				final IdentifierDescriptor identifierValue = IdentifierDescriptor
+				final IComponentLocator.IdentifierDescriptor identifierValue = IComponentLocator.IdentifierDescriptor
 						.valueFor(identifierDataKind, dataValue,
 								column.getColumn());
 				result.add(identifierValue);
@@ -1394,11 +1396,11 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		this.warnings = warnings;
 	}
 
-	public ComponentLocator getComponentLocator() {
+	public IComponentLocator getComponentLocator() {
 		return componentLocator;
 	}
 
-	public void setComponentLocator(ComponentLocator networkElementLocator) {
+	public void setComponentLocator(IComponentLocator networkElementLocator) {
 		this.componentLocator = networkElementLocator;
 	}
 
@@ -1451,7 +1453,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	public void addMetricValue(MappingColumn column, Date timeStamp,
 			Component networkElement, Double dblValue, int periodHint,
-			IdentifierDescriptor lastIdentifier) {
+			IComponentLocator.IdentifierDescriptor lastIdentifier) {
 		if (helper != null) {
 			this.helper.addMetricValue(column, timeStamp, networkElement,
 					dblValue, periodHint, lastIdentifier);
@@ -1464,7 +1466,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	/**
 	 * Delegate to the currently set helper.
 	 */
-	public void initializeProviders(ComponentLocator networkElementLocator) {
+	public void initializeProviders(IComponentLocator networkElementLocator) {
 		if (helper != null) {
 			helper.initializeProviders(networkElementLocator);
 		} else {

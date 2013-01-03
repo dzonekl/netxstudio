@@ -27,6 +27,7 @@ import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.data.cdo.NonStaticCDODataProvider;
+import com.netxforge.netxstudio.data.importer.ImporterModule;
 import com.netxforge.netxstudio.server.test.actions.TestDataCreator;
 
 /**
@@ -38,6 +39,7 @@ public class TestModule extends AbstractModule {
 	public static Module getModule() {
 		Module om = new CommonModule();
 		om = override(om).with(new CDODataServiceModule());
+		om = override(om).with(new ImporterModule());
 		om = override(om).with(new TestModule());
 		return om;
 	}

@@ -67,6 +67,7 @@ Export-Package: com.netxforge.netxstudio.data;
    com.netxforge.netxstudio.common.model,
    com.google.inject,
    com.netxforge.netxstudio.data.job",
+ com.netxforge.netxstudio.data.index,
  com.netxforge.netxstudio.data.internal;uses:="org.osgi.framework,org.eclipse.osgi.service.debug,com.google.inject",
  com.netxforge.netxstudio.data.job;uses:="com.netxforge.netxstudio.scheduling",
  com.netxforge.netxstudio.data.tolerance
