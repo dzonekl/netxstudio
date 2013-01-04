@@ -2543,7 +2543,10 @@ public class ModelUtils {
 		} else if (o instanceof MetricSource) {
 			MetricSource ms = (MetricSource) o;
 			result.append("Metric Source: name=" + ms.getName());
-		} else if (o instanceof Mapping) {
+		} else if ( o instanceof Metric) {
+			Metric m = (Metric)o;
+			result.append("Metric name=" + m.getName());
+		}else if (o instanceof Mapping) {
 			Mapping mapping = (Mapping) o;
 			result.append("Mapping: datarow=" + mapping.getFirstDataRow()
 					+ "interval=" + mapping.getIntervalHint() + ",colums="
@@ -4471,7 +4474,56 @@ public class ModelUtils {
 
 		return components;
 	}
+	
+	/**
+	 * Gets the {@link Component components } with the feature
+	 * {@link LibraryPackage.Literals#COMPONENT__METRIC_REFS } referencing the
+	 * provided {@link Metric} which can occur in the provided non filtered
+	 * collection, or parents along the branch path.
+	 * 
+	 * @return
+	 */
+	public Iterable<Component> componentsForMetric(List<Component> unfiltered,
+			final Metric metric) {
+		Iterable<Component> filter = Iterables.filter(unfiltered,
+				new Predicate<Component>() {
 
+					public boolean apply(Component c) {
+
+						final List<Metric> metricsInPath = Lists.newArrayList();
+						metricsInPath(metricsInPath, c);
+
+						return metricsInPath.contains(metric);
+					}
+
+				});
+		return filter;
+	}
+	
+	
+	/**
+	 * Populate the provided collection with  {@link Metric metrics} referenced by 
+	 * the provided {@link Component} along the parent Path.   
+	 * 
+	 * @param result
+	 * @param c
+	 */
+	public void metricsInPath(List<Metric> result, Component c) {
+		if (result != null) {
+
+			if (!c.getMetricRefs().isEmpty()) {
+				result.addAll(c.getMetricRefs());
+			}
+
+			EObject container = c.eContainer();
+			if (container instanceof Component) {
+				metricsInPath(result, (Component) container);
+			}
+		}
+	}
+	
+	
+	
 	/**
 	 * The component name. If the component is a Function, the name will be
 	 * returned. If the component is an Equipment, the code could be returned or

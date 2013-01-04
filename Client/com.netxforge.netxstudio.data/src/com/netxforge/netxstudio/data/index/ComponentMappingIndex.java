@@ -17,9 +17,14 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.index;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
@@ -41,6 +46,11 @@ import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 
 /**
+ * A Component indexing service. Holds to a {@link CDOView} during the lifecycle
+ * of the service. Indexing occurs in the background with a system {@link Job}.
+ * While indexing the service, is not available.
+ * 
+ * 
  * @author Christophe Bouhier
  */
 public class ComponentMappingIndex implements IComponentMappingIndex {
@@ -53,13 +63,36 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 	/** Our index */
 	private final List<ComponentIndexEntry> cachedIndex = Lists.newArrayList();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.netxforge.netxstudio.data.index.IResourceIndex#buildIndex()
-	 */
+	/** When true our index is currently being re-created. */
+	private boolean indexing = false;
+
+	/** A background indexing job facility. */
+	private IndexingJob indexingJob = new IndexingJob("Component indexer");
+
 	public void buildIndex() {
 
+		if (indexingJob.getState() != Job.RUNNING) {
+			if (!indexing) {
+				// Tell the service we are indenxing.
+				indexing = true;
+				indexingJob.schedule(1000);
+
+			}
+		}
+	}
+
+	public void registerBuildCompleteListener(JobChangeAdapter adapter) {
+		indexingJob.addJobChangeListener(adapter);
+	}
+
+	public void unregisterBuildCompleteListener(JobChangeAdapter adapter) {
+		indexingJob.removeJobChangeListener(adapter);
+	}
+
+	/**
+	 * Builds an index, while updating an {@link IProgressMonitor}
+	 */
+	protected void doBuildIndex(IProgressMonitor monitor) {
 		if (DataActivator.DEBUG) {
 			DataActivator.TRACE.trace(
 					DataActivator.TRACE_COMPONENT_INDEX_OPTION,
@@ -67,27 +100,61 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 		}
 		Resource resource = dataProvider
 				.getResource(OperatorsPackage.Literals.OPERATOR);
+
+		// Create a flat list first.
+		final List<Component> allComponents = Lists.newArrayList();
+
 		for (EObject eo : resource.getContents()) {
 			if (eo instanceof Operator) {
 				List<Component> componentsForOperator = modelUtils
 						.componentsForOperator((Operator) eo);
-				for (Component c : componentsForOperator) {
-					ComponentIndexEntry valueFor = ComponentIndexEntry
-							.valueFor(c);
-					// Add to our value cache.
-					cachedIndex.add(valueFor);
-					if (DataActivator.DEBUG) {
-						DataActivator.TRACE.trace(
-								DataActivator.TRACE_COMPONENT_INDEX_OPTION,
-								"adding entry");
-					}
-				}
+				allComponents.addAll(componentsForOperator);
 			}
 		}
+
+		int totalWork = allComponents.size();
+
+		SubMonitor cacheBuildWork = SubMonitor.convert(monitor, totalWork);
+
+		// Create a subprogress monitor for this expected work.
+		for (Component c : allComponents) {
+
+			ComponentIndexEntry valueFor = ComponentIndexEntry.valueFor(c);
+
+			if (valueFor != null) {
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_COMPONENT_INDEX_OPTION,
+							"adding entry");
+				}
+				// Add to our value cache.
+				cachedIndex.add(valueFor);
+			}
+			cacheBuildWork.worked(1);
+		}
+
+		// Tell we are done.
+		monitor.done();
+		indexing = false;
 	}
 
-	public List<Component> componentsForIdentifiers(
+	/**
+	 * State of the service, while indexing the service is not available.
+	 * 
+	 * @return
+	 */
+	public boolean isIndexing() {
+		return indexing;
+	}
+
+	public List<Component> componentsForIdentifiers(CDOView view,
 			final List<IdentifierDescriptor> descriptors) {
+
+		List<Component> components = Lists.newArrayList();
+
+		if (indexing) {
+			return components;
+		}
 
 		Iterable<ComponentIndexEntry> filter = Iterables.filter(cachedIndex,
 				new Predicate<ComponentIndexEntry>() {
@@ -96,10 +163,14 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 					}
 				});
 
-		// Get a transaction for the given provider.
-		CDOView view = dataProvider.getView();
-		List<Component> components = Lists.newArrayList();
 		for (ComponentIndexEntry cie : filter) {
+
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_COMPONENT_INDEX_OPTION,
+						"found entry: " + cie);
+			}
+
 			CDOID componentID = cie.getComponentID();
 			try {
 				CDOObject object = view.getObject(componentID);
@@ -137,6 +208,55 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 		}
 		return "";
 
+	}
+
+	/**
+	 * A job which can
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	class IndexingJob extends Job {
+
+		public IndexingJob(String name) {
+			super(name);
+			// A systems job.
+			this.setSystem(true);
+		}
+
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+
+			doBuildIndex(monitor);
+
+			return Status.OK_STATUS;
+		}
+
+	}
+
+	/**
+	 * Matches the {@link Component } {@link CDOID } with an entry in the index
+	 * with the same CDOID. If none is found, <code>null</code> will be
+	 * returned.
+	 * 
+	 */
+	public ComponentIndexEntry entryForComponent(Component c) {
+		if (indexing) {
+			return null;
+		}
+
+		final CDOID cdoID = c.cdoID();
+
+		Iterable<ComponentIndexEntry> filter = Iterables.filter(cachedIndex,
+				new Predicate<ComponentIndexEntry>() {
+					public boolean apply(ComponentIndexEntry entry) {
+						return entry.getComponentID().equals(cdoID);
+					}
+				});
+		// There should really only be one entry....
+		if (Iterables.size(filter) == 1) {
+			return filter.iterator().next();
+		}
+		return null;
 	}
 
 }

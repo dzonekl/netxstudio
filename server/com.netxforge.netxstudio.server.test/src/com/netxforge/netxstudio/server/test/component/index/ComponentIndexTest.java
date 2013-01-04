@@ -39,6 +39,11 @@ public class ComponentIndexTest extends AbstractDataServiceTest4 {
 		System.out.println("creating index");
 		// Build the index.
 		index.buildIndex();
+		
+		
+		while(index.isIndexing()){
+			
+		};
 
 		System.out.println("index creation took "
 				+ modelUtils.timeDurationNano(nanoTime));
@@ -57,7 +62,7 @@ public class ComponentIndexTest extends AbstractDataServiceTest4 {
 			
 			IdentifierDataKind functionIDK = functionIDK("Name");
 			IdentifierDescriptor d2 = IComponentLocator.IdentifierDescriptor
-			.valueFor(functionIDK, "System", 100);
+			.valueFor(functionIDK, "Signaling", 100);
 			
 			descriptors.add(d2);
 

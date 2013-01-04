@@ -24,8 +24,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.spi.cdo.FSMUtil;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -46,13 +48,13 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  * <code>NODE -> COMPONENT -> COMPONENT -> COMPONENT</code> </p> Each of the
  * 'nodes' in the branch has a representation in the form of a key, value map.
  * 
- * The <code>Component(s)</code> can be located in the index with various
- * methods.
+ * The <code>Component(s)</code> can be located in the index with method
+ * {@link #componentsForIdentifiers(List)}
  */
 public interface IComponentMappingIndex {
 
 	/**
-	 * An {@link Component} index entry which holds
+	 * An {@link Component} index entry.
 	 * 
 	 * @author Christophe Bouhier
 	 */
@@ -71,11 +73,6 @@ public interface IComponentMappingIndex {
 		}
 
 		private ComponentIndexEntry(Component c) {
-
-			// TODO, Check the CDO State for the object first. (Non-attached
-			// objects, will have a temp. CDO ID, so usesless to
-			// restore.
-
 			componentID = c.cdoID();
 		}
 
@@ -106,19 +103,82 @@ public interface IComponentMappingIndex {
 				return match;
 			}
 		}
-
-		public final IdentifierInPathPredicate containsIdentifierDescriptor = new IdentifierInPathPredicate();
-
+		
+		
 		/**
-		 * Produces an index entry for the given component.
+		 * A Strategy which will track if the leaf node in the path has been touched. 
+		 * 
+		 * @author Christophe Bouhier
+		 *
+		 */
+		class IdentifierInLeafPredicate implements
+				Predicate<IComponentLocator.IdentifierDescriptor> {
+			
+			boolean leafMatch = false; 
+			
+			public void reset(){
+				leafMatch = true; 
+			} 
+			
+			public boolean leafMatch(){
+				return leafMatch;
+			}
+			
+			public boolean apply(
+					IComponentLocator.IdentifierDescriptor descriptor) {
+				
+				
+				final String objectProperty = descriptor.getObjectProperty();
+				final String value = descriptor.getValue();
+
+				boolean match = false;
+
+				for (Map<String, String> pathNode : componentPath) {
+					
+					int indexOf = componentPath.indexOf(pathNode);
+					
+					if (pathNode.containsKey(objectProperty)) {
+						match = pathNode.get(objectProperty).equals(value);
+						if(match && indexOf == componentPath.size() -1){
+							leafMatch = true; 
+						}
+					}
+				}
+				return match;
+			}
+		}
+
+		public final IdentifierInPathPredicate containsIdentifierInPathPredicate = new IdentifierInPathPredicate();
+		
+		public final IdentifierInLeafPredicate containsIdentifiersAndLeafPredicate = new IdentifierInLeafPredicate();
+		
+		
+		/**
+		 * Produces an index entry for the given {@link Component}.</p> Note
+		 * that an entry is not necessarily produced, as the component could be:
+		 * <ul>
+		 * <li>Detached from CDO</li>
+		 * <li>Has an empty path as properties might not have been set. </li>
+		 * </ul>
 		 * 
 		 * @param c
-		 * @return
+		 * @return Returns a {@link ComponentIndexEntry} or <code>null</code> if
+		 *         no entry could be produced.
+		 * 
 		 */
 		public static ComponentIndexEntry valueFor(Component c) {
 
+			if (FSMUtil.isTransient(c)) {
+				return null;
+			}
+
 			ComponentIndexEntry cie = new ComponentIndexEntry(c);
+
 			cie.produceIndex(c);
+
+			if (cie.componentPath.isEmpty()) {
+				return null;
+			}
 
 			return cie;
 		}
@@ -166,8 +226,8 @@ public interface IComponentMappingIndex {
 		}
 
 		/**
-		 * Builds a collection (path) of objects following the containment hierarchy 
-		 * with {@link EObject#eContainer()}
+		 * Builds a collection (path) of objects following the containment
+		 * hierarchy with {@link EObject#eContainer()}
 		 * 
 		 * @param result
 		 * @param eo
@@ -186,7 +246,7 @@ public interface IComponentMappingIndex {
 
 		/**
 		 * Produce a Map of key, value pair with the actual values of the object
-		 * stored.
+		 * features as specified in the collection of {@link EStructuralFeature}
 		 * 
 		 * @param object
 		 */
@@ -208,6 +268,9 @@ public interface IComponentMappingIndex {
 							&& !((String) featureValue).isEmpty()) {
 						keyValueMap.put(key, (String) featureValue);
 					}
+				} else {
+					// the feature isn't set.
+
 				}
 			}
 			return keyValueMap;
@@ -221,7 +284,7 @@ public interface IComponentMappingIndex {
 
 			// walk the path and make string out of it.
 			for (Map<String, String> pathNode : componentPath) {
-				sb.append("->{");
+				sb.append(": {");
 				for (Entry<String, String> entry : pathNode.entrySet()) {
 					sb.append("(" + entry.getKey() + "," + entry.getValue()
 							+ ")");
@@ -249,8 +312,12 @@ public interface IComponentMappingIndex {
 
 		/**
 		 * Passing in anything else than a collection of
-		 * {@link IComponentLocator.IdentifierDescriptor} type will throw an
+		 * {@link IComponentLocator.IdentifierDescriptor} type will throw a {@link ClassCastException casting Exception}
 		 * Exception.
+		 * 
+		 * Currently only one Strategy is applied. Behaviour can be changed, by considering different matching strategies, 
+		 * using different Predicate filtering implementations. 
+		 * 
 		 * 
 		 * @param collection
 		 * @return
@@ -258,11 +325,14 @@ public interface IComponentMappingIndex {
 		@SuppressWarnings("unchecked")
 		private boolean matches(List<?> collection) {
 
+			containsIdentifiersAndLeafPredicate.reset(); 
+			
 			Iterable<IdentifierDescriptor> filter = Iterables.filter(
 					(List<IComponentLocator.IdentifierDescriptor>) collection,
-					containsIdentifierDescriptor);
+					containsIdentifiersAndLeafPredicate);
 			
-			return Iterables.size(filter) == collection.size();
+			// Should match all identifiers and the leaf. 
+			return Iterables.size(filter) == collection.size() && containsIdentifiersAndLeafPredicate.leafMatch();
 		}
 
 		/**
@@ -294,6 +364,13 @@ public interface IComponentMappingIndex {
 	 * 
 	 */
 	public abstract void buildIndex();
+	
+	
+	/**
+	 * Are we indexing. 
+	 * @return
+	 */
+	public abstract boolean isIndexing();
 
 	/**
 	 * Return the component for these descriptors.
@@ -301,7 +378,15 @@ public interface IComponentMappingIndex {
 	 * @param descriptors
 	 * @return
 	 */
-	public abstract List<Component> componentsForIdentifiers(
+	public abstract List<Component> componentsForIdentifiers(CDOView view, 
 			List<IComponentLocator.IdentifierDescriptor> descriptors);
+	
+	/**
+	 * Return the {@link ComponentIndexEntry entry} for the given component. 
+	 * 
+	 * @param c
+	 * @return
+	 */
+	public abstract ComponentIndexEntry entryForComponent(Component c);
 
 }

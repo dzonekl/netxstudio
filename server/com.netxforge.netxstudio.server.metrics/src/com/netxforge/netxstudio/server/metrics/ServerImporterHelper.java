@@ -57,7 +57,7 @@ import com.netxforge.netxstudio.server.job.JobHandler;
 import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
 
 /**
- * The main entry class for the Metrics importing.
+ * A Convenience 
  * 
  * @author Martin Taal
  * @author Christophe Bouhier
@@ -91,10 +91,15 @@ public class ServerImporterHelper implements IImporterHelper {
 
 
 	public void initializeProviders(IComponentLocator networkElementLocator) {
-		// force that the same dataprovider is used
+		
+		// NOT VALID force that the same dataprovider is used
 		// so that components retrieved by the networkElementLocator
 		// participate in the same transaction
-		networkElementLocator.setDataProvider(importer.getDataProvider());
+		
+		
+		// Use an own instance, as we are a singleton. 
+		networkElementLocator.setDataProvider(getDataProvider());
+		networkElementLocator.initialize();
 	}
 
 	public IDataProvider getDataProvider() {

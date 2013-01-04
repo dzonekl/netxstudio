@@ -25,6 +25,7 @@ import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -76,7 +77,8 @@ public class BruteForceComponentLocator implements IComponentLocator {
 	private List<IComponentLocator.IdentifierDescriptor> successFullIdentifiers = Lists
 			.newArrayList();
 
-	private List<IComponentLocator.IdentifierDescriptor> failedIdentifiers = Lists.newArrayList();
+	private List<IComponentLocator.IdentifierDescriptor> failedIdentifiers = Lists
+			.newArrayList();
 
 	private List<Component> successFullComponents = Lists.newArrayList();
 
@@ -85,6 +87,8 @@ public class BruteForceComponentLocator implements IComponentLocator {
 	private ParameterizedFunction cacheFunction;
 
 	private ParameterizedFunction allComponentsCacheFunction;
+
+	private boolean initialized = false;
 
 	public IComponentLocator.IdentifierDescriptor getLastMatchingIdentifier() {
 		return lastMatchingIdentifier;
@@ -171,13 +175,13 @@ public class BruteForceComponentLocator implements IComponentLocator {
 			for (final CDOObjectReference objectReference : results) {
 				final CDOObject referingObject = objectReference
 						.getSourceObject();
-				
+
 				// walk up the node hierarchy and end up with a Node object
 				// which should be equal
 				// to the node identifier, otherwise skip this component.
 				if (!hasValidNode(referingObject, nodeDescriptor)) {
 					continue;
-				}else{
+				} else {
 					if (DataActivator.DEBUG) {
 						if (referingObject instanceof Component) {
 							DataActivator.TRACE
@@ -227,8 +231,10 @@ public class BruteForceComponentLocator implements IComponentLocator {
 	}
 
 	public BruteForceComponentLocator() {
-		// init the cache.
-		this.initialize();
+	}
+
+	public boolean isInitialized() {
+		return initialized;
 	}
 
 	/**
@@ -284,10 +290,21 @@ public class BruteForceComponentLocator implements IComponentLocator {
 					allComponentsCacheFunction);
 		}
 
+		initialized = true;
+
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.data.importer.IComponentLocator#locateComponent(com.netxforge.netxstudio.metrics.Metric, java.util.List)
+	public List<Component> locateComponents(Metric metric,
+			List<IdentifierDescriptor> descriptors) {
+		throw new UnsupportedOperationException("Not supported");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IComponentLocator#locateComponent
+	 * (com.netxforge.netxstudio.metrics.Metric, java.util.List)
 	 */
 	public Component locateComponent(Metric metric,
 			List<IComponentLocator.IdentifierDescriptor> descriptors) {
@@ -452,7 +469,8 @@ public class BruteForceComponentLocator implements IComponentLocator {
 	// Iterate through components and sub iterate through the identifiers,
 	// having a full match of identifiers
 	// and components.
-	private Component matchIdentifiers(List<IComponentLocator.IdentifierDescriptor> identifiers,
+	private Component matchIdentifiers(
+			List<IComponentLocator.IdentifierDescriptor> identifiers,
 			IComponentLocator.IdentifierDescriptor nodeIdentifier,
 			List<Component> allComponentsMatchingMetrics) {
 
@@ -668,7 +686,8 @@ public class BruteForceComponentLocator implements IComponentLocator {
 
 		List<Component> resultComponents = Lists.newArrayList(targetComponent);
 
-		List<IComponentLocator.IdentifierDescriptor> componentIdentifiers = Lists.newArrayList();
+		List<IComponentLocator.IdentifierDescriptor> componentIdentifiers = Lists
+				.newArrayList();
 		componentIdentifiers.clear();
 		for (IComponentLocator.IdentifierDescriptor iv : targetIdentifiers) {
 			ObjectKindType objectKind = iv.getKind().getObjectKind();
@@ -950,7 +969,8 @@ public class BruteForceComponentLocator implements IComponentLocator {
 	public class MatchComponentPredicate implements Predicate<Component> {
 		private final IComponentLocator.IdentifierDescriptor identifierDescriptor;
 
-		public MatchComponentPredicate(final IComponentLocator.IdentifierDescriptor descriptor) {
+		public MatchComponentPredicate(
+				final IComponentLocator.IdentifierDescriptor descriptor) {
 			this.identifierDescriptor = descriptor;
 		}
 
@@ -980,7 +1000,8 @@ public class BruteForceComponentLocator implements IComponentLocator {
 	 * potential pattern fist. The key format is [objectProperty]_[Computed
 	 * Identifier]_CDOID of metric.
 	 */
-	private String getKey(IComponentLocator.IdentifierDescriptor identifierDescriptor,
+	private String getKey(
+			IComponentLocator.IdentifierDescriptor identifierDescriptor,
 			Metric metric) {
 
 		String value = null;
@@ -1028,6 +1049,11 @@ public class BruteForceComponentLocator implements IComponentLocator {
 
 	public List<IComponentLocator.IdentifierDescriptor> getFailedIdentifiers() {
 		return failedIdentifiers;
+	}
+
+	public List<Component> locateComponents(CDOView view,
+			List<IdentifierDescriptor> descriptors) {
+		throw new UnsupportedOperationException("TODO Implement");
 	}
 
 }
