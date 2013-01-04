@@ -64,11 +64,10 @@ public class MetricsActivator implements BundleActivator, DebugOptionsListener {
 		MetricsActivator.context = bundleContext;
 
 		Module om = new MetricsModule();
-//		om = Modules.override(om).with(new MetricsModule());
 		om = Modules.override(om).with(ServerModule.getModule());
 		om = Modules.override(om).with(new JobModule());
 		injector = Guice.createInjector(om);
-		
+			
 		// register our import service.
 		bundleContext.registerService(MetricSourceImportService.class, new MetricSourceImportService(), new Hashtable<String, String>());
 

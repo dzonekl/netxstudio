@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.data.importer;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -65,24 +66,23 @@ public interface IComponentLocator {
 	 * @author Christophe Bouhier
 	 */
 	public static class IdentifierDescriptor {
-		
+
 		private IdentifierDataKind kind;
-		
+
 		private int column;
-		
+
 		/** The corresponding {@link EStructuralFeature feature} */
 		private EStructuralFeature propertyFeature;
-		
+
 		/** The property String */
 		private String objectProperty;
-		
+
 		public String getObjectProperty() {
 			return objectProperty;
 		}
 
 		/** The property value */
 		private String value;
-		
 
 		private static final Map<String, EStructuralFeature> featuresForNode;
 		private static final Map<String, EStructuralFeature> featuresForFunction;
@@ -94,7 +94,7 @@ public interface IComponentLocator {
 			{
 				featuresForNode = Maps.newHashMap();
 				for (String featureName : ModelUtils.MAPPING_NODE_ATTRIBUTES) {
-					if(featureName.equals(ModelUtils.NETWORK_ELEMENT_ID)){
+					if (featureName.equals(ModelUtils.NETWORK_ELEMENT_ID)) {
 						featureName = ModelUtils.NODE_ID;
 					}
 					EStructuralFeature feature = featureForName(
@@ -137,7 +137,7 @@ public interface IComponentLocator {
 			ObjectKindType objectKind = kind.getObjectKind();
 
 			this.objectProperty = kind.getObjectProperty();
-			
+
 			switch (objectKind.getValue()) {
 			case ObjectKindType.EQUIPMENT_VALUE: {
 				this.propertyFeature = featuresForEquipment.get(objectProperty);
@@ -153,7 +153,8 @@ public interface IComponentLocator {
 				break;
 
 			case ObjectKindType.RELATIONSHIP_VALUE: {
-				this.propertyFeature = featuresForRelationship.get(objectProperty);
+				this.propertyFeature = featuresForRelationship
+						.get(objectProperty);
 			}
 				break;
 			}
@@ -222,6 +223,12 @@ public interface IComponentLocator {
 			}
 			return eFeature;
 		}
+
+		@Override
+		public String toString() {
+			return "ID: prop: " + objectProperty + "= " + value + " col: " + column;
+		}
+
 	}
 
 	/**
@@ -235,9 +242,31 @@ public interface IComponentLocator {
 			List<IComponentLocator.IdentifierDescriptor> descriptors);
 
 	/**
+	 * Locate a potential list of {@link Component components}.
+	 * 
+	 * @param metric
+	 * @param descriptors
+	 * @return
+	 */
+	public abstract List<Component> locateComponents(Metric metric,
+			List<IComponentLocator.IdentifierDescriptor> descriptors);
+
+	/**
+	 * Locate a potential list of {@link Component components} using the
+	 * provided {@link CDOView}.
+	 * 
+	 * @param view
+	 * @param descriptors
+	 * @return
+	 */
+	public abstract List<Component> locateComponents(CDOView view,
+			List<IComponentLocator.IdentifierDescriptor> descriptors);
+
+	/**
 	 * Get a collection of {@link IComponentLocator.IdentifierDescriptor
 	 * descriptors} which were not resolved by the locator.
 	 * 
+	 * @deprecated
 	 * @return
 	 */
 	public List<IComponentLocator.IdentifierDescriptor> getFailedIdentifiers();
@@ -246,10 +275,29 @@ public interface IComponentLocator {
 	 * Get the {@link IdentifierDescriptor descriptor} which lasts successfully
 	 * matched.
 	 * 
+	 * 
+	 * @deprecated
 	 * @return
 	 */
 	public IComponentLocator.IdentifierDescriptor getLastMatchingIdentifier();
 
+	/**
+	 * Set the {@link IDataProvider} for the Locator to access data.
+	 * 
+	 * @param provider
+	 */
 	public void setDataProvider(IDataProvider provider);
+
+	/**
+	 * Allow the locator to prepare itself.
+	 */
+	public void initialize();
+
+	/**
+	 * Let's us know if the Locator is ready for service.
+	 * 
+	 * @return
+	 */
+	public boolean isInitialized();
 
 }

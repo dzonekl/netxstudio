@@ -21,12 +21,14 @@ package com.netxforge.netxstudio.data.importer;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -42,7 +44,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.osgi.framework.BundleActivator;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
@@ -110,8 +114,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	private int intervalHint = 60;
 
-	private Date headerTimeStamp = null;
-
 	// Kept for each file.
 	private DateTimeRange metricPeriodEstimate = GenericsFactory.eINSTANCE
 			.createDateTimeRange();
@@ -148,6 +150,11 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	 */
 	private int maxStats = -1;
 
+	private TSProcessor tsProcessor;
+
+	/** A cached header time stamp */
+	private Date headerTimeStamp = null;
+
 	public void process() {
 
 		if (DataActivator.DEBUG) {
@@ -156,6 +163,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 
 		initializeProviders(componentLocator);
+
+		// Make sure our locator is ready.
+		while (!componentLocator.isInitialized()) {
+			System.out.println("waiting locator not ready...");
+		}
+		System.out.println("Locator ready...");
 
 		final long startTime = System.currentTimeMillis();
 		long endTime = startTime;
@@ -665,7 +678,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 
 		jobMonitor.setMsg("Processing header row");
+
+		// Our TimeStamp processor.
+		tsProcessor = new TSProcessor(this);
 		processHeaderRow();
+
+		tsProcessor.prepTimeStamp(getMapping().getDataMappingColumns());
 
 		jobMonitor.setMsg("Processing rows");
 
@@ -701,14 +719,14 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 				// CB 180122012, why is this here, for a read and open a
 				// transaction?
-				this.getMappingColumn();
+				// this.getMappingColumn();
 				totalRows++;
 
 				// We need at least a node and a component.
 				IdentifierValidator validator = new IdentifierValidator();
 
 				final List<IComponentLocator.IdentifierDescriptor> elementIdentifiers = getIdentifierValues(
-						getMappingColumn(), rowNum, false);
+						getMapping().getDataMappingColumns(), rowNum, false);
 
 				validator.validateIdentifiers(elementIdentifiers);
 
@@ -724,17 +742,27 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 					}
 				}
 
-				rowTimeStamp = getTimeStampValue(getMappingColumn(), rowNum,
-						false);
+				rowTimeStamp = tsProcessor.getTimeStampValue(rowNum, false);
 
 				final int intervalHintFromRow = getIntervalHint(rowNum);
 				// give preference to the intervalhint from a row mapping.
 				this.intervalEstimate = intervalHintFromRow;
 
-				for (final MappingColumn column : getMappingColumn()) {
+				// Locate our components which match the given descriptors.
+				// There are multiple, later on get the correct one for the
+				// metric reference.
+				final List<Component> componentsForID = getComponentLocator()
+						.locateComponents(getMapping().cdoView(),
+								elementIdentifiers);
+
+				Component locatedComponent = null;
+
+				for (final MappingColumn column : getMapping()
+						.getDataMappingColumns()) {
 
 					columnBeingProcessed = column.getColumn();
 
+					// Process a metric column.
 					if (isMetric(column)) {
 						// Check that the metric ref is set, other wise bail.
 						if (!getValueDataKind(column)
@@ -743,10 +771,42 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 									"Metric reference not set");
 						}
 
-						final Component locatedComponent = getComponentLocator()
-								.locateComponent(
-										getValueDataKind(column).getMetricRef(),
-										elementIdentifiers);
+						Metric metricRef = getValueDataKind(column)
+								.getMetricRef();
+
+						if (locatedComponent != null) {
+							if (!locatedComponent.getMetricRefs().contains(
+									metricRef)) {
+								Iterable<Component> componentsForMetric = modelUtils
+										.componentsForMetric(componentsForID,
+												metricRef);
+								if (Iterables.size(componentsForMetric) == 1) {
+									locatedComponent = componentsForMetric
+											.iterator().next();
+								}
+							}
+						} else {
+							Iterable<Component> componentsForMetric = modelUtils
+									.componentsForMetric(componentsForID,
+											metricRef);
+							if (Iterables.size(componentsForMetric) == 1) {
+								locatedComponent = componentsForMetric
+										.iterator().next();
+							}
+						}
+						
+						if (DataActivator.DEBUG) {
+							DataActivator.TRACE
+									.trace(DataActivator.TRACE_IMPORT_OPTION,
+											"-- column="
+													+ column.getColumn()
+													+ " comp: "
+													+ modelUtils
+															.printModelObject(locatedComponent)
+													+ " metric:"
+													+ modelUtils
+															.printModelObject(metricRef));
+						}
 
 						if (locatedComponent == null) {
 
@@ -757,14 +817,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 											.getFailedIdentifiers(),
 									getFailedRecords());
 							continue;
-						} else {
-							if (DataActivator.DEBUG) {
-								DataActivator.TRACE
-										.trace(DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-												"Component located for mapping: "
-														+ locatedComponent
-																.getName());
-							}
 						}
 
 						/*
@@ -891,8 +943,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 		headerIdentifiers = getIdentifierValues(getMapping()
 				.getHeaderMappingColumns(), headerRow, true);
-		headerTimeStamp = getTimeStampValue(getMapping()
-				.getHeaderMappingColumns(), headerRow, true);
+
+		tsProcessor.prepTimeStamp(getMapping().getHeaderMappingColumns());
+		headerTimeStamp = tsProcessor.getTimeStampValue(headerRow, true);
+
 		this.updatePeriodEstimate(headerTimeStamp);
 	}
 
@@ -999,7 +1053,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	}
 
 	protected void createNotFoundNetworkElementMappingRecord(Metric metric,
-			int rowNum, List<IComponentLocator.IdentifierDescriptor> allIdentifiers,
+			int rowNum,
+			List<IComponentLocator.IdentifierDescriptor> allIdentifiers,
 			List<IComponentLocator.IdentifierDescriptor> failedIdentifiers,
 			List<MappingRecord> records) {
 		final StringBuilder sb = new StringBuilder();
@@ -1077,71 +1132,188 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		return null;
 	}
 
-	/*
-	 * Get a timestamp using the defined mapping columns.
+	/**
+	 * A Processor for TimeStamps. It maintains state of a {@link DateFormat}
+	 * and the column(s) where time stamp values can be found.
+	 * 
+	 * @author Christophe Bouhier
+	 * 
 	 */
-	private Date getTimeStampValue(List<MappingColumn> mappingColumns,
-			int rowNum, boolean reset) {
+	public class TSProcessor {
 
-		if (!reset && headerTimeStamp != null) {
-			return headerTimeStamp;
+		private SimpleDateFormat tsParser = null;
+
+		/**
+		 * A Map of TS kind and corresponding column in the input for easy
+		 * retrieval of the value in the processing phase
+		 */
+		private Map<ValueKindType, Integer> tsColumns = Maps.newHashMap();
+
+		/** The current Importer */
+		private AbstractMetricValuesImporter currentImporter;
+
+		public TSProcessor(AbstractMetricValuesImporter currentImporter) {
+			this.currentImporter = currentImporter;
 		}
 
-		Date returnDate = new Date();
+		/**
+		 * Get a timestamp using the defined mapping columns.
+		 */
+		public Date getTimeStampValue(int rowNum, boolean reset) {
 
-		try {
-			// if we are Excel, get the timestamp directly, else process the
-			// provided patterns.
-			if (this instanceof XLSMetricValuesImporter) {
-				for (final MappingColumn column : mappingColumns) {
-					if (column.getDataType() instanceof ValueDataKind) {
+			if (!reset && headerTimeStamp != null) {
+				return headerTimeStamp;
+			}
 
-						// http://work.netxforge.com/issues/305
-						// Also check on DATE ValueDataKind!!!
-						final ValueDataKind vdk = (ValueDataKind) column
-								.getDataType();
-						if (vdk.getValueKind() == ValueKindType.DATETIME
-								|| vdk.getValueKind() == ValueKindType.DATE
-								|| vdk.getValueKind() == ValueKindType.TIME) {
+			Date returnDate = new Date();
 
-							returnDate = getDateCellValue(rowNum,
-									column.getColumn());
+			try {
+				// if we are Excel, get the timestamp directly without a date
+				// formatter. , else process the
+				// provided patterns. Note that the first occurence will return
+				// the date. We don't not allow multiple DATE/TIME combinations
+				// here.
+				if (currentImporter instanceof XLSMetricValuesImporter) {
+
+					for (ValueKindType vkt : tsColumns.keySet()) {
+
+						switch (vkt.getValue()) {
+						case ValueKindType.DATE_VALUE: {
+							return getDateCellValue(rowNum,
+									tsColumns.get(ValueKindType.DATE));
+						}
+						case ValueKindType.TIME_VALUE: {
+							return getDateCellValue(rowNum,
+									tsColumns.get(ValueKindType.TIME));
+						}
+						case ValueKindType.DATETIME_VALUE: {
+							return getDateCellValue(rowNum,
+									tsColumns.get(ValueKindType.DATETIME));
+						}
 						}
 					}
-				}
-			} else {
 
-				// Process either a date Time Pattern , date or time pattern.
+				} else {
+
+					String dateValue = null;
+					String timeValue = null;
+					String dateTimeValue = null;
+
+					for (ValueKindType vkt : tsColumns.keySet()) {
+
+						switch (vkt.getValue()) {
+						case ValueKindType.DATE_VALUE: {
+							dateValue = getStringCellValue(rowNum,
+									tsColumns.get(ValueKindType.DATE));
+						}
+							break;
+						case ValueKindType.TIME_VALUE: {
+							timeValue = getStringCellValue(rowNum,
+									tsColumns.get(ValueKindType.TIME));
+						}
+							break;
+						case ValueKindType.DATETIME_VALUE: {
+							dateTimeValue = getStringCellValue(rowNum,
+									tsColumns.get(ValueKindType.DATETIME));
+						}
+							break;
+						}
+					}
+
+					String value = null;
+
+					if (dateTimeValue != null) {
+						value = dateTimeValue;
+					} else if (dateValue != null && timeValue != null) {
+						value = dateValue + " " + timeValue;
+					} else if (dateValue != null) {
+						value = dateValue;
+					} else if (timeValue != null) {
+						value = timeValue;
+					}
+
+					if (DataActivator.DEBUG) {
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+								"Processed timestamp mappings, resolving ");
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+								"DATETIME=" + dateTimeValue == null ? "Not Set"
+										: dateTimeValue);
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+								"TIME=" + timeValue == null ? "Not Set"
+										: timeValue);
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+								"DATE=" + dateValue == null ? "Not Set"
+										: dateValue);
+					}
+
+					returnDate = processTSMapping(tsParser, value);
+				}
+			} catch (ParseException pe) {
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_OPTION,
+							"Error parsing timestamp", pe);
+				}
+				throw new IllegalStateException(pe);
+			} finally {
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+							"TS is " + returnDate);
+				}
+			}
+			return returnDate;
+		}
+
+		public void prepTimeStamp(List<MappingColumn> mappingColumns) {
+
+			// Reset before re-processing columns.
+			tsColumns.clear();
+			tsParser = null;
+
+			try {
+
+				// Process either a date Time Pattern , date or time
+				// pattern.
 				// Note: Time and Date is also a valid combination.
 
 				String datePattern = null;
 				String timePattern = null;
 				String dateTimePattern = null;
 
-				String dateValue = null;
-				String timeValue = null;
-				String dateTimeValue = null;
-
 				for (final MappingColumn column : mappingColumns) {
 					if (column.getDataType() instanceof ValueDataKind) {
 						final ValueDataKind vdk = (ValueDataKind) column
 								.getDataType();
+
 						// Should only accept one single ValueDataKind if
 						// DateTime,
 						// break out if we find one.
-						if (vdk.getValueKind() == ValueKindType.DATE) {
+
+						switch (vdk.getValueKind().getValue()) {
+						case ValueKindType.DATE_VALUE: {
+							tsColumns.put(ValueKindType.DATE,
+									column.getColumn());
 							datePattern = vdk.getFormat();
-							dateValue = getStringCellValue(rowNum,
-									column.getColumn());
-						} else if (vdk.getValueKind() == ValueKindType.TIME) {
-							timePattern = vdk.getFormat();
-							timeValue = getStringCellValue(rowNum,
-									column.getColumn());
-						} else if (vdk.getValueKind() == ValueKindType.DATETIME) {
-							dateTimePattern = vdk.getFormat();
-							dateTimeValue = getStringCellValue(rowNum,
-									column.getColumn());
+						}
 							break;
+						case ValueKindType.TIME_VALUE: {
+							tsColumns.put(ValueKindType.TIME,
+									column.getColumn());
+							timePattern = vdk.getFormat();
+						}
+							break;
+						case ValueKindType.DATETIME_VALUE: {
+							tsColumns.put(ValueKindType.DATETIME,
+									column.getColumn());
+							dateTimePattern = vdk.getFormat();
+						}
+							break;
+
 						}
 					}
 				}
@@ -1150,97 +1322,90 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 					DataActivator.TRACE.trace(
 							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
 							"Processed timestamp mappings, resolving ");
-					DataActivator.TRACE.trace(
-							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-							"DATETIME=" + dateTimeValue == null ? "Not Set"
-									: dateTimeValue);
+
 					DataActivator.TRACE
 							.trace(DataActivator.TRACE_IMPORT_DETAILS_OPTION,
 									"DATETIME PATTERN=" + dateTimePattern == null ? "Not Set"
 											: dateTimePattern);
-					DataActivator.TRACE
-							.trace(DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-									"TIME=" + timeValue == null ? "Not Set"
-											: timeValue);
+
 					DataActivator.TRACE.trace(
 							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
 							"TIME PATTERN=" + timePattern == null ? "Not Set"
 									: timePattern);
-					DataActivator.TRACE
-							.trace(DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-									"DATE=" + dateValue == null ? "Not Set"
-											: dateValue);
+
 					DataActivator.TRACE.trace(
 							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
 							"DATE PATTERN=" + datePattern == null ? "Not Set"
 									: datePattern);
 				}
 
-				returnDate = processTSMapping(datePattern, timePattern,
-						dateTimePattern, dateValue, timeValue, dateTimeValue);
-			}
-		} catch (ParseException pe) {
-			if (DataActivator.DEBUG) {
-				DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
-						"Error parsing timestamp", pe);
-			}
-			throw new IllegalStateException(pe);
-		} finally {
-			if (DataActivator.DEBUG) {
-				DataActivator.TRACE.trace(
-						DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-						"Header date is " + returnDate);
+				tsParser = getTSParser(datePattern, timePattern,
+						dateTimePattern);
+			} finally {
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+							"parser is " + tsParser + " columns: " + tsColumns);
+				}
 			}
 		}
-		return returnDate;
-	}
 
-	/**
-	 * 
-	 * 
-	 * 
-	 * @param datePattern
-	 * @param timePattern
-	 * @param dateTimePattern
-	 * @param dateValue
-	 * @param timeValue
-	 * @param dateTimeValue
-	 * @return
-	 * @throws ParseException
-	 */
-	public Date processTSMapping(String datePattern, String timePattern,
-			String dateTimePattern, String dateValue, String timeValue,
-			String dateTimeValue) throws ParseException {
+		/**
+		 * 
+		 * @param dateProcessor
+		 * @param value
+		 * @return
+		 * @throws ParseException
+		 */
+		private Date processTSMapping(SimpleDateFormat dateProcessor,
+				String value) throws ParseException {
 
-		String value = null;
-		String pattern = null;
+			String pattern = null;
 
-		if (dateTimeValue != null && dateTimePattern != null) {
-			pattern = dateTimePattern;
-			value = dateTimeValue;
-		} else if (dateValue != null && datePattern != null
-				&& timeValue != null && timePattern != null) {
-			pattern = datePattern + " " + timePattern;
-			value = dateValue + " " + timeValue;
-		} else if (dateValue != null && datePattern != null) {
-			pattern = datePattern;
-			value = dateValue;
-		} else if (timeValue != null && timePattern != null) {
-			pattern = timePattern;
-			value = timeValue;
-		}
-		if (pattern == null) {
-			pattern = ModelUtils.DEFAULT_DATE_TIME_PATTERN;
+			if (pattern == null) {
+				pattern = ModelUtils.DEFAULT_DATE_TIME_PATTERN;
+			}
+
+			return dateProcessor.parse(value);
 		}
 
-		final SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
-		return dateFormat.parse(value);
+		/**
+		 * Get a timestamp format/parser for the provided patterns.
+		 * 
+		 * @param datePattern
+		 * @param timePattern
+		 * @param dateTimePattern
+		 * @param dateValue
+		 * @param timeValue
+		 * @param dateTimeValue
+		 * @return
+		 */
+		private SimpleDateFormat getTSParser(String datePattern,
+				String timePattern, String dateTimePattern) {
+
+			String pattern = null;
+
+			if (dateTimePattern != null) {
+				pattern = dateTimePattern;
+			} else if (datePattern != null && timePattern != null) {
+				pattern = datePattern + " " + timePattern;
+			} else if (datePattern != null) {
+				pattern = datePattern;
+			} else if (timePattern != null) {
+				pattern = timePattern;
+			}
+			if (pattern == null) {
+				pattern = ModelUtils.DEFAULT_DATE_TIME_PATTERN;
+			}
+
+			return new SimpleDateFormat(pattern);
+		}
 	}
 
 	protected abstract Date getDateCellValue(int rowNum, int column);
 
 	private int getIntervalHint(int rowNum) {
-		for (final MappingColumn column : getMappingColumn()) {
+		for (final MappingColumn column : getMapping().getDataMappingColumns()) {
 			if (column.getDataType() instanceof ValueDataKind
 					&& ((ValueDataKind) column.getDataType()).getValueKind() == ValueKindType.INTERVAL) {
 				try {
@@ -1254,10 +1419,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		return intervalHint;
 	}
 
-	private EList<MappingColumn> getMappingColumn() {
-		return getMapping().getDataMappingColumns();
-	}
-
 	/**
 	 * 
 	 * @param mappingColumns
@@ -1268,7 +1429,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	private List<IComponentLocator.IdentifierDescriptor> getIdentifierValues(
 			List<MappingColumn> mappingColumns, int row, boolean reset) {
 
-		final List<IComponentLocator.IdentifierDescriptor> result = Lists.newArrayList();
+		final List<IComponentLocator.IdentifierDescriptor> result = Lists
+				.newArrayList();
 		if (!reset) {
 			result.addAll(headerIdentifiers);
 		}
@@ -1280,9 +1442,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 						.getDataType();
 				String dataValue = getStringCellValue(row, column.getColumn())
 						.trim();
-				
-				// Apply the pattern to the value. 
-				
+
+				// Apply the pattern to the value.
+
 				if (identifierDataKind
 						.eIsSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN)) {
 					String extractionPattern = identifierDataKind.getPattern();

@@ -549,6 +549,7 @@ public class SmartValueComponent {
 
 			int totalWork = 0;
 			int metricWork = 0;
+			
 			for (MetricValueRange mvr : mvrList) {
 				totalWork += mvr.getMetricValues().size();
 			}
