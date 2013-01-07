@@ -359,6 +359,22 @@ public class ModelUtils {
 	}
 
 	/**
+	 * Compare two value ranges, on the interval in minutes.
+	 */
+	public class MetricRetentionRuleComparator implements
+			Comparator<MetricRetentionRule> {
+		public int compare(final MetricRetentionRule mrr1,
+				final MetricRetentionRule mrr2) {
+			return new Integer(mrr1.getIntervalHint()).compareTo(mrr2
+					.getIntervalHint());
+		}
+	};
+
+	public MetricRetentionRuleComparator retentionRuleCompare() {
+		return new MetricRetentionRuleComparator();
+	}
+
+	/**
 	 * Compare two markers on the time stamps.
 	 */
 	public class MarkerTimeStampComparator implements Comparator<Marker> {
@@ -2543,10 +2559,10 @@ public class ModelUtils {
 		} else if (o instanceof MetricSource) {
 			MetricSource ms = (MetricSource) o;
 			result.append("Metric Source: name=" + ms.getName());
-		} else if ( o instanceof Metric) {
-			Metric m = (Metric)o;
+		} else if (o instanceof Metric) {
+			Metric m = (Metric) o;
 			result.append("Metric name=" + m.getName());
-		}else if (o instanceof Mapping) {
+		} else if (o instanceof Mapping) {
 			Mapping mapping = (Mapping) o;
 			result.append("Mapping: datarow=" + mapping.getFirstDataRow()
 					+ "interval=" + mapping.getIntervalHint() + ",colums="
@@ -3182,9 +3198,17 @@ public class ModelUtils {
 		cal.add(Calendar.MONTH, -6);
 		return cal.getTime();
 	}
-		
+
+	public Date oneYearAgo() {
+		final Calendar cal = GregorianCalendar.getInstance();
+		cal.setTime(new Date(System.currentTimeMillis()));
+		cal.add(Calendar.YEAR, -1);
+		return cal.getTime();
+	}
+
 	/**
-	 * Get a {@link Date} for the specified number of months ago. 
+	 * Get a {@link Date} for the specified number of months ago.
+	 * 
 	 * @param n
 	 * @return
 	 */
@@ -4116,33 +4140,48 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Converts the detention period for {@link MetricRetentionRule}.
+	 * Creates a {@link DateTimeRange period} from the
+	 * {@link MetricRetentionPeriod Metric Retention Period} of
+	 * {@link MetricRetentionRule}. The end date of the period is the numbers of
+	 * days of the retention period, from today (End of the day), and the start
+	 * as the number of years which should be evaluated.
 	 * 
 	 * @param rule
+	 * @param years the number of years to evaluate for retention. 
 	 * @return
 	 */
-	public DateTimeRange getDTRForRetentionRule(MetricRetentionRule rule) {
+	public DateTimeRange getDTRForRetentionRule(MetricRetentionRule rule, int years) {
 		DateTimeRange dtr = null;
+		dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
+		Calendar instance = Calendar.getInstance();
+		instance.setTime(todayAtDayEnd());
+
 		switch (rule.getPeriod().getValue()) {
 		case MetricRetentionPeriod.ALWAYS_VALUE: {
 			// DTR is not set.
 		}
 			break;
+		case MetricRetentionPeriod.ONE_YEAR_VALUE: {
+			instance.add(Calendar.YEAR, -1);
+		}
 		case MetricRetentionPeriod.ONE_MONTH_VALUE: {
-			dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
-			dtr.setBegin(toXMLDate(oneWeekAgo()));
-			dtr.setEnd(toXMLDate(todayAndNow()));
+			instance.add(Calendar.MONTH, -1);
 		}
 			break;
 		case MetricRetentionPeriod.ONE_WEEK_VALUE: {
-		}
-			dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
-			dtr.setBegin(toXMLDate(oneMonthAgo()));
-			dtr.setEnd(toXMLDate(todayAndNow()));
-
+			instance.add(Calendar.WEEK_OF_YEAR, -1);
 			break;
-
 		}
+		}
+
+		dtr.setEnd(toXMLDate(instance.getTime()));
+		
+		// Go back # years 
+		instance.add(Calendar.YEAR, -years);
+		
+		dtr.setBegin(toXMLDate(instance.getTime()));
+		
+
 		return dtr;
 	}
 
@@ -4414,10 +4453,10 @@ public class ModelUtils {
 		}
 		return nodes;
 	}
-	
-	
+
 	/**
-	 * Get a collection of {@link Component } objects for a given {@link Operator}
+	 * Get a collection of {@link Component } objects for a given
+	 * {@link Operator}
 	 * 
 	 * @param op
 	 * @return
@@ -4474,7 +4513,7 @@ public class ModelUtils {
 
 		return components;
 	}
-	
+
 	/**
 	 * Gets the {@link Component components } with the feature
 	 * {@link LibraryPackage.Literals#COMPONENT__METRIC_REFS } referencing the
@@ -4499,11 +4538,10 @@ public class ModelUtils {
 				});
 		return filter;
 	}
-	
-	
+
 	/**
-	 * Populate the provided collection with  {@link Metric metrics} referenced by 
-	 * the provided {@link Component} along the parent Path.   
+	 * Populate the provided collection with {@link Metric metrics} referenced
+	 * by the provided {@link Component} along the parent Path.
 	 * 
 	 * @param result
 	 * @param c
@@ -4521,9 +4559,7 @@ public class ModelUtils {
 			}
 		}
 	}
-	
-	
-	
+
 	/**
 	 * The component name. If the component is a Function, the name will be
 	 * returned. If the component is an Equipment, the code could be returned or

@@ -379,9 +379,6 @@ public class ResultProcessor {
 			}
 		}
 
-		// TODO Should filter for period, as we will other try to match the time
-		// against the whole range.
-		// addToValues(mvr.getMetricValues(), newValues, intervalHint);
 		addToValues(mvr, newValues, intervalHint);
 
 		if (DataActivator.DEBUG) {
@@ -589,7 +586,15 @@ public class ResultProcessor {
 			}
 		}
 	}
-
+	
+	
+	/**
+	 * Do the actual processing of the {@link ExpressionResult result}
+	 * 
+	 * 
+	 * @param period
+	 * @param expressionResult
+	 */
 	private void processMonitoringExpressionResult(DateTimeRange period,
 			ExpressionResult expressionResult) {
 
@@ -674,6 +679,11 @@ public class ResultProcessor {
 						.valueRangeForIntervalAndKindGetOrCreate(resource,
 								expressionResult.getTargetKindHint(),
 								expressionResult.getTargetIntervalHint());
+
+				
+				// TODO, get the values and remove them. 
+				expressionResult.getTargetValues();
+				
 				if (start != null) {
 					removeValues(mvr.getMetricValues(), start, end);
 				}

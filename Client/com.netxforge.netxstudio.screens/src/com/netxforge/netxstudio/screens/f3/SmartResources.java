@@ -819,11 +819,10 @@ public class SmartResources extends AbstractScreen implements
 
 						MetricRetentionRule currentSubSelection = (MetricRetentionRule) expressionAggregate
 								.getCurrentSubSelection();
-						// The retention rule DTR, is only used for cleaning,
-						// not aggregation.
+						
 						@SuppressWarnings("unused")
 						DateTimeRange dtrForRetentionRule = modelUtils
-								.getDTRForRetentionRule(currentSubSelection);
+								.getDTRForRetentionRule(currentSubSelection, 2);
 					}
 
 					// TOLERANCE EXPRESSION.

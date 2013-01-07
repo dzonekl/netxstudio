@@ -172,14 +172,4 @@ public class EmbeddedXtextService {
 					}
 				}));
 	}
-
-	public void printExpression(Expression expression) {
-
-		for (String eLine : expression.getExpressionLines()) {
-			System.out.print("Expression # " + eLine);
-		}
-		System.out.println("Current eval object:"
-				+ expression.getEvaluationObject());
-	}
-
 }
