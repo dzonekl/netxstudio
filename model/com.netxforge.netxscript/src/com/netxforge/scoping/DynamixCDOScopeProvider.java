@@ -174,17 +174,11 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 	}
 	
 	
-	
-	
-//	public IScope getScope(Resource resource, boolean ignoreCase, final EReference reference, Predicate<IEObjectDescription> filter) {
-//		if (externalContexts != null) {
-//			// override the filter.
-//			filter = new ExternalReferencePredicate(
-//					reference, externalContexts);
-//		}
-//		return getScope(resource, reference, filter);
-//	}
-
+	/**
+	 * A filter which interprets {@link IExternalContextAware} 
+	 * 
+	 * @author Christophe
+	 */
 	class ExternalReferencePredicate implements Predicate<IEObjectDescription> {
 
 		// Keeps count of filtered items.
