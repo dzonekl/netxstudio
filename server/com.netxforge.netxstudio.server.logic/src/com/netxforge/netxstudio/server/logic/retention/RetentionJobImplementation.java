@@ -29,7 +29,9 @@ import com.netxforge.netxstudio.server.internal.ServerActivator;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 
 /**
- * Implements a job runner for a metric source.
+ * Implements a job runner for retention logic. 
+ * Although the logic, supports setting a period, we set it dynamically. 
+ * 
  * 
  * @author Martin Taal
  */
@@ -42,10 +44,8 @@ public class RetentionJobImplementation extends JobImplementation {
 		Resource res = this.getDataProvider().getResource(
 				MetricsPackage.Literals.METRIC_RETENTION_RULES);
 		if (res.getContents().size() == 1) {
-//			final RetentionJob retentionJob = (RetentionJob) getJob();
 			final RetentionLogic retentionLogic = ServerActivator.getInstance()
 					.getInjector().getInstance(RetentionLogic.class);
-			// retentionLogic.setRfsService(retentionJob.getRFSService().cdoID());
 			retentionLogic.setJobMonitor(getRunMonitor());
 			MetricRetentionRules rules = (MetricRetentionRules) res
 					.getContents().get(0);

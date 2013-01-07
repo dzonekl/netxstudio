@@ -150,30 +150,4 @@ public class RetentionLogic extends BaseComponentLogic {
 		this.nodeType = (NodeType) getDataProvider().getTransaction()
 				.getObject(cdoId);
 	}
-
-	@Override
-	public void run() {
-		
-		// Remove later, start / end is set in the engine and depengin on the retention rule. 
-		
-//		// get from the retention rules. 
-//		
-//		
-//		
-//		Date startTime = getStartTime();
-//		if (startTime == null) {
-//			// as a default start 30 days in the past
-//			startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60
-//					* 1000);
-//			setStartTime(startTime);
-//		}
-//		Date endTime = getEndTime();
-//		if (endTime == null) {
-//			// and run until one week in the past
-//			endTime = new Date(System.currentTimeMillis() - 7 * 24 * 60 * 60
-//					* 1000);
-//			setEndTime(endTime);
-//		}
-		super.run();
-	}
 }

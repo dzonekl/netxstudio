@@ -60,6 +60,10 @@ com.netxforge.netxstudio.server.logic/trace.report.details=true
 com.netxforge.netxstudio.server.logic/trace.profile=true
 com.netxforge.netxstudio.server.logic/trace.profile.details=true
 
+# Logic retention options. 
+com.netxforge.netxstudio.server.logic/trace.retention=true
+com.netxforge.netxstudio.server.logic/trace.retention.details=true
+
 # Enable debugging for CDO plugins
 org.eclipse.net4j.util/debug=false
 org.eclipse.emf.cdo/debug=false

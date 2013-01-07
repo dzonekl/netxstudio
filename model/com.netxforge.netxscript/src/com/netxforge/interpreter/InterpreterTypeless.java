@@ -101,6 +101,7 @@ import com.netxforge.netxstudio.library.impl.EquipmentImpl;
 import com.netxforge.netxstudio.library.impl.FunctionImpl;
 import com.netxforge.netxstudio.library.impl.NetXResourceImpl;
 import com.netxforge.netxstudio.metrics.KindHintType;
+import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.impl.NodeImpl;
@@ -133,7 +134,7 @@ import com.netxforge.scoping.IExternalContextAware;
  * @author Christophe Bouhier - Extended the grammar, see NetXScript.
  */
 public class InterpreterTypeless implements IInterpreter, IExternalContextAware {
-	
+
 	@Inject
 	INativeFunctions nativeFunctions;// = new NativeFunctions();
 
@@ -144,16 +145,15 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 
 	@Inject
 	private IQueryService cdoQueryService;
-	
-	
-	// Options Parameters. 
-	
+
+	// Options Parameters.
+
 	/**
-	 * When enabled, the interpreter will prefer using CDO Queries to get external data. (Non-Context). 
-	 * Otherwise, external data will be deduced by iterating over known objects or using the DataProvider. 
+	 * When enabled, the interpreter will prefer using CDO Queries to get
+	 * external data. (Non-Context). Otherwise, external data will be deduced by
+	 * iterating over known objects or using the DataProvider.
 	 */
 	private static final boolean USE_QUERIES = true;
-	
 
 	private PrintingPolymorphicDispatcher<BigDecimal> dispatcher = PrintingPolymorphicDispatcher
 			.createForSingleTarget("internalEvaluate", 2, 2, this);
@@ -249,6 +249,17 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 		} else {
 			throw new java.lang.UnsupportedOperationException(
 					"Resource context unset, it was however requested for this evaluation");
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private MetricRetentionRule getContextualMetricRetentionRule() {
+		IInterpreterContext ruleContext = getContextFor(MetricRetentionRule.class);
+		if (ruleContext != null) {
+			return (MetricRetentionRule) ruleContext.getContext();
+		} else {
+			throw new java.lang.UnsupportedOperationException(
+					"RetentionRule unset, it was however requested for this evaluation");
 		}
 	}
 
@@ -676,8 +687,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 		return resources;
 	}
 
-	@SuppressWarnings("unused")
-	private void removeFromContextRef(ContextRef cRef) {
+	private void removeFromContextRef(ContextRef cRef, List<?> values) {
 		BaseResource targetResource = null;
 		RangeRef targetRangeReference = null;
 
@@ -701,7 +711,6 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 			this.processExpressionResultRemoval(targetResource,
 					targetRangeReference);
 		}
-
 	}
 
 	private List<NetXResource> resourcesByName(Node n, ResourceRef resourceRef) {
@@ -749,7 +758,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 
 			er.setTargetKindHint(type);
 			er.setTargetIntervalHint(targetInterval);
-
+			
 			// Set the target range.
 			ValueRange range = targetRangeReference.getValuerange();
 			if (range.getValue() == ValueRange.METRIC_VALUE) {
@@ -1626,9 +1635,10 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 
 	// /////////////////////////////////////
 	// NATIVE FUNCTIONS
-	// //////////////////////////////////////
-
-	@SuppressWarnings({ "unused", "unchecked" })
+	// /////////////////////////////////////
+	
+	
+	// See the Native function range handling rules. 
 	protected Object internalEvaluate(NativeExpression ne,
 			ImmutableMap<String, Object> values) {
 
@@ -1683,6 +1693,9 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 				} else {
 
 					// process a matrix of values, either horizontal or vertical
+					
+					
+					
 					// FIXME, We need a way to differentiate, either through
 					// syntax, by grouping
 					// or by configuration, or implicity.....
@@ -1790,11 +1803,11 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	 * 
 	 * 
 	 * @param ne
-	 * @param range
+	 * @param values
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private Object processNativeFunction(NativeExpression ne, List<?> range) {
+	private Object processNativeFunction(NativeExpression ne, List<?> values) {
 
 		INativeFunctions2 nativeFunctions2 = null;
 
@@ -1807,53 +1820,50 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 
 		switch (nf.getValue()) {
 		case NativeFunction.SUM_VALUE: {
-			return nativeFunctions.sum(range);
+			return nativeFunctions.sum(values);
 		}
 		case NativeFunction.COUNT_VALUE: {
-			return nativeFunctions.count(range);
+			return nativeFunctions.count(values);
 		}
 		// Supports various implementations.
 		case NativeFunction.MAX_VALUE: {
-			if (assertValueCollection(range)) {
-				return nativeFunctions2.maxValue((List<Value>) range);
+			if (assertValueCollection(values)) {
+				return nativeFunctions2.maxValue((List<Value>) values);
 			} else {
-				return nativeFunctions.max(range);
+				return nativeFunctions.max(values);
 			}
 
 		}
 		// Supports various implementations.
 		case NativeFunction.MIN_VALUE: {
-			if (assertValueCollection(range)) {
-				return nativeFunctions2.minValue((List<Value>) range);
+			if (assertValueCollection(values)) {
+				return nativeFunctions2.minValue((List<Value>) values);
 			} else {
-				return nativeFunctions.min(range);
+				return nativeFunctions.min(values);
 			}
 		}
 		case NativeFunction.MEAN_VALUE: {
-			if (assertValueCollection(range)) {
-				return nativeFunctions2.meanValue((List<Value>) range);
+			if (assertValueCollection(values)) {
+				return nativeFunctions2.meanValue((List<Value>) values);
 			} else {
-				return nativeFunctions.mean(range);
+				return nativeFunctions.mean(values);
 			}
 		}
 		case NativeFunction.ERLANGB_VALUE: {
 			// GoS is hardcoded.
-			return nativeFunctions.erlangB(range, 0.01f);
+			return nativeFunctions.erlangB(values, 0.01f);
 		}
 		case NativeFunction.DEVIATION_VALUE: {
-			return nativeFunctions.standardDeviation(range);
+			return nativeFunctions.standardDeviation(values);
 		}
 		case NativeFunction.CLEAR_VALUE: {
-
-			// TODO, FIX THIS.
-			// To a metric value range.
-			// if (ne.getRef() instanceof ContextRef) {
-			// this.removeFromContextRef((ContextRef) ne.getRef());
-			// }
+			if (ne.getLeft() instanceof ContextRef) {
+				this.removeFromContextRef((ContextRef) ne.getLeft(), values);
+			}
 		}
 
 		}
-		return range;
+		return values;
 	}
 
 	// /////////////////////////////////////
@@ -2499,7 +2509,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	}
 
 	public static boolean assertMatrix(List<?> collection) {
-		if(collection.isEmpty()){
+		if (collection.isEmpty()) {
 			return false;
 		}
 		for (Object o : collection) {
