@@ -22,6 +22,7 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IPath;
@@ -105,10 +106,18 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 		Locale.setDefault(Locale.UK);
 
 		currentLocal = Locale.getDefault();
-		System.out.println("NEW Locale: country = "
-				+ currentLocal.getDisplayCountry() + "language = "
-				+ currentLocal.getDisplayLanguage());
 
+		// System.out.println("NEW Locale: country = "
+		// + currentLocal.getDisplayCountry() + "language = "
+		// + currentLocal.getDisplayLanguage() + " timezone = " +
+		// currentLocal.get);
+
+		TimeZone defaultTZ = TimeZone.getDefault();
+
+		System.out.println(" timezone = " + defaultTZ.getDisplayName()
+				+ " ID = " + defaultTZ.getID() + " DayLightSaving (sec) "
+				+ defaultTZ.getDSTSavings() / 1000);
+		
 		// Get the workspace location property
 		String workspaceLocation = System.getProperty("osgi.instance.area");
 		System.out.println("Workspace location: " + workspaceLocation);
@@ -226,13 +235,14 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 					ServerIntegrity.restoreIntegrity(interpreter);
 					return null;
 				}
-				
+
 				// Process Options:
 				if ("--duplicates".equals(nextArgument)) {
 					ServerIntegrity.reportIntegrity(interpreter, true);
 				} else {
-					if(nextArgument != null && !nextArgument.isEmpty()){
-						interpreter.println("I don't know: " + nextArgument +"\n\n");
+					if (nextArgument != null && !nextArgument.isEmpty()) {
+						interpreter.println("I don't know: " + nextArgument
+								+ "\n\n");
 						interpreter.println(getHelp());
 						return null;
 					}
