@@ -21,14 +21,20 @@ package com.netxforge.netxstudio.data.importer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.CDOObjectReference;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.ReferenceHelper;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.data.tolerance.ToleranceProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -42,9 +48,11 @@ import com.netxforge.netxstudio.library.RangeKind;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.services.DerivedResource;
+import com.netxforge.netxstudio.services.ServiceMonitor;
 
 /**
  * This class is a supporting class for processing results from Expression
@@ -122,114 +130,14 @@ public class ResultProcessor {
 		}
 	}
 
-	// public void processMonitoringResult(List<Object> currentContext,
-	// List<BaseExpressionResult> expressionResults, Date start, Date end) {
-	// for (final BaseExpressionResult baseExpressionResult : expressionResults)
-	// {
-	// if (baseExpressionResult instanceof ExpressionResult) {
-	// ExpressionResult expressionResult = (ExpressionResult)
-	// baseExpressionResult;
-	// processMonitoringExpressionResult(start, end, expressionResult);
-	// }
-	// }
-	// }
-
-	// private void processMonitoringExpressionResult(Date start, Date end,
-	// final ExpressionResult expressionResult) {
-	//
-	// if (DataActivator.DEBUG) {
-	// DataActivator.TRACE.trace(
-	// DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-	// "writing expression result: resource="
-	// + expressionResult.getTargetResource()
-	// .getShortName() + " target="
-	// + expressionResult.getTargetRange().getName()
-	// + " interval="
-	// + expressionResult.getTargetIntervalHint()
-	// + " kind = "
-	// + expressionResult.getTargetKindHint().getName()
-	// + " values="
-	// + expressionResult.getTargetValues().size());
-	// }
-	//
-	// // FIXME: We could want to write to a resource, where the node
-	// // doesn't match the context. The original context Node is not known
-	// // here.
-	// final BaseResource baseResource = expressionResult.getTargetResource();
-	//
-	// // Process a NetXResource
-	// if (baseResource instanceof NetXResource) {
-	// NetXResource resource = (NetXResource) baseResource;
-	// final Node n = modelUtils.nodeFor(resource.getComponentRef());
-	//
-	// if (DataActivator.DEBUG) {
-	// if (n != null) {
-	// DataActivator.TRACE.trace(
-	// DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-	// "writing to resource in Node: " + n.getNodeID());
-	// }
-	// }
-	//
-	// switch (expressionResult.getTargetRange().getValue()) {
-	// case RangeKind.CAP_VALUE:
-	// // Remove previous values within the range.
-	// removeValues(resource.getCapacityValues(), start, end);
-	// addToValues(resource.getCapacityValues(),
-	// expressionResult.getTargetValues(),
-	// expressionResult.getTargetIntervalHint());
-	// break;
-	// case RangeKind.METRIC_VALUE:
-	//
-	// // TODO, Apply a value filler as the interpreter will only
-	// // return two values
-	// // with Timestamps matching start and end of the period.
-	//
-	// // Disable the filler values.
-	// // @SuppressWarnings("unused")
-	// // List<Value> createValues = getCreateValues(expressionResult,
-	// // start, end);
-	//
-	// addToValueRange(resource,
-	// expressionResult.getTargetIntervalHint(),
-	// expressionResult.getTargetKindHint(),
-	// expressionResult.getTargetValues(), start, end);
-	//
-	// break;
-	// case RangeKind.TOLERANCE_VALUE: {
-	// if (tolProcessor != null && tolProcessor.ready()) {
-	// tolProcessor.markersForExpressionResult(expressionResult,
-	// start, end);
-	// }
-	// }
-	// break;
-	// case RangeKind.UTILIZATION_VALUE:
-	// removeValues(resource.getUtilizationValues(), start, end);
-	// addToValues(resource.getUtilizationValues(),
-	// expressionResult.getTargetValues(),
-	// expressionResult.getTargetIntervalHint());
-	// break;
-	// case RangeKind.METRICREMOVE_VALUE:
-	// final MetricValueRange mvr = modelUtils
-	// .valueRangeForIntervalAndKindGetOrCreate(resource,
-	// expressionResult.getTargetKindHint(),
-	// expressionResult.getTargetIntervalHint());
-	// if (start != null) {
-	// removeValues(mvr.getMetricValues(), start, end);
-	// }
-	// break;
-	// default:
-	// throw new IllegalStateException("Range kind "
-	// + expressionResult.getTargetRange() + " not supported");
-	// }
-	// }
-	//
-	// if (DataActivator.DEBUG) {
-	// DataActivator.TRACE.trace(
-	// DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-	// "done processing monitoring result");
-	// }
-	// }
-
+	/**
+	 * Remove {@link Value} objects and potential references to them. Currently
+	 * only {@link Marker} objects reference the <code>Value</code> object, so
+	 * remove the entire marker and potentially the resource monitor belonging
+	 * to it.
+	 * 
+	 * @param values
+	 */
 	private void removeValues(EList<Value> values, Date start, Date end) {
 		final long startMillis = start.getTime();
 		final long endMillis = end.getTime();
@@ -242,9 +150,90 @@ public class ResultProcessor {
 			}
 		}
 
-		// Note, how to deal with references to the values? (ResourceMonitor
-		// etc..).
+		removeValueReferences(toRemove);
 		values.removeAll(toRemove);
+	}
+
+	/**
+	 * Remove {@link Value} objects and potential references to them. Currently
+	 * only {@link Marker} objects reference the <code>Value</code> object, so
+	 * remove the entire marker and potentially the resource monitor belonging
+	 * to it.
+	 * 
+	 * @param values
+	 */
+	public void removeValues(EList<Value> values) {
+		final List<Value> toRemove = new ArrayList<Value>(values);
+
+		removeValueReferences(toRemove);
+		values.removeAll(toRemove);
+	}
+
+	/**
+	 * @param toRemove
+	 */
+	private void removeValueReferences(final List<Value> toRemove) {
+		// Produce a list of resource monitors to check, if they indirectly
+		// reference values scheduled for removal.
+		List<ResourceMonitor> monitorsList = Lists.newArrayList();
+		List<Marker> markersToRemove = Lists.newArrayList();
+
+		if (DataActivator.DEBUG) {
+			DataActivator.TRACE.trace(DataActivator.TRACE_RESULT_VALUE_OPTION,
+					"x-ref value references");
+		}
+
+		List<CDOObjectReference> xRefs = ReferenceHelper
+				.findReferencesGlobally(toRemove);
+
+		if (xRefs != null) {
+			for (CDOObjectReference xref : xRefs) {
+				EObject referencingEObject = xref.getSourceObject();
+				if (referencingEObject instanceof Marker) {
+					markersToRemove.add((Marker) referencingEObject);
+					if (referencingEObject.eContainer() != null
+							&& referencingEObject.eContainer() instanceof ResourceMonitor) {
+
+						ResourceMonitor rm = (ResourceMonitor) referencingEObject
+								.eContainer();
+						rm.getMarkers().remove(referencingEObject);
+						monitorsList.add(rm);
+
+					}
+				}
+				// EObject eObject = xref.getTargetObject();
+			}
+		}
+
+		Map<ServiceMonitor, List<ResourceMonitor>> serviceMonitorsList = Maps
+				.newHashMap();
+		
+		
+		// Clear empty monitors. 
+		for (ResourceMonitor rm : monitorsList) {
+			
+			if (rm.getMarkers().isEmpty()) {
+
+				if (rm.eContainer() != null
+						&& rm.eContainer() instanceof ServiceMonitor) {
+					ServiceMonitor sm = (ServiceMonitor) rm.eContainer();
+					if (serviceMonitorsList.containsKey(sm)) {
+						serviceMonitorsList.get(sm).add(rm);
+					} else {
+						List<ResourceMonitor> rms = Lists.newArrayList();
+						rms.add(rm);
+						serviceMonitorsList.put(sm, rms);
+					}
+				}
+			}
+		}
+
+		for (ServiceMonitor sm : serviceMonitorsList.keySet()) {
+			sm.getResourceMonitors().removeAll(serviceMonitorsList.get(sm));
+		}
+
+		// TODO, Do something with empty service monitors, if any. 
+
 	}
 
 	/*
@@ -586,8 +575,7 @@ public class ResultProcessor {
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * Do the actual processing of the {@link ExpressionResult result}
 	 * 
@@ -613,7 +601,8 @@ public class ResultProcessor {
 							+ " kind = "
 							+ expressionResult.getTargetKindHint().getName()
 							+ " values="
-							+ expressionResult.getTargetValues().size());
+							+ expressionResult.getTargetValues().size()
+							+ " from=" + start + " to=" + end);
 		}
 
 		// FIXME: We could want to write to a resource, where the node
@@ -675,18 +664,11 @@ public class ResultProcessor {
 						expressionResult.getTargetIntervalHint());
 				break;
 			case RangeKind.METRICREMOVE_VALUE:
-				final MetricValueRange mvr = modelUtils
-						.valueRangeForIntervalAndKindGetOrCreate(resource,
-								expressionResult.getTargetKindHint(),
-								expressionResult.getTargetIntervalHint());
+				removeValues(expressionResult.getTargetValues());
 
-				
-				// TODO, get the values and remove them. 
-				expressionResult.getTargetValues();
-				
-				if (start != null) {
-					removeValues(mvr.getMetricValues(), start, end);
-				}
+				// if (start != null) {
+				// removeValues(mvr.getMetricValues(), start, end);
+				// }
 				break;
 			default:
 				throw new IllegalStateException("Range kind "

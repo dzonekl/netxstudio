@@ -956,7 +956,6 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			if (interval != null) {
 
 				int inSeconds = modelUtils.inSeconds(interval);
-				System.out.println(" Second interpreter = " + inSeconds);
 				// refuse to set a -1 value, as the string could be unvalid.
 				if (inSeconds != -1) {
 					intervalObservable.setValue(inSeconds);

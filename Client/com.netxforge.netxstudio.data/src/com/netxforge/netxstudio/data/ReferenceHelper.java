@@ -1,4 +1,21 @@
-package com.netxforge.netxstudio.screens.editing.actions;
+/*******************************************************************************
+ * Copyright (c) 7 jan. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
+package com.netxforge.netxstudio.data;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,17 +32,21 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
+import com.netxforge.netxstudio.data.internal.DataActivator;
 
+/**
+ * 
+ * @author Christophe Bouhier
+ */
 public class ReferenceHelper {
 
 	public static List<CDOObjectReference> findReferencesGlobally(
-			Collection<EObject> eObjects) {
+			Collection<? extends EObject> eObjects) {
 		return findReferencesGlobally(eObjects, new EReference[] {});
 	}
 
 	public static List<CDOObjectReference> findReferencesGlobally(
-			Collection<EObject> eObjects, EReference[] refs) {
+			Collection<? extends EObject> eObjects, EReference[] refs) {
 		List<CDOObjectReference> queryXRefs = Lists.newArrayList();
 
 		// Query on the whole set in one go, we assume all objects have the same
@@ -33,11 +54,12 @@ public class ReferenceHelper {
 		if (eObjects.size() > 0) {
 			EObject next = eObjects.iterator().next();
 			CDOView cdoView = ((CDOObject) next).cdoView();
-			if(cdoView == null){
-				// We don't have a view for this object, this should not occur, 
-				// as an object should never be detached at this stage. 
-				if(EditingActivator.DEBUG){
-					System.out.println(" object detached, can't query on it");
+			if (cdoView == null) {
+				// We don't have a view for this object., which will have an
+				// unset CDOView.
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(DataActivator.TRACE_DATA_OPTION,
+							" object detached, can't query on it");
 				}
 				return queryXRefs;
 			}
@@ -46,17 +68,16 @@ public class ReferenceHelper {
 			try {
 				queryXRefs = cdoView.queryXRefs(objectSet, refs);
 			} catch (Exception e) {
-//				e.printStackTrace();
 				// 1. The query sometimes throws exeception, if i.e an entity
 				// can't be found..
 				// EClass ExpressionResult does not have an entity name, has
 				// it been mapped to Hibernate?
-				// 2. 
-				if(EditingActivator.DEBUG){
-					System.out.println(" xref on delete failed:");
-					e.printStackTrace();
+				// 2.
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(DataActivator.TRACE_DATA_OPTION,
+							" xref on failed: ", e);
 				}
-				
+
 			}
 		}
 
@@ -91,11 +112,14 @@ public class ReferenceHelper {
 					}
 
 				} catch (Exception e) {
-					e.printStackTrace();
 					// The query sometimes throws exeception, if i.e an entity
 					// can't be found..
 					// EClass ExpressionResult does not have an entity name, has
 					// it been mapped to Hibernate?
+					if (DataActivator.DEBUG) {
+						DataActivator.TRACE.trace(DataActivator.TRACE_DATA_OPTION,
+								" xref on failed: ", e);
+					}
 				}
 			}
 		}
@@ -103,7 +127,7 @@ public class ReferenceHelper {
 	}
 
 	public static Iterator<CDOObject> transEObjectToCDOObjects(
-			Iterator<EObject> eObjects) {
+			Iterator<? extends EObject> eObjects) {
 		final Function<EObject, CDOObject> cdoObjectFromEObject = new Function<EObject, CDOObject>() {
 			public CDOObject apply(EObject from) {
 				return (CDOObject) from;

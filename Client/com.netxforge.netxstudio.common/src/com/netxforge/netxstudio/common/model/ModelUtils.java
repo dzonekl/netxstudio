@@ -2378,7 +2378,10 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Iterate through the ranges, and find for this interval.
+	 * return the {@link MetricValueRange} for a given {@link NetXResource}
+	 * which has the given interval. Note; the
+	 * {@link MetricsPackage.Literals.METRIC_VALUE_RANGE__KIND_HINT } is not
+	 * considered.
 	 * 
 	 * @param resource
 	 * @param targetInterval
@@ -3233,6 +3236,19 @@ public class ModelUtils {
 	}
 
 	/**
+	 * Get a {@link Date} for the specified number of years ago.
+	 * 
+	 * @param n
+	 * @return
+	 */
+	public Date yearsAgo(int n) {
+		final Calendar cal = GregorianCalendar.getInstance();
+		cal.setTime(new Date(System.currentTimeMillis()));
+		cal.add(Calendar.YEAR, -n);
+		return cal.getTime();
+	}
+
+	/**
 	 * Set a period to day start and end.
 	 * 
 	 * @param from
@@ -3320,14 +3336,14 @@ public class ModelUtils {
 					try {
 						return new Integer(from) * 60;
 					} catch (final NumberFormatException nfe) {
-						nfe.printStackTrace();
+						// nfe.printStackTrace();
 					}
 				}
 
 				try {
 					return new Integer(from);
 				} catch (final NumberFormatException nfe) {
-					nfe.printStackTrace();
+					// nfe.printStackTrace();
 				}
 				return -1;
 			}
@@ -4147,10 +4163,12 @@ public class ModelUtils {
 	 * as the number of years which should be evaluated.
 	 * 
 	 * @param rule
-	 * @param years the number of years to evaluate for retention. 
+	 * @param years
+	 *            the number of years to evaluate for retention.
 	 * @return
 	 */
-	public DateTimeRange getDTRForRetentionRule(MetricRetentionRule rule, int years) {
+	public DateTimeRange getDTRForRetentionRule(MetricRetentionRule rule,
+			Date begin) {
 		DateTimeRange dtr = null;
 		dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
 		Calendar instance = Calendar.getInstance();
@@ -4175,12 +4193,7 @@ public class ModelUtils {
 		}
 
 		dtr.setEnd(toXMLDate(instance.getTime()));
-		
-		// Go back # years 
-		instance.add(Calendar.YEAR, -years);
-		
-		dtr.setBegin(toXMLDate(instance.getTime()));
-		
+		dtr.setBegin(toXMLDate(begin));
 
 		return dtr;
 	}
@@ -4591,15 +4604,35 @@ public class ModelUtils {
 	}
 
 	public List<NodeType> nodeTypesForResource(Resource operatorsResource) {
-		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
+
+		final List<Node> nodesForNetwork = Lists.newArrayList();
+
 		for (EObject eo : operatorsResource.getContents()) {
 			if (eo instanceof Operator) {
 				Operator op = (Operator) eo;
-				for (Service service : op.getServices()) {
-					nodeTypes.addAll(nodeTypeForService(service));
+				for (Network n : op.getNetworks()) {
+					nodesForNetwork.addAll( nodesForNetwork(n)); 
 				}
 			}
 		}
+
+		Iterable<NodeType> transform = Iterables.transform(
+				nodesForNetwork, new Function<Node, NodeType>() {
+					public NodeType apply(Node n) {
+						return n.getNodeType();
+					}
+				});
+		
+		// filter null entries. 
+		transform = Iterables.filter(transform, new Predicate<NodeType>(){
+			public boolean apply(NodeType nt){
+				return nt != null;
+			}
+		});
+		
+		
+		final List<NodeType> nodeTypes = Lists.newArrayList(transform);
+		
 		return nodeTypes;
 	}
 

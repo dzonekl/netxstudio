@@ -36,6 +36,8 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
+import com.netxforge.netxstudio.data.ReferenceHelper;
+
 public class WarningDeleteCommand extends CompoundCommand {
 
 	/**

@@ -50,7 +50,9 @@ public class RetentionJobImplementation extends JobImplementation {
 			MetricRetentionRules rules = (MetricRetentionRules) res
 					.getContents().get(0);
 			retentionLogic.setRules(rules);
-			retentionLogic.run();
+			retentionLogic.intializeRentionLogic(); // Set an evaluation period. 
+			retentionLogic.runWithoutClosing();
+			retentionLogic.close();
 			getDataProvider().commitTransaction();
 		} else {
 			// No rules, data corruption...?

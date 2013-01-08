@@ -20,7 +20,6 @@ package com.netxforge.netxstudio.screens;
 import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -144,28 +143,33 @@ public abstract class AbstractSmartTableScreen extends AbstractScreen implements
 		@Override
 		protected void storeItemToMemento(Object item, IMemento memento) {
 
-			Assert.isTrue(item instanceof CDOObject);
-			if (FSMUtil.isClean((CDOObject) item)) {
-				String cdoLongIDAsString = modelUtils
-						.cdoLongIDAsString((CDOObject) item);
+			if (item instanceof CDOObject) {
 
-				// This is the root memento, find children matching our ID.
-				IMemento[] children = memento.getChildren(this.infoNodeName);
-				for (IMemento m : children) {
-					// find a key matching our ID.
-					String[] attributeKeys = m.getAttributeKeys();
-					for (String key : attributeKeys) {
-						if (key.equals(MEM_KEY_LAZY_OID + cdoLongIDAsString)) {
-							return; // We know this one already.
+				if (FSMUtil.isClean((CDOObject) item)) {
+					String cdoLongIDAsString = modelUtils
+							.cdoLongIDAsString((CDOObject) item);
+
+					// This is the root memento, find children matching our ID.
+					IMemento[] children = memento
+							.getChildren(this.infoNodeName);
+
+					for (IMemento m : children) {
+						// find a key matching our ID.
+						String[] attributeKeys = m.getAttributeKeys();
+						for (String key : attributeKeys) {
+							if (key.equals(MEM_KEY_LAZY_OID + cdoLongIDAsString)) {
+								return; // We know this one already.
+							}
 						}
 					}
-				}
-				// Remember clean CDOObjects only.
+					// Remember clean CDOObjects only.
 
-				// Remember in a child node.
-				mementoUtils.rememberCDOObject(
-						memento.createChild(this.infoNodeName),
-						(CDOObject) item, MEM_KEY_LAZY_OID + cdoLongIDAsString);
+					// Remember in a child node.
+					mementoUtils.rememberCDOObject(
+							memento.createChild(this.infoNodeName),
+							(CDOObject) item, MEM_KEY_LAZY_OID
+									+ cdoLongIDAsString);
+				}
 			}
 		}
 	}

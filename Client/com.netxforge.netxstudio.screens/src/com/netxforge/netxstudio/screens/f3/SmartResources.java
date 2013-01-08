@@ -817,12 +817,12 @@ public class SmartResources extends AbstractScreen implements
 					if (currentExpressionType == ContextAggregate.RETENTION_EXPRESSION_CONTEXT
 							&& expressionAggregate.getCurrentSubSelection() instanceof MetricRetentionRule) {
 
+						@SuppressWarnings("unused")
 						MetricRetentionRule currentSubSelection = (MetricRetentionRule) expressionAggregate
 								.getCurrentSubSelection();
 						
-						@SuppressWarnings("unused")
-						DateTimeRange dtrForRetentionRule = modelUtils
-								.getDTRForRetentionRule(currentSubSelection, 2);
+//						DateTimeRange dtrForRetentionRule = modelUtils
+//								.getDTRForRetentionRule(currentSubSelection, 2);
 					}
 
 					// TOLERANCE EXPRESSION.
