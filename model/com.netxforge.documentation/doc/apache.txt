@@ -1,0 +1,28 @@
+Apache2
+================
+
+Documentation: 
+
+http://httpd.apache.org/docs/2.2/
+
+Installed In: 
+ServerRoot "/etc/apache2"
+
+
+Controlling apache2: 
+--------------------
+
+/etc/init.d/apache2 status
+/etc/init.d/apache2 start
+/etc/init.d/apache2 stop
+
+Configuring Apache2. 
+--------------------
+
+Gor to /etc/apache2 and configure
+httpd.conf
+
+
+Logging
+---------
+/var/log/apache2/error.log

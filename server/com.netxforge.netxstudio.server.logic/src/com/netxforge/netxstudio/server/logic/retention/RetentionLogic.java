@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.server.logic.retention;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
@@ -41,11 +42,22 @@ import com.netxforge.netxstudio.services.RFSService;
  * Performs the retention logic for a RFSService, node type or component.
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
 public class RetentionLogic extends BaseComponentLogic {
 
+	
+	/**
+	 * The number of years to consider in the aggregation and retention of
+	 * values. It could be requested to i.e. keep one month of data evaluation a
+	 * period of n years.
+	 */
+	private static final int YEARS_TO_EVALUATE = 2;
+	
 	private RFSService rfsService;
+	
 	private NodeType nodeType;
+	
 	private MetricRetentionRules rules;
 	
 	public void setRules(MetricRetentionRules rules) {
@@ -104,6 +116,8 @@ public class RetentionLogic extends BaseComponentLogic {
 		engine.setJobMonitor(getJobMonitor());
 		engine.setComponent(component);
 		engine.setDataProvider(this.getDataProvider());
+		engine.setPeriod(this.getPeriod());
+		
 		if(engine instanceof RetentionEngine){
 			((RetentionEngine) engine).setRetentionRules(rules);
 		}
@@ -150,4 +164,17 @@ public class RetentionLogic extends BaseComponentLogic {
 		this.nodeType = (NodeType) getDataProvider().getTransaction()
 				.getObject(cdoId);
 	}
+	
+	
+	/**
+	 * Initialized the static part of the logic. This is the evaluation period of the logic. 
+	 */
+	public void intializeRentionLogic(){
+		
+		Date end = this.getModelUtils().todayAtDayEnd();
+		Date begin = this.getModelUtils().yearsAgo(YEARS_TO_EVALUATE);
+		setPeriod(this.getModelUtils().period(begin, end));
+		
+	}
+	
 }

@@ -25,6 +25,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.data.ReferenceHelper;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;

@@ -1,0 +1,10 @@
+Capistrano
+==========
+
+
+Install
+-------
+
+gem install capistrano
+
+

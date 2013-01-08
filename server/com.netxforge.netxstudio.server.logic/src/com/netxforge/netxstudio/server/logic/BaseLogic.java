@@ -82,7 +82,6 @@ public abstract class BaseLogic {
 	public void runWithoutClosing() {
 		try {
 			doRun();
-
 		} catch (final Throwable t) {
 			t.printStackTrace();
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);

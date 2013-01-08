@@ -64,11 +64,10 @@ netxstudio
 7. Populate the home page. 
 
 
-
-
- 
-
-
+Current Linode Install: 
+ruby => ruby 1.9.3p194 (2012-04-20 revision 35410) [i686-linux]
+gem => 1.8.24
+rails => 
 
 
 
@@ -104,12 +103,32 @@ Config. apache:
 sudo a2enmod proxy
 sudo a2enmod proxy_http
 sudo a2enmod rewrite
+
 sudo /etc/init.d/apache2 restart
+
+// APache configuration can be found in 
+etc/apache2
+
+
+
+
 sudo apt-get install mongrel
 
-Preparing the house??:
+PHUSION PASSENGER INSTALL
+==========================
+(Run as root) see : http://www.modrails.com/documentation/Users%20guide%20Apache.html
 
-sudo apt-get install lighttpd libfcgi-ruby1.8
+1) gem install passenger (OK)
+2) passenger-install-apache2-module (NOK) 
+requires Curl apt-get install libcurl4-openssl-dev
+
+When done, edit the Apache config file with. 
+
+
+   LoadModule passenger_module /usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.18/ext/apache2/mod_passenger.so
+   PassengerRoot /usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.18
+   PassengerRuby /usr/local/rvm/wrappers/ruby-1.9.3-p194/ruby
+
 
 
 Ruby Gem (1.8.24)

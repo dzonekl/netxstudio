@@ -85,9 +85,11 @@ public class Fixtures implements IFixtures {
 
 		final CDOResource settingsResource = (CDOResource) dataProvider
 				.getResource(NetxstudioPackage.Literals.SERVER_SETTINGS);
-		if (settingsResource.getContents().size() > 0) {
-			return;
-		}
+
+//		if (settingsResource.getContents().size() > 0) {
+//			return;
+//		}
+		
 		ServerSettings serverSettings = NetxstudioFactory.eINSTANCE
 				.createServerSettings();
 		serverSettings
@@ -212,8 +214,8 @@ public class Fixtures implements IFixtures {
 				// Gets the max value from a range and assigns it to
 				// another
 				// range, clears the original range.
-				final String eAsString = "this METRIC AVG MONTH = this METRIC AVG WEEK.max();"
-						+ "this METRIC AVG WEEK.clear(); // Clear for the rule period. ";
+				final String eAsString = "this METRIC AVG MONTH = this METRIC AVG WEEK.max();";
+//						+ "this METRIC AVG WEEK.clear(); // Clear for the rule period. ";
 				weeklyRetentionExpression.getExpressionLines().addAll(
 						modelUtils.expressionLines(eAsString));
 				expressionResource.getContents().add(weeklyRetentionExpression);
@@ -226,8 +228,8 @@ public class Fixtures implements IFixtures {
 				// Gets the max value from a range and assigns it to
 				// another
 				// range, clears the original range.
-				final String eAsString = "this METRIC AVG WEEK = this METRIC AVG DAY.max();"
-						+ "this METRIC AVG DAY.clear(); // Clear for the rule period. ";
+				final String eAsString = "this METRIC AVG WEEK = this METRIC AVG DAY.max();";
+//						+ "this METRIC AVG DAY.clear(); // Clear for the rule period. ";
 				dailyRetentionExpression.getExpressionLines().addAll(
 						modelUtils.expressionLines(eAsString));
 				expressionResource.getContents().add(dailyRetentionExpression);
@@ -241,8 +243,8 @@ public class Fixtures implements IFixtures {
 				// Gets the max value from a range and assigns it to
 				// another
 				// range, clears the original range.
-				final String eAsString = "this METRIC AVG DAY = this METRIC HOUR .max();"
-						+ "this METRIC AVG HOUR.clear(); // Clear for the rule period. ";
+				final String eAsString = "this METRIC AVG DAY = this METRIC HOUR .max();";
+//						+ "this METRIC AVG HOUR.clear(); // Clear for the rule period. ";
 				hourlyRetentionExpression.getExpressionLines().addAll(
 						modelUtils.expressionLines(eAsString));
 				expressionResource.getContents().add(hourlyRetentionExpression);
@@ -256,6 +258,7 @@ public class Fixtures implements IFixtures {
 				r.setName("Monthly values");
 				r.setPeriod(MetricRetentionPeriod.ALWAYS);
 				r.setRetentionExpression(monthlyRetentionExpression);
+				r.setIntervalHint(ModelUtils.MINUTES_IN_A_MONTH);
 				rules.getMetricRetentionRules().add(r);
 			}
 			{
@@ -264,6 +267,7 @@ public class Fixtures implements IFixtures {
 				r.setName("Weekly values");
 				r.setPeriod(MetricRetentionPeriod.ALWAYS);
 				r.setRetentionExpression(weeklyRetentionExpression);
+				r.setIntervalHint(ModelUtils.MINUTES_IN_A_WEEK);
 				rules.getMetricRetentionRules().add(r);
 			}
 			{
@@ -272,6 +276,7 @@ public class Fixtures implements IFixtures {
 				r.setName("Daily values");
 				r.setPeriod(MetricRetentionPeriod.ONE_MONTH);
 				r.setRetentionExpression(dailyRetentionExpression);
+				r.setIntervalHint(ModelUtils.MINUTES_IN_A_DAY);
 				rules.getMetricRetentionRules().add(r);
 			}
 			{
@@ -280,6 +285,7 @@ public class Fixtures implements IFixtures {
 				r.setName("Hourly values");
 				r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
 				r.setRetentionExpression(hourlyRetentionExpression);
+				r.setIntervalHint(ModelUtils.MINUTES_IN_AN_HOUR);
 				rules.getMetricRetentionRules().add(r);
 			}
 
@@ -304,7 +310,7 @@ public class Fixtures implements IFixtures {
 			retentionJob.setJobState(JobState.IN_ACTIVE);
 			retentionJob.setStartTime(modelUtils.toXMLDate(modelUtils
 					.tomorrow()));
-			retentionJob.setInterval(600);
+			retentionJob.setInterval(60);
 			retentionJob.setName("Data Retention");
 			jobResource.getContents().add(retentionJob);
 		}

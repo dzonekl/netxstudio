@@ -127,7 +127,7 @@ public class ChartModel {
 
 		this.interval = interval;
 
-		// Populate the values, if we need to, (The model can be used without
+		// Populate the values, if we need to, (The model can also be used without
 		// the NetXResource object).
 		if (this.metricValues == null && this.netXRes != null
 				&& this.interval != -1) {
