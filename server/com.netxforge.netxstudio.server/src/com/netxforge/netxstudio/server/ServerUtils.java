@@ -258,8 +258,6 @@ public class ServerUtils {
 		}
 		isInitializing = true;
 		
-		
-		
 		// TODO, Find out the DB schema name and table name to create queries. 
 		IStore store = repository.getStore();
 		if(store instanceof IDBStore){
@@ -318,7 +316,10 @@ public class ServerUtils {
 
 		private void loadFixtureData(IDataProvider dataProvider,
 				ModelUtils modelUtils) {
-			Fixtures fixtures = new Fixtures(dataProvider, modelUtils);
+			final Fixtures fixtures = new Fixtures(dataProvider, modelUtils);
+			
+			fixtures.unloadFixtures(); 
+			
 			fixtures.loadFixtures();
 
 		}

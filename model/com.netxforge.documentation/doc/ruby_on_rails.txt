@@ -69,6 +69,101 @@ ruby => ruby 1.9.3p194 (2012-04-20 revision 35410) [i686-linux]
 gem => 1.8.24
 rails => 
 
+Install gem bundles
+-------------------
+
+
+root@li453-70:/home/apps/netxforge# ruby bundle install --path vendor/bundle
+Fetching gem metadata from http://rubygems.org/........
+Fetching gem metadata from http://rubygems.org/..
+Fetching http://github.com/distler/file_signature.git
+remote: Counting objects: 339, done.
+remote: Compressing objects: 100% (241/241), done.
+remote: Total 339 (delta 128), reused 279 (delta 68)
+Receiving objects: 100% (339/339), 218.79 KiB | 390 KiB/s, done.
+Resolving deltas: 100% (128/128), done.
+Fetching http://github.com/distler/maruku.git
+remote: Counting objects: 5150, done.
+remote: Compressing objects: 100% (1416/1416), done.
+remote: Total 5150 (delta 3723), reused 5075 (delta 3659)
+Receiving objects: 100% (5150/5150), 1.08 MiB | 595 KiB/s, done.
+Resolving deltas: 100% (3723/3723), done.
+Installing rake (0.9.2.2) 
+Installing RedCloth (4.2.9) with native extensions 
+Installing daemons (1.0.10) 
+Installing erubis (2.7.0) 
+Using file_signature (1.2.0) from http://github.com/distler/file_signature.git (at master) 
+Installing gem_plugin (0.2.3) 
+Installing itextomml (1.4.10) with native extensions 
+Installing json (1.7.5) with native extensions 
+Installing nokogiri (1.5.5) with native extensions 
+Gem::Installer::ExtensionBuildError: ERROR: Failed to build gem native extension.
+
+        /usr/local/rvm/rubies/ruby-1.9.3-p194/bin/ruby extconf.rb 
+checking for libxml/parser.h... no
+-----
+libxml2 is missing.  please visit http://nokogiri.org/tutorials/installing_nokogiri.html for help with installing dependencies.
+-----
+*** extconf.rb failed ***
+Could not create Makefile due to some reason, probably lack of
+necessary libraries and/or headers.  Check the mkmf.log file for more
+details.  You may need configuration options.
+
+Provided configuration options:
+	--with-opt-dir
+	--with-opt-include
+	--without-opt-include=${opt-dir}/include
+	--with-opt-lib
+	--without-opt-lib=${opt-dir}/lib
+	--with-make-prog
+	--without-make-prog
+	--srcdir=.
+	--curdir
+	--ruby=/usr/local/rvm/rubies/ruby-1.9.3-p194/bin/ruby
+	--with-zlib-dir
+	--without-zlib-dir
+	--with-zlib-include
+	--without-zlib-include=${zlib-dir}/include
+	--with-zlib-lib
+	--without-zlib-lib=${zlib-dir}/lib
+	--with-iconv-dir
+	--without-iconv-dir
+	--with-iconv-include
+	--without-iconv-include=${iconv-dir}/include
+	--with-iconv-lib
+	--without-iconv-lib=${iconv-dir}/lib
+	--with-xml2-dir
+	--without-xml2-dir
+	--with-xml2-include
+	--without-xml2-include=${xml2-dir}/include
+	--with-xml2-lib
+	--without-xml2-lib=${xml2-dir}/lib
+	--with-xslt-dir
+	--without-xslt-dir
+	--with-xslt-include
+	--without-xslt-include=${xslt-dir}/include
+	--with-xslt-lib
+	--without-xslt-lib=${xslt-dir}/lib
+	--with-libxslt-config
+	--without-libxslt-config
+	--with-pkg-config
+	--without-pkg-config
+	--with-libxml-2.0-config
+	--without-libxml-2.0-config
+	--with-libiconv-config
+	--without-libiconv-config
+
+
+Gem files will remain installed in /home/apps/netxforge/vendor/bundle/ruby/1.9.1/gems/nokogiri-1.5.5 for inspection.
+Results logged to /home/apps/netxforge/vendor/bundle/ruby/1.9.1/gems/nokogiri-1.5.5/ext/nokogiri/gem_make.out
+An error occurred while installing nokogiri (1.5.5), and Bundler cannot continue.
+Make sure that `gem install nokogiri -v '1.5.5'` succeeds before bundling.
+
+
+Fix nokogiri error, install libxml2
+
+sudo apt-get install libxml2 libxml2-dev libxslt1-dev
+
 
 
 

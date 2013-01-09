@@ -69,7 +69,7 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		}
 		// Commit and close. 
 		
-//		this.getDataProvider().cocommitTransaction();
+//		this.getDataProvider().commitTransaction();
 //		this.getDataProvider().closeSession();
 	}
 
