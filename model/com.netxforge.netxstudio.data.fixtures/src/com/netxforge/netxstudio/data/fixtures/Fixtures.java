@@ -61,13 +61,15 @@ import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
- * NetXStudio fixture data.
+ * NetXStudio fixture data for {@link User users} , {@link Role roles},
+ * {@link ServerSettings settings} and more.
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 public class Fixtures implements IFixtures {
 
 	private IDataProvider dataProvider;
+
 	private ModelUtils modelUtils;
 
 	public Fixtures(IDataProvider dataProvider, ModelUtils modelUtils) {
@@ -75,10 +77,168 @@ public class Fixtures implements IFixtures {
 		this.modelUtils = modelUtils;
 	}
 
+	/**
+	 * Unloads all Fixtures (Which might have changed from the initial creation)
+	 * and loads them back in again.
+	 */
+	public void reload() {
+		unloadFixtures();
+		loadFixtures();
+	}
+
+	/**
+	 * Load the fixtures.
+	 */
 	public void loadFixtures() {
-		loadSettings();
-		loadRoles();
-		loadRetentionRules();
+		if(!areLoaded()){
+			loadSettings();
+			loadRoles();
+			loadRetentionRules();
+		}
+	}
+
+	/**
+	 * Unload the fixtures
+	 */
+	public void unloadFixtures() {
+		unLoadSettings();
+		unLoadRoles();
+		unLoadRetentionRules();
+	}
+
+	/**
+	 * Tells us if the fixtures are loaded. The contents of DB CDOResources are
+	 * checked.
+	 * 
+	 * @return
+	 */
+	public boolean areLoaded() {
+
+		final CDOResource settingsResource = (CDOResource) dataProvider
+				.getResource(NetxstudioPackage.Literals.SERVER_SETTINGS);
+
+		final boolean settingsLoaded = !settingsResource.getContents()
+				.isEmpty();
+
+		final CDOResource userResource = (CDOResource) dataProvider
+				.getResource(GenericsPackage.Literals.PERSON);
+
+		final boolean usersLoaded = !userResource.getContents().isEmpty();
+
+		final CDOResource rolesResource = (CDOResource) dataProvider
+				.getResource(GenericsPackage.Literals.ROLE);
+		final boolean rolesLoaded = !rolesResource.getContents().isEmpty();
+
+		final Resource expressionResource = dataProvider
+				.getResource(LibraryPackage.Literals.EXPRESSION);
+
+		final boolean retentionExpressionsLoaded;
+		int count = 0;
+		for (EObject eo : expressionResource.getContents()) {
+			if (eo instanceof Expression) {
+				Expression exp = (Expression) eo;
+				if (exp.getName().endsWith("retention rule")) {
+					count++;
+				}
+			}
+		}
+
+		retentionExpressionsLoaded = count >= 4; // We need at lead 4 of these
+													// expressions.
+
+		final Resource retentionRulesResource = dataProvider
+				.getResource(MetricsPackage.Literals.METRIC_RETENTION_RULES);
+		final boolean retentionRulesLoaded = !retentionRulesResource
+				.getContents().isEmpty();
+
+		final Resource jobResource = dataProvider
+				.getResource(SchedulingPackage.Literals.JOB);
+
+		boolean retentionJobLoaded = false;
+		for (EObject eo : jobResource.getContents()) {
+			if (eo instanceof RetentionJob) {
+				retentionJobLoaded = true;
+			}
+		}
+		return settingsLoaded && usersLoaded && rolesLoaded
+				&& retentionExpressionsLoaded && retentionRulesLoaded
+				&& retentionJobLoaded;
+
+	}
+
+	private void unLoadRetentionRules() {
+		{// Unload Expressions
+			final Resource expressionResource = dataProvider
+					.getResource(LibraryPackage.Literals.EXPRESSION);
+
+			final List<Expression> expToRemove = Lists.newArrayList();
+
+			for (EObject eo : expressionResource.getContents()) {
+				if (eo instanceof Expression) {
+					Expression exp = (Expression) eo;
+					if (exp.getName().endsWith("retention rule")) {
+						expToRemove.add(exp);
+					}
+				} else {
+					// http://work.netxforge.com/issues/339
+					if (DataActivator.DEBUG) {
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_DATA_OPTION,
+								"Wrong object in resource: "
+										+ ((CDOResource) expressionResource)
+												.getPath()
+										+ ((CDOResource) expressionResource)
+												.getName());
+					}
+				}
+			}
+
+			expressionResource.getContents().removeAll(expToRemove);
+		}
+
+		{// Remove the metric retention rules.
+			final Resource retentionRulesResource = dataProvider
+					.getResource(MetricsPackage.Literals.METRIC_RETENTION_RULES);
+
+			retentionRulesResource.getContents().clear();
+		}
+
+		{// remove the retention job.
+			final Resource jobResource = dataProvider
+					.getResource(SchedulingPackage.Literals.JOB);
+
+			List<Job> jobsToRemove = Lists.newArrayList();
+			for (EObject eo : jobResource.getContents()) {
+				if (eo instanceof RetentionJob) {
+					jobsToRemove.add((RetentionJob) eo);
+				}
+			}
+
+			if (jobsToRemove.size() > 0) {
+				jobResource.getContents().removeAll(jobsToRemove);
+			}
+		}
+	}
+
+	private void unLoadRoles() {
+
+		final CDOResource userResource = (CDOResource) dataProvider
+				.getResource(GenericsPackage.Literals.PERSON);
+
+		userResource.getContents().clear();
+
+		final CDOResource rolesResource = (CDOResource) dataProvider
+				.getResource(GenericsPackage.Literals.ROLE);
+
+		rolesResource.getContents().clear();
+
+	}
+
+	private void unLoadSettings() {
+		final CDOResource settingsResource = (CDOResource) dataProvider
+				.getResource(NetxstudioPackage.Literals.SERVER_SETTINGS);
+
+		settingsResource.getContents().clear();
 	}
 
 	private void loadSettings() {
@@ -86,10 +246,10 @@ public class Fixtures implements IFixtures {
 		final CDOResource settingsResource = (CDOResource) dataProvider
 				.getResource(NetxstudioPackage.Literals.SERVER_SETTINGS);
 
-//		if (settingsResource.getContents().size() > 0) {
-//			return;
-//		}
-		
+		if (settingsResource.getContents().size() > 0) {
+			return;
+		}
+
 		ServerSettings serverSettings = NetxstudioFactory.eINSTANCE
 				.createServerSettings();
 		serverSettings
@@ -138,54 +298,21 @@ public class Fixtures implements IFixtures {
 	 */
 	private void loadRetentionRules() {
 
-		Resource retentionRulesResource = dataProvider
+		final Resource retentionRulesResource = dataProvider
 				.getResource(MetricsPackage.Literals.METRIC_RETENTION_RULES);
 
-		EList<EObject> rulesContents = retentionRulesResource.getContents();
+		final EList<EObject> rulesContents = retentionRulesResource
+				.getContents();
 
-//		if (rulesContents.isEmpty()) {
-//			// Don't bother, use has done something.... 
-//			return;
-//		}
-
-		Resource expressionResource = dataProvider
+		final Resource expressionResource = dataProvider
 				.getResource(LibraryPackage.Literals.EXPRESSION);
 
-		// always clear rules and expressions for the rules.
-		rulesContents.clear();
+		final Expression monthlyRetentionExpression;
+		final Expression weeklyRetentionExpression;
+		final Expression dailyRetentionExpression;
+		final Expression hourlyRetentionExpression;
 
-		List<Expression> expToRemove = Lists.newArrayList();
-		for (EObject eo : expressionResource.getContents()) {
-			if (eo instanceof Expression) {
-				Expression exp = (Expression) eo;
-				if (exp.getName().endsWith("retention rule")) {
-					expToRemove.add(exp);
-				}
-			} else {
-				// http://work.netxforge.com/issues/339
-				if (DataActivator.DEBUG) {
-					DataActivator.TRACE.trace(
-							DataActivator.TRACE_DATA_OPTION,
-							"Wrong object in resource: "
-									+ ((CDOResource) expressionResource)
-											.getPath()
-									+ ((CDOResource) expressionResource)
-											.getName());
-				}
-			}
-		}
-
-		expressionResource.getContents().removeAll(expToRemove);
-
-		Expression monthlyRetentionExpression;
-		Expression weeklyRetentionExpression;
-		Expression dailyRetentionExpression;
-		Expression hourlyRetentionExpression;
-
-		// if (contents.size() == 1) {
-		// return;
-		// } else {
-		MetricRetentionRules rules = MetricsFactory.eINSTANCE
+		final MetricRetentionRules rules = MetricsFactory.eINSTANCE
 				.createMetricRetentionRules();
 		rulesContents.add(rules);
 		{
@@ -215,7 +342,8 @@ public class Fixtures implements IFixtures {
 				// another
 				// range, clears the original range.
 				final String eAsString = "this METRIC AVG MONTH = this METRIC AVG WEEK.max();";
-//						+ "this METRIC AVG WEEK.clear(); // Clear for the rule period. ";
+				// +
+				// "this METRIC AVG WEEK.clear(); // Clear for the rule period. ";
 				weeklyRetentionExpression.getExpressionLines().addAll(
 						modelUtils.expressionLines(eAsString));
 				expressionResource.getContents().add(weeklyRetentionExpression);
@@ -229,7 +357,8 @@ public class Fixtures implements IFixtures {
 				// another
 				// range, clears the original range.
 				final String eAsString = "this METRIC AVG WEEK = this METRIC AVG DAY.max();";
-//						+ "this METRIC AVG DAY.clear(); // Clear for the rule period. ";
+				// +
+				// "this METRIC AVG DAY.clear(); // Clear for the rule period. ";
 				dailyRetentionExpression.getExpressionLines().addAll(
 						modelUtils.expressionLines(eAsString));
 				expressionResource.getContents().add(dailyRetentionExpression);
@@ -244,7 +373,8 @@ public class Fixtures implements IFixtures {
 				// another
 				// range, clears the original range.
 				final String eAsString = "this METRIC AVG DAY = this METRIC HOUR .max();";
-//						+ "this METRIC AVG HOUR.clear(); // Clear for the rule period. ";
+				// +
+				// "this METRIC AVG HOUR.clear(); // Clear for the rule period. ";
 				hourlyRetentionExpression.getExpressionLines().addAll(
 						modelUtils.expressionLines(eAsString));
 				expressionResource.getContents().add(hourlyRetentionExpression);
@@ -253,7 +383,7 @@ public class Fixtures implements IFixtures {
 
 		if (rules.getMetricRetentionRules().size() == 0) {
 			{
-				MetricRetentionRule r = MetricsFactory.eINSTANCE
+				final MetricRetentionRule r = MetricsFactory.eINSTANCE
 						.createMetricRetentionRule();
 				r.setName("Monthly values");
 				r.setPeriod(MetricRetentionPeriod.ALWAYS);
@@ -262,7 +392,7 @@ public class Fixtures implements IFixtures {
 				rules.getMetricRetentionRules().add(r);
 			}
 			{
-				MetricRetentionRule r = MetricsFactory.eINSTANCE
+				final MetricRetentionRule r = MetricsFactory.eINSTANCE
 						.createMetricRetentionRule();
 				r.setName("Weekly values");
 				r.setPeriod(MetricRetentionPeriod.ALWAYS);
@@ -271,7 +401,7 @@ public class Fixtures implements IFixtures {
 				rules.getMetricRetentionRules().add(r);
 			}
 			{
-				MetricRetentionRule r = MetricsFactory.eINSTANCE
+				final MetricRetentionRule r = MetricsFactory.eINSTANCE
 						.createMetricRetentionRule();
 				r.setName("Daily values");
 				r.setPeriod(MetricRetentionPeriod.ONE_MONTH);
@@ -280,7 +410,7 @@ public class Fixtures implements IFixtures {
 				rules.getMetricRetentionRules().add(r);
 			}
 			{
-				MetricRetentionRule r = MetricsFactory.eINSTANCE
+				final MetricRetentionRule r = MetricsFactory.eINSTANCE
 						.createMetricRetentionRule();
 				r.setName("Hourly values");
 				r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
@@ -289,20 +419,9 @@ public class Fixtures implements IFixtures {
 				rules.getMetricRetentionRules().add(r);
 			}
 
-			// Add the retention job, if non-existing.
-			Resource jobResource = dataProvider
+			// Add the retention job
+			final Resource jobResource = dataProvider
 					.getResource(SchedulingPackage.Literals.JOB);
-
-			List<Job> jobsToRemove = Lists.newArrayList();
-			for (EObject eo : jobResource.getContents()) {
-				if (eo instanceof RetentionJob) {
-					jobsToRemove.add((RetentionJob) eo);
-				}
-			}
-
-			if (jobsToRemove.size() > 0) {
-				jobResource.getContents().removeAll(jobsToRemove);
-			}
 
 			// Add the retention job.
 			final RetentionJob retentionJob = SchedulingFactory.eINSTANCE
@@ -314,18 +433,12 @@ public class Fixtures implements IFixtures {
 			retentionJob.setName("Data Retention");
 			jobResource.getContents().add(retentionJob);
 		}
-
-		// }
 	}
 
 	private void loadRoles() {
 
 		final CDOResource rolesResource = (CDOResource) dataProvider
 				.getResource(GenericsPackage.Literals.ROLE);
-
-		if (rolesResource.getContents().size() > 0) {
-			return;
-		}
 
 		final CDOResource userResource = (CDOResource) dataProvider
 				.getResource(GenericsPackage.Literals.PERSON);

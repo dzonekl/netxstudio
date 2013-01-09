@@ -23,6 +23,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.util.CommitException;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.netxforge.netxstudio.library.Component;
@@ -65,6 +69,8 @@ public class RetentionLogic extends BaseComponentLogic {
 	}
 
 	private BaseExpressionEngine engine;
+
+	private Resource operatorResources;
 	
 
 	@Override
@@ -86,7 +92,7 @@ public class RetentionLogic extends BaseComponentLogic {
 	
 	
 	private List<NodeType> allNodes(){
-		Resource operatorResources = this.getDataProvider().getResource(OperatorsPackage.Literals.OPERATOR);
+		operatorResources = this.getDataProvider().getResource(OperatorsPackage.Literals.OPERATOR);
 		return this.getModelUtils().nodeTypesForResource(operatorResources);
 	}
 	
@@ -129,6 +135,14 @@ public class RetentionLogic extends BaseComponentLogic {
 					((ComponentFailure) failure).setComponentRef(component);
 				}
 				this.getFailures().add(failure);
+			}
+		}
+		CDOView cdoView = ((CDOResource)operatorResources).cdoView();
+		if(cdoView instanceof CDOTransaction){
+			try {
+				((CDOTransaction) cdoView).commit();
+			} catch (CommitException e) {
+				e.printStackTrace();
 			}
 		}
 	}
