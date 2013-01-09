@@ -317,9 +317,6 @@ public class ServerUtils {
 		private void loadFixtureData(IDataProvider dataProvider,
 				ModelUtils modelUtils) {
 			final Fixtures fixtures = new Fixtures(dataProvider, modelUtils);
-			
-			fixtures.unloadFixtures(); 
-			
 			fixtures.loadFixtures();
 
 		}
