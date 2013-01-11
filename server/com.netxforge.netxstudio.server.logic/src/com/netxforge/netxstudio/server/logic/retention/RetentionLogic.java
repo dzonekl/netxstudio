@@ -116,7 +116,7 @@ public class RetentionLogic extends BaseComponentLogic {
 	}
 	
 	protected void executeFor(Component component) {
-		this.getJobMonitor().setTask("Cleaning for " + component.getName());
+		this.getJobMonitor().setTask("Retention " + component.getName());
 		this.getJobMonitor().incrementProgress(1, false);
 		final BaseComponentEngine engine = (BaseComponentEngine) getEngine();
 		engine.setJobMonitor(getJobMonitor());

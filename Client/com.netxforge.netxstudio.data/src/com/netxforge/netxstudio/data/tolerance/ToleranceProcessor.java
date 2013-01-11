@@ -391,7 +391,7 @@ public class ToleranceProcessor {
 		}
 
 		if (USE_QUERIES && queryService instanceof CDOQueryService) {
-			usageValues = queryService.getSortedValues(targetMVR.cdoView(),
+			usageValues = queryService.mvrValues(targetMVR.cdoView(),
 					targetMVR, IQueryService.QUERY_MYSQL, period);
 
 		} else {

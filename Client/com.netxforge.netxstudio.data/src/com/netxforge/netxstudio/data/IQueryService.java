@@ -173,7 +173,7 @@ public interface IQueryService {
 	 * @param date
 	 * @return
 	 */
-	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+	public List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect, XMLGregorianCalendar date);
 
 	/**
@@ -185,7 +185,7 @@ public interface IQueryService {
 	 * @param dtr
 	 * @return
 	 */
-	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+	public List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect, DateTimeRange period);
 
 	/**
@@ -196,7 +196,7 @@ public interface IQueryService {
 	 * @param dtr
 	 * @return
 	 */
-	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+	public List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect, DateTimeRange period, XMLGregorianCalendar date);
 
 	/**
@@ -207,8 +207,17 @@ public interface IQueryService {
 	 * @param dialect
 	 * @return
 	 */
-	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+	public List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect);
+
+	public List<Value> removeMvrValues(CDOView view, MetricValueRange mvr,
+			String dialect, XMLGregorianCalendar date);
+
+	public List<Value> removeMvrValues(CDOView view, MetricValueRange mvr,
+			String dialect, DateTimeRange period);
+	
+	public List<Value> removeMvrValues(CDOView view, MetricValueRange mvr,
+			String dialect, DateTimeRange period, XMLGregorianCalendar date);
 
 	/**
 	 * Use a query to get the duplicate value timeStamps in a

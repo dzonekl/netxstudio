@@ -111,12 +111,13 @@ public class ValueRangeSelectionComponent {
 					MetricValueRange mvr = (MetricValueRange) element;
 					sb.append(""
 							+ modelUtils.fromMinutes(mvr.getIntervalHint()));
+					sb.append(", " + mvr.getKindHint().getName());
 					sb.append(" (count=" + mvr.getMetricValues().size() + ")");
-
+					
 					DateTimeRange range = modelUtils.period(mvr
 							.getMetricValues());
 					if (range != null) {
-						sb.append(" period=" + modelUtils.periodToStringMore(range));
+						sb.append(" period: " + modelUtils.periodToStringMore(range));
 					}
 
 				}

@@ -160,7 +160,7 @@ public class QueryTest extends AbstractDataServiceTest4 {
 
 		IQueryService queryService = service.getQueryService();
 
-		List<Value> sortedValues = queryService.getSortedValues(cdoView,
+		List<Value> sortedValues = queryService.mvrValues(cdoView,
 				(MetricValueRange) object, dialect, dtr);
 
 		return " found " + sortedValues.size() + " for object: "
@@ -192,7 +192,7 @@ public class QueryTest extends AbstractDataServiceTest4 {
 
 		IQueryService queryService = service.getQueryService();
 
-		List<Value> sortedValues = queryService.getSortedValues(cdoView,
+		List<Value> sortedValues = queryService.mvrValues(cdoView,
 				(MetricValueRange) object, dialect, xmlDate);
 
 		return " found " + sortedValues.size() + " for object: "
@@ -270,7 +270,7 @@ public class QueryTest extends AbstractDataServiceTest4 {
 								long startTime = System.nanoTime();
 
 								List<Value> sortedValues = queryService
-										.getSortedValues(cdoView, mvr, dialect);
+										.mvrValues(cdoView, mvr, dialect);
 
 								String timeDurationNano = modelUtils
 										.timeDurationNano(startTime);

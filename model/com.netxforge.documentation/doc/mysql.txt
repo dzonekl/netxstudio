@@ -24,6 +24,7 @@ Install directory
 /etc/mysql
 /usr/share/mysql
 
+/usr/local/mysql/bin (MacOSX). 
 
 Server Up/Down/Reload
 mysqladmin -u root -p ping
@@ -45,7 +46,8 @@ bind-address		= 127.0.0.1
 
 Logging:
 
-
+sudo /usr/local/mysql/support-files/mysql.server start 
+sudo /usr/local/mysql/support-files/mysql.server stop 
 
 Login to the mysql console: 
 mysql -u root -p

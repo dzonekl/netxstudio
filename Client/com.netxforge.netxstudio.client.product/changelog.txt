@@ -1,5 +1,8 @@
 NetXStudio Client Change log.
 
+1.1.0
+TODO....
+
 1.0.9
 -
 

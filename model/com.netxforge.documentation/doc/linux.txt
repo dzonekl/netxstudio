@@ -1,8 +1,5 @@
 FILE PERMISSION
-  
- 
- 
-FILE FIND=> find / -name 'my.cnf'
+  FILE FIND=> find / -name 'my.cnf'
  FILE OWNER => chown -Rv username somedir
  PROCESSOR/MEMORY => htop or top
  PROCESS => ps -ef
@@ -18,7 +15,7 @@ FILE FIND=> find / -name 'my.cnf'
  
  USER ADD => sudo adduser username
  USER PASS STATUS => chage -l capman
- USERS LIST => 
+ USERS LIST => cat /etc/passwd
  
  PERM CHANGE OWNER/GROUP => chown jenkins:adm netxstudio.updatesite/ -R (Owner=jenkins, Group=adm). 
  
@@ -27,5 +24,4 @@ FILE FIND=> find / -name 'my.cnf'
  ----------
  
  http://www.linuxvoodoo.com/resources/howtos/syslog
- 
  

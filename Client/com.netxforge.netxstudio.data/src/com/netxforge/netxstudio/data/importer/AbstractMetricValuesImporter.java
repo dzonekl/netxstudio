@@ -809,12 +809,14 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 						}
 
 						if (locatedComponent == null) {
-
+							// As we are now doing the metric matching, we set the failed identifiers
+							// to be the identifiers last used for component lookup. 
+							
+							
 							createNotFoundNetworkElementMappingRecord(
 									getValueDataKind(column).getMetricRef(),
 									rowNum, elementIdentifiers,
-									getComponentLocator()
-											.getFailedIdentifiers(),
+									elementIdentifiers,
 									getFailedRecords());
 							continue;
 						}
@@ -1359,13 +1361,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		 */
 		private Date processTSMapping(SimpleDateFormat dateProcessor,
 				String value) throws ParseException {
-
-			String pattern = null;
-
-			if (pattern == null) {
-				pattern = ModelUtils.DEFAULT_DATE_TIME_PATTERN;
-			}
-
 			return dateProcessor.parse(value);
 		}
 

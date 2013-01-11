@@ -311,6 +311,7 @@ public class Fixtures implements IFixtures {
 		final Expression weeklyRetentionExpression;
 		final Expression dailyRetentionExpression;
 		final Expression hourlyRetentionExpression;
+		final Expression _15minRetentionExpression;
 
 		final MetricRetentionRules rules = MetricsFactory.eINSTANCE
 				.createMetricRetentionRules();
@@ -379,6 +380,23 @@ public class Fixtures implements IFixtures {
 						modelUtils.expressionLines(eAsString));
 				expressionResource.getContents().add(hourlyRetentionExpression);
 			}
+			
+			
+			{
+				_15minRetentionExpression = LibraryFactory.eINSTANCE
+						.createExpression();
+				_15minRetentionExpression.setName("15 retention rule");
+
+				// Gets the max value from a range and assigns it to
+				// another
+				// range, clears the original range.
+				final String eAsString = "this METRIC AVG DAY = this METRIC 15 .max();";
+				// +
+				// "this METRIC AVG HOUR.clear(); // Clear for the rule period. ";
+				_15minRetentionExpression.getExpressionLines().addAll(
+						modelUtils.expressionLines(eAsString));
+				expressionResource.getContents().add(_15minRetentionExpression);
+			}
 		}
 
 		if (rules.getMetricRetentionRules().size() == 0) {
@@ -416,6 +434,16 @@ public class Fixtures implements IFixtures {
 				r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
 				r.setRetentionExpression(hourlyRetentionExpression);
 				r.setIntervalHint(ModelUtils.MINUTES_IN_AN_HOUR);
+				rules.getMetricRetentionRules().add(r);
+			}
+			
+			{
+				final MetricRetentionRule r = MetricsFactory.eINSTANCE
+						.createMetricRetentionRule();
+				r.setName("15 min. values");
+				r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
+				r.setRetentionExpression(_15minRetentionExpression);
+				r.setIntervalHint(15);
 				rules.getMetricRetentionRules().add(r);
 			}
 
