@@ -4165,7 +4165,8 @@ public class ModelUtils {
 	 * @param rule
 	 * @param years
 	 *            the number of years to evaluate for retention.
-	 * @return
+	 * @return the {@link DateTimeRange period} or <code>null</code>, when the
+	 *         retention period is {@link MetricRetentionPeriod#ALWAYS}
 	 */
 	public DateTimeRange getDTRForRetentionRule(MetricRetentionRule rule,
 			Date begin) {
@@ -4176,12 +4177,12 @@ public class ModelUtils {
 
 		switch (rule.getPeriod().getValue()) {
 		case MetricRetentionPeriod.ALWAYS_VALUE: {
-			// DTR is not set.
+			return null;
 		}
-			break;
 		case MetricRetentionPeriod.ONE_YEAR_VALUE: {
 			instance.add(Calendar.YEAR, -1);
 		}
+			break;
 		case MetricRetentionPeriod.ONE_MONTH_VALUE: {
 			instance.add(Calendar.MONTH, -1);
 		}
@@ -4531,25 +4532,42 @@ public class ModelUtils {
 	 * Gets the {@link Component components } with the feature
 	 * {@link LibraryPackage.Literals#COMPONENT__METRIC_REFS } referencing the
 	 * provided {@link Metric} which can occur in the provided non filtered
-	 * collection, or parents along the branch path.
+	 * collection.
 	 * 
 	 * @return
 	 */
 	public Iterable<Component> componentsForMetric(List<Component> unfiltered,
 			final Metric metric) {
+
 		Iterable<Component> filter = Iterables.filter(unfiltered,
 				new Predicate<Component>() {
 
 					public boolean apply(Component c) {
-
+						// return c.getMetricRefs().contains(metric);
+						// Metric in path doesn't work.
 						final List<Metric> metricsInPath = Lists.newArrayList();
 						metricsInPath(metricsInPath, c);
-
 						return metricsInPath.contains(metric);
 					}
 
 				});
-		return filter;
+
+		if (Iterables.size(filter) == 1) {
+			return filter;
+		} else {
+			// Narrow down further as we might have many entries, take all
+			// entries
+			// return the one which as the metric.
+			filter = Iterables.filter(filter, new Predicate<Component>() {
+
+				public boolean apply(Component c) {
+					return c.getMetricRefs().contains(metric);
+				}
+
+			});
+			return filter;
+		}
+
 	}
 
 	/**
@@ -4611,28 +4629,27 @@ public class ModelUtils {
 			if (eo instanceof Operator) {
 				Operator op = (Operator) eo;
 				for (Network n : op.getNetworks()) {
-					nodesForNetwork.addAll( nodesForNetwork(n)); 
+					nodesForNetwork.addAll(nodesForNetwork(n));
 				}
 			}
 		}
 
-		Iterable<NodeType> transform = Iterables.transform(
-				nodesForNetwork, new Function<Node, NodeType>() {
+		Iterable<NodeType> transform = Iterables.transform(nodesForNetwork,
+				new Function<Node, NodeType>() {
 					public NodeType apply(Node n) {
 						return n.getNodeType();
 					}
 				});
-		
-		// filter null entries. 
-		transform = Iterables.filter(transform, new Predicate<NodeType>(){
-			public boolean apply(NodeType nt){
+
+		// filter null entries.
+		transform = Iterables.filter(transform, new Predicate<NodeType>() {
+			public boolean apply(NodeType nt) {
 				return nt != null;
 			}
 		});
-		
-		
+
 		final List<NodeType> nodeTypes = Lists.newArrayList(transform);
-		
+
 		return nodeTypes;
 	}
 

@@ -36,6 +36,11 @@ sudo install_name_tool -change /usr/local/mysql/lib/mysql/libmysqlclient.15.dyli
 
 sudo install_name_tool -change /usr/local/mysql/lib/mysql/libmysqlclient.15.dylib /usr/local/mysql/lib/libmysqlclient.15.dylib /Library/Ruby/Gems/1.8/gems/mysql-2.7/mysql.bundle
 
+
+See also: https://blogs.oracle.com/dipol/entry/dynamic_libraries_rpath_and_mac
+--------------------------------------------------------------
+
+
 sudo env ARCHFLAGS="-arch i386 -arch x86_64" gem install --no-rdoc --no-ri mysql -- --with-mysql-config=/usr/local/mysql/bin/mysql_config --with-mysql-dir=/usr/local/mysql
 
 
@@ -165,6 +170,40 @@ Fix nokogiri error, install libxml2
 sudo apt-get install libxml2 libxml2-dev libxslt1-dev
 
 
+GemFile etc..
+==============
+
+Rails apps, can use the bundle concept. 
+
+http://gembundler.com/rationale.html
+
+Basically the content of GemFile in vendor/bundle
+
+
+Exporting instiki content from SQLLite 
+=======================================
+MySQL error when doing: 
+-- -Problem, can't run bundle install, it keeps refering to mysql GEM which is actually installed by Gem. 
+
+
+
+Creating a Rails App user
+==========================
+
+It is required to use a special users for rails apps. See: 
+http://www.modrails.com/documentation/Users%20guide%20Apache.html#user_switching
+
+1) Create a user railsapp. 
+
+
+Switching to mysql2. 
+====================
+
+Again the Gem can't find the mysql lib. 
+So connect them together by symlinck between the 
+
+sudo install_name_tool -change libmysqlclient.18.dylib /usr/local/mysql/lib/libmysqlclient.18.dylib  /Library/Ruby/Gems/1.8/gems/mysql2-0.3.11/lib/mysql2/mysql2.bundle
+							   libmysqlclient.18.dylib
 
 
 Install on Ubuntu : https://help.ubuntu.com/community/RubyOnRails#Alternative_to_manual_installation

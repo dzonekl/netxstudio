@@ -299,10 +299,10 @@ public class CDOQueryService implements IQueryService {
 		final List<Value> values = cdoQuery.getResult(Value.class);
 		return values;
 	}
-	
-	
+
 	/**
 	 * TODO
+	 * 
 	 * @deprecated
 	 */
 	public List<Value> getUtilizationFromResource(String expressionName,
@@ -328,22 +328,22 @@ public class CDOQueryService implements IQueryService {
 		return XMLTypeFactory.eINSTANCE.convertDateTime(date);
 	}
 
-	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+	public List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect) {
-		return getSortedValues(view, mvr, dialect, null, null);
+		return mvrValues(view, mvr, dialect, null, null);
 	}
 
-	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+	public List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect, XMLGregorianCalendar date) {
-		return getSortedValues(view, mvr, dialect, null, date);
+		return mvrValues(view, mvr, dialect, null, date);
 	}
 
-	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+	public List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect, DateTimeRange period) {
-		return getSortedValues(view, mvr, dialect, period, null);
+		return mvrValues(view, mvr, dialect, period, null);
 	}
 
-	public List<Value> getSortedValues(CDOView view, MetricValueRange mvr,
+	public List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect, DateTimeRange period, XMLGregorianCalendar date) {
 
 		List<Value> result = null; // Might become assigned.
@@ -422,6 +422,109 @@ public class CDOQueryService implements IQueryService {
 		}
 		return result;
 	}
+	
+	
+	/**
+	 * DO NOT USE
+	 * @deprecated
+	 */
+	public List<Value> removeMvrValues(CDOView view, MetricValueRange mvr,
+			String dialect, XMLGregorianCalendar date) {
+		return removeMvrValues(view, mvr, dialect, null, date);
+	}
+
+	/**
+	 * DO NOT USE
+	 * @deprecated
+	 */
+	public List<Value> removeMvrValues(CDOView view, MetricValueRange mvr,
+			String dialect, DateTimeRange period) {
+		return removeMvrValues(view, mvr, dialect, period, null);
+	}
+
+	/**
+	 * DO NOT USE
+	 * @deprecated
+	 */
+	public List<Value> removeMvrValues(CDOView view, MetricValueRange mvr,
+			String dialect, DateTimeRange period, XMLGregorianCalendar date) {
+
+		List<Value> result = null; // Might become assigned.
+
+		String queryString = null;
+		if (dialect.equals(QUERY_MYSQL)) {
+
+			StringBuffer sb = new StringBuffer();
+
+			if (!CamelCase) {
+				sb.append("delete from "
+						+ DB_NAME
+						+ ".metrics_metricvaluerange as mvr"
+						+ " join "
+						+ DB_NAME
+						+ ".metrics_metricvaluerange_metricvalues_list as val_list"
+						+ " on val_list.cdo_source = mvr.cdo_id" + " join "
+						+ DB_NAME + ".generics_value as val"
+						+ " on val_list.cdo_value = val.cdo_id"
+						+ " where mvr.cdo_id = :mvr_cdoid");
+			} else {
+				sb.append("delete from "
+						+ DB_NAME
+						+ ".metrics_MetricValueRange as mvr"
+						+ " join "
+						+ DB_NAME
+						+ ".metrics_MetricValueRange_metricValues_list as val_list"
+						+ " on val_list.cdo_source = mvr.cdo_id" + " join "
+						+ DB_NAME + ".generics_Value as val"
+						+ " on val_list.cdo_value = val.cdo_id"
+						+ " where mvr.cdo_id = :mvr_cdoid");
+			}
+			// period or date is optional.
+			if (period != null) {
+				sb.append(" and val.timeStamp0 >= :dateFrom and val.timeStamp0 < :dateTo");
+			} else if (date != null) {
+				sb.append(" and val.timeStamp0 = :date");
+			}
+
+			// order by not supported in join. 
+//			sb.append(" order by val.timeStamp0 DESC;");
+			sb.append(";");
+			queryString = sb.toString();
+
+		} else if (dialect.equals(QUERY_OCL)) {
+			// Syntax for OCL?
+			queryString = "metrics::MetricValueRange.allInstances().metricValues->size()";
+		}
+
+		if (queryString != null) {
+
+			CDOQuery cdoQuery = null;
+
+			if (dialect.equals(QUERY_MYSQL)) {
+				cdoQuery = view.createQuery(dialect, queryString);
+				Long longValue = ((AbstractCDOIDLong) mvr.cdoID())
+						.getLongValue();
+				cdoQuery.setParameter("mvr_cdoid", longValue.toString());
+
+				if (period != null) {
+					cdoQuery.setParameter("dateFrom",
+							dateString(period.getBegin()));
+					cdoQuery.setParameter("dateTo", dateString(period.getEnd()));
+				} else if (date != null) {
+					cdoQuery.setParameter("date", dateString(date));
+
+				}
+
+			} else if (dialect.equals(QUERY_OCL)) {
+				cdoQuery = view.createQuery(dialect, queryString, mvr.cdoID());
+			}
+
+			if (cdoQuery != null) {
+				result = cdoQuery.getResult(Value.class);
+			}
+		}
+		return result;
+	}
 
 	public List<Value> getDuplicateValues(CDOView view, MetricValueRange mvr,
 			String dialect) {
@@ -438,7 +541,7 @@ public class CDOQueryService implements IQueryService {
 				sb.append("inner join " + DB_NAME + ".generics_value AS b ");
 				sb.append("where a.timeStamp0 = b.timeStamp0 and a.cdo_container=:mvr_cdoid and b.cdo_container=:mvr_cdoid ");
 				sb.append("and a.cdo_id <> b.cdo_id");
-			}else{
+			} else {
 				sb.append("select a.cdo_id from " + DB_NAME
 						+ ".generics_Value AS a ");
 				sb.append("inner join " + DB_NAME + ".generics_Value AS b ");

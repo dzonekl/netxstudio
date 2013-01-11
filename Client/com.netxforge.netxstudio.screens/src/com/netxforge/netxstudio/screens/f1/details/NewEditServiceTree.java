@@ -878,17 +878,6 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 					summary = job.getSummary();
 					// Schedule a refresh.
 					refreshSummaryJob.schedule(100);
-
-					// if (summary != null) {
-					// NewEditServiceTree.this.getDisplay().asyncExec(
-					// new Runnable() {
-					//
-					// public void run() {
-					//
-					// }
-					//
-					// });
-					// }
 				}
 			});
 		}
@@ -1143,6 +1132,11 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	private void refreshSummaryUI() {
 
 		if (summary == null) {
+			formTextLastMonitor.setText("no monitors", false,
+					false);
+			sctnSummary.layout();
+			NewEditServiceTree.this.layout();
+
 			return;
 		}
 
@@ -1164,6 +1158,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		formTextGreen.setText(
 				new Integer(summary.getGreenCountResources()).toString(),
 				false, false);
+		
 		sctnSummary.layout();
 		NewEditServiceTree.this.layout();
 		// getScreenForm().layout();

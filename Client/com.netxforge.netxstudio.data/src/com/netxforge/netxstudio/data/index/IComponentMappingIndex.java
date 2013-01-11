@@ -266,7 +266,10 @@ public interface IComponentMappingIndex {
 					// empty produce a node index entry.
 					if (featureValue instanceof String
 							&& !((String) featureValue).isEmpty()) {
-						keyValueMap.put(key, (String) featureValue);
+						// Trim white spaces. 
+						String value = (String) featureValue;
+						value = value.trim();
+						keyValueMap.put(key, value);
 					}
 				} else {
 					// the feature isn't set.
@@ -315,7 +318,7 @@ public interface IComponentMappingIndex {
 		 * {@link IComponentLocator.IdentifierDescriptor} type will throw a {@link ClassCastException casting Exception}
 		 * Exception.
 		 * 
-		 * Currently only one Strategy is applied. Behaviour can be changed, by considering different matching strategies, 
+		 * Currently only one Strategy is applied. Behavior can be changed, by considering different matching strategies, 
 		 * using different Predicate filtering implementations. 
 		 * 
 		 * 

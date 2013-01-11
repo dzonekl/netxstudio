@@ -1547,7 +1547,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 							.valueRangeForIntervalAndKind(
 									(NetXResource) resource, targetKind,
 									targetInterval);
-					v = cdoQueryService.getSortedValues(resource.cdoView(),
+					v = cdoQueryService.mvrValues(resource.cdoView(),
 							mvr, IQueryService.QUERY_MYSQL, dtr);
 				} else {
 

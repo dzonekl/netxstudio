@@ -427,7 +427,7 @@ public class ServerIntegrity extends JobChangeAdapter {
 
 									// query the values for this NetXResource
 									List<Value> sortedValues = queryService
-											.getSortedValues(openView, mvr,
+											.mvrValues(openView, mvr,
 													IQueryService.QUERY_MYSQL);
 									this.getReport().valueCount += sortedValues
 											.size();

@@ -28,6 +28,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.cdo.CDOObjectReference;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.spi.cdo.FSMUtil;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -170,6 +171,32 @@ public class ResultProcessor {
 	}
 
 	/**
+	 * Remove {@link Value} objects from a {@link MetricValueRange} and
+	 * potential references to them. Currently only {@link Marker} objects
+	 * reference the <code>Value</code> object, so remove the entire marker and
+	 * potentially the resource monitor belonging to it.
+	 * 
+	 * @param values
+	 */
+	public boolean removeValues(MetricValueRange mvr, List<Value> values) {
+		
+		int size = mvr.getMetricValues().size(); 
+//		final List<Value> toRemove = Lists.newArrayList(values);
+
+		removeValueReferences(values);
+
+		for (Value v : values) {
+
+			if (mvr.getMetricValues().contains(v)) {
+				mvr.getMetricValues().remove(v);
+			}
+
+		}
+		// Assume these are contained here.
+		return mvr.getMetricValues().size() != size;
+	}
+
+	/**
 	 * @param toRemove
 	 */
 	private void removeValueReferences(final List<Value> toRemove) {
@@ -207,11 +234,10 @@ public class ResultProcessor {
 
 		Map<ServiceMonitor, List<ResourceMonitor>> serviceMonitorsList = Maps
 				.newHashMap();
-		
-		
-		// Clear empty monitors. 
+
+		// Clear empty monitors.
 		for (ResourceMonitor rm : monitorsList) {
-			
+
 			if (rm.getMarkers().isEmpty()) {
 
 				if (rm.eContainer() != null
@@ -232,7 +258,7 @@ public class ResultProcessor {
 			sm.getResourceMonitors().removeAll(serviceMonitorsList.get(sm));
 		}
 
-		// TODO, Do something with empty service monitors, if any. 
+		// TODO, Do something with empty service monitors, if any.
 
 	}
 
@@ -489,11 +515,17 @@ public class ResultProcessor {
 
 		List<Value> sortedValues = null;
 
-		sortedValues = this.queryService.getSortedValues(mvr.cdoView(), mvr,
-				IQueryService.QUERY_MYSQL, value.getTimeStamp());
+		// Note: MVR might be recently created, and not committed, so will have
+		// a temp ID.
+		// Don't bother querying it. (It will be empty anyways...).
+		if (FSMUtil.isClean(mvr)) {
+			sortedValues = this.queryService.mvrValues(mvr.cdoView(), mvr,
+					IQueryService.QUERY_MYSQL, value.getTimeStamp());
 
-		if (sortedValues != null && sortedValues.size() == 1) {
-			foundValue = sortedValues.get(0); // we only have one entry.
+			if (sortedValues != null && sortedValues.size() == 1) {
+				foundValue = sortedValues.get(0); // we only have one entry.
+			}
+
 		}
 
 		if (foundValue != null) {
@@ -665,10 +697,6 @@ public class ResultProcessor {
 				break;
 			case RangeKind.METRICREMOVE_VALUE:
 				removeValues(expressionResult.getTargetValues());
-
-				// if (start != null) {
-				// removeValues(mvr.getMetricValues(), start, end);
-				// }
 				break;
 			default:
 				throw new IllegalStateException("Range kind "
