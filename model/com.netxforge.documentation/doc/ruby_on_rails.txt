@@ -32,7 +32,7 @@ dlopen(/Library/Ruby/Gems/1.8/gems/mysql-2.7/lib/mysql.bundle, 9): Library not l
   Reason: image not found - /Library/Ruby/Gems/1.8/gems/mysql-2.7/lib/mysql.bundle
 
 
-sudo install_name_tool -change /usr/local/mysql/lib/mysql/libmysqlclient.15.dylib /usr/local/mysql/lib/libmysqlclient.15.dylib /Library/Ruby/Gems/1.8/gems/mysql-2.7/lib/mysql.bundle
+sudo install_name_tool -change /usr/local/mysql/lib/libmysqlclient.15.dylib /usr/local/mysql/lib/libmysqlclient.15.dylib /Library/Ruby/Gems/1.8/gems/mysql-2.7/lib/mysql.bundle
 
 sudo install_name_tool -change /usr/local/mysql/lib/mysql/libmysqlclient.15.dylib /usr/local/mysql/lib/libmysqlclient.15.dylib /Library/Ruby/Gems/1.8/gems/mysql-2.7/mysql.bundle
 
