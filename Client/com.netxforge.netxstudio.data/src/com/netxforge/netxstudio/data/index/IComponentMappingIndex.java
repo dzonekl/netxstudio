@@ -182,7 +182,17 @@ public interface IComponentMappingIndex {
 
 			return cie;
 		}
-
+		
+		
+		public void update(Component c){
+			
+			// Clear the path for this component. 
+			componentPath.clear(); 
+			produceIndex(c);
+			
+		}
+		
+		
 		private void produceIndex(Component component) {
 
 			// Should we be bother with components which don't have a resource

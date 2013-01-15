@@ -27,10 +27,13 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.cdo.view.CDOViewInvalidationEvent;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.net4j.util.event.IListener;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -42,6 +45,8 @@ import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.IComponentLocator.IdentifierDescriptor;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 
@@ -98,6 +103,7 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 					DataActivator.TRACE_COMPONENT_INDEX_OPTION,
 					"start building component index for operators");
 		}
+
 		Resource resource = dataProvider
 				.getResource(OperatorsPackage.Literals.OPERATOR);
 
@@ -133,6 +139,53 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 			cacheBuildWork.worked(1);
 		}
 
+		if (resource instanceof CDOResource) {
+			
+			
+			// Perform updates on our index. 
+			// if revision delta is not available, we can't remove the removal of a NodeType from a Node. 
+			// as there is no reference in the index to the Node. 
+			((CDOResource) resource).cdoView().addListener(new IListener() {
+				public void notifyEvent(
+						org.eclipse.net4j.util.event.IEvent event) {
+					if (event instanceof CDOViewInvalidationEvent) {
+						final CDOViewInvalidationEvent invalidationEvent = (CDOViewInvalidationEvent) event;
+						// only check changed objects, in case of:
+						// removal: the CDO resource is updated
+						// insert: the CDO resource is update
+						// update: the object itself is updated
+
+						for (CDOObject o : invalidationEvent.getDirtyObjects()) {
+							if (o instanceof Component) {
+								updateIndexForComponentBranch((Component) o);
+							} else if (o instanceof Node) {
+								// We might be changing Node ID, which should be
+								// indexed, this would invalidate the whole all
+								// components in this node.
+								if( o.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)){
+									List<Component> components = Lists.newArrayList();
+									components.addAll(((Node) o).getNodeType().getEquipments());
+									components.addAll(((Node) o).getNodeType().getFunctions());
+									updateIndexForComponentBranch(components.toArray(new Component[components.size()]));	
+								}else{
+									//If we remove the node type, we will have many entries which should be removed. 
+								}
+							} else if (o instanceof NodeType) {
+								// Check that we are a NodeType in a Node instance, we do not index the types as such.
+								// will not occure, different CDOResource. 
+								Node nodeFor = modelUtils.nodeFor(o);
+								if(nodeFor != null){
+									List<Component> components = Lists.newArrayList();
+									components.addAll(((NodeType) o).getEquipments());
+									components.addAll(((NodeType) o).getFunctions());
+									updateIndexForComponentBranch(components.toArray(new Component[components.size()]));	
+								}
+							}
+						}
+					}
+				}
+			});
+		}
 		// Tell we are done.
 		monitor.done();
 		indexing = false;
@@ -203,10 +256,11 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 					}
 				});
 
+		StringBuilder sb = new StringBuilder();
 		for (String s : transform) {
-			System.out.println(s);
+			sb.append(s);
 		}
-		return "";
+		return sb.toString();
 
 	}
 
@@ -245,6 +299,13 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 		}
 
 		final CDOID cdoID = c.cdoID();
+		return entryForComponent(cdoID);
+	}
+
+	private ComponentIndexEntry entryForComponent(final CDOID cdoID) {
+		if (indexing) {
+			return null;
+		}
 
 		Iterable<ComponentIndexEntry> filter = Iterables.filter(cachedIndex,
 				new Predicate<ComponentIndexEntry>() {
@@ -259,4 +320,38 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 		return null;
 	}
 
+	private void updateIndexForComponentBranch(Component... components) {
+		// get all entries.
+
+		for (Component rootComponent : components) {
+			List<Component> componentsForComponent = modelUtils
+					.componentsForComponent(rootComponent);
+			for (Component c1 : componentsForComponent) {
+
+				ComponentIndexEntry entryForComponent = this
+						.entryForComponent(c1);
+				if (entryForComponent != null) {
+					if (DataActivator.DEBUG) {
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_COMPONENT_INDEX_OPTION,
+								"updating entry");
+					}
+					entryForComponent.update(c1); // Just update the entry.
+				} else {
+					entryForComponent = ComponentIndexEntry.valueFor(c1);
+
+					if (entryForComponent != null) {
+						if (DataActivator.DEBUG) {
+							DataActivator.TRACE.trace(
+									DataActivator.TRACE_COMPONENT_INDEX_OPTION,
+									"adding entry");
+						}
+						// Add to our value cache.
+						cachedIndex.add(entryForComponent);
+					}
+				}
+				System.out.println(entryForComponent.toString());
+			}
+		}
+	}
 }
