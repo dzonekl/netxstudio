@@ -34,26 +34,42 @@ import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
 
 /**
- * Test a function, which splits ranges depending on the provided interval. 
+ * Test a function, which splits ranges depending on the provided interval.
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 
-	List<Value> dayValues;
+	List<Value> _15minValues;
 	List<Value> hourValues;
+	List<Value> dayValues;
 	List<Value> monthValues;
 
 	@Before
 	public void up() {
 
-		hourValues = Lists.newArrayList();
+		_15minValues = Lists.newArrayList();
 		// start 1 week from now, increase one hour each time.
-		Date onewWeekAgo = modelUtils.oneWeekAgo();
+		Date oneWeekAgo = modelUtils.oneWeekAgo();
 
 		{
 			Calendar instance = Calendar.getInstance();
-			instance.setTime(onewWeekAgo);
+			instance.setTime(oneWeekAgo);
+			for (int i = 0; i < 672; i++) {
+				Value v = GenericsFactory.eINSTANCE.createValue();
+				instance.add(Calendar.MINUTE, 15);
+				v.setTimeStamp(modelUtils.toXMLDate(instance.getTime()));
+				v.setValue(i);
+				_15minValues.add(v);
+			}
+		}
+
+		hourValues = Lists.newArrayList();
+		oneWeekAgo = modelUtils.adjustToDayStart(oneWeekAgo);
+		// start 1 week from now, increase one hour each time.
+		{
+			Calendar instance = Calendar.getInstance();
+			instance.setTime(oneWeekAgo);
 			for (int i = 0; i < 100; i++) {
 				Value v = GenericsFactory.eINSTANCE.createValue();
 				instance.add(Calendar.HOUR_OF_DAY, 1);
@@ -65,6 +81,7 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		dayValues = Lists.newArrayList();
 		// start 3 months from now, increase one day each time.
 		Date threeMonthsAgo = modelUtils.threeMonthsAgo();
+		oneWeekAgo = modelUtils.adjustToDayStart(threeMonthsAgo);
 		{
 			Calendar instance = Calendar.getInstance();
 			instance.setTime(threeMonthsAgo);
@@ -94,17 +111,33 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 
 	@Test
 	public void testValueRangeSplitter() {
+
+		{
+			int size = _15minValues.size();
+			List<List<Value>> splitValueRange = modelUtils.values_(
+					_15minValues, ModelUtils.MINUTES_IN_A_DAY);
+			int subRangesSize = 0;
+			for (List<Value> seq : splitValueRange) {
+				subRangesSize += seq.size();
+				System.out.print("Subrange:" + seq.size() + " ");
+				for (Value v : seq) {
+					System.out.print("{" + v.getTimeStamp() + "}");
+				}
+				System.out.println();
+			}
+			Assert.assertEquals(size, subRangesSize);
+		}
+
 		{
 			int size = hourValues.size();
-			List<List<Value>> splitValueRange = modelUtils.values(
-					hourValues, ModelUtils.MINUTES_IN_AN_HOUR);
+			List<List<Value>> splitValueRange = modelUtils.values_(hourValues,
+					ModelUtils.MINUTES_IN_A_DAY);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
 				subRangesSize += seq.size();
 				System.out.print("Subrange:" + seq.size() + " ");
 				for (Value v : seq) {
-					System.out.print("{" + v.getValue() + ","
-							+ v.getTimeStamp() + "}");
+					System.out.print("{" + v.getTimeStamp() + "}");
 				}
 				System.out.println();
 			}
@@ -112,51 +145,48 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		}
 		{
 			int size = dayValues.size();
-			List<List<Value>> splitValueRange = modelUtils.values(
-					dayValues, ModelUtils.MINUTES_IN_A_DAY, ModelUtils.MINUTES_IN_A_MONTH);
+			List<List<Value>> splitValueRange = modelUtils.values_(dayValues,
+					ModelUtils.MINUTES_IN_A_DAY);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
 				subRangesSize += seq.size();
 				System.out.print("Subrange:" + seq.size() + " ");
 				for (Value v : seq) {
-					System.out.print("{" + v.getValue() + ","
-							+ v.getTimeStamp() + "}");
+					System.out.print("{" + v.getTimeStamp() + "}");
 				}
 				System.out.println();
 			}
 			Assert.assertEquals(size, subRangesSize);
 
 		}
-		
+
 		{
 			int size = dayValues.size();
-			List<List<Value>> splitValueRange = modelUtils.values(
-					dayValues, ModelUtils.MINUTES_IN_A_DAY, ModelUtils.MINUTES_IN_A_WEEK);
+			List<List<Value>> splitValueRange = modelUtils.values_(dayValues,
+					ModelUtils.MINUTES_IN_A_WEEK);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
 				subRangesSize += seq.size();
 				System.out.print("Subrange:" + seq.size() + " ");
 				for (Value v : seq) {
-					System.out.print("{" + v.getValue() + ","
-							+ v.getTimeStamp() + "}");
+					System.out.print("{" + v.getTimeStamp() + "}");
 				}
 				System.out.println();
 			}
 			Assert.assertEquals(size, subRangesSize);
 
 		}
-		
+
 		{
 			int size = monthValues.size();
-			List<List<Value>> splitValueRange = modelUtils.values(
-					monthValues, ModelUtils.MINUTES_IN_A_MONTH);
+			List<List<Value>> splitValueRange = modelUtils.values_(monthValues,
+					ModelUtils.MINUTES_IN_A_MONTH);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
 				subRangesSize += seq.size();
 				System.out.print("Subrange:" + seq.size() + " ");
 				for (Value v : seq) {
-					System.out.print("{" + v.getValue() + ","
-							+ v.getTimeStamp() + "}");
+					System.out.print("{" + v.getTimeStamp() + "}");
 				}
 				System.out.println();
 			}

@@ -335,7 +335,8 @@ public interface IComponentMappingIndex {
 					containsIdentifiersAndLeafPredicate);
 			
 			// Should match all identifiers and the leaf. 
-			return Iterables.size(filter) == collection.size() && containsIdentifiersAndLeafPredicate.leafMatch();
+//			return Iterables.size(filter) == collection.size() && containsIdentifiersAndLeafPredicate.leafMatch();
+			return Iterables.size(filter) == collection.size();
 		}
 
 		/**

@@ -758,7 +758,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 
 			er.setTargetKindHint(type);
 			er.setTargetIntervalHint(targetInterval);
-			
+
 			// Set the target range.
 			ValueRange range = targetRangeReference.getValuerange();
 			if (range.getValue() == ValueRange.METRIC_VALUE) {
@@ -1547,8 +1547,8 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 							.valueRangeForIntervalAndKind(
 									(NetXResource) resource, targetKind,
 									targetInterval);
-					v = cdoQueryService.mvrValues(resource.cdoView(),
-							mvr, IQueryService.QUERY_MYSQL, dtr);
+					v = cdoQueryService.mvrValues(resource.cdoView(), mvr,
+							IQueryService.QUERY_MYSQL, dtr);
 				} else {
 
 					v = modelUtils.valuesForIntervalKindAndPeriod(
@@ -1636,9 +1636,8 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	// /////////////////////////////////////
 	// NATIVE FUNCTIONS
 	// /////////////////////////////////////
-	
-	
-	// See the Native function range handling rules. 
+
+	// See the Native function range handling rules.
 	protected Object internalEvaluate(NativeExpression ne,
 			ImmutableMap<String, Object> values) {
 
@@ -1668,9 +1667,9 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 							&& extractedRangeInterval != -1) {
 
 						// break up the range using the interval.
-						List<List<Value>> splitValueRange = modelUtils.values(
-								(List<Value>) eval, extractedRangeInterval,
-								targetRangeInterval);
+						@SuppressWarnings("unchecked")
+						List<List<Value>> splitValueRange = modelUtils.values_(
+								(List<Value>) eval, targetRangeInterval);
 
 						List<Object> evalResult = Lists.newArrayList();
 						// iterate through the sublists, and apply the native
@@ -1679,8 +1678,8 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 							Object subRangeResult = processNativeFunction(ne,
 									subRange);
 							if (assertValue(subRangeResult)) {
-								System.out.println(modelUtils
-										.value((Value) subRangeResult));
+//								System.out.println(modelUtils
+//										.value((Value) subRangeResult));
 								evalResult.add(subRangeResult);
 							}
 						}
@@ -1693,9 +1692,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 				} else {
 
 					// process a matrix of values, either horizontal or vertical
-					
-					
-					
+
 					// FIXME, We need a way to differentiate, either through
 					// syntax, by grouping
 					// or by configuration, or implicity.....
