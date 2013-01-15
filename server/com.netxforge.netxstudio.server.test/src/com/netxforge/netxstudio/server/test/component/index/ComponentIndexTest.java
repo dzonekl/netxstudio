@@ -68,8 +68,12 @@ public class ComponentIndexTest extends AbstractDataServiceTest4 {
 
 		}
 
+		
+		// Find the component with Metric.
+		// TODO, dig up a relevant Metric. 
+		
 		List<Component> componentsForIdentifiers = index
-				.componentsForIdentifiers(descriptors);
+				.componentsForIdentifiers(null, descriptors);
 		
 		
 		for(Component c : componentsForIdentifiers){

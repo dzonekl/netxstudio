@@ -196,7 +196,8 @@ public class ModelUtils {
 			.of("Name", "EquipmentCode", "Position");
 
 	/**
-	 * Compare two dates.
+	 * Compare the time stamp of two {@link Value} objects. This implementation
+	 * delegates to {@link XMLGregorianCalendar#compare(XMLGregorianCalendar) }.
 	 */
 	public class ValueTimeStampComparator implements Comparator<Value> {
 		public int compare(final Value v1, final Value v2) {
@@ -606,18 +607,21 @@ public class ModelUtils {
 		return createDateTimeRange;
 	}
 
-	public List<List<Value>> values(List<Value> values, int srcInterval) {
-		return this.values(values, srcInterval, -1);
-	}
+//	public List<List<Value>> values(List<Value> values, int srcInterval) {
+//		return this.values(values, srcInterval, -1);
+//	}
 
 	/**
 	 * Split the {@link Value} collection, in sub-collections for the provided
 	 * interval boundaries. So a Day interval will split the value collection
 	 * containing hourly values in sub collections containing a maximum quantity
-	 * of values which is lesser or equal of a day. (23)
+	 * of values which is lesser or equal of a day. (23) </br></p> This method
+	 * will sort the values ascending, so a better implementation is needed,
+	 * avoiding the sorting.
 	 * 
-	 * @FIXME This method doesn't consider a collection with less values than
-	 *        the maximum.
+	 * @FIXME Doesn't work for non-consecutive ranges. (Ranges with a gap in the
+	 *        intervals).
+	 * 
 	 * 
 	 * @param values
 	 * @param srcInterval
@@ -644,7 +648,11 @@ public class ModelUtils {
 		if (!values.isEmpty()) {
 			valueMatrix.add(nextSequence);
 		}
-		Iterator<Value> iterator = values.iterator();
+
+		// Sort the values fist.
+		List<Value> copyOfValues = sortValuesByTimeStamp(Lists
+				.newArrayList(values));
+		Iterator<Value> iterator = copyOfValues.iterator();
 
 		GregorianCalendar cal = null;
 		int actualMaximum = -1;
@@ -670,6 +678,46 @@ public class ModelUtils {
 			lastVal = currentVal;
 		}
 
+		return valueMatrix;
+	}
+
+	public List<List<Value>> values_(List<Value> values, int targetInterval) {
+
+		// Populate a matrix of fields for the provided values, depending on the
+		// intended source and target interval.
+		final Map<Integer, Map<Integer, List<Value>>> yearMap = Maps
+				.newHashMap();
+		final int field = fieldForTargetInterval(targetInterval);
+
+		GregorianCalendar cal;
+		for (Value v : values) {
+			cal = v.getTimeStamp().toGregorianCalendar();
+			
+			
+			// Get the year map.
+			final int year = cal.get(Calendar.YEAR); // Always split by year.
+			final Map<Integer, List<Value>> targetMap;
+			
+			if (yearMap.containsKey(year)) {
+				targetMap = yearMap.get(year);
+			} else {
+				targetMap = Maps.newHashMap();
+				yearMap.put(year, targetMap);
+			}
+			//Get the target map. 
+			final int currentFieldValue = cal.get(field);
+			if (targetMap.containsKey(currentFieldValue)) {
+				targetMap.get(currentFieldValue).add(v);
+			} else {
+				List<Value> vList = Lists.newArrayList();
+				vList.add(v);
+				targetMap.put(currentFieldValue, vList);
+			}
+		}
+		List<List<Value>> valueMatrix = Lists.newArrayList(); 
+		for(Map<Integer, List<Value>> targetMap : yearMap.values()){
+			valueMatrix.addAll(targetMap.values());
+		}
 		return valueMatrix;
 	}
 
@@ -710,7 +758,7 @@ public class ModelUtils {
 	public int fieldForInterval(int srcInterval, int targetInterval) {
 
 		switch (srcInterval) {
-		case 15: {
+		case 15: { // FIXME, SHOULD treat all interval < 60 as HOUR_OF_DAY.
 			switch (targetInterval) {
 			case MINUTES_IN_A_DAY:
 			case -1:
@@ -736,6 +784,23 @@ public class ModelUtils {
 			return Calendar.WEEK_OF_YEAR;
 		case MINUTES_IN_A_MONTH: {
 			return Calendar.MONTH;
+		}
+		default:
+			return -1;
+		}
+	}
+
+	public int fieldForTargetInterval(int targetInterval) {
+
+		switch (targetInterval) {
+		case MINUTES_IN_AN_HOUR:
+			return Calendar.HOUR_OF_DAY; // Hourly target.
+		case MINUTES_IN_A_DAY:
+			return Calendar.DAY_OF_YEAR; // Daily target.
+		case MINUTES_IN_A_WEEK:
+			return Calendar.WEEK_OF_YEAR; // Weekly target.
+		case MINUTES_IN_A_MONTH: {
+			return Calendar.MONTH; // Montly target.
 		}
 		default:
 			return -1;
@@ -4145,7 +4210,7 @@ public class ModelUtils {
 			if (positionOf != -1) {
 				// store in the same position, the initial size should allow
 				// this.
-				doubles.add(positionOf, v.getValue());
+				doubles.set(positionOf, v.getValue());
 			} else {
 				existingDates.add(dateToMergeOrAdd);
 				double value = v.getValue();
