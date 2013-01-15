@@ -181,11 +181,9 @@ public class TableHelper {
 			}
 
 			// Optional Sorting support.
-			if (comparator != null) {
-				TBVCSorter<T> sorterFor = sorterFor(tblvc, comparator);
-				if (sortingDirection != -1) {
-					sorterFor.setSorter(sortingDirection);
-				}
+			TBVCSorter<T> sorterFor = sorterFor(tblvc, comparator);
+			if (sortingDirection != -1) {
+				sorterFor.setSorter(sortingDirection);
 			}
 
 			// Column builder, set parameter or default properties.
@@ -221,7 +219,6 @@ public class TableHelper {
 	public class TBVCSorter<T> extends TableViewerColumnSorter {
 
 		private Comparator<T> delegateComparator = null;
-		@SuppressWarnings("unused")
 		private TableViewerColumn column = null;
 
 		public TBVCSorter(TableViewerColumn column) {
@@ -243,18 +240,21 @@ public class TableHelper {
 				return delegateComparator.compare((T) e1, (T) e2);
 			}
 
-			// int cIndex = -1;
-			// if (viewer instanceof TableViewer) {
-			// cIndex = ((TableViewer) viewer).getTable().indexOf(
-			// column.getColumn());
-			// }
-			// if (cIndex == -1) {
-			// return 0; // Can't compare without an index.
-			// }
-			//
-			// T value1 = (T) getValue(viewer, e1, cIndex);
-			// T value2 = (T) getValue(viewer, e2, cIndex);
+			int cIndex = -1;
+			if (viewer instanceof TableViewer) {
+				cIndex = ((TableViewer) viewer).getTable().indexOf(
+						column.getColumn());
+			}
+			if (cIndex == -1) {
+				return 0; // Can't compare without an index.
+			}
 
+			T value1 = (T) getValue(viewer, e1, cIndex);
+			T value2 = (T) getValue(viewer, e2, cIndex);
+			if(value1 instanceof Comparable){
+				return ((Comparable<T>) value1).compareTo(value2);
+			}
+			
 			return 0;
 		}
 
