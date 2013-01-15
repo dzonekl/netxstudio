@@ -71,6 +71,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * Contains convenience methods.
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
 @SuppressWarnings("deprecation")
 public class ServerUtils {
@@ -211,9 +212,18 @@ public class ServerUtils {
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 		sessionConfiguration.setExceptionHandler(exceptionHandler);
 
+		
+		
+		// TODO, Make the passive update mode optional. 
+		// When the mode is changes, we receive revision deltas which can be used
+		// to update more efficiently. 
+		// For indexes, we could limit the update to only the changed items.  
+		// 
+		
+//		sessionConfiguration.setPassiveUpdateMode(PassiveUpdateMode.CHANGES);
+		
 		// Note: Option to disable caching, this was of for Hibernate store, but
 		// back on for the DB Store.
-
 		// sessionConfiguration.setRevisionManager(CDORevisionUtil
 		// .createRevisionManager(CDORevisionCache.NOOP));
 

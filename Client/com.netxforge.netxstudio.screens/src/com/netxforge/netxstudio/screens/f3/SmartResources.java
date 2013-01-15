@@ -158,7 +158,6 @@ import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
-import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
@@ -2942,10 +2941,9 @@ public class SmartResources extends AbstractScreen implements
 
 				continue;
 			}
-			if (!(o instanceof WorkFlowRun)) {
-				System.out.println(" puked object" + o);
-				cmpValues.smartRefresh();
-			}
+//			if (!(o instanceof WorkFlowRun)) {
+// 				cmpValues.smartRefresh();
+//			}
 		}
 		// cmpValues.smartRefresh();
 

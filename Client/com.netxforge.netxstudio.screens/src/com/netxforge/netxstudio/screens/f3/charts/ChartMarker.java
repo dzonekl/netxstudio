@@ -224,20 +224,22 @@ public class ChartMarker {
 			}
 		}
 
-		{
+		{ // Only if these exist.
 			ILineSeries capSeries = chart.getCapSeries();
-			double[] ySeries = capSeries.getYSeries();
-			int seriesIndex = ySeries.length - invertedSeriesIndex;
-			if (seriesIndex > 0) {
-				buffer = new StringBuffer();
-				buffer.append(capSeries.getId()).append(": ") //$NON-NLS-1$
-						.append(getFormattedValue(ySeries[seriesIndex]));
-				texts.put(capSeries.getId(), buffer.toString());
+			if (capSeries != null) {
+				double[] ySeries = capSeries.getYSeries();
+				int seriesIndex = ySeries.length - invertedSeriesIndex;
+				if (seriesIndex > 0) {
+					buffer = new StringBuffer();
+					buffer.append(capSeries.getId()).append(": ") //$NON-NLS-1$
+							.append(getFormattedValue(ySeries[seriesIndex]));
+					texts.put(capSeries.getId(), buffer.toString());
 
-				int valueInPixel = chart.getAxisSet().getYAxes()[0]
-						.getPixelCoordinate(ySeries[seriesIndex]);
-				configureHover(hovers.get(capSeries.getId()),
-						buffer.toString(), timeInPixel, valueInPixel, false);
+					int valueInPixel = chart.getAxisSet().getYAxes()[0]
+							.getPixelCoordinate(ySeries[seriesIndex]);
+					configureHover(hovers.get(capSeries.getId()),
+							buffer.toString(), timeInPixel, valueInPixel, false);
+				}
 			}
 		}
 
@@ -265,44 +267,50 @@ public class ChartMarker {
 				textExtent.y + OFFSET * 2);
 		hover.setSize(hoverSize);
 
-//		System.out.println(" COORDINATES FOR: " + text);
-//		System.out.println("   Value coordinate: (" + x + "," + y + ")");
+		// System.out.println(" COORDINATES FOR: " + text);
+		// System.out.println("   Value coordinate: (" + x + "," + y + ")");
 		Rectangle plotBounds = chart.getPlotArea().getBounds();
-//		System.out.println("  Plot area bounds: " + plotBounds);
+		// System.out.println("  Plot area bounds: " + plotBounds);
 
 		Point point = new Point(x + hoverSize.x, y);
 
-//		System.out.println("  FLIP HOVER?");
-//		System.out.println("   Hover Size: (" + hoverSize.x + "," + hoverSize.y
-//				+ ")");
-//		System.out.println("   Target coordinate: (" + (x + hoverSize.x) + ","
-//				+ y + ")");
+		// System.out.println("  FLIP HOVER?");
+		// System.out.println("   Hover Size: (" + hoverSize.x + "," +
+		// hoverSize.y
+		// + ")");
+		// System.out.println("   Target coordinate: (" + (x + hoverSize.x) +
+		// ","
+		// + y + ")");
 		boolean showOnRight = point.x < plotBounds.width;
 
-//		System.out.println("   Hover Extremes coordinate: (" + point.x + ","
-//				+ point.y + ") width delta: " + (point.x - plotX) + " flip="
-//				+ !showOnRight);
+		// System.out.println("   Hover Extremes coordinate: (" + point.x + ","
+		// + point.y + ") width delta: " + (point.x - plotX) + " flip="
+		// + !showOnRight);
 
 		int hoverX = showOnRight ? x : x - hoverSize.x;
 		int hoverY = showBelow ? y : y - hoverSize.y;
 
 		Point displayCoordinate = chart.getPlotArea().toDisplay(hoverX, hoverY);
 
-//		System.out.println("  Chart coordinate: time: " + hoverX + ", value: "
-//				+ hoverY);
-//		System.out.println("  Display coordinate: time: " + displayCoordinate.x
-//				+ ", value: " + displayCoordinate.y);
-		
-		Point p = Display.getDefault().map(chart.getPlotArea(), null, new Point(x,y));
-//		System.out.println("  Display value: time: " + p.x
-//				+ ", value: " + p.y);
-		Rectangle map = Display.getDefault().map(chart, null, chart.getBounds());
-//		System.out.println("  Chart area bounds: " + map);
-		
-		if(!map.contains(p)){
+		// System.out.println("  Chart coordinate: time: " + hoverX +
+		// ", value: "
+		// + hoverY);
+		// System.out.println("  Display coordinate: time: " +
+		// displayCoordinate.x
+		// + ", value: " + displayCoordinate.y);
+
+		Point p = Display.getDefault().map(chart.getPlotArea(), null,
+				new Point(x, y));
+		// System.out.println("  Display value: time: " + p.x
+		// + ", value: " + p.y);
+		Rectangle map = Display.getDefault()
+				.map(chart, null, chart.getBounds());
+		// System.out.println("  Chart area bounds: " + map);
+
+		if (!map.contains(p)) {
 			return;
 		}
-		
+
 		hover.setLocation(displayCoordinate);
 
 		// set region
@@ -399,8 +407,8 @@ public class ChartMarker {
 		// The time.
 		long desiredTime = (long) firstAxe.getDataCoordinate(desiredX);
 
-//		Date desired = new Date(desiredTime);
-//		System.out.println(desired);
+		// Date desired = new Date(desiredTime);
+		// System.out.println(desired);
 
 		// Only Consider the Metric Series.
 		ISeries metricSeries = chart.getSeriesSet().getSeries(
@@ -420,7 +428,7 @@ public class ChartMarker {
 			} else {
 				nearestIndex = i;
 			}
-//			System.out.println(" Date index = " + nearestIndex);
+			// System.out.println(" Date index = " + nearestIndex);
 			return dates.length - nearestIndex;
 		}
 		return null;
@@ -428,8 +436,8 @@ public class ChartMarker {
 
 	private Integer getInvertedSeriesIndex(long desiredTime) {
 
-//		Date desired = new Date(desiredTime);
-//		System.out.println(desired);
+		// Date desired = new Date(desiredTime);
+		// System.out.println(desired);
 
 		// Only Consider the Metric Series.
 		ISeries metricSeries = chart.getSeriesSet().getSeries(
@@ -449,7 +457,7 @@ public class ChartMarker {
 			} else {
 				nearestIndex = i;
 			}
-//			System.out.println(" Date index = " + nearestIndex);
+			// System.out.println(" Date index = " + nearestIndex);
 			return dates.length - nearestIndex;
 		}
 		return null;

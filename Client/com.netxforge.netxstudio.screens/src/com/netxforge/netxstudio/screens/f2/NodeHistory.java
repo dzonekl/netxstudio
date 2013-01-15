@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.screens.f2;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.ColorConstants;
@@ -32,6 +33,7 @@ import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -39,6 +41,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.net4j.signal.RemoteException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -99,7 +102,6 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 		// buildUI();
 	}
 
-
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
@@ -112,7 +114,8 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 		frmHistory.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmHistory);
 
-		frmHistory.setText("Network Element Editing History: " + node.getNodeID());
+		frmHistory.setText("Network Element Editing History: "
+				+ node.getNodeID());
 		frmHistory.getBody().setLayout(new FormLayout());
 
 		Section sctnInfo = toolkit.createSection(frmHistory.getBody(),
@@ -273,13 +276,19 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
-
-		tableViewerRevisions.setContentProvider(new ArrayContentProvider());
-		tableViewerRevisions
-				.setLabelProvider(new NodeHistoryLabelProvider(node));
-		List<CDORevision> newArrayList = Lists.newArrayList();
-		newArrayList.addAll(Lists.newArrayList(modelUtils.cdoRevisions(node)));
-		tableViewerRevisions.setInput(newArrayList);
+		try {
+			Iterator<CDORevision> cdoRevisions = modelUtils.cdoRevisions(node);
+			List<CDORevision> revisionsList = Lists.newArrayList(cdoRevisions);
+			tableViewerRevisions.setContentProvider(new ArrayContentProvider());
+			tableViewerRevisions.setLabelProvider(new NodeHistoryLabelProvider(
+					node));
+			tableViewerRevisions.setInput(revisionsList);
+		} catch (RemoteException re) {
+			// We likely have disables auditing in the CDO Repository, revisions
+			// are not available in the DB :-(
+			MessageDialog.openInformation(NodeHistory.this.getShell(),
+					"History not available", " History is not enabled");
+		}
 		return null;
 	}
 
@@ -416,14 +425,14 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 		}
 
 	}
-	
+
 	private final List<IAction> actions = Lists.newArrayList();
 
 	@Override
 	public IAction[] getActions() {
-		// Lazy init actions. 
-		if(actions.isEmpty()){
-			actions.add(new CompareAction(modelUtils, "Compare...") );
+		// Lazy init actions.
+		if (actions.isEmpty()) {
+			actions.add(new CompareAction(modelUtils, "Compare..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}

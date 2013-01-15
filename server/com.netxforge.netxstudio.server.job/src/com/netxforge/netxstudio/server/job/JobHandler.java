@@ -721,6 +721,9 @@ public class JobHandler {
 		JobActivator.getInstance().getInjector().injectMembers(this);
 		dataProvider.getSession();
 		view = dataProvider.getView();
+		
+		
+		// Is this really needed? 
 		this.addChangeSubscription(view);
 
 		view.addListener(new IListener() {
