@@ -172,12 +172,12 @@ public class ResourcesComponent {
 	}
 
 	private void buildColumns() {
-		String[] properties = new String[] { "Network Element", "Component",
+		final String[] properties = new String[] { "Network Element", "Component",
 				"Metric", "Short Name", "Expression Name", "Long Name", "Unit" };
 
-		int[] columnWidths = new int[] { 100, 100, 112, 76, 104, 200, 68 };
+		final int[] columnWidths = new int[] { 100, 100, 112, 76, 104, 200, 68 };
 
-		EditingSupport[] editingSupport = new EditingSupport[] { null, null,
+		final EditingSupport[] editingSupport = new EditingSupport[] { null, null,
 				null, null, null, null, null };
 
 		buildTableColumns(properties, columnWidths, editingSupport);
@@ -277,15 +277,15 @@ public class ResourcesComponent {
 
 		for (int i = 0; i < properties.length; i++) {
 
-			String property = properties[i];
+			final String property = properties[i];
 
-			TableViewerColumn viewerColumn = new TableViewerColumn(
+			final TableViewerColumn viewerColumn = new TableViewerColumn(
 					resourcesTableViewer, SWT.NONE);
 			EditingSupport sup;
 			if ((sup = editingSupport[i]) != null) {
 				viewerColumn.setEditingSupport(sup);
 			}
-			TableColumn tblColumn = viewerColumn.getColumn();
+			final TableColumn tblColumn = viewerColumn.getColumn();
 			tblColumn.setText(property);
 			tblColumn.setWidth(columnWidths[i]);
 			tblColumn.setMoveable(true);
@@ -319,7 +319,7 @@ public class ResourcesComponent {
 				new TableViewerColumnSorter(viewerColumn);
 			}
 
-			if (properties[i].equals("Component")) {
+			if (property.equals("Component")) {
 				// Inline override the comparer based on the component, as this
 				// is a non-editable column.
 				new TableViewerColumnSorter(viewerColumn) {

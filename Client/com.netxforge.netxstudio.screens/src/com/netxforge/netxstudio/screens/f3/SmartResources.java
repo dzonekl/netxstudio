@@ -1008,9 +1008,7 @@ public class SmartResources extends AbstractScreen implements
 			TableViewerColumn tbvcFor = tableHelper.new TBVC<String>(
 					netXResourceObervableMapLabelProvider).tbvcFor(
 					resourcesTableViewer, properties[column], toolTips[column],
-					columnWidths[column], editingSupport[column],
-					new TableHelper.ComparableComparator<String>());
-
+					columnWidths[column], editingSupport[column]);
 		}
 
 		{
@@ -1019,9 +1017,8 @@ public class SmartResources extends AbstractScreen implements
 			TableViewerColumn tbvcFor = tableHelper.new TBVC<String>(
 					netXResourceObervableMapLabelProvider).tbvcFor(
 					resourcesTableViewer, properties[column], toolTips[column],
-					columnWidths[column], editingSupport[column],
-					new TableHelper.ComparableComparator<String>());
-
+					columnWidths[column], editingSupport[column]);
+			
 		}
 
 		{
@@ -1030,8 +1027,7 @@ public class SmartResources extends AbstractScreen implements
 			TableViewerColumn tbvcFor = tableHelper.new TBVC<String>(
 					netXResourceObervableMapLabelProvider).tbvcFor(
 					resourcesTableViewer, properties[column], toolTips[column],
-					columnWidths[column], editingSupport[column],
-					new TableHelper.ComparableComparator<String>());
+					columnWidths[column], editingSupport[column]);
 
 		}
 
@@ -1041,8 +1037,7 @@ public class SmartResources extends AbstractScreen implements
 			TableViewerColumn tbvcFor = tableHelper.new TBVC<String>(
 					netXResourceObervableMapLabelProvider).tbvcFor(
 					resourcesTableViewer, properties[column], toolTips[column],
-					columnWidths[column], editingSupport[column],
-					new TableHelper.ComparableComparator<String>());
+					columnWidths[column], editingSupport[column]);
 
 		}
 		{
@@ -1051,8 +1046,7 @@ public class SmartResources extends AbstractScreen implements
 			TableViewerColumn tbvcFor = tableHelper.new TBVC<String>(
 					netXResourceObervableMapLabelProvider).tbvcFor(
 					resourcesTableViewer, properties[column], toolTips[column],
-					columnWidths[column], editingSupport[column],
-					new TableHelper.ComparableComparator<String>());
+					columnWidths[column], editingSupport[column]);
 		}
 
 		{
@@ -1061,8 +1055,7 @@ public class SmartResources extends AbstractScreen implements
 			TableViewerColumn tbvcFor = tableHelper.new TBVC<String>(
 					netXResourceObervableMapLabelProvider).tbvcFor(
 					resourcesTableViewer, properties[column], toolTips[column],
-					columnWidths[column], editingSupport[column],
-					new TableHelper.ComparableComparator<String>());
+					columnWidths[column], editingSupport[column]);
 		}
 
 	}
