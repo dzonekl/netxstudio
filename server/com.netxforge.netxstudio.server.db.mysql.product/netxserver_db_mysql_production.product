@@ -10,14 +10,14 @@
       <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -clean  -debug -console 8811 -noExit -consoleLog --launcher.XXMaxPermSize 128M</programArgs>
       <programArgsLin>-data @user.home</programArgsLin>
       <programArgsMac>-data @user.home/netxserver</programArgsMac>
-      <vmArgs>-Xms40m
+      <vmArgs>-Xms1048m
 -XX:+HeapDumpOnOutOfMemoryError
 -Dorg.osgi.service.http.port=8080
 -DmetricSourceRoot=/Users/dzonekl/Documents/Projects/NetXStudio/TestData</vmArgs>
       <vmArgsLin>-server
--Xmx2048m
--Xss512k
--Dnet4j.config=config
+-Xmx4096m
+-Xss1048k
+-Dnet4j.config=../../../
 -Dosgi.debug=file:/home/capman/capman/.options
 -Dcom.sun.management.jmxremote.port=8812
 -Dcom.sun.management.jmxremote.authenticate=false
