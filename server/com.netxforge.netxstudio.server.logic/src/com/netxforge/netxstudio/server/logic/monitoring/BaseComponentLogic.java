@@ -21,6 +21,8 @@ package com.netxforge.netxstudio.server.logic.monitoring;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.cdo.util.CommitException;
+
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -39,13 +41,12 @@ import com.netxforge.netxstudio.server.logic.BasePeriodLogic;
 public abstract class BaseComponentLogic extends BasePeriodLogic {
 
 	protected void doRun() {
-		// get a transaction, if we didn't create it, we shouldn't close t. 
-//		this.getDataProvider().getTransaction();
+		// get a transaction, if we didn't create it, we shouldn't close t.
+		// this.getDataProvider().getTransaction();
 		final List<NodeType> nodeTypes = getNodeTypesToExecuteFor();
-		
-		
-		// Note: The total work is not linear to the number of components, 
-		// components which have expressions will take more time. 
+
+		// Note: The total work is not linear to the number of components,
+		// components which have expressions will take more time.
 		this.getJobMonitor().setTotalWork(countComponents(nodeTypes));
 		this.getJobMonitor().setTask("Performing resource monitoring");
 
@@ -59,6 +60,9 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 			processNode(nodeType);
 		}
 		if (!getFailures().isEmpty()) {
+
+			// We can't use our own provider for this.
+
 			final ComponentWorkFlowRun run = (ComponentWorkFlowRun) this
 					.getDataProvider().getTransaction()
 					.getObject(this.getJobMonitor().getWorkFlowRunId());
@@ -66,15 +70,20 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 				run.getFailureRefs().add(f);
 			}
 
+			// this.getJobMonitor().addFailures(getFailures());
+			try {
+				this.getDataProvider().getTransaction().commit();
+			} catch (CommitException e) {
+				e.printStackTrace();
+			} 
+			
 		}
-		// Commit and close. 
-		
-//		this.getDataProvider().commitTransaction();
-//		this.getDataProvider().closeSession();
+		// Commit and close.
+		//
+		// this.getDataProvider().closeSession();
 	}
 
 	protected abstract List<NodeType> getNodeTypesToExecuteFor();
-
 
 	protected int countComponents(List<NodeType> nodeTypes) {
 		int cnt = 0;
@@ -85,11 +94,12 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 	}
 
 	protected void executeFor(Component component) {
-		
+
 		this.getJobMonitor().setTask("Computing for " + component.getName());
-		
-		this.getJobMonitor().incrementProgress(1, ( this.getJobMonitor().getProgress() & 5 ) == 0);
-		
+
+		this.getJobMonitor().incrementProgress(1,
+				(this.getJobMonitor().getProgress() & 5) == 0);
+
 		final BaseComponentEngine engine = (BaseComponentEngine) getEngine();
 		engine.setJobMonitor(getJobMonitor());
 		engine.setComponent(component);
@@ -108,7 +118,6 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 
 	protected abstract void processNode(NodeType nodeType);
 
-	
 	protected List<Component> getComponents(NodeType nodeType) {
 		final List<Component> result = new ArrayList<Component>();
 		for (final Equipment equipment : nodeType.getEquipments()) {
