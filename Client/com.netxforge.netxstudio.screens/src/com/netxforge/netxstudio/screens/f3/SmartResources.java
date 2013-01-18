@@ -158,6 +158,7 @@ import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
@@ -819,9 +820,9 @@ public class SmartResources extends AbstractScreen implements
 						@SuppressWarnings("unused")
 						MetricRetentionRule currentSubSelection = (MetricRetentionRule) expressionAggregate
 								.getCurrentSubSelection();
-						
-//						DateTimeRange dtrForRetentionRule = modelUtils
-//								.getDTRForRetentionRule(currentSubSelection, 2);
+
+						// DateTimeRange dtrForRetentionRule = modelUtils
+						// .getDTRForRetentionRule(currentSubSelection, 2);
 					}
 
 					// TOLERANCE EXPRESSION.
@@ -1018,7 +1019,7 @@ public class SmartResources extends AbstractScreen implements
 					netXResourceObervableMapLabelProvider).tbvcFor(
 					resourcesTableViewer, properties[column], toolTips[column],
 					columnWidths[column], editingSupport[column]);
-			
+
 		}
 
 		{
@@ -1409,7 +1410,6 @@ public class SmartResources extends AbstractScreen implements
 		 */
 		private Service currentService = null;
 
-
 		/*
 		 * The current monitored node.
 		 */
@@ -1429,7 +1429,8 @@ public class SmartResources extends AbstractScreen implements
 		 * monitoring boundaries of Month, Week, Day might contain Monitoring
 		 * information (Like Markers) before and/or after the period.
 		 */
-		private DateTimeRange currentPeriod = GenericsFactory.eINSTANCE.createDateTimeRange();
+		private DateTimeRange currentPeriod = GenericsFactory.eINSTANCE
+				.createDateTimeRange();
 
 		public void handleValueChange(ValueChangeEvent event) {
 			IObservable observable = event.getObservable();
@@ -1482,18 +1483,22 @@ public class SmartResources extends AbstractScreen implements
 		 */
 		public ResourceMonitor getResourceMonitorForNetXResource(
 				NetXResource resource) {
+			updateResourceMonitorsForNode(currentNode);
 			if (monitorsPerNetXResource != null
 					&& monitorsPerNetXResource.containsKey(resource)) {
 				List<ResourceMonitor> resourceMonitors = monitorsPerNetXResource
 						.get(resource);
+				if (!resourceMonitors.isEmpty()) {
+					return resourceMonitors.get(0);
+				}
 				// Check that our markers are not invalid...
 				// If monitoring is running, we could become invalid.
-				for (ResourceMonitor rm : resourceMonitors) {
-					if (rm.cdoInvalid()) {
-						updateResourceMonitorsForNode(currentNode);
-						return null;
-					}
-				}
+				// for (ResourceMonitor rm : resourceMonitors) {
+				// if (rm.cdoInvalid()) {
+				// ;
+				// return null;
+				// }
+				// }
 			}
 			return null;
 		}
@@ -1511,20 +1516,20 @@ public class SmartResources extends AbstractScreen implements
 						return null;
 					}
 				}
-				
+
 				List<Marker> markers = Lists.newArrayList();
-				
-				for(ResourceMonitor rm : resourceMonitors){
+
+				for (ResourceMonitor rm : resourceMonitors) {
 					List<Marker> toleranceMarkersForResourceMonitor = modelUtils
-					.toleranceMarkersForResourceMonitor(rm);
-					if( toleranceMarkersForResourceMonitor != null && !toleranceMarkersForResourceMonitor.isEmpty()){
+							.toleranceMarkersForResourceMonitor(rm);
+					if (toleranceMarkersForResourceMonitor != null
+							&& !toleranceMarkersForResourceMonitor.isEmpty()) {
 						markers.addAll(toleranceMarkersForResourceMonitor);
 					}
 				}
-				
+
 				return markers;
-				
-				
+
 			}
 			return null;
 		}
@@ -1559,11 +1564,11 @@ public class SmartResources extends AbstractScreen implements
 		 * @param n
 		 */
 		private void updateResourceMonitorsForNode(Node n) {
-			
-			if(currentService == null || n == null){
-				return; // No Service, No Monitor. 
+
+			if (currentService == null || n == null) {
+				return; // No Service, No Monitor.
 			}
-			
+
 			List<ServiceMonitor> serviceMonitorsWithinPeriod = modelUtils
 					.serviceMonitorsWithinPeriod(currentService, getPeriod());
 
@@ -1587,10 +1592,9 @@ public class SmartResources extends AbstractScreen implements
 				@SuppressWarnings("unused")
 				final List<ResourceMonitor> list = monitorsPerNetXResource
 						.get(netXResource);
-					
-				// Not clear what is done here??? 
-				
-				
+
+				// Not clear what is done here???
+
 			}
 		}
 
@@ -2934,9 +2938,9 @@ public class SmartResources extends AbstractScreen implements
 
 				continue;
 			}
-//			if (!(o instanceof WorkFlowRun)) {
-// 				cmpValues.smartRefresh();
-//			}
+			if (!(o instanceof WorkFlowRun)) {
+				cmpValues.smartRefresh();
+			}
 		}
 		// cmpValues.smartRefresh();
 
