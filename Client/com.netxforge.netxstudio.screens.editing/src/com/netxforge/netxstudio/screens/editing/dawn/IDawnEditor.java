@@ -10,23 +10,37 @@
  ******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.dawn;
 
+import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
  * @author Martin Fluegge
  */
-public interface IDawnEditor
-{
-	
+public interface IDawnEditor {
+
 	// CB Not needed for us.
-//  public String getContributorID();
+	// public String getContributorID();
 
-  public CDOView getView();
+	public CDOView getView();
 
-  public void setDirty();
+	public void setDirty();
 
-  /**
-   * @since 1.0
-   */
-  public IDawnEditorSupport getDawnEditorSupport();
+	/**
+	 * @since 1.0
+	 */
+	public IDawnEditorSupport getDawnEditorSupport();
+	
+	
+	/**
+	 * Allow the implememtors to deal with stale references.  
+	 * 
+	 * @param source
+	 * @param feature
+	 * @param index
+	 * @param target
+	 */
+	public void handleStale(EObject source, EStructuralFeature feature,
+			int index, CDOID target);
 }
