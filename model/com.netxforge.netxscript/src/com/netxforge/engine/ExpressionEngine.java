@@ -108,7 +108,7 @@ public class ExpressionEngine implements IExpressionEngine {
 		getExpressionResult().clear();
 
 		final String asString = this.asString(expression);
-		if (asString.length() == 0) {
+		if (asString.trim().length() == 0) {
 			return;
 		}
 
