@@ -40,7 +40,7 @@ import com.netxforge.netxstudio.generics.GenericsFactory;
  * An injectable component showing a from and to Date layed out above each
  * other.
  * 
- * @author Christophe
+ * @author Christophe Bouhier
  * 
  */
 public class PeriodComponent {
