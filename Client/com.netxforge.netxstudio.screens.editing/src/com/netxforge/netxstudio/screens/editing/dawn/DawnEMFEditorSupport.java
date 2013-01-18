@@ -10,10 +10,21 @@
  */
 package com.netxforge.netxstudio.screens.editing.dawn;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.view.CDOAdapterPolicy;
+import org.eclipse.emf.cdo.view.CDOStaleObject;
+import org.eclipse.emf.cdo.view.CDOStaleReferencePolicy;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.lifecycle.ILifecycle;
@@ -25,6 +36,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
+import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 
 /**
@@ -56,7 +68,7 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 	 */
 	public void registerListeners() {
 
-		CDOView view = getView();
+		final CDOView view = getView();
 		IListener[] listeners = view.getListeners();
 
 		// Always remove our listeners, even if we re-use a CDO view.
@@ -77,6 +89,13 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 			}
 		}
 		view.addListener(sessionLifeCycleHandler);
+	}
+
+	public void registerStateReferencePolicty(){
+		final CDOView view = getView(); 
+		if(view != null){
+			view.options().setStaleReferencePolicy(PROXY_NO_EXCEPTION);
+		}
 	}
 
 	private void addChangeSubscription(CDOView view) {
@@ -127,12 +146,12 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 
 				IWorkbenchWindow[] workbenchWindows = PlatformUI.getWorkbench()
 						.getWorkbenchWindows();
-				
-				// Doesn't work for non-active perspectives. 
-				// so need to maintain the state, and not allow restoring IScreens. 
-				// also, when a job is running it should be cancelled. 
-				
-				
+
+				// Doesn't work for non-active perspectives.
+				// so need to maintain the state, and not allow restoring
+				// IScreens.
+				// also, when a job is running it should be cancelled.
+
 				for (IWorkbenchWindow wbw : workbenchWindows) {
 					IWorkbenchPage[] pages = wbw.getPages();
 					for (int i = 0; i < pages.length; i++) {
@@ -165,4 +184,66 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 		}
 	}
 
+	/**
+	 * A State reference policy which
+	 * 
+	 * @author Christophe
+	 * 
+	 */
+	 final CDOStaleReferencePolicy PROXY_NO_EXCEPTION = new CDOStaleReferencePolicy(){
+
+		public Object processStaleReference(final EObject source,
+				final EStructuralFeature feature, final int index, final CDOID target) {
+			final EClassifier type = feature.getEType();
+			InvocationHandler handler = new InvocationHandler() {
+				public Object invoke(Object proxy, Method method, Object[] args)
+						throws Throwable {
+					String name = method.getName();
+					if (name.equals("cdoID")) //$NON-NLS-1$
+					{
+						return target;
+					}
+
+					if (name.equals("eIsProxy")) //$NON-NLS-1$
+					{
+						return false;
+					}
+
+					if (name.equals("eClass")) //$NON-NLS-1$
+					{
+						return type;
+					}
+
+					if (name.equals("eAdapters")) //$NON-NLS-1$
+					{
+						return source.eAdapters();
+					}
+						
+					
+					if( DawnEMFEditorSupport.this.getEditor() instanceof CDOEditingService){
+						DawnEMFEditorSupport.this.getEditor().handleStale(source, feature, index, target); 
+					}
+					
+					// The client loading the object will deal with a null value. Fore JFace/SWT, the getElements will contain 
+					// this null entry. 
+					return null; 
+				}
+			};
+
+			Class<?> instanceClass = type.getInstanceClass();
+			Class<?>[] interfaces = null;
+
+			// Be sure to have only interface
+			if (instanceClass.isInterface()) {
+				interfaces = new Class<?>[] { instanceClass,
+						InternalEObject.class, CDOStaleObject.class };
+			} else {
+				interfaces = new Class<?>[] { InternalEObject.class,
+						CDOStaleObject.class };
+			}
+
+			return Proxy.newProxyInstance(instanceClass.getClassLoader(),
+					interfaces, handler);
+		}
+	 };
 }

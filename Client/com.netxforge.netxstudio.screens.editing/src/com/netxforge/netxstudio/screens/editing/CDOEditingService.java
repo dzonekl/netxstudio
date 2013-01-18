@@ -36,6 +36,8 @@ import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
@@ -174,15 +176,6 @@ public class CDOEditingService extends EMFEditingService implements
 		if (res instanceof CDOResource) {
 			// we could fail adding listeners, as these might already exist.
 			CDOView cdoView = ((CDOResource) res).cdoView();
-			// if( !cdoView.isInvalidationRunnerActive()){
-			// // check the invalidation state.
-			// System.out.println("CDOEditingService, CDOView, invalidation not-active, activating for: "
-			// + cdoView.getViewID());
-			// cdoView.options().setInvalidationNotificationEnabled(true);
-			// }else{
-			// System.out.println("CDOEditingService, CDOView, invalidation active, for: "
-			// + cdoView.getViewID());
-			// }
 			dawnEditorSupport.setView(cdoView);
 			dawnEditorSupport.registerListeners();
 		}
@@ -271,7 +264,7 @@ public class CDOEditingService extends EMFEditingService implements
 	public IScreen getScreen() {
 		return this.delegateScreenProvider.getScreen();
 	}
-	
+
 	public IScreen[] getScreens() {
 		return this.delegateScreenProvider.getScreens();
 	}
@@ -683,6 +676,34 @@ public class CDOEditingService extends EMFEditingService implements
 
 			});
 		}
+	}
+
+	public void handleStale(final EObject source,
+			final EStructuralFeature feature, final int index,
+			final CDOID target) {
+		Display.getDefault().asyncExec(new Runnable() {
+
+			public void run() {
+				// Session is dead, we should close.
+				MessageDialog
+						.openError(
+								Display.getDefault().getActiveShell(),
+								"Trying to load nong-existing object, this will happen when a referenced object is deleted and potential references"
+										+ "are not removed. This is considered as a corruption of the data in the persistence storage. Contact support for resolving this "
+										+ "issue ",
+								"Source Object: "
+										+ modelUtils.printModelObject(source)
+										+ "\n" + "Reference: "
+										+ feature.getName() + "\n" + "Index: "
+										+ index + "\n"
+										+ "ID of targeted object: " + target
+										+ "\n"
+
+						);
+			}
+
+		});
+
 	}
 
 }
