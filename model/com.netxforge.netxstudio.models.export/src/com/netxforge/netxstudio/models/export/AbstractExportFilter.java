@@ -67,23 +67,23 @@ public abstract class AbstractExportFilter implements IExportFilter {
 
 		// METRIC PACKAGE.
 		{
-			List<EClass> filteredClasses = Lists.newArrayList();
+			final List<EClass> filteredClasses = Lists.newArrayList();
 
 			filteredClasses.add(MetricsPackage.Literals.DATA_KIND); // SUPER
 			filteredClasses.add(MetricsPackage.Literals.MAPPING); // SUPER
 
 			filteredClasses.add(MetricsPackage.Literals.MAPPING_RECORD); // VOLATILE
 			filteredClasses.add(MetricsPackage.Literals.MAPPING_STATISTIC); // VOLATILE.
-
-			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULE); // AUTO-CREATED.
-			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULES); // AUTO-CREATED.
+			
+//			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULE); // AUTO-CREATED.
+//			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULES); // AUTO-CREATED.
 
 			filteredNonMasterClasses.put(MetricsPackage.eINSTANCE,
 					filteredClasses);
 		}
 		// LIBRARY PACKAGE.
 		{
-			List<EClass> filteredClasses = Lists.newArrayList();
+			final     List<EClass> filteredClasses = Lists.newArrayList();
 
 			filteredClasses.add(LibraryPackage.Literals.BASE_EXPRESSION_RESULT); // SUPER
 			filteredClasses.add(LibraryPackage.Literals.BASE_RESOURCE); // SUPER
@@ -211,6 +211,14 @@ public abstract class AbstractExportFilter implements IExportFilter {
 		} else
 			return Collections.emptyList();
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.netxforge.netxstudio.models.export.IExportFilter#shouldFilterObject(org.eclipse.emf.ecore.EClass)
+	 */
+	public boolean shouldFilterObject(EClass eClass){
+		return filteredNonMasterClasses.get(eClass.getEPackage()).contains(eClass);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -232,7 +240,7 @@ public abstract class AbstractExportFilter implements IExportFilter {
 	 * @see com.netxforge.netxstudio.models.export.IExportFilter#
 	 * alphabetOrderedClassesFor(org.eclipse.emf.ecore.EPackage)
 	 */
-	public List<EClassifier> alphabetOrderedClassesFor(EPackage... ePackages) {
+	public List<EClassifier> alphabetOrderedNonFilteredClassesFor(EPackage... ePackages) {
 		List<EClassifier> forAllPackages = Lists.newArrayList();
 		for (EPackage ePackage : ePackages) {
 			forAllPackages.addAll(nonFilteredClassesFor(ePackage));
@@ -247,7 +255,7 @@ public abstract class AbstractExportFilter implements IExportFilter {
 	 * @see com.netxforge.netxstudio.models.export.IExportFilter#
 	 * alphabetOrderedClassesFor(org.eclipse.emf.ecore.EPackage)
 	 */
-	public List<EClassifier> alphabetOrderedClassesFor(EPackage ePackage) {
+	public List<EClassifier> alphabetOrderedNonFilteredClassesFor(EPackage ePackage) {
 		List<EClassifier> sortedCopy = Ordering.from(new ClassNameComparator())
 				.sortedCopy(nonFilteredClassesFor(ePackage));
 		return sortedCopy;

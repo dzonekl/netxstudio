@@ -41,6 +41,8 @@ public class ExportActivator extends AbstractUIPlugin implements DebugOptionsLis
 	// The shared instance
 	private static ExportActivator plugin;
 	
+	public static final String TRACE_EXPORT_OPTION = "/trace.manual.export";
+	
 	/**
 	 * The constructor
 	 */

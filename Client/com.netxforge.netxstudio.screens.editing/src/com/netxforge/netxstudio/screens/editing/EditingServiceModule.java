@@ -39,6 +39,7 @@ public class EditingServiceModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		this.bind(IEditingService.class).to(CDOEditingService.class);
+		bind(IScreenFactory.class).to(ScreenFactory.class);
 		this.bind(IScreenFormService.class).to(ScreenFormService.class);
 		this.bind(ClipboardService.class).in(Scopes.SINGLETON);
 	}

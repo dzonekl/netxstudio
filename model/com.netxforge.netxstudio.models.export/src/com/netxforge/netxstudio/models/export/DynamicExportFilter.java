@@ -1,11 +1,26 @@
+/*******************************************************************************
+ * Copyright (c) 18 jan. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.models.export;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 
-import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.geo.GeoPackage;
@@ -19,11 +34,11 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * An export filter, which gets rid of all volatile data, all super classes,
  * which would never have data, and all future purpose model data.
  * 
- * @author Christophe
+ * @author Christophe Bouhier
  * 
  */
 public class DynamicExportFilter extends AbstractExportFilter {
-	
+
 	public DynamicExportFilter() {
 		configure();
 
@@ -32,13 +47,18 @@ public class DynamicExportFilter extends AbstractExportFilter {
 	public void configure() {
 		super.configure(); // should call to add, all non-relevant stuff to the
 							// filter.
-		{
-			List<EClass> filteredClasses = filteredNonMasterClasses.get(MetricsPackage.eINSTANCE); 
+		{ // METRICS_PACKAGE
+			final List<EClass> filteredClasses = filteredNonMasterClasses
+					.get(MetricsPackage.eINSTANCE);
 
 			// Filter all metric info.
 			filteredClasses.add(MetricsPackage.Literals.METRIC);
 			filteredClasses.add(MetricsPackage.Literals.METRIC_SOURCE);
-
+			
+			// Filter metric retention rules. 
+			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULE);
+			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULES);
+			
 			// Filter all mapping info.
 			filteredClasses.add(MetricsPackage.Literals.MAPPING_CSV);
 			filteredClasses.add(MetricsPackage.Literals.MAPPING_RDBMS);
@@ -50,8 +70,9 @@ public class DynamicExportFilter extends AbstractExportFilter {
 			filteredNonMasterClasses.put(MetricsPackage.eINSTANCE,
 					filteredClasses);
 		}
-		{
-			List<EClass> filteredClasses = Lists.newArrayList();
+		{ // LIBRARY_PACKAGE
+			final List<EClass> filteredClasses = filteredNonMasterClasses
+					.get(LibraryPackage.eINSTANCE);
 
 			// Filter all library info.
 			filteredClasses.add(LibraryPackage.Literals.EQUIPMENT);
@@ -66,14 +87,16 @@ public class DynamicExportFilter extends AbstractExportFilter {
 			filteredNonMasterClasses.put(LibraryPackage.eINSTANCE,
 					filteredClasses);
 		}
-		{
-			List<EClass> filteredClasses = Lists.newArrayList();
+		{ // OPERATORS_PACKAGE
+			final List<EClass> filteredClasses = filteredNonMasterClasses
+					.get(OperatorsPackage.eINSTANCE);
 
 			// Filter all design info.
 			filteredClasses
 					.add(OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP);
 			filteredClasses
 					.add(OperatorsPackage.Literals.FUNCTION_RELATIONSHIP);
+//			filteredClasses.add(OperatorsPackage.Literals.OPERATOR); NEED OPERATOR, FOR RESOURCE MONITORS. 
 			filteredClasses.add(OperatorsPackage.Literals.NETWORK);
 			filteredClasses.add(OperatorsPackage.Literals.NODE);
 			filteredClasses.add(OperatorsPackage.Literals.WAREHOUSE);
@@ -82,8 +105,9 @@ public class DynamicExportFilter extends AbstractExportFilter {
 					filteredClasses);
 		}
 
-		{
-			List<EClass> filteredClasses = Lists.newArrayList();
+		{ // SERVICES_PACKAGE
+			final List<EClass> filteredClasses = filteredNonMasterClasses
+					.get(ServicesPackage.eINSTANCE);
 
 			filteredClasses.add(ServicesPackage.Literals.DISTRIBUTION_ENTRY);
 			filteredClasses.add(ServicesPackage.Literals.SERVICE_DISTRIBUTION);
@@ -95,20 +119,26 @@ public class DynamicExportFilter extends AbstractExportFilter {
 					filteredClasses);
 		}
 
-		{
-			List<EClass> filteredClasses = Lists.newArrayList();
+		{ // GENERICS_PACKAGE
+
+			final List<EClass> filteredClasses = filteredNonMasterClasses
+					.get(GenericsPackage.eINSTANCE);
 
 			filteredClasses.add(GenericsPackage.Literals.PERSON);
 			filteredClasses.add(GenericsPackage.Literals.ROLE);
 			filteredClasses.add(GenericsPackage.Literals.LIFECYCLE); // STATIC
-
+			filteredClasses.add(GenericsPackage.Literals.EXPANSION_DURATION_SETTING);
+			filteredClasses.add(GenericsPackage.Literals.EXPANSION_DURATION_VALUE);
+			
 			filteredNonMasterClasses.put(GenericsPackage.eINSTANCE,
 					filteredClasses);
 		}
 
-		// SCHEDULING
+		// SCHEDULING_PACKAGE
 		{
-			List<EClass> filteredClasses = Lists.newArrayList();
+
+			final List<EClass> filteredClasses = filteredNonMasterClasses
+					.get(SchedulingPackage.eINSTANCE);
 
 			filteredClasses.add(SchedulingPackage.Literals.METRIC_SOURCE_JOB);
 			filteredClasses.add(SchedulingPackage.Literals.NODE_REPORTER_JOB);
@@ -126,33 +156,33 @@ public class DynamicExportFilter extends AbstractExportFilter {
 					filteredClasses);
 		}
 
-		// GEO
+		// GEO_PACKAGE
 		{
-			List<EClass> filteredClasses = Lists.newArrayList();
+
+			final List<EClass> filteredClasses = filteredNonMasterClasses
+					.get(GeoPackage.eINSTANCE);
 
 			filteredClasses.add(GeoPackage.Literals.COUNTRY);
 			filteredClasses.add(GeoPackage.Literals.ROOM);
 			filteredClasses.add(GeoPackage.Literals.SITE);
 
-			filteredNonMasterClasses.put(SchedulingPackage.eINSTANCE,
-					filteredClasses);
+			filteredNonMasterClasses.put(GeoPackage.eINSTANCE, filteredClasses);
 		}
 
-		// NETXSTUDIO PACKAGE.
+		// NETXSTUDIO_PACKAGE.
 		{
-			List<EClass> filteredClasses = Lists.newArrayList();
+			final List<EClass> filteredClasses = filteredNonMasterClasses
+					.get(NetxstudioPackage.eINSTANCE);
+
 			filteredClasses.add(NetxstudioPackage.Literals.SERVER_SETTINGS); // UN-USED.
-			filteredNonMasterClasses.put(SchedulingPackage.eINSTANCE,
+			filteredNonMasterClasses.put(NetxstudioPackage.eINSTANCE,
 					filteredClasses);
 		}
 
+		// GENERICS_FEATURES
 		{
-			List<EStructuralFeature> filteredFeatures = Lists.newArrayList();
-			filteredFeatures.add(GenericsPackage.Literals.BASE__DELETED);
-			filteredNonMasterFeatures.put(GenericsPackage.Literals.BASE,
-					filteredFeatures);
+			// Add unwanted features here. 
+			
 		}
-
 	}
-
 }
