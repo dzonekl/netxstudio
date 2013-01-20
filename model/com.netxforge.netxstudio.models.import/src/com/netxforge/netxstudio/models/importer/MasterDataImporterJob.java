@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -52,7 +53,18 @@ public class MasterDataImporterJob implements IJobChangeListener {
 	
 	
 	private List<EObject> results;
+	
+	
 	private boolean indexed;
+	
+	
+	/** The index producted for this import */
+	private Map<String, EObject> runIndex;
+	
+	
+	public Map<String, EObject> getRunIndex() {
+		return runIndex;
+	}
 
 	public List<EObject> getResults() {
 		return results;
@@ -99,18 +111,24 @@ public class MasterDataImporterJob implements IJobChangeListener {
 		try {
 			URI uri = URI.createFileURI(res.toString());
 			is = new FileInputStream(uri.toFileString());
-			final MasterDataImporter masterDataImporter = new MasterDataImporter();
+			final MasterDataImporter_xssf masterDataImporter = new MasterDataImporter_xssf();
 			masterDataImporter.setDataProvider(dataProvider);
 			masterDataImporter
 					.setEPackagesToImport(this.ePackages);
 			masterDataImporter.setIndexSupport(indexed);
 			masterDataImporter.process(is);
 			setResults(masterDataImporter.getResolvedObjects());
+			setRunIndex(masterDataImporter.getRunIndex());
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void setRunIndex(Map<String, EObject> runIndex) {
+		this.runIndex = runIndex;
+		
 	}
 
 	public void aboutToRun(IJobChangeEvent event) {

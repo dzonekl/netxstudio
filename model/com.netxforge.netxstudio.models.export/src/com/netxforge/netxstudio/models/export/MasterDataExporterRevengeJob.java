@@ -96,7 +96,7 @@ public class MasterDataExporterRevengeJob implements IJobChangeListener {
 		try {
 			URI uri = URI.createFileURI(res.toString());
 			FileOutputStream fileOut = new FileOutputStream(uri.toFileString());
-			final MasterDataExporterRevenge masterDataExporter = new MasterDataExporterRevenge();
+			final MasterDataExporterRevenge_xssf masterDataExporter = new MasterDataExporterRevenge_xssf();
 			masterDataExporter.setDataProvider(dataProvider);
 			masterDataExporter.setPackagesToExport(ePackages);
 			masterDataExporter.setExportFilter(exportFilter);

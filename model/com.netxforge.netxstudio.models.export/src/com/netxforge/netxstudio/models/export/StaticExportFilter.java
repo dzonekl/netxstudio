@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 18 jan. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.models.export;
 
 import java.util.List;
@@ -9,14 +26,13 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * An export filter, which gets rid of all volatile data, all super classes,
  * which would never have data, and all future purpose model data.
  * 
- * @author Christophe
+ * @author Christophe Bouhier
  * 
  */
 public class StaticExportFilter extends AbstractExportFilter {
@@ -59,16 +75,10 @@ public class StaticExportFilter extends AbstractExportFilter {
 
 		{
 			List<EClass> filteredClasses = filteredNonMasterClasses.get(GenericsPackage.eINSTANCE);;
-			// filter, as used by MappingStats (Volatile) and ResourceMonitor (Dynamic). 
-			filteredClasses.add(GenericsPackage.Literals.DATE_TIME_RANGE);
+			// filter, as used by MappingStats (Volatile) and ResourceMonitor (Dynamic).
 			filteredClasses.add(GenericsPackage.Literals.VALUE);
+			filteredClasses.add(GenericsPackage.Literals.DATE_TIME_RANGE);
 			filteredNonMasterClasses.put(GenericsPackage.eINSTANCE,
-					filteredClasses);
-		}
-
-		{
-			List<EClass> filteredClasses = filteredNonMasterClasses.get(SchedulingPackage.eINSTANCE);;
-			filteredNonMasterClasses.put(SchedulingPackage.eINSTANCE,
 					filteredClasses);
 		}
 

@@ -6,6 +6,15 @@ com.netxforge.netxstudio.data/debug=false
 com.netxforge.nextstudio.common/debug=false
 com.netxforge.netxstudio.screens/debug=false
 com.netxforge.netxstudio.screens.editing/debug=false
+com.netxforge.netxstudio.models.export/debug=true
+com.netxforge.netxstudio.models.import/debug=true
+com.netxforge.netxstudio.models.import.ui/debug=true
+
+# Model Export / Import options. 
+com.netxforge.netxstudio.models.export/trace.manual.export=true
+com.netxforge.netxstudio.models.import/trace.manual.import=true
+com.netxforge.netxstudio.models.import/trace.manual.import.ui=true
+
 
 # NetXScript facilities
 com.netxforge.netxscript/trace.netxscript=true

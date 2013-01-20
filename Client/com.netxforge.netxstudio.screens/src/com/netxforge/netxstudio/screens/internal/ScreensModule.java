@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 18 jan. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.internal;
 
 import com.google.inject.AbstractModule;
@@ -5,8 +22,6 @@ import com.google.inject.name.Names;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.ch9.NetXScriptInjectorProxy;
-import com.netxforge.netxstudio.screens.editing.IScreenFactory;
-import com.netxforge.netxstudio.screens.editing.ScreenFactory;
 import com.netxforge.netxstudio.screens.f1.support.PeriodSelectionPage;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionPage;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
@@ -17,6 +32,11 @@ import com.netxforge.netxstudio.screens.f3.SmartValueComponent;
 import com.netxforge.netxstudio.screens.f3.ValueComponentII;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 
+/**
+ * 
+ * @author Christophe Bouhier
+ *
+ */
 public class ScreensModule extends AbstractModule {
 
 	@Override
@@ -41,9 +61,6 @@ public class ScreensModule extends AbstractModule {
 
 		this.bind(ExpressionSupport.class);
 
-		// Bind Screen Factory. 
-		bind(IScreenFactory.class).to(ScreenFactory.class);
-		
 		// Bind Components
 		this.bind(PeriodComponent.class);
 		this.bind(ValueComponentII.class);

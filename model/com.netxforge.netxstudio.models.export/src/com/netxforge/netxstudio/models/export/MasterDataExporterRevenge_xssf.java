@@ -23,14 +23,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -46,39 +45,53 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.models.export.internal.ExportActivator;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
-public class MasterDataExporterRevenge {
+/**
+ * A model exporter to Excel format.
+ * 
+ * @author Christophe Bouhier
+ */
+public class MasterDataExporterRevenge_xssf {
 
 	private IDataProvider dataProvider;
 	private EPackage[] ePackages;
 
 	private Map<EClass, List<EObject>> cache = Maps.newHashMap();
 
-	HSSFWorkbook workBook;
+	/** Our Excel Workbook **/
+	private final XSSFWorkbook workBook = new XSSFWorkbook();
+
+	/**
+	 * The export filer which is consulted for exporting classes and features
+	 * from the packages
+	 */
 	private IExportFilter exportFilter;
 
 	public void process(FileOutputStream fileOut) {
 
 		try {
 			if (ExportActivator.DEBUG) {
-				ExportActivator.TRACE.trace(null, "Starting export");
+				ExportActivator.TRACE.trace(
+						ExportActivator.TRACE_EXPORT_OPTION, "Starting export");
+				ExportActivator.TRACE.trace(
+						ExportActivator.TRACE_EXPORT_OPTION,
+						"Creating XLS Workbook model");
+
 			}
-			if (ExportActivator.DEBUG) {
-				ExportActivator.TRACE
-						.trace(null, "Creating XLS Workbook model");
-			}
-			workBook = new HSSFWorkbook();
 			processPackages(ePackages);
+
 			if (ExportActivator.DEBUG) {
-				ExportActivator.TRACE.trace(null, "Writing file");
+				ExportActivator.TRACE.trace(
+						ExportActivator.TRACE_EXPORT_OPTION, "Writing file");
 			}
 			workBook.write(fileOut);
 		} catch (final Exception e) {
 			if (ExportActivator.DEBUG) {
-				ExportActivator.TRACE.traceDumpStack(null);
+				ExportActivator.TRACE.trace(
+						ExportActivator.TRACE_EXPORT_OPTION,
+						"Export exception", e);
 			}
 			throw new IllegalStateException(e);
 		}
@@ -91,7 +104,7 @@ public class MasterDataExporterRevenge {
 			return;
 		}
 
-		List<EClassifier> alphabetOrderedClassesFor = exportFilter
+		final List<EClassifier> alphabetOrderedClassesFor = exportFilter
 				.alphabetOrderedNonFilteredClassesFor(ePackages);
 
 		// create a cache.
@@ -113,8 +126,8 @@ public class MasterDataExporterRevenge {
 	private void buildCache(List<EClassifier> alphabetOrderedClassesFor) {
 
 		if (ExportActivator.DEBUG) {
-			ExportActivator.TRACE
-					.trace(null, "Building cache for classifiers:");
+			ExportActivator.TRACE.trace(ExportActivator.TRACE_EXPORT_OPTION,
+					"Building cache for classifiers:");
 		}
 
 		for (EClassifier eClassifier : alphabetOrderedClassesFor) {
@@ -122,8 +135,9 @@ public class MasterDataExporterRevenge {
 			if (eClassifier instanceof EClass) {
 				EClass eClass = (EClass) eClassifier;
 				if (ExportActivator.DEBUG) {
-					ExportActivator.TRACE.trace(null,
-							"-- EClass: " + eClass.getName());
+					ExportActivator.TRACE.trace(
+							ExportActivator.TRACE_EXPORT_OPTION, "-- EClass: "
+									+ eClass.getName());
 				}
 				// Handle - Non-direct resources in the export properly.
 				if (eClassifier == LibraryPackage.Literals.NET_XRESOURCE) {
@@ -166,32 +180,40 @@ public class MasterDataExporterRevenge {
 			}
 		}
 		if (ExportActivator.DEBUG) {
-			ExportActivator.TRACE.trace(null,
-					"Done, building cache for classifiers:");
+			ExportActivator.TRACE.trace(ExportActivator.TRACE_EXPORT_OPTION,
+					"Done, building cache for classifiers.");
 		}
 	}
 
+	/**
+	 * Cache objects in this resource. objects with a class in the set export filter are pruned.
+	 * 
+	 * 
+	 * @param resource
+	 */
 	private void cacheForResource(Resource resource) {
 		if (resource != null && resource.getContents().size() > 0) {
 			TreeIterator<EObject> allContents = resource.getAllContents();
 			// List<EObject> closure = ImmutableList.copyOf(allContents);
 			while (allContents.hasNext()) {
 
-				EObject closureObject = allContents.next();
-				EClass objectClass = closureObject.eClass();
+				final EObject closureObject = allContents.next();
+				final EClass objectClass = closureObject.eClass();
 
 				// Make sure we don't cache closure objects which are dynamic.
-				if (!allowedNestedClass(objectClass)) {
-					// prune all subobjects.
+				if (exportFilter.shouldFilterObject(objectClass)) {
+					// prune all sub objects.
 					allContents.prune();
 					if (ExportActivator.DEBUG) {
-						ExportActivator.TRACE.trace(null,
+						ExportActivator.TRACE.trace(
+								ExportActivator.TRACE_EXPORT_OPTION,
 								"-- skipping & pruning nested object EClass: "
 										+ objectClass.getName());
 					}
 					continue;
 				}
-				List<EObject> currentForClass = null;
+
+				final List<EObject> currentForClass;
 				if (cache.containsKey(objectClass)) {
 					currentForClass = Lists
 							.newArrayList(cache.get(objectClass));
@@ -207,29 +229,22 @@ public class MasterDataExporterRevenge {
 					cache.put(objectClass, currentForClass);
 				}
 
+				if (ExportActivator.DEBUG) {
+					ExportActivator.TRACE.trace(
+							ExportActivator.TRACE_EXPORT_OPTION,
+							"-- Added cache entry for type: "
+									+ objectClass.getName() + " , entry: "
+									+ closureObject);
+				}
+
 			}
 		}
 	}
 
-	private boolean allowedNestedClass(EClass objectClass) {
-		if (objectClass == MetricsPackage.Literals.MAPPING_STATISTIC) {
-			return false;
-		}
-		return true;
-	}
-
-	// private void processPackage(EPackage ePackage) {
-	// // Consider ordering the list of EClassifiers
-	// List<EClassifier> filteredClassesFor =
-	// ExportFilter.nonFilteredClassesFor(ePackage);
-	// for (EClassifier eClassifier : filteredClassesFor) {
-	// processClassifier(eClassifier);
-	// }
-	// }
-
 	private void processAttributeClassifier(EClassifier eClassifier) {
 		if (ExportActivator.DEBUG) {
-			ExportActivator.TRACE.trace(null, "Start processing attributes");
+			ExportActivator.TRACE.trace(ExportActivator.TRACE_EXPORT_OPTION,
+					"Start processing attributes");
 		}
 
 		if (eClassifier instanceof EClass) {
@@ -239,7 +254,7 @@ public class MasterDataExporterRevenge {
 
 	private void processMultiRefClassifier(EClassifier eClassifier) {
 		if (ExportActivator.DEBUG) {
-			ExportActivator.TRACE.trace(null,
+			ExportActivator.TRACE.trace(ExportActivator.TRACE_EXPORT_OPTION,
 					"Start processing multi references for classifier:"
 							+ eClassifier.getName());
 		}
@@ -251,10 +266,10 @@ public class MasterDataExporterRevenge {
 	private void processAttributesClass(EClass eClass) {
 
 		if (ExportActivator.DEBUG) {
-			ExportActivator.TRACE.trace(null,
+			ExportActivator.TRACE.trace(ExportActivator.TRACE_EXPORT_OPTION,
 					"Outputing attributes sheet for: " + eClass.getName());
 		}
-		Sheet sheet = _generateAttributeWorksheet(eClass);
+		final Sheet sheet = _generateAttributeWorksheet(eClass);
 
 		// output the ID column.
 		_generateID(sheet);
@@ -262,8 +277,9 @@ public class MasterDataExporterRevenge {
 		// output all attributes columns.
 		for (EAttribute eAttribute : filterAttributes(eClass)) {
 			if (ExportActivator.DEBUG) {
-				ExportActivator.TRACE.trace(null, "-- EAttribute: "
-						+ eAttribute.getName());
+				ExportActivator.TRACE.trace(
+						ExportActivator.TRACE_EXPORT_OPTION, "-- EAttribute: "
+								+ eAttribute.getName());
 			}
 			processAttribute(eAttribute, sheet);
 		}
@@ -272,15 +288,17 @@ public class MasterDataExporterRevenge {
 		for (EReference eReference : eClass.getEAllReferences()) {
 			if (!eReference.isMany()) {
 				if (ExportActivator.DEBUG) {
-					ExportActivator.TRACE.trace(null, "-- EReference: "
-							+ eReference.getName());
+					ExportActivator.TRACE.trace(
+							ExportActivator.TRACE_EXPORT_OPTION,
+							"-- EReference: " + eReference.getName());
 				}
 				processReference(eReference, sheet);
 			}
 		}
 		// Process the actual values here, get the EOBjects from the cache
 		// first.
-		List<EObject> data = contextObjectsForClass(eClass);
+		final List<EObject> data = contextObjectsForClass(eClass);
+
 		processAttributeData(data, sheet);
 
 	}
@@ -326,7 +344,8 @@ public class MasterDataExporterRevenge {
 	private void processAttributeData(List<EObject> data, Sheet sheet) {
 
 		if (ExportActivator.DEBUG) {
-			ExportActivator.TRACE.trace(null, "Exporting data: ");
+			ExportActivator.TRACE.trace(ExportActivator.TRACE_EXPORT_OPTION,
+					"Exporting data: ");
 		}
 
 		// We assume the attribute order for each data object.
@@ -349,7 +368,7 @@ public class MasterDataExporterRevenge {
 					EList<?> list = (EList<?>) value;
 					if (!list.isEmpty()) {
 						// gamble we are of type string.
-						StringBuffer sb = new StringBuffer();
+						final StringBuffer sb = new StringBuffer();
 						for (Object o : list) {
 							if (o instanceof String) {
 								sb.append((String) o);
@@ -362,8 +381,9 @@ public class MasterDataExporterRevenge {
 				}
 
 				if (ExportActivator.DEBUG) {
-					ExportActivator.TRACE.trace(null, "-- EObject (value):"
-							+ value);
+					ExportActivator.TRACE.trace(
+							ExportActivator.TRACE_EXPORT_OPTION,
+							"-- EObject (value):" + value);
 				}
 				_generateDataCell(value, objectCount, attributeCount, sheet);
 				attributeCount++;
@@ -372,25 +392,14 @@ public class MasterDataExporterRevenge {
 			for (EReference eReference : dataObject.eClass()
 					.getEAllReferences()) {
 				if (!eReference.isMany()) {
-					Object refObject = dataObject.eGet(eReference);
+					
+					final Object refObject = dataObject.eGet(eReference);
+//					if()
+					
 					String identifier = "";
 					if (refObject != null) {
 						identifier = this
 								.contextObjectsIdentifier((EObject) refObject);
-
-						// FIXME Don not use an identifier which is calculated
-						// from an attribute.
-						// EAttribute idAttribute =
-						// contextObjectsIdentifier(((EObject) refObject)
-						// .eClass());
-						// // We always expect our id feature to be a String.
-						// if (idAttribute != null) {
-						// value = (String) ((EObject) refObject)
-						// .eGet(idAttribute);
-						// if (value == null || value.isEmpty()) {
-						// value = "?";
-						// }
-						// }
 
 					}
 					_generateDataCell(identifier, objectCount, attributeCount,
@@ -407,60 +416,23 @@ public class MasterDataExporterRevenge {
 		int objectCount = 2;
 		for (EObject dataObject : data) {
 			if (ExportActivator.DEBUG) {
-				ExportActivator.TRACE.trace(null, "-- EObject:" + dataObject);
+				ExportActivator.TRACE.trace(
+						ExportActivator.TRACE_EXPORT_OPTION, "-- EObject:"
+								+ dataObject);
 			}
 			int referenceCount = 1;
 			for (EReference eReference : this.filterMultiRefs(dataObject
 					.eClass())) {
-				Object collection = dataObject.eGet(eReference);
+				final Object collection = dataObject.eGet(eReference);
 				int rowCount = objectCount;
 
 				if (collection instanceof List<?>) {
 					for (Object refObject : (List<?>) collection) {
-
-						// /////////////////
-						// 1. Write the identifier Note: This could be a
-						// substitute.
-						// /////////////////
-
-						// If we return an attribute from another EClass (As we
-						// might not have
-						// an identifier, we should also switch the object.
-						// EAttribute idDataObjectAttribute =
-						// contextObjectsIdentifier(dataObject
-						// .eClass());
-						// // We always expect our id feature to be a String.
-						// String dataObjectValue = "";
-						// if (idDataObjectAttribute != null) {
-						// dataObjectValue = (String) dataObject
-						// .eGet(idDataObjectAttribute);
-						//
-						// if (dataObjectValue == null
-						// || dataObjectValue.isEmpty()) {
-						// dataObjectValue = "?";
-						// }
-						// }
-
 						String identifier = this
 								.contextObjectsIdentifier(dataObject);
 
 						_generateDataCell(identifier, rowCount, 0, sheet);
 
-						// ///////////////////////
-						// 2. write the reference.
-						// ///////////////////////
-						// EAttribute idAttribute =
-						// contextObjectsIdentifier(((EObject) refObject)
-						// .eClass());
-						// // We always expect our id feature to be a String.
-						// String value = "";
-						// if (idAttribute != null) {
-						// value = (String) ((EObject) refObject)
-						// .eGet(idAttribute);
-						// if (value == null || value.isEmpty()) {
-						// value = "?";
-						// }
-						// }
 						String refIdentifier = this
 								.contextObjectsIdentifier((EObject) refObject);
 						_generateDataCell(refIdentifier, rowCount,
@@ -484,8 +456,7 @@ public class MasterDataExporterRevenge {
 	}
 
 	private List<EObject> contextObjectsForClass(EClass eClass) {
-
-		List<EObject> allObjectsForClass = fromCache(eClass);
+		final List<EObject> allObjectsForClass = fromCache(eClass);
 		return allObjectsForClass;
 	}
 
@@ -504,37 +475,6 @@ public class MasterDataExporterRevenge {
 		return null;
 	}
 
-	// private EAttribute contextObjectsIdentifier(EClass eClass) {
-	//
-	// if (eClass == LibraryPackage.Literals.EQUIPMENT) {
-	// return LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE;
-	// }
-	// if (eClass == LibraryPackage.Literals.FUNCTION) {
-	// return LibraryPackage.Literals.COMPONENT__NAME;
-	// }
-	//
-	// if (eClass == LibraryPackage.Literals.NODE_TYPE) {
-	// return LibraryPackage.Literals.NODE_TYPE__NAME;
-	// }
-	// if (eClass == LibraryPackage.Literals.TOLERANCE) {
-	// return LibraryPackage.Literals.TOLERANCE__NAME;
-	// }
-	// if (eClass == LibraryPackage.Literals.EXPRESSION) {
-	// return LibraryPackage.Literals.EXPRESSION__NAME;
-	// }
-	//
-	// if (eClass == MetricsPackage.Literals.METRIC_SOURCE) {
-	// return MetricsPackage.Literals.METRIC_SOURCE__NAME;
-	// }
-	//
-	// // Mapping has no identifier, export the metric_source name.
-	// // if (eClass == MetricsPackage.Literals.MAPPING_XLS) {
-	// // return MetricsPackage.Literals.METRIC_SOURCE__NAME;
-	// // }
-	//
-	// return null;
-	// }
-
 	private void _generateID(Sheet sheet) {
 		// Generate name.
 		{
@@ -545,9 +485,9 @@ public class MasterDataExporterRevenge {
 			attributeStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
 
 			// Style, font
-			HSSFFont attributeFont = workBook.createFont();
+			Font attributeFont = workBook.createFont();
 			attributeFont.setFontName("Verdana");
-			attributeFont.setColor(HSSFColor.BLUE.index);
+			attributeFont.setColor(IndexedColors.BLUE.getIndex());
 			attributeStyle.setFont(attributeFont);
 
 			// Style, border.
@@ -604,9 +544,9 @@ public class MasterDataExporterRevenge {
 			attributeStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
 
 			// Style, font
-			HSSFFont attributeFont = workBook.createFont();
+			Font attributeFont = workBook.createFont();
 			attributeFont.setFontName("Verdana");
-			attributeFont.setColor(HSSFColor.BLUE.index);
+			attributeFont.setColor(IndexedColors.BLUE.getIndex());
 			attributeStyle.setFont(attributeFont);
 
 			// Style, border.
@@ -655,9 +595,9 @@ public class MasterDataExporterRevenge {
 			referenceStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
 
 			// Style, font
-			HSSFFont referenceFont = workBook.createFont();
+			Font referenceFont = workBook.createFont();
 			referenceFont.setFontName("Verdana");
-			referenceFont.setColor(HSSFColor.DARK_RED.index);
+			referenceFont.setColor(IndexedColors.DARK_RED.getIndex());
 			referenceStyle.setFont(referenceFont);
 
 			// Style, border.
@@ -705,9 +645,9 @@ public class MasterDataExporterRevenge {
 			referenceStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
 
 			// Style, font
-			HSSFFont referenceFont = workBook.createFont();
+			Font referenceFont = workBook.createFont();
 			referenceFont.setFontName("Verdana");
-			referenceFont.setColor(HSSFColor.DARK_RED.index);
+			referenceFont.setColor(IndexedColors.DARK_RED.getIndex());
 			referenceStyle.setFont(referenceFont);
 
 			// Style, border.
@@ -755,9 +695,9 @@ public class MasterDataExporterRevenge {
 			referenceStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
 
 			// Style, font
-			HSSFFont referenceFont = workBook.createFont();
+			Font referenceFont = workBook.createFont();
 			referenceFont.setFontName("Verdana");
-			referenceFont.setColor(HSSFColor.DARK_RED.index);
+			referenceFont.setColor(IndexedColors.DARK_RED.getIndex());
 			referenceStyle.setFont(referenceFont);
 
 			// Style, border.
