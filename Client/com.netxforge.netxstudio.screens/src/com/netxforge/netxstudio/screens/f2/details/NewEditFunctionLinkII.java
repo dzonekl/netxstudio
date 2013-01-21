@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 20 jan. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.f2.details;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -47,6 +64,11 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
+/**
+ * 
+ * @author Christophe Bouhier
+ *
+ */
 public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 		IDataScreenInjection {
 
@@ -548,9 +570,9 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 		txtFunction1.setLayoutData(gd_txtFunction1);
 
 		if (!readonly) {
-			ImageHyperlink hypLnkFunction1 = toolkit.createImageHyperlink(
+			ImageHyperlink hypLnkRemove = toolkit.createImageHyperlink(
 					composite_1, SWT.NONE);
-			hypLnkFunction1.addHyperlinkListener(new IHyperlinkListener() {
+			hypLnkRemove.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
 					// Set the ref to null.
 					Command set = new SetCommand(
@@ -572,11 +594,11 @@ public class NewEditFunctionLinkII extends AbstractDetailsScreen implements
 			GridData gd_HypLnkFunction1 = new GridData(SWT.LEFT, SWT.CENTER,
 					false, false, 1, 1);
 			gd_HypLnkFunction1.widthHint = 18;
-			hypLnkFunction1.setLayoutData(gd_HypLnkFunction1);
-			hypLnkFunction1.setImage(ResourceManager.getPluginImage(
+			hypLnkRemove.setLayoutData(gd_HypLnkFunction1);
+			hypLnkRemove.setImage(ResourceManager.getPluginImage(
 					"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-			toolkit.paintBordersFor(hypLnkFunction1);
-			hypLnkFunction1.setText("");
+			toolkit.paintBordersFor(hypLnkRemove);
+			hypLnkRemove.setText("");
 
 			Button btnSelectFunction1 = toolkit.createButton(composite_1,
 					"Select...", SWT.NONE);
