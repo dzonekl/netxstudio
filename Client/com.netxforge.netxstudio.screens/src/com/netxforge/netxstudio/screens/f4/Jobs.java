@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 21 jan. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
@@ -65,11 +82,14 @@ import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
+/**
+ * 
+ * @author Christophe Bouhier
+ */
 public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
 	private static final String MEM_KEY_JOBS_SELECTION_TABLE = "MEM_KEY_JOBS_SELECTION_TABLE";
@@ -193,7 +213,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
 		jobsTableViewer = new TableViewer(frmScheduledJobs.getBody(),
 				SWT.BORDER | SWT.FULL_SELECTION);
-		jobsTableViewer.setComparer(new CDOElementComparer());
+//		jobsTableViewer.setComparer(new CDOElementComparer());
 		jobsTableViewer.addFilter(new SearchFilter(editingService));
 
 		jobsTable = jobsTableViewer.getTable();
@@ -397,7 +417,15 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
 		IEMFListProperty jobsProperties = EMFEditProperties
 				.resource(editingService.getEditingDomain());
-
+//		if(jobsResource instanceof CDOResource){
+//			for(EObject o : jobsResource.getContents()){
+//				if(o instanceof CDOObject){
+//					if(((CDOObject) o).cdoID().isDangling()){
+//						
+//					}
+//				}
+//			}
+//		}
 		IObservableList jobsList = jobsProperties.observe(jobsResource);
 		// obm.addObservable(jobsList);
 
