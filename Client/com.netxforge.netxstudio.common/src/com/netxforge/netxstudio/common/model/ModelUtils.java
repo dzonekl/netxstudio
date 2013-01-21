@@ -151,6 +151,9 @@ public class ModelUtils {
 	public static final int SECONDS_IN_AN_HOUR = SECONDS_IN_A_MINUTE * 60;
 	public static final int SECONDS_IN_A_DAY = SECONDS_IN_AN_HOUR * 24;
 	public static final int SECONDS_IN_A_WEEK = SECONDS_IN_A_DAY * 7;
+	
+	/** Default value formatter */
+	public static final String DEFAULT_VALUE_FORMAT_PATTERN = "###,###,###,##0.00";
 
 	/**
 	 * Lifecycle state Planned.
@@ -169,7 +172,7 @@ public class ModelUtils {
 
 	public static final int MINUTES_IN_AN_HOUR = 60;
 	public static final int MINUTES_IN_A_DAY = 60 * 24;
-	public static final int MINUTES_IN_A_WEEK = MINUTES_IN_A_DAY * 4;
+	public static final int MINUTES_IN_A_WEEK = MINUTES_IN_A_DAY * 7;
 
 	// Note! For months, we better use a calendar function.
 	public static final int MINUTES_IN_A_MONTH = MINUTES_IN_A_DAY * 30;
@@ -1158,6 +1161,8 @@ public class ModelUtils {
 
 	@Inject
 	private DatatypeFactory dataTypeFactory;
+	
+
 
 	/**
 	 * Compute a resource path on the basis of an instance. Components generate

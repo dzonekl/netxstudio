@@ -1,5 +1,9 @@
 NetXStudio Client Change log.
 
+1.1.1 
+http://work.netxforge.com/issues/344
+
+
 1.1.0
 TODO....
 

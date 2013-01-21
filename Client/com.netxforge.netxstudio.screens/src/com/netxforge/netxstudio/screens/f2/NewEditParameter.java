@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 21 jan. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
@@ -17,7 +34,7 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.nebula.widgets.formattedtext.FormattedText;
-import org.eclipse.nebula.widgets.formattedtext.NumberFormatter;
+import org.eclipse.nebula.widgets.formattedtext.LongFormatter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -33,17 +50,23 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
+
+/**
+ * Christophe Bouhier
+ * @author Christophe
+ */
 public class NewEditParameter extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-
+	
 	private Form frmParameter;
 	private Resource owner;
 	private Parameter parameter;
@@ -127,21 +150,21 @@ public class NewEditParameter extends AbstractScreen implements
 		gd_txtExpressionName.widthHint = 150;
 		txtExpressionName.setLayoutData(gd_txtExpressionName);
 		
-		Label lblValue = toolkit.createLabel(composite_1, "Value:", SWT.NONE);
+		final Label lblValue = toolkit.createLabel(composite_1, "Value:", SWT.NONE);
 		lblValue.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblValue.setAlignment(SWT.RIGHT);
 		
 		FormattedText formattedText = new FormattedText(composite_1, SWT.BORDER | SWT.RIGHT | widgetStyle);
-		NumberFormatter numberFormatter = new NumberFormatter("###,###,##0.00");
+		LongFormatter numberFormatter = new LongFormatter(ModelUtils.DEFAULT_VALUE_FORMAT_PATTERN);
 		numberFormatter.setDecimalSeparatorAlwaysShown(true);
 		formattedText.setFormatter(numberFormatter);
 		txtValue = formattedText.getControl();
 		
 		GridData gd_txtValue = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_txtValue.widthHint = 100;
+		gd_txtValue.widthHint = 150;
 		txtValue.setLayoutData(gd_txtValue);
 		
-		Label lblDescription = toolkit.createLabel(composite_1, "Description:",
+		final Label lblDescription = toolkit.createLabel(composite_1, "Description:",
 				SWT.NONE);
 		lblDescription.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
@@ -191,7 +214,11 @@ public class NewEditParameter extends AbstractScreen implements
 			}
 
 			public Object convert(Object fromObject) {
-				return ((Double) fromObject).toString();
+				
+				// Use a Decimal formatter, so we don't display Exponent, 
+				// which is default for a Double.toString()
+				DecimalFormat decimalFormat = new DecimalFormat(ModelUtils.DEFAULT_VALUE_FORMAT_PATTERN);
+				return decimalFormat.format(fromObject);
 			}
 		});
 
@@ -289,7 +316,6 @@ public class NewEditParameter extends AbstractScreen implements
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-			System.out.println(parameter.cdoID() + "" + parameter.cdoState());
 
 		}
 		// After our edit, we shall be dirty
