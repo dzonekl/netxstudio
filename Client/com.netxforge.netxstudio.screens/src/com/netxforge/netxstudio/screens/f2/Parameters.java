@@ -18,11 +18,13 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -53,6 +55,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -61,6 +64,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Parameter;
@@ -211,8 +215,9 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 		TableViewerColumn tableViewerColumnValue = new TableViewerColumn(
 				tableViewer, SWT.NONE);
 		TableColumn tblclmnValue = tableViewerColumnValue.getColumn();
-		tblclmnValue.setWidth(40);
+		tblclmnValue.setWidth(100);
 		tblclmnValue.setText("Value");
+		tblclmnValue.setAlignment(SWT.RIGHT);
 		tableViewer.addFilter(new SearchFilter(editingService));
 	}
 
@@ -280,7 +285,7 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 						LibraryPackage.Literals.PARAMETER__DESCRIPTION,
 						LibraryPackage.Literals.PARAMETER__VALUE, });
 		tableViewer
-				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+				.setLabelProvider(new ValueLabelProvider(observeMaps));
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
 		IObservableList parametersObservableList = l
@@ -315,6 +320,8 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();
+	private static final String MEM_KEY_PARAMETERS_SELECTION_TABLE = "MEM_KEY_PARAMETERS_SELECTION_TABLE";
+	private static final String MEM_KEY_PARAMETERS_COLUMNS_TABLE = "MEM_KEY_PARAMETERS_COLUMNS_TABLE";
 
 	@Override
 	public IAction[] getActions() {
@@ -330,6 +337,55 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 	@Override
 	public String getScreenName() {
 		return "Parameters";
+	}
+
+	@Override
+	public void saveState(IMemento memento) {
+		mementoUtils.rememberStructuredViewerSelection(memento, tableViewer,
+				MEM_KEY_PARAMETERS_SELECTION_TABLE);
+		mementoUtils.rememberStructuredViewerColumns(memento, tableViewer,
+				MEM_KEY_PARAMETERS_COLUMNS_TABLE);
+
+	}
+
+	@Override
+	public void restoreState(IMemento memento) {
+		if (memento != null && parametersResource != null) {
+			mementoUtils.retrieveStructuredViewerColumns(memento, tableViewer,
+					MEM_KEY_PARAMETERS_COLUMNS_TABLE);
+			mementoUtils.retrieveStructuredViewerSelection(memento,
+					tableViewer, MEM_KEY_PARAMETERS_SELECTION_TABLE,
+					((CDOResource) parametersResource).cdoView());
+
+		}
+	}
+
+	/**
+	 * Override the presentation of some features/Columns.
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	class ValueLabelProvider extends ObservableMapLabelProvider {
+
+		public ValueLabelProvider(IObservableMap attributeMap) {
+			super(attributeMap);
+		}
+
+		public ValueLabelProvider(IObservableMap[] attributeMaps) {
+			super(attributeMaps);
+		}
+
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+			if (element instanceof Parameter && columnIndex == 3) {
+				return new DecimalFormat(
+						ModelUtils.DEFAULT_VALUE_FORMAT_PATTERN)
+						.format(((Parameter) element).getValue());
+			}
+
+			return super.getColumnText(element, columnIndex);
+		}
+
 	}
 
 }
