@@ -95,7 +95,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
-import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -107,7 +106,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IMemento;
@@ -2833,31 +2831,6 @@ public class SmartResources extends AbstractScreen implements
 
 		operatorResource = (CDOResource) editingService
 				.getData(OperatorsPackage.Literals.OPERATOR);
-	}
-
-	/*
-	 * Add a toolbar to the section. (Consider make this generic, nowdays we add
-	 * actions below the section, could win some real-estate here).
-	 */
-	private ToolBarManager createSectionToolbar(Section section) {
-
-		ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
-		ToolBar toolbar = toolBarManager.createControl(section);
-		final Cursor handCursor = new Cursor(Display.getCurrent(),
-				SWT.CURSOR_HAND);
-		toolbar.setCursor(handCursor);
-		// Cursor needs to be explicitly disposed
-		toolbar.addDisposeListener(new DisposeListener() {
-			public void widgetDisposed(DisposeEvent e) {
-				if ((handCursor != null) && (handCursor.isDisposed() == false)) {
-					handCursor.dispose();
-				}
-			}
-		});
-
-		toolBarManager.update(true);
-		section.setTextClient(toolbar);
-		return toolBarManager;
 	}
 
 	private List<NetXResource> updateDisconnectedResources() {

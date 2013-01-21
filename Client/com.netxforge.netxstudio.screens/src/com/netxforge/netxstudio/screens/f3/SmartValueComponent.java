@@ -194,7 +194,7 @@ public class SmartValueComponent {
 						if (o1 instanceof Object[] && o1 instanceof Object[]) {
 							Date d1 = (Date) ((Object[]) o1)[0];
 							Date d2 = (Date) ((Object[]) o2)[0];
-							// Compare Ascending. 
+							// Compare Ascending.
 							return modelUtils.dateComparator().compare(d2, d1);
 						}
 						return 0;
@@ -549,7 +549,7 @@ public class SmartValueComponent {
 
 			int totalWork = 0;
 			int metricWork = 0;
-			
+
 			for (MetricValueRange mvr : mvrList) {
 				totalWork += mvr.getMetricValues().size();
 			}
@@ -729,7 +729,7 @@ public class SmartValueComponent {
 							double value = (Double) object;
 							if (value != -1) {
 								DecimalFormat numberFormatter = new DecimalFormat(
-										"###,###,##0.00");
+										ModelUtils.DEFAULT_VALUE_FORMAT_PATTERN);
 								numberFormatter
 										.setDecimalSeparatorAlwaysShown(true);
 								cell.setText(numberFormatter.format(value));
@@ -758,9 +758,9 @@ public class SmartValueComponent {
 							modelUtils.markerForDate(d));
 				} catch (NoSuchElementException nsee) {
 					// ignore.
-				}catch (ObjectNotFoundException onfe){
+				} catch (ObjectNotFoundException onfe) {
 					// ignore, simply bad markers....
-//					markers = null;
+					// markers = null;
 					System.out.println(onfe.getMessage());
 				}
 			}
