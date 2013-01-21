@@ -17,7 +17,15 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens;
 
+import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.ui.forms.widgets.Section;
 
 /**
  * @author Christophe Bouhier
@@ -26,6 +34,31 @@ public abstract class AbstractScreen extends AbstractScreenImpl {
 	
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
+	}
+	
+	/**
+	 * Add a toolbar to the section. (Consider make this generic, nowdays we add
+	 * actions below the section, could win some real-estate here).
+	 */
+	protected ToolBarManager createSectionToolbar(Section section) {
+
+		ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
+		ToolBar toolbar = toolBarManager.createControl(section);
+		final Cursor handCursor = new Cursor(Display.getCurrent(),
+				SWT.CURSOR_HAND);
+		toolbar.setCursor(handCursor);
+		// Cursor needs to be explicitly disposed
+		toolbar.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent e) {
+				if ((handCursor != null) && (handCursor.isDisposed() == false)) {
+					handCursor.dispose();
+				}
+			}
+		});
+
+		toolBarManager.update(true);
+		section.setTextClient(toolbar);
+		return toolBarManager;
 	}
 	
 }
