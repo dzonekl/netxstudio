@@ -101,10 +101,6 @@ public class ServerUtils {
 		return instance;
 	}
 
-	public static void setInstance(ServerUtils instance) {
-		ServerUtils.instance = instance;
-	}
-
 	private IJVMAcceptor acceptor;
 	private IConnector connector;
 	private String serverSideLogin = "" + System.currentTimeMillis();
@@ -303,6 +299,9 @@ public class ServerUtils {
 		@Inject
 		private ModelUtils modelUtils;
 
+		@Inject
+		private Fixtures fixtures;
+		
 		private void initialize() {
 			initResources();
 		}
@@ -319,17 +318,14 @@ public class ServerUtils {
 			initResourcesForEPackage(ProtocolsPackage.eINSTANCE);
 			initResourcesForEPackage(SchedulingPackage.eINSTANCE);
 			initResourcesForEPackage(ServicesPackage.eINSTANCE);
-			loadFixtureData(dataProvider, modelUtils);
+			
+			fixtures.setDataProvider(dataProvider);
+			// Load the fixtures.
+//			fixtures.unloadFixtures(); // UNCOMMENT TO RELOAD FIXTURES.
+			fixtures.loadFixtures();
+			
 			dataProvider.commitTransaction();
 			dataProvider.closeSession();
-		}
-
-		private void loadFixtureData(IDataProvider dataProvider,
-				ModelUtils modelUtils) {
-			final Fixtures fixtures = new Fixtures(dataProvider, modelUtils);
-//			fixtures.unloadFixtures(); // UNCOMMENT TO RELOAD FIXTURES. 
-			fixtures.loadFixtures();
-
 		}
 
 		// Creates or loads the CDOResources, which are entry points in the DB.

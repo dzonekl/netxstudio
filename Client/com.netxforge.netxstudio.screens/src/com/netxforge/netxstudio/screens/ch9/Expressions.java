@@ -67,7 +67,6 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
@@ -244,7 +243,7 @@ public class Expressions extends AbstractScreen implements
 
 		tableViewer = new TableViewer(frmExpressions.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.MULTI | widgetStyle);
-		tableViewer.setComparer(new CDOElementComparer());
+//		tableViewer.setComparer(new CDOElementComparer());
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -269,8 +268,10 @@ public class Expressions extends AbstractScreen implements
 	public EMFDataBindingContext initDataBindings_() {
 		listContentProvider = new ObservableListContentProvider();
 		tableViewer.setContentProvider(listContentProvider);
+		
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
+
 				new EStructuralFeature[] { Literals.EXPRESSION__NAME });
 		tableViewer
 				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));

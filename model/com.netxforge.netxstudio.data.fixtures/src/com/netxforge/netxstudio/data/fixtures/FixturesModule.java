@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.data.fixtures;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -31,7 +32,7 @@ public class FixturesModule extends AbstractModule {
 	 */
 	@Override
 	protected void configure() {
-		this.bind(IFixtures.class).to(Fixtures.class);
+		this.bind(IFixtures.class).to(Fixtures.class).in(Singleton.class);
 	}
 
 }
