@@ -95,6 +95,7 @@ public class ServiceSummaryComponent {
 
 	
 	/** The parent IScreen needed to layout as this component will load in background **/ 
+	@SuppressWarnings("unused")
 	private IScreen parentScreen;
 
 
