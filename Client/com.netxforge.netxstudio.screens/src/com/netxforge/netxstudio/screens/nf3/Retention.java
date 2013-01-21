@@ -21,7 +21,9 @@ import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.property.value.IValueProperty;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.IEMFValueProperty;
@@ -69,8 +71,11 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.data.fixtures.Fixtures;
+import com.netxforge.netxstudio.data.fixtures.IFixtures;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryFactory;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricRetentionPeriod;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
@@ -95,7 +100,11 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 	private Form frmDataRetention;
 
 	@Inject
-	ServerRequest serverActions;
+	private ServerRequest serverActions;
+
+	@Inject
+	private IFixtures fixtures;
+
 	private Composite cmpRules;
 	private EMFDataBindingContext context;
 	private Section sctnRules;
@@ -137,24 +146,22 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		toolkit.paintBordersFor(sctnRules);
 		sctnRules.setText("Data retention rules");
 
-		// final ToolBarManager createSectionToolbar =
-		// createSectionToolbar(sctnRules);
-		//
-		// final ImageDescriptor addDescriptor = ResourceManager
+		final ToolBarManager createSectionToolbar = createSectionToolbar(sctnRules);
+
+		// final ImageDescriptor resetDescriptor = ResourceManager
 		// .getPluginImageDescriptor(
 		// "com.netxforge.netxstudio.screens.editing",
 		// "/icons/full/obj16/add_obj.gif");
-		//
-		// createSectionToolbar.add(new NewRetentionRuleAction("",
-		// addDescriptor));
-		//
-		// createSectionToolbar.update(true);
+
+		createSectionToolbar.add(new ResetFixedRulesAction("Reset"));
+
+		createSectionToolbar.update(true);
 
 		cmpRules = toolkit.createComposite(sctnRules, SWT.NONE);
 		toolkit.paintBordersFor(cmpRules);
 		sctnRules.setClient(cmpRules);
 
-		// 1 Name,3. Combo with period 4. Expression. 
+		// 1 Name,3. Combo with period 4. Expression.
 		cmpRules.setLayout(new GridLayout(3, false));
 
 		FormText ftMetricDataRetentionInstruction = toolkit.createFormText(
@@ -252,10 +259,11 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 
 	private void launchExpressionScreen(MetricRetentionRule retention) {
 		if (retention != null) {
-			NewEditExpression expressionScreen = new NewEditExpression(
+			final NewEditExpression expressionScreen = new NewEditExpression(
 					screenService.getScreenContainer(), SWT.NONE);
 			Expression expression = null;
 			if (retention.getRetentionExpression() == null) {
+				// Auto Create an expression, if null.
 				expression = LibraryFactory.eINSTANCE.createExpression();
 				expressionScreen.setOperation(ScreenUtil.OPERATION_NEW);
 			} else {
@@ -282,14 +290,12 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		final IObservableList observe = metricRetentionRules.observe(rules);
 		observe.addListChangeListener(new IListChangeListener() {
 			public void handleListChange(ListChangeEvent event) {
-//				System.out.println("value changed: " + event);
+				// System.out.println("value changed: " + event);
 				// rebuild the rules:
 				buildRules(context);
-				sctnRules.layout();
-				sctnCustomRules.layout();
-				
-				frmDataRetention.layout();
+				updateUI();
 			}
+
 		});
 
 		return context;
@@ -306,7 +312,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 				c.dispose();
 			}
 		}
-		
+
 		if (cmpCustomRules.getChildren().length > 0) {
 			for (Control c : cmpCustomRules.getChildren()) {
 				c.dispose();
@@ -355,6 +361,8 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		cmbMonthly.setLayoutData(gd_cmbMonthly);
 		toolkit.paintBordersFor(cmbMonthly);
 
+		cmbMonthly.setFocus();
+
 		final ImageHyperlink mghprlnkEditRetentionExpression = toolkit
 				.createImageHyperlink(cmpRules, SWT.NONE);
 		mghprlnkEditRetentionExpression.setLayoutData(new GridData(SWT.LEFT,
@@ -383,8 +391,12 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 
 		// Edit the name of the rule.
 		final Text nameText = toolkit.createText(cmpRules, "");
-		nameText.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
+		GridData textLayoutData = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		textLayoutData.widthHint = 100;
+		nameText.setLayoutData(textLayoutData);
+
+		nameText.setFocus();
 
 		final ISWTObservableValue observeTextName = SWTObservables
 				.observeDelayedValue(400,
@@ -398,27 +410,29 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 
 		// Edit the interval.
 		final Text intervalText = toolkit.createText(cmpRules, "");
-		intervalText.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
+		final GridData intervalGridData = new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1);
+		intervalText.setLayoutData(intervalGridData);
 
 		final ISWTObservableValue observeTextInterval = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(intervalText, SWT.Modify));
 
-		final IEMFEditValueProperty intervalModelProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				MetricsPackage.Literals.METRIC_RETENTION_RULE__INTERVAL_HINT);
+		final IEMFEditValueProperty intervalModelProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(),
+						MetricsPackage.Literals.METRIC_RETENTION_RULE__INTERVAL_HINT);
 
 		context.bindValue(observeTextInterval,
 				intervalModelProperty.observe(rule));
 
+		// Edit the retention period.
 		final ComboViewer cmbViewerTarget = new ComboViewer(cmpRules, SWT.NONE);
-		Combo cmbMonthly = cmbViewerTarget.getCombo();
-		GridData gd_cmbMonthly = new GridData(SWT.FILL, SWT.CENTER, false,
-				false, 1, 1);
-		gd_cmbMonthly.widthHint = 150;
-		cmbMonthly.setLayoutData(gd_cmbMonthly);
-		toolkit.paintBordersFor(cmbMonthly);
+		final Combo cmbRetentionPeriod = cmbViewerTarget.getCombo();
+		final GridData gridDataRetentionPeriod = new GridData(SWT.FILL,
+				SWT.CENTER, false, false, 1, 1);
+		gridDataRetentionPeriod.widthHint = 150;
+		cmbRetentionPeriod.setLayoutData(gridDataRetentionPeriod);
+		toolkit.paintBordersFor(cmbRetentionPeriod);
 
 		final ImageHyperlink mghprlnkEditRetentionExpression = toolkit
 				.createImageHyperlink(cmpRules, SWT.NONE);
@@ -433,26 +447,36 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		toolkit.paintBordersFor(mghprlnkEditRetentionExpression);
 		mghprlnkEditRetentionExpression.setText("Edit retention expression");
 
-		final ImageHyperlink hypLnkRemove = toolkit.createImageHyperlink(cmpRules,
-				SWT.NONE);
-		hypLnkRemove.addHyperlinkListener(new HyperlinkAdapter() {
+		final ImageHyperlink removeObjectHyperLink = toolkit
+				.createImageHyperlink(cmpRules, SWT.NONE);
+		removeObjectHyperLink.addHyperlinkListener(new HyperlinkAdapter() {
 			public void linkActivated(HyperlinkEvent e) {
 
+				final CompoundCommand cc = new CompoundCommand();
+
+				if (rule.eIsSet(MetricsPackage.Literals.METRIC_RETENTION_RULE__RETENTION_EXPRESSION)) {
+					final Expression retentionExpression = rule
+							.getRetentionExpression();
+					final Command deleteExpressionCommand = DeleteCommand
+							.create(editingService.getEditingDomain(),
+									retentionExpression);
+					cc.append(deleteExpressionCommand);
+				}
 				final Command deleteRuleCommand = DeleteCommand.create(
 						editingService.getEditingDomain(), rule);
-				editingService.getEditingDomain().getCommandStack()
-						.execute(deleteRuleCommand);
+				cc.append(deleteRuleCommand);
+				editingService.getEditingDomain().getCommandStack().execute(cc);
 			}
 		});
 
-		GridData gd_HypLnkFunction1 = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_HypLnkFunction1.widthHint = 18;
-		hypLnkRemove.setLayoutData(gd_HypLnkFunction1);
-		hypLnkRemove.setImage(ResourceManager.getPluginImage("org.eclipse.ui",
-				"/icons/full/etool16/delete.gif"));
-		toolkit.paintBordersFor(hypLnkRemove);
-		hypLnkRemove.setText("");
+		final GridData removeObjectGridData = new GridData(SWT.LEFT,
+				SWT.CENTER, false, false, 1, 1);
+		removeObjectGridData.widthHint = 18;
+		removeObjectHyperLink.setLayoutData(removeObjectGridData);
+		removeObjectHyperLink.setImage(ResourceManager.getPluginImage(
+				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+		toolkit.paintBordersFor(removeObjectHyperLink);
+		removeObjectHyperLink.setText("");
 
 		cmbViewerTarget.setContentProvider(new ArrayContentProvider());
 		cmbViewerTarget.setLabelProvider(new LabelProvider());
@@ -521,19 +545,108 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 			rule.setPeriod(MetricRetentionPeriod.ALWAYS);
 			rule.setName("Custom Rule");
 
+			final Expression createExpression = LibraryFactory.eINSTANCE
+					.createExpression();
+			createExpression.setName("Custom Retention Rule");
+			rule.setRetentionExpression(createExpression);
+
+			final Resource expressionResource = editingService
+					.getData(LibraryPackage.Literals.EXPRESSION);
+
 			addUIRule(rule, context, true);
+
+			final CompoundCommand cc = new CompoundCommand();
+
+			final Command addExpressionCommand = AddCommand.create(
+					editingService.getEditingDomain(), expressionResource,
+					null, createExpression);
+
+			cc.append(addExpressionCommand);
 
 			final Command addRuleCommand = AddCommand
 					.create(editingService.getEditingDomain(),
 							rules,
 							MetricsPackage.Literals.METRIC_RETENTION_RULES__METRIC_RETENTION_RULES,
 							rule);
+			cc.append(addRuleCommand);
 
-			editingService.getEditingDomain().getCommandStack()
-					.execute(addRuleCommand);
+			editingService.getEditingDomain().getCommandStack().execute(cc);
 
 		}
 
 	}
 
+	/**
+	 * Reset to the fixed rules {@link Action}.
+	 * 
+	 * @see {@link Fixtures}
+	 * @author Christophe Bouhier
+	 */
+	class ResetFixedRulesAction extends Action {
+
+		public ResetFixedRulesAction(String text) {
+			super(text);
+		}
+
+		public ResetFixedRulesAction(String text, ImageDescriptor image) {
+			super(text, image);
+			this.setToolTipText("Reset to default fixed rules");
+		}
+
+		@Override
+		public void run() {
+
+			boolean openConfirm = MessageDialog
+					.openConfirm(
+							Retention.this.getShell(),
+							"Confirm reset",
+							"Please confirm the reset to the default retention rules.\n This will also clear the custom retention rules. ");
+
+			if (openConfirm) {
+				editingService.getDataService().getProvider().getTransaction();
+				editingService.getDataService().getProvider()
+						.setDoGetResourceFromOwnTransaction(false);
+				// Data change, not through an editing domain, so should commit
+				// explicitly.
+				fixtures.setDataProvider(editingService.getDataService()
+						.getProvider());
+				fixtures.reloadRetentionRules();
+
+				// Will close our one of transaction.
+				editingService.getDataService().getProvider()
+						.commitTransaction();
+				editingService.getDataService().getProvider()
+						.setDoGetResourceFromOwnTransaction(true);
+
+				// We need to reload the screen here, as it won't be noticed
+				// otherwise, and databinding will keep references to
+				// old objects.
+
+				if (retentionRulesResource instanceof CDOResource) {
+					((CDOResource) retentionRulesResource).cdoView()
+							.getSession().refresh();
+				}
+
+				final EList<EObject> contents = retentionRulesResource
+						.getContents();
+
+				if (contents.size() == 1) {
+					rules = (MetricRetentionRules) contents.get(0);
+					context.dispose();
+					context = initDataBindings_();
+				}
+				updateUI();
+			}
+		}
+	}
+
+	/**
+	 * layout the form and composites as we have disposed and recreated
+	 * controls.
+	 */
+	private void updateUI() {
+		sctnRules.layout();
+		sctnCustomRules.layout();
+		frmDataRetention.layout();
+	}
 }

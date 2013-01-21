@@ -24,15 +24,16 @@ import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
 import com.netxforge.netxstudio.generics.ExpansionDurationValue;
@@ -72,11 +73,16 @@ public class Fixtures implements IFixtures {
 
 	private ModelUtils modelUtils;
 
-	public Fixtures(IDataProvider dataProvider, ModelUtils modelUtils) {
-		this.dataProvider = dataProvider;
+	@Inject
+	public Fixtures( ModelUtils modelUtils) {
 		this.modelUtils = modelUtils;
 	}
 
+	public void setDataProvider(IDataProvider dataProvider){
+		this.dataProvider = dataProvider;
+	}
+	
+	
 	/**
 	 * Unloads all Fixtures (Which might have changed from the initial creation)
 	 * and loads them back in again.
@@ -104,6 +110,11 @@ public class Fixtures implements IFixtures {
 		unLoadSettings();
 		unLoadRoles();
 		unLoadRetentionRules();
+	}
+	
+	public void reloadRetentionRules(){
+		unLoadRetentionRules();
+		loadRetentionRules();
 	}
 
 	/**
@@ -167,40 +178,52 @@ public class Fixtures implements IFixtures {
 	}
 
 	private void unLoadRetentionRules() {
-		{// Unload Expressions
-			final Resource expressionResource = dataProvider
-					.getResource(LibraryPackage.Literals.EXPRESSION);
-
-			final List<Expression> expToRemove = Lists.newArrayList();
-
-			for (EObject eo : expressionResource.getContents()) {
-				if (eo instanceof Expression) {
-					Expression exp = (Expression) eo;
-					if (exp.getName().endsWith("retention rule")) {
-						expToRemove.add(exp);
-					}
-				} else {
-					// http://work.netxforge.com/issues/339
-					if (DataActivator.DEBUG) {
-						DataActivator.TRACE.trace(
-								DataActivator.TRACE_DATA_OPTION,
-								"Wrong object in resource: "
-										+ ((CDOResource) expressionResource)
-												.getPath()
-										+ ((CDOResource) expressionResource)
-												.getName());
-					}
-				}
-			}
-
-			expressionResource.getContents().removeAll(expToRemove);
-		}
+//		{// Unload Expressions
+//			final Resource expressionResource = dataProvider
+//					.getResource(LibraryPackage.Literals.EXPRESSION);
+//
+//			final List<Expression> expToRemove = Lists.newArrayList();
+//
+//			for (EObject eo : expressionResource.getContents()) {
+//				if (eo instanceof Expression) {
+//					Expression exp = (Expression) eo;
+//					if (exp.getName().endsWith("retention rule")) {
+//						expToRemove.add(exp);
+//					}
+//				} else {
+//					// http://work.netxforge.com/issues/339
+//					if (DataActivator.DEBUG) {
+//						DataActivator.TRACE.trace(
+//								DataActivator.TRACE_DATA_OPTION,
+//								"Wrong object in resource: "
+//										+ ((CDOResource) expressionResource)
+//												.getPath()
+//										+ ((CDOResource) expressionResource)
+//												.getName());
+//					}
+//				}
+//			}
+//
+//			expressionResource.getContents().removeAll(expToRemove);
+//		}
 
 		{// Remove the metric retention rules.
 			final Resource retentionRulesResource = dataProvider
 					.getResource(MetricsPackage.Literals.METRIC_RETENTION_RULES);
 
+			EList<EObject> contents = retentionRulesResource.getContents();
+			for(EObject eo : contents){
+				if(eo instanceof MetricRetentionRules){
+					for(MetricRetentionRule rule : ((MetricRetentionRules) eo).getMetricRetentionRules()){
+						if(rule.eIsSet(MetricsPackage.Literals.METRIC_RETENTION_RULE__RETENTION_EXPRESSION)){
+							final Expression retentionExpression = rule.getRetentionExpression();
+							EcoreUtil.delete(retentionExpression);
+						}
+					}
+				}
+			}
 			retentionRulesResource.getContents().clear();
+			
 		}
 
 		{// remove the retention job.

@@ -18,20 +18,50 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.fixtures;
 
+import com.netxforge.netxstudio.data.IDataProvider;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
+ * 
  */
 public interface IFixtures {
-	
+
 	public static String ROLE_ADMIN = "admin";
 	public static String ROLE_PLANNER = "planner";
 	public static String ROLE_READONLY = "readonly";
-	
+
 	/**
-	 * Note: Will clear existing data on specified resources. 
+	 * Will load the fixture data. Only if not existing.
 	 */
 	public abstract void loadFixtures();
 
+	/**
+	 * Unload the fixtures
+	 */
+	public void unloadFixtures();
+
+	/**
+	 * Will clear and load the retention rules.
+	 */
+	public void reloadRetentionRules();
+
+	/**
+	 * Inspect the load status.
+	 * 
+	 * @return <code>true</code> when fixtures are loaded correctly.
+	 */
+	public boolean areLoaded();
+
+	/**
+	 * Unloads all Fixtures (Which might have changed from the initial creation)
+	 * and loads them back in again.
+	 */
+	public void reload();
+	
+	
+	/**
+	 * Set the data provider. 
+	 * @param dataProvider
+	 */
+	public void setDataProvider(IDataProvider dataProvider);
 }
