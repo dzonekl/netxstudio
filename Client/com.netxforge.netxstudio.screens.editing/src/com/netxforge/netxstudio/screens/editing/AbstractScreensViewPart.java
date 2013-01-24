@@ -578,6 +578,12 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			break;
 		}
 		}
+		
+//		System.out.println("status message: " + message);
+//		for(StackTraceElement se : Thread.currentThread().getStackTrace()){
+//			System.out.println("--" + se.toString());
+//		}
+		
 		setStatusLineManager(message);
 	}
 
@@ -612,6 +618,12 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			}
 			}
 		}
+		
+//		System.out.println("status message: " + message);
+//		for(StackTraceElement se : Thread.currentThread().getStackTrace()){
+//			System.out.println("--" + se.toString());
+//		}
+		
 		this.setStatusLineManager(message);
 	}
 

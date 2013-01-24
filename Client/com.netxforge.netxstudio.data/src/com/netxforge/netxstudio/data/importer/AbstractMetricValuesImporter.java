@@ -38,10 +38,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.osgi.framework.BundleActivator;
 
 import com.google.common.collect.Iterables;
@@ -60,10 +57,7 @@ import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.Mapping;
@@ -77,7 +71,6 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
-import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 
 /**
@@ -825,6 +818,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 						 * The last matching identifier, is needed for the
 						 * resource name creation strategy.
 						 */
+						@SuppressWarnings("deprecation")
 						IComponentLocator.IdentifierDescriptor lastIdentifier = getComponentLocator()
 								.getLastMatchingIdentifier();
 
@@ -960,72 +954,71 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	 * @param path
 	 * @param resource
 	 */
-	public void addToNode(EObject originalEObject, EObject eObject,
-			List<Integer> path, NetXResource resource) {
-		final EObject container = eObject.eContainer();
-		if (container instanceof Node) {
-			final NodeType nodeType = ((Node) container)
-					.getOriginalNodeTypeRef();
-			List<?> componentObjects;
-			if (originalEObject instanceof Equipment) {
-				componentObjects = nodeType.getEquipments();
-			} else {
-				componentObjects = nodeType.getFunctions();
-			}
-			Object currentObject = null;
-			for (final Integer index : path) {
-
-				if (componentObjects.size() > index) {
-					currentObject = componentObjects.get(index);
-
-					if (originalEObject instanceof Equipment) {
-						componentObjects = ((Equipment) currentObject)
-								.getEquipments();
-					} else {
-						componentObjects = ((Function) currentObject)
-								.getFunctions();
-					}
-				}
-
-			}
-			boolean found = false;
-			for (final NetXResource netxResource : ((Component) currentObject)
-					.getResourceRefs()) {
-				if (netxResource.getMetricRef() == resource.getMetricRef()) {
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				final NetXResource copiedNetXResource = EcoreUtil
-						.copy(resource);
-
-				String cdoResourcePath = modelUtils
-						.cdoCalculateResourcePathII((EObject) currentObject);
-
-				if (cdoResourcePath != null) {
-					final Resource emfNetxResource = getDataProvider()
-							.getResource(cdoResourcePath);
-					emfNetxResource.getContents().add(copiedNetXResource);
-					((Component) currentObject).getResourceRefs().add(
-							copiedNetXResource);
-				} else {
-					if (DataActivator.DEBUG) {
-						DataActivator.TRACE
-								.trace(DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-										"Invalid CDO Resource path, component name likely not set");
-					}
-					return;
-				}
-			}
-		} else {
-			final EStructuralFeature eFeature = eObject.eContainingFeature();
-			final List<?> values = (List<?>) container.eGet(eFeature);
-			path.add(0, values.indexOf(eObject));
-			addToNode(originalEObject, container, path, resource);
-		}
-
-	}
+//	public void addToNode(EObject originalEObject, EObject eObject,
+//			List<Integer> path, NetXResource resource) {
+//		final EObject container = eObject.eContainer();
+//		if (container instanceof Node) {
+//			final NodeType nodeType = ((Node) container)
+//					.getOriginalNodeTypeRef();
+//			List<?> componentObjects;
+//			if (originalEObject instanceof Equipment) {
+//				componentObjects = nodeType.getEquipments();
+//			} else {
+//				componentObjects = nodeType.getFunctions();
+//			}
+//			Object currentObject = null;
+//			for (final Integer index : path) {
+//
+//				if (componentObjects.size() > index) {
+//					currentObject = componentObjects.get(index);
+//
+//					if (originalEObject instanceof Equipment) {
+//						componentObjects = ((Equipment) currentObject)
+//								.getEquipments();
+//					} else {
+//						componentObjects = ((Function) currentObject)
+//								.getFunctions();
+//					}
+//				}
+//
+//			}
+//			boolean found = false;
+//			for (final NetXResource netxResource : ((Component) currentObject)
+//					.getResourceRefs()) {
+//				if (netxResource.getMetricRef() == resource.getMetricRef()) {
+//					found = true;
+//					break;
+//				}
+//			}
+//			if (!found) {
+//				final NetXResource copiedNetXResource = EcoreUtil
+//						.copy(resource);
+//
+//				String cdoResourcePath = modelUtils
+//						.cdoCalculateResourcePathII((EObject) currentObject);
+//
+//				if (cdoResourcePath != null) {
+//					final Resource emfNetxResource = getDataProvider()
+//							.getResource(cdoResourcePath);
+//					emfNetxResource.getContents().add(copiedNetXResource);
+//					((Component) currentObject).getResourceRefs().add(
+//							copiedNetXResource);
+//				} else {
+//					if (DataActivator.DEBUG) {
+//						DataActivator.TRACE
+//								.trace(DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+//										"Invalid CDO Resource path, component name likely not set");
+//					}
+//					return;
+//				}
+//			}
+//		} else {
+//			final EStructuralFeature eFeature = eObject.eContainingFeature();
+//			final List<?> values = (List<?>) container.eGet(eFeature);
+//			path.add(0, values.indexOf(eObject));
+//			addToNode(originalEObject, container, path, resource);
+//		}
+//	}
 
 	public String toValidExpressionName(String value) {
 		final StringBuilder sb = new StringBuilder();

@@ -56,8 +56,11 @@ import org.eclipse.emf.cdo.common.revision.delta.CDORemoveFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDORevisionDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOSetFeatureDelta;
 import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
+import org.eclipse.emf.cdo.eresource.CDOResourceNode;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.cdo.view.CDOView;
@@ -151,7 +154,7 @@ public class ModelUtils {
 	public static final int SECONDS_IN_AN_HOUR = SECONDS_IN_A_MINUTE * 60;
 	public static final int SECONDS_IN_A_DAY = SECONDS_IN_AN_HOUR * 24;
 	public static final int SECONDS_IN_A_WEEK = SECONDS_IN_A_DAY * 7;
-	
+
 	/** Default value formatter */
 	public static final String DEFAULT_VALUE_FORMAT_PATTERN = "###,###,###,##0.00";
 
@@ -610,9 +613,9 @@ public class ModelUtils {
 		return createDateTimeRange;
 	}
 
-//	public List<List<Value>> values(List<Value> values, int srcInterval) {
-//		return this.values(values, srcInterval, -1);
-//	}
+	// public List<List<Value>> values(List<Value> values, int srcInterval) {
+	// return this.values(values, srcInterval, -1);
+	// }
 
 	/**
 	 * Split the {@link Value} collection, in sub-collections for the provided
@@ -695,19 +698,18 @@ public class ModelUtils {
 		GregorianCalendar cal;
 		for (Value v : values) {
 			cal = v.getTimeStamp().toGregorianCalendar();
-			
-			
+
 			// Get the year map.
 			final int year = cal.get(Calendar.YEAR); // Always split by year.
 			final Map<Integer, List<Value>> targetMap;
-			
+
 			if (yearMap.containsKey(year)) {
 				targetMap = yearMap.get(year);
 			} else {
 				targetMap = Maps.newHashMap();
 				yearMap.put(year, targetMap);
 			}
-			//Get the target map. 
+			// Get the target map.
 			final int currentFieldValue = cal.get(field);
 			if (targetMap.containsKey(currentFieldValue)) {
 				targetMap.get(currentFieldValue).add(v);
@@ -717,8 +719,8 @@ public class ModelUtils {
 				targetMap.put(currentFieldValue, vList);
 			}
 		}
-		List<List<Value>> valueMatrix = Lists.newArrayList(); 
-		for(Map<Integer, List<Value>> targetMap : yearMap.values()){
+		List<List<Value>> valueMatrix = Lists.newArrayList();
+		for (Map<Integer, List<Value>> targetMap : yearMap.values()) {
 			valueMatrix.addAll(targetMap.values());
 		}
 		return valueMatrix;
@@ -1161,8 +1163,6 @@ public class ModelUtils {
 
 	@Inject
 	private DatatypeFactory dataTypeFactory;
-	
-
 
 	/**
 	 * Compute a resource path on the basis of an instance. Components generate
@@ -1203,6 +1203,8 @@ public class ModelUtils {
 
 	/**
 	 * Construct a path name specific to holde NetXResource objects.
+	 * 
+	 * @deprecated
 	 */
 	public String cdoCalculateResourcePathII(EObject eObject) {
 		if (eObject instanceof Component) {
@@ -1242,8 +1244,112 @@ public class ModelUtils {
 		}
 	}
 
-	/*
-	 * Construct a name specific to hold NetXResource objects.
+	public Resource cdoResourceForNetXResource(EObject targetObject,
+			CDOTransaction transaction) {
+
+		CDOResourceFolder folder = transaction
+				.getOrCreateResourceFolder("/Node_/");
+		
+		// CDOResourceNode folder = transaction.getResourceNode("/Node_/");
+		// if (folder instanceof CDOResourceFolder) {
+		// // remember the folder, so we can create resources directly.
+		// netXResourceFolder = (CDOResourceFolder) folder;
+		// }
+
+		// Delete any resource, which has the name "/Node_/", accidently
+		// created.
+		// if (folder instanceof CDOResource) {
+		// try {
+		// folder.delete(null);
+		// importer.getDataProvider().getTransaction().commit();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// } catch (CommitException e) {
+		// e.printStackTrace();
+		// }
+		// } else
+
+		String cdoCalculateResourceName = null;
+
+		try {
+			cdoCalculateResourceName = cdoCalculateResourceName(targetObject);
+		} catch (IllegalAccessException e) {
+			if (CommonActivator.DEBUG) {
+				CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION,
+						"-- Can't resolve the Resource name for target object: "
+								+ targetObject);
+			}
+			return null;
+		}
+
+		if (CommonActivator.DEBUG) {
+			CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION,
+					"-- looking for CDO resource with name:"
+							+ cdoCalculateResourceName);
+		}
+		
+		
+		// Iterate through the nodes to find the CDOResource with the target name. 
+		CDOResource emfNetxResource = null;
+		if (folder != null) {
+			for (CDOResourceNode n : folder.getNodes()) {
+
+				// http://work.netxforge.com/issues/325
+				// Ignore the case of the CDO Resource name.
+				if (n.getName().equalsIgnoreCase(cdoCalculateResourceName)
+						&& n instanceof CDOResource) {
+					emfNetxResource = (CDOResource) n;
+					if (CommonActivator.DEBUG) {
+						CommonActivator.TRACE.trace(
+								CommonActivator.TRACE_UTILS_OPTION, "-- found:"
+										+ emfNetxResource.getURI().toString());
+					}
+					break;
+				}
+			}
+		}
+		
+		
+		if (emfNetxResource == null) {
+			emfNetxResource = folder.addResource(cdoCalculateResourceName);
+			if (CommonActivator.DEBUG) {
+				CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION,
+						"-- created resource:"
+								+ emfNetxResource.getURI().toString());
+			}
+
+		}
+		return emfNetxResource;
+
+		// Set a prefetch policy so we can load a lot of objects in the
+		// first
+		// fetch.
+		// this should affect the Value objects being loaded. NetXResource->
+		// MVR
+		// -> Value.
+
+		// if (emfNetxResource instanceof CDOResource) {
+		// ((CDOResource) emfNetxResource)
+		// .cdoView()
+		// .options()
+		// .setRevisionPrefetchingPolicy(
+		// CDOUtil.createRevisionPrefetchingPolicy(24));
+		// }
+	}
+
+	/**
+	 * Return the name to be set on a {@link CDOResource}, computed as
+	 * 
+	 * <pre>
+	 * Netxresource_[Node ID]
+	 * </pre>
+	 * 
+	 * </p>The argument object should be one of the contained children of a
+	 * {@link Node} instance.
+	 * 
+	 * @param eObject
+	 * @return
+	 * @throws IllegalAccessException
 	 */
 	public String cdoCalculateResourceName(EObject eObject)
 			throws IllegalAccessException {
@@ -1265,10 +1371,8 @@ public class ModelUtils {
 			if (nodeType.eContainer() instanceof Node) {
 				return cdoCalculateResourceName(nodeType.eContainer());
 			} else {
-				// throw an exception, we shouldn't call this method and expect
-				// a resource, for a NodeType instad of Node.
-				throw new IllegalAccessException(
-						"The root parent should always ne a Node");
+				return LibraryPackage.Literals.NET_XRESOURCE.getName() + "_"
+						+ ((NodeType) eObject).getName();
 			}
 		} else {
 			// throw an exception, we shouldn't call this method and expect an

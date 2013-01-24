@@ -38,14 +38,14 @@ import com.netxforge.netxstudio.screens.editing.EditingServiceModule;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class ImportActivator extends AbstractUIPlugin implements
+public class ImportUIActivator extends AbstractUIPlugin implements
 		DebugOptionsListener {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.netxforge.netxstudio.models.import.ui"; //$NON-NLS-1$
 
 	// The shared instance
-	private static ImportActivator plugin;
+	private static ImportUIActivator plugin;
 
 	private Injector injector;
 
@@ -67,7 +67,7 @@ public class ImportActivator extends AbstractUIPlugin implements
 	/**
 	 * The constructor
 	 */
-	public ImportActivator() {
+	public ImportUIActivator() {
 	}
 
 	/*
@@ -111,7 +111,7 @@ public class ImportActivator extends AbstractUIPlugin implements
 	 * 
 	 * @return the shared instance
 	 */
-	public static ImportActivator getDefault() {
+	public static ImportUIActivator getDefault() {
 		return plugin;
 	}
 }

@@ -488,12 +488,13 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	public void injectData() {
+		buildUI();
+
 		retentionRulesResource = editingService
 				.getData(MetricsPackage.Literals.METRIC_RETENTION_RULES);
 		EList<EObject> contents = retentionRulesResource.getContents();
 		if (contents.size() == 1) {
 			rules = (MetricRetentionRules) contents.get(0);
-			buildUI();
 			context = initDataBindings_();
 		}
 	}
@@ -632,7 +633,9 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 
 				if (contents.size() == 1) {
 					rules = (MetricRetentionRules) contents.get(0);
-					context.dispose();
+					if (context != null) {
+						context.dispose();
+					}
 					context = initDataBindings_();
 				}
 				updateUI();

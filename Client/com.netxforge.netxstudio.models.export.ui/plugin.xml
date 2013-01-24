@@ -4,50 +4,50 @@
  <extension
        point="org.eclipse.ui.exportWizards">
     <wizard
-          category="com.netxforge.netxstudio.ui.category.export"
+          category="com.netxforge.netxstudio.ui.category.export/com.netxforge.netxstudio.ui.category.export.templates"
           class="com.netxforge.netxstudio.models.export.ui.LibraryXLSTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
-          id="com.netxforge.netxstudio.models.export.wizard.import"
+          id="com.netxforge.netxstudio.models.export.wizard.templates.library"
           name="Create a Library import template">
        <description>
         "Create an import template for Library data"
        </description>
     </wizard>
     <wizard
-          category="com.netxforge.netxstudio.ui.category.export"
+          category="com.netxforge.netxstudio.ui.category.export/com.netxforge.netxstudio.ui.category.export.templates"
           class="com.netxforge.netxstudio.models.export.ui.OperatorXLSTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
-          id="com.netxforge.netxstudio.models.export.wizard.import"
+          id="com.netxforge.netxstudio.models.export.wizard.templates.operator"
           name="Create an Operator import template">
        <description>
          "Create an import template for Operator data"
        </description>
     </wizard>
     <wizard
-          category="com.netxforge.netxstudio.ui.category.export"
+          category="com.netxforge.netxstudio.ui.category.export/com.netxforge.netxstudio.ui.category.export.templates"
           class="com.netxforge.netxstudio.models.export.ui.ServicesXLSTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
-          id="com.netxforge.netxstudio.models.export.wizard.import"
+          id="com.netxforge.netxstudio.models.export.wizard.templates.services"
           name="Create a Services import template">
        <description>
          "Create an import template for Service data"
        </description>
     </wizard>
     <wizard
-          category="com.netxforge.netxstudio.ui.category.export"
+          category="com.netxforge.netxstudio.ui.category.export/com.netxforge.netxstudio.ui.category.export.templates"
           class="com.netxforge.netxstudio.models.export.ui.GeoXLSTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
-          id="com.netxforge.netxstudio.models.export.wizard.import"
+          id="com.netxforge.netxstudio.models.export.wizard.templates.geo"
           name="Create a Geo. import template">
        <description>
          "Create an import template for Geographical data"
        </description>
     </wizard>
         <wizard
-          category="com.netxforge.netxstudio.ui.category.export"
+          category="com.netxforge.netxstudio.ui.category.export/com.netxforge.netxstudio.ui.category.export.templates"
           class="com.netxforge.netxstudio.models.export.ui.MetricsXLSTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
-          id="com.netxforge.netxstudio.models.export.wizard.import"
+          id="com.netxforge.netxstudio.models.export.wizard.templates.metrics"
           name="Create a Metrics import template">
        <description>
          "Create an import template for Metrics data"
@@ -55,7 +55,7 @@
     </wizard>
     <!-- WIZARDS WHICH NEED DEPENCY INJECTION --> 
     <wizard
-          category="com.netxforge.netxstudio.ui.category.export"
+          category="com.netxforge.netxstudio.ui.category.export/com.netxforge.netxstudio.ui.category.export.selection"
           class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.NodeTypeHTMLTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
           id="com.netxforge.netxstudio.models.export.wizard.ui.nodetype.html"
@@ -68,7 +68,7 @@
        </selection>
     </wizard>
      <wizard
-          category="com.netxforge.netxstudio.ui.category.export"
+          category="com.netxforge.netxstudio.ui.category.export/com.netxforge.netxstudio.ui.category.export.selection"
           class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.NodeHTMLTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
           id="com.netxforge.netxstudio.models.export.wizard.ui.node.html"
@@ -81,7 +81,7 @@
        </selection>
     </wizard>
     <wizard
-          category="com.netxforge.netxstudio.ui.category.export"
+          category="com.netxforge.netxstudio.ui.category.export/com.netxforge.netxstudio.ui.category.export.selection"
           class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.poi.NodeTypeXLSPOIWizard"
           icon="icons/full/wizban/export_wiz.png"
           id="com.netxforge.netxstudio.models.export.wizard.ui.nodetype.xls"
@@ -91,7 +91,7 @@
        </description>
     </wizard>
      <wizard
-          category="com.netxforge.netxstudio.ui.category.export"
+          category="com.netxforge.netxstudio.ui.category.export/com.netxforge.netxstudio.ui.category.export.selection"
           class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.poi.NodeXLSPOIWizard"
           icon="icons/full/wizban/export_wiz.png"
           id="com.netxforge.netxstudio.models.export.wizard.ui.node.xls"
@@ -111,26 +111,36 @@
          Export Metrics Data to XLS
        </description>
     </wizard>
--->     
+-->    
+     <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.poi.AllXLSPOIWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.ui.all.xls"
+          name="Export all data to XLS">
+       <description>
+         Export all data to XLS
+       </description>
+     </wizard>     
      <wizard
           category="com.netxforge.netxstudio.ui.category.export"
           class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.poi.AllStaticXLSPOIWizard"
           icon="icons/full/wizban/export_wiz.png"
-          id="com.netxforge.netxstudio.models.export.wizard.ui.all.xls"
-          name="Export All Static Data to XLS">
+          id="com.netxforge.netxstudio.models.export.wizard.ui.all_static.xls"
+          name="Export static data to XLS">
        <description>
-         Export All Data to XLS
+         Export static data to XLS
        </description>
     </wizard>
      <wizard
           category="com.netxforge.netxstudio.ui.category.export"
-          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.poi.AllDynamicXLSPOIWizard"
+          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.poi.AllValueXLSPOIWizard"
           icon="icons/full/wizban/export_wiz.png"
-          id="com.netxforge.netxstudio.models.export.wizard.ui.all.xls"
-          name="Export All Dynamic Data to XLS">
+          id="com.netxforge.netxstudio.models.export.wizard.ui.all_value.xls"
+          name="Export Resource data to XLS">
        <description>
-         Export All Data to XLS
+         Export Resource and Value Data to XLS
        </description>
-    </wizard>    
+    </wizard>
  </extension>
 </plugin>

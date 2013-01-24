@@ -50,7 +50,21 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * @author Christophe Bouhier
  */
 public abstract class AbstractExportFilter implements IExportFilter {
-
+	
+	
+	
+	/**
+	 * A Filter which only clears the volatile objects. 
+	 * @author Christophe
+	 *
+	 */
+	public static class VolatileFilter extends AbstractExportFilter {
+		public VolatileFilter() {
+			configure();
+		}
+	}
+	
+	
 	/**
 	 * Classes which are not "Master", meaning not exposed to the user.
 	 */
@@ -75,8 +89,8 @@ public abstract class AbstractExportFilter implements IExportFilter {
 			filteredClasses.add(MetricsPackage.Literals.MAPPING_RECORD); // VOLATILE
 			filteredClasses.add(MetricsPackage.Literals.MAPPING_STATISTIC); // VOLATILE.
 			
-//			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULE); // AUTO-CREATED.
-//			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULES); // AUTO-CREATED.
+			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULE); // FIXTURE
+			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULES); // FIXTURE
 
 			filteredNonMasterClasses.put(MetricsPackage.eINSTANCE,
 					filteredClasses);
@@ -137,7 +151,7 @@ public abstract class AbstractExportFilter implements IExportFilter {
 			filteredClasses.add(GenericsPackage.Literals.COMMIT_LOG_ENTRY); // VOLATILE.
 			filteredClasses.add(GenericsPackage.Literals.MULTI_IMAGE); // UN-USED
 			filteredClasses.add(GenericsPackage.Literals.META); // UN-USED
-			filteredClasses.add(GenericsPackage.Literals.ROLE); // AUTO-CREATED.
+			filteredClasses.add(GenericsPackage.Literals.ROLE); // FIXTURE.
 
 			filteredNonMasterClasses.put(GenericsPackage.eINSTANCE,
 					filteredClasses);
@@ -176,6 +190,7 @@ public abstract class AbstractExportFilter implements IExportFilter {
 		{
 			List<EClass> filteredClasses = Lists.newArrayList();
 			filteredClasses.add(NetxstudioPackage.Literals.NETXSTUDIO); // UN-USED. 
+			filteredClasses.add(NetxstudioPackage.Literals.SERVER_SETTINGS); // FIXTURE
 			filteredNonMasterClasses.put(NetxstudioPackage.eINSTANCE,
 					filteredClasses);
 		}

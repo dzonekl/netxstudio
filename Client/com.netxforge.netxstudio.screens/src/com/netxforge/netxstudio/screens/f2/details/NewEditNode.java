@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2.details;
 
 import java.util.Date;
@@ -27,6 +27,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -56,6 +57,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -88,7 +90,7 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 /**
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
 public class NewEditNode extends AbstractDetailsScreen implements
 		IDataScreenInjection {
@@ -382,18 +384,18 @@ public class NewEditNode extends AbstractDetailsScreen implements
 		if (!readonly) {
 			nodeTypeHyperlink = toolkit.createImageHyperlink(composite,
 					SWT.NONE);
-			nodeTypeHyperlink.addHyperlinkListener(new IHyperlinkListener() {
+			nodeTypeHyperlink.addHyperlinkListener(new HyperlinkAdapter() {
 				public void linkActivated(HyperlinkEvent e) {
 
-					CompoundCommand cp = new CompoundCommand();
-					NodeType nt = node.getNodeType();
+					final CompoundCommand cp = new CompoundCommand();
+					final NodeType nt = node.getNodeType();
 					if (nt != null) {
-						Command dc = WarningDeleteCommand.create(
+						final Command dc = WarningDeleteCommand.create(
 								editingService.getEditingDomain(), nt);
 						cp.append(dc);
 					}
 					if (node.eIsSet(OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF)) {
-						SetCommand sc = new SetCommand(
+						final SetCommand sc = new SetCommand(
 								editingService.getEditingDomain(),
 								node,
 								OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
@@ -407,12 +409,6 @@ public class NewEditNode extends AbstractDetailsScreen implements
 					// node, OperatorsPackage.Literals.NODE__NODE_TYPE, null);
 					editingService.getEditingDomain().getCommandStack()
 							.execute(cp);
-				}
-
-				public void linkEntered(HyperlinkEvent e) {
-				}
-
-				public void linkExited(HyperlinkEvent e) {
 				}
 			});
 			GridData gd_imageHyperlink_1 = new GridData(SWT.LEFT, SWT.CENTER,
@@ -536,39 +532,68 @@ public class NewEditNode extends AbstractDetailsScreen implements
 
 													if (copyEObject instanceof Component) {
 
-														// if (copyEObject
-														// instanceof Equipment)
+														// String
+														// cdoResourcePath =
+														// null;
+														// try {
+														// cdoResourcePath =
+														// modelUtils
+														// .cdoCalculateResourceName(node);
+														// } catch
+														// (IllegalAccessException
+														// e) {
+														// if
+														// (ScreensActivator.DEBUG)
 														// {
-														// ((Component)
-														// copyEObject)
-														// .setName("<name>");
+														// ScreensActivator.TRACE
+														// .trace(ScreensActivator.TRACE_SCREENS_OPTION,
+														// "Error creating CDO Resource name for node: "
+														// + node.getNodeID(),
+														// e);
 														// }
+														// }
+														//
+														// if (cdoResourcePath
+														// == null) {
+														// if
+														// (ScreensActivator.DEBUG)
+														// {
+														// ScreensActivator.TRACE
+														// .trace(ScreensActivator.TRACE_SCREENS_OPTION,
+														// "Error, CDO resource can't be determoned, should not occur!");
+														// }
+														// return; // Can't
+														// // calculate
+														// // path for
+														// // empty
+														// // names.
+														// } else {
+														// if
+														// (ScreensActivator.DEBUG)
+														// {
+														// ScreensActivator.TRACE
+														// .trace(ScreensActivator.TRACE_SCREENS_OPTION,
+														// "Creating CDO Resource "
+														// + cdoResourcePath);
+														// }
+														// }
+														// final Resource
+														// resourcesResource =
+														// editingService
+														// .getDataService()
+														// .getProvider()
+														// .getResource(
+														// editingService
+														// .getEditingDomain()
+														// .getResourceSet(),
+														// cdoResourcePath);
 
-														String cdoResourcePath = modelUtils
-																.cdoCalculateResourcePathII(node);
-														if (cdoResourcePath == null) {
-															System.out
-																	.println("Error, CDO resource can't be determoned, should not occur!");
-
-															return; // Can't
-																	// calculate
-																	// path for
-																	// empty
-																	// names.
-														} else {
-															System.out
-																	.println("Creating CDO Resource "
-																			+ cdoResourcePath);
-														}
-														Resource resourcesResource = editingService
-																.getDataService()
-																.getProvider()
-																.getResource(
-																		editingService
-																				.getEditingDomain()
-																				.getResourceSet(),
-																		cdoResourcePath);
-														resourcesResource
+														final Resource cdoResourceForNetXResource = modelUtils
+																.cdoResourceForNetXResource(
+																		node,
+																		(CDOTransaction) node
+																				.cdoView());
+														cdoResourceForNetXResource
 																.getContents()
 																.add(newEObject);
 													}

@@ -74,6 +74,7 @@ import com.netxforge.netxstudio.screens.dialog.ComponentFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.UnitFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class NewEditResource extends AbstractScreen implements
 		IDataScreenInjection {
@@ -87,7 +88,7 @@ public class NewEditResource extends AbstractScreen implements
 
 	private Form frmResource;
 	private Resource owner;
-	private Component whoRefers;
+	private Component referingComponent;
 
 	private Text txtComponent;
 
@@ -174,8 +175,8 @@ public class NewEditResource extends AbstractScreen implements
 		txtComponent.setLayoutData(gd_txtComponent);
 		txtComponent.setText("");
 
-		Button btnSelectComponent = toolkit.createButton(composite, "Select...",
-				SWT.PUSH);
+		Button btnSelectComponent = toolkit.createButton(composite,
+				"Select...", SWT.PUSH);
 		btnSelectComponent.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -187,34 +188,51 @@ public class NewEditResource extends AbstractScreen implements
 						NewEditResource.this.getShell(), operatorsResource,
 						modelUtils);
 				if (dialog.open() == IDialogConstants.OK_ID) {
-					Component component = (Component) dialog.getFirstResult();
-					
-					CompoundCommand cc = new CompoundCommand();
-					
-					
-					// Check to see if, we need to move the target to another CDO Resource.  
-					CDOResource cdoResource = res.cdoResource();
-					
-					String cdoCalculateResourcePathII = modelUtils.cdoCalculateResourcePathII(component);
-					if(!cdoResource.getPath().equals(cdoCalculateResourcePathII)){
-						editingService.getDataService().getProvider().getResource(cdoCalculateResourcePathII);
-						final Resource emfNetxResource = editingService.getDataService().getProvider()
-								.getResource(cdoCalculateResourcePathII);
-						Command moveResource = new AddCommand(editingService
-								.getEditingDomain(), emfNetxResource.getContents(),
+
+					final Component component = (Component) dialog
+							.getFirstResult();
+					final CompoundCommand cc = new CompoundCommand();
+
+					final CDOResource cdoResource = res.cdoResource();
+
+					String computedName = null;
+					try {
+						computedName = modelUtils
+								.cdoCalculateResourceName(component);
+					} catch (IllegalAccessException e1) {
+						if (ScreensActivator.DEBUG) {
+							ScreensActivator.TRACE.trace(
+									ScreensActivator.TRACE_SCREENS_OPTION,
+									"Attempt to deduce a name with invalid object: "
+											+ component, e1);
+						}
+					}
+
+					// Check to see if, we need to move the target to another
+					// CDO Resource when the calculated name is different.
+					if (computedName != null
+							&& !cdoResource.getPath().equals(computedName)) {
+						editingService.getDataService().getProvider()
+								.getResource(computedName);
+						final Resource emfNetxResource = editingService
+								.getDataService().getProvider()
+								.getResource(computedName);
+						final Command moveResource = new AddCommand(
+								editingService.getEditingDomain(),
+								emfNetxResource.getContents(),
 								(NetXResource) res);
 						cc.append(moveResource);
 					}
-					
-					Command refBidiCommand = new AddCommand(editingService
-							.getEditingDomain(), component.getResourceRefs(),
-							(NetXResource) res);
-					
+
+					final Command refBidiCommand = new AddCommand(
+							editingService.getEditingDomain(), component
+									.getResourceRefs(), (NetXResource) res);
+
 					cc.append(refBidiCommand);
-					
+
 					editingService.getEditingDomain().getCommandStack()
 							.execute(cc);
-					whoRefers = component;
+					referingComponent = component;
 					updateWhoRefers();
 				}
 
@@ -405,8 +423,9 @@ public class NewEditResource extends AbstractScreen implements
 				.observeDelayedValue(400,
 						SWTObservables.observeText(this.txtUnit, SWT.Modify));
 
-		IEMFValueProperty componentProperty = EMFEditProperties
-				.value(editingService.getEditingDomain(), LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF);
+		IEMFValueProperty componentProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF);
 
 		IEMFValueProperty shortNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -457,8 +476,9 @@ public class NewEditResource extends AbstractScreen implements
 	}
 
 	private void updateWhoRefers() {
-		if (whoRefers != null) {
-			NodeType nt = modelUtils.resolveParentNodeType((EObject) whoRefers);
+		if (referingComponent != null) {
+			NodeType nt = modelUtils
+					.resolveParentNodeType((EObject) referingComponent);
 			if (nt != null) {
 				Node n = null;
 				if ((n = modelUtils.nodeFor(nt)) != null) {
@@ -490,37 +510,24 @@ public class NewEditResource extends AbstractScreen implements
 
 		if (res instanceof NetXResource
 				&& res.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)) {
-			this.whoRefers = ((NetXResource) res).getComponentRef();
+			this.referingComponent = ((NetXResource) res).getComponentRef();
 		} else {
 			// Determine the ownership if not a resource.
 			if (whoRefers != null && whoRefers instanceof Component) {
-				this.whoRefers = (Component) whoRefers;
+				this.referingComponent = (Component) whoRefers;
 			}
 		}
 
 		buildUI();
 		this.initDataBindings_();
 
-		// CB disable viewing resources.
-		// if (this.whoRefers != null
-		// && modelUtils.nodeFor((EObject) this.whoRefers) != null) {
-		// valuesVisible = true;
-		//
-		// valueComponent.configure(screenService);
-		//
-		// valueComponent.buildValuesUI(frmResource.getBody(), new
-		// GridData(SWT.FILL, SWT.CENTER, true, false,
-		// 1, 1));
-		// valueComponent.bindValues();
-		// valueComponent.injectData(res);
-		// }
 	}
 
 	public void addData() {
 		if (ScreenUtil.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			CompoundCommand c = new CompoundCommand();
-			if (whoRefers != null) {
+			if (referingComponent != null) {
 				if (res instanceof NetXResource) {
 
 					Command addResource = new AddCommand(
@@ -531,7 +538,7 @@ public class NewEditResource extends AbstractScreen implements
 
 					Command refBidiCommand = new AddCommand(
 							editingService.getEditingDomain(),
-							((Component) whoRefers).getResourceRefs(),
+							((Component) referingComponent).getResourceRefs(),
 							(NetXResource) res);
 
 					c.append(refBidiCommand);
