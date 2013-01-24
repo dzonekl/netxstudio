@@ -212,6 +212,16 @@
             id="com.netxforge.netxstudio.ui.category.export"
             name="%category.name.0">
       </category>
+      <category
+            id="com.netxforge.netxstudio.ui.category.export.templates"
+            name="Templates"
+            parentCategory="com.netxforge.netxstudio.ui.category.export">
+      </category>
+      <category
+            id="com.netxforge.netxstudio.ui.category.export.selection"
+            name="Selection"
+            parentCategory="com.netxforge.netxstudio.ui.category.export">
+      </category>
    </extension>
    <extension
          point="org.eclipse.ui.importWizards">

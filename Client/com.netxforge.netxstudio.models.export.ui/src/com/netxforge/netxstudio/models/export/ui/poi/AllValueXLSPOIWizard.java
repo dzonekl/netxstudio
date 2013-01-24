@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.models.export.ui.poi;
 
 import org.eclipse.emf.ecore.EPackage;
@@ -35,22 +35,22 @@ import com.netxforge.netxstudio.services.ServicesPackage;
 /**
  * @author Christophe Bouhier
  */
-public class AllDynamicXLSPOIWizard extends AbstractExportPOIRevengeWizard {
+public class AllValueXLSPOIWizard extends AbstractExportPOIRevengeWizard {
 
 	@SuppressWarnings("unused")
 	private IStructuredSelection selection;
 
 	EPackage[] getEPackages() {
-		return new EPackage[] {NetxstudioPackage.eINSTANCE,ServicesPackage.eINSTANCE,
-				MetricsPackage.eINSTANCE, LibraryPackage.eINSTANCE,
-				OperatorsPackage.eINSTANCE, GenericsPackage.eINSTANCE,
-				SchedulingPackage.eINSTANCE, GeoPackage.eINSTANCE, NetxstudioPackage.eINSTANCE};
+		return new EPackage[] { NetxstudioPackage.eINSTANCE,
+				ServicesPackage.eINSTANCE, MetricsPackage.eINSTANCE,
+				LibraryPackage.eINSTANCE, OperatorsPackage.eINSTANCE,
+				GenericsPackage.eINSTANCE, SchedulingPackage.eINSTANCE,
+				GeoPackage.eINSTANCE };
 	}
-
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
-		setWindowTitle("Export All Data (s) to Excel format");
+		setWindowTitle("Export all Resource and Value to Excel format");
 		setNeedsProgressMonitor(true);
 		setBaseFileName("ExportAllResource");
 	}

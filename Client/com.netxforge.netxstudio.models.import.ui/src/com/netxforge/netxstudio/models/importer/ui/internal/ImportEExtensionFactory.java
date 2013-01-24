@@ -13,12 +13,12 @@ public class ImportEExtensionFactory extends AbstractGuiceAwareExecutableExtensi
 
 	@Override
 	protected Bundle getBundle() {
-		return ImportActivator.getDefault().getBundle();
+		return ImportUIActivator.getDefault().getBundle();
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return ImportActivator.getDefault().getInjector();
+		return ImportUIActivator.getDefault().getInjector();
 	}
 	
 }

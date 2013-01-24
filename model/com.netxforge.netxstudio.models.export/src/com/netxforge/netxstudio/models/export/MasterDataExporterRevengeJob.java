@@ -32,12 +32,16 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.progress.IProgressConstants;
 
 import com.netxforge.netxstudio.data.IDataProvider;
 
 public class MasterDataExporterRevengeJob implements IJobChangeListener {
 	private IPath res;
-	private ScanningJob j = new ScanningJob("Writing file...");
+	private ExportJob j = new ExportJob("Writing file...");
 
 	private IDataProvider dataProvider;
 	private EPackage[] ePackages;
@@ -72,18 +76,60 @@ public class MasterDataExporterRevengeJob implements IJobChangeListener {
 		this.res = res;
 	}
 
-	protected class ScanningJob extends Job {
+	protected class ExportJob extends Job {
 
-		public ScanningJob(String name) {
+		public ExportJob(String name) {
 			super(name);
 			super.setUser(true);
 		}
 
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
+
 			processReadingInternal(monitor);
+			// setProperty(IProgressConstants.ICON_PROPERTY, getImage());
+			if (isModal(this)) {
+				// The progress dialog is still open so
+				// just open the message
+				showResults();
+			} else {
+				setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
+				setProperty(IProgressConstants.ACTION_PROPERTY,
+						getExportCompletedAction());
+			}
 			return Status.OK_STATUS;
 		}
+
+		private Object getExportCompletedAction() {
+			return null;
+		}
+
+		public boolean isModal(Job job) {
+			Boolean isModal = (Boolean) job
+					.getProperty(IProgressConstants.PROPERTY_IN_DIALOG);
+			if (isModal == null)
+				return false;
+			return isModal.booleanValue();
+		}
+
+	}
+
+	protected void showResults() {
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				getExportCompletedAction().run();
+			}
+		});
+	}
+
+	protected Action getExportCompletedAction() {
+		return new Action("Export completed") {
+			public void run() {
+				MessageDialog.openInformation(Display.getDefault()
+						.getActiveShell(), "Export completed",
+						"The export of data completed.");
+			}
+		};
 	}
 
 	protected void processReadingInternal(final IProgressMonitor monitor) {

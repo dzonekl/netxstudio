@@ -27,6 +27,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -96,8 +100,19 @@ public class MasterDataImporter_xssf {
 
 	private boolean indexSupport;
 
+	private static DatatypeFactory typeFactory;
+
+	static {
+		try {
+			typeFactory = DatatypeFactory.newInstance();
+		} catch (DatatypeConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	private int passes = 2;
-	
+
 	public boolean isIndexSupport() {
 		return indexSupport;
 	}
@@ -134,30 +149,33 @@ public class MasterDataImporter_xssf {
 			// }
 			if (ImportActivator.DEBUG) {
 				ImportActivator.TRACE.trace(
-						ImportActivator.TRACE_IMPORT_OPTION, "INDEX: Resolved index=" + index
-						+ ", object=" + printObject(object));
+						ImportActivator.TRACE_IMPORT_OPTION,
+						"INDEX: Resolved index=" + index + ", object="
+								+ printObject(object));
 			}
 			return object;
 		} else {
 			if (ImportActivator.DEBUG) {
 				ImportActivator.TRACE.trace(
-						ImportActivator.TRACE_IMPORT_OPTION, "INDEX: Error index=" + index
-						+ " doesn't exist!");
+						ImportActivator.TRACE_IMPORT_OPTION,
+						"INDEX: Error index=" + index + " doesn't exist!");
 			}
-			
-			// Try to find a real repo object, in our lookup service. 
+
+			// Try to find a real repo object, in our lookup service.
 			CDOID lookup = OldIDLookupService.getInstance().lookup(index);
-			if(lookup != null){
-				CDOObject lookedUpObject = this.getDataProvider().getTransaction().getObject(lookup);
-				object = lookedUpObject; // Cast to EObject.  
-				
+			if (lookup != null) {
+				CDOObject lookedUpObject = this.getDataProvider()
+						.getTransaction().getObject(lookup);
+				object = lookedUpObject; // Cast to EObject.
+
 				if (ImportActivator.DEBUG) {
 					ImportActivator.TRACE.trace(
-							ImportActivator.TRACE_IMPORT_OPTION, "INDEX: found in CDO repo" + index
-							+ " object:" + lookedUpObject);
+							ImportActivator.TRACE_IMPORT_OPTION,
+							"INDEX: found in CDO repo" + index + " object:"
+									+ lookedUpObject);
 				}
 			}
-			
+
 		}
 		return object;
 	}
@@ -165,8 +183,7 @@ public class MasterDataImporter_xssf {
 	public void setIndexSupport(boolean indexSupport) {
 		this.indexSupport = indexSupport;
 	}
-	
-	
+
 	public void process(InputStream is) {
 		Workbook workBook;
 		try {
@@ -205,7 +222,7 @@ public class MasterDataImporter_xssf {
 				}
 				if (ImportActivator.DEBUG) {
 					printResult();
-//					printIndex();
+					// printIndex();
 				}
 
 			}
@@ -217,12 +234,11 @@ public class MasterDataImporter_xssf {
 	public List<EObject> getResolvedObjects() {
 		return resource.getContents();
 	}
-	
-	
-	public Map<String, EObject> getRunIndex(){
+
+	public Map<String, EObject> getRunIndex() {
 		return globalIndexURI;
 	}
-	
+
 	class ProcessWorkSheet {
 
 		private List<EStructuralFeature> eFeatures = new ArrayList<EStructuralFeature>();
@@ -306,7 +322,8 @@ public class MasterDataImporter_xssf {
 						if (objectIndex
 								.equals("OID:http://www.netxforge.com/13042011/metrics#Metric#5603")) {
 							ImportActivator.TRACE.trace(
-									ImportActivator.TRACE_IMPORT_OPTION, "stop here");
+									ImportActivator.TRACE_IMPORT_OPTION,
+									"stop here");
 						}
 						eObject = processAttributes(row);
 						if (eObject != null) {
@@ -326,7 +343,8 @@ public class MasterDataImporter_xssf {
 						if (eClassToImport
 								.equals(OperatorsPackage.Literals.NODE)) {
 							ImportActivator.TRACE.trace(
-									ImportActivator.TRACE_IMPORT_OPTION, "debug");
+									ImportActivator.TRACE_IMPORT_OPTION,
+									"debug");
 						}
 
 						if (indexSupport) {
@@ -356,8 +374,8 @@ public class MasterDataImporter_xssf {
 					lastRootObject = eObject;
 					if (ImportActivator.DEBUG) {
 						ImportActivator.TRACE.trace(
-								ImportActivator.TRACE_IMPORT_OPTION, " LAST ROOT: "
-								+ printObject(lastRootObject));
+								ImportActivator.TRACE_IMPORT_OPTION,
+								" LAST ROOT: " + printObject(lastRootObject));
 					}
 				}
 			}
@@ -411,8 +429,10 @@ public class MasterDataImporter_xssf {
 							eFeature.getName().toLowerCase())) {
 						if (ImportActivator.DEBUG) {
 							ImportActivator.TRACE.trace(
-									ImportActivator.TRACE_IMPORT_OPTION, "  FEATURE -> Add Feature="
-									+ c.getColumnIndex() + ", Value=" + name);
+									ImportActivator.TRACE_IMPORT_OPTION,
+									"  FEATURE -> Add Feature="
+											+ c.getColumnIndex() + ", Value="
+											+ name);
 						}
 						eFeatures.add(eFeature);
 						break;
@@ -427,8 +447,10 @@ public class MasterDataImporter_xssf {
 				if (currentFeatureCount == eFeatures.size()) {
 					if (ImportActivator.DEBUG) {
 						ImportActivator.TRACE.trace(
-								ImportActivator.TRACE_IMPORT_OPTION, "  FEATURE -> Skipped Column="
-								+ c.getColumnIndex() + ", Value=" + name);
+								ImportActivator.TRACE_IMPORT_OPTION,
+								"  FEATURE -> Skipped Column="
+										+ c.getColumnIndex() + ", Value="
+										+ name);
 					}
 				}
 			}
@@ -492,23 +514,24 @@ public class MasterDataImporter_xssf {
 				if (cell == null) {
 					if (ImportActivator.DEBUG) {
 						ImportActivator.TRACE.trace(
-								ImportActivator.TRACE_IMPORT_OPTION, " -> WRONG Value=\"empty\"");
+								ImportActivator.TRACE_IMPORT_OPTION,
+								" -> WRONG Value=\"empty\"");
 					}
 					continue;
 				}
 				if (eFeature instanceof EReference) {
 					if (ImportActivator.DEBUG) {
 						ImportActivator.TRACE.trace(
-								ImportActivator.TRACE_IMPORT_OPTION, " -> Skip, Reference="
-								+ eFeature.getName());
+								ImportActivator.TRACE_IMPORT_OPTION,
+								" -> Skip, Reference=" + eFeature.getName());
 					}
 					continue;
 				} else if (eFeature instanceof EAttribute) {
 
 					if (ImportActivator.DEBUG) {
 						ImportActivator.TRACE.trace(
-								ImportActivator.TRACE_IMPORT_OPTION, " -> OK Attribute="
-								+ eFeature.getName());
+								ImportActivator.TRACE_IMPORT_OPTION,
+								" -> OK Attribute=" + eFeature.getName());
 					}
 
 					EAttribute eAttrib = (EAttribute) eFeature;
@@ -520,7 +543,8 @@ public class MasterDataImporter_xssf {
 
 						if (ImportActivator.DEBUG) {
 							ImportActivator.TRACE.trace(
-									ImportActivator.TRACE_IMPORT_OPTION, " , WRONG Value=\"empty\"");
+									ImportActivator.TRACE_IMPORT_OPTION,
+									" , WRONG Value=\"empty\"");
 						}
 						continue;
 					}
@@ -532,9 +556,17 @@ public class MasterDataImporter_xssf {
 							&& value.length() > maxLength) {
 						if (ImportActivator.DEBUG) {
 							ImportActivator.TRACE.trace(
-									ImportActivator.TRACE_IMPORT_OPTION, " , trim to=" + maxLength);
+									ImportActivator.TRACE_IMPORT_OPTION,
+									" , trim to=" + maxLength);
 						}
 						value = value.substring(0, maxLength);
+					}
+
+					if (ImportActivator.DEBUG) {
+						ImportActivator.TRACE.trace(
+								ImportActivator.TRACE_IMPORT_OPTION, " , Type="
+										+ type.getInstanceClassName()
+										+ ", Value=\"" + value + "\"");
 					}
 
 					// Resolve the type and set the attrib value.
@@ -545,7 +577,8 @@ public class MasterDataImporter_xssf {
 
 							if (ImportActivator.DEBUG) {
 								ImportActivator.TRACE.trace(
-										ImportActivator.TRACE_IMPORT_OPTION, "-> Processing expression lines. ");
+										ImportActivator.TRACE_IMPORT_OPTION,
+										"-> Processing expression lines. ");
 							}
 							Object eGet = result.eGet(eFeature);
 							if (eGet instanceof EList) {
@@ -567,17 +600,14 @@ public class MasterDataImporter_xssf {
 					} else if (type.getInstanceClass() == int.class) {
 						Integer iValue = new Integer(value);
 						result.eSet(eFeature, iValue);
+					} else if (type.getInstanceClass() == double.class) {
+						Double dbValue = new Double(value);
+						result.eSet(eFeature, dbValue);
+					} else if (type.getInstanceClass() == XMLGregorianCalendar.class) {
+						XMLGregorianCalendar newXMLGregorianCalendar = typeFactory
+								.newXMLGregorianCalendar(value);
+						result.eSet(eFeature, newXMLGregorianCalendar);
 					}
-
-					// Park for now.
-					// else if( type.getInstanceClass() == double.class){
-					// Double dbValue = new Double(value);
-					// result.eSet(eFeature, dbValue);
-					// }else if( type.getInstanceClass() ==
-					// XMLGregorianCalendar.class){
-					// new XMLGregorianCalendar(value);
-					//
-					// }
 
 					// ///// ENUMS WHICH ARE MODE SPECIFIC.
 					else if (type.getInstanceClass() == ObjectKindType.class) {
@@ -591,17 +621,18 @@ public class MasterDataImporter_xssf {
 					if (type.getInstanceClass() == KindHintType.class) {
 						KindHintType kht = KindHintType.get(value);
 						result.eSet(eFeature, kht);
-					}
-					if (ImportActivator.DEBUG) {
-						ImportActivator.TRACE.trace(
-								ImportActivator.TRACE_IMPORT_OPTION, " , Type="
-								+ type.getInstanceClassName() + ", Value=\""
-								+ value + "\"");
+					} else {
+						if (ImportActivator.DEBUG) {
+							ImportActivator.TRACE.trace(
+									ImportActivator.TRACE_IMPORT_OPTION,
+									" undefined type ");
+						}
 					}
 				} else {
 					if (ImportActivator.DEBUG) {
 						ImportActivator.TRACE.trace(
-								ImportActivator.TRACE_IMPORT_OPTION, "Some other structural feature");
+								ImportActivator.TRACE_IMPORT_OPTION,
+								"Some other structural feature");
 					}
 				}
 			}
@@ -669,7 +700,7 @@ public class MasterDataImporter_xssf {
 
 				EObject targetObject = getReferencedObject(null,
 						eClassToImport, identifier);
-				
+
 				if (targetObject == null) {
 					notFound(eClassToImport, identifier);
 				}
@@ -690,7 +721,8 @@ public class MasterDataImporter_xssf {
 
 			if (ImportActivator.DEBUG) {
 				ImportActivator.TRACE.trace(
-						ImportActivator.TRACE_IMPORT_OPTION, " REFS FOR: " + eClassToImport.getName());
+						ImportActivator.TRACE_IMPORT_OPTION, " REFS FOR: "
+								+ eClassToImport.getName());
 			}
 
 			for (int i = 0; i < eFeatures.size(); i++) {
@@ -700,14 +732,16 @@ public class MasterDataImporter_xssf {
 
 				if (ImportActivator.DEBUG) {
 					ImportActivator.TRACE.trace(
-							ImportActivator.TRACE_IMPORT_OPTION, " ROW(" + (isMultiRef ? "MR" : "R") + ")="
-							+ row.getRowNum() + " , COL= " + index);
+							ImportActivator.TRACE_IMPORT_OPTION,
+							" ROW(" + (isMultiRef ? "MR" : "R") + ")="
+									+ row.getRowNum() + " , COL= " + index);
 				}
 
 				if (row.getCell(index) == null) {
 					if (ImportActivator.DEBUG) {
 						ImportActivator.TRACE.trace(
-								ImportActivator.TRACE_IMPORT_OPTION, " ,Value=\"empty\"");
+								ImportActivator.TRACE_IMPORT_OPTION,
+								" ,Value=\"empty\"");
 					}
 
 					continue;
@@ -715,16 +749,16 @@ public class MasterDataImporter_xssf {
 				if (eFeature instanceof EAttribute) {
 					if (ImportActivator.DEBUG) {
 						ImportActivator.TRACE.trace(
-								ImportActivator.TRACE_IMPORT_OPTION, " -> Skip, Attribute="
-								+ eFeature.getName());
+								ImportActivator.TRACE_IMPORT_OPTION,
+								" -> Skip, Attribute=" + eFeature.getName());
 					}
 					continue;
 				} else if (eFeature instanceof EReference) {
 
 					if (ImportActivator.DEBUG) {
 						ImportActivator.TRACE.trace(
-								ImportActivator.TRACE_IMPORT_OPTION, " -> OK Reference="
-								+ eFeature.getName());
+								ImportActivator.TRACE_IMPORT_OPTION,
+								" -> OK Reference=" + eFeature.getName());
 					}
 
 					// Get the value.
@@ -736,14 +770,16 @@ public class MasterDataImporter_xssf {
 
 						if (ImportActivator.DEBUG) {
 							ImportActivator.TRACE.trace(
-									ImportActivator.TRACE_IMPORT_OPTION, " ,WRONG/EMPTY Value=\"empty\"");
+									ImportActivator.TRACE_IMPORT_OPTION,
+									" ,WRONG/EMPTY Value=\"empty\"");
 						}
 						continue;
 					}
 
 					if (ImportActivator.DEBUG) {
 						ImportActivator.TRACE.trace(
-								ImportActivator.TRACE_IMPORT_OPTION, " , ref index=" + indexValue);
+								ImportActivator.TRACE_IMPORT_OPTION,
+								" , ref index=" + indexValue);
 					}
 
 					// Get the referenced object.
@@ -778,16 +814,16 @@ public class MasterDataImporter_xssf {
 		EObject result = null;
 
 		if (ImportActivator.DEBUG) {
-			ImportActivator.TRACE.trace(
-					ImportActivator.TRACE_IMPORT_OPTION, "  RESOLVING: " + identifier);
+			ImportActivator.TRACE.trace(ImportActivator.TRACE_IMPORT_OPTION,
+					"  RESOLVING: " + identifier);
 		}
 
 		if (root != null && root.eContainer() == null) {
 
 			if (ImportActivator.DEBUG) {
 				ImportActivator.TRACE.trace(
-						ImportActivator.TRACE_IMPORT_OPTION, " -> Try last root object="
-						+ printObject(root));
+						ImportActivator.TRACE_IMPORT_OPTION,
+						" -> Try last root object=" + printObject(root));
 			}
 
 			// Is it a child in the result set?
@@ -798,12 +834,14 @@ public class MasterDataImporter_xssf {
 				if (isAnyOfTheSuperTypes(eObject, eClass)) {
 					if (matchesAnyAttribute(identifier, eObject)) {
 						if (ImportActivator.DEBUG) {
-							ImportActivator.TRACE.trace(
-									ImportActivator.TRACE_IMPORT_OPTION, ", found! object="
-											+ printObject(eObject)
-											+ " parent ="
-											+ eObject.eContainer() != null ? printObject(eObject
-											.eContainer()) : "No Parent (yet)");
+							ImportActivator.TRACE
+									.trace(ImportActivator.TRACE_IMPORT_OPTION,
+											", found! object="
+													+ printObject(eObject)
+													+ " parent ="
+													+ eObject.eContainer() != null ? printObject(eObject
+													.eContainer())
+													: "No Parent (yet)");
 						}
 						return eObject;
 					}
@@ -812,7 +850,8 @@ public class MasterDataImporter_xssf {
 
 			if (ImportActivator.DEBUG) {
 				ImportActivator.TRACE.trace(
-						ImportActivator.TRACE_IMPORT_OPTION, " -> not found in last root object, continue...");
+						ImportActivator.TRACE_IMPORT_OPTION,
+						" -> not found in last root object, continue...");
 			}
 		}
 
@@ -825,11 +864,12 @@ public class MasterDataImporter_xssf {
 			result = this.findObject(eClass, identifier);
 			if (result != null) {
 				if (ImportActivator.DEBUG) {
-					ImportActivator.TRACE.trace(
-							ImportActivator.TRACE_IMPORT_OPTION, ", found ref, object="
-							+ printObject(result) + " parent ="
-							+ result.eContainer() != null ? printObject(result
-							.eContainer()) : "No Parent (yet)");
+					ImportActivator.TRACE
+							.trace(ImportActivator.TRACE_IMPORT_OPTION,
+									", found ref, object="
+											+ printObject(result) + " parent ="
+											+ result.eContainer() != null ? printObject(result
+											.eContainer()) : "No Parent (yet)");
 				}
 			}
 		}
@@ -854,10 +894,11 @@ public class MasterDataImporter_xssf {
 
 				if (ImportActivator.DEBUG) {
 					ImportActivator.TRACE.trace(
-							ImportActivator.TRACE_IMPORT_OPTION, "  SET REF MULTI(Containment): "
-							+ printObject(objectToSet) + " with eRef: "
-							+ eReference.getName() + " , on object:"
-							+ printObject(target));
+							ImportActivator.TRACE_IMPORT_OPTION,
+							"  SET REF MULTI(Containment): "
+									+ printObject(objectToSet) + " with eRef: "
+									+ eReference.getName() + " , on object:"
+									+ printObject(target));
 				}
 				manyReferenceCollection.add(objectToSet);
 
@@ -865,10 +906,11 @@ public class MasterDataImporter_xssf {
 
 				if (ImportActivator.DEBUG) {
 					ImportActivator.TRACE.trace(
-							ImportActivator.TRACE_IMPORT_OPTION, " SET REF MULTI (NON-Containment): "
-							+ printObject(objectToSet) + " with eRef: "
-							+ eReference.getName() + " , on object:"
-							+ printObject(target));
+							ImportActivator.TRACE_IMPORT_OPTION,
+							" SET REF MULTI (NON-Containment): "
+									+ printObject(objectToSet) + " with eRef: "
+									+ eReference.getName() + " , on object:"
+									+ printObject(target));
 				}
 				manyReferenceCollection.add(objectToSet);
 			}
@@ -884,10 +926,11 @@ public class MasterDataImporter_xssf {
 
 				if (ImportActivator.DEBUG) {
 					ImportActivator.TRACE.trace(
-							ImportActivator.TRACE_IMPORT_OPTION, "  SET REF SINGLE(Containment): "
-							+ printObject(objectToSet) + " with eRef: "
-							+ eReference.getName() + " , on object:"
-							+ printObject(target));
+							ImportActivator.TRACE_IMPORT_OPTION,
+							"  SET REF SINGLE(Containment): "
+									+ printObject(objectToSet) + " with eRef: "
+									+ eReference.getName() + " , on object:"
+									+ printObject(target));
 				}
 
 				target.eSet(eReference, objectToSet);
@@ -895,10 +938,11 @@ public class MasterDataImporter_xssf {
 			} else {
 				if (ImportActivator.DEBUG) {
 					ImportActivator.TRACE.trace(
-							ImportActivator.TRACE_IMPORT_OPTION, "  SET REF SINGLE (NON-Containment): "
-							+ printObject(objectToSet) + " with eRef: "
-							+ eReference.getName() + " , on object:"
-							+ printObject(target));
+							ImportActivator.TRACE_IMPORT_OPTION,
+							"  SET REF SINGLE (NON-Containment): "
+									+ printObject(objectToSet) + " with eRef: "
+									+ eReference.getName() + " , on object:"
+									+ printObject(target));
 				}
 				target.eSet(eReference, objectToSet);
 			}
@@ -923,8 +967,8 @@ public class MasterDataImporter_xssf {
 
 						if (ImportActivator.DEBUG) {
 							ImportActivator.TRACE.trace(
-									ImportActivator.TRACE_IMPORT_OPTION, "CLASS REF: "
-									+ eClassToImport.getName());
+									ImportActivator.TRACE_IMPORT_OPTION,
+									"CLASS REF: " + eClassToImport.getName());
 						}
 					}
 					cName = cName + "_refs";
@@ -932,8 +976,9 @@ public class MasterDataImporter_xssf {
 						eClassToImport = (EClass) classifier;
 						if (ImportActivator.DEBUG) {
 							ImportActivator.TRACE.trace(
-									ImportActivator.TRACE_IMPORT_OPTION, "CLASS MULTI_REF: "
-									+ eClassToImport.getName());
+									ImportActivator.TRACE_IMPORT_OPTION,
+									"CLASS MULTI_REF: "
+											+ eClassToImport.getName());
 						}
 						return true;
 					}
@@ -972,8 +1017,9 @@ public class MasterDataImporter_xssf {
 
 	public void notFound(EClass eClass, String identifier) {
 		if (ImportActivator.DEBUG) {
-			ImportActivator.TRACE.trace(
-					ImportActivator.TRACE_IMPORT_OPTION, ", NOT found!, Check the sheet, Is the order of the sheets correct?, ");
+			ImportActivator.TRACE
+					.trace(ImportActivator.TRACE_IMPORT_OPTION,
+							", NOT found!, Check the sheet, Is the order of the sheets correct?, ");
 		}
 		unresolvedReferences.add(eClass.getName() + " using " + identifier);
 	}
@@ -1090,8 +1136,8 @@ public class MasterDataImporter_xssf {
 		while (allContents.hasNext()) {
 			EObject next = allContents.next();
 			count++;
-			ImportActivator.TRACE.trace(
-					ImportActivator.TRACE_IMPORT_OPTION, " - (" + count + ") : " + printObject(next));
+			ImportActivator.TRACE.trace(ImportActivator.TRACE_IMPORT_OPTION,
+					" - (" + count + ") : " + printObject(next));
 		}
 	}
 

@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2.details;
 
 import java.util.Date;
@@ -28,6 +28,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -66,6 +67,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
@@ -124,11 +126,11 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 						"Feature can be unset.");
 			} else {
 				// TODO Check if date is befoe it's predecessor.
-				// Nice, chronological order of lifecycle dates. 
+				// Nice, chronological order of lifecycle dates.
 				status = new Status(IStatus.WARNING,
 						ScreensActivator.PLUGIN_ID,
 						"testing warning when setting");
-//				System.out.println(status + ", value=" + value.toString());
+				// System.out.println(status + ", value=" + value.toString());
 			}
 			return status;
 		}
@@ -557,7 +559,7 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 
 		ImageHyperlink hypLnkAddMetric = toolkit.createImageHyperlink(
 				cmpMetrics, SWT.NONE);
-		hypLnkAddMetric.addHyperlinkListener(new IHyperlinkListener() {
+		hypLnkAddMetric.addHyperlinkListener(new HyperlinkAdapter() {
 			public void linkActivated(HyperlinkEvent e) {
 				Resource metriceResource = editingService
 						.getData(MetricsPackage.Literals.METRIC);
@@ -567,10 +569,10 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 						metriceResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					Object[] metricResult = dialog.getResult();
-					List<Object> metricResultList = Lists
+					final List<Object> metricResultList = Lists
 							.newArrayList(metricResult);
 					// only add the delta of selected and already set metrics.
-					List<Metric> deltaMetrics = Lists.newArrayList();
+					final List<Metric> deltaMetrics = Lists.newArrayList();
 					for (Object ro : metricResultList) {
 						boolean found = false;
 						for (Metric m : comp.getMetricRefs()) {
@@ -583,18 +585,12 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 							deltaMetrics.add((Metric) ro);
 						}
 					}
-					Command c = new AddCommand(editingService
+					final Command c = new AddCommand(editingService
 							.getEditingDomain(), comp.getMetricRefs(),
 							deltaMetrics);
 					editingService.getEditingDomain().getCommandStack()
 							.execute(c);
 				}
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
 			}
 		});
 		hypLnkAddMetric.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
@@ -674,81 +670,51 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 
-		// ImageHyperlink hypLnkAddResource = toolkit.createImageHyperlink(
-		// composite_2, SWT.NONE);
-		// hypLnkAddResource.addHyperlinkListener(new IHyperlinkListener() {
-		// public void linkActivated(HyperlinkEvent e) {
-		//
-		// // Resource resourceResource = editingService
-		// // .getData(LibraryPackage.Literals.NET_XRESOURCE);
-		//
-		//
-		// NetXResourceFilterDialog dialog = new NetXResourceFilterDialog(
-		// NewEditComponent.this.getShell(), resourceResource);
-		// if (dialog.open() == IDialogConstants.OK_ID) {
-		// NetXResource u = (NetXResource) dialog.getFirstResult();
-		// if (!comp.getResourceRefs().contains(u)) {
-		// Command c = new AddCommand(editingService
-		// .getEditingDomain(), comp.getResourceRefs(), u);
-		// editingService.getEditingDomain().getCommandStack()
-		// .execute(c);
-		// }
-		// }
-		// }
-		//
-		// public void linkEntered(HyperlinkEvent e) {
-		// }
-		//
-		// public void linkExited(HyperlinkEvent e) {
-		// }
-		// });
-		// hypLnkAddResource.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-		// false, false, 1, 1));
-		// toolkit.paintBordersFor(hypLnkAddResource);
-		// hypLnkAddResource.setText("Add");
-
 		ImageHyperlink mghprlnkNewResource = toolkit.createImageHyperlink(
 				composite_2, SWT.NONE);
 		mghprlnkNewResource.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
 				false, false, 1, 1));
-		mghprlnkNewResource.addHyperlinkListener(new IHyperlinkListener() {
+		mghprlnkNewResource.addHyperlinkListener(new HyperlinkAdapter() {
 			public void linkActivated(HyperlinkEvent e) {
 				NewEditResource resourceScreen = new NewEditResource(
 						screenService.getScreenContainer(), SWT.NONE);
 				resourceScreen.setOperation(ScreenUtil.OPERATION_NEW);
 				resourceScreen.setScreenService(screenService);
+				
+				
+				Resource cdoResourceForNetXResource = modelUtils.cdoResourceForNetXResource(comp, (CDOTransaction) comp.cdoView());
+				
+//				String computedName = null;
+//				try {
+//					computedName = modelUtils.cdoCalculateResourceName(comp);
+//				} catch (IllegalAccessException e1) {
+//					if (ScreensActivator.DEBUG) {
+//						ScreensActivator.TRACE.trace(
+//								ScreensActivator.TRACE_SCREENS_OPTION,
+//								"Attempt to deduce a name with invalid object: "
+//										+ comp, e1);
+//					}
+//				}
+//				if (computedName == null) {
+//					MessageDialog.openError(
+//							AbstractNewEditComponent.this.getShell(),
+//							"Part name should be set",
+//							"Resources can only be created on fully specified parts. Please specify the name");
+//
+//					return; // Can't calculate path for empty names.
+//				}
+//
+//				final Resource resourcesResource = editingService
+//						.getDataService()
+//						.getProvider()
+//						.getResource(
+//								editingService.getEditingDomain()
+//										.getResourceSet(), computedName);
 
-				String cdoResourcePath = modelUtils
-						.cdoCalculateResourcePathII(comp);
-				if (cdoResourcePath == null) {
-					System.out.println("Should not occur!");
-					MessageDialog.openError(
-							AbstractNewEditComponent.this.getShell(),
-							"Part name should be set",
-							"Resources can only be created on fully specified parts. Please specify the name");
-
-					return; // Can't calculate path for empty names.
-				} else {
-					System.out.println("Creating CDO Resource "
-							+ cdoResourcePath);
-				}
-				Resource resourcesResource = editingService
-						.getDataService()
-						.getProvider()
-						.getResource(
-								editingService.getEditingDomain()
-										.getResourceSet(), cdoResourcePath);
-
-				resourceScreen.injectData(resourcesResource, comp,
+				resourceScreen.injectData(cdoResourceForNetXResource, comp,
 						LibraryFactory.eINSTANCE.createNetXResource());
 				screenService.setActiveScreen(resourceScreen);
 
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
 			}
 		});
 		toolkit.paintBordersFor(mghprlnkNewResource);
@@ -756,31 +722,34 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 
 		resourceTableViewer = new TableViewer(composite_2, SWT.BORDER
 				| SWT.FULL_SELECTION);
-		Table resourcesTable = resourceTableViewer.getTable();
+		final Table resourcesTable = resourceTableViewer.getTable();
 		resourcesTable.setLinesVisible(true);
 		resourcesTable.setHeaderVisible(true);
 
-		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 8, 3);
+		final GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 8, 3);
 		gd.heightHint = 100;
 		resourcesTable.setLayoutData(gd);
 		toolkit.paintBordersFor(resourcesTable);
 
-		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
+		final TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
 				resourceTableViewer, SWT.NONE);
-		TableColumn tblclmnShortName = tableViewerColumn_3.getColumn();
+
+		final TableColumn tblclmnShortName = tableViewerColumn_3.getColumn();
 		tblclmnShortName.setWidth(100);
 		tblclmnShortName.setText("Short Name");
 
-		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(
+		final TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(
 				resourceTableViewer, SWT.NONE);
-		TableColumn tblclmnExpressionName = tableViewerColumn_4.getColumn();
+
+		final TableColumn tblclmnExpressionName = tableViewerColumn_4
+				.getColumn();
 		tblclmnExpressionName.setWidth(100);
 		tblclmnExpressionName.setText("Expression Name");
 
-		Menu menu_1 = new Menu(resourcesTable);
-		resourcesTable.setMenu(menu_1);
+		final Menu resourcesMenu = new Menu(resourcesTable);
+		resourcesTable.setMenu(resourcesMenu);
 
-		MenuItem mntmEditResource = new MenuItem(menu_1, SWT.NONE);
+		final MenuItem mntmEditResource = new MenuItem(resourcesMenu, SWT.NONE);
 		mntmEditResource.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -788,7 +757,7 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 				if (s instanceof IStructuredSelection) {
 					Object object = ((IStructuredSelection) s)
 							.getFirstElement();
-					NewEditResource editResourceScreen = new NewEditResource(
+					final NewEditResource editResourceScreen = new NewEditResource(
 							screenService.getScreenContainer(), SWT.NONE);
 					editResourceScreen.setScreenService(screenService);
 					editResourceScreen.setOperation(getOperation());
@@ -800,35 +769,31 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 		});
 		mntmEditResource.setText(this.getOperationTextAction());
 
-		MenuItem mntmRemoveResource = new MenuItem(menu_1, SWT.NONE);
+		final MenuItem mntmRemoveResource = new MenuItem(resourcesMenu,
+				SWT.NONE);
 		mntmRemoveResource.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ISelection s = resourceTableViewer.getSelection();
 				if (s instanceof IStructuredSelection) {
 
-					CompoundCommand cc = new CompoundCommand();
-					// Object o = ((IStructuredSelection) s).getFirstElement();
-					// Command rc =
-					// DeleteCommand.create(editingService.getEditingDomain(),
-					// o);
-					// editingService.getEditingDomain().getCommandStack().execute(rc);
+					final CompoundCommand cc = new CompoundCommand();
 
-					Object o = ((IStructuredSelection) s).getFirstElement();
+					final Object o = ((IStructuredSelection) s)
+							.getFirstElement();
 					{
-
-						Command rc = new RemoveCommand(editingService
+						final Command rc = new RemoveCommand(editingService
 								.getEditingDomain(), comp.getResourceRefs(), o);
 
 						cc.append(rc);
 					}
 					if (o instanceof NetXResource) {
 
-						NetXResource res = (NetXResource) o;
+						final NetXResource res = (NetXResource) o;
 
-						Resource resource = res.eResource();
+						final Resource resource = res.eResource();
 						if (resource != null) {
-							Command rc = new RemoveCommand(editingService
+							final Command rc = new RemoveCommand(editingService
 									.getEditingDomain(), res.eResource()
 									.getContents(), o);
 							cc.append(rc);
@@ -842,9 +807,9 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 		});
 		mntmRemoveResource.setText("Remove");
 
-		ImageHyperlink imageHyperlink_2 = toolkit.createImageHyperlink(
+		final ImageHyperlink imageHyperlink_2 = toolkit.createImageHyperlink(
 				composite_2, SWT.NONE);
-		GridData gd_imageHyperlink_2 = new GridData(SWT.LEFT, SWT.CENTER,
+		final GridData gd_imageHyperlink_2 = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 1, 1);
 		gd_imageHyperlink_2.widthHint = 18;
 		imageHyperlink_2.setLayoutData(gd_imageHyperlink_2);
@@ -855,21 +820,21 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 		imageHyperlink_2.setText("");
 
 		@SuppressWarnings("unused")
-		Label lblCapacityExpression = toolkit.createLabel(composite_2,
+		final Label lblCapacityExpression = toolkit.createLabel(composite_2,
 				"Capacity", SWT.NONE);
 
 		txtCapExpression = toolkit.createText(composite_2, "New Text",
 				SWT.READ_ONLY);
-		GridData gd_txtCapExpression = new GridData(SWT.LEFT, SWT.CENTER,
+		final GridData gd_txtCapExpression = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 1, 1);
 		gd_txtCapExpression.widthHint = 150;
 		txtCapExpression.setLayoutData(gd_txtCapExpression);
 		txtCapExpression.setText("");
 
-		ImageHyperlink mghprlnkRemoveCapacityExpression = toolkit
+		final ImageHyperlink mghprlnkRemoveCapacityExpression = toolkit
 				.createImageHyperlink(composite_2, SWT.NONE);
 		mghprlnkRemoveCapacityExpression
-				.addHyperlinkListener(new IHyperlinkListener() {
+				.addHyperlinkListener(new HyperlinkAdapter() {
 					public void linkActivated(HyperlinkEvent e) {
 						if (comp.getCapacityExpressionRef() != null) {
 							Command c = new SetCommand(
@@ -881,12 +846,6 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 									.execute(c);
 						}
 					}
-
-					public void linkEntered(HyperlinkEvent e) {
-					}
-
-					public void linkExited(HyperlinkEvent e) {
-					}
 				});
 		mghprlnkRemoveCapacityExpression.setImage(ResourceManager
 				.getPluginImage("org.eclipse.ui",
@@ -894,7 +853,7 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 		toolkit.paintBordersFor(mghprlnkRemoveCapacityExpression);
 		mghprlnkRemoveCapacityExpression.setText("");
 
-		Button btnSelectCapExpression = toolkit.createButton(composite_2,
+		final Button btnSelectCapExpression = toolkit.createButton(composite_2,
 				"Select", SWT.NONE);
 		btnSelectCapExpression.setLayoutData(new GridData(SWT.RIGHT,
 				SWT.CENTER, false, false, 1, 1));
@@ -920,14 +879,14 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 			}
 		});
 
-		Label label = new Label(composite_2, SWT.NONE);
+		final Label label = new Label(composite_2, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
 				1));
 		new Label(composite_2, SWT.NONE);
 
 		ImageHyperlink imageHyperlink_3 = toolkit.createImageHyperlink(
 				composite_2, SWT.NONE);
-		GridData gd_imageHyperlink_3 = new GridData(SWT.LEFT, SWT.CENTER,
+		final GridData gd_imageHyperlink_3 = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 1, 1);
 		gd_imageHyperlink_3.widthHint = 18;
 		imageHyperlink_3.setLayoutData(gd_imageHyperlink_3);
@@ -943,16 +902,16 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 
 		txtUtilExpression = toolkit.createText(composite_2, "New Text",
 				SWT.NONE | SWT.READ_ONLY);
-		GridData gd_txtUtilExpression = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
+		final GridData gd_txtUtilExpression = new GridData(SWT.LEFT,
+				SWT.CENTER, false, false, 1, 1);
 		gd_txtUtilExpression.widthHint = 150;
 		txtUtilExpression.setLayoutData(gd_txtUtilExpression);
 		txtUtilExpression.setText("");
 
-		ImageHyperlink mghprlnkRemoveUtilizationExpression = toolkit
+		final ImageHyperlink mghprlnkRemoveUtilizationExpression = toolkit
 				.createImageHyperlink(composite_2, SWT.NONE);
 		mghprlnkRemoveUtilizationExpression
-				.addHyperlinkListener(new IHyperlinkListener() {
+				.addHyperlinkListener(new HyperlinkAdapter() {
 					public void linkActivated(HyperlinkEvent e) {
 						if (comp.getUtilizationExpressionRef() != null) {
 							Command c = new SetCommand(
@@ -964,12 +923,6 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 									.execute(c);
 						}
 					}
-
-					public void linkEntered(HyperlinkEvent e) {
-					}
-
-					public void linkExited(HyperlinkEvent e) {
-					}
 				});
 		mghprlnkRemoveUtilizationExpression.setImage(ResourceManager
 				.getPluginImage("org.eclipse.ui",
@@ -977,8 +930,8 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 		toolkit.paintBordersFor(mghprlnkRemoveUtilizationExpression);
 		mghprlnkRemoveUtilizationExpression.setText("");
 
-		Button btnSelectUtilExpression = toolkit.createButton(composite_2,
-				"Select", SWT.NONE);
+		final Button btnSelectUtilExpression = toolkit.createButton(
+				composite_2, "Select", SWT.NONE);
 		btnSelectUtilExpression.setLayoutData(new GridData(SWT.RIGHT,
 				SWT.CENTER, false, false, 1, 1));
 
@@ -1214,7 +1167,7 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 
 		targetToModelUpdateStrategy
 				.setAfterConvertValidator(lifecycleValidator);
-//		targetToModelUpdateStrategy.setAfterGetValidator(lifecycleValidator);
+		// targetToModelUpdateStrategy.setAfterGetValidator(lifecycleValidator);
 
 		// Create a new lifecycle if non-existent.
 		// Note this will make the function dirty, we should never really get

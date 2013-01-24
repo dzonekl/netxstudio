@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: com.netxforge.netxstudio.models.import.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.netxforge.netxstudio.models.importer.ui.internal.ImportActivator
+Bundle-Activator: com.netxforge.netxstudio.models.importer.ui.internal.ImportUIActivator
 Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.forms;bundle-version="3.5.2",

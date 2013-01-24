@@ -267,7 +267,7 @@ public class MasterDataExporterRevenge_xssf {
 
 		if (ExportActivator.DEBUG) {
 			ExportActivator.TRACE.trace(ExportActivator.TRACE_EXPORT_OPTION,
-					"Outputing attributes sheet for: " + eClass.getName());
+					"Outputing attributes sheet for: " + eClass.getName() + " in package: " + eClass.getEPackage().getName());
 		}
 		final Sheet sheet = _generateAttributeWorksheet(eClass);
 

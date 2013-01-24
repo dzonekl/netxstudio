@@ -21,7 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOState;
@@ -41,6 +45,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.window.Window;
@@ -49,6 +55,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.CheckedTreeSelectionDialog;
+import org.eclipse.ui.progress.IProgressConstants;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableList;
@@ -58,12 +65,14 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.models.importer.MasterDataImporterJob;
 import com.netxforge.netxstudio.models.importer.OldIDLookupService;
-import com.netxforge.netxstudio.models.importer.ui.internal.ImportActivator;
+import com.netxforge.netxstudio.models.importer.ui.internal.ImportUIActivator;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -117,7 +126,10 @@ public abstract class AbstractImportWizard extends Wizard implements
 				Display.getDefault().syncExec(new Runnable() {
 
 					public void run() {
-						List<EObject> results = job.getResults();
+						
+						// Consider saving this info locally as well. 
+						final List<EObject> results = job.getResults();
+						
 						Map<String, EObject> runIndex = job.getRunIndex();
 						// present the result to the user.
 
@@ -139,14 +151,19 @@ public abstract class AbstractImportWizard extends Wizard implements
 							dialog.setContainerMode(true);
 							int result = dialog.open();
 							if (result == Window.OK) {
-								Object[] selections = dialog.getResult();
-								// Write the result, in a single command, per
-								// resource.
-								storeForSameEClass(results, selections,
-										runIndex);
+								final Object[] selections = dialog.getResult();
+
+								final StoreSelectionJob storeSelection = new StoreSelectionJob(
+										true);
+								storeSelection.storeJobParameters(results,
+										selections, runIndex);
+								storeSelection.schedule(100);
+
 							}
 						} else {
-							System.out.println("No import results");
+							if (ImportUIActivator.DEBUG) {
+								ImportUIActivator.TRACE.trace(ImportUIActivator.TRACE_IMPORT_OPTION, "No result to process");
+							}
 						}
 					}
 				});
@@ -169,134 +186,6 @@ public abstract class AbstractImportWizard extends Wizard implements
 
 		String getPrint(Object object) {
 			return lp.getText(object);
-		}
-	}
-
-	/**
-	 * Store the selection of items. As each root object will be of type EClass,
-	 * we deflat the
-	 * 
-	 * @param results
-	 * 
-	 * 
-	 * @param selection
-	 * @param runIndex
-	 */
-	@SuppressWarnings("unchecked")
-	private void storeForSameEClass(List<EObject> results, Object[] selection,
-			final Map<String, EObject> runIndex) {
-
-		String server;
-		if (uiDataProvider != null) {
-			server = uiDataProvider.getServer();
-		} else {
-			return;
-		}
-
-		dataProvider.setDoGetResourceFromOwnTransaction(false);
-		// FIXME THIS WILL OPEN WITH CURRENT CREDENTIALS,
-		// REGARDLESS ALL IS PERMITTED NOW.
-		dataProvider.openSession("admin", "admin", server);
-		final CDOTransaction transaction = dataProvider.getTransaction();
-
-		if (ImportActivator.DEBUG) {
-			ImportActivator.TRACE.trace(ImportActivator.TRACE_IMPORT_OPTION,
-					"Storing object selected objects. ");
-		}
-
-		List<Object> selectionList = ImmutableList.of(selection);
-		List<EObject> listOfObjectsToStore = Lists.newArrayList();
-
-		// Get the result object tree, matching the selection.
-		for (Object sel : selectionList) {
-			if (sel instanceof EClass) {
-				for (EObject rootObject : results) {
-					if (rootObject.eClass().getName()
-							.equalsIgnoreCase(((EClass) sel).getName())) {
-						listOfObjectsToStore.add(rootObject);
-					}
-				}
-			}
-		}
-
-		for (EObject object : listOfObjectsToStore) {
-
-			// Special treatment for NetXResource.
-			if (object instanceof NetXResource) {
-				NetXResource netXResource = (NetXResource) object;
-				Component componentRef = netXResource.getComponentRef();
-
-				if (componentRef != null) {
-					String cdoResourcePath = modelUtils
-							.cdoCalculateResourcePathII(componentRef);
-
-					Resource resource = dataProvider
-							.getResource(cdoResourcePath);
-					if (resource != null) {
-						resource.getContents().add(netXResource);
-					}
-				}
-			}
-			final EList<EObject> parentList = (EList<EObject>) getContainerList(object
-					.eClass());
-			parentList.add(object);
-		}
-
-		// This code checks for a non-null eResource in a referenced object.
-		// that will
-		// be non-dangling, but it will also mean it will try to proxy resolve
-		// as an external file reference. for the
-		// "temp" resource we created.
-		unsetDangling(listOfObjectsToStore);
-
-		// A selection of an integer object graph, will be break the graph, and
-		// leave
-		// it with unresolved/dangling references. As such the references are
-		// not dangling and
-		// will be resolved as external.
-		// To avoid resolving them as external, we should break these
-		// references.
-		// The reference can be register to which old OID these existed.
-		// when the object with the old OID becomes available, we can restore
-		// it.
-		unsetExternal(listOfObjectsToStore);
-
-		// Cast to a bimap for inverse value lookup. Only works with 1:1
-		// relation key:value.
-		final BiMap<String, EObject> indexBiMap = (BiMap<String, EObject>) runIndex;
-
-		transaction.addObjectHandler(new CDOObjectHandler() {
-			public void objectStateChanged(CDOView view, CDOObject object,
-					CDOState oldState, CDOState newState) {
-				// Any object moving to the CLEAN state will have a usable OID
-				// for reference
-				if (oldState == CDOState.NEW && newState == CDOState.CLEAN) {
-					String oldID = indexBiMap.inverse().get(object);
-					if (ImportActivator.DEBUG) {
-						ImportActivator.TRACE
-								.trace(ImportActivator.TRACE_IMPORT_OPTION,
-										"Committed object detected in the import run index, adding to ID mapper. ");
-
-						ImportActivator.TRACE.trace(
-								ImportActivator.TRACE_IMPORT_OPTION, "oldID "
-										+ oldID + " newID" + object.cdoID());
-
-						OldIDLookupService.getInstance().register(oldID,
-								object.cdoID());
-					}
-				}
-			}
-		});
-
-		transaction.setCommitComment("Manual import");
-		try {
-			transaction.commit();
-		} catch (CommitException e) {
-			e.printStackTrace();
-		} finally {
-
-			dataProvider.setDoGetResourceFromOwnTransaction(true);
-			dataProvider.closeSession();
 		}
 	}
 
@@ -325,9 +214,9 @@ public abstract class AbstractImportWizard extends Wizard implements
 						final List<EObject> toRemove = Lists.newArrayList();
 						for (EObject eo : collection) {
 							if (isExternal(eo, eRef)) {
-								if (ImportActivator.DEBUG) {
-									ImportActivator.TRACE
-											.trace(ImportActivator.TRACE_IMPORT_OPTION,
+								if (ImportUIActivator.DEBUG) {
+									ImportUIActivator.TRACE
+											.trace(ImportUIActivator.TRACE_IMPORT_OPTION,
 													"-- cleaning external ref from object"
 															+ eo
 															+ "with reference"
@@ -347,15 +236,15 @@ public abstract class AbstractImportWizard extends Wizard implements
 					} else {
 						final EObject eo = (EObject) next.eGet(eRef);
 						if (isExternal(eo, eRef)) {
-							if (ImportActivator.DEBUG) {
-								ImportActivator.TRACE.trace(
-										ImportActivator.TRACE_IMPORT_OPTION,
+							if (ImportUIActivator.DEBUG) {
+								ImportUIActivator.TRACE.trace(
+										ImportUIActivator.TRACE_IMPORT_OPTION,
 										"-- cleaning external ref from object"
 												+ eo + "with reference" + eRef);
 								;
 							}
 							CDOUtil.cleanStaleReference(next, eRef);
-//							this.unsetDangling(next, eRef);
+							// this.unsetDangling(next, eRef);
 						}
 					}
 				}
@@ -367,12 +256,12 @@ public abstract class AbstractImportWizard extends Wizard implements
 	private boolean isExternal(EObject eo, EReference eRef) {
 		if (eo instanceof CDOObject) {
 			CDOObject cdoObject = CDOUtil.getCDOObject(eo);
-			if(cdoObject != null && cdoObject.cdoID() != null){
+			if (cdoObject != null && cdoObject.cdoID() != null) {
 				return cdoObject.cdoID().isExternal();
 			} else {
 				return true;
 			}
-			
+
 		}
 		return false;
 	}
@@ -455,7 +344,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 
 	private List<?> getContainerList(EClass key) {
 
-		Resource res = getResource(key);
+		final Resource res = getResource(key);
 
 		// ResourceSet set = res.getResourceSet();
 		// if (set != null) {
@@ -483,9 +372,21 @@ public abstract class AbstractImportWizard extends Wizard implements
 			// .getOperator().getName());
 			return dataProvider.getResource(OperatorsPackage.eINSTANCE
 					.getOperator());
+		} else if (superExtendsEClass(eClass, SchedulingPackage.Literals.JOB)) {
+			return dataProvider.getResource(SchedulingPackage.Literals.JOB);
 		}
 
 		return dataProvider.getResource(eClass);
+	}
+
+	private boolean superExtendsEClass(EClass toCheck, EClass eClass) {
+		for (EClass superType : eClass.getEAllSuperTypes()) {
+			if (superType.equals(toCheck)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@SuppressWarnings("unused")
@@ -522,4 +423,276 @@ public abstract class AbstractImportWizard extends Wizard implements
 			return super.getText(object);
 		}
 	}
+
+	/**
+	 * A {@link Job} for storing a collection of objects.
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	class StoreSelectionJob extends Job {
+
+		/** The user selection after parsing */
+		private Object[] selection;
+
+		/** The import run index */
+		private Map<String, EObject> runIndex;
+
+		/** The collection of object which are target before user selection */
+		private List<EObject> results;
+
+		/** Our progress monitor */
+		private IProgressMonitor monitor;
+
+		public StoreSelectionJob(boolean userJob) {
+			super("Store data job");
+			setUser(userJob);
+		}
+
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			return processJob(monitor);
+		}
+
+		private IStatus processJob(IProgressMonitor monitor) {
+
+			this.monitor = monitor;
+			// Do some duration calculation:
+
+			// the actual execution
+			storeForSameEClass();
+
+			if (isModal(this)) {
+				// The progress dialog is still open so
+				// just open the message
+				showResults();
+			} else {
+				setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
+				setProperty(IProgressConstants.ACTION_PROPERTY,
+						getImportCompletedAction());
+			}
+
+			return Status.OK_STATUS;
+		}
+
+		public void storeJobParameters(List<EObject> results,
+				Object[] selection, Map<String, EObject> runIndex) {
+
+			this.results = results;
+			this.selection = selection;
+			this.runIndex = runIndex;
+
+		}
+
+		/**
+		 * Store the selection of items. As each root object will be of type
+		 * EClass, we deflat the
+		 * 
+		 * @param results
+		 * 
+		 * 
+		 * @param selection
+		 * @param runIndex
+		 */
+		private void storeForSameEClass() {
+
+			String server;
+
+			if (uiDataProvider != null) {
+				server = uiDataProvider.getServer();
+			} else {
+				return;
+			}
+
+			dataProvider.setDoGetResourceFromOwnTransaction(false);
+			// FIXME THIS WILL OPEN WITH CURRENT CREDENTIALS,
+			// REGARDLESS ALL IS PERMITTED NOW.
+			dataProvider.openSession("admin", "admin", server);
+			final CDOTransaction transaction = dataProvider.getTransaction();
+
+			if (ImportUIActivator.DEBUG) {
+				ImportUIActivator.TRACE.trace(
+						ImportUIActivator.TRACE_IMPORT_OPTION,
+						"Storing object selected objects. ");
+			}
+
+			// Optionally apply the selection.
+			List<EObject> listOfObjectsToStore;
+			if (selection != null) {
+				listOfObjectsToStore = applyUserSelection();
+			} else {
+				listOfObjectsToStore = results;
+			}
+
+			// Stuff the objects in the resources
+			resultToResources(listOfObjectsToStore, transaction);
+
+			// This code checks for a non-null eResource in a referenced object.
+			// that will
+			// be non-dangling, but it will also mean it will try to proxy
+			// resolve
+			// as an external file reference. for the
+			// "temp" resource we created.
+			unsetDangling(listOfObjectsToStore);
+
+			// A selection of an integer object graph, will be break the graph,
+			// and
+			// leave
+			// it with unresolved/dangling references. As such the references
+			// are
+			// not dangling and
+			// will be resolved as external.
+			// To avoid resolving them as external, we should break these
+			// references.
+			// The reference can be register to which old OID these existed.
+			// when the object with the old OID becomes available, we can
+			// restore
+			// it.
+			unsetExternal(listOfObjectsToStore);
+
+			// Cast to a bimap for inverse value lookup. Only works with 1:1
+			// relation key:value.
+			final BiMap<String, EObject> indexBiMap = (BiMap<String, EObject>) runIndex;
+
+			transaction.addObjectHandler(new CDOObjectHandler() {
+				public void objectStateChanged(CDOView view, CDOObject object,
+						CDOState oldState, CDOState newState) {
+					// Any object moving to the CLEAN state will have a usable
+					// OID
+					// for reference
+					if (oldState == CDOState.NEW && newState == CDOState.CLEAN) {
+						String oldID = indexBiMap.inverse().get(object);
+						if (ImportUIActivator.DEBUG) {
+							ImportUIActivator.TRACE
+									.trace(ImportUIActivator.TRACE_IMPORT_OPTION,
+											"Committed object detected in the import run index, adding to ID mapper. ");
+
+							ImportUIActivator.TRACE.trace(
+									ImportUIActivator.TRACE_IMPORT_OPTION,
+									"oldID " + oldID + " newID"
+											+ object.cdoID());
+
+							OldIDLookupService.getInstance().register(oldID,
+									object.cdoID());
+						}
+					}
+				}
+			});
+
+			transaction.setCommitComment("Manual import");
+			try {
+				transaction.commit(monitor);
+			} catch (CommitException e) {
+				e.printStackTrace();
+			} finally {
+
+				dataProvider.setDoGetResourceFromOwnTransaction(true);
+				dataProvider.closeSession();
+			}
+		}
+
+		/**
+		 * @param listOfObjectsToStore
+		 * @param transaction 
+		 */
+		private void resultToResources(List<EObject> listOfObjectsToStore, CDOTransaction transaction) {
+			for (EObject object : listOfObjectsToStore) {
+
+				// Special treatment for NetXResource.
+				// If there is a component reference, put it in it's own CDO
+				// Resource,
+				// otherwise in the NetXResource.class CDO Resource
+				if (object instanceof NetXResource) {
+					
+					NetXResource netXResource = (NetXResource) object;
+					Component componentRef = netXResource.getComponentRef();
+					Resource resource = null;
+					if (componentRef != null) {
+
+						
+						// Remove later: 
+//						String cdoResourcePath;
+//						try {
+//							cdoResourcePath = modelUtils
+//									.cdoCalculateResourceName(componentRef);
+//							resource = dataProvider
+//									.getResource(cdoResourcePath);
+//
+//						} catch (IllegalAccessException e) {
+//							if (ImportUIActivator.DEBUG) {
+//								ImportUIActivator.TRACE.trace(
+//										ImportUIActivator.TRACE_IMPORT_OPTION,
+//										"Attempt to deduce a name from an invalid object: "
+//												+ componentRef);
+//							}
+//						}
+						resource = modelUtils.cdoResourceForNetXResource(componentRef, transaction);
+						
+					} else {
+						resource = dataProvider
+								.getResource(LibraryPackage.Literals.NET_XRESOURCE);
+
+					}
+					if (resource != null) {
+						resource.getContents().add(netXResource);
+					}
+					resource.getContents().add(object);
+
+				}
+				@SuppressWarnings("unchecked")
+				final EList<EObject> parentList = (EList<EObject>) getContainerList(object
+						.eClass());
+
+				parentList.add(object);
+			}
+		}
+
+		/**
+		 * @return
+		 */
+		private List<EObject> applyUserSelection() {
+			List<Object> selectionList = ImmutableList.of(selection);
+			List<EObject> listOfObjectsToStore = Lists.newArrayList();
+
+			// Get the result object tree, matching the selection.
+			for (Object sel : selectionList) {
+				if (sel instanceof EClass) {
+					for (EObject rootObject : results) {
+						if (rootObject.eClass().getName()
+								.equalsIgnoreCase(((EClass) sel).getName())) {
+							listOfObjectsToStore.add(rootObject);
+						}
+					}
+				}
+			}
+			return listOfObjectsToStore;
+		}
+
+		public boolean isModal(Job job) {
+			Boolean isModal = (Boolean) job
+					.getProperty(IProgressConstants.PROPERTY_IN_DIALOG);
+			if (isModal == null)
+				return false;
+			return isModal.booleanValue();
+		}
+
+		protected void showResults() {
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					getImportCompletedAction().run();
+				}
+			});
+		}
+
+		protected Action getImportCompletedAction() {
+			return new Action("Import completed") {
+				public void run() {
+					MessageDialog.openInformation(Display.getDefault()
+							.getActiveShell(), "Export completed",
+							"The import of data completed.");
+				}
+			};
+		}
+
+	}
+
 }

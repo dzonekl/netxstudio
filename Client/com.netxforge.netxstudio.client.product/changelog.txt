@@ -4,6 +4,10 @@ NetXStudio Client Change log.
 http://work.netxforge.com/issues/344
 http://work.netxforge.com/issues/345
 
+Fixed various problems with Export and Import 
+of objects in Excel. 
+
+
 1.1.0
 TODO....
 

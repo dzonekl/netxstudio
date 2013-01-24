@@ -23,40 +23,40 @@ import org.eclipse.ui.IWorkbench;
 
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.models.export.AbstractExportFilter;
 import com.netxforge.netxstudio.models.export.IExportFilter;
-import com.netxforge.netxstudio.models.export.StaticExportFilter;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * @author Christophe Bouhier
  */
-public class AllStaticXLSPOIWizard extends AbstractExportPOIRevengeWizard {
+public class AllXLSPOIWizard extends AbstractExportPOIRevengeWizard {
 
 	@SuppressWarnings("unused")
 	private IStructuredSelection selection;
 
 	EPackage[] getEPackages() {
-		return new EPackage[] { NetxstudioPackage.eINSTANCE, ServicesPackage.eINSTANCE,
+		return new EPackage[] {NetxstudioPackage.eINSTANCE, ServicesPackage.eINSTANCE,
 				MetricsPackage.eINSTANCE, LibraryPackage.eINSTANCE,
 				OperatorsPackage.eINSTANCE, GenericsPackage.eINSTANCE,
-				SchedulingPackage.eINSTANCE, ProtocolsPackage.eINSTANCE };
+				SchedulingPackage.eINSTANCE, GeoPackage.eINSTANCE};
 	}
+
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
-		setWindowTitle("Export static data to Excel format");
+		setWindowTitle("Export all Data to Excel format");
 		setNeedsProgressMonitor(true);
-		setBaseFileName("ExportAllStatic");
+		setBaseFileName("ExportAll");
 	}
 
 	@Override
 	IExportFilter getExportFilter() {
-		return new StaticExportFilter();
+		return new AbstractExportFilter.VolatileFilter();
 	}
-
 }
