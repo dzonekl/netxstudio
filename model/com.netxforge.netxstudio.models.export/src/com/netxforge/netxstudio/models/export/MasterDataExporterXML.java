@@ -19,12 +19,19 @@ package com.netxforge.netxstudio.models.export;
 
 
 /**
- * Stuff each CDO Resource into an XML Resource for the same 
+ * Stuff each CDO Resource into an XML Resource with the same name, as the CDO resource name.  
+ *  
  * {@link ResourceSet } 
  * 
  * @author Christophe Bouhier
  */
 public class MasterDataExporterXML {
+		
+	// Implementation: 
+	// Descend the CDO Resource Node hierarchy. For each CDOResource, create a file and copy the content. 
+	// 
+	
+	
 	
 
 }

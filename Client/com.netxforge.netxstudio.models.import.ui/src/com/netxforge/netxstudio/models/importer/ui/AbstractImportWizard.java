@@ -380,8 +380,8 @@ public abstract class AbstractImportWizard extends Wizard implements
 	}
 
 	private boolean superExtendsEClass(EClass toCheck, EClass eClass) {
-		for (EClass superType : eClass.getEAllSuperTypes()) {
-			if (superType.equals(toCheck)) {
+		for (EClass superType : toCheck.getEAllSuperTypes()) {
+			if (superType.equals(eClass)) {
 				return true;
 			}
 		}
@@ -636,6 +636,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 						resource.getContents().add(netXResource);
 					}
 					resource.getContents().add(object);
+					continue;
 
 				}
 				@SuppressWarnings("unchecked")

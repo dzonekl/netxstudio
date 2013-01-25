@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="NetXStudio" uid="com.netxforge.netxstudio" id="com.netxforge.netxstudio.client.product.netxstudio" application="com.netxforge.netxstudio.ui.application" version="1.0.5" useFeatures="true" includeLaunchers="true">
+<product name="NetXStudio" uid="com.netxforge.netxstudio" id="com.netxforge.netxstudio.client.product.netxstudio" application="com.netxforge.netxstudio.ui.application" version="1.1.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/com.netxforge.netxstudio.client.product/icons/Logo about 250-330.png"/>
