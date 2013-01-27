@@ -112,29 +112,60 @@ public interface IQueryService {
 	public List<Value> getMetricsFromResource(String expressionName,
 			XMLGregorianCalendar from, XMLGregorianCalendar to, int periodHint,
 			KindHintType kindHint);
-
+	
 	/**
 	 * Get the capacity values from a resource.
 	 * 
-	 * @param expressionName
-	 * @param from
-	 * @param to
-	 * @return A list of Value type.
+	 * @param view
+	 * @param netXResource
+	 * @param dialect
+	 * @param period
+	 * @return
 	 */
-	public List<Value> getCapacityFromResource(String expressionName,
-			XMLGregorianCalendar from, XMLGregorianCalendar to);
-
+	public List<Value> capacityValues(CDOView view, NetXResource netXResource,
+			String dialect, DateTimeRange period);
+	
+	/**
+	 * Get the capacity values from a resource.
+	 * 
+	 * @param view
+	 * @param netXResource
+	 * @param dialect
+	 * @param period
+	 * @param date
+	 * @return
+	 */
+	public List<Value> capacityValues(CDOView view, NetXResource netXResource,
+			String dialect, DateTimeRange period, XMLGregorianCalendar date);
+	
+	
 	/**
 	 * Get the utilization from a resource.
 	 * 
-	 * @param expressionName
-	 * @param from
-	 * @param to
-	 * @return A list of Value type.
+	 * @param view
+	 * @param netXResource
+	 * @param dialect
+	 * @param period
+	 * @return
 	 */
-	public List<Value> getUtilizationFromResource(String expressionName,
-			XMLGregorianCalendar from, XMLGregorianCalendar to);
+	public List<Value> utilizationValues(CDOView view, NetXResource netXResource,
+			String dialect, DateTimeRange period);
+	
+	/**
+	 * Get the utilization from a resource.
+	 * 
+	 * @param view
+	 * @param netXResource
+	 * @param dialect
+	 * @param period
+	 * @param date
+	 * @return
+	 */
+	public List<Value> utilizationValues(CDOView view, NetXResource netXResource,
+			String dialect, DateTimeRange period, XMLGregorianCalendar date);
 
+	
+	
 	/**
 	 * 
 	 * @param nodeID

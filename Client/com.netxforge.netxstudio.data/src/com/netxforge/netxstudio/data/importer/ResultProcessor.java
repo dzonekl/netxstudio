@@ -163,7 +163,7 @@ public class ResultProcessor {
 	 * 
 	 * @param values
 	 */
-	public void removeValues(EList<Value> values) {
+	public void removeValues(List<Value> values) {
 		final List<Value> toRemove = new ArrayList<Value>(values);
 
 		removeValueReferences(toRemove);
@@ -196,6 +196,17 @@ public class ResultProcessor {
 		return mvr.getMetricValues().size() != size;
 	}
 
+	public boolean removeValues(EList<Value> targetRange, List<Value> values) {
+		
+		int size = targetRange.size(); 
+
+		removeValueReferences(values);
+		targetRange.removeAll(values);
+		
+		// Assume these are contained here.
+		return targetRange.size() != size;	
+	}
+	
 	/**
 	 * @param toRemove
 	 */

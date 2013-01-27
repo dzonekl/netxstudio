@@ -153,11 +153,13 @@ public class RetentionEngine extends BaseComponentEngine {
 						getExpressionEngine().getContext().add(netXResource);
 						// getExpressionEngine().getContext().add(rule); // TODO
 						// Remove later, do we need the MRR?
-						
-						// FIXME, As the data is not committed in between, subsequent expressions will not be able 
-						// get data until commit, so it needs to run n times (n = number of rules) before all aggregation is done. 
+
+						// As the data is not committed in between, subsequent
+						// expressions will not be able
+						// get data until commit, so it needs to run n times (n
+						// = number of rules) before all aggregation is done.
 						runForExpression(expression);
-						
+
 						commitInbetween(netXResource.cdoView());
 					}
 				}
@@ -192,6 +194,32 @@ public class RetentionEngine extends BaseComponentEngine {
 
 					// Try to match an MVR with a metric rule.
 					final int intervalHint = rule.getIntervalHint();
+
+					// Clear utilization and capacity for this period for
+					// the smallest interval defined as a fixture.
+					if (intervalHint == 15) {
+						final List<Value> capacityValues = queryService
+								.capacityValues(netXResource.cdoView(),
+										netXResource,
+										IQueryService.QUERY_MYSQL, period);
+
+						if (!capacityValues.isEmpty()) {
+							resultProcessor.removeValues(
+									netXResource.getCapacityValues(),
+									capacityValues);
+						}
+
+						final List<Value> utilizationValues = queryService
+								.utilizationValues(netXResource.cdoView(),
+										netXResource,
+										IQueryService.QUERY_MYSQL, period);
+
+						if (!utilizationValues.isEmpty()) {
+							resultProcessor.removeValues(
+									netXResource.getUtilizationValues(),
+									utilizationValues);
+						}
+					}
 
 					final MetricValueRange mvr = this.getModelUtils()
 							.valueRangeForInterval(netXResource, intervalHint);
@@ -229,10 +257,9 @@ public class RetentionEngine extends BaseComponentEngine {
 						} else {
 							mvrsCleared.add(mvr);
 						}
-						
+
 						commitInbetween(netXResource.cdoView());
-						
-						
+
 					} else {
 						LogicActivator.TRACE.trace(
 								LogicActivator.TRACE_RETENTION_OPTION,
@@ -278,7 +305,7 @@ public class RetentionEngine extends BaseComponentEngine {
 					}
 				}
 
-				// Clean-up the ranges which have been affected and are empty. 
+				// Clean-up the ranges which have been affected and are empty.
 				final List<MetricValueRange> mvrsToRemove = Lists
 						.newArrayList(Iterables.filter(mvrsCleared,
 								new Predicate<MetricValueRange>() {
@@ -364,9 +391,9 @@ public class RetentionEngine extends BaseComponentEngine {
 	public void setRetentionRules(MetricRetentionRules rules) {
 		this.rules = rules;
 	}
-	
-	private void commitInbetween(CDOView cdoView){
-		if(cdoView instanceof CDOTransaction){
+
+	private void commitInbetween(CDOView cdoView) {
+		if (cdoView instanceof CDOTransaction) {
 			try {
 				((CDOTransaction) cdoView).commit();
 			} catch (CommitException e) {
@@ -374,6 +401,5 @@ public class RetentionEngine extends BaseComponentEngine {
 			}
 		}
 	}
-	
-	
+
 }

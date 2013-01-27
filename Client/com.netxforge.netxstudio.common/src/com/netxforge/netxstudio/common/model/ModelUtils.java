@@ -1247,7 +1247,7 @@ public class ModelUtils {
 	public Resource cdoResourceForNetXResource(EObject targetObject,
 			CDOTransaction transaction) {
 
-		CDOResourceFolder folder = transaction
+		final CDOResourceFolder folder = transaction
 				.getOrCreateResourceFolder("/Node_/");
 		
 		// CDOResourceNode folder = transaction.getResourceNode("/Node_/");

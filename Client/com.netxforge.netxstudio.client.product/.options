@@ -12,7 +12,8 @@ com.netxforge.netxstudio.models.import.ui/debug=true
 
 # Model Export / Import options. 
 com.netxforge.netxstudio.models.export/trace.manual.export=true
-com.netxforge.netxstudio.models.import/trace.manual.import=true
+com.netxforge.netxstudio.models.import/trace.manual.import=false
+com.netxforge.netxstudio.models.import/trace.manual.import.type=true
 com.netxforge.netxstudio.models.import/trace.manual.import.ui=true
 
 

@@ -50,21 +50,19 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * @author Christophe Bouhier
  */
 public abstract class AbstractExportFilter implements IExportFilter {
-	
-	
-	
+
 	/**
-	 * A Filter which only clears the volatile objects. 
+	 * A Filter which only clears the volatile objects.
+	 * 
 	 * @author Christophe
-	 *
+	 * 
 	 */
 	public static class VolatileFilter extends AbstractExportFilter {
 		public VolatileFilter() {
 			configure();
 		}
 	}
-	
-	
+
 	/**
 	 * Classes which are not "Master", meaning not exposed to the user.
 	 */
@@ -88,7 +86,7 @@ public abstract class AbstractExportFilter implements IExportFilter {
 
 			filteredClasses.add(MetricsPackage.Literals.MAPPING_RECORD); // VOLATILE
 			filteredClasses.add(MetricsPackage.Literals.MAPPING_STATISTIC); // VOLATILE.
-			
+
 			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULE); // FIXTURE
 			filteredClasses.add(MetricsPackage.Literals.METRIC_RETENTION_RULES); // FIXTURE
 
@@ -97,7 +95,7 @@ public abstract class AbstractExportFilter implements IExportFilter {
 		}
 		// LIBRARY PACKAGE.
 		{
-			final     List<EClass> filteredClasses = Lists.newArrayList();
+			final List<EClass> filteredClasses = Lists.newArrayList();
 
 			filteredClasses.add(LibraryPackage.Literals.BASE_EXPRESSION_RESULT); // SUPER
 			filteredClasses.add(LibraryPackage.Literals.BASE_RESOURCE); // SUPER
@@ -151,6 +149,10 @@ public abstract class AbstractExportFilter implements IExportFilter {
 			filteredClasses.add(GenericsPackage.Literals.COMMIT_LOG_ENTRY); // VOLATILE.
 			filteredClasses.add(GenericsPackage.Literals.MULTI_IMAGE); // UN-USED
 			filteredClasses.add(GenericsPackage.Literals.META); // UN-USED
+			filteredClasses
+					.add(GenericsPackage.Literals.EXPANSION_DURATION_SETTING); // FIXTURE
+			filteredClasses
+					.add(GenericsPackage.Literals.EXPANSION_DURATION_VALUE); // FIXTURE
 			filteredClasses.add(GenericsPackage.Literals.ROLE); // FIXTURE.
 
 			filteredNonMasterClasses.put(GenericsPackage.eINSTANCE,
@@ -174,36 +176,35 @@ public abstract class AbstractExportFilter implements IExportFilter {
 			filteredClasses.add(SchedulingPackage.Literals.JOB_RUN_CONTAINER); // VOLATILE
 			filteredClasses.add(SchedulingPackage.Literals.ANALYZER_JOB); // FUTURE
 																			// USE
-
+			filteredClasses.add(SchedulingPackage.Literals.RETENTION_JOB); // FIXTURE
 			filteredNonMasterClasses.put(SchedulingPackage.eINSTANCE,
 					filteredClasses);
 		}
-		// GEO PACKAGE. 
+		// GEO PACKAGE.
 		{
 			List<EClass> filteredClasses = Lists.newArrayList();
 			filteredClasses.add(GeoPackage.Literals.LOCATION); // SUPER
-			filteredNonMasterClasses.put(GeoPackage.eINSTANCE,
-					filteredClasses);
+			filteredNonMasterClasses.put(GeoPackage.eINSTANCE, filteredClasses);
 		}
-		
-		// NETXSTUDIO PACKAGE. 
+
+		// NETXSTUDIO PACKAGE.
 		{
 			List<EClass> filteredClasses = Lists.newArrayList();
-			filteredClasses.add(NetxstudioPackage.Literals.NETXSTUDIO); // UN-USED. 
+			filteredClasses.add(NetxstudioPackage.Literals.NETXSTUDIO); // UN-USED.
 			filteredClasses.add(NetxstudioPackage.Literals.SERVER_SETTINGS); // FIXTURE
 			filteredNonMasterClasses.put(NetxstudioPackage.eINSTANCE,
 					filteredClasses);
 		}
-		
-		// PROTOCOL PACKAGE. 
+
+		// PROTOCOL PACKAGE.
 		{
 			List<EClass> filteredClasses = Lists.newArrayList();
 			// NO filtered classes for protocol
 			filteredNonMasterClasses.put(ProtocolsPackage.eINSTANCE,
 					filteredClasses);
 		}
-		
-		// FEATURES. 
+
+		// FEATURES.
 		{
 			List<EStructuralFeature> filteredFeatures = Lists.newArrayList();
 			filteredFeatures.add(GenericsPackage.Literals.BASE__DELETED);
@@ -226,13 +227,17 @@ public abstract class AbstractExportFilter implements IExportFilter {
 		} else
 			return Collections.emptyList();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see com.netxforge.netxstudio.models.export.IExportFilter#shouldFilterObject(org.eclipse.emf.ecore.EClass)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.models.export.IExportFilter#shouldFilterObject
+	 * (org.eclipse.emf.ecore.EClass)
 	 */
-	public boolean shouldFilterObject(EClass eClass){
-		return filteredNonMasterClasses.get(eClass.getEPackage()).contains(eClass);
+	public boolean shouldFilterObject(EClass eClass) {
+		return filteredNonMasterClasses.get(eClass.getEPackage()).contains(
+				eClass);
 	}
 
 	/*
@@ -255,7 +260,8 @@ public abstract class AbstractExportFilter implements IExportFilter {
 	 * @see com.netxforge.netxstudio.models.export.IExportFilter#
 	 * alphabetOrderedClassesFor(org.eclipse.emf.ecore.EPackage)
 	 */
-	public List<EClassifier> alphabetOrderedNonFilteredClassesFor(EPackage... ePackages) {
+	public List<EClassifier> alphabetOrderedNonFilteredClassesFor(
+			EPackage... ePackages) {
 		List<EClassifier> forAllPackages = Lists.newArrayList();
 		for (EPackage ePackage : ePackages) {
 			forAllPackages.addAll(nonFilteredClassesFor(ePackage));
@@ -270,7 +276,8 @@ public abstract class AbstractExportFilter implements IExportFilter {
 	 * @see com.netxforge.netxstudio.models.export.IExportFilter#
 	 * alphabetOrderedClassesFor(org.eclipse.emf.ecore.EPackage)
 	 */
-	public List<EClassifier> alphabetOrderedNonFilteredClassesFor(EPackage ePackage) {
+	public List<EClassifier> alphabetOrderedNonFilteredClassesFor(
+			EPackage ePackage) {
 		List<EClassifier> sortedCopy = Ordering.from(new ClassNameComparator())
 				.sortedCopy(nonFilteredClassesFor(ePackage));
 		return sortedCopy;

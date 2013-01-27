@@ -42,6 +42,8 @@ public class ImportActivator implements BundleActivator, DebugOptionsListener {
 	
 	public static final String TRACE_IMPORT_OPTION = "/trace.manual.import";
 	
+	/** Tracing for importing types */
+	public static final String TRACE_IMPORT_TYPE_OPTION = "/trace.manual.import.type";
 
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", true);
