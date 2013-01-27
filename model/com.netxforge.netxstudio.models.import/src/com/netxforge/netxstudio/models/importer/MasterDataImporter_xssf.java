@@ -57,14 +57,21 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.generics.ActionType;
+import com.netxforge.netxstudio.generics.DiagramKindType;
+import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.library.RedundancyType;
+import com.netxforge.netxstudio.library.StateType;
 import com.netxforge.netxstudio.metrics.DataKind;
+import com.netxforge.netxstudio.metrics.DatabaseTypeType;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.Mapping;
@@ -77,7 +84,11 @@ import com.netxforge.netxstudio.models.importer.internal.ImportActivator;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.protocols.OSIType;
+import com.netxforge.netxstudio.scheduling.JobState;
+import com.netxforge.netxstudio.services.ResourceOriginType;
 import com.netxforge.netxstudio.services.Service;
+import com.netxforge.netxstudio.services.ServiceClassType;
 
 /**
  * @author Martin Taal
@@ -595,37 +606,72 @@ public class MasterDataImporter_xssf {
 							result.eSet(eFeature, value);
 						}
 					} else if (type.getInstanceClass() == boolean.class) {
-						Boolean bValue = new Boolean(value);
+						final Boolean bValue = new Boolean(value);
 						result.eSet(eFeature, bValue);
 					} else if (type.getInstanceClass() == int.class) {
-						Integer iValue = new Integer(value);
+						final Integer iValue = new Integer(value);
 						result.eSet(eFeature, iValue);
 					} else if (type.getInstanceClass() == double.class) {
-						Double dbValue = new Double(value);
+						final Double dbValue = new Double(value);
 						result.eSet(eFeature, dbValue);
 					} else if (type.getInstanceClass() == XMLGregorianCalendar.class) {
-						XMLGregorianCalendar newXMLGregorianCalendar = typeFactory
+						final XMLGregorianCalendar newXMLGregorianCalendar = typeFactory
 								.newXMLGregorianCalendar(value);
 						result.eSet(eFeature, newXMLGregorianCalendar);
 					}
 
 					// ///// ENUMS WHICH ARE MODE SPECIFIC.
 					else if (type.getInstanceClass() == ObjectKindType.class) {
-						ObjectKindType ok = ObjectKindType.get(value);
+						final ObjectKindType ok = ObjectKindType.get(value);
 						result.eSet(eFeature, ok);
-					}
-					if (type.getInstanceClass() == ValueKindType.class) {
-						ValueKindType vk = ValueKindType.get(value);
+					} else if (type.getInstanceClass() == ValueKindType.class) {
+						final ValueKindType vk = ValueKindType.get(value);
 						result.eSet(eFeature, vk);
-					}
-					if (type.getInstanceClass() == KindHintType.class) {
-						KindHintType kht = KindHintType.get(value);
+					} else if (type.getInstanceClass() == KindHintType.class) {
+						final KindHintType kht = KindHintType.get(value);
 						result.eSet(eFeature, kht);
+					} else if (type.getInstanceClass() == JobState.class) {
+						final JobState js = JobState.get(value);
+						result.eSet(eFeature, js);
+					} else if (type.getInstanceClass() == DatabaseTypeType.class) {
+						final DatabaseTypeType db = DatabaseTypeType.get(value);
+						result.eSet(eFeature, db);
+					} else if (type.getInstanceClass() == ServiceClassType.class) {
+						final ServiceClassType sc = ServiceClassType.get(value);
+						result.eSet(eFeature, sc);
+					} else if (type.getInstanceClass() == OSIType.class) {
+						final OSIType osi = OSIType.get(value);
+						result.eSet(eFeature, osi);
+					} else if (type.getInstanceClass() == RedundancyType.class) {
+						final RedundancyType redundancy = RedundancyType
+								.get(value);
+						result.eSet(eFeature, redundancy);
+					} else if (type.getInstanceClass() == ActionType.class) {
+						final ActionType action = ActionType.get(value);
+						result.eSet(eFeature, action);
+					} else if (type.getInstanceClass() == StateType.class) {
+						final StateType state = StateType.get(value);
+						result.eSet(eFeature, state);
+					} else if (type.getInstanceClass() == ResourceOriginType.class) {
+						final ResourceOriginType origin = ResourceOriginType
+								.get(value);
+						result.eSet(eFeature, origin);
+					} else if (type.getInstanceClass() == DiagramKindType.class) {
+						final DiagramKindType diagram = DiagramKindType
+								.get(value);
+						result.eSet(eFeature, diagram);
+					} else if (type.getInstanceClass() == LevelKind.class) {
+						final LevelKind toleranceLevel = LevelKind.get(value);
+						result.eSet(eFeature, toleranceLevel);
+					} else if (type.getInstanceClass() == ExpansionDuration.class) {
+						final ExpansionDuration expansionDuration = ExpansionDuration
+								.get(value);
+						result.eSet(eFeature, expansionDuration);
 					} else {
 						if (ImportActivator.DEBUG) {
 							ImportActivator.TRACE.trace(
-									ImportActivator.TRACE_IMPORT_OPTION,
-									" undefined type ");
+									ImportActivator.TRACE_IMPORT_TYPE_OPTION,
+									" unrecognized type: " + type);
 						}
 					}
 				} else {

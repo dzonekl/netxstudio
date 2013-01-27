@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -128,10 +129,24 @@ public class ServerImporterHelper implements IImporterHelper {
 		final ValueDataKind valueDataKind = importer.getValueDataKind(column);
 		final Metric metric = valueDataKind.getMetricRef();
 
+		if (DataActivator.DEBUG) {
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_IMPORT_HELPER_OPTION,
+					"-- adding to: "
+							+ modelUtils.printModelObject(locatedComponent) 
+						    + " with metric: " + modelUtils.printModelObject(metric));
+		}
 
 		final Resource cdoResourceForNetXResource = modelUtils
 				.cdoResourceForNetXResource(locatedComponent, this
 						.getDataProvider().getTransaction());
+		if (DataActivator.DEBUG) {
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_IMPORT_HELPER_OPTION,
+					"-- located CDO resource: "
+							+ ((CDOResource)cdoResourceForNetXResource).getPath());
+		}
+		
 		final EList<EObject> netxResourcesList = cdoResourceForNetXResource.getContents();
 		
 		NetXResource foundNetXResource = null;
@@ -145,11 +160,29 @@ public class ServerImporterHelper implements IImporterHelper {
 			// metric
 			// reference:
 			// see http://work.netxforge.com/issues/264
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_IMPORT_HELPER_OPTION,
+						"-- checking resource: "
+								+ netXResource.getShortName()
+								+ " metric ref: " + modelUtils.printModelObject(netXResource.getMetricRef())
+							    + " comp ref: " + modelUtils.printModelObject(netXResource.getComponentRef()));
+			}
+			
+//			if (netXResource.getComponentRef() != null
+//					&& netXResource.getComponentRef().cdoID().equals(locatedComponent.cdoID())
+//					&& netXResource.getMetricRef() != null
+//					&& netXResource.getMetricRef().cdoID().equals(metric.cdoID())) {
+//				System.out.println("");
+//			}
+			
+			
+			
 			if (netXResource.getComponentRef() != null
 					&& netXResource.getComponentRef().cdoID()
 							.equals(locatedComponent.cdoID())
 					&& netXResource.getMetricRef() != null
-					&& netXResource.getMetricRef().cdoID() == metric.cdoID()) {
+					&& netXResource.getMetricRef().cdoID().equals(metric.cdoID())) {
 				if (lastDescriptor != null) {
 					if (!netXResource.getShortName().equals(
 							lastDescriptor.getValue())) {

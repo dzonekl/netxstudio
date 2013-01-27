@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.screens;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.jface.viewers.IElementComparer;
 
 
@@ -37,7 +38,14 @@ public class CDOElementComparer implements IElementComparer {
         	CDOID cdoID = ((CDOObject)element).cdoID();
             return (element.getClass().getName() + "+" + cdoID).hashCode();
         }
-        return element.hashCode();
+        
+        try{
+        	return element.hashCode();
+        }catch(ObjectNotFoundException onfe){
+        	
+        }
+        
+        return -1;
     }
     
     public boolean equals(Object a, Object b) {

@@ -276,52 +276,191 @@ public class CDOQueryService implements IQueryService {
 		return values;
 	}
 
-	/**
-	 * TODO Migrate to new API.
-	 * 
-	 * @deprecated
-	 */
-	public List<Value> getCapacityFromResource(String expressionName,
-			XMLGregorianCalendar from, XMLGregorianCalendar to) {
-		final CDOTransaction transaction = provider.getTransaction();
-		final CDOQuery cdoQuery = transaction
-				.createQuery(
-						"hql",
-						"select v from Value v, NetXResource res where "
-								+ "v in elements(res.capacityValues) "
-								+ "and v.timeStamp >= :dateFrom and v.timeStamp <= :dateTo "
-								+ "and res.expressionName=:name");
-		cdoQuery.setParameter("name", expressionName);
-		cdoQuery.setParameter("dateFrom", dateString(from));
-		cdoQuery.setParameter("dateTo", dateString(to));
-
-		queryService.setCacheParameter(cdoQuery);
-		final List<Value> values = cdoQuery.getResult(Value.class);
-		return values;
+	public List<Value> capacityValues(CDOView view, NetXResource netXResource,
+			String dialect, DateTimeRange period) {
+		return capacityValues(view, netXResource, dialect, period, null);
 	}
 
-	/**
-	 * TODO
-	 * 
-	 * @deprecated
-	 */
-	public List<Value> getUtilizationFromResource(String expressionName,
-			XMLGregorianCalendar from, XMLGregorianCalendar to) {
-		final CDOTransaction transaction = provider.getTransaction();
-		final CDOQuery cdoQuery = transaction
-				.createQuery(
-						"hql",
-						"select v from Value v, NetXResource res where "
-								+ "v in elements(res.utilizationValues) "
-								+ "and v.timeStamp >= :dateFrom and v.timeStamp <= :dateTo "
-								+ "and res.expressionName=:name");
-		cdoQuery.setParameter("name", expressionName);
-		cdoQuery.setParameter("dateFrom", dateString(from));
-		cdoQuery.setParameter("dateTo", dateString(to));
+	public List<Value> capacityValues(CDOView view, NetXResource netXResource,
+			String dialect, DateTimeRange period, XMLGregorianCalendar date) {
 
-		queryService.setCacheParameter(cdoQuery);
-		final List<Value> values = cdoQuery.getResult(Value.class);
-		return values;
+		List<Value> result = null; // Might become assigned.
+
+		String queryString = null;
+		if (dialect.equals(QUERY_MYSQL)) {
+
+			StringBuffer sb = new StringBuffer();
+
+			if (!CamelCase) {
+
+				sb.append("select val.cdo_id "
+						+ "from "
+						+ DB_NAME
+						+ ".library_netxresource as res "
+						+ "join "
+						+ DB_NAME
+						+ ".library_netxresource_capacityvalues_list as caps_list "
+						+ "on caps_list.cdo_source = res.cdo_id " + "join "
+						+ DB_NAME + ".generics_value as val "
+						+ "on caps_list.cdo_value = val.cdo_id "
+						+ "where res.cdo_id = :res_cdodid");
+			} else {
+				// TODO, Check CamelCase!
+				sb.append("select val.cdo_id "
+						+ "from "
+						+ DB_NAME
+						+ ".library_NetXResource as res "
+						+ "join "
+						+ DB_NAME
+						+ ".library_NetXResource_capacityValues_list as caps_list "
+						+ "on caps_list.cdo_source = res.cdo_id " + "join "
+						+ DB_NAME + ".generics_value as val "
+						+ "on caps_list.cdo_value = val.cdo_id "
+						+ "where res.cdo_id = :res_cdodid");
+			}
+			// period or date is optional.
+			if (period != null) {
+				sb.append(" and val.timeStamp0 >= :dateFrom and val.timeStamp0 < :dateTo");
+			} else if (date != null) {
+				sb.append(" and val.timeStamp0 = :date");
+			}
+
+			sb.append(" order by val.timeStamp0 DESC;");
+			queryString = sb.toString();
+
+		} else if (dialect.equals(QUERY_OCL)) {
+			// Syntax for OCL?
+			// queryString =
+			// "metrics::MetricValueRange.allInstances().metricValues->size()";
+			throw new UnsupportedOperationException("OCL query not supported");
+		} else if (dialect.equals(QUERY_HQL)) {
+			// "select v from Value v, NetXResource res where "
+			// + "v in elements(res.capacityValues) "
+			// "and res.cdo_id=:res_cdoid"
+			throw new UnsupportedOperationException("HQL query not supported");
+		}
+
+		if (queryString != null) {
+
+			CDOQuery cdoQuery = null;
+
+			if (dialect.equals(QUERY_MYSQL)) {
+				cdoQuery = view.createQuery(dialect, queryString);
+				Long longValue = ((AbstractCDOIDLong) netXResource.cdoID())
+						.getLongValue();
+				cdoQuery.setParameter("res_cdodid", longValue.toString());
+
+				if (period != null) {
+					cdoQuery.setParameter("dateFrom",
+							dateString(period.getBegin()));
+					cdoQuery.setParameter("dateTo", dateString(period.getEnd()));
+				} else if (date != null) {
+					cdoQuery.setParameter("date", dateString(date));
+				}
+			} else if (dialect.equals(QUERY_OCL)) {
+				cdoQuery = view.createQuery(dialect, queryString,
+						netXResource.cdoID());
+			}
+
+			if (cdoQuery != null) {
+				result = cdoQuery.getResult(Value.class);
+			}
+		}
+		return result;
+	}
+
+	public List<Value> utilizationValues(CDOView view,
+			NetXResource netXResource, String dialect, DateTimeRange period) {
+		return utilizationValues(view, netXResource, dialect, period, null);
+	}
+
+	public List<Value> utilizationValues(CDOView view,
+			NetXResource netXResource, String dialect, DateTimeRange period,
+			XMLGregorianCalendar date) {
+
+		List<Value> result = null; // Might become assigned.
+
+		String queryString = null;
+		if (dialect.equals(QUERY_MYSQL)) {
+
+			StringBuffer sb = new StringBuffer();
+
+			if (!CamelCase) {
+
+				sb.append("select val.cdo_id"
+						+ "from "
+						+ DB_NAME
+						+ ".library_netxresource as res "
+						+ "join "
+						+ DB_NAME
+						+ ".library_netxresource_utilizationvalues_list as utils_list "
+						+ "on utils_list.cdo_source = res.cdo_id " + "join "
+						+ DB_NAME + ".generics_value as val "
+						+ "on utils_list.cdo_value = val.cdo_id "
+						+ "where res.cdo_id = :res_cdodid");
+			} else {
+				// TODO, Check CamelCase!
+				sb.append("select val.cdo_id "
+						+ "from "
+						+ DB_NAME
+						+ ".library_NetXResource as res "
+						+ "join "
+						+ DB_NAME
+						+ ".library_NetXResource_utilizationValues_list as utils_list "
+						+ " on utils_list.cdo_source = res.cdo_id " + "join "
+						+ DB_NAME + ".generics_value as val "
+						+ "on utils_list.cdo_value = val.cdo_id "
+						+ "where res.cdo_id = :res_cdodid");
+			}
+			// period or date is optional.
+			if (period != null) {
+				sb.append(" and val.timeStamp0 >= :dateFrom and val.timeStamp0 < :dateTo");
+			} else if (date != null) {
+				sb.append(" and val.timeStamp0 = :date");
+			}
+
+			sb.append(" order by val.timeStamp0 DESC;");
+			queryString = sb.toString();
+
+		} else if (dialect.equals(QUERY_OCL)) {
+			// Syntax for OCL?
+			// queryString =
+			// "metrics::MetricValueRange.allInstances().metricValues->size()";
+			throw new UnsupportedOperationException("OCL query not supported");
+		} else if (dialect.equals(QUERY_HQL)) {
+			// "select v from Value v, NetXResource res where "
+			// + "v in elements(res.capacityValues) "
+			// "and res.cdo_id=:res_cdoid"
+			throw new UnsupportedOperationException("HQL query not supported");
+		}
+
+		if (queryString != null) {
+
+			CDOQuery cdoQuery = null;
+
+			if (dialect.equals(QUERY_MYSQL)) {
+				cdoQuery = view.createQuery(dialect, queryString);
+				Long longValue = ((AbstractCDOIDLong) netXResource.cdoID())
+						.getLongValue();
+				cdoQuery.setParameter("res_cdodid", longValue.toString());
+
+				if (period != null) {
+					cdoQuery.setParameter("dateFrom",
+							dateString(period.getBegin()));
+					cdoQuery.setParameter("dateTo", dateString(period.getEnd()));
+				} else if (date != null) {
+					cdoQuery.setParameter("date", dateString(date));
+				}
+			} else if (dialect.equals(QUERY_OCL)) {
+				cdoQuery = view.createQuery(dialect, queryString,
+						netXResource.cdoID());
+			}
+
+			if (cdoQuery != null) {
+				result = cdoQuery.getResult(Value.class);
+			}
+		}
+		return result;
 	}
 
 	private String dateString(XMLGregorianCalendar date) {
@@ -422,10 +561,10 @@ public class CDOQueryService implements IQueryService {
 		}
 		return result;
 	}
-	
-	
+
 	/**
 	 * DO NOT USE
+	 * 
 	 * @deprecated
 	 */
 	public List<Value> removeMvrValues(CDOView view, MetricValueRange mvr,
@@ -435,6 +574,7 @@ public class CDOQueryService implements IQueryService {
 
 	/**
 	 * DO NOT USE
+	 * 
 	 * @deprecated
 	 */
 	public List<Value> removeMvrValues(CDOView view, MetricValueRange mvr,
@@ -444,6 +584,7 @@ public class CDOQueryService implements IQueryService {
 
 	/**
 	 * DO NOT USE
+	 * 
 	 * @deprecated
 	 */
 	public List<Value> removeMvrValues(CDOView view, MetricValueRange mvr,
@@ -486,8 +627,8 @@ public class CDOQueryService implements IQueryService {
 				sb.append(" and val.timeStamp0 = :date");
 			}
 
-			// order by not supported in join. 
-//			sb.append(" order by val.timeStamp0 DESC;");
+			// order by not supported in join.
+			// sb.append(" order by val.timeStamp0 DESC;");
 			sb.append(";");
 			queryString = sb.toString();
 
