@@ -138,8 +138,7 @@ public class ServerImporterHelper implements IImporterHelper {
 		}
 
 		final Resource cdoResourceForNetXResource = modelUtils
-				.cdoResourceForNetXResource(locatedComponent, this
-						.getDataProvider().getTransaction());
+				.cdoResourceForNetXResource(locatedComponent, importer.getDataProvider().getTransaction());
 		if (DataActivator.DEBUG) {
 			DataActivator.TRACE.trace(
 					DataActivator.TRACE_IMPORT_HELPER_OPTION,
@@ -164,7 +163,7 @@ public class ServerImporterHelper implements IImporterHelper {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_IMPORT_HELPER_OPTION,
 						"-- checking resource: "
-								+ netXResource.getShortName()
+								+ netXResource.getShortName() + " ID: " + netXResource.cdoID() 
 								+ " metric ref: " + modelUtils.printModelObject(netXResource.getMetricRef())
 							    + " comp ref: " + modelUtils.printModelObject(netXResource.getComponentRef()));
 			}

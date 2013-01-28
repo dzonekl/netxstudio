@@ -179,9 +179,9 @@ public class ResultProcessor {
 	 * @param values
 	 */
 	public boolean removeValues(MetricValueRange mvr, List<Value> values) {
-		
-		int size = mvr.getMetricValues().size(); 
-//		final List<Value> toRemove = Lists.newArrayList(values);
+
+		int size = mvr.getMetricValues().size();
+		// final List<Value> toRemove = Lists.newArrayList(values);
 
 		removeValueReferences(values);
 
@@ -197,16 +197,22 @@ public class ResultProcessor {
 	}
 
 	public boolean removeValues(EList<Value> targetRange, List<Value> values) {
-		
-		int size = targetRange.size(); 
+
+		int size = targetRange.size();
 
 		removeValueReferences(values);
-		targetRange.removeAll(values);
-		
+
+		for (Value v : values) {
+
+			if (targetRange.contains(v)) {
+				targetRange.remove(v);
+			}
+		}
+
 		// Assume these are contained here.
-		return targetRange.size() != size;	
+		return targetRange.size() != size;
 	}
-	
+
 	/**
 	 * @param toRemove
 	 */
@@ -408,12 +414,23 @@ public class ResultProcessor {
 		addToValues(mvr, newValues, intervalHint);
 
 		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_RESULT_VALUE_OPTION,
-					"-- range for resource (after add): "
-							+ foundNetXResource.getShortName() + "interval="
-							+ intervalHint + " range size = "
-							+ mvr.getMetricValues().size());
+//			DataActivator.TRACE.trace(
+//					DataActivator.TRACE_RESULT_VALUE_OPTION,
+//					"-- range for resource (after add): "
+//							+ foundNetXResource.getShortName() + "interval="
+//							+ intervalHint + " range size = "
+//							+ mvr.getMetricValues().size());
+
+			for (MetricValueRange range : foundNetXResource
+					.getMetricValueRanges()) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_RESULT_VALUE_OPTION,
+						"-- range for resource (after add): "
+								+ foundNetXResource.getShortName()
+								+ "interval=" + intervalHint + " range size = "
+								+ range.getMetricValues().size());
+			}
+
 		}
 	}
 

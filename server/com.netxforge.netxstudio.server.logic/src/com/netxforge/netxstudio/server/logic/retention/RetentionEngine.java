@@ -91,6 +91,9 @@ public class RetentionEngine extends BaseComponentEngine {
 							+ this.getComponent().getResourceRefs().size());
 		}
 
+		// Rules should execute considering the order of the smallest
+		// interval first,
+		// as to allow aggregation.
 		// Order the rules by smallest interval.
 		if (metricRulesSortedList == null) {
 			metricRulesSortedList = Ordering.from(
@@ -116,51 +119,52 @@ public class RetentionEngine extends BaseComponentEngine {
 		// Run for each resource, each retention rule.
 		for (final NetXResource netXResource : getComponent().getResourceRefs()) {
 
-			// Consider bailing on resources with no metric values. (Empty
-			// resources so to say).
-			if (netXResource.getMetricValueRanges().isEmpty()) {
-				continue;
-			}
-
-			// Rules should execute considering the order of the smallest
-			// interval first,
-			// as to allow aggregation.
-
 			// Two pass run.
 			// Pass 1. Aggregate data using the defined expressions for each of
 			// the mr rules. Optional depending on the model.
 
 			if (operations_mode == MODE_AGGREGATE_THEN_CLEAR) {
 
-				this.getJobMonitor().setMsg("Aggregating");
+				// Bail aggregation when the resource has no values.
+				if (this.getModelUtils().resourceHasValues(netXResource)) {
 
-				for (MetricRetentionRule rule : metricRulesSortedList) {
+					this.getJobMonitor().setMsg("Aggregating");
 
-					Expression expression = rule.getRetentionExpression();
+					for (MetricRetentionRule rule : metricRulesSortedList) {
 
-					if (expression != null) {
+						Expression expression = rule.getRetentionExpression();
 
-						// Data will be aggregated for the period specified by
-						// the
-						// logic period.
-						// For clearing data however, we need to set the
-						// MetricRetentionRule in the Interpreter.
+						if (expression != null) {
 
-						getExpressionEngine().getContext().clear();
-						getExpressionEngine().getContext().add(getPeriod());
-						getExpressionEngine().getContext().add(
-								this.getModelUtils().nodeFor(getComponent()));
-						getExpressionEngine().getContext().add(netXResource);
-						// getExpressionEngine().getContext().add(rule); // TODO
-						// Remove later, do we need the MRR?
+							// Data will be aggregated for the period specified
+							// by
+							// the
+							// logic period.
+							// For clearing data however, we need to set the
+							// MetricRetentionRule in the Interpreter.
 
-						// As the data is not committed in between, subsequent
-						// expressions will not be able
-						// get data until commit, so it needs to run n times (n
-						// = number of rules) before all aggregation is done.
-						runForExpression(expression);
+							getExpressionEngine().getContext().clear();
+							getExpressionEngine().getContext().add(getPeriod());
+							getExpressionEngine().getContext().add(
+									this.getModelUtils()
+											.nodeFor(getComponent()));
+							getExpressionEngine().getContext()
+									.add(netXResource);
+							// getExpressionEngine().getContext().add(rule); //
+							// TODO
+							// Remove later, do we need the MRR?
 
-						commitInbetween(netXResource.cdoView());
+							// As the data is not committed in between,
+							// subsequent
+							// expressions will not be able
+							// get data until commit, so it needs to run n times
+							// (n
+							// = number of rules) before all aggregation is
+							// done.
+							runForExpression(expression);
+
+							commitInbetween(netXResource.cdoView());
+						}
 					}
 				}
 
@@ -174,7 +178,7 @@ public class RetentionEngine extends BaseComponentEngine {
 
 				for (MetricRetentionRule rule : metricRulesSortedList) {
 
-					DateTimeRange period = this.getModelUtils()
+					final DateTimeRange period = this.getModelUtils()
 							.getDTRForRetentionRule(
 									rule,
 									this.getModelUtils().fromXMLDate(
@@ -220,7 +224,7 @@ public class RetentionEngine extends BaseComponentEngine {
 									utilizationValues);
 						}
 					}
-
+					
 					final MetricValueRange mvr = this.getModelUtils()
 							.valueRangeForInterval(netXResource, intervalHint);
 
@@ -242,13 +246,6 @@ public class RetentionEngine extends BaseComponentEngine {
 						final List<Value> mvrValues = queryService.mvrValues(
 								mvr.cdoView(), mvr, IQueryService.QUERY_MYSQL,
 								period);
-
-						// // Use a direct query to delete values....
-						// queryService.removeMvrValues(
-						// mvr.cdoView(), mvr, IQueryService.QUERY_MYSQL,
-						// period);
-
-						// mvrsCleared.add(mvr);
 
 						if (!resultProcessor.removeValues(mvr, mvrValues)) {
 							LogicActivator.TRACE.trace(
