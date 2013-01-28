@@ -1249,7 +1249,7 @@ public class ModelUtils {
 
 		final CDOResourceFolder folder = transaction
 				.getOrCreateResourceFolder("/Node_/");
-		
+
 		// CDOResourceNode folder = transaction.getResourceNode("/Node_/");
 		// if (folder instanceof CDOResourceFolder) {
 		// // remember the folder, so we can create resources directly.
@@ -1287,9 +1287,9 @@ public class ModelUtils {
 					"-- looking for CDO resource with name:"
 							+ cdoCalculateResourceName);
 		}
-		
-		
-		// Iterate through the nodes to find the CDOResource with the target name. 
+
+		// Iterate through the nodes to find the CDOResource with the target
+		// name.
 		CDOResource emfNetxResource = null;
 		if (folder != null) {
 			for (CDOResourceNode n : folder.getNodes()) {
@@ -1308,8 +1308,7 @@ public class ModelUtils {
 				}
 			}
 		}
-		
-		
+
 		if (emfNetxResource == null) {
 			emfNetxResource = folder.addResource(cdoCalculateResourceName);
 			if (CommonActivator.DEBUG) {
@@ -1451,6 +1450,26 @@ public class ModelUtils {
 			}
 		}
 		return resources;
+	}
+
+	/**
+	 * State of a {@link NetXResource}, if it has any Value Objects in any of
+	 * the {@link MetricValueRange value ranges}.
+	 * 
+	 * @param resource
+	 * @return
+	 */
+	public boolean resourceHasValues(NetXResource resource) {
+		if (resource.getMetricValueRanges().isEmpty()) {
+			return false;
+		}
+
+		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
+			if(!mvr.getMetricValues().isEmpty()){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public List<NetXResource> resourcesForComponent(Component component) {

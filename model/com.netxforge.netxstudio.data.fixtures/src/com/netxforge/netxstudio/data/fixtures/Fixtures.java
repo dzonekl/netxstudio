@@ -350,7 +350,7 @@ public class Fixtures implements IFixtures {
 				// Gets the max value from a range and assigns it to
 				// another
 				// range, clears the original range.
-				final String eAsString = "this METRIC AVG MONTH.clear(); // Clear for the rule period. ";
+				final String eAsString = "";
 				monthlyRetentionExpression.getExpressionLines().addAll(
 						modelUtils.expressionLines(eAsString));
 				expressionResource.getContents()
@@ -396,7 +396,7 @@ public class Fixtures implements IFixtures {
 				// Gets the max value from a range and assigns it to
 				// another
 				// range, clears the original range.
-				final String eAsString = "this METRIC AVG DAY = this METRIC HOUR .max();";
+				final String eAsString = "this METRIC AVG DAY = this METRIC AVG HOUR.max();";
 				// +
 				// "this METRIC AVG HOUR.clear(); // Clear for the rule period. ";
 				hourlyRetentionExpression.getExpressionLines().addAll(
@@ -413,7 +413,7 @@ public class Fixtures implements IFixtures {
 				// Gets the max value from a range and assigns it to
 				// another
 				// range, clears the original range.
-				final String eAsString = "this METRIC AVG DAY = this METRIC 15 .max();";
+				final String eAsString = "this METRIC AVG DAY = this METRIC AVG 15.max();";
 				// +
 				// "this METRIC AVG HOUR.clear(); // Clear for the rule period. ";
 				_15minRetentionExpression.getExpressionLines().addAll(

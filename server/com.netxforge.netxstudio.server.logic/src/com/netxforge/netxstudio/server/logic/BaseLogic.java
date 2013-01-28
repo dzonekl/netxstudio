@@ -34,6 +34,7 @@ import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
+import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 
 /**
  * Common code for all logic implementations. The Base Logic provides supporting
@@ -68,6 +69,10 @@ public abstract class BaseLogic {
 				jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);
 			}
 		} catch (final Throwable t) {
+			// 3 step, im the trace, on the console and in the log of the job run. 
+			if (LogicActivator.DEBUG) {
+				LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION, "Error in execution logic", t);
+			}
 			t.printStackTrace();
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
 		} finally {
@@ -79,10 +84,19 @@ public abstract class BaseLogic {
 		}
 	}
 	
+	/**
+	 * Doesn't close the sessions, so can be called multiple times. 
+	 * FIXME, The workflow won't be handled properly, as it is reset each time, and
+	 * intermediate result is lost. 
+	 */
 	public void runWithoutClosing() {
 		try {
 			doRun();
 		} catch (final Throwable t) {
+			// 3 step, im the trace, on the console and in the log of the job run. 
+			if (LogicActivator.DEBUG) {
+				LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION, "Error in execution logic", t);
+			}
 			t.printStackTrace();
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
 		}

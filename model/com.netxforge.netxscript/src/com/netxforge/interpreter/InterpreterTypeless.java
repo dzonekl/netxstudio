@@ -1625,8 +1625,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 		if (rangeRef.getKind() != null) {
 			if (rangeRef.getKind() == ValueKind.AVG) {
 				targetKind = KindHintType.AVG;
-			}
-			if (rangeRef.getKind() == ValueKind.BH) {
+			} else if (rangeRef.getKind() == ValueKind.BH) {
 				targetKind = KindHintType.BH;
 			}
 		}
@@ -1678,8 +1677,8 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 							Object subRangeResult = processNativeFunction(ne,
 									subRange);
 							if (assertValue(subRangeResult)) {
-//								System.out.println(modelUtils
-//										.value((Value) subRangeResult));
+								// System.out.println(modelUtils
+								// .value((Value) subRangeResult));
 								evalResult.add(subRangeResult);
 							}
 						}
