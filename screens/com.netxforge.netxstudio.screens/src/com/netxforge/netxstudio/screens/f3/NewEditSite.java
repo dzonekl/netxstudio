@@ -1,5 +1,8 @@
 package com.netxforge.netxstudio.screens.f3;
 
+import java.util.List;
+
+import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
@@ -8,21 +11,31 @@ import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -33,6 +46,12 @@ import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+
+import de.bacin.geoff.LatLon;
+import de.bacin.geoff.POI;
+import de.bacin.geoff.ServiceUtil;
+import de.bacin.geoff.geocoding.IGeocodingService;
+import de.bacin.geoff.ui.GeoffMapComposite;
 
 public class NewEditSite extends AbstractScreen implements IDataScreenInjection {
 
@@ -50,6 +69,7 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 	private Text txtNr;
 	private Text txtLongitude;
 	private Text txtLatitude;
+	private TreeViewer tv;
 
 	/**
 	 * Create the composite.
@@ -131,6 +151,33 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 		context.bindValue(latitudeObservable, latitudeProperty.observe(site),
 				null, null);
 
+		IObservableValue observeSingleSelectionTableViewer = ViewerProperties
+				.singleSelection().observe(tv);
+		IObservableValue latLonObservable = PojoProperties.value(POI.class,
+				"latLon", LatLon.class).observeDetail(
+				observeSingleSelectionTableViewer);
+
+		IObservableValue latObservable = PojoProperties.value(LatLon.class,
+				"lat", double.class).observeDetail(latLonObservable);
+		IObservableValue observeTextTextObserveWidget = WidgetProperties.text(
+				SWT.NONE).observe(txtLatitude);
+		context.bindValue(latObservable, observeTextTextObserveWidget, null,
+				null);
+
+		IObservableValue lonObservable = PojoProperties.value(LatLon.class,
+				"lon", double.class).observeDetail(latLonObservable);
+		IObservableValue lonTextObservable = WidgetProperties.text(SWT.NONE)
+				.observe(txtLongitude);
+		context.bindValue(lonObservable, lonTextObservable, null, null);
+
+		IObservableValue descriptionObservable = PojoProperties.value(
+				POI.class, "description", String.class).observeDetail(
+				observeSingleSelectionTableViewer);
+		IObservableValue nameObservableValue = WidgetProperties.text(SWT.NONE)
+				.observe(txtName);
+		context.bindValue(descriptionObservable, nameObservableValue, null,
+				null);
+
 		return context;
 	}
 
@@ -163,121 +210,237 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 		toolkit.paintBordersFor(frmNewOperator);
 
 		frmNewOperator.setText(getOperationText() + "Site");
-		frmNewOperator.getBody().setLayout(new FormLayout());
+		frmNewOperator.getBody().setLayout(new FillLayout());
+		SashForm formBody = new SashForm(frmNewOperator.getBody(),
+				SWT.HORIZONTAL);
+		{
+			// formBody.setLayout(new GridLayout(2, false));
+			Composite leftSideContainer = toolkit.createComposite(formBody);
+			leftSideContainer
+					.setLayoutData(new GridData(GridData.FILL_VERTICAL));
+			GridLayout layout = new GridLayout(1, false);
+			layout.marginWidth = 0;
+			layout.marginHeight = 0;
+			leftSideContainer.setLayout(layout);
 
-		Section sctnMappings = toolkit.createSection(frmNewOperator.getBody(),
-				Section.EXPANDED | Section.TITLE_BAR);
-		FormData fd_sctnMappings = new FormData();
-		fd_sctnMappings.top = new FormAttachment(0, 10);
-		fd_sctnMappings.left = new FormAttachment(0, 10);
-		fd_sctnMappings.right = new FormAttachment(100, -14);
-		sctnMappings.setLayoutData(fd_sctnMappings);
-		toolkit.paintBordersFor(sctnMappings);
-		sctnMappings.setText("Info");
+			{
+				Section sctnGeoSpatial = toolkit.createSection(
+						leftSideContainer, Section.TITLE_BAR);
+				sctnGeoSpatial.setLayoutData(new GridData(GridData.FILL_BOTH));
+				toolkit.paintBordersFor(sctnGeoSpatial);
+				sctnGeoSpatial.setText("Auto Search");
 
-		Composite composite_1 = toolkit.createComposite(sctnMappings, SWT.NONE);
-		toolkit.paintBordersFor(composite_1);
-		sctnMappings.setClient(composite_1);
-		composite_1.setLayout(new GridLayout(2, false));
+				Composite composite = toolkit.createComposite(sctnGeoSpatial,
+						SWT.NONE);
+				toolkit.paintBordersFor(composite);
+				sctnGeoSpatial.setClient(composite);
+				composite.setLayout(new GridLayout(2, false));
 
-		Label lblName = toolkit.createLabel(composite_1, "Name:", SWT.NONE);
-		lblName.setAlignment(SWT.RIGHT);
-		GridData gd_lblName = new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1);
-		gd_lblName.widthHint = 70;
-		lblName.setLayoutData(gd_lblName);
+				{
+					Text txtLongitude = toolkit.createText(composite, "",
+							widgetStyle | SWT.SEARCH);
+					txtLongitude.setMessage("Type in address to search for...");
+					GridData gd_txtLongitude = new GridData(
+							GridData.FILL_HORIZONTAL);
+					gd_txtLongitude.horizontalSpan = 2;
+					txtLongitude.setLayoutData(gd_txtLongitude);
 
-		txtName = toolkit.createText(composite_1, "", widgetStyle);
-		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
-		gd_txtName.widthHint = 150;
-		txtName.setLayoutData(gd_txtName);
+					Listener listener = new Listener() {
+						public void handleEvent(Event event) {
+							Text t = (Text) event.widget;
+							String query = t.getText();
+							IGeocodingService geoCoder = ServiceUtil
+									.getService(IGeocodingService.class);
+							List<POI> pois = geoCoder.executeQuery(query);
+							tv.setInput(pois);
+						}
+					};
+					txtLongitude.addListener(SWT.DefaultSelection, listener);
+				}
 
-		Label lblRegion = toolkit.createLabel(composite_1, "Region:", SWT.NONE);
-		lblRegion.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
+				{
+					Tree tree = toolkit.createTree(composite, SWT.SINGLE);
+					tv = new TreeViewer(tree);
+					GridData ld = new GridData(GridData.FILL_BOTH);
+					ld.horizontalSpan = 2;
+					tree.setLayoutData(ld);
+					tree.setLinesVisible(false);
+					tree.setHeaderVisible(false);
 
-		txtRegion = toolkit.createText(composite_1, "", widgetStyle);
-		txtRegion.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
-				false, 1, 1));
+					tv.setContentProvider(new ITreeContentProvider() {
+						public void inputChanged(Viewer viewer,
+								Object oldInput, Object newInput) {
+						}
 
-		Label lblArea = toolkit.createLabel(composite_1, "Area:", SWT.NONE);
-		lblArea.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1));
+						public void dispose() {
+						}
 
-		txtArea = toolkit.createText(composite_1, "", widgetStyle);
-		txtArea.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
-				1, 1));
+						public boolean hasChildren(Object element) {
+							return false;
+						}
 
-		Label lblCity = toolkit.createLabel(composite_1, "City:", SWT.NONE);
-		lblCity.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1));
-		lblCity.setAlignment(SWT.RIGHT);
+						public Object getParent(Object element) {
+							return null;
+						}
 
-		txtCity = toolkit.createText(composite_1, "", widgetStyle);
-		txtCity.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
-				1, 1));
+						public Object[] getElements(Object inputElement) {
+							return new ArrayContentProvider()
+									.getElements(inputElement);
+						}
 
-		Label lblStreet = toolkit.createLabel(composite_1, "Street:", SWT.NONE);
-		lblStreet.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		lblStreet.setAlignment(SWT.RIGHT);
+						public Object[] getChildren(Object parentElement) {
+							return null;
+						}
+					});
 
-		txtStreet = toolkit.createText(composite_1, "", widgetStyle);
-		txtStreet.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
-				false, 1, 1));
+					tv.setLabelProvider(new LabelProvider() {
+						@Override
+						public String getText(Object element) {
+							POI poi = (POI) element;
+							return poi.getDescription();
+						}
+					});
+				}
+			}
 
-		Label lblNr = toolkit.createLabel(composite_1, "Nr:", SWT.NONE);
-		lblNr.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1));
-		lblNr.setAlignment(SWT.RIGHT);
+			{
+				Section sctnMappings = toolkit.createSection(leftSideContainer,
+						Section.EXPANDED | Section.TITLE_BAR);
+				sctnMappings.setLayoutData(new GridData(
+						GridData.FILL_HORIZONTAL));
+				toolkit.paintBordersFor(sctnMappings);
+				sctnMappings.setText("Manual Input");
 
-		txtNr = toolkit.createText(composite_1, "", widgetStyle);
-		GridData gd_txtNr = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1,
-				1);
-		gd_txtNr.widthHint = 30;
-		txtNr.setLayoutData(gd_txtNr);
+				Composite composite_1 = toolkit.createComposite(sctnMappings,
+						SWT.NONE);
+				toolkit.paintBordersFor(composite_1);
+				sctnMappings.setClient(composite_1);
+				composite_1.setLayout(new GridLayout(2, false));
 
-		Section sctnGeoSpatial = toolkit.createSection(
-				frmNewOperator.getBody(), Section.TITLE_BAR);
-		fd_sctnMappings.bottom = new FormAttachment(sctnGeoSpatial, -6);
-		FormData fd_sctnGeoSpatial = new FormData();
-		fd_sctnGeoSpatial.bottom = new FormAttachment(100, -10);
-		fd_sctnGeoSpatial.top = new FormAttachment(0, 215);
-		fd_sctnGeoSpatial.left = new FormAttachment(0, 10);
-		fd_sctnGeoSpatial.right = new FormAttachment(100, -14);
-		sctnGeoSpatial.setLayoutData(fd_sctnGeoSpatial);
-		toolkit.paintBordersFor(sctnGeoSpatial);
-		sctnGeoSpatial.setText("Geo Spatial");
+				Label lblName = toolkit.createLabel(composite_1, "Name:",
+						SWT.NONE);
+				lblName.setAlignment(SWT.RIGHT);
+				GridData gd_lblName = new GridData(SWT.RIGHT, SWT.CENTER,
+						false, false, 1, 1);
+				gd_lblName.widthHint = 70;
+				lblName.setLayoutData(gd_lblName);
 
-		Composite composite = toolkit.createComposite(sctnGeoSpatial, SWT.NONE);
-		toolkit.paintBordersFor(composite);
-		sctnGeoSpatial.setClient(composite);
-		composite.setLayout(new GridLayout(2, false));
+				txtName = toolkit.createText(composite_1, "", widgetStyle);
+				GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, false,
+						false, 1, 1);
+				gd_txtName.widthHint = 150;
+				txtName.setLayoutData(gd_txtName);
 
-		Label lblLongitude = toolkit.createLabel(composite, "Longitude:",
-				SWT.NONE);
-		GridData gd_lblLongitude = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_lblLongitude.widthHint = 70;
-		lblLongitude.setLayoutData(gd_lblLongitude);
-		lblLongitude.setAlignment(SWT.RIGHT);
+				Label lblRegion = toolkit.createLabel(composite_1, "Region:",
+						SWT.NONE);
+				lblRegion.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+						false, false, 1, 1));
 
-		txtLongitude = toolkit.createText(composite, "", widgetStyle);
-		GridData gd_txtLongitude = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_txtLongitude.widthHint = 150;
-		txtLongitude.setLayoutData(gd_txtLongitude);
+				txtRegion = toolkit.createText(composite_1, "", widgetStyle);
+				txtRegion.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+						false, false, 1, 1));
 
-		Label lblLatitude = toolkit.createLabel(composite, "Latitude:",
-				SWT.NONE);
-		lblLatitude.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		lblLatitude.setAlignment(SWT.RIGHT);
+				Label lblArea = toolkit.createLabel(composite_1, "Area:",
+						SWT.NONE);
+				lblArea.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+						false, false, 1, 1));
 
-		txtLatitude = toolkit.createText(composite, "", widgetStyle);
-		txtLatitude.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
-				false, 1, 1));
+				txtArea = toolkit.createText(composite_1, "", widgetStyle);
+				txtArea.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
+						false, 1, 1));
+
+				Label lblCity = toolkit.createLabel(composite_1, "City:",
+						SWT.NONE);
+				lblCity.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+						false, false, 1, 1));
+				lblCity.setAlignment(SWT.RIGHT);
+
+				txtCity = toolkit.createText(composite_1, "", widgetStyle);
+				txtCity.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
+						false, 1, 1));
+
+				Label lblStreet = toolkit.createLabel(composite_1, "Street:",
+						SWT.NONE);
+				lblStreet.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+						false, false, 1, 1));
+				lblStreet.setAlignment(SWT.RIGHT);
+
+				txtStreet = toolkit.createText(composite_1, "", widgetStyle);
+				txtStreet.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+						false, false, 1, 1));
+
+				Label lblNr = toolkit.createLabel(composite_1, "Nr:", SWT.NONE);
+				lblNr.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+						false, 1, 1));
+				lblNr.setAlignment(SWT.RIGHT);
+
+				txtNr = toolkit.createText(composite_1, "", widgetStyle);
+				GridData gd_txtNr = new GridData(SWT.LEFT, SWT.CENTER, false,
+						false, 1, 1);
+				gd_txtNr.widthHint = 30;
+				txtNr.setLayoutData(gd_txtNr);
+			}
+
+			{
+				Section sctnGeoSpatial = toolkit.createSection(
+						leftSideContainer, Section.TITLE_BAR);
+				sctnGeoSpatial.setLayoutData(new GridData(
+						GridData.FILL_HORIZONTAL));
+				toolkit.paintBordersFor(sctnGeoSpatial);
+				sctnGeoSpatial.setText("Geo Spatial Coordinates");
+
+				Composite composite = toolkit.createComposite(sctnGeoSpatial,
+						SWT.NONE);
+				toolkit.paintBordersFor(composite);
+				sctnGeoSpatial.setClient(composite);
+				composite.setLayout(new GridLayout(2, false));
+
+				Label lblLongitude = toolkit.createLabel(composite,
+						"Longitude:", SWT.NONE);
+				GridData gd_lblLongitude = new GridData(SWT.LEFT, SWT.CENTER,
+						false, false, 1, 1);
+				gd_lblLongitude.widthHint = 70;
+				lblLongitude.setLayoutData(gd_lblLongitude);
+				lblLongitude.setAlignment(SWT.RIGHT);
+
+				txtLongitude = toolkit.createText(composite, "", widgetStyle);
+				GridData gd_txtLongitude = new GridData(SWT.LEFT, SWT.CENTER,
+						false, false, 1, 1);
+				gd_txtLongitude.widthHint = 150;
+				txtLongitude.setLayoutData(gd_txtLongitude);
+
+				Label lblLatitude = toolkit.createLabel(composite, "Latitude:",
+						SWT.NONE);
+				lblLatitude.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+						false, false, 1, 1));
+				lblLatitude.setAlignment(SWT.RIGHT);
+
+				txtLatitude = toolkit.createText(composite, "", widgetStyle);
+				txtLatitude.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+						false, false, 1, 1));
+			}
+		}
+
+		Section mapSection = toolkit.createSection(formBody, Section.EXPANDED
+				| Section.TITLE_BAR);
+		mapSection.setText("Map");
+		mapSection.setLayoutData(new GridData(GridData.FILL_BOTH));
+		final GeoffMapComposite map = new GeoffMapComposite(mapSection,
+				SWT.None);
+		mapSection.setClient(map);
+
+		formBody.setWeights(new int[] { 30, 70 });
+		formBody.setLayout(new FillLayout());
+
+		tv.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (!event.getSelection().isEmpty()) {
+					POI poi = (POI) ((IStructuredSelection) event
+							.getSelection()).getFirstElement();
+					map.setCenter(poi.getLatLon(), 9);
+				}
+			}
+		});
 	}
 
 	public void addData() {
@@ -303,7 +466,7 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-			System.out.println(site.cdoID() + "" + site.cdoState());
+//			System.out.println(site.cdoID() + "" + site.cdoState());
 
 		}
 		// After our edit, we shall be dirty

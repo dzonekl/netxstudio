@@ -53,10 +53,18 @@
       <feature id="com.netxforge.netxstudio.models.export.ui.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.import.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.import.ui.feature" version="1.0.0.qualifier"/>
+      <feature id="de.bacin.geoff.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
       <plugin id="com.netxforge.netxstudio.client.product" autoStart="true" startLevel="1" />
+      <plugin id="de.bacin.geoff" autoStart="true" startLevel="0" />
+      <plugin id="de.bacin.geoff.geocoding" autoStart="true" startLevel="0" />
+      <plugin id="de.bacin.geoff.geocoding.google" autoStart="true" startLevel="0" />
+      <plugin id="de.bacin.geoff.geocoding.nominatim" autoStart="true" startLevel="0" />
+      <plugin id="de.bacin.geoff.openlayers" autoStart="true" startLevel="0" />
+      <plugin id="de.bacin.geoff.openlayers.gmap" autoStart="true" startLevel="0" />
+      <plugin id="de.bacin.geoff.ui" autoStart="true" startLevel="0" />
    </configurations>
 
 </product>
