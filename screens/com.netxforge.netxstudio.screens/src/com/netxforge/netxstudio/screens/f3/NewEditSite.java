@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 19 apr. 2013 NetXForge.
+ * Copyright (c) 29 jan. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f3;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -26,6 +26,8 @@ import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -169,6 +171,7 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 			throw new java.lang.IllegalArgumentException();
 		}
 		buildUI();
+		registerFocus(this);
 		m_bindingContext = initDataBindings_();
 	}
 
@@ -329,6 +332,15 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 		if (editingService.isDirty()) {
 			editingService.doSave(new NullProgressMonitor());
 		}
+	}
+
+	@Override
+	public ISelection getSelection() {
+		if (site != null) {
+			return new StructuredSelection(site);
+		} else
+			return StructuredSelection.EMPTY;
+
 	}
 
 	public Viewer getViewer() {

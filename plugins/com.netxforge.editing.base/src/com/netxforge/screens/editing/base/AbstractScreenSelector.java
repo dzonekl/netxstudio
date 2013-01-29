@@ -197,18 +197,6 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 			// Make sure we update the dirty state, when changing screen.
 			// Action handlers will use this to update the current viewer.
 			firePropertyChange(ISaveablePart2.PROP_DIRTY);
-
-			// restore the state of the screen.
-			// if (this.getMemento() != null) {
-			//
-			// String validMementoElement = modelUtils
-			// .underscopeWhiteSpaces(screen.getScreenName());
-			// IMemento child = this.getMemento()
-			// .getChild(validMementoElement);
-			// if (child != null) {
-			// screen.restoreState(child);
-			// }
-			// }
 			setFocus();
 		}
 	}

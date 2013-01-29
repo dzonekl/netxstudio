@@ -144,7 +144,9 @@ public class ScreenFormService implements IScreenFormService {
 	}
 
 	public void setActiveScreen(IScreen screen) {
-		pushCurrentScreen();
+		pushCurrentScreen(); // Note this will indirectly force a widget changed, as the screen gains focus. 
+		// The screen would need to call registerFocus() after the Screen has been build and layed out.
+		// The subsequent screenchanged, will be there for Superfluous. FIXME
 		doSetActiveScreen(screen);
 		restoreScreenState(screen);
 		fireScreenChanged(screen);

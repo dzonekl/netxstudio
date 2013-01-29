@@ -19,6 +19,7 @@ package com.netxforge.screens.editing.base;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -52,6 +53,7 @@ import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ShowInContext;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.netxforge.screens.editing.base.internal.BaseEditingActivator;
@@ -87,7 +89,9 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 
 	protected Object currentFocusWidget;
 
-	// @Inject
+	private List<ISelectionChangedListener> selectionListeners = Lists
+			.newArrayList();
+
 	public AbstractScreenImpl(Composite parent, int style) {
 		super(parent, style);
 	}
@@ -265,7 +269,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 				sv.addDragSupport(dndOperations, transfers,
 						new ViewerDragAdapter(sv));
 
-				// CB Find out the use case for drop support on regular tables. 
+				// CB Find out the use case for drop support on regular tables.
 
 				// viewer.addDropSupport(
 				// dndOperations,
@@ -284,7 +288,8 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 * @return
 	 */
 	protected boolean storePreference(String key, String value) {
-		BaseEditingActivator.getDefault().getPreferenceStore().setValue(key, value);
+		BaseEditingActivator.getDefault().getPreferenceStore()
+				.setValue(key, value);
 		return true;
 	}
 
@@ -295,7 +300,8 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 * @return
 	 */
 	protected String findPreference(String key) {
-		if (BaseEditingActivator.getDefault().getPreferenceStore().contains(key)) {
+		if (BaseEditingActivator.getDefault().getPreferenceStore()
+				.contains(key)) {
 			return BaseEditingActivator.getDefault().getPreferenceStore()
 					.getString(key);
 		}
@@ -374,6 +380,10 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 					.resolveSelectionProviderFromWidget(currentFocusWidget);
 			if (currentSelectionProvider != null) {
 				currentSelectionProvider.addSelectionChangedListener(listener);
+			} else {
+				if (!selectionListeners.contains(listener)) {
+					selectionListeners.add(listener);
+				}
 			}
 		}
 	}
