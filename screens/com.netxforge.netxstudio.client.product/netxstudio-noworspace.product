@@ -16,7 +16,8 @@
    <launcherArgs>
       <programArgs>-data @noDefault -nl nl_NL</programArgs>
       <programArgsMac>-console 8814 -consoleLog</programArgsMac>
-      <vmArgs>-Xms512m -Xmx1024m -XX:MaxPermSize=128m</vmArgs>
+      <vmArgs>-Xms512m -Xmx1024m -XX:MaxPermSize=128m
+-Dgeoff.resources.server=localhost</vmArgs>
       <vmArgsMac>-Dosgi.debug=file://Users/Christophe/Documents/Workspace/.options
 -XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
@@ -53,7 +54,7 @@
       <feature id="com.netxforge.netxstudio.models.export.ui.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.import.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.import.ui.feature" version="1.0.0.qualifier"/>
-      <feature id="de.bacin.geoff.feature" version="1.0.0.qualifier"/>
+      <feature id="de.bacin.geoff.artifacts.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
