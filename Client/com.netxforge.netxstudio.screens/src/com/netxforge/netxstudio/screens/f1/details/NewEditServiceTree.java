@@ -86,6 +86,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
+import com.netxforge.netxstudio.common.model.MonitoringStateJob;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
@@ -103,7 +104,6 @@ import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.f1.RFSServiceSummaryJob;
 import com.netxforge.netxstudio.screens.f1.ServiceDistributionScreen;
 import com.netxforge.netxstudio.screens.f1.ServiceHierarchy;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
@@ -154,7 +154,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	private DateChooserCombo dcInService;
 	private DateChooserCombo dcOutOfService;
 
-	private RFSServiceSummaryJob job;
+	private MonitoringStateJob job;
 	private final RefreshSummaryJob refreshSummaryJob = new RefreshSummaryJob();
 
 	private Section sctnInfo;
@@ -870,7 +870,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	private void prepServiceSummary() {
 
 		if (job == null) {
-			job = new RFSServiceSummaryJob(modelUtils);
+			job = new MonitoringStateJob(modelUtils);
 			job.addNotifier(new JobChangeAdapter() {
 				@Override
 				public void done(IJobChangeEvent event) {

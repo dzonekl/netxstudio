@@ -39,6 +39,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
+import com.netxforge.netxstudio.common.model.MonitoringStateJob;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.services.RFSService;
@@ -61,7 +62,7 @@ public class ServiceSummaryComponent {
 	/**
 	 * Job which creates the summary.
 	 */
-	private RFSServiceSummaryJob job;
+	private MonitoringStateJob job;
 
 	/**
 	 * Job which refreshs the UI for the created summary.
@@ -231,7 +232,7 @@ public class ServiceSummaryComponent {
 
 		if (job == null) {
 
-			job = new RFSServiceSummaryJob(modelUtils);
+			job = new MonitoringStateJob(modelUtils);
 
 			job.addNotifier(new JobChangeAdapter() {
 				@Override

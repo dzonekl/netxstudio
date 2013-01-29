@@ -37,7 +37,9 @@ import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 
 /**
- * Performs the capacity logic execution for a RFSService.
+ * Performs the capacity logic execution for a RFSService, 
+ * adds functionality to write the reports in the intended 
+ * location. 
  * 
  * @author Christophe Bouhier
  */
@@ -96,7 +98,7 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 
 	public URI folderURI() {
 
-		ServerSettings settings = getSettings();
+		final ServerSettings settings = getSettings();
 		if (settings != null
 				&& settings
 						.eIsSet(NetxstudioPackage.Literals.SERVER_SETTINGS__EXPORT_PATH)) {
@@ -106,7 +108,7 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 			// append the folder for this run.
 			uri = uri.appendSegment(calculateFolderName());
 			{
-				File f = new File(uri.toFileString());
+				final File f = new File(uri.toFileString());
 				if (!f.exists() && !f.isDirectory()) {
 					f.mkdir();
 				}
