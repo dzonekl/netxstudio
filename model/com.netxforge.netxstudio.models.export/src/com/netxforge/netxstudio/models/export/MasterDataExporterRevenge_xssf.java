@@ -31,6 +31,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
@@ -186,7 +187,8 @@ public class MasterDataExporterRevenge_xssf {
 	}
 
 	/**
-	 * Cache objects in this resource. objects with a class in the set export filter are pruned.
+	 * Cache objects in this resource. objects with a class in the set export
+	 * filter are pruned.
 	 * 
 	 * 
 	 * @param resource
@@ -197,7 +199,18 @@ public class MasterDataExporterRevenge_xssf {
 			// List<EObject> closure = ImmutableList.copyOf(allContents);
 			while (allContents.hasNext()) {
 
-				final EObject closureObject = allContents.next();
+				final EObject closureObject;
+				try {
+					closureObject = allContents.next();
+				} catch (ObjectNotFoundException onfe) {
+					if (ExportActivator.DEBUG) {
+						ExportActivator.TRACE.trace(
+								ExportActivator.TRACE_EXPORT_OPTION,
+								"-- skipping not found objec with ID: " + onfe.getID(), onfe);
+					}
+					continue;
+				}
+
 				final EClass objectClass = closureObject.eClass();
 
 				// Make sure we don't cache closure objects which are dynamic.
@@ -267,7 +280,8 @@ public class MasterDataExporterRevenge_xssf {
 
 		if (ExportActivator.DEBUG) {
 			ExportActivator.TRACE.trace(ExportActivator.TRACE_EXPORT_OPTION,
-					"Outputing attributes sheet for: " + eClass.getName() + " in package: " + eClass.getEPackage().getName());
+					"Outputing attributes sheet for: " + eClass.getName()
+							+ " in package: " + eClass.getEPackage().getName());
 		}
 		final Sheet sheet = _generateAttributeWorksheet(eClass);
 
@@ -392,10 +406,10 @@ public class MasterDataExporterRevenge_xssf {
 			for (EReference eReference : dataObject.eClass()
 					.getEAllReferences()) {
 				if (!eReference.isMany()) {
-					
+
 					final Object refObject = dataObject.eGet(eReference);
-//					if()
-					
+					// if()
+
 					String identifier = "";
 					if (refObject != null) {
 						identifier = this
