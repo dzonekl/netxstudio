@@ -74,11 +74,34 @@ public class MonitoringStateModel {
 
 	@Inject
 	private ModelUtils modelUtils;
-	
+
 	private MonitoringStateJob job = null;
+
+	private JobCallBack callBackHandler;
 
 	public void summaryFor(Object context, MonitoringStateStateCallBack callBack) {
 		prepSummary(context, callBack);
+	}
+
+	class JobCallBack extends JobChangeAdapter {
+
+		private MonitoringStateStateCallBack callBack;
+
+		public void setCallBack(MonitoringStateStateCallBack callBack) {
+			this.callBack = callBack;
+		}
+
+		@Override
+		public void done(IJobChangeEvent event) {
+			if (callBack != null) {
+				System.out.println("Invoking Callback hashcode: "
+						+ callBack.hashCode());
+				final MonitoringStateEvent monitoringStateEvent = new MonitoringStateEvent();
+				monitoringStateEvent.setResult(job.getMonitoringSummary());
+				callBack.callBackEvent(monitoringStateEvent);
+			}
+		}
+
 	}
 
 	/**
@@ -88,21 +111,13 @@ public class MonitoringStateModel {
 			final MonitoringStateStateCallBack callBack) {
 
 		if (job == null) {
-
 			job = new MonitoringStateJob(modelUtils);
-
-			job.addNotifier(new JobChangeAdapter() {
-				@Override
-				public void done(IJobChangeEvent event) {
-					if (callBack != null) {
-						final MonitoringStateEvent monitoringStateEvent = new MonitoringStateEvent();
-						monitoringStateEvent.setResult(job
-								.getMonitoringSummary());
-						callBack.callBackEvent(monitoringStateEvent);
-					}
-				}
-			});
+			callBackHandler = new JobCallBack();
+			job.addNotifier(callBackHandler);
 		}
+		// Make sure we set the correct callback, Don't use final arguments for
+		// callback!!!!! It will cost you 2 more hours to debug :-)
+		callBackHandler.setCallBack(callBack);
 
 		// Force a restart, if we are operational.
 		if (job.isRunning()) {

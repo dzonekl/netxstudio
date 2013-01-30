@@ -55,10 +55,10 @@ public class ServiceSummaryComponent {
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getCurrent());
 
-//	/**
-//	 * Job which creates the summary.
-//	 */
-//	private MonitoringStateJob job;
+	// /**
+	// * Job which creates the summary.
+	// */
+	// private MonitoringStateJob job;
 
 	/**
 	 * Job which refreshs the UI for the created summary.
@@ -117,9 +117,9 @@ public class ServiceSummaryComponent {
 
 			public void widgetDisposed(DisposeEvent e) {
 				// Cancel running service summary job.
-//				if (job != null && job.isRunning()) {
-//					job.cancel();
-//				}
+				// if (job != null && job.isRunning()) {
+				// job.cancel();
+				// }
 				refreshSummaryJob.cancel();
 			}
 		});
@@ -129,15 +129,19 @@ public class ServiceSummaryComponent {
 
 		content = formToolkit.createComposite(parent, showBorder ? SWT.BORDER
 				: SWT.NONE);
-		
-		content.addDisposeListener(new DisposeListener(){
+		// System.out.println("Creating" + content.hashCode());
+		// content.addDisposeListener(new DisposeListener() {
+		//
+		// public void widgetDisposed(DisposeEvent e) {
+		// System.out.println("Disposing: " + e.widget.hashCode());
+		// // for (StackTraceElement se : Thread.currentThread()
+		// // .getStackTrace()) {
+		// // System.out.println("--" + se.toString());
+		// // }
+		//
+		// }
+		// });
 
-			public void widgetDisposed(DisposeEvent e) {
-				System.out.println("Disposing: " + e);
-			}
-			
-		});
-		
 		if (layoutData != null) {
 			content.setLayoutData(layoutData);
 		}
@@ -275,26 +279,29 @@ public class ServiceSummaryComponent {
 
 		// TODO, Remove later.
 		// prepServiceSummary(service);
-		monitoringState.summaryFor(service, new MonitoringStateStateCallBack() {
-
-			public void callBackEvent(MonitoringStateEvent event) {
-				System.out.println(ServiceSummaryComponent.this);
-				
-				if (event.getResult() instanceof RFSServiceSummary) {
-					summary = (RFSServiceSummary) event.getResult();
-					refreshSummaryJob.schedule(100);
-				}
-			}
-		});
+		final SummaryCallBack callBack = new SummaryCallBack();
+		monitoringState.summaryFor(service, callBack);
 	}
+
+	class SummaryCallBack implements MonitoringStateStateCallBack {
+
+		public void callBackEvent(MonitoringStateEvent event) {
+			if (event.getResult() instanceof RFSServiceSummary) {
+				summary = (RFSServiceSummary) event.getResult();
+				refreshSummaryJob.schedule(100);
+			} else if (event.getResult() == null) {
+				summary = null;
+				refreshSummaryJob.schedule(100);
+			}
+		}
+	};
 
 	private void refreshSummaryUI() {
 
 		if (summary == null) {
 			formTextLastMonitor.setText("no monitors", false, false);
-			// content.layout();
+			content.layout();
 			layourComponent.layout();
-			// parentScreen.layout();
 			return;
 		}
 
@@ -341,6 +348,7 @@ public class ServiceSummaryComponent {
 				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
 						IStatus.OK, "Cancelled ", null);
 			}
+			// System.out.println("Checking:" + content.hashCode());
 			if (content.isDisposed()) {
 				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
 						IStatus.OK, "Screen not valid", null);

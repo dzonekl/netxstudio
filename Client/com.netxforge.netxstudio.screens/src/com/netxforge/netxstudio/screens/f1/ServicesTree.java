@@ -441,18 +441,19 @@ public class ServicesTree extends AbstractScreen implements
 
 	private void handleDetailsSelection(Object o) {
 
-		if (currentDetails != null) {
+		if (currentDetails != null && !currentDetails.isDisposed()) {
 			currentDetails.dispose();
 		}
 		if (o instanceof RFSService) {
-			final NewEditServiceTree_refactor screen = new NewEditServiceTree_refactor(this.cmpDetails, SWT.NONE,
-					editingService);
+			final NewEditServiceTree_refactor screen = new NewEditServiceTree_refactor(
+					this.cmpDetails, SWT.NONE, editingService);
 			screen.setParentScreen(this);
 			screen.setScreenService(screenService);
 			screen.setOperation(getOperation());
 			screen.injectData(null, o);
-			this.currentDetails = screen;
 			sashForm.layout(true, true);
+
+			this.currentDetails = screen;
 		}
 	}
 

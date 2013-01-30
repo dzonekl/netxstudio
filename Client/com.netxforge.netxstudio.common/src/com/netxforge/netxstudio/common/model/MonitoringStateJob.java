@@ -95,7 +95,8 @@ public class MonitoringStateJob extends JobChangeAdapter {
 		if (context instanceof Operator) {
 			// TODO Create an Operator Summary.
 		} else if (context instanceof RFSService) {
-
+			summary = null;
+			
 			ServiceMonitor sm = modelUtils
 					.lastServiceMonitor((Service) context);
 			if (sm != null) {
