@@ -31,6 +31,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -206,7 +207,8 @@ public class MasterDataExporterRevenge_xssf {
 					if (ExportActivator.DEBUG) {
 						ExportActivator.TRACE.trace(
 								ExportActivator.TRACE_EXPORT_OPTION,
-								"-- skipping not found objec with ID: " + onfe.getID(), onfe);
+								"-- skipping not found objec with ID: "
+										+ onfe.getID(), onfe);
 					}
 					continue;
 				}
@@ -405,20 +407,29 @@ public class MasterDataExporterRevenge_xssf {
 
 			for (EReference eReference : dataObject.eClass()
 					.getEAllReferences()) {
+
+				if (ExportActivator.DEBUG) {
+					ExportActivator.TRACE.trace(null, "-- EReference: "
+							+ eReference.getName());
+				}
+				// Export Check single reference which are set only.
 				if (!eReference.isMany()) {
+					// Clean-external references, which might have corrupted the
+					// DB in the past, skipp this ref, when cleaned.
+					// bug ID?
+					if (!cleanRef(dataObject, eReference)) {
 
-					final Object refObject = dataObject.eGet(eReference);
-					// if()
+						final Object refObject = dataObject.eGet(eReference);
+						String identifier = "";
+						if (refObject != null) {
+							identifier = this
+									.contextObjectsIdentifier((EObject) refObject);
 
-					String identifier = "";
-					if (refObject != null) {
-						identifier = this
-								.contextObjectsIdentifier((EObject) refObject);
-
+						}
+						_generateDataCell(identifier, objectCount,
+								attributeCount, sheet);
+						attributeCount++;
 					}
-					_generateDataCell(identifier, objectCount, attributeCount,
-							sheet);
-					attributeCount++;
 				}
 			}
 			objectCount++;
@@ -437,10 +448,30 @@ public class MasterDataExporterRevenge_xssf {
 			int referenceCount = 1;
 			for (EReference eReference : this.filterMultiRefs(dataObject
 					.eClass())) {
+
+				if (ExportActivator.DEBUG) {
+					ExportActivator.TRACE.trace(
+							ExportActivator.TRACE_EXPORT_OPTION,
+							"-- EReference:" + eReference);
+				}
+
+				// Clean external references for this multi-valued ref.
+
+				cleanRef(dataObject, eReference);
+
 				final Object collection = dataObject.eGet(eReference);
 				int rowCount = objectCount;
 
 				if (collection instanceof List<?>) {
+
+					if (ExportActivator.DEBUG) {
+						ExportActivator.TRACE.trace(
+								ExportActivator.TRACE_EXPORT_OPTION,
+								"-- EReference:" + eReference
+										+ " collection size (After clean): "
+										+ ((List<?>) collection).size());
+					}
+
 					for (Object refObject : (List<?>) collection) {
 						String identifier = this
 								.contextObjectsIdentifier(dataObject);
@@ -797,6 +828,105 @@ public class MasterDataExporterRevenge_xssf {
 
 	public void setExportFilter(IExportFilter exportFilter) {
 		this.exportFilter = exportFilter;
+	}
+
+	/**
+	 * Clean invalid (External) references from an object with the provided
+	 * {@link EReference reference}. If the reference is multi-valued, all
+	 * referenced objects are checked.
+	 * 
+	 * @param objectToCheck
+	 * @param eRef
+	 */
+	private boolean cleanRef(EObject objectToCheck, EReference eRef) {
+
+		boolean cleaned = false;
+
+		if (eRef.isMany()) {
+			Object eGet = objectToCheck.eGet(eRef);
+
+			if (eGet == null) {
+				return cleaned;
+			}
+
+			@SuppressWarnings("unchecked")
+			final List<? extends EObject> collection = (List<? extends EObject>) eGet;
+			if (ExportActivator.DEBUG) {
+				ExportActivator.TRACE.trace(
+						ExportActivator.TRACE_EXPORT_OPTION,
+						"-- checking external ref from object" + objectToCheck
+								+ "with reference" + eRef + " collection size:"
+								+ collection.size());
+			}
+
+//			final List<EObject> toRemove = Lists.newArrayList();
+
+			for (int i = 0; i < collection.size(); i++) {
+				
+				try {
+					collection.get(i);
+
+				} catch (NullPointerException npe) {
+					// Clean-it.
+					CDOUtil.cleanStaleReference(objectToCheck, eRef, i);
+					
+				}
+
+//				if (isExternal(eo, eRef)) {
+//					if (ExportActivator.DEBUG) {
+//						ExportActivator.TRACE.trace(
+//								ExportActivator.TRACE_EXPORT_OPTION,
+//								"-- cleaning external ref from object" + eo
+//										+ "with reference" + eRef);
+//					}
+//
+//					int index = collection.indexOf(eo);
+//					toRemove.add(collection.get(index));
+//				}
+			}
+
+//			for (EObject eo : toRemove) {
+//				collection.remove(eo);
+//			}
+
+		} else {
+			// final EObject eo = (EObject) objectToCheck.eGet(eRef);
+			if (isExternal(objectToCheck, eRef)) {
+				if (ExportActivator.DEBUG) {
+					ExportActivator.TRACE.trace(
+							ExportActivator.TRACE_EXPORT_OPTION,
+							"-- cleaning external ref from object"
+									+ objectToCheck + "with reference" + eRef);
+					;
+				}
+				CDOUtil.cleanStaleReference(objectToCheck, eRef);
+				cleaned = true;
+			}
+		}
+		return cleaned;
+	}
+
+	// Check if the object is external.
+	private boolean isExternal(EObject eo, EReference eRef) {
+		if (eo instanceof CDOObject) {
+//			if(eRef == OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF){
+//				System.out.println("break here!");
+//			}
+//			
+//			CDOObject cdoObject = CDOUtil.getCDOObject(eo);
+//			if (cdoObject != null && cdoObject.cdoID() != null) {
+//				return cdoObject.cdoID().isExternal();
+//			} else {
+//				return true;
+//			}
+			try{
+				eo.eGet(eRef);
+			}catch(Exception e){
+				return true;
+			}
+		}
+		return false;
+		
 	}
 
 }

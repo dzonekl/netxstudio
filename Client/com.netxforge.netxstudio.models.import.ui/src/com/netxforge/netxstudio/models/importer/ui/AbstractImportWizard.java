@@ -126,10 +126,10 @@ public abstract class AbstractImportWizard extends Wizard implements
 				Display.getDefault().syncExec(new Runnable() {
 
 					public void run() {
-						
-						// Consider saving this info locally as well. 
+
+						// Consider saving this info locally as well.
 						final List<EObject> results = job.getResults();
-						
+
 						Map<String, EObject> runIndex = job.getRunIndex();
 						// present the result to the user.
 
@@ -162,7 +162,9 @@ public abstract class AbstractImportWizard extends Wizard implements
 							}
 						} else {
 							if (ImportUIActivator.DEBUG) {
-								ImportUIActivator.TRACE.trace(ImportUIActivator.TRACE_IMPORT_OPTION, "No result to process");
+								ImportUIActivator.TRACE.trace(
+										ImportUIActivator.TRACE_IMPORT_OPTION,
+										"No result to process");
 							}
 						}
 					}
@@ -534,7 +536,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 			// "temp" resource we created.
 			unsetDangling(listOfObjectsToStore);
 
-			// A selection of an integer object graph, will be break the graph,
+			// A selection of an integer object graph, will break the graph,
 			// and
 			// leave
 			// it with unresolved/dangling references. As such the references
@@ -547,6 +549,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 			// when the object with the old OID becomes available, we can
 			// restore
 			// it.
+
 			unsetExternal(listOfObjectsToStore);
 
 			// Cast to a bimap for inverse value lookup. Only works with 1:1
@@ -592,9 +595,10 @@ public abstract class AbstractImportWizard extends Wizard implements
 
 		/**
 		 * @param listOfObjectsToStore
-		 * @param transaction 
+		 * @param transaction
 		 */
-		private void resultToResources(List<EObject> listOfObjectsToStore, CDOTransaction transaction) {
+		private void resultToResources(List<EObject> listOfObjectsToStore,
+				CDOTransaction transaction) {
 			for (EObject object : listOfObjectsToStore) {
 
 				// Special treatment for NetXResource.
@@ -602,31 +606,31 @@ public abstract class AbstractImportWizard extends Wizard implements
 				// Resource,
 				// otherwise in the NetXResource.class CDO Resource
 				if (object instanceof NetXResource) {
-					
+
 					NetXResource netXResource = (NetXResource) object;
 					Component componentRef = netXResource.getComponentRef();
 					Resource resource = null;
 					if (componentRef != null) {
 
-						
-						// Remove later: 
-//						String cdoResourcePath;
-//						try {
-//							cdoResourcePath = modelUtils
-//									.cdoCalculateResourceName(componentRef);
-//							resource = dataProvider
-//									.getResource(cdoResourcePath);
-//
-//						} catch (IllegalAccessException e) {
-//							if (ImportUIActivator.DEBUG) {
-//								ImportUIActivator.TRACE.trace(
-//										ImportUIActivator.TRACE_IMPORT_OPTION,
-//										"Attempt to deduce a name from an invalid object: "
-//												+ componentRef);
-//							}
-//						}
-						resource = modelUtils.cdoResourceForNetXResource(componentRef, transaction);
-						
+						// Remove later:
+						// String cdoResourcePath;
+						// try {
+						// cdoResourcePath = modelUtils
+						// .cdoCalculateResourceName(componentRef);
+						// resource = dataProvider
+						// .getResource(cdoResourcePath);
+						//
+						// } catch (IllegalAccessException e) {
+						// if (ImportUIActivator.DEBUG) {
+						// ImportUIActivator.TRACE.trace(
+						// ImportUIActivator.TRACE_IMPORT_OPTION,
+						// "Attempt to deduce a name from an invalid object: "
+						// + componentRef);
+						// }
+						// }
+						resource = modelUtils.cdoResourceForNetXResource(
+								componentRef, transaction);
+
 					} else {
 						resource = dataProvider
 								.getResource(LibraryPackage.Literals.NET_XRESOURCE);
