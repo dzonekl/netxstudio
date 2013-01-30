@@ -14,39 +14,15 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.common.model;
 
 /**
- * A Monitoring State Event, used in call backs.
+ * A marker interface for monitoring objects processed in a state.  
  * 
  * @author Christophe Bouhier
- * 
+ *
  */
-public class MonitoringStateEvent {
-
-	/**
-	 * The result of the event.
-	 * 
-	 */
-	private Object result;
-
-	/**
-	 * Stores the result.
-	 * 
-	 * @param monitoringSummary
-	 */
-	public void setResult(Object result) {
-		this.result = result;
-	}
-
-	/**
-	 * Retrieve the result object for this event.
-	 * 
-	 * @return
-	 */
-	public Object getResult() {
-		return result;
-	}
+public interface IMonitoringSummary {
 
 }

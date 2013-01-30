@@ -7,8 +7,6 @@ import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
@@ -21,8 +19,8 @@ public abstract class AbstractDetailsScreen extends AbstractScreenImpl {
 
 	protected FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
-	@Inject
-	protected ModelUtils modelUtils;
+//	@Inject
+//	protected ModelUtils modelUtils;
 
 	private IScreen parentScreen;
 

@@ -875,7 +875,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 				@Override
 				public void done(IJobChangeEvent event) {
 
-					summary = job.getSummary();
+					summary = (RFSServiceSummary) job.getMonitoringSummary();
 					// Schedule a refresh.
 					refreshSummaryJob.schedule(100);
 				}
@@ -887,7 +887,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 			job.cancelMonitor();
 		}
 
-		job.setRFSServiceToProcess(service);
+		job.setContextToSummarize(service);
 		job.go(); // Should spawn a job processing the xls.
 
 	}

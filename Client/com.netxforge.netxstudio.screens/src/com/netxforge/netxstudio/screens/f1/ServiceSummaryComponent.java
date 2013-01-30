@@ -20,8 +20,6 @@ package com.netxforge.netxstudio.screens.f1;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -37,9 +35,10 @@ import org.eclipse.ui.progress.UIJob;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateStateCallBack;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
-import com.netxforge.netxstudio.common.model.MonitoringStateJob;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.services.RFSService;
@@ -47,9 +46,6 @@ import com.netxforge.netxstudio.services.RFSService;
 /**
  * An injectable component showing the Service Summary. Summaries are created in
  * the background.
- * 
- * 
- * 
  * 
  * @author Christophe Bouhier
  * 
@@ -59,10 +55,10 @@ public class ServiceSummaryComponent {
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getCurrent());
 
-	/**
-	 * Job which creates the summary.
-	 */
-	private MonitoringStateJob job;
+//	/**
+//	 * Job which creates the summary.
+//	 */
+//	private MonitoringStateJob job;
 
 	/**
 	 * Job which refreshs the UI for the created summary.
@@ -70,8 +66,6 @@ public class ServiceSummaryComponent {
 	private final RefreshSummaryJob refreshSummaryJob = new RefreshSummaryJob();
 
 	private RFSServiceSummary summary;
-
-	private ModelUtils modelUtils;
 
 	private FormText formTextLastMonitor;
 
@@ -94,22 +88,24 @@ public class ServiceSummaryComponent {
 
 	private Composite layourComponent;
 
-	
-	/** The parent IScreen needed to layout as this component will load in background **/ 
+	/**
+	 * The parent IScreen needed to layout as this component will load in
+	 * background
+	 **/
 	@SuppressWarnings("unused")
 	private IScreen parentScreen;
 
+	private MonitoringStateModel monitoringState;
 
 	@Inject
-	public ServiceSummaryComponent(ModelUtils modelUtils) {
+	public ServiceSummaryComponent(MonitoringStateModel ms) {
 		super();
-		this.modelUtils = modelUtils;
+		this.monitoringState = ms;
 	}
-	
-	public  void setParentScreen(IScreen parentScreen){
-		this.parentScreen = parentScreen; 
+
+	public void setParentScreen(IScreen parentScreen) {
+		this.parentScreen = parentScreen;
 	}
-	
 
 	public void setShowBorder(boolean showBorder) {
 		this.showBorder = showBorder;
@@ -121,9 +117,9 @@ public class ServiceSummaryComponent {
 
 			public void widgetDisposed(DisposeEvent e) {
 				// Cancel running service summary job.
-				if (job != null && job.isRunning()) {
-					job.cancel();
-				}
+//				if (job != null && job.isRunning()) {
+//					job.cancel();
+//				}
 				refreshSummaryJob.cancel();
 			}
 		});
@@ -133,10 +129,19 @@ public class ServiceSummaryComponent {
 
 		content = formToolkit.createComposite(parent, showBorder ? SWT.BORDER
 				: SWT.NONE);
+		
+		content.addDisposeListener(new DisposeListener(){
+
+			public void widgetDisposed(DisposeEvent e) {
+				System.out.println("Disposing: " + e);
+			}
+			
+		});
+		
 		if (layoutData != null) {
 			content.setLayoutData(layoutData);
 		}
-		
+
 		formToolkit.paintBordersFor(content);
 		content.setLayout(new GridLayout(4, false));
 
@@ -225,35 +230,40 @@ public class ServiceSummaryComponent {
 		formTextGreen.setText("G", false, false);
 	}
 
-	/**
-	 * Creates a summary in the background, update relevant UI bits when done.
-	 */
-	private void prepServiceSummary(RFSService service) {
+	// Remove later, use the new MonitoringStateModel.
 
-		if (job == null) {
-
-			job = new MonitoringStateJob(modelUtils);
-
-			job.addNotifier(new JobChangeAdapter() {
-				@Override
-				public void done(IJobChangeEvent event) {
-
-					summary = job.getSummary();
-					// Schedule a refresh.
-					refreshSummaryJob.schedule(100);
-				}
-			});
-		}
-		if (job.isRunning()) {
-			// This will abrupt the job but on demand, so we can't really start
-			// a new job here.
-			job.cancelMonitor();
-		}
-
-		job.setRFSServiceToProcess(service);
-		job.go(); // Should spawn a job processing the xls.
-
-	}
+	// /**
+	// * Creates a summary in the background, update relevant UI bits when done.
+	// */
+	// private void prepServiceSummary(RFSService service) {
+	//
+	// if (job == null) {
+	//
+	// job = new MonitoringStateJob(modelUtils);
+	//
+	// job.addNotifier(new JobChangeAdapter() {
+	// @Override
+	// public void done(IJobChangeEvent event) {
+	//
+	// IMonitoringSummary monitoringSummary = job.getMonitoringSummary();
+	// if(monitoringSummary instanceof RFSServiceSummary ){
+	// summary = (RFSServiceSummary) monitoringSummary;
+	// }
+	// // Schedule a refresh.
+	// refreshSummaryJob.schedule(100);
+	// }
+	// });
+	// }
+	// if (job.isRunning()) {
+	// // This will abrupt the job but on demand, so we can't really start
+	// // a new job here.
+	// job.cancelMonitor();
+	// }
+	//
+	// job.setContextToSummarize(service);
+	// job.go(); // Should spawn a job processing the xls.
+	//
+	// }
 
 	/**
 	 * Inject a {@link RFSService} into the component. This will first create
@@ -262,16 +272,29 @@ public class ServiceSummaryComponent {
 	 * @param service
 	 */
 	public void injectData(RFSService service) {
-		prepServiceSummary(service);
+
+		// TODO, Remove later.
+		// prepServiceSummary(service);
+		monitoringState.summaryFor(service, new MonitoringStateStateCallBack() {
+
+			public void callBackEvent(MonitoringStateEvent event) {
+				System.out.println(ServiceSummaryComponent.this);
+				
+				if (event.getResult() instanceof RFSServiceSummary) {
+					summary = (RFSServiceSummary) event.getResult();
+					refreshSummaryJob.schedule(100);
+				}
+			}
+		});
 	}
 
 	private void refreshSummaryUI() {
 
 		if (summary == null) {
 			formTextLastMonitor.setText("no monitors", false, false);
-//			content.layout();
+			// content.layout();
 			layourComponent.layout();
-//			parentScreen.layout();
+			// parentScreen.layout();
 			return;
 		}
 
@@ -314,9 +337,14 @@ public class ServiceSummaryComponent {
 
 		@Override
 		public IStatus runInUIThread(IProgressMonitor monitor) {
-			if (monitor.isCanceled() || content.isDisposed())
+			if (monitor.isCanceled()) {
 				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
-						IStatus.OK, "", null);
+						IStatus.OK, "Cancelled ", null);
+			}
+			if (content.isDisposed()) {
+				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
+						IStatus.OK, "Screen not valid", null);
+			}
 
 			refreshSummaryUI();
 

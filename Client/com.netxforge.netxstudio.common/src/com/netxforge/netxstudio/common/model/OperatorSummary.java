@@ -14,21 +14,21 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-
 /**
- *  
- * @author Christophe
+ * Summarizes the state of an {@link Operator operator}
+ * 
+ * @author Christophe Bouhier
  */
-public class OperatorSummary {
+public class OperatorSummary implements IMonitoringSummary {
 
-	List<RFSServiceSummary> summaries = Lists.newArrayList();
+	final List<RFSServiceSummary> summaries = Lists.newArrayList();
 
 	public void addSummary(RFSServiceSummary summary) {
 		if (!summaries.contains(summary)) {

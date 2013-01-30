@@ -22,6 +22,7 @@ import com.google.inject.name.Names;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.ch9.NetXScriptInjectorProxy;
+import com.netxforge.netxstudio.screens.f1.ServiceSummaryComponent;
 import com.netxforge.netxstudio.screens.f1.support.PeriodSelectionPage;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionPage;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
@@ -63,10 +64,16 @@ public class ScreensModule extends AbstractModule {
 
 		// Bind Components
 		this.bind(PeriodComponent.class);
+		
 		this.bind(ValueComponentII.class);
+		
 		this.bind(SmartValueComponent.class);
+		
 		this.bind(ResourcesComponent.class);
+		
 		this.bind(LazyResourcesComponent.class);
+		
+		this.bind(ServiceSummaryComponent.class);
 		
 	}
 	

@@ -121,7 +121,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	}
 
 	/**
-	 * Called automaticly when we are disposed.
+	 * Called automatically when we are disposed.
 	 * 
 	 * @param c
 	 */

@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
@@ -28,21 +28,18 @@ import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.services.RFSService;
 
-
 /**
- * Maintains a monitoring state and can be queried for state information.
- * The following state information can be retrieved; 
- * </p>
+ * Maintains a monitoring state and can be queried for state information. The
+ * following state information can be retrieved; </p>
  * 
  * <ul>
- *  <li>Tolerance breach markers</li>
- * 	<li>Red Amber Green state (RAG)</li>
- *  <li>Artifact count which are monitored</li>
+ * <li>Tolerance breach markers</li>
+ * <li>Red Amber Green state (RAG)</li>
+ * <li>Artifact count which are monitored</li>
  * </ul>
  * 
- * depending on a context. The context can be broad, encompassing several monitoring layers. 
- * </p> the following "layers" are defined: 
- * </p>
+ * depending on a context. The context can be broad, encompassing several
+ * monitoring layers. </p> the following "layers" are defined: </p>
  * <ul>
  * <li>{@link Operator operator monitoring}</li>
  * <li>{@link RFSService service monitoring}</li>
@@ -50,50 +47,45 @@ import com.netxforge.netxstudio.services.RFSService;
  * <li>{@link Component Funtion or Equipment monitoring}</li>
  * <li>{@link NetXResource resource monitoring}</li>
  * </ul>
- * Ultimately, the state on all layers is computed from the markers on a {@link NetXResorce resource}. 
- * Currently, the {@link ToleranceMarker tolerance markers} are the base to determine
- * the state of a resource. The state is also computed for a period. The markers which occure within the 
- * period a considered for the state.  
+ * Ultimately, the state on all layers is computed from the markers on a
+ * {@link NetXResorce resource}. Currently, the {@link ToleranceMarker tolerance
+ * markers} are the base to determine the state of a resource. The state is also
+ * computed for a period. The markers which occure within the period a
+ * considered for the state.
  * 
  * 
- * Note: Various functions in {@link ModelUtils} exist to aggregate 
+ * Note: Various functions in {@link ModelUtils} exist to aggregate
  * 
  * 
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
 public class MonitoringStateModel {
-	
-	
+
 	/**
 	 * 
 	 * @author Christophe Bouhier
-	 *
+	 * 
 	 */
 	public interface MonitoringStateStateCallBack {
 		public void callBackEvent(MonitoringStateEvent event);
 	}
-	
-	
-	
+
 	@Inject
 	private ModelUtils modelUtils;
-	private MonitoringStateJob job;
 	
-	
-	public void summaryFor(Object object, MonitoringStateStateCallBack callBack){
-		// Dispatch on model type. 
-		if(object instanceof Operator){
-			
-		}
+	private MonitoringStateJob job = null;
+
+	public void summaryFor(Object context, MonitoringStateStateCallBack callBack) {
+		prepSummary(context, callBack);
 	}
-	
-	
+
 	/**
-	 * prepares the monitoring state. 
+	 * prepares the monitoring state.
 	 */
-	private void prepSummary(RFSService service) {
+	private void prepSummary(Object context,
+			final MonitoringStateStateCallBack callBack) {
 
 		if (job == null) {
 
@@ -102,22 +94,46 @@ public class MonitoringStateModel {
 			job.addNotifier(new JobChangeAdapter() {
 				@Override
 				public void done(IJobChangeEvent event) {
-					// 
-					
-					
+					if (callBack != null) {
+						final MonitoringStateEvent monitoringStateEvent = new MonitoringStateEvent();
+						monitoringStateEvent.setResult(job
+								.getMonitoringSummary());
+						callBack.callBackEvent(monitoringStateEvent);
+					}
 				}
 			});
 		}
+
+		// Force a restart, if we are operational.
 		if (job.isRunning()) {
 			// This will abrupt the job but on demand, so we can't really start
 			// a new job here.
 			job.cancelMonitor();
 		}
 
-		job.setRFSServiceToProcess(service);
+		job.setContextToSummarize(context);
 		job.go(); // Should spawn a job processing the xls.
 
 	}
 
-	
+	// PROCESSING STATE:
+
+	/**
+	 * Is any of the background processing jobs running?
+	 * 
+	 * @return
+	 */
+	public boolean isRunning() {
+		return job.isRunning();
+	}
+
+	/**
+	 * Abort background processing jobs.
+	 */
+	public void abort() {
+		if (job.isRunning()) {
+			job.cancelMonitor();
+		}
+	}
+
 }

@@ -31,7 +31,7 @@ import com.netxforge.netxstudio.services.Service;
  * @author Christophe Bouhier
  *
  */
-public class RFSServiceSummary {
+public class RFSServiceSummary implements IMonitoringSummary {
 
 	// Generated values.
 	int subServices = 0;

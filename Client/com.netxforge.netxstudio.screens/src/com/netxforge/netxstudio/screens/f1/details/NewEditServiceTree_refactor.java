@@ -64,6 +64,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.ColumnLayoutData;
@@ -102,14 +103,14 @@ import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
- * Component for showing the Service Summary.
- * TODO, RENAME WHEN DONE, FACTOR OUT THE SERVICE SUMMARY. 
+ * Component for showing the Service Summary. TODO, RENAME WHEN DONE, FACTOR OUT
+ * THE SERVICE SUMMARY.
  * 
  * @author Christophe Bouhier
  * 
  */
-public class NewEditServiceTree_refactor extends AbstractDetailsScreen implements
-		IDataScreenInjection {
+public class NewEditServiceTree_refactor extends AbstractDetailsScreen
+		implements IDataScreenInjection {
 
 	final IEditingService editingService;
 
@@ -136,9 +137,7 @@ public class NewEditServiceTree_refactor extends AbstractDetailsScreen implement
 	private boolean readonly;
 
 	private int widgetStyle;
-	
-	
-	/** The Service summary UI component **/
+
 	@Inject
 	private ServiceSummaryComponent summaryComponent;
 
@@ -281,11 +280,11 @@ public class NewEditServiceTree_refactor extends AbstractDetailsScreen implement
 		if (!readonly) {
 			ImageHyperlink hypLnkAddTolerance = formToolkit
 					.createImageHyperlink(cmpTolerances, SWT.NONE);
-			hypLnkAddTolerance.addHyperlinkListener(new IHyperlinkListener() {
+			hypLnkAddTolerance.addHyperlinkListener(new HyperlinkAdapter() {
 				public void linkActivated(HyperlinkEvent e) {
-					Resource toleranceResource = editingService
+					final Resource toleranceResource = editingService
 							.getData(LibraryPackage.Literals.TOLERANCE);
-					ToleranceFilterDialog dialog = new ToleranceFilterDialog(
+					final ToleranceFilterDialog dialog = new ToleranceFilterDialog(
 							NewEditServiceTree_refactor.this.getShell(),
 							toleranceResource);
 					if (dialog.open() == IDialogConstants.OK_ID) {
@@ -298,12 +297,6 @@ public class NewEditServiceTree_refactor extends AbstractDetailsScreen implement
 									.execute(c);
 						}
 					}
-				}
-
-				public void linkEntered(HyperlinkEvent e) {
-				}
-
-				public void linkExited(HyperlinkEvent e) {
 				}
 			});
 			hypLnkAddTolerance.setLayoutData(new GridData(SWT.RIGHT,
@@ -380,13 +373,13 @@ public class NewEditServiceTree_refactor extends AbstractDetailsScreen implement
 
 		ImageHyperlink mghprlnkEdit = formToolkit.createImageHyperlink(
 				composite_4, SWT.NONE);
-		mghprlnkEdit.addHyperlinkListener(new IHyperlinkListener() {
+		mghprlnkEdit.addHyperlinkListener(new HyperlinkAdapter() {
 			public void linkActivated(HyperlinkEvent e) {
 
 				if (service
 						.eIsSet(ServicesPackage.Literals.SERVICE__SERVICE_DISTRIBUTION)) {
 
-					ServiceDistributionScreen screen = new ServiceDistributionScreen(
+					final ServiceDistributionScreen screen = new ServiceDistributionScreen(
 							screenService.getScreenContainer(), SWT.NONE);
 					screen.setScreenService(screenService);
 					screen.setOperation(getOperation());
@@ -398,12 +391,6 @@ public class NewEditServiceTree_refactor extends AbstractDetailsScreen implement
 							"Service Distribution is not existing",
 							"A Service distribution object can only be created in edit mode");
 				}
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
 			}
 		});
 		mghprlnkEdit.setImage(ResourceManager.getPluginImage(
@@ -469,35 +456,27 @@ public class NewEditServiceTree_refactor extends AbstractDetailsScreen implement
 			ImageHyperlink mghprlnkAddServiceUser = formToolkit
 					.createImageHyperlink(composite_1, SWT.NONE);
 			mghprlnkAddServiceUser.setImage(null);
-			mghprlnkAddServiceUser
-					.addHyperlinkListener(new IHyperlinkListener() {
-						public void linkActivated(HyperlinkEvent e) {
-							Resource serviceUserResource = editingService
-									.getData(ServicesPackage.Literals.SERVICE_USER);
+			mghprlnkAddServiceUser.addHyperlinkListener(new HyperlinkAdapter() {
+				public void linkActivated(HyperlinkEvent e) {
+					Resource serviceUserResource = editingService
+							.getData(ServicesPackage.Literals.SERVICE_USER);
 
-							ServiceUserFilterDialog dialog = new ServiceUserFilterDialog(
-									NewEditServiceTree_refactor.this.getShell(),
-									serviceUserResource);
+					ServiceUserFilterDialog dialog = new ServiceUserFilterDialog(
+							NewEditServiceTree_refactor.this.getShell(),
+							serviceUserResource);
 
-							if (dialog.open() == IDialogConstants.OK_ID) {
-								ServiceUser u = (ServiceUser) dialog
-										.getFirstResult();
-								if (!service.getServiceUserRefs().contains(u)) {
-									Command c = new AddCommand(editingService
-											.getEditingDomain(), service
-											.getServiceUserRefs(), u);
-									editingService.getEditingDomain()
-											.getCommandStack().execute(c);
-								}
-							}
+					if (dialog.open() == IDialogConstants.OK_ID) {
+						ServiceUser u = (ServiceUser) dialog.getFirstResult();
+						if (!service.getServiceUserRefs().contains(u)) {
+							Command c = new AddCommand(editingService
+									.getEditingDomain(), service
+									.getServiceUserRefs(), u);
+							editingService.getEditingDomain().getCommandStack()
+									.execute(c);
 						}
-
-						public void linkEntered(HyperlinkEvent e) {
-						}
-
-						public void linkExited(HyperlinkEvent e) {
-						}
-					});
+					}
+				}
+			});
 			mghprlnkAddServiceUser.setLayoutData(new GridData(SWT.RIGHT,
 					SWT.CENTER, true, false, 1, 1));
 			formToolkit.paintBordersFor(mghprlnkAddServiceUser);
@@ -566,13 +545,13 @@ public class NewEditServiceTree_refactor extends AbstractDetailsScreen implement
 			ImageHyperlink mghprlnkAddNetworkElement = formToolkit
 					.createImageHyperlink(composite_3, SWT.NONE);
 			mghprlnkAddNetworkElement
-					.addHyperlinkListener(new IHyperlinkListener() {
+					.addHyperlinkListener(new HyperlinkAdapter() {
 						public void linkActivated(HyperlinkEvent e) {
 
-							Resource operatorResource = editingService
+							final Resource operatorResource = editingService
 									.getData(OperatorsPackage.Literals.OPERATOR);
 
-							NodeOrNetworkFilterDialog dialog = new NodeOrNetworkFilterDialog(
+							final NodeOrNetworkFilterDialog dialog = new NodeOrNetworkFilterDialog(
 									NewEditServiceTree_refactor.this.getShell(),
 									operatorResource, modelUtils);
 
@@ -606,12 +585,6 @@ public class NewEditServiceTree_refactor extends AbstractDetailsScreen implement
 										.getCommandStack().execute(c);
 							}
 
-						}
-
-						public void linkEntered(HyperlinkEvent e) {
-						}
-
-						public void linkExited(HyperlinkEvent e) {
 						}
 					});
 			mghprlnkAddNetworkElement.setLayoutData(new GridData(SWT.RIGHT,
@@ -681,14 +654,14 @@ public class NewEditServiceTree_refactor extends AbstractDetailsScreen implement
 		sctnSummary.setText("Summary");
 		sctnSummary.setExpanded(true);
 
-		Composite content = formToolkit.createComposite(sctnSummary, SWT.NONE);
+		final Composite content = formToolkit.createComposite(sctnSummary, SWT.NONE);
 		formToolkit.paintBordersFor(content);
 		content.setLayout(new FillLayout());
 		sctnSummary.setClient(content);
-		
-		summaryComponent.setParentScreen(this); 
+
+		summaryComponent.setParentScreen(this);
 		summaryComponent.buildUI(content, null);
-		
+
 	}
 
 	private void buildInfoSection() {
@@ -738,7 +711,7 @@ public class NewEditServiceTree_refactor extends AbstractDetailsScreen implement
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
 		summaryComponent.injectData(service);
-		
+
 		bindInfoSection(context);
 		bindLifeCycle(context);
 		bindNetworkElementSection();
@@ -747,8 +720,6 @@ public class NewEditServiceTree_refactor extends AbstractDetailsScreen implement
 
 		return context;
 	}
-
-
 
 	private void bindInfoSection(EMFDataBindingContext context) {
 		IObservableValue nameObservable = SWTObservables.observeDelayedValue(

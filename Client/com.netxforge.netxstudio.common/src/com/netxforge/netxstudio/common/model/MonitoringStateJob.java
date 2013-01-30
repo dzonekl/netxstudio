@@ -25,18 +25,28 @@ import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 
+import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 
 /**
- * Create a state. 
+ * Populate a summary based on a context.
  */
 public class MonitoringStateJob extends JobChangeAdapter {
 
 	private StatusJob j = new StatusJob("Creating Summary...");
-	private RFSService service;
-	private RFSServiceSummary summary;
+
+	private Object context;
+
+	/** the produced summary for this job. */
+	private IMonitoringSummary summary;
+
 	private ModelUtils modelUtils;
+
 	private boolean running = false;
 
 	private IProgressMonitor monitor;
@@ -48,9 +58,8 @@ public class MonitoringStateJob extends JobChangeAdapter {
 
 	public void go() {
 		j.addJobChangeListener(this);
-		j.schedule(2000);
+		j.schedule(100);
 	}
-	
 
 	public void cancel() {
 		j.cancel();
@@ -60,8 +69,8 @@ public class MonitoringStateJob extends JobChangeAdapter {
 		j.addJobChangeListener(notifier);
 	}
 
-	public void setRFSServiceToProcess(RFSService service) {
-		this.service = service;
+	public void setContextToSummarize(Object context) {
+		this.context = context;
 	}
 
 	protected class StatusJob extends Job {
@@ -81,11 +90,26 @@ public class MonitoringStateJob extends JobChangeAdapter {
 
 	protected void processReadingInternal(final IProgressMonitor monitor) {
 		this.monitor = monitor;
-		ServiceMonitor sm = modelUtils.lastServiceMonitor(service);
-		if (sm != null) {
-			summary = modelUtils.serviceSummaryForService(
-					service, sm.getPeriod(), monitor);
+
+		// Dispatch on the context type.
+		if (context instanceof Operator) {
+			// TODO Create an Operator Summary.
+		} else if (context instanceof RFSService) {
+
+			ServiceMonitor sm = modelUtils
+					.lastServiceMonitor((Service) context);
+			if (sm != null) {
+				summary = modelUtils.serviceSummaryForService(
+						(Service) context, sm.getPeriod(), monitor);
+			}
+		} else if (context instanceof Node) {
+			// TODO Create a Node summary.
+		} else if (context instanceof Component) {
+			// TODO Create a Component summary.
+		} else if (context instanceof NetXResource) {
+			// TODO Create a resource summary.
 		}
+
 	}
 
 	public void cancelMonitor() {
@@ -103,7 +127,7 @@ public class MonitoringStateJob extends JobChangeAdapter {
 	/**
 	 * @return the summary
 	 */
-	public RFSServiceSummary getSummary() {
+	public IMonitoringSummary getMonitoringSummary() {
 		return summary;
 	}
 
@@ -113,5 +137,4 @@ public class MonitoringStateJob extends JobChangeAdapter {
 	public boolean isRunning() {
 		return running;
 	}
-
 }

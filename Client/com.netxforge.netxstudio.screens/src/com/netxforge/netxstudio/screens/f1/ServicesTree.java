@@ -87,7 +87,7 @@ import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.f1.details.NewEditServiceTree;
+import com.netxforge.netxstudio.screens.f1.details.NewEditServiceTree_refactor;
 import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeFactoryImpl;
 import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeLabelProvider;
 import com.netxforge.netxstudio.screens.f1.support.ScheduledReportSelectionWizard;
@@ -445,8 +445,7 @@ public class ServicesTree extends AbstractScreen implements
 			currentDetails.dispose();
 		}
 		if (o instanceof RFSService) {
-			NewEditServiceTree screen = null;
-			screen = new NewEditServiceTree(this.cmpDetails, SWT.NONE,
+			final NewEditServiceTree_refactor screen = new NewEditServiceTree_refactor(this.cmpDetails, SWT.NONE,
 					editingService);
 			screen.setParentScreen(this);
 			screen.setScreenService(screenService);
@@ -466,7 +465,7 @@ public class ServicesTree extends AbstractScreen implements
 
 		if (currentDetails != null) {
 			if (currentDetails instanceof IScreen) {
-				Viewer v = ((IScreen) currentDetails).getViewer();
+				final Viewer v = ((IScreen) currentDetails).getViewer();
 				if (v != null) {
 					return v;
 				}
