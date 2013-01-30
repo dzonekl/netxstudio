@@ -1224,7 +1224,7 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 		IEMFListProperty l = EMFEditProperties.list(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.COMPONENT__METRIC_REFS);
-
+		
 		metricsTableViewer.setInput(l.observe(comp));
 
 		// ObservableListTreeContentProvider listTreeContentProvider = new

@@ -305,7 +305,6 @@ public class CDOQueryService implements IQueryService {
 						+ "on caps_list.cdo_value = val.cdo_id "
 						+ "where res.cdo_id = :res_cdodid");
 			} else {
-				// TODO, Check CamelCase!
 				sb.append("select val.cdo_id "
 						+ "from "
 						+ DB_NAME
@@ -314,7 +313,7 @@ public class CDOQueryService implements IQueryService {
 						+ DB_NAME
 						+ ".library_NetXResource_capacityValues_list as caps_list "
 						+ "on caps_list.cdo_source = res.cdo_id " + "join "
-						+ DB_NAME + ".generics_value as val "
+						+ DB_NAME + ".generics_Value as val "
 						+ "on caps_list.cdo_value = val.cdo_id "
 						+ "where res.cdo_id = :res_cdodid");
 			}
@@ -408,7 +407,7 @@ public class CDOQueryService implements IQueryService {
 						+ DB_NAME
 						+ ".library_NetXResource_utilizationValues_list as utils_list "
 						+ " on utils_list.cdo_source = res.cdo_id " + "join "
-						+ DB_NAME + ".generics_value as val "
+						+ DB_NAME + ".generics_Value as val "
 						+ "on utils_list.cdo_value = val.cdo_id "
 						+ "where res.cdo_id = :res_cdodid");
 			}
