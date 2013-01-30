@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.common.model;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
@@ -40,8 +41,15 @@ public class RFSServiceSummary implements IMonitoringSummary {
 	int[] ragCountResources = new int[] { 0, 0, 0 };
 	
 	boolean[] ragStatus = new boolean[] { false, false, false };
+	
+	
+	/** The period for this summary*/
+	private DateTimeRange period; 
+	
 
-	String periodFormattedString = "";
+
+	/** The period formated as String for this summary */
+	private String periodFormattedString = "";
 
 	private List<NodeTypeSummary> nodeSummaries = Lists.newArrayList();
 
@@ -128,6 +136,15 @@ public class RFSServiceSummary implements IMonitoringSummary {
 
 	public int getGreenCountResources() {
 		return ragCountResources[2];
+	}
+	
+	
+	public DateTimeRange getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(DateTimeRange period) {
+		this.period = period;
 	}
 	
 	public int getResourcesCount() {

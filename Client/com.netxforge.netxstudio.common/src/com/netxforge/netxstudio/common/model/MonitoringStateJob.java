@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Node;
@@ -40,10 +41,14 @@ public class MonitoringStateJob extends JobChangeAdapter {
 
 	private StatusJob j = new StatusJob("Creating Summary...");
 
+	/** Our context which will determine which Summary is returned. */
 	private Object context;
 
 	/** the produced summary for this job. */
 	private IMonitoringSummary summary;
+
+	/** The period determining the summary extend */
+	private DateTimeRange period;
 
 	private ModelUtils modelUtils;
 
@@ -51,9 +56,20 @@ public class MonitoringStateJob extends JobChangeAdapter {
 
 	private IProgressMonitor monitor;
 
-	public MonitoringStateJob(ModelUtils modelUtils) {
+	private MonitoringStateModel model;
+
+	public DateTimeRange getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(DateTimeRange period) {
+		this.period = period;
+	}
+
+	public MonitoringStateJob(ModelUtils modelUtils, MonitoringStateModel model) {
 		super();
 		this.modelUtils = modelUtils;
+		this.model = model;
 	}
 
 	public void go() {
@@ -83,6 +99,14 @@ public class MonitoringStateJob extends JobChangeAdapter {
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
 
+			// Do we have a period.
+			if (period != null) {
+				// Check the period validity?
+				// Begin < End.
+			} else {
+				// We need a period for the state to work.
+				return Status.CANCEL_STATUS;
+			}
 			processReadingInternal(monitor);
 			return Status.OK_STATUS;
 		}
@@ -96,12 +120,12 @@ public class MonitoringStateJob extends JobChangeAdapter {
 			// TODO Create an Operator Summary.
 		} else if (context instanceof RFSService) {
 			summary = null;
-			
+
 			ServiceMonitor sm = modelUtils
 					.lastServiceMonitor((Service) context);
 			if (sm != null) {
-				summary = modelUtils.serviceSummaryForService(
-						(Service) context, sm.getPeriod(), monitor);
+				summary = model.serviceSummaryForService((Service) context,
+						period, monitor);
 			}
 		} else if (context instanceof Node) {
 			// TODO Create a Node summary.
@@ -138,4 +162,5 @@ public class MonitoringStateJob extends JobChangeAdapter {
 	public boolean isRunning() {
 		return running;
 	}
+	
 }

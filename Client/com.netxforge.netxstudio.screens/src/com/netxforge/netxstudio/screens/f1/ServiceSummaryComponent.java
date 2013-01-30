@@ -40,6 +40,7 @@ import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateStateCallBack;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.services.RFSService;
 
@@ -82,17 +83,15 @@ public class ServiceSummaryComponent {
 	/*
 	 * Defaults to show a border.
 	 */
-	private boolean showBorder = true;
+	private boolean showBorder = false;
 
 	private Composite content;
 
-	private Composite layourComponent;
 
 	/**
 	 * The parent IScreen needed to layout as this component will load in
 	 * background
 	 **/
-	@SuppressWarnings("unused")
 	private IScreen parentScreen;
 
 	private MonitoringStateModel monitoringState;
@@ -124,24 +123,9 @@ public class ServiceSummaryComponent {
 			}
 		});
 
-		layourComponent = parent.getParent(); // this is likely the component to
-												// re-layout.
-
 		content = formToolkit.createComposite(parent, showBorder ? SWT.BORDER
 				: SWT.NONE);
-		// System.out.println("Creating" + content.hashCode());
-		// content.addDisposeListener(new DisposeListener() {
-		//
-		// public void widgetDisposed(DisposeEvent e) {
-		// System.out.println("Disposing: " + e.widget.hashCode());
-		// // for (StackTraceElement se : Thread.currentThread()
-		// // .getStackTrace()) {
-		// // System.out.println("--" + se.toString());
-		// // }
-		//
-		// }
-		// });
-
+		
 		if (layoutData != null) {
 			content.setLayoutData(layoutData);
 		}
@@ -301,7 +285,8 @@ public class ServiceSummaryComponent {
 		if (summary == null) {
 			formTextLastMonitor.setText("no monitors", false, false);
 			content.layout();
-			layourComponent.layout();
+//			layourComponent.layout();
+			ScreenUtil.compositeFor(parentScreen).layout();
 			return;
 		}
 
@@ -324,7 +309,8 @@ public class ServiceSummaryComponent {
 				new Integer(summary.getGreenCountResources()).toString(),
 				false, false);
 		content.layout();
-		layourComponent.layout();
+//		layourComponent.layout();
+		ScreenUtil.compositeFor(parentScreen).layout();
 	}
 
 	/**

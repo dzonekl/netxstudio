@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -99,7 +98,6 @@ import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
@@ -124,7 +122,6 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
-import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.DerivedResource;
@@ -1465,7 +1462,7 @@ public class ModelUtils {
 		}
 
 		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
-			if(!mvr.getMetricValues().isEmpty()){
+			if (!mvr.getMetricValues().isEmpty()) {
 				return true;
 			}
 		}
@@ -1811,71 +1808,6 @@ public class ModelUtils {
 		return Lists.newArrayList(filtered);
 	}
 
-	public RFSServiceSummary serviceSummaryForService(Service service,
-			DateTimeRange dtr, IProgressMonitor monitor) {
-		RFSServiceSummary serviceSummary = new RFSServiceSummary(
-				(RFSService) service);
-
-		if (service instanceof RFSService) {
-			int[] ragTotalResources = new int[] { 0, 0, 0 };
-			int[] ragTotalNodes = new int[] { 0, 0, 0 };
-			for (Node n : ((RFSService) service).getNodes()) {
-				if (monitor != null && monitor.isCanceled()) {
-					return serviceSummary;
-				}
-				int[] ragResources = ragCountResourcesForNode(service, n, dtr,
-						monitor);
-				for (int i = 0; i < ragTotalResources.length; i++) {
-					ragTotalResources[i] += ragResources[i];
-				}
-				// Any of the levels > 0, we increase the total node count.
-				ragTotalNodes[0] += ragResources[0] > 0 ? 1 : 0;
-				ragTotalNodes[1] += ragResources[1] > 0 ? 1 : 0;
-				ragTotalNodes[2] += ragResources[2] > 0 ? 1 : 0;
-			}
-			serviceSummary.setRagCountResources(ragTotalResources);
-			serviceSummary.setRagCountNodes(ragTotalNodes);
-		}
-		serviceSummary.setPeriodFormattedString(periodToStringMore(dtr));
-		return serviceSummary;
-	}
-
-	/**
-	 * Overall RAG Status.
-	 * 
-	 * @param sm
-	 * @return
-	 * @deprecated DO NOT USE, no distinction per NetXResource.
-	 */
-	public int[] ragCountResources(ServiceMonitor sm) {
-
-		int red = 0, amber = 0, green = 0;
-
-		for (ResourceMonitor rm : sm.getResourceMonitors()) {
-			int[] rag = ragForMarkers(rm.getMarkers());
-			red += rag[0];
-			amber += rag[1];
-			green += rag[2];
-		}
-		return new int[] { red, amber, green };
-
-	}
-
-	public boolean ragShouldReport(int[] ragStatus) {
-		if (ragStatus.length != 3) {
-			return false;
-		}
-
-		if (ragStatus[0] > 0) {
-			return true;
-		}
-
-		if (ragStatus[1] > 0) {
-			return true;
-		}
-
-		return false;
-	}
 
 	/**
 	 * Get the first marker with this value otherwise null.
@@ -1894,177 +1826,7 @@ public class ModelUtils {
 		return null;
 	}
 
-	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceMonitorAndNodeAndPeriod(
-			ServiceMonitor serviceMonitor, Node n, DateTimeRange dtr,
-			IProgressMonitor monitor) {
-
-		// Filter ServiceMonitors on the time range.
-		// List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
-		// sortedCopy, dtr);
-
-		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-				Arrays.asList(new ServiceMonitor[] { serviceMonitor }), n,
-				monitor);
-		return markersPerResource;
-	}
-
-	/**
-	 * returns a Map of markers for each of the NetXResources in the specified
-	 * node.
-	 * 
-	 * @param service
-	 * @param n
-	 * @param dtr
-	 * @return
-	 */
-	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceAndNodeAndPeriod(
-			Service service, Node n, DateTimeRange dtr, IProgressMonitor monitor) {
-
-		// Sort by begin date and reverse the Service Monitors.
-		List<ServiceMonitor> sortedCopy = Ordering
-				.from(this.serviceMonitorCompare()).reverse()
-				.sortedCopy(service.getServiceMonitors());
-
-		// Filter ServiceMonitors on the time range.
-		// List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
-		// sortedCopy, dtr);
-
-		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-				sortedCopy, n, monitor);
-		return markersPerResource;
-
-	}
-
-	/**
-	 * Provides a total list of markers for the Service Monitor, Node and Date
-	 * Time Range. ,indiscreet of the NetXResource.
-	 * 
-	 * @param sm
-	 * @param n
-	 * @param dtr
-	 * @return
-	 */
-	public List<Marker> toleranceMarkersForServiceMonitor(ServiceMonitor sm,
-			Node n) {
-		// Process a ServiceMonitor for which the period is somehow within the
-		// range.
-		List<Marker> filtered = Lists.newArrayList();
-
-		// Each RM represents a Resource.
-		for (ResourceMonitor rm : sm.getResourceMonitors()) {
-			if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
-				List<Marker> toleranceMarkers = toleranceMarkersForResourceMonitor(rm);
-				filtered.addAll(toleranceMarkers);
-			}
-		}
-
-		return filtered;
-	}
-
-	// public int[] ragCount(ServiceMonitor sm, Node n,
-	// DateTimeRange dtr) {
-	//
-	// int red = 0, amber = 0, green = 0;
-	// //Each RM represents a Resource.
-	// for (ResourceMonitor rm : sm.getResourceMonitors()) {
-	// if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
-	// Marker[] markerArray = new Marker[rm.getMarkers().size()];
-	// rm.getMarkers().toArray(markerArray);
-	// List<Marker> markersForNodeList = this
-	// .toleranceMarkers(markerArray);
-	// int[] rag = this.ragForMarkers(markersForNodeList);
-	// red += rag[0];
-	// amber += rag[1];
-	// green += rag[2];
-	// }
-	//
-	// }
-	//
-	// return new int[]{red, amber, green};
-	// }
-
-	/**
-	 * A two pass rag analyzer. First find all {@link ServiceMonitor}'s inside
-	 * the specified period. For all contained {@link ResourceMonitor }'s in the
-	 * Service Monitors, bundle the markers per NetXResource. Then count the RAG
-	 * per NetXResource's markers. Note: Resources which are not referenced by a
-	 * Resource Monitor from the specified node, are ignored.
-	 * 
-	 * @param sm
-	 * @param n
-	 * @return
-	 */
-	public int[] ragCountResourcesForNode(Service service, Node n,
-			DateTimeRange dtr, IProgressMonitor monitor) {
-
-		int red = 0, amber = 0, green = 0;
-
-		// Sort and reverse the Service Monitors.
-		List<ServiceMonitor> sortedCopy = Ordering
-				.from(this.serviceMonitorCompare()).reverse()
-				.sortedCopy(service.getServiceMonitors());
-
-		// Filter ServiceMonitors on the time range.
-		List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
-				sortedCopy, dtr);
-
-		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-				filtered, n, monitor);
-
-		for (NetXResource res : markersPerResource.keySet()) {
-
-			if (monitor != null && monitor.isCanceled()) {
-				return new int[] { red, amber, green };
-			}
-			List<Marker> markers = markersPerResource.get(res);
-			int[] rag = ragForMarkers(markers);
-			red += rag[0];
-			amber += rag[1];
-			green += rag[2];
-
-		}
-
-		return new int[] { red, amber, green };
-	}
-
-	/**
-	 * @param serviceMonitors
-	 * @param n
-	 * @return
-	 */
-	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-			List<ServiceMonitor> serviceMonitors, Node n,
-			IProgressMonitor monitor) {
-		Map<NetXResource, List<Marker>> markersPerResource = Maps.newHashMap();
-
-		for (ServiceMonitor sm : serviceMonitors) {
-			for (ResourceMonitor rm : sm.getResourceMonitors()) {
-
-				// Abort the task if we are cancelled.
-				if (monitor != null && monitor.isCanceled()) {
-					return markersPerResource;
-				}
-
-				if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
-
-					// Analyze per resource, why would a resource monitor
-					// contain markers for a nother resource?
-					List<Marker> markers;
-					NetXResource res = rm.getResourceRef();
-					if (!markersPerResource.containsKey(res)) {
-						markers = Lists.newArrayList();
-						markersPerResource.put(res, markers);
-					} else {
-						markers = markersPerResource.get(res);
-					}
-					List<Marker> toleranceMarkers = toleranceMarkersForResourceMonitor(rm);
-					markers.addAll(toleranceMarkers);
-				}
-			}
-
-		}
-		return markersPerResource;
-	}
+	
 
 	/**
 	 * Get the first {@link ResourceMonitor}
@@ -2161,75 +1923,7 @@ public class ModelUtils {
 		return monitorsPerResource;
 	}
 
-	public List<Marker> toleranceMarkersForResourceMonitor(ResourceMonitor rm) {
-		List<Marker> toleranceMarkers = Lists.newArrayList(Iterables.filter(
-				rm.getMarkers(), toleranceMarkers()));
-		return toleranceMarkers;
-	}
-
-	/**
-	 * For a collection of marker determine the rag status. Higher levels take
-	 * precedence over lower levels. Lower levels are in case preceded by a
-	 * Higher level, cleared.
-	 * 
-	 * @param markersForNodeList
-	 * @return
-	 */
-	public int[] ragForMarkers(List<Marker> markersForNodeList) {
-
-		int red = 0, amber = 0, green = 0;
-		Marker[] markerForNodeArray = new Marker[markersForNodeList.size()];
-		markersForNodeList.toArray(markerForNodeArray);
-		// Iterate markers per level.
-		for (LevelKind lk : LevelKind.VALUES) {
-
-			ToleranceMarker tm = lastToleranceMarker(lk, markerForNodeArray);
-			if (tm != null) {
-				switch (tm.getLevel().getValue()) {
-				case LevelKind.RED_VALUE: {
-					if (isStartOrUp(tm)) {
-						red++;
-					}
-				}
-					break;
-				case LevelKind.AMBER_VALUE: {
-					if (isStartOrUp(tm)) {
-						amber++;
-					}
-				}
-					break;
-				case LevelKind.GREEN_VALUE: {
-					if (isStartOrUp(tm)) {
-						green++;
-					}
-				}
-				case LevelKind.YELLOW_VALUE: {
-					// what to do with yellow??
-				}
-					break;
-				}
-			}
-			// else {
-			// green++;
-			// }
-		}
-
-		// Clear the lower levels.
-		if (red > 0) {
-			amber = 0;
-			green = 0;
-		}
-		if (amber > 0) {
-			green = 0;
-		}
-
-		return new int[] { red, amber, green };
-	}
-
-	public boolean isStartOrUp(ToleranceMarker tm) {
-		return tm.getDirection() == ToleranceMarkerDirectionKind.UP
-				|| tm.getDirection() == ToleranceMarkerDirectionKind.START;
-	}
+	
 
 	// CB, replaced by predicate.
 	// public List<Marker> toleranceMarkers(Marker... unfiltered) {
@@ -2243,30 +1937,6 @@ public class ModelUtils {
 	// }
 	// return resultList;
 	// }
-
-	/**
-	 * Return the last marker which is either START or UP. The lists is sorted
-	 * and analyzed from the tail. (Newest first). Return null, if we can't find
-	 * a marker matching the Level Kind.
-	 * 
-	 * @param lk
-	 * @param markers
-	 * @return
-	 */
-	public ToleranceMarker lastToleranceMarker(LevelKind lk, Marker... markers) {
-		ToleranceMarker tm = null;
-		List<Marker> markerList = Lists.newArrayList(markers);
-		markerList = sortMarkersByTimeStamp(markerList);
-		Collections.reverse(markerList);
-		for (Marker m : markerList) {
-			if (m instanceof ToleranceMarker
-					&& ((ToleranceMarker) m).getLevel() == lk) {
-				tm = (ToleranceMarker) m;
-				break;
-			}
-		}
-		return tm;
-	}
 
 	/**
 	 * 
