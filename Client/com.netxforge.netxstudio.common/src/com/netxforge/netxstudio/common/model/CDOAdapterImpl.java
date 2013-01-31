@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 29 jan. 2013 NetXForge.
+ * Copyright (c) 31 jan. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,36 +14,12 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.common.model;
 
-import com.netxforge.netxstudio.generics.DateTimeRange;
+import org.eclipse.emf.cdo.CDOAdapter;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
-/**
- * A marker interface for monitoring objects processed in a state.
- * 
- * @author Christophe Bouhier
- * 
- */
-public interface IMonitoringSummary {
+public class CDOAdapterImpl extends AdapterImpl implements CDOAdapter {
 
-	
-	/**
-	 * Get the monitoring period. 
-	 * @return
-	 */
-	public DateTimeRange getPeriod();
-	
-	/**
-	 * Set the monitoring period. 
-	 * @param period
-	 */
-	public void setPeriod(DateTimeRange period);
-
-	
-	/**
-	 * Get the monitoring period formatted as String for presentation. 
-	 * @return
-	 */
-	public String getPeriodFormattedString();
 }

@@ -38,7 +38,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateStateCallBack;
-import com.netxforge.netxstudio.common.model.RFSServiceSummary;
+import com.netxforge.netxstudio.common.model.NodesSummmary;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -66,7 +66,7 @@ public class ServiceSummaryComponent {
 	 */
 	private final RefreshSummaryJob refreshSummaryJob = new RefreshSummaryJob();
 
-	private RFSServiceSummary summary;
+	private NodesSummmary summary;
 
 	private FormText formTextLastMonitor;
 
@@ -270,8 +270,8 @@ public class ServiceSummaryComponent {
 	class SummaryCallBack implements MonitoringStateStateCallBack {
 
 		public void callBackEvent(MonitoringStateEvent event) {
-			if (event.getResult() instanceof RFSServiceSummary) {
-				summary = (RFSServiceSummary) event.getResult();
+			if (event.getResult() instanceof NodesSummmary) {
+				summary = (NodesSummmary) event.getResult();
 				refreshSummaryJob.schedule(100);
 			} else if (event.getResult() == null) {
 				summary = null;

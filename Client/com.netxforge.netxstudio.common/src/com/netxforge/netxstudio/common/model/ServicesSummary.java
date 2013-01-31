@@ -26,23 +26,25 @@ import com.google.common.collect.Lists;
  * 
  * @author Christophe Bouhier
  */
-public class OperatorSummary implements IMonitoringSummary {
+public class ServicesSummary implements IMonitoringSummary {
+	
+	
+	/** The summary of all services */
+	final List<NodesSummmary> servicesSummaries = Lists.newArrayList();
 
-	final List<RFSServiceSummary> summaries = Lists.newArrayList();
-
-	public void addSummary(RFSServiceSummary summary) {
-		if (!summaries.contains(summary)) {
-			summaries.add(summary);
+	public void addSummary(NodesSummmary summary) {
+		if (!servicesSummaries.contains(summary)) {
+			servicesSummaries.add(summary);
 		}
 	}
 
 	public int totalServices() {
-		return summaries.size();
+		return servicesSummaries.size();
 	}
 
 	public int totalNodes() {
 		int nodes = 0;
-		for (RFSServiceSummary summary : summaries) {
+		for (NodesSummmary summary : servicesSummaries) {
 			nodes += summary.getNodeCount();
 		}
 		return nodes;
@@ -50,7 +52,7 @@ public class OperatorSummary implements IMonitoringSummary {
 
 	public int totalRedServices() {
 		int red = 0;
-		for (RFSServiceSummary summary : summaries) {
+		for (NodesSummmary summary : servicesSummaries) {
 			red += summary.getRagStatus()[0] ? 1 : 0;
 		}
 		return red;
@@ -58,7 +60,7 @@ public class OperatorSummary implements IMonitoringSummary {
 
 	public int totalAmberServices() {
 		int amber = 0;
-		for (RFSServiceSummary summary : summaries) {
+		for (NodesSummmary summary : servicesSummaries) {
 			amber += summary.getRagStatus()[1] ? 1 : 0;
 		}
 		return amber;
@@ -66,7 +68,7 @@ public class OperatorSummary implements IMonitoringSummary {
 
 	public int totalGreenServices() {
 		int green = 0;
-		for (RFSServiceSummary summary : summaries) {
+		for (NodesSummmary summary : servicesSummaries) {
 			green += summary.getRagStatus()[2] ? 1 : 0;
 		}
 		return green;
@@ -74,7 +76,7 @@ public class OperatorSummary implements IMonitoringSummary {
 
 	public int totalRedNodes() {
 		int red = 0;
-		for (RFSServiceSummary summary : summaries) {
+		for (NodesSummmary summary : servicesSummaries) {
 			red += summary.getRedCountNodes();
 		}
 		return red;
@@ -82,7 +84,7 @@ public class OperatorSummary implements IMonitoringSummary {
 
 	public int totalAmberNodes() {
 		int amber = 0;
-		for (RFSServiceSummary summary : summaries) {
+		for (NodesSummmary summary : servicesSummaries) {
 			amber += summary.getAmberCountNodes();
 		}
 		return amber;
@@ -90,7 +92,7 @@ public class OperatorSummary implements IMonitoringSummary {
 
 	public int totalGreenNodes() {
 		int green = 0;
-		for (RFSServiceSummary summary : summaries) {
+		for (NodesSummmary summary : servicesSummaries) {
 			green += summary.getGreenCountNodes();
 		}
 		return green;
@@ -98,7 +100,7 @@ public class OperatorSummary implements IMonitoringSummary {
 
 	public int totalRedResources() {
 		int resources = 0;
-		for (RFSServiceSummary summary : summaries) {
+		for (NodesSummmary summary : servicesSummaries) {
 			resources += summary.getRedCountResources();
 		}
 		return resources;
@@ -106,7 +108,7 @@ public class OperatorSummary implements IMonitoringSummary {
 
 	public int totalAmberResources() {
 		int resources = 0;
-		for (RFSServiceSummary summary : summaries) {
+		for (NodesSummmary summary : servicesSummaries) {
 			resources += summary.getAmberCountResources();
 		}
 		return resources;
@@ -114,7 +116,7 @@ public class OperatorSummary implements IMonitoringSummary {
 
 	public int totalGreenResources() {
 		int resources = 0;
-		for (RFSServiceSummary summary : summaries) {
+		for (NodesSummmary summary : servicesSummaries) {
 			resources += summary.getGreenCountResources();
 		}
 		return resources;
@@ -122,7 +124,7 @@ public class OperatorSummary implements IMonitoringSummary {
 
 	public int totalResources() {
 		int resources = 0;
-		for (RFSServiceSummary summary : summaries) {
+		for (NodesSummmary summary : servicesSummaries) {
 			resources += summary.getResourcesCount();
 		}
 		return resources;

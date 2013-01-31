@@ -130,8 +130,8 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 		sheet.setColumnWidth(ragColumn, 2 * 256);
 		
 		
-		
-		int[] rag = this.getModelUtils().ragCountResourcesForNode(service, node, this.getPeriod(), null);
+		// FIXME, Produce a summary and query Rag from the summary. 
+		int[] rag = monitoring.ragCountResourcesForNode(service, node, this.getPeriod(), null);
 
 		{
 			Row cellRow = sheet.getRow(newRow);

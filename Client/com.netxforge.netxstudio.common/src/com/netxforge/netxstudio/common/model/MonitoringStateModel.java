@@ -168,10 +168,57 @@ public class MonitoringStateModel {
 		}
 	}
 
-	public RFSServiceSummary serviceSummaryForService(Service service,
+	/**
+	 * This method is either directly available or can be executed in the
+	 * background with
+	 * {@link #prepSummary(Object, MonitoringStateStateCallBack)} It produces a
+	 * {@link ServiceSummary summary} for a {@link Service service}.
+	 * 
+	 * @param services
+	 * @param period
+	 * @param monitor
+	 * @return
+	 */
+	public ServicesSummary summaryForServices(List<Service> services,
+			DateTimeRange period, IProgressMonitor monitor) {
+		final ServicesSummary opSummary = new ServicesSummary();
+		for (Service service : services) {
+			if (service instanceof RFSService) {
+				NodesSummmary summary = this.summaryForService(service,
+						period, monitor);
+				// RFSServiceSummary summary = this.processService(service);
+				opSummary.addSummary(summary);
+			}
+		}
+		return opSummary;
+	}
+
+	// public RFSServiceSummary summaryForService(Service service,
+	// DateTimeRange dtr, IProgressMonitor monitor) {
+	// return summaryForService(service.g, dtr, monitor)
+	// }
+
+	/**
+	 * This method is either directly available or can be executed in the
+	 * background with
+	 * {@link #prepSummary(Object, MonitoringStateStateCallBack)} It produces a
+	 * {@link ServiceSummary summary} for a {@link Service service}.
+	 * 
+	 * 
+	 * 
+	 * Note: The RAG Status for the service is not produced here, it needs to be
+	 * executed in an expression engine.
+	 * 
+	 * 
+	 * @param service
+	 * @param dtr
+	 * @param monitor
+	 * @return
+	 */
+	public NodesSummmary summaryForService(Service service,
 			DateTimeRange dtr, IProgressMonitor monitor) {
 
-		final RFSServiceSummary serviceSummary = new RFSServiceSummary(
+		final NodesSummmary serviceSummary = new NodesSummmary(
 				(RFSService) service);
 
 		// Sort and reverse the Service Monitors.
@@ -180,17 +227,19 @@ public class MonitoringStateModel {
 				.sortedCopy(service.getServiceMonitors());
 
 		if (service instanceof RFSService) {
+
 			int[] ragTotalResources = new int[] { 0, 0, 0 };
 			int[] ragTotalNodes = new int[] { 0, 0, 0 };
-			for (Node n : ((RFSService) service).getNodes()) {
+
+			for (Node targetNode : ((RFSService) service).getNodes()) {
 				if (monitor != null && monitor.isCanceled()) {
 					return serviceSummary;
 				}
 
 				final Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-						serviceMonitors, n, monitor);
+						serviceMonitors, targetNode, monitor);
 
-				// Filter the markers within the period.
+				// TODO Filter the markers within the period.
 
 				int[] ragResources = ragCountResourcesForNode(
 						markersPerResource, monitor);
@@ -204,6 +253,7 @@ public class MonitoringStateModel {
 			}
 			serviceSummary.setRagCountResources(ragTotalResources);
 			serviceSummary.setRagCountNodes(ragTotalNodes);
+
 		}
 
 		serviceSummary.setPeriod(dtr);
@@ -211,6 +261,13 @@ public class MonitoringStateModel {
 				.periodToStringMore(dtr));
 
 		return serviceSummary;
+	}
+	
+	
+	public NetXResourceSummmary summaryForService(Service service,
+			DateTimeRange dtr, IProgressMonitor monitor) {
+
+		
 	}
 
 	/**

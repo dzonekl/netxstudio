@@ -28,14 +28,12 @@ import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenViewer;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
- * A Standalone viewer which shows a Service Summary Component. 
+ * A Standalone viewer which shows a Dashboard. 
  * 
  * @author Christophe Bouhier
  * 
  */
-public class ServiceMonitoringScreenViewer extends AbstractScreenViewer {
-	
-	
+public class DashboardViewer extends AbstractScreenViewer {
 	
 	
 	public IScreen getScreen() {
@@ -62,4 +60,9 @@ public class ServiceMonitoringScreenViewer extends AbstractScreenViewer {
 
 		}
 	}
+
+
+	
+	
+	
 }

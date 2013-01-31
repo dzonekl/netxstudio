@@ -10,8 +10,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.netxforge.netxstudio.common.model.OperatorSummary;
-import com.netxforge.netxstudio.common.model.RFSServiceSummary;
+import com.netxforge.netxstudio.common.model.ServicesSummary;
+import com.netxforge.netxstudio.common.model.NodesSummmary;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Failure;
@@ -25,7 +25,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	private static final int SERVICES_ROW = 9;
 	private static final int NODES_ROW = 10;
 	private static final int RESOURCES_ROW = 11;
-	private OperatorSummary opSummary = new OperatorSummary();
+	private ServicesSummary opSummary = new ServicesSummary();
 
 	@Override
 	protected void writeHeader(Sheet sheet, DateTimeRange dtr) {
@@ -69,7 +69,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		// The summary
 		for (Service service : allServices) {
 			if (service instanceof RFSService) {
-				RFSServiceSummary summary = this.processService(service);
+				NodesSummmary summary = this.processService(service);
 				opSummary.addSummary(summary);
 			}
 		}
@@ -244,10 +244,10 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		}
 	}
 
-	private RFSServiceSummary processService(Service service) {
+	private NodesSummmary processService(Service service) {
 		// Build a service summary, to be passed to the engine.
-		RFSServiceSummary serviceSummary = this.getModelUtils()
-				.serviceSummaryForService(service, this.getPeriod(), null);
+		final NodesSummmary serviceSummary = monitoring
+				.summaryForService(service, this.getPeriod(), null);
 
 		final ReportingEngine engine = (ReportingEngine) getEngine();
 		engine.setService(service);

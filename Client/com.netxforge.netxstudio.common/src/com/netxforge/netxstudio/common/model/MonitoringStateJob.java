@@ -124,7 +124,7 @@ public class MonitoringStateJob extends JobChangeAdapter {
 			ServiceMonitor sm = modelUtils
 					.lastServiceMonitor((Service) context);
 			if (sm != null) {
-				summary = model.serviceSummaryForService((Service) context,
+				summary = model.summaryForService((Service) context,
 						period, monitor);
 			}
 		} else if (context instanceof Node) {

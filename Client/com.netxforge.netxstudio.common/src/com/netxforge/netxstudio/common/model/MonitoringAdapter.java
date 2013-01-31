@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 29 jan. 2013 NetXForge.
+ * Copyright (c) 31 jan. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -17,33 +17,38 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 
 /**
- * A marker interface for monitoring objects processed in a state.
  * 
  * @author Christophe Bouhier
  * 
  */
-public interface IMonitoringSummary {
+public class MonitoringAdapter implements IMonitoringSummary {
 
-	
-	/**
-	 * Get the monitoring period. 
-	 * @return
-	 */
-	public DateTimeRange getPeriod();
-	
-	/**
-	 * Set the monitoring period. 
-	 * @param period
-	 */
-	public void setPeriod(DateTimeRange period);
+	@Inject
+	private ModelUtils modelUtils;
 
-	
-	/**
-	 * Get the monitoring period formatted as String for presentation. 
-	 * @return
-	 */
-	public String getPeriodFormattedString();
+	boolean[] ragStatus = new boolean[] { false, false, false };
+
+	/** The period for this summary */
+	private DateTimeRange period;
+
+	/** The period formated as String for this summary */
+	private String periodFormattedString = "";
+
+	public DateTimeRange getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(DateTimeRange period) {
+		this.period = period;
+		periodFormattedString = modelUtils.periodToStringMore(period);
+	}
+
+	public String getPeriodFormattedString() {
+		return periodFormattedString;
+	}
+
 }

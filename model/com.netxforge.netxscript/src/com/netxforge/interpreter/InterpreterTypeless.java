@@ -78,7 +78,7 @@ import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.common.model.RFSServiceSummary;
+import com.netxforge.netxstudio.common.model.NodesSummmary;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -281,10 +281,10 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 		}
 	}
 
-	private RFSServiceSummary getContextualServiceSummary() {
-		IInterpreterContext serviceContext = getContextFor(RFSServiceSummary.class);
+	private NodesSummmary getContextualServiceSummary() {
+		IInterpreterContext serviceContext = getContextFor(NodesSummmary.class);
 		if (serviceContext != null) {
-			return (RFSServiceSummary) serviceContext.getContext();
+			return (NodesSummmary) serviceContext.getContext();
 		} else {
 			return null;
 		}
@@ -1429,7 +1429,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 			// return the
 			// count.
 			int count = 0;
-			RFSServiceSummary summary = this.getContextualServiceSummary();
+			NodesSummmary summary = this.getContextualServiceSummary();
 			if (summary != null) {
 				switch (tolerancelevel.getValue()) {
 				case ToleranceLevel.RED_VALUE: {

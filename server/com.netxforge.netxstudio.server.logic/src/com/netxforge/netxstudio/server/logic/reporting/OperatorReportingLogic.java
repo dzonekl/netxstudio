@@ -29,8 +29,10 @@ import org.eclipse.emf.common.util.URI;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.RFSService;
@@ -62,7 +64,10 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 	public List<String> reports = ImmutableList.of(REPORT_PREFIX_SM_EXEC,
 			REPORT_PREFIX_SM_DASH, REPORT_PREFIX_SM_MATRIX,
 			REPORT_PREFIX_SM_USER, REPORT_PREFIX_RM, REPORT_PREFIX_RM_FORECAST);
-
+	
+	@Inject
+	protected MonitoringStateModel monitoring;
+	
 	public void initializeStream(URI uri) {
 
 		// append the file name without the extension, for this run, try until
