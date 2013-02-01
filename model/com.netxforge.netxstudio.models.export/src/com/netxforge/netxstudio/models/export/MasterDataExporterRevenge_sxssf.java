@@ -29,7 +29,9 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
@@ -51,10 +53,13 @@ import com.netxforge.netxstudio.models.export.internal.ExportActivator;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
- * A model exporter to Excel format, using the SXSSF 
- * functionality: 
+ * A model exporter to Excel format, using the SXSSF functionality: </p> Files
+ * will be flushed into the temp directory as determined when the JVM was
+ * launched. This location can be changed with the property:
+ * <code>-Djava.io.tempdir= [temp dir location]</code>
  * 
- * @see  <a href="http://poi.apache.org/spreadsheet/how-to.html#sxssf">Apache POI SXSSF</a>
+ * @see <a href="http://poi.apache.org/spreadsheet/how-to.html#sxssf">Apache POI
+ *      SXSSF</a>
  * 
  * @author Christophe Bouhier
  */
@@ -64,20 +69,30 @@ public class MasterDataExporterRevenge_sxssf {
 	private EPackage[] ePackages;
 
 	private static final int INITIAL_CACHED_ROWS = 100;
-	
+
+	/** Our cache */
 	private Map<EClass, List<EObject>> cache = Maps.newHashMap();
 
+	/** Keeps track of the work per EClass */
+	@SuppressWarnings("unused")
+	private Map<EClass, Integer> workMap = Maps.newHashMap();
+
 	/** Our Excel Streamed Workbook **/
-//	private final XSSFWorkbook workBook = new XSSFWorkbook();
-	 SXSSFWorkbook workBook = new SXSSFWorkbook(INITIAL_CACHED_ROWS);
-	
+	// private final XSSFWorkbook workBook = new XSSFWorkbook();
+	SXSSFWorkbook workBook = new SXSSFWorkbook(INITIAL_CACHED_ROWS);
+
 	/**
 	 * The export filer which is consulted for exporting classes and features
 	 * from the packages
 	 */
 	private IExportFilter exportFilter;
 
-	public void process(FileOutputStream fileOut) {
+	/** Our progress monitor */
+	private IProgressMonitor monitor;
+
+	public void process(FileOutputStream fileOut, IProgressMonitor monitor) {
+
+		this.monitor = monitor;
 
 		try {
 			if (ExportActivator.DEBUG) {
@@ -85,16 +100,32 @@ public class MasterDataExporterRevenge_sxssf {
 						ExportActivator.TRACE_EXPORT_OPTION, "Starting export");
 				ExportActivator.TRACE.trace(
 						ExportActivator.TRACE_EXPORT_OPTION,
-						"Creating XLS Workbook model");
+						"Creating SXSSF Workbook model");
 
+				// As we flush to temp, print the flush directory here.
+				String property = System.getProperty("java.io.tmpdir");
+
+				if (property != null && !property.isEmpty()) {
+					ExportActivator.TRACE.trace(
+							ExportActivator.TRACE_EXPORT_OPTION,
+							"Stream rows will be flushed in the temp directory: "
+									+ property);
+
+					ExportActivator.TRACE.trace(
+							ExportActivator.TRACE_EXPORT_OPTION,
+							"in file: poi-sxxsf-sheet.xml");
+				}
 			}
+
 			processPackages(ePackages);
 
 			if (ExportActivator.DEBUG) {
 				ExportActivator.TRACE.trace(
 						ExportActivator.TRACE_EXPORT_OPTION, "Writing file");
 			}
+
 			workBook.write(fileOut);
+			fileOut.close();
 		} catch (final Exception e) {
 			if (ExportActivator.DEBUG) {
 				ExportActivator.TRACE.trace(
@@ -102,6 +133,8 @@ public class MasterDataExporterRevenge_sxssf {
 						"Export exception", e);
 			}
 			throw new IllegalStateException(e);
+		} finally {
+			workBook.dispose();
 		}
 	}
 
@@ -115,23 +148,40 @@ public class MasterDataExporterRevenge_sxssf {
 		final List<EClassifier> alphabetOrderedClassesFor = exportFilter
 				.alphabetOrderedNonFilteredClassesFor(ePackages);
 
+		int classWork = alphabetOrderedClassesFor.size();
+		int totalWork = classWork * 2 + 10;
+
 		// create a cache.
+		SubMonitor subMon = SubMonitor.convert(monitor, totalWork);
+
+		SubMonitor buildCacheMon = subMon.newChild(10);
+		subMon.setTaskName("building Cache");
 		buildCache(alphabetOrderedClassesFor);
+		buildCacheMon.worked(10);
 
 		// process the attributes for each classifier.
+		SubMonitor processAttribMon = subMon.newChild(classWork);
+		processAttribMon.setTaskName("Processing attribute sheets");
 		for (EClassifier eClassifier : alphabetOrderedClassesFor) {
 			processAttributeClassifier(eClassifier);
+			processAttribMon.worked(1);
 		}
 
+		// process the references for each classifier.
+		SubMonitor processMultiRefsMon = subMon.newChild(classWork);
+		processMultiRefsMon.setTaskName("Processing reference sheets");
 		for (EClassifier eClassifier : alphabetOrderedClassesFor) {
 			processMultiRefClassifier(eClassifier);
+			processMultiRefsMon.worked(1);
 		}
 	}
 
 	/*
 	 * Populate a cache.
 	 */
-	private void buildCache(List<EClassifier> alphabetOrderedClassesFor) {
+	private int buildCache(List<EClassifier> alphabetOrderedClassesFor) {
+
+		int totalWork = 0;
 
 		if (ExportActivator.DEBUG) {
 			ExportActivator.TRACE.trace(ExportActivator.TRACE_EXPORT_OPTION,
@@ -154,14 +204,14 @@ public class MasterDataExporterRevenge_sxssf {
 						List<Resource> resources = dataProvider
 								.getResources("/Node_");
 						for (Resource r : resources) {
-							cacheForResource(r);
+							totalWork += cacheForResource(r);
 						}
 					}
 					{
 						List<Resource> resources = dataProvider
 								.getResources("/NodeType_");
 						for (Resource r : resources) {
-							cacheForResource(r);
+							totalWork += cacheForResource(r);
 						}
 					}
 
@@ -170,11 +220,12 @@ public class MasterDataExporterRevenge_sxssf {
 
 					// For some classes we should use the super type to get the
 					// resource.
-					EList<EClass> eAllSuperTypes = eClass.getEAllSuperTypes();
+					final EList<EClass> eAllSuperTypes = eClass
+							.getEAllSuperTypes();
 					if (eAllSuperTypes.contains(SchedulingPackage.Literals.JOB)) {
 						int indexOf = eAllSuperTypes
 								.indexOf(SchedulingPackage.Literals.JOB);
-						EClass eClassJob = eAllSuperTypes.get(indexOf);
+						final EClass eClassJob = eAllSuperTypes.get(indexOf);
 						resource = dataProvider.getResource(eClassJob);
 
 					} else {
@@ -182,7 +233,7 @@ public class MasterDataExporterRevenge_sxssf {
 					}
 
 					if (resource != null) {
-						cacheForResource(resource);
+						totalWork += cacheForResource(resource);
 					}
 				}
 			}
@@ -191,6 +242,7 @@ public class MasterDataExporterRevenge_sxssf {
 			ExportActivator.TRACE.trace(ExportActivator.TRACE_EXPORT_OPTION,
 					"Done, building cache for classifiers.");
 		}
+		return totalWork;
 	}
 
 	/**
@@ -200,10 +252,12 @@ public class MasterDataExporterRevenge_sxssf {
 	 * 
 	 * @param resource
 	 */
-	private void cacheForResource(Resource resource) {
+	private int cacheForResource(Resource resource) {
+
+		int resourceWork = 0;
+
 		if (resource != null && resource.getContents().size() > 0) {
-			TreeIterator<EObject> allContents = resource.getAllContents();
-			// List<EObject> closure = ImmutableList.copyOf(allContents);
+			final TreeIterator<EObject> allContents = resource.getAllContents();
 			while (allContents.hasNext()) {
 
 				final EObject closureObject;
@@ -243,11 +297,13 @@ public class MasterDataExporterRevenge_sxssf {
 					if (!currentForClass.contains(closureObject)) {
 						currentForClass.add(closureObject);
 						cache.put(objectClass, currentForClass);
+						resourceWork++;
 					}
 				} else {
 					currentForClass = Lists.newArrayList();
 					currentForClass.add(closureObject);
 					cache.put(objectClass, currentForClass);
+					resourceWork++;
 				}
 
 				if (ExportActivator.DEBUG) {
@@ -260,6 +316,7 @@ public class MasterDataExporterRevenge_sxssf {
 
 			}
 		}
+		return resourceWork;
 	}
 
 	private void processAttributeClassifier(EClassifier eClassifier) {
@@ -269,6 +326,8 @@ public class MasterDataExporterRevenge_sxssf {
 		}
 
 		if (eClassifier instanceof EClass) {
+			// MARKER => Submonitor for processing attribute sheet.s.
+
 			processAttributesClass((EClass) eClassifier);
 		}
 	}
@@ -280,6 +339,8 @@ public class MasterDataExporterRevenge_sxssf {
 							+ eClassifier.getName());
 		}
 		if (eClassifier instanceof EClass) {
+			// MARKER => Submonitor for processing multiref sheet.
+			// We however don't have the number multi-ERefs?
 			processMultiRefClass((EClass) eClassifier);
 		}
 	}
@@ -865,35 +926,35 @@ public class MasterDataExporterRevenge_sxssf {
 								+ collection.size());
 			}
 
-//			final List<EObject> toRemove = Lists.newArrayList();
+			// final List<EObject> toRemove = Lists.newArrayList();
 
 			for (int i = 0; i < collection.size(); i++) {
-				
+
 				try {
 					collection.get(i);
 
 				} catch (NullPointerException npe) {
 					// Clean-it.
 					CDOUtil.cleanStaleReference(objectToCheck, eRef, i);
-					
+
 				}
 
-//				if (isExternal(eo, eRef)) {
-//					if (ExportActivator.DEBUG) {
-//						ExportActivator.TRACE.trace(
-//								ExportActivator.TRACE_EXPORT_OPTION,
-//								"-- cleaning external ref from object" + eo
-//										+ "with reference" + eRef);
-//					}
-//
-//					int index = collection.indexOf(eo);
-//					toRemove.add(collection.get(index));
-//				}
+				// if (isExternal(eo, eRef)) {
+				// if (ExportActivator.DEBUG) {
+				// ExportActivator.TRACE.trace(
+				// ExportActivator.TRACE_EXPORT_OPTION,
+				// "-- cleaning external ref from object" + eo
+				// + "with reference" + eRef);
+				// }
+				//
+				// int index = collection.indexOf(eo);
+				// toRemove.add(collection.get(index));
+				// }
 			}
 
-//			for (EObject eo : toRemove) {
-//				collection.remove(eo);
-//			}
+			// for (EObject eo : toRemove) {
+			// collection.remove(eo);
+			// }
 
 		} else {
 			// final EObject eo = (EObject) objectToCheck.eGet(eRef);
@@ -915,24 +976,25 @@ public class MasterDataExporterRevenge_sxssf {
 	// Check if the object is external.
 	private boolean isExternal(EObject eo, EReference eRef) {
 		if (eo instanceof CDOObject) {
-//			if(eRef == OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF){
-//				System.out.println("break here!");
-//			}
-//			
-//			CDOObject cdoObject = CDOUtil.getCDOObject(eo);
-//			if (cdoObject != null && cdoObject.cdoID() != null) {
-//				return cdoObject.cdoID().isExternal();
-//			} else {
-//				return true;
-//			}
-			try{
+			// if(eRef ==
+			// OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF){
+			// System.out.println("break here!");
+			// }
+			//
+			// CDOObject cdoObject = CDOUtil.getCDOObject(eo);
+			// if (cdoObject != null && cdoObject.cdoID() != null) {
+			// return cdoObject.cdoID().isExternal();
+			// } else {
+			// return true;
+			// }
+			try {
 				eo.eGet(eRef);
-			}catch(Exception e){
+			} catch (Exception e) {
 				return true;
 			}
 		}
 		return false;
-		
+
 	}
 
 }
