@@ -17,6 +17,11 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
+import org.eclipse.emf.cdo.CDOAdapter;
+import org.eclipse.emf.cdo.CDODeltaNotification;
+import org.eclipse.emf.cdo.util.CDOLazyContentAdapter;
+import org.eclipse.emf.common.notify.Notification;
+
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 
@@ -25,7 +30,8 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
  * @author Christophe Bouhier
  * 
  */
-public class MonitoringAdapter implements IMonitoringSummary {
+public class MonitoringAdapter extends CDOLazyContentAdapter implements
+		CDOAdapter, IMonitoringSummary {
 
 	@Inject
 	private ModelUtils modelUtils;
@@ -49,6 +55,25 @@ public class MonitoringAdapter implements IMonitoringSummary {
 
 	public String getPeriodFormattedString() {
 		return periodFormattedString;
+	}
+	
+
+	@Override
+	public void notifyChanged(Notification msg) {
+		// Update ourselves with the notification.
+		// super.notifyChanged(msg);
+		System.out.println("We are adapted!" + this.toString() + " by: " + msg.getNotifier());
+
+		if (msg instanceof CDODeltaNotification) {
+			CDODeltaNotification delta = (CDODeltaNotification) msg;
+			System.out.println("delta: " + delta.getRevisionDelta());
+		}
+	}
+
+	@Override
+	public boolean isAdapterForType(Object type) {
+		// TODO, Support other types!
+		return type == IMonitoringSummary.class;
 	}
 
 }

@@ -14,62 +14,27 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
-
 /**
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
-public class CDOAdapterFactoryImpl extends AdapterFactoryImpl{
-
-	
+public class CDOAdapterFactoryImpl extends AdapterFactoryImpl {
 
 	@Override
 	public Adapter adapt(Notifier target, Object type) {
-		// TODO Auto-generated method stub
-		return super.adapt(target, type);
+		for (Adapter adapter : target.eAdapters()) {
+			if (adapter.isAdapterForType(type)) {
+				return adapter;
+			}
+		}
+		return adaptNew(target, type);
 	}
-
-	@Override
-	public Adapter adaptNew(Notifier target, Object type) {
-		// TODO Auto-generated method stub
-		return super.adaptNew(target, type);
-	}
-
-	@Override
-	public void adaptAllNew(Notifier target) {
-		// TODO Auto-generated method stub
-		super.adaptAllNew(target);
-	}
-
-	@Override
-	protected Adapter createAdapter(Notifier target, Object type) {
-		// TODO Auto-generated method stub
-		return super.createAdapter(target, type);
-	}
-
-	@Override
-	protected Adapter createAdapter(Notifier target) {
-		// TODO Auto-generated method stub
-		return super.createAdapter(target);
-	}
-
-	@Override
-	protected void associate(Adapter adapter, Notifier target) {
-		// TODO Auto-generated method stub
-		super.associate(adapter, target);
-	}
-		
-	
-	
-	
-	
-	
 }

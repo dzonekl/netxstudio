@@ -26,7 +26,10 @@ import com.netxforge.netxstudio.library.NetXResource;
  */
 public class NetXResourceSummmary extends MonitoringAdapter {
 
-	private final NetXResource netXResource;
+	private NetXResource netXResource;
+	
+	
+	
 	
 	
 	

@@ -20,6 +20,13 @@ package com.netxforge.netxstudio.common.model;
 import org.eclipse.emf.cdo.CDOAdapter;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
+
+/**
+ * A CDO Adapter Implementation. 
+ * 
+ * @author Christophe Bouhier
+ *
+ */
 public class CDOAdapterImpl extends AdapterImpl implements CDOAdapter {
 
 }

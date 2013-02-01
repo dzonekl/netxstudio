@@ -25,6 +25,9 @@ import java.util.Map;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.emf.cdo.util.CDOUtil;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -95,6 +98,9 @@ public class MonitoringStateModel {
 	private MonitoringStateJob job = null;
 
 	private JobCallBack callBackHandler;
+
+	/** Our adapter factory for monitoring **/
+	private MonitoringAdapterFactory monAdapterFactory = new MonitoringAdapterFactory();
 
 	public void summaryFor(Object context, MonitoringStateStateCallBack callBack) {
 		prepSummary(context, callBack);
@@ -184,13 +190,46 @@ public class MonitoringStateModel {
 		final ServicesSummary opSummary = new ServicesSummary();
 		for (Service service : services) {
 			if (service instanceof RFSService) {
-				NodesSummmary summary = this.summaryForService(service,
-						period, monitor);
+				NodesSummmary summary = this.summaryForService(service, period,
+						monitor);
 				// RFSServiceSummary summary = this.processService(service);
 				opSummary.addSummary(summary);
 			}
 		}
 		return opSummary;
+	}
+
+	public IMonitoringSummary summaryForContext(Object context,
+			DateTimeRange period, IProgressMonitor monitor) {
+//		if (context instanceof EObject) {
+//			for (Adapter adapter : ((EObject) context).eAdapters()) {
+//
+//				System.out.println(" before: registered adapter: "
+//						+ adapter
+//						+ " target: "
+//						+ CDOUtil.getCDOObject((EObject) adapter.getTarget())
+//								.cdoID());
+//			}
+//		}
+
+		final IMonitoringSummary adapt = (IMonitoringSummary) monAdapterFactory
+				.adapt(context, IMonitoringSummary.class);
+
+		if (adapt != null) {
+			// Do something with the adapter.
+
+		}
+		if (context instanceof EObject) {
+			for (Adapter adapter : ((EObject) context).eAdapters()) {
+				System.out.println(" Registered adapter: "
+						+ adapter
+						+ " target: "
+						+ CDOUtil.getCDOObject((EObject) adapter.getTarget())
+								.cdoID());
+			}
+		}
+		return adapt;
+
 	}
 
 	// public RFSServiceSummary summaryForService(Service service,
@@ -215,8 +254,8 @@ public class MonitoringStateModel {
 	 * @param monitor
 	 * @return
 	 */
-	public NodesSummmary summaryForService(Service service,
-			DateTimeRange dtr, IProgressMonitor monitor) {
+	public NodesSummmary summaryForService(Service service, DateTimeRange dtr,
+			IProgressMonitor monitor) {
 
 		final NodesSummmary serviceSummary = new NodesSummmary(
 				(RFSService) service);
@@ -261,13 +300,6 @@ public class MonitoringStateModel {
 				.periodToStringMore(dtr));
 
 		return serviceSummary;
-	}
-	
-	
-	public NetXResourceSummmary summaryForService(Service service,
-			DateTimeRange dtr, IProgressMonitor monitor) {
-
-		
 	}
 
 	/**

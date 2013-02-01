@@ -20,13 +20,14 @@ package com.netxforge.netxstudio.common.model;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.operators.Operator;
 
 /**
  * Summarizes the state of an {@link Operator operator}
  * 
  * @author Christophe Bouhier
  */
-public class ServicesSummary implements IMonitoringSummary {
+public class ServicesSummary extends MonitoringAdapter {
 	
 	
 	/** The summary of all services */
