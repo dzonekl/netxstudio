@@ -89,6 +89,7 @@ public class MasterDataExporterRevenge_xssf {
 						ExportActivator.TRACE_EXPORT_OPTION, "Writing file");
 			}
 			workBook.write(fileOut);
+			fileOut.close();
 		} catch (final Exception e) {
 			if (ExportActivator.DEBUG) {
 				ExportActivator.TRACE.trace(
@@ -96,6 +97,9 @@ public class MasterDataExporterRevenge_xssf {
 						"Export exception", e);
 			}
 			throw new IllegalStateException(e);
+			
+		}finally{
+			// TODO Consider deleting the file, when an exception occurs.
 		}
 	}
 

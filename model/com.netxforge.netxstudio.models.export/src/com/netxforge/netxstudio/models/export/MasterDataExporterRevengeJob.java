@@ -19,16 +19,15 @@ package com.netxforge.netxstudio.models.export;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -39,9 +38,15 @@ import org.eclipse.ui.progress.IProgressConstants;
 
 import com.netxforge.netxstudio.data.IDataProvider;
 
-public class MasterDataExporterRevengeJob implements IJobChangeListener {
+/**
+ * Background exporter.
+ * 
+ * @author Christophe Bouhier
+ * 
+ */
+public class MasterDataExporterRevengeJob extends JobChangeAdapter {
 	private IPath res;
-	private ExportJob j = new ExportJob("Writing file...");
+	private ExportJob j = new ExportJob("Exporting Data");
 
 	private IDataProvider dataProvider;
 	private EPackage[] ePackages;
@@ -72,8 +77,8 @@ public class MasterDataExporterRevengeJob implements IJobChangeListener {
 		j.addJobChangeListener(notifier);
 	}
 
-	public void setIPathToProcess(IPath res) {
-		this.res = res;
+	public void setIPathToProcess(IPath resourcePath) {
+		this.res = resourcePath;
 	}
 
 	protected class ExportJob extends Job {
@@ -134,52 +139,29 @@ public class MasterDataExporterRevengeJob implements IJobChangeListener {
 
 	protected void processReadingInternal(final IProgressMonitor monitor) {
 
+		// The monitor totalwork is actually the number of objects to output.
+		// The number of objects is determined when building the cache.
+
 		if (dataProvider == null || this.ePackages == null) {
 			throw new java.lang.IllegalStateException(
 					"Missing settings for Data import");
 		}
 
 		try {
-			URI uri = URI.createFileURI(res.toString());
-			FileOutputStream fileOut = new FileOutputStream(uri.toFileString());
-			final MasterDataExporterRevenge_xssf masterDataExporter = new MasterDataExporterRevenge_xssf();
+			final URI uri = URI.createFileURI(res.toString());
+			final FileOutputStream fileOut = new FileOutputStream(
+					uri.toFileString());
+
+			final MasterDataExporterRevenge_sxssf masterDataExporter = new MasterDataExporterRevenge_sxssf();
 			masterDataExporter.setDataProvider(dataProvider);
 			masterDataExporter.setPackagesToExport(ePackages);
 			masterDataExporter.setExportFilter(exportFilter);
-			masterDataExporter.process(fileOut);
-			fileOut.close();
-			// setResults(masterDataImporter.getResolvedObjects());
-
+			masterDataExporter.process(fileOut, monitor);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} finally {
+
 		}
-
-	}
-
-	public void aboutToRun(IJobChangeEvent event) {
-		System.out
-				.println("Job about to get busy: " + event.getJob().getName()); //$NON-NLS-1$
-	}
-
-	public void awake(IJobChangeEvent event) {
-	}
-
-	public void done(IJobChangeEvent event) {
-		System.out.println("Job done: " + event.getJob().getName()); //$NON-NLS-1$
-	}
-
-	public void running(IJobChangeEvent event) {
-		System.out.println("Job running: " + event.getJob().getName()); //$NON-NLS-1$
-	}
-
-	public void scheduled(IJobChangeEvent event) {
-		System.out.println("Job scheduled: " + event.getJob().getName()); //$NON-NLS-1$
-	}
-
-	public void sleeping(IJobChangeEvent event) {
-		System.out.println("Job zzzzzz: " + event.getJob().getName()); //$NON-NLS-1$
 	}
 
 	public void setExportFilter(IExportFilter exportFilter) {
