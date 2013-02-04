@@ -17,6 +17,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 import com.netxforge.netxstudio.generics.DateTimeRange;
 
 /**
@@ -27,23 +29,71 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
  */
 public interface IMonitoringSummary {
 
-	
+	enum RAG {
+		RED, AMBER, GREEN
+	}
+
 	/**
-	 * Get the monitoring period. 
+	 * Get the monitoring period.
+	 * 
 	 * @return
 	 */
 	public DateTimeRange getPeriod();
-	
+
 	/**
-	 * Set the monitoring period. 
+	 * Set the monitoring period.
+	 * 
 	 * @param period
 	 */
 	public void setPeriod(DateTimeRange period);
 
-	
 	/**
-	 * Get the monitoring period formatted as String for presentation. 
+	 * Get the monitoring period formatted as String for presentation.
+	 * 
 	 * @return
 	 */
 	public String getPeriodFormattedString();
+
+	/**
+	 * Add an additional context for computations.
+	 * 
+	 * @param object
+	 */
+	public void addContextObject(Object object);
+
+	/**
+	 * Add a bunch of context objects.
+	 * 
+	 * @param object
+	 */
+	public void addContextObjects(Object... objects);
+
+	/**
+	 * Get the context objects.
+	 * 
+	 * @return
+	 */
+	public Object[] getContextObjects();
+
+	/**
+	 * 
+	 * @param monitor
+	 */
+	public void compute(IProgressMonitor monitor);
+
+	/**
+	 * Returns if the computation succeeded. Clients must define 'success' by
+	 * their implementation of this method. Implementors are recommended that
+	 * derived features of the summary, will not return <code>null</code> when
+	 * this method returns <code>true</code>
+	 * 
+	 * @return
+	 */
+	public boolean isComputed();
+
+	/**
+	 * All summaries have a rag.
+	 */
+	public int[] rag();
+
 }

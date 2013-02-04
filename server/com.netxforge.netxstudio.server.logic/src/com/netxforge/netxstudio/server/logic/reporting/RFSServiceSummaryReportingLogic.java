@@ -10,8 +10,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.netxforge.netxstudio.common.model.ServicesSummary;
-import com.netxforge.netxstudio.common.model.NodesSummmary;
+import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
+import com.netxforge.netxstudio.common.model.OperatorSummary;
+import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Failure;
@@ -25,7 +26,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	private static final int SERVICES_ROW = 9;
 	private static final int NODES_ROW = 10;
 	private static final int RESOURCES_ROW = 11;
-	private ServicesSummary opSummary = new ServicesSummary();
+	private OperatorSummary opSummary = new OperatorSummary();
 
 	@Override
 	protected void writeHeader(Sheet sheet, DateTimeRange dtr) {
@@ -69,7 +70,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		// The summary
 		for (Service service : allServices) {
 			if (service instanceof RFSService) {
-				NodesSummmary summary = this.processService(service);
+				RFSServiceSummary summary = this.processService(service);
 				opSummary.addSummary(summary);
 			}
 		}
@@ -93,8 +94,8 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 			// TODO, Perhaps add another failure?
 		}
 
-		 this.getDataProvider().commitTransaction();
-		 this.getDataProvider().closeSession();
+		this.getDataProvider().commitTransaction();
+		this.getDataProvider().closeSession();
 	}
 
 	private void writeSummary(Sheet sheet) {
@@ -161,22 +162,25 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 			this.getServices().size();
 		}
 
+		// RAG FOR Resources.... Not Services...
+		
+		
 		{ // RED
 			Cell c1 = servicesRow.createCell(5);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalRedServices());
+			c1.setCellValue(opSummary.totalRag(RAG.RED));
 		}
 
 		{ // AMBER
 			Cell c1 = servicesRow.createCell(6);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalAmberServices());
+			c1.setCellValue(opSummary.totalRag(RAG.AMBER));
 		}
 
 		{ // GREEN
 			Cell c1 = servicesRow.createCell(7);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalGreenServices());
+			c1.setCellValue(opSummary.totalRag(RAG.GREEN));
 		}
 	}
 
@@ -244,10 +248,10 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		}
 	}
 
-	private NodesSummmary processService(Service service) {
+	private RFSServiceSummary processService(Service service) {
 		// Build a service summary, to be passed to the engine.
-		final NodesSummmary serviceSummary = monitoring
-				.summaryForService(service, this.getPeriod(), null);
+		final RFSServiceSummary serviceSummary = monitoring.summaryForService(
+				service, this.getPeriod(), null);
 
 		final ReportingEngine engine = (ReportingEngine) getEngine();
 		engine.setService(service);

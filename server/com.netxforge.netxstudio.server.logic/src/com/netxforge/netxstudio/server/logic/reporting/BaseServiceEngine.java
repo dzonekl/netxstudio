@@ -18,7 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic.reporting;
 
-import com.netxforge.netxstudio.common.model.NodesSummmary;
+import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.server.logic.BaseExpressionEngine;
 import com.netxforge.netxstudio.services.Service;
 
@@ -30,7 +30,7 @@ import com.netxforge.netxstudio.services.Service;
 public abstract class BaseServiceEngine extends BaseExpressionEngine {
 
 	private Service Service;
-	private NodesSummmary summary;
+	private RFSServiceSummary summary;
 
 	public Service getService() {
 		return Service;
@@ -40,11 +40,11 @@ public abstract class BaseServiceEngine extends BaseExpressionEngine {
 		Service = service;
 	}
 
-	public NodesSummmary getServiceSummary() {
+	public RFSServiceSummary getServiceSummary() {
 		return summary;
 	}
 
-	public void setServiceSummary(NodesSummmary summary) {
+	public void setServiceSummary(RFSServiceSummary summary) {
 		this.summary = summary;
 	}
 

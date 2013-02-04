@@ -23,26 +23,40 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.services.RFSService;
 
 /**
  * An adapter factory for monitoring objects. Currently supported.
  * 
  * {@link IMonitoringSummary}
  * 
- * The factory support CDOAdapter, any change on the object will notify us. 
+ * The factory support CDOAdapter, any change on the object will notify us.
  * 
  * 
- * </p>
- * Note: This factory is flat, in a way that it checks both the object type and the desired 
- * type for adaptation. 
- * 
- * 
+ * </p> Note: This factory is flat, in a way that it checks both the object type
+ * and the desired type for adaptation.
  * 
  * @author Christophe Bouhier
  * 
  */
 public class MonitoringAdapterFactory extends CDOAdapterFactoryImpl {
+
+	@Inject
+	private Provider<NetxresourceSummary> netxresourceProvider;
+	@Inject
+	private Provider<ComponentSummary> componentProvider;
+	@Inject
+	private Provider<NodeTypeSummary> nodeTypeProvider;
+	@Inject
+	private Provider<RFSServiceSummary> rfsServiceProvider;
+	@Inject
+	private Provider<OperatorSummary> operatorProvider;
 
 	/**
 	 * This keeps track of all the supported types checked by
@@ -73,9 +87,16 @@ public class MonitoringAdapterFactory extends CDOAdapterFactoryImpl {
 	 */
 	@Override
 	public Adapter createAdapter(Notifier target) {
-		if(target instanceof NetXResource){
-			// Use a generic adapter, regardless of the notifier. 
-			return new MonitoringAdapter();
+		if (target instanceof NetXResource) {
+			return netxresourceProvider.get();
+		} else if (target instanceof Component) {
+			return componentProvider.get();
+		} else if (target instanceof NodeType) {
+			return nodeTypeProvider.get();
+		} else if (target instanceof RFSService) {
+			return rfsServiceProvider.get();
+		} else if (target instanceof Operator) {
+			return operatorProvider.get();
 		}
 		return null;
 	}

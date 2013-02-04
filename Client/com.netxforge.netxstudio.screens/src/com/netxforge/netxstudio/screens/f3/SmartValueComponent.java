@@ -219,7 +219,7 @@ public class SmartValueComponent {
 
 				}
 
-				List<?> delegateGetItems = delegateGetItems(progressMonitor);
+				final List<?> delegateGetItems = delegateGetItems(progressMonitor);
 
 				// Will be collection of Object[], each array corresponding to
 				// the column index.
@@ -252,7 +252,7 @@ public class SmartValueComponent {
 
 	private void buildColumns() {
 
-		Table table = this.getValuesTableViewer().getTable();
+		final Table table = this.getValuesTableViewer().getTable();
 		table.setRedraw(false);
 
 		for (TableColumn tc : table.getColumns()) {

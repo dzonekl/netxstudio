@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.internal;
 
 import com.google.inject.AbstractModule;
@@ -27,6 +27,7 @@ import com.netxforge.netxstudio.screens.f1.support.PeriodSelectionPage;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionPage;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
 import com.netxforge.netxstudio.screens.f2.LazyResourcesComponent;
+import com.netxforge.netxstudio.screens.f2.support.NodeTypeTreeLabelProvider;
 import com.netxforge.netxstudio.screens.f3.PeriodComponent;
 import com.netxforge.netxstudio.screens.f3.ResourcesComponent;
 import com.netxforge.netxstudio.screens.f3.SmartValueComponent;
@@ -36,7 +37,7 @@ import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 /**
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
 public class ScreensModule extends AbstractModule {
 
@@ -47,7 +48,7 @@ public class ScreensModule extends AbstractModule {
 		this.bind(IInjectorProxy.class)
 				.annotatedWith(Names.named("Netxscript"))
 				.to(NetXScriptInjectorProxy.class);
-		
+
 		this.bind(IInjectorProxy.class).annotatedWith(Names.named("Screens"))
 				.to(ScreensInjectorProxy.class);
 
@@ -64,17 +65,20 @@ public class ScreensModule extends AbstractModule {
 
 		// Bind Components
 		this.bind(PeriodComponent.class);
-		
+
 		this.bind(ValueComponentII.class);
-		
+
 		this.bind(SmartValueComponent.class);
-		
+
 		this.bind(ResourcesComponent.class);
-		
+
 		this.bind(LazyResourcesComponent.class);
-		
+
 		this.bind(ServiceSummaryComponent.class);
-		
+
+		// Bind Label Providers
+		this.bind(NodeTypeTreeLabelProvider.class);
+
 	}
-	
+
 }

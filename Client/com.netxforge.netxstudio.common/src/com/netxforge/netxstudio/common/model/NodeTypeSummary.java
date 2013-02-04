@@ -17,9 +17,13 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
+import com.google.common.collect.Iterables;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -29,28 +33,66 @@ import com.netxforge.netxstudio.library.NodeType;
  * 
  * @author Christophe Bouhier
  */
-public class NodeTypeSummary {
-
-	public NodeTypeSummary(NodeType nt) {
-
-		final TreeIterator<EObject> iterator = nt.eAllContents();
-		while (iterator.hasNext()) {
-			EObject next = iterator.next();
-			if (next instanceof Function) {
-				functions += 1;
-			}
-			if (next instanceof Equipment) {
-				equipments += 1;
-			}
-			if (next instanceof Component) {
-				resources += ((Component) next).getResourceRefs().size();
-			}
-		}
-	}
+public class NodeTypeSummary extends MonitoringAdapter {
 
 	int functions = 0;
 	int equipments = 0;
 	int resources = 0;
+
+	public NodeTypeSummary() {
+	}
+
+	@Override
+	protected void computeForTarget(IProgressMonitor monitor) {
+
+		// Set the context objects if possible.
+		final DateTimeRange periodInContext = periodInContext();
+
+		if (periodInContext != null) {
+			this.setPeriod(periodInContext);
+		}
+
+		// Safely case, checked by our factory.
+		final NodeType target = getNodeType();
+
+		final TreeIterator<EObject> iterator = target.eAllContents();
+
+		// Might throw an Exception.
+		int work = Iterables.size((Iterable<?>) iterator);
+
+		final SubMonitor subMonitor = SubMonitor.convert(monitor, work);
+		subMonitor.setTaskName("Computing summary for "
+				+ modelUtils.printModelObject(target));
+
+		while (iterator.hasNext()) {
+			EObject next = iterator.next();
+			if (next instanceof Function) {
+				functions += 1;
+			} else if (next instanceof Equipment) {
+				equipments += 1;
+			}
+
+			if (next instanceof Component) {
+
+				IMonitoringSummary childAdapter = this.getChildAdapter(next);
+
+				// Guard for potentially non-adapted children.
+				if (childAdapter != null) {
+					childAdapter.addContextObjects(this.getContextObjects());
+					childAdapter.compute(monitor);
+					// Base our RAG status, on the child's status
+					this.incrementRag(childAdapter.rag());
+					if (childAdapter instanceof ComponentSummary) {
+						resources += ((ComponentSummary) childAdapter)
+								.totalResources();
+
+					}
+				}
+			}
+			subMonitor.worked(1);
+		}
+
+	}
 
 	public String getFunctionCountAsString() {
 		return new Integer(functions).toString();
@@ -74,6 +116,11 @@ public class NodeTypeSummary {
 
 	public int totalResources() {
 		return resources;
+	}
+
+	public NodeType getNodeType() {
+		final NodeType target = (NodeType) super.getTarget();
+		return target;
 	}
 
 }

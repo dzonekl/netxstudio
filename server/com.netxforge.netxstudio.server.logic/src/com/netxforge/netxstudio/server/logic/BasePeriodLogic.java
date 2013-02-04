@@ -104,7 +104,7 @@ public abstract class BasePeriodLogic extends BaseLogic {
 
 		// Perhaps should calculate on midnght hours.
 		Date endTime = this.getModelUtils().todayAtDayEnd();
-		setEndTime(endTime);
+//		setEndTime(endTime);
 
 		return this.getModelUtils().period(startTime, endTime);
 	}

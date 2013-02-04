@@ -35,10 +35,12 @@ import org.eclipse.ui.progress.UIJob;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateStateCallBack;
-import com.netxforge.netxstudio.common.model.NodesSummmary;
+import com.netxforge.netxstudio.common.model.RFSServiceSummary;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -66,7 +68,7 @@ public class ServiceSummaryComponent {
 	 */
 	private final RefreshSummaryJob refreshSummaryJob = new RefreshSummaryJob();
 
-	private NodesSummmary summary;
+	private RFSServiceSummary summary;
 
 	private FormText formTextLastMonitor;
 
@@ -86,7 +88,6 @@ public class ServiceSummaryComponent {
 	private boolean showBorder = false;
 
 	private Composite content;
-
 
 	/**
 	 * The parent IScreen needed to layout as this component will load in
@@ -125,7 +126,7 @@ public class ServiceSummaryComponent {
 
 		content = formToolkit.createComposite(parent, showBorder ? SWT.BORDER
 				: SWT.NONE);
-		
+
 		if (layoutData != null) {
 			content.setLayoutData(layoutData);
 		}
@@ -133,15 +134,16 @@ public class ServiceSummaryComponent {
 		formToolkit.paintBordersFor(content);
 		content.setLayout(new GridLayout(4, false));
 
-		Label label = formToolkit.createLabel(content, "Last Monitor:",
+		final Label periodLabel = formToolkit.createLabel(content, "Period:",
 				SWT.NONE);
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1));
+		periodLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+
 		formTextLastMonitor = formToolkit.createFormText(content, false);
 		formTextLastMonitor.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 3, 1));
 
-		Label lblMonitoredNodes = formToolkit.createLabel(content,
+		final Label lblMonitoredNodes = formToolkit.createLabel(content,
 				"# Monitored NE's:", SWT.NONE);
 		lblMonitoredNodes.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
 				false, false, 1, 1));
@@ -152,7 +154,7 @@ public class ServiceSummaryComponent {
 		formToolkit.paintBordersFor(formTextNumberOfNodes);
 		formTextNumberOfNodes.setText("", false, false);
 
-		Label lblMonitoredRess = new Label(content, SWT.NONE);
+		final Label lblMonitoredRess = new Label(content, SWT.NONE);
 		lblMonitoredRess.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
 				false, false, 1, 1));
 		formToolkit.adapt(lblMonitoredRess, true, true);
@@ -164,7 +166,8 @@ public class ServiceSummaryComponent {
 		formToolkit.paintBordersFor(formTextNumberOfResources);
 		formTextNumberOfResources.setText("", false, false);
 
-		Composite separator = formToolkit.createCompositeSeparator(content);
+		final Composite separator = formToolkit
+				.createCompositeSeparator(content);
 		GridData gd_separator = new GridData(SWT.FILL, SWT.CENTER, true, false,
 				9, 1);
 		gd_separator.heightHint = 2;
@@ -173,7 +176,7 @@ public class ServiceSummaryComponent {
 
 		new Label(content, SWT.NONE);
 
-		Composite cmpRed = formToolkit.createComposite(content, SWT.NONE);
+		final Composite cmpRed = formToolkit.createComposite(content, SWT.NONE);
 		cmpRed.setBackground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		GridData gd_cmpRed = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
@@ -182,7 +185,8 @@ public class ServiceSummaryComponent {
 		cmpRed.setLayoutData(gd_cmpRed);
 		formToolkit.paintBordersFor(cmpRed);
 
-		Composite cmpAmber = formToolkit.createComposite(content, SWT.NONE);
+		final Composite cmpAmber = formToolkit.createComposite(content,
+				SWT.NONE);
 		cmpAmber.setBackground(SWTResourceManager.getColor(255, 140, 0));
 		GridData gd_cmpAmber = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
@@ -191,7 +195,8 @@ public class ServiceSummaryComponent {
 		cmpAmber.setLayoutData(gd_cmpAmber);
 		formToolkit.paintBordersFor(cmpAmber);
 
-		Composite cmpGreen = formToolkit.createComposite(content, SWT.NONE);
+		final Composite cmpGreen = formToolkit.createComposite(content,
+				SWT.NONE);
 		cmpGreen.setBackground(SWTResourceManager.getColor(173, 255, 47));
 		GridData gd_cmpGreen = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
@@ -200,7 +205,7 @@ public class ServiceSummaryComponent {
 		cmpGreen.setLayoutData(gd_cmpGreen);
 		formToolkit.paintBordersFor(cmpGreen);
 
-		Label lblRagStatus = formToolkit.createLabel(content,
+		final Label lblRagStatus = formToolkit.createLabel(content,
 				"RAG Status RES's:", SWT.NONE);
 		lblRagStatus.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
@@ -259,19 +264,17 @@ public class ServiceSummaryComponent {
 	 * 
 	 * @param service
 	 */
-	public void injectData(RFSService service) {
+	public void injectData(RFSService service, DateTimeRange period) {
 
-		// TODO, Remove later.
-		// prepServiceSummary(service);
 		final SummaryCallBack callBack = new SummaryCallBack();
-		monitoringState.summaryFor(service, callBack);
+		monitoringState.summary(callBack, service, new Object[] { period });
 	}
 
 	class SummaryCallBack implements MonitoringStateStateCallBack {
 
 		public void callBackEvent(MonitoringStateEvent event) {
-			if (event.getResult() instanceof NodesSummmary) {
-				summary = (NodesSummmary) event.getResult();
+			if (event.getResult() instanceof RFSServiceSummary) {
+				summary = (RFSServiceSummary) event.getResult();
 				refreshSummaryJob.schedule(100);
 			} else if (event.getResult() == null) {
 				summary = null;
@@ -285,7 +288,7 @@ public class ServiceSummaryComponent {
 		if (summary == null) {
 			formTextLastMonitor.setText("no monitors", false, false);
 			content.layout();
-//			layourComponent.layout();
+			// layourComponent.layout();
 			ScreenUtil.compositeFor(parentScreen).layout();
 			return;
 		}
@@ -294,22 +297,20 @@ public class ServiceSummaryComponent {
 				false);
 
 		formTextNumberOfNodes.setText(
-				new Integer(summary.getNodeCount()).toString(), false, false);
+				new Integer(summary.totalNodes()).toString(), false, false);
 		formTextNumberOfResources.setText(
-				new Integer(summary.getResourcesCount()).toString(), false,
-				false);
+				new Integer(summary.totalResources()).toString(), false, false);
 
-		formTextRed.setText(
-				new Integer(summary.getRedCountResources()).toString(), false,
-				false);
+		formTextRed.setText(new Integer(summary.totalRag(RAG.RED)).toString(),
+				false, false);
 		formTextAmber.setText(
-				new Integer(summary.getAmberCountResources()).toString(),
-				false, false);
+				new Integer(summary.totalRag(RAG.AMBER)).toString(), false,
+				false);
 		formTextGreen.setText(
-				new Integer(summary.getGreenCountResources()).toString(),
-				false, false);
+				new Integer(summary.totalRag(RAG.GREEN)).toString(), false,
+				false);
 		content.layout();
-//		layourComponent.layout();
+		// layourComponent.layout();
 		ScreenUtil.compositeFor(parentScreen).layout();
 	}
 

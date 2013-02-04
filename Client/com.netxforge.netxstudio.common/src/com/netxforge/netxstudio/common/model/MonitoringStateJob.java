@@ -25,7 +25,6 @@ import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 
-import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Node;
@@ -42,13 +41,10 @@ public class MonitoringStateJob extends JobChangeAdapter {
 	private StatusJob j = new StatusJob("Creating Summary...");
 
 	/** Our context which will determine which Summary is returned. */
-	private Object context;
+	private Object target;
 
 	/** the produced summary for this job. */
 	private IMonitoringSummary summary;
-
-	/** The period determining the summary extend */
-	private DateTimeRange period;
 
 	private ModelUtils modelUtils;
 
@@ -58,13 +54,7 @@ public class MonitoringStateJob extends JobChangeAdapter {
 
 	private MonitoringStateModel model;
 
-	public DateTimeRange getPeriod() {
-		return period;
-	}
-
-	public void setPeriod(DateTimeRange period) {
-		this.period = period;
-	}
+	private Object[] contextObjects;
 
 	public MonitoringStateJob(ModelUtils modelUtils, MonitoringStateModel model) {
 		super();
@@ -85,10 +75,6 @@ public class MonitoringStateJob extends JobChangeAdapter {
 		j.addJobChangeListener(notifier);
 	}
 
-	public void setContextToSummarize(Object context) {
-		this.context = context;
-	}
-
 	protected class StatusJob extends Job {
 
 		public StatusJob(String name) {
@@ -99,14 +85,6 @@ public class MonitoringStateJob extends JobChangeAdapter {
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
 
-			// Do we have a period.
-			if (period != null) {
-				// Check the period validity?
-				// Begin < End.
-			} else {
-				// We need a period for the state to work.
-				return Status.CANCEL_STATUS;
-			}
 			processReadingInternal(monitor);
 			return Status.OK_STATUS;
 		}
@@ -116,22 +94,21 @@ public class MonitoringStateJob extends JobChangeAdapter {
 		this.monitor = monitor;
 
 		// Dispatch on the context type.
-		if (context instanceof Operator) {
+		if (target instanceof Operator) {
 			// TODO Create an Operator Summary.
-		} else if (context instanceof RFSService) {
+		} else if (target instanceof RFSService) {
 			summary = null;
 
-			ServiceMonitor sm = modelUtils
-					.lastServiceMonitor((Service) context);
+			ServiceMonitor sm = modelUtils.lastServiceMonitor((Service) target);
 			if (sm != null) {
-				summary = model.summaryForService((Service) context,
-						period, monitor);
+				summary = model.summary(monitor, target,
+						contextObjects);
 			}
-		} else if (context instanceof Node) {
+		} else if (target instanceof Node) {
 			// TODO Create a Node summary.
-		} else if (context instanceof Component) {
+		} else if (target instanceof Component) {
 			// TODO Create a Component summary.
-		} else if (context instanceof NetXResource) {
+		} else if (target instanceof NetXResource) {
 			// TODO Create a resource summary.
 		}
 
@@ -162,5 +139,13 @@ public class MonitoringStateJob extends JobChangeAdapter {
 	public boolean isRunning() {
 		return running;
 	}
-	
+
+	public void setContextObjects(Object... contextObjects) {
+		this.contextObjects = contextObjects;
+	}
+
+	public void setTarget(Object context) {
+		this.target = context;
+	}
+
 }

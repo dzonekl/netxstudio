@@ -60,7 +60,6 @@ import org.eclipse.emf.cdo.eresource.CDOResourceNode;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
@@ -384,10 +383,10 @@ public class ModelUtils {
 	public class MarkerTimeStampComparator implements Comparator<Marker> {
 		public int compare(final Marker m1, final Marker m2) {
 
-			CDOUtil.cleanStaleReference(m1,
-					OperatorsPackage.Literals.MARKER__VALUE_REF);
-			CDOUtil.cleanStaleReference(m2,
-					OperatorsPackage.Literals.MARKER__VALUE_REF);
+//			CDOUtil.cleanStaleReference(m1,
+//					OperatorsPackage.Literals.MARKER__VALUE_REF);
+//			CDOUtil.cleanStaleReference(m2,
+//					OperatorsPackage.Literals.MARKER__VALUE_REF);
 
 			return new ValueTimeStampComparator().compare(m1.getValueRef(),
 					m2.getValueRef());
@@ -475,27 +474,106 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Explicitly evaluates to the timestamp being within the period. If the
-	 * timestamp is equal to the period, it will not be included.
+	 * Explicitly evaluates to the time stamp being within the period.
 	 * 
-	 * @author Christophe
+	 * @author Christophe Bouhier
 	 */
-	public class ValueInsideRange implements Predicate<Value> {
+	public class MarkerWithinPeriodPredicate implements Predicate<Marker> {
 
 		private long from;
 		private long to;
 
-		public ValueInsideRange(final DateTimeRange dtr) {
+		public MarkerWithinPeriodPredicate(final DateTimeRange dtr) {
 			from = dtr.getBegin().toGregorianCalendar().getTimeInMillis();
 			to = dtr.getEnd().toGregorianCalendar().getTimeInMillis();
 		}
 
-		public ValueInsideRange(Date from, Date to) {
+		public MarkerWithinPeriodPredicate(Date from, Date to) {
 			this.from = from.getTime();
 			this.to = to.getTime();
 		}
 
-		public ValueInsideRange(long from, long to) {
+		public MarkerWithinPeriodPredicate(long from, long to) {
+			this.from = from;
+			this.to = to;
+		}
+
+		public boolean apply(final Marker m) {
+			if (m.eIsSet(OperatorsPackage.Literals.MARKER__VALUE_REF)) {
+				long target = m.getValueRef().getTimeStamp()
+						.toGregorianCalendar().getTimeInMillis();
+				return from <= target && to >= target;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	public MarkerWithinPeriodPredicate markerInsidePeriod(DateTimeRange dtr) {
+		return new MarkerWithinPeriodPredicate(dtr);
+	}
+
+	public MarkerWithinPeriodPredicate markerInsidePeriod(Date from, Date to) {
+		return new MarkerWithinPeriodPredicate(from, to);
+	}
+
+	public MarkerWithinPeriodPredicate markerInsidePeriod(long from, long to) {
+		return new MarkerWithinPeriodPredicate(from, to);
+	}
+
+	/**
+	 * All markers inside this range.
+	 * 
+	 * @param unfiltered
+	 * @param dtr
+	 * @return
+	 */
+	public List<Marker> markersInsidePeriod(Iterable<Marker> unfiltered,
+			DateTimeRange dtr) {
+
+		Iterable<Marker> filterValues = Iterables.filter(unfiltered,
+				markerInsidePeriod(dtr));
+		return Lists.newArrayList(filterValues);
+	}
+
+	public List<Marker> markersInsidePeriod(Iterable<Marker> unfiltered,
+			Date from, Date to) {
+
+		Iterable<Marker> filterValues = Iterables.filter(unfiltered,
+				markerInsidePeriod(from, to));
+		return Lists.newArrayList(filterValues);
+	}
+
+	public List<Marker> markersInsidePeriod(Iterable<Marker> unfiltered,
+			long from, long to) {
+
+		Iterable<Marker> filterValues = Iterables.filter(unfiltered,
+				markerInsidePeriod(from, to));
+		return Lists.newArrayList(filterValues);
+	}
+
+	/**
+	 * Explicitly evaluates to the timestamp being within the period. If the
+	 * timestamp is equal to the period, it will not be included.
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	public class ValueWithinPeriodPredicate implements Predicate<Value> {
+
+		private long from;
+		private long to;
+
+		public ValueWithinPeriodPredicate(final DateTimeRange dtr) {
+			from = dtr.getBegin().toGregorianCalendar().getTimeInMillis();
+			to = dtr.getEnd().toGregorianCalendar().getTimeInMillis();
+		}
+
+		public ValueWithinPeriodPredicate(Date from, Date to) {
+			this.from = from.getTime();
+			this.to = to.getTime();
+		}
+
+		public ValueWithinPeriodPredicate(long from, long to) {
 			this.from = from;
 			this.to = to;
 		}
@@ -508,16 +586,16 @@ public class ModelUtils {
 		}
 	}
 
-	public ValueInsideRange valueInsideRange(DateTimeRange dtr) {
-		return new ValueInsideRange(dtr);
+	public ValueWithinPeriodPredicate valueInsideRange(DateTimeRange dtr) {
+		return new ValueWithinPeriodPredicate(dtr);
 	}
 
-	public ValueInsideRange valueInsideRange(Date from, Date to) {
-		return new ValueInsideRange(from, to);
+	public ValueWithinPeriodPredicate valueInsideRange(Date from, Date to) {
+		return new ValueWithinPeriodPredicate(from, to);
 	}
 
-	public ValueInsideRange valueInsideRange(long from, long to) {
-		return new ValueInsideRange(from, to);
+	public ValueWithinPeriodPredicate valueInsideRange(long from, long to) {
+		return new ValueWithinPeriodPredicate(from, to);
 	}
 
 	public List<Value> valuesInsideRange(Iterable<Value> unfiltered,
@@ -550,11 +628,11 @@ public class ModelUtils {
 	 * 
 	 * @author Christophe Bouhier
 	 */
-	public class ValueForValues implements Predicate<Value> {
+	public class ValueForValuesPredicate implements Predicate<Value> {
 
 		List<Value> referenceValues;
 
-		public ValueForValues(final List<Value> referenceValues) {
+		public ValueForValuesPredicate(final List<Value> referenceValues) {
 			this.referenceValues = referenceValues;
 		}
 
@@ -574,8 +652,8 @@ public class ModelUtils {
 		}
 	}
 
-	public ValueForValues valueForValues(List<Value> referenceValues) {
-		return new ValueForValues(referenceValues);
+	public ValueForValuesPredicate valueForValues(List<Value> referenceValues) {
+		return new ValueForValuesPredicate(referenceValues);
 	}
 
 	public List<Value> valuesForValues(Iterable<Value> unfiltered,
@@ -809,14 +887,14 @@ public class ModelUtils {
 		}
 	}
 
-	public class NonHiddenFile implements Predicate<File> {
+	public class NonHiddenFilePredicate implements Predicate<File> {
 		public boolean apply(final File f) {
 			return !f.isHidden();
 		}
 	}
 
-	public NonHiddenFile nonHiddenFile() {
-		return new NonHiddenFile();
+	public NonHiddenFilePredicate nonHiddenFile() {
+		return new NonHiddenFilePredicate();
 	}
 
 	/**
@@ -827,16 +905,16 @@ public class ModelUtils {
 	 * @author Christophe
 	 * 
 	 */
-	public class ExtensionFile implements Predicate<File> {
+	public class ExtensionFilePredicate implements Predicate<File> {
 
 		private String[] extensions;
 		private boolean negate = false;
 
-		public ExtensionFile(String... extensions) {
+		public ExtensionFilePredicate(String... extensions) {
 			this.extensions = extensions;
 		}
 
-		public ExtensionFile(boolean negate, String... extensions) {
+		public ExtensionFilePredicate(boolean negate, String... extensions) {
 			this.extensions = extensions;
 			this.negate = negate;
 		}
@@ -862,18 +940,19 @@ public class ModelUtils {
 		}
 	}
 
-	public ExtensionFile extensionFile(String... extension) {
-		return new ExtensionFile(extension);
+	public ExtensionFilePredicate extensionFile(String... extension) {
+		return new ExtensionFilePredicate(extension);
 	}
 
-	public ExtensionFile extensionFile(boolean negate, String... extensions) {
-		return new ExtensionFile(negate, extensions);
+	public ExtensionFilePredicate extensionFile(boolean negate,
+			String... extensions) {
+		return new ExtensionFilePredicate(negate, extensions);
 	}
 
-	public class NodeOfType implements Predicate<Node> {
+	public class NodeOfTypePredicate implements Predicate<Node> {
 		private final NodeType nt;
 
-		public NodeOfType(final NodeType nt) {
+		public NodeOfTypePredicate(final NodeType nt) {
 			this.nt = nt;
 		}
 
@@ -888,14 +967,14 @@ public class ModelUtils {
 		}
 	}
 
-	public NodeOfType nodeOfType(NodeType nodeType) {
-		return new NodeOfType(nodeType);
+	public NodeOfTypePredicate nodeOfType(NodeType nodeType) {
+		return new NodeOfTypePredicate(nodeType);
 	}
 
-	public class NodeInRelationship implements Predicate<Node> {
+	public class NodeInRelationshipPredicate implements Predicate<Node> {
 		private final Relationship r;
 
-		public NodeInRelationship(final Relationship r) {
+		public NodeInRelationshipPredicate(final Relationship r) {
 			this.r = r;
 		}
 
@@ -904,10 +983,11 @@ public class ModelUtils {
 		}
 	}
 
-	public class SourceRelationshipForNode implements Predicate<Relationship> {
+	public class SourceRelationshipForNodePredicate implements
+			Predicate<Relationship> {
 		private final Node n;
 
-		public SourceRelationshipForNode(final Node n) {
+		public SourceRelationshipForNodePredicate(final Node n) {
 			this.n = n;
 		}
 
@@ -916,12 +996,12 @@ public class ModelUtils {
 		}
 	}
 
-	public NodeInRelationship nodeInRelationship(Relationship r) {
-		return new NodeInRelationship(r);
+	public NodeInRelationshipPredicate nodeInRelationship(Relationship r) {
+		return new NodeInRelationshipPredicate(r);
 	}
 
-	public SourceRelationshipForNode sourceRelationshipInNode(Node n) {
-		return new SourceRelationshipForNode(n);
+	public SourceRelationshipForNodePredicate sourceRelationshipInNode(Node n) {
+		return new SourceRelationshipForNodePredicate(n);
 	}
 
 	/**
@@ -929,11 +1009,11 @@ public class ModelUtils {
 	 * in range. targetBegin <= begin && targetEnd <= end. (Example of an
 	 * overlapping).
 	 */
-	public class ServiceMonitorWithinPeriod implements
+	public class ServiceMonitorWithinPeriodPredicate implements
 			Predicate<ServiceMonitor> {
 		private final DateTimeRange dtr;
 
-		public ServiceMonitorWithinPeriod(final DateTimeRange dtr) {
+		public ServiceMonitorWithinPeriodPredicate(final DateTimeRange dtr) {
 			this.dtr = dtr;
 		}
 
@@ -983,9 +1063,9 @@ public class ModelUtils {
 		}
 	}
 
-	public ServiceMonitorWithinPeriod serviceMonitorWithinPeriod(
+	public ServiceMonitorWithinPeriodPredicate serviceMonitorWithinPeriod(
 			DateTimeRange dtr) {
-		return new ServiceMonitorWithinPeriod(dtr);
+		return new ServiceMonitorWithinPeriodPredicate(dtr);
 	}
 
 	/**
@@ -1037,20 +1117,20 @@ public class ModelUtils {
 		return Lists.newArrayList(result);
 	}
 
-	public class IsRelationship implements Predicate<EObject> {
+	public class IsRelationshipPredicate implements Predicate<EObject> {
 		public boolean apply(final EObject eo) {
 			return eo instanceof Relationship;
 		}
 	}
 
-	public IsRelationship isRelationship() {
-		return new IsRelationship();
+	public IsRelationshipPredicate isRelationship() {
+		return new IsRelationshipPredicate();
 	}
 
-	public class MarkerForValue implements Predicate<Marker> {
+	public class MarkerForValuePredicate implements Predicate<Marker> {
 		private final Value value;
 
-		public MarkerForValue(final Value value) {
+		public MarkerForValuePredicate(final Value value) {
 			this.value = value;
 		}
 
@@ -1063,14 +1143,14 @@ public class ModelUtils {
 		}
 	}
 
-	public MarkerForValue markerForValue(Value v) {
-		return new MarkerForValue(v);
+	public MarkerForValuePredicate markerForValue(Value v) {
+		return new MarkerForValuePredicate(v);
 	}
 
-	public class MarkerForDate implements Predicate<Marker> {
+	public class MarkerForDatePredicate implements Predicate<Marker> {
 		private final Date checkDate;
 
-		public MarkerForDate(final Date value) {
+		public MarkerForDatePredicate(final Date value) {
 			this.checkDate = value;
 		}
 
@@ -1100,8 +1180,8 @@ public class ModelUtils {
 		}
 	}
 
-	public MarkerForDate markerForDate(Date d) {
-		return new MarkerForDate(d);
+	public MarkerForDatePredicate markerForDate(Date d) {
+		return new MarkerForDatePredicate(d);
 	}
 
 	public class ToleranceMarkerPredicate implements Predicate<Marker> {
@@ -1808,7 +1888,6 @@ public class ModelUtils {
 		return Lists.newArrayList(filtered);
 	}
 
-
 	/**
 	 * Get the first marker with this value otherwise null.
 	 * 
@@ -1825,8 +1904,6 @@ public class ModelUtils {
 		}
 		return null;
 	}
-
-	
 
 	/**
 	 * Get the first {@link ResourceMonitor}
@@ -1922,8 +1999,6 @@ public class ModelUtils {
 		}
 		return monitorsPerResource;
 	}
-
-	
 
 	// CB, replaced by predicate.
 	// public List<Marker> toleranceMarkers(Marker... unfiltered) {

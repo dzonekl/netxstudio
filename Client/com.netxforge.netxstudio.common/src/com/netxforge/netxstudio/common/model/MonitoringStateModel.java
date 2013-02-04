@@ -84,6 +84,7 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
 public class MonitoringStateModel {
 
 	/**
+	 * A Call back interface when computing is done.
 	 * 
 	 * @author Christophe Bouhier
 	 * 
@@ -97,13 +98,26 @@ public class MonitoringStateModel {
 
 	private MonitoringStateJob job = null;
 
+	/**
+	 * A specialized call back handler, when a computing job completed.
+	 */
 	private JobCallBack callBackHandler;
 
 	/** Our adapter factory for monitoring **/
-	private MonitoringAdapterFactory monAdapterFactory = new MonitoringAdapterFactory();
+	@Inject
+	private MonitoringAdapterFactory monAdapterFactory;
 
-	public void summaryFor(Object context, MonitoringStateStateCallBack callBack) {
-		prepSummary(context, callBack);
+	/**
+	 * Produce an {@link IMonitoringSummary summary} for a give target and
+	 * context.
+	 * 
+	 * @param callBack
+	 * @param target
+	 * @param contextObjects
+	 */
+	public void summary(MonitoringStateStateCallBack callBack, Object target,
+			Object... contextObjects) {
+		prepSummary(callBack, target, contextObjects);
 	}
 
 	class JobCallBack extends JobChangeAdapter {
@@ -127,11 +141,15 @@ public class MonitoringStateModel {
 
 	}
 
+	public MonitoringAdapterFactory getMonAdapterFactory() {
+		return monAdapterFactory;
+	}
+
 	/**
 	 * prepares the monitoring state.
 	 */
-	private void prepSummary(Object context,
-			final MonitoringStateStateCallBack callBack) {
+	private void prepSummary(final MonitoringStateStateCallBack callBack,
+			Object target, Object... contextObjects) {
 
 		if (job == null) {
 			job = new MonitoringStateJob(modelUtils, this);
@@ -149,7 +167,8 @@ public class MonitoringStateModel {
 			job.cancelMonitor();
 		}
 
-		job.setContextToSummarize(context);
+		job.setTarget(target);
+		job.setContextObjects(contextObjects);
 		job.go(); // Should spawn a job processing the xls.
 
 	}
@@ -175,6 +194,20 @@ public class MonitoringStateModel {
 	}
 
 	/**
+	 * Get a summary, without computation.
+	 * 
+	 * @param target
+	 * @return
+	 */
+	public IMonitoringSummary summary(Object target) {
+
+		final IMonitoringSummary adapt = (IMonitoringSummary) monAdapterFactory
+				.adapt(target, IMonitoringSummary.class);
+		return adapt;
+
+	}
+
+	/**
 	 * This method is either directly available or can be executed in the
 	 * background with
 	 * {@link #prepSummary(Object, MonitoringStateStateCallBack)} It produces a
@@ -185,42 +218,37 @@ public class MonitoringStateModel {
 	 * @param monitor
 	 * @return
 	 */
-	public ServicesSummary summaryForServices(List<Service> services,
-			DateTimeRange period, IProgressMonitor monitor) {
-		final ServicesSummary opSummary = new ServicesSummary();
-		for (Service service : services) {
-			if (service instanceof RFSService) {
-				NodesSummmary summary = this.summaryForService(service, period,
-						monitor);
-				// RFSServiceSummary summary = this.processService(service);
-				opSummary.addSummary(summary);
-			}
-		}
-		return opSummary;
-	}
+	// public ServicesSummary summaryForServices(List<Service> services,
+	// DateTimeRange period, IProgressMonitor monitor) {
+	// final ServicesSummary opSummary = new ServicesSummary();
+	// for (Service service : services) {
+	// if (service instanceof RFSService) {
+	// NodesSummmary summary = this.summaryForService(service, period,
+	// monitor);
+	// // RFSServiceSummary summary = this.processService(service);
+	// opSummary.addSummary(summary);
+	// }
+	// }
+	// return opSummary;
+	// }
 
-	public IMonitoringSummary summaryForContext(Object context,
-			DateTimeRange period, IProgressMonitor monitor) {
-//		if (context instanceof EObject) {
-//			for (Adapter adapter : ((EObject) context).eAdapters()) {
-//
-//				System.out.println(" before: registered adapter: "
-//						+ adapter
-//						+ " target: "
-//						+ CDOUtil.getCDOObject((EObject) adapter.getTarget())
-//								.cdoID());
-//			}
-//		}
+	public IMonitoringSummary summary(IProgressMonitor monitor, Object target,
+			Object... context) {
 
+		// Adapt for the target, note this will also self-adapt the contained
+		// children.
 		final IMonitoringSummary adapt = (IMonitoringSummary) monAdapterFactory
-				.adapt(context, IMonitoringSummary.class);
+				.adapt(target, IMonitoringSummary.class);
 
-		if (adapt != null) {
-			// Do something with the adapter.
+		// Add the context object.
+		adapt.addContextObjects(context);
 
-		}
-		if (context instanceof EObject) {
-			for (Adapter adapter : ((EObject) context).eAdapters()) {
+		// Do some initial computation, note this will auto compute the
+		// self-adapted children.
+		adapt.compute(monitor);
+
+		if (target instanceof EObject) {
+			for (Adapter adapter : ((EObject) target).eAdapters()) {
 				System.out.println(" Registered adapter: "
 						+ adapter
 						+ " target: "
@@ -254,60 +282,58 @@ public class MonitoringStateModel {
 	 * @param monitor
 	 * @return
 	 */
-	public NodesSummmary summaryForService(Service service, DateTimeRange dtr,
-			IProgressMonitor monitor) {
-
-		final NodesSummmary serviceSummary = new NodesSummmary(
-				(RFSService) service);
-
-		// Sort and reverse the Service Monitors.
-		final List<ServiceMonitor> serviceMonitors = Ordering
-				.from(modelUtils.serviceMonitorCompare()).reverse()
-				.sortedCopy(service.getServiceMonitors());
-
-		if (service instanceof RFSService) {
-
-			int[] ragTotalResources = new int[] { 0, 0, 0 };
-			int[] ragTotalNodes = new int[] { 0, 0, 0 };
-
-			for (Node targetNode : ((RFSService) service).getNodes()) {
-				if (monitor != null && monitor.isCanceled()) {
-					return serviceSummary;
-				}
-
-				final Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-						serviceMonitors, targetNode, monitor);
-
-				// TODO Filter the markers within the period.
-
-				int[] ragResources = ragCountResourcesForNode(
-						markersPerResource, monitor);
-				for (int i = 0; i < ragTotalResources.length; i++) {
-					ragTotalResources[i] += ragResources[i];
-				}
-				// Any of the levels > 0, we increase the total node count.
-				ragTotalNodes[0] += ragResources[0] > 0 ? 1 : 0;
-				ragTotalNodes[1] += ragResources[1] > 0 ? 1 : 0;
-				ragTotalNodes[2] += ragResources[2] > 0 ? 1 : 0;
-			}
-			serviceSummary.setRagCountResources(ragTotalResources);
-			serviceSummary.setRagCountNodes(ragTotalNodes);
-
-		}
-
-		serviceSummary.setPeriod(dtr);
-		serviceSummary.setPeriodFormattedString(modelUtils
-				.periodToStringMore(dtr));
-
-		return serviceSummary;
-	}
+	// public NodesSummmary summaryForService(Service service, DateTimeRange
+	// dtr,
+	// IProgressMonitor monitor) {
+	//
+	// final NodesSummmary serviceSummary = new NodesSummmary(
+	// (RFSService) service);
+	//
+	// // Sort and reverse the Service Monitors.
+	// final List<ServiceMonitor> serviceMonitors = Ordering
+	// .from(modelUtils.serviceMonitorCompare()).reverse()
+	// .sortedCopy(service.getServiceMonitors());
+	//
+	// if (service instanceof RFSService) {
+	//
+	// int[] ragTotalResources = new int[] { 0, 0, 0 };
+	// int[] ragTotalNodes = new int[] { 0, 0, 0 };
+	//
+	// for (Node targetNode : ((RFSService) service).getNodes()) {
+	// if (monitor != null && monitor.isCanceled()) {
+	// return serviceSummary;
+	// }
+	//
+	// final Map<NetXResource, List<Marker>> markersPerResource =
+	// toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
+	// serviceMonitors, targetNode, monitor);
+	//
+	//
+	// int[] ragResources = ragCountResourcesForNode(
+	// markersPerResource, monitor);
+	// for (int i = 0; i < ragTotalResources.length; i++) {
+	// ragTotalResources[i] += ragResources[i];
+	// }
+	// // Any of the levels > 0, we increase the total node count.
+	// ragTotalNodes[0] += ragResources[0] > 0 ? 1 : 0;
+	// ragTotalNodes[1] += ragResources[1] > 0 ? 1 : 0;
+	// ragTotalNodes[2] += ragResources[2] > 0 ? 1 : 0;
+	// }
+	// serviceSummary.setRagCountResources(ragTotalResources);
+	// serviceSummary.setRagCountNodes(ragTotalNodes);
+	//
+	// }
+	//
+	// serviceSummary.setPeriod(dtr);
+	// serviceSummary.setPeriodFormattedString(modelUtils
+	// .periodToStringMore(dtr));
+	//
+	// return serviceSummary;
+	// }
 
 	/**
-	 * A two pass rag analyzer. First find all {@link ServiceMonitor}'s inside
-	 * the specified period. For all contained {@link ResourceMonitor }'s in the
-	 * Service Monitors, bundle the markers per NetXResource. Then count the RAG
-	 * per NetXResource's markers. Note: Resources which are not referenced by a
-	 * Resource Monitor from the specified node, are ignored.
+	 * Count the RAG per NetXResource's markers. Note: Resources which are not
+	 * referenced by a Resource Monitor from the specified node, are ignored.
 	 * 
 	 * @param markersPerResource
 	 * 
@@ -320,12 +346,6 @@ public class MonitoringStateModel {
 			IProgressMonitor monitor) {
 
 		int red = 0, amber = 0, green = 0;
-
-		// Filter ServiceMonitors on the time range.
-		// DO NOT FILTER here, filter the period later on the returned markers.
-
-		// List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
-		// sortedCopy, dtr);
 
 		for (NetXResource res : markersPerResource.keySet()) {
 
@@ -343,6 +363,16 @@ public class MonitoringStateModel {
 		return new int[] { red, amber, green };
 	}
 
+	/**
+	 * 
+	 * @deprecated
+	 * 
+	 * @param serviceMonitor
+	 * @param n
+	 * @param dtr
+	 * @param monitor
+	 * @return
+	 */
 	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceMonitorAndNodeAndPeriod(
 			ServiceMonitor serviceMonitor, Node n, DateTimeRange dtr,
 			IProgressMonitor monitor) {
@@ -361,6 +391,7 @@ public class MonitoringStateModel {
 	 * returns a Map of markers for each of the NetXResources in the specified
 	 * node.
 	 * 
+	 * @deprecated
 	 * @param service
 	 * @param n
 	 * @param dtr
@@ -388,6 +419,7 @@ public class MonitoringStateModel {
 	 * Provides a total list of markers for the Service Monitor, Node and Date
 	 * Time Range. ,indiscreet of the NetXResource.
 	 * 
+	 * @deprecated
 	 * @param sm
 	 * @param n
 	 * @param dtr
@@ -410,16 +442,15 @@ public class MonitoringStateModel {
 		return filtered;
 	}
 
-	// public int[] ragCount(ServiceMonitor sm, Node n,
-	// DateTimeRange dtr) {
+	// public int[] ragCount(ServiceMonitor sm, Node n, DateTimeRange dtr) {
 	//
 	// int red = 0, amber = 0, green = 0;
-	// //Each RM represents a Resource.
+	// // Each RM represents a Resource.
 	// for (ResourceMonitor rm : sm.getResourceMonitors()) {
 	// if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
 	// Marker[] markerArray = new Marker[rm.getMarkers().size()];
 	// rm.getMarkers().toArray(markerArray);
-	// List<Marker> markersForNodeList = this
+	// List<Marker> markersForNodeList = modelUtils
 	// .toleranceMarkers(markerArray);
 	// int[] rag = this.ragForMarkers(markersForNodeList);
 	// red += rag[0];
@@ -429,10 +460,11 @@ public class MonitoringStateModel {
 	//
 	// }
 	//
-	// return new int[]{red, amber, green};
+	// return new int[] { red, amber, green };
 	// }
 
 	/**
+	 * @deprecated
 	 * @param serviceMonitors
 	 * @param n
 	 * @return
@@ -471,6 +503,11 @@ public class MonitoringStateModel {
 		return markersPerResource;
 	}
 
+	/**
+	 * @deprecated
+	 * @param rm
+	 * @return
+	 */
 	public List<Marker> toleranceMarkersForResourceMonitor(ResourceMonitor rm) {
 		final List<Marker> toleranceMarkers = Lists.newArrayList(Iterables
 				.filter(rm.getMarkers(), modelUtils.toleranceMarkers()));
@@ -478,9 +515,9 @@ public class MonitoringStateModel {
 	}
 
 	/**
-	 * For a collection of marker determine the rag status. Higher levels take
-	 * precedence over lower levels. Lower levels are in case preceded by a
-	 * Higher level, cleared.
+	 * For a collection of marker determine the Red Amber Green status. Higher
+	 * levels take precedence over lower levels. Lower levels are in case
+	 * preceded by a Higher level, cleared.
 	 * 
 	 * @param markersForNodeList
 	 * @return
@@ -493,7 +530,8 @@ public class MonitoringStateModel {
 		// Iterate markers per level.
 		for (LevelKind lk : LevelKind.VALUES) {
 
-			ToleranceMarker tm = lastToleranceMarker(lk, markerForNodeArray);
+			final ToleranceMarker tm = lastToleranceMarker(lk,
+					markerForNodeArray);
 			if (tm != null) {
 				switch (tm.getLevel().getValue()) {
 				case LevelKind.RED_VALUE: {
@@ -600,5 +638,36 @@ public class MonitoringStateModel {
 		}
 
 		return false;
+	}
+
+	/**
+	 * The {@link ToleranceMarker} which belong to the given {@link List
+	 * ServiceMonitor service monitors} and the given {@link NetXResource}.
+	 * 
+	 * @param serviceMonitors
+	 * @param netxRes
+	 * @param monitor
+	 * @return
+	 */
+	public List<Marker> toleranceMarkersForServiceMonitorsAndResource(
+			List<ServiceMonitor> serviceMonitors, NetXResource netxRes,
+			IProgressMonitor monitor) {
+
+		final List<Marker> markers = Lists.newArrayList();
+
+		for (ServiceMonitor sm : serviceMonitors) {
+			for (ResourceMonitor rm : sm.getResourceMonitors()) {
+
+				// Abort the task if we are cancelled.
+				if (monitor != null && monitor.isCanceled()) {
+					return markers;
+				}
+
+				if (rm.getResourceRef() == netxRes) {
+					markers.addAll(toleranceMarkersForResourceMonitor(rm));
+				}
+			}
+		}
+		return markers;
 	}
 }

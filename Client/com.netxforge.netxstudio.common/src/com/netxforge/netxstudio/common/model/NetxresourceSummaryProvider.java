@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 31 jan. 2013 NetXForge.
+ * Copyright (c) 1 feb. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -17,21 +17,35 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
-import com.netxforge.netxstudio.library.NetXResource;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 /**
- * An adapted NetXResource, adds computed information to the resource.
+ * Provider for monitoring model.
  * 
  * @author Christophe Bouhier
  */
-public class NetXResourceSummmary extends MonitoringAdapter {
+public class NetxresourceSummaryProvider implements
+		Provider<NetxresourceSummary> {
 
-	private NetXResource netXResource;
-	
-	
-	
-	
-	
-	
+	private ModelUtils utils;
 
+	private MonitoringStateModel stateModel;
+
+	@Inject
+	public NetxresourceSummaryProvider(MonitoringStateModel stateModel,
+			ModelUtils utils) {
+		this.utils = utils;
+		this.stateModel = stateModel;
+	}
+
+	public NetxresourceSummary get() {
+		NetxresourceSummary netxresourceSummary = new NetxresourceSummary();
+
+		netxresourceSummary.setModelUtils(utils);
+		netxresourceSummary.setStatModel(stateModel);
+
+		return netxresourceSummary;
+
+	}
 }

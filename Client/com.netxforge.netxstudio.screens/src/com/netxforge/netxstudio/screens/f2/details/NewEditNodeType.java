@@ -23,6 +23,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
@@ -43,6 +45,9 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 	private FormText frmTextNumberOfFunctions;
 	private FormText frmTextNumberOfEquipments;
 	private FormText frmTextNumberOfResources;
+
+	@Inject
+	private MonitoringStateModel stateModel;
 
 	public NewEditNodeType(Composite parent, int style,
 			final IEditingService editingService) {
@@ -225,7 +230,9 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		context.bindValue(leafObservable, leafProperty.observe(nodeType), null,
 				null);
 
-		NodeTypeSummary totals = new NodeTypeSummary(nodeType);
+		final NodeTypeSummary totals = (NodeTypeSummary) stateModel
+				.summary(nodeType);
+
 		this.frmTextNumberOfFunctions.setText(
 				totals.getFunctionCountAsString(), false, false);
 		this.frmTextNumberOfEquipments.setText(

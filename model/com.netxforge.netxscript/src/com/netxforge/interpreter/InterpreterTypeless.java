@@ -77,8 +77,9 @@ import com.netxforge.netxscript.ValueRange;
 import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
+import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.common.model.NodesSummmary;
+import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -281,10 +282,10 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 		}
 	}
 
-	private NodesSummmary getContextualServiceSummary() {
-		IInterpreterContext serviceContext = getContextFor(NodesSummmary.class);
+	private RFSServiceSummary getContextualServiceSummary() {
+		IInterpreterContext serviceContext = getContextFor(RFSServiceSummary.class);
 		if (serviceContext != null) {
-			return (NodesSummmary) serviceContext.getContext();
+			return (RFSServiceSummary) serviceContext.getContext();
 		} else {
 			return null;
 		}
@@ -1429,19 +1430,19 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 			// return the
 			// count.
 			int count = 0;
-			NodesSummmary summary = this.getContextualServiceSummary();
+			RFSServiceSummary summary = this.getContextualServiceSummary();
 			if (summary != null) {
 				switch (tolerancelevel.getValue()) {
 				case ToleranceLevel.RED_VALUE: {
-					count = summary.getRedCountNodes();
+					count = summary.totalRag(RAG.RED);
 				}
 					break;
 				case ToleranceLevel.AMBER_VALUE: {
-					count = summary.getAmberCountNodes();
+					count = summary.totalRag(RAG.AMBER);
 				}
 					break;
 				case ToleranceLevel.GREEN_VALUE: {
-					count = summary.getGreenCountNodes();
+					count = summary.totalRag(RAG.GREEN);
 				}
 					break;
 				case ToleranceLevel.YELLOW_VALUE: {

@@ -77,6 +77,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
@@ -712,7 +713,14 @@ public class NewEditServiceTree extends AbstractDetailsScreen
 
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		summaryComponent.injectData(service);
+		// Defaults for 8 months. 
+		Date startTime = modelUtils.monthsAgo(8);
+		startTime = modelUtils.adjustToDayStart(startTime);
+
+		Date endTime = modelUtils.todayAtDayEnd();
+		DateTimeRange period = modelUtils.period(startTime, endTime);
+
+		summaryComponent.injectData(service, period);
 
 		bindInfoSection(context);
 		bindLifeCycle(context);
