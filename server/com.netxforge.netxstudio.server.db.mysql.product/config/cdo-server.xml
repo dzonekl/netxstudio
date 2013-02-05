@@ -18,7 +18,7 @@
 		<property name="overrideUUID" value=""/>
 		<property name="supportingAudits" value="false"/>
 		
-
+<!--
 		<initialPackage nsURI="http://www.netxforge.com/13042011/geo"/>
 		<initialPackage nsURI="http://www.netxforge.com/13042011/generics"/>
 		<initialPackage nsURI="http://www.netxforge.com/13042011/netxstudio"/>
@@ -29,7 +29,7 @@
 		<initialPackage nsURI="http://www.netxforge.com/13042011/scheduling"/>
 		<initialPackage nsURI="http://www.netxforge.com/13042011/services"/>
 		<initialPackage nsURI="http://www.eclipse.org/emf/2003/XMLType"/>
-
+-->
 		<!--
 			NOTE: the following properties are currently defined on repository level.
 			In future builds of the CDO Hibernate store these properties are defined

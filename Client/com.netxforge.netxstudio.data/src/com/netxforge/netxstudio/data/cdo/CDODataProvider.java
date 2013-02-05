@@ -122,8 +122,6 @@ public abstract class CDODataProvider implements IDataProvider {
 			connection.initialize(server);
 		}
 
-		// connection.getConfig().setSignalTimeout(SIGNAL_TIME_OUT);
-
 		// Session Config and Sessions go hand in hand.
 		// Recover our session, if some reason we try to reopen for the same
 		// user and

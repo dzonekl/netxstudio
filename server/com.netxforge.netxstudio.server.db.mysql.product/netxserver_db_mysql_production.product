@@ -13,7 +13,8 @@
       <vmArgs>-Xms1048m
 -XX:+HeapDumpOnOutOfMemoryError
 -Dorg.osgi.service.http.port=8080
--DmetricSourceRoot=/Users/dzonekl/Documents/Projects/NetXStudio/TestData</vmArgs>
+-DmetricSourceRoot=/Users/dzonekl/Documents/Projects/NetXStudio/TestData
+-DskipInit=true</vmArgs>
       <vmArgsLin>-server
 -Xmx4096m
 -Xss1048k
