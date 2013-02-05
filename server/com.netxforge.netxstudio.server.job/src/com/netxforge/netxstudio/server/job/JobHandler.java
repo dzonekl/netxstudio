@@ -29,6 +29,7 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.server.IRepository;
+import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.view.CDOAdapterPolicy;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.cdo.view.CDOViewInvalidationEvent;
@@ -36,10 +37,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.net4j.util.container.IElementProcessor;
 import org.eclipse.net4j.util.container.IManagedContainer;
+import org.eclipse.net4j.util.event.IEvent;
 import org.eclipse.net4j.util.event.IListener;
+import org.eclipse.net4j.util.lifecycle.ILifecycle;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
+import org.eclipse.net4j.util.lifecycle.LifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
+import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.osgi.framework.console.CommandInterpreter;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
@@ -70,10 +75,10 @@ import com.netxforge.netxstudio.server.job.internal.JobActivator;
  * Handles jobs, reads the jobs from the database, initializes quartz and
  * re-initializes if anything changes in the database.
  * 
- * Provides external API for the OSGI command interpreter or remote calls. For
- * remote calls, outputs to System.out. TODO, replace with a print stream.
+ * Provides external API for the OSGI command interpreter or remote calls.
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
 public class JobHandler {
 
@@ -262,12 +267,12 @@ public class JobHandler {
 	 */
 	private String listJobs() {
 
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 
-		CDOResource jobResource = (CDOResource) dataProvider.getResource(view,
-				SchedulingPackage.eINSTANCE.getJob());
+		final CDOResource jobResource = (CDOResource) dataProvider.getResource(
+				view, SchedulingPackage.eINSTANCE.getJob());
 
-		CDOResource jobRunContainerResource = (CDOResource) dataProvider
+		final CDOResource jobRunContainerResource = (CDOResource) dataProvider
 				.getResource(view, SchedulingPackage.Literals.JOB_RUN_CONTAINER);
 
 		// now initialize quartz jobs, iterating through all available jobs.
@@ -296,14 +301,18 @@ public class JobHandler {
 			return "Scheduler initializing";
 		} else {
 			try {
-				if (scheduler.isStarted()) {
-					if (scheduler.isInStandbyMode()) {
-						return "Scheduler is on standby";
-					} else {
-						return "Scheduler started";
+				if (scheduler != null) {
+					if (scheduler.isStarted()) {
+						if (scheduler.isInStandbyMode()) {
+							return "Scheduler is on standby";
+						} else {
+							return "Scheduler started";
+						}
+					} else if (scheduler.isShutdown()) {
+						return "Scheduler is stopped";
 					}
-				} else if (scheduler.isShutdown()) {
-					return "Scheduler is stopped";
+				}else{
+					return "Scheduler is not initialized";
 				}
 			} catch (SchedulerException e) {
 				e.printStackTrace();
@@ -332,7 +341,8 @@ public class JobHandler {
 					sb.append("Scheduler started...");
 				}
 			} else {
-
+				initialize(null);
+				return "The scheduler is now initializing, but this could fail, try again starting it";
 			}
 		} catch (SchedulerException e) {
 			e.printStackTrace();
@@ -400,6 +410,8 @@ public class JobHandler {
 				for (TriggerKey tKey : keysToRemove) {
 					triggerKeysMap.remove(tKey);
 				}
+			} else {
+				return "The scheduler is not initialized, try to initialize it with : job start";
 			}
 		} catch (SchedulerException e) {
 			e.printStackTrace();
@@ -492,34 +504,46 @@ public class JobHandler {
 	 * Called with the repository starts and when an invalidation occurs on
 	 */
 	public synchronized void initialize(CDOObject change) {
-
+		
+		
 		// monitor, dis-allowing re-entry.
 		initializing = true;
+		
+		// Our session, view might not be available....
+		if(view == null || (view != null && !LifecycleUtil.isActive(view))){
+			// Re-activate. 
+			activate();
+		}
 
 		if (JobActivator.DEBUG) {
 			JobActivator.TRACE.trace(null, "(Re) Initializing jobs");
 
 		}
 
-		final Resource jobResource = dataProvider.getResource(view,
-				SchedulingPackage.eINSTANCE.getJob());
-
-		relevantIds.clear();
-		triggerKeysMap.clear();
-
-		relevantIds.add(((CDOResource) jobResource).cdoID());
-
-		// CB 26062012, this would only imply that objects in this view notify,
-		// when invalidated.
-		// It's likely not needed.
-		// view.options().setInvalidationNotificationEnabled(true);
-		// view.options().setInvalidationPolicy(
-		// CDOInvalidationPolicy.DEFAULT);
-
 		try {
 
+			final Resource jobResource = dataProvider.getResource(view,
+					SchedulingPackage.eINSTANCE.getJob());
+
+			if (jobResource == null) {
+				return;
+			}
+
+			relevantIds.clear();
+			triggerKeysMap.clear();
+
+			relevantIds.add(((CDOResource) jobResource).cdoID());
+
+			// CB 26062012, this would only imply that objects in this view
+			// notify,
+			// when invalidated.
+			// It's likely not needed.
+			// view.options().setInvalidationNotificationEnabled(true);
+			// view.options().setInvalidationPolicy(
+			// CDOInvalidationPolicy.DEFAULT);
+
 			if (scheduler == null) {
-				// Instantiate only once. 
+				// Instantiate only once.
 				scheduler = StdSchedulerFactory.getDefaultScheduler();
 			} else {
 				scheduler.clear();
@@ -533,15 +557,8 @@ public class JobHandler {
 
 			// clear the scheduler.
 
-		} catch (final Exception e) {
-			if(JobActivator.DEBUG){
-				JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION, "Error initializing", e);
-			}
-		}
-
-		// now initialize quartz jobs, iterating through all available jobs.
-		for (final EObject eObject : jobResource.getContents()) {
-			try {
+			// now initialize quartz jobs, iterating through all available jobs.
+			for (final EObject eObject : jobResource.getContents()) {
 				final Job job = (Job) eObject;
 
 				relevantIds.add(job.cdoID());
@@ -588,25 +605,26 @@ public class JobHandler {
 
 				scheduler.scheduleJob(jobDetail, newTrigger);
 
-			} catch (final Exception e) {
-				if(JobActivator.DEBUG){
-					JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION, "Error initializing", e);
-				}
 			}
+
+			// Do not start the scheduler.
+			// try {
+			// scheduler.start();
+			// } catch (final Exception e) {
+			// // TODO do some form of logging but don't stop everything
+			// e.printStackTrace(System.err);
+			// }
+
+			// CB Keep it open, we need for invalidation events.
+			// dataProvider.closeView();
+		} catch (final Exception e) {
+			if (JobActivator.DEBUG) {
+				JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION,
+						"Error initializing", e);
+			}
+		} finally {
+			initializing = false;
 		}
-
-		// Do not start the scheduler.
-		// try {
-		// scheduler.start();
-		// } catch (final Exception e) {
-		// // TODO do some form of logging but don't stop everything
-		// e.printStackTrace(System.err);
-		// }
-
-		// CB Keep it open, we need for invalidation events.
-		// dataProvider.closeView();
-
-		initializing = false;
 	}
 
 	/*
@@ -717,13 +735,17 @@ public class JobHandler {
 		}
 	}
 
+	
+	/**
+	 * Active when a valid {@link CDOView} is assigned. 
+	 */
 	private void activate() {
 		JobActivator.getInstance().getInjector().injectMembers(this);
+		
 		dataProvider.getSession();
 		view = dataProvider.getView();
-		
-		
-		// Is this really needed? 
+
+		// Is this really needed?
 		this.addChangeSubscription(view);
 
 		view.addListener(new IListener() {
@@ -747,6 +769,24 @@ public class JobHandler {
 				}
 				if (shoudInitialize) {
 					JobHandler.this.initialize();
+				}
+			}
+		});
+		
+		
+		// In case we loose our sessions, clear the session. 
+		view.getSession().addListener(new IListener() {
+
+			@Override
+			public void notifyEvent(IEvent event) {
+				if(event instanceof LifecycleEvent){
+					final LifecycleEvent lfEvent = (LifecycleEvent) event;
+					if(lfEvent.getKind() == Kind.ABOUT_TO_DEACTIVATE){
+						// OK our session will be closed. 
+						ILifecycle source = lfEvent.getSource();
+						System.out.println(source);
+						
+					}
 				}
 			}
 		});
@@ -844,11 +884,14 @@ public class JobHandler {
 
 	private void deActivateInstance() {
 		try {
-			scheduler.shutdown();
-			dataProvider.closeSession();
 
+			if (scheduler != null) {
+				scheduler.shutdown();
+			}
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
+		} finally {
+			dataProvider.closeSession();
 		}
 	}
 
@@ -966,10 +1009,11 @@ public class JobHandler {
 		return null;
 
 	}
-	
+
 	/**
-	 * Expose the Quarts Scheduler. 
-	 * @return 
+	 * Expose the Quarts Scheduler.
+	 * 
+	 * @return
 	 */
 	public synchronized Scheduler getScheduler() {
 		return this.scheduler;

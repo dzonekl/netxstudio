@@ -42,6 +42,7 @@ import org.eclipse.net4j.util.container.IPluginContainer;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
+import org.eclipse.net4j.util.lifecycle.LifecycleState;
 import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
@@ -77,6 +78,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
 public class ServerUtils {
 
 	private static final String REPO_NAME = "repo1";
+	private static final String SKIP_PACKAGE_INIT = "skipInit";
 
 	@SuppressWarnings("unused")
 	private DatatypeFactory dataTypeFactory;
@@ -166,19 +168,6 @@ public class ServerUtils {
 	public CDOSession openJVMSession() {
 		final CDOSession cdoSession = createSessionConfiguration()
 				.openSession();
-
-		// add the epackages
-		cdoSession.getPackageRegistry().putEPackage(GeoPackage.eINSTANCE);
-		cdoSession.getPackageRegistry().putEPackage(GenericsPackage.eINSTANCE);
-		cdoSession.getPackageRegistry()
-				.putEPackage(NetxstudioPackage.eINSTANCE);
-		cdoSession.getPackageRegistry().putEPackage(LibraryPackage.eINSTANCE);
-		cdoSession.getPackageRegistry().putEPackage(MetricsPackage.eINSTANCE);
-		cdoSession.getPackageRegistry().putEPackage(OperatorsPackage.eINSTANCE);
-		cdoSession.getPackageRegistry().putEPackage(ProtocolsPackage.eINSTANCE);
-		cdoSession.getPackageRegistry()
-				.putEPackage(SchedulingPackage.eINSTANCE);
-		cdoSession.getPackageRegistry().putEPackage(ServicesPackage.eINSTANCE);
 		((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession.options())
 				.setCommitTimeout(CDODataProvider.COMMIT_TIMEOUT);
 
@@ -208,16 +197,15 @@ public class ServerUtils {
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 		sessionConfiguration.setExceptionHandler(exceptionHandler);
 
-		
-		
-		// TODO, Make the passive update mode optional. 
-		// When the mode is changes, we receive revision deltas which can be used
-		// to update more efficiently. 
-		// For indexes, we could limit the update to only the changed items.  
-		// 
-		
-//		sessionConfiguration.setPassiveUpdateMode(PassiveUpdateMode.CHANGES);
-		
+		// TODO, Make the passive update mode optional.
+		// When the mode is changes, we receive revision deltas which can be
+		// used
+		// to update more efficiently.
+		// For indexes, we could limit the update to only the changed items.
+		//
+
+		// sessionConfiguration.setPassiveUpdateMode(PassiveUpdateMode.CHANGES);
+
 		// Note: Option to disable caching, this was of for Hibernate store, but
 		// back on for the DB Store.
 		// sessionConfiguration.setRevisionManager(CDORevisionUtil
@@ -258,24 +246,44 @@ public class ServerUtils {
 		return serverSideLogin;
 	}
 
+	/**
+	 * Initialize the server for the given {@link IRepository} This method is
+	 * called from multiple plugins, whenever they become active and discover
+	 * the repository has become {@link LifecycleState#ACTIVE active}
+	 * 
+	 * @param repository
+	 */
 	public synchronized void initializeServer(IRepository repository) {
 		if (initServerDone) {
 			return;
 		}
 		isInitializing = true;
-		
-		// TODO, Find out the DB schema name and table name to create queries. 
+
+		// TODO, Find out the DB schema name and table name to create queries.
 		IStore store = repository.getStore();
-		if(store instanceof IDBStore){
+		if (store instanceof IDBStore) {
 			@SuppressWarnings("unused")
 			IDBStore dbStore = (IDBStore) store;
 		}
-		
-		final ServerInitializer resourceInitializer = ServerActivator
-				.getInstance().getInjector()
-				.getInstance(ServerInitializer.class);
-		resourceInitializer.initialize();
 
+		final boolean skipInitPackages;
+
+		final String property = System.getProperty(SKIP_PACKAGE_INIT);
+		if (property != null && property.equals(Boolean.TRUE.toString())) {
+			skipInitPackages = true;
+		} else {
+			skipInitPackages = false;
+		}
+		
+		if (!skipInitPackages) {
+			// Skip init resources.
+			final ServerInitializer resourceInitializer = ServerActivator
+					.getInstance().getInjector()
+					.getInstance(ServerInitializer.class);
+			
+			resourceInitializer.initialize();
+
+		}
 		// must be done after initializing the resources etc.
 		final AsyncCommitInfoHandler asyncCommitInfoHandler = new AsyncCommitInfoHandler(
 				commitInfoHandler);
@@ -301,11 +309,34 @@ public class ServerUtils {
 
 		@Inject
 		private Fixtures fixtures;
-		
+
 		private void initialize() {
+			initPackages();
 			initResources();
 		}
-
+		
+		private void initPackages() {
+			CDOSession cdoSession = dataProvider.openSession();
+			cdoSession.getPackageRegistry().putEPackage(GeoPackage.eINSTANCE);
+			cdoSession.getPackageRegistry().putEPackage(
+					GenericsPackage.eINSTANCE);
+			cdoSession.getPackageRegistry().putEPackage(
+					NetxstudioPackage.eINSTANCE);
+			cdoSession.getPackageRegistry().putEPackage(
+					LibraryPackage.eINSTANCE);
+			cdoSession.getPackageRegistry().putEPackage(
+					MetricsPackage.eINSTANCE);
+			cdoSession.getPackageRegistry().putEPackage(
+					OperatorsPackage.eINSTANCE);
+			cdoSession.getPackageRegistry().putEPackage(
+					ProtocolsPackage.eINSTANCE);
+			cdoSession.getPackageRegistry().putEPackage(
+					SchedulingPackage.eINSTANCE);
+			cdoSession.getPackageRegistry().putEPackage(
+					ServicesPackage.eINSTANCE);
+			cdoSession.close();
+		
+		}
 		private void initResources() {
 			dataProvider.openSession();
 			dataProvider.getTransaction();
@@ -318,12 +349,12 @@ public class ServerUtils {
 			initResourcesForEPackage(ProtocolsPackage.eINSTANCE);
 			initResourcesForEPackage(SchedulingPackage.eINSTANCE);
 			initResourcesForEPackage(ServicesPackage.eINSTANCE);
-			
+
 			fixtures.setDataProvider(dataProvider);
 			// Load the fixtures.
-//			fixtures.unloadFixtures(); // UNCOMMENT TO RELOAD FIXTURES.
+			// fixtures.unloadFixtures(); // UNCOMMENT TO RELOAD FIXTURES.
 			fixtures.loadFixtures();
-			
+
 			dataProvider.commitTransaction();
 			dataProvider.closeSession();
 		}
