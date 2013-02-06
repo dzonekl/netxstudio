@@ -29,7 +29,6 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.server.IRepository;
-import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.view.CDOAdapterPolicy;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.cdo.view.CDOViewInvalidationEvent;
@@ -777,7 +776,6 @@ public class JobHandler {
 		// In case we loose our sessions, clear the session. 
 		view.getSession().addListener(new IListener() {
 
-			@Override
 			public void notifyEvent(IEvent event) {
 				if(event instanceof LifecycleEvent){
 					final LifecycleEvent lfEvent = (LifecycleEvent) event;

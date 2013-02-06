@@ -115,7 +115,6 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
 
-	@Override
 	public String getHelp() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("---NetXStudio Job commands---\n");
