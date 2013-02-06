@@ -15,34 +15,27 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.parts;
+package com.netxforge.netxstudio.screens.common.util;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenViewer;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.f3.charts.SmartChartScreen;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewSite;
 
 /**
- * A Chart screen in a viewer.
+ * Views should support, to handle editor activations.
  * 
  * @author Christophe Bouhier
- * 
  */
-public class ChartScreenViewer extends AbstractScreenViewer {
+public interface IScreenSync {
+	/**
+	 * Called when an editor is activated e.g. by a click from the user.
+	 * 
+	 * @param The
+	 *            activated editor part.
+	 */
+	void editorActivated(IViewPart activeViewPart);
 
-	private SmartChartScreen chartScreen;
-
-	public IScreen getScreen() {
-		return chartScreen;
-	}
-
-	public void initScreen(Composite parent) {
-		chartScreen = new SmartChartScreen(parent, SWT.NONE);
-		chartScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
-		chartScreen.setEditingService(getEditingService());
-		chartScreen.buildUI();
-	}
+	/**
+	 * @return The site for this view.
+	 */
+	IViewSite getViewSite();
 }

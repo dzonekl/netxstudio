@@ -22,9 +22,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IViewPart;
 
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenViewer;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
@@ -50,23 +48,19 @@ public class DashboardViewer extends AbstractScreenViewer {
 		dashboardScreen.buildUI();
 	}
 
-	public void editorActivated(IViewPart activeView) {
-		if (activeView instanceof AbstractScreenSelector) {
-			ISelection selection = ((AbstractScreenSelector) activeView)
-					.getSelection();
-			if (selection != null && !selection.isEmpty()
-					&& selection instanceof StructuredSelection) {
-				Object firstElement = ((StructuredSelection) selection)
-						.getFirstElement();
-				if (firstElement instanceof EObject) {
 
-					System.out.println("@TODO Linking test "
-							+ modelUtils
-									.printModelObject((EObject) firstElement));
-
-				}
+	protected void processSelection(ISelection selection) {
+		if (selection != null && !selection.isEmpty()
+				&& selection instanceof StructuredSelection) {
+			Object firstElement = ((StructuredSelection) selection)
+					.getFirstElement();
+			if (firstElement instanceof EObject) {
+				System.out.println("@TODO Linking test "
+						+ modelUtils.printModelObject((EObject) firstElement));
+				// dashboardScreen.injectData(...);
+				
+				
 			}
-
 		}
 	}
 

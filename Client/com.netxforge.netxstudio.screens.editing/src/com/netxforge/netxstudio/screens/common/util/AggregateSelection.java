@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 5 dec. 2012 NetXForge.
+ * Copyright (c) 6 feb. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -17,25 +17,33 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.common.util;
 
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IViewSite;
+import java.util.List;
+
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+
+import com.google.common.collect.Lists;
 
 /**
- * Views should support, to handle editor activations.
+ * Supports multiple {@link IStructuredSelection structured selections}
  * 
  * @author Christophe Bouhier
  */
-public interface ILinkedWithEditorView {
-	/**
-	 * Called when an editor is activated e.g. by a click from the user.
-	 * 
-	 * @param The
-	 *            activated editor part.
-	 */
-	void editorActivated(IViewPart activeViewPart);
+public class AggregateSelection implements ISelection {
 
-	/**
-	 * @return The site for this view.
-	 */
-	IViewSite getViewSite();
+	private final List<IStructuredSelection> ssCollection = Lists
+			.newArrayList();
+	
+	public boolean isEmpty() {
+		return ssCollection.isEmpty();
+	}
+
+	public void add(IStructuredSelection ss) {
+		ssCollection.add(ss);
+	}
+	
+	public List<IStructuredSelection> getAll(){
+		return ssCollection;
+	}
+
 }

@@ -28,6 +28,7 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISaveablePart2;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.IShowInSource;
 import org.eclipse.ui.part.ShowInContext;
 
@@ -35,6 +36,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.IScreenProvider;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
 import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHandler;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
@@ -285,4 +287,9 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		return new ShowInContext(null, this.getSelection());
 	}
 
+	@Override
+	protected void customPartHook(IWorkbenchPart part, PART_EVENT event) {
+		// Override to something with part events. . 
+	}
+	
 }
