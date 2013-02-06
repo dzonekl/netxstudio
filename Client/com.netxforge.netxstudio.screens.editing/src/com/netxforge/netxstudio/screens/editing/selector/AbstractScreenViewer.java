@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -29,6 +30,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IPartListener2;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.IShowInTarget;
 import org.eclipse.ui.part.ShowInContext;
 
@@ -50,10 +53,12 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 
 	IPartListener2 linkWithEditorPartListener = new LinkWithEditorPartListener(
 			this);
+
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.AbstractScreenViewer"; //$NON-NLS-1$
 
 	@Inject
 	private IEditingService editingService;
+	private boolean linking = false;
 
 	// @Inject
 	// private ModelUtils modelUtils;
@@ -74,9 +79,26 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 		initializeToolBar();
 		initializeMenu();
 
+		getViewSite().getActionBars().getToolBarManager()
+				.add(new Action("Link With Editor", IAction.AS_CHECK_BOX) {
+					public void run() {
+						toggleLinking(isChecked());
+					}
+				});
+
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 		initScreen(parent);
 		getSite().getPage().addPartListener(linkWithEditorPartListener);
+	}
+
+	protected void toggleLinking(boolean checked) {
+		this.linking = checked;
+		if (checked) {
+			IWorkbenchPart activePart = getSite().getPage().getActivePart();
+			if (activePart instanceof IViewPart) {
+				editorActivated((IViewPart) activePart);
+			}
+		}
 	}
 
 	public abstract void initScreen(Composite parent);

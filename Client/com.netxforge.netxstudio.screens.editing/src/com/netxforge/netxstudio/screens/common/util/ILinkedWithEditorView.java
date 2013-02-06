@@ -14,28 +14,28 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.common.util;
 
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewSite;
 
-
 /**
  * Views should support, to handle editor activations.
- *  
+ * 
  * @author Christophe Bouhier
  */
 public interface ILinkedWithEditorView {
-	  /**
-	   * Called when an editor is activated
-	   * e.g. by a click from the user.
-	   * @param The activated editor part.
-	   */
-	  void editorActivated(IViewPart activeViewPart);
+	/**
+	 * Called when an editor is activated e.g. by a click from the user.
+	 * 
+	 * @param The
+	 *            activated editor part.
+	 */
+	void editorActivated(IViewPart activeViewPart);
 
-	  /**
-	   * @return The site for this view.
-	   */
-	  IViewSite getViewSite();
-	}
+	/**
+	 * @return The site for this view.
+	 */
+	IViewSite getViewSite();
+}

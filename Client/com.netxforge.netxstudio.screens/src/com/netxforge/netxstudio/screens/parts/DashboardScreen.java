@@ -27,8 +27,10 @@ import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.f1.ServiceSummaryComponent;
 
 /**
  * Monitoring Dashboard 
@@ -44,6 +46,9 @@ public class DashboardScreen extends AbstractScreen implements
 	/** The Form for this screen*/
 	private Form frmDashBoardScreen;
 	
+	@Inject
+	private ServiceSummaryComponent summaryComponent;
+	
 	public DashboardScreen(Composite parent, int style) {
 		super(parent, style);
 	}
@@ -53,10 +58,19 @@ public class DashboardScreen extends AbstractScreen implements
 
 		frmDashBoardScreen = toolkit.createForm(this);
 		frmDashBoardScreen.setSeparatorVisible(true);
+		frmDashBoardScreen.setText("Monitoring Dashboard");
 		toolkit.paintBordersFor(frmDashBoardScreen);
 
 		frmDashBoardScreen.getBody().setLayout(new ColumnLayout());
 		
+		
+		final Composite content = toolkit.createComposite(frmDashBoardScreen.getBody(), SWT.NONE);
+		toolkit.paintBordersFor(content);
+		content.setLayout(new FillLayout());
+		
+
+		summaryComponent.setParentScreen(this);
+		summaryComponent.buildUI(content, null);
 	}
 	
 	public Form getScreenForm() {

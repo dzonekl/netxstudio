@@ -14,34 +14,40 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.parts;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IViewPart;
 
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenViewer;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
- * A Standalone viewer which shows a Dashboard. 
+ * A Standalone viewer which shows a Dashboard.
  * 
  * @author Christophe Bouhier
  * 
  */
 public class DashboardViewer extends AbstractScreenViewer {
-	
-	
+
+	private DashboardScreen dashboardScreen;
+
 	public IScreen getScreen() {
-		return null;
+		return dashboardScreen;
 	}
 
 	public void initScreen(Composite parent) {
-		
+		dashboardScreen = new DashboardScreen(parent, SWT.NONE);
+		dashboardScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
+		dashboardScreen.setEditingService(getEditingService());
+		dashboardScreen.buildUI();
 	}
 
 	public void editorActivated(IViewPart activeView) {
@@ -53,16 +59,15 @@ public class DashboardViewer extends AbstractScreenViewer {
 				Object firstElement = ((StructuredSelection) selection)
 						.getFirstElement();
 				if (firstElement instanceof EObject) {
-					System.out.println(modelUtils
-							.printModelObject((EObject) firstElement));
+
+					System.out.println("@TODO Linking test "
+							+ modelUtils
+									.printModelObject((EObject) firstElement));
+
 				}
 			}
 
 		}
 	}
 
-
-	
-	
-	
 }

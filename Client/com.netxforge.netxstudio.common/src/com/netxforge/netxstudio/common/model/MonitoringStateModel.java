@@ -260,11 +260,6 @@ public class MonitoringStateModel {
 
 	}
 
-	// public RFSServiceSummary summaryForService(Service service,
-	// DateTimeRange dtr, IProgressMonitor monitor) {
-	// return summaryForService(service.g, dtr, monitor)
-	// }
-
 	/**
 	 * This method is either directly available or can be executed in the
 	 * background with

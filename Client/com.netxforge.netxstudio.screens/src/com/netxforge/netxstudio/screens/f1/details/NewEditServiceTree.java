@@ -146,9 +146,6 @@ public class NewEditServiceTree extends AbstractDetailsScreen
 			final IEditingService editingService) {
 		super(parent, style);
 		this.editingService = editingService;
-		
-		
-		System.out.println("Component instance: " + summaryComponent);
 		// buildUI();
 	}
 

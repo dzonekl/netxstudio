@@ -1491,7 +1491,7 @@ public class SmartResources extends AbstractScreen implements
 
 		private Service processServiceChange(IObservableValue ob) {
 			Service s = null;
-			Object value = ob.getValue();
+			final Object value = ob.getValue();
 			if (value instanceof Service) {
 				s = (Service) value;
 			}
@@ -1500,7 +1500,7 @@ public class SmartResources extends AbstractScreen implements
 
 		private Node processNodeChange(IObservableValue ob) {
 			Node n = null;
-			Object value = ob.getValue();
+			final Object value = ob.getValue();
 			if (value instanceof Node) {
 				n = (Node) value;
 			}
@@ -1509,7 +1509,7 @@ public class SmartResources extends AbstractScreen implements
 
 		private Component processComponentChange(IObservableValue ob) {
 			Component c = null;
-			Object value = ob.getValue();
+			final Object value = ob.getValue();
 			if (value instanceof Component) {
 				c = (Component) value;
 			}
@@ -1518,7 +1518,7 @@ public class SmartResources extends AbstractScreen implements
 
 		private NetXResource processResourceChange(IObservableValue ob) {
 			NetXResource r = null;
-			Object value = ob.getValue();
+			final Object value = ob.getValue();
 			if (value instanceof NetXResource) {
 				r = (NetXResource) value;
 			}
