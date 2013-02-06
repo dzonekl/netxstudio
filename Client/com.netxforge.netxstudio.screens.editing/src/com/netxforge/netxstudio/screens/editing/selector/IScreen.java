@@ -91,7 +91,6 @@ public interface IScreen extends IViewerProvider, ISelectionProvider, IPersistab
 	 */
 	public abstract ShowInContext getShowIn(ISelection selection);
 	
-	
 		
 	/**
 	 * Get the screen service for this screen. 

@@ -676,7 +676,14 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		}
 		contributeMenuAboutToShow(manager);
 	}
-
+	
+	
+	/**
+	 * Implementors should populate the given {@link IMenuManager } with a context
+	 * menu for an IScreen. 
+	 * 
+	 * @param manager
+	 */
 	public abstract void contributeMenuAboutToShow(IMenuManager manager);
 
 	/**

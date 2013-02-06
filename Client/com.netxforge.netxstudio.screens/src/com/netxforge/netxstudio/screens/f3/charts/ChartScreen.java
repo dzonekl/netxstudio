@@ -94,7 +94,7 @@ import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionWizard;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
-import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
+import com.netxforge.netxstudio.screens.showins.ChartInput;
 
 /**
  * 
@@ -964,9 +964,9 @@ public class ChartScreen extends AbstractScreen implements IDataScreenInjection 
 	@Override
 	public boolean handleShowIn(ShowInContext context) {
 
-		if (context.getInput() instanceof ChartShowInContext) {
+		if (context.getInput() instanceof ChartInput) {
 
-			ChartShowInContext chartInput = (ChartShowInContext) context
+			ChartInput chartInput = (ChartInput) context
 					.getInput();
 
 			// Clear our chart,

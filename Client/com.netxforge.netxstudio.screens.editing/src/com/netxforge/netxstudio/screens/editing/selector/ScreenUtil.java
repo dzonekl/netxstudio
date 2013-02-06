@@ -34,7 +34,9 @@ import org.eclipse.swt.widgets.Control;
  * 
  */
 public class ScreenUtil {
-
+	
+	
+	// TODO move this wrong place. 
 	public static final String RED_MARKER = "RED";
 	public static final String AMBER_MARKER = "AMBER";
 	public static final String YELLOW_MARKER = "YELLOW";

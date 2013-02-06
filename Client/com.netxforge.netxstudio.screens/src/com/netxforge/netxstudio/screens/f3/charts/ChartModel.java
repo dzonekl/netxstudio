@@ -37,6 +37,7 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
  * Wraps model references to keep them together.
+ * TODO, Remove Monitoring from this model. 
  * 
  * @author Christophe Bouhier
  * 

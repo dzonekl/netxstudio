@@ -78,7 +78,7 @@ import com.netxforge.netxstudio.screens.common.tables.TableHelper.TBVCFeatureSor
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionWizard;
-import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
+import com.netxforge.netxstudio.screens.showins.ChartInput;
 
 /**
  * 
@@ -158,18 +158,22 @@ public class SmartChartScreen extends AbstractScreen implements
 
 		markersTableViewer = new TableViewer(composite, SWT.BORDER
 				| SWT.FULL_SELECTION);
-		markersTableViewer.addSelectionChangedListener(new ISelectionChangedListener(){
+		markersTableViewer
+				.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			public void selectionChanged(SelectionChangedEvent event) {
-				ISelection selection = event.getSelection();
-				if(selection instanceof IStructuredSelection){
-					Object firstElement = ((IStructuredSelection) selection).getFirstElement();
-					if(firstElement instanceof ToleranceMarker){
-						smartResourceChart.showHover((ToleranceMarker)firstElement);
+					public void selectionChanged(SelectionChangedEvent event) {
+						ISelection selection = event.getSelection();
+						if (selection instanceof IStructuredSelection) {
+							Object firstElement = ((IStructuredSelection) selection)
+									.getFirstElement();
+							if (firstElement instanceof ToleranceMarker) {
+								smartResourceChart
+										.showHover((ToleranceMarker) firstElement);
+							}
+						}
+
 					}
-				}
-				
-			}});
+				});
 		table = markersTableViewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -477,14 +481,11 @@ public class SmartChartScreen extends AbstractScreen implements
 	@Override
 	public boolean handleShowIn(ShowInContext context) {
 
-		if (context.getInput() instanceof ChartShowInContext) {
+		if (context.getInput() instanceof ChartInput) {
 
-			ChartShowInContext chartInput = (ChartShowInContext) context
-					.getInput();
+			final ChartInput chartInput = (ChartInput) context.getInput();
 
-			// Do we care about the selection??
-
-			ISelection selection = context.getSelection();
+			final ISelection selection = context.getSelection();
 			NetXResource netXResource = null;
 			if (selection instanceof IStructuredSelection) {
 				if (((IStructuredSelection) selection).getFirstElement() instanceof NetXResource) {
@@ -500,14 +501,16 @@ public class SmartChartScreen extends AbstractScreen implements
 					(IStructuredSelection) selection, true);
 
 			if (wiz instanceof ValueRangeSelectionWizard) {
-				MetricValueRange valueRange = ((ValueRangeSelectionWizard) wiz)
+				final MetricValueRange valueRange = ((ValueRangeSelectionWizard) wiz)
 						.getValueRange();
 				chartInput.setInterval(valueRange.getIntervalHint());
 			}
-
+			
+			
+			
+			// TODO, Remove monitoring. 
 			chartModel = new ChartModel(modelUtils, chartInput.getPeriod(),
-					chartInput.getInterval(), netXResource,
-					chartInput.getResourceMonitor(), null);
+					chartInput.getInterval(), netXResource, null, null);
 
 			this.initDataBindings_();
 

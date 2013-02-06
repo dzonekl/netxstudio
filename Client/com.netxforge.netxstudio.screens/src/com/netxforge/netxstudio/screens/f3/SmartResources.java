@@ -190,7 +190,7 @@ import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
 import com.netxforge.netxstudio.screens.f2.LazyResourcesComponent;
 import com.netxforge.netxstudio.screens.f2.NewEditResource;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
-import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
+import com.netxforge.netxstudio.screens.showins.ChartInput;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
@@ -2852,39 +2852,23 @@ public class SmartResources extends AbstractScreen implements
 	@Override
 	public ShowInContext getShowIn(ISelection selection) {
 
-		ChartShowInContext chartInput = new ChartShowInContext();
-
-		DateTimeRange period = contextAggregate.getPeriod();
+		final DateTimeRange period = contextAggregate.getPeriod();
+		final ChartInput chartInput = new ChartInput();
+		
 		chartInput.setPeriod(period);
-
 		chartInput.setInterval(ModelUtils.MINUTES_IN_AN_HOUR);
-
-		// FIXME Refactor to MonitoringStateModel
-
-		// Get the resource monitor from the monitroingAggregate.
-		// ResourceMonitor resourceMonitorForNetXResource = monitoringAggregate
-		// .getResourceMonitorForNetXResource(contextAggregate
-		// .getCurrentNetXResource());
-
-		// chartInput.setResourceMonitor(resourceMonitorForNetXResource);
-
-		// Do not use it from the test Processor.
-		// if (resultProcessor.getToleranceProcessor().getResourceMonitor() !=
-		// null) {
-		// chartInput.setResourceMonitor(resultProcessor
-		// .getToleranceProcessor().getResourceMonitor());
-		// }
+	
 
 		// Note the selection for Values, override for the Value selection by
 		// the netxresource
 		// selection. The Value, could still be passed on to sync the selection
 		// in the chart?
-		StructuredSelection netXResourceSelection = contextAggregate
+		final StructuredSelection netXResourceSelection = contextAggregate
 				.getCurrentNetXResource() != null ? new StructuredSelection(
 				contextAggregate.getCurrentNetXResource()) : null;
 
 		// create a chart show in.
-		ShowInContext showInContext = new ShowInContext(chartInput,
+		final ShowInContext showInContext = new ShowInContext(chartInput,
 				netXResourceSelection);
 
 		return showInContext;
