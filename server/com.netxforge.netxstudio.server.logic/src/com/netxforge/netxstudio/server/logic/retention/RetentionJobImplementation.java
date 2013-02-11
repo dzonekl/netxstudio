@@ -47,6 +47,7 @@ public class RetentionJobImplementation extends JobImplementation {
 			final RetentionLogic retentionLogic = ServerActivator.getInstance()
 					.getInjector().getInstance(RetentionLogic.class);
 			retentionLogic.setJobMonitor(getRunMonitor());
+			
 			MetricRetentionRules rules = (MetricRetentionRules) res
 					.getContents().get(0);
 			retentionLogic.setRules(rules);
@@ -55,7 +56,7 @@ public class RetentionJobImplementation extends JobImplementation {
 			retentionLogic.close();
 			getDataProvider().commitTransaction();
 		} else {
-			// No rules, data corruption...?
+			// No rules or more rules..., data corruption...?
 		}
 	}
 

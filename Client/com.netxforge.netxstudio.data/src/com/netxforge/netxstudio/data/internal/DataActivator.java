@@ -74,7 +74,7 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
 	
-	static BundleContext getContext() {
+	public static BundleContext getContext() {
 		return context;
 	}
 

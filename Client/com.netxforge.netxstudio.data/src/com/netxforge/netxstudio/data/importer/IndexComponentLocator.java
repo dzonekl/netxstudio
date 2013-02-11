@@ -48,7 +48,7 @@ public class IndexComponentLocator extends JobChangeAdapter implements
 	@Inject
 	private ModelUtils modelUtils;
 
-	IDataProvider dataProvider;
+	private IDataProvider dataProvider;
 
 	private boolean initialized = false;
 

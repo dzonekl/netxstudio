@@ -38,6 +38,20 @@ public class ServerCDODataProvider extends CDODataProvider {
 
 	@Override
 	public void commitTransaction() {
+
+		if (ServerActivator.DEBUG) {
+			if (transaction != null) {
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_SERVER_CDO_OPTION,
+						"COMMIT transaction ID=" + transaction.getViewID()
+								+ " , Updated last on:"
+								+ new Date(transaction.getLastCommitTime()));
+			}else{
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_SERVER_CDO_OPTION,
+						"COMMIT transaction ID=" + "? (New transaction will be created)");
+			}
+		}
 		super.commitTransaction(SERVER_COMMIT_COMMENT);
 	}
 

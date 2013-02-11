@@ -112,7 +112,7 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 
 		for (EObject eo : resource.getContents()) {
 			if (eo instanceof Operator) {
-				List<Component> componentsForOperator = modelUtils
+				final List<Component> componentsForOperator = modelUtils
 						.componentsForOperator((Operator) eo);
 				allComponents.addAll(componentsForOperator);
 			}
@@ -120,12 +120,12 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 
 		int totalWork = allComponents.size();
 
-		SubMonitor cacheBuildWork = SubMonitor.convert(monitor, totalWork);
+		final SubMonitor cacheBuildWork = SubMonitor.convert(monitor, totalWork);
 
 		// Create a subprogress monitor for this expected work.
 		for (Component c : allComponents) {
 
-			ComponentIndexEntry valueFor = ComponentIndexEntry.valueFor(c);
+			final ComponentIndexEntry valueFor = ComponentIndexEntry.valueFor(c);
 
 			if (valueFor != null) {
 				if (DataActivator.DEBUG) {
@@ -350,7 +350,7 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 						cachedIndex.add(entryForComponent);
 					}
 				}
-				System.out.println(entryForComponent.toString());
+//				System.out.println(entryForComponent.toString());
 			}
 		}
 	}
