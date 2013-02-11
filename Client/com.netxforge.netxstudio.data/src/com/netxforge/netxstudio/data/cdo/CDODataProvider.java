@@ -501,21 +501,43 @@ public abstract class CDODataProvider implements IDataProvider {
 			if (resource == null) {
 				final CDOTransaction transaction = getSession()
 						.openTransaction();
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(DataActivator.TRACE_DATA_OPTION,
+							"Creating resource with path: " + resourcePath
+									+ " from transaction ["
+									+ transaction.getSession().getSessionID()
+									+ ":" + transaction.getViewID() + "]");
+				}
 				return transaction.getOrCreateResource(resourcePath);
+			} else {
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(DataActivator.TRACE_DATA_OPTION,
+							"Resolved resource with path: " + resourcePath
+									+ " from transaction ["
+									+ resource.cdoView().getSessionID() + ":"
+									+ resource.cdoView().getViewID() + "]");
+				}
+				return resource;
 			}
-			return resource;
 		} else {
 
 			try {
-
-				return getTransaction().getOrCreateResource(resourcePath);
-
+				
+				final CDOResource resource = getTransaction().getOrCreateResource(resourcePath);
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(DataActivator.TRACE_DATA_OPTION,
+							"Resolved resource with path: " + resourcePath
+									+ " from transaction ["
+									+ resource.cdoView().getSessionID() + ":"
+									+ resource.cdoView().getViewID() + "]");
+				}
+				return resource;
 			} catch (CDOException ce) {
-				System.out.println("DATAPROVIDER: error creating resource: "
-						+ resourcePath);
-				ce.printStackTrace();
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(DataActivator.TRACE_DATA_OPTION,
+							"error creating resource: " + resourcePath, ce);
+				}
 				return this.createResourceWithFolderFirst(resourcePath);
-				// return null;
 			}
 		}
 	}
@@ -645,7 +667,5 @@ public abstract class CDODataProvider implements IDataProvider {
 			setTransaction(null);
 		}
 	}
-	
-	
-	
+
 }

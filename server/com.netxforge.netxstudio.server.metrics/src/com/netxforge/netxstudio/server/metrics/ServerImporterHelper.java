@@ -96,7 +96,7 @@ public class ServerImporterHelper implements IImporterHelper {
 
 	public IDataProvider getDataProvider() {
 		// get it from the serverside
-		IDataProvider dataProvider = MetricsActivator.getInstance()
+		final IDataProvider dataProvider = MetricsActivator.getInstance()
 				.getInjector().getInstance(LocalDataProviderProvider.class)
 				.getDataProvider();
 		// Set in the importer so we are called only once.

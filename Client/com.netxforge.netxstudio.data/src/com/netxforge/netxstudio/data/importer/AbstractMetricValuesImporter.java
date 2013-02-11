@@ -151,17 +151,35 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	public void process() {
 
 		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.traceEntry(DataActivator.TRACE_IMPORT_OPTION,
+			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
 					"Start processing import");
 		}
 
 		initializeProviders(componentLocator);
-
-		// Make sure our locator is ready.
-		while (!componentLocator.isInitialized()) {
-			System.out.println("waiting locator not ready...");
+		
+		
+		int totalSeconds = 0;  
+		
+		// Wait synchronized. 
+		synchronized (this) {
+			while (!componentLocator.isInitialized()) {
+				try {
+					if (DataActivator.DEBUG) {
+						DataActivator.TRACE
+								.trace(DataActivator.TRACE_IMPORT_OPTION,
+										"Yawn.... waiting for locator (" + totalSeconds + " sec)");
+					}
+					this.wait(1000);
+					totalSeconds++;
+				} catch (InterruptedException e) {
+					if (DataActivator.DEBUG) {
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_IMPORT_OPTION,
+								"Error while waiting for locator.", e);
+					}
+				}
+			}
 		}
-		System.out.println("Locator ready...");
 
 		final long startTime = System.currentTimeMillis();
 		long endTime = startTime;
@@ -787,7 +805,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 										.iterator().next();
 							}
 						}
-						
+
 						if (DataActivator.DEBUG) {
 							DataActivator.TRACE
 									.trace(DataActivator.TRACE_IMPORT_OPTION,
@@ -802,15 +820,15 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 						}
 
 						if (locatedComponent == null) {
-							// As we are now doing the metric matching, we set the failed identifiers
-							// to be the identifiers last used for component lookup. 
-							
-							
+							// As we are now doing the metric matching, we set
+							// the failed identifiers
+							// to be the identifiers last used for component
+							// lookup.
+
 							createNotFoundNetworkElementMappingRecord(
 									getValueDataKind(column).getMetricRef(),
 									rowNum, elementIdentifiers,
-									elementIdentifiers,
-									getFailedRecords());
+									elementIdentifiers, getFailedRecords());
 							continue;
 						}
 
@@ -954,71 +972,71 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	 * @param path
 	 * @param resource
 	 */
-//	public void addToNode(EObject originalEObject, EObject eObject,
-//			List<Integer> path, NetXResource resource) {
-//		final EObject container = eObject.eContainer();
-//		if (container instanceof Node) {
-//			final NodeType nodeType = ((Node) container)
-//					.getOriginalNodeTypeRef();
-//			List<?> componentObjects;
-//			if (originalEObject instanceof Equipment) {
-//				componentObjects = nodeType.getEquipments();
-//			} else {
-//				componentObjects = nodeType.getFunctions();
-//			}
-//			Object currentObject = null;
-//			for (final Integer index : path) {
-//
-//				if (componentObjects.size() > index) {
-//					currentObject = componentObjects.get(index);
-//
-//					if (originalEObject instanceof Equipment) {
-//						componentObjects = ((Equipment) currentObject)
-//								.getEquipments();
-//					} else {
-//						componentObjects = ((Function) currentObject)
-//								.getFunctions();
-//					}
-//				}
-//
-//			}
-//			boolean found = false;
-//			for (final NetXResource netxResource : ((Component) currentObject)
-//					.getResourceRefs()) {
-//				if (netxResource.getMetricRef() == resource.getMetricRef()) {
-//					found = true;
-//					break;
-//				}
-//			}
-//			if (!found) {
-//				final NetXResource copiedNetXResource = EcoreUtil
-//						.copy(resource);
-//
-//				String cdoResourcePath = modelUtils
-//						.cdoCalculateResourcePathII((EObject) currentObject);
-//
-//				if (cdoResourcePath != null) {
-//					final Resource emfNetxResource = getDataProvider()
-//							.getResource(cdoResourcePath);
-//					emfNetxResource.getContents().add(copiedNetXResource);
-//					((Component) currentObject).getResourceRefs().add(
-//							copiedNetXResource);
-//				} else {
-//					if (DataActivator.DEBUG) {
-//						DataActivator.TRACE
-//								.trace(DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-//										"Invalid CDO Resource path, component name likely not set");
-//					}
-//					return;
-//				}
-//			}
-//		} else {
-//			final EStructuralFeature eFeature = eObject.eContainingFeature();
-//			final List<?> values = (List<?>) container.eGet(eFeature);
-//			path.add(0, values.indexOf(eObject));
-//			addToNode(originalEObject, container, path, resource);
-//		}
-//	}
+	// public void addToNode(EObject originalEObject, EObject eObject,
+	// List<Integer> path, NetXResource resource) {
+	// final EObject container = eObject.eContainer();
+	// if (container instanceof Node) {
+	// final NodeType nodeType = ((Node) container)
+	// .getOriginalNodeTypeRef();
+	// List<?> componentObjects;
+	// if (originalEObject instanceof Equipment) {
+	// componentObjects = nodeType.getEquipments();
+	// } else {
+	// componentObjects = nodeType.getFunctions();
+	// }
+	// Object currentObject = null;
+	// for (final Integer index : path) {
+	//
+	// if (componentObjects.size() > index) {
+	// currentObject = componentObjects.get(index);
+	//
+	// if (originalEObject instanceof Equipment) {
+	// componentObjects = ((Equipment) currentObject)
+	// .getEquipments();
+	// } else {
+	// componentObjects = ((Function) currentObject)
+	// .getFunctions();
+	// }
+	// }
+	//
+	// }
+	// boolean found = false;
+	// for (final NetXResource netxResource : ((Component) currentObject)
+	// .getResourceRefs()) {
+	// if (netxResource.getMetricRef() == resource.getMetricRef()) {
+	// found = true;
+	// break;
+	// }
+	// }
+	// if (!found) {
+	// final NetXResource copiedNetXResource = EcoreUtil
+	// .copy(resource);
+	//
+	// String cdoResourcePath = modelUtils
+	// .cdoCalculateResourcePathII((EObject) currentObject);
+	//
+	// if (cdoResourcePath != null) {
+	// final Resource emfNetxResource = getDataProvider()
+	// .getResource(cdoResourcePath);
+	// emfNetxResource.getContents().add(copiedNetXResource);
+	// ((Component) currentObject).getResourceRefs().add(
+	// copiedNetXResource);
+	// } else {
+	// if (DataActivator.DEBUG) {
+	// DataActivator.TRACE
+	// .trace(DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+	// "Invalid CDO Resource path, component name likely not set");
+	// }
+	// return;
+	// }
+	// }
+	// } else {
+	// final EStructuralFeature eFeature = eObject.eContainingFeature();
+	// final List<?> values = (List<?>) container.eGet(eFeature);
+	// path.add(0, values.indexOf(eObject));
+	// addToNode(originalEObject, container, path, resource);
+	// }
+	// }
 
 	public String toValidExpressionName(String value) {
 		final StringBuilder sb = new StringBuilder();
@@ -1257,8 +1275,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			} finally {
 				if (DataActivator.DEBUG) {
 					DataActivator.TRACE.trace(
-							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-							"TS is " + returnDate);
+							DataActivator.TRACE_IMPORT_DETAILS_OPTION, "TS is "
+									+ returnDate);
 				}
 			}
 			return returnDate;

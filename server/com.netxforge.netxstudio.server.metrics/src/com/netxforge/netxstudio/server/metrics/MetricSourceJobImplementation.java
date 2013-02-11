@@ -40,6 +40,7 @@ import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
  * Implements a job runner for a metric source.
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
 public class MetricSourceJobImplementation extends JobImplementation {
 
@@ -80,7 +81,7 @@ public class MetricSourceJobImplementation extends JobImplementation {
 			sih.setActivator(ServerActivator.getInstance());
 			
 			// Get the job service, so we can check the status of the scheduler.
-			ServiceReference<JobHandler> serviceReference = MetricsActivator
+			final ServiceReference<JobHandler> serviceReference = MetricsActivator
 					.getContext().getServiceReference(JobHandler.class);
 			if (serviceReference == null) {
 				throw new IllegalStateException(
@@ -89,6 +90,7 @@ public class MetricSourceJobImplementation extends JobImplementation {
 			}
 			final Object service = MetricsActivator.getContext().getService(
 					serviceReference);
+			
 			if (!(service instanceof JobHandler)) {
 				throw new IllegalStateException(
 						"Can't locate job handler services, could be timing that the service has not been instantiated by CDO yet.");
