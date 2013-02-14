@@ -134,9 +134,9 @@ public abstract class BaseLogic {
 		return dataProvider;
 	}
 
-	public void setDataProvider(IDataProvider dataProvider) {
-		this.dataProvider = dataProvider;
-	}
+//	public void setDataProvider(IDataProvider dataProvider) {
+//		this.dataProvider = dataProvider;
+//	}
 
 	public List<Failure> getFailures() {
 		return failures;

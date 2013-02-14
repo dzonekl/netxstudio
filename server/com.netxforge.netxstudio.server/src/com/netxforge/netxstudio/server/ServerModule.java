@@ -51,6 +51,7 @@ public class ServerModule extends AbstractModule {
 	 */
 	@Override
 	protected void configure() {
+		
 		this.bind(ICDOConnection.class).annotatedWith(Server.class)
 				.to(ServerCDOConnection.class);
 		this.bind(IDataProvider.class).annotatedWith(Server.class)

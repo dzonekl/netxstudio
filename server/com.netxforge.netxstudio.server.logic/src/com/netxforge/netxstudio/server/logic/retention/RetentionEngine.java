@@ -21,8 +21,8 @@ package com.netxforge.netxstudio.server.logic.retention;
 import java.util.List;
 
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.spi.cdo.FSMUtil;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -224,11 +224,12 @@ public class RetentionEngine extends BaseComponentEngine {
 									utilizationValues);
 						}
 					}
-					
+
 					final MetricValueRange mvr = this.getModelUtils()
 							.valueRangeForInterval(netXResource, intervalHint);
 
-					if (mvr != null && !mvr.getMetricValues().isEmpty()) {
+					if (mvr != null && !mvr.getMetricValues().isEmpty()
+							&& FSMUtil.isClean(mvr)) {
 
 						LogicActivator.TRACE.trace(
 								LogicActivator.TRACE_RETENTION_OPTION,
@@ -258,13 +259,22 @@ public class RetentionEngine extends BaseComponentEngine {
 						commitInbetween(netXResource.cdoView());
 
 					} else {
-						LogicActivator.TRACE.trace(
-								LogicActivator.TRACE_RETENTION_OPTION,
-								"no range or emty for resource: "
-										+ this.getModelUtils()
-												.printModelObject(netXResource)
-										+ " Interval= "
-										+ rule.getIntervalHint());
+
+						if (mvr == null || mvr.getMetricValues().isEmpty()) {
+							LogicActivator.TRACE.trace(
+									LogicActivator.TRACE_RETENTION_OPTION,
+									"no range or emty for resource: "
+											+ this.getModelUtils()
+													.printModelObject(
+															netXResource)
+											+ " Interval= "
+											+ rule.getIntervalHint());
+						} else {
+							LogicActivator.TRACE.trace(
+									LogicActivator.TRACE_RETENTION_OPTION,
+									"Attempt to query uncommited object: "
+											+ mvr);
+						}
 
 					}
 				}
@@ -366,7 +376,7 @@ public class RetentionEngine extends BaseComponentEngine {
 
 	@Override
 	public Failure getFailure() {
-		ComponentFailure f = SchedulingFactory.eINSTANCE
+		final ComponentFailure f = SchedulingFactory.eINSTANCE
 				.createComponentFailure();
 		f.setComponentRef(this.getComponent());
 		return f;
@@ -391,10 +401,32 @@ public class RetentionEngine extends BaseComponentEngine {
 
 	private void commitInbetween(CDOView cdoView) {
 		if (cdoView instanceof CDOTransaction) {
+			CDOTransaction transaction = (CDOTransaction) cdoView;
 			try {
-				((CDOTransaction) cdoView).commit();
-			} catch (CommitException e) {
-				e.printStackTrace();
+				transaction.commit();
+			} catch (Throwable t) {
+				// Process the result.
+				StringBuilder sb = new StringBuilder();
+				sb.append(t.getMessage());
+
+				if (t.getCause() != null) {
+					sb.append(t.getCause().getMessage());
+				}
+
+				final Failure failure = this.getFailure();
+				this.getFailures().add(failure);
+
+				// Remove later.
+				t.printStackTrace();
+
+				// Also in the log.
+				if (LogicActivator.DEBUG) {
+					LogicActivator.TRACE.trace(
+							LogicActivator.TRACE_RETENTION_OPTION,
+							"Error committing: ", t);
+				}
+				// Restore the transaction to proceed. 
+				transaction.rollback();
 			}
 		}
 	}
