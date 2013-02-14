@@ -16,7 +16,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic.monitoring;
+package com.netxforge.netxstudio.server.logic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,6 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Failure;
-import com.netxforge.netxstudio.server.logic.BasePeriodLogic;
 
 /**
  * Common code for all logic implementations.

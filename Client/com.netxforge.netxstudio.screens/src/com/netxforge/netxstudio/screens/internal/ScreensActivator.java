@@ -67,12 +67,6 @@ public class ScreensActivator extends AbstractUIPlugin implements
 		return injector;
 	}
 
-	/**
-	 * The constructor
-	 */
-	public ScreensActivator() {
-	}
-
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);

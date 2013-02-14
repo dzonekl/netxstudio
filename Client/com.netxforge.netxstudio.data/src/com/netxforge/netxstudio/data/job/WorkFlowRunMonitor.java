@@ -26,28 +26,39 @@ import com.netxforge.netxstudio.scheduling.JobRunState;
  * @author Martin Taal
  */
 public abstract class WorkFlowRunMonitor implements IRunMonitor {
+
 	private int totalWork;
 	private int workDone;
 	private String msg;
 	private String task;
 	private StringBuilder log = new StringBuilder();
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.job.IRunMonitor#appendToLog(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.server.job.IRunMonitor#appendToLog(java.lang
+	 * .String)
 	 */
 	public void appendToLog(String logStatement) {
 		log.append("\n" + logStatement);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.server.job.IRunMonitor#getLog()
 	 */
 	public String getLog() {
 		return log.toString();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.job.IRunMonitor#incrementProgress(int, boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.server.job.IRunMonitor#incrementProgress(int,
+	 * boolean)
 	 */
 	public void incrementProgress(int inc, boolean update) {
 		workDone += inc;
@@ -56,10 +67,12 @@ public abstract class WorkFlowRunMonitor implements IRunMonitor {
 		}
 	}
 
-	protected void update() {		
+	protected void update() {
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.server.job.IRunMonitor#getProgress()
 	 */
 	public int getProgress() {
@@ -69,69 +82,106 @@ public abstract class WorkFlowRunMonitor implements IRunMonitor {
 		return (100 * workDone / totalWork);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.server.job.IRunMonitor#getTotalWork()
 	 */
 	public int getTotalWork() {
 		return totalWork;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.server.job.IRunMonitor#setTotalWork(int)
 	 */
 	public void setTotalWork(int totalWork) {
 		this.totalWork = totalWork;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.server.job.IRunMonitor#getWorkDone()
 	 */
 	public int getWorkDone() {
 		return workDone;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.server.job.IRunMonitor#setWorkDone(int)
 	 */
 	public void setWorkDone(int workDone) {
 		this.workDone = workDone;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.server.job.IRunMonitor#getMsg()
 	 */
 	public String getMsg() {
 		return msg;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.job.IRunMonitor#setMsg(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.server.job.IRunMonitor#setMsg(java.lang.String)
 	 */
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.server.job.IRunMonitor#getTask()
 	 */
 	public String getTask() {
 		return task;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.job.IRunMonitor#setTask(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.server.job.IRunMonitor#setTask(java.lang.String)
 	 */
 	public void setTask(String task) {
 		this.task = task;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.server.job.IRunMonitor#setStartRunning()
 	 */
 	public void setStartRunning() {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.job.IRunMonitor#setFinished(com.netxforge
+	 * .netxstudio.scheduling.JobRunState, java.lang.Throwable)
+	 */
 	public void setFinished(JobRunState state, Throwable t) {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.job.IRunMonitor#updateFailures(java.lang
+	 * .String)
+	 */
+	public void updateLog(String string) {
+
+	}
 }

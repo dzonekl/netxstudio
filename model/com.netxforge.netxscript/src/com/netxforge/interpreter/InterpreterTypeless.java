@@ -1521,9 +1521,6 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	 * Received the resource as the first parameter in the map. named 'resource'
 	 * Also notice this is a specialized map.
 	 * 
-	 * FIXME, REPLACE WITH DB QUERIES.
-	 * 
-	 * 
 	 * @param rr
 	 * @param values
 	 * @return
@@ -1547,8 +1544,12 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 							.valueRangeForIntervalAndKind(
 									(NetXResource) resource, targetKind,
 									targetInterval);
-					v = cdoQueryService.mvrValues(resource.cdoView(), mvr,
-							IQueryService.QUERY_MYSQL, dtr);
+					if (mvr != null) {
+						v = cdoQueryService.mvrValues(resource.cdoView(), mvr,
+								IQueryService.QUERY_MYSQL, dtr);
+					} else {
+						v = Lists.newArrayList();
+					}
 				} else {
 
 					v = modelUtils.valuesForIntervalKindAndPeriod(
@@ -1637,6 +1638,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	// /////////////////////////////////////
 
 	// See the Native function range handling rules.
+	@SuppressWarnings("unused")
 	protected Object internalEvaluate(NativeExpression ne,
 			ImmutableMap<String, Object> values) {
 

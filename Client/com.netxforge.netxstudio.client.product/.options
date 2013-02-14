@@ -5,6 +5,7 @@ com.netxforge.netxscript/debug=false
 com.netxforge.netxstudio.data/debug=false
 com.netxforge.nextstudio.common/debug=false
 com.netxforge.netxstudio.screens/debug=false
+com.netxforge.netxstudio.screens.xtext/debug=false
 com.netxforge.netxstudio.screens.editing/debug=false
 com.netxforge.netxstudio.models.export/debug=true
 com.netxforge.netxstudio.models.import/debug=true
@@ -16,7 +17,6 @@ com.netxforge.netxstudio.models.import/trace.manual.import=false
 com.netxforge.netxstudio.models.import/trace.manual.import.type=true
 com.netxforge.netxstudio.models.import/trace.manual.import.ui=true
 
-
 # NetXScript facilities
 com.netxforge.netxscript/trace.netxscript=true
 com.netxforge.netxscript/trace.netxscript.scoping=true
@@ -26,6 +26,9 @@ com.netxforge.netxscript/trace.netxscript.description=true
 # Screens facilities
 com.netxforge.netxstudio.screens/trace.screens=true;
 com.netxforge.netxstudio.screens/trace.screens.binding=true
+
+# Screens Xtext facilities (Embedded Xtext editors). 
+com.netxforge.netxstudio.screens.xtext/trace.screens.xtext=true;
 
 # Editing facilities
 com.netxforge.netxstudio.screens.editing/trace.editing=true

@@ -20,7 +20,6 @@ package com.netxforge.engine;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
@@ -36,7 +35,6 @@ import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.StringInputStream;
 
-import com.google.common.base.Joiner;
 import com.google.inject.Inject;
 import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.interpreter.IInterpreter;
@@ -107,8 +105,8 @@ public class ExpressionEngine implements IExpressionEngine {
 		throwable = null;
 		getExpressionResult().clear();
 
-		final String asString = this.asString(expression);
-		if (asString.trim().length() == 0) {
+		final String asString = this.modelUtils.expressionAsString(expression);
+		if (asString == null || asString.trim().length() == 0) {
 			return;
 		}
 
@@ -217,12 +215,6 @@ public class ExpressionEngine implements IExpressionEngine {
 
 	private EObject getModel(XtextResource resource) {
 		return resource.getParseResult().getRootASTElement();
-	}
-
-	private String asString(Expression expression) {
-		// TODO, check if the line feed is stored.
-		final Collection<String> lines = expression.getExpressionLines();
-		return Joiner.on("\n").join(lines);
 	}
 
 	private final XtextResource getResourceFromString(String model)

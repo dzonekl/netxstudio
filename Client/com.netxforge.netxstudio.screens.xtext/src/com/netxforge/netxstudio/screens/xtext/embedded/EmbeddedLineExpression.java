@@ -59,6 +59,7 @@ import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.xtext.EmbeddedXtextService;
+import com.netxforge.netxstudio.screens.xtext.internal.ScreensXtextActivator;
 
 /**
  * 
@@ -144,8 +145,14 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 			public void modelChanged(XtextResource resource) {
 				if (expression != null) {
 					xtextService.reconcileChangedModel(expression, xtextEditor);
-					System.out.println("Xtext editor: model changed Expr="
-							+ expression.getName());
+
+					if (ScreensXtextActivator.DEBUG) {
+						ScreensXtextActivator.TRACE
+								.trace(ScreensXtextActivator.TRACE_SCREENS_XTEXT_OPTION,
+										" model changed Expr="
+												+ expression.getName());
+					}
+
 					if (xtextEditor.getDocument().getLength() > 0
 							&& expression.cdoState() == CDOState.TRANSIENT) {
 						addData();
@@ -183,9 +190,12 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 			final Expression tmpExpression = (Expression) params[1];
 
 			String asString = xtextService.getAsString(tmpExpression);
-			System.out.println("Xtext editor: start loading, Expr="
-					+ tmpExpression.getName());
 
+			if (ScreensXtextActivator.DEBUG) {
+				ScreensXtextActivator.TRACE.trace(
+						ScreensXtextActivator.TRACE_SCREENS_XTEXT_OPTION,
+						"start loading, Expr=" + tmpExpression.getName());
+			}
 			// add a call back, to know when the expression for this screen can
 			// be set.
 			EmbeddedXtextEditor.ExpressionLoadingJob job = xtextEditor.update(
@@ -198,8 +208,13 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 					// CB We might have switched screen, for all we know.
 					// which will dispose the transaction.
 					EmbeddedLineExpression.this.expression = tmpExpression;
-					System.out.println("Xtext editor: done loading, Expr="
-							+ expression.getName());
+
+					if (ScreensXtextActivator.DEBUG) {
+						ScreensXtextActivator.TRACE
+								.trace(ScreensXtextActivator.TRACE_SCREENS_XTEXT_OPTION,
+										"done loading, Expr="
+												+ expression.getName());
+					}
 				}
 			});
 		}
@@ -226,12 +241,12 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 	}
 
 	public void clearData() {
-		// Make sure no updates to the editor are reconciled with the expression object. 
+		// Make sure no updates to the editor are reconciled with the expression
+		// object.
 		expression = null;
 		// Set an empty string in the editor.
 		xtextEditor.update("// Select a tolerance expression");
- 
-		
+
 	}
 
 	/**

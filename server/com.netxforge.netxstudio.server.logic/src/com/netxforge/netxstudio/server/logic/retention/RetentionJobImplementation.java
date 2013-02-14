@@ -59,9 +59,10 @@ public class RetentionJobImplementation extends JobImplementation {
 				aggregationLogic.setRules(rules);
 				aggregationLogic.intializeLogic();
 				aggregationLogic.runWithoutClosing();
-				aggregationLogic.close();
-
+				aggregationLogic.closeLogic(); 
 			}
+			
+			this.getRunMonitor().setWorkDone(0); // Reset it's a hack, we need sub monitors for sub tasks! 
 			
 			// Retention. 
 			final RetentionLogic retentionLogic = LogicActivator.getInstance()

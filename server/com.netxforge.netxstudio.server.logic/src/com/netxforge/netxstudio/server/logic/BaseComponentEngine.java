@@ -16,10 +16,9 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic.monitoring;
+package com.netxforge.netxstudio.server.logic;
 
 import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.server.logic.BaseExpressionEngine;
 
 /**
  * Adds a component context to the expression engine. 

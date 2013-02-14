@@ -40,19 +40,19 @@ import com.netxforge.netxstudio.server.Server;
  */
 public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 	private CDOID workFlowRunId;
-	
+
 	@Inject
 	@Server
 	private IDataProvider dataProvider;
-	
+
 	@Inject
 	private ModelUtils modelUtils;
-	
-	
+
 	@Override
 	public void update() {
 		dataProvider.openSession();
-		final WorkFlowRun wfRun = (WorkFlowRun)dataProvider.getTransaction().getObject(workFlowRunId);
+		final WorkFlowRun wfRun = (WorkFlowRun) dataProvider.getTransaction()
+				.getObject(workFlowRunId);
 		wfRun.setProgress(getProgress());
 		wfRun.setProgressMessage(getMsg());
 		wfRun.setProgressTask(getTask());
@@ -67,12 +67,13 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 	public void setWorkFlowRunId(CDOID workFlowRunId) {
 		this.workFlowRunId = workFlowRunId;
 	}
-	
+
 	@Override
 	public void setStartRunning() {
 		dataProvider.openSession();
 		dataProvider.getTransaction();
-		final WorkFlowRun wfRun = (WorkFlowRun)dataProvider.getTransaction().getObject(workFlowRunId);
+		final WorkFlowRun wfRun = (WorkFlowRun) dataProvider.getTransaction()
+				.getObject(workFlowRunId);
 		wfRun.setState(JobRunState.RUNNING);
 		wfRun.setStarted(modelUtils.toXMLDate(new Date()));
 		wfRun.setProgress(0);
@@ -83,28 +84,55 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 	@Override
 	public void setFinished(JobRunState state, Throwable t) {
 		dataProvider.openSession();
-		final WorkFlowRun wfRun = (WorkFlowRun)dataProvider.getTransaction().getObject(workFlowRunId);
+		final WorkFlowRun wfRun = (WorkFlowRun) dataProvider.getTransaction()
+				.getObject(workFlowRunId);
 		if (t != null) {
 			wfRun.setState(JobRunState.FINISHED_WITH_ERROR);
 			final StringWriter sw = new StringWriter();
-			final PrintWriter pw = new PrintWriter(sw);					
+			final PrintWriter pw = new PrintWriter(sw);
+
 			t.printStackTrace(pw);
-			wfRun.setLog(getLog() + "\n" + t.getMessage() + "\n" + sw.toString());
+
+			// Truncate the exception to fix #. chars.
+			String newLog = getLog() + "\n" + t.getMessage() + "\n" + sw;
+			if (newLog.length() > 0) {
+				if (newLog.length() > 20000) {
+					wfRun.setLog(newLog.substring(0, 19999)); // Truncate to
+																// slightly
+																// smaller
+																// than...
+				} else {
+					wfRun.setLog(newLog);
+				}
+			}
 		} else {
 			wfRun.setState(state);
 			if (getLog().length() > 0) {
-				
 				String string = getLog().toString();
-				if(string.length() > 20000){
-					System.out.println("log overrun!");
-					wfRun.setLog("log overrun! > 20k characters");
-				}else{
+				if (string.length() > 20000) {
+					wfRun.setLog(string.substring(0, 19999)); // Truncate to
+																// slightly
+																// smaller
+																// than...
+				} else {
 					wfRun.setLog(string);
 				}
 			}
 			wfRun.setProgress(100);
 		}
 		wfRun.setEnded(modelUtils.toXMLDate(new Date()));
+		dataProvider.commitTransaction();
+		dataProvider.closeSession();
+	}
+
+	@Override
+	public void updateLog(String string) {
+		// Update the log.
+
+		dataProvider.openSession();
+		final WorkFlowRun wfRun = (WorkFlowRun) dataProvider.getTransaction()
+				.getObject(workFlowRunId);
+		wfRun.setLog(getLog() + "\n" + string);
 		dataProvider.commitTransaction();
 		dataProvider.closeSession();
 	}

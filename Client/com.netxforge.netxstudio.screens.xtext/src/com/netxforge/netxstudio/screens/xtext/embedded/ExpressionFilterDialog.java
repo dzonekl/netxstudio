@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.screens.xtext.internal.Activator;
+import com.netxforge.netxstudio.screens.xtext.internal.ScreensXtextActivator;
 
 public class ExpressionFilterDialog extends FilteredItemsSelectionDialog {
 	private final Resource resource;
@@ -103,11 +103,11 @@ public class ExpressionFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
-		IDialogSettings settings = Activator.getDefault()
+		IDialogSettings settings = ScreensXtextActivator.getDefault()
 				.getDialogSettings().getSection("Expressiondialog");
 
 		if (settings == null) {
-			settings = Activator.getDefault().getDialogSettings()
+			settings = ScreensXtextActivator.getDefault().getDialogSettings()
 					.addNewSection("Expressiondialog");
 		}
 		return settings;

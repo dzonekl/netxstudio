@@ -48,5 +48,7 @@ public interface IRunMonitor {
 	public abstract void setStartRunning();
 
 	public abstract void setFinished(JobRunState state, Throwable t);
-
+	
+	public void updateLog(String string);
+	
 }
