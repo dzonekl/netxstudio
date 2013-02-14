@@ -25,12 +25,12 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.internal.ServerActivator;
 import com.netxforge.netxstudio.server.job.JobImplementation;
+import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 
 /**
- * Implements a job runner for retention logic. 
- * Although the logic, supports setting a period, we set it dynamically. 
+ * Implements a job runner for retention logic. Although the logic, supports
+ * setting a period, we set it dynamically.
  * 
  * 
  * @author Martin Taal
@@ -44,17 +44,45 @@ public class RetentionJobImplementation extends JobImplementation {
 		Resource res = this.getDataProvider().getResource(
 				MetricsPackage.Literals.METRIC_RETENTION_RULES);
 		if (res.getContents().size() == 1) {
-			final RetentionLogic retentionLogic = ServerActivator.getInstance()
-					.getInjector().getInstance(RetentionLogic.class);
-			retentionLogic.setJobMonitor(getRunMonitor());
-			
-			MetricRetentionRules rules = (MetricRetentionRules) res
+
+			final MetricRetentionRules rules = (MetricRetentionRules) res
 					.getContents().get(0);
-			retentionLogic.setRules(rules);
-			retentionLogic.intializeRentionLogic(); // Set an evaluation period. 
-			retentionLogic.runWithoutClosing();
-			retentionLogic.close();
+			
+			
+			// Aggregation 
+			final AggregationLogic aggregationLogic = LogicActivator
+					.getInstance().getInjector()
+					.getInstance(AggregationLogic.class);
+
+			aggregationLogic.setJobMonitor(getRunMonitor());
+			{
+				aggregationLogic.setRules(rules);
+				aggregationLogic.intializeLogic();
+				aggregationLogic.runWithoutClosing();
+				aggregationLogic.close();
+
+			}
+			
+			// Retention. 
+			final RetentionLogic retentionLogic = LogicActivator.getInstance()
+					.getInjector().getInstance(RetentionLogic.class);
+
+			retentionLogic.setJobMonitor(getRunMonitor());
+
+			{
+				retentionLogic.setRules(rules);
+				retentionLogic.intializeRentionLogic(); // Set an evaluation
+														// period.
+				retentionLogic.runWithoutClosing();
+
+				// This will change the status, FIXME, Allow the monitor to
+				// restart?
+				retentionLogic.close();
+
+			}
+
 			getDataProvider().commitTransaction();
+
 		} else {
 			// No rules or more rules..., data corruption...?
 		}

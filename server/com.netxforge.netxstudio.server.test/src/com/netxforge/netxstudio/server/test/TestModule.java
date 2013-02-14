@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.server.test.base;
+package com.netxforge.netxstudio.server.test;
 
 import static com.google.inject.util.Modules.override;
 

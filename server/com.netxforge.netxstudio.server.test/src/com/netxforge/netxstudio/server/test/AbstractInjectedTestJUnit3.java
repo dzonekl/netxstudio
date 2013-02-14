@@ -21,7 +21,6 @@ import junit.framework.TestCase;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.server.test.base.TestModule;
 
 /**
  * Gives access to a Guice injector. 

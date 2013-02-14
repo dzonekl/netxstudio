@@ -23,10 +23,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.eresource.CDOResource;
-import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.cdo.util.CommitException;
-import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.netxforge.netxstudio.library.Component;
@@ -43,12 +39,12 @@ import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentLogic;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
- * Performs the retention logic for a RFSService, node type or component.
+ * Performs the aggregation logic for a RFSService, node type or component.
  * 
  * @author Martin Taal
  * @author Christophe Bouhier
  */
-public class RetentionLogic extends BaseComponentLogic {
+public class AggregationLogic extends BaseComponentLogic {
 
 	
 	/**
@@ -101,7 +97,7 @@ public class RetentionLogic extends BaseComponentLogic {
 	protected BaseExpressionEngine getEngine() {
 		if (engine == null) {
 			engine = LogicActivator.getInstance().getInjector()
-					.getInstance(RetentionEngine.class);
+					.getInstance(AggregationEngine.class);
 		}
 		return engine;
 	}
@@ -124,8 +120,8 @@ public class RetentionLogic extends BaseComponentLogic {
 		engine.setDataProvider(this.getDataProvider());
 		engine.setPeriod(this.getPeriod());
 		
-		if(engine instanceof RetentionEngine){
-			((RetentionEngine) engine).setRetentionRules(rules);
+		if(engine instanceof AggregationEngine){
+			((AggregationEngine) engine).setRetentionRules(rules);
 		}
 		
 		engine.execute();
@@ -146,9 +142,6 @@ public class RetentionLogic extends BaseComponentLogic {
 //				}
 //			}
 		}
-		
-		
-
 	}
 
 	public RFSService getRfsService() {
@@ -187,7 +180,7 @@ public class RetentionLogic extends BaseComponentLogic {
 	/**
 	 * Initialized the static part of the logic. This is the evaluation period of the logic. 
 	 */
-	public void intializeRentionLogic(){
+	public void intializeLogic(){
 		
 		Date end = this.getModelUtils().todayAtDayEnd();
 		Date begin = this.getModelUtils().yearsAgo(YEARS_TO_EVALUATE);

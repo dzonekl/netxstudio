@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 16, 2012 NetXForge.
+ * Copyright (c) 13 feb. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,37 +14,26 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.server.test;
 
-import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.server.internal.ServerActivator;
 
 /**
- * Gives access to multiple Guice injectors. 
- * The first injector is for a Server setup. 
+ * Gives the injector as produced in an Activator. 
  * 
  */
-public abstract class AbstractInjectedTestJUnit4 {
+public class InjectorForService {
 
-	private Injector injector;
 	
-	protected ModelUtils modelUtils;
-
-	public AbstractInjectedTestJUnit4() {
-		injector = createInjector();
-		modelUtils = injector.getInstance(ModelUtils.class);
+	public Injector injectorFor(Class<?> claxx){
+		if( claxx == ServerActivator.class){
+			return ServerActivator.get
+		}
+		
+		
 	}
-
-	protected Injector createInjector() {
-		return Guice.createInjector(TestModule.getModule());
-	}
-
-	public Injector getInjector() {
-		if (injector == null)
-			throw new IllegalStateException("No injector set.");
-		return injector;
-	}
-
+	
+	
 }

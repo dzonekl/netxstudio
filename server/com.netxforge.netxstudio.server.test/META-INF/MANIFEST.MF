@@ -5,25 +5,25 @@ Bundle-SymbolicName: com.netxforge.netxstudio.server.test
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: NETXFORGE
 Eclipse-RegisterBuddy: com.netxforge.netxstudio.server.metrics
-Require-Bundle: org.eclipse.core.runtime,
+Require-Bundle: com.netxforge.netxstudio.models;bundle-version="1.0.0",
+ com.netxforge.netxstudio.data;bundle-version="1.0.0",
+ com.netxforge.netxstudio.server;bundle-version="1.0.0",
+ com.netxforge.netxstudio.server.metrics;bundle-version="1.0.0",
+ com.netxforge.netxstudio.server.logic;bundle-version="1.0.0",
+ org.eclipse.core.runtime,
  org.junit4;bundle-version="4.8.1",
  org.eclipse.emf.cdo;bundle-version="4.0.0",
  org.eclipse.emf.cdo.net4j;bundle-version="4.0.0",
  org.eclipse.net4j.tcp;bundle-version="4.0.0",
- com.netxforge.netxstudio.models;bundle-version="1.0.0",
  org.eclipse.emf.ecore.change;bundle-version="2.7.0",
  org.eclipse.emf.cdo.server.hibernate;bundle-version="4.0.0",
  org.eclipse.emf.edit;bundle-version="2.7.0",
- com.netxforge.netxstudio.server;bundle-version="1.0.0",
  org.apache.poi;bundle-version="1.0.0",
  com.google.inject;bundle-version="2.0.0",
- com.netxforge.netxstudio.data;bundle-version="1.0.0",
  org.eclipse.net4j.jvm;bundle-version="4.0.0",
  org.aopalliance;bundle-version="1.0.0",
- com.netxforge.netxstudio.server.metrics;bundle-version="1.0.0",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
  com.google.collect;bundle-version="1.0.0",
- com.netxforge.netxstudio.server.logic;bundle-version="1.0.0",
  org.snmp4j;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: com.netxforge.netxstudio.server.test,

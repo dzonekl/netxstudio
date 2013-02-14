@@ -79,9 +79,6 @@ public abstract class BaseExpressionEngine extends BaseEngine {
 			}
 		} catch (final Throwable t) {
 
-			// TODO, We need some smarter interpretation of the throwables, 
-			// to give instant feedback on the expression failures. 
-
 			StringBuilder sb = new StringBuilder();
 			sb.append(t.getMessage());
 
