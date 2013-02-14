@@ -413,7 +413,7 @@ public class Fixtures implements IFixtures {
 				// Gets the max value from a range and assigns it to
 				// another
 				// range, clears the original range.
-				final String eAsString = "this METRIC AVG DAY = this METRIC AVG 15 .max();";
+				final String eAsString = "this METRIC AVG HOUR = this METRIC AVG 15 .max();";
 				// +
 				// "this METRIC AVG HOUR.clear(); // Clear for the rule period. ";
 				_15minRetentionExpression.getExpressionLines().addAll(
