@@ -39,6 +39,12 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
 
 /**
+ * THIS CLASS SUCKS, REFACTOR IT.
+ * Move re-usable stuff to ModelUtils.  * 
+ * 
+ * 
+ * 
+ * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 public class EmbeddedXtextService {

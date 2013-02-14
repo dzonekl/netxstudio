@@ -42,6 +42,7 @@ import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.server.logic.BaseComponentEngine;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 

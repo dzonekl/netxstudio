@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: NetXStudio Embedded Xtext
 Bundle-SymbolicName: com.netxforge.netxstudio.screens.xtext;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.netxforge.netxstudio.screens.xtext.internal.Activator
+Bundle-Activator: com.netxforge.netxstudio.screens.xtext.internal.ScreensXtextActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

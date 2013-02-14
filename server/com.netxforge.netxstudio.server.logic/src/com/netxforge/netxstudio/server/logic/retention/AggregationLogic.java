@@ -32,10 +32,10 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
+import com.netxforge.netxstudio.server.logic.BaseComponentEngine;
+import com.netxforge.netxstudio.server.logic.BaseComponentLogic;
 import com.netxforge.netxstudio.server.logic.BaseExpressionEngine;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
-import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentEngine;
-import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentLogic;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
@@ -107,13 +107,15 @@ public class AggregationLogic extends BaseComponentLogic {
 		int cnt = 0;
 		for (final Component component : getComponents(nodeType)) {
 			executeFor(component);
+			this.getJobMonitor().setTask("Aggregation");
+			this.getJobMonitor().setMsg(this.getModelUtils().printModelObject(component));
 			getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
 		}
 	}
 	
 	protected void executeFor(Component component) {
-		this.getJobMonitor().setTask("Retention " + component.getName());
 		this.getJobMonitor().incrementProgress(1, false);
+		
 		final BaseComponentEngine engine = (BaseComponentEngine) getEngine();
 		engine.setJobMonitor(getJobMonitor());
 		engine.setComponent(component);

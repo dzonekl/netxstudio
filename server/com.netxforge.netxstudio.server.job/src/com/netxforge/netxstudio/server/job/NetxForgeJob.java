@@ -141,6 +141,8 @@ public class NetxForgeJob implements org.quartz.Job {
 
 		dataProvider.commitTransaction();
 		dataProvider.closeSession();
+		
+		// Tigh the ID of the Workflow run with the Run Monitor. The monitor will update this object. 
 		runMonitor.setWorkFlowRunId(wfRun.cdoID());
 		runMonitor.setStartRunning();
 	}

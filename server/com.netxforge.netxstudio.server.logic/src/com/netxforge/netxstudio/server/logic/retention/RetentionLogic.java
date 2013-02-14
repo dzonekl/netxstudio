@@ -23,10 +23,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.eresource.CDOResource;
-import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.cdo.util.CommitException;
-import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.netxforge.netxstudio.library.Component;
@@ -36,10 +32,10 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
+import com.netxforge.netxstudio.server.logic.BaseComponentEngine;
+import com.netxforge.netxstudio.server.logic.BaseComponentLogic;
 import com.netxforge.netxstudio.server.logic.BaseExpressionEngine;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
-import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentEngine;
-import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentLogic;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
@@ -50,20 +46,19 @@ import com.netxforge.netxstudio.services.RFSService;
  */
 public class RetentionLogic extends BaseComponentLogic {
 
-	
 	/**
 	 * The number of years to consider in the aggregation and retention of
 	 * values. It could be requested to i.e. keep one month of data evaluation a
 	 * period of n years.
 	 */
 	private static final int YEARS_TO_EVALUATE = 2;
-	
+
 	private RFSService rfsService;
-	
+
 	private NodeType nodeType;
-	
+
 	private MetricRetentionRules rules;
-	
+
 	public void setRules(MetricRetentionRules rules) {
 		this.rules = rules;
 	}
@@ -71,11 +66,10 @@ public class RetentionLogic extends BaseComponentLogic {
 	private BaseExpressionEngine engine;
 
 	private Resource operatorResources;
-	
 
 	@Override
 	protected List<NodeType> getNodeTypesToExecuteFor() {
-		
+
 		if (rfsService != null) {
 			// first go through the leave nodes
 			final List<NodeType> nodeTypes = new ArrayList<NodeType>();
@@ -85,18 +79,17 @@ public class RetentionLogic extends BaseComponentLogic {
 				}
 			}
 			return nodeTypes;
-		}else{
+		} else {
 			return this.allNodes();
 		}
 	}
-	
-	
-	private List<NodeType> allNodes(){
-		operatorResources = this.getDataProvider().getResource(OperatorsPackage.Literals.OPERATOR);
+
+	private List<NodeType> allNodes() {
+		operatorResources = this.getDataProvider().getResource(
+				OperatorsPackage.Literals.OPERATOR);
 		return this.getModelUtils().nodeTypesForResource(operatorResources);
 	}
-	
-	
+
 	@Override
 	protected BaseExpressionEngine getEngine() {
 		if (engine == null) {
@@ -111,23 +104,27 @@ public class RetentionLogic extends BaseComponentLogic {
 		int cnt = 0;
 		for (final Component component : getComponents(nodeType)) {
 			executeFor(component);
+			this.getJobMonitor().setTask("Retention");
+			this.getJobMonitor().setMsg(
+					this.getModelUtils().printModelObject(component));
 			getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
 		}
 	}
-	
+
 	protected void executeFor(Component component) {
-		this.getJobMonitor().setTask("Retention " + component.getName());
-		this.getJobMonitor().incrementProgress(1, false);
+
+		 this.getJobMonitor().incrementProgress(1, false);
+
 		final BaseComponentEngine engine = (BaseComponentEngine) getEngine();
 		engine.setJobMonitor(getJobMonitor());
 		engine.setComponent(component);
 		engine.setDataProvider(this.getDataProvider());
 		engine.setPeriod(this.getPeriod());
-		
-		if(engine instanceof RetentionEngine){
+
+		if (engine instanceof RetentionEngine) {
 			((RetentionEngine) engine).setRetentionRules(rules);
 		}
-		
+
 		engine.execute();
 		if (engine.getFailures().size() > 0) {
 			for (final Failure failure : engine.getFailures()) {
@@ -136,18 +133,16 @@ public class RetentionLogic extends BaseComponentLogic {
 				}
 				this.getFailures().add(failure);
 			}
-//			CDOView cdoView = ((CDOResource)operatorResources).cdoView();
-//			
-//			if(cdoView instanceof CDOTransaction){
-//				try {
-//					((CDOTransaction) cdoView).commit();
-//				} catch (CommitException e) {
-//					e.printStackTrace();
-//				}
-//			}
+			// CDOView cdoView = ((CDOResource)operatorResources).cdoView();
+			//
+			// if(cdoView instanceof CDOTransaction){
+			// try {
+			// ((CDOTransaction) cdoView).commit();
+			// } catch (CommitException e) {
+			// e.printStackTrace();
+			// }
+			// }
 		}
-		
-		
 
 	}
 
@@ -182,17 +177,17 @@ public class RetentionLogic extends BaseComponentLogic {
 		this.nodeType = (NodeType) getDataProvider().getTransaction()
 				.getObject(cdoId);
 	}
-	
-	
+
 	/**
-	 * Initialized the static part of the logic. This is the evaluation period of the logic. 
+	 * Initialized the static part of the logic. This is the evaluation period
+	 * of the logic.
 	 */
-	public void intializeRentionLogic(){
-		
+	public void intializeRentionLogic() {
+
 		Date end = this.getModelUtils().todayAtDayEnd();
 		Date begin = this.getModelUtils().yearsAgo(YEARS_TO_EVALUATE);
 		setPeriod(this.getModelUtils().period(begin, end));
-		
+
 	}
-	
+
 }

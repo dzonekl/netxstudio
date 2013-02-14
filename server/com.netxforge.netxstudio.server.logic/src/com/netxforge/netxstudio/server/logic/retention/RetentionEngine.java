@@ -34,7 +34,6 @@ import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
-import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
@@ -42,8 +41,8 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.server.logic.BaseComponentEngine;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
-import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentEngine;
 
 /**
  * Performs the retention action for a component.
@@ -61,7 +60,7 @@ public class RetentionEngine extends BaseComponentEngine {
 	 * In this mode we clear the complete contents of a resource, without
 	 * aggregation.
 	 */
-	private static final int MODE_CLEAR = 100;
+	private static final int MODE_CLEAR_ALL = 100;
 
 	/**
 	 * In this mode we aggregate data as specified by the
@@ -69,9 +68,9 @@ public class RetentionEngine extends BaseComponentEngine {
 	 * of a resource. The clearing respects the retention period defined per
 	 * measuring interval.
 	 */
-	private static final int MODE_AGGREGATE_THEN_CLEAR = 200;
+	private static final int MODE_RETENTION= 200;
 
-	private int operations_mode = MODE_AGGREGATE_THEN_CLEAR;
+	private int operations_mode = MODE_RETENTION;
 
 	@Inject
 	private ResultProcessor resultProcessor;
@@ -123,53 +122,10 @@ public class RetentionEngine extends BaseComponentEngine {
 			// Pass 1. Aggregate data using the defined expressions for each of
 			// the mr rules. Optional depending on the model.
 
-			if (operations_mode == MODE_AGGREGATE_THEN_CLEAR) {
-
-				// Bail aggregation when the resource has no values.
-				if (this.getModelUtils().resourceHasValues(netXResource)) {
-
-					this.getJobMonitor().setMsg("Aggregating");
-
-					for (MetricRetentionRule rule : metricRulesSortedList) {
-
-						Expression expression = rule.getRetentionExpression();
-
-						if (expression != null) {
-
-							// Data will be aggregated for the period specified
-							// by
-							// the
-							// logic period.
-							// For clearing data however, we need to set the
-							// MetricRetentionRule in the Interpreter.
-
-							getExpressionEngine().getContext().clear();
-							getExpressionEngine().getContext().add(getPeriod());
-							getExpressionEngine().getContext().add(
-									this.getModelUtils()
-											.nodeFor(getComponent()));
-							getExpressionEngine().getContext()
-									.add(netXResource);
-							// getExpressionEngine().getContext().add(rule); //
-							// TODO
-							// Remove later, do we need the MRR?
-
-							// As the data is not committed in between,
-							// subsequent
-							// expressions will not be able
-							// get data until commit, so it needs to run n times
-							// (n
-							// = number of rules) before all aggregation is
-							// done.
-							runForExpression(expression);
-
-							commitInbetween(netXResource.cdoView());
-						}
-					}
-				}
+			if (operations_mode == MODE_RETENTION) {
 
 				// Next do the clearing.
-				// Pass 2. Clean. determine the aggregation period.
+				// Determine the clearing period.
 
 				this.getJobMonitor().setMsg("Clearing");
 
@@ -325,7 +281,7 @@ public class RetentionEngine extends BaseComponentEngine {
 
 				netXResource.getMetricValueRanges().removeAll(mvrsToRemove);
 
-			} else if (operations_mode == MODE_CLEAR) {
+			} else if (operations_mode == MODE_CLEAR_ALL) {
 
 				List<MetricValueRange> mvrs = Lists.newArrayList();
 
@@ -425,7 +381,7 @@ public class RetentionEngine extends BaseComponentEngine {
 							LogicActivator.TRACE_RETENTION_OPTION,
 							"Error committing: ", t);
 				}
-				// Restore the transaction to proceed. 
+				// Restore the transaction to proceed.
 				transaction.rollback();
 			}
 		}

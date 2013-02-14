@@ -25,6 +25,7 @@ import java.util.Set;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.server.logic.BaseComponentLogic;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 

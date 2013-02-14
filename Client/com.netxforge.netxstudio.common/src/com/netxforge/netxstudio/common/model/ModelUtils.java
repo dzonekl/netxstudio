@@ -77,6 +77,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -99,6 +100,7 @@ import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -1439,6 +1441,18 @@ public class ModelUtils {
 				.newArrayList(splitByNewLine);
 		return collection;
 	}
+		
+	/**
+	 * Convert each single line of an {@link Expression } and return as a single String. 
+	 * 
+	 * @param expression
+	 * @return
+	 */
+	public String expressionAsString(Expression expression) {
+		final Collection<String> lines = expression.getExpressionLines();
+		return Joiner.on("\n").join(lines);
+	}
+	
 
 	public List<NetXResource> resourcesFor(Node node) {
 		List<NetXResource> resources = Lists.newArrayList();
@@ -4882,4 +4896,5 @@ public class ModelUtils {
 		System.out.println("Beeeeuuuuuuh........@!");
 
 	}
+
 }
