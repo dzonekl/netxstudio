@@ -400,6 +400,7 @@ public class ResultProcessor {
 							+ mvr.getMetricValues().size());
 		}
 
+		// Do not remove values if we are not adding anything!
 		if (start != null && end != null) {
 			removeValues(mvr.getMetricValues(), start, end);
 			if (DataActivator.DEBUG) {
@@ -414,12 +415,12 @@ public class ResultProcessor {
 		addToValues(mvr, newValues, intervalHint);
 
 		if (DataActivator.DEBUG) {
-//			DataActivator.TRACE.trace(
-//					DataActivator.TRACE_RESULT_VALUE_OPTION,
-//					"-- range for resource (after add): "
-//							+ foundNetXResource.getShortName() + "interval="
-//							+ intervalHint + " range size = "
-//							+ mvr.getMetricValues().size());
+			// DataActivator.TRACE.trace(
+			// DataActivator.TRACE_RESULT_VALUE_OPTION,
+			// "-- range for resource (after add): "
+			// + foundNetXResource.getShortName() + "interval="
+			// + intervalHint + " range size = "
+			// + mvr.getMetricValues().size());
 
 			for (MetricValueRange range : foundNetXResource
 					.getMetricValueRanges()) {
@@ -648,6 +649,31 @@ public class ResultProcessor {
 
 		final Date start = modelUtils.fromXMLDate(period.getBegin());
 		final Date end = modelUtils.fromXMLDate(period.getEnd());
+		
+		
+		// Bail when we have no values in the result! 
+		if (expressionResult.getTargetValues() == null
+				|| expressionResult.getTargetValues().isEmpty()) {
+
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
+						"skip expression result: resource="
+								+ expressionResult.getTargetResource()
+										.getShortName()
+								+ " target="
+								+ expressionResult.getTargetRange().getName()
+								+ " interval="
+								+ expressionResult.getTargetIntervalHint()
+								+ " kind = "
+								+ expressionResult.getTargetKindHint()
+										.getName() + " values="
+								+ expressionResult.getTargetValues().size()
+								+ " from=" + start + " to=" + end);
+			}
+			return;
+
+		}
 
 		if (DataActivator.DEBUG) {
 			DataActivator.TRACE.trace(
