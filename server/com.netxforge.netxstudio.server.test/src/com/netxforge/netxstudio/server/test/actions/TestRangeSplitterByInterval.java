@@ -112,6 +112,29 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 	@Test
 	public void testValueRangeSplitter() {
 
+		System.out.println("Split 15 min by hour (One week values)");
+		{
+			int size = _15minValues.size();
+			List<List<Value>> splitValueRange = modelUtils.values_(
+					_15minValues, ModelUtils.MINUTES_IN_AN_HOUR);
+			int subRangesSize = 0;
+			for (List<Value> seq : splitValueRange) {
+				subRangesSize += seq.size();
+				System.out.print("Subrange:" + seq.size() + " ");
+				for (Value v : seq) {
+					System.out.print("{" + v.getTimeStamp() + "}");
+				}
+				System.out.println();
+			}
+			System.out.println(" range count: " + splitValueRange.size());
+			Assert.assertEquals(splitValueRange.size(), 168); // Expecting 168
+																// (one week's
+																// worth of
+			// hourly values).
+			Assert.assertEquals(size, subRangesSize);
+		}
+
+		System.out.println("Split 15 min by day (One week values)");
 		{
 			int size = _15minValues.size();
 			List<List<Value>> splitValueRange = modelUtils.values_(
@@ -125,9 +148,36 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 				}
 				System.out.println();
 			}
+			System.out.println(" range count: " + splitValueRange.size());
+			Assert.assertEquals(splitValueRange.size(), 8); // Expecting 7 (one
+															// week's worth of
+															// day
+			// values).
 			Assert.assertEquals(size, subRangesSize);
 		}
 
+		System.out.println("Split 15 min by week (One week values)");
+		{
+			int size = _15minValues.size();
+			List<List<Value>> splitValueRange = modelUtils.values_(
+					_15minValues, ModelUtils.MINUTES_IN_A_WEEK);
+			int subRangesSize = 0;
+			for (List<Value> seq : splitValueRange) {
+				subRangesSize += seq.size();
+				System.out.print("Subrange:" + seq.size() + " ");
+				for (Value v : seq) {
+					System.out.print("{" + v.getTimeStamp() + "}");
+				}
+				System.out.println();
+			}
+			System.out.println(" range count: " + splitValueRange.size());
+			Assert.assertTrue(splitValueRange.size() == 2 || splitValueRange.size() == 1); // Expecting 1 (one
+			// or 2 week's worth of
+			// week values).
+			Assert.assertEquals(size, subRangesSize);
+		}
+
+		System.out.println("Split hour by day (100 hours)");
 		{
 			int size = hourValues.size();
 			List<List<Value>> splitValueRange = modelUtils.values_(hourValues,
@@ -143,6 +193,9 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 			}
 			Assert.assertEquals(size, subRangesSize);
 		}
+		
+		
+		System.out.println("Split day by day (100 Days)");
 		{
 			int size = dayValues.size();
 			List<List<Value>> splitValueRange = modelUtils.values_(dayValues,
@@ -159,7 +212,7 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 			Assert.assertEquals(size, subRangesSize);
 
 		}
-
+		System.out.println("Split day by week (100 Days)");
 		{
 			int size = dayValues.size();
 			List<List<Value>> splitValueRange = modelUtils.values_(dayValues,
@@ -176,7 +229,7 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 			Assert.assertEquals(size, subRangesSize);
 
 		}
-
+		System.out.println("Split month by month (24 months)");
 		{
 			int size = monthValues.size();
 			List<List<Value>> splitValueRange = modelUtils.values_(monthValues,
@@ -194,5 +247,4 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 
 		}
 	}
-
 }

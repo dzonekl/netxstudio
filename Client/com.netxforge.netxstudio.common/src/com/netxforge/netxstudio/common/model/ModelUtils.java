@@ -692,39 +692,36 @@ public class ModelUtils {
 	public List<List<Value>> values_(List<Value> values, int targetInterval) {
 
 		// Populate a matrix of fields for the provided values, depending on the
-		// intended source and target interval.
-		final Map<Integer, Map<Integer, List<Value>>> yearMap = Maps
-				.newHashMap();
-		final int field = fieldForTargetInterval(targetInterval);
+		// intended source and target interval. The key is the combination of
+		// higher fields.
+		// If the field is HOUR, it should be in a map of
+		// HOUR-DAY-WEEK-MONTH-YEAR.
+		final Map<String, List<Value>> targetMap = Maps.newHashMap();
+
+		final int[] fields = fieldsForTargetInterval(targetInterval);
 
 		GregorianCalendar cal;
 		for (Value v : values) {
 			cal = v.getTimeStamp().toGregorianCalendar();
 
-			// Get the year map.
-			final int year = cal.get(Calendar.YEAR); // Always split by year.
-			final Map<Integer, List<Value>> targetMap;
-
-			if (yearMap.containsKey(year)) {
-				targetMap = yearMap.get(year);
-			} else {
-				targetMap = Maps.newHashMap();
-				yearMap.put(year, targetMap);
+			StringBuffer sb = new StringBuffer();
+			for (int field : fields) {
+				// Get the target map.
+				final int currentFieldValue = cal.get(field);
+				sb.append(currentFieldValue);
 			}
-			// Get the target map.
-			final int currentFieldValue = cal.get(field);
-			if (targetMap.containsKey(currentFieldValue)) {
-				targetMap.get(currentFieldValue).add(v);
+			String key = sb.toString();
+			if (targetMap.containsKey(key)) {
+				targetMap.get(key).add(v);
 			} else {
 				List<Value> vList = Lists.newArrayList();
 				vList.add(v);
-				targetMap.put(currentFieldValue, vList);
+				targetMap.put(key, vList);
 			}
 		}
 		List<List<Value>> valueMatrix = Lists.newArrayList();
-		for (Map<Integer, List<Value>> targetMap : yearMap.values()) {
-			valueMatrix.addAll(targetMap.values());
-		}
+		valueMatrix.addAll(targetMap.values());
+		
 		return valueMatrix;
 	}
 
@@ -795,6 +792,46 @@ public class ModelUtils {
 		default:
 			return -1;
 		}
+	}
+
+	public int[] fieldsForTargetInterval(int targetInterval) {
+
+		// We don't need decades or higher.
+		int[] calFieldForPeriods = new int[] { Calendar.HOUR_OF_DAY,
+				Calendar.DAY_OF_YEAR, Calendar.WEEK_OF_YEAR, Calendar.MONTH,
+				Calendar.YEAR };
+
+		switch (targetInterval) {
+		case MINUTES_IN_AN_HOUR:
+			return calFieldForPeriods; // All are needed.
+		case MINUTES_IN_A_DAY:
+			return copyOfRange(calFieldForPeriods, 1, 4);
+		case MINUTES_IN_A_WEEK:
+			return copyOfRange(calFieldForPeriods, 2, 5);
+		case MINUTES_IN_A_MONTH:
+			return copyOfRange(calFieldForPeriods, 2, 6);
+		default:
+			return null;
+		}
+	}
+
+	/**
+	 * Copied from class {@link Arrays#copyOfRange(int[], int, int)} , as this
+	 * requires java 1.6, and our app should work with 1.5.
+	 * 
+	 * @param original
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public int[] copyOfRange(int[] original, int from, int to) {
+		int newLength = to - from;
+		if (newLength < 0)
+			throw new IllegalArgumentException(from + " > " + to);
+		int[] copy = new int[newLength];
+		System.arraycopy(original, from, copy, 0,
+				Math.min(original.length - from, newLength));
+		return copy;
 	}
 
 	public int fieldForTargetInterval(int targetInterval) {
@@ -1441,9 +1478,10 @@ public class ModelUtils {
 				.newArrayList(splitByNewLine);
 		return collection;
 	}
-		
+
 	/**
-	 * Convert each single line of an {@link Expression } and return as a single String. 
+	 * Convert each single line of an {@link Expression } and return as a single
+	 * String.
 	 * 
 	 * @param expression
 	 * @return
@@ -1452,7 +1490,6 @@ public class ModelUtils {
 		final Collection<String> lines = expression.getExpressionLines();
 		return Joiner.on("\n").join(lines);
 	}
-	
 
 	public List<NetXResource> resourcesFor(Node node) {
 		List<NetXResource> resources = Lists.newArrayList();
@@ -1479,7 +1516,7 @@ public class ModelUtils {
 		}
 
 		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
-			if(!mvr.getMetricValues().isEmpty()){
+			if (!mvr.getMetricValues().isEmpty()) {
 				return true;
 			}
 		}
