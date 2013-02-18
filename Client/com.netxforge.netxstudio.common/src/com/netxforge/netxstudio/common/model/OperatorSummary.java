@@ -42,8 +42,6 @@ public class OperatorSummary extends RFSServiceSummary {
 			return;
 		}
 
-		this.setPeriod(periodInContext);
-
 		// Safely case, checked by our factory.
 		final Operator target = getTarget();
 		

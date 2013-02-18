@@ -22,10 +22,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 
@@ -34,6 +34,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LevelKind;
@@ -115,8 +116,12 @@ public class MonitoringStateModel {
 	 * @param target
 	 * @param contextObjects
 	 */
-	public void summary(MonitoringStateStateCallBack callBack, Object target,
-			Object... contextObjects) {
+	public void summary(MonitoringStateStateCallBack callBack,
+			Object target, Object... contextObjects) {
+		
+		Assert.isNotNull(target);
+		Assert.isNotNull(contextObjects);
+		
 		prepSummary(callBack, target, contextObjects);
 	}
 
@@ -131,8 +136,6 @@ public class MonitoringStateModel {
 		@Override
 		public void done(IJobChangeEvent event) {
 			if (callBack != null) {
-				System.out.println("Invoking Callback hashcode: "
-						+ callBack.hashCode());
 				final MonitoringStateEvent monitoringStateEvent = new MonitoringStateEvent();
 				monitoringStateEvent.setResult(job.getMonitoringSummary());
 				callBack.callBackEvent(monitoringStateEvent);
@@ -162,6 +165,12 @@ public class MonitoringStateModel {
 
 		// Force a restart, if we are operational.
 		if (job.isRunning()) {
+
+			if (CommonActivator.DEBUG) {
+				CommonActivator.TRACE.trace(
+						CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+						"Cancel monitoring production");
+			}
 			// This will abrupt the job but on demand, so we can't really start
 			// a new job here.
 			job.cancelMonitor();
@@ -201,6 +210,7 @@ public class MonitoringStateModel {
 	 */
 	public IMonitoringSummary summary(Object target) {
 
+		// Does the the factory check duplicates?
 		final IMonitoringSummary adapt = (IMonitoringSummary) monAdapterFactory
 				.adapt(target, IMonitoringSummary.class);
 		return adapt;
@@ -232,14 +242,21 @@ public class MonitoringStateModel {
 	// return opSummary;
 	// }
 
-	public IMonitoringSummary summary(IProgressMonitor monitor, Object target,
-			Object... context) {
+	public IMonitoringSummary summary(IProgressMonitor monitor,
+			Object target, Object... context) {
+		final IMonitoringSummary adapt;
+		if (!isAdapted((EObject) target)) {
+			// Adapt for the target, note this will also self-adapt the
+			// contained
+			// (loaded) children.
+			adapt = (IMonitoringSummary) monAdapterFactory.adapt(target,
+					IMonitoringSummary.class);
+		} else {
+			adapt = getAdapted((EObject) target);
+		}
 
-		// Adapt for the target, note this will also self-adapt the contained
-		// children.
-		final IMonitoringSummary adapt = (IMonitoringSummary) monAdapterFactory
-				.adapt(target, IMonitoringSummary.class);
-
+		adapt.clearContextObject();
+		
 		// Add the context object.
 		adapt.addContextObjects(context);
 
@@ -247,84 +264,15 @@ public class MonitoringStateModel {
 		// self-adapted children.
 		adapt.compute(monitor);
 
-		if (target instanceof EObject) {
-			for (Adapter adapter : ((EObject) target).eAdapters()) {
-				System.out.println(" Registered adapter: "
-						+ adapter
-						+ " target: "
-						+ CDOUtil.getCDOObject((EObject) adapter.getTarget())
-								.cdoID());
-			}
+		if (CommonActivator.DEBUG) {
+			CommonActivator.TRACE.trace(
+					CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+					"result adapter: " + adapt);
 		}
+
 		return adapt;
 
 	}
-
-	/**
-	 * This method is either directly available or can be executed in the
-	 * background with
-	 * {@link #prepSummary(Object, MonitoringStateStateCallBack)} It produces a
-	 * {@link ServiceSummary summary} for a {@link Service service}.
-	 * 
-	 * 
-	 * 
-	 * Note: The RAG Status for the service is not produced here, it needs to be
-	 * executed in an expression engine.
-	 * 
-	 * 
-	 * @param service
-	 * @param dtr
-	 * @param monitor
-	 * @return
-	 */
-	// public NodesSummmary summaryForService(Service service, DateTimeRange
-	// dtr,
-	// IProgressMonitor monitor) {
-	//
-	// final NodesSummmary serviceSummary = new NodesSummmary(
-	// (RFSService) service);
-	//
-	// // Sort and reverse the Service Monitors.
-	// final List<ServiceMonitor> serviceMonitors = Ordering
-	// .from(modelUtils.serviceMonitorCompare()).reverse()
-	// .sortedCopy(service.getServiceMonitors());
-	//
-	// if (service instanceof RFSService) {
-	//
-	// int[] ragTotalResources = new int[] { 0, 0, 0 };
-	// int[] ragTotalNodes = new int[] { 0, 0, 0 };
-	//
-	// for (Node targetNode : ((RFSService) service).getNodes()) {
-	// if (monitor != null && monitor.isCanceled()) {
-	// return serviceSummary;
-	// }
-	//
-	// final Map<NetXResource, List<Marker>> markersPerResource =
-	// toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-	// serviceMonitors, targetNode, monitor);
-	//
-	//
-	// int[] ragResources = ragCountResourcesForNode(
-	// markersPerResource, monitor);
-	// for (int i = 0; i < ragTotalResources.length; i++) {
-	// ragTotalResources[i] += ragResources[i];
-	// }
-	// // Any of the levels > 0, we increase the total node count.
-	// ragTotalNodes[0] += ragResources[0] > 0 ? 1 : 0;
-	// ragTotalNodes[1] += ragResources[1] > 0 ? 1 : 0;
-	// ragTotalNodes[2] += ragResources[2] > 0 ? 1 : 0;
-	// }
-	// serviceSummary.setRagCountResources(ragTotalResources);
-	// serviceSummary.setRagCountNodes(ragTotalNodes);
-	//
-	// }
-	//
-	// serviceSummary.setPeriod(dtr);
-	// serviceSummary.setPeriodFormattedString(modelUtils
-	// .periodToStringMore(dtr));
-	//
-	// return serviceSummary;
-	// }
 
 	/**
 	 * Count the RAG per NetXResource's markers. Note: Resources which are not
@@ -665,4 +613,24 @@ public class MonitoringStateModel {
 		}
 		return markers;
 	}
+
+	public static boolean isAdapted(EObject object) {
+		boolean isAdapted = false;
+		for (Adapter a : object.eAdapters()) {
+			if (a instanceof IMonitoringSummary) {
+				isAdapted = true;
+			}
+		}
+		return isAdapted;
+	}
+
+	public static IMonitoringSummary getAdapted(EObject object) {
+		for (Adapter a : object.eAdapters()) {
+			if (a instanceof IMonitoringSummary) {
+				return (IMonitoringSummary) a;
+			}
+		}
+		return null;
+	}
+
 }

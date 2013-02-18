@@ -20,9 +20,12 @@ package com.netxforge.netxstudio.common.model;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.EObject;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.services.RFSService;
 
@@ -37,7 +40,7 @@ public class NetxresourceSummary extends MonitoringAdapter {
 	}
 
 	/** Our tolerance markers **/
-	private List<Marker> toleranceMarkers;
+	private List<Marker> toleranceMarkers = Lists.newArrayList();
 
 	@Override
 	protected synchronized void computeForTarget(IProgressMonitor monitor) {
@@ -53,10 +56,8 @@ public class NetxresourceSummary extends MonitoringAdapter {
 			return;
 		}
 
-		this.setPeriod(periodInContext);
-
 		// Safely case, checked by our factory.
-		final NetXResource target = (NetXResource) getTarget();
+		final NetXResource target = getTarget();
 
 		// toleranceMarkersForServiceMonitorsAndResource = Compute the markers.
 		final List<Marker> unfilteredToleranceMarkers = stateModel
@@ -64,19 +65,34 @@ public class NetxresourceSummary extends MonitoringAdapter {
 						rfsServiceInContext.getServiceMonitors(), target,
 						monitor);
 
+		
+		
 		// Filter the markers.
-		toleranceMarkers = modelUtils.markersInsidePeriod(
-				unfilteredToleranceMarkers, periodInContext);
+		toleranceMarkers.clear();
+		toleranceMarkers.addAll(modelUtils.markersInsidePeriod(
+				unfilteredToleranceMarkers, periodInContext));
 
 		// Base RAG computation on the tolerance markers.
 		ragCount = stateModel.ragForMarkers(toleranceMarkers);
 	}
 
 	public NetXResource getTarget() {
-		final NetXResource target = (NetXResource) super.getTarget();
-		return target;
+		return  (NetXResource) super.getTarget();
 	}
 
+
+	@Override
+	protected boolean isSameAdapterFor(EObject object) {
+		// We need notifications for MVR'. 
+		return object.eClass() == MetricsPackage.Literals.METRIC_VALUE_RANGE;
+	}
+
+	@Override
+	protected boolean isNotFiltered(EObject object) {
+		// Only for MVR child objects. 
+  		return object.eClass() == MetricsPackage.Literals.METRIC_VALUE_RANGE;
+	}
+	
 	/**
 	 * Return the markers for this resource, in the last computation from a
 	 * context {@link RFSService}.
@@ -90,6 +106,14 @@ public class NetxresourceSummary extends MonitoringAdapter {
 
 	public boolean isComputed() {
 		return super.isComputed() && toleranceMarkers != null;
+	}
+	
+	
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer(super.toString());
+		sb.append(" Markers: (" + toleranceMarkers.size() + ")");
+		return sb.toString();
 	}
 
 }

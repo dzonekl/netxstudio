@@ -3,25 +3,29 @@
 
 com.netxforge.netxscript/debug=false
 com.netxforge.netxstudio.data/debug=false
-com.netxforge.nextstudio.common/debug=false
+com.netxforge.nextstudio.common/debug=true
 com.netxforge.netxstudio.screens/debug=false
 com.netxforge.netxstudio.screens.editing/debug=false
-com.netxforge.netxstudio.models.export/debug=true
-com.netxforge.netxstudio.models.import/debug=true
-com.netxforge.netxstudio.models.import.ui/debug=true
-
-# Model Export / Import options. 
-com.netxforge.netxstudio.models.export/trace.manual.export=true
-com.netxforge.netxstudio.models.import/trace.manual.import=false
-com.netxforge.netxstudio.models.import/trace.manual.import.type=true
-com.netxforge.netxstudio.models.import/trace.manual.import.ui=true
-
+com.netxforge.netxstudio.models.export/debug=false
+com.netxforge.netxstudio.models.import/debug=false
+com.netxforge.netxstudio.models.import.ui/debug=false
 
 # NetXScript facilities
 com.netxforge.netxscript/trace.netxscript=true
 com.netxforge.netxscript/trace.netxscript.scoping=true
 com.netxforge.netxscript/trace.netxscript.expression=true
 com.netxforge.netxscript/trace.netxscript.description=true
+
+# Common facilities
+com.netxforge.nextstudio.common/trace.common.utils=false
+com.netxforge.nextstudio.commontrace.common.monitoring=true
+com.netxforge.nextstudio.commontrace.common.properties=false
+	
+# Model Export / Import options. 
+com.netxforge.netxstudio.models.export/trace.manual.export=true
+com.netxforge.netxstudio.models.import/trace.manual.import=false
+com.netxforge.netxstudio.models.import/trace.manual.import.type=true
+com.netxforge.netxstudio.models.import/trace.manual.import.ui=true
 
 # Screens facilities
 com.netxforge.netxstudio.screens/trace.screens=true;

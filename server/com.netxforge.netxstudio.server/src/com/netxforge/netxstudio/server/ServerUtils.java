@@ -208,16 +208,15 @@ public class ServerUtils {
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 		sessionConfiguration.setExceptionHandler(exceptionHandler);
 
-		
-		
-		// TODO, Make the passive update mode optional. 
-		// When the mode is changes, we receive revision deltas which can be used
-		// to update more efficiently. 
-		// For indexes, we could limit the update to only the changed items.  
-		// 
-		
-//		sessionConfiguration.setPassiveUpdateMode(PassiveUpdateMode.CHANGES);
-		
+		// TODO, Make the passive update mode optional.
+		// When the mode is changes, we receive revision deltas which can be
+		// used
+		// to update more efficiently.
+		// For indexes, we could limit the update to only the changed items.
+		//
+
+		// sessionConfiguration.setPassiveUpdateMode(PassiveUpdateMode.CHANGES);
+
 		// Note: Option to disable caching, this was of for Hibernate store, but
 		// back on for the DB Store.
 		// sessionConfiguration.setRevisionManager(CDORevisionUtil
@@ -263,14 +262,14 @@ public class ServerUtils {
 			return;
 		}
 		isInitializing = true;
-		
-		// TODO, Find out the DB schema name and table name to create queries. 
+
+		// TODO, Find out the DB schema name and table name to create queries.
 		IStore store = repository.getStore();
-		if(store instanceof IDBStore){
+		if (store instanceof IDBStore) {
 			@SuppressWarnings("unused")
 			IDBStore dbStore = (IDBStore) store;
 		}
-		
+
 		final ServerInitializer resourceInitializer = ServerActivator
 				.getInstance().getInjector()
 				.getInstance(ServerInitializer.class);
@@ -301,7 +300,7 @@ public class ServerUtils {
 
 		@Inject
 		private Fixtures fixtures;
-		
+
 		private void initialize() {
 			initResources();
 		}
@@ -318,12 +317,12 @@ public class ServerUtils {
 			initResourcesForEPackage(ProtocolsPackage.eINSTANCE);
 			initResourcesForEPackage(SchedulingPackage.eINSTANCE);
 			initResourcesForEPackage(ServicesPackage.eINSTANCE);
-			
+
 			fixtures.setDataProvider(dataProvider);
 			// Load the fixtures.
-//			fixtures.unloadFixtures(); // UNCOMMENT TO RELOAD FIXTURES.
+			// fixtures.unloadFixtures(); // UNCOMMENT TO RELOAD FIXTURES.
 			fixtures.loadFixtures();
-			
+
 			dataProvider.commitTransaction();
 			dataProvider.closeSession();
 		}

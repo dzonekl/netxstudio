@@ -25,6 +25,7 @@ import org.eclipse.emf.common.notify.Notifier;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
@@ -37,7 +38,6 @@ import com.netxforge.netxstudio.services.RFSService;
  * {@link IMonitoringSummary}
  * 
  * The factory support CDOAdapter, any change on the object will notify us.
- * 
  * 
  * </p> Note: This factory is flat, in a way that it checks both the object type
  * and the desired type for adaptation.
@@ -87,18 +87,34 @@ public class MonitoringAdapterFactory extends CDOAdapterFactoryImpl {
 	 */
 	@Override
 	public Adapter createAdapter(Notifier target) {
+
+		IMonitoringSummary monitor = null;
+
 		if (target instanceof NetXResource) {
-			return netxresourceProvider.get();
+			monitor = netxresourceProvider.get();
 		} else if (target instanceof Component) {
-			return componentProvider.get();
+			monitor = componentProvider.get();
 		} else if (target instanceof NodeType) {
-			return nodeTypeProvider.get();
+			monitor = nodeTypeProvider.get();
 		} else if (target instanceof RFSService) {
-			return rfsServiceProvider.get();
+			monitor = rfsServiceProvider.get();
 		} else if (target instanceof Operator) {
-			return operatorProvider.get();
+			monitor = operatorProvider.get();
 		}
-		return null;
+
+		if (monitor == null) {
+			return null;
+		}
+
+		monitor.setSelfAdaptFactory(this);
+		
+		if (CommonActivator.DEBUG) {
+			CommonActivator.TRACE.trace(
+					CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+					"Created adapter:" + monitor + "for: " + target);
+		}
+
+		return (Adapter) monitor;
 	}
 
 	public MonitoringAdapterFactory() {

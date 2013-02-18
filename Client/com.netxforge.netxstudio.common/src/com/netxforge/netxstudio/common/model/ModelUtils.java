@@ -1352,7 +1352,7 @@ public class ModelUtils {
 			cdoCalculateResourceName = cdoCalculateResourceName(targetObject);
 		} catch (IllegalAccessException e) {
 			if (CommonActivator.DEBUG) {
-				CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION,
+				CommonActivator.TRACE.trace(CommonActivator.TRACE_COMMON_UTILS_OPTION,
 						"-- Can't resolve the Resource name for target object: "
 								+ targetObject);
 			}
@@ -1360,7 +1360,7 @@ public class ModelUtils {
 		}
 
 		if (CommonActivator.DEBUG) {
-			CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION,
+			CommonActivator.TRACE.trace(CommonActivator.TRACE_COMMON_UTILS_OPTION,
 					"-- looking for CDO resource with name:"
 							+ cdoCalculateResourceName);
 		}
@@ -1378,7 +1378,7 @@ public class ModelUtils {
 					emfNetxResource = (CDOResource) n;
 					if (CommonActivator.DEBUG) {
 						CommonActivator.TRACE.trace(
-								CommonActivator.TRACE_UTILS_OPTION, "-- found:"
+								CommonActivator.TRACE_COMMON_UTILS_OPTION, "-- found:"
 										+ emfNetxResource.getURI().toString());
 					}
 					break;
@@ -1389,7 +1389,7 @@ public class ModelUtils {
 		if (emfNetxResource == null) {
 			emfNetxResource = folder.addResource(cdoCalculateResourceName);
 			if (CommonActivator.DEBUG) {
-				CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION,
+				CommonActivator.TRACE.trace(CommonActivator.TRACE_COMMON_UTILS_OPTION,
 						"-- created resource:"
 								+ emfNetxResource.getURI().toString());
 			}
@@ -1807,7 +1807,7 @@ public class ModelUtils {
 						latestIndex = i;
 						if (CommonActivator.DEBUG) {
 							CommonActivator.TRACE.trace(
-									CommonActivator.TRACE_UTILS_OPTION,
+									CommonActivator.TRACE_COMMON_UTILS_OPTION,
 									"-- update index to: " + i);
 						}
 						// set the index, we are later then predecessor.

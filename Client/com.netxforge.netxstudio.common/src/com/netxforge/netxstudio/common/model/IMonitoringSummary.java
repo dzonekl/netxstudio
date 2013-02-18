@@ -18,8 +18,7 @@
 package com.netxforge.netxstudio.common.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-
-import com.netxforge.netxstudio.generics.DateTimeRange;
+import org.eclipse.emf.common.notify.AdapterFactory;
 
 /**
  * A marker interface for monitoring objects processed in a state.
@@ -32,20 +31,6 @@ public interface IMonitoringSummary {
 	enum RAG {
 		RED, AMBER, GREEN
 	}
-
-	/**
-	 * Get the monitoring period.
-	 * 
-	 * @return
-	 */
-	public DateTimeRange getPeriod();
-
-	/**
-	 * Set the monitoring period.
-	 * 
-	 * @param period
-	 */
-	public void setPeriod(DateTimeRange period);
 
 	/**
 	 * Get the monitoring period formatted as String for presentation.
@@ -67,7 +52,14 @@ public interface IMonitoringSummary {
 	 * @param object
 	 */
 	public void addContextObjects(Object... objects);
-
+	
+	
+	/**
+	 * Clear the computation context. 
+	 */
+	public void clearContextObject();
+	
+	
 	/**
 	 * Get the context objects.
 	 * 
@@ -95,5 +87,14 @@ public interface IMonitoringSummary {
 	 * All summaries have a rag.
 	 */
 	public int[] rag();
+	
+	
+	/**
+	 * Set the {@link AdapterFactory} for producing adapters when Self-adapting.  
+	 * 
+	 * @param monitoringAdapterFactory
+	 */
+	public void setSelfAdaptFactory(
+			AdapterFactory adapterFactory);
 
 }

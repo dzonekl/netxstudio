@@ -3,19 +3,24 @@
 
 com.netxforge.netxscript/debug=false
 com.netxforge.netxstudio.data/debug=false
-com.netxforge.nextstudio.common/debug=false
+com.netxforge.netxstudio.common/debug=false
 com.netxforge.netxstudio.screens/debug=false
 com.netxforge.netxstudio.screens.editing/debug=false
 com.netxforge.netxstudio.models.export/debug=true
 com.netxforge.netxstudio.models.import/debug=true
 com.netxforge.netxstudio.models.import.ui/debug=true
 
+# Common facilities
+com.netxforge.netxstudio.common/trace.common.utils=false
+com.netxforge.netxstudio.common/trace.common.properties=false
+com.netxforge.netxstudio.common/trace.common.monitoring=true
+com.netxforge.netxstudio.common/trace.common.monitoring.details=false
+
 # Model Export / Import options. 
 com.netxforge.netxstudio.models.export/trace.manual.export=true
 com.netxforge.netxstudio.models.import/trace.manual.import=false
 com.netxforge.netxstudio.models.import/trace.manual.import.type=true
 com.netxforge.netxstudio.models.import/trace.manual.import.ui=true
-
 
 # NetXScript facilities
 com.netxforge.netxscript/trace.netxscript=true

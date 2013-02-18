@@ -22,14 +22,16 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.CDOAdapter;
 import org.eclipse.emf.cdo.CDODeltaNotification;
-import org.eclipse.emf.cdo.util.CDOLazyContentAdapter;
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.services.RFSService;
 
@@ -40,12 +42,14 @@ import com.netxforge.netxstudio.services.RFSService;
  * @author Christophe Bouhier
  * 
  */
-public abstract class MonitoringAdapter extends CDOLazyContentAdapter implements
-		CDOAdapter, IMonitoringSummary {
+public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
+		implements CDOAdapter, IMonitoringSummary {
 
 	protected ModelUtils modelUtils;
 
 	protected MonitoringStateModel stateModel;
+
+	private AdapterFactory adapterFactory;
 
 	/** the RAG status **/
 	int[] ragCount = new int[] { 0, 0, 0 };
@@ -54,16 +58,25 @@ public abstract class MonitoringAdapter extends CDOLazyContentAdapter implements
 	protected final List<Object> context = Lists.newArrayList();
 
 	/** A potential list of children, for a summary to aggregate upon **/
-	protected final List<IMonitoringSummary> childMonitors = Lists
-			.newArrayList();
+	// protected final List<IMonitoringSummary> childMonitors = Lists
+	// .newArrayList();
 
 	public MonitoringAdapter() {
 		// Assert.isNotNull(modelUtils, "binding failed");
 		// Assert.isNotNull(stateModel, "binding failed");
-
 	}
 
 	// MODEL
+
+	@Override
+	protected boolean isRelated(CDOObject object) {
+		return isContained(object);
+	}
+
+	@Override
+	protected boolean isSameAdapterFor(EObject object) {
+		return false;
+	}
 
 	public void setModelUtils(ModelUtils utils) {
 		this.modelUtils = utils;
@@ -74,25 +87,9 @@ public abstract class MonitoringAdapter extends CDOLazyContentAdapter implements
 		this.stateModel = stateModel;
 	}
 
-	// IS THE PERIOD INFO RELEVANT, WE COMPUTE DYNAMICLY.
-
-	/** The period for this summary */
-	private DateTimeRange period;
-
-	/** The period formated as String for this summary */
-	private String periodFormattedString = "";
-
-	public DateTimeRange getPeriod() {
-		return period;
-	}
-
-	public void setPeriod(DateTimeRange period) {
-		this.period = period;
-		periodFormattedString = modelUtils.periodToStringMore(period);
-	}
-
 	public String getPeriodFormattedString() {
-		return periodFormattedString;
+		return periodInContext() != null ? modelUtils.periodToString(this
+				.periodInContext()) : "Not set";
 	}
 
 	// COMPUTATION
@@ -115,7 +112,7 @@ public abstract class MonitoringAdapter extends CDOLazyContentAdapter implements
 	}
 
 	public boolean isComputed() {
-		return this.getPeriod() != null && this.getTarget() != null;
+		return this.periodInContext() != null && this.getTarget() != null;
 	}
 
 	/**
@@ -142,6 +139,10 @@ public abstract class MonitoringAdapter extends CDOLazyContentAdapter implements
 		for (Object o : objects) {
 			this.addContextObject(o);
 		}
+	}
+
+	public void clearContextObject() {
+		this.context.clear();
 	}
 
 	public Object[] getContextObjects() {
@@ -175,12 +176,17 @@ public abstract class MonitoringAdapter extends CDOLazyContentAdapter implements
 	public void notifyChanged(Notification msg) {
 		// Update ourselves with the notification.
 		// super.notifyChanged(msg);
-		System.out.println("We are adapted!" + this.toString() + " by: "
-				+ msg.getNotifier());
+		if (CommonActivator.DEBUG) {
+			CommonActivator.TRACE.trace(
+					CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+					"Notified by: " + msg.getNotifier());
+			if (msg instanceof CDODeltaNotification) {
+				CDODeltaNotification delta = (CDODeltaNotification) msg;
 
-		if (msg instanceof CDODeltaNotification) {
-			CDODeltaNotification delta = (CDODeltaNotification) msg;
-			System.out.println("delta: " + delta.getRevisionDelta());
+				CommonActivator.TRACE.trace(
+						CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+						"delta: " + delta.getRevisionDelta());
+			}
 		}
 	}
 
@@ -188,6 +194,11 @@ public abstract class MonitoringAdapter extends CDOLazyContentAdapter implements
 	@Override
 	public boolean isAdapterForType(Object type) {
 		return type == IMonitoringSummary.class;
+	}
+
+	@Override
+	protected AdapterFactory getAdapterFactory() {
+		return adapterFactory;
 	}
 
 	// RAG
@@ -214,7 +225,7 @@ public abstract class MonitoringAdapter extends CDOLazyContentAdapter implements
 		int i = ragCount[status.ordinal()];
 		return i >= 1;
 	}
-	
+
 	public boolean getRedStatus() {
 		return rag(RAG.RED);
 	}
@@ -245,6 +256,28 @@ public abstract class MonitoringAdapter extends CDOLazyContentAdapter implements
 			}
 		}
 		return null;
+	}
+
+	public void setSelfAdaptFactory(AdapterFactory adapterFactory) {
+		this.adapterFactory = adapterFactory;
+	}
+
+	@Override
+	public String toString() {
+
+		final StringBuffer sb = new StringBuffer();
+
+		sb.append("Target: "
+				+ modelUtils.printModelObject((EObject) getTarget()));
+		sb.append(this.periodInContext() != null ? "period: "
+				+ getPeriodFormattedString() + " " : " not set ");
+		sb.append(this.rfsServiceInContext() != null ? "service: "
+				+ modelUtils.printModelObject(this.rfsServiceInContext())
+				: " not set ");
+		sb.append(" RAG: (" + totalRag(RAG.RED) + "," + totalRag(RAG.AMBER)
+				+ "," + totalRag(RAG.GREEN) + ")");
+
+		return sb.toString();
 	}
 
 }

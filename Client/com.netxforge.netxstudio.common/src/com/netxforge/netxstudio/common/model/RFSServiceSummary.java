@@ -19,6 +19,8 @@ package com.netxforge.netxstudio.common.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.operators.Node;
@@ -48,13 +50,10 @@ public class RFSServiceSummary extends MonitoringAdapter {
 		if (periodInContext == null) {
 			return;
 		}
-
-		this.setPeriod(periodInContext);
-
 		// Safely case, checked by our factory.
 		final RFSService target = getRFSService();
-		
-		// Add ourself as a context, if not already. 
+
+		// Add ourself as a context, if not already.
 		if (this.rfsServiceInContext() == null) {
 			this.addContextObject(target);
 		}
@@ -96,10 +95,11 @@ public class RFSServiceSummary extends MonitoringAdapter {
 					childAdapter.addContextObjects(this.getContextObjects());
 					childAdapter.compute(monitor);
 
-					// FIXME We should base our RAG on external expression computation. 
+					// FIXME We should base our RAG on external expression
+					// computation.
 					// See
 					this.incrementRag(childAdapter.rag());
-					
+
 					if (childAdapter instanceof NodeTypeSummary) {
 
 						NodeTypeSummary nodeTypeSummary = (NodeTypeSummary) childAdapter;
@@ -111,7 +111,24 @@ public class RFSServiceSummary extends MonitoringAdapter {
 				monitor.worked(1);
 			}
 		}
+	}
 
+	@Override
+	protected boolean isSameAdapterFor(EObject object) {
+		return false; // Always produce new adapters.
+	}
+
+	@Override
+	protected boolean isNotFiltered(EObject object) {
+		// Self-adapt for referenced Nodes. (Note, these are not contained).
+		return object.eClass() == OperatorsPackage.Literals.NODE;
+	}
+
+	@Override
+	protected boolean isRelated(CDOObject object) {
+		// We have a relation for NetXResaource objects which are referenced by
+		// this target.
+		return getRFSService().getNodes().contains(object);
 	}
 
 	public int totalServices() {

@@ -19,9 +19,11 @@ package com.netxforge.netxstudio.common.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.ecore.EObject;
 
-import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 
 /**
@@ -39,11 +41,6 @@ public class ComponentSummary extends MonitoringAdapter {
 	@Override
 	protected synchronized void computeForTarget(IProgressMonitor monitor) {
 
-		final DateTimeRange periodInContext = periodInContext();
-		if (periodInContext != null) {
-			this.setPeriod(periodInContext);
-		}
-
 		final Component target = getComponent();
 
 		final SubMonitor subMonitor = SubMonitor.convert(monitor,
@@ -53,7 +50,8 @@ public class ComponentSummary extends MonitoringAdapter {
 
 		for (NetXResource netxresource : target.getResourceRefs()) {
 
-			// The child is likely self-adapted. Also compute the child when
+			// The child is likely self-adapted (Only when loaded!) . Also
+			// compute the child when
 			// the adaption has worked.
 
 			// Call compute child on the adapter...
@@ -70,6 +68,26 @@ public class ComponentSummary extends MonitoringAdapter {
 			}
 			subMonitor.worked(1);
 		}
+	}
+
+	@Override
+	protected boolean isSameAdapterFor(EObject object) {
+		return false; // Always produce new adapters.
+	}
+
+	@Override
+	protected boolean isNotFiltered(EObject object) {
+		// Self-adapt for contained hierarchy. (Not NetXResource is not contained!). 
+		return object.eClass() == LibraryPackage.Literals.FUNCTION
+				|| object.eClass() == LibraryPackage.Literals.EQUIPMENT
+				|| object.eClass() == LibraryPackage.Literals.NET_XRESOURCE;
+	}
+	
+
+	@Override
+	protected boolean isRelated(CDOObject object) {
+		// We have a relation for NetXResaource objects which are referenced by this target. 
+		return getComponent().getResourceRefs().contains(object);
 	}
 
 	public int[] rag() {

@@ -33,7 +33,8 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.f1.ServiceSummaryComponent;
 
 /**
- * Monitoring Dashboard 
+ * Monitoring Dashboard. 
+ * Shows the {@link ServiceSummaryComponent} 
  * 
  * @author Christophe Bouhier
  * 
@@ -87,8 +88,4 @@ public class DashboardScreen extends AbstractScreen implements
 
 	public void addData() {
 	}
-	
-	
-	
-
 }

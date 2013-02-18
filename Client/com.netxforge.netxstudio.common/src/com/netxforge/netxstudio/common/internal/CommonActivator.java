@@ -26,9 +26,14 @@ public class CommonActivator implements BundleActivator, DebugOptionsListener {
 
 	private Injector injector;
 
-	// Tracing for model utils.
-	public static String TRACE_UTILS_OPTION = "/trace.utils";
+	public static String TRACE_COMMON_UTILS_OPTION = "/trace.common.utils";
+	
+	
 	public static String TRACE_COMMON_PROPS_OPTION = "/trace.common.properties";
+	
+	// Monitoring. 
+	public static String TRACE_COMMON_MONITORING_OPTION = "/trace.common.monitoring";
+	public static String TRACE_COMMON_MONITORING_DETAILS_OPTION = "/trace.common.monitoring.details";
 
 	public Injector getInjector() {
 		return injector;

@@ -24,14 +24,9 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.emf.ecore.EObject;
 
-import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.operators.Operator;
-import com.netxforge.netxstudio.services.RFSService;
-import com.netxforge.netxstudio.services.Service;
-import com.netxforge.netxstudio.services.ServiceMonitor;
+import com.netxforge.netxstudio.common.internal.CommonActivator;
 
 /**
  * Populate a summary based on a context.
@@ -92,26 +87,13 @@ public class MonitoringStateJob extends JobChangeAdapter {
 
 	protected void processReadingInternal(final IProgressMonitor monitor) {
 		this.monitor = monitor;
-
-		// Dispatch on the context type.
-		if (target instanceof Operator) {
-			// TODO Create an Operator Summary.
-		} else if (target instanceof RFSService) {
-			summary = null;
-
-			ServiceMonitor sm = modelUtils.lastServiceMonitor((Service) target);
-			if (sm != null) {
-				summary = model.summary(monitor, target,
-						contextObjects);
-			}
-		} else if (target instanceof Node) {
-			// TODO Create a Node summary.
-		} else if (target instanceof Component) {
-			// TODO Create a Component summary.
-		} else if (target instanceof NetXResource) {
-			// TODO Create a resource summary.
+		if (CommonActivator.DEBUG) {
+			CommonActivator.TRACE.trace(
+					CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+					" creating summary for:"
+							+ modelUtils.printModelObject((EObject) target));
 		}
-
+		summary = model.summary(monitor, target, contextObjects);
 	}
 
 	public void cancelMonitor() {

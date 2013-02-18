@@ -23,30 +23,30 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.collect.Iterables;
-import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.Node;
 
 /**
  * 
  * @author Christophe Bouhier
  */
-public class NodeTypeSummary extends MonitoringAdapter {
+public class NodeSummary extends MonitoringAdapter {
 
 	int functions = 0;
 	int equipments = 0;
 	int resources = 0;
 
-	public NodeTypeSummary() {
+	public NodeSummary() {
 	}
 
 	@Override
 	protected void computeForTarget(IProgressMonitor monitor) {
 
 		// Safely case, checked by our factory.
-		final NodeType target = getNodeType();
+		final Node target = getNode();
 
 		final TreeIterator<EObject> iterator = target.eAllContents();
 
@@ -58,14 +58,16 @@ public class NodeTypeSummary extends MonitoringAdapter {
 				+ modelUtils.printModelObject(target));
 
 		while (iterator.hasNext()) {
+
 			EObject next = iterator.next();
+
 			if (next instanceof Function) {
 				functions += 1;
 			} else if (next instanceof Equipment) {
 				equipments += 1;
 			}
 
-			if (next instanceof Component) {
+			if (next instanceof NodeType) {
 
 				IMonitoringSummary childAdapter = this.getChildAdapter(next);
 
@@ -75,18 +77,16 @@ public class NodeTypeSummary extends MonitoringAdapter {
 					childAdapter.compute(monitor);
 					// Base our RAG status, on the child's status
 					this.incrementRag(childAdapter.rag());
-					if (childAdapter instanceof ComponentSummary) {
+					if (childAdapter instanceof NodeTypeSummary) {
 						resources += ((ComponentSummary) childAdapter)
 								.totalResources();
-
 					}
 				}
 			}
 			subMonitor.worked(1);
 		}
-
 	}
-	
+
 	@Override
 	protected boolean isSameAdapterFor(EObject object) {
 		return false; // Always produce new adapters.
@@ -94,12 +94,10 @@ public class NodeTypeSummary extends MonitoringAdapter {
 
 	@Override
 	protected boolean isNotFiltered(EObject object) {
-		// Self-adapt for contained hierarchy. (Note NetXResource is not contained!). 
-		return object.eClass() == LibraryPackage.Literals.FUNCTION
-				|| object.eClass() == LibraryPackage.Literals.EQUIPMENT;
+		// Self-adapt for contained hierarchy. (Note NetXResource is not
+		// contained!).
+		return object.eClass() == LibraryPackage.Literals.NODE_TYPE;
 	}
-
-	
 
 	public String getFunctionCountAsString() {
 		return new Integer(functions).toString();
@@ -125,8 +123,8 @@ public class NodeTypeSummary extends MonitoringAdapter {
 		return resources;
 	}
 
-	public NodeType getNodeType() {
-		final NodeType target = (NodeType) super.getTarget();
+	public Node getNode() {
+		final Node target = (Node) super.getTarget();
 		return target;
 	}
 
