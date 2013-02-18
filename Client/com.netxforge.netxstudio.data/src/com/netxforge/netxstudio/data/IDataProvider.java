@@ -36,7 +36,8 @@ public interface IDataProvider {
 	/**
 	 * The timeout time.
 	 */
-	public static final long SIGNAL_TIME_OUT = 60 * 1000;
+	public static final long SIGNAL_TIME_OUT = 600L * 1000L;
+	public static final long SIGNAL_TIME_OUT_CLIENT = 60L * 1000L;
 	
 	/**
 	 * Comment set on a server side CDO Transaction when committing. 

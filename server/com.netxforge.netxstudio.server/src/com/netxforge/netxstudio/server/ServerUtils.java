@@ -26,16 +26,21 @@ import org.eclipse.emf.cdo.common.commit.handler.AsyncCommitInfoHandler;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.IRepository;
+import org.eclipse.emf.cdo.server.ISession;
 import org.eclipse.emf.cdo.server.IStore;
 import org.eclipse.emf.cdo.server.db.IDBStore;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.session.CDOSession.ExceptionHandler;
+import org.eclipse.emf.cdo.spi.server.ISessionProtocol;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.jvm.IJVMAcceptor;
 import org.eclipse.net4j.jvm.JVMUtil;
+import org.eclipse.net4j.signal.ISignalProtocol;
+import org.eclipse.net4j.util.container.ContainerEventAdapter;
+import org.eclipse.net4j.util.container.IContainer;
 import org.eclipse.net4j.util.container.IElementProcessor;
 import org.eclipse.net4j.util.container.IManagedContainer;
 import org.eclipse.net4j.util.container.IPluginContainer;
@@ -193,6 +198,8 @@ public class ServerUtils {
 		final CDOSessionConfiguration sessionConfiguration = CDONet4jUtil
 				.createSessionConfiguration();
 
+//		sessionConfiguration.setSignalTimeout(60L * 1000L);
+
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 		sessionConfiguration.setExceptionHandler(exceptionHandler);
@@ -218,7 +225,6 @@ public class ServerUtils {
 		sessionConfiguration.getAuthenticator().setCredentialsProvider(
 				credentialsProvider);
 		// set to a minute
-		// sessionConfiguration.setSignalTimeout(IDataProvider.SIGNAL_TIME_OUT);
 
 		return sessionConfiguration;
 	}
@@ -266,6 +272,21 @@ public class ServerUtils {
 			IDBStore dbStore = (IDBStore) store;
 		}
 
+		// Increase the signal timeout.
+		repository.getSessionManager().addListener(
+				new ContainerEventAdapter<ISession>() {
+					@Override
+					protected void onAdded(IContainer<ISession> container,
+							ISession session) {
+						ISessionProtocol protocol = session.getProtocol();
+						if (protocol instanceof ISignalProtocol) {
+							ISignalProtocol<?> signalProtocol = (ISignalProtocol<?>) protocol;
+							signalProtocol
+									.setTimeout(IDataProvider.SIGNAL_TIME_OUT);
+						}
+					}
+				});
+
 		final boolean skipInitPackages;
 
 		final String property = System.getProperty(SKIP_PACKAGE_INIT);
@@ -274,13 +295,13 @@ public class ServerUtils {
 		} else {
 			skipInitPackages = false;
 		}
-		
+
 		if (!skipInitPackages) {
 			// Skip init resources.
 			final ServerInitializer resourceInitializer = ServerActivator
 					.getInstance().getInjector()
 					.getInstance(ServerInitializer.class);
-			
+
 			resourceInitializer.initialize();
 
 		}
@@ -314,7 +335,7 @@ public class ServerUtils {
 			initPackages();
 			initResources();
 		}
-		
+
 		private void initPackages() {
 			CDOSession cdoSession = dataProvider.openSession();
 			cdoSession.getPackageRegistry().putEPackage(GeoPackage.eINSTANCE);
@@ -335,8 +356,9 @@ public class ServerUtils {
 			cdoSession.getPackageRegistry().putEPackage(
 					ServicesPackage.eINSTANCE);
 			cdoSession.close();
-		
+
 		}
+
 		private void initResources() {
 			dataProvider.openSession();
 			dataProvider.getTransaction();

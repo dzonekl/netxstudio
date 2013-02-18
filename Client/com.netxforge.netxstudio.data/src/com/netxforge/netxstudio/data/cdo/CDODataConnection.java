@@ -19,8 +19,6 @@
 package com.netxforge.netxstudio.data.cdo;
 
 import org.eclipse.emf.cdo.common.CDOCommonSession.Options.PassiveUpdateMode;
-import org.eclipse.emf.cdo.common.revision.CDORevisionCache;
-import org.eclipse.emf.cdo.common.revision.CDORevisionUtil;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.net4j.Net4jUtil;
@@ -30,6 +28,7 @@ import org.eclipse.net4j.util.container.ContainerUtil;
 import org.eclipse.net4j.util.container.IManagedContainer;
 
 import com.google.inject.Singleton;
+import com.netxforge.netxstudio.data.IDataProvider;
 
 /**
  * A CDO connection, which can be initialized.
@@ -43,11 +42,11 @@ public class CDODataConnection implements ICDOConnection {
 	protected static final String REPO_NAME = "repo1"; //$NON-NLS-1$
 
 	protected static final String CONNECTION_ADDRESS = "localhost:2036"; //$NON-NLS-1$
-	
+
 	protected static String currentServer;
-	
+
 	private CDOSessionConfiguration sessionConfiguration = null;
-	
+
 	public CDOSessionConfiguration getConfig() {
 		return sessionConfiguration;
 	}
@@ -59,15 +58,14 @@ public class CDODataConnection implements ICDOConnection {
 	public void initialize() {
 		this.initialize(CONNECTION_ADDRESS);
 	}
-	
+
 	public void initialize(String server) {
-		
-		if(server == null || server.length() == 0){
+
+		if (server == null || server.length() == 0) {
 			server = CONNECTION_ADDRESS;
 		}
 		currentServer = server;
 
-		
 		// Prepare container
 		final IManagedContainer container = ContainerUtil.createContainer();
 		Net4jUtil.prepareContainer(container); // Register Net4j factories
@@ -75,32 +73,31 @@ public class CDODataConnection implements ICDOConnection {
 		CDONet4jUtil.prepareContainer(container); // Register CDO factories
 		// LifecycleUtil.activate(container);
 		container.activate();
-		
-		
-		// TODO, We should decompose the Server string, to: 
+
+		// TODO, We should decompose the Server string, to:
 		// URL => protocol (Scheme) :// server / repo
-		
+
 		// Create connector
-		final IConnector connector = TCPUtil.getConnector(container,
-				server);
+		final IConnector connector = TCPUtil.getConnector(container, server);
 		// Create configuration
 		sessionConfiguration = CDONet4jUtil.createSessionConfiguration();
-		
-		// Caching disabled. 
+
+		// Caching disabled.
 		// CB Enabled client caching. 15-11-2012
-//		sessionConfiguration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
-		
+		// sessionConfiguration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
+
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
-		
-		// Disable passive updates. 
-//		sessionConfiguration.setPassiveUpdateEnabled(false);
-		sessionConfiguration.setPassiveUpdateMode(PassiveUpdateMode.INVALIDATIONS);
+
+		// Disable passive updates.
+		// sessionConfiguration.setPassiveUpdateEnabled(false);
+		sessionConfiguration
+				.setPassiveUpdateMode(PassiveUpdateMode.INVALIDATIONS);
 //		sessionConfiguration.setSignalTimeout(IDataProvider.SIGNAL_TIME_OUT);
 	}
-	
-	public String getCurrentServer(){
+
+	public String getCurrentServer() {
 		return currentServer;
 	}
-	
+
 }
