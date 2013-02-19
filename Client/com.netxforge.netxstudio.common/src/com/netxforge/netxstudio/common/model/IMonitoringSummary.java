@@ -20,6 +20,9 @@ package com.netxforge.netxstudio.common.model;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.AdapterFactory;
 
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.services.RFSService;
+
 /**
  * A marker interface for monitoring objects processed in a state.
  * 
@@ -52,14 +55,26 @@ public interface IMonitoringSummary {
 	 * @param object
 	 */
 	public void addContextObjects(Object... objects);
-	
-	
+
 	/**
-	 * Clear the computation context. 
+	 * Clear the computation context.
 	 */
 	public void clearContextObject();
-	
-	
+
+	/**
+	 * Get the period from the context or <code>null</code>
+	 * 
+	 * @return
+	 */
+	public DateTimeRange getPeriod();
+
+	/**
+	 * Get the {@link RFSService} from the context or <code>null</code>
+	 * 
+	 * @return
+	 */
+	public RFSService getRFSService();
+
 	/**
 	 * Get the context objects.
 	 * 
@@ -87,14 +102,12 @@ public interface IMonitoringSummary {
 	 * All summaries have a rag.
 	 */
 	public int[] rag();
-	
-	
+
 	/**
-	 * Set the {@link AdapterFactory} for producing adapters when Self-adapting.  
+	 * Set the {@link AdapterFactory} for producing adapters when Self-adapting.
 	 * 
 	 * @param monitoringAdapterFactory
 	 */
-	public void setSelfAdaptFactory(
-			AdapterFactory adapterFactory);
+	public void setSelfAdaptFactory(AdapterFactory adapterFactory);
 
 }

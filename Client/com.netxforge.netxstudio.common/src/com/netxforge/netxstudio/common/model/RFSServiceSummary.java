@@ -57,7 +57,12 @@ public class RFSServiceSummary extends MonitoringAdapter {
 		if (this.rfsServiceInContext() == null) {
 			this.addContextObject(target);
 		}
-
+		
+		nodes = 0;
+		services = 0;
+		equipments = 0;
+		functions = 0;
+		
 		computeForRFService(target, monitor);
 
 	}
@@ -67,48 +72,50 @@ public class RFSServiceSummary extends MonitoringAdapter {
 		// Include our own service as well.
 		services += 1;
 
-		for (Service childService : service.getServices()) {
+		int work = service.getNodes().size();
+		final SubMonitor subMonitor = SubMonitor.convert(monitor, work);
+		subMonitor.setTaskName("Computing summary for "
+				+ modelUtils.printModelObject(service));
 
-			// Descend the Service Hiearchy first.
-			if (childService instanceof RFSService) {
-				computeForRFService((RFSService) childService, monitor);
+		for (Node node : service.getNodes()) {
+
+			if (!node.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
+				continue;
 			}
+			nodes += 1;
 
-			int work = service.getNodes().size();
-			final SubMonitor subMonitor = SubMonitor.convert(monitor, work);
-			subMonitor.setTaskName("Computing summary for "
-					+ modelUtils.printModelObject(service));
+			IMonitoringSummary childAdapter = this.getChildAdapter(node
+					.getNodeType());
+			//
+			// Guard for potentially non-adapted children.
+			if (childAdapter != null) {
 
-			for (Node node : service.getNodes()) {
+				childAdapter.addContextObjects(this.getContextObjects());
+				childAdapter.compute(monitor);
 
-				if (!node.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
-					continue;
+				// FIXME We should base our RAG on external expression
+				// computation.
+				// See
+				this.incrementRag(childAdapter.rag());
+
+				if (childAdapter instanceof NodeTypeSummary) {
+
+					NodeTypeSummary nodeTypeSummary = (NodeTypeSummary) childAdapter;
+					resources += nodeTypeSummary.totalResources();
+					functions += nodeTypeSummary.totalFunctions();
+					equipments += nodeTypeSummary.totalEquipments();
 				}
-				nodes += 1;
+			}else{
+				// Self Adapt? 
+				
+			}
+			monitor.worked(1);
+		}
 
-				IMonitoringSummary childAdapter = this.getChildAdapter(node
-						.getNodeType());
-				//
-				// Guard for potentially non-adapted children.
-				if (childAdapter != null) {
-
-					childAdapter.addContextObjects(this.getContextObjects());
-					childAdapter.compute(monitor);
-
-					// FIXME We should base our RAG on external expression
-					// computation.
-					// See
-					this.incrementRag(childAdapter.rag());
-
-					if (childAdapter instanceof NodeTypeSummary) {
-
-						NodeTypeSummary nodeTypeSummary = (NodeTypeSummary) childAdapter;
-						resources += nodeTypeSummary.totalResources();
-						functions += nodeTypeSummary.totalFunctions();
-						equipments += nodeTypeSummary.totalEquipments();
-					}
-				}
-				monitor.worked(1);
+		for (Service childService : service.getServices()) {
+			// Descend the Service Hiearchy first.
+			if (service instanceof RFSService) {
+				computeForRFService((RFSService) childService, monitor);
 			}
 		}
 	}

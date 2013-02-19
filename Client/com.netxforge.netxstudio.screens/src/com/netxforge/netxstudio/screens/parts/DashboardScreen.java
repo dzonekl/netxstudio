@@ -28,8 +28,10 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.f1.DashboardComponent;
 import com.netxforge.netxstudio.screens.f1.ServiceSummaryComponent;
 
 /**
@@ -42,13 +44,17 @@ import com.netxforge.netxstudio.screens.f1.ServiceSummaryComponent;
 public class DashboardScreen extends AbstractScreen implements
 		IDataScreenInjection {
 
+	
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	
 	/** The Form for this screen*/
 	private Form frmDashBoardScreen;
 	
 	@Inject
-	private ServiceSummaryComponent summaryComponent;
+	private DashboardComponent dashboardComponent;
+	
+	@Inject
+	private MonitoringStateModel stateModel;
 	
 	public DashboardScreen(Composite parent, int style) {
 		super(parent, style);
@@ -70,8 +76,8 @@ public class DashboardScreen extends AbstractScreen implements
 		content.setLayout(new FillLayout());
 		
 
-		summaryComponent.setParentScreen(this);
-		summaryComponent.buildUI(content, null);
+		dashboardComponent.setParentScreen(this);
+		dashboardComponent.buildUI(content, null);
 	}
 	
 	public Form getScreenForm() {
@@ -88,4 +94,13 @@ public class DashboardScreen extends AbstractScreen implements
 
 	public void addData() {
 	}
+	
+	
+	@Override
+	public void injectData(Object... params) {
+		// The target selection will contain adapts which have the summary :-)
+		// Simply pass it on, for multiple selection
+		dashboardComponent.injectData(params);
+	}
+	
 }

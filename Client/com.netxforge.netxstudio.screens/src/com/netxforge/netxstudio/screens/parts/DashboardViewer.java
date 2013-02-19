@@ -17,12 +17,16 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.parts;
 
+import java.util.Iterator;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import com.google.common.collect.Iterables;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenViewer;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
@@ -48,20 +52,22 @@ public class DashboardViewer extends AbstractScreenViewer {
 		dashboardScreen.buildUI();
 	}
 
-
 	protected void processSelection(ISelection selection) {
 		if (selection != null && !selection.isEmpty()
 				&& selection instanceof StructuredSelection) {
-			Object firstElement = ((StructuredSelection) selection)
-					.getFirstElement();
-			if (firstElement instanceof EObject) {
+			//
+			IStructuredSelection ss = (StructuredSelection) selection;
+			Iterator<Object> iterator = ss.iterator();
+			while(iterator.hasNext()){
+				EObject eo = (EObject) iterator.next(); 
 				System.out.println("@TODO Linking test "
-						+ modelUtils.printModelObject((EObject) firstElement));
-				// dashboardScreen.injectData(...);
-				
-				
+				+ modelUtils.printModelObject(eo));
 			}
+			
+			
+			// TODO, first work with one single object. 
+			dashboardScreen.injectData(new Object[]{ss.getFirstElement()});
+			
 		}
 	}
-
 }

@@ -88,7 +88,7 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	}
 
 	public String getPeriodFormattedString() {
-		return periodInContext() != null ? modelUtils.periodToString(this
+		return periodInContext() != null ? modelUtils.periodToStringMore(this
 				.periodInContext()) : "Not set";
 	}
 
@@ -168,9 +168,21 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		return null;
 	}
 
+	
+	
+	
+	
 	// ADAPTATION.
 
 	// NOTIFICATION FOR AUTO RECOMPUTATION.
+
+	public DateTimeRange getPeriod() {
+		return periodInContext();
+	}
+
+	public RFSService getRFSService() {
+		return rfsServiceInContext();
+	}
 
 	@Override
 	public void notifyChanged(Notification msg) {

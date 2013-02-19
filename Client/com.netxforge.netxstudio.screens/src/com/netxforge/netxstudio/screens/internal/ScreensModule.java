@@ -22,6 +22,7 @@ import com.google.inject.name.Names;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.ch9.NetXScriptInjectorProxy;
+import com.netxforge.netxstudio.screens.f1.DashboardComponent;
 import com.netxforge.netxstudio.screens.f1.ServiceSummaryComponent;
 import com.netxforge.netxstudio.screens.f1.support.PeriodSelectionPage;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionPage;
@@ -75,6 +76,8 @@ public class ScreensModule extends AbstractModule {
 		this.bind(LazyResourcesComponent.class);
 
 		this.bind(ServiceSummaryComponent.class);
+		
+		this.bind(DashboardComponent.class);
 
 		// Bind Label Providers
 		this.bind(NodeTypeTreeLabelProvider.class);

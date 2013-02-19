@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.screens.f1;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -35,10 +36,12 @@ import org.eclipse.ui.progress.UIJob;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateStateCallBack;
+import com.netxforge.netxstudio.common.model.NetxresourceSummary;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
@@ -267,6 +270,21 @@ public class DashboardComponent {
 
 		final SummaryCallBack callBack = new SummaryCallBack();
 		monitoringState.summary(callBack, service, new Object[] { period });
+	}
+
+	public void injectData(Object... selection) {
+
+		for (Object o : selection) {
+			if (MonitoringStateModel.isAdapted((EObject) o)) {
+				IMonitoringSummary adapted = MonitoringStateModel
+						.getAdapted((EObject) o);
+				if (adapted instanceof NetxresourceSummary) {
+					final SummaryCallBack callBack = new SummaryCallBack();
+					monitoringState.summary(callBack, adapted.getRFSService(),
+							new Object[] { adapted.getPeriod() });
+				}
+			}
+		}
 	}
 
 	class SummaryCallBack implements MonitoringStateStateCallBack {

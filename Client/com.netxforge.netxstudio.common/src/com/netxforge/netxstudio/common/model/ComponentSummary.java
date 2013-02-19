@@ -45,6 +45,7 @@ public class ComponentSummary extends MonitoringAdapter {
 
 		final SubMonitor subMonitor = SubMonitor.convert(monitor,
 				totalResources());
+		
 		subMonitor.setTaskName("Computing summary for "
 				+ modelUtils.printModelObject(getComponent()));
 
