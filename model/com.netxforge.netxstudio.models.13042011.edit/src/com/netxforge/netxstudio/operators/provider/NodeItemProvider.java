@@ -198,11 +198,11 @@ public class NodeItemProvider extends BaseItemProvider implements
 	/**
 	 * This returns Node.gif.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Node"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Node_H.png"));
 	}
 
 	/**

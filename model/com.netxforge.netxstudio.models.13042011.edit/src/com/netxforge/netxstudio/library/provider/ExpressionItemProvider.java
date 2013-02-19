@@ -156,7 +156,7 @@ public class ExpressionItemProvider
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Expression"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Expression_H.png"));
 	}
 
 	/**

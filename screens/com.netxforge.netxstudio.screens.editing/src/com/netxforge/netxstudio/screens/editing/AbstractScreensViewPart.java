@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.screens.editing;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EventObject;
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
@@ -30,10 +31,13 @@ import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
+import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -50,6 +54,7 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IPropertyListener;
@@ -64,6 +69,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -232,6 +238,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 * The memento.
 	 */
 	protected IMemento memento;
+
+	private ExtendedPropertySheetPage propertySheetPage;
 
 	public IMemento getMemento() {
 		return memento;
@@ -455,7 +463,59 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
+
+		if (adapter.equals(IPropertySheetPage.class)) {
+			return getPropertySheetPage();
+		}
+
 		return super.getAdapter(adapter);
+
+	}
+
+	/**
+	 * This accesses a cached version of the property sheet. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public IPropertySheetPage getPropertySheetPage() {
+		if (propertySheetPage == null) {
+			propertySheetPage = new ExtendedPropertySheetPage(
+					(AdapterFactoryEditingDomain) this.getEditingDomain()) {
+				@Override
+				public void setSelectionToViewer(List<?> selection) {
+
+					// CB, We don't have this method.
+					// The default EMF implementation calls setSelection on the
+					// current Viewer with an Async call.
+					// In our case, it would be setSelectionToScreen. The
+					// current viewer in the screen
+
+					// AbstractScreensViewPart.this.setSelectionToViewer(selection);
+
+					// Convert the selection, to ISelection like in
+					// setSelectionToViewer.
+					// AbstractScreensViewPart.this.getScreen().setSelection(selection);
+					AbstractScreensViewPart.this.setFocus();
+				}
+
+				@Override
+				public void setActionBars(IActionBars actionBars) {
+					super.setActionBars(actionBars);
+					
+					
+					// CB We don't have a A contributor to share the actions with the property sheet page. 
+					// Investigate. 
+//					getActionBarContributor().shareGlobalActions(this,
+//							actionBars);
+				}
+			};
+			propertySheetPage
+					.setPropertySourceProvider(new AdapterFactoryContentProvider(
+							this.getEditingService().getAdapterFactory()));
+		}
+
+		return propertySheetPage;
 	}
 
 	// BasicCommandStack commandStack = new BasicCommandStack();
@@ -578,12 +638,12 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			break;
 		}
 		}
-		
-//		System.out.println("status message: " + message);
-//		for(StackTraceElement se : Thread.currentThread().getStackTrace()){
-//			System.out.println("--" + se.toString());
-//		}
-		
+
+		// System.out.println("status message: " + message);
+		// for(StackTraceElement se : Thread.currentThread().getStackTrace()){
+		// System.out.println("--" + se.toString());
+		// }
+
 		setStatusLineManager(message);
 	}
 
@@ -618,12 +678,12 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			}
 			}
 		}
-		
-//		System.out.println("status message: " + message);
-//		for(StackTraceElement se : Thread.currentThread().getStackTrace()){
-//			System.out.println("--" + se.toString());
-//		}
-		
+
+		// System.out.println("status message: " + message);
+		// for(StackTraceElement se : Thread.currentThread().getStackTrace()){
+		// System.out.println("--" + se.toString());
+		// }
+
 		this.setStatusLineManager(message);
 	}
 

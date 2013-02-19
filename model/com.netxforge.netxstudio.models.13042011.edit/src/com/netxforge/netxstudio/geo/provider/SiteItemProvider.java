@@ -299,7 +299,7 @@ public class SiteItemProvider
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Site"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Site_H.png"));
 	}
 
 	/**

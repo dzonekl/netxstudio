@@ -184,11 +184,11 @@ public class WarehouseItemProvider
 	 * This returns Warehouse.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Warehouse"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Warehouse_H.png"));
 	}
 
 	/**

@@ -205,11 +205,11 @@ public class NetworkItemProvider extends BaseItemProvider implements
 	/**
 	 * This returns Network.gif.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Network"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Network_H.png"));
 	}
 
 	/**
