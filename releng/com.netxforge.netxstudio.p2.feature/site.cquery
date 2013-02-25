@@ -3,6 +3,7 @@
     <cq:advisorNode namePattern="^org\.eclipse\.xtext\.generator.*" componentType="osgi.bundle" skipComponent="true"/>
     <cq:advisorNode namePattern="^org\.eclipse\.emf\.codegen.*" componentType="osgi.bundle" skipComponent="true"/>
     <cq:advisorNode namePattern="^org\.eclipse\.emf\.mwe2.*" componentType="osgi.bundle" skipComponent="true"/>
+    <cq:advisorNode namePattern="^com\.googe\.collect.*" componentType="osgi.bundle" sourceLevel="REJECT"/>
     <cq:advisorNode namePattern=".*" useTargetPlatform="false">
         <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Do not resolve from Target. (See Resolution Scope).</cq:documentation>
     </cq:advisorNode>
