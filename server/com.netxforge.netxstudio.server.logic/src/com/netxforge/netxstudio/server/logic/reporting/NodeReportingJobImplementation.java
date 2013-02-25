@@ -72,7 +72,6 @@ public class NodeReportingJobImplementation extends JobImplementation {
 		}
 		reportingLogic.initializeStream(path);
 		reportingLogic.run();
-		// getDataProvider().commitTransaction();
 	}
 
 	@Override

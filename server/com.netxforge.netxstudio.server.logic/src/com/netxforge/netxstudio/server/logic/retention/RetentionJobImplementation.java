@@ -41,13 +41,17 @@ public class RetentionJobImplementation extends JobImplementation {
 
 	@Override
 	public void run() {
+		
+		
+		// FIXME We should really set the ID of the rules, and let the logic DataProvider create it's own. 
+		// Here, it's read only, so should be Ok.  
+		
 		Resource res = this.getDataProvider().getResource(
 				MetricsPackage.Literals.METRIC_RETENTION_RULES);
 		if (res.getContents().size() == 1) {
-
+			
 			final MetricRetentionRules rules = (MetricRetentionRules) res
 					.getContents().get(0);
-			
 			
 			// Aggregation 
 			final AggregationLogic aggregationLogic = LogicActivator
@@ -81,8 +85,6 @@ public class RetentionJobImplementation extends JobImplementation {
 				retentionLogic.close();
 
 			}
-
-			getDataProvider().commitTransaction();
 
 		} else {
 			// No rules or more rules..., data corruption...?

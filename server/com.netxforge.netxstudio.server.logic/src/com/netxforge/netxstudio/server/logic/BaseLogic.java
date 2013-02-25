@@ -127,6 +127,11 @@ public abstract class BaseLogic {
 		try {
 			doRun();
 		} catch (final Throwable t) {
+			
+			//  The types of errors here are from the logic and delegation to the engine. 
+			// failures from the run-monitor are isolated. Failures fromt the Expression Engine are also isolated and will 
+			// result in a failure object. 
+			
 			// 3 step, im the trace, on the console and in the log of the job
 			// run.
 			if (LogicActivator.DEBUG) {
@@ -137,9 +142,9 @@ public abstract class BaseLogic {
 			
 			// ? Will continue with next section, so why set finished? 
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
+			
 		} finally {
 			// Update the monitor.
-
 		}
 	}
 	
@@ -150,15 +155,14 @@ public abstract class BaseLogic {
 	 */
 	public void close() {
 
-		// Will close any open transaction.
-		getDataProvider().commitTransaction();
-
+		closeLogic();
+		
+		// Update the monitor.
 		if (getFailures().isEmpty()) {
 			jobMonitor.setFinished(JobRunState.FINISHED_SUCCESSFULLY, null);
 		} else {
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);
 		}
-		getDataProvider().closeSession();
 	}
 	
 	
