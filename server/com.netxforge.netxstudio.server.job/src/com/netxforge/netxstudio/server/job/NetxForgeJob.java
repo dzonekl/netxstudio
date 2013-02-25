@@ -105,6 +105,7 @@ public class NetxForgeJob implements org.quartz.Job {
 			return;
 		}
 		addRunning(job.cdoID());
+		
 		try {
 			final JobImplementation jobImplementation = JobImplementation.REGISTRY
 					.getFactory(job.getClass()).create();

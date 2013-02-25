@@ -17,6 +17,9 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.data.job;
 
+import java.util.List;
+
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 
 public interface IRunMonitor {
@@ -49,6 +52,9 @@ public interface IRunMonitor {
 
 	public abstract void setFinished(JobRunState state, Throwable t);
 	
-	public void updateLog(String string);
+	public abstract void updateLog(String string);
+	
+	public abstract void updateFailures(List<Failure> failure);
+	
 	
 }

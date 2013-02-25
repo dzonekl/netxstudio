@@ -84,7 +84,6 @@ public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 		// Profile Logic Period not set.
 		// Disable resourceProfileLogic.run();
 
-		getDataProvider().commitTransaction();
 	}
 
 	@Override

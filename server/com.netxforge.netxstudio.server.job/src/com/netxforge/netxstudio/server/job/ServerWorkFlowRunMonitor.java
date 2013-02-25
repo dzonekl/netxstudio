@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.server.job;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
+import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
 
@@ -28,12 +29,17 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.job.WorkFlowRunMonitor;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.job.internal.JobActivator;
 
 /**
- * The work flow monitor used on the server side.
+ * The work flow monitor used on the server side. Exceptions (Related to CDO
+ * interaction) are caught here. No try is made to retry any commits, if the
+ * workflow update fails.
  * 
  * @author Martin Taal
  * @author Christophe Bouhier
@@ -48,18 +54,6 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 	@Inject
 	private ModelUtils modelUtils;
 
-	@Override
-	public void update() {
-		dataProvider.openSession();
-		final WorkFlowRun wfRun = (WorkFlowRun) dataProvider.getTransaction()
-				.getObject(workFlowRunId);
-		wfRun.setProgress(getProgress());
-		wfRun.setProgressMessage(getMsg());
-		wfRun.setProgressTask(getTask());
-		dataProvider.commitTransaction();
-		dataProvider.closeSession();
-	}
-
 	public CDOID getWorkFlowRunId() {
 		return workFlowRunId;
 	}
@@ -70,71 +64,156 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 
 	@Override
 	public void setStartRunning() {
-		dataProvider.openSession();
-		dataProvider.getTransaction();
-		final WorkFlowRun wfRun = (WorkFlowRun) dataProvider.getTransaction()
-				.getObject(workFlowRunId);
-		wfRun.setState(JobRunState.RUNNING);
-		wfRun.setStarted(modelUtils.toXMLDate(new Date()));
-		wfRun.setProgress(0);
-		dataProvider.commitTransaction();
-		dataProvider.closeSession();
+		new FailSafeCDOAction() {
+			@Override
+			protected void body(final WorkFlowRun wfRun) {
+				wfRun.setState(JobRunState.RUNNING);
+				wfRun.setStarted(modelUtils.toXMLDate(new Date()));
+				wfRun.setProgress(0);
+			}
+
+		}.act();
 	}
 
 	@Override
-	public void setFinished(JobRunState state, Throwable t) {
-		dataProvider.openSession();
-		final WorkFlowRun wfRun = (WorkFlowRun) dataProvider.getTransaction()
-				.getObject(workFlowRunId);
-		if (t != null) {
-			wfRun.setState(JobRunState.FINISHED_WITH_ERROR);
-			final StringWriter sw = new StringWriter();
-			final PrintWriter pw = new PrintWriter(sw);
+	public void setFinished(final JobRunState state, final Throwable t) {
 
-			t.printStackTrace(pw);
+		new FailSafeCDOAction() {
 
-			// Truncate the exception to fix #. chars.
-			String newLog = getLog() + "\n" + t.getMessage() + "\n" + sw;
-			if (newLog.length() > 0) {
-				if (newLog.length() > 20000) {
-					wfRun.setLog(newLog.substring(0, 19999)); // Truncate to
-																// slightly
-																// smaller
-																// than...
+			@Override
+			protected void body(final WorkFlowRun wfRun) {
+				if (t != null) {
+					wfRun.setState(JobRunState.FINISHED_WITH_ERROR);
+					final StringWriter sw = new StringWriter();
+					final PrintWriter pw = new PrintWriter(sw);
+
+					t.printStackTrace(pw);
+
+					// Truncate the exception to fix #. chars.
+					String newLog = getLog() + "\n" + t.getMessage() + "\n"
+							+ sw;
+					if (newLog.length() > 0) {
+						if (newLog.length() > 20000) {
+							wfRun.setLog(newLog.substring(0, 19999)); // Truncate
+																		// to
+																		// slightly
+																		// smaller
+																		// than...
+						} else {
+							wfRun.setLog(newLog);
+						}
+					}
 				} else {
-					wfRun.setLog(newLog);
+					wfRun.setState(state);
+					if (getLog().length() > 0) {
+						String string = getLog().toString();
+						if (string.length() > 20000) {
+							wfRun.setLog(string.substring(0, 19999)); // Truncate
+																		// to
+																		// slightly
+																		// smaller
+																		// than...
+						} else {
+							wfRun.setLog(string);
+						}
+					}
+					wfRun.setProgress(100);
 				}
+				wfRun.setEnded(modelUtils.toXMLDate(new Date()));
 			}
-		} else {
-			wfRun.setState(state);
-			if (getLog().length() > 0) {
-				String string = getLog().toString();
-				if (string.length() > 20000) {
-					wfRun.setLog(string.substring(0, 19999)); // Truncate to
-																// slightly
-																// smaller
-																// than...
-				} else {
-					wfRun.setLog(string);
-				}
-			}
-			wfRun.setProgress(100);
-		}
-		wfRun.setEnded(modelUtils.toXMLDate(new Date()));
-		dataProvider.commitTransaction();
-		dataProvider.closeSession();
+		}.act();
 	}
 
 	@Override
-	public void updateLog(String string) {
+	public void update() {
+
+		new FailSafeCDOAction() {
+
+			@Override
+			protected void body(final WorkFlowRun wfRun) {
+				wfRun.setProgress(getProgress());
+				wfRun.setProgressMessage(getMsg());
+				wfRun.setProgressTask(getTask());
+			}
+		}.act();
+
+	}
+
+	@Override
+	public void updateFailures(final List<Failure> failures) {
+		new FailSafeCDOAction() {
+
+			@Override
+			protected void body(WorkFlowRun wfRun) {
+				if (wfRun instanceof ComponentWorkFlowRun && failures != null
+						&& !failures.isEmpty()) {
+					ComponentWorkFlowRun compWfRun = (ComponentWorkFlowRun) wfRun;
+					compWfRun.getFailureRefs().addAll(failures);
+				} else {
+					// Can't save failures in non-component run.
+				}
+			}
+		}.act();
+
+	}
+
+	@Override
+	public void updateLog(final String string) {
 		// Update the log.
 
-		dataProvider.openSession();
-		final WorkFlowRun wfRun = (WorkFlowRun) dataProvider.getTransaction()
-				.getObject(workFlowRunId);
-		wfRun.setLog(getLog() + "\n" + string);
-		dataProvider.commitTransaction();
-		dataProvider.closeSession();
+		new FailSafeCDOAction() {
+
+			@Override
+			protected void body(final WorkFlowRun wfRun) {
+				wfRun.setLog(getLog() + "\n" + string);
+			}
+		}.act();
+
+	}
+
+	/**
+	 * CDO session and transaction activities are caught, will not interrupt the
+	 * permanent logic.
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	abstract class FailSafeCDOAction {
+
+		/**
+		 * Calls {@link #pre()} , {@link #body()} , {@link #post()}
+		 */
+		public void act() {
+
+			try {
+
+				pre();
+				final WorkFlowRun wfRun = (WorkFlowRun) dataProvider
+						.getTransaction().getObject(workFlowRunId);
+				body(wfRun);
+				post();
+			} catch (Throwable t) {
+				// Workflow failures are simply ignored.
+				if (JobActivator.DEBUG) {
+					JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION,
+							"Failure updateing workflow: " + workFlowRunId, t);
+				}
+
+			} finally {
+
+				dataProvider.closeSession();
+			}
+		}
+
+		protected abstract void body(final WorkFlowRun wfRun);
+
+		public void pre() {
+			dataProvider.openSession();
+		}
+
+		public void post() {
+			dataProvider.commitTransaction();
+			dataProvider.closeSession();
+		}
 	}
 
 }

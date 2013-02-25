@@ -17,8 +17,6 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.server.test;
 
-import com.google.inject.Injector;
-import com.netxforge.netxstudio.server.internal.ServerActivator;
 
 /**
  * Gives the injector as produced in an Activator. 
@@ -27,13 +25,12 @@ import com.netxforge.netxstudio.server.internal.ServerActivator;
 public class InjectorForService {
 
 	
-	public Injector injectorFor(Class<?> claxx){
-		if( claxx == ServerActivator.class){
-			return ServerActivator.get
-		}
-		
-		
-	}
+//	public Injector injectorFor(Class<?> claxx){
+//		if( claxx == ServerActivator.class){
+//		}
+//		
+//		
+//	}
 	
 	
 }

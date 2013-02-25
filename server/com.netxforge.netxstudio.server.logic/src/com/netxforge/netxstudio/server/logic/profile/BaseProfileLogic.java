@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
 
-import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.server.logic.BasePeriodLogic;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
@@ -82,15 +81,9 @@ public abstract class BaseProfileLogic extends BasePeriodLogic {
 			getJobMonitor().setTask("Profile for service users");
 			processServiceUser(su);
 		}
-		if (!getFailures().isEmpty()) {
-			final ComponentWorkFlowRun run = (ComponentWorkFlowRun) this
-					.getDataProvider().getTransaction()
-					.getObject(this.getJobMonitor().getWorkFlowRunId());
-			for (Failure f : getFailures()) {
-					run.getFailureRefs().add(f);
-			}
-
-		}
+			
+		this.getJobMonitor().updateFailures(this.getFailures());
+		
 		this.getDataProvider().commitTransaction();
 		this.getDataProvider().closeSession();
 	}

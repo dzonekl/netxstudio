@@ -21,15 +21,12 @@ package com.netxforge.netxstudio.server.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.cdo.util.CommitException;
-
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
-import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Failure;
 
 /**
@@ -40,8 +37,9 @@ import com.netxforge.netxstudio.scheduling.Failure;
 public abstract class BaseComponentLogic extends BasePeriodLogic {
 
 	protected void doRun() {
-		// get a transaction, if we didn't create it, we shouldn't close t.
-		// this.getDataProvider().getTransaction();
+		
+		this.getDataProvider().getTransaction();
+		
 		final List<NodeType> nodeTypes = getNodeTypesToExecuteFor();
 
 		// Note: The total work is not linear to the number of components,
@@ -58,28 +56,11 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 			getJobMonitor().setTask("Processing for nodeType");
 			processNode(nodeType);
 		}
-		if (!getFailures().isEmpty()) {
-
-			// We can't use our own provider for this.
-
-			final ComponentWorkFlowRun run = (ComponentWorkFlowRun) this
-					.getDataProvider().getTransaction()
-					.getObject(this.getJobMonitor().getWorkFlowRunId());
-			for (Failure f : getFailures()) {
-				run.getFailureRefs().add(f);
-			}
-
-			// this.getJobMonitor().addFailures(getFailures());
-			try {
-				this.getDataProvider().getTransaction().commit();
-			} catch (CommitException e) {
-				e.printStackTrace();
-			} 
-			
-		}
-		// Commit and close.
-		//
-		// this.getDataProvider().closeSession();
+		this.getJobMonitor().updateFailures(this.getFailures());
+		
+		this.getDataProvider().commitTransaction();
+		this.getDataProvider().closeSession();
+		
 	}
 
 	protected abstract List<NodeType> getNodeTypesToExecuteFor();
@@ -105,6 +86,9 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		engine.setDataProvider(this.getDataProvider());
 		engine.setPeriod(getPeriod());
 		engine.execute();
+		
+		
+		// Update the failures. 
 		if (engine.getFailures().size() > 0) {
 			for (final Failure failure : engine.getFailures()) {
 				if (failure instanceof ComponentFailure) {

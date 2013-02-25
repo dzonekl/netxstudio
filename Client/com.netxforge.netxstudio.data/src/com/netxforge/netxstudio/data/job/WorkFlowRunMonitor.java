@@ -18,6 +18,9 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.job;
 
+import java.util.List;
+
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 
 /**
@@ -184,4 +187,13 @@ public abstract class WorkFlowRunMonitor implements IRunMonitor {
 	public void updateLog(String string) {
 
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.job.IRunMonitor#updateFailures(java.util.List)
+	 */
+	public void updateFailures(List<Failure> failure) {
+		
+	}
+	
 }

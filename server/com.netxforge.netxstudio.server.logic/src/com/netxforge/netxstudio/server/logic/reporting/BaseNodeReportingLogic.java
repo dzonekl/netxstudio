@@ -38,8 +38,6 @@ import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
-import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.server.logic.BasePeriodLogic;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.services.Service;
@@ -100,16 +98,8 @@ public abstract class BaseNodeReportingLogic extends BasePeriodLogic {
 		processNodesByNodeType(sheet);
 
 		writeFinal(sheet);
-
-		if (!getFailures().isEmpty()) {
-			final ComponentWorkFlowRun run = (ComponentWorkFlowRun) this
-					.getDataProvider().getTransaction()
-					.getObject(this.getJobMonitor().getWorkFlowRunId());
-
-			for (Failure f : this.getFailures()) {
-				run.getFailureRefs().add(f);
-			}
-		}
+		
+		getJobMonitor().updateFailures(this.getFailures());
 
 		try {
 			workBook.write(this.getStream());

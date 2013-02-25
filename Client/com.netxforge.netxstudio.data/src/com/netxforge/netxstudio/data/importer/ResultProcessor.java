@@ -721,15 +721,6 @@ public class ResultProcessor {
 				break;
 			case RangeKind.METRIC_VALUE:
 
-				// TODO, Apply a value filler as the interpreter will only
-				// return two values
-				// with Timestamps matching start and end of the period.
-
-				// Disable the filler values.
-				// @SuppressWarnings("unused")
-				// List<Value> createValues = getCreateValues(expressionResult,
-				// start, end);
-
 				addToValueRange(resource,
 						expressionResult.getTargetIntervalHint(),
 						expressionResult.getTargetKindHint(),
