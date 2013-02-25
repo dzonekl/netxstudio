@@ -708,7 +708,7 @@ public class ModelUtils {
 			for (int field : fields) {
 				// Get the target map.
 				final int currentFieldValue = cal.get(field);
-				sb.append(currentFieldValue);
+				sb.append("_" + currentFieldValue);
 			}
 			String key = sb.toString();
 			if (targetMap.containsKey(key)) {
@@ -717,6 +717,16 @@ public class ModelUtils {
 				List<Value> vList = Lists.newArrayList();
 				vList.add(v);
 				targetMap.put(key, vList);
+			}
+		}
+		for( String s : targetMap.keySet()){
+			System.out.println( "key: " + s);
+		}
+		
+		if (CommonActivator.DEBUG) {
+			CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION, "Value by period splitter, key output");
+			for( String s : targetMap.keySet()){
+				CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION, "key: " + s);
 			}
 		}
 		List<List<Value>> valueMatrix = Lists.newArrayList();
@@ -805,11 +815,11 @@ public class ModelUtils {
 		case MINUTES_IN_AN_HOUR:
 			return calFieldForPeriods; // All are needed.
 		case MINUTES_IN_A_DAY:
-			return copyOfRange(calFieldForPeriods, 1, 4);
+			return copyOfRange(calFieldForPeriods, 1, 5);
 		case MINUTES_IN_A_WEEK:
 			return copyOfRange(calFieldForPeriods, 2, 5);
 		case MINUTES_IN_A_MONTH:
-			return copyOfRange(calFieldForPeriods, 2, 6);
+			return copyOfRange(calFieldForPeriods, 3, 5);
 		default:
 			return null;
 		}
