@@ -59,8 +59,6 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		this.getJobMonitor().updateFailures(this.getFailures());
 		
 		this.getDataProvider().commitTransaction();
-		this.getDataProvider().closeSession();
-		
 	}
 
 	protected abstract List<NodeType> getNodeTypesToExecuteFor();

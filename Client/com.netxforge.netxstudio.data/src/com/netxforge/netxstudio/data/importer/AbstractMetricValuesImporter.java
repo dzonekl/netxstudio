@@ -507,7 +507,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	private void commitTransactionAndClose() {
 		try {
-			getDataProvider().commitTransaction();
+			getDataProvider().commitTransactionThenClose();
 		} catch (final Throwable t) {
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(

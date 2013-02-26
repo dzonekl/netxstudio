@@ -76,7 +76,7 @@ public class MetricSourceJobTest extends AbstractInjectedTestJUnit3 {
 				job.setDeleted(true);
 			}
 		}
-		provider.commitTransaction();
+		provider.commitTransactionThenClose();
 	}
 
 	@Test
@@ -93,7 +93,7 @@ public class MetricSourceJobTest extends AbstractInjectedTestJUnit3 {
 				job.setName(JOBNAME + "test");
 			}
 		}
-		provider.commitTransaction();
+		provider.commitTransactionThenClose();
 	}
 
 	@Test
@@ -114,7 +114,7 @@ public class MetricSourceJobTest extends AbstractInjectedTestJUnit3 {
 		msJob.getMetricSources().add(createTestMetricSource(JOBNAME));
 		resource.getContents().add(msJob);
 		resource.save(Collections.emptyMap());
-		provider.commitTransaction();
+		provider.commitTransactionThenClose();
 	}
 
 	private MetricSource createTestMetricSource(String name) throws Exception {

@@ -85,7 +85,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			// Data corruption issue.
 		}
 
-		dService.getProvider().commitTransaction();
+		dService.getProvider().commitTransactionThenClose();
 
 		// dService.getQueryService().close();
 

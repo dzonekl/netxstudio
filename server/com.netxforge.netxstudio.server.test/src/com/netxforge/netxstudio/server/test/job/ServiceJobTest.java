@@ -76,7 +76,7 @@ public class ServiceJobTest extends AbstractInjectedTestJUnit3 {
 	public void testServiceJob() throws Exception {
 		dataProvider.getTransaction();
 		this.createModelData();
-		dataProvider.commitTransaction();
+		dataProvider.commitTransactionThenClose();
 	}
 
 	private RFSService createModelData() throws Exception {

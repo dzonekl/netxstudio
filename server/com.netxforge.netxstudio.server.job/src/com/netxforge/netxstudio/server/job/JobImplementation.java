@@ -74,7 +74,7 @@ public abstract class JobImplementation {
 	}
 
 	public void finish() {
-		getDataProvider().commitTransaction();
+		getDataProvider().commitTransactionThenClose();
 		getDataProvider().closeSession();
 	}
 	

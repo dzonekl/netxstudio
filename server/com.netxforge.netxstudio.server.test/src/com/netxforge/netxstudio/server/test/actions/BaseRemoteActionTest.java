@@ -107,7 +107,7 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit3 {
 				}
 			}
 		}
-		dataProvider.commitTransaction();
+		dataProvider.commitTransactionThenClose();
 	}
 
 	public void testCallActionNode() throws Exception {
@@ -120,7 +120,7 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit3 {
 				callServerAction(MonitoringService.NODE_PARAM, node);
 			}
 		}
-		dataProvider.commitTransaction();
+		dataProvider.commitTransactionThenClose();
 	}
 
 	public void testCallActionNodeType() throws Exception {
@@ -133,7 +133,7 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit3 {
 				callServerAction(MonitoringService.NODETYPE_PARAM, node.getNodeType());
 			}
 		}
-		dataProvider.commitTransaction();
+		dataProvider.commitTransactionThenClose();
 	}
 
 	public void callServerAction(final String paramName,
@@ -158,7 +158,7 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit3 {
 			if (workFlowRun.getState() == JobRunState.FINISHED_SUCCESSFULLY) {
 				break;
 			}
-			anotherDataProvider.commitTransaction();
+			anotherDataProvider.commitTransactionThenClose();
 		}
 	}
 

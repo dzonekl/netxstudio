@@ -90,7 +90,7 @@ public class UpdateJobTest extends AbstractInjectedTestJUnit3 {
 		msJob.getMetricSources().add(createTestMetricSource(MSJOBNAME));
 		resource.getContents().add(msJob);
 		resource.save(Collections.emptyMap());
-		provider.commitTransaction();
+		provider.commitTransactionThenClose();
 	}
 
 	private MetricSource createTestMetricSource(String name)

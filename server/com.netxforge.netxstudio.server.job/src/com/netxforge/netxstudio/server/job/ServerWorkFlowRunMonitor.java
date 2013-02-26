@@ -211,7 +211,7 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 		}
 
 		public void post() {
-			dataProvider.commitTransaction();
+			dataProvider.commitTransactionThenClose();
 			dataProvider.closeSession();
 		}
 	}

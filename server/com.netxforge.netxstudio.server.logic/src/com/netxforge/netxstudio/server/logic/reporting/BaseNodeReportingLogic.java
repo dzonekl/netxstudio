@@ -108,7 +108,7 @@ public abstract class BaseNodeReportingLogic extends BasePeriodLogic {
 			// TODO, Perhaps add another failure?
 		}
 
-		this.getDataProvider().commitTransaction();
+		this.getDataProvider().commitTransactionThenClose();
 		this.getDataProvider().closeSession();
 	}
 

@@ -106,7 +106,7 @@ public class TestDataProvider implements IDataProvider {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	public void commitTransaction() {
+	public void commitTransactionThenClose() {
 		throw new java.lang.UnsupportedOperationException();
 	}
 

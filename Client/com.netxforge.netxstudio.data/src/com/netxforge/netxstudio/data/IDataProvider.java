@@ -249,10 +249,15 @@ public interface IDataProvider {
 	
 
 	/**
-	 * Commit the current transaction if there is any.
+	 * Commit the current transaction if there is any and close it. 
+	 */
+	public void commitTransactionThenClose();
+	
+	/**
+	 * Commit the current transaction and keep it open. 
 	 */
 	public void commitTransaction();
-	
+
 	/**
 	 * Closes a view, and potentially nullify an instance in the provider. 
 	 */

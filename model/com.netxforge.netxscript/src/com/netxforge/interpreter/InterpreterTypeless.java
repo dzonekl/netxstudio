@@ -1607,9 +1607,14 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 
 	private int extractInterval(RangeRef rangeRef) {
 		int targetInterval;
+		if (rangeRef.getInterval() != null) {
 			BigDecimal result = dispatcher.invoke(rangeRef.getInterval(),
 					ImmutableMap.<String, Object> of());
 			targetInterval = result.intValue();
+		} else {
+			// Use hour values?
+			targetInterval = 60;
+		}
 		return targetInterval;
 	}
 

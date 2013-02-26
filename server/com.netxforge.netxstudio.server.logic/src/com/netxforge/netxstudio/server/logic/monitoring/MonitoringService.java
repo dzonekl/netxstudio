@@ -164,7 +164,7 @@ public class MonitoringService implements NetxForgeService {
 					.createComponentWorkFlowRun();
 			res.getContents().add(wfRun);
 
-			dataProvider.commitTransaction();
+			dataProvider.commitTransactionThenClose();
 			dataProvider.closeSession();
 			runMonitor.setWorkFlowRunId(wfRun.cdoID());
 			runMonitor.setStartRunning();

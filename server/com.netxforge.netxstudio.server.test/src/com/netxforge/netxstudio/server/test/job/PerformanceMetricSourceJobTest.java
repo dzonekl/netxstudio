@@ -65,7 +65,7 @@ public class PerformanceMetricSourceJobTest extends AbstractInjectedTestJUnit3 {
 			}
 		}
 
-		provider.commitTransaction();
+		provider.commitTransactionThenClose();
 
 	}
 

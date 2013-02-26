@@ -83,7 +83,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 			// TODO, Perhaps add another failure?
 		}
 
-		 this.getDataProvider().commitTransaction();
+		 this.getDataProvider().commitTransactionThenClose();
 		 this.getDataProvider().closeSession();
 	}
 

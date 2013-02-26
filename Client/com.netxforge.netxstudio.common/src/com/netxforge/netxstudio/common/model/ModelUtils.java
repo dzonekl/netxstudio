@@ -696,6 +696,11 @@ public class ModelUtils {
 		// higher fields.
 		// If the field is HOUR, it should be in a map of
 		// HOUR-DAY-WEEK-MONTH-YEAR.
+		//
+		// For week target, do not consider the month field.
+		// Note that if a week is partially in two consecutive years,
+		// it will be split by this algo.
+
 		final Map<String, List<Value>> targetMap = Maps.newHashMap();
 
 		final int[] fields = fieldsForTargetInterval(targetInterval);
@@ -719,16 +724,47 @@ public class ModelUtils {
 				targetMap.put(key, vList);
 			}
 		}
-		
+
+		// Sort the entries of our map.
+
+		List<List<Value>> valueMatrix = Ordering.from(
+				new Comparator<List<Value>>() {
+
+					public int compare(List<Value> o1, List<Value> o2) {
+						if (o1.isEmpty() || o2.isEmpty()) {
+							return 0;
+						}
+
+						// Sort the collections first.
+						List<Value> o1Sorted = sortValuesByTimeStamp(o1);
+						List<Value> o2Sorted = sortValuesByTimeStamp(o2);
+
+						return valueValueCompare().compare(o1Sorted.get(0),
+								o2Sorted.get(0));
+					}
+				}).sortedCopy(targetMap.values());
+		//
+		//
+		// for (String s : sortedKeys) {
+		// System.out.println("key: " + s);
+		// }
+
 		if (CommonActivator.DEBUG) {
-			CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION, "Value by period splitter, key output");
-			for( String s : targetMap.keySet()){
-				CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION, "key: " + s);
+			CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION,
+					"Value by period splitter, key output");
+			List<String> sortedKeys = Ordering.from(new Comparator<String>() {
+
+				public int compare(String o1, String o2) {
+					return o1.compareTo(o2);
+				}
+
+			}).sortedCopy(targetMap.keySet());
+			for (String s : sortedKeys) {
+				CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION,
+						"key: " + s);
 			}
 		}
-		List<List<Value>> valueMatrix = Lists.newArrayList();
-		valueMatrix.addAll(targetMap.values());
-		
+
 		return valueMatrix;
 	}
 
@@ -814,7 +850,7 @@ public class ModelUtils {
 		case MINUTES_IN_A_DAY:
 			return copyOfRange(calFieldForPeriods, 1, 5);
 		case MINUTES_IN_A_WEEK:
-			return copyOfRange(calFieldForPeriods, 2, 5);
+			return new int[] { Calendar.WEEK_OF_YEAR, Calendar.YEAR };
 		case MINUTES_IN_A_MONTH:
 			return copyOfRange(calFieldForPeriods, 3, 5);
 		default:

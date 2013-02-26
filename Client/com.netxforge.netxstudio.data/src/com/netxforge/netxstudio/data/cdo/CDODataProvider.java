@@ -605,10 +605,14 @@ public abstract class CDODataProvider implements IDataProvider {
 		return null;
 	}
 
-	public void commitTransaction() {
-		commitTransaction(CLIENT_COMMIT_COMMENT);
+	public void commitTransactionThenClose() {
+		commitTransaction(CLIENT_COMMIT_COMMENT, true);
 	}
 
+	public void commitTransaction() {
+		commitTransaction(CLIENT_COMMIT_COMMENT, false);
+	}
+	
 	public void rollbackTransaction() {
 		try {
 			if (isTransactionSet()) {
@@ -627,7 +631,7 @@ public abstract class CDODataProvider implements IDataProvider {
 		this.doGetResourceFromOwnTransaction = doGetResourceFromOwnTransaction;
 	}
 
-	public void commitTransaction(String commitComment) {
+	public void commitTransaction(String commitComment, boolean close) {
 		try {
 			if (isTransactionSet()) {
 				if (commitComment != null && commitComment.length() > 0) {
@@ -640,17 +644,18 @@ public abstract class CDODataProvider implements IDataProvider {
 		} finally {
 
 			CDOTransaction transaction = getTransaction();
-
-			if (!transaction.isClosed()) {
-				if (DataActivator.DEBUG) {
-					DataActivator.TRACE.trace(
-							DataActivator.TRACE_DATA_OPTION,
-							"Closing transaction with ID: "
-									+ transaction.getViewID());
+			if (close) {
+				if (!transaction.isClosed()) {
+					if (DataActivator.DEBUG) {
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_DATA_OPTION,
+								"Closing transaction with ID: "
+										+ transaction.getViewID());
+					}
+					transaction.close();
 				}
-				transaction.close();
+				setTransaction(null);
 			}
-			setTransaction(null);
 		}
 	}
 

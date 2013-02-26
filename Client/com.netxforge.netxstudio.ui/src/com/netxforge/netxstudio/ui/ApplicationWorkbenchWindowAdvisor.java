@@ -108,7 +108,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		}
 
 		// close the transaction.
-		dService.getProvider().commitTransaction();
+		dService.getProvider().commitTransactionThenClose();
 
 		// dService.getQueryService().close();
 

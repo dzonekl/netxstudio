@@ -167,11 +167,11 @@ public abstract class BaseLogic {
 	
 	
 	/**
-	 * Close the logic, but now the run monitor, as it is meant to be used further on. 
+	 * Close the logic, but not the run monitor, as it is meant to be used further on. 
 	 */
 	public void closeLogic() {
 		// Will close any open transaction.
-		getDataProvider().commitTransaction();
+		getDataProvider().commitTransactionThenClose();
 		getDataProvider().closeSession();
 	}
 	

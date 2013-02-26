@@ -182,7 +182,7 @@ public class TestModel {
 			NodeType copyofType = EcoreUtil.copy(sgsnNodeType);
 			n.setNodeType(copyofType);
 
-			provider.commitTransaction();
+			provider.commitTransactionThenClose();
 
 			return n;
 

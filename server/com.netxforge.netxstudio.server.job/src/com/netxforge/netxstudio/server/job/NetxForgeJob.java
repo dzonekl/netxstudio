@@ -140,7 +140,7 @@ public class NetxForgeJob implements org.quartz.Job {
 		addAndTruncate(container.getWorkFlowRuns(), wfRun);
 //		container.getWorkFlowRuns().add(wfRun);
 
-		dataProvider.commitTransaction();
+		dataProvider.commitTransactionThenClose();
 		dataProvider.closeSession();
 		
 		// Tigh the ID of the Workflow run with the Run Monitor. The monitor will update this object. 

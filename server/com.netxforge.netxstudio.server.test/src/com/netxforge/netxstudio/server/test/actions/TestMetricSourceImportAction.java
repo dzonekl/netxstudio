@@ -88,7 +88,7 @@ public class TestMetricSourceImportAction extends AbstractInjectedTestJUnit3 {
 			final CDOObject cdoObject = (CDOObject) eObject;
 			callAction(MetricSourceImportService.MS_PARAM, cdoObject);
 		}
-		dataProvider.commitTransaction();
+		dataProvider.commitTransactionThenClose();
 	}
 
 	public void callAction(final String paramName,
@@ -115,7 +115,7 @@ public class TestMetricSourceImportAction extends AbstractInjectedTestJUnit3 {
 			if (workFlowRun.getState() == JobRunState.FINISHED_SUCCESSFULLY) {
 				break;
 			}
-			anotherDataProvider.commitTransaction();
+			anotherDataProvider.commitTransactionThenClose();
 		}
 	}
 

@@ -373,7 +373,7 @@ public class ServerUtils {
 			// fixtures.unloadFixtures(); // UNCOMMENT TO RELOAD FIXTURES.
 			fixtures.loadFixtures();
 
-			dataProvider.commitTransaction();
+			dataProvider.commitTransactionThenClose();
 			dataProvider.closeSession();
 		}
 

@@ -93,13 +93,13 @@ public abstract class BasePeriodLogic extends BaseLogic {
 	}
 
 	/**
-	 * Return the default logic period of 6 months.
+	 * Return the default logic period of 12 months.
 	 * 
 	 * @return
 	 */
 	public DateTimeRange getDefaultLogicPeriod() {
 
-		Date startTime = this.getModelUtils().monthsAgo(8);
+		Date startTime = this.getModelUtils().monthsAgo(12);
 		startTime = getModelUtils().adjustToDayStart(startTime);
 
 		// Perhaps should calculate on midnght hours.

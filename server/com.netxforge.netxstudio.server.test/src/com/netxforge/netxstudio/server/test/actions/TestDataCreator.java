@@ -151,7 +151,7 @@ public class TestDataCreator implements NetxForgeService {
 		createCVSMetricSource();
 		createDBOracleMetricSource();
 		createDBPGMetricSource();
-		dataProvider.commitTransaction();
+		dataProvider.commitTransactionThenClose();
 	}
 
 	@SuppressWarnings("unused")
@@ -167,7 +167,7 @@ public class TestDataCreator implements NetxForgeService {
 		clearResourcesForEPackage(LibraryPackage.eINSTANCE);
 		clearResourcesForEPackage(GeoPackage.eINSTANCE);
 		clearResourcesForEPackage(GenericsPackage.eINSTANCE);
-		dataProvider.commitTransaction();
+		dataProvider.commitTransactionThenClose();
 	}
 
 	private void clearResourcesForEPackage(

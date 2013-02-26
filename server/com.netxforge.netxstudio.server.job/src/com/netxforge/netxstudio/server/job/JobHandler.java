@@ -962,7 +962,7 @@ public class JobHandler {
 			} else {
 				result = "Oops, job " + nextArgument + " doesn't exist.";
 			}
-			dataProvider.commitTransaction();
+			dataProvider.commitTransactionThenClose();
 		}
 		return result;
 	}
@@ -986,7 +986,7 @@ public class JobHandler {
 			} else {
 				result = "Oops, job " + nextArgument + " doesn't exist.";
 			}
-			dataProvider.commitTransaction();
+			dataProvider.commitTransactionThenClose();
 		}
 		return result;
 	}

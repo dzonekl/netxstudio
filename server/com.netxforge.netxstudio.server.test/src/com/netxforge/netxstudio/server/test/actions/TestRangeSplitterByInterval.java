@@ -82,16 +82,15 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 			}
 		}
 		dayValues = Lists.newArrayList();
-		// start 3 months from now, increase one day each time.
-
+		// start 365 days from now, increase one day each time.
 		{
-			Date threeMonthsAgo = modelUtils.threeMonthsAgo();
-			threeMonthsAgo = modelUtils.adjustToDayStart(threeMonthsAgo);
+			Date today = modelUtils.todayAndNow();
+			today = modelUtils.adjustToDayStart(today);
 			Calendar instance = Calendar.getInstance();
-			instance.setTime(threeMonthsAgo);
-			for (int i = 0; i < 100; i++) {
+			instance.setTime(today);
+			for (int i = 0; i < 365; i++) {
 				Value v = GenericsFactory.eINSTANCE.createValue();
-				instance.add(Calendar.DAY_OF_MONTH, 1);
+				instance.add(Calendar.DAY_OF_YEAR, -1);
 				v.setTimeStamp(modelUtils.toXMLDate(instance.getTime()));
 				v.setValue(i);
 				dayValues.add(v);
@@ -217,7 +216,7 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 			Assert.assertEquals(size, subRangesSize);
 		}
 
-		System.out.println("Split day by day (3 Months)");
+		System.out.println("Split day by day (1 Year)");
 		{
 			int size = dayValues.size();
 			List<List<Value>> splitValueRange = modelUtils.values_(dayValues,
@@ -232,11 +231,10 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 				System.out.println();
 			}
 			Assert.assertEquals(size, subRangesSize);
-
 		}
 		{
 
-			System.out.println("Split day by week (3 Months)");
+			System.out.println("Split day by week (1 year)");
 			int size = dayValues.size();
 			List<List<Value>> splitValueRange = modelUtils.values_(dayValues,
 					ModelUtils.MINUTES_IN_A_WEEK);
@@ -249,7 +247,10 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 				}
 				System.out.println();
 			}
+			System.out.println("# sub ranges: " + splitValueRange.size());
+			
 			Assert.assertEquals(size, subRangesSize);
+			Assert.assertEquals(subRangesSize, 52);
 		}
 
 		System.out.println("Split weeks by month (3 Months)");

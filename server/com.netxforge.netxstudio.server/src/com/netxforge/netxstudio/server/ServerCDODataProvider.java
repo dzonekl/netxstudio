@@ -35,7 +35,33 @@ import com.netxforge.netxstudio.server.internal.ServerActivator;
  * @author Martin Taal
  */
 public class ServerCDODataProvider extends CDODataProvider {
+	
+	
+	@Inject
+	public ServerCDODataProvider(@Server ICDOConnection conn) {
+		super(conn);
+	}
 
+	
+	@Override
+	public void commitTransactionThenClose() {
+
+		if (ServerActivator.DEBUG) {
+			if (transaction != null) {
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_SERVER_CDO_OPTION,
+						"COMMIT transaction ID=" + transaction.getViewID()
+								+ " , Updated last on:"
+								+ new Date(transaction.getLastCommitTime()));
+			}else{
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_SERVER_CDO_OPTION,
+						"COMMIT transaction ID=" + "? (New transaction will be created)");
+			}
+		}
+		super.commitTransaction(SERVER_COMMIT_COMMENT, true);
+	}
+	
 	@Override
 	public void commitTransaction() {
 
@@ -52,13 +78,9 @@ public class ServerCDODataProvider extends CDODataProvider {
 						"COMMIT transaction ID=" + "? (New transaction will be created)");
 			}
 		}
-		super.commitTransaction(SERVER_COMMIT_COMMENT);
+		super.commitTransaction(SERVER_COMMIT_COMMENT, false);
 	}
-
-	@Inject
-	public ServerCDODataProvider(@Server ICDOConnection conn) {
-		super(conn);
-	}
+	
 
 	@Override
 	public void openSession(String uid, String passwd) throws SecurityException {

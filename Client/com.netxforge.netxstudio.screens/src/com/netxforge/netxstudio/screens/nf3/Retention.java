@@ -615,7 +615,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 
 				// Will close our one of transaction.
 				editingService.getDataService().getProvider()
-						.commitTransaction();
+						.commitTransactionThenClose();
 				editingService.getDataService().getProvider()
 						.setDoGetResourceFromOwnTransaction(true);
 

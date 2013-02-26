@@ -112,7 +112,7 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 		}
 		
 		super.addAndTruncate(mappingStatistic, getMetricSource().getStatistics());
-		getDataProvider().commitTransaction();
+		getDataProvider().commitTransactionThenClose();
 	}
 
 	@Override

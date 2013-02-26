@@ -84,7 +84,7 @@ public abstract class BaseProfileLogic extends BasePeriodLogic {
 			
 		this.getJobMonitor().updateFailures(this.getFailures());
 		
-		this.getDataProvider().commitTransaction();
+		this.getDataProvider().commitTransactionThenClose();
 		this.getDataProvider().closeSession();
 	}
 
