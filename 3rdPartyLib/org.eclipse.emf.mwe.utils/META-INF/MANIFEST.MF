@@ -1,0 +1,63 @@
+Manifest-Version: 1.0
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-SymbolicName: org.eclipse.emf.mwe.utils
+Require-Bundle: org.eclipse.emf.mwe.core,org.eclipse.emf.ecore.xmi,org
+ .eclipse.emf.codegen.ecore;resolution:=optional
+Bundle-Version: 1.1.1.v201108020506
+Export-Package: org.eclipse.emf.mwe.utils
+Ant-Version: Apache Ant 1.7.1
+Bundle-Vendor: %providerName
+Bundle-Name: %pluginName
+Created-By: 1.5.0_22-b03 (Sun Microsystems Inc.)
+Import-Package: org.apache.commons.logging;version="1.0.4"
+Bundle-ManifestVersion: 2
+
+Name: org/eclipse/emf/mwe/utils/AbstractEMFWorkflowComponent.class
+SHA1-Digest: NIw/e7wEj+Jvq5gTEjh0/eXngDc=
+
+Name: org/eclipse/emf/mwe/utils/Mapping.class
+SHA1-Digest: d2Gf9y9/dyxKl32L/EkS5vkZtZ4=
+
+Name: org/eclipse/emf/mwe/utils/Reader.class
+SHA1-Digest: jTgVvGQtrYt/yHW5nTUWrEvKZFI=
+
+Name: META-INF/eclipse.inf
+SHA1-Digest: KyT9FF7C7t86NoBoa2kZT3ZJBfw=
+
+Name: org/eclipse/emf/mwe/utils/GenModelHelper.class
+SHA1-Digest: OJGGQp9EXbtM8RWW6pGtiUWValg=
+
+Name: org/eclipse/emf/mwe/utils/DirectoryCleaner.class
+SHA1-Digest: AFY+5D+54GlKsOM8IEglRntRNTg=
+
+Name: org/eclipse/emf/mwe/utils/StandaloneSetup.class
+SHA1-Digest: SFI72kc1W91RE8YqiByjNGvy1Zk=
+
+Name: about.html
+SHA1-Digest: m//+sZd+LYcO5OY/bjEiZVm0dk0=
+
+Name: plugin.properties
+SHA1-Digest: XTFVeioVuzajYSJ9E0Siv4J/et8=
+
+Name: org/eclipse/emf/mwe/utils/FileCopy.class
+SHA1-Digest: z7hTNQ2yAcwrlyqh9QGIXAxpM3Y=
+
+Name: org/eclipse/emf/mwe/utils/Writer.class
+SHA1-Digest: 0JrQ4J9cLEiXHclSVcaJp6zwqRI=
+
+Name: org/eclipse/emf/mwe/utils/DirectoryCleaner$1.class
+SHA1-Digest: SuG4X8aRdEy2Wim45fbT9wUL3ZI=
+
+Name: org/eclipse/emf/mwe/utils/DirectoryCleaner$2.class
+SHA1-Digest: iqDdqctQsB0rt4cTiPcnU3IaOJQ=
+
+Name: org/eclipse/emf/mwe/utils/StandaloneSetup$1.class
+SHA1-Digest: YLzWm7Uv6egOo8THBX7SEtLjchs=
+
+Name: org/eclipse/emf/mwe/utils/StandardComponentMappingHelper.class
+SHA1-Digest: OroCt3a0P0dM2seMqfqEbekQugg=
+
+Name: org/eclipse/emf/mwe/utils/SingleGlobalResourceSet.class
+SHA1-Digest: HFJ6hnHLiaCOGg9O+ADn4QX7RyY=
+
