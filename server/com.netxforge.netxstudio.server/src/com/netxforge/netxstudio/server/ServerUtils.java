@@ -169,7 +169,14 @@ public class ServerUtils {
 					+ repository.getName() + " it must be " + REPO_NAME);
 		}
 	}
-
+	
+	
+	/**
+	 * TODO, this is not very different from {@link IDataProvider#openSession() } as the session type 
+	 * is done by the Session config.. 
+	 * 
+	 * @return
+	 */
 	public CDOSession openJVMSession() {
 		final CDONet4jSession cdoSession = createSessionConfiguration()
 				.openNet4jSession();
@@ -196,8 +203,6 @@ public class ServerUtils {
 		// Create configuration
 		final CDONet4jSessionConfiguration sessionConfiguration = CDONet4jUtil
 				.createNet4jSessionConfiguration();
-
-		// sessionConfiguration.setSignalTimeout(60L * 1000L);
 
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);

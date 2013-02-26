@@ -24,6 +24,7 @@ import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 
 /**
  * Uses a jvm connection to connect to the repository.
+ * It delegates to {@link ServerUtils }
  *  
  * @author Martin Taal
  * @author Christophe Bouhier
