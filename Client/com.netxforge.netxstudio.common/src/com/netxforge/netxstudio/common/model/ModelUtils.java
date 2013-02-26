@@ -719,9 +719,6 @@ public class ModelUtils {
 				targetMap.put(key, vList);
 			}
 		}
-		for( String s : targetMap.keySet()){
-			System.out.println( "key: " + s);
-		}
 		
 		if (CommonActivator.DEBUG) {
 			CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION, "Value by period splitter, key output");
