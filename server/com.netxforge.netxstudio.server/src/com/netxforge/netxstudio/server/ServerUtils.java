@@ -23,8 +23,9 @@ import java.util.Map;
 import javax.xml.datatype.DatatypeFactory;
 
 import org.eclipse.emf.cdo.common.commit.handler.AsyncCommitInfoHandler;
+import org.eclipse.emf.cdo.net4j.CDONet4jSession;
+import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
-import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.server.ISession;
 import org.eclipse.emf.cdo.server.IStore;
@@ -79,7 +80,6 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * @author Martin Taal
  * @author Christophe Bouhier
  */
-@SuppressWarnings("deprecation")
 public class ServerUtils {
 
 	private static final String REPO_NAME = "repo1";
@@ -171,10 +171,9 @@ public class ServerUtils {
 	}
 
 	public CDOSession openJVMSession() {
-		final CDOSession cdoSession = createSessionConfiguration()
-				.openSession();
-		((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession.options())
-				.setCommitTimeout(CDODataProvider.COMMIT_TIMEOUT);
+		final CDONet4jSession cdoSession = createSessionConfiguration()
+				.openNet4jSession();
+		cdoSession.options().setCommitTimeout(CDODataProvider.COMMIT_TIMEOUT);
 
 		return cdoSession;
 	}
@@ -188,30 +187,21 @@ public class ServerUtils {
 		}
 	}
 
-	public CDOSessionConfiguration createSessionConfiguration() {
+	public CDONet4jSessionConfiguration createSessionConfiguration() {
 		// Prepare container
 		final IManagedContainer container = IPluginContainer.INSTANCE;
 		acceptor = JVMUtil.getAcceptor(container, "default");
 		connector = JVMUtil.getConnector(container, "default");
 
 		// Create configuration
-		final CDOSessionConfiguration sessionConfiguration = CDONet4jUtil
-				.createSessionConfiguration();
+		final CDONet4jSessionConfiguration sessionConfiguration = CDONet4jUtil
+				.createNet4jSessionConfiguration();
 
-//		sessionConfiguration.setSignalTimeout(60L * 1000L);
+		// sessionConfiguration.setSignalTimeout(60L * 1000L);
 
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 		sessionConfiguration.setExceptionHandler(exceptionHandler);
-
-		// TODO, Make the passive update mode optional.
-		// When the mode is changes, we receive revision deltas which can be
-		// used
-		// to update more efficiently.
-		// For indexes, we could limit the update to only the changed items.
-		//
-
-		// sessionConfiguration.setPassiveUpdateMode(PassiveUpdateMode.CHANGES);
 
 		// Note: Option to disable caching, this was of for Hibernate store, but
 		// back on for the DB Store.
@@ -222,8 +212,7 @@ public class ServerUtils {
 				new PasswordCredentials(serverSideLogin,
 						serverSideLogin.toCharArray()));
 
-		sessionConfiguration.getAuthenticator().setCredentialsProvider(
-				credentialsProvider);
+		sessionConfiguration.setCredentialsProvider(credentialsProvider);
 		// set to a minute
 
 		return sessionConfiguration;
@@ -309,7 +298,9 @@ public class ServerUtils {
 		final AsyncCommitInfoHandler asyncCommitInfoHandler = new AsyncCommitInfoHandler(
 				commitInfoHandler);
 		asyncCommitInfoHandler.activate();
-		repository.addCommitInfoHandler(asyncCommitInfoHandler);
+		
+		repository.getCommitInfoManager().addCommitInfoHandler(
+				asyncCommitInfoHandler);
 
 		initServerDone = true;
 		isInitializing = false;

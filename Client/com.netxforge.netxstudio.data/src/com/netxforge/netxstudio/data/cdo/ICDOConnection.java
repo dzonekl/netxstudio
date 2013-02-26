@@ -18,7 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
-import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
+import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
+
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -41,6 +42,6 @@ public interface ICDOConnection {
 	 * Get the CDO configuration
 	 * @return
 	 */
-	public CDOSessionConfiguration getConfig();
+	public CDONet4jSessionConfiguration getConfig();
 	
 }

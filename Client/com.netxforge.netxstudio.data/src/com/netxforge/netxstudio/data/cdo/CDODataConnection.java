@@ -18,9 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
-import org.eclipse.emf.cdo.common.CDOCommonSession.Options.PassiveUpdateMode;
+import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
-import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.net4j.Net4jUtil;
 import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.tcp.TCPUtil;
@@ -28,7 +27,6 @@ import org.eclipse.net4j.util.container.ContainerUtil;
 import org.eclipse.net4j.util.container.IManagedContainer;
 
 import com.google.inject.Singleton;
-import com.netxforge.netxstudio.data.IDataProvider;
 
 /**
  * A CDO connection, which can be initialized.
@@ -45,9 +43,9 @@ public class CDODataConnection implements ICDOConnection {
 
 	protected static String currentServer;
 
-	private CDOSessionConfiguration sessionConfiguration = null;
+	private CDONet4jSessionConfiguration sessionConfiguration = null;
 
-	public CDOSessionConfiguration getConfig() {
+	public CDONet4jSessionConfiguration getConfig() {
 		return sessionConfiguration;
 	}
 
@@ -79,8 +77,9 @@ public class CDODataConnection implements ICDOConnection {
 
 		// Create connector
 		final IConnector connector = TCPUtil.getConnector(container, server);
+		
 		// Create configuration
-		sessionConfiguration = CDONet4jUtil.createSessionConfiguration();
+		sessionConfiguration = CDONet4jUtil.createNet4jSessionConfiguration();
 
 		// Caching disabled.
 		// CB Enabled client caching. 15-11-2012
@@ -88,12 +87,6 @@ public class CDODataConnection implements ICDOConnection {
 
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
-
-		// Disable passive updates.
-		// sessionConfiguration.setPassiveUpdateEnabled(false);
-		sessionConfiguration
-				.setPassiveUpdateMode(PassiveUpdateMode.INVALIDATIONS);
-//		sessionConfiguration.setSignalTimeout(IDataProvider.SIGNAL_TIME_OUT);
 	}
 
 	public String getCurrentServer() {

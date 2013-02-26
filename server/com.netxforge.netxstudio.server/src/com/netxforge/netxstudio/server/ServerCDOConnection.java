@@ -18,23 +18,22 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.server;
 
-import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
+import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
-import com.netxforge.netxstudio.server.ServerUtils;
 
 /**
  * Uses a jvm connection to connect to the repository.
  *  
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
-@SuppressWarnings("deprecation")
 public class ServerCDOConnection implements ICDOConnection {
 
 	public void initialize() {
 	}
 
-	public CDOSessionConfiguration getConfig() {
+	public CDONet4jSessionConfiguration getConfig() {
 		return ServerUtils.getInstance().createSessionConfiguration();
 	}
 

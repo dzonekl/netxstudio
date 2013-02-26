@@ -22,10 +22,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.cdo.common.CDOCommonSession.Options.PassiveUpdateMode;
 import org.eclipse.emf.cdo.common.util.CDOException;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
 import org.eclipse.emf.cdo.eresource.CDOResourceNode;
+import org.eclipse.emf.cdo.net4j.CDONet4jSession;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CDOUtil;
@@ -123,41 +125,36 @@ public abstract class CDODataProvider implements IDataProvider {
 			connection.initialize(server);
 		}
 
-		// Session Config and Sessions go hand in hand.
-		// Recover our session, if some reason we try to reopen for the same
-		// user and
-		// this very same config.
-		if (connection.getConfig().isSessionOpen()) {
-
-			// note:
-			// Passive updates are enabled by default, invalidations could
-			// be turned off to have finer control.
-
-			final CDOSession openSession = connection.getConfig().openSession();
-			setSession(openSession);
-			return;
-		}
-
 		final IPasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(
 				new PasswordCredentials(uid, passwd.toCharArray()));
 
-		connection.getConfig().getAuthenticator()
-				.setCredentialsProvider(credentialsProvider);
+		connection.getConfig().setCredentialsProvider(credentialsProvider);
 
 		try {
-			final CDOSession cdoSession = connection.getConfig().openSession();
+			final CDONet4jSession cdoSession = connection.getConfig()
+					.openNet4jSession();
 
-			((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession
-					.options()).setCommitTimeout(COMMIT_TIMEOUT);
+			configureSessionOptions(cdoSession);
 			setSession(cdoSession);
 
-			//
-			// for (final EPackage ePackage : ePackages) {
-			// getSession().getPackageRegistry().putEPackage(ePackage);
-			// }
 		} catch (final SecurityException se) {
 			throw new SecurityException(se);
 		}
+	}
+
+	private void configureSessionOptions(CDONet4jSession cdoSession) {
+		// do not load collection objects initially, load 300 objects when
+		// needed.
+		cdoSession.options().setCollectionLoadingPolicy(
+				CDOUtil.createCollectionLoadingPolicy(0, 300));
+
+		cdoSession.options().setCommitTimeout(COMMIT_TIMEOUT);
+
+		cdoSession.options().getNet4jProtocol()
+				.setTimeout(SIGNAL_TIME_OUT_CLIENT);
+
+		cdoSession.options().setPassiveUpdateMode(
+				PassiveUpdateMode.INVALIDATIONS);
 	}
 
 	public abstract CDOSession getSession();
@@ -203,19 +200,9 @@ public abstract class CDODataProvider implements IDataProvider {
 		if (connection.getConfig() == null) {
 			connection.initialize();
 		}
-		final CDOSession cdoSession = connection.getConfig().openSession();
-
-		// do not load collection objects initially, load 300 objects when
-		// needed.
-		 cdoSession.options().setCollectionLoadingPolicy(
-		 CDOUtil.createCollectionLoadingPolicy(0, 300));
-
-		((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession.options())
-				.setCommitTimeout(COMMIT_TIMEOUT);
-
-		for (final EPackage ePackage : ePackages) {
-			cdoSession.getPackageRegistry().putEPackage(ePackage);
-		}
+		final CDONet4jSession cdoSession = connection.getConfig()
+				.openNet4jSession();
+		configureSessionOptions(cdoSession);
 		setSession(cdoSession);
 		return cdoSession;
 	}
@@ -520,8 +507,9 @@ public abstract class CDODataProvider implements IDataProvider {
 		} else {
 
 			try {
-				
-				final CDOResource resource = getTransaction().getOrCreateResource(resourcePath);
+
+				final CDOResource resource = getTransaction()
+						.getOrCreateResource(resourcePath);
 				if (DataActivator.DEBUG) {
 					DataActivator.TRACE.trace(DataActivator.TRACE_DATA_OPTION,
 							"Resolved resource with path: " + resourcePath
