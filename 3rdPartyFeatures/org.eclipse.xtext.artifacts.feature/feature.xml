@@ -18,8 +18,8 @@
    </license>
 
    <requires>
-   	  <import plugin="org.eclipse.xtext" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.xtext.util" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext" version="2.0.0" match="perfect"/>
+      <import plugin="org.eclipse.xtext.util" version="2.0.0" match="perfect"/>
    </requires>
 
    <plugin

@@ -18,11 +18,11 @@
    </license>
 
    <requires>
-      <import plugin="org.eclipse.xtext.builder" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.xtext.ui" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.xtext.ui.codetemplates" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.xtext.ui.codetemplates.ui" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.xtext.ui.shared" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.builder" version="2.0.0" match="perfect"/>
+      <import plugin="org.eclipse.xtext.ui" version="2.0.0" match="perfect"/>
+      <import plugin="org.eclipse.xtext.ui.codetemplates" version="2.0.0" match="perfect"/>
+      <import plugin="org.eclipse.xtext.ui.codetemplates.ui" version="2.0.0" match="perfect"/>
+      <import plugin="org.eclipse.xtext.ui.shared" version="2.0.0" match="perfect"/>
    </requires>
 
    <plugin
