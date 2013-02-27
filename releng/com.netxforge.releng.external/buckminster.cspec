@@ -29,8 +29,8 @@
         <cs:dependency name="org.eclipse.ui.artifacts.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.xpand.artifacts.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.xtend.artifacts.feature" componentType="eclipse.feature"/>
-        <cs:dependency name="org.eclipse.xtext.artifacts.feature" componentType="eclipse.feature" versionDesignator="[2.0.1,2.0.1]"/>
-        <cs:dependency name="org.eclipse.xtext.ui.artifacts.feature" componentType="eclipse.feature" versionDesignator="[2.0.1,2.0.1]"/>
+        <cs:dependency name="org.eclipse.xtext.artifacts.feature" componentType="eclipse.feature" versionDesignator="[2.0.0,2.0.1]"/>
+        <cs:dependency name="org.eclipse.xtext.ui.artifacts.feature" componentType="eclipse.feature" versionDesignator="[2.0.0,2.0.0]"/>
         <cs:dependency name="org.mortbay.artifacts.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.postgresql.jdbc.driver.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.swtchart.artifacts.feature" componentType="eclipse.feature"/>
