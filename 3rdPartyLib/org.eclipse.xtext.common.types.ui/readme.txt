@@ -1,1 +1,0 @@
-- Made jdt and search optional dependencies. 
