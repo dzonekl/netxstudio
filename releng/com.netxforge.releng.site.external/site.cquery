@@ -3,6 +3,9 @@
     <cq:advisorNode namePattern="^org\.eclipse\.xtext\.generator.*" componentType="osgi.bundle" skipComponent="true">
         <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Skip generator packages from Xtext.</cq:documentation>
     </cq:advisorNode>
+    <cq:advisorNode namePattern="^org\.eclipse\.xtext\.*" componentType="osgi.bundle" versionOverride="[2.0.0,2.0.1]">
+        <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Version requirements on Xtext</cq:documentation>
+    </cq:advisorNode>
     <cq:advisorNode namePattern="^org\.eclipse\.emf\.codegen.*" componentType="osgi.bundle" skipComponent="true"/>
     <cq:advisorNode namePattern="^org\.eclipse\.emf\.mwe2.*" componentType="osgi.bundle"/>
     <cq:advisorNode namePattern="^com\.googe\.collect.*" componentType="osgi.bundle" sourceLevel="REJECT"/>
