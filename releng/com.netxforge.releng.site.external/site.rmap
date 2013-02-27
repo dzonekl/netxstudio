@@ -155,15 +155,6 @@
 			</rm:uri>
 		</rm:provider>
 	</rm:searchPath>
-	<rm:searchPath name="com.itemis">
-		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
-			readerType="p2" source="false" mutable="false">
-			<rm:property key="buckminster.source" value="false" />
-			<rm:property key="buckminster.mutable" value="false" />
-			<rm:uri
-				format="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/" />
-		</rm:provider>
-	</rm:searchPath>
 	<!-- XTEXT DOWNLOAD: http://www.eclipse.org/modeling/tmf/downloads/?project=xtext -->
 	<rm:searchPath name="org.eclipse.xtext">
 		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
@@ -171,7 +162,7 @@
 			<rm:property key="buckminster.source" value="false" />
 			<rm:property key="buckminster.mutable" value="false" />
 			<rm:uri
-				format="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/{0}">
+				format="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases">
 				<bc:propertyRef key="xtext.version" />
 			</rm:uri>
 		</rm:provider>
