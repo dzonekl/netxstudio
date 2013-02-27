@@ -156,6 +156,7 @@
 	</rm:searchPath>
 	<!-- XTEXT DOWNLOAD: http://www.eclipse.org/modeling/tmf/downloads/?project=xtext -->
 	<rm:searchPath name="org.eclipse.xtext">
+	    <!-- PROVIDER: All -->
 		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
 			readerType="p2" source="false" mutable="false">
 			<rm:property key="buckminster.source" value="false" />
@@ -163,6 +164,15 @@
 			<rm:uri
 				format="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases">
 				<bc:propertyRef key="xtext.version" />
+			</rm:uri>
+		</rm:provider>
+		<!-- PROVIDER: Xtext 2.0.1 -->
+		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
+			readerType="p2" source="false" mutable="false">
+			<rm:property key="buckminster.source" value="false" />
+			<rm:property key="buckminster.mutable" value="false" />
+			<rm:uri
+				format="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/head/R201108020636/ ">
 			</rm:uri>
 		</rm:provider>
 	</rm:searchPath>
@@ -175,7 +185,7 @@
 				format="http://archive.eclipse.org/modeling/m2t/xpand/downloads/drops/1.1.0/R201106070515/repository" />
 		</rm:provider>
 	</rm:searchPath>
-	<!-- DOWNLOAD: http://download.eclipse.org/tools/orbit/downloads/ -->
+	<!-- ORBIT DOWNLOAD: http://download.eclipse.org/tools/orbit/downloads/ -->
 	<rm:searchPath name="orbit">
 		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
 			readerType="p2" source="false" mutable="false">
@@ -185,7 +195,7 @@
 				format="http://download.eclipse.org/tools/orbit/downloads/drops/S20121021123453/repository/" />
 		</rm:provider>
 	</rm:searchPath>
-	<!-- DOWNLOAD: http://eclipse.org/modeling/emft/downloads/?project=mwe -->
+	<!-- EMFT DOWNLOAD: http://eclipse.org/modeling/emft/downloads/?project=mwe -->
 	<rm:searchPath name="emft">
 		<rm:provider componentTypes="osgi.bundle" readerType="p2"
 			source="false" mutable="false">
