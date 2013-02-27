@@ -29,8 +29,8 @@
         <cs:dependency name="org.eclipse.ui.artifacts.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.xpand.artifacts.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.xtend.artifacts.feature" componentType="eclipse.feature"/>
-        <cs:dependency name="org.eclipse.xtext.artifacts.feature" componentType="eclipse.feature" versionDesignator="[2.0.0,2.0.1]"/>
-        <cs:dependency name="org.eclipse.xtext.ui.artifacts.feature" componentType="eclipse.feature" versionDesignator="[2.0.0,2.0.1]"/>
+        <cs:dependency name="org.eclipse.xtext.artifacts.feature" componentType="eclipse.feature" versionDesignator="[2.0.1,2.0.1]"/>
+        <cs:dependency name="org.eclipse.xtext.ui.artifacts.feature" componentType="eclipse.feature" versionDesignator="[2.0.1,2.0.1]"/>
         <cs:dependency name="org.mortbay.artifacts.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.postgresql.jdbc.driver.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.swtchart.artifacts.feature" componentType="eclipse.feature"/>
@@ -52,40 +52,40 @@
                 <cs:property key="dir.to.delete" value="${buckminster.output}/"/>
             </cs:properties>
             <cs:prerequisites>
+                <cs:attribute name="buckminster.clean" component="com.google.artifacts.feature"/>
+                <cs:attribute name="buckminster.clean" component="javax.artifacts.feature"/>
+                <cs:attribute name="buckminster.clean" component="oracle.jdbc.driver.feature"/>
+                <cs:attribute name="buckminster.clean" component="org.antlr.artifacts.feature"/>
+                <cs:attribute name="buckminster.clean" component="org.apache.artifacts.feature"/>
+                <cs:attribute name="buckminster.clean" component="org.apache.poi.artifacts.feature"/>
+                <cs:attribute name="buckminster.clean" component="org.eclipse.compare.artifacts.feature"/>
+                <cs:attribute name="buckminster.clean" component="org.eclipse.core.artifacts.feature"/>
+                <cs:attribute name="buckminster.clean" component="org.eclipse.draw2d"/>
+                <cs:attribute name="buckminster.clean" component="org.eclipse.emf.cdo.client.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.emf.common"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.emf.common.ui"/>
+                <cs:attribute name="buckminster.clean" component="org.eclipse.emf.compare.artifacts.feature"/>
+                <cs:attribute name="buckminster.clean" component="org.eclipse.emf.databinding"/>
+                <cs:attribute name="buckminster.clean" component="org.eclipse.emf.databinding.edit"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.emf.ecore"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.emf.ecore.edit"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.emf.edit"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.emf.edit.ui"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.emf.databinding"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.emf.databinding.edit"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.emf.compare.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.emf.mwe.artifacts.feature"/>
+                <cs:attribute name="buckminster.clean" component="org.eclipse.equinox.artifacts.feature"/>
+                <cs:attribute name="buckminster.clean" component="org.eclipse.gef"/>
+                <cs:attribute name="buckminster.clean" component="org.eclipse.help.artifacts.feature"/>
+                <cs:attribute name="buckminster.clean" component="org.eclipse.nebula.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.platform.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.rcp"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.core.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.ui.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.equinox.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.compare.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.help.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="com.google.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.apache.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.mortbay.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.antlr.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.swtchart.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.nebula.artifacts.feature"/>
+                <cs:attribute name="buckminster.clean" component="org.eclipse.xpand.artifacts.feature"/>
+                <cs:attribute name="buckminster.clean" component="org.eclipse.xtend.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.xtext.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.xtext.ui.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.emf.cdo.client.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.apache.poi.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.gef"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.draw2d"/>
+                <cs:attribute name="buckminster.clean" component="org.mortbay.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.postgresql.jdbc.driver.feature"/>
-                <cs:attribute name="buckminster.clean" component="javax.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.xtend.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.xpand.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="oracle.jdbc.driver.feature"/>
+                <cs:attribute name="buckminster.clean" component="org.swtchart.artifacts.feature"/>
             </cs:prerequisites>
         </cs:public>
         <cs:public name="manifest" actor="ant">
@@ -228,40 +228,40 @@
     </cs:actions>
     <cs:groups>
         <cs:public name="bundle.jars">
+            <cs:attribute name="bundle.jars" component="com.google.artifacts.feature"/>
+            <cs:attribute name="bundle.jars" component="javax.artifacts.feature"/>
+            <cs:attribute name="bundle.jars" component="oracle.jdbc.driver.feature"/>
+            <cs:attribute name="bundle.jars" component="org.antlr.artifacts.feature"/>
+            <cs:attribute name="bundle.jars" component="org.apache.artifacts.feature"/>
+            <cs:attribute name="bundle.jars" component="org.apache.poi.artifacts.feature"/>
+            <cs:attribute name="bundle.jars" component="org.eclipse.compare.artifacts.feature"/>
+            <cs:attribute name="bundle.jars" component="org.eclipse.core.artifacts.feature"/>
+            <cs:attribute name="bundle.jars" component="org.eclipse.draw2d"/>
+            <cs:attribute name="bundle.jars" component="org.eclipse.emf.cdo.client.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.emf.common"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.emf.common.ui"/>
+            <cs:attribute name="bundle.jars" component="org.eclipse.emf.compare.artifacts.feature"/>
+            <cs:attribute name="bundle.jars" component="org.eclipse.emf.databinding"/>
+            <cs:attribute name="bundle.jars" component="org.eclipse.emf.databinding.edit"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.emf.ecore"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.emf.ecore.edit"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.emf.edit"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.emf.edit.ui"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.emf.databinding"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.emf.databinding.edit"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.emf.compare.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.emf.mwe.artifacts.feature"/>
+            <cs:attribute name="bundle.jars" component="org.eclipse.equinox.artifacts.feature"/>
+            <cs:attribute name="bundle.jars" component="org.eclipse.gef"/>
+            <cs:attribute name="bundle.jars" component="org.eclipse.help.artifacts.feature"/>
+            <cs:attribute name="bundle.jars" component="org.eclipse.nebula.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.platform.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.rcp"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.core.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.ui.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.equinox.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.compare.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.help.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="com.google.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.apache.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.mortbay.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.antlr.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.swtchart.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.nebula.artifacts.feature"/>
+            <cs:attribute name="bundle.jars" component="org.eclipse.xpand.artifacts.feature"/>
+            <cs:attribute name="bundle.jars" component="org.eclipse.xtend.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.xtext.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.xtext.ui.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.emf.cdo.client.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.apache.poi.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.gef"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.draw2d"/>
+            <cs:attribute name="bundle.jars" component="org.mortbay.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.postgresql.jdbc.driver.feature"/>
-            <cs:attribute name="bundle.jars" component="javax.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.xtend.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.xpand.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="oracle.jdbc.driver.feature"/>
+            <cs:attribute name="bundle.jars" component="org.swtchart.artifacts.feature"/>
         </cs:public>
         <cs:public name="feature.exports" rebase="${buckminster.output}/site/">
             <cs:attribute name="copy.features"/>
