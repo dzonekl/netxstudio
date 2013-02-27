@@ -17,10 +17,6 @@
 		searchPathRef="org.eclipse.emf" failOnError="false" />
 	<rm:locator pattern="^org\.eclipse\.net4j(\..+)?"
 		searchPathRef="org.eclipse.emf" failOnError="false" />
-		<!--  REMOVE LATER.  
-<rm:locator pattern="^org\.eclipse\.emf\.mwe\.(\..+)?"
-		searchPathRef="local" failOnError="false" />
-		-->		
 	<rm:locator pattern="^org\.eclipse\.emf\.mwe2(\..+)?"
 		searchPathRef="emft" failOnError="false" />
 	<rm:locator pattern="^org\.eclipse\.xpand(\..+)?"
@@ -179,6 +175,7 @@
 				format="http://archive.eclipse.org/modeling/m2t/xpand/downloads/drops/1.1.0/R201106070515/repository" />
 		</rm:provider>
 	</rm:searchPath>
+	<!-- DOWNLOAD: http://download.eclipse.org/tools/orbit/downloads/ -->
 	<rm:searchPath name="orbit">
 		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
 			readerType="p2" source="false" mutable="false">
