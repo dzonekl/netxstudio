@@ -12,7 +12,10 @@ but also what is available trough the resource map (site.rmap), if a referenced 
 the import will fail, and the P2 site will not be created. 
 
 Some components are in our own Github repository, when not available from a public provider. (Public p2 update site or 
-other). 
+other). By default buckminster will try to build these packages. 
+
+
+
 
 The p2 site is published, for developers to be able to use as a target: 
 To setup the P2 site as a target do the following: 
