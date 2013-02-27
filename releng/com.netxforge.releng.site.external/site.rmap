@@ -172,7 +172,7 @@
 			<rm:property key="buckminster.source" value="false" />
 			<rm:property key="buckminster.mutable" value="false" />
 			<rm:uri
-				format="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/head/R201108020636/ ">
+				format="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/head/R201108020636">
 			</rm:uri>
 		</rm:provider>
 	</rm:searchPath>
