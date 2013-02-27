@@ -1,0 +1,20 @@
+External Component P2 Site
+==========================
+
+This releng component is intended to build a P2 for externally referenced components.
+
+The site is used by products to resolve dependencies in the build prodcess. 
+(So .rmap of product components should have locators for the this site). 
+
+The import, refers many different external components. 
+Revisions are controlled by revision dependencies in the included features of the root component. ( feature.xml)
+but also what is available trough the resource map (site.rmap), if a referenced component with revision x.y. is not found 
+the import will fail, and the P2 site will not be created. 
+
+Some components are in our own Github repository, when not available from a public provider. (Public p2 update site or 
+other). 
+
+The p2 site is published, for developers to be able to use as a target: 
+To setup the P2 site as a target do the following: 
+
+ 

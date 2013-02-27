@@ -39,10 +39,14 @@ Setting Up GIT in Jenkins
 Make sure, it's clear who we are. In this case we are the Jenkins build server. 
 *** Please tell me who you are.
 
+
+
 Run
 
   git config --global user.email "you@example.com"
   git config --global user.name "Your Name"
+
+
 
 1) Enable the plugin, requires restart of plugin: ( https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin)
 2) Enter the GIT Repo URL (i.e. URL from github). 
@@ -86,6 +90,11 @@ The following extra packages will be installed:
 - Log file will be placed in /var/log/jenkins/jenkins.log. Check this file if you are troubleshooting Jenkins.
 - /etc/default/jenkins will capture configuration parameters for the launch.
 - By default, Jenkins listen on port 8080. Access this port with your browser to start configuration.
+
+The workspace is here!
+
+/var/lib/jenkins/workspace
+
 
 
 Deploy Jenkins in a Jetty Container (Optional, jenkins works without this). https://wiki.jenkins-ci.org/display/JENKINS/Jetty
