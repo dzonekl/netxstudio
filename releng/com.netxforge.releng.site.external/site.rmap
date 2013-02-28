@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
   <rm:property key="projects.location" value="${workspace.root}"/>
+  <rm:property key="3rdparty.location" value="/var/lib/3rdparty"/>
   <rm:property key="platform.version" value="3.7"/>
   <rm:property key="emfcompare.version" value="1.3"/>
   <rm:property key="cdo.version" value="4.1"/>
@@ -11,11 +12,13 @@
   <rm:locator pattern="^org\.eclipse\.emf(\..+)?" searchPathRef="org.eclipse.emf" failOnError="false"/>
   <rm:locator pattern="^org\.eclipse\.nebula(\..+)?" searchPathRef="org.eclipse.nebula" failOnError="false"/>
   <rm:locator pattern="^org\.eclipse\.net4j(\..+)?" searchPathRef="org.eclipse.emf" failOnError="false"/>
+  <rm:locator pattern="^org\.eclipse\.emf\.mwe\.(.+)?" searchPathRef="local-emft" failOnError="false"/>
   <rm:locator pattern="^org\.eclipse\.emf\.mwe2(\..+)?" searchPathRef="emft" failOnError="false"/>
   <rm:locator pattern="^org\.eclipse\.xpand(\..+)?" searchPathRef="m2t" failOnError="false"/>
   <rm:locator pattern="^org\.eclipse\.xtend(\..+)?" searchPathRef="m2t" failOnError="false"/>
   <rm:locator pattern="^org\.eclipse\.xtext(\..+)?" searchPathRef="org.eclipse.xtext" failOnError="false"/>
   <rm:locator searchPathRef="orbit"/>
+  
   <rm:searchPath name="local-google">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
@@ -79,6 +82,24 @@
     </rm:provider>
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
       <rm:uri format="{1}/UI common/{0}">
+        <bc:propertyRef key="buckminster.component"/>
+        <bc:propertyRef key="projects.location"/>
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="local-emft">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="{1}/{0}">
+        <bc:propertyRef key="buckminster.component"/>
+        <bc:propertyRef key="3rdparty.location"/>
+      </rm:uri>
+    </rm:provider>
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="{1}/3rdPartyLib/{0}">
         <bc:propertyRef key="buckminster.component"/>
         <bc:propertyRef key="projects.location"/>
       </rm:uri>
