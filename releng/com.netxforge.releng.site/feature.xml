@@ -17,4 +17,8 @@
       [Enter License Description here.]
    </license>
 
+   <includes
+         id="org.eclipse.ui.artifacts.feature"
+         version="0.0.0"/>
+
 </feature>
