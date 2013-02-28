@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.netxstudio.product.client.feature"
+      id="com.netxforge.releng.product.client"
       label="NetXForge Feature for the client product"
       version="1.0.0.qualifier"
       provider-name="NETXFORGE">
