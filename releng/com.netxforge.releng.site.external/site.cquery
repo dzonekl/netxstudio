@@ -10,6 +10,9 @@
     <cq:advisorNode namePattern="^org\.eclipse\.emf\.mwe.*" componentType="jar"/>
     <cq:advisorNode namePattern="^org\.eclipse\.emf\.mwe2.*" componentType="osgi.bundle"/>
     <cq:advisorNode namePattern="^com\.googe\.collect.*" componentType="osgi.bundle" sourceLevel="REJECT"/>
+    <cq:advisorNode namePattern="^com\.netxforge\.releng\.*" componentType="buckminster" skipComponent="true">
+        <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Skip this component when materializing.</cq:documentation>
+    </cq:advisorNode>
     <cq:advisorNode namePattern=".*" useTargetPlatform="false">
         <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Do not resolve from Target. (See Resolution Scope).</cq:documentation>
     </cq:advisorNode>
