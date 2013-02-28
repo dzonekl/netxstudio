@@ -19,7 +19,6 @@
         <cs:dependency name="org.eclipse.emf.ecore.edit" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.emf.edit" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.emf.edit.ui" componentType="eclipse.feature"/>
-        <cs:dependency name="org.eclipse.emf.mwe.artifacts.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.equinox.artifacts.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.gef" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.help.artifacts.feature" componentType="eclipse.feature"/>
@@ -27,8 +26,6 @@
         <cs:dependency name="org.eclipse.platform.artifacts.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.rcp" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.ui.artifacts.feature" componentType="eclipse.feature"/>
-        <cs:dependency name="org.eclipse.xpand.artifacts.feature" componentType="eclipse.feature"/>
-        <cs:dependency name="org.eclipse.xtend.artifacts.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.xtext.artifacts.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.xtext.ui.artifacts.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.mortbay.artifacts.feature" componentType="eclipse.feature"/>
@@ -71,7 +68,6 @@
                 <cs:attribute name="buckminster.clean" component="org.eclipse.emf.ecore.edit"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.emf.edit"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.emf.edit.ui"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.emf.mwe.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.equinox.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.gef"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.help.artifacts.feature"/>
@@ -79,8 +75,6 @@
                 <cs:attribute name="buckminster.clean" component="org.eclipse.platform.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.rcp"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.ui.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.xpand.artifacts.feature"/>
-                <cs:attribute name="buckminster.clean" component="org.eclipse.xtend.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.xtext.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.eclipse.xtext.ui.artifacts.feature"/>
                 <cs:attribute name="buckminster.clean" component="org.mortbay.artifacts.feature"/>
@@ -94,10 +88,10 @@
                 <cs:property key="targets" value="expand.feature.version"/>
             </cs:actorProperties>
             <cs:prerequisites>
-                <cs:attribute name="raw.manifest" alias="manifest"/>
+                <cs:attribute name="build.properties" alias="properties"/>
                 <cs:attribute name="bundle.jars" alias="bundles"/>
                 <cs:attribute name="feature.references" alias="features"/>
-                <cs:attribute name="build.properties" alias="properties"/>
+                <cs:attribute name="raw.manifest" alias="manifest"/>
             </cs:prerequisites>
             <cs:products alias="action.output" base="${buckminster.output}/temp/manifest/">
                 <cs:path path="feature.xml"/>
@@ -105,11 +99,11 @@
         </cs:public>
         <cs:public name="site.p2" actor="p2SiteGenerator">
             <cs:prerequisites>
+                <cs:attribute name="manifest" alias="site.definer"/>
+                <cs:attribute name="product.configuration.exports" alias="product.configs"/>
                 <cs:attribute name="site.feature.exports" alias="site" filter="(&amp;(!(site.pack200=true))(!(site.signing=true)))"/>
                 <cs:attribute name="site.packed" alias="site" filter="(site.pack200=true)"/>
                 <cs:attribute name="site.signed" alias="site" filter="(&amp;(site.signing=true)(!(site.pack200=true)))"/>
-                <cs:attribute name="manifest" alias="site.definer"/>
-                <cs:attribute name="product.configuration.exports" alias="product.configs"/>
             </cs:prerequisites>
             <cs:products base="${buckminster.output}/site.p2/" upToDatePolicy="ACTOR"/>
         </cs:public>
@@ -140,8 +134,8 @@
                 <cs:property key="targets" value="sign.jars"/>
             </cs:actorProperties>
             <cs:prerequisites alias="action.requirements">
-                <cs:attribute name="site.repacked" filter="(site.pack200=true)"/>
                 <cs:attribute name="site.feature.exports" filter="(!(site.pack200=true))"/>
+                <cs:attribute name="site.repacked" filter="(site.pack200=true)"/>
             </cs:prerequisites>
             <cs:products alias="action.output" base="${buckminster.output}/site.signed/" upToDatePolicy="MAPPER"/>
         </cs:public>
@@ -188,10 +182,10 @@
                 <cs:property key="targets" value="copy.group"/>
             </cs:actorProperties>
             <cs:prerequisites alias="action.requirements">
-                <cs:attribute name="feature.references"/>
-                <cs:attribute name="source.feature.references"/>
                 <cs:attribute name="feature.jar" filter="(site.include.top=true)"/>
+                <cs:attribute name="feature.references"/>
                 <cs:attribute name="source.feature.jar" filter="(&amp;(site.include.top=true)(!(cbi.include.source=false)))"/>
+                <cs:attribute name="source.feature.references"/>
             </cs:prerequisites>
             <cs:products alias="action.output" base="${buckminster.output}/site/features/" upToDatePolicy="MAPPER"/>
         </cs:private>
@@ -201,8 +195,8 @@
                 <cs:property key="targets" value="create.feature.jar"/>
             </cs:actorProperties>
             <cs:prerequisites alias="action.requirements">
-                <cs:attribute name="manifest" alias="manifest"/>
                 <cs:attribute name="jar.contents"/>
+                <cs:attribute name="manifest" alias="manifest"/>
             </cs:prerequisites>
             <cs:products alias="action.output" base="${buckminster.output}/jar/" fileCount="1" upToDatePolicy="COUNT"/>
         </cs:private>
@@ -247,7 +241,6 @@
             <cs:attribute name="bundle.jars" component="org.eclipse.emf.ecore.edit"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.emf.edit"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.emf.edit.ui"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.emf.mwe.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.equinox.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.gef"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.help.artifacts.feature"/>
@@ -255,8 +248,6 @@
             <cs:attribute name="bundle.jars" component="org.eclipse.platform.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.rcp"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.ui.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.xpand.artifacts.feature"/>
-            <cs:attribute name="bundle.jars" component="org.eclipse.xtend.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.xtext.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.eclipse.xtext.ui.artifacts.feature"/>
             <cs:attribute name="bundle.jars" component="org.mortbay.artifacts.feature"/>
@@ -272,159 +263,147 @@
             <cs:attribute name="feature.references"/>
         </cs:public>
         <cs:public name="feature.references">
+            <cs:attribute name="feature.jars" component="com.google.artifacts.feature"/>
+            <cs:attribute name="feature.jars" component="javax.artifacts.feature"/>
+            <cs:attribute name="feature.jars" component="oracle.jdbc.driver.feature"/>
+            <cs:attribute name="feature.jars" component="org.antlr.artifacts.feature"/>
+            <cs:attribute name="feature.jars" component="org.apache.artifacts.feature"/>
+            <cs:attribute name="feature.jars" component="org.apache.poi.artifacts.feature"/>
+            <cs:attribute name="feature.jars" component="org.eclipse.compare.artifacts.feature"/>
+            <cs:attribute name="feature.jars" component="org.eclipse.core.artifacts.feature"/>
+            <cs:attribute name="feature.jars" component="org.eclipse.draw2d"/>
+            <cs:attribute name="feature.jars" component="org.eclipse.emf.cdo.client.artifacts.feature"/>
             <cs:attribute name="feature.jars" component="org.eclipse.emf.common"/>
             <cs:attribute name="feature.jars" component="org.eclipse.emf.common.ui"/>
+            <cs:attribute name="feature.jars" component="org.eclipse.emf.compare.artifacts.feature"/>
+            <cs:attribute name="feature.jars" component="org.eclipse.emf.databinding"/>
+            <cs:attribute name="feature.jars" component="org.eclipse.emf.databinding.edit"/>
             <cs:attribute name="feature.jars" component="org.eclipse.emf.ecore"/>
             <cs:attribute name="feature.jars" component="org.eclipse.emf.ecore.edit"/>
             <cs:attribute name="feature.jars" component="org.eclipse.emf.edit"/>
             <cs:attribute name="feature.jars" component="org.eclipse.emf.edit.ui"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.emf.databinding"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.emf.databinding.edit"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.emf.compare.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.emf.mwe.artifacts.feature"/>
+            <cs:attribute name="feature.jars" component="org.eclipse.equinox.artifacts.feature"/>
+            <cs:attribute name="feature.jars" component="org.eclipse.gef"/>
+            <cs:attribute name="feature.jars" component="org.eclipse.help.artifacts.feature"/>
+            <cs:attribute name="feature.jars" component="org.eclipse.nebula.artifacts.feature"/>
             <cs:attribute name="feature.jars" component="org.eclipse.platform.artifacts.feature"/>
             <cs:attribute name="feature.jars" component="org.eclipse.rcp"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.core.artifacts.feature"/>
             <cs:attribute name="feature.jars" component="org.eclipse.ui.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.equinox.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.compare.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.help.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="com.google.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.apache.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.mortbay.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.antlr.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.swtchart.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.nebula.artifacts.feature"/>
             <cs:attribute name="feature.jars" component="org.eclipse.xtext.artifacts.feature"/>
             <cs:attribute name="feature.jars" component="org.eclipse.xtext.ui.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.emf.cdo.client.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.apache.poi.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.gef"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.draw2d"/>
+            <cs:attribute name="feature.jars" component="org.mortbay.artifacts.feature"/>
             <cs:attribute name="feature.jars" component="org.postgresql.jdbc.driver.feature"/>
-            <cs:attribute name="feature.jars" component="javax.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.xtend.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="org.eclipse.xpand.artifacts.feature"/>
-            <cs:attribute name="feature.jars" component="oracle.jdbc.driver.feature"/>
+            <cs:attribute name="feature.jars" component="org.swtchart.artifacts.feature"/>
         </cs:public>
         <cs:public name="jar.contents">
             <cs:attribute name="manifest"/>
         </cs:public>
         <cs:public name="product.configuration.exports">
+            <cs:attribute name="product.configuration.exports" component="com.google.artifacts.feature"/>
+            <cs:attribute name="product.configuration.exports" component="javax.artifacts.feature"/>
+            <cs:attribute name="product.configuration.exports" component="oracle.jdbc.driver.feature"/>
+            <cs:attribute name="product.configuration.exports" component="org.antlr.artifacts.feature"/>
+            <cs:attribute name="product.configuration.exports" component="org.apache.artifacts.feature"/>
+            <cs:attribute name="product.configuration.exports" component="org.apache.poi.artifacts.feature"/>
+            <cs:attribute name="product.configuration.exports" component="org.eclipse.compare.artifacts.feature"/>
+            <cs:attribute name="product.configuration.exports" component="org.eclipse.core.artifacts.feature"/>
+            <cs:attribute name="product.configuration.exports" component="org.eclipse.draw2d"/>
+            <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.cdo.client.artifacts.feature"/>
             <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.common"/>
             <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.common.ui"/>
+            <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.compare.artifacts.feature"/>
+            <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.databinding"/>
+            <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.databinding.edit"/>
             <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.ecore"/>
             <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.ecore.edit"/>
             <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.edit"/>
             <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.edit.ui"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.databinding"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.databinding.edit"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.compare.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.mwe.artifacts.feature"/>
+            <cs:attribute name="product.configuration.exports" component="org.eclipse.equinox.artifacts.feature"/>
+            <cs:attribute name="product.configuration.exports" component="org.eclipse.gef"/>
+            <cs:attribute name="product.configuration.exports" component="org.eclipse.help.artifacts.feature"/>
+            <cs:attribute name="product.configuration.exports" component="org.eclipse.nebula.artifacts.feature"/>
             <cs:attribute name="product.configuration.exports" component="org.eclipse.platform.artifacts.feature"/>
             <cs:attribute name="product.configuration.exports" component="org.eclipse.rcp"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.core.artifacts.feature"/>
             <cs:attribute name="product.configuration.exports" component="org.eclipse.ui.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.equinox.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.compare.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.help.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="com.google.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.apache.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.mortbay.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.antlr.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.swtchart.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.nebula.artifacts.feature"/>
             <cs:attribute name="product.configuration.exports" component="org.eclipse.xtext.artifacts.feature"/>
             <cs:attribute name="product.configuration.exports" component="org.eclipse.xtext.ui.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.emf.cdo.client.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.apache.poi.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.gef"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.draw2d"/>
+            <cs:attribute name="product.configuration.exports" component="org.mortbay.artifacts.feature"/>
             <cs:attribute name="product.configuration.exports" component="org.postgresql.jdbc.driver.feature"/>
-            <cs:attribute name="product.configuration.exports" component="javax.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.xtend.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="org.eclipse.xpand.artifacts.feature"/>
-            <cs:attribute name="product.configuration.exports" component="oracle.jdbc.driver.feature"/>
+            <cs:attribute name="product.configuration.exports" component="org.swtchart.artifacts.feature"/>
         </cs:public>
         <cs:public name="site.feature.exports" rebase="${buckminster.output}/site/">
-            <cs:attribute name="copy.subfeatures"/>
             <cs:attribute name="copy.plugins"/>
+            <cs:attribute name="copy.subfeatures"/>
         </cs:public>
         <cs:public name="source.bundle.jars" filter="(!(cbi.include.source=false))">
+            <cs:attribute name="source.bundle.jars" component="com.google.artifacts.feature"/>
+            <cs:attribute name="source.bundle.jars" component="javax.artifacts.feature"/>
+            <cs:attribute name="source.bundle.jars" component="oracle.jdbc.driver.feature"/>
+            <cs:attribute name="source.bundle.jars" component="org.antlr.artifacts.feature"/>
+            <cs:attribute name="source.bundle.jars" component="org.apache.artifacts.feature"/>
+            <cs:attribute name="source.bundle.jars" component="org.apache.poi.artifacts.feature"/>
+            <cs:attribute name="source.bundle.jars" component="org.eclipse.compare.artifacts.feature"/>
+            <cs:attribute name="source.bundle.jars" component="org.eclipse.core.artifacts.feature"/>
+            <cs:attribute name="source.bundle.jars" component="org.eclipse.draw2d"/>
+            <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.cdo.client.artifacts.feature"/>
             <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.common"/>
             <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.common.ui"/>
+            <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.compare.artifacts.feature"/>
+            <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.databinding"/>
+            <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.databinding.edit"/>
             <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.ecore"/>
             <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.ecore.edit"/>
             <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.edit"/>
             <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.edit.ui"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.databinding"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.databinding.edit"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.compare.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.mwe.artifacts.feature"/>
+            <cs:attribute name="source.bundle.jars" component="org.eclipse.equinox.artifacts.feature"/>
+            <cs:attribute name="source.bundle.jars" component="org.eclipse.gef"/>
+            <cs:attribute name="source.bundle.jars" component="org.eclipse.help.artifacts.feature"/>
+            <cs:attribute name="source.bundle.jars" component="org.eclipse.nebula.artifacts.feature"/>
             <cs:attribute name="source.bundle.jars" component="org.eclipse.platform.artifacts.feature"/>
             <cs:attribute name="source.bundle.jars" component="org.eclipse.rcp"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.core.artifacts.feature"/>
             <cs:attribute name="source.bundle.jars" component="org.eclipse.ui.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.equinox.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.compare.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.help.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="com.google.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.apache.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.mortbay.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.antlr.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.swtchart.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.nebula.artifacts.feature"/>
             <cs:attribute name="source.bundle.jars" component="org.eclipse.xtext.artifacts.feature"/>
             <cs:attribute name="source.bundle.jars" component="org.eclipse.xtext.ui.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.emf.cdo.client.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.apache.poi.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.gef"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.draw2d"/>
+            <cs:attribute name="source.bundle.jars" component="org.mortbay.artifacts.feature"/>
             <cs:attribute name="source.bundle.jars" component="org.postgresql.jdbc.driver.feature"/>
-            <cs:attribute name="source.bundle.jars" component="javax.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.xtend.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="org.eclipse.xpand.artifacts.feature"/>
-            <cs:attribute name="source.bundle.jars" component="oracle.jdbc.driver.feature"/>
+            <cs:attribute name="source.bundle.jars" component="org.swtchart.artifacts.feature"/>
         </cs:public>
         <cs:public name="source.feature.jars" filter="(!(cbi.include.source=false))">
             <cs:attribute name="source.feature.jar"/>
             <cs:attribute name="source.feature.references"/>
         </cs:public>
         <cs:public name="source.feature.references" filter="(!(cbi.include.source=false))">
+            <cs:attribute name="source.feature.jars" component="com.google.artifacts.feature"/>
+            <cs:attribute name="source.feature.jars" component="javax.artifacts.feature"/>
+            <cs:attribute name="source.feature.jars" component="oracle.jdbc.driver.feature"/>
+            <cs:attribute name="source.feature.jars" component="org.antlr.artifacts.feature"/>
+            <cs:attribute name="source.feature.jars" component="org.apache.artifacts.feature"/>
+            <cs:attribute name="source.feature.jars" component="org.apache.poi.artifacts.feature"/>
+            <cs:attribute name="source.feature.jars" component="org.eclipse.compare.artifacts.feature"/>
+            <cs:attribute name="source.feature.jars" component="org.eclipse.core.artifacts.feature"/>
+            <cs:attribute name="source.feature.jars" component="org.eclipse.draw2d"/>
+            <cs:attribute name="source.feature.jars" component="org.eclipse.emf.cdo.client.artifacts.feature"/>
             <cs:attribute name="source.feature.jars" component="org.eclipse.emf.common"/>
             <cs:attribute name="source.feature.jars" component="org.eclipse.emf.common.ui"/>
+            <cs:attribute name="source.feature.jars" component="org.eclipse.emf.compare.artifacts.feature"/>
+            <cs:attribute name="source.feature.jars" component="org.eclipse.emf.databinding"/>
+            <cs:attribute name="source.feature.jars" component="org.eclipse.emf.databinding.edit"/>
             <cs:attribute name="source.feature.jars" component="org.eclipse.emf.ecore"/>
             <cs:attribute name="source.feature.jars" component="org.eclipse.emf.ecore.edit"/>
             <cs:attribute name="source.feature.jars" component="org.eclipse.emf.edit"/>
             <cs:attribute name="source.feature.jars" component="org.eclipse.emf.edit.ui"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.emf.databinding"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.emf.databinding.edit"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.emf.compare.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.emf.mwe.artifacts.feature"/>
+            <cs:attribute name="source.feature.jars" component="org.eclipse.equinox.artifacts.feature"/>
+            <cs:attribute name="source.feature.jars" component="org.eclipse.gef"/>
+            <cs:attribute name="source.feature.jars" component="org.eclipse.help.artifacts.feature"/>
+            <cs:attribute name="source.feature.jars" component="org.eclipse.nebula.artifacts.feature"/>
             <cs:attribute name="source.feature.jars" component="org.eclipse.platform.artifacts.feature"/>
             <cs:attribute name="source.feature.jars" component="org.eclipse.rcp"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.core.artifacts.feature"/>
             <cs:attribute name="source.feature.jars" component="org.eclipse.ui.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.equinox.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.compare.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.help.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="com.google.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.apache.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.mortbay.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.antlr.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.swtchart.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.nebula.artifacts.feature"/>
             <cs:attribute name="source.feature.jars" component="org.eclipse.xtext.artifacts.feature"/>
             <cs:attribute name="source.feature.jars" component="org.eclipse.xtext.ui.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.emf.cdo.client.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.apache.poi.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.gef"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.draw2d"/>
+            <cs:attribute name="source.feature.jars" component="org.mortbay.artifacts.feature"/>
             <cs:attribute name="source.feature.jars" component="org.postgresql.jdbc.driver.feature"/>
-            <cs:attribute name="source.feature.jars" component="javax.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.xtend.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="org.eclipse.xpand.artifacts.feature"/>
-            <cs:attribute name="source.feature.jars" component="oracle.jdbc.driver.feature"/>
+            <cs:attribute name="source.feature.jars" component="org.swtchart.artifacts.feature"/>
         </cs:public>
         <cs:private name="empty.translations"/>
     </cs:groups>
