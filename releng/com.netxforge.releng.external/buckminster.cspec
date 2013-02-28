@@ -31,6 +31,7 @@
         <cs:dependency name="org.mortbay.artifacts.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.postgresql.jdbc.driver.feature" componentType="eclipse.feature"/>
         <cs:dependency name="org.swtchart.artifacts.feature" componentType="eclipse.feature"/>
+        <cs:dependency name="com.netxforge.releng.site" componentType="eclipse.feature"/>
     </cs:dependencies>
     <cs:generators>
         <cs:generator generates="com.netxforge.releng.site.external.source" attribute="source.feature.jar" generatesType="eclipse.feature"/>
