@@ -88,7 +88,7 @@
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="local-emft">
-    <rm:provider componentTypes="jar,plugin,osgi.bundle,eclipse.feature,buckminster" readerType="local" source="false" mutable="false">
+    <rm:provider componentTypes="jar,osgi.bundle,eclipse.feature,buckminster" readerType="local" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
       <rm:uri format="{1}/{0}">
