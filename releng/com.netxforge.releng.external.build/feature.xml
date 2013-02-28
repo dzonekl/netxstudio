@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.releng.external.site"
-      label="Site feature"
+      id="com.netxforge.releng.external.build"
+      label="build feature"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
 
@@ -139,6 +139,10 @@
 
    <includes
          id="oracle.jdbc.driver.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.releng.site"
          version="0.0.0"/>
 
 </feature>
