@@ -3,7 +3,7 @@
       id="com.netxforge.releng.product.client"
       label="NetXForge Feature for the client product"
       version="1.0.0.qualifier"
-      provider-name="NETXFORGE">
+      provider-name="NetXForge">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
