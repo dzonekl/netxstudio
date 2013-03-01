@@ -30,7 +30,6 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.ui.activities.internal.ActivitiesActivator;
-import com.netxforge.netxstudio.ui.perspective.LibraryPerspective;
 
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
@@ -55,7 +54,8 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
     }
 
 	public String getInitialWindowPerspectiveId() {
-		return LibraryPerspective.ID;
+//		return LibraryPerspective.ID;
+		return null; // With a common screen, there is no initial perspective. 
 	}
 		
 	/**

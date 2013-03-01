@@ -126,6 +126,7 @@ Export-Package: com.netxforge.netxstudio.screens;
  com.netxforge.netxstudio.screens.parts;uses:="com.netxforge.netxstudio.screens.editing.selector,org.eclipse.swt.widgets",
  com.netxforge.netxstudio.screens.showins,
  com.netxforge.netxstudio.screens.tables,
+ com.netxforge.netxstudio.ui.perspective,
  org.eclipse.wb.swt;uses:="org.eclipse.jface.resource,org.eclipse.swt.graphics"
 Import-Package: com.netxforge.netxstudio,
  com.netxforge.netxstudio.generics,

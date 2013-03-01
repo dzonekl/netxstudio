@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
+
    <extension
          point="org.eclipse.ui.views">
      <view
@@ -38,6 +39,33 @@
            id="com.netxforge.netxstudio.screens.viewer.chart"
            name="Charts">
       </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+       <perspective
+             class="com.netxforge.netxstudio.ui.perspective.LibraryPerspective"
+             icon="icons/view16/library_editor.gif"
+             id="com.netxforge.netxstudio.ui.perspective.library"
+             name="%perspective.name">
+      </perspective>
+      <perspective
+            class="com.netxforge.netxstudio.ui.perspective.DesignPerspective"
+            icon="icons/view16/designer_editor.png"
+            id="com.netxforge.netxstudio.ui.perspective.design"
+            name="%perspective.name.0">
+      </perspective>
+      <perspective
+            class="com.netxforge.netxstudio.ui.perspective.MonitoringPerspective"
+            icon="icons/view16/monitor_editor.png"
+            id="com.netxforge.netxstudio.ui.perspective.monitoring"
+            name="%perspective.name.1">
+      </perspective>
+      <perspective
+            class="com.netxforge.netxstudio.ui.perspective.AdminPerspective"
+            icon="icons/view16/admin_editor.png"
+            id="com.netxforge.netxstudio.ui.perspective.admin"
+            name="%perspective.name.2">
+      </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
