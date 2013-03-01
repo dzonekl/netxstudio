@@ -17,7 +17,6 @@ import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.netxforge.netxstudio.callflow.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;

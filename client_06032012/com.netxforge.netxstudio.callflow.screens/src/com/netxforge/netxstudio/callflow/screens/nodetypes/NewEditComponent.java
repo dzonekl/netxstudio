@@ -3,7 +3,6 @@ package com.netxforge.netxstudio.callflow.screens.nodetypes;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.swt.widgets.Composite;
 
-import com.netxforge.netxstudio.callflow.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;

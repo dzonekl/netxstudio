@@ -63,7 +63,6 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.callflow.screens.AbstractScreen;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;

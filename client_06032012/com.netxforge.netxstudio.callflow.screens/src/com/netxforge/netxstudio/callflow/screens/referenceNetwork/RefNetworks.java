@@ -39,7 +39,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.callflow.screens.AbstractScreen;
 import com.netxforge.netxstudio.callflow.screens.CallFlowsTreeLabelProvider;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;

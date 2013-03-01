@@ -6,10 +6,10 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.callflow.screens.internal.CallFlowsActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.core.runtime,
- com.netxforge.netxstudio.screens.common;bundle-version="1.0.0",
  com.google.inject;bundle-version="2.0.0",
  com.google.collect;bundle-version="1.0.0",
- com.netxforge.netxstudio.screens.nebula;bundle-version="1.0.0"
+ com.netxforge.netxstudio.screens.nebula;bundle-version="1.0.0",
+ com.netxforge.netxstudio.screens.editing;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Import-Package: com.netxforge.netxstudio.geo,

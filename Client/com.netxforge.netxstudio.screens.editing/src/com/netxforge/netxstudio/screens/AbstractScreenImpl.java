@@ -50,11 +50,11 @@ import com.netxforge.netxstudio.screens.common.util.ValidationEvent;
 import com.netxforge.netxstudio.screens.common.util.ValidationService;
 import com.netxforge.netxstudio.screens.common.util.ValidationService.MessageFromStatus;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.screens.editing.selector.IDataInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
-import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
  * Convenience implementation of a screen, sharing commonality like the screen
@@ -101,7 +101,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		// injection already occurs.
 		// See Screen Service.
 
-		ScreensActivator.getDefault().getInjector().injectMembers(this);
+		EditingActivator.getDefault().getInjector().injectMembers(this);
 
 	}
 
@@ -194,7 +194,10 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 						// the key.
 
 						if (mfs.getControl() != null) {
-							this.getScreenForm().getMessageManager().removeMessage(mfs.getOldStatus(), mfs.getControl());
+							this.getScreenForm()
+									.getMessageManager()
+									.removeMessage(mfs.getOldStatus(),
+											mfs.getControl());
 							this.getScreenForm()
 									.getMessageManager()
 									.addMessage(mfs.getNewStatus(),
@@ -202,7 +205,8 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 											mfs.getMessageType(),
 											mfs.getControl());
 						} else {
-							this.getScreenForm().getMessageManager().removeMessage(mfs.getOldStatus());
+							this.getScreenForm().getMessageManager()
+									.removeMessage(mfs.getOldStatus());
 							this.getScreenForm()
 									.getMessageManager()
 									.addMessage(mfs.getNewStatus(),
@@ -212,10 +216,14 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 
 					} else {
 						if (mfs.getControl() != null) {
-							this.getScreenForm().getMessageManager().removeMessage(mfs.getOldStatus(), mfs.getControl());
-						}else{
-//							this.getScreenForm().getMessageManager().
-							this.getScreenForm().getMessageManager().removeMessage(mfs.getOldStatus());
+							this.getScreenForm()
+									.getMessageManager()
+									.removeMessage(mfs.getOldStatus(),
+											mfs.getControl());
+						} else {
+							// this.getScreenForm().getMessageManager().
+							this.getScreenForm().getMessageManager()
+									.removeMessage(mfs.getOldStatus());
 						}
 					}
 				}
@@ -223,8 +231,8 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		}
 
 		// Does the form create it's own summary?
-//		 this.getScreenForm().getMessageManager()
-//		 .createSummary(list.toArray(new IMessage[list.size()]));
+		// this.getScreenForm().getMessageManager()
+		// .createSummary(list.toArray(new IMessage[list.size()]));
 
 	}
 
@@ -251,7 +259,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 * @return
 	 */
 	protected boolean storePreference(String key, String value) {
-		ScreensActivator.doGetPreferenceStore().setValue(key, value);
+		EditingActivator.getDefault().getPreferenceStore().setValue(key, value);
 		return true;
 	}
 
@@ -262,8 +270,9 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 * @return
 	 */
 	protected String findPreference(String key) {
-		if (ScreensActivator.doGetPreferenceStore().contains(key)) {
-			return ScreensActivator.doGetPreferenceStore().getString(key);
+		if (EditingActivator.getDefault().getPreferenceStore().contains(key)) {
+			return EditingActivator.getDefault().getPreferenceStore()
+					.getString(key);
 		}
 		return null;
 	}
