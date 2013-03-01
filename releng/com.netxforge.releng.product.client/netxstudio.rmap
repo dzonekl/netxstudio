@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
-  <rm:locator pattern="com.netxforge.releng.client.feature" searchPathRef="releng" failOnError="false"/>
+  <rm:locator pattern="com.netxforge.releng.client.product.feature" searchPathRef="releng" failOnError="false"/>
   <rm:locator pattern=".*" searchPathRef="p2"/>
   <rm:searchPath name="releng">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
-      <rm:uri format="${workspace.root}../netxstudio.git.p2/releng/{0}">
+      <rm:uri format="${workspace.root}/../netxstudio.git.p2/releng/{0}">
         <bc:propertyRef key="buckminster.component"/>
       </rm:uri>
     </rm:provider>
