@@ -14,7 +14,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.screens.common.util.MementoUtil;
+import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
 import com.netxforge.netxstudio.screens.f3.PeriodComponent;
 
 public class PeriodSelectionPage extends WizardPage {

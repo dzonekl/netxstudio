@@ -39,7 +39,7 @@ import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
 import com.netxforge.netxstudio.data.fixtures.FixturesModule;
 import com.netxforge.netxstudio.screens.ColorManager;
-import com.netxforge.netxstudio.screens.editing.EditingServiceModule;
+import com.netxforge.netxstudio.screens.editing.internal.EditingModule;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -88,7 +88,7 @@ public class ScreensActivator extends AbstractUIPlugin implements
 		om = override(om).with(new CommonModule());
 		om = override(om).with(new FixturesModule());
 		om = override(om).with(new CDODataServiceModule());
-		om = override(om).with(new EditingServiceModule());
+		om = override(om).with(new EditingModule());  
 		injector = Guice.createInjector(om);
 
 		Dictionary<String, String> props = new Hashtable<String, String>(4);

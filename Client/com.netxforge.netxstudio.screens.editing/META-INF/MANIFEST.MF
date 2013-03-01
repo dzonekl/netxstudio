@@ -22,17 +22,17 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered
-Export-Package: com.netxforge.netxstudio.screens,
- com.netxforge.netxstudio.screens.common.filter,
- com.netxforge.netxstudio.screens.common.internal,
- com.netxforge.netxstudio.screens.common.perspective,
- com.netxforge.netxstudio.screens.common.tables,
- com.netxforge.netxstudio.screens.common.util,
+Export-Package: com.netxforge.netxstudio.screens.common.internal,
  com.netxforge.netxstudio.screens.editing,
  com.netxforge.netxstudio.screens.editing.actions,
  com.netxforge.netxstudio.screens.editing.actions.clipboard,
  com.netxforge.netxstudio.screens.editing.dawn,
+ com.netxforge.netxstudio.screens.editing.filter,
+ com.netxforge.netxstudio.screens.editing.internal,
+ com.netxforge.netxstudio.screens.editing.perspective,
  com.netxforge.netxstudio.screens.editing.selector,
+ com.netxforge.netxstudio.screens.editing.tables,
+ com.netxforge.netxstudio.screens.editing.util,
  org.eclipse.wb.swt
 Import-Package: com.netxforge.netxstudio,
  com.netxforge.netxstudio.edit,

@@ -33,7 +33,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.NonStaticCDODataServiceModule;
-import com.netxforge.netxstudio.screens.editing.EditingServiceModule;
+import com.netxforge.netxstudio.screens.editing.internal.EditingModule;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -83,7 +83,7 @@ public class ImportUIActivator extends AbstractUIPlugin implements
 
 		// Bind our modules.
 		Module om = new CommonModule();
-		om = override(om).with(new EditingServiceModule());
+		om = override(om).with(new EditingModule());
 		om = override(om).with(NonStaticCDODataServiceModule.getModule());
 		// om = override(om).with(new CDODataServiceModule());
 		injector = Guice.createInjector(om);

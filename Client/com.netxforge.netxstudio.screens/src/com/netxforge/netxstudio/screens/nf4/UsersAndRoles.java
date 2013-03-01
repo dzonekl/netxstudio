@@ -47,7 +47,7 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
-import com.netxforge.netxstudio.screens.SearchFilter;
+import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 

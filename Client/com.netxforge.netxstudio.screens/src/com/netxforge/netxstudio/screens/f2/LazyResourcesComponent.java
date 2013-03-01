@@ -69,7 +69,7 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
-import com.netxforge.netxstudio.screens.SearchFilter;
+import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 
 /**

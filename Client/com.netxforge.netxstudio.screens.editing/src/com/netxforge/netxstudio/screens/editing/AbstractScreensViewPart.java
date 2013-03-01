@@ -68,7 +68,6 @@ import org.eclipse.ui.part.ViewPart;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
 import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.ObjectEditingActionsHandler;
@@ -78,6 +77,7 @@ import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
 
 /**
  * A ViewPart which acts as an editor.

@@ -73,10 +73,10 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.common.tables.TableHelper;
-import com.netxforge.netxstudio.screens.common.tables.TableHelper.TBVCFeatureSorter;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.editing.tables.TableHelper;
+import com.netxforge.netxstudio.screens.editing.tables.TableHelper.TBVCFeatureSorter;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionWizard;
 import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
 

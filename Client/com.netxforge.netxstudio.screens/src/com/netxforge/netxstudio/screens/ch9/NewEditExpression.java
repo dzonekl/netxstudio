@@ -61,10 +61,10 @@ import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.common.util.IValidationListener;
-import com.netxforge.netxstudio.screens.common.util.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.util.IValidationListener;
+import com.netxforge.netxstudio.screens.editing.util.ValidationService;
 import com.netxforge.netxstudio.screens.xtext.embedded.AbstractEmbeddedExpression;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedNonSelectionExpression;
 

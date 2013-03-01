@@ -77,10 +77,10 @@ import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDateTimeObservableValue;
-import com.netxforge.netxstudio.screens.common.util.DateChooserComboObservableValue;
-import com.netxforge.netxstudio.screens.common.util.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.util.DateChooserComboObservableValue;
+import com.netxforge.netxstudio.screens.editing.util.ValidationService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class NewEditJob extends AbstractScreen implements IDataScreenInjection {

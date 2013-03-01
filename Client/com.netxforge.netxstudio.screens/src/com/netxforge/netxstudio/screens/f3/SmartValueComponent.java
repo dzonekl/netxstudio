@@ -77,10 +77,10 @@ import com.netxforge.netxstudio.screens.IItemsFilter;
 import com.netxforge.netxstudio.screens.ISearchPattern;
 import com.netxforge.netxstudio.screens.PeriodItemsFilter;
 import com.netxforge.netxstudio.screens.PeriodItemsFilter.PeriodPattern;
-import com.netxforge.netxstudio.screens.common.tables.TableHelper;
-import com.netxforge.netxstudio.screens.common.tables.TableHelper.TBVCSorterValueProvider;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.tables.TableHelper;
+import com.netxforge.netxstudio.screens.editing.tables.TableHelper.TBVCSorterValueProvider;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**

@@ -33,7 +33,6 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
-import com.netxforge.netxstudio.screens.common.internal.ScreensCommonModule;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -88,6 +87,7 @@ public class EditingActivator extends AbstractUIPlugin implements
 		// Bind our modules.
 		Module om = new ScreensCommonModule();
 		om = override(om).with(new CommonModule());
+		om = override(om).with(new EditingModule());
 		om = override(om).with(new CDODataServiceModule());
 
 		injector = Guice.createInjector(om);

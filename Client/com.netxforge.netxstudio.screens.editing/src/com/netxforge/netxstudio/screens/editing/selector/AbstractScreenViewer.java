@@ -33,12 +33,12 @@ import org.eclipse.ui.part.IShowInTarget;
 import org.eclipse.ui.part.ShowInContext;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.screens.common.util.ILinkedWithEditorView;
-import com.netxforge.netxstudio.screens.common.util.LinkWithEditorPartListener;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
 import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHandler;
+import com.netxforge.netxstudio.screens.editing.util.ILinkedWithEditorView;
+import com.netxforge.netxstudio.screens.editing.util.LinkWithEditorPartListener;
 
 /**
  * Shows an IScreen standalone, supports showInTarget and

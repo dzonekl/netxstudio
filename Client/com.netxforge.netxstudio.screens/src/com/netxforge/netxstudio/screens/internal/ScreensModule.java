@@ -14,13 +14,12 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.internal;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
-import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.ch9.NetXScriptInjectorProxy;
 import com.netxforge.netxstudio.screens.f1.support.PeriodSelectionPage;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionPage;
@@ -35,7 +34,7 @@ import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 /**
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
 public class ScreensModule extends AbstractModule {
 
@@ -46,11 +45,9 @@ public class ScreensModule extends AbstractModule {
 		this.bind(IInjectorProxy.class)
 				.annotatedWith(Names.named("Netxscript"))
 				.to(NetXScriptInjectorProxy.class);
-		
+
 		this.bind(IInjectorProxy.class).annotatedWith(Names.named("Screens"))
 				.to(ScreensInjectorProxy.class);
-
-		this.bind(SearchFilter.class);
 
 		this.bind(PeriodSelectionPage.class);
 
@@ -67,7 +64,7 @@ public class ScreensModule extends AbstractModule {
 		this.bind(SmartValueComponent.class);
 		this.bind(ResourcesComponent.class);
 		this.bind(LazyResourcesComponent.class);
-		
+
 	}
-	
+
 }

@@ -46,8 +46,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IMemento;
 
 import com.netxforge.netxstudio.screens.AbstractSmartTableViewer.SelectionHistory;
-import com.netxforge.netxstudio.screens.common.util.MementoUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
