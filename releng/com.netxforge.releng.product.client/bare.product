@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="com.netxforge.netxstudio.bare.product" uid="com.netxforge.netxstudio.bare" id="com.netxforge.netxstudio.bare.product.product" application="com.netxforge.netxstudio.ui.application" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.netxforge.netxstudio.bare.product.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.models.13042011.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.common.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.console.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.models.edit.feature" version="1.0.0.qualifier"/>
+      <feature id="com.google.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.emf.cdo.client.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.ui.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.core.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.compare.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.platform.artifacts.feature" version="1.0.0.qualifier"/>
+   </features>
+
+
+</product>
