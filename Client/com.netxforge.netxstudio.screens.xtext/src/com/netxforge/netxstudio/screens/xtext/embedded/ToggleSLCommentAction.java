@@ -37,8 +37,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.texteditor.IUpdate;
 import org.eclipse.ui.texteditor.ResourceAction;
 
-import com.netxforge.netxstudio.screens.xtext.internal.ScreensXtextActivator;
-
 /**
  * This implementation has been copied from org.eclipse.jdt.internal.ui.javaeditor.ToggleCommentAction.
  *
@@ -151,7 +149,6 @@ public final class ToggleSLCommentAction extends Action implements IUpdate {
 
 		} catch (BadLocationException x) {
 			// should not happen
-			ScreensXtextActivator.logError("Functional Error, shoudn't happend", x);
 		}
 
 		return false;
@@ -174,7 +171,6 @@ public final class ToggleSLCommentAction extends Action implements IUpdate {
 
 		} catch (BadLocationException x) {
 			// should not happen
-			ScreensXtextActivator.logError("Functional Error, shoudn't happend", x);
 		}
 
 		return null;
@@ -202,7 +198,6 @@ public final class ToggleSLCommentAction extends Action implements IUpdate {
 
 		} catch (BadLocationException x) {
 			// should not happen
-			ScreensXtextActivator.logError("Functional Error, shoudn't happend", x);
 		}
 
 		return -1;
@@ -248,7 +243,6 @@ public final class ToggleSLCommentAction extends Action implements IUpdate {
 
 		} catch (BadLocationException x) {
 			// should not happen
-			ScreensXtextActivator.logError("Functional Error, shoudn't happend", x);
 		}
 
 		return false;
