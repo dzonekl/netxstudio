@@ -85,7 +85,6 @@ import com.netxforge.netxstudio.library.ReferenceNetwork;
 import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.protocols.ProtocolsFactory;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.filter.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
