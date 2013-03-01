@@ -46,17 +46,12 @@
 
    <features>
       <feature id="com.netxforge.netxstudio.client.callflow.product.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.common.ui.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.console.feature"/>
       <feature id="com.netxforge.netxstudio.help.feature"/>
       <feature id="com.netxforge.netxstudio.data.feature"/>
       <feature id="com.netxforge.client.callflow.screens.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.screens.editing.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.common.feature"/>
-      <feature id="com.netxforge.netxstudio.models.export.feature"/>
-      <feature id="com.netxforge.netxstudio.models.export.ui.feature"/>
-      <feature id="com.netxforge.netxstudio.models.import.ui.feature"/>
-      <feature id="com.netxforge.netxstudio.models.import.feature"/>
       <feature id="com.netxforge.netxstudio.models.edit.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.06032012.feature"/>
       <feature id="com.netxforge.netxstudio.models_06032012.edit.feature" version="1.0.0.qualifier"/>
@@ -85,12 +80,12 @@
       <feature id="org.eclipse.nebula.artifacts.feature"/>
       <feature id="org.eclipse.xtext.artifacts.feature"/>
       <feature id="org.eclipse.xtext.ui.artifacts.feature"/>
-      <feature id="org.eclipse.xtend.artifacts.feature"/>
       <feature id="org.eclipse.emf.cdo.client.artifacts.feature"/>
       <feature id="org.apache.poi.artifacts.feature"/>
       <feature id="org.eclipse.gef"/>
       <feature id="org.eclipse.draw2d"/>
       <feature id="org.postgresql" version="9.0.0.801"/>
+      <feature id="javax.artifacts.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>

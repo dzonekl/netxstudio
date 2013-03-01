@@ -12,3 +12,12 @@ The alternative:
 
 - The functions of an editor, can be emulated with an IViewPart which implements ISaveable. 
 - We provide a template IViewpart for this, which very much acts as an editor. 
+
+
+TODO: 
+
+- Abstract away the Role API, so we can remove dependency on IFixtures and IDataServices. 
+- IFixtures defines the fixture roles.... 
+- IDataServices reads the roles from the backend. 
+
+

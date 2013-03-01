@@ -28,23 +28,17 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.console.ConsoleService;
-import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.generics.Role;
-import com.netxforge.netxstudio.ui.activities.IActivityAndRoleService;
-import com.netxforge.netxstudio.ui.activities.internal.ActivitiesActivator;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
+/**
+ * 
+ * @author Christophe Bouhier
+ */
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
-	@Inject
-	private IDataService dService;
-
-	@Inject
-	private IActivityAndRoleService activityService;
-
-	private Role currentRole;
+	private IRoleService roleService = new IRoleService.NullRoleService();
 
 	public ApplicationWorkbenchWindowAdvisor(
 			IWorkbenchWindowConfigurer configurer) {
@@ -58,11 +52,11 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 	public void preWindowOpen() {
 		IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
-		
+
 		configurer.setInitialSize(new Point(1200, 1000));
-		
-		// Fast views are not compatible with standalone views. 
-//		configurer.setShowFastViewBars(true);
+
+		// Fast views are not compatible with standalone views.
+		// configurer.setShowFastViewBars(true);
 		configurer.setShowCoolBar(true);
 		configurer.setShowStatusLine(true);
 		configurer.setShowPerspectiveBar(true);
@@ -75,7 +69,12 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	@Override
 	public void postWindowOpen() {
 		super.postWindowOpen();
-		this.hideActionSets(getWindowConfigurer().getWindow().getActivePage());
+		IWorkbenchPage activePage = getWindowConfigurer().getWindow()
+				.getActivePage();
+		// There won't be any if no pespective is defined.
+		if (activePage != null) {
+			this.hideActionSets(activePage);
+		}
 	}
 
 	/**
@@ -92,23 +91,32 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 		// Kick of activities.
 		// Inject the data service.
-		ActivitiesActivator.getDefault().getInjector().injectMembers(this);
+		// ActivitiesActivator.getDefault().getInjector().injectMembers(this);
 
 		// 15-11-2011 fixtures moved server side.
 
-		currentRole = dService.getCurrentRole();
-		configurer.setTitle("NetXStudio User: "
-				+ dService.getProvider().getSessionUserID().toUpperCase()
-				+ "  with role: " + currentRole.getName().toUpperCase());
+		final Role currentRole = roleService.getCurrentRole();
+		String currentUser = roleService.getCurrentUser();
 
+		if (currentUser != null) {
+			configurer.setTitle("NetXStudio User: " + currentUser.toUpperCase()
+					+ "  with role: " + currentRole.getName().toUpperCase());
+
+		} else {
+			configurer.setTitle("NetXStudio");
+		}
 		if (currentRole != null) {
-			activityService.enableActivity(currentRole);
+			// TODO, Need a hook when initializing....
+			// 1. application init contributors? extensions
+			// 2. OSGI service?
+
+			// activityService.enableActivity(currentRole);
 		} else {
 			// Data corruption issue.
 		}
 
 		// close the transaction.
-		dService.getProvider().commitTransactionThenClose();
+		// dService.getProvider().commitTransactionThenClose();
 
 		// dService.getQueryService().close();
 
@@ -165,8 +173,9 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	public void postWindowClose() {
 		super.postWindowClose();
 
+		// FIXME... use hooks.
 		// Close our session.
-		dService.getProvider().closeSession();
+		// dService.getProvider().closeSession();
 
 		// Save our workspace.
 		WorkspaceUtil.INSTANCE.saveChanges();

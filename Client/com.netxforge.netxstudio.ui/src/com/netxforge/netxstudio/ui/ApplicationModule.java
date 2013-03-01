@@ -31,8 +31,9 @@ public class ApplicationModule extends AbstractModule {
 	 */
 	@Override
 	protected void configure() {
-		// TODO Auto-generated method stub
-
+		
+		// Bind to a null role. 
+		this.bind(IRoleService.class).to(IRoleService.NullRoleService.class);
 	}
 
 }

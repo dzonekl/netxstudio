@@ -4,18 +4,28 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Module;
+import com.netxforge.netxstudio.ui.ApplicationModule;
+
 /**
  * The activator class controls the plug-in life cycle
  */
 public class UIActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "com.netxforge.netxstudio.rcpclient"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.netxforge.netxstudio.ui"; //$NON-NLS-1$
 
 	// The shared instance
 	private static UIActivator plugin;
 
+	private Injector injector;
 	
+	public Injector getInjector() {
+		return injector;
+	}
+
 	/**
 	 * The constructor
 	 */
@@ -29,6 +39,8 @@ public class UIActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		Module om = new ApplicationModule();
+		injector = Guice.createInjector(om);
 	}
 
 	/*

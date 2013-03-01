@@ -37,9 +37,6 @@ import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 	private IContributionItem perspectivesMenu;
@@ -48,9 +45,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private IWorkbenchAction aboutAction;
 	private IWorkbenchAction helpAction;
 	private IWorkbenchAction saveAction;
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);

@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.ui;
 
 import org.eclipse.core.runtime.IPath;
@@ -27,47 +27,47 @@ import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.generics.Role;
-import com.netxforge.netxstudio.ui.activities.internal.ActivitiesActivator;
 
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
+	private IRoleService roleService = new IRoleService.NullRoleService();
 
 	@Override
 	public void preStartup() {
 		super.preStartup();
-		
-		IDataService dataService = ActivitiesActivator.getDefault().getInjector().getInstance(IDataService.class);
-		//		 SHould force the workbench to start with a clean sheet, if the role changed. 
-		resetWorkbenchIfRoleChanged(dataService);
+		// SHould force the workbench to start with a clean sheet, if the role
+		// changed.
+		resetWorkbenchIfRoleChanged();
 	}
 
-	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
-        return new ApplicationWorkbenchWindowAdvisor(configurer);
-    }
-    
-    public void initialize(IWorkbenchConfigurer configurer) {
-        super.initialize(configurer);
-        configurer.setSaveAndRestore(true);
-        this.configPluginPreferences();
-    }
+	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(
+			IWorkbenchWindowConfigurer configurer) {
+		return new ApplicationWorkbenchWindowAdvisor(configurer);
+	}
+
+	public void initialize(IWorkbenchConfigurer configurer) {
+		super.initialize(configurer);
+		configurer.setSaveAndRestore(true);
+		this.configPluginPreferences();
+	}
 
 	public String getInitialWindowPerspectiveId() {
-//		return LibraryPerspective.ID;
-		return null; // With a common screen, there is no initial perspective. 
+		// return LibraryPerspective.ID;
+		return null; // With a common screen, there is no initial perspective.
 	}
-		
+
 	/**
 	 * checks the last role of the user, which was authenticated by now and
 	 * makes sure the workbench init file is cleaned, if the role changed from
 	 * the previous this to avoid the workbench restoring UI components not
 	 * allowed by the activities.
-	 * @param dataService 
+	 * 
+	 * @param dataService
 	 */
-	public void resetWorkbenchIfRoleChanged(IDataService dataService) {
-		Role r = dataService.getCurrentRole();
-		if (PickWorkspaceDialog.roleChanged(r)) {
+	public void resetWorkbenchIfRoleChanged() {
+		Role r = roleService.getCurrentRole();
+		if (r != null && PickWorkspaceDialog.roleChanged(r)) {
 			this.getWorkbenchConfigurer().setSaveAndRestore(false);
 		}
 	}
@@ -78,24 +78,35 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 	@SuppressWarnings("unused")
 	private void clearWorkbench() {
 		IPath location = Platform.getLocation();
-		IPath workbenchXml = location.addTrailingSeparator().append(".metadata").addTrailingSeparator().append(".plugins")
+		IPath workbenchXml = location.addTrailingSeparator()
+				.append(".metadata").addTrailingSeparator().append(".plugins")
 				.addTrailingSeparator().append("org.eclipse.ui.workbench")
 				.addTrailingSeparator().append("workbench.xml");
 		if (workbenchXml.toFile().exists()) {
 			workbenchXml.toFile().delete();
 		}
 	}
-	
-	private void configPluginPreferences(){
+
+	private void configPluginPreferences() {
 
 		// DOESN'T WORK.
-//		DISABLE_OPEN_EDITOR_IN_PLACE
-		boolean currentValue = Platform.getPreferencesService().getBoolean("org.eclipse.ui.workbench", IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE, true, null);
+		// DISABLE_OPEN_EDITOR_IN_PLACE
+		boolean currentValue = Platform.getPreferencesService().getBoolean(
+				"org.eclipse.ui.workbench",
+				IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE,
+				true, null);
 		IScopeContext scopeContext = DefaultScope.INSTANCE;
-		IEclipsePreferences node = scopeContext.getNode("org.eclipse.ui.workbench");
-		node.putBoolean(IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE, true);
-		currentValue = Platform.getPreferencesService().getBoolean("org.eclipse.ui.workbench", IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE, true, null);
-		System.out.println(currentValue ? "inplace editing disabled" : " coudn't change preference for inplace editing");
+		IEclipsePreferences node = scopeContext
+				.getNode("org.eclipse.ui.workbench");
+		node.putBoolean(
+				IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE,
+				true);
+		currentValue = Platform.getPreferencesService().getBoolean(
+				"org.eclipse.ui.workbench",
+				IWorkbenchPreferenceConstants.DISABLE_OPEN_EDITOR_IN_PLACE,
+				true, null);
+		System.out.println(currentValue ? "inplace editing disabled"
+				: " coudn't change preference for inplace editing");
 	}
-	
+
 }
