@@ -45,6 +45,7 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.ReferenceNetwork;
 import com.netxforge.netxstudio.library.ReferenceRelationship;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 

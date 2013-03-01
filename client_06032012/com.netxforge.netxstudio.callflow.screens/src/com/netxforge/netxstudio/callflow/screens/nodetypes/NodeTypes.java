@@ -68,6 +68,7 @@ import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.common.filter.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.common.tables.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;

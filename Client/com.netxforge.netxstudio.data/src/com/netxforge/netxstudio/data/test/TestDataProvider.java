@@ -200,4 +200,8 @@ public class TestDataProvider implements IDataProvider {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
+	public void commitTransaction() {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
 }

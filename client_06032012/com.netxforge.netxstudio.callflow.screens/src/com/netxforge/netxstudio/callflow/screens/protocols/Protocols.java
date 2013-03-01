@@ -64,6 +64,7 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.protocols.ProtocolsFactory;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.common.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.common.tables.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
