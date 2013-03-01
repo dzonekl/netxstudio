@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Bare Product (No IScreen's!)
+Bundle-SymbolicName: com.netxforge.netxstudio.bare.product;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: NetXForge
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
