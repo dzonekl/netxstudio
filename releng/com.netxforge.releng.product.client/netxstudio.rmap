@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
-  <rm:locator pattern="com\.netxforge\.releng(\..+)?" searchPathRef="releng" failOnError="false"/>
+  <rm:locator pattern="^com\.netxforge\.releng(\..+)?" searchPathRef="releng" failOnError="false"/>
   <rm:locator pattern=".*" searchPathRef="p2"/>
   <rm:searchPath name="releng">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
