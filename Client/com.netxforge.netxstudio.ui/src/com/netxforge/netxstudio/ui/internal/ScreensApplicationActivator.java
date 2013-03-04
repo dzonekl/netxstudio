@@ -5,9 +5,6 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Module;
 import com.netxforge.netxstudio.ui.IWorkbenchWindowLifecycleService;
 
 /**
@@ -21,7 +18,7 @@ public class ScreensApplicationActivator extends AbstractUIPlugin {
 	// The shared instance
 	private static ScreensApplicationActivator plugin;
 
-	private Injector injector;
+//	private Injector injector;
 
 	private IWorkbenchWindowLifecycleService wbWindowLifecycleService;
 
@@ -29,9 +26,9 @@ public class ScreensApplicationActivator extends AbstractUIPlugin {
 		return wbWindowLifecycleService;
 	}
 
-	public Injector getInjector() {
-		return injector;
-	}
+//	public Injector getInjector() {
+//		return injector;
+//	}
 
 	/**
 	 * The constructor
@@ -55,8 +52,8 @@ public class ScreensApplicationActivator extends AbstractUIPlugin {
 			wbWindowLifecycleService = context.getService(wbLifecycleServiceReference);
 		}
 
-		Module om = new ScreensApplicationModule();
-		injector = Guice.createInjector(om);
+//		Module om = new ScreensApplicationModule();
+//		injector = Guice.createInjector(om);
 	}
 
 	/*

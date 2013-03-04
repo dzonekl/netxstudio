@@ -17,11 +17,12 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.client.product.splashHandlers;
 
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.common.properties.PropertiesUtil;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.internal.DataActivator;
+import com.netxforge.netxstudio.ui.activities.IActivityAndRoleService;
+import com.netxforge.netxstudio.ui.activities.internal.ActivitiesActivator;
 
 /**
  * Delegate to other plugins, having access to DI modules.
@@ -31,13 +32,11 @@ import com.netxforge.netxstudio.data.internal.DataActivator;
  */
 public class InjectionHelper {
 
-	@Inject
 	private IDataService dataService;
 
-	@Inject
 	private PropertiesUtil propsUtil;
 
-	
+	private IActivityAndRoleService activityAndRoleService;
 
 	private static final InjectionHelper self = new InjectionHelper();
 
@@ -49,18 +48,29 @@ public class InjectionHelper {
 	}
 
 	public IDataService getDataService() {
-		if(dataService == null){
-			dataService = DataActivator.getInjector().getInstance(IDataService.class);
+		if (dataService == null) {
+			dataService = DataActivator.getInjector().getInstance(
+					IDataService.class);
 		}
 
 		return dataService;
 	}
-	
+
 	public PropertiesUtil getPropsUtil() {
-		if(propsUtil == null){
-			propsUtil = CommonActivator.getInstance().getInjector().getInstance(PropertiesUtil.class);
+		if (propsUtil == null) {
+			propsUtil = CommonActivator.getInstance().getInjector()
+					.getInstance(PropertiesUtil.class);
 		}
 		return propsUtil;
+	}
+
+	public IActivityAndRoleService getActivityAndRoleService() {
+
+		if (activityAndRoleService == null) {
+			activityAndRoleService = ActivitiesActivator.getDefault()
+					.getInjector().getInstance(IActivityAndRoleService.class);
+		}
+		return activityAndRoleService;
 	}
 
 }

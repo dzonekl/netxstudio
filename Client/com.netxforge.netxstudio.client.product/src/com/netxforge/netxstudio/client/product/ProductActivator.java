@@ -59,8 +59,10 @@ public class ProductActivator extends AbstractUIPlugin {
 
 		// Register our product workbench service to customize the application
 		// at startup.
-		workbenchService = context.registerService(IWorkbenchWindowLifecycleService.class,
+		workbenchService = context.registerService(
+				IWorkbenchWindowLifecycleService.class,
 				ProductWorkbenchWindowAdvisor.getINSTANCE(), null);
+
 	}
 
 	/*
@@ -74,9 +76,9 @@ public class ProductActivator extends AbstractUIPlugin {
 		plugin = null;
 		pu.writeProperties(this.getBundle(), propertiesFile,
 				this.getProperties());
-		
+
 		workbenchService.unregister();
-		
+
 		super.stop(context);
 
 	}

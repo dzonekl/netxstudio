@@ -23,12 +23,11 @@ import org.eclipse.ui.IPerspectiveListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 
-import com.google.inject.Inject;
+import com.netxforge.netxstudio.client.product.splashHandlers.InjectionHelper;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.ui.AbstractWorkbenchWindowLifecycle;
-import com.netxforge.netxstudio.ui.IWorkbenchWindowLifecycleService;
 import com.netxforge.netxstudio.ui.IWorkbenchWindowLifecycle;
-import com.netxforge.netxstudio.ui.activities.IActivityAndRoleService;
+import com.netxforge.netxstudio.ui.IWorkbenchWindowLifecycleService;
 import com.netxforge.netxstudio.ui.roles.IRoleService;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
@@ -38,19 +37,15 @@ import com.netxforge.netxstudio.workspace.WorkspaceUtil;
  * @author Christophe Bouhier
  */
 public class ProductWorkbenchWindowAdvisor extends
-		AbstractWorkbenchWindowLifecycle implements IWorkbenchWindowLifecycleService {
+		AbstractWorkbenchWindowLifecycle implements
+		IWorkbenchWindowLifecycleService {
 
 	private IRoleService roleService = new ProductRoleService();
-	
-	
+
 	/**
-	 * A self, which is offered as an OSGI service. 
+	 * A self, which is offered as an OSGI service.
 	 */
-	private static ProductWorkbenchWindowAdvisor self = new ProductWorkbenchWindowAdvisor(); 
-	
-	
-	@Inject
-	private IActivityAndRoleService activityService;
+	private static ProductWorkbenchWindowAdvisor self = new ProductWorkbenchWindowAdvisor();
 
 	@Override
 	public void preWindowOpen(IWorkbenchWindowConfigurer configurer) {
@@ -77,7 +72,7 @@ public class ProductWorkbenchWindowAdvisor extends
 		WorkspaceUtil.INSTANCE.initDefaultProject();
 
 		final Role currentRole = roleService.getCurrentRole();
-		
+
 		String currentUser = roleService.getCurrentUser();
 
 		if (currentUser != null) {
@@ -88,7 +83,8 @@ public class ProductWorkbenchWindowAdvisor extends
 			configurer.setTitle("NetXStudio");
 		}
 		if (currentRole != null) {
-			activityService.enableActivity(currentRole);
+			InjectionHelper.get().getActivityAndRoleService()
+					.enableActivity(currentRole);
 		} else {
 			// Data corruption issue.
 		}
@@ -143,8 +139,8 @@ public class ProductWorkbenchWindowAdvisor extends
 	public IWorkbenchWindowLifecycle getWorkbenchWindowLifecycle() {
 		return self;
 	}
-	
-	public static IWorkbenchWindowLifecycleService getINSTANCE(){
+
+	public static IWorkbenchWindowLifecycleService getINSTANCE() {
 		return self;
 	}
 
