@@ -1,58 +1,59 @@
 /*******************************************************************************
- * Copyright (c) Apr 26, 2011 NetXForge.
+ * Copyright (c) 4 mrt. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option) any
- * later version.
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details. You should have received a copy of the GNU Lesser General Public
- * License along with this program. If not, see <http://www.gnu.org/licenses/>
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.ui;
+package com.netxforge.netxstudio.client.product;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IPerspectiveListener;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.application.ActionBarAdvisor;
-import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
-import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-import com.netxforge.netxstudio.console.ConsoleService;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.ui.AbstractWorkbenchWindowLifecycle;
+import com.netxforge.netxstudio.ui.IWorkbenchWindowLifecycleService;
+import com.netxforge.netxstudio.ui.IWorkbenchWindowLifecycle;
+import com.netxforge.netxstudio.ui.activities.IActivityAndRoleService;
+import com.netxforge.netxstudio.ui.roles.IRoleService;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
 /**
+ * This products workbench window settings.
  * 
  * @author Christophe Bouhier
  */
-public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
+public class ProductWorkbenchWindowAdvisor extends
+		AbstractWorkbenchWindowLifecycle implements IWorkbenchWindowLifecycleService {
 
-	private IRoleService roleService = new IRoleService.NullRoleService();
+	private IRoleService roleService = new ProductRoleService();
+	
+	
+	/**
+	 * A self, which is offered as an OSGI service. 
+	 */
+	private static ProductWorkbenchWindowAdvisor self = new ProductWorkbenchWindowAdvisor(); 
+	
+	
+	@Inject
+	private IActivityAndRoleService activityService;
 
-	public ApplicationWorkbenchWindowAdvisor(
-			IWorkbenchWindowConfigurer configurer) {
-		super(configurer);
-	}
-
-	public ActionBarAdvisor createActionBarAdvisor(
-			IActionBarConfigurer configurer) {
-		return new ApplicationActionBarAdvisor(configurer);
-	}
-
-	public void preWindowOpen() {
-		IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
-
+	@Override
+	public void preWindowOpen(IWorkbenchWindowConfigurer configurer) {
 		configurer.setInitialSize(new Point(1200, 1000));
 
 		// Fast views are not compatible with standalone views.
@@ -63,18 +64,6 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		configurer.setShowProgressIndicator(true);
 
 		initializeApplication(configurer);
-
-	}
-
-	@Override
-	public void postWindowOpen() {
-		super.postWindowOpen();
-		IWorkbenchPage activePage = getWindowConfigurer().getWindow()
-				.getActivePage();
-		// There won't be any if no pespective is defined.
-		if (activePage != null) {
-			this.hideActionSets(activePage);
-		}
 	}
 
 	/**
@@ -85,17 +74,10 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	 */
 	private void initializeApplication(IWorkbenchWindowConfigurer configurer) {
 
-		ConsoleService.INSTANCE.addConsole("NetXStudio");
-
 		WorkspaceUtil.INSTANCE.initDefaultProject();
 
-		// Kick of activities.
-		// Inject the data service.
-		// ActivitiesActivator.getDefault().getInjector().injectMembers(this);
-
-		// 15-11-2011 fixtures moved server side.
-
 		final Role currentRole = roleService.getCurrentRole();
+		
 		String currentUser = roleService.getCurrentUser();
 
 		if (currentUser != null) {
@@ -106,19 +88,13 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			configurer.setTitle("NetXStudio");
 		}
 		if (currentRole != null) {
-			// TODO, Need a hook when initializing....
-			// 1. application init contributors? extensions
-			// 2. OSGI service?
-
-			// activityService.enableActivity(currentRole);
+			activityService.enableActivity(currentRole);
 		} else {
 			// Data corruption issue.
 		}
 
 		// close the transaction.
 		// dService.getProvider().commitTransactionThenClose();
-
-		// dService.getQueryService().close();
 
 		// Get the workbench and disable some actionsets:
 		// These will be added again for another perspective.
@@ -147,6 +123,13 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 	}
 
+	@Override
+	public void postWindowClose(
+			IWorkbenchWindowConfigurer iWorkbenchWindowConfigurer) {
+		// Save our workspace.
+		WorkspaceUtil.INSTANCE.saveChanges();
+	}
+
 	protected void hideActionSets(IWorkbenchPage page) {
 		page.hideActionSet("org.eclipse.ui.WorkingSetActionSet");
 		page.hideActionSet("org.eclipse.ui.actionSet.openFiles");
@@ -157,29 +140,12 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		// page.hideActionSet("org.eclipse.update.ui.softwareUpdates");
 	}
 
-	@Override
-	public boolean preWindowShellClose() {
-
-		return super.preWindowShellClose();
+	public IWorkbenchWindowLifecycle getWorkbenchWindowLifecycle() {
+		return self;
 	}
-
-	@Override
-	public IStatus saveState(IMemento memento) {
-		// TODO Auto-generated method stub
-		return super.saveState(memento);
-	}
-
-	@Override
-	public void postWindowClose() {
-		super.postWindowClose();
-
-		// FIXME... use hooks.
-		// Close our session.
-		// dService.getProvider().closeSession();
-
-		// Save our workspace.
-		WorkspaceUtil.INSTANCE.saveChanges();
-
+	
+	public static IWorkbenchWindowLifecycleService getINSTANCE(){
+		return self;
 	}
 
 }

@@ -16,15 +16,16 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.ui;
+package com.netxforge.netxstudio.ui.internal;
 
 import com.google.inject.AbstractModule;
+import com.netxforge.netxstudio.ui.roles.IRoleService;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public class ApplicationModule extends AbstractModule {
+public class ScreensApplicationModule extends AbstractModule {
 
 	/* (non-Javadoc)
 	 * @see com.google.inject.AbstractModule#configure()

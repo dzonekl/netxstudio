@@ -4,7 +4,9 @@ import java.util.Properties;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 
+import com.netxforge.netxstudio.ui.IWorkbenchWindowLifecycleService;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -24,7 +26,7 @@ public class ProductActivator extends AbstractUIPlugin {
 	}
 
 	private static final String propertiesFile = "netxstudio.properties";
-	
+
 	public static final String NETXSTUDIO_SERVER = "netxstudio.server";
 	public static final String NETXSTUDIO_LASTUSER = "netxstudio.lastuser";
 	public static final String NETXSTUDIO_WORKSPACE = "netxstudio.workspace";
@@ -32,10 +34,12 @@ public class ProductActivator extends AbstractUIPlugin {
 	// public static String serverValue="";
 	// public static String lastuserValue="";
 	// public static String workspaceValue="";
-	
+
 	private final PropertiesUtil pu = new PropertiesUtil();
-	
+
 	private Properties properties;
+
+	private ServiceRegistration<IWorkbenchWindowLifecycleService> workbenchService;
 
 	/*
 	 * (non-Javadoc)
@@ -52,9 +56,12 @@ public class ProductActivator extends AbstractUIPlugin {
 		// core
 		// plugin.
 		pu.readProperties(this.getBundle(), propertiesFile, getProperties());
-	}
 
-	
+		// Register our product workbench service to customize the application
+		// at startup.
+		workbenchService = context.registerService(IWorkbenchWindowLifecycleService.class,
+				ProductWorkbenchWindowAdvisor.getINSTANCE(), null);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -65,11 +72,15 @@ public class ProductActivator extends AbstractUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
-		pu.writeProperties(this.getBundle(), propertiesFile, this.getProperties());
+		pu.writeProperties(this.getBundle(), propertiesFile,
+				this.getProperties());
+		
+		workbenchService.unregister();
+		
 		super.stop(context);
 
 	}
-	
+
 	/**
 	 * Returns the shared instance
 	 * 
@@ -80,7 +91,7 @@ public class ProductActivator extends AbstractUIPlugin {
 	}
 
 	public Properties getProperties() {
-		if(properties == null){
+		if (properties == null) {
 			properties = new Properties();
 		}
 		return properties;

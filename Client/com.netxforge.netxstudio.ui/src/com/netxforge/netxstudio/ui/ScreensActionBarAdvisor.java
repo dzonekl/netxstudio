@@ -37,7 +37,7 @@ import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
-public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
+public class ScreensActionBarAdvisor extends ActionBarAdvisor {
 
 	private IContributionItem perspectivesMenu;
 	private IContributionItem viewsMenu;
@@ -46,7 +46,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private IWorkbenchAction helpAction;
 	private IWorkbenchAction saveAction;
 
-	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
+	public ScreensActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);
 	}
 

@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.workspace.IWorkspaceUtil;
 /**
  * This class controls all aspects of the application's execution
  */
-public class Application implements IApplication {
+public class ScreensApplication implements IApplication {
 
 	IWorkspaceUtil util;
 
@@ -53,9 +53,12 @@ public class Application implements IApplication {
 
 		// Immidiatly set the workspace location.
 		this.setWorkspaceLocation(display.getActiveShell());
+		
 		try {
+			final ScreensWorkbenchAdvisor applicationWorkbenchAdvisor = new ScreensWorkbenchAdvisor();
+			
 			int returnCode = PlatformUI.createAndRunWorkbench(display,
-					new ApplicationWorkbenchAdvisor());
+					applicationWorkbenchAdvisor);
 			if (returnCode == PlatformUI.RETURN_RESTART) {
 				return IApplication.EXIT_RESTART;
 			}

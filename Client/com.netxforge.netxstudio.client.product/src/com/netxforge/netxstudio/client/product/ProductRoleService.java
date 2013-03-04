@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) Sep 22, 2012 NetXForge.
+ * Copyright (c) 4 mrt. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -15,27 +15,26 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.ui.internal;
+package com.netxforge.netxstudio.client.product;
 
-import org.osgi.framework.Bundle;
-
-import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.guice.AbstractGuiceAwareExecutableExtensionFactory;
+import com.netxforge.netxstudio.client.product.splashHandlers.InjectionHelper;
+import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.ui.roles.IRoleService;
 
 /**
- * This class was generated. Customizations should only happen in a newly
- * introduced subclass. 
+ * A role implementation which delegate to a remotel stored role and user information.  
+ * 
+ * @author Christophe Bouhier
+ *
  */
-public class UIEExtensionFactory extends AbstractGuiceAwareExecutableExtensionFactory {
+public class ProductRoleService implements IRoleService {
+	
+	public Role getCurrentRole() {
+		return InjectionHelper.get().getDataService().getCurrentRole();
+	}
 
-	@Override
-	protected Bundle getBundle() {
-		return ScreensApplicationActivator.getDefault().getBundle();
+	public String getCurrentUser() {
+		return InjectionHelper.get().getDataService().getProvider().getSessionUserID();
 	}
-	
-	@Override
-	protected Injector getInjector() {
-		return ScreensApplicationActivator.getDefault().getInjector();
-	}
-	
+
 }

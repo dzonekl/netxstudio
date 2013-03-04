@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) Sep 22, 2012 NetXForge.
+ * Copyright (c) 4 mrt. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -15,27 +15,17 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.ui.internal;
-
-import org.osgi.framework.Bundle;
-
-import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.guice.AbstractGuiceAwareExecutableExtensionFactory;
+package com.netxforge.netxstudio.ui;
 
 /**
- * This class was generated. Customizations should only happen in a newly
- * introduced subclass. 
+ * Clients should implement and register as an OSGI service, for this application to discover 
+ * and invoke during the lifecycle of the Application.  
+ * 
+ * @author Christophe Bouhier
+ *
  */
-public class UIEExtensionFactory extends AbstractGuiceAwareExecutableExtensionFactory {
-
-	@Override
-	protected Bundle getBundle() {
-		return ScreensApplicationActivator.getDefault().getBundle();
-	}
+public interface IWorkbenchWindowLifecycleService {
 	
-	@Override
-	protected Injector getInjector() {
-		return ScreensApplicationActivator.getDefault().getInjector();
-	}
+	public IWorkbenchWindowLifecycle getWorkbenchWindowLifecycle();
 	
 }

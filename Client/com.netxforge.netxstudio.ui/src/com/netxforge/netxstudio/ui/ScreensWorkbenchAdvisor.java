@@ -25,17 +25,30 @@ import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
+import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.ui.internal.ScreensApplicationActivator;
+import com.netxforge.netxstudio.ui.roles.IRoleService;
 
-public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
+/**
+ * A {@link WorkbenchAdvisor} which can be used in an RCP application correctly
+ * initializing the IDE plugin. Additionally.
+ * 
+ * @author Christophe
+ * 
+ */
+public class ScreensWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
-	private IRoleService roleService = new IRoleService.NullRoleService();
+	IRoleService roleService = new IRoleService.NullRoleService();
 
 	@Override
 	public void preStartup() {
 		super.preStartup();
+
+		// TODO, Migrate away the role service.
+
 		// SHould force the workbench to start with a clean sheet, if the role
 		// changed.
 		resetWorkbenchIfRoleChanged();
@@ -43,7 +56,18 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
 	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(
 			IWorkbenchWindowConfigurer configurer) {
-		return new ApplicationWorkbenchWindowAdvisor(configurer);
+		ScreensWorkbenchWindowAdvisor screensWorkbenchWindowAdvisor = new ScreensWorkbenchWindowAdvisor(
+				configurer);
+		
+		// Hook in listeners from the actual product, if any, otherwise we will be a bare bone application. 
+		IWorkbenchWindowLifecycleService wbWindowLifecycleService = ScreensApplicationActivator
+				.getDefault().getWbWindowLifecycleService();
+		if (wbWindowLifecycleService != null) {
+			screensWorkbenchWindowAdvisor
+					.addLifecycleListener(wbWindowLifecycleService
+							.getWorkbenchWindowLifecycle());
+		}
+		return screensWorkbenchWindowAdvisor;
 	}
 
 	public void initialize(IWorkbenchConfigurer configurer) {

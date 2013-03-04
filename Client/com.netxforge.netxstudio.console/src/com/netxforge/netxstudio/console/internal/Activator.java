@@ -3,6 +3,8 @@ package com.netxforge.netxstudio.console.internal;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.netxforge.netxstudio.console.ConsoleService;
+
 /**
  * The activator class controls the plug-in life cycle
  */
@@ -18,6 +20,9 @@ public class Activator extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public Activator() {
+		
+		ConsoleService.INSTANCE.addConsole("NetXStudio");
+		
 	}
 
 	/*

@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.ui;
+package com.netxforge.netxstudio.ui.roles;
 
 import com.netxforge.netxstudio.generics.Role;
 
