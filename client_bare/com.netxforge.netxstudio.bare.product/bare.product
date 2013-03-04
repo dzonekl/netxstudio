@@ -10,11 +10,22 @@
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
    <plugins>
    </plugins>
 
    <features>
       <feature id="com.netxforge.netxstudio.bare.product.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.ui.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.13042011.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.common.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.console.feature" version="1.0.0.qualifier"/>
@@ -30,5 +41,9 @@
       <feature id="org.eclipse.platform.artifacts.feature" version="1.0.0.qualifier"/>
    </features>
 
+   <configurations>
+      <plugin id="com.netxforge.netxstudio.bare.product" autoStart="false" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.ui" autoStart="false" startLevel="1" />
+   </configurations>
 
 </product>
