@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.ui;
+package com.netxforge.netxstudio.screens.app;
 
 import java.io.File;
 import java.io.FileInputStream;

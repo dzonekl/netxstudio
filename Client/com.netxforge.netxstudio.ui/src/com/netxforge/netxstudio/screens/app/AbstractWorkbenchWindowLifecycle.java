@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) Sep 22, 2012 NetXForge.
+ * Copyright (c) 4 mrt. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,28 +14,48 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
-package com.netxforge.netxstudio.ui.internal;
+ *******************************************************************************/
+package com.netxforge.netxstudio.screens.app;
 
-import org.osgi.framework.Bundle;
+import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 
-import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.guice.AbstractGuiceAwareExecutableExtensionFactory;
 
 /**
- * This class was generated. Customizations should only happen in a newly
- * introduced subclass. 
+ * A do nothing implementation 
+ * 
+ * @author Christophe Bouhier
+ *
  */
-public class UIEExtensionFactory extends AbstractGuiceAwareExecutableExtensionFactory {
+public class AbstractWorkbenchWindowLifecycle implements
+		IWorkbenchWindowLifecycle {
 
-	@Override
-	protected Bundle getBundle() {
-		return ScreensApplicationActivator.getDefault().getBundle();
+	public void preWindowOpen(IWorkbenchWindowConfigurer configurer) {
+
 	}
-	
-	@Override
-	protected Injector getInjector() {
-		return ScreensApplicationActivator.getDefault().getInjector();
+
+	public void postWindowRestore() {
+
 	}
-	
+
+	public void postWindowCreate() {
+
+	}
+
+	public void openIntro() {
+
+	}
+
+	public void postWindowOpen(
+			IWorkbenchWindowConfigurer iWorkbenchWindowConfigurer) {
+
+	}
+
+	public boolean preWindowShellClose() {
+		return true;
+	}
+
+	public void postWindowClose(
+			IWorkbenchWindowConfigurer iWorkbenchWindowConfigurer) {
+	}
+
 }

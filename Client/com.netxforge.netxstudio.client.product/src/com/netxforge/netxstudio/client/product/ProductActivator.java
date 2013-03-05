@@ -6,7 +6,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-import com.netxforge.netxstudio.ui.IWorkbenchWindowLifecycleService;
+import com.netxforge.netxstudio.screens.app.IWorkbenchService;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -39,7 +39,7 @@ public class ProductActivator extends AbstractUIPlugin {
 
 	private Properties properties;
 
-	private ServiceRegistration<IWorkbenchWindowLifecycleService> workbenchService;
+	private ServiceRegistration<IWorkbenchService> workbenchService;
 
 	/*
 	 * (non-Javadoc)
@@ -60,7 +60,7 @@ public class ProductActivator extends AbstractUIPlugin {
 		// Register our product workbench service to customize the application
 		// at startup.
 		workbenchService = context.registerService(
-				IWorkbenchWindowLifecycleService.class,
+				IWorkbenchService.class,
 				ProductWorkbenchWindowAdvisor.getINSTANCE(), null);
 
 	}

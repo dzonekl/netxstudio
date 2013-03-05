@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.ui;
+package com.netxforge.netxstudio.screens.app;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -31,15 +31,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.application.WorkbenchAdvisor;
 
-import com.netxforge.netxstudio.workspace.IWorkspaceUtil;
+import com.netxforge.netxstudio.screens.app.internal.ScreensApplicationActivator;
 
 /**
  * This class controls all aspects of the application's execution
  */
 public class ScreensApplication implements IApplication {
-
-	IWorkspaceUtil util;
 
 	/*
 	 * (non-Javadoc)
@@ -48,15 +47,24 @@ public class ScreensApplication implements IApplication {
 	 * IApplicationContext)
 	 */
 	public Object start(IApplicationContext context) {
-		
+
 		Display display = PlatformUI.createDisplay();
 
 		// Immidiatly set the workspace location.
 		this.setWorkspaceLocation(display.getActiveShell());
-		
+
 		try {
-			final ScreensWorkbenchAdvisor applicationWorkbenchAdvisor = new ScreensWorkbenchAdvisor();
-			
+
+			IWorkbenchService wbService = ScreensApplicationActivator
+					.getDefault().getWorkbenchService();
+
+			WorkbenchAdvisor applicationWorkbenchAdvisor;
+			if (wbService != null) {
+				applicationWorkbenchAdvisor = wbService.getWorkbenchAdvisor();
+			} else {
+				applicationWorkbenchAdvisor = new ScreensWorkbenchAdvisor();
+			}
+
 			int returnCode = PlatformUI.createAndRunWorkbench(display,
 					applicationWorkbenchAdvisor);
 			if (returnCode == PlatformUI.RETURN_RESTART) {
@@ -84,19 +92,6 @@ public class ScreensApplication implements IApplication {
 					workbench.close();
 			}
 		});
-	}
-
-	// // DS Actication/Deactivation
-	public void startup() {
-		util.initProjectCreationWizard();
-	}
-
-	public void shutdown() {
-		// No specific shutdown.
-	}
-
-	public void setWorkspaceUtil(IWorkspaceUtil util) {
-		this.util = util;
 	}
 
 	public void setWorkspaceLocation(Shell splash) {

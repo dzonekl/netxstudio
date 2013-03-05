@@ -15,47 +15,39 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.ui;
+package com.netxforge.netxstudio.screens.app;
 
-import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
-
+import org.eclipse.ui.application.WorkbenchAdvisor;
+import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 /**
- * A do nothing implementation 
+ * Clients should implement and register as an OSGI service, for this
+ * application to discover and invoke during the lifecycle of the Application
+ * startup. The Screens application will optionally use:
+ * <ul>
+ * <li>A custom {@link WorkbenchAdvisor} obtained from {@link }</li>
+ * <li>A {@link WorkbenchWindowAdvisor} lifecycle listener§</li>
+ * </ul>
+ * 
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
-public class AbstractWorkbenchWindowLifecycle implements
-		IWorkbenchWindowLifecycle {
+public interface IWorkbenchService {
 
-	public void preWindowOpen(IWorkbenchWindowConfigurer configurer) {
+	/**
+	 * Get a custom advisor for the Screens Application to use.
+	 * 
+	 * @return
+	 */
+	public WorkbenchAdvisor getWorkbenchAdvisor();
 
-	}
-
-	public void postWindowRestore() {
-
-	}
-
-	public void postWindowCreate() {
-
-	}
-
-	public void openIntro() {
-
-	}
-
-	public void postWindowOpen(
-			IWorkbenchWindowConfigurer iWorkbenchWindowConfigurer) {
-
-	}
-
-	public boolean preWindowShellClose() {
-		return true;
-	}
-
-	public void postWindowClose(
-			IWorkbenchWindowConfigurer iWorkbenchWindowConfigurer) {
-	}
+	/**
+	 * A lifecyle notifier which is attached to the lifecycle events of the
+	 * {@link WorkbenchWindowAdvisor}
+	 * 
+	 * @return
+	 */
+	public IWorkbenchWindowLifecycle getWorkbenchWindowLifecycle();
 
 }

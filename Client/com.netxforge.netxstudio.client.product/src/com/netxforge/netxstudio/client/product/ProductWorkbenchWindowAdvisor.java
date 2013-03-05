@@ -25,11 +25,11 @@ import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 
 import com.netxforge.netxstudio.client.product.splashHandlers.InjectionHelper;
 import com.netxforge.netxstudio.generics.Role;
-import com.netxforge.netxstudio.ui.AbstractWorkbenchWindowLifecycle;
-import com.netxforge.netxstudio.ui.IWorkbenchWindowLifecycle;
-import com.netxforge.netxstudio.ui.IWorkbenchWindowLifecycleService;
+import com.netxforge.netxstudio.screens.app.AbstractWorkbenchWindowLifecycle;
+import com.netxforge.netxstudio.screens.app.IWorkbenchService;
+import com.netxforge.netxstudio.screens.app.IWorkbenchWindowLifecycle;
+import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
 import com.netxforge.netxstudio.ui.roles.IRoleService;
-import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
 /**
  * This products workbench window settings.
@@ -38,7 +38,7 @@ import com.netxforge.netxstudio.workspace.WorkspaceUtil;
  */
 public class ProductWorkbenchWindowAdvisor extends
 		AbstractWorkbenchWindowLifecycle implements
-		IWorkbenchWindowLifecycleService {
+		IWorkbenchService {
 
 	private IRoleService roleService = new ProductRoleService();
 
@@ -140,7 +140,7 @@ public class ProductWorkbenchWindowAdvisor extends
 		return self;
 	}
 
-	public static IWorkbenchWindowLifecycleService getINSTANCE() {
+	public static IWorkbenchService getINSTANCE() {
 		return self;
 	}
 

@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.ui;
+package com.netxforge.netxstudio.client.product;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
@@ -29,8 +29,10 @@ import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.netxforge.netxstudio.generics.Role;
-import com.netxforge.netxstudio.ui.internal.ScreensApplicationActivator;
-import com.netxforge.netxstudio.ui.roles.IRoleService;
+import com.netxforge.netxstudio.screens.app.IWorkbenchService;
+import com.netxforge.netxstudio.screens.app.PickWorkspaceDialog;
+import com.netxforge.netxstudio.screens.app.ScreensWorkbenchWindowAdvisor;
+import com.netxforge.netxstudio.screens.app.internal.ScreensApplicationActivator;
 
 /**
  * A {@link WorkbenchAdvisor} which can be used in an RCP application correctly
@@ -39,15 +41,11 @@ import com.netxforge.netxstudio.ui.roles.IRoleService;
  * @author Christophe
  * 
  */
-public class ScreensWorkbenchAdvisor extends WorkbenchAdvisorHack {
-
-	IRoleService roleService = new IRoleService.NullRoleService();
+public class ProductWorkbenchAdvisor extends IDEWorkbenchAdvisor {
 
 	@Override
 	public void preStartup() {
 		super.preStartup();
-
-		// TODO, Migrate away the role service.
 
 		// SHould force the workbench to start with a clean sheet, if the role
 		// changed.
@@ -56,13 +54,20 @@ public class ScreensWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
 	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(
 			IWorkbenchWindowConfigurer configurer) {
-		ScreensWorkbenchWindowAdvisor screensWorkbenchWindowAdvisor = new ScreensWorkbenchWindowAdvisor(
+
+		final ScreensWorkbenchWindowAdvisor screensWorkbenchWindowAdvisor = new ScreensWorkbenchWindowAdvisor(
 				configurer);
-		
-		// Hook in listeners from the actual product, if any, otherwise we will be a bare bone application. 
-		IWorkbenchWindowLifecycleService wbWindowLifecycleService = ScreensApplicationActivator
-				.getDefault().getWbWindowLifecycleService();
+
+		IWorkbenchService wbWindowLifecycleService = ScreensApplicationActivator
+				.getDefault().getWorkbenchService();
+
+		// Hook in the advisor and workbench window listeners from the actual
+		// product, if any, otherwise we will be a bare bone application.
 		if (wbWindowLifecycleService != null) {
+
+			// Hook in listeners from the actual product, if any, otherwise we
+			// will be a bare bone application.
+
 			screensWorkbenchWindowAdvisor
 					.addLifecycleListener(wbWindowLifecycleService
 							.getWorkbenchWindowLifecycle());

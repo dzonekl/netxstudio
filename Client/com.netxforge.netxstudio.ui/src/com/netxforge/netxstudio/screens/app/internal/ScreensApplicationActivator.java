@@ -1,11 +1,11 @@
-package com.netxforge.netxstudio.ui.internal;
+package com.netxforge.netxstudio.screens.app.internal;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
-import com.netxforge.netxstudio.ui.IWorkbenchWindowLifecycleService;
+import com.netxforge.netxstudio.screens.app.IWorkbenchService;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -20,9 +20,9 @@ public class ScreensApplicationActivator extends AbstractUIPlugin {
 
 //	private Injector injector;
 
-	private IWorkbenchWindowLifecycleService wbWindowLifecycleService;
+	private IWorkbenchService wbWindowLifecycleService;
 
-	public IWorkbenchWindowLifecycleService getWbWindowLifecycleService() {
+	public IWorkbenchService getWorkbenchService() {
 		return wbWindowLifecycleService;
 	}
 
@@ -46,8 +46,8 @@ public class ScreensApplicationActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		ServiceReference<IWorkbenchWindowLifecycleService> wbLifecycleServiceReference = context
-				.getServiceReference(IWorkbenchWindowLifecycleService.class);
+		ServiceReference<IWorkbenchService> wbLifecycleServiceReference = context
+				.getServiceReference(IWorkbenchService.class);
 		if(wbLifecycleServiceReference != null){
 			wbWindowLifecycleService = context.getService(wbLifecycleServiceReference);
 		}

@@ -6,7 +6,7 @@
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-              class="com.netxforge.netxstudio.ui.ScreensApplication">
+              class="com.netxforge.netxstudio.screens.app.ScreensApplication">
          </run>
       </application>
    </extension>
@@ -54,7 +54,7 @@
          <toolbar
                id="com.netxforge.netxstudio.statustoolbar">
             <control
-                  class="com.netxforge.netxstudio.ui.Clock"
+                  class="com.netxforge.netxstudio.screens.app.Clock"
                   id="com.netxforge.netxstudio.clock">
             </control>
          </toolbar>

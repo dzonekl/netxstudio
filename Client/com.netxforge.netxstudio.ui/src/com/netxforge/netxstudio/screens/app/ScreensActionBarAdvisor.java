@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.ui;
+package com.netxforge.netxstudio.screens.app;
 
 
 import org.eclipse.jface.action.ActionContributionItem;

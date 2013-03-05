@@ -16,10 +16,9 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.ui.internal;
+package com.netxforge.netxstudio.screens.app.internal;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.ui.roles.IRoleService;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -32,9 +31,6 @@ public class ScreensApplicationModule extends AbstractModule {
 	 */
 	@Override
 	protected void configure() {
-		
-		// Bind to a null role. 
-		this.bind(IRoleService.class).to(IRoleService.NullRoleService.class);
 	}
 
 }
