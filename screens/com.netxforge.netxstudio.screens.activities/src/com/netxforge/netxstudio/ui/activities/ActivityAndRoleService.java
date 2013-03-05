@@ -21,7 +21,13 @@ package com.netxforge.netxstudio.ui.activities;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.management.relation.Role;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.activities.IActivityManager;
+import org.eclipse.ui.activities.IWorkbenchActivitySupport;
+
+import com.netxforge.netxstudio.data.fixtures.IFixtures;
+import com.netxforge.netxstudio.generics.Role;
+
 
 
 /**
@@ -36,7 +42,6 @@ import javax.management.relation.Role;
  *
  */
 public class ActivityAndRoleService implements IActivityAndRoleService {
-
 
 	
 	public static String ACTIVITY_ADMIN = "com.netxforge.netxstudio.ui.activity.admin";

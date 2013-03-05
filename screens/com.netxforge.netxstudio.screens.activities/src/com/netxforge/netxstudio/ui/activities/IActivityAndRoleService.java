@@ -18,7 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.ui.activities;
 
-import javax.management.relation.Role;
+import com.netxforge.netxstudio.generics.Role;
+
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
