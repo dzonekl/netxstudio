@@ -6,17 +6,17 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.screens.internal.ScreensActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.swtchart;bundle-version="0.7.0",
- com.netxforge.netxstudio.screens.xtext;bundle-version="1.0.0",
- com.netxforge.netxstudio.workspace;bundle-version="1.0.0",
- com.netxforge.netxstudio.screens.editing;bundle-version="1.0.0",
- com.netxforge.netxscript.ui;bundle-version="1.0.0",
  org.apache.poi;bundle-version="1.0.0",
  org.postgresql;bundle-version="9.0.0",
  oracle.jdbc.driver.10_2_0_4;bundle-version="10.2.0",
  org.eclipse.gef;bundle-version="3.7.0",
  org.eclipse.core.expressions;bundle-version="3.4.300",
  org.eclipse.core.runtime,
- org.eclipse.ui
+ org.eclipse.ui,
+ com.netxforge.netxstudio.screens.xtext;bundle-version="1.0.0",
+ com.netxforge.netxscript.ui;bundle-version="1.0.0",
+ com.netxforge.netxstudio.screens.editing;bundle-version="1.0.0",
+ com.netxforge.netxstudio.screens.ide;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .

@@ -32,17 +32,10 @@
    </requires>
 
    <plugin
-         id="com.netxforge.netxstudio.workspace"
+         id="com.netxforge.netxstudio.screens.app"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="com.netxforge.netxstudio.ui"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>

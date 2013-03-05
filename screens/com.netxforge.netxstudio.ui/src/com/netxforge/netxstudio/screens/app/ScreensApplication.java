@@ -34,6 +34,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 
 import com.netxforge.netxstudio.screens.app.internal.ScreensApplicationActivator;
+import com.netxforge.netxstudio.screens.ide.PickWorkspaceDialog;
 
 /**
  * This class controls all aspects of the application's execution
@@ -49,7 +50,11 @@ public class ScreensApplication implements IApplication {
 	public Object start(IApplicationContext context) {
 
 		Display display = PlatformUI.createDisplay();
-
+		
+		
+		// FIXME, Move this elsewhere....
+		
+		
 		// Immidiatly set the workspace location.
 		this.setWorkspaceLocation(display.getActiveShell());
 

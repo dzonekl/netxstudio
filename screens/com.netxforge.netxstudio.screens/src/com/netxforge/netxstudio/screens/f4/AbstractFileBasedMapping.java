@@ -74,7 +74,7 @@ import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.CSVServiceJob;
 import com.netxforge.netxstudio.screens.f4.support.XLSServiceJob;
-import com.netxforge.netxstudio.workspace.WorkspaceUtil;
+import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
 
 public abstract class AbstractFileBasedMapping extends AbstractScreen {
 

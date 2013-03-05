@@ -17,7 +17,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.app;
 
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
@@ -28,26 +27,15 @@ import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.app.internal.ScreensApplicationActivator;
 
 /**
- * A {@link WorkbenchAdvisor} which can be used in an RCP application correctly
- * initializing the IDE plugin. Additionally.
+ * A {@link WorkbenchAdvisor} which can be used in an RCP application
  * 
- * @author Christophe
+ * @author Christophe Bouhier
  * 
  */
 public class ScreensWorkbenchAdvisor extends WorkbenchAdvisor {
-
-	@Override
-	public void preStartup() {
-		super.preStartup();
-
-		// SHould force the workbench to start with a clean sheet, if the role
-		// changed.
-		resetWorkbenchIfRoleChanged();
-	}
 
 	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(
 			IWorkbenchWindowConfigurer configurer) {
@@ -81,36 +69,6 @@ public class ScreensWorkbenchAdvisor extends WorkbenchAdvisor {
 	public String getInitialWindowPerspectiveId() {
 		// return LibraryPerspective.ID;
 		return null; // With a common screen, there is no initial perspective.
-	}
-
-	/**
-	 * checks the last role of the user, which was authenticated by now and
-	 * makes sure the workbench init file is cleaned, if the role changed from
-	 * the previous this to avoid the workbench restoring UI components not
-	 * allowed by the activities.
-	 * 
-	 * @param dataService
-	 */
-	public void resetWorkbenchIfRoleChanged() {
-		Role r = roleService.getCurrentRole();
-		if (r != null && PickWorkspaceDialog.roleChanged(r)) {
-			this.getWorkbenchConfigurer().setSaveAndRestore(false);
-		}
-	}
-
-	/*
-	 * simply removes the workbench file.
-	 */
-	@SuppressWarnings("unused")
-	private void clearWorkbench() {
-		IPath location = Platform.getLocation();
-		IPath workbenchXml = location.addTrailingSeparator()
-				.append(".metadata").addTrailingSeparator().append(".plugins")
-				.addTrailingSeparator().append("org.eclipse.ui.workbench")
-				.addTrailingSeparator().append("workbench.xml");
-		if (workbenchXml.toFile().exists()) {
-			workbenchXml.toFile().delete();
-		}
 	}
 
 	private void configPluginPreferences() {

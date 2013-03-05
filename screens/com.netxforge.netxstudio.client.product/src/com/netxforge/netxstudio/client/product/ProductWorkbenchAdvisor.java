@@ -30,9 +30,10 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.app.IWorkbenchService;
-import com.netxforge.netxstudio.screens.app.PickWorkspaceDialog;
 import com.netxforge.netxstudio.screens.app.ScreensWorkbenchWindowAdvisor;
 import com.netxforge.netxstudio.screens.app.internal.ScreensApplicationActivator;
+import com.netxforge.netxstudio.screens.ide.IDEWorkbenchAdvisor;
+import com.netxforge.netxstudio.screens.ide.PickWorkspaceDialog;
 
 /**
  * A {@link WorkbenchAdvisor} which can be used in an RCP application correctly
