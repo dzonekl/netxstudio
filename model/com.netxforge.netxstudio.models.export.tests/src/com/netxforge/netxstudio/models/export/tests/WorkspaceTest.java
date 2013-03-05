@@ -11,7 +11,7 @@ import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
-import com.netxforge.netxstudio.workspace.WorkspaceUtil;
+import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
 
 
 /**

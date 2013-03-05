@@ -240,7 +240,6 @@ public abstract class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 	public void initialize(IWorkbenchConfigurer configurer) {
 		configurer.setSaveAndRestore(true);
 		declareWorkbenchImages();
-		super.initialize(configurer);
 	}
 
 	@Override

@@ -17,12 +17,22 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.client.product;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
+import org.eclipse.osgi.service.datalocation.Location;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPreferenceConstants;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
@@ -78,7 +88,12 @@ public class ProductWorkbenchAdvisor extends IDEWorkbenchAdvisor {
 
 	public void initialize(IWorkbenchConfigurer configurer) {
 		super.initialize(configurer);
-		configurer.setSaveAndRestore(true);
+
+		try {
+			setWorkspaceLocation(Display.getDefault().getActiveShell());
+		} catch (Exception e) {
+			// Do something here.
+		}
 		this.configPluginPreferences();
 	}
 
@@ -97,7 +112,8 @@ public class ProductWorkbenchAdvisor extends IDEWorkbenchAdvisor {
 	 */
 	public void resetWorkbenchIfRoleChanged() {
 		Role r = roleService.getCurrentRole();
-		if (r != null && PickWorkspaceDialog.roleChanged(r)) {
+
+		if (r != null && PickWorkspaceDialog.roleChanged(r.getName())) {
 			this.getWorkbenchConfigurer().setSaveAndRestore(false);
 		}
 	}
@@ -137,6 +153,87 @@ public class ProductWorkbenchAdvisor extends IDEWorkbenchAdvisor {
 				true, null);
 		System.out.println(currentValue ? "inplace editing disabled"
 				: " coudn't change preference for inplace editing");
+	}
+
+	public void setWorkspaceLocation(Shell splash) {
+		// set location to c:\temp
+
+		// fetch the Location that we will be modifying
+		Location instanceLoc = Platform.getInstanceLocation();
+		if (instanceLoc.isSet()) {
+			return;
+		}
+		try {
+			// // temp should always return a location.
+			// String temp = System.getProperty("java.io.tmpdir");
+			// if (temp != null) {
+			// instanceLoc.set(new URL("file", null, temp), false);
+			// }
+			//
+
+			// get what the user last said about remembering the workspace
+			// location
+			boolean remember = PickWorkspaceDialog.isRememberWorkspace();
+
+			// get the last used workspace location
+			String lastUsedWs = PickWorkspaceDialog
+					.getLastSetWorkspaceDirectory();
+
+			// if we have a "remember" but no last used workspace, it's not much
+			// to
+			// remember
+			if (remember && (lastUsedWs == null || lastUsedWs.length() == 0)) {
+				remember = false;
+			}
+
+			// check to ensure the workspace location is still OK
+			if (remember) {
+				// if there's any problem whatsoever with the workspace, force a
+				// dialog which in its turn will tell them what's bad
+				String ret = PickWorkspaceDialog.checkWorkspaceDirectory(
+						splash, lastUsedWs, false, false);
+				if (ret != null) {
+					remember = false;
+				}
+
+			}
+
+			// if we don't remember the workspace, show the dialog
+			if (!remember) {
+				PickWorkspaceDialog pwd = new PickWorkspaceDialog(splash, false);
+				int pick = pwd.open();
+
+				// if the user cancelled, we can't do anything as we need a
+				// workspace, so in this case, we tell them and exit
+				if (pick == Window.CANCEL) {
+					if (pwd.getSelectedWorkspaceLocation() == null) {
+						MessageDialog
+								.openError(splash, "Error",
+										"The application can not start without a workspace root and will now exit.");
+						try {
+							PlatformUI.getWorkbench().close();
+						} catch (Exception err) {
+
+						}
+					}
+				} else {
+					// tell Eclipse what the selected location was and continue
+					instanceLoc.set(
+							new URL("file", null, pwd
+									.getSelectedWorkspaceLocation()), false);
+				}
+			} else {
+				// set the last used location and continue
+				instanceLoc.set(new URL("file", null, lastUsedWs), false);
+			}
+
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

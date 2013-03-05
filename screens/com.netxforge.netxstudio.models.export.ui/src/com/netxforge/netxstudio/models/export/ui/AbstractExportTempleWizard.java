@@ -26,7 +26,7 @@ import com.netxforge.netxstudio.models.export.impl.XpandCallerService;
 import com.netxforge.netxstudio.models.export.impl.XpandPackageImport;
 import com.netxforge.netxstudio.models.export.ui.internal.ExportActivator;
 import com.netxforge.netxstudio.models.export.ui.pages.ExportNewFileWizardPage;
-import com.netxforge.netxstudio.workspace.WorkspaceUtil;
+import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
 
 public abstract class AbstractExportTempleWizard extends Wizard implements IExportWizard {
 

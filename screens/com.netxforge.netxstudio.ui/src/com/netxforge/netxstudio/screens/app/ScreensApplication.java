@@ -17,24 +17,14 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.app;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.window.Window;
-import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 
 import com.netxforge.netxstudio.screens.app.internal.ScreensApplicationActivator;
-import com.netxforge.netxstudio.screens.ide.PickWorkspaceDialog;
 
 /**
  * This class controls all aspects of the application's execution
@@ -48,16 +38,8 @@ public class ScreensApplication implements IApplication {
 	 * IApplicationContext)
 	 */
 	public Object start(IApplicationContext context) {
-
+		
 		Display display = PlatformUI.createDisplay();
-		
-		
-		// FIXME, Move this elsewhere....
-		
-		
-		// Immidiatly set the workspace location.
-		this.setWorkspaceLocation(display.getActiveShell());
-
 		try {
 
 			IWorkbenchService wbService = ScreensApplicationActivator
@@ -98,86 +80,4 @@ public class ScreensApplication implements IApplication {
 			}
 		});
 	}
-
-	public void setWorkspaceLocation(Shell splash) {
-		// set location to c:\temp
-
-		// fetch the Location that we will be modifying
-		Location instanceLoc = Platform.getInstanceLocation();
-		if (instanceLoc.isSet()) {
-			return;
-		}
-		try {
-			// // temp should always return a location.
-			// String temp = System.getProperty("java.io.tmpdir");
-			// if (temp != null) {
-			// instanceLoc.set(new URL("file", null, temp), false);
-			// }
-			//
-
-			// get what the user last said about remembering the workspace
-			// location
-			boolean remember = PickWorkspaceDialog.isRememberWorkspace();
-
-			// get the last used workspace location
-			String lastUsedWs = PickWorkspaceDialog
-					.getLastSetWorkspaceDirectory();
-
-			// if we have a "remember" but no last used workspace, it's not much
-			// to
-			// remember
-			if (remember && (lastUsedWs == null || lastUsedWs.length() == 0)) {
-				remember = false;
-			}
-
-			// check to ensure the workspace location is still OK
-			if (remember) {
-				// if there's any problem whatsoever with the workspace, force a
-				// dialog which in its turn will tell them what's bad
-				String ret = PickWorkspaceDialog.checkWorkspaceDirectory(
-						splash, lastUsedWs, false, false);
-				if (ret != null) {
-					remember = false;
-				}
-
-			}
-
-			// if we don't remember the workspace, show the dialog
-			if (!remember) {
-				PickWorkspaceDialog pwd = new PickWorkspaceDialog(splash, false);
-				int pick = pwd.open();
-
-				// if the user cancelled, we can't do anything as we need a
-				// workspace, so in this case, we tell them and exit
-				if (pick == Window.CANCEL) {
-					if (pwd.getSelectedWorkspaceLocation() == null) {
-						MessageDialog
-								.openError(splash, "Error",
-										"The application can not start without a workspace root and will now exit.");
-						try {
-							PlatformUI.getWorkbench().close();
-						} catch (Exception err) {
-
-						}
-					}
-				} else {
-					// tell Eclipse what the selected location was and continue
-					instanceLoc.set(
-							new URL("file", null, pwd
-									.getSelectedWorkspaceLocation()), false);
-				}
-			} else {
-				// set the last used location and continue
-				instanceLoc.set(new URL("file", null, lastUsedWs), false);
-			}
-
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 }

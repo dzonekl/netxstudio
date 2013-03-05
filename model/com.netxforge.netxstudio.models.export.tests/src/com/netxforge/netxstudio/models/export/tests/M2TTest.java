@@ -20,9 +20,9 @@ import org.eclipse.xtend.expression.Variable;
 import com.netxforge.netxstudio.models.export.XpandRegistryImpl;
 import com.netxforge.netxstudio.models.export.XpandTemplate;
 import com.netxforge.netxstudio.models.export.impl.XpandCallerService;
-import com.netxforge.netxstudio.models.export.impl.XpandNodeTypeToHtml;
 import com.netxforge.netxstudio.models.export.impl.XpandLibraryToXls;
-import com.netxforge.netxstudio.workspace.WorkspaceUtil;
+import com.netxforge.netxstudio.models.export.impl.XpandNodeTypeToHtml;
+import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
 
 
 /**

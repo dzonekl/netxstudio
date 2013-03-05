@@ -14,7 +14,7 @@ import com.netxforge.netxstudio.models.export.XpandRegistryImpl;
 import com.netxforge.netxstudio.models.export.XpandTemplate;
 import com.netxforge.netxstudio.models.export.impl.XpandCallerService;
 import com.netxforge.netxstudio.models.export.impl.XpandPackageImport;
-import com.netxforge.netxstudio.workspace.WorkspaceUtil;
+import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
 
 /**
  * Test the bundle com.netxforge.netxstudio.m2t Note that the xpander, is not

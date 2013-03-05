@@ -27,8 +27,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
-import com.netxforge.netxstudio.generics.Role;
-
 /**
  * Dialog that lets/forces a user to enter/select a workspace that will be used
  * when saving all configuration files and settings. This dialog is shown at
@@ -86,7 +84,8 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
 	 * @param wizardImage
 	 *            Image to show
 	 */
-	public PickWorkspaceDialog(Shell shell, boolean switchWorkspace, Image wizardImage) {
+	public PickWorkspaceDialog(Shell shell, boolean switchWorkspace,
+			Image wizardImage) {
 		super(shell);
 		this._switchWorkspace = switchWorkspace;
 		if (wizardImage != null) {
@@ -103,30 +102,27 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
 			newShell.setText("Workspace Selection");
 		}
 	}
-	
+
 	/**
-	 * As side effect, of remembering the role, if it was not remembered before. 
+	 * As side effect, of remembering the role, if it was not remembered before.
+	 * 
 	 * @param r
-	 * @return false, if the role was not remembered before. 
+	 * @return false, if the role was not remembered before.
 	 */
-	public static boolean roleChanged(Role r){
-		
+	public static boolean roleChanged(String roleName) {
+
 		String lastUsed = _preferences.get(KEY_LAST_USED_ROLE, "");
-		if( lastUsed == null || lastUsed.isEmpty()){
-			rememberLastUsedRole(r);
+		if (lastUsed == null || lastUsed.isEmpty()) {
+			rememberLastUsedRole(roleName);
 			return false;
 		}
-		if( r == null){
-			return false;
-		}
-		String name = r.getName();
-		return !name.equalsIgnoreCase(lastUsed);
+		return !roleName.equalsIgnoreCase(lastUsed);
 	}
-	
-	public static void rememberLastUsedRole(Role r){
-		_preferences.put(KEY_LAST_USED_ROLE,r.getName());
+
+	public static void rememberLastUsedRole(String roleName) {
+		_preferences.put(KEY_LAST_USED_ROLE, roleName);
 	}
-	
+
 	/**
 	 * Returns whether the user selected "remember workspace" in the preferences
 	 * 

@@ -34,7 +34,7 @@ import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.models.export.IExportFilter;
 import com.netxforge.netxstudio.models.export.MasterDataExporterRevengeJob;
 import com.netxforge.netxstudio.models.export.ui.pages.ExportNewFileWizardPage;
-import com.netxforge.netxstudio.workspace.WorkspaceUtil;
+import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
 
 /**
  * 

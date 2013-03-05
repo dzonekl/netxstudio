@@ -20,7 +20,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import com.netxforge.netxstudio.models.export.ui.Messages;
-import com.netxforge.netxstudio.workspace.WorkspaceUtil;
+import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
 
 public class ModelSourceWizardPage extends WizardPage {
 
