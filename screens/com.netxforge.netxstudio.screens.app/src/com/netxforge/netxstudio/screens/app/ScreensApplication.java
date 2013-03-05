@@ -38,15 +38,18 @@ public class ScreensApplication implements IApplication {
 	 * IApplicationContext)
 	 */
 	public Object start(IApplicationContext context) {
-		
+
 		Display display = PlatformUI.createDisplay();
 		try {
 
 			IWorkbenchService wbService = ScreensApplicationActivator
 					.getDefault().getWorkbenchService();
 
+			// Get the workbench advisor or create a default.
 			WorkbenchAdvisor applicationWorkbenchAdvisor;
 			if (wbService != null) {
+				// DO prestartup....
+				wbService.doPreStartup(display);
 				applicationWorkbenchAdvisor = wbService.getWorkbenchAdvisor();
 			} else {
 				applicationWorkbenchAdvisor = new ScreensWorkbenchAdvisor();

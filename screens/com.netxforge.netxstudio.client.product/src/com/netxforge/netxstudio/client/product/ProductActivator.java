@@ -56,6 +56,16 @@ public class ProductActivator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 
+		// The EcorePlugin Activator tries to open the workspace, but the
+		// workspace
+		// is only set when the application inisitalized, if the plugin is
+		// self-starting
+		// this will thrown an exception that the data area is not set.
+		System.getProperties()
+				.setProperty(
+						"org.eclipse.emf.ecore.plugin.EcorePlugin.doNotLoadResourcesPlugin",
+						"false");
+
 		// As we auto start this plugin, and EMF requires a workspace, in it'c
 		// core
 		// plugin.
@@ -63,10 +73,13 @@ public class ProductActivator extends AbstractUIPlugin {
 
 		injector = Guice.createInjector(new ProductModule());
 
+		final IWorkbenchService instance = injector
+				.getInstance(IWorkbenchService.class);
+
 		// Register our product workbench service to customize the application
 		// at startup.
 		workbenchService = context.registerService(IWorkbenchService.class,
-				ProductWorkbenchService.getINSTANCE(), null);
+				instance, null);
 	}
 
 	/*

@@ -17,6 +17,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.app;
 
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
@@ -49,5 +51,12 @@ public interface IWorkbenchService {
 	 * @return
 	 */
 	public IWorkbenchWindowLifecycle getWorkbenchWindowLifecycle();
+
+	/**
+	 * An opportunity to hookin before the call to
+	 * {@link PlatformUI#createAndRunWorkbench(org.eclipse.swt.widgets.Display, WorkbenchAdvisor) }
+	 * It can be use to set the workspace for example. 
+	 */
+	public void doPreStartup(Display display);
 
 }

@@ -19,6 +19,7 @@ package com.netxforge.netxstudio.client.product;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
+import com.netxforge.netxstudio.screens.app.IWorkbenchService;
 import com.netxforge.netxstudio.screens.roles.IRoleService;
 
 /**
@@ -31,8 +32,14 @@ public class ProductModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		
-		// A singleton Role Service. 
+
+		this.bind(IWorkbenchService.class).to(ProductWorkbenchService.class);
+
+		this.bind(ProductWorkbenchAdvisor.class);
+
+		this.bind(ProductWorkbenchWindowAdvisor.class);
+
+		// A singleton Role Service.
 		this.bind(IRoleService.class).to(ProductRoleService.class)
 				.in(Singleton.class);
 	}

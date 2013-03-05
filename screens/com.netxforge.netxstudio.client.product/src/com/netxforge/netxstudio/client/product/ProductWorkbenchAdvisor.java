@@ -29,7 +29,6 @@ import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.osgi.service.datalocation.Location;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.PlatformUI;
@@ -57,15 +56,6 @@ public class ProductWorkbenchAdvisor extends IDEWorkbenchAdvisor {
 
 	@Inject
 	private IRoleService roleService;
-
-	private static final WorkbenchAdvisor self = new ProductWorkbenchAdvisor();
-
-	/**
-	 * @return the self
-	 */
-	public static WorkbenchAdvisor getINSTANCE() {
-		return self;
-	}
 
 	@Override
 	public void preStartup() {
@@ -101,12 +91,6 @@ public class ProductWorkbenchAdvisor extends IDEWorkbenchAdvisor {
 
 	public void initialize(IWorkbenchConfigurer configurer) {
 		super.initialize(configurer);
-
-		try {
-			setWorkspaceLocation(Display.getDefault().getActiveShell());
-		} catch (Exception e) {
-			// Do something here.
-		}
 		this.configPluginPreferences();
 	}
 

@@ -96,11 +96,6 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
 	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
 	 	
-//	 	context.registerService(
-//				JobHandler.class, JobHandler.INSTANCE,
-//				new Hashtable<String, String>());
-//	 	
-	 	
 	}
 
 

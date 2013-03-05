@@ -17,8 +17,10 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.client.product;
 
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.app.IWorkbenchService;
 import com.netxforge.netxstudio.screens.app.IWorkbenchWindowLifecycle;
 
@@ -30,18 +32,32 @@ import com.netxforge.netxstudio.screens.app.IWorkbenchWindowLifecycle;
  */
 public class ProductWorkbenchService implements IWorkbenchService {
 
-	private static final IWorkbenchService self = new ProductWorkbenchService();
+	private ProductWorkbenchAdvisor advisor;
+	private ProductWorkbenchWindowAdvisor windowAdvisor;
+
+	@Inject
+	public ProductWorkbenchService(ProductWorkbenchAdvisor advisor,
+			ProductWorkbenchWindowAdvisor windowAdvisor) {
+		this.advisor = advisor;
+		this.windowAdvisor = windowAdvisor;
+
+	}
 
 	public WorkbenchAdvisor getWorkbenchAdvisor() {
-		return ProductWorkbenchAdvisor.getINSTANCE();
+		return advisor;
 	}
 
 	public IWorkbenchWindowLifecycle getWorkbenchWindowLifecycle() {
-		return ProductWorkbenchWindowAdvisor.getINSTANCE();
+		return windowAdvisor;
 	}
 
-	public static IWorkbenchService getINSTANCE() {
-		return self;
+	public void doPreStartup(Display display) {
+
+		try {
+			advisor.setWorkspaceLocation(display.getActiveShell());
+		} catch (Exception e) {
+			// Do something here.
+		}
 	}
 
 }
