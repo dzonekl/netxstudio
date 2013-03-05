@@ -7,10 +7,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="com.netxforge.netxstudio.ui.application"
-            name="com.netxforge.netxstudio.bare.product">
+            name="NetXStudio Platform">
          <property
                name="appName"
-               value="com.netxforge.netxstudio.bare.product">
+               value="NetXStudio Platform">
          </property>
       </product>
    </extension>

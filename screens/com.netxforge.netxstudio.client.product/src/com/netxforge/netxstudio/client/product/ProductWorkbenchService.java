@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 4 mrt. 2013 NetXForge.
+ * Copyright (c) 5 mrt. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,27 +14,34 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.client.product;
 
-import com.netxforge.netxstudio.client.product.splashHandlers.InjectionHelper;
-import com.netxforge.netxstudio.generics.Role;
-import com.netxforge.netxstudio.screens.roles.IRoleService;
+import org.eclipse.ui.application.WorkbenchAdvisor;
+
+import com.netxforge.netxstudio.screens.app.IWorkbenchService;
+import com.netxforge.netxstudio.screens.app.IWorkbenchWindowLifecycle;
 
 /**
- * A role implementation which delegate to a remotel stored role and user information.  
+ * A service which returns implementation of {@link WorkbenchAdvisor} and
+ * {@link IWorkbenchWindowLifecycle}
  * 
  * @author Christophe Bouhier
- *
  */
-public class ProductRoleService implements IRoleService {
-	
-	public Role getCurrentRole() {
-		return InjectionHelper.get().getDataService().getCurrentRole();
+public class ProductWorkbenchService implements IWorkbenchService {
+
+	private static final IWorkbenchService self = new ProductWorkbenchService();
+
+	public WorkbenchAdvisor getWorkbenchAdvisor() {
+		return ProductWorkbenchAdvisor.getINSTANCE();
 	}
 
-	public String getCurrentUser() {
-		return InjectionHelper.get().getDataService().getProvider().getSessionUserID();
+	public IWorkbenchWindowLifecycle getWorkbenchWindowLifecycle() {
+		return ProductWorkbenchWindowAdvisor.getINSTANCE();
+	}
+
+	public static IWorkbenchService getINSTANCE() {
+		return self;
 	}
 
 }

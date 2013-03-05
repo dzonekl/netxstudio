@@ -18,35 +18,28 @@
    </license>
 
    <plugin
-         id="org.eclipse.swt"
+         id="org.eclipse.core.filebuffers"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.jface"
+         id="org.eclipse.core.variables"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.osgi"
+         id="org.eclipse.core.filesystem"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="com.ibm.icu"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.jface.databinding"
+         id="org.eclipse.core.resources"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -61,20 +54,6 @@
 
    <plugin
          id="org.eclipse.text"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.help"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.osgi.services"
          download-size="0"
          install-size="0"
          version="0.0.0"

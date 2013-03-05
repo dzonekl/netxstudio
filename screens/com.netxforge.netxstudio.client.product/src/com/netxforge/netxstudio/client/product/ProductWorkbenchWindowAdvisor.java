@@ -23,13 +23,13 @@ import org.eclipse.ui.IPerspectiveListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.client.product.splashHandlers.InjectionHelper;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.app.AbstractWorkbenchWindowLifecycle;
-import com.netxforge.netxstudio.screens.app.IWorkbenchService;
 import com.netxforge.netxstudio.screens.app.IWorkbenchWindowLifecycle;
 import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
-import com.netxforge.netxstudio.ui.roles.IRoleService;
+import com.netxforge.netxstudio.screens.roles.IRoleService;
 
 /**
  * This products workbench window settings.
@@ -37,11 +37,11 @@ import com.netxforge.netxstudio.ui.roles.IRoleService;
  * @author Christophe Bouhier
  */
 public class ProductWorkbenchWindowAdvisor extends
-		AbstractWorkbenchWindowLifecycle implements
-		IWorkbenchService {
+		AbstractWorkbenchWindowLifecycle  {
 
-	private IRoleService roleService = new ProductRoleService();
-
+	@Inject
+	private IRoleService roleService;
+	
 	/**
 	 * A self, which is offered as an OSGI service.
 	 */
@@ -140,7 +140,7 @@ public class ProductWorkbenchWindowAdvisor extends
 		return self;
 	}
 
-	public static IWorkbenchService getINSTANCE() {
+	public static IWorkbenchWindowLifecycle getINSTANCE() {
 		return self;
 	}
 

@@ -28,8 +28,6 @@ import org.eclipse.ui.activities.IWorkbenchActivitySupport;
 import com.netxforge.netxstudio.data.fixtures.IFixtures;
 import com.netxforge.netxstudio.generics.Role;
 
-
-
 /**
  * Maps a user role, to it's activities. 
  * Enables/disables activities based on the role. 
@@ -37,6 +35,7 @@ import com.netxforge.netxstudio.generics.Role;
  * Note: Roles to activity mapping is hard coded. 
  * 
  * FIXME It doesn't seem to be possible to "disable" activities? 
+ * TODO, Move the implementation, as it is product specific. 
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *

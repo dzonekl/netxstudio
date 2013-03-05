@@ -33,4 +33,5 @@ public interface IActivityAndRoleService {
 	 */
 	public abstract void enableActivity(Role role);
 	
+	
 }

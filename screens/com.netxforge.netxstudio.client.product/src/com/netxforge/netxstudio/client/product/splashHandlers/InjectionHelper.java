@@ -21,8 +21,8 @@ import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.common.properties.PropertiesUtil;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.internal.DataActivator;
-import com.netxforge.netxstudio.ui.activities.IActivityAndRoleService;
-import com.netxforge.netxstudio.ui.activities.internal.ActivitiesActivator;
+import com.netxforge.netxstudio.screens.activities.IActivityAndRoleService;
+import com.netxforge.netxstudio.screens.activities.internal.ActivitiesActivator;
 
 /**
  * Delegate to other plugins, having access to DI modules.

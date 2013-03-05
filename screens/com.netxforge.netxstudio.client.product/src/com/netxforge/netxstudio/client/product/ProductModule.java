@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 1 mrt. 2013 NetXForge.
+ * Copyright (c) 5 mrt. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,39 +14,27 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
-package com.netxforge.netxstudio.screens.roles;
+ *******************************************************************************/
+package com.netxforge.netxstudio.client.product;
 
-import com.netxforge.netxstudio.generics.Role;
+import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
+import com.netxforge.netxstudio.screens.roles.IRoleService;
 
+/**
+ * Module for this plugin.
+ * 
+ * @author Christophe Bouhier
+ * 
+ */
+public class ProductModule extends AbstractModule {
 
-public interface IRoleService {
+	@Override
+	protected void configure() {
 		
-	
-	/**
-	 * A null implementation. 
-	 * 
-	 * @author Christophe Bouhier
-	 *
-	 */
-	public static class NullRoleService implements IRoleService {
-		
-		public Role getCurrentRole() {
-			return null;
-		}
-
-		public String getCurrentUser() {
-			return null;
-		}
-		
+		// A singleton Role Service. 
+		this.bind(IRoleService.class).to(ProductRoleService.class)
+				.in(Singleton.class);
 	}
-	
-	public Role getCurrentRole();
-	
-	/**
-	 * Get the current User
-	 * @return
-	 */
-	public String getCurrentUser();
-	
+
 }

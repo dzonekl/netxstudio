@@ -6,6 +6,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.netxforge.netxstudio.screens.app.IWorkbenchService;
 
 /**
@@ -41,6 +43,8 @@ public class ProductActivator extends AbstractUIPlugin {
 
 	private ServiceRegistration<IWorkbenchService> workbenchService;
 
+	private Injector injector;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -57,12 +61,12 @@ public class ProductActivator extends AbstractUIPlugin {
 		// plugin.
 		pu.readProperties(this.getBundle(), propertiesFile, getProperties());
 
+		injector = Guice.createInjector(new ProductModule());
+
 		// Register our product workbench service to customize the application
 		// at startup.
-		workbenchService = context.registerService(
-				IWorkbenchService.class,
-				ProductWorkbenchWindowAdvisor.getINSTANCE(), null);
-
+		workbenchService = context.registerService(IWorkbenchService.class,
+				ProductWorkbenchService.getINSTANCE(), null);
 	}
 
 	/*
@@ -101,6 +105,10 @@ public class ProductActivator extends AbstractUIPlugin {
 
 	public void setProperties(Properties properties) {
 		this.properties = properties;
+	}
+
+	public Injector getInjector() {
+		return injector;
 	}
 
 }
