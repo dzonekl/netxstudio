@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.ui.activities.internal;
+package com.netxforge.netxstudio.screens.activities.internal;
 
 
 import static com.google.inject.util.Modules.override;
@@ -11,7 +11,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
-import com.netxforge.netxstudio.ui.activities.ActivityAndRoleServiceModule;
+import com.netxforge.netxstudio.screens.activities.ActivityAndRoleServiceModule;
 
 /**
  * The activator class controls the plug-in life cycle

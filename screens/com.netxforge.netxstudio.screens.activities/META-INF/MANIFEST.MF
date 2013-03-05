@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: NetXStudio UI Activities
 Bundle-SymbolicName: com.netxforge.netxstudio.screens.activities;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.netxforge.netxstudio.ui.activities.internal.ActivitiesActivator
+Bundle-Activator: com.netxforge.netxstudio.screens.activities.internal.ActivitiesActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  com.netxforge.netxstudio.common;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
-Export-Package: com.netxforge.netxstudio.ui.activities,
- com.netxforge.netxstudio.ui.activities.internal,
- com.netxforge.netxstudio.ui.roles
+Export-Package: com.netxforge.netxstudio.screens.activities,
+ com.netxforge.netxstudio.screens.activities.internal,
+ com.netxforge.netxstudio.screens.roles
 Import-Package: com.netxforge.netxstudio.generics

@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.ui.roles;
+package com.netxforge.netxstudio.screens.roles;
 
 import javax.management.relation.Role;
 

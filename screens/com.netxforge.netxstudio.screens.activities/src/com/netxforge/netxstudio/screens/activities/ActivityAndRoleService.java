@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.ui.activities;
+package com.netxforge.netxstudio.screens.activities;
 
 import java.util.HashSet;
 import java.util.Set;

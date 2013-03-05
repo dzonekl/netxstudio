@@ -15,23 +15,22 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
-package com.netxforge.netxstudio.ui.activities;
+ *******************************************************************************/
+package com.netxforge.netxstudio.screens.activities;
 
-import com.google.inject.AbstractModule;
+import com.netxforge.netxstudio.generics.Role;
 
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public class ActivityAndRoleServiceModule extends AbstractModule {
+public interface IActivityAndRoleService {
 
-	/* (non-Javadoc)
-	 * @see com.google.inject.AbstractModule#configure()
+	/**
+	 * Enable the activities for an associated role. 
+	 * @param role
 	 */
-	@Override
-	protected void configure() {
-		this.bind(IActivityAndRoleService.class).to(ActivityAndRoleService.class);
-	}
+	public abstract void enableActivity(Role role);
+	
 }
