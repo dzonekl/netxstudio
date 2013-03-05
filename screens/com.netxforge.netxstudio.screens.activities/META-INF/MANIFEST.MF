@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: NetXStudio UI Activities
-Bundle-SymbolicName: com.netxforge.netxstudio.ui.activities;singleton:=true
+Bundle-SymbolicName: com.netxforge.netxstudio.screens.activities;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.ui.activities.internal.ActivitiesActivator
 Bundle-Vendor: NetXForge

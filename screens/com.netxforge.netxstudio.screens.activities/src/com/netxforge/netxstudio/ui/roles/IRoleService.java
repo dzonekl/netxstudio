@@ -17,7 +17,7 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.ui.roles;
 
-import com.netxforge.netxstudio.generics.Role;
+import javax.management.relation.Role;
 
 public interface IRoleService {
 		

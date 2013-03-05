@@ -18,7 +18,6 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.ui.activities;
 
-import com.google.inject.AbstractModule;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
