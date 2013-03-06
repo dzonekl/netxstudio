@@ -3,9 +3,6 @@
    <feature url="features/com.google.artifacts.feature_1.0.0.qualifier.jar" id="com.google.artifacts.feature" version="1.0.0.qualifier">
       <category name="netxplatform"/>
    </feature>
-   <feature url="features/javax.servlet.artifacts.feature_1.0.0.qualifier.jar" id="javax.servlet.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
-   </feature>
    <feature url="features/org.antlr.artifacts.feature_1.0.0.qualifier.jar" id="org.antlr.artifacts.feature" version="1.0.0.qualifier">
       <category name="netxplatform"/>
    </feature>
@@ -66,34 +63,18 @@
    <feature url="features/org.swtchart.artifacts.feature_1.0.0.qualifier.jar" id="org.swtchart.artifacts.feature" version="1.0.0.qualifier">
       <category name="netxplatform"/>
    </feature>
-   <feature url="features/com.netxforge.netxscript.feature_1.0.0.qualifier.jar" id="com.netxforge.netxscript.feature" version="1.0.0.qualifier">
-      <category name="netxstudio"/>
-   </feature>
-   <feature url="features/com.netxforge.netxstudio.console.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.console.feature" version="1.0.0.qualifier">
-      <category name="netxstudio"/>
-   </feature>
-   <feature url="features/com.netxforge.netxstudio.data.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.data.feature" version="1.0.0.qualifier">
-      <category name="netxstudio"/>
-   </feature>
-   <feature url="features/com.netxforge.netxstudio.everything.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.everything.feature" version="1.0.0.qualifier">
-      <category name="netxstudio"/>
-   </feature>
-   <feature url="features/com.netxforge.netxstudio.help.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.help.feature" version="1.0.0.qualifier">
-      <category name="netxstudio"/>
-   </feature>
-   <feature url="features/com.netxforge.netxstudio.screens.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.screens.feature" version="1.0.0.qualifier">
-      <category name="netxstudio"/>
-   </feature>
-   <feature url="features/com.netxforge.netxstudio.screens.xtext.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.screens.xtext.feature" version="1.0.0.qualifier">
-      <category name="netxstudio"/>
-   </feature>
-   <feature url="features/com.netxforge.netxstudio.ui.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.ui.feature" version="1.0.0.qualifier">
-      <category name="netxstudio"/>
-   </feature>
    <feature url="features/com.netxforge.netxstudio.models.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier">
       <category name="netxmodel"/>
    </feature>
-   <category-def name="netxstudio" label="NetXStudio Client Components"/>
+   <feature url="features/javax.artifacts.feature_1.0.0.qualifier.jar" id="javax.artifacts.feature" version="1.0.0.qualifier">
+      <category name="netxplatform"/>
+   </feature>
+   <feature url="features/oracle.jdbc.driver.feature_1.0.0.qualifier.jar" id="oracle.jdbc.driver.feature" version="1.0.0.qualifier">
+      <category name="netxplatform"/>
+   </feature>
+   <feature url="features/org.apache.poi.artifacts.feature_1.0.0.qualifier.jar" id="org.apache.poi.artifacts.feature" version="1.0.0.qualifier">
+      <category name="netxplatform"/>
+   </feature>
    <category-def name="netxplatform" label="NetXStudio Platform Dependencies"/>
    <category-def name="netxmodel" label="NetXStudio Model Components"/>
 </site>
