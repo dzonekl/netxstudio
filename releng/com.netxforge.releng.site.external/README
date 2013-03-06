@@ -3,7 +3,7 @@ External Component P2 Site
 
 This releng component is intended to build a P2 for externally referenced components.
 
-The site is used by products to resolve dependencies in the build prodcess. 
+The site is used by products to resolve dependencies in the build process. 
 (So .rmap of product components should have locators for the this site). 
 
 The import, refers many different external components. 
@@ -13,8 +13,6 @@ the import will fail, and the P2 site will not be created.
 
 Some components are in our own Github repository, when not available from a public provider. (Public p2 update site or 
 other). By default buckminster will try to build these packages. 
-
-
 
 
 The p2 site is published, for developers to be able to use as a target: 
