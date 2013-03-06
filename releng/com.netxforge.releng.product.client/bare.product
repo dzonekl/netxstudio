@@ -27,6 +27,7 @@
       <feature id="com.netxforge.netxstudio.bare.product.feature"/>
       <feature id="com.netxforge.netxstudio.screens.app.feature"/>
       <feature id="com.google.artifacts.feature"/>
+      <feature id="org.eclipse.equinox.executable"/>
       <feature id="org.eclipse.rcp"/>
    </features>
 
