@@ -47,6 +47,7 @@ public class ScreensApplication implements IApplication {
 
 			// Get the workbench advisor or create a default.
 			WorkbenchAdvisor applicationWorkbenchAdvisor;
+			
 			if (wbService != null) {
 				// DO prestartup....
 				wbService.doPreStartup(display);

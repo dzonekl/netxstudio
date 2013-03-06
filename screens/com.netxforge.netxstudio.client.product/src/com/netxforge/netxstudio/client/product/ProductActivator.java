@@ -95,8 +95,9 @@ public class ProductActivator extends AbstractUIPlugin {
 				this.getProperties());
 
 		workbenchService.unregister();
-
-		super.stop(context);
+		
+		// FIXME, Platform already stopped, as Application has lower startlevel! 
+//		super.stop(context);
 
 	}
 

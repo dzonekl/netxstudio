@@ -53,7 +53,7 @@ public class Clock extends WorkbenchWindowControlContribution {
 					public void run() {
 						String format = df.format(new Date(System
 								.currentTimeMillis()));
-						if (label != null) {
+						if (label != null && !label.isDisposed()) {
 							label.setText(format);
 							label.pack();
 						}

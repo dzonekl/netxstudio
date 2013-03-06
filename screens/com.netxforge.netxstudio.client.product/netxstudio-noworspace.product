@@ -57,7 +57,6 @@
 
    <configurations>
       <plugin id="com.netxforge.netxstudio.client.product" autoStart="true" startLevel="1" />
-      <plugin id="com.netxforge.netxstudio.ui" autoStart="false" startLevel="0" />
    </configurations>
 
 </product>
