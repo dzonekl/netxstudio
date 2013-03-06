@@ -15,7 +15,7 @@
                 <attribute name="site.p2" />
             </prerequisites>
             <products alias="destination" base="${buckminster.output}">
-                <path path="netxstudio.client.${target.ws}.${target.os}.${target.arch}/" />
+                <path path="netxstudio.bare.${target.ws}.${target.os}.${target.arch}/" />
             </products>
         </public>
         
@@ -28,7 +28,7 @@
                 <attribute name="create.product" />
             </prerequisites>
             <products alias="action.output" base="${buckminster.output}">
-                <path path="netxstudio.client.${target.ws}.${target.os}.${target.arch}.zip" />
+                <path path="netxstudio.bare.${target.ws}.${target.os}.${target.arch}.zip" />
             </products>
         </public>
         

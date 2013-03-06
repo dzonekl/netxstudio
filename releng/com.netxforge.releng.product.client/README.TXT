@@ -47,7 +47,11 @@ Prerequisites:
 
 1. repository => The repository for the director to use. which points to the site.p2 Attibute (Actor). 
 
-ant task
+ANT TASK
+========
+
+The ant task uses the properties to build the product. 
+
 
 
 
