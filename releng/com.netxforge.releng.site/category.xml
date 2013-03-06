@@ -75,6 +75,50 @@
    <feature url="features/org.apache.poi.artifacts.feature_1.0.0.qualifier.jar" id="org.apache.poi.artifacts.feature" version="1.0.0.qualifier">
       <category name="netxplatform"/>
    </feature>
-   <category-def name="netxplatform" label="NetXStudio Platform Dependencies"/>
+   <feature url="features/org.eclipse.draw2d_3.7.0.v20110425-2050-46-7w3122153603161.jar" id="org.eclipse.draw2d" version="3.7.0.v20110425-2050-46-7w3122153603161">
+      <category name="netxplatform"/>
+   </feature>
+   <feature url="features/org.eclipse.gef_3.7.0.v20110425-2050-777D-81B2Bz0685C3A6E34272.jar" id="org.eclipse.gef" version="3.7.0.v20110425-2050-777D-81B2Bz0685C3A6E34272">
+      <category name="netxplatform"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.cdo.client.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.emf.cdo.client.artifacts.feature" version="1.0.0.qualifier">
+      <category name="netxplatform"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.common_2.7.0.v20110912-0920.jar" id="org.eclipse.emf.common" version="2.7.0.v20110912-0920">
+      <category name="netxplatform"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.common.ui_2.7.0.v20110913-1156.jar" id="org.eclipse.emf.common.ui" version="2.7.0.v20110913-1156">
+      <category name="netxplatform"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.databinding_1.2.0.v20110913-1156.jar" id="org.eclipse.emf.databinding" version="1.2.0.v20110913-1156">
+      <category name="netxplatform"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.databinding.edit_1.2.0.v20110913-1156.jar" id="org.eclipse.emf.databinding.edit" version="1.2.0.v20110913-1156">
+      <category name="netxplatform"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.ecore_2.8.1.v20120911-0500.jar" id="org.eclipse.emf.ecore" version="2.8.1.v20120911-0500">
+      <category name="netxplatform"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.ecore.edit_2.7.0.v20110913-1156.jar" id="org.eclipse.emf.ecore.edit" version="2.7.0.v20110913-1156">
+      <category name="netxplatform"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.edit_2.7.1.v20110913-1526.jar" id="org.eclipse.emf.edit" version="2.7.1.v20110913-1526">
+      <category name="netxplatform"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.edit.ui_2.7.0.v20110913-1156.jar" id="org.eclipse.emf.edit.ui" version="2.7.0.v20110913-1156">
+      <category name="netxplatform"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.bare.product.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.bare.product.feature" version="1.0.0.qualifier">
+      <category name="NetXStudio bare"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.screens.app.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.screens.app.feature" version="1.0.0.qualifier">
+      <category name="NetXStudio bare"/>
+   </feature>
+   <category-def name="netxplatform" label="NetXStudio Platform Dependencies">
+      <description>
+         External Features Required by the NetXStudio Platform
+      </description>
+   </category-def>
    <category-def name="netxmodel" label="NetXStudio Model Components"/>
+   <category-def name="NetXStudio bare" label="NetXStudio Client bare minimum version"/>
 </site>
