@@ -141,4 +141,12 @@
          id="oracle.jdbc.driver.feature"
          version="0.0.0"/>
 
+   <includes
+         id="com.netxforge.netxstudio.bare.product.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.screens.app.feature"
+         version="0.0.0"/>
+
 </feature>
