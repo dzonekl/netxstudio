@@ -16,7 +16,11 @@ ANT Script to produce javadoc
 		<!-- Provided as property when performing the action. -->
 		<echo message="target platform ${target.platform}">
 		</echo>
-
+	
+		<!-- A test property. -->
+		
+		<echo message="Test targetplatform path target.platform.test"/>
+		
 		<!-- set target platform as classpath -->
 		<path id="files-classpath">
 			<!--
