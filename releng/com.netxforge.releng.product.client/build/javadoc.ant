@@ -12,7 +12,7 @@ ANT Script to produce javadoc
 		
 		<!-- set target platform as classpath -->
 		<path id="files-classpath">
-			<fileset dir="$${targetPlatformPath}">
+			<fileset dir="${targetPlatformPath}">
 				<include name="*.jar" />
 			</fileset>
 		</path>
@@ -22,7 +22,9 @@ ANT Script to produce javadoc
 		<delete dir="${javadoc.output}" />
 		<mkdir dir="${javadoc.output}" />
 
-		<!-- generate the javadoc -->
+		<!-- generate the javadoc 
+		
+		-->
 		<javadoc destdir="${javadoc.output}" classpathref="files-classpath"
 			maxmemory="1024m" source="1.6" useexternalfile="true" author="true"
 			version="true" use="true" windowtitle="Scodi/Softmodeler Documentation">
