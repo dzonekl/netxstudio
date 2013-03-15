@@ -8,6 +8,8 @@ ANT Script to produce javadoc
 	<target name="create.javadoc" description="Generate the JavaDoc for the sources">
 		<echo message="javadoc source ${source}">
 		</echo>
+		<echo message="javadoc screens source ${source}/screens"/>
+			
 		<echo message="javadoc destination ${javadoc.output}">
 		</echo>
 
@@ -19,7 +21,7 @@ ANT Script to produce javadoc
 	
 		<!-- A test property. -->
 		
-		<echo message="Test targetplatform path target.platform.test"/>
+		<echo message="Test targetplatform path ${target.platform.test}"/>
 		
 		<!-- set target platform as classpath -->
 		<path id="files-classpath">
@@ -42,7 +44,7 @@ ANT Script to produce javadoc
 		// problems determining the classpath. 
 		classpathref="files-classpath"
 		-->
-		<javadoc destdir="${javadoc.output}"  maxmemory="1024m" source="1.6" useexternalfile="true" author="true" version="true" use="true" windowtitle="Scodi/Softmodeler Documentation">
+		<javadoc destdir="${javadoc.output}"  maxmemory="1024m" source="1.6" useexternalfile="true" author="true" version="true" use="true" windowtitle="Documentation">
 			<!-- link external APIs -->
 			<link offline="false" href="http://java.sun.com/javase/6/docs/api/" />
 			<link offline="false" href="http://www.osgi.org/javadoc/r4v42/" />
