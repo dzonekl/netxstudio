@@ -36,6 +36,7 @@
 		<public name="create.javadoc" actor="ant">
 			<actorProperties>
 				<property key="buildFile" value="build/javadoc.ant" />
+				<property key="targets" value="create.javadoc" />
 			</actorProperties>
 			<properties>
 				<property key="source" value="${buckminster.output}../../netxstudio.git.p2/" />
