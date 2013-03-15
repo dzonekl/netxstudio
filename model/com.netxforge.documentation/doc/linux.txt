@@ -25,3 +25,7 @@ FILE PERMISSION
  
  http://www.linuxvoodoo.com/resources/howtos/syslog
  
+ 
+ Sudo
+------
+

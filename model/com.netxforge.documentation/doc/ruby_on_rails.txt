@@ -36,6 +36,10 @@ sudo install_name_tool -change /usr/local/mysql/lib/libmysqlclient.15.dylib /usr
 
 sudo install_name_tool -change /usr/local/mysql/lib/mysql/libmysqlclient.15.dylib /usr/local/mysql/lib/libmysqlclient.15.dylib /Library/Ruby/Gems/1.8/gems/mysql-2.7/mysql.bundle
 
+/Users/Christophe/.rvm/gems/ruby-1.9.3-p392/gems/mysql-2.9.0/lib/mysql/mysql_api.bundle
+
+
+
 
 See also: https://blogs.oracle.com/dipol/entry/dynamic_libraries_rpath_and_mac
 --------------------------------------------------------------
@@ -68,6 +72,616 @@ netxstudio
 
 7. Populate the home page. 
 
+
+Upgrade Ruby on MacOSX
+======================
+
+Followed this instruction for MacOSX. 
+
+1. Install (Home)brew: 
+ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+
+==> This script will install:
+/usr/local/bin/brew
+/usr/local/Library/...
+/usr/local/share/man/man1/brew.1
+==> The following directories will be made group writable:
+/usr/local/.
+/usr/local/bin
+
+Press ENTER to continue or any other key to abort
+==> /usr/bin/sudo /bin/chmod g+rwx /usr/local/. /usr/local/bin
+Password:
+==> Downloading and Installing Homebrew...
+remote: Counting objects: 103414, done.
+remote: Compressing objects: 100% (43053/43053), done.
+remote: Total 103414 (delta 73233), reused 86811 (delta 59467)
+Receiving objects: 100% (103414/103414), 15.17 MiB | 718 KiB/s, done.
+Resolving deltas: 100% (73233/73233), done.
+From https://github.com/mxcl/homebrew
+ * [new branch]      master     -> origin/master
+HEAD is now at d133e18 hadoop 1.1.2
+==> Installation successful!
+You should run `brew doctor' *before* you install anything.
+Now type: brew help
+
+2. Install RVM 
+ \curl -L https://get.rvm.io | bash -s stable --ruby
+
+ % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 11525  100 11525    0     0   4207      0  0:00:02  0:00:02 --:--:--  4207
+Please read and follow further instructions.
+Press ENTER to continue.
+Downloading RVM from wayneeseguin branch stable
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 1616k  100 1616k    0     0   349k      0  0:00:04  0:00:04 --:--:--  460k
+
+Installing RVM to /Users/Christophe/.rvm/
+    Adding rvm PATH line to /Users/Christophe/.bashrc /Users/Christophe/.zshrc.
+    Adding rvm loading line to /Users/Christophe/.bash_profile /Users/Christophe/.zprofile.
+
+# RVM:  Shell scripts enabling management of multiple ruby environments.
+# RTFM: https://rvm.io/
+# HELP: http://webchat.freenode.net/?channels=rvm (#rvm on irc.freenode.net)
+# Cheatsheet: http://cheat.errtheblog.com/s/rvm/
+# Screencast: http://screencasts.org/episodes/how-to-use-rvm
+
+# In case of any issues read output of 'rvm requirements' and/or 'rvm notes'
+
+Installation of RVM in /Users/Christophe/.rvm/ is almost complete:
+
+  * To start using RVM you need to run `source /Users/Christophe/.rvm/scripts/rvm`
+    in all your open shell windows, in rare cases you need to reopen all shell windows.
+
+# Christophe Bouhier,
+#
+#   Thank you for using RVM!
+#   I sincerely hope that RVM helps to make your life easier and
+#   more enjoyable!!!
+#
+# ~Wayne
+
+
+rvm 1.18.18 (stable) by Wayne E. Seguin <wayneeseguin@gmail.com>, Michal Papis <mpapis@gmail.com> [https://rvm.io/]
+
+Searching for binary rubies, this might take some time.
+No binary rubies available for: osx/10.7/x86_64/ruby-2.0.0-p0.
+Continuing with compilation. Please read 'rvm mount' to get more information on binary rubies.
+Fetching yaml-0.1.4.tar.gz to /Users/Christophe/.rvm/archives
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  460k  100  460k    0     0  83156      0  0:00:05  0:00:05 --:--:--  110k
+Extracting yaml to /Users/Christophe/.rvm/src/yaml-0.1.4
+Configuring yaml in /Users/Christophe/.rvm/src/yaml-0.1.4.
+Compiling yaml in /Users/Christophe/.rvm/src/yaml-0.1.4.
+Installing yaml to /Users/Christophe/.rvm/usr
+Fetching openssl-1.0.1c.tar.gz to /Users/Christophe/.rvm/archives
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 4352k  100 4352k    0     0   458k      0  0:00:09  0:00:09 --:--:--  376k
+Extracting openssl to /Users/Christophe/.rvm/src/openssl-1.0.1c
+Configuring openssl in /Users/Christophe/.rvm/src/openssl-1.0.1c.
+Compiling openssl in /Users/Christophe/.rvm/src/openssl-1.0.1c.
+
+Installing openssl to /Users/Christophe/.rvm/usr
+Updating openssl certificates
+Installing Ruby from source to: /Users/Christophe/.rvm/rubies/ruby-2.0.0-p0, this may take a while depending on your cpu(s)...
+ruby-2.0.0-p0 - #downloading ruby-2.0.0-p0, this may take a while depending on your connection...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 10.3M  100 10.3M    0     0  92909      0  0:01:56  0:01:56 --:--:--  529k
+ruby-2.0.0-p0 - #extracting ruby-2.0.0-p0 to /Users/Christophe/.rvm/src/ruby-2.0.0-p0
+ruby-2.0.0-p0 - #extracted to /Users/Christophe/.rvm/src/ruby-2.0.0-p0
+ruby-2.0.0-p0 - #configuring
+ruby-2.0.0-p0 - #compiling
+ruby-2.0.0-p0 - #installing 
+Retrieving rubygems-2.0.2
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  326k  100  326k    0     0   339k      0 --:--:-- --:--:-- --:--:--  742k
+Extracting rubygems-2.0.2 ...
+Removing old Rubygems files...
+Installing rubygems-2.0.2 for ruby-2.0.0-p0 ...
+Error running 'env GEM_PATH=/Users/Christophe/.rvm/gems/ruby-2.0.0-p0:/Users/Christophe/.rvm/gems/ruby-2.0.0-p0@global:/Users/Christophe/.rvm/gems/ruby-2.0.0-p0:/Users/Christophe/.rvm/gems/ruby-2.0.0-p0@global GEM_HOME=/Users/Christophe/.rvm/gems/ruby-2.0.0-p0 /Users/Christophe/.rvm/rubies/ruby-2.0.0-p0/bin/ruby /Users/Christophe/.rvm/src/rubygems-2.0.2/setup.rb', please read /Users/Christophe/.rvm/log/ruby-2.0.0-p0/rubygems.install.log
+Installation of rubygems did not complete successfully.
+Saving wrappers to '/Users/Christophe/.rvm/bin'.
+ruby-2.0.0-p0 - #adjusting #shebangs for (gem irb erb ri rdoc testrb rake).
+ruby-2.0.0-p0 - #importing default gemsets, this may take time ...
+Install of ruby-2.0.0-p0 - #complete 
+Creating alias default for ruby-2.0.0-p0.
+Recording alias default for ruby-2.0.0-p0.
+Creating default links/files
+Saving wrappers to '/Users/Christophe/.rvm/bin'.
+
+  * To start using RVM you need to run `source /Users/Christophe/.rvm/scripts/rvm`
+    in all your open shell windows, in rare cases you need to reopen all shell windows.
+
+[CB] Installed RVM, with ruby 2.0.0p but error setting the GEM environment, although it did set:
+
+GEM_PATH => /Users/Christophe/.rvm/gems/ruby-2.0.0-p0:/Users/Christophe/.rvm/gems/ruby-2.0.0-p0@global
+GEM_HOME =>/Users/Christophe/.rvm/gems/ruby-2.0.0-p0
+
+Open SSL issue solving with: 
+OpenSSL 0.9.8r 8 Feb 2011
+
+http://www.openssl.org/
+
+[CB] On RVM website: 
+
+Reinstall a package (ruby installation). 
+
+ rvm reinstall 2.0.0 --with-openssl-dir=/usr/bin/openssl
+
+
+Removing /Users/Christophe/.rvm/src/ruby-2.0.0-p0...
+Removing /Users/Christophe/.rvm/rubies/ruby-2.0.0-p0...
+Fetching yaml-0.1.4.tar.gz to /Users/Christophe/.rvm/archives
+Extracting yaml to /Users/Christophe/.rvm/src/yaml-0.1.4
+Configuring yaml in /Users/Christophe/.rvm/src/yaml-0.1.4.
+Compiling yaml in /Users/Christophe/.rvm/src/yaml-0.1.4.
+Installing yaml to /Users/Christophe/.rvm/usr
+Fetching openssl-1.0.1c.tar.gz to /Users/Christophe/.rvm/archives
+Extracting openssl to /Users/Christophe/.rvm/src/openssl-1.0.1c
+Configuring openssl in /Users/Christophe/.rvm/src/openssl-1.0.1c.
+
+Error running './Configure darwin64-x86_64-cc -I/Users/Christophe/.rvm/usr/include -L/Users/Christophe/.rvm/usr/lib zlib no-asm no-krb5 
+--prefix=/Users/Christophe/.rvm/usr --with-openssl-dir=/usr/bin/openssl no-shared',
+ please read /Users/Christophe/.rvm/log/ruby-2.0.0-p0/openssl/configure.log
+ 
+Compiling openssl in /Users/Christophe/.rvm/src/openssl-1.0.1c.
+Error running 'make', please read /Users/Christophe/.rvm/log/ruby-2.0.0-p0/openssl/make.log
+Updating openssl certificates
+Installing Ruby from source to: /Users/Christophe/.rvm/rubies/ruby-2.0.0-p0, this may take a while depending on your cpu(s)...
+ruby-2.0.0-p0 - #downloading ruby-2.0.0-p0, this may take a while depending on your connection...
+ruby-2.0.0-p0 - #extracting ruby-2.0.0-p0 to /Users/Christophe/.rvm/src/ruby-2.0.0-p0
+ruby-2.0.0-p0 - #extracted to /Users/Christophe/.rvm/src/ruby-2.0.0-p0
+ruby-2.0.0-p0 - #configuring
+ruby-2.0.0-p0 - #compiling
+ruby-2.0.0-p0 - #installing 
+Removing old Rubygems files...
+Installing rubygems-2.0.2 for ruby-2.0.0-p0 ...
+Error running 'env GEM_PATH=/Users/Christophe/.rvm/gems/ruby-2.0.0-p0:/Users/Christophe/.rvm/gems/ruby-2.0.0-p0@global:/Users/Christophe/.rvm/gems/ruby-2.0.0-p0:/Users/Christophe/.rvm/gems/ruby-2.0.0-p0@global GEM_HOME=/Users/Christophe/.rvm/gems/ruby-2.0.0-p0 /Users/Christophe/.rvm/rubies/ruby-2.0.0-p0/bin/ruby /Users/Christophe/.rvm/src/rubygems-2.0.2/setup.rb', please read /Users/Christophe/.rvm/log/ruby-2.0.0-p0/rubygems.install.log
+Installation of rubygems did not complete successfully.
+Saving wrappers to '/Users/Christophe/.rvm/bin'.
+ruby-2.0.0-p0 - #adjusting #shebangs for (gem irb erb ri rdoc testrb rake).
+ruby-2.0.0-p0 - #importing default gemsets, this may take time ...
+Install of ruby-2.0.0-p0 - #complete 
+Making gemset ruby-2.0.0-p0 pristine.
+Error running '' under ,
+please read /Users/Christophe/.rvm/log/ruby-2.0.0-p0/gemset.pristine.log
+Making gemset ruby-2.0.0-p0@global pristine.
+Error running '' under ,
+please read /Users/Christophe/.rvm/log/ruby-2.0.0-p0/gemset.pristine.log
+
+
+[CB] Still a problem! The Configure command is not used properly to compile. 
+[CB] Install own OpenSSL with: 
+ rvm pkg install openssl
+ 
+ Fetching openssl-1.0.1c.tar.gz to /Users/Christophe/.rvm/archives
+Extracting openssl to /Users/Christophe/.rvm/src/openssl-1.0.1c
+Configuring openssl in /Users/Christophe/.rvm/src/openssl-1.0.1c.
+Compiling openssl in /Users/Christophe/.rvm/src/openssl-1.0.1c.
+Installing openssl to /Users/Christophe/.rvm/usr
+
+Please note that it's required to reinstall all rubies:
+
+    rvm reinstall all --force
+
+Updating openssl certificates
+
+[CB] Re-install the package with our own OpenSSL. 
+ rvm reinstall 1.9.2 --with-openssl-dir=$rvm_path/usr
+
+Still error: 
+
+emoving /Users/Christophe/.rvm/src/ruby-2.0.0-p0...
+Removing /Users/Christophe/.rvm/rubies/ruby-2.0.0-p0...
+Fetching yaml-0.1.4.tar.gz to /Users/Christophe/.rvm/archives
+Extracting yaml to /Users/Christophe/.rvm/src/yaml-0.1.4
+Configuring yaml in /Users/Christophe/.rvm/src/yaml-0.1.4.
+Compiling yaml in /Users/Christophe/.rvm/src/yaml-0.1.4.
+Installing yaml to /Users/Christophe/.rvm/usr
+Fetching openssl-1.0.1c.tar.gz to /Users/Christophe/.rvm/archives
+Extracting openssl to /Users/Christophe/.rvm/src/openssl-1.0.1c
+Configuring openssl in /Users/Christophe/.rvm/src/openssl-1.0.1c.
+Error running './Configure darwin64-x86_64-cc -I/Users/Christophe/.rvm/usr/include -L/Users/Christophe/.rvm/usr/lib zlib no-asm no-krb5 --prefix=/Users/Christophe/.rvm/usr --with-openssl-dir=/Users/Christophe/.rvm/usr no-shared', please read /Users/Christophe/.rvm/log/ruby-2.0.0-p0/openssl/configure.log
+Compiling openssl in /Users/Christophe/.rvm/src/openssl-1.0.1c.
+Error running 'make', please read /Users/Christophe/.rvm/log/ruby-2.0.0-p0/openssl/make.log
+Updating openssl certificates
+Installing Ruby from source to: /Users/Christophe/.rvm/rubies/ruby-2.0.0-p0, this may take a while depending on your cpu(s)...
+ruby-2.0.0-p0 - #downloading ruby-2.0.0-p0, this may take a while depending on your connection...
+ruby-2.0.0-p0 - #extracting ruby-2.0.0-p0 to /Users/Christophe/.rvm/src/ruby-2.0.0-p0
+ruby-2.0.0-p0 - #extracted to /Users/Christophe/.rvm/src/ruby-2.0.0-p0
+ruby-2.0.0-p0 - #configuring
+ruby-2.0.0-p0 - #compiling
+ruby-2.0.0-p0 - #installing 
+
+[CB] The log, suggest the command is not used properly. 
+[2013-03-07 13:57:26] ./Configure
+Usage: Configure [no-<cipher> ...] [enable-<cipher> ...] [experimental-<cipher> ...] [-Dxxx] [-lxxx] [-Lxxx] [-fxxx] [-Kxxx] [no-hw-xxx|no-hw] [[no-]threads] [[no-]shared] [[no-]zlib|zlib-dynamic] [no-asm] [no-dso] [no-krb5] [sctp] [386] [--prefix=DIR] [--openssldir=OPENSSLDIR] [--with-xxx[=vvv]] [--test-sanity] os/compiler[:flags]
+
+[CB] RVM has specific requirements to work. run
+rvm requirements run
+
+Requirements for osx/10.7/x86_64
+
+NOTE: 'ruby' represents Matz's Ruby Interpreter (MRI) (1.8.X, 1.9.X)
+             This is the *original* / standard Ruby Language Interpreter
+      'ree'  represents Ruby Enterprise Edition
+      'rbx'  represents Rubinius
+
+Additional Dependencies:
+# For update-system:
+Already up-to-date.
+Error: Already tapped!
+
+# For rvm:
+Warning: Your Xcode (4.4.1) is outdated
+Please install Xcode 4.6.
+==> Installing bash dependency: readline
+==> Downloading http://ftpmirror.gnu.org/readline/readline-6.2.tar.gz
+######################################################################## 100,0%
+==> Patching
+patching file callback.c
+patching file input.c
+patching file patchlevel
+patching file support/shobj-conf
+patching file vi_mode.c
+==> ./configure --prefix=/usr/local/Cellar/readline/6.2.4 --mandir=/usr/local/Cellar/readline/6.2.4/share/man --infodir=/usr/local/Cellar/readline/6.2.4/share/info --enable-multibyte
+==> make install
+==> Caveats
+This formula is keg-only: so it was not symlinked into /usr/local.
+
+OS X provides the BSD libedit library, which shadows libreadline.
+In order to prevent conflicts when programs look for libreadline we are
+defaulting this GNU Readline installation to keg-only.
+
+Generally there are no consequences of this for you. If you build your
+own software and it requires this formula, you'll need to add to your
+build variables:
+
+    LDFLAGS:  -L/usr/local/opt/readline/lib
+    CPPFLAGS: -I/usr/local/opt/readline/include
+
+==> Summary
+🍺  /usr/local/Cellar/readline/6.2.4: 31 files, 1,6M, built in 18 seconds
+==> Installing bash
+==> Downloading http://ftpmirror.gnu.org/bash/bash-4.2.tar.gz
+######################################################################## 100,0%
+==> Downloading patches
+######################################################################## 100,0%
+==> Patching
+patching file subst.c
+patching file subst.h
+patching file patchlevel.h
+patching file lib/readline/vi_mode.c
+patching file lib/readline/callback.c
+patching file patchlevel.h
+patching file lib/glob/gmisc.c
+patching file patchlevel.h
+patching file subst.c
+patching file patchlevel.h
+patching file variables.h
+patching file variables.c
+patching file parse.y
+patching file builtins/printf.def
+patching file patchlevel.h
+patching file variables.c
+patching file patchlevel.h
+patching file subst.c
+patching file patchlevel.h
+patching file sig.c
+patching file patchlevel.h
+patching file builtins/fc.def
+patching file patchlevel.h
+patching file print_cmd.c
+patching file patchlevel.h
+patching file assoc.c
+patching file patchlevel.h
+patching file parse.y
+patching file shell.h
+patching file patchlevel.h
+patching file subst.c
+patching file patchlevel.h
+patching file pathexp.c
+patching file patchlevel.h
+patching file expr.c
+patching file patchlevel.h
+patching file parse.y
+patching file patchlevel.h
+patching file builtins/read.def
+patching file patchlevel.h
+patching file execute_cmd.c
+patching file patchlevel.h
+patching file builtins/declare.def
+patching file patchlevel.h
+patching file support/shobj-conf
+patching file patchlevel.h
+patching file builtins/read.def
+patching file patchlevel.h
+patching file lib/sh/zread.c
+patching file patchlevel.h
+patching file subst.c
+patching file error.c
+patching file patchlevel.h
+patching file builtins/printf.def
+patching file patchlevel.h
+patching file command.h
+patching file execute_cmd.c
+patching file subst.c
+patching file patchlevel.h
+patching file execute_cmd.c
+patching file patchlevel.h
+patching file subst.c
+patching file patchlevel.h
+patching file subst.c
+patching file patchlevel.h
+patching file ./bashline.c
+patching file ./bashline.h
+patching file ./builtins/shopt.def
+patching file ./doc/bash.1
+patching file ./doc/bashref.texi
+patching file ./tests/shopt.right
+patching file patchlevel.h
+patching file lib/glob/xmbsrtowcs.c
+patching file lib/glob/glob.c
+patching file patchlevel.h
+patching file lib/readline/input.c
+patching file patchlevel.h
+patching file subst.c
+patching file patchlevel.h
+patching file lib/sh/eaccess.c
+patching file patchlevel.h
+patching file parse.y
+patching file patchlevel.h
+patching file builtins/mapfile.def
+patching file patchlevel.h
+patching file subst.c
+patching file patchlevel.h
+patching file lib/readline/vi_mode.c
+patching file patchlevel.h
+patching file builtins/read.def
+patching file patchlevel.h
+patching file expr.c
+patching file patchlevel.h
+patching file redir.c
+patching file patchlevel.h
+patching file subst.c
+patching file patchlevel.h
+patching file parse.y
+patching file patchlevel.h
+==> ./configure --prefix=/usr/local/Cellar/bash/4.2.42 --with-installed-readline
+==> make install
+==> Caveats
+In order to use this build of bash as your login shell,
+it must be added to /etc/shells.
+==> Summary
+🍺  /usr/local/Cellar/bash/4.2.42: 41 files, 4,2M, built in 64 seconds
+==> Installing curl dependency: pkg-config
+==> Downloading https://downloads.sf.net/project/machomebrew/Bottles/pkg-config-0.28.lion.bottle.tar.gz
+######################################################################## 100,0%
+==> Pouring pkg-config-0.28.lion.bottle.tar.gz
+🍺  /usr/local/Cellar/pkg-config/0.28: 10 files, 636K
+==> Installing curl
+==> Downloading http://curl.haxx.se/download/curl-7.29.0.tar.gz
+######################################################################## 100,0%
+==> ./configure --prefix=/usr/local/Cellar/curl/7.29.0
+==> make install
+==> Caveats
+This formula is keg-only: so it was not symlinked into /usr/local.
+
+Mac OS X already provides this software and installing another version in
+parallel can cause all kinds of trouble.
+
+The libcurl provided by Leopard is too old for CouchDB to use.
+
+Generally there are no consequences of this for you. If you build your
+own software and it requires this formula, you'll need to add to your
+build variables:
+
+    LDFLAGS:  -L/usr/local/opt/curl/lib
+    CPPFLAGS: -I/usr/local/opt/curl/include
+
+==> Summary
+🍺  /usr/local/Cellar/curl/7.29.0: 75 files, 1,9M, built in 84 seconds
+==> Downloading http://git-core.googlecode.com/files/git-1.8.1.5.tar.gz
+######################################################################## 100,0%
+==> make prefix=/usr/local/Cellar/git/1.8.1.5 CC=cc CFLAGS= LDFLAGS= install
+==> make CC=cc CFLAGS= LDFLAGS=
+==> make clean
+==> make CC=cc CFLAGS= LDFLAGS=
+==> Downloading http://git-core.googlecode.com/files/git-manpages-1.8.1.5.tar.gz
+######################################################################## 100,0%
+==> Downloading http://git-core.googlecode.com/files/git-htmldocs-1.8.1.5.tar.gz
+######################################################################## 100,0%
+==> Caveats
+The OS X keychain credential helper has been installed to:
+  /usr/local/bin/git-credential-osxkeychain
+
+The 'contrib' directory has been installed to:
+  /usr/local/share/git-core/contrib
+
+Bash completion has been installed to:
+  /usr/local/etc/bash_completion.d
+
+zsh completion has been installed to:
+  /usr/local/share/zsh/site-functions
+==> Summary
+🍺  /usr/local/Cellar/git/1.8.1.5: 1291 files, 26M, built in 43 seconds
+
+# For ruby:
+Warning: Your Xcode (4.4.1) is outdated
+Please install Xcode 4.6.
+==> Downloading http://ftpmirror.gnu.org/autoconf/autoconf-2.69.tar.gz
+######################################################################## 100,0%
+==> ./configure --prefix=/usr/local/Cellar/autoconf/2.69
+==> make install
+🍺  /usr/local/Cellar/autoconf/2.69: 69 files, 2,0M, built in 9 seconds
+==> Downloading http://ftpmirror.gnu.org/automake/automake-1.13.1.tar.gz
+######################################################################## 100,0%
+==> ./configure --prefix=/usr/local/Cellar/automake/1.13.1
+==> make install
+🍺  /usr/local/Cellar/automake/1.13.1: 126 files, 2,3M, built in 12 seconds
+==> Downloading http://r.research.att.com/tools/gcc-42-5666.3-darwin11.pkg
+######################################################################## 100,0%
+==> Caveats
+NOTE:
+This formula provides components that were removed from XCode in the 4.2
+release. There is no reason to install this formula if you are using a
+version of XCode prior to 4.2.
+
+This formula contains compilers built from Apple's GCC sources, build
+5666.3, available from:
+
+  http://opensource.apple.com/tarballs/gcc
+
+All compilers have a `-4.2` suffix. A GFortran compiler is also included.
+==> Summary
+🍺  /usr/local/Cellar/apple-gcc42/4.2.1-5666.3: 104 files, 75M, built in 61 seconds
+==> Downloading http://ftpmirror.gnu.org/libtool/libtool-2.4.2.tar.gz
+######################################################################## 100,0%
+==> ./configure --prefix=/usr/local/Cellar/libtool/2.4.2 --program-prefix=g --enable-ltdl-install
+==> make install
+==> Caveats
+In order to prevent conflicts with Apple's own libtool we have prepended a "g"
+so, you have instead: glibtool and glibtoolize.
+==> Summary
+🍺  /usr/local/Cellar/libtool/2.4.2: 66 files, 2,2M, built in 16 seconds
+Error: pkg-config-0.28 already installed
+==> Downloading http://openssl.org/source/openssl-1.0.1e.tar.gz
+######################################################################## 100,0%
+==> perl ./Configure --prefix=/usr/local/Cellar/openssl/1.0.1e --openssldir=/usr/local/etc/openssl zlib-dynamic shared darwin64-x86_64-cc
+==> make
+
+==> make test
+^[[B^[[B^[[B^[[B^[[B==> make install MANDIR=/usr/local/Cellar/openssl/1.0.1e/share/man MANSUFFIX=ssl
+==> Caveats
+To install updated CA certs from Mozilla.org:
+
+    brew install curl-ca-bundle
+
+This formula is keg-only: so it was not symlinked into /usr/local.
+
+Mac OS X already provides this software and installing another version in
+parallel can cause all kinds of trouble.
+
+The OpenSSL provided by OS X is too old for some software.
+
+Generally there are no consequences of this for you. If you build your
+own software and it requires this formula, you'll need to add to your
+build variables:
+
+    LDFLAGS:  -L/usr/local/opt/openssl/lib
+    CPPFLAGS: -I/usr/local/opt/openssl/include
+
+==> Summary
+🍺  /usr/local/Cellar/openssl/1.0.1e: 429 files, 15M, built in 3.0 minutes
+Error: readline-6.2.4 already installed
+==> Downloading http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz
+######################################################################## 100,0%
+==> ./configure --prefix=/usr/local/Cellar/libyaml/0.1.4
+==> make install
+🍺  /usr/local/Cellar/libyaml/0.1.4: 7 files, 336K, built in 12 seconds
+==> Downloading http://sqlite.org/sqlite-autoconf-3071502.tar.gz
+######################################################################## 100,0%
+==> ./configure --prefix=/usr/local/Cellar/sqlite/3.7.15.2 --enable-dynamic-extensions
+==> make install
+==> Caveats
+This formula is keg-only: so it was not symlinked into /usr/local.
+
+Mac OS X already provides this software and installing another version in
+parallel can cause all kinds of trouble.
+
+OS X already provides (an older) sqlite3.
+
+Generally there are no consequences of this for you. If you build your
+own software and it requires this formula, you'll need to add to your
+build variables:
+
+    LDFLAGS:  -L/usr/local/opt/sqlite/lib
+    CPPFLAGS: -I/usr/local/opt/sqlite/include
+
+==> Summary
+🍺  /usr/local/Cellar/sqlite/3.7.15.2: 9 files, 1,9M, built in 32 seconds
+==> Downloading ftp://xmlsoft.org/libxml2/libxml2-2.9.0.tar.gz
+######################################################################## 100,0%
+######################################################################## 100,0%==> Downloading patches
+######################################################################## 100,0%
+######################################################################## 100,0%
+==> Patching
+patching file threads.c
+patching file xpath.c
+==> ./configure --prefix=/usr/local/Cellar/libxml2/2.9.0 --without-python
+==> make
+==> make install
+==> Caveats
+This formula is keg-only: so it was not symlinked into /usr/local.
+
+Mac OS X already provides this software and installing another version in
+parallel can cause all kinds of trouble.
+
+Generally there are no consequences of this for you. If you build your
+own software and it requires this formula, you'll need to add to your
+build variables:
+
+    LDFLAGS:  -L/usr/local/opt/libxml2/lib
+    CPPFLAGS: -I/usr/local/opt/libxml2/include
+
+==> Summary
+🍺  /usr/local/Cellar/libxml2/2.9.0: 273 files, 11M, built in 48 seconds
+==> Downloading ftp://xmlsoft.org/libxml2/libxslt-1.1.28.tar.gz
+######################################################################## 100,0%
+######################################################################## 100,0%==> ./configure --prefix=/usr/local/Cellar/libxslt/1.1.28 --with-libxml-prefix=/usr/local/Cellar/libxml2/2.9.0
+==> make
+==> make install
+==> Caveats
+To allow the nokogiri gem to link against this libxslt run:
+  gem install nokogiri -- --with-xslt-dir=/usr/local/opt/libxslt
+
+This formula is keg-only: so it was not symlinked into /usr/local.
+
+Mac OS X already provides this software and installing another version in
+parallel can cause all kinds of trouble.
+
+Generally there are no consequences of this for you. If you build your
+own software and it requires this formula, you'll need to add to your
+build variables:
+
+    LDFLAGS:  -L/usr/local/opt/libxslt/lib
+    CPPFLAGS: -I/usr/local/opt/libxslt/include
+
+==> Summary
+🍺  /usr/local/Cellar/libxslt/1.1.28: 145 files, 3,3M, built in 25 seconds
+==> Installing libksba dependency: libgpg-error
+==> Downloading ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.11.tar.bz2
+######################################################################## 100,0%
+######################################################################## 100,0%==> ./configure --prefix=/usr/local/Cellar/libgpg-error/1.11
+==> make install
+🍺  /usr/local/Cellar/libgpg-error/1.11: 15 files, 164K, built in 14 seconds
+==> Installing libksba
+==> Downloading ftp://ftp.gnupg.org/gcrypt/libksba/libksba-1.3.0.tar.bz2
+######################################################################## 100,0%
+######################################################################## 100,0%==> ./configure --prefix=/usr/local/Cellar/libksba/1.3.0
+==> make install
+🍺  /usr/local/Cellar/libksba/1.3.0: 11 files, 292K, built in 15 seconds
+
+# For jruby:
+
+
+[CB] Upgrade Xcode to get the correct gcc. (Via app Store).  
+[CB] reinstall ruby 
+rvm reinstall 2.0.0
+
+
+
+
+
+
+LINUX INSTALL UBUNTU
+===================================================================
 
 Current Linode Install: 
 ruby => ruby 1.9.3p194 (2012-04-20 revision 35410) [i686-linux]
@@ -228,7 +842,8 @@ See below RVM.
 
 
 
-Apache: 
+Apache2
+==========
 
 sudo apt-get install apache2 apache2-mpm-prefork apache2-prefork-dev
 
@@ -238,13 +853,18 @@ sudo a2enmod proxy
 sudo a2enmod proxy_http
 sudo a2enmod rewrite
 
+Controlling the server: 
+
 sudo /etc/init.d/apache2 restart
 
 // APache configuration can be found in 
 etc/apache2
 
+// Apache logging
+ErrorLog /var/log/apache2/error.log
 
-
+// Passenger logging
+??
 
 sudo apt-get install mongrel
 
@@ -272,6 +892,10 @@ cd rubygems-1.8.24
 sudo ruby setup.rb
 sudo ln -s /usr/bin/gem1.8 /usr/bin/gem
 sudo gem update --system
+
+
+http://www.modrails.com/documentation/Users%20guide%20Apache.html#working_with_apache_conf
+
 
 
 Install rails

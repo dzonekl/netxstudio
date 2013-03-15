@@ -13,6 +13,9 @@ git commit -a -m "commit message" => Commit all with a message
 git rm -r [directory] => unstage a directory, commit it next. 
 git log => commit history. 
 git log --stat > stat.log => commit history stats, piped to a log file. 
+git rm --cached [file(s)] => Removes from the local repo, but keeps the local file. Usefull for .gitignore files which are accidently 
+committed. 
+
 
 git filter-branch --index-filter 'git rm --cached --ignore-unmatch Rakefile' \
   --prune-empty --tag-name-filter cat -- --all
@@ -95,8 +98,14 @@ GIT INSTALL ON LINUX
 
 http://git-scm.com/book/en/Git-on-the-Server-Setting-Up-the-Server
 
-1. copy a git repo to /etc/opt 
+1. copy a git repo to/opt/git 
 2. access with ssh
+
+GIT Remote URL
+
+git@176.58.103.70:/opt/git/netxforge
+
+
 
 
 
