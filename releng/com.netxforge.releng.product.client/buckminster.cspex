@@ -39,7 +39,7 @@
 				<property key="targets" value="create.javadoc" />
 			</actorProperties>
 			<properties>
-				<property key="source" value="${buckminster.output}../../netxstudio.git.p2/" />
+				<property key="source" value="${buckminster.output}/../../../netxstudio.git.p2/" />
 				<property key="javadoc.output" value="${buckminster.output}/javadoc" />
 			</properties>
 		</public>
