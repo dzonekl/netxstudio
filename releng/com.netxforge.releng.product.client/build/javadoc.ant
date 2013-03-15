@@ -39,8 +39,10 @@ ANT Script to produce javadoc
 
 		<!-- generate the javadoc 
 		
+		// problems determining the classpath. 
+		classpathref="files-classpath"
 		-->
-		<javadoc destdir="${javadoc.output}" classpathref="files-classpath" maxmemory="1024m" source="1.6" useexternalfile="true" author="true" version="true" use="true" windowtitle="Scodi/Softmodeler Documentation">
+		<javadoc destdir="${javadoc.output}"  maxmemory="1024m" source="1.6" useexternalfile="true" author="true" version="true" use="true" windowtitle="Scodi/Softmodeler Documentation">
 			<!-- link external APIs -->
 			<link offline="false" href="http://java.sun.com/javase/6/docs/api/" />
 			<link offline="false" href="http://www.osgi.org/javadoc/r4v42/" />
