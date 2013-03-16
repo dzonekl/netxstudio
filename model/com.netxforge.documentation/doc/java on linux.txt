@@ -17,5 +17,4 @@ for the browser plugin (optional):
 sudo update-alternatives --install "/usr/lib/mozilla/plugins/libjavaplugin.so" "mozilla-javaplugin.so" "/usr/lib/jvm/jdk1.6.0_31/jre/lib/i386/libnpjp2.so" 1
  
  
- 
- 
+  
