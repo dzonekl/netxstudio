@@ -112,6 +112,7 @@ public class ProductWorkbenchAdvisor extends IDEWorkbenchAdvisor {
 
 		if (r != null && PickWorkspaceDialog.roleChanged(r.getName())) {
 			this.getWorkbenchConfigurer().setSaveAndRestore(false);
+			// Should really show the intro. 
 		}
 	}
 

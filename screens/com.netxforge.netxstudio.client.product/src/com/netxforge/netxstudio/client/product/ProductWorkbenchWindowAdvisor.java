@@ -25,6 +25,7 @@ import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.client.product.splashHandlers.InjectionHelper;
+import com.netxforge.netxstudio.console.ConsoleService;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.app.AbstractWorkbenchWindowLifecycle;
 import com.netxforge.netxstudio.screens.app.IWorkbenchWindowLifecycle;
@@ -68,7 +69,12 @@ public class ProductWorkbenchWindowAdvisor extends
 	 * @param configurer
 	 */
 	private void initializeApplication(IWorkbenchWindowConfigurer configurer) {
+		
+		// Create a Console. 
+		// Requires auto activation in OSGI config.ini
+		ConsoleService.INSTANCE.addConsole("NetXStudio");
 
+		
 		WorkspaceUtil.INSTANCE.initDefaultProject();
 
 		final Role currentRole = roleService.getCurrentRole();

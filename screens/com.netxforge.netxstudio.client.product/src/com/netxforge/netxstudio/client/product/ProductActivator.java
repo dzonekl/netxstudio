@@ -80,6 +80,7 @@ public class ProductActivator extends AbstractUIPlugin {
 		// at startup.
 		workbenchService = context.registerService(IWorkbenchService.class,
 				instance, null);
+		
 	}
 
 	/*
