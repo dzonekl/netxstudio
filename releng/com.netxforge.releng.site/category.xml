@@ -63,9 +63,6 @@
    <feature url="features/org.swtchart.artifacts.feature_1.0.0.qualifier.jar" id="org.swtchart.artifacts.feature" version="1.0.0.qualifier">
       <category name="netxplatform"/>
    </feature>
-   <feature url="features/com.netxforge.netxstudio.models.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier">
-      <category name="netxmodel"/>
-   </feature>
    <feature url="features/javax.artifacts.feature_1.0.0.qualifier.jar" id="javax.artifacts.feature" version="1.0.0.qualifier">
       <category name="netxplatform"/>
    </feature>
@@ -108,17 +105,9 @@
    <feature url="features/org.eclipse.emf.edit.ui_2.7.0.v20110913-1156.jar" id="org.eclipse.emf.edit.ui" version="2.7.0.v20110913-1156">
       <category name="netxplatform"/>
    </feature>
-   <feature url="features/com.netxforge.netxstudio.bare.product.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.bare.product.feature" version="1.0.0.qualifier">
-      <category name="NetXStudio bare"/>
-   </feature>
-   <feature url="features/com.netxforge.netxstudio.screens.app.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.screens.app.feature" version="1.0.0.qualifier">
-      <category name="NetXStudio bare"/>
-   </feature>
    <category-def name="netxplatform" label="NetXStudio Platform Dependencies">
       <description>
          External Features Required by the NetXStudio Platform
       </description>
    </category-def>
-   <category-def name="netxmodel" label="NetXStudio Model Components"/>
-   <category-def name="NetXStudio bare" label="NetXStudio Client bare minimum version"/>
 </site>

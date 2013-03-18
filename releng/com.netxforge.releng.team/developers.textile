@@ -1,0 +1,23 @@
+h1. Hold Team Project Set. 
+
+h2. To use 
+
+* Download Eclipse and launch it in a fresh workspace. 
+** Eclipse can be downloaded from "here":http://www.eclipse.org
+** Setup the target platform
+
+The Target Platform (TP) is the dependencies for which the code will be compiled against. 
+By default the TP is all the plugins which come with the download. For NetXForge, we have published
+the dependencies to make sure we always use the same one. 
+
+
+
+
+* Add a GIT repository (NetXForge GIT URL). 
+
+
+
+
+* Checkout the repo projects into the Workspace. 
+
+Checkout what you need to change. 
