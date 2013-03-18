@@ -153,4 +153,16 @@
          id="com.netxforge.releng.site.own"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.xpand.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xtend.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.mwe.artifacts.feature"
+         version="0.0.0"/>
+
 </feature>
