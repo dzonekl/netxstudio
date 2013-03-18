@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.netxforge.releng.site.own"
+      label="Releng Site Own Feature"
+      version="1.0.0.qualifier"
+      provider-name="NetXForge">
+
+   <description url="http://www.example.com/description">
+      Used by Release Engineering to produce a P2 site with only our own features.
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <includes
+         id="com.netxforge.netxscript.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxscript.ui.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.bare.product.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.client.product.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.common.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.console.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.data.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.help.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.13042011.edit.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.13042011.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.edit.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.export.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.export.ui.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.import.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.import.ui.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.screens.app.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.screens.editing.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.screens.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.screens.ide.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.screens.xtext.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.server.base.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.server.db.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.server.db.mysql.product.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.server.db.postgres.product.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.server.hibernate.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.server.hibernate.product.feature"
+         version="0.0.0"/>
+
+</feature>

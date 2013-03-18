@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.netxforge.netxstudio.bare.product.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.bare.product.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.platform"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.client.product.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.client.product.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.common.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.common.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.console.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.console.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.data.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.data.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.help.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.help.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.models.13042011.edit.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.13042011.edit.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.models.13042011.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.13042011.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.models.edit.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.edit.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.models.export.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.export.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.models.export.ui.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.export.ui.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.models.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.models.import.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.import.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.models.import.ui.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.import.ui.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.screens.app.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.screens.app.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.screens.editing.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.screens.editing.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.screens.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.screens.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.screens.ide.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.screens.ide.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.screens.xtext.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.screens.xtext.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.server.base.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.server.base.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.server"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.server.db.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.server.db.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.server"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.server.db.mysql.product.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.server.db.mysql.product.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.server"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.server.db.postgres.product.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.server.db.postgres.product.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.server"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.server.hibernate.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.server.hibernate.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.server"/>
+   </feature>
+   <feature url="features/com.netxforge.netxstudio.server.hibernate.product.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.server.hibernate.product.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.server"/>
+   </feature>
+   <category-def name="netxstudio.platform" label="NetXStudio Platform"/>
+   <category-def name="netxstudio.monitoring" label="NetXStudio Monitoring"/>
+   <category-def name="netxstudio.server" label="NetXStudio Server"/>
+</site>
