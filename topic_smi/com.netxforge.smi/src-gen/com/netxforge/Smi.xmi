@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xtext="http://www.eclipse.org/2008/Xtext">
+  <xtext:Grammar name="com.netxforge.Smi" usedGrammars="/1" definesHiddenTokens="true" hiddenTokens="/0/@rules.27">
+    <metamodelDeclarations xsi:type="xtext:GeneratedMetamodel" name="smi">
+      <ePackage href="http://www.netxforge.com/Smi#/"/>
+    </metamodelDeclarations>
+    <rules xsi:type="xtext:ParserRule" name="Module">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//Module"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" feature="id" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.24"/>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="DEFINITIONS"/>
+        <elements xsi:type="xtext:Keyword" value="::="/>
+        <elements xsi:type="xtext:Keyword" value="BEGIN"/>
+        <elements xsi:type="xtext:Assignment" cardinality="*" feature="assignments" operator="+=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.1"/>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="END"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="Assignment">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//Assignment"/>
+      </type>
+      <alternatives xsi:type="xtext:Alternatives">
+        <elements xsi:type="xtext:Assignment" feature="macros" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.2"/>
+        </elements>
+        <elements xsi:type="xtext:Assignment" feature="types" operator="+=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.6"/>
+        </elements>
+        <elements xsi:type="xtext:RuleCall" rule="/0/@rules.18"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="Macro">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//Macro"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" feature="descriptor" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.3"/>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="MACRO"/>
+        <elements xsi:type="xtext:Keyword" value="::="/>
+        <elements xsi:type="xtext:Keyword" value="BEGIN"/>
+        <elements xsi:type="xtext:Keyword" value="TYPE NOTATION"/>
+        <elements xsi:type="xtext:Assignment" cardinality="+" feature="typeNotations" operator="+=">
+          <terminal xsi:type="xtext:CrossReference">
+            <type metamodel="/0/@metamodelDeclarations.0">
+              <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ValueAssignment"/>
+            </type>
+            <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.0"/>
+          </terminal>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="VALUE NOTATION"/>
+        <elements xsi:type="xtext:Assignment" feature="valueNotation" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.4"/>
+        </elements>
+        <elements xsi:type="xtext:Assignment" cardinality="+" feature="innerTypes" operator="+=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.6"/>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="END"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="MacroDescriptor">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:RuleCall" rule="/0/@rules.24"/>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="MacroValue">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//MacroValue"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Action">
+          <type metamodel="/0/@metamodelDeclarations.0">
+            <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//MacroValue"/>
+          </type>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="value("/>
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="type" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.5"/>
+        </elements>
+        <elements xsi:type="xtext:RuleCall" rule="/1/@rules.6"/>
+        <elements xsi:type="xtext:Keyword" value=")"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:EnumRule" name="MACRO_VALUE_TYPE">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EEnum" href="http://www.netxforge.com/Smi#//MACRO_VALUE_TYPE"/>
+      </type>
+      <alternatives xsi:type="xtext:Alternatives">
+        <elements xsi:type="xtext:EnumLiteralDeclaration">
+          <enumLiteral href="http://www.netxforge.com/Smi#//MACRO_VALUE_TYPE/VALUE"/>
+          <literal value="VALUE"/>
+        </elements>
+        <elements xsi:type="xtext:EnumLiteralDeclaration">
+          <enumLiteral href="http://www.netxforge.com/Smi#//MACRO_VALUE_TYPE/Update"/>
+          <literal value="Update"/>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="ValueAssignment">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ValueAssignment"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" feature="typeReference" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.24"/>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="::="/>
+        <elements xsi:type="xtext:Assignment" feature="value" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.7"/>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="Or">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//Or"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:RuleCall" rule="/0/@rules.8"/>
+        <elements xsi:type="xtext:Group" cardinality="*">
+          <elements xsi:type="xtext:Group">
+            <elements xsi:type="xtext:Action" feature="left" operator="=">
+              <type metamodel="/0/@metamodelDeclarations.0">
+                <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//Or"/>
+              </type>
+            </elements>
+            <elements xsi:type="xtext:Keyword" value="|"/>
+          </elements>
+          <elements xsi:type="xtext:Assignment" feature="right" operator="=">
+            <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.8"/>
+          </elements>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="ValueType">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ValueType"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="name" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.26"/>
+        </elements>
+        <elements xsi:type="xtext:Alternatives">
+          <elements xsi:type="xtext:Assignment" feature="type" operator="=">
+            <terminal xsi:type="xtext:CrossReference">
+              <type metamodel="/0/@metamodelDeclarations.0">
+                <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ValueAssignment"/>
+              </type>
+              <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.0"/>
+            </terminal>
+          </elements>
+          <elements xsi:type="xtext:Assignment" feature="simpleType" operator="=">
+            <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.9"/>
+          </elements>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="ASN1_TYPE">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ASN1_TYPE"/>
+      </type>
+      <alternatives xsi:type="xtext:Alternatives">
+        <elements xsi:type="xtext:RuleCall" rule="/0/@rules.10"/>
+        <elements xsi:type="xtext:RuleCall" rule="/0/@rules.14"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="ASN1_SIMPLE">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ASN1_SIMPLE"/>
+      </type>
+      <alternatives xsi:type="xtext:Alternatives">
+        <elements xsi:type="xtext:Group">
+          <elements xsi:type="xtext:Action">
+            <type metamodel="/0/@metamodelDeclarations.0">
+              <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ASN1_SIMPLE"/>
+            </type>
+          </elements>
+          <elements xsi:type="xtext:RuleCall" rule="/0/@rules.26"/>
+        </elements>
+        <elements xsi:type="xtext:RuleCall" rule="/0/@rules.11"/>
+        <elements xsi:type="xtext:Group">
+          <elements xsi:type="xtext:RuleCall" rule="/0/@rules.12"/>
+          <elements xsi:type="xtext:Group" cardinality="?">
+            <elements xsi:type="xtext:Keyword" value="("/>
+            <elements xsi:type="xtext:Assignment" feature="constraint" operator="=">
+              <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.16"/>
+            </elements>
+            <elements xsi:type="xtext:Keyword" value=")"/>
+          </elements>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="ASN1_OCTET_STRING">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ASN1_SIMPLE"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Action">
+          <type metamodel="/0/@metamodelDeclarations.0">
+            <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ASN1_OCTET_STRING"/>
+          </type>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="OCTET STRING"/>
+        <elements xsi:type="xtext:Keyword" value="TODO defintions."/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="ASN1_INTEGER">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ASN1_SIMPLE"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Keyword" value="INTEGER"/>
+        <elements xsi:type="xtext:Keyword" value="{"/>
+        <elements xsi:type="xtext:Assignment" cardinality="+" feature="valuePairs" operator="+=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.13"/>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="}"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="ASN1_VALUEPAIR">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:RuleCall" cardinality="?" rule="/1/@rules.0"/>
+        <elements xsi:type="xtext:Keyword" value="("/>
+        <elements xsi:type="xtext:RuleCall" rule="/1/@rules.1"/>
+        <elements xsi:type="xtext:Keyword" value=")"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="ASN1_CHOICE">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ASN1_CHOICE"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Keyword" value="CHOICE"/>
+        <elements xsi:type="xtext:Keyword" value="{"/>
+        <elements xsi:type="xtext:Assignment" feature="choices" operator="+=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.15"/>
+        </elements>
+        <elements xsi:type="xtext:Group" cardinality="*">
+          <elements xsi:type="xtext:Keyword" value=","/>
+          <elements xsi:type="xtext:Assignment" feature="choices" operator="+=">
+            <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.15"/>
+          </elements>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="}"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="ASN1_CHOICE_ENTRY">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ASN1_CHOICE_ENTRY"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" feature="id" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.25"/>
+        </elements>
+        <elements xsi:type="xtext:Assignment" feature="valueType" operator="=">
+          <terminal xsi:type="xtext:CrossReference">
+            <type metamodel="/0/@metamodelDeclarations.0">
+              <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ValueType"/>
+            </type>
+            <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.0"/>
+          </terminal>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="ASN1_SUBTYPE">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ASN1_SUBTYPE"/>
+      </type>
+      <alternatives xsi:type="xtext:Alternatives">
+        <elements xsi:type="xtext:Group">
+          <elements xsi:type="xtext:Keyword" value="SIZE"/>
+          <elements xsi:type="xtext:Assignment" feature="range" operator="=">
+            <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.17"/>
+          </elements>
+        </elements>
+        <elements xsi:type="xtext:Assignment" feature="value" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.1"/>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="ASN1_RANGE">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ASN1_RANGE"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Action">
+          <type metamodel="/0/@metamodelDeclarations.0">
+            <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ASN1_RANGE"/>
+          </type>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="("/>
+        <elements xsi:type="xtext:Group">
+          <elements xsi:type="xtext:Assignment" feature="start" operator="=">
+            <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.1"/>
+          </elements>
+          <elements xsi:type="xtext:Keyword" value=".."/>
+          <elements xsi:type="xtext:Assignment" feature="end" operator="=">
+            <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.1"/>
+          </elements>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value=")"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="ObjectIdentifier">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ObjectIdentifier"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" feature="descriptor" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.25"/>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="OBJECT IDENTIFIER"/>
+        <elements xsi:type="xtext:Keyword" value="::="/>
+        <elements xsi:type="xtext:Keyword" value="{"/>
+        <elements xsi:type="xtext:Assignment" feature="oidValue" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.19"/>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="}"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:ParserRule" name="ObjectIdentifierValue">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ObjectIdentifierValue"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="descriptorReference" operator="=">
+          <terminal xsi:type="xtext:CrossReference">
+            <type metamodel="/0/@metamodelDeclarations.0">
+              <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Smi#//ObjectIdentifier"/>
+            </type>
+            <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.25"/>
+          </terminal>
+        </elements>
+        <elements xsi:type="xtext:Assignment" feature="subIds" operator="+=">
+          <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.1"/>
+        </elements>
+        <elements xsi:type="xtext:Assignment" cardinality="*" feature="subIds" operator="+=">
+          <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.1"/>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:EnumRule" name="WELL_KNOWN_NAMES">
+      <type metamodel="/0/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EEnum" href="http://www.netxforge.com/Smi#//WELL_KNOWN_NAMES"/>
+      </type>
+      <alternatives xsi:type="xtext:Alternatives">
+        <elements xsi:type="xtext:EnumLiteralDeclaration">
+          <enumLiteral href="http://www.netxforge.com/Smi#//WELL_KNOWN_NAMES/ccitt"/>
+          <literal value="ccitt"/>
+        </elements>
+        <elements xsi:type="xtext:EnumLiteralDeclaration">
+          <enumLiteral href="http://www.netxforge.com/Smi#//WELL_KNOWN_NAMES/iso"/>
+          <literal value="iso"/>
+        </elements>
+        <elements xsi:type="xtext:EnumLiteralDeclaration">
+          <enumLiteral href="http://www.netxforge.com/Smi#//WELL_KNOWN_NAMES/joint_iso_ccitt"/>
+          <literal value="joint-iso-ccitt"/>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:TerminalRule" name="NUMERIC" fragment="true">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:CharacterRange">
+        <left value="0"/>
+        <right value="9"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:TerminalRule" name="ALPHA" fragment="true">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:CharacterRange">
+        <left value="a"/>
+        <right value="z"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:TerminalRule" name="ALPHA_CAP" fragment="true">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:CharacterRange">
+        <left value="A"/>
+        <right value="Z"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:TerminalRule" name="MODULE_ID">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:RuleCall" rule="/0/@rules.23"/>
+        <elements xsi:type="xtext:Alternatives" cardinality="*">
+          <elements xsi:type="xtext:RuleCall" rule="/0/@rules.22"/>
+          <elements xsi:type="xtext:RuleCall" rule="/0/@rules.23"/>
+          <elements xsi:type="xtext:Keyword" value="-"/>
+          <elements xsi:type="xtext:RuleCall" rule="/0/@rules.21"/>
+        </elements>
+        <elements xsi:type="xtext:Alternatives">
+          <elements xsi:type="xtext:RuleCall" rule="/0/@rules.23"/>
+          <elements xsi:type="xtext:RuleCall" rule="/0/@rules.22"/>
+          <elements xsi:type="xtext:RuleCall" rule="/0/@rules.21"/>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:TerminalRule" name="ASN1_ID">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:RuleCall" rule="/0/@rules.22"/>
+        <elements xsi:type="xtext:Alternatives" cardinality="*">
+          <elements xsi:type="xtext:RuleCall" rule="/0/@rules.22"/>
+          <elements xsi:type="xtext:RuleCall" rule="/0/@rules.23"/>
+          <elements xsi:type="xtext:Keyword" value="-"/>
+          <elements xsi:type="xtext:RuleCall" rule="/0/@rules.21"/>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:TerminalRule" name="IA5STRING">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Keyword" value="&quot;"/>
+        <elements xsi:type="xtext:Alternatives" cardinality="*">
+          <elements xsi:type="xtext:Group">
+            <elements xsi:type="xtext:Keyword" value="\"/>
+            <elements xsi:type="xtext:Alternatives">
+              <elements xsi:type="xtext:Keyword" value="b"/>
+              <elements xsi:type="xtext:Keyword" value="t"/>
+              <elements xsi:type="xtext:Keyword" value="n"/>
+              <elements xsi:type="xtext:Keyword" value="f"/>
+              <elements xsi:type="xtext:Keyword" value="r"/>
+              <elements xsi:type="xtext:Keyword" value="u"/>
+              <elements xsi:type="xtext:Keyword" value="&quot;"/>
+              <elements xsi:type="xtext:Keyword" value="'"/>
+              <elements xsi:type="xtext:Keyword" value="\"/>
+            </elements>
+          </elements>
+          <elements xsi:type="xtext:NegatedToken">
+            <terminal xsi:type="xtext:Alternatives">
+              <elements xsi:type="xtext:Keyword" value="\"/>
+              <elements xsi:type="xtext:Keyword" value="&quot;"/>
+            </terminal>
+          </elements>
+        </elements>
+        <elements xsi:type="xtext:Keyword" value="&quot;"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:TerminalRule" name="SL_ASN1_COMMENT">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Keyword" value="--"/>
+        <elements xsi:type="xtext:NegatedToken" cardinality="*">
+          <terminal xsi:type="xtext:Alternatives">
+            <elements xsi:type="xtext:Keyword" value="&#xA;"/>
+            <elements xsi:type="xtext:Keyword" value="&#xD;"/>
+          </terminal>
+        </elements>
+        <elements xsi:type="xtext:Group" cardinality="?">
+          <elements xsi:type="xtext:Keyword" cardinality="?" value="&#xD;"/>
+          <elements xsi:type="xtext:Keyword" value="&#xA;"/>
+        </elements>
+      </alternatives>
+    </rules>
+  </xtext:Grammar>
+  <xtext:Grammar name="org.eclipse.xtext.common.Terminals" definesHiddenTokens="true" hiddenTokens="/1/@rules.5 /1/@rules.3 /1/@rules.4">
+    <metamodelDeclarations xsi:type="xtext:ReferencedMetamodel" alias="ecore">
+      <ePackage href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+    </metamodelDeclarations>
+    <rules xsi:type="xtext:TerminalRule" name="ID">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Keyword" cardinality="?" value="^"/>
+        <elements xsi:type="xtext:Alternatives">
+          <elements xsi:type="xtext:CharacterRange">
+            <left value="a"/>
+            <right value="z"/>
+          </elements>
+          <elements xsi:type="xtext:CharacterRange">
+            <left value="A"/>
+            <right value="Z"/>
+          </elements>
+          <elements xsi:type="xtext:Keyword" value="_"/>
+        </elements>
+        <elements xsi:type="xtext:Alternatives" cardinality="*">
+          <elements xsi:type="xtext:CharacterRange">
+            <left value="a"/>
+            <right value="z"/>
+          </elements>
+          <elements xsi:type="xtext:CharacterRange">
+            <left value="A"/>
+            <right value="Z"/>
+          </elements>
+          <elements xsi:type="xtext:Keyword" value="_"/>
+          <elements xsi:type="xtext:CharacterRange">
+            <left value="0"/>
+            <right value="9"/>
+          </elements>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:TerminalRule" name="INT">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </type>
+      <alternatives xsi:type="xtext:CharacterRange" cardinality="+">
+        <left value="0"/>
+        <right value="9"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:TerminalRule" name="STRING">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:Alternatives">
+        <elements xsi:type="xtext:Group">
+          <elements xsi:type="xtext:Keyword" value="&quot;"/>
+          <elements xsi:type="xtext:Alternatives" cardinality="*">
+            <elements xsi:type="xtext:Group">
+              <elements xsi:type="xtext:Keyword" value="\"/>
+              <elements xsi:type="xtext:Alternatives">
+                <elements xsi:type="xtext:Keyword" value="b"/>
+                <elements xsi:type="xtext:Keyword" value="t"/>
+                <elements xsi:type="xtext:Keyword" value="n"/>
+                <elements xsi:type="xtext:Keyword" value="f"/>
+                <elements xsi:type="xtext:Keyword" value="r"/>
+                <elements xsi:type="xtext:Keyword" value="u"/>
+                <elements xsi:type="xtext:Keyword" value="&quot;"/>
+                <elements xsi:type="xtext:Keyword" value="'"/>
+                <elements xsi:type="xtext:Keyword" value="\"/>
+              </elements>
+            </elements>
+            <elements xsi:type="xtext:NegatedToken">
+              <terminal xsi:type="xtext:Alternatives">
+                <elements xsi:type="xtext:Keyword" value="\"/>
+                <elements xsi:type="xtext:Keyword" value="&quot;"/>
+              </terminal>
+            </elements>
+          </elements>
+          <elements xsi:type="xtext:Keyword" value="&quot;"/>
+        </elements>
+        <elements xsi:type="xtext:Group">
+          <elements xsi:type="xtext:Keyword" value="'"/>
+          <elements xsi:type="xtext:Alternatives" cardinality="*">
+            <elements xsi:type="xtext:Group">
+              <elements xsi:type="xtext:Keyword" value="\"/>
+              <elements xsi:type="xtext:Alternatives">
+                <elements xsi:type="xtext:Keyword" value="b"/>
+                <elements xsi:type="xtext:Keyword" value="t"/>
+                <elements xsi:type="xtext:Keyword" value="n"/>
+                <elements xsi:type="xtext:Keyword" value="f"/>
+                <elements xsi:type="xtext:Keyword" value="r"/>
+                <elements xsi:type="xtext:Keyword" value="u"/>
+                <elements xsi:type="xtext:Keyword" value="&quot;"/>
+                <elements xsi:type="xtext:Keyword" value="'"/>
+                <elements xsi:type="xtext:Keyword" value="\"/>
+              </elements>
+            </elements>
+            <elements xsi:type="xtext:NegatedToken">
+              <terminal xsi:type="xtext:Alternatives">
+                <elements xsi:type="xtext:Keyword" value="\"/>
+                <elements xsi:type="xtext:Keyword" value="'"/>
+              </terminal>
+            </elements>
+          </elements>
+          <elements xsi:type="xtext:Keyword" value="'"/>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:TerminalRule" name="ML_COMMENT">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Keyword" value="/*"/>
+        <elements xsi:type="xtext:UntilToken">
+          <terminal xsi:type="xtext:Keyword" value="*/"/>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:TerminalRule" name="SL_COMMENT">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Keyword" value="//"/>
+        <elements xsi:type="xtext:NegatedToken" cardinality="*">
+          <terminal xsi:type="xtext:Alternatives">
+            <elements xsi:type="xtext:Keyword" value="&#xA;"/>
+            <elements xsi:type="xtext:Keyword" value="&#xD;"/>
+          </terminal>
+        </elements>
+        <elements xsi:type="xtext:Group" cardinality="?">
+          <elements xsi:type="xtext:Keyword" cardinality="?" value="&#xD;"/>
+          <elements xsi:type="xtext:Keyword" value="&#xA;"/>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:TerminalRule" name="WS">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:Alternatives" cardinality="+">
+        <elements xsi:type="xtext:Keyword" value=" "/>
+        <elements xsi:type="xtext:Keyword" value="&#x9;"/>
+        <elements xsi:type="xtext:Keyword" value="&#xD;"/>
+        <elements xsi:type="xtext:Keyword" value="&#xA;"/>
+      </alternatives>
+    </rules>
+    <rules xsi:type="xtext:TerminalRule" name="ANY_OTHER">
+      <type metamodel="/1/@metamodelDeclarations.0">
+        <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </type>
+      <alternatives xsi:type="xtext:Wildcard"/>
+    </rules>
+  </xtext:Grammar>
+</xmi:XMI>
