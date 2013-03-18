@@ -101,28 +101,4 @@
          id="com.netxforge.netxstudio.screens.xtext.feature"
          version="0.0.0"/>
 
-   <includes
-         id="com.netxforge.netxstudio.server.base.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="com.netxforge.netxstudio.server.db.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="com.netxforge.netxstudio.server.db.mysql.product.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="com.netxforge.netxstudio.server.db.postgres.product.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="com.netxforge.netxstudio.server.hibernate.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="com.netxforge.netxstudio.server.hibernate.product.feature"
-         version="0.0.0"/>
-
 </feature>
