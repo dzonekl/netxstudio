@@ -17,7 +17,7 @@ import com.netxforge.netxstudio.screens.editing.selector.IScreen;
  * @author Christophe
  * 
  */
-public abstract class AbstractDetailsScreen extends AbstractScreenImpl {
+public abstract class AbstractDetailsScreenImpl extends AbstractScreenImpl {
 
 	protected FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
@@ -26,16 +26,15 @@ public abstract class AbstractDetailsScreen extends AbstractScreenImpl {
 
 	private IScreen parentScreen;
 
-	public AbstractDetailsScreen(Composite parent, int style) {
+	public AbstractDetailsScreenImpl(Composite parent, int style) {
 		super(parent, style);
 		super.setLayout(new ColumnLayout());
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 	}
-	
-	
+
 	public void addData() {
-		//N/A
+		// N/A
 	}
 
 	public Viewer getViewer() {
@@ -45,9 +44,9 @@ public abstract class AbstractDetailsScreen extends AbstractScreenImpl {
 	public Form getScreenForm() {
 		return parentScreen.getScreenForm();
 	}
-	
-	public void setParentScreen(IScreen parentScreen){
+
+	public void setParentScreen(IScreen parentScreen) {
 		this.parentScreen = parentScreen;
 	}
-	
+
 }

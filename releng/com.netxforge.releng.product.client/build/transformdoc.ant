@@ -1,0 +1,12 @@
+<!--
+NetXForge 2013
+Christophe Bouhier
+
+ANT Script to transform XML produced files to HTML
+-->
+<project>
+	<target name="transform.bom" description="Transform bom.xml">
+	</target>
+	<target name="transform.help" description="Transform Eclipse Help files.">
+	</target>
+</project>

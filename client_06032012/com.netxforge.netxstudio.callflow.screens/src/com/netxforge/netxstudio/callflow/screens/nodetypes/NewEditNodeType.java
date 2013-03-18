@@ -17,10 +17,10 @@ import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.netxforge.netxstudio.callflow.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.screens.editing.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
@@ -31,7 +31,7 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 	private NodeType nodeType;
 	private FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private IEditingService editingService;
-//	private Composite cmpHierachy;
+	// private Composite cmpHierachy;
 	private Button btnLeafNode;
 	private FormText frmTextNumberOfFunctions;
 	private FormText frmTextNumberOfEquipments;
@@ -152,44 +152,44 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		toolkit.paintBordersFor(frmTextNumberOfResources);
 		frmTextNumberOfResources.setText("", false, false);
 
-//		Section sctnHierachy = toolkit.createSection(this, Section.TWISTIE
-//				| Section.TITLE_BAR | Section.EXPANDED);
-//		ColumnLayoutData cld_sctnHierachy = new ColumnLayoutData();
-//		sctnHierachy.setLayoutData(cld_sctnHierachy);
-//
-//		toolkit.paintBordersFor(sctnHierachy);
-//		sctnHierachy.setText("Structure");
-//		sctnHierachy.setExpanded(false);
+		// Section sctnHierachy = toolkit.createSection(this, Section.TWISTIE
+		// | Section.TITLE_BAR | Section.EXPANDED);
+		// ColumnLayoutData cld_sctnHierachy = new ColumnLayoutData();
+		// sctnHierachy.setLayoutData(cld_sctnHierachy);
+		//
+		// toolkit.paintBordersFor(sctnHierachy);
+		// sctnHierachy.setText("Structure");
+		// sctnHierachy.setExpanded(false);
 
-//		cmpHierachy = new Composite(sctnHierachy, SWT.NONE);
-//		toolkit.adapt(cmpHierachy);
-//		toolkit.paintBordersFor(cmpHierachy);
-//		sctnHierachy.setClient(cmpHierachy);
-//		cmpHierachy.setLayout(new FillLayout());
-//
-//		cmpHierachy.setLayout(new GridLayout(1, false));
-//
-//		ImageHyperlink mghprlnkShowHiararchy = toolkit.createImageHyperlink(
-//				cmpHierachy, SWT.NONE);
-//		mghprlnkShowHiararchy.addHyperlinkListener(new IHyperlinkListener() {
-//			public void linkActivated(HyperlinkEvent e) {
-//
-//				NodeTypeHierarchy sh = new NodeTypeHierarchy(screenService
-//						.getScreenContainer(), SWT.NONE);
-//				sh.setScreenService(screenService);
-//				sh.setOperation(ScreenUtil.OPERATION_READ_ONLY);
-//				sh.injectData(null, nodeType);
-//				screenService.setActiveScreen(sh);
-//			}
-//
-//			public void linkEntered(HyperlinkEvent e) {
-//			}
-//
-//			public void linkExited(HyperlinkEvent e) {
-//			}
-//		});
-//		toolkit.paintBordersFor(mghprlnkShowHiararchy);
-//		mghprlnkShowHiararchy.setText("Show Structure");
+		// cmpHierachy = new Composite(sctnHierachy, SWT.NONE);
+		// toolkit.adapt(cmpHierachy);
+		// toolkit.paintBordersFor(cmpHierachy);
+		// sctnHierachy.setClient(cmpHierachy);
+		// cmpHierachy.setLayout(new FillLayout());
+		//
+		// cmpHierachy.setLayout(new GridLayout(1, false));
+		//
+		// ImageHyperlink mghprlnkShowHiararchy = toolkit.createImageHyperlink(
+		// cmpHierachy, SWT.NONE);
+		// mghprlnkShowHiararchy.addHyperlinkListener(new IHyperlinkListener() {
+		// public void linkActivated(HyperlinkEvent e) {
+		//
+		// NodeTypeHierarchy sh = new NodeTypeHierarchy(screenService
+		// .getScreenContainer(), SWT.NONE);
+		// sh.setScreenService(screenService);
+		// sh.setOperation(ScreenUtil.OPERATION_READ_ONLY);
+		// sh.injectData(null, nodeType);
+		// screenService.setActiveScreen(sh);
+		// }
+		//
+		// public void linkEntered(HyperlinkEvent e) {
+		// }
+		//
+		// public void linkExited(HyperlinkEvent e) {
+		// }
+		// });
+		// toolkit.paintBordersFor(mghprlnkShowHiararchy);
+		// mghprlnkShowHiararchy.setText("Show Structure");
 
 		if (readonly) {
 			btnLeafNode.setEnabled(false);
@@ -228,7 +228,7 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		return context;
 	}
 
-//	ScrollingGraphicalViewer graphicalViewer;
+	// ScrollingGraphicalViewer graphicalViewer;
 	private Text txtName;
 
 }
