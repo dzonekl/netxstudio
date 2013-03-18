@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.netxforge.smi/src-gen"
+    editDirectory="/com.netxforge.smi.edit/src" editorDirectory="/com.netxforge.smi.editor/src"
+    modelPluginID="com.netxforge.smi" forceOverwrite="true" modelName="Smi" updateClasspath="false"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" complianceLevel="5.0"
+    copyrightFields="false" editPluginID="com.netxforge.smi.edit" editorPluginID="com.netxforge.smi.editor"
+    runtimeVersion="2.7">
+  <genPackages prefix="Smi" basePackage="com.netxforge" disposableProviderFactory="true"
+      fileExtensions="mib" ecorePackage="Smi.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Smi.ecore#//MACRO_VALUE_TYPE">
+      <genEnumLiterals ecoreEnumLiteral="Smi.ecore#//MACRO_VALUE_TYPE/VALUE"/>
+      <genEnumLiterals ecoreEnumLiteral="Smi.ecore#//MACRO_VALUE_TYPE/Update"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Smi.ecore#//WELL_KNOWN_NAMES">
+      <genEnumLiterals ecoreEnumLiteral="Smi.ecore#//WELL_KNOWN_NAMES/ccitt"/>
+      <genEnumLiterals ecoreEnumLiteral="Smi.ecore#//WELL_KNOWN_NAMES/iso"/>
+      <genEnumLiterals ecoreEnumLiteral="Smi.ecore#//WELL_KNOWN_NAMES/joint_iso_ccitt"/>
+    </genEnums>
+    <genClasses ecoreClass="Smi.ecore#//Module">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Smi.ecore#//Module/id"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//Module/assignments"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//Assignment">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//Assignment/macros"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//Assignment/types"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//Macro">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Smi.ecore#//Macro/descriptor"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Smi.ecore#//Macro/typeNotations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//Macro/valueNotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//Macro/innerTypes"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//MacroValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Smi.ecore#//MacroValue/type"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//ValueAssignment">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Smi.ecore#//ValueAssignment/typeReference"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//ValueAssignment/value"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//Or">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//Or/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//Or/right"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//ValueType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Smi.ecore#//ValueType/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Smi.ecore#//ValueType/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//ValueType/simpleType"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//ASN1_TYPE"/>
+    <genClasses ecoreClass="Smi.ecore#//ASN1_SIMPLE">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//ASN1_SIMPLE/constraint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Smi.ecore#//ASN1_SIMPLE/valuePairs"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//ASN1_CHOICE">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//ASN1_CHOICE/choices"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//ASN1_CHOICE_ENTRY">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Smi.ecore#//ASN1_CHOICE_ENTRY/id"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Smi.ecore#//ASN1_CHOICE_ENTRY/valueType"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//ASN1_SUBTYPE">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//ASN1_SUBTYPE/range"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Smi.ecore#//ASN1_SUBTYPE/value"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//ASN1_RANGE">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Smi.ecore#//ASN1_RANGE/start"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Smi.ecore#//ASN1_RANGE/end"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//ObjectIdentifier">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Smi.ecore#//ObjectIdentifier/descriptor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//ObjectIdentifier/oidValue"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//ObjectIdentifierValue">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Smi.ecore#//ObjectIdentifierValue/descriptorReference"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Smi.ecore#//ObjectIdentifierValue/subIds"/>
+    </genClasses>
+    <genClasses ecoreClass="Smi.ecore#//ASN1_OCTET_STRING"/>
+  </genPackages>
+</genmodel:GenModel>
