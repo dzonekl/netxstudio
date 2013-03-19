@@ -9,6 +9,12 @@
     <cq:advisorNode namePattern="^org\.eclipse\.emf\.codegen.*" componentType="osgi.bundle" skipComponent="true"/>
     <cq:advisorNode namePattern="^org\.eclipse\.emf\.mwe2.*" componentType="osgi.bundle"/>
     <cq:advisorNode namePattern="^com\.googe\.collect.*" componentType="osgi.bundle" sourceLevel="REJECT"/>
+    <cq:advisorNode namePattern="^javax\.servlet\.jsp.*" componentType="osgi.bundle" versionOverride="(2.0.0,2.1.0]">
+        <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Version requirement on javax.servlet.jsp.*</cq:documentation>
+    </cq:advisorNode>
+    <cq:advisorNode namePattern="^javax\.servlet\.*" componentType="osgi.bundle" versionOverride="(2.4.0,3.0.0]">
+        <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Version requirements on javax.servlet.*</cq:documentation>
+    </cq:advisorNode>
     <cq:advisorNode namePattern=".*" useTargetPlatform="false">
         <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Do not resolve from Target. (See Resolution Scope).</cq:documentation>
     </cq:advisorNode>

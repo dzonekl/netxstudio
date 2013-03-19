@@ -1,0 +1,3 @@
+h1. DO NOT USE
+
+This plugin will be removed. it's temp to have dependencies based on a .cspec (versus using a feature). 

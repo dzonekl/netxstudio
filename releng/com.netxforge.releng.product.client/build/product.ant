@@ -38,7 +38,7 @@ ANT Script to produce a product.
 		<mkdir dir="${destination}" />
 		<echoproperties />
 		<echo message="Equinox Launcher => ${equinox.launcher.jar}" />
-		<echo message="Repository => ${repository}" />
+		<echo message="Repository => ${repo}" />
 		<echo message="Destination => ${destination}" />
 		<java jar="${equinox.launcher.jar}" fork="true" failonerror="true">
 			<arg value="-application" />
