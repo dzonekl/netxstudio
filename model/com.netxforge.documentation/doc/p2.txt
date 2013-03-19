@@ -1,0 +1,15 @@
+P2 
+=======
+
+Everything related to P2
+
+Lacking a P2 site for some plugins: 
+=> Let's say you have build against a target which is an old installation. You have the Jars, but no P2 site to 
+do the auto build. 
+
+Launch the Features and Bundles P2 publisher: 
+Example:
+
+- Use the eclipse launcher (In our case it's a Keppler 4.3 installation). 
+
+ java -jar plugins/org.eclipse.equinox.launcher_1.3.0.v20120522-1813.jar -application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher -metadataRepository file:/Users/Christophe/Documents/Projects/NetXStudio/Target/mwep2 -artifactRepository file:/Users/Christophe/Documents/Projects/NetXStudio/Target/mwep2 -source ~/Documents/Projects/NetXStudio/Target/mwe_source/  -compress -publishArtifacts
