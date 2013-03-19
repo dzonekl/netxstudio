@@ -12,7 +12,6 @@
   <rm:locator pattern="^org\.eclipse\.emf(\..+)?" searchPathRef="org.eclipse.emf" failOnError="false"/>
   <rm:locator pattern="^org\.eclipse\.nebula(\..+)?" searchPathRef="org.eclipse.nebula" failOnError="false"/>
   <rm:locator pattern="^org\.eclipse\.net4j(\..+)?" searchPathRef="org.eclipse.emf" failOnError="false"/>
-  <rm:locator pattern="^org\.eclipse\.emf\.mwe\.(.+)?" searchPathRef="local-emft" failOnError="false"/>
   <rm:locator pattern="^org\.eclipse\.emf\.mwe2(\..+)?" searchPathRef="emft" failOnError="false"/>
   <rm:locator pattern="^org\.eclipse\.xpand(\..+)?" searchPathRef="m2t" failOnError="false"/>
   <rm:locator pattern="^org\.eclipse\.xtend(\..+)?" searchPathRef="m2t" failOnError="false"/>
@@ -93,24 +92,6 @@
       </rm:uri>
     </rm:provider>
   </rm:searchPath>
-  <rm:searchPath name="local-emft">
-    <rm:provider componentTypes="jar,osgi.bundle,eclipse.feature,buckminster" readerType="local" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="{1}/{0}">
-        <bc:propertyRef key="buckminster.component"/>
-        <bc:propertyRef key="3rdparty.location"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="{1}/3rdPartyLib/{0}">
-        <bc:propertyRef key="buckminster.component"/>
-        <bc:propertyRef key="projects.location"/>
-      </rm:uri>
-    </rm:provider>
-  </rm:searchPath>
   <rm:searchPath name="org.eclipse">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
@@ -146,6 +127,10 @@
       <rm:uri format="http://download.eclipse.org/modeling/emf/compare/updates/releases/{0}">
         <bc:propertyRef key="emfcompare.version"/>
       </rm:uri>
+    </rm:provider>
+    <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" mutable="false">
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://p2.netxforge.com/mwe.p2"/>
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="org.eclipse.xtext">

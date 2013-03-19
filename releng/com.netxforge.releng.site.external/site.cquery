@@ -7,10 +7,6 @@
         <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Version requirements on Xtext</cq:documentation>
     </cq:advisorNode>
     <cq:advisorNode namePattern="^org\.eclipse\.emf\.codegen.*" componentType="osgi.bundle" skipComponent="true"/>
-    <cq:advisorNode namePattern="^org\.eclipse\.emf\.mwe.\.*" skipComponent="true">
-        <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Xtext has optional dependencies, but bucky doesn't consider this
-in the transitive resolvement process. Skip these components here.</cq:documentation>
-    </cq:advisorNode>
     <cq:advisorNode namePattern="^org\.eclipse\.emf\.mwe2.*" componentType="osgi.bundle"/>
     <cq:advisorNode namePattern="^com\.googe\.collect.*" componentType="osgi.bundle" sourceLevel="REJECT"/>
     <cq:advisorNode namePattern=".*" useTargetPlatform="false">
