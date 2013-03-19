@@ -49,6 +49,12 @@
         <bc:propertyRef key="projects.location"/>
       </rm:uri>
     </rm:provider>
+     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
+      <rm:uri format="{1}/server/{0}">
+        <bc:propertyRef key="buckminster.component"/>
+        <bc:propertyRef key="projects.location"/>
+      </rm:uri>
+    </rm:provider>
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
       <rm:uri format="{1}/client_bare/{0}">
         <bc:propertyRef key="buckminster.component"/>
