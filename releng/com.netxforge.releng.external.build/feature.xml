@@ -165,4 +165,8 @@
          id="org.eclipse.emf.mwe.artifacts.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.quartz.artifacts.feature"
+         version="0.0.0"/>
+
 </feature>
