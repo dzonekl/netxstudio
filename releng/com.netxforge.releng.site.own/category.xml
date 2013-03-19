@@ -75,6 +75,12 @@
    <feature url="features/com.netxforge.netxstudio.server.hibernate.product.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.server.hibernate.product.feature" version="1.0.0.qualifier">
       <category name="netxstudio.server"/>
    </feature>
+   <feature url="features/com.netxforge.netxscript.feature_1.0.0.qualifier.jar" id="com.netxforge.netxscript.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
+   <feature url="features/com.netxforge.netxscript.ui.feature_1.0.0.qualifier.jar" id="com.netxforge.netxscript.ui.feature" version="1.0.0.qualifier">
+      <category name="netxstudio.monitoring"/>
+   </feature>
    <category-def name="netxstudio.platform" label="NetXStudio Platform"/>
    <category-def name="netxstudio.monitoring" label="NetXStudio Monitoring"/>
    <category-def name="netxstudio.server" label="NetXStudio Server"/>
