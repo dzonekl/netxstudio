@@ -387,7 +387,7 @@ public class ResultProcessor {
 		// .options()
 		// .setCollectionLoadingPolicy(
 		// CDOUtil.createCollectionLoadingPolicy(24, 24));
-
+		
 		final MetricValueRange mvr = modelUtils
 				.valueRangeForIntervalAndKindGetOrCreate(foundNetXResource,
 						kindHintType, intervalHint);
@@ -428,7 +428,7 @@ public class ResultProcessor {
 						DataActivator.TRACE_RESULT_VALUE_OPTION,
 						"-- range for resource (after add): "
 								+ foundNetXResource.getShortName()
-								+ "interval=" + intervalHint + " range size = "
+								+ "interval=" + range.getIntervalHint() + " range size = "
 								+ range.getMetricValues().size());
 			}
 
