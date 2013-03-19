@@ -26,14 +26,6 @@
          version="0.0.0"/>
 
    <includes
-         id="com.netxforge.netxstudio.bare.product.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="com.netxforge.netxstudio.client.product.feature"
-         version="0.0.0"/>
-
-   <includes
          id="com.netxforge.netxstudio.common.feature"
          version="0.0.0"/>
 

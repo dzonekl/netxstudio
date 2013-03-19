@@ -17,6 +17,12 @@
       [Enter License Description here.]
    </license>
 
+   <requires>
+      <import feature="org.eclipse.xpand.artifacts.feature" version="1.0.0.qualifier"/>
+      <import feature="org.eclipse.xtend.artifacts.feature" version="1.0.0.qualifier"/>
+      <import feature="org.eclipse.emf.mwe.artifacts.feature" version="1.0.0.qualifier"/>
+   </requires>
+
    <plugin
          id="com.netxforge.netxstudio.models.export"
          download-size="0"
