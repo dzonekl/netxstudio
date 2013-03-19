@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><cq:componentQuery xmlns:cq="http://www.eclipse.org/buckminster/CQuery-1.0" resourceMap="site.rmap">
     <cq:rootRequest name="com.netxforge.releng.external.build" componentType="eclipse.feature"/>
+    <cq:advisorNode namePattern="^org\.apache\.jasper.*" componentType="osgi.bundle" versionOverride="[5.5.17,5.5.17]">
+        <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Version requirements on org.apache.jasper.*</cq:documentation>
+    </cq:advisorNode>
+    <cq:advisorNode namePattern="^org\.apache\.lucene.*" componentType="osgi.bundle" versionOverride="[2.9.1,2.9.1]"/>
+    <cq:advisorNode namePattern="^org\.eclipse\.emf\.codegen.*" componentType="osgi.bundle" skipComponent="true"/>
+    <cq:advisorNode namePattern="^org\.eclipse\.emf\.mwe2.*" componentType="osgi.bundle"/>
     <cq:advisorNode namePattern="^org\.eclipse\.xtext\.generator.*" componentType="osgi.bundle" skipComponent="true">
         <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Skip generator packages from Xtext.</cq:documentation>
     </cq:advisorNode>
     <cq:advisorNode namePattern="^org\.eclipse\.xtext\.*" componentType="osgi.bundle" versionOverride="[2.0.0,2.2.0]">
         <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Version requirements on Xtext</cq:documentation>
     </cq:advisorNode>
-    <cq:advisorNode namePattern="^org\.eclipse\.emf\.codegen.*" componentType="osgi.bundle" skipComponent="true"/>
-    <cq:advisorNode namePattern="^org\.eclipse\.emf\.mwe2.*" componentType="osgi.bundle"/>
     <cq:advisorNode namePattern="^com\.googe\.collect.*" componentType="osgi.bundle" sourceLevel="REJECT"/>
     <cq:advisorNode namePattern="^javax\.servlet\.jsp.*" componentType="osgi.bundle" versionOverride="(2.0.0,2.1.0]">
         <cq:documentation xmlns="http://www.w3.org/1999/xhtml">Version requirement on javax.servlet.jsp.*</cq:documentation>
