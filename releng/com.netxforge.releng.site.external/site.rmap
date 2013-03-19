@@ -3,7 +3,7 @@
   <rm:property key="projects.location" value="${workspace.root}"/>
   <rm:property key="3rdparty.location" value="/var/lib/3rdparty"/>
   <rm:property key="platform.version" value="3.7"/>
-  <rm:property key="emfcompare.version" value="1.3"/>
+  <rm:property key="emfcompare.version" value="1.2"/>
   <rm:property key="cdo.version" value="4.1"/>
   <rm:property key="xtext.version" value="TMF Xtext-2.0.1"/>
   <rm:locator pattern=".*" searchPathRef="local" failOnError="false"/>
