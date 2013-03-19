@@ -16,6 +16,7 @@
   <rm:locator pattern="^org\.eclipse\.xpand(\..+)?" searchPathRef="m2t" failOnError="false"/>
   <rm:locator pattern="^org\.eclipse\.xtend(\..+)?" searchPathRef="m2t" failOnError="false"/>
   <rm:locator pattern="^org\.eclipse\.xtext(\..+)?" searchPathRef="org.eclipse.xtext" failOnError="false"/>
+  <rm:locator pattern="^org\.eclipse\.ocl(\..+)?" searchPathRef="mdt-ocl" failOnError="false"/>
   <rm:locator searchPathRef="orbit"/>
   
   <rm:searchPath name="local-google">
@@ -182,6 +183,14 @@
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
       <rm:uri format="http://download.eclipse.org/technology/nebula/incubation/snapshot"/>
+    </rm:provider>
+  </rm:searchPath>
+   <rm:searchPath name="mdt-ocl">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://p2.netxforge.com/ocl.p2">
+      </rm:uri>
     </rm:provider>
   </rm:searchPath>
 </rm:rmap>
