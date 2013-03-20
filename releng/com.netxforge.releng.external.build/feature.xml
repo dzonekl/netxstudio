@@ -177,4 +177,8 @@
          id="org.eclipse.equinox.jsp.artifacts.feature"
          version="0.0.0"/>
 
+   <includes
+         id="com.mysql.driver.feature"
+         version="0.0.0"/>
+
 </feature>
