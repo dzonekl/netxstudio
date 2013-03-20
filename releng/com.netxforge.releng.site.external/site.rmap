@@ -119,14 +119,16 @@
       <rm:property key="buckminster.mutable" value="false"/>
       <rm:uri format="http://download.eclipse.org/modeling/emf/emf/updates/"/>
     </rm:provider>
-        <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" mutable="false">
+    <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" mutable="false">
       <rm:property key="buckminster.mutable" value="false"/>
       <rm:uri format="http://download.eclipse.org/modeling/emf/cdo/drops/S20130205-0640"/>
     </rm:provider>
+<!--     
     <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" mutable="false">
       <rm:property key="buckminster.mutable" value="false"/>
       <rm:uri format="http://download.eclipse.org/modeling/emf/cdo/updates/integration/stable"/>
     </rm:provider>
+ -->    
     <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" mutable="false">
       <rm:property key="buckminster.mutable" value="false"/>
       <rm:uri format="http://download.eclipse.org/modeling/emf/cdo/updates/releases/{0}">
