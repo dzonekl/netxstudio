@@ -105,6 +105,9 @@
    <feature url="features/org.eclipse.emf.edit.ui_2.7.0.v20110913-1156.jar" id="org.eclipse.emf.edit.ui" version="2.7.0.v20110913-1156">
       <category name="netxplatform"/>
    </feature>
+   <feature url="features/com.mysql.driver.feature_1.0.0.qualifier.jar" id="com.mysql.driver.feature" version="1.0.0.qualifier">
+      <category name="netxplatform"/>
+   </feature>
    <category-def name="netxplatform" label="NetXStudio Platform Dependencies">
       <description>
          External Features Required by the NetXStudio Platform

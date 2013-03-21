@@ -26,3 +26,10 @@ httpd.conf
 Logging
 ---------
 /var/log/apache2/error.log
+
+
+
+AWStats
+========
+
+https://help.ubuntu.com/community/AWStats
