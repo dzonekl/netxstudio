@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="javax.artifacts.feature"
-      label="Javax plugins Feature"
+      label="Javax Feature"
       version="1.0.0.qualifier"
       provider-name="Javax">
 
@@ -37,11 +37,12 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-    <plugin
+
+   <plugin
          id="javax.el"
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false"/>     
+         unpack="false"/>
 
 </feature>

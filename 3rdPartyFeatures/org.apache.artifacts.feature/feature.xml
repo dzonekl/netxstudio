@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.apache.artifacts.feature"
-      label="Apache plugins Feature"
+      label="Apache Feature"
       version="1.0.0.qualifier"
       provider-name="Apache">
 

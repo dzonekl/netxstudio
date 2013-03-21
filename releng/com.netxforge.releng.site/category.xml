@@ -9,16 +9,10 @@
    <feature url="features/org.apache.artifacts.feature_1.0.0.qualifier.jar" id="org.apache.artifacts.feature" version="1.0.0.qualifier">
       <category name="netxplatform"/>
    </feature>
-   <feature url="features/org.eclipe.xtext.purexbase.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipe.xtext.purexbase.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
-   </feature>
    <feature url="features/org.eclipse.compare.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.compare.artifacts.feature" version="1.0.0.qualifier">
       <category name="netxplatform"/>
    </feature>
    <feature url="features/org.eclipse.core.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.core.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
-   </feature>
-   <feature url="features/org.eclipse.ecf.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.ecf.artifacts.feature" version="1.0.0.qualifier">
       <category name="netxplatform"/>
    </feature>
    <feature url="features/org.eclipse.emf.compare.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.emf.compare.artifacts.feature" version="1.0.0.qualifier">
@@ -31,9 +25,6 @@
       <category name="netxplatform"/>
    </feature>
    <feature url="features/org.eclipse.jdt.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.jdt.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
-   </feature>
-   <feature url="features/org.eclipse.ltk.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.ltk.artifacts.feature" version="1.0.0.qualifier">
       <category name="netxplatform"/>
    </feature>
    <feature url="features/org.eclipse.nebula.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.nebula.artifacts.feature" version="1.0.0.qualifier">

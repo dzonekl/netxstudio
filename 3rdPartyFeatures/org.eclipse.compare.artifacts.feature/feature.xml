@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.compare.artifacts.feature"
-      label="Compare plugins Feature"
+      label="EMF Compare plugins Feature"
       version="1.0.0.qualifier"
       provider-name="Eclipse.org">
 
