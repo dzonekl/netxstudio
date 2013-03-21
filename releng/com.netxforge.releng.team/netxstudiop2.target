@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="NetXForge TP" sequenceNumber="64">
+<?pde version="3.8"?><target name="NetXForge TP" sequenceNumber="69">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.antlr.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
@@ -14,6 +14,7 @@
 <unit id="org.eclipse.help.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
 <unit id="javax.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
 <unit id="org.mortbay.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="com.mysql.driver.feature.feature.group" version="1.0.0.201303211424"/>
 <unit id="org.eclipse.nebula.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
 <unit id="org.eclipse.platform.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
 <unit id="org.eclipse.ui.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
@@ -36,7 +37,6 @@
 <unit id="org.eclipse.equinox.jsp.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
 <unit id="org.eclipse.draw2d.feature.group" version="3.8.2.201301141834"/>
 <unit id="org.eclipse.gef.feature.group" version="3.8.2.201301141834"/>
-<unit id="com.mysql.driver.feature.feature.group" version="1.0.0.201303211424"/>
 <unit id="org.postgresql.jdbc.driver.feature.feature.group" version="1.0.0.201303211424"/>
 <unit id="org.quartz.artifacts.feature.feature.group" version="1.0.0.201303211424-1--cKYQ--312414322535"/>
 <unit id="org.eclipse.xpand.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
