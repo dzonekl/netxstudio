@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target name="NetXForge TP" sequenceNumber="64">
+<locations>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.antlr.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.apache.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.emf.cdo.client.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.compare.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.core.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.emf.compare.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.equinox.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="oracle.jdbc.driver.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="com.google.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.help.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="javax.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.mortbay.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.nebula.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.platform.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.ui.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.apache.poi.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.swtchart.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.xtext.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.xtext.ui.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.emf.mwe.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.equinox.executable.feature.group" version="3.5.1.v20111216-1653-7P7NFUIFIbaUcU77s0KQWHw5HZTZ"/>
+<unit id="org.eclipse.rcp.feature.group" version="3.7.2.v20120120-1424-9DB5FmnFq5JCf1UA38R-kz0S0272"/>
+<unit id="org.eclipse.emf.ecore.feature.group" version="2.8.3.v20130125-0546"/>
+<unit id="org.eclipse.emf.common.feature.group" version="2.8.0.v20130125-0546"/>
+<unit id="org.eclipse.emf.common.ui.feature.group" version="2.7.0.v20130125-0826"/>
+<unit id="org.eclipse.emf.databinding.feature.group" version="1.2.0.v20130125-0826"/>
+<unit id="org.eclipse.emf.ecore.edit.feature.group" version="2.8.0.v20130125-0826"/>
+<unit id="org.eclipse.emf.edit.feature.group" version="2.8.0.v20130125-0826"/>
+<unit id="org.eclipse.emf.databinding.edit.feature.group" version="1.2.1.v20130125-0826"/>
+<unit id="org.eclipse.emf.edit.ui.feature.group" version="2.8.0.v20130125-0826"/>
+<unit id="org.eclipse.equinox.jsp.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.draw2d.feature.group" version="3.8.2.201301141834"/>
+<unit id="org.eclipse.gef.feature.group" version="3.8.2.201301141834"/>
+<unit id="com.mysql.driver.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.postgresql.jdbc.driver.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.quartz.artifacts.feature.feature.group" version="1.0.0.201303211424-1--cKYQ--312414322535"/>
+<unit id="org.eclipse.xpand.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<unit id="org.eclipse.xtend.artifacts.feature.feature.group" version="1.0.0.201303211424"/>
+<repository location="http://p2.netxforge.com/site.p2"/>
+</location>
+</locations>
+</target>
