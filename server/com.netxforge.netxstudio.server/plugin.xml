@@ -47,5 +47,12 @@
           </property>
        </product>
     </extension>
+   <extension
+         point="org.eclipse.equinox.http.registry.resources">
+      <resource
+            alias="/www"
+            base-name="/www">
+      </resource>
+   </extension>
 
 </plugin>

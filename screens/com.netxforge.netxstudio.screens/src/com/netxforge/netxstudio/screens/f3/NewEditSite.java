@@ -47,11 +47,30 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
+import de.bacin.geoff.Geoff;
 import de.bacin.geoff.LatLon;
 import de.bacin.geoff.POI;
 import de.bacin.geoff.ServiceUtil;
 import de.bacin.geoff.geocoding.IGeocodingService;
-import de.bacin.geoff.ui.GeoffMapComposite;
+import de.bacin.geoff.map.GeoMap;
+import de.bacin.geoff.map.MapFactory;
+import de.bacin.geoff.map.MapOptions;
+import de.bacin.geoff.map.formats.FormatsFactory;
+import de.bacin.geoff.map.formats.KML;
+import de.bacin.geoff.map.layers.HTTPGetParams;
+import de.bacin.geoff.map.layers.LayerOptions;
+import de.bacin.geoff.map.layers.LayersFactory;
+import de.bacin.geoff.map.layers.Vector;
+import de.bacin.geoff.map.layers.WMS;
+import de.bacin.geoff.map.protocols.HTTP;
+import de.bacin.geoff.map.protocols.HTTPOptions;
+import de.bacin.geoff.map.protocols.ProtocolsFactory;
+import de.bacin.geoff.map.strategies.Fixed;
+import de.bacin.geoff.map.strategies.StrategiesFactory;
+import de.bacin.geoff.map.types.Bounds;
+import de.bacin.geoff.map.types.LonLat;
+import de.bacin.geoff.map.types.TypesFactory;
+import de.bacin.geoff.ui.swt.GeoffMapComposite;
 
 public class NewEditSite extends AbstractScreen implements IDataScreenInjection {
 
@@ -428,6 +447,9 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 		final GeoffMapComposite map = new GeoffMapComposite(mapSection,
 				SWT.None);
 		mapSection.setClient(map);
+		
+		GeoMap gm = createSampleMap();
+		map.setMap(gm, "map");
 
 		formBody.setWeights(new int[] { 30, 70 });
 		formBody.setLayout(new FillLayout());
@@ -437,10 +459,69 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 				if (!event.getSelection().isEmpty()) {
 					POI poi = (POI) ((IStructuredSelection) event
 							.getSelection()).getFirstElement();
-					map.setCenter(poi.getLatLon(), 9);
+					LonLat ll = Geoff.types().createLonLat();
+					ll.setLat((float) poi.getLatLon().getLat());
+					ll.setLon((float) poi.getLatLon().getLon());
+					map.setCenter(ll, 9);
 				}
 			}
 		});
+	}
+	
+	public GeoMap createSampleMap() {
+		GeoMap map = MapFactory.eINSTANCE.createGeoMap();
+
+		{
+			MapOptions opts = MapFactory.eINSTANCE.createMapOptions();
+			opts.setNumZoomLevels(16);
+
+			map.setOptions(opts);
+			boolean useMaxExtent = false;
+			
+			if (useMaxExtent) {
+				Bounds bounds = TypesFactory.eINSTANCE.createBounds();
+				bounds.setLeft(68.774414);
+				bounds.setBottom(11.381836);
+				bounds.setRight(123.662109);
+				bounds.setTop(34.628906);
+			} else {
+				map.setZoomToMaxExtent(true);
+			}
+		}
+
+		{
+			WMS layer = LayersFactory.eINSTANCE.createWMS();
+			layer.setUrl("http://vmap0.tiles.osgeo.org/wms/vmap0");
+			HTTPGetParams params = LayersFactory.eINSTANCE
+					.createHTTPGetParams();
+			params.setLayers("basic");
+			layer.setParams(params);
+
+			LayerOptions opts = LayersFactory.eINSTANCE.createLayerOptions();
+			opts.setIsBaseLayer(true);
+			layer.setOptions(opts);
+
+			map.getLayers().add(layer);
+		}
+
+		{
+			Vector layer = LayersFactory.eINSTANCE.createVector();
+			layer.setName("KML");
+			Fixed strategy = StrategiesFactory.eINSTANCE.createFixed();
+			layer.getStrategies().add(strategy);
+			HTTP protocol = ProtocolsFactory.eINSTANCE.createHTTP();
+			HTTPOptions opts = ProtocolsFactory.eINSTANCE.createHTTPOptions();
+			opts.setUrl("/www/sundials.kml");
+			KML kml = FormatsFactory.eINSTANCE.createKML();
+			kml.setExtractAttributes(true);
+			kml.setExtractStyles(true);
+			opts.setFormat(kml);
+			protocol.setOptions(opts);
+			layer.setProtocol(protocol);
+			map.getLayers().add(layer);
+		}
+
+		return map;
 	}
 
 	public void addData() {

@@ -138,10 +138,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.xtext.ui.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.emf.cdo.client.artifacts.feature"
          version="0.0.0"/>
 
@@ -203,6 +199,10 @@
 
    <includes
          id="com.netxforge.netxstudio.screens.ide.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xtext.ui.artifacts.feature"
          version="0.0.0"/>
 
    <plugin
