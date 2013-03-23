@@ -511,7 +511,7 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 			layer.getStrategies().add(strategy);
 			HTTP protocol = ProtocolsFactory.eINSTANCE.createHTTP();
 			HTTPOptions opts = ProtocolsFactory.eINSTANCE.createHTTPOptions();
-			opts.setUrl("/www/sundials.kml");
+			opts.setUrl("/www/Ghana_19012008-3.kml");
 			KML kml = FormatsFactory.eINSTANCE.createKML();
 			kml.setExtractAttributes(true);
 			kml.setExtractStyles(true);
