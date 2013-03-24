@@ -17,6 +17,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.models.export.tests;
 
+import org.junit.Test;
+
 
 /**
  * Tests for export to KML format:
@@ -26,6 +28,13 @@ package com.netxforge.netxstudio.models.export.tests;
  */
 public class KMLDumpTest {
 	
+	@Test 
+	public void testDump(){
+		new KMLE
+		
+		
+		
+	}
 	
 	
 }

@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 24 mrt. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f3;
 
 import java.util.List;
@@ -55,18 +72,16 @@ import de.bacin.geoff.geocoding.IGeocodingService;
 import de.bacin.geoff.map.GeoMap;
 import de.bacin.geoff.map.MapFactory;
 import de.bacin.geoff.map.MapOptions;
-import de.bacin.geoff.map.formats.FormatsFactory;
-import de.bacin.geoff.map.formats.KML;
+import de.bacin.geoff.map.StyleMap;
+import de.bacin.geoff.map.StyleMapOptions;
+import de.bacin.geoff.map.features.FeaturesFactory;
+import de.bacin.geoff.map.geometries.GeometriesFactory;
+import de.bacin.geoff.map.geometries.Point;
 import de.bacin.geoff.map.layers.HTTPGetParams;
 import de.bacin.geoff.map.layers.LayerOptions;
 import de.bacin.geoff.map.layers.LayersFactory;
 import de.bacin.geoff.map.layers.Vector;
 import de.bacin.geoff.map.layers.WMS;
-import de.bacin.geoff.map.protocols.HTTP;
-import de.bacin.geoff.map.protocols.HTTPOptions;
-import de.bacin.geoff.map.protocols.ProtocolsFactory;
-import de.bacin.geoff.map.strategies.Fixed;
-import de.bacin.geoff.map.strategies.StrategiesFactory;
 import de.bacin.geoff.map.types.Bounds;
 import de.bacin.geoff.map.types.LonLat;
 import de.bacin.geoff.map.types.TypesFactory;
@@ -75,20 +90,29 @@ import de.bacin.geoff.ui.swt.GeoffMapComposite;
 public class NewEditSite extends AbstractScreen implements IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Text txtName;
-	private Form frmNewOperator;
+
+	private Form frmSite;
 	private Country owner;
 	private Site site;
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext m_bindingContext;
 	private Text txtRegion;
+	private Text txtName;
 	private Text txtArea;
 	private Text txtCity;
 	private Text txtStreet;
 	private Text txtNr;
 	private Text txtLongitude;
 	private Text txtLatitude;
-	private TreeViewer tv;
+
+	private TreeViewer geocodingTreeViewer;
+	
+	private GeoffMapComposite geoMapComposite;
+
+	/**
+	 * The Geo map
+	 */
+	private GeoMap map;
 
 	/**
 	 * Create the composite.
@@ -170,8 +194,10 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 		context.bindValue(latitudeObservable, latitudeProperty.observe(site),
 				null, null);
 
+		// This dirties the site immidiatly.
+
 		IObservableValue observeSingleSelectionTableViewer = ViewerProperties
-				.singleSelection().observe(tv);
+				.singleSelection().observe(geocodingTreeViewer);
 		IObservableValue latLonObservable = PojoProperties.value(POI.class,
 				"latLon", LatLon.class).observeDetail(
 				observeSingleSelectionTableViewer);
@@ -207,14 +233,24 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}
+		final POI poiFromSite;
 		if (object != null && object instanceof Site) {
 			site = (Site) object;
+			// Set the site as Point Of Interrest in Geo FF
+			poiFromSite = poiFromSite(site);
+
 		} else {
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}
 		buildUI();
 		m_bindingContext = initDataBindings_();
+
+		if (poiFromSite != null) {
+			panToPOI(poiFromSite);
+			showMarker(site);
+		}
+		geoMapComposite.setMap(map, "map");
 	}
 
 	private void buildUI() {
@@ -224,14 +260,13 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
-		frmNewOperator = toolkit.createForm(this);
-		frmNewOperator.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmNewOperator);
+		frmSite = toolkit.createForm(this);
+		frmSite.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmSite);
 
-		frmNewOperator.setText(getOperationText() + "Site");
-		frmNewOperator.getBody().setLayout(new FillLayout());
-		SashForm formBody = new SashForm(frmNewOperator.getBody(),
-				SWT.HORIZONTAL);
+		frmSite.setText(getOperationText() + "Site");
+		frmSite.getBody().setLayout(new FillLayout());
+		SashForm formBody = new SashForm(frmSite.getBody(), SWT.HORIZONTAL);
 		{
 			// formBody.setLayout(new GridLayout(2, false));
 			Composite leftSideContainer = toolkit.createComposite(formBody);
@@ -271,7 +306,7 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 							IGeocodingService geoCoder = ServiceUtil
 									.getService(IGeocodingService.class);
 							List<POI> pois = geoCoder.executeQuery(query);
-							tv.setInput(pois);
+							geocodingTreeViewer.setInput(pois);
 						}
 					};
 					txtLongitude.addListener(SWT.DefaultSelection, listener);
@@ -279,40 +314,41 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 
 				{
 					Tree tree = toolkit.createTree(composite, SWT.SINGLE);
-					tv = new TreeViewer(tree);
+					geocodingTreeViewer = new TreeViewer(tree);
 					GridData ld = new GridData(GridData.FILL_BOTH);
 					ld.horizontalSpan = 2;
 					tree.setLayoutData(ld);
 					tree.setLinesVisible(false);
 					tree.setHeaderVisible(false);
 
-					tv.setContentProvider(new ITreeContentProvider() {
-						public void inputChanged(Viewer viewer,
-								Object oldInput, Object newInput) {
-						}
+					geocodingTreeViewer
+							.setContentProvider(new ITreeContentProvider() {
+								public void inputChanged(Viewer viewer,
+										Object oldInput, Object newInput) {
+								}
 
-						public void dispose() {
-						}
+								public void dispose() {
+								}
 
-						public boolean hasChildren(Object element) {
-							return false;
-						}
+								public boolean hasChildren(Object element) {
+									return false;
+								}
 
-						public Object getParent(Object element) {
-							return null;
-						}
+								public Object getParent(Object element) {
+									return null;
+								}
 
-						public Object[] getElements(Object inputElement) {
-							return new ArrayContentProvider()
-									.getElements(inputElement);
-						}
+								public Object[] getElements(Object inputElement) {
+									return new ArrayContentProvider()
+											.getElements(inputElement);
+								}
 
-						public Object[] getChildren(Object parentElement) {
-							return null;
-						}
-					});
+								public Object[] getChildren(Object parentElement) {
+									return null;
+								}
+							});
 
-					tv.setLabelProvider(new LabelProvider() {
+					geocodingTreeViewer.setLabelProvider(new LabelProvider() {
 						@Override
 						public String getText(Object element) {
 							POI poi = (POI) element;
@@ -444,31 +480,28 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 				| Section.TITLE_BAR);
 		mapSection.setText("Map");
 		mapSection.setLayoutData(new GridData(GridData.FILL_BOTH));
-		final GeoffMapComposite map = new GeoffMapComposite(mapSection,
-				SWT.None);
-		mapSection.setClient(map);
+		geoMapComposite = new GeoffMapComposite(mapSection, SWT.None);
+		mapSection.setClient(geoMapComposite);
+
+		map = createSiteMap();
 		
-		GeoMap gm = createSampleMap();
-		map.setMap(gm, "map");
 
 		formBody.setWeights(new int[] { 30, 70 });
 		formBody.setLayout(new FillLayout());
 
-		tv.addSelectionChangedListener(new ISelectionChangedListener() {
-			public void selectionChanged(SelectionChangedEvent event) {
-				if (!event.getSelection().isEmpty()) {
-					POI poi = (POI) ((IStructuredSelection) event
-							.getSelection()).getFirstElement();
-					LonLat ll = Geoff.types().createLonLat();
-					ll.setLat((float) poi.getLatLon().getLat());
-					ll.setLon((float) poi.getLatLon().getLon());
-					map.setCenter(ll, 9);
-				}
-			}
-		});
+		geocodingTreeViewer
+				.addSelectionChangedListener(new ISelectionChangedListener() {
+					public void selectionChanged(SelectionChangedEvent event) {
+						if (!event.getSelection().isEmpty()) {
+							POI poi = (POI) ((IStructuredSelection) event
+									.getSelection()).getFirstElement();
+							panToPOI(poi);
+						}
+					}
+				});
 	}
-	
-	public GeoMap createSampleMap() {
+
+	public GeoMap createSiteMap() {
 		GeoMap map = MapFactory.eINSTANCE.createGeoMap();
 
 		{
@@ -477,7 +510,7 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 
 			map.setOptions(opts);
 			boolean useMaxExtent = false;
-			
+
 			if (useMaxExtent) {
 				Bounds bounds = TypesFactory.eINSTANCE.createBounds();
 				bounds.setLeft(68.774414);
@@ -504,22 +537,22 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 			map.getLayers().add(layer);
 		}
 
-		{
-			Vector layer = LayersFactory.eINSTANCE.createVector();
-			layer.setName("KML");
-			Fixed strategy = StrategiesFactory.eINSTANCE.createFixed();
-			layer.getStrategies().add(strategy);
-			HTTP protocol = ProtocolsFactory.eINSTANCE.createHTTP();
-			HTTPOptions opts = ProtocolsFactory.eINSTANCE.createHTTPOptions();
-			opts.setUrl("/www/Ghana_19012008-3.kml");
-			KML kml = FormatsFactory.eINSTANCE.createKML();
-			kml.setExtractAttributes(true);
-			kml.setExtractStyles(true);
-			opts.setFormat(kml);
-			protocol.setOptions(opts);
-			layer.setProtocol(protocol);
-			map.getLayers().add(layer);
-		}
+		// {
+		// Vector layer = LayersFactory.eINSTANCE.createVector();
+		// layer.setName("KML");
+		// Fixed strategy = StrategiesFactory.eINSTANCE.createFixed();
+		// layer.getStrategies().add(strategy);
+		// HTTP protocol = ProtocolsFactory.eINSTANCE.createHTTP();
+		// HTTPOptions opts = ProtocolsFactory.eINSTANCE.createHTTPOptions();
+		// opts.setUrl("/www/Ghana_19012008-3.kml");
+		// KML kml = FormatsFactory.eINSTANCE.createKML();
+		// kml.setExtractAttributes(true);
+		// kml.setExtractStyles(true);
+		// opts.setFormat(kml);
+		// protocol.setOptions(opts);
+		// layer.setProtocol(protocol);
+		// map.getLayers().add(layer);
+		// }
 
 		return map;
 	}
@@ -547,7 +580,7 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-//			System.out.println(site.cdoID() + "" + site.cdoState());
+			// System.out.println(site.cdoID() + "" + site.cdoState());
 
 		}
 		// After our edit, we shall be dirty
@@ -566,7 +599,7 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 	}
 
 	public Form getScreenForm() {
-		return frmNewOperator;
+		return frmSite;
 	}
 
 	public void disposeData() {
@@ -575,6 +608,72 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 
 	public String getScreenName() {
 		return "Site";
+	}
+
+	/**
+	 * 
+	 * Bridge Site to POI.
+	 * 
+	 * @param site
+	 * @return
+	 */
+	public POI poiFromSite(Site site) {
+
+		if (site.eIsSet(GeoPackage.Literals.SITE__LATITUDE)
+				&& site.eIsSet(GeoPackage.Literals.SITE__LONGITUDE)) {
+			POI poi = new POI();
+			poi.setLatLon(new LatLon(new Double(site.getLatitude()),
+					new Double(site.getLongitude())));
+			poi.setDescription(site.getName());
+
+			return poi;
+		}
+		return null;
+	}
+
+	public void panToPOI(POI poi) {
+		LonLat ll = Geoff.types().createLonLat();
+		ll.setLat((float) poi.getLatLon().getLat());
+		ll.setLon((float) poi.getLatLon().getLon());
+		geoMapComposite.setCenter(ll, 9);
+	}
+	
+	
+	/**
+	 * The layer and marker have to be set in the Geoff model in one
+	 * go,for the javascript generator. 
+	 * @param site
+	 */
+	public void showMarker(Site site) {
+
+		if (site.eIsSet(GeoPackage.Literals.SITE__LATITUDE)
+				&& site.eIsSet(GeoPackage.Literals.SITE__LONGITUDE)) {
+
+			Vector markerLayer = LayersFactory.eINSTANCE.createVector();
+			markerLayer.setName("Overlay");
+			StyleMap styleMap = MapFactory.eINSTANCE.createStyleMap();
+			StyleMapOptions options = MapFactory.eINSTANCE
+					.createStyleMapOptions();
+			options.setExternalGraphic("/geoff/examples-resources/img/marker.png");
+			options.setGraphicWidth(20);
+			options.setGraphicHeight(24);
+			options.setGraphicYOffset(-24);
+			options.setTitle("${tooltip}");
+			styleMap.setOptions(options);
+			markerLayer.setStyleMap(styleMap);
+
+			map.getLayers().add(markerLayer);
+
+			de.bacin.geoff.map.features.Vector feature = FeaturesFactory.eINSTANCE
+					.createVector();
+			Point geometry = GeometriesFactory.eINSTANCE.createPoint();
+			geometry.setX(new Float(site.getLatitude()));
+			geometry.setY(new Float(site.getLongitude()));
+			geometry.setProjection("EPSG:4326");
+			feature.setGeometry(geometry);
+			feature.getAttributes().put("tooltip", "OpenLayers");
+			markerLayer.getFeatures().add(feature);
+		}
 	}
 
 }

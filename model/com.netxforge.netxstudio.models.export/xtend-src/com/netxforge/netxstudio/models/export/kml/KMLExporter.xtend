@@ -1,4 +1,4 @@
-package com.netxforge.netxstuio.models.export.kml
+package com.netxforge.netxstudio.models.export.kml
 
 import com.netxforge.netxstudio.data.IDataProvider
 import com.netxforge.netxstudio.operators.Node
