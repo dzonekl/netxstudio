@@ -106,7 +106,7 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 	private Text txtLatitude;
 
 	private TreeViewer geocodingTreeViewer;
-	
+
 	private GeoffMapComposite geoMapComposite;
 
 	/**
@@ -247,10 +247,11 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 		m_bindingContext = initDataBindings_();
 
 		if (poiFromSite != null) {
-			panToPOI(poiFromSite);
+
 			showMarker(site);
 		}
 		geoMapComposite.setMap(map, "map");
+		panToPOI(poiFromSite);
 	}
 
 	private void buildUI() {
@@ -484,7 +485,6 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 		mapSection.setClient(geoMapComposite);
 
 		map = createSiteMap();
-		
 
 		formBody.setWeights(new int[] { 30, 70 });
 		formBody.setLayout(new FillLayout());
@@ -637,11 +637,11 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 		ll.setLon((float) poi.getLatLon().getLon());
 		geoMapComposite.setCenter(ll, 9);
 	}
-	
-	
+
 	/**
-	 * The layer and marker have to be set in the Geoff model in one
-	 * go,for the javascript generator. 
+	 * The layer and marker have to be set in the Geoff model in one go,for the
+	 * javascript generator.
+	 * 
 	 * @param site
 	 */
 	public void showMarker(Site site) {
@@ -654,7 +654,7 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 			StyleMap styleMap = MapFactory.eINSTANCE.createStyleMap();
 			StyleMapOptions options = MapFactory.eINSTANCE
 					.createStyleMapOptions();
-			options.setExternalGraphic("/geoff/examples-resources/img/marker.png");
+			options.setExternalGraphic("/www/Marker_s_H.png");
 			options.setGraphicWidth(20);
 			options.setGraphicHeight(24);
 			options.setGraphicYOffset(-24);
@@ -667,8 +667,8 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 			de.bacin.geoff.map.features.Vector feature = FeaturesFactory.eINSTANCE
 					.createVector();
 			Point geometry = GeometriesFactory.eINSTANCE.createPoint();
-			geometry.setX(new Float(site.getLatitude()));
-			geometry.setY(new Float(site.getLongitude()));
+			geometry.setX(new Float(site.getLongitude()));
+			geometry.setY(new Float(site.getLatitude()));
 			geometry.setProjection("EPSG:4326");
 			feature.setGeometry(geometry);
 			feature.getAttributes().put("tooltip", "OpenLayers");
