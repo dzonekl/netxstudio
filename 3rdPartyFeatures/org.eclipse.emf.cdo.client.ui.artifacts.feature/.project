@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>com.netxforge.netxstudio.ui.cdo.feature</name>
+	<name>org.eclipse.emf.cdo.client.ui.artifacts.feature</name>
 	<comment></comment>
 	<projects>
 	</projects>
