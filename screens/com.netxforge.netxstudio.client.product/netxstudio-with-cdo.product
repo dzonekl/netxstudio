@@ -48,11 +48,12 @@
 
    <features>
       <feature id="com.netxforge.netxstudio.client.product.feature"/>
+      <feature id="com.netxforge.netxstudio.screens.app.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.export.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.export.ui.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.import.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.import.ui.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.ui.cdo.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.emf.cdo.client.ui.artifacts.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
