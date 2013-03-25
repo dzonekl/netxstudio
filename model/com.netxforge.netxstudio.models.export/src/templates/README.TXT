@@ -10,8 +10,12 @@ Replacing the first occurence in a line
 
 Replacing the last occurence. 
 
-�$
+�|-�
 »
 
+It will not fix all, so also 
 
-Carefull, this will skrew up the indentitation. 
+
+- Carefull, this will skrew up the indentitation.
+
+ 
