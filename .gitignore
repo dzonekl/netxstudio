@@ -2,7 +2,9 @@
 ###################
 *.class
 .svn
-
+# xtend generated trace files
+############################
+._trace
 bin/
 
 # OS generated files #
