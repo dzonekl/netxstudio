@@ -19,22 +19,17 @@ package com.netxforge.netxstudio.models.export.tests;
 
 import org.junit.Test;
 
-
 /**
  * Tests for export to KML format:
- * https://developers.google.com/kml/documentation/kml_tut 
+ * https://developers.google.com/kml/documentation/kml_tut
  * 
  * @author Christophe Bouhier
  */
 public class KMLDumpTest {
-	
-	@Test 
-	public void testDump(){
-		new KMLE
-		
-		
-		
+
+	@Test
+	public void testDump() {
+
 	}
-	
-	
+
 }
