@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.session.CDOSession;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -54,6 +55,10 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 	@Inject
 	private ModelUtils modelUtils;
 
+	/** One single session for the workflow monitor */
+	private CDOSession openSession;
+	private WorkFlowRun wfRun;
+
 	public CDOID getWorkFlowRunId() {
 		return workFlowRunId;
 	}
@@ -65,20 +70,43 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 	@Override
 	public void setStartRunning() {
 		new FailSafeCDOAction() {
+
+			@Override
+			protected boolean pre() {
+				openSession = dataProvider.openSession();
+				wfRun = (WorkFlowRun) dataProvider.getTransaction().getObject(
+						workFlowRunId);
+				return super.pre();
+			}
+
 			@Override
 			protected void body(final WorkFlowRun wfRun) {
 				wfRun.setState(JobRunState.RUNNING);
 				wfRun.setStarted(modelUtils.toXMLDate(new Date()));
 				wfRun.setProgress(0);
 			}
+			
+			@Override
+			protected void post() {
+				dataProvider.commitTransaction();
+			}
 
 		}.act();
 	}
+	
+	
+	
 
 	@Override
 	public void setFinished(final JobRunState state, final Throwable t) {
 
 		new FailSafeCDOAction() {
+
+			@Override
+			protected void post() {
+				dataProvider.commitTransactionThenClose();
+				dataProvider.closeSession();
+			}
 
 			@Override
 			protected void body(final WorkFlowRun wfRun) {
@@ -135,6 +163,11 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 				wfRun.setProgressMessage(getMsg());
 				wfRun.setProgressTask(getTask());
 			}
+			
+			@Override
+			protected void post() {
+				dataProvider.commitTransaction();
+			}
 		}.act();
 
 	}
@@ -153,6 +186,10 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 					// Can't save failures in non-component run.
 				}
 			}
+			@Override
+			protected void post() {
+				dataProvider.commitTransaction();
+			}
 		}.act();
 
 	}
@@ -166,6 +203,10 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 			@Override
 			protected void body(final WorkFlowRun wfRun) {
 				wfRun.setLog(getLog() + "\n" + string);
+			}
+			@Override
+			protected void post() {
+				dataProvider.commitTransaction();
 			}
 		}.act();
 
@@ -185,34 +226,29 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 		public void act() {
 
 			try {
-
-				pre();
-				final WorkFlowRun wfRun = (WorkFlowRun) dataProvider
-						.getTransaction().getObject(workFlowRunId);
-				body(wfRun);
-				post();
+				if (pre()) {
+					body(wfRun);
+					post();
+				}else{
+					throw new IllegalStateException("Should not happen, wrong state");
+				}
 			} catch (Throwable t) {
 				// Workflow failures are simply ignored.
 				if (JobActivator.DEBUG) {
 					JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION,
 							"Failure updateing workflow: " + workFlowRunId, t);
 				}
-
-			} finally {
-
-				dataProvider.closeSession();
 			}
 		}
 
 		protected abstract void body(final WorkFlowRun wfRun);
 
-		public void pre() {
-			dataProvider.openSession();
+		protected boolean pre() {
+			return openSession != null && !openSession.isClosed()
+					&& wfRun != null && !wfRun.cdoView().isClosed();
 		}
 
-		public void post() {
-			dataProvider.commitTransactionThenClose();
-			dataProvider.closeSession();
+		protected void post() {
 		}
 	}
 

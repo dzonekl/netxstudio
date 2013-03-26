@@ -69,6 +69,7 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
@@ -158,18 +159,22 @@ public class SmartChartScreen extends AbstractScreen implements
 
 		markersTableViewer = new TableViewer(composite, SWT.BORDER
 				| SWT.FULL_SELECTION);
-		markersTableViewer.addSelectionChangedListener(new ISelectionChangedListener(){
+		markersTableViewer
+				.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			public void selectionChanged(SelectionChangedEvent event) {
-				ISelection selection = event.getSelection();
-				if(selection instanceof IStructuredSelection){
-					Object firstElement = ((IStructuredSelection) selection).getFirstElement();
-					if(firstElement instanceof ToleranceMarker){
-						smartResourceChart.showHover((ToleranceMarker)firstElement);
+					public void selectionChanged(SelectionChangedEvent event) {
+						ISelection selection = event.getSelection();
+						if (selection instanceof IStructuredSelection) {
+							Object firstElement = ((IStructuredSelection) selection)
+									.getFirstElement();
+							if (firstElement instanceof ToleranceMarker) {
+								smartResourceChart
+										.showHover((ToleranceMarker) firstElement);
+							}
+						}
+
 					}
-				}
-				
-			}});
+				});
 		table = markersTableViewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -366,10 +371,9 @@ public class SmartChartScreen extends AbstractScreen implements
 		}
 		smartResourceChart.initChartBinding(chartModel);
 
-		if (chartModel.hasMonitor()) {
+		if (!chartModel.hasMonitor()) {
 			initMarkersBinding();
 		}
-
 		return context;
 	}
 
@@ -505,9 +509,16 @@ public class SmartChartScreen extends AbstractScreen implements
 				chartInput.setInterval(valueRange.getIntervalHint());
 			}
 
-			chartModel = new ChartModel(modelUtils, chartInput.getPeriod(),
-					chartInput.getInterval(), netXResource,
-					chartInput.getResourceMonitor(), null);
+			if (chartInput.getResourceMonitor() != null) {
+				chartModel = new ChartModel(modelUtils, chartInput.getPeriod(),
+						chartInput.getInterval(), netXResource,
+						chartInput.getResourceMonitor(), null);
+			}else{
+				chartModel = new ChartModel(modelUtils, chartInput.getPeriod(),
+						chartInput.getInterval(), netXResource,
+						OperatorsFactory.eINSTANCE.createResourceMonitor(), null);
+				
+			}
 
 			this.initDataBindings_();
 

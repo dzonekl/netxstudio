@@ -145,7 +145,10 @@ public class ExpressionEngine implements IExpressionEngine {
 
 			// Get the parse tree.
 			final Mod m = (Mod) this.getModel(xResource);
-
+			// Do we have a root?
+			if( m == null ){
+				return;
+			}
 			// print the context.
 			if (RuntimeActivator.DEBUG) {
 				printInterpreterContext(contextList);

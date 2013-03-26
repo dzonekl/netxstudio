@@ -54,7 +54,7 @@ public class ChartModel {
 
 	/** The ResourceMonitor */
 	protected ResourceMonitor resourceMonitor = null;
-
+	
 	@Inject
 	private ModelUtils modelUtils;
 

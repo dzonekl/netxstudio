@@ -2983,14 +2983,20 @@ public class SmartResources extends AbstractScreen implements
 		chartInput.setPeriod(period);
 
 		chartInput.setInterval(ModelUtils.MINUTES_IN_AN_HOUR);
-
+		
+		
+		
 		// Get the resource monitor from the monitroingAggregate.
 		ResourceMonitor resourceMonitorForNetXResource = monitoringAggregate
 				.getResourceMonitorForNetXResource(contextAggregate
 						.getCurrentNetXResource());
-
 		chartInput.setResourceMonitor(resourceMonitorForNetXResource);
-
+		
+//		List<Marker> markersForResource = monitoringAggregate
+//				.getMarkersForResource(contextAggregate.getCurrentNetXResource());
+//		chartInput.setMarkers(markersForResource);
+		
+		
 		// Do not use it from the test Processor.
 		// if (resultProcessor.getToleranceProcessor().getResourceMonitor() !=
 		// null) {

@@ -35,64 +35,6 @@ import com.netxforge.netxstudio.server.internal.ServerActivator;
  * @author Martin Taal
  */
 public class ServerCDODataProvider extends CDODataProvider {
-	
-	
-	@Inject
-	public ServerCDODataProvider(@Server ICDOConnection conn) {
-		super(conn);
-	}
-
-	
-	@Override
-	public void commitTransactionThenClose() {
-
-		if (ServerActivator.DEBUG) {
-			if (transaction != null) {
-				ServerActivator.TRACE.trace(
-						ServerActivator.TRACE_SERVER_CDO_OPTION,
-						"COMMIT transaction ID=" + transaction.getViewID()
-								+ " , Updated last on:"
-								+ new Date(transaction.getLastCommitTime()));
-			}else{
-				ServerActivator.TRACE.trace(
-						ServerActivator.TRACE_SERVER_CDO_OPTION,
-						"COMMIT transaction ID=" + "? (New transaction will be created)");
-			}
-		}
-		super.commitTransaction(SERVER_COMMIT_COMMENT, true);
-	}
-	
-	@Override
-	public void commitTransaction() {
-
-		if (ServerActivator.DEBUG) {
-			if (transaction != null) {
-				ServerActivator.TRACE.trace(
-						ServerActivator.TRACE_SERVER_CDO_OPTION,
-						"COMMIT transaction ID=" + transaction.getViewID()
-								+ " , Updated last on:"
-								+ new Date(transaction.getLastCommitTime()));
-			}else{
-				ServerActivator.TRACE.trace(
-						ServerActivator.TRACE_SERVER_CDO_OPTION,
-						"COMMIT transaction ID=" + "? (New transaction will be created)");
-			}
-		}
-		super.commitTransaction(SERVER_COMMIT_COMMENT, false);
-	}
-	
-
-	@Override
-	public void openSession(String uid, String passwd) throws SecurityException {
-		if (session == null) {
-			this.openSession();
-		}
-	}
-
-	@Override
-	protected boolean doGetResourceFromOwnTransaction() {
-		return false;
-	}
 
 	// A cached session for this provider.
 	private CDOSession session = null;
@@ -103,6 +45,24 @@ public class ServerCDODataProvider extends CDODataProvider {
 	// A cached view for this provider.
 	private CDOView view = null;
 
+	/**
+	 * Log sessions information, adding caller information.
+	 */
+	private SessionLog sessionLog;
+
+	@Inject
+	public ServerCDODataProvider(@Server ICDOConnection conn) {
+		super(conn);
+		sessionLog = new SessionLog();
+	}
+
+	@Override
+	public void openSession(String uid, String passwd) throws SecurityException {
+		if (session == null) {
+			this.openSession();
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -111,13 +71,7 @@ public class ServerCDODataProvider extends CDODataProvider {
 	@Override
 	public CDOSession openSession() {
 		CDOSession s = super.openSession();
-		if (ServerActivator.DEBUG) {
-			ServerActivator.TRACE.trace(
-					ServerActivator.TRACE_SERVER_CDO_OPTION, "OPEN session ID="
-							+ s.getSessionID() + " , Updated last on:"
-							+ new Date(s.getLastUpdateTime()));
-		}
-
+		sessionLog.logOpenSession(s);
 		return s;
 	}
 
@@ -130,32 +84,70 @@ public class ServerCDODataProvider extends CDODataProvider {
 	}
 
 	@Override
-	public CDOTransaction getTransaction() {
-		if (transaction == null) {
-			transaction = getSession().openTransaction();
+	public void closeSession() {
+		if (session != null) {
+			sessionLog.logCloseSession(session);
+			session.close();
+			session = null;
+		}
+	}
 
-			if (ServerActivator.DEBUG) {
-				ServerActivator.TRACE.trace(
-						ServerActivator.TRACE_SERVER_CDO_OPTION,
-						"OPEN transaction ID=" + transaction.getViewID()
-								+ " , Updated last on:"
-								+ new Date(transaction.getLastCommitTime()));
-			}
+	@Override
+	public CDOView getView() {
+
+		if (view == null || view.isClosed()) {
+			view = getSession().openView();
+			sessionLog.logGetNewView(view);
+		} else {
+			sessionLog.logGetCachedView(view);
+		}
+
+		return view;
+	}
+
+	public void closeView() {
+		if (view != null) {
+			sessionLog.logCloseView(view);
+			view.close();
+			view = null;
+		}
+	}
+
+	@Override
+	protected boolean doGetResourceFromOwnTransaction() {
+		return false;
+	}
+
+	@Override
+	public CDOTransaction getTransaction() {
+
+		if (transaction == null || transaction.isClosed()) {
+			// This will open a new session.
+			transaction = getSession().openTransaction();
+			sessionLog.logGetNewTransaction(transaction);
+		} else {
+			sessionLog.logGetCachedTransaction(transaction);
 		}
 		return transaction;
 	}
 
 	@Override
-	protected boolean isTransactionSet() {
-		return transaction != null;
+	public void commitTransactionThenClose() {
+		sessionLog.logCommitTransactionThenClose(transaction);
+		super.commitTransaction(SERVER_COMMIT_COMMENT, true);
+	}
+
+	@Override
+	public void commitTransaction() {
+		sessionLog.logCommitTransaction(transaction);
+		super.commitTransaction(SERVER_COMMIT_COMMENT, false);
 	}
 
 	@Override
 	protected void setSession(CDOSession session) {
 		if (session == null) {
 			this.session = session;
-		}
-		if (this.session != null && !this.session.isClosed()) {
+		} else if (this.session != null && !this.session.isClosed()) {
 			if (ServerActivator.DEBUG) {
 				ServerActivator.TRACE.trace(
 						ServerActivator.TRACE_SERVER_CDO_OPTION,
@@ -167,51 +159,142 @@ public class ServerCDODataProvider extends CDODataProvider {
 	}
 
 	@Override
+	protected boolean isTransactionSet() {
+		return transaction != null;
+	}
+
+	@Override
 	protected void setTransaction(CDOTransaction transaction) {
 		this.transaction = transaction;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.netxforge.netxstudio.data.IDataProvider#closeView()
-	 */
-	public void closeView() {
-		if (this.view != null) {
-			this.view.close();
-			view = null;
-		}
-	}
+	class SessionLog {
 
-	@Override
-	public void closeSession() {
-		if (session != null) {
+		// Session
+		void logOpenSession(CDOSession session) {
 			if (ServerActivator.DEBUG) {
+				logStack(ServerActivator.TRACE_SERVER_CDO_SESSION);
 				ServerActivator.TRACE.trace(
-						ServerActivator.TRACE_SERVER_CDO_OPTION,
+						ServerActivator.TRACE_SERVER_CDO_SESSION,
+						"OPEN session ID=" + session.getSessionID());
+			}
+		}
+
+		void logCloseSession(CDOSession session) {
+			if (ServerActivator.DEBUG) {
+				logStack(ServerActivator.TRACE_SERVER_CDO_SESSION);
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_SERVER_CDO_SESSION,
 						"CLOSING session ID=" + session.getSessionID()
 								+ " , Updated last on:"
 								+ new Date(session.getLastUpdateTime()));
-				// Thread.dumpStack();
 			}
-			session.close();
-			session = null;
 		}
-	}
 
-	@Override
-	public CDOView getView() {
-		if (view == null) {
-			this.view = this.getSession().openView();
+		// View
+		void logGetNewView(CDOView view) {
 			if (ServerActivator.DEBUG) {
+				logStack(ServerActivator.TRACE_SERVER_CDO_VIEW);
 				ServerActivator.TRACE.trace(
-						ServerActivator.TRACE_SERVER_CDO_OPTION,
-						"OPEN view ID=" + view.getViewID()
-								+ " , Updated last on:"
-								+ new Date(view.getLastUpdateTime()));
+						ServerActivator.TRACE_SERVER_CDO_VIEW, "NEW view ID="
+								+ view.getViewID());
 			}
 		}
-		return view;
-	}
 
+		void logGetCachedView(CDOView view) {
+			if (ServerActivator.DEBUG) {
+				logStack(ServerActivator.TRACE_SERVER_CDO_VIEW);
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_SERVER_CDO_VIEW,
+						"CACHED view ID=" + view.getViewID());
+			}
+		}
+
+		public void logCloseView(CDOView view) {
+			if (ServerActivator.DEBUG) {
+				logStack(ServerActivator.TRACE_SERVER_CDO_VIEW);
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_SERVER_CDO_VIEW, "CLOSE view ID="
+								+ view.getViewID());
+			}
+		}
+
+		// Transaction
+
+		void logGetNewTransaction(CDOTransaction transaction) {
+			if (ServerActivator.DEBUG) {
+				logStack(ServerActivator.TRACE_SERVER_CDO_TRANSACTION);
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_SERVER_CDO_TRANSACTION,
+						"NEW transaction ID=" + transaction.getViewID());
+			}
+		}
+
+		public void logGetCachedTransaction(CDOTransaction transaction) {
+			if (ServerActivator.DEBUG) {
+				logStack(ServerActivator.TRACE_SERVER_CDO_TRANSACTION);
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_SERVER_CDO_TRANSACTION,
+						"CACHED transaction ID=" + transaction.getViewID());
+			}
+		}
+
+		public void logCommitTransaction(CDOTransaction transaction) {
+			if (ServerActivator.DEBUG) {
+				if (transaction != null) {
+					logStack(ServerActivator.TRACE_SERVER_CDO_TRANSACTION);
+					ServerActivator.TRACE
+							.trace(ServerActivator.TRACE_SERVER_CDO_TRANSACTION,
+									"COMMIT transaction ID="
+											+ transaction.getViewID()
+											+ " , Updated last on:"
+											+ new Date(transaction
+													.getLastCommitTime()));
+				} else {
+					ServerActivator.TRACE.trace(
+							ServerActivator.TRACE_SERVER_CDO_TRANSACTION,
+							"COMMIT transaction ID="
+									+ "? (New transaction will be created)");
+				}
+			}
+		}
+
+		void logCommitTransactionThenClose(CDOTransaction transaction) {
+			if (ServerActivator.DEBUG) {
+				logStack(ServerActivator.TRACE_SERVER_CDO_TRANSACTION);
+				if (transaction != null) {
+					ServerActivator.TRACE
+							.trace(ServerActivator.TRACE_SERVER_CDO_TRANSACTION,
+									"COMMIT transaction ID="
+											+ transaction.getViewID()
+											+ " , Updated last on:"
+											+ new Date(transaction
+													.getLastCommitTime()));
+				} else {
+					ServerActivator.TRACE.trace(
+							ServerActivator.TRACE_SERVER_CDO_TRANSACTION,
+							"COMMIT transaction ID="
+									+ "? (New transaction will be created)");
+				}
+			}
+		}
+
+		private void logStack(String traceOption) {
+			String thisName = ServerCDODataProvider.this.getClass().getName();
+			String thisNameNested = this.getClass().getName();
+			StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+			// move up the trace until, we are not this.
+			for (StackTraceElement e : stackTrace) {
+				String stackEntryClassName = e.getClassName();
+				if (!stackEntryClassName.equals(thisNameNested)
+						&& !stackEntryClassName.equals(thisName)) {
+					String msg = e.toString();
+					if (!msg.isEmpty()) {
+						ServerActivator.TRACE.trace(traceOption, msg);
+					}
+					break;
+				}
+			}
+		}
+	}
 }

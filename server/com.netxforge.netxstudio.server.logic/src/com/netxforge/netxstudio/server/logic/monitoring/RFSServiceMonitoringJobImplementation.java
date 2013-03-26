@@ -28,7 +28,6 @@ import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.internal.ServerActivator;
 import com.netxforge.netxstudio.server.job.JobImplementation;
-import com.netxforge.netxstudio.server.logic.profile.RFSServiceProfileLogic;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
@@ -74,13 +73,12 @@ public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 		resourceMonitoringLogic.close();
 
 		// Iterates over Service Users
-		final RFSServiceProfileLogic resourceProfileLogic = ServerActivator
-				.getInstance().getInjector()
-				.getInstance(RFSServiceProfileLogic.class);
-		resourceProfileLogic.setRfsService(rfsService.cdoID());
-		resourceProfileLogic.setJobMonitor(getRunMonitor());
-		resourceProfileLogic.initializeProfileLogic();
-
+//		final RFSServiceProfileLogic resourceProfileLogic = ServerActivator
+//				.getInstance().getInjector()
+//				.getInstance(RFSServiceProfileLogic.class);
+//		resourceProfileLogic.setRfsService(rfsService.cdoID());
+//		resourceProfileLogic.setJobMonitor(getRunMonitor());
+//		resourceProfileLogic.initializeProfileLogic();
 		// Profile Logic Period not set.
 		// Disable resourceProfileLogic.run();
 

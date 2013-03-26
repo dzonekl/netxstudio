@@ -389,10 +389,10 @@ public class ModelUtils {
 	public class MarkerTimeStampComparator implements Comparator<Marker> {
 		public int compare(final Marker m1, final Marker m2) {
 
-			CDOUtil.cleanStaleReference(m1,
-					OperatorsPackage.Literals.MARKER__VALUE_REF);
-			CDOUtil.cleanStaleReference(m2,
-					OperatorsPackage.Literals.MARKER__VALUE_REF);
+//			CDOUtil.cleanStaleReference(m1,
+//					OperatorsPackage.Literals.MARKER__VALUE_REF);
+//			CDOUtil.cleanStaleReference(m2,
+//					OperatorsPackage.Literals.MARKER__VALUE_REF);
 
 			return new ValueTimeStampComparator().compare(m1.getValueRef(),
 					m2.getValueRef());

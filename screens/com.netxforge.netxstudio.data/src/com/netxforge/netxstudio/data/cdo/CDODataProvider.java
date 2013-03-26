@@ -632,24 +632,28 @@ public abstract class CDODataProvider implements IDataProvider {
 	}
 
 	public void commitTransaction(String commitComment, boolean close) {
+		
+		CDOTransaction transaction = null; 
+		
 		try {
 			if (isTransactionSet()) {
 				if (commitComment != null && commitComment.length() > 0) {
 					this.getTransaction().setCommitComment(commitComment);
-					getTransaction().commit();
+					transaction = getTransaction();
+					transaction.commit();
 				}
+			}else{
+				throw new Exception("There is no existing transaction to commit.");
 			}
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		} finally {
-
-			CDOTransaction transaction = getTransaction();
-			if (close) {
+			if (transaction != null && close) {
 				if (!transaction.isClosed()) {
 					if (DataActivator.DEBUG) {
 						DataActivator.TRACE.trace(
 								DataActivator.TRACE_DATA_OPTION,
-								"Closing transaction with ID: "
+								"CLOSE transaction with ID: "
 										+ transaction.getViewID());
 					}
 					transaction.close();

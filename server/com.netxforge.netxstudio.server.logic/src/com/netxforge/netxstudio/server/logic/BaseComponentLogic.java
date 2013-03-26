@@ -37,13 +37,14 @@ import com.netxforge.netxstudio.scheduling.Failure;
 public abstract class BaseComponentLogic extends BasePeriodLogic {
 
 	protected void doRun() {
-		
+
 		this.getDataProvider().getTransaction();
-		
+
 		final List<NodeType> nodeTypes = getNodeTypesToExecuteFor();
 
 		// Note: The total work is not linear to the number of components,
 		// components which have expressions will take more time.
+		this.getJobMonitor().setWorkDone(0); // Reset the work
 		this.getJobMonitor().setTotalWork(countComponents(nodeTypes));
 		this.getJobMonitor().setTask("Performing resource monitoring");
 
@@ -57,7 +58,7 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 			processNode(nodeType);
 		}
 		this.getJobMonitor().updateFailures(this.getFailures());
-		
+
 		this.getDataProvider().commitTransaction();
 	}
 
@@ -73,7 +74,11 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 
 	protected void executeFor(Component component) {
 
-		this.getJobMonitor().setTask("Computing for " + component.getName());
+		// Make a message, which holds the component name, and the period.
+		String tskDescription = "Computing for " + component.getName()
+				+ this.getModelUtils().periodToStringMore(this.getPeriod());
+
+		this.getJobMonitor().setTask(tskDescription);
 
 		this.getJobMonitor().incrementProgress(1,
 				(this.getJobMonitor().getProgress() & 5) == 0);
@@ -84,9 +89,8 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		engine.setDataProvider(this.getDataProvider());
 		engine.setPeriod(getPeriod());
 		engine.execute();
-		
-		
-		// Update the failures. 
+
+		// Update the failures.
 		if (engine.getFailures().size() > 0) {
 			for (final Failure failure : engine.getFailures()) {
 				if (failure instanceof ComponentFailure) {
