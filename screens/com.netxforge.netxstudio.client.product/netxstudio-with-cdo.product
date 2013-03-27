@@ -60,11 +60,11 @@
 
    <configurations>
       <plugin id="com.netxforge.netxstudio.client.product" autoStart="true" startLevel="1" />
-      <plugin id="de.bacin.geoff" autoStart="false" startLevel="0" />
-      <plugin id="de.bacin.geoff.geocoding" autoStart="false" startLevel="0" />
-      <plugin id="de.bacin.geoff.geocoding.nominatim" autoStart="false" startLevel="0" />
-      <plugin id="de.bacin.geoff.model.codegen" autoStart="false" startLevel="0" />
-      <plugin id="de.bacin.geoff.ui" autoStart="false" startLevel="0" />
+      <plugin id="de.bacin.geoff" autoStart="true" startLevel="0" />
+      <plugin id="de.bacin.geoff.geocoding" autoStart="true" startLevel="0" />
+      <plugin id="de.bacin.geoff.geocoding.nominatim" autoStart="true" startLevel="0" />
+      <plugin id="de.bacin.geoff.model.codegen" autoStart="true" startLevel="0" />
+      <plugin id="de.bacin.geoff.ui" autoStart="true" startLevel="0" />
    </configurations>
 
 </product>
