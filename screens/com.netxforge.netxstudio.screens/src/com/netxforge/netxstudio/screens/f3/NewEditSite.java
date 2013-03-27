@@ -105,6 +105,7 @@ public class NewEditSite extends AbstractScreen implements IDataScreenInjection 
 	private Text txtLongitude;
 	private Text txtLatitude;
 
+	
 	private TreeViewer geocodingTreeViewer;
 
 	private GeoffMapComposite geoMapComposite;
