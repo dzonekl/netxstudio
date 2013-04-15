@@ -141,7 +141,7 @@
 
 «DEFINE Toc FOR operators::Node »
 	<tr>
-		<td><a href="#«gthis.nodeID.toUpperCase()»">»this.nodeID.toUpperCase()»</a></td>
+		<td><a href="#«this.nodeID.toUpperCase()»">»this.nodeID.toUpperCase()»</a></td>
 	</tr>
 «ENDDEFINE»
 
