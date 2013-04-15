@@ -7,13 +7,13 @@
       <category name="netxstudio.monitoring"/>
    </feature>
    <feature url="features/com.netxforge.netxstudio.common.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.common.feature" version="1.0.0.qualifier">
-      <category name="netxstudio.monitoring"/>
+      <category name="netxstudio.shared"/>
    </feature>
    <feature url="features/com.netxforge.netxstudio.console.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.console.feature" version="1.0.0.qualifier">
       <category name="netxstudio.monitoring"/>
    </feature>
    <feature url="features/com.netxforge.netxstudio.data.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.data.feature" version="1.0.0.qualifier">
-      <category name="netxstudio.monitoring"/>
+      <category name="netxstudio.shared"/>
    </feature>
    <feature url="features/com.netxforge.netxstudio.help.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.help.feature" version="1.0.0.qualifier">
       <category name="netxstudio.monitoring"/>
@@ -22,7 +22,7 @@
       <category name="netxstudio.monitoring"/>
    </feature>
    <feature url="features/com.netxforge.netxstudio.models.13042011.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.13042011.feature" version="1.0.0.qualifier">
-      <category name="netxstudio.monitoring"/>
+      <category name="netxstudio.shared"/>
    </feature>
    <feature url="features/com.netxforge.netxstudio.models.edit.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.edit.feature" version="1.0.0.qualifier">
       <category name="netxstudio.monitoring"/>
@@ -34,7 +34,7 @@
       <category name="netxstudio.monitoring"/>
    </feature>
    <feature url="features/com.netxforge.netxstudio.models.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier">
-      <category name="netxstudio.monitoring"/>
+      <category name="netxstudio.shared"/>
    </feature>
    <feature url="features/com.netxforge.netxstudio.models.import.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.import.feature" version="1.0.0.qualifier">
       <category name="netxstudio.monitoring"/>
@@ -76,7 +76,7 @@
       <category name="netxstudio.server"/>
    </feature>
    <feature url="features/com.netxforge.netxscript.feature_1.0.0.qualifier.jar" id="com.netxforge.netxscript.feature" version="1.0.0.qualifier">
-      <category name="netxstudio.monitoring"/>
+      <category name="netxstudio.shared"/>
    </feature>
    <feature url="features/com.netxforge.netxscript.ui.feature_1.0.0.qualifier.jar" id="com.netxforge.netxscript.ui.feature" version="1.0.0.qualifier">
       <category name="netxstudio.monitoring"/>
@@ -84,4 +84,5 @@
    <category-def name="netxstudio.platform" label="NetXStudio Platform"/>
    <category-def name="netxstudio.monitoring" label="NetXStudio Monitoring"/>
    <category-def name="netxstudio.server" label="NetXStudio Server"/>
+   <category-def name="netxstudio.shared" label="NetXStudio Shared"/>
 </site>
