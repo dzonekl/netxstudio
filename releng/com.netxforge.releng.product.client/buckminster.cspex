@@ -10,7 +10,8 @@
 			<properties>
 				<property key="profile" value="netxStudioClientProfile" />
 				<property key="iu" value="com.netxforge.netxstudio.bare" />
-				<property key="repo" value="http://p2.netxforge.com/own.p2/" />
+				<property key="repo_external" value="http://p2.netxforge.com/site.p2/" />
+				<property key="repo_own" value="http://p2.netxforge.com/own.p2/" />
 			</properties>
 			<prerequisites alias="repository">
 				<attribute name="site.p2" />

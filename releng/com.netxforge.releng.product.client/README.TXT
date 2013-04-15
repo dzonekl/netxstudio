@@ -87,6 +87,22 @@ Arguments Description
     -verifyOnly: only verify that the actions can be performed. Don't actually install or remove anything.
 
 
+ANT TROUBLESHOOTING
+===================
+
+When invoking the P2 director from an ANT task, it's invoked from here.  
+
+/var/lib/jenkins/tools/Buckminster/4.2/buckminster/configuration
+
+The director is launched with as: 
+
+Framework arguments:  -application org.eclipse.equinox.p2.director -repository http://p2.netxforge.com/own.p2/ -destination /var/lib/jenkins/workspace/netxstudio.product/buckminster.out
+put/com.netxforge.releng.product.client_1.0.0-eclipse.feature/netxstudio.bare.win32.win32.x86 -profile netxStudioClientProfile -profileProperties org.eclipse.update.install.features=tru
+e -installIU com.netxforge.netxstudio.bare -p2.os win32 -p2.ws win32 -p2.arch x86
+
+Command-line arguments:  -application org.eclipse.equinox.p2.director -repository http://p2.netxforge.com/own.p2/ -destination /var/lib/jenkins/workspace/netxstudio.product/buckminster.
+output/com.netxforge.releng.product.client_1.0.0-eclipse.feature/netxstudio.bare.win32.win32.x86 -profile netxStudioClientProfile -profileProperties org.eclipse.update.install.features=
+true -installIU com.netxforge.netxstudio.bare -p2.os win32 -p2.ws win32 -p2.arch x86 -consoleLog
 
 
 
