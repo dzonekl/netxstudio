@@ -5,32 +5,13 @@ This lazydog describes the conversion of the Instiki system to version 3 of Rail
 Better instiki site: 
 http://golem.ph.utexas.edu/wiki/instiki/show/HomePage
 
-1. Use a rails 3 generated app to compare. [SOLVED]
-2. Replace the /scripts with the generate /scripts content.[SOLVED]
-3.
-3.1 created application.rb (Rails 3.  has an application.rb), [SOLVED]
+Step 1. Use a rails 3.2 generated app to compare the current instiki and the rails 3.2 structure. We refer to this as the Template Rails App (TRA) 
 
-Load the /lib's  as this is turned off. 
-- config.autoload_paths << "#{Rails.root}/lib"
-Additionally load all sub directories, as another error occured later on (see further down). 
+Step 1.1 Update the Gemfile (It now looks like this, see explanation in separate steps) 
 
+source "http://rubygems.org"
 
-3.2 copied in the environements/ and initializers/ from template. [ONGOING]
-move the original environment.rb out of the way. Some migrations: 
-- rexml_versions => Not sure what to do with this. It scans various directories to get an REXML version. Why not
-
-- require_dependency 'instiki_errors' => Moved this to a custom initializer. 
-- *.stuff migration??
- 
-put a version requirement in GemFile and that's it? 
-3.3 Copied in boot.rb , remove preinitializer.rb which is a pre Rails 3 hack to get bundler working. [SOLVED]
-See: http://gembundler.com/v1.3/rails23.html
-
-4. problem with plugin: protect_forms_from_spam, comment it out. Find an alternative [TODO]
-5. Deal with assets. [ONGOING]
-
-
-- Update the Gemfile to include: 
+gem "rails", "=3.2.12"
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -44,236 +25,274 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-- (Created /app/assets/stylsheet,javascript,images), copied assets in there. 
-- Application.js is auto created, but we already have an Application.js file with a bit of scripts in it, 
-so add manifest information. 
-- Copy in Application.css
+gem 'jquery-rails'
 
-See this for info on assets: 
+gem "sqlite3", :require => "sqlite3"
+gem "itextomml", ">=1.4.10"
+gem "rack", ">=1.4.5"
+gem "mongrel", ">=1.2.0.pre2"
+gem "rubyzip"
+gem "RedCloth", ">=4.0.0"
+gem "erubis"
+gem "nokogiri"
+gem "rake"
+gem "rdoc"
+gem "json"
+gem "file_signature", :git => 'http://github.com/distler/file_signature.git'
+gem "maruku", :git => 'http://github.com/distler/maruku.git', :branch => 'nokogiri'
+# gem "mysql2"
 
-- use image_tag helper methods. 
-- rename .css to .css.erb to use for example: 
-<%= asset_path 'netxforge-tail.png' %>
+
+Step 2. Replace the /script's content with the TRA's /scripts content, delete the old files from /script
+
+Step 3. Migration of the /config folder
+
+Step 3.1 Create application.rb (Rails 3.  has an application.rb file) and configure it in the steps below. 
+	
+	Load the /lib folder  as this is turned off, edit/add these params. 
+
+	config.autoload_paths << "#{Rails.root}/lib"
+	config.autoload_paths << "#{Rails.root}/lib/chunks"
+
+	Do some java script setup, for the new rails 3 assets concept. Instiki should actually migrate away from scriptaculous.js and use JQuery
+	
+	config.action_view.javascript_expansions[:legacy] = %w(prototype.js scriptaculous.js)
+
+Step 3.3 copy in the environments/ and initializers/ from TRA
+
+	The TRA application name will be different then what Instiki should be. The following file should be edited and the 
+	first line should be renamed from "TemplateApp::Application.configure do" to "InstikiApp::Application.configure do"
+
+	config/environments/development.rb
+	config/environments/test.rb
+	config/environments/production.rb
+
+Step 3.4 move the original environment.rb out of the way (renamed it to environment.rb.backup), and copy the environment.rb from the template rails app
+ Some migrations from the contents of this file. 
+	
+	Rename the last line to InstikiApp::Application.initialize!
+
+	require_dependency 'instiki_errors' => Moved this to a custom initializer named config/initializers/instiki_init.rb It looks like this: 
+	
+	require 'instiki_errors' # migrated from instiki environment.rb
+	require 'wiki_content' # Needed to load properly 
+	
+	[TODO]
+	rexml_versions => Not sure what to do with this. It scans various directories to get an REXML version.
+	# Miscellaneous monkey patches (here be dragons ...)
+	require 'caching_stuff'
+	require 'logging_stuff'
+	require 'rack_stuff'		
+	
+	Note: Not using require_dependency, as this is undocumented (Rails internal) and for development only. Not really a requirement here
+	I believe.
+
+Step 3.4 Copy in boot.rb from TRA, remove preinitializer.rb which is a pre Rails 3 hack to get bundler working. 
+See: http://gembundler.com/v1.3/rails23.html
 
 
+Step 3.5 root.rb
+	[Carefull] This route.rb is slightly specific to my application, but it includes the wiki routes, so you can extract the relevant ones: 
+	[TODO] some routes don't work in the rails 3. instill, need to be fixed. 
 
+def connect_to_web(generic_path, generic_routing_options, *options)
+  if defined? DEFAULT_WEB
+    explicit_path = generic_path.gsub(/:web\/?/, '') # Strip the /:web
+    explicit_routing_options = generic_routing_options.merge(:web => DEFAULT_WEB)
+    match explicit_path, explicit_routing_options
+  end
 
-6. route definitions: [SOLVED]
-- root: ID can't be specified. so adapted the public controller to set to default 'HomePage'
-- migrated wiki admin routes: 
+  match generic_path, generic_routing_options
+# map.connect(generic_path, generic_routing_options)
+end
+
+# :id's can be arbitrary junk
+id_regexp = /.+/
+
+InstikiApp::Application.routes.draw do
+
+# SEE:  http://yehudakatz.com/2009/12/26/the-rails-3-router-rack-it-up/
+
+  root :to => 'public#page', :id => 'HomePage'
+
+  # Wiki Admin:
 
   match 'create_system', :to => 'admin#create_system'
   match 'create_web', :to => 'admin#create_web'
   match 'delete_web', :to => 'admin#delete_web'
   match 'delete_files', :to => 'admin#delete_files'
   match 'web_list', :to => 'wiki#web_list'
-  
-- migrate web links
-:requirements is now called constraints. 
-- migrate method ro produce a route, if the DEFAULT_WEB is set. 
 
-         root  /                                                 public#page {:id=>"HomePage"}
-create_system  /create_system(.:format)                          admin#create_system
-   create_web  /create_web(.:format)                             admin#create_web
-   delete_web  /delete_web(.:format)                             admin#delete_web
- delete_files  /delete_files(.:format)                           admin#delete_files
-     web_list  /web_list(.:format)                               wiki#web_list
-               /:controller/:action(/:id)(.:format)              :controller#:action
-               /:web/edit_web(.:format)                          admin#edit_web
-               /:web/remove_orphaned_pages(.:format)             admin#remove_orphaned_pages
-               /:web/remove_orphaned_pages_in_category(.:format) admin#remove_orphaned_pages_in_category
-               /:web/file/delete/:id(.:format)                   file#delete {:id=>nil}
-               /:web/files/pngs/:id(.:format)                    file#blahtex_png {:id=>nil}
-               /:web/files/:id(.:format)                         file#file {:id=>nil}
-               /:web/file_list/:sort_order(.:format)             wiki#file_list {:sort_order=>nil}
-               /:web/import/:id(.:format)                        file#import
-               /:web/login(.:format)                             wiki#login
-               /:web/web_list(.:format)                          wiki#web_list
-               /:web/show/diff/:id(.:format)                     wiki#show {:mode=>"diff", :requirements=>{:id=>/.+/}}
-               /:web/revision/diff/:id/:rev(.:format)            wiki#revision {:rev=>/\d+/, :id=>/.+/, :mode=>"diff"}
-               /:web/revision/:id/:rev(.:format)                 wiki#revision {:rev=>/\d+/, :id=>/.+/}
-               /:web/source/:id/:rev(.:format)                   wiki#source {:rev=>/\d+/, :id=>/.+/}
-               /:web/list/:category(.:format)                    wiki#list {:category=>nil}
-               /:web/recently_revised/:category(.:format)        wiki#recently_revised {:requirements=>{:category=>/.*/}, :category=>nil}
-               /:web/:action/:id(.:format)                       wiki#:action {:id=>/.+/}
-               /:web/:action(.:format)                           wiki#:action
-               /:web(.:format)                                   wiki#index
+  # Application
+  match ':controller/:action(/:id)'
+
+  # Wiki webs routing
+  connect_to_web ':web/edit_web',  :to => 'admin#edit_web' #Edit an arbitrary web.
+  connect_to_web ':web/remove_orphaned_pages',  :to => 'admin#remove_orphaned_pages' #Remove pages which are not referenced by any other page
+  connect_to_web ':web/remove_orphaned_pages_in_category',  :to => 'admin#remove_orphaned_pages_in_category'
+  connect_to_web ':web/file/delete/:id',  :to => 'file#delete', :constraints => {:id => /[-._\w]+/}, :id => nil
+  connect_to_web ':web/files/pngs/:id',  :to => 'file#blahtex_png', :constraints => {:id => /[-._\w]+/}, :id => nil
+  connect_to_web ':web/files/:id',  :to => 'file#file', :constraints => {:id => /[-._\w]+/}, :id => nil
+  connect_to_web ':web/file_list/:sort_order',  :to => 'wiki#file_list', :sort_order => nil
+  connect_to_web ':web/import/:id',  :to => 'file#import'
+  connect_to_web ':web/login',  :to => 'wiki#login'
+  connect_to_web ':web/web_list',  :to => 'wiki#web_list'
+  connect_to_web ':web/show/diff/:id', :to => 'wiki#show', :mode => 'diff', :requirements => {:id => id_regexp}
+  connect_to_web ':web/revision/diff/:id/:rev',  :to => 'wiki#revision', :mode => 'diff', :constraints => { :rev => /\d+/, :id => id_regexp}
+  connect_to_web ':web/revision/:id/:rev',  :to => 'wiki#revision', :constraints => { :rev => /\d+/, :id => id_regexp}
+  connect_to_web ':web/source/:id/:rev', :to => 'wiki#source', :constraints => { :rev => /\d+/, :id => id_regexp}
+  connect_to_web ':web/list/:category',  :to => 'wiki#list', :constraints => { :category => /.*/}, :category => nil
+  connect_to_web ':web/recently_revised/:category',  :to => 'wiki#recently_revised', :requirements => { :category => /.*/}, :category => nil
+  connect_to_web ':web/:action/:id',  :to => 'wiki', :constraints => {:id => id_regexp}
+  connect_to_web ':web/:action', :to =>  'wiki'
+  connect_to_web ':web',  :to => 'wiki#index'
+
+end
 
 
-7. replace @controller with controller wherever this was required. [SOLVED]
-8. Fix issues with rendering and default.layout/ [SOLVED]
-# DEBUG: Render an action without the layout for troubleshooting: render :layout => false
-fix the layout content insertion point, was @content_for_layout versus modern yield. so => <%= yield %>
+Step 4 problem with plugin: protect_forms_from_spam, comment it out. Find an alternative
 
-Use: <%= debug params %>
+Step 5. Deal with assets (Stylesheets, Javascript, Images) 
 
-9. problem with sublayout: (Wiki source) [TODO] 
- Showing /Users/Christophe/Documents/Spaces/netxforge_aptana/com.netxforge.store/app/views/layouts/application.html.erb where line #46 raised:
+	Read this: http://guides.rubyonrails.org/asset_pipeline.html
+	
+	Assets should be pre-compiled with: 
+		bundle exec rake assets:precompile
+	these will end up in the /public/assets/ folder
 
-undefined method `sub_layout' for #<WikiController:0x007ffb07b5bf58>
+Step 5.1 Update the Gemfile to include:
 
-10. link_to_remote issues: (TODO, now workaround, not using the :update tag). [TODO]
+	# Gems used only for assets and not required
+	# in production environments by default.
+	group :assets do
+	  gem 'sass-rails',   '~> 3.2.3'
+	  gem 'coffee-rails', '~> 3.2.1'
 
-Currently URL's like this are generated, which embeds a js into the URL with onclick statement). 
+	  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+	  # gem 'therubyracer', :platforms => :ruby
 
-<a onclick="new Ajax.Updater('intropage', '/public/page/features?menu=true&partial=true', 
-{asynchronous:true, evalScripts:true}); return false;" href="#"></a>
+	  gem 'uglifier', '>= 1.0.3'
+	end
 
-:update is not supported anymore in Rails 3. (AJAX call back to update a DOM id), see the following articles: 
+Step 5.2 Create asset folders 
+	
+	/app/assets/stylsheet
 
-http://www.simonecarletti.com/blog/2010/06/unobtrusive-javascript-technique/
+		- copy in application.css from TRA
+		- [OPTIONAL] rename .css to .css.erb to use assets in CSS for example: <%= asset_path 'someimage.png' %> 		
 
-New approach is based on separation of the HTML and JS, so the JS should do the update. 
+	/app/assets/javascript
 
-11. Issues with form_tag[SOLVED]
-in template edit.html.erb, the form tag starts with '<%' erb shabang, but should be '<%=' 
-replacing this fixed the problem. 
+		- application.js is auto created, but we already have an application.js file with a bit of scripts in it. so copy the following lines 
+		from TRA and add them to the instiki application.js
+		
+		// This is a manifest file that'll be compiled into application.js, which will include all the files
+		// listed below.
+		//
+		// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
+		// or vendor/assets/javascripts of plugins, if any, can be referenced here using a relative path.
+		//
+		// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+		// the compiled file.
+		//
+		// WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
+		// GO AFTER THE REQUIRES BELOW.
+		//
+		//= require jquery
+		//= require jquery_ujs
+		//= require_tree .
 
-See 3.0 Release notes, section 7.4.2.
+	/app/assets/images
+		- use image_tag helper methods.
 
-Note: The included javascript should be moved to the application.js
+Step 5.3 
+	
+	Copy in the assets from /public in the respective locations under /aspp/assets from the 2.x instiki
 
-12. Validation Errors. [SOLVED]
+Step 6 Replace @controller with controller wherever this occurs in the controllers. 
 
-As we moved environment.rb out of the way, we discarded: 
+Step 7. Fix issues with rendering and default.layout/
+	[DEBUG]: Render an action without the layout for troubleshooting: render :layout => false
+	fix the layout content insertion point, was @content_for_layout versus modern yield. so => <%= yield %>
 
-require_dependency 'instiki_errors'
+	Use: <%= debug params %>
 
-defined with :  
-/lib/instiki_errors.rb   
+Step 8. problem with sublayout: (Wiki source) 
+	
+	Showing /Users/Christophe/Documents/Spaces/netxforge_aptana/com.netxforge.store/app/views/layouts/application.html.erb where line #46 raised:
 
-Decided to put the requirement in an initializer under: 
-config/initializers/instiki_errors.rb 
+	undefined method `sub_layout' for #<WikiController:0x007ffb07b5bf58>
 
-# Load the Instiki Errors
-require 'instiki_errors'
+Step 9. link_to_remote issues: , now workaround, not using the :update tag. [TODO]
 
-Note: Not using require_dependency, as this is undocumented (Rails internal) and for development only. Not really a requirement here 
-I believe. 
+	Currently URL's like this are generated, which embeds a js into the URL with onclick statement).
 
-13.ActiveModel::MassAssignmentSecurity erros on various model objects[SOLVED]
-because of this:  
-https://gist.github.com/peternixey/1978249
+	<a onclick="new Ajax.Updater('intropage', '/public/page/features?menu=true&partial=true',
+	{asynchronous:true, evalScripts:true}); return false;" href="#"></a>
 
-Add (example): 
+	:update is not supported anymore in Rails 3. (AJAX call back to update a DOM id), see the following articles:
 
-# Needed in Rails 3. 
-  attr_accessible :locked_at, :locked_by
+	http://www.simonecarletti.com/blog/2010/06/unobtrusive-javascript-technique/
 
-in various model objects, to fix these errors. 
-Page =>  attr_accessible :locked_at, :locked_by, :name
-Revision=> attr_accessible :revised_at, :page, :content, :author
+	New approach is based on separation of the HTML and JS, so the JS should do the update.
 
-.....
+Step 10. Issues with form_tag
 
-14. undefined method error in WikiContent[SOLVED]
-It turned out, that  
+	in template edit.html.erb, the form tag starts with '<%' erb shabang, but should be '<%='
+	replacing this fixed the problem.
 
-include ChunkManager (in wiki_content.rb) didbn't load properly, as 
-ChunkManager has dependencies on various other classes in /chunks. 
-Made sure these are loaded in application.rb (See bullet 3.1) 
+	See 3.0 Release notes, section 7.4.2.
 
-however this causes another issue: 
+	Note: The included javascript should be moved to the application.js or another .js under /app/assets/javascript
 
-14.1 Error, when include /lib/chunks
-Expected /Users/Christophe/Documents/Spaces/netxforge_aptana/com.netxforge.store/lib/chunks/wiki.rb to define Wiki
-Actually the whole app now fails with different errors: 
+Step 11. ActiveModel::MassAssignmentSecurity erros on various model objects[SOLVED]
+	because of this: 
+	
+	https://gist.github.com/peternixey/1978249
 
-This could be a conflict in naming of classes, as /chunks defines a wiki.rb
-See this post: 
-http://stackoverflow.com/questions/10948779/expected-to-define-when-calling-class-inside-a-module
+	in various model objects, to fix these errors.
 
-fixed by: 
+	Page =>  attr_accessible :locked_at, :locked_by, :name
+	Revision=> attr_accessible :revised_at, :page, :content, :author
+	.....
 
-- renamed wiki to wiki_c and references to it. 
-- removed call to html_safe in WikiContent.render! as this points to a method which 
-will produce a ActiveSupport::SafeBuffer instance from the WikiContent, so not adhering to the instance type, 
-this gived method_errors
+Step 12. Undefined method error in WikiContent[SOLVED]
+	It turned out, that 
+	include ChunkManager (in wiki_content.rb) didbn't load properly, as
+	ChunkManager has dependencies on various other classes in /chunks.
+	Made sure these are loaded in application.rb (See Step 3.1)
 
-15. URL generator in wiki gives wrong urls for: [TODO] 
-- all Pages => /:web/list/HomePage (So the :page is appended and shou'd not). 
-- edit Web => /:web/edit_web/HomePage (:page appended, should not). 
+	however this causes another issue:
 
+Step 12.1 Error, when include /lib/chunks
+	Expected .../lib/chunks/wiki.rb to define Wiki
+	Actually the whole app now fails with different errors:
 
-16. Dealing with XML templates. [SOLVED]
-renamed atom.rxml to atom.builder simply solved the problem. 
+	This could be a conflict in naming of classes, as /chunks defines a wiki.rb
+	See this post:
+	http://stackoverflow.com/questions/10948779/expected-to-define-when-calling-class-inside-a-module
 
-17. When using in production the following error: [ONGOING]
+	fixed by:
 
-Processing by PublicController#page as HTML
-  Parameters: {"id"=>"HomePage"}
-  Rendered public/page.html.erb within layouts/application (243.4ms)
-Completed 500 Internal Server Error in 376ms
+	- renamed wiki to wiki_c and references to it.
+	- removed call to html_safe in WikiContent.render! as this points to a method which
+	will produce a ActiveSupport::SafeBuffer instance from the WikiContent, so not adhering to the instance type,
+	this gived method_errors
 
-ActionView::Template::Error (prototype.js isn't precompiled):
-    21: 		<meta name="verify-v1" content="yKzHNy4vPBYl3Bi3DH5frO5UQDFjgOFJPc/4/Wznb3o=" />
-    22: 		<title><%= @title %></title>
-    23: 
-    24: 		<%= javascript_include_tag "prototype" %>
-    25: 		<%= javascript_include_tag "slider" %>
-    26: 		<%= stylesheet_link_tag 'style' %>
-    27: 	</head>
-  app/views/layouts/application.html.erb:24:in `_app_views_layouts_application_html_erb__537070538_78133640'
+Step 13. URL generator in wiki gives wrong urls for: [TODO]
+	all Pages => /:web/list/HomePage (So the :page is appended and shou'd not).
+	edit Web => /:web/edit_web/HomePage (:page appended, should not).
 
-According to Rails doc: 
-Turn of the asset pipeline: 
+Step 14. Dealing with XML templates.
+	renamed atom.rxml to atom.builder simply solved the problem.
 
-config.assets.enabled = false
-
-or compile: 
-
-bundle exec rake assets:precompile
-
-(See point 5. fixed asset pipeline for production). 
-
-Still a problem....
-
-
+Step 15. Grab a coffee, and reflect on your great achievements sofar :-)
  
-18. You don't need to install rails_xss as a plugin for Rails 3 and after. [TODO]
+Step 16. Warning: You don't need to install rails_xss as a plugin for Rails 3 and after. [TODO]
+	
+	http://simianarmy.com/post/11117853564/upgrading-to-rails-3-rails-xss
+	- What to do with this? It's not clear to me what the new situation is. 
 
-http://simianarmy.com/post/11117853564/upgrading-to-rails-3-rails-xss
-- What to do with this? 
+Step 17. [2013-03-13 12:26:00] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
 
-19. [2013-03-13 12:26:00] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
-
-Caused by webrick server. 
-
-20. Problems running rake on the server: [SOLVED]
-
-20.1 You have already activated rake 10.0.3, but your Gemfile requires rake 0.9.2.2. Using bundle exec may solve this.
-=> Fixed by running 'bundle update rake'
-20.2Could not find a JavaScript runtime. See https://github.com/sstephenson/execjs for a list of available runtimes.
-Need to install nodejs
-
-sudo apt-get install python-software-properties python g++ make
-OK
-sudo add-apt-repository ppa:chris-lea/node.js
-OK
-sudo apt-get update
-OK
-sudo apt-get install nodejs npm
-OK
-
-21 App doesn't start with passenger: 
-Error message:
-    http://github.com/distler/file_signature.git (at master) is not checked out. Please run `bundle install` (Bundler::GitError)
-    
-Discussed here: 
-
-http://code.google.com/p/phusion-passenger/issues/detail?id=505
-
-As we use RVM, we need to deal with different GemSets etc...
-
-http://everydayrails.com/2010/09/13/rvm-project-gemsets.html
-
-
-
-
-
- 
-
-
-
-  
-
+	Caused by webrick server, don't worry about it. 

@@ -1,0 +1,316 @@
+Welcome to the Phusion Passenger Apache 2 module installer, v3.0.18.
+
+This installer will guide you through the entire installation process. It
+shouldn't take more than 3 minutes in total.
+
+Here's what you can expect from the installation process:
+
+ 1. The Apache 2 module will be installed for you.
+ 2. You'll learn how to configure Apache.
+ 3. You'll learn how to deploy a Ruby on Rails application.
+
+Don't worry if anything goes wrong. This installer will advise you on how to
+solve any problems.
+
+Press Enter to continue, or Ctrl-C to abort.
+
+
+--------------------------------------------
+
+Checking for required software...
+
+ * GNU C++ compiler... found at /usr/bin/g++
+ * Curl development headers with SSL support... found
+ * OpenSSL development headers... found
+ * Zlib development headers... found
+ * Ruby development headers... found
+ * OpenSSL support for Ruby... found
+ * RubyGems... found
+ * Rake... found at /usr/local/rvm/wrappers/ruby-1.9.3-p194/rake
+ * rack... found
+ * Apache 2... found at /usr/sbin/apache2
+ * Apache 2 development headers... found at /usr/bin/apxs2
+ * Apache Portable Runtime (APR) development headers... found at /usr/bin/apr-1-config
+ * Apache Portable Runtime Utility (APU) development headers... found at /usr/bin/apu-1-config
+
+--------------------------------------------
+Compiling and installing Apache 2 module...
+cd /usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.18
+/usr/local/rvm/wrappers/ruby-1.9.3-p194/rake apache2:clean apache2 RELEASE=yes
+# /usr/local/rvm/wrappers/ruby-1.9.3-p194/rake apache2:clean apache2 RELEASE=yes
+rm -rf ext/common/libboost_oxt.a ext/common/libboost_oxt
+rm -rf ext/common/libpassenger_common.a ext/common/libpassenger_common
+rm -f agents/PassengerWatchdog agents/PassengerLoggingAgent
+rm -rf ext/apache2/module_libboost_oxt.a ext/apache2/module_libboost_oxt
+rm -rf ext/apache2/module_libpassenger_common.a ext/apache2/module_libpassenger_common
+rm -rf ext/apache2/Configuration.o ext/apache2/Bucket.o ext/apache2/Hooks.o ext/apache2/mod_passenger.o ext/apache2/mod_passenger.so agents/PassengerHelperAgent
+mkdir -p ext/apache2/module_libpassenger_common
+g++ -Iext -Iext/common -Iext/libev -fPIC -fvisibility=hidden -DVISIBILITY_ATTRIBUTE_SUPPORTED -Wno-attributes -DLINUX=2 -D_REENTRANT -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -I/usr/include/apr-1.0 -I/usr/include/apr-1.0 -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread -I/usr/include/apache2 -D_REENTRANT -I/usr/local/include -DHASH_NAMESPACE="__gnu_cxx" -DHASH_NAMESPACE="__gnu_cxx" -DHASH_FUN_H="<hash_fun.h>" -DHAS_ALLOCA_H -DHAS_SFENCE -DHAS_LFENCE -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwrite-strings -Wno-long-long -Wno-missing-field-initializers -g -DPASSENGER_DEBUG -DBOOST_DISABLE_ASSERTS -o ext/apache2/module_libpassenger_common/aggregate.o -c ext/apache2/module_libpassenger_common/aggregate.cpp
+rm -rf ext/apache2/module_libpassenger_common.a
+ar cru ext/apache2/module_libpassenger_common.a ext/apache2/module_libpassenger_common/aggregate.o
+ranlib ext/apache2/module_libpassenger_common.a
+mkdir -p ext/apache2/module_libboost_oxt
+g++ -Iext -fPIC -fvisibility=hidden -DVISIBILITY_ATTRIBUTE_SUPPORTED -Wno-attributes -DLINUX=2 -D_REENTRANT -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -I/usr/include/apr-1.0 -I/usr/include/apr-1.0 -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread -I/usr/include/apache2 -D_REENTRANT -I/usr/local/include -DHASH_NAMESPACE="__gnu_cxx" -DHASH_NAMESPACE="__gnu_cxx" -DHASH_FUN_H="<hash_fun.h>" -DHAS_ALLOCA_H -DHAS_SFENCE -DHAS_LFENCE -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwrite-strings -Wno-long-long -Wno-missing-field-initializers -g -DPASSENGER_DEBUG -DBOOST_DISABLE_ASSERTS -o ext/apache2/module_libboost_oxt/aggregate.o -c ext/apache2/module_libboost_oxt/aggregate.cpp
+mkdir -p ext/apache2/module_libboost_oxt
+rm -rf ext/apache2/module_libboost_oxt.a
+ar cru ext/apache2/module_libboost_oxt.a ext/apache2/module_libboost_oxt/aggregate.o
+ranlib ext/apache2/module_libboost_oxt.a
+gcc -Iext -Iext/common -fPIC -fvisibility=hidden -DVISIBILITY_ATTRIBUTE_SUPPORTED -Wno-attributes -DLINUX=2 -D_REENTRANT -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -I/usr/include/apr-1.0 -I/usr/include/apr-1.0 -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread -I/usr/include/apache2 -D_REENTRANT -I/usr/local/include -DHASH_NAMESPACE="__gnu_cxx" -DHASH_NAMESPACE="__gnu_cxx" -DHASH_FUN_H="<hash_fun.h>" -DHAS_ALLOCA_H -DHAS_SFENCE -DHAS_LFENCE -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwrite-strings -Wno-long-long -Wno-missing-field-initializers -g -DPASSENGER_DEBUG -DBOOST_DISABLE_ASSERTS -o ext/apache2/mod_passenger.o -c ext/apache2/mod_passenger.c
+g++ -Iext -Iext/common -fPIC -fvisibility=hidden -DVISIBILITY_ATTRIBUTE_SUPPORTED -Wno-attributes -DLINUX=2 -D_REENTRANT -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -I/usr/include/apr-1.0 -I/usr/include/apr-1.0 -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread -I/usr/include/apache2 -D_REENTRANT -I/usr/local/include -DHASH_NAMESPACE="__gnu_cxx" -DHASH_NAMESPACE="__gnu_cxx" -DHASH_FUN_H="<hash_fun.h>" -DHAS_ALLOCA_H -DHAS_SFENCE -DHAS_LFENCE -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwrite-strings -Wno-long-long -Wno-missing-field-initializers -g -DPASSENGER_DEBUG -DBOOST_DISABLE_ASSERTS -o ext/apache2/Configuration.o -c ext/apache2/Configuration.cpp
+g++ -Iext -Iext/common -fPIC -fvisibility=hidden -DVISIBILITY_ATTRIBUTE_SUPPORTED -Wno-attributes -DLINUX=2 -D_REENTRANT -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -I/usr/include/apr-1.0 -I/usr/include/apr-1.0 -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread -I/usr/include/apache2 -D_REENTRANT -I/usr/local/include -DHASH_NAMESPACE="__gnu_cxx" -DHASH_NAMESPACE="__gnu_cxx" -DHASH_FUN_H="<hash_fun.h>" -DHAS_ALLOCA_H -DHAS_SFENCE -DHAS_LFENCE -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwrite-strings -Wno-long-long -Wno-missing-field-initializers -g -DPASSENGER_DEBUG -DBOOST_DISABLE_ASSERTS -o ext/apache2/Bucket.o -c ext/apache2/Bucket.cpp
+g++ -Iext -Iext/common -fPIC -fvisibility=hidden -DVISIBILITY_ATTRIBUTE_SUPPORTED -Wno-attributes -DLINUX=2 -D_REENTRANT -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -I/usr/include/apr-1.0 -I/usr/include/apr-1.0 -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread -I/usr/include/apache2 -D_REENTRANT -I/usr/local/include -DHASH_NAMESPACE="__gnu_cxx" -DHASH_NAMESPACE="__gnu_cxx" -DHASH_FUN_H="<hash_fun.h>" -DHAS_ALLOCA_H -DHAS_SFENCE -DHAS_LFENCE -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwrite-strings -Wno-long-long -Wno-missing-field-initializers -g -DPASSENGER_DEBUG -DBOOST_DISABLE_ASSERTS -o ext/apache2/Hooks.o -c ext/apache2/Hooks.cpp
+g++ -shared ext/apache2/Configuration.o ext/apache2/Bucket.o ext/apache2/Hooks.o ext/apache2/mod_passenger.o -fPIC -o ext/apache2/mod_passenger.so -fPIC -fvisibility=hidden -DVISIBILITY_ATTRIBUTE_SUPPORTED -Wno-attributes -DLINUX=2 -D_REENTRANT -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -I/usr/include/apr-1.0 -I/usr/include/apr-1.0 -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread -I/usr/include/apache2 -D_REENTRANT -I/usr/local/include -DHASH_NAMESPACE="__gnu_cxx" -DHASH_NAMESPACE="__gnu_cxx" -DHASH_FUN_H="<hash_fun.h>" -DHAS_ALLOCA_H -DHAS_SFENCE -DHAS_LFENCE -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwrite-strings -Wno-long-long -Wno-missing-field-initializers -g -DPASSENGER_DEBUG -DBOOST_DISABLE_ASSERTS ext/apache2/module_libpassenger_common.a ext/apache2/module_libboost_oxt.a -fPIC -L/usr/lib -lapr-1 -L/usr/lib -laprutil-1 -lpthread  
+mkdir -p ext/common/libpassenger_common
+g++ -Iext -Iext/common -Iext/libev  -D_REENTRANT -I/usr/local/include -DHASH_NAMESPACE="__gnu_cxx" -DHASH_NAMESPACE="__gnu_cxx" -DHASH_FUN_H="<hash_fun.h>" -DHAS_ALLOCA_H -DHAS_SFENCE -DHAS_LFENCE -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwrite-strings -Wno-long-long -Wno-missing-field-initializers -g -DPASSENGER_DEBUG -DBOOST_DISABLE_ASSERTS -o ext/common/libpassenger_common/aggregate.o -c ext/common/libpassenger_common/aggregate.cpp
+rm -rf ext/common/libpassenger_common.a
+ar cru ext/common/libpassenger_common.a ext/common/libpassenger_common/aggregate.o
+ranlib ext/common/libpassenger_common.a
+mkdir -p ext/common/libboost_oxt
+g++ -Iext  -D_REENTRANT -I/usr/local/include -DHASH_NAMESPACE="__gnu_cxx" -DHASH_NAMESPACE="__gnu_cxx" -DHASH_FUN_H="<hash_fun.h>" -DHAS_ALLOCA_H -DHAS_SFENCE -DHAS_LFENCE -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwrite-strings -Wno-long-long -Wno-missing-field-initializers -g -DPASSENGER_DEBUG -DBOOST_DISABLE_ASSERTS -o ext/common/libboost_oxt/aggregate.o -c ext/common/libboost_oxt/aggregate.cpp
+mkdir -p ext/common/libboost_oxt
+rm -rf ext/common/libboost_oxt.a
+ar cru ext/common/libboost_oxt.a ext/common/libboost_oxt/aggregate.o
+ranlib ext/common/libboost_oxt.a
+mkdir -p agents/apache2
+g++ ext/apache2/HelperAgent.cpp -o agents/apache2/PassengerHelperAgent -Iext -Iext/common -D_REENTRANT -I/usr/local/include -DHASH_NAMESPACE="__gnu_cxx" -DHASH_NAMESPACE="__gnu_cxx" -DHASH_FUN_H="<hash_fun.h>" -DHAS_ALLOCA_H -DHAS_SFENCE -DHAS_LFENCE -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwrite-strings -Wno-long-long -Wno-missing-field-initializers -g -DPASSENGER_DEBUG -DBOOST_DISABLE_ASSERTS ext/common/libpassenger_common.a ext/common/libboost_oxt.a -lpthread -rdynamic 
+g++ ext/common/Watchdog.cpp -o agents/PassengerWatchdog -Iext -Iext/common -D_REENTRANT -I/usr/local/include -DHASH_NAMESPACE="__gnu_cxx" -DHASH_NAMESPACE="__gnu_cxx" -DHASH_FUN_H="<hash_fun.h>" -DHAS_ALLOCA_H -DHAS_SFENCE -DHAS_LFENCE -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwrite-strings -Wno-long-long -Wno-missing-field-initializers -g -DPASSENGER_DEBUG -DBOOST_DISABLE_ASSERTS ext/common/libpassenger_common.a ext/common/libboost_oxt.a -lpthread -rdynamic 
+cd ext/libev/ && sh /usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.18/ext/libev/configure --disable-shared --enable-static
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether to enable maintainer-specific portions of Makefiles... no
+checking for a BSD-compatible install... /usr/bin/install -c
+checking build system type... i686-pc-linux-gnu
+checking host system type... i686-pc-linux-gnu
+checking for style of include used by make... GNU
+checking for gcc... gcc
+checking for C compiler default output file name... a.out
+checking whether the C compiler works... yes
+checking whether we are cross compiling... no
+checking for suffix of executables... 
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking dependency style of gcc... none
+checking for a sed that does not truncate output... /bin/sed
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for ld used by gcc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for /usr/bin/ld option to reload object files... -r
+checking for BSD-compatible nm... /usr/bin/nm -B
+checking whether ln -s works... yes
+checking how to recognize dependent libraries... pass_all
+checking how to run the C preprocessor... gcc -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking dlfcn.h usability... yes
+checking dlfcn.h presence... yes
+checking for dlfcn.h... yes
+checking for g++... g++
+checking whether we are using the GNU C++ compiler... yes
+checking whether g++ accepts -g... yes
+checking dependency style of g++... none
+checking how to run the C++ preprocessor... g++ -E
+checking for g77... no
+checking for xlf... no
+checking for f77... no
+checking for frt... no
+checking for pgf77... no
+checking for cf77... no
+checking for fort77... no
+checking for fl32... no
+checking for af77... no
+checking for xlf90... no
+checking for f90... no
+checking for pgf90... no
+checking for pghpf... no
+checking for epcf90... no
+checking for gfortran... no
+checking for g95... no
+checking for xlf95... no
+checking for f95... no
+checking for fort... no
+checking for ifort... no
+checking for ifc... no
+checking for efc... no
+checking for pgf95... no
+checking for lf95... no
+checking for ftn... no
+checking whether we are using the GNU Fortran 77 compiler... no
+checking whether  accepts -g... no
+checking the maximum length of command line arguments... 1572864
+checking command to parse /usr/bin/nm -B output from gcc object... ok
+checking for objdir... .libs
+checking for ar... ar
+checking for ranlib... ranlib
+checking for strip... strip
+checking if gcc supports -fno-rtti -fno-exceptions... no
+checking for gcc option to produce PIC... -fPIC
+checking if gcc PIC flag -fPIC works... yes
+checking if gcc static flag -static works... yes
+checking if gcc supports -c -o file.o... yes
+checking whether the gcc linker (/usr/bin/ld) supports shared libraries... yes
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... no
+checking whether to build static libraries... yes
+configure: creating libtool
+appending configuration tag "CXX" to libtool
+checking for ld used by g++... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking whether the g++ linker (/usr/bin/ld) supports shared libraries... yes
+checking for g++ option to produce PIC... -fPIC
+checking if g++ PIC flag -fPIC works... yes
+checking if g++ static flag -static works... yes
+checking if g++ supports -c -o file.o... yes
+checking whether the g++ linker (/usr/bin/ld) supports shared libraries... yes
+checking dynamic linker characteristics... GNU/Linux ld.so
+(cached) (cached) checking how to hardcode library paths into programs... immediate
+appending configuration tag "F77" to libtool
+checking sys/inotify.h usability... yes
+checking sys/inotify.h presence... yes
+checking for sys/inotify.h... yes
+checking sys/epoll.h usability... yes
+checking sys/epoll.h presence... yes
+checking for sys/epoll.h... yes
+checking sys/event.h usability... no
+checking sys/event.h presence... no
+checking for sys/event.h... no
+checking sys/queue.h usability... yes
+checking sys/queue.h presence... yes
+checking for sys/queue.h... yes
+checking port.h usability... no
+checking port.h presence... no
+checking for port.h... no
+checking poll.h usability... yes
+checking poll.h presence... yes
+checking for poll.h... yes
+checking sys/select.h usability... yes
+checking sys/select.h presence... yes
+checking for sys/select.h... yes
+checking sys/eventfd.h usability... yes
+checking sys/eventfd.h presence... yes
+checking for sys/eventfd.h... yes
+checking sys/signalfd.h usability... yes
+checking sys/signalfd.h presence... yes
+checking for sys/signalfd.h... yes
+checking for inotify_init... yes
+checking for epoll_ctl... yes
+checking for kqueue... no
+checking for port_create... no
+checking for poll... yes
+checking for select... yes
+checking for eventfd... yes
+checking for signalfd... yes
+checking for clock_gettime... no
+checking for clock_gettime syscall... yes
+checking for nanosleep... yes
+checking for ceil in -lm... yes
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating config.h
+config.status: executing depfiles commands
+rm -f ext/libev//libev.la
+cd ext/libev/ && make libev.la
+/bin/bash ./libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I.     -g -O2 -O3 -c -o ev.lo ev.c
+ gcc -DHAVE_CONFIG_H -I. -g -O2 -O3 -c ev.c -o ev.o
+ev.c: In function 'evpipe_write':
+ev.c:1236: warning: ignoring return value of 'write', declared with attribute warn_unused_result
+ev.c:1240: warning: ignoring return value of 'write', declared with attribute warn_unused_result
+ev.c: In function 'pipecb':
+ev.c:1257: warning: ignoring return value of 'read', declared with attribute warn_unused_result
+ev.c:1263: warning: ignoring return value of 'read', declared with attribute warn_unused_result
+/bin/bash ./libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I.     -g -O2 -O3 -c -o event.lo event.c
+ gcc -DHAVE_CONFIG_H -I. -g -O2 -O3 -c event.c -o event.o
+/bin/bash ./libtool --tag=CC   --mode=link gcc  -g -O2 -O3 -version-info 3:0  -o libev.la -rpath /usr/local/lib ev.lo event.lo  -lm 
+mkdir .libs
+ar cru .libs/libev.a  ev.o event.o
+ranlib .libs/libev.a
+creating libev.la
+(cd .libs && rm -f libev.la && ln -s ../libev.la libev.la)
+g++ ext/common/LoggingAgent/Main.cpp -o agents/PassengerLoggingAgent -Iext -Iext/common -Iext/libev   -D_REENTRANT -I/usr/local/include -DHASH_NAMESPACE="__gnu_cxx" -DHASH_NAMESPACE="__gnu_cxx" -DHASH_FUN_H="<hash_fun.h>" -DHAS_ALLOCA_H -DHAS_SFENCE -DHAS_LFENCE -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwrite-strings -Wno-long-long -Wno-missing-field-initializers -g -DPASSENGER_DEBUG -DBOOST_DISABLE_ASSERTS ext/common/libpassenger_common.a ext/common/libboost_oxt.a ext/libev/.libs/libev.a -lcurl -lz -lpthread -rdynamic 
+mkdir -p 'ext/ruby/ruby-1.9.3-x86-linux/'
+cd 'ext/ruby/ruby-1.9.3-x86-linux/' && /usr/local/rvm/wrappers/ruby-1.9.3-p194/ruby '/usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.18/ext/ruby/extconf.rb'
+checking for alloca.h... yes
+checking for ruby/io.h... yes
+creating Makefile
+cd 'ext/ruby/ruby-1.9.3-x86-linux/' && make
+compiling /usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.18/ext/ruby/passenger_native_support.c
+linking shared-object passenger_native_support.so
+
+--------------------------------------------
+The Apache 2 module was successfully installed.
+
+Please edit your Apache configuration file, and add these lines:
+
+LoadModule passenger_module /usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.18/ext/apache2/mod_passenger.so
+PassengerRoot /usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.18
+PassengerRuby /usr/local/rvm/wrappers/ruby-1.9.3-p194/ruby
+
+After you restart Apache, you are ready to deploy any number of Ruby on Rails
+applications on Apache, without any further Ruby on Rails-specific
+configuration!
+
+
+
+
+
+Hooking a rails app
+===================
+
+1) Create a virtual host.  (See http://httpd.apache.org/docs/2.2/vhosts/name-based.html) 
+Test App
+
+ <VirtualHost *:80>
+      ServerName www.netxforge.com
+      # !!! Be sure to point DocumentRoot to 'public'!
+      DocumentRoot /home/apps/passenger_test/public
+      <Directory /home/apps/passenger_test/public>
+         # This relaxes Apache security settings.
+         AllowOverride all
+         # MultiViews must be turned off.
+         Options -MultiViews
+      </Directory>
+   </VirtualHost>
+
+removed index.html from /public. Auch error: 
+
+
+
+2) NetXForge app
+ <VirtualHost *:80>
+      ServerName www.netxforge.com
+      DocumentRoot /home/apps/com.netxforge.store/app/public
+      <Directory /home/apps/com.netxforge.store/app//public>
+         # This relaxes Apache security settings.
+         AllowOverride all
+         # MultiViews must be turned off.
+         Options -MultiViews
+      </Directory>
+   </VirtualHost>
+
+
+
+
+
+
+
+
+
+
+
+
