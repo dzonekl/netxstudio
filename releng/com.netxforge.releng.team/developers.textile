@@ -1,23 +1,63 @@
-h1. Hold Team Project Set. 
+h1. NetXStudio Release Engineering 
 
-h2. To use 
+This document describes the NetXStudio release engineering process. 
+Release Engineering specifies the process from committing source code to the actual 
+availability of NextStudio downloadable product on the NetXForge website. 
+
+The following Steps are executed
+
+Overall Preparation Step
+
+1. Check out of source code and self-managed libraries from Git Repository. 
+2. Import and materialization of components
+3. Production of P2 repositories
+4. Copy of P2 Site repositories to public URL's
+
+
+Product Manufacturing
+
+1. Import the product definition
+2. Fetch components from public P2 repositories
+3. Create Java Documentation
+4. Create the products (Archive as .zip) for each architecture (win32, linux, macosx)
+5. Copy the product files to public download locations. 
+
+
+h2. Build infrastructure
+
+Our build infrastructure consists of a Jenkins Build server. 
+It has several build jobs running.
+
+1. P2 Site Building Job. 
+
+This jobs produces P2 Sites which are used further in the product build process. 
+The P2 site is are repositories containing all features and plugins from NetXForge and other external Open Source
+producers. A P2 can be seen as a big basket of components with certain specif revisions. 
+
+The following P2 Sites are produced: 
+
+* The External P2 Site => Published on p2.netxforge.com/site.p2
+* The Own P2 Site => http://p2.netxforge.com/own.p2/
+
+2. The Product Building Jobs.
+
+For each of the NetXForge products we have a product building job. 
+
+h2. 
+
+
+h2. Setting up Eclipse for development. 
 
 * Download Eclipse and launch it in a fresh workspace. 
+
 ** Eclipse can be downloaded from "here":http://www.eclipse.org
 ** Setup the target platform
 
 The Target Platform (TP) is the dependencies for which the code will be compiled against. 
 By default the TP is all the plugins which come with the download. For NetXForge, we have published
-the dependencies to make sure we always use the same one. 
-
+the dependencies in the P2 Sites to make sure we always use the exact needed dependencies. 
 
 
 
 * Add a GIT repository (NetXForge GIT URL). 
-
-
-
-
 * Checkout the repo projects into the Workspace. 
-
-Checkout what you need to change. 

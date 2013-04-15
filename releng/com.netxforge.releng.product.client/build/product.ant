@@ -38,13 +38,13 @@ ANT Script to produce a product.
 		<mkdir dir="${destination}" />
 		<echoproperties />
 		<echo message="Equinox Launcher => ${equinox.launcher.jar}" />
-		<echo message="Repository => ${repo}" />
+		<echo message="Repositories => ${repo_external} , ${repo_own}  " />
 		<echo message="Destination => ${destination}" />
 		<java jar="${equinox.launcher.jar}" fork="true" failonerror="true">
 			<arg value="-application" />
 			<arg value="org.eclipse.equinox.p2.director" />
 			<arg value="-repository" />
-			<arg value="${repo}" />
+			<arg value="${repo_own},${repo_external}" />
 			<arg value="-destination" />
 			<arg value="${destination}" />
 			<arg value="-profile" />
