@@ -1,0 +1,44 @@
+<!--
+NetXForge 2013
+Christophe Bouhier
+
+ANT Script to produce javadoc 
+-->
+<project>
+	<target name="create.javadoc" description="Generate the JavaDoc for the sources">
+
+		<!-- Set from a buckminster property-->
+		<buckminster.targetPlatformLocation property="target.platform.location" />
+		<echo message="javadoc source ${source}" />
+		<echo message="javadoc screens source ${source}/screens" />
+		<echo message="javadoc destination ${javadoc.output}" />
+		<!-- The last succesfull TP (Hard coded in the bucky script). -->
+		<echo message="target platform ${tp.last.succes}" />
+
+		<!-- set target platform as classpath -->
+		<path id="files-classpath">
+			<fileset dir="${target.platform.location}/plugins">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+
+		<!-- clean and create output location -->
+		<delete dir="${javadoc.output}" />
+		<mkdir dir="${javadoc.output}" />
+
+		<!-- generate the javadoc -->
+		<javadoc destdir="${javadoc.output}" classpathref="files-classpath" maxmemory="1024m" source="1.6" useexternalfile="true" author="true" version="true" use="true" windowtitle="Documentation">
+			<!-- link external APIs -->
+			<link offline="false" href="http://java.sun.com/javase/6/docs/api/" />
+			<link offline="false" href="http://www.osgi.org/javadoc/r4v42/" />
+			<link offline="false" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.5.0/" />
+			<!-- screens sources -->
+			<fileset dir="${source}/screens/">
+				<include name="**/*.java" />
+				<exclude name="**/test/**" />
+			</fileset>
+			<bottom>
+				<![CDATA[<i>Copyright © 2013 NetXForge</i>]]></bottom>
+	</javadoc>
+</target>
+</project>

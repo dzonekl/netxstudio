@@ -5,8 +5,7 @@ This is a template for building NetXStudio products.
 It includes: 
 
 1. The Query (netxstudio.cquery) for the resolution process.
-The query resolves from a previously generated p2 site, which includes our materialized dependencies, 
-including ther 
+The query resolves from a previously generated p2 site, which includes our materialized dependencies.
 
 2. a customized .cspex which defines several actions: 
 
