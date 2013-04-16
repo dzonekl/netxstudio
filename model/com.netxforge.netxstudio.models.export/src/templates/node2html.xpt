@@ -245,11 +245,7 @@
 «this»
 «ENDDEFINE»
 
-<<<<<<< HEAD
-«DEFINE Details FOR library::Tolerance »
-=======
 «DEFINE Details FOR library::Tolerance»
->>>>>>> - fix problem with « » characters.
 	<tr>
 		<td>«this.name»</td>
 		<td class="expression">«this.expressionRef.name »</td>
