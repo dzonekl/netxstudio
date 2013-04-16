@@ -85,6 +85,65 @@ Arguments Description
     -tag: a label. This allows to tag the profile state resulting from the operation being executed.
     -verifyOnly: only verify that the actions can be performed. Don't actually install or remove anything.
 
+(Printout from version 4.2)
+
+-help | -h | -?
+  Prints this command line help information.
+-list | -l [ <comma separated list> ]
+  Lists all IU's found in the given repositories. IUs can optionally be listed.  Each entry in the list is in the form <id> [ '/' <version> ].
+-listInstalledRoots | -lir
+  Lists all root IU's found in the given profile. Each entry in the list is in the form <id> [ '/' <version> ].
+-installIU | -installIUs | -i <comma separated list>
+  Installs the listed IU's. Each entry in the list is in the form <id> [ '/' <version> ].
+-uninstallIU | -uninstallIUs | -u <comma separated list>
+  Uninstalls the listed IU's. Each entry in the list is in the form <id> [ '/' <version> ].
+-revert <comma separated list>
+  Revert the installation to a previous state [ the number representing the previous state of the profile  as found in p2/org.eclipse.equinox.p2.engine/<profileId>/ ].
+-destination | -d <path>
+  The folder in which the targeted product is located.
+-downloadOnly
+  Only download the artifacts.
+-metadatarepository | metadatarepositories | -m <comma separated list>
+  A list of URL's denoting meta-data repositories.
+-artifactrepository | artifactrepositories | -a <comma separated list>
+  A list of URL's denoting artifact repositories.
+-repository | repositories | -r <comma separated list>
+  A list of URL's denoting co-located meta-data and artifact repositories.
+-verifyOnly
+  Only verify that the actions can be performed. Don't actually install or remove anything.
+-tag <name>
+  Tag the provisioning operation for easy referencing when reverting.
+-listTags
+  List the tags available
+-profile | -p <name>
+  Defines what profile to use for the actions.
+-flavor | -f <name>
+  Defines what flavor to use for a newly created profile.
+-shared | -s [ <path> ]
+  Use a shared location for the install. The <path> defaults to ${user.home}/.p2
+-bundlepool | -b <path>
+  The location where the plug-ins and features will be stored. Effective only when a new profile is created.
+-profileproperties <comma separated list>
+  A list of properties in the form key=value pairs. Effective only when a new profile is created.
+-iuProfileproperties <path>
+  Path to a properties file containing a list of IU profile properties to set.
+-roaming
+  Indicates that the product resulting from the installation can be moved. Effective only when a new profile is created.
+-p2.os
+  The OS to use when the profile is created.
+-p2.ws
+  The windowing system to use when the profile is created.
+-p2.arch
+  The architecture to use when the profile is created.
+-p2.nl
+  The language to use when the profile is created.
+-purgeHistory
+  Remove the history of the profile registry.
+-followReferences
+  Follow repository references.
+
+
+
 
 ANT TROUBLESHOOTING
 ===================

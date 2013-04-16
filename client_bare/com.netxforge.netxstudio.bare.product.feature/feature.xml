@@ -17,6 +17,10 @@
       [Enter License Description here.]
    </license>
 
+   <url>
+      <discovery label="NetXForge External Dependencies" url="http://p2.netxforge.com/site.p2"/>
+   </url>
+
    <plugin
          id="com.netxforge.netxstudio.bare.product"
          download-size="0"

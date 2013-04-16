@@ -1,105 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
    <feature url="features/com.google.artifacts.feature_1.0.0.qualifier.jar" id="com.google.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.antlr.artifacts.feature_1.0.0.qualifier.jar" id="org.antlr.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.apache.artifacts.feature_1.0.0.qualifier.jar" id="org.apache.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.compare.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.compare.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.core.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.core.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.emf.compare.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.emf.compare.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.equinox.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.equinox.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.help.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.help.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.jdt.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.jdt.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.nebula.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.nebula.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.p2.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.p2.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.platform.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.platform.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.ui.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.ui.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.xtext.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.xtext.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.xtext.ui.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.xtext.ui.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.xtext.xbase.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.xtext.xbase.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.mortbay.artifacts.feature_1.0.0.qualifier.jar" id="org.mortbay.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.swtchart.artifacts.feature_1.0.0.qualifier.jar" id="org.swtchart.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/javax.artifacts.feature_1.0.0.qualifier.jar" id="javax.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/oracle.jdbc.driver.feature_1.0.0.qualifier.jar" id="oracle.jdbc.driver.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.apache.poi.artifacts.feature_1.0.0.qualifier.jar" id="org.apache.poi.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.draw2d_3.7.0.v20110425-2050-46-7w3122153603161.jar" id="org.eclipse.draw2d" version="3.7.0.v20110425-2050-46-7w3122153603161">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.gef_3.7.0.v20110425-2050-777D-81B2Bz0685C3A6E34272.jar" id="org.eclipse.gef" version="3.7.0.v20110425-2050-777D-81B2Bz0685C3A6E34272">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.emf.cdo.client.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.emf.cdo.client.artifacts.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.emf.common_2.7.0.v20110912-0920.jar" id="org.eclipse.emf.common" version="2.7.0.v20110912-0920">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.emf.common.ui_2.7.0.v20110913-1156.jar" id="org.eclipse.emf.common.ui" version="2.7.0.v20110913-1156">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.emf.databinding_1.2.0.v20110913-1156.jar" id="org.eclipse.emf.databinding" version="1.2.0.v20110913-1156">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.emf.databinding.edit_1.2.0.v20110913-1156.jar" id="org.eclipse.emf.databinding.edit" version="1.2.0.v20110913-1156">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.emf.ecore_2.8.1.v20120911-0500.jar" id="org.eclipse.emf.ecore" version="2.8.1.v20120911-0500">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.emf.ecore.edit_2.7.0.v20110913-1156.jar" id="org.eclipse.emf.ecore.edit" version="2.7.0.v20110913-1156">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.emf.edit_2.7.1.v20110913-1526.jar" id="org.eclipse.emf.edit" version="2.7.1.v20110913-1526">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/org.eclipse.emf.edit.ui_2.7.0.v20110913-1156.jar" id="org.eclipse.emf.edit.ui" version="2.7.0.v20110913-1156">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
    <feature url="features/com.mysql.driver.feature_1.0.0.qualifier.jar" id="com.mysql.driver.feature" version="1.0.0.qualifier">
-      <category name="netxplatform"/>
+      <category name="netxstudio.dependencies"/>
    </feature>
-   <category-def name="netxplatform" label="NetXStudio Platform Dependencies">
+   <category-def name="netxstudio.dependencies" label="NetXStudio Platform Dependencies">
       <description>
          External Features Required by the NetXStudio Platform
       </description>
