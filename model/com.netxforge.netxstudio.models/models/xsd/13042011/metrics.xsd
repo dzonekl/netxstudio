@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns="http://www.netxforge.com/06032012/metrics"
-	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:library="http://www.netxforge.com/06032012/library" xmlns:gen="http://www.netxforge.com/06032012/generics"
-	xmlns:operators="http://www.netxforge.com/06032012/operators" id="metrics"
-	targetNamespace="http://www.netxforge.com/06032012/metrics"
-	ecore:package="com.netxforge.netxstudio.metrics">
-	<xs:import schemaLocation="generics.xsd"
-		namespace="http://www.netxforge.com/06032012/generics"></xs:import>
-	<xs:import schemaLocation="library.xsd"
-		namespace="http://www.netxforge.com/06032012/library"></xs:import>
+<xs:schema xmlns="http://www.netxforge.com/13042011/metrics" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:gen="http://www.netxforge.com/13042011/generics" xmlns:library="http://www.netxforge.com/13042011/library" xmlns:operators="http://www.netxforge.com/13042011/operators" xmlns:xs="http://www.w3.org/2001/XMLSchema" ecore:package="com.netxforge.netxstudio.metrics" id="metrics" targetNamespace="http://www.netxforge.com/13042011/metrics">
+	<xs:import namespace="http://www.netxforge.com/13042011/generics" schemaLocation="generics.xsd"/>
+	<xs:import namespace="http://www.netxforge.com/13042011/library" schemaLocation="library.xsd"/>
 	<!--_____________________________ -->
 	<!--| METRIC | -->
 	<!--|___________________________| -->
@@ -36,8 +29,7 @@
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
 				<xs:sequence>
-					<xs:element maxOccurs="unbounded" minOccurs="0" name="Metrics"
-						type="Metric">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Metrics" type="Metric">
 						<xs:annotation>
 							<xs:documentation>The Metrics reference, contains 0 or more
 								Metric
@@ -45,8 +37,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ExpressionRef" ecore:reference="library:Expression"
-						type="xs:anyURI" maxOccurs="1" minOccurs="0">
+					<xs:element ecore:reference="library:Expression" maxOccurs="1" minOccurs="0" name="ExpressionRef" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The ExpressionRef reference, references 0 or
 								1 Expression type.
@@ -69,8 +60,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute ecore:reference="library:Unit" name="UnitRef"
-					type="xs:anyURI">
+				<xs:attribute ecore:reference="library:Unit" name="UnitRef" type="xs:anyURI">
 					<xs:annotation>
 						<xs:documentation>The UnitRef reference, refers to 0 or 1 Unit
 							type.
@@ -87,8 +77,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute ecore:reference="MetricSource"
-					ecore:opposite="MetricRefs" name="MetricSourceRef" type="xs:anyURI">
+				<xs:attribute ecore:opposite="MetricRefs" ecore:reference="MetricSource" name="MetricSourceRef" type="xs:anyURI">
 					<xs:annotation>
 						<xs:documentation>The MetricSourceRef references, references a
 							MetricSource type.
@@ -130,8 +119,7 @@
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
 				<xs:sequence>
-					<xs:element name="MetricMapping" type="Mapping"
-						maxOccurs="1" minOccurs="0">
+					<xs:element maxOccurs="1" minOccurs="0" name="MetricMapping" type="Mapping">
 						<xs:annotation>
 							<xs:documentation>Will not be persisted in the DB, but would use
 								a
@@ -139,8 +127,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Statistics" type="MappingStatistic"
-						maxOccurs="unbounded" minOccurs="0">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Statistics" type="MappingStatistic">
 						<xs:annotation>
 							<xs:documentation>The Statistics reference, contains one or more
 								MappingStatistic types.
@@ -195,15 +182,12 @@
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
 				<xs:sequence>
-					<xs:element name="HeaderMappingColumns" type="MappingColumn"
-						maxOccurs="unbounded" minOccurs="0">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="HeaderMappingColumns" type="MappingColumn">
 					</xs:element>
-					<xs:element name="DataMappingColumns" type="MappingColumn"
-						maxOccurs="unbounded" minOccurs="0">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="DataMappingColumns" type="MappingColumn">
 					</xs:element>
 				</xs:sequence>
-				<xs:attribute name="IntervalHint" type="xs:int"
-					default="60">
+				<xs:attribute default="60" name="IntervalHint" type="xs:int">
 					<xs:annotation>
 						<xs:documentation>The IntervalHint attribute, holds a hint for the
 							metric interval between each metric value in minutes.
@@ -232,8 +216,7 @@
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
 				<xs:sequence>
-					<xs:element name="DataType" type="DataKind" minOccurs="0"
-						maxOccurs="1">
+					<xs:element maxOccurs="1" minOccurs="0" name="DataType" type="DataKind">
 						<xs:annotation>
 							<xs:documentation>The ColumnDataKind reference, contains 1
 								DataKind
@@ -242,7 +225,7 @@
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
-				<xs:attribute name="column" type="xs:int" />
+				<xs:attribute name="column" type="xs:int"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -373,8 +356,8 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
-							<xs:enumeration value="Oracle" />
-							<xs:enumeration value="Postgres" />
+							<xs:enumeration value="Oracle"/>
+							<xs:enumeration value="Postgres"/>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:attribute>
@@ -413,7 +396,7 @@
 				the value of the column in the XLS with
 				with this
 				IdentifierDataType, will be interpreted
-				as the Node->NodeID
+				as the Node-&gt;NodeID
 				identifier.
 			</xs:documentation>
 		</xs:annotation>
@@ -431,10 +414,10 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
-							<xs:enumeration value="NODE"></xs:enumeration>
-							<xs:enumeration value="EQUIPMENT"></xs:enumeration>
-							<xs:enumeration value="FUNCTION"></xs:enumeration>
-							<xs:enumeration value="RELATIONSHIP"></xs:enumeration>
+							<xs:enumeration value="NODE"/>
+							<xs:enumeration value="EQUIPMENT"/>
+							<xs:enumeration value="FUNCTION"/>
+							<xs:enumeration value="RELATIONSHIP"/>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:attribute>
@@ -483,8 +466,7 @@
 		<xs:complexContent>
 			<xs:extension base="DataKind">
 				<xs:sequence>
-					<xs:element ecore:reference="Metric" minOccurs="0"
-						maxOccurs="1" name="MetricRef" type="xs:anyURI">
+					<xs:element ecore:reference="Metric" maxOccurs="1" minOccurs="0" name="MetricRef" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The MetricRef reference, refers to zero or one
 								Metric for which this data kind applies.
@@ -500,12 +482,12 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
-							<xs:enumeration value="INTERVAL"></xs:enumeration>
-							<xs:enumeration value="DATE"></xs:enumeration>
-							<xs:enumeration value="TIME"></xs:enumeration>
-							<xs:enumeration value="DATETIME"></xs:enumeration>
-							<xs:enumeration value="NULL"></xs:enumeration>
-							<xs:enumeration value="METRIC"></xs:enumeration>
+							<xs:enumeration value="INTERVAL"/>
+							<xs:enumeration value="DATE"/>
+							<xs:enumeration value="TIME"/>
+							<xs:enumeration value="DATETIME"/>
+							<xs:enumeration value="NULL"/>
+							<xs:enumeration value="METRIC"/>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:attribute>
@@ -515,7 +497,7 @@
 							datetime values</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="KindHint" type="KindHintType" use="optional" />
+				<xs:attribute name="KindHint" type="KindHintType" use="optional"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -540,8 +522,7 @@
 							mapping run.
 						</xs:documentation>
 					</xs:annotation>
-					<xs:element name="FailedRecords" type="MappingRecord"
-						maxOccurs="unbounded" minOccurs="0">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="FailedRecords" type="MappingRecord">
 						<xs:annotation>
 							<xs:documentation>The FailedRecords reference, contains 0 or more
 								MappingRecord types.
@@ -564,7 +545,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SubStatistics" type="MappingStatistic" minOccurs="0" maxOccurs="unbounded">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="SubStatistics" type="MappingStatistic">
 						<xs:annotation>
 							<xs:documentation>The SubStatistics contain 0 or more
 								MappingStatisic object. When importing multiple
@@ -620,7 +601,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="Count" type="xs:long" default="1">
+				<xs:attribute default="1" name="Count" type="xs:long">
 					<xs:annotation>
 						<xs:documentation>The Row attribute holds the row identifier.
 						</xs:documentation>
@@ -646,8 +627,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="MetricRetentionRules" type="MetricRetentionRule"
-				minOccurs="0" maxOccurs="unbounded" />
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="MetricRetentionRules" type="MetricRetentionRule"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -661,8 +641,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element ecore:reference="library:Expression" name="RetentionExpression"
-				type="xs:anyURI" minOccurs="0" maxOccurs="1">
+			<xs:element ecore:reference="library:Expression" maxOccurs="1" minOccurs="0" name="RetentionExpression" type="xs:anyURI">
 			</xs:element>
 		</xs:sequence>
 		<xs:attribute name="Name" type="gen:Name255">
@@ -691,10 +670,10 @@
 	<!--_______________________ -->
 	<xs:simpleType name="MetricRetentionPeriod">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="Always" />
-			<xs:enumeration value="One Year" />
-			<xs:enumeration value="One Month" />
-			<xs:enumeration value="One Week" />
+			<xs:enumeration value="Always"/>
+			<xs:enumeration value="One Year"/>
+			<xs:enumeration value="One Month"/>
+			<xs:enumeration value="One Week"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -714,8 +693,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="MetricValues" type="gen:Value"
-				maxOccurs="unbounded" minOccurs="0">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="MetricValues" type="gen:Value">
 				<xs:annotation>
 					<xs:documentation>The MetricValue reference, contains 0 or more
 						Value types
@@ -730,7 +708,7 @@
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="KindHint" type="KindHintType" />
+		<xs:attribute name="KindHint" type="KindHintType"/>
 	</xs:complexType>
 
 	<!--_______________________ -->
@@ -743,8 +721,8 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="BH" />
-			<xs:enumeration value="AVG" />
+			<xs:enumeration value="BH"/>
+			<xs:enumeration value="AVG"/>
 		</xs:restriction>
 	</xs:simpleType>
 

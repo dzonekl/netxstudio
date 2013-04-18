@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns="http://www.netxforge.com/06032012/services"
+<xs:schema xmlns="http://www.netxforge.com/13042011/services"
 	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	id="services" xmlns:gen="http://www.netxforge.com/06032012/generics"
-	xmlns:library="http://www.netxforge.com/06032012/library"
-	targetNamespace="http://www.netxforge.com/06032012/services"
-	xmlns:operators="http://www.netxforge.com/06032012/operators"
+	id="services" xmlns:gen="http://www.netxforge.com/13042011/generics"
+	xmlns:library="http://www.netxforge.com/13042011/library"
+	targetNamespace="http://www.netxforge.com/13042011/services"
+	xmlns:operators="http://www.netxforge.com/13042011/operators"
 	ecore:package="com.netxforge.netxstudio.services">
 	<xs:import schemaLocation="generics.xsd"
-		namespace="http://www.netxforge.com/06032012/generics">
+		namespace="http://www.netxforge.com/13042011/generics">
 	</xs:import>
 	<xs:import schemaLocation="library.xsd"
-		namespace="http://www.netxforge.com/06032012/library">
+		namespace="http://www.netxforge.com/13042011/library">
 	</xs:import>
 	<xs:import schemaLocation="operators.xsd"
-		namespace="http://www.netxforge.com/06032012/operators"></xs:import>
+		namespace="http://www.netxforge.com/13042011/operators"></xs:import>
 	<xs:annotation>
 		<xs:documentation>
 		</xs:documentation>
@@ -33,7 +33,7 @@
 					<xs:element name="Nodes" ecore:reference="operators:Node"
 						type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>The Network Element reference, references 0 or more Network Element
+							<xs:documentation>The Nodes reference, references 0 or more Node
 								types
 							</xs:documentation>
 						</xs:annotation>
@@ -58,36 +58,6 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
-	
-	<!--_______________________ -->
-	<!-- SERVICEFLOW -->
-	<!--_______________________ -->
-	<xs:complexType name="ServiceFlow">
-		<xs:annotation>
-			<xs:documentation>A type representing a Service flow.
-			Service flows are part of an RFService. A Service flow consists of service legs. Service 
-			flows operate on the Nodes of a Service.  
-			A service leg, has a start and end point, which represents the reference interface 
-			between two node types.   
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="gen:Base">
-				<xs:sequence>
-					<xs:element name="FlowParts" ecore:reference="library:ReferenceInterface"
-						type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>FlowParts are a sequence of Reference Interfaces which are ordered.
-							From the reference interface. 
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	
 
 	<!--_______________________ -->
 	<!-- CFSERVICE -->
