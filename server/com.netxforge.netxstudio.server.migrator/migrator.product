@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Netxserver Migrator" uid="com.netxforge.netxstudio.netxserver.product" id="com.netxforge.netxstudio.server.migrator.NetXServer" application="org.eclipse.emf.cdo.server.app" version="1.0" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -clean  -debug -console 8801 -noExit -consoleLog --launcher.XXMaxPermSize 128M</programArgs>
+      <programArgsLin>-data @user.home</programArgsLin>
+      <programArgsMac>-data @user.home/netxserver</programArgsMac>
+      <vmArgs>-Xms1048m
+-XX:+HeapDumpOnOutOfMemoryError
+-DskipInit=true</vmArgs>
+      <vmArgsLin>-server
+-Xmx4096m
+-Xss1048k
+-Dnet4j.config=../../../
+-Dcom.sun.management.jmxremote.port=8802
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false</vmArgsLin>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+-server
+-Xmx2048m
+-Xss512k
+-Dosgi.debug=file:/Users/Christophe/netxserver/.options
+-Dnet4j.config=&quot;${resource_loc:/com.netxforge.netxstudio.server.migrator/config}&quot;
+-Dcom.sun.management.jmxremote.port=8802
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false</vmArgsMac>
+      <vmArgsWin>-server
+-d32
+-Xmx1024m
+-Xss512k
+-Dnet4j.config=config
+-Dcom.sun.management.jmxremote.port=8812
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false</vmArgsWin>
+   </launcherArgs>
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+      <macos include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5</macos>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.netxforge.netxstudio.server.migrator.feature" version="1.0.0.qualifier"/>
+   </features>
+
+
+</product>

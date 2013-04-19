@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+    <extension
+          id="NetXServer"
+          point="org.eclipse.core.runtime.products">
+       <product
+             application="org.eclipse.emf.cdo.server.app"
+             name="Netxserver Migrator">
+          <property
+                name="appName"
+                value="Netxserver Migrator">
+          </property>
+       </product>
+    </extension>
+    <extension
+          point="org.eclipse.net4j.util.elementProcessors">
+       <elementProcessor
+             class="com.netxforge.netxstudio.server.migrator.Migrator">
+       </elementProcessor>
+    </extension>
+    <extension
+          point="org.eclipse.emf.cdo.server.appExtensions">
+       <appExtension
+             class="com.netxforge.netxstudio.server.migrator.Migrator">
+       </appExtension>
+    </extension>
+</plugin>
