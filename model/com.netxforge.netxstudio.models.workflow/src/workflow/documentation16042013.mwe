@@ -3,7 +3,7 @@
 	an excel format for data entry. 
 -->
 <workflow>
-  <property file="workflow/model.properties"/>
+  <property file="workflow/model16042013.properties"/>
 
   <bean class="org.eclipse.emf.mwe.utils.StandaloneSetup" >
     <platformUri value=".."/>
