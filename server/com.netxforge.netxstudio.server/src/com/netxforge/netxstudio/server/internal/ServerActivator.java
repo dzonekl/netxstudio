@@ -41,7 +41,6 @@ import com.google.inject.Injector;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.common.properties.PropertiesUtil;
 import com.netxforge.netxstudio.server.ServerIntegrity;
-import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.ServerUtils;
 
 /**
@@ -52,7 +51,7 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 		IPropertiesProvider, CommandProvider {
 
 	private static final String NETXSERVER_PROPERTIES_FILE_NAME = "netxserver.properties";
-
+	
 	private static BundleContext context;
 
 	private static ServerActivator INSTANCE;

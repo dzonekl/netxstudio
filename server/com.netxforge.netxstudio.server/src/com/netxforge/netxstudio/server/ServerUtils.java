@@ -23,6 +23,8 @@ import java.util.Map;
 import javax.xml.datatype.DatatypeFactory;
 
 import org.eclipse.emf.cdo.common.commit.handler.AsyncCommitInfoHandler;
+import org.eclipse.emf.cdo.common.revision.CDORevisionCache;
+import org.eclipse.emf.cdo.common.revision.CDORevisionUtil;
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
@@ -169,11 +171,10 @@ public class ServerUtils {
 					+ repository.getName() + " it must be " + REPO_NAME);
 		}
 	}
-	
-	
+
 	/**
-	 * TODO, this is not very different from {@link IDataProvider#openSession() } as the session type 
-	 * is done by the Session config.. 
+	 * TODO, this is not very different from {@link IDataProvider#openSession() }
+	 * as the session type is done by the Session config..
 	 * 
 	 * @return
 	 */
@@ -195,6 +196,11 @@ public class ServerUtils {
 	}
 
 	public CDONet4jSessionConfiguration createSessionConfiguration() {
+		return createSessionConfiguration(true);
+	}
+
+	public CDONet4jSessionConfiguration createSessionConfiguration(
+			boolean caching) {
 		// Prepare container
 		final IManagedContainer container = IPluginContainer.INSTANCE;
 		acceptor = JVMUtil.getAcceptor(container, "default");
@@ -208,11 +214,15 @@ public class ServerUtils {
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 		sessionConfiguration.setExceptionHandler(exceptionHandler);
 
-		// Note: Option to disable caching, this was of for Hibernate store, but
-		// back on for the DB Store.
-		// sessionConfiguration.setRevisionManager(CDORevisionUtil
-		// .createRevisionManager(CDORevisionCache.NOOP));
+		if (!caching) {
 
+			// Note: Option to disable caching, this was of for Hibernate store,
+			// but
+			// back on for the DB Store.
+			sessionConfiguration.setRevisionManager(CDORevisionUtil
+					.createRevisionManager(CDORevisionCache.NOOP));
+
+		}
 		final IPasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(
 				new PasswordCredentials(serverSideLogin,
 						serverSideLogin.toCharArray()));
@@ -303,7 +313,7 @@ public class ServerUtils {
 		final AsyncCommitInfoHandler asyncCommitInfoHandler = new AsyncCommitInfoHandler(
 				commitInfoHandler);
 		asyncCommitInfoHandler.activate();
-		
+
 		repository.getCommitInfoManager().addCommitInfoHandler(
 				asyncCommitInfoHandler);
 
@@ -315,12 +325,13 @@ public class ServerUtils {
 		return isInitializing;
 	}
 
-	static class ServerInitializer {
+	public static class ServerInitializer {
 
 		@Inject
 		@Server
 		private IDataProvider dataProvider;
 
+		@SuppressWarnings("unused")
 		@Inject
 		private ModelUtils modelUtils;
 
