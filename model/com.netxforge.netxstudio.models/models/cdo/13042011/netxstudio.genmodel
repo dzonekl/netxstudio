@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2011 NetXForge&#xA;&#xA;This program is free software: you can redistribute it and/or modify&#xA;it under the terms of the GNU Lesser General Public License as published by&#xA;the Free Software Foundation, either version 3 of the License, or&#xA;(at your option) any later version.&#xA;&#xA;This program is distributed in the hope that it will be useful,&#xA;but WITHOUT ANY WARRANTY; without even the implied warranty of&#xA;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#xA;GNU General Public License for more details.&#xA;You should have received a copy of the GNU Lesser General Public License&#xA;along with this program.  If not, see &lt;http://www.gnu.org/licenses/>&#xA;&#xA;Contributors:&#xA;Christophe Bouhier - initial API and implementation and/or initial documentation"
     modelDirectory="/com.netxforge.netxstudio.models.13042011/src-gen" modelPluginID="com.netxforge.netxstudio.models.13042011"
     templateDirectory="com.netxforge.netxstudio.models/templates" dynamicTemplates="true"
     modelName="Netxstudio" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl"
     reflectiveDelegation="true" importerID="org.eclipse.xsd.ecore.importer" featureDelegation="Reflective"
-    complianceLevel="6.0" copyrightFields="false" providerRootExtendsClass="com.netxforge.netxstudio.edit.MotherOfAllItemProvider">
+    complianceLevel="6.0" copyrightFields="false" providerRootExtendsClass="com.netxforge.netxstudio.edit.MotherOfAllItemProvider"
+    usedGenPackages="../../../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>../../xsd/13042011/netxstudio.xsd</foreignModel>
   <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
   <genPackages prefix="Scheduling" basePackage="com.netxforge.netxstudio" resource="XML"
