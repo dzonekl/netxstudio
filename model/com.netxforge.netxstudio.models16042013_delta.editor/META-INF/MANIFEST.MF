@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.netxforge.netxstudio.models.16042013_delta.editor;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: com.netxforge.netxstudio.delta16042013.generics.presentation.NetxstudioEditorPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: com.netxforge.netxstudio.delta16042013.generics.presentation,
+ com.netxforge.netxstudio.delta16042013.metrics.presentation
+Require-Bundle: org.eclipse.core.runtime,
+ com.netxforge.netxstudio.models.16042013_delta.edit;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.eclipse.emf.edit.ui;visibility:=reexport
+Bundle-ActivationPolicy: lazy

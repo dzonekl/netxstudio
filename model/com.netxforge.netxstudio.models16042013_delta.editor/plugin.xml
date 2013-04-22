@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ Copyright (c) 2011 NetXForge
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ You should have received a copy of the GNU Lesser General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>
+ 
+ Contributors:
+ Christophe Bouhier - initial API and implementation and/or initial documentation
+-->
+
+<plugin>
+
+   <extension
+         point="org.eclipse.core.runtime.applications"
+         id="NetxstudioEditorAdvisorApplication">
+      <!-- @generated netxstudio -->
+      <application>
+         <run class="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisor$Application"/>
+      </application>
+   </extension>
+
+   <extension point="org.eclipse.ui.perspectives">
+      <!-- @generated netxstudio -->
+      <perspective
+            name="%_UI_Perspective_label"
+            class="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisor$Perspective"
+            id="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisorPerspective">
+      </perspective>
+   </extension>
+
+   <extension point="org.eclipse.ui.commands">
+      <!-- @generated netxstudio -->
+      <command
+            name="%_UI_Menu_OpenURI_label"
+            description="%_UI_Menu_OpenURI_description"
+            categoryId="org.eclipse.ui.category.file"
+            id="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisorOpenURICommand"/>
+      <command
+            name="%_UI_Menu_Open_label"
+            description="%_UI_Menu_Open_description"
+            categoryId="org.eclipse.ui.category.file"
+            id="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisorOpenCommand"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.bindings">
+      <!-- @generated netxstudio -->
+      <key
+            commandId="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisorOpenURICommand"
+            sequence="M1+U"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+      <key
+            commandId="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisorOpenCommand"
+            sequence="M1+O"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <!-- @generated netxstudio -->
+      <actionSet
+            label="%_UI_NetxstudioEditorAdvisor_ActionSet_label"
+            visible="true"
+            id="NetxstudioEditorAdvisorActionSet">
+         <action
+               label="%_UI_Menu_About_label"
+               class="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisor$AboutAction"
+               menubarPath="help/additions"
+               id="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisorAboutAction"/>
+         <action
+               label="%_UI_Menu_OpenURI_label"
+               definitionId="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisorOpenURICommand"
+               class="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisor$OpenURIAction"
+               menubarPath="file/additions"
+               id="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisorOpenURIAction"/>
+         <action
+               label="%_UI_Menu_Open_label"
+               definitionId="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisorOpenCommand"
+               class="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisor$OpenAction"
+               menubarPath="file/additions"
+               id="com.netxforge.netxstudio.delta16042013.metrics.presentation.NetxstudioEditorAdvisorOpenAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <!-- @generated netxstudio -->
+      <actionSet
+            label="%_UI_GenericsModelWizard_ActionSet_label"
+            visible="true"
+            id="com.netxforge.netxstudio.delta16042013.generics.presentation.GenericsActionBarContributorActionSet">
+         <action
+               label="%_UI_GenericsModelWizard_label"
+               class="com.netxforge.netxstudio.delta16042013.generics.presentation.GenericsActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="com.netxforge.netxstudio.delta16042013.generics.presentation.GenericsActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated netxstudio -->
+      <editor
+            id="com.netxforge.netxstudio.delta16042013.generics.presentation.GenericsEditorID"
+            name="%_UI_GenericsEditor_label"
+            icon="icons/full/obj16/GenericsModelFile.gif"
+            extensions="generics"
+            class="com.netxforge.netxstudio.delta16042013.generics.presentation.GenericsEditor"
+            contributorClass="com.netxforge.netxstudio.delta16042013.generics.presentation.GenericsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <!-- @generated netxstudio -->
+      <actionSet
+            label="%_UI_MetricsModelWizard_ActionSet_label"
+            visible="true"
+            id="com.netxforge.netxstudio.delta16042013.metrics.presentation.MetricsActionBarContributorActionSet">
+         <action
+               label="%_UI_MetricsModelWizard_label"
+               class="com.netxforge.netxstudio.delta16042013.metrics.presentation.MetricsActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="com.netxforge.netxstudio.delta16042013.metrics.presentation.MetricsActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated netxstudio -->
+      <editor
+            id="com.netxforge.netxstudio.delta16042013.metrics.presentation.MetricsEditorID"
+            name="%_UI_MetricsEditor_label"
+            icon="icons/full/obj16/MetricsModelFile.gif"
+            extensions="metrics"
+            class="com.netxforge.netxstudio.delta16042013.metrics.presentation.MetricsEditor"
+            contributorClass="com.netxforge.netxstudio.delta16042013.metrics.presentation.MetricsActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
