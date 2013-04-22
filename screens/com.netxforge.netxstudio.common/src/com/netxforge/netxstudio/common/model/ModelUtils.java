@@ -61,7 +61,6 @@ import org.eclipse.emf.cdo.eresource.CDOResourceNode;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
@@ -389,10 +388,10 @@ public class ModelUtils {
 	public class MarkerTimeStampComparator implements Comparator<Marker> {
 		public int compare(final Marker m1, final Marker m2) {
 
-//			CDOUtil.cleanStaleReference(m1,
-//					OperatorsPackage.Literals.MARKER__VALUE_REF);
-//			CDOUtil.cleanStaleReference(m2,
-//					OperatorsPackage.Literals.MARKER__VALUE_REF);
+			// CDOUtil.cleanStaleReference(m1,
+			// OperatorsPackage.Literals.MARKER__VALUE_REF);
+			// CDOUtil.cleanStaleReference(m2,
+			// OperatorsPackage.Literals.MARKER__VALUE_REF);
 
 			return new ValueTimeStampComparator().compare(m1.getValueRef(),
 					m2.getValueRef());
@@ -1035,6 +1034,58 @@ public class ModelUtils {
 			return targetBegin >= begin && targetEnd <= end;
 
 		}
+	}
+
+	/**
+	 * A predicate if a {@link MetricSource} has a reference to a specified
+	 * {@link Metric}
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	public class MetricInMetricSourcePredicate implements
+			Predicate<MetricSource> {
+
+		private Metric metric;
+
+		public MetricInMetricSourcePredicate(Metric metric) {
+			this.metric = metric;
+		}
+
+		public boolean apply(MetricSource ms) {
+			Iterable<Metric> metricsInMetricSource = Iterables.transform(ms
+					.getMetricMapping().getDataMappingColumns(),
+					new Function<MappingColumn, Metric>() {
+
+						public Metric apply(MappingColumn mc) {
+							if (mc.getDataType() instanceof ValueDataKind) {
+								return ((ValueDataKind) mc.getDataType())
+										.getMetricRef();
+							}
+							return null;
+						}
+					});
+
+			return Iterables.any(metricsInMetricSource,
+					new Predicate<Metric>() {
+
+						public boolean apply(Metric input) {
+							if(input != null && metric != null){
+								return input.equals(metric);
+							}
+							return false;
+							// Equality based on the name of the Metic
+//							if (input != null && metric != null
+//									&& input.getName() != null
+//									&& metric.getName() != null) {
+//								return input.getName().equals(metric.getName());
+//							}else {
+//								return false;
+//							}
+						}
+
+					});
+		}
+
 	}
 
 	/**
@@ -2491,6 +2542,22 @@ public class ModelUtils {
 		return sb.toString();
 	}
 
+	/**
+	 * Return the {@link MetricSource metric sources} containing a specified
+	 * {@link Metric}.
+	 * 
+	 * @param sources
+	 * @param metric
+	 * @return
+	 */
+	public List<MetricSource> metricSourcesForMetric(
+			List<MetricSource> sources, Metric metric) {
+		Iterable<MetricSource> filter = Iterables.filter(sources,
+				new MetricInMetricSourcePredicate(metric));
+		List<MetricSource> result = Lists.newArrayList(filter);
+		return result;
+	}
+
 	public List<NetXResource> resourcesInMetricSource(
 			EList<EObject> allMetrics, MetricSource ms) {
 
@@ -3035,6 +3102,22 @@ public class ModelUtils {
 				dateWithTimeCalendar.get(Calendar.MINUTE));
 		return baseCalendar.getTime();
 
+	}
+
+	public MetricRetentionRule metricRuleGlobalForInterval(
+			List<MetricRetentionRule> rules, final int intervalHint) {
+
+		try {
+			MetricRetentionRule find = Iterables.find(rules, new Predicate<MetricRetentionRule>() {
+
+				public boolean apply(MetricRetentionRule input) {
+					return input.getIntervalHint() == intervalHint;
+				}
+			});
+			return find;
+		} catch (NoSuchElementException nsee) {
+		}
+		return null;
 	}
 
 	public List<Integer> weekDaysAsInteger() {
