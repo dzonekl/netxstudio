@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/16042013_delta/metrics" 
+xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" 
+xmlns:gen="http://www.netxforge.com/16042013_delta/generics" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+ecore:package="com.netxforge.netxstudio.delta16042013.metrics" 
+id="metrics" targetNamespace="http://www.netxforge.com/16042013_delta/metrics">
+	<xs:import namespace="http://www.netxforge.com/16042013_delta/generics" schemaLocation="generics.xsd"/>
+	
+	
+	<!--_____________________________ -->
+	<!--| ADDON | -->
+	<!--|___________________________| -->
+	
+	<xs:complexType name="Addon">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Metrics" type="Metric"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="MetricSources" type="MetricSource"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="MetricRetentionRuleSets" type="MetricRetentionRules"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="MetricAggregationRuleSets" type="MetricAggregationRules"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--_____________________________ -->
+	<!--| METRIC | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Metric">
+		<xs:annotation>
+			<xs:documentation>A type representing a metric in an a telecom
+				equipment. This is often also referred to as counter or KPI.
+				Metric
+				types can be nested to form a hiarchical structure in similar
+				fashion to a real KPI hiarchy.
+
+				The Metric type (and/or it's children)
+				is first part of the Library
+				type, and then referenced from a Node
+				type when
+				created.
+
+				Examples:
+				1. The Metric type "SGSN Attached
+				subscribers" reprents a KPI on a
+				SGSN function.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				
+				<xs:attribute name="Name" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The Name attribute holds the name of the metric.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute ecore:reference="MetricRetentionRules" name="MetricRetentionRuleSet" type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>The MetricRetentionRules reference, references a
+							rule set.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute ecore:reference="MetricAggregationRules" name="MetricAggregationRuleSet" type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>The MetricRetentionRules reference, references a
+							rule set.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!--_______________________ -->
+	<!-- METRIC SOURCE -->
+	<!--_______________________ -->
+
+	<xs:complexType name="MetricSource">
+		<xs:annotation>
+			<xs:documentation>A type representing the information points of a
+				source which provides metric values.
+				A source, is an external data
+				source like an RDBMS or an Excel or CSV
+				file. The MetricSource type
+				will contain all necessary
+				to access, and map the metric values of
+				the source to the correct
+				Object. (Most commonly a Node).
+
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:attribute name="Name" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The Name attribute holds the name of the
+							MetricSource as it will be presented.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute ecore:reference="MetricRetentionRules" name="MetricRetentionRuleSet" type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>The MetricRetentionRules reference, references a
+							rule set.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute ecore:reference="MetricAggregationRules" name="MetricAggregationRuleSet" type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>The MetricRetentionRules reference, references a
+							rule set.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- METRICRETENTIONRULES -->
+	<!--_______________________ -->
+	<xs:complexType name="MetricRetentionRules">
+		<xs:annotation>
+			<xs:documentation>The metric retention rules.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="MetricRetentionRules" type="MetricRetentionRule"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- METRICAGGREGATIONRULES -->
+	<!--_______________________ -->
+	<xs:complexType name="MetricAggregationRules">
+		<xs:annotation>
+			<xs:documentation>The metric retention rules.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="MetricAggregationRules" type="MetricAggregationRule"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- METRICAGGREGATIONRULE -->
+	<!--_______________________ -->
+	<xs:complexType name="MetricAggregationRule">
+		<xs:annotation>
+			<xs:documentation>A type with settings on aggregation of metric
+				values.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Rule">
+				<xs:sequence>
+					<xs:element ecore:reference="library:Expression" maxOccurs="1" minOccurs="0" name="AggregationExpression" type="xs:anyURI">
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="IntervalHint" type="xs:int">
+				<xs:annotation>
+				<xs:documentation>The IntervalHint attribute, holds a hint for the
+					metric interval between each metric value in minutes.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- METRICRETENTIONRULE -->
+	<!--_______________________ -->
+	<xs:complexType name="MetricRetentionRule">
+		<xs:annotation>
+			<xs:documentation>A type with settings on retention of metric values
+				corresponding to the metric value range intervalhint.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Rule">
+				<xs:attribute name="Period" type="MetricRetentionPeriod">
+					<xs:annotation>
+						<xs:documentation>The Metric retention period.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="IntervalHint" type="xs:int">
+					<xs:annotation>
+						<xs:documentation>The IntervalHint attribute, holds a hint for the
+							metric interval between each metric value in minutes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- METRICRETENTIONPERIODS -->
+	<!--_______________________ -->
+	<xs:complexType name="MetricRetentionPeriods">
+		<xs:annotation>
+			<xs:documentation>A container type with pre-defined and user defined
+				retention period definitions
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="MetricRetentionPeriods" type="MetricRetentionPeriod">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- METRICRETENTIONPERIOD -->
+	<!--_______________________ -->
+	<xs:simpleType name="MetricRetentionPeriod">
+		<xs:union memberTypes="UserMetricRetentionPeriod FixedMetricRetentionPeriod"/>
+	</xs:simpleType>
+
+	<!--_______________________ -->
+	<!-- USERMETRICRETENTIONPERIOD -->
+	<!--_______________________ -->
+	<xs:simpleType name="UserMetricRetentionPeriod">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+
+	<!--_______________________ -->
+	<!-- FIXEDMETRICRETENTIONPERIOD -->
+	<!--_______________________ -->
+	<xs:simpleType name="FixedMetricRetentionPeriod">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Always"/>
+			<xs:enumeration value="One Year"/>
+			<xs:enumeration value="One Month"/>
+			<xs:enumeration value="One Week"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>

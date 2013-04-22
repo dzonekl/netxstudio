@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/16042013_delta/generics" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema" ecore:package="com.netxforge.netxstudio.delta16042013.generics" id="generics" targetNamespace="http://www.netxforge.com/16042013_delta/generics">	
+	
+	<!-- ___________________________ -->
+	<!--| RULESET | -->
+	<!--|___________________________| -->
+	<xs:complexType name="RuleSet">
+		<xs:annotation>
+			<xs:documentation>Represents a set of rules.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ecore:ereference="Rule" name="Rules" type="xs:anyURI"/>
+		</xs:sequence>
+		<xs:attribute name="Name" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The name of this rule set.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<!-- ___________________________ -->
+	<!--| RULE | -->
+	<!--|___________________________| -->
+	<xs:complexType name="Rule">
+		<xs:attribute name="Name" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The name of this rule.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+
+
+	<!-- ___________________________ -->
+	<!--| BaseType | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Base">
+		<xs:annotation>
+			<xs:appinfo source="teneo.jpa">@MappedSuperclass</xs:appinfo>
+		</xs:annotation>
+		<xs:attribute name="Deleted" type="xs:boolean"/>
+	</xs:complexType>
+	
+	<!--_______________________ -->
+	<!-- NAME TYPE -->
+	<!--_______________________ -->
+
+	<xs:simpleType name="Name255">
+		<xs:annotation>
+			<xs:documentation>A name type of 255 chars.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>
