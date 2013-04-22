@@ -46,20 +46,19 @@ import com.netxforge.netxstudio.services.RFSService;
  */
 public class AggregationLogic extends BaseComponentLogic {
 
-	
 	/**
 	 * The number of years to consider in the aggregation and retention of
 	 * values. It could be requested to i.e. keep one month of data evaluation a
 	 * period of n years.
 	 */
 	private static final int YEARS_TO_EVALUATE = 2;
-	
+
 	private RFSService rfsService;
-	
+
 	private NodeType nodeType;
-	
+
 	private MetricRetentionRules rules;
-	
+
 	public void setRules(MetricRetentionRules rules) {
 		this.rules = rules;
 	}
@@ -67,11 +66,40 @@ public class AggregationLogic extends BaseComponentLogic {
 	private BaseExpressionEngine engine;
 
 	private Resource operatorResources;
-	
+
+	private boolean re_initialize;
+
+	protected void doRun() {
+
+		re_initialize = true;
+
+		this.getDataProvider().getTransaction();
+
+		final List<NodeType> nodeTypes = getNodeTypesToExecuteFor();
+
+		// Note: The total work is not linear to the number of components,
+		// components which have expressions will take more time.
+		this.getJobMonitor().setWorkDone(0); // Reset the work
+		this.getJobMonitor().setTotalWork(countComponents(nodeTypes));
+		this.getJobMonitor().setTask("Performing Aggregation logic");
+
+		for (final NodeType nodeType : nodeTypes) {
+
+			getJobMonitor().appendToLog(
+					"processing node (type) "
+							+ ((Node) nodeType.eContainer()).getNodeID());
+
+			getJobMonitor().setTask("Processing for nodeType");
+			processNode(nodeType);
+		}
+		this.getJobMonitor().updateFailures(this.getFailures());
+
+		this.getDataProvider().commitTransaction();
+	}
 
 	@Override
 	protected List<NodeType> getNodeTypesToExecuteFor() {
-		
+
 		if (rfsService != null) {
 			// first go through the leave nodes
 			final List<NodeType> nodeTypes = new ArrayList<NodeType>();
@@ -81,23 +109,32 @@ public class AggregationLogic extends BaseComponentLogic {
 				}
 			}
 			return nodeTypes;
-		}else{
+		} else {
 			return this.allNodes();
 		}
 	}
-	
-	
-	private List<NodeType> allNodes(){
-		operatorResources = this.getDataProvider().getResource(OperatorsPackage.Literals.OPERATOR);
+
+	private List<NodeType> allNodes() {
+		operatorResources = this.getDataProvider().getResource(
+				OperatorsPackage.Literals.OPERATOR);
 		return this.getModelUtils().nodeTypesForResource(operatorResources);
 	}
-	
-	
+
 	@Override
 	protected BaseExpressionEngine getEngine() {
 		if (engine == null) {
+			// Lazy init, use a provider?
 			engine = LogicActivator.getInstance().getInjector()
 					.getInstance(AggregationEngine.class);
+			engine.setDataProvider(this.getDataProvider());
+			if (engine instanceof AggregationEngine) {
+				((AggregationEngine) engine).setRetentionRules(rules);
+				((AggregationEngine) engine).intitialize(re_initialize);
+			}
+		}
+		if (re_initialize) {
+			((AggregationEngine) engine).intitialize(re_initialize);
+			re_initialize = false;
 		}
 		return engine;
 	}
@@ -108,24 +145,19 @@ public class AggregationLogic extends BaseComponentLogic {
 		for (final Component component : getComponents(nodeType)) {
 			executeFor(component);
 			this.getJobMonitor().setTask("Aggregation");
-			this.getJobMonitor().setMsg(this.getModelUtils().printModelObject(component));
+			this.getJobMonitor().setMsg(
+					this.getModelUtils().printModelObject(component));
 			getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
 		}
 	}
-	
+
 	protected void executeFor(Component component) {
 		this.getJobMonitor().incrementProgress(1, false);
-		
+
 		final BaseComponentEngine engine = (BaseComponentEngine) getEngine();
 		engine.setJobMonitor(getJobMonitor());
 		engine.setComponent(component);
-		engine.setDataProvider(this.getDataProvider());
 		engine.setPeriod(this.getPeriod());
-		
-		if(engine instanceof AggregationEngine){
-			((AggregationEngine) engine).setRetentionRules(rules);
-		}
-		
 		engine.execute();
 		if (engine.getFailures().size() > 0) {
 			for (final Failure failure : engine.getFailures()) {
@@ -134,15 +166,15 @@ public class AggregationLogic extends BaseComponentLogic {
 				}
 				this.getFailures().add(failure);
 			}
-//			CDOView cdoView = ((CDOResource)operatorResources).cdoView();
-//			
-//			if(cdoView instanceof CDOTransaction){
-//				try {
-//					((CDOTransaction) cdoView).commit();
-//				} catch (CommitException e) {
-//					e.printStackTrace();
-//				}
-//			}
+			// CDOView cdoView = ((CDOResource)operatorResources).cdoView();
+			//
+			// if(cdoView instanceof CDOTransaction){
+			// try {
+			// ((CDOTransaction) cdoView).commit();
+			// } catch (CommitException e) {
+			// e.printStackTrace();
+			// }
+			// }
 		}
 	}
 
@@ -177,17 +209,17 @@ public class AggregationLogic extends BaseComponentLogic {
 		this.nodeType = (NodeType) getDataProvider().getTransaction()
 				.getObject(cdoId);
 	}
-	
-	
+
 	/**
-	 * Initialized the static part of the logic. This is the evaluation period of the logic. 
+	 * Initialized the static part of the logic. This is the evaluation period
+	 * of the logic.
 	 */
-	public void intializeLogic(){
-		
+	public void intializeLogic() {
+
 		Date end = this.getModelUtils().todayAtDayEnd();
 		Date begin = this.getModelUtils().yearsAgo(YEARS_TO_EVALUATE);
 		setPeriod(this.getModelUtils().period(begin, end));
-		
+
 	}
-	
+
 }

@@ -41,19 +41,21 @@ public class RetentionJobImplementation extends JobImplementation {
 
 	@Override
 	public void run() {
+
 		
-		
-		// FIXME We should really set the ID of the rules, and let the logic DataProvider create it's own. 
-		// Here, it's read only, so should be Ok.  
-		
+		// FIXME We should really set the ID of the rules, and let the logic
+		// DataProvider create it's own.
+		// Here, it's read only, so should be Ok.
+
 		Resource res = this.getDataProvider().getResource(
 				MetricsPackage.Literals.METRIC_RETENTION_RULES);
+
 		if (res.getContents().size() == 1) {
-			
+
 			final MetricRetentionRules rules = (MetricRetentionRules) res
 					.getContents().get(0);
-			
-			// Aggregation 
+
+			// Aggregation
 			final AggregationLogic aggregationLogic = LogicActivator
 					.getInstance().getInjector()
 					.getInstance(AggregationLogic.class);
@@ -63,12 +65,14 @@ public class RetentionJobImplementation extends JobImplementation {
 				aggregationLogic.setRules(rules);
 				aggregationLogic.intializeLogic();
 				aggregationLogic.runWithoutClosing();
-				aggregationLogic.closeLogic(); 
+				aggregationLogic.closeLogic();
 			}
-			
-			this.getRunMonitor().setWorkDone(0); // Reset it's a hack, we need sub monitors for sub tasks! 
-			
-			// Retention. 
+
+			this.getRunMonitor().setWorkDone(0); // Reset it's a hack, we need
+													// sub monitors for sub
+													// tasks!
+
+			// Retention.
 			final RetentionLogic retentionLogic = LogicActivator.getInstance()
 					.getInjector().getInstance(RetentionLogic.class);
 

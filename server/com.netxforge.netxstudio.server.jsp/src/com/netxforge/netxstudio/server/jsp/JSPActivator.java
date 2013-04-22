@@ -18,7 +18,7 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.server.ServerModule;
+import com.netxforge.netxstudio.server.internal.ServerModule;
 
 public class JSPActivator implements BundleActivator {
 

@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.spi.cdo.FSMUtil;
 
 import com.google.common.base.Predicate;
@@ -29,15 +30,19 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
+import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -68,7 +73,9 @@ public class RetentionEngine extends BaseComponentEngine {
 	 * of a resource. The clearing respects the retention period defined per
 	 * measuring interval.
 	 */
-	private static final int MODE_RETENTION= 200;
+	private static final int MODE_RETENTION = 200;
+
+	private static final boolean OPTION_RETENTION_FALLBACK_GLOBALRULES = false;
 
 	private int operations_mode = MODE_RETENTION;
 
@@ -78,18 +85,23 @@ public class RetentionEngine extends BaseComponentEngine {
 	@Inject
 	private IQueryService queryService;
 
-	@Override
-	public void doExecute() {
+	@Inject
+	private AddonHandler addonHandler;
 
+	private List<MetricSource> metricSources;
+
+	public void initialize(boolean re_initialize) {
+		
 		if (LogicActivator.DEBUG) {
 			LogicActivator.TRACE.trace(
 					LogicActivator.TRACE_RETENTION_OPTION,
-					"data retention for : "
-							+ this.getModelUtils().printModelObject(
-									getComponent()) + " # resources: "
-							+ this.getComponent().getResourceRefs().size());
+					"Initializing Retention engine");
 		}
+		Resource resource = this.getDataProvider().getResource(
+				MetricsPackage.Literals.METRIC_SOURCE);
 
+		metricSources = new ModelUtils.CollectionForObjects<MetricSource>()
+				.collectionForObjects(resource.getContents());
 		// Rules should execute considering the order of the smallest
 		// interval first,
 		// as to allow aggregation.
@@ -101,7 +113,7 @@ public class RetentionEngine extends BaseComponentEngine {
 			if (LogicActivator.DEBUG) {
 				LogicActivator.TRACE.trace(
 						LogicActivator.TRACE_RETENTION_OPTION,
-						"Processing retention rule in order: ");
+						"Processing aggreagation rule in order: ");
 				for (MetricRetentionRule rule : metricRulesSortedList) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(rule.getName());
@@ -114,172 +126,31 @@ public class RetentionEngine extends BaseComponentEngine {
 				}
 			}
 		}
+		addonHandler.initializeModelAddon(re_initialize);
+	}
+
+	@Override
+	public void doExecute() {
 
 		// Run for each resource, each retention rule.
 		for (final NetXResource netXResource : getComponent().getResourceRefs()) {
-
-			// Two pass run.
-			// Pass 1. Aggregate data using the defined expressions for each of
-			// the mr rules. Optional depending on the model.
-
+			
+			// Note this is a non-settable MODE, for testing only. 
 			if (operations_mode == MODE_RETENTION) {
+				
+				List<com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRule> customRuleSet = customRuleSetForNetXResource(netXResource);
 
 				// Next do the clearing.
 				// Determine the clearing period.
-
 				this.getJobMonitor().setMsg("Clearing");
-
-				// track the MVR's processed.
-				final List<MetricValueRange> mvrsCleared = Lists.newArrayList();
-
-				for (MetricRetentionRule rule : metricRulesSortedList) {
-
-					final DateTimeRange period = this.getModelUtils()
-							.getDTRForRetentionRule(
-									rule,
-									this.getModelUtils().fromXMLDate(
-											this.getPeriod().getBegin()));
-
-					if (period == null) {
-						LogicActivator.TRACE.trace(
-								LogicActivator.TRACE_RETENTION_OPTION,
-								"skip metric retention rule "
-										+ this.getModelUtils()
-												.printModelObject(netXResource)
-										+ " interval= "
-										+ rule.getIntervalHint()
-										+ " (Always keep these values)");
-						continue;
-					}
-
-					// Try to match an MVR with a metric rule.
-					final int intervalHint = rule.getIntervalHint();
-
-					// Clear utilization and capacity for this period for
-					// the smallest interval defined as a fixture.
-					if (intervalHint == 15) {
-						final List<Value> capacityValues = queryService
-								.capacityValues(netXResource.cdoView(),
-										netXResource,
-										IQueryService.QUERY_MYSQL, period);
-
-						if (!capacityValues.isEmpty()) {
-							resultProcessor.removeValues(
-									netXResource.getCapacityValues(),
-									capacityValues);
-						}
-
-						final List<Value> utilizationValues = queryService
-								.utilizationValues(netXResource.cdoView(),
-										netXResource,
-										IQueryService.QUERY_MYSQL, period);
-
-						if (!utilizationValues.isEmpty()) {
-							resultProcessor.removeValues(
-									netXResource.getUtilizationValues(),
-									utilizationValues);
-						}
-					}
-
-					final MetricValueRange mvr = this.getModelUtils()
-							.valueRangeForInterval(netXResource, intervalHint);
-
-					if (mvr != null && !mvr.getMetricValues().isEmpty()
-							&& FSMUtil.isClean(mvr)) {
-
-						LogicActivator.TRACE.trace(
-								LogicActivator.TRACE_RETENTION_OPTION,
-								"Clearing metric values from resource "
-										+ this.getModelUtils()
-												.printModelObject(netXResource)
-										+ " interval= "
-										+ this.getModelUtils().fromMinutes(
-												mvr.getIntervalHint())
-										+ ", period: "
-										+ this.getModelUtils()
-												.periodToStringMore(period));
-
-						// // Do we get a List or ELis?
-						final List<Value> mvrValues = queryService.mvrValues(
-								mvr.cdoView(), mvr, IQueryService.QUERY_MYSQL,
-								period);
-
-						if (!resultProcessor.removeValues(mvr, mvrValues)) {
-							LogicActivator.TRACE.trace(
-									LogicActivator.TRACE_RETENTION_OPTION,
-									"values not removed: " + mvrValues);
-						} else {
-							mvrsCleared.add(mvr);
-						}
-
-						commitInbetween(netXResource.cdoView());
-
-					} else {
-
-						if (mvr == null || mvr.getMetricValues().isEmpty()) {
-							LogicActivator.TRACE.trace(
-									LogicActivator.TRACE_RETENTION_OPTION,
-									"no range or emty for resource: "
-											+ this.getModelUtils()
-													.printModelObject(
-															netXResource)
-											+ " Interval= "
-											+ rule.getIntervalHint());
-						} else {
-							LogicActivator.TRACE.trace(
-									LogicActivator.TRACE_RETENTION_OPTION,
-									"Attempt to query uncommited object: "
-											+ mvr);
-						}
-
-					}
+				if (customRuleSet != null) {
+					this.applyCustomRuleSet(customRuleSet, netXResource);
+				} else if (OPTION_RETENTION_FALLBACK_GLOBALRULES) {
+					this.getJobMonitor().setMsg("Clearing");
+					applyGlobalRuleSet(netXResource);
+				} else {
+					// Skip this resource...
 				}
-
-				// report if any of the mvrs in the resource is not processed.
-				if (LogicActivator.DEBUG) {
-					if (mvrsCleared.size() != netXResource
-							.getMetricValueRanges().size()) {
-
-						// Hey we are different size.
-						LogicActivator.TRACE
-								.trace(LogicActivator.TRACE_RETENTION_OPTION,
-										"Retention rules missing, netxResource: "
-												+ this.getModelUtils()
-														.printModelObject(
-																netXResource));
-
-						// Analyze.
-						for (MetricValueRange mvr : netXResource
-								.getMetricValueRanges()) {
-							if (!netXResource.getMetricValueRanges().contains(
-									mvr)) {
-								// Hey we are different size.
-								LogicActivator.TRACE
-										.trace(LogicActivator.TRACE_RETENTION_OPTION,
-												" -- missing "
-														+ this.getModelUtils()
-																.fromMinutes(
-																		mvr.getIntervalHint())
-														+ ", "
-														+ mvr.getKindHint()
-																.getName());
-							}
-						}
-					}
-				}
-
-				// Clean-up the ranges which have been affected and are empty.
-				final List<MetricValueRange> mvrsToRemove = Lists
-						.newArrayList(Iterables.filter(mvrsCleared,
-								new Predicate<MetricValueRange>() {
-
-									public boolean apply(MetricValueRange mvr) {
-										return mvr.getMetricValues().isEmpty();
-									}
-
-								}));
-
-				netXResource.getMetricValueRanges().removeAll(mvrsToRemove);
 
 			} else if (operations_mode == MODE_CLEAR_ALL) {
 
@@ -328,6 +199,256 @@ public class RetentionEngine extends BaseComponentEngine {
 
 			}
 		}
+	}
+
+	/**
+	 * @param netXResource
+	 * @return
+	 */
+	private List<com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRule> customRuleSetForNetXResource(
+			final NetXResource netXResource) {
+		List<com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRule> customRuleSet = addonHandler
+				.retentionRulesForMetric(netXResource.getMetricRef());
+		if (customRuleSet == null) {
+			// Get the corresponding MetricSource and ruleset if it exists.
+			MetricSource ms = addonHandler.metricSourceForMetric(
+					metricSources, netXResource.getMetricRef());
+			if (ms != null) {
+				customRuleSet = addonHandler
+						.retentionRulesForMetricSource(ms);
+			}
+		}
+		return customRuleSet;
+	}
+
+	private void applyCustomRuleSet(
+			List<com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRule> customRuleSet,
+			NetXResource netXResource) {
+		
+
+		if (LogicActivator.DEBUG) {
+			LogicActivator.TRACE.trace(
+					LogicActivator.TRACE_RETENTION_OPTION,
+					"data retention for : "
+							+ this.getModelUtils().printModelObject(
+									getComponent()) + " resource: "
+							+ netXResource.getExpressionName());
+			LogicActivator.TRACE
+			.trace(LogicActivator.TRACE_RETENTION_DETAILS_OPTION,
+					"Applying custom rule sets ("
+							+ customRuleSet.size()
+							+ ") on resource: "
+							+ (netXResource
+									.eIsSet(LibraryPackage.Literals.BASE_RESOURCE__EXPRESSION_NAME) ? netXResource
+									.getShortName() : netXResource));
+		}
+		// track the MVR's processed.
+		final List<MetricValueRange> mvrsCleared = Lists.newArrayList();
+		for (com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRule rule : customRuleSet) {
+			int intervalHint = rule.getIntervalHint();
+
+			final DateTimeRange period = addonHandler.getDTRForRetentionRule(
+					rule,
+					this.getModelUtils().fromXMLDate(
+							this.getPeriod().getBegin()));
+			LogicActivator.TRACE.trace(
+					LogicActivator.TRACE_RETENTION_DETAILS_OPTION,
+					"Applying custom rule: " + rule.getName() + " interval: "
+							+ rule.getIntervalHint()
+							+ " clear for: " + this.getModelUtils()
+							.periodToStringMore(period));
+
+			mvrsCleared.addAll(clear(netXResource, period, intervalHint));
+
+		}
+		// Log the result.
+		logClearingResult(netXResource, mvrsCleared);
+		// Clear the ranges from the resource.
+		clearRanges(netXResource, mvrsCleared);
+	}
+
+	/**
+	 * @param netXResource
+	 */
+	private void applyGlobalRuleSet(final NetXResource netXResource) {
+		
+		
+		if (LogicActivator.DEBUG) {
+			LogicActivator.TRACE.trace(
+					LogicActivator.TRACE_RETENTION_OPTION,
+					"data retention for : "
+							+ this.getModelUtils().printModelObject(
+									getComponent()) + " resource: "
+							+ netXResource.getExpressionName());
+		}
+
+		// track the MVR's processed.
+		final List<MetricValueRange> mvrsCleared = Lists.newArrayList();
+
+		for (MetricRetentionRule rule : metricRulesSortedList) {
+
+			int intervalHint = rule.getIntervalHint();
+
+			final DateTimeRange period = this.getModelUtils()
+					.getDTRForRetentionRule(
+							rule,
+							this.getModelUtils().fromXMLDate(
+									this.getPeriod().getBegin()));
+
+			mvrsCleared.addAll(clear(netXResource, period, intervalHint));
+		}
+		// Log the result.
+		logClearingResult(netXResource, mvrsCleared);
+		// Clear the ranges from the resource.
+		clearRanges(netXResource, mvrsCleared);
+	}
+
+	/**
+	 * @param netXResource
+	 * @param mvrsCleared
+	 */
+	private void clearRanges(final NetXResource netXResource,
+			final List<MetricValueRange> mvrsCleared) {
+		// Clean-up the ranges which have been affected and are empty.
+		final List<MetricValueRange> mvrsToRemove = Lists
+				.newArrayList(Iterables.filter(mvrsCleared,
+						new Predicate<MetricValueRange>() {
+
+							public boolean apply(MetricValueRange mvr) {
+								return mvr.getMetricValues().isEmpty();
+							}
+
+						}));
+
+		netXResource.getMetricValueRanges().removeAll(mvrsToRemove);
+	}
+
+	/**
+	 * @param netXResource
+	 * @param mvrsCleared
+	 */
+	private void logClearingResult(final NetXResource netXResource,
+			final List<MetricValueRange> mvrsCleared) {
+		// report if any of the mvrs in the resource is not processed.
+		if (LogicActivator.DEBUG) {
+			if (mvrsCleared.size() != netXResource.getMetricValueRanges()
+					.size()) {
+
+				// Hey we are different size.
+				LogicActivator.TRACE.trace(
+						LogicActivator.TRACE_RETENTION_OPTION,
+						"Retention rules missing, netxResource: "
+								+ this.getModelUtils().printModelObject(
+										netXResource));
+
+				// Analyze.
+				for (MetricValueRange mvr : netXResource.getMetricValueRanges()) {
+					if (!netXResource.getMetricValueRanges().contains(mvr)) {
+						// Hey we are different size.
+						LogicActivator.TRACE.trace(
+								LogicActivator.TRACE_RETENTION_OPTION,
+								" -- missing "
+										+ this.getModelUtils().fromMinutes(
+												mvr.getIntervalHint()) + ", "
+										+ mvr.getKindHint().getName());
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * @param netXResource
+	 * @param mvrsCleared
+	 * @param rule
+	 * @return
+	 * @return
+	 */
+	private List<MetricValueRange> clear(final NetXResource netXResource,
+			DateTimeRange period, int intervalHint) {
+
+		final List<MetricValueRange> mvrsCleared = Lists.newArrayList();
+
+		if (period == null) {
+			LogicActivator.TRACE.trace(
+					LogicActivator.TRACE_RETENTION_OPTION,
+					"skip metric retention rule "
+							+ this.getModelUtils().printModelObject(
+									netXResource) + " interval= "
+							+ intervalHint + " (Always keep these values)");
+			return mvrsCleared;
+		}
+
+		// Clear utilization and capacity for this period for
+		// the smallest interval defined as a fixture.
+		// ??? Why not clearing for other values?
+		if (intervalHint == 15) {
+			final List<Value> capacityValues = queryService.capacityValues(
+					netXResource.cdoView(), netXResource,
+					IQueryService.QUERY_MYSQL, period);
+
+			if (!capacityValues.isEmpty()) {
+				resultProcessor.removeValues(netXResource.getCapacityValues(),
+						capacityValues);
+			}
+
+			final List<Value> utilizationValues = queryService
+					.utilizationValues(netXResource.cdoView(), netXResource,
+							IQueryService.QUERY_MYSQL, period);
+
+			if (!utilizationValues.isEmpty()) {
+				resultProcessor.removeValues(
+						netXResource.getUtilizationValues(), utilizationValues);
+			}
+		}
+
+		final MetricValueRange mvr = this.getModelUtils()
+				.valueRangeForInterval(netXResource, intervalHint);
+
+		if (mvr != null && !mvr.getMetricValues().isEmpty()
+				&& FSMUtil.isClean(mvr)) {
+
+			LogicActivator.TRACE.trace(
+					LogicActivator.TRACE_RETENTION_OPTION,
+					"Clearing metric values from resource "
+							+ this.getModelUtils().printModelObject(
+									netXResource)
+							+ " interval= "
+							+ this.getModelUtils().fromMinutes(
+									mvr.getIntervalHint()) + ", period: "
+							+ this.getModelUtils().periodToStringMore(period));
+
+			// // Do we get a List or ELis?
+			final List<Value> mvrValues = queryService.mvrValues(mvr.cdoView(),
+					mvr, IQueryService.QUERY_MYSQL, period);
+
+			if (!resultProcessor.removeValues(mvr, mvrValues)) {
+				LogicActivator.TRACE.trace(
+						LogicActivator.TRACE_RETENTION_OPTION,
+						"values not removed: " + mvrValues);
+			} else {
+				mvrsCleared.add(mvr);
+			}
+
+			commitInbetween(netXResource.cdoView());
+
+		} else {
+
+			if (mvr == null || mvr.getMetricValues().isEmpty()) {
+				LogicActivator.TRACE.trace(
+						LogicActivator.TRACE_RETENTION_OPTION,
+						"no range or emty for resource: "
+								+ this.getModelUtils().printModelObject(
+										netXResource) + " Interval= "
+								+ intervalHint);
+			} else {
+				LogicActivator.TRACE.trace(
+						LogicActivator.TRACE_RETENTION_OPTION,
+						"Attempt to query uncommited object: " + mvr);
+			}
+
+		}
+		return mvrsCleared;
 	}
 
 	@Override

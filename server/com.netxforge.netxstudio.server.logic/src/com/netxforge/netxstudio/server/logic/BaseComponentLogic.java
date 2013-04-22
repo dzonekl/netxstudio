@@ -46,7 +46,7 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		// components which have expressions will take more time.
 		this.getJobMonitor().setWorkDone(0); // Reset the work
 		this.getJobMonitor().setTotalWork(countComponents(nodeTypes));
-		this.getJobMonitor().setTask("Performing resource monitoring");
+		this.getJobMonitor().setTask("Performing componet traversal");
 
 		for (final NodeType nodeType : nodeTypes) {
 

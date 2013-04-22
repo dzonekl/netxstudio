@@ -23,6 +23,7 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IExternalDataProvider;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -47,16 +48,17 @@ public abstract class JobImplementation {
 
 	private Job job;
 	private ServerWorkFlowRunMonitor runMonitor;
-	
+
 	public abstract void run();
 
 	public NetxForgeJob getNetxForgeJob() {
 		return netxForgeJob;
 	}
-	
+
 	protected Job getJob() {
 		if (job == null) {
-			job = (Job)getDataProvider().getTransaction().getObject(netxForgeJob.getJob().cdoID());
+			job = (Job) getDataProvider().getTransaction().getObject(
+					netxForgeJob.getJob().cdoID());
 		}
 		return job;
 	}
@@ -69,6 +71,7 @@ public abstract class JobImplementation {
 		return dataProvider;
 	}
 
+
 	public JobRunState getJobRunState() {
 		return JobRunState.FINISHED_SUCCESSFULLY;
 	}
@@ -77,7 +80,7 @@ public abstract class JobImplementation {
 		getDataProvider().commitTransactionThenClose();
 		getDataProvider().closeSession();
 	}
-	
+
 	public static abstract class JobImplementationFactory {
 		public abstract JobImplementation create();
 	}
@@ -85,7 +88,7 @@ public abstract class JobImplementation {
 	public WorkFlowRun createWorkFlowRunInstance() {
 		return SchedulingFactory.eINSTANCE.createWorkFlowRun();
 	}
-	
+
 	public static class JobImplementationFactoryRegistry {
 		private Map<Class<? extends Job>, JobImplementationFactory> factories = new HashMap<Class<? extends Job>, JobImplementation.JobImplementationFactory>();
 
@@ -100,7 +103,7 @@ public abstract class JobImplementation {
 
 		public JobImplementationFactory getFactory(Class<? extends Job> clz) {
 			final JobImplementationFactory factory = factories.get(clz);
-			
+
 			if (factory != null) {
 				return factory;
 			}
@@ -108,9 +111,9 @@ public abstract class JobImplementation {
 				if (factories.containsKey(interf)) {
 					return factories.get(interf);
 				}
- 			}
-			throw new IllegalArgumentException(
-					"No factory found for job type " + clz);
+			}
+			throw new IllegalArgumentException("No factory found for job type "
+					+ clz);
 		}
 	}
 

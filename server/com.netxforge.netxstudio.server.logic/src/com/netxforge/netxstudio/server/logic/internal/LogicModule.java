@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.server.logic.internal;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringEngine;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService.ResourceMonitoringRunner;
 import com.netxforge.netxstudio.server.logic.monitoring.NodeMonitoringLogic;
@@ -15,6 +16,7 @@ import com.netxforge.netxstudio.server.logic.reporting.RFSServiceDistributionRep
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceSummaryReportingLogic;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceUserReportingLogic;
+import com.netxforge.netxstudio.server.logic.retention.AddonHandler;
 import com.netxforge.netxstudio.server.logic.retention.AggregationEngine;
 import com.netxforge.netxstudio.server.logic.retention.AggregationLogic;
 import com.netxforge.netxstudio.server.logic.retention.RetentionEngine;
@@ -50,6 +52,8 @@ public class LogicModule extends AbstractModule {
 		
 		this.bind(AggregationEngine.class);
 		this.bind(AggregationLogic.class);
+		
+		this.bind(AddonHandler.class).in(Singleton.class);
 		
 	}
 

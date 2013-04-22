@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server;
+package com.netxforge.netxstudio.server.internal;
 
 import static com.google.inject.util.Modules.override;
 
@@ -26,6 +26,11 @@ import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
+import com.netxforge.netxstudio.server.CommitInfoHandler;
+import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.ServerCDOConnection;
+import com.netxforge.netxstudio.server.ServerCDODataProvider;
+import com.netxforge.netxstudio.server.ServerIntegrity;
 import com.netxforge.netxstudio.server.ServerUtils.ServerInitializer;
 
 /**
@@ -51,16 +56,16 @@ public class ServerModule extends AbstractModule {
 	 */
 	@Override
 	protected void configure() {
-		
+
 		this.bind(ICDOConnection.class).annotatedWith(Server.class)
 				.to(ServerCDOConnection.class);
 		this.bind(IDataProvider.class).annotatedWith(Server.class)
 				.to(ServerCDODataProvider.class);
 		
 		this.bind(ServerInitializer.class);
-		
+
 		this.bind(CommitInfoHandler.class);
-		
+
 		this.bind(ServerIntegrity.class);
 	}
 }

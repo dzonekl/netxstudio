@@ -66,7 +66,7 @@ public abstract class BaseEngine {
 	public IDataProvider getDataProvider() {
 		return dataProvider;
 	}
-
+	
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;
 	}

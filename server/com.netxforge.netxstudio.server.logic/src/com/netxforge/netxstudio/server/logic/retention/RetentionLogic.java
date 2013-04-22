@@ -67,6 +67,37 @@ public class RetentionLogic extends BaseComponentLogic {
 
 	private Resource operatorResources;
 
+	private boolean re_initialize;
+
+	
+	protected void doRun() {
+		
+		re_initialize =  true;
+		
+		this.getDataProvider().getTransaction();
+
+		final List<NodeType> nodeTypes = getNodeTypesToExecuteFor();
+
+		// Note: The total work is not linear to the number of components,
+		// components which have expressions will take more time.
+		this.getJobMonitor().setWorkDone(0); // Reset the work
+		this.getJobMonitor().setTotalWork(countComponents(nodeTypes));
+		this.getJobMonitor().setTask("Performing Retention Logic");
+
+		for (final NodeType nodeType : nodeTypes) {
+
+			getJobMonitor().appendToLog(
+					"processing node (type) "
+							+ ((Node) nodeType.eContainer()).getNodeID());
+
+			getJobMonitor().setTask("Processing for nodeType");
+			processNode(nodeType);
+		}
+		this.getJobMonitor().updateFailures(this.getFailures());
+
+		this.getDataProvider().commitTransaction();
+	}
+	
 	@Override
 	protected List<NodeType> getNodeTypesToExecuteFor() {
 
@@ -95,6 +126,17 @@ public class RetentionLogic extends BaseComponentLogic {
 		if (engine == null) {
 			engine = LogicActivator.getInstance().getInjector()
 					.getInstance(RetentionEngine.class);
+			engine.setDataProvider(this.getDataProvider());
+			if (engine instanceof RetentionEngine) {
+				((RetentionEngine) engine).setRetentionRules(rules);
+				((RetentionEngine) engine).initialize(re_initialize);
+				
+			}
+			
+		}
+		if(re_initialize){
+			((RetentionEngine)engine).initialize(re_initialize);
+			re_initialize = false;
 		}
 		return engine;
 	}
@@ -113,19 +155,14 @@ public class RetentionLogic extends BaseComponentLogic {
 
 	protected void executeFor(Component component) {
 
-		 this.getJobMonitor().incrementProgress(1, false);
+		this.getJobMonitor().incrementProgress(1, false);
 
 		final BaseComponentEngine engine = (BaseComponentEngine) getEngine();
 		engine.setJobMonitor(getJobMonitor());
 		engine.setComponent(component);
-		engine.setDataProvider(this.getDataProvider());
 		engine.setPeriod(this.getPeriod());
-
-		if (engine instanceof RetentionEngine) {
-			((RetentionEngine) engine).setRetentionRules(rules);
-		}
-
 		engine.execute();
+		
 		if (engine.getFailures().size() > 0) {
 			for (final Failure failure : engine.getFailures()) {
 				if (failure instanceof ComponentFailure) {

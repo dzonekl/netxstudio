@@ -22,17 +22,22 @@ import java.util.List;
 
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
+import com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
+import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -51,24 +56,28 @@ public class AggregationEngine extends BaseComponentEngine {
 
 	private List<MetricRetentionRule> metricRulesSortedList = null;
 
-	@Inject
-	private ResultProcessor resultProcessor;
+	private List<MetricSource> metricSources;
+
+	/**
+	 * An Option which tells the engine to fall back to the global rules set.
+	 */
+	public static final boolean OPTION_AGGREGATION_FALLBACK_GLOBALRULES = false;
 
 	@Inject
-	private IQueryService queryService;
+	private AddonHandler addonHandler;
 
-	@Override
-	public void doExecute() {
-
+	public void intitialize(boolean re_initialize) {
+		Resource resource = this.getDataProvider().getResource(
+				MetricsPackage.Literals.METRIC_SOURCE);
+		
 		if (LogicActivator.DEBUG) {
 			LogicActivator.TRACE.trace(
 					LogicActivator.TRACE_RETENTION_OPTION,
-					"data aggregation for : "
-							+ this.getModelUtils().printModelObject(
-									getComponent()) + " # resources: "
-							+ this.getComponent().getResourceRefs().size());
+					"Initializing Aggregation engine");
 		}
-
+		
+		metricSources = new ModelUtils.CollectionForObjects<MetricSource>()
+				.collectionForObjects(resource.getContents());
 		// Rules should execute considering the order of the smallest
 		// interval first,
 		// as to allow aggregation.
@@ -80,7 +89,7 @@ public class AggregationEngine extends BaseComponentEngine {
 			if (LogicActivator.DEBUG) {
 				LogicActivator.TRACE.trace(
 						LogicActivator.TRACE_RETENTION_OPTION,
-						"Processing aggreagation rule in order: ");
+						"Processing aggregation rule in order: ");
 				for (MetricRetentionRule rule : metricRulesSortedList) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(rule.getName());
@@ -93,50 +102,157 @@ public class AggregationEngine extends BaseComponentEngine {
 				}
 			}
 		}
+		addonHandler.initializeModelAddon(re_initialize);
+	}
+
+	@Inject
+	private ResultProcessor resultProcessor;
+
+	@Override
+	public void doExecute() {
 
 		// Run for each resource, each retention rule.
 		for (final NetXResource netXResource : getComponent().getResourceRefs()) {
 
 			// Aggregate data using the defined expressions for each of
 			// the mr rules. Optional depending on the model.
-
 			// Bail aggregation when the resource has no values.
 			if (this.getModelUtils().resourceHasValues(netXResource)) {
-
-				this.getJobMonitor().setMsg("Aggregating");
-
-				for (MetricRetentionRule rule : metricRulesSortedList) {
-
-					Expression expression = rule.getRetentionExpression();
-
-					if (expression != null) {
-
-						// Data will be aggregated for the period specified
-						// by
-						// the
-						// logic period.
-						// For clearing data however, we need to set the
-						// MetricRetentionRule in the Interpreter.
-
-						getExpressionEngine().getContext().clear();
-						getExpressionEngine().getContext().add(getPeriod());
-						getExpressionEngine().getContext().add(
-								this.getModelUtils().nodeFor(getComponent()));
-						getExpressionEngine().getContext().add(netXResource);
-
-						// As the data is not committed in between,
-						// subsequent
-						// expressions will not be able
-						// get data until commit, so it needs to run n times
-						// (n
-						// = number of rules) before all aggregation is
-						// done.
-						runForExpression(expression);
-
-						commitInbetween(netXResource.cdoView());
-					}
+				List<MetricAggregationRule> customRuleSet = customRuleSetForNetXResource(netXResource);
+				if (customRuleSet != null && !customRuleSet.isEmpty()) {
+					applyCustomRuleSet(customRuleSet, netXResource);
+				} else if (OPTION_AGGREGATION_FALLBACK_GLOBALRULES) {
+					this.getJobMonitor().setMsg("Aggregating");
+					applyGlobalRuleSet(netXResource);
+				} else {
+					// Skip this resource...
 				}
 			}
+		}
+	}
+
+	/**
+	 * 
+	 * Get a custom rule set for this NetXResource.
+	 * 
+	 * @param netXResource
+	 * @return
+	 */
+	private List<MetricAggregationRule> customRuleSetForNetXResource(
+			final NetXResource netXResource) {
+		List<MetricAggregationRule> customRuleSet = addonHandler
+				.aggregationRulesForMetric(netXResource.getMetricRef());
+		if (customRuleSet == null) {
+			// Get the corresponding MetricSource and ruleset if it exists.
+			MetricSource ms = addonHandler.metricSourceForMetric(metricSources,
+					netXResource.getMetricRef());
+			if (ms != null) {
+				customRuleSet = addonHandler
+						.aggregationRulesForMetricSource(ms);
+			}
+		}
+		return customRuleSet;
+	}
+
+	private void applyCustomRuleSet(List<MetricAggregationRule> customRuleSet,
+			NetXResource netXResource) {
+
+		if (LogicActivator.DEBUG) {
+			LogicActivator.TRACE.trace(
+					LogicActivator.TRACE_RETENTION_OPTION,
+					"data aggregation for : "
+							+ this.getModelUtils().printModelObject(
+									getComponent()));
+			LogicActivator.TRACE
+					.trace(LogicActivator.TRACE_RETENTION_DETAILS_OPTION,
+							"Applying custom rule sets ("
+									+ customRuleSet.size()
+									+ ") on resource: "
+									+ (netXResource
+											.eIsSet(LibraryPackage.Literals.BASE_RESOURCE__EXPRESSION_NAME) ? netXResource
+											.getShortName() : netXResource));
+		}
+		for (MetricAggregationRule ar : customRuleSet) {
+
+			if (ar.eIsSet(com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage.Literals.METRIC_AGGREGATION_RULE__INTERVAL_HINT)) {
+				MetricRetentionRule globalRuleForInterval = getModelUtils()
+						.metricRuleGlobalForInterval(metricRulesSortedList,
+								ar.getIntervalHint());
+				if (globalRuleForInterval != null) {
+					Expression expression = globalRuleForInterval
+							.getRetentionExpression();
+					runExpression(netXResource, expression);
+					if (LogicActivator.DEBUG) {
+						LogicActivator.TRACE
+								.trace(LogicActivator.TRACE_RETENTION_DETAILS_OPTION,
+										"Applying custom rule: "
+												+ ar.getName()
+												+ " interval: "
+												+ ar.getIntervalHint()
+												+ " apply corresponding global expression");
+					}
+					continue;
+				}
+			}
+			if (LogicActivator.DEBUG) {
+				LogicActivator.TRACE
+						.trace(LogicActivator.TRACE_RETENTION_DETAILS_OPTION,
+								"Skip custom rule: "
+										+ ar.getName()
+										+ " The rule is not valid (Interval should be defined, and matching a global rule interval");
+			}
+		}
+	}
+
+	/**
+	 * @param netXResource
+	 */
+	private void applyGlobalRuleSet(final NetXResource netXResource) {
+		if (LogicActivator.DEBUG) {
+			LogicActivator.TRACE.trace(
+					LogicActivator.TRACE_RETENTION_OPTION,
+					"data aggregation for : "
+							+ this.getModelUtils().printModelObject(
+									getComponent()) + " resource: "
+							+ netXResource.getExpressionName());
+		}
+		for (MetricRetentionRule rule : metricRulesSortedList) {
+			Expression expression = rule.getRetentionExpression();
+			runExpression(netXResource, expression);
+		}
+	}
+
+	/**
+	 * @param netXResource
+	 * @param expression
+	 */
+	private void runExpression(final NetXResource netXResource,
+			Expression expression) {
+		if (expression != null) {
+
+			// Data will be aggregated for the period specified
+			// by
+			// the
+			// logic period.
+			// For clearing data however, we need to set the
+			// MetricRetentionRule in the Interpreter.
+
+			getExpressionEngine().getContext().clear();
+			getExpressionEngine().getContext().add(getPeriod());
+			getExpressionEngine().getContext().add(
+					this.getModelUtils().nodeFor(getComponent()));
+			getExpressionEngine().getContext().add(netXResource);
+
+			// As the data is not committed in between,
+			// subsequent
+			// expressions will not be able
+			// get data until commit, so it needs to run n times
+			// (n
+			// = number of rules) before all aggregation is
+			// done.
+			runForExpression(expression);
+
+			commitInbetween(netXResource.cdoView());
 		}
 	}
 
