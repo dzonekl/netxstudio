@@ -1,0 +1,1382 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/16042013/library" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:gen="http://www.netxforge.com/16042013/generics" xmlns:metrics="http://www.netxforge.com/16042013/metrics" xmlns:operators="http://www.netxforge.com/16042013/operators" xmlns:protocols="http://www.netxforge.com/16042013/protocols" xmlns:services="http://www.netxforge.com/16042013/services" xmlns:xs="http://www.w3.org/2001/XMLSchema" ecore:package="com.netxforge.netxstudio.library" id="library" targetNamespace="http://www.netxforge.com/16042013/library">
+	<xs:import namespace="http://www.netxforge.com/16042013/generics" schemaLocation="generics.xsd"/>
+	<xs:import namespace="http://www.netxforge.com/16042013/metrics" schemaLocation="metrics.xsd"/>
+	<xs:import namespace="http://www.netxforge.com/16042013/services" schemaLocation="services.xsd"/>
+	<xs:import namespace="http://www.netxforge.com/16042013/operators" schemaLocation="operators.xsd"/>
+	<xs:import namespace="http://www.netxforge.com/16042013/protocols" schemaLocation="protocols.xsd"/>
+	<xs:annotation>
+		<xs:documentation>
+
+			Network Data schema Copyright 2008 The schema uses
+			ecore
+			references syntax, but should easily map into an SQL schema.
+			The
+			ecore
+			references, are mapped into ORM specific DLL (See
+			Hibernate or
+			other
+			ORM. EMF/Hibernate
+			however uses a custom mechanism.
+
+			Don't use
+			the
+			word
+			"Item", as this is appended to the Object
+			name in the EMF
+			edit
+			model.
+
+			Validation with pattern is not used, considering the limited
+			capabilities of
+			XSD patterns.
+
+		</xs:documentation>
+		<xs:appinfo ecore:key="validationDelegates" source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+		<xs:appinfo ecore:key="settingDelegates" source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+		<xs:appinfo ecore:key="invocationDelegates" source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+	</xs:annotation>
+
+
+	<!--_______________________ -->
+	<!-- LIBRARY -->
+	<!--_______________________ -->
+
+	<xs:complexType name="Library">
+		<xs:annotation>
+			<xs:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+				<operation name="test" type="xs:int">
+				</operation>
+			</xs:appinfo>
+			<xs:documentation>The Library is a container for most types. Types
+				can copy from the Library or reference from the Library.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Functions" type="Function">
+				<xs:annotation>
+					<xs:documentation>The Functions reference, contains 0 or more
+						Function type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="NodeTypes" type="NodeType">
+				<xs:annotation>
+					<xs:documentation>The NodeTypes reference, contains 0 or more
+						NodeType type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments" type="Equipment">
+				<xs:annotation>
+					<xs:documentation>The Equipments reference, contains 0 or more
+						Equipment type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Metrics" type="metrics:Metric">
+				<xs:annotation>
+					<xs:documentation>The Metrics reference, contains 0 or more Metric
+						type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="MetricSources" type="metrics:MetricSource">
+				<xs:annotation>
+					<xs:documentation>The MetricSources reference, contains 0 or more
+						MetricSource type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Parameters" type="Parameter">
+				<xs:annotation>
+					<xs:documentation>The Parameters reference, contains 0 or more
+						Parameter type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Protocols" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The Protocols reference, contains 0 or more
+						Protocol type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Tolerances" type="Tolerance">
+				<xs:annotation>
+					<xs:documentation>The Tolerance reference, contains 0 or more
+						Tolerance type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Expressions" type="Expression">
+				<xs:annotation>
+					<xs:documentation>The Expressions reference, contains 0 or more
+						Expression type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Units" type="Unit">
+				<xs:annotation>
+					<xs:documentation>The Units reference, contains 0 or more Unit
+						type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="Version" type="gen:Meta">
+				<xs:annotation>
+					<xs:documentation>The Versions reference, contains 0 or more Meta
+						types.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute default="Library name" name="Name" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>The Name attribute holds the name of the Library.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<!--_______________ -->
+	<!-- Component -->
+	<!-- The base type for Equipment and Function -->
+	<!--_______________ -->
+
+	<xs:complexType name="Component">
+		<xs:annotation>
+			<xs:documentation>The base type for Equipment and Function
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<!-- Contained -->
+					<xs:element maxOccurs="1" minOccurs="0" name="Lifecycle" type="gen:Lifecycle">
+						<xs:annotation>
+							<xs:documentation>The Lifecycle reference, contains 0 or 1
+								Lifecycle types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:opposite="ComponentRef" ecore:reference="NetXResource" maxOccurs="unbounded" minOccurs="0" name="ResourceRefs" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The EquipmentResources reference, contains 0 or
+								more EquipmentResource types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<!-- Non-Contained -->
+					<xs:element ecore:reference="metrics:Metric" maxOccurs="unbounded" minOccurs="0" name="MetricRefs" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The EquipmentMetricRefs reference, refers to 0
+								or
+								more Metric types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:reference="Expression" minOccurs="0" name="CapacityExpressionRef" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The CapacityExpressionRef reference, used to
+								compute the capacity values for the equipment.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:reference="Expression" minOccurs="0" name="UtilizationExpressionRef" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The UtilizationExpressionRef reference, used to
+								compute the utilization for the equipment.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:reference="Tolerance" maxOccurs="unbounded" minOccurs="0" name="ToleranceRefs" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The ToleranceRefs reference, refers to 0 or
+								more
+								Tolerance types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:reference="protocols:Protocol" maxOccurs="unbounded" minOccurs="0" name="ProtocolRefs" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The ProtocolRefs reference, refers to 0 or more
+								Protocol types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:reference="Parameter" maxOccurs="unbounded" minOccurs="0" name="ParameterRefs" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The ParameterRefs reference, refers to 0 or
+								more
+								Parameter types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<!-- OCL Derived features -->
+					<xs:element ecore:derived="true" ecore:reference="NetXResource" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllResources" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>OCL derived feature: Retrieves all resources
+							</xs:documentation>
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self-&gt;closure(equipments).resources-&gt;asOrderedSet()
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<!-- Contained -->
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Diagrams" type="gen:DiagramInfo">
+						<xs:annotation>
+							<xs:documentation>The Diagrams reference, contains 0 or more
+								DiagramInfo types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="0" name="Icons" type="gen:MultiImage">
+						<xs:annotation>
+							<xs:documentation>The Images reference, contains 0 or one
+								MultiImage type.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+
+				<!-- Derived attributes -->
+				<xs:attribute name="Description" type="gen:Description2000">
+					<xs:annotation>
+						<xs:documentation>The Description attribute holds the description
+							of
+							the equipment
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Name" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The EquipmentName attribute holds the name of
+							the
+							equipment when the equipment is configured in a Node type.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Duration" type="gen:ExpansionDuration">
+					<xs:annotation>
+						<xs:documentation>The Duration attribute, holds the typical
+							duration
+							for the expansion of an Equipment.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_______________ -->
+	<!-- FUNCTION -->
+	<!--_______________ -->
+
+	<xs:complexType name="Function">
+		<xs:annotation>
+			<xs:documentation>A type representing a function in an a telecom
+				equipment. This is often also referred to as a Application,
+				or a
+				Logical Function
+				Specifically it represents the Software portion.
+				(The Hardware is represented by
+				the Equipment type).
+				Function types
+				can be nested to form a hiarchical structure in similar
+				fashion to a
+				real Software anatomy.
+
+				The Function type (and/or it's children) is
+				first part of the Library
+				type, and then copied into a Node type when
+				created.
+
+				Examples:
+				1. The Function type typical structure is: System
+				-&gt; Subsystem -&gt;
+				Module etc..
+				2. The Function type can be
+				"Mobility
+				Management".
+			</xs:documentation>
+			<xs:appinfo ecore:key="constraints" source="http://www.eclipse.org/emf/2002/Ecore">
+				ValidFunctionName
+			</xs:appinfo>
+			<xs:appinfo ecore:key="ValidFunctionName" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+				not self.functionName.oclIsUndefined()
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Component">
+				<xs:sequence>
+					<!-- Contained -->
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Functions" type="Function">
+						<xs:annotation>
+							<xs:documentation>The Functions reference, contains 0 or more
+								Function types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:reference="operators:FunctionRelationship" maxOccurs="unbounded" minOccurs="0" name="FunctionRelationshipRefs" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The FunctionRelationshipRefs reference, refers
+								to 0 or more FunctionRelationship types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<!-- OCL Derived features -->
+
+					<xs:element ecore:derived="true" ecore:reference="Function" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllFunctions" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>OCL derived feature: Retrieve all functions
+							</xs:documentation>
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self-&gt;closure(functions)-&gt;asOrderedSet()
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_______________ -->
+	<!-- EQUIPMENT -->
+	<!--_______________ -->
+
+	<xs:complexType name="Equipment">
+		<xs:annotation>
+			<!-- Custom operation -->
+			<xs:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+				<operation exceptions="Exception" lowerBound="1" name="increment" type="xs:string" upperBound="-1">
+					<parameter lowerBound="1" name="x" type="xs:string" upperBound="-1"/>
+
+				</operation>
+			</xs:appinfo>
+			<xs:documentation>A type representing the basic information points of
+				a real telecommunications equipment part.
+				Specifically it represents
+				the Hardware portion. (The Software or logic is
+				represented by the
+				Function type).
+				Equipment types can be nested to form a hiarchical
+				structure in similar
+				fashion to a real HW equipment.
+
+				The Equipment
+				type (and/or it's children) is first part of the Library
+				type, and
+				then copied into a Node type when
+				created.
+
+				Examples:
+				1. The Equipment
+				type typical structure is: Cabinets -&gt; Rack -&gt; Slots
+				-&gt;
+				Boards -&gt;
+				Ports -&gt; Cabling
+				2. The Equipment type can be
+				constructed with a
+				specif UI widget like
+				a Node Editor.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Component">
+				<xs:sequence>
+					<!-- Contained -->
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments" type="Equipment">
+						<xs:annotation>
+							<xs:documentation>The Equipments reference, contains 0 or more
+								Equipment types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="EquipmentGroups" type="EquipmentGroup">
+						<xs:annotation>
+							<xs:documentation>The EquipmentGroups reference, contains 0 or
+								more
+								EquipmentGroup types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<!-- Non-Contained -->
+					<xs:element ecore:reference="operators:EquipmentRelationship" maxOccurs="unbounded" minOccurs="0" name="EquipmentRelationshipRefs" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The EquipmentRelationshipRefs reference, refers
+								to 0 or more EquipmentRelationship types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<!-- OCL Derived features -->
+
+					<xs:element ecore:derived="true" ecore:reference="Equipment" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllEquipments" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>OCL derived feature: Retrieve all elements with
+								a
+								non-empty product code. These are
+							</xs:documentation>
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self-&gt;closure(equipments)-&gt;asOrderedSet()</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+
+				<!-- Derived attributes -->
+				<xs:attribute ecore:derived="true" ecore:transient="true" ecore:volatile="true" name="Count" type="xs:int">
+					<xs:annotation>
+						<xs:documentation>OCL derived feature: Count all equipments.
+						</xs:documentation>
+						<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self.equipments-&gt;size()
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="EquipmentCode" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The EquipmentCode attribute holds a unique
+							identifier typically used for telecommunications equipment.
+
+							Examples:
+							1. The EquipmentCode could be a "Cabinet"
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Position" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The Position attribute holds information about
+							the
+							position of an equipment relative to it's parent.
+
+							Examples:
+							1.
+							The
+							Position of an Equipment with Code "Slot" could be "0" while
+							it's
+							parent is a "Rack", this would mean
+							slot 0 in the rack.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Redundancy">
+					<xs:annotation>
+						<xs:documentation>The Redundancy attribute holds the expected
+							redundancy schema of an equipment.
+							An equipment is Active,
+							Stand-by,
+							Idle or Defect.
+
+							The following options are possible:
+
+							n
+							=&gt;
+							The
+							equipment is not operating in any redundancy schema
+							n+1
+							=&gt; The
+							equipment is part of an n+1 schema. (1 stand-by for n
+							number of
+							active equipment).
+							1+1 =&gt; The equipment is paired with
+							another
+							equipment.
+
+							It should be considered, that the permitted load
+							and
+							consequently the
+							Tolerance will depend on the
+							redundancy schema.
+							Closely related to the Redundancy schema is the Load
+							Distribution.
+
+							Examples
+							1. A schema of n, means a failure of this
+							equipment will
+							not be
+							covered by another equipment.
+							2. A Schema of
+							n+1, means a
+							failure of the equipment will be covered
+							by another
+							equipment,
+							unless the stand-by equipment, is already
+							active.
+							3. A
+							schema of 1+1,
+							means the load on this equipment will be covered
+							by
+							another
+							equipment.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="n"/>
+							<xs:enumeration value="n+1"/>
+							<xs:enumeration value="1+1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="State">
+					<xs:annotation>
+						<xs:documentation>The State attribute holds the life status of an
+							equipment.
+
+							The following options are possible:
+
+							Active =&gt; The
+							equipment is operating.
+							Stand-by =&gt; The equipment is Stand-by.
+							Idle
+							=&gt; The equipment is not configured and does not
+							participate
+							in
+							Active nor Stand-by and there for in the redudancy
+							schema. An
+							Idle
+							e
+							Equipment can however be reserved.
+							Defect =&gt; The
+							equipment is
+							defect and does not participate in Active nor
+							Stand-by and there
+							for
+							in the redudancy schema.
+							Reserved =&gt; The
+							equipment is reserved
+							for
+							future use.
+
+							Examples
+							1. The state of the
+							equipment could be
+							considered to corelate with a
+							Metric of the
+							Equipment. A Stand-by
+							equipment should not be considered when
+							calculating the average
+							load for a
+							group of equipments. It will
+							however depend
+							on the
+							Equipment Manufacturer if measurements are
+							reported for
+							non-Active
+							equipments.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="ACTIVE"/>
+							<xs:enumeration value="STANDBY"/>
+							<xs:enumeration value="IDLE"/>
+							<xs:enumeration value="DEFECT"/>
+							<xs:enumeration value="RESERVED"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_______________ -->
+	<!-- EQUIPMENTGROUP -->
+	<!--_______________ -->
+
+	<xs:complexType name="EquipmentGroup">
+		<xs:annotation>
+			<xs:documentation>A type representing a group of equipment which have
+				a relationship.
+				An EquipmentGroup is used to group equipments and
+				evaluate expressions
+				on resources of the group.
+
+				Examples:
+				1. The
+				EquipmentGroup type can have resources which hold the
+				distribution of
+				traffic amongst the
+				equipment in the group. An Expression is used to
+				derive the distribution.
+				2. The EquipmentGroup type can have
+				resources which hold the redudancy
+				schema of a
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<!-- Contained -->
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Diagrams" type="gen:DiagramInfo">
+						<xs:annotation>
+							<xs:documentation>The Diagrams reference, contains 0 or more
+								DiagramInfo types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="EquipmentGroupResources" type="NetXResource">
+						<xs:annotation>
+							<xs:documentation>The EquipmentGroupResources reference, contains
+								0
+								or more Resource types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<!-- Non-Contained -->
+					<xs:element ecore:opposite="EquipmentGroupRefs" ecore:reference="Expression" maxOccurs="unbounded" minOccurs="0" name="ExpressionRefs" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The ExpressionRefs reference, refers to 0 or
+								more
+								Expression types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:reference="Equipment" maxOccurs="unbounded" minOccurs="0" name="EquipmentRefs" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The Equipments reference, references 0 or more
+								Equipment types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<xs:element ecore:reference="Parameter" maxOccurs="unbounded" minOccurs="0" name="ParameterRefs" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The ParameterRefs reference, refers to 0 or
+								more
+								Parameter types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<!-- OCL Derived features -->
+					<xs:element ecore:derived="true" ecore:reference="NetXResource" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllEquipmentResources" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>OCL derived feature: Retrieves all resources
+							</xs:documentation>
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self-&gt;closure(equipmentRefs).equipmentResources-&gt;asOrderedSet()
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+
+					<xs:element ecore:derived="true" ecore:reference="Equipment" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllEquipments" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>OCL derived feature: Retrieve all elements with
+								a
+								non-empty product code.
+							</xs:documentation>
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+								self-&gt;closure(equipmentRefs)-&gt;asOrderedSet()
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+
+				<!-- Derived attributes -->
+				<xs:attribute ecore:derived="true" ecore:transient="true" ecore:volatile="true" name="Count" type="xs:int">
+					<xs:annotation>
+						<xs:documentation>OCL derived feature: Count all equipments.
+						</xs:documentation>
+						<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self.equipments-&gt;size()
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Description" type="gen:Description2000">
+					<xs:annotation>
+						<xs:documentation>The Description attribute holds the description
+							of
+							the equipment group.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Name" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The Name attribute holds the name of the
+							equipment
+							group.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- ___________________________ -->
+	<!--| PRODUCTINFO | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="ProductInfo">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of
+				a Product as perceived by a manufacturer.
+
+				Examples: 1. The product
+				code for Equipment board UAB is 12CXSUY, the Sales
+				Code is another
+				code used in a
+				pricelist.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<!-- Contained -->
+					<!-- Non-Contained -->
+					<xs:element ecore:reference="Equipment" maxOccurs="unbounded" minOccurs="0" name="EquipmentRef" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The EquipmentRef reference, references 0 or
+								more
+								Equipment types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:reference="Function" maxOccurs="unbounded" minOccurs="0" name="LicensedFunctionRef" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The LicensedFunctionRef reference, references 0
+								or more Function types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:reference="NodeType" maxOccurs="unbounded" minOccurs="0" name="NodeTypeRef" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The LicensedFunctionRef reference, references 0
+								or more Function types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<!-- OCL Derived features -->
+				</xs:sequence>
+
+				<xs:attribute name="ProductCode" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The ProductCode attribute holds the product code
+							as defined by the manufacturer.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="SalesCode" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The SalesCode attribute holds the sales code as
+							defined by the manufacturer.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<!-- Equipment Life cycle dates -->
+				<xs:attribute name="UnderDevelopmentDate" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>The UnderDevelopmentDate attribute holds the
+							date
+							and time when the node is developed.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="AvailableDate" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>The AvailableDate attribute holds the date and
+							time when the node is available (for sale).
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="EndOfSalesDate" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>The EndOfSaleDate attribute holds the date and
+							time when the node is not for sale anymore.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="EndOfSupportDate" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>The EndOfSupportDate attribute holds the date
+							and
+							time when the node is not supported by the
+							manufacturer
+							anymore.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_______________ -->
+	<!-- NODETYPE -->
+	<!--_______________ -->
+
+	<xs:complexType name="NodeType">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of
+				a real telecommunications Node. This is also often referred
+				to as a
+				Network Element type. A NodeType type is a plannable Node with
+				Functions and Equipments. As the NodeType has no attribute,
+				it will
+				be identified by the name of the root function and the root
+				equipment.
+			</xs:documentation>
+
+			<xs:appinfo ecore:key="constraints" source="http://www.eclipse.org/emf/2002/Ecore">
+				ValidNodeID
+			</xs:appinfo>
+			<xs:appinfo ecore:key="ValidNodeID" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+				not self.nodeID.oclIsUndefined()
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<!-- Contained -->
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Functions" type="Function">
+						<xs:annotation>
+							<xs:documentation>The Functions reference, contains 0 or more
+								Function types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments" type="Equipment">
+						<xs:annotation>
+							<xs:documentation>The Equipments reference, contains 0 or more
+								Equipment types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<!-- Non-Contained -->
+					<!-- OCL Derived features -->
+				</xs:sequence>
+				<xs:attribute default="false" name="LeafNode" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation/>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Name" type="gen:Name255"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<!--_____________________________ -->
+	<!--| RESOURCE | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="NetXResource">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of
+				a resource.
+				A resource is a container for holding values. Resources
+				are
+				produced/consumed by expressions for
+				various purposes. Resources
+				belong to either to an Equipment, a Function or
+				an EquipmentGroup
+				type.
+
+				Note: The Resource values, contain a timestamp. As a resource
+				ultimately
+				belongs to a Network, which has
+				as a Start and End date,
+				the timestamp should be within the Network
+				period.
+
+				Examples:
+				1. A
+				Resource is used to hold Metric values, which is populated from a
+				MetricSource.
+				2. A Resource is used to hold Capacity values. These
+				are populated by
+				expressions which are defined
+				for an equipment. The
+				capacity values, can also be keyed in manually
+				through an UI Widget.
+				3. A Resource is used to hold Forecast values. These are populated
+				by
+				expressions which are defined
+				for an equipment or a function.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="BaseResource">
+				<xs:sequence>
+					<xs:annotation>
+						<xs:documentation>
+						</xs:documentation>
+					</xs:annotation>
+
+					<xs:element ecore:opposite="ResourceRefs" ecore:reference="Component" minOccurs="1" name="ComponentRef" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>Reference to the component for which this netx
+								resource was created.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:reference="metrics:Metric" maxOccurs="1" minOccurs="0" name="MetricRef" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The MetricRef reference, refers to zero or one
+								Metric for which this resource contains values.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="MetricValueRanges" type="metrics:MetricValueRange">
+						<xs:annotation>
+							<xs:documentation>The MetricValueRanges reference, contains
+								measured usage values. Metric values are values
+								retrieved from
+								the
+								real network element.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="CapacityValues" type="gen:Value">
+						<xs:annotation>
+							<xs:documentation>The CapacityValues reference, contains capacity
+								values. Capacity values are populated with
+								expressions, imported
+								or
+								entered manually.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="UtilizationValues" type="gen:Value">
+						<xs:annotation>
+							<xs:documentation>The UtilizationValues reference, contains
+								utilization values. Utilization values are populated through
+								a
+								work
+								flow computation run.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ForecastCapacityValues" type="gen:Value">
+						<xs:annotation>
+							<xs:documentation>The ForecastCapacityValues reference, contains
+								forecasted capacity values. ForecastedCapacity values are
+								populated with
+								expressions in represent the target capacity for a
+								resource (Versus the
+								actual capacity).
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ForecastValues" type="gen:Value">
+						<xs:annotation>
+							<xs:documentation>The ForecastValues reference, contains forecast
+								values. Forecast values are populated with
+								expressions, imported
+								or
+								entered manually.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="TrendedValues" type="gen:Value">
+						<xs:annotation>
+							<xs:documentation>The TrendedValues reference, contains trended
+								values. Trended values are populated with
+								expressions.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| BASERESOURCE | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="BaseResource">
+		<xs:annotation>
+			<xs:documentation>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:attribute name="ShortName" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The ShortName attribute holds a short name which
+							is used for presentation of the resource.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="ExpressionName" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The ExpressionName attribute holds a name which
+							is
+							used in the expressions referencing
+							the resource.
+
+							See: The
+							NetXScript
+							specification.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="LongName" type="gen:Description2000">
+					<xs:annotation>
+						<xs:documentation>The LongName attribute holds a long name which
+							is
+							used for presentation of the resource.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<!-- TODO Remove later <xs:attribute name="ValueSource" type="gen:ResourceKind" 
+					/> -->
+				<xs:attribute ecore:reference="Unit" name="UnitRef" type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>The UnitRef reference, refers to 0 or 1 Unit
+							type.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="SummaryDisplay" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The SummaryDisplay attribute is a flag specifiy
+							if
+							the resource should be displayed in a summary presentation.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="DetailDisplay" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The DetailDisplay attribute is a flag specifiy
+							if
+							the resource should be displayed in a detailed presentation.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| TOLERANCE | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Tolerance">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of
+				a tolerance. This is also known as a threshold.
+				A tolerance has a
+				name, an expression to determine if the tolerance
+				is applicable and a
+				an Action.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:attribute name="Name" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The Name attribute holds a name used for
+							presentation.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute ecore:reference="Expression" name="ExpressionRef" type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>The ExpressionRef reference, used to compute the
+							tolerance.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Level" type="LevelKind">
+					<xs:annotation>
+						<xs:documentation>The Level attribute holds the level of this
+							tolerance.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| PARAMETER | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Parameter">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of
+				a parameter.
+				A parameter is a container for a static value. It is
+				used in an
+				Expression.
+
+				Examples:
+				1. A Parameter STM-1_CHANNELS with
+				value of 63 is a static parameter
+				which can be used in an Expression.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:attribute name="Name" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The Name attribute holds a name used for
+							presentation.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Description" type="gen:Description2000">
+					<xs:annotation>
+						<xs:documentation>The Description attribute holds the description
+							of
+							the equipment
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="ExpressionName" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The ExpressionName attribute holds a name which
+							is
+							used in the expressions referencing
+							the resource.
+
+							See: The
+							NetXScript
+							specification.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Modifiable" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The Modifiable flag tells if the parameter value
+							can be modified by a planner, or if it's locked.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Value" type="xs:double">
+					<xs:annotation>
+						<xs:documentation>The Value attribute holds a value for the
+							Parameter.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| UNIT | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Unit">
+		<xs:annotation>
+			<xs:documentation>A type representing a real world unit like Erlang,
+				Subs or any other metric defined. It is used for metrics and
+				resources It has a Name, a description and a Code (two characters)
+
+				Examples:
+				1. The Unit Erlang is defined with code EL
+				2. The Unit
+				Subscribers is defined with code SU
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+
+				<xs:sequence>
+					<xs:element maxOccurs="1" minOccurs="0" name="Icons" type="gen:MultiImage">
+						<xs:annotation>
+							<xs:documentation>The Images reference, contains 0 or one
+								MultiImage type.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="Name" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The Name attribute holds a name used for
+							presentation.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Description" type="gen:Description2000">
+					<xs:annotation>
+						<xs:documentation>The Description attribute holds the description
+							of
+							the equipment
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Code" type="gen:UnitCode">
+					<xs:annotation>
+						<xs:documentation>The Code attribute holds the code of the unit.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| EXPRESSION | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Expression">
+		<xs:annotation>
+			<xs:documentation>A type representing a NetXScript expression.
+				NetXScript is an expression grammar, which is capable
+				to process
+				objects in the NetXStudio data model. Expressions belong to
+				various
+				types, like Equipment,
+				EquipmentGroup and Function. The NetXStudio
+				application defines, when the
+				expression is evaluated.
+
+				See: The
+				NetXScript specification.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+
+				<xs:sequence>
+					<!-- Contained -->
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ExpressionLines" type="gen:ExpressionLine">
+						<xs:annotation>
+							<xs:documentation>The ExpressionLines reference, contains 0 or
+								more
+								ExpressionLine types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:reference="ecore:EObject" maxOccurs="1" minOccurs="0" name="EvaluationObject" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The EvaluationObject reference holds 0 or 1
+								EObject type
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<!-- Non-Contained -->
+				</xs:sequence>
+				<xs:attribute name="Name" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The Name attribute holds the name of the
+							expression.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<!--_____________________________ -->
+	<!--| LAST EVAL RESULT| -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="LastEvaluationExpressionResult">
+		<xs:annotation>
+			<xs:documentation>A type representing the result of th of an
+				expression
+				run.
+			</xs:documentation>
+			<!-- DISABLE, BUG https://bugs.eclipse.org/bugs/show_bug.cgi?id=356181 
+				<xs:appinfo source="teneo.jpa">@Transient</xs:appinfo> -->
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="BaseExpressionResult">
+				<xs:sequence>
+					<xs:element maxOccurs="1" minOccurs="0" name="LastEvalResult" type="xs:anySimpleType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<!--_____________________________ -->
+	<!--| EXPRESSION RESULT| -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="ExpressionResult">
+		<xs:annotation>
+			<xs:documentation>A type representing the results of an expression
+				run.
+			</xs:documentation>
+			<!-- DISABLE, BUG https://bugs.eclipse.org/bugs/show_bug.cgi?id=356181 
+				<xs:appinfo source="teneo.jpa">@Transient</xs:appinfo> -->
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="BaseExpressionResult">
+				<xs:sequence>
+					<xs:element ecore:reference="BaseResource" maxOccurs="1" minOccurs="0" name="TargetResource" type="xs:anyURI"/>
+					<xs:element maxOccurs="1" minOccurs="0" name="TargetRange" type="RangeKind"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="TargetValues" type="gen:Value"/>
+				</xs:sequence>
+				<xs:attribute name="TargetIntervalHint" type="xs:int"/>
+				<xs:attribute name="TargetKindHint" type="metrics:KindHintType"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| BASE EXPRESSION RESULT| -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="BaseExpressionResult">
+		<xs:annotation>
+			<xs:documentation>A type representing the base results of an
+				expression
+				run.
+			</xs:documentation>
+			<!-- DISABLE, BUG https://bugs.eclipse.org/bugs/show_bug.cgi?id=356181 
+				<xs:appinfo source="teneo.jpa">@Transient</xs:appinfo> -->
+		</xs:annotation>
+	</xs:complexType>
+
+
+	<!--_____________________________ -->
+	<!--| RANGEKIND | -->
+	<!--|___________________________| -->
+	<xs:simpleType name="RangeKind">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="METRIC"/>
+			<xs:enumeration value="METRIC_REMOVE"/>
+			<xs:enumeration value="CAP"/>
+			<xs:enumeration value="DERIVED"/>
+			<xs:enumeration value="FORECAST"/>
+			<xs:enumeration value="FORECAST_CAP"/>
+			<xs:enumeration value="TRENDED"/>
+			<xs:enumeration value="UTILIZATION"/>
+			<xs:enumeration value="TOLERANCE"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!--_____________________________ -->
+	<!--| LEVELKIND | -->
+	<!--|___________________________| -->
+	<xs:simpleType name="LevelKind">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="RED"/>
+			<xs:enumeration value="AMBER"/>
+			<xs:enumeration value="GREEN"/>
+			<xs:enumeration value="YELLOW"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!--_____________________________ -->
+	<!--| VENDOR | -->
+	<!--|___________________________| -->
+	<xs:complexType name="Vendor">
+		<xs:annotation>
+			<xs:documentation>A type representing a network equipments vendor.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Company">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Products" type="ProductInfo">
+						<xs:annotation>
+							<xs:documentation>The Products reference, contains 0 or more
+								ProductInfo types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>
