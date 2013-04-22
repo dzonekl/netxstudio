@@ -37,6 +37,9 @@ public class PropertiesUtil {
 
 	public static final String NETXSTUDIO_PROPS_COMMENT = "The NetXStudio properties";
 
+	/** This property can be used to specify an external addon model **/
+	public static final String NETXSERVER_PROP_ADDON_MODEL_URI = "netxstudio.modeladdon";
+
 	public void readProperties(Location location, String fileName, Properties p) {
 		String filePath = location.getURL().getPath() + fileName;
 		File file = new File(filePath);
@@ -104,10 +107,9 @@ public class PropertiesUtil {
 		File f = b.getDataFile(fileName);
 		writeProperties(f, p);
 	}
-	
-	
+
 	/**
-	 * Write the properties to a Location object. 
+	 * Write the properties to a Location object.
 	 * 
 	 * @param location
 	 * @param fileName
@@ -118,9 +120,10 @@ public class PropertiesUtil {
 		File file = new File(filePath);
 		writeProperties(file, p);
 	}
-	
+
 	/**
-	 * Write the properties to a file. 
+	 * Write the properties to a file.
+	 * 
 	 * @param f
 	 * @param p
 	 */
