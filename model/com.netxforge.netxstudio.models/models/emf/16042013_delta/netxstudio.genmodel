@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2011 NetXForge&#xA;&#xA;This program is free software: you can redistribute it and/or modify&#xA;it under the terms of the GNU Lesser General Public License as published by&#xA;the Free Software Foundation, either version 3 of the License, or&#xA;(at your option) any later version.&#xA;&#xA;This program is distributed in the hope that it will be useful,&#xA;but WITHOUT ANY WARRANTY; without even the implied warranty of&#xA;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#xA;GNU General Public License for more details.&#xA;You should have received a copy of the GNU Lesser General Public License&#xA;along with this program.  If not, see &lt;http://www.gnu.org/licenses/>&#xA;&#xA;Contributors:&#xA;Christophe Bouhier - initial API and implementation and/or initial documentation"
+    modelDirectory="/com.netxforge.netxstudio.models16042013_delta/src-gen" modelPluginID="com.netxforge.netxstudio.models.16042013_delta"
+    modelName="Netxstudio" importerID="org.eclipse.xsd.ecore.importer" complianceLevel="6.0"
+    copyrightFields="false" runtimePlatform="RCP">
+  <foreignModel>../../xsd/16042013_delta/metrics.xsd</foreignModel>
+  <genPackages prefix="Metrics" basePackage="com.netxforge.netxstudio.delta16042013"
+      resource="XML" disposableProviderFactory="true" ecorePackage="metrics.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//FixedMetricRetentionPeriod">
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//FixedMetricRetentionPeriod/Always"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//FixedMetricRetentionPeriod/OneYear"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//FixedMetricRetentionPeriod/OneMonth"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//FixedMetricRetentionPeriod/OneWeek"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="metrics.ecore#//FixedMetricRetentionPeriodObject"/>
+    <genDataTypes ecoreDataType="metrics.ecore#//MetricRetentionPeriod"/>
+    <genDataTypes ecoreDataType="metrics.ecore#//UserMetricRetentionPeriod"/>
+    <genClasses ecoreClass="metrics.ecore#//Addon">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Addon/metrics"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Addon/metricSources"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Addon/metricRetentionRuleSets"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Addon/metricAggregationRuleSets"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//Metric">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//Metric/metricAggregationRuleSet"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//Metric/metricRetentionRuleSet"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Metric/name"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MetricAggregationRule">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricAggregationRule/aggregationExpression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricAggregationRule/intervalHint"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MetricAggregationRules">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricAggregationRules/metricAggregationRules"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MetricRetentionPeriods">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricRetentionPeriods/metricRetentionPeriods"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MetricRetentionRule">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricRetentionRule/intervalHint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricRetentionRule/period"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MetricRetentionRules">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricRetentionRules/metricRetentionRules"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MetricSource">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricSource/metricAggregationRuleSet"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricSource/metricRetentionRuleSet"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricSource/name"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Generics" basePackage="com.netxforge.netxstudio.delta16042013"
+      resource="XML" disposableProviderFactory="true" ecorePackage="generics.ecore#/">
+    <genDataTypes ecoreDataType="generics.ecore#//Name255"/>
+    <genClasses ecoreClass="generics.ecore#//Base">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Base/deleted"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//Rule">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Rule/name"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//RuleSet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//RuleSet/rules"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//RuleSet/name"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
