@@ -102,10 +102,11 @@ public class NetxForgeJob implements org.quartz.Job {
 
 		// jobs are too close to eachother, going away
 		if (isRunning(job.cdoID())) {
+//			removeRunning(job.cdoID());
 			return;
 		}
 		addRunning(job.cdoID());
-		
+
 		try {
 			final JobImplementation jobImplementation = JobImplementation.REGISTRY
 					.getFactory(job.getClass()).create();
@@ -120,6 +121,9 @@ public class NetxForgeJob implements org.quartz.Job {
 			} catch (final Throwable t) {
 				runMonitor.setFinished(jobImplementation.getJobRunState(), t);
 			}
+		} catch (Exception e) {
+			JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION,
+					"Error instantiating job: " + job.getClass(), e);
 		} finally {
 			removeRunning(job.cdoID());
 		}
@@ -138,12 +142,13 @@ public class NetxForgeJob implements org.quartz.Job {
 		final WorkFlowRun wfRun = jobImplementation.createWorkFlowRunInstance();
 
 		addAndTruncate(container.getWorkFlowRuns(), wfRun);
-//		container.getWorkFlowRuns().add(wfRun);
+		// container.getWorkFlowRuns().add(wfRun);
 
 		dataProvider.commitTransactionThenClose();
 		dataProvider.closeSession();
-		
-		// Tigh the ID of the Workflow run with the Run Monitor. The monitor will update this object. 
+
+		// Tigh the ID of the Workflow run with the Run Monitor. The monitor
+		// will update this object.
 		runMonitor.setWorkFlowRunId(wfRun.cdoID());
 		runMonitor.setStartRunning();
 	}
@@ -152,7 +157,8 @@ public class NetxForgeJob implements org.quartz.Job {
 	 * @param resource
 	 * @param logEntry
 	 */
-	public void addAndTruncate(final EList<WorkFlowRun> contents, WorkFlowRun wfRun) {
+	public void addAndTruncate(final EList<WorkFlowRun> contents,
+			WorkFlowRun wfRun) {
 
 		// Lazy init maxStats var.
 		if (maxWorkFlowRunsInJobRunContainer == -1) {
