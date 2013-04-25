@@ -3,7 +3,7 @@
 
 	<!-- CDO server config for Version 06032012 -->
 
-	<acceptor type="tcp" listenAddr="0.0.0.0" port="2036">
+	<acceptor type="tcp" listenAddr="0.0.0.0" port="2037">
 		<!-- negotiator type="challenge" description="NetxForgeChallenge"/-->
 	</acceptor>
 

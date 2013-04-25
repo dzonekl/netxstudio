@@ -20,6 +20,7 @@
 -Xmx1024m
 -Xss512k
 -Dnet4j.config=&quot;${resource_loc:/com.netxforge.netxstudio.server.db.product/config_06032012}&quot;
+-Dcom.sun.management.jmxremote
 -Dcom.sun.management.jmxremote.port=8812
 -Dcom.sun.management.jmxremote.authenticate=false
 -Dcom.sun.management.jmxremote.ssl=false</vmArgsMac>
@@ -57,7 +58,6 @@
       <feature id="com.netxforge.netxstudio.models.06032012.feature" version="1.0.0.qualifier"/>
       <feature id="com.google.artifacts.feature"/>
       <feature id="org.apache.poi.artifacts.feature"/>
-      <feature id="javax.servlet.artifacts.feature"/>
       <feature id="org.mortbay.artifacts.feature"/>
       <feature id="org.eclipse.emf.cdo.server.db.postgres.artifacts.feature"/>
       <feature id="org.eclipse.emf.common"/>
@@ -67,9 +67,10 @@
       <feature id="org.antlr.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.quartz.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.apache.artifacts.server.feature" version="1.0.0.qualifier"/>
-      <feature id="oracle.jdbc.driver" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.equinox.jsp.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.postgresql.jdbc.driver.feature" version="1.0.0.qualifier"/>
+      <feature id="javax.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="oracle.jdbc.driver.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
