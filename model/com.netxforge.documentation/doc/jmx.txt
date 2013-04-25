@@ -1,0 +1,18 @@
+JMX & JavaConsole
+=================
+
+Documentation: 
+
+http://docs.oracle.com/javase/1.5.0/docs/guide/management/overview.html
+
+Settings: 
+
+-Dcom.sun.management.jmxremote
+-Dcom.sun.management.jmxremote.port=8812
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false
+
+Definitions:
+
+MBeab => Java object conforming to JMX. 
+Platform MBean (MXBean) => JVM Mbean object 
