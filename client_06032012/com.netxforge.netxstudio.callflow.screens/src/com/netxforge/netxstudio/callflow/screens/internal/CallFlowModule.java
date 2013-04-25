@@ -4,7 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 
-public class ScreensModule extends AbstractModule {
+public class CallFlowModule extends AbstractModule {
 
 	@Override
 	protected void configure() {

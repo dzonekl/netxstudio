@@ -46,16 +46,17 @@
 
    <features>
       <feature id="com.netxforge.netxstudio.client.callflow.product.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.client.callflow.screens.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.screens.app.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.screens.ide.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.console.feature"/>
       <feature id="com.netxforge.netxstudio.help.feature"/>
       <feature id="com.netxforge.netxstudio.data.feature"/>
-      <feature id="com.netxforge.client.callflow.screens.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.screens.editing.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.common.feature"/>
       <feature id="com.netxforge.netxstudio.models.edit.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.06032012.feature"/>
       <feature id="com.netxforge.netxstudio.models_06032012.edit.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.screens.xtext.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.emf.common.ui"/>
       <feature id="org.eclipse.emf.ecore"/>
@@ -64,7 +65,6 @@
       <feature id="org.eclipse.emf.edit.ui"/>
       <feature id="org.eclipse.emf.databinding"/>
       <feature id="org.eclipse.emf.databinding.edit"/>
-      <feature id="org.eclipse.emf.compare.artifacts.feature"/>
       <feature id="org.eclipse.platform.artifacts.feature"/>
       <feature id="org.eclipse.rcp"/>
       <feature id="org.eclipse.core.artifacts.feature"/>
@@ -74,22 +74,17 @@
       <feature id="org.eclipse.help.artifacts.feature"/>
       <feature id="com.google.artifacts.feature"/>
       <feature id="org.apache.artifacts.feature"/>
-      <feature id="org.mortbay.artifacts.feature"/>
-      <feature id="org.antlr.artifacts.feature"/>
-      <feature id="org.swtchart.artifacts.feature"/>
       <feature id="org.eclipse.nebula.artifacts.feature"/>
-      <feature id="org.eclipse.xtext.artifacts.feature"/>
-      <feature id="org.eclipse.xtext.ui.artifacts.feature"/>
       <feature id="org.eclipse.emf.cdo.client.artifacts.feature"/>
-      <feature id="org.apache.poi.artifacts.feature"/>
       <feature id="org.eclipse.gef"/>
       <feature id="org.eclipse.draw2d"/>
-      <feature id="org.postgresql" version="9.0.0.801"/>
       <feature id="javax.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.mortbay.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.apache.poi.artifacts.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
-      <plugin id="com.netxforge.netxstudio.client.product" autoStart="true" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.callflow.product" autoStart="true" startLevel="1" />
    </configurations>
 
 </product>

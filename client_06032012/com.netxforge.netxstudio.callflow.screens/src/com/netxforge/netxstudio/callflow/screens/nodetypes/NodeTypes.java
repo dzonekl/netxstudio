@@ -408,6 +408,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 					editingService);
 			screen.setScreenService(screenService);
 			screen.setOperation(getOperation());
+			screen.setParentScreen(this);
 			screen.injectData(null, o);
 			this.currentDetails = screen;
 			sashForm.layout(true, true);
@@ -419,6 +420,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 					editingService);
 			screen.setScreenService(screenService);
 			screen.setOperation(getOperation());
+			screen.setParentScreen(this);
 			screen.injectData(null, o);
 			this.currentDetails = screen;
 			sashForm.layout(true, true);
@@ -429,6 +431,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 					SWT.NONE, editingService);
 			nnt.setOperation(getOperation());
 			nnt.setScreenService(screenService);
+			nnt.setParentScreen(this);
 			nnt.injectData(null, o);
 			this.currentDetails = nnt;
 			sashForm.layout(true, true);
@@ -443,14 +446,14 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	 */
 	public Viewer getViewer() {
 
-		if (currentDetails != null) {
-			if (currentDetails instanceof IScreen) {
-				Viewer v = ((IScreen) currentDetails).getViewer();
-				if (v != null) {
-					return v;
-				}
-			}
-		}
+//		if (currentDetails != null) {
+//			if (currentDetails instanceof IScreen) {
+//				Viewer v = ((IScreen) currentDetails).getViewer();
+//				if (v != null) {
+//					return v;
+//				}
+//			}
+//		}
 		return nodeTypeTreeViewer;
 	}
 

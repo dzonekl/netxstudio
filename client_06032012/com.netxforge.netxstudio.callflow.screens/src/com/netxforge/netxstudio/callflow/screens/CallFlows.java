@@ -47,6 +47,7 @@ import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.layout.TreeColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnPixelData;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
@@ -74,6 +75,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
@@ -798,6 +800,17 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 
 	private final List<IAction> actions = Lists.newArrayList();
 
+	@Override
+	public ShowInContext getShowIn(ISelection selection) {
+
+
+		// create a chart show in.
+		ShowInContext showInContext = new ShowInContext(new String("input"),
+				callFlowTreeViewer.getSelection());
+
+		return showInContext;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

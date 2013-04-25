@@ -3,14 +3,20 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: com.netxforge.netxstudio.callflow.product;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.netxforge.netxstudio.client.product.ProductActivator
+Bundle-Activator: com.netxforge.netxstudio.callflow.product.ProductActivator
 Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.intro,
  com.netxforge.netxstudio.data;bundle-version="1.0.0",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
- com.google.inject;bundle-version="2.0.0"
+ com.google.inject;bundle-version="2.0.0",
+ com.netxforge.netxstudio.screens.app;bundle-version="1.0.0",
+ com.netxforge.netxstudio.screens.activities;bundle-version="1.0.0",
+ com.netxforge.netxstudio.screens.ide;bundle-version="1.0.0",
+ com.netxforge.netxstudio.console;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
-Export-Package: com.netxforge.netxstudio.client.product
+Export-Package: com.netxforge.netxstudio.callflow.product
+Import-Package: com.netxforge.netxstudio,
+ com.netxforge.netxstudio.generics

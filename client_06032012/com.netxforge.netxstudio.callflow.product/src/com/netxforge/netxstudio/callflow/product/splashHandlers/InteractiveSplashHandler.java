@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.splash.AbstractSplashHandler;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import com.netxforge.netxstudio.client.product.ProductActivator;
+import com.netxforge.netxstudio.callflow.product.ProductActivator;
 import com.netxforge.netxstudio.common.CommonService;
 import com.netxforge.netxstudio.common.jca.JCAService;
 import com.netxforge.netxstudio.data.IDataService;
