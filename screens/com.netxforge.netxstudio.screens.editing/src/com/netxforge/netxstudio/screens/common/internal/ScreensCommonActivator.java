@@ -40,7 +40,7 @@ public class ScreensCommonActivator extends AbstractUIPlugin {
 	
 	private Injector injector;
 
-	public Injector getInjector() {
+	protected Injector getInjector() {
 		return injector;
 	}
 	
