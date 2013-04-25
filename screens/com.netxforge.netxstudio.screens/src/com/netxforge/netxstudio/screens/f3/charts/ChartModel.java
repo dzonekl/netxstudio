@@ -116,7 +116,7 @@ public class ChartModel {
 		// 1. ResourceMonitor
 		// 2. NetXResource
 		// 3. Values
-		if (resMonitor != null) {
+		if (resMonitor != null && resMonitor.getResourceRef() != null) {
 			this.resourceMonitor = resMonitor;
 			this.netXRes = resMonitor.getResourceRef();
 		} else if (netXRes != null) {
