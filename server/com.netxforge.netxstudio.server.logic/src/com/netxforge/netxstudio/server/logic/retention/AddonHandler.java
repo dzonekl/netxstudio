@@ -21,10 +21,8 @@ import com.netxforge.netxstudio.data.IExternalDataProvider;
 import com.netxforge.netxstudio.delta16042013.metrics.Addon;
 import com.netxforge.netxstudio.delta16042013.metrics.FixedMetricRetentionPeriod;
 import com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRules;
-
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
-
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricRetentionPeriod;
@@ -41,6 +39,8 @@ import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
  */
 
 public class AddonHandler {
+
+	protected static final Object WILDCARD_ALL = "*";
 
 	@Inject
 	private IExternalDataProvider.ExternalDataProvider externalProvider;
@@ -111,7 +111,7 @@ public class AddonHandler {
 	public void initializeModelAddon(boolean force) {
 
 		if (!initialized || force) {
-			
+
 			addon = null;
 			addOnMetricSources = null;
 			addOnMetrics = null;
@@ -166,8 +166,14 @@ public class AddonHandler {
 		try {
 			com.netxforge.netxstudio.delta16042013.metrics.Metric matchAddOnMetric = this
 					.matchAddOnMetric(metric);
-			return matchAddOnMetric.getMetricRetentionRuleSet()
-					.getMetricRetentionRules();
+			// return matchAddOnMetric.getMetricRetentionRuleSet()
+			// .getMetricRetentionRules();
+
+			List<com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRule> sortedCopy = Ordering
+					.from(new MetricRetentionRuleComparator()).sortedCopy(
+							matchAddOnMetric.getMetricRetentionRuleSet()
+									.getMetricRetentionRules());
+			return sortedCopy;
 		} catch (NoSuchElementException nsee) {
 			// if (LogicActivator.DEBUG) {
 			// LogicActivator.TRACE.trace(
@@ -220,8 +226,15 @@ public class AddonHandler {
 		}
 		try {
 			com.netxforge.netxstudio.delta16042013.metrics.Metric addOnMetric = matchAddOnMetric(metric);
-			return addOnMetric.getMetricAggregationRuleSet()
-					.getMetricAggregationRules();
+
+			List<com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule> sortedCopy = Ordering
+					.from(new MetricAggregationRuleComparator()).sortedCopy(
+							addOnMetric.getMetricAggregationRuleSet()
+									.getMetricAggregationRules());
+
+			// return addOnMetric.getMetricAggregationRuleSet()
+			// .getMetricAggregationRules();
+			return sortedCopy;
 		} catch (NoSuchElementException nsee) {
 			// if (LogicActivator.DEBUG) {
 			// LogicActivator.TRACE.trace(
@@ -338,8 +351,13 @@ public class AddonHandler {
 										&& input.eIsSet(com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage.Literals.METRIC__NAME)
 										&& metric
 												.eIsSet(MetricsPackage.Literals.METRIC__NAME)) {
-									return metric.getName().equals(
-											input.getName());
+									if (input.getName().equals(WILDCARD_ALL)) {
+										return true;
+									} else {
+
+										return metric.getName().equals(
+												input.getName());
+									}
 								}
 								return false;
 							}
