@@ -32,8 +32,8 @@ import com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricSource;
@@ -179,9 +179,6 @@ public class AggregationEngine extends BaseComponentEngine {
 						.metricRuleGlobalForInterval(metricRulesSortedList,
 								ar.getIntervalHint());
 				if (globalRuleForInterval != null) {
-					Expression expression = globalRuleForInterval
-							.getRetentionExpression();
-					runExpression(netXResource, expression);
 					if (LogicActivator.DEBUG) {
 						LogicActivator.TRACE
 								.trace(LogicActivator.TRACE_RETENTION_DETAILS_OPTION,
@@ -191,6 +188,9 @@ public class AggregationEngine extends BaseComponentEngine {
 												+ ar.getIntervalHint()
 												+ " apply corresponding global expression");
 					}
+					Expression expression = globalRuleForInterval
+							.getRetentionExpression();
+					runExpression(netXResource, expression);
 					continue;
 				}
 			}

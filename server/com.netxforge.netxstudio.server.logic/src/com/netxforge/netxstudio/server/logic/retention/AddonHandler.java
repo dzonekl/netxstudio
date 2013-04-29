@@ -23,11 +23,11 @@ import com.netxforge.netxstudio.delta16042013.metrics.FixedMetricRetentionPeriod
 import com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
-import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricRetentionPeriod;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.server.internal.ServerActivator;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 

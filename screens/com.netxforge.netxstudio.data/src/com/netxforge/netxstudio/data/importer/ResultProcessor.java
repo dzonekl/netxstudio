@@ -139,7 +139,7 @@ public class ResultProcessor {
 	 * 
 	 * @param values
 	 */
-	private void removeValues(EList<Value> values, Date start, Date end) {
+	private void removeValues(EList<Value> values,  Date start, Date end) {
 		final long startMillis = start.getTime();
 		final long endMillis = end.getTime();
 		final List<Value> toRemove = new ArrayList<Value>();
@@ -195,7 +195,14 @@ public class ResultProcessor {
 		// Assume these are contained here.
 		return mvr.getMetricValues().size() != size;
 	}
-
+	
+	/**
+	 * Remove the {@link Value } objects from the target collection
+	 * 
+	 * @param targetRange The target values to remove from
+	 * @param values The values to remove.
+	 * @return
+	 */
 	public boolean removeValues(EList<Value> targetRange, List<Value> values) {
 
 		int size = targetRange.size();
@@ -401,16 +408,17 @@ public class ResultProcessor {
 		}
 
 		// Do not remove values if we are not adding anything!
-		if (start != null && end != null) {
-			removeValues(mvr.getMetricValues(), start, end);
-			if (DataActivator.DEBUG) {
-				DataActivator.TRACE.trace(
-						DataActivator.TRACE_RESULT_VALUE_OPTION,
-						"-- Removed values from start="
-								+ modelUtils.dateAndTime(start) + " , end="
-								+ modelUtils.dateAndTime(end));
-			}
-		}
+//		if (start != null && end != null) {
+//			
+//			removeValues(mvr.getMetricValues(), start, end);
+//			if (DataActivator.DEBUG) {
+//				DataActivator.TRACE.trace(
+//						DataActivator.TRACE_RESULT_VALUE_OPTION,
+//						"-- Removed values from start="
+//								+ modelUtils.dateAndTime(start) + " , end="
+//								+ modelUtils.dateAndTime(end));
+//			}
+//		}
 
 		addToValues(mvr, newValues, intervalHint);
 

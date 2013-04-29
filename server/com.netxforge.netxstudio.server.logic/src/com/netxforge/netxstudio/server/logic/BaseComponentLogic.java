@@ -28,11 +28,13 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
+import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 
 /**
  * Common code for all logic implementations.
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
 public abstract class BaseComponentLogic extends BasePeriodLogic {
 
@@ -125,6 +127,26 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		result.add(function);
 		for (final Function childFunction : function.getFunctions()) {
 			getComponents(childFunction, result);
+		}
+	}
+
+	protected void reportStats() {
+
+		// Report the parent functionality statistics.
+		super.reportStats();
+
+		if (LogicActivator.DEBUG) {
+
+			if (this.getEngine() instanceof BaseExpressionEngine) {
+				BaseExpressionEngine bee = (BaseExpressionEngine) this
+						.getEngine();
+				LogicActivator.TRACE
+						.trace(LogicActivator.TRACE_LOGIC_OPTION,
+								"Expression Duration: "
+										+ this.getModelUtils()
+												.timeDurationNanoElapsed(
+														bee.getExpressionDurationThisInstance()));
+			}
 		}
 	}
 

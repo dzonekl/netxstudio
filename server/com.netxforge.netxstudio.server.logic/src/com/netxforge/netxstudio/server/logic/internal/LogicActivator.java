@@ -62,6 +62,11 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 	public static String TRACE_RETENTION_OPTION = "/trace.retention";
 	public static String TRACE_RETENTION_DETAILS_OPTION = "/trace.retention.details";
 	
+	// Tracing options for value expression logic. 
+	public static String TRACE_EXPRESSION_OPTION = "/trace.expression";
+	public static String TRACE_EXPRESSION_DETAILS_OPTION = "/trace.expression.details";
+
+	
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);

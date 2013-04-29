@@ -189,8 +189,8 @@ public class ServerIntegrity extends JobChangeAdapter {
 						sb.append("Param: "
 								+ m.getName().substring(
 										"integrity_get".length(),
-										m.getName().length()) + ": "
-								+ invoke + "\n");
+										m.getName().length()) + ": " + invoke
+								+ "\n");
 					} catch (IllegalAccessException e) {
 						e.printStackTrace();
 					} catch (IllegalArgumentException e) {
@@ -220,26 +220,27 @@ public class ServerIntegrity extends JobChangeAdapter {
 	private DataIntegrityReport lastProducedReport;
 
 	// CommandInterpreter API.
-	
+
 	public static void reportIntegrityLast(CommandInterpreter interpreter) {
-		if(self.getLastProducedReport() != null){
+		if (self.getLastProducedReport() != null) {
 			interpreter.println(self.getLastProducedReport());
 		}
 	}
-	
+
 	public static void reportIntegrity(CommandInterpreter interpreter) {
 		reportIntegrity(interpreter, false);
 	}
 
 	public static void reportIntegrity(CommandInterpreter interpreter,
 			boolean checkDuplicates) {
-		
-		if(self.loadingJob.getState() == Job.RUNNING){
+
+		if (self.loadingJob.getState() == Job.RUNNING) {
 			// Bail..
-			interpreter.println("Report already in production, specify the action 'cancel' to abort the production process");
+			interpreter
+					.println("Report already in production, specify the action 'cancel' to abort the production process");
 			return;
 		}
-		
+
 		self.setResultProcessor(interpreter);
 		self.createIntegrityReport(checkDuplicates);
 		interpreter
@@ -377,7 +378,7 @@ public class ServerIntegrity extends JobChangeAdapter {
 		private IStatus internalRun(IProgressMonitor monitor) {
 
 			CDOSession openSession = provider.openSession();
-			
+
 			CDOView openView = openSession.openView();
 
 			CDOResourceNode folder = openView.getResourceNode("/Node_/");
@@ -390,10 +391,10 @@ public class ServerIntegrity extends JobChangeAdapter {
 			// Two step process.
 			// Step 1. Iterate through CDOResourceFolder -> CDResource ->
 			// NetXResource -> MetricValueRange.
-			// 			From MetricValueRange, query the Values and count.
+			// From MetricValueRange, query the Values and count.
 			// Step 2. Iterate through MetricValueRange
-			// 			From MetricValueRange, query duplicates and store in a Map.
-			
+			// From MetricValueRange, query duplicates and store in a Map.
+
 			if (folder instanceof CDOResourceFolder) {
 				for (CDOResourceNode n : ((CDOResourceFolder) folder)
 						.getNodes()) {
@@ -433,7 +434,7 @@ public class ServerIntegrity extends JobChangeAdapter {
 											.size();
 
 									getReport().duration = modelUtils
-											.timeDurationNano(totalTime);
+											.timeDurationNanoFromStart(totalTime);
 
 								}
 							}
@@ -441,16 +442,16 @@ public class ServerIntegrity extends JobChangeAdapter {
 					}
 				}
 			}
-			
+
 			if (checkDuplicates) {
 				for (MetricValueRange mvr : valueRanges) {
-					
+
 					if (monitor.isCanceled()) {
 						break;
 					}
-					
+
 					getReport().duration = modelUtils
-							.timeDurationNano(totalTime);
+							.timeDurationNanoFromStart(totalTime);
 					// query the duplicate values for this
 					// NetXResource, store the values if there are duplicates.
 					List<Value> duplicates = queryService.getDuplicateValues(
@@ -463,7 +464,7 @@ public class ServerIntegrity extends JobChangeAdapter {
 			}
 
 			getReport().duration = modelUtils
-					.timeDurationNano(totalTime);
+					.timeDurationNanoFromStart(totalTime);
 
 			openView.close();
 			provider.closeSession();
@@ -485,6 +486,5 @@ public class ServerIntegrity extends JobChangeAdapter {
 			this.report = report;
 		}
 	}
-	
 
 }

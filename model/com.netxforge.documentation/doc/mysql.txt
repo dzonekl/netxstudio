@@ -24,7 +24,15 @@ Install directory
 /etc/mysql
 /usr/share/mysql
 
-/usr/local/mysql/bin (MacOSX). 
+/usr/local/mysql/bin (MacOSX).
+load: 
+
+mysql -u root -p TM < .sql
+ 
+backup: 
+
+mysql -u root -p TM < drop_capman_tables.sql
+
 
 Server Up/Down/Reload
 mysqladmin -u root -p ping

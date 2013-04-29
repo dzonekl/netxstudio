@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.common.model;
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -138,6 +139,10 @@ import com.netxforge.netxstudio.services.ServicesPackage;
 
 public class ModelUtils {
 
+	public static final double ONE_BILLION = 1E+9; // Seconds
+	public static final double ONE_MILLION = 1E+6; // Milli Seconds
+	public static final double ONE_THOUSAND = 1E+3; // Pico Seconds
+
 	public static final String DATE_PATTERN_1 = "MM/dd/yyyy";
 	public static final String DATE_PATTERN_2 = "dd-MM-yyyy";
 	public static final String DATE_PATTERN_3 = "dd.MM.yyyy";
@@ -155,6 +160,9 @@ public class ModelUtils {
 	public static final int SECONDS_IN_AN_HOUR = SECONDS_IN_A_MINUTE * 60;
 	public static final int SECONDS_IN_A_DAY = SECONDS_IN_AN_HOUR * 24;
 	public static final int SECONDS_IN_A_WEEK = SECONDS_IN_A_DAY * 7;
+
+	public static final DecimalFormat FORMAT_DOUBLE_NO_FRACTION = new DecimalFormat(
+			"00");
 
 	/** Default value formatter */
 	public static final String DEFAULT_VALUE_FORMAT_PATTERN = "###,###,###,##0.00";
@@ -1069,18 +1077,18 @@ public class ModelUtils {
 					new Predicate<Metric>() {
 
 						public boolean apply(Metric input) {
-							if(input != null && metric != null){
+							if (input != null && metric != null) {
 								return input.equals(metric);
 							}
 							return false;
 							// Equality based on the name of the Metic
-//							if (input != null && metric != null
-//									&& input.getName() != null
-//									&& metric.getName() != null) {
-//								return input.getName().equals(metric.getName());
-//							}else {
-//								return false;
-//							}
+							// if (input != null && metric != null
+							// && input.getName() != null
+							// && metric.getName() != null) {
+							// return input.getName().equals(metric.getName());
+							// }else {
+							// return false;
+							// }
 						}
 
 					});
@@ -3108,12 +3116,13 @@ public class ModelUtils {
 			List<MetricRetentionRule> rules, final int intervalHint) {
 
 		try {
-			MetricRetentionRule find = Iterables.find(rules, new Predicate<MetricRetentionRule>() {
+			MetricRetentionRule find = Iterables.find(rules,
+					new Predicate<MetricRetentionRule>() {
 
-				public boolean apply(MetricRetentionRule input) {
-					return input.getIntervalHint() == intervalHint;
-				}
-			});
+						public boolean apply(MetricRetentionRule input) {
+							return input.getIntervalHint() == intervalHint;
+						}
+					});
 			return find;
 		} catch (NoSuchElementException nsee) {
 		}
@@ -3219,39 +3228,76 @@ public class ModelUtils {
 	 * 
 	 * @return
 	 */
-	public String timeDurationNano(long l) {
+	public String timeDurationNanoFromStart(long l) {
+		// long delta = (long) ((System.nanoTime() - l) / ONE_MILLION);
+		// return timeAndSecondsAmdMillis(new Date(delta));
+
+		long delta = (System.nanoTime() - l);
+		return timeFormatNano(delta);
+	}
+
+	/**
+	 * The duration as a String for the provided nano seconds. nano is 10 to the
+	 * power of -10 (So one billionth of a second). The presentation is
+	 * depending on the size of the nano value.
+	 * 
+	 * @param l
+	 * @return
+	 */
+	public String timeDurationNanoElapsed(long l) {
+		// long delta = (long) (l / ONE_MILLION);
+		// return timeAndSecondsAmdMillis(new Date(delta));
+		return timeFormatNano(l);
+	}
+
+	/**
+	 * @param delta
+	 * @return
+	 */
+	private String timeFormatNano(long delta) {
 
 		StringBuilder sb = new StringBuilder();
 
-		long onebillion = 1000000000;
-		long onemillion = 1000000;
-		long onethousand = 1000;
+		// double rest = 0;
 
-		long delta = System.nanoTime() - l;
-		long rest = 0;
+		// @SuppressWarnings("unused")
+		// String[] units = new String[] { "(min:sec:ms)", "(sec)", "(ms)" };
+		// @SuppressWarnings("unused")
+		// String unit = "";
 
-		@SuppressWarnings("unused")
-		String[] units = new String[] { "(min)", "(sec)", "(ms)" };
-		@SuppressWarnings("unused")
-		String unit = "";
+//		int granularity = 2;
 
-		int granularity = 2;
-		if (delta > onebillion * 60 && granularity != 0) {
-			sb.append(delta / (onebillion * 60) + ":");
-			rest = delta % onebillion * 60;
-			granularity--;
+		// In minutes;
+		if (delta > ONE_BILLION * 60 ) {
+			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta
+					/ (ONE_BILLION * 60))
+					+ ":");
+//			granularity--;
+		}else{
+			sb.append("00:");
 		}
-		if (delta > onebillion && granularity != 0) {
-			sb.append(delta / onebillion);
-			rest = delta % onebillion;
-			granularity--;
+		// In seconds
+		if (delta > ONE_BILLION ) {
+			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_BILLION)
+					+ "::");
+//			granularity--;
+		}else{
+			sb.append("00::");
 		}
-		if (rest > onemillion && granularity != 0) {
-			sb.append("." + rest / onemillion);
-			rest = delta % onethousand;
-			granularity--;
+		// In mili seconds
+		if (delta > ONE_MILLION ) {
+			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_MILLION)
+					+ ":::");
+//			granularity--;
+		}else{
+			sb.append("000:::");
 		}
-
+		// even less
+		if (delta > ONE_THOUSAND ) {
+			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_THOUSAND));
+//			granularity--;
+		}
+		sb.append(" (min:sec::ms:::psec)");
 		return sb.toString();
 	}
 

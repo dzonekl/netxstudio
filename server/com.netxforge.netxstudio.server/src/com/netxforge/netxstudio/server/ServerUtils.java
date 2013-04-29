@@ -213,7 +213,9 @@ public class ServerUtils {
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 		sessionConfiguration.setExceptionHandler(exceptionHandler);
-
+		
+		
+		
 		if (!caching) {
 
 			// Note: Option to disable caching, this was of for Hibernate store,
@@ -221,6 +223,10 @@ public class ServerUtils {
 			// back on for the DB Store.
 			sessionConfiguration.setRevisionManager(CDORevisionUtil
 					.createRevisionManager(CDORevisionCache.NOOP));
+			
+			// Also turn-off passive updates for such a session.
+			sessionConfiguration.setPassiveUpdateEnabled(false);
+			
 
 		}
 		final IPasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(

@@ -27,36 +27,69 @@ import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
+import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 
 /**
  * Common code for the engine implementations.
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
 public abstract class BaseExpressionEngine extends BaseEngine {
 
 	@Inject
 	private IExpressionEngine expressionEngine;
 
+	/**
+	 * Track the time we are running expressions.
+	 */
+	private long expressionDurationThisInstance = 0;
+
+	public long getExpressionDurationThisInstance() {
+		return expressionDurationThisInstance;
+	}
+
 	public void execute() {
 		this.getFailures().clear();
 		doExecute();
 	}
 
-//	protected abstract void processResult(List<Object> currentContext,
-//			List<BaseExpressionResult> expressionResults, Date start, Date end);
-	
+	// protected abstract void processResult(List<Object> currentContext,
+	// List<BaseExpressionResult> expressionResults, Date start, Date end);
+
 	protected abstract void processResult(List<Object> currentContext,
 			List<BaseExpressionResult> result, DateTimeRange period);
-	
+
 	protected void runForExpression(Expression expression) {
 		try {
 			if (expression == null) {
 				return;
 			}
 			expressionEngine.setExpression(expression);
+			
+			
+			// Instrumentate the duration of an expression execution. 
+			long nanoTime = System.nanoTime();
 
+			if (LogicActivator.DEBUG) {
+				LogicActivator.TRACE.trace(
+						LogicActivator.TRACE_EXPRESSION_DETAILS_OPTION,
+						" - (1) Executing expression: " + expression.getName());
+			}
 			expressionEngine.run();
+
+			long elapsed = System.nanoTime() - nanoTime;
+
+			if (LogicActivator.DEBUG) {
+				LogicActivator.TRACE.trace(
+						LogicActivator.TRACE_EXPRESSION_DETAILS_OPTION,
+						"- (2) Expression duration: "
+								+ this.getModelUtils()
+										.timeDurationNanoElapsed(elapsed));
+			}
+			
+			this.expressionDurationThisInstance += elapsed;
+
 			if (expressionEngine.errorOccurred()) {
 				// stop here will be logged
 				throw new IllegalStateException(expressionEngine.getThrowable());
@@ -71,11 +104,11 @@ public abstract class BaseExpressionEngine extends BaseEngine {
 			} else {
 				final List<Object> currentContext = expressionEngine
 						.getContext();
-				// Move to DTR. 
-//				processResult(currentContext, result, this.getStart(),
-//						this.getEnd());
+				// Move to DTR.
+				// processResult(currentContext, result, this.getStart(),
+				// this.getEnd());
 				processResult(currentContext, result, this.getPeriod());
-				
+
 			}
 		} catch (final Throwable t) {
 

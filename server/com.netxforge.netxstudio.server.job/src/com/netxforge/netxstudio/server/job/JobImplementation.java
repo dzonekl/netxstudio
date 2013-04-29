@@ -23,12 +23,11 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.IExternalDataProvider;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.ServerNoCache;
 
 /**
  * Defines the JobImplementation which can be implemented by other plugins.
@@ -41,9 +40,12 @@ public abstract class JobImplementation {
 	public static final JobImplementationFactoryRegistry REGISTRY = new JobImplementationFactoryRegistry();
 
 	@Inject
-	@Server
+	@ServerNoCache
 	private IDataProvider dataProvider;
-
+	/**
+	 * Jobs generally process values in NetXResource objects, either a
+	 * calculation (retrieved by query) or a delete
+	 */
 	private NetxForgeJob netxForgeJob;
 
 	private Job job;
@@ -70,7 +72,6 @@ public abstract class JobImplementation {
 	protected IDataProvider getDataProvider() {
 		return dataProvider;
 	}
-
 
 	public JobRunState getJobRunState() {
 		return JobRunState.FINISHED_SUCCESSFULLY;

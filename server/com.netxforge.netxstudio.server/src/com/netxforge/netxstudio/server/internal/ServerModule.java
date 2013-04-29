@@ -31,6 +31,9 @@ import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.ServerCDOConnection;
 import com.netxforge.netxstudio.server.ServerCDODataProvider;
 import com.netxforge.netxstudio.server.ServerIntegrity;
+import com.netxforge.netxstudio.server.ServerNoCache;
+import com.netxforge.netxstudio.server.ServerNoCacheCDOConnection;
+import com.netxforge.netxstudio.server.ServerNoCacheCDODataProvider;
 import com.netxforge.netxstudio.server.ServerUtils.ServerInitializer;
 
 /**
@@ -57,15 +60,29 @@ public class ServerModule extends AbstractModule {
 	@Override
 	protected void configure() {
 
+		// Bind the server standard CDO Connection
 		this.bind(ICDOConnection.class).annotatedWith(Server.class)
 				.to(ServerCDOConnection.class);
+
+		// Bind the server standard CDO Data provider
 		this.bind(IDataProvider.class).annotatedWith(Server.class)
 				.to(ServerCDODataProvider.class);
+
+		// Bind the server no-caching CDO Connection
+		this.bind(ICDOConnection.class).annotatedWith(ServerNoCache.class)
+				.to(ServerNoCacheCDOConnection.class);
 		
+		// Bind the server no-caching CDO Data provider
+		this.bind(IDataProvider.class).annotatedWith(ServerNoCache.class)
+				.to(ServerNoCacheCDODataProvider.class);
+		
+		// Bind the server initializer
 		this.bind(ServerInitializer.class);
-
+		
+		// Bind the server commit information handler.
 		this.bind(CommitInfoHandler.class);
-
+		
+		// Bind the server Integretity module
 		this.bind(ServerIntegrity.class);
 	}
 }
