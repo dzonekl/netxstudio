@@ -80,6 +80,7 @@ import de.bacin.geoff.map.geometries.Point;
 import de.bacin.geoff.map.layers.HTTPGetParams;
 import de.bacin.geoff.map.layers.LayerOptions;
 import de.bacin.geoff.map.layers.LayersFactory;
+import de.bacin.geoff.map.layers.OSM;
 import de.bacin.geoff.map.layers.Vector;
 import de.bacin.geoff.map.layers.WMS;
 import de.bacin.geoff.map.types.Bounds;
@@ -524,12 +525,17 @@ public class NewEditGeoSite extends AbstractScreen implements IDataScreenInjecti
 		}
 
 		{
-			WMS layer = LayersFactory.eINSTANCE.createWMS();
-			layer.setUrl("http://vmap0.tiles.osgeo.org/wms/vmap0");
-			HTTPGetParams params = LayersFactory.eINSTANCE
-					.createHTTPGetParams();
-			params.setLayers("basic");
-			layer.setParams(params);
+//			WMS layer = LayersFactory.eINSTANCE.createWMS();
+//			layer.setUrl("http://vmap0.tiles.osgeo.org/wms/vmap0");
+//			HTTPGetParams params = LayersFactory.eINSTANCE
+//					.createHTTPGetParams();
+//			params.setLayers("basic");
+//			layer.setParams(params);
+			
+			OSM layer = LayersFactory.eINSTANCE.createOSM();
+//			LayerOptions opts = LayersFactory.eINSTANCE.createLayerOptions();
+//			opts.setIsBaseLayer(true);
+//			layer.setOptions(opts);
 
 			LayerOptions opts = LayersFactory.eINSTANCE.createLayerOptions();
 			opts.setIsBaseLayer(true);
