@@ -33,12 +33,13 @@ public class ServerCDOConnection implements ICDOConnection {
 
 	public void initialize() {
 	}
-
+	
+	public void initialize(String server) {
+	}
+	
 	public CDONet4jSessionConfiguration getConfig() {
 		return ServerUtils.getInstance().createSessionConfiguration();
 	}
 
-	public void initialize(String server) {
-	}
 	
 }
