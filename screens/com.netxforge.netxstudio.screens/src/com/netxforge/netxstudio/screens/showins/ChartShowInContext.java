@@ -22,6 +22,7 @@ import java.util.List;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.metrics.KindHintType;
 
 /**
  * 
@@ -36,12 +37,18 @@ public class ChartShowInContext {
 	private DateTimeRange dtr;
 	
 	/*
-	 * The interval for the range we would like to see. 
+	 * The interval for the range we would like. 
 	 */
 	private int interval;
-
+	
+	
 	/*
-	 * 
+	 * The kind for the range we would like.  
+	 */
+	private KindHintType kind;
+	
+	/*
+	 * As an alternative, we can point to a resource monitor to resolve the resource. 
 	 */
 	private ResourceMonitor resourceMonitor;
 	
@@ -95,6 +102,20 @@ public class ChartShowInContext {
 	
 	public ResourceMonitor getResourceMonitor() {
 		return this.resourceMonitor;
+	}
+
+	/**
+	 * @return the kind
+	 */
+	public KindHintType getKind() {
+		return kind;
+	}
+
+	/**
+	 * @param kind the kind to set
+	 */
+	public void setKind(KindHintType kind) {
+		this.kind = kind;
 	}
 
 }

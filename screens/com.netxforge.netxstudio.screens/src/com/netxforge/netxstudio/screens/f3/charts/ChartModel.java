@@ -31,6 +31,7 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -49,12 +50,15 @@ public class ChartModel {
 	/** The interval */
 	protected int interval = -1;
 
+	/** The kind of range */
+	protected KindHintType kind = null;
+
 	/** The NetXResource */
 	protected NetXResource netXRes = null;
 
 	/** The ResourceMonitor */
 	protected ResourceMonitor resourceMonitor = null;
-	
+
 	@Inject
 	private ModelUtils modelUtils;
 
@@ -105,14 +109,16 @@ public class ChartModel {
 	}
 
 	public ChartModel(ModelUtils modelUtils, DateTimeRange dtr, int interval,
-			NetXResource netXRes, ResourceMonitor resMonitor, List<Value> values) {
+			KindHintType kind, NetXResource netXRes,
+			ResourceMonitor resMonitor, List<Value> values) {
 		super();
 		this.modelUtils = modelUtils;
-		deriveValues(dtr, interval, netXRes, resMonitor, values);
+		deriveValues(dtr, interval, kind, netXRes, resMonitor, values);
 	}
 
 	private void deriveValues(DateTimeRange dtr, int interval,
-			NetXResource netXRes, ResourceMonitor resMonitor, List<Value> values) {
+			KindHintType kind, NetXResource netXRes,
+			ResourceMonitor resMonitor, List<Value> values) {
 		// 1. ResourceMonitor
 		// 2. NetXResource
 		// 3. Values
@@ -126,13 +132,15 @@ public class ChartModel {
 		}
 
 		this.interval = interval;
+		this.kind = kind;
 
-		// Populate the values, if we need to, (The model can also be used without
+		// Populate the values, if we need to, (The model can also be used
+		// without
 		// the NetXResource object).
 		if (this.metricValues == null && this.netXRes != null
 				&& this.interval != -1) {
-			MetricValueRange mvr = modelUtils.valueRangeForInterval(
-					this.netXRes, interval);
+			MetricValueRange mvr = modelUtils.valueRangeForIntervalAndKind(
+					this.netXRes, this.kind, interval);
 			if (mvr != null) {
 				this.metricValues = Lists.newArrayList(mvr.getMetricValues());
 			} else {

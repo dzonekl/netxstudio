@@ -149,6 +149,7 @@ import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
@@ -2981,10 +2982,8 @@ public class SmartResources extends AbstractScreen implements
 
 		DateTimeRange period = contextAggregate.getPeriod();
 		chartInput.setPeriod(period);
-
 		chartInput.setInterval(ModelUtils.MINUTES_IN_AN_HOUR);
-		
-		
+		chartInput.setKind(KindHintType.AVG);
 		
 		// Get the resource monitor from the monitroingAggregate.
 		ResourceMonitor resourceMonitorForNetXResource = monitoringAggregate

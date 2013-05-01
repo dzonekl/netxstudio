@@ -507,17 +507,20 @@ public class SmartChartScreen extends AbstractScreen implements
 				MetricValueRange valueRange = ((ValueRangeSelectionWizard) wiz)
 						.getValueRange();
 				chartInput.setInterval(valueRange.getIntervalHint());
+				chartInput.setKind(valueRange.getKindHint());
 			}
 
 			if (chartInput.getResourceMonitor() != null) {
 				chartModel = new ChartModel(modelUtils, chartInput.getPeriod(),
-						chartInput.getInterval(), netXResource,
-						chartInput.getResourceMonitor(), null);
-			}else{
+						chartInput.getInterval(), chartInput.getKind(),
+						netXResource, chartInput.getResourceMonitor(), null);
+			} else {
 				chartModel = new ChartModel(modelUtils, chartInput.getPeriod(),
-						chartInput.getInterval(), netXResource,
-						OperatorsFactory.eINSTANCE.createResourceMonitor(), null);
-				
+						chartInput.getInterval(), chartInput.getKind(),
+						netXResource,
+						OperatorsFactory.eINSTANCE.createResourceMonitor(),
+						null);
+
 			}
 
 			this.initDataBindings_();
