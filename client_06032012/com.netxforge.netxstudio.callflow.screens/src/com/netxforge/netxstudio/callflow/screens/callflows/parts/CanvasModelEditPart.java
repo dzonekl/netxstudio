@@ -17,20 +17,24 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.callflow.screens.callflows.parts;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.ShortestPathConnectionRouter;
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.gef.LayerConstants;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.callflow.screens.callflows.model.CanvasModel;
+import com.netxforge.netxstudio.callflow.screens.callflows.model.NodeTypeToServiceRelationships;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.ReferenceRelationship;
 import com.netxforge.netxstudio.services.ServiceFlow;
+import com.netxforge.netxstudio.services.ServiceFlowDirection;
 import com.netxforge.netxstudio.services.ServiceFlowRelationship;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -71,8 +75,9 @@ public class CanvasModelEditPart extends AbstractLibraryEditPart {
 
 		// Create the static router for the connection layer
 		ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-		connLayer.setConnectionRouter(new ShortestPathConnectionRouter(layer));
-		// connLayer.setConnectionRouter(new ManhattanConnectionRouter());
+		// connLayer.setConnectionRouter(new
+		// ShortestPathConnectionRouter(layer));
+		connLayer.setConnectionRouter(new ManhattanConnectionRouter());
 
 		return layer;
 	}
@@ -91,14 +96,13 @@ public class CanvasModelEditPart extends AbstractLibraryEditPart {
 
 			// Add the Service Flow, which are the actual relationships.
 			ServiceFlow sf = (ServiceFlow) ((CanvasModel) model).getRoot();
-			
 
 			// Add the NodeTypes as these will play a role in the
 			result.addAll(childrenFromParentModel(sf));
-			
-			EList<ServiceFlowRelationship> serviceFlowRelationships = sf
-					.getServiceFlowRelationships();
-			result.addAll(serviceFlowRelationships);
+
+			// EList<ServiceFlowRelationship> serviceFlowRelationships = sf
+			// .getServiceFlowRelationships();
+			// result.addAll(serviceFlowRelationships);
 
 		}
 
@@ -106,39 +110,64 @@ public class CanvasModelEditPart extends AbstractLibraryEditPart {
 	}
 
 	/**
-	 * Aggregate all the {@link NodeType node type } from the
-	 * {@link ReferenceRelationship Reference relationships}
+	 * Re-model.
 	 * 
 	 * @param serviceFlow
 	 * @return
 	 */
-	public List<Object> childrenFromParentModel(ServiceFlow serviceFlow) {
+	public Collection<NodeTypeToServiceRelationships> childrenFromParentModel(
+			ServiceFlow serviceFlow) {
 
-		List<Object> nodeTypes = Lists.newArrayList();
+		// List<Object> nodeTypeToServiceRelationships = Lists.newArrayList();
+		Map<NodeType, NodeTypeToServiceRelationships> nodeTypeToRelationships = Maps
+				.newLinkedHashMap();
 
-		for (ServiceFlowRelationship sfRelationship : serviceFlow
+		for (ServiceFlowRelationship sfr : serviceFlow
 				.getServiceFlowRelationships()) {
-			
-			// Handle the case where a ServiceFlowRelationship is a reference between node types. 
-			if(sfRelationship.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP)){
-				ReferenceRelationship referenceRelationship = sfRelationship
-						.getReferenceRelationship();
-				{
-					NodeType nt = referenceRelationship.getRefInterface1Ref();
-					if (nt != null && !nodeTypes.contains(nt)) {
-						nodeTypes.add(nt);
-					}
+
+			// Handle the case where a ServiceFlowRelationship is a reference
+			// between node types, set as a source connection with a specialized
+			// model depending the flow direction. s
+			if (sfr.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP)) {
+				ReferenceRelationship rr = sfr.getReferenceRelationship();
+
+				NodeType nt1 = rr.getRefInterface1Ref();
+				NodeType nt2 = rr.getRefInterface2Ref();
+				List<ServiceFlowRelationship> sfrsNT1;
+				List<ServiceFlowRelationship> sfrsNT2;
+
+				if (nt1 != null && !nodeTypeToRelationships.containsKey(nt1)) {
+					sfrsNT1 = Lists.newArrayList();
+					NodeTypeToServiceRelationships nodeTypeToServiceRelationships = new NodeTypeToServiceRelationships(serviceFlow,
+							nt1, sfrsNT1);
+					nodeTypeToRelationships.put(nt1,
+							nodeTypeToServiceRelationships);
+				} else {
+					sfrsNT1 = nodeTypeToRelationships.get(nt1).getTarget();
 				}
-				{
-					NodeType nt = referenceRelationship.getRefInterface2Ref();
-					if (nt != null && !nodeTypes.contains(nt)) {
-						nodeTypes.add(nt);
-					}
+				if (nt2 != null && !nodeTypeToRelationships.containsKey(nt2)) {
+					sfrsNT2 = Lists.newArrayList();
+					NodeTypeToServiceRelationships nodeTypeToServiceRelationships = new NodeTypeToServiceRelationships(serviceFlow,
+							nt2, sfrsNT2);
+					nodeTypeToRelationships.put(nt2,
+							nodeTypeToServiceRelationships);
+				} else {
+					sfrsNT2 = nodeTypeToRelationships.get(nt2).getTarget();
+				}
+
+				if (sfr.getDirection() == ServiceFlowDirection.LEFTTORIGHT) {
+					sfrsNT1.add(0, sfr);
+				} else {
+					sfrsNT2.add(0, sfr);
 				}
 			}
-			// Handle the case where a ServiceFlowRelationship is a another ServiceFlow. 
-			
+			// Handle the case where a ServiceFlowRelationship is a another
+			// ServiceFlow.
+
 		}
-		return nodeTypes;
+//		List<NodeTypeToServiceRelationships> asList = Lists
+//				.newArrayList(nodeTypeToRelationships.values());
+//		return Lists.newArrayList(Iterables.reverse(asList));
+		return nodeTypeToRelationships.values();
 	}
 }

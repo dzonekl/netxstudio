@@ -14,47 +14,38 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.callflow.screens.callflows.parts;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
 import com.netxforge.netxstudio.callflow.screens.callflows.model.CanvasModel;
-import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.callflow.screens.callflows.model.NodeTypeToServiceRelationships;
 import com.netxforge.netxstudio.services.ServiceFlowRelationship;
 
 /**
  * A GEF Factory for Edit Parts in the Call flow diagram
- *  
+ * 
  * @author Christophe Bouhier
  */
 public class CallflowEditPartsFactory implements EditPartFactory {
 
 	public EditPart createEditPart(EditPart context, Object model) {
-		
-		System.out.println("Factory: create for context:" +  context + " model: "+  model.toString());
 		if (model instanceof CanvasModel) {
+			System.out.println("FACTORY =>  edit part for model: "
+					+ ((CanvasModel) model).getRoot().toString());
 			return new CanvasModelEditPart((CanvasModel) model);
 		}
-		if(model instanceof ServiceFlowRelationship){
-			return new ServiceFlowRelationshipEditPart((ServiceFlowRelationship) model);
+		if (model instanceof ServiceFlowRelationship) {
+			System.out.println("FACTORY =>  edit part for model: " + model);
+			return new ServiceFlowRelationshipEditPart(
+					(ServiceFlowRelationship) model);
 		}
-		if (model instanceof NodeType) {
-			return new NodeTypeEditPart((NodeType) model);
+		if (model instanceof NodeTypeToServiceRelationships) {
+			System.out.println("FACTORY =>  edit part for model: " + model);
+			return new NodeTypeEditPart((NodeTypeToServiceRelationships) model);
 		}
-//		if(model instanceof Function){
-//			return new FunctionEditPart((Function) model);
-//		}
-//		if(model instanceof Equipment){
-//			return new EquipmentEditPart((Equipment) model);
-//		}
-//		if(model instanceof NodeTypeToComponent){
-//			return new NodeTypeToComponentEditPart((NodeTypeToComponent) model);
-//		}
-//		if(model instanceof ComponentToComponent){
-//			return new ComponentToComponentEditPart((ComponentToComponent) model);
-//		}
 		throw new IllegalStateException("Can't create requested edit part");
 	}
 }

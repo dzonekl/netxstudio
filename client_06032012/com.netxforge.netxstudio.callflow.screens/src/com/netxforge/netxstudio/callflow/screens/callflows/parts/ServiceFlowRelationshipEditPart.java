@@ -17,11 +17,19 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.callflow.screens.callflows.parts;
 
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PolygonDecoration;
+import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
+import org.eclipse.swt.SWT;
 
+import com.netxforge.netxstudio.library.ReferenceRelationship;
+import com.netxforge.netxstudio.services.ServiceFlow;
+import com.netxforge.netxstudio.services.ServiceFlowDirection;
 import com.netxforge.netxstudio.services.ServiceFlowRelationship;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * Adds the
@@ -36,6 +44,28 @@ public class ServiceFlowRelationshipEditPart extends AbstractConnectionEditPart 
 
 	@Override
 	protected void createEditPolicies() {
+	}
+
+	/**
+	 * Add a decoration matching the flow relationship.
+	 */
+	@Override
+	protected IFigure createFigure() {
+		PolylineConnection connection = new PolylineConnection();
+		connection.setLineStyle(SWT.LINE_DOT);
+		
+		if (this.getServiceFlowRelationship()
+				.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP)) {
+			@SuppressWarnings("unused")
+			ReferenceRelationship rr = this.getServiceFlowRelationship()
+					.getReferenceRelationship();
+			
+			// Set a target decoration (Arrow), as we are organized by targets.
+			connection.setTargetDecoration(new PolygonDecoration());
+			
+		}
+
+		return connection;
 	}
 
 	public void activate() {
@@ -72,5 +102,35 @@ public class ServiceFlowRelationshipEditPart extends AbstractConnectionEditPart 
 			}
 		}
 		super.deactivate();
+	}
+
+	public ServiceFlowRelationship getServiceFlowRelationship() {
+		return (ServiceFlowRelationship) this.getModel();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		printSFR(sb, this.getServiceFlowRelationship());
+		return sb.toString();
+	}
+
+	/**
+	 * @param sb
+	 * @param sfr
+	 */
+	private void printSFR(StringBuilder sb, ServiceFlowRelationship sfr) {
+		if (sfr.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP)) {
+			ReferenceRelationship rr = sfr.getReferenceRelationship();
+			sb.append(" ( "
+					+ rr.getRefInterface1Ref().getName()
+					+ (sfr.getDirection() == ServiceFlowDirection.RIGHTTOLEFT ? "<--"
+							: "-->") + rr.getRefInterface2Ref().getName() + ")");
+		} else {
+			if (sfr.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__SERVICE_FLOW)) {
+				ServiceFlow serviceFlow = sfr.getServiceFlow();
+				sb.append(" Service flow: " + serviceFlow.getName() + "\n");
+			}
+		}
 	}
 }

@@ -4,16 +4,16 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 
-import com.netxforge.netxstudio.callflow.screens.callflows.model.NodeTypeToComponent;
+import com.netxforge.netxstudio.callflow.screens.callflows.model.NodeTypeToServiceRelationships;
 
 public class NodeTypeToComponentEditPart extends AbstractConnectionEditPart {
 
-	public NodeTypeToComponentEditPart(NodeTypeToComponent nttc) {
+	public NodeTypeToComponentEditPart(NodeTypeToServiceRelationships nttc) {
 		this.setModel(nttc);
 	}
 
-	public NodeTypeToComponent getNodeTypeToComponent() {
-		return (NodeTypeToComponent) this.getModel();
+	public NodeTypeToServiceRelationships getNodeTypeToComponent() {
+		return (NodeTypeToServiceRelationships) this.getModel();
 	}
 
 	@Override

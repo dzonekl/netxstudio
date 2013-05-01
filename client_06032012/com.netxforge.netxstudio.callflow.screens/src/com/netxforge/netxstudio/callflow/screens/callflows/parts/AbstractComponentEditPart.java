@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.callflow.screens.callflows.model.ComponentToComponent;
-import com.netxforge.netxstudio.callflow.screens.callflows.model.NodeTypeToComponent;
+import com.netxforge.netxstudio.callflow.screens.callflows.model.NodeTypeToServiceRelationships;
 import com.netxforge.netxstudio.library.Component;
 
 /**
@@ -52,7 +52,7 @@ public abstract class AbstractComponentEditPart extends AbstractLibraryEditPart 
 
 	}
 
-	private final List<NodeTypeToComponent> modelTargetConnections = Lists
+	private final List<NodeTypeToServiceRelationships> modelTargetConnections = Lists
 			.newArrayList();
 
 	List<ComponentToComponent> modelSourceComponentConnections;
@@ -68,7 +68,7 @@ public abstract class AbstractComponentEditPart extends AbstractLibraryEditPart 
 
 	public boolean addNodeTypeToComponentTargetConnection(
 			NodeTypeToComponentEditPart part) {
-		NodeTypeToComponent nttc = part.getNodeTypeToComponent();
+		NodeTypeToServiceRelationships nttc = part.getNodeTypeToComponent();
 		if (!nttc.getTarget().equals(this.getComponent())) {
 			return false;
 		}

@@ -10,7 +10,7 @@ import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
-import com.netxforge.netxstudio.callflow.screens.callflows.model.NodeTypeToComponent;
+import com.netxforge.netxstudio.callflow.screens.callflows.model.NodeTypeToServiceRelationships;
 import com.netxforge.netxstudio.operators.Node;
 
 public class NodeEditPart extends AbstractLibraryEditPart {
@@ -78,7 +78,7 @@ public class NodeEditPart extends AbstractLibraryEditPart {
 		figure.revalidate();
 	}
 
-	List<NodeTypeToComponent> modelSourceConnections;
+	List<NodeTypeToServiceRelationships> modelSourceConnections;
 	
 	
 	// TODO

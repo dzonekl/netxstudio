@@ -40,7 +40,7 @@ import com.netxforge.netxstudio.library.NodeType;
 public class CallFlowNodeTypeLayout extends AbstractLayout {
 
 	Map<IFigure, EObject> constraints = Maps.newHashMap();
-	private static int X_OFFSET = 20;
+	private static int X_OFFSET = 120;
 	private static int Y_OFFSET = 20;
 
 	public void layout(IFigure container) {
@@ -51,23 +51,17 @@ public class CallFlowNodeTypeLayout extends AbstractLayout {
 		Iterator<?> iterator = container.getChildren().iterator();
 		@SuppressWarnings("unused")
 		int childCount = 0;
-		int heightDistance = 40;
-		int widthDistance = 50;
-
+		int widthDistance = 120;
+		int x = X_OFFSET;
+		int y = Y_OFFSET;
 		// First we need to group by type and layout separately.
 		while (iterator.hasNext()) {
 			IFigure f = (IFigure) iterator.next();
 			Rectangle bounds = f.getBounds().getCopy();
-
-			EObject c = constraints.get(f);
-			int depth = depth(c, 0);
-			System.out.print(depth);
-			int x = widthDistance * depth + X_OFFSET;
-			int y = heightDistance + Y_OFFSET;
-
 			Rectangle constraint = new Rectangle(x, y, bounds.width,
 					bounds.height);
 			f.setBounds(constraint);
+			x += widthDistance;
 			childCount++;
 		}
 	}

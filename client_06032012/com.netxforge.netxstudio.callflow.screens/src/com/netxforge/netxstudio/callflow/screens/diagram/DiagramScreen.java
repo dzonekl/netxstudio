@@ -41,7 +41,6 @@ import com.netxforge.netxstudio.callflow.screens.callflows.parts.CallflowEditPar
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.services.ServiceFlow;
-import com.netxforge.netxstudio.services.ServiceFlowRelationship;
 
 public class DiagramScreen extends AbstractScreen implements
 		IDataServiceInjection {
