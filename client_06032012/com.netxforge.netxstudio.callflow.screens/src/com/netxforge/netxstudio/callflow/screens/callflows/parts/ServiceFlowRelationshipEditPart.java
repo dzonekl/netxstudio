@@ -52,7 +52,8 @@ public class ServiceFlowRelationshipEditPart extends AbstractConnectionEditPart 
 	@Override
 	protected IFigure createFigure() {
 		PolylineConnection connection = new PolylineConnection();
-		connection.setLineStyle(SWT.LINE_DOT);
+		connection.setLineStyle(SWT.LINE_DASH);
+		connection.setLineCap(SWT.CAP_ROUND);
 		
 		if (this.getServiceFlowRelationship()
 				.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP)) {

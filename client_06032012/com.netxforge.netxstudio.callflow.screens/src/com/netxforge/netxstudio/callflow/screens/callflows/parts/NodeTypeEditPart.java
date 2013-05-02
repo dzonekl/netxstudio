@@ -148,8 +148,6 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 				int index = getServiceFlow().getServiceFlowRelationships()
 						.indexOf(sfr);
 				callFlowConnectionAnchor.offsetV = (index + 1) * offset;
-				// Process the sources, which always appear on the right.
-				callFlowConnectionAnchor.right = true;
 
 				NodeType target = this.getTarget(sfr);
 				if (target != null) {
@@ -194,8 +192,6 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 			if (sourceAnchor instanceof CallFlowConnectionAnchor) {
 				callFlowConnectionAnchor.offsetV = ((CallFlowConnectionAnchor) sourceAnchor).offsetV;
 			}
-			// Process the sources, which always appear on the right.
-			callFlowConnectionAnchor.right = false;
 
 			NodeType target = this.getSource(sfr);
 			if (target != null) {

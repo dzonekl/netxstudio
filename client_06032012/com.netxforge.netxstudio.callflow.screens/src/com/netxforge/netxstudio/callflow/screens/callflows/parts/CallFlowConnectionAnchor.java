@@ -32,7 +32,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 public class CallFlowConnectionAnchor extends AbstractConnectionAnchor {
 
 	public int offsetV;
-	public boolean right;
 
 	public CallFlowConnectionAnchor(IFigure owner) {
 		super(owner);
@@ -48,28 +47,29 @@ public class CallFlowConnectionAnchor extends AbstractConnectionAnchor {
 	}
 
 	public Point getLocation(Point reference) {
-		
-		// A rectangle as the owner, but expanded by 1 px. 
+
+		// A rectangle as the owner, but expanded by 1 px.
 		Rectangle r = Rectangle.SINGLETON;
 		r.setBounds(getOwner().getBounds());
 		r.translate(-1, -1);
 		r.resize(1, 1);
 
 		getOwner().translateToAbsolute(r);
-		
-//		Rectangle r = getOwner().getBounds();
+
+		// Rectangle r = getOwner().getBounds();
 		int x, y;
 		y = r.y + offsetV;
-		
-		// The center of the owner. 
+
+		// The center of the owner.
 		float centerX = r.x + 0.5f * r.width;
 		x = (int) centerX;
-		
-//		if (right) {
-//			x = r.right();
-//		} else {
-//			x = r.x;
-//		}
+		if (reference != null) {
+			if (reference.x < x) {
+				x -= 2;
+			} else {
+				x += 2;
+			}
+		}
 
 		Point p = new PrecisionPoint(x, y);
 		getOwner().translateToAbsolute(p);
@@ -78,7 +78,8 @@ public class CallFlowConnectionAnchor extends AbstractConnectionAnchor {
 
 	public Point getReferencePoint() {
 		Point reference = getLocation(null);
-		System.out.println("ANCHOR => Figure: " +  this.getOwner() + "Reference: " + reference);
+		System.out.println("ANCHOR => Figure: " + this.getOwner()
+				+ "Reference: " + reference);
 		return reference;
 	}
 
@@ -100,8 +101,7 @@ public class CallFlowConnectionAnchor extends AbstractConnectionAnchor {
 		if (o instanceof CallFlowConnectionAnchor) {
 			CallFlowConnectionAnchor fa = (CallFlowConnectionAnchor) o;
 
-			if (fa.right == this.right && fa.offsetV == this.offsetV
-					&& fa.getOwner() == this.getOwner()) {
+			if (fa.offsetV == this.offsetV && fa.getOwner() == this.getOwner()) {
 				return true;
 			}
 		}
@@ -120,8 +120,6 @@ public class CallFlowConnectionAnchor extends AbstractConnectionAnchor {
 
 	@Override
 	public String toString() {
-		return " offsetV: " + offsetV + " side: "
-				+ (right ? "right" : "left");
+		return " offsetV: " + offsetV;
 	}
-
 }
