@@ -2748,6 +2748,7 @@ public class ModelUtils {
 	 * @param resource
 	 * @param targetInterval
 	 * @return
+	 * @deprecated
 	 */
 	public MetricValueRange valueRangeForInterval(NetXResource resource,
 			int targetInterval) {
@@ -2758,6 +2759,28 @@ public class ModelUtils {
 		}
 		return null;
 	}
+	
+	/**
+	 * return a collection of {@link MetricValueRange} for a given {@link NetXResource}
+	 * which has the given interval. Note; the
+	 * {@link MetricsPackage.Literals.METRIC_VALUE_RANGE__KIND_HINT } is not
+	 * considered.
+	 * 
+	 * @param resource
+	 * @param targetInterval
+	 * @return
+	 */
+	public List<MetricValueRange> valueRangesForInterval(NetXResource resource,
+			int targetInterval) {
+		List<MetricValueRange> matchingRanges = Lists.newArrayList();
+		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
+			if (mvr.getIntervalHint() == targetInterval) {
+				matchingRanges.add(mvr);
+			}
+		}
+		return matchingRanges;
+	}
+	
 
 	/**
 	 * Get a {@link MetricValueRange} for a {@link NetXResource} matching a kind
