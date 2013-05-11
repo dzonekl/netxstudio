@@ -17,7 +17,11 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.callflow.screens.callflows.parts;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.LineBorder;
+import org.eclipse.draw2d.MidpointLocator;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.EditPart;
@@ -25,6 +29,7 @@ import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.swt.SWT;
 
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.ReferenceRelationship;
 import com.netxforge.netxstudio.services.ServiceFlow;
 import com.netxforge.netxstudio.services.ServiceFlowDirection;
@@ -54,18 +59,26 @@ public class ServiceFlowRelationshipEditPart extends AbstractConnectionEditPart 
 		PolylineConnection connection = new PolylineConnection();
 		connection.setLineStyle(SWT.LINE_DASH);
 		connection.setLineCap(SWT.CAP_ROUND);
-		
+
 		if (this.getServiceFlowRelationship()
 				.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP)) {
-			@SuppressWarnings("unused")
 			ReferenceRelationship rr = this.getServiceFlowRelationship()
 					.getReferenceRelationship();
-			
+
 			// Set a target decoration (Arrow), as we are organized by targets.
 			connection.setTargetDecoration(new PolygonDecoration());
-			
-		}
 
+			if (rr.eIsSet(LibraryPackage.Literals.REFERENCE_RELATIONSHIP__PROTOCOL_REF)) {
+				String name = rr.getProtocolRef().getName();
+				Label label = new Label(name);
+				label.setOpaque(true);
+				label.setBackgroundColor(ColorConstants.tooltipBackground);
+				label.setBorder(new LineBorder());
+				// Add the label to the connection, with the Locator as a
+				// constraint.
+				connection.add(label, new MidpointLocator(connection, 1));
+			}
+		}
 		return connection;
 	}
 
