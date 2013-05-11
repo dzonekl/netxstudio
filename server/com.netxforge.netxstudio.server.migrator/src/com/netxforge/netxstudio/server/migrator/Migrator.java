@@ -180,7 +180,6 @@ public class Migrator implements IElementProcessor, IAppExtension {
 		return store;
 	}
 
-	@SuppressWarnings({ "unused" })
 	private InternalRepository getRepository(String name) {
 		IManagedContainer container = CDOServerApplication.getContainer();
 		for (Object element : container
