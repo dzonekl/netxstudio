@@ -34,6 +34,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.data.internal.DataActivator;
@@ -81,16 +82,16 @@ public class ServerImporterHelper implements IImporterHelper {
 
 	private BundleActivator activator;
 
-//	public void initializeProviders(IComponentLocator networkElementLocator) {
-//
-//		// NOT VALID: force that the same dataprovider is used
-//		// so that components retrieved by the networkElementLocator
-//		// participate in the same transaction
-//
-//		// Use an own instance, as we are a singleton.
-//		networkElementLocator.setDataProvider(getDataProvider());
-//		networkElementLocator.initialize();
-//	}
+	public void initializeProviders(IComponentLocator networkElementLocator) {
+
+		// NOT VALID: force that the same dataprovider is used
+		// so that components retrieved by the networkElementLocator
+		// participate in the same transaction
+
+		// Use an own instance, as we are a singleton.
+		networkElementLocator.setDataProvider(getDataProvider());
+		networkElementLocator.initialize();
+	}
 
 	public IDataProvider getDataProvider() {
 		// get it from the serverside

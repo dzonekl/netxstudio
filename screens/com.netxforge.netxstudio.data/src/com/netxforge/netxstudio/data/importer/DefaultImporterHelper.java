@@ -64,7 +64,7 @@ public class DefaultImporterHelper implements IImporterHelper {
 		IDataProvider dataProvider = DataActivator.getInjector()
 				.getInstance(LocalDataProviderProvider.class).getDataProvider();
 		// Set in the importer so we are called only once.
-//		importer.setDataProvider(dataProvider);
+		// importer.setDataProvider(dataProvider);
 		return dataProvider;
 	}
 
@@ -98,6 +98,6 @@ public class DefaultImporterHelper implements IImporterHelper {
 
 	public void addMetricValue(ValueDataKind vdk, Date timeStamp,
 			Component networkElement, Double dblValue, int periodHint) {
-		
+
 	}
 }

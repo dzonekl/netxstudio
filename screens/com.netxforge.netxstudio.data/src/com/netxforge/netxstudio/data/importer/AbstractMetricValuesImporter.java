@@ -488,6 +488,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 
 			List<MappingStatistic> subList = Lists.newArrayList(statistics
 					.subList(0, maxStats));
+			
 			boolean retainAll = statistics.retainAll(subList);
 
 			if (retainAll) {
@@ -1826,6 +1827,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		if (helper == null) {
 			throw new java.lang.IllegalStateException(
 					"AbstractMetricValueImporter: Import helper should be set");
+		} else {
+			helper.initializeProviders(networkElementLocator);
 		}
 		// else {
 		// throw new java.lang.IllegalStateException(

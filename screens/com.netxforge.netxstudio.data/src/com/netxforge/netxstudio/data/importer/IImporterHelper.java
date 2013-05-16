@@ -54,7 +54,7 @@ public interface IImporterHelper {
 			int periodHint, KindHintType kindHintType, List<Value> newValues,
 			Date start, Date end);
 
-//	public abstract void initializeProviders(IComponentLocator locator);
+	public abstract void initializeProviders(IComponentLocator locator);
 
 	/**
 	 * A potential local dataprovider.

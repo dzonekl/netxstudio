@@ -3,12 +3,6 @@ package com.netxforge.netxstudio.server.metrics.internal;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-import org.eclipse.emf.cdo.server.IRepository;
-import org.eclipse.net4j.util.container.IElementProcessor;
-import org.eclipse.net4j.util.container.IManagedContainer;
-import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
-import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
-import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
@@ -19,8 +13,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.server.internal.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
@@ -28,7 +20,6 @@ import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFa
 import com.netxforge.netxstudio.server.job.internal.JobModule;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService;
 import com.netxforge.netxstudio.server.metrics.MetricSourceJobImplementation;
-import com.netxforge.netxstudio.server.metrics.ServerImporterHelper.LocalDataProviderProvider;
 
 public class MetricsActivator implements BundleActivator, DebugOptionsListener
 	 {

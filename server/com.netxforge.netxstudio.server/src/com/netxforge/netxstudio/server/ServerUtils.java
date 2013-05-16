@@ -337,7 +337,6 @@ public class ServerUtils {
 		@Server
 		private IDataProvider dataProvider;
 
-		@SuppressWarnings("unused")
 		@Inject
 		private ModelUtils modelUtils;
 
