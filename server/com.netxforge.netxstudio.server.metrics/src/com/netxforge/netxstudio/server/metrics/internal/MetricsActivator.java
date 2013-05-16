@@ -3,6 +3,12 @@ package com.netxforge.netxstudio.server.metrics.internal;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import org.eclipse.emf.cdo.server.IRepository;
+import org.eclipse.net4j.util.container.IElementProcessor;
+import org.eclipse.net4j.util.container.IManagedContainer;
+import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
+import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
+import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
@@ -13,6 +19,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
+import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.server.internal.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
@@ -20,28 +28,28 @@ import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFa
 import com.netxforge.netxstudio.server.job.internal.JobModule;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService;
 import com.netxforge.netxstudio.server.metrics.MetricSourceJobImplementation;
+import com.netxforge.netxstudio.server.metrics.ServerImporterHelper.LocalDataProviderProvider;
 
-public class MetricsActivator implements BundleActivator, DebugOptionsListener {
+public class MetricsActivator implements BundleActivator, DebugOptionsListener
+	 {
 
 	private static BundleContext context;
 	private static MetricsActivator INSTANCE;
 
 	private static final String PLUGIN_ID = "com.netxforge.netxstudio.server.metrics";
-	
+
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
-	
+
 	// public tracing options.
 	public static final String TRACE_IMPORT_OPTION = "/trace.import";
-	
-	
-	
+
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
-	
+
 	public static BundleContext getContext() {
 		return context;
 	}
@@ -67,9 +75,11 @@ public class MetricsActivator implements BundleActivator, DebugOptionsListener {
 		om = Modules.override(om).with(ServerModule.getModule());
 		om = Modules.override(om).with(new JobModule());
 		injector = Guice.createInjector(om);
-			
+
 		// register our import service.
-		bundleContext.registerService(MetricSourceImportService.class, new MetricSourceImportService(), new Hashtable<String, String>());
+		bundleContext.registerService(MetricSourceImportService.class,
+				new MetricSourceImportService(),
+				new Hashtable<String, String>());
 
 		// register our new MetricSourceJob creator
 		JobImplementation.REGISTRY.register(MetricSourceJob.class,
@@ -80,12 +90,15 @@ public class MetricsActivator implements BundleActivator, DebugOptionsListener {
 								.getInstance(MetricSourceJobImplementation.class);
 					}
 				});
-		
-		Dictionary<String, String> props = new Hashtable<String,String>(4);
+
+		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
-	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
-		
+		context.registerService(DebugOptionsListener.class.getName(), this,
+				props);
+
 	}
+
+	
 
 	/*
 	 * (non-Javadoc)

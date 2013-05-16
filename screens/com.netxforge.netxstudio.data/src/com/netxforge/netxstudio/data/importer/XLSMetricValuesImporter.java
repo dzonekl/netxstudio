@@ -51,12 +51,11 @@ public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 		if (sheet.getLastRowNum() < getMapping().getFirstDataRow()) {
 			getFailedRecords().add(
 					createMappingRecord(
-							getMapping().getFirstDataRow(),
-							-1,
-							"There is no data in the sheet, first data row is "
-									+ getMapping().getFirstDataRow()
-									+ " but the sheet has only "
-									+ sheet.getLastRowNum() + " rows."));
+
+					"There is no data in the sheet, first data row is "
+							+ getMapping().getFirstDataRow()
+							+ " but the sheet has only "
+							+ sheet.getLastRowNum() + " rows."));
 			return 0;
 		}
 		is.close();

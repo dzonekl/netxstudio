@@ -13,7 +13,7 @@ public class ImporterModule extends AbstractModule {
 		this.bind(XLSMetricValuesImporter.class);
 		this.bind(CSVMetricValuesImporter.class);
 		this.bind(RDBMSMetricValuesImporter.class);
-		this.bind(IComponentMappingIndex.class).to(ComponentMappingIndex.class);
+		this.bind(IComponentMappingIndex.class).to(ComponentMappingIndex.class).in(Singleton.class);
 		this.bind(IComponentLocator.class).to(IndexComponentLocator.class).in(Singleton.class);
 		this.bind(IImporterHelper.class).to(DefaultImporterHelper.class);
 		this.bind(ResultProcessor.class).in(Singleton.class);

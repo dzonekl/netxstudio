@@ -90,7 +90,7 @@ public interface IComponentMappingIndex {
 					IComponentLocator.IdentifierDescriptor descriptor) {
 
 				final String objectProperty = descriptor.getObjectProperty();
-				final String value = descriptor.getValue();
+				final String value = descriptor.getIdentifier();
 
 				boolean match = false;
 
@@ -117,7 +117,7 @@ public interface IComponentMappingIndex {
 			boolean leafMatch = false; 
 			
 			public void reset(){
-				leafMatch = true; 
+				leafMatch = false; 
 			} 
 			
 			public boolean leafMatch(){
@@ -129,7 +129,7 @@ public interface IComponentMappingIndex {
 				
 				
 				final String objectProperty = descriptor.getObjectProperty();
-				final String value = descriptor.getValue();
+				final String value = descriptor.getIdentifier();
 
 				boolean match = false;
 
@@ -141,6 +141,10 @@ public interface IComponentMappingIndex {
 						match = pathNode.get(objectProperty).equals(value);
 						if(match && indexOf == componentPath.size() -1){
 							leafMatch = true; 
+						}
+						// Break if we have our match. 
+						if(match){
+							break;
 						}
 					}
 				}

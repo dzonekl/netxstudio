@@ -30,6 +30,7 @@ import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
+import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CommitException;
@@ -123,9 +124,12 @@ public class MappingStatistics extends AbstractScreen implements
 	private Text txtTotalRecords;
 	private Text txtStartDateTime;
 	private Text txtEndDateTime;
+	private Text txtTotalValues;
+	private Text txtTotalFailedValues;
+	private Text txtMessage;
 
 	private TableViewer tblViewerRecords;
-	private Text txtMessage;
+
 	private CleanStatsAction cleanStatsAction;
 	private TreeViewer statisticsTreeViewer;
 	private Tree statisticsTree;
@@ -410,12 +414,35 @@ public class MappingStatistics extends AbstractScreen implements
 		txtEndDateTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
 
-		Composite filler = toolkit.createComposite(composite, SWT.NONE);
-		GridData gd_filler = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				2, 1);
-		gd_filler.heightHint = 30;
-		filler.setLayoutData(gd_filler);
-		toolkit.paintBordersFor(filler);
+		Label lblTotalExpectedValues = toolkit.createLabel(composite,
+				"Total values:", SWT.NONE);
+
+		lblTotalExpectedValues.setLayoutData(new GridData(SWT.RIGHT,
+				SWT.CENTER, false, false, 1, 1));
+		txtTotalValues = toolkit.createText(composite, "New Text",
+				SWT.READ_ONLY);
+		txtTotalValues.setText("");
+		txtTotalValues.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
+		txtTotalValues
+				.setToolTipText("Total values is the # of metrics * the number of rows");
+
+		Label lblTotalFailedValues = toolkit.createLabel(composite,
+				"Total Failed Values", SWT.NONE);
+		lblTotalFailedValues.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1));
+		txtTotalFailedValues = toolkit.createText(composite, "New Text",
+				SWT.READ_ONLY);
+		txtTotalFailedValues.setText("");
+		txtTotalFailedValues.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				true, false, 1, 1));
+
+		// Composite filler = toolkit.createComposite(composite, SWT.NONE);
+		// GridData gd_filler = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+		// 2, 1);
+		// gd_filler.heightHint = 30;
+		// filler.setLayoutData(gd_filler);
+		// toolkit.paintBordersFor(filler);
 
 		tblViewerRecords = new TableViewer(composite, SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.MULTI);
@@ -479,18 +506,19 @@ public class MappingStatistics extends AbstractScreen implements
 				if (cdoView instanceof CDOTransaction) {
 					CDOTransaction cdoTransaction = (CDOTransaction) cdoView;
 					try {
-						cdoTransaction.lockObjects(metricSource.getStatistics(),
-								LockType.WRITE, 1000);
+						cdoTransaction.lockObjects(
+								metricSource.getStatistics(), LockType.WRITE,
+								1000);
 						metricSource.getStatistics().clear();
-						cdoTransaction.unlockObjects(metricSource.getStatistics(),
-								LockType.WRITE);
+						cdoTransaction.unlockObjects(
+								metricSource.getStatistics(), LockType.WRITE);
 						cdoTransaction.commit();
 
 					} catch (InterruptedException e) {
 						// we are interrupted.
 						e.printStackTrace();
 					} catch (CommitException e) {
-						// we can not commit. 
+						// we can not commit.
 						e.printStackTrace();
 					}
 				}
@@ -630,24 +658,28 @@ public class MappingStatistics extends AbstractScreen implements
 
 		});
 
-		IObservableValue selectionObservable = ViewerProperties
+		final IObservableValue selectionObservable = ViewerProperties
 				.singleSelection().observe(statisticsTreeViewer);
 
 		// Observables for a single selection.
 
 		IObservableValue messageObservable = SWTObservables.observeText(
-				this.txtMessage, SWT.Modify);
+				this.txtMessage, SWT.None);
 		IObservableValue totalRecordsObservable = SWTObservables.observeText(
-				this.txtTotalRecords, SWT.Modify);
+				this.txtTotalRecords, SWT.None);
 		IObservableValue startTimeObservable = SWTObservables.observeText(
-				this.txtStartDateTime, SWT.Modify);
+				this.txtStartDateTime, SWT.None);
 		IObservableValue endTimeObservable = SWTObservables.observeText(
-				this.txtEndDateTime, SWT.Modify);
+				this.txtEndDateTime, SWT.None);
+		IObservableValue totalExpectedValuesObservable = SWTObservables
+				.observeText(this.txtTotalValues, SWT.None);
+		IObservableValue totalFailedValuesObservable = SWTObservables
+				.observeText(this.txtTotalFailedValues, SWT.None);
 
 		IEMFValueProperty messageProperty = EMFProperties
 				.value(MetricsPackage.Literals.MAPPING_STATISTIC__MESSAGE);
 
-		IEMFValueProperty totalRecordsProperty = EMFProperties
+		final IEMFValueProperty totalRecordsProperty = EMFProperties
 				.value(MetricsPackage.Literals.MAPPING_STATISTIC__TOTAL_RECORDS);
 
 		IEMFValueProperty startDateTimeProperty = EMFProperties
@@ -661,6 +693,41 @@ public class MappingStatistics extends AbstractScreen implements
 						.fromList(
 								MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION,
 								GenericsPackage.Literals.DATE_TIME_RANGE__END));
+
+		ComputedValue computedTotalExpectedValue = new ComputedValue() {
+
+			@Override
+			protected Object calculate() {
+				Object value = totalRecordsProperty.observeDetail(
+						selectionObservable).getValue();
+				if (value instanceof Integer) {
+
+					return new Integer(modelUtils.metricsInMetricSource(
+							metricSource).size()
+							* (Integer) value).toString();
+				}
+				return 0;
+			}
+
+		};
+
+		ComputedValue computedTotalFailedValue = new ComputedValue() {
+
+			@Override
+			protected Object calculate() {
+				Object selectedObject = selectionObservable.getValue();
+				if (selectedObject instanceof MappingStatistic) {
+					MappingStatistic ms = (MappingStatistic) selectedObject;
+					int totalErrors = 0;
+					for (MappingRecord mr : ms.getFailedRecords()) {
+						totalErrors += mr.getCount();
+					}
+					return new Integer(totalErrors).toString();
+				}
+				return 0;
+			}
+
+		};
 
 		EMFUpdateValueStrategy modelToTargetStrategy = new EMFUpdateValueStrategy();
 		modelToTargetStrategy.setConverter(new ModelDateConverter());
@@ -678,6 +745,20 @@ public class MappingStatistics extends AbstractScreen implements
 		bindingContext.bindValue(endTimeObservable,
 				endDateTimeProperty.observeDetail(selectionObservable), null,
 				modelToTargetStrategy);
+
+		bindingContext.bindValue(totalExpectedValuesObservable,
+				computedTotalExpectedValue);
+
+		bindingContext.bindValue(totalFailedValuesObservable,
+				computedTotalFailedValue);
+
+		// bindingContext.bindValue(totalExpectedValuesObservable,
+		// computedTotalExpectedValue, new UpdateValueStrategy(false,
+		// UpdateValueStrategy.POLICY_NEVER), null);
+		//
+		// bindingContext.bindValue(totalFailedValuesObservable,
+		// computedTotalFailedValue, new UpdateValueStrategy(false,
+		// UpdateValueStrategy.POLICY_NEVER), null);
 
 		ObservableListContentProvider recordsContentProvider = new ObservableListContentProvider();
 		tblViewerRecords.setContentProvider(recordsContentProvider);
@@ -731,15 +812,19 @@ public class MappingStatistics extends AbstractScreen implements
 
 				StringBuilder sb = new StringBuilder();
 				sb.append("<html><body>");
-				StringReader stringReader = new StringReader(mr.getMessage());
-				BufferedReader bufferedReader = new BufferedReader(stringReader);
-				String line;
-				try {
-					while ((line = bufferedReader.readLine()) != null) {
-						sb.append("line: " + line);
+				sb.append("<table>");
+				new MappingRecordErrorProcessor(){
+					@Override
+					protected void processLines(StringBuilder sb, String[] splits) {
+						sb.append("<tr>");
+						for (String s : splits) {
+							sb.append("<td>" + s + "</td>");
+						}
+						sb.append("</tr>");
 					}
-				} catch (IOException e) {
-				}
+					
+				}.spiltMappingRecordMsg(mr, sb);
+				sb.append("</table>");
 				sb.append("</body></html>");
 
 				return sb.toString();
@@ -747,6 +832,31 @@ public class MappingStatistics extends AbstractScreen implements
 				return null;
 			}
 
+		}
+
+		public abstract class MappingRecordErrorProcessor {
+
+			/**
+			 * @param mr
+			 * @param sb
+			 */
+			public String spiltMappingRecordMsg(MappingRecord mr,
+					StringBuilder sb) {
+				StringReader stringReader = new StringReader(mr.getMessage());
+				BufferedReader bufferedReader = new BufferedReader(stringReader);
+				try {
+					String line;
+					while ((line = bufferedReader.readLine()) != null) {
+						String[] split = line.split(":");
+						processLines(sb, split);
+					}
+				} catch (IOException e) {
+				}
+				return sb.toString();
+				
+			}
+			
+			protected abstract void processLines(StringBuilder sb, String[] splits);
 		}
 
 		public Point getToolTipShift(Object object) {
@@ -778,15 +888,28 @@ public class MappingStatistics extends AbstractScreen implements
 					break;
 				case 1: {
 					String column = mr.getColumn();
-					if (column.equals("-1")) {
-						cell.setText("N/A");
-					} else {
-						cell.setText(column);
+					if (column != null) {
+						if (column.equals("-1")) {
+							cell.setText("N/A");
+						} else {
+							cell.setText(column);
+						}
 					}
 				}
 					break;
 				case 2: {
-					cell.setText(mr.getMessage());
+					StringBuilder sb = new StringBuilder();
+					new MappingRecordErrorProcessor(){
+						@Override
+						protected void processLines(StringBuilder sb, String[] splits) {
+							for (String s : splits) {
+								sb.append(s + " - ");
+							}
+						}
+						
+					}.spiltMappingRecordMsg(mr, sb);
+					
+					cell.setText(sb.toString());
 				}
 					break;
 				}

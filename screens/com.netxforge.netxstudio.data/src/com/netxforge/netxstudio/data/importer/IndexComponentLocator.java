@@ -128,7 +128,10 @@ public class IndexComponentLocator extends JobChangeAdapter implements
 		index.unregisterBuildCompleteListener(this);
 		initialized = true;
 	}
-
+	
+	/**
+	 * Locate components with a specified {@link CDOView}
+	 */
 	public List<Component> locateComponents(CDOView view,
 			List<IdentifierDescriptor> descriptors) {
 

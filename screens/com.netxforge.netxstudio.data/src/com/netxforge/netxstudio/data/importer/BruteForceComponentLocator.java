@@ -324,7 +324,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 			for (IComponentLocator.IdentifierDescriptor iv : descriptors) {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_IMPORT_LOCATOR_OPTION, "-- ID col="
-								+ iv.getColumn() + " ,value=" + iv.getValue());
+								+ iv.getColumn() + " ,value=" + iv.getIdentifier());
 			}
 		}
 
@@ -509,7 +509,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 						DataActivator.TRACE.trace(
 								DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
 								"-- try matching identifier:"
-										+ idDescriptor.getValue()
+										+ idDescriptor.getIdentifier()
 										+ " , for component name="
 										+ componentToVerify.getName());
 					}
@@ -519,7 +519,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 							DataActivator.TRACE.trace(
 									DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
 									"-- matching failed:"
-											+ idDescriptor.getValue()
+											+ idDescriptor.getIdentifier()
 											+ " , for component name="
 											+ componentToVerify.getName());
 						}
@@ -533,7 +533,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 							DataActivator.TRACE.trace(
 									DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
 									"-- matching succeeded:"
-											+ idDescriptor.getValue()
+											+ idDescriptor.getIdentifier()
 											+ " , for component name="
 											+ componentToVerify.getName());
 						}
@@ -620,7 +620,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 						DataActivator.TRACE.trace(
 								DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
 								"-- matching succeeded:"
-										+ idDescriptor.getValue()
+										+ idDescriptor.getIdentifier()
 										+ " , for component name="
 										+ c.getName());
 					}
@@ -630,7 +630,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 						DataActivator.TRACE
 								.trace(DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
 										"-- matching failed:"
-												+ idDescriptor.getValue());
+												+ idDescriptor.getIdentifier());
 					}
 				}
 			}
@@ -713,7 +713,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 								+ " , property="
 								+ lastMatchingIdentifier.getKind()
 										.getObjectProperty() + " name="
-								+ lastMatchingIdentifier.getValue());
+								+ lastMatchingIdentifier.getIdentifier());
 			}
 			Component result = createIdentified(createOnComponent,
 					lastMatchingIdentifier);
@@ -734,7 +734,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 
 		if (identifierDescriptor != null) {
 
-			String value = identifierDescriptor.getValue();
+			String value = identifierDescriptor.getIdentifier();
 
 			if (identifierDescriptor.getKind().getObjectKind() == ObjectKindType.FUNCTION) {
 				resultComponent = LibraryFactory.eINSTANCE.createFunction();
@@ -887,8 +887,8 @@ public class BruteForceComponentLocator implements IComponentLocator {
 			boolean shouldMatchParents) {
 
 		// A null identifier should not be created!
-		final String idValue = identifierDescriptor.getValue() != null ? identifierDescriptor
-				.getValue() : null;
+		final String idValue = identifierDescriptor.getIdentifier() != null ? identifierDescriptor
+				.getIdentifier() : null;
 
 		if (identifierDescriptor.getKind().getObjectKind() == ObjectKindType.RELATIONSHIP) {
 			if (eObject instanceof Function) {
@@ -979,13 +979,13 @@ public class BruteForceComponentLocator implements IComponentLocator {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
 						"-- try matching identifier:"
-								+ identifierDescriptor.getValue()
+								+ identifierDescriptor.getIdentifier()
 								+ " , for component name=" + c.getName());
 			}
 
 			// A null identifier should not be created!
-			final String idValue = identifierDescriptor.getValue() != null ? identifierDescriptor
-					.getValue() : null;
+			final String idValue = identifierDescriptor.getIdentifier() != null ? identifierDescriptor
+					.getIdentifier() : null;
 			return objectFeatureMatchesValue(c,
 					identifierDescriptor.getPropertyFeature(), idValue, true);
 		}
@@ -1014,7 +1014,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 				try {
 					Pattern pattern = Pattern.compile(extractionPattern);
 					Matcher matcher = pattern.matcher(identifierDescriptor
-							.getValue());
+							.getIdentifier());
 					String extract = null;
 					if (matcher.lookingAt()) {
 						int gc = matcher.groupCount();
@@ -1037,7 +1037,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 		}
 
 		if (value == null) {
-			value = identifierDescriptor.getValue();
+			value = identifierDescriptor.getIdentifier();
 		}
 		return identifierDescriptor.getKind().getObjectProperty() + "_" + value
 				+ "_" + metric.cdoID().toString();

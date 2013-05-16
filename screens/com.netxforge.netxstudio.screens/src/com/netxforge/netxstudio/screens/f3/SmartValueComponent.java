@@ -96,7 +96,7 @@ public class SmartValueComponent {
 
 	private ModelUtils modelUtils;
 	private TableHelper tableHelper;
-
+	
 	@Inject
 	public SmartValueComponent(ModelUtils modelUtils, TableHelper tableHelper) {
 		this.modelUtils = modelUtils;
@@ -559,6 +559,11 @@ public class SmartValueComponent {
 
 			SubMonitor convert = SubMonitor.convert(monitor, totalWork);
 			for (MetricValueRange mvr : mvrList) {
+				
+				// TODO, Get the limited set based on the period filter, 
+				// this avoid
+				
+				
 				List<Double> doubles = modelUtils.merge(" Metrics: "
 						+ modelUtils.fromMinutes(mvr.getIntervalHint()),
 						existingDates, mvr.getMetricValues(),

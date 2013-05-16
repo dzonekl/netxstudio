@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.data.importer;
 
 import java.util.Date;
@@ -27,18 +27,18 @@ import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
-import com.netxforge.netxstudio.metrics.MappingColumn;
+import com.netxforge.netxstudio.metrics.ValueDataKind;
 
 /**
- * A Helper which holds various facilities to support the import process. 
+ * A Helper which holds various facilities to support the import process.
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
 public interface IImporterHelper {
 
-	public abstract void addMetricValue(MappingColumn column, Date timeStamp,
-			Component networkElement, Double dblValue, int periodHint, IComponentLocator.IdentifierDescriptor lastMatchingDescriptor);
+	public abstract void addMetricValue(ValueDataKind vdk, Date timeStamp,
+			Component networkElement, Double dblValue, int periodHint);
 
 	/**
 	 * Add the resource value to the value range.
@@ -54,11 +54,7 @@ public interface IImporterHelper {
 			int periodHint, KindHintType kindHintType, List<Value> newValues,
 			Date start, Date end);
 
-	/**
-	 * The sub engines like the element locator and other logics, needing a
-	 * dataprovider.
-	 */
-	public abstract void initializeProviders(IComponentLocator locator);
+//	public abstract void initializeProviders(IComponentLocator locator);
 
 	/**
 	 * A potential local dataprovider.
@@ -66,37 +62,36 @@ public interface IImporterHelper {
 	 * @return
 	 */
 	public abstract IDataProvider getDataProvider();
-	
-	
+
 	/**
-	 * Set the importer to be used. 
+	 * Set the importer to be used.
+	 * 
 	 * @param importer
 	 */
 	public abstract void setImporter(AbstractMetricValuesImporter importer);
-	
 
 	/**
-	 * Can be called to check the cancellation status. 
-	 * For scheduled imports, the implementation can check the Quartz scheduler status. 
-	 * For manually triggered imports, the implementation can check for manual cancellation events. 
+	 * Can be called to check the cancellation status. For scheduled imports,
+	 * the implementation can check the Quartz scheduler status. For manually
+	 * triggered imports, the implementation can check for manual cancellation
+	 * events.
 	 * 
 	 * @return
 	 */
 	public abstract boolean cancelled();
-	
-	
+
 	/**
 	 * Get Activator.
+	 * 
 	 * @return
 	 */
 	public abstract BundleActivator getActivator();
-	
-	
+
 	/**
 	 * Set Activator.
+	 * 
 	 * @return
 	 */
 	public abstract void setActivator(BundleActivator p);
-	
-	
+
 }

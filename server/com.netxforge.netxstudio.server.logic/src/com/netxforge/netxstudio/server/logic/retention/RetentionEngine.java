@@ -285,7 +285,7 @@ public class RetentionEngine extends BaseComponentEngine {
 			int intervalHint = rule.getIntervalHint();
 
 			final DateTimeRange period = this.getModelUtils()
-					.getDTRForRetentionRule(
+					.periodForRetentionRule(
 							rule,
 							this.getModelUtils().fromXMLDate(
 									this.getPeriod().getBegin()));

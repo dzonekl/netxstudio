@@ -26,10 +26,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -41,6 +39,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.framework.BundleActivator;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -50,6 +49,8 @@ import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.importer.IComponentLocator.IdentifierDescriptor;
+import com.netxforge.netxstudio.data.importer.IComponentLocator.MetricDescriptor;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -80,11 +81,8 @@ import com.netxforge.netxstudio.scheduling.JobRunState;
  * @author Martin Taal
  * @author Christophe Bouhier
  */
-public abstract class AbstractMetricValuesImporter implements IImporterHelper {
-
-	public static final String ROOT_SYSTEM_PROPERTY = "metricSourceRoot";
-
-	public static final boolean RENAME_FILE_AT_PROCESS = true;
+public abstract class AbstractMetricValuesImporter implements IImporterHelper,
+		IMetricValueImporter {
 
 	private MetricSource metricSource;
 
@@ -111,9 +109,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	private DateTimeRange metricPeriodEstimate = GenericsFactory.eINSTANCE
 			.createDateTimeRange();
 
+	/** An estimate of the interval is based on the processed time stamps. **/
 	private int intervalEstimate = -1;
-
-	private List<IComponentLocator.IdentifierDescriptor> headerIdentifiers = new ArrayList<IComponentLocator.IdentifierDescriptor>();
 
 	/**
 	 * The helper provides implementation of specialized methods depending on
@@ -123,20 +120,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	private IImporterHelper helper;
 
 	private CDOID cdoID;
-
-	public static final String NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY = "netxstudio.max.mapping.stats.quantity"; // How
-																												// many
-																												// stats
-																												// to
-																												// keep
-																												// per
-																												// metric
-																												// source.
-	public static final int NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY_DEFAULT = 500; // How
-																					// many
-																					// stats
-																					// to
-																					// keep.
 
 	/*
 	 * Maximum number of stats per Metric Source.
@@ -148,6 +131,23 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	/** A cached header time stamp */
 	private Date headerTimeStamp = null;
 
+	/**
+	 * A collection of descriptors which act as a template and will be populated
+	 * with the correct values when processing each row
+	 **/
+	private List<IComponentLocator.IdentifierDescriptor> dataIdentifiers;
+
+	/**
+	 * A collection of descriptors for the header which is always populated.
+	 */
+	private List<IComponentLocator.IdentifierDescriptor> headerIdentifiers = new ArrayList<IComponentLocator.IdentifierDescriptor>();
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#process()
+	 */
 	public void process() {
 
 		if (DataActivator.DEBUG) {
@@ -156,18 +156,18 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 
 		initializeProviders(componentLocator);
-		
-		
-		int totalSeconds = 0;  
-		
-		// Wait synchronized. 
+
+		int totalSeconds = 0;
+
+		// Wait synchronized.
 		synchronized (this) {
 			while (!componentLocator.isInitialized()) {
 				try {
 					if (DataActivator.DEBUG) {
-						DataActivator.TRACE
-								.trace(DataActivator.TRACE_IMPORT_OPTION,
-										"Yawn.... waiting for locator (" + totalSeconds + " sec)");
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_IMPORT_OPTION,
+								"Yawn.... waiting for locator (" + totalSeconds
+										+ " sec)");
 					}
 					this.wait(1000);
 					totalSeconds++;
@@ -278,7 +278,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				// After each iteration, check if the scheduler is active, and
 				// cancel otherwise.
 				for (final File file : rootFile.listFiles()) {
-
 					if (cancelled()) {
 						// we are cancelled, abort the next file.
 						if (DataActivator.DEBUG) {
@@ -289,7 +288,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 						break;
 					}
 
+					// Track the file name and orignal path.
 					final String fileName = file.getName();
+					final String originalPath = file.getAbsolutePath();
 
 					if (DataActivator.DEBUG) {
 						DataActivator.TRACE.trace(
@@ -306,6 +307,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 						} catch (final Throwable t) {
 							errorOccurred = true;
+							// Processing failed, the file name will still be
+							// named .process
+							// Consider renaming it to .error
+							errorProcessFile(file, originalPath);
 							jobMonitor.appendToLog("Error (" + t.getMessage()
 									+ ") while processing file "
 									+ file.getAbsolutePath());
@@ -314,6 +319,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 										DataActivator.TRACE_IMPORT_OPTION,
 										" -- Error processing file", t);
 							}
+
 						}
 					}
 
@@ -419,6 +425,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#setImporter
+	 * (com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter)
+	 */
 	public void setImporter(AbstractMetricValuesImporter importer) {
 		// Ignore, should not be called here.
 	}
@@ -624,6 +637,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 	}
 
+	private void errorProcessFile(File file, String originalPath) {
+		// Strip the process extension of the file.
+
+		renameFile(file, new File(originalPath + ModelUtils.EXTENSION_ERROR));
+	}
+
 	/**
 	 * Rename a file being processed.
 	 * 
@@ -644,6 +663,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#setImportHelper
+	 * (com.netxforge.netxstudio.data.importer.IImporterHelper)
+	 */
 	public void setImportHelper(IImporterHelper helper) {
 		this.helper = helper;
 	}
@@ -683,6 +709,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	protected int processRows() {
 
+		// Preset the Interval hint as it might not be available from the
+		// mapping.
 		if (getMapping().getIntervalHint() > 0) {
 			intervalHint = getMapping().getIntervalHint();
 			intervalEstimate = intervalHint;
@@ -692,6 +720,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 		// Our TimeStamp processor.
 		tsProcessor = new TSProcessor(this);
+
 		processHeaderRow();
 
 		tsProcessor.prepTimeStamp(getMapping().getDataMappingColumns());
@@ -699,13 +728,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		jobMonitor.setMsg("Processing rows");
 
 		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
 					" processing rows, total rows=" + getTotalRows());
 		}
 
 		int totalRows = 0;
 		int rowsToProcess = getTotalRows();
+
 		jobMonitor.setTotalWork(rowsToProcess - getMapping().getFirstDataRow()
 				+ 10);
 		jobMonitor.setWorkDone(0); // reset the work done.
@@ -713,10 +742,16 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		// The last known timestamp.
 		Date rowTimeStamp = null;
 
+		dataIdentifiers = prepareIdentifiers(getMapping()
+				.getDataMappingColumns());
+
+		List<MetricDescriptor> metricDescriptors = prepareMetricDescriptors();
+
 		for (int rowNum = getMapping().getFirstDataRow(); rowNum < rowsToProcess; rowNum++) {
 
 			jobMonitor.setMsg("Processing row " + rowNum);
 			jobMonitor.incrementProgress(1, (rowNum % 10) == 0);
+
 			if (DataActivator.DEBUG) {
 				BigDecimal percentil = new BigDecimal(rowNum).divide(
 						new BigDecimal(rowsToProcess), 5, RoundingMode.HALF_UP);
@@ -725,7 +760,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 								+ percentil.movePointRight(2) + "%");
 			}
 
-			int columnBeingProcessed = -1;
 			try {
 
 				// CB 180122012, why is this here, for a read and open a
@@ -733,29 +767,29 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				// this.getMappingColumn();
 				totalRows++;
 
-				// We need at least a node and a component.
-				IdentifierValidator validator = new IdentifierValidator();
+				// Debug.
+				// ID prop: Position= 0 col: 2, ID prop: NodeID= YPSGSN1 col: 2,
+				// ID prop: Position= 3 col: 2, ID prop: Name= 0 col: 2
+				// Set the descriptor values for the give row.
+				populateIdentifierDescriptors(dataIdentifiers, rowNum);
 
-				final List<IComponentLocator.IdentifierDescriptor> elementIdentifiers = getIdentifierValues(
-						getMapping().getDataMappingColumns(), rowNum, false);
+				// used a composed collection for processing.
+				List<IdentifierDescriptor> composedIdentifiers = Lists
+						.newArrayList(dataIdentifiers);
 
-				validator.validateIdentifiers(elementIdentifiers);
-
-				if (!validator.hasNodeAndChild()) {
-					if (validator.hasNode()) {
-						// Check for auto-create.
-						// throw new java.lang.IllegalStateException(
-						// "At least one child of Node Identifier is required");
-					} else {
-						// here we need to bail, not even a Node?
-						throw new java.lang.IllegalStateException(
-								"Network ELement Identifier is required");
-					}
+				// Merge the descriptors from header and data when needed.
+				if (!headerIdentifiers.isEmpty()) {
+					composedIdentifiers.addAll(0, headerIdentifiers);
 				}
 
+				// Validate the identifiers.
+				validateIdentifiers(composedIdentifiers);
+
+				// Get the row timestamp
 				rowTimeStamp = tsProcessor.getTimeStampValue(rowNum, false);
 
 				final int intervalHintFromRow = getIntervalHint(rowNum);
+
 				// give preference to the intervalhint from a row mapping.
 				this.intervalEstimate = intervalHintFromRow;
 
@@ -764,104 +798,88 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 				// metric reference.
 				final List<Component> componentsForID = getComponentLocator()
 						.locateComponents(getMapping().cdoView(),
-								elementIdentifiers);
+								composedIdentifiers);
 
+				// If no result, skip this row we won't be able to do anything
+				// with the value here.
+				if (componentsForID.isEmpty()) {
+					createNotMatchedMappingRecord(composedIdentifiers,
+							getFailedRecords());
+					continue;
+				}
+
+				// Cache a located component, to add multiple values on the same
+				// component.
 				Component locatedComponent = null;
 
-				for (final MappingColumn column : getMapping()
-						.getDataMappingColumns()) {
+				for (MetricDescriptor md : metricDescriptors) {
 
-					columnBeingProcessed = column.getColumn();
-
-					// Process a metric column.
-					if (isMetric(column)) {
-						// Check that the metric ref is set, other wise bail.
-						if (!getValueDataKind(column)
-								.eIsSet(MetricsPackage.Literals.VALUE_DATA_KIND__METRIC_REF)) {
-							throw new java.lang.IllegalStateException(
-									"Metric reference not set");
-						}
-
-						Metric metricRef = getValueDataKind(column)
-								.getMetricRef();
-
-						if (locatedComponent != null) {
-							if (!locatedComponent.getMetricRefs().contains(
-									metricRef)) {
-								Iterable<Component> componentsForMetric = modelUtils
-										.componentsForMetric(componentsForID,
-												metricRef);
-								if (Iterables.size(componentsForMetric) == 1) {
-									locatedComponent = componentsForMetric
-											.iterator().next();
-								}
-							}
-						} else {
-							Iterable<Component> componentsForMetric = modelUtils
-									.componentsForMetric(componentsForID,
-											metricRef);
-							if (Iterables.size(componentsForMetric) == 1) {
-								locatedComponent = componentsForMetric
-										.iterator().next();
-							}
-						}
-
-						if (DataActivator.DEBUG) {
-							DataActivator.TRACE
-									.trace(DataActivator.TRACE_IMPORT_OPTION,
-											"-- column="
-													+ column.getColumn()
-													+ " comp: "
-													+ modelUtils
-															.printModelObject(locatedComponent)
-													+ " metric:"
-													+ modelUtils
-															.printModelObject(metricRef));
-						}
-
-						if (locatedComponent == null) {
-							// As we are now doing the metric matching, we set
-							// the failed identifiers
-							// to be the identifiers last used for component
-							// lookup.
-
-							createNotFoundNetworkElementMappingRecord(
-									getValueDataKind(column).getMetricRef(),
-									rowNum, elementIdentifiers,
-									elementIdentifiers, getFailedRecords());
+					// Match on the cached (Last resolved) component, if not
+					// find the correct one.
+					if (locatedComponent == null
+							|| !locatedComponent.getMetricRefs().contains(
+									md.getMetric())) {
+						Iterable<Component> componentsForMetric = modelUtils
+								.componentsForMetric(componentsForID,
+										md.getMetric());
+						int resultSize = Iterables.size(componentsForMetric);
+						if (resultSize == 1) {
+							locatedComponent = componentsForMetric.iterator()
+									.next();
+						} else if (resultSize > 1) {
+							// report a double entry.
+							createMatchDuplicatesMappingRecord(
+									composedIdentifiers, failedRecords);
 							continue;
 						}
-
-						/*
-						 * The last matching identifier, is needed for the
-						 * resource name creation strategy.
-						 */
-						@SuppressWarnings("deprecation")
-						IComponentLocator.IdentifierDescriptor lastIdentifier = getComponentLocator()
-								.getLastMatchingIdentifier();
-
-						final Double value = getNumericCellValue(rowNum,
-								column.getColumn());
-
-						if (DataActivator.DEBUG) {
-							DataActivator.TRACE.trace(
-									DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-									"Storing value: " + value);
-						}
-
-						addMetricValue(column, rowTimeStamp, locatedComponent,
-								value, intervalHintFromRow, lastIdentifier);
-
 					}
+
+					if (locatedComponent == null) {
+						// As we are now doing the metric matching, we set
+						// the failed identifiers
+						// to be the identifiers last used for component
+						// lookup.
+						createMetricNotMatchedMappingRecord(
+								composedIdentifiers, getFailedRecords());
+
+						continue;
+					}
+
+					if (DataActivator.DEBUG) {
+						DataActivator.TRACE
+								.trace(DataActivator.TRACE_IMPORT_OPTION,
+										"-- column="
+												+ md.getColumn()
+												+ " comp: "
+												+ modelUtils
+														.printModelObject(locatedComponent)
+												+ " metric:"
+												+ modelUtils
+														.printModelObject(md
+																.getMetric()));
+					}
+
+					final Double value = getNumericCellValue(rowNum,
+							md.getColumn());
+
+					if (DataActivator.DEBUG) {
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+								"Storing value: " + value);
+					}
+
+					addMetricValue(md.getValueDataKind(), rowTimeStamp,
+							locatedComponent, value, intervalHintFromRow);
+
 				}
+
 			} catch (final Exception e) {
 				if (DataActivator.DEBUG) {
 					DataActivator.TRACE.trace(
 							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
 							"Error processing row=" + rowNum, e);
 				}
-				this.createExceptionMappingRecord(e, rowNum,
-						columnBeingProcessed, this.getFailedRecords());
+				this.createExceptionMappingRecord(e, this.getFailedRecords());
 
 			} finally {
 
@@ -872,6 +890,140 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			}
 		}
 		return totalRows;
+	}
+
+	private List<IComponentLocator.MetricDescriptor> prepareMetricDescriptors() {
+
+		List<IComponentLocator.MetricDescriptor> metricsDescriptors = Lists
+				.newArrayList();
+		for (final MappingColumn mappingColumn : getMapping()
+				.getDataMappingColumns()) {
+
+			// columnBeingProcessed = column.getColumn();
+			if (mappingColumn.getDataType() instanceof ValueDataKind) {
+				final ValueDataKind valueDataKind = getValueDataKind(mappingColumn);
+				// Process a metric column.
+				if (valueDataKind.getValueKind() == ValueKindType.METRIC) {
+					// Check that the metric ref is set, other wise bail.
+					if (!valueDataKind
+							.eIsSet(MetricsPackage.Literals.VALUE_DATA_KIND__METRIC_REF)) {
+
+						// An invalid met Mapping entry.
+						continue;
+						// throw new java.lang.IllegalStateException(
+						// "Metric reference not set");
+					}
+
+					Metric metricRef = getValueDataKind(mappingColumn)
+							.getMetricRef();
+					MetricDescriptor md = IComponentLocator.MetricDescriptor
+							.valueFor(valueDataKind, metricRef,
+									mappingColumn.getColumn());
+					metricsDescriptors.add(md);
+
+				}
+			}
+		}
+		return metricsDescriptors;
+
+	}
+
+	/**
+	 * Produce the {@link IComponentLocator.IdentifierDescriptor Identifier
+	 * Descriptors} .</br></br> The procedure iterates through the
+	 * {@link MappingColumn mapping columns}, for each column of type
+	 * {@link IdentifierDataKind} a descriptor is produced for the specified
+	 * column index. </br></br> If the column specifies a
+	 * {@link MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN }, then this
+	 * pattern. (A regular expression) is also stored in the
+	 * descriptor.</br></br> The reset parameter controls if the header
+	 * Identifier Descriptors should be merged in.
+	 * 
+	 * @param mappingColumns
+	 *            The mapping columns for this {@link MetricSource}
+	 * @param row
+	 *            The Row Number for which descriptors should be produced.
+	 * @param reset
+	 *            Set to <code>true</code> when it's not needed to merge in the
+	 *            Header Identifier Descriptors.
+	 * @return
+	 */
+	private List<IComponentLocator.IdentifierDescriptor> prepareIdentifiers(
+			EList<MappingColumn> mappingColumns) {
+
+		final List<IComponentLocator.IdentifierDescriptor> result = Lists
+				.newArrayList();
+
+		for (final MappingColumn column : mappingColumns) {
+			if (column.getDataType() instanceof IdentifierDataKind) {
+
+				final IdentifierDataKind identifierDataKind = (IdentifierDataKind) column
+						.getDataType();
+
+				// Apply the pattern to the value.
+				Pattern pattern = null;
+
+				if (identifierDataKind
+						.eIsSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN)) {
+					String extractionPattern = identifierDataKind.getPattern();
+					// PATTERN: if extractionPattern != null then use it to
+					// extract the
+					// to-compare value
+					// from the componentValue or the dataValue, the dataValue
+					// is read from
+					// the excel
+					if (extractionPattern != null
+							&& extractionPattern.length() > 0) {
+						pattern = Pattern.compile(extractionPattern);
+
+					}
+				}
+
+				final IComponentLocator.IdentifierDescriptor identifierValue = IComponentLocator.IdentifierDescriptor
+						.valueFor(identifierDataKind, pattern,
+								column.getColumn());
+				result.add(identifierValue);
+			}
+		}
+		return ImmutableList.copyOf(result);
+	}
+
+	/**
+	 * Set the values of the descriptors for mapping to components for a
+	 * specified row index.
+	 * 
+	 * @param rowNum
+	 */
+	public void populateIdentifierDescriptors(
+			List<IComponentLocator.IdentifierDescriptor> descriptors, int rowNum) {
+		for (IComponentLocator.IdentifierDescriptor descriptor : descriptors) {
+			String dataValue = getStringCellValue(rowNum,
+					descriptor.getColumn()).trim();
+			descriptor.setIdentifier(dataValue);
+		}
+	}
+
+	/**
+	 * @param elementIdentifiers
+	 */
+	private void validateIdentifiers(
+			final List<IComponentLocator.IdentifierDescriptor> elementIdentifiers) {
+		// We need at least a node and a component.
+		IdentifierValidator validator = new IdentifierValidator();
+
+		validator.validateIdentifiers(elementIdentifiers);
+
+		if (!validator.hasNodeAndChild()) {
+			if (validator.hasNode()) {
+				// Check for auto-create.
+				// throw new java.lang.IllegalStateException(
+				// "At least one child of Node Identifier is required");
+			} else {
+				// here we need to bail, not even a Node?
+				throw new java.lang.IllegalStateException(
+						"Network ELement Identifier is required");
+			}
+		}
 	}
 
 	/**
@@ -920,6 +1072,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.data.importer.IMetricValueImporter#
+	 * getMappingPeriodEstimate()
+	 */
 	public DateTimeRange getMappingPeriodEstimate() {
 		return metricPeriodEstimate;
 	}
@@ -944,7 +1102,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		sb.append("Using identifiers: ");
 		for (final IComponentLocator.IdentifierDescriptor idValue : identifierValues) {
 			sb.append(" - " + idValue.getKind().getObjectKind().getName()
-					+ ": " + idValue.getValue());
+					+ ": " + idValue.getIdentifier());
 		}
 		return sb.toString();
 	}
@@ -955,8 +1113,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 			return;
 		}
 
-		headerIdentifiers = getIdentifierValues(getMapping()
-				.getHeaderMappingColumns(), headerRow, true);
+		headerIdentifiers = prepareIdentifiers(getMapping()
+				.getHeaderMappingColumns());
+
+		populateIdentifierDescriptors(headerIdentifiers, headerRow);
 
 		tsProcessor.prepTimeStamp(getMapping().getHeaderMappingColumns());
 		headerTimeStamp = tsProcessor.getTimeStampValue(headerRow, true);
@@ -964,80 +1124,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		this.updatePeriodEstimate(headerTimeStamp);
 	}
 
-	/**
-	 * Lookup a Node and add the resource to it.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param originalEObject
-	 * @param eObject
-	 * @param path
-	 * @param resource
+	 * @see com.netxforge.netxstudio.data.importer.IMetricValueImporter#
+	 * toValidExpressionName(java.lang.String)
 	 */
-	// public void addToNode(EObject originalEObject, EObject eObject,
-	// List<Integer> path, NetXResource resource) {
-	// final EObject container = eObject.eContainer();
-	// if (container instanceof Node) {
-	// final NodeType nodeType = ((Node) container)
-	// .getOriginalNodeTypeRef();
-	// List<?> componentObjects;
-	// if (originalEObject instanceof Equipment) {
-	// componentObjects = nodeType.getEquipments();
-	// } else {
-	// componentObjects = nodeType.getFunctions();
-	// }
-	// Object currentObject = null;
-	// for (final Integer index : path) {
-	//
-	// if (componentObjects.size() > index) {
-	// currentObject = componentObjects.get(index);
-	//
-	// if (originalEObject instanceof Equipment) {
-	// componentObjects = ((Equipment) currentObject)
-	// .getEquipments();
-	// } else {
-	// componentObjects = ((Function) currentObject)
-	// .getFunctions();
-	// }
-	// }
-	//
-	// }
-	// boolean found = false;
-	// for (final NetXResource netxResource : ((Component) currentObject)
-	// .getResourceRefs()) {
-	// if (netxResource.getMetricRef() == resource.getMetricRef()) {
-	// found = true;
-	// break;
-	// }
-	// }
-	// if (!found) {
-	// final NetXResource copiedNetXResource = EcoreUtil
-	// .copy(resource);
-	//
-	// String cdoResourcePath = modelUtils
-	// .cdoCalculateResourcePathII((EObject) currentObject);
-	//
-	// if (cdoResourcePath != null) {
-	// final Resource emfNetxResource = getDataProvider()
-	// .getResource(cdoResourcePath);
-	// emfNetxResource.getContents().add(copiedNetXResource);
-	// ((Component) currentObject).getResourceRefs().add(
-	// copiedNetXResource);
-	// } else {
-	// if (DataActivator.DEBUG) {
-	// DataActivator.TRACE
-	// .trace(DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-	// "Invalid CDO Resource path, component name likely not set");
-	// }
-	// return;
-	// }
-	// }
-	// } else {
-	// final EStructuralFeature eFeature = eObject.eContainingFeature();
-	// final List<?> values = (List<?>) container.eGet(eFeature);
-	// path.add(0, values.indexOf(eObject));
-	// addToNode(originalEObject, container, path, resource);
-	// }
-	// }
-
 	public String toValidExpressionName(String value) {
 		final StringBuilder sb = new StringBuilder();
 		for (final char c : value.toCharArray()) {
@@ -1053,93 +1145,158 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		return sb.toString();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#getValueDataKind
+	 * (com.netxforge.netxstudio.metrics.MappingColumn)
+	 */
 	public ValueDataKind getValueDataKind(MappingColumn column) {
 		return (ValueDataKind) column.getDataType();
 	}
 
-	private boolean isMetric(MappingColumn column) {
-		if (!(column.getDataType() instanceof ValueDataKind)) {
-			return false;
-		}
-		final ValueDataKind valueDataKind = getValueDataKind(column);
-		return valueDataKind.getValueKind() == ValueKindType.METRIC;
-	}
-
-	protected void createNotFoundNetworkElementMappingRecord(Metric metric,
-			int rowNum,
+	/**
+	 * 
+	 * @param allIdentifiers
+	 * @param records
+	 */
+	protected void createNotMatchedMappingRecord(
 			List<IComponentLocator.IdentifierDescriptor> allIdentifiers,
-			List<IComponentLocator.IdentifierDescriptor> failedIdentifiers,
 			List<MappingRecord> records) {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("Could not locate identifier for metric " + metric.getName());
-
-		sb.append(". For identifiers: ");
-		for (final IComponentLocator.IdentifierDescriptor idValue : allIdentifiers) {
-			sb.append(" - " + idValue.getKind().getObjectKind().getName()
-					+ ": " + idValue.getValue());
-		}
-
-		sb.append(", Failed on : ");
-		for (final IComponentLocator.IdentifierDescriptor idValue : failedIdentifiers) {
-			sb.append(" - " + idValue.getKind().getObjectKind().getName()
-					+ ": " + idValue.getValue());
-		}
-		final int failedColumn = failedIdentifiers.size() > 0 ? failedIdentifiers
-				.get(0).getColumn() : -1;
-
-		MappingRecord record;
-		if ((record = this.hasMappingRecord(rowNum, failedColumn,
-				sb.toString(), records)) != null) {
-			long count = record.getCount() + 1;
-			record.setCount(count);
-		} else {
-			record = createMappingRecord(rowNum, failedColumn, sb.toString());
-			records.add(record);
-		}
+		String msg = constructErrorMessage(IMPORT_ERROR.ComponentNotMatched,
+				allIdentifiers);
+		getOrCreateMappingRecord(records, msg);
 	}
 
-	/*
-	 * Exception mapping records.
+	/**
+	 * Duplicate Error Record
+	 * 
+	 * @param allIdentifiers
+	 * @param records
+	 */
+	protected void createMatchDuplicatesMappingRecord(
+			List<IComponentLocator.IdentifierDescriptor> allIdentifiers,
+			List<MappingRecord> records) {
+		String msg = constructErrorMessage(
+				IMPORT_ERROR.ComponentMatchDuplicates, allIdentifiers);
+		getOrCreateMappingRecord(records, msg);
+	}
+
+	public void createMetricNotMatchedMappingRecord(
+			List<IdentifierDescriptor> composedIdentifiers,
+			List<MappingRecord> records) {
+		String msg = constructErrorMessage(IMPORT_ERROR.MetricNotFound,
+				composedIdentifiers);
+		getOrCreateMappingRecord(records, msg);
+	}
+
+	/**
+	 * Exception Error Record
 	 */
 	protected void createExceptionMappingRecord(Exception exception,
-			int rowNum, int colNum, List<MappingRecord> records) {
-		final StringBuilder sb = new StringBuilder();
-		sb.append(exception.getMessage());
+			List<MappingRecord> records) {
+		String msg = constructErrorMessage(IMPORT_ERROR.GeneralError, exception);
+		getOrCreateMappingRecord(records, msg);
+	}
+
+	/**
+	 * @param records
+	 * @param msg
+	 */
+	private void getOrCreateMappingRecord(List<MappingRecord> records,
+			String msg) {
 		MappingRecord record;
-		if ((record = this.hasMappingRecord(rowNum, colNum, sb.toString(),
-				records)) != null) {
+		if ((record = this.hasMappingRecord(msg, records)) != null) {
 			long count = record.getCount() + 1;
 			record.setCount(count);
 		} else {
-			record = createMappingRecord(rowNum, colNum, sb.toString());
+			record = createMappingRecord(msg.toString());
 			records.add(record);
 		}
 	}
 
-	protected MappingRecord createMappingRecord(int row, int column,
-			String message) {
+	private String constructErrorMessage(IMPORT_ERROR error, Exception exception) {
+		return constructErrorMessage(error, null, exception);
+	}
+
+	private String constructErrorMessage(IMPORT_ERROR error,
+			List<IComponentLocator.IdentifierDescriptor> allIdentifiers) {
+		return constructErrorMessage(error, allIdentifiers, null);
+	}
+
+	/**
+	 * The data is structured, so it can be processed back by clients.
+	 * 
+	 * "error:[optional error part]" The pattern is optional.
+	 * <ul>
+	 * <li>For {@link IMPORT_ERROR#GeneralError} => the Exception stack trace</li>
+	 * <li>For {@link IMPORT_ERROR#ComponentNotMatched} =>
+	 * column:kind:property:identifier:[pattern]</li>
+	 * <li>For {@link IMPORT_ERROR#ComponentMatchDuplicates} =>
+	 * column:kind:property:identifier:[pattern]</li>
+	 * <li>For {@link IMPORT_ERROR#MetricNotFound} =>
+	 * column:kind:property:identifier:[pattern]</li>
+	 * </ul>
+	 **/
+	private String constructErrorMessage(IMPORT_ERROR error,
+			List<IComponentLocator.IdentifierDescriptor> allIdentifiers,
+			Exception exception) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append(error.ordinal() + ":");
+
+		switch (error) {
+		case GeneralError:
+			if (exception != null) {
+				sb.append(exception.getMessage());
+			}
+		case ComponentNotMatched: {
+			constructIdentifierMsg(allIdentifiers, sb);
+		}
+		case MetricNotFound: {
+			constructIdentifierMsg(allIdentifiers, sb);
+		}
+		case ComponentMatchDuplicates: {
+			constructIdentifierMsg(allIdentifiers, sb);
+		}
+		}
+
+		return sb.toString();
+	}
+
+	/**
+	 * @param allIdentifiers
+	 * @param sb
+	 */
+	private void constructIdentifierMsg(
+			List<IComponentLocator.IdentifierDescriptor> allIdentifiers,
+			final StringBuilder sb) {
+		for (final IComponentLocator.IdentifierDescriptor idValue : allIdentifiers) {
+			sb.append(idValue.getColumn() + ":"
+					+ idValue.getKind().getObjectKind().getName() + ":"
+					+ idValue.getObjectProperty() + ":"
+					+ idValue.getIdentifier() + ":" + idValue.getPattern()
+					+ "\n");
+		}
+	}
+
+	protected MappingRecord createMappingRecord(String message) {
 		final MappingRecord record = MetricsFactory.eINSTANCE
 				.createMappingRecord();
-		record.setColumn(column + "");
-		// record.setRow(row + "");
-
+		// record.setColumn(column + "");
 		if (message.length() > 254) {
 			message = message.substring(0, 254);
 		}
 		record.setMessage(message);
-
 		return record;
 	}
 
-	protected MappingRecord hasMappingRecord(int rowNum, int column, String s,
+	protected MappingRecord hasMappingRecord(String s,
 			List<MappingRecord> records) {
-
-		for (Iterator<MappingRecord> it = records.iterator(); it.hasNext();) {
-			MappingRecord next = it.next();
-			if (next.getColumn().trim().equals(new Integer(column).toString())
-					&& next.getMessage().equals(s)) {
+		for (MappingRecord mr : records) {
+			if (mr.getMessage().equals(s)) {
 				// This is the same Failure record.
-				return next;
+				return mr;
 			}
 		}
 		return null;
@@ -1163,9 +1320,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		private Map<ValueKindType, Integer> tsColumns = Maps.newHashMap();
 
 		/** The current Importer */
-		private AbstractMetricValuesImporter currentImporter;
+		private IMetricValueImporter currentImporter;
 
-		public TSProcessor(AbstractMetricValuesImporter currentImporter) {
+		public TSProcessor(IMetricValueImporter currentImporter) {
 			this.currentImporter = currentImporter;
 		}
 
@@ -1251,16 +1408,19 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 								"Processed timestamp mappings, resolving ");
 						DataActivator.TRACE.trace(
 								DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-								"DATETIME=" + dateTimeValue == null ? "Not Set"
-										: dateTimeValue);
+								"DATETIME="
+										+ (dateTimeValue == null ? "Not Set"
+												: dateTimeValue));
 						DataActivator.TRACE.trace(
 								DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-								"TIME=" + timeValue == null ? "Not Set"
-										: timeValue);
+								"TIME="
+										+ (timeValue == null ? "Not Set"
+												: timeValue));
 						DataActivator.TRACE.trace(
 								DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-								"DATE=" + dateValue == null ? "Not Set"
-										: dateValue);
+								"DATE="
+										+ (dateValue == null ? "Not Set"
+												: dateValue));
 					}
 
 					returnDate = processTSMapping(tsParser, value);
@@ -1336,20 +1496,23 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
 							"Processed timestamp mappings, resolving ");
 
-					DataActivator.TRACE
-							.trace(DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-									"DATETIME PATTERN=" + dateTimePattern == null ? "Not Set"
-											: dateTimePattern);
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
+							"DATETIME PATTERN="
+									+ (dateTimePattern == null ? "Not Set"
+											: dateTimePattern));
 
 					DataActivator.TRACE.trace(
 							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-							"TIME PATTERN=" + timePattern == null ? "Not Set"
-									: timePattern);
+							"TIME PATTERN="
+									+ (timePattern == null ? "Not Set"
+											: timePattern));
 
 					DataActivator.TRACE.trace(
 							DataActivator.TRACE_IMPORT_DETAILS_OPTION,
-							"DATE PATTERN=" + datePattern == null ? "Not Set"
-									: datePattern);
+							"DATE PATTERN="
+									+ (datePattern == null ? "Not Set"
+											: datePattern));
 				}
 
 				tsParser = getTSParser(datePattern, timePattern,
@@ -1425,75 +1588,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		return intervalHint;
 	}
 
-	/**
-	 * 
-	 * @param mappingColumns
-	 * @param row
-	 * @param reset
-	 * @return
-	 */
-	private List<IComponentLocator.IdentifierDescriptor> getIdentifierValues(
-			List<MappingColumn> mappingColumns, int row, boolean reset) {
-
-		final List<IComponentLocator.IdentifierDescriptor> result = Lists
-				.newArrayList();
-		if (!reset) {
-			result.addAll(headerIdentifiers);
-		}
-
-		for (final MappingColumn column : mappingColumns) {
-			if (column.getDataType() instanceof IdentifierDataKind) {
-
-				final IdentifierDataKind identifierDataKind = (IdentifierDataKind) column
-						.getDataType();
-				String dataValue = getStringCellValue(row, column.getColumn())
-						.trim();
-
-				// Apply the pattern to the value.
-
-				if (identifierDataKind
-						.eIsSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN)) {
-					String extractionPattern = identifierDataKind.getPattern();
-					// PATTERN: if extractionPattern != null then use it to
-					// extract the
-					// to-compare value
-					// from the componentValue or the dataValue, the dataValue
-					// is read from
-					// the excel
-					if (extractionPattern != null
-							&& extractionPattern.length() > 0) {
-						try {
-							Pattern pattern = Pattern
-									.compile(extractionPattern);
-							Matcher matcher = pattern.matcher(dataValue);
-							String extract = null;
-							if (matcher.find()) {
-								int gc = matcher.groupCount();
-								// Check for a single match, the pattern should
-								// extract a
-								// single value
-								// which is not the 0 group, but the first one.
-								if (gc == 1) {
-									extract = matcher.group(1);
-								}
-							}
-							if (extract != null) {
-								dataValue = extract;
-							}
-						} catch (PatternSyntaxException pse) {
-						}
-					}
-				}
-
-				final IComponentLocator.IdentifierDescriptor identifierValue = IComponentLocator.IdentifierDescriptor
-						.valueFor(identifierDataKind, dataValue,
-								column.getColumn());
-				result.add(identifierValue);
-			}
-		}
-		return result;
-	}
-
 	protected abstract String getStringCellValue(int row, int column);
 
 	protected abstract double getNumericCellValue(int row, int column);
@@ -1502,6 +1596,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		return metricSource.getMetricMapping();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#getMetricSource
+	 * ()
+	 */
 	public MetricSource getMetricSource() {
 		if (metricSource == null) {
 			metricSource = (MetricSource) getDataProvider().getTransaction()
@@ -1510,6 +1611,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		return metricSource;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#setMetricSource
+	 * (com.netxforge.netxstudio.metrics.MetricSource)
+	 */
 	public void setMetricSource(MetricSource metricSource) {
 		this.metricSource = metricSource;
 	}
@@ -1556,50 +1664,131 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#getWarnings()
+	 */
 	public List<ImportWarning> getWarnings() {
 		return warnings;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#setWarnings
+	 * (java.util.List)
+	 */
 	public void setWarnings(List<ImportWarning> warnings) {
 		this.warnings = warnings;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.data.importer.IMetricValueImporter#
+	 * getComponentLocator()
+	 */
 	public IComponentLocator getComponentLocator() {
 		return componentLocator;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.data.importer.IMetricValueImporter#
+	 * setComponentLocator
+	 * (com.netxforge.netxstudio.data.importer.IComponentLocator)
+	 */
 	public void setComponentLocator(IComponentLocator networkElementLocator) {
 		this.componentLocator = networkElementLocator;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#getFailedRecords
+	 * ()
+	 */
 	public List<MappingRecord> getFailedRecords() {
 		return failedRecords;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#setFailedRecords
+	 * (java.util.List)
+	 */
 	public void setFailedRecords(List<MappingRecord> failedRecords) {
 		this.failedRecords = failedRecords;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#getJobMonitor
+	 * ()
+	 */
 	public IRunMonitor getJobMonitor() {
 		return jobMonitor;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#setJobMonitor
+	 * (com.netxforge.netxstudio.data.job.IRunMonitor)
+	 */
 	public void setJobMonitor(IRunMonitor jobMonitor) {
 		this.jobMonitor = jobMonitor;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.data.importer.IMetricValueImporter#
+	 * setMetricSourceWithId(org.eclipse.emf.cdo.common.id.CDOID)
+	 */
 	public void setMetricSourceWithId(CDOID cdoID) {
 		this.cdoID = cdoID;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#getThrowable
+	 * ()
+	 */
 	public Throwable getThrowable() {
 		return throwable;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#setThrowable
+	 * (java.lang.Throwable)
+	 */
 	public void setThrowable(Throwable throwable) {
 		this.throwable = throwable;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#setDataProvider
+	 * (com.netxforge.netxstudio.data.IDataProvider)
+	 */
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;
 	}
@@ -1619,12 +1808,11 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 	}
 
-	public void addMetricValue(MappingColumn column, Date timeStamp,
-			Component networkElement, Double dblValue, int periodHint,
-			IComponentLocator.IdentifierDescriptor lastIdentifier) {
+	public void addMetricValue(ValueDataKind vdk, Date timeStamp,
+			Component networkElement, Double dblValue, int periodHint) {
 		if (helper != null) {
-			this.helper.addMetricValue(column, timeStamp, networkElement,
-					dblValue, periodHint, lastIdentifier);
+			this.helper.addMetricValue(vdk, timeStamp, networkElement,
+					dblValue, periodHint);
 		} else {
 			throw new java.lang.IllegalStateException(
 					"AbstractMetricValueImporter: Import helper should be set");
@@ -1635,16 +1823,22 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 	 * Delegate to the currently set helper.
 	 */
 	public void initializeProviders(IComponentLocator networkElementLocator) {
-		if (helper != null) {
-			helper.initializeProviders(networkElementLocator);
-		} else {
+		if (helper == null) {
 			throw new java.lang.IllegalStateException(
 					"AbstractMetricValueImporter: Import helper should be set");
 		}
+		// else {
+		// throw new java.lang.IllegalStateException(
+		// "AbstractMetricValueImporter: Import helper should be set");
+		// }
 	}
 
-	/**
-	 * Delegate to the currently set helper, if no local provider exists.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#getDataProvider
+	 * ()
 	 */
 	public IDataProvider getDataProvider() {
 
@@ -1659,8 +1853,11 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		return dataProvider;
 	}
 
-	/**
-	 * Delegate to the import helper.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#cancelled()
 	 */
 	public boolean cancelled() {
 		if (helper != null) {
@@ -1671,10 +1868,24 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#getActivator
+	 * ()
+	 */
 	public BundleActivator getActivator() {
 		return helper.getActivator();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#setActivator
+	 * (org.osgi.framework.BundleActivator)
+	 */
 	public void setActivator(BundleActivator p) {
 		helper.setActivator(p);
 	}

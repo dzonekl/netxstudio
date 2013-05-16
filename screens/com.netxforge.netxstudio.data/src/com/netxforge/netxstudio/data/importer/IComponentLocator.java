@@ -19,6 +19,8 @@ package com.netxforge.netxstudio.data.importer;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EClass;
@@ -33,6 +35,7 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
+import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 
 /**
@@ -60,6 +63,56 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 public interface IComponentLocator {
 
 	/**
+	 * Describes the metric
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	public static class MetricDescriptor {
+
+		/** The column in the data matrix holding the metric value **/
+		private int column;
+		
+		/** The metric object **/
+		private Metric metric;
+		
+		/** The value data kind **/
+		private ValueDataKind valueDataKind;
+
+		public MetricDescriptor(ValueDataKind valueDataKind, Metric metric,
+				int column) {
+			this.valueDataKind = valueDataKind;
+			this.column = column;
+			this.metric = metric;
+		}
+
+		public static MetricDescriptor valueFor(ValueDataKind valueDataKind,
+				Metric metricRef, int column) {
+
+			// The pattern is optional.
+			if (valueDataKind == null || column < 0) {
+				throw new IllegalArgumentException(
+						"can't create descriptor for kind=" + valueDataKind
+								+ " metric=" + metricRef + " col=" + column);
+			}
+			return new MetricDescriptor(valueDataKind, metricRef, column);
+		}
+		
+		
+		public int getColumn() {
+			return column;
+		}
+
+		public Metric getMetric() {
+			return metric;
+		}
+
+		public ValueDataKind getValueDataKind() {
+			return valueDataKind;
+		}
+
+	}
+
+	/**
 	 * Describes the actual value of an {@link IndentifierDataKind Mapping
 	 * Identifier}.
 	 * 
@@ -69,6 +122,10 @@ public interface IComponentLocator {
 
 		private IdentifierDataKind kind;
 
+		/** An optional pattern to be applied when processing a column value **/
+		private Pattern pattern;
+
+		/** The column in the data matrix holding the value **/
 		private int column;
 
 		/** The corresponding {@link EStructuralFeature feature} */
@@ -77,12 +134,11 @@ public interface IComponentLocator {
 		/** The property String */
 		private String objectProperty;
 
-		public String getObjectProperty() {
-			return objectProperty;
-		}
-
-		/** The property value */
-		private String value;
+		/**
+		 * The property value which is already processed if a pattern is
+		 * available.
+		 */
+		private String identifier;
 
 		private static final Map<String, EStructuralFeature> featuresForNode;
 		private static final Map<String, EStructuralFeature> featuresForFunction;
@@ -128,11 +184,12 @@ public interface IComponentLocator {
 			}
 		}
 
-		IdentifierDescriptor(IdentifierDataKind kind, String value, int column) {
-			this.kind = kind;
-			this.value = value;
-			this.column = column;
+		IdentifierDescriptor(IdentifierDataKind kind, Pattern pattern,
+				int column) {
 
+			this.column = column;
+			this.pattern = pattern;
+			this.kind = kind;
 			// Pre-create the feature, based on the identifier info.
 			ObjectKindType objectKind = kind.getObjectKind();
 
@@ -177,12 +234,51 @@ public interface IComponentLocator {
 			return featuresForRelationship;
 		}
 
+		public String getObjectProperty() {
+			return objectProperty;
+		}
+
 		public IdentifierDataKind getKind() {
 			return kind;
 		}
 
-		public String getValue() {
-			return value;
+		public Pattern getPattern() {
+			return pattern;
+		}
+
+		public void setIdentifier(String identifier) {
+
+			// Apply the regexp pattern if any specified.
+			if (pattern != null) {
+
+				Matcher matcher = pattern.matcher(identifier);
+				String extract = null;
+				if (matcher.find()) {
+					int gc = matcher.groupCount();
+					// Check for a single match, the pattern should
+					// extract a
+					// single value
+					// which is not the 0 group, but the first one.
+					if (gc == 1) {
+						extract = matcher.group(1);
+					}
+				}
+				if (extract != null) {
+					this.identifier = extract;
+				} else {
+					// There is no result with this pattern, the mapping will
+					// fail, we use this to
+					// skip a complete row.
+					// The value is set to null.
+					this.identifier = null;
+				}
+			} else {
+				this.identifier = identifier;
+			}
+		}
+
+		public String getIdentifier() {
+			return identifier;
 		}
 
 		public int getColumn() {
@@ -194,13 +290,15 @@ public interface IComponentLocator {
 		}
 
 		public static IdentifierDescriptor valueFor(IdentifierDataKind kind,
-				String value, int column) {
-			if (kind == null || value == null || column < 0) {
+				Pattern pattern, int column) {
+
+			// The pattern is optional.
+			if (kind == null || column < 0) {
 				throw new IllegalArgumentException(
-						"can't create descriptor for kind=" + kind + " value="
-								+ value + " col=" + column);
+						"can't create descriptor for kind=" + kind
+								+ " pattern=" + pattern + " col=" + column);
 			}
-			return new IdentifierDescriptor(kind, value, column);
+			return new IdentifierDescriptor(kind, pattern, column);
 		}
 
 		/**
@@ -226,7 +324,8 @@ public interface IComponentLocator {
 
 		@Override
 		public String toString() {
-			return "ID: prop: " + objectProperty + "= " + value + " col: " + column;
+			return "ID prop: " + objectProperty + "= " + identifier + " col: "
+					+ column;
 		}
 
 	}

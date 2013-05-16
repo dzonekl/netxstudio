@@ -47,12 +47,12 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 		setData(reader);
 
 		if (getTotalRows() < getMapping().getFirstDataRow()) {
-			getFailedRecords().add(
-					createMappingRecord(getMapping().getFirstDataRow(), -1,
-							"There is no data in the sheet, first data row is "
-									+ getMapping().getFirstDataRow()
-									+ " but the sheet has only "
-									+ getTotalRows() + " rows."));
+			getFailedRecords()
+					.add(createMappingRecord("There is no data in the sheet, first data row is "
+							+ getMapping().getFirstDataRow()
+							+ " but the sheet has only "
+							+ getTotalRows()
+							+ " rows."));
 			return 0;
 		}
 		reader.close();
@@ -116,8 +116,9 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 		if (value.trim().length() == 0) {
 			return null;
 		}
-		// CB, this rule should check the size is at least two chars. 
-		if (value.length() >= 2 && value.startsWith("\"") && value.endsWith("\"")) {
+		// CB, this rule should check the size is at least two chars.
+		if (value.length() >= 2 && value.startsWith("\"")
+				&& value.endsWith("\"")) {
 			return value.substring(1, value.length() - 1);
 		}
 		return value;

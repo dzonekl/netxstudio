@@ -78,6 +78,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -191,6 +192,7 @@ public class ModelUtils {
 
 	public static final String EXTENSION_PROCESS = ".process";
 	public static final String EXTENSION_DONE = ".done";
+	public static final String EXTENSION_ERROR = ".error";
 	public static final String EXTENSION_DONE_WITH_FAILURES = ".done_with_failures";
 
 	// Required to translate.
@@ -2759,10 +2761,10 @@ public class ModelUtils {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * return a collection of {@link MetricValueRange} for a given {@link NetXResource}
-	 * which has the given interval. Note; the
+	 * return a collection of {@link MetricValueRange} for a given
+	 * {@link NetXResource} which has the given interval. Note; the
 	 * {@link MetricsPackage.Literals.METRIC_VALUE_RANGE__KIND_HINT } is not
 	 * considered.
 	 * 
@@ -2780,7 +2782,6 @@ public class ModelUtils {
 		}
 		return matchingRanges;
 	}
-	
 
 	/**
 	 * Get a {@link MetricValueRange} for a {@link NetXResource} matching a kind
@@ -3135,6 +3136,30 @@ public class ModelUtils {
 
 	}
 
+	/**
+	 * Get a collection of {@link Metric} objects from a the mapping definitions
+	 * in a {@link MetricSource}
+	 * 
+	 * @param metricSource
+	 * @return
+	 */
+	public List<Metric> metricsInMetricSource(MetricSource metricSource) {
+		final List<Metric> metricsInMetricSource = Lists.newArrayList();
+		for (MappingColumn mc : metricSource.getMetricMapping()
+				.getDataMappingColumns()) {
+			if (mc.eIsSet(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE)
+					&& mc.getDataType() instanceof ValueDataKind) {
+				ValueDataKind dataType = (ValueDataKind) mc.getDataType();
+				if (dataType
+						.eIsSet(MetricsPackage.Literals.VALUE_DATA_KIND__METRIC_REF)) {
+					metricsInMetricSource.add(dataType.getMetricRef());
+				}
+
+			}
+		}
+		return metricsInMetricSource;
+	}
+
 	public MetricRetentionRule metricRuleGlobalForInterval(
 			List<MetricRetentionRule> rules, final int intervalHint) {
 
@@ -3288,37 +3313,37 @@ public class ModelUtils {
 		// @SuppressWarnings("unused")
 		// String unit = "";
 
-//		int granularity = 2;
+		// int granularity = 2;
 
 		// In minutes;
-		if (delta > ONE_BILLION * 60 ) {
+		if (delta > ONE_BILLION * 60) {
 			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta
 					/ (ONE_BILLION * 60))
 					+ ":");
-//			granularity--;
-		}else{
+			// granularity--;
+		} else {
 			sb.append("00:");
 		}
 		// In seconds
-		if (delta > ONE_BILLION ) {
+		if (delta > ONE_BILLION) {
 			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_BILLION)
 					+ "::");
-//			granularity--;
-		}else{
+			// granularity--;
+		} else {
 			sb.append("00::");
 		}
 		// In mili seconds
-		if (delta > ONE_MILLION ) {
+		if (delta > ONE_MILLION) {
 			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_MILLION)
 					+ ":::");
-//			granularity--;
-		}else{
+			// granularity--;
+		} else {
 			sb.append("000:::");
 		}
 		// even less
-		if (delta > ONE_THOUSAND ) {
+		if (delta > ONE_THOUSAND) {
 			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_THOUSAND));
-//			granularity--;
+			// granularity--;
 		}
 		sb.append(" (min:sec::ms:::psec)");
 		return sb.toString();
@@ -4607,7 +4632,7 @@ public class ModelUtils {
 	 * @return the {@link DateTimeRange period} or <code>null</code>, when the
 	 *         retention period is {@link MetricRetentionPeriod#ALWAYS}
 	 */
-	public DateTimeRange getDTRForRetentionRule(MetricRetentionRule rule,
+	public DateTimeRange periodForRetentionRule(MetricRetentionRule rule,
 			Date begin) {
 		DateTimeRange dtr = null;
 		dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
@@ -4760,7 +4785,7 @@ public class ModelUtils {
 			if (cal.get(calField) != endCal.get(calField)) {
 				if (weekTreatment) {
 					// :-( there is no method to get the last day of week.
-					cal.set(childField, getLastDayOfWeek(cal));
+					cal.set(childField, lastDayOfWeek(cal));
 
 				} else {
 					cal.set(childField, cal.getActualMaximum(childField));
@@ -4807,7 +4832,7 @@ public class ModelUtils {
 	 * @param cal
 	 * @return
 	 */
-	public int getLastDayOfWeek(Calendar cal) {
+	public int lastDayOfWeek(Calendar cal) {
 		final int firstDayOfWeek = cal.getFirstDayOfWeek();
 
 		final int lastDayOfWeek;
@@ -4990,23 +5015,7 @@ public class ModelUtils {
 					}
 
 				});
-
-		if (Iterables.size(filter) == 1) {
-			return filter;
-		} else {
-			// Narrow down further as we might have many entries, take all
-			// entries
-			// return the one which as the metric.
-			filter = Iterables.filter(filter, new Predicate<Component>() {
-
-				public boolean apply(Component c) {
-					return c.getMetricRefs().contains(metric);
-				}
-
-			});
-			return filter;
-		}
-
+		return filter;
 	}
 
 	/**

@@ -30,7 +30,7 @@ import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
-import com.netxforge.netxstudio.metrics.MappingColumn;
+import com.netxforge.netxstudio.metrics.ValueDataKind;
 
 /**
  * A Helper for the importer. Deals mainly with the dataprovider. Clients should
@@ -42,7 +42,8 @@ import com.netxforge.netxstudio.metrics.MappingColumn;
 public class DefaultImporterHelper implements IImporterHelper {
 
 	/* We need the importer to set the data provider */
-	private AbstractMetricValuesImporter importer;
+	@SuppressWarnings("unused")
+	private IMetricValueImporter importer;
 
 	public DefaultImporterHelper() {
 	}
@@ -63,7 +64,7 @@ public class DefaultImporterHelper implements IImporterHelper {
 		IDataProvider dataProvider = DataActivator.getInjector()
 				.getInstance(LocalDataProviderProvider.class).getDataProvider();
 		// Set in the importer so we are called only once.
-		importer.setDataProvider(dataProvider);
+//		importer.setDataProvider(dataProvider);
 		return dataProvider;
 	}
 
@@ -84,12 +85,6 @@ public class DefaultImporterHelper implements IImporterHelper {
 		// We don't write data in the default implementation....
 	}
 
-	public void addMetricValue(MappingColumn column, Date timeStamp,
-			Component networkElement, Double dblValue, int periodHint,
-			IComponentLocator.IdentifierDescriptor lastIdentifier) {
-		// We don't write data in the default implementation....
-	}
-
 	public boolean cancelled() {
 		return false;
 	}
@@ -99,5 +94,10 @@ public class DefaultImporterHelper implements IImporterHelper {
 	}
 
 	public void setActivator(BundleActivator p) {
+	}
+
+	public void addMetricValue(ValueDataKind vdk, Date timeStamp,
+			Component networkElement, Double dblValue, int periodHint) {
+		
 	}
 }

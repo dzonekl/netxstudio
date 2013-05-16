@@ -62,7 +62,7 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 
 	@Inject
 	private ModelUtils modelUtils;
-
+	
 	private IDataProvider dataProvider;
 
 	/** Our index */
@@ -131,7 +131,7 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 				if (DataActivator.DEBUG) {
 					DataActivator.TRACE.trace(
 							DataActivator.TRACE_COMPONENT_INDEX_OPTION,
-							"adding entry");
+							"adding entry:" + valueFor);
 				}
 				// Add to our value cache.
 				cachedIndex.add(valueFor);
@@ -189,6 +189,11 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 		// Tell we are done.
 		monitor.done();
 		indexing = false;
+		if (DataActivator.DEBUG) {
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_COMPONENT_INDEX_OPTION,
+					"done building component index for operators index size: " + cachedIndex.size());
+		}
 	}
 
 	/**
