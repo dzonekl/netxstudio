@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.metrics.ValueDataKind;
  */
 public interface IImporterHelper {
 
-	public abstract void addMetricValue(ValueDataKind vdk, Date timeStamp,
+	public abstract int addMetricValue(ValueDataKind vdk, Date timeStamp,
 			Component networkElement, Double dblValue, int periodHint);
 
 	/**

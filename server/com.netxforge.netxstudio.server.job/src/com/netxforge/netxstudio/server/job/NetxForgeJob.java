@@ -23,6 +23,8 @@ import java.util.List;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.util.CDOUtil;
+import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -102,7 +104,7 @@ public class NetxForgeJob implements org.quartz.Job {
 
 		// jobs are too close to eachother, going away
 		if (isRunning(job.cdoID())) {
-//			removeRunning(job.cdoID());
+			// removeRunning(job.cdoID());
 			return;
 		}
 		addRunning(job.cdoID());
@@ -141,7 +143,7 @@ public class NetxForgeJob implements org.quartz.Job {
 
 		final WorkFlowRun wfRun = jobImplementation.createWorkFlowRunInstance();
 
-		addAndTruncate(container.getWorkFlowRuns(), wfRun);
+		addAndTruncate(container, container.getWorkFlowRuns(), wfRun);
 		// container.getWorkFlowRuns().add(wfRun);
 
 		dataProvider.commitTransactionThenClose();
@@ -154,11 +156,12 @@ public class NetxForgeJob implements org.quartz.Job {
 	}
 
 	/**
+	 * @param container
 	 * @param resource
 	 * @param logEntry
 	 */
-	public void addAndTruncate(final EList<WorkFlowRun> contents,
-			WorkFlowRun wfRun) {
+	public void addAndTruncate(JobRunContainer container,
+			final EList<WorkFlowRun> contents, WorkFlowRun wfRun) {
 
 		// Lazy init maxStats var.
 		if (maxWorkFlowRunsInJobRunContainer == -1) {
@@ -212,6 +215,28 @@ public class NetxForgeJob implements org.quartz.Job {
 
 			List<WorkFlowRun> subList = Lists.newArrayList(contents.subList(0,
 					maxWorkFlowRunsInJobRunContainer));
+			
+			if(CDOUtil.isStaleObject(container)){
+				System.out.println();
+			}
+			
+			for (int i = 0; i < contents.size(); i++) {
+				try {
+					WorkFlowRun workFlowRun = contents.get(0);
+					if(CDOUtil.isStaleObject(workFlowRun)){
+						CDOUtil.cleanStaleReference(
+								container,
+								SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS,
+								i);
+					}
+				} catch (ObjectNotFoundException excteption) {
+					CDOUtil.cleanStaleReference(
+							container,
+							SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS,
+							i);
+				}
+			}
+
 			boolean retainAll = contents.retainAll(subList);
 
 			if (retainAll) {

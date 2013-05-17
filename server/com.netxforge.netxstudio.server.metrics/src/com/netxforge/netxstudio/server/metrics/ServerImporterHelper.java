@@ -121,11 +121,12 @@ public class ServerImporterHelper implements IImporterHelper {
 				kindHintType, newValues, start, end);
 	}
 
-	public void addMetricValue(ValueDataKind valueDataKind, Date timeStamp,
+	public int addMetricValue(ValueDataKind valueDataKind, Date timeStamp,
 			Component locatedComponent, Double dblValue, int intervalHint) {
 
 		Metric metric = valueDataKind.getMetricRef();
-
+		int createdNetXResource = 0; 
+				
 		if (DataActivator.DEBUG) {
 			DataActivator.TRACE.trace(
 					DataActivator.TRACE_IMPORT_HELPER_OPTION,
@@ -224,6 +225,8 @@ public class ServerImporterHelper implements IImporterHelper {
 			foundNetXResource.setUnitRef(metric.getUnitRef());
 			locatedComponent.getResourceRefs().add(foundNetXResource);
 			cdoResourceForNetXResource.getContents().add(foundNetXResource);
+			
+			createdNetXResource +=1;
 
 		}
 
@@ -249,7 +252,7 @@ public class ServerImporterHelper implements IImporterHelper {
 			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_HELPER_OPTION,
 					"-- value added ");
 		}
-
+		return createdNetXResource;
 	}
 
 	public boolean cancelled() {

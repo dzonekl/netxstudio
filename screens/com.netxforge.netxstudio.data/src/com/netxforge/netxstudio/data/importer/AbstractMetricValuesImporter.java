@@ -97,7 +97,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	@Inject
 	protected ModelUtils modelUtils;
 
+	/** A Global collection of mapping records, added to a statistic **/
 	private List<MappingRecord> failedRecords = new ArrayList<MappingRecord>();
+
+	private String importMessage;
 
 	private List<ImportWarning> warnings = new ArrayList<ImportWarning>();
 
@@ -488,7 +491,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 
 			List<MappingStatistic> subList = Lists.newArrayList(statistics
 					.subList(0, maxStats));
-			
+
 			boolean retainAll = statistics.retainAll(subList);
 
 			if (retainAll) {
@@ -549,7 +552,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 				return rows;
 			}
 		}
-
+		// Clear the run parameters.
+		this.setImportMessage("");
 		this.getFailedRecords().clear();
 		final int beforeFailedSize = getFailedRecords().size();
 
@@ -577,8 +581,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 
 		endTime = System.currentTimeMillis();
 
+		// http://work.netxforge.com/issues/357
+		// Add information about created resources to the message.
+		String createdResourcesCount = this.getImportMessage();
+
 		final MappingStatistic fileMappingStatistics = this
-				.createMappingStatistics(startTime, endTime, rows, fileName,
+				.createMappingStatistics(startTime, endTime, rows, fileName
+						+ " created resource: " + createdResourcesCount,
 						metricPeriodEstimate, intervalEstimate,
 						fileFailedRecords);
 
@@ -748,6 +757,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 
 		List<MetricDescriptor> metricDescriptors = prepareMetricDescriptors();
 
+		// Tracks the number of newly created NetXResource objects.
+		int createdNetXResourcesCount = 0;
+
 		for (int rowNum = getMapping().getFirstDataRow(); rowNum < rowsToProcess; rowNum++) {
 
 			jobMonitor.setMsg("Processing row " + rowNum);
@@ -869,7 +881,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 								"Storing value: " + value);
 					}
 
-					addMetricValue(md.getValueDataKind(), rowTimeStamp,
+					createdNetXResourcesCount += addMetricValue(
+							md.getValueDataKind(), rowTimeStamp,
 							locatedComponent, value, intervalHintFromRow);
 
 				}
@@ -890,6 +903,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 				}
 			}
 		}
+		this.setImportMessage(new Integer(createdNetXResourcesCount).toString());
 		return totalRows;
 	}
 
@@ -1809,10 +1823,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		}
 	}
 
-	public void addMetricValue(ValueDataKind vdk, Date timeStamp,
+	public int addMetricValue(ValueDataKind vdk, Date timeStamp,
 			Component networkElement, Double dblValue, int periodHint) {
 		if (helper != null) {
-			this.helper.addMetricValue(vdk, timeStamp, networkElement,
+			return this.helper.addMetricValue(vdk, timeStamp, networkElement,
 					dblValue, periodHint);
 		} else {
 			throw new java.lang.IllegalStateException(
@@ -1891,6 +1905,21 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	 */
 	public void setActivator(BundleActivator p) {
 		helper.setActivator(p);
+	}
+
+	/**
+	 * @return the importMessage
+	 */
+	public String getImportMessage() {
+		return importMessage;
+	}
+
+	/**
+	 * @param importMessage
+	 *            the importMessage to set
+	 */
+	public void setImportMessage(String importMessage) {
+		this.importMessage = importMessage;
 	}
 
 }

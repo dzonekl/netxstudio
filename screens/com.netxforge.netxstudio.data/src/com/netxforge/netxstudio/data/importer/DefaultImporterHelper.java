@@ -96,8 +96,8 @@ public class DefaultImporterHelper implements IImporterHelper {
 	public void setActivator(BundleActivator p) {
 	}
 
-	public void addMetricValue(ValueDataKind vdk, Date timeStamp,
+	public int addMetricValue(ValueDataKind vdk, Date timeStamp,
 			Component networkElement, Double dblValue, int periodHint) {
-
+		throw new UnsupportedOperationException();
 	}
 }
