@@ -154,7 +154,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	private DateChooserCombo dcInService;
 	private DateChooserCombo dcOutOfService;
 
-	private RFSServiceSummaryJob job;
+	private RFSServiceSummaryJob serviceSummaryJob;
 	private final RefreshSummaryJob refreshSummaryJob = new RefreshSummaryJob();
 
 	private Section sctnInfo;
@@ -175,8 +175,8 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		this.addDisposeListener(new DisposeListener() {
 
 			public void widgetDisposed(DisposeEvent e) {
-				if (job != null && job.isRunning()) {
-					job.cancel();
+				if (serviceSummaryJob != null) {
+					serviceSummaryJob.cancel();
 				}
 				refreshSummaryJob.cancel();
 			}
@@ -869,26 +869,22 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	 */
 	private void prepServiceSummary() {
 
-		if (job == null) {
-			job = new RFSServiceSummaryJob(modelUtils);
-			job.addNotifier(new JobChangeAdapter() {
+		if (serviceSummaryJob == null) {
+			serviceSummaryJob = new RFSServiceSummaryJob(modelUtils);
+			serviceSummaryJob.addNotifier(new JobChangeAdapter() {
 				@Override
 				public void done(IJobChangeEvent event) {
 
-					summary = job.getSummary();
+					summary = serviceSummaryJob.getSummary();
 					// Schedule a refresh.
 					refreshSummaryJob.schedule(100);
 				}
 			});
 		}
-		if (job.isRunning()) {
-			// This will abrupt the job but on demand, so we can't really start
-			// a new job here.
-			job.cancelMonitor();
-		}
+			serviceSummaryJob.cancel();
 
-		job.setRFSServiceToProcess(service);
-		job.go(); // Should spawn a job processing the xls.
+		serviceSummaryJob.setRFSServiceToProcess(service);
+		serviceSummaryJob.go(); // Should spawn a job processing the xls.
 
 	}
 

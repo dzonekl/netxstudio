@@ -243,12 +243,7 @@ public class ServiceSummaryComponent {
 				}
 			});
 		}
-		if (job.isRunning()) {
-			// This will abrupt the job but on demand, so we can't really start
-			// a new job here.
-			job.cancelMonitor();
-		}
-
+		job.cancel();
 		job.setRFSServiceToProcess(service);
 		job.go(); // Should spawn a job processing the xls.
 

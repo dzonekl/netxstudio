@@ -345,6 +345,7 @@ public class SmartResources extends AbstractScreen implements
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
+				cmpValues.clearData();
 				toolkit.dispose();
 			}
 		});

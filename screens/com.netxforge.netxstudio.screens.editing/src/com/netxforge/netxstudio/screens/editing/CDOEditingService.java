@@ -238,12 +238,11 @@ public class CDOEditingService extends EMFEditingService implements
 
 				if (EditingActivator.DEBUG) {
 					if (res.isModified()) {
-						System.out.println("unloading a modified resource!");
+						
 					}
 
 					if (!cdoRes.cdoView().isClosed()) {
-						System.out
-								.println("Unloaded resource, has an open view!");
+						cdoRes.cdoView().close();
 					}
 				}
 			}
