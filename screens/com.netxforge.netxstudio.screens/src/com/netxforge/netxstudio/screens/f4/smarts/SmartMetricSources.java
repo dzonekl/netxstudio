@@ -151,12 +151,20 @@ public class SmartMetricSources extends AbstractSmartTableScreen {
 		tblclmnLocationUrl.setWidth(300);
 		tblclmnLocationUrl.setText("Location URL");
 
-		TableViewerColumn tableViewerColumnLastUpdate = new TableViewerColumn(
+
+		TableViewerColumn tableViewerType = new TableViewerColumn(
 				viewer, SWT.NONE);
-		TableColumn tblclmnLocationLastUpdate = tableViewerColumnLastUpdate
-				.getColumn();
-		tblclmnLocationLastUpdate.setWidth(300);
-		tblclmnLocationLastUpdate.setText("Last update");
+		TableColumn tblclmnType = tableViewerType.getColumn();
+		tblclmnType.setWidth(60);
+		tblclmnType.setText("Mapping Type");
+
+		TableViewerColumn tableViewerFilterPattern = new TableViewerColumn(
+				viewer, SWT.NONE);
+		TableColumn tblclmnFilterPattern = tableViewerFilterPattern.getColumn();
+		tblclmnFilterPattern.setWidth(300);
+		tblclmnFilterPattern.setText("File pattern");
+		
+		
 	}
 
 	@Override

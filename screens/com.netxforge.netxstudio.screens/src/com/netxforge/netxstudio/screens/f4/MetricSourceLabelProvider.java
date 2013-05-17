@@ -22,7 +22,12 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
 
+import com.netxforge.netxstudio.metrics.Mapping;
+import com.netxforge.netxstudio.metrics.MappingCSV;
+import com.netxforge.netxstudio.metrics.MappingRDBMS;
+import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 public class MetricSourceLabelProvider extends CellLabelProvider implements
 		ITableLabelProvider {
@@ -40,14 +45,30 @@ public class MetricSourceLabelProvider extends CellLabelProvider implements
 				return ms.getMetricLocation();
 			}
 			case 2: {
-
-				// long ts = modelUtils.mostRecentContainedDated(ms);
-				// if (ts == 0) {
-				// return "<unknown>";
-				// }
-				// Date d = new Date(ts);
-				// return modelUtils.date(d) + " @ " + modelUtils.time(d);
-				return "";
+				if (ms.eIsSet(MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING)) {
+					Mapping metricMapping = ms.getMetricMapping();
+					if (metricMapping instanceof MappingCSV) {
+						return "CSV";
+					} else if (metricMapping instanceof MappingXLS) {
+						return "XLS";
+					}
+					if (metricMapping instanceof MappingRDBMS) {
+						return "RDBMS";
+					}
+				}
+			}
+			case 3: {
+				if (ms.eIsSet(MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING)) {
+					Mapping metricMapping = ms.getMetricMapping();
+					if (metricMapping instanceof MappingCSV) {
+						return ms.getFilterPattern();
+					} else if (metricMapping instanceof MappingXLS) {
+						return ms.getFilterPattern();
+					}
+					if (metricMapping instanceof MappingRDBMS) {
+						return ((MappingRDBMS) metricMapping).getQuery();
+					}
+				}
 			}
 
 			}

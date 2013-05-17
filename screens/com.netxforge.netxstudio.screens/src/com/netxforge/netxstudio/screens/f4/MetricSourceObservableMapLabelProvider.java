@@ -14,50 +14,69 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f4;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 
+import com.netxforge.netxstudio.metrics.Mapping;
+import com.netxforge.netxstudio.metrics.MappingCSV;
+import com.netxforge.netxstudio.metrics.MappingXLS;
+import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 public class MetricSourceObservableMapLabelProvider extends
-			ObservableMapLabelProvider {
+		ObservableMapLabelProvider {
 
-		public MetricSourceObservableMapLabelProvider(
-				IObservableMap[] attributeMaps) {
-			super(attributeMaps);
-		}
-
-		@Override
-		public String getColumnText(Object element, int columnIndex) {
-
-			if (element instanceof MetricSource) {
-
-				MetricSource ms = (MetricSource) element;
-				switch (columnIndex) {
-				case 0: {
-					return ms.getName();
-				}
-				case 1: {
-					return ms.getMetricLocation();
-				}
-				case 2: {
-
-//					long ts = modelUtils.mostRecentContainedDated(ms);
-//					if (ts == 0) {
-//						return "<unknown>";
-//					}
-//					Date d = new Date(ts);
-//					return modelUtils.date(d) + " @ " + modelUtils.time(d);
-					return "";
-				}
-
-				}
-
-			}
-			return super.getColumnText(element, columnIndex);
-		}
-
+	public MetricSourceObservableMapLabelProvider(IObservableMap[] attributeMaps) {
+		super(attributeMaps);
 	}
+
+	@Override
+	public String getColumnText(Object element, int columnIndex) {
+
+		if (element instanceof MetricSource) {
+
+			MetricSource ms = (MetricSource) element;
+			switch (columnIndex) {
+			case 0: {
+				return ms.getName();
+			}
+			case 1: {
+				return ms.getMetricLocation();
+			}
+			case 2: {
+				if (ms.eIsSet(MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING)) {
+					Mapping metricMapping = ms.getMetricMapping();
+					if (metricMapping instanceof MappingCSV) {
+						return "CSV";
+					} else if (metricMapping instanceof MappingXLS) {
+						return "XLS";
+					}
+					if (metricMapping instanceof MappingRDBMS) {
+						return "RDBMS";
+					}
+				}
+			}
+			case 3: {
+				if (ms.eIsSet(MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING)) {
+					Mapping metricMapping = ms.getMetricMapping();
+					if (metricMapping instanceof MappingCSV) {
+						return ((MappingCSV) metricMapping).getFilterPattern();
+					} else if (metricMapping instanceof MappingXLS) {
+						return ((MappingXLS) metricMapping).getFilterPattern();
+					}
+					if (metricMapping instanceof MappingRDBMS) {
+						return ((MappingRDBMS) metricMapping).getQuery();
+					}
+				}
+			}
+			}
+
+		}
+		return super.getColumnText(element, columnIndex);
+	}
+
+}
