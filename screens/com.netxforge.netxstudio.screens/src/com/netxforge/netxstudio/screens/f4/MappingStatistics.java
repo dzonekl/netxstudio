@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.screens.f4;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -100,6 +101,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.data.importer.IMetricValueImporter;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Value;
@@ -115,6 +117,11 @@ import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.actions.clipboard.ClipboardService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 
+/**
+ * A screen presenting {@link MetricSource} mapping statistics 
+ *  
+ * @author Christophe Bouhier
+ */
 public class MappingStatistics extends AbstractScreen implements
 		IDataScreenInjection {
 
@@ -381,17 +388,6 @@ public class MappingStatistics extends AbstractScreen implements
 		gd_txtMessage.heightHint = 93;
 		txtMessage.setLayoutData(gd_txtMessage);
 
-		Label lblTotalRecordsProcessed = toolkit.createLabel(composite,
-				"Total rows processed: ", SWT.NONE);
-		lblTotalRecordsProcessed.setLayoutData(new GridData(SWT.RIGHT,
-				SWT.CENTER, false, false, 1, 1));
-
-		txtTotalRecords = toolkit.createText(composite, "New Text",
-				SWT.READ_ONLY);
-		txtTotalRecords.setText("");
-		txtTotalRecords.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true,
-				false, 1, 1));
-
 		Label lblStartDatetime = toolkit.createLabel(composite,
 				"Start Date/Time:", SWT.NONE);
 		lblStartDatetime.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
@@ -414,6 +410,17 @@ public class MappingStatistics extends AbstractScreen implements
 		txtEndDateTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
 
+		Label lblTotalRecordsProcessed = toolkit.createLabel(composite,
+				"Total rows processed: ", SWT.NONE);
+		lblTotalRecordsProcessed.setLayoutData(new GridData(SWT.RIGHT,
+				SWT.CENTER, false, false, 1, 1));
+
+		txtTotalRecords = toolkit.createText(composite, "New Text",
+				SWT.READ_ONLY);
+		txtTotalRecords.setText("");
+		txtTotalRecords.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
+		
 		Label lblTotalExpectedValues = toolkit.createLabel(composite,
 				"Total values:", SWT.NONE);
 
@@ -805,36 +812,14 @@ public class MappingStatistics extends AbstractScreen implements
 
 	class RecordsObservableMapLabelProvider extends CellLabelProvider {
 
-		public String getToolTipText(Object element) {
-
-			if (element instanceof MappingRecord) {
-				MappingRecord mr = (MappingRecord) element;
-
-				StringBuilder sb = new StringBuilder();
-				sb.append("<html><body>");
-				sb.append("<table>");
-				new MappingRecordErrorProcessor(){
-					@Override
-					protected void processLines(StringBuilder sb, String[] splits) {
-						sb.append("<tr>");
-						for (String s : splits) {
-							sb.append("<td>" + s + "</td>");
-						}
-						sb.append("</tr>");
-					}
-					
-				}.spiltMappingRecordMsg(mr, sb);
-				sb.append("</table>");
-				sb.append("</body></html>");
-
-				return sb.toString();
-			} else {
-				return null;
-			}
-
-		}
-
 		public abstract class MappingRecordErrorProcessor {
+
+			String errorDescription;
+
+			public String lookupError(String code) {
+				Integer codeAsInt = new Integer(code);
+				return IMetricValueImporter.IMPORT_ERROR_TEXT[codeAsInt];
+			}
 
 			/**
 			 * @param mr
@@ -846,17 +831,77 @@ public class MappingStatistics extends AbstractScreen implements
 				BufferedReader bufferedReader = new BufferedReader(stringReader);
 				try {
 					String line;
+					boolean firstLine = true;
 					while ((line = bufferedReader.readLine()) != null) {
 						String[] split = line.split(":");
-						processLines(sb, split);
+						if (firstLine) {
+							// This should be the error code.
+							String string = split[0];
+							errorDescription = lookupError(string);
+							String[] reducedWithoutError = Arrays.copyOfRange(
+									split, 1, split.length - 1);
+
+							processErrorDescription(sb, errorDescription);
+							processLines(sb, reducedWithoutError);
+
+							firstLine = false;
+						} else {
+							processLines(sb, split);
+						}
+
 					}
 				} catch (IOException e) {
 				}
 				return sb.toString();
-				
+
 			}
-			
-			protected abstract void processLines(StringBuilder sb, String[] splits);
+
+			protected abstract void processErrorDescription(StringBuilder sb,
+					String errorDescription);
+
+			protected abstract void processLines(StringBuilder sb,
+					String[] splits);
+
+			public String getErrorDescription() {
+				return errorDescription;
+			}
+		}
+
+		public String getToolTipText(Object element) {
+
+			if (element instanceof MappingRecord) {
+				MappingRecord mr = (MappingRecord) element;
+
+				StringBuilder sb = new StringBuilder();
+				sb.append("<html><body>");
+				sb.append("<table>");
+				new MappingRecordErrorProcessor() {
+					@Override
+					protected void processErrorDescription(StringBuilder sb,
+							String errorDescription) {
+						sb.append("<tr>" + errorDescription + "</tr>");
+					}
+
+					@Override
+					protected void processLines(StringBuilder sb,
+							String[] splits) {
+						sb.append("<tr>");
+						for (int i = 0; i < splits.length; i++) {
+							String s = splits[i];
+							sb.append("<td>" + s + "</td>");
+						}
+						sb.append("</tr>");
+					}
+
+				}.spiltMappingRecordMsg(mr, sb);
+				sb.append("</table>");
+				sb.append("</body></html>");
+
+				return sb.toString();
+			} else {
+				return null;
+			}
+
 		}
 
 		public Point getToolTipShift(Object object) {
@@ -899,16 +944,23 @@ public class MappingStatistics extends AbstractScreen implements
 					break;
 				case 2: {
 					StringBuilder sb = new StringBuilder();
-					new MappingRecordErrorProcessor(){
+					new MappingRecordErrorProcessor() {
 						@Override
-						protected void processLines(StringBuilder sb, String[] splits) {
+						protected void processErrorDescription(
+								StringBuilder sb, String errorDescription) {
+							sb.append(errorDescription + " ");
+						}
+
+						@Override
+						protected void processLines(StringBuilder sb,
+								String[] splits) {
 							for (String s : splits) {
 								sb.append(s + " - ");
 							}
 						}
-						
+
 					}.spiltMappingRecordMsg(mr, sb);
-					
+
 					cell.setText(sb.toString());
 				}
 					break;

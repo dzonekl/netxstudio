@@ -5015,6 +5015,24 @@ public class ModelUtils {
 					}
 
 				});
+
+		// We still have many results, look for a component in the leaft.
+		if (Iterables.size(filter) > 1) {
+			{
+				Iterable<Component> narrowFilter = Iterables.filter(unfiltered,
+						new Predicate<Component>() {
+
+							public boolean apply(Component c) {
+								return c.getMetricRefs().contains(metric);
+							}
+						});
+				int resultSize = Iterables.size(narrowFilter);
+				if (resultSize == 1) {
+					return narrowFilter;
+				}
+			}
+		}
+
 		return filter;
 	}
 

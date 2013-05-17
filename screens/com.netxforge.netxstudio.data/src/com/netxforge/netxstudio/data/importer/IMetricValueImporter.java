@@ -22,14 +22,17 @@ public interface IMetricValueImporter {
 	public static final String ROOT_SYSTEM_PROPERTY = "metricSourceRoot";
 	public static final boolean RENAME_FILE_AT_PROCESS = true;
 	public static final String NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY = "netxstudio.max.mapping.stats.quantity";
-	
+
+	public static String[] IMPORT_ERROR_TEXT = new String[] {
+			"No components matched the specified mapping definition",
+			"Multiple components matched the specified mapping definition",
+			"There was a component match, but the specified metric was not found",
+			"A General program exception occured" };
+
 	public static enum IMPORT_ERROR {
-		ComponentNotMatched,
-		ComponentMatchDuplicates,
-		MetricNotFound, 
-		GeneralError
+		ComponentNotMatched, ComponentMatchDuplicates, MetricNotFound, GeneralError
 	};
-	
+
 	// How
 	// many
 	// stats
@@ -45,7 +48,5 @@ public interface IMetricValueImporter {
 																					// keep.
 
 	public abstract void process();
-	
-	
-	
+
 }
