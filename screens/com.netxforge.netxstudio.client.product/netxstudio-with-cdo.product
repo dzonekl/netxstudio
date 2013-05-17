@@ -55,23 +55,10 @@
       <feature id="com.netxforge.netxstudio.models.import.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.import.ui.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.emf.cdo.client.ui.artifacts.feature" version="1.0.0.qualifier"/>
-<<<<<<< HEAD
-      <feature id="de.bacin.geoff.artifacts.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
       <plugin id="com.netxforge.netxstudio.client.product" autoStart="true" startLevel="1" />
-      <plugin id="de.bacin.geoff" autoStart="true" startLevel="0" />
-      <plugin id="de.bacin.geoff.geocoding" autoStart="true" startLevel="0" />
-      <plugin id="de.bacin.geoff.geocoding.nominatim" autoStart="true" startLevel="0" />
-      <plugin id="de.bacin.geoff.model.codegen" autoStart="true" startLevel="0" />
-      <plugin id="de.bacin.geoff.ui" autoStart="true" startLevel="0" />
-=======
-   </features>
-
-   <configurations>
-      <plugin id="com.netxforge.netxstudio.client.product" autoStart="true" startLevel="0" />
->>>>>>> f6ff86f7b1391ef320f823b0d3f377396d2c3ed9
    </configurations>
 
 </product>
