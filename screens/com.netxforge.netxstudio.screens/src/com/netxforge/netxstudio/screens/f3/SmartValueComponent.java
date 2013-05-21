@@ -60,9 +60,13 @@ import org.eclipse.wb.swt.TableViewerColumnSorter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -87,8 +91,6 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  * Holds all needed to build a component showing NetXResource values. The data
  * is pre-processed using a background job, which populates a source list.
  * 
- * 
- * 
  * @author Christophe Bouhier
  * 
  */
@@ -96,6 +98,9 @@ public class SmartValueComponent {
 
 	private ModelUtils modelUtils;
 	private TableHelper tableHelper;
+	
+	@Inject
+	private CDOQueryService queryService;
 	
 	@Inject
 	public SmartValueComponent(ModelUtils modelUtils, TableHelper tableHelper) {
@@ -526,6 +531,7 @@ public class SmartValueComponent {
 		if (this.baseResource instanceof NetXResource) {
 
 			NetXResource res = (NetXResource) this.baseResource;
+
 			// determine the size of the array.
 			int arraySize = 0;
 			Object[] rangeArray;
@@ -540,33 +546,37 @@ public class SmartValueComponent {
 
 			int rangeIndex = 0;
 
-			List<MetricValueRange> mvrList = Lists.newArrayList(res
-					.getMetricValueRanges());
-
-			Collections.sort(mvrList, modelUtils.mvrCompare());
-
-			// Size analysis.
-
+			List<MetricValueRange> sortedCopy = Ordering.from(modelUtils.mvrCompare()).sortedCopy(res.getMetricValueRanges());
+			
+			Map<MetricValueRange,List<Value>> valueMap = Maps.newHashMap();
+			
+			DateTimeRange period = modelUtils.period(from, to);
+			
 			int totalWork = 0;
 			int metricWork = 0;
-
-			for (MetricValueRange mvr : mvrList) {
-				totalWork += mvr.getMetricValues().size();
+			
+			for(MetricValueRange mvr : sortedCopy){
+				List<Value> values = queryService.mvrValues(baseResource.cdoView(),
+						mvr, IQueryService.QUERY_MYSQL, period);
+				if(!values.isEmpty()){
+					totalWork += values.size();
+					valueMap.put(mvr, values);
+				}
 			}
+
 			metricWork = totalWork;
+			
 			totalWork += res.getCapacityValues().size();
 			totalWork += res.getUtilizationValues().size();
 
 			SubMonitor convert = SubMonitor.convert(monitor, totalWork);
-			for (MetricValueRange mvr : mvrList) {
+			for (MetricValueRange mvr : valueMap.keySet()) {
 				
-				// TODO, Get the limited set based on the period filter, 
-				// this avoid
 				
 				
 				List<Double> doubles = modelUtils.merge(" Metrics: "
 						+ modelUtils.fromMinutes(mvr.getIntervalHint()),
-						existingDates, mvr.getMetricValues(),
+						existingDates, valueMap.get(mvr),
 						convert.newChild(metricWork));
 
 				// Check for interruption, and bail if so.
