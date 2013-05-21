@@ -168,12 +168,14 @@ public class AddonHandler {
 					.matchAddOnMetric(metric);
 			// return matchAddOnMetric.getMetricRetentionRuleSet()
 			// .getMetricRetentionRules();
-
-			List<com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRule> sortedCopy = Ordering
-					.from(new MetricRetentionRuleComparator()).sortedCopy(
-							matchAddOnMetric.getMetricRetentionRuleSet()
-									.getMetricRetentionRules());
-			return sortedCopy;
+			if (matchAddOnMetric
+					.eIsSet(com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage.Literals.ADDON__METRIC_RETENTION_RULE_SETS)) {
+				List<com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRule> sortedCopy = Ordering
+						.from(new MetricRetentionRuleComparator()).sortedCopy(
+								matchAddOnMetric.getMetricRetentionRuleSet()
+										.getMetricRetentionRules());
+				return sortedCopy;
+			}
 		} catch (NoSuchElementException nsee) {
 			// if (LogicActivator.DEBUG) {
 			// LogicActivator.TRACE.trace(
@@ -202,13 +204,17 @@ public class AddonHandler {
 			com.netxforge.netxstudio.delta16042013.metrics.MetricSource matchAddOnMetricSource = this
 					.matchAddOnMetricSource(ms);
 
-			List<com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRule> sortedCopy = Ordering
-					.from(new MetricRetentionRuleComparator()).sortedCopy(
-							matchAddOnMetricSource.getMetricRetentionRuleSet()
-									.getMetricRetentionRules());
+			if (matchAddOnMetricSource
+					.eIsSet(com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage.Literals.METRIC_SOURCE__METRIC_RETENTION_RULE_SET)) {
 
-			return sortedCopy;
+				List<com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRule> sortedCopy = Ordering
+						.from(new MetricRetentionRuleComparator()).sortedCopy(
+								matchAddOnMetricSource
+										.getMetricRetentionRuleSet()
+										.getMetricRetentionRules());
 
+				return sortedCopy;
+			}
 		} catch (NoSuchElementException nsee) {
 			// if (LogicActivator.DEBUG) {
 			// LogicActivator.TRACE.trace(
@@ -227,14 +233,18 @@ public class AddonHandler {
 		try {
 			com.netxforge.netxstudio.delta16042013.metrics.Metric addOnMetric = matchAddOnMetric(metric);
 
-			List<com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule> sortedCopy = Ordering
-					.from(new MetricAggregationRuleComparator()).sortedCopy(
-							addOnMetric.getMetricAggregationRuleSet()
-									.getMetricAggregationRules());
+			if (addOnMetric
+					.eIsSet(com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage.Literals.ADDON__METRIC_AGGREGATION_RULE_SETS)) {
 
-			// return addOnMetric.getMetricAggregationRuleSet()
-			// .getMetricAggregationRules();
-			return sortedCopy;
+				List<com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule> sortedCopy = Ordering
+						.from(new MetricAggregationRuleComparator())
+						.sortedCopy(
+								addOnMetric.getMetricAggregationRuleSet()
+										.getMetricAggregationRules());
+				// return addOnMetric.getMetricAggregationRuleSet()
+				// .getMetricAggregationRules();
+				return sortedCopy;
+			}
 		} catch (NoSuchElementException nsee) {
 			// if (LogicActivator.DEBUG) {
 			// LogicActivator.TRACE.trace(
@@ -262,14 +272,17 @@ public class AddonHandler {
 						"Found a matching addon Metric Source for "
 								+ ms.getName());
 			}
+			if (matchAddOnMetricSource
+					.eIsSet(com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage.Literals.METRIC_SOURCE__METRIC_AGGREGATION_RULE_SET)) {
+				List<com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule> sortedCopy = Ordering
+						.from(new MetricAggregationRuleComparator())
+						.sortedCopy(
+								matchAddOnMetricSource
+										.getMetricAggregationRuleSet()
+										.getMetricAggregationRules());
 
-			List<com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule> sortedCopy = Ordering
-					.from(new MetricAggregationRuleComparator()).sortedCopy(
-							matchAddOnMetricSource
-									.getMetricAggregationRuleSet()
-									.getMetricAggregationRules());
-
-			return sortedCopy;
+				return sortedCopy;
+			}
 		} catch (NoSuchElementException nsee) {
 			// if (LogicActivator.DEBUG) {
 			// LogicActivator.TRACE.trace(
