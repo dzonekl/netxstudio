@@ -35,7 +35,7 @@ import com.netxforge.netxstudio.screens.f3.ValueRangeSelectionComponent;
 /**
  * Shows a value range selection component.
  * 
- * @author Christophe
+ * @author Christophe Bouhier
  */
 public class AdjustRangeDialog extends TitleAreaDialog {
 
