@@ -1,8 +1,26 @@
+/*******************************************************************************
+ * Copyright (c) 17 mei 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.list.IObservableList;
@@ -11,20 +29,27 @@ import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
+import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -110,6 +135,8 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 	private Section sctnHeaderMapping;
 	private Button btnEnableHeaderMapping;
 	private Text txtFilePattern;
+	private Button dataMappingUpButton;
+	private Button dataMappingDownButton;
 
 	/**
 	 * Create the composite.
@@ -199,14 +226,17 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 		toolkit.paintBordersFor(generalComposite);
 		sctnGeneral.setClient(generalComposite);
 		generalComposite.setLayout(new GridLayout(2, false));
-		
-		Label lblFilePattern = toolkit.createLabel(generalComposite, "File Pattern:", SWT.NONE);
-		lblFilePattern.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		
-		txtFilePattern = toolkit.createText(generalComposite, "New Text", SWT.NONE);
-		txtFilePattern.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
-		
+		Label lblFilePattern = toolkit.createLabel(generalComposite,
+				"File Pattern:", SWT.NONE);
+		lblFilePattern.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+
+		txtFilePattern = toolkit.createText(generalComposite, "New Text",
+				SWT.NONE);
+		txtFilePattern.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
+
 		Label lblIntervalHint = toolkit.createLabel(generalComposite,
 				"Interval (min):", SWT.NONE);
 		GridData gd_lblIntervalHint = new GridData(SWT.RIGHT, SWT.CENTER,
@@ -415,34 +445,36 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 	}
 
 	protected void buildDataMappingSection(Composite composite) {
+
 		Section sctnMappingColumns = toolkit.createSection(composite,
 				Section.TITLE_BAR);
 		toolkit.paintBordersFor(sctnMappingColumns);
 		sctnMappingColumns.setText("Data Mapping");
 
-		Composite composite_3 = toolkit.createComposite(sctnMappingColumns,
+		Composite parentComposite = toolkit.createComposite(sctnMappingColumns,
 				SWT.NONE);
-		toolkit.paintBordersFor(composite_3);
-		sctnMappingColumns.setClient(composite_3);
-		composite_3.setLayout(new GridLayout(2, false));
+		toolkit.paintBordersFor(parentComposite);
+		sctnMappingColumns.setClient(parentComposite);
+		parentComposite.setLayout(new GridLayout(2, false));
 
-		Label lblstDataRow = toolkit.createLabel(composite_3, "Data row:",
+		Label lblstDataRow = toolkit.createLabel(parentComposite, "Data row:",
 				SWT.RIGHT);
 		GridData gd_lblstDataRow = new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblstDataRow.widthHint = 80;
 		lblstDataRow.setLayoutData(gd_lblstDataRow);
 
-		txtFirstDataRow = toolkit.createText(composite_3, "New Text", SWT.NONE);
+		txtFirstDataRow = toolkit.createText(parentComposite, "New Text",
+				SWT.NONE);
 		GridData gd_txtFirstDataRow = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_txtFirstDataRow.widthHint = 20;
 		txtFirstDataRow.setLayoutData(gd_txtFirstDataRow);
 		txtFirstDataRow.setText("");
-		new Label(composite_3, SWT.NONE);
+		new Label(parentComposite, SWT.NONE);
 
-		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(composite_3,
-				SWT.NONE);
+		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
+				parentComposite, SWT.NONE);
 		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				newColumnMappingScreenDialog(true, ScreenUtil.OPERATION_NEW,
@@ -461,8 +493,10 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 		toolkit.paintBordersFor(mghprlnkNew);
 		mghprlnkNew.setText("New");
 
-		tblViewerDataColumnMapping = new TableViewer(composite_3, SWT.BORDER
-				| SWT.FULL_SELECTION);
+		// The table viewer.
+
+		tblViewerDataColumnMapping = new TableViewer(parentComposite,
+				SWT.BORDER | SWT.FULL_SELECTION);
 		tblDataColumnMapping = tblViewerDataColumnMapping.getTable();
 		tblDataColumnMapping.setLinesVisible(true);
 		tblDataColumnMapping.addSelectionListener(new SelectionAdapter() {
@@ -479,8 +513,8 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 			}
 		});
 
-		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 2);
-		gd_table.heightHint = 137;
+		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2);
+		// gd_table.heightHint = 137;
 		tblDataColumnMapping.setLayoutData(gd_table);
 		tblDataColumnMapping.setHeaderVisible(true);
 		toolkit.paintBordersFor(tblDataColumnMapping);
@@ -508,6 +542,169 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 		TableColumn tblclmnValue = tblViewerColumnValue.getColumn();
 		tblclmnValue.setWidth(120);
 		tblclmnValue.setText("Value");
+
+		// The up down buttons.
+
+		Composite buttonColumn = toolkit.createComposite(parentComposite,
+				SWT.None);
+		GridLayout buttonLayout = new GridLayout();
+		buttonLayout.numColumns = 1;
+
+		// buttonLayout.marginLeft = 0;
+		// buttonLayout.marginRight = 0;
+		buttonLayout.marginTop = 20;
+		buttonLayout.marginWidth = 0;
+
+		buttonColumn.setLayout(buttonLayout);
+
+		GridData buttonColumnLayoutData = new GridData(SWT.FILL, SWT.FILL,
+				false, true, 1, 2);
+		// buttonColumnLayoutData.widthHint = 30;
+		buttonColumn.setLayoutData(buttonColumnLayoutData);
+		{
+			dataMappingUpButton = toolkit.createButton(buttonColumn, "Up",
+					SWT.PUSH);
+			GridData buttonLayoutData = new GridData(SWT.FILL, SWT.FILL, true,
+					false, 1, 1);
+			dataMappingUpButton.setLayoutData(buttonLayoutData);
+
+		}
+		{
+			dataMappingDownButton = toolkit.createButton(buttonColumn, "Down",
+					SWT.PUSH);
+			GridData buttonLayoutData = new GridData(SWT.FILL, SWT.FILL, true,
+					false, 1, 1);
+			dataMappingDownButton.setLayoutData(buttonLayoutData);
+		}
+
+		// Up down buttons
+
+		dataMappingUpButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection selection = tblViewerDataColumnMapping
+						.getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object object = ((IStructuredSelection) selection)
+							.getFirstElement();
+					if (object instanceof MappingColumn) {
+						MappingColumn mappingColumn = (MappingColumn) object;
+
+						@SuppressWarnings("unchecked")
+						List<MappingColumn> dataMappingColumns = (List<MappingColumn>) mappingColumn
+								.eContainer()
+								.eGet(MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS);
+
+						int indexOf = dataMappingColumns.indexOf(mappingColumn);
+
+						 RemoveCommand rc = new RemoveCommand(editingService
+						 .getEditingDomain(), mapping
+						 .getDataMappingColumns(), mappingColumn);
+						
+						 AddCommand ac = new AddCommand(editingService
+						 .getEditingDomain(), mapping
+						 .getDataMappingColumns(), mappingColumn,
+						 indexOf - 1);
+						
+						 CompoundCommand cc = new CompoundCommand();
+						 cc.append(rc);
+						 cc.append(ac);
+
+						 editingService.getEditingDomain().getCommandStack()
+						 .execute(cc);
+
+						 // Set the selection to the moved object. 
+						 
+						 tblViewerDataColumnMapping.setSelection(new StructuredSelection(mappingColumn));
+						 
+						// Command moveUp = new
+						// MoveCommand(editingService.getEditingDomain(),
+						// mapping.getDataMappingColumns(),indexOf, indexOf-1);
+						//
+						// Command moveUp = MoveCommand.create(
+						// editingService.getEditingDomain(),
+						// mapping,
+						// MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS,
+						// mappingColumn, indexOf - 1);
+						//
+						// editingService.getEditingDomain().getCommandStack()
+						// .execute(moveUp);
+
+
+					}
+
+				}
+
+			}
+
+		});
+
+		
+		dataMappingDownButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection selection = tblViewerDataColumnMapping
+						.getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object object = ((IStructuredSelection) selection)
+							.getFirstElement();
+					if (object instanceof MappingColumn) {
+						MappingColumn mappingColumn = (MappingColumn) object;
+
+						@SuppressWarnings("unchecked")
+						List<MappingColumn> dataMappingColumns = (List<MappingColumn>) mappingColumn
+								.eContainer()
+								.eGet(MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS);
+
+						int indexOf = dataMappingColumns.indexOf(mappingColumn);
+
+						 RemoveCommand rc = new RemoveCommand(editingService
+						 .getEditingDomain(), mapping
+						 .getDataMappingColumns(), mappingColumn);
+						
+						 AddCommand ac = new AddCommand(editingService
+						 .getEditingDomain(), mapping
+						 .getDataMappingColumns(), mappingColumn,
+						 indexOf + 1);
+						
+						 CompoundCommand cc = new CompoundCommand();
+						 cc.append(rc);
+						 cc.append(ac);
+
+						 editingService.getEditingDomain().getCommandStack()
+						 .execute(cc);
+
+						 // Set the selection to the moved object. 
+						 
+						 tblViewerDataColumnMapping.setSelection(new StructuredSelection(mappingColumn));
+						 
+						// Command moveUp = new
+						// MoveCommand(editingService.getEditingDomain(),
+						// mapping.getDataMappingColumns(),indexOf, indexOf-1);
+						//
+						// Command moveUp = MoveCommand.create(
+						// editingService.getEditingDomain(),
+						// mapping,
+						// MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS,
+						// mappingColumn, indexOf - 1);
+						//
+						// editingService.getEditingDomain().getCommandStack()
+						// .execute(moveUp);
+
+
+					}
+
+				}
+
+			}
+
+		});
+
+		
+		
+		// The menu
 
 		Menu dataColumnMappingMenu = new Menu(tblDataColumnMapping);
 		tblDataColumnMapping.setMenu(dataColumnMappingMenu);
@@ -561,19 +758,17 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 
 		context.bindValue(intervalObservableValue,
 				intervalHintProperty.observe(mapping));
-		
-		
-		
+
 		IObservableValue filePatternObservable = SWTObservables.observeText(
 				this.txtFilePattern, SWT.Modify);
-			
+
 		IEMFValueProperty filePatternProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				MetricsPackage.Literals.METRIC_SOURCE__FILTER_PATTERN);
-		
-		context.bindValue(filePatternObservable,filePatternProperty.observe(metricSource));
 
-		
+		context.bindValue(filePatternObservable,
+				filePatternProperty.observe(metricSource));
+
 	}
 
 	protected void initHeaderMappingBinding(EMFDataBindingContext context) {
@@ -782,6 +977,76 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 			this.tblViewerDataColumnMapping
 					.setInput(dataColumnMappingObservableList);
 		}
+
+		IViewerObservableValue observeSingleSelection = ViewersObservables
+				.observeSingleSelection(tblViewerDataColumnMapping);
+
+		ISWTObservableValue observeEnabled = SWTObservables
+				.observeEnabled(dataMappingUpButton);
+
+		context.bindValue(observeSingleSelection, observeEnabled,
+				new UpdateValueStrategy() {
+
+					@Override
+					protected IStatus doSet(IObservableValue observableValue,
+							Object value) {
+
+						if (value instanceof MappingColumn) {
+
+							// Find the index of our object on the parent
+							@SuppressWarnings("unchecked")
+							List<MappingColumn> dataMappingColumns = (List<MappingColumn>) ((MappingColumn) value)
+									.eContainer()
+									.eGet(MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS);
+
+							int indexOf = dataMappingColumns.indexOf(value);
+
+							DataKind dataType = ((MappingColumn) value)
+									.getDataType();
+							if (dataType instanceof IdentifierDataKind
+									&& indexOf > 0) {
+								return super.doSet(observableValue, true);
+							}
+						}
+
+						return super.doSet(observableValue, false);
+					}
+
+				}, null);
+
+		ISWTObservableValue observeEnabledDown = SWTObservables
+				.observeEnabled(dataMappingDownButton);
+
+		context.bindValue(observeSingleSelection, observeEnabledDown,
+				new UpdateValueStrategy() {
+
+					@Override
+					protected IStatus doSet(IObservableValue observableValue,
+							Object value) {
+
+						if (value instanceof MappingColumn) {
+
+							// Find the index of our object on the parent
+							@SuppressWarnings("unchecked")
+							List<MappingColumn> dataMappingColumns = (List<MappingColumn>) ((MappingColumn) value)
+									.eContainer()
+									.eGet(MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS);
+
+							int indexOf = dataMappingColumns.indexOf(value);
+
+							DataKind dataType = ((MappingColumn) value)
+									.getDataType();
+							if (dataType instanceof IdentifierDataKind
+									&& indexOf < dataMappingColumns.size() - 1) {
+								return super.doSet(observableValue, true);
+							}
+						}
+
+						return super.doSet(observableValue, false);
+					}
+
+				}, null);
+
 	}
 
 	private class ColumnObservableMapLabelProvider extends
