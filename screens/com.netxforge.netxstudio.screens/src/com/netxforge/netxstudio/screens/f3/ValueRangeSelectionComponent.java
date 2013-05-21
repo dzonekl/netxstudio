@@ -42,7 +42,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  * An injectable component showing a select for the value ranges in the target
  * {@link com.netxforge.netxstudio.library.NetXResource}
  * 
- * @author Christophe
+ * @author Christophe Bouhier
  * 
  */
 public class ValueRangeSelectionComponent {
@@ -113,7 +113,9 @@ public class ValueRangeSelectionComponent {
 							+ modelUtils.fromMinutes(mvr.getIntervalHint()));
 					sb.append(", " + mvr.getKindHint().getName());
 					sb.append(" (count=" + mvr.getMetricValues().size() + ")");
+						
 					
+					// This loads all the ranges!
 					DateTimeRange range = modelUtils.period(mvr
 							.getMetricValues());
 					if (range != null) {
