@@ -30,6 +30,7 @@ import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.command.BasicCommandStack;
@@ -238,7 +239,7 @@ public class CDOEditingService extends EMFEditingService implements
 
 				if (EditingActivator.DEBUG) {
 					if (res.isModified()) {
-						
+
 					}
 
 					if (!cdoRes.cdoView().isClosed()) {
@@ -680,6 +681,7 @@ public class CDOEditingService extends EMFEditingService implements
 	public void handleStale(final EObject source,
 			final EStructuralFeature feature, final int index,
 			final CDOID target) {
+		
 		Display.getDefault().asyncExec(new Runnable() {
 
 			public void run() {
@@ -687,22 +689,26 @@ public class CDOEditingService extends EMFEditingService implements
 				MessageDialog
 						.openError(
 								Display.getDefault().getActiveShell(),
-								"Trying to load nong-existing object, this will happen when a referenced object is deleted and potential references"
-										+ "are not removed. This is considered as a corruption of the data in the persistence storage. Contact support for resolving this "
-										+ "issue ",
+								"Trying to load nong-existing object",
 								"Source Object: "
 										+ modelUtils.printModelObject(source)
 										+ "\n" + "Reference: "
 										+ feature.getName() + "\n" + "Index: "
 										+ index + "\n"
 										+ "ID of targeted object: " + target
-										+ "\n"
+										+ "\n" + 
+										"this will happens when a referenced object is deleted and potential references"
+												+ "to it are not removed.\n" + 
+										"Now attempting to clean this reference, please retry your previous action"
+										
 
 						);
+				
+				CDOUtil.cleanStaleReference(source, feature, index);
+				
 			}
 
 		});
 
 	}
-
 }

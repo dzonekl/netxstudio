@@ -16,6 +16,7 @@ import java.lang.reflect.Proxy;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.session.CDOSession;
+import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.cdo.view.CDOAdapterPolicy;
 import org.eclipse.emf.cdo.view.CDOStaleObject;
 import org.eclipse.emf.cdo.view.CDOStaleReferencePolicy;
@@ -52,6 +53,12 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 		super(editor);
 		dawnEMFHandler = new DawnEMFHandler(getEditor());
 		sessionLifeCycleHandler = new SessionLifecycle();
+	}
+
+	@Override
+	public void setView(CDOView view) {
+//		view.options().setStaleReferencePolicy(PROXY_CLEAN);
+		super.setView(view);
 	}
 
 	public void close() {
@@ -91,10 +98,10 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 		view.addListener(sessionLifeCycleHandler);
 	}
 
-	public void registerStateReferencePolicty(){
-		final CDOView view = getView(); 
-		if(view != null){
-			view.options().setStaleReferencePolicy(PROXY_NO_EXCEPTION);
+	public void registerStaleReferencePolicy() {
+		final CDOView view = getView();
+		if (view != null) {
+			view.options().setStaleReferencePolicy(PROXY_CLEAN);
 		}
 	}
 
@@ -185,15 +192,16 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 	}
 
 	/**
-	 * A State reference policy which
+	 * A State reference policy which attempts to clean the stale reference. 
 	 * 
-	 * @author Christophe
+	 * @author Christophe Bouhier
 	 * 
 	 */
-	 final CDOStaleReferencePolicy PROXY_NO_EXCEPTION = new CDOStaleReferencePolicy(){
+	final CDOStaleReferencePolicy PROXY_CLEAN = new CDOStaleReferencePolicy() {
 
 		public Object processStaleReference(final EObject source,
-				final EStructuralFeature feature, final int index, final CDOID target) {
+				final EStructuralFeature feature, final int index,
+				final CDOID target) {
 			final EClassifier type = feature.getEType();
 			InvocationHandler handler = new InvocationHandler() {
 				public Object invoke(Object proxy, Method method, Object[] args)
@@ -218,15 +226,16 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 					{
 						return source.eAdapters();
 					}
-						
-					
-					if( DawnEMFEditorSupport.this.getEditor() instanceof CDOEditingService){
-						DawnEMFEditorSupport.this.getEditor().handleStale(source, feature, index, target); 
+
+					if (DawnEMFEditorSupport.this.getEditor() instanceof CDOEditingService) {
+						DawnEMFEditorSupport.this.getEditor().handleStale(
+								source, feature, index, target);
 					}
-					
-					// The client loading the object will deal with a null value. Fore JFace/SWT, the getElements will contain 
-					// this null entry. 
-					return null; 
+
+					// The client loading the object will deal with a null
+					// value. Fore JFace/SWT, the getElements will contain
+					// this null entry.
+					  throw new ObjectNotFoundException(target);
 				}
 			};
 
@@ -245,5 +254,6 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 			return Proxy.newProxyInstance(instanceClass.getClassLoader(),
 					interfaces, handler);
 		}
-	 };
+	};
+
 }
