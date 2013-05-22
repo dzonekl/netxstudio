@@ -137,6 +137,7 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 	private Text txtFilePattern;
 	private Button dataMappingUpButton;
 	private Button dataMappingDownButton;
+	private Button dataMappingNewButton;
 
 	/**
 	 * Create the composite.
@@ -455,7 +456,7 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 				SWT.NONE);
 		toolkit.paintBordersFor(parentComposite);
 		sctnMappingColumns.setClient(parentComposite);
-		parentComposite.setLayout(new GridLayout(2, false));
+		parentComposite.setLayout(new GridLayout(3, false));
 
 		Label lblstDataRow = toolkit.createLabel(parentComposite, "Data row:",
 				SWT.RIGHT);
@@ -466,32 +467,33 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 
 		txtFirstDataRow = toolkit.createText(parentComposite, "New Text",
 				SWT.NONE);
-		GridData gd_txtFirstDataRow = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
+		GridData gd_txtFirstDataRow = new GridData(SWT.LEFT, SWT.CENTER, true,
+				false, 2, 1);
 		gd_txtFirstDataRow.widthHint = 20;
 		txtFirstDataRow.setLayoutData(gd_txtFirstDataRow);
 		txtFirstDataRow.setText("");
-		new Label(parentComposite, SWT.NONE);
-
-		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-				parentComposite, SWT.NONE);
-		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				newColumnMappingScreenDialog(true, ScreenUtil.OPERATION_NEW,
-						mapping.getDataMappingColumns(),
-						MetricsFactory.eINSTANCE.createMappingColumn());
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		toolkit.paintBordersFor(mghprlnkNew);
-		mghprlnkNew.setText("New");
+		// new Label(parentComposite, SWT.NONE);
+		//
+		// ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
+		// parentComposite, SWT.NONE);
+		// mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
+		// public void linkActivated(HyperlinkEvent e) {
+		// newColumnMappingScreenDialog(true, ScreenUtil.OPERATION_NEW,
+		// mapping.getDataMappingColumns(),
+		// MetricsFactory.eINSTANCE.createMappingColumn());
+		// }
+		//
+		// public void linkEntered(HyperlinkEvent e) {
+		// }
+		//
+		// public void linkExited(HyperlinkEvent e) {
+		// }
+		// });
+		//
+		// mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+		// false, 3, 1));
+		// toolkit.paintBordersFor(mghprlnkNew);
+		// mghprlnkNew.setText("New");
 
 		// The table viewer.
 
@@ -513,8 +515,9 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 			}
 		});
 
-		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2);
-		// gd_table.heightHint = 137;
+		GridData gd_table = new GridData(GridData.FILL_BOTH);
+		 gd_table.horizontalSpan = 2;
+		// gd_table.heightHint = 300;
 		tblDataColumnMapping.setLayoutData(gd_table);
 		tblDataColumnMapping.setHeaderVisible(true);
 		toolkit.paintBordersFor(tblDataColumnMapping);
@@ -558,15 +561,27 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 		buttonColumn.setLayout(buttonLayout);
 
 		GridData buttonColumnLayoutData = new GridData(SWT.FILL, SWT.FILL,
-				false, true, 1, 2);
-		// buttonColumnLayoutData.widthHint = 30;
+				false, true);
+		buttonColumnLayoutData.widthHint = 50;
+		buttonColumnLayoutData.horizontalSpan = 1;
 		buttonColumn.setLayoutData(buttonColumnLayoutData);
+
+		{
+			dataMappingNewButton = toolkit.createButton(buttonColumn, "New",
+					SWT.PUSH);
+			GridData buttonLayoutData = new GridData(SWT.FILL, SWT.FILL, true,
+					false, 1, 1);
+			dataMappingNewButton.setLayoutData(buttonLayoutData);
+
+		}
+
 		{
 			dataMappingUpButton = toolkit.createButton(buttonColumn, "Up",
 					SWT.PUSH);
 			GridData buttonLayoutData = new GridData(SWT.FILL, SWT.FILL, true,
 					false, 1, 1);
 			dataMappingUpButton.setLayoutData(buttonLayoutData);
+			dataMappingUpButton.setEnabled(false);
 
 		}
 		{
@@ -575,9 +590,19 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 			GridData buttonLayoutData = new GridData(SWT.FILL, SWT.FILL, true,
 					false, 1, 1);
 			dataMappingDownButton.setLayoutData(buttonLayoutData);
+			dataMappingDownButton.setEnabled(false);
 		}
 
-		// Up down buttons
+		// buttons
+		dataMappingNewButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				newColumnMappingScreenDialog(true, ScreenUtil.OPERATION_NEW,
+						mapping.getDataMappingColumns(),
+						MetricsFactory.eINSTANCE.createMappingColumn());
+			}
+		});
 
 		dataMappingUpButton.addSelectionListener(new SelectionAdapter() {
 
@@ -598,26 +623,28 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 
 						int indexOf = dataMappingColumns.indexOf(mappingColumn);
 
-						 RemoveCommand rc = new RemoveCommand(editingService
-						 .getEditingDomain(), mapping
-						 .getDataMappingColumns(), mappingColumn);
-						
-						 AddCommand ac = new AddCommand(editingService
-						 .getEditingDomain(), mapping
-						 .getDataMappingColumns(), mappingColumn,
-						 indexOf - 1);
-						
-						 CompoundCommand cc = new CompoundCommand();
-						 cc.append(rc);
-						 cc.append(ac);
+						RemoveCommand rc = new RemoveCommand(editingService
+								.getEditingDomain(), mapping
+								.getDataMappingColumns(), mappingColumn);
 
-						 editingService.getEditingDomain().getCommandStack()
-						 .execute(cc);
+						AddCommand ac = new AddCommand(editingService
+								.getEditingDomain(), mapping
+								.getDataMappingColumns(), mappingColumn,
+								indexOf - 1);
 
-						 // Set the selection to the moved object. 
-						 
-						 tblViewerDataColumnMapping.setSelection(new StructuredSelection(mappingColumn));
-						 
+						CompoundCommand cc = new CompoundCommand();
+						cc.append(rc);
+						cc.append(ac);
+
+						editingService.getEditingDomain().getCommandStack()
+								.execute(cc);
+
+						// Set the selection to the moved object.
+
+						tblViewerDataColumnMapping
+								.setSelection(new StructuredSelection(
+										mappingColumn));
+
 						// Command moveUp = new
 						// MoveCommand(editingService.getEditingDomain(),
 						// mapping.getDataMappingColumns(),indexOf, indexOf-1);
@@ -631,7 +658,6 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 						// editingService.getEditingDomain().getCommandStack()
 						// .execute(moveUp);
 
-
 					}
 
 				}
@@ -640,7 +666,6 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 
 		});
 
-		
 		dataMappingDownButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -660,26 +685,28 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 
 						int indexOf = dataMappingColumns.indexOf(mappingColumn);
 
-						 RemoveCommand rc = new RemoveCommand(editingService
-						 .getEditingDomain(), mapping
-						 .getDataMappingColumns(), mappingColumn);
-						
-						 AddCommand ac = new AddCommand(editingService
-						 .getEditingDomain(), mapping
-						 .getDataMappingColumns(), mappingColumn,
-						 indexOf + 1);
-						
-						 CompoundCommand cc = new CompoundCommand();
-						 cc.append(rc);
-						 cc.append(ac);
+						RemoveCommand rc = new RemoveCommand(editingService
+								.getEditingDomain(), mapping
+								.getDataMappingColumns(), mappingColumn);
 
-						 editingService.getEditingDomain().getCommandStack()
-						 .execute(cc);
+						AddCommand ac = new AddCommand(editingService
+								.getEditingDomain(), mapping
+								.getDataMappingColumns(), mappingColumn,
+								indexOf + 1);
 
-						 // Set the selection to the moved object. 
-						 
-						 tblViewerDataColumnMapping.setSelection(new StructuredSelection(mappingColumn));
-						 
+						CompoundCommand cc = new CompoundCommand();
+						cc.append(rc);
+						cc.append(ac);
+
+						editingService.getEditingDomain().getCommandStack()
+								.execute(cc);
+
+						// Set the selection to the moved object.
+
+						tblViewerDataColumnMapping
+								.setSelection(new StructuredSelection(
+										mappingColumn));
+
 						// Command moveUp = new
 						// MoveCommand(editingService.getEditingDomain(),
 						// mapping.getDataMappingColumns(),indexOf, indexOf-1);
@@ -693,7 +720,6 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 						// editingService.getEditingDomain().getCommandStack()
 						// .execute(moveUp);
 
-
 					}
 
 				}
@@ -702,8 +728,6 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 
 		});
 
-		
-		
 		// The menu
 
 		Menu dataColumnMappingMenu = new Menu(tblDataColumnMapping);
