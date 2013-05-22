@@ -185,7 +185,7 @@ public class MetricSourceItemProvider extends BaseItemProvider implements
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/MetricSource_H.png"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Metricsource_H.png"));
 	}
 
 	/**

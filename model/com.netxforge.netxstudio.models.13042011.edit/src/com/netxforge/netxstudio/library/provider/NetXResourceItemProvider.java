@@ -167,7 +167,7 @@ public class NetXResourceItemProvider
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/NetXResource_H.gif"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Resource_H.gif"));
 	}
 
 	/**
