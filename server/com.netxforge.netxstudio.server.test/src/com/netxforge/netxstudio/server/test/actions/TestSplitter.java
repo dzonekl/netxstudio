@@ -146,9 +146,11 @@ public class TestSplitter {
 	 * Extracts LIP in: RTSGSN1/Process:Process No.=0, Process type=LIP, Slot
 	 * No.=8, Subrack No.=1
 	 */
-	Pattern procesTypeExtractor = Pattern
-			.compile("Process type=(LIP|LLP|SGP|GBP)");
+//	Pattern procesTypeExtractor = Pattern
+//			.compile("Process type=(LIP|LLP|SGP|GBP)");
 
+	Pattern procesTypeExtractor = Pattern.compile("Process type=(\\w{3})");
+	
 	// @Test
 	public void testValueExtractor_ProcessType() {
 		System.out.println("------- Process Type Extractor: ");
