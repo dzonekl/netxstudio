@@ -816,6 +816,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 				// If no result, skip this row we won't be able to do anything
 				// with the value here.
 				if (componentsForID.isEmpty()) {
+					// We should get the total count recorded though, so multiply by the number of metrics. 
 					createNotMatchedMappingRecord(composedIdentifiers,
 							getFailedRecords());
 					continue;
@@ -990,7 +991,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 					if (extractionPattern != null
 							&& extractionPattern.length() > 0) {
 						pattern = Pattern.compile(extractionPattern);
-
 					}
 				}
 
@@ -1265,15 +1265,16 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			if (exception != null) {
 				sb.append(exception.getMessage());
 			}
+			break;
 		case ComponentNotMatched: {
 			constructIdentifierMsg(allIdentifiers, sb);
-		}
+		}break;
 		case MetricNotFound: {
 			constructIdentifierMsg(allIdentifiers, sb);
-		}
+		}break;
 		case ComponentMatchDuplicates: {
 			constructIdentifierMsg(allIdentifiers, sb);
-		}
+		}break;
 		}
 
 		return sb.toString();
