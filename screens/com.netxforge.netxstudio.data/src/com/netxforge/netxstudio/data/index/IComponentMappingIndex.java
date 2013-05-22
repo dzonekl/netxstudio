@@ -30,7 +30,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.spi.cdo.FSMUtil;
 
 import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
@@ -62,7 +61,7 @@ public interface IComponentMappingIndex {
 			Comparable<ComponentIndexEntry> {
 
 		/** The index entry 'value' */
-		private final LinkedList<HashMap<String, String>> componentPath = Lists
+		private final LinkedList<Map<String, String>> componentPath = Lists
 				.newLinkedList();
 
 		/** The CDOID of the component for this index entry */
@@ -103,47 +102,83 @@ public interface IComponentMappingIndex {
 				return match;
 			}
 		}
-		
-		
+
+		class IdentifierInSequencePredicate implements
+				Predicate<IComponentLocator.IdentifierDescriptor> {
+
+			private int lastMatchingIndex = -1;
+
+			public boolean apply(
+					IComponentLocator.IdentifierDescriptor descriptor) {
+
+				final String objectProperty = descriptor.getObjectProperty();
+				final String value = descriptor.getIdentifier();
+
+				boolean match = false;
+
+				List<Map<String, String>> reducedList;
+				if (lastMatchingIndex != -1
+						&& lastMatchingIndex < componentPath.size() - 1) {
+					reducedList = componentPath.subList(lastMatchingIndex,
+							componentPath.size() - 1);
+				} else {
+					reducedList = componentPath;
+				}
+				for (Map<String, String> pathNode : reducedList) {
+					if (pathNode.containsKey(objectProperty)) {
+						match = pathNode.get(objectProperty).equals(value);
+						lastMatchingIndex = componentPath.indexOf(pathNode);
+						break; // One match is enough.
+					}
+				}
+				return match;
+			}
+
+			public void reset() {
+				lastMatchingIndex = -1;
+			}
+
+		}
+
 		/**
-		 * A Strategy which will track if the leaf node in the path has been touched. 
+		 * A Strategy which will track if the leaf node in the path has been
+		 * touched.
 		 * 
 		 * @author Christophe Bouhier
-		 *
+		 * 
 		 */
 		class IdentifierInLeafPredicate implements
 				Predicate<IComponentLocator.IdentifierDescriptor> {
-			
-			boolean leafMatch = false; 
-			
-			public void reset(){
-				leafMatch = false; 
-			} 
-			
-			public boolean leafMatch(){
+
+			boolean leafMatch = false;
+
+			public void reset() {
+				leafMatch = false;
+			}
+
+			public boolean leafMatch() {
 				return leafMatch;
 			}
-			
+
 			public boolean apply(
 					IComponentLocator.IdentifierDescriptor descriptor) {
-				
-				
+
 				final String objectProperty = descriptor.getObjectProperty();
 				final String value = descriptor.getIdentifier();
 
 				boolean match = false;
 
 				for (Map<String, String> pathNode : componentPath) {
-					
+
 					int indexOf = componentPath.indexOf(pathNode);
-					
+
 					if (pathNode.containsKey(objectProperty)) {
 						match = pathNode.get(objectProperty).equals(value);
-						if(match && indexOf == componentPath.size() -1){
-							leafMatch = true; 
+						if (match && indexOf == componentPath.size() - 1) {
+							leafMatch = true;
 						}
-						// Break if we have our match. 
-						if(match){
+						// Break if we have our match.
+						if (match) {
 							break;
 						}
 					}
@@ -153,16 +188,17 @@ public interface IComponentMappingIndex {
 		}
 
 		public final IdentifierInPathPredicate containsIdentifierInPathPredicate = new IdentifierInPathPredicate();
-		
+
+		public final IdentifierInSequencePredicate containsIdentifierInSequencePredicate = new IdentifierInSequencePredicate();
+
 		public final IdentifierInLeafPredicate containsIdentifiersAndLeafPredicate = new IdentifierInLeafPredicate();
-		
-		
+
 		/**
 		 * Produces an index entry for the given {@link Component}.</p> Note
 		 * that an entry is not necessarily produced, as the component could be:
 		 * <ul>
 		 * <li>Detached from CDO</li>
-		 * <li>Has an empty path as properties might not have been set. </li>
+		 * <li>Has an empty path as properties might not have been set.</li>
 		 * </ul>
 		 * 
 		 * @param c
@@ -186,17 +222,15 @@ public interface IComponentMappingIndex {
 
 			return cie;
 		}
-		
-		
-		public void update(Component c){
-			
-			// Clear the path for this component. 
-			componentPath.clear(); 
+
+		public void update(Component c) {
+
+			// Clear the path for this component.
+			componentPath.clear();
 			produceIndex(c);
-			
+
 		}
-		
-		
+
 		private void produceIndex(Component component) {
 
 			// Should we be bother with components which don't have a resource
@@ -280,7 +314,7 @@ public interface IComponentMappingIndex {
 					// empty produce a node index entry.
 					if (featureValue instanceof String
 							&& !((String) featureValue).isEmpty()) {
-						// Trim white spaces. 
+						// Trim white spaces.
 						String value = (String) featureValue;
 						value = value.trim();
 						keyValueMap.put(key, value);
@@ -329,28 +363,84 @@ public interface IComponentMappingIndex {
 
 		/**
 		 * Passing in anything else than a collection of
-		 * {@link IComponentLocator.IdentifierDescriptor} type will throw a {@link ClassCastException casting Exception}
-		 * Exception.
+		 * {@link IComponentLocator.IdentifierDescriptor} type will throw a
+		 * {@link ClassCastException casting Exception} Exception.
 		 * 
-		 * Currently only one Strategy is applied. Behavior can be changed, by considering different matching strategies, 
-		 * using different Predicate filtering implementations. 
+		 * Currently only one Strategy is applied. Behavior can be changed, by
+		 * considering different matching strategies, using different Predicate
+		 * filtering implementations.
 		 * 
 		 * 
 		 * @param collection
 		 * @return
 		 */
-		@SuppressWarnings("unchecked")
 		private boolean matches(List<?> collection) {
 
-			containsIdentifiersAndLeafPredicate.reset(); 
+//			containsIdentifierInSequencePredicate.reset();
 			
-			Iterable<IdentifierDescriptor> filter = Iterables.filter(
-					(List<IComponentLocator.IdentifierDescriptor>) collection,
-					containsIdentifiersAndLeafPredicate);
+			// Iterate over the descriptors, each should match in the path
+			// order.
+			// fail, if this condition is not met.
+			List<Map<String, String>> reducedList;
+			int lastMatchingIndex = -1;
 			
-			// Should match all identifiers and the leaf. 
-//			return Iterables.size(filter) == collection.size() && containsIdentifiersAndLeafPredicate.leafMatch();
-			return Iterables.size(filter) == collection.size();
+			// When continuing evaluation, we should make sure we don't 
+			// evaluate the same property on the same pathnode which could have 
+			// the same value (i.e. Subrack Position 0, Slot Position 0) as the previous match
+			// remember the last evaluated property
+			Map<Integer, List<String>> pathNodeToPropertyCache = Maps.newHashMap();
+			
+			LOOP: for (Object collectionObject : collection) {
+				IComponentLocator.IdentifierDescriptor descriptor = (IdentifierDescriptor) collectionObject;
+				final String objectProperty = descriptor.getObjectProperty();
+				final String value = descriptor.getIdentifier();
+
+				if (lastMatchingIndex != -1
+						&& lastMatchingIndex < componentPath.size()) {
+					reducedList = componentPath.subList(lastMatchingIndex,
+							componentPath.size());
+				} else {
+					reducedList = componentPath;
+				}
+				
+				for (Map<String, String> pathNode : reducedList) {
+					int runningIndex = componentPath.indexOf(pathNode);
+					if( pathNodeToPropertyCache.containsKey(runningIndex)){
+						List<String> properties = pathNodeToPropertyCache.get(runningIndex);
+						if( properties.contains(objectProperty)){
+							continue; // Do not evaluate an already evaluated property on a path Node. 
+						}
+					}
+					if (pathNode.containsKey(objectProperty)) {
+						if (pathNode.get(objectProperty).equals(value)) {
+							
+							lastMatchingIndex = runningIndex;
+							List<String> properties;
+							if(pathNodeToPropertyCache.containsKey(lastMatchingIndex)){
+								 properties = pathNodeToPropertyCache.get(lastMatchingIndex);
+								
+							}else{
+								properties = Lists.newArrayList();
+								pathNodeToPropertyCache.put(lastMatchingIndex, properties);
+							}
+							properties.add(objectProperty);
+							continue LOOP;
+						}
+					}
+				}
+				// we have no match in the correct order. 
+				return false;
+			}
+			return true;
+			
+//			Iterable<IdentifierDescriptor> filter = Iterables.filter(
+//					(List<IComponentLocator.IdentifierDescriptor>) collection,
+//					containsIdentifierInSequencePredicate);
+
+			// Should match all identifiers and the leaf.
+			// return Iterables.size(filter) == collection.size() &&
+			// containsIdentifiersAndLeafPredicate.leafMatch();
+//			return Iterables.size(filter) == collection.size();
 		}
 
 		/**
@@ -382,10 +472,10 @@ public interface IComponentMappingIndex {
 	 * 
 	 */
 	public abstract void buildIndex();
-	
-	
+
 	/**
-	 * Are we indexing. 
+	 * Are we indexing.
+	 * 
 	 * @return
 	 */
 	public abstract boolean isIndexing();
@@ -396,11 +486,11 @@ public interface IComponentMappingIndex {
 	 * @param descriptors
 	 * @return
 	 */
-	public abstract List<Component> componentsForIdentifiers(CDOView view, 
+	public abstract List<Component> componentsForIdentifiers(CDOView view,
 			List<IComponentLocator.IdentifierDescriptor> descriptors);
-	
+
 	/**
-	 * Return the {@link ComponentIndexEntry entry} for the given component. 
+	 * Return the {@link ComponentIndexEntry entry} for the given component.
 	 * 
 	 * @param c
 	 * @return
