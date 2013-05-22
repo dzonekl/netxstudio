@@ -161,20 +161,20 @@ public class ServerImporterHelper implements IImporterHelper {
 			// metric
 			// reference:
 			// see http://work.netxforge.com/issues/264
-			if (DataActivator.DEBUG) {
-				DataActivator.TRACE.trace(
-						DataActivator.TRACE_IMPORT_HELPER_OPTION,
-						"-- checking resource: "
-								+ netXResource.getShortName()
-								+ " ID: "
-								+ netXResource.cdoID()
-								+ " metric ref: "
-								+ modelUtils.printModelObject(netXResource
-										.getMetricRef())
-								+ " comp ref: "
-								+ modelUtils.printModelObject(netXResource
-										.getComponentRef()));
-			}
+//			if (DataActivator.DEBUG) {
+//				DataActivator.TRACE.trace(
+//						DataActivator.TRACE_IMPORT_HELPER_OPTION,
+//						"-- checking resource: "
+//								+ netXResource.getShortName()
+//								+ " ID: "
+//								+ netXResource.cdoID()
+//								+ " metric ref: "
+//								+ modelUtils.printModelObject(netXResource
+//										.getMetricRef())
+//								+ " comp ref: "
+//								+ modelUtils.printModelObject(netXResource
+//										.getComponentRef()));
+//			}
 
 			if (netXResource.getComponentRef() != null
 					&& netXResource.getComponentRef().cdoID()
