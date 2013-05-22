@@ -817,8 +817,12 @@ public class MappingStatistics extends AbstractScreen implements
 			String errorDescription;
 
 			public String lookupError(String code) {
+				try{
 				Integer codeAsInt = new Integer(code);
 				return IMetricValueImporter.IMPORT_ERROR_TEXT[codeAsInt];
+				}catch(NumberFormatException nfe){
+					return "Mapping error code not supported (Old Format)";
+				}	
 			}
 
 			/**
