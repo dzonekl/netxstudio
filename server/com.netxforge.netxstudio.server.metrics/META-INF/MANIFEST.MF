@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: NetxForge Metrics
-Bundle-SymbolicName: com.netxforge.netxstudio.server.metrics;singleton:=true
+Bundle-SymbolicName: com.netxforge.netxstudio.server.metrics
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.server.metrics.internal.MetricsActivator
 Bundle-Vendor: NETXFORGE
@@ -19,5 +19,4 @@ Export-Package: com.netxforge.netxstudio.server.metrics
 Import-Package: com.netxforge.netxstudio.generics,
  com.netxforge.netxstudio.library,
  com.netxforge.netxstudio.metrics,
- com.netxforge.netxstudio.scheduling,
- org.eclipse.emf.cdo.server;version="4.2.0"
+ com.netxforge.netxstudio.scheduling
