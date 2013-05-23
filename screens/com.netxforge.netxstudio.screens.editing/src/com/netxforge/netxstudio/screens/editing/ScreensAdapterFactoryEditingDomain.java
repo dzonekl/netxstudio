@@ -118,8 +118,8 @@ public class ScreensAdapterFactoryEditingDomain extends
 		// like tables.
 		// FIXME, The ugly thing is that the selection is still the copied
 		// object buh...
-		if (!nativeCommand.canExecute()
-				&& commandClass == PasteFromClipboardCommand.class) {
+		if (commandClass == PasteFromClipboardCommand.class
+				&& !nativeCommand.canExecute()) {
 			if (commandParameter.getOwner() instanceof CDOObject) {
 				CDOObject oOwner = (CDOObject) commandParameter.getOwner();
 				if (oOwner.eContainer() != null) {
