@@ -4,7 +4,7 @@ Bundle-Name: NetxForge Metrics
 Bundle-SymbolicName: com.netxforge.netxstudio.server.metrics
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.server.metrics.internal.MetricsActivator
-Bundle-Vendor: NETXFORGE
+Bundle-Vendor: NetXForge
 Eclipse-BuddyPolicy: registered
 Require-Bundle: org.eclipse.core.runtime,
  com.google.inject;bundle-version="2.0.0",
