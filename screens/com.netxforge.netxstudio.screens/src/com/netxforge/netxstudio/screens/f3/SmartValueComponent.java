@@ -98,10 +98,10 @@ public class SmartValueComponent {
 
 	private ModelUtils modelUtils;
 	private TableHelper tableHelper;
-	
+
 	@Inject
 	private CDOQueryService queryService;
-	
+
 	@Inject
 	public SmartValueComponent(ModelUtils modelUtils, TableHelper tableHelper) {
 		this.modelUtils = modelUtils;
@@ -532,13 +532,6 @@ public class SmartValueComponent {
 
 			NetXResource res = (NetXResource) this.baseResource;
 
-			// determine the size of the array.
-			int arraySize = 0;
-			Object[] rangeArray;
-			arraySize = res.getMetricValueRanges().size();
-			arraySize += 2; // Cap, Utilization.
-			rangeArray = new Object[arraySize];
-
 			// populate the array, in a set of indexed lists.
 			// later create an object matrix from the list.
 
@@ -546,45 +539,55 @@ public class SmartValueComponent {
 
 			int rangeIndex = 0;
 
-			List<MetricValueRange> sortedCopy = Ordering.from(modelUtils.mvrCompare()).sortedCopy(res.getMetricValueRanges());
-			
-			Map<MetricValueRange,List<Value>> valueMap = Maps.newHashMap();
-			
+			List<MetricValueRange> sortedCopy = Ordering.from(
+					modelUtils.mvrCompare()).sortedCopy(
+					res.getMetricValueRanges());
+
+			Map<MetricValueRange, List<Value>> valueMap = Maps.newHashMap();
+
 			DateTimeRange period = modelUtils.period(from, to);
-			
+
 			int totalWork = 0;
 			int metricWork = 0;
-			
-			for(MetricValueRange mvr : sortedCopy){
-				List<Value> values = queryService.mvrValues(baseResource.cdoView(),
-						mvr, IQueryService.QUERY_MYSQL, period);
-				if(!values.isEmpty()){
+
+			for (MetricValueRange mvr : sortedCopy) {
+				List<Value> values = queryService.mvrValues(
+						baseResource.cdoView(), mvr, IQueryService.QUERY_MYSQL,
+						period);
+				if (!values.isEmpty()) {
 					totalWork += values.size();
 					valueMap.put(mvr, values);
 				}
 			}
+			
+			// determine the size of the array.
+			int arraySize = 0;
+			Object[] rangeArray;
+			arraySize = valueMap.keySet().size();
+			arraySize += 2; // Cap, Utilization.
+			rangeArray = new Object[arraySize];
 
 			metricWork = totalWork;
-			
+
 			totalWork += res.getCapacityValues().size();
 			totalWork += res.getUtilizationValues().size();
 
 			SubMonitor convert = SubMonitor.convert(monitor, totalWork);
-			for (MetricValueRange mvr : valueMap.keySet()) {
-				
-				
-				
-				List<Double> doubles = modelUtils.merge(" Metrics: "
-						+ modelUtils.fromMinutes(mvr.getIntervalHint()),
-						existingDates, valueMap.get(mvr),
-						convert.newChild(metricWork));
+			for (MetricValueRange mvr : sortedCopy) {
+				if (valueMap.containsKey(mvr)) {
 
-				// Check for interruption, and bail if so.
-				if (doubles == null && monitor.isCanceled()) {
-					return new Object[0];
+					List<Double> doubles = modelUtils.merge(" Metrics: "
+							+ modelUtils.fromMinutes(mvr.getIntervalHint()),
+							existingDates, valueMap.get(mvr),
+							convert.newChild(metricWork));
+
+					// Check for interruption, and bail if so.
+					if (doubles == null && monitor.isCanceled()) {
+						return new Object[0];
+					}
+					// check if the date exist, add if not and add the value
+					rangeArray[rangeIndex++] = doubles;
 				}
-				// check if the date exist, add if not and add the value
-				rangeArray[rangeIndex++] = doubles;
 			}
 
 			{
