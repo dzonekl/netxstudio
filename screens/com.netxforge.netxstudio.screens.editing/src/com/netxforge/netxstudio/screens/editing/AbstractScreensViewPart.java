@@ -502,12 +502,12 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 				@Override
 				public void setActionBars(IActionBars actionBars) {
 					super.setActionBars(actionBars);
-					
-					
-					// CB We don't have a A contributor to share the actions with the property sheet page. 
-					// Investigate. 
-//					getActionBarContributor().shareGlobalActions(this,
-//							actionBars);
+
+					// CB We don't have a A contributor to share the actions
+					// with the property sheet page.
+					// Investigate.
+					// getActionBarContributor().shareGlobalActions(this,
+					// actionBars);
 				}
 			};
 			propertySheetPage
@@ -590,6 +590,27 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	public void removeSelectionChangedListener(
 			ISelectionChangedListener listener) {
 		selectionChangedListeners.remove(listener);
+	}
+
+	/**
+	 * Update to pass on the original {@link SelectionChangedEvent event}
+	 * 
+	 * @param sce
+	 */
+	public void setSelection(SelectionChangedEvent sce) {
+		this.viewSelection = sce.getSelection();
+		for (ISelectionChangedListener listener : selectionChangedListeners) {
+			listener.selectionChanged(sce);
+		}
+
+		// Set the status, either selection or the main object handled by the
+		// screen.
+		if (!viewSelection.isEmpty()) {
+			setStatusLineManager(viewSelection);
+		} else {
+			IScreen screen = this.getScreen();
+			setStatusLineManager(screen.getScreenObjects());
+		}
 	}
 
 	public void setSelection(ISelection selection) {
@@ -769,7 +790,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 				//
 				public void selectionChanged(
 						SelectionChangedEvent selectionChangedEvent) {
-					setSelection(selectionChangedEvent.getSelection());
+					setSelection(selectionChangedEvent);
 				}
 			};
 		}

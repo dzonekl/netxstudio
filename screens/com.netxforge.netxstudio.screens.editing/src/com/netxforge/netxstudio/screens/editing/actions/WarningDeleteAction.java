@@ -27,12 +27,14 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.RemoveCommand;
-import org.eclipse.emf.edit.ui.action.DeleteAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.dialogs.ListDialog;
 
 import com.google.common.collect.Lists;
@@ -40,6 +42,7 @@ import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.actions.TableViewerWithState.StateSelectionChangedEvent;
 
 /**
  * 
@@ -51,6 +54,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
 public class WarningDeleteAction extends DeleteAction {
 
 	private IEditingService editingService;
+	private boolean nwb;
 	public static final int UNDO_LIMIT = 1;
 
 	public WarningDeleteAction(boolean removeAllReferences,
@@ -60,89 +64,111 @@ public class WarningDeleteAction extends DeleteAction {
 	}
 
 	@Override
+	public void runWithEvent(Event event) {
+		nwb = (event.stateMask & SWT.ALT) != 0 ? true : false;
+		run();
+	}
+
+	@Override
 	public void run() {
+		if (nwb) {
+			doRunNoWayBack();
+		} else {
+			doRunUndo();
+		}
+		nwb = false;
+	}
 
-		if (command instanceof WarningNWBDeleteCommand) {
+	/**
+	 * Run the delete with undo.
+	 */
+	private void doRunUndo() {
+		Collection<EObject> eObjects = ((WarningDeleteCommand) command)
+				.getObjects();
 
-			Collection<EObject> eObjects = ((WarningNWBDeleteCommand) command)
-					.getObjects();
+		EObject first = eObjects.iterator().next();
 
-			EObject first = eObjects.iterator().next();
-			boolean questionResult = MessageDialog
-					.openQuestion(
-							Display.getCurrent().getActiveShell(),
-							"Delete object of type (first object) : "
-									+ first.eClass().getName(),
-							"Are you sure you want to delete \""
-									+ editingService.getDelegator().getText(
-											first)
-									+ "\". Related objects ("
-									+ (eObjects.size() - 1)
-									+ "), this operation can not be undone as the default undo limit("
-									+ UNDO_LIMIT + ") is exceeded");
-			if (questionResult) {
-				super.run();
-			}
+		boolean questionResult = MessageDialog
+				.openQuestion(Display.getCurrent().getActiveShell(),
+						"Delete object of type: " + first.eClass().getName(),
+						"Are you sure you want to delete \""
+								+ editingService.getDelegator().getText(first)
+								+ "\". Related objects ("
+								+ (eObjects.size() - 1) + ")");
+		if (questionResult && warnUserOnReferences(eObjects)) {
+			domain.getCommandStack().execute(command);
+		}
+	}
 
-		} else if (command instanceof WarningDeleteCommand) {
+	/**
+	 * Run the delete without undo.
+	 */
+	private void doRunNoWayBack() {
+		Collection<EObject> eObjects = ((WarningNWBDeleteCommand) command)
+				.getObjects();
 
-			Collection<EObject> eObjects = ((WarningDeleteCommand) command)
-					.getObjects();
+		EObject first = eObjects.iterator().next();
+		boolean questionResult = MessageDialog
+				.openQuestion(
+						Display.getCurrent().getActiveShell(),
+						"Delete object of type (first object) : "
+								+ first.eClass().getName(),
+						"Are you sure you want to delete \""
+								+ editingService.getDelegator().getText(first)
+								+ "\". Related objects ("
+								+ (eObjects.size() - 1)
+								+ "), this operation can not be undone as the default undo limit("
+								+ UNDO_LIMIT + ") is exceeded");
+		if (questionResult && warnUserOnReferences(eObjects)) {
+			// Set the undo flag to false.
+			// Note: it might already have been created with undo = false, when selection of the objects occurred while pressing the CTRL key. 
+			((WarningDeleteCommand) command).undo = false;
+			domain.getCommandStack().execute(command);
+		}
+	}
 
-			EObject first = eObjects.iterator().next();
+	/**
+	 * 
+	 * 
+	 * @param eObjects
+	 */
+	private boolean warnUserOnReferences(Collection<EObject> eObjects) {
 
-			boolean questionResult = MessageDialog.openQuestion(Display
-					.getCurrent().getActiveShell(), "Delete object of type: "
-					+ first.eClass().getName(),
-					"Are you sure you want to delete \""
-							+ editingService.getDelegator().getText(first)
-							+ "\". Related objects (" + (eObjects.size() - 1)
-							+ ")");
-			if (questionResult) {
+		List<CDOObjectReference> xRefs = ((WarningDeleteCommand) command)
+				.getUsage(eObjects);
 
-				List<CDOObjectReference> xRefs = ((WarningDeleteCommand) command)
-						.getUsage(eObjects);
+		// Issue warning here.
+		if (xRefs != null && xRefs.size() > 0) {
 
-				// Issue warning here.
-				if (xRefs != null && xRefs.size() > 0) {
+			ListDialog ld = new ListDialog(Display.getCurrent()
+					.getActiveShell());
+			ld.setContentProvider(new ArrayContentProvider());
+			ld.setLabelProvider(new LabelProvider() {
+				@Override
+				public String getText(Object element) {
 
-					ListDialog ld = new ListDialog(Display.getCurrent()
-							.getActiveShell());
-					ld.setContentProvider(new ArrayContentProvider());
-					ld.setLabelProvider(new LabelProvider() {
-						@Override
-						public String getText(Object element) {
-
-							if (element instanceof CDOObjectReference) {
-								EObject source = ((CDOObjectReference) element)
-										.getSourceObject();
-								EObject target = ((CDOObjectReference) element)
-										.getTargetObject();
-								return editingService.getDelegator().getText(
-										source)
-										+ " --> "
-										+ editingService.getDelegator()
-												.getText(target);
-							}
-							return null;
-						}
-
-					});
-					ld.setTitle("Object references :");
-					ld.setInput(xRefs);
-					ld.setBlockOnOpen(true);
-					int result = ld.open();
-					if (result == Window.CANCEL) {
-						System.err
-								.println("WarningDeleteCommand: delete canceled");
-						// Should actually clean the command stack.....
-						return;
+					if (element instanceof CDOObjectReference) {
+						EObject source = ((CDOObjectReference) element)
+								.getSourceObject();
+						EObject target = ((CDOObjectReference) element)
+								.getTargetObject();
+						return editingService.getDelegator().getText(source)
+								+ " --> "
+								+ editingService.getDelegator().getText(target);
 					}
+					return null;
 				}
-				super.run();
+
+			});
+			ld.setTitle("Object references :");
+			ld.setInput(xRefs);
+			ld.setBlockOnOpen(true);
+			int result = ld.open();
+			if (result == Window.CANCEL) {
+				return false;
 			}
 		}
-
+		return true;
 	}
 
 	@Override
@@ -155,19 +181,35 @@ public class WarningDeleteAction extends DeleteAction {
 		if (newSelection.size() == 0 && selection.size() > 0) {
 			newSelection.addAll(selection);
 		}
-		Command c;
 
-		// check the objects, is a NetXResource, create dummy command,
-		// not executed on the command stack.
-		c = removeAllReferences ? WarningDeleteCommand.create(domain,
-				newSelection) : RemoveCommand.create(domain, newSelection);
-		// }
+		Command c = null;
+
+		SelectionChangedEvent originalEvent = this.getOriginalEvent();
+		if (originalEvent instanceof StateSelectionChangedEvent) {
+			if (((StateSelectionChangedEvent) originalEvent).isState_ALT()) {
+				
+				c = removeAllReferences ? WarningDeleteCommand.create(domain,
+						newSelection) : RemoveCommand.create(domain,
+						newSelection);
+				if(c instanceof WarningDeleteCommand){
+					// Pre-instruct the command, not to support undo. 
+					((WarningDeleteCommand) c).undo = false;
+				}
+				
+			}
+		}
+		if (c == null) {
+			c = removeAllReferences ? WarningDeleteCommand.create(domain,
+					newSelection) : RemoveCommand.create(domain, newSelection);
+		}
+
 		return c;
 	}
-	
+
 	/*
-	 * Facility to update the selection (the target deletion objects), for specific cases. 
-	 * The default handling, will not know which objects belong together. 
+	 * Facility to update the selection (the target deletion objects), for
+	 * specific cases. The default handling, will not know which objects belong
+	 * together.
 	 */
 	private Collection<Object> incrementSelection(Collection<?> selection) {
 		Collection<Object> newSelection = Lists.newLinkedList();
@@ -177,14 +219,19 @@ public class WarningDeleteAction extends DeleteAction {
 			// ..this will also delete the workflow runs...
 			if (o instanceof Job) {
 				Job job = (Job) o;
-				
-				// Use a call, which doesn't force listing to changes. 
-				Resource jobRunContainerResource = editingService.getDataService().getProvider().getResource(
-						editingService.getEditingDomain().getResourceSet(), SchedulingPackage.Literals.JOB_RUN_CONTAINER);
-				
-//				Resource jobRunContainerResource = editingService
-//						.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
-				
+
+				// Use a call, which doesn't force listing to changes.
+				Resource jobRunContainerResource = editingService
+						.getDataService()
+						.getProvider()
+						.getResource(
+								editingService.getEditingDomain()
+										.getResourceSet(),
+								SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+
+				// Resource jobRunContainerResource = editingService
+				// .getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+
 				// find our jobcontainer .
 				for (final EObject eObject : jobRunContainerResource
 						.getContents()) {
@@ -203,9 +250,9 @@ public class WarningDeleteAction extends DeleteAction {
 		return newSelection;
 	}
 
-	@SuppressWarnings("unused")
-	private Command createNWBCommand(Collection<?> selection) {
+	// private Command createNWBCommand(Collection<?> selection) {
+	//
+	// return WarningNWBDeleteCommand.create(domain, selection);
+	// }
 
-		return WarningNWBDeleteCommand.create(domain, selection);
-	}
 }

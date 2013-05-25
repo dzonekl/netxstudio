@@ -52,6 +52,7 @@ import org.eclipse.swt.widgets.Event;
  */
 public abstract class BaseSelectionListenerAction extends Action implements
 		ISelectionChangedListener {
+
 	/**
 	 * The current selection.
 	 */
@@ -68,6 +69,8 @@ public abstract class BaseSelectionListenerAction extends Action implements
 	 */
 	private IStructuredSelection deferredSelection = null;
 
+	private SelectionChangedEvent event;
+
 	/**
 	 * Creates a new action with the given text.
 	 * 
@@ -78,7 +81,7 @@ public abstract class BaseSelectionListenerAction extends Action implements
 	protected BaseSelectionListenerAction(String text) {
 		super(text, IAction.AS_PUSH_BUTTON);
 	}
-	
+
 	public BaseSelectionListenerAction() {
 		super();
 	}
@@ -150,7 +153,8 @@ public abstract class BaseSelectionListenerAction extends Action implements
 	 * selection is a structured one. Subclasses should override the
 	 * <code>updateSelection</code> method to react to selection changes.
 	 */
-	public final void selectionChanged(SelectionChangedEvent event) {
+	public void selectionChanged(SelectionChangedEvent event) {
+		this.event = event;
 		ISelection selection = event.getSelection();
 		if (selection instanceof IStructuredSelection) {
 			selectionChanged((IStructuredSelection) selection);
@@ -201,4 +205,9 @@ public abstract class BaseSelectionListenerAction extends Action implements
 			}
 		}
 	}
+
+	public SelectionChangedEvent getOriginalEvent() {
+		return this.event;
+	}
+
 }

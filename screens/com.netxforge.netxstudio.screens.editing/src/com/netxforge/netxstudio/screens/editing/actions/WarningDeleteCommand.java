@@ -18,19 +18,18 @@
 package com.netxforge.netxstudio.screens.editing.actions;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.eclipse.emf.cdo.CDOObjectReference;
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.edit.EMFEditPlugin;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -38,116 +37,62 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 import com.netxforge.netxstudio.data.ReferenceHelper;
 
-public class WarningDeleteCommand extends CompoundCommand {
+public class WarningDeleteCommand extends DeleteCommand {
 
 	/**
-	 * This constructs a command that deletes the objects in the given
-	 * collection.
+	 * Controls if the command should undo or not, when prepared as an undo
+	 * command, we can still override
+	 **/
+	public boolean undo = true;
+
+	/**
+	 * Cache our objects as we use them to prepare the command but also to show
+	 * a Warning of which objects will be deleted.
 	 */
+	private Collection<EObject> eObjects;
+
 	public WarningDeleteCommand(EditingDomain domain, Collection<?> collection) {
-		super(0, LABEL, DESCRIPTION);
-		this.domain = domain;
-		this.collection = collection;
-	}
-
-	/**
-	 * This creates a command that deletes the given object.
-	 */
-	public static Command create(EditingDomain domain, Object object) {
-		return create(domain, Collections.singleton(object));
-	}
-
-	/**
-	 * This creates a command that deletes the objects in the given collection.
-	 */
-	public static Command create(EditingDomain domain,
-			final Collection<?> collection) {
-		return domain.createCommand(WarningDeleteCommand.class,
-				new CommandParameter(null, null, collection));
-	}
-
-	/**
-	 * This caches the label.
-	 */
-	protected static final String LABEL = EMFEditPlugin.INSTANCE
-			.getString("_UI_DeleteCommand_label");
-
-	/**
-	 * This caches the description.
-	 */
-	protected static final String DESCRIPTION = EMFEditPlugin.INSTANCE
-			.getString("_UI_DeleteCommand_description");
-
-	/**
-	 * This is the editing domain in which this command operates.
-	 */
-	protected EditingDomain domain;
-
-	/**
-	 * This is the collection of objects to be deleted.
-	 */
-	protected Collection<?> collection;
-
-	/**
-	 * This returns the collection of objects to be deleted.
-	 */
-	public Collection<?> getCollection() {
-		return collection;
-	}
-
-	@Override
-	protected boolean prepare() {
-		prepareCommand();
-		return super.prepare();
-	}
-
-	protected void prepareCommand() {
-		append(RemoveCommand.create(domain, collection));
+		super(domain, collection);
 	}
 
 	@Override
 	public void execute() {
-		Collection<EObject> eObjects = getObjects();
-		List<CDOObjectReference> xRefs = ReferenceHelper.findReferencesGlobally(eObjects);
 
-		super.execute();
+		Collection<EObject> eObjects = getObjects();
+
+		List<CDOObjectReference> xRefs = ReferenceHelper
+				.findReferencesGlobally(eObjects);
+
+		// Note the appended RemoveCommand goes waisted when not-undoing.
+		if (undo) {
+			// Because we have appended a RemoveCommand (We are a
+			// CompoundCommand),
+			// calling the super, will execute remaining commands in the command
+			// list, which will actually remove our objects, what remains is
+			// clearing the
+			// references.
+			super.execute();
+		} else {
+			for (EObject eo : eObjects) {
+				EcoreUtil.remove(eo);
+			}
+		}
 
 		if (xRefs != null) {
 			for (CDOObjectReference xref : xRefs) {
 
 				EObject referencingEObject = xref.getSourceObject();
 				EObject eObject = xref.getTargetObject();
+				EStructuralFeature eStructuralFeature = xref.getSourceFeature();
 
-				// Do not delete referring objects which are scheduled for
-				// deletion themselves.
-				if (!eObjects.contains(referencingEObject)) {
-					EStructuralFeature eStructuralFeature = xref
-							.getSourceFeature();
-					if (eStructuralFeature.isMany()) {
+				if (undo) {
+					removeReference(eObjects, eObject, referencingEObject,
+							eStructuralFeature);
 
-						// Hack, has remove command doesn't work sometimes....
-						// See forum: 
-						
-						// http://www.eclipse.org/forums/index.php/t/249409/
-						// https://bugs.eclipse.org/bugs/show_bug.cgi?id=316273
-							
-						Command cmd = RemoveCommand
-								.create(domain, referencingEObject,
-										eStructuralFeature, eObject);
-						if (cmd.canExecute()) {
-							appendAndExecute(cmd);
-						} else {
-							Object eGet = referencingEObject
-									.eGet(eStructuralFeature);
-							if (eGet instanceof List<?>) {
-								((List<?>) eGet).remove(eObject);
-							}
-						}
-
-					} else {
-						appendAndExecute(SetCommand.create(domain,
-								referencingEObject, eStructuralFeature,
-								SetCommand.UNSET_VALUE));
+				} else {
+					Object eGet = referencingEObject.eGet(eStructuralFeature);
+					if (eGet instanceof List<?>) {
+						((List<?>) eGet).remove(eObject);
 					}
 				}
 
@@ -162,19 +107,22 @@ public class WarningDeleteCommand extends CompoundCommand {
 	 */
 	public Collection<EObject> getObjects() {
 
-		Collection<EObject> eObjects = new LinkedHashSet<EObject>();
-		for (Object wrappedObject : collection) {
-			Object object = AdapterFactoryEditingDomain.unwrap(wrappedObject);
-			if (object instanceof EObject) {
-				eObjects.add((EObject) object);
-				for (Iterator<EObject> j = ((EObject) object).eAllContents(); j
-						.hasNext();) {
-					eObjects.add(j.next());
-				}
-			} else if (object instanceof Resource) {
-				for (Iterator<EObject> j = ((Resource) object).getAllContents(); j
-						.hasNext();) {
-					eObjects.add(j.next());
+		if (eObjects == null) {
+			eObjects = new LinkedHashSet<EObject>();
+			for (Object wrappedObject : collection) {
+				Object object = AdapterFactoryEditingDomain
+						.unwrap(wrappedObject);
+				if (object instanceof EObject) {
+					eObjects.add((EObject) object);
+					for (Iterator<EObject> j = ((EObject) object)
+							.eAllContents(); j.hasNext();) {
+						eObjects.add(j.next());
+					}
+				} else if (object instanceof Resource) {
+					for (Iterator<EObject> j = ((Resource) object)
+							.getAllContents(); j.hasNext();) {
+						eObjects.add(j.next());
+					}
 				}
 			}
 		}
@@ -184,5 +132,64 @@ public class WarningDeleteCommand extends CompoundCommand {
 	public List<CDOObjectReference> getUsage(Collection<EObject> eObjects) {
 		return ReferenceHelper.findReferencesGlobally(eObjects);
 	}
-	
+
+	/**
+	 * Remove a reference to an object.</br>
+	 * 
+	 * @param eObjects
+	 *            A Collection of objects which should contain the target object
+	 *            to remove.
+	 * @param eObject
+	 * @param referencingEObject
+	 * @param eStructuralFeature
+	 */
+	public void removeReference(Collection<EObject> eObjects, EObject eObject,
+			EObject referencingEObject, EStructuralFeature eStructuralFeature) {
+		if (!eObjects.contains(referencingEObject)) {
+			if (eStructuralFeature.isChangeable()) {
+				if (eStructuralFeature.isMany()) {
+					appendAndExecute(RemoveCommand.create(domain,
+							referencingEObject, eStructuralFeature, eObject));
+				} else {
+					appendAndExecute(SetCommand.create(domain,
+							referencingEObject, eStructuralFeature,
+							SetCommand.UNSET_VALUE));
+				}
+			}
+		}
+	}
+
+	public static Command create(EditingDomain domain,
+			final Collection<?> collection) {
+		return domain.createCommand(WarningDeleteCommand.class,
+				new CommandParameter(null, null, collection));
+	}
+
+	/**
+	 * This is the base, if the command is executable. We want to capture the
+	 * result. </br> See forum/bug:</br>
+	 * http://www.eclipse.org/forums/index.php/t/249409/ //
+	 * https://bugs.eclipse.org/bugs/show_bug.cgi?id=316273
+	 * 
+	 * The super will also prepare the underlying RemoveCommand. When executing
+	 * with no-undo, the RemoveCommand has no use.
+	 */
+	@Override
+	protected boolean prepare() {
+		boolean prepared = super.prepare();
+		System.out.println("The Delete command is: " + (prepared ? "" : "NOT")
+				+ " prepared and will " + (undo ? "" : "NOT ")
+				+ " be undoable");
+		return prepared;
+	}
+
+	@Override
+	public boolean canUndo() {
+		if (undo) {
+			return super.canUndo();
+		} else {
+			return false;
+		}
+	}
+
 }

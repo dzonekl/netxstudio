@@ -146,10 +146,10 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Tolerance;
+import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
@@ -168,6 +168,7 @@ import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
+import com.netxforge.netxstudio.screens.editing.actions.TableViewerWithState;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -545,7 +546,7 @@ public class SmartResources extends AbstractScreen implements
 
 		this.buildViewerLabels(content);
 
-		resourcesTableViewer = new TableViewer(content, SWT.BORDER
+		resourcesTableViewer = new TableViewerWithState(content, SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.MULTI);
 		resourcesTableViewer.getTable().setLayoutData(
 				new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
