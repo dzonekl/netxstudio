@@ -67,33 +67,22 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 	private int maxCommitEntries = -1;
 
 	public static final int NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY_DEFAULT = 100; // how
-																			// many
-																			// days
-																			// to
-																			// keep
-																			// commit
-																			// info
-																			// for
-																			// a
-																			// user.
+																				// many
+																				// days
+																				// to
+																				// keep
+																				// commit
+																				// info
+																				// for
+																				// a
+																				// user.
 	public static final String NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY = "netxstudio.max.commit.info.quantity"; // how
-																									// many
+
+	// many
 	public synchronized void handleCommitInfo(CDOCommitInfo commitInfo) {
 		// don't do this when the server is initializing
 		if (ServerUtils.getInstance().isInitializing()) {
 			return;
-		}
-
-		// don't save commit info
-		// check if we are saving the commit info resource
-		// if so bail
-		for (final CDOIDAndVersion cdoIdAndVersion : commitInfo.getNewObjects()) {
-			if (cdoIdAndVersion instanceof InternalCDORevision) {
-				if (((InternalCDORevision) cdoIdAndVersion).getEClass() == GenericsPackage.eINSTANCE
-						.getCommitLogEntry()) {
-					return;
-				}
-			}
 		}
 
 		if (commitInfo.getComment() == null) {
@@ -112,6 +101,18 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 						IDataProvider.SERVER_COMMIT_COMMENT)) {
 			// do not log server side handling.
 			return;
+		}
+
+		// don't save commit info
+		// check if we are saving the commit info resource
+		// if so bail
+		for (final CDOIDAndVersion cdoIdAndVersion : commitInfo.getNewObjects()) {
+			if (cdoIdAndVersion instanceof InternalCDORevision) {
+				if (((InternalCDORevision) cdoIdAndVersion).getEClass() == GenericsPackage.eINSTANCE
+						.getCommitLogEntry()) {
+					return;
+				}
+			}
 		}
 
 		final XMLGregorianCalendar commitTimeStamp = modelUtils
@@ -200,25 +201,26 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 			if (a instanceof IPropertiesProvider) {
 				String property = ((IPropertiesProvider) a).getProperties()
 						.getProperty(NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY);
-				
+
 				if (property == null) {
 					maxCommitEntries = new Integer(
 							NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY_DEFAULT);
 					storeMaxCommits = true;
 				} else {
 					if (ServerActivator.DEBUG) {
-						ServerActivator.TRACE.trace(
-								ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
-								"found property: " + NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY);
+						ServerActivator.TRACE
+								.trace(ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
+										"found property: "
+												+ NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY);
 					}
 					try {
 						maxCommitEntries = new Integer(property);
 					} catch (NumberFormatException nfe) {
 
 						if (ServerActivator.DEBUG) {
-							ServerActivator.TRACE.trace(
-									ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
-									"Error reading property", nfe);
+							ServerActivator.TRACE
+									.trace(ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
+											"Error reading property", nfe);
 						}
 
 						maxCommitEntries = new Integer(
@@ -241,16 +243,16 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 		// truncate the list, if exceeding max. size.
 		if (contents.size() > maxCommitEntries) {
 
-			List<EObject> subList = Lists.newArrayList(contents
-					.subList(0, maxCommitEntries));
+			List<EObject> subList = Lists.newArrayList(contents.subList(0,
+					maxCommitEntries));
 			boolean retainAll = contents.retainAll(subList);
 
 			if (retainAll) {
 				if (ServerActivator.DEBUG) {
-					ServerActivator.TRACE.trace(
-							ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
-							"truncing mapping statistics to max "
-									+ maxCommitEntries);
+					ServerActivator.TRACE
+							.trace(ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
+									"truncing mapping statistics to max "
+											+ maxCommitEntries);
 				}
 			}
 		}
