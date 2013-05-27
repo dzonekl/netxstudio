@@ -434,14 +434,14 @@ public class NewEditNode extends AbstractDetailsScreen implements
 						// Ask the user if the node should be replaced,
 						// or simply set as the original node type.
 						boolean copyStructure = MessageDialog.openQuestion(
-								NewEditNode.this.getShell(),
-								"For Network Element: " + node.getNodeID(),
-								" Replace the structure with Network Element Type: "
-										+ nt.getName()
-										+ " ?, If not, the orignal Network Element Type will be set to be add parts from type: "
-										+ nt.getName() + " to: "
-										+ node.getNodeID());
-						if (copyStructure) {
+								NewEditNode.this.getShell(),"Network Element Type Option",
+								" Choose to select parts from the original Network Element Type: "
+										+ nt.getName() + "?\n" + 
+								" When selecting \'No\' the structure of \'"
+										+ node.getNodeID()
+										+ "\' will be replaced by the original network "
+										+ "Element Type structure\n (WARNING: Choosing \'No\' will replace the current structure, all editing will be lost)");
+						if (!copyStructure) {
 							handleNodeTypeCopy(nt);
 						} else {
 							handleSetOriginalNodeType(nt);
