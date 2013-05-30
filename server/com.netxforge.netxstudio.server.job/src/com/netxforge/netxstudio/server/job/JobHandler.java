@@ -515,7 +515,7 @@ public class JobHandler {
 		}
 
 		if (JobActivator.DEBUG) {
-			JobActivator.TRACE.trace(null, "(Re) Initializing jobs");
+			JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION, "(Re) Initializing jobs");
 
 		}
 
