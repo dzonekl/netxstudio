@@ -35,6 +35,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.framework.BundleActivator;
@@ -195,8 +196,14 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 				startTime, endTime, 0, null, metricPeriodEstimate,
 				getMappingIntervalEstimate(), null);
 
-		MetricSource src = getMetricSource();
-		addAndTruncate(mappingStatistic, src.getStatistics());
+		// Opens a session, first transaction on the IDataProvider
+		// The MetricSource is cached and used to
+		// Add the main statistic
+		// Get the name for logging.
+		// Get the file pattern.
+		// Get the mapping information.
+		// When update the statistics.
+		addAndTruncate(mappingStatistic, getMetricSource().getStatistics());
 
 		commitTransactionWithoutClosing();
 
@@ -719,6 +726,16 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 
 	protected int processRows() {
 
+		// Start TMP Transaction (for each batch of rows to process)
+		// This will be used for:
+		// 1. Getting the component object.
+		// 2. Getting the NetXResource, MetricValueRange
+		// 3. Add the values
+
+		CDOTransaction tmpTransaction = this.getDataProvider().getSession()
+				.openTransaction();
+
+		// Make sure the mapping is available.
 		// Preset the Interval hint as it might not be available from the
 		// mapping.
 		if (getMapping().getIntervalHint() > 0) {
@@ -809,14 +826,15 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 				// Locate our components which match the given descriptors.
 				// There are multiple, later on get the correct one for the
 				// metric reference.
+
 				final List<Component> componentsForID = getComponentLocator()
-						.locateComponents(getMapping().cdoView(),
-								composedIdentifiers);
+						.locateComponents(tmpTransaction, composedIdentifiers);
 
 				// If no result, skip this row we won't be able to do anything
 				// with the value here.
 				if (componentsForID.isEmpty()) {
-					// We should get the total count recorded though, so multiply by the number of metrics. 
+					// We should get the total count recorded though, so
+					// multiply by the number of metrics.
 					createNotMatchedMappingRecord(composedIdentifiers,
 							getFailedRecords());
 					continue;
@@ -886,6 +904,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 							md.getValueDataKind(), rowTimeStamp,
 							locatedComponent, value, intervalHintFromRow);
 
+					// Close the temp transaction.
+
 				}
 
 			} catch (final Exception e) {
@@ -897,12 +917,18 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 				this.createExceptionMappingRecord(e, this.getFailedRecords());
 
 			} finally {
-
 				// As last update the last row time stamp.
 				if (rowTimeStamp != null) {
 					this.updatePeriodEstimate(rowTimeStamp);
 				}
 			}
+		}
+		try {
+			tmpTransaction.setCommitComment(IDataProvider.SERVER_COMMIT_COMMENT);
+			tmpTransaction.commit();
+		} catch (CommitException e) {
+		} finally {
+			tmpTransaction.close();
 		}
 		this.setImportMessage(new Integer(createdNetXResourcesCount).toString());
 		return totalRows;
@@ -1268,13 +1294,16 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			break;
 		case ComponentNotMatched: {
 			constructIdentifierMsg(allIdentifiers, sb);
-		}break;
+		}
+			break;
 		case MetricNotFound: {
 			constructIdentifierMsg(allIdentifiers, sb);
-		}break;
+		}
+			break;
 		case ComponentMatchDuplicates: {
 			constructIdentifierMsg(allIdentifiers, sb);
-		}break;
+		}
+			break;
 		}
 
 		return sb.toString();

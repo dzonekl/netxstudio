@@ -23,6 +23,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -125,8 +127,8 @@ public class ServerImporterHelper implements IImporterHelper {
 			Component locatedComponent, Double dblValue, int intervalHint) {
 
 		Metric metric = valueDataKind.getMetricRef();
-		int createdNetXResource = 0; 
-				
+		int createdNetXResource = 0;
+
 		if (DataActivator.DEBUG) {
 			DataActivator.TRACE.trace(
 					DataActivator.TRACE_IMPORT_HELPER_OPTION,
@@ -136,9 +138,12 @@ public class ServerImporterHelper implements IImporterHelper {
 							+ modelUtils.printModelObject(metric));
 		}
 
+		// Use the corresponding component location Transaction
+		// We can safely cast it, as using a transaction to create the component.  
+		CDOView cdoView = locatedComponent.cdoView();
 		final Resource cdoResourceForNetXResource = modelUtils
-				.cdoResourceForNetXResource(locatedComponent, importer
-						.getDataProvider().getTransaction());
+				.cdoResourceForNetXResource(locatedComponent,
+						(CDOTransaction) cdoView);
 		if (DataActivator.DEBUG) {
 			DataActivator.TRACE.trace(
 					DataActivator.TRACE_IMPORT_HELPER_OPTION,
@@ -161,20 +166,20 @@ public class ServerImporterHelper implements IImporterHelper {
 			// metric
 			// reference:
 			// see http://work.netxforge.com/issues/264
-//			if (DataActivator.DEBUG) {
-//				DataActivator.TRACE.trace(
-//						DataActivator.TRACE_IMPORT_HELPER_OPTION,
-//						"-- checking resource: "
-//								+ netXResource.getShortName()
-//								+ " ID: "
-//								+ netXResource.cdoID()
-//								+ " metric ref: "
-//								+ modelUtils.printModelObject(netXResource
-//										.getMetricRef())
-//								+ " comp ref: "
-//								+ modelUtils.printModelObject(netXResource
-//										.getComponentRef()));
-//			}
+			// if (DataActivator.DEBUG) {
+			// DataActivator.TRACE.trace(
+			// DataActivator.TRACE_IMPORT_HELPER_OPTION,
+			// "-- checking resource: "
+			// + netXResource.getShortName()
+			// + " ID: "
+			// + netXResource.cdoID()
+			// + " metric ref: "
+			// + modelUtils.printModelObject(netXResource
+			// .getMetricRef())
+			// + " comp ref: "
+			// + modelUtils.printModelObject(netXResource
+			// .getComponentRef()));
+			// }
 
 			if (netXResource.getComponentRef() != null
 					&& netXResource.getComponentRef().cdoID()
@@ -225,8 +230,8 @@ public class ServerImporterHelper implements IImporterHelper {
 			foundNetXResource.setUnitRef(metric.getUnitRef());
 			locatedComponent.getResourceRefs().add(foundNetXResource);
 			cdoResourceForNetXResource.getContents().add(foundNetXResource);
-			
-			createdNetXResource +=1;
+
+			createdNetXResource += 1;
 
 		}
 

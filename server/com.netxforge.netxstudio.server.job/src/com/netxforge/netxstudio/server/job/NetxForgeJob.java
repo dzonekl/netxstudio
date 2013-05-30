@@ -133,26 +133,26 @@ public class NetxForgeJob implements org.quartz.Job {
 
 	private void createWorkFlowMonitor(JobImplementation jobImplementation) {
 
-		// use Guice provider pattern
-		runMonitor = JobActivator.getInstance().getInjector()
-				.getInstance(ServerWorkFlowRunMonitor.class);
-		dataProvider.openSession();
-		dataProvider.getTransaction();
-		final JobRunContainer container = getCreateJobRunContainer(dataProvider
-				.getResource(SchedulingPackage.eINSTANCE.getJobRunContainer()));
+			// use Guice provider pattern
+			runMonitor = JobActivator.getInstance().getInjector()
+					.getInstance(ServerWorkFlowRunMonitor.class);
+			dataProvider.openSession();
+			dataProvider.getTransaction();
+			final JobRunContainer container = getCreateJobRunContainer(dataProvider
+					.getResource(SchedulingPackage.eINSTANCE
+							.getJobRunContainer()));
 
-		final WorkFlowRun wfRun = jobImplementation.createWorkFlowRunInstance();
+			final WorkFlowRun wfRun = jobImplementation
+					.createWorkFlowRunInstance();
+			addAndTruncate(container, container.getWorkFlowRuns(), wfRun);
 
-		addAndTruncate(container, container.getWorkFlowRuns(), wfRun);
-		// container.getWorkFlowRuns().add(wfRun);
+			dataProvider.commitTransactionThenClose();
+			dataProvider.closeSession();
 
-		dataProvider.commitTransactionThenClose();
-		dataProvider.closeSession();
-
-		// Tigh the ID of the Workflow run with the Run Monitor. The monitor
-		// will update this object.
-		runMonitor.setWorkFlowRunId(wfRun.cdoID());
-		runMonitor.setStartRunning();
+			// Tigh the ID of the Workflow run with the Run Monitor. The monitor
+			// will update this object.
+			runMonitor.setWorkFlowRunId(wfRun.cdoID());
+			runMonitor.setStartRunning();
 	}
 
 	/**
@@ -215,15 +215,15 @@ public class NetxForgeJob implements org.quartz.Job {
 
 			List<WorkFlowRun> subList = Lists.newArrayList(contents.subList(0,
 					maxWorkFlowRunsInJobRunContainer));
-			
-			if(CDOUtil.isStaleObject(container)){
+
+			if (CDOUtil.isStaleObject(container)) {
 				System.out.println();
 			}
-			
+
 			for (int i = 0; i < contents.size(); i++) {
 				try {
-					WorkFlowRun workFlowRun = contents.get(0);
-					if(CDOUtil.isStaleObject(workFlowRun)){
+					WorkFlowRun workFlowRun = contents.get(i);
+					if (CDOUtil.isStaleObject(workFlowRun)) {
 						CDOUtil.cleanStaleReference(
 								container,
 								SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS,

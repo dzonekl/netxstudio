@@ -44,6 +44,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
+import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.cdo.common.branch.CDOBranchVersion;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
@@ -75,6 +76,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.spi.cdo.FSMUtil;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -336,6 +338,25 @@ public class ModelUtils {
 	}
 
 	/**
+	 * CDO Object equality, is not customized {@link CDOObject#equals(Object)
+	 * see equals()} when two CDOObjects with same OID are compared with '=='
+	 * will result in false if either is read by a different CDOTransaction. A
+	 * dedicated comparator will compare the OID's, even if from different
+	 * transactions. </br> The {@link CDOState} of the objects is required to be
+	 * {@link CDOState#CLEAN clean} (Object is state {@link CDOState#NEW new}
+	 * and {@link CDOState#TRANSIENT transient} have a temporary OID} which
+	 * makes comparison superfluous)
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	public boolean cdoOIDEquals(CDOObject o1, CDOObject o2) {
+		if (FSMUtil.isClean(o1) && FSMUtil.isClean(o2)) {
+			return o1.cdoID().equals(o2.cdoID());
+		}
+		return false;
+	}
+
+	/**
 	 * Compare two values
 	 */
 	public class DateComparator implements Comparator<Date> {
@@ -441,6 +462,25 @@ public class ModelUtils {
 			return -1;
 		}
 	};
+
+	/**
+	 * A Predicate which checks equality of a target {@link CDOObject object}
+	 * which delegates to {@link #cdoOIDEquals}
+	 * 
+	 * @author Christophe Bouhier
+	 * 
+	 */
+	public class CDOObjectEqualsPredicate implements Predicate<CDOObject> {
+		private final CDOObject target;
+
+		public CDOObjectEqualsPredicate(CDOObject target) {
+			this.target = target;
+		}
+
+		public boolean apply(CDOObject test) {
+			return cdoOIDEquals(target, test);
+		}
+	}
 
 	public ServerSettings serverSettings(Resource serverSettingsResource) {
 
@@ -5011,7 +5051,8 @@ public class ModelUtils {
 						// Metric in path doesn't work.
 						final List<Metric> metricsInPath = Lists.newArrayList();
 						metricsInPath(metricsInPath, c);
-						return metricsInPath.contains(metric);
+						return Iterables.any(metricsInPath,
+								new CDOObjectEqualsPredicate(metric));
 					}
 
 				});

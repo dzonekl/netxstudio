@@ -186,12 +186,14 @@ public interface IComponentMappingIndex {
 				return match;
 			}
 		}
-
-		public final IdentifierInPathPredicate containsIdentifierInPathPredicate = new IdentifierInPathPredicate();
-
-		public final IdentifierInSequencePredicate containsIdentifierInSequencePredicate = new IdentifierInSequencePredicate();
-
-		public final IdentifierInLeafPredicate containsIdentifiersAndLeafPredicate = new IdentifierInLeafPredicate();
+		
+		
+		// CB Memory 
+//		public final IdentifierInPathPredicate containsIdentifierInPathPredicate = new IdentifierInPathPredicate();
+//
+//		public final IdentifierInSequencePredicate containsIdentifierInSequencePredicate = new IdentifierInSequencePredicate();
+//
+//		public final IdentifierInLeafPredicate containsIdentifiersAndLeafPredicate = new IdentifierInLeafPredicate();
 
 		/**
 		 * Produces an index entry for the given {@link Component}.</p> Note
