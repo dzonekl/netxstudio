@@ -61,7 +61,7 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 
 	// public tracing options.
 	public static final String TRACE_SERVER_CDO_OPTION = "/trace.server.cdo";
-	public static final String TRACE_SERVER_CDO_SESSION = "/trace.server.session";
+	public static final String TRACE_SERVER_CDO_SESSION = "/trace.server.cdo.session";
 	public static final String TRACE_SERVER_CDO_TRANSACTION = "/trace.server.cdo.transaction";
 	public static final String TRACE_SERVER_CDO_VIEW = "/trace.server.cdo.view";
 
