@@ -337,12 +337,13 @@ public class NewEditMappingXLS extends AbstractFileBasedMapping implements
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof Map<?, ?>) {
 				Map<?, ?> row = (Map<?, ?>) element;
-				if (columnIndex < row.size()) {
-					Tuple cell = (Tuple) row.get(columnIndex);
-					if (cell != null) {
-						Object v = cell.getValue();
-						return v.toString();
-					}
+				// As we are compacting the Hashtable, 
+				// there will be less columns in the Map than the 
+				// actual table columns. 
+				Tuple cell = (Tuple) row.get(columnIndex);
+				if (cell != null) {
+					Object v = cell.getValue();
+					return v.toString();
 				}
 			}
 			return "";
