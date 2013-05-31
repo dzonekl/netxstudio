@@ -118,8 +118,8 @@ import com.netxforge.netxstudio.screens.editing.actions.clipboard.ClipboardServi
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 
 /**
- * A screen presenting {@link MetricSource} mapping statistics 
- *  
+ * A screen presenting {@link MetricSource} mapping statistics
+ * 
  * @author Christophe Bouhier
  */
 public class MappingStatistics extends AbstractScreen implements
@@ -420,7 +420,7 @@ public class MappingStatistics extends AbstractScreen implements
 		txtTotalRecords.setText("");
 		txtTotalRecords.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
-		
+
 		Label lblTotalExpectedValues = toolkit.createLabel(composite,
 				"Total values:", SWT.NONE);
 
@@ -723,17 +723,15 @@ public class MappingStatistics extends AbstractScreen implements
 			@Override
 			protected Object calculate() {
 				Object selectedObject = selectionObservable.getValue();
+				// recursively compute for sub-statistics.
 				if (selectedObject instanceof MappingStatistic) {
-					MappingStatistic ms = (MappingStatistic) selectedObject;
-					int totalErrors = 0;
-					for (MappingRecord mr : ms.getFailedRecords()) {
-						totalErrors += mr.getCount();
-					}
-					return new Integer(totalErrors).toString();
+					return new Integer(
+							modelUtils
+									.mappingFailedCount((MappingStatistic) selectedObject))
+							.toString();
 				}
 				return 0;
 			}
-
 		};
 
 		EMFUpdateValueStrategy modelToTargetStrategy = new EMFUpdateValueStrategy();
@@ -817,12 +815,12 @@ public class MappingStatistics extends AbstractScreen implements
 			String errorDescription;
 
 			public String lookupError(String code) {
-				try{
-				Integer codeAsInt = new Integer(code);
-				return IMetricValueImporter.IMPORT_ERROR_TEXT[codeAsInt];
-				}catch(NumberFormatException nfe){
+				try {
+					Integer codeAsInt = new Integer(code);
+					return IMetricValueImporter.IMPORT_ERROR_TEXT[codeAsInt];
+				} catch (NumberFormatException nfe) {
 					return "Mapping error code not supported (Old Format)";
-				}	
+				}
 			}
 
 			/**

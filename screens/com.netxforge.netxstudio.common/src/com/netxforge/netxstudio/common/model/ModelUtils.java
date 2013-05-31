@@ -80,7 +80,6 @@ import org.eclipse.emf.spi.cdo.FSMUtil;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -113,6 +112,8 @@ import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingColumn;
+import com.netxforge.netxstudio.metrics.MappingRecord;
+import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricRetentionPeriod;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
@@ -5097,6 +5098,19 @@ public class ModelUtils {
 			}
 		}
 	}
+	
+	public int mappingFailedCount(MappingStatistic mapStat){
+		int totalErrors = 0;
+		for (MappingRecord mr : mapStat.getFailedRecords()) {
+			totalErrors += mr.getCount();
+		}
+		for(MappingStatistic ms : mapStat.getSubStatistics()){
+			totalErrors += mappingFailedCount(ms);
+		}
+		return totalErrors;
+	}
+	
+	
 
 	/**
 	 * The component name. If the component is a Function, the name will be
