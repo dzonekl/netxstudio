@@ -733,15 +733,25 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	class NetworkTreeStructureAdvisorImpl extends TreeStructureAdvisor {
+
+		/**
+		 * This is important and should return the correct parent as it is used
+		 * to set the selection!
+		 */
 		@Override
 		public Object getParent(Object element) {
 
+			// For Function or Equipment return the Node.
+			if (element instanceof Function || element instanceof Equipment) {
+				return modelUtils.nodeFor((EObject) element);
+			}
 			if (element instanceof EObject) {
 				EObject eo = (EObject) element;
 				if (eo.eContainer() != null) {
 					return eo.eContainer();
 				}
 			}
+
 			return null;
 		}
 
@@ -792,7 +802,9 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		}
 	}
 
+	/** The composite holding the current details */
 	Composite currentDetails;
+
 	private ImageHyperlink mghprlnkNewImagehyperlink;
 
 	/*
@@ -923,6 +935,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 		mementoUtils.rememberStructuredViewerSelection(memento,
 				networkTreeViewer, MEM_KEY_NETWORKS_SELECTION_TREE);
+		this.saveDetailsState(currentDetails);
 
 	}
 

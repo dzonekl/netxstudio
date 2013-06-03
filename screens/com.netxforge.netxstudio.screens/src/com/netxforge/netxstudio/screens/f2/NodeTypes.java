@@ -92,6 +92,13 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 	private static final String MEM_KEY_NODETYPES_SELECTION_TREE = "MEM_KEY_NODETYPES_SELECTION_TREE";
 
+	/*
+	 * Remember the state for Details => Function.
+	 */
+	private static final String MEM_KEY_DETAILS_FUNCTION = "MEM_KEY_DETAILS_FUNCTION";
+	private static final String MEM_KEY_DETAILS_EQUIPMENT = "MEM_KEY_DETAILS_EQUIPMENT";
+	private static final String MEM_KEY_DETAILS_NODE_TYPE = "MEM_KEY_DETAILS_NODE_TYPE";
+
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
 	@SuppressWarnings("unused")
@@ -410,7 +417,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 	private void handleDetailsSelection(Object o) {
 
-		if (currentDetails != null) {
+		if (currentDetails != null && !currentDetails.isDisposed()) {
+			this.saveDetailsState(currentDetails);
 			currentDetails.dispose();
 		}
 
@@ -423,6 +431,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 			screen.setParentScreen(this);
 			screen.injectData(null, o);
 			this.currentDetails = screen;
+			this.restoreDetailsState(currentDetails);
 			sashForm.layout(true, true);
 		}
 		if (o instanceof Equipment) {
@@ -435,6 +444,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 			screen.setParentScreen(this);
 			screen.injectData(null, o);
 			this.currentDetails = screen;
+			this.restoreDetailsState(currentDetails);
 			sashForm.layout(true, true);
 
 		}
@@ -446,6 +456,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 			nnt.setParentScreen(this);
 			nnt.injectData(null, o);
 			this.currentDetails = nnt;
+			this.restoreDetailsState(currentDetails);
 			sashForm.layout(true, true);
 		}
 
@@ -495,6 +506,35 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 	}
 
+	public void saveDetailsState(Composite currentDetails) {
+		IMemento memento = this.getScreenService().getAbsViewPart()
+				.getMemento();
+		String key = keyForComposite(currentDetails);
+		if (key != null) {
+			mementoUtils.rememberSectionsInComposite(memento, currentDetails,
+					key);
+		}
+	}
+
+	/**
+	 * Find the IMemento Key for a Composite, to remember UI Details state.
+	 * 
+	 * @param currentDetails
+	 * @return
+	 */
+	private String keyForComposite(Composite currentDetails) {
+		String key = null;
+
+		if (currentDetails instanceof NewEditNodeType) {
+			key = MEM_KEY_DETAILS_NODE_TYPE;
+		} else if (currentDetails instanceof NewEditFunction) {
+			key = MEM_KEY_DETAILS_FUNCTION;
+		} else if (currentDetails instanceof NewEditEquipment) {
+			key = MEM_KEY_DETAILS_EQUIPMENT;
+		}
+		return key;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -512,4 +552,14 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 	}
 
+	public void restoreDetailsState(Composite currentDetails) {
+		IMemento memento = this.getScreenService().getAbsViewPart()
+				.getMemento();
+
+		String key = keyForComposite(currentDetails);
+		if (key != null) {
+			mementoUtils.retrieveSectionsInComposite(memento, currentDetails,
+					key);
+		}
+	}
 }
