@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -103,7 +102,6 @@ import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
@@ -130,7 +128,6 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
-import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.DerivedResource;
@@ -530,27 +527,106 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Explicitly evaluates to the timestamp being within the period. If the
-	 * timestamp is equal to the period, it will not be included.
+	 * Explicitly evaluates to the time stamp being within the period.
 	 * 
-	 * @author Christophe
+	 * @author Christophe Bouhier
 	 */
-	public class ValueInsideRange implements Predicate<Value> {
+	public class MarkerWithinPeriodPredicate implements Predicate<Marker> {
 
 		private long from;
 		private long to;
 
-		public ValueInsideRange(final DateTimeRange dtr) {
+		public MarkerWithinPeriodPredicate(final DateTimeRange dtr) {
 			from = dtr.getBegin().toGregorianCalendar().getTimeInMillis();
 			to = dtr.getEnd().toGregorianCalendar().getTimeInMillis();
 		}
 
-		public ValueInsideRange(Date from, Date to) {
+		public MarkerWithinPeriodPredicate(Date from, Date to) {
 			this.from = from.getTime();
 			this.to = to.getTime();
 		}
 
-		public ValueInsideRange(long from, long to) {
+		public MarkerWithinPeriodPredicate(long from, long to) {
+			this.from = from;
+			this.to = to;
+		}
+
+		public boolean apply(final Marker m) {
+			if (m.eIsSet(OperatorsPackage.Literals.MARKER__VALUE_REF)) {
+				long target = m.getValueRef().getTimeStamp()
+						.toGregorianCalendar().getTimeInMillis();
+				return from <= target && to >= target;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	public MarkerWithinPeriodPredicate markerInsidePeriod(DateTimeRange dtr) {
+		return new MarkerWithinPeriodPredicate(dtr);
+	}
+
+	public MarkerWithinPeriodPredicate markerInsidePeriod(Date from, Date to) {
+		return new MarkerWithinPeriodPredicate(from, to);
+	}
+
+	public MarkerWithinPeriodPredicate markerInsidePeriod(long from, long to) {
+		return new MarkerWithinPeriodPredicate(from, to);
+	}
+
+	/**
+	 * All markers inside this range.
+	 * 
+	 * @param unfiltered
+	 * @param dtr
+	 * @return
+	 */
+	public List<Marker> markersInsidePeriod(Iterable<Marker> unfiltered,
+			DateTimeRange dtr) {
+
+		Iterable<Marker> filterValues = Iterables.filter(unfiltered,
+				markerInsidePeriod(dtr));
+		return Lists.newArrayList(filterValues);
+	}
+
+	public List<Marker> markersInsidePeriod(Iterable<Marker> unfiltered,
+			Date from, Date to) {
+
+		Iterable<Marker> filterValues = Iterables.filter(unfiltered,
+				markerInsidePeriod(from, to));
+		return Lists.newArrayList(filterValues);
+	}
+
+	public List<Marker> markersInsidePeriod(Iterable<Marker> unfiltered,
+			long from, long to) {
+
+		Iterable<Marker> filterValues = Iterables.filter(unfiltered,
+				markerInsidePeriod(from, to));
+		return Lists.newArrayList(filterValues);
+	}
+
+	/**
+	 * Explicitly evaluates to the timestamp being within the period. If the
+	 * timestamp is equal to the period, it will not be included.
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	public class ValueWithinPeriodPredicate implements Predicate<Value> {
+
+		private long from;
+		private long to;
+
+		public ValueWithinPeriodPredicate(final DateTimeRange dtr) {
+			from = dtr.getBegin().toGregorianCalendar().getTimeInMillis();
+			to = dtr.getEnd().toGregorianCalendar().getTimeInMillis();
+		}
+
+		public ValueWithinPeriodPredicate(Date from, Date to) {
+			this.from = from.getTime();
+			this.to = to.getTime();
+		}
+
+		public ValueWithinPeriodPredicate(long from, long to) {
 			this.from = from;
 			this.to = to;
 		}
@@ -563,16 +639,16 @@ public class ModelUtils {
 		}
 	}
 
-	public ValueInsideRange valueInsideRange(DateTimeRange dtr) {
-		return new ValueInsideRange(dtr);
+	public ValueWithinPeriodPredicate valueInsideRange(DateTimeRange dtr) {
+		return new ValueWithinPeriodPredicate(dtr);
 	}
 
-	public ValueInsideRange valueInsideRange(Date from, Date to) {
-		return new ValueInsideRange(from, to);
+	public ValueWithinPeriodPredicate valueInsideRange(Date from, Date to) {
+		return new ValueWithinPeriodPredicate(from, to);
 	}
 
-	public ValueInsideRange valueInsideRange(long from, long to) {
-		return new ValueInsideRange(from, to);
+	public ValueWithinPeriodPredicate valueInsideRange(long from, long to) {
+		return new ValueWithinPeriodPredicate(from, to);
 	}
 
 	public List<Value> valuesInsideRange(Iterable<Value> unfiltered,
@@ -605,11 +681,11 @@ public class ModelUtils {
 	 * 
 	 * @author Christophe Bouhier
 	 */
-	public class ValueForValues implements Predicate<Value> {
+	public class ValueForValuesPredicate implements Predicate<Value> {
 
 		List<Value> referenceValues;
 
-		public ValueForValues(final List<Value> referenceValues) {
+		public ValueForValuesPredicate(final List<Value> referenceValues) {
 			this.referenceValues = referenceValues;
 		}
 
@@ -629,8 +705,8 @@ public class ModelUtils {
 		}
 	}
 
-	public ValueForValues valueForValues(List<Value> referenceValues) {
-		return new ValueForValues(referenceValues);
+	public ValueForValuesPredicate valueForValues(List<Value> referenceValues) {
+		return new ValueForValuesPredicate(referenceValues);
 	}
 
 	public List<Value> valuesForValues(Iterable<Value> unfiltered,
@@ -800,7 +876,7 @@ public class ModelUtils {
 		// }
 
 		if (CommonActivator.DEBUG) {
-			CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION,
+			CommonActivator.TRACE.trace(CommonActivator.TRACE_COMMON_UTILS_OPTION,
 					"Value by period splitter, key output");
 			List<String> sortedKeys = Ordering.from(new Comparator<String>() {
 
@@ -810,7 +886,7 @@ public class ModelUtils {
 
 			}).sortedCopy(targetMap.keySet());
 			for (String s : sortedKeys) {
-				CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION,
+				CommonActivator.TRACE.trace(CommonActivator.TRACE_COMMON_UTILS_OPTION,
 						"key: " + s);
 			}
 		}
@@ -944,14 +1020,14 @@ public class ModelUtils {
 		}
 	}
 
-	public class NonHiddenFile implements Predicate<File> {
+	public class NonHiddenFilePredicate implements Predicate<File> {
 		public boolean apply(final File f) {
 			return !f.isHidden();
 		}
 	}
 
-	public NonHiddenFile nonHiddenFile() {
-		return new NonHiddenFile();
+	public NonHiddenFilePredicate nonHiddenFile() {
+		return new NonHiddenFilePredicate();
 	}
 
 	/**
@@ -962,16 +1038,16 @@ public class ModelUtils {
 	 * @author Christophe
 	 * 
 	 */
-	public class ExtensionFile implements Predicate<File> {
+	public class ExtensionFilePredicate implements Predicate<File> {
 
 		private String[] extensions;
 		private boolean negate = false;
 
-		public ExtensionFile(String... extensions) {
+		public ExtensionFilePredicate(String... extensions) {
 			this.extensions = extensions;
 		}
 
-		public ExtensionFile(boolean negate, String... extensions) {
+		public ExtensionFilePredicate(boolean negate, String... extensions) {
 			this.extensions = extensions;
 			this.negate = negate;
 		}
@@ -997,18 +1073,19 @@ public class ModelUtils {
 		}
 	}
 
-	public ExtensionFile extensionFile(String... extension) {
-		return new ExtensionFile(extension);
+	public ExtensionFilePredicate extensionFile(String... extension) {
+		return new ExtensionFilePredicate(extension);
 	}
 
-	public ExtensionFile extensionFile(boolean negate, String... extensions) {
-		return new ExtensionFile(negate, extensions);
+	public ExtensionFilePredicate extensionFile(boolean negate,
+			String... extensions) {
+		return new ExtensionFilePredicate(negate, extensions);
 	}
 
-	public class NodeOfType implements Predicate<Node> {
+	public class NodeOfTypePredicate implements Predicate<Node> {
 		private final NodeType nt;
 
-		public NodeOfType(final NodeType nt) {
+		public NodeOfTypePredicate(final NodeType nt) {
 			this.nt = nt;
 		}
 
@@ -1023,14 +1100,14 @@ public class ModelUtils {
 		}
 	}
 
-	public NodeOfType nodeOfType(NodeType nodeType) {
-		return new NodeOfType(nodeType);
+	public NodeOfTypePredicate nodeOfType(NodeType nodeType) {
+		return new NodeOfTypePredicate(nodeType);
 	}
 
-	public class NodeInRelationship implements Predicate<Node> {
+	public class NodeInRelationshipPredicate implements Predicate<Node> {
 		private final Relationship r;
 
-		public NodeInRelationship(final Relationship r) {
+		public NodeInRelationshipPredicate(final Relationship r) {
 			this.r = r;
 		}
 
@@ -1039,10 +1116,11 @@ public class ModelUtils {
 		}
 	}
 
-	public class SourceRelationshipForNode implements Predicate<Relationship> {
+	public class SourceRelationshipForNodePredicate implements
+			Predicate<Relationship> {
 		private final Node n;
 
-		public SourceRelationshipForNode(final Node n) {
+		public SourceRelationshipForNodePredicate(final Node n) {
 			this.n = n;
 		}
 
@@ -1051,12 +1129,12 @@ public class ModelUtils {
 		}
 	}
 
-	public NodeInRelationship nodeInRelationship(Relationship r) {
-		return new NodeInRelationship(r);
+	public NodeInRelationshipPredicate nodeInRelationship(Relationship r) {
+		return new NodeInRelationshipPredicate(r);
 	}
 
-	public SourceRelationshipForNode sourceRelationshipInNode(Node n) {
-		return new SourceRelationshipForNode(n);
+	public SourceRelationshipForNodePredicate sourceRelationshipInNode(Node n) {
+		return new SourceRelationshipForNodePredicate(n);
 	}
 
 	/**
@@ -1064,11 +1142,11 @@ public class ModelUtils {
 	 * in range. targetBegin <= begin && targetEnd <= end. (Example of an
 	 * overlapping).
 	 */
-	public class ServiceMonitorWithinPeriod implements
+	public class ServiceMonitorWithinPeriodPredicate implements
 			Predicate<ServiceMonitor> {
 		private final DateTimeRange dtr;
 
-		public ServiceMonitorWithinPeriod(final DateTimeRange dtr) {
+		public ServiceMonitorWithinPeriodPredicate(final DateTimeRange dtr) {
 			this.dtr = dtr;
 		}
 
@@ -1170,9 +1248,9 @@ public class ModelUtils {
 		}
 	}
 
-	public ServiceMonitorWithinPeriod serviceMonitorWithinPeriod(
+	public ServiceMonitorWithinPeriodPredicate serviceMonitorWithinPeriod(
 			DateTimeRange dtr) {
-		return new ServiceMonitorWithinPeriod(dtr);
+		return new ServiceMonitorWithinPeriodPredicate(dtr);
 	}
 
 	/**
@@ -1224,20 +1302,20 @@ public class ModelUtils {
 		return Lists.newArrayList(result);
 	}
 
-	public class IsRelationship implements Predicate<EObject> {
+	public class IsRelationshipPredicate implements Predicate<EObject> {
 		public boolean apply(final EObject eo) {
 			return eo instanceof Relationship;
 		}
 	}
 
-	public IsRelationship isRelationship() {
-		return new IsRelationship();
+	public IsRelationshipPredicate isRelationship() {
+		return new IsRelationshipPredicate();
 	}
 
-	public class MarkerForValue implements Predicate<Marker> {
+	public class MarkerForValuePredicate implements Predicate<Marker> {
 		private final Value value;
 
-		public MarkerForValue(final Value value) {
+		public MarkerForValuePredicate(final Value value) {
 			this.value = value;
 		}
 
@@ -1250,14 +1328,14 @@ public class ModelUtils {
 		}
 	}
 
-	public MarkerForValue markerForValue(Value v) {
-		return new MarkerForValue(v);
+	public MarkerForValuePredicate markerForValue(Value v) {
+		return new MarkerForValuePredicate(v);
 	}
 
-	public class MarkerForDate implements Predicate<Marker> {
+	public class MarkerForDatePredicate implements Predicate<Marker> {
 		private final Date checkDate;
 
-		public MarkerForDate(final Date value) {
+		public MarkerForDatePredicate(final Date value) {
 			this.checkDate = value;
 		}
 
@@ -1287,8 +1365,8 @@ public class ModelUtils {
 		}
 	}
 
-	public MarkerForDate markerForDate(Date d) {
-		return new MarkerForDate(d);
+	public MarkerForDatePredicate markerForDate(Date d) {
+		return new MarkerForDatePredicate(d);
 	}
 
 	public class ToleranceMarkerPredicate implements Predicate<Marker> {
@@ -1459,7 +1537,7 @@ public class ModelUtils {
 			cdoCalculateResourceName = cdoCalculateResourceName(targetObject);
 		} catch (IllegalAccessException e) {
 			if (CommonActivator.DEBUG) {
-				CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION,
+				CommonActivator.TRACE.trace(CommonActivator.TRACE_COMMON_UTILS_OPTION,
 						"-- Can't resolve the Resource name for target object: "
 								+ targetObject);
 			}
@@ -1467,7 +1545,7 @@ public class ModelUtils {
 		}
 
 		if (CommonActivator.DEBUG) {
-			CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION,
+			CommonActivator.TRACE.trace(CommonActivator.TRACE_COMMON_UTILS_OPTION,
 					"-- looking for CDO resource with name:"
 							+ cdoCalculateResourceName);
 		}
@@ -1485,7 +1563,7 @@ public class ModelUtils {
 					emfNetxResource = (CDOResource) n;
 					if (CommonActivator.DEBUG) {
 						CommonActivator.TRACE.trace(
-								CommonActivator.TRACE_UTILS_OPTION, "-- found:"
+								CommonActivator.TRACE_COMMON_UTILS_OPTION, "-- found:"
 										+ emfNetxResource.getURI().toString());
 					}
 					break;
@@ -1496,7 +1574,7 @@ public class ModelUtils {
 		if (emfNetxResource == null) {
 			emfNetxResource = folder.addResource(cdoCalculateResourceName);
 			if (CommonActivator.DEBUG) {
-				CommonActivator.TRACE.trace(CommonActivator.TRACE_UTILS_OPTION,
+				CommonActivator.TRACE.trace(CommonActivator.TRACE_COMMON_UTILS_OPTION,
 						"-- created resource:"
 								+ emfNetxResource.getURI().toString());
 			}
@@ -1926,7 +2004,7 @@ public class ModelUtils {
 						latestIndex = i;
 						if (CommonActivator.DEBUG) {
 							CommonActivator.TRACE.trace(
-									CommonActivator.TRACE_UTILS_OPTION,
+									CommonActivator.TRACE_COMMON_UTILS_OPTION,
 									"-- update index to: " + i);
 						}
 						// set the index, we are later then predecessor.
@@ -2007,72 +2085,6 @@ public class ModelUtils {
 		return Lists.newArrayList(filtered);
 	}
 
-	public RFSServiceSummary serviceSummaryForService(Service service,
-			DateTimeRange dtr, IProgressMonitor monitor) {
-		RFSServiceSummary serviceSummary = new RFSServiceSummary(
-				(RFSService) service);
-
-		if (service instanceof RFSService) {
-			int[] ragTotalResources = new int[] { 0, 0, 0 };
-			int[] ragTotalNodes = new int[] { 0, 0, 0 };
-			for (Node n : ((RFSService) service).getNodes()) {
-				if (monitor != null && monitor.isCanceled()) {
-					return serviceSummary;
-				}
-				int[] ragResources = ragCountResourcesForNode(service, n, dtr,
-						monitor);
-				for (int i = 0; i < ragTotalResources.length; i++) {
-					ragTotalResources[i] += ragResources[i];
-				}
-				// Any of the levels > 0, we increase the total node count.
-				ragTotalNodes[0] += ragResources[0] > 0 ? 1 : 0;
-				ragTotalNodes[1] += ragResources[1] > 0 ? 1 : 0;
-				ragTotalNodes[2] += ragResources[2] > 0 ? 1 : 0;
-			}
-			serviceSummary.setRagCountResources(ragTotalResources);
-			serviceSummary.setRagCountNodes(ragTotalNodes);
-		}
-		serviceSummary.setPeriodFormattedString(periodToStringMore(dtr));
-		return serviceSummary;
-	}
-
-	/**
-	 * Overall RAG Status.
-	 * 
-	 * @param sm
-	 * @return
-	 * @deprecated DO NOT USE, no distinction per NetXResource.
-	 */
-	public int[] ragCountResources(ServiceMonitor sm) {
-
-		int red = 0, amber = 0, green = 0;
-
-		for (ResourceMonitor rm : sm.getResourceMonitors()) {
-			int[] rag = ragForMarkers(rm.getMarkers());
-			red += rag[0];
-			amber += rag[1];
-			green += rag[2];
-		}
-		return new int[] { red, amber, green };
-
-	}
-
-	public boolean ragShouldReport(int[] ragStatus) {
-		if (ragStatus.length != 3) {
-			return false;
-		}
-
-		if (ragStatus[0] > 0) {
-			return true;
-		}
-
-		if (ragStatus[1] > 0) {
-			return true;
-		}
-
-		return false;
-	}
-
 	/**
 	 * Get the first marker with this value otherwise null.
 	 * 
@@ -2090,177 +2102,7 @@ public class ModelUtils {
 		return null;
 	}
 
-	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceMonitorAndNodeAndPeriod(
-			ServiceMonitor serviceMonitor, Node n, DateTimeRange dtr,
-			IProgressMonitor monitor) {
-
-		// Filter ServiceMonitors on the time range.
-		// List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
-		// sortedCopy, dtr);
-
-		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-				Arrays.asList(new ServiceMonitor[] { serviceMonitor }), n,
-				monitor);
-		return markersPerResource;
-	}
-
-	/**
-	 * returns a Map of markers for each of the NetXResources in the specified
-	 * node.
-	 * 
-	 * @param service
-	 * @param n
-	 * @param dtr
-	 * @return
-	 */
-	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceAndNodeAndPeriod(
-			Service service, Node n, DateTimeRange dtr, IProgressMonitor monitor) {
-
-		// Sort by begin date and reverse the Service Monitors.
-		List<ServiceMonitor> sortedCopy = Ordering
-				.from(this.serviceMonitorCompare()).reverse()
-				.sortedCopy(service.getServiceMonitors());
-
-		// Filter ServiceMonitors on the time range.
-		// List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
-		// sortedCopy, dtr);
-
-		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-				sortedCopy, n, monitor);
-		return markersPerResource;
-
-	}
-
-	/**
-	 * Provides a total list of markers for the Service Monitor, Node and Date
-	 * Time Range. ,indiscreet of the NetXResource.
-	 * 
-	 * @param sm
-	 * @param n
-	 * @param dtr
-	 * @return
-	 */
-	public List<Marker> toleranceMarkersForServiceMonitor(ServiceMonitor sm,
-			Node n) {
-		// Process a ServiceMonitor for which the period is somehow within the
-		// range.
-		List<Marker> filtered = Lists.newArrayList();
-
-		// Each RM represents a Resource.
-		for (ResourceMonitor rm : sm.getResourceMonitors()) {
-			if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
-				List<Marker> toleranceMarkers = toleranceMarkersForResourceMonitor(rm);
-				filtered.addAll(toleranceMarkers);
-			}
-		}
-
-		return filtered;
-	}
-
-	// public int[] ragCount(ServiceMonitor sm, Node n,
-	// DateTimeRange dtr) {
-	//
-	// int red = 0, amber = 0, green = 0;
-	// //Each RM represents a Resource.
-	// for (ResourceMonitor rm : sm.getResourceMonitors()) {
-	// if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
-	// Marker[] markerArray = new Marker[rm.getMarkers().size()];
-	// rm.getMarkers().toArray(markerArray);
-	// List<Marker> markersForNodeList = this
-	// .toleranceMarkers(markerArray);
-	// int[] rag = this.ragForMarkers(markersForNodeList);
-	// red += rag[0];
-	// amber += rag[1];
-	// green += rag[2];
-	// }
-	//
-	// }
-	//
-	// return new int[]{red, amber, green};
-	// }
-
-	/**
-	 * A two pass rag analyzer. First find all {@link ServiceMonitor}'s inside
-	 * the specified period. For all contained {@link ResourceMonitor }'s in the
-	 * Service Monitors, bundle the markers per NetXResource. Then count the RAG
-	 * per NetXResource's markers. Note: Resources which are not referenced by a
-	 * Resource Monitor from the specified node, are ignored.
-	 * 
-	 * @param sm
-	 * @param n
-	 * @return
-	 */
-	public int[] ragCountResourcesForNode(Service service, Node n,
-			DateTimeRange dtr, IProgressMonitor monitor) {
-
-		int red = 0, amber = 0, green = 0;
-
-		// Sort and reverse the Service Monitors.
-		List<ServiceMonitor> sortedCopy = Ordering
-				.from(this.serviceMonitorCompare()).reverse()
-				.sortedCopy(service.getServiceMonitors());
-
-		// Filter ServiceMonitors on the time range.
-		List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
-				sortedCopy, dtr);
-
-		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-				filtered, n, monitor);
-
-		for (NetXResource res : markersPerResource.keySet()) {
-
-			if (monitor != null && monitor.isCanceled()) {
-				return new int[] { red, amber, green };
-			}
-			List<Marker> markers = markersPerResource.get(res);
-			int[] rag = ragForMarkers(markers);
-			red += rag[0];
-			amber += rag[1];
-			green += rag[2];
-
-		}
-
-		return new int[] { red, amber, green };
-	}
-
-	/**
-	 * @param serviceMonitors
-	 * @param n
-	 * @return
-	 */
-	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-			List<ServiceMonitor> serviceMonitors, Node n,
-			IProgressMonitor monitor) {
-		Map<NetXResource, List<Marker>> markersPerResource = Maps.newHashMap();
-
-		for (ServiceMonitor sm : serviceMonitors) {
-			for (ResourceMonitor rm : sm.getResourceMonitors()) {
-
-				// Abort the task if we are cancelled.
-				if (monitor != null && monitor.isCanceled()) {
-					return markersPerResource;
-				}
-
-				if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
-
-					// Analyze per resource, why would a resource monitor
-					// contain markers for a nother resource?
-					List<Marker> markers;
-					NetXResource res = rm.getResourceRef();
-					if (!markersPerResource.containsKey(res)) {
-						markers = Lists.newArrayList();
-						markersPerResource.put(res, markers);
-					} else {
-						markers = markersPerResource.get(res);
-					}
-					List<Marker> toleranceMarkers = toleranceMarkersForResourceMonitor(rm);
-					markers.addAll(toleranceMarkers);
-				}
-			}
-
-		}
-		return markersPerResource;
-	}
+	
 
 	/**
 	 * Get the first {@link ResourceMonitor}
@@ -2355,113 +2197,6 @@ public class ModelUtils {
 
 		}
 		return monitorsPerResource;
-	}
-
-	public List<Marker> toleranceMarkersForResourceMonitor(ResourceMonitor rm) {
-		List<Marker> toleranceMarkers = Lists.newArrayList(Iterables.filter(
-				rm.getMarkers(), toleranceMarkers()));
-		return toleranceMarkers;
-	}
-
-	/**
-	 * For a collection of marker determine the rag status. Higher levels take
-	 * precedence over lower levels. Lower levels are in case preceded by a
-	 * Higher level, cleared.
-	 * 
-	 * @param markersForNodeList
-	 * @return
-	 */
-	public int[] ragForMarkers(List<Marker> markersForNodeList) {
-
-		int red = 0, amber = 0, green = 0;
-		Marker[] markerForNodeArray = new Marker[markersForNodeList.size()];
-		markersForNodeList.toArray(markerForNodeArray);
-		// Iterate markers per level.
-		for (LevelKind lk : LevelKind.VALUES) {
-
-			ToleranceMarker tm = lastToleranceMarker(lk, markerForNodeArray);
-			if (tm != null) {
-				switch (tm.getLevel().getValue()) {
-				case LevelKind.RED_VALUE: {
-					if (isStartOrUp(tm)) {
-						red++;
-					}
-				}
-					break;
-				case LevelKind.AMBER_VALUE: {
-					if (isStartOrUp(tm)) {
-						amber++;
-					}
-				}
-					break;
-				case LevelKind.GREEN_VALUE: {
-					if (isStartOrUp(tm)) {
-						green++;
-					}
-				}
-				case LevelKind.YELLOW_VALUE: {
-					// what to do with yellow??
-				}
-					break;
-				}
-			}
-			// else {
-			// green++;
-			// }
-		}
-
-		// Clear the lower levels.
-		if (red > 0) {
-			amber = 0;
-			green = 0;
-		}
-		if (amber > 0) {
-			green = 0;
-		}
-
-		return new int[] { red, amber, green };
-	}
-
-	public boolean isStartOrUp(ToleranceMarker tm) {
-		return tm.getDirection() == ToleranceMarkerDirectionKind.UP
-				|| tm.getDirection() == ToleranceMarkerDirectionKind.START;
-	}
-
-	// CB, replaced by predicate.
-	// public List<Marker> toleranceMarkers(Marker... unfiltered) {
-	// List<Marker> resultList = Lists.newArrayList();
-	// List<Marker> markerList = Lists.newArrayList(unfiltered);
-	// for (Marker m : markerList) {
-	// if (m instanceof ToleranceMarker) {
-	// ToleranceMarker tempMarker = (ToleranceMarker) m;
-	// resultList.add(tempMarker);
-	// }
-	// }
-	// return resultList;
-	// }
-
-	/**
-	 * Return the last marker which is either START or UP. The lists is sorted
-	 * and analyzed from the tail. (Newest first). Return null, if we can't find
-	 * a marker matching the Level Kind.
-	 * 
-	 * @param lk
-	 * @param markers
-	 * @return
-	 */
-	public ToleranceMarker lastToleranceMarker(LevelKind lk, Marker... markers) {
-		ToleranceMarker tm = null;
-		List<Marker> markerList = Lists.newArrayList(markers);
-		markerList = sortMarkersByTimeStamp(markerList);
-		Collections.reverse(markerList);
-		for (Marker m : markerList) {
-			if (m instanceof ToleranceMarker
-					&& ((ToleranceMarker) m).getLevel() == lk) {
-				tm = (ToleranceMarker) m;
-				break;
-			}
-		}
-		return tm;
 	}
 
 	/**

@@ -77,6 +77,7 @@ import com.netxforge.netxscript.ValueRange;
 import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
+import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.data.IQueryService;
@@ -1433,15 +1434,15 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 			if (summary != null) {
 				switch (tolerancelevel.getValue()) {
 				case ToleranceLevel.RED_VALUE: {
-					count = summary.getRedCountNodes();
+					count = summary.totalRag(RAG.RED);
 				}
 					break;
 				case ToleranceLevel.AMBER_VALUE: {
-					count = summary.getAmberCountNodes();
+					count = summary.totalRag(RAG.AMBER);
 				}
 					break;
 				case ToleranceLevel.GREEN_VALUE: {
-					count = summary.getGreenCountNodes();
+					count = summary.totalRag(RAG.GREEN);
 				}
 					break;
 				case ToleranceLevel.YELLOW_VALUE: {

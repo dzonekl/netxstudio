@@ -28,6 +28,7 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISaveablePart2;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.IShowInSource;
 import org.eclipse.ui.part.ShowInContext;
 
@@ -40,6 +41,26 @@ import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
 
 /**
+ * A Screen selector which handles specific behaviour for {@link IScreen }
+ * objects. </p>
+ * <ul>
+ * <li><b>Current screen</b></p>
+ * This class implements {@link IScreenProvider}. The current screen is updated by registering to the 
+ * {@link IScreenFormService#addScreenChangeListener(ScreenChangeListener) Screen service} 
+ * </li>
+ * </p>
+ * <li><b>Context menu</b></p>
+ * This class implements {@link AbstractScreensViewPart#contributeMenuAboutToShow(IMenuManager) }, by
+ * calling {@link IScreen#getActions()} and populating a
+ * {@link DynamicScreensActionHandler}. The context menu will also
+ * enable/disable default creation and editing actions depending on the screen.
+ * If the screen is {@link ScreenUtil#OPERATION_READ_ONLY read-only}</li>
+ * </p>
+ * <li><b>Show In</b></p>
+ * This class implements {@link IShowInSource}. This implementation delegates showin to the current 
+ * screen by calling {@link IScreen#getShowIn(org.eclipse.jface.viewers.ISelection)} 
+ * </li>
+ * </ul>
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
@@ -63,7 +84,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	public IEditingService getEditingService() {
 		return screenFormService.getEditingService();
 	}
-	
+
 	/**
 	 * Create contents of the view part.
 	 * 
@@ -83,14 +104,14 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		getEditingService().setScreenProvider(this);
 		screenFormService.addScreenChangeListener(this);
 		buildSelector();
-		
-		// Restore the current Screen: 
+
+		// Restore the current Screen:
 		if (this.memento != null) {
 			String screenName = mementoUtil.retrieveString(this.memento,
 					MementoUtil.MEM_KEY_CURRENT_SCREEN);
 			this.getScreenService().realize(screenName);
 		}
-		
+
 	}
 
 	public abstract void buildSelector();
@@ -160,7 +181,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 			this.setCurrentScreen(screen);
 
 			// Make sure we update the dirty state, when changing screen.
-			// Action handlers will use this to update the current viewer. 
+			// Action handlers will use this to update the current viewer.
 			firePropertyChange(ISaveablePart2.PROP_DIRTY);
 
 			// restore the state of the screen.
@@ -228,7 +249,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		// Clear the menu manager.
 		menuManager.removeAll();
 
-		ActionHandlerDescriptor actionHandlerDescriptor = this
+		final ActionHandlerDescriptor actionHandlerDescriptor = this
 				.getActionHandlerDescriptor();
 		actionHandlerDescriptor.setMenuManager(menuManager);
 
@@ -247,12 +268,12 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		actionHandlerDescriptor.clearDynamicHandlers();
 
 		// actions created lazily.
-		IScreen screen = getScreen();
+		final IScreen screen = getScreen();
 		if (screen != null && screen.getActions() != null) {
-			
-			// get actions per widget. 
-			List<IAction> actions = reverse(this.getScreen().getActions());
-			
+
+			// get actions per widget.
+			final List<IAction> actions = reverse(this.getScreen().getActions());
+
 			final DynamicScreensActionHandler dynamicScreensActionHandler = new DynamicScreensActionHandler();
 			dynamicScreensActionHandler.addActions(actions);
 			actionHandlerDescriptor.addHandler(dynamicScreensActionHandler);
@@ -275,4 +296,9 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		return new ShowInContext(null, this.getSelection());
 	}
 
+	@Override
+	protected void customPartHook(IWorkbenchPart part, PART_EVENT event) {
+		// Override to something with part events. . 
+	}
+	
 }

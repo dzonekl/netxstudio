@@ -65,6 +65,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;
@@ -108,6 +109,9 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	private TreeViewer nodeTypeTreeViewer;
 	private Composite cmpDetails;
 	private SashForm sashForm;
+
+	@Inject
+	private NodeTypeTreeLabelProvider ntTreeLabelProvider;
 
 	/**
 	 * Create the composite.
@@ -353,7 +357,9 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		IObservableMap[] map = new IObservableMap[mapList.size()];
 		mapList.toArray(map);
 
-		nodeTypeTreeViewer.setLabelProvider(new NodeTypeTreeLabelProvider(map));
+		ntTreeLabelProvider.registerMap(map);
+
+		nodeTypeTreeViewer.setLabelProvider(ntTreeLabelProvider);
 		IEMFListProperty projects = EMFEditProperties.resource(editingService
 				.getEditingDomain());
 

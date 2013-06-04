@@ -29,15 +29,19 @@ import org.eclipse.emf.common.util.URI;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 
 /**
- * Performs the capacity logic execution for a RFSService.
+ * Performs the capacity logic execution for a RFSService, 
+ * adds functionality to write the reports in the intended 
+ * location. 
  * 
  * @author Christophe Bouhier
  */
@@ -60,7 +64,10 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 	public List<String> reports = ImmutableList.of(REPORT_PREFIX_SM_EXEC,
 			REPORT_PREFIX_SM_DASH, REPORT_PREFIX_SM_MATRIX,
 			REPORT_PREFIX_SM_USER, REPORT_PREFIX_RM, REPORT_PREFIX_RM_FORECAST);
-
+	
+	@Inject
+	protected MonitoringStateModel monitoring;
+	
 	public void initializeStream(URI uri) {
 
 		// append the file name without the extension, for this run, try until
@@ -96,7 +103,7 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 
 	public URI folderURI() {
 
-		ServerSettings settings = getSettings();
+		final ServerSettings settings = getSettings();
 		if (settings != null
 				&& settings
 						.eIsSet(NetxstudioPackage.Literals.SERVER_SETTINGS__EXPORT_PATH)) {
@@ -106,7 +113,7 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 			// append the folder for this run.
 			uri = uri.appendSegment(calculateFolderName());
 			{
-				File f = new File(uri.toFileString());
+				final File f = new File(uri.toFileString());
 				if (!f.exists() && !f.isDirectory()) {
 					f.mkdir();
 				}

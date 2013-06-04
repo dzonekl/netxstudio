@@ -39,6 +39,13 @@
            id="com.netxforge.netxstudio.screens.viewer.chart"
            name="Charts">
       </view>
+      <view
+           category="com.netxforge.netxstudio.ui"
+           class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.parts.DashboardViewer"
+           icon="icons/view16/dashboard_viewer.png"
+           id="com.netxforge.netxstudio.screens.viewer.dashboard"
+           name="Dashboard">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">

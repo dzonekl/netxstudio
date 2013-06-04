@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="NetXStudio" uid="com.netxforge.netxstudio" id="com.netxforge.netxstudio.client.product.netxstudio" application="com.netxforge.netxstudio.ui.application" version="1.1.1" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/com.netxforge.netxstudio.client.product/icons/Logo about 250-330.png"/>
+      <text>
+         %aboutText
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-data @noDefault -nl nl_NL</programArgs>
+      <programArgsMac>-console 8814 -consoleLog</programArgsMac>
+      <vmArgs>-Xms512m -Xmx1024m -XX:MaxPermSize=128m</vmArgs>
+      <vmArgsMac>-Dosgi.debug=file://Users/Christophe/Documents/Workspace/.options
+-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="icons/Logo X 16.gif" i32="icons/Logo X 32.gif" i48="icons/Logo X 48.gif" i64="icons/Logo X 64.gif" i128="icons/Logo X 128.gif"/>
+
+   <splash
+      location="com.netxforge.netxstudio.client.product"
+      handlerType="interactive" />
+   <launcher name="netxstudio">
+      <macosx icon="/com.netxforge.netxstudio.client.product/icons/netxstudio.icns"/>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="com.netxforge.netxstudio.client.product.intro"/>
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>http://www.gnu.org/copyleft/lesser.html</url>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.netxforge.netxstudio.client.product.feature"/>
+      <feature id="com.netxforge.netxstudio.models.export.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.models.export.ui.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.models.import.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.models.import.ui.feature" version="1.0.0.qualifier"/>
+   </features>
+
+   <configurations>
+      <plugin id="com.netxforge.netxstudio.client.product" autoStart="true" startLevel="0" />
+   </configurations>
+
+</product>

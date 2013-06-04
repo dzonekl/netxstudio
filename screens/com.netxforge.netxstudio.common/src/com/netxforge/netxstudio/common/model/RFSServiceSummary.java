@@ -14,158 +14,153 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
-import java.util.List;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.ecore.EObject;
 
-import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 
-
 /**
- * A model object, showing the summary of the Service. 
+ * A model object, showing the summary of a Service.
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
-public class RFSServiceSummary {
+public class RFSServiceSummary extends MonitoringAdapter {
 
 	// Generated values.
-	int subServices = 0;
-	
-	int[] ragCountNodes = new int[] { 0, 0, 0 };
-	int[] ragCountResources = new int[] { 0, 0, 0 };
-	
-	boolean[] ragStatus = new boolean[] { false, false, false };
+	int services = 0;
+	int nodes = 0;
+	int functions = 0;
+	int equipments = 0;
+	int resources = 0;
 
-	String periodFormattedString = "";
+	@Override
+	protected void computeForTarget(IProgressMonitor monitor) {
 
-	private List<NodeTypeSummary> nodeSummaries = Lists.newArrayList();
-
-	public void setPeriodFormattedString(String periodFormattedString) {
-		this.periodFormattedString = periodFormattedString;
-	}
-
-	public String getPeriodFormattedString() {
-		return periodFormattedString;
-	}
-
-	public boolean[] getRagStatus() {
-		return ragStatus;
-	}
-
-	public void setRagStatus(boolean[] ragStatus) {
-		this.ragStatus = ragStatus;
-	}
-
-	public void setRedStatus(boolean status) {
-		ragStatus[0] = status;
-	}
-
-	public void setAmberStatus(boolean status) {
-		ragStatus[1] = status;
-	}
-
-	public void setGreenStatus(boolean status) {
-		ragStatus[2] = status;
-	}
-
-	public boolean getRedStatus() {
-		return ragStatus[0];
-	}
-
-	public boolean getAmberStatus() {
-		return ragStatus[1];
-	}
-
-	public boolean getGreenStatus() {
-		return ragStatus[2];
-	}
-	
-	public int[] getRagCountNodes() {
-		return ragCountNodes;
-	}
-
-	public void setRagCountNodes(int[] rag) {
-		this.ragCountNodes = rag;
-	}
-	
-	public int[] getRagCountResources() {
-		return ragCountResources;
-	}
-
-	public void setRagCountResources(int[] rag) {
-		this.ragCountResources = rag;
-	}
-	
-
-	public int getRedCountNodes() {
-		return ragCountNodes[0];
-	}
-
-	public int getGreenCountNodes() {
-		return ragCountNodes[2];
-	}
-
-	public int getAmberCountNodes() {
-		return ragCountNodes[1];
-	}
-
-	public int getNodeCount() {
-		return nodeSummaries.size();
-	}
-	
-	public int getRedCountResources() {
-		return ragCountResources[0];
-	}
-
-	public int getAmberCountResources() {
-		return ragCountResources[1];
-	}
-
-	public int getGreenCountResources() {
-		return ragCountResources[2];
-	}
-	
-	public int getResourcesCount() {
-		int resourceCount = 0;
-		for(NodeTypeSummary ns : nodeSummaries){
-			resourceCount += ns.getResourCount();
+		final DateTimeRange periodInContext = periodInContext();
+		if (periodInContext == null) {
+			return;
 		}
-		return resourceCount;
-	}
+		// Safely case, checked by our factory.
+		final RFSService target = getRFSService();
 
-	public int getSubServicesCount() {
-		return subServices;
-	}
-
-	public RFSServiceSummary(RFSService service) {
-		this.countServices(service);
-	}
-	
-	private void countServices(Service service){
-		this.countNodes(service);
-		for(Service s : service.getServices()){
-			subServices += 1;
-			if(s.getServices().size() > 0 ){
-				countServices(s);
-			}
+		// Add ourself as a context, if not already.
+		if (this.rfsServiceInContext() == null) {
+			this.addContextObject(target);
 		}
 		
+		nodes = 0;
+		services = 0;
+		equipments = 0;
+		functions = 0;
+		
+		computeForRFService(target, monitor);
+
 	}
 
-	private void countNodes(Service service) {
-		if(service instanceof RFSService){
-			for(Node n : ((RFSService) service).getNodes()){
-				
-				if(n.getNodeType() != null){
-					nodeSummaries.add(new NodeTypeSummary(n.getNodeType()));
+	public void computeForRFService(RFSService service, IProgressMonitor monitor) {
+
+		// Include our own service as well.
+		services += 1;
+
+		int work = service.getNodes().size();
+		final SubMonitor subMonitor = SubMonitor.convert(monitor, work);
+		subMonitor.setTaskName("Computing summary for "
+				+ modelUtils.printModelObject(service));
+
+		for (Node node : service.getNodes()) {
+
+			if (!node.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
+				continue;
+			}
+			nodes += 1;
+
+			IMonitoringSummary childAdapter = this.getChildAdapter(node
+					.getNodeType());
+			//
+			// Guard for potentially non-adapted children.
+			if (childAdapter != null) {
+
+				childAdapter.addContextObjects(this.getContextObjects());
+				childAdapter.compute(monitor);
+
+				// FIXME We should base our RAG on external expression
+				// computation.
+				// See
+				this.incrementRag(childAdapter.rag());
+
+				if (childAdapter instanceof NodeTypeSummary) {
+
+					NodeTypeSummary nodeTypeSummary = (NodeTypeSummary) childAdapter;
+					resources += nodeTypeSummary.totalResources();
+					functions += nodeTypeSummary.totalFunctions();
+					equipments += nodeTypeSummary.totalEquipments();
 				}
+			}else{
+				// Self Adapt? 
+				
+			}
+			monitor.worked(1);
+		}
+
+		for (Service childService : service.getServices()) {
+			// Descend the Service Hiearchy first.
+			if (service instanceof RFSService) {
+				computeForRFService((RFSService) childService, monitor);
 			}
 		}
 	}
-	
+
+	@Override
+	protected boolean isSameAdapterFor(EObject object) {
+		return false; // Always produce new adapters.
+	}
+
+	@Override
+	protected boolean isNotFiltered(EObject object) {
+		// Self-adapt for referenced Nodes. (Note, these are not contained).
+		return object.eClass() == OperatorsPackage.Literals.NODE;
+	}
+
+	@Override
+	protected boolean isRelated(CDOObject object) {
+		// We have a relation for NetXResaource objects which are referenced by
+		// this target.
+		return getRFSService().getNodes().contains(object);
+	}
+
+	public int totalServices() {
+		return services;
+	}
+
+	public int totalNodes() {
+		return nodes;
+	}
+
+	public int totalEquipments() {
+		return equipments;
+	}
+
+	public int totalFunctions() {
+		return functions;
+	}
+
+	public int totalResources() {
+		return resources;
+	}
+
+	public RFSService getRFSService() {
+		final RFSService target = (RFSService) super.getTarget();
+		return target;
+	}
+
 }

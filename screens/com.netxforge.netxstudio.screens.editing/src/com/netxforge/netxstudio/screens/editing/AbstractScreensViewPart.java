@@ -412,6 +412,23 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	}
 
 	/**
+	 * An event for part activity
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	protected enum PART_EVENT {
+		ACTIVATED, TOTOP, CLOSED, OPENEND, DEACTIVATE
+	}
+
+	/**
+	 * Called with corresponding {@link #PART_EVENT} set, clients should
+	 * implement.
+	 * 
+	 * @param part
+	 */
+	protected abstract void customPartHook(IWorkbenchPart part, PART_EVENT event);
+
+	/**
 	 * Update the action handler descriptors with the active part.
 	 */
 	public void partActivated(IWorkbenchPart part) {
@@ -420,23 +437,23 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			// Activate our global actions.
 			this.getActionHandlerDescriptor().setActivePart(part);
 		}
+		customPartHook(part, PART_EVENT.ACTIVATED);
 	}
 
 	public void partBroughtToTop(IWorkbenchPart part) {
-		// Not used.
+		customPartHook(part, PART_EVENT.TOTOP);
 	}
 
 	public void partClosed(IWorkbenchPart part) {
-		// Not used.
+		customPartHook(part, PART_EVENT.CLOSED);
 	}
 
 	public void partDeactivated(IWorkbenchPart part) {
-		if (part instanceof AbstractScreensViewPart) {
-
-		}
+		customPartHook(part, PART_EVENT.DEACTIVATE);
 	}
 
 	public void partOpened(IWorkbenchPart part) {
+		customPartHook(part, PART_EVENT.OPENEND);
 	}
 
 	// ISelectionListener API
@@ -758,6 +775,12 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		contributeMenuAboutToShow(manager);
 	}
 
+	/**
+	 * Implementors should populate the given {@link IMenuManager } with a
+	 * context menu for an IScreen.
+	 * 
+	 * @param manager
+	 */
 	public abstract void contributeMenuAboutToShow(IMenuManager manager);
 
 	/**

@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 4 jun. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.f2.details;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -23,6 +40,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
@@ -32,6 +51,10 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.NodeTypeHierarchy;
 
+/**
+ * 
+ * @author Christophe Bouhier
+ */
 public class NewEditNodeType extends AbstractDetailsScreen implements
 		IDataScreenInjection {
 
@@ -43,6 +66,9 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 	private FormText frmTextNumberOfFunctions;
 	private FormText frmTextNumberOfEquipments;
 	private FormText frmTextNumberOfResources;
+
+	@Inject
+	private MonitoringStateModel stateModel;
 
 	public NewEditNodeType(Composite parent, int style,
 			final IEditingService editingService) {
@@ -225,7 +251,9 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		context.bindValue(leafObservable, leafProperty.observe(nodeType), null,
 				null);
 
-		NodeTypeSummary totals = new NodeTypeSummary(nodeType);
+		final NodeTypeSummary totals = (NodeTypeSummary) stateModel
+				.summary(nodeType);
+
 		this.frmTextNumberOfFunctions.setText(
 				totals.getFunctionCountAsString(), false, false);
 		this.frmTextNumberOfEquipments.setText(

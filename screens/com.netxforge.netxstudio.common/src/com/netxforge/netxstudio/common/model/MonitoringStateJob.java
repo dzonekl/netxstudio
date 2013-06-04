@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.f1;
+package com.netxforge.netxstudio.common.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -23,33 +23,44 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.emf.ecore.EObject;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.common.model.RFSServiceSummary;
-import com.netxforge.netxstudio.services.RFSService;
-import com.netxforge.netxstudio.services.ServiceMonitor;
+import com.netxforge.netxstudio.common.internal.CommonActivator;
 
 /**
- * Create a service summary, which is a long running thingy
+ * Populate a summary based on a context.
  */
-public class RFSServiceSummaryJob implements IJobChangeListener {
+public class MonitoringStateJob extends JobChangeAdapter {
 
 	private StatusJob j = new StatusJob("Creating Summary...");
-	private RFSService service;
-	private RFSServiceSummary summary;
+
+	/** Our context which will determine which Summary is returned. */
+	private Object target;
+
+	/** the produced summary for this job. */
+	private IMonitoringSummary summary;
+
 	private ModelUtils modelUtils;
+
 	private boolean running = false;
 
-	public RFSServiceSummaryJob(ModelUtils modelUtils) {
+	private IProgressMonitor monitor;
+
+	private MonitoringStateModel model;
+
+	private Object[] contextObjects;
+
+	public MonitoringStateJob(ModelUtils modelUtils, MonitoringStateModel model) {
 		super();
 		this.modelUtils = modelUtils;
+		this.model = model;
 	}
 
 	public void go() {
 		j.addJobChangeListener(this);
-		j.schedule(2000);
+		j.schedule(100);
 	}
-	
 
 	public void cancel() {
 		j.cancel();
@@ -57,10 +68,6 @@ public class RFSServiceSummaryJob implements IJobChangeListener {
 
 	public void addNotifier(IJobChangeListener notifier) {
 		j.addJobChangeListener(notifier);
-	}
-
-	public void setRFSServiceToProcess(RFSService service) {
-		this.service = service;
 	}
 
 	protected class StatusJob extends Job {
@@ -79,18 +86,18 @@ public class RFSServiceSummaryJob implements IJobChangeListener {
 	}
 
 	protected void processReadingInternal(final IProgressMonitor monitor) {
-		ServiceMonitor sm = modelUtils.lastServiceMonitor(service);
-		if (sm != null) {
-			summary = modelUtils.serviceSummaryForService(
-					service, sm.getPeriod(), monitor);
+		this.monitor = monitor;
+		if (CommonActivator.DEBUG) {
+			CommonActivator.TRACE.trace(
+					CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+					" creating summary for:"
+							+ modelUtils.printModelObject((EObject) target));
 		}
+		summary = model.summary(monitor, target, contextObjects);
 	}
 
-	public void aboutToRun(IJobChangeEvent event) {
-	}
-
-	public void awake(IJobChangeEvent event) {
-
+	public void cancelMonitor() {
+		this.monitor.setCanceled(true);
 	}
 
 	public void done(IJobChangeEvent event) {
@@ -101,16 +108,10 @@ public class RFSServiceSummaryJob implements IJobChangeListener {
 		this.running = true;
 	}
 
-	public void scheduled(IJobChangeEvent event) {
-	}
-
-	public void sleeping(IJobChangeEvent event) {
-	}
-
 	/**
 	 * @return the summary
 	 */
-	public RFSServiceSummary getSummary() {
+	public IMonitoringSummary getMonitoringSummary() {
 		return summary;
 	}
 
@@ -121,11 +122,12 @@ public class RFSServiceSummaryJob implements IJobChangeListener {
 		return running;
 	}
 
-	/**
-	 * @param running
-	 *            the running to set
-	 */
-	public void setRunning(boolean running) {
-		this.running = running;
+	public void setContextObjects(Object... contextObjects) {
+		this.contextObjects = contextObjects;
 	}
+
+	public void setTarget(Object context) {
+		this.target = context;
+	}
+
 }

@@ -13,6 +13,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.netxforge.netxstudio.common.model.OperatorSummary;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 
@@ -74,7 +76,15 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 
 		writeSummary(sheet);
 
-		this.getJobMonitor().updateFailures(this.getFailures());
+		if (!getFailures().isEmpty()) {
+			final ComponentWorkFlowRun run = (ComponentWorkFlowRun) this
+					.getDataProvider().getTransaction()
+					.getObject(this.getJobMonitor().getWorkFlowRunId());
+
+			for (Failure f : this.getFailures()) {
+				run.getFailureRefs().add(f);
+			}
+		}
 
 		try {
 			this.getWorkBook().write(this.getStream());
@@ -83,7 +93,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 			// TODO, Perhaps add another failure?
 		}
 
-		 this.getDataProvider().commitTransactionThenClose();
+		 this.getDataProvider().commitTransaction();
 		 this.getDataProvider().closeSession();
 	}
 

@@ -16,7 +16,6 @@ com.netxforge.netxstudio.models.import/trace.manual.import=false
 com.netxforge.netxstudio.models.import/trace.manual.import.type=true
 com.netxforge.netxstudio.models.import/trace.manual.import.ui=true
 
-
 # NetXScript facilities
 com.netxforge.netxscript/trace.netxscript=true
 com.netxforge.netxscript/trace.netxscript.scoping=true

@@ -26,11 +26,6 @@ import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -56,10 +51,9 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.nebula.widgets.datechooser.DateChooserCombo;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -70,22 +64,20 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.ColumnLayoutData;
-import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.progress.UIJob;
 import org.eclipse.wb.swt.ResourceManager;
-import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.common.model.RFSServiceSummary;
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
@@ -103,11 +95,10 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.util.DateChooserComboObservableValue;
-import com.netxforge.netxstudio.screens.f1.RFSServiceSummaryJob;
 import com.netxforge.netxstudio.screens.f1.ServiceDistributionScreen;
 import com.netxforge.netxstudio.screens.f1.ServiceHierarchy;
+import com.netxforge.netxstudio.screens.f1.ServiceSummaryComponent;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
-import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -136,26 +127,11 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 	private TableViewer networkElementsTableViewer;
 	private TableViewer serviceUserTableViewer;
 
-	private FormText formTextLastMonitor;
-
-	private FormText formTextNumberOfNodes;
-
-	private FormText formTextNumberOfResources;
-
-	private FormText formTextRed;
-
-	private FormText formTextAmber;
-
-	private FormText formTextGreen;
-
 	private DateChooserCombo dcProposed;
 	private DateChooserCombo dcPlanned;
 	private DateChooserCombo dcConstruction;
 	private DateChooserCombo dcInService;
 	private DateChooserCombo dcOutOfService;
-
-	private RFSServiceSummaryJob serviceSummaryJob;
-	private final RefreshSummaryJob refreshSummaryJob = new RefreshSummaryJob();
 
 	private Section sctnInfo;
 
@@ -163,24 +139,13 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 	private int widgetStyle;
 
-	private Section sctnSummary;
-
-	private RFSServiceSummary summary;
+	@Inject
+	private ServiceSummaryComponent summaryComponent;
 
 	public NewEditServiceTree(Composite parent, int style,
 			final IEditingService editingService) {
 		super(parent, style);
 		this.editingService = editingService;
-
-		this.addDisposeListener(new DisposeListener() {
-
-			public void widgetDisposed(DisposeEvent e) {
-				if (serviceSummaryJob != null) {
-					serviceSummaryJob.cancel();
-				}
-				refreshSummaryJob.cancel();
-			}
-		});
 		// buildUI();
 	}
 
@@ -315,11 +280,11 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		if (!readonly) {
 			ImageHyperlink hypLnkAddTolerance = formToolkit
 					.createImageHyperlink(cmpTolerances, SWT.NONE);
-			hypLnkAddTolerance.addHyperlinkListener(new IHyperlinkListener() {
+			hypLnkAddTolerance.addHyperlinkListener(new HyperlinkAdapter() {
 				public void linkActivated(HyperlinkEvent e) {
-					Resource toleranceResource = editingService
+					final Resource toleranceResource = editingService
 							.getData(LibraryPackage.Literals.TOLERANCE);
-					ToleranceFilterDialog dialog = new ToleranceFilterDialog(
+					final ToleranceFilterDialog dialog = new ToleranceFilterDialog(
 							NewEditServiceTree.this.getShell(),
 							toleranceResource);
 					if (dialog.open() == IDialogConstants.OK_ID) {
@@ -332,12 +297,6 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 									.execute(c);
 						}
 					}
-				}
-
-				public void linkEntered(HyperlinkEvent e) {
-				}
-
-				public void linkExited(HyperlinkEvent e) {
 				}
 			});
 			hypLnkAddTolerance.setLayoutData(new GridData(SWT.RIGHT,
@@ -414,13 +373,13 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 		ImageHyperlink mghprlnkEdit = formToolkit.createImageHyperlink(
 				composite_4, SWT.NONE);
-		mghprlnkEdit.addHyperlinkListener(new IHyperlinkListener() {
+		mghprlnkEdit.addHyperlinkListener(new HyperlinkAdapter() {
 			public void linkActivated(HyperlinkEvent e) {
 
 				if (service
 						.eIsSet(ServicesPackage.Literals.SERVICE__SERVICE_DISTRIBUTION)) {
 
-					ServiceDistributionScreen screen = new ServiceDistributionScreen(
+					final ServiceDistributionScreen screen = new ServiceDistributionScreen(
 							screenService.getScreenContainer(), SWT.NONE);
 					screen.setScreenService(screenService);
 					screen.setOperation(getOperation());
@@ -432,12 +391,6 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 							"Service Distribution is not existing",
 							"A Service distribution object can only be created in edit mode");
 				}
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
 			}
 		});
 		mghprlnkEdit.setImage(ResourceManager.getPluginImage(
@@ -503,35 +456,27 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 			ImageHyperlink mghprlnkAddServiceUser = formToolkit
 					.createImageHyperlink(composite_1, SWT.NONE);
 			mghprlnkAddServiceUser.setImage(null);
-			mghprlnkAddServiceUser
-					.addHyperlinkListener(new IHyperlinkListener() {
-						public void linkActivated(HyperlinkEvent e) {
-							Resource serviceUserResource = editingService
-									.getData(ServicesPackage.Literals.SERVICE_USER);
+			mghprlnkAddServiceUser.addHyperlinkListener(new HyperlinkAdapter() {
+				public void linkActivated(HyperlinkEvent e) {
+					Resource serviceUserResource = editingService
+							.getData(ServicesPackage.Literals.SERVICE_USER);
 
-							ServiceUserFilterDialog dialog = new ServiceUserFilterDialog(
-									NewEditServiceTree.this.getShell(),
-									serviceUserResource);
+					ServiceUserFilterDialog dialog = new ServiceUserFilterDialog(
+							NewEditServiceTree.this.getShell(),
+							serviceUserResource);
 
-							if (dialog.open() == IDialogConstants.OK_ID) {
-								ServiceUser u = (ServiceUser) dialog
-										.getFirstResult();
-								if (!service.getServiceUserRefs().contains(u)) {
-									Command c = new AddCommand(editingService
-											.getEditingDomain(), service
-											.getServiceUserRefs(), u);
-									editingService.getEditingDomain()
-											.getCommandStack().execute(c);
-								}
-							}
+					if (dialog.open() == IDialogConstants.OK_ID) {
+						ServiceUser u = (ServiceUser) dialog.getFirstResult();
+						if (!service.getServiceUserRefs().contains(u)) {
+							Command c = new AddCommand(editingService
+									.getEditingDomain(), service
+									.getServiceUserRefs(), u);
+							editingService.getEditingDomain().getCommandStack()
+									.execute(c);
 						}
-
-						public void linkEntered(HyperlinkEvent e) {
-						}
-
-						public void linkExited(HyperlinkEvent e) {
-						}
-					});
+					}
+				}
+			});
 			mghprlnkAddServiceUser.setLayoutData(new GridData(SWT.RIGHT,
 					SWT.CENTER, true, false, 1, 1));
 			formToolkit.paintBordersFor(mghprlnkAddServiceUser);
@@ -600,13 +545,13 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 			ImageHyperlink mghprlnkAddNetworkElement = formToolkit
 					.createImageHyperlink(composite_3, SWT.NONE);
 			mghprlnkAddNetworkElement
-					.addHyperlinkListener(new IHyperlinkListener() {
+					.addHyperlinkListener(new HyperlinkAdapter() {
 						public void linkActivated(HyperlinkEvent e) {
 
-							Resource operatorResource = editingService
+							final Resource operatorResource = editingService
 									.getData(OperatorsPackage.Literals.OPERATOR);
 
-							NodeOrNetworkFilterDialog dialog = new NodeOrNetworkFilterDialog(
+							final NodeOrNetworkFilterDialog dialog = new NodeOrNetworkFilterDialog(
 									NewEditServiceTree.this.getShell(),
 									operatorResource, modelUtils);
 
@@ -640,12 +585,6 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 										.getCommandStack().execute(c);
 							}
 
-						}
-
-						public void linkEntered(HyperlinkEvent e) {
-						}
-
-						public void linkExited(HyperlinkEvent e) {
 						}
 					});
 			mghprlnkAddNetworkElement.setLayoutData(new GridData(SWT.RIGHT,
@@ -709,102 +648,20 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 	private void buildSummarySection() {
 
-		sctnSummary = formToolkit.createSection(this, Section.TWISTIE
+		Section sctnSummary = formToolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnSummary);
 		sctnSummary.setText("Summary");
 		sctnSummary.setExpanded(true);
 
-		Composite composite_2 = formToolkit.createComposite(sctnSummary,
-				SWT.NONE);
-		formToolkit.paintBordersFor(composite_2);
-		sctnSummary.setClient(composite_2);
-		composite_2.setLayout(new GridLayout(4, false));
+		final Composite content = formToolkit.createComposite(sctnSummary, SWT.NONE);
+		formToolkit.paintBordersFor(content);
+		content.setLayout(new FillLayout());
+		sctnSummary.setClient(content);
 
-		Label label = formToolkit.createLabel(composite_2, "Last Monitor:",
-				SWT.NONE);
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1));
-		formTextLastMonitor = formToolkit.createFormText(composite_2, false);
-		formTextLastMonitor.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-				true, false, 3, 1));
+		summaryComponent.setParentScreen(this);
+		summaryComponent.buildUI(content, null);
 
-		Label lblMonitoredNodes = formToolkit.createLabel(composite_2,
-				"# Monitored NE's:", SWT.NONE);
-		lblMonitoredNodes.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
-
-		formTextNumberOfNodes = formToolkit.createFormText(composite_2, false);
-		formTextNumberOfNodes.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 3, 1));
-		formToolkit.paintBordersFor(formTextNumberOfNodes);
-		formTextNumberOfNodes.setText("", false, false);
-
-		Label lblMonitoredRess = new Label(composite_2, SWT.NONE);
-		lblMonitoredRess.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
-		formToolkit.adapt(lblMonitoredRess, true, true);
-		lblMonitoredRess.setText("# Monitored RES's:");
-
-		formTextNumberOfResources = formToolkit.createFormText(composite_2,
-				false);
-		formTextNumberOfResources.setLayoutData(new GridData(SWT.LEFT,
-				SWT.CENTER, false, false, 3, 1));
-		formToolkit.paintBordersFor(formTextNumberOfResources);
-		formTextNumberOfResources.setText("", false, false);
-
-		Composite separator = formToolkit.createCompositeSeparator(composite_2);
-		GridData gd_separator = new GridData(SWT.FILL, SWT.CENTER, true, false,
-				9, 1);
-		gd_separator.heightHint = 2;
-		separator.setLayoutData(gd_separator);
-		formToolkit.paintBordersFor(separator);
-
-		new Label(composite_2, SWT.NONE);
-
-		Composite cmpRed = formToolkit.createComposite(composite_2, SWT.NONE);
-		cmpRed.setBackground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		GridData gd_cmpRed = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
-		gd_cmpRed.heightHint = 18;
-		gd_cmpRed.widthHint = 18;
-		cmpRed.setLayoutData(gd_cmpRed);
-		formToolkit.paintBordersFor(cmpRed);
-
-		Composite cmpAmber = formToolkit.createComposite(composite_2, SWT.NONE);
-		cmpAmber.setBackground(SWTResourceManager.getColor(255, 140, 0));
-		GridData gd_cmpAmber = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
-		gd_cmpAmber.widthHint = 18;
-		gd_cmpAmber.heightHint = 18;
-		cmpAmber.setLayoutData(gd_cmpAmber);
-		formToolkit.paintBordersFor(cmpAmber);
-
-		Composite cmpGreen = formToolkit.createComposite(composite_2, SWT.NONE);
-		cmpGreen.setBackground(SWTResourceManager.getColor(173, 255, 47));
-		GridData gd_cmpGreen = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
-		gd_cmpGreen.widthHint = 18;
-		gd_cmpGreen.heightHint = 18;
-		cmpGreen.setLayoutData(gd_cmpGreen);
-		formToolkit.paintBordersFor(cmpGreen);
-
-		Label lblRagStatus = formToolkit.createLabel(composite_2,
-				"RAG Status RES's:", SWT.NONE);
-		lblRagStatus.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-
-		formTextRed = formToolkit.createFormText(composite_2, false);
-		formToolkit.paintBordersFor(formTextRed);
-		formTextRed.setText("R", false, false);
-
-		formTextAmber = formToolkit.createFormText(composite_2, false);
-		formToolkit.paintBordersFor(formTextAmber);
-		formTextAmber.setText("A", false, false);
-
-		formTextGreen = formToolkit.createFormText(composite_2, false);
-		formToolkit.paintBordersFor(formTextGreen);
-		formTextGreen.setText("G", false, false);
 	}
 
 	private void buildInfoSection() {
@@ -853,7 +710,14 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		prepServiceSummary();
+		// Defaults for 8 months. 
+		Date startTime = modelUtils.monthsAgo(8);
+		startTime = modelUtils.adjustToDayStart(startTime);
+
+		Date endTime = modelUtils.todayAtDayEnd();
+		DateTimeRange period = modelUtils.period(startTime, endTime);
+
+		summaryComponent.injectData(service, period);
 
 		bindInfoSection(context);
 		bindLifeCycle(context);
@@ -862,30 +726,6 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		bindToleranceSection();
 
 		return context;
-	}
-
-	/**
-	 * Creates a summary in the background, update relevant UI bits when done.
-	 */
-	private void prepServiceSummary() {
-
-		if (serviceSummaryJob == null) {
-			serviceSummaryJob = new RFSServiceSummaryJob(modelUtils);
-			serviceSummaryJob.addNotifier(new JobChangeAdapter() {
-				@Override
-				public void done(IJobChangeEvent event) {
-
-					summary = serviceSummaryJob.getSummary();
-					// Schedule a refresh.
-					refreshSummaryJob.schedule(100);
-				}
-			});
-		}
-			serviceSummaryJob.cancel();
-
-		serviceSummaryJob.setRFSServiceToProcess(service);
-		serviceSummaryJob.go(); // Should spawn a job processing the xls.
-
 	}
 
 	private void bindInfoSection(EMFDataBindingContext context) {
@@ -1125,42 +965,6 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		return false;
 	}
 
-	private void refreshSummaryUI() {
-
-		if (summary == null) {
-			formTextLastMonitor.setText("no monitors", false,
-					false);
-			sctnSummary.layout();
-			NewEditServiceTree.this.layout();
-
-			return;
-		}
-
-		formTextLastMonitor.setText(summary.getPeriodFormattedString(), false,
-				false);
-
-		formTextNumberOfNodes.setText(
-				new Integer(summary.getNodeCount()).toString(), false, false);
-		formTextNumberOfResources.setText(
-				new Integer(summary.getResourcesCount()).toString(), false,
-				false);
-
-		formTextRed.setText(
-				new Integer(summary.getRedCountResources()).toString(), false,
-				false);
-		formTextAmber.setText(
-				new Integer(summary.getAmberCountResources()).toString(),
-				false, false);
-		formTextGreen.setText(
-				new Integer(summary.getGreenCountResources()).toString(),
-				false, false);
-		
-		sctnSummary.layout();
-		NewEditServiceTree.this.layout();
-		// getScreenForm().layout();
-
-	}
-
 	public void injectData(Object owner, Object object) {
 
 		if (object != null && object instanceof RFSService) {
@@ -1177,35 +981,6 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 		buildUI();
 		this.initDataBindings_();
-
-	}
-	
-	
-	/**
-	 * Refreshes the RFS Service Summary Section. 
-	 * @author Christophe Bouhier
-	 */
-	class RefreshSummaryJob extends UIJob {
-
-		/**
-		 * Creates a new instance of the class.
-		 */
-		public RefreshSummaryJob() {
-			super("refresh");
-			setSystem(true);
-		}
-
-		@Override
-		public IStatus runInUIThread(IProgressMonitor monitor) {
-			if (monitor.isCanceled() || NewEditServiceTree.this.isDisposed())
-				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
-						IStatus.OK, "", null);
-
-			refreshSummaryUI();
-
-			return new Status(IStatus.OK, PlatformUI.PLUGIN_ID, IStatus.OK, "",
-					null);
-		}
 
 	}
 

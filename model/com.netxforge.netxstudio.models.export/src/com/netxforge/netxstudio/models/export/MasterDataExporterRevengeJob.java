@@ -151,7 +151,6 @@ public class MasterDataExporterRevengeJob extends JobChangeAdapter {
 			final URI uri = URI.createFileURI(res.toString());
 			final FileOutputStream fileOut = new FileOutputStream(
 					uri.toFileString());
-
 			final MasterDataExporterRevenge_sxssf masterDataExporter = new MasterDataExporterRevenge_sxssf();
 			masterDataExporter.setDataProvider(dataProvider);
 			masterDataExporter.setPackagesToExport(ePackages);
