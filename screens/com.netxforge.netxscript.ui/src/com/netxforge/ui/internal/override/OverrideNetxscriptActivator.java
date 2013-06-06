@@ -30,7 +30,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.netxforge.netxstudio.data.internal.CDODataServiceModule;
 import com.netxforge.scoping.CDOScopeScheduler;
 
 /**
@@ -85,7 +85,7 @@ public class OverrideNetxscriptActivator extends AbstractUIPlugin {
 	
 	protected Module getRuntimeModule(String grammar) {
 		if ("com.netxforge.Netxscript".equals(grammar)) {
-		  return new com.netxforge.NetxscriptRuntimeModule();
+		  return new com.netxforge.internal.NetxscriptRuntimeModule();
 		}
 		
 		throw new IllegalArgumentException(grammar);

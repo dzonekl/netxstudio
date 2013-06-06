@@ -19,32 +19,35 @@ package com.netxforge.netxstudio.server.test;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 
 /**
- * Gives access to multiple Guice injectors. 
- * The first injector is for a Server setup. 
+ * Gives access to multiple Guice injectors. The first injector is for a Server
+ * setup.
  * 
  */
 public abstract class AbstractInjectedTestJUnit4 {
 
 	private Injector injector;
-	
-	protected ModelUtils modelUtils;
-
-	public AbstractInjectedTestJUnit4() {
-		injector = createInjector();
-		modelUtils = injector.getInstance(ModelUtils.class);
-	}
 
 	protected Injector createInjector() {
 		return Guice.createInjector(TestModule.getModule());
 	}
 
+	protected Injector createServerInjector() {
+		return Guice.createInjector(TestModule.getServerModule());
+	}
+
 	public Injector getInjector() {
-		if (injector == null)
-			throw new IllegalStateException("No injector set.");
+		if (injector == null) {
+			injector = createInjector();
+		}
 		return injector;
 	}
 
+	public Injector getServerInjector() {
+		if (injector == null) {
+			injector = createServerInjector();
+		}
+		return injector;
+	}
 }

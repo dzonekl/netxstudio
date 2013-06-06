@@ -23,7 +23,7 @@ public class NetxscriptStandaloneSetupGenerated implements ISetup {
 	}
 	
 	public Injector createInjector() {
-		return Guice.createInjector(new com.netxforge.NetxscriptRuntimeModule());
+		return Guice.createInjector(new com.netxforge.internal.NetxscriptRuntimeModule());
 	}
 	
 	public void register(Injector injector) {

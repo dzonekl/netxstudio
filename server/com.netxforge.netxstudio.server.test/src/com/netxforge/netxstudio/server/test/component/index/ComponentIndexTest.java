@@ -46,7 +46,7 @@ public class ComponentIndexTest extends AbstractDataServiceTest4 {
 		};
 
 		System.out.println("index creation took "
-				+ modelUtils.timeDurationNano(nanoTime));
+				+ modelUtils.timeDurationNanoFromStart(nanoTime));
 
 		// print it.
 		index.toString();

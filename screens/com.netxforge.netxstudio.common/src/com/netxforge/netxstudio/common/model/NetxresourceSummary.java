@@ -108,7 +108,6 @@ public class NetxresourceSummary extends MonitoringAdapter {
 		return super.isComputed() && toleranceMarkers != null;
 	}
 	
-	
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer(super.toString());

@@ -5,11 +5,12 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-package com.netxforge.scoping;
+package com.netxforge.ui.scoping;
 
 import com.google.inject.Inject;
 import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.scoping.AbstractDynamixCDOResourceDescriptions;
 
 /**
  * Customized version of LoadOnDemandDescriptions, the original version uses

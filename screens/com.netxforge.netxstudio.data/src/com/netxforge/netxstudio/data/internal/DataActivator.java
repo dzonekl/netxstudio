@@ -14,10 +14,11 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.data.internal;
 
 import static com.google.inject.util.Modules.override;
+import static org.ops4j.peaberry.Peaberry.osgiModule;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -25,16 +26,23 @@ import java.util.Hashtable;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
+import org.ops4j.peaberry.Export;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
-import com.netxforge.netxstudio.data.importer.ImporterModule;
-
+import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.IComponentLocator;
+import com.netxforge.netxstudio.data.importer.IImporterHelper;
+import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.ResultProcessor;
+import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
+import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
 
 /**
  * @author Christophe Bouhier
@@ -42,42 +50,70 @@ import com.netxforge.netxstudio.data.importer.ImporterModule;
 public class DataActivator implements BundleActivator, DebugOptionsListener {
 
 	private static final String PLUGIN_ID = "com.netxforge.netxstudio.data";
-	
+
 	private static BundleContext context;
 	private static Injector injector;
-	
+
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
-	
+
 	// Tracing for DataProvider
 	public static String TRACE_DATA_OPTION = "/trace.data";
 	public static String TRACE_DATA_DETAILS_OPTION = "/trace.data.details";
-	
-	// Tracing for importing. 
+
+	// Tracing for importing.
 	public static final String TRACE_IMPORT_OPTION = "/trace.import";
 	public static final String TRACE_IMPORT_DETAILS_OPTION = "/trace.import.details";
 	public static final String TRACE_IMPORT_LOCATOR_OPTION = "/trace.import.locator";
 	public static final String TRACE_IMPORT_HELPER_OPTION = "/trace.import.helper";
-	
-	// Tracing for various types of result processing. 
-	
+
+	// Tracing for various types of result processing.
+
 	public static final String TRACE_RESULT_VALUE_OPTION = "/trace.result.value";
 	public static final String TRACE_RESULT_EXPRESSION_OPTION = "/trace.result.expression";
 	public static final String TRACE_RESULT_TOL_OPTION = "/trace.result.tolerance";
-	
-	// Tracing for our component index service. 
+
+	// Tracing for our component index service.
 	public static final String TRACE_COMPONENT_INDEX_OPTION = "/trace.component.index";
-	
+
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
-	
+
 	public static BundleContext getContext() {
 		return context;
 	}
 
+	@Inject
+	Export<IDataService> dataService;
+
+	@Inject
+	Export<IQueryService> queryService;
+
+	@Inject
+	Export<XLSMetricValuesImporter> xlsImportService;
+
+	@Inject
+	Export<CSVMetricValuesImporter> csvImportService;
+
+	@Inject
+	Export<RDBMSMetricValuesImporter> rdbmsImportService;
+
+	@Inject
+	Export<IComponentMappingIndex> componentMappingIndex; 
+	
+	@Inject
+	Export<IComponentLocator> componentLocator;
+	
+	// CB Consider not exposing the binding here, but in the client 
+	@Inject
+	Export<IImporterHelper> importHelper;
+
+	@Inject
+	Export<ResultProcessor> resultProcessor;
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -85,19 +121,21 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
 	 * )
 	 */
-	public void start(BundleContext bundleContext) throws Exception {
-		DataActivator.context = bundleContext;
+	public void start(BundleContext ctx) throws Exception {
+		DataActivator.context = ctx;
 		Module om = new CDODataServiceModule();
-		om = override(om).with(new CommonModule());
+		// om = override(om).with(new CommonModule());
 		om = override(om).with(new ImporterModule());
-		injector = Guice.createInjector(om);
-		
-		Dictionary<String, String> props = new Hashtable<String,String>(4);
-		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
-	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
-	 	
-	}
 
+		injector = Guice.createInjector(osgiModule(ctx), om);
+		injector.injectMembers(this);
+
+		Dictionary<String, String> props = new Hashtable<String, String>(4);
+		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
+		context.registerService(DebugOptionsListener.class.getName(), this,
+				props);
+
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -112,6 +150,5 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	public static Injector getInjector() {
 		return injector;
 	}
-	
 
 }

@@ -52,14 +52,14 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
 /**
  * Maintains a monitoring state and can be queried for state information. The
  * following state information can be retrieved; </p>
- * 
+ * </br>
  * <ul>
  * <li>Tolerance breach markers</li>
  * <li>Red Amber Green state (RAG)</li>
  * <li>Artifact count which are monitored</li>
  * </ul>
- * 
- * depending on a context. The context can be broad, encompassing several
+ * </br>
+ * Depending on a context. The context can be broad, encompassing several
  * monitoring layers. </p> the following "layers" are defined: </p>
  * <ul>
  * <li>{@link Operator operator monitoring}</li>
@@ -69,15 +69,19 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
  * <li>{@link NetXResource resource monitoring}</li>
  * </ul>
  * Ultimately, the state on all layers is computed from the markers on a
- * {@link NetXResorce resource}. Currently, the {@link ToleranceMarker tolerance
- * markers} are the base to determine the state of a resource. The state is also
- * computed for a period. The markers which occur within the period are
- * considered for the state.
- * 
- * 
- * Note: Various functions in {@link ModelUtils} exist to aggregate
- * 
- * 
+ * {@link NetXResource resource}.</br> 
+ * Currently, the {@link ToleranceMarker tolerance markers} are the base to determine the state of a resource.</br> 
+ * The state will only be (fully) computed if the context is present for computation.
+ * </p>
+ * The following context objects are required for a full computation. 
+ * <ul>
+ * <li>The {@link RFSService} (As it contains the {@link ServiceMonitor} holding information about monitoring</li>
+ * <li>The monitoring period</li>
+ * </ul>
+ * Clients wishing to use the {@link MonitoringStateModel} should call one of the following 
+ * </p> 
+ * {@link MonitoringStateModel#summary(Object)}
+ *  
  * 
  * @author Christophe Bouhier
  * 

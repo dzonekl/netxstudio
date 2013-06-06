@@ -39,7 +39,6 @@ import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
-import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
@@ -129,9 +128,9 @@ public class ServerImporterHelper implements IImporterHelper {
 		Metric metric = valueDataKind.getMetricRef();
 		int createdNetXResource = 0;
 
-		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_IMPORT_HELPER_OPTION,
+		if (MetricsActivator.DEBUG_IMPORT) {
+			MetricsActivator.TRACE.trace(
+					MetricsActivator.TRACE_IMPORT_HELPER_OPTION,
 					"-- adding to: "
 							+ modelUtils.printModelObject(locatedComponent)
 							+ " with metric: "
@@ -144,9 +143,9 @@ public class ServerImporterHelper implements IImporterHelper {
 		final Resource cdoResourceForNetXResource = modelUtils
 				.cdoResourceForNetXResource(locatedComponent,
 						(CDOTransaction) cdoView);
-		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_IMPORT_HELPER_OPTION,
+		if (MetricsActivator.DEBUG_IMPORT) {
+			MetricsActivator.TRACE.trace(
+					MetricsActivator.TRACE_IMPORT_HELPER_OPTION,
 					"-- located CDO resource: "
 							+ ((CDOResource) cdoResourceForNetXResource)
 									.getPath());
@@ -166,9 +165,9 @@ public class ServerImporterHelper implements IImporterHelper {
 			// metric
 			// reference:
 			// see http://work.netxforge.com/issues/264
-			// if (DataActivator.DEBUG) {
-			// DataActivator.TRACE.trace(
-			// DataActivator.TRACE_IMPORT_HELPER_OPTION,
+			// if (MetricsActivator.DEBUG) {
+			// MetricsActivator.TRACE.trace(
+			// MetricsActivator.TRACE_IMPORT_HELPER_OPTION,
 			// "-- checking resource: "
 			// + netXResource.getShortName()
 			// + " ID: "
@@ -190,9 +189,9 @@ public class ServerImporterHelper implements IImporterHelper {
 
 				foundNetXResource = netXResource;
 
-				if (DataActivator.DEBUG) {
-					DataActivator.TRACE.trace(
-							DataActivator.TRACE_IMPORT_HELPER_OPTION,
+				if (MetricsActivator.DEBUG_IMPORT) {
+					MetricsActivator.TRACE.trace(
+							MetricsActivator.TRACE_IMPORT_HELPER_OPTION,
 							"-- matching resource: "
 									+ foundNetXResource.getShortName()
 									+ " , for component: "
@@ -204,9 +203,9 @@ public class ServerImporterHelper implements IImporterHelper {
 		}
 		if (foundNetXResource == null) {
 
-			if (DataActivator.DEBUG) {
-				DataActivator.TRACE.trace(
-						DataActivator.TRACE_IMPORT_HELPER_OPTION,
+			if (MetricsActivator.DEBUG_IMPORT) {
+				MetricsActivator.TRACE.trace(
+						MetricsActivator.TRACE_IMPORT_HELPER_OPTION,
 						"-- No Matching resource for: "
 								+ locatedComponent.getName() + ", on metric: "
 								+ metric.getName() + " creating resource:");
@@ -239,9 +238,9 @@ public class ServerImporterHelper implements IImporterHelper {
 		value.setTimeStamp(modelUtils.toXMLDate(timeStamp));
 		value.setValue(dblValue);
 
-		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_IMPORT_HELPER_OPTION,
+		if (MetricsActivator.DEBUG_IMPORT) {
+			MetricsActivator.TRACE.trace(
+					MetricsActivator.TRACE_IMPORT_HELPER_OPTION,
 					"-- try to add value to resource : "
 							+ foundNetXResource.getShortName() + " , value ="
 							+ value.getValue() + " timestamp="
@@ -253,8 +252,8 @@ public class ServerImporterHelper implements IImporterHelper {
 		addToValueRange(foundNetXResource, intervalHint,
 				valueDataKind.getKindHint(), Collections.singletonList(value),
 				null, null);
-		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_HELPER_OPTION,
+		if (MetricsActivator.DEBUG_IMPORT) {
+			MetricsActivator.TRACE.trace(MetricsActivator.TRACE_IMPORT_HELPER_OPTION,
 					"-- value added ");
 		}
 		return createdNetXResource;

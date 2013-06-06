@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.core.runtime,
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
  com.netxforge.netxstudio.server;bundle-version="1.0.0",
  org.apache.poi;bundle-version="1.0.0",
- org.apache.commons.lang;bundle-version="2.4.0"
+ org.apache.commons.lang;bundle-version="2.4.0",
+ org.ops4j.peaberry;bundle-version="1.1.1"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.server.logic,

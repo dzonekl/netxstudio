@@ -19,6 +19,7 @@ package com.netxforge.internal;
 
 import static com.google.inject.Guice.createInjector;
 import static com.google.inject.util.Modules.override;
+import static org.ops4j.peaberry.Peaberry.osgiModule;
 
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -29,14 +30,15 @@ import org.apache.log4j.Logger;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
+import org.ops4j.peaberry.Export;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.netxforge.engine.IExpressionEngine;
 
 public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 
@@ -52,11 +54,15 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 	public static String TRACE_NETXSCRIPT_SCOPING_OPTION = "/trace.netxscript.scoping";
 	public static String TRACE_NETXSCRIPT_EXPRESSION_OPTION = "/trace.netxscript.expression";
 	public static String TRACE_NETXSCRIPT_DESCRIPTION_OPTION = "/trace.netxscript.description";
-	
+
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
+	
 
+	@Inject
+	Export<IExpressionEngine> expressionEngineService;
+	
 	public void start(BundleContext context) throws Exception {
 		INSTANCE = this;
 		this.context = context;
@@ -66,7 +72,7 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 		// won't have
 		// it on the server side).
 		try {
-			registerInjectorFor("com.netxforge.Netxscript");
+			registerInjectorFor(context, "com.netxforge.Netxscript");
 		} catch (Exception e) {
 			Logger.getLogger(getClass()).error(e.getMessage(), e);
 			throw e;
@@ -100,28 +106,23 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 		return injectors.get(languageName);
 	}
 
-	protected void registerInjectorFor(String language) throws Exception {
+	protected void registerInjectorFor(BundleContext ctx, String language)
+			throws Exception {
 
 		Module om = getRuntimeModule(language);
-		// om = override(om).with(getSharedStateModule());
-		// om = override(om).with(getUiModule(language));
-		om = override(om).with(this.getDataProviderModule());
-		om = override(om).with(new CommonModule());
-		// ... add next module here.
-		injectors.put(language, createInjector(om));
+		om = override(om).with(new ImportModule());
+		om = override(om).with(new ExportModule());
+		
+		injectors.put(language, createInjector(osgiModule(ctx), om));
 
 	}
 
 	protected Module getRuntimeModule(String grammar) {
 		if ("com.netxforge.Netxscript".equals(grammar)) {
-			return new com.netxforge.NetxscriptRuntimeModule();
+			return new com.netxforge.internal.NetxscriptRuntimeModule();
 		}
 
 		throw new IllegalArgumentException(grammar);
-	}
-
-	protected Module getDataProviderModule() {
-		return new CDODataServiceModule();
 	}
 
 }

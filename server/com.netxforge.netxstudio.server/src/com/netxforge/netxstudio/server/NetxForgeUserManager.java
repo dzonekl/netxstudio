@@ -28,17 +28,31 @@ import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.net4j.util.factory.ProductCreationException;
 import org.eclipse.net4j.util.security.UserManager;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.server.internal.ServerActivator;
 
 /**
  * Implements the CDO {@link UserManager} which reads user information from the
- * database.
+ * database. The CDO {@link org.eclipse.net4j.util.factory.Factory factory} is satisfied by 
+ * instantiation through DI. 
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
+@Singleton
 public class NetxForgeUserManager extends RepositoryUserManager {
+
+	private IServerUtils serverUtils;
+
+	@Inject
+	public NetxForgeUserManager(IServerUtils serverUtils) {
+		this.serverUtils = serverUtils;
+
+	}
 
 	public static final String TYPE = "NetxForgeUserManager";
 
@@ -51,60 +65,44 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 		@Override
 		protected RepositoryUserManager doCreate(String description)
 				throws ProductCreationException {
-			return new NetxForgeUserManager();
+			return ServerActivator.getInstance().getInjector()
+					.getInstance(RepositoryUserManager.class);
 		}
 	}
 
-	private static NetxForgeUserManager instance = null;
-
-	public static NetxForgeUserManager getInstance() {
-		return instance;
-	}
-
-	public NetxForgeUserManager() {
-		instance = this;
-	}
-	
-
 	@Override
 	protected char[] getPassword(IRepository repository, String userID) {
-		ServerUtils.getInstance().checkRepositorySupported(repository);
+		serverUtils.checkRepositorySupported(repository);
 
 		if (userID.equals("admin")) {
 			return "admin".toCharArray();
 		}
 
-		if (userID.equals(ServerUtils.getInstance().getServerSideLogin())) {
-			return ServerUtils.getInstance().getServerSideLogin().toCharArray();
+		if (userID.equals(serverUtils.getServerSideLogin())) {
+			return serverUtils.getServerSideLogin().toCharArray();
 		}
-
-		final CDOSession session = ServerUtils.getInstance().openJVMSession();
+		
+		// Triggers another login check.
+		final CDOSession session = serverUtils.openJVMSession();
 		final CDOTransaction transaction = session.openTransaction();
 		try {
-
-			// final CDOQuery cdoQuery = transaction.createQuery("hql",
-			// "select p from Person p where login=:login");
-			// cdoQuery.setParameter("login", userID);
 
 			CDOResource resource = transaction.getResource("/"
 					+ GenericsPackage.Literals.PERSON.getName());
 
 			List<Person> people = new ModelUtils.CollectionForObjects<Person>()
-					.collectionForObjects(resource.getContents());	
+					.collectionForObjects(resource.getContents());
 			String pwd = null;
-			// find the user. 
-			for(Person p : people){
-				if(userID.equals(p.getLogin())){
-					if(!p.isActive()){
-						return null; // will not authenticate 
+			// find the user.
+			for (Person p : people) {
+				if (userID.equals(p.getLogin())) {
+					if (!p.isActive()) {
+						return null; // will not authenticate
 					}
 					pwd = p.getPassword();
-					
+
 				}
 			}
-//			if(pwd == null && userID.equals("admin")){
-//				return "admin".toCharArray();
-//			}
 			if (pwd == null) {
 				return null;
 			}

@@ -15,31 +15,38 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.server;
 
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 
 /**
- * Uses a jvm connection to connect to the repository.
- * It delegates to {@link ServerUtils }
- *  
+ * Uses a jvm connection to connect to the repository. It delegates to
+ * {@link IServerUtils }
+ * 
  * @author Martin Taal
  * @author Christophe Bouhier
  */
 public class ServerCDOConnection implements ICDOConnection {
 
-	public void initialize() {
-	}
-	
-	public void initialize(String server) {
-	}
-	
-	public CDONet4jSessionConfiguration getConfig() {
-		return ServerUtils.getInstance().createSessionConfiguration();
+	private IServerUtils serverUtils;
+
+	@Inject
+	public ServerCDOConnection(IServerUtils serverUtils) {
+		this.serverUtils = serverUtils;
 	}
 
-	
+	public void initialize() {
+	}
+
+	public void initialize(String server) {
+	}
+
+	public CDONet4jSessionConfiguration getConfig() {
+		return serverUtils.createSessionConfiguration();
+	}
+
 }

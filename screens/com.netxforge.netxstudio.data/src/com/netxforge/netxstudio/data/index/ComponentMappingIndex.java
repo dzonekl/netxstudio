@@ -40,6 +40,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.IComponentLocator.IdentifierDescriptor;
@@ -58,6 +59,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  * 
  * @author Christophe Bouhier
  */
+@Singleton
 public class ComponentMappingIndex implements IComponentMappingIndex {
 
 	@Inject

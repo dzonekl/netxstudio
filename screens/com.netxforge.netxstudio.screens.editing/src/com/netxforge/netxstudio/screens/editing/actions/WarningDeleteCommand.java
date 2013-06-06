@@ -177,9 +177,9 @@ public class WarningDeleteCommand extends DeleteCommand {
 	@Override
 	protected boolean prepare() {
 		boolean prepared = super.prepare();
-		System.out.println("The Delete command is: " + (prepared ? "" : "NOT")
-				+ " prepared and will " + (undo ? "" : "NOT ")
-				+ " be undoable");
+//		System.out.println("The Delete command is: " + (prepared ? "" : "NOT")
+//				+ " prepared and will " + (undo ? "" : "NOT ")
+//				+ " be undoable");
 		return prepared;
 	}
 

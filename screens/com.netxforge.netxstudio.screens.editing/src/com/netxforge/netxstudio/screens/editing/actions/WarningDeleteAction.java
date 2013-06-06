@@ -231,7 +231,7 @@ public class WarningDeleteAction extends DeleteAction {
 
 				// Resource jobRunContainerResource = editingService
 				// .getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
-
+				
 				// find our jobcontainer .
 				for (final EObject eObject : jobRunContainerResource
 						.getContents()) {

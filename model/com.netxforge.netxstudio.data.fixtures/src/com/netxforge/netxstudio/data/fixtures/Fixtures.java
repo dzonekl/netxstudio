@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
@@ -67,16 +68,13 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
+@Singleton
 public class Fixtures implements IFixtures {
 
 	private IDataProvider dataProvider;
 
-	private ModelUtils modelUtils;
-
 	@Inject
-	public Fixtures( ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
-	}
+	private ModelUtils modelUtils;
 
 	public void setDataProvider(IDataProvider dataProvider){
 		this.dataProvider = dataProvider;

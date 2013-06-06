@@ -14,20 +14,24 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.server.metrics.internal;
 
+import static org.ops4j.peaberry.Peaberry.service;
+
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
-import com.netxforge.netxstudio.data.importer.IndexComponentLocator;
 import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
-import com.netxforge.netxstudio.data.index.ComponentMappingIndex;
 import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
+import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.ServerNoCache;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService.ServiceRunner;
 import com.netxforge.netxstudio.server.metrics.MetricSourceJobImplementation;
 import com.netxforge.netxstudio.server.metrics.ServerImporterHelper;
@@ -38,19 +42,56 @@ public class MetricsModule extends AbstractModule {
 	// Bind our expression engine.
 	@Override
 	protected void configure() {
-		
-		this.bind(XLSMetricValuesImporter.class);
-		this.bind(CSVMetricValuesImporter.class);
-		this.bind(RDBMSMetricValuesImporter.class);
 
-		this.bind(IComponentMappingIndex.class).to(ComponentMappingIndex.class).in(Singleton.class);
-		this.bind(IComponentLocator.class).to(IndexComponentLocator.class).in(Singleton.class);
-		this.bind(ResultProcessor.class).in(Singleton.class);
-		
+		// //////////////////////////////////////////////
+		// INTERNAL SERVICES
+
 		this.bind(LocalDataProviderProvider.class);
-		this.bind(MetricSourceJobImplementation.class);
 		this.bind(ServiceRunner.class);
-		// Should override the default helper. 
+		
+		
+		// TODO, Likely needs to be exported, as the Job factory will instantiate if from it's own injector (Job).  
+		this.bind(MetricSourceJobImplementation.class);
+
+		// Should override the default helper.
 		this.bind(IImporterHelper.class).to(ServerImporterHelper.class);
+
+		// ///////////////////////////////
+		// IMPORT SERVICES
+		bind(IQueryService.class).toProvider(
+				service(CDOQueryService.class).single());
+
+		// {@link ServerModule}
+		bind(IDataProvider.class).annotatedWith(Server.class).toProvider(
+				service(IDataProvider.class).single());
+
+		// {@link ServerModule}
+		bind(IDataProvider.class).annotatedWith(ServerNoCache.class)
+				.toProvider(service(IDataProvider.class).single());
+
+		// {@link ImporterModule}
+		bind(XLSMetricValuesImporter.class).toProvider(
+				service(XLSMetricValuesImporter.class).single());
+		
+		// {@link ImporterModule}
+		bind(CSVMetricValuesImporter.class).toProvider(
+				service(CSVMetricValuesImporter.class).single());
+		
+		// {@link ImporterModule}
+		bind(RDBMSMetricValuesImporter.class).toProvider(
+				service(RDBMSMetricValuesImporter.class).single());
+		
+		// {@link ImporterModule}
+		bind(IComponentMappingIndex.class).toProvider(
+				service(IComponentMappingIndex.class).single());
+		
+		// {@link ImporterModule}
+		bind(IComponentLocator.class).toProvider(
+				service(IComponentLocator.class).single());
+		
+		// {@link ImporterModule}
+		bind(ResultProcessor.class).toProvider(
+				service(ResultProcessor.class).single());
+
 	}
 }

@@ -15,20 +15,14 @@ import org.eclipse.xtext.ui.resource.IResourceSetProvider;
 import org.eclipse.xtext.ui.resource.SimpleResourceSetProvider;
 
 import com.google.inject.Scopes;
-import com.netxforge.scoping.DynamixCDOResourceDescriptions;
-import com.netxforge.scoping.DynamixCDOScopeProvider;
 import com.netxforge.ui.highlighting.NetxscriptAntlrTokenToAttributeIdMapper;
 import com.netxforge.ui.highlighting.NetxscriptHighlightingConfiguration;
 import com.netxforge.ui.highlighting.NetxscriptSemanticHighlightingCalculator;
+import com.netxforge.ui.scoping.DynamixCDOResourceDescriptions;
 import com.netxforge.ui.scoping.UICDOResourceServiceProvider;
 
 /**
  * Use this class to register components to be used within the IDE.
- * 
- * FIXME, We seem to add bindings, which belong to the runtime????
- * 
- * 
- * 
  */
 public class NetxscriptUiModule extends
 		com.netxforge.ui.AbstractNetxscriptUiModule {
@@ -68,11 +62,6 @@ public class NetxscriptUiModule extends
 		return null;
 	}
 
-	public void configureIGlobalScopeProvider(com.google.inject.Binder binder) {
-		binder.bind(org.eclipse.xtext.scoping.IGlobalScopeProvider.class)
-				.to(DynamixCDOScopeProvider.class).in(Scopes.SINGLETON);
-	}
-	
 	// Override these bindings to remove depedency to JDT. 
 	@Override
 	public Class<? extends IResourceForEditorInputFactory> bindIResourceForEditorInputFactory() {

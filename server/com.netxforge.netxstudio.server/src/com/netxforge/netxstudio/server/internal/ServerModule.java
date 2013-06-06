@@ -18,15 +18,20 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.internal;
 
-import static com.google.inject.util.Modules.override;
+import static org.ops4j.peaberry.Peaberry.service;
+import static org.ops4j.peaberry.util.TypeLiterals.export;
+
+import org.eclipse.emf.cdo.spi.server.RepositoryUserManager;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Module;
-import com.netxforge.netxstudio.common.CommonModule;
+import com.google.inject.Scopes;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 import com.netxforge.netxstudio.server.CommitInfoHandler;
+import com.netxforge.netxstudio.server.IServerUtils;
+import com.netxforge.netxstudio.server.NetxForgeUserManager;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.ServerCDOConnection;
 import com.netxforge.netxstudio.server.ServerCDODataProvider;
@@ -34,6 +39,7 @@ import com.netxforge.netxstudio.server.ServerIntegrity;
 import com.netxforge.netxstudio.server.ServerNoCache;
 import com.netxforge.netxstudio.server.ServerNoCacheCDOConnection;
 import com.netxforge.netxstudio.server.ServerNoCacheCDODataProvider;
+import com.netxforge.netxstudio.server.ServerUtils;
 import com.netxforge.netxstudio.server.ServerUtils.ServerInitializer;
 
 /**
@@ -41,16 +47,6 @@ import com.netxforge.netxstudio.server.ServerUtils.ServerInitializer;
  * 
  */
 public class ServerModule extends AbstractModule {
-
-	public static Module getModule() {
-		Module om = new CommonModule();
-		om = override(om).with(new CDODataServiceModule());
-		om = override(om).with(new ServerModule());
-		return om;
-	}
-
-	private ServerModule() {
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -60,29 +56,64 @@ public class ServerModule extends AbstractModule {
 	@Override
 	protected void configure() {
 
+		// //////////////////////////////////////////////
+		// INTERNAL SERVICES
+
 		// Bind the server standard CDO Connection
 		this.bind(ICDOConnection.class).annotatedWith(Server.class)
 				.to(ServerCDOConnection.class);
-
-		// Bind the server standard CDO Data provider
-		this.bind(IDataProvider.class).annotatedWith(Server.class)
-				.to(ServerCDODataProvider.class);
 
 		// Bind the server no-caching CDO Connection
 		this.bind(ICDOConnection.class).annotatedWith(ServerNoCache.class)
 				.to(ServerNoCacheCDOConnection.class);
 		
-		// Bind the server no-caching CDO Data provider
-		this.bind(IDataProvider.class).annotatedWith(ServerNoCache.class)
-				.to(ServerNoCacheCDODataProvider.class);
-		
 		// Bind the server initializer
 		this.bind(ServerInitializer.class);
-		
+
 		// Bind the server commit information handler.
 		this.bind(CommitInfoHandler.class);
-		
-		// Bind the server Integretity module
+
+		// Bind the server Integrity module
 		this.bind(ServerIntegrity.class);
+
+		// Bind the IRepository User manager.
+		this.bind(RepositoryUserManager.class).to(NetxForgeUserManager.class)
+				.in(Scopes.SINGLETON);
+
+		// ///////////////////////////////
+		// EXPORT SERVICES
+
+		// Bind the server standard CDO Data provider
+		bind(export(IDataProvider.class)).annotatedWith(Server.class)
+				.toProvider(service(ServerCDODataProvider.class).export());
+
+		// Bind the server no-caching CDO Data provider
+		bind(export(IDataProvider.class)).annotatedWith(ServerNoCache.class)
+				.toProvider(
+						service(ServerNoCacheCDODataProvider.class).export());
+
+		bind(export(IServerUtils.class)).toProvider(
+				service(ServerUtils.class).export());
+
+		// ///////////////////////////////
+		// IMPORT SERVICES
+		// (Copy to modules in other OSGI bundles to import the service).
+
+		// {@link CDOServiceModule}
+		bind(IQueryService.class).toProvider(
+				service(CDOQueryService.class).single());
+
+		// {@link ServerModule}
+		bind(IServerUtils.class).toProvider(
+				service(IServerUtils.class).single());
+
+		// {@link ServerModule}
+		bind(IDataProvider.class).annotatedWith(Server.class).toProvider(
+				service(IDataProvider.class).single());
+
+		// {@link ServerModule}
+		bind(IDataProvider.class).annotatedWith(ServerNoCache.class)
+				.toProvider(service(IDataProvider.class).single());
+
 	}
 }

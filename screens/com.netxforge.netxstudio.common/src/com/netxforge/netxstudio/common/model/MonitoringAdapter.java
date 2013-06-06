@@ -168,10 +168,6 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		return null;
 	}
 
-	
-	
-	
-	
 	// ADAPTATION.
 
 	// NOTIFICATION FOR AUTO RECOMPUTATION.

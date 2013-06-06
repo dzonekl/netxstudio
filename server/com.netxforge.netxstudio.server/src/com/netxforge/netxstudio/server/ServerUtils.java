@@ -18,10 +18,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server;
 
-import java.util.Map;
-
-import javax.xml.datatype.DatatypeFactory;
-
 import org.eclipse.emf.cdo.common.commit.handler.AsyncCommitInfoHandler;
 import org.eclipse.emf.cdo.common.revision.CDORevisionCache;
 import org.eclipse.emf.cdo.common.revision.CDORevisionUtil;
@@ -50,18 +46,16 @@ import org.eclipse.net4j.util.container.IPluginContainer;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
-import org.eclipse.net4j.util.lifecycle.LifecycleState;
 import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import org.eclipse.net4j.util.security.IPasswordCredentialsProvider;
 import org.eclipse.net4j.util.security.PasswordCredentials;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
-import org.osgi.framework.ServiceReference;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.NetxstudioPackage;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.CDODataProvider;
 import com.netxforge.netxstudio.data.fixtures.Fixtures;
@@ -73,7 +67,6 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.internal.ServerActivator;
-import com.netxforge.netxstudio.server.service.NetxForgeService;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
@@ -82,13 +75,11 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * @author Martin Taal
  * @author Christophe Bouhier
  */
-public class ServerUtils {
+@Singleton
+public class ServerUtils implements IServerUtils {
 
 	private static final String REPO_NAME = "repo1";
 	private static final String SKIP_PACKAGE_INIT = "skipInit";
-
-	@SuppressWarnings("unused")
-	private DatatypeFactory dataTypeFactory;
 
 	// Control CDO Debugging using trace options.
 	// Note that CDO Options will still set debugging, as the OM Activator
@@ -101,14 +92,8 @@ public class ServerUtils {
 		OMPlatform.INSTANCE.setDebugging(ServerActivator.DEBUG);
 	}
 
-	private static ServerUtils instance = new ServerUtils();
-
 	@Inject
 	private CommitInfoHandler commitInfoHandler;
-
-	public static ServerUtils getInstance() {
-		return instance;
-	}
 
 	private IJVMAcceptor acceptor;
 	private IConnector connector;
@@ -117,54 +102,11 @@ public class ServerUtils {
 	private boolean isInitializing = false;
 
 	public ServerUtils() {
-		try {
-			dataTypeFactory = DatatypeFactory.newInstance();
-		} catch (final Exception e) {
-			throw new IllegalStateException(e);
-		}
-
-		if (commitInfoHandler == null) {
-			ServerActivator.getInstance().getInjector().injectMembers(this);
-		}
-
 	}
 
-	/**
-	 * Run a service, which should be in the parameters. The Service Parameter
-	 * should be the name of the class to invoke from registered OSGI services.
-	 * 
-	 * @param parameters
-	 * @return
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.server.IServerUtils#checkRepositorySupported(org.eclipse.emf.cdo.server.IRepository)
 	 */
-	public Object runService(Map<String, String> parameters) {
-
-		if (!parameters.containsKey(NetxForgeService.SERVICE_PARAM_NAME)) {
-			throw new IllegalStateException(
-					"Missing mandatory service name parameter: "
-							+ NetxForgeService.SERVICE_PARAM_NAME);
-		}
-
-		String serviceKey = parameters.get(NetxForgeService.SERVICE_PARAM_NAME);
-
-		final ServiceReference<?> serviceReference = ServerActivator
-				.getContext().getServiceReference(serviceKey);
-
-		if (serviceReference == null) {
-			throw new IllegalStateException(
-					"Service not defined for key:"
-							+ serviceKey
-							+ "\nSee service definitions in Activators of the server plugins");
-
-		}
-		final Object service = ServerActivator.getContext().getService(
-				serviceReference);
-		if (!(service instanceof NetxForgeService)) {
-			throw new IllegalStateException("Can not run service "
-					+ service.getClass());
-		}
-		return ((NetxForgeService) service).run(parameters);
-	}
-
 	public void checkRepositorySupported(IRepository repository) {
 		if (!repository.getName().equals(REPO_NAME)) {
 			throw new IllegalArgumentException("Unexpected repository name "
@@ -172,11 +114,8 @@ public class ServerUtils {
 		}
 	}
 
-	/**
-	 * TODO, this is not very different from {@link IDataProvider#openSession() }
-	 * as the session type is done by the Session config..
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.server.IServerUtils#openJVMSession()
 	 */
 	public CDOSession openJVMSession() {
 		final CDONet4jSession cdoSession = createSessionConfiguration()
@@ -186,6 +125,9 @@ public class ServerUtils {
 		return cdoSession;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.server.IServerUtils#deActivate()
+	 */
 	public void deActivate() {
 		if (acceptor != null) {
 			acceptor.close();
@@ -195,10 +137,16 @@ public class ServerUtils {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.server.IServerUtils#createSessionConfiguration()
+	 */
 	public CDONet4jSessionConfiguration createSessionConfiguration() {
 		return createSessionConfiguration(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.server.IServerUtils#createSessionConfiguration(boolean)
+	 */
 	public CDONet4jSessionConfiguration createSessionConfiguration(
 			boolean caching) {
 		// Prepare container
@@ -213,9 +161,7 @@ public class ServerUtils {
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 		sessionConfiguration.setExceptionHandler(exceptionHandler);
-		
-		
-		
+
 		if (!caching) {
 
 			// Note: Option to disable caching, this was of for Hibernate store,
@@ -223,10 +169,9 @@ public class ServerUtils {
 			// back on for the DB Store.
 			sessionConfiguration.setRevisionManager(CDORevisionUtil
 					.createRevisionManager(CDORevisionCache.NOOP));
-			
+
 			// Also turn-off passive updates for such a session.
 			sessionConfiguration.setPassiveUpdateEnabled(false);
-			
 
 		}
 		final IPasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(
@@ -258,16 +203,15 @@ public class ServerUtils {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.server.IServerUtils#getServerSideLogin()
+	 */
 	public String getServerSideLogin() {
 		return serverSideLogin;
 	}
 
-	/**
-	 * Initialize the server for the given {@link IRepository} This method is
-	 * called from multiple plugins, whenever they become active and discover
-	 * the repository has become {@link LifecycleState#ACTIVE active}
-	 * 
-	 * @param repository
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.server.IServerUtils#initializeServer(org.eclipse.emf.cdo.server.IRepository)
 	 */
 	public synchronized void initializeServer(IRepository repository) {
 		if (initServerDone) {
@@ -315,6 +259,9 @@ public class ServerUtils {
 			resourceInitializer.initialize();
 
 		}
+
+		// CB TODO, Do a lazy binding on the commit info handler.
+
 		// must be done after initializing the resources etc.
 		final AsyncCommitInfoHandler asyncCommitInfoHandler = new AsyncCommitInfoHandler(
 				commitInfoHandler);
@@ -327,6 +274,9 @@ public class ServerUtils {
 		isInitializing = false;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.server.IServerUtils#isInitializing()
+	 */
 	public boolean isInitializing() {
 		return isInitializing;
 	}
@@ -336,9 +286,6 @@ public class ServerUtils {
 		@Inject
 		@Server
 		private IDataProvider dataProvider;
-
-		@Inject
-		private ModelUtils modelUtils;
 
 		@Inject
 		private Fixtures fixtures;
@@ -405,7 +352,6 @@ public class ServerUtils {
 	}
 
 	public static class ServerElementProcessor implements IElementProcessor {
-
 		public Object process(IManagedContainer container, String productGroup,
 				String factoryType, String description, Object element) {
 			if (element instanceof IRepository) {
@@ -414,8 +360,12 @@ public class ServerUtils {
 				repository.addListener(new LifecycleEventAdapter() {
 					@Override
 					public void notifyLifecycleEvent(ILifecycleEvent event) {
+
 						if (event.getKind() == Kind.ACTIVATED) {
-							getInstance().initializeServer(repository);
+							ServerUtils serverUtils = ServerActivator
+									.getInstance().getInjector()
+									.getInstance(ServerUtils.class);
+							serverUtils.initializeServer(repository);
 						}
 					}
 				});

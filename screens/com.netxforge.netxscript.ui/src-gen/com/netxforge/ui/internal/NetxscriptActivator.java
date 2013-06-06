@@ -61,7 +61,7 @@ public class NetxscriptActivator extends AbstractUIPlugin {
 	
 	protected Module getRuntimeModule(String grammar) {
 		if ("com.netxforge.Netxscript".equals(grammar)) {
-		  return new com.netxforge.NetxscriptRuntimeModule();
+		  return new com.netxforge.internal.NetxscriptRuntimeModule();
 		}
 		
 		throw new IllegalArgumentException(grammar);

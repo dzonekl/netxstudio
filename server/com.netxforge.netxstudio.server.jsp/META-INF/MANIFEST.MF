@@ -50,5 +50,6 @@ Require-Bundle: com.google.collect;bundle-version="1.0.0",
  com.google.inject;bundle-version="2.0.0",
  com.netxforge.netxstudio.data;bundle-version="1.0.0",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
- com.netxforge.netxstudio.server;bundle-version="1.0.0"
+ com.netxforge.netxstudio.server;bundle-version="1.0.0",
+ org.ops4j.peaberry;bundle-version="1.1.1"
 

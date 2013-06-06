@@ -32,7 +32,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.data.cdo.NonStaticCDODataServiceModule;
+import com.netxforge.netxstudio.data.internal.NonStaticCDODataServiceModule;
 import com.netxforge.netxstudio.screens.editing.internal.EditingModule;
 
 /**

@@ -379,34 +379,17 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 			// Get the job container, forces the registration of invalidation
 			// listeners.
-			Resource jobRunContainerResource = editingService
+			Resource containerResource = editingService
 					.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
-
-			// find our jobcontainer .
-			for (final EObject eObject : jobRunContainerResource.getContents()) {
-				final JobRunContainer container = (JobRunContainer) eObject;
-				final Job containerJob = container.getJob();
-				if (containerJob != null) {
-					final CDOID containerJobId = ((CDOObject) containerJob)
-							.cdoID();
-					if (job.cdoID().equals(containerJobId)) {
-						// Container found.
-						jobContainer = container;
-						this.initDataBindings_();
-						break;
-					}
-				}
-			}
-
-			if (jobContainer == null) {
-
-				// There is no container, TODO should really do this test before
-				// showing the runs.
-				// Do not initiate data binding.
+			jobContainer = modelUtils
+					.jobContainerForJob(job, containerResource);
+			if (jobContainer != null) {
+				initDataBindings_();
+			} else {
 				MessageDialog
 						.openInformation(this.getShell(), "Job runs",
 								"This job has not run yet, wait for a server job to start. ");
-				return;
+				// TODO We should have a mechanims for invalidation.  
 			}
 		}
 	}
@@ -829,28 +812,28 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 				JobRunState jobState = wfr.getState();
 				if (jobState == JobRunState.RUNNING) {
 					if (refreshUIJob.getState() == org.eclipse.core.runtime.jobs.Job.NONE) {
-//						System.out.println("JobRuns: schedule refreshUI");
+						// System.out.println("JobRuns: schedule refreshUI");
 						refreshUIJob.schedule();
 					}
 				} else if (jobState == JobRunState.FINISHED_SUCCESSFULLY
 						|| jobState == JobRunState.FINISHED_WITH_ERROR) {
 					refreshUIJob.cancel();
-					// Do one more to reflect the latest status. 
+					// Do one more to reflect the latest status.
 					getTableViewerWidget().refresh();
 
 				}
 			}
-			if( o instanceof JobRunContainer){
-				refreshUIJob.schedule();	
+			if (o instanceof JobRunContainer) {
+				refreshUIJob.schedule();
 			}
-			
+
 		}
 		// super.handleReshresh(objects);
 	}
 
 	/**
-	 * Updates the UI, while WorkFlow is in state running is running.
-	 * TODO, Potentially feed with the object, which needs to be refreshed. 
+	 * Updates the UI, while WorkFlow is in state running is running. TODO,
+	 * Potentially feed with the object, which needs to be refreshed.
 	 * 
 	 * @author Christophe Bouhier
 	 * 
@@ -868,7 +851,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			if (monitor.isCanceled() || JobRuns.this.isDisposed())
 				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
 						IStatus.OK, "", null);
-			
+
 			// Potentially only update the relevant object.
 			// getTableViewerWidget().up
 			getTableViewerWidget().refresh();

@@ -15,7 +15,7 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.server.test;
 
 import static com.google.inject.util.Modules.override;
@@ -23,16 +23,13 @@ import static com.google.inject.util.Modules.override;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
-import com.netxforge.netxstudio.data.cdo.NonStatic;
-import com.netxforge.netxstudio.data.cdo.NonStaticCDODataProvider;
-import com.netxforge.netxstudio.data.importer.ImporterModule;
-import com.netxforge.netxstudio.server.test.actions.TestDataCreator;
+import com.netxforge.netxstudio.data.internal.CDODataServiceModule;
+import com.netxforge.netxstudio.data.internal.ImporterModule;
+import com.netxforge.netxstudio.server.internal.ServerModule;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
+ * 
  */
 public class TestModule extends AbstractModule {
 
@@ -43,16 +40,15 @@ public class TestModule extends AbstractModule {
 		om = override(om).with(new TestModule());
 		return om;
 	}
-	
-	private TestModule(){
+
+	public static Module getServerModule() {
+		Module om = ServerModule.getModule();
+		return om;
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.google.inject.AbstractModule#configure()
-	 */
+
 	@Override
 	protected void configure() {
-		this.bind(IDataProvider.class).annotatedWith(NonStatic.class).to(NonStaticCDODataProvider.class);
-		this.bind(TestDataCreator.class);
+		// No specific configuration.
 	}
+
 }

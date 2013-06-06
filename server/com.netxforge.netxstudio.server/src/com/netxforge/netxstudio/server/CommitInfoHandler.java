@@ -61,6 +61,9 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 	@Inject
 	ModelUtils modelUtils;
 
+	@Inject
+	IServerUtils serverUtils;
+
 	/*
 	 * The maximum number of entries in the commit log.
 	 */
@@ -81,7 +84,7 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 	// many
 	public synchronized void handleCommitInfo(CDOCommitInfo commitInfo) {
 		// don't do this when the server is initializing
-		if (ServerUtils.getInstance().isInitializing()) {
+		if (serverUtils.isInitializing()) {
 			return;
 		}
 
@@ -119,7 +122,7 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 				.toXMLDate(new Date(commitInfo.getTimeStamp()));
 
 		// Do not use our dataprovider.
-		final CDOSession session = ServerUtils.getInstance().openJVMSession();
+		final CDOSession session = serverUtils.openJVMSession();
 		final CDOTransaction transaction = session.openTransaction();
 
 		final Resource resource = transaction

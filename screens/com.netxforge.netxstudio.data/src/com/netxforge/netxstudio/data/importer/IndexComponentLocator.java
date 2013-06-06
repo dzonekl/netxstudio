@@ -26,6 +26,7 @@ import org.eclipse.emf.cdo.view.CDOView;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.index.ComponentMappingIndex;
@@ -39,6 +40,7 @@ import com.netxforge.netxstudio.metrics.Metric;
  * 
  * @author Christophe Bouhier
  */
+@Singleton
 public class IndexComponentLocator extends JobChangeAdapter implements
 		IComponentLocator {
 

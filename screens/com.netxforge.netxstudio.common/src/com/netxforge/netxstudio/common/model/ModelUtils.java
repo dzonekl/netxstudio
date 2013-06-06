@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -89,7 +90,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
-import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -129,6 +130,7 @@ import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.RFSService;
@@ -138,8 +140,9 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
+@Singleton
 public class ModelUtils {
-
+	
 	public static final double ONE_BILLION = 1E+9; // Seconds
 	public static final double ONE_MILLION = 1E+6; // Milli Seconds
 	public static final double ONE_THOUSAND = 1E+3; // Pico Seconds
@@ -211,7 +214,18 @@ public class ModelUtils {
 			.of("Name");
 	public static final Iterable<String> MAPPING_EQUIPMENT_ATTRIBUTES = ImmutableList
 			.of("Name", "EquipmentCode", "Position");
-
+	
+	private DatatypeFactory dataTypeFactory;
+	
+	public ModelUtils(){
+		try {
+			this.dataTypeFactory = DatatypeFactory.newInstance();
+		} catch (DatatypeConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	/**
 	 * Compare the time stamp of two {@link Value} objects. This implementation
 	 * delegates to {@link XMLGregorianCalendar#compare(XMLGregorianCalendar) }.
@@ -234,6 +248,41 @@ public class ModelUtils {
 		return new ValueTimeStampComparator();
 	}
 
+	
+	public class EFeatureComparator implements Comparator<EObject> {
+		
+		private EStructuralFeature eFeature;
+
+		public EFeatureComparator(EStructuralFeature eFeature){
+			this.eFeature = eFeature;
+			// Analyse the data type for supported comparison types? 
+		}
+		
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		public int compare(final EObject v1, final EObject v2) {
+
+			// check if set.
+			if (v1 != null
+					&& v1.eIsSet(eFeature)
+					&& v2 != null
+					&& v2.eIsSet(eFeature)) {
+				Object eGet1 = v1.eGet(eFeature);
+				Object eGet2 = v2.eGet(eFeature);
+				
+				if(eGet1 instanceof Comparable){
+					return ((Comparable) eGet1).compareTo(eGet2);
+				}
+			}
+			return -1;
+		}
+	};
+
+	public EFeatureComparator eFeatureComparator(EStructuralFeature eFeature) {
+		return new EFeatureComparator(eFeature);
+	}
+
+	
+	
 	/**
 	 * A predicate for a Value and provided timestamp.
 	 * 
@@ -876,7 +925,8 @@ public class ModelUtils {
 		// }
 
 		if (CommonActivator.DEBUG) {
-			CommonActivator.TRACE.trace(CommonActivator.TRACE_COMMON_UTILS_OPTION,
+			CommonActivator.TRACE.trace(
+					CommonActivator.TRACE_COMMON_UTILS_OPTION,
 					"Value by period splitter, key output");
 			List<String> sortedKeys = Ordering.from(new Comparator<String>() {
 
@@ -886,8 +936,8 @@ public class ModelUtils {
 
 			}).sortedCopy(targetMap.keySet());
 			for (String s : sortedKeys) {
-				CommonActivator.TRACE.trace(CommonActivator.TRACE_COMMON_UTILS_OPTION,
-						"key: " + s);
+				CommonActivator.TRACE.trace(
+						CommonActivator.TRACE_COMMON_UTILS_OPTION, "key: " + s);
 			}
 		}
 
@@ -1423,9 +1473,6 @@ public class ModelUtils {
 		return true;
 	}
 
-	@Inject
-	private DatatypeFactory dataTypeFactory;
-
 	/**
 	 * Compute a resource path on the basis of an instance. Components generate
 	 * a specific path based on their location in the node/nodetype tree.
@@ -1537,7 +1584,8 @@ public class ModelUtils {
 			cdoCalculateResourceName = cdoCalculateResourceName(targetObject);
 		} catch (IllegalAccessException e) {
 			if (CommonActivator.DEBUG) {
-				CommonActivator.TRACE.trace(CommonActivator.TRACE_COMMON_UTILS_OPTION,
+				CommonActivator.TRACE.trace(
+						CommonActivator.TRACE_COMMON_UTILS_OPTION,
 						"-- Can't resolve the Resource name for target object: "
 								+ targetObject);
 			}
@@ -1545,7 +1593,8 @@ public class ModelUtils {
 		}
 
 		if (CommonActivator.DEBUG) {
-			CommonActivator.TRACE.trace(CommonActivator.TRACE_COMMON_UTILS_OPTION,
+			CommonActivator.TRACE.trace(
+					CommonActivator.TRACE_COMMON_UTILS_OPTION,
 					"-- looking for CDO resource with name:"
 							+ cdoCalculateResourceName);
 		}
@@ -1563,7 +1612,8 @@ public class ModelUtils {
 					emfNetxResource = (CDOResource) n;
 					if (CommonActivator.DEBUG) {
 						CommonActivator.TRACE.trace(
-								CommonActivator.TRACE_COMMON_UTILS_OPTION, "-- found:"
+								CommonActivator.TRACE_COMMON_UTILS_OPTION,
+								"-- found:"
 										+ emfNetxResource.getURI().toString());
 					}
 					break;
@@ -1574,7 +1624,8 @@ public class ModelUtils {
 		if (emfNetxResource == null) {
 			emfNetxResource = folder.addResource(cdoCalculateResourceName);
 			if (CommonActivator.DEBUG) {
-				CommonActivator.TRACE.trace(CommonActivator.TRACE_COMMON_UTILS_OPTION,
+				CommonActivator.TRACE.trace(
+						CommonActivator.TRACE_COMMON_UTILS_OPTION,
 						"-- created resource:"
 								+ emfNetxResource.getURI().toString());
 			}
@@ -1822,7 +1873,17 @@ public class ModelUtils {
 				this.serviceMonitorWithinPeriod(dtr));
 		return (Lists.newArrayList(filterValues));
 	}
-
+	
+	/**
+	 * return a String with a fixed length. 
+	 * @param string
+	 * @param length
+	 * @return
+	 */
+	public String fixedLenthString(String string, int length) {
+	    return String.format("%1$-"+length+ "s", string);
+	}
+	
 	/**
 	 * Return the Node or null if the target object, has a Node somewhere along
 	 * the parent hiearchy.
@@ -2102,8 +2163,6 @@ public class ModelUtils {
 		return null;
 	}
 
-	
-
 	/**
 	 * Get the first {@link ResourceMonitor}
 	 * 
@@ -2197,6 +2256,42 @@ public class ModelUtils {
 
 		}
 		return monitorsPerResource;
+	}
+
+	public JobRunContainer jobContainerForJob(Job job,
+			Resource containerResource) {
+
+		final CDOID cdoId = job.cdoID();
+
+		for (final EObject eObject : containerResource.getContents()) {
+			final JobRunContainer container = (JobRunContainer) eObject;
+			final Job containerJob = container.getJob();
+			final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
+			if (cdoId.equals(containerJobId)) {
+				return container;
+			}
+		}
+		return null;
+	}
+
+	
+	/**
+	 * get a {@link Job} from a {@link Resource} by iterating over the root content
+	 * and matching the name of the job.
+	 * 
+	 * @param jobName
+	 * @param jobResource
+	 * @return
+	 */
+	public Job jobWithName(String jobName, Resource jobResource) {
+
+		for (final EObject eObject : jobResource.getContents()) {
+			final Job job = (Job) eObject;
+			if (job.equals(jobName)) {
+				return job;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -4833,19 +4928,17 @@ public class ModelUtils {
 			}
 		}
 	}
-	
-	public int mappingFailedCount(MappingStatistic mapStat){
+
+	public int mappingFailedCount(MappingStatistic mapStat) {
 		int totalErrors = 0;
 		for (MappingRecord mr : mapStat.getFailedRecords()) {
 			totalErrors += mr.getCount();
 		}
-		for(MappingStatistic ms : mapStat.getSubStatistics()){
+		for (MappingStatistic ms : mapStat.getSubStatistics()) {
 			totalErrors += mappingFailedCount(ms);
 		}
 		return totalErrors;
 	}
-	
-	
 
 	/**
 	 * The component name. If the component is a Function, the name will be

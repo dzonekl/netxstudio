@@ -50,7 +50,10 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
- * An injectable component showing the monitoring Dashboard.
+ * An injectable component showing the monitoring dashboard.
+ * 
+ * The dashboard will present the monitor for the current selection. 
+ * The selection objects should be adapted to an implementation of {@link }
  * 
  * @author Christophe Bouhier
  * 
@@ -278,7 +281,8 @@ public class DashboardComponent {
 			if (MonitoringStateModel.isAdapted((EObject) o)) {
 				IMonitoringSummary adapted = MonitoringStateModel
 						.getAdapted((EObject) o);
-				if (adapted instanceof NetxresourceSummary) {
+				// Try to prep a summary, if we have an RFSService
+				if (adapted instanceof NetxresourceSummary && adapted.getRFSService() != null) {
 					final SummaryCallBack callBack = new SummaryCallBack();
 					monitoringState.summary(callBack, adapted.getRFSService(),
 							new Object[] { adapted.getPeriod() });

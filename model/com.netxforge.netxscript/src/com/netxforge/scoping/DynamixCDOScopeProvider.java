@@ -158,23 +158,6 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 	}
 
 	/**
-	 * Tell us we are running on the Server.
-	 * 
-	 * @return
-	 */
-	public boolean isServer() {
-
-		// We can tell if we are on the server, bind the instantiated
-		// xxxDescriptions, which varies depending
-		// Server or Client.
-		if (descriptions instanceof DynamixCDOResourceDescriptions) {
-			return false;
-		}
-		return true;
-	}
-	
-	
-	/**
 	 * A filter which interprets {@link IExternalContextAware} 
 	 * 
 	 * @author Christophe

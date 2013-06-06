@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.core.runtime,
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
  org.apache.poi;bundle-version="1.0.0",
  org.postgresql;bundle-version="9.0.0";resolution:=optional,
- oracle.jdbc.driver.10_2_0_4;bundle-version="10.2.0";resolution:=optional
+ oracle.jdbc.driver.10_2_0_4;bundle-version="10.2.0";resolution:=optional,
+ org.ops4j.peaberry;bundle-version="1.1.1"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.data;
@@ -68,7 +69,6 @@ Export-Package: com.netxforge.netxstudio.data;
    com.google.inject,
    com.netxforge.netxstudio.data.job",
  com.netxforge.netxstudio.data.index,
- com.netxforge.netxstudio.data.internal;uses:="org.osgi.framework,org.eclipse.osgi.service.debug,com.google.inject",
  com.netxforge.netxstudio.data.job;uses:="com.netxforge.netxstudio.scheduling",
  com.netxforge.netxstudio.data.tolerance
 Import-Package: com.netxforge.netxstudio,

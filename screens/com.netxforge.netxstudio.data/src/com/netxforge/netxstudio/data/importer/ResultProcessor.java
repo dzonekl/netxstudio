@@ -33,6 +33,7 @@ import org.eclipse.emf.spi.cdo.FSMUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.ReferenceHelper;
@@ -65,6 +66,7 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
  * @author Martin Taal
  * @author Christophe Bouhier
  */
+@Singleton
 public class ResultProcessor {
 
 	@Inject

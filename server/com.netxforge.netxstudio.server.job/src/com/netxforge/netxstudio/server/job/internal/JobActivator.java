@@ -14,10 +14,10 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.server.job.internal;
 
-import static com.google.inject.util.Modules.override;
+import static org.ops4j.peaberry.Peaberry.osgiModule;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -27,19 +27,21 @@ import org.eclipse.osgi.framework.console.CommandProvider;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
+import org.ops4j.peaberry.Export;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.netxforge.netxstudio.server.internal.ServerModule;
+import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.server.job.JobHandler;
 
 /**
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
 public class JobActivator implements BundleActivator, DebugOptionsListener,
 		CommandProvider {
@@ -48,13 +50,12 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 	private static JobActivator INSTANCE;
 
 	private static final String PLUGIN_ID = "com.netxforge.netxstudio.server.job";
-	
 
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
 
-	// Tracing for jobs. 
+	// Tracing for jobs.
 	public static String TRACE_JOBS_OPTION = "/trace.jobs";
 
 	public static BundleContext getContext() {
@@ -67,6 +68,9 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 
 	private Injector injector;
 
+	@Inject
+	Export<IRunMonitor> runMonitorService;
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -78,6 +82,9 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 		JobActivator.context = bundleContext;
 		INSTANCE = this;
 
+		Module om = new JobModule();
+		injector = Guice.createInjector(osgiModule(context), om);
+
 		// register our trace and debugging listener.
 		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
@@ -86,15 +93,7 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 
 		// register our command provider.
 		context.registerService(CommandProvider.class.getName(), this, null);
-
 	}
-
-	public void createInjector() {
-		Module om = ServerModule.getModule();
-		om = override(om).with(new JobModule());
-		injector = Guice.createInjector(om);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -123,8 +122,8 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 		buffer.append("\tjob stop - stop the scheduler \n");
 		buffer.append("\tjob schedule - list the scheduled jobs \n");
 		buffer.append("\tjob list - list the existing jobs \n");
-		buffer.append("\tjob activate [Job name]- activate a job \n");
-		buffer.append("\tjob deactivate [Job name]- activate a job \n");
+		buffer.append("\tjob activate [Job name/index] | 'all' - activate a job \n");
+		buffer.append("\tjob deactivate [Job name/index] | 'all' - de-activate a job \n");
 		buffer.append("\tjob pause - pause the scheduled jobs (Running jobs are not interrupted) \n");
 		buffer.append("\tjob resume - resume the schduled jobs \n");
 		buffer.append("\tjob clean - clean job progress data\n");

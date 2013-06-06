@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 12, 2011 NetXForge.
+ * Copyright (c) May 18, 2011 NetXForge.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,31 +16,28 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.data.cdo;
+package com.netxforge.netxstudio.data.fixtures.internal;
 
-import com.google.inject.Singleton;
-import com.netxforge.netxstudio.data.DataServiceModule;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.actions.ServerRequest;
+import static org.ops4j.peaberry.Peaberry.service;
+import static org.ops4j.peaberry.util.TypeLiterals.export;
+
+import com.google.inject.AbstractModule;
+import com.netxforge.netxstudio.data.fixtures.Fixtures;
+import com.netxforge.netxstudio.data.fixtures.IFixtures;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public class CDODataServiceModule extends DataServiceModule {
-	
+public class FixturesModule extends AbstractModule {
+
 	/* (non-Javadoc)
 	 * @see com.google.inject.AbstractModule#configure()
 	 */
 	@Override
 	protected void configure() {
-		this.bind(IDataProvider.class).to(ClientCDODataProvider.class).in(Singleton.class);
-		this.bind(IDataService.class).to(CDODataService.class);
-		this.bind(ICDOConnection.class).to(CDODataConnection.class);
-		this.bind(IQueryService.class).to(CDOQueryService.class);
-		this.bind(CDOQueryUtil.class);
-		this.bind(ServerRequest.class);
+		bind(export(IFixtures.class)).toProvider(service(new Fixtures()).export());
+//		this.bind(IFixtures.class).to(Fixtures.class).in(Singleton.class);
 	}
+
 }

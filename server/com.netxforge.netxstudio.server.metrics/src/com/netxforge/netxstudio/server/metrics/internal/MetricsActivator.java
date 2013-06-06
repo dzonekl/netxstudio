@@ -14,8 +14,10 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.server.metrics.internal;
+
+import static org.ops4j.peaberry.Peaberry.osgiModule;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -28,18 +30,13 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.google.inject.util.Modules;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
-import com.netxforge.netxstudio.server.internal.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
-import com.netxforge.netxstudio.server.job.internal.JobModule;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService;
 import com.netxforge.netxstudio.server.metrics.MetricSourceJobImplementation;
 
-public class MetricsActivator implements BundleActivator, DebugOptionsListener
-	 {
+public class MetricsActivator implements BundleActivator, DebugOptionsListener {
 
 	private static BundleContext context;
 	private static MetricsActivator INSTANCE;
@@ -53,9 +50,20 @@ public class MetricsActivator implements BundleActivator, DebugOptionsListener
 	// public tracing options.
 	public static final String TRACE_IMPORT_OPTION = "/trace.import";
 
+	// Inherit the trace settings from the data bundle.
+	// The option for the helper is duplicate, perhaps it should not exist in the DataActivator?
+	private static final String PLUGIN_ID_IMPORT = "com.netxforge.netxstudio.data";
+	public static boolean DEBUG_IMPORT = false;
+	public static DebugTrace TRACE_IMPORT = null;
+	public static final String TRACE_IMPORT_HELPER_OPTION = "/trace.import.helper";
+
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
+
+		DEBUG_IMPORT = options.getBooleanOption(PLUGIN_ID_IMPORT + "/debug",
+				false);
+		TRACE_IMPORT = options.newDebugTrace(PLUGIN_ID_IMPORT);
 	}
 
 	public static BundleContext getContext() {
@@ -79,10 +87,8 @@ public class MetricsActivator implements BundleActivator, DebugOptionsListener
 		INSTANCE = this;
 		MetricsActivator.context = bundleContext;
 
-		Module om = new MetricsModule();
-		om = Modules.override(om).with(ServerModule.getModule());
-		om = Modules.override(om).with(new JobModule());
-		injector = Guice.createInjector(om);
+		injector = Guice.createInjector(osgiModule(context),
+				new MetricsModule());
 
 		// register our import service.
 		bundleContext.registerService(MetricSourceImportService.class,
@@ -105,8 +111,6 @@ public class MetricsActivator implements BundleActivator, DebugOptionsListener
 				props);
 
 	}
-
-	
 
 	/*
 	 * (non-Javadoc)

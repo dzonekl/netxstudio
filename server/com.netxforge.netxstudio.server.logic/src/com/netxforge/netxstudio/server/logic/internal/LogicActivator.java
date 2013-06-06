@@ -1,7 +1,24 @@
+/*******************************************************************************
+ * Copyright (c) 6 jun. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.server.logic.internal;
 
 import static com.google.inject.Guice.createInjector;
-import static com.google.inject.util.Modules.override;
+import static org.ops4j.peaberry.Peaberry.osgiModule;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -13,22 +30,16 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.data.importer.ImporterModule;
 import com.netxforge.netxstudio.scheduling.NodeReporterJob;
 import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.RetentionJob;
-import com.netxforge.netxstudio.server.internal.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
-import com.netxforge.netxstudio.server.job.internal.JobModule;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService;
 import com.netxforge.netxstudio.server.logic.monitoring.RFSServiceMonitoringJobImplementation;
-import com.netxforge.netxstudio.server.logic.netxscript.NetxscriptServerModule;
 import com.netxforge.netxstudio.server.logic.reporting.NodeReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.OperatorReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceReportingJobImplementation;
@@ -147,13 +158,7 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 					}
 				});
 
-		Module om = override(new NetxscriptServerModule()).with(
-				ServerModule.getModule());
-		om = override(om).with(new ImporterModule());
-		om = override(om).with(new JobModule());
-		om = override(om).with(new LogicModule());
-		om = override(om).with(new CommonModule());
-		injector = createInjector(om);
+		injector = createInjector(osgiModule(context), new LogicModule());
 
 		bundleContext.registerService(MonitoringService.class,
 				new MonitoringService(), new Hashtable<String, String>());

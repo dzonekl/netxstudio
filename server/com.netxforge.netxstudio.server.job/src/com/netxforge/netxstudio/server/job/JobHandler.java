@@ -59,15 +59,18 @@ import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.server.IServerUtils;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.ServerUtils;
 import com.netxforge.netxstudio.server.job.internal.JobActivator;
 
 /**
@@ -89,6 +92,9 @@ public class JobHandler {
 	@Inject
 	@Server
 	private IDataProvider dataProvider;
+
+	@Inject
+	private ModelUtils modelUtils;
 
 	// Our quartz scheduler.
 	private Scheduler scheduler;
@@ -112,7 +118,6 @@ public class JobHandler {
 
 	static void createAndInitialize() {
 		INSTANCE = new JobHandler();
-		JobActivator.getInstance().createInjector();
 		INSTANCE.activate();
 		INSTANCE.initialize();
 	}
@@ -268,29 +273,39 @@ public class JobHandler {
 
 		final StringBuffer sb = new StringBuffer();
 
-		final CDOResource jobResource = (CDOResource) dataProvider.getResource(
-				view, SchedulingPackage.eINSTANCE.getJob());
+		// Append the header.
+		sb.append(modelUtils.fixedLenthString("Index", 10));
+		sb.append(modelUtils.fixedLenthString("| Name", 50));
+		sb.append(modelUtils.fixedLenthString("| State", 15));
+		sb.append(modelUtils.fixedLenthString("| Repeat", 10));
+		sb.append(modelUtils.fixedLenthString("| Interval", 10));
+		sb.append(modelUtils.fixedLenthString("| Start", 30));
+		sb.append(modelUtils.fixedLenthString("| End", 30));
+		sb.append(modelUtils.fixedLenthString("| # Runs", 30));
+		sb.append("\n");
 
 		final CDOResource jobRunContainerResource = (CDOResource) dataProvider
 				.getResource(view, SchedulingPackage.Literals.JOB_RUN_CONTAINER);
+		final List<Job> sortedJobs = sortedJobs();
 
-		// now initialize quartz jobs, iterating through all available jobs.
-		for (final EObject eObject : jobResource.getContents()) {
-			final Job job = (Job) eObject;
-			sb.append(job.cdoRevision() + " | ");
-			sb.append("Name: " + job.getName() + " | State: "
-					+ job.getJobState().getName() + " | Repeats: "
-					+ job.getRepeat() + " | Interval: " + job.getInterval()
-					+ " | Start: " + job.getStartTime() + " | End "
-					+ job.getEndTime());
+		for (final Job job : sortedJobs) {
+			sb.append(modelUtils.fixedLenthString(
+					new Integer(sortedJobs.indexOf(job)).toString(), 10));
+			sb.append(modelUtils.fixedLenthString("| " + job.getName(), 50));
+			sb.append(modelUtils.fixedLenthString("| "
+					+ job.getJobState().getName(), 15));
+			sb.append(modelUtils.fixedLenthString("| " + job.getRepeat(), 10));
+			sb.append(modelUtils.fixedLenthString("| " + job.getInterval(), 10));
+			sb.append(modelUtils.fixedLenthString("| " + job.getStartTime(), 30));
+			sb.append(modelUtils.fixedLenthString("| " + job.getEndTime(), 30));
+
 			JobRunContainer container = this.getContainer(
 					jobRunContainerResource, job);
 			if (container != null) {
-				sb.append(" | Runs " + container.getWorkFlowRuns().size()
-						+ " times\n");
-			} else {
-				sb.append("\n");
+				sb.append(modelUtils.fixedLenthString("| "
+						+ container.getWorkFlowRuns().size() + " times", 30));
 			}
+			sb.append("\n");
 		}
 		return sb.toString();
 	}
@@ -310,7 +325,7 @@ public class JobHandler {
 					} else if (scheduler.isShutdown()) {
 						return "Scheduler is stopped";
 					}
-				}else{
+				} else {
 					return "Scheduler is not initialized";
 				}
 			} catch (SchedulerException e) {
@@ -503,19 +518,19 @@ public class JobHandler {
 	 * Called with the repository starts and when an invalidation occurs on
 	 */
 	public synchronized void initialize(CDOObject change) {
-		
-		
+
 		// monitor, dis-allowing re-entry.
 		initializing = true;
-		
+
 		// Our session, view might not be available....
-		if(view == null || (view != null && !LifecycleUtil.isActive(view))){
-			// Re-activate. 
+		if (view == null || (view != null && !LifecycleUtil.isActive(view))) {
+			// Re-activate.
 			activate();
 		}
 
 		if (JobActivator.DEBUG) {
-			JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION, "(Re) Initializing jobs");
+			JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION,
+					"(Re) Initializing jobs");
 
 		}
 
@@ -734,13 +749,12 @@ public class JobHandler {
 		}
 	}
 
-	
 	/**
-	 * Active when a valid {@link CDOView} is assigned. 
+	 * Active when a valid {@link CDOView} is assigned.
 	 */
 	private void activate() {
 		JobActivator.getInstance().getInjector().injectMembers(this);
-		
+
 		dataProvider.getSession();
 		view = dataProvider.getView();
 
@@ -771,19 +785,18 @@ public class JobHandler {
 				}
 			}
 		});
-		
-		
-		// In case we loose our sessions, clear the session. 
+
+		// In case we loose our sessions, clear the session.
 		view.getSession().addListener(new IListener() {
 
 			public void notifyEvent(IEvent event) {
-				if(event instanceof LifecycleEvent){
+				if (event instanceof LifecycleEvent) {
 					final LifecycleEvent lfEvent = (LifecycleEvent) event;
-					if(lfEvent.getKind() == Kind.ABOUT_TO_DEACTIVATE){
-						// OK our session will be closed. 
+					if (lfEvent.getKind() == Kind.ABOUT_TO_DEACTIVATE) {
+						// OK our session will be closed.
 						ILifecycle source = lfEvent.getSource();
 						System.out.println(source);
-						
+
 					}
 				}
 			}
@@ -893,6 +906,12 @@ public class JobHandler {
 		}
 	}
 
+	/**
+	 * An Initializer if this bundle is launched prior to the main server
+	 * bundle.
+	 * 
+	 * @author Christophe Bouhier
+	 */
 	public static class Initializer implements IElementProcessor {
 
 		public Object process(IManagedContainer container, String productGroup,
@@ -903,8 +922,12 @@ public class JobHandler {
 					@Override
 					public void notifyLifecycleEvent(ILifecycleEvent event) {
 						if (event.getKind() == Kind.ACTIVATED) {
-							ServerUtils.getInstance().initializeServer(
-									repository);
+
+							IServerUtils serverUtils = JobActivator
+									.getInstance().getInjector()
+									.getInstance(IServerUtils.class);
+
+							serverUtils.initializeServer(repository);
 							JobHandler.createAndInitialize();
 							// CB 26062012 disable the scheduler, to force a
 							// manual start of the scheduler.
@@ -949,18 +972,34 @@ public class JobHandler {
 		if (nextArgument == null) {
 			return " Provide a job name to activate \n";
 		} else {
+
 			dataProvider.getTransaction();
-			// look for the job to activate and do it.
-			Job j = jobForName(nextArgument);
-			if (j != null) {
-				if (j.getJobState() == JobState.ACTIVE) {
-					result = "Job is already active";
-				} else {
-					j.setJobState(JobState.ACTIVE);
-					result = "Job activated";
-				}
+			List<Job> jobTargets = Lists.newArrayList();
+			if (nextArgument.equals("all")) {
+				jobTargets = sortedJobs();
 			} else {
-				result = "Oops, job " + nextArgument + " doesn't exist.";
+				Job j;
+				try {
+					Integer integer = new Integer(nextArgument);
+					j = jobForIndex(integer);
+				} catch (NumberFormatException nfe) {
+					// look for the job to activate and do it.
+					j = jobForName(nextArgument);
+				}
+
+				if (j != null) {
+					jobTargets.add(j);
+				} else {
+					result = "Oops, job " + nextArgument + " doesn't exist.";
+				}
+			}
+			for (Job target : jobTargets) {
+				if (target.getJobState() == JobState.ACTIVE) {
+					result = "Job(s) is/are already active";
+				} else {
+					target.setJobState(JobState.ACTIVE);
+					result = "Job(s) is/are now activated";
+				}
 			}
 			dataProvider.commitTransactionThenClose();
 		}
@@ -971,20 +1010,36 @@ public class JobHandler {
 		String nextArgument = interpreter.nextArgument();
 		String result = "";
 		if (nextArgument == null) {
-			return " Provide a job name to deactivate \n";
+			return " Provide a job name to deactivate or 'all' to de-activate all jobs\n";
 		} else {
+
 			dataProvider.getTransaction();
-			// look for the job to activate and do it.
-			Job j = jobForName(nextArgument);
-			if (j != null) {
-				if (j.getJobState() == JobState.IN_ACTIVE) {
-					result = "Job is already de-actived";
-				} else {
-					j.setJobState(JobState.IN_ACTIVE);
-					result = "Job de-activated";
-				}
+			List<Job> jobTargets = Lists.newArrayList();
+			if (nextArgument.equals("all")) {
+				jobTargets = sortedJobs();
 			} else {
-				result = "Oops, job " + nextArgument + " doesn't exist.";
+				Job j;
+				try {
+					Integer integer = new Integer(nextArgument);
+					j = jobForIndex(integer);
+				} catch (NumberFormatException nfe) {
+					// look for the job to activate and do it.
+					j = jobForName(nextArgument);
+				}
+
+				if (j != null) {
+					jobTargets.add(j);
+				} else {
+					result = "Oops, job " + nextArgument + " doesn't exist.";
+				}
+			}
+			for (Job target : jobTargets) {
+				if (target.getJobState() == JobState.IN_ACTIVE) {
+					result = "some job(s) is/are already de-actived";
+				} else {
+					target.setJobState(JobState.IN_ACTIVE);
+					result = "some job(s) is/are de-activated";
+				}
 			}
 			dataProvider.commitTransactionThenClose();
 		}
@@ -1005,7 +1060,30 @@ public class JobHandler {
 		}
 
 		return null;
+	}
 
+	private Job jobForIndex(int index) {
+
+		List<Job> sortedJobs = sortedJobs();
+
+		if (sortedJobs.size() > index) {
+			return (Job) sortedJobs.get(index);
+		}
+		return null;
+	}
+
+	/**
+	 * @return
+	 */
+	private List<Job> sortedJobs() {
+		CDOResource jobResource = (CDOResource) dataProvider
+				.getResource(SchedulingPackage.eINSTANCE.getJob());
+		List<EObject> sortedJobs = Ordering
+				.from(modelUtils
+						.eFeatureComparator(SchedulingPackage.Literals.JOB__NAME))
+				.sortedCopy(jobResource.getContents());
+		return new ModelUtils.CollectionForObjects<Job>()
+				.collectionForObjects(sortedJobs);
 	}
 
 	/**

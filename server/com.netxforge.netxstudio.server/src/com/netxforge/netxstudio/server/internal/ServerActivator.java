@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.internal;
 
+import static org.ops4j.peaberry.Peaberry.osgiModule;
+
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Locale;
@@ -33,14 +35,20 @@ import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
+import org.ops4j.peaberry.Export;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.common.properties.PropertiesUtil;
+import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.server.IServerUtils;
+import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.ServerIntegrity;
+import com.netxforge.netxstudio.server.ServerNoCache;
 import com.netxforge.netxstudio.server.ServerUtils;
 
 /**
@@ -87,7 +95,20 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 	private Injector injector;
 
 	private Properties properties;
-
+	
+	
+	// Export our services. 
+	@Inject
+	Export<IServerUtils> serverUtils;
+	
+	@Inject
+	@Server
+	Export<IDataProvider> dataProvider;
+	
+	@Inject
+	@ServerNoCache
+	Export<IDataProvider> dataProviderNoCache;
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -98,10 +119,10 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 	public void start(BundleContext bundleContext) throws Exception {
 		INSTANCE = this;
 		ServerActivator.context = bundleContext;
-		injector = Guice.createInjector(ServerModule.getModule());
-
+		injector = Guice.createInjector(osgiModule(bundleContext), new ServerModule());
+		injector.injectMembers(this);
+		
 		// Set the Locale
-
 		Locale currentLocal = Locale.getDefault();
 		System.out.println("CURRENT Locale: country = "
 				+ currentLocal.getDisplayCountry() + "language = "
@@ -186,8 +207,12 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext bundleContext) throws Exception {
+		
 		ServerActivator.context = null;
-		ServerUtils.getInstance().deActivate();
+		
+		IServerUtils serverUtils = this.getInjector().getInstance(ServerUtils.class);
+		serverUtils.deActivate();
+		
 		PropertiesUtil pu = injector.getInstance(PropertiesUtil.class);
 		pu.writeProperties(Platform.getInstanceLocation(),
 				NETXSERVER_PROPERTIES_FILE_NAME, getProperties());

@@ -21,12 +21,10 @@ package com.netxforge.netxstudio.server.job;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.framework.BundleActivator;
 import org.quartz.JobDataMap;
@@ -35,6 +33,7 @@ import org.quartz.JobExecutionException;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.scheduling.Job;
@@ -91,6 +90,9 @@ public class NetxForgeJob implements org.quartz.Job {
 	@Server
 	private IDataProvider dataProvider;
 
+	@Inject
+	private ModelUtils modelUtils;
+
 	private int maxWorkFlowRunsInJobRunContainer = -1;
 
 	public NetxForgeJob() {
@@ -133,26 +135,24 @@ public class NetxForgeJob implements org.quartz.Job {
 
 	private void createWorkFlowMonitor(JobImplementation jobImplementation) {
 
-			// use Guice provider pattern
-			runMonitor = JobActivator.getInstance().getInjector()
-					.getInstance(ServerWorkFlowRunMonitor.class);
-			dataProvider.openSession();
-			dataProvider.getTransaction();
-			final JobRunContainer container = getCreateJobRunContainer(dataProvider
-					.getResource(SchedulingPackage.eINSTANCE
-							.getJobRunContainer()));
+		// use Guice provider pattern
+		runMonitor = JobActivator.getInstance().getInjector()
+				.getInstance(ServerWorkFlowRunMonitor.class);
+		dataProvider.openSession();
+		dataProvider.getTransaction();
+		final JobRunContainer container = getOrCreateJobRunContainer(dataProvider
+				.getResource(SchedulingPackage.eINSTANCE.getJobRunContainer()));
 
-			final WorkFlowRun wfRun = jobImplementation
-					.createWorkFlowRunInstance();
-			addAndTruncate(container, container.getWorkFlowRuns(), wfRun);
+		final WorkFlowRun wfRun = jobImplementation.createWorkFlowRunInstance();
+		addAndTruncate(container, container.getWorkFlowRuns(), wfRun);
 
-			dataProvider.commitTransactionThenClose();
-			dataProvider.closeSession();
+		dataProvider.commitTransactionThenClose();
+		dataProvider.closeSession();
 
-			// Tigh the ID of the Workflow run with the Run Monitor. The monitor
-			// will update this object.
-			runMonitor.setWorkFlowRunId(wfRun.cdoID());
-			runMonitor.setStartRunning();
+		// Tigh the ID of the Workflow run with the Run Monitor. The monitor
+		// will update this object.
+		runMonitor.setWorkFlowRunId(wfRun.cdoID());
+		runMonitor.setStartRunning();
 	}
 
 	/**
@@ -166,6 +166,9 @@ public class NetxForgeJob implements org.quartz.Job {
 		// Lazy init maxStats var.
 		if (maxWorkFlowRunsInJobRunContainer == -1) {
 			boolean storeMaxRuns = false;
+			
+			
+			// TODO, over as a service. 
 			BundleActivator a = ServerActivator.getInstance();
 			if (a instanceof IPropertiesProvider) {
 				String property = ((IPropertiesProvider) a).getProperties()
@@ -249,25 +252,19 @@ public class NetxForgeJob implements org.quartz.Job {
 		}
 	}
 
-	private JobRunContainer getCreateJobRunContainer(Resource resource) {
+	private JobRunContainer getOrCreateJobRunContainer(Resource resource) {
 		final CDOID cdoId = job.cdoID();
-		for (final EObject eObject : resource.getContents()) {
-			final JobRunContainer container = (JobRunContainer) eObject;
-			final Job containerJob = container.getJob();
-			final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
-			if (cdoId.equals(containerJobId)) {
-				return container;
-			}
-		}
-		// got here, create a new one
-		final JobRunContainer container = SchedulingFactory.eINSTANCE
-				.createJobRunContainer();
 
-		// get the job to refer to...
-		final Job localJob = (Job) dataProvider.getTransaction().getObject(
-				cdoId);
-		container.setJob(localJob);
-		resource.getContents().add(container);
+		JobRunContainer container = modelUtils
+				.jobContainerForJob(job, resource);
+		if (container == null) {
+			container = SchedulingFactory.eINSTANCE.createJobRunContainer();
+			// get the job to refer to...(Set it with our own transaction). 
+			final Job localJob = (Job) dataProvider.getTransaction().getObject(
+					cdoId);
+			container.setJob(localJob);
+			resource.getContents().add(container);
+		}
 		return container;
 	}
 

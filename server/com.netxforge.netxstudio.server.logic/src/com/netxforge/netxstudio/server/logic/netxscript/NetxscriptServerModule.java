@@ -1,7 +1,7 @@
 package com.netxforge.netxstudio.server.logic.netxscript;
 
 import com.google.inject.Scopes;
-import com.netxforge.NetxscriptRuntimeModule;
+import com.netxforge.internal.NetxscriptRuntimeModule;
 
 public class NetxscriptServerModule extends NetxscriptRuntimeModule {
 

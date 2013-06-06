@@ -15,41 +15,79 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.common;
 
-import javax.xml.datatype.DatatypeFactory;
+import static org.ops4j.peaberry.Peaberry.service;
+import static org.ops4j.peaberry.util.Attributes.objectClass;
+import static org.ops4j.peaberry.util.TypeLiterals.export;
 
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.jca.JCAServiceModule;
+import com.netxforge.netxstudio.common.model.ComponentSummary;
+import com.netxforge.netxstudio.common.model.ComponentSummaryProvider;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
+import com.netxforge.netxstudio.common.model.NetxresourceSummary;
+import com.netxforge.netxstudio.common.model.NetxresourceSummaryProvider;
+import com.netxforge.netxstudio.common.model.NodeTypeSummary;
+import com.netxforge.netxstudio.common.model.NodetypeSummaryProvider;
+import com.netxforge.netxstudio.common.model.OperatorSummary;
+import com.netxforge.netxstudio.common.model.OperatorSummaryProvider;
+import com.netxforge.netxstudio.common.model.RFSServiceSummary;
+import com.netxforge.netxstudio.common.model.RFSServiceSummaryProvider;
 import com.netxforge.netxstudio.common.properties.PropertiesUtil;
-
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
+ * 
  */
 public class CommonModule extends JCAServiceModule {
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.google.inject.AbstractModule#configure()
 	 */
 	@Override
 	protected void configure() {
 		super.configure();
-		this.bind(ModelUtils.class).in(Singleton.class);
+
+		// ///////////////////////////////
+		// EXPORT SERVICES
+
+		// Bind our model Utilities for export
+		// http://code.google.com/p/peaberry/issues/detail?id=70
+		bind(export(ModelUtils.class)).toProvider(
+				service(new ModelUtils()).attributes(
+						objectClass(ModelUtils.class)).export());
+
+		// ///////////////////////////////
+		// IMPORT SERVICES
+		// (Copy to modules in other OSGI bundles to import the service).
+		
+		// {@link CommonModule}
+		bind(ModelUtils.class).toProvider(service(ModelUtils.class).single());
+
+		// CB TODO Migrate
+
 		this.bind(PropertiesUtil.class).in(Singleton.class);
+		this.bind(MonitoringStateModel.class).in(Singleton.class);
+		this.bind(MonitoringAdapterFactory.class);
+
+		// providers.
+		this.bind(NetxresourceSummary.class).toProvider(
+				NetxresourceSummaryProvider.class);
+		this.bind(ComponentSummary.class).toProvider(
+				ComponentSummaryProvider.class);
+		this.bind(NodeTypeSummary.class).toProvider(
+				NodetypeSummaryProvider.class);
+		this.bind(RFSServiceSummary.class).toProvider(
+				RFSServiceSummaryProvider.class);
+		this.bind(OperatorSummary.class).toProvider(
+				OperatorSummaryProvider.class);
+
 	}
-	
-	@Provides
-	DatatypeFactory providerDataTypeFactory(){
-		try {
-			return DatatypeFactory.newInstance();
-		} catch (final Exception e) {
-			return null;
-		}
-	}
-	
+
 }

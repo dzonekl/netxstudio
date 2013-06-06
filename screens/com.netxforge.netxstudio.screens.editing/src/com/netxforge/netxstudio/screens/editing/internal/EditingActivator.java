@@ -32,7 +32,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.netxforge.netxstudio.data.internal.CDODataServiceModule;
 
 /**
  * The activator class controls the plug-in life cycle

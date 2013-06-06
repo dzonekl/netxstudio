@@ -58,11 +58,6 @@ public class CDOQueryService implements IQueryService {
 
 	private IDataProvider provider;
 
-	private CDOQueryUtil queryService;
-
-	@SuppressWarnings("unused")
-	private ModelUtils modelUtils;
-
 	private List<CDOTransaction> usedTransactions = Lists.newArrayList();
 
 	private static final String DB_NAME = "TM";
@@ -78,9 +73,12 @@ public class CDOQueryService implements IQueryService {
 	}
 
 	@Inject
-	public CDOQueryService(CDOQueryUtil queryService, ModelUtils modelUtils) {
-		this.queryService = queryService;
-		this.modelUtils = modelUtils;
+	CDOQueryUtil queryService;
+	
+	@Inject
+	private ModelUtils modelUtils;
+	
+	public CDOQueryService() {
 	}
 
 	public void setDataProvider(IDataProvider provider) {

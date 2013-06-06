@@ -29,7 +29,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.netxforge.netxstudio.server.ServerUtils;
+import org.osgi.framework.ServiceReference;
+
+import com.netxforge.netxstudio.server.internal.ServerActivator;
+import com.netxforge.netxstudio.server.service.NetxForgeService;
 
 public class NetxForgeServiceServlet extends HttpServlet {
 
@@ -50,7 +53,43 @@ public class NetxForgeServiceServlet extends HttpServlet {
 			final String name = (String) enumeration.nextElement();
 			parameters.put(name, req.getParameter(name));
 		}
-		final Object ret = ServerUtils.getInstance().runService(parameters);
+		final Object ret = runService(parameters);
 		resp.getWriter().write(ret.toString());
+	}
+	
+	/**
+	 * Run a service, which should be in the parameters. The Service Parameter
+	 * should be the name of the class to invoke from registered OSGI services.
+	 * 
+	 * @param parameters
+	 * @return
+	 */
+	public Object runService(Map<String, String> parameters) {
+
+		if (!parameters.containsKey(NetxForgeService.SERVICE_PARAM_NAME)) {
+			throw new IllegalStateException(
+					"Missing mandatory service name parameter: "
+							+ NetxForgeService.SERVICE_PARAM_NAME);
+		}
+
+		String serviceKey = parameters.get(NetxForgeService.SERVICE_PARAM_NAME);
+
+		final ServiceReference<?> serviceReference = ServerActivator
+				.getContext().getServiceReference(serviceKey);
+
+		if (serviceReference == null) {
+			throw new IllegalStateException(
+					"Service not defined for key:"
+							+ serviceKey
+							+ "\nSee service definitions in Activators of the server plugins");
+
+		}
+		final Object service = ServerActivator.getContext().getService(
+				serviceReference);
+		if (!(service instanceof NetxForgeService)) {
+			throw new IllegalStateException("Can not run service "
+					+ service.getClass());
+		}
+		return ((NetxForgeService) service).run(parameters);
 	}
 }

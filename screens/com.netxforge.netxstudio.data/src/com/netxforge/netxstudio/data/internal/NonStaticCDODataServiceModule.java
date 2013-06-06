@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 18, 2011 NetXForge.
+ * Copyright (c) May 12, 2011 NetXForge.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,23 +16,34 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.data.fixtures;
+package com.netxforge.netxstudio.data.internal;
+
+import static com.google.inject.util.Modules.override;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import com.google.inject.Module;
+import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.cdo.NonStatic;
+import com.netxforge.netxstudio.data.cdo.NonStaticCDODataProvider;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public class FixturesModule extends AbstractModule {
-
+public class NonStaticCDODataServiceModule extends AbstractModule {
+	
+	
+	public static Module getModule() {
+		Module om = new CDODataServiceModule();
+		om = override(om).with(new NonStaticCDODataServiceModule());
+		return om;
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.google.inject.AbstractModule#configure()
 	 */
 	@Override
 	protected void configure() {
-		this.bind(IFixtures.class).to(Fixtures.class).in(Singleton.class);
+		this.bind(IDataProvider.class).annotatedWith(NonStatic.class).to(NonStaticCDODataProvider.class);
 	}
-
 }
