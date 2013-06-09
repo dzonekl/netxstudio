@@ -92,10 +92,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	// Note: Not injected, as we inject with a local provider.
 	protected IDataProvider dataProvider;
 
-	@Inject
 	protected IComponentLocator componentLocator;
 
-	@Inject
 	protected ModelUtils modelUtils;
 
 	/** A Global collection of mapping records, added to a statistic **/
@@ -145,6 +143,14 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	 * A collection of descriptors for the header which is always populated.
 	 */
 	private List<IComponentLocator.IdentifierDescriptor> headerIdentifiers = new ArrayList<IComponentLocator.IdentifierDescriptor>();
+
+	@Inject
+	public AbstractMetricValuesImporter(IComponentLocator locator,
+			ModelUtils modelUtils) {
+		this.componentLocator = locator;
+		this.modelUtils = modelUtils;
+	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -924,7 +930,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			}
 		}
 		try {
-			tmpTransaction.setCommitComment(IDataProvider.SERVER_COMMIT_COMMENT);
+			tmpTransaction
+					.setCommitComment(IDataProvider.SERVER_COMMIT_COMMENT);
 			tmpTransaction.commit();
 		} catch (CommitException e) {
 		} finally {

@@ -36,12 +36,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.net4j.util.container.IElementProcessor;
 import org.eclipse.net4j.util.container.IManagedContainer;
-import org.eclipse.net4j.util.event.IEvent;
 import org.eclipse.net4j.util.event.IListener;
-import org.eclipse.net4j.util.lifecycle.ILifecycle;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
-import org.eclipse.net4j.util.lifecycle.LifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.osgi.framework.console.CommandInterpreter;
@@ -69,6 +66,7 @@ import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.IServerUtils;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.internal.JobActivator;
@@ -91,6 +89,8 @@ public class JobHandler {
 	 */
 	@Inject
 	@Server
+	private IDPProvider dpProvider;
+
 	private IDataProvider dataProvider;
 
 	@Inject
@@ -755,6 +755,9 @@ public class JobHandler {
 	private void activate() {
 		JobActivator.getInstance().getInjector().injectMembers(this);
 
+		dataProvider = dpProvider.get();
+
+		// This session and view remain active.
 		dataProvider.getSession();
 		view = dataProvider.getView();
 
@@ -785,66 +788,6 @@ public class JobHandler {
 				}
 			}
 		});
-
-		// In case we loose our sessions, clear the session.
-		view.getSession().addListener(new IListener() {
-
-			public void notifyEvent(IEvent event) {
-				if (event instanceof LifecycleEvent) {
-					final LifecycleEvent lfEvent = (LifecycleEvent) event;
-					if (lfEvent.getKind() == Kind.ABOUT_TO_DEACTIVATE) {
-						// OK our session will be closed.
-						ILifecycle source = lfEvent.getSource();
-						System.out.println(source);
-
-					}
-				}
-			}
-		});
-
-		// dataProvider.getSession().addListener(new IListener() {
-		// public void notifyEvent(org.eclipse.net4j.util.event.IEvent arg0)
-		// {
-		//
-		// boolean shoudInitialize = false;
-		//
-		// // CDOCommitInfo info = (CDOCommitInfo) arg0;
-		// // if (JobActivator.DEBUG) {
-		// // JobActivator.TRACE.trace(null,
-		// // "Session event session="
-		// // + dataProvider.getSession()
-		// // .getSessionID());
-		// // JobActivator.TRACE.trace(null,
-		// // "Event=" + info.toString());
-		// // }
-		// if (arg0 instanceof SingleDeltaContainerEvent) {
-		// // SingleDeltaContainerEvent event =
-		// // (SingleDeltaContainerEvent) arg0;
-		// return;
-		// } else if (arg0 instanceof CDOSessionInvalidationEvent
-		// && !JobHandler.this.initializing) {
-		// final CDOSessionInvalidationEvent event =
-		// (CDOSessionInvalidationEvent) arg0;
-		// // only check changed objects, in case of:
-		// // removal: the CDO resource is updated
-		// // insert: the CDO resource is update
-		// // update: the job object itself is updated
-		//
-		// for (final Object o : event.getChangedObjects()) {
-		// if (o instanceof CDORevisionKey) {
-		// final CDORevisionKey key = (CDORevisionKey) o;
-		// final CDOID cdoId = key.getID();
-		// if (relevantIds.contains(cdoId)) {
-		// shoudInitialize = true;
-		// }
-		// }
-		// }
-		// }
-		// if (shoudInitialize) {
-		// JobHandler.this.initialize();
-		// }
-		// }
-		// });
 	}
 
 	/**
@@ -923,11 +866,16 @@ public class JobHandler {
 					public void notifyLifecycleEvent(ILifecycleEvent event) {
 						if (event.getKind() == Kind.ACTIVATED) {
 
+							// In case the server is not initialized yet,
+							// we need to do this first.
+							// A better approach would be to
+							// register for the server services.
 							IServerUtils serverUtils = JobActivator
 									.getInstance().getInjector()
 									.getInstance(IServerUtils.class);
 
 							serverUtils.initializeServer(repository);
+
 							JobHandler.createAndInitialize();
 							// CB 26062012 disable the scheduler, to force a
 							// manual start of the scheduler.
@@ -1048,8 +996,8 @@ public class JobHandler {
 
 	private Job jobForName(String jobName) {
 
-		CDOResource jobResource = (CDOResource) dataProvider
-				.getResource(SchedulingPackage.eINSTANCE.getJob());
+		CDOResource jobResource = (CDOResource) dataProvider.getResource(view,
+				SchedulingPackage.eINSTANCE.getJob());
 
 		// now initialize quartz jobs, iterating through all available jobs.
 		for (final EObject eObject : jobResource.getContents()) {
@@ -1076,8 +1024,8 @@ public class JobHandler {
 	 * @return
 	 */
 	private List<Job> sortedJobs() {
-		CDOResource jobResource = (CDOResource) dataProvider
-				.getResource(SchedulingPackage.eINSTANCE.getJob());
+		CDOResource jobResource = (CDOResource) dataProvider.getResource(view,
+				SchedulingPackage.eINSTANCE.getJob());
 		List<EObject> sortedJobs = Ordering
 				.from(modelUtils
 						.eFeatureComparator(SchedulingPackage.Literals.JOB__NAME))

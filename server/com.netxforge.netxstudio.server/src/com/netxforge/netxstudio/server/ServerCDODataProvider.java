@@ -23,6 +23,10 @@ import java.util.Date;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.net4j.util.event.IEvent;
+import org.eclipse.net4j.util.event.IListener;
+import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
+import org.eclipse.net4j.util.lifecycle.LifecycleEvent;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.cdo.CDODataProvider;
@@ -124,6 +128,19 @@ public class ServerCDODataProvider extends CDODataProvider {
 		if (transaction == null || transaction.isClosed()) {
 			// This will open a new session.
 			transaction = getSession().openTransaction();
+			// In case we loose our sessions, clear the session.
+			transaction.getSession().addListener(new IListener() {
+
+				public void notifyEvent(IEvent event) {
+					if (event instanceof LifecycleEvent) {
+						final LifecycleEvent lfEvent = (LifecycleEvent) event;
+						if (lfEvent.getKind() == Kind.ABOUT_TO_DEACTIVATE) {
+							// OK our session will be closed.
+							sessionLog.logLifecycle(lfEvent);
+						}
+					}
+				}
+			});
 			sessionLog.logGetNewTransaction(transaction);
 		} else {
 			sessionLog.logGetCachedTransaction(transaction);
@@ -178,6 +195,16 @@ public class ServerCDODataProvider extends CDODataProvider {
 						ServerActivator.TRACE_SERVER_CDO_SESSION,
 						"OPEN session ID=" + session.getSessionID());
 			}
+		}
+
+		public void logLifecycle(LifecycleEvent lfEvent) {
+			if (ServerActivator.DEBUG) {
+				logStack(ServerActivator.TRACE_SERVER_CDO_SESSION);
+				ServerActivator.TRACE.trace(
+						ServerActivator.TRACE_SERVER_CDO_SESSION,
+						"DEACTIVATE lifecycle: " + lfEvent.toString());
+			}
+			
 		}
 
 		void logCloseSession(CDOSession session) {
@@ -281,13 +308,17 @@ public class ServerCDODataProvider extends CDODataProvider {
 
 		private void logStack(String traceOption) {
 			String thisName = ServerCDODataProvider.this.getClass().getName();
+			String parentName = CDODataProvider.class.getName();
+			String logName = SessionLog.class.getName();
 			String thisNameNested = this.getClass().getName();
 			StackTraceElement[] stackTrace = new Throwable().getStackTrace();
 			// move up the trace until, we are not this.
 			for (StackTraceElement e : stackTrace) {
 				String stackEntryClassName = e.getClassName();
 				if (!stackEntryClassName.equals(thisNameNested)
-						&& !stackEntryClassName.equals(thisName)) {
+						&& !stackEntryClassName.equals(thisName)
+						&& !stackEntryClassName.equals(parentName)
+						&& !stackEntryClassName.equals(logName)) {
 					String msg = e.toString();
 					if (!msg.isEmpty()) {
 						ServerActivator.TRACE.trace(traceOption, msg);

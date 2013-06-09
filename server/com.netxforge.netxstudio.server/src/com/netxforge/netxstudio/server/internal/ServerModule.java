@@ -30,14 +30,18 @@ import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 import com.netxforge.netxstudio.server.CommitInfoHandler;
+import com.netxforge.netxstudio.server.IDPNoCacheProvider;
+import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.IServerUtils;
 import com.netxforge.netxstudio.server.NetxForgeUserManager;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.ServerCDOConnection;
+import com.netxforge.netxstudio.server.ServerCDODPProvider;
 import com.netxforge.netxstudio.server.ServerCDODataProvider;
 import com.netxforge.netxstudio.server.ServerIntegrity;
 import com.netxforge.netxstudio.server.ServerNoCache;
 import com.netxforge.netxstudio.server.ServerNoCacheCDOConnection;
+import com.netxforge.netxstudio.server.ServerNoCacheCDODPProvider;
 import com.netxforge.netxstudio.server.ServerNoCacheCDODataProvider;
 import com.netxforge.netxstudio.server.ServerUtils;
 import com.netxforge.netxstudio.server.ServerUtils.ServerInitializer;
@@ -63,10 +67,18 @@ public class ServerModule extends AbstractModule {
 		this.bind(ICDOConnection.class).annotatedWith(Server.class)
 				.to(ServerCDOConnection.class);
 
+		// Bind the server standard CDO Provider
+		bind(IDataProvider.class).annotatedWith(Server.class).to(
+				ServerCDODataProvider.class);
+
 		// Bind the server no-caching CDO Connection
 		this.bind(ICDOConnection.class).annotatedWith(ServerNoCache.class)
 				.to(ServerNoCacheCDOConnection.class);
-		
+
+		// Bind the server standard CDO Provider
+		bind(IDataProvider.class).annotatedWith(ServerNoCache.class).to(
+				ServerNoCacheCDODataProvider.class);
+
 		// Bind the server initializer
 		this.bind(ServerInitializer.class);
 
@@ -83,14 +95,11 @@ public class ServerModule extends AbstractModule {
 		// ///////////////////////////////
 		// EXPORT SERVICES
 
-		// Bind the server standard CDO Data provider
-		bind(export(IDataProvider.class)).annotatedWith(Server.class)
-				.toProvider(service(ServerCDODataProvider.class).export());
+		bind(export(IDPProvider.class)).annotatedWith(Server.class)
+				.toProvider(service(ServerCDODPProvider.class).export());
 
-		// Bind the server no-caching CDO Data provider
-		bind(export(IDataProvider.class)).annotatedWith(ServerNoCache.class)
-				.toProvider(
-						service(ServerNoCacheCDODataProvider.class).export());
+		bind(export(IDPNoCacheProvider.class)).annotatedWith(ServerNoCache.class)
+				.toProvider(service(ServerNoCacheCDODPProvider.class).export());
 
 		bind(export(IServerUtils.class)).toProvider(
 				service(ServerUtils.class).export());
@@ -106,14 +115,6 @@ public class ServerModule extends AbstractModule {
 		// {@link ServerModule}
 		bind(IServerUtils.class).toProvider(
 				service(IServerUtils.class).single());
-
-		// {@link ServerModule}
-		bind(IDataProvider.class).annotatedWith(Server.class).toProvider(
-				service(IDataProvider.class).single());
-
-		// {@link ServerModule}
-		bind(IDataProvider.class).annotatedWith(ServerNoCache.class)
-				.toProvider(service(IDataProvider.class).single());
 
 	}
 }

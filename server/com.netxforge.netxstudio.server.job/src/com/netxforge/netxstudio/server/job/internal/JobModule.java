@@ -18,13 +18,14 @@
 package com.netxforge.netxstudio.server.job.internal;
 
 import static org.ops4j.peaberry.Peaberry.service;
-import static org.ops4j.peaberry.util.TypeLiterals.export;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
+import com.netxforge.netxstudio.server.IDPNoCacheProvider;
+import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.IServerUtils;
 import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.ServerNoCache;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 
 /**
@@ -38,26 +39,25 @@ public class JobModule extends AbstractModule {
 
 		// //////////////////////////////////////////////
 		// INTERNAL SERVICES
+		bind(IRunMonitor.class).to(ServerWorkFlowRunMonitor.class);
 
 		// ///////////////////////////////
 		// EXPORT SERVICES
-		bind(export(IRunMonitor.class)).toProvider(
-				service(ServerWorkFlowRunMonitor.class).export());
 
 		// ///////////////////////////////
 		// IMPORT SERVICES
-			
+
 		// {@link ServerModule}
-		bind(IDataProvider.class).annotatedWith(Server.class).toProvider(
-				service(IDataProvider.class).single());
-		
+		bind(IDPProvider.class).annotatedWith(Server.class).toProvider(
+				service(IDPProvider.class).single());
+
+		// {@link ServerModule}
+		bind(IDPNoCacheProvider.class).annotatedWith(ServerNoCache.class)
+				.toProvider(service(IDPNoCacheProvider.class).single());
+
 		// {@link ServerModule}
 		bind(IServerUtils.class).toProvider(
 				service(IServerUtils.class).single());
-		
-		// From own
-		bind(IRunMonitor.class).toProvider(
-				service(IRunMonitor.class).single());
 
 	}
 

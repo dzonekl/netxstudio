@@ -22,10 +22,10 @@ import org.osgi.framework.ServiceReference;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
-import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
-import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
-import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporterProvider;
+import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.metrics.MappingCSV;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingXLS;
@@ -62,13 +62,13 @@ public class MetricSourceJobImplementation extends JobImplementation {
 		final AbstractMetricValuesImporter metricsImporter;
 		if (metricSource.getMetricMapping() instanceof MappingXLS) {
 			metricsImporter = MetricsActivator.getInstance().getInjector()
-					.getInstance(XLSMetricValuesImporter.class);
+					.getInstance(XLSMetricValuesImporterProvider.class).get();
 		} else if (metricSource.getMetricMapping() instanceof MappingCSV) {
 			metricsImporter = MetricsActivator.getInstance().getInjector()
-					.getInstance(CSVMetricValuesImporter.class);
+					.getInstance(CSVMetricValuesImporterProvider.class).get();
 		} else if (metricSource.getMetricMapping() instanceof MappingRDBMS) {
 			metricsImporter = MetricsActivator.getInstance().getInjector()
-					.getInstance(RDBMSMetricValuesImporter.class);
+					.getInstance(RDBMSMetricValuesImporterProvider.class).get();
 		} else {
 			throw new IllegalArgumentException("Mapping type not supported: "
 					+ metricSource.getMetricMapping());

@@ -30,12 +30,14 @@ import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.JobRunState;
+import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
@@ -51,6 +53,8 @@ public abstract class BaseLogic {
 
 	@Inject
 	@Server
+	private IDPProvider dpProvider;
+
 	private IDataProvider dataProvider;
 
 	@Inject
@@ -59,7 +63,7 @@ public abstract class BaseLogic {
 	@Inject
 	private ModelUtils modelUtils;
 
-	private ServerWorkFlowRunMonitor jobMonitor;
+	private IRunMonitor jobMonitor;
 
 	private List<Failure> failures = new ArrayList<Failure>();
 
@@ -223,15 +227,19 @@ public abstract class BaseLogic {
 
 	protected abstract BaseEngine getEngine();
 
-	public ServerWorkFlowRunMonitor getJobMonitor() {
+	public IRunMonitor getJobMonitor() {
 		return jobMonitor;
 	}
 
-	public void setJobMonitor(ServerWorkFlowRunMonitor jobMonitor) {
+	public void setJobMonitor(IRunMonitor jobMonitor) {
 		this.jobMonitor = jobMonitor;
 	}
 
 	public IDataProvider getDataProvider() {
+
+		if (dataProvider == null) {
+			dataProvider = dpProvider.get();
+		}
 		return dataProvider;
 	}
 

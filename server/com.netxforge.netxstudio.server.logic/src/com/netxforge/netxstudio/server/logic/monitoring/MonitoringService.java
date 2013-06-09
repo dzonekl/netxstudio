@@ -37,6 +37,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
+import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.internal.ServerActivator;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
@@ -66,8 +67,12 @@ public class MonitoringService implements NetxForgeService {
 	}
 
 	public static class ResourceMonitoringRunner {
+		
+		
 		@Inject
 		@Server
+		private IDPProvider dpProvider;
+
 		private IDataProvider dataProvider;
 
 		private Map<String, String> parameters;
@@ -155,17 +160,17 @@ public class MonitoringService implements NetxForgeService {
 			final ServerWorkFlowRunMonitor runMonitor = LogicActivator.getInstance()
 					.getInjector().getInstance(ServerWorkFlowRunMonitor.class);
 			
-			dataProvider.openSession();
-			dataProvider.getTransaction();
-			final Resource res = dataProvider
+			getDataProvider().openSession();
+			getDataProvider().getTransaction();
+			final Resource res = getDataProvider()
 					.getResource(SchedulingPackage.Literals.WORK_FLOW_RUN);
 
 			final WorkFlowRun wfRun = SchedulingFactory.eINSTANCE
 					.createComponentWorkFlowRun();
 			res.getContents().add(wfRun);
 
-			dataProvider.commitTransactionThenClose();
-			dataProvider.closeSession();
+			getDataProvider().commitTransactionThenClose();
+			getDataProvider().closeSession();
 			runMonitor.setWorkFlowRunId(wfRun.cdoID());
 			runMonitor.setStartRunning();
 			return runMonitor;
@@ -183,6 +188,13 @@ public class MonitoringService implements NetxForgeService {
 
 		public void setParameters(Map<String, String> parameters) {
 			this.parameters = parameters;
+		}
+		
+		public IDataProvider getDataProvider() {
+			if (dataProvider == null) {
+				dataProvider = dpProvider.get();
+			}
+			return dataProvider;
 		}
 	}
 

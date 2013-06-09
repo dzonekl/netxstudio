@@ -23,10 +23,12 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
+import com.netxforge.netxstudio.server.IDPNoCacheProvider;
 import com.netxforge.netxstudio.server.ServerNoCache;
 
 /**
@@ -41,7 +43,10 @@ public abstract class JobImplementation {
 
 	@Inject
 	@ServerNoCache
-	private IDataProvider dataProvider;
+	private IDPNoCacheProvider dpProvider;
+	
+	private IDataProvider dataProvider; 
+	
 	/**
 	 * Jobs generally process values in NetXResource objects, either a
 	 * calculation (retrieved by query) or a delete
@@ -49,7 +54,7 @@ public abstract class JobImplementation {
 	private NetxForgeJob netxForgeJob;
 
 	private Job job;
-	private ServerWorkFlowRunMonitor runMonitor;
+	private IRunMonitor runMonitor;
 
 	public abstract void run();
 
@@ -70,6 +75,9 @@ public abstract class JobImplementation {
 	}
 
 	protected IDataProvider getDataProvider() {
+		if(dataProvider == null){
+			dataProvider = dpProvider.get();
+		}
 		return dataProvider;
 	}
 
@@ -118,11 +126,11 @@ public abstract class JobImplementation {
 		}
 	}
 
-	public ServerWorkFlowRunMonitor getRunMonitor() {
+	public IRunMonitor getRunMonitor() {
 		return runMonitor;
 	}
 
-	public void setRunMonitor(ServerWorkFlowRunMonitor runMonitor) {
+	public void setRunMonitor(IRunMonitor runMonitor) {
 		this.runMonitor = runMonitor;
 	}
 

@@ -44,7 +44,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.common.properties.PropertiesUtil;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.server.IDPNoCacheProvider;
+import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.IServerUtils;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.ServerIntegrity;
@@ -101,13 +102,17 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 	@Inject
 	Export<IServerUtils> serverUtils;
 	
+	// FIXME. 
+	// CB, If the interface is the same, than the service is the same and this will not work. 
+	
 	@Inject
 	@Server
-	Export<IDataProvider> dataProvider;
+	Export<IDPProvider> dpService;
+	
 	
 	@Inject
 	@ServerNoCache
-	Export<IDataProvider> dataProviderNoCache;
+	Export<IDPNoCacheProvider> dpNoCacheService;
 	
 	/*
 	 * (non-Javadoc)

@@ -48,6 +48,7 @@ import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
+import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.JobHandler;
 import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
@@ -108,9 +109,14 @@ public class ServerImporterHelper implements IImporterHelper {
 
 		@Inject
 		@Server
+		private IDPProvider dpProvider;
+
 		private IDataProvider dataProvider;
 
 		public IDataProvider getDataProvider() {
+			if (dataProvider == null) {
+				dataProvider = dpProvider.get();
+			}
 			return dataProvider;
 		}
 	}
@@ -138,7 +144,8 @@ public class ServerImporterHelper implements IImporterHelper {
 		}
 
 		// Use the corresponding component location Transaction
-		// We can safely cast it, as using a transaction to create the component.  
+		// We can safely cast it, as using a transaction to create the
+		// component.
 		CDOView cdoView = locatedComponent.cdoView();
 		final Resource cdoResourceForNetXResource = modelUtils
 				.cdoResourceForNetXResource(locatedComponent,
@@ -253,7 +260,8 @@ public class ServerImporterHelper implements IImporterHelper {
 				valueDataKind.getKindHint(), Collections.singletonList(value),
 				null, null);
 		if (MetricsActivator.DEBUG_IMPORT) {
-			MetricsActivator.TRACE.trace(MetricsActivator.TRACE_IMPORT_HELPER_OPTION,
+			MetricsActivator.TRACE.trace(
+					MetricsActivator.TRACE_IMPORT_HELPER_OPTION,
 					"-- value added ");
 		}
 		return createdNetXResource;

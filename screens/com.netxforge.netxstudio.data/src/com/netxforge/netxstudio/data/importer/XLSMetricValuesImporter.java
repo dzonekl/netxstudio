@@ -29,6 +29,7 @@ import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 
 /**
@@ -40,6 +41,11 @@ public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	private HSSFSheet currentSheet;
 
+	public XLSMetricValuesImporter(IComponentLocator locator,
+			ModelUtils modelUtils) {
+		super(locator, modelUtils);
+	}
+	
 	@Override
 	protected int processFile(File file) throws Exception {
 		final InputStream is = new FileInputStream(file);

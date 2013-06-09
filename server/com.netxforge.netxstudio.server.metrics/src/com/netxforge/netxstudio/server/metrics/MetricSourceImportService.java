@@ -44,6 +44,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
+import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
@@ -58,19 +59,22 @@ public class MetricSourceImportService implements NetxForgeService {
 
 	@Inject
 	static private IImporterHelper importerHelper;
-	
+
 	public static final String MS_PARAM = "metricSource";
 
 	public Object run(Map<String, String> parameters) {
-		final ServiceRunner runner = MetricsActivator.getInstance().getInjector()
-				.getInstance(ServiceRunner.class);
+		final ServiceRunner runner = MetricsActivator.getInstance()
+				.getInjector().getInstance(ServiceRunner.class);
 		runner.setParameters(parameters);
 		return ((AbstractCDOIDLong) runner.run()).getLongValue();
 	}
 
 	public static class ServiceRunner {
+
 		@Inject
 		@Server
+		private IDPProvider dpProvider;
+
 		private IDataProvider dataProvider;
 
 		private AbstractMetricValuesImporter importer;
@@ -80,20 +84,19 @@ public class MetricSourceImportService implements NetxForgeService {
 		private CDOID run() {
 			final CDOID msId = getCDOID(parameters.get(MS_PARAM),
 					MetricsPackage.Literals.METRIC_SOURCE);
-			
-			if(MetricsActivator.DEBUG){
+
+			if (MetricsActivator.DEBUG) {
 				System.out.println("IMPORT SERVICE  Metric source ID=" + msId);
 			}
-			
-			final MetricSource metricSource = (MetricSource) dataProvider
-					.getTransaction().getObject(msId);
-			
-			
-			if(MetricsActivator.DEBUG){
-				System.out.println("IMPORT SERVICE  Metric source revision=" + metricSource.cdoRevision());
+
+			final MetricSource metricSource = (MetricSource) this
+					.getDataProvider().getTransaction().getObject(msId);
+
+			if (MetricsActivator.DEBUG) {
+				System.out.println("IMPORT SERVICE  Metric source revision="
+						+ metricSource.cdoRevision());
 			}
-			
-			
+
 			if (metricSource.getMetricMapping() instanceof MappingXLS) {
 				importer = MetricsActivator.getInstance().getInjector()
 						.getInstance(XLSMetricValuesImporter.class);
@@ -108,14 +111,15 @@ public class MetricSourceImportService implements NetxForgeService {
 						"Mapping type not supported "
 								+ metricSource.getMetricMapping());
 			}
-			importerHelper  = MetricsActivator.getInstance().getInjector().getInstance(IImporterHelper.class);
-			
+			importerHelper = MetricsActivator.getInstance().getInjector()
+					.getInstance(IImporterHelper.class);
+
 			importerHelper.setImporter(importer);
 			importer.setImportHelper(importerHelper);
 			importer.setMetricSourceWithId(msId);
-			
-//			dataProvider.closeSession();
-			
+
+			// dataProvider.closeSession();
+
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
 			importer.setJobMonitor(monitor);
 			// run in a separate thread
@@ -132,19 +136,24 @@ public class MetricSourceImportService implements NetxForgeService {
 					importer.process();
 				};
 			}.start();
-			
+
 			return monitor.getWorkFlowRunId();
 		}
-		
-		
+
 		/* Test to get the metric source differently */
 		@SuppressWarnings("unused")
 		private MetricSource getMetricSource(CDOID msId) {
-			CDOResource resource = dataProvider.getTransaction().getResource("/" + MetricsPackage.Literals.METRIC_SOURCE.getName());
-			// find our metric source. 
-			for(EObject eoObject : resource.getContents()){
+			CDOResource resource = this
+					.getDataProvider()
+					.getTransaction()
+					.getResource(
+							"/"
+									+ MetricsPackage.Literals.METRIC_SOURCE
+											.getName());
+			// find our metric source.
+			for (EObject eoObject : resource.getContents()) {
 				CDOObject cdoObject = (CDOObject) eoObject;
-				if( cdoObject.cdoID().compareTo(msId) == 0){
+				if (cdoObject.cdoID().compareTo(msId) == 0) {
 					return (MetricSource) cdoObject;
 				}
 			}
@@ -152,21 +161,23 @@ public class MetricSourceImportService implements NetxForgeService {
 		}
 
 		private ServerWorkFlowRunMonitor createMonitor() {
-			final ServerWorkFlowRunMonitor runMonitor = MetricsActivator.getInstance()
-					.getInjector().getInstance(ServerWorkFlowRunMonitor.class);
+			final ServerWorkFlowRunMonitor runMonitor = MetricsActivator
+					.getInstance().getInjector()
+					.getInstance(ServerWorkFlowRunMonitor.class);
 
-// CB 22-11-2011 This is done earlier, or use another instance of the sessions! 			
-//			dataProvider.openSession();
-//			dataProvider.getTransaction();
-			final Resource res = dataProvider
-					.getResource(SchedulingPackage.Literals.WORK_FLOW_RUN);
+			// CB 22-11-2011 This is done earlier, or use another instance of
+			// the sessions!
+			// dataProvider.openSession();
+			// dataProvider.getTransaction();
+			final Resource res = this.getDataProvider().getResource(
+					SchedulingPackage.Literals.WORK_FLOW_RUN);
 
 			final WorkFlowRun wfRun = SchedulingFactory.eINSTANCE
 					.createComponentWorkFlowRun();
 			res.getContents().add(wfRun);
 
-			dataProvider.commitTransactionThenClose();
-			dataProvider.closeSession();
+			this.getDataProvider().commitTransactionThenClose();
+			this.getDataProvider().closeSession();
 			runMonitor.setWorkFlowRunId(wfRun.cdoID());
 			runMonitor.setStartRunning();
 			return runMonitor;
@@ -184,6 +195,13 @@ public class MetricSourceImportService implements NetxForgeService {
 
 		public void setParameters(Map<String, String> parameters) {
 			this.parameters = parameters;
+		}
+
+		public IDataProvider getDataProvider() {
+			if (dataProvider == null) {
+				dataProvider = dpProvider.get();
+			}
+			return dataProvider;
 		}
 	}
 

@@ -25,6 +25,7 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
@@ -38,7 +39,7 @@ import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
  */
 public abstract class BaseEngine {
 
-	private ServerWorkFlowRunMonitor jobMonitor;
+	private IRunMonitor jobMonitor;
 
 	// contains context information to use when adding an error message to the
 	// log
@@ -66,7 +67,7 @@ public abstract class BaseEngine {
 	public IDataProvider getDataProvider() {
 		return dataProvider;
 	}
-	
+
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;
 	}
@@ -97,11 +98,11 @@ public abstract class BaseEngine {
 		return end;
 	}
 
-	public ServerWorkFlowRunMonitor getJobMonitor() {
+	public IRunMonitor getJobMonitor() {
 		return jobMonitor;
 	}
 
-	public void setJobMonitor(ServerWorkFlowRunMonitor jobMonitor) {
+	public void setJobMonitor(IRunMonitor jobMonitor) {
 		this.jobMonitor = jobMonitor;
 	}
 

@@ -33,6 +33,7 @@ import java.util.Properties;
 
 import oracle.jdbc.driver.OracleDriver;
 
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.metrics.DatabaseTypeType;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
@@ -50,6 +51,11 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 	private Date start;
 	private Date end;
 
+	public RDBMSMetricValuesImporter(IComponentLocator locator,
+			ModelUtils modelUtils) {
+		super(locator, modelUtils);
+	}
+	
 	@Override
 	public void process() {
 		// TODO: Make configurable

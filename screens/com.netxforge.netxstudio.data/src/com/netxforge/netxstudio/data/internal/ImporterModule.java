@@ -22,14 +22,15 @@ import static org.ops4j.peaberry.util.Attributes.objectClass;
 import static org.ops4j.peaberry.util.TypeLiterals.export;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.DefaultImporterHelper;
+import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
 import com.netxforge.netxstudio.data.importer.IndexComponentLocator;
-import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
-import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.index.ComponentMappingIndex;
 import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
 
@@ -46,17 +47,19 @@ public class ImporterModule extends AbstractModule {
 		// EXPORT SERVICES
 
 		// http://code.google.com/p/peaberry/issues/detail?id=70
-		bind(export(XLSMetricValuesImporter.class)).toProvider(
-				service(new XLSMetricValuesImporter()).attributes(
-						objectClass(XLSMetricValuesImporter.class)).export());
 
-		bind(export(CSVMetricValuesImporter.class)).toProvider(
-				service(new CSVMetricValuesImporter()).attributes(
-						objectClass(CSVMetricValuesImporter.class)).export());
+		bind(export(XLSMetricValuesImporterProvider.class)).toProvider(
+				service(XLSMetricValuesImporterProvider.class).attributes(
+						objectClass(XLSMetricValuesImporterProvider.class))
+						.export());
 
-		bind(export(RDBMSMetricValuesImporter.class)).toProvider(
-				service(new RDBMSMetricValuesImporter()).attributes(
-						objectClass(RDBMSMetricValuesImporter.class)).export());
+		bind(export(ICSVMetricValuesImporterProvider.class)).toProvider(
+				service(CSVMetricValuesImporterProvider.class).export());
+
+		bind(export(RDBMSMetricValuesImporterProvider.class)).toProvider(
+				service(RDBMSMetricValuesImporterProvider.class).attributes(
+						objectClass(RDBMSMetricValuesImporterProvider.class))
+						.export());
 
 		bind(export(IComponentMappingIndex.class)).toProvider(
 				service(ComponentMappingIndex.class).export());

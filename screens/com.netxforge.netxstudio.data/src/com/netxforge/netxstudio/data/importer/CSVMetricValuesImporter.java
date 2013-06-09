@@ -28,6 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.metrics.MappingCSV;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 
@@ -41,6 +42,11 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 	private String[][] data = null;
 	private static final String DEFAULT_DELIMITER = ",";
 
+	public CSVMetricValuesImporter(IComponentLocator locator,
+			ModelUtils modelUtils) {
+		super(locator, modelUtils);
+	}
+	
 	@Override
 	protected int processFile(File file) throws Exception {
 		final FileReader reader = new FileReader(file);

@@ -20,16 +20,16 @@ package com.netxforge.netxstudio.server.metrics.internal;
 import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.cdo.CDOQueryService;
-import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
-import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
-import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
+import com.netxforge.netxstudio.server.IDPNoCacheProvider;
+import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.ServerNoCache;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService.ServiceRunner;
@@ -46,11 +46,10 @@ public class MetricsModule extends AbstractModule {
 		// //////////////////////////////////////////////
 		// INTERNAL SERVICES
 
+		// TODO Consider removing this, why do we need it?
 		this.bind(LocalDataProviderProvider.class);
 		this.bind(ServiceRunner.class);
-		
-		
-		// TODO, Likely needs to be exported, as the Job factory will instantiate if from it's own injector (Job).  
+
 		this.bind(MetricSourceJobImplementation.class);
 
 		// Should override the default helper.
@@ -58,37 +57,39 @@ public class MetricsModule extends AbstractModule {
 
 		// ///////////////////////////////
 		// IMPORT SERVICES
+		
+		// {@link CDODataServiceModule}
 		bind(IQueryService.class).toProvider(
-				service(CDOQueryService.class).single());
+				service(IQueryService.class).single());
 
 		// {@link ServerModule}
-		bind(IDataProvider.class).annotatedWith(Server.class).toProvider(
-				service(IDataProvider.class).single());
+		bind(IDPProvider.class).annotatedWith(Server.class).toProvider(
+				service(IDPProvider.class).single());
 
 		// {@link ServerModule}
-		bind(IDataProvider.class).annotatedWith(ServerNoCache.class)
-				.toProvider(service(IDataProvider.class).single());
+		bind(IDPNoCacheProvider.class).annotatedWith(ServerNoCache.class)
+				.toProvider(service(IDPNoCacheProvider.class).single());
 
 		// {@link ImporterModule}
-		bind(XLSMetricValuesImporter.class).toProvider(
-				service(XLSMetricValuesImporter.class).single());
-		
+		bind(XLSMetricValuesImporterProvider.class).toProvider(
+				service(XLSMetricValuesImporterProvider.class).single());
+
 		// {@link ImporterModule}
-		bind(CSVMetricValuesImporter.class).toProvider(
-				service(CSVMetricValuesImporter.class).single());
-		
+		bind(ICSVMetricValuesImporterProvider.class).toProvider(
+				service(ICSVMetricValuesImporterProvider.class).single());
+
 		// {@link ImporterModule}
-		bind(RDBMSMetricValuesImporter.class).toProvider(
-				service(RDBMSMetricValuesImporter.class).single());
-		
+		bind(RDBMSMetricValuesImporterProvider.class).toProvider(
+				service(RDBMSMetricValuesImporterProvider.class).single());
+
 		// {@link ImporterModule}
 		bind(IComponentMappingIndex.class).toProvider(
 				service(IComponentMappingIndex.class).single());
-		
+
 		// {@link ImporterModule}
 		bind(IComponentLocator.class).toProvider(
 				service(IComponentLocator.class).single());
-		
+
 		// {@link ImporterModule}
 		bind(ResultProcessor.class).toProvider(
 				service(ResultProcessor.class).single());

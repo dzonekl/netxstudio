@@ -27,15 +27,12 @@ import org.eclipse.osgi.framework.console.CommandProvider;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
-import org.ops4j.peaberry.Export;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.server.job.JobHandler;
 
 /**
@@ -68,9 +65,6 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 
 	private Injector injector;
 
-	@Inject
-	Export<IRunMonitor> runMonitorService;
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -84,7 +78,7 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 
 		Module om = new JobModule();
 		injector = Guice.createInjector(osgiModule(context), om);
-
+		
 		// register our trace and debugging listener.
 		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);

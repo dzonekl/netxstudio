@@ -36,12 +36,12 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
-import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
-import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
 
 /**
@@ -93,13 +93,13 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	Export<IQueryService> queryService;
 
 	@Inject
-	Export<XLSMetricValuesImporter> xlsImportService;
+	Export<XLSMetricValuesImporterProvider> xlsImportService;
 
 	@Inject
-	Export<CSVMetricValuesImporter> csvImportService;
+	Export<ICSVMetricValuesImporterProvider> csvImportService;
 
 	@Inject
-	Export<RDBMSMetricValuesImporter> rdbmsImportService;
+	Export<RDBMSMetricValuesImporterProvider> rdbmsImportService;
 
 	@Inject
 	Export<IComponentMappingIndex> componentMappingIndex; 

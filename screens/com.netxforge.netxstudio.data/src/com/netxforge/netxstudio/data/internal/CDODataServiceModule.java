@@ -54,26 +54,27 @@ public class CDODataServiceModule extends DataServiceModule {
 		this.bind(CDOQueryUtil.class);
 		this.bind(ServerRequest.class);
 
+		// As a Singleton??
 		this.bind(IDataProvider.class).to(ClientCDODataProvider.class)
 				.in(Singleton.class);
-		this.bind(ICDOConnection.class).to(CDODataConnection.class);
 
-		/////////////////////////////////
+		this.bind(ICDOConnection.class).to(CDODataConnection.class);
+		
+		this.bind(IQueryService.class).to(CDOQueryService.class);
+		
+		// ///////////////////////////////
 		// EXPORT SERVICES
 
 		bind(export(IQueryService.class)).toProvider(
 				service(CDOQueryService.class).export());
 
-		bind(IQueryService.class).toProvider(
-				service(CDOQueryService.class).single());
-
 		bind(export(IDataService.class)).toProvider(
 				service(CDODataService.class).export());
 
-		/////////////////////////////////
+		// ///////////////////////////////
 		// IMPORT SERVICES
 		// (Copy to modules in other OSGI bundles to import the service).
-		
+
 		// {@link CDODataServiceModule}
 		bind(IDataService.class).toProvider(
 				service(IDataService.class).single());

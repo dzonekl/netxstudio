@@ -36,11 +36,13 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
+import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.internal.ServerActivator;
 import com.netxforge.netxstudio.server.job.internal.JobActivator;
@@ -70,6 +72,30 @@ public class NetxForgeJob implements org.quartz.Job {
 
 	private static List<CDOID> runningJobs = new ArrayList<CDOID>();
 
+	private Job job;
+
+	@Inject
+	@Server
+	private IDPProvider dpProvider; 
+
+	@Inject
+	private IRunMonitor runMonitor;
+
+	
+	private IDataProvider dataProvider;
+
+	@Inject
+	private ModelUtils modelUtils;
+	
+	
+	public NetxForgeJob() {
+		JobActivator.getInstance().getInjector().injectMembers(this);
+		
+		// We could do late or lazy instantiation, as we open and close sessions/transactions.
+		// when creating a monitor and job container. 
+		dataProvider = dpProvider.get();
+	}
+	
 	private static synchronized boolean isRunning(CDOID cdoId) {
 		return runningJobs.contains(cdoId);
 	}
@@ -82,22 +108,7 @@ public class NetxForgeJob implements org.quartz.Job {
 		runningJobs.remove(cdoId);
 	}
 
-	private Job job;
-
-	private ServerWorkFlowRunMonitor runMonitor;
-
-	@Inject
-	@Server
-	private IDataProvider dataProvider;
-
-	@Inject
-	private ModelUtils modelUtils;
-
 	private int maxWorkFlowRunsInJobRunContainer = -1;
-
-	public NetxForgeJob() {
-		JobActivator.getInstance().getInjector().injectMembers(this);
-	}
 
 	public void execute(JobExecutionContext context)
 			throws JobExecutionException {
@@ -110,20 +121,29 @@ public class NetxForgeJob implements org.quartz.Job {
 			return;
 		}
 		addRunning(job.cdoID());
-
+		
+		
+		// Job Catch. 
 		try {
 			final JobImplementation jobImplementation = JobImplementation.REGISTRY
 					.getFactory(job.getClass()).create();
+			
+			// NOTE: Jobs are responsible in finishing the run monitor! 
+			// TODO, Consider storing the result in the Job and underlying logic, 
+			// and finishing the IRunMonitor here, as we also start it here (When we create it). 
 			createWorkFlowMonitor(jobImplementation);
+			
+			
 			jobImplementation.setRunMonitor(runMonitor);
 			jobImplementation.setNetxForgeJob(this);
+			
+			// Process Catch. 
 			try {
 				jobImplementation.run();
-				runMonitor
-						.setFinished(jobImplementation.getJobRunState(), null);
 				jobImplementation.finish();
 			} catch (final Throwable t) {
-				runMonitor.setFinished(jobImplementation.getJobRunState(), t);
+				JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION,
+						"Error in process: " + job.getClass(), t);
 			}
 		} catch (Exception e) {
 			JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION,
@@ -135,9 +155,6 @@ public class NetxForgeJob implements org.quartz.Job {
 
 	private void createWorkFlowMonitor(JobImplementation jobImplementation) {
 
-		// use Guice provider pattern
-		runMonitor = JobActivator.getInstance().getInjector()
-				.getInstance(ServerWorkFlowRunMonitor.class);
 		dataProvider.openSession();
 		dataProvider.getTransaction();
 		final JobRunContainer container = getOrCreateJobRunContainer(dataProvider

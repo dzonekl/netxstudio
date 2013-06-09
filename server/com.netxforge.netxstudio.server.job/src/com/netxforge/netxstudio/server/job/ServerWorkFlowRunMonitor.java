@@ -34,6 +34,7 @@ import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
+import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.internal.JobActivator;
 
@@ -46,10 +47,9 @@ import com.netxforge.netxstudio.server.job.internal.JobActivator;
  * @author Christophe Bouhier
  */
 public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
+
 	private CDOID workFlowRunId;
 
-	@Inject
-	@Server
 	private IDataProvider dataProvider;
 
 	@Inject
@@ -57,8 +57,15 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 
 	/** One single session for the workflow monitor */
 	private CDOSession openSession;
+
 	private WorkFlowRun wfRun;
 
+	@Inject
+	public ServerWorkFlowRunMonitor(@Server IDPProvider dpProvider) {
+		// Each monitor has it's own provider, so we keep the session. 
+		dataProvider = dpProvider.get();
+	}
+	
 	public CDOID getWorkFlowRunId() {
 		return workFlowRunId;
 	}
