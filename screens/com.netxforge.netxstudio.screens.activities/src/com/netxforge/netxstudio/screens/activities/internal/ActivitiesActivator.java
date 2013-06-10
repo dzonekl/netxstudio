@@ -17,13 +17,16 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.activities.internal;
 
+import static org.ops4j.peaberry.Peaberry.osgiModule;
+
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.ops4j.peaberry.Export;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.netxforge.netxstudio.screens.activities.ActivityAndRoleServiceModule;
+import com.netxforge.netxstudio.screens.activities.IActivityAndRoleService;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -38,12 +41,10 @@ public class ActivitiesActivator extends AbstractUIPlugin {
 
 	private Injector injector;
 	
-	/**
-	 * The constructor
-	 */
-	public ActivitiesActivator() {
-	}
-
+	
+	@Inject
+	Export<IActivityAndRoleService> arService;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
@@ -51,8 +52,8 @@ public class ActivitiesActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		Module om = new ActivityAndRoleServiceModule();
-		injector = Guice.createInjector(om);
+		injector = Guice.createInjector(osgiModule(context), new ActivitiesModule());
+		injector.injectMembers(this); // EXPORT
 	}
 
 	/*

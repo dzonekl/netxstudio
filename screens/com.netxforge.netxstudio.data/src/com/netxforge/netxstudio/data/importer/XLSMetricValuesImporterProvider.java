@@ -14,25 +14,26 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.data.importer;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 
-public class XLSMetricValuesImporterProvider implements Provider<XLSMetricValuesImporter>{
+public class XLSMetricValuesImporterProvider implements
+		Provider<XLSMetricValuesImporter> {
 
-	 private IComponentLocator locator;
-	 private ModelUtils modelUtils;
-	
-	 @Inject
-	 public XLSMetricValuesImporterProvider(IComponentLocator locator, ModelUtils modelUtils)
-	 {
-		 this.modelUtils = modelUtils;
-		 this.locator = locator;
-	 }
-	 
+	private IComponentLocator locator;
+	private ModelUtils modelUtils;
+
+	@Inject
+	public XLSMetricValuesImporterProvider(IComponentLocator locator,
+			ModelUtils modelUtils) {
+		this.modelUtils = modelUtils;
+		this.locator = locator;
+	}
+
 	public XLSMetricValuesImporter get() {
 		return new XLSMetricValuesImporter(locator, modelUtils);
 	}

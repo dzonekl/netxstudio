@@ -59,17 +59,21 @@ import com.netxforge.netxstudio.services.provider.ServicesItemProviderAdapterFac
  */
 public abstract class EMFEditingService implements IEditingService {
 
-	@Inject
 	protected IDataService dataService;
 
-	@Inject
 	protected ModelUtils modelUtils;
 
-	public EMFEditingService() {
-	}
-
 	private AdapterFactoryEditingDomain domain = null;
-
+	
+	
+	@Inject
+	public EMFEditingService(IDataService dataService, ModelUtils modelUtils){
+		this.dataService = dataService; 
+		this.modelUtils = modelUtils;
+	}
+	
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -82,7 +86,7 @@ public abstract class EMFEditingService implements IEditingService {
 		if (domain == null) {
 			BasicCommandStack commandStack = new BasicCommandStack();
 			domain = new ScreensAdapterFactoryEditingDomain(
-					this.getAdapterFactory(), commandStack);
+					getAdapterFactory(), commandStack);
 		}
 		return domain;
 	}
@@ -97,7 +101,7 @@ public abstract class EMFEditingService implements IEditingService {
 	 * com.netxforge.netxstudio.screens.editing.IEditingService#getAdapterFactory
 	 * ()
 	 */
-	public ComposedAdapterFactory getAdapterFactory() {
+	public static ComposedAdapterFactory getAdapterFactory() {
 		if (emfEditAdapterFactory == null) {
 
 			emfEditAdapterFactory = new ComposedAdapterFactory(

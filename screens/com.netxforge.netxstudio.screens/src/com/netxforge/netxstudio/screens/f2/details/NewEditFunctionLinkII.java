@@ -60,9 +60,9 @@ import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.dialog.FunctionFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.NodeFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.ProtocolFilterDialog;
+import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 
 /**
  * 

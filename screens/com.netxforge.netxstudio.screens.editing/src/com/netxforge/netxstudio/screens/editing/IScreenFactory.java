@@ -19,7 +19,6 @@ package com.netxforge.netxstudio.screens.editing;
 
 import org.eclipse.swt.widgets.Composite;
 
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
  * A Factory for IScreen's

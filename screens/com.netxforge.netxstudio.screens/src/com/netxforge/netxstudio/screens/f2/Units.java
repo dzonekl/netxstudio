@@ -65,9 +65,9 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
+import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
-import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 
 /**
@@ -260,7 +260,7 @@ public class Units extends AbstractScreen implements IDataServiceInjection {
 		tblclmnDescription = tableViewerColumn_1.getColumn();
 		tblclmnDescription.setWidth(169);
 		tblclmnDescription.setText("Description");
-		tableViewer.addFilter(new SearchFilter(editingService));
+		tableViewer.addFilter(new SearchFilter());
 	}
 
 	public EMFDataBindingContext initDataBindings_() {

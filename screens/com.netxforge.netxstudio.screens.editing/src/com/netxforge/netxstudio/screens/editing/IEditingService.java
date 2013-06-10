@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 
 import com.netxforge.netxstudio.data.IDataService;
 
@@ -41,13 +40,6 @@ public interface IEditingService {
 	 * @return
 	 */
 	public abstract EditingDomain getEditingDomain();
-	
-	/**
-	 * Get the adapterfactory for this service. 
-	 * @return
-	 */
-	public abstract ComposedAdapterFactory getAdapterFactory();
-		
 	
 	/**
 	 * A Convenience delegator. 

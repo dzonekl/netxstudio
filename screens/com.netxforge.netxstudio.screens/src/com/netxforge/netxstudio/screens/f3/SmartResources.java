@@ -168,15 +168,16 @@ import com.netxforge.netxstudio.screens.ScreenDialog;
 import com.netxforge.netxstudio.screens.ch9.ObjectExpressions;
 import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
+import com.netxforge.netxstudio.screens.editing.EMFEditingService;
+import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.IScreenII;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.TableViewerWithState;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
-import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreenII;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.tables.CopyFeatureCommand.FeatureInitializer;
 import com.netxforge.netxstudio.screens.editing.tables.FocusBlockOwnerDrawHighlighterForMultiselection;
 import com.netxforge.netxstudio.screens.editing.tables.FocusColumnToModelMap;
@@ -1150,7 +1151,7 @@ public class SmartResources extends AbstractScreen implements
 
 			cmbViewerSubSelector
 					.setLabelProvider(new AdapterFactoryLabelProvider(
-							editingService.getAdapterFactory()));
+							EMFEditingService.getAdapterFactory()));
 
 			if (!readOnly) {
 				hypLnkAddTolerance = toolkit.createImageHyperlink(
@@ -2076,7 +2077,7 @@ public class SmartResources extends AbstractScreen implements
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		cmbViewerOperator.setContentProvider(listContentProvider);
 		cmbViewerOperator.setLabelProvider(new AdapterFactoryLabelProvider(
-				editingService.getAdapterFactory()));
+				EMFEditingService.getAdapterFactory()));
 
 		// IEMFListProperty operatorResourceProperties =
 		// EMFProperties.resource();
@@ -2150,7 +2151,7 @@ public class SmartResources extends AbstractScreen implements
 		cmbViewerNetwork.setContentProvider(networksListContentProvider);
 
 		cmbViewerNetwork.setLabelProvider(new AdapterFactoryLabelProvider(
-				editingService.getAdapterFactory()));
+				EMFEditingService.getAdapterFactory()));
 		cmbViewerNetwork.setInput(networksList);
 
 		if (cmbViewerNetwork.getCombo().getItemCount() > 0) {
@@ -2193,7 +2194,7 @@ public class SmartResources extends AbstractScreen implements
 		ObservableListContentProvider nodesListContentProvider = new ObservableListContentProvider();
 		cmbViewerNode.setContentProvider(nodesListContentProvider);
 		cmbViewerNode.setLabelProvider(new AdapterFactoryLabelProvider(
-				editingService.getAdapterFactory()));
+				EMFEditingService.getAdapterFactory()));
 		cmbViewerNode.setInput(computedNodesList);
 
 		// NODE SINGLE SELECTION OBSERVABLE.

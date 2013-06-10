@@ -21,8 +21,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.AbstractScreenSelector;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f1.Reports;
 import com.netxforge.netxstudio.screens.f1.ServiceUsers;
 import com.netxforge.netxstudio.screens.f1.ServicesTree;

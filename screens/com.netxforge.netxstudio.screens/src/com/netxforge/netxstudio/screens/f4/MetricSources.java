@@ -76,10 +76,10 @@ import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
+import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
-import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Christophe Bouhier
@@ -429,7 +429,7 @@ public class MetricSources extends AbstractScreen implements
 				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.VIRTUAL);
 		metricSourceTableViewer.setUseHashlookup(true);
 		metricSourceTableViewer.setComparer(new CDOElementComparer());
-		metricSourceTableViewer.addFilter(new SearchFilter(editingService));
+		metricSourceTableViewer.addFilter(new SearchFilter());
 
 		metricSourceTable = metricSourceTableViewer.getTable();
 		metricSourceTable.setLinesVisible(true);

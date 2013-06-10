@@ -70,10 +70,10 @@ import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.LoadingFactory;
+import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.IScreenII;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
-import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreenII;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 
 /**
@@ -211,7 +211,7 @@ public class Tolerances extends AbstractScreen implements
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		toolkit.paintBordersFor(table);
 
-		toleranceTblViewer.addFilter(new SearchFilter(editingService));
+		toleranceTblViewer.addFilter(new SearchFilter());
 	}
 
 	/**

@@ -36,8 +36,8 @@ import com.netxforge.netxstudio.callflow.screens.AbstractScreen;
 import com.netxforge.netxstudio.protocols.OSIType;
 import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 
 public class NewEditProtocol extends AbstractScreen implements
 		IDataScreenInjection {

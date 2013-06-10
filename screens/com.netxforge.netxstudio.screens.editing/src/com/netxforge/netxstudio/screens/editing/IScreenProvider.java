@@ -17,7 +17,6 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.editing;
 
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
  * Service which can provide IScreen implementations

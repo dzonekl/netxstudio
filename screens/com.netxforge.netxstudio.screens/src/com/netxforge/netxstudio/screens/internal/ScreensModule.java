@@ -17,10 +17,14 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.internal;
 
+import static org.ops4j.peaberry.Peaberry.service;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.screens.ch9.NetXScriptInjectorProxy;
+import com.netxforge.netxstudio.screens.editing.IEditingServiceProvider;
+import com.netxforge.netxstudio.screens.editing.IScreenFormServiceProvider;
 import com.netxforge.netxstudio.screens.f1.support.PeriodSelectionPage;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionPage;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
@@ -40,7 +44,11 @@ public class ScreensModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-
+		
+		
+		///////////////////////////////////////////////////////////////////////
+		// INTERNAL SERVICES
+		
 		// Injector proxys
 		this.bind(IInjectorProxy.class)
 				.annotatedWith(Names.named("Netxscript"))
@@ -60,11 +68,26 @@ public class ScreensModule extends AbstractModule {
 
 		// Bind Components
 		this.bind(PeriodComponent.class);
+		
 		this.bind(ValueComponentII.class);
+		
 		this.bind(SmartValueComponent.class);
+		
 		this.bind(ResourcesComponent.class);
+		
 		this.bind(LazyResourcesComponent.class);
 
+		///////////////////////////////////////////////////
+		// IMPORTED SERVICES
+		//
+		
+		// {@link EditingModule}
+		bind(IEditingServiceProvider.class).toProvider(service(IEditingServiceProvider.class).single());
+		
+		// {@link EditingModule}
+		bind(IScreenFormServiceProvider.class).toProvider(service(IScreenFormServiceProvider.class).single());
+
+		
 	}
 
 }

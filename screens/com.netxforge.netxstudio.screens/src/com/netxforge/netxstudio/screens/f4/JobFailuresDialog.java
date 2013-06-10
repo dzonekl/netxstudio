@@ -35,7 +35,7 @@ import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 
 public class JobFailuresDialog extends Dialog implements IDataScreenInjection {
 	private final FormToolkit formToolkit = new FormToolkit(

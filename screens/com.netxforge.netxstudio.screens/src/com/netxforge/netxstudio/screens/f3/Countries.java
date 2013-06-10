@@ -68,9 +68,9 @@ import com.netxforge.netxstudio.geo.GeoFactory;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
+import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
-import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -251,7 +251,7 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 		tblclmnShortname = tableViewerColumn_2.getColumn();
 		tblclmnShortname.setWidth(100);
 		tblclmnShortname.setText("Country Code");
-		tableViewer.addFilter(new SearchFilter(editingService));
+		tableViewer.addFilter(new SearchFilter());
 	}
 
 

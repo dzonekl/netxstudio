@@ -45,8 +45,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.forms.IMessage;
 
-import com.netxforge.netxstudio.screens.common.internal.ScreensCommonActivator;
-import com.netxforge.netxstudio.screens.editing.util.IDecorationService;
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
  * Can register a
@@ -217,7 +216,7 @@ public class DecorationService implements IDecorationService {
 				}
 				if (isInvalid) {
 					return new Status(IStatus.WARNING,
-							ScreensCommonActivator.PLUGIN_ID, validationMessage);
+							EditingActivator.PLUGIN_ID, validationMessage);
 				}
 				return Status.OK_STATUS;
 			}

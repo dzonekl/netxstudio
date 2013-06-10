@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.client.product.splashHandlers;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -32,7 +32,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.splash.AbstractSplashHandler;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import com.netxforge.netxstudio.client.product.ProductActivator;
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.client.product.internal.ProductActivator;
 import com.netxforge.netxstudio.common.CommonService;
 import com.netxforge.netxstudio.common.jca.JCAService;
 import com.netxforge.netxstudio.data.IDataService;
@@ -65,13 +66,9 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 
 	private boolean fAuthenticated;
 
-	// private IDataService dataService;
-	//
-	// private CommonService commonService;
+	@Inject
+	private IDataService dataService;
 
-	/**
-	 * 
-	 */
 	public InteractiveSplashHandler() {
 		fTextUsername = null;
 		fTextPassword = null;
@@ -208,8 +205,6 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 					}
 				}
 
-				IDataService dataService = new InjectionHelper()
-						.getDataService();
 				dataService.getProvider().openSession(username, password,
 						server, true);
 
@@ -232,9 +227,10 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 
 					if (se.getCause().getClass()
 							.equals(SecurityException.class)) {
-						MessageDialog.openError(getSplash(),
-								"Authentication Failed",
-								"The user ID and/or password is wrong, or the user is disabled.");
+						MessageDialog
+								.openError(getSplash(),
+										"Authentication Failed",
+										"The user ID and/or password is wrong, or the user is disabled.");
 
 					}
 				} else {

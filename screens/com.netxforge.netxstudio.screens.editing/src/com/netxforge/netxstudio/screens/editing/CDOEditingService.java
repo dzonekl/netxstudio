@@ -51,7 +51,10 @@ import org.eclipse.swt.widgets.Display;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -60,7 +63,6 @@ import com.netxforge.netxstudio.screens.editing.dawn.DawnEMFEditorSupport;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditorSupport;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
  * For the lifetime of this service, we keep various editing facilities. We also
@@ -77,7 +79,9 @@ public class CDOEditingService extends EMFEditingService implements
 	 */
 	private DawnEMFEditorSupport dawnEditorSupport;
 
-	public CDOEditingService() {
+	@Inject
+	public CDOEditingService(IDataService dataService, ModelUtils modelUtils) {
+		super(dataService, modelUtils);
 		dawnEditorSupport = new DawnEMFEditorSupport(this);
 	}
 
@@ -681,7 +685,7 @@ public class CDOEditingService extends EMFEditingService implements
 	public void handleStale(final EObject source,
 			final EStructuralFeature feature, final int index,
 			final CDOID target) {
-		
+
 		Display.getDefault().asyncExec(new Runnable() {
 
 			public void run() {
@@ -692,20 +696,24 @@ public class CDOEditingService extends EMFEditingService implements
 								"Trying to load nong-existing object",
 								"Source Object: "
 										+ modelUtils.printModelObject(source)
-										+ "\n" + "Reference: "
-										+ feature.getName() + "\n" + "Index: "
-										+ index + "\n"
-										+ "ID of targeted object: " + target
-										+ "\n" + 
-										"this will happens when a referenced object is deleted and potential references"
-												+ "to it are not removed.\n" + 
-										"Now attempting to clean this reference, please retry your previous action"
-										
+										+ "\n"
+										+ "Reference: "
+										+ feature.getName()
+										+ "\n"
+										+ "Index: "
+										+ index
+										+ "\n"
+										+ "ID of targeted object: "
+										+ target
+										+ "\n"
+										+ "this will happens when a referenced object is deleted and potential references"
+										+ "to it are not removed.\n"
+										+ "Now attempting to clean this reference, please retry your previous action"
 
 						);
-				
+
 				CDOUtil.cleanStaleReference(source, feature, index);
-				
+
 			}
 
 		});

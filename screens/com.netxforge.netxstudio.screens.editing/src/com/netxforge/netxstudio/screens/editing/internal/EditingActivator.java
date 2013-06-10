@@ -17,7 +17,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.internal;
 
-import static com.google.inject.util.Modules.override;
+import static org.ops4j.peaberry.Peaberry.osgiModule;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -26,13 +26,14 @@ import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.ops4j.peaberry.Export;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.data.internal.CDODataServiceModule;
+import com.netxforge.netxstudio.screens.editing.IEditingServiceProvider;
+import com.netxforge.netxstudio.screens.editing.IScreenFormServiceProvider;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -67,12 +68,12 @@ public class EditingActivator extends AbstractUIPlugin implements
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
 
-	/**
-	 * The constructor
-	 */
-	public EditingActivator() {
-	}
+	@Inject
+	Export<IEditingServiceProvider> editingServiceProvider;
 
+	@Inject
+	Export<IScreenFormServiceProvider> screenFormServiceProvider;
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -85,12 +86,10 @@ public class EditingActivator extends AbstractUIPlugin implements
 		plugin = this;
 
 		// Bind our modules.
-		Module om = new ScreensCommonModule();
-		om = override(om).with(new CommonModule());
-		om = override(om).with(new EditingModule());
-		om = override(om).with(new CDODataServiceModule());
-
-		injector = Guice.createInjector(om);
+		injector = Guice.createInjector(osgiModule(context),
+				new EditingModule());
+		// Export through peaberry.
+		injector.injectMembers(this);
 
 		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);

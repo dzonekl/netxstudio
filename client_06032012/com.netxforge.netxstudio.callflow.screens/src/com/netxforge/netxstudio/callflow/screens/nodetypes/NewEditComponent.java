@@ -5,8 +5,8 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.netxforge.netxstudio.callflow.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 
 /**
  * Abstract Component screen implementation, which can deliver various sections.

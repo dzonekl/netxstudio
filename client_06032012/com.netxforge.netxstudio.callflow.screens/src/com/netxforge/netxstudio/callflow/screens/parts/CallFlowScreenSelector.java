@@ -26,8 +26,8 @@ import com.netxforge.netxstudio.callflow.screens.connectivity.Connectivity;
 import com.netxforge.netxstudio.callflow.screens.nodetypes.NodeTypes;
 import com.netxforge.netxstudio.callflow.screens.protocols.Protocols;
 import com.netxforge.netxstudio.callflow.screens.referenceNetwork.RefNetworks;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.AbstractScreenSelector;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 
 public class CallFlowScreenSelector extends AbstractScreenSelector {
 

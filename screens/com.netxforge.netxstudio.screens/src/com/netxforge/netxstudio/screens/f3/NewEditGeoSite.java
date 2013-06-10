@@ -61,8 +61,8 @@ import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 
 import de.bacin.geoff.Geoff;
 import de.bacin.geoff.LatLon;

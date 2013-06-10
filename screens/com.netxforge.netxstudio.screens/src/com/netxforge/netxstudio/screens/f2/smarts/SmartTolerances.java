@@ -51,7 +51,7 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractSmartTableScreen;
 import com.netxforge.netxstudio.screens.actions.ScreenAction;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.NewEditTolerance;
 import com.netxforge.netxstudio.screens.f2.TolerancesLabelProvider;
 

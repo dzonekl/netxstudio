@@ -10,6 +10,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.screens.editing.EMFEditingService;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 /**
@@ -47,7 +48,7 @@ public class TreeSearchFilter extends ViewerFilter {
 		// When using Databinding the parent will be something else than an eobject. 
 		if(element instanceof EObject){
 			String match = new AdapterFactoryItemDelegator(
-					editingService.getAdapterFactory()).getText(element);
+					EMFEditingService.getAdapterFactory()).getText(element);
 
 			System.out.println("String for element=" + element + " text="
 					+ match);

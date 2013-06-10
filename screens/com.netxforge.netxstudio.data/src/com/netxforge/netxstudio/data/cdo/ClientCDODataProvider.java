@@ -62,7 +62,7 @@ public class ClientCDODataProvider extends CDODataProvider {
 			// authenticated.
 
 			throw new java.lang.IllegalStateException(
-					session.isClosed() ? "Session closed" : "Session not set");
+					session == null ? "Session closed" : "Session not set");
 		} else {
 			if (DataActivator.DEBUG) {
 				this.printSession();

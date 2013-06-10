@@ -26,9 +26,9 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenViewer;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.AbstractScreenViewer;
+import com.netxforge.netxstudio.screens.editing.IScreen;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 
 /**
  * A Standalone viewer which shows a Dashboard.

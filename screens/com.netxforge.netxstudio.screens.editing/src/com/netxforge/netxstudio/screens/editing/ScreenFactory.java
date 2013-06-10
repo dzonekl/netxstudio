@@ -26,7 +26,6 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
  * Constructs an Injected IScreen, based on name.

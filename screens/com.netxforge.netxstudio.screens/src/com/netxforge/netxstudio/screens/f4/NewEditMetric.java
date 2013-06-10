@@ -45,8 +45,8 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.dialog.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.UnitFilterDialog;
-import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 
 public class NewEditMetric extends AbstractScreen implements
 		IDataScreenInjection {

@@ -46,7 +46,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IMemento;
 
 import com.netxforge.netxstudio.screens.AbstractSmartTableViewer.SelectionHistory;
-import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.EMFEditingService;
+import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
@@ -95,10 +96,10 @@ public abstract class AbstractSmartTableScreen extends AbstractScreen implements
 		lazyTableViewer = new LazyTableViewer(this.getShell(), true);
 
 		adapterFactoryItemDelegator = new AdapterFactoryItemDelegator(
-				editingService.getAdapterFactory());
+				EMFEditingService.getAdapterFactory());
 
 		// Set our adapter factory for additional facilities.
-		lazyTableViewer.setAdapterFactory(editingService.getAdapterFactory());
+		lazyTableViewer.setAdapterFactory(EMFEditingService.getAdapterFactory());
 
 		// Set a default or custom label provider. The default uses EMF.edit to
 		// retrieve the ItemProvider getText()

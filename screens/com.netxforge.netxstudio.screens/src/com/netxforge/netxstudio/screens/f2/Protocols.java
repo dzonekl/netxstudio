@@ -66,9 +66,9 @@ import com.netxforge.netxstudio.protocols.ProtocolsFactory;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
+import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
-import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -217,7 +217,7 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		TableColumn tblclmnSpecification = tableViewerColumn_3.getColumn();
 		tblclmnSpecification.setWidth(100);
 		tblclmnSpecification.setText("Specification");
-		tableViewer.addFilter(new SearchFilter(editingService));
+		tableViewer.addFilter(new SearchFilter());
 	}
 
 	/**

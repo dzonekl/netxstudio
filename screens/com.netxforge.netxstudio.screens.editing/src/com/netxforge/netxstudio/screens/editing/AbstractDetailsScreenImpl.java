@@ -9,7 +9,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
  * Specialized Screen which forces a column layout on the composite.

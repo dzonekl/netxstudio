@@ -79,10 +79,6 @@ import com.netxforge.netxstudio.screens.editing.actions.CreationActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.ObjectEditingActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.UIActionsHandler;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
 
 /**
@@ -529,7 +525,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			};
 			propertySheetPage
 					.setPropertySourceProvider(new AdapterFactoryContentProvider(
-							this.getEditingService().getAdapterFactory()));
+							EMFEditingService.getAdapterFactory()));
 		}
 
 		return propertySheetPage;
@@ -656,7 +652,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		case 1: {
 			CDOObject next = screenObjects.iterator().next();
 			CDOID cdoID = ((CDOObject) next).cdoID();
-			String text = new AdapterFactoryItemDelegator(getEditingService()
+			String text = new AdapterFactoryItemDelegator(EMFEditingService
 					.getAdapterFactory()).getText(next);
 
 			message = "Screen object: " + text + " OID:" + cdoID;
@@ -705,7 +701,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 				Object next = collection.iterator().next();
 				if (next instanceof CDOObject) {
 					message = modelUtils.cdoObjectToString((CDOObject) next,
-							new AdapterFactoryItemDelegator(getEditingService()
+							new AdapterFactoryItemDelegator(EMFEditingService
 									.getAdapterFactory()).getText(next));
 				}
 				break;

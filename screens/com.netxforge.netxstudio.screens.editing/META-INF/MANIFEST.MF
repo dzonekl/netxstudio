@@ -18,19 +18,17 @@ Require-Bundle: org.eclipse.ui,
  com.netxforge.netxstudio.data;bundle-version="1.0.0";visibility:=reexport,
  com.netxforge.netxstudio.common;bundle-version="1.0.0";visibility:=reexport,
  com.netxforge.netxstudio.screens.nebula;bundle-version="1.0.0";visibility:=reexport,
- com.netxforge.netxstudio.data.fixtures;bundle-version="1.0.0";visibility:=reexport
+ com.netxforge.netxstudio.data.fixtures;bundle-version="1.0.0";visibility:=reexport,
+ org.ops4j.peaberry;bundle-version="1.1.1"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered
-Export-Package: com.netxforge.netxstudio.screens.common.internal,
- com.netxforge.netxstudio.screens.editing,
+Export-Package: com.netxforge.netxstudio.screens.editing,
  com.netxforge.netxstudio.screens.editing.actions,
  com.netxforge.netxstudio.screens.editing.actions.clipboard,
  com.netxforge.netxstudio.screens.editing.dawn,
  com.netxforge.netxstudio.screens.editing.filter,
- com.netxforge.netxstudio.screens.editing.internal,
  com.netxforge.netxstudio.screens.editing.perspective,
- com.netxforge.netxstudio.screens.editing.selector,
  com.netxforge.netxstudio.screens.editing.tables,
  com.netxforge.netxstudio.screens.editing.util,
  org.eclipse.wb.swt

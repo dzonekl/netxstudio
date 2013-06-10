@@ -24,13 +24,12 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.client.product.splashHandlers.InjectionHelper;
 import com.netxforge.netxstudio.console.ConsoleService;
 import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.screens.activities.IActivityAndRoleService;
 import com.netxforge.netxstudio.screens.app.AbstractWorkbenchWindowLifecycle;
 import com.netxforge.netxstudio.screens.app.IWorkbenchWindowLifecycle;
 import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
-import com.netxforge.netxstudio.screens.roles.IRoleService;
 
 /**
  * This products workbench window settings.
@@ -38,11 +37,11 @@ import com.netxforge.netxstudio.screens.roles.IRoleService;
  * @author Christophe Bouhier
  */
 public class ProductWorkbenchWindowAdvisor extends
-		AbstractWorkbenchWindowLifecycle  {
+		AbstractWorkbenchWindowLifecycle {
 
 	@Inject
-	private IRoleService roleService;
-	
+	private IActivityAndRoleService activityAndRoleService;
+
 	/**
 	 * A self, which is offered as an OSGI service.
 	 */
@@ -69,17 +68,16 @@ public class ProductWorkbenchWindowAdvisor extends
 	 * @param configurer
 	 */
 	private void initializeApplication(IWorkbenchWindowConfigurer configurer) {
-		
-		// Create a Console. 
+
+		// Create a Console.
 		// Requires auto activation in OSGI config.ini
 		ConsoleService.INSTANCE.addConsole("NetXStudio");
 
-		
 		WorkspaceUtil.INSTANCE.initDefaultProject();
 
-		final Role currentRole = roleService.getCurrentRole();
+		final Role currentRole = activityAndRoleService.getCurrentRole();
 
-		String currentUser = roleService.getCurrentUser();
+		String currentUser = activityAndRoleService.getCurrentUser();
 
 		if (currentUser != null) {
 			configurer.setTitle("NetXStudio User: " + currentUser.toUpperCase()
@@ -89,8 +87,7 @@ public class ProductWorkbenchWindowAdvisor extends
 			configurer.setTitle("NetXStudio");
 		}
 		if (currentRole != null) {
-			InjectionHelper.get().getActivityAndRoleService()
-					.enableActivity(currentRole);
+			activityAndRoleService.enableActivity(currentRole);
 		} else {
 			// Data corruption issue.
 		}

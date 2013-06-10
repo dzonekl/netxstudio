@@ -22,8 +22,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.IScreen;
 import com.netxforge.netxstudio.screens.editing.IScreenProvider;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
 /**
  * Views and editors, can register actions on the global action handlers. This

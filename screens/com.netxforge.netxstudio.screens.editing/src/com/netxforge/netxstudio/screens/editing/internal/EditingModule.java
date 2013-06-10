@@ -18,16 +18,25 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.internal;
 
+import static org.ops4j.peaberry.Peaberry.service;
+import static org.ops4j.peaberry.util.TypeLiterals.export;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
+import com.google.inject.Singleton;
+import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
+import com.netxforge.netxstudio.screens.editing.CDOEditingServiceProvider;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.IEditingServiceProvider;
 import com.netxforge.netxstudio.screens.editing.IScreenFactory;
+import com.netxforge.netxstudio.screens.editing.IScreenFormServiceProvider;
 import com.netxforge.netxstudio.screens.editing.ScreenFactory;
+import com.netxforge.netxstudio.screens.editing.ScreenFormServiceProvider;
 import com.netxforge.netxstudio.screens.editing.actions.clipboard.ClipboardService;
-import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenFormService;
-
+import com.netxforge.netxstudio.screens.editing.tables.TableHelper;
+import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
+import com.netxforge.netxstudio.screens.editing.util.ValidationService;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -42,9 +51,39 @@ public class EditingModule extends AbstractModule {
 	 */
 	@Override
 	protected void configure() {
-		this.bind(IEditingService.class).to(CDOEditingService.class);
+
+		// ///////////////////////////////
+		// INTERNAL SERVICES
+
+		// Binding util.
+		this.bind(TableHelper.class);
+		this.bind(MementoUtil.class).in(Singleton.class);
+		this.bind(ValidationService.class);
+
+		// ///////////////////////////////
+		// EXPORT SERVICES
+
+		bind(export(IEditingServiceProvider.class)).toProvider(
+				service(CDOEditingServiceProvider.class).export());
+
+		bind(export(IScreenFormServiceProvider.class)).toProvider(
+				service(ScreenFormServiceProvider.class).export());
+
+		// ////////////////////////////////
+		// INTERNAL SERVICES
+
 		bind(IScreenFactory.class).to(ScreenFactory.class);
-		this.bind(IScreenFormService.class).to(ScreenFormService.class);
-		this.bind(ClipboardService.class).in(Scopes.SINGLETON);
+		bind(ClipboardService.class).in(Scopes.SINGLETON);
+
+		bind(IEditingService.class).to(CDOEditingService.class);
+		bind(IEditingServiceProvider.class).toProvider(
+				service(IEditingServiceProvider.class).single());
+
+		// /////////////////////////////////////
+		// IMPORTED SERVICES
+
+		// {@link IDataService}
+		bind(IDataService.class).toProvider(
+				service(IDataService.class).single());
 	}
 }

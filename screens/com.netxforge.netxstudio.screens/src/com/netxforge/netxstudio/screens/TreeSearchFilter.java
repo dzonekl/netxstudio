@@ -9,8 +9,7 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.EMFEditingService;
 
 /**
  * The matching text, will be from the ItemProvider of the EObject. FIXME Make
@@ -21,13 +20,6 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * 
  */
 public class TreeSearchFilter extends ViewerFilter {
-
-	IEditingService editingService;
-
-	@Inject
-	public TreeSearchFilter(IEditingService editingService) {
-		this.editingService = editingService;
-	}
 
 	private String searchString;
 
@@ -47,7 +39,7 @@ public class TreeSearchFilter extends ViewerFilter {
 		// When using Databinding the parent will be something else than an eobject. 
 		if(element instanceof EObject){
 			String match = new AdapterFactoryItemDelegator(
-					editingService.getAdapterFactory()).getText(element);
+					EMFEditingService.getAdapterFactory()).getText(element);
 
 			System.out.println("String for element=" + element + " text="
 					+ match);

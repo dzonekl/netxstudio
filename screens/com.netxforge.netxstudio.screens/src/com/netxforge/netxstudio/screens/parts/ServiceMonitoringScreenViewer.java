@@ -23,9 +23,9 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IViewPart;
 
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenViewer;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.AbstractScreenSelector;
+import com.netxforge.netxstudio.screens.editing.AbstractScreenViewer;
+import com.netxforge.netxstudio.screens.editing.IScreen;
 
 /**
  * A Standalone viewer which shows a Service Summary Component. 

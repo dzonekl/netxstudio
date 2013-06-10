@@ -17,8 +17,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.internal;
 
-import static com.google.inject.util.Modules.override;
-
+import static org.ops4j.peaberry.Peaberry.osgiModule;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -35,11 +34,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.data.fixtures.internal.FixturesModule;
-import com.netxforge.netxstudio.data.internal.CDODataServiceModule;
 import com.netxforge.netxstudio.screens.ColorManager;
-import com.netxforge.netxstudio.screens.editing.internal.EditingModule;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -85,11 +80,7 @@ public class ScreensActivator extends AbstractUIPlugin implements
 
 		// Bind our modules.
 		Module om = new ScreensModule();
-		om = override(om).with(new CommonModule());
-		om = override(om).with(new FixturesModule());
-		om = override(om).with(new CDODataServiceModule());
-		om = override(om).with(new EditingModule());  
-		injector = Guice.createInjector(om);
+		injector = Guice.createInjector(osgiModule(context), om);
 
 		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
@@ -123,8 +114,8 @@ public class ScreensActivator extends AbstractUIPlugin implements
 	public static IPreferenceStore doGetPreferenceStore() {
 		return getDefault().getPreferenceStore();
 	}
-	
-	/** Get a {@link Color} from a preference constant  */
+
+	/** Get a {@link Color} from a preference constant */
 	public Color getPreferenceColor(String preferenceConstant) {
 		final RGB rgbColor = PreferenceConverter.getColor(
 				doGetPreferenceStore(), preferenceConstant);

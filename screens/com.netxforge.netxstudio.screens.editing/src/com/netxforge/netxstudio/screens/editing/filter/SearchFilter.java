@@ -7,25 +7,15 @@ import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.EMFEditingService;
 
 /**
  * The matching text, will be from the ItemProvider of the EObject. FIXME Make
  * sure the type name is not returned from the ItemProvider.
  * 
- * 
  * @author Christophe Bouhier
- * 
  */
 public class SearchFilter extends ViewerFilter {
-
-	IEditingService editingService;
-
-	@Inject
-	public SearchFilter(IEditingService editingService) {
-		this.editingService = editingService;
-	}
 
 	private String searchString;
 
@@ -46,7 +36,7 @@ public class SearchFilter extends ViewerFilter {
 		if (element instanceof EObject) {
 
 			String match = new AdapterFactoryItemDelegator(
-					editingService.getAdapterFactory()).getText(element);
+					EMFEditingService.getAdapterFactory()).getText(element);
 
 			System.out.println("String for element=" + element + " text="
 					+ match);

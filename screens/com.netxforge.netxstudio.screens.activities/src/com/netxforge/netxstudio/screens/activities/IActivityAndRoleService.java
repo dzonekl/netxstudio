@@ -18,14 +18,26 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.activities;
 
+import org.eclipse.ui.activities.IActivityManager;
+import org.eclipse.ui.application.WorkbenchAdvisor;
+
 import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.screens.roles.IRoleService;
 
 
 /**
+ * The {@link Platform} offers an {@link IActivityManager}. 
+ * This service maps a user {@link Role} with a defined activity 
+ * and enables it. 
+ * </p>
+ * Note: The mapping is hard-coded in the service. 
+ * </p>
+ * This service is typically called after authentication, in a
+ * {@link WorkbenchAdvisor}
+ * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
  */
-public interface IActivityAndRoleService {
+public interface IActivityAndRoleService extends IRoleService {
 
 	/**
 	 * Enable the activities for an associated role. 

@@ -7,7 +7,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.data.internal.CDODataServiceModule;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
@@ -22,7 +21,6 @@ public class TestInjector {
 	public TestInjector() {
 		// Bind our modules.
 		Module om = new CommonModule();
-		om = override(om).with(new CDODataServiceModule());
 		om = override(om).with(new EditingServiceModule());
 		injector = Guice.createInjector(om);
 	}

@@ -39,12 +39,12 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.screens.activities.IActivityAndRoleService;
 import com.netxforge.netxstudio.screens.app.IWorkbenchService;
 import com.netxforge.netxstudio.screens.app.ScreensWorkbenchWindowAdvisor;
 import com.netxforge.netxstudio.screens.app.internal.ScreensApplicationActivator;
 import com.netxforge.netxstudio.screens.ide.IDEWorkbenchAdvisor;
 import com.netxforge.netxstudio.screens.ide.PickWorkspaceDialog;
-import com.netxforge.netxstudio.screens.roles.IRoleService;
 
 /**
  * A {@link WorkbenchAdvisor} which can be used in an RCP application correctly
@@ -55,7 +55,7 @@ import com.netxforge.netxstudio.screens.roles.IRoleService;
 public class ProductWorkbenchAdvisor extends IDEWorkbenchAdvisor {
 
 	@Inject
-	private IRoleService roleService;
+	private IActivityAndRoleService roleService;
 
 	@Override
 	public void preStartup() {

@@ -51,7 +51,7 @@ import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.IMessageManager;
 
 import com.google.common.collect.Maps;
-import com.netxforge.netxstudio.screens.common.internal.ScreensCommonActivator;
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
  * Can register a binding context for which validation will be converted to
@@ -353,7 +353,7 @@ public class ValidationService implements IValidationService {
 					}
 					if (isInvalid) {
 						return new Status(IStatus.WARNING,
-								ScreensCommonActivator.PLUGIN_ID,
+								EditingActivator.PLUGIN_ID,
 								validationMessage);
 					}
 					return Status.OK_STATUS;

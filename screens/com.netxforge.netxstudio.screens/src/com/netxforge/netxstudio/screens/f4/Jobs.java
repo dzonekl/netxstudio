@@ -82,9 +82,9 @@ import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
-import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * 
@@ -214,7 +214,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		jobsTableViewer = new TableViewer(frmScheduledJobs.getBody(),
 				SWT.BORDER | SWT.FULL_SELECTION);
 //		jobsTableViewer.setComparer(new CDOElementComparer());
-		jobsTableViewer.addFilter(new SearchFilter(editingService));
+		jobsTableViewer.addFilter(new SearchFilter());
 
 		jobsTable = jobsTableViewer.getTable();
 		jobsTable.setLinesVisible(true);

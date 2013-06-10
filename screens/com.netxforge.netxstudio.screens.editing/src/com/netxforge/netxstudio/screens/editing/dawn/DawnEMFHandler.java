@@ -22,11 +22,11 @@ import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
 import org.eclipse.swt.widgets.Display;
 
+import com.netxforge.netxstudio.screens.editing.IDataInjection;
+import com.netxforge.netxstudio.screens.editing.IScreen;
 import com.netxforge.netxstudio.screens.editing.IScreenProvider;
+import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
-import com.netxforge.netxstudio.screens.editing.selector.IDataInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.ScreenUtil;
 
 /**
  * @author Martin Fluegge

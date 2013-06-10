@@ -38,7 +38,7 @@ import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
 
 public class Settings extends AbstractScreen implements IDataServiceInjection {
 

@@ -46,8 +46,6 @@ public class ImporterModule extends AbstractModule {
 		// ///////////////////////////////
 		// EXPORT SERVICES
 
-		// http://code.google.com/p/peaberry/issues/detail?id=70
-
 		bind(export(XLSMetricValuesImporterProvider.class)).toProvider(
 				service(XLSMetricValuesImporterProvider.class).attributes(
 						objectClass(XLSMetricValuesImporterProvider.class))

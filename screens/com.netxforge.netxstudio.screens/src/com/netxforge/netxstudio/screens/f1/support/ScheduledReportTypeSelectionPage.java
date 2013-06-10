@@ -21,6 +21,7 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.screens.dialog.NodeTypeFilterDialog;
+import com.netxforge.netxstudio.screens.editing.EMFEditingService;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.services.Service;
 
@@ -97,7 +98,7 @@ public class ScheduledReportTypeSelectionPage extends WizardPage {
 					true, false, 2, 1));
 
 			String converted = new AdapterFactoryItemDelegator(
-					editingService.getAdapterFactory()).getText(selectedObject);
+					EMFEditingService.getAdapterFactory()).getText(selectedObject);
 
 			txtSelectedObject.setText(converted);
 
