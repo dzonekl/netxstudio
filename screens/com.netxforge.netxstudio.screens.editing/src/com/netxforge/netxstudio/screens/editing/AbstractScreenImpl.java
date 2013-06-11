@@ -47,10 +47,8 @@ import org.eclipse.ui.part.ShowInContext;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
-import com.netxforge.netxstudio.screens.editing.internal.EditingModule;
 import com.netxforge.netxstudio.screens.editing.util.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.util.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
@@ -61,10 +59,6 @@ import com.netxforge.netxstudio.screens.editing.util.ValidationService.MessageFr
 /**
  * Convenience implementation of a screen, sharing commonality like the screen
  * operation, and the supporting services, a validation service.
- 
- * </p>
- * <b>NOTE:</b></br></br>Clients are required to call{@link #injectMembers} with an injector which binds 
- * at least {@link CommonModule} and {@link EditingModule} 
  * 
  * @author Christophe Bouhier
  */

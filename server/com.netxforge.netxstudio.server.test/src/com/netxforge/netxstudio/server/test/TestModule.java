@@ -22,7 +22,7 @@ import static com.google.inject.util.Modules.override;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.netxforge.netxstudio.common.CommonModule;
+import com.netxforge.netxstudio.common.internal.CommonModule;
 import com.netxforge.netxstudio.data.internal.CDODataServiceModule;
 import com.netxforge.netxstudio.data.internal.ImporterModule;
 import com.netxforge.netxstudio.server.internal.ServerModule;

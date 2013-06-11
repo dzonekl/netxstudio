@@ -8,7 +8,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.netxforge.netxstudio.common.CommonModule;
+import com.netxforge.netxstudio.common.internal.CommonModule;
 import com.netxforge.netxstudio.data.internal.CDODataServiceModule;
 
 

@@ -305,7 +305,7 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		public void run() {
 			Object o = this.getStructuredSelection().getFirstElement();
 			if (o instanceof Site) {
-				NewEditGeoSite siteScreen = new NewEditGeoSite(
+				NewEditSite siteScreen = new NewEditSite(
 						screenService.getScreenContainer(), SWT.NONE);
 				siteScreen.setScreenService(screenService);
 				siteScreen.setOperation(getOperation());

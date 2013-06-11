@@ -32,7 +32,6 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 
 /**

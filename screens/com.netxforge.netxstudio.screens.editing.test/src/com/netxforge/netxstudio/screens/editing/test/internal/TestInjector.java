@@ -6,7 +6,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.netxforge.netxstudio.common.CommonModule;
+import com.netxforge.netxstudio.common.internal.CommonModule;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
