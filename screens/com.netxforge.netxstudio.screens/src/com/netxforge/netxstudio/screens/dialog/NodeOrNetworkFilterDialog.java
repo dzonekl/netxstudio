@@ -129,11 +129,11 @@ public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDi
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
-		IDialogSettings settings = ScreensActivator.getDefault()
+		IDialogSettings settings = ScreensActivator.getInstance()
 				.getDialogSettings().getSection("NodeOrNetworkDialog");
 
 		if (settings == null) {
-			settings = ScreensActivator.getDefault().getDialogSettings()
+			settings = ScreensActivator.getInstance().getDialogSettings()
 					.addNewSection("NodeOrNetworkDialog");
 		}
 		return settings;

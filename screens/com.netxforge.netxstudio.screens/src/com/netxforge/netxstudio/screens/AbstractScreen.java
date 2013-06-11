@@ -32,7 +32,7 @@ public abstract class AbstractScreen extends AbstractScreenImpl {
 	
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
-		injectMembers(ScreensActivator.getDefault().getInjector());
+		injectMembers(ScreensActivator.getInstance().getInjector());
 	}
 	
 }

@@ -103,11 +103,11 @@ public class ProtocolFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
-		IDialogSettings settings = ScreensActivator.getDefault()
+		IDialogSettings settings = ScreensActivator.getInstance()
 				.getDialogSettings().getSection("Protocoldialog");
 
 		if (settings == null) {
-			settings = ScreensActivator.getDefault().getDialogSettings()
+			settings = ScreensActivator.getInstance().getDialogSettings()
 					.addNewSection("Protocoldialog");
 		}
 		return settings;

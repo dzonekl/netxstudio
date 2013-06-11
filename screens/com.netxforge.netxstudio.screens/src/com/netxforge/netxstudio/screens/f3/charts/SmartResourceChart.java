@@ -121,7 +121,7 @@ public class SmartResourceChart extends Chart implements
 		// Set legend visibility.
 		getLegend().setPosition(SWT.BOTTOM);
 		getLegend().setVisible(
-				ScreensActivator.getDefault().getPreferenceStore()
+				ScreensActivator.getInstance().getPreferenceStore()
 						.getBoolean(ScreenConstants.PREFERENCE_LEGEND_VISIBLE));
 
 		plotAreaListener = new ChartMouseListener(
@@ -369,7 +369,7 @@ public class SmartResourceChart extends Chart implements
 		if (model.hasUtilization()) {
 			configureYAxisUtilization();
 			configureSeriesUtilization(model, 1);
-			configureUtilizationVisible(ScreensActivator.getDefault()
+			configureUtilizationVisible(ScreensActivator.getInstance()
 					.getPreferenceStore()
 					.getBoolean(ScreenConstants.PREFERENCE_UTIL_VISIBLE));
 
@@ -713,7 +713,7 @@ public class SmartResourceChart extends Chart implements
 		metricLineSeries.enableArea(true);
 		metricLineSeries.setYSeries(model.metriDoubleArray);
 		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
-		final Color metricColor = ScreensActivator.getDefault()
+		final Color metricColor = ScreensActivator.getInstance()
 				.getPreferenceColor(ScreenConstants.PREFERENCE_METRIC_COLOR);
 		metricLineSeries.setLineColor(metricColor);
 		return metricLineSeries;
@@ -727,7 +727,7 @@ public class SmartResourceChart extends Chart implements
 		capLineSeries.setXDateSeries(model.timeStampArray);
 		capLineSeries.setYSeries(model.capDoubleArray);
 		capLineSeries.enableStep(true);
-		final Color capColor = ScreensActivator.getDefault()
+		final Color capColor = ScreensActivator.getInstance()
 				.getPreferenceColor(ScreenConstants.PREFERENCE_CAP_COLOR);
 		capLineSeries.setLineColor(capColor);
 		capLineSeries.setLineWidth(2);
@@ -745,7 +745,7 @@ public class SmartResourceChart extends Chart implements
 		utilLineSeries.setYSeries(model.utilDoubleArray);
 		utilLineSeries.setYAxisId(yAxisID); // Connect a series to the
 											// Y-Axis.
-		final Color utilColor = ScreensActivator.getDefault()
+		final Color utilColor = ScreensActivator.getInstance()
 				.getPreferenceColor(ScreenConstants.PREFERENCE_UTIL_COLOR);
 		utilLineSeries.setBarColor(utilColor);
 		utilLineSeries.setBarPadding(50);

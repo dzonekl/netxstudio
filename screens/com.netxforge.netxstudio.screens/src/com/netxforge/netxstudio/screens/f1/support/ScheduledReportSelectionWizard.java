@@ -48,7 +48,7 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 
 	public ScheduledReportSelectionWizard() {
 		setWindowTitle("Reporting");
-		ScreensActivator.getDefault().getInjector().injectMembers(this);
+		ScreensActivator.getInstance().getInjector().injectMembers(this);
 	}
 
 	@Override

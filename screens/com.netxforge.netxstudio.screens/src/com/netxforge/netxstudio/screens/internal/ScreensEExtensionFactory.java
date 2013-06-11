@@ -30,12 +30,12 @@ public class ScreensEExtensionFactory extends AbstractGuiceAwareExecutableExtens
 
 	@Override
 	protected Bundle getBundle() {
-		return ScreensActivator.getDefault().getBundle();
+		return ScreensActivator.getInstance().getBundle();
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return ScreensActivator.getDefault().getInjector();
+		return ScreensActivator.getInstance().getInjector();
 	}
 	
 }

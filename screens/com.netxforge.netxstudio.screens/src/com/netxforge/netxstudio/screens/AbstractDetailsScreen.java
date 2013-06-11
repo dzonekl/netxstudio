@@ -31,6 +31,6 @@ public abstract class AbstractDetailsScreen extends AbstractDetailsScreenImpl {
 	
 	public AbstractDetailsScreen(Composite parent, int style) {
 		super(parent, style);
-		injectMembers(ScreensActivator.getDefault().getInjector());
+		injectMembers(ScreensActivator.getInstance().getInjector());
 	}
 }

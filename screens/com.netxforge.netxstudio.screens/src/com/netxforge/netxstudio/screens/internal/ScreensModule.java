@@ -23,6 +23,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
+import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporterProvider;
+import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.screens.ch9.NetXScriptInjectorProxy;
 import com.netxforge.netxstudio.screens.editing.IEditingServiceProvider;
 import com.netxforge.netxstudio.screens.editing.IScreenFormServiceProvider;
@@ -92,6 +95,18 @@ public class ScreensModule extends AbstractModule {
 		// {@link EditingModule}
 		bind(IScreenFormServiceProvider.class).toProvider(
 				service(IScreenFormServiceProvider.class).single());
+
+		// {@link ImporterModule}
+		bind(XLSMetricValuesImporterProvider.class).toProvider(
+				service(XLSMetricValuesImporterProvider.class).single());
+
+		// {@link ImporterModule}
+		bind(ICSVMetricValuesImporterProvider.class).toProvider(
+				service(ICSVMetricValuesImporterProvider.class).single());
+
+		// {@link ImporterModule}
+		bind(RDBMSMetricValuesImporterProvider.class).toProvider(
+				service(RDBMSMetricValuesImporterProvider.class).single());
 
 	}
 

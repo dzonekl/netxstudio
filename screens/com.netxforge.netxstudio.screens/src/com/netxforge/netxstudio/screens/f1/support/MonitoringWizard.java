@@ -36,7 +36,7 @@ public class MonitoringWizard extends Wizard implements INewWizard {
 
 	public MonitoringWizard() {
 		setWindowTitle("Monitoring");
-		IDialogSettings ds = ScreensActivator.getDefault().getDialogSettings();
+		IDialogSettings ds = ScreensActivator.getInstance().getDialogSettings();
 		IDialogSettings section = ds.getSection(REPORTING_WIZARD);
 		if (section == null) {
 			ds.addNewSection(REPORTING_WIZARD);

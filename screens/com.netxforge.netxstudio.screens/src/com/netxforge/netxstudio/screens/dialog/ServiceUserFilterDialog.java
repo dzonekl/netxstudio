@@ -103,11 +103,11 @@ public class ServiceUserFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
-		IDialogSettings settings = ScreensActivator.getDefault()
+		IDialogSettings settings = ScreensActivator.getInstance()
 				.getDialogSettings().getSection("ServiceUserdialog");
 
 		if (settings == null) {
-			settings = ScreensActivator.getDefault().getDialogSettings()
+			settings = ScreensActivator.getInstance().getDialogSettings()
 					.addNewSection("ServiceUserdialog");
 		}
 		return settings;

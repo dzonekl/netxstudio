@@ -107,12 +107,12 @@ public class ScreensActivator extends AbstractUIPlugin implements
 	 * 
 	 * @return the shared instance
 	 */
-	public static ScreensActivator getDefault() {
+	public static ScreensActivator getInstance() {
 		return plugin;
 	}
 
 	public static IPreferenceStore doGetPreferenceStore() {
-		return getDefault().getPreferenceStore();
+		return getInstance().getPreferenceStore();
 	}
 
 	/** Get a {@link Color} from a preference constant */

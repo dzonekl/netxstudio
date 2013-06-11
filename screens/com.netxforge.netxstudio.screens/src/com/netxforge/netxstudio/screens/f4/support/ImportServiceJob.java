@@ -29,7 +29,6 @@ import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.DefaultImporterHelper;
 import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
-import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.metrics.MappingCSV;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
@@ -83,11 +82,11 @@ public class ImportServiceJob implements IJobChangeListener {
 			final MetricSource metricSource = getMetricSource();
 			final AbstractMetricValuesImporter metricsImporter;
 			if (metricSource.getMetricMapping() instanceof MappingXLS) {
-				metricsImporter = DataActivator.getInjector().getInstance(XLSMetricValuesImporter.class);
+				metricsImporter = ScreensActivator.getInstance().getInjector().getInstance(XLSMetricValuesImporter.class);
 			} else if (metricSource.getMetricMapping() instanceof MappingCSV) {
-				metricsImporter = DataActivator.getInjector().getInstance(CSVMetricValuesImporter.class);
+				metricsImporter =  ScreensActivator.getInstance().getInjector().getInstance(CSVMetricValuesImporter.class);
 			} else if (metricSource.getMetricMapping() instanceof MappingRDBMS) {
-				metricsImporter = DataActivator.getInjector().getInstance(RDBMSMetricValuesImporter.class);
+				metricsImporter =  ScreensActivator.getInstance().getInjector().getInstance(RDBMSMetricValuesImporter.class);
 			} else {
 				throw new IllegalArgumentException("Mapping type not supported: " + metricSource.getMetricMapping());
 			}

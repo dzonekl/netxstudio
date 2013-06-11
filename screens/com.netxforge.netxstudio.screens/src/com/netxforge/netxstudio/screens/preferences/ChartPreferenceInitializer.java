@@ -28,7 +28,7 @@ public class ChartPreferenceInitializer extends AbstractPreferenceInitializer {
 	}
 
 	private IPreferenceStore getPreferenceStore() {
-		return ScreensActivator.getDefault().getPreferenceStore();
+		return ScreensActivator.getInstance().getPreferenceStore();
 	}
 
 }

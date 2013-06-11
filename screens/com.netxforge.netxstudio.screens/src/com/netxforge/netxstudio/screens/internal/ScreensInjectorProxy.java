@@ -32,7 +32,7 @@ public class ScreensInjectorProxy implements IInjectorProxy {
 	 */
 	public Injector getInjector(String name){
 		// and this one comes just next. 
-		return ScreensActivator.getDefault().getInjector();
+		return ScreensActivator.getInstance().getInjector();
 		
 	}
 }

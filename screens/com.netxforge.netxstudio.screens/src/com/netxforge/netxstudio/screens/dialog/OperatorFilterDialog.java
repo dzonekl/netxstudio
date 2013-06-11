@@ -103,11 +103,11 @@ public class OperatorFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
-		IDialogSettings settings = ScreensActivator.getDefault()
+		IDialogSettings settings = ScreensActivator.getInstance()
 				.getDialogSettings().getSection("Operatordialog");
 
 		if (settings == null) {
-			settings = ScreensActivator.getDefault().getDialogSettings()
+			settings = ScreensActivator.getInstance().getDialogSettings()
 					.addNewSection("Operatordialog");
 		}
 		return settings;

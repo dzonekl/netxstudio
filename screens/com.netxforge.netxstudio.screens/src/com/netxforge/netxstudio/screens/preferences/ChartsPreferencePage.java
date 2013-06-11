@@ -45,7 +45,7 @@ public class ChartsPreferencePage extends FieldEditorPreferencePage implements
 
 	public ChartsPreferencePage() {
 		super(GRID);
-		setPreferenceStore(ScreensActivator.getDefault().getPreferenceStore());
+		setPreferenceStore(ScreensActivator.getInstance().getPreferenceStore());
 		setDescription("Chart Settings");
 	}
 

@@ -170,7 +170,7 @@ public class ChartMarker {
 				}
 			}
 		});
-		final Color preferenceColor = ScreensActivator.getDefault()
+		final Color preferenceColor = ScreensActivator.getInstance()
 				.getPreferenceColor(ScreenConstants.PREFERENCE_MARKER_COLOR);
 		hover.setBackground(preferenceColor);
 		hover.setAlpha(220);

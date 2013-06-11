@@ -125,11 +125,11 @@ public class LocationFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
-		IDialogSettings settings = ScreensActivator.getDefault()
+		IDialogSettings settings = ScreensActivator.getInstance()
 				.getDialogSettings().getSection("Locationdialog");
 
 		if (settings == null) {
-			settings = ScreensActivator.getDefault().getDialogSettings()
+			settings = ScreensActivator.getInstance().getDialogSettings()
 					.addNewSection("Locationdialog");
 		}
 		return settings;
