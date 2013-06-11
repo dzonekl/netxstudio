@@ -114,13 +114,13 @@ public class ScreensWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 	@Override
 	public boolean preWindowShellClose() {
-		boolean veto = preWindowShellClose();
+		boolean veto = super.preWindowShellClose();
 
 		// Notify our product, any listener can veto.
 		for (IWorkbenchWindowLifecycle lc : lifecycleListeners) {
 			veto = lc.preWindowShellClose();
 		}
-		return !veto;
+		return veto;
 	}
 
 	@Override

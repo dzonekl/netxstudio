@@ -53,7 +53,6 @@ import org.eclipse.nebula.widgets.datechooser.DateChooserCombo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -76,7 +75,6 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -97,7 +95,6 @@ import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.util.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.f1.ServiceDistributionScreen;
 import com.netxforge.netxstudio.screens.f1.ServiceHierarchy;
-import com.netxforge.netxstudio.screens.f1.ServiceSummaryComponent;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceUser;
@@ -139,9 +136,6 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 	private int widgetStyle;
 
-	@Inject
-	private ServiceSummaryComponent summaryComponent;
-
 	public NewEditServiceTree(Composite parent, int style,
 			final IEditingService editingService) {
 		super(parent, style);
@@ -156,7 +150,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		buildInfoSection();
-		buildSummarySection();
+//		buildSummarySection();
 		buildNetworkElementsSection();
 		buildServiceUserSection();
 		buildLifeCycleSection();
@@ -646,23 +640,23 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		}
 	}
 
-	private void buildSummarySection() {
-
-		Section sctnSummary = formToolkit.createSection(this, Section.TWISTIE
-				| Section.TITLE_BAR);
-		formToolkit.paintBordersFor(sctnSummary);
-		sctnSummary.setText("Summary");
-		sctnSummary.setExpanded(true);
-
-		final Composite content = formToolkit.createComposite(sctnSummary, SWT.NONE);
-		formToolkit.paintBordersFor(content);
-		content.setLayout(new FillLayout());
-		sctnSummary.setClient(content);
-
-		summaryComponent.setParentScreen(this);
-		summaryComponent.buildUI(content, null);
-
-	}
+//	private void buildSummarySection() {
+//
+//		Section sctnSummary = formToolkit.createSection(this, Section.TWISTIE
+//				| Section.TITLE_BAR);
+//		formToolkit.paintBordersFor(sctnSummary);
+//		sctnSummary.setText("Summary");
+//		sctnSummary.setExpanded(true);
+//
+//		final Composite content = formToolkit.createComposite(sctnSummary, SWT.NONE);
+//		formToolkit.paintBordersFor(content);
+//		content.setLayout(new FillLayout());
+//		sctnSummary.setClient(content);
+//
+//		summaryComponent.setParentScreen(this);
+//		summaryComponent.buildUI(content, null);
+//
+//	}
 
 	private void buildInfoSection() {
 		sctnInfo = formToolkit.createSection(this, Section.EXPANDED
@@ -717,7 +711,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		Date endTime = modelUtils.todayAtDayEnd();
 		DateTimeRange period = modelUtils.period(startTime, endTime);
 
-		summaryComponent.injectData(service, period);
+//		summaryComponent.injectData(service, period);
 
 		bindInfoSection(context);
 		bindLifeCycle(context);

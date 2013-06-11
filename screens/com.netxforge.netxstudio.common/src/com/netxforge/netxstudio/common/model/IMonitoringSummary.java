@@ -34,7 +34,9 @@ public interface IMonitoringSummary {
 	enum RAG {
 		RED, AMBER, GREEN
 	}
-
+	
+	public int totalRag(RAG status);
+	
 	/**
 	 * Get the monitoring period formatted as String for presentation.
 	 * 

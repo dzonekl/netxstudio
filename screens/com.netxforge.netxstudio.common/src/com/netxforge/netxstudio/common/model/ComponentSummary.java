@@ -33,8 +33,6 @@ import com.netxforge.netxstudio.library.NetXResource;
  */
 public class ComponentSummary extends MonitoringAdapter {
 
-	int resources = 0;
-
 	public ComponentSummary() {
 	}
 
@@ -109,4 +107,14 @@ public class ComponentSummary extends MonitoringAdapter {
 		final Component target = (Component) super.getTarget();
 		return target;
 	}
+
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer(super.toString());
+		sb.append(" Summary for: " + getComponent().getName() );
+		sb.append(" Resource:" + totalResources() );
+		return sb.toString();
+	}
+	
 }

@@ -63,8 +63,6 @@ public class DashboardViewer extends AbstractScreenViewer {
 				System.out.println("@TODO Linking test "
 				+ modelUtils.printModelObject(eo));
 			}
-			
-			
 			// TODO, first work with one single object. 
 			dashboardScreen.injectData(new Object[]{ss.getFirstElement()});
 			

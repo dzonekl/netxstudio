@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.common.internal;
 
 import static org.ops4j.peaberry.Peaberry.osgiModule;
@@ -32,12 +32,18 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.netxforge.netxstudio.common.model.ComponentSummaryProvider;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
+import com.netxforge.netxstudio.common.model.NetxresourceSummaryProvider;
+import com.netxforge.netxstudio.common.model.NodetypeSummaryProvider;
+import com.netxforge.netxstudio.common.model.OperatorSummaryProvider;
+import com.netxforge.netxstudio.common.model.RFSServiceSummaryProvider;
 
 /**
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
 public class CommonActivator implements BundleActivator, DebugOptionsListener {
 
@@ -53,11 +59,11 @@ public class CommonActivator implements BundleActivator, DebugOptionsListener {
 	private Injector injector;
 
 	public static String TRACE_COMMON_UTILS_OPTION = "/trace.common.utils";
-	
+
 	public static String TRACE_COMMON_PROPS_OPTION = "/trace.common.properties";
-	// Monitoring. 
+	// Monitoring.
 	public static String TRACE_COMMON_MONITORING_OPTION = "/trace.common.monitoring";
-	
+
 	public static String TRACE_COMMON_MONITORING_DETAILS_OPTION = "/trace.common.monitoring.details";
 
 	public Injector getInjector() {
@@ -67,9 +73,28 @@ public class CommonActivator implements BundleActivator, DebugOptionsListener {
 	static BundleContext getContext() {
 		return context;
 	}
-	
+
 	@Inject
 	Export<ModelUtils> modelUtils;
+
+	@Inject
+	Export<MonitoringStateModel> monitoringStateModel;
+
+	@Inject
+	Export<NetxresourceSummaryProvider> netXSummaryProvider;
+
+	@Inject
+	Export<ComponentSummaryProvider> compSummaryProvider;
+
+	@Inject
+	Export<NodetypeSummaryProvider> nodeTypeSummaryProvider;
+
+	@Inject
+	Export<RFSServiceSummaryProvider> rFSServiceSummaryProvider;
+
+	@Inject
+	Export<OperatorSummaryProvider> operatorSummaryProvider;
+
 
 	/*
 	 * (non-Javadoc)
@@ -82,9 +107,10 @@ public class CommonActivator implements BundleActivator, DebugOptionsListener {
 		INSTANCE = this;
 		CommonActivator.context = bundleContext;
 
-		injector = Guice.createInjector(osgiModule(bundleContext), new CommonModule());
+		injector = Guice.createInjector(osgiModule(bundleContext),
+				new CommonModule());
 		injector.injectMembers(this);
-		
+
 		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
 		context.registerService(DebugOptionsListener.class.getName(), this,

@@ -15,12 +15,11 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.f1;
+package com.netxforge.netxstudio.screens.monitoring;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -41,19 +40,22 @@ import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateStateCallBack;
-import com.netxforge.netxstudio.common.model.NetxresourceSummary;
-import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.Network;
+import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.screens.editing.IScreen;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
- * An injectable component showing the monitoring dashboard.
- * 
- * The dashboard will present the monitor for the current selection. 
- * The selection objects should be adapted to an implementation of {@link }
+ * An injectable component showing the monitoring dashboard. </P> The dashboard
+ * will present the monitor for the current selection. The dashboard adapts the
+ * selection and presents the appropriate summary. </p>
  * 
  * @author Christophe Bouhier
  * 
@@ -63,23 +65,12 @@ public class DashboardComponent {
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getCurrent());
 
-	// /**
-	// * Job which creates the summary.
-	// */
-	// private MonitoringStateJob job;
-
 	/**
 	 * Job which refreshs the UI for the created summary.
 	 */
 	private final RefreshSummaryJob refreshSummaryJob = new RefreshSummaryJob();
 
-	private RFSServiceSummary summary;
-
 	private FormText formTextLastMonitor;
-
-	private FormText formTextNumberOfNodes;
-
-	private FormText formTextNumberOfResources;
 
 	private FormText formTextRed;
 
@@ -100,11 +91,18 @@ public class DashboardComponent {
 	 **/
 	private IScreen parentScreen;
 
+	/**
+	 * A monitoring state model which can adapt objects, so monitoring
+	 * information becomes available.
+	 */
 	private MonitoringStateModel monitoringState;
+
+	private Composite targetContent;
+
+	private ISummaryComponent summaryForSelection;
 
 	@Inject
 	public DashboardComponent(MonitoringStateModel ms) {
-		super();
 		this.monitoringState = ms;
 	}
 
@@ -135,7 +133,6 @@ public class DashboardComponent {
 		if (layoutData != null) {
 			content.setLayoutData(layoutData);
 		}
-
 		formToolkit.paintBordersFor(content);
 		content.setLayout(new GridLayout(4, false));
 
@@ -148,28 +145,12 @@ public class DashboardComponent {
 		formTextLastMonitor.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 3, 1));
 
-		final Label lblMonitoredNodes = formToolkit.createLabel(content,
-				"# Monitored NE's:", SWT.NONE);
-		lblMonitoredNodes.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
+		// This is the dynamic portion.
 
-		formTextNumberOfNodes = formToolkit.createFormText(content, false);
-		formTextNumberOfNodes.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 3, 1));
-		formToolkit.paintBordersFor(formTextNumberOfNodes);
-		formTextNumberOfNodes.setText("", false, false);
-
-		final Label lblMonitoredRess = new Label(content, SWT.NONE);
-		lblMonitoredRess.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
-		formToolkit.adapt(lblMonitoredRess, true, true);
-		lblMonitoredRess.setText("# Monitored RES's:");
-
-		formTextNumberOfResources = formToolkit.createFormText(content, false);
-		formTextNumberOfResources.setLayoutData(new GridData(SWT.LEFT,
-				SWT.CENTER, false, false, 3, 1));
-		formToolkit.paintBordersFor(formTextNumberOfResources);
-		formTextNumberOfResources.setText("", false, false);
+		targetContent = formToolkit.createComposite(content, SWT.BORDER);
+		targetContent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				false, 4, 1));
+		targetContent.setLayout(new GridLayout(2, false));
 
 		final Composite separator = formToolkit
 				.createCompositeSeparator(content);
@@ -228,41 +209,6 @@ public class DashboardComponent {
 		formTextGreen.setText("G", false, false);
 	}
 
-	// Remove later, use the new MonitoringStateModel.
-
-	// /**
-	// * Creates a summary in the background, update relevant UI bits when done.
-	// */
-	// private void prepServiceSummary(RFSService service) {
-	//
-	// if (job == null) {
-	//
-	// job = new MonitoringStateJob(modelUtils);
-	//
-	// job.addNotifier(new JobChangeAdapter() {
-	// @Override
-	// public void done(IJobChangeEvent event) {
-	//
-	// IMonitoringSummary monitoringSummary = job.getMonitoringSummary();
-	// if(monitoringSummary instanceof RFSServiceSummary ){
-	// summary = (RFSServiceSummary) monitoringSummary;
-	// }
-	// // Schedule a refresh.
-	// refreshSummaryJob.schedule(100);
-	// }
-	// });
-	// }
-	// if (job.isRunning()) {
-	// // This will abrupt the job but on demand, so we can't really start
-	// // a new job here.
-	// job.cancelMonitor();
-	// }
-	//
-	// job.setContextToSummarize(service);
-	// job.go(); // Should spawn a job processing the xls.
-	//
-	// }
-
 	/**
 	 * Inject a {@link RFSService} into the component. This will first create
 	 * the Service Summary Model Object.
@@ -277,62 +223,124 @@ public class DashboardComponent {
 
 	public void injectData(Object... selection) {
 
-		for (Object o : selection) {
-			if (MonitoringStateModel.isAdapted((EObject) o)) {
-				IMonitoringSummary adapted = MonitoringStateModel
-						.getAdapted((EObject) o);
-				// Try to prep a summary, if we have an RFSService
-				if (adapted instanceof NetxresourceSummary && adapted.getRFSService() != null) {
-					final SummaryCallBack callBack = new SummaryCallBack();
-					monitoringState.summary(callBack, adapted.getRFSService(),
-							new Object[] { adapted.getPeriod() });
-				}
+		processSelection(selection);
+	}
+
+	private void processSelection(Object... selection) {
+
+		if (validSelection(selection) && selection.length == 1) {
+			Object o = selection[0];
+
+			// TODO, how to deal with the corresponding service....?
+			// // Try to prep a summary, if we have an RFSService
+			// if (adapted instanceof NetxresourceSummary
+			// && adapted.getRFSService() != null) {
+			// }
+
+			// Prep. the summary UI.
+			if (summaryForSelection != null) {
+				summaryForSelection.dispose();
 			}
+			summaryForSelection = summaryForSelection(o);
+			summaryForSelection.buildUI(targetContent, null);
+			// relayout.
+//			refresh();
+
+			// Prep the summary itself.
+			// Note: We don't provide a context, RFSService or period.
+			// We should still get a Summary back, but without RAG!
+
+			final SummaryCallBack callBack = new SummaryCallBack();
+			monitoringState.summary(callBack, o, new Object[] {});
+
+		} else {
+			// TODO, for multiple selections, we need a
+			// IMonitoringSummaryComposite object.
+
 		}
+	}
+
+	private ISummaryComponent summaryForSelection(Object o) {
+
+		if (o instanceof Component) {
+			return new TODOSummaryComponent();
+		} else if (o instanceof NetXResource) {
+			return new TODOSummaryComponent();
+		} else if (o instanceof Node) {
+			return new TODOSummaryComponent();
+		} else if (o instanceof NodeType) {
+			return new TODOSummaryComponent();
+		} else if (o instanceof Network) {
+			return new TODOSummaryComponent();
+		} else if (o instanceof RFSService) {
+			return new TODOSummaryComponent();
+		} else if (o instanceof Operator) {
+			return new TODOSummaryComponent();
+		}
+		return new NotSupportedSummaryComponent();
+	}
+
+	/**
+	 * The selection should be similar objects.
+	 * 
+	 * @param selection
+	 * @return
+	 */
+	private boolean validSelection(Object[] selection) {
+		// TODO Implement.
+		return true;
 	}
 
 	class SummaryCallBack implements MonitoringStateStateCallBack {
 
 		public void callBackEvent(MonitoringStateEvent event) {
-			if (event.getResult() instanceof RFSServiceSummary) {
-				summary = (RFSServiceSummary) event.getResult();
-				refreshSummaryJob.schedule(100);
-			} else if (event.getResult() == null) {
-				summary = null;
-				refreshSummaryJob.schedule(100);
+
+			IMonitoringSummary summary = null;
+
+			if (event.getResult() instanceof IMonitoringSummary) {
+				summary = (IMonitoringSummary) event.getResult();
 			}
+			refreshSummaryJob.setSummary(summary);
+			refreshSummaryJob.schedule(100);
 		}
 	};
 
-	private void refreshSummaryUI() {
+	private void refreshSummaryUI(IMonitoringSummary summary) {
 
-		if (summary == null) {
-			formTextLastMonitor.setText("no monitors", false, false);
-			content.layout();
-			// layourComponent.layout();
-			ScreenUtil.compositeFor(parentScreen).layout();
-			return;
+		populateContent(summary);
+
+		if (summary != null && summaryForSelection != null) {
+			summaryForSelection.fillSummary(summary);
 		}
+		refresh();
+	}
 
-		formTextLastMonitor.setText(summary.getPeriodFormattedString(), false,
-				false);
-
-		formTextNumberOfNodes.setText(
-				new Integer(summary.totalNodes()).toString(), false, false);
-		formTextNumberOfResources.setText(
-				new Integer(summary.totalResources()).toString(), false, false);
-
-		formTextRed.setText(new Integer(summary.totalRag(RAG.RED)).toString(),
-				false, false);
-		formTextAmber.setText(
-				new Integer(summary.totalRag(RAG.AMBER)).toString(), false,
-				false);
-		formTextGreen.setText(
-				new Integer(summary.totalRag(RAG.GREEN)).toString(), false,
-				false);
+	private void refresh() {
 		content.layout();
 		// layourComponent.layout();
 		ScreenUtil.compositeFor(parentScreen).layout();
+	}
+
+	private void populateContent(IMonitoringSummary summary) {
+
+		if (summary == null) {
+			formTextLastMonitor.setText("no monitors", false, false);
+			// layourComponent.layout();
+		} else {
+
+			formTextLastMonitor.setText(summary.getPeriodFormattedString(),
+					false, false);
+
+			formTextRed.setText(
+					new Integer(summary.totalRag(RAG.RED)).toString(), false,
+					false);
+			formTextAmber.setText(
+					new Integer(summary.totalRag(RAG.AMBER)).toString(), false,
+					false);
+			formTextGreen.setText(
+					new Integer(summary.totalRag(RAG.GREEN)).toString(), false,
+					false);
+		}
 	}
 
 	/**
@@ -341,6 +349,12 @@ public class DashboardComponent {
 	 * @author Christophe Bouhier
 	 */
 	class RefreshSummaryJob extends UIJob {
+
+		private IMonitoringSummary summary;
+
+		public void setSummary(IMonitoringSummary summary) {
+			this.summary = summary;
+		}
 
 		/**
 		 * Creates a new instance of the class.
@@ -361,8 +375,12 @@ public class DashboardComponent {
 				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
 						IStatus.OK, "Screen not valid", null);
 			}
+			if (summary == null) {
+				return new Status(IStatus.ERROR, ScreensActivator.PLUGIN_ID,
+						IStatus.ERROR, "Screen not valid", null);
+			}
 
-			refreshSummaryUI();
+			refreshSummaryUI(summary);
 
 			return new Status(IStatus.OK, PlatformUI.PLUGIN_ID, IStatus.OK, "",
 					null);

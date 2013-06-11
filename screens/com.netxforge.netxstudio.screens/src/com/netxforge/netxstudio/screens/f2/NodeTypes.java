@@ -66,6 +66,7 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;
@@ -111,6 +112,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	private SashForm sashForm;
 
 	@Inject
+	private MonitoringStateModel stateModel;
+	
 	private NodeTypeTreeLabelProvider ntTreeLabelProvider;
 
 	/**
@@ -356,7 +359,9 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 		IObservableMap[] map = new IObservableMap[mapList.size()];
 		mapList.toArray(map);
-
+		
+		
+		ntTreeLabelProvider = new NodeTypeTreeLabelProvider(stateModel);
 		ntTreeLabelProvider.registerMap(map);
 
 		nodeTypeTreeViewer.setLabelProvider(ntTreeLabelProvider);

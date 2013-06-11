@@ -111,6 +111,7 @@ public class NetxresourceSummary extends MonitoringAdapter {
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer(super.toString());
+		sb.append(" Summary for: " + getTarget().getShortName() );
 		sb.append(" Markers: (" + toleranceMarkers.size() + ")");
 		return sb.toString();
 	}

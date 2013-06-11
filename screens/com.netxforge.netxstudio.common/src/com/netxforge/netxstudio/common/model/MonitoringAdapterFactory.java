@@ -24,7 +24,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -45,18 +45,19 @@ import com.netxforge.netxstudio.services.RFSService;
  * @author Christophe Bouhier
  * 
  */
+@Singleton
 public class MonitoringAdapterFactory extends CDOAdapterFactoryImpl {
 
 	@Inject
-	private Provider<NetxresourceSummary> netxresourceProvider;
+	private NetxresourceSummaryProvider netxresourceProvider;
 	@Inject
-	private Provider<ComponentSummary> componentProvider;
+	private ComponentSummaryProvider componentProvider;
 	@Inject
-	private Provider<NodeTypeSummary> nodeTypeProvider;
+	private NodetypeSummaryProvider nodeTypeProvider;
 	@Inject
-	private Provider<RFSServiceSummary> rfsServiceProvider;
+	private RFSServiceSummaryProvider rfsServiceProvider;
 	@Inject
-	private Provider<OperatorSummary> operatorProvider;
+	private OperatorSummaryProvider operatorProvider;
 
 	/**
 	 * This keeps track of all the supported types checked by

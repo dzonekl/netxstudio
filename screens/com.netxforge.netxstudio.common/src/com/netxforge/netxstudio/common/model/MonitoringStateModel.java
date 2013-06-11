@@ -34,6 +34,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
@@ -86,6 +87,7 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
  * @author Christophe Bouhier
  * 
  */
+@Singleton
 public class MonitoringStateModel {
 
 	/**
@@ -258,7 +260,12 @@ public class MonitoringStateModel {
 		} else {
 			adapt = getAdapted((EObject) target);
 		}
-
+		
+		// Non adapted objects will be null
+		if(adapt == null){
+			return adapt;
+		}
+		
 		adapt.clearContextObject();
 		
 		// Add the context object.

@@ -28,11 +28,9 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.f1.DashboardComponent;
-import com.netxforge.netxstudio.screens.f1.ServiceSummaryComponent;
+import com.netxforge.netxstudio.screens.monitoring.DashboardComponent;
 
 /**
  * Monitoring Dashboard. 
@@ -52,9 +50,6 @@ public class DashboardScreen extends AbstractScreen implements
 	
 	@Inject
 	private DashboardComponent dashboardComponent;
-	
-	@Inject
-	private MonitoringStateModel stateModel;
 	
 	public DashboardScreen(Composite parent, int style) {
 		super(parent, style);

@@ -24,18 +24,13 @@ import static org.ops4j.peaberry.util.TypeLiterals.export;
 
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.jca.JCAServiceModule;
-import com.netxforge.netxstudio.common.model.ComponentSummary;
 import com.netxforge.netxstudio.common.model.ComponentSummaryProvider;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
-import com.netxforge.netxstudio.common.model.NetxresourceSummary;
 import com.netxforge.netxstudio.common.model.NetxresourceSummaryProvider;
-import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.common.model.NodetypeSummaryProvider;
-import com.netxforge.netxstudio.common.model.OperatorSummary;
 import com.netxforge.netxstudio.common.model.OperatorSummaryProvider;
-import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.common.model.RFSServiceSummaryProvider;
 import com.netxforge.netxstudio.common.properties.PropertiesUtil;
 
@@ -63,31 +58,44 @@ public class CommonModule extends JCAServiceModule {
 				service(new ModelUtils()).attributes(
 						objectClass(ModelUtils.class)).export());
 
+		bind(export(MonitoringStateModel.class)).toProvider(
+				service(MonitoringStateModel.class).attributes(
+						objectClass(MonitoringStateModel.class)).export());
+
+		bind(export(MonitoringAdapterFactory.class)).toProvider(
+				service(MonitoringAdapterFactory.class).attributes(
+						objectClass(MonitoringAdapterFactory.class)).export());
+
+		bind(export(NetxresourceSummaryProvider.class)).toProvider(
+				service(NetxresourceSummaryProvider.class).attributes(
+						objectClass(NetxresourceSummaryProvider.class))
+						.export());
+
+		bind(export(ComponentSummaryProvider.class)).toProvider(
+				service(ComponentSummaryProvider.class).attributes(
+						objectClass(ComponentSummaryProvider.class)).export());
+
+		bind(export(NodetypeSummaryProvider.class)).toProvider(
+				service(NodetypeSummaryProvider.class).attributes(
+						objectClass(NodetypeSummaryProvider.class)).export());
+
+		bind(export(RFSServiceSummaryProvider.class)).toProvider(
+				service(RFSServiceSummaryProvider.class).attributes(
+						objectClass(RFSServiceSummaryProvider.class)).export());
+
+		bind(export(OperatorSummaryProvider.class)).toProvider(
+				service(OperatorSummaryProvider.class).attributes(
+						objectClass(OperatorSummaryProvider.class)).export());
+
 		// ///////////////////////////////
 		// IMPORT SERVICES
 		// (Copy to modules in other OSGI bundles to import the service).
-		
+
 		// {@link CommonModule}
 		bind(ModelUtils.class).toProvider(service(ModelUtils.class).single());
 
 		// CB TODO Migrate
-
 		this.bind(PropertiesUtil.class).in(Singleton.class);
-		this.bind(MonitoringStateModel.class).in(Singleton.class);
-		this.bind(MonitoringAdapterFactory.class);
-
-		// providers.
-		this.bind(NetxresourceSummary.class).toProvider(
-				NetxresourceSummaryProvider.class);
-		this.bind(ComponentSummary.class).toProvider(
-				ComponentSummaryProvider.class);
-		this.bind(NodeTypeSummary.class).toProvider(
-				NodetypeSummaryProvider.class);
-		this.bind(RFSServiceSummary.class).toProvider(
-				RFSServiceSummaryProvider.class);
-		this.bind(OperatorSummary.class).toProvider(
-				OperatorSummaryProvider.class);
 
 	}
-
 }

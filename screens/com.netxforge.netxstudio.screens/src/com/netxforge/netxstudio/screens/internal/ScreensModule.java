@@ -22,6 +22,8 @@ import static org.ops4j.peaberry.Peaberry.service;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
+import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporterProvider;
@@ -33,6 +35,7 @@ import com.netxforge.netxstudio.screens.f1.support.PeriodSelectionPage;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionPage;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
 import com.netxforge.netxstudio.screens.f2.LazyResourcesComponent;
+import com.netxforge.netxstudio.screens.f2.support.NodeTypeTreeLabelProvider;
 import com.netxforge.netxstudio.screens.f3.PeriodComponent;
 import com.netxforge.netxstudio.screens.f3.ResourcesComponent;
 import com.netxforge.netxstudio.screens.f3.SmartValueComponent;
@@ -51,6 +54,8 @@ public class ScreensModule extends AbstractModule {
 
 		// /////////////////////////////////////////////////////////////////////
 		// INTERNAL SERVICES
+
+		this.bind(NodeTypeTreeLabelProvider.class);
 
 		// Injector proxys
 		this.bind(IInjectorProxy.class)
@@ -108,6 +113,15 @@ public class ScreensModule extends AbstractModule {
 		bind(RDBMSMetricValuesImporterProvider.class).toProvider(
 				service(RDBMSMetricValuesImporterProvider.class).single());
 
+		// {@link CommonModule}
+		bind(MonitoringStateModel.class).toProvider(
+				service(MonitoringStateModel.class).single());
+
+		// {@link CommonModule}
+		bind(MonitoringAdapterFactory.class).toProvider(
+				service(MonitoringAdapterFactory.class).single());
+
+		
 	}
 
 }
