@@ -32,10 +32,8 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
-import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
@@ -45,8 +43,6 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Form frmSettings;
 
-	@Inject
-	ServerRequest serverActions;
 	private ServerSettings settings;
 	private Text txtImportDirectory;
 	private Text txtExportDirectory;

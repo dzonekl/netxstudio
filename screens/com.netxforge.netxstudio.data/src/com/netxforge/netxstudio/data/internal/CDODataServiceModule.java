@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.data.internal;
 
 import static org.ops4j.peaberry.Peaberry.service;
+import static org.ops4j.peaberry.util.Attributes.objectClass;
 import static org.ops4j.peaberry.util.TypeLiterals.export;
 
 import com.google.inject.Singleton;
@@ -52,18 +53,23 @@ public class CDODataServiceModule extends DataServiceModule {
 		// INTERNAL SERVICES
 
 		this.bind(CDOQueryUtil.class);
-		this.bind(ServerRequest.class);
 
 		// As a Singleton??
 		this.bind(IDataProvider.class).to(ClientCDODataProvider.class)
 				.in(Singleton.class);
 
 		this.bind(ICDOConnection.class).to(CDODataConnection.class);
-		
+
 		this.bind(IQueryService.class).to(CDOQueryService.class);
-		
+
 		// ///////////////////////////////
 		// EXPORT SERVICES
+		
+		// CB Consider moving this to ?? as it has no  relation with the 
+		// data. 
+		this.bind(export(ServerRequest.class)).toProvider(
+				service(ServerRequest.class).attributes(
+						objectClass(ServerRequest.class)).export());
 
 		bind(export(IQueryService.class)).toProvider(
 				service(CDOQueryService.class).export());

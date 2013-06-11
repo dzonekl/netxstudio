@@ -88,12 +88,10 @@ public class ProductWorkbenchWindowAdvisor extends
 		}
 		if (currentRole != null) {
 			activityAndRoleService.enableActivity(currentRole);
+			currentRole.cdoView().close();
 		} else {
 			// Data corruption issue.
 		}
-
-		// close the transaction.
-		// dService.getProvider().commitTransactionThenClose();
 
 		// Get the workbench and disable some actionsets:
 		// These will be added again for another perspective.

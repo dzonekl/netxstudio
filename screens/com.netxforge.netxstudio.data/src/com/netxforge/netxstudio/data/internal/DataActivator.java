@@ -36,6 +36,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
@@ -85,9 +86,14 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	public static BundleContext getContext() {
 		return context;
 	}
-
+	
+	// Note: Order is imported. I.e. ServerRequest requires the IDataService.
+	
 	@Inject
 	Export<IDataService> dataService;
+	
+	@Inject
+	Export<ServerRequest> serverRequestService;
 
 	@Inject
 	Export<IQueryService> queryService;
@@ -102,18 +108,18 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	Export<RDBMSMetricValuesImporterProvider> rdbmsImportService;
 
 	@Inject
-	Export<IComponentMappingIndex> componentMappingIndex; 
-	
+	Export<IComponentMappingIndex> componentMappingIndex;
+
 	@Inject
 	Export<IComponentLocator> componentLocator;
-	
-	// CB Consider not exposing the binding here, but in the client 
+
+	// CB Consider not exposing the binding here, but in the client
 	@Inject
 	Export<IImporterHelper> importHelper;
 
 	@Inject
 	Export<ResultProcessor> resultProcessor;
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

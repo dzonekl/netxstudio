@@ -46,5 +46,12 @@ public interface IDataService {
 	 */
 	public Role getCurrentRole();
 	
+	/**
+	 * get the current server
+	 * 
+	 * @return
+	 */
+	public String getServer();
+	
 	
 }

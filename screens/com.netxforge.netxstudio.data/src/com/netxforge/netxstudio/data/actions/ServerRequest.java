@@ -29,8 +29,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.id.CDOIDUtil;
-import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
@@ -38,9 +36,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.Tuple;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.scheduling.WorkFlowRun;
+import com.netxforge.netxstudio.data.IDataService;
 
 /**
  * 
@@ -66,12 +62,13 @@ public class ServerRequest {
 	// "http://localhost:8080/netxforge/service?service=com.netxforge.netxstudio.server.metrics.MetricSourceImportService&metricSource=7246";
 
 	@Inject
-	ModelUtils modelUtils;
+	private ModelUtils modelUtils;
 
-	IDataProvider provider;
-
+	@Inject
+	private IDataService dataService;
+	
 	private String server;
-
+	
 	public static final String LOCAL_HTTP_SERVER = "http://localhost:8080";
 
 	public static final String COMMAND_PARAM_NAME = "command";
@@ -104,26 +101,7 @@ public class ServerRequest {
 	public static final String COMMAND_SCHEDULER_START = "scheduler_start";
 	
 	
-	@Inject
-	public ServerRequest(IDataProvider provider) {
-		this.provider = provider;
-		server = provider.getServer();
-	}
-
-	public WorkflowRunJob jobFromRequest(String result) {
-		final CDOID resultCDOID = CDOIDUtil.createLongWithClassifier(
-				new CDOClassifierRef(SchedulingPackage.Literals.WORK_FLOW_RUN),
-				Long.parseLong(result));
-
-		WorkFlowRun wfr = (WorkFlowRun) provider.getTransaction().getObject(
-				resultCDOID);
-		
-		if(wfr != null){
-			WorkflowRunJob workflowRunJob = new WorkflowRunJob();
-			workflowRunJob.setWorkFlowRun(wfr);
-			return workflowRunJob;
-		}
-		return null;
+	public ServerRequest() {
 	}
 
 	public String callJobAction(String command) throws Exception {
@@ -312,6 +290,9 @@ public class ServerRequest {
 	}
 
 	public String setServer() {
+		
+		server = dataService.getServer();
+		
 		if (server == null) {
 			server = LOCAL_HTTP_SERVER;
 		} else {

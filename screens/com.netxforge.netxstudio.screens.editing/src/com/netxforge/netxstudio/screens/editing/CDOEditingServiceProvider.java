@@ -41,6 +41,8 @@ public class CDOEditingServiceProvider implements IEditingServiceProvider {
 	 * com.netxforge.netxstudio.screens.editing.IEditingServiceProvider#get()
 	 */
 	public IEditingService get() {
+		System.out.println("instantiate dataservice: " + dataService
+				+ " with provider:" + dataService.getProvider());
 		return new CDOEditingService(dataService, modelUtils);
 	}
 

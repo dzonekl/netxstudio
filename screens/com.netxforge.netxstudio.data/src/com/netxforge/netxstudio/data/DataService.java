@@ -23,7 +23,6 @@ import java.util.List;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
@@ -34,7 +33,6 @@ import com.netxforge.netxstudio.generics.Role;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-@Singleton
 public class DataService implements IDataService {
 
 	private final IDataProvider provider;
@@ -70,6 +68,10 @@ public class DataService implements IDataService {
 				.collectionForObjects(resource.getContents());
 		Role r = modelUtils.roleForUserWithName(currentUser, people);
 		return r;
+	}
+
+	public String getServer() {
+		return provider.getServer();
 	}
 
 }

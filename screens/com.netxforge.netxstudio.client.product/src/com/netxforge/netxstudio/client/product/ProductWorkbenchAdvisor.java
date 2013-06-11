@@ -114,6 +114,7 @@ public class ProductWorkbenchAdvisor extends IDEWorkbenchAdvisor {
 			this.getWorkbenchConfigurer().setSaveAndRestore(false);
 			// Should really show the intro. 
 		}
+		r.cdoView().close();
 	}
 
 	/*
