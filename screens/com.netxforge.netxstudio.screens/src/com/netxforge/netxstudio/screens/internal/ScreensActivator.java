@@ -18,6 +18,7 @@
 package com.netxforge.netxstudio.screens.internal;
 
 import static org.ops4j.peaberry.Peaberry.osgiModule;
+
 import java.util.Dictionary;
 import java.util.Hashtable;
 

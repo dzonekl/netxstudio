@@ -9,7 +9,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.data.internal.CDODataServiceModule;
+import com.netxforge.netxstudio.data.internal.DataModule;
 import com.netxforge.netxstudio.screens.editing.internal.EditingModule;
 import com.netxforge.netxstudio.screens.editing.internal.ScreensCommonModule;
 
@@ -46,7 +46,7 @@ public class CallFlowsActivator extends AbstractUIPlugin {
 		Module om = new CallFlowModule();
 		om = override(om).with(new ScreensCommonModule());
 		om = override(om).with(new CommonModule());
-		om = override(om).with(new CDODataServiceModule());
+		om = override(om).with(new DataModule());
 		om = override(om).with(new EditingModule());  
 		callFlowsInjector = Guice.createInjector(om);
 		// callFlowsInjector =

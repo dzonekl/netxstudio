@@ -17,7 +17,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.models.importer.ui.internal;
 
-import static com.google.inject.util.Modules.override;
+import static org.ops4j.peaberry.Peaberry.osgiModule;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -30,10 +30,6 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.netxforge.netxstudio.common.internal.CommonModule;
-import com.netxforge.netxstudio.data.internal.NonStaticCDODataServiceModule;
-import com.netxforge.netxstudio.screens.editing.internal.EditingModule;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -64,12 +60,6 @@ public class ImportUIActivator extends AbstractUIPlugin implements
 		return injector;
 	}
 
-	/**
-	 * The constructor
-	 */
-	public ImportUIActivator() {
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -80,13 +70,7 @@ public class ImportUIActivator extends AbstractUIPlugin implements
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-
-		// Bind our modules.
-		Module om = new CommonModule();
-		om = override(om).with(new EditingModule());
-		om = override(om).with(NonStaticCDODataServiceModule.getModule());
-		// om = override(om).with(new CDODataServiceModule());
-		injector = Guice.createInjector(om);
+		injector = Guice.createInjector(osgiModule(context), new IOModule());
 
 		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);

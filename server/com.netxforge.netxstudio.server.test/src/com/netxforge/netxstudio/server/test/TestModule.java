@@ -23,7 +23,7 @@ import static com.google.inject.util.Modules.override;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.internal.CommonModule;
-import com.netxforge.netxstudio.data.internal.CDODataServiceModule;
+import com.netxforge.netxstudio.data.internal.DataModule;
 import com.netxforge.netxstudio.data.internal.ImporterModule;
 import com.netxforge.netxstudio.server.internal.ServerModule;
 
@@ -35,7 +35,7 @@ public class TestModule extends AbstractModule {
 
 	public static Module getModule() {
 		Module om = new CommonModule();
-		om = override(om).with(new CDODataServiceModule());
+		om = override(om).with(new DataModule());
 		om = override(om).with(new ImporterModule());
 		om = override(om).with(new TestModule());
 		return om;

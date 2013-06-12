@@ -20,9 +20,9 @@ package com.netxforge.netxstudio.screens.showins;
 import java.util.List;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
-import com.netxforge.netxstudio.metrics.KindHintType;
 
 /**
  * 

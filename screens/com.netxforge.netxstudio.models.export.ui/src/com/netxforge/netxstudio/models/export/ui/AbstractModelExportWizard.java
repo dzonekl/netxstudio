@@ -40,7 +40,6 @@ import org.eclipse.xtend.expression.Variable;
 
 import com.netxforge.netxstudio.models.export.XpandTemplate;
 import com.netxforge.netxstudio.models.export.impl.XpandCallerService;
-import com.netxforge.netxstudio.models.export.ui.internal.ExportActivator;
 import com.netxforge.netxstudio.models.export.ui.pages.ExportNewFileWizardPage;
 import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
 
@@ -49,27 +48,11 @@ public abstract class AbstractModelExportWizard extends Wizard implements IExpor
 	protected IStructuredSelection selection;
 
 	private ExportNewFileWizardPage xpandExportFilePage;
-//	private SelectExportWizardPage xpandSelectPage;
-//	private XPandModelSourceWizardPage xpandModelSourcePage;
 
-	
-	
-//	public XpandTemplate getCurrentXpandTemplate(){
-//		return currentTemplate;
-//	}
-	
 	public ExportNewFileWizardPage getXpandExportFilePage() {
 		return xpandExportFilePage;
 	}
 
-//	public SelectExportWizardPage getXpandSelectPage() {
-//		return xpandSelectPage;
-//	}
-
-//	public XPandModelSourceWizardPage getXpandModelSourcePage() {
-//		return xpandModelSourcePage;
-//	}
-	
 	/**
 	 * Clients should implement to return the target object. 
 	 * @return
@@ -120,10 +103,7 @@ public abstract class AbstractModelExportWizard extends Wizard implements IExpor
 				ErrorDialog.openError(getContainer().getShell(),
 						Messages.XPandExportWizard_2, null,
 						((CoreException) e.getTargetException()).getStatus());
-			} else {
-				ExportActivator.logError(
-						"Error exporting model", e.getTargetException()); //$NON-NLS-1$
-			}
+			} 
 			return false;
 		}
 

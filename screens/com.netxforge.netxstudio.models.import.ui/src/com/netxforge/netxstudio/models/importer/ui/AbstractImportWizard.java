@@ -73,7 +73,7 @@ import com.netxforge.netxstudio.models.importer.ui.internal.ImportUIActivator;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.EMFEditingService;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
@@ -96,9 +96,6 @@ public abstract class AbstractImportWizard extends Wizard implements
 
 	@Inject
 	private IDataProvider uiDataProvider;
-
-	@Inject
-	private IEditingService editingService;
 
 	@Inject
 	private ModelUtils modelUtils;
@@ -142,7 +139,8 @@ public abstract class AbstractImportWizard extends Wizard implements
 							CheckedTreeSelectionDialog dialog = new CheckedTreeSelectionDialog(
 									Display.getDefault().getActiveShell(),
 									new ImportResultLabelProvider(
-											editingService.getAdapterFactory()),
+											EMFEditingService
+													.getAdapterFactory()),
 									importContentProvider);
 							dialog.setTitle("Result of the import");
 							dialog.setMessage("Select which items to import");

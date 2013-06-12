@@ -46,9 +46,6 @@ public abstract class AbstractExportPOIRevengeWizard extends Wizard implements
 
 	private IStructuredSelection selection;
 
-	public AbstractExportPOIRevengeWizard() {
-	}
-
 	@Inject
 	protected IDataProvider dataProvider;
 	
@@ -63,7 +60,8 @@ public abstract class AbstractExportPOIRevengeWizard extends Wizard implements
 	abstract EPackage[] getEPackages();
 
 	abstract IExportFilter getExportFilter();
-
+	
+	
 	@Override
 	public boolean performFinish() {
 

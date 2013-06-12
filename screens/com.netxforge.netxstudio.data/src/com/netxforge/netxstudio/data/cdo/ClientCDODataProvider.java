@@ -25,7 +25,6 @@ import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 
@@ -33,12 +32,8 @@ import com.netxforge.netxstudio.data.internal.DataActivator;
  * A CDO Data provider, for single threaded clients. The session and transaction
  * are stored in a static member and this object is a singleton.
  * 
- * CB TODO If a singleton, why a static session, we will always return the same
- * session?
- * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-@Singleton
 public class ClientCDODataProvider extends CDODataProvider {
 
 	@Inject

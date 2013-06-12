@@ -34,7 +34,7 @@ public class NonStaticCDODataServiceModule extends AbstractModule {
 	
 	
 	public static Module getModule() {
-		Module om = new CDODataServiceModule();
+		Module om = new DataModule();
 		om = override(om).with(new NonStaticCDODataServiceModule());
 		return om;
 	}

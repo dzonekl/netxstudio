@@ -22,7 +22,6 @@ import static org.ops4j.peaberry.Peaberry.service;
 import static org.ops4j.peaberry.util.Attributes.objectClass;
 import static org.ops4j.peaberry.util.TypeLiterals.export;
 
-import com.google.inject.Singleton;
 import com.netxforge.netxstudio.data.DataServiceModule;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IDataService;
@@ -32,14 +31,18 @@ import com.netxforge.netxstudio.data.cdo.CDODataConnection;
 import com.netxforge.netxstudio.data.cdo.CDODataService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
+import com.netxforge.netxstudio.data.cdo.ClientCDODPProvider;
 import com.netxforge.netxstudio.data.cdo.ClientCDODataProvider;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
+import com.netxforge.netxstudio.data.cdo.IClientDPProvider;
+import com.netxforge.netxstudio.data.cdo.INonStaticDPProvider;
+import com.netxforge.netxstudio.data.cdo.NonStaticCDODPProvider;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class CDODataServiceModule extends DataServiceModule {
+public class DataModule extends DataServiceModule {
 
 	/*
 	 * (non-Javadoc)
@@ -54,22 +57,26 @@ public class CDODataServiceModule extends DataServiceModule {
 
 		this.bind(CDOQueryUtil.class);
 
-		// As a Singleton??
-		this.bind(IDataProvider.class).to(ClientCDODataProvider.class)
-				.in(Singleton.class);
-
 		this.bind(ICDOConnection.class).to(CDODataConnection.class);
 
 		this.bind(IQueryService.class).to(CDOQueryService.class);
 
+		this.bind(IDataProvider.class).to(ClientCDODataProvider.class);
+
 		// ///////////////////////////////
 		// EXPORT SERVICES
-		
-		// CB Consider moving this to ?? as it has no  relation with the 
-		// data. 
+
+		// CB Consider moving this to ?? as it has no relation with the
+		// data.
 		this.bind(export(ServerRequest.class)).toProvider(
 				service(ServerRequest.class).attributes(
 						objectClass(ServerRequest.class)).export());
+
+		bind(export(IClientDPProvider.class)).toProvider(
+				service(ClientCDODPProvider.class).export());
+
+		bind(export(INonStaticDPProvider.class)).toProvider(
+				service(NonStaticCDODPProvider.class).export());
 
 		bind(export(IQueryService.class)).toProvider(
 				service(CDOQueryService.class).export());
@@ -81,7 +88,7 @@ public class CDODataServiceModule extends DataServiceModule {
 		// IMPORT SERVICES
 		// (Copy to modules in other OSGI bundles to import the service).
 
-		// {@link CDODataServiceModule}
+		// {@link DataModule}
 		bind(IDataService.class).toProvider(
 				service(IDataService.class).single());
 

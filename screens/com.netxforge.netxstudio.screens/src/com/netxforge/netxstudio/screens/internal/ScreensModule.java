@@ -89,7 +89,7 @@ public class ScreensModule extends AbstractModule {
 		// IMPORTED SERVICES
 		//
 
-		// {@link CDODataServiceModule}
+		// {@link DataModule}
 		bind(ServerRequest.class).toProvider(
 				service(ServerRequest.class).single());
 

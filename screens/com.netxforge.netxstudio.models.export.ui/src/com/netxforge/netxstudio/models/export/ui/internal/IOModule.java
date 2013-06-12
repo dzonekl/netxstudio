@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) Aug 3, 2011 NetXForge.
+ * Copyright (c) 12 jun. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -17,21 +17,24 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.models.export.ui.internal;
 
-import org.osgi.framework.Bundle;
+import static org.ops4j.peaberry.Peaberry.service;
 
-import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.guice.AbstractGuiceAwareExecutableExtensionFactory;
+import com.google.inject.AbstractModule;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 
-public class ExportEExtensionFactory extends AbstractGuiceAwareExecutableExtensionFactory {
+public class IOModule extends AbstractModule {
 
 	@Override
-	protected Bundle getBundle() {
-		return ExportActivator.getInstance().getBundle();
+	protected void configure() {
+		
+		// ///////////////////////////////
+		// IMPORT SERVICES
+		// (Copy to modules in other OSGI bundles to import the service).
+
+		// {@link CommonModule}
+		bind(ModelUtils.class).toProvider(service(ModelUtils.class).single());
+		
+		
 	}
-	
-	@Override
-	protected Injector getInjector() {
-		return ExportActivator.getInstance().getInjector();
-	}
-	
+
 }

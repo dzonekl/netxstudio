@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) Aug 3, 2011 NetXForge.
+ * Copyright (c) 7 jun. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -15,23 +15,11 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.models.export.ui.internal;
+package com.netxforge.netxstudio.data.cdo;
 
-import org.osgi.framework.Bundle;
+import com.netxforge.netxstudio.data.IDataProvider;
 
-import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.guice.AbstractGuiceAwareExecutableExtensionFactory;
-
-public class ExportEExtensionFactory extends AbstractGuiceAwareExecutableExtensionFactory {
-
-	@Override
-	protected Bundle getBundle() {
-		return ExportActivator.getInstance().getBundle();
-	}
-	
-	@Override
-	protected Injector getInjector() {
-		return ExportActivator.getInstance().getInjector();
-	}
+public interface IClientDPProvider {
+	public IDataProvider get();
 	
 }

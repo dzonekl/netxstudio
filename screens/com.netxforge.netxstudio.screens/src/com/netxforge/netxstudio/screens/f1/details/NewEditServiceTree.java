@@ -704,14 +704,15 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		// Defaults for 8 months. 
+		// Defaults for 8 months.
+		
+		// TODO, Migrate to Dashboard
 		Date startTime = modelUtils.monthsAgo(8);
 		startTime = modelUtils.adjustToDayStart(startTime);
 
 		Date endTime = modelUtils.todayAtDayEnd();
+		@SuppressWarnings("unused")
 		DateTimeRange period = modelUtils.period(startTime, endTime);
-
-//		summaryComponent.injectData(service, period);
 
 		bindInfoSection(context);
 		bindLifeCycle(context);

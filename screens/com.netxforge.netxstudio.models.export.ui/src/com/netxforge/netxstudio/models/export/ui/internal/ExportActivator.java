@@ -1,16 +1,29 @@
+/*******************************************************************************
+ * Copyright (c) 12 jun. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.models.export.ui.internal;
 
-import static com.google.inject.util.Modules.override;
+import static org.ops4j.peaberry.Peaberry.osgiModule;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.netxforge.netxstudio.common.internal.CommonModule;
-import com.netxforge.netxstudio.data.internal.CDODataServiceModule;
-
 
 /**
  * The activator class controls the plug-in life cycle
@@ -22,37 +35,34 @@ public class ExportActivator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static ExportActivator plugin;
-	
+
 	private Injector injector;
 
 	public Injector getInjector() {
 		return injector;
 	}
 
-	
-	/**
-	 * The constructor
-	 */
-	public ExportActivator() {
-	}
-
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
 
 		// Bind our modules.
-		Module om = new CommonModule();
-		om = override(om).with(new CDODataServiceModule());
-		injector = Guice.createInjector(om);
+		injector = Guice.createInjector(osgiModule(context), new IOModule());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
@@ -61,73 +71,11 @@ public class ExportActivator extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 *
+	 * 
 	 * @return the shared instance
 	 */
-	public static ExportActivator getDefault() {
+	public static ExportActivator getInstance() {
 		return plugin;
-	}
-	
-	public static void logError(String error) {
-		logError(error, null);
-	}
-
-	public static void logError(String error, Throwable throwable) {
-		if (error == null && throwable != null) {
-			error = throwable.getMessage();
-		}
-		getDefault().getLog().log(
-				new org.eclipse.core.runtime.Status(
-						org.eclipse.core.runtime.IStatus.ERROR,
-						ExportActivator.PLUGIN_ID,
-						org.eclipse.core.runtime.IStatus.OK, error, throwable));
-		debug(error, throwable);
-	}
-
-	public static void logWarning(String error) {
-		logError(error, null);
-	}
-
-	public static void logWarning(String error, Throwable throwable) {
-		if (error == null && throwable != null) {
-			error = throwable.getMessage();
-		}
-		getDefault().getLog().log(
-				new org.eclipse.core.runtime.Status(
-						org.eclipse.core.runtime.IStatus.WARNING,
-						ExportActivator.PLUGIN_ID,
-						org.eclipse.core.runtime.IStatus.OK, error, throwable));
-		debug(error, throwable);
-	}
-
-	public static void logInfo(String message) {
-		logInfo(message, null);
-	}
-
-	public static void logInfo(String message, Throwable throwable) {
-		if (message == null && throwable != null) {
-			message = throwable.getMessage();
-		}
-		getDefault().getLog()
-				.log(
-						new org.eclipse.core.runtime.Status(
-								org.eclipse.core.runtime.IStatus.INFO,
-								ExportActivator.PLUGIN_ID,
-								org.eclipse.core.runtime.IStatus.OK, message,
-								throwable));
-		debug(message, throwable);
-	}
-
-	private static void debug(String message, Throwable throwable) {
-		if (!getDefault().isDebugging()) {
-			return;
-		}
-		if (message != null) {
-			System.err.println(message);
-		}
-		if (throwable != null) {
-			throwable.printStackTrace();
-		}
 	}
 
 	/**

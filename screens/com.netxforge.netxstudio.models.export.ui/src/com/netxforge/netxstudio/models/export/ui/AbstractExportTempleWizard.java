@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 12 jun. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.models.export.ui;
 
 import java.lang.reflect.InvocationTargetException;
@@ -24,7 +41,6 @@ import org.eclipse.xtend.expression.Variable;
 import com.netxforge.netxstudio.models.export.XpandTemplate;
 import com.netxforge.netxstudio.models.export.impl.XpandCallerService;
 import com.netxforge.netxstudio.models.export.impl.XpandPackageImport;
-import com.netxforge.netxstudio.models.export.ui.internal.ExportActivator;
 import com.netxforge.netxstudio.models.export.ui.pages.ExportNewFileWizardPage;
 import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
 
@@ -88,10 +104,7 @@ public abstract class AbstractExportTempleWizard extends Wizard implements IExpo
 				ErrorDialog.openError(getContainer().getShell(),
 						Messages.XPandExportWizard_2, null,
 						((CoreException) e.getTargetException()).getStatus());
-			} else {
-				ExportActivator.logError(
-						"Error exporting model", e.getTargetException()); //$NON-NLS-1$
-			}
+			} 
 			return false;
 		}
 

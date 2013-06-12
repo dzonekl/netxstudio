@@ -37,6 +37,7 @@ import com.google.inject.Module;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.data.cdo.IClientDPProvider;
 import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
@@ -93,6 +94,9 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	Export<IDataService> dataService;
 	
 	@Inject
+	Export<IClientDPProvider> clientDPProvider;
+	
+	@Inject
 	Export<ServerRequest> serverRequestService;
 
 	@Inject
@@ -129,7 +133,7 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	 */
 	public void start(BundleContext ctx) throws Exception {
 		DataActivator.context = ctx;
-		Module om = new CDODataServiceModule();
+		Module om = new DataModule();
 		// om = override(om).with(new CommonModule());
 		om = override(om).with(new ImporterModule());
 
