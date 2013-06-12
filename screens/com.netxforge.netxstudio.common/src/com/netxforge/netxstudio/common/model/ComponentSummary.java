@@ -107,14 +107,4 @@ public class ComponentSummary extends MonitoringAdapter {
 		final Component target = (Component) super.getTarget();
 		return target;
 	}
-
-
-	@Override
-	public String toString() {
-		StringBuffer sb = new StringBuffer(super.toString());
-		sb.append(" Summary for: " + getComponent().getName() );
-		sb.append(" Resource:" + totalResources() );
-		return sb.toString();
-	}
-	
 }

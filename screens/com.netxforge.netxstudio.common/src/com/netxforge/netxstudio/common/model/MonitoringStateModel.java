@@ -215,8 +215,6 @@ public class MonitoringStateModel {
 	 * @return
 	 */
 	public IMonitoringSummary summary(Object target) {
-
-		// Does the the factory check duplicates?
 		final IMonitoringSummary adapt = (IMonitoringSummary) monAdapterFactory
 				.adapt(target, IMonitoringSummary.class);
 		return adapt;

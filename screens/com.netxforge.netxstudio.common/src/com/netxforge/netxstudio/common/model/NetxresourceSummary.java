@@ -108,12 +108,12 @@ public class NetxresourceSummary extends MonitoringAdapter {
 		return super.isComputed() && toleranceMarkers != null;
 	}
 	
-	@Override
-	public String toString() {
-		StringBuffer sb = new StringBuffer(super.toString());
-		sb.append(" Summary for: " + getTarget().getShortName() );
-		sb.append(" Markers: (" + toleranceMarkers.size() + ")");
-		return sb.toString();
-	}
+//	@Override
+//	public String toString() {
+//		StringBuffer sb = new StringBuffer(super.toString());
+//		sb.append(" Summary for: " + getTarget().getShortName() );
+//		sb.append(" Markers: (" + toleranceMarkers.size() + ")");
+//		return sb.toString();
+//	}
 
 }

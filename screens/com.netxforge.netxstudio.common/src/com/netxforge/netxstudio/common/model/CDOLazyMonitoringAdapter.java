@@ -35,7 +35,7 @@ import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 
 /**
- * A scalable {@link EContentAdapter content adapter} that uses CDO mechansims
+ * A scalable {@link EContentAdapter content adapter} that uses CDO mechanism
  * to attach itself to {@link CDOObject objects} when they are lazily loaded.
  * </p> Changed to also register an object handler on any root EObject. Will not
  * add an adapter to, non-filtered {@link EClass} objects. as we only update the
@@ -56,6 +56,7 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 	 * The root object to be adapted.
 	 */
 	private WeakReference<CDOObject> adaptedRoot;
+
 	@Override
 	protected void setTarget(EObject target) {
 		if (isConnectedObject(target)) {
@@ -63,8 +64,7 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 				adaptedRoot = new WeakReference<CDOObject>(
 						CDOUtil.getCDOObject(target));
 			}
-			
-			
+
 			// A bit dangerous...
 			if (this.getTarget() == null) {
 				basicSetTarget(target);
@@ -198,6 +198,8 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 				}
 			}
 		} else {
+			// When not adapting the target object, the adapter instance if
+			// still produced.
 			if (CommonActivator.DEBUG) {
 				CommonActivator.TRACE
 						.trace(CommonActivator.TRACE_COMMON_MONITORING_DETAILS_OPTION,
@@ -272,7 +274,8 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 					.cdoResource());
 		}
 
-		return EcoreUtil.isAncestor(root, object);
+		boolean isAncestor = EcoreUtil.isAncestor(root, object);
+		return isAncestor;
 	}
 
 	/**
