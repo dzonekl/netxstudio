@@ -1,17 +1,17 @@
-Â«IMPORT netxstudioÂ»
-Â«IMPORT operatorsÂ»
-Â«IMPORT genericsÂ»
-Â«IMPORT libraryÂ»
-Â«IMPORT metricsÂ»
+«IMPORT netxstudio»
+«IMPORT operators»
+«IMPORT generics»
+«IMPORT library»
+«IMPORT metrics»
 
-Â«REMÂ»
+«REM»
 	Export a Node  to HTML
 	
-Â«ENDREMÂ»
+«ENDREM»
 
-Â«EXTENSION templates::net2htmlÂ»
-Â«DEFINE Root FOR operators::NodeÂ»
-Â«FILE fileName() Â»
+«EXTENSION templates::net2html»
+«DEFINE Root FOR operators::Node»
+«FILE fileName() »
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
     <head>
@@ -123,132 +123,132 @@
                 </td>
             </tr>
 			</table>
-Â«REMÂ»
+«REM»
 				NODETYPE OBJECT
-Â«ENDREMÂ»
+«ENDREM»
 			<a name="nodetypes"></a>
 			<h1>Network Element Type</h1>
 			<h2>Table of Contents</h2>	
 			<table class="toc">
-Â«EXPAND Toc FOR this Â»
+«EXPAND Toc FOR this -»
         	</table>
-Â«EXPAND Content FOR this Â»
+«EXPAND Content FOR this -»
 		</body>
 	</html>
-Â«ENDFILEÂ»
-Â«ENDDEFINEÂ»
+«ENDFILE»
+«ENDDEFINE»
 
 
-Â«DEFINE Toc FOR operators::Node Â»
+«DEFINE Toc FOR operators::Node »
 	<tr>
-		<td><a href="#Â«this.nodeID.toUpperCase()Â»">Â»this.nodeID.toUpperCase()Â»</a></td>
+		<td><a href="#«this.nodeID.toUpperCase()»">«this.nodeID.toUpperCase()»</a></td>
 	</tr>
-Â«ENDDEFINEÂ»
+«ENDDEFINE»
 
 
-Â«REMÂ»
+«REM»
 	NODETYPE EXPANSION
-Â«ENDREMÂ»  
-Â«DEFINE Content FOR operators::Node Â»
+«ENDREM»  
+«DEFINE Content FOR operators::Node »
 	<table>
-		<a name="Â«this.nodeIDÂ»"></a>
+		<a name="«this.nodeID»"></a>
 		<tr>
-			<td class="title">Â«this.nodeIDÂ»</td>
+			<td class="title">«this.nodeID»</td>
 		</tr>
-Â«IF this.nodeType != nullÂ»
-Â«IF ! this.nodeType.functions.isEmpty Â»
+«IF this.nodeType != null»
+«IF ! this.nodeType.functions.isEmpty »
 		<tr class="section"><td>Functions</td></tr>		
 		<tr>
-			<td><table class="indent">Â«EXPAND Content FOREACH this.nodeType.functions Â»</table></td>
+			<td><table class="indent">«EXPAND Content FOREACH this.nodeType.functions »</table></td>
 		</tr>
-Â«ENDIFÂ»
-Â«IF ! this.nodeType.equipments.isEmpty Â»
+«ENDIF»
+«IF ! this.nodeType.equipments.isEmpty »
 		<tr class="section"><td>Equipments</td></tr>		
 		<tr>
-			<td><table class="indent">Â«EXPAND Content FOREACH this.nodeType.equipments Â»</table></td>
+			<td><table class="indent">«EXPAND Content FOREACH this.nodeType.equipments »</table></td>
 		</tr>
-Â«ENDIFÂ»
-Â«ENDIFÂ»
+«ENDIF»
+«ENDIF»
 	</table>
-Â«ENDDEFINEÂ»
+«ENDDEFINE»
 
 
 
-Â«REMÂ»
+«REM»
 	FUNCTIONS EXPANSION
-Â«ENDREMÂ» 
-Â«DEFINE Content FOR library::Function Â»
-	<tr><td class="title">Â«this.nameÂ» -(Â«this.descriptionÂ»)</td></tr>
-Â«IF ! this.metricRefs.isEmpty Â»	
+«ENDREM» 
+«DEFINE Content FOR library::Function »
+	<tr><td class="title">«this.name» -(«this.description»)</td></tr>
+«IF ! this.metricRefs.isEmpty »	
  	<tr class="section"><td>Metrics</td></tr>	
 	<tr>
-		<td><table class="metric">Â«EXPAND Content FOREACH this.metricRefs Â»</table></td>
+		<td><table class="metric">«EXPAND Content FOREACH this.metricRefs »</table></td>
 	</tr>
-Â«ENDIFÂ»
-Â«IF ! this.functions.isEmpty Â»
+«ENDIF»
+«IF ! this.functions.isEmpty »
 	<tr>
-		<td><table class="indent">Â«EXPAND Content FOREACH this.functions Â»</table></td>
+		<td><table class="indent">«EXPAND Content FOREACH this.functions »</table></td>
 	</tr>
-Â«ENDIFÂ»
-Â«ENDDEFINEÂ»
+«ENDIF»
+«ENDDEFINE»
 
-Â«REMÂ»
+«REM»
 	EQUIPMENT EXPANSION
-Â«ENDREMÂ»  
-Â«DEFINE Content FOR library::Equipment Â»
-	<tr><td class="title">Â«this.equipmentCodeÂ» -(Â«this.descriptionÂ»)</td></tr>
-Â«IF ! this.metricRefs.isEmpty Â»	
+«ENDREM»  
+«DEFINE Content FOR library::Equipment »
+	<tr><td class="title">«this.equipmentCode» -(«this.description»)</td></tr>
+«IF ! this.metricRefs.isEmpty »	
 	<tr class="section"><td>Metrics</td></tr>	
 	<tr>
-		<td><table class="metric">Â«EXPAND Content FOREACH this.metricRefs Â»</table></td>
+		<td><table class="metric">«EXPAND Content FOREACH this.metricRefs »</table></td>
 	</tr>
-Â«ENDIFÂ»
-Â«IF ! this.equipments.isEmpty Â»		
+«ENDIF»
+«IF ! this.equipments.isEmpty »		
 	<tr>
-		<td><table class="indent">Â«EXPAND Content FOREACH this.equipments Â»</table></td>
+		<td><table class="indent">«EXPAND Content FOREACH this.equipments »</table></td>
 	</tr>
-Â«ENDIFÂ»
-Â«ENDDEFINEÂ»
+«ENDIF»
+«ENDDEFINE»
 
-Â«REMÂ»
+«REM»
 	METRIC EXPANSION
-Â«ENDREMÂ»  
-Â«DEFINE Content FOR metrics::Metric Â»
-	<tr><td>Â«this.nameÂ» -[Â«this.unitRef.nameÂ»] -(Â«this.descriptionÂ») </td></tr>
-Â«IF ! this.metrics.isEmpty Â»
+«ENDREM»  
+«DEFINE Content FOR metrics::Metric »
+	<tr><td>«this.name» -[«this.unitRef.name»] -(«this.description») </td></tr>
+«IF ! this.metrics.isEmpty »
 	<tr class="section"><td>Sub-metrics</td></tr>	
 	<tr>
-		<td><table class="relationships">Â«EXPAND Content FOREACH this.metrics Â»</table></td>
+		<td><table class="relationships">«EXPAND Content FOREACH this.metrics »</table></td>
 	</tr>
-Â«ENDIFÂ»
-Â«ENDDEFINEÂ»
+«ENDIF»
+«ENDDEFINE»
 
 
-Â«DEFINE Details FOR metrics::Metric Â»
+«DEFINE Details FOR metrics::Metric »
 	<tr class="section"><td>Root Metrics</td></tr>
 	<tr>
-		<td>Â«this.nameÂ»</td>
-		<td>Â«this.descriptionÂ»</td>
-		<td>Â«this.unitRef.nameÂ»</td>
-		<td>Â«this.measurementKindÂ»</td>
+		<td>«this.name»</td>
+		<td>«this.description»</td>
+		<td>«this.unitRef.name»</td>
+		<td>«this.measurementKind»</td>
 	</tr>
-Â«ENDDEFINEÂ»
+«ENDDEFINE»
 
-Â«DEFINE Details FOR library::Expression Â»
+«DEFINE Details FOR library::Expression »
 	<tr>
-	<td>Â«this.nameÂ»</td>
-	<td class="expression">Â«EXPAND Details FOREACH this.expressionLines Â»</td>
+	<td>«this.name»</td>
+	<td class="expression">«EXPAND Details FOREACH this.expressionLines »</td>
 	</tr>	
-Â«ENDDEFINEÂ»
+«ENDDEFINE»
 
-Â«DEFINE Details FOR generics::ExpressionLine Â»
-Â«thisÂ»
-Â«ENDDEFINEÂ»
+«DEFINE Details FOR generics::ExpressionLine »
+«this»
+«ENDDEFINE»
 
-Â«DEFINE Details FOR library::ToleranceÂ»
+«DEFINE Details FOR library::Tolerance»
 	<tr>
-		<td>Â«this.nameÂ»</td>
-		<td class="expression">Â«this.expressionRef.name Â»</td>
-		<td>Â«this.levelÂ»</td>
+		<td>«this.name»</td>
+		<td class="expression">«this.expressionRef.name »</td>
+		<td>«this.level»</td>
 	</tr>	
-Â«ENDDEFINEÂ»
+«ENDDEFINE»

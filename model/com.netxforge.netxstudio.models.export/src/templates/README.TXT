@@ -8,7 +8,7 @@ Replacing the first occurence in a line
 ^(\p{Blank})*�
 «
 
-Replacing the last occurence. 
+Replacing the last ocurence. 
 
 �|-�
 »
@@ -16,6 +16,6 @@ Replacing the last occurence.
 It will not fix all, so also 
 
 
-- Carefull, this will skrew up the indentitation.
+- Careful this will screw up the indenting.
 
  
