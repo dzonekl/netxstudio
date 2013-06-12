@@ -35,7 +35,7 @@ public class CanvasEditPart extends AbstractEditPart {
 //		layer.setLayoutManager(gridLayout);
 		
 		// CHOICE 2. Layout is freeform, the constraint is set in "refresh visuals of the child edit part"/
-		layer.setLayoutManager(new RFSServiceLayout());
+		layer.setLayoutManager(new RFServiceLayout());
 		
 		// Create the static router for the connection layer
 		ConnectionLayer connLayer = (ConnectionLayer)getLayer(LayerConstants.CONNECTION_LAYER);

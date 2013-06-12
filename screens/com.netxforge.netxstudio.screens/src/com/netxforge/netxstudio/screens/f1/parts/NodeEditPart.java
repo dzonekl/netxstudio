@@ -12,7 +12,7 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.screens.f1.model.RFSServiceToNode;
+import com.netxforge.netxstudio.screens.f1.model.RFServiceToNode;
 
 public class NodeEditPart extends AbstractEditPart {
 
@@ -71,35 +71,34 @@ public class NodeEditPart extends AbstractEditPart {
 		figure.revalidate();
 	}
 	
-	private final List<RFSServiceToNode> modelTargetConnections = Lists
+	private final List<Object> modelTargetConnections = Lists
 			.newArrayList();
 
-	
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected List getModelTargetConnections() {
 		return modelTargetConnections;
 	}
 
-	public boolean addRFSServiceToNodeTargetConnection(
-			RFSServiceToNodeEditPart part) {
-		RFSServiceToNode nttc = part.getRFSServiceToNode();
+	public boolean addRFServiceToNodeTargetConnection(
+			RFServiceToNodeEditPart part) {
+		RFServiceToNode nttc = part.getRFSServiceToNode();
 		if (!nttc.getTarget().equals(this.getNode())) {
 			return false;
 		}
 		this.modelTargetConnections.add(nttc);
-		this.addTargetConnection(part, 0);
+		int size = this.getTargetConnections().size();
+		this.addTargetConnection(part, size);
 		return true;
 	}
 
 	public boolean removeRFSServiceToNodeTargetConnection(
-			RFSServiceToNodeEditPart part) {
+			RFServiceToNodeEditPart part) {
 		if (!modelTargetConnections.remove(part.getModel())) {
 			return false;
 		}
 		this.removeTargetConnection(part);
 		return true;
 	}
-
 	
 }

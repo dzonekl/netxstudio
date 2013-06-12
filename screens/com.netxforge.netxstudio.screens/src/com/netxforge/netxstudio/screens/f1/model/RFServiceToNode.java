@@ -3,11 +3,11 @@ package com.netxforge.netxstudio.screens.f1.model;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.RFSService;
 
-public class RFSServiceToNode {
+public class RFServiceToNode {
 	
 	private final RFSService source;
 	private final Node target;
-	public RFSServiceToNode(RFSService source, Node target) {
+	public RFServiceToNode(RFSService source, Node target) {
 		super();
 		this.source = source;
 		this.target = target;
