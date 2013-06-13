@@ -49,16 +49,18 @@ import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHand
  */
 public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 		implements IShowInTarget, ISelectionChangedListener {
-	
+
 	@Inject
 	private IEditingServiceProvider editingServiceProvider;
-	
-	private IEditingService editingService; 
-	
+
+	private IEditingService editingService;
+
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.AbstractScreenViewer"; //$NON-NLS-1$
 
 	private boolean keepSynched = false;
-	
+
+	private ISelection lastSelection;
+
 	/**
 	 * An {@link IAction} for synchronizing screens.
 	 * 
@@ -73,12 +75,6 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 		public void run() {
 			toggleLinking(isChecked());
 		}
-	}
-
-	
-
-	public AbstractScreenViewer() {
-
 	}
 
 	/**
@@ -110,10 +106,8 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 
 	protected void toggleLinking(boolean checked) {
 		this.keepSynched = checked;
-		if (checked) {
-			IWorkbenchPart activePart = getSite().getPage().getActivePart();
-			customPartHook(activePart, PART_EVENT.ACTIVATED); // fake an
-																// activation?
+		if (keepSynched) {
+			processSelection(lastSelection);
 		}
 	}
 
@@ -225,42 +219,41 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 	public IScreenFormService getScreenService() {
 		return null;
 	}
-	
-	
-	
+
 	/**
-	 * TODO 
+	 * Process events from screen selectors only.
 	 */
 	@Override
 	protected void customPartHook(IWorkbenchPart part, PART_EVENT event) {
 
-//		System.out.println(" Part: " + part + " event: "+event );
-		if (keepSynched && part instanceof AbstractScreenSelector) {
+//		 System.out.println(" Part: " + part + " event: "+event );
+		if (part instanceof AbstractScreenSelector) {
 			AbstractScreensViewPart screenViewPart = (AbstractScreensViewPart) part;
 			switch (event) {
 			case ACTIVATED: {
 				screenViewPart.addSelectionChangedListener(this);
 				// Note, we have multiple of those... not all might be
 				// interresting...???
-//				System.out.println("Let: " + this.getScreen().getScreenName()
-//						+ " listen to part:" + part + " ");
+				// System.out.println("Let: " + this.getScreen().getScreenName()
+				// + " listen to part:" + part + " ");
 
 				// process the current selection.
-//				processSelection(screenViewPart.getSelection());
+				// processSelection(screenViewPart.getSelection());
 			}
 				break;
 			case CLOSED:
 				screenViewPart.removeSelectionChangedListener(this);
-//				System.out.println("Remove: "
-//						+ this.getScreen().getScreenName() + " listen to part:"
-//						+ part + " ");
+				// System.out.println("Remove: "
+				// + this.getScreen().getScreenName() + " listen to part:"
+				// + part + " ");
 
 				break;
 			case DEACTIVATE:
+				// TODO We could be de-activated, but still have focus. 
 				screenViewPart.removeSelectionChangedListener(this);
-//				System.out.println("Remove: "
-//						+ this.getScreen().getScreenName() + " listen to part:"
-//						+ part + " ");
+				// System.out.println("Remove: "
+				// + this.getScreen().getScreenName() + " listen to part:"
+				// + part + " ");
 				break;
 			case OPENEND:
 				break;
@@ -274,9 +267,14 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 
 	}
 
+	/**
+	 * Only process a selection when we should sync. 
+	 */
 	public void selectionChanged(SelectionChangedEvent event) {
-		final ISelection selection = event.getSelection();
-		processSelection(selection);
+		lastSelection = event.getSelection();
+		if (keepSynched) {
+			processSelection(lastSelection);
+		}
 	}
 
 	/**

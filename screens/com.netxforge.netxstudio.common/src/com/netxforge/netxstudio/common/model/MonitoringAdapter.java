@@ -17,6 +17,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -33,6 +34,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
@@ -44,6 +46,11 @@ import com.netxforge.netxstudio.services.RFSService;
  */
 public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		implements CDOAdapter, IMonitoringSummary {
+
+	private static final boolean PARAMETER_USE_GLOBAL_PERIOD = true;
+
+	private static final DateTimeRange PARAMETER_GLOBAL_PERIOD = GenericsFactory.eINSTANCE
+			.createDateTimeRange();
 
 	protected ModelUtils modelUtils;
 
@@ -64,6 +71,9 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	public MonitoringAdapter() {
 		// Assert.isNotNull(modelUtils, "binding failed");
 		// Assert.isNotNull(stateModel, "binding failed");
+
+		
+
 	}
 
 	// MODEL
@@ -80,7 +90,15 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 
 	public void setModelUtils(ModelUtils utils) {
 		this.modelUtils = utils;
+		
+		// We need {@link ModelUtils} before we can set the global period. 
+		
+		Date beginTime = modelUtils.threeMonthsAgo();
+		beginTime = modelUtils.adjustToDayStart(beginTime);
+		PARAMETER_GLOBAL_PERIOD.setBegin(modelUtils.toXMLDate(beginTime));
 
+		Date endTime = modelUtils.todayAtDayEnd();
+		PARAMETER_GLOBAL_PERIOD.setEnd(modelUtils.toXMLDate(endTime));
 	}
 
 	public void setStatModel(MonitoringStateModel stateModel) {
@@ -88,8 +106,9 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	}
 
 	public String getPeriodFormattedString() {
-		return periodInContext() != null ? modelUtils.periodToStringMore(this
-				.periodInContext()) : "Not set";
+		
+		return getPeriod() != null ? modelUtils.periodToStringMore(this
+				.getPeriod()) : "Not set";
 	}
 
 	// COMPUTATION
@@ -155,7 +174,7 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	 * 
 	 * @return the period or <code>null</code> if none specified.
 	 */
-	protected DateTimeRange periodInContext() {
+	private DateTimeRange periodInContext() {
 		final Iterable<Object> filter = Iterables.filter(context,
 				new Predicate<Object>() {
 					public boolean apply(Object o) {
@@ -172,8 +191,19 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 
 	// NOTIFICATION FOR AUTO RECOMPUTATION.
 
+	/**
+	 * Get the monitoring period context. </p> When the
+	 * {@link #PARAMETER_USE_GLOBAL_PERIOD} is
+	 * <code>true</code> (Default) we return the default period as specified in
+	 * {@link #PARAMETER_GLOBAL_PERIOD} (Default 3 months from today). 
+	 * </p>
+	 */
 	public DateTimeRange getPeriod() {
-		return periodInContext();
+		DateTimeRange periodInContext = periodInContext();
+		if (periodInContext == null && PARAMETER_USE_GLOBAL_PERIOD) {
+			periodInContext = PARAMETER_GLOBAL_PERIOD;
+		}
+		return periodInContext;
 	}
 
 	public RFSService getRFSService() {
@@ -276,15 +306,16 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		final StringBuffer sb = new StringBuffer();
 
 		sb.append("Target: "
-				+ modelUtils.printModelObject((EObject) getTarget()));
-		sb.append(this.periodInContext() != null ? "period: "
-				+ getPeriodFormattedString() + " " : " not set ");
-		sb.append(this.rfsServiceInContext() != null ? "service: "
-				+ modelUtils.printModelObject(this.rfsServiceInContext())
-				: " not set ");
-		sb.append(" RAG: (" + totalRag(RAG.RED) + "," + totalRag(RAG.AMBER)
+				+ modelUtils.printModelObject((EObject) getTarget()) + "\n");
+		sb.append("Period: "
+				+ (this.periodInContext() != null ? getPeriodFormattedString()
+						: " Not set\n"));
+		sb.append("Service: "
+				+ (this.rfsServiceInContext() != null ? modelUtils
+						.printModelObject(this.rfsServiceInContext())
+						: " Not set\n"));
+		sb.append("RAG: (" + totalRag(RAG.RED) + "," + totalRag(RAG.AMBER)
 				+ "," + totalRag(RAG.GREEN) + ")");
-
 		return sb.toString();
 	}
 

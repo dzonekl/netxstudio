@@ -96,10 +96,6 @@ public class MonitoringStateJob extends JobChangeAdapter {
 		summary = model.summary(monitor, target, contextObjects);
 	}
 
-	public void cancelMonitor() {
-		this.monitor.setCanceled(true);
-	}
-
 	public void done(IJobChangeEvent event) {
 		running = false;
 	}

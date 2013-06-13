@@ -17,9 +17,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.parts;
 
-import java.util.Iterator;
-
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -56,13 +53,12 @@ public class DashboardViewer extends AbstractScreenViewer {
 				&& selection instanceof StructuredSelection) {
 			//
 			IStructuredSelection ss = (StructuredSelection) selection;
-			@SuppressWarnings("unchecked")
-			Iterator<Object> iterator = ss.iterator();
-			while(iterator.hasNext()){
-				EObject eo = (EObject) iterator.next(); 
-				System.out.println("@TODO Linking test "
-				+ modelUtils.printModelObject(eo));
-			}
+//			System.out.println(" Processing selection: " + ss);
+//			@SuppressWarnings("unchecked")
+//			Iterator<Object> iterator = ss.iterator();
+//			while(iterator.hasNext()){
+//				EObject eo = (EObject) iterator.next(); 
+//			}
 			// TODO, first work with one single object. 
 			dashboardScreen.injectData(new Object[]{ss.getFirstElement()});
 			

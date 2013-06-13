@@ -46,7 +46,7 @@ public class RFSServiceSummary extends MonitoringAdapter {
 	@Override
 	protected void computeForTarget(IProgressMonitor monitor) {
 
-		final DateTimeRange periodInContext = periodInContext();
+		final DateTimeRange periodInContext = getPeriod();
 		if (periodInContext == null) {
 			return;
 		}
@@ -57,12 +57,12 @@ public class RFSServiceSummary extends MonitoringAdapter {
 		if (this.rfsServiceInContext() == null) {
 			this.addContextObject(target);
 		}
-		
+
 		nodes = 0;
 		services = 0;
 		equipments = 0;
 		functions = 0;
-		
+
 		computeForRFService(target, monitor);
 
 	}
@@ -79,10 +79,15 @@ public class RFSServiceSummary extends MonitoringAdapter {
 
 		for (Node node : service.getNodes()) {
 
+			nodes += 1;
+
+			// With no NODE Type, don't bail out.
 			if (!node.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
 				continue;
 			}
-			nodes += 1;
+
+			// When not accessing child collections, we will not load.
+			node.getNodeType();
 
 			IMonitoringSummary childAdapter = this.getChildAdapter(node
 					.getNodeType());
@@ -105,9 +110,9 @@ public class RFSServiceSummary extends MonitoringAdapter {
 					functions += nodeTypeSummary.totalFunctions();
 					equipments += nodeTypeSummary.totalEquipments();
 				}
-			}else{
-				// Self Adapt? 
-				
+			} else {
+				// Self Adapt?
+
 			}
 			monitor.worked(1);
 		}
@@ -133,9 +138,16 @@ public class RFSServiceSummary extends MonitoringAdapter {
 
 	@Override
 	protected boolean isRelated(CDOObject object) {
-		// We have a relation for NetXResaource objects which are referenced by
-		// this target.
-		return getRFSService().getNodes().contains(object);
+		// TODO, Should apply to the full hiarchy.
+		// Containments are handled with isContained().
+
+		// So:
+		// 1. Nodes should be referenced by the service. (Non-Containment). 
+		// 2. NodeType should be contained by the Node.
+		return this.isContained(object)
+				|| getRFSService().getNodes().contains(object)
+				|| modelUtils.nodeTypeForService(this.getRFSService())
+						.contains(object);
 	}
 
 	public int totalServices() {

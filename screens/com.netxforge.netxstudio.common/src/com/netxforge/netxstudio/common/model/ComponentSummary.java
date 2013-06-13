@@ -48,10 +48,15 @@ public class ComponentSummary extends MonitoringAdapter {
 				+ modelUtils.printModelObject(getComponent()));
 
 		for (NetXResource netxresource : target.getResourceRefs()) {
-
-			// The child is likely self-adapted (Only when loaded!) . Also
-			// compute the child when
-			// the adaption has worked.
+			
+			if(monitor != null && monitor.isCanceled()){
+				System.out.println("Computation cancelled...");
+				break;
+			}
+			
+			// The child is likely self-adapted due to the collection loading policies .
+			// {@See CDOLazyMonitoringAdapter}
+			// Also compute the child when the adaption has worked.
 
 			// Call compute child on the adapter...
 			IMonitoringSummary childAdapter = this
@@ -64,6 +69,8 @@ public class ComponentSummary extends MonitoringAdapter {
 
 				// Base our RAG status, on the child's status
 				this.incrementRag(childAdapter.rag());
+			}else{
+				System.out.println("child not adapted! " + modelUtils.printModelObject(netxresource));
 			}
 			subMonitor.worked(1);
 		}

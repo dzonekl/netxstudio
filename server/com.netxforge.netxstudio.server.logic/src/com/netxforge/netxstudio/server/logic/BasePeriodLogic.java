@@ -79,7 +79,7 @@ public abstract class BasePeriodLogic extends BaseLogic {
 	public void calculatePeriod(Service service) {
 		Date startTime = getBeginTime();
 		if (startTime == null) {
-			startTime = this.getModelUtils().sixMonthsAgo();
+			startTime = this.getModelUtils().threeMonthsAgo();
 			startTime = getModelUtils().adjustToDayStart(startTime);
 			setBeginTime(startTime);
 		}

@@ -18,6 +18,7 @@
 package com.netxforge.netxstudio.common.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.cdo.CDOObject;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.operators.Operator;
@@ -37,14 +38,14 @@ public class OperatorSummary extends RFSServiceSummary {
 	@Override
 	protected void computeForTarget(IProgressMonitor monitor) {
 
-		final DateTimeRange periodInContext = periodInContext();
+		final DateTimeRange periodInContext = getPeriod();
 		if (periodInContext == null) {
 			return;
 		}
 
 		// Safely case, checked by our factory.
 		final Operator target = getTarget();
-		
+
 		if (this.rfsServiceInContext() == null) {
 			this.addAdapter(target);
 		}
@@ -57,6 +58,13 @@ public class OperatorSummary extends RFSServiceSummary {
 
 	public Operator getTarget() {
 		return (Operator) super.getTarget();
+	}
+
+	@Override
+	protected boolean isRelated(CDOObject object) {
+		// Not relevant for Operator object,
+		// as it will be loaded as a sibbling.
+		return true;
 	}
 
 }

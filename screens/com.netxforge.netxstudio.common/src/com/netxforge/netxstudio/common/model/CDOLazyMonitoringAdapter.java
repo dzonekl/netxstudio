@@ -163,9 +163,14 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 	@Override
 	protected void addAdapter(Notifier notifier) {
 
-		if (isConnectedObject(notifier) && !isAlreadyAdapted(notifier)
+		boolean shouldAdapt = isConnectedObject(notifier) && !isAlreadyAdapted(notifier)
 				&& isRelated((CDOObject) notifier)
-				&& isNotFiltered((EObject) notifier)) {
+				&& isNotFiltered((EObject) notifier); 
+		
+		// REMOVE LATER
+		System.out.println("Adding Monitor for notifier (" + notifier +"): " + shouldAdapt);
+		
+		if (shouldAdapt) {
 
 			adaptedObjects.add(new WeakReference<CDOObject>(CDOUtil
 					.getCDOObject((EObject) notifier)));
@@ -311,6 +316,10 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 						"Object handler invoked: " + object + "( " + oldState
 								+ "-->" + newState + " )");
 			}
+			// REMOVE LATER
+			System.out.println("Object handler invoked: " + object + "( " + oldState
+					+ "-->" + newState + " )");
+			
 			if (newState == CDOState.CLEAN || newState == CDOState.NEW) {
 				addAdapter(object);
 			}

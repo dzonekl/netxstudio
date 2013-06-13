@@ -46,7 +46,7 @@ public abstract class AbstractSummaryComponent implements ISummaryComponent {
 	 * com.netxforge.netxstudio.screens.monitoring.ISummaryComponent#buildUI
 	 * (org.eclipse.swt.widgets.Composite, java.lang.Object)
 	 */
-	public void buildUI(Composite parent, Object layoutData) {
+	public void buildUI(Composite parent) {
 		this.content = parent;
 		buildSummary();
 	}

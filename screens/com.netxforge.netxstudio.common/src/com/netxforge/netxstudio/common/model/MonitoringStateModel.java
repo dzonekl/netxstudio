@@ -165,9 +165,7 @@ public class MonitoringStateModel {
 			callBackHandler = new JobCallBack();
 			job.addNotifier(callBackHandler);
 		}
-		// Make sure we set the correct callback, Don't use final arguments for
-		// callback!!!!! It will cost you 2 more hours to debug :-)
-		callBackHandler.setCallBack(callBack);
+		
 
 		// Force a restart, if we are operational.
 		if (job.isRunning()) {
@@ -179,11 +177,15 @@ public class MonitoringStateModel {
 			}
 			// This will abrupt the job but on demand, so we can't really start
 			// a new job here.
-			job.cancelMonitor();
+			job.cancel();
 		}
 
 		job.setTarget(target);
 		job.setContextObjects(contextObjects);
+		// Make sure we set the correct callback, Don't use final arguments for
+		// callback!!!!! It will cost you 2 more hours to debug :-)
+		callBackHandler.setCallBack(callBack);
+
 		job.go(); // Should spawn a job processing the xls.
 
 	}
@@ -204,7 +206,7 @@ public class MonitoringStateModel {
 	 */
 	public void abort() {
 		if (job.isRunning()) {
-			job.cancelMonitor();
+			job.cancel();
 		}
 	}
 
@@ -270,7 +272,7 @@ public class MonitoringStateModel {
 		adapt.addContextObjects(context);
 
 		// Do some initial computation, note this will auto compute the
-		// self-adapted children.
+		// adapted children. Non-adapted children will 
 		adapt.compute(monitor);
 
 		if (CommonActivator.DEBUG) {

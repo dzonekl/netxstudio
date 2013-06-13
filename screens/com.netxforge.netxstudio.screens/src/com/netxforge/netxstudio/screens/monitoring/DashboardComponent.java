@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -138,8 +139,11 @@ public class DashboardComponent {
 
 		final Label periodLabel = formToolkit.createLabel(content, "Period:",
 				SWT.NONE);
-		periodLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
+
+		GridData gd_lblPeriod = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_lblPeriod.widthHint = 83;
+		periodLabel.setLayoutData(gd_lblPeriod);
 
 		formTextLastMonitor = formToolkit.createFormText(content, false);
 		formTextLastMonitor.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
@@ -147,11 +151,12 @@ public class DashboardComponent {
 
 		// This is the dynamic portion.
 
-		targetContent = formToolkit.createComposite(content, SWT.BORDER);
-		targetContent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+		targetContent = formToolkit.createComposite(content, SWT.NONE);
+		targetContent.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true,
 				false, 4, 1));
-		targetContent.setLayout(new GridLayout(2, false));
+		targetContent.setLayout(new FillLayout());
 
+		// / RAG INFORMATION.
 		final Composite separator = formToolkit
 				.createCompositeSeparator(content);
 		GridData gd_separator = new GridData(SWT.FILL, SWT.CENTER, true, false,
@@ -231,21 +236,19 @@ public class DashboardComponent {
 		if (validSelection(selection) && selection.length == 1) {
 			Object o = selection[0];
 
-			// TODO, how to deal with the corresponding service....?
-			// // Try to prep a summary, if we have an RFSService
-			// if (adapted instanceof NetxresourceSummary
-			// && adapted.getRFSService() != null) {
-			// }
+			ISummaryComponent proposedSummaryForSelection = summaryForSelection(o);
+			if (summaryForSelection == null
+					|| proposedSummaryForSelection.getClass() != summaryForSelection
+							.getClass()) {
 
-			// Prep. the summary UI.
-			if (summaryForSelection != null) {
-				summaryForSelection.dispose();
+				// Prep. the summary UI if we are not the same.
+				if (summaryForSelection != null) {
+					summaryForSelection.dispose();
+				} else {
+					summaryForSelection = proposedSummaryForSelection;
+				}
+				summaryForSelection.buildUI(targetContent);
 			}
-			summaryForSelection = summaryForSelection(o);
-			summaryForSelection.buildUI(targetContent, null);
-			// relayout.
-//			refresh();
-
 			// Prep the summary itself.
 			// Note: We don't provide a context, RFSService or period.
 			// We should still get a Summary back, but without RAG!
@@ -316,9 +319,9 @@ public class DashboardComponent {
 	}
 
 	private void refresh() {
-		content.layout();
-		// layourComponent.layout();
-		ScreenUtil.compositeFor(parentScreen).layout();
+		// targetContent.layout();
+//		content.layout();
+		ScreenUtil.compositeFor(parentScreen).layout(true,true);
 	}
 
 	private void populateContent(IMonitoringSummary summary) {
@@ -373,11 +376,11 @@ public class DashboardComponent {
 			// System.out.println("Checking:" + content.hashCode());
 			if (content.isDisposed()) {
 				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
-						IStatus.OK, "Screen not valid", null);
+						IStatus.OK, "Widget disposed", null);
 			}
 			if (summary == null) {
-				return new Status(IStatus.ERROR, ScreensActivator.PLUGIN_ID,
-						IStatus.ERROR, "Screen not valid", null);
+				return new Status(IStatus.WARNING, ScreensActivator.PLUGIN_ID,
+						IStatus.ERROR, "No summary for this object", null);
 			}
 
 			refreshSummaryUI(summary);

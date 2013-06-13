@@ -51,7 +51,7 @@ public class NetxresourceSummary extends MonitoringAdapter {
 			return;
 		}
 
-		final DateTimeRange periodInContext = periodInContext();
+		final DateTimeRange periodInContext = getPeriod();
 		if (periodInContext == null) {
 			return;
 		}
@@ -64,8 +64,6 @@ public class NetxresourceSummary extends MonitoringAdapter {
 				.toleranceMarkersForServiceMonitorsAndResource(
 						rfsServiceInContext.getServiceMonitors(), target,
 						monitor);
-
-		
 		
 		// Filter the markers.
 		toleranceMarkers.clear();

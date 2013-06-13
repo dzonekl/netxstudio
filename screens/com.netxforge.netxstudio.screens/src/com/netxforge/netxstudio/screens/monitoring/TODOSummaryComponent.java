@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.screens.monitoring;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -34,15 +35,24 @@ public class TODOSummaryComponent extends AbstractSummaryComponent {
 	 */
 	protected void buildSummary() {
 
-		final Label lblMonitoredNodes = formToolkit.createLabel(content,
-				"Summary: ", SWT.NONE);
-		GridData gridData = new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1);
-		gridData.heightHint = 200;
-		lblMonitoredNodes.setLayoutData(gridData);
-		todoText = formToolkit.createText(content, "", SWT.MULTI);
-		todoText.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false,
-				1, 1));
+		Composite gridContent = formToolkit.createComposite(this.content,
+				SWT.NONE);
+		gridContent.setLayout(new GridLayout(2, false));
+		formToolkit.paintBordersFor(gridContent);
+
+		Label summaryLabel = formToolkit.createLabel(gridContent, "Summary: ",
+				SWT.NONE);
+		summaryLabel.setAlignment(SWT.RIGHT);
+
+		GridData gd_lblSummary = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_lblSummary.widthHint = 83;
+		summaryLabel.setLayoutData(gd_lblSummary);
+
+		todoText = formToolkit.createText(gridContent, "", SWT.MULTI);
+		GridData gridData = new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1);
+		gridData.heightHint = 60;
+		todoText.setLayoutData(gridData);
 	}
 
 	public void fillSummary(IMonitoringSummary nonCastedSummary) {
