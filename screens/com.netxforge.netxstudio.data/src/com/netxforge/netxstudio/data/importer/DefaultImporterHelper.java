@@ -20,8 +20,7 @@ package com.netxforge.netxstudio.data.importer;
 
 import java.util.Date;
 import java.util.List;
-
-import org.osgi.framework.BundleActivator;
+import java.util.Properties;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
@@ -89,15 +88,12 @@ public class DefaultImporterHelper implements IImporterHelper {
 		return false;
 	}
 
-	public BundleActivator getActivator() {
-		return null;
-	}
-
-	public void setActivator(BundleActivator p) {
-	}
-
 	public int addMetricValue(ValueDataKind vdk, Date timeStamp,
 			Component networkElement, Double dblValue, int periodHint) {
+		throw new UnsupportedOperationException();
+	}
+
+	public Properties properties() {
 		throw new UnsupportedOperationException();
 	}
 }

@@ -23,7 +23,6 @@ import static org.ops4j.peaberry.Peaberry.osgiModule;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Locale;
-import java.util.Properties;
 import java.util.TimeZone;
 
 import org.apache.log4j.Logger;
@@ -43,7 +42,6 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.common.properties.PropertiesUtil;
 import com.netxforge.netxstudio.server.IDPNoCacheProvider;
 import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.IServerUtils;
@@ -57,10 +55,8 @@ import com.netxforge.netxstudio.server.ServerUtils;
  * 
  */
 public class ServerActivator implements BundleActivator, DebugOptionsListener,
-		IPropertiesProvider, CommandProvider {
+		CommandProvider {
 
-	private static final String NETXSERVER_PROPERTIES_FILE_NAME = "netxserver.properties";
-	
 	private static BundleContext context;
 
 	private static ServerActivator INSTANCE;
@@ -95,25 +91,21 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 
 	private Injector injector;
 
-	private Properties properties;
-	
-	
-	// Export our services. 
+	// Export our services.
 	@Inject
 	Export<IServerUtils> serverUtils;
-	
-	// FIXME. 
-	// CB, If the interface is the same, than the service is the same and this will not work. 
-	
+
 	@Inject
 	@Server
 	Export<IDPProvider> dpService;
-	
-	
+
 	@Inject
 	@ServerNoCache
 	Export<IDPNoCacheProvider> dpNoCacheService;
-	
+
+	@Inject
+	Export<IPropertiesProvider> propsProvider;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -124,9 +116,10 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 	public void start(BundleContext bundleContext) throws Exception {
 		INSTANCE = this;
 		ServerActivator.context = bundleContext;
-		injector = Guice.createInjector(osgiModule(bundleContext), new ServerModule());
+		injector = Guice.createInjector(osgiModule(bundleContext),
+				new ServerModule());
 		injector.injectMembers(this);
-		
+
 		// Set the Locale
 		Locale currentLocal = Locale.getDefault();
 		System.out.println("CURRENT Locale: country = "
@@ -188,21 +181,9 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 		logger.error("Error starting");
 		logger.debug("Debug starting");
 
-		// Read the server properties
-		PropertiesUtil pu = injector.getInstance(PropertiesUtil.class);
-		pu.readProperties(instanceLocation, NETXSERVER_PROPERTIES_FILE_NAME,
-				getProperties());
-
 		// register our command provider.
 		context.registerService(CommandProvider.class.getName(), this, null);
 
-	}
-
-	public Properties getProperties() {
-		if (properties == null) {
-			this.properties = new Properties();
-		}
-		return properties;
 	}
 
 	/*
@@ -212,15 +193,12 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext bundleContext) throws Exception {
-		
+
 		ServerActivator.context = null;
-		
-		IServerUtils serverUtils = this.getInjector().getInstance(ServerUtils.class);
+
+		IServerUtils serverUtils = this.getInjector().getInstance(
+				ServerUtils.class);
 		serverUtils.deActivate();
-		
-		PropertiesUtil pu = injector.getInstance(PropertiesUtil.class);
-		pu.writeProperties(Platform.getInstanceLocation(),
-				NETXSERVER_PROPERTIES_FILE_NAME, getProperties());
 	}
 
 	public Injector getInjector() {

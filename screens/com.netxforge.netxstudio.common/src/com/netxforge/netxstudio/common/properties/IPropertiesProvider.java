@@ -14,20 +14,19 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.common.properties;
 
 import java.util.Properties;
 
-
 /**
- * Implement if properties can be returned. 
- * @author Christophe
- *
+ * Implement if properties can be returned.
+ *  
+ * @author Christophe Bouhier
+ * 
  */
 public interface IPropertiesProvider {
-	
-	public Properties getProperties();
-	
-	
+
+	public Properties get();
+
 }

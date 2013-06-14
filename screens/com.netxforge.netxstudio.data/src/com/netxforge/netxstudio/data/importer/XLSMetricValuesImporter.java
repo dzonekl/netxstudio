@@ -45,7 +45,7 @@ public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
 			ModelUtils modelUtils) {
 		super(locator, modelUtils);
 	}
-	
+
 	@Override
 	protected int processFile(File file) throws Exception {
 		final InputStream is = new FileInputStream(file);

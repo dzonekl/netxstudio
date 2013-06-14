@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.server.job.internal;
 import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
+import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.server.IDPNoCacheProvider;
 import com.netxforge.netxstudio.server.IDPProvider;
@@ -58,6 +59,9 @@ public class JobModule extends AbstractModule {
 		// {@link ServerModule}
 		bind(IServerUtils.class).toProvider(
 				service(IServerUtils.class).single());
+
+		bind(IPropertiesProvider.class).toProvider(
+				service(IPropertiesProvider.class).single());
 
 	}
 

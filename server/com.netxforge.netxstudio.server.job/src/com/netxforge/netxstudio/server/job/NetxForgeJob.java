@@ -26,7 +26,6 @@ import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.osgi.framework.BundleActivator;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -44,7 +43,6 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.internal.ServerActivator;
 import com.netxforge.netxstudio.server.job.internal.JobActivator;
 
 /**
@@ -81,12 +79,13 @@ public class NetxForgeJob implements org.quartz.Job {
 	@Inject
 	private IRunMonitor runMonitor;
 
-	
 	private IDataProvider dataProvider;
 
 	@Inject
 	private ModelUtils modelUtils;
 	
+	@Inject
+	private IPropertiesProvider propsProvider;
 	
 	public NetxForgeJob() {
 		JobActivator.getInstance().getInjector().injectMembers(this);
@@ -186,9 +185,12 @@ public class NetxForgeJob implements org.quartz.Job {
 			
 			
 			// TODO, over as a service. 
-			BundleActivator a = ServerActivator.getInstance();
-			if (a instanceof IPropertiesProvider) {
-				String property = ((IPropertiesProvider) a).getProperties()
+			// We need an IPropertiesProvider, defined in Common. 
+			// Each module can define one, but prefer to keep one per App. 
+			// How to distinct different providers? 
+			// Can we unify with Preferences??? 
+			
+				String property = propsProvider.get()
 						.getProperty(NETXSTUDIO_MAX_JOBRUNS_QUANTITY);
 
 				if (property == null) {
@@ -217,11 +219,10 @@ public class NetxForgeJob implements org.quartz.Job {
 						storeMaxRuns = true;
 					}
 				}
-			}
 
 			if (storeMaxRuns) {
 				// Should be saved when the Activator stops!
-				((IPropertiesProvider) a).getProperties().setProperty(
+				propsProvider.get().setProperty(
 						NETXSTUDIO_MAX_JOBRUNS_QUANTITY,
 						new Integer(maxWorkFlowRunsInJobRunContainer)
 								.toString());

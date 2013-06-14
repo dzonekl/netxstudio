@@ -16,6 +16,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.common.properties.PropertiesUtil;
 import com.netxforge.netxstudio.data.IExternalDataProvider;
 import com.netxforge.netxstudio.delta16042013.metrics.Addon;
@@ -28,7 +29,6 @@ import com.netxforge.netxstudio.metrics.MetricRetentionPeriod;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.server.internal.ServerActivator;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 
 /**
@@ -47,6 +47,10 @@ public class AddonHandler {
 
 	@Inject
 	private ModelUtils modelUtils;
+	
+	@Inject
+	private IPropertiesProvider propsProvider; 
+	
 
 	public AddonHandler() {
 	}
@@ -116,7 +120,7 @@ public class AddonHandler {
 			addOnMetricSources = null;
 			addOnMetrics = null;
 
-			Object pathName = ServerActivator.getInstance().getProperties()
+			Object pathName = propsProvider.get()
 					.get(PropertiesUtil.NETXSERVER_PROP_ADDON_MODEL_URI);
 
 			if (pathName != null && pathName instanceof String) {

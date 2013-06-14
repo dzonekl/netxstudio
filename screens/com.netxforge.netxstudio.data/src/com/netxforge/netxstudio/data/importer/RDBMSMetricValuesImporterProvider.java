@@ -25,6 +25,7 @@ public class RDBMSMetricValuesImporterProvider implements
 		Provider<RDBMSMetricValuesImporter> {
 
 	private IComponentLocator locator;
+
 	private ModelUtils modelUtils;
 
 	@Inject

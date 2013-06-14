@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.server.metrics.internal;
 import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
+import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
@@ -57,7 +58,7 @@ public class MetricsModule extends AbstractModule {
 
 		// ///////////////////////////////
 		// IMPORT SERVICES
-		
+
 		// {@link CDODataServiceModule}
 		bind(IQueryService.class).toProvider(
 				service(IQueryService.class).single());
@@ -69,6 +70,10 @@ public class MetricsModule extends AbstractModule {
 		// {@link ServerModule}
 		bind(IDPNoCacheProvider.class).annotatedWith(ServerNoCache.class)
 				.toProvider(service(IDPNoCacheProvider.class).single());
+
+		// {@link ServerModule}
+		bind(IPropertiesProvider.class).toProvider(
+				service(IPropertiesProvider.class).single());
 
 		// {@link ImporterModule}
 		bind(XLSMetricValuesImporterProvider.class).toProvider(

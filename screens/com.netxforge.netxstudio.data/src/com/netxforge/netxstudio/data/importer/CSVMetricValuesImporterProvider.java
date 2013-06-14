@@ -14,28 +14,32 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.data.importer;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 
-public class CSVMetricValuesImporterProvider implements Provider<CSVMetricValuesImporter>, ICSVMetricValuesImporterProvider{
-	
-	
-	 private IComponentLocator locator;
-	 private ModelUtils modelUtils;
-	
-	 @Inject
-	 public CSVMetricValuesImporterProvider(IComponentLocator locator, ModelUtils modelUtils)
-	 {
-		 this.modelUtils = modelUtils;
-		 this.locator = locator;
-	 }
+public class CSVMetricValuesImporterProvider implements
+		Provider<CSVMetricValuesImporter>, ICSVMetricValuesImporterProvider {
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider#get()
+	private IComponentLocator locator;
+	private ModelUtils modelUtils;
+
+	@Inject
+	public CSVMetricValuesImporterProvider(IComponentLocator locator,
+			ModelUtils modelUtils) {
+		this.modelUtils = modelUtils;
+		this.locator = locator;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider
+	 * #get()
 	 */
 	public CSVMetricValuesImporter get() {
 		return new CSVMetricValuesImporter(locator, modelUtils);

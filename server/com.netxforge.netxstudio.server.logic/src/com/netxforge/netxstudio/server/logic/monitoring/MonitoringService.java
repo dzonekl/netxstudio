@@ -39,7 +39,6 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.internal.ServerActivator;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.server.logic.profile.RFSServiceProfileLogic;
@@ -63,12 +62,11 @@ public class MonitoringService implements NetxForgeService {
 		final ResourceMonitoringRunner runner = LogicActivator.getInstance()
 				.getInjector().getInstance(ResourceMonitoringRunner.class);
 		runner.setParameters(parameters);
-		return ((AbstractCDOIDLong)runner.run()).getLongValue();
+		return ((AbstractCDOIDLong) runner.run()).getLongValue();
 	}
 
 	public static class ResourceMonitoringRunner {
-		
-		
+
 		@Inject
 		@Server
 		private IDPProvider dpProvider;
@@ -81,23 +79,25 @@ public class MonitoringService implements NetxForgeService {
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
 			final BaseMonitoringLogic monitoringLogic;
 			final RFSServiceProfileLogic resourceProfileLogic;
-			
-			// TODO Also for Operator monitoring all services? 
+
+			// TODO Also for Operator monitoring all services?
 			if (parameters.containsKey(SERVICE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
 						ServicesPackage.Literals.RFS_SERVICE);
 				monitoringLogic = LogicActivator.getInstance().getInjector()
 						.getInstance(RFSServiceMonitoringLogic.class);
 				((RFSServiceMonitoringLogic) monitoringLogic).setRfsService(id);
-				
-				resourceProfileLogic = ServerActivator.getInstance()
-						.getInjector().getInstance(RFSServiceProfileLogic.class);
+
+				resourceProfileLogic = LogicActivator.getInstance()
+						.getInjector()
+						.getInstance(RFSServiceProfileLogic.class);
+
 				resourceProfileLogic.setRfsService(id);
 				resourceProfileLogic.setJobMonitor(monitor);
 				resourceProfileLogic.initializeProfileLogic();
 				resourceProfileLogic.setBeginTime(getStartTime(parameters));
 				resourceProfileLogic.setEndTime(getEndTime(parameters));
-				
+
 			} else if (parameters.containsKey(NODE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(NODE_PARAM),
 						OperatorsPackage.Literals.NODE);
@@ -118,12 +118,13 @@ public class MonitoringService implements NetxForgeService {
 			monitoringLogic.setJobMonitor(monitor);
 			monitoringLogic.setBeginTime(getStartTime(parameters));
 			monitoringLogic.setEndTime(getEndTime(parameters));
-			
-			// Set the monitor for specific logic. 
-			if(monitoringLogic instanceof RFSServiceMonitoringLogic){
-				((RFSServiceMonitoringLogic) monitoringLogic).initServiceMonitor(monitoringLogic.getPeriod());
+
+			// Set the monitor for specific logic.
+			if (monitoringLogic instanceof RFSServiceMonitoringLogic) {
+				((RFSServiceMonitoringLogic) monitoringLogic)
+						.initServiceMonitor(monitoringLogic.getPeriod());
 			}
-			
+
 			// run in a separate thread
 			new Thread() {
 				@Override
@@ -136,7 +137,7 @@ public class MonitoringService implements NetxForgeService {
 						// do nothing, ignore
 					}
 					monitoringLogic.run();
-					if( resourceProfileLogic != null){
+					if (resourceProfileLogic != null) {
 						resourceProfileLogic.run();
 					}
 				};
@@ -157,13 +158,14 @@ public class MonitoringService implements NetxForgeService {
 		}
 
 		private ServerWorkFlowRunMonitor createMonitor() {
-			final ServerWorkFlowRunMonitor runMonitor = LogicActivator.getInstance()
-					.getInjector().getInstance(ServerWorkFlowRunMonitor.class);
-			
+			final ServerWorkFlowRunMonitor runMonitor = LogicActivator
+					.getInstance().getInjector()
+					.getInstance(ServerWorkFlowRunMonitor.class);
+
 			getDataProvider().openSession();
 			getDataProvider().getTransaction();
-			final Resource res = getDataProvider()
-					.getResource(SchedulingPackage.Literals.WORK_FLOW_RUN);
+			final Resource res = getDataProvider().getResource(
+					SchedulingPackage.Literals.WORK_FLOW_RUN);
 
 			final WorkFlowRun wfRun = SchedulingFactory.eINSTANCE
 					.createComponentWorkFlowRun();
@@ -189,7 +191,7 @@ public class MonitoringService implements NetxForgeService {
 		public void setParameters(Map<String, String> parameters) {
 			this.parameters = parameters;
 		}
-		
+
 		public IDataProvider getDataProvider() {
 			if (dataProvider == null) {
 				dataProvider = dpProvider.get();

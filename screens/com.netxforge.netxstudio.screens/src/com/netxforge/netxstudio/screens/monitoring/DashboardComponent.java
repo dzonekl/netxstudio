@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.screens.monitoring;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -290,7 +291,14 @@ public class DashboardComponent {
 	 * @return
 	 */
 	private boolean validSelection(Object[] selection) {
-		// TODO Implement.
+		
+		for(Object o : selection){
+			if(o instanceof EObject){
+				continue;
+			}else{
+				return false;
+			}
+		}
 		return true;
 	}
 

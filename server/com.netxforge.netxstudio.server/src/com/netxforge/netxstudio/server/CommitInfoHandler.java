@@ -36,7 +36,6 @@ import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.osgi.framework.BundleActivator;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -63,6 +62,9 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 
 	@Inject
 	IServerUtils serverUtils;
+
+	@Inject
+	IPropertiesProvider propsProvider;
 
 	/*
 	 * The maximum number of entries in the commit log.
@@ -200,42 +202,39 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 		// Lazy init maxStats var.
 		if (maxCommitEntries == -1) {
 			boolean storeMaxCommits = false;
-			BundleActivator a = ServerActivator.getInstance();
-			if (a instanceof IPropertiesProvider) {
-				String property = ((IPropertiesProvider) a).getProperties()
-						.getProperty(NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY);
+			String property = propsProvider.get().getProperty(
+					NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY);
 
-				if (property == null) {
-					maxCommitEntries = new Integer(
-							NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY_DEFAULT);
-					storeMaxCommits = true;
-				} else {
+			if (property == null) {
+				maxCommitEntries = new Integer(
+						NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY_DEFAULT);
+				storeMaxCommits = true;
+			} else {
+				if (ServerActivator.DEBUG) {
+					ServerActivator.TRACE
+							.trace(ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
+									"found property: "
+											+ NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY);
+				}
+				try {
+					maxCommitEntries = new Integer(property);
+				} catch (NumberFormatException nfe) {
+
 					if (ServerActivator.DEBUG) {
 						ServerActivator.TRACE
 								.trace(ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
-										"found property: "
-												+ NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY);
+										"Error reading property", nfe);
 					}
-					try {
-						maxCommitEntries = new Integer(property);
-					} catch (NumberFormatException nfe) {
 
-						if (ServerActivator.DEBUG) {
-							ServerActivator.TRACE
-									.trace(ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
-											"Error reading property", nfe);
-						}
-
-						maxCommitEntries = new Integer(
-								NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY_DEFAULT);
-						storeMaxCommits = true;
-					}
+					maxCommitEntries = new Integer(
+							NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY_DEFAULT);
+					storeMaxCommits = true;
 				}
 			}
 
 			if (storeMaxCommits) {
 				// Should be saved when the Activator stops!
-				((IPropertiesProvider) a).getProperties().setProperty(
+				propsProvider.get().setProperty(
 						NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY,
 						new Integer(maxCommitEntries).toString());
 			}

@@ -26,8 +26,8 @@ import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.internal.ServerActivator;
 import com.netxforge.netxstudio.server.job.JobImplementation;
+import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
@@ -51,9 +51,11 @@ public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 
 		// Iterates over Nodes (By NodeType).
 
-		final RFSServiceMonitoringLogic resourceMonitoringLogic = ServerActivator
+		// FIXME ! Rework so we inject from own plugin injector.
+		final RFSServiceMonitoringLogic resourceMonitoringLogic = LogicActivator
 				.getInstance().getInjector()
 				.getInstance(RFSServiceMonitoringLogic.class);
+
 		resourceMonitoringLogic.setRfsService(serviceJob.getRFSService()
 				.cdoID());
 		resourceMonitoringLogic.setJobMonitor(getRunMonitor());
@@ -73,12 +75,12 @@ public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 		resourceMonitoringLogic.close();
 
 		// Iterates over Service Users
-//		final RFSServiceProfileLogic resourceProfileLogic = ServerActivator
-//				.getInstance().getInjector()
-//				.getInstance(RFSServiceProfileLogic.class);
-//		resourceProfileLogic.setRfsService(rfsService.cdoID());
-//		resourceProfileLogic.setJobMonitor(getRunMonitor());
-//		resourceProfileLogic.initializeProfileLogic();
+		// final RFSServiceProfileLogic resourceProfileLogic = ServerActivator
+		// .getInstance().getInjector()
+		// .getInstance(RFSServiceProfileLogic.class);
+		// resourceProfileLogic.setRfsService(rfsService.cdoID());
+		// resourceProfileLogic.setJobMonitor(getRunMonitor());
+		// resourceProfileLogic.initializeProfileLogic();
 		// Profile Logic Period not set.
 		// Disable resourceProfileLogic.run();
 

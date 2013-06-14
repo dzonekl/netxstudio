@@ -29,6 +29,7 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.server.IRepository;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOAdapterPolicy;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.cdo.view.CDOViewInvalidationEvent;
@@ -286,7 +287,7 @@ public class JobHandler {
 
 		final CDOResource jobRunContainerResource = (CDOResource) dataProvider
 				.getResource(view, SchedulingPackage.Literals.JOB_RUN_CONTAINER);
-		final List<Job> sortedJobs = sortedJobs();
+		final List<Job> sortedJobs = sortedJobs(view);
 
 		for (final Job job : sortedJobs) {
 			sb.append(modelUtils.fixedLenthString(
@@ -920,16 +921,15 @@ public class JobHandler {
 		if (nextArgument == null) {
 			return " Provide a job name to activate \n";
 		} else {
-
-			dataProvider.getTransaction();
+			CDOTransaction transaction = dataProvider.getTransaction();
 			List<Job> jobTargets = Lists.newArrayList();
 			if (nextArgument.equals("all")) {
-				jobTargets = sortedJobs();
+				jobTargets = sortedJobs(transaction);
 			} else {
 				Job j;
 				try {
 					Integer integer = new Integer(nextArgument);
-					j = jobForIndex(integer);
+					j = jobForIndex(transaction, integer);
 				} catch (NumberFormatException nfe) {
 					// look for the job to activate and do it.
 					j = jobForName(nextArgument);
@@ -961,15 +961,15 @@ public class JobHandler {
 			return " Provide a job name to deactivate or 'all' to de-activate all jobs\n";
 		} else {
 
-			dataProvider.getTransaction();
+			CDOTransaction transaction = dataProvider.getTransaction();
 			List<Job> jobTargets = Lists.newArrayList();
 			if (nextArgument.equals("all")) {
-				jobTargets = sortedJobs();
+				jobTargets = sortedJobs(transaction);
 			} else {
 				Job j;
 				try {
 					Integer integer = new Integer(nextArgument);
-					j = jobForIndex(integer);
+					j = jobForIndex(transaction, integer);
 				} catch (NumberFormatException nfe) {
 					// look for the job to activate and do it.
 					j = jobForName(nextArgument);
@@ -1010,9 +1010,9 @@ public class JobHandler {
 		return null;
 	}
 
-	private Job jobForIndex(int index) {
+	private Job jobForIndex(CDOTransaction transaction, int index) {
 
-		List<Job> sortedJobs = sortedJobs();
+		List<Job> sortedJobs = sortedJobs(transaction);
 
 		if (sortedJobs.size() > index) {
 			return (Job) sortedJobs.get(index);
@@ -1021,10 +1021,11 @@ public class JobHandler {
 	}
 
 	/**
+	 * @param v
 	 * @return
 	 */
-	private List<Job> sortedJobs() {
-		CDOResource jobResource = (CDOResource) dataProvider.getResource(view,
+	private List<Job> sortedJobs(CDOView v) {
+		CDOResource jobResource = (CDOResource) dataProvider.getResource(v,
 				SchedulingPackage.eINSTANCE.getJob());
 		List<EObject> sortedJobs = Ordering
 				.from(modelUtils

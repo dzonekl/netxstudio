@@ -45,8 +45,6 @@ public class MonitoringStateJob extends JobChangeAdapter {
 
 	private boolean running = false;
 
-	private IProgressMonitor monitor;
-
 	private MonitoringStateModel model;
 
 	private Object[] contextObjects;
@@ -86,7 +84,6 @@ public class MonitoringStateJob extends JobChangeAdapter {
 	}
 
 	protected void processReadingInternal(final IProgressMonitor monitor) {
-		this.monitor = monitor;
 		if (CommonActivator.DEBUG) {
 			CommonActivator.TRACE.trace(
 					CommonActivator.TRACE_COMMON_MONITORING_OPTION,

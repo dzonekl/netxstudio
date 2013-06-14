@@ -25,7 +25,6 @@ Bundle-ActivationPolicy: lazy
 Eclipse-RegisterBuddy: org.apache.log4j
 Export-Package: com.netxforge.netxstudio.server,
  com.netxforge.netxstudio.server.dataimport,
- com.netxforge.netxstudio.server.internal,
  com.netxforge.netxstudio.server.service,
  com.netxforge.netxstudio.server.servlet
 Import-Package: com.netxforge.netxstudio,

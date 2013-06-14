@@ -25,6 +25,7 @@ import org.eclipse.emf.cdo.spi.server.RepositoryUserManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
+import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
@@ -43,6 +44,7 @@ import com.netxforge.netxstudio.server.ServerNoCache;
 import com.netxforge.netxstudio.server.ServerNoCacheCDOConnection;
 import com.netxforge.netxstudio.server.ServerNoCacheCDODPProvider;
 import com.netxforge.netxstudio.server.ServerNoCacheCDODataProvider;
+import com.netxforge.netxstudio.server.ServerProperties;
 import com.netxforge.netxstudio.server.ServerUtils;
 import com.netxforge.netxstudio.server.ServerUtils.ServerInitializer;
 
@@ -95,14 +97,18 @@ public class ServerModule extends AbstractModule {
 		// ///////////////////////////////
 		// EXPORT SERVICES
 
-		bind(export(IDPProvider.class)).annotatedWith(Server.class)
-				.toProvider(service(ServerCDODPProvider.class).export());
+		bind(export(IDPProvider.class)).annotatedWith(Server.class).toProvider(
+				service(ServerCDODPProvider.class).export());
 
-		bind(export(IDPNoCacheProvider.class)).annotatedWith(ServerNoCache.class)
-				.toProvider(service(ServerNoCacheCDODPProvider.class).export());
+		bind(export(IDPNoCacheProvider.class)).annotatedWith(
+				ServerNoCache.class).toProvider(
+				service(ServerNoCacheCDODPProvider.class).export());
 
 		bind(export(IServerUtils.class)).toProvider(
 				service(ServerUtils.class).export());
+
+		bind(export(IPropertiesProvider.class)).toProvider(
+				service(ServerProperties.class).export());
 
 		// ///////////////////////////////
 		// IMPORT SERVICES
@@ -115,6 +121,9 @@ public class ServerModule extends AbstractModule {
 		// {@link ServerModule}
 		bind(IServerUtils.class).toProvider(
 				service(IServerUtils.class).single());
+		// {@link ServerModule}
+		bind(IPropertiesProvider.class).toProvider(
+				service(IPropertiesProvider.class).single());
 
 	}
 }

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -38,7 +39,6 @@ import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.osgi.framework.BundleActivator;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -48,7 +48,6 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.IComponentLocator.IdentifierDescriptor;
 import com.netxforge.netxstudio.data.importer.IComponentLocator.MetricDescriptor;
@@ -150,7 +149,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		this.componentLocator = locator;
 		this.modelUtils = modelUtils;
 	}
-	
 
 	/*
 	 * (non-Javadoc)
@@ -462,36 +460,33 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		// Lazy init maxStats var.
 		if (maxStats == -1) {
 			boolean storeMaxStats = false;
-			BundleActivator a = helper.getActivator();
-			if (a instanceof IPropertiesProvider) {
-				String property = ((IPropertiesProvider) a).getProperties()
-						.getProperty(NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY);
-				if (property == null) {
+			String property = properties().getProperty(
+					NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY);
+			if (property == null) {
+				maxStats = new Integer(
+						NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY_DEFAULT);
+				storeMaxStats = true;
+
+			} else {
+				try {
+					maxStats = new Integer(property);
+				} catch (NumberFormatException nfe) {
+
+					if (DataActivator.DEBUG) {
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_IMPORT_OPTION,
+								"Error reading property", nfe);
+					}
+
 					maxStats = new Integer(
 							NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY_DEFAULT);
 					storeMaxStats = true;
-
-				} else {
-					try {
-						maxStats = new Integer(property);
-					} catch (NumberFormatException nfe) {
-
-						if (DataActivator.DEBUG) {
-							DataActivator.TRACE.trace(
-									DataActivator.TRACE_IMPORT_OPTION,
-									"Error reading property", nfe);
-						}
-
-						maxStats = new Integer(
-								NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY_DEFAULT);
-						storeMaxStats = true;
-					}
 				}
 			}
 
 			if (storeMaxStats) {
 				// Should be saved when the Activator stops!
-				((IPropertiesProvider) a).getProperties().setProperty(
+				properties().setProperty(
 						NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY,
 						new Integer(maxStats).toString());
 			}
@@ -1921,27 +1916,15 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 					"AbstractMetricValueImporter: Import helper should be set");
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#getActivator
-	 * ()
-	 */
-	public BundleActivator getActivator() {
-		return helper.getActivator();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#setActivator
-	 * (org.osgi.framework.BundleActivator)
-	 */
-	public void setActivator(BundleActivator p) {
-		helper.setActivator(p);
+	
+	
+	public Properties properties() {
+		if (helper != null) {
+			return helper.properties();
+		} else {
+			throw new java.lang.IllegalStateException(
+					"AbstractMetricValueImporter: Import helper should be set");
+		}
 	}
 
 	/**

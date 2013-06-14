@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.server.metrics;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
@@ -28,12 +29,12 @@ import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.osgi.framework.BundleActivator;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
@@ -67,6 +68,9 @@ public class ServerImporterHelper implements IImporterHelper {
 	@Inject
 	private ResultProcessor resultProcessor;
 
+	@Inject
+	private IPropertiesProvider propsProvider;
+	
 	/*
 	 * Keep a reference to our Job Handler.
 	 */
@@ -81,8 +85,6 @@ public class ServerImporterHelper implements IImporterHelper {
 
 	@Inject
 	private ModelUtils modelUtils;
-
-	private BundleActivator activator;
 
 	public void initializeProviders(IComponentLocator networkElementLocator) {
 
@@ -287,12 +289,7 @@ public class ServerImporterHelper implements IImporterHelper {
 		this.jobHandler = jobHandler;
 	}
 
-	public BundleActivator getActivator() {
-		return activator;
-	}
-
-	public void setActivator(BundleActivator a) {
-		this.activator = a;
-
+	public Properties properties() {
+		return propsProvider.get();
 	}
 }

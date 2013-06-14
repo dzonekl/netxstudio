@@ -55,7 +55,7 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 			ModelUtils modelUtils) {
 		super(locator, modelUtils);
 	}
-	
+
 	@Override
 	public void process() {
 		// TODO: Make configurable
@@ -116,8 +116,9 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 					t.getMessage(), getMappingPeriodEstimate(),
 					getMappingIntervalEstimate(), getFailedRecords());
 		}
-		
-		super.addAndTruncate(mappingStatistic, getMetricSource().getStatistics());
+
+		super.addAndTruncate(mappingStatistic, getMetricSource()
+				.getStatistics());
 		getDataProvider().commitTransactionThenClose();
 	}
 
