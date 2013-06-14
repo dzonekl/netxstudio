@@ -15,24 +15,37 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.screens.internal;
+package com.netxforge.ui.internal.override;
 
 import com.google.inject.Injector;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 
 /**
- * Proxies to whatever Activator can return the injector. 
+ * Expose our injector for other modules, which do not which to define their own 
+ * binding. 
+ *  
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public class ScreensInjectorProxy implements IInjectorProxy {
+public class NetXScriptInjectorProxy implements IInjectorProxy {
 		
 	/**
+	 * 
+	 * @param grammarName
 	 * @return
 	 */
-	public Injector getInjector(String name){
+	public Injector getInjector(String grammarName){
+		
+		if(grammarName.equals("")){
+			throw new java.lang.UnsupportedOperationException();
+		}
+		
+		
+		// The worst hack in history of Java. 
+//		return ArithmeticsActivator.getInstance().getInjector("org.eclipse.xtext.example.arithmetics.Arithmetics");
+		
 		// and this one comes just next. 
-		return ScreensActivator.getInstance().getInjector();
+		return OverrideNetxscriptActivator.getInstance().getInjector(grammarName);
 		
 	}
 }

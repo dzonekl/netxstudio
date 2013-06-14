@@ -122,11 +122,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.name.Named;
 import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.interpreter.IInterpreterContext;
-import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
@@ -255,18 +252,10 @@ public class SmartResources extends AbstractScreen implements
 	private MonitoringStateModel monitoringStateModel;
 
 	@Inject
-	@Named("Netxscript")
-	private IInjectorProxy injectorProxy;
+	private IExpressionEngine expressionEngine;
 
-	// Delegated injection.
-	private Injector nextscriptInjector = injectorProxy
-			.getInjector("com.netxforge.Netxscript");
-
-	private IExpressionEngine expressionEngine = nextscriptInjector
-			.getInstance(IExpressionEngine.class);
-
-	private ResultProcessor resultProcessor = nextscriptInjector
-			.getInstance(ResultProcessor.class);
+	@Inject
+	private ResultProcessor resultProcessor;
 
 	/**
 	 * A Map of filters.
@@ -934,7 +923,7 @@ public class SmartResources extends AbstractScreen implements
 		gl_cmpExpressionHead.marginHeight = 0;
 		cmpExpressionEditor.setLayout(gl_cmpExpressionHead);
 
-		expressionComponent.setInjector(this.nextscriptInjector);
+		expressionComponent.setGrammar("com.netxforge.Netxscript");
 		expressionComponent.buildExpression(widgetStyle, cmpExpressionEditor,
 				new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		expressionComponent.configure(editingService, this.getOperation());
@@ -1497,11 +1486,10 @@ public class SmartResources extends AbstractScreen implements
 		}
 
 		private void updateResourceMon() {
-			
-			
-			// The context not being set, has only implications on the 
+
+			// The context not being set, has only implications on the
 			// the computation of the summary...
-			
+
 			if (this.getCurrentNetXResource() != null) {
 
 				// Do the summary.

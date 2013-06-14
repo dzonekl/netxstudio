@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 6 jun. 2013 NetXForge.
+ * Copyright (c) 13 jun. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,27 +14,24 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
-package com.netxforge.internal;
+ *******************************************************************************/
+package com.netxforge.ui.internal.override;
 
 import static org.ops4j.peaberry.Peaberry.service;
 import static org.ops4j.peaberry.util.TypeLiterals.export;
-
 import com.google.inject.AbstractModule;
-import com.netxforge.engine.ExpressionEngine;
-import com.netxforge.engine.IExpressionEngine;
+import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 
-public class ExportModule extends AbstractModule {
+public class ScriptUIExportModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		
-//		public Class<? extends IExpressionEngine> bindExpressionEngine() {
-//		return (Class<? extends IExpressionEngine>) ExpressionEngine.class;
-//	}
-		bind(export(IExpressionEngine.class)).toProvider(
-				service(ExpressionEngine.class).export());
+
+		// ///////////////////////////////
+		// EXPORT SERVICES
+
+		bind(export(IInjectorProxy.class)).toProvider(
+				service(NetXScriptInjectorProxy.class).export());
 
 	}
-
 }

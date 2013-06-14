@@ -54,12 +54,13 @@ import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.model.IXtextModelListener;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
-import com.google.inject.Injector;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.xtext.EmbeddedXtextService;
 import com.netxforge.netxstudio.screens.xtext.internal.ScreensXtextActivator;
+import com.netxforge.ui.internal.override.NetXScriptInjectorProxy;
 
 /**
  * 
@@ -74,6 +75,9 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 	private Expression expression;
 
 	private EmbeddedXtextService xtextService;
+
+	@Inject
+	NetXScriptInjectorProxy netXInjectorProxy;
 
 	private Text txtExpressionName;
 
@@ -92,10 +96,10 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 
 	private EReference feature;
 
-	/*
-	 * The Injector
+	/**
+	 * The grammar this editor should support
 	 */
-	private Injector injector;
+	private String grammar;
 
 	/**
 	 * Create the composite.
@@ -106,9 +110,8 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 	public EmbeddedLineExpression() {
 	}
 
-	public void setInjector(Injector injector) {
-		this.injector = injector;
-
+	public void setGrammar(String grammar) {
+		this.grammar = grammar;
 	}
 
 	public void configure(IEditingService editingService, int operation) {
@@ -138,8 +141,9 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 		// gl_editorComposite.marginWidth = 0;
 		// editorComposite.setLayout(gl_editorComposite);
 
-		xtextEditor = new EmbeddedXtextEditor(parent, injector, SWT.BORDER
-				| widgetStyle | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
+		xtextEditor = new EmbeddedXtextEditor(parent,
+				netXInjectorProxy.getInjector(grammar), SWT.BORDER
+						| widgetStyle | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
 
 		xtextEditor.getDocument().addModelListener(new IXtextModelListener() {
 			public void modelChanged(XtextResource resource) {

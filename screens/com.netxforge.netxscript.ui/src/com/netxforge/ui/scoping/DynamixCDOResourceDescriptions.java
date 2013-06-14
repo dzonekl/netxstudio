@@ -10,6 +10,7 @@ package com.netxforge.ui.scoping;
 import com.google.inject.Inject;
 import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.cdo.IClientDPProvider;
 import com.netxforge.scoping.AbstractDynamixCDOResourceDescriptions;
 
 /**
@@ -33,18 +34,23 @@ public class DynamixCDOResourceDescriptions extends
 
 	public DynamixCDOResourceDescriptions() {
 		super();
-		if(RuntimeActivator.DEBUG){
-			RuntimeActivator.TRACE.trace(RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION, "Initialize ResourceDescriptions, we should be a singlton.");
+		if (RuntimeActivator.DEBUG) {
+			RuntimeActivator.TRACE
+					.trace(RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
+							"Initialize ResourceDescriptions, we should be a singlton.");
 		}
 	}
 
-
 	@Inject
+	private IClientDPProvider clientDPProvider;
+
 	private IDataProvider dataProvider;
-	
+
 	@Override
-	public
-	IDataProvider getDataProvider() {
+	public IDataProvider getDataProvider() {
+		if (dataProvider == null) {
+			dataProvider = clientDPProvider.get();
+		}
 		return dataProvider;
 	}
 }

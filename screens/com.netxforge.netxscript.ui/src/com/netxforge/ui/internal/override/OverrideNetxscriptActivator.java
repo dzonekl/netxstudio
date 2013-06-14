@@ -14,45 +14,54 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.ui.internal.override;
 
 import static com.google.inject.Guice.createInjector;
 import static com.google.inject.util.Modules.override;
+import static org.ops4j.peaberry.Peaberry.osgiModule;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.ops4j.peaberry.Export;
 import org.osgi.framework.BundleContext;
 
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.netxforge.netxstudio.common.internal.CommonModule;
-import com.netxforge.netxstudio.data.internal.DataModule;
+import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.scoping.CDOScopeScheduler;
 
 /**
- * Override from generated xtext activator. 
- * At bundle start initialize our 'external' scope. 
+ * Override from generated xtext activator. At bundle start initialize our
+ * 'external' scope.
  */
 public class OverrideNetxscriptActivator extends AbstractUIPlugin {
 
-	private Map<String,Injector> injectors = new HashMap<String,Injector>();
+	private Map<String, Injector> injectors = new HashMap<String, Injector>();
 	private static OverrideNetxscriptActivator INSTANCE;
 
 	public Injector getInjector(String languageName) {
 		return injectors.get(languageName);
 	}
-	
+
+	@Inject
+	Export<IInjectorProxy> injectorProxyService;
+
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		INSTANCE = this;
 		try {
-			registerInjectorFor("com.netxforge.Netxscript");
-			CDOScopeScheduler schedule = injectors.get("com.netxforge.Netxscript").getInstance(CDOScopeScheduler.class);
+			registerInjectorFor(context, "com.netxforge.Netxscript");
+			getInjector("com.netxforge.Netxscript").injectMembers(this);
+
+			CDOScopeScheduler schedule = injectors.get(
+					"com.netxforge.Netxscript").getInstance(
+					CDOScopeScheduler.class);
 			schedule.scheduleInitialLoading();
 
 		} catch (Exception e) {
@@ -60,52 +69,46 @@ public class OverrideNetxscriptActivator extends AbstractUIPlugin {
 			throw e;
 		}
 	}
-	
-	protected void registerInjectorFor(String language) throws Exception {
-		
+
+	protected void registerInjectorFor(BundleContext ctx, String language)
+			throws Exception {
+
 		Module om = getRuntimeModule(language);
-	    om = override(om).with(getSharedStateModule()); 
+		om = override(om).with(getSharedStateModule());
 		om = override(om).with(getUiModule(language));
-		om = override(om).with(getDataServiceModule());
-		om = override(om).with(new CommonModule());
-		// ... add next module here. 
-		injectors.put(language, createInjector(om));
+		om = override(om).with(new ScriptUIImportModule());
+		om = override(om).with(new ScriptUIExportModule());
+		injectors.put(language, createInjector(osgiModule(ctx), om));
 	}
-	
+
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		injectors.clear();
 		INSTANCE = null;
 		super.stop(context);
 	}
-	
+
 	public static OverrideNetxscriptActivator getInstance() {
 		return INSTANCE;
 	}
-	
+
 	protected Module getRuntimeModule(String grammar) {
 		if ("com.netxforge.Netxscript".equals(grammar)) {
-		  return new com.netxforge.internal.NetxscriptRuntimeModule();
+			return new com.netxforge.internal.NetxscriptRuntimeModule();
 		}
-		
+
 		throw new IllegalArgumentException(grammar);
 	}
-	
+
 	protected Module getUiModule(String grammar) {
 		if ("com.netxforge.Netxscript".equals(grammar)) {
-		  return new com.netxforge.ui.NetxscriptUiModule(this);
+			return new com.netxforge.ui.NetxscriptUiModule(this);
 		}
-		
+
 		throw new IllegalArgumentException(grammar);
 	}
-	
+
 	protected Module getSharedStateModule() {
 		return new org.eclipse.xtext.ui.shared.SharedStateModule();
 	}
-	
-	
-	protected Module getDataServiceModule() {
-		return new DataModule();
-	}
-	
 }

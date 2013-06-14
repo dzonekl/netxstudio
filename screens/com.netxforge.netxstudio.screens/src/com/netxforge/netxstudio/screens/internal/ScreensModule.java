@@ -21,14 +21,15 @@ import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
+import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporterProvider;
+import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporterProvider;
-import com.netxforge.netxstudio.screens.ch9.NetXScriptInjectorProxy;
 import com.netxforge.netxstudio.screens.editing.IEditingServiceProvider;
 import com.netxforge.netxstudio.screens.editing.IScreenFormServiceProvider;
 import com.netxforge.netxstudio.screens.f1.support.PeriodSelectionPage;
@@ -41,6 +42,7 @@ import com.netxforge.netxstudio.screens.f3.ResourcesComponent;
 import com.netxforge.netxstudio.screens.f3.SmartValueComponent;
 import com.netxforge.netxstudio.screens.f3.ValueComponentII;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
+import com.netxforge.ui.internal.override.NetXScriptInjectorProxy;
 
 /**
  * 
@@ -62,8 +64,8 @@ public class ScreensModule extends AbstractModule {
 				.annotatedWith(Names.named("Netxscript"))
 				.to(NetXScriptInjectorProxy.class);
 
-		this.bind(IInjectorProxy.class).annotatedWith(Names.named("Screens"))
-				.to(ScreensInjectorProxy.class);
+//		this.bind(IInjectorProxy.class).annotatedWith(Names.named("Screens"))
+//				.to(ScreensInjectorProxy.class);
 
 		this.bind(PeriodSelectionPage.class);
 
@@ -120,7 +122,14 @@ public class ScreensModule extends AbstractModule {
 		// {@link CommonModule}
 		bind(MonitoringAdapterFactory.class).toProvider(
 				service(MonitoringAdapterFactory.class).single());
+		
+		// {@link ExportModule}
+		bind(IExpressionEngine.class).toProvider(
+				service(IExpressionEngine.class).single());
 
+		// {@link ImporterModule}
+		bind(ResultProcessor.class).toProvider(
+				service(ResultProcessor.class).single());
 		
 	}
 

@@ -60,9 +60,9 @@ public class CDOScopeScheduler {
 			if (scopeProvider instanceof DynamixCDOScopeProvider) {
 				
 				// TODO, Find an alternative for isServer, as this puts a dependency on the UI implementation. 
-				if (!((DynamixCDOScopeProvider) scopeProvider).isServer()) {
-					super.setUser(true);
-				}
+//				if (!((DynamixCDOScopeProvider) scopeProvider).isServer()) {
+//					super.setUser(true);
+//				}
 			}
 		}
 

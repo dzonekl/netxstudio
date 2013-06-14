@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 6 jun. 2013 NetXForge.
+ * Copyright (c) 13 jun. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,31 +14,33 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
-package com.netxforge.internal;
+ *******************************************************************************/
+package com.netxforge.netxstudio.screens.xtext.internal;
 
 import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.cdo.CDOQueryService;
+import com.netxforge.netxstudio.common.guice.IInjectorProxy;
+import com.netxforge.ui.internal.override.NetXScriptInjectorProxy;
 
-/**
- * Contains imported services from other modules. 
- *  
- * @author Christophe Bouhier
- *
- */
-public class ImportModule extends AbstractModule {
+public class ScreensXtextModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		/// ///////////////////////////////
-		// IMPORT SERVICES
+
+		// ///////////////////////////////////////////
+		// IMPORTED SERVICE
+		bind(IInjectorProxy.class).toProvider(
+				service(NetXScriptInjectorProxy.class).single());
 		
-		// {@link CDODataServiceModule}
-		bind(IQueryService.class).toProvider(
-				service(CDOQueryService.class).single());
+		
+		///////////////////////////////////////////////
+		// EXPORT SERVICE
+		
+		// TODO, EXPORT OUR SERVICES.
+		
+//		this.bind(EmbeddedLineExpression.class);
+
 	}
 
 }
