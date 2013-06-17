@@ -30,15 +30,12 @@ import org.apache.log4j.Logger;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
-import org.ops4j.peaberry.Export;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.netxforge.engine.IExpressionEngine;
 
 public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 
@@ -58,11 +55,10 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
-	
 
-	@Inject
-	Export<IExpressionEngine> expressionEngineService;
-	
+//	@Inject
+//	Export<IExpressionEngine> expressionEngineService;
+
 	public void start(BundleContext context) throws Exception {
 		INSTANCE = this;
 		this.context = context;
@@ -73,6 +69,7 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 		// it on the server side).
 		try {
 			registerInjectorFor(context, "com.netxforge.Netxscript");
+//			getInjector("com.netxforge.Netxscript").injectMembers(this);
 		} catch (Exception e) {
 			Logger.getLogger(getClass()).error(e.getMessage(), e);
 			throw e;
@@ -112,7 +109,7 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 		Module om = getRuntimeModule(language);
 		om = override(om).with(new ScriptImportModule());
 		om = override(om).with(new ScriptExportModule());
-		
+
 		injectors.put(language, createInjector(osgiModule(ctx), om));
 
 	}

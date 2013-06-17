@@ -21,7 +21,6 @@ import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
@@ -100,10 +99,6 @@ public class LogicModule extends AbstractModule {
 		// {@link ServerModule}
 		bind(IPropertiesProvider.class).toProvider(
 				service(IPropertiesProvider.class).single());
-
-		// {@link ExportModule}
-		bind(IExpressionEngine.class).toProvider(
-				service(IExpressionEngine.class).single());
 
 	}
 }

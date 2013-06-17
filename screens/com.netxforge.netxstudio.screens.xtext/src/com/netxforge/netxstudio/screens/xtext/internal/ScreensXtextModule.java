@@ -21,7 +21,6 @@ import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
-import com.netxforge.ui.internal.override.NetXScriptInjectorProxy;
 
 public class ScreensXtextModule extends AbstractModule {
 
@@ -31,7 +30,7 @@ public class ScreensXtextModule extends AbstractModule {
 		// ///////////////////////////////////////////
 		// IMPORTED SERVICE
 		bind(IInjectorProxy.class).toProvider(
-				service(NetXScriptInjectorProxy.class).single());
+				service(IInjectorProxy.class).single());
 		
 		
 		///////////////////////////////////////////////

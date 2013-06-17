@@ -9,6 +9,7 @@ package com.netxforge.netxstudio.server.logic.netxscript;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.scoping.AbstractDynamixCDOResourceDescriptions;
 
@@ -33,10 +34,15 @@ public class DynamixServerCDOResourceDescriptions extends
 
 	@Inject
 	@Server
+	private IDPProvider dpProvider;
+	
 	private IDataProvider dataProvider;
 
 	@Override
 	public IDataProvider getDataProvider() {
+		if(dataProvider == null){
+			dataProvider = dpProvider.get();
+		}
 		return dataProvider;
 	}
 

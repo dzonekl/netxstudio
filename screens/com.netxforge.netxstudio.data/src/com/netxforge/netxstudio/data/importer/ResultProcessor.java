@@ -59,7 +59,9 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
 /**
  * This class is a supporting class for processing results from Expression
  * Evaluations {@link ExpressionResult } and also directly processing Value
- * results from imports. When an Expression Result involves a {@link Tolerance
+ * results from imports. 
+ * </p>
+ * When an Expression Result involves a tolerance {@link ValueRange 
  * range}, the {@link ToleranceProcessor} is invoked. It needs to be configured
  * with a {@link ResourceMonitor} and a {@link Tolerance}
  * 
@@ -361,12 +363,6 @@ public class ResultProcessor {
 	 * timestamps), is optional. when provided, all values in this period will
 	 * be first removed.
 	 * 
-	 * FIXME CB: Values are removed if Period is specified and then matched on
-	 * timestamp, which would only exist, if not removed. If Period is not
-	 * provided (i.e. Metric Source Importer does that). than the value is
-	 * always matched with an existing one first
-	 * 
-	 * 
 	 * @param foundNetXResource
 	 * @param intervalHint
 	 * @param kindHintType
@@ -650,7 +646,6 @@ public class ResultProcessor {
 	/**
 	 * Do the actual processing of the {@link ExpressionResult result}
 	 * 
-	 * 
 	 * @param period
 	 * @param expressionResult
 	 */
@@ -741,6 +736,10 @@ public class ResultProcessor {
 				if (tolProcessor != null && tolProcessor.ready()) {
 					tolProcessor.markersForExpressionResult(expressionResult,
 							period);
+				}else{
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
+							"Can't process tolerance, processor not ready");
 				}
 			}
 				break;
@@ -766,17 +765,4 @@ public class ResultProcessor {
 		}
 
 	}
-
-	// public void processMonitoringResult(List<Object> currentContext,
-	// List<BaseExpressionResult> expressionResults, Date start, Date end) {
-	// for (final BaseExpressionResult baseExpressionResult : expressionResults)
-	// {
-	// if (baseExpressionResult instanceof ExpressionResult) {
-	// ExpressionResult expressionResult = (ExpressionResult)
-	// baseExpressionResult;
-	// processMonitoringExpressionResult(start, end, expressionResult);
-	// }
-	// }
-	// }
-
 }

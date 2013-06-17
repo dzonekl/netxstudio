@@ -14,27 +14,27 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.internal;
 
-import static org.ops4j.peaberry.Peaberry.service;
-import static org.ops4j.peaberry.util.TypeLiterals.export;
-
 import com.google.inject.AbstractModule;
-import com.netxforge.engine.ExpressionEngine;
-import com.netxforge.engine.IExpressionEngine;
 
 public class ScriptExportModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		
-		///////////////////////////////////////////////////
-		// EXPORT SERVICES. 
-		
-		// Note this is a single service, not sure it's ThreadSave (Reintrant safe).  
-		bind(export(IExpressionEngine.class)).toProvider(
-				service(ExpressionEngine.class).export());
+
+		// /////////////////////////////////////////////////
+		// EXPORT SERVICES.
+
+		// Do we need this? Inject proxy is also available from the ui Module.
+//		bind(export(IInjectorProxy.class)).toProvider(
+//				service(NetXScriptInjectorProxy.class).export());
+
+		// Note this is a single service, not sure it's ThreadSave (Reintrant
+		// safe).
+//		bind(export(IExpressionEngine.class)).toProvider(
+//				service(ExpressionEngine.class).export());
 
 	}
 

@@ -7,25 +7,13 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class ValueRangeSelectionWizard extends Wizard implements INewWizard {
 
 	private static final String REPORTING_WIZARD = "reporting_period";
-
-	@Inject
-	private ModelUtils modelUtils;
-
-	@Inject
-	private ServerRequest serverActions;
-
-	@Inject
-	private IEditingService editingService;
 
 	private Object firstSelectedObject;
 

@@ -62,40 +62,30 @@ public class MonitoringEngine extends BaseComponentEngine {
 	@Override
 	public void doExecute() {
 
+		final Node node = getModelUtils().nodeFor(getComponent());
 		if (LogicActivator.DEBUG) {
 
 			LogicActivator.TRACE.trace(
 					LogicActivator.TRACE_LOGIC_OPTION,
 					"monitoring for: "
 							+ this.getModelUtils().printModelObject(
-									this.getComponent()));
+									this.getComponent()) + " node: "
+							+ this.getModelUtils().printModelObject(node));
 		}
 
 		// Clear the context first.
 		getExpressionEngine().getContext().clear();
 		getExpressionEngine().getContext().add(getPeriod());
 		getExpressionEngine().getContext().add(getComponent());
-		final Node node = getModelUtils().nodeFor(getComponent());
 		getExpressionEngine().getContext().add(node);
 
-		// CB 16-12-2011, moved capacity expression context, to be the resource.
-		// use capacity expressions, with NODE.
-
-		// setEngineContextInfo("Node: " + node.getNodeID() + ", Comp: "
-		// + getComponent().getName() + " - capacity expression -");
-
-		// Expression runCapExpression =
-		// getExpression(LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF);
-		// runForExpression(runCapExpression);
-		
-		
-		
-		
-		// CB 31-12-2012 As we execute the same expressions for multiple resources, if the expression 
-		// is a hard resource reference. (Where the context reference is not used, this will result in recalculating 
+		// CB 31-12-2012 As we execute the same expressions for multiple
+		// resources, if the expression
+		// is a hard resource reference. (Where the context reference is not
+		// used, this will result in recalculating
 		// the value multiple time for the hard reference!!!!!!!
-		// 
-	
+		//
+
 		for (final NetXResource netXResource : getComponent().getResourceRefs()) {
 
 			// remove the last entry, (Keep the date time and node context).
@@ -174,18 +164,6 @@ public class MonitoringEngine extends BaseComponentEngine {
 				return;
 			}
 
-			// RESOURCE MONITOR CREATION
-			final ResourceMonitor resourceMonitor = OperatorsFactory.eINSTANCE
-					.createResourceMonitor();
-			resourceMonitor.setNodeRef(node);
-			resourceMonitor.setResourceRef(netXResource);
-			// CB 21-09 make a copy of the DTR, as it ic contained in the
-			// Service Monitor.
-			DateTimeRange dtr = EcoreUtil.copy(getPeriod());
-			resourceMonitor.setPeriod(dtr);
-			resultProcessor.getToleranceProcessor().setResourceMonitor(
-					resourceMonitor);
-
 			boolean hasTolerances = this.getTolerances().size() > 0;
 
 			if (LogicActivator.DEBUG) {
@@ -197,59 +175,76 @@ public class MonitoringEngine extends BaseComponentEngine {
 				}
 			}
 
-			for (final Tolerance tolerance : getTolerances()) {
-				resultProcessor.getToleranceProcessor().setTolerance(tolerance);
+			if (hasTolerances) {
+				// RESOURCE MONITOR CREATION
+				final ResourceMonitor resourceMonitor = OperatorsFactory.eINSTANCE
+						.createResourceMonitor();
+				resourceMonitor.setNodeRef(node);
+				resourceMonitor.setResourceRef(netXResource);
+				DateTimeRange dtr = EcoreUtil.copy(getPeriod());
+				resourceMonitor.setPeriod(dtr);
+				resultProcessor.getToleranceProcessor().setResourceMonitor(
+						resourceMonitor);
 
-				// resultaat van de tolerance is een percentage
-				// loop door de capacity/utilization heen
-				// genereer markers per nieuwe overschrijding
-				setEngineContextInfo("NetXResource: "
-						+ netXResource.getShortName()
-						+ " - tolerance expression -");
-				Expression tolExpression = tolerance.getExpressionRef();
+				for (final Tolerance tolerance : getTolerances()) {
+					resultProcessor.getToleranceProcessor().setTolerance(
+							tolerance);
 
-				if (tolExpression != null) {
-					this.getJobMonitor().setMsg(
-							"Tolerance (" + tolerance.getLevel().getLiteral()
-									+ ") of: "
-									+ netXResource.getExpressionName());
-					this.getJobMonitor().incrementProgress(0, true);
-				}
-				runForExpression(tolExpression);
-				if (getFailures().size() > 0) {
-					if (LogicActivator.DEBUG) {
-						LogicActivator.TRACE.trace(
-								LogicActivator.TRACE_LOGIC_OPTION,
-								"Error, ending for this component");
+					// resultaat van de tolerance is een percentage
+					// loop door de capacity/utilization heen
+					// genereer markers per nieuwe overschrijding
+					setEngineContextInfo("NetXResource: "
+							+ netXResource.getShortName()
+							+ " - tolerance expression -");
+					Expression tolExpression = tolerance.getExpressionRef();
+
+					if (tolExpression != null) {
+						this.getJobMonitor().setMsg(
+								"Tolerance ("
+										+ tolerance.getLevel().getLiteral()
+										+ ") of: "
+										+ netXResource.getExpressionName());
+						this.getJobMonitor().incrementProgress(0, true);
 					}
-					return;
-				}
-			}
-
-			// Only store for resource monitors which actually have something
-			if (resourceMonitor.getMarkers().size() > 0) {
-
-				if (LogicActivator.DEBUG) {
-					LogicActivator.TRACE.trace(
-							LogicActivator.TRACE_LOGIC_DETAILS_OPTION,
-							"-- markers created");
+					runForExpression(tolExpression);
+					if (getFailures().size() > 0) {
+						if (LogicActivator.DEBUG) {
+							LogicActivator.TRACE.trace(
+									LogicActivator.TRACE_LOGIC_OPTION,
+									"Error, ending for this component");
+						}
+						return;
+					}
 				}
 
-				if (getServiceMonitor() == null) {
-					final Resource emfResource = getDataProvider().getResource(
-							OperatorsPackage.eINSTANCE.getResourceMonitor());
-					emfResource.getContents().add(resourceMonitor);
+				// Only store for resource monitors which actually have
+				// something
+				if (resourceMonitor.getMarkers().size() > 0) {
 
-				} else {
 					if (LogicActivator.DEBUG) {
 						LogicActivator.TRACE.trace(
 								LogicActivator.TRACE_LOGIC_DETAILS_OPTION,
-								"-- add service monitor");
+								"-- markers created");
 					}
-					serviceMonitor.getResourceMonitors().add(resourceMonitor);
+
+					if (getServiceMonitor() == null) {
+						final Resource emfResource = getDataProvider()
+								.getResource(
+										OperatorsPackage.eINSTANCE
+												.getResourceMonitor());
+						emfResource.getContents().add(resourceMonitor);
+
+					} else {
+						if (LogicActivator.DEBUG) {
+							LogicActivator.TRACE.trace(
+									LogicActivator.TRACE_LOGIC_DETAILS_OPTION,
+									"-- add service monitor");
+						}
+						serviceMonitor.getResourceMonitors().add(
+								resourceMonitor);
+					}
 				}
 			}
-
 		}
 	}
 
@@ -258,30 +253,7 @@ public class MonitoringEngine extends BaseComponentEngine {
 		if (getComponent().eIsSet(ref)) {
 			runCapExpression = (Expression) getComponent().eGet(ref);
 		} else {
-
-			// CB 9-10-2012. Do not walk up the hierarchy for now.
-			//
-
-			// if (LogicActivator.DEBUG) {
-			// System.out
-			// .println("MONITORING ENGINE: Expression not set for component"
-			// + getComponent().getName()
-			// + " try expression from parent Component");
-			// }
-			// // walk up the parent cap expression, just one level.
-			// EObject parent = getComponent().eContainer();
-			// if (parent != null && parent instanceof Component) {
-			// Component parentComponent = (Component) parent;
-			// if (parentComponent.eIsSet(ref)) {
-			// runCapExpression = (Expression) parentComponent.eGet(ref);
-			// } else {
-			// if (LogicActivator.DEBUG) {
-			// System.out
-			// .println("MONITORING ENGINE: Expression not set for parent component :-("
-			// + getComponent().getName());
-			// }
-			// }
-			// }
+			// Do not walk up the hierarchy for now.
 		}
 		return runCapExpression;
 	}
@@ -318,6 +290,13 @@ public class MonitoringEngine extends BaseComponentEngine {
 		return failure;
 	}
 
+	/**
+	 * Processes the result from various expression execution. </p>
+	 * {@link Component#getCapacityExpressionRef()}
+	 * {@link Component#getUtilizationExpressionRef()}
+	 * {@link Tolerance#getExpressionRef()} </p> The processing is delegated to
+	 * {@link ResultProcessor} </p>
+	 */
 	@Override
 	protected void processResult(List<Object> currentContext,
 			List<BaseExpressionResult> expressionResults, DateTimeRange period) {

@@ -14,10 +14,10 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.server.logic.internal;
 
-import static com.google.inject.Guice.createInjector;
+import static com.google.inject.util.Modules.override;
 import static org.ops4j.peaberry.Peaberry.osgiModule;
 
 import java.util.Dictionary;
@@ -29,7 +29,10 @@ import org.eclipse.osgi.service.debug.DebugTrace;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
+import com.netxforge.internal.NetxscriptRuntimeModule;
 import com.netxforge.netxstudio.scheduling.NodeReporterJob;
 import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
@@ -40,6 +43,7 @@ import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService;
 import com.netxforge.netxstudio.server.logic.monitoring.RFSServiceMonitoringJobImplementation;
+import com.netxforge.netxstudio.server.logic.netxscript.NetxscriptServerModule;
 import com.netxforge.netxstudio.server.logic.reporting.NodeReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.OperatorReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceReportingJobImplementation;
@@ -56,28 +60,27 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
-	
+
 	// Tracing options for monitoring logic
 	public static String TRACE_LOGIC_OPTION = "/trace.logic";
 	public static String TRACE_LOGIC_DETAILS_OPTION = "/trace.logic.details";
-	
-	// Tracing options for reporting logic. 
+
+	// Tracing options for reporting logic.
 	public static String TRACE_REPORT_OPTION = "/trace.report";
 	public static String TRACE_REPORT_DETAILS_OPTION = "/trace.report.details";
-	
-	// Tracing options for subscriber profile logic. 
+
+	// Tracing options for subscriber profile logic.
 	public static String TRACE_PROFILE_OPTION = "/trace.profile";
 	public static String TRACE_PROFILE_DETAILS_OPTION = "/trace.profile.details";
-	
-	// Tracing options for value retention logic. 
+
+	// Tracing options for value retention logic.
 	public static String TRACE_RETENTION_OPTION = "/trace.retention";
 	public static String TRACE_RETENTION_DETAILS_OPTION = "/trace.retention.details";
-	
-	// Tracing options for value expression logic. 
+
+	// Tracing options for value expression logic.
 	public static String TRACE_EXPRESSION_OPTION = "/trace.expression";
 	public static String TRACE_EXPRESSION_DETAILS_OPTION = "/trace.expression.details";
 
-	
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
@@ -158,7 +161,11 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 					}
 				});
 
-		injector = createInjector(osgiModule(context), new LogicModule());
+		Module m = new NetxscriptRuntimeModule();
+		m = override(m).with(new LogicModule());
+		m = override(m).with(new NetxscriptServerModule());
+
+		injector = Guice.createInjector(osgiModule(context), m);
 
 		bundleContext.registerService(MonitoringService.class,
 				new MonitoringService(), new Hashtable<String, String>());
@@ -166,11 +173,12 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 				new RetentionService(), new Hashtable<String, String>());
 		bundleContext.registerService(ReportingService.class,
 				new ReportingService(), new Hashtable<String, String>());
-		
-		Dictionary<String, String> props = new Hashtable<String,String>(4);
+
+		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
-	 	context.registerService(DebugOptionsListener.class.getName(), this, props);
-		
+		context.registerService(DebugOptionsListener.class.getName(), this,
+				props);
+
 	}
 
 	/*

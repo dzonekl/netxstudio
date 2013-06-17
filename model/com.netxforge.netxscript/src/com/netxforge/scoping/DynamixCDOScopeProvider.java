@@ -245,6 +245,8 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 	
 	@Override
 	public IScope getScope(Resource resource, final EReference reference, Predicate<IEObjectDescription> filter) {
+		
+		// FIXME, It could very well be that we have not been initialized! Check for this! 
 		if (externalContexts != null) {
 			// override the filter.
 			filter = new ExternalReferencePredicate(
