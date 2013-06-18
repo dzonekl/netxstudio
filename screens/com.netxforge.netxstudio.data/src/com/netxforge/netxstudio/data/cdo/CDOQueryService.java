@@ -32,7 +32,6 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -74,9 +73,6 @@ public class CDOQueryService implements IQueryService {
 
 	@Inject
 	CDOQueryUtil queryService;
-	
-	@Inject
-	private ModelUtils modelUtils;
 	
 	public CDOQueryService() {
 	}

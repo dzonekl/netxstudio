@@ -17,8 +17,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.xtext.internal;
 
-import static org.ops4j.peaberry.Peaberry.osgiModule;
-
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -27,9 +25,6 @@ import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -50,7 +45,7 @@ public class ScreensXtextActivator extends AbstractUIPlugin implements
 	// Tracing options for Xtext screens.
 	public static String TRACE_SCREENS_XTEXT_OPTION = "/trace.screens.xtext";
 
-	private Injector injector;
+//	private Injector injector;
 
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
@@ -68,8 +63,8 @@ public class ScreensXtextActivator extends AbstractUIPlugin implements
 		super.start(context);
 		plugin = this;
 
-		injector = Guice.createInjector(osgiModule(context),
-				new ScreensXtextModule());
+//		injector = Guice.createInjector(osgiModule(context),
+//				new ScreensXtextModule());
 
 		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
