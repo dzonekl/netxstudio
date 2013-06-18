@@ -142,7 +142,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
 
 @Singleton
 public class ModelUtils {
-	
+
 	public static final double ONE_BILLION = 1E+9; // Seconds
 	public static final double ONE_MILLION = 1E+6; // Milli Seconds
 	public static final double ONE_THOUSAND = 1E+3; // Pico Seconds
@@ -214,18 +214,17 @@ public class ModelUtils {
 			.of("Name");
 	public static final Iterable<String> MAPPING_EQUIPMENT_ATTRIBUTES = ImmutableList
 			.of("Name", "EquipmentCode", "Position");
-	
+
 	private DatatypeFactory dataTypeFactory;
-	
-	public ModelUtils(){
+
+	public ModelUtils() {
 		try {
 			this.dataTypeFactory = DatatypeFactory.newInstance();
 		} catch (DatatypeConfigurationException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	/**
 	 * Compare the time stamp of two {@link Value} objects. This implementation
 	 * delegates to {@link XMLGregorianCalendar#compare(XMLGregorianCalendar) }.
@@ -248,28 +247,25 @@ public class ModelUtils {
 		return new ValueTimeStampComparator();
 	}
 
-	
 	public class EFeatureComparator implements Comparator<EObject> {
-		
+
 		private EStructuralFeature eFeature;
 
-		public EFeatureComparator(EStructuralFeature eFeature){
+		public EFeatureComparator(EStructuralFeature eFeature) {
 			this.eFeature = eFeature;
-			// Analyse the data type for supported comparison types? 
+			// Analyse the data type for supported comparison types?
 		}
-		
+
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public int compare(final EObject v1, final EObject v2) {
 
 			// check if set.
-			if (v1 != null
-					&& v1.eIsSet(eFeature)
-					&& v2 != null
+			if (v1 != null && v1.eIsSet(eFeature) && v2 != null
 					&& v2.eIsSet(eFeature)) {
 				Object eGet1 = v1.eGet(eFeature);
 				Object eGet2 = v2.eGet(eFeature);
-				
-				if(eGet1 instanceof Comparable){
+
+				if (eGet1 instanceof Comparable) {
 					return ((Comparable) eGet1).compareTo(eGet2);
 				}
 			}
@@ -281,8 +277,6 @@ public class ModelUtils {
 		return new EFeatureComparator(eFeature);
 	}
 
-	
-	
 	/**
 	 * A predicate for a Value and provided timestamp.
 	 * 
@@ -763,6 +757,33 @@ public class ModelUtils {
 		Iterable<Value> filterValues = Iterables.filter(unfiltered,
 				valueForValues(referenceValues));
 		return Lists.newArrayList(filterValues);
+	}
+
+	/**
+	 * Filter a collection of {@link Value}, omitting the values which have do
+	 * not occur in the target {@link Date} collection.
+	 * 
+	 * @param d
+	 * @return
+	 */
+	public List<Value> valuesForTimestamps(Iterable<Value> unfiltered,
+			final Collection<Date> timeStampDates) {
+
+		Iterable<Value> filtered = Iterables.filter(unfiltered,
+				new Predicate<Value>() {
+					public boolean apply(final Value input) {
+						final Date valueDate = fromXMLDate(input.getTimeStamp());
+						return Iterables.any(timeStampDates,
+								new Predicate<Date>() {
+									public boolean apply(Date inputDate) {
+										return valueDate.compareTo(inputDate) == 0;
+									}
+								});
+					}
+
+				});
+
+		return Lists.newArrayList(filtered);
 	}
 
 	/**
@@ -1873,17 +1894,18 @@ public class ModelUtils {
 				this.serviceMonitorWithinPeriod(dtr));
 		return (Lists.newArrayList(filterValues));
 	}
-	
+
 	/**
-	 * return a String with a fixed length. 
+	 * return a String with a fixed length.
+	 * 
 	 * @param string
 	 * @param length
 	 * @return
 	 */
 	public String fixedLenthString(String string, int length) {
-	    return String.format("%1$-"+length+ "s", string);
+		return String.format("%1$-" + length + "s", string);
 	}
-	
+
 	/**
 	 * Return the Node or null if the target object, has a Node somewhere along
 	 * the parent hiearchy.
@@ -2274,10 +2296,9 @@ public class ModelUtils {
 		return null;
 	}
 
-	
 	/**
-	 * get a {@link Job} from a {@link Resource} by iterating over the root content
-	 * and matching the name of the job.
+	 * get a {@link Job} from a {@link Resource} by iterating over the root
+	 * content and matching the name of the job.
 	 * 
 	 * @param jobName
 	 * @param jobResource
