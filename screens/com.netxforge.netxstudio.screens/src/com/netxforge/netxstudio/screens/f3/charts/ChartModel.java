@@ -278,9 +278,18 @@ public class ChartModel {
 			// to the metric value date time range, filling up the blanks.
 			filledCollection = modelUtils.valuesInsideRange(filledCollection,
 					dtr);
-			return filledCollection;
+			
 		}
 
+		// We could still be bigger, so we should remove non-matched
+		// timestamps
+		if (filledCollection.size() > timeStamps.length) {
+			filledCollection = modelUtils.valuesForTimestamps(filledCollection,
+					Lists.newArrayList(timeStamps));
+		}else{
+			return filledCollection;
+		}
+		
 		// Get the last value from the collection, and fill up for the quantity
 		// of dates.
 

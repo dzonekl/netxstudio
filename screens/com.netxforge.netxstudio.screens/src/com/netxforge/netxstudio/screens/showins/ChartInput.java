@@ -17,9 +17,14 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.showins;
 
+import java.util.List;
+
 import org.eclipse.ui.part.ShowInContext;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.metrics.KindHintType;
+import com.netxforge.netxstudio.operators.Marker;
+import com.netxforge.netxstudio.operators.ResourceMonitor;
 
 /**
  * 
@@ -29,32 +34,59 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
  */
 public class ChartInput {
 	
-	/**
-	 * The period for the chart to show. 
+
+	/*
+	 * The time range for the chart to show. 
 	 */
-	private DateTimeRange period;
+	private DateTimeRange dtr;
 	
-	/**
-	 * The interval for the range we would like to see. 
+	/*
+	 * The interval for the range we would like. 
 	 */
 	private int interval;
+	
+	
+	/*
+	 * The kind for the range we would like.  
+	 */
+	private KindHintType kind;
+	
+	/*
+	 * As an alternative, we can point to a resource monitor to resolve the resource. 
+	 */
+	private ResourceMonitor resourceMonitor;
+	
+	/*
+	 * A bunch of markers. 
+	 */
+	private List<Marker> markers;
+	
+	
+	
+	public List<Marker> getMarkers() {
+		return markers;
+	}
+
+	public void setMarkers(List<Marker> markers) {
+		this.markers = markers;
+	}
 
 	/**
 	 * @return the dtr
 	 */
 	public DateTimeRange getPeriod() {
-		return period;
+		return dtr;
 	}
 
 	/**
 	 * @param dtr the dtr to set
 	 */
 	public void setPeriod(DateTimeRange dtr) {
-		this.period = dtr;
+		this.dtr = dtr;
 	}
 
 	/**
-	 * @return the data interval
+	 * @return the interval
 	 */
 	public int getInterval() {
 		return interval;
@@ -65,6 +97,29 @@ public class ChartInput {
 	 */
 	public void setInterval(int interval) {
 		this.interval = interval;
+	}
+
+	public void setResourceMonitor(ResourceMonitor resourceMonitor) {
+		this.resourceMonitor = resourceMonitor;
+	}
+
+	
+	public ResourceMonitor getResourceMonitor() {
+		return this.resourceMonitor;
+	}
+
+	/**
+	 * @return the kind
+	 */
+	public KindHintType getKind() {
+		return kind;
+	}
+
+	/**
+	 * @param kind the kind to set
+	 */
+	public void setKind(KindHintType kind) {
+		this.kind = kind;
 	}
 
 }

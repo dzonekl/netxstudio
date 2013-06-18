@@ -563,7 +563,7 @@ public class SmartValueComponent {
 			// determine the size of the array.
 			int arraySize = 0;
 			Object[] rangeArray;
-			arraySize = valueMap.keySet().size();
+			arraySize = sortedCopy.size();
 			arraySize += 2; // Cap, Utilization.
 			rangeArray = new Object[arraySize];
 
@@ -587,6 +587,8 @@ public class SmartValueComponent {
 					}
 					// check if the date exist, add if not and add the value
 					rangeArray[rangeIndex++] = doubles;
+				}else{
+					rangeArray[rangeIndex++] = Lists.newArrayList();
 				}
 			}
 

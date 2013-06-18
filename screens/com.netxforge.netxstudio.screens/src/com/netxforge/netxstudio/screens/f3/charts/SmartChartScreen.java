@@ -79,7 +79,7 @@ import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.tables.TableHelper;
 import com.netxforge.netxstudio.screens.editing.tables.TableHelper.TBVCFeatureSorter;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionWizard;
-import com.netxforge.netxstudio.screens.showins.ChartShowInContext;
+import com.netxforge.netxstudio.screens.showins.ChartInput;
 
 /**
  * 
@@ -481,9 +481,9 @@ public class SmartChartScreen extends AbstractScreen implements
 	@Override
 	public boolean handleShowIn(ShowInContext context) {
 
-		if (context.getInput() instanceof ChartShowInContext) {
+		if (context.getInput() instanceof ChartInput) {
 
-			ChartShowInContext chartInput = (ChartShowInContext) context
+			ChartInput chartInput = (ChartInput) context
 					.getInput();
 
 			// Do we care about the selection??
