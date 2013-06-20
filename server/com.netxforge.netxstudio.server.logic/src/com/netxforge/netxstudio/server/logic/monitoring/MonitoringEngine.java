@@ -123,6 +123,7 @@ public class MonitoringEngine extends BaseComponentEngine {
 
 			runForExpression(runCapExpression);
 
+			// Failures for capacity are fatal for subsequent operations so fail the process here. 
 			if (getFailures().size() > 0) {
 				if (LogicActivator.DEBUG) {
 					LogicActivator.TRACE.trace(
@@ -152,16 +153,19 @@ public class MonitoringEngine extends BaseComponentEngine {
 						"Utilization of: " + netXResource.getExpressionName());
 				this.getJobMonitor().incrementProgress(0, true);
 			}
-
+			
+			
+			
 			runForExpression(runUtilExpression);
-
+			
+			// Utilization Calculations are not fatal! 
+			
 			if (getFailures().size() > 0) {
 				if (LogicActivator.DEBUG) {
 					LogicActivator.TRACE.trace(
 							LogicActivator.TRACE_LOGIC_OPTION,
-							"Error, ending for this component");
+							"Failures in the Utilization exporession...continue");
 				}
-				return;
 			}
 
 			boolean hasTolerances = this.getTolerances().size() > 0;
@@ -176,6 +180,11 @@ public class MonitoringEngine extends BaseComponentEngine {
 			}
 
 			if (hasTolerances) {
+				
+				// Make sure we 
+				int failBeforeTolerance = this.getFailures().size();
+
+				
 				// RESOURCE MONITOR CREATION
 				final ResourceMonitor resourceMonitor = OperatorsFactory.eINSTANCE
 						.createResourceMonitor();
@@ -190,9 +199,6 @@ public class MonitoringEngine extends BaseComponentEngine {
 					resultProcessor.getToleranceProcessor().setTolerance(
 							tolerance);
 
-					// resultaat van de tolerance is een percentage
-					// loop door de capacity/utilization heen
-					// genereer markers per nieuwe overschrijding
 					setEngineContextInfo("NetXResource: "
 							+ netXResource.getShortName()
 							+ " - tolerance expression -");
@@ -207,7 +213,10 @@ public class MonitoringEngine extends BaseComponentEngine {
 						this.getJobMonitor().incrementProgress(0, true);
 					}
 					runForExpression(tolExpression);
-					if (getFailures().size() > 0) {
+					
+					// Could be failures from a previous step, like utilization, 
+					// Make sure it's from the tolerance processing. 
+					if (getFailures().size() > failBeforeTolerance) {
 						if (LogicActivator.DEBUG) {
 							LogicActivator.TRACE.trace(
 									LogicActivator.TRACE_LOGIC_OPTION,
