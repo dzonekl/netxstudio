@@ -31,7 +31,6 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
@@ -390,7 +389,7 @@ public class ToleranceProcessor {
 			targetMVR.cdoPrefetch(CDORevision.DEPTH_INFINITE);
 		}
 
-		if (USE_QUERIES && queryService instanceof CDOQueryService) {
+		if (USE_QUERIES) {
 			usageValues = queryService.mvrValues(targetMVR.cdoView(),
 					targetMVR, IQueryService.QUERY_MYSQL, period);
 
@@ -398,23 +397,23 @@ public class ToleranceProcessor {
 
 			// DO NOT USE, SUSPECT TO DELETE MVR VALUES!!!!!!
 
-			Date start = modelUtils.fromXMLDate(period.getBegin());
-			Date end = modelUtils.fromXMLDate(period.getEnd());
-			usageValues = targetMVR.getMetricValues();
-
-			// Remove all values, not in the period.
-			// Alternative with DB Query>
-			final List<Value> toRemoveUsageValues = new ArrayList<Value>();
-			for (final Value usageValue : usageValues) {
-				final long timeMillis = usageValue.getTimeStamp()
-						.toGregorianCalendar().getTimeInMillis();
-				if (timeMillis < start.getTime() || timeMillis > end.getTime()) {
-					toRemoveUsageValues.add(usageValue);
-				}
-			}
-
-			usageValues.removeAll(toRemoveUsageValues);
-			usageValues = modelUtils.sortValuesByTimeStamp(usageValues);
+			// Date start = modelUtils.fromXMLDate(period.getBegin());
+			// Date end = modelUtils.fromXMLDate(period.getEnd());
+			// usageValues = targetMVR.getMetricValues();
+			//
+			// // Remove all values, not in the period.
+			// // Alternative with DB Query>
+			// final List<Value> toRemoveUsageValues = new ArrayList<Value>();
+			// for (final Value usageValue : usageValues) {
+			// final long timeMillis = usageValue.getTimeStamp()
+			// .toGregorianCalendar().getTimeInMillis();
+			// if (timeMillis < start.getTime() || timeMillis > end.getTime()) {
+			// toRemoveUsageValues.add(usageValue);
+			// }
+			// }
+			//
+			// usageValues.removeAll(toRemoveUsageValues);
+			// usageValues = modelUtils.sortValuesByTimeStamp(usageValues);
 
 		}
 		return usageValues;
