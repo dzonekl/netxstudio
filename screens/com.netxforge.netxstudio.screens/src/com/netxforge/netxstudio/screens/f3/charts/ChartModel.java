@@ -96,7 +96,7 @@ public class ChartModel {
 	 * The state of the model, do not load when not OK.
 	 */
 	protected boolean chartModelOk = false;
-
+	
 	public boolean isChartModelOk() {
 		return chartModelOk;
 	}
@@ -282,7 +282,8 @@ public class ChartModel {
 		}
 
 		// We could still be bigger, so we should remove non-matched
-		// timestamps
+		// timestamps. TODO: Danger that we remove cap. where the value
+		// changes, and we would fill-up with the wrong cap. value. 
 		if (filledCollection.size() > timeStamps.length) {
 			filledCollection = modelUtils.valuesForTimestamps(filledCollection,
 					Lists.newArrayList(timeStamps));
