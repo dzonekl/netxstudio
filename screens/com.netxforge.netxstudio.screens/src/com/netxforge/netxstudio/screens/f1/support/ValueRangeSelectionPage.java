@@ -27,10 +27,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
-import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
 import com.netxforge.netxstudio.screens.f3.ValueRangeSelectionComponent;
 
 public class ValueRangeSelectionPage extends WizardPage {
@@ -44,12 +42,6 @@ public class ValueRangeSelectionPage extends WizardPage {
 	@Inject
 	private ValueRangeSelectionComponent valueRangeComponent;
 
-	@Inject
-	private MementoUtil mementoUtil;
-
-	@Inject
-	private ModelUtils modelUtils;
-	
 	/**
 	 * Create the wizard.
 	 */

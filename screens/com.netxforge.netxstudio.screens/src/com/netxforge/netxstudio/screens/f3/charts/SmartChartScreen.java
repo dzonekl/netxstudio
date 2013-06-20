@@ -145,6 +145,14 @@ public class SmartChartScreen extends AbstractScreen implements
 		// buildScrollStick(cmChart);
 		// buildZoom(cmChart);
 
+		buildMarkersUI();
+
+	}
+
+	/**
+	 * 
+	 */
+	private void buildMarkersUI() {
 		Section sctnMarkers = toolkit.createSection(frmChartScreen.getBody(),
 				Section.TWISTIE | Section.TITLE_BAR);
 
@@ -225,7 +233,6 @@ public class SmartChartScreen extends AbstractScreen implements
 					"The Marker level.", 100, null,
 					new TableHelper.ComparableComparator<String>());
 		}
-
 	}
 
 	/**
@@ -370,7 +377,7 @@ public class SmartChartScreen extends AbstractScreen implements
 									+ ")" : ""));
 		}
 		smartResourceChart.initChartBinding(chartModel);
-
+		
 		if (!chartModel.hasMonitor()) {
 			initMarkersBinding();
 		}
