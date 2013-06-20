@@ -23,7 +23,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.server.IDPNoCacheProvider;
 import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.Server;
@@ -86,7 +85,7 @@ public class LogicModule extends AbstractModule {
 
 		// {@link CDODataServiceModule}
 		bind(IQueryService.class).toProvider(
-				service(CDOQueryService.class).single());
+				service(IQueryService.class).single());
 
 		// {@link ServerModule}
 		bind(IDPProvider.class).annotatedWith(Server.class).toProvider(
