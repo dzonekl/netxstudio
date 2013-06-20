@@ -239,15 +239,14 @@ public class DashboardComponent {
 
 			ISummaryComponent proposedSummaryForSelection = summaryForSelection(o);
 			if (summaryForSelection == null
-					|| proposedSummaryForSelection.getClass() != summaryForSelection
-							.getClass()) {
+					|| !proposedSummaryForSelection.getClass().getName()
+							.equals(summaryForSelection.getClass().getName())) {
 
 				// Prep. the summary UI if we are not the same.
 				if (summaryForSelection != null) {
 					summaryForSelection.dispose();
-				} else {
-					summaryForSelection = proposedSummaryForSelection;
 				}
+				summaryForSelection = proposedSummaryForSelection;
 				summaryForSelection.buildUI(targetContent);
 			}
 			// Prep the summary itself.
@@ -269,7 +268,7 @@ public class DashboardComponent {
 		if (o instanceof Component) {
 			return new TODOSummaryComponent();
 		} else if (o instanceof NetXResource) {
-			return new TODOSummaryComponent();
+			return new NetXResourceSummaryComponent();
 		} else if (o instanceof Node) {
 			return new TODOSummaryComponent();
 		} else if (o instanceof NodeType) {
@@ -291,11 +290,11 @@ public class DashboardComponent {
 	 * @return
 	 */
 	private boolean validSelection(Object[] selection) {
-		
-		for(Object o : selection){
-			if(o instanceof EObject){
+
+		for (Object o : selection) {
+			if (o instanceof EObject) {
 				continue;
-			}else{
+			} else {
 				return false;
 			}
 		}
@@ -328,8 +327,8 @@ public class DashboardComponent {
 
 	private void refresh() {
 		// targetContent.layout();
-//		content.layout();
-		ScreenUtil.compositeFor(parentScreen).layout(true,true);
+		// content.layout();
+		ScreenUtil.compositeFor(parentScreen).layout(true, true);
 	}
 
 	private void populateContent(IMonitoringSummary summary) {
