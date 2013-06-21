@@ -18,9 +18,10 @@
 package com.netxforge.netxstudio.server.test.actions;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.junit.Before;
 import org.junit.Test;
 
-import com.google.inject.Key;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.metrics.MetricSource;
@@ -31,7 +32,6 @@ import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
@@ -42,24 +42,23 @@ import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
 public class TestMonitoring extends AbstractInjectedTestJUnit4 {
 
 	private static final String METRICSOURCE_TEST_JOB = "metricsource_test_job";
+	
+	
+	@Inject
 	private IDataProvider dataProvider;
+	
+	@Inject
 	private ModelUtils modelUtils;
 
-	public TestMonitoring(){
-		inject();
-	}
 	
-	public void inject() {
-		// Get a named version of an IDataProvider
-		dataProvider = this.getServerInjector().getInstance(
-				Key.get(IDataProvider.class, Server.class));
-		modelUtils = this.getServerInjector().getInstance(ModelUtils.class);
+	@Before
+	public void before(){
+		this.getInjector().injectMembers(this);
 	}
 
 	@Test
 	public void testMetricSourceJob() {
 
-		// TODO, set the metric source.
 		MetricSource ms = null;
 
 		// Produce a Job from an existing metric source.
@@ -77,6 +76,7 @@ public class TestMonitoring extends AbstractInjectedTestJUnit4 {
 
 		// persist the job and job container.
 		dataProvider.openSession("admin", "admin");
+		dataProvider.getTransaction();
 		{
 			Resource jobsResource = dataProvider
 					.getResource(SchedulingPackage.Literals.JOB);

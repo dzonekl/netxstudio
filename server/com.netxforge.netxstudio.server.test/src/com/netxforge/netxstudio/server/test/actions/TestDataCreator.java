@@ -125,7 +125,7 @@ public class TestDataCreator implements NetxForgeService {
 
 	public Object run(Map<String, String> parameters) {
 		try {
-			Guice.createInjector(TestModule.getModule()).injectMembers(this);
+			Guice.createInjector(new TestModule()).injectMembers(this);
 
 			dataProvider.setDoGetResourceFromOwnTransaction(false);
 			dataProvider.openSession("admin", "admin");

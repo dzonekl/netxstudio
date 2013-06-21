@@ -38,15 +38,15 @@ import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
 
 /**
  * Test the job mechanism
  * 
  * @author Martin Taal
  */
-public class MetricSourceJobTest extends AbstractInjectedTestJUnit3 {
-	
+public class MetricSourceJobTest extends AbstractInjectedTestJUnit4 {
+
 	private static final String JOBNAME = "testJobReinitialization";
 	private static final int MINUTE = 60000;
 
@@ -54,12 +54,10 @@ public class MetricSourceJobTest extends AbstractInjectedTestJUnit3 {
 
 	private ModelUtils modelUtils;
 
-	@Override
 	@Before
 	public void setUp() throws Exception {
-		super.setUp();
-		dataService = super.getInjector().getInstance(IDataService.class);
-		modelUtils = super.getInjector().getInstance(ModelUtils.class);
+		dataService = getInjector().getInstance(IDataService.class);
+		modelUtils = getInjector().getInstance(ModelUtils.class);
 	}
 
 	@Test

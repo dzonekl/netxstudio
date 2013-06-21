@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IDataService;
@@ -37,27 +38,26 @@ import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
 
 /**
  * Test the job mechanism
  * 
  * @author Martin Taal
  */
-public class UpdateJobTest extends AbstractInjectedTestJUnit3 {
+public class UpdateJobTest extends AbstractInjectedTestJUnit4 {
 	private static final String MSJOBNAME = "testMetricSource";
 	private static final int MINUTE = 60000;
 
+	@Inject
 	private IDataService dataService;
 
+	@Inject
 	private ModelUtils modelUtils;
 
-	@Override
 	@Before
 	public void setUp() throws Exception {
-		super.setUp();
-		dataService = super.getInjector().getInstance(IDataService.class);
-		modelUtils = super.getInjector().getInstance(ModelUtils.class);
+		getInjector().injectMembers(this);
 	}
 
 	@Test
@@ -67,19 +67,19 @@ public class UpdateJobTest extends AbstractInjectedTestJUnit3 {
 		provider.getTransaction();
 		final Resource resource = provider
 				.getResource(SchedulingPackage.eINSTANCE.getJob());
-		
-//		Job job = null;
-//		for (final EObject eObject : resource.getContents()) {
-//			job = (Job) eObject;
-//			if (job.getName().equals(MSJOBNAME)) {
-//				break;
-//			} else {
-//				job = null;
-//			}
-//		}
-//		if (job != null) {
-//			resource.getContents().remove(job);
-//		}
+
+		// Job job = null;
+		// for (final EObject eObject : resource.getContents()) {
+		// job = (Job) eObject;
+		// if (job.getName().equals(MSJOBNAME)) {
+		// break;
+		// } else {
+		// job = null;
+		// }
+		// }
+		// if (job != null) {
+		// resource.getContents().remove(job);
+		// }
 		final MetricSourceJob msJob = SchedulingFactory.eINSTANCE
 				.createMetricSourceJob();
 		msJob.setInterval(60);
@@ -93,8 +93,7 @@ public class UpdateJobTest extends AbstractInjectedTestJUnit3 {
 		provider.commitTransactionThenClose();
 	}
 
-	private MetricSource createTestMetricSource(String name)
-			throws Exception {
+	private MetricSource createTestMetricSource(String name) throws Exception {
 		final Resource resource = dataService.getProvider().getResource(
 				MetricsPackage.eINSTANCE.getMetricSource());
 

@@ -35,6 +35,9 @@ import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -46,14 +49,14 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
 
 /**
  * Calls the metric source import action.
  * 
  * @author Martin Taal
  */
-public class TestMetricSourceImportAction extends AbstractInjectedTestJUnit3 {
+public class TestMetricSourceImportAction extends AbstractInjectedTestJUnit4 {
 
 	@Inject
 	@NonStatic
@@ -66,17 +69,15 @@ public class TestMetricSourceImportAction extends AbstractInjectedTestJUnit3 {
 	@Inject
 	private ModelUtils modelUtils;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		super.getInjector().injectMembers(this);
 		dataProvider.setDoGetResourceFromOwnTransaction(false);
 		dataProvider.openSession("admin", "admin");
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
+	@After
+	public void tearDown() throws Exception {
 		dataProvider.closeSession();
 	}
 
@@ -91,12 +92,12 @@ public class TestMetricSourceImportAction extends AbstractInjectedTestJUnit3 {
 		dataProvider.commitTransactionThenClose();
 	}
 
-	public void callAction(final String paramName,
-			final CDOObject cdoObject) throws Exception {
+	public void callAction(final String paramName, final CDOObject cdoObject)
+			throws Exception {
 		if (((AbstractCDOIDLong) cdoObject.cdoID()).getLongValue() == 741) {
 			return;
 		}
-		
+
 		final WorkFlowRun wfRun = callAction(paramName, cdoObject.cdoID());
 		// sleep for 5 seconds to give the server time to work
 		int cnt = 0;
@@ -104,7 +105,7 @@ public class TestMetricSourceImportAction extends AbstractInjectedTestJUnit3 {
 			Thread.sleep(5000);
 			cnt++;
 			if (cnt == 20) {
-				fail("WorkFlowRun did not finish, testing "
+				Assert.fail("WorkFlowRun did not finish, testing "
 						+ cdoObject.eClass().getName() + " "
 						+ cdoObject.cdoID());
 			}

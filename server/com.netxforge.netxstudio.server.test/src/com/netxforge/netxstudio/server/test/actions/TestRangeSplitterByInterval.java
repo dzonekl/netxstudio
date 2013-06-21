@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
@@ -46,9 +47,14 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 	List<Value> monthValues;
 	List<Value> weekValues;
 
+	@Inject
+	private ModelUtils modelUtils;
+
 	@Before
 	public void up() {
-
+		
+		this.getInjector().injectMembers(this);
+		
 		_15minValues = Lists.newArrayList();
 
 		{ // start 1 week from now, increase one hour each time.
@@ -67,7 +73,6 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 
 		hourValues = Lists.newArrayList();
 
-		
 		{
 			Date oneWeekAgo = modelUtils.oneWeekAgo();
 			oneWeekAgo = modelUtils.adjustToDayStart(oneWeekAgo);
@@ -98,7 +103,7 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		}
 
 		weekValues = Lists.newArrayList();
-		// start today, decrease one year, one week each time. 
+		// start today, decrease one year, one week each time.
 		{
 			Date today = modelUtils.todayAndNow();
 			today = modelUtils.adjustToDayStart(today);
@@ -148,10 +153,11 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 				System.out.println();
 			}
 			System.out.println(" range count: " + splitValueRange.size());
-//			Assert.assertEquals(splitValueRange.size(), 168); // Expecting 168
-//																// (one week's
-//																// worth of
-//			// hourly values).
+			// Assert.assertEquals(splitValueRange.size(), 168); // Expecting
+			// 168
+			// // (one week's
+			// // worth of
+			// // hourly values).
 			Assert.assertEquals(size, subRangesSize);
 		}
 
@@ -248,7 +254,7 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 				System.out.println();
 			}
 			System.out.println("# sub ranges: " + splitValueRange.size());
-			
+
 			Assert.assertEquals(size, subRangesSize);
 			Assert.assertEquals(subRangesSize, 52);
 		}

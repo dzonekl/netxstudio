@@ -2,9 +2,11 @@ package com.netxforge.netxstudio.server.test.component.index;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
@@ -25,6 +27,14 @@ public class ComponentIndexTest extends AbstractDataServiceTest4 {
 
 	private IComponentMappingIndex index;
 
+	@Inject
+	private ModelUtils modelUtils;
+
+	@Before
+	public void before() {
+		getInjector().injectMembers(this);
+	}
+
 	@Test
 	public void testIndex() throws Exception {
 
@@ -39,11 +49,11 @@ public class ComponentIndexTest extends AbstractDataServiceTest4 {
 		System.out.println("creating index");
 		// Build the index.
 		index.buildIndex();
-		
-		
-		while(index.isIndexing()){
-			
-		};
+
+		while (index.isIndexing()) {
+
+		}
+		;
 
 		System.out.println("index creation took "
 				+ modelUtils.timeDurationNanoFromStart(nanoTime));
@@ -57,29 +67,26 @@ public class ComponentIndexTest extends AbstractDataServiceTest4 {
 			IdentifierDataKind nodeIDK = nodeIDK();
 			IdentifierDescriptor d1 = IComponentLocator.IdentifierDescriptor
 					.valueFor(nodeIDK, "arnstp01", 100);
-			
+
 			descriptors.add(d1);
-			
+
 			IdentifierDataKind functionIDK = functionIDK("Name");
 			IdentifierDescriptor d2 = IComponentLocator.IdentifierDescriptor
-			.valueFor(functionIDK, "Signaling", 100);
-			
+					.valueFor(functionIDK, "Signaling", 100);
+
 			descriptors.add(d2);
 
 		}
 
-		
 		// Find the component with Metric.
-		// TODO, dig up a relevant Metric. 
-		
+		// TODO, dig up a relevant Metric.
+
 		List<Component> componentsForIdentifiers = index
 				.componentsForIdentifiers(null, descriptors);
-		
-		
-		for(Component c : componentsForIdentifiers){
+
+		for (Component c : componentsForIdentifiers) {
 			System.err.println(modelUtils.printModelObject(c));
 		}
-		
 
 		// Console c = System.console();
 		// boolean oneMore = true;

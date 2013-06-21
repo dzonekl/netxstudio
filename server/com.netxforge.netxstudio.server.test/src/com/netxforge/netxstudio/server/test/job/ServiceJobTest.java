@@ -13,6 +13,8 @@ import java.util.Date;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.junit.After;
+import org.junit.Before;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
@@ -36,7 +38,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServicesFactory;
@@ -47,7 +49,7 @@ import com.netxforge.netxstudio.services.ServicesFactory;
  * @author Christophe Bouhier
  * 
  */
-public class ServiceJobTest extends AbstractInjectedTestJUnit3 {
+public class ServiceJobTest extends AbstractInjectedTestJUnit4 {
 
 	private static final String RFS_NAME = "Speech";
 	private static final String OPERATOR_NAME = "tmnl";
@@ -57,16 +59,14 @@ public class ServiceJobTest extends AbstractInjectedTestJUnit3 {
 	@Inject
 	private ModelUtils modelUtils;
 
-	@Override
+	@Before
 	protected void setUp() throws Exception {
-		super.setUp();
 		super.getInjector().injectMembers(this);
 		dataProvider.openSession("admin", "admin");
 	}
 
-	@Override
+	@After
 	protected void tearDown() throws Exception {
-		super.tearDown();
 		dataProvider.closeSession();
 	}
 
@@ -80,53 +80,53 @@ public class ServiceJobTest extends AbstractInjectedTestJUnit3 {
 	}
 
 	private RFSService createModelData() throws Exception {
-		
+
 		final Resource operatorsResource = dataProvider
 				.getResource(OperatorsPackage.Literals.OPERATOR);
-		
-		
-		
+
 		Operator op = null;
 		for (final EObject eObject : operatorsResource.getContents()) {
-			if (eObject instanceof Operator && ((Operator) eObject).getName().equals(OPERATOR_NAME)){
+			if (eObject instanceof Operator
+					&& ((Operator) eObject).getName().equals(OPERATOR_NAME)) {
 				op = (Operator) eObject;
 			}
 		}
 
-		if( op == null){
+		if (op == null) {
 			op = OperatorsFactory.eINSTANCE.createOperator();
 			op.setName(OPERATOR_NAME);
 			operatorsResource.getContents().add(op);
 		}
-		
-		for( Service s : op.getServices()){
-			if( ((RFSService) s).getServiceName().equals(RFS_NAME)) {
-				return (RFSService)s;
+
+		for (Service s : op.getServices()) {
+			if (((RFSService) s).getServiceName().equals(RFS_NAME)) {
+				return (RFSService) s;
 			}
 		}
-		
-		final RFSService rfsService = ServicesFactory.eINSTANCE.createRFSService();
+
+		final RFSService rfsService = ServicesFactory.eINSTANCE
+				.createRFSService();
 		rfsService.setServiceName(RFS_NAME);
-		
+
 		final Node node = OperatorsFactory.eINSTANCE.createNode();
 		rfsService.getNodes().add(node);
-		
+
 		op.getServices().add(rfsService);
-		
+
 		// Add some objects, which are referable from our xtext model.
 		final Resource libraryResource = dataProvider
 				.getResource(LibraryPackage.Literals.LIBRARY);
-		
+
 		if (libraryResource.getContents().isEmpty()) {
 			final Library lib = LibraryFactory.eINSTANCE.createLibrary();
 			libraryResource.getContents().add(lib);
 		}
 		final Library lib = (Library) libraryResource.getContents().get(0);
-		
+
 		final NodeType sgsnType = LibraryFactory.eINSTANCE.createNodeType();
 		node.setOriginalNodeTypeRef(sgsnType);
 		node.setNodeID("SGSN");
-		
+
 		final Function sgsnFunction = LibraryFactory.eINSTANCE.createFunction();
 		sgsnFunction.setName("SGSN");
 		sgsnType.getFunctions().add(sgsnFunction);
@@ -134,11 +134,11 @@ public class ServiceJobTest extends AbstractInjectedTestJUnit3 {
 		lib.getNodeTypes().add(sgsnType);
 
 		node.setNodeType(sgsnType);
-		
+
 		final Network network = OperatorsFactory.eINSTANCE.createNetwork();
 		network.setName("test");
 		network.getNodes().add(node);
-		
+
 		op.getNetworks().add(network);
 
 		final NetXResource sgsnRes = LibraryFactory.eINSTANCE
@@ -163,21 +163,23 @@ public class ServiceJobTest extends AbstractInjectedTestJUnit3 {
 
 		range.getMetricValues().addAll(ImmutableList.of(v, v1, v2));
 
-
-		final RFSServiceMonitoringJob job = SchedulingFactory.eINSTANCE.createRFSServiceMonitoringJob();
+		final RFSServiceMonitoringJob job = SchedulingFactory.eINSTANCE
+				.createRFSServiceMonitoringJob();
 		job.setRFSService(rfsService);
-		job.setStartTime(modelUtils.toXMLDate(new Date(System.currentTimeMillis() + 6000)));
+		job.setStartTime(modelUtils.toXMLDate(new Date(System
+				.currentTimeMillis() + 6000)));
 		job.setInterval(60);
 		job.setName(rfsService.getServiceName());
-		
-		final Resource serviceJob = dataProvider.getResource(SchedulingPackage.Literals.JOB);
+
+		final Resource serviceJob = dataProvider
+				.getResource(SchedulingPackage.Literals.JOB);
 		serviceJob.getContents().add(job);
-		
-		// Save the resources. 
+
+		// Save the resources.
 		libraryResource.save(Collections.emptyMap());
 		operatorsResource.save(Collections.emptyMap());
 		serviceJob.save(Collections.emptyMap());
-		
+
 		return rfsService;
 	}
 }

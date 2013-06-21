@@ -19,35 +19,16 @@
 package com.netxforge.netxstudio.server.test;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.common.model.MonitoringStateModel;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.cdo.CDODataConnection;
-import com.netxforge.netxstudio.data.cdo.CDODataService;
-import com.netxforge.netxstudio.data.cdo.CDOQueryService;
-import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
-import com.netxforge.netxstudio.data.cdo.ClientCDODataProvider;
-import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class TestModule extends AbstractModule {
+public class ServerTestModule extends AbstractModule {
 
+	
 	@Override
 	protected void configure() {
-		bind(ModelUtils.class);
-		bind(MonitoringStateModel.class);
-
-		bind(CDOQueryUtil.class);
-		bind(ICDOConnection.class).to(CDODataConnection.class);
-		bind(IQueryService.class).to(CDOQueryService.class);
-		bind(IDataProvider.class).to(ClientCDODataProvider.class);
-		bind(IDataService.class).to(CDODataService.class);
-
 	}
 
 }

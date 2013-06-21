@@ -35,8 +35,11 @@ import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.junit.Before;
 import org.junit.Test;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -48,7 +51,16 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 public class QueryTest extends AbstractDataServiceTest4 {
 
-//	@Test
+	@Inject
+	private ModelUtils modelUtils;
+	
+	@Before
+	public void before(){
+		this.getInjector().injectMembers(this);
+	}
+	
+	
+	@Test
 	public void test1_CDO_SQL_QUERY() {
 
 		service.getProvider().openSession("admin", "admin");
@@ -65,7 +77,7 @@ public class QueryTest extends AbstractDataServiceTest4 {
 		cdoView.close();
 	}
 
-//	@Test
+	@Test
 	public void test2_CDO_SQL_QUERY() {
 
 		service.getProvider().openSession("admin", "admin");
@@ -85,7 +97,7 @@ public class QueryTest extends AbstractDataServiceTest4 {
 
 	}
 
-//	@Test
+	// @Test
 	public void test3_CDO_SQL_QUERY() {
 
 		service.getProvider().openSession("admin", "admin");
@@ -169,7 +181,15 @@ public class QueryTest extends AbstractDataServiceTest4 {
 				+ modelUtils.dateAndTime(dtr.getEnd());
 
 	}
-
+	
+	
+	/**
+	 * Uses an OBJECTID, WRONG TEST.  
+	 * 
+	 * @param cdoView
+	 * @param dialect
+	 * @return
+	 */
 	private String doQuerySingleValue(CDOView cdoView, String dialect) {
 
 		// Get the period.
@@ -273,7 +293,7 @@ public class QueryTest extends AbstractDataServiceTest4 {
 										.mvrValues(cdoView, mvr, dialect);
 
 								String timeDurationNano = modelUtils
-										.timeDurationNano(startTime);
+										.timeDurationNanoElapsed(startTime);
 
 								if (sortedValues != null) {
 
@@ -313,14 +333,14 @@ public class QueryTest extends AbstractDataServiceTest4 {
 			}
 		}
 
-		String timeDurationNano = modelUtils.timeDurationNano(totalTime);
+		String timeDurationNano = modelUtils.timeDurationNanoElapsed(totalTime);
 
 		return " NetXResource: " + sumResources + ", MetricValueRange: "
 				+ sumRanges + " Value: " + sumValues + " in: "
 				+ timeDurationNano;
 	}
 
-	// @Test
+	 @Test
 	public void testValueQuery() {
 
 		String funtionName = "Mobility";

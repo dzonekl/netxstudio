@@ -59,13 +59,16 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 
 	@Override
 	protected void setTarget(EObject target) {
+		
+		System.out.println("Monitoring adapted: " + adaptedObjects);
+		
 		if (isConnectedObject(target)) {
 			if (adaptedRoot == null) {
 				adaptedRoot = new WeakReference<CDOObject>(
 						CDOUtil.getCDOObject(target));
 			}
 
-			// A bit dangerous...
+			// Do not change the target. 
 			if (this.getTarget() == null) {
 				basicSetTarget(target);
 				// if (target instanceof Resource) {
@@ -140,7 +143,9 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 						CommonActivator.TRACE_COMMON_MONITORING_OPTION,
 						"Initial adapt loaded objects started");
 			}
-			// Adapt already loaded objects
+			
+			// Adapt already loaded objects, this will repeat several times. 
+			// 
 			for (CDOObject cdoObject : view.getObjects().values()) {
 				addAdapter(cdoObject);
 			}
@@ -166,9 +171,6 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 		boolean shouldAdapt = isConnectedObject(notifier) && !isAlreadyAdapted(notifier)
 				&& isRelated((CDOObject) notifier)
 				&& isNotFiltered((EObject) notifier); 
-		
-		// REMOVE LATER
-		System.out.println("Adding Monitor for notifier (" + notifier +"): " + shouldAdapt);
 		
 		if (shouldAdapt) {
 

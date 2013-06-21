@@ -30,11 +30,11 @@ public abstract class AbstractInjectedTestJUnit4 {
 	private Injector injector;
 
 	protected Injector createInjector() {
-		return Guice.createInjector(TestModule.getModule());
+		return Guice.createInjector(new TestModule());
 	}
 
 	protected Injector createServerInjector() {
-		return Guice.createInjector(TestModule.getServerModule());
+		return Guice.createInjector(new ServerTestModule());
 	}
 
 	public Injector getInjector() {

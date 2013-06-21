@@ -27,6 +27,8 @@ import java.util.Date;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import junit.framework.Assert;
+
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
@@ -35,6 +37,8 @@ import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.junit.After;
+import org.junit.Before;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -51,17 +55,16 @@ import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService;
 import com.netxforge.netxstudio.server.logic.retention.RetentionService;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 
 /**
- * Calls actions using a http get request. Need the server side to
- * be running.
+ * Calls actions using a http get request. Need the server side to be running.
  * 
  * @author Martin Taal
  */
-public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit3 {
+public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit4 {
 
 	private static final long ONE_DAY = 24 * 60 * 60 * 1000;
 
@@ -76,17 +79,15 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit3 {
 	@Inject
 	private ModelUtils modelUtils;
 
-	@Override
+	@Before
 	protected void setUp() throws Exception {
-		super.setUp();
 		super.getInjector().injectMembers(this);
 		dataProvider.setDoGetResourceFromOwnTransaction(false);
 		dataProvider.openSession("admin", "admin");
 	}
 
-	@Override
+	@After
 	protected void tearDown() throws Exception {
-		super.tearDown();
 		dataProvider.closeSession();
 	}
 
@@ -95,14 +96,15 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit3 {
 		final Resource res = dataProvider
 				.getResource(OperatorsPackage.Literals.OPERATOR);
 		for (final EObject eObject : res.getContents()) {
-			
-			if( eObject instanceof Operator ){
-				
-				for(Service s:  ((Operator) eObject).getServices()){
-					
-					if( s instanceof RFSService){
+
+			if (eObject instanceof Operator) {
+
+				for (Service s : ((Operator) eObject).getServices()) {
+
+					if (s instanceof RFSService) {
 						final CDOObject cdoObject = (CDOObject) s;
-						callServerAction(MonitoringService.SERVICE_PARAM, cdoObject);
+						callServerAction(MonitoringService.SERVICE_PARAM,
+								cdoObject);
 					}
 				}
 			}
@@ -130,7 +132,8 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit3 {
 		for (final EObject eObject : res.getContents()) {
 			final Network network = (Network) eObject;
 			for (final Node node : network.getNodes()) {
-				callServerAction(MonitoringService.NODETYPE_PARAM, node.getNodeType());
+				callServerAction(MonitoringService.NODETYPE_PARAM,
+						node.getNodeType());
 			}
 		}
 		dataProvider.commitTransactionThenClose();
@@ -145,7 +148,7 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit3 {
 			Thread.sleep(5000);
 			cnt++;
 			if (cnt == 20) {
-				fail("WorkFlowRun did not finish, testing "
+				Assert.fail("WorkFlowRun did not finish, testing "
 						+ cdoObject.eClass().getName() + " "
 						+ cdoObject.cdoID());
 			}
@@ -154,7 +157,8 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit3 {
 					.getTransaction().getObject(wfRun.cdoID());
 			System.err.println(workFlowRun.getState());
 			@SuppressWarnings("unused")
-			final Object failures = ((ComponentWorkFlowRun)workFlowRun).getFailureRefs();
+			final Object failures = ((ComponentWorkFlowRun) workFlowRun)
+					.getFailureRefs();
 			if (workFlowRun.getState() == JobRunState.FINISHED_SUCCESSFULLY) {
 				break;
 			}
@@ -186,7 +190,7 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit3 {
 	}
 
 	protected abstract String getServiceName();
-	
+
 	private String doRequest(String address) {
 		try {
 			final URL url = new URL(address);

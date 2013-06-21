@@ -18,11 +18,13 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.test.actions;
 
+import org.junit.After;
+import org.junit.Before;
+
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
+import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
 
 /**
  * Creates test data. Steps:
@@ -34,29 +36,24 @@ import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit3;
  * 
  * @author Martin Taal
  */
-public class CreateTestData extends AbstractInjectedTestJUnit3 {
-	
+public class CreateTestData extends AbstractInjectedTestJUnit4 {
+
 	@Inject
 	private TestDataCreator testDataCreator;
-	
+
 	@Inject
 	@NonStatic
 	private IDataProvider dataProvider;
-	
-	@Inject
-	private ModelUtils modelUtils;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		super.getInjector().injectMembers(this);
 		dataProvider.setDoGetResourceFromOwnTransaction(false);
 		dataProvider.openSession("admin", "admin");
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
+	@After
+	public void tearDown() throws Exception {
 		dataProvider.closeSession();
 	}
 
