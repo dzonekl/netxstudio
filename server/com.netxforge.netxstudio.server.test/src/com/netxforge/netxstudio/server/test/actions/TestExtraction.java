@@ -18,7 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.test.actions;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 

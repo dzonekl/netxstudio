@@ -56,6 +56,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * So the junit test is not running inside an OSGI container.
  * 
  * @author Martin Taal
+ * @deprecated
  */
 public class BaseAuthTest extends TestCase {
 	protected static final String REPO_NAME = "repo1"; //$NON-NLS-1$

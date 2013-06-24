@@ -24,7 +24,6 @@ import org.junit.Test;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobState;
@@ -58,8 +57,6 @@ public class TestMonitoring extends AbstractInjectedTestJUnit4 {
 
 	@Test
 	public void testMetricSourceJob() {
-
-		MetricSource ms = null;
 
 		// Produce a Job from an existing metric source.
 		MetricSourceJob job = SchedulingFactory.eINSTANCE
@@ -124,6 +121,7 @@ public class TestMonitoring extends AbstractInjectedTestJUnit4 {
 		job.setJobState(JobState.ACTIVE);
 	}
 
+	@SuppressWarnings("unused")
 	private void runJob(JobRunContainer jobRunContainer) {
 
 		try {

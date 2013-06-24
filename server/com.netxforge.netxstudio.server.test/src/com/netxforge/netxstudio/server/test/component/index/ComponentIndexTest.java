@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.server.test.component.index;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -64,17 +65,22 @@ public class ComponentIndexTest extends AbstractDataServiceTest4 {
 		final List<IdentifierDescriptor> descriptors = Lists.newArrayList();
 
 		{
-			IdentifierDataKind nodeIDK = nodeIDK();
-			IdentifierDescriptor d1 = IComponentLocator.IdentifierDescriptor
-					.valueFor(nodeIDK, "arnstp01", 100);
+			{
+				IdentifierDataKind nodeIDK = nodeIDK();
+				Pattern pattern = Pattern.compile("arnstp01");
+				IdentifierDescriptor d1 = IComponentLocator.IdentifierDescriptor
+						.valueFor(nodeIDK, pattern, 100);
 
-			descriptors.add(d1);
+				descriptors.add(d1);
+			}
+			{
+				IdentifierDataKind functionIDK = functionIDK("Name");
+				Pattern pattern = Pattern.compile("Signaling");
+				IdentifierDescriptor d2 = IComponentLocator.IdentifierDescriptor
+						.valueFor(functionIDK, pattern, 100);
 
-			IdentifierDataKind functionIDK = functionIDK("Name");
-			IdentifierDescriptor d2 = IComponentLocator.IdentifierDescriptor
-					.valueFor(functionIDK, "Signaling", 100);
-
-			descriptors.add(d2);
+				descriptors.add(d2);
+			}
 
 		}
 
@@ -145,6 +151,7 @@ public class ComponentIndexTest extends AbstractDataServiceTest4 {
 		return idk;
 	}
 
+	@SuppressWarnings("unused")
 	private IdentifierDataKind equipmentIDK(String property) {
 		IdentifierDataKind idk = MetricsFactory.eINSTANCE
 				.createIdentifierDataKind();
