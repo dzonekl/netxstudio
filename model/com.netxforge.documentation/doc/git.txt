@@ -73,6 +73,21 @@ cd dest_dir-tmp
 git svn fetch
 When completed, git will checkout the SVN trunk into a new branch. Any other branches are setup as remotes. You can view the other SVN branches with:
 
+Migrating Branches and Tags
+==========================
+
+Autmatic: 
+tags:
+
+git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname"; done
+
+Branches:
+
+$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname"; done
+
+
+Manual: 
+
 git branch -r
 If you want to keep other remote branches in your repo, you want to create a local branch for each one manually. If you don't do this, the branches won't get cloned in the final step.
 
@@ -84,13 +99,27 @@ git checkout -b tag_v1 remotes/tags/v1
 git checkout master
 git tag v1 tag_v1
 git branch -D tag_v1
+
+Clone and Set Remote
+====================g
+
 Clone your GIT-SVN repo into a clean git repo:
 
 git clone dest_dir-tmp dest_dir
 rm -rf dest_dir-tmp
-Finally, remove the remote from your clean git repo that points to the now deleted temp repo:
+
+Remove the remote from your clean git repo that points to the now deleted temp repo:
 
 git remote rm origin
+
+And finally add a new remote: 
+
+git remote add origin 
+(Edapt example:) 
+
+git remote add origin git://git.eclipse.org/gitroot/edapt/org.eclipse.edapt.git
+
+And push: 
 
 
 GIT INSTALL ON LINUX
@@ -106,7 +135,16 @@ GIT Remote URL
 git@176.58.103.70:/opt/git/netxforge
 
 
+GIT PROBLEM WITH GIT_SVN
+========================
 
+
+Can't locate SVN/Core.pm in @INC (@INC contains: /usr/local/Cellar/git/1.8.1.5/lib /Library/Perl/5.12/darwin-thread-multi-2level /Library/Perl/5.12 /Network/Library/Perl/5.12/darwin-thread-multi-2level /Network/Library/Perl/5.12 /Library/Perl/Updates/5.12.4 /System/Library/Perl/5.12/darwin-thread-multi-2level /System/Library/Perl/5.12 /System/Library/Perl/Extras/5.12/darwin-thread-multi-2level /System/Library/Perl/Extras/5.12 .) at /usr/local/Cellar/git/1.8.1.5/lib/Git/SVN/Utils.pm line 6.
+BEGIN failed--compilation aborted at /usr/local/Cellar/git/1.8.1.5/lib/Git/SVN/Utils.pm line 6.
+Compilation failed in require at /usr/local/Cellar/git/1.8.1.5/lib/Git/SVN.pm line 26.
+BEGIN failed--compilation aborted at /usr/local/Cellar/git/1.8.1.5/lib/Git/SVN.pm line 33.
+Compilation failed in require at /usr/local/Cellar/git/1.8.1.5/libexec/git-core/git-svn line 25.
+BEGIN failed--compilation aborted at /usr/local/Cellar/git/1.8.1.5/libexec/git-core/git-svn line 25.
 
 
 
