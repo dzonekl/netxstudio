@@ -1,7 +1,3 @@
 eclipse.preferences.version=1
 encoding//src/templates=UTF-8
-<<<<<<< OURS
-=======
-encoding//src/templates/node2html.xpt=ISO-8859-1
->>>>>>> THEIRS
 encoding/<project>=UTF-8
