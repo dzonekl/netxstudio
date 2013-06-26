@@ -7,9 +7,10 @@ Bundle-Activator: com.netxforge.netxstudio.screens.editing.test.internal.TestAct
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.core.runtime,
  com.netxforge.netxstudio.screens.editing;bundle-version="1.0.0",
- com.google.inject;bundle-version="2.0.0",
- com.netxforge.netxstudio.data;bundle-version="1.0.0",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
+ com.netxforge.netxstudio.data;bundle-version="1.0.0",
+ com.netxforge.tests;bundle-version="1.0.0",
+ com.google.inject;bundle-version="2.0.0",
  org.aopalliance;bundle-version="1.0.0",
  com.google.collect;bundle-version="1.0.0",
  org.junit;bundle-version="4.8.2"

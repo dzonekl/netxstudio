@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;
@@ -39,9 +40,9 @@ import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.test.internal.TestInjector;
+import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
-public class TestEditingCases {
+public class TestEditingCases extends AbstractInjectedTestJUnit4 {
 
 	private static final String OPERATION_DECOMMISSION = "Decommission";
 
@@ -55,18 +56,17 @@ public class TestEditingCases {
 	private static final String WAREHOUSE_TEST = "Warehouse Test";
 	private static final String NETXRESOURCE_TEST = "RESTest";
 
+	@Inject
 	IEditingService editingService;
+
+	@Inject
 	ModelUtils modelUtils;
 
 	private Node greenNode;
 
 	@Before
 	public void runBeforeEveryTest() {
-		TestInjector testInjector = new TestInjector();
-		editingService = testInjector.getInjector().getInstance(
-				IEditingService.class);
-
-		modelUtils = testInjector.getInjector().getInstance(ModelUtils.class);
+		getInjector().injectMembers(this);
 	}
 
 	@After
@@ -79,7 +79,7 @@ public class TestEditingCases {
 		Assert.assertNotNull(editingService != null);
 	}
 
-//	@Test
+	// @Test
 	public void testAdminOperations() {
 
 		connect();
@@ -90,7 +90,7 @@ public class TestEditingCases {
 		commit();
 		close();
 	}
-	
+
 	@Test
 	public void testNetXResource() {
 
@@ -102,13 +102,15 @@ public class TestEditingCases {
 		commit();
 		close();
 	}
-	
-	
-	
+
 	private void removeSamplNetXResource() {
-		
-		Resource resource = editingService.getDataService().getProvider().getResource(editingService.getEditingDomain()
-								.getResourceSet(), "/Node_/netxresource_test");
+
+		Resource resource = editingService
+				.getDataService()
+				.getProvider()
+				.getResource(
+						editingService.getEditingDomain().getResourceSet(),
+						"/Node_/netxresource_test");
 		try {
 			resource.delete(null);
 		} catch (IOException e) {
@@ -117,17 +119,17 @@ public class TestEditingCases {
 	}
 
 	private void buildSampleNetXResource() {
-		NetXResource createNetXResource = LibraryFactory.eINSTANCE.createNetXResource();
+		NetXResource createNetXResource = LibraryFactory.eINSTANCE
+				.createNetXResource();
 		createNetXResource.setShortName(NETXRESOURCE_TEST);
 		createNetXResource.setExpressionName(NETXRESOURCE_TEST);
 		createNetXResource.setLongName(NETXRESOURCE_TEST);
-		
+
 		final Resource resourcesResource = editingService
 				.getDataService()
 				.getProvider()
 				.getResource(
-						editingService.getEditingDomain()
-								.getResourceSet(),
+						editingService.getEditingDomain().getResourceSet(),
 						"/Node_/netxresource_test");
 		resourcesResource.getContents().add(createNetXResource);
 	}
@@ -279,13 +281,13 @@ public class TestEditingCases {
 				.getData(SchedulingPackage.Literals.JOB);
 		Resource jobRunContainerResource = editingService
 				.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
-		
+
 		List<Job> jobsToDelete = Lists.newArrayList();
 		List<JobRunContainer> jobRunContainersToDelete = Lists.newArrayList();
 		for (Object o : jobResource.getContents()) {
 			if (o instanceof Job
 					&& ((Job) o).getName().equals(METRICSOURCE_TEST)) {
-				
+
 				Job job = (Job) o;
 				// find our jobcontainer .
 				for (final EObject eObject : jobRunContainerResource
@@ -306,11 +308,11 @@ public class TestEditingCases {
 		for (JobRunContainer j : jobRunContainersToDelete) {
 			jobRunContainerResource.getContents().remove(j);
 		}
-		
+
 		for (Job j : jobsToDelete) {
 			jobResource.getContents().remove(j);
 		}
-		
+
 		Resource metricSourceRes = editingService
 				.getData(MetricsPackage.Literals.METRIC_SOURCE);
 		List<MetricSource> metricsourcesToDelete = Lists.newArrayList();
