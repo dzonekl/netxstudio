@@ -17,18 +17,20 @@ import java.util.Set;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOState;
-import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.view.CDOObjectHandler;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.spi.cdo.FSMUtil;
 import org.eclipse.emf.spi.cdo.InternalCDOView;
 
@@ -44,12 +46,14 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  * {@link MetricValueRange }
  * 
  * 
+ * FIXME, This implementation merges EContentAdapter and CDOLazyMonitoringAdapter. 
+ * Model updates (Notifications) are processed indirectly through a CDO Object Handler.
+ * 
  * @author Victor Roldan Betancort
  * @author Christophe Bouhier
  * @since 4.0
  */
-public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
-
+public abstract class CDOMonitoringAdapter extends AdapterImpl {
 	private CDOObjectHandler handler = new CleanObjectHandler();
 
 	private Set<WeakReference<CDOObject>> adaptedObjects = new HashSet<WeakReference<CDOObject>>();
@@ -58,18 +62,38 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 	 * The root object to be adapted.
 	 */
 	private WeakReference<CDOObject> adaptedRoot;
-	
-	
-	
-	
-	
+
+	/**
+	 * Handles a notification by calling {@link #selfAdapt selfAdapter}.
+	 */
 	@Override
+	public void notifyChanged(Notification notification) {
+		// Decide what to do with notification, as the object handler kind of
+		// produces
+		// object state changes.
+		super.notifyChanged(notification);
+	}
+
+	/**
+	 * Handles installation of the adapter by adding the adapter to each of the
+	 * directly contained objects.
+	 */
+	@Override
+	public void setTarget(Notifier target) {
+		if (target instanceof EObject) {
+			setTarget((EObject) target);
+		} else if (target instanceof Resource) {
+			setTarget((Resource) target);
+		} else if (target instanceof ResourceSet) {
+			setTarget((ResourceSet) target);
+		} else {
+			basicSetTarget(target);
+		}
+	}
+
 	protected void setTarget(EObject target) {
 
-		System.out.println("Currently Adapted: ");
-		for (WeakReference<CDOObject> wr : adaptedObjects) {
-			System.out.println(wr.get().cdoID());
-		}
+		System.out.println("Monitoring adapted: " + adaptedObjects);
 
 		if (isConnectedObject(target)) {
 			if (adaptedRoot == null) {
@@ -93,13 +117,12 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 	 * EContentAdapter removes adapter from all contained EObjects. In this
 	 * case, we remove this adapter from all lazily loaded objects
 	 */
-	@Override
 	protected void unsetTarget(EObject target) {
 
 		if (CommonActivator.DEBUG) {
 			CommonActivator.TRACE.trace(
 					CommonActivator.TRACE_COMMON_MONITORING_OPTION,
-					"Removed adapter (this) for: " + target);
+					"Removing adapter for: " + target);
 		}
 		if (isConnectedObject(target)) {
 			basicUnsetTarget(target);
@@ -133,6 +156,20 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 		} else {
 			super.unsetTarget(target);
 		}
+	}
+
+	/**
+	 * Actually sets the target by calling super.
+	 */
+	protected void basicSetTarget(Notifier target) {
+		super.setTarget(target);
+	}
+
+	/**
+	 * Actually unsets the target by calling super.
+	 */
+	protected void basicUnsetTarget(Notifier target) {
+		super.unsetTarget(target);
 	}
 
 	private void addCleanObjectHandler(EObject target) {
@@ -174,7 +211,6 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 		}
 	}
 
-	@Override
 	protected void addAdapter(Notifier notifier) {
 
 		boolean shouldAdapt = isConnectedObject(notifier)
@@ -193,18 +229,14 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 			// Check if it's not filtered (So pass this guard) but a different
 			// type.
 
+			if (CommonActivator.DEBUG) {
+				CommonActivator.TRACE.trace(
+						CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+						"Self-adapt for: " + notifier);
+			}
+
 			if (isSameAdapterFor((EObject) notifier)) {
-				super.addAdapter(notifier);
-
-				// CB Remove later.
-				System.out.println("NEW adapter: " + this
-						+ " (Same as this)");
-
-				if (CommonActivator.DEBUG) {
-					CommonActivator.TRACE.trace(
-							CommonActivator.TRACE_COMMON_MONITORING_OPTION,
-							"result adapter: " + this + " (Same as this)");
-				}
+				doAddAdapter(notifier);
 			} else {
 
 				// We don't want to add self as adapter, so let the factory
@@ -212,10 +244,6 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 				// the notifier.
 				final Adapter adapt = getAdapterFactory().adapt(notifier,
 						IMonitoringSummary.class);
-
-				// CB Remove later.
-				System.out.println("result adapter: " + adapt);
-
 				if (CommonActivator.DEBUG) {
 					CommonActivator.TRACE.trace(
 							CommonActivator.TRACE_COMMON_MONITORING_OPTION,
@@ -223,14 +251,6 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 				}
 			}
 		} else {
-
-			// CB Remove later.
-			// System.out
-			// .println("Self-adapt cancelled for:"
-			// + notifier
-			// +
-			// " (Already adapted, not connected, not allowed, not contained)");
-
 			// When not adapting the target object, the adapter instance if
 			// still produced.
 			if (CommonActivator.DEBUG) {
@@ -242,9 +262,10 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 			}
 			return;
 		}
+	}
 
-		//
-
+	protected void doAddAdapter(Notifier notifier) {
+		notifier.eAdapters().add(this);
 	}
 
 	/**
@@ -307,43 +328,8 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 					.cdoResource());
 		}
 
-		// CB isAncestor doesn't work on equality of CDO Objects!
-		// Compare on cdo id.
-
-		boolean isAncestor = isAncestor(root, object);
+		boolean isAncestor = EcoreUtil.isAncestor(root, object);
 		return isAncestor;
-	}
-
-	public static boolean isAncestor(EObject ancestorEObject, EObject eObject) {
-		if (eObject != null) {
-			if (eObject == ancestorEObject) {
-				return true;
-			}
-
-			int count = 0;
-			for (InternalEObject eContainer = ((InternalEObject) eObject)
-					.eInternalContainer(); eContainer != null
-					&& eContainer != eObject; eContainer = eContainer
-					.eInternalContainer()) {
-				if (++count > 100000) {
-					return isAncestor(ancestorEObject, eContainer);
-				}
-
-				if (eContainer instanceof CDOObject
-						&& ancestorEObject instanceof CDOObject) {
-
-					CDOID cdoID = ((CDOObject) eContainer).cdoID();
-					CDOID cdoID2 = ((CDOObject) ancestorEObject).cdoID();
-
-					return cdoID == cdoID2;
-				} else {
-					if (eContainer == ancestorEObject) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
 	}
 
 	/**

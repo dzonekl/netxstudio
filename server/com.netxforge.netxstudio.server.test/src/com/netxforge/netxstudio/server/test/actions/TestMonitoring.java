@@ -33,7 +33,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
+import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 /**
  * @author Christophe Bouhier

@@ -38,7 +38,7 @@ import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
+import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 /**
  * Test the job mechanism

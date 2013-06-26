@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
+import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 public abstract class AbstractDataServiceTest4 extends AbstractInjectedTestJUnit4 {
 

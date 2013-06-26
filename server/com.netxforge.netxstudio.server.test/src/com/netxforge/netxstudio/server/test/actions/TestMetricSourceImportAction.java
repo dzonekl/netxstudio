@@ -49,7 +49,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
+import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 /**
  * Calls the metric source import action.

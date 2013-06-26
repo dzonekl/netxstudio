@@ -72,8 +72,6 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		// Assert.isNotNull(modelUtils, "binding failed");
 		// Assert.isNotNull(stateModel, "binding failed");
 
-		
-
 	}
 
 	// MODEL
@@ -90,9 +88,9 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 
 	public void setModelUtils(ModelUtils utils) {
 		this.modelUtils = utils;
-		
-		// We need {@link ModelUtils} before we can set the global period. 
-		
+
+		// We need {@link ModelUtils} before we can set the global period.
+
 		Date beginTime = modelUtils.threeMonthsAgo();
 		beginTime = modelUtils.adjustToDayStart(beginTime);
 		PARAMETER_GLOBAL_PERIOD.setBegin(modelUtils.toXMLDate(beginTime));
@@ -106,7 +104,7 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	}
 
 	public String getPeriodFormattedString() {
-		
+
 		return getPeriod() != null ? modelUtils.periodToStringMore(this
 				.getPeriod()) : "Not set";
 	}
@@ -193,10 +191,9 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 
 	/**
 	 * Get the monitoring period context. </p> When the
-	 * {@link #PARAMETER_USE_GLOBAL_PERIOD} is
-	 * <code>true</code> (Default) we return the default period as specified in
-	 * {@link #PARAMETER_GLOBAL_PERIOD} (Default 3 months from today). 
-	 * </p>
+	 * {@link #PARAMETER_USE_GLOBAL_PERIOD} is <code>true</code> (Default) we
+	 * return the default period as specified in
+	 * {@link #PARAMETER_GLOBAL_PERIOD} (Default 3 months from today). </p>
 	 */
 	public DateTimeRange getPeriod() {
 		DateTimeRange periodInContext = periodInContext();
@@ -213,7 +210,7 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	@Override
 	public void notifyChanged(Notification msg) {
 		// Update ourselves with the notification.
-		// super.notifyChanged(msg);
+		super.notifyChanged(msg);
 		if (CommonActivator.DEBUG) {
 			CommonActivator.TRACE.trace(
 					CommonActivator.TRACE_COMMON_MONITORING_OPTION,

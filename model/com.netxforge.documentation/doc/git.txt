@@ -83,7 +83,7 @@ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tag
 
 Branches:
 
-$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname"; done
+$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname"; done
 
 
 Manual: 
@@ -117,7 +117,7 @@ And finally add a new remote:
 git remote add origin 
 (Edapt example:) 
 
-git remote add origin git://git.eclipse.org/gitroot/edapt/org.eclipse.edapt.git
+git remote add origin git://cbouhier@git.eclipse.org/gitroot/edapt/org.eclipse.emf.edapt.git
 
 And push: 
 

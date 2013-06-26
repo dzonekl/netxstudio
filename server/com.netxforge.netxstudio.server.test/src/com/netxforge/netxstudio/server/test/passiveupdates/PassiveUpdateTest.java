@@ -26,7 +26,7 @@ import org.junit.Before;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
+import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 /**
  * This test case creates a Server sessions which adds objects and a client

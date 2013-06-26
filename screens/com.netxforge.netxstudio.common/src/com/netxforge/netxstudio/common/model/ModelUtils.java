@@ -378,6 +378,30 @@ public class ModelUtils {
 		return sb.toString();
 	}
 
+	public Value value() {
+		Value createValue = GenericsFactory.eINSTANCE.createValue();
+		return createValue;
+	}
+
+	/**
+	 * Return a {@link Value} object with the
+	 * {@link GenericsPackage.Literals#VALUE__VALUE } set to a random value
+	 * between 0.0 and 1.0 multiplied by the
+	 * 
+	 * <pre>
+	 * multiply factor
+	 * </pre>
+	 * 
+	 * @param multiply
+	 * @return
+	 */
+	public Value valueWithRandom(int multiply) {
+		Value value = value();
+		double random = Math.random();
+		value.setValue( random * multiply);
+		return value;
+	}
+
 	/**
 	 * CDO Object equality, is not customized {@link CDOObject#equals(Object)
 	 * see equals()} when two CDOObjects with same OID are compared with '=='
@@ -787,8 +811,8 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Gets a {@link DateTimeRange} from a bunch of {@link Value}s. The values
-	 * are sorted first. Returns <code>null</code> when the
+	 * Create a {@link DateTimeRange period} from a bunch of {@link Value
+	 * values}. The values are sorted first. Returns <code>null</code> when the
 	 * {@link Collection#isEmpty()}
 	 * 
 	 * @param values
@@ -2642,7 +2666,7 @@ public class ModelUtils {
 	 * @param resource
 	 * @param targetInterval
 	 * @return
-	 * @deprecated
+	 * @deprecated use {@link #valueRangesForInterval(NetXResource, int)}
 	 */
 	public MetricValueRange valueRangeForInterval(NetXResource resource,
 			int targetInterval) {
@@ -2861,6 +2885,8 @@ public class ModelUtils {
 				result.append("Value Datakind: "
 						+ ((ValueDataKind) dk).getValueKind());
 			}
+		} else if (o instanceof Value) {
+			result.append(this.value((Value) o));
 		}
 
 		// if( ECoreUtil.geto.getClass() != null){
@@ -3833,6 +3859,43 @@ public class ModelUtils {
 		return occurences;
 	}
 
+	/**
+	 * Roll forward or backwards (With minus hours).
+	 * 
+	 * @param baseDate
+	 * @param hours
+	 * @return
+	 */
+	public XMLGregorianCalendar rollHours(XMLGregorianCalendar baseDate,
+			int hours) {
+		GregorianCalendar gregorianCalendar = baseDate.toGregorianCalendar();
+		gregorianCalendar.add(Calendar.HOUR_OF_DAY, hours);
+		
+		return this.toXMLDate(gregorianCalendar.getTime());
+	}
+
+	/**
+	 * Roll forward or backwards (With minus hours).
+	 * 
+	 * @param baseDate
+	 * @param hours
+	 * @return
+	 */
+	public Date rollHours(Date baseDate, int hours) {
+		final Calendar c = GregorianCalendar.getInstance();
+		c.setTime(baseDate);
+		c.add(Calendar.HOUR_OF_DAY, hours);
+		return c.getTime();
+	}
+
+	/**
+	 * WARNING investigate this implementation. the Calendar should roll seconds
+	 * properly.
+	 * 
+	 * @param baseDate
+	 * @param seconds
+	 * @return
+	 */
 	public Date rollSeconds(Date baseDate, int seconds) {
 		final Calendar c = GregorianCalendar.getInstance();
 		c.setTime(baseDate);

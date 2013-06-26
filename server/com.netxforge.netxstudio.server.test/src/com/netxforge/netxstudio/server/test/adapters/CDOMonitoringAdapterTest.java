@@ -17,14 +17,16 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.test.adapters;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CDOLazyContentAdapter;
+import org.eclipse.emf.cdo.util.CommitException;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
@@ -35,6 +37,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ComponentSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
@@ -58,12 +61,14 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.impl.ComponentImpl;
 import com.netxforge.netxstudio.library.impl.NetXResourceImpl;
 import com.netxforge.netxstudio.library.impl.NodeTypeImpl;
+import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.impl.OperatorImpl;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.impl.RFSServiceImpl;
+import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 /**
  * Test {@link MonitoringStateModel} and produced implementation of
@@ -98,7 +103,10 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 	private static String NETXRESOURCE_OID = "10955120";
 	private static int NETXRESOURCE_TARGET_MVR_INTERVAL = 60;
 
-	private static String RFSSERVICE_OID = "10955120";
+	private static String COMPONENT_OID = "TODO";
+	
+	
+	private static String RFSSERVICE_OID = "TODO";
 
 	@Before
 	public void before() {
@@ -146,6 +154,7 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 							testAdaptedGraph(targetNetXResource, 1);
 							// testMonitoring();
 							NetxresourceSummary sum = (NetxresourceSummary) result;
+
 							System.out.println("Marker count:  "
 									+ sum.markers().size());
 							System.out.println("RAG:  " + sum.toString());
@@ -173,6 +182,10 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 			}
 		}
 
+		System.out.println("Number of ranges for: "
+				+ targetNetXResource.cdoID() + " is: "
+				+ targetNetXResource.getMetricValueRanges().size());
+
 		// Do some update on the metric value ranges.
 		List<MetricValueRange> valueRangesForInterval = modelUtils
 				.valueRangesForInterval(targetNetXResource,
@@ -182,39 +195,111 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 					+ NETXRESOURCE_TARGET_MVR_INTERVAL);
 		}
 
+		// Our target MVR.
 		MetricValueRange targetMVR = valueRangesForInterval.get(0);
-		
-		
-		// Note, this will sort the current collection, forcing the loading of the values.
-		add20RandomValues(targetMVR);
-		
-		
-		
+		System.out.println("Values in range: " + targetMVR.cdoID() + " is: "
+				+ targetMVR.getMetricValues().size());
+
+		// Note, this will sort the current collection, forcing the loading of
+		// the values.
+		List<Value> randomValues = randomValues(24, targetMVR.getMetricValues());
+
+		targetMVR.getMetricValues().addAll(randomValues);
+
+		{ // Commit Values Add.
+			CDOView cdoView = targetMVR.cdoView();
+			if (cdoView instanceof CDOTransaction) {
+				try {
+					((CDOTransaction) cdoView).commit();
+				} catch (CommitException e) {
+				}
+			}
+		}
+
+		// Remove them again.
+		targetMVR.getMetricValues().removeAll(randomValues);
+
+		{ // Commit Values removal.
+			CDOView cdoView = targetMVR.cdoView();
+			// Commit the removal
+			if (cdoView instanceof CDOTransaction) {
+				try {
+					((CDOTransaction) cdoView).commit();
+				} catch (CommitException e) {
+				}
+			}
+		}
+		// Add a new MVR.
+
+		MetricValueRange testMVR = MetricsFactory.eINSTANCE
+				.createMetricValueRange();
+		testMVR.setIntervalHint(20); // 20 Minutes.
+		testMVR.setKindHint(KindHintType.BH); // Busy Hour
+
+		targetNetXResource.getMetricValueRanges().add(testMVR);
+
+		{ // Commit MVR Add
+			CDOView cdoView = targetNetXResource.cdoView();
+			// Commit the removal
+			if (cdoView instanceof CDOTransaction) {
+				try {
+					((CDOTransaction) cdoView).commit();
+				} catch (CommitException e) {
+				}
+			}
+		}
+
+		targetNetXResource.getMetricValueRanges().remove(testMVR);
+
+		{ // Commit MVR Removal
+			CDOView cdoView = targetNetXResource.cdoView();
+			// Commit the removal
+			if (cdoView instanceof CDOTransaction) {
+				try {
+					((CDOTransaction) cdoView).commit();
+				} catch (CommitException e) {
+				}
+			}
+		}
+
+		// Removal of Adapter on root, should unset the children.
 		IMonitoringSummary adapted = MonitoringStateModel
 				.getAdapted(targetNetXResource);
+		targetNetXResource.eAdapters().remove(adapted);
+
+		try {
+			testAdaptedGraph(targetNetXResource, 0);
+		} catch (Error e) {
+			failed = "Test failed";
+			throw e;
+		} catch (Exception e) {
+			failed = e.getMessage();
+		}
 
 		if (!failed.isEmpty()) {
 			Assert.fail(failed);
 		}
 	}
 
-	private void add20RandomValues(MetricValueRange targetMVR) {
-		DateTimeRange period = modelUtils.period(targetMVR.getMetricValues());
-		XMLGregorianCalendar end = period.getEnd();
-		
-		for(int i = 0 ; i < 20; i++){
-			XMLGregorianCalendar rollHours = modelUtils.rollHours(end, 1);	
+	private List<Value> randomValues(int count, List<Value> initialValues) {
+		List<Value> genValues = Lists.newArrayList();
+		DateTimeRange period = modelUtils.period(initialValues);
+		XMLGregorianCalendar xmlDate = period.getEnd();
+		for (int i = 0; i < count; i++) {
+			Value valueWithRandom = modelUtils.valueWithRandom(100);
+			xmlDate = modelUtils.rollHours(xmlDate, 1);
+			valueWithRandom.setTimeStamp(xmlDate);
+			genValues.add(valueWithRandom);
 		}
-		
-		
+		return genValues;
 	}
 
 	/**
-	 * Check the adaptation graph (recursively) for the target object. 
-	 * </p>Rules are: </p>
+	 * Check the adaptation graph (recursively) for the target object. </p>Rules
+	 * are: </p>
 	 * <ul>
-	 * <li>Filtered objects should not have an adapter of type
-	 * {@li2nk IMonitoringSummary}</li>
+	 * <li>Filtered objects should not have an adapter of type {@li2nk
+	 * IMonitoringSummary}</li>
 	 * <li>
 	 * Only non-filtered items, should have the same adapter installed in the
 	 * hierarchy. If a child object is not-filtered, it could be on the parent

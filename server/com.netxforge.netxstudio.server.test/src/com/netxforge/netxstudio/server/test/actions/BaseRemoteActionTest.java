@@ -55,9 +55,9 @@ import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService;
 import com.netxforge.netxstudio.server.logic.retention.RetentionService;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
+import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 /**
  * Calls actions using a http get request. Need the server side to be running.

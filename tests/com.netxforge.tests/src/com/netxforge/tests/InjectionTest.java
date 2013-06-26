@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.server.test;
+package com.netxforge.tests;
 
 import org.junit.Assert;
 import org.junit.Before;

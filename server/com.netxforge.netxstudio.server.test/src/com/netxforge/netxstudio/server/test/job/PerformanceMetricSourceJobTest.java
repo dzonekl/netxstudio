@@ -11,7 +11,7 @@ import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.server.test.AbstractInjectedTestJUnit4;
+import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 public class PerformanceMetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 

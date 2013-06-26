@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.test;
+package com.netxforge.tests;
 
 import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.common.model.ModelUtils;
