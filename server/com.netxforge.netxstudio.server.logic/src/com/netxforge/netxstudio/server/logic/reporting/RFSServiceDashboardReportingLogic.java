@@ -131,7 +131,7 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 		
 		
 		// FIXME, Produce a summary and query Rag from the summary. 
-		int[] rag = monitoring.ragCountResourcesForNode(service, node, this.getPeriod(), null);
+		int[] rag = monStateModel.ragCountResourcesForNode(service, node, this.getPeriod(), null);
 
 		{
 			Row cellRow = sheet.getRow(newRow);

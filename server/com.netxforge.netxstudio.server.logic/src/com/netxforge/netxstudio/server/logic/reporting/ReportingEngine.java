@@ -30,6 +30,7 @@ import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * Performs the resource reporting execution for service tolerance expressions,
@@ -45,13 +46,6 @@ public class ReportingEngine extends BaseServiceEngine {
 
 	@Override
 	public void doExecute() {
-		
-		
-		
-		
-		System.err.println("Run reporting for Service: "
-				+ this.getService().getServiceName());
-
 		if (this.getService() instanceof RFSService) {
 
 			RFSService service = (RFSService) this.getService();
@@ -60,7 +54,8 @@ public class ReportingEngine extends BaseServiceEngine {
 			getExpressionEngine().getContext().add(getPeriod());
 			getExpressionEngine().getContext().add(service);
 			getExpressionEngine().getContext().add(getServiceSummary());
-
+			
+			// Execute the expression for each of the service tolerances. 
 			for (final Tolerance tolerance : service.getToleranceRefs()) {
 				this.tolerance = tolerance;
 				setEngineContextInfo("Service: " + service.getServiceName()
@@ -80,6 +75,10 @@ public class ReportingEngine extends BaseServiceEngine {
 		return failure;
 	}
 
+	/**
+	 * Processes the result of the {@link ServicesPackage}
+	 * 
+	 */
 	@Override
 	protected void processResult(List<Object> currentContext,
 			List<BaseExpressionResult> expressionResults, DateTimeRange period) {

@@ -66,7 +66,14 @@ public class RFSServiceSummary extends MonitoringAdapter {
 		computeForRFService(target, monitor);
 
 	}
-
+	
+	/**
+	 * Computation here is based on 
+	 * 
+	 * 
+	 * @param service
+	 * @param monitor
+	 */
 	public void computeForRFService(RFSService service, IProgressMonitor monitor) {
 
 		// Include our own service as well.
@@ -100,7 +107,6 @@ public class RFSServiceSummary extends MonitoringAdapter {
 
 				// FIXME We should base our RAG on external expression
 				// computation.
-				// See
 				this.incrementRag(childAdapter.rag());
 
 				if (childAdapter instanceof NodeTypeSummary) {

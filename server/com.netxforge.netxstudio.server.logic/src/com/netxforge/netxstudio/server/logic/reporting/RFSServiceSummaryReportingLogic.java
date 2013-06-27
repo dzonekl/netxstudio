@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 27 jun. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.server.logic.reporting;
 
 import java.io.IOException;
@@ -25,6 +42,9 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	private static final int SERVICES_ROW = 9;
 	private static final int NODES_ROW = 10;
 	private static final int RESOURCES_ROW = 11;
+	
+	
+	// FIXME
 	private OperatorSummary opSummary = new OperatorSummary();
 
 	@Override
@@ -245,6 +265,8 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	}
 
 	private RFSServiceSummary processService(Service service) {
+		
+		
 		// Build a service summary, to be passed to the engine.
 		RFSServiceSummary serviceSummary = this.getModelUtils()
 				.serviceSummaryForService(service, this.getPeriod(), null);

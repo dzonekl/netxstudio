@@ -67,6 +67,7 @@ import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.impl.OperatorImpl;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.ServicesPackage;
 import com.netxforge.netxstudio.services.impl.RFSServiceImpl;
 import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
@@ -87,8 +88,6 @@ import com.netxforge.tests.AbstractInjectedTestJUnit4;
  */
 public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 
-	private CDOID targetNetXResourceID;
-
 	@Inject
 	private IDataProvider provider;
 
@@ -101,12 +100,16 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 	// THIS TEST WORKS ONLY ON EXISTING OBJECTS IN THE MODEL.
 	// set the targets HERE:
 	private static String NETXRESOURCE_OID = "10955120";
+
+	// Should be the service holding the service above.
+	private static String RFSSERVICE_OID = "2206840";
+
 	private static int NETXRESOURCE_TARGET_MVR_INTERVAL = 60;
 
 	private static String COMPONENT_OID = "TODO";
-	
-	
-	private static String RFSSERVICE_OID = "TODO";
+
+	private CDOID targetNetXResourceID;
+	private CDOID targetRFSServiceID;
 
 	@Before
 	public void before() {
@@ -116,6 +119,12 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 		targetNetXResourceID = cdoIDFor(LibraryPackage.Literals.NET_XRESOURCE,
 				NETXRESOURCE_OID);
 		Assert.assertNotNull(targetNetXResourceID);
+
+		targetRFSServiceID = cdoIDFor(ServicesPackage.Literals.RFS_SERVICE,
+				RFSSERVICE_OID);
+
+		Assert.assertNotNull(targetRFSServiceID);
+
 		Assert.assertNotNull(stateModel);
 
 		provider.openSession("admin", "admin");
@@ -130,10 +139,12 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 	String failed = "";
 
 	@Test
-	public void testAdapterAdded() {
+	public void testNetXResourceAdapter() {
 
 		EObject targetEObject = provider.getTransaction().getObject(
 				targetNetXResourceID);
+		EObject targetRFSService = provider.getTransaction().getObject(
+				targetRFSServiceID);
 
 		if (targetEObject == null) {
 			Assert.fail("target should be set");
@@ -170,8 +181,12 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 				}
 			};
 
-			// Summary for NetXResource.
-			stateModel.summary(callBack, targetNetXResource, new Object[] {});
+			DateTimeRange period = modelUtils.period(modelUtils.monthsAgo(12),
+					modelUtils.todayAtDayEnd());
+
+			// Summary for NetXResource, add the context for computation. 
+			stateModel.summary(callBack, targetNetXResource, new Object[] {
+					targetRFSService, period });
 
 			while (!finished) {
 				try {
@@ -262,9 +277,17 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 			}
 		}
 
+		// Test monitoring.
 		// Removal of Adapter on root, should unset the children.
 		IMonitoringSummary adapted = MonitoringStateModel
 				.getAdapted(targetNetXResource);
+
+		// Force computation, after setting the context.
+		Object[] contextObjects = adapted.getContextObjects();
+
+		// Get the RFSService for this.
+		adapted.addContextObjects(new Object[] {});
+
 		targetNetXResource.eAdapters().remove(adapted);
 
 		try {

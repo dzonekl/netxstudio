@@ -66,7 +66,7 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 			REPORT_PREFIX_SM_USER, REPORT_PREFIX_RM, REPORT_PREFIX_RM_FORECAST);
 	
 	@Inject
-	protected MonitoringStateModel monitoring;
+	protected MonitoringStateModel monStateModel;
 	
 	public void initializeStream(URI uri) {
 
