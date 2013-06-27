@@ -23,6 +23,7 @@ import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.common.id.CDOID;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,6 +44,15 @@ public class ModelUtilsTest extends AbstractInjectedTestJUnit4 {
 
 	}
 
+	@Test
+	public void testCDO(){
+		
+		CDOID cdoLongIDFromString = modelUtils.cdoLongIDFromString("1234567");
+//		modelUtils.c
+		
+		
+	}
+	
 	@Test
 	public void testRandomValue() {
 		Date d = modelUtils.todayAndNow();

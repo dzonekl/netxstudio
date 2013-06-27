@@ -26,15 +26,13 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.id.CDOIDUtil;
-import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
-import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
@@ -60,6 +58,9 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  */
 public class ReportingService implements NetxForgeService {
 
+	@Inject
+	private static ModelUtils modelUtils;
+
 	public static final String NETWORK_OPERATOR_PARAM = "operator";
 	public static final String NETWORK_SERVICE_PARAM = "rfsService";
 	public static final String NODE_PARAM = "node";
@@ -71,7 +72,8 @@ public class ReportingService implements NetxForgeService {
 		final ReportingRunner runner = LogicActivator.getInstance()
 				.getInjector().getInstance(ReportingRunner.class);
 		runner.setParameters(parameters);
-		return ((AbstractCDOIDLong) runner.run()).getLongValue();
+		CDOID run = runner.run();
+		return modelUtils.cdoLongIDAsString(run);
 	}
 
 	public static class ReportingRunner {
@@ -84,28 +86,28 @@ public class ReportingService implements NetxForgeService {
 		private CDOID run() {
 
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
-			
-			
-			// For a node type in an Operator or Service. 
+
+			// For a node type in an Operator or Service.
 			if (parameters.containsKey(NODETYPE_PARAM)) {
 
-				CDOID nodeTypeID = getCDOID(parameters.get(NODETYPE_PARAM),
-						LibraryPackage.Literals.NODE_TYPE);
+				CDOID nodeTypeID = modelUtils.cdoLongIDFromString(
+						LibraryPackage.Literals.NODE_TYPE,
+						parameters.get(NODETYPE_PARAM));
 
 				if (parameters.containsKey(NETWORK_OPERATOR_PARAM)) {
 
-					CDOID operatorID = getCDOID(
-							parameters.get(NETWORK_OPERATOR_PARAM),
-							OperatorsPackage.Literals.OPERATOR);
+					CDOID operatorID = modelUtils.cdoLongIDFromString(
+							OperatorsPackage.Literals.OPERATOR,
+							parameters.get(NETWORK_OPERATOR_PARAM));
 
 					runForOperator(monitor, operatorID, nodeTypeID,
 							getOperatorReportingLogos());
 				}
 
 				if (parameters.containsKey(NETWORK_SERVICE_PARAM)) {
-					CDOID serviceID = getCDOID(
-							parameters.get(NETWORK_SERVICE_PARAM),
-							ServicesPackage.Literals.RFS_SERVICE);
+					CDOID serviceID = modelUtils.cdoLongIDFromString(
+							ServicesPackage.Literals.RFS_SERVICE,
+							parameters.get(NETWORK_SERVICE_PARAM));
 
 					runForService(monitor, serviceID, nodeTypeID,
 							getOperatorReportingLogos());
@@ -114,24 +116,25 @@ public class ReportingService implements NetxForgeService {
 			} else
 			// For all Services from an operator.
 			if (parameters.containsKey(NETWORK_OPERATOR_PARAM)) {
-				CDOID operatorID = getCDOID(
-						parameters.get(NETWORK_OPERATOR_PARAM),
-						OperatorsPackage.Literals.OPERATOR);
+				CDOID operatorID = modelUtils.cdoLongIDFromString(
+						OperatorsPackage.Literals.OPERATOR,
+						parameters.get(NETWORK_OPERATOR_PARAM));
 				runForOperator(monitor, operatorID, getOperatorReportingLogos());
 
 			}
 			// For a single Service.
 			else if (parameters.containsKey(NETWORK_SERVICE_PARAM)) {
-				CDOID serviceID = getCDOID(
-						parameters.get(NETWORK_SERVICE_PARAM),
-						ServicesPackage.Literals.RFS_SERVICE);
+				CDOID serviceID = modelUtils.cdoLongIDFromString(
+						ServicesPackage.Literals.RFS_SERVICE,
+						parameters.get(NETWORK_SERVICE_PARAM));
 				runForService(monitor, serviceID, getOperatorReportingLogos());
 
 			}
 			// For a Single Node.
 			else if (parameters.containsKey(NODE_PARAM)) {
-				CDOID nodeID = getCDOID(parameters.get(NODE_PARAM),
-						OperatorsPackage.Literals.NODE);
+				CDOID nodeID = modelUtils.cdoLongIDFromString(
+						OperatorsPackage.Literals.NODE,
+						parameters.get(NODE_PARAM));
 				NodeResourceReportingLogic reportingLogic = LogicActivator
 						.getInstance().getInjector()
 						.getInstance(NodeResourceReportingLogic.class);
@@ -203,7 +206,7 @@ public class ReportingService implements NetxForgeService {
 						}
 
 						reportingLogic.run();
-						
+
 					}
 				};
 			}.start();
@@ -340,7 +343,7 @@ public class ReportingService implements NetxForgeService {
 			final ServerWorkFlowRunMonitor runMonitor = LogicActivator
 					.getInstance().getInjector()
 					.getInstance(ServerWorkFlowRunMonitor.class);
-			
+
 			dataProvider.openSession();
 			dataProvider.getTransaction();
 			final Resource res = dataProvider
@@ -355,12 +358,6 @@ public class ReportingService implements NetxForgeService {
 			runMonitor.setWorkFlowRunId(wfRun.cdoID());
 			runMonitor.setStartRunning();
 			return runMonitor;
-		}
-
-		private CDOID getCDOID(String idString,
-				org.eclipse.emf.ecore.EClass eClass) {
-			return CDOIDUtil.createLongWithClassifier(new CDOClassifierRef(
-					eClass), Long.parseLong(idString));
 		}
 
 		public Map<String, String> getParameters() {

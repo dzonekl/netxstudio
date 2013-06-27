@@ -24,13 +24,11 @@ import java.util.Map;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.id.CDOIDUtil;
-import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
-import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -47,6 +45,9 @@ import com.netxforge.netxstudio.server.service.NetxForgeService;
  */
 public class RetentionService implements NetxForgeService {
 
+	@Inject
+	private static ModelUtils modelUtils;
+
 	public static final String SERVICE_PARAM = "rfsService";
 	public static final String NODE_PARAM = "node";
 	public static final String NODETYPE_PARAM = "nodeType";
@@ -57,7 +58,8 @@ public class RetentionService implements NetxForgeService {
 		final RetentionServiceRunner runner = LogicActivator.getInstance()
 				.getInjector().getInstance(RetentionServiceRunner.class);
 		runner.setParameters(parameters);
-		return ((AbstractCDOIDLong)runner.run()).getLongValue();
+		CDOID run = runner.run();
+		return modelUtils.cdoLongIDAsString(run);
 	}
 
 	public static class RetentionServiceRunner {
@@ -69,29 +71,29 @@ public class RetentionService implements NetxForgeService {
 
 		private CDOID run() {
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
-			final RetentionLogic logic = LogicActivator.getInstance().getInjector()
-					.getInstance(RetentionLogic.class);
-			
-//			if (parameters.containsKey(SERVICE_PARAM)) {
-//				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
-//						ServicesPackage.Literals.RFS_SERVICE);
-//				logic.setRfsService(id);
-//			} else if (parameters.containsKey(NODE_PARAM)) {
-//				final CDOID id = getCDOID(parameters.get(NODE_PARAM),
-//						OperatorsPackage.Literals.NODE);
-//				logic.setNode(id);
-//			} else if (parameters.containsKey(NODETYPE_PARAM)) {
-//				final CDOID id = getCDOID(parameters.get(NODETYPE_PARAM),
-//						LibraryPackage.Literals.NODE_TYPE);
-//				logic.setNodeType(id);
-//			} else {
-//				throw new IllegalArgumentException("No valid parameters found");
-//			}
-			
+			final RetentionLogic logic = LogicActivator.getInstance()
+					.getInjector().getInstance(RetentionLogic.class);
+
+			// if (parameters.containsKey(SERVICE_PARAM)) {
+			// final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
+			// ServicesPackage.Literals.RFS_SERVICE);
+			// logic.setRfsService(id);
+			// } else if (parameters.containsKey(NODE_PARAM)) {
+			// final CDOID id = getCDOID(parameters.get(NODE_PARAM),
+			// OperatorsPackage.Literals.NODE);
+			// logic.setNode(id);
+			// } else if (parameters.containsKey(NODETYPE_PARAM)) {
+			// final CDOID id = getCDOID(parameters.get(NODETYPE_PARAM),
+			// LibraryPackage.Literals.NODE_TYPE);
+			// logic.setNodeType(id);
+			// } else {
+			// throw new IllegalArgumentException("No valid parameters found");
+			// }
+
 			logic.setJobMonitor(monitor);
-			
-//			logic.setBeginTime(getStartTime(parameters));
-//			logic.setEndTime(getEndTime(parameters));
+
+			// logic.setBeginTime(getStartTime(parameters));
+			// logic.setEndTime(getEndTime(parameters));
 			// run in a separate thread
 			new Thread() {
 				@Override
@@ -124,8 +126,9 @@ public class RetentionService implements NetxForgeService {
 		}
 
 		private ServerWorkFlowRunMonitor createMonitor() {
-			final ServerWorkFlowRunMonitor runMonitor = LogicActivator.getInstance()
-					.getInjector().getInstance(ServerWorkFlowRunMonitor.class);
+			final ServerWorkFlowRunMonitor runMonitor = LogicActivator
+					.getInstance().getInjector()
+					.getInstance(ServerWorkFlowRunMonitor.class);
 			dataProvider.openSession();
 			dataProvider.getTransaction();
 			final Resource res = dataProvider
@@ -140,13 +143,6 @@ public class RetentionService implements NetxForgeService {
 			runMonitor.setWorkFlowRunId(wfRun.cdoID());
 			runMonitor.setStartRunning();
 			return runMonitor;
-		}
-
-		@SuppressWarnings("unused")
-		private CDOID getCDOID(String idString,
-				org.eclipse.emf.ecore.EClass eClass) {
-			return CDOIDUtil.createLongWithClassifier(new CDOClassifierRef(
-					eClass), Long.parseLong(idString));
 		}
 
 		public Map<String, String> getParameters() {

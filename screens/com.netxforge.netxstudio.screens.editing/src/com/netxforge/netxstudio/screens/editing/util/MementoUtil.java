@@ -25,8 +25,6 @@ import java.util.List;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.id.CDOIDUtil;
-import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.spi.cdo.FSMUtil;
@@ -46,6 +44,9 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
+
 /**
  * Various memento shortcut boilerplate busters!
  * 
@@ -56,13 +57,16 @@ public class MementoUtil {
 
 	// Date formatter for memento.
 	final SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS-Z");
-	
+
+	@Inject
+	private ModelUtils modelUtils;
+
 	public static final String MEM_KEY_SEARCH_PATTERN = "MEM_KEY_SEARCH_PATTERN";
-	
+
 	public static final String MEM_KEY_COLUMNS_TABLE = "MEM_KEY_COLUMNS_TABLE";
-	
+
 	public static final String MEM_KEY_SELECTION_TABLE = "MEM_KEY_SELECTION_TABLE";
-	
+
 	public static final String MEM_KEY_CURRENT_SCREEN = "MEM_KEY_CURRENT_SCREEN";
 
 	public static final String MEM_KEY_SCREEN_PART = "MEM_KEY_SCREEN_PART";
@@ -396,7 +400,7 @@ public class MementoUtil {
 			String key) {
 		String string = memento.getString(key);
 		if (string != null) {
-			CDOID cdoid = this.getCDOID(string);
+			CDOID cdoid = modelUtils.cdoLongIDFromString(string);
 			try {
 				return view.getObject(cdoid);
 			} catch (ObjectNotFoundException onfe) {
@@ -407,18 +411,13 @@ public class MementoUtil {
 	}
 
 	public void rememberCDOObject(IMemento memento, CDOObject object, String key) {
-		
-		
-		if( FSMUtil.isNew(object) || FSMUtil.isTransient(object)){
-			return; // Can't remember this state. 
-		}
-		CDOID cdoID = object.cdoID();
-		Long longValue = ((AbstractCDOIDLong) cdoID).getLongValue();
-		memento.putString(key, longValue.toString());
-	}
 
-	private CDOID getCDOID(String idString) {
-		return CDOIDUtil.createLong(Long.parseLong(idString));
+		if (FSMUtil.isNew(object) || FSMUtil.isTransient(object)) {
+			return; // Can't remember this state.
+		}
+		
+		String cdoLongIDAsString = modelUtils.cdoLongIDAsString(object);
+		memento.putString(key, cdoLongIDAsString);
 	}
 
 	/**
@@ -461,14 +460,12 @@ public class MementoUtil {
 		}
 	}
 
-	public void rememberString(IMemento memento, String string,
-			String key) {
+	public void rememberString(IMemento memento, String string, String key) {
 		memento.putString(key, string);
 	}
 
-	public String retrieveString(IMemento memento,
-			String key) {
+	public String retrieveString(IMemento memento, String key) {
 		return memento.getString(key);
 	}
-	
+
 }

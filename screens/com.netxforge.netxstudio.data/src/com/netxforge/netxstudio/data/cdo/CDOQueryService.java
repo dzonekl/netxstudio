@@ -23,7 +23,6 @@ import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.cdo.view.CDOView;
@@ -32,6 +31,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -55,6 +55,12 @@ import com.netxforge.netxstudio.services.Service;
  */
 public class CDOQueryService implements IQueryService {
 
+	@Inject
+	private CDOQueryUtil queryService;
+
+	@Inject
+	private ModelUtils modelUtils;
+
 	private IDataProvider provider;
 
 	private List<CDOTransaction> usedTransactions = Lists.newArrayList();
@@ -71,9 +77,6 @@ public class CDOQueryService implements IQueryService {
 		CamelCase = camelCase;
 	}
 
-	@Inject
-	CDOQueryUtil queryService;
-	
 	public CDOQueryService() {
 	}
 
@@ -339,9 +342,9 @@ public class CDOQueryService implements IQueryService {
 
 			if (dialect.equals(QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
-				Long longValue = ((AbstractCDOIDLong) netXResource.cdoID())
-						.getLongValue();
-				cdoQuery.setParameter("res_cdodid", longValue.toString());
+				String cdoLongIDAsString = modelUtils
+						.cdoLongIDAsString(netXResource);
+				cdoQuery.setParameter("res_cdodid", cdoLongIDAsString);
 
 				if (period != null) {
 					cdoQuery.setParameter("dateFrom",
@@ -433,9 +436,9 @@ public class CDOQueryService implements IQueryService {
 
 			if (dialect.equals(QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
-				Long longValue = ((AbstractCDOIDLong) netXResource.cdoID())
-						.getLongValue();
-				cdoQuery.setParameter("res_cdodid", longValue.toString());
+				String cdoLongIDAsString = modelUtils
+						.cdoLongIDAsString(netXResource);
+				cdoQuery.setParameter("res_cdodid", cdoLongIDAsString);
 
 				if (period != null) {
 					cdoQuery.setParameter("dateFrom",
@@ -531,9 +534,8 @@ public class CDOQueryService implements IQueryService {
 
 			if (dialect.equals(QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
-				Long longValue = ((AbstractCDOIDLong) mvr.cdoID())
-						.getLongValue();
-				cdoQuery.setParameter("mvr_cdoid", longValue.toString());
+				String cdoLongIDAsString = modelUtils.cdoLongIDAsString(mvr);
+				cdoQuery.setParameter("mvr_cdoid", cdoLongIDAsString);
 
 				if (period != null) {
 					cdoQuery.setParameter("dateFrom",
@@ -636,9 +638,8 @@ public class CDOQueryService implements IQueryService {
 
 			if (dialect.equals(QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
-				Long longValue = ((AbstractCDOIDLong) mvr.cdoID())
-						.getLongValue();
-				cdoQuery.setParameter("mvr_cdoid", longValue.toString());
+				String cdoLongIDAsString = modelUtils.cdoLongIDAsString(mvr);
+				cdoQuery.setParameter("mvr_cdoid", cdoLongIDAsString);
 
 				if (period != null) {
 					cdoQuery.setParameter("dateFrom",
@@ -695,9 +696,8 @@ public class CDOQueryService implements IQueryService {
 
 			if (dialect.equals(QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
-				Long longValue = ((AbstractCDOIDLong) mvr.cdoID())
-						.getLongValue();
-				cdoQuery.setParameter("mvr_cdoid", longValue.toString());
+				String cdoLongIDAsString = modelUtils.cdoLongIDAsString(mvr);
+				cdoQuery.setParameter("mvr_cdoid", cdoLongIDAsString);
 			} else if (dialect.equals(QUERY_OCL)) {
 				cdoQuery = view.createQuery(dialect, queryString, mvr.cdoID());
 			}
@@ -776,7 +776,7 @@ public class CDOQueryService implements IQueryService {
 	 * http://work.netxforge.com/issues/312
 	 */
 	public String getValuesQuery(CDOID container, EReference ref) {
-		Long longID = ((AbstractCDOIDLong) container).getLongValue();
+		String longID = modelUtils.cdoLongIDAsString(container);
 
 		// dispatch the range.
 		if (ref == MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES) {

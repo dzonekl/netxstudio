@@ -48,6 +48,7 @@ import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.cdo.common.branch.CDOBranchVersion;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
+import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.common.revision.delta.CDOAddFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOContainerFeatureDelta;
@@ -60,7 +61,7 @@ import org.eclipse.emf.cdo.common.revision.delta.CDOSetFeatureDelta;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
 import org.eclipse.emf.cdo.eresource.CDOResourceNode;
-import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
+import org.eclipse.emf.cdo.internal.common.id.CDOIDObjectLongImpl;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
@@ -398,7 +399,7 @@ public class ModelUtils {
 	public Value valueWithRandom(int multiply) {
 		Value value = value();
 		double random = Math.random();
-		value.setValue( random * multiply);
+		value.setValue(random * multiply);
 		return value;
 	}
 
@@ -3870,7 +3871,7 @@ public class ModelUtils {
 			int hours) {
 		GregorianCalendar gregorianCalendar = baseDate.toGregorianCalendar();
 		gregorianCalendar.add(Calendar.HOUR_OF_DAY, hours);
-		
+
 		return this.toXMLDate(gregorianCalendar.getTime());
 	}
 
@@ -3943,9 +3944,30 @@ public class ModelUtils {
 	 * @return
 	 */
 	public String cdoLongIDAsString(CDOObject cdoObject) {
-		long lValue = ((AbstractCDOIDLong) cdoObject.cdoID()).getLongValue();
+		long lValue = ((CDOIDObjectLongImpl) cdoObject.cdoID()).getLongValue();
 		return new Long(lValue).toString();
 	}
+
+	public String cdoLongIDAsString(CDOID cdoID) {
+		long lValue = ((CDOIDObjectLongImpl) cdoID).getLongValue();
+		return new Long(lValue).toString();
+	}
+
+	/**
+	 * 
+	 * @param eClass
+	 * @param cdoString
+	 * @return
+	 */
+	public CDOID cdoLongIDFromString(EClass eClass, String cdoString) {
+		return CDOIDUtil.createLongWithClassifier(new CDOClassifierRef(eClass),
+				Long.parseLong(cdoString));
+	}
+	
+	public CDOID cdoLongIDFromString(String idString) {
+		return CDOIDUtil.createLong(Long.parseLong(idString));
+	}
+
 
 	/**
 	 * Get a CDOID for a String representing the Object ID.

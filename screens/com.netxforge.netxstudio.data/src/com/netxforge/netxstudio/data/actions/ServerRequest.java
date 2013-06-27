@@ -28,8 +28,6 @@ import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
-import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.common.collect.Lists;
@@ -66,9 +64,9 @@ public class ServerRequest {
 
 	@Inject
 	private IDataService dataService;
-	
+
 	private String server;
-	
+
 	public static final String LOCAL_HTTP_SERVER = "http://localhost:8080";
 
 	public static final String COMMAND_PARAM_NAME = "command";
@@ -89,18 +87,18 @@ public class ServerRequest {
 	public static final String START_TIME_PARAM = "startTime";
 	public static final String END_TIME_PARAM = "endTime";
 
-	// Scheduler commands. 
-	
-	// List all scheduled and running jobs. 
+	// Scheduler commands.
+
+	// List all scheduled and running jobs.
 	public static final String COMMAND_SCHEDULER_LIST = "scheduler_list";
 
-	// Stop the scheduler and abort all running jobs, for jobs in progress, we set the status to aborted. 
+	// Stop the scheduler and abort all running jobs, for jobs in progress, we
+	// set the status to aborted.
 	public static final String COMMAND_SCHEDULER_STOP = "scheduler_stop";
 
 	// Start the scheduler.
 	public static final String COMMAND_SCHEDULER_START = "scheduler_start";
-	
-	
+
 	public ServerRequest() {
 	}
 
@@ -111,18 +109,15 @@ public class ServerRequest {
 		url.append(server + NETXFORGE_SERVICE);
 		url.append("?" + SERVICE_PARAM_NAME + "=" + SCHEDULER_SERVICE);
 		url.append("&" + COMMAND_PARAM_NAME + "=" + command);
-		
+
 		System.err.println(url.toString());
 		final String result = doRequest(url.toString());
 		System.err.println(result);
 		return result;
 	}
-	
-	
-	
+
 	public String callMetricImportAction(CDOObject cdoObject) throws Exception {
-		return callMetricAction(METRIC_IMPORT_SERVICE, MS_PARAM,
-				cdoObject.cdoID());
+		return callMetricAction(METRIC_IMPORT_SERVICE, MS_PARAM, cdoObject);
 	}
 
 	public String callMonitorAction(CDOObject cdoObject, Date fromDate,
@@ -197,7 +192,7 @@ public class ServerRequest {
 	}
 
 	private String callMetricAction(String serviceName, String parameterName,
-			CDOID cdoId) throws Exception {
+			CDOObject cdoObject) throws Exception {
 
 		setServer();
 
@@ -205,7 +200,7 @@ public class ServerRequest {
 		url.append(server + NETXFORGE_SERVICE);
 		url.append("?" + SERVICE_PARAM_NAME + "=" + serviceName);
 		url.append("&" + parameterName + "="
-				+ ((AbstractCDOIDLong) cdoId).getLongValue());
+				+ modelUtils.cdoLongIDAsString(cdoObject));
 
 		System.err.println(url.toString());
 		final String result = doRequest(url.toString());
@@ -290,9 +285,9 @@ public class ServerRequest {
 	}
 
 	public String setServer() {
-		
+
 		server = dataService.getServer();
-		
+
 		if (server == null) {
 			server = LOCAL_HTTP_SERVER;
 		} else {

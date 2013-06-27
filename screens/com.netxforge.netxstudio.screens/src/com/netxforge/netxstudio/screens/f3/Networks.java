@@ -80,6 +80,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -741,14 +742,15 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		@Override
 		public Object getParent(Object element) {
 
-			// For Function or Equipment return the Node.
-			if (element instanceof Function || element instanceof Equipment) {
-				return modelUtils.nodeFor((EObject) element);
-			}
 			if (element instanceof EObject) {
 				EObject eo = (EObject) element;
-				if (eo.eContainer() != null) {
-					return eo.eContainer();
+				EObject eContainer = eo.eContainer();
+				if (eContainer != null) {
+					if (element instanceof Component
+							&& eContainer instanceof NodeType) {
+						return modelUtils.nodeFor((EObject) element);
+					}
+					return eContainer;
 				}
 			}
 

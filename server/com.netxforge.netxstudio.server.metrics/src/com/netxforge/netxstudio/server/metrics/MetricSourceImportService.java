@@ -22,14 +22,12 @@ import java.util.Map;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.id.CDOIDUtil;
-import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
 import org.eclipse.emf.cdo.eresource.CDOResource;
-import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
@@ -60,13 +58,17 @@ public class MetricSourceImportService implements NetxForgeService {
 	@Inject
 	static private IImporterHelper importerHelper;
 
+	@Inject
+	static private ModelUtils modelUtils;
+
 	public static final String MS_PARAM = "metricSource";
 
 	public Object run(Map<String, String> parameters) {
 		final ServiceRunner runner = MetricsActivator.getInstance()
 				.getInjector().getInstance(ServiceRunner.class);
 		runner.setParameters(parameters);
-		return ((AbstractCDOIDLong) runner.run()).getLongValue();
+		CDOID run = runner.run();
+		return modelUtils.cdoLongIDAsString(run);
 	}
 
 	public static class ServiceRunner {
@@ -82,8 +84,9 @@ public class MetricSourceImportService implements NetxForgeService {
 		private Map<String, String> parameters;
 
 		private CDOID run() {
-			final CDOID msId = getCDOID(parameters.get(MS_PARAM),
-					MetricsPackage.Literals.METRIC_SOURCE);
+			final CDOID msId = modelUtils.cdoLongIDFromString(
+					MetricsPackage.Literals.METRIC_SOURCE,
+					parameters.get(MS_PARAM));
 
 			if (MetricsActivator.DEBUG) {
 				System.out.println("IMPORT SERVICE  Metric source ID=" + msId);
@@ -181,12 +184,6 @@ public class MetricSourceImportService implements NetxForgeService {
 			runMonitor.setWorkFlowRunId(wfRun.cdoID());
 			runMonitor.setStartRunning();
 			return runMonitor;
-		}
-
-		private CDOID getCDOID(String idString,
-				org.eclipse.emf.ecore.EClass eClass) {
-			return CDOIDUtil.createLongWithClassifier(new CDOClassifierRef(
-					eClass), Long.parseLong(idString));
 		}
 
 		public Map<String, String> getParameters() {

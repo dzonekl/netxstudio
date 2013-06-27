@@ -24,13 +24,11 @@ import java.util.Map;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.id.CDOIDUtil;
-import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
-import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -52,6 +50,9 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  */
 public class MonitoringService implements NetxForgeService {
 
+	@Inject
+	private static ModelUtils modelUtils;
+
 	public static final String SERVICE_PARAM = "rfsService";
 	public static final String NODE_PARAM = "node";
 	public static final String NODETYPE_PARAM = "nodeType";
@@ -62,7 +63,8 @@ public class MonitoringService implements NetxForgeService {
 		final ResourceMonitoringRunner runner = LogicActivator.getInstance()
 				.getInjector().getInstance(ResourceMonitoringRunner.class);
 		runner.setParameters(parameters);
-		return ((AbstractCDOIDLong) runner.run()).getLongValue();
+		CDOID run = runner.run();
+		return modelUtils.cdoLongIDAsString(run);
 	}
 
 	public static class ResourceMonitoringRunner {
@@ -82,8 +84,9 @@ public class MonitoringService implements NetxForgeService {
 
 			// TODO Also for Operator monitoring all services?
 			if (parameters.containsKey(SERVICE_PARAM)) {
-				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
-						ServicesPackage.Literals.RFS_SERVICE);
+				final CDOID id = modelUtils.cdoLongIDFromString(
+						ServicesPackage.Literals.RFS_SERVICE,
+						parameters.get(SERVICE_PARAM));
 				monitoringLogic = LogicActivator.getInstance().getInjector()
 						.getInstance(RFSServiceMonitoringLogic.class);
 				((RFSServiceMonitoringLogic) monitoringLogic).setRfsService(id);
@@ -99,15 +102,17 @@ public class MonitoringService implements NetxForgeService {
 				resourceProfileLogic.setEndTime(getEndTime(parameters));
 
 			} else if (parameters.containsKey(NODE_PARAM)) {
-				final CDOID id = getCDOID(parameters.get(NODE_PARAM),
-						OperatorsPackage.Literals.NODE);
+				final CDOID id = modelUtils.cdoLongIDFromString(
+						OperatorsPackage.Literals.NODE,
+						parameters.get(NODE_PARAM));
 				monitoringLogic = LogicActivator.getInstance().getInjector()
 						.getInstance(NodeMonitoringLogic.class);
 				((NodeMonitoringLogic) monitoringLogic).setNode(id);
 				resourceProfileLogic = null;
 			} else if (parameters.containsKey(NODETYPE_PARAM)) {
-				final CDOID id = getCDOID(parameters.get(NODETYPE_PARAM),
-						LibraryPackage.Literals.NODE_TYPE);
+				final CDOID id = modelUtils.cdoLongIDFromString(
+						LibraryPackage.Literals.NODE_TYPE,
+						parameters.get(NODETYPE_PARAM));
 				monitoringLogic = LogicActivator.getInstance().getInjector()
 						.getInstance(NodeMonitoringLogic.class);
 				((NodeMonitoringLogic) monitoringLogic).setNodeType(id);
@@ -176,12 +181,6 @@ public class MonitoringService implements NetxForgeService {
 			runMonitor.setWorkFlowRunId(wfRun.cdoID());
 			runMonitor.setStartRunning();
 			return runMonitor;
-		}
-
-		private CDOID getCDOID(String idString,
-				org.eclipse.emf.ecore.EClass eClass) {
-			return CDOIDUtil.createLongWithClassifier(new CDOClassifierRef(
-					eClass), Long.parseLong(idString));
 		}
 
 		public Map<String, String> getParameters() {
