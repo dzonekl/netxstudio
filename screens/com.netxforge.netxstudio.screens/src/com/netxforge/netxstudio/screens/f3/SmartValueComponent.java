@@ -57,6 +57,7 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.TableViewerColumnSorter;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -114,7 +115,11 @@ public class SmartValueComponent {
 
 	private AbstractSmartTableViewerComponent viewerComponent;
 
+	/**
+	 * Our markers, access synchronized.
+	 */
 	private List<Marker> markers;
+
 	private Date from;
 	private Date to;
 
@@ -348,7 +353,7 @@ public class SmartValueComponent {
 	public void injectData(BaseResource object) {
 
 		baseResource = object;
-		markers = null; // reset the markers.
+		applyMarkers(null);
 
 		buildColumns();
 
@@ -364,7 +369,8 @@ public class SmartValueComponent {
 	 */
 	public void clearData() {
 		baseResource = null; // No Resource.
-		markers = null; // No Markers.
+
+		applyMarkers(null);
 
 		buildColumns();
 
@@ -379,14 +385,6 @@ public class SmartValueComponent {
 	public void smartRefresh() {
 		viewerComponent.clearFilter();
 		viewerComponent.applyFilter();
-	}
-
-	/**
-	 * The Value component as the option to show the markers. We will apply only
-	 * markers, as per
-	 */
-	public void applyMarkers(List<Marker> markers) {
-		this.markers = markers;
 	}
 
 	/*
@@ -559,7 +557,7 @@ public class SmartValueComponent {
 					valueMap.put(mvr, values);
 				}
 			}
-			
+
 			// determine the size of the array.
 			int arraySize = 0;
 			Object[] rangeArray;
@@ -587,7 +585,7 @@ public class SmartValueComponent {
 					}
 					// check if the date exist, add if not and add the value
 					rangeArray[rangeIndex++] = doubles;
-				}else{
+				} else {
 					rangeArray[rangeIndex++] = Lists.newArrayList();
 				}
 			}
@@ -770,11 +768,20 @@ public class SmartValueComponent {
 		 * @return
 		 */
 		private Marker markerForDate(Date d) {
+
+			if(getMarkers() == null){
+				return null;
+			}
+			
+			ImmutableList<Marker> copyOfMarkers = ImmutableList
+					.copyOf(getMarkers());
+
 			Marker marker = null;
-			if (d != null && markers != null && markers.size() > 0) {
+
+			if (d != null && copyOfMarkers != null && copyOfMarkers.size() > 0) {
 				try {
 
-					marker = Iterables.find(markers,
+					marker = Iterables.find(copyOfMarkers,
 							modelUtils.markerForDate(d));
 				} catch (NoSuchElementException nsee) {
 					// ignore.
@@ -853,69 +860,16 @@ public class SmartValueComponent {
 		}
 	}
 
-	// public class MonitorAction extends BaseSelectionListenerAction {
-	//
-	// public MonitorAction(String text, int style) {
-	// super(text);
-	// }
-	//
-	// @Override
-	// protected boolean updateSelection(IStructuredSelection selection) {
-	//
-	// // if (currentValues == null || currentValues.size() == 0) {
-	// // return false;
-	// // }
-	// // // Don't allow monitoring for
-	// // if (targetInterval == CAPACITIES || targetInterval == UTILIZATION) {
-	// // return false;
-	// // } else {
-	// // return true;
-	// // }
-	//
-	// return true;
-	//
-	// }
-	//
-	// @Override
-	// public void run() {
-	//
-	//
-	//
-	// if (res instanceof NetXResource && targetInterval > 0) {
-	// MetricValueRange mvr = modelUtils.valueRangeForInterval(
-	// (NetXResource) res, targetInterval);
-	// if (mvr != null) {
-	//
-	// // XMLGregorianCalendar start = mvr.getMetricValues()
-	// // .get(0).getTimeStamp();
-	// // XMLGregorianCalendar end = mvr.getMetricValues()
-	// // .get(mvr.getMetricValues().size() - 1)
-	// // .getTimeStamp();
-	//
-	// XMLGregorianCalendar to = modelUtils.toXMLDate(dateTimeTo
-	// .getSelection());
-	// XMLGregorianCalendar from = modelUtils
-	// .toXMLDate(dateTimeFrom.getSelection());
-	//
-	// DateTimeRange timerange = GenericsFactory.eINSTANCE
-	// .createDateTimeRange();
-	//
-	// timerange.setBegin(from);
-	// timerange.setEnd(to);
-	//
-	// ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
-	// screenService.getScreenContainer(), SWT.NONE);
-	// monitorScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
-	// monitorScreen.setScreenService(screenService);
-	// monitorScreen.injectData(null, res, timerange,
-	// targetInterval);
-	// screenService.setActiveScreen(monitorScreen);
-	// }
-	// } else {
-	// System.out
-	// .println("Invalid target interval <= 0, perhaps the interval was not set properly in the mapping");
-	// }
-	// }
-	// }
+	/**
+	 * The Value component as the option to show the markers. We will apply only
+	 * markers, as per
+	 */
+	public synchronized void applyMarkers(List<Marker> markers) {
+		this.markers = markers;
+	}
+
+	public synchronized List<Marker> getMarkers() {
+		return markers;
+	}
 
 }

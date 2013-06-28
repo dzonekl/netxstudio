@@ -287,9 +287,8 @@ public class ChartModel {
 		if (filledCollection.size() > timeStamps.length) {
 			filledCollection = modelUtils.valuesForTimestamps(filledCollection,
 					Lists.newArrayList(timeStamps));
-		}else{
-			return filledCollection;
 		}
+		
 		
 		// Get the last value from the collection, and fill up for the quantity
 		// of dates.

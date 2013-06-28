@@ -41,20 +41,24 @@ public class ComponentSummary extends MonitoringAdapter {
 
 		final Component target = getComponent();
 
+		// Clean previous computations.
+		cleanRag();
+
 		final SubMonitor subMonitor = SubMonitor.convert(monitor,
 				totalResources());
-		
+
 		subMonitor.setTaskName("Computing summary for "
 				+ modelUtils.printModelObject(getComponent()));
 
 		for (NetXResource netxresource : target.getResourceRefs()) {
-			
-			if(monitor != null && monitor.isCanceled()){
+
+			if (monitor != null && monitor.isCanceled()) {
 				System.out.println("Computation cancelled...");
 				break;
 			}
-			
-			// The child is likely self-adapted due to the collection loading policies .
+
+			// The child is likely self-adapted due to the collection loading
+			// policies .
 			// {@See CDOLazyMonitoringAdapter}
 			// Also compute the child when the adaption has worked.
 
@@ -69,8 +73,9 @@ public class ComponentSummary extends MonitoringAdapter {
 
 				// Base our RAG status, on the child's status
 				this.incrementRag(childAdapter.rag());
-			}else{
-				System.out.println("child not adapted! " + modelUtils.printModelObject(netxresource));
+			} else {
+				System.out.println("child not adapted! "
+						+ modelUtils.printModelObject(netxresource));
 			}
 			subMonitor.worked(1);
 		}
@@ -83,21 +88,18 @@ public class ComponentSummary extends MonitoringAdapter {
 
 	@Override
 	protected boolean isNotFiltered(EObject object) {
-		// Self-adapt for contained hierarchy. (Not NetXResource is not contained!). 
+		// Self-adapt for contained hierarchy. (Not NetXResource is not
+		// contained!).
 		return object.eClass() == LibraryPackage.Literals.FUNCTION
 				|| object.eClass() == LibraryPackage.Literals.EQUIPMENT
 				|| object.eClass() == LibraryPackage.Literals.NET_XRESOURCE;
 	}
-	
 
 	@Override
 	protected boolean isRelated(CDOObject object) {
-		// We have a relation for NetXResaource objects which are referenced by this target. 
+		// We have a relation for NetXResaource objects which are referenced by
+		// this target.
 		return getComponent().getResourceRefs().contains(object);
-	}
-
-	public int[] rag() {
-		return ragCount;
 	}
 
 	/**
@@ -114,4 +116,9 @@ public class ComponentSummary extends MonitoringAdapter {
 		final Component target = (Component) super.getTarget();
 		return target;
 	}
+
+	public String getComponentName() {
+		return modelUtils.componentName(getComponent());
+	}
+
 }

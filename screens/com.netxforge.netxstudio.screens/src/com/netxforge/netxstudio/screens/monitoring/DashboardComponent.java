@@ -139,7 +139,7 @@ public class DashboardComponent {
 		content.setLayout(new GridLayout(4, false));
 
 		final Label periodLabel = formToolkit.createLabel(content, "Period:",
-				SWT.NONE);
+				SWT.RIGHT);
 
 		GridData gd_lblPeriod = new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1);
@@ -152,7 +152,7 @@ public class DashboardComponent {
 
 		// This is the dynamic portion.
 
-		targetContent = formToolkit.createComposite(content, SWT.NONE);
+		targetContent = formToolkit.createComposite(content, SWT.BORDER);
 		targetContent.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true,
 				false, 4, 1));
 		targetContent.setLayout(new FillLayout());
@@ -253,8 +253,18 @@ public class DashboardComponent {
 			// Note: We don't provide a context, RFSService or period.
 			// We should still get a Summary back, but without RAG!
 
-			final SummaryCallBack callBack = new SummaryCallBack();
-			monitoringState.summary(callBack, o, new Object[] {});
+			if (o instanceof EObject) {
+				if (MonitoringStateModel.isAdapted((EObject) o)) {
+					System.out.println("We are already adapted");
+					IMonitoringSummary adapted = MonitoringStateModel.getAdapted((EObject) o);
+					refreshSummaryJob.setSummary(adapted);
+					refreshSummaryJob.schedule(100);
+				} else {
+//
+//					final SummaryCallBack callBack = new SummaryCallBack();
+//					monitoringState.summary(callBack, o, new Object[] {});
+				}
+			}
 
 		} else {
 			// TODO, for multiple selections, we need a
@@ -266,7 +276,7 @@ public class DashboardComponent {
 	private ISummaryComponent summaryForSelection(Object o) {
 
 		if (o instanceof Component) {
-			return new TODOSummaryComponent();
+			return new ComponentSummaryComponent();
 		} else if (o instanceof NetXResource) {
 			return new NetXResourceSummaryComponent();
 		} else if (o instanceof Node) {

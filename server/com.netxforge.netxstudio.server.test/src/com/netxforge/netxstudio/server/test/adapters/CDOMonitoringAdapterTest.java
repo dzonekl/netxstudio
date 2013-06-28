@@ -169,6 +169,8 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 							System.out.println("Marker count:  "
 									+ sum.markers().size());
 							System.out.println("RAG:  " + sum.toString());
+						}else{
+							failed = "Test failed";
 						}
 					} catch (Error e) {
 						failed = "Test failed";
@@ -185,15 +187,21 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 					modelUtils.todayAtDayEnd());
 
 			// Summary for NetXResource, add the context for computation. 
-			stateModel.summary(callBack, targetNetXResource, new Object[] {
-					targetRFSService, period });
+//			stateModel.summary(callBack, targetNetXResource, new Object[] {
+//					targetRFSService, period });
 
+			stateModel.summary(callBack, targetNetXResource, new Object[] {});
+			
 			while (!finished) {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+			}
+			
+			if (!failed.isEmpty()) {
+				Assert.fail(failed);
 			}
 		}
 

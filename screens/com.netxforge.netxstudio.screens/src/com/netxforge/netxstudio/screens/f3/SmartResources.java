@@ -137,7 +137,6 @@ import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
-import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Expression;
@@ -1460,43 +1459,73 @@ public class SmartResources extends AbstractScreen implements
 		private DateTimeRange currentPeriod = GenericsFactory.eINSTANCE
 				.createDateTimeRange();
 
+		/**
+		 * Track the last value change which corrsponds to the selection. for
+		 * period change, we will update the monitor for this object.
+		 */
+		private EObject lastSelection;
+
 		public void handleValueChange(ValueChangeEvent event) {
 			IObservable observable = event.getObservable();
+			IObservableValue observableValue = event.getObservableValue();
 
 			if (observable instanceof IViewerObservableValue) {
+
 				IViewerObservableValue ivov = (IViewerObservableValue) observable;
+				lastSelection = (EObject) ivov.getValue();
 				if (ivov.getViewer() == cmbViewerOperator) {
-					currentService = processServiceChange(event
-							.getObservableValue());
+					currentService = processServiceChange(observableValue);
 				} else if (ivov.getViewer() == cmbViewerNode) {
-					currentNode = processNodeChange(event.getObservableValue());
+					
+					cleanResourceMon(currentNode);
+					currentNode = processNodeChange(observableValue);
+					updateResourceMon(currentNode);
+					
 				} else if (ivov.getViewer() == componentsTreeViewer) {
-					currentComponent = processComponentChange(event
-							.getObservableValue());
+					
+					cleanResourceMon(currentNetXResource);
+					currentComponent = processComponentChange(observableValue);
+					updateResourceMon(currentComponent);
+					
 				} else if (ivov.getViewer() == resourcesTableViewer) {
-					currentNetXResource = processResourceChange(event
-							.getObservableValue());
-					updateResourceMon();
+
+					cleanResourceMon(currentNetXResource);
+
+					currentNetXResource = processResourceChange(observableValue);
+					cmpValues.applyDateFilter(getCurrentPeriod(), false);
+					cmpValues.injectData(currentNetXResource);
+
+					updateResourceMon(currentNetXResource);
 				}
 			} else if (observable instanceof WritableValue) {
 				processPeriodChange(observable);
-				updateResourceMon();
+				updateResourceMon(lastSelection);
 			}
 
 		}
 
-		private void updateResourceMon() {
+		private void cleanResourceMon(EObject monitoredObject) {
+			if (monitoredObject != null) {
+
+				// Remove the adapter for the previous resource.
+				if (MonitoringStateModel.isAdapted(monitoredObject)) {
+
+					IMonitoringSummary adapted = MonitoringStateModel
+							.getAdapted(monitoredObject);
+					monitoredObject.eAdapters().remove(adapted);
+				}
+			}
+		}
+
+		private void updateResourceMon(EObject monitoredObject) {
 
 			// The context not being set, has only implications on the
 			// the computation of the summary...
-
-			if (this.getCurrentNetXResource() != null) {
-
-				// Do the summary.
-				monitoringStateModel.summary(
-						new WritableCallBack(this.getCurrentNetXResource()),
-						this.getCurrentNetXResource(), new Object[] {
-								getCurrentService(), getCurrentPeriod() });
+			if (monitoredObject != null) {
+				// Do the summary, we might still be loading objects...
+				monitoringStateModel.summary(new WritableCallBack(
+						monitoredObject), monitoredObject, new Object[] {
+						getCurrentService(), getCurrentPeriod() });
 			}
 		}
 
@@ -1504,9 +1533,15 @@ public class SmartResources extends AbstractScreen implements
 			IMonitoringSummary adapted = MonitoringStateModel
 					.getAdapted(target);
 			if (adapted instanceof NetxresourceSummary) {
-				List<Marker> markers = ((NetxresourceSummary) adapted)
-						.markers();
-				cmpValues.applyMarkers(markers);
+				NetxresourceSummary netxSummary = (NetxresourceSummary) adapted;
+				RFSService rfsService = netxSummary.getRFSService();
+				if (rfsService != null) {
+					List<Marker> markers = netxSummary.markers();
+					cmpValues.applyMarkers(markers);
+				} else {
+					System.out.println(" Context not set for summary:"
+							+ netxSummary);
+				}
 			}
 		}
 
@@ -1574,10 +1609,6 @@ public class SmartResources extends AbstractScreen implements
 			final Object value = ob.getValue();
 			if (value instanceof NetXResource) {
 				netXResource = (NetXResource) value;
-
-				cmpValues.applyDateFilter(getCurrentPeriod(), false);
-				cmpValues.injectData((BaseResource) value);
-
 			}
 			return netXResource;
 		}

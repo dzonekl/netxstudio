@@ -248,6 +248,13 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		ragCount[RAG.AMBER.ordinal()] += ragForMarkers[RAG.AMBER.ordinal()];
 		ragCount[RAG.GREEN.ordinal()] += ragForMarkers[RAG.GREEN.ordinal()];
 	}
+	
+	/**
+	 * When recomputing the RAG, it's a good idea to call this. 
+	 */
+	protected void cleanRag(){
+		 ragCount = new int[] { 0, 0, 0 };
+	}
 
 	/**
 	 * get the Red Amber Green count for this summary.

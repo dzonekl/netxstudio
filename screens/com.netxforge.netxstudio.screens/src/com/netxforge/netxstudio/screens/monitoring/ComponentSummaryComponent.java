@@ -24,16 +24,17 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.FormText;
 
+import com.netxforge.netxstudio.common.model.ComponentSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
-import com.netxforge.netxstudio.common.model.NetxresourceSummary;
 
-public class NetXResourceSummaryComponent extends AbstractSummaryComponent {
+public class ComponentSummaryComponent extends AbstractSummaryComponent {
 
-	private FormText netXResourceText;
+	private FormText componentText;
 
-	private FormText markersText;
+	private FormText resourcesText;
 
-	private FormText rangesText;
+	//
+	// private FormText rangesText;
 
 	/**
 	 * Assume a {@link GridLayout} with 2 columns.
@@ -45,7 +46,7 @@ public class NetXResourceSummaryComponent extends AbstractSummaryComponent {
 		gridContent.setLayout(new GridLayout(2, false));
 		formToolkit.paintBordersFor(gridContent);
 
-		Label summaryLabel = formToolkit.createLabel(gridContent, "Resource: ",
+		Label summaryLabel = formToolkit.createLabel(gridContent, "Component: ",
 				SWT.NONE);
 		summaryLabel.setAlignment(SWT.RIGHT);
 
@@ -54,52 +55,53 @@ public class NetXResourceSummaryComponent extends AbstractSummaryComponent {
 		gd_lblSummary.widthHint = 83;
 		summaryLabel.setLayoutData(gd_lblSummary);
 
-		netXResourceText = formToolkit.createFormText(gridContent, false);
-		GridData gridData = new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1);
-		netXResourceText.setLayoutData(gridData);
+		componentText = formToolkit.createFormText(gridContent, false);
+		GridData gridData = new GridData(SWT.RIGHT, SWT.TOP, true, false, 1, 1);
+		componentText.setLayoutData(gridData);
 
-		Label markersLabel = formToolkit.createLabel(gridContent, "Markers: ",
-				SWT.NONE);
-		markersLabel.setAlignment(SWT.RIGHT);
+		Label resourcesLabel = formToolkit.createLabel(gridContent,
+				"Resources: ", SWT.NONE);
+		resourcesLabel.setAlignment(SWT.RIGHT);
 
-		GridData gd_lblMarkers = new GridData(SWT.RIGHT, SWT.CENTER, false,
+		GridData gd_lblResources = new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1);
-		gd_lblMarkers.widthHint = 83;
-		markersLabel.setLayoutData(gd_lblMarkers);
+		gd_lblResources.widthHint = 83;
+		resourcesLabel.setLayoutData(gd_lblResources);
 
-		markersText = formToolkit.createFormText(gridContent, false);
-		GridData gd_txtMarkers = new GridData(SWT.RIGHT, SWT.TOP, false, false,
+		resourcesText = formToolkit.createFormText(gridContent, false);
+		GridData gd_txtResources = new GridData(SWT.RIGHT, SWT.TOP, false, false,
 				1, 1);
-		markersText.setLayoutData(gd_txtMarkers);
+		resourcesText.setLayoutData(gd_txtResources);
 
-		Label rangesLabel = formToolkit.createLabel(gridContent, "Ranges: ",
-				SWT.NONE);
-		rangesLabel.setAlignment(SWT.RIGHT);
-
-		GridData gd_lblValues = new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_lblValues.widthHint = 83;
-		rangesLabel.setLayoutData(gd_lblValues);
-
-		rangesText = formToolkit.createFormText(gridContent, false);
-		GridData gd_txtValues = new GridData(SWT.RIGHT, SWT.TOP, false, false,
-				1, 1);
-		rangesText.setLayoutData(gd_txtValues);
+		// Label rangesLabel = formToolkit.createLabel(gridContent, "Ranges: ",
+		// SWT.NONE);
+		// rangesLabel.setAlignment(SWT.RIGHT);
+		//
+		// GridData gd_lblValues = new GridData(SWT.RIGHT, SWT.CENTER, false,
+		// false, 1, 1);
+		// gd_lblValues.widthHint = 83;
+		// rangesLabel.setLayoutData(gd_lblValues);
+		//
+		// rangesText = formToolkit.createFormText(gridContent, false);
+		// GridData gd_txtValues = new GridData(SWT.RIGHT, SWT.TOP, false,
+		// false,
+		// 1, 1);
+		// rangesText.setLayoutData(gd_txtValues);
 
 	}
 
 	public void fillSummary(IMonitoringSummary nonCastedSummary) {
-		if (nonCastedSummary instanceof NetxresourceSummary) {
+		if (nonCastedSummary instanceof ComponentSummary) {
 
-			NetxresourceSummary summary = (NetxresourceSummary) nonCastedSummary;
+			ComponentSummary summary = (ComponentSummary) nonCastedSummary;
 
-			netXResourceText.setText(summary.getTarget().getExpressionName(),
-					false, false);
-			markersText.setText(
-					new Integer(summary.markers().size()).toString(), false,
+			// TODO, something with
+			componentText.setText(summary.getComponentName(), false, false);
+			resourcesText.setText(
+					new Integer(summary.totalResources()).toString(), false,
 					false);
-			rangesText.setText(new Integer(summary.getTarget()
-					.getMetricValueRanges().size()).toString(), false, false);
+			// rangesText.setText(new Integer(summary.getTarget()
+			// .getMetricValueRanges().size()).toString(), false, false);
 
 		}
 	}

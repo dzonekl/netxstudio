@@ -30,8 +30,10 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.spi.cdo.FSMUtil;
+import org.eclipse.emf.spi.cdo.InternalCDOObject;
 import org.eclipse.emf.spi.cdo.InternalCDOView;
 
+import com.google.common.collect.ImmutableList;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 
@@ -58,11 +60,7 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 	 * The root object to be adapted.
 	 */
 	private WeakReference<CDOObject> adaptedRoot;
-	
-	
-	
-	
-	
+
 	@Override
 	protected void setTarget(EObject target) {
 
@@ -145,19 +143,20 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 				}
 			}
 
-			view.addObjectHandler(handler);
-
 			if (CommonActivator.DEBUG) {
 				CommonActivator.TRACE.trace(
 						CommonActivator.TRACE_COMMON_MONITORING_OPTION,
 						"Initial adapt loaded objects started");
 			}
+			view.addObjectHandler(handler);
 
 			// Adapt already loaded objects, this will repeat several times.
-			//
-			for (CDOObject cdoObject : view.getObjects().values()) {
+			ImmutableList<InternalCDOObject> copyOf = ImmutableList.copyOf(view
+					.getObjects().values());
+			for (CDOObject cdoObject : copyOf) {
 				addAdapter(cdoObject);
 			}
+
 		}
 	}
 
@@ -179,8 +178,8 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 
 		boolean shouldAdapt = isConnectedObject(notifier)
 				&& !isAlreadyAdapted(notifier)
-				&& isRelated((CDOObject) notifier)
-				&& isNotFiltered((EObject) notifier);
+				&& isNotFiltered((EObject) notifier)
+				&& isRelated((CDOObject) notifier);
 
 		if (shouldAdapt) {
 
@@ -197,8 +196,7 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 				super.addAdapter(notifier);
 
 				// CB Remove later.
-				System.out.println("NEW adapter: " + this
-						+ " (Same as this)");
+				System.out.println("NEW adapter: " + this + " (Same as this)");
 
 				if (CommonActivator.DEBUG) {
 					CommonActivator.TRACE.trace(
@@ -302,10 +300,14 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 			return false;
 		}
 
-		if (root instanceof Resource) {
-			return root == (object instanceof Resource ? object : object
-					.cdoResource());
-		}
+		// In the CDO Version of this adapter, the root is always a Resource,
+		// there for container hierachy is not checked, which would not lead to
+		// a
+		// concurrentmod exception. To solve, there for remove.
+		// if (root instanceof Resource) {
+		// return root == (object instanceof Resource ? object : object
+		// .cdoResource());
+		// }
 
 		// CB isAncestor doesn't work on equality of CDO Objects!
 		// Compare on cdo id.

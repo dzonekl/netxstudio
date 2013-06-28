@@ -101,7 +101,7 @@ public class MonitoringStateModel {
 	}
 
 	@Inject
-	private ModelUtils modelUtils;
+	protected ModelUtils modelUtils;
 
 	private MonitoringStateJob job = null;
 
