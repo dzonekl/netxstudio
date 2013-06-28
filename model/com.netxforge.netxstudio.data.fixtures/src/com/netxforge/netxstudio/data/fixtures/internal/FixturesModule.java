@@ -37,7 +37,6 @@ public class FixturesModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(export(IFixtures.class)).toProvider(service(new Fixtures()).export());
-//		this.bind(IFixtures.class).to(Fixtures.class).in(Singleton.class);
 	}
 
 }

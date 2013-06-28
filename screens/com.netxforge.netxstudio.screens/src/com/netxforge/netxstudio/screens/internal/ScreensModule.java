@@ -26,6 +26,7 @@ import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.data.fixtures.IFixtures;
 import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
@@ -63,9 +64,6 @@ public class ScreensModule extends AbstractModule {
 		this.bind(IInjectorProxy.class)
 				.annotatedWith(Names.named("Netxscript"))
 				.to(NetXScriptInjectorProxy.class);
-
-//		this.bind(IInjectorProxy.class).annotatedWith(Names.named("Screens"))
-//				.to(ScreensInjectorProxy.class);
 
 		this.bind(PeriodSelectionPage.class);
 
@@ -122,7 +120,7 @@ public class ScreensModule extends AbstractModule {
 		// {@link CommonModule}
 		bind(MonitoringAdapterFactory.class).toProvider(
 				service(MonitoringAdapterFactory.class).single());
-		
+
 		// {@link ExportModule}
 		bind(IExpressionEngine.class).toProvider(
 				service(IExpressionEngine.class).single());
@@ -130,7 +128,9 @@ public class ScreensModule extends AbstractModule {
 		// {@link ImporterModule}
 		bind(ResultProcessor.class).toProvider(
 				service(ResultProcessor.class).single());
-		
+
+		// {@link FixturesModule}
+		bind(IFixtures.class).toProvider(service(IFixtures.class).single());
 	}
 
 }
