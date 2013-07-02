@@ -58,6 +58,8 @@ public interface IRunMonitor {
 	
 	public abstract void updateFailures(List<Failure> failure);
 
+	public abstract CDOID getWorkFlowRunId();
+	
 	public abstract void setWorkFlowRunId(CDOID cdoID);
 	
 	

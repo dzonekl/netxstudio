@@ -70,7 +70,7 @@ public class RetentionService implements NetxForgeService {
 		private Map<String, String> parameters;
 
 		private CDOID run() {
-			final ServerWorkFlowRunMonitor monitor = createMonitor();
+			final IRunMonitor monitor = createMonitor();
 			final RetentionLogic logic = LogicActivator.getInstance()
 					.getInjector().getInstance(RetentionLogic.class);
 

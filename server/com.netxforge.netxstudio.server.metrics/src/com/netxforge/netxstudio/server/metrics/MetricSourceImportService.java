@@ -34,6 +34,7 @@ import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
 import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
+import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.metrics.MappingCSV;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingXLS;
@@ -123,7 +124,7 @@ public class MetricSourceImportService implements NetxForgeService {
 
 			// dataProvider.closeSession();
 
-			final ServerWorkFlowRunMonitor monitor = createMonitor();
+			final IRunMonitor monitor = createMonitor();
 			importer.setJobMonitor(monitor);
 			// run in a separate thread
 			new Thread() {

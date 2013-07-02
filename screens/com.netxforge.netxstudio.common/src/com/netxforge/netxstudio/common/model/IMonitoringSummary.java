@@ -35,7 +35,19 @@ public interface IMonitoringSummary {
 		RED, AMBER, GREEN
 	}
 	
+	
+	/**
+	 * The total number of RAG entries for a summary. 
+	 * 
+	 * @param status
+	 * @return
+	 */
 	public int totalRag(RAG status);
+	
+	/**
+	 * All summaries have a rag.
+	 */
+	public int[] rag();
 	
 	/**
 	 * Get the monitoring period formatted as String for presentation.
@@ -100,10 +112,6 @@ public interface IMonitoringSummary {
 	 */
 	public boolean isComputed();
 
-	/**
-	 * All summaries have a rag.
-	 */
-	public int[] rag();
 
 	/**
 	 * Set the {@link AdapterFactory} for producing adapters when Self-adapting.

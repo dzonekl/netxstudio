@@ -78,7 +78,7 @@ public class MonitoringService implements NetxForgeService {
 		private Map<String, String> parameters;
 
 		private CDOID run() {
-			final ServerWorkFlowRunMonitor monitor = createMonitor();
+			final IRunMonitor monitor = createMonitor();
 			final BaseMonitoringLogic monitoringLogic;
 			final RFSServiceProfileLogic resourceProfileLogic;
 

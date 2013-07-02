@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.server.logic.reporting;
 import java.util.List;
 import java.util.Map;
 
+import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.LastEvaluationExpressionResult;
@@ -54,8 +55,8 @@ public class ReportingEngine extends BaseServiceEngine {
 			getExpressionEngine().getContext().add(getPeriod());
 			getExpressionEngine().getContext().add(service);
 			getExpressionEngine().getContext().add(getServiceSummary());
-			
-			// Execute the expression for each of the service tolerances. 
+
+			// Execute the expression for each of the service tolerances.
 			for (final Tolerance tolerance : service.getToleranceRefs()) {
 				this.tolerance = tolerance;
 				setEngineContextInfo("Service: " + service.getServiceName()
@@ -102,15 +103,13 @@ public class ReportingEngine extends BaseServiceEngine {
 							if (tolerance != null) {
 								switch (tolerance.getLevel().getValue()) {
 								case LevelKind.RED_VALUE: {
-									getServiceSummary().setRedStatus(
-											((Boolean) entry).booleanValue());
+									getServiceSummary().setRag(RAG.RED, 1);
 								}
 									break;
 								case LevelKind.AMBER_VALUE: {
 									if (!getServiceSummary().getRedStatus()) {
-										getServiceSummary().setAmberStatus(
-												((Boolean) entry)
-														.booleanValue());
+										getServiceSummary()
+												.setRag(RAG.AMBER, 1);
 									}
 								}
 									break;
@@ -118,9 +117,8 @@ public class ReportingEngine extends BaseServiceEngine {
 									if (!getServiceSummary().getRedStatus()
 											&& !getServiceSummary()
 													.getAmberStatus()) {
-										getServiceSummary().setGreenStatus(
-												((Boolean) entry)
-														.booleanValue());
+										getServiceSummary()
+												.setRag(RAG.GREEN, 1);
 									}
 								}
 									break;

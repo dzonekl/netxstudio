@@ -47,10 +47,17 @@ import com.netxforge.netxstudio.services.RFSService;
 public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		implements CDOAdapter, IMonitoringSummary {
 
+	/**
+	 * Parameter to control if a a global period should be used for monitoring,
+	 * when the context period is not set.
+	 */
 	private static final boolean PARAMETER_USE_GLOBAL_PERIOD = true;
 
 	private static final DateTimeRange PARAMETER_GLOBAL_PERIOD = GenericsFactory.eINSTANCE
 			.createDateTimeRange();
+
+	/** Our collection of context objects needed for computation **/
+	protected final List<Object> context = Lists.newArrayList();
 
 	protected ModelUtils modelUtils;
 
@@ -58,15 +65,109 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 
 	private AdapterFactory adapterFactory;
 
-	/** the RAG status **/
-	int[] ragCount = new int[] { 0, 0, 0 };
+	/**
+	 * The RAG for this summary. Extending classes can create their own instance
+	 * of aggregation of RAG in a hierarchy.
+	 */
+	Rag summaryRag = new Rag();
 
-	/** Our collection of context objects needed for computation **/
-	protected final List<Object> context = Lists.newArrayList();
+	protected class Rag {
+		/** the RAG status **/
+		int[] ragCount = new int[] { 0, 0, 0 };
 
-	/** A potential list of children, for a summary to aggregate upon **/
-	// protected final List<IMonitoringSummary> childMonitors = Lists
-	// .newArrayList();
+		/**
+		 * get the Red Amber Green count for this summary.
+		 */
+		public int[] rag() {
+			return ragCount;
+		}
+
+		public boolean rag(RAG status) {
+			int i = ragCount[status.ordinal()];
+			return i >= 1;
+		}
+
+		public boolean getRedStatus() {
+			return rag(RAG.RED);
+		}
+
+		public boolean getAmberStatus() {
+			return rag(RAG.AMBER);
+		}
+
+		public boolean getGreenStatus() {
+			return rag(RAG.GREEN);
+		}
+
+		public int totalRag(RAG status) {
+			return ragCount[status.ordinal()];
+		}
+
+		// RAG
+		/**
+		 * When recomputing the RAG, it's a good idea to call this.
+		 */
+		protected void cleanRag() {
+			setRag(new int[] { 0, 0, 0 });
+		}
+
+		protected void setRag(int[] newRag) {
+			ragCount = newRag;
+		}
+
+		protected void setRag(RAG rag, int ragValue) {
+			ragCount[rag.ordinal()] = ragValue;
+		}
+
+		/**
+		 * Increment our model Red Amber Green count with with the given RAG
+		 * count.
+		 * 
+		 * @param ragForMarkers
+		 */
+		protected void incrementRag(int[] ragForMarkers) {
+			ragCount[RAG.RED.ordinal()] += ragForMarkers[RAG.RED.ordinal()];
+			ragCount[RAG.AMBER.ordinal()] += ragForMarkers[RAG.AMBER.ordinal()];
+			ragCount[RAG.GREEN.ordinal()] += ragForMarkers[RAG.GREEN.ordinal()];
+		}
+
+	}
+
+	public boolean getRedStatus() {
+		return summaryRag.rag(RAG.RED);
+	}
+
+	public boolean getAmberStatus() {
+		return summaryRag.rag(RAG.AMBER);
+	}
+
+	public boolean getGreenStatus() {
+		return summaryRag.rag(RAG.GREEN);
+	}
+
+	protected void incrementRag(int[] ragForMarkers) {
+		summaryRag.incrementRag(ragForMarkers);
+	}
+
+	protected void cleanRag() {
+		summaryRag.cleanRag();
+	}
+
+	protected void setRag(int[] newRag) {
+		summaryRag.setRag(newRag);
+	}
+
+	protected void setRag(RAG rag, int ragValue) {
+		summaryRag.setRag(rag, ragValue);
+	}
+
+	public int totalRag(RAG status) {
+		return summaryRag.ragCount[status.ordinal()];
+	}
+
+	public int[] rag() {
+		return summaryRag.rag();
+	}
 
 	public MonitoringAdapter() {
 		// Assert.isNotNull(modelUtils, "binding failed");
@@ -234,54 +335,6 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	@Override
 	protected AdapterFactory getAdapterFactory() {
 		return adapterFactory;
-	}
-
-	// RAG
-
-	/**
-	 * Increment our model Red Amber Green count with with the given RAG count.
-	 * 
-	 * @param ragForMarkers
-	 */
-	protected void incrementRag(int[] ragForMarkers) {
-		ragCount[RAG.RED.ordinal()] += ragForMarkers[RAG.RED.ordinal()];
-		ragCount[RAG.AMBER.ordinal()] += ragForMarkers[RAG.AMBER.ordinal()];
-		ragCount[RAG.GREEN.ordinal()] += ragForMarkers[RAG.GREEN.ordinal()];
-	}
-	
-	/**
-	 * When recomputing the RAG, it's a good idea to call this. 
-	 */
-	protected void cleanRag(){
-		 ragCount = new int[] { 0, 0, 0 };
-	}
-
-	/**
-	 * get the Red Amber Green count for this summary.
-	 */
-	public int[] rag() {
-		return ragCount;
-	}
-
-	public boolean rag(RAG status) {
-		int i = ragCount[status.ordinal()];
-		return i >= 1;
-	}
-
-	public boolean getRedStatus() {
-		return rag(RAG.RED);
-	}
-
-	public boolean getAmberStatus() {
-		return rag(RAG.AMBER);
-	}
-
-	public boolean getGreenStatus() {
-		return rag(RAG.GREEN);
-	}
-
-	public int totalRag(RAG status) {
-		return ragCount[status.ordinal()];
 	}
 
 	/**

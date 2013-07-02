@@ -23,6 +23,8 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.services.RFSService;
@@ -42,6 +44,12 @@ public class RFSServiceSummary extends MonitoringAdapter {
 	int functions = 0;
 	int equipments = 0;
 	int resources = 0;
+
+	/** RAG for Nodes */
+	Rag ragForNodes = new Rag();
+
+	/** RAG for Resources */
+	Rag ragForNetXResource = new Rag();
 
 	@Override
 	protected void computeForTarget(IProgressMonitor monitor) {
@@ -64,11 +72,22 @@ public class RFSServiceSummary extends MonitoringAdapter {
 		functions = 0;
 
 		computeForRFService(target, monitor);
+	}
 
+	/**
+	 * Explicitly allow RAG to be set from an external calculation. (By an
+	 * {@link IExpressionEngine} for example. 
+	 */
+	public void setRag(RAG rag, int ragValue){
+		super.setRag(rag, ragValue);
 	}
 	
+	
 	/**
-	 * Computation here is based on 
+	 * Computation here is based on the RAG status for the nodes and resources.
+	 * The computation for the service can be set externally. For this we have
+	 * special set*** methods. </br> The Computation of rage for {@link Node}
+	 * and {@link NetXResource}.
 	 * 
 	 * 
 	 * @param service
@@ -84,9 +103,8 @@ public class RFSServiceSummary extends MonitoringAdapter {
 		subMonitor.setTaskName("Computing summary for "
 				+ modelUtils.printModelObject(service));
 
+		nodes += service.getNodes().size();
 		for (Node node : service.getNodes()) {
-
-			nodes += 1;
 
 			// With no NODE Type, don't bail out.
 			if (!node.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
@@ -94,10 +112,9 @@ public class RFSServiceSummary extends MonitoringAdapter {
 			}
 
 			// When not accessing child collections, we will not load.
-			node.getNodeType();
+			NodeType nodeType = node.getNodeType();
 
-			IMonitoringSummary childAdapter = this.getChildAdapter(node
-					.getNodeType());
+			IMonitoringSummary childAdapter = this.getChildAdapter(nodeType);
 			//
 			// Guard for potentially non-adapted children.
 			if (childAdapter != null) {
@@ -105,9 +122,7 @@ public class RFSServiceSummary extends MonitoringAdapter {
 				childAdapter.addContextObjects(this.getContextObjects());
 				childAdapter.compute(monitor);
 
-				// FIXME We should base our RAG on external expression
-				// computation.
-				this.incrementRag(childAdapter.rag());
+				ragForNodes.incrementRag(childAdapter.rag());
 
 				if (childAdapter instanceof NodeTypeSummary) {
 
@@ -116,15 +131,17 @@ public class RFSServiceSummary extends MonitoringAdapter {
 					functions += nodeTypeSummary.totalFunctions();
 					equipments += nodeTypeSummary.totalEquipments();
 				}
-			} else {
-				// Self Adapt?
 
+			} else {
+				// Self Adapt? Self-adaption should have happened when accessing
+				// the node.
 			}
+
 			monitor.worked(1);
 		}
 
+		// Descend the Service Hierarchy for additional aggregation.
 		for (Service childService : service.getServices()) {
-			// Descend the Service Hiearchy first.
 			if (service instanceof RFSService) {
 				computeForRFService((RFSService) childService, monitor);
 			}
@@ -144,16 +161,24 @@ public class RFSServiceSummary extends MonitoringAdapter {
 
 	@Override
 	protected boolean isRelated(CDOObject object) {
-		// TODO, Should apply to the full hiarchy.
+		// TODO, Should apply to the full hierarchy.
 		// Containments are handled with isContained().
 
 		// So:
-		// 1. Nodes should be referenced by the service. (Non-Containment). 
+		// 1. Nodes should be referenced by the service. (Non-Containment).
 		// 2. NodeType should be contained by the Node.
 		return this.isContained(object)
 				|| getRFSService().getNodes().contains(object)
 				|| modelUtils.nodeTypeForService(this.getRFSService())
 						.contains(object);
+	}
+
+	public int totalNodeRag(RAG status) {
+		return ragForNodes.ragCount[status.ordinal()];
+	}
+
+	public int totalNetXResourceRag(RAG status) {
+		return ragForNetXResource.ragCount[status.ordinal()];
 	}
 
 	public int totalServices() {

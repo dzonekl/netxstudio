@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.server.logic.reporting;
 
 import java.io.IOException;
@@ -26,7 +26,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.eclipse.core.runtime.NullProgressMonitor;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.IMonitoringSummary;
+import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.OperatorSummary;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -42,9 +47,10 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	private static final int SERVICES_ROW = 9;
 	private static final int NODES_ROW = 10;
 	private static final int RESOURCES_ROW = 11;
-	
-	
-	// FIXME
+
+	@Inject
+	private MonitoringStateModel monitoringStateModel;
+
 	private OperatorSummary opSummary = new OperatorSummary();
 
 	@Override
@@ -86,7 +92,6 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 
 		// Execute the tolerance expressions, which returns a summary for each
 		// service.
-		// The summary
 		for (Service service : allServices) {
 			if (service instanceof RFSService) {
 				RFSServiceSummary summary = this.processService(service);
@@ -113,8 +118,8 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 			// TODO, Perhaps add another failure?
 		}
 
-		 this.getDataProvider().commitTransaction();
-		 this.getDataProvider().closeSession();
+		this.getDataProvider().commitTransaction();
+		this.getDataProvider().closeSession();
 	}
 
 	private void writeSummary(Sheet sheet) {
@@ -184,19 +189,19 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		{ // RED
 			Cell c1 = servicesRow.createCell(5);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalRedServices());
+			c1.setCellValue(opSummary.totalRag(RAG.RED));
 		}
 
 		{ // AMBER
 			Cell c1 = servicesRow.createCell(6);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalAmberServices());
+			c1.setCellValue(opSummary.totalRag(RAG.AMBER));
 		}
 
 		{ // GREEN
 			Cell c1 = servicesRow.createCell(7);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalGreenServices());
+			c1.setCellValue(opSummary.totalRag(RAG.GREEN));
 		}
 	}
 
@@ -216,19 +221,19 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		{
 			Cell c1 = nodesRow.createCell(5);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalRedNodes());
+			c1.setCellValue(opSummary.totalNodeRag(RAG.RED));
 		}
 
 		{
 			Cell c1 = nodesRow.createCell(6);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalAmberNodes());
+			c1.setCellValue(opSummary.totalNodeRag(RAG.AMBER));
 		}
 
 		{
 			Cell c1 = nodesRow.createCell(7);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalGreenNodes());
+			c1.setCellValue(opSummary.totalNodeRag(RAG.GREEN));
 		}
 	}
 
@@ -248,41 +253,46 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		{
 			Cell c1 = resourcesRow.createCell(5);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalRedResources());
+			c1.setCellValue(opSummary.totalNetXResourceRag(RAG.RED));
 		}
 
 		{
 			Cell c1 = resourcesRow.createCell(6);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalAmberResources());
+			c1.setCellValue(opSummary.totalNetXResourceRag(RAG.AMBER));
 		}
 
 		{
 			Cell c1 = resourcesRow.createCell(7);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalGreenResources());
+			c1.setCellValue(opSummary.totalNetXResourceRag(RAG.GREEN));
 		}
 	}
 
 	private RFSServiceSummary processService(Service service) {
-		
-		
-		// Build a service summary, to be passed to the engine.
-		RFSServiceSummary serviceSummary = this.getModelUtils()
-				.serviceSummaryForService(service, this.getPeriod(), null);
 
-		final ReportingEngine engine = (ReportingEngine) getEngine();
-		engine.setService(service);
-		engine.setServiceSummary(serviceSummary);
-		engine.setJobMonitor(getJobMonitor());
-		engine.setDataProvider(this.getDataProvider());
-		engine.setPeriod(getPeriod());
-		engine.execute();
-		if (engine.getFailures().size() > 0) {
-			// Don't add anmy
-			this.getFailures().addAll(engine.getFailures());
+		// Get a summary without background computation and progress monitor.
+		IMonitoringSummary serviceSummary = monitoringStateModel
+				.summary(service);
+		serviceSummary.addContextObject(getPeriod());
+		serviceSummary.compute(new NullProgressMonitor());
+
+		if (serviceSummary instanceof RFSServiceSummary) {
+
+			final ReportingEngine engine = (ReportingEngine) getEngine();
+			engine.setService(service);
+			engine.setServiceSummary((RFSServiceSummary) serviceSummary);
+			engine.setJobMonitor(getJobMonitor());
+			engine.setDataProvider(this.getDataProvider());
+			engine.setPeriod(getPeriod());
+			engine.execute();
+			if (engine.getFailures().size() > 0) {
+				// Don't add anmy
+				this.getFailures().addAll(engine.getFailures());
+			}
+			return (RFSServiceSummary) serviceSummary;
 		}
-		return serviceSummary;
+		return null;
 	}
 
 }

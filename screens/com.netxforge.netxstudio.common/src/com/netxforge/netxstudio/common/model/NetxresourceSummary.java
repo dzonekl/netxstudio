@@ -71,7 +71,7 @@ public class NetxresourceSummary extends MonitoringAdapter {
 				unfilteredToleranceMarkers, periodInContext));
 
 		// Base RAG computation on the tolerance markers.
-		ragCount = stateModel.ragForMarkers(toleranceMarkers);
+		this.setRag(stateModel.ragForMarkers(toleranceMarkers));
 	}
 
 	public NetXResource getTarget() {

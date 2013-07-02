@@ -32,9 +32,6 @@ import com.netxforge.netxstudio.services.Service;
  */
 public class OperatorSummary extends RFSServiceSummary {
 
-	public OperatorSummary() {
-	}
-
 	@Override
 	protected void computeForTarget(IProgressMonitor monitor) {
 

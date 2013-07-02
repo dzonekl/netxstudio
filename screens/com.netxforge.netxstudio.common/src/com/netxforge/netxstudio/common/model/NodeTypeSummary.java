@@ -73,6 +73,7 @@ public class NodeTypeSummary extends MonitoringAdapter {
 				if (childAdapter != null) {
 					childAdapter.addContextObjects(this.getContextObjects());
 					childAdapter.compute(monitor);
+					
 					// Base our RAG status, on the child's status
 					this.incrementRag(childAdapter.rag());
 					if (childAdapter instanceof ComponentSummary) {
