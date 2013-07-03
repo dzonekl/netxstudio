@@ -37,6 +37,14 @@ public class CompositeSummary implements IMonitoringSummary {
 
 	private List<IMonitoringSummary> summaries = Lists.newArrayList();
 
+	public void addSummary(IMonitoringSummary summary) {
+		this.summaries.add(summary);
+	}
+
+	public List<IMonitoringSummary> getSummaries() {
+		return summaries;
+	}
+
 	public int totalRag(RAG status) {
 		int totalRag = 0;
 		for (IMonitoringSummary s : summaries) {

@@ -29,6 +29,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.context.ObjectContext;
 import com.netxforge.netxstudio.common.model.CompositeSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
@@ -274,7 +275,8 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		// Get a summary without background computation and progress monitor.
 		IMonitoringSummary serviceSummary = monitoringStateModel
 				.summary(service);
-		serviceSummary.addContextObject(getPeriod());
+		serviceSummary.addContextObject(new ObjectContext<DateTimeRange>(
+				getPeriod()));
 		serviceSummary.compute(new NullProgressMonitor());
 
 		if (serviceSummary instanceof RFSServiceSummary) {
