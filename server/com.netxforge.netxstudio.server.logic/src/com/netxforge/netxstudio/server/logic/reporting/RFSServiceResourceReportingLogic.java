@@ -6,13 +6,21 @@ import java.util.Map;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.eclipse.core.runtime.NullProgressMonitor;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.context.IComputationContext;
+import com.netxforge.netxstudio.common.context.ObjectContext;
+import com.netxforge.netxstudio.common.model.IMonitoringSummary;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
+import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
+import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 
 public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
@@ -28,8 +36,13 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 	// FIXME, This should be outputed somehow aswell.
 	private int nodesNotReported = 0;
 	private int componentsNotReported = 0;
+
 	private Map<NetXResource, List<Marker>> markersForNode;
+
 	private ResourceReportingEngine reportingEngine;
+
+	@Inject
+	private MonitoringStateModel monitoringStateModel;
 
 	@Override
 	protected void writeHeader(Sheet sheet, DateTimeRange dtr) {
@@ -102,14 +115,17 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 		// Write the time stamps.
 		reportingEngine.writeTS(sheet, ++newRow);
 
-		markersForNode = this.getModelUtils()
-				.toleranceMarkerMapPerResourceForServiceAndNodeAndPeriod(
-						service, node, this.getPeriod(), null);
+		// We need a
+		IMonitoringSummary summary = monitoringStateModel.summary(new NullProgressMonitor(), node,
+				new IComputationContext[] {
+						new ObjectContext<RFSService>((RFSService) service),
+						new ObjectContext<DateTimeRange>(this.getPeriod())
 
-		// } else {
-		//
-		// nodesNotReported++;
-		// }
+				});
+
+		if(summary instanceof NodeTypeSummary){
+			markersForNode = ((NodeTypeSummary) summary).markers();
+		}
 	}
 
 	@Override

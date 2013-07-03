@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.ecore.EObject;
 
+import com.netxforge.netxstudio.common.context.ObjectContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
@@ -59,11 +60,11 @@ public class RFSServiceSummary extends MonitoringAdapter {
 			return;
 		}
 		// Safely case, checked by our factory.
-		final RFSService target = getRFSService();
+		final RFSService rfsService = getRFSService();
 
 		// Add ourself as a context, if not already.
-		if (this.rfsServiceInContext() == null) {
-			this.addContextObject(target);
+		if (this.getRFSService() == null) {
+			this.addContextObject(new ObjectContext<RFSService>(rfsService));
 		}
 
 		nodes = 0;
@@ -71,18 +72,17 @@ public class RFSServiceSummary extends MonitoringAdapter {
 		equipments = 0;
 		functions = 0;
 
-		computeForRFService(target, monitor);
+		computeForRFService(rfsService, monitor);
 	}
 
 	/**
 	 * Explicitly allow RAG to be set from an external calculation. (By an
-	 * {@link IExpressionEngine} for example. 
+	 * {@link IExpressionEngine} for example.
 	 */
-	public void setRag(RAG rag, int ragValue){
+	public void setRag(RAG rag, int ragValue) {
 		super.setRag(rag, ragValue);
 	}
-	
-	
+
 	/**
 	 * Computation here is based on the RAG status for the nodes and resources.
 	 * The computation for the service can be set externally. For this we have

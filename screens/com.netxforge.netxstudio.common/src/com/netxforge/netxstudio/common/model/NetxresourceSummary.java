@@ -46,7 +46,7 @@ public class NetxresourceSummary extends MonitoringAdapter {
 	protected synchronized void computeForTarget(IProgressMonitor monitor) {
 		
 		// Set the context objects.
-		final RFSService rfsServiceInContext = rfsServiceInContext();
+		final RFSService rfsServiceInContext = getRFSService();
 		if (rfsServiceInContext == null) {
 			return;
 		}

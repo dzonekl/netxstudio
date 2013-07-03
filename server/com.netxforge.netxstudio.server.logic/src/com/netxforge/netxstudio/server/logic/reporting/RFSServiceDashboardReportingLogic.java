@@ -6,7 +6,11 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.eclipse.core.runtime.NullProgressMonitor;
 
+import com.netxforge.netxstudio.common.context.IComputationContext;
+import com.netxforge.netxstudio.common.context.ObjectContext;
+import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -26,19 +30,18 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 		super.createHeaderStructure(sheet);
 		super.typeCell.setCellValue("Service Monitoring");
 		super.titleCell.setCellValue("Dashboard Red/Amber/Green");
-		
-		if( dtr != null){
-		super.periodCell.setCellValue(this.getModelUtils().date(
-				getModelUtils().fromXMLDate(dtr.getBegin()))
-				+ "-"
-				+ this.getModelUtils().date(
-						getModelUtils().fromXMLDate(dtr.getEnd())));
+
+		if (dtr != null) {
+			super.periodCell.setCellValue(this.getModelUtils().date(
+					getModelUtils().fromXMLDate(dtr.getBegin()))
+					+ "-"
+					+ this.getModelUtils().date(
+							getModelUtils().fromXMLDate(dtr.getEnd())));
 		}
 	}
-	
-	
+
 	/**
-	 * Write each NodeType into a separate column, starting from the 
+	 * Write each NodeType into a separate column, starting from the
 	 * <code>NODETYPE_ROW</code>
 	 */
 	@Override
@@ -61,12 +64,13 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 			ntCell.setCellValue(nodeType.getName());
 		}
 	}
-	
+
 	/**
-	 * Write each Node per NodeType column, starting 
+	 * Write each Node per NodeType column, starting
 	 */
 	@Override
-	protected void writeContent(Sheet sheet, Service service, Node node, int row, int column) {
+	protected void writeContent(Sheet sheet, Service service, Node node,
+			int row, int column) {
 
 		// Write the NODE.ID box.
 		int newRow = NODE_ROW + (row * NODE_HEIGHT);
@@ -128,11 +132,15 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 
 		int ragColumn = nodeColumn + 2;
 		sheet.setColumnWidth(ragColumn, 2 * 256);
-		
-		
-		// FIXME, Produce a summary and query Rag from the summary. 
-		int[] rag = monStateModel.ragCountResourcesForNode(service, node, this.getPeriod(), null);
 
+		IMonitoringSummary summary = monStateModel.summary(
+				new NullProgressMonitor(), node, new IComputationContext[] {
+						new ObjectContext<Service>(service),
+						new ObjectContext<DateTimeRange>(getPeriod()) });
+		if (summary == null) {
+			return;
+		}
+		int[] rag = summary.rag();
 		{
 			Row cellRow = sheet.getRow(newRow);
 			if (cellRow == null) {
@@ -186,6 +194,8 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 			}
 
 		}
+		// Clean our adapted summary.
+		node.eAdapters().remove(summary);
 
 	}
 

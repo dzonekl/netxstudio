@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.interpreter.IInterpreterContext;
+import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Equipment;
@@ -135,8 +135,8 @@ public class ExpressionContextDialog extends Dialog {
 			public void update(ViewerCell cell) {
 				Object element = cell.getElement();
 
-				if (element instanceof IInterpreterContext) {
-					IInterpreterContext context = (IInterpreterContext) element;
+				if (element instanceof IComputationContext) {
+					IComputationContext context = (IComputationContext) element;
 					Object contextObject = context.getContext();
 					if (contextObject != null) {
 						int columnIndex = cell.getColumnIndex();

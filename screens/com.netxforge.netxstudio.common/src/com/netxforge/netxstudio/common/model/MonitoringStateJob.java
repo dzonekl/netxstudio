@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.ecore.EObject;
 
+import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 
 /**
@@ -47,7 +48,7 @@ public class MonitoringStateJob extends JobChangeAdapter {
 
 	private MonitoringStateModel model;
 
-	private Object[] contextObjects;
+	private IComputationContext[] contextObjects;
 
 	public MonitoringStateJob(ModelUtils modelUtils, MonitoringStateModel model) {
 		super();
@@ -115,7 +116,7 @@ public class MonitoringStateJob extends JobChangeAdapter {
 		return running;
 	}
 
-	public void setContextObjects(Object... contextObjects) {
+	public void setContextObjects(IComputationContext... contextObjects) {
 		this.contextObjects = contextObjects;
 	}
 

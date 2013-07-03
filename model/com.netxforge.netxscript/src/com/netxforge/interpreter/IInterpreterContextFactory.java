@@ -5,6 +5,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 
 public interface IInterpreterContextFactory {
@@ -27,13 +28,13 @@ public interface IInterpreterContextFactory {
 	 * @param type
 	 * @return
 	 */
-	public abstract IInterpreterContext createContext(Object type);
+	public abstract IComputationContext createContext(Object type);
 
 	/**
 	 * 
 	 * @param dtr
 	 * @return
 	 */
-	public abstract IInterpreterContext createPeriodContext(DateTimeRange dtr);
+	public abstract IComputationContext createPeriodContext(DateTimeRange dtr);
 	
 }

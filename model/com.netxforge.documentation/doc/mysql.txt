@@ -27,11 +27,12 @@ Install directory
 /usr/local/mysql/bin (MacOSX).
 load: 
 
-mysql -u root -p TM < .sql
+create database TM;
+mysql -u root TM < .sql
  
 backup: 
 
-mysql -u root -p TM < drop_capman_tables.sql
+mysqldump -u root TM > drop_capman_tables.sql
 
 
 Server Up/Down/Reload

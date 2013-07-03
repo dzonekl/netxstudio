@@ -17,6 +17,9 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.cdo.CDOObject;
@@ -25,9 +28,11 @@ import org.eclipse.emf.ecore.EObject;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.operators.Marker;
 
 /**
- * An adapted NetXResource, adds computed information to the resource.
+ * An adapted {@link Component}, adds computed and aggregated information to the
+ * component.
  * 
  * @author Christophe Bouhier
  */
@@ -121,4 +126,7 @@ public class ComponentSummary extends MonitoringAdapter {
 		return modelUtils.componentName(getComponent());
 	}
 
+	public Map<NetXResource, List<Marker>> markers() {
+		throw new UnsupportedOperationException("TODO");
+	}
 }

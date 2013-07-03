@@ -18,9 +18,9 @@ import org.eclipse.xtext.junit.AbstractXtextTests;
 import com.google.common.collect.Lists;
 import com.netxforge.NetxscriptStandaloneSetup;
 import com.netxforge.interpreter.IInterpreter;
-import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.interpreter.IInterpreterContextFactory;
 import com.netxforge.netxscript.Mod;
+import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -106,12 +106,12 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 		timeRange.setBegin(t1);
 		timeRange.setEnd(t0);
 
-		final IInterpreterContext periodContext = interpreterContextFactory
+		final IComputationContext periodContext = interpreterContextFactory
 				.createPeriodContext(timeRange);
-		final IInterpreterContext nc = interpreterContextFactory
+		final IComputationContext nc = interpreterContextFactory
 				.createContext(node);
 
-		final List<IInterpreterContext> contextList = Lists.newArrayList();
+		final List<IComputationContext> contextList = Lists.newArrayList();
 
 		System.out.println(interpreter.toString());
 
@@ -134,7 +134,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			contextList.clear();
 			contextList.add(periodContext);
 			contextList.add(nc);
-			final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
+			final IComputationContext[] contextArray = new IComputationContext[contextList
 					.size()];
 
 			// An expression which reads values from a resource.
@@ -318,10 +318,10 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			for (NetXResource r : allResources) {
 				contextList.clear();
 				contextList.add(periodContext);
-				IInterpreterContext resourceContext = this.interpreterContextFactory
+				IComputationContext resourceContext = this.interpreterContextFactory
 						.createContext(r);
 				contextList.add(resourceContext);
-				final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
+				final IComputationContext[] contextArray = new IComputationContext[contextList
 						.size()];
 				// An expression which takes a model object and applies a native
 				// expression.
@@ -357,10 +357,10 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			for (NetXResource r : allResources) {
 				contextList.clear();
 				contextList.add(periodContext);
-				IInterpreterContext resourceContext = this.interpreterContextFactory
+				IComputationContext resourceContext = this.interpreterContextFactory
 						.createContext(r);
 				contextList.add(resourceContext);
-				final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
+				final IComputationContext[] contextArray = new IComputationContext[contextList
 						.size()];
 				// An expression which takes a model object and applies a native
 				// expression.

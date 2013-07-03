@@ -20,21 +20,21 @@ package com.netxforge.netxstudio.common.model;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.AdapterFactory;
 
+import com.netxforge.netxstudio.common.context.IComputationContextProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.services.RFSService;
 
 /**
- * A marker interface for monitoring objects processed in a state.
+ * Provides basic monitoring facilities. It extends {@link IComputationContextProvider} 
+ * for the required context.  
  * 
  * @author Christophe Bouhier
  * 
  */
-public interface IMonitoringSummary {
+public interface IMonitoringSummary extends IComputationContextProvider {
 
 	enum RAG {
 		RED, AMBER, GREEN
 	}
-	
 	
 	/**
 	 * The total number of RAG entries for a summary. 
@@ -49,53 +49,6 @@ public interface IMonitoringSummary {
 	 */
 	public int[] rag();
 	
-	/**
-	 * Get the monitoring period formatted as String for presentation.
-	 * 
-	 * @return
-	 */
-	public String getPeriodFormattedString();
-
-	/**
-	 * Add an additional context for computations.
-	 * 
-	 * @param object
-	 */
-	public void addContextObject(Object object);
-
-	/**
-	 * Add a bunch of context objects.
-	 * 
-	 * @param object
-	 */
-	public void addContextObjects(Object... objects);
-
-	/**
-	 * Clear the computation context.
-	 */
-	public void clearContextObject();
-
-	/**
-	 * Get the period from the context or <code>null</code>
-	 * 
-	 * @return
-	 */
-	public DateTimeRange getPeriod();
-
-	/**
-	 * Get the {@link RFSService} from the context or <code>null</code>
-	 * 
-	 * @return
-	 */
-	public RFSService getRFSService();
-
-	/**
-	 * Get the context objects.
-	 * 
-	 * @return
-	 */
-	public Object[] getContextObjects();
-
 	/**
 	 * 
 	 * @param monitor
@@ -120,4 +73,18 @@ public interface IMonitoringSummary {
 	 */
 	public void setSelfAdaptFactory(AdapterFactory adapterFactory);
 
+	
+	/**
+	 * Get the {@link DateTimeRange period} formatted as a string
+	 * @return
+	 */
+	public String getPeriodFormattedString();
+	
+	
+	/**
+	 * Get the {@link DateTimeRange period}
+	 * 
+	 * @return
+	 */
+	public DateTimeRange getPeriod();
 }

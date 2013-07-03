@@ -29,9 +29,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -47,6 +45,14 @@ import com.netxforge.netxstudio.services.RFSService;
 public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		implements CDOAdapter, IMonitoringSummary {
 
+	protected ModelUtils modelUtils;
+
+	protected MonitoringStateModel stateModel;
+
+	private AdapterFactory adapterFactory;
+
+	private ComputationContextProvider contextProvider = new ComputationContextProvider();
+
 	/**
 	 * Parameter to control if a a global period should be used for monitoring,
 	 * when the context period is not set.
@@ -55,15 +61,6 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 
 	private static final DateTimeRange PARAMETER_GLOBAL_PERIOD = GenericsFactory.eINSTANCE
 			.createDateTimeRange();
-
-	/** Our collection of context objects needed for computation **/
-	protected final List<Object> context = Lists.newArrayList();
-
-	protected ModelUtils modelUtils;
-
-	protected MonitoringStateModel stateModel;
-
-	private AdapterFactory adapterFactory;
 
 	/**
 	 * The RAG for this summary. Extending classes can create their own instance
@@ -204,6 +201,11 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		this.stateModel = stateModel;
 	}
 
+//	public void setComputationContextProvider(
+//			MonitoringComputationContext contextProvider) {
+//		this.contextProvider = contextProvider;
+//	}
+
 	public String getPeriodFormattedString() {
 
 		return getPeriod() != null ? modelUtils.periodToStringMore(this
@@ -222,68 +224,9 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 
 	protected abstract void computeForTarget(IProgressMonitor monitor);
 
-	public void addContextObject(Object object) {
-		// Generic support for context objects.
-		if (object != null && !context.contains(object)) {
-			context.add(object);
-		}
-	}
-
 	public boolean isComputed() {
-		return this.periodInContext() != null && this.getTarget() != null;
-	}
-
-	/**
-	 * G Get the {@link RFSService Resource Facing Service } setting from the
-	 * computation context.
-	 * 
-	 * @return the period or <code>null</code> if none specified.
-	 */
-	protected RFSService rfsServiceInContext() {
-		final Iterable<Object> filter = Iterables.filter(context,
-				new Predicate<Object>() {
-					public boolean apply(Object o) {
-						return o instanceof RFSService;
-					}
-				});
-		if (Iterables.size(filter) == 1) {
-			return (RFSService) filter.iterator().next();
-		}
-		return null;
-
-	}
-
-	public void addContextObjects(Object... objects) {
-		for (Object o : objects) {
-			this.addContextObject(o);
-		}
-	}
-
-	public void clearContextObject() {
-		this.context.clear();
-	}
-
-	public Object[] getContextObjects() {
-		return this.context.toArray();
-	}
-
-	/**
-	 * Get the {@link DateTimeRange period} setting from the computation
-	 * context.
-	 * 
-	 * @return the period or <code>null</code> if none specified.
-	 */
-	private DateTimeRange periodInContext() {
-		final Iterable<Object> filter = Iterables.filter(context,
-				new Predicate<Object>() {
-					public boolean apply(Object o) {
-						return o instanceof DateTimeRange;
-					}
-				});
-		if (Iterables.size(filter) == 1) {
-			return (DateTimeRange) filter.iterator().next();
-		}
-		return null;
+		return contextProvider.periodInContext() != null
+				&& this.getTarget() != null;
 	}
 
 	// ADAPTATION.
@@ -297,7 +240,7 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	 * {@link #PARAMETER_GLOBAL_PERIOD} (Default 3 months from today). </p>
 	 */
 	public DateTimeRange getPeriod() {
-		DateTimeRange periodInContext = periodInContext();
+		DateTimeRange periodInContext = contextProvider.periodInContext();
 		if (periodInContext == null && PARAMETER_USE_GLOBAL_PERIOD) {
 			periodInContext = PARAMETER_GLOBAL_PERIOD;
 		}
@@ -305,7 +248,7 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	}
 
 	public RFSService getRFSService() {
-		return rfsServiceInContext();
+		return contextProvider.rfsServiceInContext();
 	}
 
 	@Override
@@ -365,15 +308,37 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		sb.append("Target: "
 				+ modelUtils.printModelObject((EObject) getTarget()) + "\n");
 		sb.append("Period: "
-				+ (this.periodInContext() != null ? getPeriodFormattedString()
+				+ (contextProvider.periodInContext() != null ? getPeriodFormattedString()
 						: " Not set\n"));
 		sb.append("Service: "
-				+ (this.rfsServiceInContext() != null ? modelUtils
-						.printModelObject(this.rfsServiceInContext())
+				+ (contextProvider.rfsServiceInContext() != null ? modelUtils
+						.printModelObject(contextProvider.rfsServiceInContext())
 						: " Not set\n"));
 		sb.append("RAG: (" + totalRag(RAG.RED) + "," + totalRag(RAG.AMBER)
 				+ "," + totalRag(RAG.GREEN) + ")");
 		return sb.toString();
+	}
+
+	// Delegators
+
+	public void addContextObject(IComputationContext object) {
+		contextProvider.addContextObject(object);
+	}
+
+	public void addContextObjects(IComputationContext... objects) {
+		contextProvider.addContextObjects(objects);
+	}
+
+	public void clearContextObject() {
+		contextProvider.clearContextObject();
+	}
+
+	public IComputationContext[] getContextObjects() {
+		return contextProvider.getContextObjects();
+	}
+
+	public List<IComputationContext> getContextObjectsAsList() {
+		return contextProvider.getContextObjectsAsList();
 	}
 
 }

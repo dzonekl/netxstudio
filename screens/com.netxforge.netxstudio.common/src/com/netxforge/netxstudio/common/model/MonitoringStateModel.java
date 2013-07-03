@@ -35,6 +35,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
@@ -123,7 +124,7 @@ public class MonitoringStateModel {
 	 * @param contextObjects
 	 */
 	public void summary(MonitoringStateStateCallBack callBack,
-			Object target, Object... contextObjects) {
+			Object target, IComputationContext... contextObjects) {
 		
 		Assert.isNotNull(target);
 		Assert.isNotNull(contextObjects);
@@ -158,7 +159,7 @@ public class MonitoringStateModel {
 	 * prepares the monitoring state.
 	 */
 	private void prepSummary(final MonitoringStateStateCallBack callBack,
-			Object target, Object... contextObjects) {
+			Object target, IComputationContext... contextObjects) {
 
 		if (job == null) {
 			job = new MonitoringStateJob(modelUtils, this);
@@ -249,7 +250,7 @@ public class MonitoringStateModel {
 	// }
 
 	public IMonitoringSummary summary(IProgressMonitor monitor,
-			Object target, Object... context) {
+			Object target, IComputationContext... context) {
 		final IMonitoringSummary adapt;
 		if (!isAdapted((EObject) target)) {
 			// Adapt for the target, note this will also self-adapt the

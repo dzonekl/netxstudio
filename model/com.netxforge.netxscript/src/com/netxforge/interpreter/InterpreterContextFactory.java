@@ -1,10 +1,28 @@
-// TODO CO here
+/*******************************************************************************
+ * Copyright (c) 3 jul. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.interpreter;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 
+import com.netxforge.netxstudio.common.context.IComputationContext;
+import com.netxforge.netxstudio.common.context.ObjectContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -36,11 +54,11 @@ public class InterpreterContextFactory implements IInterpreterContextFactory {
 	 * @see
 	 * com.netxforge.interpreter.IInterpreterContextFactory#createContext(T)
 	 */
-	public IInterpreterContext createContext(Object type) {
+	public IComputationContext createContext(Object type) {
 		return new ObjectContext<Object>(type);
 	}
 
-	public IInterpreterContext createPeriodContext(DateTimeRange dtr) {
+	public IComputationContext createPeriodContext(DateTimeRange dtr) {
 		return new ObjectContext<DateTimeRange>(dtr);
 	}
 

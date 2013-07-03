@@ -17,6 +17,9 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -27,7 +30,9 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.Marker;
 
 /**
  * 
@@ -48,6 +53,7 @@ public class NodeTypeSummary extends MonitoringAdapter {
 		// Safely case, checked by our factory.
 		final NodeType target = getNodeType();
 
+		// This is potentially expensive. 
 		final TreeIterator<EObject> iterator = target.eAllContents();
 
 		// Might throw an Exception.
@@ -73,7 +79,7 @@ public class NodeTypeSummary extends MonitoringAdapter {
 				if (childAdapter != null) {
 					childAdapter.addContextObjects(this.getContextObjects());
 					childAdapter.compute(monitor);
-					
+
 					// Base our RAG status, on the child's status
 					this.incrementRag(childAdapter.rag());
 					if (childAdapter instanceof ComponentSummary) {
@@ -87,7 +93,7 @@ public class NodeTypeSummary extends MonitoringAdapter {
 		}
 
 	}
-	
+
 	@Override
 	protected boolean isSameAdapterFor(EObject object) {
 		return false; // Always produce new adapters.
@@ -95,12 +101,11 @@ public class NodeTypeSummary extends MonitoringAdapter {
 
 	@Override
 	protected boolean isNotFiltered(EObject object) {
-		// Self-adapt for contained hierarchy. (Note NetXResource is not contained!). 
+		// Self-adapt for contained hierarchy. (Note NetXResource is not
+		// contained!).
 		return object.eClass() == LibraryPackage.Literals.FUNCTION
 				|| object.eClass() == LibraryPackage.Literals.EQUIPMENT;
 	}
-
-	
 
 	public String getFunctionCountAsString() {
 		return new Integer(functions).toString();
@@ -129,6 +134,15 @@ public class NodeTypeSummary extends MonitoringAdapter {
 	public NodeType getNodeType() {
 		final NodeType target = (NodeType) super.getTarget();
 		return target;
+	}
+
+	/**
+	 * The markers for all resources in the target {@link Node}
+	 * 
+	 * @return
+	 */
+	public Map<NetXResource, List<Marker>> markers() {
+		throw new UnsupportedOperationException("TODO");
 	}
 
 }

@@ -31,9 +31,9 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
 import com.netxforge.interpreter.IInterpreter;
-import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.interpreter.IInterpreterContextFactory;
 import com.netxforge.netxscript.Mod;
+import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -79,13 +79,13 @@ public class ExpressionSupport {
 	 * @param component
 	 * @return
 	 */
-	public ImmutableList<IInterpreterContext> buildContext(
+	public ImmutableList<IComputationContext> buildContext(
 			DateTimeRange timeRange, Component component) {
 		Node node = modelUtils.nodeFor(component);
 		return buildContext(timeRange, new Object[] { node, component });
 	}
 
-	public ImmutableList<IInterpreterContext> buildContext(
+	public ImmutableList<IComputationContext> buildContext(
 			DateTimeRange timeRange, NetXResource resource) {
 		Component component = resource.getComponentRef();
 		if (component != null) {
@@ -96,7 +96,7 @@ public class ExpressionSupport {
 		return null;
 	}
 
-	public ImmutableList<IInterpreterContext> buildContext(
+	public ImmutableList<IComputationContext> buildContext(
 			DateTimeRange timeRange, Object... objects) {
 
 		if (timeRange == null)
@@ -109,13 +109,13 @@ public class ExpressionSupport {
 		assert interpreterContextFactory != null : "Context factory is not initialized (check guice binding)";
 
 		// Context initialization.
-		final IInterpreterContext periodContext = interpreterContextFactory
+		final IComputationContext periodContext = interpreterContextFactory
 				.createPeriodContext(timeRange);
-		final List<IInterpreterContext> contextList = Lists
+		final List<IComputationContext> contextList = Lists
 				.newArrayList(periodContext);
 
 		for (Object o : objects) {
-			final IInterpreterContext objectContext = interpreterContextFactory
+			final IComputationContext objectContext = interpreterContextFactory
 					.createContext(o);
 			contextList.add(objectContext);
 		}
@@ -133,7 +133,7 @@ public class ExpressionSupport {
 	 * @return
 	 */
 	public List<BaseExpressionResult> testExpression(Expression expression,
-			ImmutableList<IInterpreterContext> contextList, IXtextDocument doc) {
+			ImmutableList<IComputationContext> contextList, IXtextDocument doc) {
 
 		List<BaseExpressionResult> result = null;
 
@@ -141,7 +141,7 @@ public class ExpressionSupport {
 		assert !documentHasErrors(doc) : "Intepreter cancelled, as errors exist in script: "
 				+ doc.get();
 
-		final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
+		final IComputationContext[] contextArray = new IComputationContext[contextList
 				.size()];
 		if (interpreter instanceof IExternalContextAware) {
 			((IExternalContextAware) interpreter)

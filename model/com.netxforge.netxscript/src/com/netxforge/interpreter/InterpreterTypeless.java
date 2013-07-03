@@ -77,6 +77,7 @@ import com.netxforge.netxscript.ValueRange;
 import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
+import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
@@ -180,12 +181,12 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	 * The first Context always corresponds to 'this' in the grammar. Additional
 	 * context, contain the period range for an expression.
 	 */
-	private List<IInterpreterContext> contextList = Lists.newArrayList();
+	private List<IComputationContext> contextList = Lists.newArrayList();
 
 	/*
 	 * An index of all context.
 	 */
-	private Map<Class<?>, IInterpreterContext> contextIndex = Maps.newHashMap();
+	private Map<Class<?>, IComputationContext> contextIndex = Maps.newHashMap();
 
 	/*
 	 * The target range interval for a reference assignment. Can be used
@@ -207,13 +208,13 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 		contextList.clear();
 	}
 
-	public void setExternalContext(IInterpreterContext... context) {
+	public void setExternalContext(IComputationContext... context) {
 		this.contextList.addAll(Lists.newArrayList(context));
 		this.initialize();
 	}
 
 	private DateTimeRange getContextualPeriod() {
-		IInterpreterContext periodContext = getContextFor(DateTimeRangeImpl.class);
+		IComputationContext periodContext = getContextFor(DateTimeRangeImpl.class);
 		if (periodContext != null) {
 			return (DateTimeRange) periodContext.getContext();
 		} else {
@@ -223,7 +224,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	}
 
 	private Component getContextualComponent() {
-		IInterpreterContext componentContext = getContextFor(FunctionImpl.class);
+		IComputationContext componentContext = getContextFor(FunctionImpl.class);
 		if (componentContext == null) {
 			componentContext = getContextFor(EquipmentImpl.class);
 		}
@@ -235,7 +236,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	}
 
 	private Node getContextualNode() {
-		IInterpreterContext nodeContext = getContextFor(NodeImpl.class);
+		IComputationContext nodeContext = getContextFor(NodeImpl.class);
 		if (nodeContext != null) {
 			Node n = (Node) nodeContext.getContext();
 			return n;
@@ -244,7 +245,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	}
 
 	private NetXResource getContextualNetXResource() {
-		IInterpreterContext resourceContext = getContextFor(NetXResourceImpl.class);
+		IComputationContext resourceContext = getContextFor(NetXResourceImpl.class);
 		if (resourceContext != null) {
 			return (NetXResource) resourceContext.getContext();
 		} else {
@@ -255,7 +256,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 
 	@SuppressWarnings("unused")
 	private MetricRetentionRule getContextualMetricRetentionRule() {
-		IInterpreterContext ruleContext = getContextFor(MetricRetentionRule.class);
+		IComputationContext ruleContext = getContextFor(MetricRetentionRule.class);
 		if (ruleContext != null) {
 			return (MetricRetentionRule) ruleContext.getContext();
 		} else {
@@ -265,7 +266,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	}
 
 	private Service getContextualService() {
-		IInterpreterContext serviceContext = getContextFor(RFSServiceImpl.class);
+		IComputationContext serviceContext = getContextFor(RFSServiceImpl.class);
 		if (serviceContext != null) {
 			return (Service) serviceContext.getContext();
 		} else {
@@ -274,7 +275,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	}
 
 	private ServiceUser getContextualServiceUser() {
-		IInterpreterContext serviceContext = getContextFor(ServiceUserImpl.class);
+		IComputationContext serviceContext = getContextFor(ServiceUserImpl.class);
 		if (serviceContext != null) {
 			return (ServiceUser) serviceContext.getContext();
 		} else {
@@ -283,7 +284,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	}
 
 	private RFSServiceSummary getContextualServiceSummary() {
-		IInterpreterContext serviceContext = getContextFor(RFSServiceSummary.class);
+		IComputationContext serviceContext = getContextFor(RFSServiceSummary.class);
 		if (serviceContext != null) {
 			return (RFSServiceSummary) serviceContext.getContext();
 		} else {
@@ -291,7 +292,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 		}
 	}
 
-	private IInterpreterContext getContextFor(Class<?> claxx) {
+	private IComputationContext getContextFor(Class<?> claxx) {
 		return this.contextIndex.get(claxx);
 	}
 
@@ -305,7 +306,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	 * access to certain types of context.
 	 */
 	private void generateContextIndex() {
-		for (IInterpreterContext context : contextList) {
+		for (IComputationContext context : contextList) {
 			contextIndex.put(context.getContext().getClass(), context);
 		}
 	}

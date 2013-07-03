@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 28 dec. 2012 NetXForge.
+ * Copyright (c) 3 jul. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,29 +14,40 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
-package com.netxforge.scoping;
+ *******************************************************************************/
+package com.netxforge.netxstudio.common.context;
 
-import com.netxforge.netxstudio.common.context.IComputationContext;
+import org.eclipse.emf.ecore.EObject;
 
- 
 /**
- * Clients should implement to be informed about various {@link IComputationContext} objects 
- * which can influence the clients behaviour.   
+ * An implementation of a computation object, which we expect to be an object of type T. 
  * 
  * @author Christophe Bouhier
  */
-public interface IExternalContextAware {
+public class ObjectContext<T> extends AbstractComputationContext {
+	
+	private T internalObject;
+	
+	public ObjectContext(T object){
+		this.internalObject = object;
+	}
+	
+	public ObjectContext(T object, int kind){
+			this.internalObject = object;
+			this.contextKind = kind;
+	}
 
-	/**
-	 * Sets the external context. 
-	 * @param context
-	 */
-	public void setExternalContext(IComputationContext... context);
-	
-	/**
-	 * Clear the external context	 
-	 */
-	public void clearExternalContext();
-	
+	@Override
+	public T getContext() {
+		return internalObject;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		if(internalObject instanceof EObject){
+			builder.append(((EObject)internalObject).eClass().getName());
+		}
+		return builder.toString();
+	}
 }

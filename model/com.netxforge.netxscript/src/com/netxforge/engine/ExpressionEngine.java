@@ -38,9 +38,9 @@ import org.eclipse.xtext.util.StringInputStream;
 import com.google.inject.Inject;
 import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.interpreter.IInterpreter;
-import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.interpreter.IInterpreterContextFactory;
 import com.netxforge.netxscript.Mod;
+import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
@@ -114,11 +114,11 @@ public class ExpressionEngine implements IExpressionEngine {
 
 			// Prepare the external context.
 
-			final List<IInterpreterContext> contextList = new ArrayList<IInterpreterContext>();
+			final List<IComputationContext> contextList = new ArrayList<IComputationContext>();
 			for (final Object o : context) {
 				contextList.add(xInterpreterContextFactory.createContext(o));
 			}
-			final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
+			final IComputationContext[] contextArray = new IComputationContext[contextList
 					.size()];
 			contextList.toArray(contextArray);
 
@@ -283,11 +283,11 @@ public class ExpressionEngine implements IExpressionEngine {
 		this.context = context;
 	}
 
-	private void printInterpreterContext(List<IInterpreterContext> contexts) {
+	private void printInterpreterContext(List<IComputationContext> contexts) {
 		RuntimeActivator.TRACE.trace(
 				RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
 				"# context= " + contexts.size());
-		for (IInterpreterContext c : contexts) {
+		for (IComputationContext c : contexts) {
 			Object context = c.getContext();
 			if (context instanceof DateTimeRange) {
 				RuntimeActivator.TRACE

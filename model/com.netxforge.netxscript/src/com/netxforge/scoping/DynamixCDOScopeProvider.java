@@ -50,8 +50,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.netxforge.internal.RuntimeActivator;
-import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.netxscript.NetxscriptPackage;
+import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -179,7 +179,7 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 
 		private EReference reference;
 
-		private IInterpreterContext[] externalContexts;
+		private IComputationContext[] externalContexts;
 
 		private Component contextComponent = null;
 
@@ -187,7 +187,7 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 		private Node contextNode = null;
 
 		public ExternalReferencePredicate(EReference reference,
-				IInterpreterContext[] externalContexts) {
+				IComputationContext[] externalContexts) {
 			this.reference = reference;
 			this.externalContexts = externalContexts;
 			disectContext();
@@ -195,8 +195,8 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 
 		private void disectContext() {
 			for (int i = 0; i < externalContexts.length; i++) {
-				IInterpreterContext context = externalContexts[i];
-				if (context.getKind() == IInterpreterContext.MODEL_OBJECT) {
+				IComputationContext context = externalContexts[i];
+				if (context.getKind() == IComputationContext.MODEL_OBJECT) {
 					Object modelObject = context.getContext();
 					if (modelObject instanceof Component) {
 						contextComponent = (Component) modelObject;
@@ -651,9 +651,9 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 	 * An external context which is used to reduce the scope for the given
 	 * context
 	 */
-	private IInterpreterContext[] externalContexts = null;
+	private IComputationContext[] externalContexts = null;
 
-	public void setExternalContext(IInterpreterContext... context) {
+	public void setExternalContext(IComputationContext... context) {
 		externalContexts = context;
 
 	}

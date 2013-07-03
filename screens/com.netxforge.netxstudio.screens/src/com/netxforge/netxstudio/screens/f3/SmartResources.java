@@ -123,7 +123,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.engine.IExpressionEngine;
-import com.netxforge.interpreter.IInterpreterContext;
+import com.netxforge.netxstudio.common.context.IComputationContext;
+import com.netxforge.netxstudio.common.context.ObjectContext;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
@@ -1476,17 +1477,17 @@ public class SmartResources extends AbstractScreen implements
 				if (ivov.getViewer() == cmbViewerOperator) {
 					currentService = processServiceChange(observableValue);
 				} else if (ivov.getViewer() == cmbViewerNode) {
-					
+
 					cleanResourceMon(currentNode);
 					currentNode = processNodeChange(observableValue);
 					updateResourceMon(currentNode);
-					
+
 				} else if (ivov.getViewer() == componentsTreeViewer) {
-					
+
 					cleanResourceMon(currentNetXResource);
 					currentComponent = processComponentChange(observableValue);
 					updateResourceMon(currentComponent);
-					
+
 				} else if (ivov.getViewer() == resourcesTableViewer) {
 
 					cleanResourceMon(currentNetXResource);
@@ -1524,8 +1525,12 @@ public class SmartResources extends AbstractScreen implements
 			if (monitoredObject != null) {
 				// Do the summary, we might still be loading objects...
 				monitoringStateModel.summary(new WritableCallBack(
-						monitoredObject), monitoredObject, new Object[] {
-						getCurrentService(), getCurrentPeriod() });
+						monitoredObject), monitoredObject,
+						new IComputationContext[] {
+								new ObjectContext<RFSService>(
+										(RFSService) getCurrentService()),
+								new ObjectContext<DateTimeRange>(
+										getCurrentPeriod()) });
 			}
 		}
 
@@ -1687,7 +1692,7 @@ public class SmartResources extends AbstractScreen implements
 			// reset the expression type.
 			currentExpressionType = NOTSET_EXPRESSION_CONTEXT;
 
-			ImmutableList<IInterpreterContext> contextList = null;
+			ImmutableList<IComputationContext> contextList = null;
 			if (currentExpressionFeature == LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF) {
 				if (currentComponent != null) {
 					contextList = expressionSupport.buildContext(dtr,
@@ -1741,8 +1746,8 @@ public class SmartResources extends AbstractScreen implements
 		public List<Object> getContextObjects() {
 			List<Object> contextObjects = Lists.newArrayList();
 			for (Object o : contextWritableList) {
-				if (o instanceof IInterpreterContext) {
-					IInterpreterContext ic = (IInterpreterContext) o;
+				if (o instanceof IComputationContext) {
+					IComputationContext ic = (IComputationContext) o;
 					contextObjects.add(ic.getContext());
 				}
 			}

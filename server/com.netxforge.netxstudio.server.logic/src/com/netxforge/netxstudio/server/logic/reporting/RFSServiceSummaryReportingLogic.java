@@ -29,10 +29,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.CompositeSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
-import com.netxforge.netxstudio.common.model.OperatorSummary;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
@@ -51,7 +51,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	@Inject
 	private MonitoringStateModel monitoringStateModel;
 
-	private OperatorSummary opSummary = new OperatorSummary();
+	private CompositeSummary opSummary = new CompositeSummary();
 
 	@Override
 	protected void writeHeader(Sheet sheet, DateTimeRange dtr) {

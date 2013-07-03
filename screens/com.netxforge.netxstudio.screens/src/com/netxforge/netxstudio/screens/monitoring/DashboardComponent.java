@@ -42,7 +42,6 @@ import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateStateCallBack;
-import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
@@ -97,6 +96,7 @@ public class DashboardComponent {
 	 * A monitoring state model which can adapt objects, so monitoring
 	 * information becomes available.
 	 */
+	@SuppressWarnings("unused")
 	private MonitoringStateModel monitoringState;
 
 	private Composite targetContent;
@@ -221,11 +221,12 @@ public class DashboardComponent {
 	 * 
 	 * @param service
 	 */
-	public void injectData(RFSService service, DateTimeRange period) {
-
-		final SummaryCallBack callBack = new SummaryCallBack();
-		monitoringState.summary(callBack, service, new Object[] { period });
-	}
+//	public void injectData(RFSService service, DateTimeRange period) {
+//
+//		final SummaryCallBack callBack = new SummaryCallBack();
+//		
+//		monitoringState.summary(callBack, service, new IComputation[] { period });
+//	}
 
 	public void injectData(Object... selection) {
 

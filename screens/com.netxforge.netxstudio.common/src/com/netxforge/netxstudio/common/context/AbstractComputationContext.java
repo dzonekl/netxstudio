@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 28 dec. 2012 NetXForge.
+ * Copyright (c) 3 jul. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -15,28 +15,28 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.scoping;
+package com.netxforge.netxstudio.common.context;
 
-import com.netxforge.netxstudio.common.context.IComputationContext;
-
- 
 /**
- * Clients should implement to be informed about various {@link IComputationContext} objects 
- * which can influence the clients behaviour.   
- * 
+ *  
  * @author Christophe Bouhier
  */
-public interface IExternalContextAware {
+public abstract class AbstractComputationContext implements IComputationContext {
+	
+	protected int contextKind = UNSET;
+	
+	public abstract Object getContext();
+	
+	public int getKind(){
+		return contextKind;
+	}
+	
+	public boolean isModelObject(){
+		return contextKind == MODEL_OBJECT;
+	}
+	
+	public boolean isModelPeriod(){
+		return contextKind == MODEL_PERIOD;
+	}
 
-	/**
-	 * Sets the external context. 
-	 * @param context
-	 */
-	public void setExternalContext(IComputationContext... context);
-	
-	/**
-	 * Clear the external context	 
-	 */
-	public void clearExternalContext();
-	
 }

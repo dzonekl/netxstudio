@@ -13,6 +13,7 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.common,
+ com.netxforge.netxstudio.common.context,
  com.netxforge.netxstudio.common.guice,
  com.netxforge.netxstudio.common.jca,
  com.netxforge.netxstudio.common.model,
