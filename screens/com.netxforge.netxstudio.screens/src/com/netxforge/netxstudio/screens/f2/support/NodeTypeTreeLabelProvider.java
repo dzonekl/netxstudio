@@ -22,15 +22,20 @@ import java.util.Set;
 import org.eclipse.core.databinding.observable.map.IMapChangeListener;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.map.MapChangeEvent;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.IMonitoringSummary;
+import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateStateCallBack;
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -46,6 +51,31 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 
 	/** Our state Model **/
 	private MonitoringStateModel stateModel;
+
+	class LabelProviderCallBack implements MonitoringStateStateCallBack {
+
+		public void callBackEvent(MonitoringStateEvent event) {
+			Object result = event.getResult();
+			if (result instanceof IMonitoringSummary) {
+				final Notifier target = ((IMonitoringSummary) result)
+						.getTarget();
+				// We can't process the result, so fire a change for this
+				// object, which should
+				// force the viewer to query the alreayd installed and
+				// computed adapter.
+
+				Display.getDefault().asyncExec(new Runnable() {
+					public void run() {
+						System.out.println("firing callback");
+						fireLabelProviderChanged(new LabelProviderChangedEvent(
+								NodeTypeTreeLabelProvider.this, target));
+
+					}
+				});
+
+			}
+		}
+	};
 
 	private IMapChangeListener mapChangeListener = new IMapChangeListener() {
 		public void handleMapChange(MapChangeEvent event) {
@@ -84,22 +114,28 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 
 			NodeType nt = (NodeType) element;
 
-			NodeTypeSummary tt = (NodeTypeSummary) stateModel.summary(nt);
-			tt.compute(null);
+			
+			//!FIXME doesn't work, as subsequent job will be cancelled! 
+			
+			if (!MonitoringStateModel.isAdapted(nt)) {
+				stateModel.summary(new LabelProviderCallBack(), nt);
+			} else {
+				NodeTypeSummary summary = (NodeTypeSummary) MonitoringStateModel
+						.getAdapted(nt);
+				StyledString styledString = new StyledString(
+						nt.getName() != null ? nt.getName() : "?", null);
+				String decoration = " (" + summary.getFunctionCountAsString()
+						+ " Functions)" + " ("
+						+ summary.getEquipmentCountAsString() + " Equipments)";
 
-			StyledString styledString = new StyledString(
-					nt.getName() != null ? nt.getName() : "?", null);
-			String decoration = " (" + tt.getFunctionCountAsString()
-					+ " Functions)" + " (" + tt.getEquipmentCountAsString()
-					+ " Equipments)";
-
-			styledString.append(decoration, StyledString.COUNTER_STYLER);
-			cell.setText(styledString.getString());
-			Image img = ResourceManager.getPluginImage(
-					"com.netxforge.netxstudio.models.edit",
-					"icons/full/obj16/Node_H.png");
-			cell.setImage(img);
-			cell.setStyleRanges(styledString.getStyleRanges());
+				styledString.append(decoration, StyledString.COUNTER_STYLER);
+				cell.setText(styledString.getString());
+				Image img = ResourceManager.getPluginImage(
+						"com.netxforge.netxstudio.models.edit",
+						"icons/full/obj16/Node_H.png");
+				cell.setImage(img);
+				cell.setStyleRanges(styledString.getStyleRanges());
+			}
 		}
 
 		if (element instanceof Function) {

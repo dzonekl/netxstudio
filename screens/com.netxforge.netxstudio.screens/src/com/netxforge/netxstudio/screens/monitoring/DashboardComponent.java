@@ -20,6 +20,8 @@ package com.netxforge.netxstudio.screens.monitoring;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -61,7 +63,7 @@ import com.netxforge.netxstudio.services.RFSService;
  * @author Christophe Bouhier
  * 
  */
-public class DashboardComponent {
+public class DashboardComponent extends JobChangeAdapter {
 
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getCurrent());
@@ -96,12 +98,13 @@ public class DashboardComponent {
 	 * A monitoring state model which can adapt objects, so monitoring
 	 * information becomes available.
 	 */
-	@SuppressWarnings("unused")
 	private MonitoringStateModel monitoringState;
 
 	private Composite targetContent;
 
 	private ISummaryComponent summaryForSelection;
+
+	private EObject latestSelection;
 
 	@Inject
 	public DashboardComponent(MonitoringStateModel ms) {
@@ -152,7 +155,7 @@ public class DashboardComponent {
 
 		// This is the dynamic portion.
 
-		targetContent = formToolkit.createComposite(content, SWT.BORDER);
+		targetContent = formToolkit.createComposite(content, SWT.NONE);
 		targetContent.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true,
 				false, 4, 1));
 		targetContent.setLayout(new FillLayout());
@@ -221,12 +224,13 @@ public class DashboardComponent {
 	 * 
 	 * @param service
 	 */
-//	public void injectData(RFSService service, DateTimeRange period) {
-//
-//		final SummaryCallBack callBack = new SummaryCallBack();
-//		
-//		monitoringState.summary(callBack, service, new IComputation[] { period });
-//	}
+	// public void injectData(RFSService service, DateTimeRange period) {
+	//
+	// final SummaryCallBack callBack = new SummaryCallBack();
+	//
+	// monitoringState.summary(callBack, service, new IComputation[] { period
+	// });
+	// }
 
 	public void injectData(Object... selection) {
 
@@ -250,22 +254,15 @@ public class DashboardComponent {
 				summaryForSelection = proposedSummaryForSelection;
 				summaryForSelection.buildUI(targetContent);
 			}
-			// Prep the summary itself.
-			// Note: We don't provide a context, RFSService or period.
-			// We should still get a Summary back, but without RAG!
-
+			// Prep the summary itself, as the monitoring job might still be
+			// running, we delay until it's ready.
 			if (o instanceof EObject) {
-				if (MonitoringStateModel.isAdapted((EObject) o)) {
-					System.out.println("We are already adapted");
-					IMonitoringSummary adapted = MonitoringStateModel.getAdapted((EObject) o);
-					refreshSummaryJob.setSummary(adapted);
-					refreshSummaryJob.schedule(100);
-				} else {
-//
-//					final SummaryCallBack callBack = new SummaryCallBack();
-//					monitoringState.summary(callBack, o, new Object[] {});
-				}
+				setLatestSelection((EObject) o);
 			}
+			
+			// We can't add a notifier until the 
+			deActivate();
+			activate();
 
 		} else {
 			// TODO, for multiple selections, we need a
@@ -382,11 +379,14 @@ public class DashboardComponent {
 		 */
 		public RefreshSummaryJob() {
 			super("refresh");
-			setSystem(true);
+			// setSystem(true);
 		}
 
 		@Override
 		public IStatus runInUIThread(IProgressMonitor monitor) {
+
+			monitor.setTaskName("Refresh monitoring");
+
 			if (monitor.isCanceled()) {
 				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
 						IStatus.OK, "Cancelled ", null);
@@ -408,4 +408,48 @@ public class DashboardComponent {
 		}
 
 	}
+
+	private void updateLatestSelection() {
+		if (MonitoringStateModel.isAdapted(this.getLatestSelection())) {
+			System.out.println("Dashboard: Good :-) already adapted: "
+					+ (this.getLatestSelection()).toString());
+			IMonitoringSummary adapted = MonitoringStateModel.getAdapted(this
+					.getLatestSelection());
+			refreshSummaryJob.setSummary(adapted);
+			refreshSummaryJob.schedule(100);
+		} else {
+			//
+			// final SummaryCallBack callBack = new SummaryCallBack();
+			// monitoringState.summary(callBack, o, new Object[] {});
+		}
+	}
+
+	private synchronized void setLatestSelection(EObject o) {
+		this.latestSelection = o;
+
+	}
+
+	private synchronized EObject getLatestSelection() {
+		return latestSelection;
+	}
+
+	@Override
+	public void done(IJobChangeEvent event) {
+		updateLatestSelection();
+	}
+
+	/**
+	 * Listen to the monitoring state jobs.
+	 */
+	public void activate() {
+		monitoringState.addJobNotifier(this);
+	}
+
+	/**
+	 * remove the listener to the monitoring state jobs.
+	 */
+	public void deActivate() {
+		monitoringState.removeJobNotifier(this);
+	}
+
 }

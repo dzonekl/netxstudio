@@ -95,7 +95,6 @@ public class CommonActivator implements BundleActivator, DebugOptionsListener {
 	@Inject
 	Export<OperatorSummaryProvider> operatorSummaryProvider;
 
-
 	/*
 	 * (non-Javadoc)
 	 * 

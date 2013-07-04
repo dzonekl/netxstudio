@@ -18,6 +18,7 @@
 package com.netxforge.netxstudio.common.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 
 import com.netxforge.netxstudio.common.context.IComputationContextProvider;
@@ -30,7 +31,7 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
  * @author Christophe Bouhier
  * 
  */
-public interface IMonitoringSummary extends IComputationContextProvider {
+public interface IMonitoringSummary extends IComputationContextProvider, Adapter {
 
 	enum RAG {
 		RED, AMBER, GREEN

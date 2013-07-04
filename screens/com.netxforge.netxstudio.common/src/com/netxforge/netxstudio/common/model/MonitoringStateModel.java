@@ -17,27 +17,27 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.IJobChangeListener;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
-import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -48,20 +48,17 @@ import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
 import com.netxforge.netxstudio.services.RFSService;
-import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 
 /**
  * Maintains a monitoring state and can be queried for state information. The
- * following state information can be retrieved; </p>
- * </br>
+ * following state information can be retrieved; </p> </br>
  * <ul>
  * <li>Tolerance breach markers</li>
  * <li>Red Amber Green state (RAG)</li>
  * <li>Artifact count which are monitored</li>
  * </ul>
- * </br>
- * Depending on a context. The context can be broad, encompassing several
+ * </br> Depending on a context. The context can be broad, encompassing several
  * monitoring layers. </p> the following "layers" are defined: </p>
  * <ul>
  * <li>{@link Operator operator monitoring}</li>
@@ -71,22 +68,20 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
  * <li>{@link NetXResource resource monitoring}</li>
  * </ul>
  * Ultimately, the state on all layers is computed from the markers on a
- * {@link NetXResource resource}.</br> 
- * Currently, the {@link ToleranceMarker tolerance markers} are the base to determine the state of a resource.</br> 
- * The state will only be (fully) computed if the context is present for computation.
- * </p>
- * The following context objects are required for a full computation. 
+ * {@link NetXResource resource}.</br> Currently, the {@link ToleranceMarker
+ * tolerance markers} are the base to determine the state of a resource.</br>
+ * The state will only be (fully) computed if the context is present for
+ * computation. </p> The following context objects are required for a full
+ * computation.
  * <ul>
- * <li>The {@link RFSService} (As it contains the {@link ServiceMonitor} holding information about monitoring</li>
+ * <li>The {@link RFSService} (As it contains the {@link ServiceMonitor} holding
+ * information about monitoring</li>
  * <li>The monitoring period</li>
  * </ul>
- * Clients wishing to use the {@link MonitoringStateModel} should call one of the following 
- * </p> 
- * {@link MonitoringStateModel#summary(Object)}
- *  
+ * Clients wishing to use the {@link MonitoringStateModel} should call one of
+ * the following </p> {@link MonitoringStateModel#summary(Object)}
  * 
  * @author Christophe Bouhier
- * 
  */
 @Singleton
 public class MonitoringStateModel {
@@ -101,19 +96,126 @@ public class MonitoringStateModel {
 		public void callBackEvent(MonitoringStateEvent event);
 	}
 
+	/**
+	 * A job for monitoring computation.
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	public class MonitoringStateJob extends JobChangeAdapter {
+
+		private StatusJob j = new StatusJob("Creating Summary...");
+
+		/** Our context which will determine which Summary is returned. */
+		private Object target;
+
+		/** the produced summary for this job. */
+		private IMonitoringSummary summary;
+
+		private boolean running = false;
+
+		private IComputationContext[] contextObjects;
+
+		/**
+		 * A specialized call back handler, when a computing job completed.
+		 * Others can subscribe to the job status to be notified and process
+		 * accordingly.
+		 * 
+		 */
+		private JobCallBack callBackHandler;
+
+		public MonitoringStateJob() {
+			super();
+			callBackHandler = new JobCallBack();
+			j.addJobChangeListener(callBackHandler);
+		}
+
+		public void go() {
+			j.addJobChangeListener(this);
+			j.schedule(100);
+		}
+
+		public void cancel() {
+			j.cancel();
+		}
+
+		public void addNotifier(IJobChangeListener notifier) {
+			j.addJobChangeListener(notifier);
+		}
+
+		public void removeNotifier(IJobChangeListener notifier) {
+			j.removeJobChangeListener(notifier);
+		}
+
+		protected class StatusJob extends Job {
+
+			public StatusJob(String name) {
+				super(name);
+				super.setUser(true);
+			}
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+
+				processReadingInternal(monitor);
+				return Status.OK_STATUS;
+			}
+		}
+
+		protected void processReadingInternal(final IProgressMonitor monitor) {
+			if (CommonActivator.DEBUG) {
+				CommonActivator.TRACE
+						.trace(CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+								" creating summary for:"
+										+ modelUtils
+												.printModelObject((EObject) target));
+			}
+			summary = summary(monitor, target, contextObjects);
+		}
+
+		public void done(IJobChangeEvent event) {
+			running = false;
+		}
+
+		public void running(IJobChangeEvent event) {
+			this.running = true;
+		}
+
+		/**
+		 * @return the summary
+		 */
+		public IMonitoringSummary getMonitoringSummary() {
+			return summary;
+		}
+
+		/**
+		 * @return the running
+		 */
+		public boolean isRunning() {
+			return running;
+		}
+
+		public void setContextObjects(IComputationContext... contextObjects) {
+			this.contextObjects = contextObjects;
+		}
+
+		public void setTarget(Object context) {
+			this.target = context;
+		}
+
+	}
+
 	@Inject
 	protected ModelUtils modelUtils;
 
-	private MonitoringStateJob job = null;
-
-	/**
-	 * A specialized call back handler, when a computing job completed.
-	 */
-	private JobCallBack callBackHandler;
+	private MonitoringStateJob job = new MonitoringStateJob();
 
 	/** Our adapter factory for monitoring **/
 	@Inject
 	private MonitoringAdapterFactory monAdapterFactory;
+
+	public void summary(MonitoringStateStateCallBack callBack, Object target) {
+		prepSummary(callBack, target, (IComputationContext[]) null);
+	}
 
 	/**
 	 * Produce an {@link IMonitoringSummary summary} for a give target and
@@ -123,13 +225,22 @@ public class MonitoringStateModel {
 	 * @param target
 	 * @param contextObjects
 	 */
-	public void summary(MonitoringStateStateCallBack callBack,
-			Object target, IComputationContext... contextObjects) {
-		
+	public void summary(MonitoringStateStateCallBack callBack, Object target,
+			IComputationContext... contextObjects) {
+
 		Assert.isNotNull(target);
 		Assert.isNotNull(contextObjects);
-		
+
 		prepSummary(callBack, target, contextObjects);
+	}
+
+	/**
+	 * Make sure we access the monitoring job object in a synchronized fashion.
+	 * 
+	 * @return
+	 */
+	private synchronized MonitoringStateJob getJob() {
+		return job;
 	}
 
 	class JobCallBack extends JobChangeAdapter {
@@ -144,7 +255,7 @@ public class MonitoringStateModel {
 		public void done(IJobChangeEvent event) {
 			if (callBack != null) {
 				final MonitoringStateEvent monitoringStateEvent = new MonitoringStateEvent();
-				monitoringStateEvent.setResult(job.getMonitoringSummary());
+				monitoringStateEvent.setResult(getJob().getMonitoringSummary());
 				callBack.callBackEvent(monitoringStateEvent);
 			}
 		}
@@ -161,15 +272,8 @@ public class MonitoringStateModel {
 	private void prepSummary(final MonitoringStateStateCallBack callBack,
 			Object target, IComputationContext... contextObjects) {
 
-		if (job == null) {
-			job = new MonitoringStateJob(modelUtils, this);
-			callBackHandler = new JobCallBack();
-			job.addNotifier(callBackHandler);
-		}
-		
-
 		// Force a restart, if we are operational.
-		if (job.isRunning()) {
+		if (getJob().isRunning()) {
 
 			if (CommonActivator.DEBUG) {
 				CommonActivator.TRACE.trace(
@@ -178,17 +282,35 @@ public class MonitoringStateModel {
 			}
 			// This will abrupt the job but on demand, so we can't really start
 			// a new job here.
-			job.cancel();
+			getJob().cancel();
 		}
 
-		job.setTarget(target);
-		job.setContextObjects(contextObjects);
+		getJob().setTarget(target);
+		getJob().setContextObjects(contextObjects);
 		// Make sure we set the correct callback, Don't use final arguments for
 		// callback!!!!! It will cost you 2 more hours to debug :-)
-		callBackHandler.setCallBack(callBack);
+		getJob().callBackHandler.setCallBack(callBack);
 
-		job.go(); // Should spawn a job processing the xls.
+		getJob().go(); // Should spawn a job processing the xls.
 
+	}
+
+	/**
+	 * Allow external clients to be notified on the job progress.
+	 */
+	public void addJobNotifier(IJobChangeListener listener) {
+		if (getJob() != null) {
+			getJob().addNotifier(listener);
+		}
+	}
+
+	/**
+	 * Allow external clients to be notified on the job progress.
+	 */
+	public void removeJobNotifier(IJobChangeListener listener) {
+		if (getJob() != null) {
+			getJob().removeNotifier(listener);
+		}
 	}
 
 	// PROCESSING STATE:
@@ -199,15 +321,15 @@ public class MonitoringStateModel {
 	 * @return
 	 */
 	public boolean isRunning() {
-		return job.isRunning();
+		return getJob().isRunning();
 	}
 
 	/**
 	 * Abort background processing jobs.
 	 */
 	public void abort() {
-		if (job.isRunning()) {
-			job.cancel();
+		if (getJob().isRunning()) {
+			getJob().cancel();
 		}
 	}
 
@@ -224,33 +346,8 @@ public class MonitoringStateModel {
 
 	}
 
-	/**
-	 * This method is either directly available or can be executed in the
-	 * background with
-	 * {@link #prepSummary(Object, MonitoringStateStateCallBack)} It produces a
-	 * {@link ServiceSummary summary} for a {@link Service service}.
-	 * 
-	 * @param services
-	 * @param period
-	 * @param monitor
-	 * @return
-	 */
-	// public ServicesSummary summaryForServices(List<Service> services,
-	// DateTimeRange period, IProgressMonitor monitor) {
-	// final ServicesSummary opSummary = new ServicesSummary();
-	// for (Service service : services) {
-	// if (service instanceof RFSService) {
-	// NodesSummmary summary = this.summaryForService(service, period,
-	// monitor);
-	// // RFSServiceSummary summary = this.processService(service);
-	// opSummary.addSummary(summary);
-	// }
-	// }
-	// return opSummary;
-	// }
-
-	public IMonitoringSummary summary(IProgressMonitor monitor,
-			Object target, IComputationContext... context) {
+	public IMonitoringSummary summary(IProgressMonitor monitor, Object target,
+			IComputationContext... context) {
 		final IMonitoringSummary adapt;
 		if (!isAdapted((EObject) target)) {
 			// Adapt for the target, note this will also self-adapt the
@@ -261,19 +358,22 @@ public class MonitoringStateModel {
 		} else {
 			adapt = getAdapted((EObject) target);
 		}
-		
+
 		// Non adapted objects will be null
-		if(adapt == null){
+		if (adapt == null) {
 			return adapt;
 		}
-		
+
 		adapt.clearContextObject();
 		
-		// Add the context object.
-		adapt.addContextObjects(context);
+		
+		// Add the context object, guard for null, as we might do a computation without a context. 
+		if (context != null) {
+			adapt.addContextObjects(context);
+		}
 
 		// Do some initial computation, note this will auto compute the
-		// adapted children. Non-adapted children will 
+		// adapted children. Non-adapted children will
 		adapt.compute(monitor);
 
 		if (CommonActivator.DEBUG) {
@@ -319,151 +419,10 @@ public class MonitoringStateModel {
 	}
 
 	/**
-	 * 
-	 * @deprecated
-	 * 
-	 * @param serviceMonitor
-	 * @param n
-	 * @param dtr
-	 * @param monitor
-	 * @return
-	 */
-	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceMonitorAndNodeAndPeriod(
-			ServiceMonitor serviceMonitor, Node n, DateTimeRange dtr,
-			IProgressMonitor monitor) {
-
-		// Filter ServiceMonitors on the time range.
-		// List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
-		// sortedCopy, dtr);
-
-		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-				Arrays.asList(new ServiceMonitor[] { serviceMonitor }), n,
-				monitor);
-		return markersPerResource;
-	}
-
-	/**
-	 * returns a Map of markers for each of the NetXResources in the specified
-	 * node.
-	 * 
-	 * @deprecated
-	 * @param service
-	 * @param n
-	 * @param dtr
-	 * @return
-	 */
-	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceAndNodeAndPeriod(
-			Service service, Node n, DateTimeRange dtr, IProgressMonitor monitor) {
-
-		// Sort by begin date and reverse the Service Monitors.
-		List<ServiceMonitor> sortedCopy = Ordering
-				.from(modelUtils.serviceMonitorCompare()).reverse()
-				.sortedCopy(service.getServiceMonitors());
-
-		// Filter ServiceMonitors on the time range.
-		// List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
-		// sortedCopy, dtr);
-
-		Map<NetXResource, List<Marker>> markersPerResource = toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-				sortedCopy, n, monitor);
-		return markersPerResource;
-
-	}
-
-	/**
-	 * Provides a total list of markers for the Service Monitor, Node and Date
-	 * Time Range. ,indiscreet of the NetXResource.
-	 * 
-	 * @deprecated
-	 * @param sm
-	 * @param n
-	 * @param dtr
-	 * @return
-	 */
-	public List<Marker> toleranceMarkersForServiceMonitor(ServiceMonitor sm,
-			Node n) {
-		// Process a ServiceMonitor for which the period is somehow within the
-		// range.
-		List<Marker> filtered = Lists.newArrayList();
-
-		// Each RM represents a Resource.
-		for (ResourceMonitor rm : sm.getResourceMonitors()) {
-			if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
-				List<Marker> toleranceMarkers = toleranceMarkersForResourceMonitor(rm);
-				filtered.addAll(toleranceMarkers);
-			}
-		}
-
-		return filtered;
-	}
-
-	// public int[] ragCount(ServiceMonitor sm, Node n, DateTimeRange dtr) {
-	//
-	// int red = 0, amber = 0, green = 0;
-	// // Each RM represents a Resource.
-	// for (ResourceMonitor rm : sm.getResourceMonitors()) {
-	// if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
-	// Marker[] markerArray = new Marker[rm.getMarkers().size()];
-	// rm.getMarkers().toArray(markerArray);
-	// List<Marker> markersForNodeList = modelUtils
-	// .toleranceMarkers(markerArray);
-	// int[] rag = this.ragForMarkers(markersForNodeList);
-	// red += rag[0];
-	// amber += rag[1];
-	// green += rag[2];
-	// }
-	//
-	// }
-	//
-	// return new int[] { red, amber, green };
-	// }
-
-	/**
-	 * @deprecated
-	 * @param serviceMonitors
-	 * @param n
-	 * @return
-	 */
-	public Map<NetXResource, List<Marker>> toleranceMarkerMapPerResourceForServiceMonitorsAndNode(
-			List<ServiceMonitor> serviceMonitors, Node n,
-			IProgressMonitor monitor) {
-		Map<NetXResource, List<Marker>> markersPerResource = Maps.newHashMap();
-
-		for (ServiceMonitor sm : serviceMonitors) {
-			for (ResourceMonitor rm : sm.getResourceMonitors()) {
-
-				// Abort the task if we are cancelled.
-				if (monitor != null && monitor.isCanceled()) {
-					return markersPerResource;
-				}
-
-				if (rm.getNodeRef().getNodeID().equals(n.getNodeID())) {
-
-					// Analyze per resource, why would a resource monitor
-					// contain markers for a nother resource?
-					List<Marker> markers;
-					NetXResource res = rm.getResourceRef();
-					if (!markersPerResource.containsKey(res)) {
-						markers = Lists.newArrayList();
-						markersPerResource.put(res, markers);
-					} else {
-						markers = markersPerResource.get(res);
-					}
-					List<Marker> toleranceMarkers = toleranceMarkersForResourceMonitor(rm);
-					markers.addAll(toleranceMarkers);
-				}
-			}
-
-		}
-		return markersPerResource;
-	}
-
-	/**
-	 * @deprecated
 	 * @param rm
 	 * @return
 	 */
-	public List<Marker> toleranceMarkersForResourceMonitor(ResourceMonitor rm) {
+	private List<Marker> toleranceMarkersForResourceMonitor(ResourceMonitor rm) {
 		final List<Marker> toleranceMarkers = Lists.newArrayList(Iterables
 				.filter(rm.getMarkers(), modelUtils.toleranceMarkers()));
 		return toleranceMarkers;

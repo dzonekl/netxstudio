@@ -57,6 +57,8 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.databinding.swt.ISWTObservableValue;
+import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.IViewerObservableList;
 import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
@@ -312,7 +314,7 @@ public class SmartResources extends AbstractScreen implements
 	// Selection observables.
 	private IViewerObservableValue observeNodeSelection;
 	private IViewerObservableValue observeOperatorOrServiceSelection;
-	private IViewerObservableValue observeSingleComponentSelection;
+	private IViewerObservableValue observeComponentSingleSelection;
 	private IViewerObservableValue observeResourceSingleSelection;
 
 	private Tree componentsTree;
@@ -330,6 +332,10 @@ public class SmartResources extends AbstractScreen implements
 	private final UpdateDisconnectedResources componentsChangeListener = UpdateDisconnectedResources
 			.getInstance();
 	private Composite cmpComponentSelector;
+
+	private ISWTObservableValue observeComponentFocus;
+
+	private ISWTObservableValue observeResourceFocus;
 
 	/**
 	 * Create the composite.
@@ -1461,12 +1467,14 @@ public class SmartResources extends AbstractScreen implements
 				.createDateTimeRange();
 
 		/**
-		 * Track the last value change which corrsponds to the selection. for
-		 * period change, we will update the monitor for this object.
+		 * Track the last value change which corresponds to the selection.
 		 */
 		private EObject lastSelection;
 
 		public void handleValueChange(ValueChangeEvent event) {
+			
+			System.out.println("Monitor update: " + event);
+			
 			IObservable observable = event.getObservable();
 			IObservableValue observableValue = event.getObservableValue();
 
@@ -1484,7 +1492,7 @@ public class SmartResources extends AbstractScreen implements
 
 				} else if (ivov.getViewer() == componentsTreeViewer) {
 
-					cleanResourceMon(currentNetXResource);
+					cleanResourceMon(currentComponent);
 					currentComponent = processComponentChange(observableValue);
 					updateResourceMon(currentComponent);
 
@@ -2305,9 +2313,13 @@ public class SmartResources extends AbstractScreen implements
 				LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
 
 		// COMPONENT SINGLE SELECTION OBSERVABLE
-		observeSingleComponentSelection = ViewersObservables
+		observeComponentSingleSelection = ViewersObservables
 				.observeSingleSelection(componentsTreeViewer);
 
+		observeComponentFocus = SWTObservables
+				.observeFocus(componentsTreeViewer.getTree());
+
+		
 		computedResourcesList = new ComputedList() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -2379,13 +2391,15 @@ public class SmartResources extends AbstractScreen implements
 
 		observeResourceSingleSelection = ViewersObservables
 				.observeSingleSelection(resourcesTableViewer);
-
+		
+		observeResourceFocus = SWTObservables.observeFocus(resourcesTableViewer.getTable());
+		
 		// CONTEXT AGGREGATE.
 
 		observeNodeSelection.addValueChangeListener(contextAggregate);
 		observeOperatorOrServiceSelection
 				.addValueChangeListener(contextAggregate);
-		observeSingleComponentSelection
+		observeComponentSingleSelection
 				.addValueChangeListener(contextAggregate);
 		observeResourceSingleSelection.addValueChangeListener(contextAggregate);
 
@@ -2394,11 +2408,12 @@ public class SmartResources extends AbstractScreen implements
 		observeNodeSelection.addValueChangeListener(monitoringAggregate);
 		observeOperatorOrServiceSelection
 				.addValueChangeListener(monitoringAggregate);
-		observeSingleComponentSelection
+		observeComponentSingleSelection
 				.addValueChangeListener(monitoringAggregate);
+		observeComponentFocus.addValueChangeListener(monitoringAggregate);
 		observeResourceSingleSelection
 				.addValueChangeListener(monitoringAggregate);
-
+		observeResourceFocus.addValueChangeListener(monitoringAggregate);
 	}
 
 	private void bindExpressionSelector(EMFDataBindingContext bindingContext) {
@@ -2458,7 +2473,7 @@ public class SmartResources extends AbstractScreen implements
 		expressionAggregate = new ExpressionAggregate(cmpSubSelector);
 
 		observerExpressionFeature.addValueChangeListener(expressionAggregate);
-		observeSingleComponentSelection
+		observeComponentSingleSelection
 				.addValueChangeListener(expressionAggregate);
 
 		// CONTEXT BINDING.
@@ -3148,19 +3163,15 @@ public class SmartResources extends AbstractScreen implements
 
 	public void showPreLoadedUI() {
 		// N/A We simply show an unloaded UI.
-
 	}
 
 	public void showPostLoadedUI() {
 		// Init
 		initDataBindings_();
-
 	}
 
 	public void cancelLoading() {
 		// As loading is in background, use a flag to not execute post loading
 		// this method is called when we switch to another screen.
-
 	}
-
 }

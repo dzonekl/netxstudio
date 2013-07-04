@@ -55,7 +55,7 @@ public class NetXResourceSummaryComponent extends AbstractSummaryComponent {
 		summaryLabel.setLayoutData(gd_lblSummary);
 
 		netXResourceText = formToolkit.createFormText(gridContent, false);
-		GridData gridData = new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1);
+		GridData gridData = new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1);
 		netXResourceText.setLayoutData(gridData);
 
 		Label markersLabel = formToolkit.createLabel(gridContent, "Markers: ",
@@ -68,7 +68,7 @@ public class NetXResourceSummaryComponent extends AbstractSummaryComponent {
 		markersLabel.setLayoutData(gd_lblMarkers);
 
 		markersText = formToolkit.createFormText(gridContent, false);
-		GridData gd_txtMarkers = new GridData(SWT.RIGHT, SWT.TOP, false, false,
+		GridData gd_txtMarkers = new GridData(SWT.FILL, SWT.TOP, false, false,
 				1, 1);
 		markersText.setLayoutData(gd_txtMarkers);
 
@@ -82,7 +82,7 @@ public class NetXResourceSummaryComponent extends AbstractSummaryComponent {
 		rangesLabel.setLayoutData(gd_lblValues);
 
 		rangesText = formToolkit.createFormText(gridContent, false);
-		GridData gd_txtValues = new GridData(SWT.RIGHT, SWT.TOP, false, false,
+		GridData gd_txtValues = new GridData(SWT.FILL, SWT.TOP, false, false,
 				1, 1);
 		rangesText.setLayoutData(gd_txtValues);
 

@@ -43,11 +43,13 @@ public class ComponentSummaryComponent extends AbstractSummaryComponent {
 
 		Composite gridContent = formToolkit.createComposite(this.content,
 				SWT.NONE);
-		gridContent.setLayout(new GridLayout(2, false));
+		GridLayout gridLayout = new GridLayout(2, false);
+		gridLayout.marginLeft = 0;
+		gridContent.setLayout(gridLayout);
 		formToolkit.paintBordersFor(gridContent);
 
-		Label summaryLabel = formToolkit.createLabel(gridContent, "Component: ",
-				SWT.NONE);
+		Label summaryLabel = formToolkit.createLabel(gridContent,
+				"Component: ", SWT.NONE);
 		summaryLabel.setAlignment(SWT.RIGHT);
 
 		GridData gd_lblSummary = new GridData(SWT.RIGHT, SWT.CENTER, false,
@@ -56,7 +58,8 @@ public class ComponentSummaryComponent extends AbstractSummaryComponent {
 		summaryLabel.setLayoutData(gd_lblSummary);
 
 		componentText = formToolkit.createFormText(gridContent, false);
-		GridData gridData = new GridData(SWT.RIGHT, SWT.TOP, true, false, 1, 1);
+		GridData gridData = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
+		gridData.widthHint = 200;
 		componentText.setLayoutData(gridData);
 
 		Label resourcesLabel = formToolkit.createLabel(gridContent,
@@ -69,8 +72,8 @@ public class ComponentSummaryComponent extends AbstractSummaryComponent {
 		resourcesLabel.setLayoutData(gd_lblResources);
 
 		resourcesText = formToolkit.createFormText(gridContent, false);
-		GridData gd_txtResources = new GridData(SWT.RIGHT, SWT.TOP, false, false,
-				1, 1);
+		GridData gd_txtResources = new GridData(SWT.FILL, SWT.TOP, false,
+				false, 1, 1);
 		resourcesText.setLayoutData(gd_txtResources);
 
 		// Label rangesLabel = formToolkit.createLabel(gridContent, "Ranges: ",
@@ -95,8 +98,8 @@ public class ComponentSummaryComponent extends AbstractSummaryComponent {
 
 			ComponentSummary summary = (ComponentSummary) nonCastedSummary;
 
-			// TODO, something with
-			componentText.setText(summary.getComponentName(), false, false);
+			componentText.setText("<form><p><b>" + summary.getComponentName()
+					+ "</b></p></form>", true, false);
 			resourcesText.setText(
 					new Integer(summary.totalResources()).toString(), false,
 					false);

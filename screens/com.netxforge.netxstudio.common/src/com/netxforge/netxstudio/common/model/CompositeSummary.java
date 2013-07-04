@@ -21,6 +21,8 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.common.context.IComputationContext;
@@ -106,6 +108,24 @@ public class CompositeSummary implements IMonitoringSummary {
 
 	public DateTimeRange getPeriod() {
 		throw new UnsupportedOperationException("TODO");
+	}
+
+	public void notifyChanged(Notification notification) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	// Adapter
+	public Notifier getTarget() {
+		return null;
+	}
+
+	public void setTarget(Notifier newTarget) {
+	}
+
+	public boolean isAdapterForType(Object type) {
+		return false;
 	}
 
 }

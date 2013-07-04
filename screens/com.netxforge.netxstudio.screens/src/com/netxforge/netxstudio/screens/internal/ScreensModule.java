@@ -23,6 +23,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
@@ -88,6 +89,8 @@ public class ScreensModule extends AbstractModule {
 		// /////////////////////////////////////////////////
 		// IMPORTED SERVICES
 		//
+		// {@link CommonModule}
+		bind(ModelUtils.class).toProvider(service(ModelUtils.class).single());
 
 		// {@link DataModule}
 		bind(ServerRequest.class).toProvider(
