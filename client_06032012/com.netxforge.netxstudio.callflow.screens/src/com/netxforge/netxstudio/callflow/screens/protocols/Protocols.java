@@ -221,7 +221,7 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		TableColumn tblclmnSpecification = tableViewerColumn_3.getColumn();
 		tblclmnSpecification.setWidth(100);
 		tblclmnSpecification.setText("Specification");
-		tableViewer.addFilter(new SearchFilter(editingService));
+		tableViewer.addFilter(new SearchFilter());
 	}
 
 	/**

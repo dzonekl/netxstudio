@@ -80,7 +80,7 @@
    <extension
          point="org.eclipse.ui.splashHandlers">
       <splashHandler
-            class="com.netxforge.netxstudio.callflow.product.splashHandlers.InteractiveSplashHandler"
+            class="com.netxforge.netxstudio.callflow.product.internal.ProductEExtensionFactory:com.netxforge.netxstudio.callflow.product.splashHandlers.InteractiveSplashHandler"
             id="com.netxforge.netxstudio.callflow.product.splashHandlers.interactive">
       </splashHandler>
       <splashHandlerProductBinding

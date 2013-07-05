@@ -15,7 +15,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.splash.AbstractSplashHandler;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import com.netxforge.netxstudio.callflow.product.ProductActivator;
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.callflow.product.internal.ProductActivator;
 import com.netxforge.netxstudio.common.CommonService;
 import com.netxforge.netxstudio.common.jca.JCAService;
 import com.netxforge.netxstudio.data.IDataService;
@@ -48,10 +49,9 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 
 	private boolean fAuthenticated;
 
-	// private IDataService dataService;
-	//
-	// private CommonService commonService;
-
+	@Inject
+	private IDataService dataService;
+	
 	/**
 	 * 
 	 */
@@ -191,8 +191,6 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 					}
 				}
 
-				IDataService dataService = new DataProviderHelper()
-						.getDataService();
 				dataService.getProvider().openSession(username, password,
 						server, true);
 

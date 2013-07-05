@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: com.netxforge.netxstudio.callflow.product;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.netxforge.netxstudio.callflow.product.ProductActivator
+Bundle-Activator: com.netxforge.netxstudio.callflow.product.internal.ProductActivator
 Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.ui,
  com.netxforge.netxstudio.screens.app;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens.activities;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens.ide;bundle-version="1.0.0",
- com.netxforge.netxstudio.console;bundle-version="1.0.0"
+ com.netxforge.netxstudio.console;bundle-version="1.0.0",
+ org.ops4j.peaberry;bundle-version="1.1.1"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.callflow.product

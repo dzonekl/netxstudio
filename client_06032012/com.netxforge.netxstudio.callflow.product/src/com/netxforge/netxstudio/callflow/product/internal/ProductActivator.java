@@ -1,4 +1,23 @@
-package com.netxforge.netxstudio.callflow.product;
+/*******************************************************************************
+ * Copyright (c) 5 jul. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
+package com.netxforge.netxstudio.callflow.product.internal;
+
+import static org.ops4j.peaberry.Peaberry.osgiModule;
 
 import java.util.Properties;
 
@@ -8,6 +27,7 @@ import org.osgi.framework.ServiceRegistration;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.netxforge.netxstudio.callflow.product.PropertiesUtil;
 import com.netxforge.netxstudio.screens.app.IWorkbenchService;
 
 /**
@@ -40,6 +60,7 @@ public class ProductActivator extends AbstractUIPlugin {
 	private ServiceRegistration<IWorkbenchService> workbenchService;
 
 	private Injector injector;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -52,29 +73,30 @@ public class ProductActivator extends AbstractUIPlugin {
 		plugin = this;
 
 		// The EcorePlugin Activator tries to open the workspace, but the
-				// workspace
-				// is only set when the application inisitalized, if the plugin is
-				// self-starting
-				// this will thrown an exception that the data area is not set.
-				System.getProperties()
-						.setProperty(
-								"org.eclipse.emf.ecore.plugin.EcorePlugin.doNotLoadResourcesPlugin",
-								"false");
+		// workspace
+		// is only set when the application inisitalized, if the plugin is
+		// self-starting
+		// this will thrown an exception that the data area is not set.
+		System.getProperties()
+				.setProperty(
+						"org.eclipse.emf.ecore.plugin.EcorePlugin.doNotLoadResourcesPlugin",
+						"false");
 
-				// As we auto start this plugin, and EMF requires a workspace, in it'c
-				// core
-				// plugin.
-				pu.readProperties(this.getBundle(), propertiesFile, getProperties());
+		// As we auto start this plugin, and EMF requires a workspace, in it'c
+		// core
+		// plugin.
+		pu.readProperties(this.getBundle(), propertiesFile, getProperties());
 
-				injector = Guice.createInjector(new ProductModule());
+		injector = Guice.createInjector(osgiModule(context),
+				new ProductModule());
 
-				final IWorkbenchService instance = injector
-						.getInstance(IWorkbenchService.class);
+		final IWorkbenchService instance = injector
+				.getInstance(IWorkbenchService.class);
 
-				// Register our product workbench service to customize the application
-				// at startup.
-				workbenchService = context.registerService(IWorkbenchService.class,
-						instance, null);
+		// Register our product workbench service to customize the application
+		// at startup.
+		workbenchService = context.registerService(IWorkbenchService.class,
+				instance, null);
 	}
 
 	/*
@@ -90,8 +112,8 @@ public class ProductActivator extends AbstractUIPlugin {
 				this.getProperties());
 
 		workbenchService.unregister();
-		
-//		super.stop(context);
+
+		// super.stop(context);
 
 	}
 
@@ -113,6 +135,10 @@ public class ProductActivator extends AbstractUIPlugin {
 
 	public void setProperties(Properties properties) {
 		this.properties = properties;
+	}
+
+	public Injector getInjector() {
+		return injector;
 	}
 
 }
