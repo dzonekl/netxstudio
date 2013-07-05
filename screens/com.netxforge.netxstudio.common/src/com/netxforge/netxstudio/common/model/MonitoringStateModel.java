@@ -87,6 +87,22 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
 public class MonitoringStateModel {
 
 	/**
+	 * In this mode an ongoing computation is not cancelled, but an additional
+	 * job is scheduled. A new {@link MonitoringStateJob} is instantiated and
+	 * scheduled for launch with no delay. (The default mode has a delay of 100
+	 * ms).</p> Note: It's not possible to add a listener to job lifecycle in
+	 * this mode. (It could be by registration an IJobChangeListener, which is
+	 * added to each produced job).
+	 */
+	public static final int MONITOR_COMPUTATION_REPETITIVE_MODE = 100;
+
+	/**
+	 * In this mode an ongoing computation is cancelled. The computaton delay is
+	 * 100 ms.
+	 */
+	public static final int MONITOR_COMPUTATION_SINGLE_MODE = 200;
+
+	/**
 	 * A Call back interface when computing is done.
 	 * 
 	 * @author Christophe Bouhier
@@ -101,9 +117,7 @@ public class MonitoringStateModel {
 	 * 
 	 * @author Christophe Bouhier
 	 */
-	public class MonitoringStateJob extends JobChangeAdapter {
-
-		private StatusJob j = new StatusJob("Creating Summary...");
+	public class MonitoringStateJob extends Job{
 
 		/** Our context which will determine which Summary is returned. */
 		private Object target;
@@ -124,41 +138,37 @@ public class MonitoringStateModel {
 		private JobCallBack callBackHandler;
 
 		public MonitoringStateJob() {
-			super();
+			super("Creating Summary...");
 			callBackHandler = new JobCallBack();
-			j.addJobChangeListener(callBackHandler);
+			addJobChangeListener(callBackHandler);
+			setUser(true);
 		}
 
 		public void go() {
-			j.addJobChangeListener(this);
-			j.schedule(100);
+			schedule(100);
 		}
 
-		public void cancel() {
-			j.cancel();
+		public void goNow() {
+			schedule();
+		}
+
+		public void go(int delay) {
+			schedule(delay);
 		}
 
 		public void addNotifier(IJobChangeListener notifier) {
-			j.addJobChangeListener(notifier);
+			addJobChangeListener(notifier);
 		}
 
 		public void removeNotifier(IJobChangeListener notifier) {
-			j.removeJobChangeListener(notifier);
+			removeJobChangeListener(notifier);
 		}
 
-		protected class StatusJob extends Job {
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
 
-			public StatusJob(String name) {
-				super(name);
-				super.setUser(true);
-			}
-
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-
-				processReadingInternal(monitor);
-				return Status.OK_STATUS;
-			}
+			processReadingInternal(monitor);
+			return Status.OK_STATUS;
 		}
 
 		protected void processReadingInternal(final IProgressMonitor monitor) {
@@ -202,6 +212,10 @@ public class MonitoringStateModel {
 			this.target = context;
 		}
 
+		public JobCallBack getCallBackHandler() {
+			return callBackHandler;
+		}
+
 	}
 
 	@Inject
@@ -214,7 +228,23 @@ public class MonitoringStateModel {
 	private MonitoringAdapterFactory monAdapterFactory;
 
 	public void summary(MonitoringStateStateCallBack callBack, Object target) {
-		prepSummary(callBack, target, (IComputationContext[]) null);
+		prepSummary(callBack, target, MONITOR_COMPUTATION_SINGLE_MODE,
+				(IComputationContext[]) null);
+	}
+
+	/**
+	 * Produce a summary for the target object. When done,
+	 * {@link MonitoringStateStateCallBack#callBackEvent(MonitoringStateEvent)}
+	 * is called.
+	 * 
+	 * @param callBack
+	 * @param target
+	 * @param computeMode
+	 */
+	public void summary(MonitoringStateStateCallBack callBack, Object target,
+			int computationMode) {
+		prepSummary(callBack, target, computationMode,
+				(IComputationContext[]) null);
 	}
 
 	/**
@@ -231,7 +261,8 @@ public class MonitoringStateModel {
 		Assert.isNotNull(target);
 		Assert.isNotNull(contextObjects);
 
-		prepSummary(callBack, target, contextObjects);
+		prepSummary(callBack, target, MONITOR_COMPUTATION_SINGLE_MODE,
+				contextObjects);
 	}
 
 	/**
@@ -254,9 +285,12 @@ public class MonitoringStateModel {
 		@Override
 		public void done(IJobChangeEvent event) {
 			if (callBack != null) {
-				final MonitoringStateEvent monitoringStateEvent = new MonitoringStateEvent();
-				monitoringStateEvent.setResult(getJob().getMonitoringSummary());
-				callBack.callBackEvent(monitoringStateEvent);
+				Job job = event.getJob();
+				if (job instanceof MonitoringStateJob) {
+					final MonitoringStateEvent monitoringStateEvent = new MonitoringStateEvent();
+					monitoringStateEvent.setResult(((MonitoringStateJob) job).getMonitoringSummary());
+					callBack.callBackEvent(monitoringStateEvent);
+				}
 			}
 		}
 
@@ -267,31 +301,54 @@ public class MonitoringStateModel {
 	}
 
 	/**
-	 * prepares the monitoring state.
+	 * Prepares the monitoring state.
 	 */
 	private void prepSummary(final MonitoringStateStateCallBack callBack,
-			Object target, IComputationContext... contextObjects) {
+			Object target, int computationMode,
+			IComputationContext... contextObjects) {
 
-		// Force a restart, if we are operational.
-		if (getJob().isRunning()) {
+		MonitoringStateJob job = null;
 
-			if (CommonActivator.DEBUG) {
-				CommonActivator.TRACE.trace(
-						CommonActivator.TRACE_COMMON_MONITORING_OPTION,
-						"Cancel monitoring production");
+		switch (computationMode) {
+
+		case MONITOR_COMPUTATION_SINGLE_MODE: {
+			// Force a restart, if we are operational.
+			if (getJob().isRunning()) {
+
+				if (CommonActivator.DEBUG) {
+					CommonActivator.TRACE.trace(
+							CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+							"Cancel monitoring production");
+				}
+				// This will abrupt the job but on demand, so we can't really
+				// start
+				// a new job here.
+				getJob().cancel();
 			}
-			// This will abrupt the job but on demand, so we can't really start
-			// a new job here.
-			getJob().cancel();
+
+			job = getJob();
+		}
+			break;
+		case MONITOR_COMPUTATION_REPETITIVE_MODE: {
+			job = new MonitoringStateJob();
+		}
+			break;
 		}
 
-		getJob().setTarget(target);
-		getJob().setContextObjects(contextObjects);
-		// Make sure we set the correct callback, Don't use final arguments for
-		// callback!!!!! It will cost you 2 more hours to debug :-)
-		getJob().callBackHandler.setCallBack(callBack);
+		if (job != null) {
+			job.setTarget(target);
+			job.setContextObjects(contextObjects);
+			// Make sure we set the correct callback, Don't use final arguments
+			// for
+			// callback!!!!! It will cost you 2 more hours to debug :-)
+			job.getCallBackHandler().setCallBack(callBack);
 
-		getJob().go(); // Should spawn a job processing the xls.
+			if (computationMode == MONITOR_COMPUTATION_REPETITIVE_MODE) {
+				job.go(1000);
+			} else {
+				job.go(); // Should spawn a job processing the xls.
+			}
+		}
 
 	}
 
@@ -365,9 +422,9 @@ public class MonitoringStateModel {
 		}
 
 		adapt.clearContextObject();
-		
-		
-		// Add the context object, guard for null, as we might do a computation without a context. 
+
+		// Add the context object, guard for null, as we might do a computation
+		// without a context.
 		if (context != null) {
 			adapt.addContextObjects(context);
 		}

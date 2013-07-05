@@ -63,7 +63,7 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 	@Override
 	protected void setTarget(EObject target) {
 
-		System.out.println("Currently Adapted: ");
+//		System.out.println("Currently Adapted: ");
 		for (WeakReference<CDOObject> wr : adaptedObjects) {
 			System.out.println(wr.get().cdoID());
 		}
@@ -194,8 +194,7 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 			if (isSameAdapterFor((EObject) notifier)) {
 				super.addAdapter(notifier);
 
-				// CB Remove later.
-				System.out.println("NEW adapter: " + this + " (Same as this)");
+//				System.out.println("NEW adapter: " + this + " (Same as this)");
 
 				if (CommonActivator.DEBUG) {
 					CommonActivator.TRACE.trace(
@@ -210,8 +209,7 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 				final Adapter adapt = getAdapterFactory().adapt(notifier,
 						IMonitoringSummary.class);
 
-				// CB Remove later.
-				System.out.println("result adapter: " + adapt);
+//				System.out.println("result adapter: " + adapt);
 
 				if (CommonActivator.DEBUG) {
 					CommonActivator.TRACE.trace(
@@ -380,9 +378,8 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 						"Object handler invoked: " + object + "( " + oldState
 								+ "-->" + newState + " )");
 			}
-			// REMOVE LATER
-			System.out.println("Object handler invoked: " + object + "( "
-					+ oldState + "-->" + newState + " )");
+//			System.out.println("Object handler invoked: " + object + "( "
+//					+ oldState + "-->" + newState + " )");
 
 			if (newState == CDOState.CLEAN || newState == CDOState.NEW) {
 				addAdapter(object);

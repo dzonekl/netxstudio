@@ -69,7 +69,6 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 						System.out.println("firing callback");
 						fireLabelProviderChanged(new LabelProviderChangedEvent(
 								NodeTypeTreeLabelProvider.this, target));
-
 					}
 				});
 
@@ -114,28 +113,33 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 
 			NodeType nt = (NodeType) element;
 
-			
-			//!FIXME doesn't work, as subsequent job will be cancelled! 
+			StyledString styledString = new StyledString(
+					nt.getName() != null ? nt.getName() : "?", null);
 			
 			if (!MonitoringStateModel.isAdapted(nt)) {
-				stateModel.summary(new LabelProviderCallBack(), nt);
+				stateModel
+						.summary(
+								new LabelProviderCallBack(),
+								nt,
+								MonitoringStateModel.MONITOR_COMPUTATION_REPETITIVE_MODE);
 			} else {
 				NodeTypeSummary summary = (NodeTypeSummary) MonitoringStateModel
 						.getAdapted(nt);
-				StyledString styledString = new StyledString(
-						nt.getName() != null ? nt.getName() : "?", null);
+				
 				String decoration = " (" + summary.getFunctionCountAsString()
 						+ " Functions)" + " ("
 						+ summary.getEquipmentCountAsString() + " Equipments)";
 
 				styledString.append(decoration, StyledString.COUNTER_STYLER);
-				cell.setText(styledString.getString());
-				Image img = ResourceManager.getPluginImage(
-						"com.netxforge.netxstudio.models.edit",
-						"icons/full/obj16/Node_H.png");
-				cell.setImage(img);
-				cell.setStyleRanges(styledString.getStyleRanges());
 			}
+			
+			cell.setText(styledString.getString());
+			Image img = ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/obj16/Node_H.png");
+			cell.setImage(img);
+			cell.setStyleRanges(styledString.getStyleRanges());
+
 		}
 
 		if (element instanceof Function) {
