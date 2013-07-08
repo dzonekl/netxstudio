@@ -116,23 +116,22 @@ public class ClientCDODataProvider extends CDODataProvider {
 				CDOTransaction t = (CDOTransaction) v;
 				sb.append("transaction ID: " + t.getViewID()
 						+ " ResourceSet hashcode:"
-						+ v.getResourceSet().hashCode());
+						+ v.getResourceSet().hashCode() + "\n");
 			} else {
-				sb.append(+v.getViewID() + " ResourceSet hashcode:"
-						+ v.getResourceSet().hashCode());
+				sb.append("view ID: " + v.getViewID()
+						+ " ResourceSet hashcode:"
+						+ v.getResourceSet().hashCode() + "\n");
 
 			}
 			for (Resource res : v.getResourceSet().getResources()) {
 				if (res instanceof CDOResource) {
-					sb.append(
-
-					"  Resource for set = " + res.getURI());
+					sb.append(" Resource for set = " + res.getURI() + "\n");
 				}
 			}
 		}
 		if (views.length > 0) {
 			sb.append("Number of views/transactions:"
-					+ session.getElements().length);
+					+ session.getElements().length + "\n");
 		}
 
 		return sb.toString();
@@ -197,12 +196,16 @@ public class ClientCDODataProvider extends CDODataProvider {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("-------------- in session");
+		sb.append("-------------- in session\n");
 		sb.append(printSession());
-		sb.append("-------------- cached");
-		sb.append(transaction.toString());
-		sb.append(view.toString());
+		if (transaction != null || view != null) {
+			sb.append("-------------- cached\n");
+			sb.append("- "
+					+ (transaction != null ? transaction.toString()
+							: " transaction not set") + "\n");
+			sb.append("- " + (view != null ? view.toString() : "view not set.")
+					+ "\n");
+		}
 		return sb.toString();
 	}
-
 }

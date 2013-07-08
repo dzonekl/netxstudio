@@ -66,7 +66,6 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 
 				Display.getDefault().asyncExec(new Runnable() {
 					public void run() {
-						System.out.println("firing callback");
 						fireLabelProviderChanged(new LabelProviderChangedEvent(
 								NodeTypeTreeLabelProvider.this, target));
 					}

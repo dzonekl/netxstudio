@@ -64,9 +64,9 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 	protected void setTarget(EObject target) {
 
 //		System.out.println("Currently Adapted: ");
-		for (WeakReference<CDOObject> wr : adaptedObjects) {
-			System.out.println(wr.get().cdoID());
-		}
+//		for (WeakReference<CDOObject> wr : adaptedObjects) {
+//			System.out.println(wr.get().cdoID());
+//		}
 
 		if (isConnectedObject(target)) {
 			if (adaptedRoot == null) {

@@ -1473,8 +1473,6 @@ public class SmartResources extends AbstractScreen implements
 
 		public void handleValueChange(ValueChangeEvent event) {
 			
-			System.out.println("Monitor update: " + event);
-			
 			IObservable observable = event.getObservable();
 			IObservableValue observableValue = event.getObservableValue();
 
@@ -1552,8 +1550,8 @@ public class SmartResources extends AbstractScreen implements
 					List<Marker> markers = netxSummary.markers();
 					cmpValues.applyMarkers(markers);
 				} else {
-					System.out.println(" Context not set for summary:"
-							+ netxSummary);
+//					System.out.println(" Context not set for summary:"
+//							+ netxSummary);
 				}
 			}
 		}

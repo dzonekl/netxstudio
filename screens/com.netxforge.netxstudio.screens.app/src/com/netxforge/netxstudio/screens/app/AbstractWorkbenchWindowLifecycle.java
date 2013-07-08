@@ -84,7 +84,7 @@ public abstract class AbstractWorkbenchWindowLifecycle implements
 				sb.append(printDataStatus);
 			}
 		}
-
+		System.out.println(sb.toString());
 	}
 
 }
