@@ -612,7 +612,7 @@ public abstract class CDODataProvider implements IDataProvider {
 	public void commitTransaction() {
 		commitTransaction(CLIENT_COMMIT_COMMENT, false);
 	}
-	
+
 	public void rollbackTransaction() {
 		try {
 			if (isTransactionSet()) {
@@ -632,9 +632,9 @@ public abstract class CDODataProvider implements IDataProvider {
 	}
 
 	public void commitTransaction(String commitComment, boolean close) {
-		
-		CDOTransaction transaction = null; 
-		
+
+		CDOTransaction transaction = null;
+
 		try {
 			if (isTransactionSet()) {
 				if (commitComment != null && commitComment.length() > 0) {
@@ -642,8 +642,9 @@ public abstract class CDODataProvider implements IDataProvider {
 					transaction = getTransaction();
 					transaction.commit();
 				}
-			}else{
-				throw new Exception("There is no existing transaction to commit.");
+			} else {
+				throw new Exception(
+						"There is no existing transaction to commit.");
 			}
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
@@ -661,6 +662,13 @@ public abstract class CDODataProvider implements IDataProvider {
 				setTransaction(null);
 			}
 		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(connection.toString());
+		return sb.toString();
 	}
 
 }

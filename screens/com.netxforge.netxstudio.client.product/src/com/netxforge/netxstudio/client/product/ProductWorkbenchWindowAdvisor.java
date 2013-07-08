@@ -19,8 +19,8 @@ package com.netxforge.netxstudio.client.product;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IPerspectiveDescriptor;
-import org.eclipse.ui.IPerspectiveListener;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PerspectiveAdapter;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 
 import com.google.inject.Inject;
@@ -28,7 +28,6 @@ import com.netxforge.netxstudio.console.ConsoleService;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.activities.IActivityAndRoleService;
 import com.netxforge.netxstudio.screens.app.AbstractWorkbenchWindowLifecycle;
-import com.netxforge.netxstudio.screens.app.IWorkbenchWindowLifecycle;
 import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
 
 /**
@@ -41,11 +40,6 @@ public class ProductWorkbenchWindowAdvisor extends
 
 	@Inject
 	private IActivityAndRoleService activityAndRoleService;
-
-	/**
-	 * A self, which is offered as an OSGI service.
-	 */
-	private static ProductWorkbenchWindowAdvisor self = new ProductWorkbenchWindowAdvisor();
 
 	@Override
 	public void preWindowOpen(IWorkbenchWindowConfigurer configurer) {
@@ -102,20 +96,33 @@ public class ProductWorkbenchWindowAdvisor extends
 		// to be used with functions.
 
 		configurer.getWindow().addPerspectiveListener(
-				new IPerspectiveListener() {
+				new PerspectiveAdapter() {
 
 					public void perspectiveActivated(IWorkbenchPage page,
 							IPerspectiveDescriptor perspective) {
 						page.closeAllEditors(true);
-
 						hideActionSets(page);
+						System.out.println("Perspective : Activated" + perspective.getId());
+//						printPage(page);
+					}
+					
+					@Override
+					public void perspectiveOpened(IWorkbenchPage page,
+							IPerspectiveDescriptor perspective) {
+						System.out.println("Perspective : Opened" + perspective.getId());
+					}
+					@Override
+					public void perspectiveClosed(IWorkbenchPage page,
+							IPerspectiveDescriptor perspective) {
+						System.out.println("Perspective : Closed" + perspective.getId());
 					}
 
-					public void perspectiveChanged(IWorkbenchPage page,
-							IPerspectiveDescriptor perspective, String changeId) {
-
+					@Override
+					public void perspectiveDeactivated(IWorkbenchPage page,
+							IPerspectiveDescriptor perspective) {
+						System.out.println("Perspective : Deactivated" + perspective.getId());
 					}
-
+					
 				});
 
 	}
@@ -135,14 +142,6 @@ public class ProductWorkbenchWindowAdvisor extends
 		page.hideActionSet("org.eclipse.ui.edit.text.actionSet.convertLineDelimitersTo");
 		page.hideActionSet("org.eclipse.ui.actionSet.keyBindings");
 		// page.hideActionSet("org.eclipse.update.ui.softwareUpdates");
-	}
-
-	public IWorkbenchWindowLifecycle getWorkbenchWindowLifecycle() {
-		return self;
-	}
-
-	public static IWorkbenchWindowLifecycle getINSTANCE() {
-		return self;
 	}
 
 }

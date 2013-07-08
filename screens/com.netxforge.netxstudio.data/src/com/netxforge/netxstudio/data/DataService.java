@@ -74,4 +74,13 @@ public class DataService implements IDataService {
 		return provider.getServer();
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(provider.toString());
+		return sb.toString();
+	}
+	
+	
+
 }

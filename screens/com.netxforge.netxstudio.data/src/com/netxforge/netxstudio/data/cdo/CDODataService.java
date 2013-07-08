@@ -30,4 +30,9 @@ public class CDODataService extends DataService {
 		super(provider, queryService, modelUtils);
 	}
 
+	@Override
+	public String toString() {
+		return super.toString();
+	}
+
 }

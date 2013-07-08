@@ -343,7 +343,16 @@ public class CDOEditingService extends EMFEditingService implements
 			}
 		}
 	}
-
+	
+	
+	/**
+	 * Return the data status for this service. 
+	 * @return
+	 */
+	public String printDataStatus(){
+		return dataService.toString();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

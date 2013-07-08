@@ -33,11 +33,11 @@ import com.netxforge.netxstudio.screens.app.IWorkbenchWindowLifecycle;
 public class ProductWorkbenchService implements IWorkbenchService {
 
 	private ProductWorkbenchAdvisor advisor;
-	private ProductWorkbenchWindowAdvisor windowAdvisor;
+	private IWorkbenchWindowLifecycle windowAdvisor;
 
 	@Inject
 	public ProductWorkbenchService(ProductWorkbenchAdvisor advisor,
-			ProductWorkbenchWindowAdvisor windowAdvisor) {
+			IWorkbenchWindowLifecycle windowAdvisor) {
 		this.advisor = advisor;
 		this.windowAdvisor = windowAdvisor;
 

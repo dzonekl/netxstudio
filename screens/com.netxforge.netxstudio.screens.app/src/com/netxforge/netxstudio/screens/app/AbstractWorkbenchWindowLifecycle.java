@@ -17,16 +17,21 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.app;
 
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 
+import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
+import com.netxforge.netxstudio.screens.editing.CDOEditingService;
+import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 /**
- * A do nothing implementation 
+ * A do nothing implementation
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
-public class AbstractWorkbenchWindowLifecycle implements
+public abstract class AbstractWorkbenchWindowLifecycle implements
 		IWorkbenchWindowLifecycle {
 
 	public void preWindowOpen(IWorkbenchWindowConfigurer configurer) {
@@ -56,6 +61,30 @@ public class AbstractWorkbenchWindowLifecycle implements
 
 	public void postWindowClose(
 			IWorkbenchWindowConfigurer iWorkbenchWindowConfigurer) {
+	}
+
+	/**
+	 * Each workbench page is associated with an {@link AbstractScreensViewPart}
+	 * , each part has one {@link IEditingService}. The editing service provides
+	 * access to the
+	 * 
+	 * 
+	 * @param page
+	 */
+	protected void printPage(IWorkbenchPage page) {
+		IWorkbenchPart activePart = page.getActivePart();
+
+		StringBuilder sb = new StringBuilder();
+		if (activePart instanceof AbstractScreensViewPart) {
+			AbstractScreensViewPart screensViewPart = (AbstractScreensViewPart) activePart;
+			IEditingService editingService = screensViewPart
+					.getEditingService();
+			if (editingService instanceof CDOEditingService) {
+				String printDataStatus = ((CDOEditingService) editingService).printDataStatus();
+				sb.append(printDataStatus);
+			}
+		}
+
 	}
 
 }

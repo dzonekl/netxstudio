@@ -8,7 +8,8 @@ Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.google.inject;bundle-version="2.0.0",
- com.google.collect;bundle-version="1.0.0"
+ com.google.collect;bundle-version="1.0.0",
+ com.netxforge.netxstudio.screens.editing;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.screens.app,

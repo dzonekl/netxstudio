@@ -60,7 +60,7 @@ public class ClientCDODataProvider extends CDODataProvider {
 					session == null ? "Session closed" : "Session not set");
 		} else {
 			if (DataActivator.DEBUG) {
-				this.printSession();
+				this.traceSession();
 			}
 			return session;
 		}
@@ -70,12 +70,18 @@ public class ClientCDODataProvider extends CDODataProvider {
 	public CDOTransaction getTransaction() {
 		if (transaction == null) {
 			transaction = getSession().openTransaction();
-			if(DataActivator.DEBUG){
-				DataActivator.TRACE.trace(DataActivator.TRACE_DATA_OPTION, "Created transaction with ID: " + transaction.getViewID());
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_DATA_OPTION,
+						"Created transaction with ID: "
+								+ transaction.getViewID());
 			}
-		}else{
-			if(DataActivator.DEBUG){
-				DataActivator.TRACE.trace(DataActivator.TRACE_DATA_OPTION, "Accessing transaction with ID: " + transaction.getViewID());
+		} else {
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_DATA_OPTION,
+						"Accessing transaction with ID: "
+								+ transaction.getViewID());
 			}
 		}
 		return transaction;
@@ -96,7 +102,43 @@ public class ClientCDODataProvider extends CDODataProvider {
 		ClientCDODataProvider.transaction = transaction;
 	}
 
-	public void printSession() {
+	private String printSession() {
+		StringBuilder sb = new StringBuilder();
+		if (session.isClosed()) {
+			sb.append("Session closed!, can not provide views or transactions");
+		}
+
+		// Report the transactions on our session:
+		CDOView[] views = session.getElements();
+		for (int i = 0; i < views.length; i++) {
+			CDOView v = views[i];
+			if (v instanceof CDOTransaction) {
+				CDOTransaction t = (CDOTransaction) v;
+				sb.append("transaction ID: " + t.getViewID()
+						+ " ResourceSet hashcode:"
+						+ v.getResourceSet().hashCode());
+			} else {
+				sb.append(+v.getViewID() + " ResourceSet hashcode:"
+						+ v.getResourceSet().hashCode());
+
+			}
+			for (Resource res : v.getResourceSet().getResources()) {
+				if (res instanceof CDOResource) {
+					sb.append(
+
+					"  Resource for set = " + res.getURI());
+				}
+			}
+		}
+		if (views.length > 0) {
+			sb.append("Number of views/transactions:"
+					+ session.getElements().length);
+		}
+
+		return sb.toString();
+	}
+
+	public void traceSession() {
 
 		if (session.isClosed()) {
 			DataActivator.TRACE.trace(DataActivator.TRACE_DATA_DETAILS_OPTION,
@@ -136,7 +178,7 @@ public class ClientCDODataProvider extends CDODataProvider {
 							+ session.getElements().length);
 		}
 	}
-	
+
 	@Override
 	public CDOView getView() {
 		if (view == null) {
@@ -150,6 +192,17 @@ public class ClientCDODataProvider extends CDODataProvider {
 			this.view.close();
 			view = null;
 		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("-------------- in session");
+		sb.append(printSession());
+		sb.append("-------------- cached");
+		sb.append(transaction.toString());
+		sb.append(view.toString());
+		return sb.toString();
 	}
 
 }

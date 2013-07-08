@@ -26,6 +26,7 @@ import com.netxforge.netxstudio.client.product.ProductWorkbenchWindowAdvisor;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.screens.activities.IActivityAndRoleService;
 import com.netxforge.netxstudio.screens.app.IWorkbenchService;
+import com.netxforge.netxstudio.screens.app.IWorkbenchWindowLifecycle;
 
 /**
  * Module for this plugin.
@@ -41,7 +42,8 @@ public class ProductModule extends AbstractModule {
 		// /////////////////////////////////
 		// INTERNAL SERVICES
 		this.bind(ProductWorkbenchAdvisor.class);
-		this.bind(ProductWorkbenchWindowAdvisor.class);
+		
+		this.bind(IWorkbenchWindowLifecycle.class).to(ProductWorkbenchWindowAdvisor.class);
 
 		// ////////////////////////////////
 		// EXPORTED SERVICES

@@ -28,7 +28,6 @@ import com.netxforge.netxstudio.console.ConsoleService;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.activities.IActivityAndRoleService;
 import com.netxforge.netxstudio.screens.app.AbstractWorkbenchWindowLifecycle;
-import com.netxforge.netxstudio.screens.app.IWorkbenchWindowLifecycle;
 import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
 
 /**
@@ -41,11 +40,6 @@ public class ProductWorkbenchWindowAdvisor extends
 
 	@Inject
 	private IActivityAndRoleService activityAndRoleService;
-
-	/**
-	 * A self, which is offered as an OSGI service.
-	 */
-	private static ProductWorkbenchWindowAdvisor self = new ProductWorkbenchWindowAdvisor();
 
 	@Override
 	public void preWindowOpen(IWorkbenchWindowConfigurer configurer) {
@@ -139,13 +133,4 @@ public class ProductWorkbenchWindowAdvisor extends
 		page.hideActionSet("org.eclipse.ui.actionSet.keyBindings");
 		// page.hideActionSet("org.eclipse.update.ui.softwareUpdates");
 	}
-
-	public IWorkbenchWindowLifecycle getWorkbenchWindowLifecycle() {
-		return self;
-	}
-
-	public static IWorkbenchWindowLifecycle getINSTANCE() {
-		return self;
-	}
-
 }
