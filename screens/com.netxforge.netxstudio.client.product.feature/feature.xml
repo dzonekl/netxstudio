@@ -209,8 +209,7 @@
          id="com.netxforge.netxstudio.client.product"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
+         version="1.0.0.qualifier"/>
 
    <plugin
          id="com.netxforge.netxstudio.screens.activities"
