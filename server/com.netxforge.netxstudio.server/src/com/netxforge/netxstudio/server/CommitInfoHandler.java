@@ -30,10 +30,13 @@ import org.eclipse.emf.cdo.common.model.CDOClassInfo;
 import org.eclipse.emf.cdo.common.revision.CDOIDAndVersion;
 import org.eclipse.emf.cdo.common.revision.CDORevisionKey;
 import org.eclipse.emf.cdo.common.revision.delta.CDORevisionDelta;
+import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.eresource.EresourcePackage;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.cdo.util.CDOUtil;
+import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -73,14 +76,6 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 
 	public static final int NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY_DEFAULT = 100; // how
 																				// many
-																				// days
-																				// to
-																				// keep
-																				// commit
-																				// info
-																				// for
-																				// a
-																				// user.
 	public static final String NETXSTUDIO_MAX_COMMIT_INFO_QUANTITY = "netxstudio.max.commit.info.quantity"; // how
 
 	// many
@@ -139,7 +134,7 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 			logEntry.setTimeStamp(commitTimeStamp);
 			logEntry.setAction(ActionType.DELETE);
 			logEntry.setObjectId(cdoIdAndVersion.toString());
-			addAndTruncate(resource.getContents(), logEntry);
+			addAndTruncate(resource, logEntry);
 		}
 
 		// ADD
@@ -157,7 +152,7 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 						+ icdoRev.getID() + "" + icdoRev.getVersion());
 				logEntry.setChange(modelUtils.cdoDumpNewObject(icdoRev));
 			}
-			addAndTruncate(resource.getContents(), logEntry);
+			addAndTruncate(resource, logEntry);
 		}
 
 		// UPDATE
@@ -178,7 +173,7 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 			modelUtils.cdoDumpFeatureDeltas(sb, delta.getFeatureDeltas());
 
 			logEntry.setChange(modelUtils.truncate(sb.toString()));
-			addAndTruncate(resource.getContents(), logEntry);
+			addAndTruncate(resource, logEntry);
 		}
 		try {
 			transaction
@@ -196,7 +191,7 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 	 * @param resource
 	 * @param logEntry
 	 */
-	public void addAndTruncate(final EList<EObject> contents,
+	public void addAndTruncate(final Resource resource,
 			CommitLogEntry commitInfo) {
 
 		// Lazy init maxStats var.
@@ -240,21 +235,45 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 			}
 		}
 
-		contents.add(0, commitInfo);
+		resource.getContents().add(0, commitInfo);
+
+		CDOResource cdoRes = (CDOResource) resource;
 
 		// truncate the list, if exceeding max. size.
-		if (contents.size() > maxCommitEntries) {
+		if (resource.getContents().size() > maxCommitEntries) {
 
-			List<EObject> subList = Lists.newArrayList(contents.subList(0,
-					maxCommitEntries));
-			boolean retainAll = contents.retainAll(subList);
+			List<EObject> subList = Lists.newArrayList(resource.getContents()
+					.subList(0, maxCommitEntries));
 
-			if (retainAll) {
-				if (ServerActivator.DEBUG) {
-					ServerActivator.TRACE
-							.trace(ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
-									"truncing mapping statistics to max "
-											+ maxCommitEntries);
+			boolean stillONF = true;
+			while (stillONF) {
+				for (int i = 0; i < resource.getContents().size(); i++) {
+					try {
+						EObject eo = cdoRes.getContents().get(i);
+						if (CDOUtil.isStaleObject(eo)) {
+							CDOUtil.cleanStaleReference(
+									cdoRes,
+									EresourcePackage.Literals.CDO_RESOURCE__CONTENTS,
+									i);
+						}
+					} catch (ObjectNotFoundException exception) {
+					}
+				}
+				boolean retainAll = false;
+
+				try {
+					retainAll = resource.getContents().retainAll(subList);
+					stillONF = false;
+					if (retainAll) {
+						if (ServerActivator.DEBUG) {
+							ServerActivator.TRACE
+									.trace(ServerActivator.TRACE_SERVER_COMMIT_INFO_CDO_OPTION,
+											"truncing mapping statistics to max "
+													+ maxCommitEntries);
+						}
+					}
+				} catch (ObjectNotFoundException exception) {
+					// still error, go back.
 				}
 			}
 		}
