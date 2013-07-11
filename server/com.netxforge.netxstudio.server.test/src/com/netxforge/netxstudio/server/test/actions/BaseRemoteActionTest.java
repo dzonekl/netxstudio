@@ -81,7 +81,7 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit4 {
 
 	@Before
 	protected void setUp() throws Exception {
-		super.getInjector().injectMembers(this);
+		super.getClientInjector().injectMembers(this);
 		dataProvider.setDoGetResourceFromOwnTransaction(false);
 		dataProvider.openSession("admin", "admin");
 	}

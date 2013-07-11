@@ -30,6 +30,10 @@ import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
 import com.netxforge.netxstudio.data.cdo.ClientCDODataProvider;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
+import com.netxforge.netxstudio.data.importer.IComponentLocator;
+import com.netxforge.netxstudio.data.importer.IndexComponentLocator;
+import com.netxforge.netxstudio.data.index.ComponentMappingIndex;
+import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -48,6 +52,8 @@ public class TestModule extends AbstractModule {
 		bind(IDataProvider.class).to(ClientCDODataProvider.class);
 		bind(IDataService.class).to(CDODataService.class);
 
+		bind(IComponentMappingIndex.class).to(ComponentMappingIndex.class);
+		bind(IComponentLocator.class).to(IndexComponentLocator.class);
 	}
 
 }

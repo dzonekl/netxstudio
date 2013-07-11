@@ -56,8 +56,8 @@ public class MetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 
 	@Before
 	public void setUp() throws Exception {
-		dataService = getInjector().getInstance(IDataService.class);
-		modelUtils = getInjector().getInstance(ModelUtils.class);
+		dataService = getClientInjector().getInstance(IDataService.class);
+		modelUtils = getClientInjector().getInstance(ModelUtils.class);
 	}
 
 	@Test

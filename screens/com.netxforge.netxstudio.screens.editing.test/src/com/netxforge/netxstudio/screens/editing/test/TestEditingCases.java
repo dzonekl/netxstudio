@@ -66,7 +66,7 @@ public class TestEditingCases extends AbstractInjectedTestJUnit4 {
 
 	@Before
 	public void runBeforeEveryTest() {
-		getInjector().injectMembers(this);
+		getClientInjector().injectMembers(this);
 	}
 
 	@After

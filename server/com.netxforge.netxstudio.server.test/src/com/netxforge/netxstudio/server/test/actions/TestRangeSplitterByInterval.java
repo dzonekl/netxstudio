@@ -53,7 +53,7 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 	@Before
 	public void up() {
 		
-		this.getInjector().injectMembers(this);
+		this.getClientInjector().injectMembers(this);
 		
 		_15minValues = Lists.newArrayList();
 

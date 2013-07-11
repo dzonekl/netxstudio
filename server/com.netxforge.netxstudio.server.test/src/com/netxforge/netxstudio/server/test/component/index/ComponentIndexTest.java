@@ -1,47 +1,60 @@
 package com.netxforge.netxstudio.server.test.component.index;
 
-import java.util.List;
-import java.util.regex.Pattern;
+import junit.framework.Assert;
 
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.id.CDOIDUtil;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.importer.IComponentLocator;
-import com.netxforge.netxstudio.data.importer.IComponentLocator.IdentifierDescriptor;
 import com.netxforge.netxstudio.data.index.ComponentMappingIndex;
 import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
-import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.LibraryFactory;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
-import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataServiceTest4;
+import com.netxforge.netxstudio.operators.Network;
+import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.OperatorsFactory;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 /**
  * @author Christophe Bouhier
  * 
  */
-public class ComponentIndexTest extends AbstractDataServiceTest4 {
+public class ComponentIndexTest extends AbstractInjectedTestJUnit4 {
 
+	@Inject
 	private IComponentMappingIndex index;
 
 	@Inject
 	private ModelUtils modelUtils;
 
+	@Inject
+	private IDataProvider provider;
+
+	// TEST NETWORK, Freely create, change etc.. nodes, functions etc..
+	private static String TESTNETWORK_OID = "2636154";
+
 	@Before
 	public void before() {
-		getInjector().injectMembers(this);
+		getClientInjector().injectMembers(this);
 	}
 
 	@Test
 	public void testIndex() throws Exception {
 
-		index = super.getInjector().getInstance(IComponentMappingIndex.class);
-
-		IDataProvider provider = this.service.getProvider();
 		provider.openSession("admin", "admin");
 
 		((ComponentMappingIndex) index).setDataProvider(provider);
@@ -51,83 +64,146 @@ public class ComponentIndexTest extends AbstractDataServiceTest4 {
 		// Build the index.
 		index.buildIndex();
 
-		while (index.isIndexing()) {
-
-		}
-		;
+		// Wait...
+		waitForIndexing();
 
 		System.out.println("index creation took "
 				+ modelUtils.timeDurationNanoFromStart(nanoTime));
 
 		// print it.
-		index.toString();
+		// String string = index.toString();
+		// System.out.println(string);
 
-		final List<IdentifierDescriptor> descriptors = Lists.newArrayList();
+		int size = index.size();
 
-		{
-			{
-				IdentifierDataKind nodeIDK = nodeIDK();
-				Pattern pattern = Pattern.compile("arnstp01");
-				IdentifierDescriptor d1 = IComponentLocator.IdentifierDescriptor
-						.valueFor(nodeIDK, pattern, 100);
+		CDOID cdoIDFor = cdoIDFor(OperatorsPackage.Literals.NODE,
+				TESTNETWORK_OID);
+		Network network = (Network) provider.getTransaction().getObject(
+				cdoIDFor);
 
-				descriptors.add(d1);
-			}
-			{
-				IdentifierDataKind functionIDK = functionIDK("Name");
-				Pattern pattern = Pattern.compile("Signaling");
-				IdentifierDescriptor d2 = IComponentLocator.IdentifierDescriptor
-						.valueFor(functionIDK, pattern, 100);
+		NodeType createNodeType = LibraryFactory.eINSTANCE.createNodeType();
+		createNodeType.setName("testNodeType");
+		
+//		Resource nodeTypeResource = provider
+//				.getResource(LibraryPackage.Literals.NODE_TYPE);
+//		nodeTypeResource.getContents().add(createNodeType);
+//		nodeTypeResource.save(null);
 
-				descriptors.add(d2);
-			}
+		// Should not affect the
+		Node newNode = newNode(network, createNodeType, "testNode");
 
-		}
+		provider.commitTransaction();
 
-		// Find the component with Metric.
-		// TODO, dig up a relevant Metric.
+		// Wait...
+		waitForIndexing();
 
-		List<Component> componentsForIdentifiers = index
-				.componentsForIdentifiers(null, descriptors);
+		// Adding a node should not increase the size.
+		Assert.assertEquals(size, index.size());
 
-		for (Component c : componentsForIdentifiers) {
-			System.err.println(modelUtils.printModelObject(c));
-		}
-
-		// Console c = System.console();
-		// boolean oneMore = true;
-		// while (oneMore) {
+		Equipment newEquipment = newEquipment(newNode, "testEq1", "testCode1");
+		provider.commitTransaction();
+		
+		// Wait...
+		waitForIndexing();
+		
+		Assert.assertEquals(size + 1, index.size());
+		
+		// // find a component, by producing descriptors for it.
+		// final List<IdentifierDescriptor> descriptors = Lists.newArrayList();
 		//
-		// boolean hasMoreDescriptors = true;
+		// {
+		// {
+		// IdentifierDataKind nodeIDK = nodeIDK();
+		// Pattern pattern = Pattern.compile("arnstp01");
+		// IdentifierDescriptor d1 = IComponentLocator.IdentifierDescriptor
+		// .valueFor(nodeIDK, pattern, 100);
 		//
-		// while (hasMoreDescriptors) {
-		// String s = c.readLine();
-		//
-		// StringTokenizer stringTokenizer = new StringTokenizer(s, "=");
-		// String key = null;
-		// String value = null;
-		//
-		// while (stringTokenizer.hasMoreTokens()) {
-		// String nextToken = stringTokenizer.nextToken();
-		// if (nextToken.equals("done")) {
-		// hasMoreDescriptors = false;
-		// break;
-		// }else if(nextToken.equals("stop") ){
-		// oneMore = false;
-		// }else{
-		// if(key == null){
-		// value = nextToken;
-		// }else if(value == null){
-		// value = nextToken;
+		// descriptors.add(d1);
 		// }
-		// }
-		// }
+		// {
+		// IdentifierDataKind functionIDK = functionIDK("Name");
+		// Pattern pattern = Pattern.compile("Signaling");
+		// IdentifierDescriptor d2 = IComponentLocator.IdentifierDescriptor
+		// .valueFor(functionIDK, pattern, 100);
+		//
+		// descriptors.add(d2);
 		// }
 		//
 		// }
+		//
+		// // Find the component with Metric.
+		// // TODO, dig up a relevant Metric.
+		//
+		// List<Component> componentsForIdentifiers = index
+		// .componentsForIdentifiers(null, descriptors);
+		//
+		// for (Component c : componentsForIdentifiers) {
+		// System.err.println(modelUtils.printModelObject(c));
+		// }
 
+		removeEquipment(newNode, newEquipment);
+		removeNode(network, newNode);
+//		nodeTypeResource.getContents().remove(createNodeType);
+//		nodeTypeResource.save(null);
+		provider.commitTransactionThenClose();
 		provider.closeSession();
 
+	}
+
+	/**
+	 * 
+	 */
+	private void waitForIndexing() {
+		while (index.isIndexing()) {
+			try {
+				System.out.println("indexing...");
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private Node newNode(Network n, NodeType nt, String string) {
+
+		Node createNode = OperatorsFactory.eINSTANCE.createNode();
+		createNode.setNodeID(string);
+		createNode.setNodeType(nt);
+
+		n.getNodes().add(createNode);
+		return createNode;
+	}
+
+	private void removeNode(Network n, Node node) {
+		n.getNodes().remove(node);
+	}
+
+	private Equipment newEquipment(CDOObject parent, String name, String code) {
+
+		Equipment createEquipment = LibraryFactory.eINSTANCE.createEquipment();
+		createEquipment.setName(name);
+		createEquipment.setEquipmentCode(code);
+
+		if (parent instanceof Equipment) {
+			((Equipment) parent).getEquipments().add(createEquipment);
+		} else if (parent instanceof Node) {
+			Node n = (Node) parent;
+			n.getNodeType().getEquipments().add(createEquipment);
+		}
+		return createEquipment;
+	}
+
+	private void removeEquipment(CDOObject parent, Equipment eq) {
+		if (parent instanceof Equipment) {
+			((Equipment) parent).getEquipments().remove(eq);
+		} else if (parent instanceof Node) {
+			Node n = (Node) parent;
+			n.getNodeType().getEquipments().remove(eq);
+		}
+	}
+
+	public CDOID cdoIDFor(EClass eclass, String string) {
+		return CDOIDUtil.createLong(Long.parseLong(string));
 	}
 
 	/**

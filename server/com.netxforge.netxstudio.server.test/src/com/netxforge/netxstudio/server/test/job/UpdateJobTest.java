@@ -57,7 +57,7 @@ public class UpdateJobTest extends AbstractInjectedTestJUnit4 {
 
 	@Before
 	public void setUp() throws Exception {
-		getInjector().injectMembers(this);
+		getClientInjector().injectMembers(this);
 	}
 
 	@Test

@@ -56,7 +56,7 @@ public class QueryTest extends AbstractDataServiceTest4 {
 	
 	@Before
 	public void before(){
-		this.getInjector().injectMembers(this);
+		this.getClientInjector().injectMembers(this);
 	}
 	
 	

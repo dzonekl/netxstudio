@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens;
 
 import org.eclipse.core.databinding.observable.IObservable;
@@ -23,38 +23,41 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.jface.viewers.IElementComparer;
 
-
 /**
- * A custom comparer which can deal with CDO Objects. 
+ * A custom comparer which can deal with CDO Objects.
+ * 
  * @author Christophe
- *
+ * 
  */
 public class CDOElementComparer implements IElementComparer {
-    
-    public int hashCode(Object element) {
-        if( element instanceof IObservable ) {
-            return System.identityHashCode(element);
-        } else if( element instanceof CDOObject ) {
-        	CDOID cdoID = ((CDOObject)element).cdoID();
-            return (element.getClass().getName() + "+" + cdoID).hashCode();
-        }
-        
-        try{
-        	return element.hashCode();
-        }catch(ObjectNotFoundException onfe){
-        	
-        }
-        
-        return -1;
-    }
-    
-    public boolean equals(Object a, Object b) {
-        if( a instanceof IObservable && b instanceof IObservable ) {
-            return a == b;
-        } else if( a instanceof CDOObject && b instanceof CDOObject ) {
-            return hashCode(a) == hashCode(b); 
-        }
-        return a.equals(b);
-    }
-}
 
+	public int hashCode(Object element) {
+		if (element instanceof IObservable) {
+			return System.identityHashCode(element);
+		} else if (element instanceof CDOObject) {
+			CDOID cdoID = ((CDOObject) element).cdoID();
+			return (element.getClass().getName() + "+" + cdoID).hashCode();
+		}
+
+		try {
+			return element.hashCode();
+		} catch (ObjectNotFoundException onfe) {
+
+		}
+
+		return -1;
+	}
+
+	public boolean equals(Object a, Object b) {
+		if (a instanceof IObservable && b instanceof IObservable) {
+			return a == b;
+		} else if (a instanceof CDOObject && b instanceof CDOObject) {
+			return hashCode(a) == hashCode(b);
+		}
+		try {
+			return a.equals(b);
+		} catch (ObjectNotFoundException onfe) {
+			return false;
+		}
+	}
+}

@@ -61,7 +61,7 @@ public class ServiceJobTest extends AbstractInjectedTestJUnit4 {
 
 	@Before
 	protected void setUp() throws Exception {
-		super.getInjector().injectMembers(this);
+		super.getClientInjector().injectMembers(this);
 		dataProvider.openSession("admin", "admin");
 	}
 

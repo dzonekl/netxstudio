@@ -52,7 +52,7 @@ public class TestMonitoring extends AbstractInjectedTestJUnit4 {
 	
 	@Before
 	public void before(){
-		this.getInjector().injectMembers(this);
+		this.getClientInjector().injectMembers(this);
 	}
 
 	@Test
@@ -127,7 +127,7 @@ public class TestMonitoring extends AbstractInjectedTestJUnit4 {
 		try {
 
 			// Create the run monitor
-			ServerWorkFlowRunMonitor runMonitor = this.getInjector()
+			ServerWorkFlowRunMonitor runMonitor = this.getClientInjector()
 					.getInstance(ServerWorkFlowRunMonitor.class);
 
 			// Create the Job implementation depending on the job type.

@@ -28,7 +28,8 @@ import com.google.inject.Injector;
 public abstract class AbstractInjectedTestJUnit4 {
 
 	private Injector injector;
-
+	private Injector serverInjector;
+	
 	protected Injector createInjector() {
 		return Guice.createInjector(new TestModule());
 	}
@@ -37,7 +38,7 @@ public abstract class AbstractInjectedTestJUnit4 {
 		return Guice.createInjector(new ServerTestModule());
 	}
 
-	public Injector getInjector() {
+	public Injector getClientInjector() {
 		if (injector == null) {
 			injector = createInjector();
 		}
@@ -45,9 +46,9 @@ public abstract class AbstractInjectedTestJUnit4 {
 	}
 
 	public Injector getServerInjector() {
-		if (injector == null) {
-			injector = createServerInjector();
+		if (serverInjector == null) {
+			serverInjector = createServerInjector();
 		}
-		return injector;
+		return serverInjector;
 	}
 }

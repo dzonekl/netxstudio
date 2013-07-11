@@ -47,7 +47,7 @@ public class CreateTestData extends AbstractInjectedTestJUnit4 {
 
 	@Before
 	public void setUp() throws Exception {
-		super.getInjector().injectMembers(this);
+		super.getClientInjector().injectMembers(this);
 		dataProvider.setDoGetResourceFromOwnTransaction(false);
 		dataProvider.openSession("admin", "admin");
 	}

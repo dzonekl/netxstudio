@@ -12,7 +12,7 @@ public abstract class AbstractDataServiceTest4 extends AbstractInjectedTestJUnit
 	
 	@Before
 	public void up() {
-		service = super.getInjector().getInstance(IDataService.class);
+		service = super.getClientInjector().getInstance(IDataService.class);
 	}
 	
 	@Test

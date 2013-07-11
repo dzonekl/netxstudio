@@ -23,7 +23,7 @@ public class PerformanceMetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 
 	@Before
 	public void setUp() throws Exception {
-		dataService = super.getInjector().getInstance(IDataService.class);
+		dataService = super.getClientInjector().getInstance(IDataService.class);
 	}
 
 	/**

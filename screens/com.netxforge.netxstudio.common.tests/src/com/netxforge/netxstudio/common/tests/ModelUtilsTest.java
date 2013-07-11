@@ -40,7 +40,7 @@ public class ModelUtilsTest extends AbstractInjectedTestJUnit4 {
 
 	@Before
 	public void setUp() throws Exception {
-		this.getInjector().injectMembers(this);
+		this.getClientInjector().injectMembers(this);
 
 	}
 

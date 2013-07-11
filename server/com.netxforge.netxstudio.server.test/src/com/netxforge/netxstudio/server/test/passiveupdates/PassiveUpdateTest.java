@@ -42,7 +42,7 @@ public class PassiveUpdateTest extends AbstractInjectedTestJUnit4 {
 
 	@Before
 	protected void setUp() throws Exception {
-		service = super.getInjector().getInstance(IDataService.class);
+		service = super.getClientInjector().getInstance(IDataService.class);
 	}
 
 	public void testConnection() throws Exception {

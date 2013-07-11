@@ -19,6 +19,25 @@
 package com.netxforge.tests;
 
 import com.google.inject.AbstractModule;
+import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
+import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryService;
+import com.netxforge.netxstudio.data.cdo.ICDOConnection;
+import com.netxforge.netxstudio.data.importer.IComponentLocator;
+import com.netxforge.netxstudio.data.importer.IndexComponentLocator;
+import com.netxforge.netxstudio.data.index.ComponentMappingIndex;
+import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
+import com.netxforge.netxstudio.server.IServerUtils;
+import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.ServerCDOConnection;
+import com.netxforge.netxstudio.server.ServerCDODataProvider;
+import com.netxforge.netxstudio.server.ServerNoCache;
+import com.netxforge.netxstudio.server.ServerNoCacheCDOConnection;
+import com.netxforge.netxstudio.server.ServerNoCacheCDODataProvider;
+import com.netxforge.netxstudio.server.ServerProperties;
+import com.netxforge.netxstudio.server.ServerUtils;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -26,9 +45,34 @@ import com.google.inject.AbstractModule;
  */
 public class ServerTestModule extends AbstractModule {
 
-	
 	@Override
 	protected void configure() {
-	}
 
+		bind(ModelUtils.class);
+		// Bind the server standard CDO Connection
+		this.bind(ICDOConnection.class).annotatedWith(Server.class)
+				.to(ServerCDOConnection.class);
+
+		// Bind the server standard CDO Provider
+		bind(IDataProvider.class).annotatedWith(Server.class).to(
+				ServerCDODataProvider.class);
+
+		// Bind the server no-caching CDO Connection
+		this.bind(ICDOConnection.class).annotatedWith(ServerNoCache.class)
+				.to(ServerNoCacheCDOConnection.class);
+
+		// Bind the server standard CDO Provider
+		bind(IDataProvider.class).annotatedWith(ServerNoCache.class).to(
+				ServerNoCacheCDODataProvider.class);
+
+		bind(IServerUtils.class).to(ServerUtils.class);
+
+		bind(IQueryService.class).to(CDOQueryService.class);
+
+		bind(IPropertiesProvider.class).to(ServerProperties.class);
+
+		bind(IComponentMappingIndex.class).to(ComponentMappingIndex.class);
+		bind(IComponentLocator.class).to(IndexComponentLocator.class);
+
+	}
 }

@@ -18,7 +18,7 @@ public class InjectionTest extends AbstractInjectedTestJUnit4 {
 	
 	@Before
 	public void setup(){
-		this.getInjector().injectMembers(this);
+		this.getClientInjector().injectMembers(this);
 	}
 	
 	@Test

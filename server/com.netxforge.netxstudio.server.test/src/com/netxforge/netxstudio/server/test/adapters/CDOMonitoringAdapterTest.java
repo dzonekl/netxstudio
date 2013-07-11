@@ -114,7 +114,7 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 	@Before
 	public void before() {
 
-		this.getInjector().injectMembers(this);
+		this.getClientInjector().injectMembers(this);
 
 		targetNetXResourceID = cdoIDFor(LibraryPackage.Literals.NET_XRESOURCE,
 				NETXRESOURCE_OID);
@@ -190,7 +190,7 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 //			stateModel.summary(callBack, targetNetXResource, new Object[] {
 //					targetRFSService, period });
 
-			stateModel.summary(callBack, targetNetXResource, new Object[] {});
+			stateModel.summary(callBack, targetNetXResource);
 			
 			while (!finished) {
 				try {
