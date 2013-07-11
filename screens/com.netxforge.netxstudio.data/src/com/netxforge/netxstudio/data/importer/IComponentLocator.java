@@ -398,5 +398,5 @@ public interface IComponentLocator {
 	 * @return
 	 */
 	public boolean isInitialized();
-
+	
 }

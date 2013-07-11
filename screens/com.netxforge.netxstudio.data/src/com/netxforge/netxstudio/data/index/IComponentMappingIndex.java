@@ -498,5 +498,12 @@ public interface IComponentMappingIndex {
 	 * @return
 	 */
 	public abstract ComponentIndexEntry entryForComponent(Component c);
-
+	
+	
+	/**
+	 * The size of the index. 
+	 * @return
+	 */
+	public abstract int size();
+	
 }

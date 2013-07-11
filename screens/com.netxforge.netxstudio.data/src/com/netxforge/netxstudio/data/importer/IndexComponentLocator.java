@@ -144,5 +144,15 @@ public class IndexComponentLocator extends JobChangeAdapter implements
 		}
 		return result;
 	}
+	
+	
+	/**
+	 * Get the mapping index.
+	 * 
+	 * @return
+	 */
+	public IComponentMappingIndex getMappingIndex(){
+		return index;
+	}
 
 }
