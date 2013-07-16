@@ -28,12 +28,21 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.service.DiffService;
-import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.match.service.MatchService;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.match.DefaultComparisonFactory;
+import org.eclipse.emf.compare.match.DefaultEqualityHelperFactory;
+import org.eclipse.emf.compare.match.DefaultMatchEngine;
+import org.eclipse.emf.compare.match.IComparisonFactory;
+import org.eclipse.emf.compare.match.IMatchEngine;
+import org.eclipse.emf.compare.match.eobject.IEObjectMatcher;
+import org.eclipse.emf.compare.match.impl.MatchEngineFactoryImpl;
+import org.eclipse.emf.compare.match.impl.MatchEngineFactoryRegistryImpl;
+import org.eclipse.emf.compare.scope.IComparisonScope;
+import org.eclipse.emf.compare.utils.UseIdentifiers;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -115,7 +124,6 @@ import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.validation.Issue;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -304,9 +312,9 @@ public class EmbeddedXtextEditor {
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		control.setLayoutData(data);
 
-		
-		// Let our screen framework deal with actions, so we can attach the Retargtable Actions. 
-		
+		// Let our screen framework deal with actions, so we can attach the
+		// Retargtable Actions.
+
 		createActions();
 
 		MenuManager manager = new MenuManager(null, null);
@@ -599,10 +607,10 @@ public class EmbeddedXtextEditor {
 	public void update(String text) {
 		IDocument document = fSourceViewer.getDocument();
 
-//		fSourceViewer.setRedraw(false);
+		// fSourceViewer.setRedraw(false);
 		document.set(text);
-//		fSourceViewer.setVisibleRegion(0, text.length());
-//		fSourceViewer.setRedraw(true);
+		// fSourceViewer.setVisibleRegion(0, text.length());
+		// fSourceViewer.setRedraw(true);
 	}
 
 	/**
@@ -1005,15 +1013,29 @@ public class EmbeddedXtextEditor {
 	}
 
 	private static boolean equals(EObject expected, EObject actual) {
-		Map<String, Object> options = ImmutableMap.<String, Object> builder()
-				.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE).build();
-		MatchModel match = null;
-		try {
-			match = MatchService.doMatch(expected, actual, options);
-			DiffModel diff = DiffService.doDiff(match, false);
-			return diff.getDifferences().isEmpty();
-		} catch (InterruptedException e) {
-			throw new AssertionError(e);
-		}
+		return getDiff(expected, actual).isEmpty();
 	}
+
+	private static List<Diff> getDiff(Notifier notifier1, Notifier notifier2) {
+		// Configure EMF Compare
+		IEObjectMatcher matcher = DefaultMatchEngine
+				.createDefaultEObjectMatcher(UseIdentifiers.NEVER);
+		IComparisonFactory comparisonFactory = new DefaultComparisonFactory(
+				new DefaultEqualityHelperFactory());
+		IMatchEngine.Factory matchEngineFactory = new MatchEngineFactoryImpl(
+				matcher, comparisonFactory);
+		matchEngineFactory.setRanking(20);
+		IMatchEngine.Factory.Registry matchEngineRegistry = new MatchEngineFactoryRegistryImpl();
+		matchEngineRegistry.add(matchEngineFactory);
+		EMFCompare comparator = EMFCompare.builder()
+				.setMatchEngineFactoryRegistry(matchEngineRegistry).build();
+
+		// Compare the two models
+		IComparisonScope scope = EMFCompare.createDefaultScope(notifier1,
+				notifier2);
+		Comparison comparison = comparator.compare(scope);
+		List<Diff> differences = comparison.getDifferences();
+		return differences;
+	}
+
 }
