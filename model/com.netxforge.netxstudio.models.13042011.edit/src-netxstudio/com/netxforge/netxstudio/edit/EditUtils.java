@@ -51,8 +51,6 @@ public class EditUtils {
 	 * </pre>
 	 * 
 	 * </p>
-	 * 
-	 * 
 	 * @param targetParentObject
 	 * @param collectionFeature
 	 * @param identityFeature
