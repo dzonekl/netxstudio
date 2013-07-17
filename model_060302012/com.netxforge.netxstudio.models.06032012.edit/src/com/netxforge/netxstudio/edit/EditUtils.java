@@ -50,9 +50,6 @@ public class EditUtils {
 	 * &ltnew [target Object name] 1&gt
 	 * </pre>
 	 * 
-	 * </p>
-	 * 
-	 * 
 	 * @param targetParentObject
 	 * @param collectionFeature
 	 * @param identityFeature
@@ -84,14 +81,7 @@ public class EditUtils {
 				return nextIdentity(highestIdentity);
 
 			} else {
-				// Note if we can't get a sequence number from the collection,
-				// get the last entry and use this...
-				if (!collection.isEmpty()) {
-					Object object = collection.get(collection.size() - 1);
-					final String lastIdentityInSequence = (String) ((EObject) object)
-							.eGet(identityFeature);
-					return lastIdentityInSequence + " 1";
-				}
+				return "1";
 			}
 		}
 

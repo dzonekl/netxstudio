@@ -30,6 +30,7 @@ import com.netxforge.netxstudio.edit.EditUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Network;
@@ -67,8 +68,13 @@ public class OperatorChildCreationExtender extends
 				Node node = (Node) target;
 				if (node != null && node.getOriginalNodeTypeRef() != null) {
 					NodeType ntRef = node.getOriginalNodeTypeRef();
-					newChildDescriptors = newEquimentDescriptorsForTargetNodeType(
-							editingDomain, ntRef);
+					newChildDescriptors
+							.addAll(functionDescriptorsForTargetNodeType(
+									editingDomain, ntRef));
+
+					newChildDescriptors
+							.addAll(equimentDescriptorsForTargetNodeType(
+									editingDomain, ntRef));
 				}
 			} else if (target instanceof Network) {
 
@@ -93,7 +99,26 @@ public class OperatorChildCreationExtender extends
 		return newChildDescriptors;
 	}
 
-	private Collection<Object> newEquimentDescriptorsForTargetNodeType(
+	private Collection<? extends Object> functionDescriptorsForTargetNodeType(
+			EditingDomain domain, NodeType nodeType) {
+		Collection<Object> newChildDescriptors = Lists.newArrayList();
+		for (Function function : nodeType.getFunctions()) {
+			Function eqCopy = (Function) EcoreUtil.copy(function);
+
+			// Set the name as a sequence.
+			String newSequenceNumber = EditUtils.INSTANCE.nextSequenceNumber(
+					domain, nodeType,
+					LibraryPackage.Literals.NODE_TYPE__FUNCTIONS,
+					LibraryPackage.Literals.COMPONENT__NAME);
+			eqCopy.setName(newSequenceNumber);
+			newChildDescriptors.add(createChildParameter(
+					LibraryPackage.Literals.NODE_TYPE__FUNCTIONS, eqCopy));
+		}
+
+		return newChildDescriptors;
+	}
+
+	private Collection<Object> equimentDescriptorsForTargetNodeType(
 			EditingDomain domain, NodeType nodeType) {
 		Collection<Object> newChildDescriptors = Lists.newArrayList();
 		for (Equipment eq : nodeType.getEquipments()) {
