@@ -32,6 +32,7 @@ import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.jsp.JSPActivator;
 
@@ -45,8 +46,9 @@ public final class ListFolder {
 
 	@Inject
 	@Server
-	IDataProvider dataProvider;
-
+	private IDPProvider dpProvider;
+	
+	
 	@Inject
 	private ModelUtils modelUtils;
 
@@ -60,6 +62,7 @@ public final class ListFolder {
 
 	public ListFolder() {
 		JSPActivator.getInstance().getInjector().injectMembers(this);
+		IDataProvider dataProvider = dpProvider.get();
 		dataProvider.openSession();
 		Resource res = dataProvider
 				.getResource(NetxstudioPackage.Literals.SERVER_SETTINGS);
