@@ -41,9 +41,9 @@ import com.netxforge.netxstudio.data.cdo.IClientDPProvider;
 import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
-import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporterProvider;
+import com.netxforge.netxstudio.data.importer.IRDBMSMetricValuesImporterProvider;
+import com.netxforge.netxstudio.data.importer.IXLSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
-import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
 
 /**
@@ -103,13 +103,13 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	Export<IQueryService> queryService;
 
 	@Inject
-	Export<XLSMetricValuesImporterProvider> xlsImportService;
+	Export<IXLSMetricValuesImporterProvider> xlsImportService;
 
 	@Inject
 	Export<ICSVMetricValuesImporterProvider> csvImportService;
 
 	@Inject
-	Export<RDBMSMetricValuesImporterProvider> rdbmsImportService;
+	Export<IRDBMSMetricValuesImporterProvider> rdbmsImportService;
 
 	@Inject
 	Export<IComponentMappingIndex> componentMappingIndex;
