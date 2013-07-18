@@ -25,9 +25,9 @@ import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
-import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporterProvider;
+import com.netxforge.netxstudio.data.importer.IRDBMSMetricValuesImporterProvider;
+import com.netxforge.netxstudio.data.importer.IXLSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
-import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
 import com.netxforge.netxstudio.server.IDPNoCacheProvider;
 import com.netxforge.netxstudio.server.IDPProvider;
@@ -76,16 +76,16 @@ public class MetricsModule extends AbstractModule {
 				service(IPropertiesProvider.class).single());
 
 		// {@link ImporterModule}
-		bind(XLSMetricValuesImporterProvider.class).toProvider(
-				service(XLSMetricValuesImporterProvider.class).single());
+		bind(IXLSMetricValuesImporterProvider.class).toProvider(
+				service(IXLSMetricValuesImporterProvider.class).single());
 
 		// {@link ImporterModule}
 		bind(ICSVMetricValuesImporterProvider.class).toProvider(
 				service(ICSVMetricValuesImporterProvider.class).single());
 
 		// {@link ImporterModule}
-		bind(RDBMSMetricValuesImporterProvider.class).toProvider(
-				service(RDBMSMetricValuesImporterProvider.class).single());
+		bind(IRDBMSMetricValuesImporterProvider.class).toProvider(
+				service(IRDBMSMetricValuesImporterProvider.class).single());
 
 		// {@link ImporterModule}
 		bind(IComponentMappingIndex.class).toProvider(

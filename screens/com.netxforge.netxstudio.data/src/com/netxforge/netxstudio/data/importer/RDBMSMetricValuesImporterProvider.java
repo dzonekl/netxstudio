@@ -22,7 +22,7 @@ import com.google.inject.Provider;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 
 public class RDBMSMetricValuesImporterProvider implements
-		Provider<RDBMSMetricValuesImporter> {
+		Provider<RDBMSMetricValuesImporter>, IRDBMSMetricValuesImporterProvider {
 
 	private IComponentLocator locator;
 
@@ -35,6 +35,9 @@ public class RDBMSMetricValuesImporterProvider implements
 		this.locator = locator;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.importer.IRDBMSMetricValuesImporterProvider#get()
+	 */
 	public RDBMSMetricValuesImporter get() {
 		return new RDBMSMetricValuesImporter(locator, modelUtils);
 	}
