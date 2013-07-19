@@ -63,8 +63,6 @@ import com.netxforge.netxstudio.screens.xtext.internal.ScreensXtextActivator;
 import com.netxforge.ui.internal.override.NetXScriptInjectorProxy;
 
 /**
- * 
- * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 public class EmbeddedLineExpression implements IDataScreenInjection {
@@ -125,9 +123,13 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 		parent.addDisposeListener(new DisposeListener() {
 
 			public void widgetDisposed(DisposeEvent e) {
+				
+				xtextEditor.cancelLoading();
 				// dispose prior to disposing the widget.
 				xtextEditor.getSourceViewerDecorationSupport(
 						xtextEditor.getViewer()).dispose();
+				
+				
 			}
 
 		});

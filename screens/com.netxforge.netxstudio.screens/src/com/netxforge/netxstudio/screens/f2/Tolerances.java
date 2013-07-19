@@ -65,13 +65,10 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.library.LibraryFactory;
-import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
-import com.netxforge.netxstudio.screens.LoadingFactory;
 import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.IScreenII;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
@@ -81,7 +78,7 @@ import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelPr
  * 
  */
 public class Tolerances extends AbstractScreen implements
-		IDataServiceInjection, IScreenII {
+		IDataServiceInjection  {
 
 	private static final String MEM_KEY_TOLERANCE_SELECTION_TABLE = "MEM_KEY_TOLERANCE_SELECTION_TABLE";
 	private static final String MEM_KEY_TOLERANCE_COLUMNS_TABLE = "MEM_KEY_TOLERANCE_COLUMNS_TABLE";
@@ -285,49 +282,15 @@ public class Tolerances extends AbstractScreen implements
 			CDOResource tolResource = (CDOResource) toleranceResource;
 			tolResource.cdoPrefetch(CDORevision.DEPTH_INFINITE);
 		}
-	}
-
-	public boolean initUI() {
+		
 		buildUI();
-		return Boolean.TRUE;
-	}
-
-	public void showPreLoadedUI() {
-		// 1. The Screenform service deals with UI initialization.
-
-		this.toleranceTblViewer.setContentProvider(LoadingFactory
-				.createLoadingContentProvider());
-		this.toleranceTblViewer.setLabelProvider(LoadingFactory
-				.createLoadingLabelProvider());
-
-		// 2. Get the root object, and prefetch infinit.
-		toleranceResource = editingService
-				.getData(LibraryPackage.Literals.TOLERANCE);
-
-		// prefetch this EList with infinite depth.
-		if (toleranceResource instanceof CDOResource) {
-			CDOResource tolResource = (CDOResource) toleranceResource;
-			this.toleranceTblViewer.setInput(tolResource.cdoID().toString());
-		}
+		initDataBindings_();
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 
 		listContentProvider = new ObservableListContentProvider();
 		toleranceTblViewer.setContentProvider(listContentProvider);
-
-//		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-//				listContentProvider.getKnownElements(),
-//				new EStructuralFeature[] {
-//						LibraryPackage.Literals.TOLERANCE__NAME,
-//						LibraryPackage.Literals.TOLERANCE__LEVEL,
-//						LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF });
-//		
-//		toleranceTblViewer
-//				.setLabelProvider(new ToleranceObservableMapLabelProvider(
-//						observeMaps));
-
-		
 		toleranceTblViewer
 		.setLabelProvider(new ToleranceObservableMapLabelProvider(
 				new IObservableMap[]{}));
@@ -366,7 +329,6 @@ public class Tolerances extends AbstractScreen implements
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();
-	private boolean fCancelLoading;
 
 	@Override
 	public IAction[] getActions() {
@@ -419,21 +381,4 @@ public class Tolerances extends AbstractScreen implements
 					toleranceTblViewer, MEM_KEY_TOLERANCE_COLUMNS_TABLE);
 		}
 	}
-
-	public void cancelLoading() {
-		fCancelLoading = true;
-
-	}
-
-	public void showPostLoadedUI() {
-		if (!fCancelLoading) {
-			toleranceTblViewer.setInput(null);
-			// Now build the columns, after cleaning the input.
-			buildColumns();
-			bindingContext = initDataBindings_();
-		} else {
-			fCancelLoading = false;
-		}
-	}
-
 }

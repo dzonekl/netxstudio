@@ -25,9 +25,9 @@ import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
@@ -580,6 +580,11 @@ public class EmbeddedXtextEditor {
 	 * The annotation preferences.
 	 */
 	private MarkerAnnotationPreferences fAnnotationPreferences;
+	
+	/**
+	 * The way we load expressions. 
+	 */
+	private ExpressionLoadingJob job = new ExpressionLoadingJob();
 
 	private IOverviewRuler createOverviewRuler(ISharedTextColors sharedColors) {
 		IOverviewRuler ruler = new OverviewRuler(getAnnotationAccess(),
@@ -623,10 +628,18 @@ public class EmbeddedXtextEditor {
 	 */
 	public ExpressionLoadingJob update(final EObject eObject, String asString) {
 
-		final ExpressionLoadingJob job = new ExpressionLoadingJob();
+		if (job != null) {
+			job.cancel();
+		}
 		job.setParameters(eObject, asString);
 		job.go(); // Should spawn a job processing the xls.
 		return job;
+	}
+
+	public void cancelLoading() {
+		if (job != null) {
+			job.cancel();
+		}
 	}
 
 	/**
@@ -658,7 +671,7 @@ public class EmbeddedXtextEditor {
 	 * 
 	 * @author Christophe
 	 */
-	public class ExpressionLoadingJob implements IJobChangeListener {
+	public class ExpressionLoadingJob extends JobChangeAdapter {
 
 		private LoadingJob j = new LoadingJob("Reading expression ...");
 		private EObject asStringEObject;
@@ -669,9 +682,13 @@ public class EmbeddedXtextEditor {
 			super();
 		}
 
+		public void cancel() {
+			j.cancel();
+		}
+
 		public void go() {
 			j.addJobChangeListener(this);
-			j.schedule(1000);
+			j.schedule();
 		}
 
 		public void addNotifier(IJobChangeListener notifier) {
@@ -801,30 +818,6 @@ public class EmbeddedXtextEditor {
 				updateAsync(asString);
 			}
 			copyResource.unload();
-		}
-
-		public void aboutToRun(IJobChangeEvent event) {
-			// System.out
-			//					.println("Job about to get busy: " + event.getJob().getName()); //$NON-NLS-1$
-		}
-
-		public void awake(IJobChangeEvent event) {
-		}
-
-		public void done(IJobChangeEvent event) {
-			//			System.out.println("Job done: " + event.getJob().getName()); //$NON-NLS-1$
-		}
-
-		public void running(IJobChangeEvent event) {
-			//			System.out.println("Job running: " + event.getJob().getName()); //$NON-NLS-1$
-		}
-
-		public void scheduled(IJobChangeEvent event) {
-			//			System.out.println("Job scheduled: " + event.getJob().getName()); //$NON-NLS-1$
-		}
-
-		public void sleeping(IJobChangeEvent event) {
-			//			System.out.println("Job zzzzzz: " + event.getJob().getName()); //$NON-NLS-1$
 		}
 	}
 

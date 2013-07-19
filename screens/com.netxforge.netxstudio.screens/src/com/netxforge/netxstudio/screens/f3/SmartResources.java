@@ -170,7 +170,6 @@ import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.EMFEditingService;
 import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.IScreenII;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
@@ -203,7 +202,7 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
  * 
  */
 public class SmartResources extends AbstractScreen implements
-		IDataServiceInjection, IScreenII {
+		IDataServiceInjection  {
 
 	/*
 	 * Memento keys.
@@ -1472,7 +1471,7 @@ public class SmartResources extends AbstractScreen implements
 		private EObject lastSelection;
 
 		public void handleValueChange(ValueChangeEvent event) {
-			
+
 			IObservable observable = event.getObservable();
 			IObservableValue observableValue = event.getObservableValue();
 
@@ -1550,8 +1549,8 @@ public class SmartResources extends AbstractScreen implements
 					List<Marker> markers = netxSummary.markers();
 					cmpValues.applyMarkers(markers);
 				} else {
-//					System.out.println(" Context not set for summary:"
-//							+ netxSummary);
+					// System.out.println(" Context not set for summary:"
+					// + netxSummary);
 				}
 			}
 		}
@@ -2317,7 +2316,6 @@ public class SmartResources extends AbstractScreen implements
 		observeComponentFocus = SWTObservables
 				.observeFocus(componentsTreeViewer.getTree());
 
-		
 		computedResourcesList = new ComputedList() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -2389,9 +2387,10 @@ public class SmartResources extends AbstractScreen implements
 
 		observeResourceSingleSelection = ViewersObservables
 				.observeSingleSelection(resourcesTableViewer);
-		
-		observeResourceFocus = SWTObservables.observeFocus(resourcesTableViewer.getTable());
-		
+
+		observeResourceFocus = SWTObservables.observeFocus(resourcesTableViewer
+				.getTable());
+
 		// CONTEXT AGGREGATE.
 
 		observeNodeSelection.addValueChangeListener(contextAggregate);
@@ -2832,9 +2831,12 @@ public class SmartResources extends AbstractScreen implements
 	}
 
 	public void injectData() {
-
 		operatorResource = (CDOResource) editingService
 				.getData(OperatorsPackage.Literals.OPERATOR);
+		
+		buildUI();
+		initDataBindings_();
+		
 	}
 
 	private List<NetXResource> updateDisconnectedResources() {
@@ -3143,33 +3145,6 @@ public class SmartResources extends AbstractScreen implements
 					resourcesTableViewer,
 					MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
 					this.operatorResource.cdoView());
-
-			//
-
-			//
-			// componentsTreeViewer.refresh();
-			// cmpResources.getViewer().refresh();
-
 		}
-	}
-
-	public boolean initUI() {
-		buildUI();
-		registerFocus(this);
-		return true;
-	}
-
-	public void showPreLoadedUI() {
-		// N/A We simply show an unloaded UI.
-	}
-
-	public void showPostLoadedUI() {
-		// Init
-		initDataBindings_();
-	}
-
-	public void cancelLoading() {
-		// As loading is in background, use a flag to not execute post loading
-		// this method is called when we switch to another screen.
 	}
 }

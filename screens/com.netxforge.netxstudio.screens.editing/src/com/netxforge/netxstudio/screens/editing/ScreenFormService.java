@@ -26,8 +26,6 @@ import java.util.Stack;
 
 import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -61,7 +59,6 @@ import com.netxforge.netxstudio.data.fixtures.IFixtures;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.Role;
-import com.netxforge.netxstudio.screens.editing.DataLoadingJobService.DataPostLoadingJob;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
@@ -433,9 +430,6 @@ public class ScreenFormService implements IScreenFormService {
 		// Warn for dirtyness.
 		dirtyWarning();
 
-		// Cancel any potential background loading of the active screen.
-		doCancelLoading();
-
 		// Reset the screen stack, and dispose observables.
 		doReset();
 
@@ -459,93 +453,14 @@ public class ScreenFormService implements IScreenFormService {
 				target.setOperation(finalOperation);
 				target.setScreenService(ScreenFormService.this);
 
-				// Clients supporting IScreenII will have
-				// Note: Restoring the screen state which might depend
-				// on the model being injected will fail.
-				if (target instanceof IScreenII) {
-
-					handleScreenII(target);
-
-				} else {
-					if (target instanceof IDataServiceInjection) {
-						((IDataServiceInjection) target).injectData();
-					}
-					doSetActiveScreen(target);
-					restoreScreenState(target);
-					fireScreenChanged(target);
+				if (target instanceof IDataServiceInjection) {
+					((IDataServiceInjection) target).injectData();
 				}
-			}
-
-			/*
-			 * Handle the screenII Service.
-			 * 
-			 * @param target
-			 */
-			private void handleScreenII(final IScreen target) {
-				final long startTime = System.currentTimeMillis();
-
-				if (EditingActivator.DEBUG) {
-					EditingActivator.TRACE.trace(
-							EditingActivator.TRACE_EDITING_LOADING_OPTION,
-							"Start loading Screen: " + target.getScreenName()
-									+ " @ " + modelUtils.todayAndNow());
-				}
-				// We are a new screen, instantiate and set active.
-				((IScreenII) target).initUI();
-
-				// Set the new instantiated screen as the active screen.
 				doSetActiveScreen(target);
-
-				((IScreenII) target).showPreLoadedUI();
-
-				if (EditingActivator.DEBUG) {
-					EditingActivator.TRACE.trace(
-							EditingActivator.TRACE_EDITING_LOADING_OPTION,
-							"..Pre loaded " + target.getScreenName() + " in: "
-									+ modelUtils.timeDuration(startTime));
-				}
-
-				DataLoadingJobService dataLoadingJobService = new DataLoadingJobService();
-				dataLoadingJobService.setScreenToLoad(target);
-				dataLoadingJobService.addNotifier(new JobChangeAdapter() {
-
-					@Override
-					public void done(IJobChangeEvent event) {
-
-						// This is our call back, we should be
-						// done already.
-						if (EditingActivator.DEBUG) {
-							EditingActivator.TRACE
-									.trace(EditingActivator.TRACE_EDITING_LOADING_OPTION,
-											".."
-													+ event.getJob().getName()
-													+ " for "
-													+ target.getScreenName()
-													+ " completed in: "
-													+ modelUtils
-															.timeDuration(startTime));
-						}
-
-						if (event.getJob() instanceof DataPostLoadingJob) {
-							restoreScreenState(target);
-							fireScreenChanged(target);
-						}
-					}
-				});
-				// Should be executed sequentially.
-				dataLoadingJobService.load();
-				dataLoadingJobService.postLoad();
+				restoreScreenState(target);
+				fireScreenChanged(target);
 			}
 		});
-
-	}
-
-	private void doCancelLoading() {
-		if (getActiveScreen() instanceof IScreenII) {
-			IScreenII activeScreen = (IScreenII) getActiveScreen();
-			activeScreen.cancelLoading();
-		}
-
 	}
 
 	private void doReset() {
