@@ -145,6 +145,8 @@ public class MappingStatistics extends AbstractScreen implements
 	@SuppressWarnings("unused")
 	@Inject
 	private ClipboardService clipboard;
+	private Text txtMetricStartDateTime;
+	private Text txtMetricEndDateTime;
 
 	/**
 	 * Create the composite.
@@ -389,6 +391,8 @@ public class MappingStatistics extends AbstractScreen implements
 		gd_txtMessage.heightHint = 93;
 		txtMessage.setLayoutData(gd_txtMessage);
 
+		// RUN PERIOD
+
 		Label lblStartDatetime = toolkit.createLabel(composite,
 				"Start Date/Time:", SWT.NONE);
 		lblStartDatetime.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
@@ -411,6 +415,30 @@ public class MappingStatistics extends AbstractScreen implements
 		txtEndDateTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
 
+		// METRIC PERIOD ESTIMATE.
+		Label lblStartMetricDatetime = toolkit.createLabel(composite,
+				"Metrics start:", SWT.NONE);
+		lblStartMetricDatetime.setLayoutData(new GridData(SWT.RIGHT,
+				SWT.CENTER, false, false, 1, 1));
+
+		txtMetricStartDateTime = toolkit.createText(composite, "New Text",
+				SWT.READ_ONLY);
+		txtMetricStartDateTime.setText("");
+		txtMetricStartDateTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				true, false, 1, 1));
+
+		Label lblEndMetricDatetime = toolkit.createLabel(composite,
+				"Metrics end:", SWT.NONE);
+		lblEndMetricDatetime.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1));
+
+		txtMetricEndDateTime = toolkit.createText(composite, "New Text",
+				SWT.READ_ONLY);
+		txtMetricEndDateTime.setText("");
+		txtMetricEndDateTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				true, false, 1, 1));
+
+		// RECORDS
 		Label lblTotalRecordsProcessed = toolkit.createLabel(composite,
 				"Total rows processed: ", SWT.NONE);
 		lblTotalRecordsProcessed.setLayoutData(new GridData(SWT.RIGHT,
@@ -675,10 +703,17 @@ public class MappingStatistics extends AbstractScreen implements
 				this.txtMessage, SWT.None);
 		IObservableValue totalRecordsObservable = SWTObservables.observeText(
 				this.txtTotalRecords, SWT.None);
+
 		IObservableValue startTimeObservable = SWTObservables.observeText(
 				this.txtStartDateTime, SWT.None);
 		IObservableValue endTimeObservable = SWTObservables.observeText(
 				this.txtEndDateTime, SWT.None);
+
+		IObservableValue metricStartTimeObservable = SWTObservables
+				.observeText(this.txtMetricStartDateTime, SWT.None);
+		IObservableValue metricEndTimeObservable = SWTObservables.observeText(
+				this.txtMetricEndDateTime, SWT.None);
+
 		IObservableValue totalExpectedValuesObservable = SWTObservables
 				.observeText(this.txtTotalValues, SWT.None);
 		IObservableValue totalFailedValuesObservable = SWTObservables
@@ -700,6 +735,18 @@ public class MappingStatistics extends AbstractScreen implements
 				.value(FeaturePath
 						.fromList(
 								MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION,
+								GenericsPackage.Literals.DATE_TIME_RANGE__END));
+
+		IEMFValueProperty metricStartDateTimeProperty = EMFProperties
+				.value(FeaturePath
+						.fromList(
+								MetricsPackage.Literals.MAPPING_STATISTIC__PERIOD_ESTIMATE,
+								GenericsPackage.Literals.DATE_TIME_RANGE__BEGIN));
+
+		IEMFValueProperty metricEndDateTimeProperty = EMFProperties
+				.value(FeaturePath
+						.fromList(
+								MetricsPackage.Literals.MAPPING_STATISTIC__PERIOD_ESTIMATE,
 								GenericsPackage.Literals.DATE_TIME_RANGE__END));
 
 		ComputedValue computedTotalExpectedValue = new ComputedValue() {
@@ -751,6 +798,14 @@ public class MappingStatistics extends AbstractScreen implements
 		bindingContext.bindValue(endTimeObservable,
 				endDateTimeProperty.observeDetail(selectionObservable), null,
 				modelToTargetStrategy);
+
+		bindingContext.bindValue(metricStartTimeObservable,
+				metricStartDateTimeProperty.observeDetail(selectionObservable),
+				null, modelToTargetStrategy);
+
+		bindingContext.bindValue(metricEndTimeObservable,
+				metricEndDateTimeProperty.observeDetail(selectionObservable),
+				null, modelToTargetStrategy);
 
 		bindingContext.bindValue(totalExpectedValuesObservable,
 				computedTotalExpectedValue);

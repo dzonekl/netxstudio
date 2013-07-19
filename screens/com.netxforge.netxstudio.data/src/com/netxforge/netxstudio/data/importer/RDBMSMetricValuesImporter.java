@@ -94,7 +94,7 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 
 			endTime = System.currentTimeMillis();
 			mappingStatistic = createMappingStatistics(startTime, endTime,
-					totalRows, null, getMappingPeriodEstimate(),
+					totalRows, null,
 					getMappingIntervalEstimate(), getFailedRecords());
 			if (noData) {
 				mappingStatistic.setMessage("No data processed");
@@ -113,8 +113,10 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 			getJobMonitor().setFinished(JobRunState.FINISHED_WITH_ERROR, t);
 			t.printStackTrace(System.err);
 			mappingStatistic = createMappingStatistics(startTime, endTime, 0,
-					t.getMessage(), getMappingPeriodEstimate(),
+					t.getMessage(),
 					getMappingIntervalEstimate(), getFailedRecords());
+		}finally{
+			getRunPeriodEstimate().write(mappingStatistic);
 		}
 
 		super.addAndTruncate(mappingStatistic, getMetricSource()

@@ -32,8 +32,6 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CommitException;
@@ -55,7 +53,6 @@ import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
-import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -106,10 +103,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 
 	private int intervalHint = 60;
 
-	// Kept for each file.
-	private DateTimeRange metricPeriodEstimate = GenericsFactory.eINSTANCE
-			.createDateTimeRange();
-
 	/** An estimate of the interval is based on the processed time stamps. **/
 	private int intervalEstimate = -1;
 
@@ -143,6 +136,16 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	 */
 	private List<IComponentLocator.IdentifierDescriptor> headerIdentifiers = new ArrayList<IComponentLocator.IdentifierDescriptor>();
 
+	/**
+	 * The run period, this is the over period of imported values for this run.
+	 */
+	private PeriodEstimate runPeriodEstimate = new PeriodEstimate();
+
+	/**
+	 * A sub period, for example if multiple files are processed in one run.
+	 */
+	private PeriodEstimate subPeriodEstimate;
+
 	@Inject
 	public AbstractMetricValuesImporter(IComponentLocator locator,
 			ModelUtils modelUtils) {
@@ -165,6 +168,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 
 		initializeProviders(componentLocator);
 
+		// Indexer feedback.
 		int totalSeconds = 0;
 
 		// Wait synchronized.
@@ -193,12 +197,13 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		long endTime = startTime;
 		boolean errorOccurred = false;
 		int totalRows = 0;
+		String message = "Stat initialized";
 
 		// The parent mapping statistic, later rewrite the end time, total rows
 		// etc...
 		final MappingStatistic mappingStatistic = createMappingStatistics(
-				startTime, endTime, 0, null, metricPeriodEstimate,
-				getMappingIntervalEstimate(), null);
+				startTime, endTime, 0, message, getMappingIntervalEstimate(),
+				null);
 
 		// Opens a session, first transaction on the IDataProvider
 		// The MetricSource is cached and used to
@@ -354,53 +359,20 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			jobMonitor.setMsg("Creating mappingstatistics");
 			jobMonitor.incrementProgress(1, true);
 
-			// Set the end time on the mapping stats.
-			endTime = System.currentTimeMillis();
-			mappingStatistic.getMappingDuration().setEnd(
-					modelUtils.toXMLDate(new Date(endTime)));
-			mappingStatistic.setPeriodEstimate(metricPeriodEstimate);
-			mappingStatistic.setIntervalEstimate(intervalEstimate);
-			mappingStatistic.setTotalRecords(totalRows);
-
-			if (DataActivator.DEBUG) {
-				DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
-						"Mapping statistics");
-				DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
-						" -- from ="
-								+ mappingStatistic.getMappingDuration()
-										.getBegin()
-								+ " to "
-								+ mappingStatistic.getMappingDuration()
-										.getEnd());
-				DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
-						" -- total records =" + totalRows);
-				DataActivator.TRACE.trace(
-						DataActivator.TRACE_IMPORT_OPTION,
-						" -- Period Estimate from ="
-								+ metricPeriodEstimate.getBegin() + " to "
-								+ metricPeriodEstimate.getEnd());
-				DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
-						" -- Interval (estimate) =" + intervalEstimate);
-			}
-
 			// Moves the records from the subprocesses....
 			// mappingStatistic.geecords().addAll(getFailedRecords());
 
-			if (noFiles) {
-				mappingStatistic.setMessage("No files processed");
-			} else {
-				String message = fileList.toString();
-				if (message.length() > 2000) {
-					mappingStatistic.setMessage(message.substring(0, 2000));
-					if (DataActivator.DEBUG) {
-						DataActivator.TRACE
-								.trace(DataActivator.TRACE_IMPORT_OPTION,
-										"Message too long for processing, trunked on 2000 characters!");
-					}
-				} else {
-					mappingStatistic.setMessage(message);
+			message = noFiles ? "No files processed" : fileList.toString();
+			if (message.length() > 2000) {
+				message = message.substring(0, 2000);
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE
+							.trace(DataActivator.TRACE_IMPORT_OPTION,
+									"Message too long for processing, trunked on 2000 characters!");
 				}
 			}
+			
+			
 			if (errorOccurred || getFailedRecords().size() > 0) {
 				jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);
 			} else {
@@ -409,30 +381,51 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
-						"Stop processing import for metric source"
+						"Succesfull processing import for metric source"
 								+ getMetricSource().getName());
 			}
 
 		} catch (final Throwable t) {
-			String message = t.getMessage();
+			message = t.getMessage();
 			if (t instanceof PatternSyntaxException) {
-				message = "File filter pattern is not valid";
+				message = "File filter pattern is not valid, abort";
 			}
 
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
-
-			// finalize with a mapping statistic.
-			mappingStatistic.setMessage(message);
-			mappingStatistic.setPeriodEstimate(metricPeriodEstimate);
-			mappingStatistic.setTotalRecords(totalRows);
-			// Moves the records to the parent.
-			// mappingStatistic.getFailedRecords().addAll(getFailedRecords());
-
+			
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
 						"Error Processing metricsource "
 								+ getMetricSource().getName(), t);
 			}
+		} finally {
+			// finalize with a mapping statistic.
+			// Set the end time on the mapping stats.
+			endTime = System.currentTimeMillis();
+			mappingStatistic.getMappingDuration().setEnd(
+					modelUtils.toXMLDate(new Date(endTime)));
+			mappingStatistic.setMessage(message);
+			mappingStatistic.setTotalRecords(totalRows);
+			getRunPeriodEstimate().write(mappingStatistic);
+		}
+
+		if (DataActivator.DEBUG) {
+			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
+					"Mapping statistics");
+			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
+					" -- from ="
+							+ mappingStatistic.getMappingDuration().getBegin()
+							+ " to "
+							+ mappingStatistic.getMappingDuration().getEnd());
+			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
+					" -- total records =" + totalRows);
+			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
+					" -- Period Estimate from ="
+							+ getRunPeriodEstimate().metricPeriodEstimateBegin
+							+ " to "
+							+ getRunPeriodEstimate().metricPeriodEstimateEnd);
+			DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
+					" -- Interval (estimate) =" + intervalEstimate);
 		}
 
 		commitTransactionAndClose();
@@ -486,8 +479,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 
 			if (storeMaxStats) {
 				// Should be saved when the Activator stops!
-				properties().setProperty(
-						NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY,
+				properties().setProperty(NETXSTUDIO_MAX_MAPPING_STATS_QUANTITY,
 						new Integer(maxStats).toString());
 			}
 		}
@@ -560,14 +552,15 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 				return rows;
 			}
 		}
+		
 		// Clear the run parameters.
-		this.setImportMessage("");
-		this.getFailedRecords().clear();
+		setImportMessage("");
+		getFailedRecords().clear();
 		final int beforeFailedSize = getFailedRecords().size();
-
+		setSubPeriodEstimate(new PeriodEstimate());
 		final long startTime = System.currentTimeMillis();
 		long endTime = startTime;
-
+		
 		// CB 13-01, changed to task, as msg, will be overwritten quickly.
 		jobMonitor.setTask("Processing file " + fileName);
 		jobMonitor.appendToLog("Processing file " + fileName);
@@ -596,9 +589,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		final MappingStatistic fileMappingStatistics = this
 				.createMappingStatistics(startTime, endTime, rows, fileName
 						+ " created resource: " + createdResourcesCount,
-						metricPeriodEstimate, intervalEstimate,
-						fileFailedRecords);
+						intervalEstimate, fileFailedRecords);
 
+		// Write the period estimate.
+		getSubPeriodEstimate().write(fileMappingStatistics);
 		parentStatistic.getSubStatistics().add(fileMappingStatistics);
 
 		// commit everything sofar in this transaction....
@@ -608,6 +602,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 
 		return rows;
 
+	}
+
+	protected PeriodEstimate getRunPeriodEstimate() {
+		return runPeriodEstimate;
 	}
 
 	protected int getMappingIntervalEstimate() {
@@ -697,8 +695,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	// create the mapping statistics on the basis of the errors and
 	// warnings
 	protected MappingStatistic createMappingStatistics(long startTime,
-			long endTime, int totalRows, String message,
-			DateTimeRange periodEstimate, int intervalEstimate,
+			long endTime, int totalRows, String message, int intervalEstimate,
 			List<MappingRecord> failedRecords) {
 
 		final MappingStatistic statistic = MetricsFactory.eINSTANCE
@@ -712,7 +709,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		statistic.setMappingDuration(range);
 		statistic.setTotalRecords(totalRows);
 		statistic.setMessage(message);
-		statistic.setPeriodEstimate(periodEstimate);
 		statistic.setIntervalEstimate(intervalEstimate);
 
 		// now add the failed records.
@@ -818,6 +814,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 
 				// Get the row timestamp
 				rowTimeStamp = tsProcessor.getTimeStampValue(rowNum, false);
+				// As last update the last row time stamp.
+				if (rowTimeStamp != null) {
+					getSubPeriodEstimate().updatePeriodEstimate(rowTimeStamp);
+				}
 
 				final int intervalHintFromRow = getIntervalHint(rowNum);
 
@@ -917,11 +917,6 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 				}
 				this.createExceptionMappingRecord(e, this.getFailedRecords());
 
-			} finally {
-				// As last update the last row time stamp.
-				if (rowTimeStamp != null) {
-					this.updatePeriodEstimate(rowTimeStamp);
-				}
 			}
 		}
 		try {
@@ -934,6 +929,14 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		}
 		this.setImportMessage(new Integer(createdNetXResourcesCount).toString());
 		return totalRows;
+	}
+	
+	private void setSubPeriodEstimate(PeriodEstimate pe){
+		subPeriodEstimate = pe;
+	}
+
+	private PeriodEstimate getSubPeriodEstimate() {
+		return subPeriodEstimate;
 	}
 
 	private List<IComponentLocator.MetricDescriptor> prepareMetricDescriptors() {
@@ -1115,25 +1118,100 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Learn a period from processed time stamps. Used by
+	 * {@link ResultProcessor} to check already written values.
 	 * 
-	 * @see com.netxforge.netxstudio.data.importer.IMetricValueImporter#
-	 * getMappingPeriodEstimate()
+	 * @author Christophe Bouhier
 	 */
-	public DateTimeRange getMappingPeriodEstimate() {
-		return metricPeriodEstimate;
-	}
+	public class PeriodEstimate {
 
-	private void updatePeriodEstimate(Date timestamp) {
+		private Date metricPeriodEstimateBegin;
+		private Date metricPeriodEstimateEnd;
 
-		// Assume chronological order of timestamps. Will fail otherwise.
-		XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(timestamp);
-		if (!metricPeriodEstimate
-				.eIsSet(GenericsPackage.Literals.DATE_TIME_RANGE__BEGIN)) {
-			metricPeriodEstimate.setBegin(xmlDate);
+		public void updatePeriodEstimate(Date rowTimeStamp) {
+
+			updateBegin(rowTimeStamp);
+			updateEnd(rowTimeStamp);
 		}
-		metricPeriodEstimate.setEnd(xmlDate);
+
+		/**
+		 * @param rowTimeStamp
+		 */
+		private void updateEnd(Date rowTimeStamp) {
+			if (metricPeriodEstimateEnd == null) {
+				metricPeriodEstimateEnd = rowTimeStamp;
+			} else {
+				if (rowTimeStamp.after(metricPeriodEstimateEnd)) {
+					metricPeriodEstimateEnd = rowTimeStamp;
+				}
+			}
+		}
+
+		/**
+		 * @param rowTimeStamp
+		 */
+		private void updateBegin(Date rowTimeStamp) {
+			if (metricPeriodEstimateBegin == null) {
+				metricPeriodEstimateBegin = rowTimeStamp;
+			} else {
+				// If we are earlier, we become the begin.
+				if (rowTimeStamp.before(metricPeriodEstimateBegin)) {
+					metricPeriodEstimateBegin = rowTimeStamp;
+				}
+			}
+		}
+
+		/**
+		 * Update with another estimate.
+		 * 
+		 * @param pe
+		 */
+		public void updatePeriodEstimate(PeriodEstimate pe) {
+			updateBegin(pe.metricPeriodEstimateBegin);
+			updateEnd(pe.metricPeriodEstimateEnd);
+		}
+
+		/**
+		 * 
+		 * @return
+		 */
+		public boolean isSingle() {
+
+			// Make sure our estimate is set.
+			if (metricPeriodEstimateBegin == null
+					|| metricPeriodEstimateEnd == null) {
+				throw new IllegalStateException(
+						"Period estimate should have been derived already from this import");
+			}
+			return metricPeriodEstimateBegin.equals(metricPeriodEstimateEnd);
+		}
+
+		/**
+		 * Write this estimate in the statistic.
+		 * 
+		 * @throws IllegalStateException
+		 *             when the estimate is not determined.
+		 * 
+		 * @param mappingStat
+		 */
+		public void write(MappingStatistic mappingStat) {
+
+			// Make sure our estimate is set.
+			if (metricPeriodEstimateBegin == null
+					|| metricPeriodEstimateEnd == null) {
+				throw new IllegalStateException(
+						"Period estimate should have been derived already from this import");
+			}
+
+			final DateTimeRange metricPeriodEstimate = GenericsFactory.eINSTANCE
+					.createDateTimeRange();
+			metricPeriodEstimate.setBegin(modelUtils
+					.toXMLDate(metricPeriodEstimateBegin));
+			metricPeriodEstimate.setEnd(modelUtils
+					.toXMLDate(metricPeriodEstimateEnd));
+			mappingStat.setPeriodEstimate(metricPeriodEstimate);
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -1164,7 +1242,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		tsProcessor.prepTimeStamp(getMapping().getHeaderMappingColumns());
 		headerTimeStamp = tsProcessor.getTimeStampValue(headerRow, true);
 
-		this.updatePeriodEstimate(headerTimeStamp);
+		getRunPeriodEstimate().updatePeriodEstimate(headerTimeStamp);
 	}
 
 	/*
@@ -1843,11 +1921,11 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	/**
 	 * Delegate to the currently set helper.
 	 */
-	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
+	public void addToValueRange(NetXResource foundNetXResource, int intervalHint,
 			KindHintType kindHintType, List<Value> newValues, Date start,
 			Date end) {
 		if (helper != null) {
-			this.helper.addToValueRange(foundNetXResource, periodHint,
+			this.helper.addToValueRange(foundNetXResource, intervalHint,
 					kindHintType, newValues, start, end);
 		} else {
 			throw new java.lang.IllegalStateException(
@@ -1856,10 +1934,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	}
 
 	public int addMetricValue(ValueDataKind vdk, Date timeStamp,
-			Component networkElement, Double dblValue, int periodHint) {
+			Component networkElement, Double dblValue, int intervalHint) {
 		if (helper != null) {
 			return this.helper.addMetricValue(vdk, timeStamp, networkElement,
-					dblValue, periodHint);
+					dblValue, intervalHint);
 		} else {
 			throw new java.lang.IllegalStateException(
 					"AbstractMetricValueImporter: Import helper should be set");
@@ -1916,8 +1994,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 					"AbstractMetricValueImporter: Import helper should be set");
 		}
 	}
-	
-	
+
 	public Properties properties() {
 		if (helper != null) {
 			return helper.properties();
