@@ -150,6 +150,8 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 			view.addObjectHandler(handler);
 
 			// Adapt already loaded objects, this will repeat several times.
+			// As we iterate over the objects in the view, the body of the iteration should never lead 
+			// to a case whereby additional objects are added to the list. 
 			ImmutableList<InternalCDOObject> copyOf = ImmutableList.copyOf(view
 					.getObjects().values());
 			for (CDOObject cdoObject : copyOf) {
