@@ -594,7 +594,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		// Write the period estimate.
 		getSubPeriodEstimate().write(fileMappingStatistics);
 		parentStatistic.getSubStatistics().add(fileMappingStatistics);
-
+		
+		getRunPeriodEstimate().updatePeriodEstimate(getSubPeriodEstimate());
+		
 		// commit everything sofar in this transaction....
 		commitTransactionWithoutClosing();
 
@@ -1197,11 +1199,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		 */
 		public void write(MappingStatistic mappingStat) {
 
-			// Make sure our estimate is set.
+			// Make sure our estimate is set, otherwise bail out. 
 			if (metricPeriodEstimateBegin == null
 					|| metricPeriodEstimateEnd == null) {
-				throw new IllegalStateException(
-						"Period estimate should have been derived already from this import");
+				return; 
 			}
 
 			final DateTimeRange metricPeriodEstimate = GenericsFactory.eINSTANCE
