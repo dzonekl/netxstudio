@@ -1,7 +1,13 @@
 NetXStudio Client Change log.
 
+1.1.6
+http://work.netxforge.com/issues/378
+http://work.netxforge.com/issues/377
+http://work.netxforge.com/issues/376
+http://work.netxforge.com/issues/373
 
 1.1.5
+http://work.netxforge.com/issues/372
 http://work.netxforge.com/issues/369
 http://work.netxforge.com/issues/368
 http://work.netxforge.com/issues/367
@@ -16,12 +22,10 @@ http://work.netxforge.com/issues/362
 http://work.netxforge.com/issues/360
 http://work.netxforge.com/issues/306
 
-
 1.1.3
 http://work.netxforge.com/issues/357
 http://work.netxforge.com/issues/356
 http://work.netxforge.com/issues/326
-
 
 1.1.2
 http://work.netxforge.com/issues/353
