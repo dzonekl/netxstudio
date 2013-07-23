@@ -30,6 +30,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.spi.cdo.FSMUtil;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
@@ -59,11 +60,9 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
 /**
  * This class is a supporting class for processing results from Expression
  * Evaluations {@link ExpressionResult } and also directly processing Value
- * results from imports. 
- * </p>
- * When an Expression Result involves a tolerance {@link ValueRange 
- * range}, the {@link ToleranceProcessor} is invoked. It needs to be configured
- * with a {@link ResourceMonitor} and a {@link Tolerance}
+ * results from imports. </p> When an Expression Result involves a tolerance
+ * {@link ValueRange range}, the {@link ToleranceProcessor} is invoked. It needs
+ * to be configured with a {@link ResourceMonitor} and a {@link Tolerance}
  * 
  * @author Martin Taal
  * @author Christophe Bouhier
@@ -143,7 +142,7 @@ public class ResultProcessor {
 	 * 
 	 * @param values
 	 */
-	private void removeValues(EList<Value> values,  Date start, Date end) {
+	private void removeValues(EList<Value> values, Date start, Date end) {
 		final long startMillis = start.getTime();
 		final long endMillis = end.getTime();
 		final List<Value> toRemove = new ArrayList<Value>();
@@ -199,12 +198,14 @@ public class ResultProcessor {
 		// Assume these are contained here.
 		return mvr.getMetricValues().size() != size;
 	}
-	
+
 	/**
 	 * Remove the {@link Value } objects from the target collection
 	 * 
-	 * @param targetRange The target values to remove from
-	 * @param values The values to remove.
+	 * @param targetRange
+	 *            The target values to remove from
+	 * @param values
+	 *            The values to remove.
 	 * @return
 	 */
 	public boolean removeValues(EList<Value> targetRange, List<Value> values) {
@@ -392,7 +393,7 @@ public class ResultProcessor {
 		// .options()
 		// .setCollectionLoadingPolicy(
 		// CDOUtil.createCollectionLoadingPolicy(24, 24));
-		
+
 		final MetricValueRange mvr = modelUtils
 				.valueRangeForIntervalAndKindGetOrCreate(foundNetXResource,
 						kindHintType, intervalHint);
@@ -406,17 +407,17 @@ public class ResultProcessor {
 		}
 
 		// Do not remove values if we are not adding anything!
-//		if (start != null && end != null) {
-//			
-//			removeValues(mvr.getMetricValues(), start, end);
-//			if (DataActivator.DEBUG) {
-//				DataActivator.TRACE.trace(
-//						DataActivator.TRACE_RESULT_VALUE_OPTION,
-//						"-- Removed values from start="
-//								+ modelUtils.dateAndTime(start) + " , end="
-//								+ modelUtils.dateAndTime(end));
-//			}
-//		}
+		// if (start != null && end != null) {
+		//
+		// removeValues(mvr.getMetricValues(), start, end);
+		// if (DataActivator.DEBUG) {
+		// DataActivator.TRACE.trace(
+		// DataActivator.TRACE_RESULT_VALUE_OPTION,
+		// "-- Removed values from start="
+		// + modelUtils.dateAndTime(start) + " , end="
+		// + modelUtils.dateAndTime(end));
+		// }
+		// }
 
 		addToValues(mvr, newValues, intervalHint);
 
@@ -434,7 +435,8 @@ public class ResultProcessor {
 						DataActivator.TRACE_RESULT_VALUE_OPTION,
 						"-- range for resource (after add): "
 								+ foundNetXResource.getShortName()
-								+ "interval=" + range.getIntervalHint() + " range size = "
+								+ "interval=" + range.getIntervalHint()
+								+ " range size = "
 								+ range.getMetricValues().size());
 			}
 
@@ -447,6 +449,7 @@ public class ResultProcessor {
 	 * @param mvr
 	 * @param newValues
 	 * @param intervalHint
+	 * @deprecated
 	 */
 	public void addToValues(EList<Value> values, List<Value> newValues,
 			int intervalHint) {
@@ -491,6 +494,7 @@ public class ResultProcessor {
 	 * @param currentValues
 	 * @param value
 	 * @param intervalHint
+	 * @deprecated
 	 */
 	public void addToValues(EList<Value> currentValues, Value value,
 			int intervalHint) {
@@ -550,15 +554,73 @@ public class ResultProcessor {
 
 		List<Value> sortedValues = null;
 
-		// Note: MVR might be recently created, and not committed, so will have
-		// a temp ID.
-		// Don't bother querying it. (It will be empty anyways...).
-		if (FSMUtil.isClean(mvr)) {
+		// Checks.
+		// 1. When state --> NEW. Do not check, we assume unique values in a
+		// run.
+		// 2. When state --> CLEAN Check with SQL query.
+		// 3. When state --> DIRTY Check with SQL query, newly added values are
+		// not considered.
+		// 4. When state --> TRANSIENT is an illegal state at this point. The
+		// MVR should be added to a NetXResource already.
+		// 5. When state --> CONFLICT another process has updated this object.
+		// The MVR should be refreshed before, we bail out.
+		// 6. When state --> PROXY is an illegal state, the MVR should be
+		// resolved.
+		// 7. When state --> INVALID is an illegal state, the MVR should be
+		// valid.
+		if (FSMUtil.isConflict(mvr) || FSMUtil.isTransient(mvr)
+				|| FSMUtil.isInvalid(mvr)) {
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_RESULT_VALUE_OPTION,
+						"-- Range is in an illegal state, can't add values"
+								+ " (" + intervalHint
+								+ " min.), while storing value="
+								+ " , original timestamp="
+								+ modelUtils.dateAndTime(value.getTimeStamp()));
+			}
+			return;
+		}
+		if (!FSMUtil.isNew(mvr)) {
 			sortedValues = this.queryService.mvrValues(mvr.cdoView(), mvr,
 					IQueryService.QUERY_MYSQL, value.getTimeStamp());
 
 			if (sortedValues != null && sortedValues.size() == 1) {
 				foundValue = sortedValues.get(0); // we only have one entry.
+			} else {
+				if (sortedValues.size() > 1) {
+					int duplicates = sortedValues.size() - 1;
+					if (DataActivator.DEBUG) {
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_RESULT_VALUE_OPTION,
+								"-- found duplicates values:"
+										+ duplicates
+										+ " ("
+										+ intervalHint
+										+ " min.), while storing value="
+										+ " , original timestamp="
+										+ modelUtils.dateAndTime(value
+												.getTimeStamp()));
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_RESULT_VALUE_OPTION,
+								"-- cleaning duplicates");
+
+					}
+					
+					// Keep the first one. 
+					ImmutableList<Value> toRemove = ImmutableList
+							.copyOf(sortedValues.subList(1, sortedValues.size()));
+					removeValues(mvr, toRemove);
+				}
+			}
+		} else {
+			if (DataActivator.DEBUG) {
+				DataActivator.TRACE.trace(
+						DataActivator.TRACE_RESULT_VALUE_OPTION,
+						"-- range is in state NEW, assume unique value" + " ("
+								+ intervalHint + " min.), while storing value="
+								+ " , original timestamp="
+								+ modelUtils.dateAndTime(value.getTimeStamp()));
 			}
 
 		}
@@ -654,9 +716,8 @@ public class ResultProcessor {
 
 		final Date start = modelUtils.fromXMLDate(period.getBegin());
 		final Date end = modelUtils.fromXMLDate(period.getEnd());
-		
-		
-		// Bail when we have no values in the result! 
+
+		// Bail when we have no values in the result!
 		if (expressionResult.getTargetValues() == null
 				|| expressionResult.getTargetValues().isEmpty()) {
 
@@ -736,7 +797,7 @@ public class ResultProcessor {
 				if (tolProcessor != null && tolProcessor.ready()) {
 					tolProcessor.markersForExpressionResult(expressionResult,
 							period);
-				}else{
+				} else {
 					DataActivator.TRACE.trace(
 							DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
 							"Can't process tolerance, processor not ready");
