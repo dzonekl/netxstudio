@@ -325,6 +325,15 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getMetricAggregationRule_Period() {
+		return (EAttribute)metricAggregationRuleEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getMetricAggregationRules() {
 		return metricAggregationRulesEClass;
 	}
@@ -515,6 +524,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		metricAggregationRuleEClass = createEClass(METRIC_AGGREGATION_RULE);
 		createEReference(metricAggregationRuleEClass, METRIC_AGGREGATION_RULE__AGGREGATION_EXPRESSION);
 		createEAttribute(metricAggregationRuleEClass, METRIC_AGGREGATION_RULE__INTERVAL_HINT);
+		createEAttribute(metricAggregationRuleEClass, METRIC_AGGREGATION_RULE__PERIOD);
 
 		metricAggregationRulesEClass = createEClass(METRIC_AGGREGATION_RULES);
 		createEReference(metricAggregationRulesEClass, METRIC_AGGREGATION_RULES__METRIC_AGGREGATION_RULES);
@@ -595,6 +605,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEClass(metricAggregationRuleEClass, MetricAggregationRule.class, "MetricAggregationRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetricAggregationRule_AggregationExpression(), ecorePackage.getEObject(), null, "aggregationExpression", null, 0, 1, MetricAggregationRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetricAggregationRule_IntervalHint(), theXMLTypePackage.getInt(), "intervalHint", null, 0, 1, MetricAggregationRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMetricAggregationRule_Period(), theXMLTypePackage.getInt(), "period", null, 0, 1, MetricAggregationRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(metricAggregationRulesEClass, MetricAggregationRules.class, "MetricAggregationRules", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetricAggregationRules_MetricAggregationRules(), this.getMetricAggregationRule(), null, "metricAggregationRules", null, 0, -1, MetricAggregationRules.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

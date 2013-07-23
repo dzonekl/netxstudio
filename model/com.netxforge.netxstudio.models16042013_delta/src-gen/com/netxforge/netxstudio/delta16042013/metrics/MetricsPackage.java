@@ -223,13 +223,22 @@ public interface MetricsPackage extends EPackage {
 	int METRIC_AGGREGATION_RULE__INTERVAL_HINT = GenericsPackage.RULE_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Period</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC_AGGREGATION_RULE__PERIOD = GenericsPackage.RULE_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Metric Aggregation Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_AGGREGATION_RULE_FEATURE_COUNT = GenericsPackage.RULE_FEATURE_COUNT + 2;
+	int METRIC_AGGREGATION_RULE_FEATURE_COUNT = GenericsPackage.RULE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.delta16042013.metrics.impl.MetricAggregationRulesImpl <em>Metric Aggregation Rules</em>}' class.
@@ -587,6 +596,17 @@ public interface MetricsPackage extends EPackage {
 	EAttribute getMetricAggregationRule_IntervalHint();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule#getPeriod <em>Period</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Period</em>'.
+	 * @see com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule#getPeriod()
+	 * @see #getMetricAggregationRule()
+	 * @generated
+	 */
+	EAttribute getMetricAggregationRule_Period();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRules <em>Metric Aggregation Rules</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -893,6 +913,14 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute METRIC_AGGREGATION_RULE__INTERVAL_HINT = eINSTANCE.getMetricAggregationRule_IntervalHint();
+
+		/**
+		 * The meta object literal for the '<em><b>Period</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute METRIC_AGGREGATION_RULE__PERIOD = eINSTANCE.getMetricAggregationRule_Period();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.delta16042013.metrics.impl.MetricAggregationRulesImpl <em>Metric Aggregation Rules</em>}' class.

@@ -38,6 +38,7 @@ import com.netxforge.netxstudio.delta16042013.generics.Rule;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule#getAggregationExpression <em>Aggregation Expression</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule#getIntervalHint <em>Interval Hint</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule#getPeriod <em>Period</em>}</li>
  * </ul>
  * </p>
  *
@@ -126,5 +127,58 @@ public interface MetricAggregationRule extends Rule {
 	 * @generated
 	 */
 	boolean isSetIntervalHint();
+
+	/**
+	 * Returns the value of the '<em><b>Period</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Period</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Period</em>' attribute.
+	 * @see #isSetPeriod()
+	 * @see #unsetPeriod()
+	 * @see #setPeriod(int)
+	 * @see com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage#getMetricAggregationRule_Period()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+	 * @generated
+	 */
+	int getPeriod();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule#getPeriod <em>Period</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Period</em>' attribute.
+	 * @see #isSetPeriod()
+	 * @see #unsetPeriod()
+	 * @see #getPeriod()
+	 * @generated
+	 */
+	void setPeriod(int value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule#getPeriod <em>Period</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetPeriod()
+	 * @see #getPeriod()
+	 * @see #setPeriod(int)
+	 * @generated
+	 */
+	void unsetPeriod();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule#getPeriod <em>Period</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Period</em>' attribute is set.
+	 * @see #unsetPeriod()
+	 * @see #getPeriod()
+	 * @see #setPeriod(int)
+	 * @generated
+	 */
+	boolean isSetPeriod();
 
 } // MetricAggregationRule

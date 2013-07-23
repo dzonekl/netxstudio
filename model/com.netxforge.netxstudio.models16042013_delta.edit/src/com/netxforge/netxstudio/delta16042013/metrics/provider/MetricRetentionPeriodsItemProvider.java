@@ -162,7 +162,7 @@ public class MetricRetentionPeriodsItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return com.netxforge.netxstudio.delta16042013.metrics.provider.NetxstudioEditPlugin.INSTANCE;
+		return NetxstudioEditPlugin.INSTANCE;
 	}
 
 }

@@ -115,6 +115,8 @@
         <details key="name" value="IntervalHint"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+        unsettable="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MetricAggregationRules">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.netxforge.netxstudio.models.16042013_delta.tests;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: com.netxforge.netxstudio.delta16042013.generics.tests,
+ com.netxforge.netxstudio.delta16042013.metrics.tests
+Require-Bundle: org.eclipse.core.runtime,
+ com.netxforge.netxstudio.models.16042013_delta;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.junit;visibility:=reexport
+Bundle-ActivationPolicy: lazy

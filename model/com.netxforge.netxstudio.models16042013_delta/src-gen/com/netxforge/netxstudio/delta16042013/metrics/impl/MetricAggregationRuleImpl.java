@@ -37,6 +37,7 @@ import com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.delta16042013.metrics.impl.MetricAggregationRuleImpl#getAggregationExpression <em>Aggregation Expression</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.delta16042013.metrics.impl.MetricAggregationRuleImpl#getIntervalHint <em>Interval Hint</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.delta16042013.metrics.impl.MetricAggregationRuleImpl#getPeriod <em>Period</em>}</li>
  * </ul>
  * </p>
  *
@@ -79,6 +80,35 @@ public class MetricAggregationRuleImpl extends RuleImpl implements MetricAggrega
 	 * @ordered
 	 */
 	protected boolean intervalHintESet;
+
+	/**
+	 * The default value of the '{@link #getPeriod() <em>Period</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPeriod()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int PERIOD_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getPeriod() <em>Period</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPeriod()
+	 * @generated
+	 * @ordered
+	 */
+	protected int period = PERIOD_EDEFAULT;
+
+	/**
+	 * This is true if the Period attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean periodESet;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -188,6 +218,52 @@ public class MetricAggregationRuleImpl extends RuleImpl implements MetricAggrega
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getPeriod() {
+		return period;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPeriod(int newPeriod) {
+		int oldPeriod = period;
+		period = newPeriod;
+		boolean oldPeriodESet = periodESet;
+		periodESet = true;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.METRIC_AGGREGATION_RULE__PERIOD, oldPeriod, period, !oldPeriodESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetPeriod() {
+		int oldPeriod = period;
+		boolean oldPeriodESet = periodESet;
+		period = PERIOD_EDEFAULT;
+		periodESet = false;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, MetricsPackage.METRIC_AGGREGATION_RULE__PERIOD, oldPeriod, PERIOD_EDEFAULT, oldPeriodESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetPeriod() {
+		return periodESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -196,6 +272,8 @@ public class MetricAggregationRuleImpl extends RuleImpl implements MetricAggrega
 				return basicGetAggregationExpression();
 			case MetricsPackage.METRIC_AGGREGATION_RULE__INTERVAL_HINT:
 				return getIntervalHint();
+			case MetricsPackage.METRIC_AGGREGATION_RULE__PERIOD:
+				return getPeriod();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -213,6 +291,9 @@ public class MetricAggregationRuleImpl extends RuleImpl implements MetricAggrega
 				return;
 			case MetricsPackage.METRIC_AGGREGATION_RULE__INTERVAL_HINT:
 				setIntervalHint((Integer)newValue);
+				return;
+			case MetricsPackage.METRIC_AGGREGATION_RULE__PERIOD:
+				setPeriod((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -232,6 +313,9 @@ public class MetricAggregationRuleImpl extends RuleImpl implements MetricAggrega
 			case MetricsPackage.METRIC_AGGREGATION_RULE__INTERVAL_HINT:
 				unsetIntervalHint();
 				return;
+			case MetricsPackage.METRIC_AGGREGATION_RULE__PERIOD:
+				unsetPeriod();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -248,6 +332,8 @@ public class MetricAggregationRuleImpl extends RuleImpl implements MetricAggrega
 				return aggregationExpression != null;
 			case MetricsPackage.METRIC_AGGREGATION_RULE__INTERVAL_HINT:
 				return isSetIntervalHint();
+			case MetricsPackage.METRIC_AGGREGATION_RULE__PERIOD:
+				return isSetPeriod();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -264,6 +350,8 @@ public class MetricAggregationRuleImpl extends RuleImpl implements MetricAggrega
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (intervalHint: ");
 		if (intervalHintESet) result.append(intervalHint); else result.append("<unset>");
+		result.append(", period: ");
+		if (periodESet) result.append(period); else result.append("<unset>");
 		result.append(')');
 		return result.toString();
 	}

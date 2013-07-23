@@ -30,6 +30,7 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule;
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -69,13 +70,12 @@ public class AggregationEngine extends BaseComponentEngine {
 	public void intitialize(boolean re_initialize) {
 		Resource resource = this.getDataProvider().getResource(
 				MetricsPackage.Literals.METRIC_SOURCE);
-		
+
 		if (LogicActivator.DEBUG) {
-			LogicActivator.TRACE.trace(
-					LogicActivator.TRACE_RETENTION_OPTION,
+			LogicActivator.TRACE.trace(LogicActivator.TRACE_RETENTION_OPTION,
 					"Initializing Aggregation engine");
 		}
-		
+
 		metricSources = new ModelUtils.CollectionForObjects<MetricSource>()
 				.collectionForObjects(resource.getContents());
 		// Rules should execute considering the order of the smallest
@@ -190,7 +190,20 @@ public class AggregationEngine extends BaseComponentEngine {
 					}
 					Expression expression = globalRuleForInterval
 							.getRetentionExpression();
-					runExpression(netXResource, expression);
+
+					if (ar.eIsSet(com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage.Literals.METRIC_AGGREGATION_RULE__PERIOD)) {
+						// The number of days from the current logic period.
+						// (Which is the current date/time).
+						int period = ar.getPeriod();
+						DateTimeRange customPeriod = GenericsFactory.eINSTANCE
+								.createDateTimeRange();
+						customPeriod.setEnd(getPeriod().getEnd());
+						customPeriod.setBegin(getModelUtils().toXMLDate(
+								getModelUtils().daysAgo(period)));
+						runExpression(netXResource, expression, customPeriod);
+					} else {
+						runExpression(netXResource, expression);
+					}
 					continue;
 				}
 			}
@@ -228,6 +241,15 @@ public class AggregationEngine extends BaseComponentEngine {
 	 */
 	private void runExpression(final NetXResource netXResource,
 			Expression expression) {
+		runExpression(netXResource, expression, null);
+	}
+
+	/**
+	 * @param netXResource
+	 * @param expression
+	 */
+	private void runExpression(final NetXResource netXResource,
+			Expression expression, DateTimeRange customPeriod) {
 		if (expression != null) {
 
 			// Data will be aggregated for the period specified
@@ -238,7 +260,9 @@ public class AggregationEngine extends BaseComponentEngine {
 			// MetricRetentionRule in the Interpreter.
 
 			getExpressionEngine().getContext().clear();
-			getExpressionEngine().getContext().add(getPeriod());
+
+			getExpressionEngine().getContext().add(
+					customPeriod == null ? getPeriod() : customPeriod);
 			getExpressionEngine().getContext().add(
 					this.getModelUtils().nodeFor(getComponent()));
 			getExpressionEngine().getContext().add(netXResource);

@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.delta16042013.metrics.impl;
 
+import com.netxforge.netxstudio.delta16042013.metrics.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;

@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.delta16042013.metrics.util;
 
+import com.netxforge.netxstudio.delta16042013.metrics.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;

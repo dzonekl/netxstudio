@@ -76,6 +76,7 @@ public class MetricAggregationRuleItemProvider
 
 			addAggregationExpressionPropertyDescriptor(object);
 			addIntervalHintPropertyDescriptor(object);
+			addPeriodPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -125,6 +126,28 @@ public class MetricAggregationRuleItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Period feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPeriodPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MetricAggregationRule_period_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MetricAggregationRule_period_feature", "_UI_MetricAggregationRule_type"),
+				 MetricsPackage.Literals.METRIC_AGGREGATION_RULE__PERIOD,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This returns MetricAggregationRule.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -162,6 +185,7 @@ public class MetricAggregationRuleItemProvider
 
 		switch (notification.getFeatureID(MetricAggregationRule.class)) {
 			case MetricsPackage.METRIC_AGGREGATION_RULE__INTERVAL_HINT:
+			case MetricsPackage.METRIC_AGGREGATION_RULE__PERIOD:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
@@ -188,7 +212,7 @@ public class MetricAggregationRuleItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return com.netxforge.netxstudio.delta16042013.metrics.provider.NetxstudioEditPlugin.INSTANCE;
+		return NetxstudioEditPlugin.INSTANCE;
 	}
 
 }

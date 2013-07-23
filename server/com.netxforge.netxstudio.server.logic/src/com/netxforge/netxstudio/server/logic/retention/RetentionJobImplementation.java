@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.server.logic.retention;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
@@ -30,10 +31,12 @@ import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 
 /**
  * Implements a job runner for retention logic. Although the logic, supports
- * setting a period, we set it dynamically.
- * 
+ * setting a period, we set it dynamically. Initializes the logic to the default
+ * period (2 years). The Add-on model can be configured to have finer control on
+ * the aggregation period. See {@link MetricAggregationRule#setPeriod(int) period } setting
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
 public class RetentionJobImplementation extends JobImplementation {
 
@@ -42,8 +45,8 @@ public class RetentionJobImplementation extends JobImplementation {
 	@Override
 	public void run() {
 
-		
-		// FIXME We should really set the ID of the rules, and let the logic
+		// FIXME We should really set the ID of the rules object, and let the
+		// logic
 		// DataProvider create it's own.
 		// Here, it's read only, so should be Ok.
 
@@ -85,7 +88,7 @@ public class RetentionJobImplementation extends JobImplementation {
 				retentionLogic.runWithoutClosing();
 
 				// This will change the status, FIXME, Allow the monitor to
-				// restart?
+				// restart.
 				retentionLogic.close();
 
 			}
