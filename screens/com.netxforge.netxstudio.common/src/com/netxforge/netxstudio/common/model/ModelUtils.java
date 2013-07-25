@@ -836,6 +836,35 @@ public class ModelUtils {
 		return createDateTimeRange;
 	}
 
+	/**
+	 * Return the period for the {@link Value}'s time stamp, bound by the
+	 * interval specified.
+	 * 
+	 * @param v
+	 * @param interval
+	 * @return
+	 */
+
+	public DateTimeRange period(Value v, int targetInterval) {
+
+		final int[] fields = fieldsForTargetIntervalLowerOrder(targetInterval);
+		Calendar cal = v.getTimeStamp().toGregorianCalendar();
+
+		adjustToFieldStart(cal, fields);
+		Date start = cal.getTime();
+
+		adjustToFieldEnd(cal, fields);
+		Date end = cal.getTime();
+
+		DateTimeRange createDateTimeRange = GenericsFactory.eINSTANCE
+				.createDateTimeRange();
+		createDateTimeRange.setBegin(toXMLDate(start));
+		createDateTimeRange.setEnd(toXMLDate(end));
+
+		return createDateTimeRange;
+
+	}
+
 	// public List<List<Value>> values(List<Value> values, int srcInterval) {
 	// return this.values(values, srcInterval, -1);
 	// }
@@ -910,17 +939,15 @@ public class ModelUtils {
 		return valueMatrix;
 	}
 
+	/**
+	 * Split a collection of {@link Value } objects. The splitting criteria is
+	 * the interval in minutes. Group the values by their time stamp with the
+	 * interval as boundary.
+	 * 
+	 * For week target, do not consider the month field. Note that if a week is
+	 * partially in two consecutive years, it will be split by this algo.
+	 */
 	public List<List<Value>> values_(List<Value> values, int targetInterval) {
-
-		// Populate a matrix of fields for the provided values, depending on the
-		// intended source and target interval. The key is the combination of
-		// higher fields.
-		// If the field is HOUR, it should be in a map of
-		// HOUR-DAY-WEEK-MONTH-YEAR.
-		//
-		// For week target, do not consider the month field.
-		// Note that if a week is partially in two consecutive years,
-		// it will be split by this algo.
 
 		final Map<String, List<Value>> targetMap = Maps.newHashMap();
 
@@ -937,6 +964,7 @@ public class ModelUtils {
 				sb.append("_" + currentFieldValue);
 			}
 			String key = sb.toString();
+
 			if (targetMap.containsKey(key)) {
 				targetMap.get(key).add(v);
 			} else {
@@ -964,11 +992,6 @@ public class ModelUtils {
 								o2Sorted.get(0));
 					}
 				}).sortedCopy(targetMap.values());
-		//
-		//
-		// for (String s : sortedKeys) {
-		// System.out.println("key: " + s);
-		// }
 
 		if (CommonActivator.DEBUG) {
 			CommonActivator.TRACE.trace(
@@ -1059,6 +1082,14 @@ public class ModelUtils {
 		}
 	}
 
+	/**
+	 * Populate an array of {@link Calendar} higher order fields, deduced from
+	 * the target interval.</p> Example: </br> If the interval is
+	 * {@link ModelUtils#MINUTES_IN_AN_HOUR} the fields are
+	 * {@link Calendar#HOUR_OF_DAY}, {@link Calendar#DAY_OF_YEAR},
+	 * {@link Calendar#WEEK_OF_YEAR}, {@link Calendar#MONTH},
+	 * {@link Calendar#YEAR},
+	 */
 	public int[] fieldsForTargetInterval(int targetInterval) {
 
 		// We don't need decades or higher.
@@ -1075,6 +1106,38 @@ public class ModelUtils {
 			return new int[] { Calendar.WEEK_OF_YEAR, Calendar.YEAR };
 		case MINUTES_IN_A_MONTH:
 			return copyOfRange(calFieldForPeriods, 3, 5);
+		default:
+			return null;
+		}
+	}
+
+	/**
+	 * Populate an array of {@link Calendar} lower order fields, deduced from
+	 * the target interval.
+	 * 
+	 * @param targetInterval
+	 * @return
+	 */
+	public int[] fieldsForTargetIntervalLowerOrder(int targetInterval) {
+
+		int[] calFieldForPeriods = new int[] { Calendar.MILLISECOND,
+				Calendar.SECOND, Calendar.MINUTE, Calendar.HOUR_OF_DAY,
+				Calendar.DAY_OF_YEAR, Calendar.WEEK_OF_YEAR, Calendar.MONTH,
+				Calendar.YEAR };
+
+		switch (targetInterval) {
+		case MINUTES_IN_AN_HOUR:
+			return copyOfRange(calFieldForPeriods, 0, 3);
+		case MINUTES_IN_A_DAY:
+			return copyOfRange(calFieldForPeriods, 0, 4);
+		case MINUTES_IN_A_WEEK:
+			return new int[] { Calendar.MILLISECOND, Calendar.SECOND,
+					Calendar.MINUTE, Calendar.HOUR_OF_DAY,
+					Calendar.DAY_OF_WEEK_IN_MONTH };
+		case MINUTES_IN_A_MONTH:
+			return new int[] { Calendar.MILLISECOND, Calendar.SECOND,
+					Calendar.MINUTE, Calendar.HOUR_OF_DAY,
+					Calendar.DAY_OF_MONTH };
 		default:
 			return null;
 		}
@@ -3669,6 +3732,50 @@ public class ModelUtils {
 	}
 
 	/**
+	 * Set the calendar fields in the array to their actual (Considering the
+	 * current Calendar time) max.
+	 * 
+	 * @param cal
+	 * @param fields
+	 */
+	public void adjustToFieldEnd(Calendar cal, int[] fields) {
+
+		for (int i = 0; i < fields.length; i++) {
+			int f = fields[i];
+			if (f == Calendar.DAY_OF_WEEK_IN_MONTH) {
+				cal.set(Calendar.DAY_OF_WEEK, lastDayOfWeek(cal));
+			} else {
+				cal.set(f, cal.getActualMaximum(f));
+			}
+		}
+	}
+
+	/**
+	 * Set the calendar fields in the array to their actual (Considering the
+	 * current Calendar time) minimum.
+	 * 
+	 * @param cal
+	 * @param fields
+	 */
+	public void adjustToFieldStart(Calendar cal, int[] fields) {
+
+		for (int i = 0; i < fields.length; i++) {
+			int f = fields[i];
+			if (f == Calendar.DAY_OF_WEEK_IN_MONTH) {
+//				int weekInMonth = cal.get(Calendar.WEEK_OF_MONTH);
+				// Read the day of the week once. See bug: 
+				// 
+				cal.get(Calendar.DAY_OF_WEEK);
+				cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+//				currentTime = cal.getTime();
+			} else {
+				cal.set(f, cal.getActualMinimum(f));
+			}
+
+		}
+	}
+
+	/**
 	 * Set the hours, minutes, seconds and milliseconds so the calendar
 	 * represents midnight minus one milli-second.
 	 * 
@@ -3679,7 +3786,6 @@ public class ModelUtils {
 		cal.set(Calendar.MINUTE, 59);
 		cal.set(Calendar.SECOND, 59);
 		cal.set(Calendar.MILLISECOND, 999);
-
 	}
 
 	public Date adjustToDayEnd(Date d) {
@@ -3963,11 +4069,10 @@ public class ModelUtils {
 		return CDOIDUtil.createLongWithClassifier(new CDOClassifierRef(eClass),
 				Long.parseLong(cdoString));
 	}
-	
+
 	public CDOID cdoLongIDFromString(String idString) {
 		return CDOIDUtil.createLong(Long.parseLong(idString));
 	}
-
 
 	/**
 	 * Get a CDOID for a String representing the Object ID.
@@ -4706,8 +4811,8 @@ public class ModelUtils {
 	 * the specified {@link Calendar#fields Calendar Fields} field.
 	 * <ul>
 	 * <li>{@link Calendar#MONTH}</li>
-	 * <li>{@link Calendar#WEEK}</li>
-	 * <li>{@link Calendar#DAY}</li>
+	 * <li>{@link Calendar#WEEK_OF_YEAR}</li>
+	 * <li>{@link Calendar#DAY_OF_MONTH}</li>
 	 * </ul>
 	 * The earliest period starts at the specified Calendar field boundary. The
 	 * following Calendar fields are supported

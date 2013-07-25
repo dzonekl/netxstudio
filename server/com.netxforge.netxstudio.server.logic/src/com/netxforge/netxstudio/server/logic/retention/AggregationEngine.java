@@ -103,6 +103,9 @@ public class AggregationEngine extends BaseComponentEngine {
 			}
 		}
 		addonHandler.initializeModelAddon(re_initialize);
+		
+		// Set the write mode to single value in interval, to avoid duplicate aggregates. 
+		resultProcessor.setWriteMode(ResultProcessor.SINGLE_VALUE_IN_INTERVAL_MODE);
 	}
 
 	@Inject
@@ -295,7 +298,7 @@ public class AggregationEngine extends BaseComponentEngine {
 		// Note: For retention expressions, the order for which the expression
 		// result is processed,
 		// is relevant, as data is deleted after a while.
-
+		
 		resultProcessor.processMonitoringResult(currentContext,
 				expressionResults, period);
 

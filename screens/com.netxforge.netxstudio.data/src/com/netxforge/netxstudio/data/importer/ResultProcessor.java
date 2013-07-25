@@ -80,6 +80,24 @@ public class ResultProcessor {
 	private IQueryService queryService;
 
 	/**
+	 * In this mode the processor will match a single value within the target
+	 * interval. If the time stamp equals and the value equals, the existing
+	 * value will be kept. If other values exist within the interval.
+	 */
+	public static final int SINGLE_VALUE_IN_INTERVAL_MODE = 100;
+
+	/**
+	 * Do not consider the interval, simply match on the timestamp.
+	 */
+	public static final int INDIFFERENT_VALUES_IN_INTERVAL_MODE = 200;
+
+	/**
+	 * The current write mode, default =
+	 * {@link #INDIFFERENT_VALUES_IN_INTERVAL_MODE}
+	 */
+	private int currentWriteMode = INDIFFERENT_VALUES_IN_INTERVAL_MODE;
+
+	/**
 	 * Process a Service Profile calculation result.
 	 * 
 	 * @param currentContext
@@ -541,8 +559,11 @@ public class ResultProcessor {
 	}
 
 	/**
-	 * Add to a value range, first trying to match the timestamp. If the
-	 * timestamp matches, overwrite the value.
+	 * Add to a value range. Has side effect on existing values depending on the
+	 * mode. in {@link #INDIFFERENT_VALUES_IN_INTERVAL_MODE} the new value is
+	 * matched against similar timestamps in for the {@link MetricValueRange}.
+	 * When in {@link #SINGLE_VALUE_IN_INTERVAL_MODE} we query values within the
+	 * interval period and remove them. The new value will always be added.
 	 * 
 	 * @param mvr
 	 * @param value
@@ -581,37 +602,53 @@ public class ResultProcessor {
 			}
 			return;
 		}
+
+		// Look for existing entries, depending on the write mode.
 		if (!FSMUtil.isNew(mvr)) {
-			sortedValues = this.queryService.mvrValues(mvr.cdoView(), mvr,
-					IQueryService.QUERY_MYSQL, value.getTimeStamp());
 
-			if (sortedValues != null && sortedValues.size() == 1) {
-				foundValue = sortedValues.get(0); // we only have one entry.
-			} else {
-				if (sortedValues.size() > 1) {
-					int duplicates = sortedValues.size() - 1;
-					if (DataActivator.DEBUG) {
-						DataActivator.TRACE.trace(
-								DataActivator.TRACE_RESULT_VALUE_OPTION,
-								"-- found duplicates values:"
-										+ duplicates
-										+ " ("
-										+ intervalHint
-										+ " min.), while storing value="
-										+ " , original timestamp="
-										+ modelUtils.dateAndTime(value
-												.getTimeStamp()));
-						DataActivator.TRACE.trace(
-								DataActivator.TRACE_RESULT_VALUE_OPTION,
-								"-- cleaning duplicates");
+			if (currentWriteMode == INDIFFERENT_VALUES_IN_INTERVAL_MODE) {
+				sortedValues = this.queryService.mvrValues(mvr.cdoView(), mvr,
+						IQueryService.QUERY_MYSQL, value.getTimeStamp());
 
+				if (sortedValues != null && sortedValues.size() == 1) {
+					foundValue = sortedValues.get(0); // we only have one entry.
+				} else {
+					if (sortedValues.size() > 1) {
+						int duplicates = sortedValues.size() - 1;
+						if (DataActivator.DEBUG) {
+							DataActivator.TRACE.trace(
+									DataActivator.TRACE_RESULT_VALUE_OPTION,
+									"-- found duplicates values:"
+											+ duplicates
+											+ " ("
+											+ intervalHint
+											+ " min.), while storing value="
+											+ " , original timestamp="
+											+ modelUtils.dateAndTime(value
+													.getTimeStamp()));
+							DataActivator.TRACE.trace(
+									DataActivator.TRACE_RESULT_VALUE_OPTION,
+									"-- cleaning duplicates");
+
+						}
+
+						// Keep the first one, remove the rest.
+						foundValue = sortedValues.get(0);
+						ImmutableList<Value> toRemove = ImmutableList
+								.copyOf(sortedValues.subList(1,
+										sortedValues.size()));
+						removeValues(mvr, toRemove);
 					}
-					
-					// Keep the first one. 
-					ImmutableList<Value> toRemove = ImmutableList
-							.copyOf(sortedValues.subList(1, sortedValues.size()));
-					removeValues(mvr, toRemove);
 				}
+			} else if (currentWriteMode == SINGLE_VALUE_IN_INTERVAL_MODE) {
+				DateTimeRange intervalPeriod = modelUtils.period(value,
+						intervalHint);
+
+				sortedValues = this.queryService.mvrValues(mvr.cdoView(), mvr,
+						IQueryService.QUERY_MYSQL, intervalPeriod);
+				ImmutableList<Value> toRemove = ImmutableList
+						.copyOf(sortedValues);
+				removeValues(mvr, toRemove);
 			}
 		} else {
 			if (DataActivator.DEBUG) {
@@ -824,6 +861,15 @@ public class ResultProcessor {
 					DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
 					"done processing monitoring result");
 		}
-
 	}
+
+	/**
+	 * Set the writing mode for processing the result.
+	 * 
+	 * @param writeMode
+	 */
+	public void setWriteMode(int writeMode) {
+		this.currentWriteMode = writeMode;
+	}
+
 }
