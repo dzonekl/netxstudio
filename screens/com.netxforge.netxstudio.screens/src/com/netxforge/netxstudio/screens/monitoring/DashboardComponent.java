@@ -43,7 +43,7 @@ import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
-import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateStateCallBack;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
@@ -284,7 +284,7 @@ public class DashboardComponent extends JobChangeAdapter {
 		} else if (o instanceof Network) {
 			return new TODOSummaryComponent();
 		} else if (o instanceof RFSService) {
-			return new TODOSummaryComponent();
+			return new RFSServiceSummaryComponent();
 		} else if (o instanceof Operator) {
 			return new TODOSummaryComponent();
 		}
@@ -309,7 +309,7 @@ public class DashboardComponent extends JobChangeAdapter {
 		return true;
 	}
 
-	class SummaryCallBack implements MonitoringStateStateCallBack {
+	class SummaryCallBack implements MonitoringStateCallBack {
 
 		public void callBackEvent(MonitoringStateEvent event) {
 

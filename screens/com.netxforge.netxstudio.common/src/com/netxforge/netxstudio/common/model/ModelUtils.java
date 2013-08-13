@@ -865,6 +865,17 @@ public class ModelUtils {
 
 	}
 
+	/**
+	 * Return if this is an unitialized {@link DateTimeRange period}
+	 * 
+	 * @param dtr
+	 * @return
+	 */
+	public boolean periodUnset(DateTimeRange dtr) {
+		return !dtr.eIsSet(GenericsPackage.Literals.DATE_TIME_RANGE__BEGIN)
+				&& !dtr.eIsSet(GenericsPackage.Literals.DATE_TIME_RANGE__END);
+	}
+
 	// public List<List<Value>> values(List<Value> values, int srcInterval) {
 	// return this.values(values, srcInterval, -1);
 	// }
@@ -3762,12 +3773,12 @@ public class ModelUtils {
 		for (int i = 0; i < fields.length; i++) {
 			int f = fields[i];
 			if (f == Calendar.DAY_OF_WEEK_IN_MONTH) {
-//				int weekInMonth = cal.get(Calendar.WEEK_OF_MONTH);
-				// Read the day of the week once. See bug: 
-				// 
+				// int weekInMonth = cal.get(Calendar.WEEK_OF_MONTH);
+				// Read the day of the week once. See bug:
+				//
 				cal.get(Calendar.DAY_OF_WEEK);
 				cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-//				currentTime = cal.getTime();
+				// currentTime = cal.getTime();
 			} else {
 				cal.set(f, cal.getActualMinimum(f));
 			}
@@ -5213,15 +5224,22 @@ public class ModelUtils {
 		return nodeTypes;
 	}
 
+	/**
+	 * all {@link NodeType} objects belonging to the provided {@link Service} of
+	 * type {@link RFService}
+	 * 
+	 * @param service
+	 * @return
+	 */
 	public List<NodeType> nodeTypeForService(Service service) {
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 		if (service instanceof RFSService) {
 			for (Node n : ((RFSService) service).getNodes()) {
 				nodeTypes.add(n.getNodeType());
 			}
-			for (Service subService : service.getServices()) {
-				nodeTypes.addAll(nodeTypeForService(subService));
-			}
+//			for (Service subService : service.getServices()) {
+//				nodeTypes.addAll(nodeTypeForService(subService));
+//			}
 		}
 		return nodeTypes;
 	}

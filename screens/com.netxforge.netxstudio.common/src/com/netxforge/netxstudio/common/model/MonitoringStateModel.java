@@ -108,7 +108,7 @@ public class MonitoringStateModel {
 	 * @author Christophe Bouhier
 	 * 
 	 */
-	public interface MonitoringStateStateCallBack {
+	public interface MonitoringStateCallBack {
 		public void callBackEvent(MonitoringStateEvent event);
 	}
 
@@ -227,21 +227,21 @@ public class MonitoringStateModel {
 	@Inject
 	private MonitoringAdapterFactory monAdapterFactory;
 
-	public void summary(MonitoringStateStateCallBack callBack, Object target) {
+	public void summary(MonitoringStateCallBack callBack, Object target) {
 		prepSummary(callBack, target, MONITOR_COMPUTATION_SINGLE_MODE,
 				(IComputationContext[]) null);
 	}
 
 	/**
 	 * Produce a summary for the target object. When done,
-	 * {@link MonitoringStateStateCallBack#callBackEvent(MonitoringStateEvent)}
+	 * {@link MonitoringStateCallBack#callBackEvent(MonitoringStateEvent)}
 	 * is called.
 	 * 
 	 * @param callBack
 	 * @param target
 	 * @param computeMode
 	 */
-	public void summary(MonitoringStateStateCallBack callBack, Object target,
+	public void summary(MonitoringStateCallBack callBack, Object target,
 			int computationMode) {
 		prepSummary(callBack, target, computationMode,
 				(IComputationContext[]) null);
@@ -255,7 +255,7 @@ public class MonitoringStateModel {
 	 * @param target
 	 * @param contextObjects
 	 */
-	public void summary(MonitoringStateStateCallBack callBack, Object target,
+	public void summary(MonitoringStateCallBack callBack, Object target,
 			IComputationContext... contextObjects) {
 
 		Assert.isNotNull(target);
@@ -276,9 +276,9 @@ public class MonitoringStateModel {
 
 	class JobCallBack extends JobChangeAdapter {
 
-		private MonitoringStateStateCallBack callBack;
+		private MonitoringStateCallBack callBack;
 
-		public void setCallBack(MonitoringStateStateCallBack callBack) {
+		public void setCallBack(MonitoringStateCallBack callBack) {
 			this.callBack = callBack;
 		}
 
@@ -303,7 +303,7 @@ public class MonitoringStateModel {
 	/**
 	 * Prepares the monitoring state.
 	 */
-	private void prepSummary(final MonitoringStateStateCallBack callBack,
+	private void prepSummary(final MonitoringStateCallBack callBack,
 			Object target, int computationMode,
 			IComputationContext... contextObjects) {
 

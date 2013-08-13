@@ -39,9 +39,6 @@ public class NodeSummary extends MonitoringAdapter {
 	int equipments = 0;
 	int resources = 0;
 
-	public NodeSummary() {
-	}
-
 	@Override
 	protected void computeForTarget(IProgressMonitor monitor) {
 

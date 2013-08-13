@@ -63,10 +63,10 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 	@Override
 	protected void setTarget(EObject target) {
 
-//		System.out.println("Currently Adapted: ");
-//		for (WeakReference<CDOObject> wr : adaptedObjects) {
-//			System.out.println(wr.get().cdoID());
-//		}
+		// System.out.println("Currently Adapted: ");
+		// for (WeakReference<CDOObject> wr : adaptedObjects) {
+		// System.out.println(wr.get().cdoID());
+		// }
 
 		if (isConnectedObject(target)) {
 			if (adaptedRoot == null) {
@@ -150,8 +150,9 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 			view.addObjectHandler(handler);
 
 			// Adapt already loaded objects, this will repeat several times.
-			// As we iterate over the objects in the view, the body of the iteration should never lead 
-			// to a case whereby additional objects are added to the list. 
+			// As we iterate over the objects in the view, the body of the
+			// iteration should never lead
+			// to a case whereby additional objects are added to the list.
 			ImmutableList<InternalCDOObject> copyOf = ImmutableList.copyOf(view
 					.getObjects().values());
 			for (CDOObject cdoObject : copyOf) {
@@ -196,8 +197,6 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 			if (isSameAdapterFor((EObject) notifier)) {
 				super.addAdapter(notifier);
 
-//				System.out.println("NEW adapter: " + this + " (Same as this)");
-
 				if (CommonActivator.DEBUG) {
 					CommonActivator.TRACE.trace(
 							CommonActivator.TRACE_COMMON_MONITORING_OPTION,
@@ -211,8 +210,6 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 				final Adapter adapt = getAdapterFactory().adapt(notifier,
 						IMonitoringSummary.class);
 
-//				System.out.println("result adapter: " + adapt);
-
 				if (CommonActivator.DEBUG) {
 					CommonActivator.TRACE.trace(
 							CommonActivator.TRACE_COMMON_MONITORING_OPTION,
@@ -220,14 +217,6 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 				}
 			}
 		} else {
-
-			// CB Remove later.
-			// System.out
-			// .println("Self-adapt cancelled for:"
-			// + notifier
-			// +
-			// " (Already adapted, not connected, not allowed, not contained)");
-
 			// When not adapting the target object, the adapter instance if
 			// still produced.
 			if (CommonActivator.DEBUG) {
@@ -235,7 +224,7 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 						.trace(CommonActivator.TRACE_COMMON_MONITORING_DETAILS_OPTION,
 								"Self-adapt cancelled for:"
 										+ notifier
-										+ " (Already adapted, not connected, not allowed, not contained)");
+										+ " (Already adapted, not connected, not related, is filtered)");
 			}
 			return;
 		}
@@ -372,6 +361,9 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 	 * @author Victor Roldan Betancort
 	 */
 	private final class CleanObjectHandler implements CDOObjectHandler {
+
+		private CDOObject currentAddingObject;
+
 		public void objectStateChanged(CDOView view, CDOObject object,
 				CDOState oldState, CDOState newState) {
 			if (CommonActivator.DEBUG) {
@@ -380,11 +372,18 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 						"Object handler invoked: " + object + "( " + oldState
 								+ "-->" + newState + " )");
 			}
-//			System.out.println("Object handler invoked: " + object + "( "
-//					+ oldState + "-->" + newState + " )");
-
 			if (newState == CDOState.CLEAN || newState == CDOState.NEW) {
-				addAdapter(object);
+				// During this phase, we perform various checks which could load
+				// objects in the CDOView, leading to this method being called.
+				// to avoid circularity, we make sure we are not processing an
+				// object currently
+				// being processed.
+				if (currentAddingObject != null
+						&& currentAddingObject != object) {
+					currentAddingObject = object;
+					addAdapter(object);
+				}
+
 			}
 		}
 	}

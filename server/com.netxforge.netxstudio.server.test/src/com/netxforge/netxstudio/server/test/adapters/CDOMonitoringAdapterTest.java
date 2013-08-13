@@ -45,7 +45,7 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
 import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
-import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateStateCallBack;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
 import com.netxforge.netxstudio.common.model.NetxresourceSummary;
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.common.model.OperatorSummary;
@@ -153,7 +153,7 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 		final NetXResource targetNetXResource = (NetXResource) targetEObject;
 
 		{ // CALLBACK FOR NETXRESOURCE
-			MonitoringStateStateCallBack callBack = new MonitoringStateStateCallBack() {
+			MonitoringStateCallBack callBack = new MonitoringStateCallBack() {
 
 				public void callBackEvent(MonitoringStateEvent event) {
 

@@ -21,20 +21,27 @@ package com.netxforge.netxstudio.screens.f1;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -69,6 +76,7 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.operators.Operator;
@@ -87,6 +95,7 @@ import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
+import com.netxforge.netxstudio.screens.editing.util.AbstractMonitoringProcessor;
 import com.netxforge.netxstudio.screens.f1.details.NewEditServiceTree;
 import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeFactoryImpl;
 import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeLabelProvider;
@@ -118,6 +127,9 @@ public class ServicesTree extends AbstractScreen implements
 
 	@Inject
 	ServerRequest serverActions;
+
+	@Inject
+	MonitoringStateModel monitoringStateModel;
 
 	/**
 	 * Create the composite.
@@ -257,25 +269,25 @@ public class ServicesTree extends AbstractScreen implements
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
 						final ISelection s = event.getSelection();
-						// TODO, We could even wait to see if we get another
-						// update within 100ms.
-						// If we do, we would cancel.
+						final Object o;
+						if (s instanceof IStructuredSelection) {
+							IStructuredSelection ss = (IStructuredSelection) s;
+							o = ss.getFirstElement();
+						} else {
+							o = null;
+						}
 
 						ServicesTree.this.getDisplay().asyncExec(
 								new Runnable() {
 									public void run() {
-										if (s instanceof IStructuredSelection) {
-											IStructuredSelection ss = (IStructuredSelection) s;
-											Object o = ss.getFirstElement();
-											try {
-												handleDetailsSelection(o);
-											} catch (Exception e) {
-												e.printStackTrace();
-											}
+										try {
+											handleDetailsSelection(o);
+										} catch (Exception e) {
+											e.printStackTrace();
 										}
+
 									}
 								});
-
 					}
 				});
 		Tree tree = serviceTreeViewer.getTree();
@@ -338,6 +350,7 @@ public class ServicesTree extends AbstractScreen implements
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();
+	private MonitoringAggregate monitoringAggregate;
 
 	@Override
 	public IAction[] getActions() {
@@ -406,10 +419,83 @@ public class ServicesTree extends AbstractScreen implements
 		IObservableList servicesObservableList = projects
 				.observe(operatorsResource);
 		serviceTreeViewer.setInput(servicesObservableList);
-
+		
+		
+		// Monitoring Observable.
+		monitoringAggregate = new MonitoringAggregate(monitoringStateModel);
+		
+		IViewerObservableValue observeSelection = ViewersObservables
+				.observeSingleSelection(serviceTreeViewer);
+		observeSelection.addValueChangeListener(monitoringAggregate);
+		
+		
 		return bindingContext;
 	}
+	/**
+	 * Maintains monitoring selection.
+	 * Note: We don't have a period selector. 
+	 */
+	final class MonitoringAggregate extends AbstractMonitoringProcessor {
 
+		public MonitoringAggregate(MonitoringStateModel monitoringStateModel) {
+			super(monitoringStateModel);
+		}
+
+		/**
+		 * Track the last value change which corresponds to the selection.
+		 */
+		private EObject lastSelection;
+
+		public void handleValueChange(ValueChangeEvent event) {
+
+			IObservable observable = event.getObservable();
+			IObservableValue observableValue = event.getObservableValue();
+
+			if (observable instanceof IViewerObservableValue) {
+
+				IViewerObservableValue ivov = (IViewerObservableValue) observable;
+				lastSelection = (EObject) ivov.getValue();
+				if (ivov.getViewer() == serviceTreeViewer) {
+					if(currentService != null){
+						cleanResourceMon(currentService);
+					}
+					currentService = processServiceChange(observableValue);
+					updateResourceMon(currentService);
+				} 
+			} else if (observable instanceof WritableValue) {
+				processPeriodChange(observable);
+				updateResourceMon(lastSelection);
+			}
+		}
+
+
+		protected void updateValues(EObject target) {
+			// DO NOTHING, this screen doesn't show monitoring stuff. 
+		}
+
+		private Service processServiceChange(IObservableValue ob) {
+			Service s = null;
+			final Object value = ob.getValue();
+			if (value instanceof Service) {
+				s = (Service) value;
+			}
+			return s;
+		}
+
+		private void processPeriodChange(IObservable observable) {
+			@SuppressWarnings("unused")
+			Object value = ((WritableValue) observable).getValue();
+			
+			// CB Copied from smart resources, we don't have a period selector 
+			// for this screen. 
+//			if (observable == periodBeginWritableValue) {
+//				currentPeriod.setBegin((XMLGregorianCalendar) value);
+//			} else if (observable == periodEndWritableValue) {
+//				currentPeriod.setEnd((XMLGregorianCalendar) value);
+//			}
+		}
+	}
+	
 	class RFSServiceTreeStructureAdvisorImpl extends TreeStructureAdvisor {
 		@Override
 		public Object getParent(Object element) {

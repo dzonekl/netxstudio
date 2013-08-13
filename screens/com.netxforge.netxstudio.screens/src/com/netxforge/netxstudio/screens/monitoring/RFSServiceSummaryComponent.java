@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.screens.monitoring;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.FormText;
 
@@ -37,26 +38,32 @@ public class RFSServiceSummaryComponent extends AbstractSummaryComponent {
 	 */
 	protected void buildSummary() {
 
-		final Label lblMonitoredNodes = formToolkit.createLabel(content,
+		Composite gridContent = formToolkit.createComposite(this.content,
+				SWT.NONE);
+		gridContent.setLayout(new GridLayout(2, false));
+		formToolkit.paintBordersFor(gridContent);
+		
+		final Label lblMonitoredNodes = formToolkit.createLabel(gridContent,
 				"# Monitored NE's:", SWT.NONE);
-		lblMonitoredNodes.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
+		GridData gd_lblNodes = new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1);
+		gd_lblNodes.widthHint = 83;
+		lblMonitoredNodes.setLayoutData(gd_lblNodes);
 
-		formTextNumberOfNodes = formToolkit.createFormText(content, false);
+		formTextNumberOfNodes = formToolkit.createFormText(gridContent, false);
 		formTextNumberOfNodes.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 3, 1));
+				false, false, 1, 1));
 		formToolkit.paintBordersFor(formTextNumberOfNodes);
 		formTextNumberOfNodes.setText("", false, false);
 
-		final Label lblMonitoredRess = new Label(content, SWT.NONE);
-		lblMonitoredRess.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
+		final Label lblMonitoredRess = new Label(gridContent, SWT.NONE);
+		lblMonitoredRess.setLayoutData(gd_lblNodes);
 		formToolkit.adapt(lblMonitoredRess, true, true);
 		lblMonitoredRess.setText("# Monitored RES's:");
 
-		formTextNumberOfResources = formToolkit.createFormText(content, false);
+		formTextNumberOfResources = formToolkit.createFormText(gridContent, false);
 		formTextNumberOfResources.setLayoutData(new GridData(SWT.LEFT,
-				SWT.CENTER, false, false, 3, 1));
+				SWT.CENTER, false, false, 1, 1));
 		formToolkit.paintBordersFor(formTextNumberOfResources);
 		formTextNumberOfResources.setText("", false, false);
 	}

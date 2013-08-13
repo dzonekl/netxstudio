@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
- * Wraps model references to keep them together.
+ * Wraps chart model information to keep it together. 
  * 
  * @author Christophe Bouhier
  * 

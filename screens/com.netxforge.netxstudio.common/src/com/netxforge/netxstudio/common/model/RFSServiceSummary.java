@@ -17,6 +17,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.cdo.CDOObject;
@@ -24,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.common.context.ObjectContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -60,7 +63,7 @@ public class RFSServiceSummary extends MonitoringAdapter {
 			return;
 		}
 		// Safely case, checked by our factory.
-		final RFSService rfsService = getRFSService();
+		final RFSService rfsService = getRFSServiceFromTarget();
 
 		// Add ourself as a context, if not already.
 		if (this.getRFSService() == null) {
@@ -156,21 +159,22 @@ public class RFSServiceSummary extends MonitoringAdapter {
 	@Override
 	protected boolean isNotFiltered(EObject object) {
 		// Self-adapt for referenced Nodes. (Note, these are not contained).
-		return object.eClass() == OperatorsPackage.Literals.NODE;
+		return object.eClass() == LibraryPackage.Literals.NODE_TYPE;
 	}
 
 	@Override
 	protected boolean isRelated(CDOObject object) {
-		// TODO, Should apply to the full hierarchy.
-		// Containments are handled with isContained().
 
-		// So:
 		// 1. Nodes should be referenced by the service. (Non-Containment).
-		// 2. NodeType should be contained by the Node.
+		// 2. NodeType should be adapted so contained by one of the nodes referenced 
+		// by the service. 
+		
+		final RFSService rfsServiceFromTarget = getRFSServiceFromTarget();
+		
+		List<NodeType> nodeTypeForService = modelUtils.nodeTypeForService(rfsServiceFromTarget);
+		
 		return this.isContained(object)
-				|| getRFSService().getNodes().contains(object)
-				|| modelUtils.nodeTypeForService(this.getRFSService())
-						.contains(object);
+				|| nodeTypeForService.contains(object);
 	}
 
 	public int totalNodeRag(RAG status) {
@@ -201,9 +205,14 @@ public class RFSServiceSummary extends MonitoringAdapter {
 		return resources;
 	}
 
-	public RFSService getRFSService() {
+	public RFSService getRFSServiceFromTarget() {
 		final RFSService target = (RFSService) super.getTarget();
 		return target;
 	}
 
+	@Override
+	public int totalRag(RAG status) {
+		return ragForNodes.totalRag(status);
+	}
+	
 }

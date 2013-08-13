@@ -201,10 +201,10 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		this.stateModel = stateModel;
 	}
 
-//	public void setComputationContextProvider(
-//			MonitoringComputationContext contextProvider) {
-//		this.contextProvider = contextProvider;
-//	}
+	// public void setComputationContextProvider(
+	// MonitoringComputationContext contextProvider) {
+	// this.contextProvider = contextProvider;
+	// }
 
 	public String getPeriodFormattedString() {
 
@@ -241,7 +241,8 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	 */
 	public DateTimeRange getPeriod() {
 		DateTimeRange periodInContext = contextProvider.periodInContext();
-		if (periodInContext == null && PARAMETER_USE_GLOBAL_PERIOD) {
+		if ((periodInContext == null || modelUtils.periodUnset(periodInContext))
+				&& PARAMETER_USE_GLOBAL_PERIOD) {
 			periodInContext = PARAMETER_GLOBAL_PERIOD;
 		}
 		return periodInContext;

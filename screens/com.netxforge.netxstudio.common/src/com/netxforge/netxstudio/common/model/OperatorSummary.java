@@ -43,9 +43,6 @@ public class OperatorSummary extends RFSServiceSummary {
 		// Safely case, checked by our factory.
 		final Operator target = getTarget();
 
-		if (this.getRFSService() == null) {
-			this.addAdapter(target);
-		}
 		for (Service s : target.getServices()) {
 			if (s instanceof RFSService) {
 				computeForRFService((RFSService) s, monitor);

@@ -126,12 +126,11 @@ import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.context.ObjectContext;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
-import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateStateCallBack;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
 import com.netxforge.netxstudio.common.model.NetxresourceSummary;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
@@ -182,6 +181,7 @@ import com.netxforge.netxstudio.screens.editing.tables.FocusColumnToModelMap;
 import com.netxforge.netxstudio.screens.editing.tables.OpenTreeViewer;
 import com.netxforge.netxstudio.screens.editing.tables.TableHelper;
 import com.netxforge.netxstudio.screens.editing.tables.TreeViewerFocusBlockManager;
+import com.netxforge.netxstudio.screens.editing.util.AbstractMonitoringProcessor;
 import com.netxforge.netxstudio.screens.f1.support.ReportWizard;
 import com.netxforge.netxstudio.screens.f2.AdjustRangeDialog;
 import com.netxforge.netxstudio.screens.f2.CapacityEditingDialog;
@@ -1407,40 +1407,11 @@ public class SmartResources extends AbstractScreen implements
 	 * Maintains monitoring selection.
 	 * 
 	 */
-	final class MonitoringAggregate implements IValueChangeListener {
+	final class MonitoringAggregate extends AbstractMonitoringProcessor {
 
-		class WritableCallBack implements MonitoringStateStateCallBack {
-
-			private EObject target;
-
-			public WritableCallBack(EObject target) {
-				this.target = target;
-			}
-
-			public void callBackEvent(MonitoringStateEvent event) {
-				Object result = event.getResult();
-				if (result instanceof IMonitoringSummary) {
-
-					// We can't process the result, so fire a change for
-					// this
-					// object, which should
-					// force the viewer to query the alreayd installed and
-					// computed adapter.
-
-					Display.getDefault().asyncExec(new Runnable() {
-						public void run() {
-							updateValues(target);
-						}
-					});
-
-				}
-			}
-		};
-
-		/*
-		 * The current monitored service.
-		 */
-		private Service currentService = null;
+		public MonitoringAggregate(MonitoringStateModel monitoringStateModel) {
+			super(monitoringStateModel);
+		}
 
 		/*
 		 * The current monitored node.
@@ -1456,14 +1427,6 @@ public class SmartResources extends AbstractScreen implements
 		 * The current monitored resource.
 		 */
 		private NetXResource currentNetXResource = null;
-
-		/*
-		 * The current observed monitoring period. A period not clearly at
-		 * monitoring boundaries of Month, Week, Day might contain Monitoring
-		 * information (Like Markers) before and/or after the period.
-		 */
-		private DateTimeRange currentPeriod = GenericsFactory.eINSTANCE
-				.createDateTimeRange();
 
 		/**
 		 * Track the last value change which corresponds to the selection.
@@ -1510,36 +1473,8 @@ public class SmartResources extends AbstractScreen implements
 
 		}
 
-		private void cleanResourceMon(EObject monitoredObject) {
-			if (monitoredObject != null) {
 
-				// Remove the adapter for the previous resource.
-				if (MonitoringStateModel.isAdapted(monitoredObject)) {
-
-					IMonitoringSummary adapted = MonitoringStateModel
-							.getAdapted(monitoredObject);
-					monitoredObject.eAdapters().remove(adapted);
-				}
-			}
-		}
-
-		private void updateResourceMon(EObject monitoredObject) {
-
-			// The context not being set, has only implications on the
-			// the computation of the summary...
-			if (monitoredObject != null) {
-				// Do the summary, we might still be loading objects...
-				monitoringStateModel.summary(new WritableCallBack(
-						monitoredObject), monitoredObject,
-						new IComputationContext[] {
-								new ObjectContext<RFSService>(
-										(RFSService) getCurrentService()),
-								new ObjectContext<DateTimeRange>(
-										getCurrentPeriod()) });
-			}
-		}
-
-		private void updateValues(EObject target) {
+		protected void updateValues(EObject target) {
 			IMonitoringSummary adapted = MonitoringStateModel
 					.getAdapted(target);
 			if (adapted instanceof NetxresourceSummary) {
@@ -1556,14 +1491,6 @@ public class SmartResources extends AbstractScreen implements
 		}
 
 		// THE CURRENT SELECTIONS.
-
-		public DateTimeRange getCurrentPeriod() {
-			return currentPeriod;
-		}
-
-		public Service getCurrentService() {
-			return currentService;
-		}
 
 		public Node getCurrentNode() {
 			return currentNode;
@@ -1622,7 +1549,6 @@ public class SmartResources extends AbstractScreen implements
 			}
 			return netXResource;
 		}
-
 	}
 
 	/*
@@ -2090,7 +2016,7 @@ public class SmartResources extends AbstractScreen implements
 
 		contextAggregate = new ContextAggregate();
 
-		monitoringAggregate = new MonitoringAggregate();
+		monitoringAggregate = new MonitoringAggregate(monitoringStateModel);
 
 		bindComponentSelector(bindingContext);
 
@@ -2650,7 +2576,7 @@ public class SmartResources extends AbstractScreen implements
 	class NetXResourceObervableMapLabelProvider extends CellLabelProvider
 			implements ITableLabelProvider {
 
-		class LabelProviderCallBack implements MonitoringStateStateCallBack {
+		class LabelProviderCallBack implements MonitoringStateCallBack {
 
 			private EObject target;
 
@@ -2835,6 +2761,7 @@ public class SmartResources extends AbstractScreen implements
 				.getData(OperatorsPackage.Literals.OPERATOR);
 		
 		buildUI();
+		registerFocus(this);
 		initDataBindings_();
 		
 	}

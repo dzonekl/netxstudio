@@ -35,7 +35,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
-import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateStateCallBack;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -52,7 +52,7 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 	/** Our state Model **/
 	private MonitoringStateModel stateModel;
 
-	class LabelProviderCallBack implements MonitoringStateStateCallBack {
+	class LabelProviderCallBack implements MonitoringStateCallBack {
 
 		public void callBackEvent(MonitoringStateEvent event) {
 			Object result = event.getResult();
