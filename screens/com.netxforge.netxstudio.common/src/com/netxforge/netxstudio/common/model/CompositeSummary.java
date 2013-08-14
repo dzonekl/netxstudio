@@ -128,4 +128,7 @@ public class CompositeSummary implements IMonitoringSummary {
 		return false;
 	}
 
+	public void clearComputation() {
+	}
+
 }

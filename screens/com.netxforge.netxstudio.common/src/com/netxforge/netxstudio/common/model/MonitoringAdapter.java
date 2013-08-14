@@ -127,9 +127,21 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 			ragCount[RAG.AMBER.ordinal()] += ragForMarkers[RAG.AMBER.ordinal()];
 			ragCount[RAG.GREEN.ordinal()] += ragForMarkers[RAG.GREEN.ordinal()];
 		}
-
 	}
 
+	/**
+	 * The computation state model.
+	 */
+	protected enum ComputationState {
+		COMPUTED, NOT_COMPUTED
+	};
+
+	/**
+	 * The default state is {@link ComputationState}
+	 */
+	protected ComputationState computationState = ComputationState.NOT_COMPUTED;
+	
+	
 	public boolean getRedStatus() {
 		return summaryRag.rag(RAG.RED);
 	}
@@ -146,7 +158,8 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		summaryRag.incrementRag(ragForMarkers);
 	}
 
-	protected void cleanRag() {
+	public void clearComputation() {
+		computationState = ComputationState.NOT_COMPUTED;
 		summaryRag.cleanRag();
 	}
 
@@ -209,10 +222,14 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	public String getPeriodFormattedString() {
 
 		return getPeriod() != null ? modelUtils.periodToStringMore(this
-				.getPeriod()) : "Not set";
+				.getPeriod()) + isComputedText() : "Not set";
 	}
 
 	// COMPUTATION
+
+	private String isComputedText() {
+		return isComputed() ? " (C)" : " (NC)";
+	}
 
 	public void compute(IProgressMonitor monitor) {
 		computeForTarget(monitor);
@@ -225,8 +242,7 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	protected abstract void computeForTarget(IProgressMonitor monitor);
 
 	public boolean isComputed() {
-		return contextProvider.periodInContext() != null
-				&& this.getTarget() != null;
+		return computationState == ComputationState.COMPUTED;
 	}
 
 	// ADAPTATION.

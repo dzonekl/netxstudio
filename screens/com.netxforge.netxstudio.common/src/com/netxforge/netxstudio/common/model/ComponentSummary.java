@@ -38,23 +38,24 @@ import com.netxforge.netxstudio.operators.Marker;
  */
 public class ComponentSummary extends MonitoringAdapter {
 
-	public ComponentSummary() {
-	}
-
 	@Override
 	protected synchronized void computeForTarget(IProgressMonitor monitor) {
 
 		final Component target = getComponent();
 
-		// Clean previous computations.
-		cleanRag();
+		// Clear previous computations.
+		clearComputation();
 
 		final SubMonitor subMonitor = SubMonitor.convert(monitor,
 				totalResources());
 
 		subMonitor.setTaskName("Computing summary for "
 				+ modelUtils.printModelObject(getComponent()));
-
+		
+		
+		// count for computed resources. 
+		int computedResources = 0; 
+		
 		for (NetXResource netxresource : target.getResourceRefs()) {
 
 			if (monitor != null && monitor.isCanceled()) {
@@ -76,14 +77,22 @@ public class ComponentSummary extends MonitoringAdapter {
 				childAdapter.addContextObjects(this.getContextObjects());
 				childAdapter.compute(monitor);
 
-				// Base our RAG status, on the child's status
-				this.incrementRag(childAdapter.rag());
+				if (childAdapter.isComputed()) {
+					// Base our RAG status, on the child's status
+					this.incrementRag(childAdapter.rag());
+					computedResources++;
+				}
 			} else {
-				System.out.println("child not adapted! "
+				System.out.println("SHOULD NOT OCCUR: child not adapted! "
 						+ modelUtils.printModelObject(netxresource));
 			}
 			subMonitor.worked(1);
 		}
+		
+		if(computedResources == totalResources()){
+			computationState = ComputationState.COMPUTED;
+		}
+		
 	}
 
 	@Override

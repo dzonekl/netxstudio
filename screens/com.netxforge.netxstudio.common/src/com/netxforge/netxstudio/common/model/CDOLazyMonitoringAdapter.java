@@ -34,16 +34,19 @@ import org.eclipse.emf.spi.cdo.InternalCDOView;
 
 import com.google.common.collect.ImmutableList;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
-import com.netxforge.netxstudio.metrics.MetricValueRange;
 
 /**
  * A scalable {@link EContentAdapter content adapter} that uses CDO mechanism to
  * attach itself to {@link CDOObject objects} when they are lazily loaded. </p>
- * Changed to also register an object handler on any root EObject. Will not add
- * an adapter to, non-filtered {@link EClass} objects. as we only update the
- * monitor when Values are added to the container which is the
- * {@link MetricValueRange }
- * 
+ * Changed to also register an object handler on any root EObject. Uses a
+ * {@link MonitoringAdapterFactory factory} to self-adapt loaded objects
+ * considering the criteria of the implementation. </p> --Will self-adapt for
+ * non filtered {@link EClass object types} see {@link #isNotFiltered(EObject)}
+ * </p> --Will self-adapt for related {@link EObject objects} see
+ * {@link #isRelated(CDOObject)} </p> --Will attach the this adapter for
+ * {@link EClass object types} see {@link #isSameAdapterFor(EObject)} In te last
+ * case the target is not replaced, so the first {@link Notifier} holding the
+ * adapter will be the {@link #getTarget() target } of the adapter.
  * 
  * @author Victor Roldan Betancort
  * @author Christophe Bouhier
@@ -63,24 +66,16 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 	@Override
 	protected void setTarget(EObject target) {
 
-		// System.out.println("Currently Adapted: ");
-		// for (WeakReference<CDOObject> wr : adaptedObjects) {
-		// System.out.println(wr.get().cdoID());
-		// }
-
 		if (isConnectedObject(target)) {
 			if (adaptedRoot == null) {
 				adaptedRoot = new WeakReference<CDOObject>(
 						CDOUtil.getCDOObject(target));
 			}
-
 			// Do not change the target.
 			if (this.getTarget() == null) {
 				basicSetTarget(target);
-				// if (target instanceof Resource) {
 				addCleanObjectHandler(target);
 			}
-			// }
 		} else {
 			super.setTarget(target);
 		}
@@ -195,6 +190,12 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 			// type.
 
 			if (isSameAdapterFor((EObject) notifier)) {
+				// WARNING! The call to super addAdapter replaces the target of
+				// this adapter.
+				// (EAdapterList calls setTarget on this adapter, which calls
+				// basicSetTarget()
+				// The implication is that getTarget() yields an arbitrary
+				// result.
 				super.addAdapter(notifier);
 
 				if (CommonActivator.DEBUG) {
@@ -338,7 +339,8 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 
 	/**
 	 * When self-adapting, the implementation controls if child objects or
-	 * objects already connected should use the same adapter or not.
+	 * objects already connected should use the same adapter or not. Note: We do
+	 * not replace the target in contrary to {@link EContentAdapter}
 	 * 
 	 * @param object
 	 * @return
@@ -385,6 +387,16 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 				}
 
 			}
+		}
+	}
+
+	/**
+	 * Only set the target once for this adapter.
+	 */
+	@Override
+	protected void basicSetTarget(Notifier target) {
+		if (super.getTarget() == null) {
+			super.basicSetTarget(target);
 		}
 	}
 }

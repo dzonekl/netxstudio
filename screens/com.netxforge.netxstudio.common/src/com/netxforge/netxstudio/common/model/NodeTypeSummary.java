@@ -50,10 +50,12 @@ public class NodeTypeSummary extends MonitoringAdapter {
 	@Override
 	protected void computeForTarget(IProgressMonitor monitor) {
 
+		clearComputation();
+
 		// Safely case, checked by our factory.
 		final NodeType target = getNodeType();
 
-		// This is potentially expensive. 
+		// This is potentially expensive.
 		final TreeIterator<EObject> iterator = target.eAllContents();
 
 		// Might throw an Exception.
@@ -63,15 +65,22 @@ public class NodeTypeSummary extends MonitoringAdapter {
 		subMonitor.setTaskName("Computing summary for "
 				+ modelUtils.printModelObject(target));
 
+		int computedComponents = 0;  
+		int totalComponents = 0; 
+		
 		while (iterator.hasNext()) {
 			EObject next = iterator.next();
-			if (next instanceof Function) {
-				functions += 1;
-			} else if (next instanceof Equipment) {
-				equipments += 1;
-			}
 
 			if (next instanceof Component) {
+				
+				// for checking the total computed components. 
+				totalComponents++;
+				
+				if (next instanceof Function) {
+					functions += 1;
+				} else if (next instanceof Equipment) {
+					equipments += 1;
+				}
 
 				IMonitoringSummary childAdapter = this.getChildAdapter(next);
 
@@ -80,16 +89,23 @@ public class NodeTypeSummary extends MonitoringAdapter {
 					childAdapter.addContextObjects(this.getContextObjects());
 					childAdapter.compute(monitor);
 
-					// Base our RAG status, on the child's status
-					this.incrementRag(childAdapter.rag());
 					if (childAdapter instanceof ComponentSummary) {
 						resources += ((ComponentSummary) childAdapter)
 								.totalResources();
+					}
 
+					if (childAdapter.isComputed()) {
+						computedComponents++;
+						// Base our RAG status, on the child's status
+						this.incrementRag(childAdapter.rag());
 					}
 				}
 			}
 			subMonitor.worked(1);
+		}
+		
+		if(computedComponents == totalComponents){
+			computationState = ComputationState.COMPUTED;
 		}
 
 	}

@@ -88,4 +88,6 @@ public interface IMonitoringSummary extends IComputationContextProvider, Adapter
 	 * @return
 	 */
 	public DateTimeRange getPeriod();
+
+	void clearComputation();
 }

@@ -44,15 +44,19 @@ public class NetxresourceSummary extends MonitoringAdapter {
 
 	@Override
 	protected synchronized void computeForTarget(IProgressMonitor monitor) {
+			
+		clearComputation();
 		
 		// Set the context objects.
 		final RFSService rfsServiceInContext = getRFSService();
 		if (rfsServiceInContext == null) {
+			// COMPUTATION STATE => NOT-COMPUTED
 			return;
 		}
 
 		final DateTimeRange periodInContext = getPeriod();
 		if (periodInContext == null) {
+			// COMPUTATION STATE => NOT-COMPUTED
 			return;
 		}
 
@@ -69,9 +73,16 @@ public class NetxresourceSummary extends MonitoringAdapter {
 		toleranceMarkers.clear();
 		toleranceMarkers.addAll(modelUtils.markersInsidePeriod(
 				unfilteredToleranceMarkers, periodInContext));
-
+		
+		// Monitoring is not on or yields no markers when no markers are returned. 
+		// We can't really determine the computation state, so we assume the computation is valid.  
+		
 		// Base RAG computation on the tolerance markers.
 		this.setRag(stateModel.ragForMarkers(toleranceMarkers));
+		
+		
+		// COMPUTATION STATE => COMPUTED
+		computationState = ComputationState.COMPUTED;
 	}
 
 	public NetXResource getTarget() {
@@ -101,17 +112,5 @@ public class NetxresourceSummary extends MonitoringAdapter {
 	public List<Marker> markers() {
 		return toleranceMarkers;
 	}
-
-	public boolean isComputed() {
-		return super.isComputed() && toleranceMarkers != null;
-	}
-	
-//	@Override
-//	public String toString() {
-//		StringBuffer sb = new StringBuffer(super.toString());
-//		sb.append(" Summary for: " + getTarget().getShortName() );
-//		sb.append(" Markers: (" + toleranceMarkers.size() + ")");
-//		return sb.toString();
-//	}
 
 }

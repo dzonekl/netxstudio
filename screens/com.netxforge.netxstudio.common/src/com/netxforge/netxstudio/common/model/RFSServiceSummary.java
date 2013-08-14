@@ -35,7 +35,7 @@ import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 
 /**
- * A model object, showing the summary of a Service.
+ * A model object, holding the summary of a Service.
  * 
  * @author Christophe Bouhier
  * 
@@ -57,6 +57,8 @@ public class RFSServiceSummary extends MonitoringAdapter {
 
 	@Override
 	protected void computeForTarget(IProgressMonitor monitor) {
+
+		clearComputation();
 
 		final DateTimeRange periodInContext = getPeriod();
 		if (periodInContext == null) {
@@ -106,6 +108,8 @@ public class RFSServiceSummary extends MonitoringAdapter {
 		subMonitor.setTaskName("Computing summary for "
 				+ modelUtils.printModelObject(service));
 
+		int computedNodes = 0;
+		
 		nodes += service.getNodes().size();
 		for (Node node : service.getNodes()) {
 
@@ -121,18 +125,20 @@ public class RFSServiceSummary extends MonitoringAdapter {
 			//
 			// Guard for potentially non-adapted children.
 			if (childAdapter != null) {
-
-				childAdapter.addContextObjects(this.getContextObjects());
-				childAdapter.compute(monitor);
-
-				ragForNodes.incrementRag(childAdapter.rag());
-
+				
 				if (childAdapter instanceof NodeTypeSummary) {
-
 					NodeTypeSummary nodeTypeSummary = (NodeTypeSummary) childAdapter;
 					resources += nodeTypeSummary.totalResources();
 					functions += nodeTypeSummary.totalFunctions();
 					equipments += nodeTypeSummary.totalEquipments();
+				}
+				
+				childAdapter.addContextObjects(this.getContextObjects());
+				childAdapter.compute(monitor);
+
+				if (childAdapter.isComputed()) {
+					computedNodes++;
+					ragForNodes.incrementRag(childAdapter.rag());
 				}
 
 			} else {
@@ -142,7 +148,11 @@ public class RFSServiceSummary extends MonitoringAdapter {
 
 			monitor.worked(1);
 		}
-
+		
+		if(computedNodes == nodes){
+			computationState = ComputationState.COMPUTED;
+		}
+		
 		// Descend the Service Hierarchy for additional aggregation.
 		for (Service childService : service.getServices()) {
 			if (service instanceof RFSService) {
@@ -166,15 +176,16 @@ public class RFSServiceSummary extends MonitoringAdapter {
 	protected boolean isRelated(CDOObject object) {
 
 		// 1. Nodes should be referenced by the service. (Non-Containment).
-		// 2. NodeType should be adapted so contained by one of the nodes referenced 
-		// by the service. 
-		
+		// 2. NodeType should be adapted so contained by one of the nodes
+		// referenced
+		// by the service.
+
 		final RFSService rfsServiceFromTarget = getRFSServiceFromTarget();
-		
-		List<NodeType> nodeTypeForService = modelUtils.nodeTypeForService(rfsServiceFromTarget);
-		
-		return this.isContained(object)
-				|| nodeTypeForService.contains(object);
+
+		List<NodeType> nodeTypeForService = modelUtils
+				.nodeTypeForService(rfsServiceFromTarget);
+
+		return this.isContained(object) || nodeTypeForService.contains(object);
 	}
 
 	public int totalNodeRag(RAG status) {
@@ -214,5 +225,5 @@ public class RFSServiceSummary extends MonitoringAdapter {
 	public int totalRag(RAG status) {
 		return ragForNodes.totalRag(status);
 	}
-	
+
 }
