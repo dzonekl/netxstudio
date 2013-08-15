@@ -75,7 +75,7 @@ public class ComponentSummary extends MonitoringAdapter {
 			// Guard for potentially non-adapted children.
 			if (childAdapter != null) {
 				childAdapter.addContextObjects(this.getContextObjects());
-				childAdapter.compute(monitor);
+				childAdapter.compute(subMonitor.newChild(1));
 
 				if (childAdapter.isComputed()) {
 					// Base our RAG status, on the child's status

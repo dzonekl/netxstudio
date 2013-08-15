@@ -64,17 +64,14 @@ public class NodeTypeSummary extends MonitoringAdapter {
 		final SubMonitor subMonitor = SubMonitor.convert(monitor, work);
 		subMonitor.setTaskName("Computing summary for "
 				+ modelUtils.printModelObject(target));
-
+		SubMonitor newChild = subMonitor.newChild(work);
+		
 		int computedComponents = 0;  
-		int totalComponents = 0; 
 		
 		while (iterator.hasNext()) {
 			EObject next = iterator.next();
 
 			if (next instanceof Component) {
-				
-				// for checking the total computed components. 
-				totalComponents++;
 				
 				if (next instanceof Function) {
 					functions += 1;
@@ -87,7 +84,7 @@ public class NodeTypeSummary extends MonitoringAdapter {
 				// Guard for potentially non-adapted children.
 				if (childAdapter != null) {
 					childAdapter.addContextObjects(this.getContextObjects());
-					childAdapter.compute(monitor);
+					childAdapter.compute(newChild);
 
 					if (childAdapter instanceof ComponentSummary) {
 						resources += ((ComponentSummary) childAdapter)
@@ -99,12 +96,16 @@ public class NodeTypeSummary extends MonitoringAdapter {
 						// Base our RAG status, on the child's status
 						this.incrementRag(childAdapter.rag());
 					}
+				}else{
+					System.out.println("SHOULD NOT OCCUR: child not adapted! "
+							+ modelUtils.printModelObject(next));
+					
 				}
 			}
-			subMonitor.worked(1);
+			newChild.worked(1);
 		}
 		
-		if(computedComponents == totalComponents){
+		if(computedComponents == functions + equipments){
 			computationState = ComputationState.COMPUTED;
 		}
 

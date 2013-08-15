@@ -45,6 +45,7 @@ public class NetxresourceSummary extends MonitoringAdapter {
 	@Override
 	protected synchronized void computeForTarget(IProgressMonitor monitor) {
 			
+		
 		clearComputation();
 		
 		// Set the context objects.
@@ -59,10 +60,15 @@ public class NetxresourceSummary extends MonitoringAdapter {
 			// COMPUTATION STATE => NOT-COMPUTED
 			return;
 		}
+		
 
 		// Safely case, checked by our factory.
 		final NetXResource target = getTarget();
-
+		
+//		final SubMonitor subMonitor = SubMonitor.convert(monitor, 1);
+//		subMonitor.setTaskName("Computing summary for "
+//				+ modelUtils.printModelObject(target));
+		
 		// toleranceMarkersForServiceMonitorsAndResource = Compute the markers.
 		final List<Marker> unfilteredToleranceMarkers = stateModel
 				.toleranceMarkersForServiceMonitorsAndResource(
@@ -80,9 +86,11 @@ public class NetxresourceSummary extends MonitoringAdapter {
 		// Base RAG computation on the tolerance markers.
 		this.setRag(stateModel.ragForMarkers(toleranceMarkers));
 		
+		monitor.worked(1);
 		
 		// COMPUTATION STATE => COMPUTED
 		computationState = ComputationState.COMPUTED;
+		
 	}
 
 	public NetXResource getTarget() {

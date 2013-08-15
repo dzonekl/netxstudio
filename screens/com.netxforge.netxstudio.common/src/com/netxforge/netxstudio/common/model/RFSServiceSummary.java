@@ -134,19 +134,21 @@ public class RFSServiceSummary extends MonitoringAdapter {
 				}
 				
 				childAdapter.addContextObjects(this.getContextObjects());
-				childAdapter.compute(monitor);
-
+				SubMonitor newChild = subMonitor.newChild(1);
+				childAdapter.compute(newChild);
+				
+				
 				if (childAdapter.isComputed()) {
 					computedNodes++;
 					ragForNodes.incrementRag(childAdapter.rag());
 				}
-
+				newChild.worked(1);
 			} else {
 				// Self Adapt? Self-adaption should have happened when accessing
 				// the node.
 			}
 
-			monitor.worked(1);
+			
 		}
 		
 		if(computedNodes == nodes){

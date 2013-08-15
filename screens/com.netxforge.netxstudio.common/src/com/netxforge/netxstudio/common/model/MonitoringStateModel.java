@@ -405,6 +405,7 @@ public class MonitoringStateModel {
 
 	public IMonitoringSummary summary(IProgressMonitor monitor, Object target,
 			IComputationContext... context) {
+		
 		final IMonitoringSummary adapt;
 		if (!isAdapted((EObject) target)) {
 			// Adapt for the target, note this will also self-adapt the
