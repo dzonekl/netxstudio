@@ -46,7 +46,7 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 			ModelUtils modelUtils) {
 		super(locator, modelUtils);
 	}
-	
+
 	@Override
 	protected int processFile(File file) throws Exception {
 		final FileReader reader = new FileReader(file);
@@ -80,7 +80,8 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 						.eIsSet(MetricsPackage.Literals.MAPPING_CSV__DELIMITER) ? mapping
 				.getDelimiter() : DEFAULT_DELIMITER;
 
-		// Regex, splits quoted fragements separated by delimiter.
+		// Regex, splits quoted fragments separated by delimiter.
+		// The fancy regexp, also considers double quotes sometimes used.
 		Pattern p = Pattern.compile("(\".*?\"|[^" + delimiter + "]++)");
 		final List<String[]> localData = new ArrayList<String[]>();
 		String line;
@@ -142,7 +143,18 @@ public class CSVMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	@Override
 	protected String getStringCellValue(int row, int column) {
-		return data[row][column];
+		String dataEntry = data[row][column];
+
+		if (dataEntry == null) {
+			// Likely file corruption
+			// http://work.netxforge.com/issues/380
+			throw new IllegalStateException(
+					"Expecting a value, but the position (" + row + ","
+							+ column + ") is invalid");
+		} else {
+			return dataEntry;
+		}
+
 	}
 
 	@Override

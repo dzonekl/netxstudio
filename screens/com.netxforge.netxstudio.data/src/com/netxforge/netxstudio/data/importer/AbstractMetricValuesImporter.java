@@ -371,8 +371,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 									"Message too long for processing, trunked on 2000 characters!");
 				}
 			}
-			
-			
+
 			if (errorOccurred || getFailedRecords().size() > 0) {
 				jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);
 			} else {
@@ -392,7 +391,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			}
 
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
-			
+
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(DataActivator.TRACE_IMPORT_OPTION,
 						"Error Processing metricsource "
@@ -552,7 +551,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 				return rows;
 			}
 		}
-		
+
 		// Clear the run parameters.
 		setImportMessage("");
 		getFailedRecords().clear();
@@ -560,7 +559,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		setSubPeriodEstimate(new PeriodEstimate());
 		final long startTime = System.currentTimeMillis();
 		long endTime = startTime;
-		
+
 		// CB 13-01, changed to task, as msg, will be overwritten quickly.
 		jobMonitor.setTask("Processing file " + fileName);
 		jobMonitor.appendToLog("Processing file " + fileName);
@@ -594,9 +593,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		// Write the period estimate.
 		getSubPeriodEstimate().write(fileMappingStatistics);
 		parentStatistic.getSubStatistics().add(fileMappingStatistics);
-		
+
 		getRunPeriodEstimate().updatePeriodEstimate(getSubPeriodEstimate());
-		
+
 		// commit everything sofar in this transaction....
 		commitTransactionWithoutClosing();
 
@@ -932,8 +931,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		this.setImportMessage(new Integer(createdNetXResourcesCount).toString());
 		return totalRows;
 	}
-	
-	private void setSubPeriodEstimate(PeriodEstimate pe){
+
+	private void setSubPeriodEstimate(PeriodEstimate pe) {
 		subPeriodEstimate = pe;
 	}
 
@@ -1046,8 +1045,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			List<IComponentLocator.IdentifierDescriptor> descriptors, int rowNum) {
 		for (IComponentLocator.IdentifierDescriptor descriptor : descriptors) {
 			String dataValue = getStringCellValue(rowNum,
-					descriptor.getColumn()).trim();
-			descriptor.setIdentifier(dataValue);
+					descriptor.getColumn());
+			descriptor.setIdentifier(dataValue.trim());
 		}
 	}
 
@@ -1199,10 +1198,10 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		 */
 		public void write(MappingStatistic mappingStat) {
 
-			// Make sure our estimate is set, otherwise bail out. 
+			// Make sure our estimate is set, otherwise bail out.
 			if (metricPeriodEstimateBegin == null
 					|| metricPeriodEstimateEnd == null) {
-				return; 
+				return;
 			}
 
 			final DateTimeRange metricPeriodEstimate = GenericsFactory.eINSTANCE
@@ -1398,11 +1397,16 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			List<IComponentLocator.IdentifierDescriptor> allIdentifiers,
 			final StringBuilder sb) {
 		for (final IComponentLocator.IdentifierDescriptor idValue : allIdentifiers) {
-			sb.append(idValue.getColumn() + ":"
-					+ idValue.getKind().getObjectKind().getName() + ":"
-					+ idValue.getObjectProperty() + ":"
-					+ idValue.getIdentifier() + ":" + idValue.getPattern()
-					+ "\n");
+			sb.append(idValue.getColumn()
+					+ ":"
+					+ idValue.getKind().getObjectKind().getName()
+					+ ":"
+					+ idValue.getObjectProperty()
+					+ ":"
+					+ idValue.getIdentifier()
+					+ ":"
+					+ (idValue.getPattern() != null ? idValue.getPattern()
+							: "N/A") + "\n");
 		}
 	}
 
@@ -1922,9 +1926,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	/**
 	 * Delegate to the currently set helper.
 	 */
-	public void addToValueRange(NetXResource foundNetXResource, int intervalHint,
-			KindHintType kindHintType, List<Value> newValues, Date start,
-			Date end) {
+	public void addToValueRange(NetXResource foundNetXResource,
+			int intervalHint, KindHintType kindHintType, List<Value> newValues,
+			Date start, Date end) {
 		if (helper != null) {
 			this.helper.addToValueRange(foundNetXResource, intervalHint,
 					kindHintType, newValues, start, end);

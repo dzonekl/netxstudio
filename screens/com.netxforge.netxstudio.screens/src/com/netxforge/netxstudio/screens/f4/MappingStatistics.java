@@ -870,12 +870,13 @@ public class MappingStatistics extends AbstractScreen implements
 
 			String errorDescription;
 
-			public String lookupError(String code) {
+			public int code(String code) {
 				try {
 					Integer codeAsInt = new Integer(code);
-					return IMetricValueImporter.IMPORT_ERROR_TEXT[codeAsInt];
+					return codeAsInt;
 				} catch (NumberFormatException nfe) {
-					return "Mapping error code not supported (Old Format)";
+					// Mapping error code not supported (Old Format);
+					return -1;
 				}
 			}
 
@@ -895,13 +896,18 @@ public class MappingStatistics extends AbstractScreen implements
 						if (firstLine) {
 							// This should be the error code.
 							String string = split[0];
-							errorDescription = lookupError(string);
-							String[] reducedWithoutError = Arrays.copyOfRange(
-									split, 1, split.length - 1);
+							int code = code(string);
+							if (code != -1) {
+								errorDescription = IMetricValueImporter.IMPORT_ERROR_TEXT[code];
+								String[] reducedWithoutError = Arrays
+										.copyOfRange(split, 1, split.length);
 
-							processErrorDescription(sb, errorDescription);
-							processLines(sb, reducedWithoutError);
-
+								processErrorDescription(sb, errorDescription);
+								processLinesHeader(sb, code);
+								processLines(sb, reducedWithoutError);
+							} else {
+								sb.append(string);
+							}
 							firstLine = false;
 						} else {
 							processLines(sb, split);
@@ -913,6 +919,15 @@ public class MappingStatistics extends AbstractScreen implements
 				return sb.toString();
 
 			}
+
+			/**
+			 * Process the error lines header. Pass on the the error type.
+			 * 
+			 * @param sb
+			 * @param code
+			 */
+			protected abstract void processLinesHeader(StringBuilder sb,
+					int code);
 
 			protected abstract void processErrorDescription(StringBuilder sb,
 					String errorDescription);
@@ -949,6 +964,17 @@ public class MappingStatistics extends AbstractScreen implements
 							sb.append("<td>" + s + "</td>");
 						}
 						sb.append("</tr>");
+					}
+
+					@Override
+					protected void processLinesHeader(StringBuilder sb,
+							int errorCode) {
+						switch(errorCode){
+						case 0:
+						case 1:
+						case 2:
+							sb.append("<th>#</th><th>Id type</th><th>Property</th><th>Value</th><th>Pattern</th>");
+						}
 					}
 
 				}.spiltMappingRecordMsg(mr, sb);
@@ -1015,6 +1041,12 @@ public class MappingStatistics extends AbstractScreen implements
 							for (String s : splits) {
 								sb.append(s + " - ");
 							}
+						}
+
+						@Override
+						protected void processLinesHeader(StringBuilder sb,
+								int string) {
+							// DO NOTHING.
 						}
 
 					}.spiltMappingRecordMsg(mr, sb);
