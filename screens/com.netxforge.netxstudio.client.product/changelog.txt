@@ -1,5 +1,9 @@
 NetXStudio Client Change log.
 
+1.1.7
+http://work.netxforge.com/issues/380
+http://work.netxforge.com/issues/379
+
 1.1.6
 http://work.netxforge.com/issues/378
 http://work.netxforge.com/issues/377
