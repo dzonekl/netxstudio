@@ -1,8 +1,10 @@
 NetXStudio Server Change log.
 
 1.1.7
+http://work.netxforge.com/issues/381
 http://work.netxforge.com/issues/380
 http://work.netxforge.com/issues/379
+http://work.netxforge.com/issues/374
 http://work.netxforge.com/issues/371
 
 1.1.6
