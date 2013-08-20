@@ -337,7 +337,7 @@ public interface IComponentMappingIndex {
 
 			// walk the path and make string out of it.
 			for (Map<String, String> pathNode : componentPath) {
-				sb.append(": {");
+				sb.append(" --> {");
 				for (Entry<String, String> entry : pathNode.entrySet()) {
 					sb.append("(" + entry.getKey() + "," + entry.getValue()
 							+ ")");

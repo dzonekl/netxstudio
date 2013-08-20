@@ -4263,6 +4263,12 @@ public class ModelUtils {
 			System.out.println("-- delta=" + fd);
 		}
 	}
+	
+	public void cdoPrintRevisionDelta(StringBuffer sb, CDORevisionDelta delta) {
+		for (CDOFeatureDelta fd : delta.getFeatureDeltas()) {
+			sb.append("-- delta=" + fd);
+		}
+	}
 
 	/**
 	 * Extract the EReference's with referen type is Expression from a target
@@ -5064,7 +5070,13 @@ public class ModelUtils {
 		}
 		return components;
 	}
-
+	
+	
+	/**
+	 * all child {@link Component} including self. 
+	 * @param c
+	 * @return
+	 */
 	public List<Component> componentsForComponent(Component c) {
 		final List<Component> components = new ArrayList<Component>();
 		components.add(c);

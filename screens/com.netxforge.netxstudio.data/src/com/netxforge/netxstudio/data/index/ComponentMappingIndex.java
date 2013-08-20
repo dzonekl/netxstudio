@@ -18,6 +18,7 @@
 package com.netxforge.netxstudio.data.index;
 
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -253,35 +254,34 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 		}
 
 		private void updateIndexForComponentBranch(Component... components) {
-			// get all entries.
+
+			// Rebuild all entries for this branch, clear the branch from the
+			// index first.
 
 			for (Component rootComponent : components) {
 				List<Component> componentsForComponent = modelUtils
 						.componentsForComponent(rootComponent);
 				for (Component c1 : componentsForComponent) {
-
 					ComponentIndexEntry entryForComponent = entryForComponent(c1);
 					if (entryForComponent != null) {
+						entryForComponent.update(c1); // Just update the entry.
 						if (DataActivator.DEBUG) {
 							DataActivator.TRACE.trace(
 									DataActivator.TRACE_COMPONENT_INDEX_OPTION,
-									"updating entry");
+									"updating entry: " + entryForComponent);
 						}
-						entryForComponent.update(c1); // Just update the entry.
 					} else {
 						entryForComponent = ComponentIndexEntry.valueFor(c1);
-
 						if (entryForComponent != null) {
+							// Add to our value cache.
+							cachedIndex.add(entryForComponent);
 							if (DataActivator.DEBUG) {
 								DataActivator.TRACE
 										.trace(DataActivator.TRACE_COMPONENT_INDEX_OPTION,
-												"adding entry");
+												"adding entry: " + entryForComponent);
 							}
-							// Add to our value cache.
-							cachedIndex.add(entryForComponent);
 						}
 					}
-					// System.out.println(entryForComponent.toString());
 				}
 			}
 		}
@@ -294,19 +294,23 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 
 			if (event instanceof CDOViewInvalidationEvent) {
 				final CDOViewInvalidationEvent invalidationEvent = (CDOViewInvalidationEvent) event;
-				// only check changed objects, in case of:
-				// removal: the CDO resource is updated
-				// insert: the CDO resource is update
-				// update: the object itself is updated
 
-				for (CDOObject object : invalidationEvent.getRevisionDeltas()
-						.keySet()) {
-					System.out.println("Invalidation event (: " + object + ")");
-					CDORevisionDelta cdoRevisionDelta = invalidationEvent
-							.getRevisionDeltas().get(object);
-					// The revision delta is not necessarily available.
-					if (cdoRevisionDelta != null) {
-						modelUtils.cdoPrintRevisionDelta(cdoRevisionDelta);
+				if (DataActivator.DEBUG) {
+
+					for (CDOObject object : invalidationEvent
+							.getRevisionDeltas().keySet()) {
+						CDORevisionDelta cdoRevisionDelta = invalidationEvent
+								.getRevisionDeltas().get(object);
+
+						// The revision delta is not necessarily available.
+						if (cdoRevisionDelta != null) {
+							StringBuffer sb = new StringBuffer();
+							modelUtils.cdoPrintRevisionDelta(sb,
+									cdoRevisionDelta);
+							DataActivator.TRACE.trace(
+									DataActivator.TRACE_COMPONENT_INDEX_OPTION,
+									sb.toString());
+						}
 					}
 				}
 
@@ -316,38 +320,105 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 							"updating index : " + invalidationEvent);
 				}
 
-				for (CDOObject o : invalidationEvent.getDirtyObjects()) {
-					if (o instanceof Component) {
-						updateIndexForComponentBranch((Component) o);
-					} else if (o instanceof Node) {
-						// We might be changing Node ID, which should be
-						// indexed, this would invalidate the whole all
-						// components in this node.
-						if (o.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
-							List<Component> components = Lists.newArrayList();
-							components.addAll(((Node) o).getNodeType()
-									.getEquipments());
-							components.addAll(((Node) o).getNodeType()
-									.getFunctions());
-							updateIndexForComponentBranch(components
-									.toArray(new Component[components.size()]));
-						} else {
-							// If we remove the node type, we will have many
-							// entries which should be removed.
-						}
-					} else if (o instanceof NodeType) {
-						// Check that we are a NodeType in a Node instance, we
-						// do not index the types as such.
-						// will not occure, different CDOResource.
-						Node nodeFor = modelUtils.nodeFor(o);
-						if (nodeFor != null) {
-							List<Component> components = Lists.newArrayList();
-							components.addAll(((NodeType) o).getEquipments());
-							components.addAll(((NodeType) o).getFunctions());
-							updateIndexForComponentBranch(components
-									.toArray(new Component[components.size()]));
+				// Do we have detached? Remove from the index.
+				// Detached objects returns all detached objects, so we just remove them from the 
+				// index one by one. Note that the parent will also be notified being dirty, 
+				// so the re-indexing of the parent will occur further below. 
+				final Set<CDOObject> detachedObjects = invalidationEvent
+						.getDetachedObjects();
+
+				if (!detachedObjects.isEmpty()) {
+					if (DataActivator.DEBUG) {
+
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_COMPONENT_INDEX_OPTION,
+								"processing detached objects : "
+										+ detachedObjects);
+					}
+					
+					for( CDOObject o : detachedObjects){
+						if( o instanceof Component){
+							clearIndexForComponentBranch((Component)o);
 						}
 					}
+					
+				}
+
+				// Do we have dirty? Update the index .
+				final Set<CDOObject> dirtyObjects = invalidationEvent
+						.getDirtyObjects();
+
+				if (!dirtyObjects.isEmpty()) {
+
+					for (CDOObject o : dirtyObjects) {
+						if (o instanceof Component) {
+							updateIndexForComponentBranch((Component) o);
+						} else if (o instanceof Node) {
+							// We might be changing Node ID, which should be
+							// indexed, this would invalidate the whole all
+							// components in this node.
+							if (o.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
+								List<Component> components = Lists
+										.newArrayList();
+								components.addAll(((Node) o).getNodeType()
+										.getEquipments());
+								components.addAll(((Node) o).getNodeType()
+										.getFunctions());
+								updateIndexForComponentBranch(components
+										.toArray(new Component[components
+												.size()]));
+							} else {
+								// If we remove the node type, we will have many
+								// entries which should be removed.
+							}
+						} else if (o instanceof NodeType) {
+							// Check that we are a NodeType in a Node instance,
+							// we
+							// do not index the types as such.
+							// will not occure, different CDOResource.
+							Node nodeFor = modelUtils.nodeFor(o);
+							if (nodeFor != null) {
+								List<Component> components = Lists
+										.newArrayList();
+								components.addAll(((NodeType) o)
+										.getEquipments());
+								components
+										.addAll(((NodeType) o).getFunctions());
+								updateIndexForComponentBranch(components
+										.toArray(new Component[components
+												.size()]));
+							}
+						}
+					}
+				}
+
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_COMPONENT_INDEX_OPTION,
+							"index size after update : " + size());
+				}
+
+			}
+		}
+
+		private void clearIndexForComponentBranch(Component c) {
+			ComponentIndexEntry entryForComponent = entryForComponent(c);
+			if (entryForComponent != null) {
+				
+				boolean remove = cachedIndex.remove(entryForComponent);
+				if(remove){
+					if (DataActivator.DEBUG) {
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_COMPONENT_INDEX_OPTION,
+								"removed entry: " + entryForComponent);
+					}
+				}else{
+					if (DataActivator.DEBUG) {
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_COMPONENT_INDEX_OPTION,
+								"failed to remove entry: " + entryForComponent);
+					}
+					
 				}
 			}
 		}
@@ -390,21 +461,19 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 	 * 
 	 */
 	public ComponentIndexEntry entryForComponent(Component c) {
-		if (isIndexing()) {
-			return null;
-		}
 
 		final CDOID cdoID = c.cdoID();
 		return entryForComponent(cdoID);
 	}
 
 	private ComponentIndexEntry entryForComponent(final CDOID cdoID) {
+
 		if (isIndexing()) {
-			return null;
+			// CB Proceed anyway, as we actually set indexing.
 		}
 
-		Iterable<ComponentIndexEntry> filter = Iterables.filter(cachedIndex,
-				new Predicate<ComponentIndexEntry>() {
+		Iterable<ComponentIndexEntry> filter = Iterables.filter(
+				getChachedIndex(), new Predicate<ComponentIndexEntry>() {
 					public boolean apply(ComponentIndexEntry entry) {
 						return entry.getComponentID().equals(cdoID);
 					}
@@ -415,4 +484,9 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 		}
 		return null;
 	}
+
+	private synchronized List<ComponentIndexEntry> getChachedIndex() {
+		return cachedIndex;
+	}
+
 }

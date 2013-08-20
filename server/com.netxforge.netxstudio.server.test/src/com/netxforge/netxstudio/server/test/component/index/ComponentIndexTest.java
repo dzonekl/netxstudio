@@ -70,25 +70,17 @@ public class ComponentIndexTest extends AbstractInjectedTestJUnit4 {
 		System.out.println("index creation took "
 				+ modelUtils.timeDurationNanoFromStart(nanoTime));
 
-		// print it.
-		// String string = index.toString();
-		// System.out.println(string);
-
 		int size = index.size();
 
 		CDOID cdoIDFor = cdoIDFor(OperatorsPackage.Literals.NODE,
 				TESTNETWORK_OID);
+		
 		Network network = (Network) provider.getTransaction().getObject(
 				cdoIDFor);
 
 		NodeType createNodeType = LibraryFactory.eINSTANCE.createNodeType();
 		createNodeType.setName("testNodeType");
 		
-//		Resource nodeTypeResource = provider
-//				.getResource(LibraryPackage.Literals.NODE_TYPE);
-//		nodeTypeResource.getContents().add(createNodeType);
-//		nodeTypeResource.save(null);
-
 		// Should not affect the
 		Node newNode = newNode(network, createNodeType, "testNode");
 
@@ -97,7 +89,9 @@ public class ComponentIndexTest extends AbstractInjectedTestJUnit4 {
 		// Wait...
 		waitForIndexing();
 
-		// Adding a node should not increase the size.
+		// Adding a node should not increase the size, 
+		// because no resources can be added to a node alone, 
+		// components are needed. 
 		Assert.assertEquals(size, index.size());
 
 		Equipment newEquipment = newEquipment(newNode, "testEq1", "testCode1");
@@ -108,39 +102,6 @@ public class ComponentIndexTest extends AbstractInjectedTestJUnit4 {
 		
 		Assert.assertEquals(size + 1, index.size());
 		
-		// // find a component, by producing descriptors for it.
-		// final List<IdentifierDescriptor> descriptors = Lists.newArrayList();
-		//
-		// {
-		// {
-		// IdentifierDataKind nodeIDK = nodeIDK();
-		// Pattern pattern = Pattern.compile("arnstp01");
-		// IdentifierDescriptor d1 = IComponentLocator.IdentifierDescriptor
-		// .valueFor(nodeIDK, pattern, 100);
-		//
-		// descriptors.add(d1);
-		// }
-		// {
-		// IdentifierDataKind functionIDK = functionIDK("Name");
-		// Pattern pattern = Pattern.compile("Signaling");
-		// IdentifierDescriptor d2 = IComponentLocator.IdentifierDescriptor
-		// .valueFor(functionIDK, pattern, 100);
-		//
-		// descriptors.add(d2);
-		// }
-		//
-		// }
-		//
-		// // Find the component with Metric.
-		// // TODO, dig up a relevant Metric.
-		//
-		// List<Component> componentsForIdentifiers = index
-		// .componentsForIdentifiers(null, descriptors);
-		//
-		// for (Component c : componentsForIdentifiers) {
-		// System.err.println(modelUtils.printModelObject(c));
-		// }
-
 		removeEquipment(newNode, newEquipment);
 		removeNode(network, newNode);
 //		nodeTypeResource.getContents().remove(createNodeType);
