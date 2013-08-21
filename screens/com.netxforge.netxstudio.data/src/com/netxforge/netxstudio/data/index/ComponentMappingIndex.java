@@ -49,6 +49,7 @@ import com.netxforge.netxstudio.data.importer.IComponentLocator.IdentifierDescri
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -278,7 +279,8 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 							if (DataActivator.DEBUG) {
 								DataActivator.TRACE
 										.trace(DataActivator.TRACE_COMPONENT_INDEX_OPTION,
-												"adding entry: " + entryForComponent);
+												"adding entry: "
+														+ entryForComponent);
 							}
 						}
 					}
@@ -341,7 +343,6 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 							clearIndexForComponentBranch((Component)o);
 						}
 					}
-					
 				}
 
 				// Do we have dirty? Update the index .
@@ -353,24 +354,14 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 					for (CDOObject o : dirtyObjects) {
 						if (o instanceof Component) {
 							updateIndexForComponentBranch((Component) o);
+						} else if (o instanceof Network) {
+							// For a network update, we should rebuild all components, under each node branch.
+							updateIndexForNetwork((Network) o);
 						} else if (o instanceof Node) {
 							// We might be changing Node ID, which should be
 							// indexed, this would invalidate the whole all
 							// components in this node.
-							if (o.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
-								List<Component> components = Lists
-										.newArrayList();
-								components.addAll(((Node) o).getNodeType()
-										.getEquipments());
-								components.addAll(((Node) o).getNodeType()
-										.getFunctions());
-								updateIndexForComponentBranch(components
-										.toArray(new Component[components
-												.size()]));
-							} else {
-								// If we remove the node type, we will have many
-								// entries which should be removed.
-							}
+							updateIndexForNode((Node) o);
 						} else if (o instanceof NodeType) {
 							// Check that we are a NodeType in a Node instance,
 							// we
@@ -401,24 +392,49 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 			}
 		}
 
+		/**
+		 * @param o
+		 */
+		private void updateIndexForNetwork(Network net) {
+			for (Node n : net.getNodes()) {
+				updateIndexForNode(n);
+			}
+			for (Network netChild : net.getNetworks()) {
+				updateIndexForNetwork(netChild);
+			}
+		}
+
+		private void updateIndexForNode(Node n) {
+			if (n.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
+				List<Component> components = Lists.newArrayList();
+				components.addAll(n.getNodeType().getEquipments());
+				components.addAll(n.getNodeType().getFunctions());
+				updateIndexForComponentBranch(components
+						.toArray(new Component[components.size()]));
+			} else {
+				// If we remove the node type, we will have many
+				// entries which should be removed.
+			}
+		}
+
 		private void clearIndexForComponentBranch(Component c) {
 			ComponentIndexEntry entryForComponent = entryForComponent(c);
 			if (entryForComponent != null) {
-				
+
 				boolean remove = cachedIndex.remove(entryForComponent);
-				if(remove){
+				if (remove) {
 					if (DataActivator.DEBUG) {
 						DataActivator.TRACE.trace(
 								DataActivator.TRACE_COMPONENT_INDEX_OPTION,
 								"removed entry: " + entryForComponent);
 					}
-				}else{
+				} else {
 					if (DataActivator.DEBUG) {
 						DataActivator.TRACE.trace(
 								DataActivator.TRACE_COMPONENT_INDEX_OPTION,
 								"failed to remove entry: " + entryForComponent);
 					}
-					
+
 				}
 			}
 		}
