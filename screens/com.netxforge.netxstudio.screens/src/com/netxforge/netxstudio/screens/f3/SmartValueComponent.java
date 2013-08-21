@@ -376,7 +376,10 @@ public class SmartValueComponent {
 
 		viewerComponent.clearFilter(); // Will not fall back to the remembered
 										// items.
-		viewerComponent.applyFilter(); // Reapply.
+
+		if (from != null && to != null) {
+			viewerComponent.applyFilter(); // Reapply.
+		}
 	}
 
 	/**
@@ -769,10 +772,10 @@ public class SmartValueComponent {
 		 */
 		private Marker markerForDate(Date d) {
 
-			if(getMarkers() == null){
+			if (getMarkers() == null) {
 				return null;
 			}
-			
+
 			ImmutableList<Marker> copyOfMarkers = ImmutableList
 					.copyOf(getMarkers());
 
