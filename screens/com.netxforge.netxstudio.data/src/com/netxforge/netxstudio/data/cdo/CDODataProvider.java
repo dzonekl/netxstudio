@@ -333,9 +333,21 @@ public abstract class CDODataProvider implements IDataProvider {
 		// in our session and resource set.
 
 		final CDOView[] views = this.getSession().getViews();
+
+		// Resourceset has matched at least once.
+		boolean setMatch = false;
+
+		// Views which match this set.
+		final List<CDOView> viewsMatchingSet = Lists.newArrayList();
+
 		for (int i = 0; i < views.length; i++) {
 			final CDOView view = views[i];
 			if (view.getResourceSet().equals(set)) {
+
+				// Track which views have this set.
+				viewsMatchingSet.add(view);
+
+				setMatch = true;
 
 				if (view.hasResource(resourcePath)) {
 					final CDOResource resource = view.getResource(resourcePath);
@@ -357,11 +369,24 @@ public abstract class CDODataProvider implements IDataProvider {
 			}
 		}
 
-		// We don't have a view, so let's open one.
-		final CDOTransaction transaction = getSession().openTransaction(set);
-		final CDOResource resource = transaction
-				.getOrCreateResource(resourcePath);
-		return resource;
+		// We can't create a CDOView/CDOTransaction for a resourceset which is
+		// already
+		// connected to an existing CDOView/CDOTransaction.
+		if (!setMatch) {
+
+			// We don't have a view, so let's open one.
+			final CDOTransaction transaction = getSession()
+					.openTransaction(set);
+			final CDOResource resource = transaction
+					.getOrCreateResource(resourcePath);
+			return resource;
+		} else {
+			// Resource not satisfied.
+			throw new IllegalStateException("The requested CDOResource: "
+					+ resourcePath
+					+ " should have been created with one of the views in: "
+					+ viewsMatchingSet);
+		}
 	}
 
 	public Resource getResource(CDOView view, EClass feature) {
