@@ -22,21 +22,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.databinding.observable.list.ComputedList;
-import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.IEMFListProperty;
-import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -59,6 +58,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -66,9 +66,12 @@ import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
+import com.netxforge.netxstudio.screens.editing.CDOEditingService;
+import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 
@@ -78,7 +81,7 @@ import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
  * @author Christophe Bouhier
  * 
  */
-public class LazyResourcesComponent {
+public class DisconnectedResourcesComponent {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
@@ -98,7 +101,7 @@ public class LazyResourcesComponent {
 	 * @param style
 	 */
 	@Inject
-	public LazyResourcesComponent(ModelUtils modelUtils) {
+	public DisconnectedResourcesComponent(ModelUtils modelUtils) {
 		this.modelUtils = modelUtils;
 	}
 
@@ -165,7 +168,6 @@ public class LazyResourcesComponent {
 		toolkit.paintBordersFor(table);
 
 		buildColumns();
-		initDataBindings_();
 	}
 
 	private void buildColumns() {
@@ -354,17 +356,76 @@ public class LazyResourcesComponent {
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
-		resourcesTableViewer.setContentProvider(new LazyListContentProvider());
-		resourcesTableViewer
-				.setLabelProvider(new NetXResourceProvider());
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		resourcesTableViewer.setContentProvider(listContentProvider);
 
+		final IObservableSet knownElements = listContentProvider
+				.getKnownElements();
+
+		List<IObservableMap> maps = Lists.newArrayList();
+
+		maps.add(EMFProperties.value(
+				MetricsPackage.Literals.METRIC_SOURCE__NAME).observeDetail(
+				knownElements));
+
+		maps.add(EMFProperties.value(
+				MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION)
+				.observeDetail(knownElements));
+
+		maps.add(EMFProperties.value(
+				MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING)
+				.observeDetail(knownElements));
+
+		IObservableMap[] observeMaps = new IObservableMap[maps.size()];
+		maps.toArray(observeMaps);
+
+		resourcesTableViewer
+				.setLabelProvider(new NetXResourceProvider(
+						observeMaps));
+
+		// Compute the disconnected resources. 
+		ComputedList computedResourceList = new ComputedList() {
+			@Override
+			protected List<Object> calculate() {
+				List<NetXResource> updateDisconnectedResources = updateDisconnectedResources();
+				List<Object> result = Lists.newArrayList();
+				result.addAll(updateDisconnectedResources);
+				return result;
+			}
+		};
+
+		resourcesTableViewer.setInput(computedResourceList);
 		return bindingContext;
 	}
 
-	class NetXResourceProvider extends CellLabelProvider
-			implements ITableLabelProvider {
+	/**
+	 * Query based retrieval of {@link NetXResource} objects from
+	 * {@link IQueryService#getUnconnectedResources(CDOView, String)}
+	 * 
+	 * @return
+	 */
+	private List<NetXResource> updateDisconnectedResources() {
 
-		public NetXResourceProvider() {
+		final IQueryService queryService = screenService.getEditingService()
+				.getDataService().getQueryService();
+		IEditingService editingService = screenService.getEditingService();
+		final CDOView view;
+
+		if (editingService instanceof CDOEditingService
+				&& ((CDOEditingService) editingService).getView() != null) {
+			view = ((CDOEditingService) editingService).getView();
+			List<NetXResource> unconnectedResources = queryService
+					.getUnconnectedResources(view, IQueryService.QUERY_MYSQL);
+			return unconnectedResources;
+		}
+
+		return null;
+	}
+
+	class NetXResourceProvider extends ObservableMapLabelProvider {
+
+		public NetXResourceProvider(IObservableMap[] attributeMaps) {
+			super(attributeMaps);
 		}
 
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -459,61 +520,6 @@ public class LazyResourcesComponent {
 			}
 			return "";
 		}
-
-		@Override
-		public void update(ViewerCell cell) {
-			cell.setText(getColumnText(cell.getElement(), cell.getColumnIndex()));
-
-		}
-	}
-
-	/**
-	 * Inject our components with CDO Resources which should hold NetXResource
-	 * objects. Note that, the any other object contained in the CDO Resource,
-	 * will be dealt with by the content provider of the viewer.
-	 * 
-	 * @param bind
-	 * @param cdoResources
-	 */
-	public void injectDataWithCDOResources(boolean bind,
-			final List<Resource> cdoResources) {
-
-		if (bind) {
-			initDataBindings_();
-		}
-
-		final IEMFListProperty computedProperties = EMFEditProperties
-				.resource(screenService.getEditingService().getEditingDomain());
-
-		ComputedList computedResourceList = new ComputedList() {
-			@SuppressWarnings("unchecked")
-			@Override
-			protected List<Object> calculate() {
-				List<Object> result = Lists.newArrayList();
-				for (Resource r : cdoResources) {
-					IObservableList observableList = computedProperties
-							.observe(r);
-					result.addAll(observableList);
-				}
-				return result;
-			}
-		};
-		resourcesTableViewer.setInput(computedResourceList);
-
-	}
-
-	/**
-	 * 
-	 * @param bind
-	 *            Force initializing of bindings.
-	 * @param unconnectedResources
-	 */
-	public void injectData(final List<NetXResource> unconnectedResources) {
-
-		// Whenever we are lazy, set the item count.
-		resourcesTableViewer.setItemCount(unconnectedResources.size());
-		resourcesTableViewer.setInput(unconnectedResources);
-
 	}
 
 	public Viewer getViewer() {

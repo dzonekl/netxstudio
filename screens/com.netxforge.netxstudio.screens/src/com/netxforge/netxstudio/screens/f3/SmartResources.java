@@ -37,7 +37,6 @@ import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.eresource.CDOResource;
-import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -132,7 +131,6 @@ import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
 import com.netxforge.netxstudio.common.model.NetxresourceSummary;
-import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -165,10 +163,8 @@ import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
 import com.netxforge.netxstudio.screens.ScreenDialog;
 import com.netxforge.netxstudio.screens.ch9.ObjectExpressions;
 import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
-import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.EMFEditingService;
 import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
@@ -185,9 +181,9 @@ import com.netxforge.netxstudio.screens.editing.util.AbstractMonitoringProcessor
 import com.netxforge.netxstudio.screens.f1.support.ReportWizard;
 import com.netxforge.netxstudio.screens.f2.AdjustRangeDialog;
 import com.netxforge.netxstudio.screens.f2.CapacityEditingDialog;
+import com.netxforge.netxstudio.screens.f2.DisconnectedResourcesComponent;
 import com.netxforge.netxstudio.screens.f2.ExpressionContextDialog;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
-import com.netxforge.netxstudio.screens.f2.LazyResourcesComponent;
 import com.netxforge.netxstudio.screens.f2.NewEditResource;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 import com.netxforge.netxstudio.screens.showins.ChartInput;
@@ -238,7 +234,7 @@ public class SmartResources extends AbstractScreen implements
 	private SmartValueComponent cmpValues;
 
 	@Inject
-	private LazyResourcesComponent cmpResources;
+	private DisconnectedResourcesComponent cmpResources;
 
 	@Inject
 	private PeriodComponent cmpPeriod;
@@ -1900,10 +1896,7 @@ public class SmartResources extends AbstractScreen implements
 
 		@Override
 		public void run() {
-			List<NetXResource> disconnectedResources = updateDisconnectedResources();
-			if (disconnectedResources != null) {
-				cmpResources.injectData(disconnectedResources);
-			}
+			System.out.println("Refresh not required anymore");
 		}
 
 	}
@@ -2766,41 +2759,8 @@ public class SmartResources extends AbstractScreen implements
 		
 	}
 
-	private List<NetXResource> updateDisconnectedResources() {
-
-		final IQueryService queryService = screenService.getEditingService()
-				.getDataService().getQueryService();
-		IEditingService editingService = screenService.getEditingService();
-		final CDOView view;
-
-		if (editingService instanceof CDOEditingService
-				&& ((CDOEditingService) editingService).getView() != null) {
-			view = ((CDOEditingService) editingService).getView();
-			List<NetXResource> unconnectedResources = queryService
-					.getUnconnectedResources(view, IQueryService.QUERY_MYSQL);
-			return unconnectedResources;
-		}
-
-		// List<Resource> nodeResources = editingService.getData("Node_");
-		// if (nodeResources != null) {
-		// List<NetXResource> unconnectedResources = Lists.newArrayList();
-		//
-		// for (Resource res : nodeResources) {
-		// for (Object o : res.getContents()) {
-		// if (o instanceof NetXResource) {
-		// NetXResource netxRes = (NetXResource) o;
-		// if (!netxRes
-		// .eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)) {
-		// unconnectedResources.add(netxRes);
-		// }
-		// }
-		// }
-		// }
-		// return unconnectedResources;
-		// }
-
-		return null;
-	}
+	
+	
 
 	/* We handle refresh */
 	@Override

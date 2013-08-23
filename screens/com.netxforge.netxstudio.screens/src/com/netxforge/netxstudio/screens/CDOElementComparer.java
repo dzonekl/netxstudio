@@ -40,7 +40,11 @@ public class CDOElementComparer implements IElementComparer {
 		}
 
 		try {
-			return element.hashCode();
+			if (element != null) {
+				return element.hashCode();
+			} else {
+				return -1;
+			}
 		} catch (ObjectNotFoundException onfe) {
 
 		}

@@ -36,6 +36,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingServiceProvider;
 import com.netxforge.netxstudio.screens.editing.IScreenFormServiceProvider;
 import com.netxforge.netxstudio.screens.f1.support.PeriodSelectionPage;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionPage;
+import com.netxforge.netxstudio.screens.f2.DisconnectedResourcesComponent;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
 import com.netxforge.netxstudio.screens.f2.LazyResourcesComponent;
 import com.netxforge.netxstudio.screens.f2.support.NodeTypeTreeLabelProvider;
@@ -85,6 +86,8 @@ public class ScreensModule extends AbstractModule {
 		this.bind(ResourcesComponent.class);
 
 		this.bind(LazyResourcesComponent.class);
+		
+		this.bind(DisconnectedResourcesComponent.class);
 
 		// /////////////////////////////////////////////////
 		// IMPORTED SERVICES
