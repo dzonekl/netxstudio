@@ -411,7 +411,7 @@ public class DashboardComponent extends JobChangeAdapter {
 
 	private void updateLatestSelection() {
 		if (MonitoringStateModel.isAdapted(this.getLatestSelection())) {
-			System.out.println("Dashboard: Good :-) already adapted: "
+			System.out.println("Dashboard: Good selection :-) already adapted: "
 					+ (this.getLatestSelection()).toString());
 			IMonitoringSummary adapted = MonitoringStateModel.getAdapted(this
 					.getLatestSelection());

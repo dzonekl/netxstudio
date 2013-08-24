@@ -33,6 +33,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.IShowInTarget;
 import org.eclipse.ui.part.ShowInContext;
@@ -43,7 +44,15 @@ import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
 import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHandler;
 
 /**
- * Shows an IScreen standalone, supports showInTarget and
+ * Shows an {@link IScreen} in an {@link IViewPart} it supports
+ * {@link IShowInTarget}. 
+ * </p>
+ * It can also synchronize with the selection of another
+ * active {@link IViewPart}.
+ * </p>Clients should implement
+ * {@link AbstractScreenViewer#processSelection(ISelection)}
+ * </p>A Client must implement {@link AbstractScreenViewer#initScreen(Composite)} to 
+ * perform it's own screen initialization. 
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
@@ -226,30 +235,18 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 	@Override
 	protected void customPartHook(IWorkbenchPart part, PART_EVENT event) {
 
-//		 System.out.println(" Part: " + part + " event: "+event );
 		if (part instanceof AbstractScreenSelector) {
 			AbstractScreensViewPart screenViewPart = (AbstractScreensViewPart) part;
 			switch (event) {
 			case ACTIVATED: {
 				screenViewPart.addSelectionChangedListener(this);
-				// Note, we have multiple of those... not all might be
-				// interresting...???
-				// System.out.println("Let: " + this.getScreen().getScreenName()
-				// + " listen to part:" + part + " ");
-
-				// process the current selection.
-				// processSelection(screenViewPart.getSelection());
 			}
 				break;
 			case CLOSED:
 				screenViewPart.removeSelectionChangedListener(this);
-				// System.out.println("Remove: "
-				// + this.getScreen().getScreenName() + " listen to part:"
-				// + part + " ");
-
 				break;
 			case DEACTIVATE:
-				// TODO We could be de-activated, but still have focus. 
+				// TODO We could be de-activated, but still have focus.
 				screenViewPart.removeSelectionChangedListener(this);
 				// System.out.println("Remove: "
 				// + this.getScreen().getScreenName() + " listen to part:"
@@ -261,14 +258,12 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 				break;
 			default:
 				break;
-
 			}
 		}
-
 	}
 
 	/**
-	 * Only process a selection when we should sync. 
+	 * Only process a selection when we should sync.
 	 */
 	public void selectionChanged(SelectionChangedEvent event) {
 		lastSelection = event.getSelection();

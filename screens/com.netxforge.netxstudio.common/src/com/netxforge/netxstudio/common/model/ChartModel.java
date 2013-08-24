@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.f3.charts;
+package com.netxforge.netxstudio.common.model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,8 +24,7 @@ import java.util.NoSuchElementException;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.common.model.ModelUtils.TimeStampPredicate;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -33,16 +32,17 @@ import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
-import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
- * Wraps chart model information to keep it together. 
+ * Wraps chart model information to keep it together. Can adapt
+ * {@link IMonitoringSummary} to also pass on monitoring information to a chart.
  * 
  * @author Christophe Bouhier
  * 
  */
-public class ChartModel {
+public class ChartModel implements IChartModel {
 
 	/** The period covering the chart */
 	protected DateTimeRange dtr;
@@ -54,13 +54,15 @@ public class ChartModel {
 	protected KindHintType kind = null;
 
 	/** The NetXResource */
-	protected NetXResource netXRes = null;
+	protected NetXResource netXResource = null;
 
 	/** The ResourceMonitor */
 	protected ResourceMonitor resourceMonitor = null;
 
-	@Inject
-	private ModelUtils modelUtils;
+	/** Markers */
+	protected List<Marker> markers = null;
+
+	protected ModelUtils modelUtils;
 
 	/**
 	 * Metric values. It is equal to the values in the {@link MetricValueRange}
@@ -96,7 +98,10 @@ public class ChartModel {
 	 * The state of the model, do not load when not OK.
 	 */
 	protected boolean chartModelOk = false;
-	
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#isChartModelOk()
+	 */
 	public boolean isChartModelOk() {
 		return chartModelOk;
 	}
@@ -108,27 +113,55 @@ public class ChartModel {
 		this.chartModelOk = chartModelOk;
 	}
 
-	public ChartModel(ModelUtils modelUtils, DateTimeRange dtr, int interval,
-			KindHintType kind, NetXResource netXRes,
+	public static IChartModel valueFor(ModelUtils modelUtils, DateTimeRange dtr,
+			int interval, KindHintType kind, NetXResource netXRes,
 			ResourceMonitor resMonitor, List<Value> values) {
-		super();
-		this.modelUtils = modelUtils;
-		deriveValues(dtr, interval, kind, netXRes, resMonitor, values);
+		final ChartModel chartModel = new ChartModel();
+		chartModel.modelUtils = modelUtils;
+		chartModel.deriveValues(dtr, interval, kind, netXRes, resMonitor,
+				values, null);
+		return chartModel;
 	}
+
+	public static IChartModel valueFor(ModelUtils modelUtils,
+			IMonitoringSummary summary, int interval, KindHintType kind) {
+
+		if (summary instanceof NetxresourceSummary) {
+			final ChartModel chartModel = new ChartModel();
+			chartModel.modelUtils = modelUtils;
+			chartModel.deriveValues(summary.getPeriod(), interval, kind,
+					(NetXResource) summary.getTarget(), null, null,
+					((NetxresourceSummary) summary).markers());
+			return chartModel;
+		} else {
+			throw new UnsupportedOperationException(
+					"Chart Model for summary type:  "
+							+ summary.getClass().getName()
+							+ " is not supported");
+		}
+	}
+
+	// TODO Refacto to separate the various cases.
+	// 1. ResourceMonitor present.
 
 	private void deriveValues(DateTimeRange dtr, int interval,
 			KindHintType kind, NetXResource netXRes,
-			ResourceMonitor resMonitor, List<Value> values) {
+			ResourceMonitor resMonitor, List<Value> values, List<Marker> markers) {
 		// 1. ResourceMonitor
 		// 2. NetXResource
 		// 3. Values
 		if (resMonitor != null && resMonitor.getResourceRef() != null) {
 			this.resourceMonitor = resMonitor;
-			this.netXRes = resMonitor.getResourceRef();
+			this.netXResource = resMonitor.getResourceRef();
 		} else if (netXRes != null) {
-			this.netXRes = netXRes;
+			this.netXResource = netXRes;
 		} else if (values != null) {
 			this.metricValues = values;
+		}
+
+		// Set the markers (Even if we have a ResourceMonitor).
+		if (markers != null) {
+			this.markers = markers;
 		}
 
 		this.interval = interval;
@@ -137,10 +170,10 @@ public class ChartModel {
 		// Populate the values, if we need to, (The model can also be used
 		// without
 		// the NetXResource object).
-		if (this.metricValues == null && this.netXRes != null
+		if (this.metricValues == null && this.netXResource != null
 				&& this.interval != -1) {
 			MetricValueRange mvr = modelUtils.valueRangeForIntervalAndKind(
-					this.netXRes, this.kind, interval);
+					this.netXResource, this.kind, interval);
 			if (mvr != null) {
 				this.metricValues = Lists.newArrayList(mvr.getMetricValues());
 			} else {
@@ -154,13 +187,14 @@ public class ChartModel {
 
 		// Apply the period to the ranges.
 		if (dtr != null) {
-			metricValues = sortAndApplyPeriod(metricValues, dtr, false);
+			metricValues = modelUtils.sortAndApplyPeriod(metricValues, dtr,
+					false);
 			// Derive a new DTR, for begin and end of the metric values.
 			DateTimeRange metricDTR = modelUtils.period(metricValues);
 			// Split in Date and double arrays.
 			timeStampArray = modelUtils.transformValueToDateArray(metricValues);
 
-			capValues = sortAndApplyPeriod(capValues, dtr, false);
+			capValues = modelUtils.sortAndApplyPeriod(capValues, dtr, false);
 
 			// Apply a period filter.
 			// Capacity values typically occur at day start, with a single
@@ -169,16 +203,16 @@ public class ChartModel {
 			capValues = rangeFillUpWithLastValue(timeStampArray, metricDTR,
 					capValues);
 
-			utilValues = sortAndApplyPeriod(utilValues, dtr, false);
+			utilValues = modelUtils.sortAndApplyPeriod(utilValues, dtr, false);
 
 			// Why not get from the period?
 			utilValues = modelUtils.valuesForValues(utilValues, metricValues);
 
 			// Make sure we are equal size.
 			if (timeStampArray.length != utilValues.size()) {
-				if (ScreensActivator.DEBUG) {
-					ScreensActivator.TRACE
-							.trace(ScreensActivator.TRACE_SCREENS_OPTION,
+				if (CommonActivator.DEBUG) {
+					CommonActivator.TRACE
+							.trace(CommonActivator.TRACE_COMMON_CHART_OPTION,
 									"Skip plotting utilization, date array and util array length mismatch sizes => dates: "
 											+ timeStampArray.length
 											+ " util values: "
@@ -207,55 +241,69 @@ public class ChartModel {
 
 	}
 
-	public DateTimeRange getDtr() {
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#getPeriod()
+	 */
+	public DateTimeRange getPeriod() {
 		return dtr;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#getInterval()
+	 */
 	public int getInterval() {
 		return interval;
 	}
 
-	public NetXResource getNetXRes() {
-		return netXRes;
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#getNetXResource()
+	 */
+	public NetXResource getNetXResource() {
+		return netXResource;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#getResMonitor()
+	 */
 	public ResourceMonitor getResMonitor() {
 		return resourceMonitor;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#getValues()
+	 */
 	public List<Value> getValues() {
 		return metricValues;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#hasMonitor()
+	 */
 	public boolean hasMonitor() {
 		return this.getResMonitor() != null;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#hasCapacity()
+	 */
 	public boolean hasCapacity() {
 		return capDoubleArray != null
 				&& capDoubleArray.length == timeStampArray.length;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#hasUtilization()
+	 */
 	public boolean hasUtilization() {
 		return utilDoubleArray != null
 				&& utilDoubleArray.length == timeStampArray.length;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#hasNetXResource()
+	 */
 	public boolean hasNetXResource() {
-		return netXRes != null;
-	}
-
-	public List<Value> sortAndApplyPeriod(List<Value> values,
-			DateTimeRange dtr, boolean reverse) {
-		List<Value> sortedCopy;
-		if (reverse) {
-			sortedCopy = modelUtils.sortValuesByTimeStampAndReverse(values);
-
-		} else {
-			sortedCopy = modelUtils.sortValuesByTimeStamp(values);
-
-		}
-		return modelUtils.valuesInsideRange(sortedCopy, dtr);
+		return netXResource != null;
 	}
 
 	/**
@@ -278,18 +326,17 @@ public class ChartModel {
 			// to the metric value date time range, filling up the blanks.
 			filledCollection = modelUtils.valuesInsideRange(filledCollection,
 					dtr);
-			
+
 		}
 
 		// We could still be bigger, so we should remove non-matched
 		// timestamps. TODO: Danger that we remove cap. where the value
-		// changes, and we would fill-up with the wrong cap. value. 
+		// changes, and we would fill-up with the wrong cap. value.
 		if (filledCollection.size() > timeStamps.length) {
 			filledCollection = modelUtils.valuesForTimestamps(filledCollection,
 					Lists.newArrayList(timeStamps));
 		}
-		
-		
+
 		// Get the last value from the collection, and fill up for the quantity
 		// of dates.
 
@@ -336,7 +383,6 @@ public class ChartModel {
 				Value createValue = GenericsFactory.eINSTANCE.createValue();
 				createValue.setTimeStamp(modelUtils.toXMLDate(date));
 				createValue.setValue(0);
-				// Nope
 				filledCollection.add(i, createValue);
 			}
 
@@ -384,6 +430,48 @@ public class ChartModel {
 		for (int i = 0; i < ticks; i++) {
 			yToleranceSeries[i] = 0.9;
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#getTimeStampArray()
+	 */
+	public Date[] getTimeStampArray() {
+		return timeStampArray;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#getCapDoubleArray()
+	 */
+	public double[] getCapDoubleArray() {
+		return capDoubleArray;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#getMetriDoubleArray()
+	 */
+	public double[] getMetriDoubleArray() {
+		return metriDoubleArray;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#getUtilDoubleArray()
+	 */
+	public double[] getUtilDoubleArray() {
+		return utilDoubleArray;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#getMarkers()
+	 */
+	public List<Marker> getMarkers() {
+		return markers;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#hasMarkers()
+	 */
+	public boolean hasMarkers() {
+		return !markers.isEmpty();
 	}
 
 }

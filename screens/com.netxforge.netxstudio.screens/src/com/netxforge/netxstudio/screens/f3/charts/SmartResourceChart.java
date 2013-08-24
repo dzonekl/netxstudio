@@ -55,6 +55,7 @@ import org.swtchart.Range;
 import org.swtchart.ext.Messages;
 import org.swtchart.internal.PlotArea;
 
+import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
@@ -124,11 +125,10 @@ public class SmartResourceChart extends Chart implements
 				ScreensActivator.getInstance().getPreferenceStore()
 						.getBoolean(ScreenConstants.PREFERENCE_LEGEND_VISIBLE));
 
-		plotAreaListener = new ChartMouseListener(
-				getPlotArea());
-		
+		plotAreaListener = new ChartMouseListener(getPlotArea());
+
 		plotAreaListener.setActive(false);
-		
+
 		getPlotArea().addListener(SWT.MouseMove, plotAreaListener);
 		getPlotArea().addListener(SWT.MouseDown, plotAreaListener);
 		getPlotArea().addListener(SWT.MouseUp, plotAreaListener);
@@ -254,9 +254,10 @@ public class SmartResourceChart extends Chart implements
 				minY = startPoint.y;
 				maxY = endPoint.y;
 			}
-			
+
 			gc.setLineStyle(SWT.LINE_DOT);
-			gc.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_DARK_CYAN));
+			gc.setForeground(Display.getDefault().getSystemColor(
+					SWT.COLOR_DARK_CYAN));
 			gc.drawRectangle(minX, minY, maxX - minX, maxY - minY);
 		}
 	}
@@ -353,8 +354,8 @@ public class SmartResourceChart extends Chart implements
 	 * 
 	 * @param model
 	 */
-	public void initChartBinding(ChartModel model) {
-		
+	public void initChartBinding(IChartModel model) {
+
 		cleanChart();
 
 		configureXAxis(model);
@@ -381,7 +382,7 @@ public class SmartResourceChart extends Chart implements
 		// chart.getAxisSet().getYAxes()[1].adjustRange();
 		getAxisSet().adjustRange();
 		redraw();
-		
+
 		plotAreaListener.setActive(true);
 	}
 
@@ -431,11 +432,11 @@ public class SmartResourceChart extends Chart implements
 				.getSystemColor(SWT.COLOR_BLACK));
 	}
 
-	private void configureXAxis(ChartModel model) {
+	private void configureXAxis(IChartModel model) {
 
 		if (model.hasNetXResource()) {
 			getAxisSet().getYAxis(0).getTitle()
-					.setText(model.netXRes.getUnitRef().getName());
+					.setText(model.getNetXResource().getUnitRef().getName());
 			getAxisSet()
 					.getYAxis(0)
 					.getTitle()
@@ -447,7 +448,7 @@ public class SmartResourceChart extends Chart implements
 		String primaryDatePattern = "";
 		// String secondaryDatePattern = "";
 		String label = "";
-		switch (model.interval) {
+		switch (model.getInterval()) {
 		case ModelUtils.MINUTES_IN_AN_HOUR: {
 			primaryDatePattern = "dd-MMM HH:mm";
 			label = "HOUR";
@@ -471,7 +472,7 @@ public class SmartResourceChart extends Chart implements
 			break;
 		default: {
 			primaryDatePattern = "dd-MMM HH:mm";
-			label = modelUtils.fromMinutes(model.interval);
+			label = modelUtils.fromMinutes(model.getInterval());
 		}
 		}
 
@@ -526,13 +527,13 @@ public class SmartResourceChart extends Chart implements
 	 * The mouse listener to show marker on chart.
 	 */
 	private class ChartMouseListener implements Listener {
-		
+
 		/** The control to add listener. */
 		private Control control;
-		
-		// If the listener is active. 
+
+		// If the listener is active.
 		private boolean active = false;
-		
+
 		public boolean isActive() {
 			return active;
 		}
@@ -549,11 +550,11 @@ public class SmartResourceChart extends Chart implements
 		 */
 		public ChartMouseListener(Control control) {
 			this.control = control;
-			control.addFocusListener(new FocusAdapter(){
+			control.addFocusListener(new FocusAdapter() {
 
 				@Override
 				public void focusLost(FocusEvent e) {
-					if(!marker.isDisposed()){
+					if (!marker.isDisposed()) {
 						marker.dispose();
 					}
 				}
@@ -564,11 +565,11 @@ public class SmartResourceChart extends Chart implements
 		 * @see Listener#handleEvent(Event)
 		 */
 		public void handleEvent(Event event) {
-			
-			if(!isActive()){
+
+			if (!isActive()) {
 				return;
 			}
-			
+
 			if (marker == null) {
 				return;
 			}
@@ -656,10 +657,10 @@ public class SmartResourceChart extends Chart implements
 				break;
 			}
 		}
-		
-		
+
 		/**
-		 * The selection range should be a certain size before working. 
+		 * The selection range should be a certain size before working.
+		 * 
 		 * @return
 		 */
 		private boolean selectionIntended() {
@@ -704,14 +705,14 @@ public class SmartResourceChart extends Chart implements
 	 * @param resource
 	 * @return
 	 */
-	private ILineSeries configureSeriesMetric(ChartModel model) {
+	private ILineSeries configureSeriesMetric(IChartModel model) {
 
 		ILineSeries metricLineSeries = (ILineSeries) getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE, METRIC_SERIES);
 
-		metricLineSeries.setXDateSeries(model.timeStampArray);
+		metricLineSeries.setXDateSeries(model.getTimeStampArray());
 		metricLineSeries.enableArea(true);
-		metricLineSeries.setYSeries(model.metriDoubleArray);
+		metricLineSeries.setYSeries(model.getMetriDoubleArray());
 		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
 		final Color metricColor = ScreensActivator.getInstance()
 				.getPreferenceColor(ScreenConstants.PREFERENCE_METRIC_COLOR);
@@ -719,13 +720,13 @@ public class SmartResourceChart extends Chart implements
 		return metricLineSeries;
 	}
 
-	private ILineSeries configureSeriesCapacity(ChartModel model) {
+	private ILineSeries configureSeriesCapacity(IChartModel model) {
 
 		ILineSeries capLineSeries = (ILineSeries) getSeriesSet().createSeries(
 				ISeries.SeriesType.LINE, CAPACITY_SERIES);
 
-		capLineSeries.setXDateSeries(model.timeStampArray);
-		capLineSeries.setYSeries(model.capDoubleArray);
+		capLineSeries.setXDateSeries(model.getTimeStampArray());
+		capLineSeries.setYSeries(model.getCapDoubleArray());
 		capLineSeries.enableStep(true);
 		final Color capColor = ScreensActivator.getInstance()
 				.getPreferenceColor(ScreenConstants.PREFERENCE_CAP_COLOR);
@@ -737,12 +738,12 @@ public class SmartResourceChart extends Chart implements
 
 	}
 
-	private IBarSeries configureSeriesUtilization(ChartModel model, int yAxisID) {
+	private IBarSeries configureSeriesUtilization(IChartModel model, int yAxisID) {
 
 		IBarSeries utilLineSeries = (IBarSeries) getSeriesSet().createSeries(
 				ISeries.SeriesType.BAR, UTILIZATION_SERIES);
-		utilLineSeries.setXDateSeries(model.timeStampArray);
-		utilLineSeries.setYSeries(model.utilDoubleArray);
+		utilLineSeries.setXDateSeries(model.getTimeStampArray());
+		utilLineSeries.setYSeries(model.getUtilDoubleArray());
 		utilLineSeries.setYAxisId(yAxisID); // Connect a series to the
 											// Y-Axis.
 		final Color utilColor = ScreensActivator.getInstance()

@@ -17,14 +17,12 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.parts;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IViewPart;
 
-import com.netxforge.netxstudio.screens.editing.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.AbstractScreenViewer;
 import com.netxforge.netxstudio.screens.editing.IScreen;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
@@ -51,20 +49,13 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 		chartScreen.buildUI();
 	}
 
-	public void editorActivated(IViewPart activeView) {
-		if (activeView instanceof AbstractScreenSelector) {
-			ISelection selection = ((AbstractScreenSelector) activeView)
-					.getSelection();
-			if (selection != null && !selection.isEmpty()
-					&& selection instanceof StructuredSelection) {
-				Object firstElement = ((StructuredSelection) selection)
-						.getFirstElement();
-				if (firstElement instanceof EObject) {
-					System.out.println(modelUtils
-							.printModelObject((EObject) firstElement));
-				}
-			}
-
+	protected void processSelection(ISelection selection) {
+		if (selection != null && !selection.isEmpty()
+				&& selection instanceof StructuredSelection) {
+			IStructuredSelection ss = (StructuredSelection) selection;
+			chartScreen.injectData(new Object[]{ss.getFirstElement()});
+			
 		}
 	}
+	
 }

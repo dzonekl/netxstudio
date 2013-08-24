@@ -17,18 +17,21 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f3.charts;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
+import org.eclipse.core.databinding.observable.list.ComputedList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
@@ -55,17 +58,20 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ShowInContext;
+import org.eclipse.ui.progress.UIJob;
 import org.swtchart.Chart;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.common.model.ChartModel;
+import com.netxforge.netxstudio.common.model.IChartModel;
+import com.netxforge.netxstudio.common.model.IMonitoringSummary;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
@@ -79,6 +85,7 @@ import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.tables.TableHelper;
 import com.netxforge.netxstudio.screens.editing.tables.TableHelper.TBVCFeatureSorter;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionWizard;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.screens.showins.ChartInput;
 
 /**
@@ -86,7 +93,7 @@ import com.netxforge.netxstudio.screens.showins.ChartInput;
  * @author Christophe Bouhier
  */
 public class SmartChartScreen extends AbstractScreen implements
-		IDataScreenInjection {
+		IDataScreenInjection, IJobChangeListener {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
@@ -97,7 +104,7 @@ public class SmartChartScreen extends AbstractScreen implements
 	private TableViewer markersTableViewer;
 
 	/** Holds model data together for the chart */
-	private ChartModel chartModel;
+	private IChartModel chartModel;
 
 	/**
 	 * A specialized chart for {@link NetXResource} and {@link ResourceMonitor}
@@ -107,6 +114,73 @@ public class SmartChartScreen extends AbstractScreen implements
 
 	@Inject
 	private TableHelper tableHelper;
+
+	/**
+	 * Track the last selection.
+	 */
+	private EObject latestSelection;
+
+	@Inject
+	private MonitoringStateModel monitoringState;
+
+	private RefreshSummaryJob refreshSummaryJob = new RefreshSummaryJob();
+
+	/**
+	 * Refreshes the RFS Service Summary Section.
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	class RefreshSummaryJob extends UIJob {
+
+		private IMonitoringSummary summary;
+
+		public void setSummary(IMonitoringSummary summary) {
+			this.summary = summary;
+		}
+
+		/**
+		 * Creates a new instance of the class.
+		 */
+		public RefreshSummaryJob() {
+			super("refresh");
+			// setSystem(true);
+		}
+
+		@Override
+		public IStatus runInUIThread(IProgressMonitor monitor) {
+
+			monitor.setTaskName("Refresh monitoring");
+
+			if (monitor.isCanceled()) {
+				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
+						IStatus.OK, "Cancelled ", null);
+			}
+
+			if (summary == null) {
+				return new Status(IStatus.WARNING, ScreensActivator.PLUGIN_ID,
+						IStatus.ERROR, "No summary for this object", null);
+			}
+
+			refreshSummaryUI(summary);
+
+			return new Status(IStatus.OK, PlatformUI.PLUGIN_ID, IStatus.OK, "",
+					null);
+		}
+
+		private void refreshSummaryUI(IMonitoringSummary summary) {
+			if (getLatestSelection() instanceof NetXResource) {
+				NetXResource netxRes = (NetXResource) getLatestSelection();
+				if (netxRes.getMetricValueRanges().size() > 0) {
+					MetricValueRange mvr = netxRes.getMetricValueRanges()
+							.get(0);
+					IChartModel valueFor = ChartModel.valueFor(modelUtils,
+							summary, mvr.getIntervalHint(), mvr.getKindHint());
+					chartModel = valueFor;
+					initDataBindings_();
+				}
+			}
+		}
+	}
 
 	public SmartChartScreen(Composite parent, int style) {
 		super(parent, style);
@@ -118,7 +192,6 @@ public class SmartChartScreen extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		// buildUI();
 	}
 
 	public void buildUI() {
@@ -149,9 +222,6 @@ public class SmartChartScreen extends AbstractScreen implements
 
 	}
 
-	/**
-	 * 
-	 */
 	private void buildMarkersUI() {
 		Section sctnMarkers = toolkit.createSection(frmChartScreen.getBody(),
 				Section.TWISTIE | Section.TITLE_BAR);
@@ -351,9 +421,71 @@ public class SmartChartScreen extends AbstractScreen implements
 		return null;
 	}
 
-	public void injectData(ChartModel model) {
-		this.chartModel = model;
-		initDataBindings_();
+	@Override
+	public void injectData(Object... selection) {
+		processSelection(selection);
+	}
+
+	private void processSelection(Object... selection) {
+
+		if (validSelection(selection) && selection.length == 1) {
+			Object o = selection[0];
+
+			// Prep the summary itself, as the monitoring job might still be
+			// running, we delay until it's ready.
+			if (o instanceof EObject) {
+				setLatestSelection((EObject) o);
+			}
+
+			// We can't add a notifier until the
+			deActivate();
+			activate();
+
+		} else {
+			// TODO, for multiple selections, we need a
+			// IMonitoringSummaryComposite object.
+
+		}
+	}
+
+	private synchronized void setLatestSelection(EObject o) {
+		latestSelection = o;
+	}
+
+	private synchronized EObject getLatestSelection() {
+		return latestSelection;
+	}
+
+	/**
+	 * remove the listener to the monitoring state jobs.
+	 */
+	public void deActivate() {
+		monitoringState.removeJobNotifier(this);
+	}
+
+	/**
+	 * Listen to the monitoring state jobs.
+	 */
+	public void activate() {
+		monitoringState.addJobNotifier(this);
+	}
+
+	/**
+	 * The selection should be similar objects.
+	 * 
+	 * @param selection
+	 * @return
+	 */
+	private boolean validSelection(Object[] selection) {
+
+		for (Object o : selection) {
+			if (o instanceof EObject) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public void addData() {
@@ -370,20 +502,28 @@ public class SmartChartScreen extends AbstractScreen implements
 		if (chartModel.hasNetXResource()) {
 			frmChartScreen
 					.setText("Resource: "
-							+ chartModel.getNetXRes().getLongName()
-							+ (chartModel.getNetXRes().getComponentRef() != null ? " ( "
+							+ chartModel.getNetXResource().getLongName()
+							+ (chartModel.getNetXResource().getComponentRef() != null ? " ( "
 									+ modelUtils.componentName(chartModel
-											.getNetXRes().getComponentRef())
-									+ ")" : ""));
+											.getNetXResource()
+											.getComponentRef()) + ")" : ""));
 		}
 		smartResourceChart.initChartBinding(chartModel);
-		
-		if (!chartModel.hasMonitor()) {
+
+		if (chartModel.hasMonitor()) {
 			initMarkersBinding();
 		}
+
+		if (chartModel.hasMarkers()) {
+			initMarkersBindingCollection();
+		}
+
 		return context;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	private void initMarkersBinding() {
 
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
@@ -410,21 +550,35 @@ public class SmartChartScreen extends AbstractScreen implements
 				.observe(chartModel.getResMonitor()));
 	}
 
-	// TODO Move to ModelUtils (Even when used).
-	@SuppressWarnings("unused")
-	private List<Date> getTS(DateTimeRange dtr) {
-		List<Date> allTS = Lists.newArrayList();
-		Multimap<Integer, XMLGregorianCalendar> timeStampsByWeek = modelUtils
-				.hourlyTimeStampsByWeekFor(dtr);
-		// build an index of colums and timestamps.
-		for (int i : timeStampsByWeek.keySet()) {
-			Collection<XMLGregorianCalendar> collection = timeStampsByWeek
-					.get(i);
-			allTS.addAll(modelUtils.transformXMLDateToDate(collection));
+	private void initMarkersBindingCollection() {
 
-		}
-		Collections.sort(allTS);
-		return allTS;
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		markersTableViewer.setContentProvider(listContentProvider);
+
+		IObservableMap[] observeMaps = EMFObservables.observeMaps(
+				listContentProvider.getKnownElements(),
+				new EStructuralFeature[] {
+						OperatorsPackage.Literals.MARKER__KIND,
+						OperatorsPackage.Literals.MARKER__DESCRIPTION,
+						OperatorsPackage.Literals.MARKER__VALUE_REF,
+						OperatorsPackage.Literals.TOLERANCE_MARKER__DIRECTION,
+						OperatorsPackage.Literals.TOLERANCE_MARKER__LEVEL });
+
+		markersTableViewer
+				.setLabelProvider(new MarkersObervableMapLabelProvider(
+						observeMaps));
+
+		ComputedList markersList = new ComputedList() {
+
+			@SuppressWarnings("rawtypes")
+			@Override
+			protected List calculate() {
+				return chartModel.getMarkers();
+			}
+
+		};
+
+		markersTableViewer.setInput(markersList);
 	}
 
 	public class MarkersObervableMapLabelProvider extends
@@ -490,8 +644,7 @@ public class SmartChartScreen extends AbstractScreen implements
 
 		if (context.getInput() instanceof ChartInput) {
 
-			ChartInput chartInput = (ChartInput) context
-					.getInput();
+			ChartInput chartInput = (ChartInput) context.getInput();
 
 			// Do we care about the selection??
 
@@ -518,13 +671,14 @@ public class SmartChartScreen extends AbstractScreen implements
 			}
 
 			if (chartInput.getResourceMonitor() != null) {
-				chartModel = new ChartModel(modelUtils, chartInput.getPeriod(),
-						chartInput.getInterval(), chartInput.getKind(),
-						netXResource, chartInput.getResourceMonitor(), null);
+				chartModel = ChartModel.valueFor(modelUtils,
+						chartInput.getPeriod(), chartInput.getInterval(),
+						chartInput.getKind(), netXResource,
+						chartInput.getResourceMonitor(), null);
 			} else {
-				chartModel = new ChartModel(modelUtils, chartInput.getPeriod(),
-						chartInput.getInterval(), chartInput.getKind(),
-						netXResource,
+				chartModel = ChartModel.valueFor(modelUtils,
+						chartInput.getPeriod(), chartInput.getInterval(),
+						chartInput.getKind(), netXResource,
 						OperatorsFactory.eINSTANCE.createResourceMonitor(),
 						null);
 
@@ -536,6 +690,42 @@ public class SmartChartScreen extends AbstractScreen implements
 		}
 
 		return false;
+	}
+
+	/**
+	 * {@link IJobChangeListener}
+	 */
+	public void aboutToRun(IJobChangeEvent event) {
+	}
+
+	public void awake(IJobChangeEvent event) {
+	}
+
+	public void done(IJobChangeEvent event) {
+		updateLatestSelection();
+	}
+
+	public void running(IJobChangeEvent event) {
+	}
+
+	public void scheduled(IJobChangeEvent event) {
+	}
+
+	public void sleeping(IJobChangeEvent event) {
+	}
+
+	private void updateLatestSelection() {
+		if (MonitoringStateModel.isAdapted(this.getLatestSelection())) {
+			System.out.println("Chart: Good :-) selection already adapted: "
+					+ (this.getLatestSelection()).toString());
+
+			IMonitoringSummary adapted = MonitoringStateModel.getAdapted(this
+					.getLatestSelection());
+
+			refreshSummaryJob.setSummary(adapted);
+			refreshSummaryJob.schedule(100);
+		} else {
+		}
 	}
 
 }

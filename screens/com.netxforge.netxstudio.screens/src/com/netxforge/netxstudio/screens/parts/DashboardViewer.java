@@ -51,15 +51,7 @@ public class DashboardViewer extends AbstractScreenViewer {
 	protected void processSelection(ISelection selection) {
 		if (selection != null && !selection.isEmpty()
 				&& selection instanceof StructuredSelection) {
-			//
 			IStructuredSelection ss = (StructuredSelection) selection;
-//			System.out.println(" Processing selection: " + ss);
-//			@SuppressWarnings("unchecked")
-//			Iterator<Object> iterator = ss.iterator();
-//			while(iterator.hasNext()){
-//				EObject eo = (EObject) iterator.next(); 
-//			}
-			// TODO, first work with one single object. 
 			dashboardScreen.injectData(new Object[]{ss.getFirstElement()});
 			
 		}

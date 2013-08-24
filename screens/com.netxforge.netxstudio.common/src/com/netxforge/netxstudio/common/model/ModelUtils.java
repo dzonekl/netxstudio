@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -3343,6 +3344,27 @@ public class ModelUtils {
 	}
 
 	/**
+	 * All {@link Date timestamps} for the specified {@link DateTimeRange
+	 * period}
+	 * 
+	 * @param dtr
+	 * @return
+	 */
+	public List<Date> timeStamps(DateTimeRange dtr) {
+		List<Date> allTS = Lists.newArrayList();
+		Multimap<Integer, XMLGregorianCalendar> timeStampsByWeek = hourlyTimeStampsByWeekFor(dtr);
+		// build an index of colums and timestamps.
+		for (int i : timeStampsByWeek.keySet()) {
+			Collection<XMLGregorianCalendar> collection = timeStampsByWeek
+					.get(i);
+			allTS.addAll(transformXMLDateToDate(collection));
+
+		}
+		Collections.sort(allTS);
+		return allTS;
+	}
+
+	/**
 	 * Returns a {@link Date} as a <code>String</code> in a pre-defined format:
 	 * <code>'HH:mm:ss'</code>
 	 * 
@@ -4263,7 +4285,7 @@ public class ModelUtils {
 			System.out.println("-- delta=" + fd);
 		}
 	}
-	
+
 	public void cdoPrintRevisionDelta(StringBuffer sb, CDORevisionDelta delta) {
 		for (CDOFeatureDelta fd : delta.getFeatureDeltas()) {
 			sb.append("-- delta=" + fd);
@@ -5070,10 +5092,10 @@ public class ModelUtils {
 		}
 		return components;
 	}
-	
-	
+
 	/**
-	 * all child {@link Component} including self. 
+	 * all child {@link Component} including self.
+	 * 
 	 * @param c
 	 * @return
 	 */
@@ -5249,9 +5271,9 @@ public class ModelUtils {
 			for (Node n : ((RFSService) service).getNodes()) {
 				nodeTypes.add(n.getNodeType());
 			}
-//			for (Service subService : service.getServices()) {
-//				nodeTypes.addAll(nodeTypeForService(subService));
-//			}
+			// for (Service subService : service.getServices()) {
+			// nodeTypes.addAll(nodeTypeForService(subService));
+			// }
 		}
 		return nodeTypes;
 	}
@@ -5278,6 +5300,18 @@ public class ModelUtils {
 	public void puke() {
 		System.out.println("Beeeeuuuuuuh........@!");
 
+	}
+
+	public List<Value> sortAndApplyPeriod(List<Value> values, DateTimeRange dtr, boolean reverse) {
+		List<Value> sortedCopy;
+		if (reverse) {
+			sortedCopy = sortValuesByTimeStampAndReverse(values);
+	
+		} else {
+			sortedCopy = sortValuesByTimeStamp(values);
+	
+		}
+		return valuesInsideRange(sortedCopy, dtr);
 	}
 
 }
