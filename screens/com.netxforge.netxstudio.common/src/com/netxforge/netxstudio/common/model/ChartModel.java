@@ -184,11 +184,19 @@ public class ChartModel implements IChartModel {
 			utilValues = Lists.newArrayList(netXRes.getUtilizationValues());
 
 		}
-
+		
+		
 		// Apply the period to the ranges.
 		if (dtr != null) {
 			metricValues = modelUtils.sortAndApplyPeriod(metricValues, dtr,
 					false);
+			
+			if(metricValues.isEmpty()){
+				// bail out. 
+				chartModelOk = false;
+				return;
+			}
+
 			// Derive a new DTR, for begin and end of the metric values.
 			DateTimeRange metricDTR = modelUtils.period(metricValues);
 			// Split in Date and double arrays.

@@ -176,7 +176,11 @@ public class SmartChartScreen extends AbstractScreen implements
 					IChartModel valueFor = ChartModel.valueFor(modelUtils,
 							summary, mvr.getIntervalHint(), mvr.getKindHint());
 					chartModel = valueFor;
-					initDataBindings_();
+					if (chartModel.isChartModelOk()) {
+						initDataBindings_();
+					}else{
+						// It's not OK. Do not load it. 
+					}
 				}
 			}
 		}
