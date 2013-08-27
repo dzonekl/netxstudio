@@ -117,7 +117,7 @@ public class MonitoringStateModel {
 	 * 
 	 * @author Christophe Bouhier
 	 */
-	public class MonitoringStateJob extends Job{
+	public class MonitoringStateJob extends Job {
 
 		/** Our context which will determine which Summary is returned. */
 		private Object target;
@@ -234,8 +234,8 @@ public class MonitoringStateModel {
 
 	/**
 	 * Produce a summary for the target object. When done,
-	 * {@link MonitoringStateCallBack#callBackEvent(MonitoringStateEvent)}
-	 * is called.
+	 * {@link MonitoringStateCallBack#callBackEvent(MonitoringStateEvent)} is
+	 * called.
 	 * 
 	 * @param callBack
 	 * @param target
@@ -288,7 +288,8 @@ public class MonitoringStateModel {
 				Job job = event.getJob();
 				if (job instanceof MonitoringStateJob) {
 					final MonitoringStateEvent monitoringStateEvent = new MonitoringStateEvent();
-					monitoringStateEvent.setResult(((MonitoringStateJob) job).getMonitoringSummary());
+					monitoringStateEvent.setResult(((MonitoringStateJob) job)
+							.getMonitoringSummary());
 					callBack.callBackEvent(monitoringStateEvent);
 				}
 			}
@@ -405,7 +406,7 @@ public class MonitoringStateModel {
 
 	public IMonitoringSummary summary(IProgressMonitor monitor, Object target,
 			IComputationContext... context) {
-		
+
 		final IMonitoringSummary adapt;
 		if (!isAdapted((EObject) target)) {
 			// Adapt for the target, note this will also self-adapt the
@@ -529,18 +530,16 @@ public class MonitoringStateModel {
 					break;
 				}
 			}
-			// else {
-			// green++;
-			// }
 		}
 
-		// Clear the lower levels.
+		// Clear or set the correct level based on the result. 
 		if (red > 0) {
 			amber = 0;
 			green = 0;
-		}
-		if (amber > 0) {
+		} else if (amber > 0) {
 			green = 0;
+		}else {
+			green = 1;
 		}
 
 		return new int[] { red, amber, green };
