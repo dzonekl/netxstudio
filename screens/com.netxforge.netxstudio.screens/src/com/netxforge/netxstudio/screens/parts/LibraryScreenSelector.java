@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.screens.ch9.Expressions;
+import com.netxforge.netxstudio.screens.ch9.SmartExpressions;
 import com.netxforge.netxstudio.screens.editing.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.NodeTypeResources;
@@ -83,7 +83,7 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 		
 		
 		result = screenFormService.addScreenSelector(result, "Expressions",
-				"icons/full/obj16/Expression_H.png", Expressions.class,
+				"icons/full/obj16/Expression_H.png", SmartExpressions.class,
 				ScreenUtil.OPERATION_EDIT);
 		
 		result = screenFormService.addScreenSelector(result, "Parameters",

@@ -33,7 +33,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -243,7 +242,7 @@ public class Expressions extends AbstractScreen implements
 
 		tableViewer = new TableViewer(frmExpressions.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.MULTI | widgetStyle);
-//		tableViewer.setComparer(new CDOElementComparer());
+		// tableViewer.setComparer(new CDOElementComparer());
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -253,34 +252,47 @@ public class Expressions extends AbstractScreen implements
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				tableViewer, SWT.NONE);
 		TableColumn tblclmnName = tableViewerColumn.getColumn();
-		tblclmnName.setWidth(400);
-		tblclmnName.setText("Name");
+		tblclmnName.setWidth(60);
+		tblclmnName.setText("Used by");
 
-		// CB Removed "Owned by", no special use. 30-08-2011.
-		// TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-		// tableViewer, SWT.NONE);
-		// TableColumn tblclmnOwnedBy = tableViewerColumn_1.getColumn();
-		// tblclmnOwnedBy.setWidth(100);
-		// tblclmnOwnedBy.setText("Owned by");
-		// tableViewer.addFilter(new SearchFilter(editingService));
+		TableViewerColumn tableViewerColumn_0 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
+		TableColumn tblclmnName_0 = tableViewerColumn_0.getColumn();
+		tblclmnName_0.setWidth(80);
+		tblclmnName_0.setText("Source");
+
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
+		TableColumn tblclmnName_1 = tableViewerColumn_1.getColumn();
+		tblclmnName_1.setWidth(300);
+		tblclmnName_1.setText("Name");
+
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
+		TableColumn tblclmnExpression = tableViewerColumn_2.getColumn();
+		tblclmnExpression.setWidth(250);
+		tblclmnExpression.setText("Expression");
+
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		listContentProvider = new ObservableListContentProvider();
 		tableViewer.setContentProvider(listContentProvider);
-		
+
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
 
 				new EStructuralFeature[] { Literals.EXPRESSION__NAME });
-		tableViewer
-				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+
+		final ExpressionsObservableMapLabelProvider expressionsObservableMapLabelProvider = new ExpressionsObservableMapLabelProvider(
+				observeMaps);
+		expressionsObservableMapLabelProvider.setModelUtils(modelUtils);
+		tableViewer.setLabelProvider(expressionsObservableMapLabelProvider);
 
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
 		IObservableList expressionsObservableList = l
 				.observe(this.expressionsResource);
-		// obm.addObservable(expressionsObservableList);
 
 		tableViewer.setInput(expressionsObservableList);
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
@@ -313,8 +325,8 @@ public class Expressions extends AbstractScreen implements
 
 	@Override
 	public IAction[] getActions() {
-		
-		// lazy init the actions. 
+
+		// lazy init the actions.
 		if (actionList.isEmpty()) {
 			String actionText = ScreenUtil.isReadOnlyOperation(getOperation()) ? "View"
 					: "Edit";
