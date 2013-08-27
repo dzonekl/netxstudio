@@ -172,6 +172,7 @@ import com.netxforge.netxstudio.screens.editing.actions.TableViewerWithState;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CopyFeatureCommand.FeatureInitializer;
+import com.netxforge.netxstudio.screens.editing.tables.CopyFeaturesActionHandler;
 import com.netxforge.netxstudio.screens.editing.tables.FocusBlockOwnerDrawHighlighterForMultiselection;
 import com.netxforge.netxstudio.screens.editing.tables.FocusColumnToModelMap;
 import com.netxforge.netxstudio.screens.editing.tables.OpenTreeViewer;
@@ -198,7 +199,7 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
  * 
  */
 public class SmartResources extends AbstractScreen implements
-		IDataServiceInjection  {
+		IDataServiceInjection {
 
 	/*
 	 * Memento keys.
@@ -627,10 +628,9 @@ public class SmartResources extends AbstractScreen implements
 		FocusBlockOwnerDrawHighlighterForMultiselection fcHighlighter = new FocusBlockOwnerDrawHighlighterForMultiselection(
 				componentsTreeViewer);
 
-		// instantiate it, it will hook listeners.
-		TreeViewerFocusBlockManager treeViewerFocusBlockManager = new TreeViewerFocusBlockManager(
-				componentsTreeViewer, fcHighlighter);
-		treeViewerFocusBlockManager.setEditingDomain(this.getEditingService()
+		// Our action handler.
+		CopyFeaturesActionHandler copyFeaturesActionHandler = new CopyFeaturesActionHandler();
+		copyFeaturesActionHandler.setEditingDomain(this.getEditingService()
 				.getEditingDomain());
 
 		FocusColumnToModelMap focusColumnToModelMap = new FocusColumnToModelMap();
@@ -639,16 +639,23 @@ public class SmartResources extends AbstractScreen implements
 		focusColumnToModelMap.getColumnFeatureMap().put(2,
 				LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF);
 
-		treeViewerFocusBlockManager.setFeatureMap(focusColumnToModelMap);
-		treeViewerFocusBlockManager
+		copyFeaturesActionHandler.setFeatureMap(focusColumnToModelMap);
+		copyFeaturesActionHandler
 				.setFeatureInitializer(new ExpressionInitializer());
 
 		// We shall set a target for the copied object if non-containment.
 		Resource expressionsResource = editingService
 				.getData(LibraryPackage.Literals.EXPRESSION);
 
-		treeViewerFocusBlockManager
+		copyFeaturesActionHandler
 				.setTargetResourceForNonContainment(expressionsResource);
+
+		// instantiate it, it will hook listeners.
+		TreeViewerFocusBlockManager treeViewerFocusBlockManager = new TreeViewerFocusBlockManager(
+				componentsTreeViewer, fcHighlighter);
+
+		treeViewerFocusBlockManager
+				.setFocusBlockActionHandler(copyFeaturesActionHandler);
 
 	}
 
@@ -668,7 +675,8 @@ public class SmartResources extends AbstractScreen implements
 		public void initialize(Object owner, Object copy,
 				EStructuralFeature feature) {
 			if (owner instanceof Component && copy instanceof Expression) {
-				String name = getExpressionName((Component) owner, feature);
+				String name = modelUtils.expressionName((Component) owner,
+						feature);
 				Expression copiedExpression = (Expression) copy;
 				copiedExpression.setName(name);
 			}
@@ -1060,24 +1068,6 @@ public class SmartResources extends AbstractScreen implements
 
 	}
 
-	/**
-	 * Generates a name for the target component using the feature and the
-	 * component type.
-	 * 
-	 * @param target
-	 * @param feature
-	 * @return
-	 */
-	private String getExpressionName(Component target,
-			EStructuralFeature feature) {
-		String cName = target instanceof Function ? ((Function) target)
-				.getName() : target instanceof Equipment ? ((Equipment) target)
-				.getEquipmentCode() : "Unknown";
-
-		String name = " Generated_comp_" + cName + "_" + feature.getName();
-		return name;
-	}
-
 	/*
 	 * Maintains the state of an expression selector and sub-selector.
 	 */
@@ -1339,7 +1329,7 @@ public class SmartResources extends AbstractScreen implements
 
 			Expression expression = LibraryFactory.eINSTANCE.createExpression();
 
-			String name = getExpressionName(target, feature);
+			String name = modelUtils.expressionName(target, feature);
 			expression.setName(name);
 
 			return expression;
@@ -1468,7 +1458,6 @@ public class SmartResources extends AbstractScreen implements
 			}
 
 		}
-
 
 		protected void updateValues(EObject target) {
 			IMonitoringSummary adapted = MonitoringStateModel
@@ -2752,15 +2741,12 @@ public class SmartResources extends AbstractScreen implements
 	public void injectData() {
 		operatorResource = (CDOResource) editingService
 				.getData(OperatorsPackage.Literals.OPERATOR);
-		
+
 		buildUI();
 		registerFocus(this);
 		initDataBindings_();
-		
-	}
 
-	
-	
+	}
 
 	/* We handle refresh */
 	@Override

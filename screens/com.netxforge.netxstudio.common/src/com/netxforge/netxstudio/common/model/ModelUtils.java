@@ -217,6 +217,8 @@ public class ModelUtils {
 	public static final Iterable<String> MAPPING_EQUIPMENT_ATTRIBUTES = ImmutableList
 			.of("Name", "EquipmentCode", "Position");
 
+	public static final String GENERATED_EXPRESSION_PREFIX = " Generated_comp_";
+
 	private DatatypeFactory dataTypeFactory;
 
 	public ModelUtils() {
@@ -1872,6 +1874,24 @@ public class ModelUtils {
 		final Collection<String> collection = Lists
 				.newArrayList(splitByNewLine);
 		return collection;
+	}
+
+	/**
+	 * Generates a name for the target component using the feature and the
+	 * component type.
+	 * 
+	 * @param target
+	 * @param feature
+	 * @return
+	 */
+	public String expressionName(Component target, EStructuralFeature feature) {
+		String cName = target instanceof com.netxforge.netxstudio.library.Function ? ((com.netxforge.netxstudio.library.Function) target)
+				.getName() : target instanceof Equipment ? ((Equipment) target)
+				.getEquipmentCode() : "Unknown";
+
+		String name = GENERATED_EXPRESSION_PREFIX + cName + "_"
+				+ feature.getName();
+		return name;
 	}
 
 	/**
@@ -5302,14 +5322,15 @@ public class ModelUtils {
 
 	}
 
-	public List<Value> sortAndApplyPeriod(List<Value> values, DateTimeRange dtr, boolean reverse) {
+	public List<Value> sortAndApplyPeriod(List<Value> values,
+			DateTimeRange dtr, boolean reverse) {
 		List<Value> sortedCopy;
 		if (reverse) {
 			sortedCopy = sortValuesByTimeStampAndReverse(values);
-	
+
 		} else {
 			sortedCopy = sortValuesByTimeStamp(values);
-	
+
 		}
 		return valuesInsideRange(sortedCopy, dtr);
 	}

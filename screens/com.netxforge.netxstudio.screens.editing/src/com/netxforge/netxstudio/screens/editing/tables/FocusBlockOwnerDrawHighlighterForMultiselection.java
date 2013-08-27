@@ -306,40 +306,7 @@ public class FocusBlockOwnerDrawHighlighterForMultiselection extends
 		redrawCell.getControl().redraw(x, rect.y - 1, width, rect.height + 1,
 				true);
 	}
-
-	//
-	// private void redrawBlock(ViewerCell[] redrawCells) {
-	// // Rectangle rect = redrawCell.getBounds();
-	//
-	// Rectangle allCellsRectangle = null;
-	//
-	// for (ViewerCell cell : redrawCells) {
-	// Rectangle rect = cell.getBounds();
-	// if (allCellsRectangle == null) {
-	// allCellsRectangle = rect;
-	// } else {
-	// allCellsRectangle.add(rect);
-	// }
-	// }
-	//
-	// // int x = redrawCell.getColumnIndex() == 0 ? 0 : rect.x;
-	// // int width = redrawCell.getColumnIndex() == 0 ? rect.x + rect.width
-	// // : rect.width;
-	//
-	// int y = (allCellsRectangle.y + 1);
-	//
-	// // System.out.println("redraw viewercell horizontal from " + x + " to "
-	// // +( x + width) );
-	// // System.out.println("redraw viewercell vertical from " + y + " to " +
-	// // ( y
-	// // + rect.height) );
-	//
-	// // 1 is a fix for Linux-GTK
-	// viewer.getControl().redraw(allCellsRectangle.x,
-	// allCellsRectangle.y - 1, allCellsRectangle.width,
-	// allCellsRectangle.height + 1, true);
-	// }
-
+	
 	private void removeSelectionInformation(Event event, ViewerCell cell) {
 		GC gc = event.gc;
 		gc.setBackground(getUnselectedCellBackgroundColor(cell));
