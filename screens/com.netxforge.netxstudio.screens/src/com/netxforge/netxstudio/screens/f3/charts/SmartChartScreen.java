@@ -520,6 +520,9 @@ public class SmartChartScreen extends AbstractScreen implements
 
 		if (chartModel.hasMarkers()) {
 			initMarkersBindingCollection();
+		}else{
+			markersTableViewer.getTable().setSelection(-1);
+			markersTableViewer.getTable().clearAll();
 		}
 
 		return context;
