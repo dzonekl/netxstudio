@@ -386,8 +386,10 @@ public class SmartValueComponent {
 	 * Refresh for smart viewers.
 	 */
 	public void smartRefresh() {
-		viewerComponent.clearFilter();
-		viewerComponent.applyFilter();
+		if (from != null && to != null) {
+			viewerComponent.clearFilter();
+			viewerComponent.applyFilter();
+		}
 	}
 
 	/*
