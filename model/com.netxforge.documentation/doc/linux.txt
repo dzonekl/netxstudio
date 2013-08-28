@@ -4,6 +4,8 @@ FILE PERMISSION
  PROCESSOR/MEMORY => htop or top
  PROCESS => ps -ef
  PORTS => netstat -ln
+ 
+ 
   
  
  Ubuntu
