@@ -25,6 +25,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Event;
 
 import com.netxforge.netxstudio.screens.editing.tables.CopyFeatureCommand.FeatureInitializer;
 import com.netxforge.netxstudio.screens.editing.tables.CopyFeatureCommand.Helper;
@@ -36,6 +38,9 @@ import com.netxforge.netxstudio.screens.editing.tables.CopyFeatureCommand.Helper
  */
 public abstract class AbstractFocusBlockActionHandler implements
 		IFocusBlockActionHandler {
+	
+	private static final int DRAG_ACCELARATOR = SWT.ALT;
+	
 	/*
 	 * The editing domain holding the stack and resource set.
 	 */
@@ -76,7 +81,8 @@ public abstract class AbstractFocusBlockActionHandler implements
 		this.editingDomain = editingDomain;
 	}
 
-	public void updateCommand(ViewerCell focusCell, Collection<EObject> targets) {
+	public void updateCommand(ViewerCell focusCell,
+			Collection<EObject> targets, Event event) {
 
 		if (!isPrepared(focusCell)) {
 			// dispose the command.
@@ -86,16 +92,31 @@ public abstract class AbstractFocusBlockActionHandler implements
 			}
 			return;
 		} else {
+
 			EStructuralFeature feature = mapColumnToFeature(focusCell
 					.getColumnIndex());
 			EObject element = (EObject) focusCell.getElement();
-			command = commandFor(editingDomain, element, targets, feature,
-					new CopyFeatureCommand.Helper(), featureInitializer,
-					resource);
+
+			if (event != null) {
+				if ((event.stateMask & SWT.ALT) != 0) {
+//					System.out.println("produce set command");
+					command = setCommandFor(editingDomain, element, targets,
+							feature);
+				} else {
+//					System.out.println("produce copy command");
+					command = copyCommandFor(editingDomain, element, targets,
+							feature, new CopyFeatureCommand.Helper(),
+							featureInitializer, resource);
+				}
+			}
 		}
 	}
 
-	public abstract Command commandFor(EditingDomain editingDomain,
+	public abstract Command setCommandFor(EditingDomain editingDomain,
+			EObject element, Collection<EObject> targets,
+			EStructuralFeature feature);
+
+	public abstract Command copyCommandFor(EditingDomain editingDomain,
 			EObject element, Collection<EObject> targets,
 			EStructuralFeature feature, Helper helper,
 			FeatureInitializer featureInitializer, Resource resource);
@@ -159,5 +180,9 @@ public abstract class AbstractFocusBlockActionHandler implements
 	 */
 	public void setFeatureInitializer(FeatureInitializer featureInitializer) {
 		this.featureInitializer = featureInitializer;
+	}
+	
+	public int getDragAccelerator() {
+		return DRAG_ACCELARATOR;
 	}
 }

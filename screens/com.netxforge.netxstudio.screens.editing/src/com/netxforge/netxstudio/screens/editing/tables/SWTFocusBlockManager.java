@@ -32,7 +32,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
@@ -41,12 +43,11 @@ import org.eclipse.swt.widgets.Listener;
  * SWT-Controls {@link org.eclipse.swt.widgets.Table} and
  * {@link org.eclipse.swt.widgets.Tree}. </p>An adaption of
  * {@link SWTFocusCellManager}.</p> It supports drag-copying of cell content
- * from top to bottom. (Other dragging directions are not supported.</p>. 
- * </p> {@link #setFocusBlockActionHandler(IFocusBlockActionHandler)} to create and
- *  
- *  While
- * dragging an EMF Command command is created and updated with the elements for
- * the {@link ViewerCell}
+ * from top to bottom. (Other dragging directions are not supported.</p>. </p>
+ * {@link #setFocusBlockActionHandler(IFocusBlockActionHandler)} to create and
+ * 
+ * While dragging an EMF Command command is created and updated with the
+ * elements for the {@link ViewerCell}
  * 
  * @since 3.3
  * @author Christophe Bouhier
@@ -65,7 +66,7 @@ abstract class SWTFocusBlockManager {
 
 	// Our focus block highlighter.
 	private FocusBlockHighlighter cellHighlighter;
-	
+
 	// Our Action Handler
 	private IFocusBlockActionHandler focusBlockActionHandler;
 
@@ -116,16 +117,36 @@ abstract class SWTFocusBlockManager {
 	private void handleMouseDown(Event event) {
 
 		ViewerCell cell = viewer.getCell(new Point(event.x, event.y));
+
 		if (cell != null) {
 			if (!cell.equals(focusCell)) {
-				setFocusCell(cell);
+				setFocusCell(cell, event);
 			}
 		}
-		cleanFocusBlock(focusCell);
+		cleanFocusBlock(focusCell, event);
 		cellDragging = true;
+		
+		setCursorAccelerator(isAccelarating(event));
 		// System.out
 		// .println(" moving down, activate cell dragging, block size = "
 		// + focusBlock.size());
+	}
+
+	private boolean isAccelarating(Event event) {
+		return (event.stateMask & focusBlockActionHandler.getDragAccelerator()) != 0;
+	}
+
+	private void setCursorAccelerator(boolean accelerating) {
+		
+		Cursor previousCursor = viewer.getControl().getCursor();
+		
+		if (accelerating) {
+			viewer.getControl().setCursor(
+					Display.getDefault().getSystemCursor(SWT.CURSOR_UPARROW));
+		} else {
+			viewer.getControl().setCursor(
+					Display.getDefault().getSystemCursor(SWT.CURSOR_ARROW));
+		}
 	}
 
 	/**
@@ -162,7 +183,7 @@ abstract class SWTFocusBlockManager {
 				// should get the position
 				// to remove other cells..
 				if (inFocusBlock(cell)) {
-					cleanFocusBlock(cell);
+					cleanFocusBlock(cell, event);
 					// System.out.println("Dragging....removing cell in column:"
 					// + cell.getVisualIndex() + " size of block = "
 					// + focusBlock.size());
@@ -173,7 +194,7 @@ abstract class SWTFocusBlockManager {
 					ViewerCell belowNeighborCell = lastCellInBlock()
 							.getNeighbor(ViewerCell.BELOW, false);
 					if (cell.equals(belowNeighborCell)) {
-						addCellToBlock(cell);
+						addCellToBlock(cell, event);
 						// System.out.println("Dragging....Adding cell in column:"
 						// + cell.getVisualIndex() + " size of block = "
 						// + focusBlock.size());
@@ -190,8 +211,9 @@ abstract class SWTFocusBlockManager {
 	 * block when dragging upwards.
 	 * 
 	 * @param cell
+	 * @param event
 	 */
-	private void cleanFocusBlock(ViewerCell cell) {
+	private void cleanFocusBlock(ViewerCell cell, Event event) {
 
 		if (focusBlock.isEmpty()) {
 			// do nothing, we always have the focus cell.
@@ -204,7 +226,8 @@ abstract class SWTFocusBlockManager {
 				// + cell.getVisualIndex());
 				focusBlock.clear();
 				cellHighlighter.focusBlockChanged(block(), oldBlock);
-				focusBlockActionHandler.updateCommand(focusCell, getTargets());
+				focusBlockActionHandler.updateCommand(focusCell, getTargets(),
+						event);
 
 			} else if (focusBlock.contains(cell)) {
 				int indexOf = focusBlock.indexOf(cell);
@@ -218,7 +241,8 @@ abstract class SWTFocusBlockManager {
 				// System.out.println("Dragging....Clearing cells:"
 				// + cell.getVisualIndex());
 				cellHighlighter.focusBlockChanged(block(), oldBlock);
-				focusBlockActionHandler.updateCommand(focusCell, getTargets());
+				focusBlockActionHandler.updateCommand(focusCell, getTargets(),
+						event);
 			}
 		}
 	}
@@ -273,7 +297,7 @@ abstract class SWTFocusBlockManager {
 		}
 	}
 
-	private void addCellToBlock(ViewerCell cell) {
+	private void addCellToBlock(ViewerCell cell, Event event) {
 
 		if (!focusBlock.contains(cell)) {
 
@@ -281,17 +305,20 @@ abstract class SWTFocusBlockManager {
 			focusBlock.add(cell);
 			ViewerCell[] newBlock = block();
 			cellHighlighter.focusBlockChanged(newBlock, oldBlock);
-			focusBlockActionHandler.updateCommand(focusCell, getTargets());
+			focusBlockActionHandler.updateCommand(focusCell, getTargets(),
+					event);
 		}
 	}
 
 	private void handleMouseUp(Event event) {
+
 		// System.out.println(" mouse up, disable dragging");
 		if (cellDragging) {
 			focusBlockActionHandler.executeCommand();
 			// System.out.println("SWTFocusBlockManager: Executing copy command");
 		}
 		this.cellDragging = false;
+		setCursorAccelerator(isAccelarating(event));
 	}
 
 	private void handleKeyDown(Event event) {
@@ -306,7 +333,7 @@ abstract class SWTFocusBlockManager {
 
 			if (tmp != null) {
 				if (!tmp.equals(focusCell)) {
-					setFocusCell(tmp);
+					setFocusCell(tmp, event);
 				}
 			}
 		}
@@ -335,7 +362,7 @@ abstract class SWTFocusBlockManager {
 				// CB TODO, update to sync our focus block.
 				ViewerCell tmp = row.getCell(focusCell.getColumnIndex());
 				if (!focusCell.equals(tmp)) {
-					setFocusCell(tmp);
+					setFocusCell(tmp, event);
 				}
 			}
 		}
@@ -349,7 +376,7 @@ abstract class SWTFocusBlockManager {
 	 */
 	private void handleFocusIn(Event event) {
 		if (focusCell == null) {
-			setFocusCell(getInitialFocusCell());
+			setFocusCell(getInitialFocusCell(), event);
 		}
 	}
 
@@ -447,7 +474,11 @@ abstract class SWTFocusBlockManager {
 		return focusBlock.toArray(focusBlockArray);
 	}
 
-	void setFocusCell(ViewerCell focusCell) {
+	protected void setFocusCell(Object object) {
+		setFocusCell(focusCell, null);
+	}
+
+	void setFocusCell(ViewerCell focusCell, Event event) {
 		ViewerCell oldCell = this.focusCell;
 
 		if (this.focusCell != null && !this.focusCell.getItem().isDisposed()) {
@@ -465,7 +496,7 @@ abstract class SWTFocusBlockManager {
 			focusCell.scrollIntoView();
 		}
 		this.cellHighlighter.focusCellChanged(focusCell, oldCell);
-		focusBlockActionHandler.updateCommand(focusCell, getTargets());
+		focusBlockActionHandler.updateCommand(focusCell, getTargets(), event);
 		getViewer().getControl().getAccessible().setFocus(ACC.CHILDID_SELF);
 	}
 

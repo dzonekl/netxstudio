@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.widgets.Event;
 
 import com.netxforge.netxstudio.screens.editing.tables.CopyFeatureCommand.FeatureInitializer;
 
@@ -56,11 +57,12 @@ public interface IFocusBlockActionHandler {
 	 * @param focusCell
 	 * @param targets
 	 */
-	public void updateCommand(ViewerCell focusCell, Collection<EObject> targets);
+	public void updateCommand(ViewerCell focusCell, Collection<EObject> targets, Event event);
 
 	/**
 	 * Called by the {@link SWTFocusBlockManager} when the EMF command needs to
 	 * be executed on the {@link CommandStack} of the {@link EditingDomain}.
+	 * @param event 
 	 */
 	public void executeCommand();
 
@@ -94,5 +96,13 @@ public interface IFocusBlockActionHandler {
 	 * @param expressionsResource
 	 */
 	public void setTargetResourceForNonContainment(Resource resource);
+	
+	
+	/**
+	 * The accelerator to trigger optional commands. 
+	 * 
+	 * @return
+	 */
+	public int getDragAccelerator();
 
 }

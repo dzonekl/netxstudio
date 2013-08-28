@@ -33,15 +33,21 @@ import com.netxforge.netxstudio.screens.editing.tables.CopyFeatureCommand.Helper
  * @author Christophe Bouhier
  */
 public class CopyFeaturesActionHandler extends AbstractFocusBlockActionHandler {
-	
+
 	@Override
-	public Command commandFor(EditingDomain editingDomain, EObject element,
+	public Command copyCommandFor(EditingDomain editingDomain, EObject element,
 			Collection<EObject> targets, EStructuralFeature feature,
 			Helper helper, FeatureInitializer featureInitializer,
 			Resource resource) {
 		return new CopyFeatureCommand(editingDomain, element, targets, feature,
 				new CopyFeatureCommand.Helper(), featureInitializer, resource);
 
+	}
+
+	@Override
+	public Command setCommandFor(EditingDomain editingDomain, EObject element,
+			Collection<EObject> targets, EStructuralFeature feature) {
+		return new SetFeatureCommand(editingDomain, element, targets, feature);
 	}
 
 }
