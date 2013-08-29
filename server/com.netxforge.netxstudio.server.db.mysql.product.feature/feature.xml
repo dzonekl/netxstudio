@@ -17,6 +17,66 @@
       [Enter License Description here.]
    </license>
 
+   <includes
+         id="com.netxforge.netxstudio.server.db.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.common.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.data.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.13042011.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.cdo.server.db.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.platform.server.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.google.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.base"
+         version="0.0.0"/>
+
+   <includes
+         id="org.apache.poi.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.quartz.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxscript.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xtext.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.apache.artifacts.server.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="javax.artifacts.feature"
+         version="0.0.0"/>
+
    <plugin
          id="com.netxforge.netxstudio.server.db.mysql.product"
          download-size="0"
