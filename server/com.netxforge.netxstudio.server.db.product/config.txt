@@ -1,8 +1,0 @@
-Model version selection. 
-- The model version is determined by the individual ePackage NSURI versions, which is 
-part of the cdo-server.xml.  
-- Product configurations, point to dedicated config folders, containing the cdo-server.xml
-- The DB Name is appended with the version name of the model i.e. DBSTORE_060312.
-    
-- XText based plugins, generate packages with dependencies on specific model versions, so can't be used, or should be re-generated
-agains the correct model version. 
