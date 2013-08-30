@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target includeMode="feature" name="NX CDO42 Kepler XTEXT 20 EMFC 210" sequenceNumber="66">
+<locations>
+<location path="/Users/Christophe/Documents/Projects/NetXStudio/Target/json" type="Directory"/>
+<location path="/Users/Christophe/Documents/Projects/NetXStudio/Target/mwe 2.0.1 baseline" type="Directory"/>
+<location path="/Users/Christophe/Documents/Projects/NetXStudio/Target/emf-cdo-R20130613-1157-Dropins" type="Directory"/>
+<location path="/Users/Christophe/Documents/Projects/NetXStudio/Target/xtext 2.0.0 baseline" type="Directory"/>
+<location path="/Users/Christophe/Documents/Projects/NetXStudio/Target/Peaberry 1.1.1" type="Directory"/>
+<location path="/Users/Christophe/Documents/Projects/NetXStudio/Target/mwe 1.1.1" type="Directory"/>
+<location path="/Users/Christophe/Documents/Projects/NetXStudio/Target/nebula release" type="Directory"/>
+<location path="/Users/Christophe/Documents/Projects/NetXStudio/Target/emf-compare-update-2.1.0M6" type="Directory"/>
+<location path="/Users/Christophe/Documents/Projects/NetXStudio/Target/nebula incubation" type="Directory"/>
+<location path="/Users/Christophe/Documents/Projects/NetXStudio/Target/baseline" type="Directory"/>
+<location path="/Users/Christophe/Documents/Projects/NetXStudio/Target/emf 2.9 SDK" type="Directory"/>
+<location path="/Users/Christophe/Documents/Projects/NetXStudio/Target/junit4" type="Directory"/>
+</locations>
+<environment>
+<os>macosx</os>
+<ws>cocoa</ws>
+<arch>x86_64</arch>
+<nl>en_US</nl>
+</environment>
+</target>
