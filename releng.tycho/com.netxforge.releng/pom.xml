@@ -36,7 +36,10 @@
 	</build>
 	<modules>
 		<module>
-			../../server/com.netxforge.netxstudio.server.db.mysql.product
+		../../server/com.netxforge.netxstudio.server.db.mysql.product
+		</module>
+		<module>
+		../../features
 		</module>
 	</modules>
 </project>
