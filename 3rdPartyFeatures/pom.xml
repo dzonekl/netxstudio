@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>3rd.features</groupId>
+  <artifactId>3rd.features</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <parent>
+    <groupId>com.netxforge.netxstudio</groupId>
+    <artifactId>com.netxforge.releng</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../releng.tycho/com.netxforge.releng</relativePath>  
+  </parent>
+   <modules>
+    <module>org.eclipse.xtext.artifacts.feature</module>
+    <module>org.eclipse.platform.server.artifacts.feature</module>
+    <module>org.apache.poi.artifacts.feature</module>
+    <module>org.apache.artifacts.server.feature</module>
+    <module>com.google.artifacts.feature</module>
+    <module>org.quartz.artifacts.feature</module>
+    <module>javax.artifacts.feature</module>
+    <module>org.slf4j.feature</module>
+  </modules>
+</project>
