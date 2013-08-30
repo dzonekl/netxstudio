@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.netxforge.netxstudio.client.product.feature"
+      label="NetXStudio Client Product Feature"
+      version="1.0.0.qualifier"
+      provider-name="NetXForge">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <includes
+         id="com.netxforge.netxstudio.console.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.help.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.screens.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.screens.xtext.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.data.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.common.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.screens.editing.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxscript.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.common"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.common.ui"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.ecore"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.ecore.edit"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.edit"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.edit.ui"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.databinding"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.databinding.edit"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.compare.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.platform.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.rcp"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.equinox.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.compare.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.help.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.google.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.apache.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.mortbay.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.antlr.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.swtchart.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.nebula.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xtext.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.cdo.client.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.apache.poi.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.gef"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.draw2d"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.13042011.feature"
+         version="1.0.0.qualifier"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.edit.feature"
+         version="1.0.0.qualifier"/>
+
+   <includes
+         id="org.postgresql.jdbc.driver.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="javax.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xtend.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.mwe.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xpand.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="oracle.jdbc.driver.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.13042011.edit.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxscript.ui.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.ui.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.screens.ide.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xtext.ui.artifacts.feature"
+         version="0.0.0"/>
+
+   <plugin
+         id="com.netxforge.netxstudio.client.product"
+         download-size="0"
+         install-size="0"
+         version="1.0.0.qualifier"/>
+
+   <plugin
+         id="com.netxforge.netxstudio.screens.activities"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
