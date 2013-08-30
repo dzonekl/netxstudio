@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="netxstudio_kepler" sequenceNumber="31">
+<?pde version="3.8"?><target name="netxstudio_kepler" sequenceNumber="34">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.peaberry.artifacts.feature.feature.group" version="1.0.0.201308301546"/>
 <repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/peaberry.p2/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.rcp.source.feature.group" version="4.3.0.v20130605-2000"/>
-<unit id="org.eclipse.pde.api.tools.ee.feature.feature.group" version="1.0.0.v20130327-1631"/>
-<unit id="org.eclipse.releng.tools.feature.group" version="3.5.0.v20130523-0845"/>
-<unit id="org.eclipse.equinox.sdk.feature.group" version="3.9.0.v20130604-2047"/>
-<unit id="org.eclipse.sdk.ide" version="4.3.0.I20130605-2000"/>
-<unit id="org.eclipse.platform.sdk" version="4.3.0.I20130605-2000"/>
-<unit id="org.eclipse.test.feature.group" version="3.6.0.v20130424-0442"/>
-<unit id="org.eclipse.sdk.tests.feature.group" version="4.3.0.v20130606-0135"/>
-<unit id="org.eclipse.platform.ide" version="4.3.0.I20130605-2000"/>
-<unit id="org.eclipse.rcp.feature.group" version="4.3.0.v20130605-2000"/>
-<repository location="http://download.eclipse.org/eclipse/updates/4.3"/>
+<unit id="org.eclipse.emf.base.feature.group" version="2.9.0.v20130528-0742"/>
+<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/emf.p2/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.xtext.artifacts.feature.feature.group" version="1.0.0.201308301441"/>
 <repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/xtext.p2/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="com.google.artifacts.feature.feature.group" version="1.0.0.201308301559"/>
+<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/google.p2/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="net.miginfocom.layout.swing" version="3.7.1.v200911230030"/>
@@ -495,12 +490,23 @@
 <repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/orbit-buildrepo-R20130827064939/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.base.feature.group" version="2.9.0.v20130528-0742"/>
-<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/emf.p2/"/>
+<unit id="org.eclipse.rcp.source.feature.group" version="4.3.0.v20130605-2000"/>
+<unit id="org.eclipse.pde.api.tools.ee.feature.feature.group" version="1.0.0.v20130327-1631"/>
+<unit id="org.eclipse.releng.tools.feature.group" version="3.5.0.v20130523-0845"/>
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.9.0.v20130604-2047"/>
+<unit id="org.eclipse.sdk.ide" version="4.3.0.I20130605-2000"/>
+<unit id="org.eclipse.platform.sdk" version="4.3.0.I20130605-2000"/>
+<unit id="org.eclipse.test.feature.group" version="3.6.0.v20130424-0442"/>
+<unit id="org.eclipse.sdk.tests.feature.group" version="4.3.0.v20130606-0135"/>
+<unit id="org.eclipse.platform.ide" version="4.3.0.I20130605-2000"/>
+<unit id="org.eclipse.rcp.feature.group" version="4.3.0.v20130605-2000"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.3"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="com.google.artifacts.feature.feature.group" version="1.0.0.201308301559"/>
-<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/google.p2/"/>
+<unit id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature.feature.group" version="1.0.0.201308301621"/>
+<unit id="org.eclipse.emf.cdo.server.artifacts.feature.feature.group" version="1.0.0.201308301621"/>
+<unit id="org.eclipse.emf.cdo.client.artifacts.feature.feature.group" version="1.0.0.201308301621"/>
+<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/cdo.p2/"/>
 </location>
 </locations>
 </target>

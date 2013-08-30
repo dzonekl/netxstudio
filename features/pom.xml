@@ -15,5 +15,11 @@
    <modules>
     <module>com.netxforge.netxstudio.server.db.mysql.product.feature</module>
     <module>com.netxforge.netxstudio.server.db.feature</module>
+    <module>com.netxforge.netxstudio.common.feature</module>
+    <module>com.netxforge.netxstudio.data.feature</module>
+    <module>com.netxforge.netxscript.feature</module>
+    <module>com.netxforge.netxstudio.models.feature</module>
+    <module>com.netxforge.netxstudio.models.13042011.feature</module>
+    <module>org.eclipse.emf.cdo.server.db.mysql.artifacts.feature</module>
   </modules>
 </project>

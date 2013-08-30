@@ -2,35 +2,12 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.netxforge.netxstudio.server.db.mysql.product</groupId>
   <artifactId>com.netxforge.netxstudio.server.db.mysql.product</artifactId>
-  <packaging>eclipse-repository</packaging>
-  <version>1.1.8-SNAPSHOT</version>
+  <version>0.0.1-SNAPSHOT</version>
    <parent>
-    <groupId>com.netxforge.netxstudio</groupId>
-    <artifactId>com.netxforge.releng</artifactId>
+    <groupId>plugins</groupId>
+    <artifactId>plugins</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-     <relativePath>../../releng.tycho/com.netxforge.releng</relativePath>  
+     <relativePath>../../plugins</relativePath>  
   </parent>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-p2-director-plugin</artifactId>
-        <version>${tycho-version}</version>
-        <executions>
-          <execution>
-            <id>materialize-products</id>
-            <goals>
-              <goal>materialize-products</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>archive-products</id>
-              <goals>
-                <goal>archive-products</goal>
-              </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+  <packaging>eclipse-plugin</packaging>
 </project>

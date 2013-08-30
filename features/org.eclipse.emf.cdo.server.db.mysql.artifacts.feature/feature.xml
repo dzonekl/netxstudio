@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature"
-      label="CDO Server DB Feature"
+      label="CDO Server DB MYSQL Feature"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
 
@@ -102,35 +102,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.emf.cdo.server.ocl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.ocl.ecore"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.ocl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="lpg.runtime.java"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.ocl.common"
          download-size="0"
          install-size="0"
          version="0.0.0"

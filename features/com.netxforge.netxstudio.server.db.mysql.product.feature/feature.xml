@@ -38,10 +38,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.emf.cdo.server.db.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.platform.server.artifacts.feature"
          version="0.0.0"/>
 
@@ -75,6 +71,10 @@
 
    <includes
          id="javax.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature"
          version="0.0.0"/>
 
    <plugin
