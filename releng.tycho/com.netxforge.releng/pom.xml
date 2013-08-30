@@ -1,16 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>${groupId}</groupId>
-  <artifactId>com.netxforge.releng</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.netxforge.netxstudio</groupId>
+	<artifactId>com.netxforge.releng</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<properties>
 		<tycho-version>0.18.0</tycho-version>
-		<groupId>com.netxforge.netxstudio</groupId>
 	</properties>
-  <build>
+	<build>
 		<plugins>
-		<plugin>
+			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho-version}</version>
@@ -20,7 +21,7 @@
 							<groupId>${project.groupId}</groupId>
 							<artifactId>${project.artifactId}</artifactId>
 							<version>${project.version}</version>
-							<classifier>../../builds/org.eclipse.emf.edapt.releng.target/edapt</classifier>
+							<classifier>../../releng.tycho/com.netxforge.releng.target/netxstudio_kepler</classifier>
 						</artifact>
 					</target>
 				</configuration>
@@ -33,4 +34,9 @@
 			</plugin>
 		</plugins>
 	</build>
+	<modules>
+		<module>
+			../../server/com.netxforge.netxstudio.server.db.mysql.product
+		</module>
+	</modules>
 </project>
