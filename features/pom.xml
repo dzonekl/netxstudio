@@ -14,5 +14,6 @@
   </parent>
    <modules>
     <module>com.netxforge.netxstudio.server.db.mysql.product.feature</module>
+    <module>com.netxforge.netxstudio.server.db.feature</module>
   </modules>
 </project>

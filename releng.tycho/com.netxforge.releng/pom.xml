@@ -36,10 +36,16 @@
 	</build>
 	<modules>
 		<module>
-		../../server/com.netxforge.netxstudio.server.db.mysql.product
+		../../plugins
 		</module>
 		<module>
 		../../features
+		</module>
+		<module>
+		../../3rdPartyFeatures
+		</module>
+		<module>
+			../../products/com.netxforge.netxstudio.server.db.mysql.product
 		</module>
 	</modules>
 </project>
