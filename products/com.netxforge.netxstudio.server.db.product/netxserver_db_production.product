@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Netxserver DBStore" uid="com.netxforge.netxstudio.netxserver.product" id="com.netxforge.netxstudio.server.db.product.NetXServer" application="org.eclipse.emf.cdo.server.app" version="1.0.0" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -clean -console 8811 -noExit -consoleLog --launcher.XXMaxPermSize 128M</programArgs>
+      <vmArgs>-Xms40m
+-XX:+HeapDumpOnOutOfMemoryError
+-Ddebug=false
+-Dlog4j.debug=false
+-Dorg.osgi.service.http.port=8080
+-DmetricSourceRoot=/Users/dzonekl/Documents/Projects/NetXStudio/TestData</vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+-server
+-d64
+-Xmx1024m
+-Xss512k
+-Dnet4j.config=&quot;${resource_loc:/com.netxforge.netxstudio.server.db.product/config}&quot;
+-Dcom.sun.management.jmxremote.port=8812
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false</vmArgsMac>
+      <vmArgsSol>-server
+-d32
+-Xmx768m
+-Xss512k
+-Dnet4j.config=config
+-Dcom.sun.management.jmxremote.port=8812
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false
+-XX:-DisableExplicitGC</vmArgsSol>
+      <vmArgsWin>-Xmx1024m
+-Dnet4j.config=&quot;${resource_loc:/com.netxforge.netxstudio.server.db.product/config}&quot;</vmArgsWin>
+   </launcherArgs>
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.netxforge.netxstudio.server.db.product.feature"/>
+      <feature id="com.netxforge.netxstudio.server.db.feature"/>
+      <feature id="com.netxforge.netxstudio.data.feature"/>
+      <feature id="com.netxforge.netxscript.feature"/>
+      <feature id="com.netxforge.netxstudio.common.feature"/>
+      <feature id="com.google.artifacts.feature"/>
+      <feature id="org.apache.poi.artifacts.feature"/>
+      <feature id="javax.servlet.artifacts.feature"/>
+      <feature id="org.mortbay.artifacts.feature"/>
+      <feature id="org.eclipse.emf.cdo.server.db.postgres.artifacts.feature"/>
+      <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.dom4j" version="1.6.1"/>
+      <feature id="javax.persistence"/>
+      <feature id="org.antlr.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.xtext.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.quartz.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.apache.artifacts.server.feature" version="1.0.0.qualifier"/>
+      <feature id="oracle.jdbc.driver" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.equinox.jsp.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.postgresql.jdbc.driver.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.models.feature"/>
+      <feature id="com.netxforge.netxstudio.models.13042011.feature" version="1.0.0.qualifier"/>
+   </features>
+
+   <configurations>
+      <plugin id="com.netxforge.netxstudio.server" autoStart="true" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.server.job" autoStart="true" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.server.jsp" autoStart="true" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.server.logic" autoStart="true" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.server.metrics" autoStart="true" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.server.test" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.jetty" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.registry" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.servlet" autoStart="true" startLevel="0" />
+   </configurations>
+
+</product>

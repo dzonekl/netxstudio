@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Netxserver" uid="com.netxforge.netxstudio.netxserver" id="com.netxforge.netxstudio.server.product" application="org.eclipse.emf.cdo.server.app" version="1.0.0" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog -clean -debug -console --launcher.XXMaxPermSize 128M</programArgs>
+      <vmArgs>-Xms40m
+-Xmx1024m
+-Ddebug=true
+-Dlog4j.debug=true
+-Dnet4j.config=&quot;${resource_loc:/com.netxforge.netxstudio.server/config}&quot;
+-Dorg.osgi.service.http.port=8080
+-DmetricSourceRoot=/Users/dzonekl/Documents/Projects/NetXStudio/TestData</vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.netxforge.netxstudio.server.feature"/>
+      <feature id="com.netxforge.netxstudio.server.test.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.data.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxscript.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.common.feature" version="1.0.0.qualifier"/>
+      <feature id="com.google.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.apache.poi.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.emf.cdo.server.artifacts.feature"/>
+      <feature id="org.eclipse.emf.teneo.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="javax.servlet.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.mortbay.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.dom4j" version="1.6.1"/>
+      <feature id="javax.persistence"/>
+      <feature id="org.antlr.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.xtext.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.quartz.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.hibernate"/>
+      <feature id="org.apache.artifacts.server.feature" version="1.0.0.qualifier"/>
+      <feature id="oracle.jdbc.driver" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.equinox.jsp.artifacts.feature" version="1.0.0.qualifier"/>
+   </features>
+
+   <configurations>
+      <plugin id="com.netxforge.netxstudio.server" autoStart="true" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.server.job" autoStart="true" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.server.jsp" autoStart="true" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.server.logic" autoStart="true" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.server.metrics" autoStart="true" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.server.test" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.jetty" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.registry" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.servlet" autoStart="true" startLevel="0" />
+   </configurations>
+
+</product>
