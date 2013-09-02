@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="netxstudio_kepler" sequenceNumber="34">
+<?pde version="3.8"?><target name="netxstudio_kepler" sequenceNumber="35">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.peaberry.artifacts.feature.feature.group" version="1.0.0.201308301546"/>
@@ -507,6 +507,21 @@
 <unit id="org.eclipse.emf.cdo.server.artifacts.feature.feature.group" version="1.0.0.201308301621"/>
 <unit id="org.eclipse.emf.cdo.client.artifacts.feature.feature.group" version="1.0.0.201308301621"/>
 <repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/cdo.p2/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.gef.all.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.draw2d.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.zest.sdk.feature.group" version="1.5.0.201305060205"/>
+<unit id="org.eclipse.gef.source.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.zest.source.feature.group" version="1.5.0.201305060205"/>
+<unit id="org.eclipse.draw2d.sdk.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.gef.examples.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.gef.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.gef.examples.source.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.draw2d.source.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.zest.feature.group" version="1.5.0.201305060205"/>
+<unit id="org.eclipse.gef.sdk.feature.group" version="3.9.0.201305060205"/>
+<repository location="http://download.eclipse.org/tools/gef/updates/releases/"/>
 </location>
 </locations>
 </target>
