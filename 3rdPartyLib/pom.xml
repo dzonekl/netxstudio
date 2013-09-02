@@ -17,5 +17,6 @@
     <module>org.quartz</module>
     <module>org.quartz.properties</module>
     <module>org.slf4j</module>
+    <module>com.mysql.driver</module>
   </modules>
 </project>

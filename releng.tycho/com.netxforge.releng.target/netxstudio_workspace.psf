@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.eclipse.egit.core.GitProvider">
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/com.google.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/com.mysql.driver"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/com.mysql.driver.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.csv"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.csv.ui"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.documentation"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.netxscript"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxscript.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/com.netxforge.netxscript.tests"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxscript.ui"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxscript.ui.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.client.product"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.client.product.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.common"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.common.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.common.tests"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.console"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.console.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.data"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.data.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.netxstudio.data.fixtures"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.help"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.help.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,server/com.netxforge.netxstudio.log4j"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.netxstudio.models"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.netxstudio.models.13042011"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.netxstudio.models.13042011.edit"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.models.13042011.edit.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.models.13042011.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.models.edit"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.models.edit.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.netxstudio.models.export"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.models.export.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.netxstudio.models.export.tests"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.models.export.ui"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.models.export.ui.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.models.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.netxstudio.models.import"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.models.import.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.models.import.ui"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.models.import.ui.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.netxstudio.models.workflow"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.netxstudio.models16042013_delta"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.netxstudio.models16042013_delta.edit"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.netxstudio.models16042013_delta.editor"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,model/com.netxforge.netxstudio.models16042013_delta.tests"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/com.netxforge.netxstudio.patch351068.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.screens"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.screens.activities"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.screens.app"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.screens.app.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.screens.editing"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.screens.editing.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.screens.editing.test"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.screens.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.screens.ide"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.screens.ide.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.screens.nebula"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.screens.rcp"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.screens.xtext"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.screens.xtext.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,server/com.netxforge.netxstudio.server"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.server.base.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.server.db.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,products/com.netxforge.netxstudio.server.db.mysql.product"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.server.db.mysql.product.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,products/com.netxforge.netxstudio.server.db.postgres.product"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.server.db.postgres.product.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,products/com.netxforge.netxstudio.server.db.product"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,server/com.netxforge.netxstudio.server.hibernate"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.server.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,products/com.netxforge.netxstudio.server.hibernate.product"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.server.hibernate.product.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,server/com.netxforge.netxstudio.server.job"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,server/com.netxforge.netxstudio.server.jsp"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,server/com.netxforge.netxstudio.server.logic"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,server/com.netxforge.netxstudio.server.metrics"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,server/com.netxforge.netxstudio.server.migrator"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.server.migrator.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,server/com.netxforge.netxstudio.server.test"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/com.netxforge.netxstudio.server.test.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,screens/com.netxforge.netxstudio.workspace"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,releng.tycho/com.netxforge.releng"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,releng.tycho/com.netxforge.releng.target"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/javax.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/oracle.jdbc.driver"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/oracle.jdbc.driver.10_2_0_4"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/oracle.jdbc.driver.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.antlr.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.apache.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.apache.artifacts.server.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.apache.commons.math"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.apache.poi"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.apache.poi.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipe.xtext.purexbase.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.compare.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.core.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.ecf.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.emf.cdo.client.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.emf.cdo.client.ui.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.emf.cdo.server.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/org.eclipse.emf.cdo.server.db.mysql.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/org.eclipse.emf.cdo.server.db.postgres.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,features/org.eclipse.emf.cdo.server.hibernate.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.emf.compare.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.emf.mwe.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.emf.teneo.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.equinox.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.eclipse.equinox.http.helper"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.equinox.jsp.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.eclipse.equinox.jsp.jstl"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.help.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.jdt.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.ltk.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.nebula.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.p2.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.platform.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.platform.server.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.ui.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.eclipse.ui.ide"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.eclipse.ui.navigator.resources"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.xpand.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.xtend.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.xtext.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.eclipse.xtext.ui.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.eclipse.xtext.ui.codetemplates.ui"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.eclipse.xtext.ui.shared_2.0.0.v201103151224"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.mortbay.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.peaberry.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.postgresql"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.postgresql.jdbc.driver.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.quartz"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.quartz.artifacts.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.quartz.properties"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.slf4j"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.slf4j.feature"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.snmp4j"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.supercsv"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyLib/org.swtchart"/>
+<project reference="1.0,/Users/Christophe/Documents/Projects/GIT_netxstudio/,topic_kepler_build,3rdPartyFeatures/org.swtchart.artifacts.feature"/>
+</provider>
+<workingSets editPageId="org.eclipse.ui.resourceWorkingSetPage" id="1378125267956_12" label="netxstudio.features" name="netxstudio.features">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.emf.cdo.server.db.postgres.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.hibernate.product.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.db.postgres.product.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxscript.ui.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.13042011.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.base.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.common.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.db.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.export.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens.editing.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.edit.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxscript.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.console.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens.app.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.client.product.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens.xtext.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.emf.cdo.server.hibernate.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.import.ui.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens.ide.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.13042011.edit.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.export.ui.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.import.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.test.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.migrator.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.hibernate.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.db.mysql.product.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.emf.cdo.server.db.mysql.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.data.feature" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.ui.resourceWorkingSetPage" id="1378124864358_10" label="netxstudio.features.3rd" name="netxstudio.features.3rd">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxscript.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.emf.cdo.server.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.postgresql.jdbc.driver.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.help.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.emf.cdo.client.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.ui.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.platform.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.quartz.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.equinox.jsp.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.xpand.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.patch351068.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipe.xtext.purexbase.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.antlr.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.ecf.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.google.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.swtchart.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.nebula.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.slf4j.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.apache.poi.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.p2.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.apache.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.xtext.ui.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.platform.server.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/javax.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.apache.artifacts.server.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.peaberry.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.xtend.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.equinox.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.ltk.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/oracle.jdbc.driver.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.core.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.mysql.driver.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.emf.cdo.client.ui.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.jdt.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.emf.compare.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.emf.teneo.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.emf.mwe.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.xtext.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.mortbay.artifacts.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.compare.artifacts.feature" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.ui.resourceWorkingSetPage" id="1378125086630_11" label="netxstudio.libs.3rd" name="netxstudio.libs.3rd">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.supercsv" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.xtext.ui.codetemplates.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.xtext.ui.shared_2.0.0.v201103151224" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.swtchart" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.ui.navigator.resources" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.ui.ide" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.apache.poi" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.slf4j" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/oracle.jdbc.driver" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.postgresql" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.snmp4j" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.equinox.jsp.jstl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.quartz.properties" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.apache.commons.math" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.mysql.driver" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.equinox.http.helper" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/oracle.jdbc.driver.10_2_0_4" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.quartz" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.ui.resourceWorkingSetPage" id="1378125561259_13" label="netxstudio.model" name="netxstudio.model">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.export" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.import" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models16042013_delta.editor" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models16042013_delta" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.13042011" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.csv" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.13042011.edit" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxscript" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models16042013_delta.edit" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.export.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.csv.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models16042013_delta.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.documentation" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.data.fixtures" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.workflow" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.ui.resourceWorkingSetPage" id="1378125694853_14" label="netxstudio.products" name="netxstudio.products">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.db.mysql.product" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.db.postgres.product" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.db.product" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.hibernate.product" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.ui.resourceWorkingSetPage" id="1378125730873_15" label="netxstudio.releng.tycho" name="netxstudio.releng.tycho">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.releng.target" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.releng" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.ui.resourceWorkingSetPage" id="1378125831628_17" label="netxstudio.server" name="netxstudio.server">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.test" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.migrator" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.job" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.hibernate" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.jsp" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.metrics" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.server.logic" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.log4j" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.ui.resourceWorkingSetPage" id="1378125795014_16" label="netxtudio.screens" name="netxtudio.screens">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens.rcp" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens.ide" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.common.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens.xtext" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens.activities" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.workspace" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.client.product" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxscript.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.console" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens.app" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.data" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.help.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.common" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens.editing" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.export.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens.nebula" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.help" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.import.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.models.edit" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.netxforge.netxstudio.screens.editing.test" type="4"/>
+</workingSets>
+</psf>

@@ -442,13 +442,6 @@ limitations under the License.
          unpack="false"/>
 
    <plugin
-         id="com.google.collect"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.aopalliance"
          download-size="0"
          install-size="0"
@@ -457,6 +450,13 @@ limitations under the License.
 
    <plugin
          id="com.google.guava"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="javax.inject"
          download-size="0"
          install-size="0"
          version="0.0.0"

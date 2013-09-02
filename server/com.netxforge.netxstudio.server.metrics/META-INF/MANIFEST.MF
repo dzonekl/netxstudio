@@ -7,13 +7,10 @@ Bundle-Activator: com.netxforge.netxstudio.server.metrics.internal.MetricsActiva
 Bundle-Vendor: NetXForge
 Eclipse-BuddyPolicy: registered
 Require-Bundle: org.eclipse.core.runtime,
- com.google.inject;bundle-version="2.0.0",
  com.netxforge.netxstudio.server;bundle-version="1.0.0",
  com.netxforge.netxstudio.server.job;bundle-version="1.0.0",
  com.netxforge.netxstudio.data;bundle-version="1.0.0",
- com.google.collect;bundle-version="1.0.0",
- com.netxforge.netxstudio.common;bundle-version="1.0.0",
- org.ops4j.peaberry;bundle-version="1.1.1"
+ com.netxforge.netxstudio.common;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.server.metrics
