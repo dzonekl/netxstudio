@@ -6,6 +6,7 @@
 ############################
 ._trace
 bin/
+target/
 # OS generated files #
 ######################
 .DS_Store
