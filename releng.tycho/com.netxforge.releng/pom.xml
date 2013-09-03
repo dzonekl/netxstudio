@@ -50,10 +50,8 @@
 		<module>
 		../../3rdPartyLib
 		</module>
-		<!-- 
 		<module>
-			../../products/com.netxforge.netxstudio.server.db.mysql.product
+			../../products/com.netxforge.releng.products.netxserver
 		</module>
-		 -->
 	</modules>
 </project>
