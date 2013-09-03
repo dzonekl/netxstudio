@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache POI
 Bundle-SymbolicName: org.apache.poi
-Bundle-Version: 3.9
+Bundle-Version: 3.9.0
 Bundle-Vendor: Apache
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: dom4j-1.6.1.jar,

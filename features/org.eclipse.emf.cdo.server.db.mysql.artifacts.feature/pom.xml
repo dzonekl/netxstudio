@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.emf.cdo.server.db.mysql.artifacts.feature</groupId>
 	<artifactId>org.eclipse.emf.cdo.server.db.mysql.artifacts.feature</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<parent>
 		<groupId>features</groupId>
 		<artifactId>features</artifactId>

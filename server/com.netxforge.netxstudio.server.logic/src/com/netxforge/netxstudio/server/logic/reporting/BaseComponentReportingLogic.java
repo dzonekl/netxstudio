@@ -39,8 +39,8 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Failure;
-import com.netxforge.netxstudio.server.logic.LogicActivator;
-import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentLogic;
+import com.netxforge.netxstudio.server.logic.BaseComponentLogic;
+import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 
 /**
  * Performs the resource monitoring logic execution for a RFSService.

@@ -33,9 +33,7 @@ Import-Package: com.netxforge.netxstudio.generics,
  com.netxforge.netxstudio.services,
  com.netxforge.netxstudio.services.impl,
  org.apache.commons.logging,
- org.apache.log4j,
- org.eclipse.xtext.xbase.lib;resolution:=optional,
- org.eclipse.xtext.xtend2.lib;resolution:=optional
+ org.apache.log4j
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: com.netxforge,
  com.netxforge.engine,

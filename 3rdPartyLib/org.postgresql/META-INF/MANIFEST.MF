@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Postgresql
 Bundle-SymbolicName: org.postgresql
-Bundle-Version: 9.0.0.801
+Bundle-Version: 9.0.0.qualifier
 Bundle-ClassPath: postgresql-9.0-801.jdbc4.jar
 Bundle-Vendor: postgresql.org
 Export-Package: org.postgresql;version="9.0.0.801",

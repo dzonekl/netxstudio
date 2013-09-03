@@ -22,6 +22,7 @@ Export-Package: com.netxforge.netxstudio.server.logic,
  com.netxforge.netxstudio.server.logic.reporting,
  com.netxforge.netxstudio.server.logic.retention
 Import-Package: com.netxforge.netxstudio,
+ com.netxforge.netxstudio.delta16042013.generics,
  com.netxforge.netxstudio.delta16042013.metrics,
  com.netxforge.netxstudio.generics,
  com.netxforge.netxstudio.library,

@@ -14,9 +14,12 @@
   </parent>
   <modules>
     <module>org.apache.commons.math</module>
+    <module>org.apache.poi</module>
     <module>org.quartz</module>
     <module>org.quartz.properties</module>
     <module>org.slf4j</module>
     <module>com.mysql.driver</module>
+    <module>oracle.jdbc.driver.10_2_0_4</module>
+    <module>org.postgresql</module>
   </modules>
 </project>

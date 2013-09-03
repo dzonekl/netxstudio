@@ -183,7 +183,10 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		{ // QUANTITY
 			Cell c1 = servicesRow.createCell(4);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalServices());
+			
+			
+			// CB TODO. 
+//			c1.setCellValue(opSummary.totalServices());
 			this.getServices().size();
 		}
 
@@ -216,25 +219,29 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		{
 			Cell c1 = nodesRow.createCell(4);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalNodes());
+			// CB TODO
+			// c1.setCellValue(opSummary.totalNodes());
 		}
 
 		{
 			Cell c1 = nodesRow.createCell(5);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalNodeRag(RAG.RED));
+			// CB TODO
+//			c1.setCellValue(opSummary.totalNodeRag(RAG.RED));
 		}
 
 		{
 			Cell c1 = nodesRow.createCell(6);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalNodeRag(RAG.AMBER));
+			// CB TODO
+//			c1.setCellValue(opSummary.totalNodeRag(RAG.AMBER));
 		}
 
 		{
 			Cell c1 = nodesRow.createCell(7);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalNodeRag(RAG.GREEN));
+			// CB TODO
+//			c1.setCellValue(opSummary.totalNodeRag(RAG.GREEN));
 		}
 	}
 
@@ -248,25 +255,29 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		{
 			Cell c1 = resourcesRow.createCell(4);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalResources());
+			// CB TODO
+//			c1.setCellValue(opSummary.totalResources());
 		}
 
 		{
 			Cell c1 = resourcesRow.createCell(5);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalNetXResourceRag(RAG.RED));
+			// CB TODO
+//			c1.setCellValue(opSummary.totalNetXResourceRag(RAG.RED));
 		}
 
 		{
 			Cell c1 = resourcesRow.createCell(6);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalNetXResourceRag(RAG.AMBER));
+			// CB TODO
+//			c1.setCellValue(opSummary.totalNetXResourceRag(RAG.AMBER));
 		}
 
 		{
 			Cell c1 = resourcesRow.createCell(7);
 			c1.setCellStyle(borderStyle);
-			c1.setCellValue(opSummary.totalNetXResourceRag(RAG.GREEN));
+			// CB TODO
+//			c1.setCellValue(opSummary.totalNetXResourceRag(RAG.GREEN));
 		}
 	}
 

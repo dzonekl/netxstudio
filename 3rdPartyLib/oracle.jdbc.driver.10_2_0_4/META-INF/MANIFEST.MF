@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Oracle 10G JDBC Driver
 Bundle-SymbolicName: oracle.jdbc.driver.10_2_0_4
-Bundle-Version: 10.2.0.4
+Bundle-Version: 10.2.4.qualifier
 Bundle-ClassPath: ojdbc14.jar,
  orai18n.jar
 Export-Package: oracle.core.lmx,

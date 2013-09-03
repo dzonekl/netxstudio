@@ -54,42 +54,42 @@ public abstract class RFSServiceReportingLogic extends
 	public List<String> reports = ImmutableList.of(REPORT_PREFIX_SM_EXEC,
 			REPORT_PREFIX_SM_DASH, REPORT_PREFIX_SM_MATRIX,
 			REPORT_PREFIX_SM_USER, REPORT_PREFIX_RM, REPORT_PREFIX_RM_FORECAST);
-	
 
 	void initializeReportingLogic() {
-		
-//		ServiceMonitor sm = this.getModelUtils().lastServiceMonitor(this.getRfsService());
-		
-//		if(sm != null){
-//			this.setStartTime(this.getModelUtils().fromXMLDate(sm.getPeriod().getBegin()));
-//			this.setEndTime(this.getModelUtils().fromXMLDate(sm.getPeriod().getEnd()));
-//			this.setServiceMonitor(sm);
-//		}
-		
-	//		
-//		Date startTime = getStartTime();
-//		if (startTime == null) {
-//			// TODO: make the period for the look back configurable
-//			// TODO: note that a user can do a separate run which runs in the
-//			// past
-//			// creating new last service monitor with an end date in the past
-//			// the system, should not pick the last servicemonitor in the list
-//			// but should find the last end time of all service monitors.
-//			startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60
-//					* 1000);
-//			if (!rfsService.getServiceMonitors().isEmpty()) {
-//				final Date previousEndTime = rfsService.getServiceMonitors()
-//						.get(rfsService.getServiceMonitors().size() - 1)
-//						.getPeriod().getEnd().toGregorianCalendar().getTime();
-//				startTime = new Date(previousEndTime.getTime() + 1);
-//			}
-//			setStartTime(startTime);
-//		}
-//		Date endTime = getEndTime();
-//		if (endTime == null) {
-//			endTime = new Date(System.currentTimeMillis());
-//			setEndTime(endTime);
-//		}
+
+		// ServiceMonitor sm =
+		// this.getModelUtils().lastServiceMonitor(this.getRfsService());
+
+		// if(sm != null){
+		// this.setStartTime(this.getModelUtils().fromXMLDate(sm.getPeriod().getBegin()));
+		// this.setEndTime(this.getModelUtils().fromXMLDate(sm.getPeriod().getEnd()));
+		// this.setServiceMonitor(sm);
+		// }
+
+		//
+		// Date startTime = getStartTime();
+		// if (startTime == null) {
+		// // TODO: make the period for the look back configurable
+		// // TODO: note that a user can do a separate run which runs in the
+		// // past
+		// // creating new last service monitor with an end date in the past
+		// // the system, should not pick the last servicemonitor in the list
+		// // but should find the last end time of all service monitors.
+		// startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60
+		// * 1000);
+		// if (!rfsService.getServiceMonitors().isEmpty()) {
+		// final Date previousEndTime = rfsService.getServiceMonitors()
+		// .get(rfsService.getServiceMonitors().size() - 1)
+		// .getPeriod().getEnd().toGregorianCalendar().getTime();
+		// startTime = new Date(previousEndTime.getTime() + 1);
+		// }
+		// setStartTime(startTime);
+		// }
+		// Date endTime = getEndTime();
+		// if (endTime == null) {
+		// endTime = new Date(System.currentTimeMillis());
+		// setEndTime(endTime);
+		// }
 
 		this.initializeStream();
 
@@ -117,9 +117,9 @@ public abstract class RFSServiceReportingLogic extends
 				}
 				uri = uri.appendSegment(calculateFileName())
 						.appendFileExtension("xls");
-				
-				// FIXME, What if the file exists.  
-				
+
+				// FIXME, What if the file exists.
+
 				FileOutputStream fileOut = new FileOutputStream(
 						uri.toFileString());
 				this.setStream(fileOut);
@@ -141,20 +141,20 @@ public abstract class RFSServiceReportingLogic extends
 
 	@Override
 	protected List<NodeType> getNodeTypesToExecuteFor() {
-		
-		
+
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
-		
-		
+
 		// first go through the leave nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (getModelUtils().isValidNode(node) && node.getNodeType().isLeafNode()) {
+			if (getModelUtils().isInService(node)
+					&& node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		// and then the other nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (getModelUtils().isValidNode(node) && !node.getNodeType().isLeafNode()) {
+			if (getModelUtils().isInService(node)
+					&& !node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
@@ -163,13 +163,10 @@ public abstract class RFSServiceReportingLogic extends
 
 	protected String calculateFileName() {
 		StringBuffer buf = new StringBuffer();
-		buf.append(getModelUtils().date(this.getStartTime()) + "_"
+		buf.append(getModelUtils().date(this.getBeginTime()) + "_"
 				+ getModelUtils().date(this.getEndTime()));
 
 		return buf.toString();
 	}
-	
-	
-
 
 }
