@@ -53,5 +53,8 @@
 		<module>
 			../../products/com.netxforge.releng.products.netxserver
 		</module>
+		<module>
+			../../products/com.netxforge.releng.products.netxstudio.cdo
+		</module>
 	</modules>
 </project>

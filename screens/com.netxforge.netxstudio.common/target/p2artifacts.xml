@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
 <artifacts size='1'>
-  <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.common' version='1.0.0.201309040710'>
+  <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.common' version='1.0.0.201309040819'>
     <properties size='5'>
       <property name='artifact.size' value='183447'/>
       <property name='download.size' value='183447'/>

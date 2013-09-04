@@ -616,7 +616,7 @@
   </unit>
   <unit id='toolingcocoa.macosx.x86_64com.netxforge.netxstudio.server.metrics' version='1.1.8' singleton='false'>
     <hostRequirements size='2'>
-      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server.metrics' range='1.0.0.201309040710'/>
+      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server.metrics' range='1.0.0.201309040819'/>
       <required namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' range='[1.0.0,2.0.0)' greedy='false'/>
     </hostRequirements>
     <properties size='1'>
@@ -627,7 +627,7 @@
       <provided namespace='org.eclipse.equinox.p2.flavor' name='toolingcocoa.macosx.x86_64' version='1.0.0'/>
     </provides>
     <requires size='2'>
-      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server.metrics' range='1.0.0.201309040710'/>
+      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server.metrics' range='1.0.0.201309040819'/>
       <required namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' range='[1.0.0,2.0.0)' greedy='false'/>
     </requires>
     <filter>
@@ -653,7 +653,7 @@
   </unit>
   <unit id='toolingcocoa.macosx.x86_64com.netxforge.netxstudio.server' version='1.1.8' singleton='false'>
     <hostRequirements size='2'>
-      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server' range='1.0.0.201309040710'/>
+      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server' range='1.0.0.201309040819'/>
       <required namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' range='[1.0.0,2.0.0)' greedy='false'/>
     </hostRequirements>
     <properties size='1'>
@@ -664,7 +664,7 @@
       <provided namespace='org.eclipse.equinox.p2.flavor' name='toolingcocoa.macosx.x86_64' version='1.0.0'/>
     </provides>
     <requires size='2'>
-      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server' range='1.0.0.201309040710'/>
+      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server' range='1.0.0.201309040819'/>
       <required namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' range='[1.0.0,2.0.0)' greedy='false'/>
     </requires>
     <filter>
@@ -724,7 +724,7 @@
   </unit>
   <unit id='toolingcocoa.macosx.x86_64com.netxforge.netxstudio.server.logic' version='1.1.8' singleton='false'>
     <hostRequirements size='2'>
-      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server.logic' range='1.0.0.201309040710'/>
+      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server.logic' range='1.0.0.201309040819'/>
       <required namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' range='[1.0.0,2.0.0)' greedy='false'/>
     </hostRequirements>
     <properties size='1'>
@@ -735,7 +735,7 @@
       <provided namespace='org.eclipse.equinox.p2.flavor' name='toolingcocoa.macosx.x86_64' version='1.0.0'/>
     </provides>
     <requires size='2'>
-      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server.logic' range='1.0.0.201309040710'/>
+      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server.logic' range='1.0.0.201309040819'/>
       <required namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' range='[1.0.0,2.0.0)' greedy='false'/>
     </requires>
     <filter>
@@ -761,7 +761,7 @@
   </unit>
   <unit id='toolingcocoa.macosx.x86_64com.netxforge.netxstudio.server.job' version='1.1.8' singleton='false'>
     <hostRequirements size='2'>
-      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server.job' range='1.0.0.201309040710'/>
+      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server.job' range='1.0.0.201309040819'/>
       <required namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' range='[1.0.0,2.0.0)' greedy='false'/>
     </hostRequirements>
     <properties size='1'>
@@ -772,7 +772,7 @@
       <provided namespace='org.eclipse.equinox.p2.flavor' name='toolingcocoa.macosx.x86_64' version='1.0.0'/>
     </provides>
     <requires size='2'>
-      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server.job' range='1.0.0.201309040710'/>
+      <required namespace='osgi.bundle' name='com.netxforge.netxstudio.server.job' range='1.0.0.201309040819'/>
       <required namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' range='[1.0.0,2.0.0)' greedy='false'/>
     </requires>
     <filter>
@@ -807,6 +807,7 @@
       <provided namespace='org.eclipse.equinox.p2.iu' name='com.netxforge.netxstudio.netxserver.product' version='1.1.8'/>
     </provides>
     <requires size='8'>
+      <required namespace='org.eclipse.equinox.p2.iu' name='com.netxforge.netxstudio.server.db.mysql.product.feature.feature.group' range='[1.0.0.201309040819,1.0.0.201309040819]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='tooling.source.default' range='[1.0.0,1.0.0]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='a.jre.javase' range='[1.6.0,1.6.0]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='tooling.osgi.bundle.default' range='[1.0.0,1.0.0]'/>
@@ -816,7 +817,6 @@
         </filter>
       </required>
       <required namespace='org.eclipse.equinox.p2.iu' name='toolingcom.netxforge.netxstudio.netxserver.product.application' range='[1.1.8,1.1.8]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='com.netxforge.netxstudio.server.db.mysql.product.feature.feature.group' range='[1.0.0.201309040710,1.0.0.201309040710]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='toolingcom.netxforge.netxstudio.netxserver.product.configuration' range='[1.1.8,1.1.8]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='config.a.jre.javase' range='[1.6.0,1.6.0]'/>
     </requires>

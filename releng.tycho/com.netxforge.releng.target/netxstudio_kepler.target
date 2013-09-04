@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="netxstudio_kepler" sequenceNumber="39">
+<?pde version="3.8"?><target name="netxstudio_kepler" sequenceNumber="40">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="net.miginfocom.layout.swing" version="3.7.1.v200911230030"/>
@@ -497,18 +497,18 @@
 <repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/peaberry.p2/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.base.feature.group" version="2.9.0.v20130528-0742"/>
-<unit id="org.eclipse.emf.ecore.edit.feature.group" version="2.8.0.v20130610-0406"/>
-<unit id="org.eclipse.emf.edit.feature.group" version="2.9.0.v20130610-0406"/>
-<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/emf.p2/"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="com.google.collect.artifacts.feature.feature.group" version="1.0.0.201309021525"/>
 <repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/google.p2/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.xtext.artifacts.feature.feature.group" version="1.0.0.201308301441"/>
 <repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/xtext.p2/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.emf.base.feature.group" version="2.9.0.v20130528-0742"/>
+<unit id="org.eclipse.emf.ecore.edit.feature.group" version="2.8.0.v20130610-0406"/>
+<unit id="org.eclipse.emf.edit.feature.group" version="2.9.0.v20130610-0406"/>
+<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/emf.p2/"/>
 </location>
 </locations>
 </target>
