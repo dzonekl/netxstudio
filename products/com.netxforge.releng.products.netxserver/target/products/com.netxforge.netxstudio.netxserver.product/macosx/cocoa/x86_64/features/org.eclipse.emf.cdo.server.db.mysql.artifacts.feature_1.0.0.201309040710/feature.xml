@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature"
+      label="CDO Server DB MYSQL Feature"
+      version="1.0.0.201309040710"
+      provider-name="NetXForge">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <plugin
+         id="org.eclipse.emf.cdo.net4j"
+         download-size="146"
+         install-size="337"
+         version="4.1.100.v20121228-1653"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.net4j.db"
+         download-size="85"
+         install-size="155"
+         version="4.2.0.v20130115-1033"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.net4j.util"
+         download-size="719"
+         install-size="1259"
+         version="3.3.0.v20130126-0958"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.net4j.tcp"
+         download-size="67"
+         install-size="123"
+         version="4.1.100.v20120920-1622"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.net4j"
+         download-size="143"
+         install-size="272"
+         version="4.2.0.v20130120-1014"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.cdo"
+         download-size="662"
+         install-size="1515"
+         version="4.2.0.v20130130-0630"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.cdo.common"
+         download-size="441"
+         install-size="915"
+         version="4.2.0.v20130126-1029"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.cdo.server"
+         download-size="394"
+         install-size="941"
+         version="4.2.0.v20130126-0958"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.cdo.server.db"
+         download-size="379"
+         install-size="870"
+         version="4.2.0.v20130125-0507"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.cdo.server.net4j"
+         download-size="128"
+         install-size="280"
+         version="4.1.0.v20130112-1217"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.net4j.jvm"
+         download-size="17"
+         install-size="27"
+         version="4.1.100.v20120917-1349"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.net4j.db.mysql"
+         download-size="14"
+         install-size="19"
+         version="4.2.0.v20130116-0901"
+         unpack="false"/>
+
+   <plugin
+         id="lpg.runtime.java"
+         download-size="114"
+         install-size="225"
+         version="2.0.17.v201004271640"
+         unpack="false"/>
+
+   <plugin
+         id="com.mysql.driver"
+         download-size="772"
+         install-size="1739"
+         version="5.1.18"
+         unpack="false"/>
+
+</feature>

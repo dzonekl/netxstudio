@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.netxforge.netxstudio.data.feature"
+      label="NetXStudio Data Feature"
+      version="1.0.0.201309040710"
+      provider-name="NetXForge">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="com.google.inject" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore" version="2.7.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.cdo.net4j" version="4.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.net4j.tcp" version="4.0.0" match="greaterOrEqual"/>
+      <import plugin="com.netxforge.netxstudio.models" version="1.0.0" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="com.netxforge.netxstudio.data"
+         download-size="151"
+         install-size="334"
+         version="1.0.0.201309040710"
+         unpack="false"/>
+
+   <plugin
+         id="com.netxforge.netxstudio.data.fixtures"
+         download-size="11"
+         install-size="19"
+         version="1.0.0.201309040710"
+         unpack="false"/>
+
+   <plugin
+         id="oracle.jdbc.driver.10_2_0_4"
+         download-size="2877"
+         install-size="3128"
+         version="10.2.4.201309040710"/>
+
+   <plugin
+         id="org.postgresql"
+         download-size="503"
+         install-size="528"
+         version="9.0.0.201309040710"/>
+
+</feature>

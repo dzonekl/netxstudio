@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.xtext.artifacts.feature"
+      label="Xtext plugins Feature"
+      version="1.0.0.201309040710"
+      provider-name="Eclipse Modelling">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <plugin
+         id="org.eclipse.xtext"
+         download-size="1903"
+         install-size="4669"
+         version="2.0.0.v201106060900"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xtext.util"
+         download-size="116"
+         install-size="238"
+         version="2.0.0.v201106060900"
+         unpack="false"/>
+
+   <plugin
+         id="org.antlr.runtime"
+         download-size="201"
+         install-size="425"
+         version="3.2.0.v201101311130"
+         unpack="false"/>
+
+</feature>

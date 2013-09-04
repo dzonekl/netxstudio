@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.peaberry.artifacts.feature"
+      label="Peaberry Feature"
+      version="1.0.0.201308301546"
+      provider-name="Peaberry">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <plugin
+         id="org.ops4j.peaberry"
+         download-size="0"
+         install-size="0"
+         version="1.1.1.v698"
+         unpack="false"/>
+
+</feature>

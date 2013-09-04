@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.netxforge.netxstudio.server.db.mysql.product.feature"
+      label="Product DB MySQL Feature"
+      version="1.0.0.201309040710"
+      provider-name="NetXForge">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <includes
+         id="com.netxforge.netxstudio.server.db.feature"
+         version="1.0.0.201309040710"/>
+
+   <includes
+         id="com.netxforge.netxstudio.common.feature"
+         version="1.0.0.201309040710"/>
+
+   <includes
+         id="com.netxforge.netxstudio.data.feature"
+         version="1.0.0.201309040710"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.13042011.feature"
+         version="1.0.0.201309040710"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.feature"
+         version="1.0.0.201309040710"/>
+
+   <includes
+         id="org.eclipse.platform.server.artifacts.feature"
+         version="4.3.0"/>
+
+   <includes
+         id="com.google.artifacts.feature"
+         version="1.0.0.201309040710"/>
+
+   <includes
+         id="org.eclipse.emf.base"
+         version="2.9.0.v20130528-0742"/>
+
+   <includes
+         id="org.apache.poi.artifacts.feature"
+         version="1.0.0.201309040710"/>
+
+   <includes
+         id="org.quartz.artifacts.feature"
+         version="1.0.0.201309040710"/>
+
+   <includes
+         id="com.netxforge.netxscript.feature"
+         version="1.0.0.201309040710"/>
+
+   <includes
+         id="org.eclipse.xtext.artifacts.feature"
+         version="1.0.0.201309040710"/>
+
+   <includes
+         id="org.apache.artifacts.server.feature"
+         version="1.0.0.201309040710"/>
+
+   <includes
+         id="javax.artifacts.feature"
+         version="1.0.0.201309040710"/>
+
+   <includes
+         id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature"
+         version="1.0.0.201309040710"/>
+
+   <includes
+         id="com.google.collect.artifacts.feature"
+         version="1.0.0.201309021525"/>
+
+   <includes
+         id="org.peaberry.artifacts.feature"
+         version="1.0.0.201308301546"/>
+
+   <plugin
+         id="com.netxforge.netxstudio.server.db.mysql.product"
+         download-size="3"
+         install-size="4"
+         version="1.0.0.201309040710"
+         unpack="false"/>
+
+</feature>

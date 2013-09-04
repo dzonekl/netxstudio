@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.slf4j.feature"
+      label="SLF 4J Feature"
+      version="1.0.0.201309040710"
+      provider-name="SLF">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <plugin
+         id="org.slf4j"
+         download-size="32"
+         install-size="36"
+         version="1.6.6"/>
+
+   <plugin
+         id="org.apache.log4j"
+         download-size="404"
+         install-size="774"
+         version="1.2.15.v201012070815"
+         unpack="false"/>
+
+</feature>
