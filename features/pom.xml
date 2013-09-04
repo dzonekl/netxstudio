@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>features</groupId>
-  <artifactId>features</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <parent>
-    <groupId>com.netxforge.netxstudio</groupId>
-    <artifactId>com.netxforge.releng</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../releng.tycho/com.netxforge.releng</relativePath>  
-  </parent>
-   <modules>
-    <module>com.netxforge.netxstudio.server.db.mysql.product.feature</module>
-    <module>com.netxforge.netxstudio.server.db.feature</module>
-    <module>com.netxforge.netxstudio.common.feature</module>
-    <module>com.netxforge.netxstudio.data.feature</module>
-    <module>com.netxforge.netxscript.feature</module>
-    <module>com.netxforge.netxstudio.models.feature</module>
-    <module>com.netxforge.netxstudio.models.13042011.feature</module>
-    <module>org.eclipse.emf.cdo.server.db.mysql.artifacts.feature</module>
-  </modules>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>features</groupId>
+	<artifactId>features</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<parent>
+		<groupId>com.netxforge.netxstudio</groupId>
+		<artifactId>com.netxforge.releng</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../releng.tycho/com.netxforge.releng</relativePath>
+	</parent>
+	<modules>
+		<module>com.netxforge.netxstudio.client.product.feature</module>
+		<module>com.netxforge.netxstudio.console.feature</module>
+		<module>com.netxforge.netxstudio.server.db.mysql.product.feature</module>
+		<module>com.netxforge.netxstudio.server.db.feature</module>
+		<module>com.netxforge.netxstudio.common.feature</module>
+		<module>com.netxforge.netxstudio.data.feature</module>
+		<module>com.netxforge.netxscript.feature</module>
+		<module>com.netxforge.netxstudio.models.feature</module>
+		<module>com.netxforge.netxstudio.models.13042011.feature</module>
+		<module>org.eclipse.emf.cdo.server.db.mysql.artifacts.feature</module>
+	</modules>
 </project>

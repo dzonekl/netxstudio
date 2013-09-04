@@ -3,7 +3,7 @@
 <repository name='Bundle pool' type='org.eclipse.equinox.p2.artifact.repository.simpleRepository' version='1'>
   <properties size='2'>
     <property name='p2.system' value='true'/>
-    <property name='p2.timestamp' value='1378282808195'/>
+    <property name='p2.timestamp' value='1378302189786'/>
   </properties>
   <mappings size='3'>
     <rule filter='(&amp; (classifier=osgi.bundle))' output='${repoUrl}/plugins/${id}_${version}.jar'/>
@@ -11,11 +11,6 @@
     <rule filter='(&amp; (classifier=org.eclipse.update.feature))' output='${repoUrl}/features/${id}_${version}.jar'/>
   </mappings>
   <artifacts size='91'>
-    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.server.metrics' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='19695'/>
-      </properties>
-    </artifact>
     <artifact classifier='osgi.bundle' id='org.eclipse.net4j' version='4.2.0.v20130120-1014'>
       <properties size='1'>
         <property name='download.size' value='147104'/>
@@ -26,14 +21,32 @@
         <property name='download.size' value='116277'/>
       </properties>
     </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxstudio.common.feature' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='2301'/>
+      </properties>
+      <repositoryProperties size='1'>
+        <property name='artifact.folder' value='true'/>
+      </repositoryProperties>
+    </artifact>
     <artifact classifier='osgi.bundle' id='com.mysql.driver' version='5.1.18'>
       <properties size='1'>
         <property name='download.size' value='790709'/>
       </properties>
     </artifact>
+    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.server.db.mysql.product' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='3698'/>
+      </properties>
+    </artifact>
     <artifact classifier='osgi.bundle' id='org.apache.felix.gogo.runtime' version='0.10.0.v201209301036'>
       <properties size='1'>
         <property name='download.size' value='80249'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='oracle.jdbc.driver.10_2_0_4' version='10.2.4.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='2946222'/>
       </properties>
     </artifact>
     <artifact classifier='osgi.bundle' id='com.google.inject' version='3.0.0.v201203062045'>
@@ -56,10 +69,26 @@
         <property name='download.size' value='117405'/>
       </properties>
     </artifact>
-    <artifact classifier='osgi.bundle' id='org.postgresql' version='9.0.0.201309040819'>
+    <artifact classifier='org.eclipse.update.feature' id='javax.artifacts.feature' version='1.0.0.201309041342'>
       <properties size='1'>
-        <property name='download.size' value='515773'/>
+        <property name='download.size' value='2112'/>
       </properties>
+      <repositoryProperties size='1'>
+        <property name='artifact.folder' value='true'/>
+      </repositoryProperties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.data.fixtures' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='11670'/>
+      </properties>
+    </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='com.google.artifacts.feature' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='11570'/>
+      </properties>
+      <repositoryProperties size='1'>
+        <property name='artifact.folder' value='true'/>
+      </repositoryProperties>
     </artifact>
     <artifact classifier='osgi.bundle' id='org.eclipse.core.jobs' version='3.5.300.v20130429-1813'>
       <properties size='1'>
@@ -89,32 +118,6 @@
         <property name='artifact.folder' value='true'/>
       </repositoryProperties>
     </artifact>
-    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.server.db.mysql.product' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='3698'/>
-      </properties>
-    </artifact>
-    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.log4j' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='3228'/>
-      </properties>
-    </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxstudio.server.db.mysql.product.feature' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='2750'/>
-      </properties>
-      <repositoryProperties size='1'>
-        <property name='artifact.folder' value='true'/>
-      </repositoryProperties>
-    </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='org.apache.artifacts.server.feature' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='2415'/>
-      </properties>
-      <repositoryProperties size='1'>
-        <property name='artifact.folder' value='true'/>
-      </repositoryProperties>
-    </artifact>
     <artifact classifier='osgi.bundle' id='org.eclipse.equinox.launcher.cocoa.macosx.x86_64' version='1.1.200.v20130521-0416'>
       <properties size='1'>
         <property name='download.size' value='30805'/>
@@ -122,11 +125,6 @@
       <repositoryProperties size='1'>
         <property name='artifact.folder' value='true'/>
       </repositoryProperties>
-    </artifact>
-    <artifact classifier='osgi.bundle' id='org.apache.commons.math' version='2.2.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='890730'/>
-      </properties>
     </artifact>
     <artifact classifier='osgi.bundle' id='org.eclipse.equinox.launcher' version='1.3.0.v20130327-1440'>
       <properties size='1'>
@@ -138,31 +136,15 @@
         <property name='download.size' value='404250'/>
       </properties>
     </artifact>
-    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.common' version='1.0.0.201309040819'>
+    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.models.13042011' version='1.0.0.201309041342'>
       <properties size='1'>
-        <property name='download.size' value='183447'/>
+        <property name='download.size' value='411822'/>
       </properties>
-    </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='javax.artifacts.feature' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='2112'/>
-      </properties>
-      <repositoryProperties size='1'>
-        <property name='artifact.folder' value='true'/>
-      </repositoryProperties>
     </artifact>
     <artifact classifier='osgi.bundle' id='javax.servlet' version='3.0.0.v201112011016'>
       <properties size='1'>
         <property name='download.size' value='201594'/>
       </properties>
-    </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='org.slf4j.feature' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='1948'/>
-      </properties>
-      <repositoryProperties size='1'>
-        <property name='artifact.folder' value='true'/>
-      </repositoryProperties>
     </artifact>
     <artifact classifier='osgi.bundle' id='javax.xml' version='1.3.4.v201005080400'>
       <properties size='1'>
@@ -187,14 +169,14 @@
         <property name='download.size' value='18083'/>
       </properties>
     </artifact>
-    <artifact classifier='osgi.bundle' id='org.quartz.properties' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='1905'/>
-      </properties>
-    </artifact>
     <artifact classifier='osgi.bundle' id='org.eclipse.equinox.http.registry' version='1.1.300.v20130402-1529'>
       <properties size='1'>
         <property name='download.size' value='45207'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.common' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='183447'/>
       </properties>
     </artifact>
     <artifact classifier='osgi.bundle' id='org.apache.poi' version='3.9.0'>
@@ -210,9 +192,19 @@
         <property name='artifact.folder' value='true'/>
       </repositoryProperties>
     </artifact>
+    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.server.logic' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='150622'/>
+      </properties>
+    </artifact>
     <artifact classifier='osgi.bundle' id='org.eclipse.emf.cdo' version='4.2.0.v20130130-0630'>
       <properties size='1'>
         <property name='download.size' value='678426'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.server' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='91026'/>
       </properties>
     </artifact>
     <artifact classifier='osgi.bundle' id='org.apache.felix.gogo.command' version='0.10.0.v201209301215'>
@@ -225,38 +217,23 @@
         <property name='download.size' value='85879'/>
       </properties>
     </artifact>
-    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.models.16042013_delta' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='70455'/>
-      </properties>
-    </artifact>
-    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.server' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='91026'/>
-      </properties>
-    </artifact>
-    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.data.fixtures' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='11671'/>
-      </properties>
-    </artifact>
-    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.data' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='155543'/>
-      </properties>
-    </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='org.quartz.artifacts.feature' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='2173'/>
-      </properties>
-      <repositoryProperties size='1'>
-        <property name='artifact.folder' value='true'/>
-      </repositoryProperties>
-    </artifact>
     <artifact classifier='osgi.bundle' id='org.eclipse.xtext' version='2.0.0.v201106060900'>
       <properties size='1'>
         <property name='download.size' value='1949608'/>
       </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.server.metrics' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='19693'/>
+      </properties>
+    </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxstudio.models.13042011.feature' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='2463'/>
+      </properties>
+      <repositoryProperties size='1'>
+        <property name='artifact.folder' value='true'/>
+      </repositoryProperties>
     </artifact>
     <artifact classifier='osgi.bundle' id='org.eclipse.net4j.tcp' version='4.1.100.v20120920-1622'>
       <properties size='1'>
@@ -273,31 +250,49 @@
         <property name='download.size' value='12288'/>
       </properties>
     </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='org.apache.poi.artifacts.feature' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='11232'/>
+      </properties>
+      <repositoryProperties size='1'>
+        <property name='artifact.folder' value='true'/>
+      </repositoryProperties>
+    </artifact>
     <artifact classifier='osgi.bundle' id='org.slf4j' version='1.6.6'>
       <properties size='1'>
         <property name='download.size' value='32944'/>
       </properties>
+    </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxstudio.models.feature' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='2264'/>
+      </properties>
+      <repositoryProperties size='1'>
+        <property name='artifact.folder' value='true'/>
+      </repositoryProperties>
     </artifact>
     <artifact classifier='osgi.bundle' id='org.eclipse.equinox.preferences' version='3.5.100.v20130422-1538'>
       <properties size='1'>
         <property name='download.size' value='127170'/>
       </properties>
     </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxstudio.data.feature' version='1.0.0.201309040819'>
+    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.models.16042013_delta' version='1.0.0.201309041342'>
       <properties size='1'>
-        <property name='download.size' value='2476'/>
+        <property name='download.size' value='70454'/>
+      </properties>
+    </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxstudio.server.db.feature' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='2364'/>
       </properties>
       <repositoryProperties size='1'>
         <property name='artifact.folder' value='true'/>
       </repositoryProperties>
     </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxstudio.server.db.feature' version='1.0.0.201309040819'>
+    <artifact classifier='osgi.bundle' id='org.postgresql' version='9.0.0.201309041342'>
       <properties size='1'>
-        <property name='download.size' value='2363'/>
+        <property name='download.size' value='515773'/>
       </properties>
-      <repositoryProperties size='1'>
-        <property name='artifact.folder' value='true'/>
-      </repositoryProperties>
     </artifact>
     <artifact classifier='osgi.bundle' id='org.ops4j.peaberry' version='1.1.1.v698'>
       <properties size='1'>
@@ -311,7 +306,7 @@
     </artifact>
     <artifact classifier='org.eclipse.update.feature' id='org.eclipse.platform.server.artifacts.feature' version='4.3.0'>
       <properties size='1'>
-        <property name='download.size' value='2618'/>
+        <property name='download.size' value='2619'/>
       </properties>
       <repositoryProperties size='1'>
         <property name='artifact.folder' value='true'/>
@@ -327,6 +322,11 @@
         <property name='download.size' value='149994'/>
       </properties>
     </artifact>
+    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.data' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='155542'/>
+      </properties>
+    </artifact>
     <artifact classifier='osgi.bundle' id='org.apache.commons.lang' version='2.6.0.v201205030909'>
       <properties size='1'>
         <property name='download.size' value='299203'/>
@@ -337,17 +337,9 @@
         <property name='download.size' value='68107'/>
       </properties>
     </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxstudio.models.feature' version='1.0.0.201309040819'>
+    <artifact classifier='org.eclipse.update.feature' id='org.slf4j.feature' version='1.0.0.201309041342'>
       <properties size='1'>
-        <property name='download.size' value='2263'/>
-      </properties>
-      <repositoryProperties size='1'>
-        <property name='artifact.folder' value='true'/>
-      </repositoryProperties>
-    </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='org.eclipse.emf.cdo.server.db.mysql.artifacts.feature' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='2820'/>
+        <property name='download.size' value='1948'/>
       </properties>
       <repositoryProperties size='1'>
         <property name='artifact.folder' value='true'/>
@@ -363,11 +355,6 @@
         <property name='download.size' value='11093'/>
       </properties>
     </artifact>
-    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.models.13042011' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='411823'/>
-      </properties>
-    </artifact>
     <artifact classifier='org.eclipse.update.feature' id='org.eclipse.emf.base' version='2.9.0.v20130528-0742'>
       <properties size='1'>
         <property name='download.size' value='18421'/>
@@ -376,9 +363,9 @@
         <property name='artifact.folder' value='true'/>
       </repositoryProperties>
     </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxstudio.models.13042011.feature' version='1.0.0.201309040819'>
+    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxscript.feature' version='1.0.0.201309041342'>
       <properties size='1'>
-        <property name='download.size' value='2464'/>
+        <property name='download.size' value='2161'/>
       </properties>
       <repositoryProperties size='1'>
         <property name='artifact.folder' value='true'/>
@@ -394,25 +381,22 @@
         <property name='download.size' value='351713'/>
       </properties>
     </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='org.apache.poi.artifacts.feature' version='1.0.0.201309040819'>
+    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxstudio.data.feature' version='1.0.0.201309041342'>
       <properties size='1'>
-        <property name='download.size' value='11232'/>
+        <property name='download.size' value='2477'/>
       </properties>
       <repositoryProperties size='1'>
         <property name='artifact.folder' value='true'/>
       </repositoryProperties>
     </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='com.google.artifacts.feature' version='1.0.0.201309040819'>
+    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.log4j' version='1.0.0.201309041342'>
       <properties size='1'>
-        <property name='download.size' value='11570'/>
+        <property name='download.size' value='3227'/>
       </properties>
-      <repositoryProperties size='1'>
-        <property name='artifact.folder' value='true'/>
-      </repositoryProperties>
     </artifact>
-    <artifact classifier='osgi.bundle' id='oracle.jdbc.driver.10_2_0_4' version='10.2.4.201309040819'>
+    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.server.job' version='1.0.0.201309041342'>
       <properties size='1'>
-        <property name='download.size' value='2946223'/>
+        <property name='download.size' value='37116'/>
       </properties>
     </artifact>
     <artifact classifier='osgi.bundle' id='org.eclipse.net4j.db.mysql' version='4.2.0.v20130116-0901'>
@@ -420,35 +404,40 @@
         <property name='download.size' value='14569'/>
       </properties>
     </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxstudio.common.feature' version='1.0.0.201309040819'>
+    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxstudio.server.db.mysql.product.feature' version='1.0.0.201309041342'>
       <properties size='1'>
-        <property name='download.size' value='2300'/>
+        <property name='download.size' value='2750'/>
       </properties>
       <repositoryProperties size='1'>
         <property name='artifact.folder' value='true'/>
       </repositoryProperties>
     </artifact>
-    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.models' version='1.0.0.201309040819'>
+    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.models' version='1.0.0.201309041342'>
       <properties size='1'>
         <property name='download.size' value='2667'/>
       </properties>
-    </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='org.eclipse.xtext.artifacts.feature' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='2273'/>
-      </properties>
-      <repositoryProperties size='1'>
-        <property name='artifact.folder' value='true'/>
-      </repositoryProperties>
     </artifact>
     <artifact classifier='osgi.bundle' id='org.eclipse.emf.ecore.xmi' version='2.9.0.v20130528-0742'>
       <properties size='1'>
         <property name='download.size' value='227759'/>
       </properties>
     </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='org.quartz.artifacts.feature' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='2172'/>
+      </properties>
+      <repositoryProperties size='1'>
+        <property name='artifact.folder' value='true'/>
+      </repositoryProperties>
+    </artifact>
     <artifact classifier='osgi.bundle' id='org.eclipse.net4j.db' version='4.2.0.v20130115-1033'>
       <properties size='1'>
         <property name='download.size' value='87588'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.apache.commons.math' version='2.2.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='890730'/>
       </properties>
     </artifact>
     <artifact classifier='osgi.bundle' id='org.quartz' version='2.0.1'>
@@ -464,11 +453,6 @@
     <artifact classifier='osgi.bundle' id='org.eclipse.osgi.services' version='3.3.100.v20130513-1956'>
       <properties size='1'>
         <property name='download.size' value='82934'/>
-      </properties>
-    </artifact>
-    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.server.logic' version='1.0.0.201309040819'>
-      <properties size='1'>
-        <property name='download.size' value='150623'/>
       </properties>
     </artifact>
     <artifact classifier='org.eclipse.update.feature' id='org.eclipse.emf.common' version='2.9.0.v20130528-0742'>
@@ -494,19 +478,30 @@
         <property name='download.size' value='205967'/>
       </properties>
     </artifact>
-    <artifact classifier='osgi.bundle' id='com.netxforge.netxscript' version='1.0.0.201309040819'>
+    <artifact classifier='osgi.bundle' id='com.netxforge.netxscript' version='1.0.0.201309041342'>
       <properties size='1'>
-        <property name='download.size' value='441482'/>
+        <property name='download.size' value='441481'/>
       </properties>
     </artifact>
-    <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.server.job' version='1.0.0.201309040819'>
+    <artifact classifier='org.eclipse.update.feature' id='org.eclipse.xtext.artifacts.feature' version='1.0.0.201309041342'>
       <properties size='1'>
-        <property name='download.size' value='37117'/>
+        <property name='download.size' value='2273'/>
       </properties>
+      <repositoryProperties size='1'>
+        <property name='artifact.folder' value='true'/>
+      </repositoryProperties>
     </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='com.netxforge.netxscript.feature' version='1.0.0.201309040819'>
+    <artifact classifier='org.eclipse.update.feature' id='org.apache.artifacts.server.feature' version='1.0.0.201309041342'>
       <properties size='1'>
-        <property name='download.size' value='2160'/>
+        <property name='download.size' value='2416'/>
+      </properties>
+      <repositoryProperties size='1'>
+        <property name='artifact.folder' value='true'/>
+      </repositoryProperties>
+    </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='org.eclipse.emf.cdo.server.db.mysql.artifacts.feature' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='2819'/>
       </properties>
       <repositoryProperties size='1'>
         <property name='artifact.folder' value='true'/>
@@ -515,6 +510,11 @@
     <artifact classifier='osgi.bundle' id='org.apache.felix.gogo.shell' version='0.10.0.v201212101605'>
       <properties size='1'>
         <property name='download.size' value='60827'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.quartz.properties' version='1.0.0.201309041342'>
+      <properties size='1'>
+        <property name='download.size' value='1905'/>
       </properties>
     </artifact>
     <artifact classifier='osgi.bundle' id='org.eclipse.net4j.util' version='3.3.0.v20130126-0958'>

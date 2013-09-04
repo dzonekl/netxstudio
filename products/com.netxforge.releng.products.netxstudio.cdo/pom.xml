@@ -4,6 +4,7 @@
 	<groupId>com.netxforge.releng.products.netxstudio.cdo</groupId>
 	<artifactId>com.netxforge.releng.products.netxstudio.cdo</artifactId>
 	<version>1.1.8-SNAPSHOT</version>
+	<packaging>eclipse-repository</packaging>
 	<parent>
 		<groupId>com.netxforge.netxstudio</groupId>
 		<artifactId>com.netxforge.releng</artifactId>
