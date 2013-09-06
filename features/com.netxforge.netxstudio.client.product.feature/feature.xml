@@ -142,10 +142,6 @@
          version="1.0.0.qualifier"/>
 
    <includes
-         id="org.postgresql.jdbc.driver.feature"
-         version="0.0.0"/>
-
-   <includes
          id="javax.artifacts.feature"
          version="0.0.0"/>
 
