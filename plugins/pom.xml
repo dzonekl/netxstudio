@@ -22,6 +22,8 @@
 		<module>../model/com.netxforge.netxscript</module>
 		<module>../model/com.netxforge.netxstudio.models</module>
 		<module>../model/com.netxforge.netxstudio.models.edit</module>
+		<module>../model/com.netxforge.netxstudio.models.export</module>
+		<module>../model/com.netxforge.netxstudio.models.import</module>
 		<module>../model/com.netxforge.netxstudio.models.13042011</module>
 		<module>../model/com.netxforge.netxstudio.models.13042011.edit</module>
 		<module>../model/com.netxforge.netxstudio.models16042013_delta</module>
