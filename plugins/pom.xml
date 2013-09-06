@@ -26,6 +26,7 @@
     <module>../model/com.netxforge.netxstudio.data.fixtures</module>
     <module>../screens/com.netxforge.netxstudio.data</module>
     <module>../screens/com.netxforge.netxstudio.common</module>
+    <module>../screens/com.netxforge.netxscript.ui</module>
     <module>../products/com.netxforge.netxstudio.server.db.mysql.product</module>
   </modules>
 </project>

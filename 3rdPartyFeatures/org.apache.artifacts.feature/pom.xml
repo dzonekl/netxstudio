@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.artifacts.feature</groupId>
   <artifactId>org.apache.artifacts.feature</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <parent>
     <groupId>3rd.features</groupId>
     <artifactId>3rd.features</artifactId>

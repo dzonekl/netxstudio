@@ -86,27 +86,11 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.emf.compare.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.platform.artifacts.feature"
          version="0.0.0"/>
 
    <includes
          id="org.eclipse.rcp"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.equinox.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.compare.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.help.artifacts.feature"
          version="0.0.0"/>
 
    <includes
@@ -119,10 +103,6 @@
 
    <includes
          id="org.mortbay.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.antlr.artifacts.feature"
          version="0.0.0"/>
 
    <includes
@@ -147,7 +127,7 @@
 
    <includes
          id="org.eclipse.gef"
-         version="0.0.0"/>
+         version="3.9.0"/>
 
    <includes
          id="org.eclipse.draw2d"
@@ -167,22 +147,6 @@
 
    <includes
          id="javax.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.xtend.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.emf.mwe.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.xpand.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="oracle.jdbc.driver.feature"
          version="0.0.0"/>
 
    <includes

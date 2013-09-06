@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="netxstudio_kepler" sequenceNumber="40">
+<?pde version="3.8"?><target name="netxstudio_kepler" sequenceNumber="48">
 <locations>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.nebula.widgets.pgroup.feature.feature.group" version="1.0.0.201307092147"/>
+<unit id="org.eclipse.nebula.widgets.tablecombo.feature.feature.group" version="1.0.0.201307092147"/>
+<unit id="org.eclipse.nebula.effects.stw.feature.feature.group" version="1.0.0.201307092147"/>
+<unit id="org.eclipse.nebula.widgets.ganttchart.feature.feature.group" version="1.0.0.201307092147"/>
+<unit id="org.eclipse.nebula.widgets.pshelf.feature.feature.group" version="1.0.0.201307092147"/>
+<unit id="org.eclipse.nebula.widgets.grid.feature.feature.group" version="1.0.0.201307092147"/>
+<unit id="org.eclipse.nebula.widgets.xviewer.feature.feature.group" version="0.9.9.201307092147"/>
+<unit id="org.eclipse.nebula.cwt.feature.feature.group" version="0.9.0.201307092147"/>
+<unit id="org.eclipse.nebula.widgets.oscilloscope.feature.feature.group" version="1.2.0.201307092147"/>
+<unit id="org.eclipse.nebula.widgets.cdatetime.feature.feature.group" version="0.14.0.201307092147"/>
+<unit id="org.eclipse.nebula.widgets.compositetable.feature.feature.group" version="1.0.0.201307092147"/>
+<unit id="org.eclipse.nebula.widgets.gallery.feature.feature.group" version="1.0.0.201307092147"/>
+<unit id="org.eclipse.nebula.widgets.pshelf.css.feature.feature.group" version="1.0.0.201307092147"/>
+<unit id="org.eclipse.nebula.widgets.paperclips.feature.feature.group" version="2.0.0.201307092147"/>
+<unit id="org.eclipse.nebula.widgets.calendarcombo.feature.feature.group" version="1.0.0.201307092147"/>
+<repository location="http://download.eclipse.org/technology/nebula/snapshot"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.peaberry.artifacts.feature.feature.group" version="1.0.0.201308301546"/>
+<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/peaberry.p2/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="com.google.collect.artifacts.feature.feature.group" version="1.0.0.201309021525"/>
+<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/google.p2/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.emf.common.feature.group" version="2.9.0.v20130528-0742"/>
+<unit id="org.eclipse.emf.databinding.edit.feature.group" version="1.3.0.v20130610-0406"/>
+<unit id="org.eclipse.emf.common.ui.feature.group" version="2.8.0.v20130610-0406"/>
+<unit id="org.eclipse.emf.ecore.edit.feature.group" version="2.8.0.v20130610-0406"/>
+<unit id="org.eclipse.emf.databinding.feature.group" version="1.3.0.v20130610-0406"/>
+<unit id="org.eclipse.emf.base.feature.group" version="2.9.0.v20130528-0742"/>
+<unit id="org.eclipse.emf.edit.ui.feature.group" version="2.9.0.v20130610-0406"/>
+<unit id="org.eclipse.emf.edit.feature.group" version="2.9.0.v20130610-0406"/>
+<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/emf.p2/"/>
+</location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="net.miginfocom.layout.swing" version="3.7.1.v200911230030"/>
 <unit id="org.eclipse.orbit.mongodb" version="2.10.1.v20130422-1135"/>
@@ -474,12 +511,6 @@
 <repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/orbit-buildrepo-R20130827064939/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature.feature.group" version="1.0.0.201308301621"/>
-<unit id="org.eclipse.emf.cdo.server.artifacts.feature.feature.group" version="1.0.0.201308301621"/>
-<unit id="org.eclipse.emf.cdo.client.artifacts.feature.feature.group" version="1.0.0.201308301621"/>
-<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/cdo.p2/"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.rcp.source.feature.group" version="4.3.0.v20130605-2000"/>
 <unit id="org.eclipse.pde.api.tools.ee.feature.feature.group" version="1.0.0.v20130327-1631"/>
 <unit id="org.eclipse.releng.tools.feature.group" version="3.5.0.v20130523-0845"/>
@@ -493,22 +524,66 @@
 <repository location="http://download.eclipse.org/eclipse/updates/4.3"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.peaberry.artifacts.feature.feature.group" version="1.0.0.201308301546"/>
-<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/peaberry.p2/"/>
+<unit id="org.eclipse.xtext.ui.feature.group" version="2.0.1.v201108020636"/>
+<unit id="org.eclipse.emf.mwe.doc.feature.group" version="1.1.1.v201108020506"/>
+<unit id="org.eclipse.emf.mwe.sdk.feature.group" version="1.1.1.v201108020506"/>
+<unit id="org.eclipse.xtext.xbase.feature.group" version="2.0.1.v201108020636"/>
+<unit id="org.eclipse.xtext.xtend2.sdk.feature.group" version="2.0.1.v201108020636"/>
+<unit id="org.eclipse.xtext.runtime.feature.group" version="2.0.1.v201108020636"/>
+<unit id="org.eclipse.xtext.sdk.feature.group" version="2.0.1.v201108020636"/>
+<unit id="org.eclipse.emf.mwe.ui.feature.group" version="1.1.1.v201108020506"/>
+<unit id="org.eclipse.emf.mwe.core.feature.group" version="1.1.1.v201108020506"/>
+<unit id="org.eclipse.xtext.examples.feature.group" version="2.0.1.v201108020636"/>
+<unit id="org.eclipse.xtext.docs.feature.group" version="2.0.1.v201108020636"/>
+<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="com.google.collect.artifacts.feature.feature.group" version="1.0.0.201309021525"/>
-<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/google.p2/"/>
+<unit id="org.eclipse.xtend.feature.group" version="1.1.0.v201106070515"/>
+<unit id="org.eclipse.xtend.typesystem.uml2.feature.group" version="1.1.0.v201106070515"/>
+<unit id="org.eclipse.xpand.examples.feature.group" version="1.1.0.v201106070515"/>
+<unit id="org.eclipse.xtend.typesystem.xsd.feature.group" version="1.1.0.v201106070515"/>
+<unit id="org.eclipse.xpand.doc.feature.group" version="1.0.1.v201106070515"/>
+<unit id="org.eclipse.xpand.feature.group" version="1.1.0.v201106070515"/>
+<unit id="org.eclipse.xtend.ui.feature.group" version="1.1.0.v201106070515"/>
+<unit id="org.eclipse.xpand.all.feature.group" version="1.1.0.v201106070515"/>
+<unit id="org.eclipse.xpand.ui.feature.group" version="1.1.0.v201106070515"/>
+<unit id="org.eclipse.xtend.dependencies.feature.group" version="1.1.0.v201106070515"/>
+<unit id="org.eclipse.xpand.incremental.feature.group" version="1.1.0.v201106070515"/>
+<unit id="org.eclipse.xpand.sdk.feature.group" version="1.1.0.v201106070515"/>
+<unit id="org.eclipse.xtend.typesystem.emf.feature.group" version="1.1.0.v201106070515"/>
+<repository location="http://archive.eclipse.org/modeling/m2t/xpand/downloads/drops/1.1.0/R201106070515/repository"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.xtext.artifacts.feature.feature.group" version="1.0.0.201308301441"/>
-<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/xtext.p2/"/>
+<unit id="org.eclipse.nebula.widgets.pagination.feature.feature.group" version="1.0.0.201307092148"/>
+<unit id="org.eclipse.nebula.widgets.datechooser.feature.feature.group" version="1.0.0.201307092148"/>
+<unit id="org.eclipse.nebula.widgets.collapsiblebuttons.feature.feature.group" version="1.0.0.201307092148"/>
+<unit id="org.eclipse.nebula.widgets.formattedtext.feature.feature.group" version="1.0.0.201307092148"/>
+<unit id="org.eclipse.nebula.widgets.radiogroup.feature.feature.group" version="0.1.0.201307092148"/>
+<unit id="org.eclipse.nebula.widgets.picture.feature.feature.group" version="1.0.0.201307092148"/>
+<unit id="org.eclipse.nebula.widgets.geomap.feature.feature.group" version="0.1.0.201307092148"/>
+<unit id="org.eclipse.nebula.widgets.treemapper.feature.feature.group" version="0.1.0.201307092148"/>
+<repository location="http://download.eclipse.org/technology/nebula/incubation/snapshot"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.base.feature.group" version="2.9.0.v20130528-0742"/>
-<unit id="org.eclipse.emf.ecore.edit.feature.group" version="2.8.0.v20130610-0406"/>
-<unit id="org.eclipse.emf.edit.feature.group" version="2.9.0.v20130610-0406"/>
-<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/emf.p2/"/>
+<unit id="org.eclipse.gef.all.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.draw2d.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.zest.sdk.feature.group" version="1.5.0.201305060205"/>
+<unit id="org.eclipse.gef.source.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.zest.source.feature.group" version="1.5.0.201305060205"/>
+<unit id="org.eclipse.draw2d.sdk.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.gef.examples.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.gef.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.gef.examples.source.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.draw2d.source.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.zest.feature.group" version="1.5.0.201305060205"/>
+<unit id="org.eclipse.gef.sdk.feature.group" version="3.9.0.201305060205"/>
+<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/gef.p2/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature.feature.group" version="1.0.0.201308301621"/>
+<unit id="org.eclipse.emf.cdo.server.artifacts.feature.feature.group" version="1.0.0.201308301621"/>
+<unit id="org.eclipse.emf.cdo.client.artifacts.feature.feature.group" version="1.0.0.201308301621"/>
+<repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/cdo.p2/"/>
 </location>
 </locations>
 </target>
