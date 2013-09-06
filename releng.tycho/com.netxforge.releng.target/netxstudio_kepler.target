@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="netxstudio_kepler" sequenceNumber="48">
+<?pde version="3.8"?><target name="netxstudio_kepler" sequenceNumber="49">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.nebula.widgets.pgroup.feature.feature.group" version="1.0.0.201307092147"/>
@@ -584,6 +584,15 @@
 <unit id="org.eclipse.emf.cdo.server.artifacts.feature.feature.group" version="1.0.0.201308301621"/>
 <unit id="org.eclipse.emf.cdo.client.artifacts.feature.feature.group" version="1.0.0.201308301621"/>
 <repository location="file:/Users/Christophe/Documents/Projects/NetXStudio/Target.tycho/cdo.p2/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.emf.compare.ide.ui.source.feature.group" version="2.1.0.201306250935"/>
+<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="2.1.0.201306250935"/>
+<unit id="org.eclipse.emf.compare.source.feature.group" version="2.1.0.201306250935"/>
+<unit id="org.eclipse.emf.compare.feature.group" version="2.1.0.201306250935"/>
+<unit id="org.eclipse.emf.compare.rcp.ui.source.feature.group" version="2.1.0.201306250935"/>
+<unit id="org.eclipse.emf.compare.rcp.ui.feature.group" version="2.1.0.201306250935"/>
+<repository location="http://download.eclipse.org/modeling/emf/compare/updates/releases/2.1"/>
 </location>
 </locations>
 </target>

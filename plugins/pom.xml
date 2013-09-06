@@ -28,10 +28,17 @@
 		<module>../model/com.netxforge.netxstudio.data.fixtures</module>
 		<module>../screens/com.netxforge.netxscript.ui</module>
 		<module>../screens/com.netxforge.netxstudio.common</module>
-		<module>../screens/com.netxforge.netxstudio.data</module>
+		<module>../screens/com.netxforge.netxstudio.console</module>
 		<module>../screens/com.netxforge.netxstudio.data</module>
 		<module>../screens/com.netxforge.netxstudio.help</module>
+		<module>../screens/com.netxforge.netxstudio.models.export.ui</module>
+		<module>../screens/com.netxforge.netxstudio.models.import.ui</module>
 		<module>../screens/com.netxforge.netxstudio.screens</module>
+		<module>../screens/com.netxforge.netxstudio.screens.app</module>
+		<module>../screens/com.netxforge.netxstudio.screens.activities</module>
+		<module>../screens/com.netxforge.netxstudio.screens.ide</module>
+		<module>../screens/com.netxforge.netxstudio.screens.editing</module>
+		<module>../screens/com.netxforge.netxstudio.screens.xtext</module>
 		<module>../products/com.netxforge.netxstudio.server.db.mysql.product</module>
 	</modules>
 </project>

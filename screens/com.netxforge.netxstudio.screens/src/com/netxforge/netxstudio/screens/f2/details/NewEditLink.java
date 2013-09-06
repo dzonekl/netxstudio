@@ -35,13 +35,12 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-import com.netxforge.netxstudio.screens.NodeFilterDialog;
-import com.netxforge.netxstudio.screens.ProtocolFilterDialog;
-import com.netxforge.netxstudio.screens.details.AbstractDetailsScreen;
+import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
+import com.netxforge.netxstudio.screens.dialog.NodeFilterDialog;
+import com.netxforge.netxstudio.screens.dialog.ProtocolFilterDialog;
+import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.IScreen;
 
 public class NewEditLink extends AbstractDetailsScreen implements IScreen,
 		IDataScreenInjection {

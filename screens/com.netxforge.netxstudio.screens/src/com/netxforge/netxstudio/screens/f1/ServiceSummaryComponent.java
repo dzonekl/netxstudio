@@ -38,7 +38,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
-import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateStateCallBack;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.screens.editing.IScreen;
@@ -270,7 +270,7 @@ public class ServiceSummaryComponent {
 		monitoringState.summary(callBack, service, new Object[] { period });
 	}
 
-	class SummaryCallBack implements MonitoringStateStateCallBack {
+	class SummaryCallBack implements MonitoringStateCallBack {
 
 		public void callBackEvent(MonitoringStateEvent event) {
 			if (event.getResult() instanceof RFSServiceSummary) {
