@@ -138,6 +138,7 @@ abstract class SWTFocusBlockManager {
 
 	private void setCursorAccelerator(boolean accelerating) {
 		
+		@SuppressWarnings("unused")
 		Cursor previousCursor = viewer.getControl().getCursor();
 		
 		if (accelerating) {
