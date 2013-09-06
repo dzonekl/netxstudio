@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry excluding="com/netxforge/netxstudio/screens/f4/MetricSourceMDBlock.java|com/netxforge/netxstudio/screens/f4/MetricSourceMDPage.java|com/netxforge/netxstudio/screens/demo/ScreensEditor.java|com/netxforge/netxstudio/screens/parts/ScreensEditor.java|com/netxforge/netxstudio/screens/parts/ScreenSelector.java|com/netxforge/netxstudio/screens/parts/AbstractScreenSelector.java|com/netxforge/netxstudio/screens/parts/AbstractScreenSashSelector.java|com/netxforge/netxstudio/screens/f4/MetricSourceDetails.java|com/netxforge/netxstudio/screens/f4/MetricValueRange.java|com/netxforge/netxstudio/screens/demo/DemoViewPartSelector.java|com/netxforge/netxstudio/screens/f2/AllResources.java|com/netxforge/netxstudio/screens/f1/Services.java|com/netxforge/netxstudio/screens/f1/NewEditService.java|com/netxforge/netxstudio/screens/f4/NewEditMappingColumnDialog.java|com/netxforge/netxstudio/screens/f2/details/NewEditFunctionLink.java|com/netxforge/netxstudio/screens/f2/details/NewEditLink.java|com/netxforge/netxstudio/screens/f2/details/NewEditEquipmentLink.java|com/netxforge/netxstudio/screens/f2/ValueComponent.java|com/netxforge/netxstudio/screens/tables/TableHelper.java|com/netxforge/netxstudio/screens/f2/NodeResourcesAdvanced.java|com/netxforge/netxstudio/screens/f3/NewEditGeoSite.java|com/netxforge/netxstudio/screens/f1/ServiceSummaryComponent.java|com/netxforge/netxstudio/screens/f3/charts/ChartScreen.java|com/netxforge/netxstudio/screens/tables/CellNavigationStrategyExposed.java|com/netxforge/netxstudio/screens/tables/CopyFeatureCommand.java|com/netxforge/netxstudio/screens/tables/CreateFeatureCopyCommand.java|com/netxforge/netxstudio/screens/tables/FocusBlockHighlighter.java|com/netxforge/netxstudio/screens/tables/FocusBlockOwnerDrawHighlighterForMultiselection.java|com/netxforge/netxstudio/screens/tables/FocusCellOwnerDrawHighlighterForMultiselection.java|com/netxforge/netxstudio/screens/tables/FocusColumnToModelMap.java|com/netxforge/netxstudio/screens/tables/OpenTreeViewer.java|com/netxforge/netxstudio/screens/tables/SWTFocusBlockManager.java|com/netxforge/netxstudio/screens/tables/TreeViewerFocusBlockManager.java" kind="src" path="src"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" output="target/classes" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
