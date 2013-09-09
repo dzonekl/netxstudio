@@ -79,7 +79,7 @@
    <extension
          point="org.eclipse.ui.splashHandlers">
       <splashHandler
-            class="com.netxforge.netxstudio.client.product.internal.ProductEExtensionFactory:com.netxforge.netxstudio.client.product.splashHandlers.InteractiveSplashHandler"
+            class="com.netxforge.netxstudio.client.product.splashHandlers.InteractiveSplashHandler"
             id="com.netxforge.netxstudio.client.product.splashHandlers.interactive">
       </splashHandler>
       <splashHandlerProductBinding

@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.core.runtime,com.google.inject;bundle-vers
  "1.0.0";visibility:=reexport
 Bundle-Vendor: NetXForge
 Bundle-ActivationPolicy: lazy
-Bundle-Version: 1.0.0.201309041342
+Bundle-Version: 1.0.0.201309081321
 Bundle-Name: Common
 Bundle-Activator: com.netxforge.netxstudio.common.internal.CommonActiv
  ator

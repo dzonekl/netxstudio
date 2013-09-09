@@ -29,4 +29,16 @@
          id="org.eclipse.nebula.widgets.datechooser.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.nebula.widgets.grid.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.nebula.widgets.formattedtext.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.nebula.cwt.feature"
+         version="0.0.0"/>
+
 </feature>

@@ -21,5 +21,6 @@
     <module>com.mysql.driver</module>
     <module>oracle.jdbc.driver.10_2_0_4</module>
     <module>org.postgresql</module>
+    <module>org.swtchart</module>
   </modules>
 </project>

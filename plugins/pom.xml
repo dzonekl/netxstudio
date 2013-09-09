@@ -41,6 +41,7 @@
 		<module>../screens/com.netxforge.netxstudio.screens.ide</module>
 		<module>../screens/com.netxforge.netxstudio.screens.editing</module>
 		<module>../screens/com.netxforge.netxstudio.screens.xtext</module>
+		<module>../products/com.netxforge.netxstudio.client.product</module>
 		<module>../products/com.netxforge.netxstudio.server.db.mysql.product</module>
 	</modules>
 </project>
