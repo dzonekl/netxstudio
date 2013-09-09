@@ -2,7 +2,7 @@
 <feature
       id="org.apache.artifacts.feature"
       label="Apache Feature"
-      version="1.0.0.201309081321"
+      version="1.0.0.201309090640"
       provider-name="Apache">
 
    <description url="http://www.example.com/description">
@@ -63,7 +63,7 @@
          id="org.apache.commons.math"
          download-size="869"
          install-size="967"
-         version="2.2.0.201309081321"/>
+         version="2.2.0.201309090640"/>
 
    <plugin
          id="org.apache.commons.cli"

@@ -123,7 +123,7 @@
 
    <includes
          id="org.eclipse.gef"
-         version=""/>
+         version="0.0.0"/>
 
    <includes
          id="org.eclipse.draw2d"

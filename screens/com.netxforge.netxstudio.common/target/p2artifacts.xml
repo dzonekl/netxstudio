@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
 <artifacts size='1'>
-  <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.common' version='1.0.0.201309081321'>
+  <artifact classifier='osgi.bundle' id='com.netxforge.netxstudio.common' version='1.0.0.201309090640'>
     <properties size='5'>
-      <property name='artifact.size' value='183447'/>
-      <property name='download.size' value='183447'/>
+      <property name='artifact.size' value='183448'/>
+      <property name='download.size' value='183448'/>
       <property name='maven-groupId' value='com.netxforge.netxstudio.common'/>
       <property name='maven-artifactId' value='com.netxforge.netxstudio.common'/>
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>

@@ -2,7 +2,7 @@
 <feature
       id="com.google.artifacts.feature"
       label="Google plugins Feature"
-      version="1.0.0.201309081321"
+      version="1.0.0.201309090640"
       provider-name="Google">
 
    <description url="http://www.example.com/description">
