@@ -2,7 +2,7 @@
 <feature
       id="org.apache.artifacts.feature"
       label="Apache Feature"
-      version="1.0.0.201309090640"
+      version="1.0.0.201309090946"
       provider-name="Apache">
 
    <description url="http://www.example.com/description">
@@ -63,13 +63,41 @@
          id="org.apache.commons.math"
          download-size="869"
          install-size="967"
-         version="2.2.0.201309090640"/>
+         version="2.2.0.201309090946"/>
 
    <plugin
          id="org.apache.commons.cli"
          download-size="47"
          install-size="91"
          version="1.2.0.v201105210650"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.lucene.queries"
+         download-size="54"
+         install-size="111"
+         version="3.5.0.v20120725-1805"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.lucene.misc"
+         download-size="68"
+         install-size="135"
+         version="3.5.0.v20120725-1805"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.jasper.glassfish"
+         download-size="2327"
+         install-size="5450"
+         version="2.2.2.v201205150955"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.batik.css"
+         download-size="335"
+         install-size="687"
+         version="1.7.0.v201011041433"
          unpack="false"/>
 
 </feature>

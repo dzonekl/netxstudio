@@ -90,6 +90,7 @@ The following extra packages will be installed:
 - Log file will be placed in /var/log/jenkins/jenkins.log. Check this file if you are troubleshooting Jenkins.
 - /etc/default/jenkins will capture configuration parameters for the launch.
 - By default, Jenkins listen on port 8080. Access this port with your browser to start configuration.
+- Usage: /etc/init.d/jenkins {start|stop|status|restart|force-reload}
 
 The workspace is here!
 

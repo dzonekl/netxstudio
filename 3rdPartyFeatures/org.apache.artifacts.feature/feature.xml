@@ -93,4 +93,11 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="org.apache.batik.css"
+         download-size="0"
+         install-size="0"
+         version="1.6.0.v201011041432"
+         unpack="false"/>
+
 </feature>

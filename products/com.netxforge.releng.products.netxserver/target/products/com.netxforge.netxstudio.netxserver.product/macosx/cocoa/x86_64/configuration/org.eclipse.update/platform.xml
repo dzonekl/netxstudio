@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<config transient="false" date="1378708863460">
+<config transient="false" date="1378720041636">
 	<site enabled="true" updateable="true" policy="USER-EXCLUDE" url="platform:/base/">
-		<feature id="org.eclipse.xtext.artifacts.feature" url="features/org.eclipse.xtext.artifacts.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
+		<feature id="org.quartz.artifacts.feature" url="features/org.quartz.artifacts.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
 		</feature>
-		<feature id="org.slf4j.feature" url="features/org.slf4j.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
+		<feature id="org.apache.poi.artifacts.feature" url="features/org.apache.poi.artifacts.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
 		</feature>
-		<feature id="com.netxforge.netxstudio.server.db.mysql.product.feature" url="features/com.netxforge.netxstudio.server.db.mysql.product.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
+		<feature id="javax.artifacts.feature" url="features/javax.artifacts.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
 		</feature>
-		<feature id="org.apache.artifacts.server.feature" url="features/org.apache.artifacts.server.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
-		</feature>
-		<feature id="com.netxforge.netxscript.feature" url="features/com.netxforge.netxscript.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
-		</feature>
-		<feature id="com.netxforge.netxstudio.data.feature" url="features/com.netxforge.netxstudio.data.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
+		<feature id="com.netxforge.netxstudio.models.feature" url="features/com.netxforge.netxstudio.models.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
 		</feature>
 		<feature id="org.eclipse.emf.common" url="features/org.eclipse.emf.common_2.9.1.v20130827-0309/" version="2.9.1.v20130827-0309">
 		</feature>
-		<feature id="com.netxforge.netxstudio.server.db.feature" url="features/com.netxforge.netxstudio.server.db.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
+		<feature id="com.netxforge.netxstudio.common.feature" url="features/com.netxforge.netxstudio.common.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
 		</feature>
-		<feature id="org.apache.poi.artifacts.feature" url="features/org.apache.poi.artifacts.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
+		<feature id="com.netxforge.netxstudio.server.db.feature" url="features/com.netxforge.netxstudio.server.db.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
 		</feature>
-		<feature id="com.netxforge.netxstudio.models.13042011.feature" url="features/com.netxforge.netxstudio.models.13042011.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
+		<feature id="com.netxforge.netxscript.feature" url="features/com.netxforge.netxscript.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
+		</feature>
+		<feature id="com.netxforge.netxstudio.models.13042011.feature" url="features/com.netxforge.netxstudio.models.13042011.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
 		</feature>
 		<feature id="org.peaberry.artifacts.feature" url="features/org.peaberry.artifacts.feature_1.0.0.201308301546/" version="1.0.0.201308301546">
 		</feature>
+		<feature id="org.eclipse.xtext.artifacts.feature" url="features/org.eclipse.xtext.artifacts.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
+		</feature>
+		<feature id="com.netxforge.netxstudio.data.feature" url="features/com.netxforge.netxstudio.data.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
+		</feature>
+		<feature id="com.netxforge.netxstudio.server.db.mysql.product.feature" url="features/com.netxforge.netxstudio.server.db.mysql.product.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
+		</feature>
 		<feature id="org.eclipse.emf.ecore" url="features/org.eclipse.emf.ecore_2.9.1.v20130827-0309/" version="2.9.1.v20130827-0309">
 		</feature>
-		<feature id="com.netxforge.netxstudio.models.feature" url="features/com.netxforge.netxstudio.models.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
+		<feature id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature" url="features/org.eclipse.emf.cdo.server.db.mysql.artifacts.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
 		</feature>
-		<feature id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature" url="features/org.eclipse.emf.cdo.server.db.mysql.artifacts.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
-		</feature>
-		<feature id="com.google.artifacts.feature" url="features/com.google.artifacts.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
+		<feature id="com.google.artifacts.feature" url="features/com.google.artifacts.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
 		</feature>
 		<feature id="com.google.collect.artifacts.feature" url="features/com.google.collect.artifacts.feature_1.0.0.201309021525/" version="1.0.0.201309021525">
 		</feature>
-		<feature id="com.netxforge.netxstudio.common.feature" url="features/com.netxforge.netxstudio.common.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
-		</feature>
-		<feature id="org.quartz.artifacts.feature" url="features/org.quartz.artifacts.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
-		</feature>
 		<feature id="org.eclipse.platform.server.artifacts.feature" url="features/org.eclipse.platform.server.artifacts.feature_4.3.0/" version="4.3.0">
 		</feature>
-		<feature id="javax.artifacts.feature" url="features/javax.artifacts.feature_1.0.0.201309090640/" version="1.0.0.201309090640">
+		<feature id="org.apache.artifacts.server.feature" url="features/org.apache.artifacts.server.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
+		</feature>
+		<feature id="org.slf4j.feature" url="features/org.slf4j.feature_1.0.0.201309090946/" version="1.0.0.201309090946">
 		</feature>
 	</site>
 </config>
