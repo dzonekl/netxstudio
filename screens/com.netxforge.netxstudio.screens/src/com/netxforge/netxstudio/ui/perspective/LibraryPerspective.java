@@ -9,6 +9,6 @@ public class LibraryPerspective extends AbstractFormPerspective {
 
 	public void createInitialLayout(IPageLayout layout) {
 		super.createInitialLayout(layout);
-		layout.addStandaloneView("com.netxforge.netxstudio.screens.selector.library", false, IPageLayout.LEFT, 0.5f, IPageLayout.ID_EDITOR_AREA);		
+		layout.addStandaloneView("com.netxforge.netxstudio.screens.selector.library", false, IPageLayout.LEFT, 0.5f, IPageLayout.ID_EDITOR_AREA);
 	}
 }

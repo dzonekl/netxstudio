@@ -67,7 +67,7 @@ public class ScreensActionBarAdvisor extends ActionBarAdvisor {
 		register(prefAction);
 		register(aboutAction);
 		register(helpAction);
-		register(ActionFactory.INTRO.create(window));
+//		register(ActionFactory.INTRO.create(window));
 		register(ActionFactory.EDIT_ACTION_SETS.create(window));
 		register(ActionFactory.NEW.create(window));
 		register(ActionFactory.SAVE.create(window));
@@ -272,7 +272,7 @@ public class ScreensActionBarAdvisor extends ActionBarAdvisor {
 		{
 			IMenuManager menuX = new MenuManager("Help",
 					IWorkbenchActionConstants.M_HELP);
-			menuX.add(getAction(ActionFactory.INTRO.getId()));
+//			menuX.add(getAction(ActionFactory.INTRO.getId()));
 			menuX.add(new Separator());
 			menuX.add(helpAction);
 			menuX.add(aboutAction);
