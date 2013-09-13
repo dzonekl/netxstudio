@@ -16,9 +16,9 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
-				<dependency-resolution>
-        			<optionalDependencies>ignore</optionalDependencies>
-      			</dependency-resolution>
+					<dependency-resolution>
+						<optionalDependencies>ignore</optionalDependencies>
+					</dependency-resolution>
 					<target>
 						<artifact>
 							<groupId>${project.groupId}</groupId>
@@ -27,6 +27,23 @@
 							<classifier>../../releng.tycho/com.netxforge.releng.target/netxstudio_kepler</classifier>
 						</artifact>
 					</target>
+					<environments>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -49,6 +66,9 @@
 		</module>
 		<module>
 		../../3rdPartyLib
+		</module>
+		<module>
+		../../libs.eclipse
 		</module>
 		<module>
 			../../products/com.netxforge.releng.products.netxserver

@@ -20,6 +20,7 @@
 		<module>org.eclipse.platform.artifacts.feature</module>
 		<module>org.eclipse.xtext.artifacts.feature</module>
 		<module>org.eclipse.xtext.ui.artifacts.feature</module>
+		<module>org.eclipse.e4.tools.artifacts.feature</module>
 		<module>org.apache.poi.artifacts.feature</module>
 		<module>org.apache.artifacts.server.feature</module>
 		<module>org.apache.artifacts.feature</module>

@@ -1,0 +1,330 @@
+Files libs.eclipse/org.eclipse.ui.ide/.api_description and 3rdPartyLib/org.eclipse.ui.ide/.api_description differ
+Files libs.eclipse/org.eclipse.ui.ide/.settings/org.eclipse.jdt.core.prefs and 3rdPartyLib/org.eclipse.ui.ide/.settings/org.eclipse.jdt.core.prefs differ
+Files libs.eclipse/org.eclipse.ui.ide/META-INF/MANIFEST.MF and 3rdPartyLib/org.eclipse.ui.ide/META-INF/MANIFEST.MF differ
+Only in 3rdPartyLib/org.eclipse.ui.ide/META-INF: eclipse.inf
+Only in libs.eclipse/org.eclipse.ui.ide/: README.textile
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/CopyFilesAndFoldersOperation.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/CopyFilesAndFoldersOperation.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$3.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$3.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$4.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$4.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$5.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$5.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$6.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$6.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$DeleteProjectDialog.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction$DeleteProjectDialog.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/DeleteResourceAction.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/NewWizardMenu.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/NewWizardMenu.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/OpenWithMenu$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/OpenWithMenu$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/OpenWithMenu$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/OpenWithMenu$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/OpenWithMenu$3.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/OpenWithMenu$3.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/OpenWithMenu$4.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/OpenWithMenu$4.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/OpenWithMenu.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/actions/OpenWithMenu.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$CustomWorkingSetFilter.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$CustomWorkingSetFilter.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$ResourceFilter.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$ResourceFilter.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$ResourceItemDetailsLabelProvider.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$ResourceItemDetailsLabelProvider.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$ResourceItemLabelProvider.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$ResourceItemLabelProvider.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$ResourceProxyVisitor.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$ResourceProxyVisitor.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$ResourceSelectionHistory.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$ResourceSelectionHistory.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$ShowDerivedResourcesAction.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog$ShowDerivedResourcesAction.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/WizardNewFolderMainPage.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/WizardNewFolderMainPage.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/WizardNewProjectCreationPage$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/WizardNewProjectCreationPage$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/WizardNewProjectCreationPage$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/WizardNewProjectCreationPage$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/WizardNewProjectCreationPage.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/dialogs/WizardNewProjectCreationPage.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/FileStoreEditorInput$WorkbenchAdapter.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/FileStoreEditorInput$WorkbenchAdapter.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/FileStoreEditorInput.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/FileStoreEditorInput.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/IDE$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/IDE$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/IDE$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/IDE$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/IDE$3.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/IDE$3.class differ
+Only in 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/ide: IDE$SaveFilter.class
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/IDE.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/IDE.class differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/ide: IEditorAssociationOverride.class
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/ide: ResourceSaveableFilter.class
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/dialogs: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/fileSystem: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/ide: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/ide/undo: package.html
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/ChooseWorkspaceData.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/ChooseWorkspaceData.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/ContentTypeDecorator.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/ContentTypeDecorator.class differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide: EditorAssociationOverrideDescriptor$1.class
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide: EditorAssociationOverrideDescriptor.class
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/IDEWorkbenchMessages.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/IDEWorkbenchMessages.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/IDEWorkbenchPlugin$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/IDEWorkbenchPlugin$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/IDEWorkbenchPlugin.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/IDEWorkbenchPlugin.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/LineDelimiterEditor.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/LineDelimiterEditor.class differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide: SymlinkDecorator.class
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$3.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$3.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$4.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$4.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$5.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$5.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$6.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$6.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$7.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$7.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$8.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder$8.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/WorkbenchActionBuilder.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/actions/BuildUtilities.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/actions/BuildUtilities.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CleanDialog$4.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CleanDialog$4.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CleanDialog$5.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CleanDialog$5.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CleanDialog.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CleanDialog.class differ
+Only in 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs: ConfigurationLogUpdateSection.class
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CreateLinkedResourceGroup$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CreateLinkedResourceGroup$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CreateLinkedResourceGroup$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CreateLinkedResourceGroup$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CreateLinkedResourceGroup$3.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CreateLinkedResourceGroup$3.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CreateLinkedResourceGroup$4.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CreateLinkedResourceGroup$4.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CreateLinkedResourceGroup.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/CreateLinkedResourceGroup.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/DefaultCustomFilterArgumentUI$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/DefaultCustomFilterArgumentUI$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/DefaultCustomFilterArgumentUI.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/DefaultCustomFilterArgumentUI.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/FileFolderSelectionDialog$FileSelectionValidator.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/FileFolderSelectionDialog$FileSelectionValidator.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/FileFolderSelectionDialog.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/FileFolderSelectionDialog.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/FileStatesPage.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/FileStatesPage.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/IDEResourceInfoUtils.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/IDEResourceInfoUtils.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/IDEWorkbenchPreferencePage.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/IDEWorkbenchPreferencePage.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/IDEWorkspacePreferencePage$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/IDEWorkspacePreferencePage$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/IDEWorkspacePreferencePage$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/IDEWorkspacePreferencePage$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/IDEWorkspacePreferencePage.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/IDEWorkspacePreferencePage.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$10.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$10.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$3.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$3.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$4.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$4.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$5.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$5.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$6.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$6.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$7.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$7.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$8.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$8.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$9.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI$9.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherCustomFilterArgumentUI.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherLocalization.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/MultiMatcherLocalization.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/OpenResourceDialog$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/OpenResourceDialog$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/OpenResourceDialog$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/OpenResourceDialog$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/OpenResourceDialog$3.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/OpenResourceDialog$3.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/OpenResourceDialog$4.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/OpenResourceDialog$4.class differ
+Only in 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs: OpenResourceDialog$5.class
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs: OpenResourceDialog$ResourceOpenWithMenu.class
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs: OpenResourceDialog$ResourceShowInMenu.class
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/OpenResourceDialog.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/OpenResourceDialog.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/ProjectContentsLocationArea.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/ProjectContentsLocationArea.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/ResourceInfoPage$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/ResourceInfoPage$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/ResourceInfoPage$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/ResourceInfoPage$2.class differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs: ResourceInfoPage$3.class
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs: ResourceInfoPage$4.class
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs: ResourceInfoPage$5.class
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs: ResourceInfoPage$6.class
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs: ResourceInfoPage$IResourceChange.class
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/ResourceInfoPage.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/dialogs/ResourceInfoPage.class differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/filesystem: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/handlers: BuildProjectHandler.class
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/messages.properties and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/messages.properties differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/misc/ContainerSelectionGroup$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/misc/ContainerSelectionGroup$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/misc/ContainerSelectionGroup$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/misc/ContainerSelectionGroup$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/misc/ContainerSelectionGroup.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/misc/ContainerSelectionGroup.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/misc/ResourceAndContainerGroup$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/misc/ResourceAndContainerGroup$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/misc/ResourceAndContainerGroup.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/misc/ResourceAndContainerGroup.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/model/StandardPropertiesAdapterFactory.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide/model/StandardPropertiesAdapterFactory.class differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/ide: package.html
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/AllMarkersSeverityAndDescriptionConfigurationArea$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/AllMarkersSeverityAndDescriptionConfigurationArea$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/AllMarkersSeverityAndDescriptionConfigurationArea.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/AllMarkersSeverityAndDescriptionConfigurationArea.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/EditablePropertyTester.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/EditablePropertyTester.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$3.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$3.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$4.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$4.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$5.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$5.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$6.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$6.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$7.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$7.class differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers: ExtendedMarkersView$8.class
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers: ExtendedMarkersView$9.class
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$ViewerPageSelectionListener.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView$ViewerPageSelectionListener.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ExtendedMarkersView.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$10.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$10.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$11.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$11.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$12.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$12.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$13.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$13.class differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers: FiltersConfigurationDialog$14.class
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers: FiltersConfigurationDialog$15.class
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$3.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$3.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$4.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$4.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$5.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$5.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$6.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$6.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$7.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$7.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$8.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$8.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$9.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog$9.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/MarkerContentGenerator$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/MarkerContentGenerator$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/MarkerContentGenerator.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/MarkerContentGenerator.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/MarkersPropertyPage.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/MarkersPropertyPage.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/MarkersViewColumnsDialog$FieldEntry.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/MarkersViewColumnsDialog$FieldEntry.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/QuickFixHandler.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/QuickFixHandler.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/QuickFixPage$5.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/QuickFixPage$5.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ScopeArea$WorkingSetArea.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ScopeArea$WorkingSetArea.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/TypesConfigurationArea.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/TypesConfigurationArea.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$10.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$10.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$11.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$11.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$12.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$12.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$13.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$13.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$14.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$14.class differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers: ViewerColumnsDialog$15.class
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$3.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$3.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$4.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$4.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$5.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$5.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$6.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$6.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$7.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$7.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$8.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$8.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$9.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$9.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$TableLabelProvider.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$TableLabelProvider.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$TestData.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog$TestData.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/navigator/messages.properties and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/navigator/messages.properties differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/properties/ideMessages.properties and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/views/properties/ideMessages.properties differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/ArchiveFileExportOperation.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/ArchiveFileExportOperation.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/DataTransferMessages.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/DataTransferMessages.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$10.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$10.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$11.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$11.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$12.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$12.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$13.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$13.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$14.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$14.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$15.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$15.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$16.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$16.class differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer: WizardFileSystemResourceImportPage1$17.class
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$3.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$3.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$4.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$4.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$5.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$5.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$6.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$6.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$7.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$7.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$8.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$8.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$9.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1$9.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$10.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$10.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$11.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$11.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$12.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$12.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$13.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$13.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$14.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$14.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$15.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$15.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$16.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$16.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$17.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$17.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$18.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$18.class differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer: WizardProjectsImportPage$19.class
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$3.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$3.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$4.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$4.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$5.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$5.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$6.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$6.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$7.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$7.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$8.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$8.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$9.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$9.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$ProjectLabelProvider.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$ProjectLabelProvider.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$ProjectRecord.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage$ProjectRecord.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/ZipLeveledStructureProvider.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/ZipLeveledStructureProvider.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/messages.properties and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer/messages.properties differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/internal/wizards/datatransfer: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/views/bookmarkexplorer: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/views/framelist: package.html
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/views/markers/internal/messages.properties and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/views/markers/internal/messages.properties differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/views/markers: package.html
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/views/navigator/NavigatorDropAdapter$1.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/views/navigator/NavigatorDropAdapter$1.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/views/navigator/NavigatorDropAdapter$2.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/views/navigator/NavigatorDropAdapter$2.class differ
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/views/navigator/NavigatorDropAdapter.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/views/navigator/NavigatorDropAdapter.class differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/views/navigator: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/views/tasklist: package.html
+Files libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/wizards/datatransfer/ImportOperation.class and 3rdPartyLib/org.eclipse.ui.ide/bin/org/eclipse/ui/wizards/datatransfer/ImportOperation.class differ
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/wizards/datatransfer: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/bin/org/eclipse/ui/wizards/newresource: package.html
+Files libs.eclipse/org.eclipse.ui.ide/build.properties and 3rdPartyLib/org.eclipse.ui.ide/build.properties differ
+Only in libs.eclipse/org.eclipse.ui.ide/icons/full/ovr16: symlink_ovr.gif
+Files libs.eclipse/org.eclipse.ui.ide/plugin.properties and 3rdPartyLib/org.eclipse.ui.ide/plugin.properties differ
+Files libs.eclipse/org.eclipse.ui.ide/plugin.xml and 3rdPartyLib/org.eclipse.ui.ide/plugin.xml differ
+Only in 3rdPartyLib/org.eclipse.ui.ide/: readme.txt
+Only in libs.eclipse/org.eclipse.ui.ide/schema: editorAssociationOverride.exsd
+Files libs.eclipse/org.eclipse.ui.ide/schema/filesystemSupport.exsd and 3rdPartyLib/org.eclipse.ui.ide/schema/filesystemSupport.exsd differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/IMarkerHelpRegistry.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/IMarkerHelpRegistry.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/actions/CopyFilesAndFoldersOperation.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/actions/CopyFilesAndFoldersOperation.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/actions/DeleteResourceAction.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/actions/DeleteResourceAction.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/actions/NewWizardMenu.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/actions/NewWizardMenu.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/actions/OpenWithMenu.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/actions/OpenWithMenu.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/actions/WorkspaceAction.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/actions/WorkspaceAction.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/dialogs/FilteredResourcesSelectionDialog.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/dialogs/WizardExportResourcesPage.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/dialogs/WizardExportResourcesPage.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/dialogs/WizardNewFolderMainPage.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/dialogs/WizardNewFolderMainPage.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/dialogs/WizardNewProjectCreationPage.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/dialogs/WizardNewProjectCreationPage.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/ide/FileStoreEditorInput.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/ide/FileStoreEditorInput.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/ide/IDE.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/ide/IDE.java differ
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/ide: IEditorAssociationOverride.java
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/ide: ResourceSaveableFilter.java
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/ide/dialogs: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/ide/fileSystem: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/ide: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/ide/undo: package.html
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/ChooseWorkspaceData.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/ChooseWorkspaceData.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/ContentTypeDecorator.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/ContentTypeDecorator.java differ
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide: EditorAssociationOverrideDescriptor.java
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/IDEWorkbenchMessages.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/IDEWorkbenchMessages.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/IDEWorkbenchPlugin.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/IDEWorkbenchPlugin.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/LineDelimiterEditor.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/LineDelimiterEditor.java differ
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide: SymlinkDecorator.java
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/WorkbenchActionBuilder.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/WorkbenchActionBuilder.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/actions/BuildUtilities.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/actions/BuildUtilities.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/actions/OpenWorkspaceAction.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/actions/OpenWorkspaceAction.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/commands/CopyBuildIdToClipboardHandler.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/commands/CopyBuildIdToClipboardHandler.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/CleanDialog.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/CleanDialog.java differ
+Only in 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs: ConfigurationLogUpdateSection.java
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/CreateLinkedResourceGroup.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/CreateLinkedResourceGroup.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/FileFolderSelectionDialog.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/FileFolderSelectionDialog.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/FileStatesPage.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/FileStatesPage.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/IDEResourceInfoUtils.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/IDEResourceInfoUtils.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/IDEWorkbenchPreferencePage.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/IDEWorkbenchPreferencePage.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/IDEWorkspacePreferencePage.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/IDEWorkspacePreferencePage.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/OpenResourceDialog.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/OpenResourceDialog.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/ProjectContentsLocationArea.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/ProjectContentsLocationArea.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/ResourceFilterGroup.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/ResourceFilterGroup.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/ResourceInfoPage.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/ResourceInfoPage.java differ
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/filesystem: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/handlers: BuildProjectHandler.java
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/messages.properties and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/messages.properties differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/misc/ContainerSelectionGroup.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/misc/ContainerSelectionGroup.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/misc/ResourceAndContainerGroup.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/misc/ResourceAndContainerGroup.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/model/StandardPropertiesAdapterFactory.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/model/StandardPropertiesAdapterFactory.java differ
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide: package.html
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/AllMarkersSeverityAndDescriptionConfigurationArea.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/AllMarkersSeverityAndDescriptionConfigurationArea.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ConfigureColumnsHandler.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ConfigureColumnsHandler.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/EditablePropertyTester.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/EditablePropertyTester.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ExtendedMarkersView.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ExtendedMarkersView.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkerCategory.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkerCategory.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkerContentGenerator.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkerContentGenerator.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkerCreationTimeField.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkerCreationTimeField.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkerViewerContentProvider.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkerViewerContentProvider.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/Markers.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/Markers.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkersPropertyPage.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkersPropertyPage.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkersViewColumnsDialog.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkersViewColumnsDialog.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/QuickFixHandler.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/QuickFixHandler.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/QuickFixPage.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/QuickFixPage.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ScopeArea.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ScopeArea.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/TypesConfigurationArea.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/TypesConfigurationArea.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/navigator/messages.properties and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/navigator/messages.properties differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/properties/ideMessages.properties and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/properties/ideMessages.properties differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/ArchiveFileExportOperation.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/ArchiveFileExportOperation.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/DataTransferMessages.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/DataTransferMessages.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/ZipLeveledStructureProvider.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/ZipLeveledStructureProvider.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/messages.properties and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/messages.properties differ
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/views/bookmarkexplorer: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/views/framelist: package.html
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/views/markers/internal/MarkerSupportRegistry.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/views/markers/internal/MarkerSupportRegistry.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/views/markers/internal/messages.properties and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/views/markers/internal/messages.properties differ
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/views/markers: package.html
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/views/navigator/NavigatorDropAdapter.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/views/navigator/NavigatorDropAdapter.java differ
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/views/navigator/ResourceSorter.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/views/navigator/ResourceSorter.java differ
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/views/navigator: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/views/tasklist: package.html
+Files libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/wizards/datatransfer/ImportOperation.java and 3rdPartyLib/org.eclipse.ui.ide/src/org/eclipse/ui/wizards/datatransfer/ImportOperation.java differ
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/wizards/datatransfer: package.html
+Only in libs.eclipse/org.eclipse.ui.ide/src/org/eclipse/ui/wizards/newresource: package.html
