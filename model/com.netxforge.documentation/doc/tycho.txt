@@ -1,0 +1,6 @@
+
+
+Run tycho for our releng product: 
+--------------------------------
+
+mvn clean install -e -f releng.tycho/com.netxforge.releng/pom.xml 

@@ -12,4 +12,20 @@ Example:
 
 - Use the eclipse launcher (In our case it's a Keppler 4.3 installation). 
 
- java -jar plugins/org.eclipse.equinox.launcher_1.3.0.v20120522-1813.jar -application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher -metadataRepository file:/Users/Christophe/Documents/Projects/NetXStudio/Target/mwep2 -artifactRepository file:/Users/Christophe/Documents/Projects/NetXStudio/Target/mwep2 -source ~/Documents/Projects/NetXStudio/Target/mwe_source/  -compress -publishArtifacts
+ java -jar plugins/org.eclipse.equinox.launcher_1.3.0.v20120522-1813.jar 
+ -application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher 
+ -metadataRepository file:/Users/Christophe/Documents/Projects/NetXStudio/Target/mwep2 
+ -artifactRepository file:/Users/Christophe/Documents/Projects/NetXStudio/Target/mwep2 
+ -source ~/Documents/Projects/NetXStudio/Target/mwe_source/  
+ -compress -publishArtifacts
+
+ 
+ 
+Linode server config...
+=======================
+URL: 
+http://p2.netxforge.com
+
+P2 directory: 
+/home/apps/generated
+

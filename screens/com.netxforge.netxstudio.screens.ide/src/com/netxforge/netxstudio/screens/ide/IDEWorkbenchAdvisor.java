@@ -257,7 +257,7 @@ public abstract class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 		IAdapterManager manager = Platform.getAdapterManager();
 		IAdapterFactory factory = new WorkbenchAdapterFactory();
 		manager.registerAdapters(factory, IWorkspace.class);
-		// manager.registerAdapters(factory, IWorkspaceRoot.class); // Don't
+		manager.registerAdapters(factory, IWorkspaceRoot.class); // Don't
 		// register with the default adapter factory.
 		manager.registerAdapters(factory, IProject.class);
 		manager.registerAdapters(factory, IFolder.class);
