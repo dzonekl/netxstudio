@@ -1,0 +1,11 @@
+h1. CUSTOMIZED IDE VERSION FOR NETXSTUDIO
+
+Search for this string: 
+
+CB DISABLED
+
+- When moving to Kepler (Eclipse 4.3) the IDE has additional dependency on 
+various P2 libraries. (Wasn't the case with Juno). 
+
+- plugin.xml => 
+/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/ConfigurationLogUpdateSection.java

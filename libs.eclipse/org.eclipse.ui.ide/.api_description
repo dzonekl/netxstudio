@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component name="org.eclipse.ui.ide_3.9.0.v20130517-0139" version="1.2">
+    <plugin id="org.eclipse.ui.ide_3.9.0.v20130517-0139"/>
+    <package name="org.eclipse.ui.actions" visibility="1">
+        <type name="AddBookmarkAction" restrictions="2"/>
+        <type name="AddTaskAction" restrictions="2"/>
+        <type name="BuildAction" restrictions="2"/>
+        <type name="CloseResourceAction" restrictions="2"/>
+        <type name="CopyFilesAndFoldersOperation" restrictions="2"/>
+        <type name="CopyProjectOperation" restrictions="2"/>
+        <type name="CopyResourceAction" restrictions="2"/>
+        <type name="CreateFileAction" restrictions="2"/>
+        <type name="CreateFolderAction" restrictions="2"/>
+        <type name="DeleteResourceAction" restrictions="2"/>
+        <type name="GlobalBuildAction" restrictions="2"/>
+        <type name="MoveFilesAndFoldersOperation" restrictions="2"/>
+        <type name="MoveResourceAction" restrictions="2"/>
+        <type name="NewExampleAction" restrictions="2"/>
+        <type name="NewProjectAction" restrictions="2"/>
+        <type name="OpenFileAction" restrictions="2"/>
+        <type name="OpenResourceAction" restrictions="2"/>
+        <type name="OpenSystemEditorAction" restrictions="2"/>
+        <type name="OpenWithMenu" restrictions="2"/>
+        <type name="RenameResourceAction" restrictions="2"/>
+        <type name="ScrubLocalAction" restrictions="2"/>
+        <type name="TextActionHandler" restrictions="2"/>
+        <type name="WorkspaceModifyDelegatingOperation" restrictions="2"/>
+    </package>
+    <package name="org.eclipse.ui.dialogs" visibility="1">
+        <type name="ContainerGenerator" restrictions="2"/>
+        <type name="ContainerSelectionDialog" restrictions="2"/>
+        <type name="FileSelectionDialog" restrictions="2"/>
+        <type name="MarkerResolutionSelectionDialog" restrictions="2"/>
+        <type name="NewFolderDialog" restrictions="2"/>
+        <type name="ResourceSelectionDialog" restrictions="2"/>
+        <type name="SaveAsDialog" restrictions="2"/>
+        <type name="WizardDataTransferPage" restrictions="2"/>
+        <type name="WizardNewLinkPage" restrictions="2"/>
+    </package>
+    <package name="org.eclipse.ui.ide" visibility="1">
+        <type name="IIDEActionConstants" restrictions="1"/>
+    </package>
+    <package name="org.eclipse.ui.ide.dialogs" visibility="1">
+        <type name="ImportTypeDialog" restrictions="2"/>
+    </package>
+    <package name="org.eclipse.ui.ide.undo" visibility="1">
+        <type name="AbstractWorkspaceOperation" restrictions="2"/>
+        <type name="CopyProjectOperation" restrictions="2"/>
+        <type name="CopyResourcesOperation" restrictions="2"/>
+        <type name="CreateFileOperation" restrictions="2"/>
+        <type name="CreateFolderOperation" restrictions="2"/>
+        <type name="CreateProjectOperation" restrictions="2"/>
+        <type name="DeleteResourcesOperation" restrictions="2"/>
+        <type name="MoveProjectOperation" restrictions="2"/>
+        <type name="MoveResourcesOperation" restrictions="2"/>
+    </package>
+    <package name="org.eclipse.ui.part" visibility="1">
+        <type name="FileEditorInput" restrictions="2"/>
+        <type name="FileEditorInputFactory" restrictions="6"/>
+        <type name="FileInPlaceEditorInput" restrictions="2"/>
+        <type name="MarkerTransfer" restrictions="2"/>
+        <type name="ResourceTransfer" restrictions="2"/>
+    </package>
+    <package name="org.eclipse.ui.views.bookmarkexplorer" visibility="1">
+        <type name="BookmarkNavigator" restrictions="6"/>
+    </package>
+    <package name="org.eclipse.ui.views.navigator" visibility="1">
+        <type name="INavigatorHelpContextIds" restrictions="3"/>
+        <type name="IResourceNavigator" restrictions="1"/>
+        <type name="LocalSelectionTransfer" restrictions="2"/>
+        <type name="PasteAction" restrictions="6"/>
+        <type name="ResourceNavigatorMessages" restrictions="6"/>
+        <type name="ResourceSelectionUtil" restrictions="6"/>
+        <type name="ResourceSorter" restrictions="2"/>
+        <type name="StringMatcher" restrictions="6"/>
+    </package>
+    <package name="org.eclipse.ui.views.tasklist" visibility="1">
+        <type name="TaskList" restrictions="6"/>
+    </package>
+    <package name="org.eclipse.ui.wizards.datatransfer" visibility="1">
+        <type name="ExternalProjectImportWizard" restrictions="2"/>
+        <type name="FileSystemExportWizard" restrictions="2"/>
+        <type name="FileSystemImportWizard" restrictions="2"/>
+        <type name="ImportOperation" restrictions="2"/>
+        <type name="ZipFileExportWizard" restrictions="2"/>
+        <type name="ZipFileImportWizard" restrictions="2"/>
+    </package>
+    <package name="org.eclipse.ui.wizards.newresource" visibility="1">
+        <type name="BasicNewFileResourceWizard" restrictions="2"/>
+        <type name="BasicNewFolderResourceWizard" restrictions="2"/>
+        <type name="BasicNewProjectResourceWizard" restrictions="2"/>
+        <type name="BasicNewResourceWizard" restrictions="2"/>
+    </package>
+</component>
