@@ -10,7 +10,7 @@ Eclipse-SourceReferences: scm:git:git://git.eclipse.org/gitroot/platfo
  8ac7b8729
 Bundle-Activator: org.eclipse.ui.internal.navigator.resources.plugin.W
  orkbenchNavigatorPlugin
-Require-Bundle: org.eclipse.ui.ide;bundle-version="[3.6.0,4.0.0)",
+Require-Bundle: org.eclipse.ui.ide;bundle-version="3.9.0",
  org.eclipse.core.resources;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.jface;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.ui;bundle-version="[3.6.0,4.0.0)",
