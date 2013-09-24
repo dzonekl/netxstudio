@@ -6,4 +6,10 @@ and migration to a full P2 URL .target (Plugins can be compared in case of compi
 - Includes HTTP Repo's as much as possible. 
 
 - Some local repo's also, will expose through our Apache Server as HTTP URL's. 
-the target is netxstudio_kepler_self_managed. 
+
+netxstudio_kepler.local.target => Local target for Kepler, points to local directories. (Is not a shared target). 
+netxstudio_kepler.target => Base target for Kepler, can be used by build system. 
+netxstudio_kepler_dtp.target => Target for Kepler with DTP and BiRT for building a reporting enabled version. 
+netxstudio_kepler_git.target => TODO Target with GIS support (GeoFF). 
+
+ 
