@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='2'>
-  <unit id='org.apache.artifacts.feature.feature.group' version='1.0.0.201309090946' singleton='false'>
-    <update id='org.apache.artifacts.feature.feature.group' range='[0.0.0,1.0.0.201309090946)' severity='0'/>
+  <unit id='org.apache.artifacts.feature.feature.group' version='1.0.0.201309241614' singleton='false'>
+    <update id='org.apache.artifacts.feature.feature.group' range='[0.0.0,1.0.0.201309241614)' severity='0'/>
     <properties size='8'>
       <property name='org.eclipse.equinox.p2.name' value='Apache Feature'/>
       <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
@@ -13,7 +13,7 @@
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
     <provides size='1'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='org.apache.artifacts.feature.feature.group' version='1.0.0.201309090946'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.apache.artifacts.feature.feature.group' version='1.0.0.201309241614'/>
     </provides>
     <requires size='13'>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.commons.logging' range='[1.1.1.v201101211721,1.1.1.v201101211721]'/>
@@ -22,13 +22,13 @@
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.lucene.core' range='[3.5.0.v20120725-1805,3.5.0.v20120725-1805]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.log4j' range='[1.2.15.v201012070815,1.2.15.v201012070815]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.commons.lang' range='[2.6.0.v201205030909,2.6.0.v201205030909]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.commons.math' range='[2.2.0.201309090946,2.2.0.201309090946]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.commons.math' range='[2.2.0.201309241614,2.2.0.201309241614]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.commons.cli' range='[1.2.0.v201105210650,1.2.0.v201105210650]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.lucene.queries' range='[3.5.0.v20120725-1805,3.5.0.v20120725-1805]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.lucene.misc' range='[3.5.0.v20120725-1805,3.5.0.v20120725-1805]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.jasper.glassfish' range='[2.2.2.v201205150955,2.2.2.v201205150955]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.batik.css' range='[1.7.0.v201011041433,1.7.0.v201011041433]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.artifacts.feature.feature.jar' range='[1.0.0.201309090946,1.0.0.201309090946]'>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.batik.css' range='[1.6.0.v201011041432,1.6.0.v201011041432]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.artifacts.feature.feature.jar' range='[1.0.0.201309241614,1.0.0.201309241614]'>
         <filter>
           (org.eclipse.update.install.features=true)
         </filter>
@@ -44,7 +44,7 @@
       [Enter Copyright Description here.]
     </copyright>
   </unit>
-  <unit id='org.apache.artifacts.feature.feature.jar' version='1.0.0.201309090946'>
+  <unit id='org.apache.artifacts.feature.feature.jar' version='1.0.0.201309241614'>
     <properties size='7'>
       <property name='org.eclipse.equinox.p2.name' value='Apache Feature'/>
       <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
@@ -55,15 +55,15 @@
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
     <provides size='3'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='org.apache.artifacts.feature.feature.jar' version='1.0.0.201309090946'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.apache.artifacts.feature.feature.jar' version='1.0.0.201309241614'/>
       <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
-      <provided namespace='org.eclipse.update.feature' name='org.apache.artifacts.feature' version='1.0.0.201309090946'/>
+      <provided namespace='org.eclipse.update.feature' name='org.apache.artifacts.feature' version='1.0.0.201309241614'/>
     </provides>
     <filter>
       (org.eclipse.update.install.features=true)
     </filter>
     <artifacts size='1'>
-      <artifact classifier='org.eclipse.update.feature' id='org.apache.artifacts.feature' version='1.0.0.201309090946'/>
+      <artifact classifier='org.eclipse.update.feature' id='org.apache.artifacts.feature' version='1.0.0.201309241614'/>
     </artifacts>
     <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
     <touchpointData size='1'>
