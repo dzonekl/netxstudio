@@ -15,7 +15,7 @@ public abstract class AbstractFormPerspective implements IPerspectiveFactory {
 	 * Creates the initial layout for a page.
 	 */
 	public void createInitialLayout(IPageLayout layout) {
-		layout.setFixed(true);
+//		layout.setFixed(true);
 		layout.setEditorAreaVisible(false);
 		addFastViews(layout);
 		addViewShortcuts(layout);
