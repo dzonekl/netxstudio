@@ -44,6 +44,33 @@
 							<arch>x86_64</arch>
 						</environment>
 					</environments>
+					<filters>
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.eclipse.debug.core</id>
+							<removeAll />
+						</filter>
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.eclipse.jdt.core</id>
+							<removeAll />
+						</filter>
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.eclipse.search</id>
+							<removeAll />
+						</filter>
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.eclipse.team.core</id>
+							<removeAll />
+						</filter>
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.eclipse.team.ui</id>
+							<removeAll />
+						</filter>
+					</filters>
 				</configuration>
 			</plugin>
 			<plugin>
