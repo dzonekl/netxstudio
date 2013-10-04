@@ -63,10 +63,8 @@
    <configurations>
       <plugin id="com.netxforge.netxstudio.server" autoStart="true" startLevel="0" />
       <plugin id="com.netxforge.netxstudio.server.job" autoStart="true" startLevel="0" />
-      <plugin id="com.netxforge.netxstudio.server.jsp" autoStart="true" startLevel="0" />
       <plugin id="com.netxforge.netxstudio.server.logic" autoStart="true" startLevel="0" />
       <plugin id="com.netxforge.netxstudio.server.metrics" autoStart="true" startLevel="0" />
-      <plugin id="com.netxforge.netxstudio.server.test" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.http.jetty" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.http.registry" autoStart="true" startLevel="0" />

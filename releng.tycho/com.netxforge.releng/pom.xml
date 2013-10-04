@@ -47,6 +47,17 @@
 					<filters>
 						<filter>
 							<type>p2-installable-unit</type>
+							<id>org.apache.ant</id>
+							<removeAll />
+						</filter>
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.eclipse.ltk.core.refactoring</id>
+							<removeAll />
+						</filter>
+						
+						<filter>
+							<type>p2-installable-unit</type>
 							<id>org.eclipse.debug.core</id>
 							<removeAll />
 						</filter>

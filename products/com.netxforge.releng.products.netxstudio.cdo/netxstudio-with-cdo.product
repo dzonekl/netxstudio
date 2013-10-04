@@ -57,10 +57,12 @@
    </features>
 
    <configurations>
+	   <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" /> 
       <plugin id="com.netxforge.netxstudio.client.product" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="3" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="3" />
+       <plugin id="org.eclipse.update.configurator" autoStart="true" startLevel="4"/> 
    </configurations>
 
 </product>
