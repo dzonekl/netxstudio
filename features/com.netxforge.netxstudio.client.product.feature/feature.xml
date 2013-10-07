@@ -173,10 +173,6 @@
          id="org.eclipse.emf.compare"
          version="0.0.0"/>
 
-   <includes
-         id="org.eclipse.rcp"
-         version="0.0.0"/>
-
    <plugin
          id="com.netxforge.netxstudio.client.product"
          download-size="0"

@@ -15,7 +15,6 @@
 
    <launcherArgs>
       <programArgs>-data @noDefault -nl nl_NL</programArgs>
-      <programArgsMac>-console 8814 -consoleLog</programArgsMac>
       <vmArgs>-Xms512m -Xmx1024m -XX:MaxPermSize=128m
 -Dgeoff.resources.server=localhost:8080</vmArgs>
       <vmArgsMac>-Dosgi.debug=file://Users/Christophe/Documents/Workspace/.options
@@ -57,12 +56,12 @@
    </features>
 
    <configurations>
-	   <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" /> 
       <plugin id="com.netxforge.netxstudio.client.product" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="3" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="3" />
-       <plugin id="org.eclipse.update.configurator" autoStart="true" startLevel="4"/> 
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <plugin id="org.eclipse.update.configurator" autoStart="true" startLevel="4" />
    </configurations>
 
 </product>
