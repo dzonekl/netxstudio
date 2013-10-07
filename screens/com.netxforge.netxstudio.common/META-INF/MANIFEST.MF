@@ -7,7 +7,7 @@ Bundle-Activator: com.netxforge.netxstudio.common.internal.CommonActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.core.runtime,
  com.google.inject;bundle-version="2.0.0";visibility:=reexport,
- com.google.collect;bundle-version="1.0.0";visibility:=reexport,
+ com.google.guava;bundle-version="12.0.0";visibility:=reexport,
  org.eclipse.emf.cdo,
  org.ops4j.peaberry;bundle-version="1.1.1";visibility:=reexport,
  javax.inject;bundle-version="1.0.0";visibility:=reexport

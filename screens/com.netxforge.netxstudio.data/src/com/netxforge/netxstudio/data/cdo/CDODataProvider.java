@@ -179,7 +179,7 @@ public abstract class CDODataProvider implements IDataProvider {
 			for (int i = 0; i < views.length; i++) {
 				CDOView cdoView = views[i];
 				if (cdoView.hasListeners()) {
-					ImmutableList<IListener> of = ImmutableList.of(cdoView
+					ImmutableList<IListener> of = ImmutableList.copyOf(cdoView
 							.getListeners());
 					for (IListener iListener : of) {
 						cdoView.removeListener(iListener);

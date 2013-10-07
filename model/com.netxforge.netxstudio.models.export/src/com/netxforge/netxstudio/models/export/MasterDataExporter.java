@@ -51,7 +51,7 @@ public class MasterDataExporter {
 	}
 
 	private void processPackages(EPackage[] ePackages) {
-		ImmutableList<EPackage> of = ImmutableList.of(ePackages);
+		ImmutableList<EPackage> of = ImmutableList.copyOf(ePackages);
 		for (EPackage ePackage : of) {
 			this.processPackage(ePackage);
 		}
@@ -249,7 +249,7 @@ public class MasterDataExporter {
 		
 		// TODO previous based on a fixed set of objects. 
 //		// We not only get the selected objects, but also their containments.
-		ImmutableList<Object> of = ImmutableList.of(exportObjects);
+		ImmutableList<Object> of = ImmutableList.copyOf(exportObjects);
 		List<EObject> result = Lists.newArrayList();
 		for (Object o : of) {
 			EObject eo = (EObject) o;

@@ -162,10 +162,6 @@
          version="0.0.0"/>
 
    <includes
-         id="com.google.collect.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
          id="org.peaberry.artifacts.feature"
          version="0.0.0"/>
 

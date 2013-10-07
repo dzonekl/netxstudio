@@ -653,7 +653,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 		 * @return
 		 */
 		private List<EObject> applyUserSelection() {
-			List<Object> selectionList = ImmutableList.of(selection);
+			List<Object> selectionList = ImmutableList.copyOf(selection);
 			List<EObject> listOfObjectsToStore = Lists.newArrayList();
 
 			// Get the result object tree, matching the selection.

@@ -22,7 +22,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.edit;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.edit;visibility:=reexport,
- com.google.collect;bundle-version="1.0.0",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
  com.netxforge.netxstudio.models.13042011;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
