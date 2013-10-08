@@ -1,5 +1,0 @@
-- Many of these actions deal with Workspace objects. 
-For our resource set objects. (EMF objects). 
-we should at least implement: 
-
-Porting Action Provider. 
