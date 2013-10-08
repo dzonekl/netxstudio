@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.peaberry.artifacts.feature_1.0.0.201308301546.jar" id="org.peaberry.artifacts.feature" version="1.0.0.201308301546">
+      <category name="peaberry"/>
+   </feature>
+   <category-def name="peaberry" label="peaberry"/>
+</site>

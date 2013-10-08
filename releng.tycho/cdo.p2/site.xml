@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.emf.cdo.server.db.mysql.artifacts.feature_1.0.0.201309061656.jar" id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature" version="1.0.0.201309061656">
+      <category name="cdo"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.cdo.client.artifacts.feature_1.0.0.201309061656.jar" id="org.eclipse.emf.cdo.client.artifacts.feature" version="1.0.0.201309061656">
+      <category name="cdo"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.cdo.client.ui.artifacts.feature_1.0.0.201309061656.jar" id="org.eclipse.emf.cdo.client.ui.artifacts.feature" version="1.0.0.201309061656">
+      <category name="cdo"/>
+   </feature>
+   <category-def name="cdo" label="cdo"/>
+</site>

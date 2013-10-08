@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.google.collect.artifacts.feature_1.0.0.201309021525.jar" id="com.google.collect.artifacts.feature" version="1.0.0.201309021525">
+      <category name="google"/>
+   </feature>
+   <category-def name="google" label="google"/>
+</site>
