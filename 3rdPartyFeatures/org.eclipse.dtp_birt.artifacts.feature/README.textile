@@ -1,0 +1,5 @@
+h1. DESCRIPTION
+
+This feature packages DTP and BIRT plugins. 
+Note that BIRT is greedy and will require complete WTP (Web toolkit like CSS, Javascript etc..), PDE UI, JDT Team Support etc... It's "almost" a full IDE. 
+ 
