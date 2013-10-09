@@ -130,4 +130,10 @@ public class ActivityAndRoleService implements IActivityAndRoleService {
 		return dataService.getProvider().getSessionUserID();
 	}
 	
+	public IDataService getDataService() {
+		return dataService;
+		
+	}
+
+	
 }

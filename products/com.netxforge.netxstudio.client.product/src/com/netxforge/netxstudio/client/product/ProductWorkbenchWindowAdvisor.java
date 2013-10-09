@@ -70,12 +70,14 @@ public class ProductWorkbenchWindowAdvisor extends
 		WorkspaceUtil.INSTANCE.initDefaultProject();
 
 		final Role currentRole = activityAndRoleService.getCurrentRole();
-
-		String currentUser = activityAndRoleService.getCurrentUser();
+		final String currentUser = activityAndRoleService.getCurrentUser();
+		final String server = activityAndRoleService.getDataService()
+				.getServer();
 
 		if (currentUser != null) {
 			configurer.setTitle("NetXStudio User: " + currentUser.toUpperCase()
-					+ "  with role: " + currentRole.getName().toUpperCase());
+					+ "  with role: " + currentRole.getName().toUpperCase()
+					+ " on: " + server);
 
 		} else {
 			configurer.setTitle("NetXStudio");
@@ -95,36 +97,40 @@ public class ProductWorkbenchWindowAdvisor extends
 		// We need to close the editor and maintain which pespective is active
 		// to be used with functions.
 
-		configurer.getWindow().addPerspectiveListener(
-				new PerspectiveAdapter() {
+		configurer.getWindow().addPerspectiveListener(new PerspectiveAdapter() {
 
-					public void perspectiveActivated(IWorkbenchPage page,
-							IPerspectiveDescriptor perspective) {
-						page.closeAllEditors(true);
-						hideActionSets(page);
-						System.out.println("Perspective : Activated " + perspective.getId());
-						printPage(page);
-					}
-					
-					@Override
-					public void perspectiveOpened(IWorkbenchPage page,
-							IPerspectiveDescriptor perspective) {
-						System.out.println("Perspective : Opened " + perspective.getId());
-					}
-					@Override
-					public void perspectiveClosed(IWorkbenchPage page,
-							IPerspectiveDescriptor perspective) {
-						System.out.println("Perspective : Closed " + perspective.getId());
-					}
+			public void perspectiveActivated(IWorkbenchPage page,
+					IPerspectiveDescriptor perspective) {
+				page.closeAllEditors(true);
+				hideActionSets(page);
+				System.out.println("Perspective : Activated "
+						+ perspective.getId());
+				printPage(page);
+			}
 
-					@Override
-					public void perspectiveDeactivated(IWorkbenchPage page,
-							IPerspectiveDescriptor perspective) {
-						System.out.println("Perspective : Deactivated " + perspective.getId());
-						printPage(page);
-					}
-					
-				});
+			@Override
+			public void perspectiveOpened(IWorkbenchPage page,
+					IPerspectiveDescriptor perspective) {
+				System.out.println("Perspective : Opened "
+						+ perspective.getId());
+			}
+
+			@Override
+			public void perspectiveClosed(IWorkbenchPage page,
+					IPerspectiveDescriptor perspective) {
+				System.out.println("Perspective : Closed "
+						+ perspective.getId());
+			}
+
+			@Override
+			public void perspectiveDeactivated(IWorkbenchPage page,
+					IPerspectiveDescriptor perspective) {
+				System.out.println("Perspective : Deactivated "
+						+ perspective.getId());
+				printPage(page);
+			}
+
+		});
 
 	}
 
