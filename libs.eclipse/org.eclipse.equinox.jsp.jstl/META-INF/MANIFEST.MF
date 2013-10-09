@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Jstl Plug-in
 Bundle-SymbolicName: org.eclipse.equinox.jsp.jstl
 Bundle-Version: 1.0.0
-Bundle-Localization: plugin
 Export-Package: javax.servlet.jsp.jstl.core,
  javax.servlet.jsp.jstl.fmt,
  javax.servlet.jsp.jstl.sql,

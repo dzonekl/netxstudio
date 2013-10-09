@@ -15,5 +15,6 @@
   <modules>
     <module>org.eclipse.ui.ide</module>
     <module>org.eclipse.ui.navigator.resources</module>
+    <module>org.eclipse.equinox.jsp.jstl</module>
   </modules>
 </project>
