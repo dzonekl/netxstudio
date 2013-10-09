@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Examples Plug-in
 Bundle-SymbolicName: com.netxforge.netxstudio.server.jsp;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.server.jsp.JSPActivator
 Import-Package: com.netxforge.netxstudio,
  javax.servlet;version="2.4.0",

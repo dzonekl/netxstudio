@@ -17,6 +17,7 @@
 		<module>../server/com.netxforge.netxstudio.server.logic</module>
 		<module>../server/com.netxforge.netxstudio.server.job</module>
 		<module>../server/com.netxforge.netxstudio.server.metrics</module>
+		<module>../server/com.netxforge.netxstudio.server.jsp</module>
 		<module>../server/com.netxforge.netxstudio.server</module>
 		<module>../server/com.netxforge.netxstudio.log4j</module>
 		<module>../model/com.netxforge.netxscript</module>
