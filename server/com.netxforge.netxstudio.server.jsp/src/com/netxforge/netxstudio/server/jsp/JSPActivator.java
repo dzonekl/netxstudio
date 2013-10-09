@@ -21,17 +21,8 @@ import static com.google.inject.Guice.createInjector;
 import static org.ops4j.peaberry.Peaberry.osgiModule;
 import static org.ops4j.peaberry.Peaberry.service;
 
-import javax.servlet.Servlet;
-
-import org.eclipse.equinox.http.helper.BundleEntryHttpContext;
-import org.eclipse.equinox.http.helper.ContextPathServletAdaptor;
-import org.eclipse.equinox.jsp.jasper.JspServlet;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
-import org.osgi.service.http.HttpContext;
-import org.osgi.service.http.HttpService;
-import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -40,9 +31,6 @@ import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.Server;
 
 public class JSPActivator implements BundleActivator {
-
-	@SuppressWarnings("rawtypes")
-	private ServiceTracker httpServiceTracker;
 
 	private Injector injector;
 
@@ -70,15 +58,11 @@ public class JSPActivator implements BundleActivator {
 				bind(IDPProvider.class).annotatedWith(Server.class).toProvider(
 						service(IDPProvider.class).single());
 
-				
 			}
 
 		});
 
 		injector.injectMembers(INSTANCE);
-
-		httpServiceTracker = new HttpServiceTracker(context);
-		httpServiceTracker.open();
 
 	}
 
@@ -87,43 +71,5 @@ public class JSPActivator implements BundleActivator {
 	}
 
 	public void stop(BundleContext context) throws Exception {
-		httpServiceTracker.close();
-	}
-
-	@SuppressWarnings("rawtypes")
-	private class HttpServiceTracker extends ServiceTracker {
-
-		@SuppressWarnings("unchecked")
-		public HttpServiceTracker(BundleContext context) {
-			super(context, HttpService.class.getName(), null);
-		}
-
-		@SuppressWarnings("unchecked")
-		public Object addingService(ServiceReference reference) {
-			final HttpService httpService = (HttpService) context
-					.getService(reference);
-			try {
-				HttpContext commonContext = new BundleEntryHttpContext(
-						context.getBundle(), "/web"); //$NON-NLS-1$
-				httpService.registerResources(CONTEXT_PATH, "/", commonContext); //$NON-NLS-1$ //$NON-NLS-2$
-
-				Servlet adaptedJspServlet = new ContextPathServletAdaptor(
-						new JspServlet(context.getBundle(), "/web"), CONTEXT_PATH); //$NON-NLS-1$//$NON-NLS-2$
-				httpService
-						.registerServlet(
-								CONTEXT_PATH + "/*.jsp", adaptedJspServlet, null, commonContext); //$NON-NLS-1$
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return httpService;
-		}
-
-		@SuppressWarnings("unchecked")
-		public void removedService(ServiceReference reference, Object service) {
-			final HttpService httpService = (HttpService) service;
-			httpService.unregister(CONTEXT_PATH); //$NON-NLS-1$
-			httpService.unregister(CONTEXT_PATH + "/*.jsp"); //$NON-NLS-1$
-			super.removedService(reference, service);
-		}
 	}
 }

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Examples Plug-in
-Bundle-SymbolicName: com.netxforge.netxstudio.server.jsp
+Bundle-SymbolicName: com.netxforge.netxstudio.server.jsp;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: com.netxforge.netxstudio.server.jsp.JSPActivator
 Import-Package: com.netxforge.netxstudio,
@@ -39,17 +39,15 @@ Import-Package: com.netxforge.netxstudio,
  org.apache.taglibs.standard.tag.rt.xml,
  org.apache.taglibs.standard.tei,
  org.apache.taglibs.standard.tlv,
- org.eclipse.equinox.http.helper,
  org.eclipse.equinox.jsp.jasper,
  org.osgi.framework;version="1.3.0",
  org.osgi.service.http;version="1.2.0",
  org.osgi.util.tracker;version="1.3.1"
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Require-Bundle: com.google.collect;bundle-version="1.0.0",
- com.google.inject;bundle-version="2.0.0",
- com.netxforge.netxstudio.data;bundle-version="1.0.0",
+Require-Bundle: com.netxforge.netxstudio.data;bundle-version="1.0.0",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
  com.netxforge.netxstudio.server;bundle-version="1.0.0",
- org.ops4j.peaberry;bundle-version="1.1.1"
+ org.eclipse.equinox.jsp.jasper.registry;bundle-version="1.0.300",
+ org.eclipse.equinox.http.registry;bundle-version="1.1.300"
 
