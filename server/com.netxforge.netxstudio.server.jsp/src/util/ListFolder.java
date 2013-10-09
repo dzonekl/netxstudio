@@ -79,12 +79,8 @@ public final class ListFolder {
 	public List<File> getFiles(String contextPath) {
 
 		// Compare to base context path.
-		int index = contextPath.indexOf(JSPActivator.CONTEXT_PATH, 0);
 		String exportPath = settings.getExportPath();
-		if (index == 0) {
-			exportPath += contextPath.substring(JSPActivator.CONTEXT_PATH
-					.length());
-		}
+			exportPath += contextPath;
 		File path = new File(exportPath);
 		if (path.exists() && path.isDirectory()) {
 			File[] files = path.listFiles();
