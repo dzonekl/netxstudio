@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Screens IDE plugin
+Bundle-Name: NetXForge IDE
 Bundle-SymbolicName: com.netxforge.netxstudio.screens.ide
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.screens.ide.internal.ScreensIDEActivator

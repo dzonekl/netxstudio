@@ -98,10 +98,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.mortbay.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
          id="org.swtchart.artifacts.feature"
          version="0.0.0"/>
 

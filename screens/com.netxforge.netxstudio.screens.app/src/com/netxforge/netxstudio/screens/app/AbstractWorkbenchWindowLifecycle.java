@@ -84,6 +84,8 @@ public abstract class AbstractWorkbenchWindowLifecycle implements
 				sb.append(printDataStatus);
 			}
 		}
+		
+		// CB TODO Convert to tracing. 
 		System.out.println(sb.toString());
 	}
 

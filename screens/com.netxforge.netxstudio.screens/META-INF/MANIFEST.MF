@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Screens
+Bundle-Name: NetXStudio Capacity Management UI
 Bundle-SymbolicName: com.netxforge.netxstudio.screens;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.screens.internal.ScreensActivator
