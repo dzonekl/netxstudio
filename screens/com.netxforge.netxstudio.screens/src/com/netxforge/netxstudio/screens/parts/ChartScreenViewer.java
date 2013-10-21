@@ -22,6 +22,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IWorkbenchPart;
 
 import com.netxforge.netxstudio.screens.editing.AbstractScreenViewer;
 import com.netxforge.netxstudio.screens.editing.IScreen;
@@ -56,6 +57,13 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 			chartScreen.injectData(new Object[]{ss.getFirstElement()});
 			
 		}
+	}
+
+	@Override
+	protected void customPartHook(IWorkbenchPart part, PART_EVENT event) {
+		super.customPartHook(part, event);
+		// hide the markers. 
+		chartScreen.focusLost(null);
 	}
 	
 }

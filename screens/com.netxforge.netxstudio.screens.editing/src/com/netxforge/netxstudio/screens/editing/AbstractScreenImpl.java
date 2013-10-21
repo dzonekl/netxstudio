@@ -110,6 +110,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	protected void registerFocus(Control c) {
 		if (c instanceof Composite) {
 			Composite comp = (Composite) c;
+			comp.addFocusListener(this);
 			for (Control cChild : comp.getChildren()) {
 				cChild.addFocusListener(this);
 				registerFocus(cChild);
@@ -429,6 +430,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 * .FocusEvent)
 	 */
 	public void focusLost(FocusEvent e) {
+		
 	}
 
 	/**

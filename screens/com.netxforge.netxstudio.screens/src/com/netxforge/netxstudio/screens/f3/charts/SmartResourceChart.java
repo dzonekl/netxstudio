@@ -1019,6 +1019,10 @@ public class SmartResourceChart extends Chart implements
 		}
 		marker.setTime(timeInMillis);
 		redraw();
+	}
 
+	public void hideHover() {
+		marker.dispose();
+		redraw();
 	}
 }

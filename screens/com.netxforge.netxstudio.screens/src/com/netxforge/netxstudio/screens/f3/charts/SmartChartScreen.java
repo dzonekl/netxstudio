@@ -48,8 +48,11 @@ import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -126,6 +129,8 @@ public class SmartChartScreen extends AbstractScreen implements
 
 	private RefreshSummaryJob refreshSummaryJob = new RefreshSummaryJob();
 
+	private ShellAdapter shellAdapter;
+
 	/**
 	 * Refreshes the RFS Service Summary Section.
 	 * 
@@ -191,6 +196,7 @@ public class SmartChartScreen extends AbstractScreen implements
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
+				SmartChartScreen.this.getShell().removeShellListener(shellAdapter);
 				toolkit.dispose();
 				disposeData();
 			}
@@ -224,6 +230,15 @@ public class SmartChartScreen extends AbstractScreen implements
 		// buildZoom(cmChart);
 
 		buildMarkersUI();
+//		registerFocus(this);
+		shellAdapter = new ShellAdapter(){
+			@Override
+			public void shellDeactivated(ShellEvent e) {
+				focusLost(null);
+			}
+			
+		};
+		this.getShell().addShellListener(shellAdapter);
 
 	}
 
@@ -744,4 +759,9 @@ public class SmartChartScreen extends AbstractScreen implements
 		}
 	}
 
+	@Override
+	public void focusLost(FocusEvent e) {
+		// remove the markers. 
+		smartResourceChart.hideHover();
+	}
 }
