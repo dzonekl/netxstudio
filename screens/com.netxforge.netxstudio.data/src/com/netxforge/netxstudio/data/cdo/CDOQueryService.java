@@ -520,7 +520,7 @@ public class CDOQueryService implements IQueryService {
 				sb.append(" and val.timeStamp0 = :date");
 			}
 
-			sb.append(" order by val.timeStamp0 DESC;");
+			sb.append(" order by val.timeStamp0 ASC;");
 			queryString = sb.toString();
 
 		} else if (dialect.equals(QUERY_OCL)) {

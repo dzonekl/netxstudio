@@ -80,7 +80,6 @@ public class ToleranceProcessor {
 	 * Create markers for the expression result in the period from start to end.
 	 * Instantiates a {@link ToleranceState} to maintain a previews Marker.
 	 */
-	
 
 	/**
 	 * Create markers for the expression result in the period from start to end.
@@ -117,7 +116,6 @@ public class ToleranceProcessor {
 		}
 	}
 
-	
 	/**
 	 * Store markers for the given resource monitor.
 	 * 
@@ -157,8 +155,7 @@ public class ToleranceProcessor {
 
 	/**
 	 * 
-	 * Get the target {@link NetXResource}, narrow it down by period and sort
-	 * it.
+	 * Get the target {@link NetXResource}, narrow it down by period.
 	 * 
 	 * @param expressionResult
 	 * @param start
@@ -273,7 +270,7 @@ public class ToleranceProcessor {
 		boolean startMarkerGenerated = false;
 
 		// The given state value to which we compare.
-		private Double stateDouble;
+		private Double stateDouble = new Double(-1);
 
 		// An evaluator for the state.
 		private DirectionEvaluator directionEvaluator = new DirectionEvaluator();
@@ -297,7 +294,7 @@ public class ToleranceProcessor {
 		}
 
 		/**
-		 * Process a set of check values, the result is a set of Tolerance
+		 * Process an {@link ExpressionResult}, the result is a set of Tolerance
 		 * markers.
 		 * 
 		 * @param checkValues
@@ -308,6 +305,8 @@ public class ToleranceProcessor {
 			final List<Marker> newMarkers = new ArrayList<Marker>();
 
 			List<Value> usageValues = narrowValueSet(expressionResult, period);
+//			usageValues = modelUtils.sortValuesByTimeStamp(usageValues);
+			
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_RESULT_TOL_OPTION,
@@ -327,40 +326,46 @@ public class ToleranceProcessor {
 			final List<Value> toleranceValues = modelUtils
 					.sortValuesByTimeStamp(expressionResult.getTargetValues());
 
-			int toleranceValueIndex = 0;
 			long toTime = -1;
 			long fromTime = -1;
 
-			for (final Value toleranceValue : toleranceValues) {
+			out: // A label to continue the loop when a non-equal tol state
+					// values occurs.
+			for (int i = 0; i < toleranceValues.size(); i++) {
+				Value v = toleranceValues.get(i);
 
+
+				// Update the current state as a double value, continue the loop
+				// if there are more tolerance values.
+				
 				if (fromTime == -1) {
-					fromTime = toleranceValue.getTimeStamp()
-							.toGregorianCalendar().getTimeInMillis();
-				}
-
-				// check all values between the current tolerance and the
-				// previous, skip in between values.
-
-				if (toleranceValueIndex < (toleranceValues.size() - 1)) {
-					toTime = toleranceValues.get(toleranceValueIndex + 1)
-							.getTimeStamp().toGregorianCalendar()
+					fromTime = v.getTimeStamp().toGregorianCalendar()
 							.getTimeInMillis();
-					// Date toDate = modelUtils.fromXMLDate();
-					// toTime = toDate.getTime();
-
+				}
+				
+				double newTolValue = v.getValue();
+				if (stateDouble == -1 ){
+					stateDouble = newTolValue;
+				}
+				
+				if( newTolValue == stateDouble) {
+					if(i != toleranceValues.size() - 1){
+						continue out;	
+					}
 				}
 
-				// Update the current state as a double value.
-				stateDouble = toleranceValue.getValue();
+
+				toTime = toleranceValues.get(i).getTimeStamp()
+						.toGregorianCalendar().getTimeInMillis();
 
 				if (DataActivator.DEBUG) {
 					DataActivator.TRACE.trace(
 							DataActivator.TRACE_RESULT_TOL_OPTION,
 							"tolerance="
-									+ toleranceValue.getValue()
+									+ v.getValue()
 									+ " ,"
-									+ modelUtils.dateAndTime(toleranceValue
-											.getTimeStamp()));
+									+ modelUtils
+											.dateAndTime(new Date(fromTime)));
 					DataActivator.TRACE.trace(
 							DataActivator.TRACE_RESULT_TOL_OPTION, "from: "
 									+ new Date(fromTime) + " to: "
@@ -385,12 +390,12 @@ public class ToleranceProcessor {
 
 					}
 
-					Iterable<ToleranceMarker> process = processCheckValues(
+					Iterable<ToleranceMarker> markers = processCheckValues(
 							checkValues, expressionResult.getTargetResource()
 									.getLongName());
 
 					List<ToleranceMarker> markersForThisPeriod = Lists
-							.newArrayList(process);
+							.newArrayList(markers);
 
 					if (DataActivator.DEBUG) {
 						DataActivator.TRACE.trace(
@@ -412,8 +417,6 @@ public class ToleranceProcessor {
 								":-( no values to check for this period ");
 					}
 				}
-
-				toleranceValueIndex++;
 			}
 
 			return newMarkers;
