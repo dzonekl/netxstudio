@@ -30,7 +30,6 @@ import org.eclipse.xtext.diagnostics.ExceptionDiagnostic;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 import org.eclipse.xtext.resource.IResourceFactory;
 import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.StringInputStream;
@@ -70,11 +69,11 @@ public class ExpressionEngine implements IExpressionEngine {
 	private Expression expression;
 	private List<BaseExpressionResult> expressionResult = new ArrayList<BaseExpressionResult>();
 
-	private XtextResource xResource;
+//	@Inject
+//	private XtextResourceSet xResourceSet;
 
-	@Inject
-	private XtextResourceSet xResourceSet;
-
+	private XtextResource resource;
+	
 	@Inject
 	private IResourceFactory xResourceFactory;
 
@@ -135,7 +134,7 @@ public class ExpressionEngine implements IExpressionEngine {
 						"Parsing/linking expression: " + asString);
 			}
 
-			xResource = getResourceFromString(asString);
+			getResourceFromString(asString);
 
 			if (RuntimeActivator.DEBUG) {
 				RuntimeActivator.TRACE.trace(
@@ -144,7 +143,7 @@ public class ExpressionEngine implements IExpressionEngine {
 			}
 
 			// Get the parse tree.
-			final Mod m = (Mod) this.getModel(xResource);
+			final Mod m = (Mod) this.getModel(resource);
 			// Do we have a root?
 			if( m == null ){
 				return;
@@ -166,7 +165,7 @@ public class ExpressionEngine implements IExpressionEngine {
 			xInterpreter.clearResults();
 			xInterpreter.evaluate(m);
 			setExpressionResult(xInterpreter.getResult());
-			xResource.unload();
+			resource.unload();
 		} catch (final Throwable t) {
 			throwable = t;
 		}
@@ -255,10 +254,13 @@ public class ExpressionEngine implements IExpressionEngine {
 
 	protected XtextResource doGetResource(InputStream in, URI uri)
 			throws Exception {
-		xResourceSet.setClasspathURIContext(getClass());
-		final XtextResource resource = (XtextResource) xResourceFactory
+//		xResourceSet.setClasspathURIContext(getClass());
+		
+		if(resource == null){
+		 resource = (XtextResource) xResourceFactory
 				.createResource(uri);
-		xResourceSet.getResources().add(resource);
+		}
+//			xResourceSet.getResources().add(resource);
 		resource.load(in, null);
 		if (resource instanceof LazyLinkingResource) {
 			// Linking process here.
