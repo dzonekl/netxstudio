@@ -17,6 +17,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f3.charts;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -178,8 +179,8 @@ public class SmartChartScreen extends AbstractScreen implements
 					chartModel = valueFor;
 					if (chartModel.isChartModelOk()) {
 						initDataBindings_();
-					}else{
-						// It's not OK. Do not load it. 
+					} else {
+						// It's not OK. Do not load it.
 					}
 				}
 			}
@@ -520,7 +521,7 @@ public class SmartChartScreen extends AbstractScreen implements
 
 		if (chartModel.hasMarkers()) {
 			initMarkersBindingCollection();
-		}else{
+		} else {
 			markersTableViewer.getTable().setSelection(-1);
 			markersTableViewer.getTable().clearAll();
 		}
@@ -617,7 +618,15 @@ public class SmartChartScreen extends AbstractScreen implements
 							+ modelUtils.time(modelUtils.fromXMLDate(rm
 									.getValueRef().getTimeStamp()));
 				case 3:
-					return new Double(rm.getValueRef().getValue()).toString();
+					double value = rm.getValueRef().getValue();
+					if (value != -1) {
+						DecimalFormat numberFormatter = new DecimalFormat(
+								"###,###,##0.00");
+						numberFormatter.setDecimalSeparatorAlwaysShown(true);
+						return numberFormatter.format(value);
+					} else {
+						return "invalid";
+					}
 				case 4:
 					return rm.getDirection().getLiteral();
 				case 5:
