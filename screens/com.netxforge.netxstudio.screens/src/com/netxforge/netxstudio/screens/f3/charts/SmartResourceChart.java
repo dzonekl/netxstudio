@@ -1009,8 +1009,7 @@ public class SmartResourceChart extends Chart implements
 		}
 	}
 
-	public void showHover(ToleranceMarker firstElement) {
-		Value v = firstElement.getValueRef();
+	public void showHover(Value v) {
 		long timeInMillis = v.getTimeStamp().toGregorianCalendar()
 				.getTimeInMillis();
 		if (!marker.isDisposed()) {
@@ -1019,6 +1018,10 @@ public class SmartResourceChart extends Chart implements
 		}
 		marker.setTime(timeInMillis);
 		redraw();
+	}
+	
+	public void showHover(ToleranceMarker firstElement) {
+		showHover(firstElement.getValueRef());
 	}
 
 	public void hideHover() {

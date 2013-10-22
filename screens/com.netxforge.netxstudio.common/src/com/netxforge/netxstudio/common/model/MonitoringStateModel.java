@@ -510,12 +510,14 @@ public class MonitoringStateModel {
 				case LevelKind.RED_VALUE: {
 					if (isStartOrUp(tm)) {
 						red++;
+						break;
 					}
 				}
 					break;
 				case LevelKind.AMBER_VALUE: {
 					if (isStartOrUp(tm)) {
 						amber++;
+						break;
 					}
 				}
 					break;

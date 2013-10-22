@@ -55,7 +55,6 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 				&& selection instanceof StructuredSelection) {
 			IStructuredSelection ss = (StructuredSelection) selection;
 			chartScreen.injectData(new Object[]{ss.getFirstElement()});
-			
 		}
 	}
 

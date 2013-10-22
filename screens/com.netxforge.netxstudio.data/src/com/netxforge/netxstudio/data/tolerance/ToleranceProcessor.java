@@ -305,8 +305,7 @@ public class ToleranceProcessor {
 			final List<Marker> newMarkers = new ArrayList<Marker>();
 
 			List<Value> usageValues = narrowValueSet(expressionResult, period);
-//			usageValues = modelUtils.sortValuesByTimeStamp(usageValues);
-			
+
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_RESULT_TOL_OPTION,
@@ -334,29 +333,32 @@ public class ToleranceProcessor {
 			for (int i = 0; i < toleranceValues.size(); i++) {
 				Value v = toleranceValues.get(i);
 
-
 				// Update the current state as a double value, continue the loop
 				// if there are more tolerance values.
-				
+
 				if (fromTime == -1) {
 					fromTime = v.getTimeStamp().toGregorianCalendar()
 							.getTimeInMillis();
 				}
-				
+
 				double newTolValue = v.getValue();
-				if (stateDouble == -1 ){
+				if (stateDouble == -1) {
 					stateDouble = newTolValue;
 				}
-				
-				if( newTolValue == stateDouble) {
-					if(i != toleranceValues.size() - 1){
-						continue out;	
-					}
-				}
 
+				if (newTolValue == stateDouble) {
+					if (i != toleranceValues.size() - 1) {
+						continue out;
+					}
+				} 
 
 				toTime = toleranceValues.get(i).getTimeStamp()
 						.toGregorianCalendar().getTimeInMillis();
+				
+				// Wrap to end of day.
+				Date d = new Date(toTime);
+				modelUtils.adjustToDayEnd(d);
+				toTime = d.getTime();
 
 				if (DataActivator.DEBUG) {
 					DataActivator.TRACE.trace(
