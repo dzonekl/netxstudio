@@ -1,6 +1,5 @@
 # Compiled source #
 ###################
-*.class
 .svn
 # xtend generated trace files
 ############################
