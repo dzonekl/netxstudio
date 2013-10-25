@@ -14,9 +14,22 @@
 			<id>tycho-staged</id>
 			<url>https://oss.sonatype.org/content/repositories/orgeclipsetycho-1004/</url>
 		</pluginRepository>
+		<pluginRepository>
+            <id>Sonatype – Forge</id>
+            <url>https://repository.sonatype.org/content/groups/forge/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
 	</pluginRepositories>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
@@ -89,12 +102,6 @@
 						</filter>
 					</filters>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-maven-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<extensions>true</extensions>
 			</plugin>
 		</plugins>
 	</build>

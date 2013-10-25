@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jnlp spec="1.5+" version="${unqualifiedVersion}.${buildQualifier}"
-codebase="https://www.netxforge.com./demo/";>
+codebase="http://www.netxforge.com./demo/">
 	<information>
 		<title>${project.name}</title>
-		<vendor>${project.organization.name}</vendor>
+		<vendor>NetXForge</vendor>
 		<offline-allowed />
 	</information>
 	<security>

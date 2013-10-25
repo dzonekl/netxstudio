@@ -1,0 +1,47 @@
+Signaing Jars (with tycho)
+************************
+
+Jar signing is required for creating /enabling a webstart application. 
+tycho requires the following properties: 
+
+
+mvn -Djarsigner.alias=my-alias -Djarsigner.keystore=/path/to/keystore -Djarsigner.storepass=changeit clean package
+
+
+
+1. Create a key store:  (See http://docs.oracle.com/javase/tutorial/security/toolsign/step3.html)
+-----------------------
+
+It boils doen to this: 
+ - keytool -genkey -alias signFiles -keystore examplestore
+
+ We use:
+ 	 alias = netxsign
+ 	 keystore netxkeystore
+ 	 
+so create the key store with: 
+localy (macosx)
+
+	keytool -genkey -alias netxsign -keystore ~/netxkeystore
+buildserver (linux)
+	keytool -genkey -alias netxsign -keystore /var/lib/jenkins/netxkeystore
+
+ 
+...many questions are asked to (meta data like name, city, country etc...) 
+ the password is "nosecret" 
+ 
+( we don't make it a secret as it will be stored in tycho or the build server to make the signing automatic. )
+
+ 
+ 2. tell tycho to use it
+ -----------------------
+ 
+mvn -Djarsigner.alias=netxsign -Djarsigner.keystore=~/netxkeystore -Djarsigner.storepass=nosecret clean install
+
+3. deploy
+---------
+
+copy the repo and jnlp to the .jnlp location defined by tag: 
+
+
+
