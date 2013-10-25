@@ -120,5 +120,8 @@
 		<module>
 			../../products/com.netxforge.releng.products.netxstudio.cdo
 		</module>
+		<module>
+			../../products/com.netxforge.releng.products.netxstudio.cdo.jnlp
+		</module>
 	</modules>
 </project>
