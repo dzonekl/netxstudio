@@ -17,7 +17,7 @@ codebase="http://www.netxforge.com./demo/">
 	<component-desc />
 	<resources>
 		<j2se version="1.6+" />
-		<property name="eclipse.product" value="netxstudio-with-cdo.product" />
+		<property name="eclipse.product" value="com.netxforge.netxstudio.webstart" />
 		<property name="eclipse.application" value="com.netxforge.netxstudio.ui.application" />
 
 		<proprty name="osgi.framework.extensions"
