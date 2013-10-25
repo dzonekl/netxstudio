@@ -17,22 +17,15 @@ codebase="http://www.netxforge.com./demo/">
 	<component-desc />
 	<resources>
 		<j2se version="1.6+" />
-		<property name="eclipse.product" value="com.netxforge.netxstudio.webstart" />
+		<property name="eclipse.product" value="com.netxforge.netxstudio.client.product.netxstudio" />
 		<property name="eclipse.application" value="com.netxforge.netxstudio.ui.application" />
-
-		<proprty name="osgi.framework.extensions"
-value="=org.eclipse.equinox.weaving.hook" />
-		<proprty name="osgi.framework" value="org.eclipse.osgi" />
-		<property name="osgi.bundles"
+		<property name="osgi.framework.extensions" value="=org.eclipse.equinox.weaving.hook" />
+		<property name="osgi.framework" value="org.eclipse.osgi" />
+		<property name="osgi.bundles" value="org.eclipse.equinox.simpleconfigurator@1:start" />
 			value="org.eclipse.core.runtime@start,org.eclipse.equinox.ds@start" />
+		<property name ="org.eclipse.equinox.simpleconfigurator.configUrl" value="file:org.eclipse.equinox.simpleconfigurator/bundles.info"/>	
 		<property name="osgi.bundles.defaultStartLevel" value="4" />
-		<property name="org.eclipse.update.install.features" value="true" />
-		<property name="equinox.use.ds" value="true" />
-		<property name="eclipse.p2.profile" value="DefaultProfile" />
-		<property name="osgi.instance.area.default"
-value="@user.home/.MyAppName/workspace" />
-		<property name="osgi.configuration.area"
-value="@user.home/.MyAppName/configuration/" />
-		<property name="eclipse.p2.data.area" value="@user.home/.MyAppName/p2" />
+		<property name="osgi.splashPath" value="platform:/base/plugins/com.netxforge.netxstudio.client.product" />
+		<property name="osgi.instance.area" value="@noDefault"/>
 	</resources>
 </jnlp>
