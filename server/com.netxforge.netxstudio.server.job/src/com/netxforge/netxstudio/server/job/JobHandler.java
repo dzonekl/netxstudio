@@ -18,6 +18,10 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.job;
 
+import static org.quartz.CalendarIntervalScheduleBuilder.calendarIntervalSchedule;
+import static org.quartz.SimpleScheduleBuilder.repeatSecondlyForTotalCount;
+import static org.quartz.SimpleScheduleBuilder.repeatSecondlyForever;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -611,8 +615,8 @@ public class JobHandler {
 				// job key.
 				// jobKeysMap.put(job.cdoID(), jobDetail.getKey());
 
-				Trigger newTrigger = this.createNewTrigger(job, jobIdentity,
-						jobGroupName, countJobRuns);
+				Trigger newTrigger = this.createNewCalendarTrigger(job,
+						jobIdentity, jobGroupName, countJobRuns);
 
 				// Keep a map of CDO job objects and the corresponding quartz
 				// trigger key.
@@ -647,6 +651,7 @@ public class JobHandler {
 	 * Set the interval, no smaller then 10 seconds. Set the repeat, considering
 	 * the current job runs.
 	 */
+	@SuppressWarnings("unused")
 	private Trigger createNewTrigger(Job job, String jobIdentity,
 			String jobGroupName, int countJobRuns) {
 		// The trigger for this job.
@@ -660,24 +665,70 @@ public class JobHandler {
 			triggerBuilder = triggerBuilder.startNow();
 		}
 		final SimpleScheduleBuilder scheduleBuilder;
+		// If there is an end time.
 		if (job.getEndTime() != null) {
 			triggerBuilder.endAt(job.getEndTime().toGregorianCalendar()
 					.getTime());
-			scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(job
-					.getInterval() > 10 ? job.getInterval() : 10);
-		} else if (job.getRepeat() > 0) {
-			scheduleBuilder = SimpleScheduleBuilder
-					.repeatSecondlyForTotalCount(
-							job.getRepeat() - countJobRuns,
-							job.getInterval() > 10 ? job.getInterval() : 10);
-		} else if (job.getInterval() > 10) {
-			scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(job
-					.getInterval());
-		} else {
-			scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(10);
+			scheduleBuilder = repeatSecondlyForever(job.getInterval() > 10 ? job
+					.getInterval() : 10);
+		} else if (job.getRepeat() > 0) { // if it should repeat.
+			scheduleBuilder = repeatSecondlyForTotalCount(job.getRepeat()
+					- countJobRuns, job.getInterval() > 10 ? job.getInterval()
+					: 10);
+		} else if (job.getInterval() > 10) { // if there is an interval > 10
+												// seconds.
+			scheduleBuilder = repeatSecondlyForever(job.getInterval());
+		} else { // Repeat every 10 seconds.
+			scheduleBuilder = repeatSecondlyForever(10);
 		}
 		final Trigger trigger = triggerBuilder.withSchedule(scheduleBuilder)
 				.build();
+		return trigger;
+	}
+
+	private Trigger createNewCalendarTrigger(Job job, String jobIdentity,
+			String jobGroupName, int countJobRuns) {
+		// The trigger for this job.
+		TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger()
+				.withIdentity(jobIdentity, jobGroupName);
+
+		if (job.getStartTime() != null) {
+			triggerBuilder = triggerBuilder.startAt(job.getStartTime()
+					.toGregorianCalendar().getTime());
+		} else {
+			triggerBuilder = triggerBuilder.startNow();
+		}
+
+		final Trigger trigger;
+		if (job.getEndTime() != null) {
+			triggerBuilder.endAt(job.getEndTime().toGregorianCalendar()
+					.getTime());
+
+			trigger = triggerBuilder.withSchedule(
+					calendarIntervalSchedule().withIntervalInSeconds(
+							job.getInterval() > 10 ? job.getInterval() : 10)
+							.preserveHourOfDayAcrossDaylightSavings(true))
+					.build();
+		} else if (job.getRepeat() > 0) {
+			// We can't support CalendarInterval builder with repeat, so we use
+			// a SimpelSchedule builder, with fixed interval.
+			// Perhaps we can calculate the end time based on the repeat count.
+			trigger = triggerBuilder.withSchedule(
+					repeatSecondlyForTotalCount(job.getRepeat() - countJobRuns,
+							job.getInterval() > 10 ? job.getInterval() : 10))
+					.build();
+		} else if (job.getInterval() > 10) {
+			trigger = triggerBuilder.withSchedule(
+					calendarIntervalSchedule().withIntervalInSeconds(
+							job.getInterval())
+							.preserveHourOfDayAcrossDaylightSavings(true))
+					.build();
+		} else {
+			trigger = triggerBuilder.withSchedule(
+					calendarIntervalSchedule().withIntervalInSeconds(10)
+							.preserveHourOfDayAcrossDaylightSavings(true))
+					.build();
+		}
 		return trigger;
 	}
 

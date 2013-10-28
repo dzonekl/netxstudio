@@ -851,10 +851,10 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		 * (org.eclipse.core.databinding.observable.value.ValueChangeEvent)
 		 */
 		public void handleValueChange(ValueChangeEvent event) {
-			System.out.println(event.getObservable());
+//			System.out.println(event.getObservable());
 
 			Object newValue = event.diff.getNewValue();
-			System.out.println("New Value:" + event.diff.getNewValue());
+//			System.out.println("New Value:" + event.diff.getNewValue());
 
 			if (event.getObservable() instanceof ISWTObservableValue) {
 				Control control = (Control) ((ISWTObservableValue) event
@@ -925,7 +925,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			if (event.getObservable() instanceof IViewerObservableValue) {
 				Viewer viewer = (Viewer) ((IViewerObservableValue) event
 						.getObservable()).getViewer();
-				System.out.println(viewer);
+//				System.out.println(viewer);
 
 				if (viewer.equals(comboViewerOn)) {
 					int dayOfWeek = (Integer) newValue;

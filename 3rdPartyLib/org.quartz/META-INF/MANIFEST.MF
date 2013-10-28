@@ -3,9 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Quartz
 Bundle-SymbolicName: org.quartz
 Bundle-Version: 2.0.1
-Bundle-ClassPath: quartz-all-2.0.1.jar
+Bundle-ClassPath: quartz-2.2.1.jar
 Bundle-Vendor: Terracotta
 Export-Package: org.quartz,
+ org.quartz.commonj,
  org.quartz.core,
  org.quartz.core.jmx,
  org.quartz.ee.jmx.jboss,
@@ -19,12 +20,8 @@ Export-Package: org.quartz,
  org.quartz.impl.jdbcjobstore.oracle.weblogic,
  org.quartz.impl.matchers,
  org.quartz.impl.triggers,
- org.quartz.jobs,
- org.quartz.jobs.ee.ejb,
- org.quartz.jobs.ee.jms,
- org.quartz.jobs.ee.jmx,
- org.quartz.jobs.ee.mail,
  org.quartz.listeners,
+ org.quartz.management,
  org.quartz.plugins,
  org.quartz.plugins.history,
  org.quartz.plugins.management,
@@ -35,7 +32,10 @@ Export-Package: org.quartz,
  org.quartz.utils.counter,
  org.quartz.utils.counter.sampled,
  org.quartz.utils.weblogic,
- org.quartz.xml
+ org.quartz.xml,
+ org.terracotta.quartz,
+ org.terracotta.quartz.collections,
+ org.terracotta.quartz.wrappers
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Eclipse-RegisterBuddy: org.apache.log4j
 Require-Bundle: org.slf4j;bundle-version="1.6.6"
