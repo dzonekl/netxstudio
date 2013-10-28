@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jnlp spec="1.5+" version="${unqualifiedVersion}.${buildQualifier}"
-codebase="http://www.netxforge.com./demo/">
+codebase="http://www.netxforge.com/demo/">
 	<information>
 		<title>${project.name}</title>
 		<vendor>NetXForge</vendor>
@@ -16,12 +16,12 @@ codebase="http://www.netxforge.com./demo/">
 
 	<component-desc />
 	<resources>
-		<j2se version="1.6+" />
+<j2se version="1.6+" />
 		<property name="eclipse.product" value="com.netxforge.netxstudio.client.product.netxstudio" />
 		<property name="eclipse.application" value="com.netxforge.netxstudio.ui.application" />
 		<property name="osgi.framework.extensions" value="=org.eclipse.equinox.weaving.hook" />
 		<property name="osgi.framework" value="org.eclipse.osgi" />
-		<property name="osgi.bundles" value="org.eclipse.equinox.simpleconfigurator@1:start" />
+		<property name="osgi.bundles" value="org.eclipse.equinox.simpleconfigurator@1:start"
 			value="org.eclipse.core.runtime@start,org.eclipse.equinox.ds@start" />
 		<property name ="org.eclipse.equinox.simpleconfigurator.configUrl" value="file:org.eclipse.equinox.simpleconfigurator/bundles.info"/>	
 		<property name="osgi.bundles.defaultStartLevel" value="4" />
