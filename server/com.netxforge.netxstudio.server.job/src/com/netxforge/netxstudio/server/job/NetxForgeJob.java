@@ -74,7 +74,7 @@ public class NetxForgeJob implements org.quartz.Job {
 
 	@Inject
 	@Server
-	private IDPProvider dpProvider; 
+	private IDPProvider dpProvider;
 
 	@Inject
 	private IRunMonitor runMonitor;
@@ -83,18 +83,19 @@ public class NetxForgeJob implements org.quartz.Job {
 
 	@Inject
 	private ModelUtils modelUtils;
-	
+
 	@Inject
 	private IPropertiesProvider propsProvider;
-	
+
 	public NetxForgeJob() {
 		JobActivator.getInstance().getInjector().injectMembers(this);
-		
-		// We could do late or lazy instantiation, as we open and close sessions/transactions.
-		// when creating a monitor and job container. 
+
+		// We could do late or lazy instantiation, as we open and close
+		// sessions/transactions.
+		// when creating a monitor and job container.
 		dataProvider = dpProvider.get();
 	}
-	
+
 	private static synchronized boolean isRunning(CDOID cdoId) {
 		return runningJobs.contains(cdoId);
 	}
@@ -120,23 +121,23 @@ public class NetxForgeJob implements org.quartz.Job {
 			return;
 		}
 		addRunning(job.cdoID());
-		
-		
-		// Job Catch. 
+
+		// Job Catch.
 		try {
 			final JobImplementation jobImplementation = JobImplementation.REGISTRY
 					.getFactory(job.getClass()).create();
-			
-			// NOTE: Jobs are responsible in finishing the run monitor! 
-			// TODO, Consider storing the result in the Job and underlying logic, 
-			// and finishing the IRunMonitor here, as we also start it here (When we create it). 
+
+			// NOTE: Jobs are responsible in finishing the run monitor!
+			// TODO, Consider storing the result in the Job and underlying
+			// logic,
+			// and finishing the IRunMonitor here, as we also start it here
+			// (When we create it).
 			createWorkFlowMonitor(jobImplementation);
-			
-			
+
 			jobImplementation.setRunMonitor(runMonitor);
 			jobImplementation.setNetxForgeJob(this);
-			
-			// Process Catch. 
+
+			// Process Catch.
 			try {
 				jobImplementation.run();
 				jobImplementation.finish();
@@ -182,43 +183,35 @@ public class NetxForgeJob implements org.quartz.Job {
 		// Lazy init maxStats var.
 		if (maxWorkFlowRunsInJobRunContainer == -1) {
 			boolean storeMaxRuns = false;
-			
-			
-			// TODO, over as a service. 
-			// We need an IPropertiesProvider, defined in Common. 
-			// Each module can define one, but prefer to keep one per App. 
-			// How to distinct different providers? 
-			// Can we unify with Preferences??? 
-			
-				String property = propsProvider.get()
-						.getProperty(NETXSTUDIO_MAX_JOBRUNS_QUANTITY);
 
-				if (property == null) {
-					maxWorkFlowRunsInJobRunContainer = new Integer(
-							NETXSTUDIO_MAX_JOBRUNS_QUANTITY_DEFAULT);
-					storeMaxRuns = true;
-				} else {
+			String property = propsProvider.get().getProperty(
+					NETXSTUDIO_MAX_JOBRUNS_QUANTITY);
+
+			if (property == null) {
+				maxWorkFlowRunsInJobRunContainer = new Integer(
+						NETXSTUDIO_MAX_JOBRUNS_QUANTITY_DEFAULT);
+				storeMaxRuns = true;
+			} else {
+				if (JobActivator.DEBUG) {
+					JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION,
+							"found property: "
+									+ NETXSTUDIO_MAX_JOBRUNS_QUANTITY);
+				}
+				try {
+					maxWorkFlowRunsInJobRunContainer = new Integer(property);
+				} catch (NumberFormatException nfe) {
+
 					if (JobActivator.DEBUG) {
 						JobActivator.TRACE.trace(
 								JobActivator.TRACE_JOBS_OPTION,
-								"found property: "
-										+ NETXSTUDIO_MAX_JOBRUNS_QUANTITY);
+								"Error reading property", nfe);
 					}
-					try {
-						maxWorkFlowRunsInJobRunContainer = new Integer(property);
-					} catch (NumberFormatException nfe) {
 
-						if (JobActivator.DEBUG) {
-							JobActivator.TRACE.trace(
-									JobActivator.TRACE_JOBS_OPTION,
-									"Error reading property", nfe);
-						}
-
-						maxWorkFlowRunsInJobRunContainer = new Integer(
-								NETXSTUDIO_MAX_JOBRUNS_QUANTITY_DEFAULT);
-						storeMaxRuns = true;
-					}
+					maxWorkFlowRunsInJobRunContainer = new Integer(
+							NETXSTUDIO_MAX_JOBRUNS_QUANTITY_DEFAULT);
+					storeMaxRuns = true;
 				}
+			}
 
 			if (storeMaxRuns) {
 				// Should be saved when the Activator stops!
@@ -277,7 +270,7 @@ public class NetxForgeJob implements org.quartz.Job {
 				.jobContainerForJob(job, resource);
 		if (container == null) {
 			container = SchedulingFactory.eINSTANCE.createJobRunContainer();
-			// get the job to refer to...(Set it with our own transaction). 
+			// get the job to refer to...(Set it with our own transaction).
 			final Job localJob = (Job) dataProvider.getTransaction().getObject(
 					cdoId);
 			container.setJob(localJob);

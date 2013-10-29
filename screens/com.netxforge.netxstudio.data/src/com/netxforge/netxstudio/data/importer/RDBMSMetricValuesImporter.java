@@ -119,8 +119,8 @@ public class RDBMSMetricValuesImporter extends AbstractMetricValuesImporter {
 			getRunPeriodEstimate().write(mappingStatistic);
 		}
 
-		super.addAndTruncate(mappingStatistic, getMetricSource()
-				.getStatistics());
+		super.addAndTruncate(getMetricSource(), getMetricSource()
+						.getStatistics(), mappingStatistic);
 		getDataProvider().commitTransactionThenClose();
 	}
 

@@ -34,7 +34,9 @@ import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.CommitException;
+import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -70,6 +72,7 @@ import com.netxforge.netxstudio.metrics.ObjectKindType;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.scheduling.JobRunState;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
  * The main entry class for the Metrics importing. Uses a delegation pattern so
@@ -212,7 +215,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		// Get the file pattern.
 		// Get the mapping information.
 		// When update the statistics.
-		addAndTruncate(mappingStatistic, getMetricSource().getStatistics());
+		addAndTruncate(getMetricSource(), getMetricSource().getStatistics(), mappingStatistic);
 
 		commitTransactionWithoutClosing();
 
@@ -443,11 +446,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	}
 
 	/**
-	 * @param mappingStatistic
+	 * @param container
 	 * @param statistics
+	 * @param mappingStatistic
 	 */
-	public void addAndTruncate(final MappingStatistic mappingStatistic,
-			EList<MappingStatistic> statistics) {
+	public void addAndTruncate(MetricSource container,
+			EList<MappingStatistic> statistics, final MappingStatistic mappingStatistic) {
 
 		// Lazy init maxStats var.
 		if (maxStats == -1) {
@@ -491,6 +495,23 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			List<MappingStatistic> subList = Lists.newArrayList(statistics
 					.subList(0, maxStats));
 
+			for (int i = 0; i < statistics.size(); i++) {
+				try {
+					 MappingStatistic stat = statistics.get(i);
+					if (CDOUtil.isStaleObject(stat)) {
+						CDOUtil.cleanStaleReference(
+								container,
+								SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS,
+								i);
+					}
+				} catch (ObjectNotFoundException excteption) {
+					CDOUtil.cleanStaleReference(
+							container,
+							SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS,
+							i);
+				}
+			}
+			
 			boolean retainAll = statistics.retainAll(subList);
 
 			if (retainAll) {
