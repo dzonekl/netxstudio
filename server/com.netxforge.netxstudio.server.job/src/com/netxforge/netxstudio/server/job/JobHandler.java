@@ -719,15 +719,14 @@ public class JobHandler {
 					.build();
 		} else if (job.getInterval() > 10) {
 			trigger = triggerBuilder.withSchedule(
-					calendarIntervalSchedule().withIntervalInSeconds(
-							job.getInterval())
-							.preserveHourOfDayAcrossDaylightSavings(true))
-					.build();
+					calendarIntervalSchedule()
+							.preserveHourOfDayAcrossDaylightSavings(true)
+							.withIntervalInSeconds(job.getInterval())).build();
 		} else {
 			trigger = triggerBuilder.withSchedule(
-					calendarIntervalSchedule().withIntervalInSeconds(10)
-							.preserveHourOfDayAcrossDaylightSavings(true))
-					.build();
+					calendarIntervalSchedule()
+							.preserveHourOfDayAcrossDaylightSavings(true)
+							.withIntervalInSeconds(10)).build();
 		}
 		return trigger;
 	}
