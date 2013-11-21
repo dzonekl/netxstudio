@@ -158,7 +158,7 @@ public abstract class NodeReportingLogic extends BaseNodeReportingLogic {
 		}else if (nodeType != null){
 			
 			// TODO, Algorithm gets all operators, all services and all nodes matching this type. 
-			Resource operatorResource = this.getDataProvider().getResource(OperatorsPackage.Literals.OPERATOR);
+			Resource operatorResource = this.getData().getResource(OperatorsPackage.Literals.OPERATOR);
 			for(EObject eo : operatorResource.getContents()){
 				if(eo instanceof Operator){
 					for(Service service : ((Operator) eo).getServices()){

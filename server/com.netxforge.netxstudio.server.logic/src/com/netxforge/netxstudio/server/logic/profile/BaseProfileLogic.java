@@ -66,7 +66,7 @@ public abstract class BaseProfileLogic extends BasePeriodLogic {
 
 	protected void doRun() {
 		// start a transaction
-		this.getDataProvider().getTransaction();
+		this.getData().getTransaction();
 		final List<ServiceUser> serviceUsers = this.getServiceUsersToExecuteFor();
 
 		this.getJobMonitor().setTotalWork(serviceUsers.size());
@@ -84,8 +84,8 @@ public abstract class BaseProfileLogic extends BasePeriodLogic {
 			
 		this.getJobMonitor().updateFailures(this.getFailures());
 		
-		this.getDataProvider().commitTransactionThenClose();
-		this.getDataProvider().closeSession();
+		this.getData().commitTransactionThenClose();
+		this.getData().closeSession();
 	}
 
 	protected abstract List<ServiceUser> getServiceUsersToExecuteFor();
@@ -97,7 +97,7 @@ public abstract class BaseProfileLogic extends BasePeriodLogic {
 		final ProfileEngine engine = getEngine();
 		engine.setJobMonitor(getJobMonitor());
 		engine.setServiceUser(serviceUser);
-		engine.setDataProvider(this.getDataProvider());
+		engine.setDataProvider(this.getData());
 		engine.setPeriod(getPeriod());
 		engine.setService(this.getRfsService());
 		engine.execute();
@@ -118,7 +118,7 @@ public abstract class BaseProfileLogic extends BasePeriodLogic {
 
 	public void setRfsService(CDOID cdoId) {
 		// read the rfsservice in the transaction of the run
-		this.rfsService = (RFSService) getDataProvider().getTransaction()
+		this.rfsService = (RFSService) getData().getTransaction()
 				.getObject(cdoId);
 	}
 	

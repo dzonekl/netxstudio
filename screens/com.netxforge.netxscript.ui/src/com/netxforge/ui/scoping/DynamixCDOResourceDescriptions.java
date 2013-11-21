@@ -9,8 +9,8 @@ package com.netxforge.ui.scoping;
 
 import com.google.inject.Inject;
 import com.netxforge.internal.RuntimeActivator;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.cdo.IClientDPProvider;
+import com.netxforge.netxstudio.data.IData;
+import com.netxforge.netxstudio.data.cdo.IClientDataProvider;
 import com.netxforge.scoping.AbstractDynamixCDOResourceDescriptions;
 
 /**
@@ -42,12 +42,12 @@ public class DynamixCDOResourceDescriptions extends
 	}
 
 	@Inject
-	private IClientDPProvider clientDPProvider;
+	private IClientDataProvider clientDPProvider;
 
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	@Override
-	public IDataProvider getDataProvider() {
+	public IData getDataProvider() {
 		if (dataProvider == null) {
 			dataProvider = clientDPProvider.get();
 		}

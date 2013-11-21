@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 
 /**
  * Imports metrics and units from an excel sheet.
@@ -44,7 +44,7 @@ import com.netxforge.netxstudio.data.IDataProvider;
  */
 public class MasterDataImporter {
 
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	private List<EStructuralFeature> eFeatures = new ArrayList<EStructuralFeature>();
 
@@ -182,11 +182,11 @@ public class MasterDataImporter {
 		this.eClassToImport = eClassToImport;
 	}
 
-	public IDataProvider getDataProvider() {
+	public IData getDataProvider() {
 		return dataProvider;
 	}
 
-	public void setDataProvider(IDataProvider dataProvider) {
+	public void setDataProvider(IData dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 

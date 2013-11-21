@@ -48,7 +48,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.geo.GeoPackage;
@@ -73,7 +73,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public abstract class CDODataProvider implements IDataProvider {
+public abstract class CDOData implements IData {
 
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
 	private ICDOConnection connection;
@@ -82,7 +82,7 @@ public abstract class CDODataProvider implements IDataProvider {
 	public static final int COMMIT_TIMEOUT = 500; // seconds.
 
 	@Inject
-	public CDODataProvider(ICDOConnection conn) {
+	public CDOData(ICDOConnection conn) {
 		this.connection = conn;
 
 		ePackages.add(GeoPackage.eINSTANCE);

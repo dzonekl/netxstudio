@@ -22,14 +22,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.IDPNoCacheProvider;
-import com.netxforge.netxstudio.server.ServerNoCache;
+import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
+import com.netxforge.netxstudio.server.data.ServerNoCache;
 
 /**
  * Defines the JobImplementation which can be implemented by other plugins.
@@ -43,9 +43,9 @@ public abstract class JobImplementation {
 
 	@Inject
 	@ServerNoCache
-	private IDPNoCacheProvider dpProvider;
+	private IServerNoCacheDataProvider dpProvider;
 	
-	private IDataProvider dataProvider; 
+	private IData dataProvider; 
 	
 	/**
 	 * Jobs generally process values in NetXResource objects, either a
@@ -74,7 +74,7 @@ public abstract class JobImplementation {
 		this.netxForgeJob = netxForgeJob;
 	}
 
-	protected IDataProvider getDataProvider() {
+	protected IData getDataProvider() {
 		if(dataProvider == null){
 			dataProvider = dpProvider.get();
 		}

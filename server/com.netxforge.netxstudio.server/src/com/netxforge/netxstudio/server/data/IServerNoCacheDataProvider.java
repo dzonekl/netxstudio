@@ -14,29 +14,12 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/
-package com.netxforge.netxstudio.data.cdo;
+ *******************************************************************************/ 
+package com.netxforge.netxstudio.server.data;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.cdo.ICDOConnection;
+import com.netxforge.netxstudio.data.IData;
 
-public class NonStaticCDODPProvider implements Provider<IDataProvider>,
-		INonStaticDPProvider {
 
-	private ICDOConnection connection;
-
-	@Inject
-	public NonStaticCDODPProvider(ICDOConnection connection) {
-		this.connection = connection;
-	}
-
-	public IDataProvider get() {
-
-		ClientCDODataProvider clientCDODataProvider = new ClientCDODataProvider(
-				connection);
-		return clientCDODataProvider;
-	}
-
+public interface IServerNoCacheDataProvider {
+	public IData get();	
 }

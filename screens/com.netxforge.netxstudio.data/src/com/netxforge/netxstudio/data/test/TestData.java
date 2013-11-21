@@ -30,14 +30,14 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 
 /**
  * A test provider which creates dummy objects.
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class TestDataProvider implements IDataProvider {
+public class TestData implements IData {
 
 	public EObject getObject() {
 		return null;

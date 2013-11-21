@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
@@ -43,8 +43,8 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.IDPProvider;
-import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
@@ -76,9 +76,9 @@ public class MetricSourceImportService implements NetxForgeService {
 
 		@Inject
 		@Server
-		private IDPProvider dpProvider;
+		private IServerDataProvider dpProvider;
 
-		private IDataProvider dataProvider;
+		private IData dataProvider;
 
 		private AbstractMetricValuesImporter importer;
 
@@ -195,7 +195,7 @@ public class MetricSourceImportService implements NetxForgeService {
 			this.parameters = parameters;
 		}
 
-		public IDataProvider getDataProvider() {
+		public IData getDataProvider() {
 			if (dataProvider == null) {
 				dataProvider = dpProvider.get();
 			}

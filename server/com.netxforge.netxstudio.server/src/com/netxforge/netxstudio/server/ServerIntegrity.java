@@ -41,11 +41,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.internal.ServerActivator;
 
 /**
@@ -206,7 +207,7 @@ public class ServerIntegrity extends JobChangeAdapter {
 
 	@Server
 	@Inject
-	private IDataProvider provider;
+	private IData provider;
 
 	@Inject
 	private IQueryService queryService;

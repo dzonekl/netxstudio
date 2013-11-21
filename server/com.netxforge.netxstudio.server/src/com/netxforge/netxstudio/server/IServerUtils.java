@@ -5,14 +5,14 @@ import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.net4j.util.lifecycle.LifecycleState;
 
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 
 public interface IServerUtils {
 
 	public abstract void checkRepositorySupported(IRepository repository);
 
 	/**
-	 * TODO, this is not very different from {@link IDataProvider#openSession() }
+	 * TODO, this is not very different from {@link IData#openSession() }
 	 * as the session type is done by the Session config..
 	 * 
 	 * @return

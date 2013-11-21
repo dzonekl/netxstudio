@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -42,7 +42,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.logic.BaseLogic;
 import com.netxforge.netxstudio.server.logic.BasePeriodLogic;
@@ -79,7 +79,7 @@ public class ReportingService implements NetxForgeService {
 	public static class ReportingRunner {
 		@Inject
 		@Server
-		private IDataProvider dataProvider;
+		private IData dataProvider;
 
 		private Map<String, String> parameters;
 
@@ -184,7 +184,7 @@ public class ReportingService implements NetxForgeService {
 										.folderURI();
 							}
 							Service service = (Service) reportingLogic
-									.getDataProvider().getTransaction()
+									.getData().getTransaction()
 									.getObject(serviceID);
 
 							((OperatorReportingLogic) reportingLogic)
@@ -193,7 +193,7 @@ public class ReportingService implements NetxForgeService {
 							// Set an optional NodeType filter.
 							if (nodeTypeID != null) {
 								NodeType nt = (NodeType) reportingLogic
-										.getDataProvider().getTransaction()
+										.getData().getTransaction()
 										.getObject(nodeTypeID);
 
 								((OperatorReportingLogic) reportingLogic)
@@ -234,7 +234,7 @@ public class ReportingService implements NetxForgeService {
 						setPeriod(reportingLogic);
 					}
 
-					CDOObject o = reportingLogic.getDataProvider()
+					CDOObject o = reportingLogic.getData()
 							.getTransaction().getObject(finalID);
 
 					if (o instanceof Node) {
@@ -288,7 +288,7 @@ public class ReportingService implements NetxForgeService {
 							}
 
 							Operator operator = (Operator) reportingLogic
-									.getDataProvider().getTransaction()
+									.getData().getTransaction()
 									.getObject(operatorID);
 							((OperatorReportingLogic) reportingLogic)
 									.setServices(operator.getServices());
@@ -296,7 +296,7 @@ public class ReportingService implements NetxForgeService {
 							// Set an optional NodeType filter.
 							if (nodeTypeID != null) {
 								NodeType nt = (NodeType) reportingLogic
-										.getDataProvider().getTransaction()
+										.getData().getTransaction()
 										.getObject(nodeTypeID);
 
 								((OperatorReportingLogic) reportingLogic)

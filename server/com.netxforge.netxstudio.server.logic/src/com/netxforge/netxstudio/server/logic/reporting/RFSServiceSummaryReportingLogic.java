@@ -78,7 +78,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	protected void doRun() {
 
 		// start a transaction
-		this.getDataProvider().getTransaction();
+		this.getData().getTransaction();
 
 		final List<Service> allServices = this.getServicesToExecuteFor();
 		// final List<NodeType> allNodes = getNodeTypesToExecuteFor();
@@ -104,7 +104,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 
 		if (!getFailures().isEmpty()) {
 			final ComponentWorkFlowRun run = (ComponentWorkFlowRun) this
-					.getDataProvider().getTransaction()
+					.getData().getTransaction()
 					.getObject(this.getJobMonitor().getWorkFlowRunId());
 
 			for (Failure f : this.getFailures()) {
@@ -119,8 +119,8 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 			// TODO, Perhaps add another failure?
 		}
 
-		this.getDataProvider().commitTransaction();
-		this.getDataProvider().closeSession();
+		this.getData().commitTransaction();
+		this.getData().closeSession();
 	}
 
 	private void writeSummary(Sheet sheet) {
@@ -296,7 +296,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 			engine.setService(service);
 			engine.setServiceSummary((RFSServiceSummary) serviceSummary);
 			engine.setJobMonitor(getJobMonitor());
-			engine.setDataProvider(this.getDataProvider());
+			engine.setDataProvider(this.getData());
 			engine.setPeriod(getPeriod());
 			engine.execute();
 			if (engine.getFailures().size() > 0) {

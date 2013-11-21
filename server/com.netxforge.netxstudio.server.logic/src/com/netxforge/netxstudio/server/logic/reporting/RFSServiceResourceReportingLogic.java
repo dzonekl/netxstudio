@@ -95,7 +95,7 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 		// getModelUtils().ragCountResourcesForNode(service, node,
 		// this.getPeriod()))) {
 		if (reportingEngine == null) {
-			queryService.setDataProvider(this.getDataProvider());
+			queryService.setDataProvider(this.getData());
 			reportingEngine = new ResourceReportingEngine(this.getModelUtils(),
 					this.getPeriod(), this.getWorkBook(), this.queryService);
 		}

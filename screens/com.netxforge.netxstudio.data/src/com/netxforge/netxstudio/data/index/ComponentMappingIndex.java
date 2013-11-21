@@ -44,7 +44,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.importer.IComponentLocator.IdentifierDescriptor;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.library.Component;
@@ -68,7 +68,7 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 	@Inject
 	private ModelUtils modelUtils;
 
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	/** Our index */
 	private final List<ComponentIndexEntry> cachedIndex = Lists.newArrayList();
@@ -225,7 +225,7 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 		return components;
 	}
 
-	public void setDataProvider(IDataProvider dataProvider) {
+	public void setDataProvider(IData dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 

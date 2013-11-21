@@ -29,10 +29,10 @@ import com.netxforge.netxstudio.data.importer.IRDBMSMetricValuesImporterProvider
 import com.netxforge.netxstudio.data.importer.IXLSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
-import com.netxforge.netxstudio.server.IDPNoCacheProvider;
-import com.netxforge.netxstudio.server.IDPProvider;
-import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.ServerNoCache;
+import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
+import com.netxforge.netxstudio.server.data.ServerNoCache;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService.ServiceRunner;
 import com.netxforge.netxstudio.server.metrics.MetricSourceJobImplementation;
 import com.netxforge.netxstudio.server.metrics.ServerImporterHelper;
@@ -64,12 +64,12 @@ public class MetricsModule extends AbstractModule {
 				service(IQueryService.class).single());
 
 		// {@link ServerModule}
-		bind(IDPProvider.class).annotatedWith(Server.class).toProvider(
-				service(IDPProvider.class).single());
+		bind(IServerDataProvider.class).annotatedWith(Server.class).toProvider(
+				service(IServerDataProvider.class).single());
 
 		// {@link ServerModule}
-		bind(IDPNoCacheProvider.class).annotatedWith(ServerNoCache.class)
-				.toProvider(service(IDPNoCacheProvider.class).single());
+		bind(IServerNoCacheDataProvider.class).annotatedWith(ServerNoCache.class)
+				.toProvider(service(IServerNoCacheDataProvider.class).single());
 
 		// {@link ServerModule}
 		bind(IPropertiesProvider.class).toProvider(

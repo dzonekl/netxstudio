@@ -86,7 +86,7 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 	protected void doRun() {
 
 		// start a transaction. 
-		this.getDataProvider().getTransaction();
+		this.getData().getTransaction();
 
 		final List<Service> allServices = this.getServicesToExecuteFor();
 
@@ -122,8 +122,8 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 			// TODO, Perhaps add another failure?
 		}
 
-		 this.getDataProvider().commitTransactionThenClose();
-		 this.getDataProvider().closeSession();
+		 this.getData().commitTransactionThenClose();
+		 this.getData().closeSession();
 	}
 
 	public abstract void writeFinal(Sheet sheet);

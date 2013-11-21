@@ -56,8 +56,8 @@ import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.NetxstudioPackage;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.cdo.CDODataProvider;
+import com.netxforge.netxstudio.data.IData;
+import com.netxforge.netxstudio.data.cdo.CDOData;
 import com.netxforge.netxstudio.data.fixtures.Fixtures;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.geo.GeoPackage;
@@ -66,6 +66,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.internal.ServerActivator;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -120,7 +121,7 @@ public class ServerUtils implements IServerUtils {
 	public CDOSession openJVMSession() {
 		final CDONet4jSession cdoSession = createSessionConfiguration()
 				.openNet4jSession();
-		cdoSession.options().setCommitTimeout(CDODataProvider.COMMIT_TIMEOUT);
+		cdoSession.options().setCommitTimeout(CDOData.COMMIT_TIMEOUT);
 
 		return cdoSession;
 	}
@@ -236,7 +237,7 @@ public class ServerUtils implements IServerUtils {
 						if (protocol instanceof ISignalProtocol) {
 							ISignalProtocol<?> signalProtocol = (ISignalProtocol<?>) protocol;
 							signalProtocol
-									.setTimeout(IDataProvider.SIGNAL_TIME_OUT);
+									.setTimeout(IData.SIGNAL_TIME_OUT);
 						}
 					}
 				});
@@ -285,7 +286,7 @@ public class ServerUtils implements IServerUtils {
 
 		@Inject
 		@Server
-		private IDataProvider dataProvider;
+		private IData dataProvider;
 
 		@Inject
 		private Fixtures fixtures;

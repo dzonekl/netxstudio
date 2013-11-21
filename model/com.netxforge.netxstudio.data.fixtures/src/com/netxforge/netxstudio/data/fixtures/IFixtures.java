@@ -18,7 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.fixtures;
 
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -63,5 +63,5 @@ public interface IFixtures {
 	 * Set the data provider. 
 	 * @param dataProvider
 	 */
-	public void setDataProvider(IDataProvider dataProvider);
+	public void setDataProvider(IData dataProvider);
 }

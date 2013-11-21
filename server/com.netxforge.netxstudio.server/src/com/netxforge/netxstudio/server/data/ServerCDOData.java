@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server;
+package com.netxforge.netxstudio.server.data;
 
 import java.util.Date;
 
@@ -29,7 +29,7 @@ import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
 import org.eclipse.net4j.util.lifecycle.LifecycleEvent;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.cdo.CDODataProvider;
+import com.netxforge.netxstudio.data.cdo.CDOData;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 import com.netxforge.netxstudio.server.internal.ServerActivator;
 
@@ -38,7 +38,7 @@ import com.netxforge.netxstudio.server.internal.ServerActivator;
  * 
  * @author Martin Taal
  */
-public class ServerCDODataProvider extends CDODataProvider {
+public class ServerCDOData extends CDOData {
 
 	// A cached session for this provider.
 	private CDOSession session = null;
@@ -55,7 +55,7 @@ public class ServerCDODataProvider extends CDODataProvider {
 	private SessionLog sessionLog;
 
 	@Inject
-	public ServerCDODataProvider(@Server ICDOConnection conn) {
+	public ServerCDOData(@Server ICDOConnection conn) {
 		super(conn);
 		sessionLog = new SessionLog();
 	}
@@ -307,8 +307,8 @@ public class ServerCDODataProvider extends CDODataProvider {
 		}
 
 		private void logStack(String traceOption) {
-			String thisName = ServerCDODataProvider.this.getClass().getName();
-			String parentName = CDODataProvider.class.getName();
+			String thisName = ServerCDOData.this.getClass().getName();
+			String parentName = CDOData.class.getName();
 			String logName = SessionLog.class.getName();
 			String thisNameNested = this.getClass().getName();
 			StackTraceElement[] stackTrace = new Throwable().getStackTrace();

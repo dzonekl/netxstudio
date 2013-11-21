@@ -47,7 +47,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.models.export.internal.ExportActivator;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -65,7 +65,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  */
 public class MasterDataExporterRevenge_sxssf {
 
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 	private EPackage[] ePackages;
 
 	private static final int INITIAL_CACHED_ROWS = 100;
@@ -559,7 +559,7 @@ public class MasterDataExporterRevenge_sxssf {
 	}
 
 	// Context setters.
-	public void setDataProvider(IDataProvider dataProvider) {
+	public void setDataProvider(IData dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 

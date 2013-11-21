@@ -126,7 +126,7 @@ public abstract class BasePeriodLogic extends BaseLogic {
 	 */
 	public void setPeriod(ExpansionDuration duration) {
 
-		Resource res = this.getDataProvider().getResource(
+		Resource res = this.getData().getResource(
 				NetxstudioPackage.Literals.SERVER_SETTINGS);
 		ServerSettings settings = this.getModelUtils().serverSettings(res);
 		if (settings == null) {

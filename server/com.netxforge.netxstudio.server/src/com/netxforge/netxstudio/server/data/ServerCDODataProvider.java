@@ -15,27 +15,27 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.server;
+package com.netxforge.netxstudio.server.data;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 
-public class ServerCDODPProvider implements Provider<IDataProvider>, IDPProvider {
+public class ServerCDODataProvider implements Provider<IData>, IServerDataProvider {
 
 	private ICDOConnection connection;
 
 	@Inject
-	public ServerCDODPProvider(@Server ICDOConnection connection) {
+	public ServerCDODataProvider(@Server ICDOConnection connection) {
 		this.connection = connection;
 	}
 
-	public IDataProvider get() {
+	public IData get() {
 
-		ServerCDODataProvider serverCDODataProvider = new ServerCDODataProvider(
+		ServerCDOData serverCDOData = new ServerCDOData(
 				connection);
-		return serverCDODataProvider;
+		return serverCDOData;
 	}
 
 }

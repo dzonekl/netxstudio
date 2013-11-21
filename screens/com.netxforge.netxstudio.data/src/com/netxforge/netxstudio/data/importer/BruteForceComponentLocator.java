@@ -35,7 +35,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.AllPurposeCache;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -62,7 +62,7 @@ import com.netxforge.netxstudio.operators.Warehouse;
  */
 public class BruteForceComponentLocator implements IComponentLocator {
 
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	@Inject
 	private ModelUtils modelUtils;
@@ -991,7 +991,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 		}
 	}
 
-	public void setDataProvider(IDataProvider dataProvider) {
+	public void setDataProvider(IData dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 

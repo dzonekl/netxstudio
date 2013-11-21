@@ -83,7 +83,7 @@ public abstract class BaseComponentReportingLogic extends BaseComponentLogic {
 	protected void doRun() {
 
 		// start a transaction
-		this.getDataProvider().getTransaction();
+		this.getData().getTransaction();
 
 		final List<NodeType> allNodes = getNodeTypesToExecuteFor();
 
@@ -137,7 +137,7 @@ public abstract class BaseComponentReportingLogic extends BaseComponentLogic {
 		}
 		if (!getFailures().isEmpty()) {
 			final ComponentWorkFlowRun run = (ComponentWorkFlowRun) this
-					.getDataProvider().getTransaction()
+					.getData().getTransaction()
 					.getObject(this.getJobMonitor().getWorkFlowRunId());
 
 			for (Failure f : this.getFailures()) {

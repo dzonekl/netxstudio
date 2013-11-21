@@ -15,11 +15,11 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.server;
+package com.netxforge.netxstudio.data.cdo;
 
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 
-
-public interface IDPNoCacheProvider {
-	public IDataProvider get();	
+public interface INonStaticDataProvider {
+	public IData get();
+	
 }

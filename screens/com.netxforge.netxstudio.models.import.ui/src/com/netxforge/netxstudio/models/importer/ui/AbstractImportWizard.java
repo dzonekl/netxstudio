@@ -62,7 +62,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -92,10 +92,10 @@ public abstract class AbstractImportWizard extends Wizard implements
 
 	@Inject
 	@NonStatic
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	@Inject
-	private IDataProvider uiDataProvider;
+	private IData uiDataProvider;
 
 	@Inject
 	private ModelUtils modelUtils;

@@ -65,15 +65,15 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.IServerUtils;
-import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.internal.JobActivator;
 
 /**
@@ -94,9 +94,9 @@ public class JobHandler {
 	 */
 	@Inject
 	@Server
-	private IDPProvider dpProvider;
+	private IServerDataProvider dpProvider;
 
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	@Inject
 	private ModelUtils modelUtils;

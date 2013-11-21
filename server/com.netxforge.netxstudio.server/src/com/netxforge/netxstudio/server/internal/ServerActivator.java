@@ -42,13 +42,13 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.server.IDPNoCacheProvider;
-import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.IServerUtils;
-import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.ServerIntegrity;
-import com.netxforge.netxstudio.server.ServerNoCache;
 import com.netxforge.netxstudio.server.ServerUtils;
+import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
+import com.netxforge.netxstudio.server.data.ServerNoCache;
 
 /**
  * @author Christophe Bouhier
@@ -97,11 +97,11 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 
 	@Inject
 	@Server
-	Export<IDPProvider> dpService;
+	Export<IServerDataProvider> dpService;
 
 	@Inject
 	@ServerNoCache
-	Export<IDPNoCacheProvider> dpNoCacheService;
+	Export<IServerNoCacheDataProvider> dpNoCacheService;
 
 	@Inject
 	Export<IPropertiesProvider> propsProvider;

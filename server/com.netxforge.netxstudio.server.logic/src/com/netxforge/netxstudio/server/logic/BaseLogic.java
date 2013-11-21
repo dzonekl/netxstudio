@@ -28,7 +28,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.library.Component;
@@ -37,8 +37,8 @@ import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.JobRunState;
-import com.netxforge.netxstudio.server.IDPProvider;
-import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 
@@ -53,9 +53,9 @@ public abstract class BaseLogic {
 
 	@Inject
 	@Server
-	private IDPProvider dpProvider;
+	private IServerDataProvider dataProvider;
 
-	private IDataProvider dataProvider;
+	private IData data;
 
 	@Inject
 	protected IQueryService queryService;
@@ -102,7 +102,7 @@ public abstract class BaseLogic {
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
 		} finally {
 			numOfCompletedRuns = 1;
-			CDOSession session = this.getDataProvider().getSession();
+			CDOSession session = this.getData().getSession();
 			if (!session.isClosed()) {
 				session.close();
 			}
@@ -174,8 +174,8 @@ public abstract class BaseLogic {
 	 */
 	public void closeLogic() {
 		// Will close any open transaction.
-		getDataProvider().commitTransactionThenClose();
-		getDataProvider().closeSession();
+		getData().commitTransactionThenClose();
+		getData().closeSession();
 	}
 
 	protected void reportStats() {
@@ -235,12 +235,17 @@ public abstract class BaseLogic {
 		this.jobMonitor = jobMonitor;
 	}
 
-	public IDataProvider getDataProvider() {
+	/**
+	 * Lazy load our {@link IData} from a {@link IServerDataProvider Provider}
+	 * 
+	 * @return
+	 */
+	public IData getData() {
 
-		if (dataProvider == null) {
-			dataProvider = dpProvider.get();
+		if (data == null) {
+			data = dataProvider.get();
 		}
-		return dataProvider;
+		return data;
 	}
 
 	// public void setDataProvider(IDataProvider dataProvider) {
@@ -261,7 +266,7 @@ public abstract class BaseLogic {
 
 	public ServerSettings getSettings() {
 		// This piece goes in commons somewhere.
-		Resource settingsResource = this.getDataProvider().getResource(
+		Resource settingsResource = this.getData().getResource(
 				NetxstudioPackage.Literals.SERVER_SETTINGS);
 		ServerSettings settings = null;
 		if (settingsResource != null

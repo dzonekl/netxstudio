@@ -428,6 +428,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 					ScheduledReportSelectionWizard wizard = new ScheduledReportSelectionWizard();
 					wizard.init(PlatformUI.getWorkbench(),
 							(IStructuredSelection) selection);
+					wizard.setEditingService(editingService);
 
 					WizardDialog dialog = new WizardDialog(
 							Networks.this.getShell(), wizard);
@@ -816,9 +817,9 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		// Clear the form messages.
 		this.getScreenForm().getMessageManager().removeAllMessages();
-		
-		// Remember the state only if the corresponding selection is not null. 
-		// This would be a deleted object. 
+
+		// Remember the state only if the corresponding selection is not null.
+		// This would be a deleted object.
 		if (currentDetails != null && !currentDetails.isDisposed()) {
 			this.saveDetailsState(currentDetails);
 			currentDetails.dispose();
@@ -939,18 +940,18 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 		mementoUtils.rememberStructuredViewerSelection(memento,
 				networkTreeViewer, MEM_KEY_NETWORKS_SELECTION_TREE);
-		
-		// We might not have a currentDetails state. 
+
+		// We might not have a currentDetails state.
 		this.saveDetailsState(currentDetails);
 
 	}
 
 	public void saveDetailsState(Composite currentDetails) {
-		
-		if(currentDetails == null ||  currentDetails.isDisposed()){
+
+		if (currentDetails == null || currentDetails.isDisposed()) {
 			return;
 		}
-			
+
 		IMemento memento = this.getScreenService().getAbsViewPart()
 				.getMemento();
 		String key = keyForComposite(currentDetails);
@@ -959,7 +960,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 					key);
 		}
 	}
-	
+
 	public void restoreDetailsState(Composite currentDetails) {
 		IMemento memento = this.getScreenService().getAbsViewPart()
 				.getMemento();

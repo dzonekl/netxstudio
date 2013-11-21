@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -60,7 +60,7 @@ public interface IImporterHelper {
 	 * 
 	 * @return
 	 */
-	public abstract IDataProvider getDataProvider();
+	public abstract IData getDataProvider();
 
 	/**
 	 * Set the importer to be used.

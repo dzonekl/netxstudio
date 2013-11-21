@@ -37,8 +37,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.data.IData;
+import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.internal.ServerActivator;
 
 public class DirectWriteServlet implements Servlet {
@@ -53,7 +53,7 @@ public class DirectWriteServlet implements Servlet {
 
 	@Inject
 	@Server
-	private IDataProvider provider;
+	private IData provider;
 	private ServerSettings settings;
 	
 	public DirectWriteServlet() {

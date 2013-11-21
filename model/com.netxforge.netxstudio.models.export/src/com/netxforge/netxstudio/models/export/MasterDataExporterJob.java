@@ -32,7 +32,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 
 /**
  * Processes an .csv file, and returns as records for a viewer.
@@ -42,10 +42,10 @@ public class MasterDataExporterJob implements IJobChangeListener {
 	private IPath res;
 	private ScanningJob j = new ScanningJob("Writing file...");
 
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 	private EPackage[] ePackages;
 
-	public MasterDataExporterJob(IDataProvider dataProvider,
+	public MasterDataExporterJob(IData dataProvider,
 			EPackage[] ePackages) {
 		this.dataProvider = dataProvider;
 		this.ePackages = ePackages;

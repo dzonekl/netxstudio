@@ -36,8 +36,8 @@ import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.cdo.CDODataProvider;
+import com.netxforge.netxstudio.data.IData;
+import com.netxforge.netxstudio.data.cdo.CDOData;
 
 /**
  * An implementation which can produce {@link IResourceDescription} objects from 
@@ -49,7 +49,7 @@ import com.netxforge.netxstudio.data.cdo.CDODataProvider;
 public abstract class AbstractDynamixCDOResourceDescriptions extends
 		AbstractCompoundSelectable implements IResourceDescriptions {
 
-	public abstract IDataProvider getDataProvider();
+	public abstract IData getDataProvider();
 
 	boolean initialized = false;
 
@@ -76,8 +76,8 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 							Resource resource = null;
 
 							try {
-								IDataProvider provider = getDataProvider();
-								if (provider instanceof CDODataProvider) {
+								IData provider = getDataProvider();
+								if (provider instanceof CDOData) {
 
 									String lookup;
 									if (uri.segmentCount() > 1) {
@@ -89,7 +89,7 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 
 									// This should attach our listener to the
 									// resources.
-									resource = ((CDODataProvider) provider)
+									resource = ((CDOData) provider)
 											.getResource(view, lookup);
 									
 									IResourceDescription description = getDescription(

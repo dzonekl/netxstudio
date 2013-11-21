@@ -49,7 +49,7 @@ public interface IQueryService {
 	public static final String QUERY_HQL = "hql";
 	public static final String QUERY_OCL = "ocl";
 
-	public void setDataProvider(IDataProvider provider);
+	public void setDataProvider(IData provider);
 
 	/**
 	 * Get the role for this user.

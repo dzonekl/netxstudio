@@ -45,11 +45,11 @@ public class NodeMonitoringLogic extends BaseMonitoringLogic {
 	}
 
 	public void setNode(CDOID cdoId) {
-		this.node = (Node)getDataProvider().getTransaction().getObject(cdoId);
+		this.node = (Node)getData().getTransaction().getObject(cdoId);
 	}
 	
 	public void setNodeType(CDOID cdoId) {
-		final NodeType nodeType = (NodeType)getDataProvider().getTransaction().getObject(cdoId);
+		final NodeType nodeType = (NodeType)getData().getTransaction().getObject(cdoId);
 		node = (Node)nodeType.eContainer();
 	}
 }

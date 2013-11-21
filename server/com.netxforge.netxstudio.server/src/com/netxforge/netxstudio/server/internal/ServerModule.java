@@ -26,27 +26,27 @@ import org.eclipse.emf.cdo.spi.server.RepositoryUserManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 import com.netxforge.netxstudio.server.CommitInfoHandler;
-import com.netxforge.netxstudio.server.IDPNoCacheProvider;
-import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.IServerUtils;
 import com.netxforge.netxstudio.server.NetxForgeUserManager;
-import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.ServerCDOConnection;
-import com.netxforge.netxstudio.server.ServerCDODPProvider;
-import com.netxforge.netxstudio.server.ServerCDODataProvider;
 import com.netxforge.netxstudio.server.ServerIntegrity;
-import com.netxforge.netxstudio.server.ServerNoCache;
-import com.netxforge.netxstudio.server.ServerNoCacheCDOConnection;
-import com.netxforge.netxstudio.server.ServerNoCacheCDODPProvider;
-import com.netxforge.netxstudio.server.ServerNoCacheCDODataProvider;
 import com.netxforge.netxstudio.server.ServerProperties;
 import com.netxforge.netxstudio.server.ServerUtils;
 import com.netxforge.netxstudio.server.ServerUtils.ServerInitializer;
+import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
+import com.netxforge.netxstudio.server.data.ServerCDOConnection;
+import com.netxforge.netxstudio.server.data.ServerCDODataProvider;
+import com.netxforge.netxstudio.server.data.ServerCDOData;
+import com.netxforge.netxstudio.server.data.ServerNoCache;
+import com.netxforge.netxstudio.server.data.ServerNoCacheCDOConnection;
+import com.netxforge.netxstudio.server.data.ServerNoCacheCDODataProvider;
+import com.netxforge.netxstudio.server.data.ServerNoCacheCDOData;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -70,16 +70,16 @@ public class ServerModule extends AbstractModule {
 				.to(ServerCDOConnection.class);
 
 		// Bind the server standard CDO Provider
-		bind(IDataProvider.class).annotatedWith(Server.class).to(
-				ServerCDODataProvider.class);
+		bind(IData.class).annotatedWith(Server.class).to(
+				ServerCDOData.class);
 
 		// Bind the server no-caching CDO Connection
 		this.bind(ICDOConnection.class).annotatedWith(ServerNoCache.class)
 				.to(ServerNoCacheCDOConnection.class);
 
 		// Bind the server standard CDO Provider
-		bind(IDataProvider.class).annotatedWith(ServerNoCache.class).to(
-				ServerNoCacheCDODataProvider.class);
+		bind(IData.class).annotatedWith(ServerNoCache.class).to(
+				ServerNoCacheCDOData.class);
 
 		// Bind the server initializer
 		this.bind(ServerInitializer.class);
@@ -97,12 +97,12 @@ public class ServerModule extends AbstractModule {
 		// ///////////////////////////////
 		// EXPORT SERVICES
 
-		bind(export(IDPProvider.class)).annotatedWith(Server.class).toProvider(
-				service(ServerCDODPProvider.class).export());
+		bind(export(IServerDataProvider.class)).annotatedWith(Server.class).toProvider(
+				service(ServerCDODataProvider.class).export());
 
-		bind(export(IDPNoCacheProvider.class)).annotatedWith(
+		bind(export(IServerNoCacheDataProvider.class)).annotatedWith(
 				ServerNoCache.class).toProvider(
-				service(ServerNoCacheCDODPProvider.class).export());
+				service(ServerNoCacheCDODataProvider.class).export());
 
 		bind(export(IServerUtils.class)).toProvider(
 				service(ServerUtils.class).export());

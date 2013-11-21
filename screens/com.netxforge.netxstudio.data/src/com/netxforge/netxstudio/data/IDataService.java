@@ -31,7 +31,7 @@ public interface IDataService {
 	 * Get the data provider. 
 	 * @return
 	 */
-	public IDataProvider getProvider();
+	public IData getProvider();
 	
 	/**
 	 * Get the Data service role handler. 

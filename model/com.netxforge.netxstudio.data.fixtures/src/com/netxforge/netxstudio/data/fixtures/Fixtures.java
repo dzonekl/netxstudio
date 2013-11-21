@@ -34,7 +34,7 @@ import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
 import com.netxforge.netxstudio.generics.ExpansionDurationValue;
@@ -71,12 +71,12 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 @Singleton
 public class Fixtures implements IFixtures {
 
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	@Inject
 	private ModelUtils modelUtils;
 
-	public void setDataProvider(IDataProvider dataProvider){
+	public void setDataProvider(IData dataProvider){
 		this.dataProvider = dataProvider;
 	}
 	

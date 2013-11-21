@@ -24,7 +24,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.scheduling.Failure;
@@ -47,7 +47,7 @@ public abstract class BaseEngine {
 
 	// on purpose no @Inject as we need the same instance
 	// as used in the job implementation
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	@Inject
 	private ModelUtils modelUtils;
@@ -64,11 +64,11 @@ public abstract class BaseEngine {
 
 	public abstract void doExecute();
 
-	public IDataProvider getDataProvider() {
+	public IData getDataProvider() {
 		return dataProvider;
 	}
 
-	public void setDataProvider(IDataProvider dataProvider) {
+	public void setDataProvider(IData dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 

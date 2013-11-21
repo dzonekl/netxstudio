@@ -1,0 +1,24 @@
+h1. Package information
+
+----------
+
+With this package, we refactor the reporting logic, target emission (i.e. xls with POI). 
+
+- Emitting logic accepts IReportEmitter implementations. 
+- Emitting logic needs an IStreamProducer for where to emit the report. 
+
+
+h2. What we can't do yet: 
+
+- The emitter implementation is "coded" instead of declaration based like an XML format or template.
+- The emitting order and what is emitted is a procedure in the doRun() method of the emitting logic. 
+- The data to emitt is set and extracted by the Emitting logic, very hardcoded as well. 
+
+h2. What we could do: 
+
+- Base the data on datasets which can be composed based on a DSL or simply code. The DTP data set is very 
+JDBC, SQL based which we don't want so we need to 'skin' it to it's minimum. We will have a fixed data source, 
+which is EMF/CDO.
+
+- The report is 'design' with a report designer which produces the DSL for the report format. (Re-use BIRT format). 
+- The report designers 'tighs' in the data sets. 

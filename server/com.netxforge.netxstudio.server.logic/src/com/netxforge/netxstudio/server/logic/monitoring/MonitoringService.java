@@ -29,15 +29,15 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.IDPProvider;
-import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.server.logic.profile.RFSServiceProfileLogic;
@@ -72,9 +72,9 @@ public class MonitoringService implements NetxForgeService {
 
 		@Inject
 		@Server
-		private IDPProvider dpProvider;
+		private IServerDataProvider dpProvider;
 
-		private IDataProvider dataProvider;
+		private IData dataProvider;
 
 		private Map<String, String> parameters;
 
@@ -192,7 +192,7 @@ public class MonitoringService implements NetxForgeService {
 			this.parameters = parameters;
 		}
 
-		public IDataProvider getDataProvider() {
+		public IData getDataProvider() {
 			if (dataProvider == null) {
 				dataProvider = dpProvider.get();
 			}

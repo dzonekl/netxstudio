@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Role;
@@ -61,7 +61,7 @@ public class CDOQueryService implements IQueryService {
 	@Inject
 	private ModelUtils modelUtils;
 
-	private IDataProvider provider;
+	private IData provider;
 
 	private List<CDOTransaction> usedTransactions = Lists.newArrayList();
 
@@ -80,7 +80,7 @@ public class CDOQueryService implements IQueryService {
 	public CDOQueryService() {
 	}
 
-	public void setDataProvider(IDataProvider provider) {
+	public void setDataProvider(IData provider) {
 		this.provider = provider;
 	}
 

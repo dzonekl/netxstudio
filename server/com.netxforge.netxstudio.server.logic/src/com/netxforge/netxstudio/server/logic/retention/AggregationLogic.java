@@ -73,7 +73,7 @@ public class AggregationLogic extends BaseComponentLogic {
 
 		re_initialize = true;
 
-		this.getDataProvider().getTransaction();
+		this.getData().getTransaction();
 
 		final List<NodeType> nodeTypes = getNodeTypesToExecuteFor();
 
@@ -94,7 +94,7 @@ public class AggregationLogic extends BaseComponentLogic {
 		}
 		this.getJobMonitor().updateFailures(this.getFailures());
 
-		this.getDataProvider().commitTransaction();
+		this.getData().commitTransaction();
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class AggregationLogic extends BaseComponentLogic {
 	}
 
 	private List<NodeType> allNodes() {
-		operatorResources = this.getDataProvider().getResource(
+		operatorResources = this.getData().getResource(
 				OperatorsPackage.Literals.OPERATOR);
 		return this.getModelUtils().nodeTypesForResource(operatorResources);
 	}
@@ -126,7 +126,7 @@ public class AggregationLogic extends BaseComponentLogic {
 			// Lazy init, use a provider?
 			engine = LogicActivator.getInstance().getInjector()
 					.getInstance(AggregationEngine.class);
-			engine.setDataProvider(this.getDataProvider());
+			engine.setDataProvider(this.getData());
 			if (engine instanceof AggregationEngine) {
 				((AggregationEngine) engine).setRetentionRules(rules);
 				((AggregationEngine) engine).intitialize(re_initialize);
@@ -196,17 +196,17 @@ public class AggregationLogic extends BaseComponentLogic {
 
 	public void setRfsService(CDOID cdoId) {
 		// read the rfsservice in the transaction of the run
-		this.rfsService = (RFSService) getDataProvider().getTransaction()
+		this.rfsService = (RFSService) getData().getTransaction()
 				.getObject(cdoId);
 	}
 
 	public void setNode(CDOID cdoId) {
-		this.nodeType = ((Node) getDataProvider().getTransaction().getObject(
+		this.nodeType = ((Node) getData().getTransaction().getObject(
 				cdoId)).getNodeType();
 	}
 
 	public void setNodeType(CDOID cdoId) {
-		this.nodeType = (NodeType) getDataProvider().getTransaction()
+		this.nodeType = (NodeType) getData().getTransaction()
 				.getObject(cdoId);
 	}
 

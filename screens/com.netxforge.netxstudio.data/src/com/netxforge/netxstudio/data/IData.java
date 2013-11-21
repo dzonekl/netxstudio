@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public interface IDataProvider {
+public interface IData {
 
 	/**
 	 * The timeout time.

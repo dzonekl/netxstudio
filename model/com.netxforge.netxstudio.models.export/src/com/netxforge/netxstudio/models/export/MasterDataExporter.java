@@ -24,12 +24,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 
 public class MasterDataExporter {
 
 	@SuppressWarnings("unused")
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 	private EPackage[] ePackages;
 	private Object[] exportObjects = null;
 	@SuppressWarnings("unused")
@@ -233,7 +233,7 @@ public class MasterDataExporter {
 	}
 
 	// Context setters.
-	public void setDataProvider(IDataProvider dataProvider) {
+	public void setDataProvider(IData dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 

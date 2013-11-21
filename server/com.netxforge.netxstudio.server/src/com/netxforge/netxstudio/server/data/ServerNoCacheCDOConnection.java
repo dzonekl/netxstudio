@@ -16,12 +16,13 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server;
+package com.netxforge.netxstudio.server.data;
 
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
+import com.netxforge.netxstudio.server.IServerUtils;
 
 /**
  * Uses a jvm connection to connect to the repository. It delegates to

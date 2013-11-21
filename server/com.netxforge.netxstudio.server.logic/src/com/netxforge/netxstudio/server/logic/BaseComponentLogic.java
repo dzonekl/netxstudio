@@ -40,7 +40,7 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 
 	protected void doRun() {
 
-		this.getDataProvider().getTransaction();
+		this.getData().getTransaction();
 
 		final List<NodeType> nodeTypes = getNodeTypesToExecuteFor();
 
@@ -61,7 +61,7 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		}
 		this.getJobMonitor().updateFailures(this.getFailures());
 
-		this.getDataProvider().commitTransaction();
+		this.getData().commitTransaction();
 	}
 
 	protected abstract List<NodeType> getNodeTypesToExecuteFor();
@@ -88,7 +88,7 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		final BaseComponentEngine engine = (BaseComponentEngine) getEngine();
 		engine.setJobMonitor(getJobMonitor());
 		engine.setComponent(component);
-		engine.setDataProvider(this.getDataProvider());
+		engine.setDataProvider(this.getData());
 		engine.setPeriod(getPeriod());
 		engine.execute();
 

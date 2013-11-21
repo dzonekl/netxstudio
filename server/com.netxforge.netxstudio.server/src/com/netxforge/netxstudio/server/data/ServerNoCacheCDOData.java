@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server;
+package com.netxforge.netxstudio.server.data;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
@@ -27,10 +27,10 @@ import com.netxforge.netxstudio.data.cdo.ICDOConnection;
  * 
  * @author Christophe Bouhier
  */
-public class ServerNoCacheCDODataProvider extends ServerCDODataProvider {
+public class ServerNoCacheCDOData extends ServerCDOData {
 
 	@Inject
-	public ServerNoCacheCDODataProvider(@ServerNoCache ICDOConnection conn) {
+	public ServerNoCacheCDOData(@ServerNoCache ICDOConnection conn) {
 		super(conn);
 	}
 }

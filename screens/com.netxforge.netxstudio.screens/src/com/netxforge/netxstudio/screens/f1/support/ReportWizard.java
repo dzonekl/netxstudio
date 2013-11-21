@@ -20,16 +20,14 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class ReportWizard extends Wizard implements INewWizard {
 
-	
 	private static final String REPORTING_WIZARD = "reporting_period";
-	
+
 	@Inject
 	private ModelUtils modelUtils;
-	
+
 	@Inject
 	private ServerRequest serverActions;
 
-	@Inject
 	private IEditingService editingService;
 
 	private Object firstSelectedObject;
@@ -37,18 +35,20 @@ public class ReportWizard extends Wizard implements INewWizard {
 	@Inject
 	private PeriodSelectionPage reportSelectionPeriod;
 
-	
 	private ReportTypeSelectionPage reportSelectionType;
 
 	public ReportWizard() {
 		setWindowTitle("Reporting");
 		IDialogSettings ds = ScreensActivator.getInstance().getDialogSettings();
 		IDialogSettings section = ds.getSection(REPORTING_WIZARD);
-		if( section == null){
+		if (section == null) {
 			ds.addNewSection(REPORTING_WIZARD);
 		}
 		this.setDialogSettings(section);
-		
+	}
+
+	public void setEditingService(IEditingService editingService) {
+		this.editingService = editingService;
 	}
 
 	@Override
@@ -59,21 +59,19 @@ public class ReportWizard extends Wizard implements INewWizard {
 
 		this.addPage(reportSelectionType);
 		this.addPage(reportSelectionPeriod);
-		
 
 	}
-	
-	public void forceReportPeriod(DateTimeRange dtr){
+
+	public void forceReportPeriod(DateTimeRange dtr) {
 		// note the page is already created...
 		reportSelectionPeriod.setPeriod(dtr);
 	}
 
 	@Override
 	public boolean performFinish() {
-		
+
 		finishPages();
-		
-		
+
 		CDOObject targetObject = null;
 		@SuppressWarnings("unused")
 		String identifier = "";
@@ -87,7 +85,7 @@ public class ReportWizard extends Wizard implements INewWizard {
 
 			Date fromDate = modelUtils.begin(dtr);
 			Date toDate = modelUtils.end(dtr);
-			
+
 			@SuppressWarnings("unused")
 			String result = null;
 
@@ -128,12 +126,12 @@ public class ReportWizard extends Wizard implements INewWizard {
 				break;
 
 			case ReportTypeSelectionPage.REPORT_ON_COMPONENT: {
-				
+
 				// We can only report for the whole node, so resolve it first!
 				Node nodeFor = modelUtils.nodeFor(targetObject);
 				if (nodeFor != null) {
-					result = serverActions.callNodeReportingAction(
-							nodeFor, fromDate, toDate);
+					result = serverActions.callNodeReportingAction(nodeFor,
+							fromDate, toDate);
 
 				}
 			}
@@ -180,7 +178,7 @@ public class ReportWizard extends Wizard implements INewWizard {
 
 	private void finishPages() {
 		reportSelectionPeriod.finish();
-		
+
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {

@@ -35,7 +35,7 @@ import org.quartz.SchedulerException;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
@@ -49,8 +49,8 @@ import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
-import com.netxforge.netxstudio.server.IDPProvider;
-import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.JobHandler;
 import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
 
@@ -97,9 +97,9 @@ public class ServerImporterHelper implements IImporterHelper {
 		networkElementLocator.initialize();
 	}
 
-	public IDataProvider getDataProvider() {
+	public IData getDataProvider() {
 		// get it from the serverside
-		final IDataProvider dataProvider = MetricsActivator.getInstance()
+		final IData dataProvider = MetricsActivator.getInstance()
 				.getInjector().getInstance(LocalDataProviderProvider.class)
 				.getDataProvider();
 		// Set in the importer so we are called only once.
@@ -111,11 +111,11 @@ public class ServerImporterHelper implements IImporterHelper {
 
 		@Inject
 		@Server
-		private IDPProvider dpProvider;
+		private IServerDataProvider dpProvider;
 
-		private IDataProvider dataProvider;
+		private IData dataProvider;
 
-		public IDataProvider getDataProvider() {
+		public IData getDataProvider() {
 			if (dataProvider == null) {
 				dataProvider = dpProvider.get();
 			}

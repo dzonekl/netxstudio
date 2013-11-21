@@ -23,10 +23,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.server.IDPNoCacheProvider;
-import com.netxforge.netxstudio.server.IDPProvider;
-import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.ServerNoCache;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
+import com.netxforge.netxstudio.server.data.ServerNoCache;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringEngine;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService.ResourceMonitoringRunner;
 import com.netxforge.netxstudio.server.logic.monitoring.NodeMonitoringLogic;
@@ -41,11 +41,16 @@ import com.netxforge.netxstudio.server.logic.reporting.RFSServiceDistributionRep
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceSummaryReportingLogic;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceUserReportingLogic;
+import com.netxforge.netxstudio.server.logic.reporting.ReportingEngine;
 import com.netxforge.netxstudio.server.logic.retention.AddonHandler;
 import com.netxforge.netxstudio.server.logic.retention.AggregationEngine;
 import com.netxforge.netxstudio.server.logic.retention.AggregationLogic;
 import com.netxforge.netxstudio.server.logic.retention.RetentionEngine;
 import com.netxforge.netxstudio.server.logic.retention.RetentionLogic;
+import com.netxforge.netxstudio.server.reporting.IStreamProducer;
+import com.netxforge.netxstudio.server.reporting.OperatorEmittingLogic;
+import com.netxforge.netxstudio.server.reporting.ReportingJob;
+import com.netxforge.netxstudio.server.reporting.StreamProducer;
 
 public class LogicModule extends AbstractModule {
 
@@ -58,10 +63,18 @@ public class LogicModule extends AbstractModule {
 
 		this.bind(ResourceMonitoringRunner.class);
 
+		// Jobs
+
 		this.bind(RFSServiceMonitoringJobImplementation.class);
 		this.bind(OperatorReportingJobImplementation.class);
 		this.bind(RFSServiceReportingJobImplementation.class);
 		this.bind(NodeReportingJobImplementation.class);
+
+		// Jobs new
+
+		this.bind(ReportingJob.class);
+
+		// Logic Reporting
 
 		this.bind(RFSServiceMonitoringLogic.class);
 		this.bind(RFSServiceSummaryReportingLogic.class);
@@ -69,14 +82,27 @@ public class LogicModule extends AbstractModule {
 		this.bind(RFSServiceDistributionReportingLogic.class);
 		this.bind(RFSServiceUserReportingLogic.class);
 		this.bind(NodeResourceReportingLogic.class);
+
+		// Reporting new.
+
+		this.bind(IStreamProducer.class).to(StreamProducer.class);
+		this.bind(OperatorEmittingLogic.class);
+
+		// Logic Monitoring
+
 		this.bind(NodeMonitoringLogic.class);
+
+		// Logic Retention & Aggregation
 		this.bind(RetentionLogic.class);
 		this.bind(AggregationLogic.class);
+
+		// Engines
 
 		this.bind(MonitoringEngine.class);
 		this.bind(ProfileEngine.class);
 		this.bind(RetentionEngine.class);
 		this.bind(AggregationEngine.class);
+		this.bind(ReportingEngine.class);
 
 		this.bind(AddonHandler.class).in(Singleton.class);
 
@@ -88,12 +114,13 @@ public class LogicModule extends AbstractModule {
 				service(IQueryService.class).single());
 
 		// {@link ServerModule}
-		bind(IDPProvider.class).annotatedWith(Server.class).toProvider(
-				service(IDPProvider.class).single());
+		bind(IServerDataProvider.class).annotatedWith(Server.class).toProvider(
+				service(IServerDataProvider.class).single());
 
 		// {@link ServerModule}
-		bind(IDPNoCacheProvider.class).annotatedWith(ServerNoCache.class)
-				.toProvider(service(IDPNoCacheProvider.class).single());
+		bind(IServerNoCacheDataProvider.class).annotatedWith(
+				ServerNoCache.class).toProvider(
+				service(IServerNoCacheDataProvider.class).single());
 
 		// {@link ServerModule}
 		bind(IPropertiesProvider.class).toProvider(

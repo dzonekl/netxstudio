@@ -34,15 +34,15 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.IDPProvider;
-import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.internal.JobActivator;
 
 /**
@@ -74,12 +74,12 @@ public class NetxForgeJob implements org.quartz.Job {
 
 	@Inject
 	@Server
-	private IDPProvider dpProvider;
+	private IServerDataProvider dpProvider; 
 
 	@Inject
 	private IRunMonitor runMonitor;
 
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	@Inject
 	private ModelUtils modelUtils;

@@ -8,9 +8,9 @@
 package com.netxforge.netxstudio.server.logic.netxscript;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.server.IDPProvider;
-import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.data.IData;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.scoping.AbstractDynamixCDOResourceDescriptions;
 
 /**
@@ -34,12 +34,12 @@ public class DynamixServerCDOResourceDescriptions extends
 
 	@Inject
 	@Server
-	private IDPProvider dpProvider;
+	private IServerDataProvider dpProvider;
 	
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	@Override
-	public IDataProvider getDataProvider() {
+	public IData getDataProvider() {
 		if(dataProvider == null){
 			dataProvider = dpProvider.get();
 		}

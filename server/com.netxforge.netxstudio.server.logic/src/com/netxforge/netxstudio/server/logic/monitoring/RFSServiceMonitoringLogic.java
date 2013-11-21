@@ -96,7 +96,7 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 
 	public void setRfsService(CDOID cdoId) {
 		// read the rfsservice in the transaction of the run
-		this.rfsService = (RFSService) getDataProvider().getTransaction()
+		this.rfsService = (RFSService) getData().getTransaction()
 				.getObject(cdoId);
 	}
 

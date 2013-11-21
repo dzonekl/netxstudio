@@ -44,7 +44,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.generics.ActionType;
 import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -98,7 +98,7 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 		// skip server side committing.
 		if (commitInfo.getComment() != null
 				&& commitInfo.getComment().equals(
-						IDataProvider.SERVER_COMMIT_COMMENT)) {
+						IData.SERVER_COMMIT_COMMENT)) {
 			// do not log server side handling.
 			return;
 		}
@@ -177,7 +177,7 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 		}
 		try {
 			transaction
-					.setCommitComment(IDataProvider.COMMITINFO_COMMIT_COMMENT);
+					.setCommitComment(IData.COMMITINFO_COMMIT_COMMENT);
 			transaction.commit();
 			transaction.close();
 		} catch (final Exception e) {

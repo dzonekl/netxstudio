@@ -23,7 +23,7 @@ import static org.ops4j.peaberry.util.Attributes.objectClass;
 import static org.ops4j.peaberry.util.TypeLiterals.export;
 
 import com.netxforge.netxstudio.data.DataServiceModule;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
@@ -31,12 +31,12 @@ import com.netxforge.netxstudio.data.cdo.CDODataConnection;
 import com.netxforge.netxstudio.data.cdo.CDODataService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
-import com.netxforge.netxstudio.data.cdo.ClientCDODPProvider;
 import com.netxforge.netxstudio.data.cdo.ClientCDODataProvider;
+import com.netxforge.netxstudio.data.cdo.ClientCDOData;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
-import com.netxforge.netxstudio.data.cdo.IClientDPProvider;
-import com.netxforge.netxstudio.data.cdo.INonStaticDPProvider;
-import com.netxforge.netxstudio.data.cdo.NonStaticCDODPProvider;
+import com.netxforge.netxstudio.data.cdo.IClientDataProvider;
+import com.netxforge.netxstudio.data.cdo.INonStaticDataProvider;
+import com.netxforge.netxstudio.data.cdo.NonStaticCDODataProvider;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -61,7 +61,7 @@ public class DataModule extends DataServiceModule {
 
 		this.bind(IQueryService.class).to(CDOQueryService.class);
 
-		this.bind(IDataProvider.class).to(ClientCDODataProvider.class);
+		this.bind(IData.class).to(ClientCDOData.class);
 
 		// ///////////////////////////////
 		// EXPORT SERVICES
@@ -72,11 +72,11 @@ public class DataModule extends DataServiceModule {
 				service(ServerRequest.class).attributes(
 						objectClass(ServerRequest.class)).export());
 
-		bind(export(IClientDPProvider.class)).toProvider(
-				service(ClientCDODPProvider.class).export());
+		bind(export(IClientDataProvider.class)).toProvider(
+				service(ClientCDODataProvider.class).export());
 
-		bind(export(INonStaticDPProvider.class)).toProvider(
-				service(NonStaticCDODPProvider.class).export());
+		bind(export(INonStaticDataProvider.class)).toProvider(
+				service(NonStaticCDODataProvider.class).export());
 
 		bind(export(IQueryService.class)).toProvider(
 				service(CDOQueryService.class).export());

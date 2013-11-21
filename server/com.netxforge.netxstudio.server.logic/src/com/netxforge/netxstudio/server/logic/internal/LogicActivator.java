@@ -46,10 +46,10 @@ import com.netxforge.netxstudio.server.logic.monitoring.RFSServiceMonitoringJobI
 import com.netxforge.netxstudio.server.logic.netxscript.NetxscriptServerModule;
 import com.netxforge.netxstudio.server.logic.reporting.NodeReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.OperatorReportingJobImplementation;
-import com.netxforge.netxstudio.server.logic.reporting.RFSServiceReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.ReportingService;
 import com.netxforge.netxstudio.server.logic.retention.RetentionJobImplementation;
 import com.netxforge.netxstudio.server.logic.retention.RetentionService;
+import com.netxforge.netxstudio.server.reporting.ReportingJob;
 
 public class LogicActivator implements BundleActivator, DebugOptionsListener {
 
@@ -120,8 +120,11 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 				new JobImplementationFactory() {
 					@Override
 					public JobImplementation create() {
+						
+						
+						// TESTING. 
 						return injector
-								.getInstance(RFSServiceReportingJobImplementation.class);
+								.getInstance(ReportingJob.class);
 					}
 				});
 

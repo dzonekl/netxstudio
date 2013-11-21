@@ -419,21 +419,19 @@ public class ServicesTree extends AbstractScreen implements
 		IObservableList servicesObservableList = projects
 				.observe(operatorsResource);
 		serviceTreeViewer.setInput(servicesObservableList);
-		
-		
+
 		// Monitoring Observable.
 		monitoringAggregate = new MonitoringAggregate(monitoringStateModel);
-		
+
 		IViewerObservableValue observeSelection = ViewersObservables
 				.observeSingleSelection(serviceTreeViewer);
 		observeSelection.addValueChangeListener(monitoringAggregate);
-		
-		
+
 		return bindingContext;
 	}
+
 	/**
-	 * Maintains monitoring selection.
-	 * Note: We don't have a period selector. 
+	 * Maintains monitoring selection. Note: We don't have a period selector.
 	 */
 	final class MonitoringAggregate extends AbstractMonitoringProcessor {
 
@@ -456,21 +454,20 @@ public class ServicesTree extends AbstractScreen implements
 				IViewerObservableValue ivov = (IViewerObservableValue) observable;
 				lastSelection = (EObject) ivov.getValue();
 				if (ivov.getViewer() == serviceTreeViewer) {
-					if(currentService != null){
+					if (currentService != null) {
 						cleanResourceMon(currentService);
 					}
 					currentService = processServiceChange(observableValue);
 					updateResourceMon(currentService);
-				} 
+				}
 			} else if (observable instanceof WritableValue) {
 				processPeriodChange(observable);
 				updateResourceMon(lastSelection);
 			}
 		}
 
-
 		protected void updateValues(EObject target) {
-			// DO NOTHING, this screen doesn't show monitoring stuff. 
+			// DO NOTHING, this screen doesn't show monitoring stuff.
 		}
 
 		private Service processServiceChange(IObservableValue ob) {
@@ -485,17 +482,17 @@ public class ServicesTree extends AbstractScreen implements
 		private void processPeriodChange(IObservable observable) {
 			@SuppressWarnings("unused")
 			Object value = ((WritableValue) observable).getValue();
-			
-			// CB Copied from smart resources, we don't have a period selector 
-			// for this screen. 
-//			if (observable == periodBeginWritableValue) {
-//				currentPeriod.setBegin((XMLGregorianCalendar) value);
-//			} else if (observable == periodEndWritableValue) {
-//				currentPeriod.setEnd((XMLGregorianCalendar) value);
-//			}
+
+			// CB Copied from smart resources, we don't have a period selector
+			// for this screen.
+			// if (observable == periodBeginWritableValue) {
+			// currentPeriod.setBegin((XMLGregorianCalendar) value);
+			// } else if (observable == periodEndWritableValue) {
+			// currentPeriod.setEnd((XMLGregorianCalendar) value);
+			// }
 		}
 	}
-	
+
 	class RFSServiceTreeStructureAdvisorImpl extends TreeStructureAdvisor {
 		@Override
 		public Object getParent(Object element) {
@@ -734,6 +731,7 @@ public class ServicesTree extends AbstractScreen implements
 			ScheduledReportSelectionWizard wizard = new ScheduledReportSelectionWizard();
 			wizard.init(PlatformUI.getWorkbench(),
 					(IStructuredSelection) selection);
+			wizard.setEditingService(editingService);
 
 			WizardDialog dialog = new WizardDialog(
 					ServicesTree.this.getShell(), wizard);

@@ -123,6 +123,7 @@ public class BaseTest extends TestCase {
 		Net4jUtil.prepareContainer(container); // Register Net4j factories
 		TCPUtil.prepareContainer(container); // Register TCP factories
 		CDONet4jUtil.prepareContainer(container); // Register CDO factories
+		
 		// LifecycleUtil.activate(container);
 		container.activate();
 		

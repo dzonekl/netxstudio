@@ -29,12 +29,12 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
@@ -66,7 +66,7 @@ public class RetentionService implements NetxForgeService {
 	public static class RetentionServiceRunner {
 		@Inject
 		@Server
-		private IDataProvider dataProvider;
+		private IData dataProvider;
 
 		private Map<String, String> parameters;
 

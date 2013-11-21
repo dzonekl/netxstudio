@@ -22,11 +22,11 @@ import static org.ops4j.peaberry.Peaberry.service;
 import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
-import com.netxforge.netxstudio.server.IDPNoCacheProvider;
-import com.netxforge.netxstudio.server.IDPProvider;
 import com.netxforge.netxstudio.server.IServerUtils;
-import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.ServerNoCache;
+import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
+import com.netxforge.netxstudio.server.data.ServerNoCache;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 
 /**
@@ -49,12 +49,12 @@ public class JobModule extends AbstractModule {
 		// IMPORT SERVICES
 
 		// {@link ServerModule}
-		bind(IDPProvider.class).annotatedWith(Server.class).toProvider(
-				service(IDPProvider.class).single());
+		bind(IServerDataProvider.class).annotatedWith(Server.class).toProvider(
+				service(IServerDataProvider.class).single());
 
 		// {@link ServerModule}
-		bind(IDPNoCacheProvider.class).annotatedWith(ServerNoCache.class)
-				.toProvider(service(IDPNoCacheProvider.class).single());
+		bind(IServerNoCacheDataProvider.class).annotatedWith(ServerNoCache.class)
+				.toProvider(service(IServerNoCacheDataProvider.class).single());
 
 		// {@link ServerModule}
 		bind(IServerUtils.class).toProvider(

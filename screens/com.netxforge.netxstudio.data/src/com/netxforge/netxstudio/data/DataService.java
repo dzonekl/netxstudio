@@ -35,19 +35,19 @@ import com.netxforge.netxstudio.generics.Role;
  */
 public class DataService implements IDataService {
 
-	private final IDataProvider provider;
+	private final IData provider;
 	private final IQueryService queryService;
 	private ModelUtils modelUtils;
 
 	@Inject
-	public DataService(IDataProvider provider, IQueryService queryService,
+	public DataService(IData provider, IQueryService queryService,
 			ModelUtils modelUtils) {
 		this.provider = provider;
 		this.queryService = queryService;
 		this.modelUtils = modelUtils;
 	}
 
-	public IDataProvider getProvider() {
+	public IData getProvider() {
 		return provider;
 	}
 

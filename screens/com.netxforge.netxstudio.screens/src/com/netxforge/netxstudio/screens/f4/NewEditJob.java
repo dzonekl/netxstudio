@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) Oct 31, 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
@@ -859,7 +876,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			if (event.getObservable() instanceof ISWTObservableValue) {
 				Control control = (Control) ((ISWTObservableValue) event
 						.getObservable()).getWidget();
-				System.out.println(control);
+//				System.out.println(control);
 				if (control.equals(btnOn)) {
 					// read the end date value
 					endDate = dateChooserEndsOn.getValue();
@@ -945,7 +962,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			// Calculate the new writablevalues.
 
 			if (startDate != null) {
-				System.out.println(startDate);
+//				System.out.println(startDate);
 				startTimeObservable.setValue(startDate);
 			}
 

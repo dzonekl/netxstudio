@@ -15,11 +15,26 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.server;
+package com.netxforge.netxstudio.server.data;
 
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 
-public interface IDPProvider {
-	public IDataProvider get();
-	
+public class ServerNoCacheCDODataProvider implements Provider<ServerCDOData>, IServerNoCacheDataProvider {
+
+	private ICDOConnection connection;
+
+	@Inject
+	public ServerNoCacheCDODataProvider(@ServerNoCache ICDOConnection connection) {
+		this.connection = connection;
+	}
+
+	public ServerCDOData get() {
+
+		ServerCDOData serverCDODataProvider = new ServerNoCacheCDOData(
+				connection);
+		return serverCDODataProvider;
+	}
+
 }

@@ -22,7 +22,7 @@ import static org.ops4j.peaberry.Peaberry.service;
 import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.cdo.IClientDPProvider;
+import com.netxforge.netxstudio.data.cdo.IClientDataProvider;
 
 public class ScriptUIImportModule extends AbstractModule {
 
@@ -35,8 +35,8 @@ public class ScriptUIImportModule extends AbstractModule {
 
 		bind(ModelUtils.class).toProvider(service(ModelUtils.class).single());
 
-		bind(IClientDPProvider.class).toProvider(
-				service(IClientDPProvider.class).single());
+		bind(IClientDataProvider.class).toProvider(
+				service(IClientDataProvider.class).single());
 
 		bind(IQueryService.class).toProvider(
 				service(IQueryService.class).single());

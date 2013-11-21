@@ -28,7 +28,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.index.ComponentMappingIndex;
 import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
 import com.netxforge.netxstudio.library.Component;
@@ -50,7 +50,7 @@ public class IndexComponentLocator extends JobChangeAdapter implements
 	@Inject
 	private ModelUtils modelUtils;
 
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	private boolean initialized = false;
 
@@ -121,7 +121,7 @@ public class IndexComponentLocator extends JobChangeAdapter implements
 		return null;
 	}
 
-	public void setDataProvider(IDataProvider provider) {
+	public void setDataProvider(IData provider) {
 		this.dataProvider = provider;
 	}
 

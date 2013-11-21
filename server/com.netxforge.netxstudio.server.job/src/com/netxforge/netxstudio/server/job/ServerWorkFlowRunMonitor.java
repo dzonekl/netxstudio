@@ -28,14 +28,14 @@ import org.eclipse.emf.cdo.session.CDOSession;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.job.WorkFlowRunMonitor;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.IDPProvider;
-import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.internal.JobActivator;
 
 /**
@@ -50,7 +50,7 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 
 	private CDOID workFlowRunId;
 
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	@Inject
 	private ModelUtils modelUtils;
@@ -61,7 +61,7 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 	private WorkFlowRun wfRun;
 
 	@Inject
-	public ServerWorkFlowRunMonitor(@Server IDPProvider dpProvider) {
+	public ServerWorkFlowRunMonitor(@Server IServerDataProvider dpProvider) {
 		// Each monitor has it's own provider, so we keep the session. 
 		dataProvider = dpProvider.get();
 	}

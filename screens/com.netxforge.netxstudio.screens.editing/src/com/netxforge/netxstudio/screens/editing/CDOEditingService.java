@@ -53,7 +53,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
@@ -511,7 +511,7 @@ public class CDOEditingService extends EMFEditingService implements
 			monitor.subTask(subMsg);
 
 		}
-		transaction.setCommitComment(IDataProvider.CLIENT_COMMIT_COMMENT);
+		transaction.setCommitComment(IData.CLIENT_COMMIT_COMMENT);
 		transaction.commit();
 
 	}

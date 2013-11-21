@@ -15,38 +15,24 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/
-package com.netxforge.netxstudio.server;
+ *******************************************************************************/ 
+package com.netxforge.netxstudio.server.data;
 
-import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.cdo.ICDOConnection;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import com.google.inject.BindingAnnotation;
 
 /**
- * Uses a jvm connection to connect to the repository. It delegates to
- * {@link IServerUtils }
+ * Binding Annotation to flag that a specific server implementation
+ * is required.
  * 
  * @author Martin Taal
- * @author Christophe Bouhier
  */
-public class ServerCDOConnection implements ICDOConnection {
-
-	private IServerUtils serverUtils;
-
-	@Inject
-	public ServerCDOConnection(IServerUtils serverUtils) {
-		this.serverUtils = serverUtils;
-	}
-
-	public void initialize() {
-	}
-
-	public void initialize(String server) {
-	}
-
-	public CDONet4jSessionConfiguration getConfig() {
-		return serverUtils.createSessionConfiguration();
-	}
-
-}
+@BindingAnnotation @Target({ FIELD, PARAMETER, METHOD }) @Retention(RUNTIME)
+public @interface Server {}

@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
@@ -381,11 +381,11 @@ public interface IComponentLocator {
 	public IComponentLocator.IdentifierDescriptor getLastMatchingIdentifier();
 
 	/**
-	 * Set the {@link IDataProvider} for the Locator to access data.
+	 * Set the {@link IData} for the Locator to access data.
 	 * 
 	 * @param provider
 	 */
-	public void setDataProvider(IDataProvider provider);
+	public void setDataProvider(IData provider);
 
 	/**
 	 * Allow the locator to prepare itself.
