@@ -17,6 +17,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.preferences;
 
+import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -24,18 +25,18 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
- * Chars preferences.
+ * Chars preferences. TODO, define preference fields.
  * 
  * @see ScreenConstants
  * 
  */
-public class ChartsPreferencePage extends FieldEditorPreferencePage
+public class ChartGeneralPreferencePage extends FieldEditorPreferencePage
 		implements IWorkbenchPreferencePage {
 
-	public ChartsPreferencePage() {
+	public ChartGeneralPreferencePage() {
 		super(GRID);
 		setPreferenceStore(ScreensActivator.getInstance().getPreferenceStore());
-		setDescription("Charts preferences");
+		setDescription("Chart Settings");
 	}
 
 	/**
@@ -44,6 +45,11 @@ public class ChartsPreferencePage extends FieldEditorPreferencePage
 	 * editor knows how to save and restore itself.
 	 */
 	public void createFieldEditors() {
+
+		addField(new ColorFieldEditor("&Chart Background",
+				ScreenConstants.PREFERENCE_CHART_BACKGROUND,
+				getFieldEditorParent()));
+
 	}
 
 	/*
@@ -54,4 +60,32 @@ public class ChartsPreferencePage extends FieldEditorPreferencePage
 	 */
 	public void init(IWorkbench workbench) {
 	}
+
+	public void apply() {
+		// Color color = new Color(Display.getDefault(),
+		// backgroundInPlotAreaButton.getColorValue());
+		// chart.setBackgroundInPlotArea(color);
+		//
+		//
+		// color = new Color(Display.getDefault(), backgroundButton
+		// .getColorValue());
+		// chart.setBackground(color);
+		//
+		// chart.setOrientation(orientationButton.getSelection() ? SWT.VERTICAL
+		// : SWT.HORIZONTAL);
+		//
+		// ITitle title = chart.getTitle();
+		// title.setVisible(showTitleButton.getSelection());
+		// title.setText(titleText.getText());
+		//
+		// FontData fontData = title.getFont().getFontData()[0];
+		// fontData.setHeight(fontSizeSpinner.getSelection());
+		// Font font = new Font(Display.getDefault(), fontData);
+		// title.setFont(font);
+		//
+		// color = new Color(Display.getDefault(), titleColorButton
+		// .getColorValue());
+		// title.setForeground(color);
+	}
+
 }

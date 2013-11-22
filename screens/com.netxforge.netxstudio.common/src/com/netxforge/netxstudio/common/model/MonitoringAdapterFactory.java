@@ -67,6 +67,7 @@ public class MonitoringAdapterFactory extends CDOAdapterFactoryImpl {
 
 	@Override
 	public Object adapt(Object object, Object type) {
+		
 		if (isFactoryForType(type)) {
 			Object adapter = super.adapt(object, type);
 			if (!(type instanceof Class<?>)

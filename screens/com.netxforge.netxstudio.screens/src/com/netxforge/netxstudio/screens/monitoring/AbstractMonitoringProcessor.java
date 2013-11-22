@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.editing.util;
+package com.netxforge.netxstudio.screens.monitoring;
 
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.emf.ecore.EObject;
@@ -30,6 +30,10 @@ import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.screens.editing.util.IValidationListener;
+import com.netxforge.netxstudio.screens.editing.util.ValidationEvent;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.netxstudio.screens.preferences.ScreenConstants;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 
@@ -45,7 +49,7 @@ import com.netxforge.netxstudio.services.Service;
  */
 public abstract class AbstractMonitoringProcessor implements
 		IValueChangeListener {
-	
+
 	private MonitoringStateModel monitoringStateModel;
 
 	public AbstractMonitoringProcessor(MonitoringStateModel monitoringStateModel) {
@@ -118,7 +122,7 @@ public abstract class AbstractMonitoringProcessor implements
 
 		// The context not being set, has only implications on the
 		// the computation of the summary...
-		if (monitoredObject != null) {
+		if (monitoredObject != null && isActive()) {
 			// Do the summary, we might still be loading objects...
 			monitoringStateModel
 					.summary(new WritableCallBack(monitoredObject),
@@ -131,5 +135,16 @@ public abstract class AbstractMonitoringProcessor implements
 	}
 
 	protected abstract void updateValues(EObject target);
+
+	/**
+	 * When the preference {@link ScreenConstants#PREFERENCE_DYN_MONITORING} is
+	 * set, we will be active.
+	 * 
+	 * @return
+	 */
+	private boolean isActive() {
+		return ScreensActivator.getInstance().getPreferenceStore()
+				.getBoolean(ScreenConstants.PREFERENCE_DYN_MONITORING);
+	}
 
 }

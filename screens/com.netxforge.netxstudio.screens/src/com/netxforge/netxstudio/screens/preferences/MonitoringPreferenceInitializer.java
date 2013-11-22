@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 21 dec. 2012 NetXForge.
+ * Copyright (c) 21 nov. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -17,41 +17,31 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.preferences;
 
-import org.eclipse.jface.preference.FieldEditorPreferencePage;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
- * Chars preferences.
- * 
- * @see ScreenConstants
- * 
+ * Class used to initialize default preference values.
  */
-public class ChartsPreferencePage extends FieldEditorPreferencePage
-		implements IWorkbenchPreferencePage {
-
-	public ChartsPreferencePage() {
-		super(GRID);
-		setPreferenceStore(ScreensActivator.getInstance().getPreferenceStore());
-		setDescription("Charts preferences");
-	}
-
-	/**
-	 * Creates the field editors. Field editors are abstractions of the common
-	 * GUI blocks needed to manipulate various types of preferences. Each field
-	 * editor knows how to save and restore itself.
-	 */
-	public void createFieldEditors() {
-	}
+public class MonitoringPreferenceInitializer extends
+		AbstractPreferenceInitializer {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 * @see org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer#
+	 * initializeDefaultPreferences()
 	 */
-	public void init(IWorkbench workbench) {
+	public void initializeDefaultPreferences() {
+
+		IPreferenceStore store = this.getPreferenceStore();
+		store.setDefault(ScreenConstants.PREFERENCE_DYN_MONITORING, false);
 	}
+
+	private IPreferenceStore getPreferenceStore() {
+		return ScreensActivator.getInstance().getPreferenceStore();
+	}
+
 }

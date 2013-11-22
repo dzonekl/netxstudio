@@ -106,20 +106,29 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="com.netxforge.netxstudio.screens.preferences.ChartsPreferencePage"
-            id="com.netxforge.netxstudio.screens.preferences.ChartsPreferencePage"
-            name="Charts">
+            category="com.netxforge.netxstudio.screens.charts"
+            class="com.netxforge.netxstudio.screens.preferences.ChartLinesPreferencePage"
+            id="com.netxforge.netxstudio.screens.preferences.lines"
+            name="Chart Monitoring">
       </page>
       <page
-            class="org.swtchart.ext.internal.properties.ChartPage"
-            id="com.netxforge.netxstudio.screens.page1"
-            name="Interactive">
+            class="com.netxforge.netxstudio.screens.preferences.ChartGeneralPreferencePage"
+            id="com.netxforge.netxstudio.screens.charts"
+            name="Chart">
+      </page>
+      <page
+            class="com.netxforge.netxstudio.screens.preferences.MonitoringPreferencePage"
+            id="com.netxforge.netxstudio.screens.preferences.monitoring"
+            name="Monitoring">
       </page>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
             class="com.netxforge.netxstudio.screens.preferences.ChartPreferenceInitializer">
+      </initializer>
+      <initializer
+            class="com.netxforge.netxstudio.screens.preferences.MonitoringPreferenceInitializer">
       </initializer>
    </extension>
 </plugin>

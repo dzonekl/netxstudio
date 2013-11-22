@@ -95,13 +95,14 @@ import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
-import com.netxforge.netxstudio.screens.editing.util.AbstractMonitoringProcessor;
+import com.netxforge.netxstudio.screens.editing.filter.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.f1.details.NewEditServiceTree;
 import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeFactoryImpl;
 import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeLabelProvider;
 import com.netxforge.netxstudio.screens.f1.support.ScheduledReportSelectionWizard;
 import com.netxforge.netxstudio.screens.f4.NewEditJob;
 import com.netxforge.netxstudio.screens.f4.ServiceMonitors;
+import com.netxforge.netxstudio.screens.monitoring.AbstractMonitoringProcessor;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServicesFactory;
@@ -210,8 +211,8 @@ public class ServicesTree extends AbstractScreen implements
 				serviceTreeViewer.refresh();
 				ViewerFilter[] filters = serviceTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof TreeSearchFilter) {
+						((TreeSearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -294,7 +295,9 @@ public class ServicesTree extends AbstractScreen implements
 		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 2));
 		tree.setSize(74, 81);
 		toolkit.paintBordersFor(tree);
-
+		
+		serviceTreeViewer.addFilter(new TreeSearchFilter(this.getEditingService()));
+		
 		cmpDetails = toolkit.createComposite(sashForm, SWT.NONE);
 		toolkit.paintBordersFor(cmpDetails);
 		cmpDetails.setLayout(new FillLayout());

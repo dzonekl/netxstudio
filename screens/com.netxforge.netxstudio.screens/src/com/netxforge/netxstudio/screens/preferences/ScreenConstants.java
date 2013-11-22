@@ -43,4 +43,10 @@ public class ScreenConstants {
 	/** Show or hide the Utilization series */
 	public static final String PREFERENCE_MARKER_COLOR = "markerColorPreference";
 
+	/** Turn on dynamic monitoring */
+	public static final String PREFERENCE_DYN_MONITORING = "dynamicMonitoringPreference";
+
+	/** The color of the background of the chart */
+	public static final String PREFERENCE_CHART_BACKGROUND = "chartBackgroundPreference";
+
 }

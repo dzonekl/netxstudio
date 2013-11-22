@@ -41,7 +41,7 @@ import org.junit.Before;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
@@ -69,11 +69,11 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit4 {
 
 	@Inject
 	@NonStatic
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	@Inject
 	@NonStatic
-	private IDataProvider anotherDataProvider;
+	private IData anotherDataProvider;
 
 	@Inject
 	private ModelUtils modelUtils;

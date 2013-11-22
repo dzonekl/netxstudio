@@ -17,6 +17,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.preferences;
 
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -29,13 +30,13 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  * @see ScreenConstants
  * 
  */
-public class ChartsPreferencePage extends FieldEditorPreferencePage
+public class MonitoringPreferencePage extends FieldEditorPreferencePage
 		implements IWorkbenchPreferencePage {
 
-	public ChartsPreferencePage() {
+	public MonitoringPreferencePage() {
 		super(GRID);
 		setPreferenceStore(ScreensActivator.getInstance().getPreferenceStore());
-		setDescription("Charts preferences");
+		setDescription("Monitoring preferences");
 	}
 
 	/**
@@ -44,6 +45,12 @@ public class ChartsPreferencePage extends FieldEditorPreferencePage
 	 * editor knows how to save and restore itself.
 	 */
 	public void createFieldEditors() {
+
+		/* Legend on/off */
+		addField(new BooleanFieldEditor(
+				ScreenConstants.PREFERENCE_DYN_MONITORING,
+				"&Dynamic Monitoring", getFieldEditorParent()));
+
 	}
 
 	/*

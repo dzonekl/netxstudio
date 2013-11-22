@@ -50,7 +50,7 @@ import com.netxforge.netxstudio.common.model.NetxresourceSummary;
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.common.model.OperatorSummary;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.Value;
@@ -89,7 +89,7 @@ import com.netxforge.tests.AbstractInjectedTestJUnit4;
 public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 
 	@Inject
-	private IDataProvider provider;
+	private IData provider;
 
 	@Inject
 	private ModelUtils modelUtils;

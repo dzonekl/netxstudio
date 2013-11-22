@@ -5,20 +5,17 @@ import junit.framework.Assert;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
-import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.index.ComponentMappingIndex;
 import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.LibraryFactory;
-import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -42,7 +39,7 @@ public class ComponentIndexTest extends AbstractInjectedTestJUnit4 {
 	private ModelUtils modelUtils;
 
 	@Inject
-	private IDataProvider provider;
+	private IData provider;
 
 	// TEST NETWORK, Freely create, change etc.. nodes, functions etc..
 	private static String TESTNETWORK_OID = "2636154";

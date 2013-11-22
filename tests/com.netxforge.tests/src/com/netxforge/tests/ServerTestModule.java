@@ -21,7 +21,6 @@ package com.netxforge.tests;
 import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
@@ -30,14 +29,16 @@ import com.netxforge.netxstudio.data.importer.IndexComponentLocator;
 import com.netxforge.netxstudio.data.index.ComponentMappingIndex;
 import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
 import com.netxforge.netxstudio.server.IServerUtils;
-import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.ServerCDOConnection;
-import com.netxforge.netxstudio.server.ServerCDODataProvider;
-import com.netxforge.netxstudio.server.ServerNoCache;
-import com.netxforge.netxstudio.server.ServerNoCacheCDOConnection;
-import com.netxforge.netxstudio.server.ServerNoCacheCDODataProvider;
 import com.netxforge.netxstudio.server.ServerProperties;
 import com.netxforge.netxstudio.server.ServerUtils;
+import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
+import com.netxforge.netxstudio.server.data.Server;
+import com.netxforge.netxstudio.server.data.ServerCDOConnection;
+import com.netxforge.netxstudio.server.data.ServerCDODataProvider;
+import com.netxforge.netxstudio.server.data.ServerNoCache;
+import com.netxforge.netxstudio.server.data.ServerNoCacheCDOConnection;
+import com.netxforge.netxstudio.server.data.ServerNoCacheCDODataProvider;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -54,7 +55,7 @@ public class ServerTestModule extends AbstractModule {
 				.to(ServerCDOConnection.class);
 
 		// Bind the server standard CDO Provider
-		bind(IDataProvider.class).annotatedWith(Server.class).to(
+		bind(IServerDataProvider.class).annotatedWith(Server.class).to(
 				ServerCDODataProvider.class);
 
 		// Bind the server no-caching CDO Connection
@@ -62,8 +63,8 @@ public class ServerTestModule extends AbstractModule {
 				.to(ServerNoCacheCDOConnection.class);
 
 		// Bind the server standard CDO Provider
-		bind(IDataProvider.class).annotatedWith(ServerNoCache.class).to(
-				ServerNoCacheCDODataProvider.class);
+		bind(IServerNoCacheDataProvider.class).annotatedWith(
+				ServerNoCache.class).to(ServerNoCacheCDODataProvider.class);
 
 		bind(IServerUtils.class).to(ServerUtils.class);
 
