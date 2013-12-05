@@ -75,8 +75,8 @@ public class CompositeSummary implements IMonitoringSummary {
 
 	}
 
-	public void clearContextObject() {
-		contextProvider.clearContextObject();
+	public void clearContextObjects() {
+		contextProvider.clearContextObjects();
 
 	}
 

@@ -3,13 +3,35 @@
 
 com.netxforge.netxscript/debug=false
 com.netxforge.netxstudio.data/debug=false
-com.netxforge.nextstudio.common/debug=false
+com.netxforge.nextstudio.common/debug=true
 com.netxforge.netxstudio.screens/debug=false
 com.netxforge.netxstudio.screens.xtext/debug=false
 com.netxforge.netxstudio.screens.editing/debug=false
-com.netxforge.netxstudio.models.export/debug=true
-com.netxforge.netxstudio.models.import/debug=true
-com.netxforge.netxstudio.models.import.ui/debug=true
+com.netxforge.netxstudio.models.export/debug=false
+com.netxforge.netxstudio.models.import/debug=false
+com.netxforge.netxstudio.models.import.ui/debug=false
+
+# Data facilities
+com.netxforge.netxstudio.data/trace.data=true
+com.netxforge.netxstudio.data/trace.data.details=true
+
+# Data import options. (As the importers are in the .data plugin, options as well). 
+com.netxforge.netxstudio.data/trace.import=true
+com.netxforge.netxstudio.data/trace.import.details=true
+com.netxforge.netxstudio.data/trace.import.locator=true
+com.netxforge.netxstudio.data/trace.import.helper=true
+
+#Data result processing options
+com.netxforge.netxstudio.data/trace.result.value=true
+com.netxforge.netxstudio.data/trace.result.expression=true
+com.netxforge.netxstudio.data/trace.result.tolerance=true
+
+
+# Common trace options
+com.netxforge.netxstudio.common/trace.utils=true
+com.netxforge.netxstudio.common/trace.common.properties=true
+com.netxforge.netxstudio.common/trace.common.monitoring=true
+com.netxforge.netxstudio.common/trace.common.chart=true
 
 # Model Export / Import options. 
 com.netxforge.netxstudio.models.export/trace.manual.export=true
@@ -35,20 +57,7 @@ com.netxforge.netxstudio.screens.editing/trace.editing=true
 com.netxforge.netxstudio.screens.editing/trace.editing.details=true
 com.netxforge.netxstudio.screens.editing/trace.editing.loading=true;
 
-# Data facilities
-com.netxforge.netxstudio.data/trace.data=true
-com.netxforge.netxstudio.data/trace.data.details=true
 
-# Data import options. (As the importers are in the .data plugin, options as well). 
-com.netxforge.netxstudio.data/trace.import=true
-com.netxforge.netxstudio.data/trace.import.details=true
-com.netxforge.netxstudio.data/trace.import.locator=true
-com.netxforge.netxstudio.data/trace.import.helper=true
-
-#Data result processing options
-com.netxforge.netxstudio.data/trace.result.value=true
-com.netxforge.netxstudio.data/trace.result.expression=true
-com.netxforge.netxstudio.data/trace.result.tolerance=true
 
 #CDO Tracing Options. 
 org.eclipse.emf.cdo/debug = true

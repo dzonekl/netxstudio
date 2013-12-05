@@ -94,6 +94,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.ServerSettings;
+import com.netxforge.netxstudio.common.Tuple;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -2334,7 +2335,28 @@ public class ModelUtils {
 
 		}
 		return monitor;
+	}
 
+	public List<Component> componentsForMonitors(Service service, Node node) {
+
+		// Sort by begin date and reverse the Service Monitors.
+		List<ServiceMonitor> serviceMonitors = Ordering
+				.from(this.serviceMonitorCompare()).reverse()
+				.sortedCopy(service.getServiceMonitors());
+
+		List<Component> collectedComponents = Lists.newArrayList();
+		for (ServiceMonitor sm : serviceMonitors) {
+			for (ResourceMonitor rm : sm.getResourceMonitors()) {
+				if (rm.getNodeRef().getNodeID().equals(node.getNodeID())) {
+					Component componentRef = rm.getResourceRef()
+							.getComponentRef();
+					if (!collectedComponents.contains(componentRef)) {
+						collectedComponents.add(componentRef);
+					}
+				}
+			}
+		}
+		return collectedComponents;
 	}
 
 	/**
@@ -3853,6 +3875,41 @@ public class ModelUtils {
 		cal.set(Calendar.MINUTE, 00);
 		cal.set(Calendar.SECOND, 00);
 		cal.set(Calendar.MILLISECOND, 000);
+	}
+
+	public Tuple interval(int interval) {
+
+		String label = "";
+		String primaryDatePattern = "";
+
+		switch (interval) {
+		case ModelUtils.MINUTES_IN_AN_HOUR: {
+			primaryDatePattern = "dd-MMM HH:mm";
+			label = "HOUR";
+		}
+			break;
+		case ModelUtils.MINUTES_IN_A_DAY: {
+			primaryDatePattern = "dd-MMM";
+			label = "DAY";
+
+		}
+			break;
+		case ModelUtils.MINUTES_IN_A_WEEK: {
+			primaryDatePattern = "ww";
+			label = "WEEK";
+		}
+			break;
+		case ModelUtils.MINUTES_IN_A_MONTH: {
+			primaryDatePattern = "MMMMM";
+			label = "MONTH";
+		}
+			break;
+		default: {
+			primaryDatePattern = "dd-MMM HH:mm";
+			label = fromMinutes(interval);
+		}
+		}
+		return new Tuple(label, primaryDatePattern);
 	}
 
 	public int inSeconds(String field) {

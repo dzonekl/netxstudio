@@ -8,7 +8,7 @@ public interface IComputationContextProvider {
 
 	public abstract void addContextObjects(IComputationContext... objects);
 
-	public abstract void clearContextObject();
+	public abstract void clearContextObjects();
 
 	public abstract IComputationContext[] getContextObjects();
 

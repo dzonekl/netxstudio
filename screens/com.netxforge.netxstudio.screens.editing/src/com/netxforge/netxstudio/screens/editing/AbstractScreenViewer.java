@@ -248,9 +248,6 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 			case DEACTIVATE:
 				// TODO We could be de-activated, but still have focus.
 				screenViewPart.removeSelectionChangedListener(this);
-				// System.out.println("Remove: "
-				// + this.getScreen().getScreenName() + " listen to part:"
-				// + part + " ");
 				break;
 			case OPENEND:
 				break;

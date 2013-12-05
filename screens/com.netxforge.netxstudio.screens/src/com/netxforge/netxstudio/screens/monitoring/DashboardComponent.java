@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -36,7 +37,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.progress.UIJob;
-import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
@@ -172,7 +172,8 @@ public class DashboardComponent extends JobChangeAdapter {
 		new Label(content, SWT.NONE);
 
 		final Composite cmpRed = formToolkit.createComposite(content, SWT.NONE);
-		cmpRed.setBackground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		cmpRed.setBackground(JFaceResources.getColorRegistry().get(
+				ScreenUtil.RED_MARKER));
 		GridData gd_cmpRed = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
 		gd_cmpRed.heightHint = 18;
@@ -182,7 +183,8 @@ public class DashboardComponent extends JobChangeAdapter {
 
 		final Composite cmpAmber = formToolkit.createComposite(content,
 				SWT.NONE);
-		cmpAmber.setBackground(SWTResourceManager.getColor(255, 140, 0));
+		cmpAmber.setBackground(JFaceResources.getColorRegistry().get(
+				ScreenUtil.AMBER_MARKER));
 		GridData gd_cmpAmber = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
 		gd_cmpAmber.widthHint = 18;
@@ -192,7 +194,8 @@ public class DashboardComponent extends JobChangeAdapter {
 
 		final Composite cmpGreen = formToolkit.createComposite(content,
 				SWT.NONE);
-		cmpGreen.setBackground(SWTResourceManager.getColor(173, 255, 47));
+		cmpGreen.setBackground(JFaceResources.getColorRegistry().get(
+				ScreenUtil.GREEN_MARKER));
 		GridData gd_cmpGreen = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
 		gd_cmpGreen.widthHint = 18;
@@ -259,8 +262,8 @@ public class DashboardComponent extends JobChangeAdapter {
 			if (o instanceof EObject) {
 				setLatestSelection((EObject) o);
 			}
-			
-			// We can't add a notifier until the 
+
+			// We can't add a notifier until the
 			deActivate();
 			activate();
 
@@ -288,7 +291,7 @@ public class DashboardComponent extends JobChangeAdapter {
 		} else if (o instanceof Operator) {
 			return new TODOSummaryComponent();
 		}
-		return new NotSupportedSummaryComponent();
+		return new NotActiveSummaryComponent();
 	}
 
 	/**
@@ -361,6 +364,21 @@ public class DashboardComponent extends JobChangeAdapter {
 		}
 	}
 
+	private void resetContent() {
+		formTextLastMonitor.setText("not active", false, false);
+
+		formTextRed.setText("", false, false);
+		formTextAmber.setText("", false, false);
+		formTextGreen.setText("", false, false);
+
+		if (summaryForSelection != null) {
+			summaryForSelection.dispose();
+		}
+		summaryForSelection = summaryForSelection(null);
+		summaryForSelection.buildUI(targetContent);
+
+	}
+
 	/**
 	 * Refreshes the RFS Service Summary Section.
 	 * 
@@ -411,8 +429,9 @@ public class DashboardComponent extends JobChangeAdapter {
 
 	private void updateLatestSelection() {
 		if (MonitoringStateModel.isAdapted(this.getLatestSelection())) {
-			System.out.println("Dashboard: Good selection :-) already adapted: "
-					+ (this.getLatestSelection()).toString());
+			System.out
+					.println("Dashboard: Good selection :-) already adapted: "
+							+ (this.getLatestSelection()).toString());
 			IMonitoringSummary adapted = MonitoringStateModel.getAdapted(this
 					.getLatestSelection());
 			refreshSummaryJob.setSummary(adapted);
@@ -450,6 +469,13 @@ public class DashboardComponent extends JobChangeAdapter {
 	 */
 	public void deActivate() {
 		monitoringState.removeJobNotifier(this);
+	}
+
+	public void reset() {
+		// Deactiavate any monitoring job notification.
+		deActivate();
+		setLatestSelection(null);
+		resetContent();
 	}
 
 }

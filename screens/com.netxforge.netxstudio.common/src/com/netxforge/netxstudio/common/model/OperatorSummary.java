@@ -19,11 +19,13 @@ package com.netxforge.netxstudio.common.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * Summarizes the state of an {@link Operator operator}
@@ -44,10 +46,9 @@ public class OperatorSummary extends RFSServiceSummary {
 		final Operator target = getTarget();
 
 		for (Service s : target.getServices()) {
-			if (s instanceof RFSService) {
-				computeForRFService((RFSService) s, monitor);
-			}
+			computeForRFService((RFSService) s, monitor);
 		}
+
 	}
 
 	public Operator getTarget() {
@@ -59,6 +60,12 @@ public class OperatorSummary extends RFSServiceSummary {
 		// Not relevant for Operator object,
 		// as it will be loaded as a sibbling.
 		return true;
+	}
+
+	@Override
+	protected boolean isNotFiltered(EObject object) {
+		// Self-adapt for referenced Nodes. (Note, these are not contained).
+		return object.eClass() == ServicesPackage.Literals.RFS_SERVICE;
 	}
 
 }

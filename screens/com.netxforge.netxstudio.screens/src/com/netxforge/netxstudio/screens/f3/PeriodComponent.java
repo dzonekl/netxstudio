@@ -14,11 +14,19 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f3;
 
 import java.util.Date;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.eclipse.core.databinding.conversion.IConverter;
+import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
+import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.nebula.widgets.cdatetime.CDT;
 import org.eclipse.nebula.widgets.cdatetime.CDateTime;
 import org.eclipse.swt.SWT;
@@ -35,10 +43,12 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.screens.CDateTimeObservableValue;
 
 /**
- * An injectable component showing a from and to Date layed out above each
- * other.
+ * An injectable component showing a from and to Date layed out next to each
+ * other.The to and from dates are bound to a {@link DateTimeRange period} model object. 
  * 
  * @author Christophe Bouhier
  * 
@@ -50,15 +60,28 @@ public class PeriodComponent {
 	private CDateTime dateTimeTo;
 	private CDateTime dateTimeFrom;
 
+	/**
+	 * The {@link DateTimeRange period} bound to the UI.
+	 */
 	private final DateTimeRange period = GenericsFactory.eINSTANCE
 			.createDateTimeRange();
 
 	private ModelUtils modelUtils;
 
 	private Composite cmpPeriod;
-	
+
+	/**
+	 * An observable for the from selector.
+	 */
+	protected CDateTimeObservableValue fromObservableValue;
+
+	/**
+	 * An observable for the to selector.
+	 */
+	protected CDateTimeObservableValue toObservableValue;
+
 	/*
-	 * Defaults to show a border. 
+	 * Defaults to show a border.
 	 */
 	private boolean showBorder = true;
 
@@ -67,15 +90,15 @@ public class PeriodComponent {
 		super();
 		this.modelUtils = modelUtils;
 	}
-	
-	public void setShowBorder(boolean showBorder){
+
+	public void setShowBorder(boolean showBorder) {
 		this.showBorder = showBorder;
 	}
-	
-	
+
 	public void buildUI(Composite parent, Object layoutData) {
 
-		cmpPeriod = toolkit.createComposite(parent, showBorder ? SWT.BORDER : SWT.NONE);
+		cmpPeriod = toolkit.createComposite(parent, showBorder ? SWT.BORDER
+				: SWT.NONE);
 
 		toolkit.adapt(cmpPeriod);
 
@@ -136,6 +159,72 @@ public class PeriodComponent {
 		toolkit.paintBordersFor(dateTimeTo);
 	}
 
+	public void initBindings(EditingDomain domain,
+			EMFDataBindingContext bindingContext) {
+		
+		fromObservableValue = new CDateTimeObservableValue(dateTimeFrom);
+
+		toObservableValue = new CDateTimeObservableValue(dateTimeTo);
+
+		IEMFValueProperty bindFrom = EMFEditProperties.value(domain,
+				GenericsPackage.Literals.DATE_TIME_RANGE__BEGIN);
+		
+		IEMFValueProperty bindTo = EMFEditProperties.value(domain,
+				GenericsPackage.Literals.DATE_TIME_RANGE__END);
+
+		
+		// Update strategies from/to XMLDate. 
+		
+		EMFUpdateValueStrategy targetToModelUpdateStrategy = new EMFUpdateValueStrategy();
+		targetToModelUpdateStrategy.setConverter(new IConverter() {
+
+			public Object getFromType() {
+				return Date.class;
+			}
+
+			public Object getToType() {
+				return XMLGregorianCalendar.class;
+			}
+
+			public Object convert(Object fromObject) {
+				if (fromObject == null) {
+					return null;
+				}
+				return modelUtils.toXMLDate((Date) fromObject);
+			}
+		});
+
+		EMFUpdateValueStrategy modelToTargetUpdateStrategy = new EMFUpdateValueStrategy();
+		modelToTargetUpdateStrategy.setConverter(new IConverter() {
+
+			public Object getFromType() {
+				return XMLGregorianCalendar.class;
+			}
+
+			public Object getToType() {
+				return Date.class;
+			}
+
+			public Object convert(Object fromObject) {
+				if (fromObject == null) {
+					return null;
+				} else {
+					return modelUtils
+							.fromXMLDate((XMLGregorianCalendar) fromObject);
+				}
+			}
+		});
+
+		bindingContext.bindValue(fromObservableValue, bindFrom.observe(period),
+				targetToModelUpdateStrategy, modelToTargetUpdateStrategy);
+		
+		bindingContext.bindValue(toObservableValue, bindTo.observe(period),
+				targetToModelUpdateStrategy, modelToTargetUpdateStrategy);
+		
+		
+
+	}
+
 	public Composite getCmpPeriod() {
 		return cmpPeriod;
 	}
@@ -150,6 +239,8 @@ public class PeriodComponent {
 
 	/**
 	 * Revises the date to midnight.
+	 * FIXME, It should be enough to set the new date on the model, check. 
+	 * 
 	 */
 	protected void updatePeriod() {
 
@@ -161,26 +252,24 @@ public class PeriodComponent {
 		period.setBegin(modelUtils.toXMLDate(from));
 		period.setEnd(modelUtils.toXMLDate(to));
 	}
-	
 
 	public DateTimeRange getPeriod() {
 		return period;
 	}
-	
-	
+
 	/**
 	 * Updates the period in the widget and model.
-	 *  
+	 * 
 	 * @param from
 	 * @param to
 	 */
 	public void setPeriod(Date from, Date to) {
 		this.setPeriod(from, to, false);
 	}
-	
+
 	/**
-	 * Updates the period in the widget and model, optionally adjust to the day start for 
-	 * the start and day end for the end of the period. 
+	 * Updates the period in the widget and model, optionally adjust to the day
+	 * start for the start and day end for the end of the period.
 	 * 
 	 * @param from
 	 * @param to
@@ -191,24 +280,25 @@ public class PeriodComponent {
 		if (from == null || to == null) {
 			return;
 		}
-		
-		if(setToDayStartAndEnd){
+
+		if (setToDayStartAndEnd) {
 			modelUtils.adjustToDayStartAndEnd(from, to);
 		}
-		
-		// Achtung! Selection listeners not fired....update your databinding writables manually. 
-		dateTimeFrom.setSelection(from);
-		dateTimeTo.setSelection(to);
-		
+
+		// Achtung! Selection listeners not fired....update your databinding
+		// writables manually.
+//		dateTimeFrom.setSelection(from);
+//		dateTimeTo.setSelection(to);
+
 		period.setBegin(modelUtils.toXMLDate(from));
 		period.setEnd(modelUtils.toXMLDate(to));
 
 	}
-	
+
 	public void setPeriod(DateTimeRange dtr) {
 		this.setPeriod(modelUtils.begin(dtr), modelUtils.end(dtr));
 	}
-	
+
 	public void presetYesterday() {
 		Date yesterday = modelUtils.yesterday();
 		yesterday = modelUtils.adjustToDayStart(yesterday);
@@ -232,5 +322,19 @@ public class PeriodComponent {
 		threeMonthsAgo = modelUtils.adjustToDayStart(threeMonthsAgo);
 		this.setPeriod(threeMonthsAgo, modelUtils.todayAtDayEnd());
 	}
+	
+	public void dispose(){
+		// dispose our observalbles. 
+		toObservableValue.dispose();
+		fromObservableValue.dispose();
+	}
 
+	public CDateTimeObservableValue getFromObservableValue() {
+		return fromObservableValue;
+	}
+
+	public CDateTimeObservableValue getToObservableValue() {
+		return toObservableValue;
+	}
+	
 }

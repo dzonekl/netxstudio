@@ -22,6 +22,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IWorkbenchPart;
 
 import com.netxforge.netxstudio.screens.editing.AbstractScreenViewer;
 import com.netxforge.netxstudio.screens.editing.IScreen;
@@ -52,8 +53,16 @@ public class DashboardViewer extends AbstractScreenViewer {
 		if (selection != null && !selection.isEmpty()
 				&& selection instanceof StructuredSelection) {
 			IStructuredSelection ss = (StructuredSelection) selection;
-			dashboardScreen.injectData(new Object[]{ss.getFirstElement()});
-			
+			dashboardScreen.injectData(new Object[] { ss.getFirstElement() });
+
 		}
 	}
+
+	@Override
+	public void partDeactivated(IWorkbenchPart part) {
+		super.partDeactivated(part);
+		// clean our dashboard.
+		dashboardScreen.reset();
+	}
+
 }

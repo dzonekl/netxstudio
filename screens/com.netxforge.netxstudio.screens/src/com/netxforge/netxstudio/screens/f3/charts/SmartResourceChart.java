@@ -55,6 +55,7 @@ import org.swtchart.Range;
 import org.swtchart.ext.Messages;
 import org.swtchart.internal.PlotArea;
 
+import com.netxforge.netxstudio.common.Tuple;
 import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.Value;
@@ -445,36 +446,10 @@ public class SmartResourceChart extends Chart implements
 									.getSystemColor(SWT.COLOR_BLACK));
 		}
 
-		String primaryDatePattern = "";
-		// String secondaryDatePattern = "";
-		String label = "";
-		switch (model.getInterval()) {
-		case ModelUtils.MINUTES_IN_AN_HOUR: {
-			primaryDatePattern = "dd-MMM HH:mm";
-			label = "HOUR";
-		}
-			break;
-		case ModelUtils.MINUTES_IN_A_DAY: {
-			primaryDatePattern = "dd-MMM";
-			label = "DAY";
-
-		}
-			break;
-		case ModelUtils.MINUTES_IN_A_WEEK: {
-			primaryDatePattern = "ww";
-			label = "WEEK";
-		}
-			break;
-		case ModelUtils.MINUTES_IN_A_MONTH: {
-			primaryDatePattern = "MMMMM";
-			label = "MONTH";
-		}
-			break;
-		default: {
-			primaryDatePattern = "dd-MMM HH:mm";
-			label = modelUtils.fromMinutes(model.getInterval());
-		}
-		}
+		Tuple interval = modelUtils.interval(model.getInterval());
+		
+		String label = (String) interval.getKey();
+		String primaryDatePattern = (String) interval.getValue();
 
 		// set the label.
 		getAxisSet().getXAxis(0).getTitle().setText(label);

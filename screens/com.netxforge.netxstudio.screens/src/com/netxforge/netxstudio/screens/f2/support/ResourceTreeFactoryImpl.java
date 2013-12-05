@@ -15,9 +15,8 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.screens.f1.support;
+package com.netxforge.netxstudio.screens.f2.support;
 
-import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
@@ -25,24 +24,21 @@ import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
-import com.netxforge.netxstudio.operators.Operator;
-import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.services.Service;
-import com.netxforge.netxstudio.services.ServicesPackage;
+import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NetXResource;
 
-public class RFSServiceTreeFactoryImpl implements IObservableFactory {
+public class ResourceTreeFactoryImpl implements IObservableFactory {
 
-	EditingDomain domain;
-	@SuppressWarnings("unused")
-	private ObservablesManager obm;
+	protected EditingDomain domain;
 
-	private IEMFListProperty operatorObservableProperty = EMFEditProperties
-			.list(domain, OperatorsPackage.Literals.OPERATOR__SERVICES);
+	private IEMFListProperty componentObservableProperty = EMFEditProperties
+			.list(domain, LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
 
-	private IEMFListProperty rfsServiceObservableProperty = EMFEditProperties
-			.list(domain, ServicesPackage.Literals.SERVICE__SERVICES);
+	private IEMFListProperty resourceObservableProperty = EMFEditProperties
+			.list(domain, LibraryPackage.Literals.NET_XRESOURCE__METRIC_VALUE_RANGES);
 
-	public RFSServiceTreeFactoryImpl(EditingDomain domain) {
+	public ResourceTreeFactoryImpl(EditingDomain domain) {
 		this.domain = domain;
 	}
 
@@ -52,11 +48,11 @@ public class RFSServiceTreeFactoryImpl implements IObservableFactory {
 
 		if (target instanceof IObservableList) {
 			ol = (IObservable) target;
-		} else if (target instanceof Operator) {
-			ol = operatorObservableProperty.observe(target);
-		} else if (target instanceof Service) {
-			ol = rfsServiceObservableProperty.observe(target);
-		}
+		} else if (target instanceof Component) {
+			ol = componentObservableProperty.observe(target);
+		} else if (target instanceof NetXResource) {
+			ol = resourceObservableProperty.observe(target);
+		} 
 		return ol;
 	}
 }

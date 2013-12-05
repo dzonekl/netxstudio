@@ -27,11 +27,13 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ContributionItemFactory;
+
+import com.netxforge.netxstudio.screens.editing.IScreen;
+import com.netxforge.netxstudio.screens.editing.IScreenProvider;
 
 /**
  * This is the action bar contributor for the Netxstudio model editor. <!--
@@ -91,11 +93,12 @@ public class UIActionsHandler implements IActionHandler,
 
 		@Override
 		public void run() {
-			if (activeEditorPart instanceof IViewerProvider) {
-				Viewer viewer = ((IViewerProvider) activeEditorPart)
-						.getViewer();
-				if (viewer != null) {
-					viewer.refresh();
+			if (activeEditorPart instanceof IScreenProvider) {
+				IScreen screen = ((IScreenProvider) activeEditorPart)
+						.getScreen();
+				
+				if (screen != null) {
+					screen.getViewer().refresh();
 				}
 			}
 		}

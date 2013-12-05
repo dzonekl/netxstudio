@@ -21,35 +21,38 @@ package com.netxforge.netxstudio.screens.f1;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
-import org.eclipse.emf.common.command.Command;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
+import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -57,67 +60,65 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
-import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.context.IComputationContext;
+import com.netxforge.netxstudio.common.context.ObjectContext;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
-import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.AbstractPeriodScreen;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
-import com.netxforge.netxstudio.screens.dialog.OperatorFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.IScreen;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.filter.TreeSearchFilter;
-import com.netxforge.netxstudio.screens.f1.details.NewEditServiceTree;
-import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeFactoryImpl;
-import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeLabelProvider;
-import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeStructureAdvisorImpl;
+import com.netxforge.netxstudio.screens.f1.support.MonitoringTreeFactoryImpl;
+import com.netxforge.netxstudio.screens.f1.support.MonitoringTreeLabelProvider;
+import com.netxforge.netxstudio.screens.f1.support.MonitoringTreeStructureAdvisorImpl;
 import com.netxforge.netxstudio.screens.f1.support.ScheduledReportSelectionWizard;
 import com.netxforge.netxstudio.screens.f4.NewEditJob;
 import com.netxforge.netxstudio.screens.f4.ServiceMonitors;
+import com.netxforge.netxstudio.screens.monitoring.AbstractMonitoringProcessor;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
-import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
+ * A non editing Monitoring screen.
+ * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class ServicesTree extends AbstractScreen implements
-		IDataServiceInjection {
+public class MonitoringTree extends AbstractPeriodScreen implements
+		IDataServiceInjection, MonitoringStateCallBack {
 
-	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
 	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
-	private Form frmServices;
-	private TreeViewer serviceTreeViewer;
-	private Composite cmpDetails;
-	private SashForm sashForm;
+	private TreeViewer monitoringTreeViewer;
 	private Resource operatorsResource;
 
 	@Inject
 	ServerRequest serverActions;
 
+	@Inject
+	MonitoringStateModel monitoringStateModel;
 
 	/**
 	 * Create the composite.
@@ -125,12 +126,11 @@ public class ServicesTree extends AbstractScreen implements
 	 * @param parent
 	 * @param style
 	 */
-	public ServicesTree(Composite parent, int style) {
+	public MonitoringTree(Composite parent, int style) {
 		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
-				// obm.dispose();
 				toolkit.dispose();
 			}
 		});
@@ -156,27 +156,13 @@ public class ServicesTree extends AbstractScreen implements
 
 	Thread updateDetails;
 
-	private void buildUI() {
-		setLayout(new FillLayout(SWT.HORIZONTAL));
+	protected void buildUI() {
+		super.buildUI();
 
-		// Readonlyness.
-		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
-
-		frmServices = toolkit.createForm(this);
-
-		frmServices.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmServices);
-
-		frmServices.setText(this.getOperationText() + "Services");
-		frmServices.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
-
-		sashForm = new SashForm(frmServices.getBody(), SWT.VERTICAL);
-		sashForm.setOrientation(SWT.HORIZONTAL);
-		toolkit.adapt(sashForm);
-		toolkit.paintBordersFor(sashForm);
-
-		Composite composite = toolkit.createComposite(sashForm, SWT.NONE);
+		Form monitoring = getScreenForm();
+		monitoring.setText(this.getOperationText() + "Monitoring");
+		Composite composite = toolkit.createComposite(monitoring.getBody(),
+				SWT.NONE);
 		toolkit.paintBordersFor(composite);
 		composite.setLayout(new GridLayout(3, false));
 
@@ -195,8 +181,8 @@ public class ServicesTree extends AbstractScreen implements
 
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				serviceTreeViewer.refresh();
-				ViewerFilter[] filters = serviceTreeViewer.getFilters();
+				monitoringTreeViewer.refresh();
+				ViewerFilter[] filters = monitoringTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof TreeSearchFilter) {
 						((TreeSearchFilter) viewerFilter)
@@ -206,57 +192,16 @@ public class ServicesTree extends AbstractScreen implements
 			}
 		});
 
-		if (!readonly) {
-			hypLnkNewRFSService = toolkit.createImageHyperlink(composite,
-					SWT.NONE);
-			hypLnkNewRFSService.setImage(ResourceManager.getPluginImage(
-					"com.netxforge.netxstudio.models.edit",
-					"icons/full/ctool16/Service_E.png"));
-			hypLnkNewRFSService.addHyperlinkListener(new IHyperlinkListener() {
-				public void linkActivated(HyperlinkEvent e) {
+		monitoringTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.MULTI
+				| SWT.VIRTUAL | SWT.READ_ONLY);
+		monitoringTreeViewer.setUseHashlookup(true);
+		monitoringTreeViewer.setComparer(new CDOElementComparer());
 
-					OperatorFilterDialog dialog = new OperatorFilterDialog(
-							ServicesTree.this.getShell(), operatorsResource);
-					int result = dialog.open();
-
-					if (result == Window.OK) {
-						Operator operator = (Operator) dialog.getFirstResult();
-
-						// Create a new top level nodetype.
-						RFSService newRFSService = ServicesFactory.eINSTANCE
-								.createRFSService();
-						newRFSService
-								.setServiceName("<new Resource Facing Service>");
-						Command add = new AddCommand(editingService
-								.getEditingDomain(), operator.getServices(),
-								newRFSService);
-						editingService.getEditingDomain().getCommandStack()
-								.execute(add);
-					}
-				}
-
-				public void linkEntered(HyperlinkEvent e) {
-				}
-
-				public void linkExited(HyperlinkEvent e) {
-				}
-			});
-			hypLnkNewRFSService.setLayoutData(new GridData(SWT.RIGHT,
-					SWT.CENTER, false, false, 1, 1));
-			toolkit.paintBordersFor(hypLnkNewRFSService);
-			hypLnkNewRFSService.setText("New");
-
-		}
-
-		serviceTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.MULTI
-				| SWT.VIRTUAL | widgetStyle);
-		serviceTreeViewer.setUseHashlookup(true);
-		serviceTreeViewer.setComparer(new CDOElementComparer());
-
-		serviceTreeViewer
+		monitoringTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
 						final ISelection s = event.getSelection();
+						@SuppressWarnings("unused")
 						final Object o;
 						if (s instanceof IStructuredSelection) {
 							IStructuredSelection ss = (IStructuredSelection) s;
@@ -264,107 +209,67 @@ public class ServicesTree extends AbstractScreen implements
 						} else {
 							o = null;
 						}
-
-						ServicesTree.this.getDisplay().asyncExec(
-								new Runnable() {
-									public void run() {
-										try {
-											handleDetailsSelection(o);
-										} catch (Exception e) {
-											e.printStackTrace();
-										}
-
-									}
-								});
 					}
 				});
-		Tree tree = serviceTreeViewer.getTree();
+
+		Tree tree = monitoringTreeViewer.getTree();
+		tree.setLinesVisible(true);
+		tree.setHeaderVisible(true);
 		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 2));
 		tree.setSize(74, 81);
+
+		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(
+				monitoringTreeViewer, SWT.NONE);
+
+		TreeColumn trclmnName_1 = treeViewerColumn_1.getColumn();
+		trclmnName_1.setWidth(300);
+		trclmnName_1.setText("ID");
+		trclmnName_1.setResizable(true);
+
+		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
+				monitoringTreeViewer, SWT.NONE);
+		TreeColumn trclmn_2 = treeViewerColumn_2.getColumn();
+		trclmn_2.setWidth(50);
+		trclmn_2.setResizable(true);
+		
+		TreeViewerColumn treeViewerColumn_3 = new TreeViewerColumn(
+				monitoringTreeViewer, SWT.NONE);
+		TreeColumn trclmn_3 = treeViewerColumn_3.getColumn();
+		trclmn_3.setWidth(50);
+		trclmn_3.setResizable(true);
+
+		TreeViewerColumn treeViewerColumn_4 = new TreeViewerColumn(
+				monitoringTreeViewer, SWT.NONE);
+		TreeColumn trclmn_4 = treeViewerColumn_4.getColumn();
+		trclmn_4.setWidth(50);
+		trclmn_4.setResizable(true);
+		
 		toolkit.paintBordersFor(tree);
 
-		serviceTreeViewer.addFilter(new TreeSearchFilter(this
+		monitoringTreeViewer.addFilter(new TreeSearchFilter(this
 				.getEditingService()));
-
-		cmpDetails = toolkit.createComposite(sashForm, SWT.NONE);
-		toolkit.paintBordersFor(cmpDetails);
-		cmpDetails.setLayout(new FillLayout());
-		sashForm.setWeights(new int[] { 3, 7 });
-
-	}
-
-	/**
-	 * @author Christophe Bouhier
-	 */
-	class ExportHTMLAction extends Action {
-
-		public ExportHTMLAction(String text) {
-			super(text);
-		}
-
-		@Override
-		public void run() {
-			ISelection s = serviceTreeViewer.getSelection();
-			if (s instanceof IStructuredSelection) {
-
-				// TODO Migrate.
-
-				// WizardUtil
-				// .openWizard(
-				// "com.netxforge.netxstudio.models.export.wizard.ui.nodetype.html",
-				// (IStructuredSelection) s);
-			}
-		}
-	}
-
-	/**
-	 * @author Christophe Bouhier
-	 */
-	class ExportXLSAction extends Action {
-
-		public ExportXLSAction(String text, int style) {
-			super(text, style);
-		}
-
-		@Override
-		public void run() {
-			ISelection s = serviceTreeViewer.getSelection();
-			if (s instanceof IStructuredSelection) {
-
-				// TODO Migrate
-				// WizardUtil
-				// .openWizard(
-				// "com.netxforge.netxstudio.models.export.wizard.ui.nodetype.xls",
-				// (IStructuredSelection) s);
-			}
-		}
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();
+
+	// private MonitoringAggregate monitoringAggregate;
 
 	@Override
 	public IAction[] getActions() {
 
 		if (actions.isEmpty()) {
-			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
-
-			// actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
-			// actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
-			// actions.add(new SeparatorAction());
-
-			if (!readonly) {
-				actions.add(new ScheduleMonitorJobAction(
-						"Schedule Monitoring Job..."));
-				actions.add(new MonitorNowAction("Monitor Now..."));
-			}
+			actions.add(new UpdateMonitoringAction("Update status"));
+			actions.add(new CleanMonitoringAction("Clear status"));
+			actions.add(new SeparatorAction());
+			actions.add(new ScheduleMonitorJobAction(
+					"Schedule Monitoring Job..."));
+			actions.add(new MonitorNowAction("Monitor Now..."));
+			actions.add(new SeparatorAction());
 			actions.add(new ServiceMonitoringAction("Monitoring Result..."));
 			actions.add(new SeparatorAction());
-
 			actions.add(new SeparatorAction());
-			if (!readonly) {
-				actions.add(new ScheduleReportingJobAction(
-						"Schedule Reporting Job..."));
-			}
+			actions.add(new ScheduleReportingJobAction(
+					"Schedule Reporting Job..."));
 			actions.add(new ReportNowAction("Report Now..."));
 			actions.add(new SeparatorAction());
 		}
@@ -379,11 +284,16 @@ public class ServicesTree extends AbstractScreen implements
 	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-
+		
+		super.initDataBindings_();
+		
+		// Set to one month ago...will be overwritten if state is available. 
+		getPeriodComponent().presetLastMonth();
+		
 		ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(
-				new RFSServiceTreeFactoryImpl(editingService.getEditingDomain()),
-				new RFSServiceTreeStructureAdvisorImpl());
-		serviceTreeViewer.setContentProvider(cp);
+				new MonitoringTreeFactoryImpl(editingService.getEditingDomain()),
+				new MonitoringTreeStructureAdvisorImpl(modelUtils));
+		monitoringTreeViewer.setContentProvider(cp);
 		IObservableSet set = cp.getKnownElements();
 
 		List<IObservableMap> mapList = Lists.newArrayList();
@@ -401,36 +311,82 @@ public class ServicesTree extends AbstractScreen implements
 		IObservableMap[] map = new IObservableMap[mapList.size()];
 		mapList.toArray(map);
 
-		serviceTreeViewer
-				.setLabelProvider(new RFSServiceTreeLabelProvider(map));
+		monitoringTreeViewer.setLabelProvider(new MonitoringTreeLabelProvider(
+				monitoringStateModel, modelUtils, map));
+
 		IEMFListProperty projects = EMFEditProperties.resource(editingService
 				.getEditingDomain());
 
 		IObservableList servicesObservableList = projects
 				.observe(operatorsResource);
-		serviceTreeViewer.setInput(servicesObservableList);
+		monitoringTreeViewer.setInput(servicesObservableList);
+
+		// Monitoring Observable.
+		// monitoringAggregate = new MonitoringAggregate(monitoringStateModel);
+
+		// IViewerObservableValue observeSelection = ViewersObservables
+		// .observeSingleSelection(monitoringTreeViewer);
+		// observeSelection.addValueChangeListener(monitoringAggregate);
 
 		return bindingContext;
 	}
 
-	Composite currentDetails;
-	private ImageHyperlink hypLnkNewRFSService;
+	/**
+	 * Maintains monitoring selection. Note: We don't have a period selector.
+	 */
+	final class MonitoringAggregate extends AbstractMonitoringProcessor {
 
-	private void handleDetailsSelection(Object o) {
-
-		if (currentDetails != null) {
-			currentDetails.dispose();
+		public MonitoringAggregate(MonitoringStateModel monitoringStateModel) {
+			super(monitoringStateModel);
 		}
-		if (o instanceof RFSService) {
-			NewEditServiceTree screen = null;
-			screen = new NewEditServiceTree(this.cmpDetails, SWT.NONE,
-					editingService);
-			screen.setParentScreen(this);
-			screen.setScreenService(screenService);
-			screen.setOperation(getOperation());
-			screen.injectData(null, o);
-			this.currentDetails = screen;
-			sashForm.layout(true, true);
+
+		/**
+		 * Track the last value change which corresponds to the selection.
+		 */
+		private EObject lastSelection;
+
+		public void handleValueChange(ValueChangeEvent event) {
+
+			IObservable observable = event.getObservable();
+			IObservableValue observableValue = event.getObservableValue();
+
+			if (observable instanceof IViewerObservableValue) {
+
+				IViewerObservableValue ivov = (IViewerObservableValue) observable;
+				lastSelection = (EObject) ivov.getValue();
+				if (ivov.getViewer() == monitoringTreeViewer) {
+					if (currentService != null) {
+						cleanResourceMon(currentService);
+					}
+					currentService = processServiceChange(observableValue);
+
+					updateResourceMon(lastSelection);
+				}
+			} else if (observable instanceof WritableValue) {
+				processPeriodChange(observable);
+				updateResourceMon(lastSelection);
+			}
+		}
+
+		protected void updateValues(EObject target) {
+
+			// Should update the whole subtree of a service.
+			monitoringTreeViewer.refresh();
+		}
+
+		private Service processServiceChange(IObservableValue ob) {
+			Service s = null;
+			final Object value = ob.getValue();
+			if (value instanceof Service) {
+				s = (Service) value;
+			}
+			return s;
+		}
+
+		private void processPeriodChange(IObservable observable) {
+			@SuppressWarnings("unused")
+			Object value = ((WritableValue) observable).getValue();
+
 		}
 	}
 
@@ -441,15 +397,7 @@ public class ServicesTree extends AbstractScreen implements
 	 */
 	public Viewer getViewer() {
 
-		if (currentDetails != null) {
-			if (currentDetails instanceof IScreen) {
-				Viewer v = ((IScreen) currentDetails).getViewer();
-				if (v != null) {
-					return v;
-				}
-			}
-		}
-		return serviceTreeViewer;
+		return monitoringTreeViewer;
 	}
 
 	/*
@@ -459,10 +407,6 @@ public class ServicesTree extends AbstractScreen implements
 	 */
 	public boolean isValid() {
 		return true;
-	}
-
-	public Form getScreenForm() {
-		return this.frmServices;
 	}
 
 	/**
@@ -530,26 +474,6 @@ public class ServicesTree extends AbstractScreen implements
 		}
 	}
 
-	class ShowDistributionAction extends Action {
-		public ShowDistributionAction(String text, int style) {
-			super(text, style);
-		}
-
-		@Override
-		public void run() {
-			ISelection selection = getViewer().getSelection();
-			if (selection instanceof IStructuredSelection) {
-				Object o = ((IStructuredSelection) selection).getFirstElement();
-				if (o instanceof Service) {
-					@SuppressWarnings("unused")
-					Service service = (Service) o;
-
-					// Show service distribution.
-				}
-			}
-		}
-	}
-
 	class ScheduleMonitorJobAction extends Action {
 		public ScheduleMonitorJobAction(String text) {
 			super(text);
@@ -610,6 +534,54 @@ public class ServicesTree extends AbstractScreen implements
 		}
 	}
 
+	class UpdateMonitoringAction extends Action {
+		public UpdateMonitoringAction(String text) {
+			super(text);
+		}
+
+		@Override
+		public void run() {
+			if (screenService != null) {
+				ISelection selection = getViewer().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					monitoringStateModel
+							.summary(
+									MonitoringTree.this,
+									o,
+									new IComputationContext[] { new ObjectContext<DateTimeRange>(
+											getPeriod()) });
+				}
+			}
+		}
+
+		@Override
+		public String getToolTipText() {
+			return "Updates the RAG status for the selection";
+		}
+	}
+
+	class CleanMonitoringAction extends Action {
+		public CleanMonitoringAction(String text) {
+			super(text);
+		}
+
+		@Override
+		public void run() {
+			// Clean all monitoring in this screen!
+			EList<EObject> contents = operatorsResource.getContents();
+			for (EObject eo : contents) {
+				monitoringStateModel.clearSummary(eo);
+			}
+		}
+
+		@Override
+		public String getToolTipText() {
+			return "Updates the RAG status for the selection";
+		}
+	}
+
 	class ScheduleReportingJobAction extends Action {
 		public ScheduleReportingJobAction(String text) {
 			super(text);
@@ -628,7 +600,7 @@ public class ServicesTree extends AbstractScreen implements
 			wizard.setEditingService(editingService);
 
 			WizardDialog dialog = new WizardDialog(
-					ServicesTree.this.getShell(), wizard);
+					MonitoringTree.this.getShell(), wizard);
 			dialog.open();
 			Job job = wizard.getJob();
 
@@ -641,8 +613,13 @@ public class ServicesTree extends AbstractScreen implements
 		}
 	}
 
-	@Override
-	public String getScreenName() {
-		return "Services";
+	public void callBackEvent(MonitoringStateEvent event) {
+		Object result = event.getResult();
+		System.out.println(result);
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				monitoringTreeViewer.refresh();
+			}
+		});
 	}
 }

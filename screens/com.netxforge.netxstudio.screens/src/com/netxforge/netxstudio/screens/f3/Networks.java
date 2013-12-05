@@ -22,10 +22,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.command.Command;
@@ -34,14 +32,11 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
-import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -80,7 +75,6 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.GenericsPackage;
-import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -115,7 +109,9 @@ import com.netxforge.netxstudio.screens.f2.details.NewEditNode;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNodeEquipment;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNodeFunction;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNodeType;
+import com.netxforge.netxstudio.screens.f3.support.NetworkTreeFactoryImpl;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
+import com.netxforge.netxstudio.screens.f3.support.NetworkTreeStructureAdvisorImpl;
 import com.netxforge.netxstudio.screens.f4.NewEditJob;
 
 /**
@@ -544,7 +540,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(
 				new NetworkTreeFactoryImpl(editingService.getEditingDomain()),
-				new NetworkTreeStructureAdvisorImpl());
+				new NetworkTreeStructureAdvisorImpl(modelUtils));
 
 		networkTreeViewer.setContentProvider(cp);
 
@@ -669,140 +665,6 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		networkTreeViewer.setInput(networksObservableList);
 
 		return bindingContext;
-	}
-
-	class NetworkTreeFactoryImpl implements IObservableFactory {
-
-		EditingDomain domain;
-
-		private IEMFListProperty operatorObservableProperty = EMFEditProperties
-				.list(domain, OperatorsPackage.Literals.OPERATOR__NETWORKS);
-
-		private IEMFListProperty networkObservableProperty = EMFEditProperties
-				.multiList(
-						domain,
-						OperatorsPackage.Literals.NETWORK__NODES,
-						OperatorsPackage.Literals.NETWORK__NETWORKS,
-						OperatorsPackage.Literals.NETWORK__EQUIPMENT_RELATIONSHIPS,
-						OperatorsPackage.Literals.NETWORK__FUNCTION_RELATIONSHIPS);
-
-		// private IEMFListProperty nodeObservableProperty = EMFEditProperties
-		// .list(domain, OperatorsPackage.Literals.NODE__NODE_TYPE);
-
-		private IEMFListProperty nodeObservableProperty = EMFEditProperties
-				.multiList(domain, FeaturePath.fromList(
-						OperatorsPackage.Literals.NODE__NODE_TYPE,
-						LibraryPackage.Literals.NODE_TYPE__FUNCTIONS),
-						FeaturePath.fromList(
-								OperatorsPackage.Literals.NODE__NODE_TYPE,
-								LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS));
-
-		private IEMFListProperty functionsObservableProperty = EMFEditProperties
-				.list(domain, LibraryPackage.Literals.FUNCTION__FUNCTIONS);
-
-		private IEMFListProperty equipmentsObservableProperty = EMFEditProperties
-				.list(domain, LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS);
-
-		NetworkTreeFactoryImpl(EditingDomain domain) {
-			this.domain = domain;
-		}
-
-		public IObservable createObservable(final Object target) {
-
-			IObservable ol = null;
-
-			if (target instanceof IObservableList) {
-				ol = (IObservable) target;
-			} else if (target instanceof Operator) {
-				ol = operatorObservableProperty.observe(target);
-			} else if (target instanceof Network) {
-				ol = networkObservableProperty.observe(target);
-			} else if (target instanceof Node) {
-				ol = nodeObservableProperty.observe(target);
-			}
-
-			// else if (target instanceof NodeType) {
-			// ol = nodeTypeObservableProperty.observe(target);
-			// }
-
-			else if (target instanceof Function) {
-				ol = functionsObservableProperty.observe(target);
-			} else if (target instanceof Equipment) {
-				ol = equipmentsObservableProperty.observe(target);
-			}
-			return ol;
-		}
-	}
-
-	class NetworkTreeStructureAdvisorImpl extends TreeStructureAdvisor {
-
-		/**
-		 * This is important and should return the correct parent as it is used
-		 * to set the selection!
-		 */
-		@Override
-		public Object getParent(Object element) {
-
-			if (element instanceof EObject) {
-				EObject eo = (EObject) element;
-				EObject eContainer = eo.eContainer();
-				if (eContainer != null) {
-					if (element instanceof Component
-							&& eContainer instanceof NodeType) {
-						return modelUtils.nodeFor((EObject) element);
-					}
-					return eContainer;
-				}
-			}
-
-			return null;
-		}
-
-		@Override
-		public Boolean hasChildren(Object element) {
-
-			if (element instanceof Operator) {
-				return ((Operator) element).getNetworks().size() > 0 ? Boolean.TRUE
-						: null;
-			} else if (element instanceof Network) {
-				Network net = (Network) element;
-				if (net.getNetworks().size() > 0 || net.getNodes().size() > 0
-						|| net.getEquipmentRelationships().size() > 0
-						|| net.getFunctionRelationships().size() > 0) {
-					return Boolean.TRUE;
-				} else {
-					return null;
-				}
-			} else if (element instanceof Node) {
-				Node n = (Node) element;
-				if (n.getNodeType() != null) {
-					return Boolean.TRUE;
-				} else {
-					return null;
-				}
-			} else
-
-			if (element instanceof NodeType) {
-				if (((NodeType) element).getFunctions().size() > 0
-						|| ((NodeType) element).getEquipments().size() > 0) {
-					return Boolean.TRUE;
-				}
-				return Boolean.FALSE;
-			} else if (element instanceof Function) {
-				if (((Function) element).getFunctions().size() > 0) {
-					return Boolean.TRUE;
-				} else {
-					return null;
-				}
-			} else if (element instanceof Equipment) {
-				if (((Equipment) element).getEquipments().size() > 0) {
-					return Boolean.TRUE;
-				} else {
-					return null;
-				}
-			}
-			return super.hasChildren(element);
-		}
 	}
 
 	/** The composite holding the current details */

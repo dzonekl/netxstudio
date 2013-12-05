@@ -38,10 +38,12 @@ public class ScreenUtil {
 	public static final String RED_MARKER = "RED";
 	public static final String AMBER_MARKER = "AMBER";
 	public static final String YELLOW_MARKER = "YELLOW";
+	public static final String GREEN_MARKER = "GREEN";
 
 	static {
 		ColorRegistry colorRegistry = JFaceResources.getColorRegistry();
 		colorRegistry.put(AMBER_MARKER, new RGB(252, 200, 58));
+		colorRegistry.put(GREEN_MARKER, new RGB(20, 252, 20));
 		colorRegistry.put(YELLOW_MARKER, new RGB(252, 242, 92)); // yellowish
 		colorRegistry.put(RED_MARKER, new RGB(235, 80, 75)); // cherry
 	}

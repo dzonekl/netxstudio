@@ -34,6 +34,7 @@ import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.Service;
 
 /**
  * An adapter for monitoring. It holds the Red Amber Green status for a given
@@ -263,7 +264,7 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		}
 		return periodInContext;
 	}
-
+	
 	public RFSService getRFSService() {
 		return contextProvider.rfsServiceInContext();
 	}
@@ -304,7 +305,7 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	 * @param child
 	 * @return
 	 */
-	public IMonitoringSummary getChildAdapter(EObject child) {
+	public IMonitoringSummary getAdapter(EObject child) {
 		for (Adapter adapter : child.eAdapters()) {
 			if (adapter instanceof IMonitoringSummary) {
 				return (IMonitoringSummary) adapter;
@@ -346,8 +347,8 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		contextProvider.addContextObjects(objects);
 	}
 
-	public void clearContextObject() {
-		contextProvider.clearContextObject();
+	public void clearContextObjects() {
+		contextProvider.clearContextObjects();
 	}
 
 	public IComputationContext[] getContextObjects() {
@@ -356,6 +357,13 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 
 	public List<IComputationContext> getContextObjectsAsList() {
 		return contextProvider.getContextObjectsAsList();
+	}
+	
+	/**
+	 * @param s
+	 */
+	protected void replaceContextEntry(Service s) {
+		contextProvider.replaceContextObject(s);
 	}
 
 }

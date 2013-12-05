@@ -23,6 +23,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.screens.editing.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
+import com.netxforge.netxstudio.screens.f1.MonitoringTree;
 import com.netxforge.netxstudio.screens.f1.Reports;
 import com.netxforge.netxstudio.screens.f1.ServiceUsers;
 import com.netxforge.netxstudio.screens.f1.ServicesTree;
@@ -52,8 +53,11 @@ public class MonitoringScreenSelector extends AbstractScreenSelector {
 	public void buildSelector() {
 
 		Composite result;
-		result = screenFormService.addScreenSelector("Services",
-				"icons/full/obj16/Service_H.png", ServicesTree.class, 1,
+		result = screenFormService.addScreenSelector("Monitoring",
+				"icons/full/obj16/Monitor_graph_H.png", MonitoringTree.class, 1,
+				ScreenUtil.OPERATION_READ_ONLY);
+		result = screenFormService.addScreenSelector(result, "Services",
+				"icons/full/obj16/Service_H.png", ServicesTree.class,
 				ScreenUtil.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Service Users",
 				"icons/full/obj16/ServiceProfile_H.png", ServiceUsers.class,

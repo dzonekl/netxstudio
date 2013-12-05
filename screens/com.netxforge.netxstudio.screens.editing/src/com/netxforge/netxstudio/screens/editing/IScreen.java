@@ -66,7 +66,7 @@ public interface IScreen extends IViewerProvider, ISelectionProvider, IPersistab
 	
 	
 	/**
-	 * the name of the screen. 
+	 * The name of the screen. 
 	 */
 	public abstract String getScreenName();
 	

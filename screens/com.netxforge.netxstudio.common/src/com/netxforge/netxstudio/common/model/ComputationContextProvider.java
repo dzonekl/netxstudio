@@ -17,12 +17,17 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
+import java.util.List;
+
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.common.context.IComputationContext;
+import com.netxforge.netxstudio.common.context.ObjectContext;
 import com.netxforge.netxstudio.common.context.SimpleComputationContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.Service;
 
 /**
  * A Computation context which deals with objects which are specific for
@@ -71,5 +76,20 @@ public class ComputationContextProvider extends SimpleComputationContext {
 		}
 		return null;
 
+	}
+
+	public void replaceContextObject(Service s) {
+		
+		List<IComputationContext> toRemove = Lists.newArrayList();
+		for (IComputationContext c : context) {
+			if (c.getContext() instanceof RFSService) {
+				toRemove.add(c);
+			}
+		}
+		context.removeAll(toRemove);
+		
+		super.addContextObject(new ObjectContext<RFSService>(
+				(RFSService) s));
+		
 	}
 }

@@ -543,8 +543,8 @@ public class ScreenFormService implements IScreenFormService {
 	}
 
 	/**
-	 * Save the screen state, get the memento from the Viewpart, and add a child
-	 * with the screen name.
+	 * Save the screen state, get the {@link IMemento memento} from the Viewpart, and add a child
+	 * which hasthe name of the {@link IScreen}.
 	 */
 	public void saveScreenState(IScreen screen) {
 		IMemento viewPartMemento = absViewPart.getMemento();

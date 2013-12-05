@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.common.context.ObjectContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -109,7 +108,19 @@ public class RFSServiceSummary extends MonitoringAdapter {
 				+ modelUtils.printModelObject(service));
 
 		int computedNodes = 0;
-		
+
+		// Check our own adaptation state.
+		IMonitoringSummary adapter = this.getAdapter(service);
+		if (adapter == null) {
+			getAdapterFactory().adapt(service, IMonitoringSummary.class);
+			adapter = getAdapter(service);
+			
+			// Make sure we set the correct context, which is this service, and the period. 
+			adapter.addContextObject(new ObjectContext<RFSService>(service));
+			adapter.addContextObject(new ObjectContext<DateTimeRange>(this.getPeriod()));
+		}
+
+		// Narrow the node scope to the ones which have monitoring data.
 		nodes += service.getNodes().size();
 		for (Node node : service.getNodes()) {
 
@@ -120,41 +131,47 @@ public class RFSServiceSummary extends MonitoringAdapter {
 
 			// When not accessing child collections, we will not load.
 			NodeType nodeType = node.getNodeType();
-
-			IMonitoringSummary childAdapter = this.getChildAdapter(nodeType);
-			//
+			IMonitoringSummary nodeAdapter;
 			// Guard for potentially non-adapted children.
-			if (childAdapter != null) {
-				
-				if (childAdapter instanceof NodeTypeSummary) {
-					NodeTypeSummary nodeTypeSummary = (NodeTypeSummary) childAdapter;
+			if (!MonitoringStateModel.isAdapted(nodeType)) {
+				getAdapterFactory().adapt(nodeType, IMonitoringSummary.class);
+				nodeAdapter = getAdapter(nodeType);
+				nodeAdapter.addContextObjects(adapter.getContextObjects());
+			} else {
+				nodeAdapter = getAdapter(nodeType);
+			}
+
+			if (nodeAdapter != null) {
+
+				if (nodeAdapter instanceof NodeTypeSummary) {
+					NodeTypeSummary nodeTypeSummary = (NodeTypeSummary) nodeAdapter;
 					resources += nodeTypeSummary.totalResources();
 					functions += nodeTypeSummary.totalFunctions();
 					equipments += nodeTypeSummary.totalEquipments();
+
+					SubMonitor newChild = subMonitor.newChild(1);
+					nodeAdapter.compute(newChild);
+
+					if (nodeAdapter.isComputed()) {
+						computedNodes++;
+						ragForNodes.incrementRag(nodeAdapter.rag());
+					}
+					newChild.worked(1);
+
 				}
-				
-				childAdapter.addContextObjects(this.getContextObjects());
-				SubMonitor newChild = subMonitor.newChild(1);
-				childAdapter.compute(newChild);
-				
-				
-				if (childAdapter.isComputed()) {
-					computedNodes++;
-					ragForNodes.incrementRag(childAdapter.rag());
-				}
-				newChild.worked(1);
+
 			} else {
 				// Self Adapt? Self-adaption should have happened when accessing
 				// the node.
+				System.out.println("SHOULD NOT OCCUR: child not adapted! "
+						+ modelUtils.printModelObject(nodeType));
 			}
-
-			
 		}
-		
-		if(computedNodes == nodes){
+
+		if (computedNodes == nodes) {
 			computationState = ComputationState.COMPUTED;
 		}
-		
+
 		// Descend the Service Hierarchy for additional aggregation.
 		for (Service childService : service.getServices()) {
 			if (service instanceof RFSService) {
@@ -171,7 +188,7 @@ public class RFSServiceSummary extends MonitoringAdapter {
 	@Override
 	protected boolean isNotFiltered(EObject object) {
 		// Self-adapt for referenced Nodes. (Note, these are not contained).
-		return object.eClass() == LibraryPackage.Literals.NODE_TYPE;
+		return object.eClass() == OperatorsPackage.Literals.NODE;
 	}
 
 	@Override

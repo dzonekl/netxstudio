@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.common.context;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.services.RFSService;
 
 /**
  * Provides one or more {@link IComputationContext}.
@@ -31,18 +32,37 @@ public class SimpleComputationContext implements IComputationContextProvider {
 	/** Our collection of context objects needed for computation **/
 	protected final List<IComputationContext> context = Lists.newArrayList();
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.common.context.IComputationContextProvider#addContextObject(com.netxforge.netxstudio.common.context.IComputationContext)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.common.context.IComputationContextProvider#
+	 * addContextObject
+	 * (com.netxforge.netxstudio.common.context.IComputationContext)
 	 */
 	public void addContextObject(IComputationContext object) {
 		// Generic support for context objects.
 		if (object != null && !context.contains(object)) {
+			if (object.getContext() instanceof RFSService) {
+				for (IComputationContext c : context) {
+					if (c.getContext() instanceof RFSService) {
+						// illegalstate, we should be unique for a type.
+						throw new IllegalStateException(
+								"attempt to add "
+										+ object
+										+ "while context already has an object of same type");
+					}
+				}
+			}
 			context.add(object);
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.common.context.IComputationContextProvider#addContextObjects(com.netxforge.netxstudio.common.context.IComputationContext)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.common.context.IComputationContextProvider#
+	 * addContextObjects
+	 * (com.netxforge.netxstudio.common.context.IComputationContext)
 	 */
 	public void addContextObjects(IComputationContext... objects) {
 		for (IComputationContext o : objects) {
@@ -50,23 +70,32 @@ public class SimpleComputationContext implements IComputationContextProvider {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.common.context.IComputationContextProvider#clearContextObject()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.common.context.IComputationContextProvider#
+	 * clearContextObject()
 	 */
-	public void clearContextObject() {
+	public void clearContextObjects() {
 		this.context.clear();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.common.context.IComputationContextProvider#getContextObjects()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.common.context.IComputationContextProvider#
+	 * getContextObjects()
 	 */
 	public IComputationContext[] getContextObjects() {
 		IComputationContext[] array = new IComputationContext[context.size()];
 		return this.context.toArray(array);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.common.context.IComputationContextProvider#getContextObjectsAsList()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.common.context.IComputationContextProvider#
+	 * getContextObjectsAsList()
 	 */
 	public List<IComputationContext> getContextObjectsAsList() {
 		return this.context;

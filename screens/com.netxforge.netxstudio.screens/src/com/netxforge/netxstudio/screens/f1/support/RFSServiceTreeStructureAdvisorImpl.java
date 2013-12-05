@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 29 jan. 2013 NetXForge.
+ * Copyright (c) 24 nov. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -15,39 +15,36 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.common.model;
+package com.netxforge.netxstudio.screens.f1.support;
 
-/**
- * A Monitoring State Event, used in call backs.
- * 
- * @author Christophe Bouhier
- * 
- */
-public class MonitoringStateEvent {
-	
-	
-	/**
-	 * The result of the event.
-	 * 
-	 */
-	private Object result;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 
-	/**
-	 * Stores the result.
-	 * 
-	 * @param monitoringSummary
-	 */
-	public void setResult(Object result) {
-		this.result = result;
+import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.services.RFSService;
+
+public class RFSServiceTreeStructureAdvisorImpl extends TreeStructureAdvisor {
+
+	@Override
+	public Object getParent(Object element) {
+
+		if (element instanceof EObject) {
+			return ((EObject) element).eContainer();
+		}
+		return null;
 	}
 
-	/**
-	 * Retrieve the result object for this event.
-	 * 
-	 * @return
-	 */
-	public Object getResult() {
-		return result;
-	}
+	@Override
+	public Boolean hasChildren(Object element) {
+		if (element instanceof Operator
+				&& (((Operator) element).getServices().size() > 0)) {
+			return Boolean.TRUE;
+		}
+		if (element instanceof RFSService
+				&& (((RFSService) element).getServices().size() > 0)) {
+			return Boolean.TRUE;
+		}
 
+		return super.hasChildren(element);
+	}
 }

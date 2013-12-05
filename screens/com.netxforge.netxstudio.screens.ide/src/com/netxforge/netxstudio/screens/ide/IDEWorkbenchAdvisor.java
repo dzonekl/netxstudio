@@ -244,10 +244,9 @@ public abstract class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 	@Override
 	public IAdaptable getDefaultPageInput() {
 		// get the perspective ID.
+		@SuppressWarnings("unused")
 		String pID = this.getInitialWindowPerspectiveId();
-		System.out.println(pID);
 		return ResourcesPlugin.getWorkspace().getRoot();
-		// return new NavigatorRoot();
 	}
 
 	@Override

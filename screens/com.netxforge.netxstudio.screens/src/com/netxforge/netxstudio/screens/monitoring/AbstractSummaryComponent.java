@@ -60,7 +60,8 @@ public abstract class AbstractSummaryComponent implements ISummaryComponent {
 	public void dispose() {
 		if (!content.isDisposed()) {
 			for (Control child : content.getChildren()) {
-				child.dispose();
+				if (!child.isDisposed())
+					child.dispose();
 			}
 		}
 	}

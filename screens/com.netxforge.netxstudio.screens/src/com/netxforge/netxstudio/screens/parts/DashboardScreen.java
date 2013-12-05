@@ -97,5 +97,9 @@ public class DashboardScreen extends AbstractScreen implements
 		// Simply pass it on, for multiple selection
 		dashboardComponent.injectData(params);
 	}
+
+	public void reset() {
+		dashboardComponent.reset();
+	}
 	
 }

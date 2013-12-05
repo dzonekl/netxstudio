@@ -30,6 +30,7 @@ import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.collect.Iterables;
@@ -97,10 +98,18 @@ public class MonitoringStateModel {
 	public static final int MONITOR_COMPUTATION_REPETITIVE_MODE = 100;
 
 	/**
-	 * In this mode an ongoing computation is cancelled. The computaton delay is
-	 * 100 ms.
+	 * In this mode an ongoing computation is cancelled. The computation delay
+	 * is 100 ms.
 	 */
 	public static final int MONITOR_COMPUTATION_SINGLE_MODE = 200;
+
+	/**
+	 * A null callback, does exactly nothing.
+	 */
+	public static final MonitoringStateCallBack NULL_CALLBACK = new MonitoringStateCallBack() {
+		public void callBackEvent(MonitoringStateEvent event) {
+		}
+	};
 
 	/**
 	 * A Call back interface when computing is done.
@@ -113,7 +122,7 @@ public class MonitoringStateModel {
 	}
 
 	/**
-	 * A job for monitoring computation.
+	 * A job for monitoring computation
 	 * 
 	 * @author Christophe Bouhier
 	 */
@@ -179,7 +188,7 @@ public class MonitoringStateModel {
 										+ modelUtils
 												.printModelObject((EObject) target));
 			}
-			summary = summary(monitor, target, contextObjects);
+			summary = doSummary(monitor, target, contextObjects);
 		}
 
 		public void done(IJobChangeEvent event) {
@@ -208,6 +217,95 @@ public class MonitoringStateModel {
 			this.contextObjects = contextObjects;
 		}
 
+		public void setTarget(Object target) {
+			this.target = target;
+		}
+
+		public JobCallBack getCallBackHandler() {
+			return callBackHandler;
+		}
+
+	}
+
+	/**
+	 * A job for monitoring computation
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	public class MonitoringClearJob extends Job {
+
+		private Object target;
+
+		private boolean running = false;
+
+		/**
+		 * A specialized call back handler, when a computing job completed.
+		 * Others can subscribe to the job status to be notified and process
+		 * accordingly.
+		 * 
+		 */
+		private JobCallBack callBackHandler;
+
+		public MonitoringClearJob() {
+			super("Cleaning Summary...");
+			callBackHandler = new JobCallBack();
+			addJobChangeListener(callBackHandler);
+			setUser(true);
+		}
+
+		public void go() {
+			schedule(100);
+		}
+
+		public void goNow() {
+			schedule();
+		}
+
+		public void go(int delay) {
+			schedule(delay);
+		}
+
+		public void addNotifier(IJobChangeListener notifier) {
+			addJobChangeListener(notifier);
+		}
+
+		public void removeNotifier(IJobChangeListener notifier) {
+			removeJobChangeListener(notifier);
+		}
+
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+
+			processReadingInternal(monitor);
+			return Status.OK_STATUS;
+		}
+
+		protected void processReadingInternal(final IProgressMonitor monitor) {
+			if (CommonActivator.DEBUG) {
+				CommonActivator.TRACE
+						.trace(CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+								" clearing summary for:"
+										+ modelUtils
+												.printModelObject((EObject) target));
+			}
+			doClearSummary(monitor, target);
+		}
+
+		public void done(IJobChangeEvent event) {
+			running = false;
+		}
+
+		public void running(IJobChangeEvent event) {
+			this.running = true;
+		}
+
+		/**
+		 * @return the running
+		 */
+		public boolean isRunning() {
+			return running;
+		}
+
 		public void setTarget(Object context) {
 			this.target = context;
 		}
@@ -227,9 +325,47 @@ public class MonitoringStateModel {
 	@Inject
 	private MonitoringAdapterFactory monAdapterFactory;
 
+	
+	public IMonitoringSummary summary(IProgressMonitor monitor,
+			Object target, IComputationContext... context) {
+		return doSummary(monitor, target, context);
+	}
+
+	
 	public void summary(MonitoringStateCallBack callBack, Object target) {
-		prepSummary(callBack, target, MONITOR_COMPUTATION_SINGLE_MODE,
+		doSummary(callBack, target, MONITOR_COMPUTATION_SINGLE_MODE,
 				(IComputationContext[]) null);
+	}
+
+	private void doClearSummary(IProgressMonitor monitor, Object target) {
+		// descend the hierarchy and clear adapters.
+		if (target instanceof EObject) {
+
+			// Do we get cross-refs as well?
+			TreeIterator<EObject> eAllContents = ((EObject) target)
+					.eAllContents();
+			while (eAllContents.hasNext()) {
+				EObject next = eAllContents.next();
+				List<Object> toClearList = Lists.newArrayList();
+				for (Adapter adapter : next.eAdapters()) {
+					if (adapter instanceof IMonitoringSummary) {
+						break;
+					}
+				}
+
+				if (!toClearList.isEmpty()) {
+					if (toClearList.size() > 1) {
+						if (CommonActivator.DEBUG) {
+							CommonActivator.TRACE
+									.trace(CommonActivator.TRACE_COMMON_MONITORING_DETAILS_OPTION,
+											"error, more than one Monitoring Adapter on object:"
+													+ next);
+						}
+					}
+					next.eAdapters().removeAll(toClearList);
+				}
+			}
+		}
 	}
 
 	/**
@@ -243,7 +379,7 @@ public class MonitoringStateModel {
 	 */
 	public void summary(MonitoringStateCallBack callBack, Object target,
 			int computationMode) {
-		prepSummary(callBack, target, computationMode,
+		doSummary(callBack, target, computationMode,
 				(IComputationContext[]) null);
 	}
 
@@ -261,7 +397,7 @@ public class MonitoringStateModel {
 		Assert.isNotNull(target);
 		Assert.isNotNull(contextObjects);
 
-		prepSummary(callBack, target, MONITOR_COMPUTATION_SINGLE_MODE,
+		doSummary(callBack, target, MONITOR_COMPUTATION_SINGLE_MODE,
 				contextObjects);
 	}
 
@@ -304,7 +440,7 @@ public class MonitoringStateModel {
 	/**
 	 * Prepares the monitoring state.
 	 */
-	private void prepSummary(final MonitoringStateCallBack callBack,
+	private void doSummary(final MonitoringStateCallBack callBack,
 			Object target, int computationMode,
 			IComputationContext... contextObjects) {
 
@@ -350,6 +486,19 @@ public class MonitoringStateModel {
 				job.go(); // Should spawn a job processing the xls.
 			}
 		}
+
+	}
+
+	/**
+	 * initialize the monitoring summary clearing job.
+	 */
+	private void doClearSummary(final MonitoringStateCallBack callBack,
+			Object target) {
+
+		MonitoringClearJob job = new MonitoringClearJob();
+		job.setTarget(target);
+		job.getCallBackHandler().setCallBack(callBack);
+		job.go(100);
 
 	}
 
@@ -404,8 +553,8 @@ public class MonitoringStateModel {
 
 	}
 
-	public IMonitoringSummary summary(IProgressMonitor monitor, Object target,
-			IComputationContext... context) {
+	private IMonitoringSummary doSummary(IProgressMonitor monitor,
+			Object target, IComputationContext... context) {
 
 		final IMonitoringSummary adapt;
 		if (!isAdapted((EObject) target)) {
@@ -423,7 +572,7 @@ public class MonitoringStateModel {
 			return adapt;
 		}
 
-		adapt.clearContextObject();
+		adapt.clearContextObjects();
 
 		// Add the context object, guard for null, as we might do a computation
 		// without a context.
@@ -442,7 +591,14 @@ public class MonitoringStateModel {
 		}
 
 		return adapt;
+	}
 
+	public void clearSummary(EObject target) {
+		clearSummary(NULL_CALLBACK, target);
+	}
+
+	public void clearSummary(MonitoringStateCallBack callBack, EObject target) {
+		doClearSummary(callBack, target);
 	}
 
 	/**
@@ -534,13 +690,13 @@ public class MonitoringStateModel {
 			}
 		}
 
-		// Clear or set the correct level based on the result. 
+		// Clear or set the correct level based on the result.
 		if (red > 0) {
 			amber = 0;
 			green = 0;
 		} else if (amber > 0) {
 			green = 0;
-		}else {
+		} else {
 			green = 1;
 		}
 

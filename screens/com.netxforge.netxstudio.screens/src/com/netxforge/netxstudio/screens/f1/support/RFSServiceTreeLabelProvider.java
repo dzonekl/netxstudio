@@ -52,11 +52,6 @@ public class RFSServiceTreeLabelProvider extends StyledCellLabelProvider {
 		}
 	}
 
-	// @Override
-	// public String getToolTipText(Object element) {
-	// return "#dummy#";
-	// }
-
 	@Override
 	public void update(ViewerCell cell) {
 

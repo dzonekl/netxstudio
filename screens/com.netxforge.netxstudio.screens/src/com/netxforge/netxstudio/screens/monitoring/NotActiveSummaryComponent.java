@@ -20,13 +20,13 @@ package com.netxforge.netxstudio.screens.monitoring;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.FormText;
 
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 
-public class NotSupportedSummaryComponent extends AbstractSummaryComponent {
-
+public class NotActiveSummaryComponent extends AbstractSummaryComponent {
 
 	private FormText todoText;
 
@@ -35,19 +35,25 @@ public class NotSupportedSummaryComponent extends AbstractSummaryComponent {
 	 */
 	protected void buildSummary() {
 
-		final Label lblMonitoredNodes = formToolkit.createLabel(content,
-				"NOT SUPPORTED: ", SWT.NONE);
+		Composite gridContent = formToolkit.createComposite(this.content,
+				SWT.NONE);
+		gridContent.setLayout(new GridLayout(2, false));
+		formToolkit.paintBordersFor(gridContent);
+
+		final Label lblMonitoredNodes = formToolkit.createLabel(gridContent,
+				"-", SWT.NONE);
+
 		lblMonitoredNodes.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
 				false, false, 1, 1));
 
-		todoText = formToolkit.createFormText(content, false);
-		todoText.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 3, 1));
+		todoText = formToolkit.createFormText(gridContent, false);
+		todoText.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				3, 1));
 		formToolkit.paintBordersFor(todoText);
 		todoText.setText("", false, false);
 	}
 
 	public void fillSummary(IMonitoringSummary nonCastedSummary) {
-		todoText.setText(nonCastedSummary.toString(), false,false);
+		todoText.setText(nonCastedSummary.toString(), false, false);
 	}
 }

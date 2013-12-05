@@ -69,9 +69,10 @@ public abstract class AbstractMonitoringProcessor implements
 	 */
 	protected Service currentService = null;
 
-	public DateTimeRange getCurrentPeriod() {
-		return currentPeriod;
+	public void setPeriod(DateTimeRange period){
+		this.currentPeriod = period;
 	}
+	
 
 	public Service getCurrentService() {
 		return currentService;
@@ -130,7 +131,7 @@ public abstract class AbstractMonitoringProcessor implements
 									new ObjectContext<RFSService>(
 											(RFSService) getCurrentService()),
 									new ObjectContext<DateTimeRange>(
-											getCurrentPeriod()) });
+											currentPeriod) });
 		}
 	}
 

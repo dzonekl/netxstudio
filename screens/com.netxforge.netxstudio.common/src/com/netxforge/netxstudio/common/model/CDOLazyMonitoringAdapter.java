@@ -29,10 +29,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.spi.cdo.FSMUtil;
-import org.eclipse.emf.spi.cdo.InternalCDOObject;
 import org.eclipse.emf.spi.cdo.InternalCDOView;
 
-import com.google.common.collect.ImmutableList;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 
 /**
@@ -143,17 +141,21 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 						"Initial adapt loaded objects started");
 			}
 			view.addObjectHandler(handler);
-
+			
 			// Adapt already loaded objects, this will repeat several times.
 			// As we iterate over the objects in the view, the body of the
 			// iteration should never lead
 			// to a case whereby additional objects are added to the list.
-			ImmutableList<InternalCDOObject> copyOf = ImmutableList.copyOf(view
-					.getObjects().values());
-			for (CDOObject cdoObject : copyOf) {
-				addAdapter(cdoObject);
-			}
 
+			// CB, SEPARATE CONCERN.
+
+			// ImmutableList<InternalCDOObject> copyOf =
+			// ImmutableList.copyOf(view
+			// .getObjects().values());
+			// for (CDOObject cdoObject : copyOf) {
+//			 addAdapter(target);
+			// }
+		
 		}
 	}
 
@@ -173,12 +175,14 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 	@Override
 	protected void addAdapter(Notifier notifier) {
 
-		boolean shouldAdapt = isConnectedObject(notifier)
-				&& !isAlreadyAdapted(notifier)
-				&& isNotFiltered((EObject) notifier)
-				&& isRelated((CDOObject) notifier);
+		boolean isConnected = isConnectedObject(notifier);
+		boolean isAlreadyAdapted = isAlreadyAdapted(notifier);
+		boolean isNotFiltered = isNotFiltered((EObject) notifier);
+		
+		// CB TODO Skip related, as this loads too many objects... 
+//		boolean isRelated = isRelated((CDOObject) notifier);
 
-		if (shouldAdapt) {
+		if (isConnected && !isAlreadyAdapted && isNotFiltered ) {
 
 			adaptedObjects.add(new WeakReference<CDOObject>(CDOUtil
 					.getCDOObject((EObject) notifier)));
@@ -208,24 +212,28 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 				// We don't want to add self as adapter, so let the factory
 				// adapt for
 				// the notifier.
-				final Adapter adapt = getAdapterFactory().adapt(notifier,
-						IMonitoringSummary.class);
-
-				if (CommonActivator.DEBUG) {
-					CommonActivator.TRACE.trace(
-							CommonActivator.TRACE_COMMON_MONITORING_OPTION,
-							"result adapter: " + adapt);
-				}
+				
+				// Don't do self-adaptation here...
+				
+//				final Adapter adapt = getAdapterFactory().adapt(notifier,
+//						IMonitoringSummary.class);
+//
+//				if (CommonActivator.DEBUG) {
+//					CommonActivator.TRACE.trace(
+//							CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+//							"result adapter: " + adapt);
+//				}
 			}
 		} else {
 			// When not adapting the target object, the adapter instance if
 			// still produced.
 			if (CommonActivator.DEBUG) {
-				CommonActivator.TRACE
-						.trace(CommonActivator.TRACE_COMMON_MONITORING_DETAILS_OPTION,
-								"Self-adapt cancelled for:"
-										+ notifier
-										+ " (Already adapted, not connected, not related, is filtered)");
+				CommonActivator.TRACE.trace(
+						CommonActivator.TRACE_COMMON_MONITORING_DETAILS_OPTION,
+						"Self-adapt cancelled for:" + notifier + "Connected ="
+								+ isConnected + ", Adapted =" + isAlreadyAdapted
+								+ ", Not filtered =" + isNotFiltered);
+//								+ " Related=" + isRelated);
 			}
 			return;
 		}
@@ -375,15 +383,19 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 								+ "-->" + newState + " )");
 			}
 			if (newState == CDOState.CLEAN || newState == CDOState.NEW) {
+				
+				
+				
 				// During this phase, we perform various checks which could load
 				// objects in the CDOView, leading to this method being called.
 				// to avoid circularity, we make sure we are not processing an
 				// object currently
 				// being processed.
-				if (currentAddingObject != null
-						&& currentAddingObject != object) {
-					currentAddingObject = object;
+				if (currentAddingObject == null) {
 					addAdapter(object);
+
+				} else if (currentAddingObject != object) {
+					currentAddingObject = object;
 				}
 
 			}

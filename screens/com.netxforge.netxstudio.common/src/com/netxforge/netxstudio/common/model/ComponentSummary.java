@@ -51,11 +51,10 @@ public class ComponentSummary extends MonitoringAdapter {
 
 		subMonitor.setTaskName("Computing summary for "
 				+ modelUtils.printModelObject(getComponent()));
-		
-		
-		// count for computed resources. 
-		int computedResources = 0; 
-		
+
+		// count for computed resources.
+		int computedResources = 0;
+
 		for (NetXResource netxresource : target.getResourceRefs()) {
 
 			if (monitor != null && monitor.isCanceled()) {
@@ -63,36 +62,35 @@ public class ComponentSummary extends MonitoringAdapter {
 				break;
 			}
 
-			// The child is likely self-adapted due to the collection loading
-			// policies .
-			// {@See CDOLazyMonitoringAdapter}
-			// Also compute the child when the adaption has worked.
-
-			// Call compute child on the adapter...
-			IMonitoringSummary childAdapter = this
-					.getChildAdapter(netxresource);
+			IMonitoringSummary childAdapter;
+			if (!MonitoringStateModel.isAdapted(netxresource)) {
+				getAdapterFactory().adapt(netxresource,
+						IMonitoringSummary.class);
+				childAdapter = getAdapter(netxresource);
+				childAdapter.addContextObjects(this.getContextObjects());
+			} else {
+				childAdapter = getAdapter(netxresource);
+			}
 
 			// Guard for potentially non-adapted children.
 			if (childAdapter != null) {
-				childAdapter.addContextObjects(this.getContextObjects());
 				childAdapter.compute(subMonitor.newChild(1));
-
 				if (childAdapter.isComputed()) {
 					// Base our RAG status, on the child's status
 					this.incrementRag(childAdapter.rag());
 					computedResources++;
 				}
 			} else {
-				System.out.println("SHOULD NOT OCCUR: child not adapted! "
-						+ modelUtils.printModelObject(netxresource));
+				// System.out.println("SHOULD NOT OCCUR: child not adapted! "
+				// + modelUtils.printModelObject(netxresource));
 			}
 			subMonitor.worked(1);
 		}
-		
-		if(computedResources == totalResources()){
+
+		if (computedResources == totalResources()) {
 			computationState = ComputationState.COMPUTED;
 		}
-		
+
 	}
 
 	@Override

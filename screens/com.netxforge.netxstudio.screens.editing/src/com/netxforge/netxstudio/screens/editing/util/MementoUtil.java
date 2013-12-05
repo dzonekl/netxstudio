@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
@@ -279,6 +281,13 @@ public class MementoUtil {
 		}
 	}
 
+	public void rememberDate(IMemento memento, XMLGregorianCalendar xmlDate, String key) {
+
+		// Wrap as a String.
+		Date date = modelUtils.fromXMLDate(xmlDate);
+		memento.putString(key, df.format(date));
+	}
+
 	/**
 	 * Remember a Date object.
 	 * 
@@ -287,9 +296,7 @@ public class MementoUtil {
 	 * @param key
 	 */
 	public void rememberDate(IMemento memento, Date date, String key) {
-
 		// Wrap as a String.
-
 		memento.putString(key, df.format(date));
 	}
 
@@ -326,6 +333,22 @@ public class MementoUtil {
 		return null;
 	}
 
+	
+	
+	public XMLGregorianCalendar retrieveXMLDate(IMemento memento, String key) {
+		String string = memento.getString(key);
+		if (string != null) {
+			try {
+				Date parse = df.parse(string);
+				return modelUtils.toXMLDate(parse);
+			} catch (ParseException e) {
+				// oops.
+			}
+		}
+		return null;
+	}
+
+	
 	/**
 	 * Retrieve a Date object.
 	 * 
@@ -415,7 +438,7 @@ public class MementoUtil {
 		if (FSMUtil.isNew(object) || FSMUtil.isTransient(object)) {
 			return; // Can't remember this state.
 		}
-		
+
 		String cdoLongIDAsString = modelUtils.cdoLongIDAsString(object);
 		memento.putString(key, cdoLongIDAsString);
 	}
