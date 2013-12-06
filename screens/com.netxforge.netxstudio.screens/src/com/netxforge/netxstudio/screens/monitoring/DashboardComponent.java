@@ -46,10 +46,9 @@ import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.editing.IScreen;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -257,13 +256,23 @@ public class DashboardComponent extends JobChangeAdapter {
 				summaryForSelection = proposedSummaryForSelection;
 				summaryForSelection.buildUI(targetContent);
 			}
-			// Prep the summary itself, as the monitoring job might still be
-			// running, we delay until it's ready.
+
+			// Being notified of ongoing summary job is needed when the
+			// monitoring jobs are triggered by selection.
+			// selection will also propagate to this component, and we will need
+			// to wait and be notified for the
+			// job to complete. However is the monitoring is processed by an
+			// action, the monitoring will be updated
+			// and waiting for completion is useless. we currently have no way
+			// to differentiate so we do both.
+
 			if (o instanceof EObject) {
 				setLatestSelection((EObject) o);
+				updateLatestSelection();
 			}
 
-			// We can't add a notifier until the
+			// Prep the summary itself, as the monitoring job might still be
+			// running, we delay until it's ready.
 			deActivate();
 			activate();
 
@@ -281,15 +290,11 @@ public class DashboardComponent extends JobChangeAdapter {
 		} else if (o instanceof NetXResource) {
 			return new NetXResourceSummaryComponent();
 		} else if (o instanceof Node) {
-			return new TODOSummaryComponent();
-		} else if (o instanceof NodeType) {
-			return new TODOSummaryComponent();
-		} else if (o instanceof Network) {
-			return new TODOSummaryComponent();
+			return new NodeSummaryComponent();
 		} else if (o instanceof RFSService) {
 			return new RFSServiceSummaryComponent();
 		} else if (o instanceof Operator) {
-			return new TODOSummaryComponent();
+			return new OperatorSummaryComponent();
 		}
 		return new NotActiveSummaryComponent();
 	}
@@ -428,12 +433,22 @@ public class DashboardComponent extends JobChangeAdapter {
 	}
 
 	private void updateLatestSelection() {
-		if (MonitoringStateModel.isAdapted(this.getLatestSelection())) {
+
+		EObject latest = this.getLatestSelection();
+		if (latest instanceof Node) {
+			if (latest.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
+				latest = ((Node) latest).getNodeType();
+			}else{
+				return;
+			}
+		}
+
+		if (MonitoringStateModel.isAdapted(latest)) {
 			System.out
 					.println("Dashboard: Good selection :-) already adapted: "
-							+ (this.getLatestSelection()).toString());
-			IMonitoringSummary adapted = MonitoringStateModel.getAdapted(this
-					.getLatestSelection());
+							+ latest.toString());
+
+			IMonitoringSummary adapted = MonitoringStateModel.getAdapted(latest);
 			refreshSummaryJob.setSummary(adapted);
 			refreshSummaryJob.schedule(100);
 		} else {

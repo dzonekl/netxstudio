@@ -225,7 +225,7 @@ public class MonitoringTreeLabelProvider extends StyledCellLabelProvider {
 		case 3: {
 			backGroundForRag(cell, summary.totalRag(RAG.GREEN),
 					ScreenUtil.GREEN_MARKER);
-			rag = new Integer(summary.totalRag(RAG.AMBER)).toString();
+			rag = new Integer(summary.totalRag(RAG.GREEN)).toString();
 		}
 			break;
 		}

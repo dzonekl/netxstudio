@@ -25,7 +25,10 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.ecore.EObject;
 
+import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Marker;
@@ -38,6 +41,9 @@ import com.netxforge.netxstudio.operators.Marker;
  */
 public class ComponentSummary extends MonitoringAdapter {
 
+	private int functions;
+	private int equipments;
+
 	@Override
 	protected synchronized void computeForTarget(IProgressMonitor monitor) {
 
@@ -46,51 +52,72 @@ public class ComponentSummary extends MonitoringAdapter {
 		// Clear previous computations.
 		clearComputation();
 
-		final SubMonitor subMonitor = SubMonitor.convert(monitor,
-				totalResources());
+		computeForComponent(monitor, target);
+	}
 
-		subMonitor.setTaskName("Computing summary for "
-				+ modelUtils.printModelObject(getComponent()));
+	/**
+	 * @param monitor
+	 * @param component
+	 */
+	private void computeForComponent(IProgressMonitor monitor,
+			final Component component) {
 
+		if (component instanceof Function) {
+			functions += 1;
+		} else if (component instanceof Equipment) {
+			equipments += 1;
+		}
+		boolean childComponentComputed = true;
+
+		for (Component c : modelUtils.componentsForComponent(component, false)) {
+			ComponentSummary adaptAndCompute = adaptAndCompute(monitor, c,
+					this.getContextObjects());
+			if (adaptAndCompute != null) {
+				if (adaptAndCompute.isComputed()) {
+					// Base our RAG status, on the child's status
+					this.incrementRag(adaptAndCompute.rag());
+				} else {
+					childComponentComputed = false;
+				}
+			}
+		}
 		// count for computed resources.
 		int computedResources = 0;
 
-		for (NetXResource netxresource : target.getResourceRefs()) {
+		if (!component.getResourceRefs().isEmpty()) {
 
-			if (monitor != null && monitor.isCanceled()) {
-				System.out.println("Computation cancelled...");
-				break;
-			}
+			final SubMonitor resourcesMonitor = SubMonitor.convert(monitor,
+					totalResources());
 
-			IMonitoringSummary childAdapter;
-			if (!MonitoringStateModel.isAdapted(netxresource)) {
-				getAdapterFactory().adapt(netxresource,
-						IMonitoringSummary.class);
-				childAdapter = getAdapter(netxresource);
-				childAdapter.addContextObjects(this.getContextObjects());
-			} else {
-				childAdapter = getAdapter(netxresource);
-			}
+			resourcesMonitor.setTaskName("Computing summary for "
+					+ modelUtils.printModelObject(getComponent()));
 
-			// Guard for potentially non-adapted children.
-			if (childAdapter != null) {
-				childAdapter.compute(subMonitor.newChild(1));
-				if (childAdapter.isComputed()) {
-					// Base our RAG status, on the child's status
-					this.incrementRag(childAdapter.rag());
-					computedResources++;
+			for (NetXResource netxresource : component.getResourceRefs()) {
+
+				if (monitor != null && monitor.isCanceled()) {
+					System.out.println("Computation cancelled...");
+					break;
 				}
-			} else {
-				// System.out.println("SHOULD NOT OCCUR: child not adapted! "
-				// + modelUtils.printModelObject(netxresource));
+				IMonitoringSummary childAdapter = adaptAndCompute(
+						resourcesMonitor, netxresource,
+						this.getContextObjects());
+				// Guard for potentially non-adapted children.
+				if (childAdapter != null) {
+					if (childAdapter.isComputed()) {
+						computedResources++;
+						// Base our RAG status, on the child's status
+						this.incrementRag(childAdapter.rag());
+					}
+				} else {
+					System.out.println("SHOULD NOT OCCUR: child not adapted! "
+							+ modelUtils.printModelObject(netxresource));
+				}
+				resourcesMonitor.worked(1);
 			}
-			subMonitor.worked(1);
 		}
-
-		if (computedResources == totalResources()) {
+		if (computedResources == totalResources() && childComponentComputed) {
 			computationState = ComputationState.COMPUTED;
 		}
-
 	}
 
 	@Override
@@ -135,5 +162,39 @@ public class ComponentSummary extends MonitoringAdapter {
 
 	public Map<NetXResource, List<Marker>> markers() {
 		throw new UnsupportedOperationException("TODO");
+	}
+
+	public static ComponentSummary adaptAndCompute(IProgressMonitor monitor,
+			Component component, IComputationContext... contextObjects) {
+
+		IMonitoringSummary adaptAndCompute = MonitoringAdapter.adaptAndCompute(
+				monitor, component, contextObjects);
+
+		if (adaptAndCompute instanceof ComponentSummary) {
+			ComponentSummary componentSummary = (ComponentSummary) adaptAndCompute;
+			return componentSummary;
+		}
+		return null;
+	}
+
+	public static NetxresourceSummary adaptAndCompute(IProgressMonitor monitor,
+			NetXResource component, IComputationContext... contextObjects) {
+
+		IMonitoringSummary adaptAndCompute = MonitoringAdapter.adaptAndCompute(
+				monitor, component, contextObjects);
+
+		if (adaptAndCompute instanceof NetxresourceSummary) {
+			NetxresourceSummary netxSummary = (NetxresourceSummary) adaptAndCompute;
+			return netxSummary;
+		}
+		return null;
+	}
+
+	public int totalFunctions() {
+		return functions;
+	}
+
+	public int totalEquipments() {
+		return equipments;
 	}
 }

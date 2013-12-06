@@ -25,8 +25,6 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
@@ -62,58 +60,51 @@ public class NodeTypeSummary extends MonitoringAdapter {
 		List<Component> componentsForMonitors = modelUtils
 				.componentsForMonitors(rfsService, node);
 
-		// Might throw an Exception.
-		int work = componentsForMonitors.size();
+		if (!componentsForMonitors.isEmpty()) {
 
-		final SubMonitor subMonitor = SubMonitor.convert(monitor, work);
-		subMonitor.setTaskName("Computing summary for "
-				+ modelUtils.printModelObject(target));
-		SubMonitor newChild = subMonitor.newChild(work);
+			// Might throw an Exception.
+			int work = componentsForMonitors.size();
 
-		int computedComponents = 0;
+			final SubMonitor nodeTypeMonitor = SubMonitor
+					.convert(monitor, work);
+			nodeTypeMonitor.setTaskName("Computing summary for "
+					+ modelUtils.printModelObject(target));
 
-		for (Component component : componentsForMonitors) {
+			int computedComponents = 0;
 
-			if (component instanceof Function) {
-				functions += 1;
-			} else if (component instanceof Equipment) {
-				equipments += 1;
-			}
+			for (Component component : componentsForMonitors) {
 
-			IMonitoringSummary childAdapter;
-			if (!MonitoringStateModel.isAdapted(component)) {
-				getAdapterFactory().adapt(component, IMonitoringSummary.class);
-				childAdapter = getAdapter(component);
-				childAdapter.addContextObjects(this.getContextObjects());
-			} else {
-				childAdapter = getAdapter(component);
-			}
-
-			// Guard for potentially non-adapted children.
-			if (childAdapter != null) {
-
-				childAdapter.compute(newChild);
-
-				if (childAdapter instanceof ComponentSummary) {
-					resources += ((ComponentSummary) childAdapter)
-							.totalResources();
+				if (monitor != null && monitor.isCanceled()) {
+					System.out.println("Computation cancelled...");
+					break;
 				}
 
-				if (childAdapter.isComputed()) {
-					computedComponents++;
-					// Base our RAG status, on the child's status
-					this.incrementRag(childAdapter.rag());
+				ComponentSummary componentSummary = ComponentSummary
+						.adaptAndCompute(nodeTypeMonitor, component,
+								getContextObjects());
+				if (componentSummary != null) {
+					resources += componentSummary.totalResources();
+					functions += componentSummary.totalFunctions();
+					equipments += componentSummary.totalEquipments();
+
+					if (componentSummary.isComputed()) {
+						computedComponents++;
+						// Base our RAG status, on the child's status
+						// Could potentially keep the rag per
+						// function/equipment.
+						incrementRag(componentSummary.rag());
+					}
+				} else {
+					System.out.println("SHOULD NOT OCCUR: child not adapted! "
+							+ modelUtils.printModelObject(component));
 				}
-			} else {
-				System.out.println("SHOULD NOT OCCUR: child not adapted! "
-						+ modelUtils.printModelObject(component));
 
+				nodeTypeMonitor.worked(1);
 			}
-			newChild.worked(1);
-		}
 
-		if (computedComponents == functions + equipments) {
-			computationState = ComputationState.COMPUTED;
+			if (computedComponents == componentsForMonitors.size()) {
+				computationState = ComputationState.COMPUTED;
+			}
 		}
 
 	}

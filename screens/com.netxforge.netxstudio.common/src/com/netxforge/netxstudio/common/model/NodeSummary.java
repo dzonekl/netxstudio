@@ -66,7 +66,7 @@ public class NodeSummary extends MonitoringAdapter {
 
 			if (next instanceof NodeType) {
 
-				IMonitoringSummary childAdapter = this.getAdapter(next);
+				IMonitoringSummary childAdapter = getAdapter(next);
 
 				// Guard for potentially non-adapted children.
 				if (childAdapter != null) {

@@ -48,6 +48,10 @@ public class CommonModule extends JCAServiceModule {
 	@Override
 	protected void configure() {
 		super.configure();
+		
+		
+		
+
 
 		// ///////////////////////////////
 		// EXPORT SERVICES
@@ -57,7 +61,10 @@ public class CommonModule extends JCAServiceModule {
 		bind(export(ModelUtils.class)).toProvider(
 				service(new ModelUtils()).attributes(
 						objectClass(ModelUtils.class)).export());
-
+		
+		// Inject static.
+		requestStaticInjection(MonitoringStateModel.class);
+		
 		bind(export(MonitoringStateModel.class)).toProvider(
 				service(MonitoringStateModel.class).attributes(
 						objectClass(MonitoringStateModel.class)).export());

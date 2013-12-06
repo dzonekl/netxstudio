@@ -323,15 +323,13 @@ public class MonitoringStateModel {
 
 	/** Our adapter factory for monitoring **/
 	@Inject
-	private MonitoringAdapterFactory monAdapterFactory;
+	private static MonitoringAdapterFactory monAdapterFactory;
 
-	
-	public IMonitoringSummary summary(IProgressMonitor monitor,
-			Object target, IComputationContext... context) {
+	public IMonitoringSummary summary(IProgressMonitor monitor, Object target,
+			IComputationContext... context) {
 		return doSummary(monitor, target, context);
 	}
 
-	
 	public void summary(MonitoringStateCallBack callBack, Object target) {
 		doSummary(callBack, target, MONITOR_COMPUTATION_SINGLE_MODE,
 				(IComputationContext[]) null);
@@ -433,7 +431,19 @@ public class MonitoringStateModel {
 
 	}
 
-	public MonitoringAdapterFactory getMonAdapterFactory() {
+	/**
+	 * Delegate adaptation to our {@link MonitoringAdapterFactory adapter
+	 * factory}
+	 * 
+	 * @param object
+	 * @param type
+	 * @return
+	 */
+	public static Object adapt(Object object, Object type) {
+		return monAdapterFactory.adapt(object, type);
+	}
+
+	public static MonitoringAdapterFactory getMonAdapterFactory() {
 		return monAdapterFactory;
 	}
 

@@ -18,9 +18,12 @@
 package com.netxforge.netxstudio.common.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.ecore.EObject;
 
+import com.netxforge.netxstudio.common.context.IComputationContext;
+import com.netxforge.netxstudio.common.context.ObjectContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.services.RFSService;
@@ -32,10 +35,30 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * @author Christophe Bouhier
  */
-public class OperatorSummary extends RFSServiceSummary {
+public class OperatorSummary extends MonitoringAdapter {
+
+	// Generated values.
+	int services = 0;
+	int nodes = 0;
+	int functions = 0;
+	int equipments = 0;
+	int resources = 0;
+
+	/** RAG for Nodes */
+	Rag ragForNodes = new Rag();
+
+	/** RAG for Resources */
+	Rag ragForNetXResource = new Rag();
 
 	@Override
 	protected void computeForTarget(IProgressMonitor monitor) {
+
+		final Operator operator = getTarget();
+		int work = operator.getServices().size();
+
+		final SubMonitor subMonitor = SubMonitor.convert(monitor, work);
+		subMonitor.setTaskName("Computing summary for "
+				+ modelUtils.printModelObject(operator));
 
 		final DateTimeRange periodInContext = getPeriod();
 		if (periodInContext == null) {
@@ -43,12 +66,38 @@ public class OperatorSummary extends RFSServiceSummary {
 		}
 
 		// Safely case, checked by our factory.
-		final Operator target = getTarget();
 
-		for (Service s : target.getServices()) {
-			computeForRFService((RFSService) s, monitor);
+		clearComputation();
+		nodes = 0;
+		services = 0;
+		equipments = 0;
+		functions = 0;
+		ragForNodes = new Rag();
+		ragForNetXResource = new Rag();
+
+		for (Service s : operator.getServices()) {
+			RFSServiceSummary serviceSummary = RFSServiceSummary
+					.adaptAndCompute(subMonitor, (RFSService) s,
+							new IComputationContext[] {
+									new ObjectContext<RFSService>(
+											(RFSService) s),
+									new ObjectContext<DateTimeRange>(
+											getPeriod()) });
+			if (serviceSummary != null) {
+				resources += serviceSummary.resources;
+				functions += serviceSummary.totalFunctions();
+				equipments += serviceSummary.totalEquipments();
+				if (serviceSummary.isComputed()) {
+					ragForNodes.incrementRag(serviceSummary.ragForNodes);
+				}
+			}
+			monitor.worked(1);
 		}
+	}
 
+	public void clearComputation() {
+		computationState = ComputationState.NOT_COMPUTED;
+		summaryRag.cleanRag();
 	}
 
 	public Operator getTarget() {
@@ -68,4 +117,29 @@ public class OperatorSummary extends RFSServiceSummary {
 		return object.eClass() == ServicesPackage.Literals.RFS_SERVICE;
 	}
 
+	@Override
+	public int totalRag(RAG status) {
+		return ragForNodes.totalRag(status);
+	}
+	
+	public int totalServices() {
+		return services;
+	}
+
+	public int totalNodes() {
+		return nodes;
+	}
+
+	public int totalEquipments() {
+		return equipments;
+	}
+
+	public int totalFunctions() {
+		return functions;
+	}
+
+	public int totalResources() {
+		return resources;
+	}
+	
 }

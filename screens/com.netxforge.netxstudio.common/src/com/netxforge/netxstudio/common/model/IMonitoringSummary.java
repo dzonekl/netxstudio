@@ -19,7 +19,6 @@ package com.netxforge.netxstudio.common.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.AdapterFactory;
 
 import com.netxforge.netxstudio.common.context.IComputationContextProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -67,14 +66,6 @@ public interface IMonitoringSummary extends IComputationContextProvider, Adapter
 	public boolean isComputed();
 
 
-	/**
-	 * Set the {@link AdapterFactory} for producing adapters when Self-adapting.
-	 * 
-	 * @param monitoringAdapterFactory
-	 */
-	public void setSelfAdaptFactory(AdapterFactory adapterFactory);
-
-	
 	/**
 	 * Get the {@link DateTimeRange period} formatted as a string
 	 * @return

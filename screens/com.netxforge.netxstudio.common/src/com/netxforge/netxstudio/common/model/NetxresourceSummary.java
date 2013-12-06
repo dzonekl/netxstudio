@@ -86,11 +86,10 @@ public class NetxresourceSummary extends MonitoringAdapter {
 		// Base RAG computation on the tolerance markers.
 		this.setRag(stateModel.ragForMarkers(toleranceMarkers));
 		
-		monitor.worked(1);
-		
 		// COMPUTATION STATE => COMPUTED
 		computationState = ComputationState.COMPUTED;
 		
+		monitor.worked(1);
 	}
 
 	public NetXResource getTarget() {

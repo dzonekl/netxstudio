@@ -21,11 +21,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.cdo.CDOAdapter;
 import org.eclipse.emf.cdo.CDODeltaNotification;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 
@@ -49,8 +49,6 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	protected ModelUtils modelUtils;
 
 	protected MonitoringStateModel stateModel;
-
-	private AdapterFactory adapterFactory;
 
 	private ComputationContextProvider contextProvider = new ComputationContextProvider();
 
@@ -128,6 +126,16 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 			ragCount[RAG.AMBER.ordinal()] += ragForMarkers[RAG.AMBER.ordinal()];
 			ragCount[RAG.GREEN.ordinal()] += ragForMarkers[RAG.GREEN.ordinal()];
 		}
+
+		/**
+		 * Increment our model Red Amber Green count with with the given
+		 * {@link Rag}.
+		 * 
+		 * @param ragForMarkers
+		 */
+		protected void incrementRag(Rag anotherRag) {
+			incrementRag(anotherRag.rag());
+		}
 	}
 
 	/**
@@ -141,8 +149,7 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	 * The default state is {@link ComputationState}
 	 */
 	protected ComputationState computationState = ComputationState.NOT_COMPUTED;
-	
-	
+
 	public boolean getRedStatus() {
 		return summaryRag.rag(RAG.RED);
 	}
@@ -264,7 +271,7 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		}
 		return periodInContext;
 	}
-	
+
 	public RFSService getRFSService() {
 		return contextProvider.rfsServiceInContext();
 	}
@@ -293,11 +300,6 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		return type == IMonitoringSummary.class;
 	}
 
-	@Override
-	protected AdapterFactory getAdapterFactory() {
-		return adapterFactory;
-	}
-
 	/**
 	 * Return a potential {@link IMonitoringSummary } for the adapted child of a
 	 * target.
@@ -305,7 +307,7 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	 * @param child
 	 * @return
 	 */
-	public IMonitoringSummary getAdapter(EObject child) {
+	public static IMonitoringSummary getAdapter(EObject child) {
 		for (Adapter adapter : child.eAdapters()) {
 			if (adapter instanceof IMonitoringSummary) {
 				return (IMonitoringSummary) adapter;
@@ -314,8 +316,29 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 		return null;
 	}
 
-	public void setSelfAdaptFactory(AdapterFactory adapterFactory) {
-		this.adapterFactory = adapterFactory;
+	public static IMonitoringSummary adaptAndCompute(IProgressMonitor monitor,
+			EObject eo, IComputationContext... contextObjects) {
+
+		if (!MonitoringStateModel.isAdapted(eo)) {
+			MonitoringStateModel.adapt(eo, IMonitoringSummary.class);
+		}
+
+		// Check our own adaptation state.
+		IMonitoringSummary monitoringSummary = getAdapter(eo);
+		if (monitoringSummary != null) {
+			monitoringSummary.clearContextObjects();
+			monitoringSummary.addContextObjects(contextObjects);
+			if (monitor instanceof SubMonitor) {
+				SubMonitor newChild = ((SubMonitor) monitor).newChild(1);
+				monitoringSummary.compute(newChild);
+				return monitoringSummary;
+			} else {
+				System.out.println(" error with monitor: ");
+				Thread.dumpStack();
+			}
+
+		}
+		return null;
 	}
 
 	@Override
@@ -358,7 +381,7 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 	public List<IComputationContext> getContextObjectsAsList() {
 		return contextProvider.getContextObjectsAsList();
 	}
-	
+
 	/**
 	 * @param s
 	 */

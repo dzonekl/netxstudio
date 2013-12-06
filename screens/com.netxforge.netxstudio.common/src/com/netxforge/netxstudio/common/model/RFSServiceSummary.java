@@ -24,6 +24,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.ecore.EObject;
 
+import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.common.context.ObjectContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -57,8 +58,6 @@ public class RFSServiceSummary extends MonitoringAdapter {
 	@Override
 	protected void computeForTarget(IProgressMonitor monitor) {
 
-		clearComputation();
-
 		final DateTimeRange periodInContext = getPeriod();
 		if (periodInContext == null) {
 			return;
@@ -71,12 +70,15 @@ public class RFSServiceSummary extends MonitoringAdapter {
 			this.addContextObject(new ObjectContext<RFSService>(rfsService));
 		}
 
+		clearComputation();
 		nodes = 0;
 		services = 0;
 		equipments = 0;
 		functions = 0;
+		ragForNodes = new Rag();
+		ragForNetXResource = new Rag();
 
-		computeForRFService(rfsService, monitor);
+		computeForRFService(monitor, rfsService);
 	}
 
 	/**
@@ -93,91 +95,123 @@ public class RFSServiceSummary extends MonitoringAdapter {
 	 * special set*** methods. </br> The Computation of rage for {@link Node}
 	 * and {@link NetXResource}.
 	 * 
-	 * 
-	 * @param service
 	 * @param monitor
+	 * @param service
 	 */
-	public void computeForRFService(RFSService service, IProgressMonitor monitor) {
+	public void computeForRFService(IProgressMonitor monitor, RFSService service) {
 
 		// Include our own service as well.
 		services += 1;
 
-		int work = service.getNodes().size();
-		final SubMonitor subMonitor = SubMonitor.convert(monitor, work);
-		subMonitor.setTaskName("Computing summary for "
-				+ modelUtils.printModelObject(service));
-
-		int computedNodes = 0;
-
-		// Check our own adaptation state.
-		IMonitoringSummary adapter = this.getAdapter(service);
-		if (adapter == null) {
-			getAdapterFactory().adapt(service, IMonitoringSummary.class);
-			adapter = getAdapter(service);
-			
-			// Make sure we set the correct context, which is this service, and the period. 
-			adapter.addContextObject(new ObjectContext<RFSService>(service));
-			adapter.addContextObject(new ObjectContext<DateTimeRange>(this.getPeriod()));
-		}
-
-		// Narrow the node scope to the ones which have monitoring data.
-		nodes += service.getNodes().size();
-		for (Node node : service.getNodes()) {
-
-			// With no NODE Type, don't bail out.
-			if (!node.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
-				continue;
-			}
-
-			// When not accessing child collections, we will not load.
-			NodeType nodeType = node.getNodeType();
-			IMonitoringSummary nodeAdapter;
-			// Guard for potentially non-adapted children.
-			if (!MonitoringStateModel.isAdapted(nodeType)) {
-				getAdapterFactory().adapt(nodeType, IMonitoringSummary.class);
-				nodeAdapter = getAdapter(nodeType);
-				nodeAdapter.addContextObjects(adapter.getContextObjects());
-			} else {
-				nodeAdapter = getAdapter(nodeType);
-			}
-
-			if (nodeAdapter != null) {
-
-				if (nodeAdapter instanceof NodeTypeSummary) {
-					NodeTypeSummary nodeTypeSummary = (NodeTypeSummary) nodeAdapter;
-					resources += nodeTypeSummary.totalResources();
-					functions += nodeTypeSummary.totalFunctions();
-					equipments += nodeTypeSummary.totalEquipments();
-
-					SubMonitor newChild = subMonitor.newChild(1);
-					nodeAdapter.compute(newChild);
-
-					if (nodeAdapter.isComputed()) {
-						computedNodes++;
-						ragForNodes.incrementRag(nodeAdapter.rag());
-					}
-					newChild.worked(1);
-
-				}
-
-			} else {
-				// Self Adapt? Self-adaption should have happened when accessing
-				// the node.
-				System.out.println("SHOULD NOT OCCUR: child not adapted! "
-						+ modelUtils.printModelObject(nodeType));
-			}
-		}
-
-		if (computedNodes == nodes) {
-			computationState = ComputationState.COMPUTED;
-		}
+		boolean childServiceComputed = true;
 
 		// Descend the Service Hierarchy for additional aggregation.
 		for (Service childService : service.getServices()) {
 			if (service instanceof RFSService) {
-				computeForRFService((RFSService) childService, monitor);
+				RFSServiceSummary serviceSummary = adaptAndCompute(monitor,
+						(RFSService) childService, new IComputationContext[] {
+								new ObjectContext<RFSService>(
+										(RFSService) childService),
+								new ObjectContext<DateTimeRange>(getPeriod()) });
+				if (serviceSummary != null) {
+					resources += serviceSummary.resources;
+					functions += serviceSummary.totalFunctions();
+					equipments += serviceSummary.totalEquipments();
+					if (serviceSummary.isComputed()) {
+						ragForNodes.incrementRag(serviceSummary.ragForNodes);
+					} else {
+						childServiceComputed = false;
+					}
+				}
 			}
 		}
+
+		// Node computation.
+		nodes += service.getNodes().size();
+		int computedNodes = 0;
+
+		if (!service.getNodes().isEmpty()) {
+
+			int work = service.getNodes().size();
+			final SubMonitor nodeMonitor = SubMonitor.convert(monitor, work);
+			nodeMonitor.setTaskName("Computing summary for "
+					+ modelUtils.printModelObject(service));
+
+			// Narrow the node scope to the ones which have monitoring data.
+
+			for (Node node : service.getNodes()) {
+
+				// With no NODE Type, bail out.
+				if (!node.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
+					nodeMonitor.worked(1);
+					continue;
+				}
+
+				// When not accessing child collections, we will not load.
+				NodeType nodeType = node.getNodeType();
+
+				NodeTypeSummary nodeTypeSummary = adaptAndCompute(nodeMonitor,
+						nodeType, this.getContextObjects());
+
+				if (nodeTypeSummary != null) {
+					if (nodeTypeSummary.isComputed()) {
+						computedNodes++;
+						ragForNodes.incrementRag(nodeTypeSummary.rag());
+					}
+
+					resources += nodeTypeSummary.totalResources();
+					functions += nodeTypeSummary.totalFunctions();
+					equipments += nodeTypeSummary.totalEquipments();
+				} else {
+					System.out.println("SHOULD NOT OCCUR: child not adapted! "
+							+ modelUtils.printModelObject(nodeType));
+				}
+
+				nodeMonitor.worked(1);
+			}
+
+		}
+
+		if (computedNodes == nodes && childServiceComputed) {
+			computationState = ComputationState.COMPUTED;
+		}
+
+	}
+
+	/**
+	 * Adapt an {@link RFSService} and compute with a
+	 * {@link IComputationContext computation context}. If the object is already
+	 * adapted, we don't invoke the {@link MonitoringStateModel} for adaptation.
+	 * 
+	 * @param monitor
+	 * @param service
+	 * 
+	 * @return {@link RFSServiceSummary}
+	 */
+	public static RFSServiceSummary adaptAndCompute(IProgressMonitor monitor,
+			RFSService service, IComputationContext... contextObjects) {
+
+		IMonitoringSummary adaptAndCompute = MonitoringAdapter.adaptAndCompute(
+				monitor, service, contextObjects);
+
+		if (adaptAndCompute instanceof RFSServiceSummary) {
+			RFSServiceSummary serviceSummary = (RFSServiceSummary) adaptAndCompute;
+			return serviceSummary;
+		}
+		return null;
+	}
+
+	public static NodeTypeSummary adaptAndCompute(IProgressMonitor monitor,
+			NodeType nodeType, IComputationContext... contextObjects) {
+
+		IMonitoringSummary adaptAndCompute = MonitoringAdapter.adaptAndCompute(
+				monitor, nodeType, contextObjects);
+
+		if (adaptAndCompute instanceof NodeTypeSummary) {
+			NodeTypeSummary nodeTypeSummary = (NodeTypeSummary) adaptAndCompute;
+			return nodeTypeSummary;
+		}
+		return null;
 	}
 
 	@Override

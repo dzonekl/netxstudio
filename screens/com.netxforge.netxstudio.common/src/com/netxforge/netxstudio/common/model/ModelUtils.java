@@ -5177,8 +5177,21 @@ public class ModelUtils {
 	 * @return
 	 */
 	public List<Component> componentsForComponent(Component c) {
+		return componentsForComponent(c, true);
+	}
+
+	/**
+	 * all child {@link Component} with optionally the root argument component.
+	 * 
+	 * @param c
+	 * @param self
+	 * @return
+	 */
+	public List<Component> componentsForComponent(Component c, boolean self) {
 		final List<Component> components = new ArrayList<Component>();
-		components.add(c);
+		if (self) {
+			components.add(c);
+		}
 		if (c instanceof com.netxforge.netxstudio.library.Function) {
 			com.netxforge.netxstudio.library.Function f = (com.netxforge.netxstudio.library.Function) c;
 			for (Component child : f.getFunctions()) {

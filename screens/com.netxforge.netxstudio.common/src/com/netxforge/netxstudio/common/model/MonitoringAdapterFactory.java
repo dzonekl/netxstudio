@@ -67,7 +67,7 @@ public class MonitoringAdapterFactory extends CDOAdapterFactoryImpl {
 
 	@Override
 	public Object adapt(Object object, Object type) {
-		
+
 		if (isFactoryForType(type)) {
 			Object adapter = super.adapt(object, type);
 			if (!(type instanceof Class<?>)
@@ -108,8 +108,6 @@ public class MonitoringAdapterFactory extends CDOAdapterFactoryImpl {
 			return null;
 		}
 
-		monitor.setSelfAdaptFactory(this);
-		
 		if (CommonActivator.DEBUG) {
 			CommonActivator.TRACE.trace(
 					CommonActivator.TRACE_COMMON_MONITORING_OPTION,

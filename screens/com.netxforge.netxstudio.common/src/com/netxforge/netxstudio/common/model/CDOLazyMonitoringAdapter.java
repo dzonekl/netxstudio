@@ -22,7 +22,6 @@ import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.view.CDOObjectHandler;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -241,12 +240,6 @@ public abstract class CDOLazyMonitoringAdapter extends EContentAdapter {
 		//
 
 	}
-
-	/**
-	 * Clients must implement. {@link AdapterFactory#isFactoryForType(Object)}
-	 * should be <code>true</code for the targets children.
-	 */
-	protected abstract AdapterFactory getAdapterFactory();
 
 	private boolean isAlreadyAdapted(Notifier notifier) {
 

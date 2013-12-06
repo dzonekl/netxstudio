@@ -93,8 +93,10 @@ public class NetXResourceSummaryComponent extends AbstractSummaryComponent {
 
 			NetxresourceSummary summary = (NetxresourceSummary) nonCastedSummary;
 
-			netXResourceText.setText(summary.getTarget().getExpressionName(),
-					false, false);
+			netXResourceText.setText("<form><p><b>"
+					+ summary.getTarget().getExpressionName()
+					+ "</b></p></form>", true, false);
+
 			markersText.setText(
 					new Integer(summary.markers().size()).toString(), false,
 					false);

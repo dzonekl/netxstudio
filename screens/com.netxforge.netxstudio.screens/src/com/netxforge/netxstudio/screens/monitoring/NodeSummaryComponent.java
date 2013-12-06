@@ -24,12 +24,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.FormText;
 
-import com.netxforge.netxstudio.common.model.ComponentSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
+import com.netxforge.netxstudio.common.model.NodeTypeSummary;
+import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.Node;
 
-public class ComponentSummaryComponent extends AbstractSummaryComponent {
+public class NodeSummaryComponent extends AbstractSummaryComponent {
 
-	private FormText componentText;
+	private FormText nodeText;
 
 	private FormText resourcesText;
 
@@ -48,19 +50,19 @@ public class ComponentSummaryComponent extends AbstractSummaryComponent {
 		gridContent.setLayout(gridLayout);
 		formToolkit.paintBordersFor(gridContent);
 
-		Label componentLabel = formToolkit.createLabel(gridContent,
-				"Component: ", SWT.NONE);
-		componentLabel.setAlignment(SWT.RIGHT);
+		Label summaryLabel = formToolkit.createLabel(gridContent, "Node: ",
+				SWT.NONE);
+		summaryLabel.setAlignment(SWT.RIGHT);
 
 		GridData gd_lblSummary = new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblSummary.widthHint = 83;
-		componentLabel.setLayoutData(gd_lblSummary);
+		summaryLabel.setLayoutData(gd_lblSummary);
 
-		componentText = formToolkit.createFormText(gridContent, false);
+		nodeText = formToolkit.createFormText(gridContent, false);
 		GridData gridData = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
 		gridData.widthHint = 200;
-		componentText.setLayoutData(gridData);
+		nodeText.setLayoutData(gridData);
 
 		Label resourcesLabel = formToolkit.createLabel(gridContent,
 				"# Monitored RE: ", SWT.NONE);
@@ -94,12 +96,16 @@ public class ComponentSummaryComponent extends AbstractSummaryComponent {
 	}
 
 	public void fillSummary(IMonitoringSummary nonCastedSummary) {
-		if (nonCastedSummary instanceof ComponentSummary) {
+		if (nonCastedSummary instanceof NodeTypeSummary) {
 
-			ComponentSummary summary = (ComponentSummary) nonCastedSummary;
+			NodeTypeSummary summary = (NodeTypeSummary) nonCastedSummary;
+			NodeType nodeType = summary.getNodeType();
 
-			componentText.setText("<form><p><b>" + summary.getComponentName()
-					+ "</b></p></form>", true, false);
+			if (nodeType.eContainer() instanceof Node) {
+				Node n = (Node) nodeType.eContainer();
+				nodeText.setText("<form><p><b>" + n.getNodeID()
+						+ "</b></p></form>", true, false);
+			}
 			resourcesText.setText(
 					new Integer(summary.totalResources()).toString(), false,
 					false);
