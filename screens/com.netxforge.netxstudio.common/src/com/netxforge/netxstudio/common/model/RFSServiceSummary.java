@@ -71,13 +71,6 @@ public class RFSServiceSummary extends MonitoringAdapter {
 		}
 
 		clearComputation();
-		nodes = 0;
-		services = 0;
-		equipments = 0;
-		functions = 0;
-		ragForNodes = new Rag();
-		ragForNetXResource = new Rag();
-
 		computeForRFService(monitor, rfsService);
 	}
 
@@ -103,7 +96,7 @@ public class RFSServiceSummary extends MonitoringAdapter {
 		// Include our own service as well.
 		services += 1;
 
-		boolean childServiceComputed = true;
+		boolean childServiceComputed = false;
 
 		// Descend the Service Hierarchy for additional aggregation.
 		for (Service childService : service.getServices()) {
@@ -117,11 +110,11 @@ public class RFSServiceSummary extends MonitoringAdapter {
 					resources += serviceSummary.resources;
 					functions += serviceSummary.totalFunctions();
 					equipments += serviceSummary.totalEquipments();
+					nodes += serviceSummary.totalNodes();
 					if (serviceSummary.isComputed()) {
 						ragForNodes.incrementRag(serviceSummary.ragForNodes);
-					} else {
-						childServiceComputed = false;
-					}
+						childServiceComputed = true;
+					} 
 				}
 			}
 		}
@@ -172,7 +165,7 @@ public class RFSServiceSummary extends MonitoringAdapter {
 
 		}
 
-		if (computedNodes == nodes && childServiceComputed) {
+		if (computedNodes == nodes || childServiceComputed) {
 			computationState = ComputationState.COMPUTED;
 		}
 
@@ -268,7 +261,8 @@ public class RFSServiceSummary extends MonitoringAdapter {
 	public int totalResources() {
 		return resources;
 	}
-
+	
+	
 	public RFSService getRFSServiceFromTarget() {
 		final RFSService target = (RFSService) super.getTarget();
 		return target;
@@ -277,6 +271,18 @@ public class RFSServiceSummary extends MonitoringAdapter {
 	@Override
 	public int totalRag(RAG status) {
 		return ragForNodes.totalRag(status);
+	}
+
+	@Override
+	public void clearComputation() {
+		super.clearComputation();
+		resources = 0;
+		equipments = 0;
+		functions = 0;
+		nodes = 0;
+		services = 0;
+		ragForNodes = new Rag();
+		ragForNetXResource = new Rag();
 	}
 
 }

@@ -43,6 +43,7 @@ public class ComponentSummary extends MonitoringAdapter {
 
 	private int functions;
 	private int equipments;
+	private int resources;
 
 	@Override
 	protected synchronized void computeForTarget(IProgressMonitor monitor) {
@@ -67,17 +68,19 @@ public class ComponentSummary extends MonitoringAdapter {
 		} else if (component instanceof Equipment) {
 			equipments += 1;
 		}
-		boolean childComponentComputed = true;
+		boolean childComponentComputed = false;
 
 		for (Component c : modelUtils.componentsForComponent(component, false)) {
-			ComponentSummary adaptAndCompute = adaptAndCompute(monitor, c,
+			ComponentSummary componentSummary = adaptAndCompute(monitor, c,
 					this.getContextObjects());
-			if (adaptAndCompute != null) {
-				if (adaptAndCompute.isComputed()) {
+			if (componentSummary != null) {
+				resources += componentSummary.totalResources();
+				functions += componentSummary.totalFunctions();
+				equipments += componentSummary.totalEquipments();
+				if (componentSummary.isComputed()) {
 					// Base our RAG status, on the child's status
-					this.incrementRag(adaptAndCompute.rag());
-				} else {
-					childComponentComputed = false;
+					this.incrementRag(componentSummary.rag());
+					childComponentComputed = true;
 				}
 			}
 		}
@@ -105,6 +108,7 @@ public class ComponentSummary extends MonitoringAdapter {
 				if (childAdapter != null) {
 					if (childAdapter.isComputed()) {
 						computedResources++;
+						resources ++;
 						// Base our RAG status, on the child's status
 						this.incrementRag(childAdapter.rag());
 					}
@@ -115,7 +119,7 @@ public class ComponentSummary extends MonitoringAdapter {
 				resourcesMonitor.worked(1);
 			}
 		}
-		if (computedResources == totalResources() && childComponentComputed) {
+		if (computedResources == component.getResourceRefs().size() || childComponentComputed) {
 			computationState = ComputationState.COMPUTED;
 		}
 	}
@@ -139,16 +143,6 @@ public class ComponentSummary extends MonitoringAdapter {
 		// We have a relation for NetXResaource objects which are referenced by
 		// this target.
 		return getComponent().getResourceRefs().contains(object);
-	}
-
-	/**
-	 * The count for the {@link NetXResource} objects referenced by this
-	 * {@link Component}.
-	 * 
-	 * @return
-	 */
-	public int totalResources() {
-		return this.getComponent().getResourceRefs().size();
 	}
 
 	public Component getComponent() {
@@ -190,6 +184,16 @@ public class ComponentSummary extends MonitoringAdapter {
 		return null;
 	}
 
+	/**
+	 * The count for the {@link NetXResource} objects referenced by this
+	 * {@link Component} and it's children components.
+	 * 
+	 * @return
+	 */
+	public int totalResources() {
+		return resources;
+	}
+
 	public int totalFunctions() {
 		return functions;
 	}
@@ -197,4 +201,13 @@ public class ComponentSummary extends MonitoringAdapter {
 	public int totalEquipments() {
 		return equipments;
 	}
+
+	@Override
+	public void clearComputation() {
+		super.clearComputation();
+		resources = 0;
+		functions = 0;
+		equipments = 0;
+	}
+
 }

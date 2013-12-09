@@ -122,6 +122,14 @@ public class NodeTypeSummary extends MonitoringAdapter {
 				|| object.eClass() == LibraryPackage.Literals.EQUIPMENT;
 	}
 
+	@Override
+	public void clearComputation() {
+		super.clearComputation();
+		resources = 0;
+		equipments = 0;
+		functions = 0;
+	}
+
 	public String getFunctionCountAsString() {
 		return new Integer(functions).toString();
 	}

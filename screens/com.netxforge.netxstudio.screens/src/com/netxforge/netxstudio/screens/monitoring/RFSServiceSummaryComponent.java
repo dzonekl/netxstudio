@@ -33,6 +33,8 @@ public class RFSServiceSummaryComponent extends AbstractSummaryComponent {
 
 	private FormText formTextNumberOfResources;
 
+	private FormText formTextServiceName;
+
 	/**
 	 * Assume a {@link GridLayout} with 2 columns.
 	 */
@@ -42,11 +44,25 @@ public class RFSServiceSummaryComponent extends AbstractSummaryComponent {
 				SWT.NONE);
 		gridContent.setLayout(new GridLayout(2, false));
 		formToolkit.paintBordersFor(gridContent);
-		
+
+		Label serviceLabel = formToolkit.createLabel(gridContent, "Service: ",
+				SWT.NONE);
+		serviceLabel.setAlignment(SWT.RIGHT);
+
+		GridData gd_lblservice = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_lblservice.widthHint = 83;
+		serviceLabel.setLayoutData(gd_lblservice);
+
+		formTextServiceName = formToolkit.createFormText(gridContent, false);
+		GridData gridData = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
+		gridData.widthHint = 200;
+		formTextServiceName.setLayoutData(gridData);
+
 		final Label lblMonitoredNodes = formToolkit.createLabel(gridContent,
 				"# Monitored NE's:", SWT.NONE);
-		GridData gd_lblNodes = new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1);
+		GridData gd_lblNodes = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
 		gd_lblNodes.widthHint = 83;
 		lblMonitoredNodes.setLayoutData(gd_lblNodes);
 
@@ -61,7 +77,8 @@ public class RFSServiceSummaryComponent extends AbstractSummaryComponent {
 		formToolkit.adapt(lblMonitoredRess, true, true);
 		lblMonitoredRess.setText("# Monitored RES's:");
 
-		formTextNumberOfResources = formToolkit.createFormText(gridContent, false);
+		formTextNumberOfResources = formToolkit.createFormText(gridContent,
+				false);
 		formTextNumberOfResources.setLayoutData(new GridData(SWT.LEFT,
 				SWT.CENTER, false, false, 1, 1));
 		formToolkit.paintBordersFor(formTextNumberOfResources);
@@ -72,6 +89,11 @@ public class RFSServiceSummaryComponent extends AbstractSummaryComponent {
 
 		if (nonCastedSummary instanceof RFSServiceSummary) {
 			RFSServiceSummary summary = (RFSServiceSummary) nonCastedSummary;
+			
+			formTextServiceName.setText("<form><p><b>"
+					+ summary.getRFSService().getServiceName()
+					+ "</b></p></form>", true, false);
+
 			formTextNumberOfNodes.setText(
 					new Integer(summary.totalNodes()).toString(), false, false);
 			formTextNumberOfResources.setText(

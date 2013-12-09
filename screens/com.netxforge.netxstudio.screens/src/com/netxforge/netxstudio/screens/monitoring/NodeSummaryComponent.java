@@ -31,9 +31,9 @@ import com.netxforge.netxstudio.operators.Node;
 
 public class NodeSummaryComponent extends AbstractSummaryComponent {
 
-	private FormText nodeText;
+	private FormText formTextNodeID;
 
-	private FormText resourcesText;
+	private FormText formTextNumberOfResources;
 
 	//
 	// private FormText rangesText;
@@ -50,19 +50,19 @@ public class NodeSummaryComponent extends AbstractSummaryComponent {
 		gridContent.setLayout(gridLayout);
 		formToolkit.paintBordersFor(gridContent);
 
-		Label summaryLabel = formToolkit.createLabel(gridContent, "Node: ",
+		Label nodeLabel = formToolkit.createLabel(gridContent, "Node: ",
 				SWT.NONE);
-		summaryLabel.setAlignment(SWT.RIGHT);
+		nodeLabel.setAlignment(SWT.RIGHT);
 
-		GridData gd_lblSummary = new GridData(SWT.RIGHT, SWT.CENTER, false,
+		GridData gd_lblNode = new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1);
-		gd_lblSummary.widthHint = 83;
-		summaryLabel.setLayoutData(gd_lblSummary);
+		gd_lblNode.widthHint = 83;
+		nodeLabel.setLayoutData(gd_lblNode);
 
-		nodeText = formToolkit.createFormText(gridContent, false);
+		formTextNodeID = formToolkit.createFormText(gridContent, false);
 		GridData gridData = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
 		gridData.widthHint = 200;
-		nodeText.setLayoutData(gridData);
+		formTextNodeID.setLayoutData(gridData);
 
 		Label resourcesLabel = formToolkit.createLabel(gridContent,
 				"# Monitored RE: ", SWT.NONE);
@@ -73,10 +73,10 @@ public class NodeSummaryComponent extends AbstractSummaryComponent {
 		gd_lblResources.widthHint = 83;
 		resourcesLabel.setLayoutData(gd_lblResources);
 
-		resourcesText = formToolkit.createFormText(gridContent, false);
+		formTextNumberOfResources = formToolkit.createFormText(gridContent, false);
 		GridData gd_txtResources = new GridData(SWT.FILL, SWT.TOP, false,
 				false, 1, 1);
-		resourcesText.setLayoutData(gd_txtResources);
+		formTextNumberOfResources.setLayoutData(gd_txtResources);
 
 		// Label rangesLabel = formToolkit.createLabel(gridContent, "Ranges: ",
 		// SWT.NONE);
@@ -103,10 +103,10 @@ public class NodeSummaryComponent extends AbstractSummaryComponent {
 
 			if (nodeType.eContainer() instanceof Node) {
 				Node n = (Node) nodeType.eContainer();
-				nodeText.setText("<form><p><b>" + n.getNodeID()
+				formTextNodeID.setText("<form><p><b>" + n.getNodeID()
 						+ "</b></p></form>", true, false);
 			}
-			resourcesText.setText(
+			formTextNumberOfResources.setText(
 					new Integer(summary.totalResources()).toString(), false,
 					false);
 			// rangesText.setText(new Integer(summary.getTarget()

@@ -27,6 +27,7 @@ import org.eclipse.emf.cdo.CDODeltaNotification;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.common.context.IComputationContext;
@@ -43,8 +44,8 @@ import com.netxforge.netxstudio.services.Service;
  * @author Christophe Bouhier
  * 
  */
-public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
-		implements CDOAdapter, IMonitoringSummary {
+public abstract class MonitoringAdapter extends AdapterImpl implements
+		CDOAdapter, IMonitoringSummary {
 
 	protected ModelUtils modelUtils;
 
@@ -193,18 +194,33 @@ public abstract class MonitoringAdapter extends CDOLazyMonitoringAdapter
 
 	}
 
-	// MODEL
-
-	@Override
+	// MODEL for CDOLazyContentProvider
+	
+	// These methods were previously required for self-adaptation, 
+	// the lazy content provider attaches itself as an object listener and 
+	// ataches itself. This proved complex, with a deep level of self-calling resulting
+	// in stack overflows. For example the 'related' check would sometime check the containment
+	// hierarchy , implicitly loading objects, triggering the self-adaptation again and again. 
+	// We keep the methods here, as the clients of this class 
 	protected boolean isRelated(CDOObject object) {
-		return isContained(object);
-	}
-
-	@Override
-	protected boolean isSameAdapterFor(EObject object) {
 		return false;
 	}
 
+	protected boolean isSameAdapterFor(EObject object) {
+		return false;
+	}
+	
+	protected boolean isNotFiltered(EObject object) {
+		return false;
+	}
+	
+	
+	protected boolean isContained(EObject object) {
+		return false;
+	}
+
+	// MODEL
+	
 	public void setModelUtils(ModelUtils utils) {
 		this.modelUtils = utils;
 

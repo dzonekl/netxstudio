@@ -33,6 +33,8 @@ public class OperatorSummaryComponent extends AbstractSummaryComponent {
 
 	private FormText formTextNumberOfResources;
 
+	private FormText formTextOperatorName;
+
 	/**
 	 * Assume a {@link GridLayout} with 2 columns.
 	 */
@@ -42,6 +44,21 @@ public class OperatorSummaryComponent extends AbstractSummaryComponent {
 				SWT.NONE);
 		gridContent.setLayout(new GridLayout(2, false));
 		formToolkit.paintBordersFor(gridContent);
+			
+		
+		Label operatorLabel = formToolkit.createLabel(gridContent, "operator: ",
+				SWT.NONE);
+		operatorLabel.setAlignment(SWT.RIGHT);
+
+		GridData gd_lbloperator = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_lbloperator.widthHint = 83;
+		operatorLabel.setLayoutData(gd_lbloperator);
+
+		formTextOperatorName = formToolkit.createFormText(gridContent, false);
+		GridData gridData = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
+		gridData.widthHint = 200;
+		formTextOperatorName.setLayoutData(gridData);
 		
 		final Label lblMonitoredNodes = formToolkit.createLabel(gridContent,
 				"# Monitored NE's:", SWT.NONE);
@@ -72,6 +89,10 @@ public class OperatorSummaryComponent extends AbstractSummaryComponent {
 
 		if (nonCastedSummary instanceof OperatorSummary) {
 			OperatorSummary summary = (OperatorSummary) nonCastedSummary;
+			formTextOperatorName.setText("<form><p><b>"
+					+ summary.getTarget().getName()
+					+ "</b></p></form>", true, false);
+
 			formTextNumberOfNodes.setText(
 					new Integer(summary.totalNodes()).toString(), false, false);
 			formTextNumberOfResources.setText(

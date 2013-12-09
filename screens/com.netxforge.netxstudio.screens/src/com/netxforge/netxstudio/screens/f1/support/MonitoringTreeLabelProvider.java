@@ -184,7 +184,7 @@ public class MonitoringTreeLabelProvider extends StyledCellLabelProvider {
 			if (!MonitoringStateModel.isAdapted((EObject) element)) {
 				// We let our screen deal with calling the monitoring state
 				// model.
-				System.out.println(" No monitor for: " + element);
+//				System.out.println(" No monitor for: " + element);
 			} else {
 				IMonitoringSummary summary = MonitoringStateModel
 						.getAdapted((EObject) element);
@@ -230,6 +230,10 @@ public class MonitoringTreeLabelProvider extends StyledCellLabelProvider {
 			break;
 		}
 
+		
+		
+		
+		
 		styledString = new StyledString(rag);
 
 		return styledString;
@@ -239,8 +243,11 @@ public class MonitoringTreeLabelProvider extends StyledCellLabelProvider {
 			String symbolicName) {
 		// Determine if R, A or G from the RAG status, set the styler.
 		if (ragValue > 0) {
+			// remember the previous background. 
 			cell.setBackground(JFaceResources.getColorRegistry().get(
 					symbolicName));
+		}else{
+			cell.setBackground(null);
 		}
 	}
 

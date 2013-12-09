@@ -68,13 +68,7 @@ public class OperatorSummary extends MonitoringAdapter {
 		// Safely case, checked by our factory.
 
 		clearComputation();
-		nodes = 0;
-		services = 0;
-		equipments = 0;
-		functions = 0;
-		ragForNodes = new Rag();
-		ragForNetXResource = new Rag();
-
+		boolean computedServices = false;
 		for (Service s : operator.getServices()) {
 			RFSServiceSummary serviceSummary = RFSServiceSummary
 					.adaptAndCompute(subMonitor, (RFSService) s,
@@ -87,17 +81,30 @@ public class OperatorSummary extends MonitoringAdapter {
 				resources += serviceSummary.resources;
 				functions += serviceSummary.totalFunctions();
 				equipments += serviceSummary.totalEquipments();
+				nodes += serviceSummary.totalNodes();
 				if (serviceSummary.isComputed()) {
 					ragForNodes.incrementRag(serviceSummary.ragForNodes);
+					computedServices = true;
 				}
 			}
 			monitor.worked(1);
 		}
+
+		if (computedServices) {
+			computationState = ComputationState.COMPUTED;
+		}
 	}
 
 	public void clearComputation() {
-		computationState = ComputationState.NOT_COMPUTED;
-		summaryRag.cleanRag();
+		super.clearComputation();
+		nodes = 0;
+		services = 0;
+		equipments = 0;
+		functions = 0;
+		resources = 0;
+		ragForNodes = new Rag();
+		ragForNetXResource = new Rag();
+	
 	}
 
 	public Operator getTarget() {
@@ -121,7 +128,7 @@ public class OperatorSummary extends MonitoringAdapter {
 	public int totalRag(RAG status) {
 		return ragForNodes.totalRag(status);
 	}
-	
+
 	public int totalServices() {
 		return services;
 	}
@@ -141,5 +148,5 @@ public class OperatorSummary extends MonitoringAdapter {
 	public int totalResources() {
 		return resources;
 	}
-	
+
 }

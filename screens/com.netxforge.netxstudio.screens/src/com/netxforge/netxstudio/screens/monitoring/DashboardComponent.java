@@ -337,6 +337,11 @@ public class DashboardComponent extends JobChangeAdapter {
 
 		if (summary != null && summaryForSelection != null) {
 			summaryForSelection.fillSummary(summary);
+		} else {
+			if (summaryForSelection != null) {
+				summaryForSelection.dispose();
+				summaryForSelection = null;
+			}
 		}
 		refresh();
 	}
@@ -350,7 +355,7 @@ public class DashboardComponent extends JobChangeAdapter {
 	private void populateContent(IMonitoringSummary summary) {
 
 		if (summary == null) {
-			formTextLastMonitor.setText("no monitors", false, false);
+			formTextLastMonitor.setText("No monitoring", false, false);
 			// layourComponent.layout();
 		} else {
 
@@ -419,10 +424,10 @@ public class DashboardComponent extends JobChangeAdapter {
 				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
 						IStatus.OK, "Widget disposed", null);
 			}
-			if (summary == null) {
-				return new Status(IStatus.WARNING, ScreensActivator.PLUGIN_ID,
-						IStatus.ERROR, "No summary for this object", null);
-			}
+			// if (summary == null) {
+			// return new Status(IStatus.WARNING, ScreensActivator.PLUGIN_ID,
+			// IStatus.ERROR, "No summary for this object", null);
+			// }
 
 			refreshSummaryUI(summary);
 
@@ -438,24 +443,20 @@ public class DashboardComponent extends JobChangeAdapter {
 		if (latest instanceof Node) {
 			if (latest.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
 				latest = ((Node) latest).getNodeType();
-			}else{
+			} else {
 				return;
 			}
 		}
 
-		if (MonitoringStateModel.isAdapted(latest)) {
-			System.out
-					.println("Dashboard: Good selection :-) already adapted: "
-							+ latest.toString());
-
-			IMonitoringSummary adapted = MonitoringStateModel.getAdapted(latest);
-			refreshSummaryJob.setSummary(adapted);
-			refreshSummaryJob.schedule(100);
-		} else {
-			//
-			// final SummaryCallBack callBack = new SummaryCallBack();
-			// monitoringState.summary(callBack, o, new Object[] {});
-		}
+		// if (MonitoringStateModel.isAdapted(latest)) {
+		IMonitoringSummary adapted = MonitoringStateModel.getAdapted(latest);
+		refreshSummaryJob.setSummary(adapted);
+		refreshSummaryJob.schedule(100);
+		// } else {
+		//
+		// final SummaryCallBack callBack = new SummaryCallBack();
+		// monitoringState.summary(callBack, o, new Object[] {});
+		// }
 	}
 
 	private synchronized void setLatestSelection(EObject o) {
