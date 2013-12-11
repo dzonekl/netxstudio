@@ -174,6 +174,11 @@ public class SmartChartScreen extends AbstractScreen implements
 		}
 
 		private void refreshSummaryUI(IMonitoringSummary summary) {
+			
+			
+			// CB MULTI_REFACTOR: 
+			// 1. Handle multiple selections. 
+			
 			if (getLatestSelection() instanceof NetXResource) {
 				NetXResource netxRes = (NetXResource) getLatestSelection();
 				if (netxRes.getMetricValueRanges().size() > 0) {
@@ -455,6 +460,7 @@ public class SmartChartScreen extends AbstractScreen implements
 			// running, we delay until it's ready.
 			if (o instanceof EObject) {
 				setLatestSelection((EObject) o);
+				updateLatestSelection();
 			}
 
 			// We can't add a notifier until the
@@ -747,8 +753,8 @@ public class SmartChartScreen extends AbstractScreen implements
 
 	private void updateLatestSelection() {
 		if (MonitoringStateModel.isAdapted(this.getLatestSelection())) {
-			System.out.println("Chart: Good :-) selection already adapted: "
-					+ (this.getLatestSelection()).toString());
+//			System.out.println("Chart: Good :-) selection already adapted: "
+//					+ (this.getLatestSelection()).toString());
 
 			IMonitoringSummary adapted = MonitoringStateModel.getAdapted(this
 					.getLatestSelection());
