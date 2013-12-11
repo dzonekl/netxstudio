@@ -95,7 +95,7 @@ public class DawnEMFEditorSupport extends DawnAbstractEditorSupport {
 				return;
 			}
 		}
-		view.addListener(sessionLifeCycleHandler);
+		session.addListener(sessionLifeCycleHandler);
 	}
 
 	public void registerStaleReferencePolicy() {

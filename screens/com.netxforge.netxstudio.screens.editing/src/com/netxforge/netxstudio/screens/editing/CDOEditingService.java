@@ -233,6 +233,10 @@ public class CDOEditingService extends EMFEditingService implements
 					cdoRes.unload();
 				}
 
+				// Closes the view before de-registrating the listners to get
+				// lifecycle notifications.
+				dawnEditorSupport.close();
+
 				// Clean up listeners.
 				IListener[] listeners = cdoRes.cdoView().getListeners();
 				if (listeners != null) {
@@ -240,19 +244,8 @@ public class CDOEditingService extends EMFEditingService implements
 						cdoRes.cdoView().removeListener(l);
 					}
 				}
-
-				if (EditingActivator.DEBUG) {
-					if (res.isModified()) {
-
-					}
-
-					if (!cdoRes.cdoView().isClosed()) {
-						cdoRes.cdoView().close();
-					}
-				}
 			}
 
-			dawnEditorSupport.close(); // Closes the view.
 		}
 	}
 
@@ -343,16 +336,16 @@ public class CDOEditingService extends EMFEditingService implements
 			}
 		}
 	}
-	
-	
+
 	/**
-	 * Return the data status for this service. 
+	 * Return the data status for this service.
+	 * 
 	 * @return
 	 */
-	public String printDataStatus(){
+	public String printDataStatus() {
 		return dataService.toString();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

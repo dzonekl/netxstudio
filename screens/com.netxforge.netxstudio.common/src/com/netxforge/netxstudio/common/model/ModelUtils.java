@@ -5151,21 +5151,35 @@ public class ModelUtils {
 	}
 
 	/**
-	 * All closure components.
+	 * All closure components for a {@link Node}
 	 * 
 	 * @param n
 	 * @return
 	 */
 	public List<Component> componentsForNode(Node n) {
-		final List<Component> components = new ArrayList<Component>();
 
+		List<Component> components = null;
 		if (n.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
-			for (Component c : n.getNodeType().getFunctions()) {
-				components.addAll(componentsForComponent(c));
-			}
-			for (Component c : n.getNodeType().getEquipments()) {
-				components.addAll(componentsForComponent(c));
-			}
+			components = componentsForNodeType(n.getNodeType());
+		}
+		return components;
+	}
+
+	
+	/**
+	 * All closure components for a {@link NodeType}
+	 * 
+	 * @param n
+	 * @return
+	 */
+
+	public List<Component> componentsForNodeType(NodeType nodeType) {
+		final List<Component> components = new ArrayList<Component>();
+		for (Component c : nodeType.getFunctions()) {
+			components.addAll(componentsForComponent(c));
+		}
+		for (Component c : nodeType.getEquipments()) {
+			components.addAll(componentsForComponent(c));
 		}
 		return components;
 	}

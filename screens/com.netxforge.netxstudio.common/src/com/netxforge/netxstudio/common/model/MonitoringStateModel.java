@@ -493,10 +493,16 @@ public class MonitoringStateModel {
 			if (computationMode == MONITOR_COMPUTATION_REPETITIVE_MODE) {
 				job.go(1000);
 			} else {
-				job.go(); // Should spawn a job processing the xls.
+				job.go(); // Should spawn a job.
 			}
 		}
-
+	}
+	
+	/**
+	 * Cancel all running monitoring jobs. 
+	 */
+	public boolean cancel(){
+		return this.getJob().cancel();
 	}
 
 	/**

@@ -64,7 +64,7 @@ public abstract class BasicDawnListener implements IDawnListener// implements
 
 	// Override. 
 	protected void handleLifeCycleEvent(ILifecycleEvent event) {
-
+		System.out.println(event);
 	}
 
 	/**

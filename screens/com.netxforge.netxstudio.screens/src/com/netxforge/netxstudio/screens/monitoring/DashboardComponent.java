@@ -356,7 +356,9 @@ public class DashboardComponent extends JobChangeAdapter {
 
 		if (summary == null) {
 			formTextLastMonitor.setText("No monitoring", false, false);
-			// layourComponent.layout();
+			formTextRed.setText("", false, false);
+			formTextAmber.setText("", false, false);
+			formTextGreen.setText("", false, false);
 		} else {
 
 			formTextLastMonitor.setText(summary.getPeriodFormattedString(),

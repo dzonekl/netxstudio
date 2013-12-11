@@ -132,6 +132,16 @@ public class MonitoringTree extends AbstractPeriodScreen implements
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
+				while( !monitoringStateModel.cancel()){
+					//Will hang the UI, so should really wait in other thread...
+					try {
+						monitoringStateModel.wait(500);
+						System.out.println("waiting for job to complete.");
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 			}
 		});
 		toolkit.adapt(this);
@@ -614,8 +624,6 @@ public class MonitoringTree extends AbstractPeriodScreen implements
 	}
 
 	public void callBackEvent(MonitoringStateEvent event) {
-		Object result = event.getResult();
-		System.out.println(result);
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				monitoringTreeViewer.refresh();

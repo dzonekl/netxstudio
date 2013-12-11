@@ -57,13 +57,23 @@ public class NodeTypeSummary extends MonitoringAdapter {
 
 		// Get the corresponding node.
 		Node node = modelUtils.nodeFor(target);
-		List<Component> componentsForMonitors = modelUtils
-				.componentsForMonitors(rfsService, node);
 
-		if (!componentsForMonitors.isEmpty()) {
+		// In case there is a Service, we get the components with a matching
+		// node in the service and resource monitors, if not we get all underlying
+		// components.
+
+		List<Component> components = null;
+
+		if (rfsService != null && node != null) {
+			components = modelUtils.componentsForMonitors(rfsService, node);
+		}else{
+			components = modelUtils.componentsForNodeType(target);
+		}
+
+		if (!components.isEmpty()) {
 
 			// Might throw an Exception.
-			int work = componentsForMonitors.size();
+			int work = components.size();
 
 			final SubMonitor nodeTypeMonitor = SubMonitor
 					.convert(monitor, work);
@@ -72,7 +82,7 @@ public class NodeTypeSummary extends MonitoringAdapter {
 
 			int computedComponents = 0;
 
-			for (Component component : componentsForMonitors) {
+			for (Component component : components) {
 
 				if (monitor != null && monitor.isCanceled()) {
 					System.out.println("Computation cancelled...");
@@ -102,7 +112,7 @@ public class NodeTypeSummary extends MonitoringAdapter {
 				nodeTypeMonitor.worked(1);
 			}
 
-			if (computedComponents == componentsForMonitors.size()) {
+			if (computedComponents == components.size()) {
 				computationState = ComputationState.COMPUTED;
 			}
 		}
