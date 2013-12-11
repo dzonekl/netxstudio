@@ -12,6 +12,8 @@ import org.eclipse.emf.edit.command.CopyCommand.Helper;
 import org.eclipse.emf.edit.command.InitializeCopyCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
+import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -19,7 +21,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
 /**
  * 
  * @author Christophe
- *
+ * 
  */
 public class NameSequenceInitializeCopyCommand extends InitializeCopyCommand {
 
@@ -46,7 +48,8 @@ public class NameSequenceInitializeCopyCommand extends InitializeCopyCommand {
 				if (!attribute.isMany()) {
 
 					if (isIdentifier(attribute) && value instanceof String) {
-						copy.eSet(attribute, nextIdentitySequence((String) value));
+						copy.eSet(attribute,
+								nextIdentitySequence((String) value));
 					} else {
 						copy.eSet(attribute, value);
 					}
@@ -101,9 +104,13 @@ public class NameSequenceInitializeCopyCommand extends InitializeCopyCommand {
 			if (attribute == ServicesPackage.Literals.SERVICE_USER__NAME) {
 				return true;
 			}
-		}
-		if (owner instanceof RFSService) {
+		} else if (owner instanceof RFSService) {
 			if (attribute == ServicesPackage.Literals.SERVICE__SERVICE_NAME) {
+				return true;
+			}
+		} else if (owner instanceof MetricSource) {
+			// http://work.netxforge.com/issues/242
+			if (attribute == MetricsPackage.Literals.METRIC_SOURCE__NAME) {
 				return true;
 			}
 		}
@@ -113,9 +120,9 @@ public class NameSequenceInitializeCopyCommand extends InitializeCopyCommand {
 
 	public String nextIdentitySequence(String value) {
 		String identity = EditUtils.INSTANCE.nextIdentity(value);
-		if(!identity.isEmpty()){
+		if (!identity.isEmpty()) {
 			return identity;
-		}else{
+		} else {
 			return value + " 1";
 		}
 	}
