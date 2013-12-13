@@ -28,6 +28,7 @@ import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
@@ -485,6 +486,14 @@ public class ScreenFormService implements IScreenFormService {
 	public void dirtyWarning() {
 		// Warn for unsaved changes.
 		if (editingService.isDirty()) {
+			
+			if(editingService instanceof CDOEditingService){
+				CDOView view = ((CDOEditingService) editingService).getView();
+				if(view instanceof CDOTransaction){
+					modelUtils.cdoDumpDirtyObject((CDOTransaction) view);
+				}
+			}
+			
 			boolean result = MessageDialog
 					.openQuestion(Display.getCurrent().getActiveShell(),
 							"Save needed",

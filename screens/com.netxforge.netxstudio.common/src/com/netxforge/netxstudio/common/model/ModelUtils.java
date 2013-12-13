@@ -54,6 +54,7 @@ import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.common.revision.delta.CDOAddFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOContainerFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOFeatureDelta;
+import org.eclipse.emf.cdo.common.revision.delta.CDOFeatureDelta.Type;
 import org.eclipse.emf.cdo.common.revision.delta.CDOListFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOMoveFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDORemoveFeatureDelta;
@@ -1683,25 +1684,6 @@ public class ModelUtils {
 		final CDOResourceFolder folder = transaction
 				.getOrCreateResourceFolder("/Node_/");
 
-		// CDOResourceNode folder = transaction.getResourceNode("/Node_/");
-		// if (folder instanceof CDOResourceFolder) {
-		// // remember the folder, so we can create resources directly.
-		// netXResourceFolder = (CDOResourceFolder) folder;
-		// }
-
-		// Delete any resource, which has the name "/Node_/", accidently
-		// created.
-		// if (folder instanceof CDOResource) {
-		// try {
-		// folder.delete(null);
-		// importer.getDataProvider().getTransaction().commit();
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// } catch (CommitException e) {
-		// e.printStackTrace();
-		// }
-		// } else
-
 		String cdoCalculateResourceName = null;
 
 		try {
@@ -2955,12 +2937,15 @@ public class ModelUtils {
 	public String printModelObject(EObject o) {
 		StringBuilder result = new StringBuilder();
 
-		if (o instanceof Network) {
+		if (o instanceof CDOResource) {
+			result.append("CDO Resource:  name=" + ((CDOResource) o).getName());
+		} else if (o instanceof CDOResourceFolder) {
+			result.append("CDO Resource Folder: path="
+					+ ((CDOResourceFolder) o).getPath());
+		} else if (o instanceof Network) {
 			Network net = (Network) o;
 			result.append("Network: name=" + net.getName());
-		} else
-
-		if (o instanceof Node) {
+		} else if (o instanceof Node) {
 			Node n = (Node) o;
 			result.append("Node: name=" + n.getNodeID());
 		} else if (o instanceof Equipment) {
@@ -3459,9 +3444,16 @@ public class ModelUtils {
 		return timeAndSecondsAmdMillis(new Date());
 	}
 
-	public String dateAndTime(XMLGregorianCalendar d) {
-		Date date = fromXMLDate(d);
-		return folderDateAndTime(date);
+	/**
+	 * returns a {@link Date} as a <code>String</code> with the following
+	 * pre-defined format. {@link #date} '-' {@link #time}
+	 * 
+	 * @param l
+	 * @return
+	 */
+
+	public String dateAndTime(long l) {
+		return dateAndTime(new Date(l));
 	}
 
 	/**
@@ -3477,6 +3469,11 @@ public class ModelUtils {
 		sb.append(date(d) + " ");
 		sb.append(time(d));
 		return sb.toString();
+	}
+
+	public String dateAndTime(XMLGregorianCalendar d) {
+		Date date = fromXMLDate(d);
+		return folderDateAndTime(date);
 	}
 
 	/**
@@ -4357,9 +4354,100 @@ public class ModelUtils {
 		return null;
 	}
 
-	public void cdoPrintRevisionDelta(CDORevisionDelta delta) {
+	public void cdoDumpRevisionDelta(CDORevisionDelta delta) {
 		for (CDOFeatureDelta fd : delta.getFeatureDeltas()) {
 			System.out.println("-- delta=" + fd);
+		}
+	}
+
+	/**
+	 * Dump the dirty objects of a {@link CDOTransaction transaction} to
+	 * standard out.
+	 * 
+	 * @param transaction
+	 */
+	public void cdoDumpDirtyObject(CDOTransaction transaction) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("\n Dirty objects for transaction: "
+				+ transaction.getViewID());
+		sb.append("\n Revisions ==============================\n");
+		cdoPrintDirtyObjects(sb, transaction);
+		System.out.println(sb.toString());
+	}
+
+	/**
+	 * Print the dirty objects to a {@link StringBuffer} for a
+	 * {@link CDOTransaction transaction}.
+	 * 
+	 * 
+	 * @param transaction
+	 */
+	public void cdoPrintDirtyObjects(StringBuffer sb, CDOTransaction transaction) {
+		Map<CDOID, CDOObject> dirtyObjects = transaction.getDirtyObjects();
+		Map<CDOID, CDORevisionDelta> revisionDeltas = transaction
+				.getRevisionDeltas();
+
+		for (CDOObject o : dirtyObjects.values()) {
+			CDORevision rev = o.cdoRevision();
+			sb.append("\n " + o.cdoID());
+			sb.append("\n  " + printModelObject(o));
+			sb.append("\n  ver:" + rev.getVersion());
+			sb.append("\n  on:" + dateAndTime(rev.getTimeStamp()));
+
+			if (revisionDeltas.containsKey(o.cdoID())) {
+				CDORevisionDelta cdoRevisionDelta = revisionDeltas.get(o
+						.cdoID());
+				cdoPrintFeatureDeltas(sb, cdoRevisionDelta.getFeatureDeltas());
+			}
+		}
+	}
+
+	/**
+	 * Print the {@link CDORevisionDelta Revision delta} to a
+	 * {@link StringBuffer}, for a {@link CDOTransaction transaction}. The
+	 * content will contain information from {@link CDOFeatureDelta the feature
+	 * delta(s)}
+	 * 
+	 * @param sb
+	 * @param transaction
+	 */
+	public void cdoPrintRevisionDeltas(StringBuffer sb,
+			CDOTransaction transaction) {
+		Map<CDOID, CDORevisionDelta> revisionDeltas = transaction
+				.getRevisionDeltas();
+		for (CDORevisionDelta delta : revisionDeltas.values()) {
+			for (CDOFeatureDelta fd : delta.getFeatureDeltas()) {
+				sb.append("\n delta: " + fd);
+			}
+		}
+	}
+
+	public void cdoPrintFeatureDeltas(StringBuffer sb,
+			List<CDOFeatureDelta> deltas) {
+
+		for (CDOFeatureDelta fd : deltas) {
+			Type type = fd.getType();
+			sb.append("\n    delta: " + " type:" + type);
+			sb.append("\n     feature: " + fd.getFeature().getName());
+			switch (type) {
+			case LIST: {
+				CDOListFeatureDelta castedFd = (CDOListFeatureDelta) fd;
+				sb.append("\n     original size: " + castedFd.getOriginSize());
+				cdoPrintFeatureDeltas(sb, castedFd.getListChanges());
+
+			}
+				break;
+			case ADD: {
+				CDOAddFeatureDelta castedFd = (CDOAddFeatureDelta) fd;
+				sb.append("\n     index: " + castedFd.getIndex());
+			}
+				break;
+			default: {
+				sb.append(" TODO create an entry for  type " + type
+						+ " entry for feature delta attributes of this type");
+			}
+			}
+
 		}
 	}
 
@@ -5165,7 +5253,6 @@ public class ModelUtils {
 		return components;
 	}
 
-	
 	/**
 	 * All closure components for a {@link NodeType}
 	 * 
