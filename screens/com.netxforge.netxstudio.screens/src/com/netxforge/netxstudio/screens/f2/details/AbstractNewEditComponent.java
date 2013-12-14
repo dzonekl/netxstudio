@@ -680,36 +680,8 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 						screenService.getScreenContainer(), SWT.NONE);
 				resourceScreen.setOperation(ScreenUtil.OPERATION_NEW);
 				resourceScreen.setScreenService(screenService);
-				
-				
+
 				Resource cdoResourceForNetXResource = modelUtils.cdoResourceForNetXResource(comp, (CDOTransaction) comp.cdoView());
-				
-//				String computedName = null;
-//				try {
-//					computedName = modelUtils.cdoCalculateResourceName(comp);
-//				} catch (IllegalAccessException e1) {
-//					if (ScreensActivator.DEBUG) {
-//						ScreensActivator.TRACE.trace(
-//								ScreensActivator.TRACE_SCREENS_OPTION,
-//								"Attempt to deduce a name with invalid object: "
-//										+ comp, e1);
-//					}
-//				}
-//				if (computedName == null) {
-//					MessageDialog.openError(
-//							AbstractNewEditComponent.this.getShell(),
-//							"Part name should be set",
-//							"Resources can only be created on fully specified parts. Please specify the name");
-//
-//					return; // Can't calculate path for empty names.
-//				}
-//
-//				final Resource resourcesResource = editingService
-//						.getDataService()
-//						.getProvider()
-//						.getResource(
-//								editingService.getEditingDomain()
-//										.getResourceSet(), computedName);
 
 				resourceScreen.injectData(cdoResourceForNetXResource, comp,
 						LibraryFactory.eINSTANCE.createNetXResource());

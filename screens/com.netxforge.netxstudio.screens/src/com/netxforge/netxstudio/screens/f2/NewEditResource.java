@@ -88,7 +88,8 @@ public class NewEditResource extends AbstractScreen implements
 
 	private Form frmResource;
 	private Resource owner;
-	private Component referingComponent;
+
+	// private Component referingComponent;
 
 	private Text txtComponent;
 
@@ -232,8 +233,8 @@ public class NewEditResource extends AbstractScreen implements
 
 					editingService.getEditingDomain().getCommandStack()
 							.execute(cc);
-					referingComponent = component;
-					updateWhoRefers();
+					// referingComponent = component;
+					// updateWhoRefers();
 				}
 
 			}
@@ -407,8 +408,9 @@ public class NewEditResource extends AbstractScreen implements
 		// Widget observables.
 
 		IObservableValue componentTargetObservable = SWTObservables
-				.observeDelayedValue(400, SWTObservables.observeText(
-						this.txtComponent, SWT.Modify));
+				.observeText(this.txtComponent, SWT.Modify);
+		IObservableValue nodeTargetObservable = SWTObservables.observeText(
+				this.txtNode, SWT.Modify);
 
 		IObservableValue shortNameTargetObservable = SWTObservables
 				.observeDelayedValue(400, SWTObservables.observeText(
@@ -433,6 +435,7 @@ public class NewEditResource extends AbstractScreen implements
 		IEMFValueProperty longNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.BASE_RESOURCE__LONG_NAME);
+
 		IEMFValueProperty expressionNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.BASE_RESOURCE__EXPRESSION_NAME);
@@ -441,6 +444,35 @@ public class NewEditResource extends AbstractScreen implements
 				.getEditingDomain(), FeaturePath.fromList(
 				LibraryPackage.Literals.BASE_RESOURCE__UNIT_REF,
 				LibraryPackage.Literals.UNIT__CODE));
+
+		EMFUpdateValueStrategy nodeToTargetStrategy = new EMFUpdateValueStrategy();
+		nodeToTargetStrategy.setConverter(new IConverter() {
+
+			public Object getFromType() {
+				return Component.class;
+			}
+
+			public Object getToType() {
+				return String.class;
+			}
+
+			public Object convert(Object fromObject) {
+				Component c = (Component) fromObject;
+				NodeType nt = modelUtils.resolveParentNodeType((EObject) c);
+				if (nt != null) {
+					Node n = null;
+					if ((n = modelUtils.nodeFor(nt)) != null) {
+						lblNode.setText("NE Instance:");
+						return n.getNodeID();
+					} else {
+						lblNode.setText("NE Type:");
+						return nt.getName();
+					}
+				} else {
+					return "";
+				}
+			}
+		});
 
 		EMFUpdateValueStrategy componentToTargetStrategy = new EMFUpdateValueStrategy();
 		componentToTargetStrategy.setConverter(new IConverter() {
@@ -459,8 +491,11 @@ public class NewEditResource extends AbstractScreen implements
 
 		});
 
+		context.bindValue(nodeTargetObservable, componentProperty.observe(res),
+				null, nodeToTargetStrategy);
 		context.bindValue(componentTargetObservable,
 				componentProperty.observe(res), null, componentToTargetStrategy);
+
 		context.bindValue(shortNameTargetObservable,
 				shortNameProperty.observe(res), null, null);
 		context.bindValue(longNameTargetObservable,
@@ -470,27 +505,16 @@ public class NewEditResource extends AbstractScreen implements
 		context.bindValue(unitTargetObservable, unitProperty.observe(res),
 				null, null);
 
-		updateWhoRefers();
+		// updateWhoRefers();
 
 		return context;
 	}
 
-	private void updateWhoRefers() {
-		if (referingComponent != null) {
-			NodeType nt = modelUtils
-					.resolveParentNodeType((EObject) referingComponent);
-			if (nt != null) {
-				Node n = null;
-				if ((n = modelUtils.nodeFor(nt)) != null) {
-					this.lblNode.setText("NE Instance:");
-					this.txtNode.setText(n.getNodeID());
-				} else {
-					this.lblNode.setText("NE Type:");
-					this.txtNode.setText(nt.getName());
-				}
-			}
-		}
-	}
+	// private void updateWhoRefers() {
+	// if (referingComponent != null) {
+
+	// }
+	// }
 
 	public void disposeData() {
 		// N/A
@@ -509,14 +533,19 @@ public class NewEditResource extends AbstractScreen implements
 		}
 
 		if (res instanceof NetXResource
-				&& res.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)) {
-			this.referingComponent = ((NetXResource) res).getComponentRef();
-		} else {
-			// Determine the ownership if not a resource.
-			if (whoRefers != null && whoRefers instanceof Component) {
-				this.referingComponent = (Component) whoRefers;
-			}
+				&& !res.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)
+				&& whoRefers != null) {
+			res.eSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
+					whoRefers);
 		}
+
+		// this.referingComponent = ((NetXResource) res).getComponentRef();
+		// } else {
+		// // Determine the ownership if not a resource.
+		// if (whoRefers != null && whoRefers instanceof Component) {
+		// this.referingComponent = (Component) whoRefers;
+		// }
+		// }
 
 		buildUI();
 		this.initDataBindings_();
@@ -527,26 +556,24 @@ public class NewEditResource extends AbstractScreen implements
 		if (ScreenUtil.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			CompoundCommand c = new CompoundCommand();
-			if (referingComponent != null) {
-				if (res instanceof NetXResource) {
 
-					Command addResource = new AddCommand(
-							editingService.getEditingDomain(),
-							owner.getContents(), (NetXResource) res);
+			if (res instanceof NetXResource) {
 
-					c.append(addResource);
+				Command addResource = new AddCommand(
+						editingService.getEditingDomain(), owner.getContents(),
+						(NetXResource) res);
 
-					Command refBidiCommand = new AddCommand(
-							editingService.getEditingDomain(),
-							((Component) referingComponent).getResourceRefs(),
-							(NetXResource) res);
-
-					c.append(refBidiCommand);
-
-				}
-				editingService.getEditingDomain().getCommandStack().execute(c);
+				c.append(addResource);
+				//
+				// Command refBidiCommand = new AddCommand(
+				// editingService.getEditingDomain(),
+				// ((Component) referingComponent).getResourceRefs(),
+				// (NetXResource) res);
+				//
+				// c.append(refBidiCommand);
 
 			}
+			editingService.getEditingDomain().getCommandStack().execute(c);
 
 		} else if (ScreenUtil.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
@@ -562,7 +589,7 @@ public class NewEditResource extends AbstractScreen implements
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-			System.out.println(res.cdoID() + "" + res.cdoState());
+//			System.out.println(res.cdoID() + "" + res.cdoState());
 
 		}
 		// After our edit, we shall be dirty
