@@ -428,8 +428,10 @@ public class ScreenFormService implements IScreenFormService {
 			return; // Ignore we are already.
 		}
 
-		// Warn for dirtyness.
-		dirtyWarning();
+		// Warn for dirtyness and cancellation.
+		if (dirtyWarning()) {
+			return;
+		}
 
 		// Reset the screen stack, and dispose observables.
 		doReset();
@@ -482,37 +484,48 @@ public class ScreenFormService implements IScreenFormService {
 	/**
 	 * Warns if the current screen is dirty, if not saving, flush the command
 	 * stack. If saving, save depending on the screen type.
+	 * 
+	 * @return false if cancelled
 	 */
-	public void dirtyWarning() {
+	public boolean dirtyWarning() {
 		// Warn for unsaved changes.
 		if (editingService.isDirty()) {
-			
-			if(editingService instanceof CDOEditingService){
+
+			if (editingService instanceof CDOEditingService) {
 				CDOView view = ((CDOEditingService) editingService).getView();
-				if(view instanceof CDOTransaction){
+				if (view instanceof CDOTransaction) {
 					modelUtils.cdoDumpDirtyObject((CDOTransaction) view);
+					
+
+					int result = DirtyStateMessageDialog
+							.openAndReturn(MessageDialog.QUESTION_WITH_CANCEL, Display
+									.getCurrent().getActiveShell(), "Save needed",
+									"You have unsaved changes, which will be discarded when not saved, save?", (CDOTransaction) view );
+
+					switch (result) {
+
+					case DirtyStateMessageDialog.OK: {
+						if (getActiveScreen() instanceof IDataScreenInjection) {
+							((IDataScreenInjection) getActiveScreen()).addData();
+						} else {
+							editingService.doSave(new NullProgressMonitor());
+						}
+					}
+						break;
+					case 1: // NO
+						undoAndFlush();
+						break;
+					case 2: // CANCEL;
+						return true;
+					}
 				}
 			}
-			
-			boolean result = MessageDialog
-					.openQuestion(Display.getCurrent().getActiveShell(),
-							"Save needed",
-							"You have unsaved changes, which will be discarded when not saved, save?");
-			if (result) {
 
-				if (getActiveScreen() instanceof IDataScreenInjection) {
-					((IDataScreenInjection) getActiveScreen()).addData();
-				} else {
-					editingService.doSave(new NullProgressMonitor());
-				}
-
-			} else {
-				undoAndFlush();
-			}
 		} else {
 			// Flush the stack anyway.
 			editingService.getEditingDomain().getCommandStack().flush();
 		}
+		return false;
 	}
 
 	public void undoAndFlush() {
@@ -552,8 +565,8 @@ public class ScreenFormService implements IScreenFormService {
 	}
 
 	/**
-	 * Save the screen state, get the {@link IMemento memento} from the Viewpart, and add a child
-	 * which hasthe name of the {@link IScreen}.
+	 * Save the screen state, get the {@link IMemento memento} from the
+	 * Viewpart, and add a child which hasthe name of the {@link IScreen}.
 	 */
 	public void saveScreenState(IScreen screen) {
 		IMemento viewPartMemento = absViewPart.getMemento();
@@ -654,7 +667,9 @@ public class ScreenFormService implements IScreenFormService {
 		bckLnk.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				if (getActiveScreen().isValid()) {
-					dirtyWarning();
+					if (dirtyWarning()) {
+						return; // Check for cancellation after dirty warning
+					}
 					popScreen();
 				} else {
 					if (editingService.isDirty()) {

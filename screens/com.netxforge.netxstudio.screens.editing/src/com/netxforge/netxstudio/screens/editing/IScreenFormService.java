@@ -56,7 +56,12 @@ public interface IScreenFormService {
 
 	public abstract void undoAndFlush();
 	
-	public abstract void dirtyWarning();
+	/**
+	 * Execute dirty warning
+	 * 
+	 * @return false when the user cancelled the warning and save. 
+	 */
+	public abstract boolean dirtyWarning();
 	
 	/**
 	 * Initialize the service with the parent.

@@ -4434,14 +4434,31 @@ public class ModelUtils {
 				CDOListFeatureDelta castedFd = (CDOListFeatureDelta) fd;
 				sb.append("\n     original size: " + castedFd.getOriginSize());
 				cdoPrintFeatureDeltas(sb, castedFd.getListChanges());
-
 			}
 				break;
 			case ADD: {
 				CDOAddFeatureDelta castedFd = (CDOAddFeatureDelta) fd;
 				sb.append("\n     index: " + castedFd.getIndex());
+				if (castedFd.getFeature().isMany()) {
+					// castedFd.getFeature().
+				}
+			}
+			break;
+			case SET: {
+				CDOSetFeatureDelta castedFd = (CDOSetFeatureDelta) fd;
+
+				sb.append("\n     index: " + castedFd.getIndex());
+				sb.append("\n     old: " + castedFd.getOldValue() + " new: "
+						+ castedFd.getValue());
+			}
+
+				break;
+			case REMOVE: {
+				CDORemoveFeatureDelta castedFd = (CDORemoveFeatureDelta) fd;
+				sb.append("\n     index: " + castedFd.getIndex());
 			}
 				break;
+
 			default: {
 				sb.append(" TODO create an entry for  type " + type
 						+ " entry for feature delta attributes of this type");

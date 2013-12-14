@@ -110,6 +110,11 @@ public class CDOEditingService extends EMFEditingService implements
 		// save could be triggered from
 		CDOView view = dawnEditorSupport.getView();
 		if (view instanceof CDOTransaction) {
+
+			if (view.isDirty()) {
+				modelUtils.cdoDumpDirtyObject((CDOTransaction) view);
+			}
+
 			if (((CDOTransaction) view).hasConflict()) {
 				MessageDialog dialog = new MessageDialog(
 						Display.getDefault().getActiveShell(),
