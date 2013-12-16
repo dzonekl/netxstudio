@@ -151,7 +151,7 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 				}
 				types = modelUtils.uniqueNodeTypes(types);
 				List<NetXResource> allResources = modelUtils
-						.resourcesFromNodeTypes(types);
+						.resourcesFromNodeTypes(service.cdoView(), types);
 
 				NetXResourceFilterDialog netXResourceFilterDialog = new NetXResourceFilterDialog(
 						ServiceDistributionScreen.this.getShell(), allResources);
@@ -163,10 +163,15 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 						// Create a new Entry.
 						DistributionEntry entry = ServicesFactory.eINSTANCE
 								.createDistributionEntry();
+						
+						// How is the derived resource calculated? 
 						DerivedResource derive = ServicesFactory.eINSTANCE
 								.createDerivedResource();
+						
 						entry.setResourceRef((NetXResource) selected);
 						entry.setDistribution(derive);
+
+						// Why Inbound??
 						entry.setResourceOrigin(ResourceOriginType.IN_BOUND);
 
 						AddCommand ac = new AddCommand(editingService
@@ -324,6 +329,10 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 		GridColumn gridColumn = gridViewerColumn.getColumn();
 		gridColumn.setWidth(100);
 		gridColumn.setText("Node");
+		
+		
+		
+		
 		btnSelectDistributionExpression
 				.addSelectionListener(new SelectionAdapter() {
 					@Override

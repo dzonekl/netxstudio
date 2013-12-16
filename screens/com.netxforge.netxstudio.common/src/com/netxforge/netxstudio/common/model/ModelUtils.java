@@ -1635,49 +1635,6 @@ public class ModelUtils {
 		}
 	}
 
-	/**
-	 * Construct a path name specific to holde NetXResource objects.
-	 * 
-	 * @deprecated
-	 */
-	public String cdoCalculateResourcePathII(EObject eObject) {
-		if (eObject instanceof Component) {
-			final Component component = (Component) eObject;
-			// if (!component.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)
-			// || component.getName().length() == 0) {
-			// return null;
-			// }
-			return cdoCalculateResourcePathII(component.eContainer());
-		} else if (eObject instanceof Node) {
-			Node n = (Node) eObject;
-			if (n.eIsSet(OperatorsPackage.Literals.NODE__NODE_ID)) {
-				return "/Node_/"
-						+ LibraryPackage.Literals.NET_XRESOURCE.getName() + "_"
-						+ ((Node) eObject).getNodeID();
-			} else {
-				return "/Node_/"
-						+ LibraryPackage.Literals.NET_XRESOURCE.getName();
-			}
-
-		} else if (eObject instanceof NodeType) {
-			final NodeType nodeType = (NodeType) eObject;
-			if (nodeType.eContainer() instanceof Node) {
-				return cdoCalculateResourcePathII(nodeType.eContainer());
-			} else {
-				if (nodeType.eIsSet(LibraryPackage.Literals.NODE_TYPE__NAME)) {
-					return "/NodeType_/"
-							+ LibraryPackage.Literals.NET_XRESOURCE.getName()
-							+ "_" + ((NodeType) eObject).getName();
-				} else {
-					return "/NodeType_/"
-							+ LibraryPackage.Literals.NET_XRESOURCE.getName();
-				}
-			}
-		} else {
-			return LibraryPackage.Literals.NET_XRESOURCE.getName();
-		}
-	}
-
 	public Resource cdoResourceForNetXResource(EObject targetObject,
 			CDOTransaction transaction) {
 
@@ -2204,27 +2161,6 @@ public class ModelUtils {
 		}
 		return latestIndex;
 	}
-
-	// public class HasNodeType implements Predicate<NodeType> {
-	//
-	// private List<NodeType> baseList;
-	//
-	// public HasNodeType(List<NodeType> baseList) {
-	// this.baseList = baseList;
-	// }
-	// public boolean apply(final NodeType toApply) {
-	// for(NodeType nt : baseList){
-	// if(nt.getName().equals(toApply)){
-	// return true;
-	// }
-	// }
-	// return false;
-	// }
-	// }
-	//
-	// public Predicate<NodeType> hasNodeType(List<NodeType> nodeTypes){
-	// return new HasNodeType(nodeTypes);
-	// }
 
 	public List<NodeType> uniqueNodeTypes(List<NodeType> unfiltered) {
 		List<NodeType> uniques = Lists.newArrayList();
@@ -2854,15 +2790,65 @@ public class ModelUtils {
 		return foundMvr;
 	}
 
-	public List<NetXResource> resourcesFromNodeTypes(List<NodeType> nodeTypes) {
+	/**
+	 * Get all {@link NetXResource resource }objects for a {@link NodeType }.
+	 * 
+	 * @param nodeTypes
+	 * @return
+	 */
+	public List<NetXResource> resourcesFromNodeTypes(CDOView view,
+			final List<NodeType> nodeTypes) {
 
+		Iterable<NetXResource> filter = Iterables.filter(resources(view),
+				new Predicate<NetXResource>() {
+
+					public boolean apply(NetXResource input) {
+						try {
+							final Node nodeFor = ModelUtils.this.nodeFor(input
+									.getComponentRef());
+							if (nodeFor != null
+									&& nodeFor
+											.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
+
+								if (Iterables.any(nodeTypes,
+										new Predicate<NodeType>() {
+
+											public boolean apply(NodeType input) {
+												return nodeFor
+														.getNodeType()
+														.getName()
+														.equals(input.getName());
+
+											}
+										})) {
+									return true;
+								}
+							}
+
+						} catch (ObjectNotFoundException onfe) {
+							System.out.println("error processing: "
+									+ onfe.getID());
+						}
+						return false;
+					}
+				});
+
+		return Lists.newArrayList(filter);
+	}
+
+	public List<NetXResource> resources(CDOView view) {
 		List<NetXResource> allResources = Lists.newArrayList();
-		for (NodeType nt : nodeTypes) {
-			TreeIterator<EObject> eAllContents = nt.eAllContents();
-			while (eAllContents.hasNext()) {
-				EObject next = eAllContents.next();
-				if (next instanceof NetXResource) {
-					allResources.add((NetXResource) next);
+
+		final CDOResourceFolder folder = view.getResourceFolder("/Node_");
+		EList<CDOResourceNode> nodes = folder.getNodes();
+		for (CDOResourceNode n : nodes) {
+			if (n instanceof CDOResource) {
+				CDOResource cdoRes = (CDOResource) n;
+				EList<EObject> contents = cdoRes.getContents();
+				for (EObject eo : contents) {
+					if (eo instanceof NetXResource) {
+						allResources.add((NetXResource) eo);
+					}
 				}
 			}
 		}
@@ -4443,7 +4429,7 @@ public class ModelUtils {
 					// castedFd.getFeature().
 				}
 			}
-			break;
+				break;
 			case SET: {
 				CDOSetFeatureDelta castedFd = (CDOSetFeatureDelta) fd;
 

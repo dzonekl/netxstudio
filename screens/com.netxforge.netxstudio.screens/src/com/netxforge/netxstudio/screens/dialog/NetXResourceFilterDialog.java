@@ -78,6 +78,9 @@ public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
 	}
 
 	private String getText(NetXResource p) {
+		
+		// Show more stuff.....
+		
 		return p.getShortName() ;
 	}
 
@@ -105,11 +108,11 @@ public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getInstance()
-				.getDialogSettings().getSection("Metricdialog");
+				.getDialogSettings().getSection("Netxresourcedialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getInstance().getDialogSettings()
-					.addNewSection("Metricdialog");
+					.addNewSection("Netxresourcedialog");
 		}
 		return settings;
 	}

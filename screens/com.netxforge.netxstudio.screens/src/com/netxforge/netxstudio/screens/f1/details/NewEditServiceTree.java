@@ -97,7 +97,9 @@ import com.netxforge.netxstudio.screens.f1.ServiceDistributionScreen;
 import com.netxforge.netxstudio.screens.f1.ServiceHierarchy;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.ServiceDistribution;
 import com.netxforge.netxstudio.services.ServiceUser;
+import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
@@ -150,7 +152,6 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		buildInfoSection();
-//		buildSummarySection();
 		buildNetworkElementsSection();
 		buildServiceUserSection();
 		buildLifeCycleSection();
@@ -370,21 +371,28 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		mghprlnkEdit.addHyperlinkListener(new HyperlinkAdapter() {
 			public void linkActivated(HyperlinkEvent e) {
 
-				if (service
+				if (!service
 						.eIsSet(ServicesPackage.Literals.SERVICE__SERVICE_DISTRIBUTION)) {
+					if (!readonly) {
+						ServiceDistribution sd = ServicesFactory.eINSTANCE
+								.createServiceDistribution();
+						service.setServiceDistribution(sd);
+					} else {
+						MessageDialog.openInformation(
+								NewEditServiceTree.this.getShell(),
+								"Service Distribution is not existing",
+								"A Service distribution object can only be created in edit mode");
+						return;
+					}
 
-					final ServiceDistributionScreen screen = new ServiceDistributionScreen(
-							screenService.getScreenContainer(), SWT.NONE);
-					screen.setScreenService(screenService);
-					screen.setOperation(getOperation());
-					screen.injectData(null, service);
-					screenService.setActiveScreen(screen);
-				} else {
-					MessageDialog.openInformation(
-							NewEditServiceTree.this.getShell(),
-							"Service Distribution is not existing",
-							"A Service distribution object can only be created in edit mode");
 				}
+
+				final ServiceDistributionScreen screen = new ServiceDistributionScreen(
+						screenService.getScreenContainer(), SWT.NONE);
+				screen.setScreenService(screenService);
+				screen.setOperation(getOperation());
+				screen.injectData(null, service);
+				screenService.setActiveScreen(screen);
 			}
 		});
 		mghprlnkEdit.setImage(ResourceManager.getPluginImage(
@@ -640,23 +648,24 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		}
 	}
 
-//	private void buildSummarySection() {
-//
-//		Section sctnSummary = formToolkit.createSection(this, Section.TWISTIE
-//				| Section.TITLE_BAR);
-//		formToolkit.paintBordersFor(sctnSummary);
-//		sctnSummary.setText("Summary");
-//		sctnSummary.setExpanded(true);
-//
-//		final Composite content = formToolkit.createComposite(sctnSummary, SWT.NONE);
-//		formToolkit.paintBordersFor(content);
-//		content.setLayout(new FillLayout());
-//		sctnSummary.setClient(content);
-//
-//		summaryComponent.setParentScreen(this);
-//		summaryComponent.buildUI(content, null);
-//
-//	}
+	// private void buildSummarySection() {
+	//
+	// Section sctnSummary = formToolkit.createSection(this, Section.TWISTIE
+	// | Section.TITLE_BAR);
+	// formToolkit.paintBordersFor(sctnSummary);
+	// sctnSummary.setText("Summary");
+	// sctnSummary.setExpanded(true);
+	//
+	// final Composite content = formToolkit.createComposite(sctnSummary,
+	// SWT.NONE);
+	// formToolkit.paintBordersFor(content);
+	// content.setLayout(new FillLayout());
+	// sctnSummary.setClient(content);
+	//
+	// summaryComponent.setParentScreen(this);
+	// summaryComponent.buildUI(content, null);
+	//
+	// }
 
 	private void buildInfoSection() {
 		sctnInfo = formToolkit.createSection(this, Section.EXPANDED
@@ -705,7 +714,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
 		// Defaults for 8 months.
-		
+
 		// TODO, Migrate to Dashboard
 		Date startTime = modelUtils.monthsAgo(8);
 		startTime = modelUtils.adjustToDayStart(startTime);
