@@ -67,10 +67,13 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Unit;
+import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.dialog.ComponentFilterDialog;
+import com.netxforge.netxstudio.screens.dialog.MetricFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.UnitFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
@@ -89,11 +92,12 @@ public class NewEditResource extends AbstractScreen implements
 	private Form frmResource;
 	private Resource owner;
 
-	// private Component referingComponent;
-
 	private Text txtComponent;
 
 	private Text txtNode;
+
+	private Text txtMetric;
+
 	private Label lblNode;
 
 	// CB 20-02-2012 disable viewing values in this screen.
@@ -279,6 +283,47 @@ public class NewEditResource extends AbstractScreen implements
 		txtExpressionName.setLayoutData(gd_txtExpressionName);
 		txtExpressionName.setText("");
 
+		// Metric Reference, only supported when the resource is of type
+		// NetXResource
+
+		Label lblMetric = toolkit.createLabel(composite, "Metric:", SWT.NONE);
+		lblMetric.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+		lblMetric.setAlignment(SWT.RIGHT);
+
+		txtMetric = toolkit.createText(composite, "", SWT.READ_ONLY);
+		GridData gd_txtMetric = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_txtMetric.widthHint = 300;
+		txtMetric.setLayoutData(gd_txtMetric);
+		txtMetric.setText("");
+
+		Button btnSelectMetric = toolkit.createButton(composite, "Select...",
+				SWT.PUSH);
+		btnSelectMetric.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Resource metriceResource = editingService
+						.getData(MetricsPackage.Literals.METRIC);
+
+				MetricFilterDialog dialog = new MetricFilterDialog(
+						NewEditResource.this.getShell(), metriceResource);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					Object[] metricResult = dialog.getResult();
+					if (res instanceof NetXResource) {
+
+						Command setCommand = SetCommand.create(
+								editingService.getEditingDomain(),
+								res,
+								LibraryPackage.Literals.NET_XRESOURCE__METRIC_REF,
+								metricResult[0]);
+						editingService.getEditingDomain().getCommandStack()
+								.execute(setCommand);
+					}
+				}
+			}
+		});
+
 		Label lblUnit = toolkit.createLabel(composite, "Unit:", SWT.NONE);
 		lblUnit.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));
@@ -409,8 +454,12 @@ public class NewEditResource extends AbstractScreen implements
 
 		IObservableValue componentTargetObservable = SWTObservables
 				.observeText(this.txtComponent, SWT.Modify);
+
 		IObservableValue nodeTargetObservable = SWTObservables.observeText(
 				this.txtNode, SWT.Modify);
+
+		IObservableValue metricTargetObservable = SWTObservables.observeText(
+				this.txtMetric, SWT.Modify);
 
 		IObservableValue shortNameTargetObservable = SWTObservables
 				.observeDelayedValue(400, SWTObservables.observeText(
@@ -428,6 +477,10 @@ public class NewEditResource extends AbstractScreen implements
 		IEMFValueProperty componentProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF);
+
+		IEMFValueProperty metricProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.NET_XRESOURCE__METRIC_REF);
 
 		IEMFValueProperty shortNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -491,6 +544,25 @@ public class NewEditResource extends AbstractScreen implements
 
 		});
 
+		EMFUpdateValueStrategy metricToTargetStrategy = new EMFUpdateValueStrategy();
+		metricToTargetStrategy.setConverter(new IConverter() {
+
+			public Object getFromType() {
+				return Metric.class;
+			}
+
+			public Object getToType() {
+				return String.class;
+			}
+
+			public Object convert(Object fromObject) {
+				if (fromObject instanceof Metric) {
+					return ((Metric) fromObject).getName();
+				}
+				return fromObject;
+			}
+		});
+
 		context.bindValue(nodeTargetObservable, componentProperty.observe(res),
 				null, nodeToTargetStrategy);
 		context.bindValue(componentTargetObservable,
@@ -502,19 +574,15 @@ public class NewEditResource extends AbstractScreen implements
 				longNameProperty.observe(res), null, null);
 		context.bindValue(expressionNameTargetObservable,
 				expressionNameProperty.observe(res), null, null);
+
+		context.bindValue(metricTargetObservable, metricProperty.observe(res),
+				null, metricToTargetStrategy);
+
 		context.bindValue(unitTargetObservable, unitProperty.observe(res),
 				null, null);
 
-		// updateWhoRefers();
-
 		return context;
 	}
-
-	// private void updateWhoRefers() {
-	// if (referingComponent != null) {
-
-	// }
-	// }
 
 	public void disposeData() {
 		// N/A
@@ -589,7 +657,7 @@ public class NewEditResource extends AbstractScreen implements
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-//			System.out.println(res.cdoID() + "" + res.cdoState());
+			// System.out.println(res.cdoID() + "" + res.cdoState());
 
 		}
 		// After our edit, we shall be dirty
