@@ -7,6 +7,7 @@ http://work.netxforge.com/issues/401
 http://work.netxforge.com/issues/392
 http://work.netxforge.com/issues/388
 http://work.netxforge.com/issues/370
+http://work.netxforge.com/issues/348
 http://work.netxforge.com/issues/261
 http://work.netxforge.com/issues/242
 

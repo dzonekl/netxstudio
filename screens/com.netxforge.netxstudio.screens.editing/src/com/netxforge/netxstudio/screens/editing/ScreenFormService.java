@@ -495,18 +495,21 @@ public class ScreenFormService implements IScreenFormService {
 				CDOView view = ((CDOEditingService) editingService).getView();
 				if (view instanceof CDOTransaction) {
 					modelUtils.cdoDumpDirtyObject((CDOTransaction) view);
-					
 
 					int result = DirtyStateMessageDialog
-							.openAndReturn(MessageDialog.QUESTION_WITH_CANCEL, Display
-									.getCurrent().getActiveShell(), "Save needed",
-									"You have unsaved changes, which will be discarded when not saved, save?", (CDOTransaction) view );
+							.openAndReturn(
+									MessageDialog.QUESTION_WITH_CANCEL,
+									Display.getCurrent().getActiveShell(),
+									"Save needed",
+									"You have unsaved changes, which will be discarded when not saved, save?",
+									(CDOTransaction) view, modelUtils);
 
 					switch (result) {
 
 					case DirtyStateMessageDialog.OK: {
 						if (getActiveScreen() instanceof IDataScreenInjection) {
-							((IDataScreenInjection) getActiveScreen()).addData();
+							((IDataScreenInjection) getActiveScreen())
+									.addData();
 						} else {
 							editingService.doSave(new NullProgressMonitor());
 						}
