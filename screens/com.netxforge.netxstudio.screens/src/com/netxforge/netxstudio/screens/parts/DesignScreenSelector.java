@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.parts;
 
 import org.eclipse.swt.widgets.Composite;
@@ -24,6 +24,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import com.netxforge.netxstudio.screens.editing.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f3.Countries;
+import com.netxforge.netxstudio.screens.f3.DisconnectedResources;
 import com.netxforge.netxstudio.screens.f3.Networks;
 import com.netxforge.netxstudio.screens.f3.Operators;
 import com.netxforge.netxstudio.screens.f3.RoomsTree;
@@ -35,15 +36,16 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.design"; //$NON-NLS-1$
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-//	private NodeActionHandler nah;
+
+	// private NodeActionHandler nah;
 
 	public DesignScreenSelector() {
 		super();
 	}
 
 	/**
-	 * A dynamic selector screen selector. 
-	 * Extends an Editor view part for dirtyness, editing domain, command stack etc...
+	 * A dynamic selector screen selector. Extends an Editor view part for
+	 * dirtyness, editing domain, command stack etc...
 	 * 
 	 * 
 	 * @param parent
@@ -54,8 +56,8 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 		screenFormService.getSelectorForm().setText("Network Design");
 	}
 
-	public void buildSelector(){
-		
+	public void buildSelector() {
+
 		Composite result;
 
 		result = screenFormService.addScreenSelector("Operators",
@@ -64,22 +66,12 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 		result = screenFormService.addScreenSelector(result, "Networks",
 				"icons/full/obj16/Network_H.png", Networks.class, 1,
 				ScreenUtil.OPERATION_EDIT);
-
-// Version 1. 		
-//		result = screenFormService.addScreenSelector(result, "Resources",
-//				"icons/full/obj16/Resource_H.gif", NodeResources.class,
-//				ScreenUtil.OPERATION_EDIT);
-
-// Version 2, with IScreenII. 
-//		result = screenFormService.addScreenSelector(result, "Resources",
-//				"icons/full/obj16/Resource_H.gif", NodeResourcesAdvanced.class,
-//				ScreenUtil.OPERATION_EDIT);
-
-// Version 3, with Smart screens. 
 		result = screenFormService.addScreenSelector(result, "Resources",
 				"icons/full/obj16/Resource_H.gif", SmartResources.class,
 				ScreenUtil.OPERATION_EDIT);
-		
+		result = screenFormService.addScreenSelector(result, "Orpan Resources",
+				"icons/full/obj16/Resource_H.gif", DisconnectedResources.class,
+				ScreenUtil.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Warehouses",
 				"icons/full/obj16/Warehouse_H.png", WarehouseTree.class, 1,
 				ScreenUtil.OPERATION_EDIT);
@@ -93,20 +85,24 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 				"icons/full/obj16/Room_H.png", RoomsTree.class, 1,
 				ScreenUtil.OPERATION_EDIT);
 	}
-	
+
 	public void dispose() {
 		toolkit.dispose();
 		super.dispose();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart#initBindings()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart#initBindings
+	 * ()
 	 */
-	
+
 	@Override
 	protected void initBindings() {
-		// Static initialization of bindings. We need a dynamic form for this. 
-		// 
+		// Static initialization of bindings. We need a dynamic form for this.
+		//
 	}
-	
+
 }

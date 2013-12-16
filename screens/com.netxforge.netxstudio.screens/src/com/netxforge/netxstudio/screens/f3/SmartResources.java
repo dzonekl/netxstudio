@@ -53,7 +53,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.IViewerObservableList;
@@ -106,7 +105,6 @@ import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
-import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.wb.swt.ResourceManager;
 
@@ -169,7 +167,6 @@ import com.netxforge.netxstudio.screens.editing.tables.TreeViewerFocusBlockManag
 import com.netxforge.netxstudio.screens.f1.support.ReportWizard;
 import com.netxforge.netxstudio.screens.f2.AdjustRangeDialog;
 import com.netxforge.netxstudio.screens.f2.CapacityEditingDialog;
-import com.netxforge.netxstudio.screens.f2.DisconnectedResourcesComponent;
 import com.netxforge.netxstudio.screens.f2.ExpressionContextDialog;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
 import com.netxforge.netxstudio.screens.f2.NewEditResource;
@@ -207,11 +204,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 	private static final String MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE = "MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE";
 
-	// private final FormToolkit toolkit = new
-	// FormToolkit(Display.getCurrent());
-
-	// private Form frmResources;
-
 	@Inject
 	private TableHelper tableHelper;
 
@@ -220,12 +212,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 	@Inject
 	private SmartValueComponent cmpValues;
-
-	@Inject
-	private DisconnectedResourcesComponent cmpResources;
-
-	// @Inject
-	// private PeriodComponent cmpPeriod;
 
 	@Inject
 	private EmbeddedLineExpression expressionComponent;
@@ -385,37 +371,10 @@ public class SmartResources extends AbstractPeriodScreen implements
 		buildResourceViewer(sashData);
 		buildValues(sashData);
 
-		buildDisconnectedResourcesViewer(sashVertical);
-
 		// WEIGHTS FOR SASH.
-		sashVertical.setWeights(new int[] { 1, 9, 1 });
+		sashVertical.setWeights(new int[] { 2, 8 });
 		sashData.setWeights(new int[] { 3, 5, 5 });
 
-	}
-
-	private void buildDisconnectedResourcesViewer(SashForm sashVertical) {
-
-		Section scnResources = toolkit.createSection(sashVertical,
-				Section.TWISTIE | Section.TITLE_BAR);
-		toolkit.paintBordersFor(scnResources);
-		ToolBarManager createSectionToolbar = this
-				.createSectionToolbar(scnResources);
-
-		ImageDescriptor refreshDescriptor = ResourceManager
-				.getPluginImageDescriptor(
-						"com.netxforge.netxstudio.screens.editing",
-						"/icons/full/elcl16/refresh.gif");
-
-		createSectionToolbar.add(new RefreshDisconnectedResourcesAction("",
-				refreshDescriptor));
-
-		createSectionToolbar.update(true);
-
-		scnResources.setText("Disconnected Resources");
-
-		cmpResources.configure(screenService);
-		cmpResources.buildUI(scnResources, null);
-		scnResources.setClient(cmpResources.getResourcesComposite());
 	}
 
 	private Label buildViewerLabels(Composite parent) {
@@ -803,8 +762,8 @@ public class SmartResources extends AbstractPeriodScreen implements
 						cmpValues.injectData(contextAggregate
 								.getCurrentNetXResource());
 					} else {
-						cmpValues.applyDateFilter(getPeriodComponent().getPeriod(),
-								true);
+						cmpValues.applyDateFilter(getPeriodComponent()
+								.getPeriod(), true);
 					}
 					// update our view part dirty state, as we don't use the
 					// editing domain.
@@ -1355,14 +1314,14 @@ public class SmartResources extends AbstractPeriodScreen implements
 					cleanResourceMon(currentNetXResource);
 
 					currentNetXResource = processResourceChange(observableValue);
-					
+
 					cmpValues.applyDateFilter(currentPeriod, false);
 					cmpValues.injectData(currentNetXResource);
 
 					updateResourceMon(currentNetXResource);
 				}
 			} else if (observable instanceof WritableValue) {
-				
+
 				updateResourceMon(lastSelection);
 			}
 
@@ -1503,19 +1462,21 @@ public class SmartResources extends AbstractPeriodScreen implements
 			ImmutableList<IComputationContext> contextList = null;
 			if (currentExpressionFeature == LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF) {
 				if (currentComponent != null) {
-					contextList = expressionSupport.buildContext(getPeriodComponent().getPeriod(),
-							currentComponent);
+					contextList = expressionSupport.buildContext(
+							getPeriodComponent().getPeriod(), currentComponent);
 					currentExpressionType = CAP_EXPRESSION_CONTEXT;
 				}
 			} else if (currentExpressionFeature == LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF) {
 				if (currentNetXResource != null) {
-					contextList = expressionSupport.buildContext(getPeriodComponent().getPeriod(),
+					contextList = expressionSupport.buildContext(
+							getPeriodComponent().getPeriod(),
 							currentNetXResource);
 					currentExpressionType = UTIL_EXPRESSION_CONTEXT;
 				}
 			} else if (currentExpressionFeature == LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF) {
 				if (currentNetXResource != null) {
-					contextList = expressionSupport.buildContext(getPeriodComponent().getPeriod(),
+					contextList = expressionSupport.buildContext(
+							getPeriodComponent().getPeriod(),
 							currentNetXResource);
 					currentExpressionType = TOL_EXPRESSION_CONTEXT;
 				}
@@ -1526,8 +1487,10 @@ public class SmartResources extends AbstractPeriodScreen implements
 				// override it with the
 				// DTR from the retention rule, once the actual rule is selected
 				// as a subexpression.
-				contextList = expressionSupport.buildContext(getPeriodComponent().getPeriod(), new Object[] {
-						this.currentComponent, this.currentNetXResource });
+				contextList = expressionSupport.buildContext(
+						getPeriodComponent().getPeriod(),
+						new Object[] { this.currentComponent,
+								this.currentNetXResource });
 				currentExpressionType = RETENTION_EXPRESSION_CONTEXT;
 			}
 
@@ -1880,7 +1843,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
-		
 
 		EMFDataBindingContext bindingContext = super.initDataBindings_();
 
@@ -1888,12 +1850,10 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 		monitoringAggregate = new MonitoringAggregate(monitoringStateModel);
 		monitoringAggregate.setPeriod(getPeriodComponent().getPeriod());
-		
+
 		bindComponentSelector(bindingContext);
 
 		bindExpressionSelector(bindingContext);
-
-		cmpResources.initDataBindings_();
 
 		return bindingContext;
 	}
@@ -2455,7 +2415,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 	@Override
 	public Viewer[] getViewers() {
 		return new Viewer[] { componentsTreeViewer, resourcesTableViewer,
-				cmpValues.getValuesTableViewer(), cmpResources.getViewer(),
+				cmpValues.getValuesTableViewer(),
 				expressionComponent.getXtextEditor().getViewer() };
 	}
 
@@ -2531,8 +2491,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 			return resourcesTableViewer;
 		} else if (widget == cmpValues.getValuesTableViewer().getTable()) {
 			return cmpValues.getValuesTableViewer();
-		} else if (widget == cmpResources.getViewer().getControl()) {
-			return cmpResources.getViewer();
 		} else if (widget == expressionComponent.getXtextEditor().getViewer()
 				.getTextWidget()) {
 			return expressionComponent.getXtextEditor().getViewer()
@@ -2555,8 +2513,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 			return resourcesTableViewer;
 		} else if (widget == cmpValues.getValuesTableViewer().getTable()) {
 			return cmpValues.getValuesTableViewer();
-		} else if (widget == cmpResources.getViewer().getControl()) {
-			return cmpResources.getViewer();
 		} else if (widget == expressionComponent.getXtextEditor().getViewer()
 				.getTextWidget()) {
 			return expressionComponent.getXtextEditor().getViewer();
@@ -2658,7 +2614,5 @@ public class SmartResources extends AbstractPeriodScreen implements
 		// This is to notify the period
 		cmpValues.applyDateFilter(this.getPeriod(), true);
 	}
-	
-	
-	
+
 }
