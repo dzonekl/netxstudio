@@ -40,8 +40,8 @@ import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
-import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHandler;
+import com.netxforge.netxstudio.screens.editing.actions.handlers.ActionHandlerDescriptor;
+import com.netxforge.netxstudio.screens.editing.actions.handlers.DynamicScreensActionHandler;
 
 /**
  * Shows an {@link IScreen} in an {@link IViewPart} it supports

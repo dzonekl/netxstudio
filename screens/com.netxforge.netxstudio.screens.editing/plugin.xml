@@ -4,11 +4,11 @@
    <extension
          point="org.eclipse.emf.edit.childCreationExtenders">
       <extender
-            class="com.netxforge.netxstudio.screens.editing.internal.EditingEExtensionFactory:com.netxforge.netxstudio.screens.editing.actions.LibraryChildCreationExtender"
+            class="com.netxforge.netxstudio.screens.editing.internal.EditingEExtensionFactory:com.netxforge.netxstudio.screens.editing.extenders.LibraryChildCreationExtender"
             uri="http://www.netxforge.com/13042011/library">
       </extender>
       <extender
-            class="com.netxforge.netxstudio.screens.editing.internal.EditingEExtensionFactory:com.netxforge.netxstudio.screens.editing.actions.OperatorChildCreationExtender"
+            class="com.netxforge.netxstudio.screens.editing.internal.EditingEExtensionFactory:com.netxforge.netxstudio.screens.editing.extenders.OperatorChildCreationExtender"
             uri="http://www.netxforge.com/13042011/operators">
       </extender>
 <!--      

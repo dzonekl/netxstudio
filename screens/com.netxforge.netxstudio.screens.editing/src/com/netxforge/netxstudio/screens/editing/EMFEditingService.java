@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -64,16 +65,13 @@ public abstract class EMFEditingService implements IEditingService {
 	protected ModelUtils modelUtils;
 
 	private AdapterFactoryEditingDomain domain = null;
-	
-	
+
 	@Inject
-	public EMFEditingService(IDataService dataService, ModelUtils modelUtils){
-		this.dataService = dataService; 
+	public EMFEditingService(IDataService dataService, ModelUtils modelUtils) {
+		this.dataService = dataService;
 		this.modelUtils = modelUtils;
 	}
-	
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -94,14 +92,7 @@ public abstract class EMFEditingService implements IEditingService {
 	// The declared EMF edit adapter factory.
 	static ComposedAdapterFactory emfEditAdapterFactory;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.netxforge.netxstudio.screens.editing.IEditingService#getAdapterFactory
-	 * ()
-	 */
-	public static ComposedAdapterFactory getAdapterFactory() {
+	public static AdapterFactory getAdapterFactory() {
 		if (emfEditAdapterFactory == null) {
 
 			emfEditAdapterFactory = new ComposedAdapterFactory(
@@ -136,7 +127,6 @@ public abstract class EMFEditingService implements IEditingService {
 
 	public EObject getObject() {
 		return null;
-		// TODO implement.
 	}
 
 	/*
@@ -172,19 +162,18 @@ public abstract class EMFEditingService implements IEditingService {
 							// Save a copy of the objects of certain resources.
 
 						} catch (Exception exception) {
-//							exception.printStackTrace();
+							// exception.printStackTrace();
 
 							// Various reasons why save would fail...
-							// At least warn the user. 
-							// The DIRTY objects will still appear in the UI, so the editing
-							// should be undone, or DIRTY objects rolled back. 
-							
-							
-//							MessageDialog.openError(Display.getDefault()
-//									.getActiveShell(), "Error saving",
-//									exception.getMessage());
-							
-							
+							// At least warn the user.
+							// The DIRTY objects will still appear in the UI, so
+							// the editing
+							// should be undone, or DIRTY objects rolled back.
+
+							// MessageDialog.openError(Display.getDefault()
+							// .getActiveShell(), "Error saving",
+							// exception.getMessage());
+
 							// TODO, give user feedback, and undo of domain.
 							// Command cmd;
 							// while( ( cmd =
@@ -224,23 +213,23 @@ public abstract class EMFEditingService implements IEditingService {
 			((BasicCommandStack) getEditingDomain().getCommandStack())
 					.saveIsDone();
 		} catch (Exception exception) {
-//			exception.printStackTrace();
-			// Hide here will be caught higher up. 
+			// exception.printStackTrace();
+			// Hide here will be caught higher up.
 		}
 	}
 
 	protected IViewerProvider delegateViewerProvider;
-	
+
 	public void setViewerProvider(IViewerProvider viewerProvider) {
 		this.delegateViewerProvider = viewerProvider;
 	}
-	
+
 	protected IScreenProvider delegateScreenProvider;
-	
+
 	public void setScreenProvider(IScreenProvider screenProvider) {
 		this.delegateScreenProvider = screenProvider;
 	}
-	
+
 	public IDataService getDataService() {
 		return this.dataService;
 	}

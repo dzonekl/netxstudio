@@ -17,13 +17,16 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.actions;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.EObject;
@@ -104,6 +107,18 @@ public class WarningDeleteCommand extends CompoundCommand {
 	}
 
 	protected void prepareCommand() {
+		
+		for(Object o : collection){
+			if(o instanceof CDOObject){
+				CDOObject cdoO = (CDOObject) o;
+				EObject eContainer = cdoO.eContainer();
+				if(eContainer instanceof CDOResource ){
+					CDOResource resource = (CDOResource) eContainer;
+					resource.getContents().containsAll(collection);
+				}
+			}
+		}
+		
 		append(RemoveCommand.create(domain, collection));
 	}
 

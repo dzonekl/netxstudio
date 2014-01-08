@@ -16,7 +16,7 @@
  * Contributors:
  * Christophe Bouhier - initial API and implementation and/or initial documentation
  */
-package com.netxforge.netxstudio.screens.editing.actions;
+package com.netxforge.netxstudio.screens.editing.actions.handlers;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.jface.action.Action;
@@ -34,6 +34,7 @@ import org.eclipse.ui.actions.ContributionItemFactory;
 
 import com.netxforge.netxstudio.screens.editing.IScreen;
 import com.netxforge.netxstudio.screens.editing.IScreenProvider;
+import com.netxforge.netxstudio.screens.editing.actions.IActionHandler;
 
 /**
  * This is the action bar contributor for the Netxstudio model editor. <!--

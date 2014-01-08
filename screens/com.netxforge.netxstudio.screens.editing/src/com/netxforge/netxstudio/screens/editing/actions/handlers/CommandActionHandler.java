@@ -14,17 +14,18 @@
  *
  * $Id: CommandActionHandler.java,v 1.6 2008/05/07 19:08:40 emerks Exp $
  */
-package com.netxforge.netxstudio.screens.editing.actions;
+package com.netxforge.netxstudio.screens.editing.actions.handlers;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
-
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
+
+import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 
 /*
  * This base action class implements an action by creating a command and delegating to it;

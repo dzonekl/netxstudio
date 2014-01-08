@@ -141,5 +141,4 @@ public interface IEditingService {
 	 */
 	public String resolveHistoricalResourceName(Object object);
 	
-
 }

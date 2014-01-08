@@ -24,7 +24,6 @@ import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
@@ -38,7 +37,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
@@ -66,7 +64,6 @@ public class DisconnectedResources extends AbstractScreen implements
 	 */
 	private static final String MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE = "MEM_KEY_VIEWER_SELECTION";
 
-
 	@Inject
 	private DisconnectedResourcesComponent cmpResources;
 
@@ -85,6 +82,7 @@ public class DisconnectedResources extends AbstractScreen implements
 	 * @param style
 	 */
 	public DisconnectedResources(Composite parent, int style) {
+
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -100,7 +98,7 @@ public class DisconnectedResources extends AbstractScreen implements
 
 		// Readonlyness.
 		readOnly = ScreenUtil.isReadOnlyOperation(this.getOperation());
-		
+
 		@SuppressWarnings("unused")
 		int widgetStyle = readOnly ? SWT.READ_ONLY : SWT.NONE;
 
@@ -108,37 +106,24 @@ public class DisconnectedResources extends AbstractScreen implements
 
 		frmResources = toolkit.createForm(this);
 		frmResources.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmResources);
-
-		frmResources.getBody().setLayout(new FillLayout());
-		frmResources.setText(this.getOperationText() + "Orphan Resources");
-
-		buildDisconnectedResourcesViewer(frmResources.getBody());
-
-	}
-
-	private void buildDisconnectedResourcesViewer(Composite comp) {
-
-		Section scnResources = toolkit.createSection(comp, Section.TITLE_BAR | Section.EXPANDED);
-		toolkit.paintBordersFor(scnResources);
-		ToolBarManager createSectionToolbar = this
-				.createSectionToolbar(scnResources);
 
 		ImageDescriptor refreshDescriptor = ResourceManager
 				.getPluginImageDescriptor(
 						"com.netxforge.netxstudio.screens.editing",
 						"/icons/full/elcl16/refresh.gif");
 
-		createSectionToolbar.add(new RefreshDisconnectedResourcesAction("",
-				refreshDescriptor));
+		frmResources.getToolBarManager().add(
+				new RefreshDisconnectedResourcesAction("", refreshDescriptor));
+		frmResources.getToolBarManager().update(true);
 
-		createSectionToolbar.update(true);
+		toolkit.paintBordersFor(frmResources);
 
-		scnResources.setText("Disconnected Resources");
+		frmResources.getBody().setLayout(new FillLayout());
+		frmResources.setText(this.getOperationText() + "Orphan Resources");
 
 		cmpResources.configure(screenService);
-		cmpResources.buildUI(scnResources, null);
-		scnResources.setClient(cmpResources.getResourcesComposite());
+		cmpResources.buildUI(frmResources.getBody(), null);
+
 	}
 
 	class EditResourceAction extends BaseSelectionListenerAction {
@@ -278,7 +263,8 @@ public class DisconnectedResources extends AbstractScreen implements
 
 		@Override
 		public void run() {
-			cmpResources.getViewer().refresh();
+			((StructuredViewer) cmpResources.getViewer()).refresh(true);
+
 		}
 
 	}

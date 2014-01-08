@@ -31,15 +31,15 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  * An IMap observable listener, which can be fed with IObservableMap's and will
  * refresh the provided viewer.
  */
-public class UpdateDisconnectedResources implements IChangeListener,
+public class ObservableMapChangeListener implements IChangeListener,
 		ISetChangeListener, IMapChangeListener {
 
-	public static UpdateDisconnectedResources getInstance() {
-		return new UpdateDisconnectedResources();
+	public static ObservableMapChangeListener getInstance() {
+		return new ObservableMapChangeListener();
 	}
 
 	// Disallow instantation.
-	private UpdateDisconnectedResources() {
+	private ObservableMapChangeListener() {
 	}
 
 	/*

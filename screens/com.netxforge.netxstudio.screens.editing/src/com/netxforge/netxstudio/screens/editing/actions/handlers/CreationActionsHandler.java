@@ -16,7 +16,7 @@
  * Contributors:
  * Christophe Bouhier - initial API and implementation and/or initial documentation
  */
-package com.netxforge.netxstudio.screens.editing.actions;
+package com.netxforge.netxstudio.screens.editing.actions.handlers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +42,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
+
+import com.netxforge.netxstudio.screens.editing.actions.IActionHandler;
 
 /**
  * This is the action bar contributor for the Netxstudio model editor. <!--

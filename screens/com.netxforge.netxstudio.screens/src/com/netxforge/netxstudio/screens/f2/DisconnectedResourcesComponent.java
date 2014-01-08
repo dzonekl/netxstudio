@@ -21,20 +21,33 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.ComputedList;
+import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.eresource.EresourcePackage;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
+import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
@@ -48,11 +61,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.wb.swt.TableViewerColumnSorter;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -66,14 +78,13 @@ import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.IScreenFormService;
-import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
+import com.netxforge.netxstudio.screens.editing.filter.TreeSearchFilter;
 
 /**
  * A UI Component for NetXResource objects.
@@ -84,14 +95,15 @@ import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 public class DisconnectedResourcesComponent {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Table table;
 	private Text txtFilterText;
-	private TableViewer resourcesTableViewer;
+
+	private TreeViewer resourcesTreeViewer;
+
 	private ModelUtils modelUtils;
 
-	@Inject
-	private SearchFilter searchFilter;
 	private IScreenFormService screenService;
+	private IEditingService editingService;
+
 	private Composite resourcesComposite;
 
 	/**
@@ -107,6 +119,7 @@ public class DisconnectedResourcesComponent {
 
 	public void configure(IScreenFormService screenService) {
 		this.screenService = screenService;
+		this.editingService = screenService.getEditingService();
 	}
 
 	/**
@@ -138,14 +151,14 @@ public class DisconnectedResourcesComponent {
 		txtFilterText.setText("");
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				ViewerFilter[] filters = resourcesTableViewer.getFilters();
+				ViewerFilter[] filters = resourcesTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof TreeSearchFilter) {
+						((TreeSearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
-				resourcesTableViewer.refresh();
+				resourcesTreeViewer.refresh();
 			}
 		});
 
@@ -154,32 +167,45 @@ public class DisconnectedResourcesComponent {
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
 
-		// CB Temporarly disable virtual and hashlookup.
-		resourcesTableViewer = new TableViewer(resourcesComposite, SWT.BORDER
-				| SWT.FULL_SELECTION | SWT.MULTI | SWT.VIRTUAL);
+		resourcesTreeViewer = new TreeViewer(resourcesComposite, SWT.BORDER
+				| SWT.VIRTUAL | SWT.MULTI | SWT.FULL_SELECTION);
+		Tree tree = resourcesTreeViewer.getTree();
+		tree.setHeaderVisible(true);
+		tree.setLinesVisible(true);
 
-		table = resourcesTableViewer.getTable();
-		resourcesTableViewer.setUseHashlookup(true);
-		resourcesTableViewer.setComparer(new CDOElementComparer());
-		resourcesTableViewer.addFilter(searchFilter);
-		table.setLinesVisible(true);
-		table.setHeaderVisible(true);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
-		toolkit.paintBordersFor(table);
+		resourcesTreeViewer.setUseHashlookup(true);
+		resourcesTreeViewer.setComparer(new CDOElementComparer());
+		resourcesTreeViewer.addFilter(new TreeSearchFilter(editingService));
+		resourcesTreeViewer.addFilter(new ViewerFilter() {
+
+			@Override
+			public boolean select(Viewer viewer, Object parentElement,
+					Object element) {
+				if (element instanceof NetXResource) {
+					return !((NetXResource) element)
+							.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF);
+				}
+				return true;
+			}
+		});
+
+		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
+		toolkit.paintBordersFor(tree);
 
 		buildColumns();
 	}
 
 	private void buildColumns() {
-		String[] properties = new String[] { "Network Element", "Component",
-				"Metric", "Short Name", "Expression Name", "Long Name", "Unit" };
+		String[] properties = new String[] { "Container Path",
+				"Network Element", "Component", "Metric", "Short Name",
+				"Expression Name", "Long Name", "Unit" };
 
-		int[] columnWidths = new int[] { 100, 100, 112, 76, 104, 200, 68 };
+		int[] columnWidths = new int[] { 200, 100, 100, 112, 76, 104, 200, 68 };
 
 		EditingSupport[] editingSupport = new EditingSupport[] { null, null,
-				null, null, null, null, null };
+				null, null, null, null, null, null };
 
-		buildTableColumns(properties, columnWidths, editingSupport);
+		buildTreeColumns(properties, columnWidths, editingSupport);
 	}
 
 	class CapacityEditingSupport extends EditingSupport {
@@ -268,133 +294,102 @@ public class DisconnectedResourcesComponent {
 	 * A Map of filters.
 	 */
 	Map<String, LabelTextTableColumnFilter> columnFilters = Maps.newHashMap();
+	private CDOView view;
 
-	protected void buildTableColumns(String[] properties, int[] columnWidths,
+	protected void buildTreeColumns(String[] properties, int[] columnWidths,
 			EditingSupport[] editingSupport) {
-
-		// final Menu headerMenu = new Menu(shell, SWT.POP_UP);
 
 		for (int i = 0; i < properties.length; i++) {
 
 			String property = properties[i];
 
-			TableViewerColumn viewerColumn = new TableViewerColumn(
-					resourcesTableViewer, SWT.NONE);
+			TreeViewerColumn viewerColumn = new TreeViewerColumn(
+					resourcesTreeViewer, SWT.NONE);
 			EditingSupport sup;
 			if ((sup = editingSupport[i]) != null) {
 				viewerColumn.setEditingSupport(sup);
 			}
-			TableColumn tblColumn = viewerColumn.getColumn();
+			TreeColumn tblColumn = viewerColumn.getColumn();
 			tblColumn.setText(property);
 			tblColumn.setWidth(columnWidths[i]);
 			tblColumn.setMoveable(true);
 
-			// Column filtering.
-			// CB Disable filtering, doesn't work with ILazyContentProvider.
-			// FunctionLabelTextTableColumnFilter tableColumnFilter = new
-			// FunctionLabelTextTableColumnFilter(
-			// tblColumn);
-			// tableColumnFilter
-			// .setFilterFunction(new com.google.common.base.Function<CDOObject,
-			// Boolean>() {
-			//
-			// public Boolean apply(CDOObject from) {
-			// if (from instanceof NetXResource) {
-			// NetXResource netXResource = (NetXResource) from;
-			// boolean result = !netXResource
-			// .eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF);
-			// return result;
-			// }
-			// return false;
-			// }
-			//
-			// });
-			// columnFilters.put(property, tableColumnFilter);
-			// resourcesTableViewer.addFilter(tableColumnFilter);
-
-			// Specializations:
-
-			if (property.equals("Capacity")) {
-				tblColumn.setAlignment(SWT.RIGHT);
-			}
-			if (property.equals("Node")) {
-				new TableViewerColumnSorter(viewerColumn);
-			}
-
-			if (properties[i].equals("Component")) {
-				// Inline override the comparer based on the component, as this
-				// is a non-editable column.
-
-				// Disable Sorting, doesn't work with ILazyContentProvider.
-				// new TableViewerColumnSorter(viewerColumn) {
-				// protected int doCompare(Viewer viewer, Object e1, Object e2)
-				// {
-				// if (e1 instanceof NetXResource
-				// && e2 instanceof NetXResource) {
-				//
-				// NetXResource re1 = (NetXResource) e1;
-				// NetXResource re2 = (NetXResource) e2;
-				//
-				// if
-				// (re1.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)
-				// &&
-				// re2.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF))
-				// return re1
-				// .getComponentRef()
-				// .getName()
-				// .compareToIgnoreCase(
-				// re2.getComponentRef().getName());
-				// }
-				// return 0;
-				// }
-				//
-				// };
-			}
 		}
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
-		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		resourcesTableViewer.setContentProvider(listContentProvider);
+		ObservableListTreeContentProvider listContentProvider = new ObservableListTreeContentProvider(
+				new CDOResourceFactory(editingService.getEditingDomain()),
+				new TreeStructureAdvisor() {
 
-		final IObservableSet knownElements = listContentProvider
-				.getKnownElements();
+				});
+		resourcesTreeViewer.setContentProvider(listContentProvider);
 
-		List<IObservableMap> maps = Lists.newArrayList();
+		final IObservableSet set = listContentProvider.getKnownElements();
 
-		maps.add(EMFProperties.value(
-				MetricsPackage.Literals.METRIC_SOURCE__NAME).observeDetail(
-				knownElements));
+		{
+			List<IObservableMap> observeMaps = Lists.newArrayList();
 
-		maps.add(EMFProperties.value(
-				MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION)
-				.observeDetail(knownElements));
+			observeMaps.add(EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					EresourcePackage.Literals.CDO_RESOURCE__CONTENTS)
+					.observeDetail(set));
 
-		maps.add(EMFProperties.value(
-				MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING)
-				.observeDetail(knownElements));
+			// FeaturePath compPath = FeaturePath.fromList(
+			// EresourcePackage.Literals.CDO_RESOURCE__CONTENTS,
+			// LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF);
+			// observeMaps.add(EMFEditProperties.value(
+			// editingService.getEditingDomain(), compPath).observeDetail(
+			// set));
+			//
+			// observeMaps.add(EMFEditProperties.value(
+			// editingService.getEditingDomain(),
+			// LibraryPackage.Literals.NET_XRESOURCE__METRIC_REF)
+			// .observeDetail(set));
+			//
+			// observeMaps.add(EMFEditProperties.value(
+			// editingService.getEditingDomain(),
+			// LibraryPackage.Literals.BASE_RESOURCE__SHORT_NAME)
+			// .observeDetail(set));
+			// observeMaps.add(EMFEditProperties.value(
+			// editingService.getEditingDomain(),
+			// LibraryPackage.Literals.BASE_RESOURCE__EXPRESSION_NAME)
+			// .observeDetail(set));
+			// observeMaps.add(EMFEditProperties.value(
+			// editingService.getEditingDomain(),
+			// LibraryPackage.Literals.BASE_RESOURCE__LONG_NAME)
+			// .observeDetail(set));
+			// observeMaps.add(EMFEditProperties.value(
+			// editingService.getEditingDomain(),
+			// LibraryPackage.Literals.BASE_RESOURCE__UNIT_REF)
+			// .observeDetail(set));
 
-		IObservableMap[] observeMaps = new IObservableMap[maps.size()];
-		maps.toArray(observeMaps);
+			IObservableMap[] map = new IObservableMap[observeMaps.size()];
+			observeMaps.toArray(map);
+			resourcesTreeViewer.setLabelProvider(new NetXResourceProvider(map));
+		}
 
-		resourcesTableViewer
-				.setLabelProvider(new NetXResourceProvider(
-						observeMaps));
-
-		// Compute the disconnected resources. 
+		// Compute the disconnected resources.
 		ComputedList computedResourceList = new ComputedList() {
 			@Override
 			protected List<Object> calculate() {
 				List<NetXResource> updateDisconnectedResources = updateDisconnectedResources();
 				List<Object> result = Lists.newArrayList();
-				result.addAll(updateDisconnectedResources);
+				for (NetXResource res : updateDisconnectedResources) {
+					Resource eResource = res.eResource();
+					if (!result.contains(eResource)) {
+						result.add(eResource);
+					}
+				}
+				// result.addAll(updateDisconnectedResources);
 				return result;
 			}
 		};
 
-		resourcesTableViewer.setInput(computedResourceList);
+		resourcesTreeViewer.setInput(computedResourceList);
+		resourcesTreeViewer.expandAll();
 		return bindingContext;
 	}
 
@@ -409,7 +404,6 @@ public class DisconnectedResourcesComponent {
 		final IQueryService queryService = screenService.getEditingService()
 				.getDataService().getQueryService();
 		IEditingService editingService = screenService.getEditingService();
-		final CDOView view;
 
 		if (editingService instanceof CDOEditingService
 				&& ((CDOEditingService) editingService).getView() != null) {
@@ -422,18 +416,67 @@ public class DisconnectedResourcesComponent {
 		return null;
 	}
 
+	/**
+	 * A Factory for producing {@link IObservable observables} for the content
+	 * of a {@link CDOResource}
+	 * 
+	 * @author Christophe Bouhier
+	 * 
+	 */
+	class CDOResourceFactory implements IObservableFactory {
+
+		private EditingDomain domain;
+
+		private IEMFListProperty cdoSingleList = EMFEditProperties.list(domain,
+				EresourcePackage.Literals.CDO_RESOURCE__CONTENTS);
+
+		public CDOResourceFactory(EditingDomain domain) {
+			this.domain = domain;
+		}
+
+		public IObservable createObservable(final Object target) {
+
+			IObservable ol = null;
+			if (target instanceof IObservableList) {
+				ol = (IObservable) target;
+			} else
+
+			if (target instanceof CDOResource) {
+				ol = cdoSingleList.observe(target);
+			}
+
+			return ol;
+		}
+	}
+
 	class NetXResourceProvider extends ObservableMapLabelProvider {
+
+		/**
+		 * A delegator for EMF {@link AdapterFactory}, it is initialized with
+		 * the {@link CDOEditingService#getAdapterFactory()}
+		 */
+		private AdapterFactoryItemDelegator adapterFactoryItemDelegator;
 
 		public NetXResourceProvider(IObservableMap[] attributeMaps) {
 			super(attributeMaps);
+			adapterFactoryItemDelegator = new AdapterFactoryItemDelegator(
+					CDOEditingService.getAdapterFactory());
 		}
 
 		public Image getColumnImage(Object element, int columnIndex) {
+			if (columnIndex == 0 && element instanceof CDOResource) {
+				Object image = adapterFactoryItemDelegator.getImage(element);
+				return ExtendedImageRegistry.INSTANCE.getImage(image);
+			}
 			return null;
 		}
 
 		public String getColumnText(Object element, int columnIndex) {
-			if (element instanceof NetXResource) {
+			if (element instanceof CDOResource) {
+				if (columnIndex == 0) {
+					return ((CDOResource) element).getPath();
+				}
+			} else if (element instanceof NetXResource) {
 
 				NetXResource resource = (NetXResource) element;
 				Component c = null;
@@ -444,7 +487,7 @@ public class DisconnectedResourcesComponent {
 
 				switch (columnIndex) {
 
-				case 0: {
+				case 1: {
 					NodeType nt = modelUtils.resolveParentNodeType(c);
 					if (nt != null) {
 						Node n = null;
@@ -456,7 +499,7 @@ public class DisconnectedResourcesComponent {
 					}
 					return "not connected";
 				}
-				case 1: {
+				case 2: {
 					if (c != null) {
 						if (c instanceof Function) {
 							return c.getName();
@@ -475,43 +518,33 @@ public class DisconnectedResourcesComponent {
 						return "not connected";
 					}
 				}
-				case 2:
+				case 3:
 					if (resource
 							.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__METRIC_REF)) {
 						return resource.getMetricRef().getName();
 					} else {
 						return null;
 					}
-				case 3:
+				case 4:
 					if (resource
 							.eIsSet(LibraryPackage.Literals.BASE_RESOURCE__SHORT_NAME)) {
 						return resource.getShortName();
 					} else {
 						return null;
 					}
-				case 4:
+				case 5:
 					if (resource
 							.eIsSet(LibraryPackage.Literals.BASE_RESOURCE__EXPRESSION_NAME)) {
 						return resource.getExpressionName();
 					} else {
 						return null;
 					}
-				case 5:
+				case 6:
 					if (resource.getLongName() != null) {
 						return resource.getLongName();
 					}
 					break;
-				// case 6:
-				// Value v = modelUtils.mostRecentCapacityValue(resource);
-				// if (v != null) {
-				// DecimalFormat numberFormatter = new DecimalFormat(
-				// "###,###,##0.00");
-				// numberFormatter.setDecimalSeparatorAlwaysShown(true);
-				// return numberFormatter.format(v.getValue());
-				// } else {
-				// return "<not set>";
-				// }
-				case 6:
+				case 7:
 					if (resource.getUnitRef() != null) {
 						return resource.getUnitRef().getCode();
 					}
@@ -523,7 +556,7 @@ public class DisconnectedResourcesComponent {
 	}
 
 	public Viewer getViewer() {
-		return resourcesTableViewer;
+		return resourcesTreeViewer;
 	}
 
 	public Composite getResourcesComposite() {

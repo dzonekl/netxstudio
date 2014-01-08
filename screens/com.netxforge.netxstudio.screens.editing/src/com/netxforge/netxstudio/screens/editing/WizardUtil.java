@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.editing.actions;
+package com.netxforge.netxstudio.screens.editing;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;

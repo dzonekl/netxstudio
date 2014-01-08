@@ -29,11 +29,13 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.eresource.util.EresourceAdapterFactory;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.command.BasicCommandStack;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -42,6 +44,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -724,6 +727,15 @@ public class CDOEditingService extends EMFEditingService implements
 			}
 
 		});
-
 	}
+
+	public static AdapterFactory getAdapterFactory() {
+		AdapterFactory adapterFactory = EMFEditingService.getAdapterFactory();
+		if (adapterFactory instanceof ComposedAdapterFactory) {
+			((ComposedAdapterFactory) adapterFactory)
+					.addAdapterFactory(new EresourceAdapterFactory());
+		}
+		return adapterFactory;
+	}
+
 }

@@ -144,6 +144,7 @@ public class MappingStatistics extends AbstractScreen implements
 
 	@Inject
 	private ClipboardService clipboard;
+	
 	private Text txtMetricStartDateTime;
 	private Text txtMetricEndDateTime;
 

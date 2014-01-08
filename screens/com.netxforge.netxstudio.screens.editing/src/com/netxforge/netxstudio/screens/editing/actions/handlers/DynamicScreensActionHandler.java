@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.editing.actions;
+package com.netxforge.netxstudio.screens.editing.actions.handlers;
 
 import java.util.List;
 
@@ -25,6 +25,7 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IActionBars;
 
+import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**

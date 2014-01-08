@@ -35,10 +35,13 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.IMessage;
@@ -88,19 +91,18 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 
 	protected Object currentFocusWidget;
 
-//	@Inject
+	// @Inject
 	public AbstractScreenImpl(Composite parent, int style) {
 		super(parent, style);
 	}
-	
-	public void injectMembers(Injector injector){
+
+	public void injectMembers(Injector injector) {
 		// Should be replaced, by instantiation of this class with GUICE, so the
 		// injection already occurs.
 		// See Screen Service.
-//		EditingActivator.getDefault().getInjector().injectMembers(this);
+		// EditingActivator.getDefault().getInjector().injectMembers(this);
 		injector.injectMembers(this);
 	}
-	
 
 	/**
 	 * Clients could call to update the selection provider depending on focus.
@@ -316,20 +318,70 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		// do nothing.
 	}
 
+	SelectionListener widgetSWTSelectionProvider = new SelectionListener() {
+
+		public void widgetSelected(SelectionEvent e) {
+			System.out
+					.println("SWT widget selection changed, pass on to ViewPart");
+		}
+
+		public void widgetDefaultSelected(SelectionEvent e) {
+			System.out
+					.println("SWT widget selection changed, pass on to ViewPart");
+		}
+	};
+
 	/**
 	 * Add a selection changed listener to the current selection provider. The
 	 * current selection provider will be the viewer which has focus for multi
 	 * viewer screens.
 	 */
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		ISelectionProvider currentSelectionProvider = this
-				.resolveSelectionProviderFromWidget(currentFocusWidget);
-		if (currentSelectionProvider != null) {
-			currentSelectionProvider.addSelectionChangedListener(listener);
+
+		if (currentFocusWidget instanceof Text) {
+			// SWT Text has no selection provider so return self.
+			// this.addSelectionChangedListener(listener);
+			((Text) currentFocusWidget)
+					.addSelectionListener(widgetSWTSelectionProvider);
+		} else {
+
+			ISelectionProvider currentSelectionProvider = this
+					.resolveSelectionProviderFromWidget(currentFocusWidget);
+			if (currentSelectionProvider != null) {
+				currentSelectionProvider.addSelectionChangedListener(listener);
+			}
 		}
 	}
 
+	public void removeSelectionChangedListener(
+			ISelectionChangedListener listener) {
+		if (currentFocusWidget instanceof Text) {
+			// SWT Text has no selection provider so return self.
+			((Text) currentFocusWidget)
+					.removeSelectionListener(widgetSWTSelectionProvider);
+		} else {
+
+			ISelectionProvider currentSelectionProvider = this
+					.resolveSelectionProviderFromWidget(currentFocusWidget);
+			if (currentSelectionProvider != null) {
+				currentSelectionProvider
+						.removeSelectionChangedListener(listener);
+			}
+		}
+	}
+
+	/**
+	 * We are the {@link ISelectionProvider} for non IStructuredSelection. As
+	 * non-structured viewer selections do not implement the JFace
+	 * ISelectionProvider interface. </br> Clients should call
+	 * {@link #registerFocus(Control)} to make sure
+	 * 
+	 */
 	public ISelection getSelection() {
+		if (currentFocusWidget instanceof Text) {
+			Text t = (Text) currentFocusWidget;
+			t.getSelectionText();
+		}
 
 		ISelectionProvider currentSelectionProvider = this
 				.resolveSelectionProviderFromWidget(currentFocusWidget);
@@ -339,29 +391,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		return StructuredSelection.EMPTY;
 	}
 
-	public void removeSelectionChangedListener(
-			ISelectionChangedListener listener) {
-
-		ISelectionProvider currentSelectionProvider = this
-				.resolveSelectionProviderFromWidget(currentFocusWidget);
-		if (currentSelectionProvider != null) {
-			currentSelectionProvider.removeSelectionChangedListener(listener);
-		}
-
-		// for (Viewer v : this.getViewers()) {
-		// if (v != null) {
-		// v.removeSelectionChangedListener(listener);
-		// }
-		// }
-	}
-
 	public void setSelection(ISelection selection) {
-		// for (Viewer v : this.getViewers()) {
-		// if (v != null && v.getSelection() != null) {
-		// v.setSelection(selection);
-		// }
-		// }
-
 		if (this.currentFocusWidget != null) {
 			ISelectionProvider currentSelectionProvider = this
 					.resolveSelectionProviderFromWidget(currentFocusWidget);
@@ -430,7 +460,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 * .FocusEvent)
 	 */
 	public void focusLost(FocusEvent e) {
-		
+
 	}
 
 	/**
@@ -513,8 +543,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	public void handleRefresh(Object... objects) {
 		// Do nothing.
 	}
-	
-	
+
 	/**
 	 * Add a toolbar to the section. (Consider make this generic, nowdays we add
 	 * actions below the section, could win some real-estate here).
@@ -539,5 +568,5 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		section.setTextClient(toolbar);
 		return toolBarManager;
 	}
-	
+
 }

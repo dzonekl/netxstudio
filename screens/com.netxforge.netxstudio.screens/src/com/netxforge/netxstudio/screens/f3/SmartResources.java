@@ -152,10 +152,10 @@ import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
 import com.netxforge.netxstudio.screens.editing.EMFEditingService;
 import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.TableViewerWithState;
-import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CopyFeatureCommand.FeatureInitializer;
 import com.netxforge.netxstudio.screens.editing.tables.CopyFeaturesActionHandler;
@@ -295,8 +295,9 @@ public class SmartResources extends AbstractPeriodScreen implements
 	 * A notifier, attached to an IObservableMap (Capable to listen to a
 	 * structure).
 	 */
-	private final UpdateDisconnectedResources componentsChangeListener = UpdateDisconnectedResources
+	private final ObservableMapChangeListener componentsChangeListener = ObservableMapChangeListener
 			.getInstance();
+	
 	private Composite cmpComponentSelector;
 
 	private ISWTObservableValue observeComponentFocus;

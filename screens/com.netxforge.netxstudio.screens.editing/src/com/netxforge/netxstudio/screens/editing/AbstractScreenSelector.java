@@ -33,8 +33,8 @@ import org.eclipse.ui.part.IShowInSource;
 import org.eclipse.ui.part.ShowInContext;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
-import com.netxforge.netxstudio.screens.editing.actions.DynamicScreensActionHandler;
+import com.netxforge.netxstudio.screens.editing.actions.handlers.ActionHandlerDescriptor;
+import com.netxforge.netxstudio.screens.editing.actions.handlers.DynamicScreensActionHandler;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
 

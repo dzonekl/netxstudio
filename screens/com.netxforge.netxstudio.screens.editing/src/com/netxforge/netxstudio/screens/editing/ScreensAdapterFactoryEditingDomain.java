@@ -24,6 +24,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.CreateChildCommand;
 import org.eclipse.emf.edit.command.PasteFromClipboardCommand;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
@@ -132,6 +133,18 @@ public class ScreensAdapterFactoryEditingDomain extends
 							commandParameter.getIndex(), getOptimizeCopy());
 				}
 			}
+		}else if (commandClass == RemoveCommand.class){
+			
+			// debug code for bug: 
+			//http://work.netxforge.com/issues/385
+			
+			
+//			StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+//			for(StackTraceElement ste : stackTrace){
+//				System.out.println(ste);
+//			}
+//			System.out.println(Thread.currentThread());
+//			System.out.println(System.currentTimeMillis() + " " + nativeCommand);
 		}
 
 		return nativeCommand;

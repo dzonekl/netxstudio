@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.screens.editing.actions;
+package com.netxforge.netxstudio.screens.editing.actions.handlers;
 
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain.EditingDomainProvider;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -25,6 +25,8 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.IWorkbenchPart;
+
+import com.netxforge.netxstudio.screens.editing.actions.IActionHandler;
 
 public abstract class AbstractActionHandler implements IActionHandler, ISelectionChangedListener  {
 	

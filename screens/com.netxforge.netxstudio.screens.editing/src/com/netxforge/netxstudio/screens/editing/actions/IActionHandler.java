@@ -21,6 +21,8 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbenchPart;
 
+import com.netxforge.netxstudio.screens.editing.actions.handlers.ActionHandlerDescriptor;
+
 public interface IActionHandler extends IPropertyListener {
 
 	/**
