@@ -200,10 +200,10 @@ public class NewEditResource extends AbstractScreen implements
 
 					final CDOResource cdoResource = res.cdoResource();
 
-					String computedName = null;
+					String computedPath = null;
 					try {
-						computedName = modelUtils
-								.cdoCalculateResourceName(component);
+						computedPath = "/Node_/"
+								+ modelUtils.cdoResourceName(component);
 					} catch (IllegalAccessException e1) {
 						if (ScreensActivator.DEBUG) {
 							ScreensActivator.TRACE.trace(
@@ -215,13 +215,20 @@ public class NewEditResource extends AbstractScreen implements
 
 					// Check to see if, we need to move the target to another
 					// CDO Resource when the calculated name is different.
-					if (computedName != null
-							&& !cdoResource.getPath().equals(computedName)) {
-						editingService.getDataService().getProvider()
-								.getResource(computedName);
+					String path = cdoResource.getPath();
+					if (computedPath != null && !computedPath.equals(path)) {
+						
+						// Make sure we use an existing transaction, 
+						// if not we might get it through a CDOView which is read-only. 
+						// This can happen when the resource was already loaded by the 
+						// DisconnectedResourceScreen for example. (We are a sub-screen, 
+						// of this). DisconnectedResourceScreen uses a SQL query handler 
+						// which is read-only.
 						final Resource emfNetxResource = editingService
 								.getDataService().getProvider()
-								.getResource(computedName);
+								.getResource(cdoResource.cdoView(), computedPath);
+						
+						
 						final Command moveResource = new AddCommand(
 								editingService.getEditingDomain(),
 								emfNetxResource.getContents(),
@@ -237,8 +244,6 @@ public class NewEditResource extends AbstractScreen implements
 
 					editingService.getEditingDomain().getCommandStack()
 							.execute(cc);
-					// referingComponent = component;
-					// updateWhoRefers();
 				}
 
 			}
