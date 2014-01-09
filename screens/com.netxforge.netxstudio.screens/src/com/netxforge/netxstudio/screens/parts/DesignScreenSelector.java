@@ -69,7 +69,7 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 		result = screenFormService.addScreenSelector(result, "Resources",
 				"icons/full/obj16/Resource_H.gif", SmartResources.class,
 				ScreenUtil.OPERATION_EDIT);
-		result = screenFormService.addScreenSelector(result, "Orpan Resources",
+		result = screenFormService.addScreenSelector(result, "Orphan Resources",
 				"icons/full/obj16/Resource_H.gif", DisconnectedResources.class,
 				ScreenUtil.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Warehouses",

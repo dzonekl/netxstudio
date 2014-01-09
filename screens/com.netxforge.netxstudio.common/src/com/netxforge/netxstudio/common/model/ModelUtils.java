@@ -1644,7 +1644,7 @@ public class ModelUtils {
 		String cdoCalculateResourceName = null;
 
 		try {
-			cdoCalculateResourceName = cdoCalculateResourceName(targetObject);
+			cdoCalculateResourceName = cdoResourceName(targetObject);
 		} catch (IllegalAccessException e) {
 			if (CommonActivator.DEBUG) {
 				CommonActivator.TRACE.trace(
@@ -1726,12 +1726,12 @@ public class ModelUtils {
 	 * @return
 	 * @throws IllegalAccessException
 	 */
-	public String cdoCalculateResourceName(EObject eObject)
+	public String cdoResourceName(EObject eObject)
 			throws IllegalAccessException {
 		if (eObject instanceof Component) {
 			final Component component = (Component) eObject;
 			// }
-			return cdoCalculateResourceName(component.eContainer());
+			return cdoResourceName(component.eContainer());
 		} else if (eObject instanceof Node) {
 			Node n = (Node) eObject;
 			if (n.eIsSet(OperatorsPackage.Literals.NODE__NODE_ID)) {
@@ -1744,7 +1744,7 @@ public class ModelUtils {
 		} else if (eObject instanceof NodeType) {
 			final NodeType nodeType = (NodeType) eObject;
 			if (nodeType.eContainer() instanceof Node) {
-				return cdoCalculateResourceName(nodeType.eContainer());
+				return cdoResourceName(nodeType.eContainer());
 			} else {
 				return LibraryPackage.Literals.NET_XRESOURCE.getName() + "_"
 						+ ((NodeType) eObject).getName();

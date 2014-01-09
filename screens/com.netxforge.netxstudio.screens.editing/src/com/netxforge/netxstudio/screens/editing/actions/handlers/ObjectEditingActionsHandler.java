@@ -257,7 +257,7 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 
 		ISelectionProvider selectionProvider = activePart instanceof ISelectionProvider ? (ISelectionProvider) activePart
 				: activePart.getSite().getSelectionProvider();
-		
+
 		providerInfo(selectionProvider);
 
 		if (selectionProvider != null) {
@@ -266,9 +266,11 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 			selectionProvider.addSelectionChangedListener(copyAction);
 			selectionProvider.addSelectionChangedListener(pasteAction);
 		}
-		
-		// FIXME No point in updateing the selection when activating, as the selection will be empty. 
-		// there is no screen update yet, so no selection provider, and no selection. 
+
+		// FIXME No point in updateing the selection when activating, as the
+		// selection will be empty.
+		// there is no screen update yet, so no selection provider, and no
+		// selection.
 		update(activePart);
 	}
 
@@ -276,25 +278,29 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 	 * @param selectionProvider
 	 */
 	public void providerInfo(ISelectionProvider selectionProvider) {
+		return;
+
 		// Analysis on ISelectionProviders available from an activePart.
-		ISelection selection = selectionProvider.getSelection();
-		
-		System.out.println("Selection provider is now: " + selectionProvider) ;
-		analyseSelection(selection);
+		// ISelection selection = selectionProvider.getSelection();
+		//
+		// System.out.println("Selection provider is now: " + selectionProvider)
+		// ;
+		// analyseSelection(selection);
 	}
 
+	@SuppressWarnings("unused")
 	private void analyseSelection(ISelection selection) {
-		if(selection instanceof ITextSelection){
+		if (selection instanceof ITextSelection) {
 			ITextSelection textSelection = (ITextSelection) selection;
-			System.out.println("Selection is text: "  + textSelection.getText());
-		}else if(selection instanceof IStructuredSelection){
-			if(selection.isEmpty()){
+			System.out.println("Selection is text: " + textSelection.getText());
+		} else if (selection instanceof IStructuredSelection) {
+			if (selection.isEmpty()) {
 				System.out.println("Selection is empty: ");
 			}
 			IStructuredSelection ss = (IStructuredSelection) selection;
-			System.out.println("Selection is structured: "  + ss.iterator());
+			System.out.println("Selection is structured: " + ss.iterator());
 		}
-		
+
 	}
 
 	public void update(IWorkbenchPart part) {
@@ -303,9 +309,9 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 				: part.getSite().getSelectionProvider();
 
 		if (selectionProvider != null) {
-			
+
 			providerInfo(selectionProvider);
-			
+
 			ISelection selection = selectionProvider.getSelection();
 
 			IStructuredSelection structuredSelection = selection instanceof IStructuredSelection ? (IStructuredSelection) selection
@@ -324,7 +330,8 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 		// http://work.netxforge.com/issues/322
 		if (part instanceof IScreenProvider) {
 			IScreen screen = ((IScreenProvider) part).getScreen();
-			// When a part get's activated we get called, but the screen isn't set yet. 
+			// When a part get's activated we get called, but the screen isn't
+			// set yet.
 			if (screen != null) {
 				Viewer viewer = screen.getViewer();
 				if (viewer instanceof StructuredViewer) {

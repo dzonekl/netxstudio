@@ -37,7 +37,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -107,14 +106,14 @@ public class DisconnectedResources extends AbstractScreen implements
 		frmResources = toolkit.createForm(this);
 		frmResources.setSeparatorVisible(true);
 
-		ImageDescriptor refreshDescriptor = ResourceManager
-				.getPluginImageDescriptor(
-						"com.netxforge.netxstudio.screens.editing",
-						"/icons/full/elcl16/refresh.gif");
-
-		frmResources.getToolBarManager().add(
-				new RefreshDisconnectedResourcesAction("", refreshDescriptor));
-		frmResources.getToolBarManager().update(true);
+//		ImageDescriptor refreshDescriptor = ResourceManager
+//				.getPluginImageDescriptor(
+//						"com.netxforge.netxstudio.screens.editing",
+//						"/icons/full/elcl16/refresh.gif");
+//
+//		frmResources.getToolBarManager().add(
+//				new RefreshDisconnectedResourcesAction("", refreshDescriptor));
+//		frmResources.getToolBarManager().update(true);
 
 		toolkit.paintBordersFor(frmResources);
 
