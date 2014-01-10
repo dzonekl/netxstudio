@@ -19,7 +19,7 @@ import org.junit.Before;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Function;
@@ -55,7 +55,7 @@ public class ServiceJobTest extends AbstractInjectedTestJUnit4 {
 	private static final String OPERATOR_NAME = "tmnl";
 
 	@Inject
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 	@Inject
 	private ModelUtils modelUtils;
 

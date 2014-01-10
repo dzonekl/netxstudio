@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
@@ -42,7 +42,7 @@ public class PerformanceMetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 	}
 
 	private void stateForJob(String jobName, JobState state) {
-		final IDataProvider provider = dataService.getProvider();
+		final IData provider = dataService.getProvider();
 		provider.openSession("admin", "admin");
 		provider.getTransaction();
 

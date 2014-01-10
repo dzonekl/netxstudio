@@ -31,6 +31,7 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
+import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
@@ -40,7 +41,7 @@ import org.junit.Before;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.scheduling.JobRunState;
@@ -59,11 +60,11 @@ public class TestMetricSourceImportAction extends AbstractInjectedTestJUnit4 {
 
 	@Inject
 	@NonStatic
-	private IDataProvider dataProvider;
+	private IData dataProvider;
 
 	@Inject
 	@NonStatic
-	private IDataProvider anotherDataProvider;
+	private IData anotherDataProvider;
 
 	@Inject
 	private ModelUtils modelUtils;

@@ -30,7 +30,7 @@ import org.junit.Test;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 /**
@@ -44,7 +44,7 @@ public class ProxyObjectTest extends AbstractInjectedTestJUnit4 {
 	private static final String USERID_TEST = "admin";
 
 	@Inject
-	private IDataProvider provider;
+	private IData provider;
 
 	@Inject
 	private ModelUtils modelUtils;

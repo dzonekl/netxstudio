@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
@@ -62,7 +62,7 @@ public class MetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 
 	@Test
 	public void testRemoveJob() {
-		final IDataProvider provider = dataService.getProvider();
+		final IData provider = dataService.getProvider();
 		provider.openSession("admin", "admin");
 		provider.getTransaction();
 		final Resource resource = provider
@@ -79,7 +79,7 @@ public class MetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 
 	@Test
 	public void testUpdateJob() {
-		final IDataProvider provider = dataService.getProvider();
+		final IData provider = dataService.getProvider();
 		provider.openSession("admin", "admin");
 		provider.getTransaction();
 		final Resource resource = provider
@@ -96,7 +96,7 @@ public class MetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 
 	@Test
 	public void testCreateJob() throws Exception {
-		final IDataProvider provider = dataService.getProvider();
+		final IData provider = dataService.getProvider();
 		provider.openSession("admin", "admin");
 		provider.getTransaction();
 		final Resource resource = provider
