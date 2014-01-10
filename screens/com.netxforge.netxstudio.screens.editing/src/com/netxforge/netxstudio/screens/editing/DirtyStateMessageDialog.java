@@ -154,8 +154,7 @@ public class DirtyStateMessageDialog extends MessageDialog {
 				case LIST: {
 					CDOListFeatureDelta castedFd = (CDOListFeatureDelta) delta;
 
-					sb.append("LIST " + castedFd.getFeature().getName()
-							+ " original size: " + castedFd.getOriginSize());
+					sb.append("LIST " + castedFd.getFeature().getName());
 				}
 					break;
 				case ADD: {

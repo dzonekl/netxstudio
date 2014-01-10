@@ -4418,7 +4418,8 @@ public class ModelUtils {
 			switch (type) {
 			case LIST: {
 				CDOListFeatureDelta castedFd = (CDOListFeatureDelta) fd;
-				sb.append("\n     original size: " + castedFd.getOriginSize());
+				// Dependency on CDO 4.2
+//				sb.append("\n     original size: " + castedFd.getOriginSize());
 				cdoPrintFeatureDeltas(sb, castedFd.getListChanges());
 			}
 				break;
