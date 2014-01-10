@@ -21,6 +21,30 @@
       <discovery label="NetXForge External Dependencies" url="http://p2.netxforge.com/site.p2"/>
    </url>
 
+   <includes
+         id="com.google.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.platform.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="javax.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.ecore"
+         version="0.0.0"/>
+
+   <includes
+         id="org.apache.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.common"
+         version="0.0.0"/>
+
    <plugin
          id="com.netxforge.netxstudio.bare.product"
          download-size="0"

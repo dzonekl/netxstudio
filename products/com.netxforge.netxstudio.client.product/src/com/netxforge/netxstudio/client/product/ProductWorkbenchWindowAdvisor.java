@@ -103,31 +103,21 @@ public class ProductWorkbenchWindowAdvisor extends
 					IPerspectiveDescriptor perspective) {
 				page.closeAllEditors(true);
 				hideActionSets(page);
-				System.out.println("Perspective : Activated "
-						+ perspective.getId());
-				printPage(page);
 			}
 
 			@Override
 			public void perspectiveOpened(IWorkbenchPage page,
 					IPerspectiveDescriptor perspective) {
-				System.out.println("Perspective : Opened "
-						+ perspective.getId());
 			}
 
 			@Override
 			public void perspectiveClosed(IWorkbenchPage page,
 					IPerspectiveDescriptor perspective) {
-				System.out.println("Perspective : Closed "
-						+ perspective.getId());
 			}
 
 			@Override
 			public void perspectiveDeactivated(IWorkbenchPage page,
 					IPerspectiveDescriptor perspective) {
-				System.out.println("Perspective : Deactivated "
-						+ perspective.getId());
-				printPage(page);
 			}
 
 		});

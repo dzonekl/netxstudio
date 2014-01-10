@@ -26,8 +26,6 @@
    <features>
       <feature id="com.netxforge.netxstudio.bare.product.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.screens.app.feature" version="1.0.0.qualifier"/>
-      <feature id="com.google.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.rcp"/>
    </features>
 
    <configurations>
