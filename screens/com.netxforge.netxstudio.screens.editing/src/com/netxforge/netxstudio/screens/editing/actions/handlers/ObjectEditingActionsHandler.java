@@ -3,7 +3,6 @@ package com.netxforge.netxstudio.screens.editing.actions.handlers;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.CopyAction;
 import org.eclipse.emf.edit.ui.action.CutAction;
-import org.eclipse.emf.edit.ui.action.PasteAction;
 import org.eclipse.emf.edit.ui.action.RedoAction;
 import org.eclipse.emf.edit.ui.action.UndoAction;
 import org.eclipse.jface.action.ActionContributionItem;
@@ -15,6 +14,8 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
@@ -22,11 +23,13 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
+import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.IScreen;
 import com.netxforge.netxstudio.screens.editing.IScreenProvider;
 import com.netxforge.netxstudio.screens.editing.actions.IActionHandler;
 import com.netxforge.netxstudio.screens.editing.actions.SelectAllAction;
+import com.netxforge.netxstudio.screens.editing.actions.SourceAwarePasteAction;
 import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteAction;
 
 /**
@@ -69,7 +72,7 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 	/**
 	 * This is the action used to implement paste.
 	 */
-	protected PasteAction pasteAction;
+	protected SourceAwarePasteAction pasteAction;
 
 	/**
 	 * This is the action used to implement undo.
@@ -189,8 +192,8 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 	 * @see #pasteAction
 	 * @since 2.6
 	 */
-	protected PasteAction createPasteAction() {
-		return new PasteAction();
+	protected SourceAwarePasteAction createPasteAction() {
+		return new SourceAwarePasteAction();
 	}
 
 	/**
@@ -278,17 +281,14 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 	 * @param selectionProvider
 	 */
 	public void providerInfo(ISelectionProvider selectionProvider) {
-		return;
 
 		// Analysis on ISelectionProviders available from an activePart.
-		// ISelection selection = selectionProvider.getSelection();
-		//
-		// System.out.println("Selection provider is now: " + selectionProvider)
-		// ;
-		// analyseSelection(selection);
+		ISelection selection = selectionProvider.getSelection();
+
+		System.out.println("Selection provider is now: " + selectionProvider);
+		analyseSelection(selection);
 	}
 
-	@SuppressWarnings("unused")
 	private void analyseSelection(ISelection selection) {
 		if (selection instanceof ITextSelection) {
 			ITextSelection textSelection = (ITextSelection) selection;
@@ -305,12 +305,14 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 
 	public void update(IWorkbenchPart part) {
 
+		// partInfo(part);
+
 		ISelectionProvider selectionProvider = part instanceof ISelectionProvider ? (ISelectionProvider) part
 				: part.getSite().getSelectionProvider();
 
 		if (selectionProvider != null) {
 
-			providerInfo(selectionProvider);
+			// providerInfo(selectionProvider);
 
 			ISelection selection = selectionProvider.getSelection();
 
@@ -336,6 +338,23 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 				Viewer viewer = screen.getViewer();
 				if (viewer instanceof StructuredViewer) {
 					selectAllAction.updateViewer((StructuredViewer) viewer);
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private void partInfo(IWorkbenchPart part) {
+		if (part instanceof AbstractScreensViewPart) {
+			IScreen screen = ((AbstractScreensViewPart) part).getScreen();
+			if (screen != null) {
+				Viewer viewer = screen.getViewer();
+				if (viewer instanceof TableViewer) {
+					System.out
+							.println("Hey, updating actions for a TableViewer");
+				} else if (viewer instanceof TreeViewer) {
+					System.out
+							.println("Hey, updating actions for a TreeViewer");
 				}
 			}
 		}
