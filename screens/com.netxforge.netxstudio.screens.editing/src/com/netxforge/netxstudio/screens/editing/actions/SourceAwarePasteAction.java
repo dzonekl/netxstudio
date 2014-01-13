@@ -20,52 +20,97 @@ package com.netxforge.netxstudio.screens.editing.actions;
 import java.util.Collection;
 
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.UnexecutableCommand;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.command.PasteFromClipboardCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.action.PasteAction;
-import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 
 /**
+ * The command creation will determine if the object can be pasted into the
+ * selection.
  * 
- * @author Christophe
+ * We override for non-executabe to paste in the eResource, which doesn't always
+ * make sense.
  * 
+ * @author Christophe Bouhier
  */
 public class SourceAwarePasteAction extends PasteAction {
 
-	class PasteStrategy {
+	public class PasteStrategy implements ICommandStrategy {
+
+		private Object source;
 
 		public static final int PASTE_INTO_TABLE = 100;
 		public static final int PASTE_INTO_TREE = 200;
-		
+
 		public void source(Object source) {
-
+			this.source = source;
 		}
 
-		public void applyStrategy() {
+		/**
+		 * Delegate to the strategy from an editing domain.
+		 * 
+		 * @param commandClass
+		 * @param commandParameter
+		 * @return
+		 */
+		public Command createCommand(EditingDomain domain,
+				Class<? extends Command> commandClass,
+				CommandParameter commandParameter, boolean optimizedCopy) {
 
+			// Check if we can execute first, if not create with the owner for a
+			// TableViewer.
+			Command cmd = new SourceAwarePasteFromClipboardCommand(domain,
+					commandParameter.getOwner(), commandParameter.getFeature(),
+					commandParameter.getIndex(), optimizedCopy);
+
+			if (!cmd.canExecute()) {
+
+				if (source instanceof StructuredViewer) {
+					if (source instanceof TableViewer) {
+						EObject oOwner = (EObject) commandParameter.getOwner();
+						if (oOwner.eResource() != null) {
+							// Produce a regular command with a different owner,
+							// being the resource.
+							return new PasteFromClipboardCommand(domain,
+									oOwner.eResource(),
+									commandParameter.getFeature(),
+									commandParameter.getIndex(), optimizedCopy);
+						}
+
+					} else if (source instanceof TreeViewer) {
+						System.out.println("Paste strategy for TreeViewer ");
+
+					}
+				}
+			}
+			return cmd;
 		}
-
 	}
 
-	private Object source;
-	
-	private String strategy;
-
-	@Override
-	public boolean updateSelection(IStructuredSelection selection) {
-		System.out.println("Updating paste Action for ");
-		return super.updateSelection(selection);
-	}
+	/**
+	 * A Command creations strategy.
+	 */
+	private PasteStrategy strategy = new PasteStrategy();
 
 	public void updateSource(Object o) {
-		source = o;
+		strategy.source(o);
 	}
 
 	@Override
 	public Command createCommand(Collection<?> selection) {
-		System.out.println("Creating paste command for strategy: " + strategy); 
-		return super.createCommand(selection);
-	}
-	
-	
-	
 
+		if (selection.size() == 1) {
+			return SourceAwarePasteFromClipboardCommand.create(domain,
+					selection.iterator().next(), null, strategy);
+		} else {
+			return UnexecutableCommand.INSTANCE;
+		}
+
+	}
 }

@@ -17,7 +17,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing;
 
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -33,6 +32,8 @@ import com.netxforge.netxstudio.edit.CreateChildFromPoolCommand;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.screens.editing.actions.SourceAwarePasteFromClipboardCommand;
+import com.netxforge.netxstudio.screens.editing.actions.StrategyCommandParameter;
 import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.actions.WarningNWBDeleteCommand;
 
@@ -71,7 +72,7 @@ public class ScreensAdapterFactoryEditingDomain extends
 		}
 		// SPECIALIZED WARNING DELETE WITH NO UNDO, DOMAIN is DISCARDED IN THIS
 		// COMMAND.
-		if (commandClass == WarningNWBDeleteCommand.class) {
+		else if (commandClass == WarningNWBDeleteCommand.class) {
 			return new WarningNWBDeleteCommand(commandParameter.getCollection());
 		}
 
@@ -107,44 +108,32 @@ public class ScreensAdapterFactoryEditingDomain extends
 						: new ItemProviderAdapter(null).createCommand(nt, this,
 								commandClass, commandParameter);
 			}
+			// SPECIALIZED CREATION OF A PASTE COMMAND.
+		} else if (commandClass == SourceAwarePasteFromClipboardCommand.class) {
+			if (commandParameter instanceof StrategyCommandParameter) {
+				return ((StrategyCommandParameter) commandParameter)
+						.getCmdStrategy().createCommand(this, commandClass,
+								commandParameter, getOptimizeCopy());
+			}
 
 		}
 
 		Command nativeCommand = super.createCommand(commandClass,
 				commandParameter);
 
-		// SPECIALED PASTE COMMAND TO PASTE INTO TABLES.
-		// For the paste command, we like to paste into the parent resource for
-		// flat views
-		// like tables.
-		// FIXME, The ugly thing is that the selection is still the copied
-		// object buh...
-		if (commandClass == PasteFromClipboardCommand.class
-				&& !nativeCommand.canExecute()) {
-			if (commandParameter.getOwner() instanceof CDOObject) {
-				CDOObject oOwner = (CDOObject) commandParameter.getOwner();
-				if (oOwner.eContainer() != null) {
-					// Is it contained, we shoudn't touch this creation.
-				}
+		if (commandClass == RemoveCommand.class) {
 
-				if (oOwner.eResource() != null) {
-					return new PasteFromClipboardCommand(this,
-							oOwner.eResource(), commandParameter.getFeature(),
-							commandParameter.getIndex(), getOptimizeCopy());
-				}
-			}
-		}else if (commandClass == RemoveCommand.class){
-			
-			// debug code for bug: 
-			//http://work.netxforge.com/issues/385
-			
-			
-//			StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-//			for(StackTraceElement ste : stackTrace){
-//				System.out.println(ste);
-//			}
-//			System.out.println(Thread.currentThread());
-//			System.out.println(System.currentTimeMillis() + " " + nativeCommand);
+			// debug code for bug:
+			// http://work.netxforge.com/issues/385
+
+			// StackTraceElement[] stackTrace =
+			// Thread.currentThread().getStackTrace();
+			// for(StackTraceElement ste : stackTrace){
+			// System.out.println(ste);
+			// }
+			// System.out.println(Thread.currentThread());
+			// System.out.println(System.currentTimeMillis() + " " +
+			// nativeCommand);
 		}
 
 		return nativeCommand;

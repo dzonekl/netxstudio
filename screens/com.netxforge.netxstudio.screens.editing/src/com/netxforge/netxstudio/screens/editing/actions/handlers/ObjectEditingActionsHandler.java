@@ -338,6 +338,7 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 				Viewer viewer = screen.getViewer();
 				if (viewer instanceof StructuredViewer) {
 					selectAllAction.updateViewer((StructuredViewer) viewer);
+					pasteAction.updateSource(viewer);
 				}
 			}
 		}
