@@ -73,19 +73,22 @@ public class SourceAwarePasteAction extends PasteAction {
 
 				if (source instanceof StructuredViewer) {
 					if (source instanceof TableViewer) {
-						EObject oOwner = (EObject) commandParameter.getOwner();
-						if (oOwner.eResource() != null) {
-							// Produce a regular command with a different owner,
-							// being the resource.
-							return new PasteFromClipboardCommand(domain,
-									oOwner.eResource(),
-									commandParameter.getFeature(),
-									commandParameter.getIndex(), optimizedCopy);
+						if (commandParameter.getOwner() instanceof EObject) {
+							EObject oOwner = (EObject) commandParameter
+									.getOwner();
+							if (oOwner.eResource() != null) {
+								// Produce a regular command with a different
+								// owner,
+								// being the resource.
+								return new PasteFromClipboardCommand(domain,
+										oOwner.eResource(),
+										commandParameter.getFeature(),
+										commandParameter.getIndex(),
+										optimizedCopy);
+							}
 						}
-
 					} else if (source instanceof TreeViewer) {
-						System.out.println("Paste strategy for TreeViewer ");
-
+						// Do nothing.
 					}
 				}
 			}

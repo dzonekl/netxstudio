@@ -261,7 +261,7 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 		ISelectionProvider selectionProvider = activePart instanceof ISelectionProvider ? (ISelectionProvider) activePart
 				: activePart.getSite().getSelectionProvider();
 
-		providerInfo(selectionProvider);
+		// providerInfo(selectionProvider);
 
 		if (selectionProvider != null) {
 			selectionProvider.addSelectionChangedListener(deleteAction);
