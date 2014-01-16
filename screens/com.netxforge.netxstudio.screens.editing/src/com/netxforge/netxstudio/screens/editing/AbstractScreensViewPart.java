@@ -184,7 +184,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	protected abstract void initBindings();
 
 	public void dispose() {
-
+		this.getSite().getPage().removePartListener(this);
 		this.getEditingService().disposeData();
 		super.dispose();
 	}
