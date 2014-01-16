@@ -31,6 +31,7 @@ import java.util.Map;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
@@ -65,7 +66,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IData;
+import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobState;
@@ -101,8 +104,13 @@ public class JobHandler {
 	@Inject
 	private ModelUtils modelUtils;
 
+	@Inject
+	private IPropertiesProvider propsProvier;
+
 	// Our quartz scheduler.
 	private Scheduler scheduler;
+
+	private static final String NETXSTUDIO_AUTOSTART_SCHEDULER = "netxstudio.scheduler.autostart";
 
 	/*
 	 * A state flag, if we are currently initializing.
@@ -121,6 +129,8 @@ public class JobHandler {
 
 	private CDOView view;
 
+	private Boolean autoStartOnActivation;
+
 	static void createAndInitialize() {
 		INSTANCE = new JobHandler();
 		INSTANCE.activate();
@@ -137,18 +147,20 @@ public class JobHandler {
 	/**
 	 * Start the scheduler.
 	 */
-	public static void status() {
-		status(null);
+	public static String status() {
+		return status(null);
 	}
 
-	public static void status(CommandInterpreter interpreter) {
+	public static String status(CommandInterpreter interpreter) {
+		String result = null;
 		if (INSTANCE != null) {
+			result = INSTANCE.statusScheduler();
+
 			if (interpreter != null) {
-				interpreter.println(INSTANCE.statusScheduler());
-			} else {
-				System.out.println(INSTANCE.statusScheduler());
+				interpreter.println(result);
 			}
 		}
+		return result;
 	}
 
 	/**
@@ -208,16 +220,37 @@ public class JobHandler {
 	/**
 	 * list the scheduled jobs to System.out
 	 */
-	public static void scheduled() {
-		scheduled(null);
+	public static String scheduled() {
+		return scheduled(null);
 	}
 
-	public static void scheduled(CommandInterpreter interpreter) {
-		if (interpreter != null && INSTANCE != null) {
-			interpreter.println(INSTANCE.listScheduler());
-		} else {
-			System.out.println(INSTANCE.listScheduler());
+	public static String scheduled(CommandInterpreter interpreter) {
+		String result = null;
+		if (INSTANCE != null) {
+			result = INSTANCE.listScheduler();
+			if (interpreter != null) {
+				interpreter.println(result);
+			}
 		}
+		return result;
+	}
+
+	/**
+	 * list the scheduled jobs to System.out
+	 */
+	public static String scheduledStructured() {
+		return scheduledStructured(null);
+	}
+
+	public static String scheduledStructured(CommandInterpreter interpreter) {
+		String result = null;
+		if (INSTANCE != null) {
+			result = INSTANCE.listSchedulerStructured();
+			if (interpreter != null) {
+				interpreter.println(result);
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -388,6 +421,37 @@ public class JobHandler {
 		return sb.toString();
 	}
 
+	/**
+	 * Produce the scheduled jobs in a structured format.
+	 * 
+	 * @return
+	 */
+	private synchronized String listSchedulerStructured() {
+		StringBuffer sb = new StringBuffer();
+
+		if (isInitializing()) {
+			sb.append(ServerRequest.SCHEDULER_INITIALIZING);
+		}
+
+		try {
+			if (scheduler != null) {
+				for (Map.Entry<CDOID, TriggerKey> entry : triggerKeysMap
+						.entrySet()) {
+
+					if (!scheduler.checkExists(entry.getValue())) {
+						continue;
+					}
+					Trigger trigger = scheduler.getTrigger(entry.getValue());
+					sb.append(printStructuredTrigger(entry.getKey(),
+							entry.getValue(), trigger));
+				}
+			}
+		} catch (SchedulerException e) {
+			sb.append(ServerRequest.SCHEDULER_ERROR);
+		}
+		return sb.toString();
+	}
+
 	private synchronized String listScheduler() {
 		if (isInitializing()) {
 			return "Currently initializing, sorry";
@@ -453,6 +517,29 @@ public class JobHandler {
 					+ " will fire next time " + nextFireTime);
 			TriggerState triggerState = scheduler.getTriggerState(tKey);
 			sb.append(", state=" + triggerState.name() + "\n");
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+
+		return sb.toString();
+	}
+
+	/**
+	 * @param cdoid
+	 * @param trigger
+	 */
+	private String printStructuredTrigger(CDOID cdoid, TriggerKey tKey,
+			Trigger trigger) {
+
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			sb.append("");
+			CDOIDUtil.write(sb, cdoid);
+			Date nextFireTime = trigger.getNextFireTime();
+			sb.append("," + nextFireTime);
+			TriggerState triggerState = scheduler.getTriggerState(tKey);
+			sb.append("," + triggerState.name() + "\n");
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 		}
@@ -561,9 +648,12 @@ public class JobHandler {
 			// view.options().setInvalidationPolicy(
 			// CDOInvalidationPolicy.DEFAULT);
 
+			boolean firstRun = false;
 			if (scheduler == null) {
 				// Instantiate only once.
 				scheduler = StdSchedulerFactory.getDefaultScheduler();
+				firstRun = true;
+
 			} else {
 				scheduler.clear();
 			}
@@ -626,16 +716,15 @@ public class JobHandler {
 
 			}
 
-			// Do not start the scheduler.
-			// try {
-			// scheduler.start();
-			// } catch (final Exception e) {
-			// // TODO do some form of logging but don't stop everything
-			// e.printStackTrace(System.err);
-			// }
+			if (firstRun && autoStartOnActivation) {
+				try {
+					scheduler.start();
+					firstRun = false;
+				} catch (final Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 
-			// CB Keep it open, we need for invalidation events.
-			// dataProvider.closeView();
 		} catch (final Exception e) {
 			if (JobActivator.DEBUG) {
 				JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION,
@@ -839,6 +928,11 @@ public class JobHandler {
 				}
 			}
 		});
+
+		String property = propsProvier.get().getProperty(
+				NETXSTUDIO_AUTOSTART_SCHEDULER);
+		autoStartOnActivation = new Boolean(property);
+
 	}
 
 	/**
@@ -928,15 +1022,13 @@ public class JobHandler {
 							serverUtils.initializeServer(repository);
 
 							JobHandler.createAndInitialize();
-							// CB 26062012 disable the scheduler, to force a
-							// manual start of the scheduler.
 
 							// CB 12102012 Register ourselves as a service.
 							JobActivator.getContext().registerService(
 									JobHandler.class, JobHandler.INSTANCE,
 									new Hashtable<String, String>());
 
-							stop();
+							// stop();
 						}
 					}
 				});

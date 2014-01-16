@@ -18,12 +18,17 @@
 package com.netxforge.netxstudio.data.actions;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -99,6 +104,15 @@ public class ServerRequest {
 	// Start the scheduler.
 	public static final String COMMAND_SCHEDULER_START = "scheduler_start";
 
+	// Start the scheduler.
+	public static final String COMMAND_SCHEDULER_STATUS = "scheduler_status";
+
+	// Communication error with scheduler.
+	public static final String SCHEDULER_ERROR = "ERROR";
+
+	// Scheduler is initializing.
+	public static final String SCHEDULER_INITIALIZING = "INITIALIZING";
+
 	public ServerRequest() {
 	}
 
@@ -110,9 +124,9 @@ public class ServerRequest {
 		url.append("?" + SERVICE_PARAM_NAME + "=" + SCHEDULER_SERVICE);
 		url.append("&" + COMMAND_PARAM_NAME + "=" + command);
 
-		System.err.println(url.toString());
+		// System.err.println(url.toString());
 		final String result = doRequest(url.toString());
-		System.err.println(result);
+		// System.err.println(result);
 		return result;
 	}
 
@@ -340,6 +354,59 @@ public class ServerRequest {
 
 	public void setCDOServer(String server) {
 		this.server = server;
+	}
+
+	public static boolean schedulerRunning(String commandSchedulerStatus,
+			String result) {
+		if (commandSchedulerStatus.equals(COMMAND_SCHEDULER_STATUS)) {
+			return result.equals("Scheduler started");
+		}
+		return false;
+	}
+
+	public static List<String[]> schedulerTriggers(String schedule) {
+
+		BufferedReader reader = new BufferedReader(new StringReader(schedule));
+
+		// Regex, splits quoted fragments separated by delimiter.
+		// The fancy regexp, also considers double quotes sometimes used.
+		Pattern p = Pattern.compile("(\".*?\"|[^,]++)");
+		final List<String[]> localData = new ArrayList<String[]>();
+		String line;
+		try {
+			while ((line = reader.readLine()) != null) {
+
+				// Split (by default) for encapsulated by quote char...
+				// CB: http://work.netxforge.com/issues/159
+				// See also: http://mindprod.com/jgloss/regex.html
+				ArrayList<String> matchingList = Lists.newArrayList();
+				Matcher matcher = p.matcher(line);
+				while (matcher.find()) {
+					final int gc = matcher.groupCount();
+					// group 0 is the whole pattern matched,
+					// loops runs from from 0 to gc, not 0 to gc-1 as is
+					// traditional.
+					for (int i = 0; i <= gc; i++) {
+						String match = matcher.group(i);
+						if (i > 0) { // Skip the outer group.
+							matchingList.add(match);
+						}
+					}
+				}
+
+				final List<String> lineData = new ArrayList<String>();
+
+				for (String s : matchingList) {
+					lineData.add(s);
+				}
+
+				localData.add(lineData.toArray(new String[lineData.size()]));
+			}
+		} catch (IOException e) {
+		}
+		localData.toArray(new String[localData.size()][]);
+
+		return localData;
 	}
 
 }

@@ -34,6 +34,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.server.job.JobHandler;
+import com.netxforge.netxstudio.server.job.JobService;
 
 /**
  * 
@@ -78,7 +79,7 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 
 		Module om = new JobModule();
 		injector = Guice.createInjector(osgiModule(context), om);
-		
+
 		// register our trace and debugging listener.
 		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
@@ -87,7 +88,13 @@ public class JobActivator implements BundleActivator, DebugOptionsListener,
 
 		// register our command provider.
 		context.registerService(CommandProvider.class.getName(), this, null);
+
+		// register our import service.
+		context.registerService(JobService.class, new JobService(),
+				new Hashtable<String, String>());
+
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
