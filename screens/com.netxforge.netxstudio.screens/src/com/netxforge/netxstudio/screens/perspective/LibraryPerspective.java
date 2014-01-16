@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.ui.perspective;
+package com.netxforge.netxstudio.screens.perspective;
 
 import org.eclipse.ui.IPageLayout;
 
