@@ -111,11 +111,11 @@ import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
 import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.actions.clipboard.ClipboardService;
+import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 
 /**
  * A screen presenting {@link MetricSource} mapping statistics
@@ -142,6 +142,7 @@ public class MappingStatistics extends AbstractScreen implements
 	private Tree statisticsTree;
 	private Table recordsTable;
 
+	@SuppressWarnings("unused")
 	@Inject
 	private ClipboardService clipboard;
 	

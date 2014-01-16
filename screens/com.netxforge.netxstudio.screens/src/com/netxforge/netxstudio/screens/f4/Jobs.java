@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
@@ -24,7 +24,13 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -34,17 +40,21 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.ObservableValueEditingSupport;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.LabelProviderChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -68,6 +78,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.wb.swt.ResourceManager;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -85,6 +97,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
+import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 
 /**
  * 
@@ -113,6 +126,41 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	// private ArrayList<Object> uniqueJobList;
 
 	/**
+	 * Mirrored scheduler state. It gets updated by init, manual request, or
+	 * when the scheduler state changes start <==> Stand-by.
+	 */
+	boolean isRunning = false;
+
+	/**
+	 * List all scheduled actions
+	 * 
+	 * @author Christophe
+	 * 
+	 */
+	public class ListScheduleAction extends Action {
+
+		public ListScheduleAction(String text) {
+			super(text);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.jface.action.Action#run()
+		 */
+		@Override
+		public void run() {
+			try {
+				updateScheduleInViewer();
+				SWTResourceManager.disposeColors();
+				// Update the viewer
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
 	 * Create the composite.
 	 * 
 	 * @param parent
@@ -131,15 +179,97 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
 	}
 
+	/**
+	 * Starts or stops the scheduler. The service side HTTP handler, is
+	 * synchronous, so roundtrip is awaited.
+	 * 
+	 * @author Christophe
+	 * 
+	 */
+	public class SchedulerStartStopAction extends Action {
+
+		ImageDescriptor playDescriptor = ResourceManager
+				.getPluginImageDescriptor(
+						"com.netxforge.netxstudio.screens.editing",
+						"/icons/full/elcl16/play.png");
+
+		ImageDescriptor pauseDescriptor = ResourceManager
+				.getPluginImageDescriptor(
+						"com.netxforge.netxstudio.screens.editing",
+						"/icons/full/elcl16/pause.png");
+
+		public SchedulerStartStopAction(String text) {
+			super(text, SWT.PUSH);
+			// check the initial status of the scheduler.
+			try {
+				updateSchedulerState();
+			} catch (Exception e) {
+				// status can't be obtained
+				e.printStackTrace();
+			}
+			updateIcon();
+		}
+
+		/**
+		 * @throws Exception
+		 */
+		public void updateSchedulerState() throws Exception {
+			String result = serverActions
+					.callJobAction(ServerRequest.COMMAND_SCHEDULER_STATUS);
+			isRunning = ServerRequest.schedulerRunning(
+					ServerRequest.COMMAND_SCHEDULER_STATUS, result);
+			// System.out.println("Set action state scheduler is running? " +
+			// isRunning + " (result text) " + result);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.jface.action.Action#run()
+		 */
+		@Override
+		public void run() {
+
+			if (isRunning) {
+				try {
+					serverActions
+							.callJobAction(ServerRequest.COMMAND_SCHEDULER_STOP);
+					updateSchedulerState();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					serverActions
+							.callJobAction(ServerRequest.COMMAND_SCHEDULER_START);
+					updateSchedulerState();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			updateIcon();
+			updateScheduleInViewer();
+		}
+
+		private void updateIcon() {
+			if (isRunning) {
+				this.setImageDescriptor(pauseDescriptor);
+				this.setText("Pause");
+			} else {
+				this.setImageDescriptor(playDescriptor);
+			}
+		}
+	}
+
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmScheduledJobs = toolkit.createForm(this);
 
-		SchedulerActions schedulerActions = new SchedulerActions(
-				this.serverActions);
 		frmScheduledJobs.getToolBarManager().add(
-				schedulerActions.getListScheduleAction());
+				new ListScheduleAction("Update scheduler information"));
+		frmScheduledJobs.getToolBarManager().add(
+				new SchedulerStartStopAction("Start"));
 
 		frmScheduledJobs.getToolBarManager().update(true);
 		frmScheduledJobs.setToolBarVerticalAlignment(SWT.TOP);
@@ -176,44 +306,9 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 			}
 		});
 
-		// CB 06-09-2011, We can't create any arbitrary job from the JOB UI.
-		// ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-		// frmScheduledJobs.getBody(), SWT.NONE);
-		// mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
-		// public void linkActivated(HyperlinkEvent e) {
-		// if (screenService != null) {
-		// NewEditJob jobScreen = new NewEditJob(screenService
-		// .getScreenContainer(), SWT.NONE);
-		// jobScreen.setOperation(Screens.OPERATION_NEW);
-		// jobScreen.setScreenService(screenService);
-		//
-		// Job j = SchedulingFactory.eINSTANCE.createJob();
-		//
-		//
-		// jobScreen.injectData(jobsResource,
-		// j);
-		// screenService.setActiveScreen(jobScreen);
-		// }
-		//
-		// }
-		//
-		// public void linkEntered(HyperlinkEvent e) {
-		// }
-		//
-		// public void linkExited(HyperlinkEvent e) {
-		// }
-		// });
-		// mghprlnkNew.setImage(ResourceManager.getPluginImage(
-		// "com.netxforge.netxstudio.models.edit",
-		// "icons/full/ctool16/Function_E.png"));
-		// mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-		// false, 1, 1));
-		// toolkit.paintBordersFor(mghprlnkNew);
-		// mghprlnkNew.setText("New");
-
 		jobsTableViewer = new TableViewer(frmScheduledJobs.getBody(),
 				SWT.BORDER | SWT.FULL_SELECTION);
-//		jobsTableViewer.setComparer(new CDOElementComparer());
+		jobsTableViewer.setComparer(new CDOElementComparer());
 		jobsTableViewer.addFilter(new SearchFilter());
 
 		jobsTable = jobsTableViewer.getTable();
@@ -244,7 +339,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 				jobsTableViewer, SWT.NONE);
 		TableColumn tblclmnStarttime = tableViewerColumn_2.getColumn();
 		tblclmnStarttime.setWidth(130);
-		tblclmnStarttime.setText("Start");
+		tblclmnStarttime.setText("Scheduled start");
 
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
 				jobsTableViewer, SWT.NONE);
@@ -267,30 +362,9 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		jobsTable.setFocus();
 	}
 
-	//
-	// public class JobFilter extends ViewerFilter {
-	//
-	// @Override
-	// public boolean select(Viewer viewer, Object parentElement,
-	// Object element) {
-	//
-	// Job job = (Job) element;
-	// if(jobContainerResource.getContents().contains(job)){
-	// uniqueJobList.add(job.cdoID());
-	// return true;
-	// }else{
-	// // Add jobs from the non container resource as well.
-	// if(!uniqueJobList.contains(job.cdoID())){
-	// uniqueJobList.add(job.cdoID());
-	// return true;
-	// }else{
-	// return false;
-	// }
-	// }
-	// }
-	// }
 
 	private final List<IAction> actions = Lists.newArrayList();
+	private CDOView cdoView;
 
 	@Override
 	public IAction[] getActions() {
@@ -304,6 +378,29 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		}
 		return actions.toArray(new IAction[actions.size()]);
 
+	}
+
+	/**
+	 * An addon {@link Adapter} which provides
+	 * 
+	 * @author Christophe Bouhier
+	 * 
+	 */
+	public class TriggerAddon extends AdapterImpl {
+		private final String[] trigger;
+
+		public TriggerAddon(String[] trigger) {
+			this.trigger = trigger;
+		}
+
+		public String getTriggerTime() {
+			return trigger[1];
+		}
+
+		@Override
+		public boolean isAdapterForType(Object type) {
+			return type == TriggerAddon.class;
+		}
 	}
 
 	class EditJobAction extends Action {
@@ -417,65 +514,20 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
 		IEMFListProperty jobsProperties = EMFEditProperties
 				.resource(editingService.getEditingDomain());
-//		if(jobsResource instanceof CDOResource){
-//			for(EObject o : jobsResource.getContents()){
-//				if(o instanceof CDOObject){
-//					if(((CDOObject) o).cdoID().isDangling()){
-//						
-//					}
-//				}
-//			}
-//		}
-		IObservableList jobsList = jobsProperties.observe(jobsResource);
-		// obm.addObservable(jobsList);
 
-		// Note: We get double entries as we add from both job and job container
-		// resource.
-		// The filter will remove the doubles.
-		// final IEMFListProperty computedProperties = EMFEditProperties
-		// .resource(editingService.getEditingDomain());
-		// final IEMFListProperty computedContainerProperties =
-		// EMFEditProperties
-		// .list(editingService.getEditingDomain(),
-		// SchedulingPackage.Literals.JOB_RUN_CONTAINER__JOB);
-		//
-		// uniqueJobList = Lists.newArrayList();
-		//
-		// ComputedList computedList = new ComputedList() {
-		// @SuppressWarnings("unchecked")
-		// @Override
-		// protected List<Object> calculate() {
-		// List<Object> result = Lists.newArrayList();
-		//
-		// // Build a container list, and keep track of ID's of added jobs.
-		// for (EObject r : jobContainerResource.getContents()) {
-		// if (r instanceof JobRunContainer) {
-		// JobRunContainer jrc = (JobRunContainer) r;
-		// IObservableList observableList = computedContainerProperties
-		// .observe(jrc);
-		// result.addAll(observableList);
-		// }
-		// }
-		//
-		// {
-		// IObservableList observableList = computedProperties
-		// .observe(jobsResource);
-		// result.addAll(observableList);
-		//
-		// }
-		// return result;
-		// }
-		// };
+		IObservableList jobsList = jobsProperties.observe(jobsResource);
 
 		jobsTableViewer.setInput(jobsList);
 
 		return bindingContext;
 	}
 
-	class JobsObervableMapLabelProvider extends ObservableMapLabelProvider {
+	class JobsObervableMapLabelProvider extends ObservableMapLabelProvider
+			implements org.eclipse.jface.util.IPropertyChangeListener {
 
 		public JobsObervableMapLabelProvider(IObservableMap[] attributeMaps) {
 			super(attributeMaps);
+
 		}
 
 		@Override
@@ -521,6 +573,9 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 					}
 
 				}
+				case 1: {
+					return j.getName();
+				}
 				case 2: {
 					JobState state = j.getJobState();
 					if (state == JobState.ACTIVE) {
@@ -529,19 +584,24 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 						return "Not Active";
 					}
 				}
+				// Scheduled start time Column, not the starttime (creation time
+				// of the job).
 				case 3:
-					if (j.getStartTime() != null) {
-						Date d = modelUtils.fromXMLDate(j.getStartTime());
-						return modelUtils.date(d) + " @ " + modelUtils.time(d);
+					TriggerAddon addon = (TriggerAddon) EcoreUtil.getAdapter(
+							j.eAdapters(), TriggerAddon.class);
+					if (addon != null) {
+						return addon.getTriggerTime();
 					}
-
-					break;
+					return "";
+					// End Column
 				case 4:
 					if (j.getEndTime() != null) {
 						Date d = modelUtils.fromXMLDate(j.getEndTime());
 						return modelUtils.date(d) + " @ " + modelUtils.time(d);
 					}
 					break;
+				case 5:
+					return new Integer(j.getRepeat()).toString();
 				case 6:
 					if (j.getInterval() > 0) {
 						String fromSeconds = modelUtils.fromSeconds(j
@@ -553,13 +613,65 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 			}
 			return super.getColumnText(element, columnIndex);
 		}
+
+		public void propertyChange(PropertyChangeEvent event) {
+			if (event.getSource() instanceof SchedulerStartStopAction) {
+				Object newValue = event.getNewValue();
+				// Guard for the object type?
+				this.fireLabelProviderChanged(new LabelProviderChangedEvent(
+						this, newValue));
+			}
+		}
 	}
 
 	public void injectData() {
 
 		jobsResource = editingService.getData(SchedulingPackage.Literals.JOB);
+		// We also need the transaction to resolve objects communicated by the
+		// scheduler.
+		if (jobsResource instanceof CDOResource) {
+			cdoView = ((CDOResource) jobsResource).cdoView();
+		}
 		buildUI();
 		initDataBindings_();
+		updateScheduleInViewer();
+	}
+
+	private void updateScheduleInViewer() {
+		try {
+			String schedule = serverActions
+					.callJobAction(ServerRequest.COMMAND_SCHEDULER_LIST);
+			List<String[]> structure = ServerRequest
+					.schedulerTriggers(schedule);
+			List<Object> elementsToUpdate = Lists.newArrayList();
+			for (final String[] trigger : structure) {
+				CDOID triggeredObject = CDOIDUtil.read(trigger[0]); // Read the
+																	// CDOID;
+				CDOObject object = cdoView.getObject(triggeredObject);
+				Adapter adapter = EcoreUtil.getAdapter(object.eAdapters(),
+						TriggerAddon.class);
+				object.eAdapters().remove(adapter);
+				object.eAdapters().add(new TriggerAddon(trigger));
+				elementsToUpdate.add(object);
+			}
+
+			// Update the viewer.
+			jobsTableViewer.refresh(true);
+			if (!isRunning) {
+				frmScheduledJobs.getHead().setBackground(
+						SWTResourceManager.getColor(255, 102, 102));
+				frmScheduledJobs.setText("Scheduled Jobs (NOT Running)");
+
+			} else {
+				frmScheduledJobs.getHead().setBackground(
+						SWTResourceManager.getColor(200, 255, 100));
+				frmScheduledJobs.setText("Scheduled Jobs (Running)");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public Viewer getViewer() {

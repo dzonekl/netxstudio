@@ -292,44 +292,10 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 										public void run() {
 											try {
 												handleDetailsSelection(o);
-												// testRevisionHandling(o);
 											} catch (Exception e) {
 												e.printStackTrace();
 											}
 										}
-										// CB TODO Remove later.
-										// private void testRevisionHandling(
-										// Object o) {
-										// CDOObject cdoObject = (CDOObject) o;
-										//
-										// System.out.println("");
-										// System.out.println("Object= "
-										// + cdoObject);
-										// Iterator<CDORevision> cdoRevisions =
-										// modelUtils
-										// .cdoRevisions(cdoObject);
-										//
-										// while (cdoRevisions.hasNext()) {
-										// CDORevision rev = cdoRevisions
-										// .next();
-										// System.out.println("Revision= " + rev
-										// + " @ "
-										// + new Date(rev.getTimeStamp()));
-										//
-										// CDOObject object = modelUtils
-										// .cdoObject(cdoObject,
-										// rev);
-										// if (object != null
-										// && object instanceof Node) {
-										// String printNodeStructure =
-										// modelUtils
-										// .printNodeStructure((Node) object);
-										// System.out
-										// .println(printNodeStructure);
-										// object.cdoView().close();
-										// }
-										// }
-										// }
 									});
 						}
 					}
@@ -642,13 +608,14 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 												GenericsPackage.Literals.LIFECYCLE__OUT_OF_SERVICE_DATE))
 						.observeDetail(set));
 
-		// FIXME, doesn't work.
-		// See Bug for JFace Databinding.
-		// observableMap.add(EMFEditProperties.value(editingService.getEditingDomain(),
-		// LibraryPackage.Literals.COMPONENT__METRIC_REFS).observeDetail(set));
-		//
-		// observableMap.add(EMFEditProperties.value(editingService.getEditingDomain(),
-		// LibraryPackage.Literals.COMPONENT__RESOURCE_REFS).observeDetail(set));
+		observableMap.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.COMPONENT__METRIC_REFS).observeDetail(
+				set));
+		observableMap.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.COMPONENT__RESOURCE_REFS)
+				.observeDetail(set));
 
 		IObservableMap[] map = new IObservableMap[observableMap.size()];
 		observableMap.toArray(map);

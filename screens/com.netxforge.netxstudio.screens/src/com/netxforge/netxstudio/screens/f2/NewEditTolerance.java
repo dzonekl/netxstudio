@@ -226,25 +226,13 @@ public class NewEditTolerance extends AbstractScreen implements
 		IObservableValue nameObservable = SWTObservables.observeText(txtName,
 				SWT.Modify);
 
-//		IObservableValue expressionObservable = SWTObservables.observeText(
-//				this.txtExpression, SWT.Modify);
-
 		IEMFValueProperty nameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.TOLERANCE__NAME);
 
-//		IEMFValueProperty expressionProperty = EMFEditProperties.value(
-//				editingService.getEditingDomain(), FeaturePath.fromList(
-//						LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF,
-//						LibraryPackage.Literals.EXPRESSION__NAME));
-
 		context.bindValue(nameObservable, nameProperty.observe(tolerance),
 				null, null);
 
-//		context.bindValue(expressionObservable,
-//				expressionProperty.observe(tolerance), null, null);
-
-		// Also bind the embedded expression. 
 		embeddedExpression.bind(context);
 		
 		
