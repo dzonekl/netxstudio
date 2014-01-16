@@ -50,25 +50,25 @@
    <extension
          point="org.eclipse.ui.perspectives">
        <perspective
-             class="com.netxforge.netxstudio.ui.perspective.LibraryPerspective"
+             class="com.netxforge.netxstudio.screens.perspective.LibraryPerspective"
              icon="icons/view16/library_editor.gif"
              id="com.netxforge.netxstudio.ui.perspective.library"
              name="%perspective.name">
       </perspective>
       <perspective
-            class="com.netxforge.netxstudio.ui.perspective.DesignPerspective"
+            class="com.netxforge.netxstudio.screens.perspective.DesignPerspective"
             icon="icons/view16/designer_editor.png"
             id="com.netxforge.netxstudio.ui.perspective.design"
             name="%perspective.name.0">
       </perspective>
       <perspective
-            class="com.netxforge.netxstudio.ui.perspective.MonitoringPerspective"
+            class="com.netxforge.netxstudio.screens.perspective.MonitoringPerspective"
             icon="icons/view16/monitor_editor.png"
             id="com.netxforge.netxstudio.ui.perspective.monitoring"
             name="%perspective.name.1">
       </perspective>
       <perspective
-            class="com.netxforge.netxstudio.ui.perspective.AdminPerspective"
+            class="com.netxforge.netxstudio.screens.perspective.AdminPerspective"
             icon="icons/view16/admin_editor.png"
             id="com.netxforge.netxstudio.ui.perspective.admin"
             name="%perspective.name.2">
