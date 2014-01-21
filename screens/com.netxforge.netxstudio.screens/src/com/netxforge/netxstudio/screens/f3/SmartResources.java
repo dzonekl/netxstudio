@@ -2380,30 +2380,36 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 	@Override
 	public void handleRefresh(Object... objects) {
-
-		for (Object o : objects) {
-			if (o instanceof Collection<?>) {
-				Collection<?> collection = (Collection<?>) o;
-				handleRefresh(collection.toArray());
-				continue;
-			} else if (o instanceof Service) {
-				System.out.println("Invalid " + ((Service) o).cdoRevision());
-			} else if (o instanceof ServiceMonitor) {
-				System.out.println("Invalid "
-						+ ((ServiceMonitor) o).cdoRevision());
-			} else if (o instanceof ResourceMonitor) {
-				System.out.println("Invalid "
-						+ ((ResourceMonitor) o).cdoRevision());
-			} else if (o instanceof NetXResource) {
-				System.out.println("Invalid "
-						+ ((NetXResource) o).cdoRevision());
-				continue;
-			}
-
-			if (!(o instanceof WorkFlowRun)) {
-				cmpValues.smartRefresh();
-			}
-		}
+		
+		
+		// Turn-off live update. 
+		// http://work.netxforge.com/issues/355
+		
+//		for (Object o : objects) {
+//			if (o instanceof Collection<?>) {
+//				Collection<?> collection = (Collection<?>) o;
+//				handleRefresh(collection.toArray());
+//				continue;
+//			} else if (o instanceof Service) {
+//				System.out.println("Invalid " + ((Service) o).cdoRevision());
+//			} else if (o instanceof ServiceMonitor) {
+//				System.out.println("Invalid "
+//						+ ((ServiceMonitor) o).cdoRevision());
+//			} else if (o instanceof ResourceMonitor) {
+//				System.out.println("Invalid "
+//						+ ((ResourceMonitor) o).cdoRevision());
+//			} else if (o instanceof NetXResource) {
+//				System.out.println("Invalid "
+//						+ ((NetXResource) o).cdoRevision());
+//				continue;
+//			}
+//
+//			if (!(o instanceof WorkFlowRun)) {
+//				cmpValues.smartRefresh();
+//			}
+//		}
+		
+		
 	}
 
 	public void disposeData() {

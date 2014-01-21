@@ -29,6 +29,9 @@ load:
 
 create database TM;
 mysql -u root TM < .sql
+
+// On MacOSX, with password specified.  
+./mysql -u root -p TM < ~/dumps/20131211193001-capman.sql
  
 backup: 
 

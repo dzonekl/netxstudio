@@ -57,6 +57,7 @@ import org.swtchart.internal.PlotArea;
 
 import com.netxforge.netxstudio.common.Tuple;
 import com.netxforge.netxstudio.common.model.IChartModel;
+import com.netxforge.netxstudio.common.model.IChartResource;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
@@ -142,6 +143,10 @@ public class SmartResourceChart extends Chart implements
 		createMenuItems(plotAreaListener);
 
 		marker = new ChartMarker(this);
+		
+		
+		// Add drag and drop support. 
+		
 	}
 
 	/**
@@ -351,36 +356,46 @@ public class SmartResourceChart extends Chart implements
 	}
 
 	/**
-	 * Initial the chart from the {@link CharModel}
+	 * Initialize the chart from the {@link IChartModel} 
 	 * 
 	 * @param model
 	 */
 	public void initChartBinding(IChartModel model) {
+		
+		
+		
+		
+		
+		// CB FIXME Refactor for a single IChartResource
+		
+//		if(!model.isChartModelOk()){
+//			plotAreaListener.setActive(false);
+//			cleanChart();
+//			redraw();
+//			return;
+//		}
+//		
+//		
+//		cleanChart();
+//
+//		configureXAxis(model);
+//		configureYAxis();
+//
+//		configureSeriesMetric(model);
+//
+//		if (model.hasCapacity()) {
+//			configureSeriesCapacity(model);
+//		}
+//
+//		if (model.hasUtilization()) {
+//			configureYAxisUtilization();
+//			configureSeriesUtilization(model, 1);
+//			configureUtilizationVisible(ScreensActivator.getInstance()
+//					.getPreferenceStore()
+//					.getBoolean(ScreenConstants.PREFERENCE_UTIL_VISIBLE));
+//
+//		}
 
-		cleanChart();
-
-		configureXAxis(model);
-		configureYAxis();
-
-		configureSeriesMetric(model);
-
-		if (model.hasCapacity()) {
-			configureSeriesCapacity(model);
-		}
-
-		if (model.hasUtilization()) {
-			configureYAxisUtilization();
-			configureSeriesUtilization(model, 1);
-			configureUtilizationVisible(ScreensActivator.getInstance()
-					.getPreferenceStore()
-					.getBoolean(ScreenConstants.PREFERENCE_UTIL_VISIBLE));
-
-		}
-
-		// Setup data binding.
-		// adjust the axis range
-		// chart.getAxisSet().getYAxes()[0].adjustRange();
-		// chart.getAxisSet().getYAxes()[1].adjustRange();
 		getAxisSet().adjustRange();
 		redraw();
 
@@ -407,7 +422,7 @@ public class SmartResourceChart extends Chart implements
 	/**
 	 * Clean by removing all series and deleting the Utilization Y-Axis.
 	 */
-	private void cleanChart() {
+	public void cleanChart() {
 
 		// Clear the series set.
 		ISeriesSet seriesSet = getSeriesSet();
@@ -421,7 +436,17 @@ public class SmartResourceChart extends Chart implements
 			getAxisSet().deleteYAxis(utilizationAxisID);
 			utilizationAxisID = -1;
 		}
-
+		
+		getAxisSet().adjustRange();
+		
+//		for( int id : getAxisSet().getXAxisIds()){
+//			IAxisTick tick = getAxisSet().getXAxis(id).getTick();
+//		}
+//		
+//		for( int id : getAxisSet().getYAxisIds()){
+//			getAxisSet().deleteYAxis(id);
+//		}
+		
 	}
 
 	private void configureYAxis() {
@@ -433,7 +458,7 @@ public class SmartResourceChart extends Chart implements
 				.getSystemColor(SWT.COLOR_BLACK));
 	}
 
-	private void configureXAxis(IChartModel model) {
+	private void configureXAxis(IChartResource model) {
 
 		if (model.hasNetXResource()) {
 			getAxisSet().getYAxis(0).getTitle()
@@ -680,8 +705,11 @@ public class SmartResourceChart extends Chart implements
 	 * @param resource
 	 * @return
 	 */
-	private ILineSeries configureSeriesMetric(IChartModel model) {
-
+	private ILineSeries configureSeriesMetric(IChartResource model) {
+		
+		// CB Should refactor to add/remove an IChartResource. 
+		
+		
 		ILineSeries metricLineSeries = (ILineSeries) getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE, METRIC_SERIES);
 
@@ -695,7 +723,7 @@ public class SmartResourceChart extends Chart implements
 		return metricLineSeries;
 	}
 
-	private ILineSeries configureSeriesCapacity(IChartModel model) {
+	private ILineSeries configureSeriesCapacity(IChartResource model) {
 
 		ILineSeries capLineSeries = (ILineSeries) getSeriesSet().createSeries(
 				ISeries.SeriesType.LINE, CAPACITY_SERIES);
@@ -713,7 +741,7 @@ public class SmartResourceChart extends Chart implements
 
 	}
 
-	private IBarSeries configureSeriesUtilization(IChartModel model, int yAxisID) {
+	private IBarSeries configureSeriesUtilization(IChartResource model, int yAxisID) {
 
 		IBarSeries utilLineSeries = (IBarSeries) getSeriesSet().createSeries(
 				ISeries.SeriesType.BAR, UTILIZATION_SERIES);

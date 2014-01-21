@@ -14,59 +14,73 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
-import java.util.Date;
-import java.util.List;
-
 import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.operators.Marker;
-import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 /**
- * Defines a model for retrieving what is needed from a {@link NetXResource resource}.
- * The model can be used in several ways. Implementors should implement the <code>has...</code>
- * methods to match what is set on the model. The method {@link IChartModel#isChartModelOk()}
- * should return if the model is in such a state that it can be used. 
+ * Defines a model for retrieving what is needed from one or more
+ * {@link NetXResource resource}. The model can be used in several ways.
+ * 
+ * 
+ * CB FIXME CHeck if applicable: Implementors should implement the
+ * <code>has...</code> methods to match what is set on the model. The method
+ * {@link IChartModel#isChartModelOk()} should return if the model is in such a
+ * state that it can be used.
  * 
  * 
  * @author Christophe Bouhier
  */
 public interface IChartModel {
 
-	public abstract boolean isChartModelOk();
+	/**
+	 * Add a {@link IChartResource} to the {@link IChartModel}. The first added
+	 * {@link IChartResource} provides the initial information required for the
+	 * chart. </br>This is the Charts
+	 * {@link MetricsPackage#METRIC_VALUE_RANGE__KIND_HINT}
+	 * {@link MetricsPackage#METRIC_VALUE_RANGE__INTERVAL_HINT}
+	 * 
+	 * </br> From subsequently added {@link IChartResource}, the matching
+	 * {@link MetricsPackage#METRIC_VALUE_RANGE} is obtained (If it exists).
+	 * 
+	 * @param chartResource
+	 */
+	public abstract void addChartResource(IMonitoringSummary monitoringSummary);
 
+	/**
+	 * Remove a {@link IChartResource} from the {@link IChartModel}.
+	 * 
+	 * @param chartResource
+	 */
+	public abstract void removeChartResource(IChartResource chartResource);
+
+	/**
+	 * Set the {@link IChartModel} applicable period. The period can be
+	 * retrieved from an {@link IMonitoringSummary#getPeriod()} context. When
+	 * adding an {@link IChartResource}, implementers can potentially set the
+	 * period.
+	 * 
+	 * @param period
+	 */
+	public abstract void setPeriod(DateTimeRange period);
+
+	/**
+	 * Get the {@link IChartModel }'s applicable period. The period is used to
+	 * set the
+	 * 
+	 * @return
+	 */
 	public abstract DateTimeRange getPeriod();
 
-	public abstract int getInterval();
-
-	public abstract NetXResource getNetXResource();
-
-	public abstract ResourceMonitor getResMonitor();
-
-	public abstract List<Value> getValues();
-
-	public abstract boolean hasMonitor();
-
-	public abstract boolean hasCapacity();
-
-	public abstract boolean hasUtilization();
-
-	public abstract boolean hasNetXResource();
-
-	public abstract Date[] getTimeStampArray();
-
-	public abstract double[] getCapDoubleArray();
-
-	public abstract double[] getMetriDoubleArray();
-
-	public abstract double[] getUtilDoubleArray();
-
-	public abstract List<Marker> getMarkers();
-
-	public abstract boolean hasMarkers();
+	/**
+	 * The name of the charted objects (Usually {@link NetXResource} ),
+	 * presented in a concatinated format.
+	 * 
+	 * @return
+	 */
+	public abstract String getChartText();
 
 }

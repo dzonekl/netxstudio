@@ -122,7 +122,7 @@ public class ScreensAdapterFactoryEditingDomain extends
 				commandParameter);
 
 		if (commandClass == RemoveCommand.class) {
-
+			
 			// debug code for bug:
 			// http://work.netxforge.com/issues/385
 
@@ -132,8 +132,8 @@ public class ScreensAdapterFactoryEditingDomain extends
 			// System.out.println(ste);
 			// }
 			// System.out.println(Thread.currentThread());
-			// System.out.println(System.currentTimeMillis() + " " +
-			// nativeCommand);
+			 System.out.println(System.currentTimeMillis() + " " +
+			 nativeCommand);
 		}
 
 		return nativeCommand;
